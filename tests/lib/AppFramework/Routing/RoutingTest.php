@@ -1,11 +1,16 @@
 <?php
-
+/**
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
 namespace Test\AppFramework\Routing;
 
 use OC\AppFramework\DependencyInjection\DIContainer;
 use OC\AppFramework\Routing\RouteConfig;
 use OC\Route\Route;
 use OC\Route\Router;
+use OCP\App\IAppManager;
 use OCP\Diagnostics\IEventLogger;
 use OCP\IConfig;
 use OCP\IRequest;
@@ -142,7 +147,8 @@ class RoutingTest extends \Test\TestCase {
 				$this->createMock(IRequest::class),
 				$this->createMock(IConfig::class),
 				$this->createMock(IEventLogger::class),
-				$this->createMock(ContainerInterface::class)
+				$this->createMock(ContainerInterface::class),
+				$this->createMock(IAppManager::class),
 			])
 			->getMock();
 
@@ -169,7 +175,8 @@ class RoutingTest extends \Test\TestCase {
 				$this->createMock(IRequest::class),
 				$this->createMock(IConfig::class),
 				$this->createMock(IEventLogger::class),
-				$this->createMock(ContainerInterface::class)
+				$this->createMock(ContainerInterface::class),
+				$this->createMock(IAppManager::class),
 			])
 			->getMock();
 
@@ -235,7 +242,8 @@ class RoutingTest extends \Test\TestCase {
 				$this->createMock(IRequest::class),
 				$this->createMock(IConfig::class),
 				$this->createMock(IEventLogger::class),
-				$this->createMock(ContainerInterface::class)
+				$this->createMock(ContainerInterface::class),
+				$this->createMock(IAppManager::class),
 			])
 			->getMock();
 
@@ -291,7 +299,8 @@ class RoutingTest extends \Test\TestCase {
 				$this->createMock(IRequest::class),
 				$this->createMock(IConfig::class),
 				$this->createMock(IEventLogger::class),
-				$this->createMock(ContainerInterface::class)
+				$this->createMock(ContainerInterface::class),
+				$this->createMock(IAppManager::class),
 			])
 			->getMock();
 
@@ -324,7 +333,8 @@ class RoutingTest extends \Test\TestCase {
 				$this->createMock(IRequest::class),
 				$this->createMock(IConfig::class),
 				$this->createMock(IEventLogger::class),
-				$this->createMock(ContainerInterface::class)
+				$this->createMock(ContainerInterface::class),
+				$this->createMock(IAppManager::class),
 			])
 			->getMock();
 
@@ -377,7 +387,8 @@ class RoutingTest extends \Test\TestCase {
 				$this->createMock(IRequest::class),
 				$this->createMock(IConfig::class),
 				$this->createMock(IEventLogger::class),
-				$this->createMock(ContainerInterface::class)
+				$this->createMock(ContainerInterface::class),
+				$this->createMock(IAppManager::class),
 			])
 			->getMock();
 

@@ -56,6 +56,8 @@ OC.L10N.register(
     "Desktop client" : "לקוח שולחן עבודה",
     "Thunderbird & Outlook addons" : "תוספות ל־Thunderbird ול־Outlook",
     "Custom user agent" : "סוכן משתמש מותאם אישית",
+    "Select groups" : "בחירת קבוצות",
+    "Groups" : "קבוצות",
     "At least one event must be selected" : "יש לבחור באירוע אחד לפחות",
     "Add new flow" : "הוספת רצף חדש",
     "When" : "מתי",

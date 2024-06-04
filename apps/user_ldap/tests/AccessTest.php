@@ -1,34 +1,8 @@
 <?php
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- * @copyright Copyright (c) 2016, Lukas Reschke <lukas@statuscode.ch>
- *
- * @author Andreas Fischer <bantu@owncloud.com>
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Jörn Friedrich Dreyer <jfd@butonic.de>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Roger Szabo <roger.szabo@web.de>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Victor Dubiniuk <dubiniuk@owncloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\User_LDAP\Tests;
 
@@ -114,6 +88,9 @@ class AccessTest extends TestCase {
 		$connector = $this->getMockBuilder(Connection::class)
 			->setConstructorArgs([$lw, '', null])
 			->getMock();
+		$connector->expects($this->any())
+			->method('getConnectionResource')
+			->willReturn(ldap_connect('ldap://example.com'));
 		$um = $this->getMockBuilder(Manager::class)
 			->setConstructorArgs([
 				$this->createMock(IConfig::class),
@@ -286,6 +263,11 @@ class AccessTest extends TestCase {
 		$this->ldap->expects($this->any())
 			->method('isResource')
 			->willReturn(true);
+
+		$this->connection
+			->expects($this->any())
+			->method('getConnectionResource')
+			->willReturn(ldap_connect('ldap://example.com'));
 
 		$this->ldap->expects($this->any())
 			->method('getAttributes')
@@ -469,19 +451,18 @@ class AccessTest extends TestCase {
 		$this->connection
 			->method('__get')
 			->willReturn(true);
-		$connection = $this->createMock(LDAP::class);
+		$connection = ldap_connect('ldap://example.com');
 		$this->connection
 			->expects($this->once())
 			->method('getConnectionResource')
-			->willReturn($connection);
+			->willThrowException(new \OC\ServerNotAvailableException('Connection to LDAP server could not be established'));
 		$this->ldap
-			->expects($this->once())
-			->method('isResource')
-			->with($connection)
-			->willReturn(false);
+			->expects($this->never())
+			->method('isResource');
 
-		/** @noinspection PhpUnhandledExceptionInspection */
-		$this->assertFalse($this->access->setPassword('CN=foo', 'MyPassword'));
+		$this->expectException(\OC\ServerNotAvailableException::class);
+		$this->expectExceptionMessage('Connection to LDAP server could not be established');
+		$this->access->setPassword('CN=foo', 'MyPassword');
 	}
 
 
@@ -492,16 +473,11 @@ class AccessTest extends TestCase {
 		$this->connection
 			->method('__get')
 			->willReturn(true);
-		$connection = $this->createMock(LDAP::class);
+		$connection = ldap_connect('ldap://example.com');
 		$this->connection
 			->expects($this->any())
 			->method('getConnectionResource')
 			->willReturn($connection);
-		$this->ldap
-			->expects($this->once())
-			->method('isResource')
-			->with($connection)
-			->willReturn(true);
 		$this->ldap
 			->expects($this->once())
 			->method('modReplace')
@@ -516,16 +492,11 @@ class AccessTest extends TestCase {
 		$this->connection
 			->method('__get')
 			->willReturn(true);
-		$connection = $this->createMock(LDAP::class);
+		$connection = ldap_connect('ldap://example.com');
 		$this->connection
 			->expects($this->any())
 			->method('getConnectionResource')
 			->willReturn($connection);
-		$this->ldap
-			->expects($this->once())
-			->method('isResource')
-			->with($connection)
-			->willReturn(true);
 		$this->ldap
 			->expects($this->once())
 			->method('modReplace')
@@ -559,7 +530,7 @@ class AccessTest extends TestCase {
 			->expects($this->any())
 			->method('isResource')
 			->willReturnCallback(function ($resource) {
-				return is_resource($resource) || is_object($resource);
+				return is_object($resource);
 			});
 		$this->ldap
 			->expects($this->any())

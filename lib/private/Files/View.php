@@ -1,48 +1,9 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Ashod Nakashian <ashod.nakashian@collabora.co.uk>
- * @author Bart Visscher <bartv@thisnet.nl>
- * @author Björn Schießle <bjoern@schiessle.org>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Florin Peter <github@florin-peter.de>
- * @author Jesús Macias <jmacias@solidgear.es>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Jörn Friedrich Dreyer <jfd@butonic.de>
- * @author Julius Härtl <jus@bitgrid.net>
- * @author karakayasemi <karakayasemi@itu.edu.tr>
- * @author Klaas Freitag <freitag@owncloud.com>
- * @author korelstar <korelstar@users.noreply.github.com>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Luke Policinski <lpolicinski@gmail.com>
- * @author Michael Gapczynski <GapczynskiM@gmail.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Piotr Filiciak <piotr@filiciak.pl>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Robin McCorkell <robin@mccorkell.me.uk>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Sam Tuke <mail@samtuke.com>
- * @author Scott Dutton <exussum12@users.noreply.github.com>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Thomas Tanghus <thomas@tanghus.net>
- * @author Vincent Petry <vincent@nextcloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OC\Files;
 
@@ -59,6 +20,7 @@ use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\ConnectionLostException;
 use OCP\Files\EmptyFileNameException;
 use OCP\Files\FileNameTooLongException;
+use OCP\Files\ForbiddenException;
 use OCP\Files\InvalidCharacterInPathException;
 use OCP\Files\InvalidDirectoryException;
 use OCP\Files\InvalidPathException;
@@ -106,7 +68,7 @@ class View {
 		}
 
 		$this->fakeRoot = $root;
-		$this->lockingProvider = \OC::$server->getLockingProvider();
+		$this->lockingProvider = \OC::$server->get(ILockingProvider::class);
 		$this->lockingEnabled = !($this->lockingProvider instanceof \OC\Lock\NoopLockingProvider);
 		$this->userManager = \OC::$server->getUserManager();
 		$this->logger = \OC::$server->get(LoggerInterface::class);
@@ -733,6 +695,11 @@ class View {
 	public function rename($source, $target) {
 		$absolutePath1 = Filesystem::normalizePath($this->getAbsolutePath($source));
 		$absolutePath2 = Filesystem::normalizePath($this->getAbsolutePath($target));
+
+		if (str_starts_with($absolutePath2, $absolutePath1 . '/')) {
+			throw new ForbiddenException("Moving a folder into a child folder is forbidden", false);
+		}
+
 		$targetParts = explode('/', $absolutePath2);
 		$targetUser = $targetParts[1] ?? null;
 		$result = false;
@@ -802,14 +769,14 @@ class View {
 							} else {
 								$result = false;
 							}
-						// moving a file/folder within the same mount point
+							// moving a file/folder within the same mount point
 						} elseif ($storage1 === $storage2) {
 							if ($storage1) {
 								$result = $storage1->rename($internalPath1, $internalPath2);
 							} else {
 								$result = false;
 							}
-						// moving a file/folder between storages (from $storage1 to $storage2)
+							// moving a file/folder between storages (from $storage1 to $storage2)
 						} else {
 							$result = $storage2->moveFromStorage($storage1, $internalPath1, $internalPath2);
 						}
@@ -1182,7 +1149,7 @@ class View {
 					$this->writeUpdate($storage, $internalPath, null, $isCreateOperation ? $sizeDifference : null);
 				}
 				if ($result !== false && in_array('touch', $hooks)) {
-					$this->writeUpdate($storage, $internalPath, $extraParam);
+					$this->writeUpdate($storage, $internalPath, $extraParam, 0);
 				}
 
 				if ((in_array('write', $hooks) || in_array('delete', $hooks)) && ($operation !== 'fopen' || $result === false)) {
@@ -1428,7 +1395,7 @@ class View {
 	 * @param string $mimetype_filter limit returned content to this mimetype or mimepart
 	 * @return FileInfo[]
 	 */
-	public function getDirectoryContent($directory, $mimetype_filter = '', \OCP\Files\FileInfo $directoryInfo = null) {
+	public function getDirectoryContent($directory, $mimetype_filter = '', ?\OCP\Files\FileInfo $directoryInfo = null) {
 		$this->assertPathLength($directory);
 		if (!Filesystem::isValidPath($directory)) {
 			return [];
@@ -1481,6 +1448,13 @@ class View {
 
 		//add a folder for any mountpoint in this directory and add the sizes of other mountpoints to the folders
 		$mounts = Filesystem::getMountManager()->findIn($path);
+
+		// make sure nested mounts are sorted after their parent mounts
+		// otherwise doesn't propagate the etag across storage boundaries correctly
+		usort($mounts, function (IMountPoint $a, IMountPoint $b) {
+			return $a->getMountPoint() <=> $b->getMountPoint();
+		});
+
 		$dirLength = strlen($path);
 		foreach ($mounts as $mount) {
 			$mountPoint = $mount->getMountPoint();
@@ -1726,7 +1700,7 @@ class View {
 	 * @return string
 	 * @throws NotFoundException
 	 */
-	public function getPath($id, int $storageId = null) {
+	public function getPath($id, ?int $storageId = null) {
 		$id = (int)$id;
 		$manager = Filesystem::getMountManager();
 		$mounts = $manager->findIn($this->fakeRoot);

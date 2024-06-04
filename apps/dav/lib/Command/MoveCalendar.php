@@ -1,28 +1,7 @@
 <?php
 /**
- * @copyright Copyright (c) 2016 Thomas Citharel <nextcloud@tcit.fr>
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Georg Ehrke <oc.list@georgehrke.com>
- * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- * @author Thomas Citharel <nextcloud@tcit.fr>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\DAV\Command;
 
@@ -93,7 +72,7 @@ class MoveCalendar extends Command {
 
 		$calendar = $this->calDav->getCalendarByUri(self::URI_USERS . $userOrigin, $name);
 
-		if (null === $calendar) {
+		if ($calendar === null) {
 			throw new \InvalidArgumentException("User <$userOrigin> has no calendar named <$name>. You can run occ dav:list-calendars to list calendars URIs for this user.");
 		}
 
@@ -133,7 +112,7 @@ class MoveCalendar extends Command {
 	 * Check if the calendar exists for user
 	 */
 	protected function calendarExists(string $userDestination, string $name): bool {
-		return null !== $this->calDav->getCalendarByUri(self::URI_USERS . $userDestination, $name);
+		return $this->calDav->getCalendarByUri(self::URI_USERS . $userDestination, $name) !== null;
 	}
 
 	/**
@@ -172,7 +151,7 @@ class MoveCalendar extends Command {
 			 * Check that user destination is member of the groups which whom the calendar was shared
 			 * If we ask to force the migration, the share with the group is dropped
 			 */
-			if ($this->shareManager->shareWithGroupMembersOnly() === true && 'groups' === $prefix && !$this->groupManager->isInGroup($userDestination, $userOrGroup)) {
+			if ($this->shareManager->shareWithGroupMembersOnly() === true && $prefix === 'groups' && !$this->groupManager->isInGroup($userDestination, $userOrGroup)) {
 				if ($force) {
 					$this->calDav->updateShares(new Calendar($this->calDav, $calendar, $this->l10n, $this->config, $this->logger), [], ['principal:principals/groups/' . $userOrGroup]);
 				} else {

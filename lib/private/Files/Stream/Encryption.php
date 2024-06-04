@@ -1,33 +1,9 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Bjoern Schiessle <bjoern@schiessle.org>
- * @author Björn Schießle <bjoern@schiessle.org>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author jknockaert <jasper@knockaert.nl>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author martink-p <47943787+martink-p@users.noreply.github.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Vincent Petry <vincent@nextcloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OC\Files\Stream;
 
@@ -321,7 +297,7 @@ class Encryption extends Wrapper {
 				$result .= substr($this->cache, $blockPosition, $remainingLength);
 				$this->position += $remainingLength;
 				$count = 0;
-			// otherwise remainder of current block is fetched, the block is flushed and the position updated
+				// otherwise remainder of current block is fetched, the block is flushed and the position updated
 			} else {
 				$result .= substr($this->cache, $blockPosition);
 				$this->flush();
@@ -389,8 +365,8 @@ class Encryption extends Wrapper {
 					$this->position += $remainingLength;
 					$length += $remainingLength;
 					$data = '';
-				// if $data doesn't fit the current block, the fill the current block and reiterate
-				// after the block is filled, it is flushed and $data is updatedxxx
+					// if $data doesn't fit the current block, the fill the current block and reiterate
+					// after the block is filled, it is flushed and $data is updatedxxx
 				} else {
 					$this->cache = substr($this->cache, 0, $blockPosition) .
 						substr($data, 0, $this->unencryptedBlockSize - $blockPosition);

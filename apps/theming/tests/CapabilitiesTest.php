@@ -1,30 +1,7 @@
 <?php
 /**
- * @copyright Copyright (c) 2016 Joas Schilling <coding@schilljs.com>
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Guillaume COMPAGNON <gcompagnon@outlook.com>
- * @author Jan-Christoph Borchardt <hey@jancborchardt.net>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\Theming\Tests;
 
@@ -37,6 +14,7 @@ use OCP\Files\IAppData;
 use OCP\IConfig;
 use OCP\IURLGenerator;
 use OCP\IUserSession;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 /**
@@ -45,16 +23,16 @@ use Test\TestCase;
  * @package OCA\Theming\Tests
  */
 class CapabilitiesTest extends TestCase {
-	/** @var ThemingDefaults|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var ThemingDefaults|MockObject */
 	protected $theming;
 
-	/** @var IURLGenerator|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IURLGenerator|MockObject */
 	protected $url;
 
-	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IConfig|MockObject */
 	protected $config;
 
-	/** @var Util|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var Util|MockObject */
 	protected $util;
 
 	protected IUserSession $userSession;
@@ -66,16 +44,22 @@ class CapabilitiesTest extends TestCase {
 		parent::setUp();
 
 		$this->theming = $this->createMock(ThemingDefaults::class);
-		$this->url = $this->getMockBuilder(IURLGenerator::class)->getMock();
+		$this->url = $this->createMock(IURLGenerator::class);
 		$this->config = $this->createMock(IConfig::class);
 		$this->util = $this->createMock(Util::class);
 		$this->userSession = $this->createMock(IUserSession::class);
-		$this->capabilities = new Capabilities($this->theming, $this->util, $this->url, $this->config, $this->userSession);
+		$this->capabilities = new Capabilities(
+			$this->theming,
+			$this->util,
+			$this->url,
+			$this->config,
+			$this->userSession,
+		);
 	}
 
 	public function dataGetCapabilities() {
 		return [
-			['name', 'url', 'slogan', '#FFFFFF', '#000000', 'logo', 'background', 'http://absolute/', true, [
+			['name', 'url', 'slogan', '#FFFFFF', '#000000', 'logo', 'background', '#fff', '#000', 'http://absolute/', true, [
 				'name' => 'name',
 				'url' => 'url',
 				'slogan' => 'slogan',
@@ -86,12 +70,13 @@ class CapabilitiesTest extends TestCase {
 				'color-element-dark' => '#FFFFFF',
 				'logo' => 'http://absolute/logo',
 				'background' => 'http://absolute/background',
+				'background-text' => '#000',
 				'background-plain' => false,
 				'background-default' => false,
 				'logoheader' => 'http://absolute/logo',
 				'favicon' => 'http://absolute/logo',
 			]],
-			['name1', 'url2', 'slogan3', '#01e4a0', '#ffffff', 'logo5', 'background6', 'http://localhost/', false, [
+			['name1', 'url2', 'slogan3', '#01e4a0', '#ffffff', 'logo5', 'background6', '#fff', '#000', 'http://localhost/', false, [
 				'name' => 'name1',
 				'url' => 'url2',
 				'slogan' => 'slogan3',
@@ -102,12 +87,13 @@ class CapabilitiesTest extends TestCase {
 				'color-element-dark' => '#01e4a0',
 				'logo' => 'http://localhost/logo5',
 				'background' => 'http://localhost/background6',
+				'background-text' => '#000',
 				'background-plain' => false,
 				'background-default' => true,
 				'logoheader' => 'http://localhost/logo5',
 				'favicon' => 'http://localhost/logo5',
 			]],
-			['name1', 'url2', 'slogan3', '#000000', '#ffffff', 'logo5', 'backgroundColor', 'http://localhost/', true, [
+			['name1', 'url2', 'slogan3', '#000000', '#ffffff', 'logo5', 'backgroundColor', '#000000', '#ffffff', 'http://localhost/', true, [
 				'name' => 'name1',
 				'url' => 'url2',
 				'slogan' => 'slogan3',
@@ -118,12 +104,13 @@ class CapabilitiesTest extends TestCase {
 				'color-element-dark' => '#4d4d4d',
 				'logo' => 'http://localhost/logo5',
 				'background' => '#000000',
+				'background-text' => '#ffffff',
 				'background-plain' => true,
 				'background-default' => false,
 				'logoheader' => 'http://localhost/logo5',
 				'favicon' => 'http://localhost/logo5',
 			]],
-			['name1', 'url2', 'slogan3', '#000000', '#ffffff', 'logo5', 'backgroundColor', 'http://localhost/', false, [
+			['name1', 'url2', 'slogan3', '#000000', '#ffffff', 'logo5', 'backgroundColor', '#000000', '#ffffff', 'http://localhost/', false, [
 				'name' => 'name1',
 				'url' => 'url2',
 				'slogan' => 'slogan3',
@@ -134,6 +121,7 @@ class CapabilitiesTest extends TestCase {
 				'color-element-dark' => '#4d4d4d',
 				'logo' => 'http://localhost/logo5',
 				'background' => '#000000',
+				'background-text' => '#ffffff',
 				'background-plain' => true,
 				'background-default' => true,
 				'logoheader' => 'http://localhost/logo5',
@@ -155,7 +143,7 @@ class CapabilitiesTest extends TestCase {
 	 * @param bool $backgroundThemed
 	 * @param string[] $expected
 	 */
-	public function testGetCapabilities($name, $url, $slogan, $color, $textColor, $logo, $background, $baseUrl, $backgroundThemed, array $expected) {
+	public function testGetCapabilities($name, $url, $slogan, $color, $textColor, $logo, $background, $backgroundColor, $backgroundTextColor, $baseUrl, $backgroundThemed, array $expected) {
 		$this->config->expects($this->once())
 			->method('getAppValue')
 			->willReturn($background);
@@ -168,6 +156,12 @@ class CapabilitiesTest extends TestCase {
 		$this->theming->expects($this->once())
 			->method('getSlogan')
 			->willReturn($slogan);
+		$this->theming->expects($this->once())
+			->method('getColorBackground')
+			->willReturn($backgroundColor);
+		$this->theming->expects($this->once())
+			->method('getTextColorBackground')
+			->willReturn($backgroundTextColor);
 		$this->theming->expects($this->atLeast(1))
 			->method('getDefaultColorPrimary')
 			->willReturn($color);

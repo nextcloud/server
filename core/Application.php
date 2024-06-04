@@ -1,34 +1,8 @@
 <?php
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- * @copyright Copyright (c) 2016 Joas Schilling <coding@schilljs.com>
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Mario Danic <mario@lovelyhq.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Citharel <nextcloud@tcit.fr>
- * @author Victor Dubiniuk <dubiniuk@owncloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OC\Core;
 
@@ -51,6 +25,7 @@ use OCP\AppFramework\Http\Events\BeforeTemplateRenderedEvent;
 use OCP\DB\Events\AddMissingIndicesEvent;
 use OCP\DB\Events\AddMissingPrimaryKeyEvent;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Notification\IManager as INotificationManager;
 use OCP\User\Events\BeforeUserDeletedEvent;
 use OCP\User\Events\UserDeletedEvent;
 use OCP\Util;
@@ -74,7 +49,7 @@ class Application extends App {
 		/** @var IEventDispatcher $eventDispatcher */
 		$eventDispatcher = $server->get(IEventDispatcher::class);
 
-		$notificationManager = $server->getNotificationManager();
+		$notificationManager = $server->get(INotificationManager::class);
 		$notificationManager->registerNotifierService(CoreNotifier::class);
 		$notificationManager->registerNotifierService(AuthenticationNotifier::class);
 
@@ -126,6 +101,11 @@ class Application extends App {
 				'fs_parent',
 				['parent']
 			);
+			$event->addMissingIndex(
+				'filecache',
+				'fs_name_hash',
+				['name']
+			);
 
 			$event->addMissingIndex(
 				'twofactor_providers',
@@ -165,13 +145,6 @@ class Application extends App {
 
 			$event->addMissingIndex(
 				'cards',
-				'cards_abid',
-				['addressbookid'],
-				[],
-				true
-			);
-			$event->addMissingIndex(
-				'cards',
 				'cards_abiduri',
 				['addressbookid', 'uri'],
 				[],
@@ -196,6 +169,12 @@ class Application extends App {
 				'schedulingobjects',
 				'schedulobj_principuri_index',
 				['principaluri']
+			);
+
+			$event->addMissingIndex(
+				'schedulingobjects',
+				'schedulobj_lastmodified_idx',
+				['lastmodified']
 			);
 
 			$event->addMissingIndex(

@@ -1,27 +1,7 @@
 <?php
 /**
- * @copyright Copyright (c) 2016 Arthur Schiwon <blizzz@arthur-schiwon.de>
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\Settings\Settings\Admin;
 
@@ -30,6 +10,7 @@ use OC\Profile\TProfileHelper;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IL10N;
@@ -39,41 +20,33 @@ use OCP\Settings\IDelegatedSettings;
 class Server implements IDelegatedSettings {
 	use TProfileHelper;
 
-	private IDBConnection $connection;
-	private IInitialState $initialStateService;
-	private ProfileManager $profileManager;
-	private ITimeFactory $timeFactory;
-	private IConfig $config;
-	private IL10N $l;
-	private IURLGenerator $urlGenerator;
-
-	public function __construct(IDBConnection $connection,
-		IInitialState $initialStateService,
-		ProfileManager $profileManager,
-		ITimeFactory $timeFactory,
-		IURLGenerator $urlGenerator,
-		IConfig $config,
-		IL10N $l) {
-		$this->connection = $connection;
-		$this->initialStateService = $initialStateService;
-		$this->profileManager = $profileManager;
-		$this->timeFactory = $timeFactory;
-		$this->config = $config;
-		$this->l = $l;
-		$this->urlGenerator = $urlGenerator;
+	public function __construct(
+		private IDBConnection $connection,
+		private IInitialState $initialStateService,
+		private ProfileManager $profileManager,
+		private ITimeFactory $timeFactory,
+		private IURLGenerator $urlGenerator,
+		private IConfig $config,
+		private IAppConfig $appConfig,
+		private IL10N $l,
+	) {
 	}
 
 	/**
 	 * @return TemplateResponse
 	 */
 	public function getForm() {
+		$ownerConfigFile = fileowner(\OC::$configDir . 'config.php');
+		$cliBasedCronPossible = function_exists('posix_getpwuid') && $ownerConfigFile !== false;
+		$cliBasedCronUser = $cliBasedCronPossible ? (posix_getpwuid($ownerConfigFile)['name'] ?? '') : '';
+
 		// Background jobs
 		$this->initialStateService->provideInitialState('backgroundJobsMode', $this->config->getAppValue('core', 'backgroundjobs_mode', 'ajax'));
-		$this->initialStateService->provideInitialState('lastCron', (int)$this->config->getAppValue('core', 'lastcron', '0'));
+		$this->initialStateService->provideInitialState('lastCron', $this->appConfig->getValueInt('core', 'lastcron', 0));
 		$this->initialStateService->provideInitialState('cronMaxAge', $this->cronMaxAge());
 		$this->initialStateService->provideInitialState('cronErrors', $this->config->getAppValue('core', 'cronErrors'));
-		$this->initialStateService->provideInitialState('cliBasedCronPossible', function_exists('posix_getpwuid'));
-		$this->initialStateService->provideInitialState('cliBasedCronUser', function_exists('posix_getpwuid') ? posix_getpwuid(fileowner(\OC::$configDir . 'config.php'))['name'] : '');
+		$this->initialStateService->provideInitialState('cliBasedCronPossible', $cliBasedCronPossible);
+		$this->initialStateService->provideInitialState('cliBasedCronUser', $cliBasedCronUser);
 		$this->initialStateService->provideInitialState('backgroundJobsDocUrl', $this->urlGenerator->linkToDocs('admin-background-jobs'));
 
 		// Profile page

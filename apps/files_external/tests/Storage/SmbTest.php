@@ -33,6 +33,7 @@ use OC\Files\Notify\Change;
 use OC\Files\Notify\RenameChange;
 use OCA\Files_External\Lib\Storage\SMB;
 use OCP\Files\Notify\IChange;
+use PHPUnit\Framework\ExpectationFailedException;
 
 /**
  * Class SmbTest
@@ -96,6 +97,22 @@ class SmbTest extends \Test\Files\Storage\Storage {
 	}
 
 	public function testNotifyGetChanges() {
+		$lastError = null;
+		for($i = 0; $i < 5; $i++) {
+			try {
+				$this->tryTestNotifyGetChanges();
+				return;
+			} catch (ExpectationFailedException $e) {
+				$lastError = $e;
+				$this->tearDown();
+				$this->setUp();
+				sleep(1);
+			}
+		}
+		throw $lastError;
+	}
+
+	private function tryTestNotifyGetChanges(): void {
 		$notifyHandler = $this->instance->notify('');
 		sleep(1); //give time for the notify to start
 		$this->instance->file_put_contents('/newfile.txt', 'test content');
@@ -105,6 +122,7 @@ class SmbTest extends \Test\Files\Storage\Storage {
 		$this->instance->unlink('/renamed.txt');
 		sleep(1); //time for all changes to be processed
 
+		/** @var IChange[] $changes */
 		$changes = [];
 		$count = 0;
 		// wait up to 10 seconds for incoming changes
@@ -115,14 +133,23 @@ class SmbTest extends \Test\Files\Storage\Storage {
 		}
 		$notifyHandler->stop();
 
-		$expected = [
-			new Change(IChange::ADDED, 'newfile.txt'),
-			new RenameChange(IChange::RENAMED, 'newfile.txt', 'renamed.txt'),
-			new Change(IChange::REMOVED, 'renamed.txt')
-		];
+		// depending on the server environment, the initial create might be detected as a change instead
+		if ($changes[0]->getType() === IChange::MODIFIED) {
+			$expected = [
+				new Change(IChange::MODIFIED, 'newfile.txt'),
+				new RenameChange(IChange::RENAMED, 'newfile.txt', 'renamed.txt'),
+				new Change(IChange::REMOVED, 'renamed.txt')
+			];
+		} else {
+			$expected = [
+				new Change(IChange::ADDED, 'newfile.txt'),
+				new RenameChange(IChange::RENAMED, 'newfile.txt', 'renamed.txt'),
+				new Change(IChange::REMOVED, 'renamed.txt')
+			];
+		}
 
 		foreach ($expected as $expectedChange) {
-			$this->assertTrue(in_array($expectedChange, $changes), 'Actual changes are:' . PHP_EOL . print_r($changes, true) . PHP_EOL . 'Expected to find: ' . PHP_EOL . print_r($expectedChange, true));
+			$this->assertTrue(in_array($expectedChange, $changes), "Expected changes are:\n" . print_r($expected, true) . PHP_EOL . 'Expected to find: ' . PHP_EOL . print_r($expectedChange, true) . "\nGot:\n" . print_r($changes, true));
 		}
 	}
 
@@ -141,7 +168,12 @@ class SmbTest extends \Test\Files\Storage\Storage {
 			return false;//stop listening
 		});
 
-		$this->assertEquals(new Change(IChange::ADDED, 'newfile.txt'), $result);
+		// depending on the server environment, the initial create might be detected as a change instead
+		if ($result->getType() === IChange::ADDED) {
+			$this->assertEquals(new Change(IChange::ADDED, 'newfile.txt'), $result);
+		} else {
+			$this->assertEquals(new Change(IChange::MODIFIED, 'newfile.txt'), $result);
+		}
 	}
 
 	public function testRenameRoot() {

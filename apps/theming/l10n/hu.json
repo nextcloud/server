@@ -68,9 +68,7 @@
     "User settings" : "Felhasználói beállítások",
     "Disable user theming" : "Felhasználói témázás letiltása",
     "Although you can select and customize your instance, users can change their background and colors. If you want to enforce your customization, you can toggle this on." : "Bár kiválaszthatja és testreszabhatja a példányát, a felhasználók módosíthatják a hátterüket és a színeiket. Ha ki akarja kényszeríteni a saját testreszabását, akkor bekapcsolja ezt. ",
-    "Background" : "Háttér",
     "Customization has been disabled by your administrator" : "A testreszabást letiltotta a rendszergazda",
-    "Set a custom background" : "Egyéni háttér beállítása",
     "Keyboard shortcuts" : "Gyorsbillentyűk",
     "In some cases keyboard shortcuts can interfere with accessibility tools. In order to allow focusing on your tool correctly you can disable all keyboard shortcuts here. This will also disable all available shortcuts in apps." : "Egyes esetekben a gyorsbillentyűk összeakadhatnak az akadálymentesítési eszközökkel. Hogy helyesen tudjon fókuszálni az eszközre, itt letilthatja a gyorsbillentyűket. Ez az alkalmazásokban is letiltja az összes elérhető gyorsbillentyűt.",
     "Disable all keyboard shortcuts" : "Összes gyorsbillentyű letiltása",
@@ -97,8 +95,8 @@
     "Reset to default" : "Visszaállítás alapértelmezettre",
     "Upload" : "Feltöltés",
     "Remove background image" : "Háttérkép eltávolítása",
-    "Failed to clean up the old administration theming images folder" : "Nem sikerült megtisztítani a régi rendszergazdai témaképek mappát",
-    "Failed to clean up the old administration image folder" : "Nem sikerült megtisztítani a régi rendszergazdai képmappát",
+    "Background" : "Háttér",
+    "Set a custom background" : "Egyéni háttér beállítása",
     "Select a custom color" : "Válasszon egyéni színt"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

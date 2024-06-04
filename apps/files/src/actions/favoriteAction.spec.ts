@@ -1,28 +1,11 @@
 /**
- * @copyright Copyright (c) 2023 John Molakvoæ <skjnldsv@protonmail.com>
- *
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- *
- * @license AGPL-3.0-or-later
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 import { action } from './favoriteAction'
 import { expect } from '@jest/globals'
 import { File, Permission, View, FileAction } from '@nextcloud/files'
-import * as eventBus from '@nextcloud/event-bus'
+import eventBus from '@nextcloud/event-bus'
 import * as favoriteAction from './favoriteAction'
 import axios from '@nextcloud/axios'
 import logger from '../logger'
@@ -40,6 +23,12 @@ const favoriteView = {
 global.window.OC = {
 	TAG_FAVORITE: '_$!<Favorite>!$_',
 }
+
+// Mock webroot variable
+beforeAll(() => {
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	(window as any)._oc_webroot = ''
+})
 
 describe('Favorite action conditions tests', () => {
 	test('Default values', () => {

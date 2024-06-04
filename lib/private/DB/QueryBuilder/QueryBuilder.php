@@ -1,32 +1,9 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Daniel Kesselberg <mail@danielkesselberg.de>
- * @author J0WI <J0WI@users.noreply.github.com>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Vincent Petry <vincent@nextcloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OC\DB\QueryBuilder;
 
@@ -300,21 +277,6 @@ class QueryBuilder implements IQueryBuilder {
 		}
 
 		throw new \RuntimeException('Invalid return type for query');
-	}
-
-	/**
-	 * Monkey-patched compatibility layer for apps that were adapted for Nextcloud 22 before
-	 * the first beta, where executeStatement was named executeUpdate.
-	 *
-	 * Static analysis should catch those misuses, but until then let's try to keep things
-	 * running.
-	 *
-	 * @internal
-	 * @deprecated
-	 * @todo drop ASAP
-	 */
-	public function executeUpdate(): int {
-		return $this->executeStatement();
 	}
 
 	public function executeStatement(): int {
@@ -975,14 +937,10 @@ class QueryBuilder implements IQueryBuilder {
 	 *
 	 * @return $this This QueryBuilder instance.
 	 */
-	public function addGroupBy(...$groupBys) {
-		if (count($groupBys) === 1 && is_array($groupBys[0])) {
-			$$groupBys = $groupBys[0];
-		}
-
+	public function addGroupBy(...$groupBy) {
 		call_user_func_array(
 			[$this->queryBuilder, 'addGroupBy'],
-			$this->helper->quoteColumnNames($groupBys)
+			$this->helper->quoteColumnNames($groupBy)
 		);
 
 		return $this;

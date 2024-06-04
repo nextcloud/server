@@ -1,37 +1,9 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Daniel Kesselberg <mail@danielkesselberg.de>
- * @author fnuesse <felix.nuesse@t-online.de>
- * @author fnuesse <fnuesse@techfak.uni-bielefeld.de>
- * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Max Kovalenko <mxss1998@yandex.ru>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Nina Pypchenko <22447785+nina-py@users.noreply.github.com>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Vincent Petry <vincent@nextcloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\Files\Controller;
 
@@ -52,7 +24,6 @@ use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
 use OCP\Collaboration\Resources\LoadAdditionalScriptsEvent as ResourcesLoadAdditionalScriptsEvent;
-use OCP\Constants;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
@@ -135,7 +106,7 @@ class ViewController extends Controller {
 	 * @param string $fileid
 	 * @return TemplateResponse|RedirectResponse
 	 */
-	public function showFile(string $fileid = null): Response {
+	public function showFile(?string $fileid = null): Response {
 		if (!$fileid) {
 			return new RedirectResponse($this->urlGenerator->linkToRoute('files.view.index'));
 		}
@@ -253,9 +224,8 @@ class ViewController extends Controller {
 		$this->initialState->provideInitialState('filesSortingConfig', $filesSortingConfig);
 
 		// Forbidden file characters
-		/** @var string[] */
-		$forbiddenCharacters = $this->config->getSystemValue('forbidden_chars', []);
-		$this->initialState->provideInitialState('forbiddenCharacters', Constants::FILENAME_INVALID_CHARS . implode('', $forbiddenCharacters));
+		$forbiddenCharacters = \OCP\Util::getForbiddenFileNameChars();
+		$this->initialState->provideInitialState('forbiddenCharacters', $forbiddenCharacters);
 
 		$event = new LoadAdditionalScriptsEvent();
 		$this->eventDispatcher->dispatchTyped($event);

@@ -1,40 +1,25 @@
 <!--
-  - @copyright Copyright (c) 2023 John Molakvoæ <skjnldsv@protonmail.com>
-  -
-  - @author John Molakvoæ <skjnldsv@protonmail.com>
-  -
-  - @license AGPL-3.0-or-later
-  -
-  - This program is free software: you can redistribute it and/or modify
-  - it under the terms of the GNU Affero General Public License as
-  - published by the Free Software Foundation, either version 3 of the
-  - License, or (at your option) any later version.
-  -
-  - This program is distributed in the hope that it will be useful,
-  - but WITHOUT ANY WARRANTY; without even the implied warranty of
-  - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  - GNU Affero General Public License for more details.
-  -
-  - You should have received a copy of the GNU Affero General Public License
-  - along with this program. If not, see <http://www.gnu.org/licenses/>.
-  -
-  -->
+  - SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 
 <template>
-	<NcBreadcrumbs 
-		data-cy-files-content-breadcrumbs
-		:aria-label="t('files', 'Current directory path')">
+	<NcBreadcrumbs data-cy-files-content-breadcrumbs
+		:aria-label="t('files', 'Current directory path')"
+		class="files-list__breadcrumbs"
+		:class="{ 'files-list__breadcrumbs--with-progress': wrapUploadProgressBar }">
 		<!-- Current path sections -->
 		<NcBreadcrumb v-for="(section, index) in sections"
-			v-show="shouldShowBreadcrumbs"
 			:key="section.dir"
 			v-bind="section"
 			dir="auto"
 			:to="section.to"
-			:force-icon-text="true"
+			:force-icon-text="index === 0 && filesListWidth >= 486"
 			:title="titleForSection(index, section)"
 			:aria-description="ariaForSection(section)"
-			@click.native="onClick(section.to)">
+			@click.native="onClick(section.to)"
+			@dragover.native="onDragOver($event, section.dir)"
+			@drop="onDrop($event, section.dir)">
 			<template v-if="index === 0" #icon>
 				<NcIconSvgWrapper :size="20"
 					:svg="viewIcon" />
@@ -51,18 +36,24 @@
 <script lang="ts">
 import type { Node } from '@nextcloud/files'
 
-import { translate as t} from '@nextcloud/l10n'
 import { basename } from 'path'
-import homeSvg from '@mdi/svg/svg/home.svg?raw'
+import { defineComponent } from 'vue'
+import { Permission } from '@nextcloud/files'
+import { translate as t } from '@nextcloud/l10n'
+import HomeSvg from '@mdi/svg/svg/home.svg?raw'
 import NcBreadcrumb from '@nextcloud/vue/dist/Components/NcBreadcrumb.js'
 import NcBreadcrumbs from '@nextcloud/vue/dist/Components/NcBreadcrumbs.js'
 import NcIconSvgWrapper from '@nextcloud/vue/dist/Components/NcIconSvgWrapper.js'
-import { defineComponent } from 'vue'
 
+import { onDropInternalFiles, dataTransferToFileTree, onDropExternalFiles } from '../services/DropService'
+import { showError } from '@nextcloud/dialogs'
+import { useDragAndDropStore } from '../store/dragging.ts'
 import { useFilesStore } from '../store/files.ts'
 import { usePathsStore } from '../store/paths.ts'
+import { useSelectionStore } from '../store/selection.ts'
 import { useUploaderStore } from '../store/uploader.ts'
 import filesListWidthMixin from '../mixins/filesListWidth.ts'
+import logger from '../logger'
 
 export default defineComponent({
 	name: 'BreadCrumbs',
@@ -73,6 +64,10 @@ export default defineComponent({
 		NcIconSvgWrapper,
 	},
 
+	mixins: [
+		filesListWidthMixin,
+	],
+
 	props: {
 		path: {
 			type: String,
@@ -80,18 +75,18 @@ export default defineComponent({
 		},
 	},
 
-	mixins: [
-		filesListWidthMixin,
-	],
-
 	setup() {
+		const draggingStore = useDragAndDropStore()
 		const filesStore = useFilesStore()
 		const pathsStore = usePathsStore()
+		const selectionStore = useSelectionStore()
 		const uploaderStore = useUploaderStore()
 
 		return {
+			draggingStore,
 			filesStore,
 			pathsStore,
+			selectionStore,
 			uploaderStore,
 		}
 	},
@@ -110,7 +105,7 @@ export default defineComponent({
 		},
 
 		sections() {
-			return this.dirs.map((dir: string) => {
+			return this.dirs.map((dir: string, index: number) => {
 				const fileid = this.getFileIdFromPath(dir)
 				const to = { ...this.$route, params: { fileid }, query: { dir } }
 				return {
@@ -118,6 +113,8 @@ export default defineComponent({
 					exact: true,
 					name: this.getDirDisplayName(dir),
 					to,
+					// disable drop on current directory
+					disableDrop: index === this.dirs.length - 1,
 				}
 			})
 		},
@@ -126,15 +123,25 @@ export default defineComponent({
 			return this.uploaderStore.queue.length !== 0
 		},
 
-		// Hide breadcrumbs if an upload is ongoing on arrow screens
-		shouldShowBreadcrumbs(): boolean {
-			return this.filesListWidth > 768 && !this.isUploadInProgress
+		// Hide breadcrumbs if an upload is ongoing
+		wrapUploadProgressBar(): boolean {
+			// if an upload is ongoing, and on small screens / mobile, then
+			// show the progress bar for the upload below breadcrumbs
+			return this.isUploadInProgress && this.filesListWidth < 512
 		},
 
 		// used to show the views icon for the first breadcrumb
 		viewIcon(): string {
-			return this.currentView?.icon ?? homeSvg
-		}
+			return this.currentView?.icon ?? HomeSvg
+		},
+
+		selectedFiles() {
+			return this.selectionStore.selected
+		},
+
+		draggingFiles() {
+			return this.draggingStore.dragging
+		},
 	},
 
 	methods: {
@@ -160,6 +167,77 @@ export default defineComponent({
 			}
 		},
 
+		onDragOver(event: DragEvent, path: string) {
+			// Cannot drop on the current directory
+			if (path === this.dirs[this.dirs.length - 1]) {
+				event.dataTransfer.dropEffect = 'none'
+				return
+			}
+
+			// Handle copy/move drag and drop
+			if (event.ctrlKey) {
+				event.dataTransfer.dropEffect = 'copy'
+			} else {
+				event.dataTransfer.dropEffect = 'move'
+			}
+		},
+
+		async onDrop(event: DragEvent, path: string) {
+			// skip if native drop like text drag and drop from files names
+			if (!this.draggingFiles && !event.dataTransfer?.items?.length) {
+				return
+			}
+
+			// Do not stop propagation, so the main content
+			// drop event can be triggered too and clear the
+			// dragover state on the DragAndDropNotice component.
+			event.preventDefault()
+
+			// Caching the selection
+			const selection = this.draggingFiles
+			const items = [...event.dataTransfer?.items || []] as DataTransferItem[]
+
+			// We need to process the dataTransfer ASAP before the
+			// browser clears it. This is why we cache the items too.
+			const fileTree = await dataTransferToFileTree(items)
+
+			// We might not have the target directory fetched yet
+			const contents = await this.currentView?.getContents(path)
+			const folder = contents?.folder
+			if (!folder) {
+				showError(this.t('files', 'Target folder does not exist any more'))
+				return
+			}
+
+			const canDrop = (folder.permissions & Permission.CREATE) !== 0
+			const isCopy = event.ctrlKey
+
+			// If another button is pressed, cancel it. This
+			// allows cancelling the drag with the right click.
+			if (!canDrop || event.button !== 0) {
+				return
+			}
+
+			logger.debug('Dropped', { event, folder, selection, fileTree })
+
+			// Check whether we're uploading files
+			if (fileTree.contents.length > 0) {
+				await onDropExternalFiles(fileTree, folder, contents.contents)
+				return
+			}
+
+			// Else we're moving/copying files
+			const nodes = selection.map(fileid => this.filesStore.getNode(fileid)) as Node[]
+			await onDropInternalFiles(nodes, folder, contents.contents, isCopy)
+
+			// Reset selection after we dropped the files
+			// if the dropped files are within the selection
+			if (selection.some(fileid => this.selectedFiles.includes(fileid))) {
+				logger.debug('Dropped selection, resetting select store...')
+				this.selectionStore.reset()
+			}
+		},
+
 		titleForSection(index, section) {
 			if (section?.to?.query?.dir === this.$route.query.dir) {
 				return t('files', 'Reload current directory')
@@ -182,14 +260,23 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-.breadcrumb {
+.files-list__breadcrumbs {
 	// Take as much space as possible
 	flex: 1 1 100% !important;
 	width: 100%;
+	height: 100%;
+	margin-block: 0;
+	margin-inline: 10px;
 
-	::v-deep a {
-		cursor: pointer !important;
+	:deep() {
+		a {
+			cursor: pointer !important;
+		}
+	}
+
+	&--with-progress {
+		flex-direction: column !important;
+		align-items: flex-start !important;
 	}
 }
-
 </style>

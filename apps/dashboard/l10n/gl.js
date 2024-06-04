@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "Dashboard" : "Taboleiro",
     "Dashboard app" : "Aplicación de taboleiro",
+    "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an overview of your upcoming appointments, urgent emails, chat messages, incoming tickets, latest tweets and much more! People can add the widgets they like and change the background to their liking." : "O Panel de Control de Nextcloud é o teu punto de partida do día, dándoche unha visión xeral das túas próximas citas, correos electrónicos urxentes, mensaxes de chat, entradas entrantes, chíos máis recentes e moito máis. As persoas poden engadir os widgets que lles gustan e cambiar o fondo ao seu gusto.",
     "\"{title} icon\"" : "«icona {title}»",
     "Customize" : "Personalizar",
     "Edit widgets" : "Editar trebellos",
@@ -22,7 +23,6 @@ OC.L10N.register(
     "Good evening, {name}" : "Boas noites, {name}",
     "Hello" : "Hello",
     "Hello, {name}" : "Ola, {name}",
-    "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an\noverview of your upcoming appointments, urgent emails, chat messages,\nincoming tickets, latest tweets and much more! Users can add the widgets\nthey like and change the background to their liking." : "Comece o día informado\n\nO Taboleiro de Nextcloud é o seu punto de partida do día, onde atopará unha visión xeral das súas próximas citas, correos-e urxentes, mensaxes de parolas, billetes entrantes, chíos máis recentes e moito máis. Os usuarios poden engadir os trebellos que lles gusten e cambiar o fondo ao seu antollo.",
     "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an overview of your upcoming appointments, urgent emails, chat messages, incoming tickets, latest tweets and much more! Users can add the widgets they like and change the background to their liking." : "Comece o día informado\n\nO Taboleiro de Nextcloud é o seu punto de partida do día, onde atopará unha visión xeral das súas próximas citas, correos-e urxentes, mensaxes de parolas, billetes entrantes, chíos máis recentes e moito máis. Os usuarios poden engadir os trebellos que lles gusten e cambiar o fondo ao seu antollo."
 },
 "nplurals=2; plural=(n != 1);");

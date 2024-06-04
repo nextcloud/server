@@ -1,28 +1,10 @@
 <!--
-  - @copyright Copyright (c) 2020 John Molakvoæ <skjnldsv@protonmail.com>
-  -
-  - @author John Molakvoæ <skjnldsv@protonmail.com>
-  - @author Richard Steinmetz <richard@steinmetz.cloud>
-  -
-  - @license GNU AGPL version 3 or any later version
-  -
-  - This program is free software: you can redistribute it and/or modify
-  - it under the terms of the GNU Affero General Public License as
-  - published by the Free Software Foundation, either version 3 of the
-  - License, or (at your option) any later version.
-  -
-  - This program is distributed in the hope that it will be useful,
-  - but WITHOUT ANY WARRANTY; without even the implied warranty of
-  - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  - GNU Affero General Public License for more details.
-  -
-  - You should have received a copy of the GNU Affero General Public License
-  - along with this program. If not, see <http://www.gnu.org/licenses/>.
-  -
-  -->
+  - SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 
 <template>
-	<div v-observe-visibility="onVisibilityChange"
+	<div v-element-visibility="onVisibilityChange"
 		class="comments"
 		:class="{ 'icon-loading': isFirstLoading }">
 		<!-- Editor -->
@@ -31,7 +13,7 @@
 			:resource-type="resourceType"
 			:editor="true"
 			:user-data="userData"
-			:resource-id="resourceId"
+			:resource-id="currentResourceId"
 			class="comments__writer"
 			@new="onNewComment" />
 
@@ -52,7 +34,7 @@
 					:auto-complete="autoComplete"
 					:resource-type="resourceType"
 					:message.sync="comment.props.message"
-					:resource-id="resourceId"
+					:resource-id="currentResourceId"
 					:user-data="genMentionsData(comment.props.mentions)"
 					class="comments__list"
 					@delete="onDelete" />
@@ -86,9 +68,7 @@
 <script>
 import { showError } from '@nextcloud/dialogs'
 import { translate as t } from '@nextcloud/l10n'
-import VTooltip from 'v-tooltip'
-import Vue from 'vue'
-import VueObserveVisibility from 'vue-observe-visibility'
+import { vElementVisibility as elementVisibility } from '@vueuse/components'
 
 import NcEmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent.js'
 import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
@@ -97,13 +77,10 @@ import MessageReplyTextIcon from 'vue-material-design-icons/MessageReplyText.vue
 import AlertCircleOutlineIcon from 'vue-material-design-icons/AlertCircleOutline.vue'
 
 import Comment from '../components/Comment.vue'
-import { getComments, DEFAULT_LIMIT } from '../services/GetComments.ts'
-import cancelableRequest from '../utils/cancelableRequest.js'
-import { markCommentsAsRead } from '../services/ReadComments.ts'
 import CommentView from '../mixins/CommentView'
-
-Vue.use(VTooltip)
-Vue.use(VueObserveVisibility)
+import cancelableRequest from '../utils/cancelableRequest.js'
+import { getComments, DEFAULT_LIMIT } from '../services/GetComments.ts'
+import { markCommentsAsRead } from '../services/ReadComments.ts'
 
 export default {
 	name: 'Comments',
@@ -117,6 +94,10 @@ export default {
 		AlertCircleOutlineIcon,
 	},
 
+	directives: {
+		elementVisibility,
+	},
+
 	mixins: [CommentView],
 
 	data() {
@@ -125,7 +106,7 @@ export default {
 			loading: false,
 			done: false,
 
-			resourceId: null,
+			currentResourceId: this.resourceId,
 			offset: 0,
 			comments: [],
 
@@ -145,13 +126,19 @@ export default {
 		},
 	},
 
+	watch: {
+		resourceId() {
+			this.currentResourceId = this.resourceId
+		},
+	},
+
 	methods: {
 		t,
 
 		async onVisibilityChange(isVisible) {
 			if (isVisible) {
 				try {
-					await markCommentsAsRead(this.resourceType, this.resourceId, new Date())
+					await markCommentsAsRead(this.resourceType, this.currentResourceId, new Date())
 				} catch (e) {
 					showError(e.message || t('comments', 'Failed to mark comments as read'))
 				}
@@ -164,7 +151,7 @@ export default {
 		 * @param {number} resourceId the current resourceId (fileId...)
 		 */
 		async update(resourceId) {
-			this.resourceId = resourceId
+			this.currentResourceId = resourceId
 			this.resetState()
 			this.getComments()
 		},
@@ -203,7 +190,7 @@ export default {
 				// Fetch comments
 				const { data: comments } = await request({
 					resourceType: this.resourceType,
-					resourceId: this.resourceId,
+					resourceId: this.currentResourceId,
 				}, { offset: this.offset }) || { data: [] }
 
 				this.logger.debug(`Processed ${comments.length} comments`, { comments })

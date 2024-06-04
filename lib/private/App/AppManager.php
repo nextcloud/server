@@ -1,40 +1,8 @@
 <?php
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Bjoern Schiessle <bjoern@schiessle.org>
- * @author Christoph Schaefer "christophł@wolkesicher.de"
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Daniel Kesselberg <mail@danielkesselberg.de>
- * @author Daniel Rudolf <github.com@daniel-rudolf.de>
- * @author Greta Doci <gretadoci@gmail.com>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Julius Haertl <jus@bitgrid.net>
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Maxence Lange <maxence@artificial-owl.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Tobia De Koninck <tobia@ledfan.be>
- * @author Vincent Petry <vincent@nextcloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OC\App;
 
@@ -97,24 +65,29 @@ class AppManager implements IAppManager {
 	/** @var array<string, true> */
 	private array $loadedApps = [];
 
+	private ?AppConfig $appConfig = null;
+	private ?IURLGenerator $urlGenerator = null;
+
+	/**
+	 * Be extremely careful when injecting classes here. The AppManager is used by the installer,
+	 * so it needs to work before installation. See how AppConfig and IURLGenerator are injected for reference
+	 */
 	public function __construct(
 		private IUserSession $userSession,
 		private IConfig $config,
-		private AppConfig $appConfig,
 		private IGroupManager $groupManager,
 		private ICacheFactory $memCacheFactory,
 		private IEventDispatcher $dispatcher,
 		private LoggerInterface $logger,
-		private IURLGenerator $urlGenerator,
 	) {
 	}
 
-	public function getAppIcon(string $appId): ?string {
-		$possibleIcons = [$appId . '.svg', 'app.svg', $appId . '-dark.svg', 'app-dark.svg'];
+	public function getAppIcon(string $appId, bool $dark = false): ?string {
+		$possibleIcons = $dark ? [$appId . '-dark.svg', 'app-dark.svg'] : [$appId . '.svg', 'app.svg'];
 		$icon = null;
 		foreach ($possibleIcons as $iconName) {
 			try {
-				$icon = $this->urlGenerator->imagePath($appId, $iconName);
+				$icon = $this->getUrlGenerator()->imagePath($appId, $iconName);
 				break;
 			} catch (\RuntimeException $e) {
 				// ignore
@@ -123,12 +96,34 @@ class AppManager implements IAppManager {
 		return $icon;
 	}
 
+	private function getAppConfig(): AppConfig {
+		if ($this->appConfig !== null) {
+			return $this->appConfig;
+		}
+		if (!$this->config->getSystemValueBool('installed', false)) {
+			throw new \Exception('Nextcloud is not installed yet, AppConfig is not available');
+		}
+		$this->appConfig = \OCP\Server::get(AppConfig::class);
+		return $this->appConfig;
+	}
+
+	private function getUrlGenerator(): IURLGenerator {
+		if ($this->urlGenerator !== null) {
+			return $this->urlGenerator;
+		}
+		if (!$this->config->getSystemValueBool('installed', false)) {
+			throw new \Exception('Nextcloud is not installed yet, AppConfig is not available');
+		}
+		$this->urlGenerator = \OCP\Server::get(IURLGenerator::class);
+		return $this->urlGenerator;
+	}
+
 	/**
 	 * @return string[] $appId => $enabled
 	 */
 	private function getInstalledAppsValues(): array {
 		if (!$this->installedAppsCache) {
-			$values = $this->appConfig->getValues(false, 'enabled');
+			$values = $this->getAppConfig()->getValues(false, 'enabled');
 
 			$alwaysEnabledApps = $this->getAlwaysEnabledApps();
 			foreach ($alwaysEnabledApps as $appId) {
@@ -253,7 +248,7 @@ class AppManager implements IAppManager {
 	private function getAppTypes(string $app): array {
 		//load the cache
 		if (count($this->appTypes) === 0) {
-			$this->appTypes = $this->appConfig->getValues(false, 'types') ?: [];
+			$this->appTypes = $this->getAppConfig()->getValues(false, 'types') ?: [];
 		}
 
 		if (isset($this->appTypes[$app])) {
@@ -541,7 +536,7 @@ class AppManager implements IAppManager {
 		}
 
 		$this->installedAppsCache[$appId] = 'yes';
-		$this->appConfig->setValue($appId, 'enabled', 'yes');
+		$this->getAppConfig()->setValue($appId, 'enabled', 'yes');
 		$this->dispatcher->dispatchTyped(new AppEnableEvent($appId));
 		$this->dispatcher->dispatch(ManagerEvent::EVENT_APP_ENABLE, new ManagerEvent(
 			ManagerEvent::EVENT_APP_ENABLE, $appId
@@ -595,7 +590,7 @@ class AppManager implements IAppManager {
 		}, $groups);
 
 		$this->installedAppsCache[$appId] = json_encode($groupIds);
-		$this->appConfig->setValue($appId, 'enabled', json_encode($groupIds));
+		$this->getAppConfig()->setValue($appId, 'enabled', json_encode($groupIds));
 		$this->dispatcher->dispatchTyped(new AppEnableEvent($appId, $groupIds));
 		$this->dispatcher->dispatch(ManagerEvent::EVENT_APP_ENABLE_FOR_GROUPS, new ManagerEvent(
 			ManagerEvent::EVENT_APP_ENABLE_FOR_GROUPS, $appId, $groups
@@ -616,7 +611,7 @@ class AppManager implements IAppManager {
 		}
 
 		if ($automaticDisabled) {
-			$previousSetting = $this->appConfig->getValue($appId, 'enabled', 'yes');
+			$previousSetting = $this->getAppConfig()->getValue($appId, 'enabled', 'yes');
 			if ($previousSetting !== 'yes' && $previousSetting !== 'no') {
 				$previousSetting = json_decode($previousSetting, true);
 			}
@@ -624,7 +619,7 @@ class AppManager implements IAppManager {
 		}
 
 		unset($this->installedAppsCache[$appId]);
-		$this->appConfig->setValue($appId, 'enabled', 'no');
+		$this->getAppConfig()->setValue($appId, 'enabled', 'no');
 
 		// run uninstall steps
 		$appData = $this->getAppInfo($appId);
@@ -689,7 +684,7 @@ class AppManager implements IAppManager {
 		$apps = $this->getInstalledApps();
 		foreach ($apps as $appId) {
 			$appInfo = $this->getAppInfo($appId);
-			$appDbVersion = $this->appConfig->getValue($appId, 'installed_version');
+			$appDbVersion = $this->getAppConfig()->getValue($appId, 'installed_version');
 			if ($appDbVersion
 				&& isset($appInfo['version'])
 				&& version_compare($appInfo['version'], $appDbVersion, '>')

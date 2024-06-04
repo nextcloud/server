@@ -1,72 +1,11 @@
 <?php
 
 declare(strict_types=1);
-
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Adam Williamson <awilliam@redhat.com>
- * @author Andreas Fischer <bantu@owncloud.com>
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Bart Visscher <bartv@thisnet.nl>
- * @author Bernhard Posselt <dev@bernhard-posselt.com>
- * @author Bjoern Schiessle <bjoern@schiessle.org>
- * @author Björn Schießle <bjoern@schiessle.org>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Côme Chilliet <come.chilliet@nextcloud.com>
- * @author Damjan Georgievski <gdamjan@gmail.com>
- * @author Daniel Kesselberg <mail@danielkesselberg.de>
- * @author davidgumberg <davidnoizgumberg@gmail.com>
- * @author Eric Masseran <rico.masseran@gmail.com>
- * @author Florin Peter <github@florin-peter.de>
- * @author Greta Doci <gretadoci@gmail.com>
- * @author J0WI <J0WI@users.noreply.github.com>
- * @author Jakob Sack <mail@jakobsack.de>
- * @author jaltek <jaltek@mailbox.org>
- * @author Jan-Christoph Borchardt <hey@jancborchardt.net>
- * @author Joachim Sokolowski <github@sokolowski.org>
- * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- * @author Jörn Friedrich Dreyer <jfd@butonic.de>
- * @author Jose Quinteiro <github@quinteiro.org>
- * @author Juan Pablo Villafáñez <jvillafanez@solidgear.es>
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Ko- <k.stoffelen@cs.ru.nl>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author MartB <mart.b@outlook.de>
- * @author Michael Gapczynski <GapczynskiM@gmail.com>
- * @author MichaIng <micha@dietpi.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Owen Winkler <a_github@midnightcircus.com>
- * @author Phil Davis <phil.davis@inf.org>
- * @author Ramiro Aparicio <rapariciog@gmail.com>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Robin McCorkell <robin@mccorkell.me.uk>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Sebastian Wessalowski <sebastian@wessalowski.org>
- * @author Stefan Weil <sw@weilnetz.de>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Thomas Tanghus <thomas@tanghus.net>
- * @author Tobia De Koninck <tobia@ledfan.be>
- * @author Vincent Petry <vincent@nextcloud.com>
- * @author Volkan Gezer <volkangezer@gmail.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2013-2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
-
 use OC\Encryption\HookManager;
 use OC\Share20\Hooks;
 use OCP\EventDispatcher\IEventDispatcher;
@@ -465,7 +404,6 @@ class OC {
 
 		//try to set the session lifetime
 		$sessionLifeTime = self::getSessionLifeTime();
-		@ini_set('gc_maxlifetime', (string)$sessionLifeTime);
 
 		// session timeout
 		if ($session->exists('LAST_ACTIVITY') && (time() - $session->get('LAST_ACTIVITY') > $sessionLifeTime)) {
@@ -662,11 +600,11 @@ class OC {
 		//this doesn´t work always depending on the webserver and php configuration.
 		//Let´s try to overwrite some defaults if they are smaller than 1 hour
 
-		if (intval(@ini_get('max_execution_time') ?? 0) < 3600) {
+		if (intval(@ini_get('max_execution_time') ?: 0) < 3600) {
 			@ini_set('max_execution_time', strval(3600));
 		}
 
-		if (intval(@ini_get('max_input_time') ?? 0) < 3600) {
+		if (intval(@ini_get('max_input_time') ?: 0) < 3600) {
 			@ini_set('max_input_time', strval(3600));
 		}
 

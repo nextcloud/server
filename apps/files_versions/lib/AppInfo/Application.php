@@ -1,29 +1,8 @@
 <?php
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Victor Dubiniuk <dubiniuk@owncloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\Files_Versions\AppInfo;
 
@@ -36,6 +15,8 @@ use OCA\Files_Versions\Capabilities;
 use OCA\Files_Versions\Listener\FileEventsListener;
 use OCA\Files_Versions\Listener\LoadAdditionalListener;
 use OCA\Files_Versions\Listener\LoadSidebarListener;
+use OCA\Files_Versions\Listener\VersionAuthorListener;
+use OCA\Files_Versions\Listener\VersionStorageMoveListener;
 use OCA\Files_Versions\Versions\IVersionManager;
 use OCA\Files_Versions\Versions\VersionManager;
 use OCP\Accounts\IAccountManager;
@@ -108,6 +89,11 @@ class Application extends App implements IBootstrap {
 		$context->registerEventListener(LoadAdditionalScriptsEvent::class, LoadAdditionalListener::class);
 		$context->registerEventListener(LoadSidebar::class, LoadSidebarListener::class);
 
+		$context->registerEventListener(BeforeNodeRenamedEvent::class, VersionStorageMoveListener::class);
+		$context->registerEventListener(NodeRenamedEvent::class, VersionStorageMoveListener::class);
+		$context->registerEventListener(BeforeNodeCopiedEvent::class, VersionStorageMoveListener::class);
+		$context->registerEventListener(NodeCopiedEvent::class, VersionStorageMoveListener::class);
+
 		$context->registerEventListener(NodeCreatedEvent::class, FileEventsListener::class);
 		$context->registerEventListener(BeforeNodeTouchedEvent::class, FileEventsListener::class);
 		$context->registerEventListener(NodeTouchedEvent::class, FileEventsListener::class);
@@ -119,6 +105,8 @@ class Application extends App implements IBootstrap {
 		$context->registerEventListener(NodeCopiedEvent::class, FileEventsListener::class);
 		$context->registerEventListener(BeforeNodeRenamedEvent::class, FileEventsListener::class);
 		$context->registerEventListener(BeforeNodeCopiedEvent::class, FileEventsListener::class);
+
+		$context->registerEventListener(NodeWrittenEvent::class, VersionAuthorListener::class);
 	}
 
 	public function boot(IBootContext $context): void {

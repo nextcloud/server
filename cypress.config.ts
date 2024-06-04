@@ -1,3 +1,7 @@
+/**
+ * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
 import {
 	applyChangesToNextcloud,
 	configureNextcloud,
@@ -30,7 +34,12 @@ export default defineConfig({
 	experimentalInteractiveRunEvents: true,
 
 	// faster video processing
+	video: !process.env.CI,
 	videoCompression: false,
+
+	// Prevent elements to be scrolled under a top bar during actions (click, clear, type, etc). Default is 'top'.
+	// https://github.com/cypress-io/cypress/issues/871
+	scrollBehavior: 'center',
 
 	// Visual regression testing
 	env: {

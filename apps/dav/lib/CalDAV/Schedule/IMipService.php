@@ -1,26 +1,9 @@
 <?php
 
 declare(strict_types=1);
-/*
- * DAV App
- *
- * @copyright 2022 Anna Larch <anna.larch@gmx.net>
- *
- * @author Anna Larch <anna.larch@gmx.net>
- * @author Richard Steinmetz <richard@steinmetz.cloud>
- *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
- * License as published by the Free Software Foundation; either
- * version 3 of the License, or any later version.
- *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU AFFERO GENERAL PUBLIC LICENSE for more details.
- *
- * You should have received a copy of the GNU Affero General Public
- * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
+/**
+ * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace OCA\DAV\CalDAV\Schedule;
@@ -539,7 +522,7 @@ class IMipService {
 			$data['meeting_title_html'] ?? $data['meeting_title'], $this->l10n->t('Title:'),
 			$this->getAbsoluteImagePath('caldav/title.png'), $data['meeting_title'], '', IMipPlugin::IMIP_INDENT);
 		if ($data['meeting_when'] !== '') {
-			$template->addBodyListItem($data['meeting_when_html'] ?? $data['meeting_when'], $this->l10n->t('Time:'),
+			$template->addBodyListItem($data['meeting_when_html'] ?? $data['meeting_when'], $this->l10n->t('Date and time:'),
 				$this->getAbsoluteImagePath('caldav/time.png'), $data['meeting_when'], '', IMipPlugin::IMIP_INDENT);
 		}
 		if ($data['meeting_location'] !== '') {
@@ -682,7 +665,7 @@ class IMipService {
 			return false;
 		}
 		$type = $cuType->getValue() ?? 'INDIVIDUAL';
-		if (\in_array(strtoupper($type), ['RESOURCE', 'ROOM', 'UNKNOWN'], true)) {
+		if (\in_array(strtoupper($type), ['RESOURCE', 'ROOM'], true)) {
 			// Don't send emails to things
 			return true;
 		}

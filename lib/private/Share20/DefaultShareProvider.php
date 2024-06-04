@@ -1,36 +1,9 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Bjoern Schiessle <bjoern@schiessle.org>
- * @author Björn Schießle <bjoern@schiessle.org>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Daniel Calviño Sánchez <danxuliu@gmail.com>
- * @author Jan-Philipp Litza <jplitza@users.noreply.github.com>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Maxence Lange <maxence@artificial-owl.com>
- * @author phisch <git@philippschaffrath.de>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Vincent Petry <vincent@nextcloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OC\Share20;
 
@@ -652,6 +625,10 @@ class DefaultShareProvider implements IShareProvider {
 	}
 
 	public function getSharesInFolder($userId, Folder $node, $reshares, $shallow = true) {
+		if (!$shallow) {
+			throw new \Exception("non-shallow getSharesInFolder is no longer supported");
+		}
+
 		$qb = $this->dbConn->getQueryBuilder();
 		$qb->select('s.*',
 			'f.fileid', 'f.path', 'f.permissions AS f_permissions', 'f.storage', 'f.path_hash',
@@ -692,28 +669,12 @@ class DefaultShareProvider implements IShareProvider {
 		}, $childMountNodes);
 
 		$qb->innerJoin('s', 'filecache', 'f', $qb->expr()->eq('s.file_source', 'f.fileid'));
-		$storageFilter = $qb->expr()->eq('f.storage', $qb->createNamedParameter($node->getMountPoint()->getNumericStorageId(), IQueryBuilder::PARAM_INT));
-		if ($shallow) {
-			$qb->andWhere(
-				$qb->expr()->orX(
-					$qb->expr()->andX(
-						$storageFilter,
-						$qb->expr()->eq('f.parent', $qb->createNamedParameter($node->getId())),
-					),
-					$qb->expr()->in('f.fileid', $qb->createParameter('chunk'))
-				)
-			);
-		} else {
-			$qb->andWhere(
-				$qb->expr()->orX(
-					$qb->expr()->andX(
-						$storageFilter,
-						$qb->expr()->like('f.path', $qb->createNamedParameter($this->dbConn->escapeLikeParameter($node->getInternalPath()) . '/%')),
-					),
-					$qb->expr()->in('f.fileid', $qb->createParameter('chunk'))
-				)
-			);
-		}
+		$qb->andWhere(
+			$qb->expr()->orX(
+				$qb->expr()->eq('f.parent', $qb->createNamedParameter($node->getId())),
+				$qb->expr()->in('f.fileid', $qb->createParameter('chunk'))
+			)
+		);
 
 		$qb->orderBy('id');
 
@@ -829,7 +790,7 @@ class DefaultShareProvider implements IShareProvider {
 
 		// If the recipient is set for a group share resolve to that user
 		if ($recipientId !== null && $share->getShareType() === IShare::TYPE_GROUP) {
-			$share = $this->resolveGroupShares([$share], $recipientId)[0];
+			$share = $this->resolveGroupShares([(int) $share->getId() => $share], $recipientId)[0];
 		}
 
 		return $share;
@@ -1006,7 +967,8 @@ class DefaultShareProvider implements IShareProvider {
 					}
 
 					if ($this->isAccessibleResult($data)) {
-						$shares2[] = $this->createShare($data);
+						$share = $this->createShare($data);
+						$shares2[$share->getId()] = $share;
 					}
 				}
 				$cursor->closeCursor();
@@ -1127,61 +1089,40 @@ class DefaultShareProvider implements IShareProvider {
 	}
 
 	/**
-	 * @param Share[] $shares
+	 * Update the data from group shares with any per-user modifications
+	 *
+	 * @param array<int, Share> $shareMap shares indexed by share id
 	 * @param $userId
 	 * @return Share[] The updates shares if no update is found for a share return the original
 	 */
-	private function resolveGroupShares($shares, $userId) {
-		$result = [];
+	private function resolveGroupShares($shareMap, $userId) {
+		$qb = $this->dbConn->getQueryBuilder();
+		$query = $qb->select('*')
+			->from('share')
+			->where($qb->expr()->eq('share_with', $qb->createNamedParameter($userId)))
+			->andWhere($qb->expr()->eq('share_type', $qb->createNamedParameter(IShare::TYPE_USERGROUP)))
+			->andWhere($qb->expr()->in('item_type', [$qb->createNamedParameter('file'), $qb->createNamedParameter('folder')]));
 
-		$start = 0;
-		while (true) {
-			/** @var Share[] $shareSlice */
-			$shareSlice = array_slice($shares, $start, 100);
-			$start += 100;
+		// this is called with either all group shares or one group share.
+		// for all shares it's easier to just only search by share_with,
+		// for a single share it's efficient to filter by parent
+		if (count($shareMap) === 1) {
+			$share = reset($shareMap);
+			$query->andWhere($qb->expr()->eq('parent', $qb->createNamedParameter($share->getId())));
+		}
 
-			if ($shareSlice === []) {
-				break;
-			}
+		$stmt = $query->execute();
 
-			/** @var int[] $ids */
-			$ids = [];
-			/** @var Share[] $shareMap */
-			$shareMap = [];
-
-			foreach ($shareSlice as $share) {
-				$ids[] = (int)$share->getId();
-				$shareMap[$share->getId()] = $share;
-			}
-
-			$qb = $this->dbConn->getQueryBuilder();
-
-			$query = $qb->select('*')
-				->from('share')
-				->where($qb->expr()->in('parent', $qb->createNamedParameter($ids, IQueryBuilder::PARAM_INT_ARRAY)))
-				->andWhere($qb->expr()->eq('share_with', $qb->createNamedParameter($userId)))
-				->andWhere($qb->expr()->orX(
-					$qb->expr()->eq('item_type', $qb->createNamedParameter('file')),
-					$qb->expr()->eq('item_type', $qb->createNamedParameter('folder'))
-				));
-
-			$stmt = $query->execute();
-
-			while ($data = $stmt->fetch()) {
+		while ($data = $stmt->fetch()) {
+			if (array_key_exists($data['parent'], $shareMap)) {
 				$shareMap[$data['parent']]->setPermissions((int)$data['permissions']);
 				$shareMap[$data['parent']]->setStatus((int)$data['accepted']);
 				$shareMap[$data['parent']]->setTarget($data['file_target']);
 				$shareMap[$data['parent']]->setParent($data['parent']);
 			}
-
-			$stmt->closeCursor();
-
-			foreach ($shareMap as $share) {
-				$result[] = $share;
-			}
 		}
 
-		return $result;
+		return array_values($shareMap);
 	}
 
 	/**

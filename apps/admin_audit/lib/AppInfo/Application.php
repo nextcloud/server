@@ -1,39 +1,12 @@
 <?php
 
 declare(strict_types=1);
-
 /**
- * @copyright Copyright (c) 2017 Joas Schilling <coding@schilljs.com>
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Bjoern Schiessle <bjoern@schiessle.org>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Daniel Kesselberg <mail@danielkesselberg.de>
- * @author GrayFix <grayfix@gmail.com>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Tiago Flores <tiago.flores@yahoo.com.br>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\AdminAudit\AppInfo;
 
-use OC\Files\Filesystem;
 use OC\Group\Manager as GroupManager;
 use OC\User\Session as UserSession;
 use OCA\AdminAudit\Actions\AppManagement;
@@ -58,6 +31,13 @@ use OCP\Authentication\TwoFactorAuth\TwoFactorProviderChallengeFailed;
 use OCP\Authentication\TwoFactorAuth\TwoFactorProviderChallengePassed;
 use OCP\Console\ConsoleEvent;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Files\Events\Node\BeforeNodeReadEvent;
+use OCP\Files\Events\Node\BeforeNodeWrittenEvent;
+use OCP\Files\Events\Node\NodeCopiedEvent;
+use OCP\Files\Events\Node\NodeCreatedEvent;
+use OCP\Files\Events\Node\NodeDeletedEvent;
+use OCP\Files\Events\Node\NodeRenamedEvent;
+use OCP\Files\Events\Node\NodeWrittenEvent;
 use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\IUserSession;
@@ -195,58 +175,57 @@ class Application extends App implements IBootstrap {
 		$eventDispatcher->addListener(
 			BeforePreviewFetchedEvent::class,
 			function (BeforePreviewFetchedEvent $event) use ($fileActions) {
-				$file = $event->getNode();
-				$fileActions->preview([
-					'path' => mb_substr($file->getInternalPath(), 5),
-					'width' => $event->getWidth(),
-					'height' => $event->getHeight(),
-					'crop' => $event->isCrop(),
-					'mode' => $event->getMode()
-				]);
+				$fileActions->preview($event);
 			}
 		);
 
-		Util::connectHook(
-			Filesystem::CLASSNAME,
-			Filesystem::signal_post_rename,
-			$fileActions,
-			'rename'
+		$eventDispatcher->addListener(
+			NodeRenamedEvent::class,
+			function (NodeRenamedEvent $event) use ($fileActions) {
+				$fileActions->rename($event);
+			}
 		);
-		Util::connectHook(
-			Filesystem::CLASSNAME,
-			Filesystem::signal_post_create,
-			$fileActions,
-			'create'
+
+		$eventDispatcher->addListener(
+			NodeCreatedEvent::class,
+			function (NodeCreatedEvent $event) use ($fileActions) {
+				$fileActions->create($event);
+			}
 		);
-		Util::connectHook(
-			Filesystem::CLASSNAME,
-			Filesystem::signal_post_copy,
-			$fileActions,
-			'copy'
+
+		$eventDispatcher->addListener(
+			NodeCopiedEvent::class,
+			function (NodeCopiedEvent $event) use ($fileActions) {
+				$fileActions->copy($event);
+			}
 		);
-		Util::connectHook(
-			Filesystem::CLASSNAME,
-			Filesystem::signal_post_write,
-			$fileActions,
-			'write'
+
+		$eventDispatcher->addListener(
+			BeforeNodeWrittenEvent::class,
+			function (BeforeNodeWrittenEvent $event) use ($fileActions) {
+				$fileActions->write($event);
+			}
 		);
-		Util::connectHook(
-			Filesystem::CLASSNAME,
-			Filesystem::signal_post_update,
-			$fileActions,
-			'update'
+
+		$eventDispatcher->addListener(
+			NodeWrittenEvent::class,
+			function (NodeWrittenEvent $event) use ($fileActions) {
+				$fileActions->update($event);
+			}
 		);
-		Util::connectHook(
-			Filesystem::CLASSNAME,
-			Filesystem::signal_read,
-			$fileActions,
-			'read'
+
+		$eventDispatcher->addListener(
+			BeforeNodeReadEvent::class,
+			function (BeforeNodeReadEvent $event) use ($fileActions) {
+				$fileActions->read($event);
+			}
 		);
-		Util::connectHook(
-			Filesystem::CLASSNAME,
-			Filesystem::signal_delete,
-			$fileActions,
-			'delete'
+
+		$eventDispatcher->addListener(
+			NodeDeletedEvent::class,
+			function (NodeDeletedEvent $event) use ($fileActions) {
+				$fileActions->delete($event);
+			}
 		);
 	}
 

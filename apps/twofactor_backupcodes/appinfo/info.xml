@@ -1,11 +1,15 @@
 <?xml version="1.0"?>
+<!--
+  - SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 <info xmlns:xsi= "http://www.w3.org/2001/XMLSchema-instance"
 	  xsi:noNamespaceSchemaLocation="https://apps.nextcloud.com/schema/apps/info.xsd">
 	<id>twofactor_backupcodes</id>
 	<name>Two factor backup codes</name>
 	<summary>A two-factor auth backup codes provider</summary>
 	<description>A two-factor auth backup codes provider</description>
-	<version>1.18.0</version>
+	<version>1.19.0</version>
 	<licence>agpl</licence>
 	<author>Christoph Wurst</author>
 	<namespace>TwoFactorBackupCodes</namespace>
@@ -13,7 +17,7 @@
 	<category>security</category>
 	<bugs>https://github.com/nextcloud/server/issues</bugs>
 	<dependencies>
-		<nextcloud min-version="29" max-version="29"/>
+		<nextcloud min-version="30" max-version="30"/>
 	</dependencies>
 
 	<repair-steps>

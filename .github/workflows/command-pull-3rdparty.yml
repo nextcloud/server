@@ -1,3 +1,5 @@
+# SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
+# SPDX-License-Identifier: MIT
 name: Update 3rdparty command
 
 on:
@@ -30,7 +32,7 @@ jobs:
         id: comment-branch
 
       - name: Checkout ${{ steps.comment-branch.outputs.head_ref }}
-        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
+        uses: actions/checkout@a5ac7e51b41094c92402da3b24376905380afc29
         with:
           fetch-depth: 0
           token: ${{ secrets.COMMAND_BOT_PAT }}

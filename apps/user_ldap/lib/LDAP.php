@@ -1,35 +1,9 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Alexander Bergolth <leo@strike.wu.ac.at>
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author J0WI <J0WI@users.noreply.github.com>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Jörn Friedrich Dreyer <jfd@butonic.de>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Peter Kubica <peter@kubica.ch>
- * @author Robin McCorkell <robin@mccorkell.me.uk>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Roger Szabo <roger.szabo@web.de>
- * @author Carl Schwan <carl@carlschwan.eu>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\User_LDAP;
 
@@ -204,6 +178,7 @@ class LDAP implements ILDAPWrapper {
 			$serverControls = [];
 		}
 
+		/** @psalm-suppress UndefinedVariable $oldHandler is defined when the closure is called but psalm fails to get that */
 		$oldHandler = set_error_handler(function ($no, $message, $file, $line) use (&$oldHandler) {
 			if (str_contains($message, 'Partial search results returned: Sizelimit exceeded')) {
 				return true;
@@ -318,7 +293,7 @@ class LDAP implements ILDAPWrapper {
 
 	private function preFunctionCall(string $functionName, array $args): void {
 		$this->curArgs = $args;
-		if(strcasecmp($functionName, 'ldap_bind') === 0) {
+		if(strcasecmp($functionName, 'ldap_bind') === 0 || strcasecmp($functionName, 'ldap_exop_passwd') === 0) {
 			// The arguments are not key value pairs
 			// \OCA\User_LDAP\LDAP::bind passes 3 arguments, the 3rd being the pw
 			// Remove it via direct array access for now, although a better solution could be found mebbe?
@@ -360,7 +335,7 @@ class LDAP implements ILDAPWrapper {
 	/**
 	 * Analyzes the returned LDAP error and acts accordingly if not 0
 	 *
-	 * @param resource|\LDAP\Connection $resource the LDAP Connection resource
+	 * @param \LDAP\Connection $resource the LDAP Connection resource
 	 * @throws ConstraintViolationException
 	 * @throws ServerNotAvailableException
 	 * @throws \Exception

@@ -1,27 +1,10 @@
 /**
- * @copyright 2023 Christopher Ng <chrng8@gmail.com>
- *
- * @author Christopher Ng <chrng8@gmail.com>
- *
- * @license AGPL-3.0-or-later
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 import { User } from '@nextcloud/cypress'
-import { getUserListRow, handlePasswordConfirmation, toggleEditButton } from './usersUtils'
+import { assertNotExistOrNotVisible, getUserListRow, handlePasswordConfirmation, toggleEditButton } from './usersUtils'
 
 // eslint-disable-next-line n/no-extraneous-import
 import randomString from 'crypto-random-string'
@@ -220,6 +203,85 @@ describe('Settings: Delete a non empty group', () => {
 		cy.runOccCommand('group:list --output=json').then(($response) => {
 			const groups: string[] = Object.keys(JSON.parse($response.stdout))
 			expect(groups).to.not.include(groupName)
+		})
+	})
+})
+
+describe.only('Settings: Sort groups in the UI', () => {
+	before(() => {
+		// Clear state
+		cy.runOccCommand('group:list --output json').then((output) => {
+			const groups = Object.keys(JSON.parse(output.stdout)).filter((group) => group !== 'admin')
+			groups.forEach((group) => {
+				cy.runOccCommand(`group:delete "${group}"`)
+			})
+		})
+
+		// Add two groups and add one user to group B
+		cy.runOccCommand('group:add A')
+		cy.runOccCommand('group:add B')
+		cy.createRandomUser().then((user) => {
+			cy.runOccCommand(`group:adduser B "${user.userId}"`)
+		})
+
+		// Visit the settings as admin
+		cy.login(admin)
+		cy.visit('/settings/users')
+	})
+
+	it('Can set sort by member count', () => {
+		// open the settings dialog
+		cy.contains('button', 'Account management settings').click()
+
+		cy.contains('.modal-container', 'Account management settings').within(() => {
+			cy.get('[data-test="sortGroupsByMemberCount"] input[type="radio"]').scrollIntoView()
+			cy.get('[data-test="sortGroupsByMemberCount"] input[type="radio"]').check({ force: true })
+			// close the settings dialog
+			cy.get('button.modal-container__close').click()
+		})
+		cy.waitUntil(() => cy.get('.modal-container').should(el => assertNotExistOrNotVisible(el)))
+	})
+
+	it('See that the groups are sorted by the member count', () => {
+		cy.get('ul[data-cy-users-settings-navigation-groups="custom"]').within(() => {
+			cy.get('li').eq(0).should('contain', 'B') // 1 member
+			cy.get('li').eq(1).should('contain', 'A') // 0 members
+		})
+	})
+
+	it('See that the order is preserved after a reload', () => {
+		cy.reload()
+		cy.get('ul[data-cy-users-settings-navigation-groups="custom"]').within(() => {
+			cy.get('li').eq(0).should('contain', 'B') // 1 member
+			cy.get('li').eq(1).should('contain', 'A') // 0 members
+		})
+	})
+
+	it('Can set sort by group name', () => {
+		// open the settings dialog
+		cy.contains('button', 'Account management settings').click()
+
+		cy.contains('.modal-container', 'Account management settings').within(() => {
+			cy.get('[data-test="sortGroupsByName"] input[type="radio"]').scrollIntoView()
+			cy.get('[data-test="sortGroupsByName"] input[type="radio"]').check({ force: true })
+			// close the settings dialog
+			cy.get('button.modal-container__close').click()
+		})
+		cy.waitUntil(() => cy.get('.modal-container').should(el => assertNotExistOrNotVisible(el)))
+	})
+
+	it('See that the groups are sorted by the user count', () => {
+		cy.get('ul[data-cy-users-settings-navigation-groups="custom"]').within(() => {
+			cy.get('li').eq(0).should('contain', 'A')
+			cy.get('li').eq(1).should('contain', 'B')
+		})
+	})
+
+	it('See that the order is preserved after a reload', () => {
+		cy.reload()
+		cy.get('ul[data-cy-users-settings-navigation-groups="custom"]').within(() => {
+			cy.get('li').eq(0).should('contain', 'A')
+			cy.get('li').eq(1).should('contain', 'B')
 		})
 	})
 })

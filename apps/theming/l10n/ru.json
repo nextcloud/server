@@ -67,9 +67,7 @@
     "Disable user theming" : "Отключить выбор темы для пользователей",
     "Although you can select and customize your instance, users can change their background and colors. If you want to enforce your customization, you can toggle this on." : "Хотя вы можете выбрать и настроить свой экземпляр, пользователи могут изменять свой фон и цвета. Если вы хотите принудительно применить свои настройки для всех, вы можете включить это.",
     "Appearance and accessibility settings" : "Внешний вид и доступность",
-    "Background" : "Фон",
     "Customization has been disabled by your administrator" : "Настройка тем была отключена вашим администратором",
-    "Set a custom background" : "Установить пользовательский фон",
     "Keyboard shortcuts" : "Сочетания клавиш",
     "In some cases keyboard shortcuts can interfere with accessibility tools. In order to allow focusing on your tool correctly you can disable all keyboard shortcuts here. This will also disable all available shortcuts in apps." : "В некоторых случаях сочетания клавиш могут мешать работе инструментов специальных возможностей. Чтобы правильно сфокусироваться на вашем инструменте, вы можете отключить здесь все сочетания клавиш. Это также отключит все доступные ярлыки в приложениях.",
     "Disable all keyboard shortcuts" : "Отключить все сочетания клавиш",
@@ -96,8 +94,8 @@
     "Reset to default" : "Сбросить изменения",
     "Upload" : "Отправить",
     "Remove background image" : "Убрать фоновое изображение ",
-    "Failed to clean up the old administration theming images folder" : "Не удалось очистить старую папку с изображениями для администрирования тем",
-    "Failed to clean up the old administration image folder" : "Не удалось очистить старую папку с изображением для администрирования",
+    "Background" : "Фон",
+    "Set a custom background" : "Установить пользовательский фон",
     "Select a custom color" : "Выберать собственный цвет"
 },"pluralForm" :"nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);"
 }

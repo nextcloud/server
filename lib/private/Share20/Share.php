@@ -1,31 +1,9 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Bjoern Schiessle <bjoern@schiessle.org>
- * @author Björn Schießle <bjoern@schiessle.org>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Daniel Calviño Sánchez <danxuliu@gmail.com>
- * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- * @author Maxence Lange <maxence@nextcloud.com>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OC\Share20;
 
@@ -90,28 +68,24 @@ class Share implements IShare {
 	private $mailSend;
 	/** @var string */
 	private $label = '';
-
-	/** @var IRootFolder */
-	private $rootFolder;
-
-	/** @var IUserManager */
-	private $userManager;
-
 	/** @var ICacheEntry|null */
 	private $nodeCacheEntry;
-
 	/** @var bool */
 	private $hideDownload = false;
 
-	public function __construct(IRootFolder $rootFolder, IUserManager $userManager) {
-		$this->rootFolder = $rootFolder;
-		$this->userManager = $userManager;
+	private bool $noExpirationDate = false;
+
+	public function __construct(
+		private IRootFolder $rootFolder,
+		private IUserManager $userManager,
+	) {
 	}
 
 	/**
 	 * @inheritdoc
 	 */
 	public function setId($id) {
+		/** @var mixed $id Let's be safe until strong typing */
 		if (is_int($id)) {
 			$id = (string)$id;
 		}
@@ -428,6 +402,21 @@ class Share implements IShare {
 	/**
 	 * @inheritdoc
 	 */
+	public function setNoExpirationDate(bool $noExpirationDate) {
+		$this->noExpirationDate = $noExpirationDate;
+		return $this;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function getNoExpirationDate(): bool {
+		return $this->noExpirationDate;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
 	public function isExpired() {
 		return $this->getExpirationDate() !== null &&
 			$this->getExpirationDate() <= new \DateTime();
@@ -538,7 +527,7 @@ class Share implements IShare {
 	/**
 	 * Set the parent of this share
 	 *
-	 * @param int parent
+	 * @param int $parent
 	 * @return IShare
 	 * @deprecated The new shares do not have parents. This is just here for legacy reasons.
 	 */

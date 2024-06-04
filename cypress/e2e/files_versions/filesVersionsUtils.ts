@@ -1,26 +1,8 @@
-/* eslint-disable jsdoc/require-jsdoc */
 /**
- * @copyright Copyright (c) 2022 Louis Chemineau <louis@chmn.me>
- *
- * @author Louis Chemineau <louis@chmn.me>
- *
- * @license AGPL-3.0-or-later
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-
+/* eslint-disable jsdoc/require-jsdoc */
 import type { User } from '@nextcloud/cypress'
 import path from 'path'
 import { createShare, type ShareSetting } from '../files_sharing/filesSharingUtils'
@@ -89,14 +71,11 @@ export function doesNotHaveAction(index: number, actionName: string) {
 	toggleVersionMenu(index)
 }
 
-export function assertVersionContent(filename: string, index: number, expectedContent: string) {
-	const downloadsFolder = Cypress.config('downloadsFolder')
-
+export function assertVersionContent(index: number, expectedContent: string) {
+	cy.intercept({ method: 'GET', times: 1, url: 'remote.php/**' }).as('downloadVersion')
 	triggerVersionAction(index, 'download')
-
-	return cy.readFile(path.join(downloadsFolder, filename))
-		.then((versionContent) => expect(versionContent).to.equal(expectedContent))
-		.then(() => cy.exec(`rm ${downloadsFolder}/${filename}`))
+	cy.wait('@downloadVersion')
+		.then(({ response }) => expect(response?.body).to.equal(expectedContent))
 }
 
 export function setupTestSharedFileFromUser(owner: User, randomFileName: string, shareOptions: Partial<ShareSetting>) {

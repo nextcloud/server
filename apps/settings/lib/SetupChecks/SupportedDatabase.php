@@ -3,27 +3,8 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2021 Morris Jobke <hey@morrisjobke.de>
- *
- * @author Claas Augner <github@caugner.de>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Vincent Petry <vincent@nextcloud.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\Settings\SetupChecks;
 
@@ -62,14 +43,16 @@ class SupportedDatabase implements ISetupCheck {
 			$row = $result->fetch();
 			$version = $row['Value'];
 			$versionlc = strtolower($version);
-
+			// we only care about X.Y not X.Y.Z differences
+			[$major, $minor, ] = explode('.', $versionlc);
+			$versionConcern = $major . '.' . $minor;
 			if (str_contains($versionlc, 'mariadb')) {
-				if (version_compare($versionlc, '10.2', '<')) {
-					return SetupResult::warning($this->l10n->t('MariaDB version "%s" is used. Nextcloud 21 and higher do not support this version and require MariaDB 10.2 or higher.', $version));
+				if (version_compare($versionConcern, '10.3', '<') || version_compare($versionConcern, '10.11', '>')) {
+					return SetupResult::warning($this->l10n->t('MariaDB version "%s" detected. MariaDB >=10.3 and <=10.11 is suggested for best performance, stability and functionality with this version of Nextcloud.', $version));
 				}
 			} else {
-				if (version_compare($versionlc, '8', '<')) {
-					return SetupResult::warning($this->l10n->t('MySQL version "%s" is used. Nextcloud 21 and higher do not support this version and require MySQL 8.0 or MariaDB 10.2 or higher.', $version));
+				if (version_compare($versionConcern, '8.0', '<') || version_compare($versionConcern, '8.3', '>')) {
+					return SetupResult::warning($this->l10n->t('MySQL version "%s" detected. MySQL >=8.0 and <=8.3 is suggested for best performance, stability and functionality with this version of Nextcloud.', $version));
 				}
 			}
 		} elseif ($databasePlatform instanceof PostgreSQLPlatform) {
@@ -77,8 +60,12 @@ class SupportedDatabase implements ISetupCheck {
 			$result->execute();
 			$row = $result->fetch();
 			$version = $row['server_version'];
-			if (version_compare(strtolower($version), '9.6', '<')) {
-				return SetupResult::warning($this->l10n->t('PostgreSQL version "%s" is used. Nextcloud 21 and higher do not support this version and require PostgreSQL 9.6 or higher.', $version));
+			$versionlc = strtolower($version);
+			// we only care about X not X.Y or X.Y.Z differences
+			[$major, ] = explode('.', $versionlc);
+			$versionConcern = $major;
+			if (version_compare($versionConcern, '12', '<') || version_compare($versionConcern, '16', '>')) {
+				return SetupResult::warning($this->l10n->t('PostgreSQL version "%s" detected. PostgreSQL >=12 and <=16 is suggested for best performance, stability and functionality with this version of Nextcloud.', $version));
 			}
 		} elseif ($databasePlatform instanceof OraclePlatform) {
 			$version = 'Oracle';

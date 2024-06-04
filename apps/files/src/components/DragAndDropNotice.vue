@@ -1,27 +1,10 @@
 <!--
-	- @copyright Copyright (c) 2023 John Molakvoæ <skjnldsv@protonmail.com>
-	-
-	- @author John Molakvoæ <skjnldsv@protonmail.com>
-	- @author Ferdinand Thiessen <opensource@fthiessen.de>
-	-
-	- @license AGPL-3.0-or-later
-	-
-	- This program is free software: you can redistribute it and/or modify
-	- it under the terms of the GNU Affero General Public License as
-	- published by the Free Software Foundation, either version 3 of the
-	- License, or (at your option) any later version.
-	-
-	- This program is distributed in the hope that it will be useful,
-	- but WITHOUT ANY WARRANTY; without even the implied warranty of
-	- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-	- GNU Affero General Public License for more details.
-	-
-	- You should have received a copy of the GNU Affero General Public License
-	- along with this program. If not, see <http://www.gnu.org/licenses/>.
-	-
-	-->
+  - SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 <template>
 	<div v-show="dragover"
+		data-cy-files-drag-drop-area
 		class="files-list__drag-drop-notice"
 		@drop="onDrop">
 		<div class="files-list__drag-drop-notice-wrapper">
@@ -45,14 +28,14 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 import { Folder, Permission } from '@nextcloud/files'
-import { showError, showSuccess } from '@nextcloud/dialogs'
+import { showError } from '@nextcloud/dialogs'
 import { translate as t } from '@nextcloud/l10n'
 import { UploadStatus } from '@nextcloud/upload'
 
 import TrayArrowDownIcon from 'vue-material-design-icons/TrayArrowDown.vue'
 
 import logger from '../logger.js'
-import { handleDrop } from '../services/DropService'
+import { dataTransferToFileTree, onDropExternalFiles } from '../services/DropService'
 
 export default defineComponent({
 	name: 'DragAndDropNotice',
@@ -75,6 +58,10 @@ export default defineComponent({
 	},
 
 	computed: {
+		currentView() {
+			return this.$navigation.active
+		},
+
 		/**
 		 * Check if the current folder has create permissions
 		 */
@@ -145,8 +132,6 @@ export default defineComponent({
 		},
 
 		async onDrop(event: DragEvent) {
-			logger.debug('Dropped on DragAndDropNotice', { event })
-
 			// cantUploadLabel is null if we can upload
 			if (this.cantUploadLabel) {
 				showError(this.cantUploadLabel)
@@ -160,38 +145,53 @@ export default defineComponent({
 			event.preventDefault()
 			event.stopPropagation()
 
-			if (event.dataTransfer && event.dataTransfer.items.length > 0) {
-				// Start upload
-				logger.debug(`Uploading files to ${this.currentFolder.path}`)
-				// Process finished uploads
-				const uploads = await handleDrop(event.dataTransfer)
-				logger.debug('Upload terminated', { uploads })
+			// Caching the selection
+			const items: DataTransferItem[] = [...event.dataTransfer?.items || []]
 
-				if (uploads.some((upload) => upload.status === UploadStatus.FAILED)) {
-					showError(t('files', 'Some files could not be uploaded'))
-					const failedUploads = uploads.filter((upload) => upload.status === UploadStatus.FAILED)
-					logger.debug('Some files could not be uploaded', { failedUploads })
-				} else {
-					showSuccess(t('files', 'Files uploaded successfully'))
-				}
+			// We need to process the dataTransfer ASAP before the
+			// browser clears it. This is why we cache the items too.
+			const fileTree = await dataTransferToFileTree(items)
 
-				// Scroll to last successful upload in current directory if terminated
-				const lastUpload = uploads.findLast((upload) => upload.status !== UploadStatus.FAILED
-					&& !upload.file.webkitRelativePath.includes('/')
-					&& upload.response?.headers?.['oc-fileid'])
-
-				if (lastUpload !== undefined) {
-					this.$router.push({
-						...this.$route,
-						params: {
-							view: this.$route.params?.view ?? 'files',
-							fileid: parseInt(lastUpload.response!.headers['oc-fileid']),
-						},
-					})
-				}
+			// We might not have the target directory fetched yet
+			const contents = await this.currentView?.getContents(this.currentFolder.path)
+			const folder = contents?.folder
+			if (!folder) {
+				showError(this.t('files', 'Target folder does not exist any more'))
+				return
 			}
+
+			// If another button is pressed, cancel it. This
+			// allows cancelling the drag with the right click.
+			if (event.button) {
+				return
+			}
+
+			logger.debug('Dropped', { event, folder, fileTree })
+
+			// Check whether we're uploading files
+			const uploads = await onDropExternalFiles(fileTree, folder, contents.contents)
+
+			// Scroll to last successful upload in current directory if terminated
+			const lastUpload = uploads.findLast((upload) => upload.status !== UploadStatus.FAILED
+				&& !upload.file.webkitRelativePath.includes('/')
+				&& upload.response?.headers?.['oc-fileid']
+				// Only use the last ID if it's in the current folder
+				&& upload.source.replace(folder.source, '').split('/').length === 2)
+
+			if (lastUpload !== undefined) {
+				logger.debug('Scrolling to last upload in current folder', { lastUpload })
+				this.$router.push({
+					...this.$route,
+					params: {
+						view: this.$route.params?.view ?? 'files',
+						fileid: parseInt(lastUpload.response!.headers['oc-fileid']),
+					},
+				})
+			}
+
 			this.dragover = false
 		},
+
 		t,
 	},
 })

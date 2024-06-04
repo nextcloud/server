@@ -20,204 +20,6 @@
             }
         },
         "schemas": {
-            "AppInfo": {
-                "type": "object",
-                "required": [
-                    "active",
-                    "activity",
-                    "author",
-                    "background-jobs",
-                    "bugs",
-                    "category",
-                    "collaboration",
-                    "commands",
-                    "default_enable",
-                    "dependencies",
-                    "description",
-                    "discussion",
-                    "documentation",
-                    "groups",
-                    "id",
-                    "info",
-                    "internal",
-                    "level",
-                    "licence",
-                    "name",
-                    "namespace",
-                    "navigations",
-                    "preview",
-                    "previewAsIcon",
-                    "public",
-                    "remote",
-                    "removable",
-                    "repair-steps",
-                    "repository",
-                    "sabre",
-                    "screenshot",
-                    "settings",
-                    "summary",
-                    "trash",
-                    "two-factor-providers",
-                    "types",
-                    "version",
-                    "versions",
-                    "website"
-                ],
-                "properties": {
-                    "active": {
-                        "type": "boolean",
-                        "nullable": true
-                    },
-                    "activity": {
-                        "type": "object",
-                        "nullable": true
-                    },
-                    "author": {
-                        "type": "object",
-                        "nullable": true
-                    },
-                    "background-jobs": {
-                        "type": "object",
-                        "nullable": true
-                    },
-                    "bugs": {
-                        "type": "object",
-                        "nullable": true
-                    },
-                    "category": {
-                        "type": "object",
-                        "nullable": true
-                    },
-                    "collaboration": {
-                        "type": "object",
-                        "nullable": true
-                    },
-                    "commands": {
-                        "type": "object",
-                        "nullable": true
-                    },
-                    "default_enable": {
-                        "type": "object",
-                        "nullable": true
-                    },
-                    "dependencies": {
-                        "type": "object",
-                        "nullable": true
-                    },
-                    "description": {
-                        "type": "string"
-                    },
-                    "discussion": {
-                        "type": "object",
-                        "nullable": true
-                    },
-                    "documentation": {
-                        "type": "object",
-                        "nullable": true
-                    },
-                    "groups": {
-                        "type": "object",
-                        "nullable": true
-                    },
-                    "id": {
-                        "type": "string"
-                    },
-                    "info": {
-                        "type": "object",
-                        "nullable": true
-                    },
-                    "internal": {
-                        "type": "boolean",
-                        "nullable": true
-                    },
-                    "level": {
-                        "type": "integer",
-                        "format": "int64",
-                        "nullable": true
-                    },
-                    "licence": {
-                        "type": "object",
-                        "nullable": true
-                    },
-                    "name": {
-                        "type": "string"
-                    },
-                    "namespace": {
-                        "type": "object",
-                        "nullable": true
-                    },
-                    "navigations": {
-                        "type": "object",
-                        "nullable": true
-                    },
-                    "preview": {
-                        "type": "object",
-                        "nullable": true
-                    },
-                    "previewAsIcon": {
-                        "type": "boolean",
-                        "nullable": true
-                    },
-                    "public": {
-                        "type": "object",
-                        "nullable": true
-                    },
-                    "remote": {
-                        "type": "object",
-                        "nullable": true
-                    },
-                    "removable": {
-                        "type": "boolean",
-                        "nullable": true
-                    },
-                    "repair-steps": {
-                        "type": "object",
-                        "nullable": true
-                    },
-                    "repository": {
-                        "type": "object",
-                        "nullable": true
-                    },
-                    "sabre": {
-                        "type": "object",
-                        "nullable": true
-                    },
-                    "screenshot": {
-                        "type": "object",
-                        "nullable": true
-                    },
-                    "settings": {
-                        "type": "object",
-                        "nullable": true
-                    },
-                    "summary": {
-                        "type": "string"
-                    },
-                    "trash": {
-                        "type": "object",
-                        "nullable": true
-                    },
-                    "two-factor-providers": {
-                        "type": "object",
-                        "nullable": true
-                    },
-                    "types": {
-                        "type": "object",
-                        "nullable": true
-                    },
-                    "version": {
-                        "type": "string"
-                    },
-                    "versions": {
-                        "type": "object",
-                        "nullable": true
-                    },
-                    "website": {
-                        "type": "object",
-                        "nullable": true
-                    }
-                }
-            },
             "Capabilities": {
                 "type": "object",
                 "required": [
@@ -360,17 +162,17 @@
                     "additional_mailScope": {
                         "type": "array",
                         "items": {
-                            "type": "string"
+                            "$ref": "#/components/schemas/UserDetailsScope"
                         }
                     },
                     "address": {
                         "type": "string"
                     },
                     "addressScope": {
-                        "type": "string"
+                        "$ref": "#/components/schemas/UserDetailsScope"
                     },
                     "avatarScope": {
-                        "type": "string"
+                        "$ref": "#/components/schemas/UserDetailsScope"
                     },
                     "backend": {
                         "type": "string"
@@ -394,7 +196,7 @@
                         "type": "string"
                     },
                     "biographyScope": {
-                        "type": "string"
+                        "$ref": "#/components/schemas/UserDetailsScope"
                     },
                     "display-name": {
                         "type": "string"
@@ -403,14 +205,14 @@
                         "type": "string"
                     },
                     "displaynameScope": {
-                        "type": "string"
+                        "$ref": "#/components/schemas/UserDetailsScope"
                     },
                     "email": {
                         "type": "string",
                         "nullable": true
                     },
                     "emailScope": {
-                        "type": "string"
+                        "$ref": "#/components/schemas/UserDetailsScope"
                     },
                     "enabled": {
                         "type": "boolean"
@@ -419,7 +221,7 @@
                         "type": "string"
                     },
                     "fediverseScope": {
-                        "type": "string"
+                        "$ref": "#/components/schemas/UserDetailsScope"
                     },
                     "groups": {
                         "type": "array",
@@ -431,7 +233,7 @@
                         "type": "string"
                     },
                     "headlineScope": {
-                        "type": "string"
+                        "$ref": "#/components/schemas/UserDetailsScope"
                     },
                     "id": {
                         "type": "string"
@@ -457,19 +259,19 @@
                         "type": "string"
                     },
                     "organisationScope": {
-                        "type": "string"
+                        "$ref": "#/components/schemas/UserDetailsScope"
                     },
                     "phone": {
                         "type": "string"
                     },
                     "phoneScope": {
-                        "type": "string"
+                        "$ref": "#/components/schemas/UserDetailsScope"
                     },
                     "profile_enabled": {
                         "type": "string"
                     },
                     "profile_enabledScope": {
-                        "type": "string"
+                        "$ref": "#/components/schemas/UserDetailsScope"
                     },
                     "quota": {
                         "$ref": "#/components/schemas/UserDetailsQuota"
@@ -478,7 +280,7 @@
                         "type": "string"
                     },
                     "roleScope": {
-                        "type": "string"
+                        "$ref": "#/components/schemas/UserDetailsScope"
                     },
                     "storageLocation": {
                         "type": "string"
@@ -493,13 +295,13 @@
                         "type": "string"
                     },
                     "twitterScope": {
-                        "type": "string"
+                        "$ref": "#/components/schemas/UserDetailsScope"
                     },
                     "website": {
                         "type": "string"
                     },
                     "websiteScope": {
-                        "type": "string"
+                        "$ref": "#/components/schemas/UserDetailsScope"
                     }
                 }
             },
@@ -507,10 +309,10 @@
                 "type": "object",
                 "properties": {
                     "free": {
-                        "oneOf": [
+                        "anyOf": [
                             {
                                 "type": "number",
-                                "format": "float"
+                                "format": "double"
                             },
                             {
                                 "type": "integer",
@@ -519,10 +321,10 @@
                         ]
                     },
                     "quota": {
-                        "oneOf": [
+                        "anyOf": [
                             {
                                 "type": "number",
-                                "format": "float"
+                                "format": "double"
                             },
                             {
                                 "type": "integer",
@@ -534,10 +336,10 @@
                         ]
                     },
                     "relative": {
-                        "oneOf": [
+                        "anyOf": [
                             {
                                 "type": "number",
-                                "format": "float"
+                                "format": "double"
                             },
                             {
                                 "type": "integer",
@@ -546,10 +348,10 @@
                         ]
                     },
                     "total": {
-                        "oneOf": [
+                        "anyOf": [
                             {
                                 "type": "number",
-                                "format": "float"
+                                "format": "double"
                             },
                             {
                                 "type": "integer",
@@ -558,10 +360,10 @@
                         ]
                     },
                     "used": {
-                        "oneOf": [
+                        "anyOf": [
                             {
                                 "type": "number",
-                                "format": "float"
+                                "format": "double"
                             },
                             {
                                 "type": "integer",
@@ -570,6 +372,18 @@
                         ]
                     }
                 }
+            },
+            "UserDetailsScope": {
+                "type": "string",
+                "enum": [
+                    "v2-private",
+                    "v2-local",
+                    "v2-federated",
+                    "v2-published",
+                    "private",
+                    "contacts",
+                    "public"
+                ]
             }
         }
     },
@@ -715,7 +529,11 @@
                                                     "$ref": "#/components/schemas/OCSMeta"
                                                 },
                                                 "data": {
-                                                    "$ref": "#/components/schemas/AppInfo"
+                                                    "type": "object",
+                                                    "additionalProperties": {
+                                                        "type": "object",
+                                                        "nullable": true
+                                                    }
                                                 }
                                             }
                                         }
@@ -729,7 +547,7 @@
             "post": {
                 "operationId": "apps-enable",
                 "summary": "Enable an app",
-                "description": "This endpoint requires admin access",
+                "description": "This endpoint requires admin access\nThis endpoint requires password confirmation",
                 "tags": [
                     "apps"
                 ],
@@ -796,7 +614,7 @@
             "delete": {
                 "operationId": "apps-disable",
                 "summary": "Disable an app",
-                "description": "This endpoint requires admin access",
+                "description": "This endpoint requires admin access\nThis endpoint requires password confirmation",
                 "tags": [
                     "apps"
                 ],
@@ -1196,7 +1014,7 @@
             "post": {
                 "operationId": "users-add-sub-admin",
                 "summary": "Make a user a subadmin of a group",
-                "description": "This endpoint requires admin access",
+                "description": "This endpoint requires admin access\nThis endpoint requires password confirmation",
                 "tags": [
                     "users"
                 ],
@@ -1272,7 +1090,7 @@
             "delete": {
                 "operationId": "users-remove-sub-admin",
                 "summary": "Remove a user from the subadmins of a group",
-                "description": "This endpoint requires admin access",
+                "description": "This endpoint requires admin access\nThis endpoint requires password confirmation",
                 "tags": [
                     "users"
                 ],
@@ -1551,6 +1369,7 @@
             "post": {
                 "operationId": "app_config-set-value",
                 "summary": "Update the config value of an app",
+                "description": "This endpoint requires password confirmation",
                 "tags": [
                     "app_config"
                 ],
@@ -1862,9 +1681,27 @@
                     "404": {
                         "description": "Group not found",
                         "content": {
-                            "text/plain": {
+                            "application/json": {
                                 "schema": {
-                                    "type": "string"
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {}
+                                            }
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -1872,9 +1709,27 @@
                     "403": {
                         "description": "Missing permissions to get users in the group",
                         "content": {
-                            "text/plain": {
+                            "application/json": {
                                 "schema": {
-                                    "type": "string"
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {}
+                                            }
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -1978,7 +1833,7 @@
                                                         "users": {
                                                             "type": "object",
                                                             "additionalProperties": {
-                                                                "oneOf": [
+                                                                "anyOf": [
                                                                     {
                                                                         "$ref": "#/components/schemas/UserDetails"
                                                                     },
@@ -2111,6 +1966,7 @@
             "post": {
                 "operationId": "users-add-user",
                 "summary": "Create a new user",
+                "description": "This endpoint requires password confirmation",
                 "tags": [
                     "users"
                 ],
@@ -2263,9 +2119,27 @@
                     "403": {
                         "description": "Missing permissions to make user subadmin",
                         "content": {
-                            "text/plain": {
+                            "application/json": {
                                 "schema": {
-                                    "type": "string"
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {}
+                                            }
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -2359,7 +2233,7 @@
                                                         "users": {
                                                             "type": "object",
                                                             "additionalProperties": {
-                                                                "oneOf": [
+                                                                "anyOf": [
                                                                     {
                                                                         "$ref": "#/components/schemas/UserDetails"
                                                                     },
@@ -2405,6 +2279,15 @@
                     }
                 ],
                 "parameters": [
+                    {
+                        "name": "search",
+                        "in": "query",
+                        "description": "Text to search for",
+                        "schema": {
+                            "type": "string",
+                            "default": ""
+                        }
+                    },
                     {
                         "name": "limit",
                         "in": "query",
@@ -2466,7 +2349,7 @@
                                                         "users": {
                                                             "type": "object",
                                                             "additionalProperties": {
-                                                                "oneOf": [
+                                                                "anyOf": [
                                                                     {
                                                                         "$ref": "#/components/schemas/UserDetails"
                                                                     },
@@ -2678,6 +2561,7 @@
             "put": {
                 "operationId": "users-edit-user",
                 "summary": "Update a value of the user's details",
+                "description": "This endpoint requires password confirmation",
                 "tags": [
                     "users"
                 ],
@@ -2762,6 +2646,7 @@
             "delete": {
                 "operationId": "users-delete-user",
                 "summary": "Delete a user",
+                "description": "This endpoint requires password confirmation",
                 "tags": [
                     "users"
                 ],
@@ -3028,6 +2913,7 @@
             "put": {
                 "operationId": "users-edit-user-multi-value",
                 "summary": "Update multiple values of the user's details",
+                "description": "This endpoint requires password confirmation",
                 "tags": [
                     "users"
                 ],
@@ -3124,6 +3010,7 @@
             "post": {
                 "operationId": "users-wipe-user-devices",
                 "summary": "Wipe all devices of a user",
+                "description": "This endpoint requires password confirmation",
                 "tags": [
                     "users"
                 ],
@@ -3192,6 +3079,7 @@
             "put": {
                 "operationId": "users-enable-user",
                 "summary": "Enable a user",
+                "description": "This endpoint requires password confirmation",
                 "tags": [
                     "users"
                 ],
@@ -3260,6 +3148,7 @@
             "put": {
                 "operationId": "users-disable-user",
                 "summary": "Disable a user",
+                "description": "This endpoint requires password confirmation",
                 "tags": [
                     "users"
                 ],
@@ -3407,6 +3296,7 @@
             "post": {
                 "operationId": "users-add-to-group",
                 "summary": "Add a user to a group",
+                "description": "This endpoint requires password confirmation",
                 "tags": [
                     "users"
                 ],
@@ -3482,6 +3372,7 @@
             "delete": {
                 "operationId": "users-remove-from-group",
                 "summary": "Remove a user from a group",
+                "description": "This endpoint requires password confirmation",
                 "tags": [
                     "users"
                 ],
@@ -3559,6 +3450,7 @@
             "post": {
                 "operationId": "users-resend-welcome-message",
                 "summary": "Resend the welcome message",
+                "description": "This endpoint requires password confirmation",
                 "tags": [
                     "users"
                 ],

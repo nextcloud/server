@@ -2,24 +2,8 @@
 /* eslint-disable jsdoc/require-param */
 /* eslint-disable jsdoc/require-jsdoc */
 /**
- * @copyright 2022 Louis Chemineau <mlouis@chmn.me>
- *
- * @author Louis Chemineau <mlouis@chmn.me>
- *
- * @license AGPL-3.0-or-later
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 import type { FileStat, ResponseDataDetailed } from 'webdav'
 
@@ -35,6 +19,7 @@ import logger from '../utils/logger.js'
 export interface Version {
 	fileId: string, // The id of the file associated to the version.
 	label: string, // 'Current version' or ''
+	author: string|null, // UID for the author of the version
 	filename: string, // File name relative to the version DAV endpoint
 	basename: string, // A base name generated from the mtime
 	mime: string, // Empty for the current version, else the actual mime type of the version
@@ -107,6 +92,7 @@ function formatVersion(version: any, fileInfo: any): Version {
 	return {
 		fileId: fileInfo.id,
 		label: version.props['version-label'],
+		author: version.props['version-author'] ?? null,
 		filename: version.filename,
 		basename: moment(mtime).format('LLL'),
 		mime: version.mime,

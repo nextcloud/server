@@ -1,31 +1,9 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Jörn Friedrich Dreyer <jfd@butonic.de>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author root <root@localhost.localdomain>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\User_LDAP;
 
@@ -205,6 +183,21 @@ class Helper {
 
 	/**
 	 * sanitizes a DN received from the LDAP server
+	 *
+	 * This is used and done to have a stable format of DNs that can be compared
+	 * and identified again. The input DN value is modified as following:
+	 *
+	 * 1) whitespaces after commas are removed
+	 * 2) the DN is turned to lower-case
+	 * 3) the DN is escaped according to RFC 2253
+	 *
+	 * When a future DN is supposed to be used as a base parameter, it has to be
+	 * run through DNasBaseParameter() first, to recode \5c into a backslash
+	 * again, otherwise the search or read operation will fail with LDAP error
+	 * 32, NO_SUCH_OBJECT. Regular usage in LDAP filters requires the backslash
+	 * being escaped, however.
+	 *
+	 * Internally, DNs are stored in their sanitized form.
 	 *
 	 * @param array|string $dn the DN in question
 	 * @return array|string the sanitized DN

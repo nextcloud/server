@@ -1,23 +1,6 @@
 /**
- * @copyright 2021, Christopher Ng <chrng8@gmail.com>
- *
- * @author Christopher Ng <chrng8@gmail.com>
- *
- * @license AGPL-3.0-or-later
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 /*
@@ -44,6 +27,7 @@ export const ACCOUNT_PROPERTY_ENUM = Object.freeze({
 	ROLE: 'role',
 	TWITTER: 'twitter',
 	WEBSITE: 'website',
+	BIRTHDATE: 'birthdate',
 })
 
 /** Enum of account properties to human readable account property names */
@@ -62,6 +46,7 @@ export const ACCOUNT_PROPERTY_READABLE_ENUM = Object.freeze({
 	TWITTER: t('settings', 'X (formerly Twitter)'),
 	FEDIVERSE: t('settings', 'Fediverse (e.g. Mastodon)'),
 	WEBSITE: t('settings', 'Website'),
+	BIRTHDATE: t('settings', 'Date of birth'),
 })
 
 export const NAME_READABLE_ENUM = Object.freeze({
@@ -79,6 +64,7 @@ export const NAME_READABLE_ENUM = Object.freeze({
 	[ACCOUNT_PROPERTY_ENUM.TWITTER]: ACCOUNT_PROPERTY_READABLE_ENUM.TWITTER,
 	[ACCOUNT_PROPERTY_ENUM.FEDIVERSE]: ACCOUNT_PROPERTY_READABLE_ENUM.FEDIVERSE,
 	[ACCOUNT_PROPERTY_ENUM.WEBSITE]: ACCOUNT_PROPERTY_READABLE_ENUM.WEBSITE,
+	[ACCOUNT_PROPERTY_ENUM.BIRTHDATE]: ACCOUNT_PROPERTY_READABLE_ENUM.BIRTHDATE,
 })
 
 /** Enum of profile specific sections to human readable names */
@@ -102,6 +88,7 @@ export const PROPERTY_READABLE_KEYS_ENUM = Object.freeze({
 	[ACCOUNT_PROPERTY_READABLE_ENUM.TWITTER]: ACCOUNT_PROPERTY_ENUM.TWITTER,
 	[ACCOUNT_PROPERTY_READABLE_ENUM.FEDIVERSE]: ACCOUNT_PROPERTY_ENUM.FEDIVERSE,
 	[ACCOUNT_PROPERTY_READABLE_ENUM.WEBSITE]: ACCOUNT_PROPERTY_ENUM.WEBSITE,
+	[ACCOUNT_PROPERTY_READABLE_ENUM.BIRTHDATE]: ACCOUNT_PROPERTY_ENUM.BIRTHDATE,
 })
 
 /**
@@ -144,6 +131,7 @@ export const PROPERTY_READABLE_SUPPORTED_SCOPES_ENUM = Object.freeze({
 	[ACCOUNT_PROPERTY_READABLE_ENUM.TWITTER]: [SCOPE_ENUM.LOCAL, SCOPE_ENUM.PRIVATE],
 	[ACCOUNT_PROPERTY_READABLE_ENUM.FEDIVERSE]: [SCOPE_ENUM.LOCAL, SCOPE_ENUM.PRIVATE],
 	[ACCOUNT_PROPERTY_READABLE_ENUM.WEBSITE]: [SCOPE_ENUM.LOCAL, SCOPE_ENUM.PRIVATE],
+	[ACCOUNT_PROPERTY_READABLE_ENUM.BIRTHDATE]: [SCOPE_ENUM.LOCAL, SCOPE_ENUM.PRIVATE],
 })
 
 /** List of readable account properties which aren't published to the lookup server */
@@ -152,6 +140,7 @@ export const UNPUBLISHED_READABLE_PROPERTIES = Object.freeze([
 	ACCOUNT_PROPERTY_READABLE_ENUM.HEADLINE,
 	ACCOUNT_PROPERTY_READABLE_ENUM.ORGANISATION,
 	ACCOUNT_PROPERTY_READABLE_ENUM.ROLE,
+	ACCOUNT_PROPERTY_READABLE_ENUM.BIRTHDATE,
 ])
 
 /** Scope suffix */

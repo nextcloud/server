@@ -1,10 +1,9 @@
 <?php
 
 /**
- * Copyright (c) 2014 Robin Appelman <icewind@owncloud.com>
- * This file is licensed under the Affero General Public License version 3 or
- * later.
- * See the COPYING-README file.
+ * SPDX-FileCopyrightText: 2017-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace Test\DB;
@@ -20,6 +19,7 @@ use OC\DB\OracleMigrator;
 use OC\DB\SQLiteMigrator;
 use OCP\DB\Types;
 use OCP\IConfig;
+use OCP\Security\ISecureRandom;
 
 /**
  * Class MigratorTest
@@ -57,7 +57,7 @@ class MigratorTest extends \Test\TestCase {
 
 	private function getMigrator(): Migrator {
 		$platform = $this->connection->getDatabasePlatform();
-		$random = \OC::$server->getSecureRandom();
+		$random = \OC::$server->get(ISecureRandom::class);
 		$dispatcher = \OC::$server->get(\OCP\EventDispatcher\IEventDispatcher::class);
 		if ($platform instanceof SqlitePlatform) {
 			return new SQLiteMigrator($this->connection, $this->config, $dispatcher);

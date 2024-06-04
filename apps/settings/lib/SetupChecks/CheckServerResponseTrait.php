@@ -3,25 +3,8 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2024 Ferdinand Thiessen <opensource@fthiessen.de>
- *
- * @author Ferdinand Thiessen <opensource@fthiessen.de>
- *
- * @license AGPL-3.0-or-later
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\Settings\SetupChecks;
 
@@ -47,7 +30,7 @@ trait CheckServerResponseTrait {
 	 * Common helper string in case a check could not fetch any results
 	 */
 	protected function serverConfigHelp(): string {
-		return $this->l10n->t('To allow this check to run you have to make sure that your webserver can connect to itself. Therefor it must be able to resolve and connect to at least one its `trusted_domains` or the `overwrite.cli.url`.');
+		return $this->l10n->t('To allow this check to run you have to make sure that your Web server can connect to itself. Therefore it must be able to resolve and connect to at least one of its `trusted_domains` or the `overwrite.cli.url`. This failure may be the result of a server-side DNS mismatch or outbound firewall rule.');
 	}
 
 	/**
@@ -74,8 +57,8 @@ trait CheckServerResponseTrait {
 
 	/**
 	 * Run a HTTP request to check header
-	 * @param string $url The relative URL to check
 	 * @param string $method The HTTP method to use
+	 * @param string $url The relative URL to check
 	 * @param array{ignoreSSL?: bool, httpErrors?: bool, options?: array} $options Additional options, like
 	 *                                                 [
 	 *                                                  // Ignore invalid SSL certificates (e.g. self signed)
@@ -86,7 +69,7 @@ trait CheckServerResponseTrait {
 	 *
 	 * @return Generator<int, IResponse>
 	 */
-	protected function runRequest(string $url, string $method, array $options = []): Generator {
+	protected function runRequest(string $method, string $url, array $options = []): Generator {
 		$options = array_merge(['ignoreSSL' => true, 'httpErrors' => true], $options);
 
 		$client = $this->clientService->newClient();
@@ -95,7 +78,7 @@ trait CheckServerResponseTrait {
 
 		foreach ($this->getTestUrls($url) as $testURL) {
 			try {
-				yield $client->request($testURL, $method, $requestOptions);
+				yield $client->request($method, $testURL, $requestOptions);
 			} catch (\Throwable $e) {
 				$this->logger->debug('Can not connect to local server for running setup checks', ['exception' => $e, 'url' => $testURL]);
 			}
@@ -110,7 +93,7 @@ trait CheckServerResponseTrait {
 	 * @return Generator<int, IResponse>
 	 */
 	protected function runHEAD(string $url, bool $ignoreSSL = true, bool $httpErrors = true): Generator {
-		return $this->runRequest($url, 'HEAD', ['ignoreSSL' => $ignoreSSL, 'httpErrors' => $httpErrors]);
+		return $this->runRequest('HEAD', $url, ['ignoreSSL' => $ignoreSSL, 'httpErrors' => $httpErrors]);
 	}
 
 	protected function getRequestOptions(bool $ignoreSSL, bool $httpErrors): array {

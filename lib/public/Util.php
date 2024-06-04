@@ -1,54 +1,21 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Bart Visscher <bartv@thisnet.nl>
- * @author Björn Schießle <bjoern@schiessle.org>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Frank Karlitschek <frank@karlitschek.de>
- * @author Georg Ehrke <oc.list@georgehrke.com>
- * @author Individual IT Services <info@individual-it.net>
- * @author J0WI <J0WI@users.noreply.github.com>
- * @author Jens-Christian Fischer <jens-christian.fischer@switch.ch>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Jonas Meurer <jonas@freesources.org>
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Michael Gapczynski <GapczynskiM@gmail.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Pellaeon Lin <nfsmwlin@gmail.com>
- * @author Randolph Carter <RandolphCarter@fantasymail.de>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Robin McCorkell <robin@mccorkell.me.uk>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Victor Dubiniuk <dubiniuk@owncloud.com>
- * @author Vincent Petry <vincent@nextcloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 // use OCP namespace for all classes that are considered public.
-// This means that they should be used by apps instead of the internal ownCloud classes
+// This means that they should be used by apps instead of the internal Nextcloud classes
 
 namespace OCP;
 
 use bantu\IniGetWrapper\IniGetWrapper;
 use OC\AppScriptDependency;
 use OC\AppScriptSort;
+use OC\Security\CSRF\CsrfTokenManager;
+use OCP\L10N\IFactory;
+use OCP\Mail\IMailer;
 use OCP\Share\IManager;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Log\LoggerInterface;
@@ -110,11 +77,11 @@ class Util {
 	 *
 	 * @return boolean
 	 * @since 7.0.0
-	 * @deprecated 9.1.0 Use \OC::$server->getShareManager()->sharingDisabledForUser
+	 * @deprecated 9.1.0 Use \OC::$server->get(\OCP\Share\IManager::class)->sharingDisabledForUser
 	 */
 	public static function isSharingDisabledForUser() {
 		if (self::$shareManager === null) {
-			self::$shareManager = \OC::$server->getShareManager();
+			self::$shareManager = \OC::$server->get(IManager::class);
 		}
 
 		$user = \OC::$server->getUserSession()->getUser();
@@ -177,7 +144,7 @@ class Util {
 	 * @param bool $prepend
 	 * @since 4.0.0
 	 */
-	public static function addScript(string $application, string $file = null, string $afterAppId = 'core', bool $prepend = false): void {
+	public static function addScript(string $application, ?string $file = null, string $afterAppId = 'core', bool $prepend = false): void {
 		if (!empty($application)) {
 			$path = "$application/js/$file";
 		} else {
@@ -242,7 +209,7 @@ class Util {
 	 */
 	public static function addTranslations($application, $languageCode = null, $init = false) {
 		if (is_null($languageCode)) {
-			$languageCode = \OC::$server->getL10NFactory()->findLanguage($application);
+			$languageCode = \OC::$server->get(IFactory::class)->findLanguage($application);
 		}
 		if (!empty($application)) {
 			$path = "$application/l10n/$languageCode";
@@ -338,7 +305,7 @@ class Util {
 		$host_name = $config->getSystemValueString('mail_domain', $host_name);
 		$defaultEmailAddress = $user_part.'@'.$host_name;
 
-		$mailer = \OC::$server->getMailer();
+		$mailer = \OC::$server->get(IMailer::class);
 		if ($mailer->validateMailAddress($defaultEmailAddress)) {
 			return $defaultEmailAddress;
 		}
@@ -428,7 +395,7 @@ class Util {
 	 */
 	public static function callRegister() {
 		if (self::$token === '') {
-			self::$token = \OC::$server->getCsrfTokenManager()->getToken()->getEncryptedValue();
+			self::$token = \OC::$server->get(CsrfTokenManager::class)->getToken()->getEncryptedValue();
 		}
 		return self::$token;
 	}

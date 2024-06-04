@@ -1,4 +1,8 @@
 /* eslint-disable camelcase */
+/**
+ * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
 const { VueLoaderPlugin } = require('vue-loader')
 const path = require('path')
 const BabelLoaderExcludeNodeModulesExcept = require('babel-loader-exclude-node-modules-except')
@@ -143,6 +147,26 @@ module.exports = {
 	},
 
 	optimization: {
+		minimizer: [{
+			apply: (compiler) => {
+				// Lazy load the Terser plugin
+				const TerserPlugin = require('terser-webpack-plugin')
+				new TerserPlugin({
+					extractComments: {
+						condition: /^\**!|@license|@copyright|SPDX-License-Identifier|SPDX-FileCopyrightText/i,
+						filename: (fileData) => {
+						  // The "fileData" argument contains object with "filename", "basename", "query" and "hash"
+						  return `${fileData.filename}.license${fileData.query}`
+						},
+					},
+					terserOptions: {
+						compress: {
+							passes: 2,
+						},
+					},
+			  }).apply(compiler)
+			},
+		}],
 		splitChunks: {
 			automaticNameDelimiter: '-',
 			minChunks: 3, // minimum number of chunks that must share the module
@@ -167,12 +191,6 @@ module.exports = {
 			// We need to provide the path to node_moduels as otherwise npm link will fail due
 			// to tribute.js checking for jQuery in @nextcloud/vue
 			jQuery: path.resolve(path.join(__dirname, 'node_modules/jquery')),
-
-			// Shim ICAL to prevent using the global object (window.ICAL).
-			// The library ical.js heavily depends on instanceof checks which will
-			// break if two separate versions of the library are used (e.g. bundled one
-			// and global one).
-			ICAL: 'ical.js',
 		}),
 
 		new WorkboxPlugin.GenerateSW({

@@ -1,23 +1,6 @@
 /**
- * @copyright 2021, Christopher Ng <chrng8@gmail.com>
- *
- * @author Christopher Ng <chrng8@gmail.com>
- *
- * @license AGPL-3.0-or-later
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 import Vue from 'vue'
@@ -42,6 +25,7 @@ import RoleSection from './components/PersonalInfo/RoleSection.vue'
 import HeadlineSection from './components/PersonalInfo/HeadlineSection.vue'
 import BiographySection from './components/PersonalInfo/BiographySection.vue'
 import ProfileVisibilitySection from './components/PersonalInfo/ProfileVisibilitySection/ProfileVisibilitySection.vue'
+import BirthdaySection from './components/PersonalInfo/BirthdaySection.vue'
 
 __webpack_nonce__ = btoa(getRequestToken())
 
@@ -64,6 +48,7 @@ const TwitterView = Vue.extend(TwitterSection)
 const FediverseView = Vue.extend(FediverseSection)
 const LanguageView = Vue.extend(LanguageSection)
 const LocaleView = Vue.extend(LocaleSection)
+const BirthdayView = Vue.extend(BirthdaySection)
 
 new AvatarView().$mount('#vue-avatar-section')
 new DetailsView().$mount('#vue-details-section')
@@ -76,6 +61,7 @@ new TwitterView().$mount('#vue-twitter-section')
 new FediverseView().$mount('#vue-fediverse-section')
 new LanguageView().$mount('#vue-language-section')
 new LocaleView().$mount('#vue-locale-section')
+new BirthdayView().$mount('#vue-birthday-section')
 
 if (profileEnabledGlobally) {
 	const ProfileView = Vue.extend(ProfileSection)

@@ -1,24 +1,7 @@
 <!--
-  - @copyright Copyright (c) 2023 John Molakvoæ <skjnldsv@protonmail.com>
-  -
-  - @author John Molakvoæ <skjnldsv@protonmail.com>
-  -
-  - @license GNU AGPL version 3 or any later version
-  -
-  - This program is free software: you can redistribute it and/or modify
-  - it under the terms of the GNU Affero General Public License as
-  - published by the Free Software Foundation, either version 3 of the
-  - License, or (at your option) any later version.
-  -
-  - This program is distributed in the hope that it will be useful,
-  - but WITHOUT ANY WARRANTY; without even the implied warranty of
-  - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  - GNU Affero General Public License for more details.
-  -
-  - You should have received a copy of the GNU Affero General Public License
-  - along with this program. If not, see <http://www.gnu.org/licenses/>.
-  -
-  -->
+  - SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 <template>
 	<tr>
 		<th class="files-list__row-checkbox">
@@ -58,20 +41,24 @@
 </template>
 
 <script lang="ts">
-import { formatFileSize } from '@nextcloud/files'
+import type { Node } from '@nextcloud/files'
+import type { PropType } from 'vue'
+
+import { View, formatFileSize } from '@nextcloud/files'
 import { translate } from '@nextcloud/l10n'
-import Vue from 'vue'
+import { defineComponent } from 'vue'
 
 import { useFilesStore } from '../store/files.ts'
 import { usePathsStore } from '../store/paths.ts'
 
-export default Vue.extend({
+export default defineComponent({
 	name: 'FilesListTableFooter',
 
-	components: {
-	},
-
 	props: {
+		currentView: {
+			type: View,
+			required: true,
+		},
 		isMtimeAvailable: {
 			type: Boolean,
 			default: false,
@@ -81,7 +68,7 @@ export default Vue.extend({
 			default: false,
 		},
 		nodes: {
-			type: Array,
+			type: Array as PropType<Node[]>,
 			required: true,
 		},
 		summary: {
@@ -104,10 +91,6 @@ export default Vue.extend({
 	},
 
 	computed: {
-		currentView() {
-			return this.$navigation.active
-		},
-
 		dir() {
 			// Remove any trailing slash but leave root slash
 			return (this.$route?.query?.dir || '/').replace(/^(.+)\/$/, '$1')
@@ -121,7 +104,7 @@ export default Vue.extend({
 			if (this.dir === '/') {
 				return this.filesStore.getRoot(this.currentView.id)
 			}
-			const fileId = this.pathsStore.getPath(this.currentView.id, this.dir)
+			const fileId = this.pathsStore.getPath(this.currentView.id, this.dir)!
 			return this.filesStore.getNode(fileId)
 		},
 
@@ -140,7 +123,7 @@ export default Vue.extend({
 			}
 
 			// Otherwise let's compute it
-			return formatFileSize(this.nodes.reduce((total, node) => total + node.size || 0, 0), true)
+			return formatFileSize(this.nodes.reduce((total, node) => total + (node.size ?? 0), 0), true)
 		},
 	},
 

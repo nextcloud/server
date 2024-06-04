@@ -1,33 +1,9 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Christopher Schäpers <kondou@ts.unde.re>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin McCorkell <robin@mccorkell.me.uk>
- * @author Roger Szabo <roger.szabo@web.de>
- * @author root <root@localhost.localdomain>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Vinicius Cubas Brand <vinicius@eita.org.br>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\User_LDAP;
 
@@ -97,7 +73,7 @@ class User_Proxy extends Proxy implements IUserBackend, UserInterface, IUserLDAP
 			);
 
 			if (is_null($this->refBackend)) {
-				$this->refBackend = &$this->backends[$configPrefix];
+				$this->refBackend = $this->backends[$configPrefix];
 			}
 		}
 
@@ -438,7 +414,7 @@ class User_Proxy extends Proxy implements IUserBackend, UserInterface, IUserLDAP
 	 * The connection needs to be closed manually.
 	 *
 	 * @param string $uid
-	 * @return resource|\LDAP\Connection The LDAP connection
+	 * @return \LDAP\Connection The LDAP connection
 	 */
 	public function getNewLDAPConnection($uid) {
 		return $this->handleRequest($uid, 'getNewLDAPConnection', [$uid]);
@@ -463,11 +439,22 @@ class User_Proxy extends Proxy implements IUserBackend, UserInterface, IUserLDAP
 		return $this->handleRequest($uid, 'setUserEnabled', [$uid, $enabled, $queryDatabaseValue, $setDatabaseValue]);
 	}
 
-	public function getDisabledUserList(?int $limit = null, int $offset = 0): array {
+	public function getDisabledUserList(?int $limit = null, int $offset = 0, string $search = ''): array {
+		$disabledUsers = $this->deletedUsersIndex->getUsers();
+		if ($search !== '') {
+			$disabledUsers = array_filter(
+				$disabledUsers,
+				fn (OfflineUser $user): bool =>
+					mb_stripos($user->getOCName(), $search) !== false ||
+					mb_stripos($user->getUID(), $search) !== false ||
+					mb_stripos($user->getDisplayName(), $search) !== false ||
+					mb_stripos($user->getEmail(), $search) !== false,
+			);
+		}
 		return array_map(
 			fn (OfflineUser $user) => $user->getOCName(),
 			array_slice(
-				$this->deletedUsersIndex->getUsers(),
+				$disabledUsers,
 				$offset,
 				$limit
 			)

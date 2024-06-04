@@ -3,10 +3,9 @@
 declare(strict_types=1);
 
 /**
- * Copyright (c) 2014 Robin Appelman <icewind@owncloud.com>
- * This file is licensed under the Affero General Public License version 3 or
- * later.
- * See the COPYING-README file.
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace Test\App;
@@ -99,7 +98,7 @@ class AppManagerTest extends TestCase {
 	/** @var LoggerInterface|MockObject */
 	protected $logger;
 
-	protected IURLGenerator|MockObject $urlGenerator;
+	protected IURLGenerator&MockObject $urlGenerator;
 
 	/** @var IAppManager */
 	protected $manager;
@@ -116,31 +115,43 @@ class AppManagerTest extends TestCase {
 		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
+
+		$this->overwriteService(AppConfig::class, $this->appConfig);
+		$this->overwriteService(IURLGenerator::class, $this->urlGenerator);
+
 		$this->cacheFactory->expects($this->any())
 			->method('createDistributed')
 			->with('settings')
 			->willReturn($this->cache);
+
+		$this->config
+			->method('getSystemValueBool')
+			->with('installed', false)
+			->willReturn(true);
+
 		$this->manager = new AppManager(
 			$this->userSession,
 			$this->config,
-			$this->appConfig,
 			$this->groupManager,
 			$this->cacheFactory,
 			$this->eventDispatcher,
 			$this->logger,
-			$this->urlGenerator,
 		);
 	}
 
 	/**
 	 * @dataProvider dataGetAppIcon
 	 */
-	public function testGetAppIcon($callback, string|null $expected) {
+	public function testGetAppIcon($callback, ?bool $dark, string|null $expected) {
 		$this->urlGenerator->expects($this->atLeastOnce())
 			->method('imagePath')
 			->willReturnCallback($callback);
 
-		$this->assertEquals($expected, $this->manager->getAppIcon('test'));
+		if ($dark !== null) {
+			$this->assertEquals($expected, $this->manager->getAppIcon('test', $dark));
+		} else {
+			$this->assertEquals($expected, $this->manager->getAppIcon('test'));
+		}
 	}
 
 	public function dataGetAppIcon(): array {
@@ -162,35 +173,58 @@ class AppManagerTest extends TestCase {
 		return [
 			'does not find anything' => [
 				$nothing,
+				false,
 				null,
 			],
-			'only app.svg' => [
+			'nothing if request dark but only bright available' => [
 				$createCallback(['app.svg']),
+				true,
+				null,
+			],
+			'nothing if request bright but only dark available' => [
+				$createCallback(['app-dark.svg']),
+				false,
+				null,
+			],
+			'bright and only app.svg' => [
+				$createCallback(['app.svg']),
+				false,
 				'/path/app.svg',
 			],
-			'only app-dark.svg' => [
+			'dark and only app-dark.svg' => [
 				$createCallback(['app-dark.svg']),
+				true,
 				'/path/app-dark.svg',
 			],
-			'only appname -dark.svg' => [
+			'dark only appname -dark.svg' => [
 				$createCallback(['test-dark.svg']),
+				true,
 				'/path/test-dark.svg',
 			],
-			'only appname.svg' => [
+			'bright and only appname.svg' => [
 				$createCallback(['test.svg']),
+				false,
 				'/path/test.svg',
 			],
 			'priotize custom over default' => [
 				$createCallback(['app.svg', 'test.svg']),
+				false,
 				'/path/test.svg',
 			],
-			'priotize default over dark' => [
-				$createCallback(['test-dark.svg', 'app-dark.svg', 'app.svg']),
-				'/path/app.svg',
-			],
-			'priotize custom over default' => [
-				$createCallback(['test.svg', 'test-dark.svg', 'app-dark.svg']),
+			'defaults to bright' => [
+				$createCallback(['test-dark.svg', 'test.svg']),
+				null,
 				'/path/test.svg',
+			],
+			'no dark icon on default' => [
+				$createCallback(['test-dark.svg', 'test.svg', 'app-dark.svg', 'app.svg']),
+				false,
+				'/path/test.svg',
+			],
+			'no bright icon on dark' => [
+				$createCallback(['test-dark.svg', 'test.svg', 'app-dark.svg', 'app.svg']),
+				true,
+				'/path/test-dark.svg',
 			],
 		];
 	}
@@ -240,12 +274,10 @@ class AppManagerTest extends TestCase {
 			->setConstructorArgs([
 				$this->userSession,
 				$this->config,
-				$this->appConfig,
 				$this->groupManager,
 				$this->cacheFactory,
 				$this->eventDispatcher,
 				$this->logger,
-				$this->urlGenerator,
 			])
 			->onlyMethods([
 				'getAppPath',
@@ -295,12 +327,10 @@ class AppManagerTest extends TestCase {
 			->setConstructorArgs([
 				$this->userSession,
 				$this->config,
-				$this->appConfig,
 				$this->groupManager,
 				$this->cacheFactory,
 				$this->eventDispatcher,
 				$this->logger,
-				$this->urlGenerator,
 			])
 			->onlyMethods([
 				'getAppPath',
@@ -358,12 +388,10 @@ class AppManagerTest extends TestCase {
 			->setConstructorArgs([
 				$this->userSession,
 				$this->config,
-				$this->appConfig,
 				$this->groupManager,
 				$this->cacheFactory,
 				$this->eventDispatcher,
 				$this->logger,
-				$this->urlGenerator,
 			])
 			->onlyMethods([
 				'getAppPath',
@@ -562,12 +590,10 @@ class AppManagerTest extends TestCase {
 			->setConstructorArgs([
 				$this->userSession,
 				$this->config,
-				$this->appConfig,
 				$this->groupManager,
 				$this->cacheFactory,
 				$this->eventDispatcher,
 				$this->logger,
-				$this->urlGenerator,
 			])
 			->onlyMethods(['getAppInfo'])
 			->getMock();
@@ -622,12 +648,10 @@ class AppManagerTest extends TestCase {
 			->setConstructorArgs([
 				$this->userSession,
 				$this->config,
-				$this->appConfig,
 				$this->groupManager,
 				$this->cacheFactory,
 				$this->eventDispatcher,
 				$this->logger,
-				$this->urlGenerator,
 			])
 			->onlyMethods(['getAppInfo'])
 			->getMock();

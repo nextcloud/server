@@ -73,9 +73,9 @@ OC.L10N.register(
     "Disable user theming" : "停用使用者佈景主題",
     "Although you can select and customize your instance, users can change their background and colors. If you want to enforce your customization, you can toggle this on." : "雖然您可以選取並自訂您的站台，但使用者仍可以變更他們自己的背景與顏色。若您想要強制執行您的自訂，您可以將其開啟。",
     "Appearance and accessibility settings" : "外觀與無障礙存取設定",
-    "Background" : "背景圖片",
+    "Background and color" : "背景與色彩",
     "Customization has been disabled by your administrator" : "您的管理員已停用自訂",
-    "Set a custom background" : "設定自訂背景",
+    "The background can be set to an image from the default set, a custom uploaded image, or a plain color. The primary color will automatically be adapted based on this and used for elements like folder icons, primary buttons and highlights." : "背景可以設定為預設集中的影像、自訂上傳的影像或純色。主要色彩將會根據此設定自動調整並用於資料夾圖示、主要按鈕與突顯等元素。",
     "Keyboard shortcuts" : "鍵盤快捷鍵",
     "In some cases keyboard shortcuts can interfere with accessibility tools. In order to allow focusing on your tool correctly you can disable all keyboard shortcuts here. This will also disable all available shortcuts in apps." : "在某些情況下，鍵盤快捷鍵可能會干擾無障礙工具。為了可以正確地將焦點置於您的工具，您可以在此處停用所有鍵盤快捷鍵。這也會停用應用程式中的所有可用的快捷鍵。",
     "Disable all keyboard shortcuts" : "停用所有鍵盤快捷鍵",
@@ -110,8 +110,8 @@ OC.L10N.register(
     "Reset to default" : "恢復預設值",
     "Upload" : "上傳",
     "Remove background image" : "移除背景圖片",
-    "Failed to clean up the old administration theming images folder" : "無法清除舊的管理佈景主題影像資料夾",
-    "Failed to clean up the old administration image folder" : "清除舊的管理影像資料夾失敗",
+    "Background" : "背景圖片",
+    "Set a custom background" : "設定自訂背景",
     "Select a custom color" : "選取自訂色彩"
 },
 "nplurals=1; plural=0;");

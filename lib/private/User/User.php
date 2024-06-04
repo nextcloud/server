@@ -1,36 +1,9 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Bart Visscher <bartv@thisnet.nl>
- * @author Björn Schießle <bjoern@schiessle.org>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- * @author Jörn Friedrich Dreyer <jfd@butonic.de>
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Leon Klingele <leon@struktur.de>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OC\User;
 
@@ -40,6 +13,7 @@ use OC\Avatar\AvatarManager;
 use OC\Hooks\Emitter;
 use OC_Helper;
 use OCP\Accounts\IAccountManager;
+use OCP\Comments\ICommentsManager;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Group\Events\BeforeUserRemovedEvent;
 use OCP\Group\Events\UserRemovedEvent;
@@ -49,6 +23,7 @@ use OCP\IImage;
 use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserBackend;
+use OCP\Notification\IManager as INotificationManager;
 use OCP\User\Backend\IGetHomeBackend;
 use OCP\User\Backend\IProvideAvatarBackend;
 use OCP\User\Backend\IProvideEnabledStateBackend;
@@ -102,7 +77,7 @@ class User implements IUser {
 	/** @var IURLGenerator */
 	private $urlGenerator;
 
-	public function __construct(string $uid, ?UserInterface $backend, IEventDispatcher $dispatcher, $emitter = null, IConfig $config = null, $urlGenerator = null) {
+	public function __construct(string $uid, ?UserInterface $backend, IEventDispatcher $dispatcher, $emitter = null, ?IConfig $config = null, $urlGenerator = null) {
 		$this->uid = $uid;
 		$this->backend = $backend;
 		$this->emitter = $emitter;
@@ -290,16 +265,16 @@ class User implements IUser {
 			// Delete the user's keys in preferences
 			\OC::$server->getConfig()->deleteAllUserValues($this->uid);
 
-			\OC::$server->getCommentsManager()->deleteReferencesOfActor('users', $this->uid);
-			\OC::$server->getCommentsManager()->deleteReadMarksFromUser($this);
+			\OC::$server->get(ICommentsManager::class)->deleteReferencesOfActor('users', $this->uid);
+			\OC::$server->get(ICommentsManager::class)->deleteReadMarksFromUser($this);
 
 			/** @var AvatarManager $avatarManager */
 			$avatarManager = \OCP\Server::get(AvatarManager::class);
 			$avatarManager->deleteUserAvatar($this->uid);
 
-			$notification = \OC::$server->getNotificationManager()->createNotification();
+			$notification = \OC::$server->get(INotificationManager::class)->createNotification();
 			$notification->setUser($this->uid);
-			\OC::$server->getNotificationManager()->markProcessed($notification);
+			\OC::$server->get(INotificationManager::class)->markProcessed($notification);
 
 			/** @var AccountManager $accountManager */
 			$accountManager = \OCP\Server::get(AccountManager::class);

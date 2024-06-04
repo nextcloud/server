@@ -1,27 +1,9 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Vincent Petry <vincent@nextcloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\DAV\Tests\unit\SystemTag;
 
@@ -87,6 +69,15 @@ class SystemTagsObjectTypeCollectionTest extends \Test\TestCase {
 			$node = $userFolder->getFirstNodeById(intval($name));
 			return $node !== null;
 		};
+		$writeAccessClosure = function ($name) use ($userFolder) {
+			$nodes = $userFolder->getById((int)$name);
+			foreach ($nodes as $node) {
+				if (($node->getPermissions() & Constants::PERMISSION_UPDATE) === Constants::PERMISSION_UPDATE) {
+					return true;
+				}
+			}
+			return false;
+		};
 
 		$this->node = new \OCA\DAV\SystemTag\SystemTagsObjectTypeCollection(
 			'files',
@@ -94,7 +85,8 @@ class SystemTagsObjectTypeCollectionTest extends \Test\TestCase {
 			$this->tagMapper,
 			$userSession,
 			$groupManager,
-			$closure
+			$closure,
+			$writeAccessClosure,
 		);
 	}
 

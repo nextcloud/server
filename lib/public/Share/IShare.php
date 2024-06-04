@@ -1,30 +1,9 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Bjoern Schiessle <bjoern@schiessle.org>
- * @author Daniel Calviño Sánchez <danxuliu@gmail.com>
- * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Maxence Lange <maxence@nextcloud.com>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCP\Share;
 
@@ -385,19 +364,37 @@ interface IShare {
 	/**
 	 * Set the expiration date
 	 *
-	 * @param null|\DateTime $expireDate
+	 * @param \DateTime|null $expireDate
 	 * @return \OCP\Share\IShare The modified object
 	 * @since 9.0.0
 	 */
-	public function setExpirationDate($expireDate);
+	public function setExpirationDate(\DateTime|null $expireDate);
 
 	/**
 	 * Get the expiration date
 	 *
-	 * @return null|\DateTime
+	 * @return \DateTime|null
 	 * @since 9.0.0
 	 */
 	public function getExpirationDate();
+
+	/**
+	 * Set overwrite flag for falsy expiry date vavlues
+	 *
+	 * @param bool $noExpirationDate
+	 * @return \OCP\Share\IShare The modified object
+	 * @since 30.0.0
+	 */
+	public function setNoExpirationDate(bool $noExpirationDate);
+
+
+	/**
+	 * Get value of overwrite falsy expiry date flag
+	 *
+	 * @return bool
+	 * @since 30.0.0
+	 */
+	public function getNoExpirationDate();
 
 	/**
 	 * Is the share expired ?
@@ -587,6 +584,7 @@ interface IShare {
 	 * Set the cache entry for the shared node
 	 *
 	 * @param ICacheEntry $entry
+	 * @return void
 	 * @since 11.0.0
 	 */
 	public function setNodeCacheEntry(ICacheEntry $entry);

@@ -22,7 +22,7 @@
 import { action } from './restoreShareAction'
 import { expect } from '@jest/globals'
 import { File, Permission, View, FileAction } from '@nextcloud/files'
-import * as eventBus from '@nextcloud/event-bus'
+import eventBus from '@nextcloud/event-bus'
 import axios from '@nextcloud/axios'
 import '../main'
 
@@ -35,6 +35,12 @@ const deletedShareView = {
 	id: 'deletedshares',
 	name: 'Deleted shares',
 } as View
+
+// Mock webroot variable
+beforeAll(() => {
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	(window as any)._oc_webroot = ''
+})
 
 describe('Restore share action conditions tests', () => {
 	test('Default values', () => {

@@ -1,6 +1,6 @@
 { "translations": {
     "You created two-factor backup codes for your account" : "Vous avez créé des codes de secours à deux facteurs pour votre compte",
-    "Second-factor backup codes" : "Codes de récupération pour l'authentification en deux étapes",
+    "Second-factor backup codes" : "Codes de récupération pour l’authentification en deux étapes",
     "Generate backup codes" : "Générer des codes de récupération",
     "You enabled two-factor authentication but did not generate backup codes yet. They are needed to restore access to your account in case you lose your second factor." : "Vous avez activé l'authentification en deux étapes mais vous n'avez pas généré de codes de secours. Ils sont nécessaires pour récupérer l'accès à votre compte en cas de perte de votre autre moyen de connexion.",
     "Backup code" : "Code de récupération",

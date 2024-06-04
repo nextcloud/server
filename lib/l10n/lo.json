@@ -4,7 +4,6 @@
     "Files" : "ຟາຍ",
     "seconds ago" : "ວິນາທີຜ່ານມາ",
     "__language_name__" : "ຂີ້ຕົວະ",
-    "Help" : "ການຊ່ວຍເຫຼືອ",
     "Apps" : "ແອັບພລິເຄຊັນ",
     "Settings" : "ການຕັ້ງຄ່າ",
     "Log out" : "ອອກຈາກລະບົບ",
@@ -15,7 +14,7 @@
     "Address" : "ທີ່ຢູ່",
     "About" : "ກ່ຽວກັບ",
     "Role" : "ພາລະບົດບາດ",
-    "Full name" : "ຊື່ເຕັມ",
+    "Help" : "ການຊ່ວຍເຫຼືອ",
     "User disabled" : "ປິດຊື່ຜູ້ໃຊ້"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

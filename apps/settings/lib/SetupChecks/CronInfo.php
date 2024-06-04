@@ -3,29 +3,13 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2023 Côme Chilliet <come.chilliet@nextcloud.com>
- *
- * @author Côme Chilliet <come.chilliet@nextcloud.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace OCA\Settings\SetupChecks;
 
+use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IDateTimeFormatter;
 use OCP\IL10N;
@@ -37,6 +21,7 @@ class CronInfo implements ISetupCheck {
 	public function __construct(
 		private IL10N $l10n,
 		private IConfig $config,
+		private IAppConfig $appConfig,
 		private IURLGenerator $urlGenerator,
 		private IDateTimeFormatter $dateTimeFormatter,
 	) {
@@ -51,7 +36,7 @@ class CronInfo implements ISetupCheck {
 	}
 
 	public function run(): SetupResult {
-		$lastCronRun = (int)$this->config->getAppValue('core', 'lastcron', '0');
+		$lastCronRun = $this->appConfig->getValueInt('core', 'lastcron', 0);
 		$relativeTime = $this->dateTimeFormatter->formatTimeSpan($lastCronRun);
 
 		if ((time() - $lastCronRun) > 3600) {

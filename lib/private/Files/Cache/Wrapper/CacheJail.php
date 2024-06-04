@@ -1,29 +1,9 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Daniel Jagszent <daniel@jagszent.de>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Robin McCorkell <robin@mccorkell.me.uk>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OC\Files\Cache\Wrapper;
 
@@ -50,7 +30,7 @@ class CacheJail extends CacheWrapper {
 	public function __construct(
 		?ICache $cache,
 		string $root,
-		CacheDependencies $dependencies = null,
+		?CacheDependencies $dependencies = null,
 	) {
 		parent::__construct($cache, $dependencies);
 		$this->root = $root;
@@ -88,7 +68,7 @@ class CacheJail extends CacheWrapper {
 	 * @param null|string $root
 	 * @return null|string the jailed path or null if the path is outside the jail
 	 */
-	protected function getJailedPath(string $path, string $root = null) {
+	protected function getJailedPath(string $path, ?string $root = null) {
 		if ($root === null) {
 			$root = $this->getRoot();
 		}

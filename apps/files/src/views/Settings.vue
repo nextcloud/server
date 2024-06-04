@@ -1,24 +1,7 @@
 <!--
-  - @copyright Copyright (c) 2023 John Molakvoæ <skjnldsv@protonmail.com>
-  -
-  - @author John Molakvoæ <skjnldsv@protonmail.com>
-  -
-  - @license GNU AGPL version 3 or any later version
-  -
-  - This program is free software: you can redistribute it and/or modify
-  - it under the terms of the GNU Affero General Public License as
-  - published by the Free Software Foundation, either version 3 of the
-  - License, or (at your option) any later version.
-  -
-  - This program is distributed in the hope that it will be useful,
-  - but WITHOUT ANY WARRANTY; without even the implied warranty of
-  - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  - GNU Affero General Public License for more details.
-  -
-  - You should have received a copy of the GNU Affero General Public License
-  - along with this program. If not, see <http://www.gnu.org/licenses/>.
-  -
-  -->
+  - SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 <template>
 	<NcAppSettingsDialog :open="open"
 		:show-navigation="true"
@@ -26,23 +9,28 @@
 		@update:open="onClose">
 		<!-- Settings API-->
 		<NcAppSettingsSection id="settings" :name="t('files', 'Files settings')">
-			<NcCheckboxRadioSwitch :checked="userConfig.sort_favorites_first"
+			<NcCheckboxRadioSwitch data-cy-files-settings-setting="sort_favorites_first"
+				:checked="userConfig.sort_favorites_first"
 				@update:checked="setConfig('sort_favorites_first', $event)">
 				{{ t('files', 'Sort favorites first') }}
 			</NcCheckboxRadioSwitch>
-			<NcCheckboxRadioSwitch :checked="userConfig.sort_folders_first"
+			<NcCheckboxRadioSwitch data-cy-files-settings-setting="sort_folders_first"
+				:checked="userConfig.sort_folders_first"
 				@update:checked="setConfig('sort_folders_first', $event)">
 				{{ t('files', 'Sort folders before files') }}
 			</NcCheckboxRadioSwitch>
-			<NcCheckboxRadioSwitch :checked="userConfig.show_hidden"
+			<NcCheckboxRadioSwitch data-cy-files-settings-setting="show_hidden"
+				:checked="userConfig.show_hidden"
 				@update:checked="setConfig('show_hidden', $event)">
 				{{ t('files', 'Show hidden files') }}
 			</NcCheckboxRadioSwitch>
-			<NcCheckboxRadioSwitch :checked="userConfig.crop_image_previews"
+			<NcCheckboxRadioSwitch data-cy-files-settings-setting="crop_image_previews"
+				:checked="userConfig.crop_image_previews"
 				@update:checked="setConfig('crop_image_previews', $event)">
 				{{ t('files', 'Crop image previews') }}
 			</NcCheckboxRadioSwitch>
 			<NcCheckboxRadioSwitch v-if="enableGridView"
+				data-cy-files-settings-setting="grid_view"
 				:checked="userConfig.grid_view"
 				@update:checked="setConfig('grid_view', $event)">
 				{{ t('files', 'Enable the grid view') }}

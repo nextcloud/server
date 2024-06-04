@@ -1,25 +1,7 @@
 /**
- * @copyright Copyright (c) 2023 John Molakvoæ <skjnldsv@protonmail.com>
- *
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- *
- * @license AGPL-3.0-or-later
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import '@nextcloud/dialogs/style.css'
 import type { Folder, Node, View } from '@nextcloud/files'
 import type { IFilePickerButton } from '@nextcloud/dialogs'
 import type { FileStat, ResponseDataDetailed } from 'webdav'
@@ -120,7 +102,14 @@ export const handleCopyMoveNodeTo = async (node: Node, destination: Folder, meth
 				// If we do not allow overwriting then find an unique name
 				if (!overwrite) {
 					const otherNodes = await client.getDirectoryContents(destinationPath) as FileStat[]
-					target = getUniqueName(node.basename, otherNodes.map((n) => n.basename), copySuffix)
+					target = getUniqueName(
+						node.basename,
+						otherNodes.map((n) => n.basename),
+						{
+							suffix: copySuffix,
+							ignoreFileExtension: node.type === FileType.Folder,
+						},
+					)
 				}
 				await client.copyFile(currentPath, join(destinationPath, target))
 				// If the node is copied into current directory the view needs to be updated
@@ -150,7 +139,7 @@ export const handleCopyMoveNodeTo = async (node: Node, destination: Folder, meth
 						}
 					} catch (error) {
 						// User cancelled
-						showError(t('files','Move cancelled'))
+						showError(t('files', 'Move cancelled'))
 						return
 					}
 				}
@@ -212,7 +201,7 @@ const openFilePickerForAction = async (action: MoveCopyAction, dir = '/', nodes:
 
 			if (action === MoveCopyAction.COPY || action === MoveCopyAction.MOVE_OR_COPY) {
 				buttons.push({
-					label: target ? t('files', 'Copy to {target}', { target }) : t('files', 'Copy'),
+					label: target ? t('files', 'Copy to {target}', { target }, undefined, { escape: false, sanitize: false }) : t('files', 'Copy'),
 					type: 'primary',
 					icon: CopyIconSvg,
 					async callback(destination: Node[]) {
@@ -237,7 +226,7 @@ const openFilePickerForAction = async (action: MoveCopyAction, dir = '/', nodes:
 
 			if (action === MoveCopyAction.MOVE || action === MoveCopyAction.MOVE_OR_COPY) {
 				buttons.push({
-					label: target ? t('files', 'Move to {target}', { target }) : t('files', 'Move'),
+					label: target ? t('files', 'Move to {target}', { target }, undefined, { escape: false, sanitize: false }) : t('files', 'Move'),
 					type: action === MoveCopyAction.MOVE ? 'primary' : 'secondary',
 					icon: FolderMoveSvg,
 					async callback(destination: Node[]) {

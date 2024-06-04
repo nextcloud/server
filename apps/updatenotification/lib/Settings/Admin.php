@@ -3,29 +3,8 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Vincent Petry <vincent@nextcloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\UpdateNotification\Settings;
 
@@ -33,6 +12,7 @@ use OC\User\Backend;
 use OCA\UpdateNotification\UpdateChecker;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
+use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IDateTimeFormatter;
 use OCP\IGroupManager;
@@ -45,40 +25,22 @@ use OCP\Util;
 use Psr\Log\LoggerInterface;
 
 class Admin implements ISettings {
-	private IConfig $config;
-	private UpdateChecker $updateChecker;
-	private IGroupManager $groupManager;
-	private IDateTimeFormatter $dateTimeFormatter;
-	private IFactory $l10nFactory;
-	private IRegistry $subscriptionRegistry;
-	private IUserManager $userManager;
-	private LoggerInterface $logger;
-	private IInitialState $initialState;
-
 	public function __construct(
-		IConfig $config,
-		UpdateChecker $updateChecker,
-		IGroupManager $groupManager,
-		IDateTimeFormatter $dateTimeFormatter,
-		IFactory $l10nFactory,
-		IRegistry $subscriptionRegistry,
-		IUserManager $userManager,
-		LoggerInterface $logger,
-		IInitialState $initialState
+		private IConfig $config,
+		private IAppConfig $appConfig,
+		private UpdateChecker $updateChecker,
+		private IGroupManager $groupManager,
+		private IDateTimeFormatter $dateTimeFormatter,
+		private IFactory $l10nFactory,
+		private IRegistry $subscriptionRegistry,
+		private IUserManager $userManager,
+		private LoggerInterface $logger,
+		private IInitialState $initialState
 	) {
-		$this->config = $config;
-		$this->updateChecker = $updateChecker;
-		$this->groupManager = $groupManager;
-		$this->dateTimeFormatter = $dateTimeFormatter;
-		$this->l10nFactory = $l10nFactory;
-		$this->subscriptionRegistry = $subscriptionRegistry;
-		$this->userManager = $userManager;
-		$this->logger = $logger;
-		$this->initialState = $initialState;
 	}
 
 	public function getForm(): TemplateResponse {
-		$lastUpdateCheckTimestamp = (int)$this->config->getAppValue('core', 'lastupdatedat');
+		$lastUpdateCheckTimestamp = $this->appConfig->getValueInt('core', 'lastupdatedat');
 		$lastUpdateCheck = $this->dateTimeFormatter->formatDateTime($lastUpdateCheckTimestamp);
 
 		$channels = [

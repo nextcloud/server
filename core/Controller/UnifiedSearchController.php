@@ -3,28 +3,8 @@
 declare(strict_types=1);
 
 /**
- * @copyright 2020 Christoph Wurst <christoph@winzerhof-wurst.at>
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- * @author Kate Döen <kate.doeen@nextcloud.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OC\Core\Controller;
 
@@ -92,7 +72,7 @@ class UnifiedSearchController extends OCSController {
 	 * @param string $providerId ID of the provider
 	 * @param string $term Term to search
 	 * @param int|null $sortOrder Order of entries
-	 * @param int|null $limit Maximum amount of entries
+	 * @param int|null $limit Maximum amount of entries, limited to 25
 	 * @param int|string|null $cursor Offset for searching
 	 * @param string $from The current user URL
 	 *
@@ -113,6 +93,9 @@ class UnifiedSearchController extends OCSController {
 	): DataResponse {
 		[$route, $routeParameters] = $this->getRouteInformation($from);
 
+		$limit ??= SearchQuery::LIMIT_DEFAULT;
+		$limit = max(1, min($limit, 25));
+
 		try {
 			$filters = $this->composer->buildFilterList($providerId, $this->request->getParams());
 		} catch (UnsupportedFilter|InvalidArgumentException $e) {
@@ -125,7 +108,7 @@ class UnifiedSearchController extends OCSController {
 				new SearchQuery(
 					$filters,
 					$sortOrder ?? ISearchQuery::SORT_DATE_DESC,
-					$limit ?? SearchQuery::LIMIT_DEFAULT,
+					$limit,
 					$cursor,
 					$route,
 					$routeParameters

@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+# SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
 for path in core apps/*; do
 	if [ ! -f "$path/.noopenapi" ] && [[ "$(git check-ignore "$path")" != "$path" ]]; then
 		composer exec generate-spec "$path" "$path/openapi.json" || exit 1

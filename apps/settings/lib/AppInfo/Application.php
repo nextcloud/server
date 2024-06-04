@@ -1,36 +1,10 @@
 <?php
 
 declare(strict_types=1);
-
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Björn Schießle <bjoern@schiessle.org>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Daniel Kesselberg <mail@danielkesselberg.de>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author zulan <git@zulan.net>
- * @author Stephan Orbaugh <stephan.orbaugh@nextcloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2019-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\Settings\AppInfo;
 
@@ -86,6 +60,8 @@ use OCA\Settings\SetupChecks\PhpOutputBuffering;
 use OCA\Settings\SetupChecks\PushService;
 use OCA\Settings\SetupChecks\RandomnessSecure;
 use OCA\Settings\SetupChecks\ReadOnlyConfig;
+use OCA\Settings\SetupChecks\SchedulingTableSize;
+use OCA\Settings\SetupChecks\SecurityHeaders;
 use OCA\Settings\SetupChecks\SupportedDatabase;
 use OCA\Settings\SetupChecks\SystemIs64bit;
 use OCA\Settings\SetupChecks\TempSpaceAvailable;
@@ -214,6 +190,8 @@ class Application extends App implements IBootstrap {
 		$context->registerSetupCheck(PhpOutputBuffering::class);
 		$context->registerSetupCheck(RandomnessSecure::class);
 		$context->registerSetupCheck(ReadOnlyConfig::class);
+		$context->registerSetupCheck(SecurityHeaders::class);
+		$context->registerSetupCheck(SchedulingTableSize::class);
 		$context->registerSetupCheck(SupportedDatabase::class);
 		$context->registerSetupCheck(SystemIs64bit::class);
 		$context->registerSetupCheck(TempSpaceAvailable::class);

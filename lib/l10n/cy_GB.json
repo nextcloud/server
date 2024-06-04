@@ -5,7 +5,6 @@
     "last month" : "mis diwethaf",
     "last year" : "y llynedd",
     "seconds ago" : "eiliad yn ôl",
-    "Help" : "Cymorth",
     "Apps" : "Pecynnau",
     "Settings" : "Gosodiadau",
     "Log out" : "Allgofnodi",
@@ -61,7 +60,7 @@
     "Application is not enabled" : "Nid yw'r pecyn wedi'i alluogi",
     "Authentication error" : "Gwall dilysu",
     "Token expired. Please reload page." : "Tocyn wedi dod i ben. Ail-lwythwch y dudalen.",
-    "Full name" : "Enw llawn",
+    "Help" : "Cymorth",
     "Oracle username and/or password not valid" : "Enw a/neu gyfrinair Oracle annilys",
     "PostgreSQL username and/or password not valid" : "Enw a/neu gyfrinair PostgreSQL annilys",
     "Set an admin username." : "Creu enw defnyddiwr i'r gweinyddwr."

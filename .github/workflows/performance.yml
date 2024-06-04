@@ -1,3 +1,5 @@
+# SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
+# SPDX-License-Identifier: MIT
 name: Performance testing
 on:
   pull_request:
@@ -15,13 +17,13 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php-versions: ['8.0']
+        php-versions: ['8.1']
 
     name: performance-${{ matrix.php-versions }}
 
     steps:
       - name: Checkout server before PR
-        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
+        uses: actions/checkout@a5ac7e51b41094c92402da3b24376905380afc29
         with:
           submodules: true
           ref: ${{ github.event.pull_request.base.ref }}
@@ -83,7 +85,7 @@ jobs:
 
       - name: Upload profiles
         if: always()
-        uses: actions/upload-artifact@5d5d22a31266ced268874388b861e4b58bb5c2f3
+        uses: actions/upload-artifact@65462800fd760344b1a7b4382951275a0abb4808
         with:
           name: profiles
           path: |

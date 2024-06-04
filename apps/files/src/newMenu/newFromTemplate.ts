@@ -1,25 +1,6 @@
 /**
- * @copyright Copyright (c) 2020 John Molakvoæ <skjnldsv@protonmail.com>
- *
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Ferdinand Thiessen <opensource@fthiessen.de>
- *
- * @license AGPL-3.0-or-later
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 import type { Entry } from '@nextcloud/files'
@@ -36,7 +17,7 @@ import Vue, { defineAsyncComponent } from 'vue'
 const TemplatePickerVue = defineAsyncComponent(() => import('../views/TemplatePicker.vue'))
 let TemplatePicker: ComponentInstance & { open: (n: string, t: TemplateFile) => void } | null = null
 
-const getTemplatePicker = async () => {
+const getTemplatePicker = async (context: Folder) => {
 	if (TemplatePicker === null) {
 		// Create document root
 		const mountingPoint = document.createElement('div')
@@ -45,7 +26,15 @@ const getTemplatePicker = async () => {
 
 		// Init vue app
 		TemplatePicker = new Vue({
-			render: (h) => h(TemplatePickerVue, { ref: 'picker' }),
+			render: (h) => h(
+				TemplatePickerVue,
+				{
+					ref: 'picker',
+					props: {
+						parent: context,
+					},
+				},
+			),
 			methods: { open(...args) { this.$refs.picker.open(...args) } },
 			el: mountingPoint,
 		})
@@ -64,14 +53,14 @@ export function registerTemplateEntries() {
 		addNewFileMenuEntry({
 			id: `template-new-${provider.app}-${index}`,
 			displayName: provider.label,
-			// TODO: migrate to inline svg
 			iconClass: provider.iconClass || 'icon-file',
+			iconSvgInline: provider.iconSvgInline,
 			enabled(context: Folder): boolean {
 				return (context.permissions & Permission.CREATE) !== 0
 			},
 			order: 11,
 			async handler(context: Folder, content: Node[]) {
-				const templatePicker = getTemplatePicker()
+				const templatePicker = getTemplatePicker(context)
 				const name = await newNodeName(`${provider.label}${provider.extension}`, content, {
 					label: t('files', 'Filename'),
 					name: provider.label,

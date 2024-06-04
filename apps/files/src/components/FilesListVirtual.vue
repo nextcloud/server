@@ -1,24 +1,7 @@
 <!--
-  - @copyright Copyright (c) 2023 John Molakvoæ <skjnldsv@protonmail.com>
-  -
-  - @author John Molakvoæ <skjnldsv@protonmail.com>
-  -
-  - @license AGPL-3.0-or-later
-  -
-  - This program is free software: you can redistribute it and/or modify
-  - it under the terms of the GNU Affero General Public License as
-  - published by the Free Software Foundation, either version 3 of the
-  - License, or (at your option) any later version.
-  -
-  - This program is distributed in the hope that it will be useful,
-  - but WITHOUT ANY WARRANTY; without even the implied warranty of
-  - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  - GNU Affero General Public License for more details.
-  -
-  - You should have received a copy of the GNU Affero General Public License
-  - along with this program. If not, see <http://www.gnu.org/licenses/>.
-  -
-  -->
+  - SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 <template>
 	<VirtualList ref="table"
 		:data-component="userConfig.grid_view ? FileEntryGrid : FileEntry"
@@ -34,6 +17,7 @@
 		:scroll-to-index="scrollToIndex"
 		:caption="caption">
 		<template v-if="!isNoneSelected" #header-overlay>
+			<span class="files-list__selected">{{ t('files', '{count} selected', { count: selectedNodes.length }) }}</span>
 			<FilesListTableHeaderActions :current-view="currentView"
 				:selected-nodes="selectedNodes" />
 		</template>
@@ -59,7 +43,8 @@
 
 		<!-- Tfoot-->
 		<template #footer>
-			<FilesListTableFooter :files-list-width="filesListWidth"
+			<FilesListTableFooter :current-view="currentView"
+				:files-list-width="filesListWidth"
 				:is-mtime-available="isMtimeAvailable"
 				:is-size-available="isSizeAvailable"
 				:nodes="nodes"
@@ -70,13 +55,13 @@
 
 <script lang="ts">
 import type { Node as NcNode } from '@nextcloud/files'
-import type { PropType } from 'vue'
+import type { ComponentPublicInstance, PropType } from 'vue'
 import type { UserConfig } from '../types'
 
 import { getFileListHeaders, Folder, View, getFileActions, FileType } from '@nextcloud/files'
 import { showError } from '@nextcloud/dialogs'
 import { loadState } from '@nextcloud/initial-state'
-import { translate as t, translatePlural as n } from '@nextcloud/l10n'
+import { translate as t } from '@nextcloud/l10n'
 import { defineComponent } from 'vue'
 
 import { action as sidebarAction } from '../actions/sidebarAction.ts'
@@ -176,7 +161,7 @@ export default defineComponent({
 			if (this.filesListWidth < 768) {
 				return false
 			}
-			return this.nodes.some(node => node.attributes.size !== undefined)
+			return this.nodes.some(node => node.size !== undefined)
 		},
 
 		sortedHeaders() {
@@ -296,18 +281,19 @@ export default defineComponent({
 			event.preventDefault()
 			event.stopPropagation()
 
-			const tableTop = this.$refs.table.$el.getBoundingClientRect().top
-			const tableBottom = tableTop + this.$refs.table.$el.getBoundingClientRect().height
+			const tableElement = (this.$refs.table as ComponentPublicInstance<typeof VirtualList>).$el
+			const tableTop = tableElement.getBoundingClientRect().top
+			const tableBottom = tableTop + tableElement.getBoundingClientRect().height
 
 			// If reaching top, scroll up. Using 100 because of the floating header
 			if (event.clientY < tableTop + 100) {
-				this.$refs.table.$el.scrollTop = this.$refs.table.$el.scrollTop - 25
+				tableElement.scrollTop = tableElement.scrollTop - 25
 				return
 			}
 
 			// If reaching bottom, scroll down
 			if (event.clientY > tableBottom - 50) {
-				this.$refs.table.$el.scrollTop = this.$refs.table.$el.scrollTop + 25
+				tableElement.scrollTop = tableElement.scrollTop + 25
 			}
 		},
 
@@ -326,7 +312,6 @@ export default defineComponent({
 	--clickable-area: 44px;
 	--icon-preview-size: 32px;
 
-	position: relative;
 	overflow: auto;
 	height: 100%;
 	will-change: scroll-position;
@@ -356,6 +341,11 @@ export default defineComponent({
 		.files-list__before {
 			display: flex;
 			flex-direction: column;
+		}
+
+		.files-list__selected {
+			padding-right: 12px;
+			white-space: nowrap;
 		}
 
 		.files-list__table {

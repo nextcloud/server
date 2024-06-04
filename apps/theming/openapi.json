@@ -63,6 +63,7 @@
                             "color-element-dark",
                             "logo",
                             "background",
+                            "background-text",
                             "background-plain",
                             "background-default",
                             "logoheader",
@@ -97,6 +98,9 @@
                                 "type": "string"
                             },
                             "background": {
+                                "type": "string"
+                            },
+                            "background-text": {
                                 "type": "string"
                             },
                             "background-plain": {
@@ -691,9 +695,27 @@
                     "400": {
                         "description": "Enabling theme is not possible",
                         "content": {
-                            "text/plain": {
+                            "application/json": {
                                 "schema": {
-                                    "type": "string"
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {}
+                                            }
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -779,9 +801,27 @@
                     "400": {
                         "description": "Disabling theme is not possible",
                         "content": {
-                            "text/plain": {
+                            "application/json": {
                                 "schema": {
-                                    "type": "string"
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {}
+                                            }
+                                        }
+                                    }
                                 }
                             }
                         }

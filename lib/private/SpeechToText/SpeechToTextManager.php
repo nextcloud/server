@@ -3,26 +3,8 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2023 Julius Härtl <jus@bitgrid.net>
- * @copyright Copyright (c) 2023 Marcel Klehr <mklehr@gmx.net>
- *
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Marcel Klehr <mklehr@gmx.net>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 
@@ -109,6 +91,24 @@ class SpeechToTextManager implements ISpeechToTextManager {
 			]);
 		} catch (NotFoundException|InvalidPathException $e) {
 			throw new InvalidArgumentException('Invalid file provided for file transcription: ' . $e->getMessage());
+		}
+	}
+
+	public function cancelScheduledFileTranscription(File $file, ?string $userId, string $appId): void {
+		try {
+			$jobArguments = [
+				'fileId' => $file->getId(),
+				'owner' => $file->getOwner()->getUID(),
+				'userId' => $userId,
+				'appId' => $appId,
+			];
+			if (!$this->jobList->has(TranscriptionJob::class, $jobArguments)) {
+				$this->logger->debug('Failed to cancel a Speech-to-text job for file ' . $file->getId() . '. No related job was found.');
+				return;
+			}
+			$this->jobList->remove(TranscriptionJob::class, $jobArguments);
+		} catch (NotFoundException|InvalidPathException $e) {
+			throw new InvalidArgumentException('Invalid file provided to cancel file transcription: ' . $e->getMessage());
 		}
 	}
 

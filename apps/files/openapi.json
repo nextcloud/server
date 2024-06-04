@@ -151,6 +151,7 @@
                     "label",
                     "extension",
                     "iconClass",
+                    "iconSvgInline",
                     "mimetypes",
                     "ratio",
                     "actionLabel"
@@ -169,6 +170,10 @@
                         "type": "string",
                         "nullable": true
                     },
+                    "iconSvgInline": {
+                        "type": "string",
+                        "nullable": true
+                    },
                     "mimetypes": {
                         "type": "array",
                         "items": {
@@ -177,7 +182,7 @@
                     },
                     "ratio": {
                         "type": "number",
-                        "format": "float",
+                        "format": "double",
                         "nullable": true
                     },
                     "actionLabel": {
@@ -1079,9 +1084,27 @@
                     "403": {
                         "description": "Creating template is not allowed",
                         "content": {
-                            "text/plain": {
+                            "application/json": {
                                 "schema": {
-                                    "type": "string"
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {}
+                                            }
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -1187,9 +1210,27 @@
                     "403": {
                         "description": "Initializing the template directory is not allowed",
                         "content": {
-                            "text/plain": {
+                            "application/json": {
                                 "schema": {
-                                    "type": "string"
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {}
+                                            }
+                                        }
+                                    }
                                 }
                             }
                         }

@@ -1,8 +1,13 @@
-import Vue from 'vue'
-import { createPinia, PiniaVuePlugin } from 'pinia'
+/**
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+import { PiniaVuePlugin } from 'pinia'
 import { getNavigation } from '@nextcloud/files'
 import { getRequestToken } from '@nextcloud/auth'
+import Vue from 'vue'
 
+import { pinia } from './store/index.ts'
 import router from './router/router'
 import RouterService from './services/RouterService'
 import SettingsModel from './models/Setting.js'
@@ -30,7 +35,6 @@ Object.assign(window.OCP.Files, { Router })
 
 // Init Pinia store
 Vue.use(PiniaVuePlugin)
-const pinia = createPinia()
 
 // Init Navigation Service
 // This only works with Vue 2 - with Vue 3 this will not modify the source but return just a oberserver

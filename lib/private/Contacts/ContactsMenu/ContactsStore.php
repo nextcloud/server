@@ -1,32 +1,8 @@
 <?php
 
 /**
- * @copyright 2017 Christoph Wurst <christoph@winzerhof-wurst.at>
- * @copyright 2017 Lukas Reschke <lukas@statuscode.ch>
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Georg Ehrke <oc.list@georgehrke.com>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Tobia De Koninck <tobia@ledfan.be>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace OC\Contacts\ContactsMenu;
@@ -193,7 +169,7 @@ class ContactsStore implements IContactsStore {
 		$restrictEnumerationGroup = $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_to_group', 'no') === 'yes';
 		$restrictEnumerationPhone = $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_to_phone', 'no') === 'yes';
 		$allowEnumerationFullMatch = $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_full_match', 'yes') === 'yes';
-		$excludedGroups = $this->config->getAppValue('core', 'shareapi_exclude_groups', 'no') === 'yes';
+		$excludeGroups = $this->config->getAppValue('core', 'shareapi_exclude_groups', 'no');
 
 		// whether to filter out local users
 		$skipLocal = false;
@@ -202,14 +178,22 @@ class ContactsStore implements IContactsStore {
 
 		$selfGroups = $this->groupManager->getUserGroupIds($self);
 
-		if ($excludedGroups) {
+		if ($excludeGroups && $excludeGroups !== 'no') {
 			$excludedGroups = $this->config->getAppValue('core', 'shareapi_exclude_groups_list', '');
 			$decodedExcludeGroups = json_decode($excludedGroups, true);
 			$excludeGroupsList = $decodedExcludeGroups ?? [];
 
-			if (count(array_intersect($excludeGroupsList, $selfGroups)) !== 0) {
-				// a group of the current user is excluded -> filter all local users
+			if ($excludeGroups != 'allow') {
+				if (count(array_intersect($excludeGroupsList, $selfGroups)) !== 0) {
+					// a group of the current user is excluded -> filter all local users
+					$skipLocal = true;
+				}
+			} else {
 				$skipLocal = true;
+				if (count(array_intersect($excludeGroupsList, $selfGroups)) !== 0) {
+					// a group of the current user is allowed -> do not filter all local users
+					$skipLocal = false;
+				}
 			}
 		}
 

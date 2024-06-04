@@ -1,4 +1,8 @@
 <?php
+/**
+ * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
 \OC_Util::addStyle('settings', 'help');
 ?>
 <?php if ($_['knowledgebaseEmbedded'] === true) : ?>
@@ -56,7 +60,7 @@
 		<div class="help-wrapper">
 			<div class="help-content">
 				<h2 class="help-content__heading">
-					<?php p($l->t('Nextcloud help resources')); ?>
+					<?php p($l->t('Nextcloud help & privacy resources')); ?>
 				</h2>
 				<div class="help-content__body">
 				<a class="button" target="_blank" rel="noreferrer noopener"
@@ -73,6 +77,16 @@
 				<a href="https://help.nextcloud.com" class="button" target="_blank" rel="noreferrer noopener">
 					<?php p($l->t('Forum')); ?> ↗
 				</a>
+				<?php if ($_['legalNoticeUrl']) { ?>
+					<a href="<?php print_unescaped($_['legalNoticeUrl']); ?>" class="button" target="_blank" rel="noreferrer noopener">
+						<?php p($l->t('Legal notice')); ?> ↗
+					</a>
+				<?php } ?>
+				<?php if ($_['privacyUrl']) { ?>
+					<a href="<?php print_unescaped($_['privacyUrl']); ?>" class="button" target="_blank" rel="noreferrer noopener">
+						<?php p($l->t('Privacy policy')); ?> ↗
+					</a>
+				<?php } ?>
 			</div>
 		</div>
 	</div>

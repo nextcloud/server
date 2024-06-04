@@ -80,6 +80,7 @@ OC.L10N.register(
     "Configures a CardDAV account" : "Konfigūruoja CardDAV paskyrą",
     "Events" : "Įvykiai",
     "Untitled task" : "Užduotis be pavadinimo",
+    "Your web server is not yet properly set up to allow file synchronization, because the WebDAV interface seems to be broken." : "Jūsų svetainės serveris nėra tinkamai sukonfiguruotas, Failų sinchronizavimas negalimas, nes neveikia WebDAV interfeisas.",
     "Contacts and groups" : "Adresatai ir grupės",
     "WebDAV" : "WebDAV",
     "Save" : "Įrašyti",

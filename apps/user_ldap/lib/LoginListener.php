@@ -3,25 +3,8 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2023, Côme Chilliet <come.chilliet@nextcloud.com>
- *
- * @author Côme Chilliet <come.chilliet@nextcloud.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\User_LDAP;
 
@@ -59,7 +42,7 @@ class LoginListener implements IEventListener {
 
 	public function onPostLogin(IUser $user): void {
 		$this->logger->info(
-			__CLASS__ . ' – {user} postLogin',
+			__CLASS__ . ' - {user} postLogin',
 			[
 				'app' => 'user_ldap',
 				'user' => $user->getUID(),
@@ -84,7 +67,7 @@ class LoginListener implements IEventListener {
 			$groupObject = $this->groupManager->get($groupId);
 			if ($groupObject === null) {
 				$this->logger->error(
-					__CLASS__ . ' – group {group} could not be found (user {user})',
+					__CLASS__ . ' - group {group} could not be found (user {user})',
 					[
 						'app' => 'user_ldap',
 						'user' => $userId,
@@ -98,7 +81,7 @@ class LoginListener implements IEventListener {
 			} catch (Exception $e) {
 				if ($e->getReason() !== Exception::REASON_UNIQUE_CONSTRAINT_VIOLATION) {
 					$this->logger->error(
-						__CLASS__ . ' – group {group} membership failed to be added (user {user})',
+						__CLASS__ . ' - group {group} membership failed to be added (user {user})',
 						[
 							'app' => 'user_ldap',
 							'user' => $userId,
@@ -113,7 +96,7 @@ class LoginListener implements IEventListener {
 			$this->groupBackend->addRelationshipToCaches($userId, null, $groupId);
 			$this->dispatcher->dispatchTyped(new UserAddedEvent($groupObject, $userObject));
 			$this->logger->info(
-				__CLASS__ . ' – {user} added to {group}',
+				__CLASS__ . ' - {user} added to {group}',
 				[
 					'app' => 'user_ldap',
 					'user' => $userId,
@@ -127,7 +110,7 @@ class LoginListener implements IEventListener {
 			} catch (Exception $e) {
 				if ($e->getReason() !== Exception::REASON_DATABASE_OBJECT_NOT_FOUND) {
 					$this->logger->error(
-						__CLASS__ . ' – group {group} membership failed to be removed (user {user})',
+						__CLASS__ . ' - group {group} membership failed to be removed (user {user})',
 						[
 							'app' => 'user_ldap',
 							'user' => $userId,
@@ -142,7 +125,7 @@ class LoginListener implements IEventListener {
 			$groupObject = $this->groupManager->get($groupId);
 			if ($groupObject === null) {
 				$this->logger->error(
-					__CLASS__ . ' – group {group} could not be found (user {user})',
+					__CLASS__ . ' - group {group} could not be found (user {user})',
 					[
 						'app' => 'user_ldap',
 						'user' => $userId,
@@ -153,7 +136,7 @@ class LoginListener implements IEventListener {
 			}
 			$this->dispatcher->dispatchTyped(new UserRemovedEvent($groupObject, $userObject));
 			$this->logger->info(
-				'service "updateGroups" – {user} removed from {group}',
+				'service "updateGroups" - {user} removed from {group}',
 				[
 					'user' => $userId,
 					'group' => $groupId

@@ -3,25 +3,8 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2024 Ferdinand Thiessen <opensource@fthiessen.de>
- *
- * @author Ferdinand Thiessen <opensource@fthiessen.de>
- *
- * @license AGPL-3.0-or-later
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\Settings\Tests;
 
@@ -62,7 +45,7 @@ class OcxProvicersTest extends TestCase {
 		$this->logger = $this->createMock(LoggerInterface::class);
 
 		$this->setupcheck = $this->getMockBuilder(OcxProviders::class)
-			->onlyMethods(['runHEAD'])
+			->onlyMethods(['runRequest'])
 			->setConstructorArgs([
 				$this->l10n,
 				$this->config,
@@ -79,7 +62,7 @@ class OcxProvicersTest extends TestCase {
 
 		$this->setupcheck
 			->expects($this->exactly(2))
-			->method('runHEAD')
+			->method('runRequest')
 			->willReturnOnConsecutiveCalls($this->generate([$response]), $this->generate([$response]));
 
 		$result = $this->setupcheck->run();
@@ -94,7 +77,7 @@ class OcxProvicersTest extends TestCase {
 
 		$this->setupcheck
 			->expects($this->exactly(2))
-			->method('runHEAD')
+			->method('runRequest')
 			->willReturnOnConsecutiveCalls($this->generate([$response1, $response1, $response1]), $this->generate([$response2])); // only one response out of two
 
 		$result = $this->setupcheck->run();
@@ -107,7 +90,7 @@ class OcxProvicersTest extends TestCase {
 
 		$this->setupcheck
 			->expects($this->exactly(2))
-			->method('runHEAD')
+			->method('runRequest')
 			->willReturnOnConsecutiveCalls($this->generate([]), $this->generate([])); // No responses
 
 		$result = $this->setupcheck->run();
@@ -121,7 +104,7 @@ class OcxProvicersTest extends TestCase {
 
 		$this->setupcheck
 			->expects($this->exactly(2))
-			->method('runHEAD')
+			->method('runRequest')
 			->willReturnOnConsecutiveCalls($this->generate([$response]), $this->generate([])); // only one response out of two
 
 		$result = $this->setupcheck->run();
@@ -135,7 +118,7 @@ class OcxProvicersTest extends TestCase {
 
 		$this->setupcheck
 			->expects($this->exactly(2))
-			->method('runHEAD')
+			->method('runRequest')
 			->willReturnOnConsecutiveCalls($this->generate([$response]), $this->generate([$response])); // only one response out of two
 
 		$result = $this->setupcheck->run();
@@ -151,7 +134,7 @@ class OcxProvicersTest extends TestCase {
 
 		$this->setupcheck
 			->expects($this->exactly(2))
-			->method('runHEAD')
+			->method('runRequest')
 			->willReturnOnConsecutiveCalls($this->generate([$response1]), $this->generate([$response2]));
 
 		$result = $this->setupcheck->run();

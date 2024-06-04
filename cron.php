@@ -3,43 +3,9 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Artem Sidorenko <artem@posteo.de>
- * @author Christopher Schäpers <kondou@ts.unde.re>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Côme Chilliet <come.chilliet@nextcloud.com>
- * @author Daniel Kesselberg <mail@danielkesselberg.de>
- * @author hoellen <dev@hoellen.eu>
- * @author J0WI <J0WI@users.noreply.github.com>
- * @author Jakob Sack <mail@jakobsack.de>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Jörn Friedrich Dreyer <jfd@butonic.de>
- * @author Ko- <k.stoffelen@cs.ru.nl>
- * @author Michael Kuhn <michael@ikkoku.de>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Oliver Kohl D.Sc. <oliver@kohl.bz>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Steffen Lindner <mail@steffen-lindner.de>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Vincent Petry <vincent@nextcloud.com>
- * @author Stephen Michel <git@smichel.me>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 
 require_once __DIR__ . '/lib/versioncheck.php';
@@ -56,6 +22,21 @@ use Psr\Log\LoggerInterface;
 
 try {
 	require_once __DIR__ . '/lib/base.php';
+
+	if ($argv[1] === '-h' || $argv[1] === '--help') {
+		echo 'Description:
+  Run the background job routine
+
+Usage:
+  php -f cron.php -- [-h] [<job-classes>...]
+
+Arguments:
+  job-classes                  Optional job class list to only run those jobs
+
+Options:
+  -h, --help                 Display this help message' . PHP_EOL;
+		exit(0);
+	}
 
 	if (Util::needUpgrade()) {
 		Server::get(LoggerInterface::class)->debug('Update required, skipping cron', ['app' => 'cron']);
@@ -115,11 +96,11 @@ try {
 		}
 
 		$user = posix_getuid();
-		$dataDirectoryUser = fileowner($config->getSystemValueString('datadirectory', \OC::$SERVERROOT . '/data'));
-		if ($user !== $dataDirectoryUser) {
-			echo "Console has to be executed with the user that owns the data directory" . PHP_EOL;
+		$configUser = fileowner(OC::$configDir . 'config.php');
+		if ($user !== $configUser) {
+			echo "Console has to be executed with the user that owns the file config/config.php" . PHP_EOL;
 			echo "Current user id: " . $user . PHP_EOL;
-			echo "Owner id of the data directory: " . $dataDirectoryUser . PHP_EOL;
+			echo "Owner id of config.php: " . $configUser . PHP_EOL;
 			exit(1);
 		}
 
@@ -160,7 +141,11 @@ try {
 		$endTime = time() + 14 * 60;
 
 		$executedJobs = [];
-		while ($job = $jobList->getNext($onlyTimeSensitive)) {
+		// a specific job class list can optionally be given as argument
+		$jobClasses = array_slice($argv, 1);
+		$jobClasses = empty($jobClasses) ? null : $jobClasses;
+
+		while ($job = $jobList->getNext($onlyTimeSensitive, $jobClasses)) {
 			if (isset($executedJobs[$job->getId()])) {
 				$jobList->unlockJob($job);
 				break;
@@ -172,7 +157,8 @@ try {
 			$memoryBefore = memory_get_usage();
 			$memoryPeakBefore = memory_get_peak_usage();
 
-			$job->start($jobList);
+			/** @psalm-suppress DeprecatedMethod Calling execute until it is removed, then will switch to start */
+			$job->execute($jobList);
 
 			$memoryAfter = memory_get_usage();
 			$memoryPeakAfter = memory_get_peak_usage();
@@ -207,7 +193,8 @@ try {
 			$job = $jobList->getNext();
 			if ($job != null) {
 				$logger->debug('WebCron call has selected job with ID ' . strval($job->getId()), ['app' => 'cron']);
-				$job->start($jobList);
+				/** @psalm-suppress DeprecatedMethod Calling execute until it is removed, then will switch to start */
+				$job->execute($jobList);
 				$jobList->setLastJob($job);
 			}
 			OC_JSON::success();

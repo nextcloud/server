@@ -1,22 +1,6 @@
 /**
- * @copyright Copyright (c) 2024 Fon E. Noel NFEBE <opensource@nfebe.com>
- *
- * @author Fon E. Noel NFEBE <opensource@nfebe.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 import type { Node } from '@nextcloud/files'
@@ -25,7 +9,6 @@ import { getFilePickerBuilder } from '@nextcloud/dialogs';
 import { imagePath } from '@nextcloud/router'
 import { translate as t } from '@nextcloud/l10n'
 import logger from '../../logger'
-import '@nextcloud/dialogs/style.css'
 
 /**
  * Initialize the unified search plugin.
@@ -33,7 +16,7 @@ import '@nextcloud/dialogs/style.css'
 function init() {
 	const OCA = window.OCA
 	if (!OCA.UnifiedSearch) {
-		return;
+		return
 	}
 
 	logger.info('Initializing unified search plugin: folder search from files app');
@@ -65,4 +48,4 @@ function init() {
 	})
 }
 
-document.addEventListener('DOMContentLoaded', init);
+document.addEventListener('DOMContentLoaded', init)

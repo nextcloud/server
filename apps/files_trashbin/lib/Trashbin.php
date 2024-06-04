@@ -1,46 +1,8 @@
 <?php
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Bart Visscher <bartv@thisnet.nl>
- * @author Bastien Ho <bastienho@urbancube.fr>
- * @author Bjoern Schiessle <bjoern@schiessle.org>
- * @author Björn Schießle <bjoern@schiessle.org>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Daniel Kesselberg <mail@danielkesselberg.de>
- * @author Florin Peter <github@florin-peter.de>
- * @author Georg Ehrke <oc.list@georgehrke.com>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Jörn Friedrich Dreyer <jfd@butonic.de>
- * @author Juan Pablo Villafáñez <jvillafanez@solidgear.es>
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Lars Knickrehm <mail@lars-sh.de>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Qingping Hou <dave2008713@gmail.com>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Robin McCorkell <robin@mccorkell.me.uk>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Sjors van der Pluijm <sjors@desjors.nl>
- * @author Steven Bühner <buehner@me.com>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Victor Dubiniuk <dubiniuk@owncloud.com>
- * @author Vincent Petry <vincent@nextcloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\Files_Trashbin;
 
@@ -126,24 +88,23 @@ class Trashbin {
 	}
 
 	/**
-	 * get original location of files for user
+	 * get original location and deleted by of files for user
 	 *
 	 * @param string $user
-	 * @return array (filename => array (timestamp => original location))
+	 * @return array<string, array<string, array{location: string, deletedBy: string}>>
 	 */
-	public static function getLocations($user) {
+	public static function getExtraData($user) {
 		$query = \OC::$server->getDatabaseConnection()->getQueryBuilder();
-		$query->select('id', 'timestamp', 'location')
+		$query->select('id', 'timestamp', 'location', 'deleted_by')
 			->from('files_trash')
 			->where($query->expr()->eq('user', $query->createNamedParameter($user)));
 		$result = $query->executeQuery();
 		$array = [];
 		while ($row = $result->fetch()) {
-			if (isset($array[$row['id']])) {
-				$array[$row['id']][$row['timestamp']] = $row['location'];
-			} else {
-				$array[$row['id']] = [$row['timestamp'] => $row['location']];
-			}
+			$array[$row['id']][$row['timestamp']] = [
+				'location' => (string)$row['location'],
+				'deletedBy' => (string)$row['deleted_by'],
+			];
 		}
 		$result->closeCursor();
 		return $array;
@@ -228,7 +189,8 @@ class Trashbin {
 				->setValue('id', $query->createNamedParameter($targetFilename))
 				->setValue('timestamp', $query->createNamedParameter($timestamp))
 				->setValue('location', $query->createNamedParameter($targetLocation))
-				->setValue('user', $query->createNamedParameter($user));
+				->setValue('user', $query->createNamedParameter($user))
+				->setValue('deleted_by', $query->createNamedParameter($user));
 			$result = $query->executeStatement();
 			if (!$result) {
 				\OC::$server->get(LoggerInterface::class)->error('trash bin database couldn\'t be updated for the files owner', ['app' => 'files_trashbin']);
@@ -358,7 +320,8 @@ class Trashbin {
 				->setValue('id', $query->createNamedParameter($filename))
 				->setValue('timestamp', $query->createNamedParameter($timestamp))
 				->setValue('location', $query->createNamedParameter($location))
-				->setValue('user', $query->createNamedParameter($owner));
+				->setValue('user', $query->createNamedParameter($owner))
+				->setValue('deleted_by', $query->createNamedParameter($user));
 			$result = $query->executeStatement();
 			if (!$result) {
 				\OC::$server->get(LoggerInterface::class)->error('trash bin database couldn\'t be updated', ['app' => 'files_trashbin']);

@@ -1,32 +1,10 @@
 <?php
 /**
- * @copyright Copyright (c) 2019 Julius Härtl <jus@bitgrid.net>
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Tobias Kaminsky <tobias@kaminsky.me>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OC\DirectEditing;
 
-use \OCP\DirectEditing\IManager;
-use \OCP\Files\Folder;
 use Doctrine\DBAL\FetchMode;
 use OCP\AppFramework\Http\NotFoundResponse;
 use OCP\AppFramework\Http\Response;
@@ -35,9 +13,11 @@ use OCP\Constants;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\DirectEditing\ACreateFromTemplate;
 use OCP\DirectEditing\IEditor;
+use OCP\DirectEditing\IManager;
 use OCP\DirectEditing\IToken;
 use OCP\Encryption\IManager as EncryptionManager;
 use OCP\Files\File;
+use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;
 use OCP\Files\NotFoundException;
@@ -153,7 +133,7 @@ class Manager implements IManager {
 		throw new \RuntimeException('No creator found');
 	}
 
-	public function open(string $filePath, string $editorId = null, ?int $fileId = null): string {
+	public function open(string $filePath, ?string $editorId = null, ?int $fileId = null): string {
 		$userFolder = $this->rootFolder->getUserFolder($this->userId);
 		$file = $userFolder->get($filePath);
 		if ($fileId !== null && $file instanceof Folder) {
@@ -272,16 +252,14 @@ class Manager implements IManager {
 	}
 
 	public function invokeTokenScope($userId): void {
-		\OC_User::setIncognitoMode(true);
 		\OC_User::setUserId($userId);
 	}
 
 	public function revertTokenScope(): void {
 		$this->userSession->setUser(null);
-		\OC_User::setIncognitoMode(false);
 	}
 
-	public function createToken($editorId, File $file, string $filePath, IShare $share = null): string {
+	public function createToken($editorId, File $file, string $filePath, ?IShare $share = null): string {
 		$token = $this->random->generate(64, ISecureRandom::CHAR_HUMAN_READABLE);
 		$query = $this->connection->getQueryBuilder();
 		$query->insert(self::TABLE_TOKENS)
@@ -299,10 +277,9 @@ class Manager implements IManager {
 	}
 
 	/**
-	 * @param $userId
-	 * @param $fileId
-	 * @param null $filePath
-	 * @return Node
+	 * @param string $userId
+	 * @param int $fileId
+	 * @param ?string $filePath
 	 * @throws NotFoundException
 	 */
 	public function getFileForToken($userId, $fileId, $filePath = null): Node {

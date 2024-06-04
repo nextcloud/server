@@ -2,8 +2,8 @@ OC.L10N.register(
     "encryption",
     {
     "Missing recovery key password" : "Mot de passe de la clé de récupération manquant",
-    "Please repeat the recovery key password" : "Répétez le mot de passe de la clef de récupération",
-    "Repeated recovery key password does not match the provided recovery key password" : "Le mot de passe de la clef de récupération et sa répétition ne sont pas identiques.",
+    "Please repeat the recovery key password" : "Répétez le mot de passe de la clé de récupération",
+    "Repeated recovery key password does not match the provided recovery key password" : "Le mot de passe de la clé de récupération et sa répétition ne sont pas identiques.",
     "Recovery key successfully enabled" : "Clé de récupération activée avec succès",
     "Could not enable recovery key. Please check your recovery key password!" : "Impossible d'activer la clé de récupération. Veuillez vérifier le mot de passe de votre clé de récupération !",
     "Recovery key successfully disabled" : "Clé de récupération désactivée avec succès",
@@ -15,7 +15,7 @@ OC.L10N.register(
     "Password successfully changed." : "Mot de passe modifié avec succès.",
     "Could not change the password. Maybe the old password was not correct." : "Erreur lors du changement de mot de passe. L'ancien mot de passe est peut-être incorrect.",
     "Recovery Key disabled" : "Clé de récupération désactivée",
-    "Recovery Key enabled" : "Clef de récupération activée",
+    "Recovery Key enabled" : "Clé de récupération activée",
     "Could not enable the recovery key, please try again or contact your administrator" : "Impossible d'activer la clé de récupération. Veuillez essayer à nouveau ou contacter votre administrateur",
     "Could not update the private key password." : "Impossible de mettre à jour le mot de passe de la clé privée.",
     "The old password was not correct, please try again." : "L'ancien mot de passe est incorrect. Veuillez réessayer.",
@@ -62,7 +62,6 @@ OC.L10N.register(
     "Enabled" : "Activé",
     "Disabled" : "Désactivé",
     "Please login to the web interface, go to the \"Security\" section of your personal settings and update your encryption password by entering this password into the \"Old log-in password\" field and your current login-password." : "Connectez-vous depuis l'interface web, allez dans la section \"sécurité\" de vos paramètres personnels et mettez à jour votre mot de passe de chiffrement en entrant ce mot de passe dans le champ \"Ancien mot de passe de connexion\" et dans votre mot de passe de connexion actuel.",
-    "In order to use this encryption module you need to enable server-side\n\t\tencryption in the admin settings. Once enabled this module will encrypt\n\t\tall your files transparently. The encryption is based on AES 256 keys.\n\t\tThe module won't touch existing files, only new files will be encrypted\n\t\tafter server-side encryption was enabled. It is also not possible to\n\t\tdisable the encryption again and switch back to a unencrypted system.\n\t\tPlease read the documentation to know all implications before you decide\n\t\tto enable server-side encryption." : "Pour utiliser ce module de chiffrement, vous devez activer le chiffrement  côté serveur dans les paramètres d'administration. Une fois activé, ce module chiffrera tous vos fichiers de manière transparente. Le chiffrement est basé sur des clés AES 256 bits.\nLe module ne touchera pas les fichiers existants, seuls les nouveaux fichiers seront chiffrés. Une fois le chiffrement côté serveur activé, il n'est pas possible de désactiver le chiffrement et de revenir à un système non chiffré.\n\t\tVeuillez lire la documentation pour connaître toutes les implications avant de vous décider à activer le chiffrement côté serveur.",
-    "The recovery key is an extra encryption key that is used to encrypt files. It allows recovery of a user's files if the user forgets his or her password." : "La clé de récupération est une clé supplémentaire utilisée pour chiffrer les fichiers. Elle permet de récupérer les fichiers des utilisateurs s'ils oublient leur mot de passe."
+    "The recovery key is an extra encryption key that is used to encrypt files. It allows recovery of a user's files if the user forgets his or her password." : "La clé de récupération est une clé supplémentaire utilisée pour chiffrer les fichiers. Elle permet de récupérer les fichiers des utilisateurs s’ils oublient leur mot de passe."
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

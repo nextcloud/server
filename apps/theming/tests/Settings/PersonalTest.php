@@ -1,35 +1,14 @@
 <?php
 /**
- * @copyright Copyright (c) 2016 Lukas Reschke <lukas@statuscode.ch>
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Jan-Christoph Borchardt <hey@jancborchardt.net>
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\Theming\Tests\Settings;
 
 use OCA\Theming\AppInfo\Application;
 use OCA\Theming\ImageManager;
 use OCA\Theming\ITheme;
+use OCA\Theming\Service\BackgroundService;
 use OCA\Theming\Service\ThemesService;
 use OCA\Theming\Settings\Personal;
 use OCA\Theming\Themes\DarkHighContrastTheme;
@@ -116,18 +95,23 @@ class PersonalTest extends TestCase {
 			->with('enforce_theme', '')
 			->willReturn($enforcedTheme);
 
-		$this->config->expects($this->once())
+		$this->config->expects($this->any())
 			->method('getUserValue')
-			->with('admin', 'core', 'apporder')
-			->willReturn('[]');
+			->willReturnMap([
+				['admin', 'core', 'apporder', '[]', '[]'],
+				['admin', 'theming', 'background_image', BackgroundService::BACKGROUND_DEFAULT],
+			]);
 
 		$this->appManager->expects($this->once())
 			->method('getDefaultAppForUser')
 			->willReturn('forcedapp');
 
-		$this->initialStateService->expects($this->exactly(4))
+		$this->initialStateService->expects($this->exactly(7))
 			->method('provideInitialState')
 			->withConsecutive(
+				['shippedBackgrounds', BackgroundService::SHIPPED_BACKGROUNDS],
+				['themingDefaults'],
+				['userBackgroundImage'],
 				['themes', $themesState],
 				['enforceTheme', $enforcedTheme],
 				['isUserThemingDisabled', false],

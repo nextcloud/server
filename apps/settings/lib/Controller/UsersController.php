@@ -3,35 +3,9 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Bjoern Schiessle <bjoern@schiessle.org>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Daniel Calviño Sánchez <danxuliu@gmail.com>
- * @author Daniel Kesselberg <mail@danielkesselberg.de>
- * @author GretaD <gretadoci@gmail.com>
- * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Vincent Petry <vincent@nextcloud.com>
- * @author Kate Döen <kate.doeen@nextcloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2019-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 
 namespace OCA\Settings\Controller;
@@ -125,7 +99,7 @@ class UsersController extends Controller {
 		/* SORT OPTION: SORT_USERCOUNT or SORT_GROUPNAME */
 		$sortGroupsBy = \OC\Group\MetaData::SORT_USERCOUNT;
 		$isLDAPUsed = false;
-		if ($this->config->getSystemValue('sort_groups_by_name', false)) {
+		if ($this->config->getSystemValueBool('sort_groups_by_name', false)) {
 			$sortGroupsBy = \OC\Group\MetaData::SORT_GROUPNAME;
 		} else {
 			if ($this->appManager->isEnabledForUser('user_ldap')) {
@@ -212,13 +186,19 @@ class UsersController extends Controller {
 		/* LANGUAGES */
 		$languages = $this->l10nFactory->getLanguages();
 
+		/** Using LDAP or admins (system config) can enfore sorting by group name, in this case the frontend setting is overwritten */
+		$forceSortGroupByName = $sortGroupsBy === \OC\Group\MetaData::SORT_GROUPNAME;
+
 		/* FINAL DATA */
 		$serverData = [];
 		// groups
 		$serverData['groups'] = array_merge_recursive($adminGroup, [$disabledUsersGroup], $groups);
 		// Various data
 		$serverData['isAdmin'] = $isAdmin;
-		$serverData['sortGroups'] = $sortGroupsBy;
+		$serverData['sortGroups'] = $forceSortGroupByName
+			? \OC\Group\MetaData::SORT_GROUPNAME
+			: (int)$this->config->getAppValue('core', 'group.sortBy', (string)\OC\Group\MetaData::SORT_USERCOUNT);
+		$serverData['forceSortGroupByName'] = $forceSortGroupByName;
 		$serverData['quotaPreset'] = $quotaPreset;
 		$serverData['allowUnlimitedQuota'] = $allowUnlimitedQuota;
 		$serverData['userCount'] = $userCount;
@@ -247,7 +227,7 @@ class UsersController extends Controller {
 	 * @return JSONResponse
 	 */
 	public function setPreference(string $key, string $value): JSONResponse {
-		$allowed = ['newUser.sendEmail'];
+		$allowed = ['newUser.sendEmail', 'group.sortBy'];
 		if (!in_array($key, $allowed, true)) {
 			return new JSONResponse([], Http::STATUS_FORBIDDEN);
 		}
@@ -320,6 +300,8 @@ class UsersController extends Controller {
 	 * @param string|null $twitterScope
 	 * @param string|null $fediverse
 	 * @param string|null $fediverseScope
+	 * @param string|null $birthdate
+	 * @param string|null $birthdateScope
 	 *
 	 * @return DataResponse
 	 */
@@ -337,7 +319,9 @@ class UsersController extends Controller {
 		?string $twitter = null,
 		?string $twitterScope = null,
 		?string $fediverse = null,
-		?string $fediverseScope = null
+		?string $fediverseScope = null,
+		?string $birthdate = null,
+		?string $birthdateScope = null,
 	) {
 		$user = $this->userSession->getUser();
 		if (!$user instanceof IUser) {
@@ -377,6 +361,7 @@ class UsersController extends Controller {
 			IAccountManager::PROPERTY_PHONE => ['value' => $phone, 'scope' => $phoneScope],
 			IAccountManager::PROPERTY_TWITTER => ['value' => $twitter, 'scope' => $twitterScope],
 			IAccountManager::PROPERTY_FEDIVERSE => ['value' => $fediverse, 'scope' => $fediverseScope],
+			IAccountManager::PROPERTY_BIRTHDATE => ['value' => $birthdate, 'scope' => $birthdateScope],
 		];
 		$allowUserToChangeDisplayName = $this->config->getSystemValueBool('allow_user_to_change_display_name', true);
 		foreach ($updatable as $property => $data) {
@@ -385,10 +370,10 @@ class UsersController extends Controller {
 				continue;
 			}
 			$property = $userAccount->getProperty($property);
-			if (null !== $data['value']) {
+			if ($data['value'] !== null) {
 				$property->setValue($data['value']);
 			}
-			if (null !== $data['scope']) {
+			if ($data['scope'] !== null) {
 				$property->setScope($data['scope']);
 			}
 		}
@@ -418,6 +403,8 @@ class UsersController extends Controller {
 						'twitterScope' => $userAccount->getProperty(IAccountManager::PROPERTY_TWITTER)->getScope(),
 						'fediverse' => $userAccount->getProperty(IAccountManager::PROPERTY_FEDIVERSE)->getValue(),
 						'fediverseScope' => $userAccount->getProperty(IAccountManager::PROPERTY_FEDIVERSE)->getScope(),
+						'birthdate' => $userAccount->getProperty(IAccountManager::PROPERTY_BIRTHDATE)->getValue(),
+						'birthdateScope' => $userAccount->getProperty(IAccountManager::PROPERTY_BIRTHDATE)->getScope(),
 						'message' => $this->l10n->t('Settings saved'),
 					],
 				],

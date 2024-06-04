@@ -2,25 +2,9 @@
 
 declare(strict_types=1);
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Joas Schilling <coding@schilljs.com>
- * @author Maxence Lange <maxence@artificial-owl.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OC\Core\Command\Config\App;
 
@@ -173,8 +157,8 @@ class SetConfig extends Base {
 			 */
 			$sensitive = $input->getOption('sensitive');
 			try {
-				$currSensitive = $this->appConfig->isLazy($appName, $configName);
-				if ($sensitive === null || $sensitive === $currSensitive || !$this->ask($input, $output, ($sensitive) ? 'LAZY' : 'NOT LAZY')) {
+				$currSensitive = $this->appConfig->isSensitive($appName, $configName, null);
+				if ($sensitive === null || $sensitive === $currSensitive || !$this->ask($input, $output, ($sensitive) ? 'SENSITIVE' : 'NOT SENSITIVE')) {
 					$sensitive = $currSensitive;
 				}
 			} catch (AppConfigUnknownKeyException) {

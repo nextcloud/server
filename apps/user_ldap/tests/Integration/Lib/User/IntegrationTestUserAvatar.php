@@ -1,29 +1,9 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Roger Szabo <roger.szabo@web.de>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2017-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\User_LDAP\Tests\Integration\Lib\User;
 
@@ -35,6 +15,7 @@ use OCA\User_LDAP\User\Manager;
 use OCA\User_LDAP\User\User;
 use OCA\User_LDAP\User_LDAP;
 use OCA\User_LDAP\UserPluginManager;
+use OCP\IAvatarManager;
 use OCP\Image;
 use Psr\Log\LoggerInterface;
 
@@ -78,8 +59,8 @@ class IntegrationTestUserAvatar extends AbstractIntegrationTest {
 		\OC_Util::setupFS($username);
 		\OC::$server->getUserFolder($username);
 		\OC::$server->getConfig()->deleteUserValue($username, 'user_ldap', User::USER_PREFKEY_LASTREFRESH);
-		if (\OC::$server->getAvatarManager()->getAvatar($username)->exists()) {
-			\OC::$server->getAvatarManager()->getAvatar($username)->remove();
+		if (\OC::$server->get(IAvatarManager::class)->getAvatar($username)->exists()) {
+			\OC::$server->get(IAvatarManager::class)->getAvatar($username)->remove();
 		}
 
 		// finally attempt to get the avatar set
@@ -99,7 +80,7 @@ class IntegrationTestUserAvatar extends AbstractIntegrationTest {
 
 		$this->execFetchTest($dn, $username, $image);
 
-		return \OC::$server->getAvatarManager()->getAvatar($username)->exists();
+		return \OC::$server->get(IAvatarManager::class)->getAvatar($username)->exists();
 	}
 
 	/**
@@ -116,7 +97,7 @@ class IntegrationTestUserAvatar extends AbstractIntegrationTest {
 
 		$this->execFetchTest($dn, $username, $image);
 
-		return !\OC::$server->getAvatarManager()->getAvatar($username)->exists();
+		return !\OC::$server->get(IAvatarManager::class)->getAvatar($username)->exists();
 	}
 
 	/**
@@ -136,7 +117,7 @@ class IntegrationTestUserAvatar extends AbstractIntegrationTest {
 			\OC::$server->getConfig(),
 			new FilesystemHelper(),
 			\OC::$server->get(LoggerInterface::class),
-			\OC::$server->getAvatarManager(),
+			\OC::$server->get(IAvatarManager::class),
 			new Image(),
 			\OC::$server->getDatabaseConnection(),
 			\OC::$server->getUserManager(),

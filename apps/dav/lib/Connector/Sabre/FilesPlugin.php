@@ -1,36 +1,9 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Bjoern Schiessle <bjoern@schiessle.org>
- * @author Björn Schießle <bjoern@schiessle.org>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Maxence Lange <maxence@artificial-owl.com>
- * @author Michael Jobst <mjobst+github@tecratech.de>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Robin McCorkell <robin@mccorkell.me.uk>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Tobias Kaminsky <tobias@kaminsky.me>
- * @author Vincent Petry <vincent@nextcloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\DAV\Connector\Sabre;
 
@@ -563,7 +536,7 @@ class FilesPlugin extends ServerPlugin {
 	 */
 	private function handleUpdatePropertiesMetadata(PropPatch $propPatch, Node $node): void {
 		$userId = $this->userSession->getUser()?->getUID();
-		if (null === $userId) {
+		if ($userId === null) {
 			return;
 		}
 
@@ -611,14 +584,10 @@ class FilesPlugin extends ServerPlugin {
 							$metadata->setArray($metadataKey, $value);
 							break;
 						case IMetadataValueWrapper::TYPE_STRING_LIST:
-							$metadata->setStringList(
-								$metadataKey, $value, $knownMetadata->isIndex($metadataKey)
-							);
+							$metadata->setStringList($metadataKey, $value, $knownMetadata->isIndex($metadataKey));
 							break;
 						case IMetadataValueWrapper::TYPE_INT_LIST:
-							$metadata->setIntList(
-								$metadataKey, $value, $knownMetadata->isIndex($metadataKey)
-							);
+							$metadata->setIntList($metadataKey, $value, $knownMetadata->isIndex($metadataKey));
 							break;
 					}
 
@@ -668,10 +637,11 @@ class FilesPlugin extends ServerPlugin {
 
 	/**
 	 * @param string $filePath
-	 * @param \Sabre\DAV\INode $node
+	 * @param ?\Sabre\DAV\INode $node
+	 * @return void
 	 * @throws \Sabre\DAV\Exception\BadRequest
 	 */
-	public function sendFileIdHeader($filePath, \Sabre\DAV\INode $node = null) {
+	public function sendFileIdHeader($filePath, ?\Sabre\DAV\INode $node = null) {
 		// chunked upload handling
 		if (isset($_SERVER['HTTP_OC_CHUNKED'])) {
 			[$path, $name] = \Sabre\Uri\split($filePath);

@@ -1,34 +1,9 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Ko- <k.stoffelen@cs.ru.nl>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Michael Gapczynski <GapczynskiM@gmail.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Valdnet <47037905+Valdnet@users.noreply.github.com>
- * @author Victor Dubiniuk <dubiniuk@owncloud.com>
- * @author Vincent Petry <vincent@nextcloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 use OC\DB\MigratorExecuteSqlEvent;
 use OC\Repair\Events\RepairAdvanceEvent;
@@ -40,10 +15,13 @@ use OC\Repair\Events\RepairStepEvent;
 use OC\Repair\Events\RepairWarningEvent;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\IAppConfig;
+use OCP\IConfig;
 use OCP\IEventSource;
 use OCP\IEventSourceFactory;
 use OCP\IL10N;
 use OCP\L10N\IFactory;
+use OCP\Server;
 use Psr\Log\LoggerInterface;
 
 if (!str_contains(@ini_get('disable_functions'), 'set_time_limit')) {
@@ -111,13 +89,13 @@ if (\OCP\Util::needUpgrade()) {
 	// avoid side effects
 	\OC_User::setIncognitoMode(true);
 
-	$logger = \OC::$server->get(\Psr\Log\LoggerInterface::class);
-	$config = \OC::$server->getConfig();
+	$config = Server::get(IConfig::class);
 	$updater = new \OC\Updater(
 		$config,
+		Server::get(IAppConfig::class),
 		\OC::$server->getIntegrityCodeChecker(),
-		$logger,
-		\OC::$server->query(\OC\Installer::class)
+		Server::get(LoggerInterface::class),
+		Server::get(\OC\Installer::class)
 	);
 	$incompatibleApps = [];
 	$incompatibleOverwrites = $config->getSystemValue('app_install_overwrite', []);
@@ -189,7 +167,7 @@ if (\OCP\Util::needUpgrade()) {
 	try {
 		$updater->upgrade();
 	} catch (\Exception $e) {
-		\OCP\Server::get(LoggerInterface::class)->error(
+		Server::get(LoggerInterface::class)->error(
 			$e->getMessage(),
 			[
 				'exception' => $e,

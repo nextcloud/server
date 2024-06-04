@@ -3,42 +3,9 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- * @copyright Copyright (c) 2016, Lukas Reschke <lukas@statuscode.ch>
- *
- * @author acsfer <carlos@reendex.com>
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Brice Maron <brice@bmaron.net>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Daniel Kesselberg <mail@danielkesselberg.de>
- * @author Frank Karlitschek <frank@karlitschek.de>
- * @author Georg Ehrke <oc.list@georgehrke.com>
- * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Kamil Domanski <kdomanski@kdemail.net>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author root "root@oc.(none)"
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Thomas Tanghus <thomas@tanghus.net>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OC;
 
@@ -280,11 +247,7 @@ class Installer {
 
 				// Check if the signature actually matches the downloaded content
 				$certificate = openssl_get_publickey($app['certificate']);
-				$verified = (bool)openssl_verify(file_get_contents($tempFile), base64_decode($app['releases'][0]['signature']), $certificate, OPENSSL_ALGO_SHA512);
-				// PHP 8+ deprecates openssl_free_key and automatically destroys the key instance when it goes out of scope
-				if ((PHP_VERSION_ID < 80000)) {
-					openssl_free_key($certificate);
-				}
+				$verified = openssl_verify(file_get_contents($tempFile), base64_decode($app['releases'][0]['signature']), $certificate, OPENSSL_ALGO_SHA512) === 1;
 
 				if ($verified === true) {
 					// Seems to match, let's proceed
@@ -305,6 +268,15 @@ class Installer {
 					$folders = array_diff($allFiles, ['.', '..']);
 					$folders = array_values($folders);
 
+					if (count($folders) < 1) {
+						throw new \Exception(
+							sprintf(
+								'Extracted app %s has no folders',
+								$appId
+							)
+						);
+					}
+
 					if (count($folders) > 1) {
 						throw new \Exception(
 							sprintf(
@@ -315,13 +287,17 @@ class Installer {
 					}
 
 					// Check if appinfo/info.xml has the same app ID as well
-					if ((PHP_VERSION_ID < 80000)) {
-						$loadEntities = libxml_disable_entity_loader(false);
-						$xml = simplexml_load_string(file_get_contents($extractDir . '/' . $folders[0] . '/appinfo/info.xml'));
-						libxml_disable_entity_loader($loadEntities);
-					} else {
-						$xml = simplexml_load_string(file_get_contents($extractDir . '/' . $folders[0] . '/appinfo/info.xml'));
+					$xml = simplexml_load_string(file_get_contents($extractDir . '/' . $folders[0] . '/appinfo/info.xml'));
+
+					if ($xml === false) {
+						throw new \Exception(
+							sprintf(
+								'Failed to load info.xml for app id %s',
+								$appId,
+							)
+						);
 					}
+
 					if ((string)$xml->id !== $appId) {
 						throw new \Exception(
 							sprintf(
@@ -560,11 +536,12 @@ class Installer {
 		if ($output instanceof IOutput) {
 			$output->debug('Installing ' . $app);
 		}
-		//install the database
-		$appPath = OC_App::getAppPath($app);
-		\OC_App::registerAutoloading($app, $appPath);
 
+		$appManager = \OCP\Server::get(IAppManager::class);
 		$config = \OCP\Server::get(IConfig::class);
+
+		$appPath = $appManager->getAppPath($app);
+		\OC_App::registerAutoloading($app, $appPath);
 
 		$ms = new MigrationService($app, \OCP\Server::get(Connection::class));
 		if ($output instanceof IOutput) {

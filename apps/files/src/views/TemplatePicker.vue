@@ -1,24 +1,7 @@
 <!--
-  - @copyright Copyright (c) 2020 John Molakvoæ <skjnldsv@protonmail.com>
-  -
-  - @author John Molakvoæ <skjnldsv@protonmail.com>
-  -
-  - @license GNU AGPL version 3 or any later version
-  -
-  - This program is free software: you can redistribute it and/or modify
-  - it under the terms of the GNU Affero General Public License as
-  - published by the Free Software Foundation, either version 3 of the
-  - License, or (at your option) any later version.
-  -
-  - This program is distributed in the hope that it will be useful,
-  - but WITHOUT ANY WARRANTY; without even the implied warranty of
-  - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  - GNU Affero General Public License for more details.
-  -
-  - You should have received a copy of the GNU Affero General Public License
-  - along with this program. If not, see <http://www.gnu.org/licenses/>.
-  -
-  -->
+  - SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 
 <template>
 	<NcModal v-if="opened"
@@ -90,6 +73,16 @@ export default defineComponent({
 		TemplatePreview,
 	},
 
+	props: {
+		/**
+		 * The parent folder where to create the node
+		 */
+		parent: {
+			type: Object,
+			default: () => null,
+		},
+	},
+
 	data() {
 		return {
 			// Check empty template by default
@@ -109,7 +102,7 @@ export default defineComponent({
 		nameWithoutExt() {
 			// Strip extension from name if defined
 			return !this.extension
-				? this.name
+				? this.name!
 				: this.name!.slice(0, 0 - this.extension.length)
 		},
 
@@ -236,6 +229,10 @@ export default defineComponent({
 					size: fileInfo.size,
 					permissions: fileInfo.permissions,
 					attributes: {
+						// Inherit some attributes from parent folder like the mount type and real owner
+						'mount-type': this.parent?.attributes?.['mount-type'],
+						'owner-id': this.parent?.attributes?.['owner-id'],
+						'owner-display-name': this.parent?.attributes?.['owner-display-name'],
 						...fileInfo,
 						'has-preview': fileInfo.hasPreview,
 					},

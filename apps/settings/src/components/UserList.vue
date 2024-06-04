@@ -1,33 +1,16 @@
 <!--
-  - @copyright Copyright (c) 2018 John Molakvoæ <skjnldsv@protonmail.com>
-  -
-  - @author John Molakvoæ <skjnldsv@protonmail.com>
-  -
-  - @license GNU AGPL version 3 or any later version
-  -
-  - This program is free software: you can redistribute it and/or modify
-  - it under the terms of the GNU Affero General Public License as
-  - published by the Free Software Foundation, either version 3 of the
-  - License, or (at your option) any later version.
-  -
-  - This program is distributed in the hope that it will be useful,
-  - but WITHOUT ANY WARRANTY; without even the implied warranty of
-  - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  - GNU Affero General Public License for more details.
-  -
-  - You should have received a copy of the GNU Affero General Public License
-  - along with this program. If not, see <http://www.gnu.org/licenses/>.
-  -
-  -->
+  - SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 
 <template>
 	<Fragment>
-		<NewUserModal v-if="showConfig.showNewUserForm"
+		<NewUserDialog v-if="showConfig.showNewUserForm"
 			:loading="loading"
 			:new-user="newUser"
 			:quota-options="quotaOptions"
 			@reset="resetForm"
-			@close="closeModal" />
+			@closing="closeDialog" />
 
 		<NcEmptyContent v-if="filteredUsers.length === 0"
 			class="empty"
@@ -36,8 +19,7 @@
 				<NcLoadingIcon v-if="isInitialLoad && loading.users"
 					:name="t('settings', 'Loading accounts …')"
 					:size="64" />
-				<NcIconSvgWrapper v-else
-					:svg="usersSvg" />
+				<NcIconSvgWrapper v-else :path="mdiAccountGroup" :size="64" />
 			</template>
 		</NcEmptyContent>
 
@@ -78,18 +60,18 @@
 </template>
 
 <script>
-import Vue from 'vue'
+import { mdiAccountGroup } from '@mdi/js'
+import { showError } from '@nextcloud/dialogs'
+import { subscribe, unsubscribe } from '@nextcloud/event-bus'
 import { Fragment } from 'vue-frag'
 
+import Vue from 'vue'
 import NcEmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent.js'
 import NcIconSvgWrapper from '@nextcloud/vue/dist/Components/NcIconSvgWrapper.js'
 import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
 
-import { subscribe, unsubscribe } from '@nextcloud/event-bus'
-import { showError } from '@nextcloud/dialogs'
-
 import VirtualList from './Users/VirtualList.vue'
-import NewUserModal from './Users/NewUserModal.vue'
+import NewUserDialog from './Users/NewUserDialog.vue'
 import UserListFooter from './Users/UserListFooter.vue'
 import UserListHeader from './Users/UserListHeader.vue'
 import UserRow from './Users/UserRow.vue'
@@ -97,9 +79,7 @@ import UserRow from './Users/UserRow.vue'
 import { defaultQuota, isObfuscated, unlimitedQuota } from '../utils/userUtils.ts'
 import logger from '../logger.ts'
 
-import usersSvg from '../../img/users.svg?raw'
-
-const newUser = {
+const newUser = Object.freeze({
 	id: '',
 	displayName: '',
 	password: '',
@@ -112,7 +92,7 @@ const newUser = {
 		code: 'en',
 		name: t('settings', 'Default language'),
 	},
-}
+})
 
 export default {
 	name: 'UserList',
@@ -122,7 +102,7 @@ export default {
 		NcEmptyContent,
 		NcIconSvgWrapper,
 		NcLoadingIcon,
-		NewUserModal,
+		NewUserDialog,
 		UserListFooter,
 		UserListHeader,
 		VirtualList,
@@ -139,19 +119,26 @@ export default {
 		},
 	},
 
+	setup() {
+		// non reactive properties
+		return {
+			mdiAccountGroup,
+			rowHeight: 55,
+
+			UserRow,
+		}
+	},
+
 	data() {
 		return {
-			UserRow,
 			loading: {
 				all: false,
 				groups: false,
 				users: false,
 			},
+			newUser: { ...newUser },
 			isInitialLoad: true,
-			rowHeight: 55,
-			usersSvg,
 			searchQuery: '',
-			newUser: Object.assign({}, newUser),
 		}
 	},
 
@@ -252,7 +239,7 @@ export default {
 
 	watch: {
 		// watch url change and group select
-		async selectedGroup(val, old) {
+		async selectedGroup(val) {
 			this.isInitialLoad = true
 			// if selected is the disabled group but it's empty
 			await this.redirectIfDisabled()
@@ -309,6 +296,7 @@ export default {
 					await this.$store.dispatch('getDisabledUsers', {
 						offset: this.disabledUsersOffset,
 						limit: this.disabledUsersLimit,
+						search: this.searchQuery,
 					})
 				} else {
 					await this.$store.dispatch('getUsers', {
@@ -327,7 +315,7 @@ export default {
 			this.isInitialLoad = false
 		},
 
-		closeModal() {
+		closeDialog() {
 			this.$store.commit('setShowConfig', {
 				key: 'showNewUserForm',
 				value: false,

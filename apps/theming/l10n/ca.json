@@ -71,9 +71,9 @@
     "Disable user theming" : "Inhabilita els temes d'usuari",
     "Although you can select and customize your instance, users can change their background and colors. If you want to enforce your customization, you can toggle this on." : "Tot i que podeu seleccionar i personalitzar la instància, els usuaris poden canviar el fons i els colors. Si voleu forçar la vostra personalització, podeu activar-ho.",
     "Appearance and accessibility settings" : "Paràmetres d'aparença i accessibilitat",
-    "Background" : "Fons",
+    "Background and color" : "Fons i color",
     "Customization has been disabled by your administrator" : "L'administrador ha inhabilitat la personalització",
-    "Set a custom background" : "Definiu un fons personalitzat",
+    "The background can be set to an image from the default set, a custom uploaded image, or a plain color. The primary color will automatically be adapted based on this and used for elements like folder icons, primary buttons and highlights." : "Podeu establir el fons en una imatge del conjunt per defecte, una imatge personalitzada que pugeu o un color llis. El color principal s'adaptarà automàticament en funció d'això i s'utilitzarà per a elements com les icones de les carpetes, els botons principals i els elements destacats.",
     "Keyboard shortcuts" : "Dreceres de teclat",
     "In some cases keyboard shortcuts can interfere with accessibility tools. In order to allow focusing on your tool correctly you can disable all keyboard shortcuts here. This will also disable all available shortcuts in apps." : "En alguns casos, les dreceres de teclat poden interferir amb les eines d'accessibilitat. Per a permetre centrar-vos correctament en la vostra eina, podeu inhabilitar totes les dreceres de teclat aquí. Això també inhabilitarà totes les dreceres disponibles en les aplicacions.",
     "Disable all keyboard shortcuts" : "Inhabilita totes les dreceres de teclat",
@@ -108,8 +108,8 @@
     "Reset to default" : "Reinicialitza els valors per defecte",
     "Upload" : "Puja",
     "Remove background image" : "Suprimeix la imatge de fons",
-    "Failed to clean up the old administration theming images folder" : "No s'ha pogut netejar la carpeta antiga d'imatges de temes d'administració",
-    "Failed to clean up the old administration image folder" : "No s'ha pogut netejar la carpeta antiga d'imatges d'administració",
+    "Background" : "Fons",
+    "Set a custom background" : "Definiu un fons personalitzat",
     "Select a custom color" : "Selecciona un color personalitzat"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

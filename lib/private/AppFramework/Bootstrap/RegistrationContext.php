@@ -3,28 +3,8 @@
 declare(strict_types=1);
 
 /**
- * @copyright 2020 Christoph Wurst <christoph@winzerhof-wurst.at>
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace OC\AppFramework\Bootstrap;
@@ -49,6 +29,7 @@ use OCP\Http\WellKnown\IHandler;
 use OCP\Notification\INotifier;
 use OCP\Profile\ILinkAction;
 use OCP\Search\IProvider;
+use OCP\Settings\IDeclarativeSettingsForm;
 use OCP\SetupCheck\ISetupCheck;
 use OCP\Share\IPublicShareTemplateProvider;
 use OCP\SpeechToText\ISpeechToTextProvider;
@@ -142,9 +123,6 @@ class RegistrationContext {
 	/** @var ServiceRegistration<\OCP\TextToImage\IProvider>[] */
 	private $textToImageProviders = [];
 
-
-
-
 	/** @var ParameterRegistration[] */
 	private $sensitiveMethods = [];
 
@@ -159,8 +137,17 @@ class RegistrationContext {
 	/** @var PreviewProviderRegistration[] */
 	private array $previewProviders = [];
 
+	/** @var ServiceRegistration<IDeclarativeSettingsForm>[] */
+	private array $declarativeSettings = [];
+
 	/** @var ServiceRegistration<ITeamResourceProvider>[] */
 	private array $teamResourceProviders = [];
+
+	/** @var ServiceRegistration<\OCP\TaskProcessing\IProvider>[] */
+	private array $taskProcessingProviders = [];
+
+	/** @var ServiceRegistration<\OCP\TaskProcessing\ITaskType>[] */
+	private array $taskProcessingTaskTypes = [];
 
 	public function __construct(LoggerInterface $logger) {
 		$this->logger = $logger;
@@ -403,6 +390,27 @@ class RegistrationContext {
 					$setupCheckClass
 				);
 			}
+
+			public function registerDeclarativeSettings(string $declarativeSettingsClass): void {
+				$this->context->registerDeclarativeSettings(
+					$this->appId,
+					$declarativeSettingsClass
+				);
+			}
+
+			public function registerTaskProcessingProvider(string $taskProcessingProviderClass): void {
+				$this->context->registerTaskProcessingProvider(
+					$this->appId,
+					$taskProcessingProviderClass
+				);
+			}
+
+			public function registerTaskProcessingTaskType(string $taskProcessingTaskTypeClass): void {
+				$this->context->registerTaskProcessingTaskType(
+					$this->appId,
+					$taskProcessingTaskTypeClass
+				);
+			}
 		};
 	}
 
@@ -542,7 +550,6 @@ class RegistrationContext {
 		);
 	}
 
-
 	/**
 	 * @psalm-param class-string<ITeamResourceProvider> $class
 	 */
@@ -574,6 +581,27 @@ class RegistrationContext {
 	 */
 	public function registerSetupCheck(string $appId, string $setupCheckClass): void {
 		$this->setupChecks[] = new ServiceRegistration($appId, $setupCheckClass);
+	}
+
+	/**
+	 * @psalm-param class-string<IDeclarativeSettingsForm> $declarativeSettingsClass
+	 */
+	public function registerDeclarativeSettings(string $appId, string $declarativeSettingsClass): void {
+		$this->declarativeSettings[] = new ServiceRegistration($appId, $declarativeSettingsClass);
+	}
+
+	/**
+	 * @psalm-param class-string<\OCP\TaskProcessing\IProvider> $declarativeSettingsClass
+	 */
+	public function registerTaskProcessingProvider(string $appId, string $taskProcessingProviderClass): void {
+		$this->taskProcessingProviders[] = new ServiceRegistration($appId, $taskProcessingProviderClass);
+	}
+
+	/**
+	 * @psalm-param class-string<\OCP\TaskProcessing\ITaskType> $declarativeSettingsClass
+	 */
+	public function registerTaskProcessingTaskType(string $appId, string $taskProcessingTaskTypeClass) {
+		$this->taskProcessingTaskTypes[] = new ServiceRegistration($appId, $taskProcessingTaskTypeClass);
 	}
 
 	/**
@@ -893,11 +921,31 @@ class RegistrationContext {
 		return $this->setupChecks;
 	}
 
-
 	/**
 	 * @return ServiceRegistration<ITeamResourceProvider>[]
 	 */
 	public function getTeamResourceProviders(): array {
 		return $this->teamResourceProviders;
+	}
+
+	/**
+	 * @return ServiceRegistration<IDeclarativeSettingsForm>[]
+	 */
+	public function getDeclarativeSettings(): array {
+		return $this->declarativeSettings;
+	}
+
+	/**
+	 * @return ServiceRegistration<\OCP\TaskProcessing\IProvider>[]
+	 */
+	public function getTaskProcessingProviders(): array {
+		return $this->taskProcessingProviders;
+	}
+
+	/**
+	 * @return ServiceRegistration<\OCP\TaskProcessing\ITaskType>[]
+	 */
+	public function getTaskProcessingTaskTypes(): array {
+		return $this->taskProcessingTaskTypes;
 	}
 }

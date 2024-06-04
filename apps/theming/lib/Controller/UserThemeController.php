@@ -3,31 +3,8 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2018 John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
- * @copyright Copyright (c) 2019 Janis Köhr <janiskoehr@icloud.com>
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Daniel Kesselberg <mail@danielkesselberg.de>
- * @author Janis Köhr <janis.koehr@novatec-gmbh.de>
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Kate Döen <kate.doeen@nextcloud.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\Theming\Controller;
 
@@ -58,7 +35,6 @@ class UserThemeController extends OCSController {
 	protected ?string $userId = null;
 
 	private IConfig $config;
-	private IUserSession $userSession;
 	private ThemesService $themesService;
 	private ThemingDefaults $themingDefaults;
 	private BackgroundService $backgroundService;
@@ -72,7 +48,6 @@ class UserThemeController extends OCSController {
 		BackgroundService $backgroundService) {
 		parent::__construct($appName, $request);
 		$this->config = $config;
-		$this->userSession = $userSession;
 		$this->themesService = $themesService;
 		$this->themingDefaults = $themingDefaults;
 		$this->backgroundService = $backgroundService;
@@ -186,7 +161,8 @@ class UserThemeController extends OCSController {
 		$this->backgroundService->deleteBackgroundImage();
 		return new JSONResponse([
 			'backgroundImage' => null,
-			'backgroundColor' => $this->themingDefaults->getColorPrimary(),
+			'backgroundColor' => $this->themingDefaults->getColorBackground(),
+			'primaryColor' => $this->themingDefaults->getColorPrimary(),
 			'version' => $currentVersion,
 		]);
 	}
@@ -204,7 +180,7 @@ class UserThemeController extends OCSController {
 	 * 200: Background set successfully
 	 * 400: Setting background is not possible
 	 */
-	public function setBackground(string $type = BackgroundService::BACKGROUND_DEFAULT, string $value = '', string $color = null): JSONResponse {
+	public function setBackground(string $type = BackgroundService::BACKGROUND_DEFAULT, string $value = '', ?string $color = null): JSONResponse {
 		$currentVersion = (int)$this->config->getUserValue($this->userId, Application::APP_ID, 'userCacheBuster', '0');
 
 		// Set color if provided
@@ -241,7 +217,8 @@ class UserThemeController extends OCSController {
 
 		return new JSONResponse([
 			'backgroundImage' => $this->config->getUserValue($this->userId, Application::APP_ID, 'background_image', BackgroundService::BACKGROUND_DEFAULT),
-			'backgroundColor' => $this->themingDefaults->getColorPrimary(),
+			'backgroundColor' => $this->themingDefaults->getColorBackground(),
+			'primaryColor' => $this->themingDefaults->getColorPrimary(),
 			'version' => $currentVersion,
 		]);
 	}

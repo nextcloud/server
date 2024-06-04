@@ -70,7 +70,10 @@ class GlobalAuth extends AuthMechanism {
 		]);
 	}
 
-	public function manipulateStorageConfig(StorageConfig &$storage, IUser $user = null) {
+	/**
+	 * @return void
+	 */
+	public function manipulateStorageConfig(StorageConfig &$storage, ?IUser $user = null) {
 		if ($storage->getType() === StorageConfig::MOUNT_TYPE_ADMIN) {
 			$uid = '';
 		} elseif (is_null($user)) {

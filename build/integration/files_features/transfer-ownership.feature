@@ -39,7 +39,7 @@ Feature: transfer-ownership
 		And As an "user1"
 		And using received transfer folder of "user1" as dav path
 		Then Downloaded content when downloading file "/test/somefile.txt" with range "bytes=0-6" should be "This is"
-		And transfer folder name contains "transferred from user0 -risky- ヂspḷay -na|-|e- on"
+		And transfer folder name contains "Transferred from user0 -risky- ヂspḷay -na|-|e- on"
 		And using old dav path
 		And as "user0" the folder "/test" does not exist
 		And using received transfer folder of "user1" as dav path
@@ -345,7 +345,7 @@ Feature: transfer-ownership
 		And As an "user1"
 		And using received transfer folder of "user1" as dav path
 		Then Downloaded content when downloading file "/test/somefile.txt" with range "bytes=0-6" should be "This is"
-		And transfer folder name contains "transferred from user0 -risky- ヂspḷay -na|-|e- on"
+		And transfer folder name contains "Transferred from user0 -risky- ヂspḷay -na|-|e- on"
 		And using old dav path
 		And as "user0" the folder "/test" does not exist
 		And using received transfer folder of "user1" as dav path

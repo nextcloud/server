@@ -34,7 +34,6 @@ OC.L10N.register(
     "4 hours" : "4 ώρες",
     "Mute all notifications" : "Σίγαση όλων των ειδοποιήσεων",
     "Appear offline" : "Εμφάνιση εκτός σύνδεσης",
-    "View profile" : "Προβολή προφίλ",
-    "{status}, {timestamp}" : "{status}, {timestamp}"
+    "View profile" : "Προβολή προφίλ"
 },
 "nplurals=2; plural=(n != 1);");

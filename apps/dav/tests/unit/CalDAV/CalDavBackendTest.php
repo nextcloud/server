@@ -1,33 +1,8 @@
 <?php
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- * @copyright Copyright (c) 2017 Georg Ehrke
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author dartcafe <github@dartcafe.de>
- * @author Georg Ehrke <oc.list@georgehrke.com>
- * @author Joas Schilling <coding@schilljs.com>
- * @author leith abdulla <online-nextcloud@eleith.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Citharel <nextcloud@tcit.fr>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 
 namespace OCA\DAV\Tests\unit\CalDAV;
@@ -46,6 +21,7 @@ use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\PropPatch;
 use Sabre\DAV\Xml\Property\Href;
 use Sabre\DAVACL\IACL;
+use function time;
 
 /**
  * Class CalDavBackendTest
@@ -1357,7 +1333,12 @@ END:VEVENT
 END:VCALENDAR
 EOD;
 		$this->backend->updateCalendarObject($calendarId, $uri, $calData);
-		$deleted = $this->backend->pruneOutdatedSyncTokens(0);
+
+		// Keep everything
+		$deleted = $this->backend->pruneOutdatedSyncTokens(0, 0);
+		self::assertSame(0, $deleted);
+
+		$deleted = $this->backend->pruneOutdatedSyncTokens(0, time());
 		// At least one from the object creation and one from the object update
 		$this->assertGreaterThanOrEqual(2, $deleted);
 		$changes = $this->backend->getChangesForCalendar($calendarId, $syncToken, 1);
@@ -1423,7 +1404,7 @@ EOD;
 		$this->assertEmpty($changes['deleted']);
 
 		// Delete all but last change
-		$deleted = $this->backend->pruneOutdatedSyncTokens(1);
+		$deleted = $this->backend->pruneOutdatedSyncTokens(1, time());
 		$this->assertEquals(1, $deleted); // We had two changes before, now one
 
 		// Only update should remain
@@ -1433,7 +1414,8 @@ EOD;
 		$this->assertEmpty($changes['deleted']);
 
 		// Check that no crash occurs when prune is called without current changes
-		$deleted = $this->backend->pruneOutdatedSyncTokens(1);
+		$deleted = $this->backend->pruneOutdatedSyncTokens(1, time());
+		self::assertSame(0, $deleted);
 	}
 
 	public function testSearchAndExpandRecurrences() {
@@ -1501,5 +1483,296 @@ EOD;
 				);
 			}
 		}
+	}
+
+	public function testRestoreChanges(): void {
+		$calendarId = $this->createTestCalendar();
+		$uri1 = static::getUniqueID('calobj1') . '.ics';
+		$calData = <<<EOD
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:Nextcloud Calendar
+BEGIN:VEVENT
+CREATED;VALUE=DATE-TIME:20130910T125139Z
+UID:47d15e3ec8
+LAST-MODIFIED;VALUE=DATE-TIME:20130910T125139Z
+DTSTAMP;VALUE=DATE-TIME:20130910T125139Z
+SUMMARY:Test Event
+DTSTART;VALUE=DATE-TIME:20130912T130000Z
+DTEND;VALUE=DATE-TIME:20130912T140000Z
+CLASS:PUBLIC
+END:VEVENT
+END:VCALENDAR
+EOD;
+		$this->backend->createCalendarObject($calendarId, $uri1, $calData);
+		$calData = <<<EOD
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:Nextcloud Calendar
+BEGIN:VEVENT
+CREATED;VALUE=DATE-TIME:20130910T125139Z
+UID:47d15e3ec8
+LAST-MODIFIED;VALUE=DATE-TIME:20130910T125139Z
+DTSTAMP;VALUE=DATE-TIME:20130910T125139Z
+SUMMARY:Test Event – UPDATED
+DTSTART;VALUE=DATE-TIME:20130912T130000Z
+DTEND;VALUE=DATE-TIME:20130912T140000Z
+CLASS:PUBLIC
+SEQUENCE:1
+END:VEVENT
+END:VCALENDAR
+EOD;
+		$this->backend->updateCalendarObject($calendarId, $uri1, $calData);
+		$uri2 = static::getUniqueID('calobj2') . '.ics';
+		$calData = <<<EOD
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:Nextcloud Calendar
+BEGIN:VEVENT
+CREATED;VALUE=DATE-TIME:20130910T125139Z
+UID:47d15e3ec9
+LAST-MODIFIED;VALUE=DATE-TIME:20130910T125139Z
+DTSTAMP;VALUE=DATE-TIME:20130910T125139Z
+SUMMARY:Test Event
+DTSTART;VALUE=DATE-TIME:20130912T130000Z
+DTEND;VALUE=DATE-TIME:20130912T140000Z
+CLASS:PUBLIC
+END:VEVENT
+END:VCALENDAR
+EOD;
+		$this->backend->createCalendarObject($calendarId, $uri2, $calData);
+		$changesBefore = $this->backend->getChangesForCalendar($calendarId, null, 1);
+		$this->backend->deleteCalendarObject($calendarId, $uri2);
+		$uri3 = static::getUniqueID('calobj3') . '.ics';
+		$calData = <<<EOD
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:Nextcloud Calendar
+BEGIN:VEVENT
+CREATED;VALUE=DATE-TIME:20130910T125139Z
+UID:47d15e3e10
+LAST-MODIFIED;VALUE=DATE-TIME:20130910T125139Z
+DTSTAMP;VALUE=DATE-TIME:20130910T125139Z
+SUMMARY:Test Event
+DTSTART;VALUE=DATE-TIME:20130912T130000Z
+DTEND;VALUE=DATE-TIME:20130912T140000Z
+CLASS:PUBLIC
+END:VEVENT
+END:VCALENDAR
+EOD;
+		$this->backend->createCalendarObject($calendarId, $uri3, $calData);
+		$deleteChanges = $this->db->getQueryBuilder();
+		$deleteChanges->delete('calendarchanges')
+			->where($deleteChanges->expr()->eq('calendarid', $deleteChanges->createNamedParameter($calendarId)));
+		$deleteChanges->executeStatement();
+
+		$this->backend->restoreChanges($calendarId);
+
+		$changesAfter = $this->backend->getChangesForCalendar($calendarId, $changesBefore['syncToken'], 1);
+		self::assertEquals([], $changesAfter['added']);
+		self::assertEqualsCanonicalizing([$uri1, $uri3], $changesAfter['modified']);
+		self::assertEquals([$uri2], $changesAfter['deleted']);
+	}
+
+	public function testSearchWithLimitAndTimeRange() {
+		$calendarId = $this->createTestCalendar();
+		$calendarInfo = [
+			'id' => $calendarId,
+			'principaluri' => 'user1',
+			'{http://owncloud.org/ns}owner-principal' => 'user1',
+		];
+
+		$testFiles = [
+			__DIR__ . '/../../misc/caldav-search-limit-timerange-1.ics',
+			__DIR__ . '/../../misc/caldav-search-limit-timerange-2.ics',
+			__DIR__ . '/../../misc/caldav-search-limit-timerange-3.ics',
+			__DIR__ . '/../../misc/caldav-search-limit-timerange-4.ics',
+			__DIR__ . '/../../misc/caldav-search-limit-timerange-5.ics',
+			__DIR__ . '/../../misc/caldav-search-limit-timerange-6.ics',
+		];
+
+		foreach ($testFiles as $testFile) {
+			$objectUri = static::getUniqueID('search-limit-timerange-');
+			$calendarData = \file_get_contents($testFile);
+			$this->backend->createCalendarObject($calendarId, $objectUri, $calendarData);
+		}
+
+		$start = new DateTimeImmutable('2024-05-06T00:00:00Z');
+		$end = $start->add(new DateInterval('P14D'));
+
+		$results = $this->backend->search(
+			$calendarInfo,
+			'',
+			[],
+			[
+				'timerange' => [
+					'start' => $start,
+					'end' => $end,
+				]
+			],
+			4,
+			null,
+		);
+
+		$this->assertCount(2, $results);
+
+		$this->assertEquals('Cake Tasting', $results[0]['objects'][0]['SUMMARY'][0]);
+		$this->assertGreaterThanOrEqual(
+			$start->getTimestamp(),
+			$results[0]['objects'][0]['DTSTART'][0]->getTimestamp(),
+			'Recurrence starting before requested start',
+		);
+
+		$this->assertEquals('Pasta Day', $results[1]['objects'][0]['SUMMARY'][0]);
+		$this->assertGreaterThanOrEqual(
+			$start->getTimestamp(),
+			$results[1]['objects'][0]['DTSTART'][0]->getTimestamp(),
+			'Recurrence starting before requested start',
+		);
+	}
+
+	public function testSearchWithLimitAndTimeRangeShouldNotReturnMoreObjectsThenLimit() {
+		$calendarId = $this->createTestCalendar();
+		$calendarInfo = [
+			'id' => $calendarId,
+			'principaluri' => 'user1',
+			'{http://owncloud.org/ns}owner-principal' => 'user1',
+		];
+
+		$testFiles = [
+			__DIR__ . '/../../misc/caldav-search-limit-timerange-1.ics',
+			__DIR__ . '/../../misc/caldav-search-limit-timerange-2.ics',
+			__DIR__ . '/../../misc/caldav-search-limit-timerange-3.ics',
+			__DIR__ . '/../../misc/caldav-search-limit-timerange-4.ics',
+			__DIR__ . '/../../misc/caldav-search-limit-timerange-5.ics',
+			__DIR__ . '/../../misc/caldav-search-limit-timerange-6.ics',
+		];
+
+		foreach ($testFiles as $testFile) {
+			$objectUri = static::getUniqueID('search-limit-timerange-');
+			$calendarData = \file_get_contents($testFile);
+			$this->backend->createCalendarObject($calendarId, $objectUri, $calendarData);
+		}
+
+		$start = new DateTimeImmutable('2024-05-06T00:00:00Z');
+		$end = $start->add(new DateInterval('P14D'));
+
+		$results = $this->backend->search(
+			$calendarInfo,
+			'',
+			[],
+			[
+				'timerange' => [
+					'start' => $start,
+					'end' => $end,
+				]
+			],
+			1,
+			null,
+		);
+
+		$this->assertCount(1, $results);
+
+		$this->assertEquals('Cake Tasting', $results[0]['objects'][0]['SUMMARY'][0]);
+		$this->assertGreaterThanOrEqual(
+			$start->getTimestamp(),
+			$results[0]['objects'][0]['DTSTART'][0]->getTimestamp(),
+			'Recurrence starting before requested start',
+		);
+	}
+
+	public function testSearchWithLimitAndTimeRangeShouldReturnObjectsInTheSameOrder() {
+		$calendarId = $this->createTestCalendar();
+		$calendarInfo = [
+			'id' => $calendarId,
+			'principaluri' => 'user1',
+			'{http://owncloud.org/ns}owner-principal' => 'user1',
+		];
+
+		$testFiles = [
+			__DIR__ . '/../../misc/caldav-search-limit-timerange-1.ics',
+			__DIR__ . '/../../misc/caldav-search-limit-timerange-2.ics',
+			__DIR__ . '/../../misc/caldav-search-limit-timerange-3.ics',
+			__DIR__ . '/../../misc/caldav-search-limit-timerange-4.ics',
+			__DIR__ . '/../../misc/caldav-search-limit-timerange-6.ics', // <-- intentional!
+			__DIR__ . '/../../misc/caldav-search-limit-timerange-5.ics',
+		];
+
+		foreach ($testFiles as $testFile) {
+			$objectUri = static::getUniqueID('search-limit-timerange-');
+			$calendarData = \file_get_contents($testFile);
+			$this->backend->createCalendarObject($calendarId, $objectUri, $calendarData);
+		}
+
+		$start = new DateTimeImmutable('2024-05-06T00:00:00Z');
+		$end = $start->add(new DateInterval('P14D'));
+
+		$results = $this->backend->search(
+			$calendarInfo,
+			'',
+			[],
+			[
+				'timerange' => [
+					'start' => $start,
+					'end' => $end,
+				]
+			],
+			2,
+			null,
+		);
+
+		$this->assertCount(2, $results);
+
+		$this->assertEquals('Cake Tasting', $results[0]['objects'][0]['SUMMARY'][0]);
+		$this->assertGreaterThanOrEqual(
+			$start->getTimestamp(),
+			$results[0]['objects'][0]['DTSTART'][0]->getTimestamp(),
+			'Recurrence starting before requested start',
+		);
+
+		$this->assertEquals('Pasta Day', $results[1]['objects'][0]['SUMMARY'][0]);
+		$this->assertGreaterThanOrEqual(
+			$start->getTimestamp(),
+			$results[1]['objects'][0]['DTSTART'][0]->getTimestamp(),
+			'Recurrence starting before requested start',
+		);
+	}
+
+	public function testSearchShouldReturnObjectsInTheSameOrderMissingDate() {
+		$calendarId = $this->createTestCalendar();
+		$calendarInfo = [
+			'id' => $calendarId,
+			'principaluri' => 'user1',
+			'{http://owncloud.org/ns}owner-principal' => 'user1',
+		];
+
+		$testFiles = [
+			__DIR__ . '/../../misc/caldav-search-limit-timerange-6.ics', // <-- intentional!
+			__DIR__ . '/../../misc/caldav-search-limit-timerange-5.ics',
+			__DIR__ . '/../../misc/caldav-search-missing-start-1.ics',
+			__DIR__ . '/../../misc/caldav-search-missing-start-2.ics',
+		];
+
+		foreach ($testFiles as $testFile) {
+			$objectUri = static::getUniqueID('search-return-objects-in-same-order-');
+			$calendarData = \file_get_contents($testFile);
+			$this->backend->createCalendarObject($calendarId, $objectUri, $calendarData);
+		}
+
+		$results = $this->backend->search(
+			$calendarInfo,
+			'',
+			[],
+			[],
+			4,
+			null,
+		);
+
+		$this->assertCount(4, $results);
+
+		$this->assertEquals('Cake Tasting', $results[0]['objects'][0]['SUMMARY'][0]);
+		$this->assertEquals('Pasta Day', $results[1]['objects'][0]['SUMMARY'][0]);
+		$this->assertEquals('Missing DTSTART 1', $results[2]['objects'][0]['SUMMARY'][0]);
+		$this->assertEquals('Missing DTSTART 2', $results[3]['objects'][0]['SUMMARY'][0]);
 	}
 }

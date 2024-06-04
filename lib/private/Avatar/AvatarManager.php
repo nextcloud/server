@@ -1,37 +1,10 @@
 <?php
 
 declare(strict_types=1);
-
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Michael Weimann <mail@michael-weimann.eu>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Vincent Petry <vincent@nextcloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2019-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OC\Avatar;
 
@@ -69,6 +42,9 @@ class AvatarManager implements IAvatarManager {
 
 	/**
 	 * return a user specific instance of \OCP\IAvatar
+	 *
+	 * If the user is disabled a guest avatar will be returned
+	 *
 	 * @see \OCP\IAvatar
 	 * @param string $userId the ownCloud user id
 	 * @throws \Exception In case the username is potentially dangerous
@@ -78,6 +54,10 @@ class AvatarManager implements IAvatarManager {
 		$user = $this->userManager->get($userId);
 		if ($user === null) {
 			throw new \Exception('user does not exist');
+		}
+
+		if (!$user->isEnabled()) {
+			return $this->getGuestAvatar($userId);
 		}
 
 		// sanitize userID - fixes casing issue (needed for the filesystem stuff that is done below)

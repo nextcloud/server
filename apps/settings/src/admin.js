@@ -1,3 +1,7 @@
+/**
+ * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
 window.addEventListener('DOMContentLoaded', () => {
 	$('#loglevel').change(function() {
 		$.post(OC.generateUrl('/settings/admin/log/level'), { level: $(this).val() }, () => {
@@ -101,11 +105,8 @@ window.addEventListener('DOMContentLoaded', () => {
 	const setupChecks = () => {
 		// run setup checks then gather error messages
 		$.when(
-			OC.SetupChecks.checkWebDAV(),
 			OC.SetupChecks.checkSetup(),
-			OC.SetupChecks.checkGeneric(),
-		).then((check1, check2, check3) => {
-			const messages = [].concat(check1, check2, check3)
+		).then((messages) => {
 			const $el = $('#postsetupchecks')
 			$('#security-warning-state-loading').addClass('hidden')
 

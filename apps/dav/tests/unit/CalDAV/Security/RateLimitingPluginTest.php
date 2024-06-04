@@ -2,25 +2,9 @@
 
 declare(strict_types=1);
 
-/*
- * @copyright 2023 Christoph Wurst <christoph@winzerhof-wurst.at>
- *
- * @author 2023 Christoph Wurst <christoph@winzerhof-wurst.at>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+/**
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace OCA\DAV\Tests\unit\CalDAV\Security;
@@ -159,6 +143,44 @@ class RateLimitingPluginTest extends TestCase {
 			->with('principals/users/user123')
 			->willReturn(3);
 		$this->expectException(Forbidden::class);
+
+		$this->plugin->beforeBind('calendars/foo/cal');
+	}
+
+	public function testNoCalendarsSubscriptsLimit(): void {
+		$user = $this->createMock(IUser::class);
+		$this->userManager->expects(self::once())
+			->method('get')
+			->with($this->userId)
+			->willReturn($user);
+		$user->method('getUID')->willReturn('user123');
+		$this->config
+			->method('getValueInt')
+			->with('dav')
+			->willReturnCallback(function ($app, $key, $default) {
+				switch ($key) {
+					case 'maximumCalendarsSubscriptions':
+						return -1;
+					default:
+						return $default;
+				}
+			});
+		$this->limiter->expects(self::once())
+			->method('registerUserRequest')
+			->with(
+				'caldav-create-calendar',
+				10,
+				3600,
+				$user,
+			);
+		$this->caldavBackend->expects(self::never())
+			->method('getCalendarsForUserCount')
+			->with('principals/users/user123')
+			->willReturn(27);
+		$this->caldavBackend->expects(self::never())
+			->method('getSubscriptionsForUserCount')
+			->with('principals/users/user123')
+			->willReturn(3);
 
 		$this->plugin->beforeBind('calendars/foo/cal');
 	}

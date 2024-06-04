@@ -2,32 +2,13 @@
 
 declare(strict_types=1);
 /**
- * @copyright Copyright (c) 2022 Joas Schilling <coding@schilljs.com>
- *
- * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\Theming\Themes;
 
 use OCA\Theming\ImageManager;
 use OCA\Theming\ITheme;
-use OCA\Theming\Service\BackgroundService;
 use OCA\Theming\ThemingDefaults;
 use OCA\Theming\Util;
 use OCP\App\IAppManager;
@@ -70,11 +51,6 @@ class DefaultTheme implements ITheme {
 
 		$this->defaultPrimaryColor = $this->themingDefaults->getDefaultColorPrimary();
 		$this->primaryColor = $this->themingDefaults->getColorPrimary();
-
-		// Override primary colors (if set) to improve accessibility
-		if ($this->primaryColor === BackgroundService::DEFAULT_COLOR) {
-			$this->primaryColor = BackgroundService::DEFAULT_ACCESSIBLE_COLOR;
-		}
 	}
 
 	public function getId(): string {
@@ -186,9 +162,13 @@ class DefaultTheme implements ITheme {
 			'--animation-slow' => '300ms',
 
 			// Default variables --------------------------------------------
+			// Border width for input elements such as text fields and selects
+			'--border-width-input' => '1px',
+			'--border-width-input-focused' => '2px',
 			'--border-radius' => '3px',
 			'--border-radius-large' => '10px',
 			'--border-radius-rounded' => '28px',
+			'--border-radius-element' => '10px',
 			// pill-style button, value is large so big buttons also have correct roundness
 			'--border-radius-pill' => '100px',
 

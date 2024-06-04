@@ -73,9 +73,9 @@ OC.L10N.register(
     "Disable user theming" : "Disable user theming",
     "Although you can select and customize your instance, users can change their background and colors. If you want to enforce your customization, you can toggle this on." : "Although you can select and customize your instance, users can change their background and colors. If you want to enforce your customization, you can toggle this on.",
     "Appearance and accessibility settings" : "Appearance and accessibility settings",
-    "Background" : "Background",
+    "Background and color" : "Background and colour",
     "Customization has been disabled by your administrator" : "Customization has been disabled by your administrator",
-    "Set a custom background" : "Set a custom background",
+    "The background can be set to an image from the default set, a custom uploaded image, or a plain color. The primary color will automatically be adapted based on this and used for elements like folder icons, primary buttons and highlights." : "The background can be set to an image from the default set, a custom uploaded image, or a plain colour. The primary colour will automatically be adapted based on this and used for elements like folder icons, primary buttons and highlights.",
     "Keyboard shortcuts" : "Keyboard shortcuts",
     "In some cases keyboard shortcuts can interfere with accessibility tools. In order to allow focusing on your tool correctly you can disable all keyboard shortcuts here. This will also disable all available shortcuts in apps." : "In some cases keyboard shortcuts can interfere with accessibility tools. In order to allow focusing on your tool correctly you can disable all keyboard shortcuts here. This will also disable all available shortcuts in apps.",
     "Disable all keyboard shortcuts" : "Disable all keyboard shortcuts",
@@ -110,8 +110,8 @@ OC.L10N.register(
     "Reset to default" : "Reset to default",
     "Upload" : "Upload",
     "Remove background image" : "Remove background image",
-    "Failed to clean up the old administration theming images folder" : "Failed to clean up the old administration theming images folder",
-    "Failed to clean up the old administration image folder" : "Failed to clean up the old administration image folder",
+    "Background" : "Background",
+    "Set a custom background" : "Set a custom background",
     "Select a custom color" : "Select a custom colour"
 },
 "nplurals=2; plural=(n != 1);");

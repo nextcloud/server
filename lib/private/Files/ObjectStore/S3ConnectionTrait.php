@@ -1,35 +1,8 @@
 <?php
 /**
- * @copyright Copyright (c) 2016 Robin Appelman <robin@icewind.nl>
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Florent <florent@coppint.com>
- * @author James Letendre <James.Letendre@gmail.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author S. Cat <33800996+sparrowjack63@users.noreply.github.com>
- * @author Stephen Cuppett <steve@cuppett.com>
- * @author Jasper Weyne <jasperweyne@gmail.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-
 namespace OC\Files\ObjectStore;
 
 use Aws\ClientResolver;
@@ -44,39 +17,13 @@ use OCP\ICertificateManager;
 use Psr\Log\LoggerInterface;
 
 trait S3ConnectionTrait {
-	/** @var array */
-	protected $params;
+	use S3ConfigTrait;
 
-	/** @var S3Client */
-	protected $connection;
+	protected string $id;
 
-	/** @var string */
-	protected $id;
+	protected bool $test;
 
-	/** @var string */
-	protected $bucket;
-
-	/** @var int */
-	protected $timeout;
-
-	/** @var string */
-	protected $proxy;
-
-	/** @var string */
-	protected $storageClass;
-
-	/** @var int */
-	protected $uploadPartSize;
-
-	/** @var int */
-	private $putSizeLimit;
-
-	/** @var int */
-	private $copySizeLimit;
-
-	private bool $useMultipartCopy = true;
-
-	protected $test;
+	protected ?S3Client $connection = null;
 
 	protected function parseParams($params) {
 		if (empty($params['bucket'])) {
@@ -87,6 +34,8 @@ trait S3ConnectionTrait {
 
 		$this->test = isset($params['test']);
 		$this->bucket = $params['bucket'];
+		// Default to 5 like the S3 SDK does
+		$this->concurrency = $params['concurrency'] ?? 5;
 		$this->proxy = $params['proxy'] ?? false;
 		$this->timeout = $params['timeout'] ?? 15;
 		$this->storageClass = !empty($params['storageClass']) ? $params['storageClass'] : 'STANDARD';
@@ -95,11 +44,17 @@ trait S3ConnectionTrait {
 		$this->copySizeLimit = $params['copySizeLimit'] ?? 5242880000;
 		$this->useMultipartCopy = (bool)($params['useMultipartCopy'] ?? true);
 		$params['region'] = empty($params['region']) ? 'eu-west-1' : $params['region'];
+		$params['s3-accelerate'] = $params['hostname'] == 's3-accelerate.amazonaws.com' || $params['hostname'] == 's3-accelerate.dualstack.amazonaws.com';
 		$params['hostname'] = empty($params['hostname']) ? 's3.' . $params['region'] . '.amazonaws.com' : $params['hostname'];
 		if (!isset($params['port']) || $params['port'] === '') {
 			$params['port'] = (isset($params['use_ssl']) && $params['use_ssl'] === false) ? 80 : 443;
 		}
 		$params['verify_bucket_exists'] = $params['verify_bucket_exists'] ?? true;
+
+		if ($params['s3-accelerate']) {
+			$params['verify_bucket_exists'] = false;
+		}
+
 		$this->params = $params;
 	}
 
@@ -118,7 +73,7 @@ trait S3ConnectionTrait {
 	 * @throws \Exception if connection could not be made
 	 */
 	public function getConnection() {
-		if (!is_null($this->connection)) {
+		if ($this->connection !== null) {
 			return $this->connection;
 		}
 
@@ -146,6 +101,13 @@ trait S3ConnectionTrait {
 			'http' => ['verify' => $this->getCertificateBundlePath()],
 			'use_aws_shared_config_files' => false,
 		];
+
+		if ($this->params['s3-accelerate']) {
+			$options['use_accelerate_endpoint'] = true;
+		} else {
+			$options['endpoint'] = $base_url;
+		}
+
 		if ($this->getProxy()) {
 			$options['http']['proxy'] = $this->getProxy();
 		}
@@ -174,7 +136,9 @@ trait S3ConnectionTrait {
 					'exception' => $e,
 					'app' => 'objectstore',
 				]);
-				throw new \Exception('Creation of bucket "' . $this->bucket . '" failed. ' . $e->getMessage());
+				if ($e->getAwsErrorCode() !== "BucketAlreadyOwnedByYou") {
+					throw new \Exception('Creation of bucket "' . $this->bucket . '" failed. ' . $e->getMessage());
+				}
 			}
 		}
 

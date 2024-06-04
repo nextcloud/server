@@ -1,3 +1,5 @@
+# SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
+# SPDX-License-Identifier: MIT
 name: Update code signing revocation list
 
 on:
@@ -17,7 +19,7 @@ jobs:
     name: update-code-signing-crl-${{ matrix.branches }}
 
     steps:
-      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
+      - uses: actions/checkout@a5ac7e51b41094c92402da3b24376905380afc29
         with:
           ref: ${{ matrix.branches }}
           submodules: true
@@ -29,7 +31,7 @@ jobs:
         run: openssl crl -verify -in resources/codesigning/root.crl -CAfile resources/codesigning/root.crt -noout
 
       - name: Create Pull Request
-        uses: peter-evans/create-pull-request@a4f52f8033a6168103c2538976c07b467e8163bc
+        uses: peter-evans/create-pull-request@6d6857d36972b65feb161a90e484f2984215f83e
         with:
           token: ${{ secrets.COMMAND_BOT_PAT }}
           commit-message: "fix(security): Update code signing revocation list"

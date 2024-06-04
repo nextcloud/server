@@ -68,9 +68,7 @@
     "User settings" : "Impostazioni utente",
     "Disable user theming" : "Disattiva temi utente",
     "Although you can select and customize your instance, users can change their background and colors. If you want to enforce your customization, you can toggle this on." : "Sebbene tu possa selezionare e personalizzare la tua istanza, gli utenti possono cambiare il loro sfondo e colore. Se vuoi forzare la tua personalizzazione, puoi attivare questo.",
-    "Background" : "Sfondo",
     "Customization has been disabled by your administrator" : "La personalizzazione è stata disattivata dall'amministratore",
-    "Set a custom background" : "Imposta uno sfondo personalizzato",
     "Keyboard shortcuts" : "Scorciatoie da tastiera",
     "In some cases keyboard shortcuts can interfere with accessibility tools. In order to allow focusing on your tool correctly you can disable all keyboard shortcuts here. This will also disable all available shortcuts in apps." : "In alcuni casi le scorciatoie da tastiera possono interferire con gli strumenti di accessibilità. Per concentrarti correttamente sullo strumento, è possibile disattivare tutte le scorciatoie da tastiera. Verranno disattivate anche tutte le scorciatoie disponibili nelle applicazioni.",
     "Disable all keyboard shortcuts" : "Disattiva tutte le scorciatoie da tastiera",
@@ -105,8 +103,8 @@
     "Reset to default" : "Ripristina valori predefiniti",
     "Upload" : "Carica",
     "Remove background image" : "Rimuovi immagine di sfondo",
-    "Failed to clean up the old administration theming images folder" : "Impossibile ripulire la vecchia cartella delle immagini dei temi dell'amministrazione",
-    "Failed to clean up the old administration image folder" : "Impossibile ripulire la vecchia cartella delle immagini di amministrazione",
+    "Background" : "Sfondo",
+    "Set a custom background" : "Imposta uno sfondo personalizzato",
     "Select a custom color" : "Seleziona un colore personalizzato"
 },"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

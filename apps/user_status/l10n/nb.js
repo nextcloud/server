@@ -43,7 +43,6 @@ OC.L10N.register(
     "4 hours" : "4 timer",
     "Mute all notifications" : "Demp alle varslinger",
     "Appear offline" : "Vis som frakoblet",
-    "View profile" : "Vis profil",
-    "{status}, {timestamp}" : "{status}, {timestamp}"
+    "View profile" : "Vis profil"
 },
 "nplurals=2; plural=(n != 1);");

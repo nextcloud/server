@@ -1,3 +1,5 @@
+# SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
+# SPDX-License-Identifier: MIT
 name: Update Psalm baseline
 
 on:
@@ -14,12 +16,12 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        branches: ["master", "stable28", "stable27", "stable26"]
+        branches: ["master", "stable29", "stable28", "stable27"]
 
     name: update-psalm-baseline-${{ matrix.branches }}
 
     steps:
-      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
+      - uses: actions/checkout@a5ac7e51b41094c92402da3b24376905380afc29
         with:
           ref: ${{ matrix.branches }}
           submodules: true
@@ -27,7 +29,7 @@ jobs:
       - name: Set up php
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.0'
+          php-version: '8.1'
           extensions: apcu,ctype,curl,dom,fileinfo,ftp,gd,intl,json,ldap,mbstring,openssl,pdo_sqlite,posix,sqlite,xml,zip
           coverage: none
         env:
@@ -50,10 +52,10 @@ jobs:
           git checkout composer.json composer.lock lib/composer
 
       - name: Create Pull Request
-        uses: peter-evans/create-pull-request@a4f52f8033a6168103c2538976c07b467e8163bc
+        uses: peter-evans/create-pull-request@6d6857d36972b65feb161a90e484f2984215f83e
         with:
           token: ${{ secrets.COMMAND_BOT_PAT }}
-          commit-message: Update psalm baseline
+          commit-message: "chore(tests): Update psalm baseline"
           committer: GitHub <noreply@github.com>
           author: nextcloud-command <nextcloud-command@users.noreply.github.com>
           signoff: true

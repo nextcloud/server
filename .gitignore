@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+# SPDX-FileCopyrightText: 2011-2016 ownCloud contributors
+# SPDX-FileCopyrightText: 2010 ownCloud contributors
+# SPDX-License-Identifier: AGPL-3.0-only
 # the default generated dir + db file
 /data
 /config/config.php
@@ -171,6 +175,6 @@ composer.phar
 core/js/mimetypelist.js
 
 # Tests - cypress
+cypress/downloads
 cypress/snapshots
 cypress/videos
-cypress/downloads

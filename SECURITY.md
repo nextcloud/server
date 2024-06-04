@@ -1,3 +1,7 @@
+<!--
+ - SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+ - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 # Security Policy
 
 [Security](https://nextcloud.com/security/) is very important to us.

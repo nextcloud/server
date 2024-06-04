@@ -1,48 +1,9 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Aaron Wood <aaronjwood@gmail.com>
- * @author Andreas Fischer <bantu@owncloud.com>
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Bart Visscher <bartv@thisnet.nl>
- * @author Benjamin Diele <benjamin@diele.be>
- * @author bline <scottbeck@gmail.com>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Daniel Kesselberg <mail@danielkesselberg.de>
- * @author J0WI <J0WI@users.noreply.github.com>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Jörn Friedrich Dreyer <jfd@butonic.de>
- * @author Juan Pablo Villafáñez <jvillafanez@solidgear.es>
- * @author Lorenzo M. Catucci <lorenzo@sancho.ccd.uniroma2.it>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Mario Kolling <mario.kolling@serpro.gov.br>
- * @author Max Kovalenko <mxss1998@yandex.ru>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Nicolas Grekas <nicolas.grekas@gmail.com>
- * @author Peter Kubica <peter@kubica.ch>
- * @author Ralph Krimmel <rkrimme1@gwdg.de>
- * @author Robin McCorkell <robin@mccorkell.me.uk>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Roger Szabo <roger.szabo@web.de>
- * @author Roland Tapken <roland@bitarbeiter.net>
- * @author root <root@localhost.localdomain>
- * @author Victor Dubiniuk <dubiniuk@owncloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\User_LDAP;
 
@@ -188,11 +149,6 @@ class Access extends LDAPUtility {
 			return false;
 		}
 		$cr = $this->connection->getConnectionResource();
-		if (!$this->ldap->isResource($cr)) {
-			//LDAP not available
-			$this->logger->debug('LDAP resource not available.', ['app' => 'user_ldap']);
-			return false;
-		}
 		$attr = mb_strtolower($attr, 'UTF-8');
 		// the actual read attribute later may contain parameters on a ranged
 		// request, e.g. member;range=99-199. Depends on server reply.
@@ -279,6 +235,8 @@ class Access extends LDAPUtility {
 	 * Normalizes a result grom getAttributes(), i.e. handles DNs and binary
 	 * data if present.
 	 *
+	 * DN values are escaped as per RFC 2253
+	 *
 	 * @param array $result from ILDAPWrapper::getAttributes()
 	 * @param string $attribute the attribute name that was read
 	 * @return string[]
@@ -344,11 +302,6 @@ class Access extends LDAPUtility {
 			throw new \Exception('LDAP password changes are disabled.');
 		}
 		$cr = $this->connection->getConnectionResource();
-		if (!$this->ldap->isResource($cr)) {
-			//LDAP not available
-			$this->logger->debug('LDAP resource not available.', ['app' => 'user_ldap']);
-			return false;
-		}
 		try {
 			// try PASSWD extended operation first
 			return @$this->invokeLDAPMethod('exopPasswd', $userDN, '', $password) ||
@@ -492,7 +445,7 @@ class Access extends LDAPUtility {
 	 * @return false|string with with the name to use in Nextcloud
 	 * @throws \Exception
 	 */
-	public function dn2ocname($fdn, $ldapName = null, $isUser = true, &$newlyMapped = null, array $record = null) {
+	public function dn2ocname($fdn, $ldapName = null, $isUser = true, &$newlyMapped = null, ?array $record = null) {
 		static $intermediates = [];
 		if (isset($intermediates[($isUser ? 'user-' : 'group-') . $fdn])) {
 			return false; // is a known intermediate
@@ -865,7 +818,7 @@ class Access extends LDAPUtility {
 	/**
 	 * @throws \Exception
 	 */
-	public function fetchListOfUsers(string $filter, array $attr, int $limit = null, int $offset = null, bool $forceApplyAttributes = false): array {
+	public function fetchListOfUsers(string $filter, array $attr, ?int $limit = null, ?int $offset = null, bool $forceApplyAttributes = false): array {
 		$ldapRecords = $this->searchUsers($filter, $attr, $limit, $offset);
 		$recordsToUpdate = $ldapRecords;
 		if (!$forceApplyAttributes) {
@@ -926,7 +879,7 @@ class Access extends LDAPUtility {
 	/**
 	 * @return array[]
 	 */
-	public function fetchListOfGroups(string $filter, array $attr, int $limit = null, int $offset = null): array {
+	public function fetchListOfGroups(string $filter, array $attr, ?int $limit = null, ?int $offset = null): array {
 		$cacheKey = 'fetchListOfGroups_' . $filter . '_' . implode('-', $attr) . '_' . (string)$limit . '_' . (string)$offset;
 		$listOfGroups = $this->connection->getFromCache($cacheKey);
 		if (!is_null($listOfGroups)) {
@@ -971,7 +924,7 @@ class Access extends LDAPUtility {
 	/**
 	 * @throws ServerNotAvailableException
 	 */
-	public function searchUsers(string $filter, array $attr = null, int $limit = null, int $offset = null): array {
+	public function searchUsers(string $filter, ?array $attr = null, ?int $limit = null, ?int $offset = null): array {
 		$result = [];
 		foreach ($this->connection->ldapBaseUsers as $base) {
 			$result = array_merge($result, $this->search($filter, $base, $attr, $limit, $offset));
@@ -984,7 +937,7 @@ class Access extends LDAPUtility {
 	 * @return false|int
 	 * @throws ServerNotAvailableException
 	 */
-	public function countUsers(string $filter, array $attr = ['dn'], int $limit = null, int $offset = null) {
+	public function countUsers(string $filter, array $attr = ['dn'], ?int $limit = null, ?int $offset = null) {
 		$result = false;
 		foreach ($this->connection->ldapBaseUsers as $base) {
 			$count = $this->count($filter, [$base], $attr, $limit ?? 0, $offset ?? 0);
@@ -1001,7 +954,7 @@ class Access extends LDAPUtility {
 	 * Executes an LDAP search
 	 * @throws ServerNotAvailableException
 	 */
-	public function searchGroups(string $filter, array $attr = null, int $limit = null, int $offset = null): array {
+	public function searchGroups(string $filter, ?array $attr = null, ?int $limit = null, ?int $offset = null): array {
 		$result = [];
 		foreach ($this->connection->ldapBaseGroups as $base) {
 			$result = array_merge($result, $this->search($filter, $base, $attr, $limit, $offset));
@@ -1015,7 +968,7 @@ class Access extends LDAPUtility {
 	 * @return int|bool
 	 * @throws ServerNotAvailableException
 	 */
-	public function countGroups(string $filter, array $attr = ['dn'], int $limit = null, int $offset = null) {
+	public function countGroups(string $filter, array $attr = ['dn'], ?int $limit = null, ?int $offset = null) {
 		$result = false;
 		foreach ($this->connection->ldapBaseGroups as $base) {
 			$count = $this->count($filter, [$base], $attr, $limit ?? 0, $offset ?? 0);
@@ -1030,7 +983,7 @@ class Access extends LDAPUtility {
 	 * @return int|bool
 	 * @throws ServerNotAvailableException
 	 */
-	public function countObjects(int $limit = null, int $offset = null) {
+	public function countObjects(?int $limit = null, ?int $offset = null) {
 		$result = false;
 		foreach ($this->connection->ldapBase as $base) {
 			$count = $this->count('objectclass=*', [$base], ['dn'], $limit ?? 0, $offset ?? 0);
@@ -1108,12 +1061,6 @@ class Access extends LDAPUtility {
 	) {
 		// See if we have a resource, in case not cancel with message
 		$cr = $this->connection->getConnectionResource();
-		if (!$this->ldap->isResource($cr)) {
-			// Seems like we didn't find any resource.
-			// Return an empty array just like before.
-			$this->logger->debug('Could not search, because resource is missing.', ['app' => 'user_ldap']);
-			return false;
-		}
 
 		//check whether paged search should be attempted
 		try {
@@ -1136,7 +1083,7 @@ class Access extends LDAPUtility {
 	/**
 	 * processes an LDAP paged search operation
 	 *
-	 * @param resource|\LDAP\Result|resource[]|\LDAP\Result[] $sr the array containing the LDAP search resources
+	 * @param \LDAP\Result|\LDAP\Result[] $sr the array containing the LDAP search resources
 	 * @param int $foundItems number of results in the single search operation
 	 * @param int $limit maximum results to be counted
 	 * @param bool $pagedSearchOK whether a paged search has been executed
@@ -1202,7 +1149,7 @@ class Access extends LDAPUtility {
 	private function count(
 		string $filter,
 		array $bases,
-		array $attr = null,
+		?array $attr = null,
 		int $limit = 0,
 		int $offset = 0,
 		bool $skipHandling = false
@@ -1249,7 +1196,7 @@ class Access extends LDAPUtility {
 	}
 
 	/**
-	 * @param resource|\LDAP\Result|resource[]|\LDAP\Result[] $sr
+	 * @param \LDAP\Result|\LDAP\Result[] $sr
 	 * @return int
 	 * @throws ServerNotAvailableException
 	 */
@@ -1259,6 +1206,8 @@ class Access extends LDAPUtility {
 
 	/**
 	 * Executes an LDAP search
+	 *
+	 * DN values in the result set are escaped as per RFC 2253
 	 *
 	 * @throws ServerNotAvailableException
 	 */
@@ -1730,7 +1679,7 @@ class Access extends LDAPUtility {
 	 * @return false|string
 	 * @throws ServerNotAvailableException
 	 */
-	public function getUUID(string $dn, bool $isUser = true, array $ldapRecord = null) {
+	public function getUUID(string $dn, bool $isUser = true, ?array $ldapRecord = null) {
 		if ($isUser) {
 			$uuidAttr = 'ldapUuidUserAttribute';
 			$uuidOverride = $this->connection->ldapExpertUUIDUserAttr;
@@ -2014,12 +1963,12 @@ class Access extends LDAPUtility {
 			}
 			$this->logger->debug('Ready for a paged search', ['app' => 'user_ldap']);
 			return [true, $pageSize, $this->lastCookie];
-		/* ++ Fixing RHDS searches with pages with zero results ++
-		 * We couldn't get paged searches working with our RHDS for login ($limit = 0),
-		 * due to pages with zero results.
-		 * So we added "&& !empty($this->lastCookie)" to this test to ignore pagination
-		 * if we don't have a previous paged search.
-		 */
+			/* ++ Fixing RHDS searches with pages with zero results ++
+			 * We couldn't get paged searches working with our RHDS for login ($limit = 0),
+			 * due to pages with zero results.
+			 * So we added "&& !empty($this->lastCookie)" to this test to ignore pagination
+			 * if we don't have a previous paged search.
+			 */
 		} elseif ($this->lastCookie !== '') {
 			// a search without limit was requested. However, if we do use
 			// Paged Search once, we always must do it. This requires us to

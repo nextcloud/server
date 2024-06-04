@@ -1,28 +1,12 @@
 <!--
-  - @copyright Copyright (c) 2019 John Molakvoæ <skjnldsv@protonmail.com>
-  -
-  - @author John Molakvoæ <skjnldsv@protonmail.com>
-  -
-  - @license GNU AGPL version 3 or any later version
-  -
-  - This program is free software: you can redistribute it and/or modify
-  - it under the terms of the GNU Affero General Public License as
-  - published by the Free Software Foundation, either version 3 of the
-  - License, or (at your option) any later version.
-  -
-  - This program is distributed in the hope that it will be useful,
-  - but WITHOUT ANY WARRANTY; without even the implied warranty of
-  - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  - GNU Affero General Public License for more details.
-  -
-  - You should have received a copy of the GNU Affero General Public License
-  - along with this program. If not, see <http://www.gnu.org/licenses/>.
-  -
-  -->
+  - SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 
 <template>
 	<NcAppSidebar v-if="file"
 		ref="sidebar"
+		cy-data-sidebar
 		v-bind="appSidebar"
 		:force-menu="true"
 		@close="close"
@@ -32,7 +16,7 @@
 		@opened="handleOpened"
 		@closing="handleClosing"
 		@closed="handleClosed">
-		<template #subname>
+		<template v-if="fileInfo" #subname>
 			<NcIconSvgWrapper v-if="fileInfo.isFavourited"
 				:path="mdiStar"
 				:name="t('files', 'Favorite')"
@@ -221,7 +205,7 @@ export default {
 		 * @return {string}
 		 */
 		size() {
-			return formatFileSize(this.fileInfo.size)
+			return formatFileSize(this.fileInfo?.size)
 		},
 
 		/**
@@ -333,8 +317,9 @@ export default {
 		},
 
 		getPreviewIfAny(fileInfo) {
-			if (fileInfo.hasPreview && !this.isFullScreen) {
-				return generateUrl(`/core/preview?fileId=${fileInfo.id}&x=${screen.width}&y=${screen.height}&a=true`)
+			if (fileInfo?.hasPreview && !this.isFullScreen) {
+				const etag = fileInfo?.etag || ''
+				return generateUrl(`/core/preview?fileId=${fileInfo.id}&x=${screen.width}&y=${screen.height}&a=true&v=${etag.slice(0, 6)}`)
 			}
 			return this.getIconUrl(fileInfo)
 		},
@@ -347,7 +332,7 @@ export default {
 		 * @return {string} Url to the icon for mimeType
 		 */
 		getIconUrl(fileInfo) {
-			const mimeType = fileInfo.mimetype || 'application/octet-stream'
+			const mimeType = fileInfo?.mimetype || 'application/octet-stream'
 			if (mimeType === 'httpd/unix-directory') {
 				// use default folder icon
 				if (fileInfo.mountType === 'shared' || fileInfo.mountType === 'shared-root') {

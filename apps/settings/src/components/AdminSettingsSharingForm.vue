@@ -1,23 +1,6 @@
 <!--
-	- @copyright 2023 Ferdinand Thiessen <opensource@fthiessen.de>
-	-
-	- @author Ferdinand Thiessen <opensource@fthiessen.de>
-	-
-	- @license AGPL-3.0-or-later
-	-
-	- This program is free software: you can redistribute it and/or modify
-	- it under the terms of the GNU Affero General Public License as
-	- published by the Free Software Foundation, either version 3 of the
-	- License, or (at your option) any later version.
-	-
-	- This program is distributed in the hope that it will be useful,
-	- but WITHOUT ANY WARRANTY; without even the implied warranty of
-	- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-	- GNU Affero General Public License for more details.
-	-
-	- You should have received a copy of the GNU Affero General Public License
-	- along with this program. If not, see <http://www.gnu.org/licenses/>.
-	-
+  - SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 <template>
 	<form class="sharing">
@@ -76,19 +59,31 @@
 				</label>
 			</fieldset>
 
-			<NcCheckboxRadioSwitch type="switch" :checked.sync="settings.excludeGroups">
-				{{ t('settings', 'Exclude groups from sharing') }}
-			</NcCheckboxRadioSwitch>
-			<div v-show="settings.excludeGroups" class="sharing__sub-section">
-				<div class="sharing__labeled-entry sharing__input">
-					<label for="settings-sharing-excluded-groups">{{ t('settings', 'Groups excluded from sharing') }}</label>
+			<label>{{ t('settings', 'Limit sharing based on groups') }}</label>
+			<div class="sharing__sub-section">
+				<NcCheckboxRadioSwitch :checked.sync="settings.excludeGroups"
+															 name="excludeGroups" value="no"
+															 type="radio" @update:checked="onUpdateExcludeGroups">
+					{{ t('settings', 'Allow sharing for everyone (default)') }}
+				</NcCheckboxRadioSwitch>
+				<NcCheckboxRadioSwitch :checked.sync="settings.excludeGroups"
+															 name="excludeGroups" value="yes"
+															 type="radio" @update:checked="onUpdateExcludeGroups">
+					{{ t('settings', 'Exclude some groups from sharing') }}
+				</NcCheckboxRadioSwitch>
+				<NcCheckboxRadioSwitch :checked.sync="settings.excludeGroups"
+															 name="excludeGroups" value="allow"
+															 type="radio" @update:checked="onUpdateExcludeGroups">
+					{{ t('settings', 'Limit sharing to some groups') }}
+				</NcCheckboxRadioSwitch>
+				<div v-show="settings.excludeGroups !== 'no'" class="sharing__labeled-entry sharing__input">
 					<NcSettingsSelectGroup id="settings-sharing-excluded-groups"
 						v-model="settings.excludeGroupsList"
 						aria-describedby="settings-sharing-excluded-groups-desc"
-						:label="t('settings', 'Groups excluded from sharing')"
-						:disabled="!settings.excludeGroups"
+						:label="settings.excludeGroups === 'allow' ? t('settings', 'Groups allowed to share') : t('settings', 'Groups excluded from sharing')"
+						:disabled="settings.excludeGroups === 'no'"
 						style="width: 100%" />
-					<em id="settings-sharing-excluded-groups-desc">{{ t('settings', 'These groups will still be able to receive shares, but not to initiate them.') }}</em>
+					<em id="settings-sharing-excluded-groups-desc">{{ t('settings', 'Not allowed groups will still be able to receive shares, but not to initiate them.') }}</em>
 				</div>
 			</div>
 
@@ -148,17 +143,17 @@
 			<NcCheckboxRadioSwitch type="switch"
 				aria-controls="settings-sharing-privacy-user-enumeration"
 				:checked.sync="settings.allowShareDialogUserEnumeration">
-				{{ t('settings', 'Allow username autocompletion in share dialog and allow access to the system address book') }}
+				{{ t('settings', 'Allow account name autocompletion in share dialog and allow access to the system address book') }}
 			</NcCheckboxRadioSwitch>
 			<fieldset v-show="settings.allowShareDialogUserEnumeration" id="settings-sharing-privacy-user-enumeration" class="sharing__sub-section">
 				<em>
 					{{ t('settings', 'If autocompletion "same group" and "phone number integration" are enabled a match in either is enough to show the user.') }}
 				</em>
 				<NcCheckboxRadioSwitch :checked.sync="settings.restrictUserEnumerationToGroup">
-					{{ t('settings', 'Allow username autocompletion to users within the same groups and limit system address books to users in the same groups') }}
+					{{ t('settings', 'Allow account name autocompletion to users within the same groups and limit system address books to users in the same groups') }}
 				</NcCheckboxRadioSwitch>
 				<NcCheckboxRadioSwitch :checked.sync="settings.restrictUserEnumerationToPhone">
-					{{ t('settings', 'Allow username autocompletion to users based on phone number integration') }}
+					{{ t('settings', 'Allow account name autocompletion to users based on phone number integration') }}
 				</NcCheckboxRadioSwitch>
 			</fieldset>
 
@@ -227,7 +222,7 @@ interface IShareSettings {
 	defaultExpireDate: boolean
 	expireAfterNDays: string
 	enforceExpireDate: boolean
-	excludeGroups: boolean
+	excludeGroups: string
 	excludeGroupsList: string[]
 	publicShareDisclaimerText?: string
 	enableLinkPasswordByDefault: boolean
@@ -306,6 +301,10 @@ export default defineComponent({
 			}
 			this.settingsData.publicShareDisclaimerText = value
 		}, 500) as (v?: string) => void,
+		onUpdateExcludeGroups: debounce(function(value: string) {
+			window.OCP.AppConfig.setValue('core', 'excludeGroups', value)
+			this.settings.excludeGroups = value
+		}, 500) as (v?: string) => void
 	},
 })
 </script>

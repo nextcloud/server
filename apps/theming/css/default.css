@@ -1,3 +1,5 @@
+/** SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors */
+/** SPDX-License-Identifier: AGPL-3.0-or-later */
 :root {
   --color-main-background: #ffffff;
   --color-main-background-rgb: 255,255,255;
@@ -49,9 +51,14 @@
   --default-font-size: 15px;
   --animation-quick: 100ms;
   --animation-slow: 300ms;
+  /** Border width for input elements such as text fields and selects */
+  --border-width-input: 1px;
+  --border-width-input-focused: 2px;
   --border-radius: 3px;
   --border-radius-large: 10px;
   --border-radius-rounded: 28px;
+  /* Border radius of interactive elements such as buttons, input, navigation and list items. Available since Nextcloud 30. */
+  --border-radius-element: 10px;
   --border-radius-pill: 100px;
   --default-clickable-area: 44px;
   --default-line-height: 24px;
@@ -71,7 +78,6 @@
   --primary-invert-if-bright: no;
   --primary-invert-if-dark: invert(100%);
   --color-primary: #00679e;
-  --color-primary-default: #0082c9;
   --color-primary-text: #ffffff;
   --color-primary-hover: #3285b1;
   --color-primary-light: #e5eff5;
@@ -85,6 +91,7 @@
   --color-primary-element-light-hover: #dbe4ea;
   --color-primary-element-light-text: #00293f;
   --gradient-primary-background: linear-gradient(40deg, var(--color-primary) 0%, var(--color-primary-hover) 100%);
-  --image-background-default: url('/apps/theming/img/background/kamil-porembinski-clouds.jpg');
   --color-background-plain: #00679e;
+  --color-background-plain-text: #ffffff;
+  --image-background: url('/apps/theming/img/background/kamil-porembinski-clouds.jpg');
 }

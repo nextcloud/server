@@ -1,42 +1,7 @@
 <?php
 /**
- * @copyright Copyright (c) 2016 Bjoern Schiessle <bjoern@schiessle.org>
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Bjoern Schiessle <bjoern@schiessle.org>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author comradekingu <epost@anotheragency.no>
- * @author Daniel Calviño Sánchez <danxuliu@gmail.com>
- * @author Daniel Kesselberg <mail@danielkesselberg.de>
- * @author exner104 <59639860+exner104@users.noreply.github.com>
- * @author Frederic Werner <frederic-github@werner-net.work>
- * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Nicolas SIMIDE <2083596+dems54@users.noreply.github.com>
- * @author Robin Appelman <robin@icewind.nl>
- * @author robottod <83244577+robottod@users.noreply.github.com>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author rubo77 <github@r.z11.de>
- * @author Stephan Müller <mail@stephanmueller.eu>
- * @author Valdnet <47037905+Valdnet@users.noreply.github.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\ShareByMail;
 
@@ -1069,12 +1034,7 @@ class ShareByMailProvider implements IShareProvider {
 
 		$qb->innerJoin('s', 'filecache', 'f', $qb->expr()->eq('s.file_source', 'f.fileid'));
 
-		$qb->andWhere($qb->expr()->eq('f.storage', $qb->createNamedParameter($node->getMountPoint()->getNumericStorageId(), IQueryBuilder::PARAM_INT)));
-		if ($shallow) {
-			$qb->andWhere($qb->expr()->eq('f.parent', $qb->createNamedParameter($node->getId())));
-		} else {
-			$qb->andWhere($qb->expr()->like('f.path', $qb->createNamedParameter($this->dbConnection->escapeLikeParameter($node->getInternalPath()) . '/%')));
-		}
+		$qb->andWhere($qb->expr()->eq('f.parent', $qb->createNamedParameter($node->getId())));
 
 		$qb->orderBy('id');
 
@@ -1098,21 +1058,32 @@ class ShareByMailProvider implements IShareProvider {
 		}
 
 		$qb = $this->dbConnection->getQueryBuilder();
-		$qb->select('share_with')
+		$qb->select('share_with', 'file_source', 'token')
 			->from('share')
 			->where($qb->expr()->eq('share_type', $qb->createNamedParameter(IShare::TYPE_EMAIL)))
 			->andWhere($qb->expr()->in('file_source', $qb->createNamedParameter($ids, IQueryBuilder::PARAM_INT_ARRAY)))
 			->andWhere($qb->expr()->orX(
 				$qb->expr()->eq('item_type', $qb->createNamedParameter('file')),
 				$qb->expr()->eq('item_type', $qb->createNamedParameter('folder'))
-			))
-			->setMaxResults(1);
+			));
 		$cursor = $qb->executeQuery();
 
-		$mail = $cursor->fetch() !== false;
+		$public = false;
+		$mail = [];
+		while ($row = $cursor->fetch()) {
+			$public = true;
+			if ($currentAccess === false) {
+				$mail[] = $row['share_with'];
+			} else {
+				$mail[$row['share_with']] = [
+					'node_id' => $row['file_source'],
+					'token' => $row['token']
+				];
+			}
+		}
 		$cursor->closeCursor();
 
-		return ['public' => $mail];
+		return ['public' => $public, 'mail' => $mail];
 	}
 
 	public function getAllShares(): iterable {

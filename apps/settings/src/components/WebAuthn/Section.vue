@@ -1,23 +1,7 @@
 <!--
-  - @copyright 2020, Roeland Jago Douma <roeland@famdouma.nl>
-  -
-  - @author Roeland Jago Douma <roeland@famdouma.nl>
-  -
-  - @license GNU AGPL version 3 or any later version
-  -
-  - This program is free software: you can redistribute it and/or modify
-  - it under the terms of the GNU Affero General Public License as
-  - published by the Free Software Foundation, either version 3 of the
-  - License, or (at your option) any later version.
-  -
-  - This program is distributed in the hope that it will be useful,
-  - but WITHOUT ANY WARRANTY; without even the implied warranty of
-  - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  - GNU Affero General Public License for more details.
-  -
-  - You should have received a copy of the GNU Affero General Public License
-  - along with this program.  If not, see <http://www.gnu.org/licenses/>.
-  -->
+  - SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 
 <template>
 	<div id="security-webauthn" class="section">
@@ -28,19 +12,22 @@
 		<NcNoteCard v-if="devices.length === 0" type="info">
 			{{ t('settings', 'No devices configured.') }}
 		</NcNoteCard>
-		<h3 v-else>
+
+		<h3 v-else id="security-webauthn__active-devices">
 			{{ t('settings', 'The following devices are configured for your account:') }}
 		</h3>
-		<Device v-for="device in sortedDevices"
-			:key="device.id"
-			:name="device.name"
-			@delete="deleteDevice(device.id)" />
+		<ul aria-labelledby="security-webauthn__active-devices" class="security-webauthn__device-list">
+			<Device v-for="device in sortedDevices"
+				:key="device.id"
+				:name="device.name"
+				@delete="deleteDevice(device.id)" />
+		</ul>
 
-		<NcNoteCard v-if="!hasPublicKeyCredential" type="warning">
+		<NcNoteCard v-if="!supportsWebauthn" type="warning">
 			{{ t('settings', 'Your browser does not support WebAuthn.') }}
 		</NcNoteCard>
 
-		<AddDevice v-if="hasPublicKeyCredential"
+		<AddDevice v-if="supportsWebauthn"
 			:is-https="isHttps"
 			:is-localhost="isLocalhost"
 			@added="deviceAdded" />
@@ -48,6 +35,7 @@
 </template>
 
 <script>
+import { browserSupportsWebAuthn } from '@simplewebauthn/browser'
 import { confirmPassword } from '@nextcloud/password-confirmation'
 import NcNoteCard from '@nextcloud/vue/dist/Components/NcNoteCard.js'
 import '@nextcloud/password-confirmation/dist/style.css'
@@ -79,11 +67,15 @@ export default {
 			type: Boolean,
 			default: false,
 		},
-		hasPublicKeyCredential: {
-			type: Boolean,
-			default: false,
-		},
 	},
+
+	setup() {
+		// Non reactive properties
+		return {
+			supportsWebauthn: browserSupportsWebAuthn(),
+		}
+	},
+
 	data() {
 		return {
 			devices: this.initialDevices,
@@ -115,5 +107,7 @@ export default {
 </script>
 
 <style scoped>
-
+.security-webauthn__device-list {
+	margin-block: 12px 18px;
+}
 </style>

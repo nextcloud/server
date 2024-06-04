@@ -1,34 +1,9 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Bart Visscher <bartv@thisnet.nl>
- * @author Björn Schießle <bjoern@schiessle.org>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Jakob Sack <mail@jakobsack.de>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Vincent Petry <vincent@nextcloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\DAV\Connector\Sabre;
 
@@ -72,7 +47,7 @@ class Directory extends \OCA\DAV\Connector\Sabre\Node implements \Sabre\DAV\ICol
 	/**
 	 * Sets up the node, expects a full path name
 	 */
-	public function __construct(View $view, FileInfo $info, ?CachingTree $tree = null, IShareManager $shareManager = null) {
+	public function __construct(View $view, FileInfo $info, ?CachingTree $tree = null, ?IShareManager $shareManager = null) {
 		parent::__construct($view, $info, $shareManager);
 		$this->tree = $tree;
 	}
@@ -202,7 +177,7 @@ class Directory extends \OCA\DAV\Connector\Sabre\Node implements \Sabre\DAV\ICol
 	 * @throws \Sabre\DAV\Exception\NotFound
 	 * @throws \Sabre\DAV\Exception\ServiceUnavailable
 	 */
-	public function getChild($name, $info = null, IRequest $request = null, IL10N $l10n = null) {
+	public function getChild($name, $info = null, ?IRequest $request = null, ?IL10N $l10n = null) {
 		if (!$this->info->isReadable()) {
 			// avoid detecting files through this way
 			throw new NotFound();
@@ -469,20 +444,28 @@ class Directory extends \OCA\DAV\Connector\Sabre\Node implements \Sabre\DAV\ICol
 
 	public function copyInto($targetName, $sourcePath, INode $sourceNode) {
 		if ($sourceNode instanceof File || $sourceNode instanceof Directory) {
-			$destinationPath = $this->getPath() . '/' . $targetName;
-			$sourcePath = $sourceNode->getPath();
-
-			if (!$this->fileView->isCreatable($this->getPath())) {
-				throw new \Sabre\DAV\Exception\Forbidden();
-			}
-
 			try {
-				$this->fileView->verifyPath($this->getPath(), $targetName);
-			} catch (InvalidPathException $ex) {
-				throw new InvalidPath($ex->getMessage());
-			}
+				$destinationPath = $this->getPath() . '/' . $targetName;
+				$sourcePath = $sourceNode->getPath();
 
-			return $this->fileView->copy($sourcePath, $destinationPath);
+				if (!$this->fileView->isCreatable($this->getPath())) {
+					throw new \Sabre\DAV\Exception\Forbidden();
+				}
+
+				try {
+					$this->fileView->verifyPath($this->getPath(), $targetName);
+				} catch (InvalidPathException $ex) {
+					throw new InvalidPath($ex->getMessage());
+				}
+
+				return $this->fileView->copy($sourcePath, $destinationPath);
+			} catch (StorageNotAvailableException $e) {
+				throw new ServiceUnavailable($e->getMessage());
+			} catch (ForbiddenException $ex) {
+				throw new Forbidden($ex->getMessage(), $ex->getRetry());
+			} catch (LockedException $e) {
+				throw new FileLocked($e->getMessage(), $e->getCode(), $e);
+			}
 		}
 
 		return false;

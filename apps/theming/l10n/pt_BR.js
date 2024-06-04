@@ -73,9 +73,7 @@ OC.L10N.register(
     "Disable user theming" : "Desabilitar temas do usuário",
     "Although you can select and customize your instance, users can change their background and colors. If you want to enforce your customization, you can toggle this on." : "Embora você possa selecionar e personalizar a sua instância, os usuários podem alterar seu plano de fundo e as cores. Se você quiser forçar a sua personalização, marque esta caixa.",
     "Appearance and accessibility settings" : "Configurações de aparência e acessibilidade",
-    "Background" : "Fundo",
     "Customization has been disabled by your administrator" : "A personalização foi desativada pelo seu administrador",
-    "Set a custom background" : "Defina um plano de fundo personalizado",
     "Keyboard shortcuts" : "Atalhos do teclado",
     "In some cases keyboard shortcuts can interfere with accessibility tools. In order to allow focusing on your tool correctly you can disable all keyboard shortcuts here. This will also disable all available shortcuts in apps." : "Em alguns casos, os atalhos de teclado podem interferir nas ferramentas de acessibilidade. Para permitir o foco em sua ferramenta corretamente, você pode desativar todos os atalhos de teclado aqui. Isso também desativará todos os atalhos disponíveis nos aplicativos.",
     "Disable all keyboard shortcuts" : "Desabilitar todos os atalhos de teclado",
@@ -110,8 +108,8 @@ OC.L10N.register(
     "Reset to default" : "Redefinir para o padrão",
     "Upload" : "Enviar",
     "Remove background image" : "Excluir a imagem de fundo",
-    "Failed to clean up the old administration theming images folder" : "Falha ao limpar a antiga pasta de imagens temáticas da administração",
-    "Failed to clean up the old administration image folder" : "Falha ao limpar a pasta de imagem de administração antiga",
+    "Background" : "Fundo",
+    "Set a custom background" : "Defina um plano de fundo personalizado",
     "Select a custom color" : "Selecione uma cor personalizada"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

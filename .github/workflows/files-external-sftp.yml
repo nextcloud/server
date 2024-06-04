@@ -1,9 +1,11 @@
+# SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
+# SPDX-License-Identifier: MIT
 name: PHPUnit files_external sFTP
 on:
   pull_request:
   schedule:
     - cron: "5 2 * * *"
-  
+
 concurrency:
   group: files-external-sftp-${{ github.head_ref || github.run_id }}
   cancel-in-progress: true
@@ -16,7 +18,7 @@ jobs:
       src: ${{ steps.changes.outputs.src}}
 
     steps:
-      - uses: dorny/paths-filter@ebc4d7e9ebcb0b1eb21480bb8f43113e996ac77a # v3.0.1
+      - uses: dorny/paths-filter@de90cc6fb38fc0963ad72b210f1f284cd68cea36 # v3.0.2
         id: changes
         continue-on-error: true
         with:
@@ -41,17 +43,17 @@ jobs:
       # do not stop on another job's failure
       fail-fast: false
       matrix:
-        php-versions: ['8.0', '8.3']
+        php-versions: ['8.1', '8.3']
         sftpd: ['openssh']
         include:
-          - php-versions: '8.0'
+          - php-versions: '8.1'
             coverage: ${{ github.event_name != 'pull_request' }}
 
     name: php${{ matrix.php-versions }}-${{ matrix.sftpd }}
 
     steps:
       - name: Checkout server
-        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
+        uses: actions/checkout@a5ac7e51b41094c92402da3b24376905380afc29
         with:
           submodules: true
 
@@ -87,7 +89,7 @@ jobs:
 
       - name: Upload code coverage
         if: ${{ !cancelled() && matrix.coverage }}
-        uses: codecov/codecov-action@v4
+        uses: codecov/codecov-action@v4.1.1
         with:
           files: ./clover.xml
           flags: phpunit-files-external-sftp

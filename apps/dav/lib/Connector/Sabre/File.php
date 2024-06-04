@@ -1,40 +1,9 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Bart Visscher <bartv@thisnet.nl>
- * @author Björn Schießle <bjoern@schiessle.org>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Daniel Calviño Sánchez <danxuliu@gmail.com>
- * @author Jakob Sack <mail@jakobsack.de>
- * @author Jan-Philipp Litza <jplitza@users.noreply.github.com>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Jörn Friedrich Dreyer <jfd@butonic.de>
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Owen Winkler <a_github@midnightcircus.com>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Semih Serhat Karakaya <karakayasemi@itu.edu.tr>
- * @author Stefan Schneider <stefan.schneider@squareweave.com.au>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Vincent Petry <vincent@nextcloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\DAV\Connector\Sabre;
 
@@ -89,7 +58,7 @@ class File extends Node implements IFile {
 	 * @param ?IRequest $request
 	 * @param ?IL10N $l10n
 	 */
-	public function __construct(View $view, FileInfo $info, IManager $shareManager = null, IRequest $request = null, IL10N $l10n = null) {
+	public function __construct(View $view, FileInfo $info, ?IManager $shareManager = null, ?IRequest $request = null, ?IL10N $l10n = null) {
 		parent::__construct($view, $info, $shareManager);
 
 		if ($l10n) {
@@ -125,7 +94,7 @@ class File extends Node implements IFile {
 	 * different object on a subsequent GET you are strongly recommended to not
 	 * return an ETag, and just return null.
 	 *
-	 * @param resource $data
+	 * @param resource|string $data
 	 *
 	 * @throws Forbidden
 	 * @throws UnsupportedMediaType

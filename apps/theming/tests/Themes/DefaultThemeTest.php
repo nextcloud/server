@@ -1,24 +1,7 @@
 <?php
 /**
- * @copyright Copyright (c) 2022 John Molakvoæ <skjnldsv@protonmail.com>
- *
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\Theming\Tests\Themes;
 
@@ -69,15 +52,27 @@ class DefaultThemeTest extends AccessibleThemeTestCase {
 			$this->imageManager
 		);
 
+		$defaultBackground = BackgroundService::SHIPPED_BACKGROUNDS[BackgroundService::DEFAULT_BACKGROUND_IMAGE];
+
 		$this->themingDefaults
 			->expects($this->any())
 			->method('getColorPrimary')
-			->willReturn('#0082c9');
+			->willReturn($defaultBackground['primary_color']);
+
+		$this->themingDefaults
+			->expects($this->any())
+			->method('getColorBackground')
+			->willReturn($defaultBackground['background_color']);
 
 		$this->themingDefaults
 			->expects($this->any())
 			->method('getDefaultColorPrimary')
-			->willReturn('#0082c9');
+			->willReturn($defaultBackground['primary_color']);
+
+		$this->themingDefaults
+			->expects($this->any())
+			->method('getDefaultColorBackground')
+			->willReturn($defaultBackground['background_color']);
 
 		$this->themingDefaults
 			->expects($this->any())
@@ -152,7 +147,7 @@ class DefaultThemeTest extends AccessibleThemeTestCase {
 			$variables .= "  $variable: $value;" . PHP_EOL;
 		};
 
-		$css = ":root {" . PHP_EOL . "$variables}" . PHP_EOL;
+		$css = "\n:root {" . PHP_EOL . "$variables}" . PHP_EOL;
 		$fallbackCss = file_get_contents(__DIR__ . '/../../css/default.css');
 		// Remove comments
 		$fallbackCss = preg_replace('/\s*\/\*[\s\S]*?\*\//m', '', $fallbackCss);

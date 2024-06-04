@@ -3,35 +3,9 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2017, Sandro Lutz <sandro.lutz@temparus.ch>
- * @copyright Copyright (c) 2016 Joas Schilling <coding@schilljs.com>
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Daniel Kesselberg <mail@danielkesselberg.de>
- * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Michael Weimann <mail@michael-weimann.eu>
- * @author Rayn0r <andrew@ilpss8.myfirewall.org>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Kate Döen <kate.doeen@nextcloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OC\Core\Controller;
 
@@ -41,6 +15,9 @@ use OC\Authentication\Login\LoginData;
 use OC\Authentication\WebAuthn\Manager as WebAuthnManager;
 use OC\User\Session;
 use OC_App;
+use OCA\User_LDAP\Configuration;
+use OCA\User_LDAP\Helper;
+use OCP\App\IAppManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\FrontpageRoute;
@@ -50,9 +27,9 @@ use OCP\AppFramework\Http\Attribute\UseSession;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\AppFramework\Services\IInitialState;
 use OCP\Defaults;
 use OCP\IConfig;
-use OCP\IInitialStateService;
 use OCP\IL10N;
 use OCP\IRequest;
 use OCP\ISession;
@@ -78,10 +55,11 @@ class LoginController extends Controller {
 		private IURLGenerator $urlGenerator,
 		private Defaults $defaults,
 		private IThrottler $throttler,
-		private IInitialStateService $initialStateService,
+		private IInitialState $initialState,
 		private WebAuthnManager $webAuthnManager,
 		private IManager $manager,
 		private IL10N $l10n,
+		private IAppManager $appManager,
 	) {
 		parent::__construct($appName, $request);
 	}
@@ -130,7 +108,7 @@ class LoginController extends Controller {
 	#[UseSession]
 	#[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
 	#[FrontpageRoute(verb: 'GET', url: '/login')]
-	public function showLoginForm(string $user = null, string $redirect_url = null): Http\Response {
+	public function showLoginForm(?string $user = null, ?string $redirect_url = null): Http\Response {
 		if ($this->userSession->isLoggedIn()) {
 			return new RedirectResponse($this->urlGenerator->linkToDefaultPageUrl());
 		}
@@ -144,19 +122,18 @@ class LoginController extends Controller {
 		}
 		if (is_array($loginMessages)) {
 			[$errors, $messages] = $loginMessages;
-			$this->initialStateService->provideInitialState('core', 'loginMessages', $messages);
-			$this->initialStateService->provideInitialState('core', 'loginErrors', $errors);
+			$this->initialState->provideInitialState('loginMessages', $messages);
+			$this->initialState->provideInitialState('loginErrors', $errors);
 		}
 		$this->session->remove('loginMessages');
 
 		if ($user !== null && $user !== '') {
-			$this->initialStateService->provideInitialState('core', 'loginUsername', $user);
+			$this->initialState->provideInitialState('loginUsername', $user);
 		} else {
-			$this->initialStateService->provideInitialState('core', 'loginUsername', '');
+			$this->initialState->provideInitialState('loginUsername', '');
 		}
 
-		$this->initialStateService->provideInitialState(
-			'core',
+		$this->initialState->provideInitialState(
 			'loginAutocomplete',
 			$this->config->getSystemValue('login_form_autocomplete', true) === true
 		);
@@ -164,21 +141,22 @@ class LoginController extends Controller {
 		if (!empty($redirect_url)) {
 			[$url, ] = explode('?', $redirect_url);
 			if ($url !== $this->urlGenerator->linkToRoute('core.login.logout')) {
-				$this->initialStateService->provideInitialState('core', 'loginRedirectUrl', $redirect_url);
+				$this->initialState->provideInitialState('loginRedirectUrl', $redirect_url);
 			}
 		}
 
-		$this->initialStateService->provideInitialState(
-			'core',
+		$this->initialState->provideInitialState(
 			'loginThrottleDelay',
 			$this->throttler->getDelay($this->request->getRemoteAddress())
 		);
 
 		$this->setPasswordResetInitialState($user);
 
-		$this->initialStateService->provideInitialState('core', 'webauthn-available', $this->webAuthnManager->isWebAuthnAvailable());
+		$this->setEmailStates();
 
-		$this->initialStateService->provideInitialState('core', 'hideLoginForm', $this->config->getSystemValueBool('hide_login_form', false));
+		$this->initialState->provideInitialState('webauthn-available', $this->webAuthnManager->isWebAuthnAvailable());
+
+		$this->initialState->provideInitialState('hideLoginForm', $this->config->getSystemValueBool('hide_login_form', false));
 
 		// OpenGraph Support: http://ogp.me/
 		Util::addHeader('meta', ['property' => 'og:title', 'content' => Util::sanitizeHTML($this->defaults->getName())]);
@@ -193,8 +171,9 @@ class LoginController extends Controller {
 			'pageTitle' => $this->l10n->t('Login'),
 		];
 
-		$this->initialStateService->provideInitialState('core', 'countAlternativeLogins', count($parameters['alt_login']));
-		$this->initialStateService->provideInitialState('core', 'alternativeLogins', $parameters['alt_login']);
+		$this->initialState->provideInitialState('countAlternativeLogins', count($parameters['alt_login']));
+		$this->initialState->provideInitialState('alternativeLogins', $parameters['alt_login']);
+		$this->initialState->provideInitialState('loginTimeout', $this->config->getSystemValueInt('login_form_timeout', 5 * 60));
 
 		return new TemplateResponse(
 			$this->appName,
@@ -218,17 +197,36 @@ class LoginController extends Controller {
 
 		$passwordLink = $this->config->getSystemValueString('lost_password_link', '');
 
-		$this->initialStateService->provideInitialState(
-			'core',
+		$this->initialState->provideInitialState(
 			'loginResetPasswordLink',
 			$passwordLink
 		);
 
-		$this->initialStateService->provideInitialState(
-			'core',
+		$this->initialState->provideInitialState(
 			'loginCanResetPassword',
 			$this->canResetPassword($passwordLink, $user)
 		);
+	}
+	
+	/**
+	 * Sets the initial state of whether or not a user is allowed to login with their email
+	 * initial state is passed in the array of 1 for email allowed and 0 for not allowed
+	 */
+	private function setEmailStates(): void {
+		$emailStates = []; // true: can login with email, false otherwise - default to true
+
+		// check if user_ldap is enabled, and the required classes exist
+		if ($this->appManager->isAppLoaded('user_ldap')
+			&& class_exists(Helper::class)) {
+			$helper = \OCP\Server::get(Helper::class);
+			$allPrefixes = $helper->getServerConfigurationPrefixes();
+			// check each LDAP server the user is connected too
+			foreach ($allPrefixes as $prefix) {
+				$emailConfig = new Configuration($prefix);
+				array_push($emailStates, $emailConfig->__get('ldapLoginFilterEmail'));
+			}
+		}
+		$this->initialState->provideInitialState('emailStates', $emailStates);
 	}
 
 	/**
@@ -283,7 +281,7 @@ class LoginController extends Controller {
 	public function tryLogin(Chain $loginChain,
 		string $user = '',
 		string $password = '',
-		string $redirect_url = null,
+		?string $redirect_url = null,
 		string $timezone = '',
 		string $timezone_offset = ''): RedirectResponse {
 		if (!$this->request->passesCSRFCheck()) {
@@ -305,9 +303,20 @@ class LoginController extends Controller {
 			);
 		}
 
+		$user = trim($user);
+
+		if (strlen($user) > 255) {
+			return $this->createLoginFailedResponse(
+				$user,
+				$user,
+				$redirect_url,
+				$this->l10n->t('Unsupported email length (>255)')
+			);
+		}
+
 		$data = new LoginData(
 			$this->request,
-			trim($user),
+			$user,
 			$password,
 			$redirect_url,
 			$timezone,

@@ -1,31 +1,9 @@
 <?php
 
 declare(strict_types=1);
-
 /**
- * @copyright Copyright 2018, Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Daniel Kesselberg <mail@danielkesselberg.de>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OC\Authentication\Token;
 
@@ -192,11 +170,11 @@ class PublicKeyTokenProvider implements IProvider {
 	 */
 	private function getTokenFromCache(string $tokenHash): ?PublicKeyToken {
 		$serializedToken = $this->cache->get($tokenHash);
-		if (null === $serializedToken) {
-			if ($this->cache->hasKey($tokenHash)) {
-				throw new InvalidTokenException('Token does not exist: ' . $tokenHash);
-			}
+		if ($serializedToken === false) {
+			throw new InvalidTokenException('Token does not exist: ' . $tokenHash);
+		}
 
+		if ($serializedToken === null) {
 			return null;
 		}
 
@@ -211,9 +189,9 @@ class PublicKeyTokenProvider implements IProvider {
 		$this->cache->set($token->getToken(), serialize($token), self::TOKEN_CACHE_TTL);
 	}
 
-	private function cacheInvalidHash(string $tokenHash) {
+	private function cacheInvalidHash(string $tokenHash): void {
 		// Invalid entries can be kept longer in cache since it’s unlikely to reuse them
-		$this->cache->set($tokenHash, null, self::TOKEN_CACHE_TTL * 2);
+		$this->cache->set($tokenHash, false, self::TOKEN_CACHE_TTL * 2);
 	}
 
 	public function getTokenById(int $tokenId): OCPIToken {

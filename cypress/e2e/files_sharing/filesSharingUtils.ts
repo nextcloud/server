@@ -1,26 +1,8 @@
-/* eslint-disable jsdoc/require-jsdoc */
 /**
- * @copyright Copyright (c) 2024 Louis Chemineau <louis@chmn.me>
- *
- * @author Louis Chemineau <louis@chmn.me>
- *
- * @license AGPL-3.0-or-later
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-
+/* eslint-disable jsdoc/require-jsdoc */
 import { triggerActionForFile } from '../files/FilesUtils'
 
 export interface ShareSetting {
@@ -58,8 +40,10 @@ export function updateShare(fileName: string, index: number, shareSettings: Part
 		if (shareSettings.download !== undefined) {
 			cy.get('[data-cy-files-sharing-share-permissions-checkbox="download"]').find('input').as('downloadCheckbox')
 			if (shareSettings.download) {
+				// Force:true because the checkbox is hidden by the pretty UI.
 				cy.get('@downloadCheckbox').check({ force: true, scrollBehavior: 'nearest' })
 			} else {
+				// Force:true because the checkbox is hidden by the pretty UI.
 				cy.get('@downloadCheckbox').uncheck({ force: true, scrollBehavior: 'nearest' })
 			}
 		}
@@ -67,8 +51,10 @@ export function updateShare(fileName: string, index: number, shareSettings: Part
 		if (shareSettings.read !== undefined) {
 			cy.get('[data-cy-files-sharing-share-permissions-checkbox="read"]').find('input').as('readCheckbox')
 			if (shareSettings.read) {
+				// Force:true because the checkbox is hidden by the pretty UI.
 				cy.get('@readCheckbox').check({ force: true, scrollBehavior: 'nearest' })
 			} else {
+				// Force:true because the checkbox is hidden by the pretty UI.
 				cy.get('@readCheckbox').uncheck({ force: true, scrollBehavior: 'nearest' })
 			}
 		}
@@ -76,8 +62,10 @@ export function updateShare(fileName: string, index: number, shareSettings: Part
 		if (shareSettings.update !== undefined) {
 			cy.get('[data-cy-files-sharing-share-permissions-checkbox="update"]').find('input').as('updateCheckbox')
 			if (shareSettings.update) {
+				// Force:true because the checkbox is hidden by the pretty UI.
 				cy.get('@updateCheckbox').check({ force: true, scrollBehavior: 'nearest' })
 			} else {
+				// Force:true because the checkbox is hidden by the pretty UI.
 				cy.get('@updateCheckbox').uncheck({ force: true, scrollBehavior: 'nearest' })
 			}
 		}
@@ -85,8 +73,10 @@ export function updateShare(fileName: string, index: number, shareSettings: Part
 		if (shareSettings.delete !== undefined) {
 			cy.get('[data-cy-files-sharing-share-permissions-checkbox="delete"]').find('input').as('deleteCheckbox')
 			if (shareSettings.delete) {
+				// Force:true because the checkbox is hidden by the pretty UI.
 				cy.get('@deleteCheckbox').check({ force: true, scrollBehavior: 'nearest' })
 			} else {
+				// Force:true because the checkbox is hidden by the pretty UI.
 				cy.get('@deleteCheckbox').uncheck({ force: true, scrollBehavior: 'nearest' })
 			}
 		}

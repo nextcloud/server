@@ -1,24 +1,7 @@
 <!--
-  - @copyright Copyright (c) 2023 John Molakvoæ <skjnldsv@protonmail.com>
-  -
-  - @author John Molakvoæ <skjnldsv@protonmail.com>
-  -
-  - @license GNU AGPL version 3 or any later version
-  -
-  - This program is free software: you can redistribute it and/or modify
-  - it under the terms of the GNU Affero General Public License as
-  - published by the Free Software Foundation, either version 3 of the
-  - License, or (at your option) any later version.
-  -
-  - This program is distributed in the hope that it will be useful,
-  - but WITHOUT ANY WARRANTY; without even the implied warranty of
-  - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  - GNU Affero General Public License for more details.
-  -
-  - You should have received a copy of the GNU Affero General Public License
-  - along with this program. If not, see <http://www.gnu.org/licenses/>.
-  -
-  -->
+  - SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 <template>
 	<td class="files-list__row-actions"
 		data-cy-files-list-row-actions>
@@ -77,7 +60,7 @@
 					:key="action.id"
 					:class="`files-list__row-action-${action.id}`"
 					class="files-list__row-action--submenu"
-					:close-after-click="false /* never close submenu, just go back */"
+					close-after-click
 					:data-cy-files-list-row-action="action.id"
 					:title="action.title?.([source], currentView)"
 					@click="onActionClick(action)">
@@ -105,8 +88,7 @@ import NcActionSeparator from '@nextcloud/vue/dist/Components/NcActionSeparator.
 import NcIconSvgWrapper from '@nextcloud/vue/dist/Components/NcIconSvgWrapper.js'
 import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
 import ArrowLeftIcon from 'vue-material-design-icons/ArrowLeft.vue'
-import ChevronRightIcon from 'vue-material-design-icons/ChevronRight.vue'
-import Vue from 'vue'
+import Vue, { defineComponent } from 'vue'
 
 import CustomElementRender from '../CustomElementRender.vue'
 import logger from '../../logger.js'
@@ -114,12 +96,11 @@ import logger from '../../logger.js'
 // The registered actions list
 const actions = getFileActions()
 
-export default Vue.extend({
+export default defineComponent({
 	name: 'FileEntryActions',
 
 	components: {
 		ArrowLeftIcon,
-		ChevronRightIcon,
 		CustomElementRender,
 		NcActionButton,
 		NcActions,
@@ -337,7 +318,7 @@ export default Vue.extend({
 			// Focus the previous menu action button
 			this.$nextTick(() => {
 				// Focus the action button
-				const menuAction = this.$refs[`action-${action.id}`][0]
+				const menuAction = this.$refs[`action-${action.id}`]?.[0]
 				if (menuAction) {
 					menuAction.$el.querySelector('button')?.focus()
 				}
@@ -352,12 +333,13 @@ export default Vue.extend({
 <style lang="scss">
 // Allow right click to define the position of the menu
 // only if defined
-[style*="mouse-pos-x"] .v-popper__popper {
+main.app-content[style*="mouse-pos-x"] .v-popper__popper {
 	transform: translate3d(var(--mouse-pos-x), var(--mouse-pos-y), 0px) !important;
 
 	// If the menu is too close to the bottom, we move it up
 	&[data-popper-placement="top"] {
-		transform: translate3d(var(--mouse-pos-x), calc(var(--mouse-pos-y) - 50vh), 0px) !important;
+		// 34px added to align with the top of the cursor
+		transform: translate3d(var(--mouse-pos-x), calc(var(--mouse-pos-y) - 50vh + 34px), 0px) !important;
 	}
 	// Hide arrow if floating
 	.v-popper__arrow-container {

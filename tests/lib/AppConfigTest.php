@@ -2,24 +2,8 @@
 
 declare(strict_types=1);
 /**
- * @copyright Copyright (c) 2024, Maxence Lange <maxence@artificial-owl.com>
- *
- * @author Maxence Lange <maxence@artificial-owl.com>
- *
- * @license AGPL-3.0 or later
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace Test;
 
@@ -384,6 +368,21 @@ class AppConfigTest extends TestCase {
 		$config = $this->generateAppConfig();
 		$this->expectException(AppConfigUnknownKeyException::class);
 		$config->isLazy('unknown-app', 'inexistant-key');
+	}
+
+	public function testGetAllValues(): void {
+		$config = $this->generateAppConfig();
+		$this->assertEquals(
+			[
+				'array' => ['test' => 1],
+				'bool' => true,
+				'float' => 3.14,
+				'int' => 42,
+				'mixed' => 'mix',
+				'string' => 'value',
+			],
+			$config->getAllValues('typed')
+		);
 	}
 
 	public function testGetAllValuesWithEmptyApp(): void {
@@ -1238,7 +1237,7 @@ class AppConfigTest extends TestCase {
 			[
 				'app' => 'sensitive-app',
 				'key' => 'lazy-key',
-				'value' => $this->baseStruct['sensitive-app']['lazy-key']['encrypted'],
+				'value' => 'value',
 				'type' => 4,
 				'lazy' => true,
 				'typeString' => 'string',

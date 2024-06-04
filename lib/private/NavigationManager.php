@@ -1,33 +1,9 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud GmbH
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Bart Visscher <bartv@thisnet.nl>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Daniel Kesselberg <mail@danielkesselberg.de>
- * @author Georg Ehrke <oc.list@georgehrke.com>
- * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud GmbH
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OC;
 
@@ -94,6 +70,7 @@ class NavigationManager implements INavigationManager {
 			$this->closureEntries[] = $entry;
 			return;
 		}
+		$this->init();
 
 		$id = $entry['id'];
 
@@ -118,7 +95,7 @@ class NavigationManager implements INavigationManager {
 			// This is the default app that will always be shown first
 			$entry['default'] = ($entry['app'] ?? false) === $this->defaultApp;
 			// Set order from user defined app order
-			$entry['order'] = $this->customAppOrder[$id]['order'] ?? $entry['order'] ?? 100;
+			$entry['order'] = (int)($this->customAppOrder[$id]['order'] ?? $entry['order'] ?? 100);
 		}
 
 		$this->entries[$id] = $entry;
@@ -231,13 +208,9 @@ class NavigationManager implements INavigationManager {
 				'id' => 'help',
 				'order' => 99998,
 				'href' => $this->urlGenerator->linkToRoute('settings.Help.help'),
-				'name' => $l->t('Help'),
+				'name' => $l->t('Help & privacy'),
 				'icon' => $this->urlGenerator->imagePath('settings', 'help.svg'),
 			]);
-		}
-
-		if ($this->appManager === 'null') {
-			return;
 		}
 
 		$this->defaultApp = $this->appManager->getDefaultAppForUser($this->userSession->getUser(), false);
@@ -329,7 +302,7 @@ class NavigationManager implements INavigationManager {
 					'id' => 'core_users',
 					'order' => 6,
 					'href' => $this->urlGenerator->linkToRoute('settings.Users.usersList'),
-					'name' => $l->t('Users'),
+					'name' => $l->t('Accounts'),
 					'icon' => $this->urlGenerator->imagePath('settings', 'users.svg'),
 				]);
 			}

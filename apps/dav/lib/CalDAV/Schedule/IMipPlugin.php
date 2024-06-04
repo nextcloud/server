@@ -1,38 +1,10 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- * @copyright Copyright (c) 2017, Georg Ehrke
- * @copyright Copyright (C) 2007-2015 fruux GmbH (https://fruux.com/).
- * @copyright Copyright (C) 2007-2015 fruux GmbH (https://fruux.com/).
- * @copyright 2022 Anna Larch <anna.larch@gmx.net>
- *
- * @author brad2014 <brad2014@users.noreply.github.com>
- * @author Brad Rubenstein <brad@wbr.tech>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Georg Ehrke <oc.list@georgehrke.com>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Leon Klingele <leon@struktur.de>
- * @author Nick Sweeting <git@sweeting.me>
- * @author rakekniven <mark.ziegler@rakekniven.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Citharel <nextcloud@tcit.fr>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Anna Larch <anna.larch@gmx.net>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-FileCopyrightText: 2007-2015 fruux GmbH (https://fruux.com/)
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\DAV\CalDAV\Schedule;
 
@@ -41,7 +13,7 @@ use OCA\DAV\CalDAV\EventComparisonService;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Defaults;
 use OCP\IConfig;
-use OCP\IUserManager;
+use OCP\IUserSession;
 use OCP\Mail\IMailer;
 use OCP\Util;
 use Psr\Log\LoggerInterface;
@@ -69,13 +41,12 @@ use Sabre\VObject\Reader;
  * @license http://sabre.io/license/ Modified BSD License
  */
 class IMipPlugin extends SabreIMipPlugin {
-	private ?string $userId;
+	private IUserSession $userSession;
 	private IConfig $config;
 	private IMailer $mailer;
 	private LoggerInterface $logger;
 	private ITimeFactory $timeFactory;
 	private Defaults $defaults;
-	private IUserManager $userManager;
 	private ?VCalendar $vCalendar = null;
 	private IMipService $imipService;
 	public const MAX_DATE = '2038-01-01';
@@ -90,18 +61,16 @@ class IMipPlugin extends SabreIMipPlugin {
 		LoggerInterface $logger,
 		ITimeFactory $timeFactory,
 		Defaults $defaults,
-		IUserManager $userManager,
-		$userId,
+		IUserSession $userSession,
 		IMipService $imipService,
 		EventComparisonService $eventComparisonService) {
 		parent::__construct('');
-		$this->userId = $userId;
+		$this->userSession = $userSession;
 		$this->config = $config;
 		$this->mailer = $mailer;
 		$this->logger = $logger;
 		$this->timeFactory = $timeFactory;
 		$this->defaults = $defaults;
-		$this->userManager = $userManager;
 		$this->imipService = $imipService;
 		$this->eventComparisonService = $eventComparisonService;
 	}
@@ -206,17 +175,16 @@ class IMipPlugin extends SabreIMipPlugin {
 		$this->imipService->setL10n($attendee);
 
 		// Build the sender name.
-		// Due to a bug in sabre, the senderName property for an iTIP message
-		// can actually also be a VObject Property
-		/** @var Parameter|string|null $senderName */
-		$senderName = $iTipMessage->senderName ?: null;
-		if($senderName instanceof Parameter) {
-			$senderName = $senderName->getValue() ?? null;
-		}
-
-		// Try to get the sender name from the current user id if available.
-		if ($this->userId !== null && ($senderName === null || empty(trim($senderName)))) {
-			$senderName = $this->userManager->getDisplayName($this->userId);
+		// Due to a bug in sabre, the senderName property for an iTIP message can actually also be a VObject Property
+		// If the iTIP message senderName is null or empty use the user session name as the senderName
+		if (($iTipMessage->senderName instanceof Parameter) && !empty(trim($iTipMessage->senderName->getValue()))) {
+			$senderName = trim($iTipMessage->senderName->getValue());
+		} elseif (is_string($iTipMessage->senderName) && !empty(trim($iTipMessage->senderName))) {
+			$senderName = trim($iTipMessage->senderName);
+		} elseif ($this->userSession->getUser() !== null) {
+			$senderName = trim($this->userSession->getUser()->getDisplayName());
+		} else {
+			$senderName = '';
 		}
 
 		$sender = substr($iTipMessage->sender, 7);

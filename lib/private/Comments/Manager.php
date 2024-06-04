@@ -1,34 +1,14 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Simounet <contact@simounet.net>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OC\Comments;
 
 use Doctrine\DBAL\Exception\DriverException;
+use OCA\DAV\Connector\Sabre\File;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Comments\CommentsEvent;
 use OCP\Comments\IComment;
@@ -36,6 +16,9 @@ use OCP\Comments\ICommentsEventHandler;
 use OCP\Comments\ICommentsManager;
 use OCP\Comments\NotFoundException;
 use OCP\DB\QueryBuilder\IQueryBuilder;
+use OCP\Files\FileInfo;
+use OCP\Files\Folder;
+use OCP\Files\IRootFolder;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IEmojiHelper;
@@ -46,12 +29,6 @@ use OCP\Util;
 use Psr\Log\LoggerInterface;
 
 class Manager implements ICommentsManager {
-	protected IDBConnection $dbConn;
-	protected LoggerInterface $logger;
-	protected IConfig $config;
-	protected ITimeFactory $timeFactory;
-	protected IEmojiHelper $emojiHelper;
-	protected IInitialStateService $initialStateService;
 	/** @var IComment[] */
 	protected array $commentsCache = [];
 
@@ -64,18 +41,15 @@ class Manager implements ICommentsManager {
 	/** @var \Closure[] */
 	protected array $displayNameResolvers = [];
 
-	public function __construct(IDBConnection $dbConn,
-		LoggerInterface $logger,
-		IConfig $config,
-		ITimeFactory $timeFactory,
-		IEmojiHelper $emojiHelper,
-		IInitialStateService $initialStateService) {
-		$this->dbConn = $dbConn;
-		$this->logger = $logger;
-		$this->config = $config;
-		$this->timeFactory = $timeFactory;
-		$this->emojiHelper = $emojiHelper;
-		$this->initialStateService = $initialStateService;
+	public function __construct(
+		protected IDBConnection $dbConn,
+		protected LoggerInterface $logger,
+		protected IConfig $config,
+		protected ITimeFactory $timeFactory,
+		protected IEmojiHelper $emojiHelper,
+		protected IInitialStateService $initialStateService,
+		protected IRootFolder $rootFolder,
+	) {
 	}
 
 	/**
@@ -344,7 +318,7 @@ class Manager implements ICommentsManager {
 		$objectId,
 		$limit = 0,
 		$offset = 0,
-		\DateTime $notOlderThan = null
+		?\DateTime $notOlderThan = null
 	) {
 		$comments = [];
 
@@ -637,7 +611,7 @@ class Manager implements ICommentsManager {
 	 * @return Int
 	 * @since 9.0.0
 	 */
-	public function getNumberOfCommentsForObject($objectType, $objectId, \DateTime $notOlderThan = null, $verb = '') {
+	public function getNumberOfCommentsForObject($objectType, $objectId, ?\DateTime $notOlderThan = null, $verb = '') {
 		$qb = $this->dbConn->getQueryBuilder();
 		$query = $qb->select($qb->func()->count('id'))
 			->from('comments')
@@ -820,54 +794,25 @@ class Manager implements ICommentsManager {
 	/**
 	 * Get the number of unread comments for all files in a folder
 	 *
+	 * This is unused since 8bd39fccf411195839f2dadee085fad18ec52c23
+	 *
 	 * @param int $folderId
 	 * @param IUser $user
 	 * @return array [$fileId => $unreadCount]
 	 */
 	public function getNumberOfUnreadCommentsForFolder($folderId, IUser $user) {
-		$qb = $this->dbConn->getQueryBuilder();
-
-		$query = $qb->select('f.fileid')
-			->addSelect($qb->func()->count('c.id', 'num_ids'))
-			->from('filecache', 'f')
-			->leftJoin('f', 'comments', 'c', $qb->expr()->andX(
-				$qb->expr()->eq('f.fileid', $qb->expr()->castColumn('c.object_id', IQueryBuilder::PARAM_INT)),
-				$qb->expr()->eq('c.object_type', $qb->createNamedParameter('files'))
-			))
-			->leftJoin('c', 'comments_read_markers', 'm', $qb->expr()->andX(
-				$qb->expr()->eq('c.object_id', 'm.object_id'),
-				$qb->expr()->eq('m.object_type', $qb->createNamedParameter('files'))
-			))
-			->where(
-				$qb->expr()->andX(
-					$qb->expr()->eq('f.parent', $qb->createNamedParameter($folderId)),
-					$qb->expr()->orX(
-						$qb->expr()->eq('c.object_type', $qb->createNamedParameter('files')),
-						$qb->expr()->isNull('c.object_type')
-					),
-					$qb->expr()->orX(
-						$qb->expr()->eq('m.object_type', $qb->createNamedParameter('files')),
-						$qb->expr()->isNull('m.object_type')
-					),
-					$qb->expr()->orX(
-						$qb->expr()->eq('m.user_id', $qb->createNamedParameter($user->getUID())),
-						$qb->expr()->isNull('m.user_id')
-					),
-					$qb->expr()->orX(
-						$qb->expr()->gt('c.creation_timestamp', 'm.marker_datetime'),
-						$qb->expr()->isNull('m.marker_datetime')
-					)
-				)
-			)->groupBy('f.fileid');
-
-		$resultStatement = $query->execute();
-
-		$results = [];
-		while ($row = $resultStatement->fetch()) {
-			$results[$row['fileid']] = (int) $row['num_ids'];
+		$directory = $this->rootFolder->getFirstNodeById($folderId);
+		if (!$directory instanceof Folder) {
+			return [];
 		}
-		$resultStatement->closeCursor();
-		return $results;
+		$children = $directory->getDirectoryListing();
+		$ids = array_map(fn (FileInfo $child) => (string) $child->getId(), $children);
+
+		$ids[] = (string) $directory->getId();
+		$counts = $this->getNumberOfUnreadCommentsForObjects('files', $ids, $user);
+		return array_filter($counts, function (int $count) {
+			return $count > 0;
+		});
 	}
 
 	/**

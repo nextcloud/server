@@ -1,23 +1,6 @@
 /**
- * @copyright Copyright (c) 2023 John Molakvoæ <skjnldsv@protonmail.com>
- *
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- *
- * @license AGPL-3.0-or-later
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 import { generateUrl } from '@nextcloud/router'
 import { FileAction, Permission, Node, FileType, View } from '@nextcloud/files'
@@ -48,7 +31,8 @@ const isDownloadable = function(node: Node) {
 
 	// If the mount type is a share, ensure it got download permissions.
 	if (node.attributes['mount-type'] === 'shared') {
-		const downloadAttribute = JSON.parse(node.attributes['share-attributes']).find((attribute: { scope: string; key: string }) => attribute.scope === 'permissions' && attribute.key === 'download')
+		const shareAttributes = JSON.parse(node.attributes['share-attributes'] ?? 'null')
+		const downloadAttribute = shareAttributes?.find?.((attribute: { scope: string; key: string }) => attribute.scope === 'permissions' && attribute.key === 'download')
 		if (downloadAttribute !== undefined && downloadAttribute.enabled === false) {
 			return false
 		}

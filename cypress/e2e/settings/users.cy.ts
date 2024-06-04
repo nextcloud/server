@@ -1,23 +1,6 @@
 /**
- * @copyright Copyright (c) 2023 Ferdinand Thiessen <opensource@fthiessen.de>
- *
- * @author Ferdinand Thiessen <opensource@fthiessen.de>
- *
- * @license AGPL-3.0-or-later
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 /// <reference types="cypress-if" />
 import { User } from '@nextcloud/cypress'
@@ -56,6 +39,9 @@ describe('Settings: Create and delete accounts', function() {
 			cy.get('input[type="password"]').type(john.password)
 			// see that the password is 123456
 			cy.get('input[type="password"]').should('have.value', john.password)
+		})
+
+		cy.get('form[data-test="form"]').parents('[role="dialog"]').within(() => {
 			// submit the new user form
 			cy.get('button[type="submit"]').click({ force: true })
 		})
@@ -90,6 +76,9 @@ describe('Settings: Create and delete accounts', function() {
 			cy.get('input[type="password"]').should('exist').and('have.value', '')
 			cy.get('input[type="password"]').type(john.password)
 			cy.get('input[type="password"]').should('have.value', john.password)
+		})
+
+		cy.get('form[data-test="form"]').parents('[role="dialog"]').within(() => {
 			// submit the new user form
 			cy.get('button[type="submit"]').click({ force: true })
 		})
@@ -127,7 +116,7 @@ describe('Settings: Create and delete accounts', function() {
 			// The "Delete account" action in the actions menu is shown and clicked
 			cy.get('.action-item__popper .action').contains('Delete account').should('exist').click({ force: true })
 			// And confirmation dialog accepted
-			cy.get('.oc-dialog button').contains(`Delete ${testUser.userId}`).click({ force: true })
+			cy.get('.nc-generic-dialog button').contains(`Delete ${testUser.userId}`).click({ force: true })
 
 			// Make sure no confirmation modal is shown
 			handlePasswordConfirmation(admin.password)

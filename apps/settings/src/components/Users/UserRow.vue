@@ -1,27 +1,7 @@
 <!--
-  - @copyright Copyright (c) 2019 Gary Kim <gary@garykim.dev>
-  - @copyright Copyright (c) 2018 John Molakvoæ <skjnldsv@protonmail.com>
-  -
-  - @author Christopher Ng <chrng8@gmail.com>
-  - @author Gary Kim <gary@garykim.dev>
-  - @author John Molakvoæ <skjnldsv@protonmail.com>
-  -
-  - @license GNU AGPL version 3 or any later version
-  -
-  - This program is free software: you can redistribute it and/or modify
-  - it under the terms of the GNU Affero General Public License as
-  - published by the Free Software Foundation, either version 3 of the
-  - License, or (at your option) any later version.
-  -
-  - This program is distributed in the hope that it will be useful,
-  - but WITHOUT ANY WARRANTY; without even the implied warranty of
-  - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  - GNU Affero General Public License for more details.
-  -
-  - You should have received a copy of the GNU Affero General Public License
-  - along with this program. If not, see <http://www.gnu.org/licenses/>.
-  -
-  -->
+  - SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 
 <template>
 	<tr class="user-list__row"
@@ -54,13 +34,14 @@
 					spellcheck="false"
 					@trailing-button-click="updateDisplayName" />
 			</template>
-			<template v-else>
-				<strong v-if="!isObfuscated"
-					:title="user.displayname?.length > 20 ? user.displayname : null">
-					{{ user.displayname }}
-				</strong>
-				<span class="row__subtitle">{{ user.id }}</span>
-			</template>
+			<strong v-else-if="!isObfuscated"
+				:title="user.displayname?.length > 20 ? user.displayname : null">
+				{{ user.displayname }}
+			</strong>
+		</td>
+
+		<td class="row__cell row__cell--username" data-cy-user-list-cell-username>
+			<span class="row__subtitle">{{ user.id }}</span>
 		</td>
 
 		<td data-cy-user-list-cell-password
@@ -119,7 +100,7 @@
 			<template v-if="editing">
 				<label class="hidden-visually"
 					:for="'groups' + uniqueId">
-					{{ t('settings', 'Add user to group') }}
+					{{ t('settings', 'Add account to group') }}
 				</label>
 				<NcSelect data-cy-user-list-input-groups
 					:data-loading="loading.groups || undefined"
@@ -474,7 +455,7 @@ export default {
 				},
 				{
 					icon: 'icon-delete',
-					text: t('settings', 'Wipe all devices'),
+					text: t('settings', 'Disconnect all devices and delete local data'),
 					action: this.wipeUserDevices,
 				},
 				{
