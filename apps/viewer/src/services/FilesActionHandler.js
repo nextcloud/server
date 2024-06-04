@@ -30,8 +30,8 @@ export default function(node, view, dir) {
 	const path = `${node.dirname}/${node.basename}`.replace(/^\/\//, '/')
 	const oldRoute = [
 		window.OCP.Files.Router.name,
-		window.OCP.Files.Router.params,
-		window.OCP.Files.Router.query,
+		{ ...window.OCP.Files.Router.params },
+		{ ...window.OCP.Files.Router.query },
 		true,
 	]
 	const onClose = () => window.OCP.Files.Router.goToRoute(...oldRoute)
