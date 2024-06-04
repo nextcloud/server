@@ -240,6 +240,30 @@ class ManagerTest extends TestCase {
 		$this->assertEquals(null, $group);
 	}
 
+	public function testCreateTooLong() {
+		/**@var \PHPUnit\Framework\MockObject\MockObject|\OC\Group\Backend $backend */
+		$backendGroupCreated = false;
+		$backend = $this->getTestBackend(
+			GroupInterface::ADD_TO_GROUP |
+			GroupInterface::REMOVE_FROM_GOUP |
+			GroupInterface::COUNT_USERS |
+			GroupInterface::CREATE_GROUP |
+			GroupInterface::DELETE_GROUP |
+			GroupInterface::GROUP_DETAILS
+		);
+		$groupName = str_repeat('x', 256);
+		$backend->expects($this->any())
+			->method('groupExists')
+			->with($groupName)
+			->willReturn(false);
+
+		$manager = new \OC\Group\Manager($this->userManager, $this->dispatcher, $this->logger, $this->cache);
+		$manager->addBackend($backend);
+
+		$this->expectException(\Exception::class);
+		$group = $manager->createGroup($groupName);
+	}
+
 	public function testCreateExists() {
 		/** @var \PHPUnit\Framework\MockObject\MockObject|\OC\Group\Backend $backend */
 		$backend = $this->getTestBackend();

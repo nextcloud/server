@@ -411,6 +411,7 @@ return array(
     'OCP\\Group\\Backend\\ICountDisabledInGroup' => $baseDir . '/lib/public/Group/Backend/ICountDisabledInGroup.php',
     'OCP\\Group\\Backend\\ICountUsersBackend' => $baseDir . '/lib/public/Group/Backend/ICountUsersBackend.php',
     'OCP\\Group\\Backend\\ICreateGroupBackend' => $baseDir . '/lib/public/Group/Backend/ICreateGroupBackend.php',
+    'OCP\\Group\\Backend\\ICreateNamedGroupBackend' => $baseDir . '/lib/public/Group/Backend/ICreateNamedGroupBackend.php',
     'OCP\\Group\\Backend\\IDeleteGroupBackend' => $baseDir . '/lib/public/Group/Backend/IDeleteGroupBackend.php',
     'OCP\\Group\\Backend\\IGetDisplayNameBackend' => $baseDir . '/lib/public/Group/Backend/IGetDisplayNameBackend.php',
     'OCP\\Group\\Backend\\IGroupDetailsBackend' => $baseDir . '/lib/public/Group/Backend/IGroupDetailsBackend.php',
