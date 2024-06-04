@@ -560,7 +560,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 
 	/**
 	 * Returns the remote address and the trusted proxy chain from the `forwarded_for_headers`
-	 * @return [string remoate_address, [string proxies]]
+	 * @return array{remote_address: string, proxies: list<string>}
 	 */
 	public function getRemoteAddressAndProxyChain(): array {
 		$remoteAddress = $this->server['REMOTE_ADDR'] ?? '';
@@ -588,7 +588,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 					foreach ($proxyEntries as $proxy) {
 						$parts = explode(';', $proxy);
 						foreach ($parts as $part) {
-							if (str_starts_with(strtolower(ltrim($part)), 'for') && substr_count($part, '=') !== false) {
+							if (str_starts_with(strtolower(ltrim($part)), 'for') && str_contains($part, '=')) {
 								$part = substr($part, strpos($part, '=') + 1, strlen($part));
 								$IPs = array_merge($IPs, explode(',', $part));
 							}
