@@ -242,4 +242,8 @@ class ConnectionAdapter implements IDBConnection {
 	public function getInner(): Connection {
 		return $this->inner;
 	}
+
+	public function logDatabaseException(\Exception $exception) {
+		$this->inner->logDatabaseException($exception);
+	}
 }
