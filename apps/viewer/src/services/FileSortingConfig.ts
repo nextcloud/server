@@ -22,6 +22,7 @@
 
 import axios from '@nextcloud/axios'
 import { isPublic } from '../utils/davUtils'
+import { generateUrl } from '@nextcloud/router'
 
 /**
  * @return {object}
@@ -47,7 +48,8 @@ async function getViewConfigs() {
 	if (isPublic()) {
 		return null
 	}
-	return await axios.get('/apps/files/api/v1/views')
+	const url = generateUrl('apps/files/api/v1/views')
+	return await axios.get(url)
 		.then((response) => {
 			return response.data.data?.files
 		})
