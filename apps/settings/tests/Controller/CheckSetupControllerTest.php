@@ -47,6 +47,7 @@ use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataDisplayResponse;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\RedirectResponse;
+use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Http\Client\IClientService;
 use OCP\IConfig;
@@ -610,6 +611,9 @@ class CheckSetupControllerTest extends TestCase {
 		$sqlitePlatform = $this->getMockBuilder(SqlitePlatform::class)->getMock();
 		$this->connection->method('getDatabasePlatform')
 			->willReturn($sqlitePlatform);
+		$queryBuilder = $this->getMockBuilder(IQueryBuilder::class)->getMock();
+		$this->connection->method('getQueryBuilder')
+			->willReturn($queryBuilder);
 
 		$expected = new DataResponse(
 			[
