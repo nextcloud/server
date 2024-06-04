@@ -56,7 +56,6 @@ class Version1000Date20240527153425 extends SimpleMigrationStep {
 			$table->addColumn('headers', Types::TEXT, [
 				'notnull' => false,
 			]);
-			// TODO decide if string or int with an Enum
 			$table->addColumn('auth_method', Types::STRING, [
 				'notnull' => true,
 				'length' => 16,

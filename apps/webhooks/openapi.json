@@ -203,15 +203,12 @@
                         }
                     },
                     {
-                        "name": "eventFilter[]",
+                        "name": "eventFilter",
                         "in": "query",
                         "description": "Mongo filter to apply to the serialized data to decide if firing",
                         "schema": {
-                            "type": "array",
-                            "nullable": true,
-                            "items": {
-                                "type": "object"
-                            }
+                            "type": "string",
+                            "nullable": true
                         }
                     },
                     {
@@ -226,10 +223,14 @@
                     {
                         "name": "authMethod",
                         "in": "query",
-                        "description": "Authentication method to use. TODO",
+                        "description": "Authentication method to use",
                         "schema": {
                             "type": "string",
-                            "nullable": true
+                            "nullable": true,
+                            "enum": [
+                                "none",
+                                "headers"
+                            ]
                         }
                     },
                     {
@@ -477,10 +478,14 @@
                     {
                         "name": "authMethod",
                         "in": "query",
-                        "description": "Authentication method to use. TODO",
+                        "description": "Authentication method to use",
                         "schema": {
                             "type": "string",
-                            "nullable": true
+                            "nullable": true,
+                            "enum": [
+                                "none",
+                                "headers"
+                            ]
                         }
                     },
                     {
