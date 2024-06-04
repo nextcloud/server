@@ -46,8 +46,8 @@
                         "type": "string"
                     },
                     "eventFilter": {
-                        "type": "array",
-                        "items": {
+                        "type": "object",
+                        "additionalProperties": {
                             "type": "object"
                         }
                     },
