@@ -918,27 +918,28 @@ const Dialogs = {
 		var dialogName = 'oc-dialog-fileexists-content'
 		var dialogId = '#' + dialogName
 		if (this._fileexistsshown) {
-			// add conflict
+			this._fileexistsshown.then(() => {
+				// add conflict
 
-			var $conflicts = $(dialogId + ' .conflicts')
-			addConflict($conflicts, original, replacement)
+				var $conflicts = $(dialogId + ' .conflicts')
+				addConflict($conflicts, original, replacement)
 
-			var count = $(dialogId + ' .conflict').length
-			var title = n('core',
-				'{count} file conflict',
-				'{count} file conflicts',
-				count,
-				{ count: count }
-			)
-			$(dialogId).parent().children('.oc-dialog-title').text(title)
+				var count = $(dialogId + ' .conflict').length
+				var title = n('core',
+					'{count} file conflict',
+					'{count} file conflicts',
+					count,
+					{ count: count }
+				)
+				$(dialogId).parent().children('.oc-dialog-title').text(title)
 
-			// recalculate dimensions
-			$(window).trigger('resize')
-			dialogDeferred.resolve()
+				// recalculate dimensions
+				$(window).trigger('resize')
+				dialogDeferred.resolve()
+			})
 		} else {
 			// create dialog
-			this._fileexistsshown = true
-			$.when(this._getFileExistsTemplate()).then(function($tmpl) {
+			this._fileexistsshown = $.when(this._getFileExistsTemplate()).then(function($tmpl) {
 				var title = t('core', 'One file conflict')
 				var $dlg = $tmpl.octemplate({
 					dialog_name: dialogName,
