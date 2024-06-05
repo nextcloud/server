@@ -63,7 +63,6 @@ OC.L10N.register(
     "Organizer:" : "Organizadore: ",
     "Attendees:" : "Partetzipadores:",
     "Title:" : "Tìtulos:",
-    "Time:" : "Tempus:",
     "Location:" : "Positzione:",
     "Link:" : "Ligòngiu:",
     "Accept" : "Atzeta",
@@ -131,6 +130,7 @@ OC.L10N.register(
     "Please contact the organizer directly." : "Pro praghere, cuntata deretu a s'organizadore.",
     "Are you accepting the invitation?" : "Cheres atzetare s'invitu?",
     "Tentative" : "Intentu",
-    "Your attendance was updated successfully." : "Sa partetzipatzione tua est istada agiornada in manera curreta."
+    "Your attendance was updated successfully." : "Sa partetzipatzione tua est istada agiornada in manera curreta.",
+    "Time:" : "Tempus:"
 },
 "nplurals=2; plural=(n != 1);");

@@ -1,11 +1,6 @@
 OC.L10N.register(
     "federatedfilesharing",
     {
-    "Do you want to add the remote share {name} from {owner}@{remote}?" : "Soovid lisada kaugjagamise {name} asukohast {owner}@{remote}?",
-    "Remote share" : "Kaugjagamine",
-    "Remote share password" : "Kaugjagamise parool",
-    "Cancel" : "Tühista",
-    "Add remote share" : "Lisa kaugjagamine",
     "Invalid Federated Cloud ID" : "Vigane liitpilve ID",
     "Server to server sharing is not enabled on this server" : "Serveritevaheline jagamine ei ole selle pilves aktiiveeritud",
     "Couldn't establish a federated share." : "Liitjagamist ei õnnestunud luua",
@@ -30,6 +25,11 @@ OC.L10N.register(
     "Share with me through my #Nextcloud Federated Cloud ID" : "Jaga minuga läbi minu #Nextcloudi liitpilve ID",
     "Copy to clipboard" : "Kopeeri lõikepuhvrisse",
     "Copied!" : "Kopeeritud!",
+    "Do you want to add the remote share {name} from {owner}@{remote}?" : "Soovid lisada kaugjagamise {name} asukohast {owner}@{remote}?",
+    "Remote share" : "Kaugjagamine",
+    "Remote share password" : "Kaugjagamise parool",
+    "Cancel" : "Tühista",
+    "Add remote share" : "Lisa kaugjagamine",
     "Not allowed to create a federated share with the same user" : "Liitjagamise loomine sama kasutajaga ei ole lubatud.",
     "Allow users on this server to receive shares from other servers" : "Luba selle serveri kasutajatel võtta vastu jagamisi teistest serveritest",
     "Search global and public address book for users" : "Otsi kasutajaid globaalsest ja avalikust aadressiraamatust",

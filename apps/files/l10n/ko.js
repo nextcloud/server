@@ -184,6 +184,7 @@ OC.L10N.register(
     "Folder name" : "폴더 이름",
     "This node is unavailable" : "이 노드를 사용할 수 없습니다",
     "Download file {name}" : "{name} 파일 다운로드",
+    "Invalid file name" : "잘못된 파일 이름",
     "\"{name}\" is not an allowed filetype." : "\"{name}\"은(는) 허용된 파일 형식이 아님.",
     "{newName} already exists." : "{newName}이(가) 이미 존재함.",
     "\"{char}\" is not allowed inside a file name." : "파일 이름에 \"{char}\"(을)를 넣을 수 없습니다.",

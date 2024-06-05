@@ -86,7 +86,6 @@ OC.L10N.register(
     "Organizer:" : "Organizer/организатор/:",
     "Attendees:" : "Участници:",
     "Title:" : "Заглавие:",
-    "Time:" : "Час:",
     "Location:" : "Местоположение:",
     "Link:" : "Връзка:",
     "Accept" : "Приемане",
@@ -188,6 +187,7 @@ OC.L10N.register(
     "Tentative" : "Несигурно",
     "Your attendance was updated successfully." : "Вашето присъствие е актуализирано успешно.",
     "To-dos" : "Задачи за изпълнение",
+    "Time:" : "Час:",
     "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "Ако конфигурирате работното си време, другите потребители ще виждат кога сте извън офиса, при резервиране на среща."
 },
 "nplurals=2; plural=(n != 1);");

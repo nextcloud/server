@@ -1,11 +1,6 @@
 OC.L10N.register(
     "federatedfilesharing",
     {
-    "Do you want to add the remote share {name} from {owner}@{remote}?" : "{owner}@{remote} konumundan {name} uzak paylaşımını eklemek istiyor musunuz?",
-    "Remote share" : "Uzak paylaşım",
-    "Remote share password" : "Uzak paylaşım parolası",
-    "Cancel" : "İptal",
-    "Add remote share" : "Uzak paylaşım ekle",
     "Invalid Federated Cloud ID" : "Birleşik bulut kimliği geçersiz",
     "Server to server sharing is not enabled on this server" : "Bu sunucuda sunucudan sunucuya paylaşım etkin değil",
     "Couldn't establish a federated share." : "Birleşik bir paylaşım oluşturulamadı.",
@@ -52,6 +47,11 @@ OC.L10N.register(
     "Copy to clipboard" : "Panoya kopyala",
     "Clipboard is not available" : "Pano kullanılamıyor",
     "Copied!" : "Kopyalandı!",
+    "Do you want to add the remote share {name} from {owner}@{remote}?" : "{owner}@{remote} konumundan {name} uzak paylaşımını eklemek istiyor musunuz?",
+    "Remote share" : "Uzak paylaşım",
+    "Remote share password" : "Uzak paylaşım parolası",
+    "Cancel" : "İptal",
+    "Add remote share" : "Uzak paylaşım ekle",
     "Sharing %1$s failed, because this item is already shared with user %2$s" : "%1$s ögesi %2$s kullanıcısı ile zaten paylaşılmış olduğundan paylaşılamadı",
     "Not allowed to create a federated share with the same user" : "Aynı kullanıcı ile bir birleşik paylaşım oluşturulamaz",
     "Adjust how people can share between servers. This includes shares between users on this server as well if they are using federated sharing." : "Kullanıcıların sunucular arasındaki paylaşım yöntemini ayarlayın. Bu yöntem, bu sunucuda bulunan ve birleşik paylaşım kullanan kullanıcılar arasındaki paylaşımları da belirler.",

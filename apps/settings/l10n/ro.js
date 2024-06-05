@@ -105,7 +105,6 @@ OC.L10N.register(
     "Verifying" : "Se verifică",
     "Your data directory and files are probably accessible from the internet. The .htaccess file is not working. It is strongly recommended that you configure your web server so that the data directory is no longer accessible, or move the data directory outside the web server document root." : "Directorul de date și fișierele sunt probabil accesibile din Internet. Fișierul .htaccess nu este funcțional. Se recomandă puternic configurarea serverului web astfel încât directorul de date să nu mai fie accesibil astfel, sau mutați-l în afara rădăcinii documentelor a serverului web.",
     "The database is missing some optional columns. Due to the fact that adding columns on big tables could take some time they were not added automatically when they can be optional. By running \"occ db:add-missing-columns\" those missing columns could be added manually while the instance keeps running. Once the columns are added some features might improve responsiveness or usability." : "Lipsesc coloane opționale din baza de date. Datorită faptului că adăugarea de coloane tabelelor mari durează mult, acestea nu au fost adăugate automat atunci când pot fi opționale. Rulând \"occ db:add-missing-columns\", aceste coloane lipsă pot fi adăugate manual în timp ce instanța este online. Odată ce aceste coloane opționale au fost adăugate, unele funcționalități pot îmbunătăți timpul de răspuns sau uzabilitatea. ",
-    "The database is missing some indexes. Due to the fact that adding indexes on big tables could take some time they were not added automatically. By running \"occ db:add-missing-indices\" those missing indexes could be added manually while the instance keeps running. Once the indexes are added queries to those tables are usually much faster." : "Lipsesc indecși din baza de date. Datorită faptului că adăugarea indecșilor la tabelele mari durează mult, aceștia nu au fost adăugați automat. Rulând \"occ db:add-missing-indices\", indecși lipsă pot fi adăugați manual în timp ce instanța rulează în continuare. Odată ce indecșii au fost adăugați, interogările acelor tabele vor fi de obicei mai rapide.",
     "The database is missing some primary keys. Due to the fact that adding primary keys on big tables could take some time they were not added automatically. By running \"occ db:add-missing-primary-keys\" those missing primary keys could be added manually while the instance keeps running." : "Bazei de date îi lipsesc câteva chei primare. Datorită faptului că adăugarea cheilor primare la tabelele mari durează mult, acestea nu au fost adăugate automat. Rulând \"occ db:add-missing-primary-keys\", aceste chei primare lipsă pot fi adăugate manual în timp ce instanța rulează. ",
     "This instance is running in debug mode. Only enable this for local development and not in production environments." : "Instanța este în modul debug. Folosiți aceasta doar pentru dezvoltare și nu în producție.",
     "This server has no working internet connection: Multiple endpoints could not be reached. This means that some of the features like mounting external storage, notifications about updates or installation of third-party apps will not work. Accessing files remotely and sending of notification emails might not work, either. Establish a connection from this server to the internet to enjoy all features." : "Acest server nu are o conexiune funcțională la Internet. Mai multe puncte finale nu pot fi contactate. Aceasta înseamnă că unele funcționalități precum montarea unui spațiu extern de stocare, notificări despre actualizări sau instalarea aplicațiilor din sursă terță nu vor fi accesibile. De asemenea, ar putea să nu funcționeze nici accesarea fișierelor la distanță și transmiterea emailurilor de notificare .",
@@ -208,7 +207,6 @@ OC.L10N.register(
     "Language" : "Limba",
     "Total rows summary" : "Rezumat total rânduri",
     "Avatar" : "Avatar",
-    "Username" : "Nume utilizator",
     "Last login" : "Ultima autentificare",
     "{size} used" : "{size} folosită",
     "Done" : "Realizat",
@@ -284,6 +282,7 @@ OC.L10N.register(
     "Error while deleting the token" : "Eroare de ștergere token",
     "Use the credentials below to configure your app or device." : "Utilizați acreditările de mai jos pentru a vă configura aplicația sau dispozitivul.",
     "For security reasons this password will only be shown once." : "Din motive de securitate, această parolă va fi afișată doar o singură dată.",
+    "Username" : "Nume utilizator",
     "Copied!" : "S-a copiat!",
     "Copy" : "Copiază",
     "Your email address" : "Adresa ta de email",
@@ -298,6 +297,7 @@ OC.L10N.register(
     "SMTP Username" : "Nume utilizator SMTP",
     "Set default expiration date" : "Setează data implicită de expirare",
     "Exclude groups from sharing" : "Exclude grupuri de la partajare",
-    "These groups will still be able to receive shares, but not to initiate them." : "Aceste grupuri vor putea în continuare să primească partajări, dar nu să le inițieze."
+    "These groups will still be able to receive shares, but not to initiate them." : "Aceste grupuri vor putea în continuare să primească partajări, dar nu să le inițieze.",
+    "The database is missing some indexes. Due to the fact that adding indexes on big tables could take some time they were not added automatically. By running \"occ db:add-missing-indices\" those missing indexes could be added manually while the instance keeps running. Once the indexes are added queries to those tables are usually much faster." : "Lipsesc indecși din baza de date. Datorită faptului că adăugarea indecșilor la tabelele mari durează mult, aceștia nu au fost adăugați automat. Rulând \"occ db:add-missing-indices\", indecși lipsă pot fi adăugați manual în timp ce instanța rulează în continuare. Odată ce indecșii au fost adăugați, interogările acelor tabele vor fi de obicei mai rapide."
 },
 "nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));");

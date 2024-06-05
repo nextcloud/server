@@ -73,6 +73,7 @@
     "Show more" : "더 보기",
     "Configured flows" : "설정된 흐름",
     "Your flows" : "내 흐름",
+    "No flows configured" : "설정된 흐름이 없음",
     "matches" : "일치함",
     "does not match" : "일치하지 않음",
     "is" : "맞음",

@@ -182,6 +182,7 @@
     "Folder name" : "Nome della cartella",
     "This node is unavailable" : "Questa nodo non è disponibile",
     "Download file {name}" : "Scarica il file {name}",
+    "Invalid file name" : "Nome del file non valido",
     "\"{name}\" is not an allowed filetype." : "\"{name}\" non è un tipo di file consentito.",
     "{newName} already exists." : "{newName} esiste già.",
     "\"{char}\" is not allowed inside a file name." : "\"{char}\" non è consentito in un nome di file.",

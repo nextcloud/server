@@ -1,11 +1,6 @@
 OC.L10N.register(
     "federatedfilesharing",
     {
-    "Do you want to add the remote share {name} from {owner}@{remote}?" : "¿Deseas añadir el recurso compartido remoto {name} de {owner}@{remote}?",
-    "Remote share" : "Recurso compartido remoto",
-    "Remote share password" : "Contraseña del compartido remoto",
-    "Cancel" : "Cancelar",
-    "Add remote share" : "Añadir recurso compartido remoto",
     "Invalid Federated Cloud ID" : "ID de Nube Federada no válida",
     "Server to server sharing is not enabled on this server" : "Compartir entre servidores no está habilitado en este servidor",
     "Couldn't establish a federated share." : "No se puede añadir un compartido remoto",
@@ -52,6 +47,11 @@ OC.L10N.register(
     "Copy to clipboard" : "Copiar al portapapeles",
     "Clipboard is not available" : "El portapapeles no está disponible",
     "Copied!" : "¡Copiado!",
+    "Do you want to add the remote share {name} from {owner}@{remote}?" : "¿Deseas añadir el recurso compartido remoto {name} de {owner}@{remote}?",
+    "Remote share" : "Recurso compartido remoto",
+    "Remote share password" : "Contraseña del compartido remoto",
+    "Cancel" : "Cancelar",
+    "Add remote share" : "Añadir recurso compartido remoto",
     "Sharing %1$s failed, because this item is already shared with user %2$s" : "Fallo al compartir %1$s porque este objeto ya está compartido con el usuario %2$s",
     "Not allowed to create a federated share with the same user" : "No se permite crear un recurso compartido federado con el mismo usuario",
     "Adjust how people can share between servers. This includes shares between users on this server as well if they are using federated sharing." : "Ajuste cómo las personas pueden compartir entre servidores. Esto incluye también los recursos compartidos entre usuarios de este servidor si utilizan recursos compartidos federados.",

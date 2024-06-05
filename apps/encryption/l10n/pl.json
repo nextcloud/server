@@ -40,6 +40,7 @@
     "Enabling this option encrypts all files stored on the main storage, otherwise only files on external storage will be encrypted" : "Włączenie tej opcji spowoduje szyfrowanie wszystkich plików zapisanych na pamięci wewnętrznej. W innym wypadku szyfrowane będą tylko pliki na pamięci zewnętrznej.",
     "Enable recovery key" : "Włącz klucz odzyskiwania",
     "Disable recovery key" : "Wyłącz klucz odzyskiwania",
+    "The recovery key is an additional encryption key used to encrypt files. It is used to recover files from an account if the password is forgotten." : "Klucz odzyskiwania to dodatkowy klucz szyfrowania używany do szyfrowania plików. Służy do odzyskiwania plików z konta w przypadku zapomnienia hasła.",
     "Recovery key password" : "Hasło klucza odzyskiwania",
     "Repeat recovery key password" : "Powtórz hasło klucza odzyskiwania",
     "Change recovery key password:" : "Zmień hasło klucza odzyskiwania",

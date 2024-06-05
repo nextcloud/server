@@ -86,7 +86,6 @@ OC.L10N.register(
     "Organizer:" : "Organizador:",
     "Attendees:" : "Asistentes:",
     "Title:" : "Título:",
-    "Time:" : "Hora:",
     "Location:" : "Lugar:",
     "Link:" : "Ligazón:",
     "Accept" : "Aceptar",
@@ -151,7 +150,7 @@ OC.L10N.register(
     "No outstanding DAV system address book sync." : "Non hai sincronización pendente do caderno de enderezos do sistema DAV.",
     "The DAV system address book sync has not run yet as your instance has more than 1000 users or because an error occurred. Please run it manually by calling \"occ dav:sync-system-addressbook\"." : "A sincronización do caderno de enderezos do sistema DAV aínda non foi executada aínda porque a súa instancia ten máis de 1000 usuarios ou porque se produciu un erro. Execútea manualmente con occ dav:sync-system-addressbook.",
     "WebDAV endpoint" : "Terminación WebDAV",
-    "Could not check that your web server is properly set up to allow file synchronization over WebDAV. Please check manually." : "Non se puido comprobar que o seu servidor web estea configurado correctamente para permitir a sincronización de ficheiros a través de WebDAV. Por favor, verifíqueo manualmente.",
+    "Could not check that your web server is properly set up to allow file synchronization over WebDAV. Please check manually." : "Non foi posíbel comprobar que o seu servidor web estea configurado correctamente para permitir a sincronización de ficheiros a través de WebDAV. Compróbeo manualmente.",
     "Your web server is not yet properly set up to allow file synchronization, because the WebDAV interface seems to be broken." : "O servidor non foi configurado correctamente para permitir a sincronización de ficheiros, semella que a interface WebDAV non está a funcionar.",
     "Your web server is properly set up to allow file synchronization over WebDAV." : "O seu servidor web está configurado correctamente para permitir a sincronización de ficheiros a través de WebDAV.",
     "Migrated calendar (%1$s)" : "Calendario migrado (%1$s)",
@@ -188,7 +187,7 @@ OC.L10N.register(
     "Saved availability" : "Dispoñibilidade gardada",
     "Failed to save availability" : "Produciuse un erro ao gardar a dispoñibilidade",
     "Availability" : "Dispoñibilidade",
-    "If you configure your working hours, other people will see when you are out of office when they book a meeting." : "Se configuras o teu horario de traballo, outras persoas verán cando estás fóra da oficina cando reserven unha reunión.",
+    "If you configure your working hours, other people will see when you are out of office when they book a meeting." : "Se configura o seu horario de traballo, outras persoas verán cando está fóra da oficina cando reserven unha xuntanza.",
     "Absence" : "Ausencia",
     "Configure your next absence period." : "Configurar o próximo período de ausencia.",
     "Calendar server" : "Servidor do calendario",
@@ -209,6 +208,7 @@ OC.L10N.register(
     "Tentative" : "Provisional",
     "Your attendance was updated successfully." : "A súa asistencia foi actualizada satisfactoriamente.",
     "To-dos" : "Tarefas pendentes",
+    "Time:" : "Hora:",
     "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "Se configura o seu horario de traballo, outros usuarios verán cando está fóra da oficina cando reserven unha xuntanza."
 },
 "nplurals=2; plural=(n != 1);");
