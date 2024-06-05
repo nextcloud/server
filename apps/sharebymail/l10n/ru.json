@@ -36,6 +36,7 @@
     "You can choose a different password at any time in the share dialog." : "В любой момент можно выбрать другой пароль в диалоге «Общий доступ».",
     "Could not find share" : "Не удалось найти общий ресурс",
     "Share provider which allows you to share files by mail" : "Приложение для обмена файлами с помощью электронной почты",
+    "Allows people to share a personalized link to a file or folder by putting in an email address." : "Позволить пользователям делиться персонализированной ссылкой на файл или папку, указав адрес электронной почты.",
     "Send password by mail" : "Отправлять пароль по электронной почте",
     "Reply to initiator" : "Направлять ответ инициатору",
     "Unable to update share by mail config" : "Невозможно обновить конфигурацию общего доступа по почте",

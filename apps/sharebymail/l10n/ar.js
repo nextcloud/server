@@ -27,7 +27,7 @@ OC.L10N.register(
     "%1$s shared »%2$s« with you. You should have already received a separate mail with a link to access it." : "%1$s شارك »%2$s« معك. \nيفترض أن يصلك أو يكون وصلك بريد الكتروني يحوي رابطاً للوصول إليه.",
     "Password to access »%1$s« shared to you by %2$s" : "كلمة مرور للوصول إلى »%1$s« تمّت مُشاركتها معك من قِبَل %2$s",
     "Password to access »%s«" : "كلمة مرور للوصول إلى »%s«",
-    "It is protected with the following password:" : "إنها محميّة بكلمة المرور التالية:",
+    "It is protected with the following password:" : "وهو محمي بكلمة المرور التالية:",
     "This password will expire at %s" : "كلمة المرور هذه ستنتهي صلاحيتها في %s",
     "%1$s shared »%2$s« with you and wants to add:" : "%1$s شارك »%2$s« معك و يرغب في إضافة:",
     "%1$s shared »%2$s« with you and wants to add" : "%1$s شارك »%2$s« معك و يرغب في إضافة",

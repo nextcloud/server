@@ -169,7 +169,7 @@ OC.L10N.register(
     "View only" : "Afficher seulement",
     "Can edit" : "Peut modifier",
     "File drop" : "Dépôt de fichier",
-    "Custom permissions" : "Personnaliser les permissions",
+    "Custom permissions" : "Permissions personnalisées",
     "Search for share recipients" : "Recherche de destinataires de partages",
     "No recommendations. Start typing." : "Aucune recommandation. Commencez à écrire.",
     "Resharing is not allowed" : "Le repartage n'est pas autorisé",

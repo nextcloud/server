@@ -79,7 +79,6 @@ OC.L10N.register(
     "Organizer:" : "Organisator:",
     "Attendees:" : "Deelnemers:",
     "Title:" : "Titel:",
-    "Time:" : "Tijd:",
     "Location:" : "Locatie:",
     "Link:" : "Link:",
     "Accept" : "Accepteren",
@@ -173,6 +172,7 @@ OC.L10N.register(
     "Tentative" : "Onder voorbehoud",
     "Your attendance was updated successfully." : "Je deelname is succesvol bijgewerkt.",
     "To-dos" : "Taken",
+    "Time:" : "Tijd:",
     "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "Als je je werkuren instelt kunnen andere gebruikers zien wanneer je niet beschikbaar bent als ze een meeting willen plannen."
 },
 "nplurals=2; plural=(n != 1);");

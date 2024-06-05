@@ -86,7 +86,6 @@ OC.L10N.register(
     "Organizer:" : "Düzenleyen:",
     "Attendees:" : "Katılımcılar:",
     "Title:" : "Başlık:",
-    "Time:" : "Zaman:",
     "Location:" : "Konum:",
     "Link:" : "Bağlantı:",
     "Accept" : "Kabul et",
@@ -209,6 +208,7 @@ OC.L10N.register(
     "Tentative" : "Kesin değil",
     "Your attendance was updated successfully." : "Katılımınız güncellendi.",
     "To-dos" : "Yapılacak işler",
+    "Time:" : "Zaman:",
     "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "Çalışma saatlerinizi ayarlarsanız, diğer kullanıcılar bir toplantı ayarladıklarında ofis dışında olduğunuzu görürler."
 },
 "nplurals=2; plural=(n > 1);");

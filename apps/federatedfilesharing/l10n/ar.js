@@ -1,11 +1,6 @@
 OC.L10N.register(
     "federatedfilesharing",
     {
-    "Do you want to add the remote share {name} from {owner}@{remote}?" : "هل ترغب في إضافة مُشاركة قصيّة remote ـ {name} من {owner}@{remote}؟",
-    "Remote share" : "مُشاركة قصيّة remote",
-    "Remote share password" : "كلمة مرور مُشاركة قصيّة remote",
-    "Cancel" : "إلغاء",
-    "Add remote share" : "إضافة مُشاركة قصيّة remote",
     "Invalid Federated Cloud ID" : "مُعرّف السحابة الاتحاديّة غير صحيح",
     "Server to server sharing is not enabled on this server" : "المُشاركة من خادوم إلى خادوم غير مُمكّنة على هذا الخادوم",
     "Couldn't establish a federated share." : "تعذّر تأسيس مُشاركة اتحاديّة.",
@@ -52,6 +47,11 @@ OC.L10N.register(
     "Copy to clipboard" : "نسخ الرابط",
     "Clipboard is not available" : "الحافظة غير متوافرة",
     "Copied!" : "تم نسخه !",
+    "Do you want to add the remote share {name} from {owner}@{remote}?" : "هل ترغب في إضافة مُشاركة قصيّة remote ـ {name} من {owner}@{remote}؟",
+    "Remote share" : "مُشاركة قصيّة remote",
+    "Remote share password" : "كلمة مرور مُشاركة قصيّة remote",
+    "Cancel" : "إلغاء",
+    "Add remote share" : "إضافة مُشاركة قصيّة remote",
     "Sharing %1$s failed, because this item is already shared with user %2$s" : "مُشاركة %1$s فشلت؛ بسبب أن هذا العنصر سبقت مُشاركته مع المُستخدِم %2$s ",
     "Not allowed to create a federated share with the same user" : "غيرُ مسموحٍ أن تُنشيء مُشاركةً اتحاديّةً مع نفس المُستخدِم",
     "Adjust how people can share between servers. This includes shares between users on this server as well if they are using federated sharing." : "ضبط كيف يتشارك الأشخاص عبر الخوادم. و هذا يشمل المشاركات بين المستخدمين على هذا الخادوم و ما بين الخوادم الاتحاديّة كذلك.",

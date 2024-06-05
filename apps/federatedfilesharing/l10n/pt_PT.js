@@ -1,11 +1,6 @@
 OC.L10N.register(
     "federatedfilesharing",
     {
-    "Do you want to add the remote share {name} from {owner}@{remote}?" : "Pretende adicionar a partilha remota {nome} de {proprietório}@{remoto}?",
-    "Remote share" : "Partilha remota",
-    "Remote share password" : "Palavra-passe da partilha remota",
-    "Cancel" : "Cancelar",
-    "Add remote share" : "Adicionar partilha remota",
     "Invalid Federated Cloud ID" : "Id. de Nuvem Federada Inválida",
     "Server to server sharing is not enabled on this server" : "Partilha servidor-para-servidor não está activa neste servidor",
     "Couldn't establish a federated share." : "Não foi possível estabelecer uma partilha federada.",
@@ -32,6 +27,11 @@ OC.L10N.register(
     "Share with me through my #Nextcloud Federated Cloud ID" : "Partilhe comigo através da minha Id. da Nuvem Federada #Nextcloud",
     "Copy to clipboard" : "Copiar para área de transferência",
     "Copied!" : "Copiado!",
+    "Do you want to add the remote share {name} from {owner}@{remote}?" : "Pretende adicionar a partilha remota {nome} de {proprietório}@{remoto}?",
+    "Remote share" : "Partilha remota",
+    "Remote share password" : "Palavra-passe da partilha remota",
+    "Cancel" : "Cancelar",
+    "Add remote share" : "Adicionar partilha remota",
     "Not allowed to create a federated share with the same user" : "Não é possível criar uma partilha federada com o mesmo utilizador",
     "Allow users on this server to receive shares from other servers" : "Permitir que os utilizadores neste servidor recebam as partilhas de outros servidores",
     "Search global and public address book for users" : "Pesquisar lista global e pública de contactos de utilizadores  ",
