@@ -32,8 +32,8 @@ jobs:
           filters: |
             src:
               - '.github/workflows/**'
-              - '**/src/**'
-              - '**/appinfo/info.xml'
+              - 'src/**'
+              - 'appinfo/info.xml'
               - 'package.json'
               - 'package-lock.json'
               - 'tsconfig.json'
