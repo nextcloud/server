@@ -1,11 +1,6 @@
 OC.L10N.register(
     "federatedfilesharing",
     {
-    "Do you want to add the remote share {name} from {owner}@{remote}?" : "می‌خواهید هم‌رسانی دوردست {name} را از ‪{owner}@{remote}‬ بیفزایید؟",
-    "Remote share" : "هم‌رسانی دوردست",
-    "Remote share password" : "گذرواژهٔ هم‌رسانی دوردست",
-    "Cancel" : "لغو",
-    "Add remote share" : "افزودن هم‌رسانی دوردست",
     "Invalid Federated Cloud ID" : "شناسهٔ ابری خودگردان نامعتبر",
     "Server to server sharing is not enabled on this server" : "هم‌رسانی کارساز به کارساز روی این کارساز به کار نیفتاده",
     "Couldn't establish a federated share." : "نمی توان یک سهم فدرال ایجاد کرد.",
@@ -43,6 +38,11 @@ OC.L10N.register(
     "Copy to clipboard" : "رونوشت به تخته‌گیره",
     "Clipboard is not available" : "کلیپ بورد در دسترس نیست",
     "Copied!" : "رونوشت شد!",
+    "Do you want to add the remote share {name} from {owner}@{remote}?" : "می‌خواهید هم‌رسانی دوردست {name} را از ‪{owner}@{remote}‬ بیفزایید؟",
+    "Remote share" : "هم‌رسانی دوردست",
+    "Remote share password" : "گذرواژهٔ هم‌رسانی دوردست",
+    "Cancel" : "لغو",
+    "Add remote share" : "افزودن هم‌رسانی دوردست",
     "Sharing %1$s failed, because this item is already shared with user %2$s" : "هم‌رسانی %1$s شکست خورد، چرا که این مورد از پیش با کاربر%2$s هم رسانی شده بود",
     "Not allowed to create a federated share with the same user" : "ایجاد یک هم‌رسانی خودگران با همان کاربر مجاز نیست",
     "Adjust how people can share between servers. This includes shares between users on this server as well if they are using federated sharing." : "نحوه اشتراک گذاری افراد بین سرورها را تنظیم کنید. این شامل اشتراک گذاری بین کاربران در این سرور نیز می شود، در صورتی که از اشتراک گذاری فدرال استفاده می کنند.",

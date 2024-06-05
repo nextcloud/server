@@ -35,14 +35,13 @@
     "Privacy policy" : "Critèriu de riservadesa",
     "Adjust the Nextcloud theme" : "Modìfica su tema de Nextcloud",
     "Theming makes it possible to easily customize the look and feel of your instance and supported clients. This will be visible for all users." : "Sa gestione de is temas faghet chi sa personalizatzione de sa bista de s'istàntzia tua e de is clientes suportados siat prus fàtzile. Custu at a èssere visìbile pro totu is utentes.",
+    "Upload new logo" : "Càrriga logo nou",
+    "Logo" : "Logo",
     "Advanced options" : "Sèberos avantzados",
     "Name" : "Nùmene",
     "Web link" : "Ligòngiu web",
     "a safe home for all your data" : "unu logu siguru pro totu is datos tuos",
     "Slogan" : "Slogan",
-    "Color" : "Colore",
-    "Logo" : "Logo",
-    "Upload new logo" : "Càrriga logo nou",
     "Legal notice link" : "Ligòngiu avisu legale",
     "Privacy policy link" : "Ligòngiu critèrios de riservadesa",
     "Header logo" : "Logo de intestatzione",
@@ -55,10 +54,12 @@
     "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level." : "S'atzessu universale est de importu mannu pro nois. Sighimus is istandard de sa rete e chircamus de fàghere chi totu si potzat impreare chene cursore puru, e cun programmas de assistèntzia comente leghidores de ischermu. S'intentu nostru est de acumprire is inditos de is {guidelines}Lìinas ghia cuntenutos de rete{linkend} 2.1 a su livellu AA, cun su tema de cuntrastu artu a su livellu AAA.",
     "Move up" : "Tràmuda fache a susu",
     "Move down" : "Tràmuda fache a bàsciu",
-    "Change color" : "Càmbia colore",
+    "Plain background" : "Isfundu simpre",
     "Reset to default" : "Torra a sa cunfiguratzione predefinida",
     "Upload" : "Càrriga",
     "Remove background image" : "Boga immàgine de fundu",
-    "Background" : "Isfundu"
+    "Color" : "Colore",
+    "Background" : "Isfundu",
+    "Change color" : "Càmbia colore"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

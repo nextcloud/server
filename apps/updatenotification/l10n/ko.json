@@ -32,6 +32,7 @@
     "The selected update channel makes dedicated notifications for the server obsolete." : "선택한 업데이트 채널은 서버 알림을 사용하지 않습니다.",
     "The selected update channel does not support updates of the server." : "선택한 업데이트 채널은 서버 업데이트를 지원하지 않습니다.",
     "A new version is available: <strong>{newVersionString}</strong>" : "새 버전을 사용할 수 있음: <strong>{newVersionString}</strong>",
+    "Note that after a new release the update only shows up after the first minor release or later. We roll out new versions spread out over time and sometimes skip a version when issues are found. Learn more about updates and release channels at {link}" : "메이저 업그레이드는 해당 버전의 첫 마이너 업데이트 혹은 그 후의 업데이트에 대해 제공됩니다. 새로운 버전은 단계적으로 적용되며, 문제가 발생할 경우 배포를 중단하고 다음 업데이트로 건너뛸 수 있습니다. 업데이트와 릴리즈 채널에 대한 자세한 정보는 다음의 링크를 참고하십시오. {link}",
     "Checked on {lastCheckedDate} - Open changelog" : "{lastCheckedDate}에 확인함 - 변경내역 열기",
     "Checking apps for compatible versions" : "호환되는 앱 업데이트 확인 중",
     "Please make sure your config.php does not set <samp>appstoreenabled</samp> to false." : "config.php에서 <samp>appstoreenabled</samp> 설정이 false가 아닌지 확인하십시오.",

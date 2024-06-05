@@ -86,7 +86,6 @@ OC.L10N.register(
     "Organizer:" : "Arrangør:",
     "Attendees:" : "Deltakere:",
     "Title:" : "Tittel:",
-    "Time:" : "Tid:",
     "Location:" : "Sted:",
     "Link:" : "Lenke:",
     "Accept" : "Aksepter",
@@ -209,6 +208,7 @@ OC.L10N.register(
     "Tentative" : "Foreløpig",
     "Your attendance was updated successfully." : "Deltakelsen din ble oppdatert.",
     "To-dos" : "Gjøremål",
+    "Time:" : "Tid:",
     "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "Hvis du konfigurerer arbeidstiden din, vil andre brukere se når du ikke er på kontoret når de bestiller et møte."
 },
 "nplurals=2; plural=(n != 1);");

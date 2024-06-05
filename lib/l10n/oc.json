@@ -28,7 +28,6 @@
     "Apps" : "Aplicacions",
     "Settings" : "Paramètres",
     "Log out" : "Desconnexion",
-    "Users" : "Utilizaires",
     "Email" : "Corrièl",
     "Mail %s" : "Mail %s",
     "Phone" : "Telefòn",
@@ -70,6 +69,7 @@
     "Authentication error" : "Error d’autentificacion",
     "Storage is temporarily not available" : "Emmagazinatge temporàriament indisponible",
     "Help" : "Ajuda",
+    "Users" : "Utilizaires",
     "User disabled" : "Utilizaire desactivat"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

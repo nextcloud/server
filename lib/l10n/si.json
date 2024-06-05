@@ -20,7 +20,6 @@
     "Apps" : "යෙදුම්",
     "Settings" : "සැකසුම්",
     "Log out" : "නික්මෙන්න",
-    "Users" : "පරිශීලකයින්",
     "Email" : "විද්‍යුත් තැපෑල",
     "Phone" : "දුරකථනය",
     "Twitter" : "ට්විටර්",
@@ -62,7 +61,9 @@
     "October" : "ඔක්තෝම්බර්",
     "November" : "නොවැම්බර්",
     "December" : "දෙසැම්බර්",
+    "Summary" : "සාරාංශය",
     "Help" : "උපකාර",
+    "Users" : "පරිශීලකයින්",
     "Unknown user" : "නොදන්නා පරිශීලකයෙකි"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

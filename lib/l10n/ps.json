@@ -5,8 +5,8 @@
     "Files" : "فایلونه",
     "Apps" : "اپلېکشنونه",
     "Settings" : "سمونې",
-    "Users" : "کارنان",
     "Storage is temporarily not available" : "ذخیره د لنډې مودې لپاره نشته",
-    "Help" : "مرسته"
+    "Help" : "مرسته",
+    "Users" : "کارنان"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

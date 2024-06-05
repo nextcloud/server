@@ -86,7 +86,6 @@ OC.L10N.register(
     "Organizer:" : "Organisateur :",
     "Attendees:" : "Participants :",
     "Title:" : "Titre :",
-    "Time:" : "Heure :",
     "Location:" : "Lieu :",
     "Link:" : "Lien :",
     "Accept" : "Accepter",
@@ -209,6 +208,7 @@ OC.L10N.register(
     "Tentative" : "Tentative",
     "Your attendance was updated successfully." : "Votre présence a été mise à jour avec succès.",
     "To-dos" : "Tâches à faire",
+    "Time:" : "Heure :",
     "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "Si vous configurez vos heures de travail, les autres utilisateurs verront si vous êtes disponible quand ils planifient une réunion."
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

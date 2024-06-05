@@ -10,6 +10,8 @@ OC.L10N.register(
     "Unknown" : "不明",
     "All files" : "すべてのファイル",
     "You" : "自分",
+    "Original location" : "元の場所",
+    "Deleted by" : "削除者",
     "Deleted" : "削除日時",
     "A long time ago" : "ずっと以前に",
     "List of files that have been deleted." : "削除されたファイルのリスト",

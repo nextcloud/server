@@ -66,7 +66,6 @@ OC.L10N.register(
     "Organizer:" : "Järjestäjä:",
     "Attendees:" : "Osallistujat:",
     "Title:" : "Otsikko:",
-    "Time:" : "Aika:",
     "Location:" : "Sijainti:",
     "Link:" : "Linkki:",
     "Accept" : "Hyväksy",
@@ -146,6 +145,7 @@ OC.L10N.register(
     "Are you accepting the invitation?" : "Hyväksytkö kutsun?",
     "Tentative" : "Alustava",
     "Your attendance was updated successfully." : "Osallistumisesi päivitettiin onnistuneesti.",
-    "To-dos" : "Tehtävät"
+    "To-dos" : "Tehtävät",
+    "Time:" : "Aika:"
 },
 "nplurals=2; plural=(n != 1);");

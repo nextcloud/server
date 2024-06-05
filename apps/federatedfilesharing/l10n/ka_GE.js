@@ -1,11 +1,6 @@
 OC.L10N.register(
     "federatedfilesharing",
     {
-    "Do you want to add the remote share {name} from {owner}@{remote}?" : "გსურთ დაამატოთ {owner}@{remote}-ის დისტანცური გაზიარება {name}?",
-    "Remote share" : "დისტანციური გაზიარება",
-    "Remote share password" : "დისტანციური გაზიარების პაროლი",
-    "Cancel" : "გაუქმება",
-    "Add remote share" : "დისტანციური გაზიარების დამატება",
     "Invalid Federated Cloud ID" : "არასწორი ფედერალური ქლაუდ ID",
     "Server to server sharing is not enabled on this server" : "ამ სერვერზე სერვერიდან სერვერზე გაზიარება არაა ჩართული",
     "Couldn't establish a federated share." : "ფედერალური გაზიარება ვერ დამყარდა.",
@@ -31,6 +26,11 @@ OC.L10N.register(
     "Share with me through my #Nextcloud Federated Cloud ID" : "გააზიარეთ ჩემთან ჩემი #Nextcloud-ის ფედერალური ქლაუდ ID-ის მეშვეობით",
     "Copy to clipboard" : "კოპირება ბუფერში",
     "Copied!" : "კოპირებულია!",
+    "Do you want to add the remote share {name} from {owner}@{remote}?" : "გსურთ დაამატოთ {owner}@{remote}-ის დისტანცური გაზიარება {name}?",
+    "Remote share" : "დისტანციური გაზიარება",
+    "Remote share password" : "დისტანციური გაზიარების პაროლი",
+    "Cancel" : "გაუქმება",
+    "Add remote share" : "დისტანციური გაზიარების დამატება",
     "Not allowed to create a federated share with the same user" : "იმავე მომხმარებელთან ფედერალური გაზიარება ვერ შეიქმნება",
     "Allow users on this server to receive shares from other servers" : "დართეთ ნება მომხმარებლებს ამ სერვერზე მიიღონ გაზიარებები სხვა სერვერებიდან",
     "Search global and public address book for users" : "მოძებნეთ გლობალური და ღია მომხმარებლების მისამართების წიგნები",

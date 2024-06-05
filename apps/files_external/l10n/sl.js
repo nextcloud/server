@@ -105,7 +105,7 @@ OC.L10N.register(
     "Enter missing credentials" : "Vpiši manjkajoča poverila",
     "New configuration successfully saved" : "Nove nastavitve so uspešno shranjene",
     "There was an error with this external storage." : "Prišlo je do napake z zunanjo shrambo",
-    "Open in Files" : "Open in Files",
+    "Open in Files" : "Odpri v mapi",
     "External mount error" : "Notranja napaka priklopa",
     "Storage type" : "Vrsta shrambe",
     "Unknown" : "Neznano",

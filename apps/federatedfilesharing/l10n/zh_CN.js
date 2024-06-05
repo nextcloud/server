@@ -1,11 +1,6 @@
 OC.L10N.register(
     "federatedfilesharing",
     {
-    "Do you want to add the remote share {name} from {owner}@{remote}?" : "您想要添加来自 {owner}@{remote}的远程共享 {name} 吗？",
-    "Remote share" : "远程共享",
-    "Remote share password" : "远程共享密码",
-    "Cancel" : "取消",
-    "Add remote share" : "添加远程共享",
     "Invalid Federated Cloud ID" : "联合云ID不正确",
     "Server to server sharing is not enabled on this server" : "此服务器未启用服务器间的共享功能",
     "Couldn't establish a federated share." : "无法建立一个联合云共享",
@@ -44,6 +39,11 @@ OC.L10N.register(
     "Copy to clipboard" : "复制到剪贴板",
     "Clipboard is not available" : "剪贴板不可用",
     "Copied!" : "已复制！",
+    "Do you want to add the remote share {name} from {owner}@{remote}?" : "您想要添加来自 {owner}@{remote}的远程共享 {name} 吗？",
+    "Remote share" : "远程共享",
+    "Remote share password" : "远程共享密码",
+    "Cancel" : "取消",
+    "Add remote share" : "添加远程共享",
     "Sharing %1$s failed, because this item is already shared with user %2$s" : "分享 %1$s 失败，因为该项目已经和用户 %2$s 进行了分享",
     "Not allowed to create a federated share with the same user" : "不能给您自己共享文件",
     "Adjust how people can share between servers. This includes shares between users on this server as well if they are using federated sharing." : "调整人们在服务器之间的共享方式。这也包括该服务器上使用联合共享的用户之间的共享。",
