@@ -43,11 +43,13 @@ namespace OCA\Core;
  *
  * @psalm-type CoreNavigationEntry = array{
  *     id: string,
- *     order: int|string,
+ *     order?: int,
  *     href: string,
  *     icon: string,
  *     type: string,
  *     name: string,
+ *     app?: string,
+ *     default?: bool,
  *     active: bool,
  *     classes: string,
  *     unread: int,
