@@ -20,6 +20,7 @@
 			:disabled="disabled"
 			:aria-label="text"
 			:icon="icon"
+			close-after-click
 			@click="(event) => action(event, { ...user })">
 			{{ text }}
 		</NcActionButton>
