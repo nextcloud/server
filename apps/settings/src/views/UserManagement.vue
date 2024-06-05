@@ -12,6 +12,7 @@
 
 <script>
 import { translate as t } from '@nextcloud/l10n'
+import { emit } from '@nextcloud/event-bus'
 import { defineComponent } from 'vue'
 
 import NcAppContent from '@nextcloud/vue/dist/Components/NcAppContent.js'
@@ -69,6 +70,7 @@ export default defineComponent({
 		window.OCA.Settings.UserList = window.OCA.Settings.UserList ?? {}
 		// and add the registerAction method
 		window.OCA.Settings.UserList.registerAction = this.registerAction
+		emit('settings:user-management:loaded')
 	},
 
 	methods: {
