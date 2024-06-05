@@ -1,11 +1,6 @@
 OC.L10N.register(
     "federatedfilesharing",
     {
-    "Do you want to add the remote share {name} from {owner}@{remote}?" : "{owner}@{remote} からのリモート共有 {name} を追加してもよろしいですか？",
-    "Remote share" : "リモート共有",
-    "Remote share password" : "リモート共有のパスワード",
-    "Cancel" : "キャンセル",
-    "Add remote share" : "リモート共有を追加",
     "Invalid Federated Cloud ID" : "無効なクラウド共有ID",
     "Server to server sharing is not enabled on this server" : "このサーバーでは、サーバー間の共有が有効ではありません",
     "Couldn't establish a federated share." : "クラウド共有を接続できませんでした。",
@@ -44,6 +39,11 @@ OC.L10N.register(
     "Copy to clipboard" : "クリップボードにコピー",
     "Clipboard is not available" : "クリップボードは利用できません",
     "Copied!" : "コピーしました！",
+    "Do you want to add the remote share {name} from {owner}@{remote}?" : "{owner}@{remote} からのリモート共有 {name} を追加してもよろしいですか？",
+    "Remote share" : "リモート共有",
+    "Remote share password" : "リモート共有のパスワード",
+    "Cancel" : "キャンセル",
+    "Add remote share" : "リモート共有を追加",
     "Sharing %1$s failed, because this item is already shared with user %2$s" : "ユーザー%2$sによりすでに共有されているため%1$s を共有できませんでした。",
     "Not allowed to create a federated share with the same user" : "同じユーザーでクラウド共有は作成できません。",
     "Adjust how people can share between servers. This includes shares between users on this server as well if they are using federated sharing." : "ユーザーがサーバー間で共有する方法を調整します。フェデレーション共有を使用している場合、このサーバー上のユーザー間の共有も含まれます。",

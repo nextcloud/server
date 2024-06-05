@@ -86,7 +86,6 @@ OC.L10N.register(
     "Organizer:" : "Organizátor:",
     "Attendees:" : "Účastníci:",
     "Title:" : "Názov:",
-    "Time:" : "Čas:",
     "Location:" : "Miesto:",
     "Link:" : "Odkaz:",
     "Accept" : "Schváliť",
@@ -209,6 +208,7 @@ OC.L10N.register(
     "Tentative" : "Neistý",
     "Your attendance was updated successfully." : "Vaša účasť bola aktualizovaná úspešne.",
     "To-dos" : "Úlohy",
+    "Time:" : "Čas:",
     "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "Ak nakonfigurujete svoj pracovný čas, ostatní používatelia uvidia, keď si rezervujete schôdzku, keď nebudete v práci."
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");

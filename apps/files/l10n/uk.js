@@ -184,6 +184,7 @@ OC.L10N.register(
     "Folder name" : "Назва каталогу",
     "This node is unavailable" : "Цей вузол не доступний",
     "Download file {name}" : "Відкрити файл {name}",
+    "Invalid file name" : "Недійсне ім'я файлу",
     "\"{name}\" is not an allowed filetype." : "\"{name}\" є недозволеним типом файлу.",
     "{newName} already exists." : "{newName} вже присутній.",
     "\"{char}\" is not allowed inside a file name." : "Неприпустимий \"{char}\" у назві файлу.",

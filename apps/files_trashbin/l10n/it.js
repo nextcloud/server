@@ -7,6 +7,8 @@ OC.L10N.register(
     "Restore" : "Ripristina",
     "Unknown" : "Sconosciuto",
     "All files" : "Tutti i file",
+    "You" : "Tu",
+    "Deleted by" : "Eliminato da",
     "Deleted" : "Eliminati",
     "A long time ago" : "Molto tempo fa",
     "List of files that have been deleted." : "Lista di file che sono stati eliminati.",

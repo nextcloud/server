@@ -86,7 +86,6 @@ OC.L10N.register(
     "Organizer:" : "Організатор:",
     "Attendees:" : "Учасники:",
     "Title:" : "Назва:",
-    "Time:" : "Час:",
     "Location:" : "Місцевість:",
     "Link:" : "Посилання:",
     "Accept" : "Прийняти",
@@ -209,6 +208,7 @@ OC.L10N.register(
     "Tentative" : "Попередній",
     "Your attendance was updated successfully." : "Ваша участь успішно оновлена.",
     "To-dos" : "Завдання",
+    "Time:" : "Час:",
     "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "Будь ласка, налаштуйте ваш робочий час, щоби інші користувачі могли бачити, коли ви відсутні під час бронювання зустрічей."
 },
 "nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);");

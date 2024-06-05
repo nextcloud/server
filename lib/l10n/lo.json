@@ -7,7 +7,7 @@
     "Apps" : "ແອັບພລິເຄຊັນ",
     "Settings" : "ການຕັ້ງຄ່າ",
     "Log out" : "ອອກຈາກລະບົບ",
-    "Users" : "ຜູ້ໃຊ້",
+    "Accounts" : "ບັນຊີ",
     "Email" : "ອິເມວ",
     "Twitter" : "Twitter",
     "Website" : "ເວັບໄຊ",
@@ -15,6 +15,7 @@
     "About" : "ກ່ຽວກັບ",
     "Role" : "ພາລະບົດບາດ",
     "Help" : "ການຊ່ວຍເຫຼືອ",
+    "Users" : "ຜູ້ໃຊ້",
     "User disabled" : "ປິດຊື່ຜູ້ໃຊ້"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

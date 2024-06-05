@@ -6,7 +6,6 @@
     "Apps" : "ئەپلەر",
     "Settings" : "تەڭشەكلەر",
     "Log out" : "تىزىمدىن چىق",
-    "Users" : "ئىشلەتكۈچىلەر",
     "Email" : "تورخەت",
     "Phone" : "تېلېفون",
     "Address" : "ئادرېس",
@@ -51,6 +50,7 @@
     "A valid password must be provided" : "چوقۇم ئىناۋەتلىك ئىم تەمىنلەش كېرەك",
     "Authentication error" : "سالاھىيەت دەلىللەش خاتالىقى",
     "Help" : "ياردەم",
+    "Users" : "ئىشلەتكۈچىلەر",
     "A valid username must be provided" : "چوقۇم ئىناۋەتلىك ئىشلەتكۈچى ئىسمىدىن بىرنى تەمىنلەش كېرەك"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

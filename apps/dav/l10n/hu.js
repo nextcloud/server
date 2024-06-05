@@ -86,7 +86,6 @@ OC.L10N.register(
     "Organizer:" : "Szervező:",
     "Attendees:" : "Résztvevők:",
     "Title:" : "Cím:",
-    "Time:" : "Idő:",
     "Location:" : "Hely:",
     "Link:" : "Hivatkozás:",
     "Accept" : "Elfogadás",
@@ -192,6 +191,7 @@ OC.L10N.register(
     "Tentative" : "Feltételes",
     "Your attendance was updated successfully." : "A részvétele frissítése sikeres.",
     "To-dos" : "Teendők",
+    "Time:" : "Idő:",
     "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "Ha beállítja a munkaidejét, akkor más felhasználók a megbeszélések létrehozásakor látni fogják, hogy Ön mikor nem érhető el."
 },
 "nplurals=2; plural=(n != 1);");

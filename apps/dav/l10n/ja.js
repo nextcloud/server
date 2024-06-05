@@ -86,7 +86,6 @@ OC.L10N.register(
     "Organizer:" : "主催者:",
     "Attendees:" : "参加者:",
     "Title:" : "タイトル:",
-    "Time:" : "時刻:",
     "Location:" : "場所：",
     "Link:" : "リンク:",
     "Accept" : "承諾",
@@ -209,6 +208,7 @@ OC.L10N.register(
     "Tentative" : "暫定的",
     "Your attendance was updated successfully." : "出席は正常に更新されました。",
     "To-dos" : "To-dos",
+    "Time:" : "時刻:",
     "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "勤務時間を設定すると、他のユーザが会議を予約する際に、あなたがいつ不在であるかがわかります。"
 },
 "nplurals=1; plural=0;");

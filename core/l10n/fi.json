@@ -37,6 +37,7 @@
     "Reset your password" : "Palauta salasanasi",
     "Task not found" : "Tehtävää ei löydy",
     "Internal error" : "Sisäinen virhe",
+    "Not found" : "Ei löytynyt",
     "Image not found" : "Kuvaa ei löytynyt",
     "No translation provider available" : "Käännöksen palveluntarjoaja ei ole saatavilla",
     "Could not detect language" : "Kielen havaitseminen ei onnistunut",
@@ -105,8 +106,7 @@
     "Log in to {productName}" : "Kirjaudu palveluun {productName}",
     "This account is disabled" : "Tämä tili on poistettu käytöstä",
     "We have detected multiple invalid login attempts from your IP. Therefore your next login is throttled up to 30 seconds." : "Useita virheellisiä kirjautumisyrityksiä havaittiin IP-osoitteestasi. Siksi seuraava yritys sallitaan vasta 30 sekunnin päästä.",
-    "Login with username or email" : "Kirjaudu käyttäjätunnuksella tai sähköpostiosoitteella",
-    "Login with username" : "Kirjaudu käyttäjätunnuksella",
+    "Account name or email" : "Tilin nimi tai sähköpostiosoite",
     "Log in with a device" : "Kirjaudu laitteella",
     "Your account is not setup for passwordless login." : "Käyttäjääsi ei ole kytketty käyttämään salasanatonta kirjautumista.",
     "Browser not supported" : "Selain ei ole tuettu",
@@ -172,7 +172,6 @@
     "This year" : "Tämä vuosi",
     "Last year" : "Viime vuosi",
     "Search people" : "Etsi ihmisiä",
-    "Not found" : "Ei löytynyt",
     "People" : "Ihmiset",
     "Searching …" : "Haetaan…",
     "This browser is not supported" : "Tämä selain ei ole tuettu",
@@ -361,7 +360,6 @@
     "This instance is running in debug mode. Only enable this for local development and not in production environments." : "Tämä instanssi toimii vianjäljitystilassa. Käytä vianjäljitystilaa vain paikalliseen kehitykseen, älä koskaan käytä sitä tuotantoympäristössä.",
     "The \"{header}\" HTTP header is not set to \"{expected}\". This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly." : "HTTP-header \"{header}\" ei ole määritetty vastaamaan arvoa \"{expected}\". Kyseessä on mahdollinen tietoturvaan tai -suojaan liittyvä riski, joten on suositeltavaa muuttaa asetuksen arvoa.",
     "The \"{header}\" HTTP header is not set to \"{expected}\". Some features might not work correctly, as it is recommended to adjust this setting accordingly." : "HTTP-header \"{header}\" ei ole määritetty vastaamaan arvoa \"{expected}\". Jotkin toiminnot eivät vättämättä toimi oikein, joten on suositeltavaa muuttaa asetuksen arvoa.",
-    "Account name or email" : "Tilin nimi tai sähköpostiosoite",
     "Wrong username or password." : "Väärä käyttäjätunnus tai salasana.",
     "User disabled" : "Käyttäjä poistettu käytöstä",
     "Username or email" : "Käyttäjätunnus tai sähköpostiosoite",
@@ -400,6 +398,8 @@
     "App token" : "Sovellusvaltuutus",
     "Alternative log in using app token" : "Vaihtoehtoinen kirjautuminen käyttäen sovelluspolettia",
     "Please use the command line updater because you have a big instance with more than 50 users." : "Käytä komentorivipäivitintä, koska käyttäjiä on yli 50.",
+    "Login with username or email" : "Kirjaudu käyttäjätunnuksella tai sähköpostiosoitteella",
+    "Login with username" : "Kirjaudu käyttäjätunnuksella",
     "Apps and Settings" : "Sovellukset ja asetukset"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

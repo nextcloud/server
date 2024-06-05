@@ -63,7 +63,6 @@ OC.L10N.register(
     "Organizer:" : "Organizator:",
     "Attendees:" : "Polaznici:",
     "Title:" : "Naslov:",
-    "Time:" : "Vrijeme:",
     "Location:" : "Lokacija:",
     "Link:" : "Poveznica:",
     "Accept" : "Prihvati",
@@ -137,6 +136,7 @@ OC.L10N.register(
     "Are you accepting the invitation?" : "Prihvaćate li poziv?",
     "Tentative" : "Uvjetno",
     "Your attendance was updated successfully." : "Vaša je prisutnost uspješno ažurirana.",
+    "Time:" : "Vrijeme:",
     "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "Ako konfigurirate svoje radno vrijeme, drugi korisnici moći će vidjeti jeste li izvan ureda kada rezerviraju sastanak."
 },
 "nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;");

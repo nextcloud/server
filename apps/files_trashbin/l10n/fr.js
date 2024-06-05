@@ -9,6 +9,7 @@ OC.L10N.register(
     "Restore" : "Restaurer",
     "Unknown" : "Inconnu",
     "All files" : "Tous les fichiers",
+    "You" : "Vous",
     "Original location" : "Emplacement original",
     "Deleted" : "Supprimé",
     "A long time ago" : "Il y a longtemps",

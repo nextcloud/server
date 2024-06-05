@@ -86,7 +86,6 @@ OC.L10N.register(
     "Organizer:" : "Organizador:",
     "Attendees:" : "Asistentes:",
     "Title:" : "Títulu:",
-    "Time:" : "Hora:",
     "Location:" : "Llugar:",
     "Link:" : "Enllaz:",
     "Accept" : "Aceptar",
@@ -209,6 +208,7 @@ OC.L10N.register(
     "Tentative" : "Provisional",
     "Your attendance was updated successfully." : "La to asistencia anovóse correutamente.",
     "To-dos" : "Xeres pendientes",
+    "Time:" : "Hora:",
     "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "Si configures les hores llaborales, los demás usuarios van ver cuando coles de la oficina al acutar una reunión."
 },
 "nplurals=2; plural=(n != 1);");
