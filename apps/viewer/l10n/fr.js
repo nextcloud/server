@@ -10,6 +10,7 @@ OC.L10N.register(
     "Error saving image" : "Erreur lors de l'enregistrement de l'image",
     "Unsaved changes" : "Modifications non enregistrées",
     "Drop changes" : "Abandonner les changements",
+    "Play the live photo" : "Lire la live photo",
     "LIVE" : "EN DIRECT",
     "Your browser does not support videos." : "Votre navigateur ne prend pas en charge les vidéos.",
     "Edit" : "Modifier",
