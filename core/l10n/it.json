@@ -117,6 +117,7 @@
     "This account is disabled" : "Questo account è disabilitato",
     "We have detected multiple invalid login attempts from your IP. Therefore your next login is throttled up to 30 seconds." : "Abbiamo rilevato molti tentativi di autenticazione non riusciti dal tuo indirizzo IP. Di conseguenza, il prossimo tentativo è ritardato di 30 secondi.",
     "Account name or email" : "Nome utente o email",
+    "Account name" : "Nome account",
     "Log in with a device" : "Accedi con un dispositivo",
     "Login or email" : "Nome utente o email",
     "Your account is not setup for passwordless login." : "Il tuo account non è configurato per l'accesso senza password.",

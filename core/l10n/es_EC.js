@@ -102,6 +102,7 @@ OC.L10N.register(
     "Log in to {productName}" : "Iniciar sesión en {productName}",
     "We have detected multiple invalid login attempts from your IP. Therefore your next login is throttled up to 30 seconds." : "Hemos detectado múltiples intentos de inicio de sesión desde tu IP. Por lo tanto tu siguiente incio de sesión se retrasará hasta 30 segundos. ",
     "Account name or email" : "Nombre de cuenta o correo electrónico",
+    "Account name" : "Nombre de la cuenta",
     "Log in with a device" : "Iniciar sesión con un dispositivo",
     "Your account is not setup for passwordless login." : "Su cuenta no está configurada para iniciar sesión sin contraseña.",
     "Browser not supported" : "Navegador no compatible",

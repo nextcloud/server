@@ -117,6 +117,7 @@
     "This account is disabled" : "Účet je znepřístupněn",
     "We have detected multiple invalid login attempts from your IP. Therefore your next login is throttled up to 30 seconds." : "Bylo rozpoznáno několik neplatných pokusů o přihlášeni z vaší IP adresy. Další přihlášení bude možné za 30 sekund.",
     "Account name or email" : "Název účtu nebo e-mail",
+    "Account name" : "Název účtu",
     "Log in with a device" : "Přihlásit se pomocí zařízení",
     "Login or email" : "Přihlašovací jméno nebo e-mail",
     "Your account is not setup for passwordless login." : "Váš účet nemá nastavené přihlašování se bez hesla.",

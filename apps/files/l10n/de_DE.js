@@ -168,6 +168,7 @@ OC.L10N.register(
     "Your ownership transfer of {path} to {user} has completed." : "Die Besitzübertragung von {path} an {user} wurde fertiggestellt.",
     "The ownership transfer of {path} from {user} has completed." : "Die Besitzübertragung von {path} durch {user} wurde fertiggestellt.",
     "in %s" : "in %s",
+    "Transferred from %1$s on %2$s" : "Übertragen von %1$s auf %2$s",
     "File Management" : "Dateiverwaltung",
     "Current directory path" : "Aktueller Verzeichnispfad",
     "Reload current directory" : "Aktuelles Verzeichnis neu laden",

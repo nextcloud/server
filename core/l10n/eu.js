@@ -119,6 +119,7 @@ OC.L10N.register(
     "This account is disabled" : "Kontu hau desgaituta dago",
     "We have detected multiple invalid login attempts from your IP. Therefore your next login is throttled up to 30 seconds." : "Saioa hasteko hainbat saiakera baliogabe jaso ditugu zure IPtik. Ondorioz, zure hurrengo saio hasiera 30 segundo atzeratuko da.",
     "Account name or email" : "Kontu izena edo posta elektronikoa",
+    "Account name" : "Kontuaren izena",
     "Log in with a device" : "Hasi saioa gailu batekin",
     "Login or email" : "Erabiltzaile-izen edo e-posta",
     "Your account is not setup for passwordless login." : "Zure kontua ez dago pasahitzik gabeko autentifikaziorako konfiguratua.",
