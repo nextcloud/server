@@ -440,7 +440,7 @@ class KeyManager {
 	/**
 	 * @param ?bool $useLegacyFileKey null means try both
 	 */
-	public function getFileKey(string $path, ?string $uid, ?bool $useLegacyFileKey, bool $useDecryptAll): string {
+	public function getFileKey(string $path, ?string $uid, ?bool $useLegacyFileKey, bool $useDecryptAll = false): string {
 		if ($uid === '') {
 			$uid = null;
 		}
