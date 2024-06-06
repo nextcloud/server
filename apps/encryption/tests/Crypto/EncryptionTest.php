@@ -122,6 +122,10 @@ class EncryptionTest extends TestCase {
 	 * test if public key from one of the recipients is missing
 	 */
 	public function testEndUser1() {
+		$this->sessionMock->expects($this->once())
+			->method('decryptAllModeActivated')
+			->willReturn(false);
+
 		$this->instance->begin('/foo/bar', 'user1', 'r', [], ['users' => ['user1', 'user2', 'user3']]);
 		$this->endTest();
 	}
@@ -131,6 +135,10 @@ class EncryptionTest extends TestCase {
 	 *
 	 */
 	public function testEndUser2() {
+		$this->sessionMock->expects($this->once())
+			->method('decryptAllModeActivated')
+			->willReturn(false);
+
 		$this->expectException(\OCA\Encryption\Exceptions\PublicKeyMissingException::class);
 
 		$this->instance->begin('/foo/bar', 'user2', 'r', [], ['users' => ['user1', 'user2', 'user3']]);
@@ -252,34 +260,15 @@ class EncryptionTest extends TestCase {
 	 */
 	public function testBeginDecryptAll() {
 		$path = '/user/files/foo.txt';
-		$recoveryKeyId = 'recoveryKeyId';
-		$recoveryShareKey = 'recoveryShareKey';
-		$decryptAllKey = 'decryptAllKey';
 		$fileKey = 'fileKey';
 
 		$this->sessionMock->expects($this->once())
 			->method('decryptAllModeActivated')
 			->willReturn(true);
-		$this->sessionMock->expects($this->once())
-			->method('getDecryptAllUid')
-			->willReturn($recoveryKeyId);
-		$this->sessionMock->expects($this->once())
-			->method('getDecryptAllKey')
-			->willReturn($decryptAllKey);
-
 		$this->keyManagerMock->expects($this->once())
-			->method('getEncryptedFileKey')
-			->willReturn('encryptedFileKey');
-		$this->keyManagerMock->expects($this->once())
-			->method('getShareKey')
-			->with($path, $recoveryKeyId)
-			->willReturn($recoveryShareKey);
-		$this->cryptMock->expects($this->once())
-			->method('multiKeyDecryptLegacy')
-			->with('encryptedFileKey', $recoveryShareKey, $decryptAllKey)
+			->method('getFileKey')
+			->with($path, 'user', null, true)
 			->willReturn($fileKey);
-
-		$this->keyManagerMock->expects($this->never())->method('getFileKey');
 
 		$this->instance->begin($path, 'user', 'r', [], []);
 
@@ -294,6 +283,10 @@ class EncryptionTest extends TestCase {
 	 * and continue
 	 */
 	public function testBeginInitMasterKey() {
+		$this->sessionMock->expects($this->once())
+			->method('decryptAllModeActivated')
+			->willReturn(false);
+
 		$this->sessionMock->expects($this->once())->method('isReady')->willReturn(false);
 		$this->utilMock->expects($this->once())->method('isMasterKeyEnabled')
 			->willReturn(true);
