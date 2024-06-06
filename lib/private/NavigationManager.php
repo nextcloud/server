@@ -119,7 +119,7 @@ class NavigationManager implements INavigationManager {
 			// This is the default app that will always be shown first
 			$entry['default'] = ($entry['app'] ?? false) === $this->defaultApp;
 			// Set order from user defined app order
-			$entry['order'] = $this->customAppOrder[$id]['order'] ?? $entry['order'] ?? 100;
+			$entry['order'] = (int)($this->customAppOrder[$id]['order'] ?? $entry['order'] ?? 100);
 		}
 
 		$this->entries[$id] = $entry;
