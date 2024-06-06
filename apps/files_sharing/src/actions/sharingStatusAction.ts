@@ -34,8 +34,12 @@ import { getCurrentUser } from '@nextcloud/auth'
 
 import './sharingStatusAction.scss'
 
+const isDarkMode = window?.matchMedia?.('(prefers-color-scheme: dark)')?.matches === true
+	|| document.querySelector('[data-themes*=dark]') !== null
+
 const generateAvatarSvg = (userId: string, isGuest = false) => {
-	const avatarUrl = generateUrl(isGuest ? '/avatar/guest/{userId}/32' : '/avatar/{userId}/32?guestFallback=true', { userId })
+	const url = isDarkMode ? '/avatar/{userId}/32/dark' : '/avatar/{userId}/32'
+	const avatarUrl = generateUrl(isGuest ? url : url + '?guestFallback=true', { userId })
 	return `<svg width="32" height="32" viewBox="0 0 32 32"
 		xmlns="http://www.w3.org/2000/svg" class="sharing-status__avatar">
 		<image href="${avatarUrl}" height="32" width="32" />
