@@ -138,7 +138,6 @@ class WebhookListenerMapper extends QBMapper {
 	/**
 	 * @throws Exception
 	 * @return list<string>
-	 * TODO cache
 	 */
 	public function getAllConfiguredEvents(): array {
 		$qb = $this->db->getQueryBuilder();
