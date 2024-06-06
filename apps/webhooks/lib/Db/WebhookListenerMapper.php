@@ -14,6 +14,7 @@ use OCP\AppFramework\Db\MultipleObjectsReturnedException;
 use OCP\AppFramework\Db\QBMapper;
 use OCP\DB\Exception;
 use OCP\DB\QueryBuilder\IQueryBuilder;
+use OCP\EventDispatcher\IWebhookCompatibleEvent;
 use OCP\IDBConnection;
 
 /**
@@ -68,6 +69,9 @@ class WebhookListenerMapper extends QBMapper {
 		AuthMethod $authMethod,
 		?array $authData,
 	): WebhookListener {
+		if (!class_exists($event) || !is_a($event, IWebhookCompatibleEvent::class, true)) {
+			throw new \UnexpectedValueException("$event is not an event class compatible with webhooks");
+		}
 		$webhookListener = WebhookListener::fromParams(
 			[
 				'appId' => $appId,
@@ -99,6 +103,9 @@ class WebhookListenerMapper extends QBMapper {
 		AuthMethod $authMethod,
 		?array $authData,
 	): WebhookListener {
+		if (!class_exists($event) || !is_a($event, IWebhookCompatibleEvent::class, true)) {
+			throw new \UnexpectedValueException("$event is not an event class compatible with webhooks");
+		}
 		$webhookListener = WebhookListener::fromParams(
 			[
 				'id' => $id,

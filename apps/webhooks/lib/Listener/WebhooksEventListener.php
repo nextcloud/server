@@ -15,13 +15,14 @@ use OCA\Webhooks\Service\PHPMongoQuery;
 use OCP\BackgroundJob\IJobList;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
+use OCP\EventDispatcher\IWebhookCompatibleEvent;
 use OCP\EventDispatcher\JsonSerializer;
 use OCP\IUserSession;
 use Psr\Log\LoggerInterface;
 
 /**
  * The class to handle the share events
- * @template-implements IEventListener<Event>
+ * @template-implements IEventListener<IWebhookCompatibleEvent>
  */
 class WebhooksEventListener implements IEventListener {
 	public function __construct(
@@ -55,29 +56,10 @@ class WebhooksEventListener implements IEventListener {
 		}
 	}
 
-	private function serializeEvent(Event $event): array|\JsonSerializable {
-		if ($event instanceof \JsonSerializable) {
-			return $event;
-		} else {
-			/* Event is not serializable, we fallback to reflection to still send something */
-			$data = ['class' => $event::class];
-			$ref = new \ReflectionClass($event);
-			foreach ($ref->getMethods() as $method) {
-				if (str_starts_with($method->getName(), 'get')) {
-					$key = strtolower(substr($method->getName(), 3));
-					$value = $method->invoke($event);
-					if ($value instanceof \OCP\Files\FileInfo) {
-						$value = [
-							'id' => $value->getId(),
-							'path' => $value->getPath(),
-						];
-					}
-					$data[$key] = $value;
-				}
-			}
-			$this->logger->debug('Webhook had to use fallback to serialize event '.$event::class);
-			return $data;
-		}
+	private function serializeEvent(IWebhookCompatibleEvent $event): array {
+		$data = $event->getWebhookSerializable();
+		$data['class'] = $event::class;
+		return $data;
 	}
 
 	private function filterMatch(array $filter, array $data): bool {
