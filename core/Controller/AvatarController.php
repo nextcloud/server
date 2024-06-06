@@ -38,14 +38,13 @@ use OCP\AppFramework\Http\Attribute\FrontpageRoute;
 use OCP\AppFramework\Http\DataDisplayResponse;
 use OCP\AppFramework\Http\FileDisplayResponse;
 use OCP\AppFramework\Http\JSONResponse;
-use OCP\AppFramework\Http\RedirectResponse;
+use OCP\AppFramework\Http\Response;
 use OCP\Files\File;
 use OCP\Files\IRootFolder;
 use OCP\IAvatarManager;
 use OCP\ICache;
 use OCP\IL10N;
 use OCP\IRequest;
-use OCP\IURLGenerator;
 use OCP\IUserManager;
 use Psr\Log\LoggerInterface;
 
@@ -66,7 +65,6 @@ class AvatarController extends Controller {
 		protected LoggerInterface $logger,
 		protected ?string $userId,
 		protected TimeFactory $timeFactory,
-		protected IURLGenerator $urlGenerator,
 		protected GuestAvatarController $guestAvatarController,
 	) {
 		parent::__construct($appName, $request);
@@ -82,7 +80,8 @@ class AvatarController extends Controller {
 	 *
 	 * @param string $userId ID of the user
 	 * @param int $size Size of the avatar
-	 * @return FileDisplayResponse<Http::STATUS_OK, array{Content-Type: string, X-NC-IsCustomAvatar: int}>|JSONResponse<Http::STATUS_NOT_FOUND, array<empty>, array{}>
+	 * @param bool $guestFallback Fallback to guest avatar if not found
+	 * @return FileDisplayResponse<Http::STATUS_OK|Http::STATUS_CREATED, array{Content-Type: string, X-NC-IsCustomAvatar?: int}>|JSONResponse<Http::STATUS_NOT_FOUND, array<empty>, array{}>|Response<Http::STATUS_INTERNAL_SERVER_ERROR, array{}>
 	 *
 	 * 200: Avatar returned
 	 * 404: Avatar not found
@@ -132,7 +131,8 @@ class AvatarController extends Controller {
 	 *
 	 * @param string $userId ID of the user
 	 * @param int $size Size of the avatar
-	 * @return FileDisplayResponse<Http::STATUS_OK, array{Content-Type: string, X-NC-IsCustomAvatar: int}>|JSONResponse<Http::STATUS_NOT_FOUND, array<empty>, array{}>
+	 * @param bool $guestFallback Fallback to guest avatar if not found
+	 * @return FileDisplayResponse<Http::STATUS_OK|Http::STATUS_CREATED, array{Content-Type: string, X-NC-IsCustomAvatar?: int}>|JSONResponse<Http::STATUS_NOT_FOUND, array<empty>, array{}>|Response<Http::STATUS_INTERNAL_SERVER_ERROR, array{}>
 	 *
 	 * 200: Avatar returned
 	 * 404: Avatar not found
