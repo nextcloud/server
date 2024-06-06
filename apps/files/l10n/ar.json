@@ -166,6 +166,7 @@
     "Your ownership transfer of {path} to {user} has completed." : "عمليتك لنقل الـ {path} إلى {user} تمت بنجاح.",
     "The ownership transfer of {path} from {user} has completed." : "نقل الملكية لـ {path} من قبل {user} تمت بنجاح.",
     "in %s" : "في %s",
+    "Transferred from %1$s on %2$s" : "تمّ النقل من %1$s في%2$s",
     "File Management" : "إدارة الملفات",
     "Current directory path" : "مسار المجلد الحالي",
     "Reload current directory" : "إعادة تحميل المجلد الحالي",

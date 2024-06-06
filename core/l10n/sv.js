@@ -119,6 +119,7 @@ OC.L10N.register(
     "This account is disabled" : "Detta konto är inaktiverat",
     "We have detected multiple invalid login attempts from your IP. Therefore your next login is throttled up to 30 seconds." : "Vi har upptäckt flera felaktiga inloggningsförsök från din IP-adress. Ditt nästa inloggningsförsök kommer därför att fördröjas med upp till 30 sekunder.",
     "Account name or email" : "Användarnamn eller e-post",
+    "Account name" : "Kontonamn",
     "Log in with a device" : "Logga in med en enhet",
     "Your account is not setup for passwordless login." : "Ditt konto är inte inställt för inloggning utan lösenord.",
     "Browser not supported" : "Webbläsaren stöds inte",

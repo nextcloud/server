@@ -119,6 +119,7 @@ OC.L10N.register(
     "This account is disabled" : "此帳戶已停用",
     "We have detected multiple invalid login attempts from your IP. Therefore your next login is throttled up to 30 seconds." : "您的 IP 多次嘗試登入無效。因此下一次登入將會被延時30秒。請耐心等待一段時間後再試。",
     "Account name or email" : "帳戶名稱或電郵地址",
+    "Account name" : "帳戶名稱",
     "Log in with a device" : "使用免密碼裝置登入",
     "Login or email" : "帳戶或電子郵件",
     "Your account is not setup for passwordless login." : "你的賬號尚未設定免密碼登入。",
