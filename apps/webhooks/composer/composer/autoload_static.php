@@ -24,7 +24,7 @@ class ComposerStaticInitWebhooks
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
         'OCA\\Webhooks\\AppInfo\\Application' => __DIR__ . '/..' . '/../lib/AppInfo/Application.php',
         'OCA\\Webhooks\\BackgroundJobs\\WebhookCall' => __DIR__ . '/..' . '/../lib/BackgroundJobs/WebhookCall.php',
-        'OCA\\Webhooks\\Command\\Index' => __DIR__ . '/..' . '/../lib/Command/Index.php',
+        'OCA\\Webhooks\\Command\\ListWebhooks' => __DIR__ . '/..' . '/../lib/Command/ListWebhooks.php',
         'OCA\\Webhooks\\Controller\\WebhooksController' => __DIR__ . '/..' . '/../lib/Controller/WebhooksController.php',
         'OCA\\Webhooks\\Db\\AuthMethod' => __DIR__ . '/..' . '/../lib/Db/AuthMethod.php',
         'OCA\\Webhooks\\Db\\WebhookListener' => __DIR__ . '/..' . '/../lib/Db/WebhookListener.php',

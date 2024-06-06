@@ -9,7 +9,7 @@ return array(
     'Composer\\InstalledVersions' => $vendorDir . '/composer/InstalledVersions.php',
     'OCA\\Webhooks\\AppInfo\\Application' => $baseDir . '/../lib/AppInfo/Application.php',
     'OCA\\Webhooks\\BackgroundJobs\\WebhookCall' => $baseDir . '/../lib/BackgroundJobs/WebhookCall.php',
-    'OCA\\Webhooks\\Command\\Index' => $baseDir . '/../lib/Command/Index.php',
+    'OCA\\Webhooks\\Command\\ListWebhooks' => $baseDir . '/../lib/Command/ListWebhooks.php',
     'OCA\\Webhooks\\Controller\\WebhooksController' => $baseDir . '/../lib/Controller/WebhooksController.php',
     'OCA\\Webhooks\\Db\\AuthMethod' => $baseDir . '/../lib/Db/AuthMethod.php',
     'OCA\\Webhooks\\Db\\WebhookListener' => $baseDir . '/../lib/Db/WebhookListener.php',

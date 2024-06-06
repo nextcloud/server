@@ -24,7 +24,7 @@
 	</dependencies>
 
 	<commands>
-		<command>OCA\Webhooks\Command\Index</command>
+		<command>OCA\Webhooks\Command\ListWebhooks</command>
 	</commands>
 
 	<settings>

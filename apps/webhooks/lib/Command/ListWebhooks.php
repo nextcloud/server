@@ -15,7 +15,7 @@ use OCA\Webhooks\Db\WebhookListenerMapper;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class Index extends Base {
+class ListWebhooks extends Base {
 	public function __construct(
 		private WebhookListenerMapper $mapper,
 	) {
