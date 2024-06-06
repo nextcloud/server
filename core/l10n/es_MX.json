@@ -117,6 +117,7 @@
     "This account is disabled" : "Esta cuenta está deshabilitada",
     "We have detected multiple invalid login attempts from your IP. Therefore your next login is throttled up to 30 seconds." : "Hemos detectado múltiples intentos de inicio de sesión desde tu IP. Por lo tanto tu siguiente incio de sesión se retrasará hasta 30 segundos. ",
     "Account name or email" : "Nombre de cuenta o correo electrónico",
+    "Account name" : "Nombre de cuenta",
     "Log in with a device" : "Iniciar sesión con dispositivo",
     "Login or email" : "Nombre de usuario o correo electrónico",
     "Your account is not setup for passwordless login." : "Tu cuenta no está configurada para iniciar sesión sin contraseña",

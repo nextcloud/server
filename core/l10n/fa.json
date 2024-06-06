@@ -112,6 +112,7 @@
     "Log in to {productName}" : "Log in to {productName}",
     "We have detected multiple invalid login attempts from your IP. Therefore your next login is throttled up to 30 seconds." : "از این آی پی چندین بار تلاش ناموفق برای ورود انجام شده است فلذا برای ورود مجدد حداقل ۳۰ ثانیه باید صبر کنید.",
     "Account name or email" : "نام کاربری یا آدرس ایمیل",
+    "Account name" : "Account name",
     "Log in with a device" : "Log in with a device",
     "Your account is not setup for passwordless login." : "Your account is not setup for passwordless login.",
     "Browser not supported" : "Browser not supported",

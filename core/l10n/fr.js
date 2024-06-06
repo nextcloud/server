@@ -119,6 +119,7 @@ OC.L10N.register(
     "This account is disabled" : "Ce compte est désactivé",
     "We have detected multiple invalid login attempts from your IP. Therefore your next login is throttled up to 30 seconds." : "Nous avons détecté plusieurs tentatives de connexion invalides depuis votre adresse IP. C’est pourquoi votre prochaine connexion sera retardée de 30 secondes.",
     "Account name or email" : "Nom d’utilisateur ou adresse e-mail",
+    "Account name" : "Nom du compte",
     "Log in with a device" : "Se connecter avec un périphérique",
     "Login or email" : "Identifiant ou e-mail",
     "Your account is not setup for passwordless login." : "Votre compte n’est pas paramétré pour une authentification sans mot de passe.",

@@ -117,6 +117,7 @@
     "This account is disabled" : "Esta conta está desactivada",
     "We have detected multiple invalid login attempts from your IP. Therefore your next login is throttled up to 30 seconds." : "Detectamos varias tentativas de acceso non válidas dende o seu IP. Por mor diso, o seu próximo acceso estará limitado a 30 segundos",
     "Account name or email" : "Nome da conta ou correo-e",
+    "Account name" : "Nome da conta",
     "Log in with a device" : "Acceder cun dispositivo",
     "Login or email" : "Acceso ou correo-e",
     "Your account is not setup for passwordless login." : "A súa conta non está configurada para o acceso sen contrasinal.",

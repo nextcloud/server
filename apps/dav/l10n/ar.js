@@ -86,6 +86,7 @@ OC.L10N.register(
     "Organizer:" : "تنظيم:",
     "Attendees:" : "الحُضُور:",
     "Title:" : "العنوان:",
+    "Date and time:" : "التاريخ و الوقت:",
     "Location:" : "المكان :",
     "Link:" : "الرابط:",
     "Accept" : "قبول",

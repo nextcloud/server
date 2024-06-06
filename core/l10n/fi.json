@@ -107,6 +107,7 @@
     "This account is disabled" : "Tämä tili on poistettu käytöstä",
     "We have detected multiple invalid login attempts from your IP. Therefore your next login is throttled up to 30 seconds." : "Useita virheellisiä kirjautumisyrityksiä havaittiin IP-osoitteestasi. Siksi seuraava yritys sallitaan vasta 30 sekunnin päästä.",
     "Account name or email" : "Tilin nimi tai sähköpostiosoite",
+    "Account name" : "Tilin nimi",
     "Log in with a device" : "Kirjaudu laitteella",
     "Your account is not setup for passwordless login." : "Käyttäjääsi ei ole kytketty käyttämään salasanatonta kirjautumista.",
     "Browser not supported" : "Selain ei ole tuettu",

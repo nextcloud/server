@@ -117,6 +117,7 @@
     "This account is disabled" : "이 계정은 비활성화 되었습니다.",
     "We have detected multiple invalid login attempts from your IP. Therefore your next login is throttled up to 30 seconds." : "사용 중인 IP에서 여러 번의 잘못된 로그인 시도를 감지했습니다. 30초 후에 다시 로그인할 수 있습니다.",
     "Account name or email" : "아이디 또는 이메일",
+    "Account name" : "계정 아이디",
     "Log in with a device" : "기기로 로그인",
     "Login or email" : "로그인 또는 이메일",
     "Your account is not setup for passwordless login." : "당신의 계정은 암호 없이 로그인하도록 설정되지 않았습니다.",

@@ -116,6 +116,7 @@
     "This account is disabled" : "Ta račun je onemogočen",
     "We have detected multiple invalid login attempts from your IP. Therefore your next login is throttled up to 30 seconds." : "Zaznanih je več neveljavnih poskusov prijave iz trenutnega naslova IP. Iz varnostnih razlogov bo možnost naslednjega poskusa prijave zadržana za 30 sekund.",
     "Account name or email" : "Ime računa ali elektronski naslov",
+    "Account name" : "Ime računa",
     "Log in with a device" : "Prijava z napravo",
     "Login or email" : "Prijavno ime ali elektronski naslov",
     "Your account is not setup for passwordless login." : "Račun ni nastavljen za brezgeselno prijavo.",
