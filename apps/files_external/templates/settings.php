@@ -1,4 +1,10 @@
 <?php
+
+/**
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2012-2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
+ */
 use OCA\Files_External\Lib\Auth\AuthMechanism;
 use OCA\Files_External\Lib\Backend\Backend;
 use OCA\Files_External\Lib\DefinitionParameter;

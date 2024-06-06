@@ -1,12 +1,10 @@
 #!/usr/bin/env bash
 #
-# ownCloud
+# SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+# SPDX-License-Identifier: AGPL-3.0-or-later
 #
 # This script stops the docker container the files_external tests were run
 # against. It will also revert the config changes done in start step.
-#
-# @author Morris Jobke
-# @copyright 2015 Morris Jobke <hey@morrisjobke.de>
 #
 
 # retrieve current folder to remove the config from the parent folder

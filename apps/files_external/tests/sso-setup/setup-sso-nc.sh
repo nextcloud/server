@@ -1,4 +1,9 @@
 #!/usr/bin/env bash
+#
+# SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+# SPDX-License-Identifier: AGPL-3.0-or-later
+#
+
 set -e
 
 docker exec --user 33 apache ./occ maintenance:install --verbose --database=sqlite --database-name=nextcloud --database-host=127.0.0.1 --database-user=root --database-pass=rootpassword --admin-user admin --admin-pass password
