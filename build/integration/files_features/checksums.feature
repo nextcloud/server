@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+# SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+# SPDX-License-Identifier: AGPL-3.0-only
 Feature: checksums
 
   Scenario: Uploading a file with checksum should work
