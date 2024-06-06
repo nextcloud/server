@@ -402,6 +402,33 @@ class Manager extends PublicEmitter implements IUserManager {
 		return array_slice($users, $offset, $limit);
 	}
 
+	public function getUsersSortedByLastLogin(?int $limit = null, int $offset = 0, $search = '', $sortMode = 'lastLogin', $sortOrder = 'desc'): array {
+		$users = $this->config->getLastLoggedInUsers($search, $sortMode, $sortOrder);
+		$users = array_combine(
+			$users,
+			array_map(
+				fn (string $uid): IUser => new LazyUser($uid, $this),
+				$users
+			)
+		);
+
+		$tempLimit = ($limit === null ? null : $limit + $offset);
+		foreach ($this->backends as $backend) {
+			if (($tempLimit !== null) && (count($users) >= $tempLimit)) {
+				break;
+			}
+			if ($backend instanceof IProvideEnabledStateBackend) {
+				$backendUsers = $backend->getDisabledUserList(($tempLimit === null ? null : $tempLimit - count($users)));
+				foreach ($backendUsers as $uid) {
+					$users[$uid] = new LazyUser($uid, $this, null, $backend);
+				}
+			}
+		}
+
+		return array_slice($users, $offset, $limit);
+	}
+
+
 	/**
 	 * Search known users (from phonebook sync) by displayName
 	 *

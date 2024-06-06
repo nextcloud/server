@@ -124,6 +124,7 @@ interface IUserManager {
 	 */
 	public function getDisabledUsers(?int $limit = null, int $offset = 0, string $search = ''): array;
 
+	public function getUsersSortedByLastLogin(?int $limit = null, int $offset = 0, $search = '', $sortMode = 'lastLogin', $sortOrder = 'desc'): array;
 	/**
 	 * Search known users (from phonebook sync) by displayName
 	 *

@@ -249,4 +249,6 @@ interface IConfig {
 	 * @since 8.0.0
 	 */
 	public function getUsersForUserValue($appName, $key, $value);
+
+	public function getLastLoggedInUsers($search, $sortMode, $sortOrder);
 }

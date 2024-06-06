@@ -45,7 +45,7 @@ interface UserInterface {
 	 * @return string[] an array of all uids
 	 * @since 4.5.0
 	 */
-	public function getUsers($search = '', $limit = null, $offset = null, string $sortMode = 'uid', string $sortOrder = 'asc');
+	public function getUsers($search = '', $limit = null, $offset = null);
 
 	/**
 	 * check if a user exists
@@ -69,12 +69,10 @@ interface UserInterface {
 	 * @param string $search
 	 * @param int|null $limit
 	 * @param int|null $offset
-	 * @param string $sortMode
-	 * @param string $sortOrder
 	 * @return array an array of all displayNames (value) and the corresponding uids (key)
 	 * @since 4.5.0
 	 */
-	public function getDisplayNames($search = '', $limit = null, $offset = null, string $sortMode = 'uid', string $sortOrder = 'asc');
+	public function getDisplayNames($search = '', $limit = null, $offset = null);
 
 	/**
 	 * Check if a user list is available or not

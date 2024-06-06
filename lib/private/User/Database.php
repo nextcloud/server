@@ -227,32 +227,16 @@ class Database extends ABackend implements
 	 * @param string $search
 	 * @param int|null $limit
 	 * @param int|null $offset
-	 * @param string $sortMode
-	 * @param string $sortOrder
 	 * @return array an array of all displayNames (value) and the corresponding uids (key)
 	 */
-	public function getDisplayNames($search = '', $limit = null, $offset = null, string $sortMode = 'uid', string $sortOrder = 'asc'): array {
+	public function getDisplayNames($search = '', $limit = null, $offset = null) {
 		$limit = $this->fixLimit($limit);
 
 		$this->fixDI();
 
 		$query = $this->dbConn->getQueryBuilder();
 
-		if ($sortMode === 'lastLogin') {
-			$lastLoginSubSelect = $this->dbConn->getQueryBuilder();
-			$lastLoginSubSelect->select('configvalue')
-				->from('preferences', 'p2')
-				->where($lastLoginSubSelect->expr()->andX(
-					$lastLoginSubSelect->expr()->eq('p2.userid', 'uid'),
-					$lastLoginSubSelect->expr()->eq('p2.appid', $lastLoginSubSelect->expr()->literal('login')),
-					$lastLoginSubSelect->expr()->eq('p2.configkey', $lastLoginSubSelect->expr()->literal('lastLogin')),
-				));
-			$orderByExpression = $query->createFunction('(' . $lastLoginSubSelect->getSQL() .')');
-		} else {
-			$orderByExpression = $query->func()->lower('displayname');
-		}
-
-		$query->select('uid', 'displayname', $orderByExpression)
+		$query->select('uid', 'displayname')
 			->from($this->table, 'u')
 			->leftJoin('u', 'preferences', 'p', $query->expr()->andX(
 				$query->expr()->eq('userid', 'uid'),
@@ -263,7 +247,7 @@ class Database extends ABackend implements
 			->where($query->expr()->iLike('uid', $query->createPositionalParameter('%' . $this->dbConn->escapeLikeParameter($search) . '%')))
 			->orWhere($query->expr()->iLike('displayname', $query->createPositionalParameter('%' . $this->dbConn->escapeLikeParameter($search) . '%')))
 			->orWhere($query->expr()->iLike('configvalue', $query->createPositionalParameter('%' . $this->dbConn->escapeLikeParameter($search) . '%')))
-			->orderBy($orderByExpression, $sortOrder)
+			->orderBy($query->func()->lower('displayname'), 'ASC')
 			->addOrderBy('uid_lower', 'ASC')
 			->setMaxResults($limit)
 			->setFirstResult($offset);
@@ -397,13 +381,15 @@ class Database extends ABackend implements
 	 * @param null|int $offset
 	 * @return string[] an array of all uids
 	 */
-	public function getUsers($search = '', $limit = null, $offset = null, $orderBy = 'lastLogin', $sort = 'DESC'): array {
+	public function getUsers($search = '', $limit = null, $offset = null) {
 		$limit = $this->fixLimit($limit);
 
-		$users = $this->getDisplayNames($search, $limit, $offset, $orderBy, $sort);
-		return array_map(function ($uid) {
+		$users = $this->getDisplayNames($search, $limit, $offset);
+		$userIds = array_map(function ($uid) {
 			return (string)$uid;
 		}, array_keys($users));
+		sort($userIds, SORT_STRING | SORT_FLAG_CASE);
+		return $userIds;
 	}
 
 	/**

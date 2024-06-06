@@ -94,7 +94,7 @@ class UsersController extends AUserData {
 	 *
 	 * 200: Users returned
 	 */
-	public function getUsers(string $search = '', ?int $limit = null, int $offset = 0, string $sortMode = 'uid', string $sortOrder = 'asc'): DataResponse {
+	public function getUsers(string $search = '', ?int $limit = null, int $offset = 0): DataResponse {
 		$user = $this->userSession->getUser();
 		$users = [];
 
@@ -102,7 +102,7 @@ class UsersController extends AUserData {
 		$uid = $user->getUID();
 		$subAdminManager = $this->groupManager->getSubAdmin();
 		if ($this->groupManager->isAdmin($uid)) {
-			$users = $this->userManager->search($search, $limit, $offset, $sortMode, $sortOrder);
+			$users = $this->userManager->search($search, $limit, $offset);
 		} elseif ($subAdminManager->isSubAdmin($user)) {
 			$subAdminOfGroups = $subAdminManager->getSubAdminsGroups($user);
 			foreach ($subAdminOfGroups as $key => $group) {
@@ -131,13 +131,11 @@ class UsersController extends AUserData {
 	 * @param string $search Text to search for
 	 * @param int|null $limit Limit the amount of groups returned
 	 * @param int $offset Offset for searching for groups
-	 * @param string $sortMode Field to order the results with
-	 * @param string $sortOrder asc or desc
 	 * @return DataResponse<Http::STATUS_OK, array{users: array<string, Provisioning_APIUserDetails|array{id: string}>}, array{}>
 	 *
 	 * 200: Users details returned
 	 */
-	public function getUsersDetails(string $search = '', ?int $limit = null, int $offset = 0, string $sortMode = 'uid', string $sortOrder = 'asc'): DataResponse {
+	public function getUsersDetails(string $search = '', ?int $limit = null, int $offset = 0): DataResponse {
 		$currentUser = $this->userSession->getUser();
 		$users = [];
 
@@ -145,7 +143,7 @@ class UsersController extends AUserData {
 		$uid = $currentUser->getUID();
 		$subAdminManager = $this->groupManager->getSubAdmin();
 		if ($this->groupManager->isAdmin($uid)) {
-			$users = $this->userManager->search($search, $limit, $offset, $sortMode, $sortOrder);
+			$users = $this->userManager->search($search, $limit, $offset);
 			$users = array_keys($users);
 		} elseif ($subAdminManager->isSubAdmin($currentUser)) {
 			$subAdminOfGroups = $subAdminManager->getSubAdminsGroups($currentUser);
@@ -155,7 +153,7 @@ class UsersController extends AUserData {
 
 			$users = [];
 			foreach ($subAdminOfGroups as $group) {
-				$users[] = array_keys($this->groupManager->displayNamesInGroup($group, $search, $limit, $offset, $sortMode, $sortOrder));
+				$users[] = array_keys($this->groupManager->displayNamesInGroup($group, $search, $limit, $offset));
 			}
 			$users = array_merge(...$users);
 		}
@@ -266,6 +264,96 @@ class UsersController extends AUserData {
 			'users' => $usersDetails
 		]);
 	}
+
+	/**
+	 * @NoAdminRequired
+	 * @NoCSRFRequired
+	 *
+	 * Get the list of disabled users and their details
+	 *
+	 * @param string $search Text to search for
+	 * @param ?int $limit Limit the amount of users returned
+	 * @param int $offset Offset
+	 * @param string $sortMode Field to order the results with
+	 * @param string $sortOrder asc or desc
+	 * @return DataResponse<Http::STATUS_OK, array{users: array<string, Provisioning_APIUserDetails|array{id: string}>}, array{}>
+	 *
+	 * 200: Users details returned based on last logged in information
+	 */
+	public function getLastLoggedInUsers(string $search = '',
+										 ?int   $limit = null,
+										 int    $offset = 0,
+										 string $sortMode = 'lastLogin',
+										 string $sortOrder = 'desc'
+	): DataResponse {
+		$currentUser = $this->userSession->getUser();
+		if ($currentUser === null) {
+			return new DataResponse(['users' => []]);
+		}
+		if ($limit !== null && $limit < 0) {
+			throw new InvalidArgumentException("Invalid limit value: $limit");
+		}
+		if ($offset < 0) {
+			throw new InvalidArgumentException("Invalid offset value: $offset");
+		}
+
+		$users = [];
+
+		// Admin? Or SubAdmin?
+		$uid = $currentUser->getUID();
+		$subAdminManager = $this->groupManager->getSubAdmin();
+		if ($this->groupManager->isAdmin($uid)) {
+			$users = $this->userManager->getUsersSortedByLastLogin($limit, $offset, $search, $sortMode, $sortOrder);
+			$users = array_map(fn (IUser $user): string => $user->getUID(), $users);
+		} elseif ($subAdminManager->isSubAdmin($currentUser)) {
+			$subAdminOfGroups = $subAdminManager->getSubAdminsGroups($currentUser);
+
+			$users = [];
+			/* We have to handle offset ourselve for correctness */
+			$tempLimit = ($limit === null ? null : $limit + $offset);
+			foreach ($subAdminOfGroups as $group) {
+				$users = array_merge(
+					$users,
+					array_map(
+						fn (IUser $user): string => $user->getUID(),
+						array_filter(
+							$group->searchUsers($search, ($tempLimit === null ? null : $tempLimit - count($users))),
+							fn (IUser $user): bool => !$user->isEnabled()
+						)
+					)
+				);
+				if (($tempLimit !== null) && (count($users) >= $tempLimit)) {
+					break;
+				}
+			}
+			$users = array_slice($users, $offset);
+		}
+
+		$usersDetails = [];
+		foreach ($users as $userId) {
+			try {
+				$userData = $this->getUserData($userId);
+			} catch (OCSNotFoundException $e) {
+				// We still want to return all other accounts, but this one was removed from the backends
+				// yet they are still in our database. Might be a LDAP remnant.
+				$userData = null;
+				$this->logger->warning('Found one disabled account that was removed from its backend, but still exists in Nextcloud database', ['accountId' => $userId]);
+			}
+			// Do not insert empty entry
+			if ($userData !== null) {
+				$usersDetails[$userId] = $userData;
+			} else {
+				// Currently logged in user does not have permissions to see this user
+				// only showing its id
+				$usersDetails[$userId] = ['id' => $userId];
+			}
+		}
+
+		return new DataResponse([
+			'users' => $usersDetails
+		]);
+	}
+
 
 
 	/**
