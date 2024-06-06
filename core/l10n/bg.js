@@ -102,6 +102,7 @@ OC.L10N.register(
     "Log in to {productName}" : "Вписване в {productName}",
     "We have detected multiple invalid login attempts from your IP. Therefore your next login is throttled up to 30 seconds." : "Открихме множество невалидни опити за влизане от вашия IP. Следователно следващото ви влизане се ограничава за 30 секунди.",
     "Account name or email" : "Име на профил или имейл",
+    "Account name" : "Име на профил",
     "Log in with a device" : "Вписване с устройство",
     "Your account is not setup for passwordless login." : "Вашият профил не е настроен за влизане без парола.",
     "Browser not supported" : "Браузърът не се поддържа",

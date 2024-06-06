@@ -112,6 +112,7 @@
     "Log in to {productName}" : "Bejelentkezés ebbe: {productName}",
     "We have detected multiple invalid login attempts from your IP. Therefore your next login is throttled up to 30 seconds." : "Többszöri sikertelen bejelentkezési kísérletet észleltünk az IP-címéről. A legközelebbi kísérlete így 30 másodperccel késleltetve lesz.",
     "Account name or email" : "Fióknév vagy e-mail-cím",
+    "Account name" : "Fiók neve",
     "Log in with a device" : "Bejelentkezés eszközzel",
     "Your account is not setup for passwordless login." : "A fiókja nincs beállítva jelszómentes bejelentkezésre.",
     "Browser not supported" : "A böngésző nem támogatott",

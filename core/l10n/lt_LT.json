@@ -91,6 +91,7 @@
     "Log in to {productName}" : "Prisijunkite prie {productName}",
     "We have detected multiple invalid login attempts from your IP. Therefore your next login is throttled up to 30 seconds." : "Dėl daugkartinių nesėkmingų bandymų prisijungti iš jūsų IP adreso, prisijungimai bus uždelsti iki 30 sekundžių.",
     "Account name or email" : "Paskyros vardas ar el. paštas",
+    "Account name" : "Paskyros pavadinimas",
     "Log in with a device" : "Prisijungti naudojant įrenginį",
     "Your account is not setup for passwordless login." : "Jūsų paskyra nėra nustatyta prisijungimui be slaptažodžio.",
     "Browser not supported" : "Naršyklė nepalaikoma",

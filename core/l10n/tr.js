@@ -119,6 +119,7 @@ OC.L10N.register(
     "This account is disabled" : "Bu hesap devre dışı bırakılmış",
     "We have detected multiple invalid login attempts from your IP. Therefore your next login is throttled up to 30 seconds." : "IP adresinizden yapılan birden çok geçersiz oturum açma girişimi algılandı. Bu nedenle oturum açmanız 30 saniye süreyle engellendi.",
     "Account name or email" : "Hesap adı ya da e-posta adresi",
+    "Account name" : "Hesap adı",
     "Log in with a device" : "Bir aygıt ile oturum açın",
     "Login or email" : "Kullanıcı adı ya da e-posta",
     "Your account is not setup for passwordless login." : "Hesabınız parola kullanmadan oturum açılacak şekilde ayarlanmamış.",
