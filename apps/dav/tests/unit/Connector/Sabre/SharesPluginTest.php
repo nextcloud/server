@@ -119,7 +119,7 @@ class SharesPluginTest extends \Test\TestCase {
 			->with(
 				$this->equalTo('user1'),
 				$this->anything(),
-				$this->anything(),
+				$this->equalTo($node),
 				$this->equalTo(false),
 				$this->equalTo(-1)
 			)
@@ -132,6 +132,16 @@ class SharesPluginTest extends \Test\TestCase {
 				}
 				return [];
 			});
+
+		$this->shareManager->expects($this->any())
+			->method('getSharedWith')
+			->with(
+				$this->equalTo('user1'),
+				$this->anything(),
+				$this->equalTo($node),
+				$this->equalTo(-1)
+			)
+			->willReturn([]);
 
 		$propFind = new \Sabre\DAV\PropFind(
 			'/dummyPath',
@@ -220,6 +230,16 @@ class SharesPluginTest extends \Test\TestCase {
 
 				return [];
 			});
+
+		$this->shareManager->expects($this->any())
+			->method('getSharedWith')
+			->with(
+				$this->equalTo('user1'),
+				$this->anything(),
+				$this->equalTo($node),
+				$this->equalTo(-1)
+			)
+			->willReturn([]);
 
 		$this->shareManager->expects($this->any())
 			->method('getSharesInFolder')
