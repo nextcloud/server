@@ -9,6 +9,10 @@
 			<slot name="before" />
 		</div>
 
+		<div class="files-list__filters">
+			<slot name="filters" />
+		</div>
+
 		<div v-if="!!$scopedSlots['header-overlay']" class="files-list__thead-overlay">
 			<slot name="header-overlay" />
 		</div>
