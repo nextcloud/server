@@ -15,6 +15,8 @@ use OCP\AppFramework\Db\QBMapper;
 use OCP\DB\Exception;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\EventDispatcher\IWebhookCompatibleEvent;
+use OCP\ICache;
+use OCP\ICacheFactory;
 use OCP\IDBConnection;
 
 /**
@@ -23,8 +25,18 @@ use OCP\IDBConnection;
 class WebhookListenerMapper extends QBMapper {
 	public const TABLE_NAME = 'webhook_listeners';
 
-	public function __construct(IDBConnection $db) {
+	private const EVENTS_CACHE_KEY = 'eventsUsedInWebhooks';
+
+	private ?ICache $cache = null;
+
+	public function __construct(
+		IDBConnection $db,
+		ICacheFactory $cacheFactory,
+	) {
 		parent::__construct($db, self::TABLE_NAME, WebhookListener::class);
+		if ($cacheFactory->isAvailable()) {
+			$this->cache = $cacheFactory->createDistributed();
+		}
 	}
 
 	/**
@@ -85,6 +97,7 @@ class WebhookListenerMapper extends QBMapper {
 			]
 		);
 		$webhookListener->setAuthDataClear($authData);
+		$this->cache?->remove(self::EVENTS_CACHE_KEY);
 		return $this->insert($webhookListener);
 	}
 
@@ -120,6 +133,7 @@ class WebhookListenerMapper extends QBMapper {
 			]
 		);
 		$webhookListener->setAuthDataClear($authData);
+		$this->cache?->remove(self::EVENTS_CACHE_KEY);
 		return $this->update($webhookListener);
 	}
 
@@ -139,7 +153,7 @@ class WebhookListenerMapper extends QBMapper {
 	 * @throws Exception
 	 * @return list<string>
 	 */
-	public function getAllConfiguredEvents(): array {
+	private function getAllConfiguredEventsFromDatabase(): array {
 		$qb = $this->db->getQueryBuilder();
 
 		$qb->selectDistinct('event')
@@ -154,6 +168,22 @@ class WebhookListenerMapper extends QBMapper {
 		}
 
 		return $configuredEvents;
+	}
+
+	/**
+	 * List all events with at least one webhook configured, with cache
+	 * @throws Exception
+	 * @return list<string>
+	 */
+	public function getAllConfiguredEvents(): array {
+		$events = $this->cache?->get(self::EVENTS_CACHE_KEY);
+		if ($events !== null) {
+			return json_decode($events);
+		}
+		$events = $this->getAllConfiguredEventsFromDatabase();
+		// cache for 5 minutes
+		$this->cache?->set(self::EVENTS_CACHE_KEY, json_encode($events), 300);
+		return $events;
 	}
 
 	/**

@@ -16,25 +16,14 @@ use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
 use OCP\EventDispatcher\IEventDispatcher;
-use OCP\ICache;
-use OCP\ICacheFactory;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 
 class Application extends App implements IBootstrap {
 	public const APP_ID = 'webhooks';
 
-	private ?ICache $cache = null;
-
-	private const CACHE_KEY = 'eventsUsedInWebhooks';
-
-	public function __construct(
-		ICacheFactory $cacheFactory,
-	) {
+	public function __construct() {
 		parent::__construct(self::APP_ID);
-		if ($cacheFactory->isAvailable()) {
-			$this->cache = $cacheFactory->createDistributed();
-		}
 	}
 
 	public function register(IRegistrationContext $context): void {
@@ -49,8 +38,11 @@ class Application extends App implements IBootstrap {
 		ContainerInterface $container,
 		LoggerInterface $logger,
 	): void {
+		/** @var WebhookListenerMapper */
+		$mapper = $container->get(WebhookListenerMapper::class);
+
 		/* Listen to all events with at least one webhook configured */
-		$configuredEvents = $this->getAllConfiguredEvents($container);
+		$configuredEvents = $mapper->getAllConfiguredEvents();
 		foreach ($configuredEvents as $eventName) {
 			$logger->debug("Listening to {$eventName}");
 			$dispatcher->addServiceListener(
@@ -59,20 +51,5 @@ class Application extends App implements IBootstrap {
 				-1,
 			);
 		}
-	}
-
-	/**
-	 * List all events with at least one webhook configured, with cache
-	 */
-	private function getAllConfiguredEvents(ContainerInterface $container) {
-		$events = $this->cache?->get(self::CACHE_KEY);
-		if ($events !== null) {
-			return json_decode($events);
-		}
-		/** @var WebhookListenerMapper */
-		$mapper = $container->get(WebhookListenerMapper::class);
-		$events = $mapper->getAllConfiguredEvents();
-		// cache for 5 minutes
-		$this->cache?->set(self::CACHE_KEY, json_encode($events), 300);
 	}
 }
