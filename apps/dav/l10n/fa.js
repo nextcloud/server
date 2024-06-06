@@ -86,7 +86,6 @@ OC.L10N.register(
     "Organizer:" : "Organizer:",
     "Attendees:" : "Attendees:",
     "Title:" : "عنوان:",
-    "Time:" : "Time:",
     "Location:" : "مکان:",
     "Link:" : "Link:",
     "Accept" : "قبول",
@@ -190,6 +189,7 @@ OC.L10N.register(
     "Tentative" : "آزمایشی",
     "Your attendance was updated successfully." : "Your attendance was updated successfully.",
     "To-dos" : "کارهای برای انجام",
+    "Time:" : "Time:",
     "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "اگر بازه ی ساعات کاری خود را مشخص کنید، سایر کاربران در هنگام تنظیم وقت جلسات کاری، مطلع می شوند که شما چه زمانی حضور دارید"
 },
 "nplurals=2; plural=(n > 1);");

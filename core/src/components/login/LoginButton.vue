@@ -7,6 +7,7 @@
 	<NcButton type="primary"
 		native-type="submit"
 		:wide="true"
+		:disabled="loading"
 		@click="$emit('click')">
 		{{ !loading ? value : valueLoading }}
 		<template #icon>

@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace OC\Mail;
 
 use Egulias\EmailValidator\EmailValidator;
+use Egulias\EmailValidator\Validation\NoRFCWarningsValidation;
 use Egulias\EmailValidator\Validation\RFCValidation;
 use OCP\Defaults;
 use OCP\EventDispatcher\IEventDispatcher;
@@ -206,8 +207,10 @@ class Mailer implements IMailer {
 			// Shortcut: empty addresses are never valid
 			return false;
 		}
+
+		$strictMailCheck = $this->config->getAppValue('core', 'enforce_strict_email_check', 'yes') === 'yes';
 		$validator = new EmailValidator();
-		$validation = new RFCValidation();
+		$validation = $strictMailCheck ? new NoRFCWarningsValidation() : new RFCValidation();
 
 		return $validator->isValid($email, $validation);
 	}

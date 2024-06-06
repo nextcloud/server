@@ -184,6 +184,7 @@ OC.L10N.register(
     "Folder name" : "Názov priečinka",
     "This node is unavailable" : "Uzol nie je k dispozícií",
     "Download file {name}" : "Stiahnuť súbor {name}",
+    "Invalid file name" : "Neplatné meno súboru",
     "\"{name}\" is not an allowed filetype." : "\"{name}\" nie je povolený typ súboru",
     "{newName} already exists." : "{newName} už existuje.",
     "\"{char}\" is not allowed inside a file name." : "Znak \"{char}\" nie je povolený v názve súboru.",

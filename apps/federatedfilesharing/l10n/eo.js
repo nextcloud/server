@@ -1,11 +1,6 @@
 OC.L10N.register(
     "federatedfilesharing",
     {
-    "Do you want to add the remote share {name} from {owner}@{remote}?" : "Ĉu vi volas aldoni la foran kunhavon {name} de {owner}@{remote}?",
-    "Remote share" : "Foran kunhavo",
-    "Remote share password" : "Pasvorto de fora kunhavo",
-    "Cancel" : "Nuligi",
-    "Add remote share" : "Aldoni foran kunhavon",
     "Invalid Federated Cloud ID" : "Nevalida federnuba identigilo",
     "Server to server sharing is not enabled on this server" : "Interservila kunhavo ne estas ebligita en ĉi tiu servilo",
     "Couldn't establish a federated share." : "Ne povis fari federan kunhavon.",
@@ -36,6 +31,11 @@ OC.L10N.register(
     "Share with me through my #Nextcloud Federated Cloud ID" : "Kunhavigi kun mi per mia #Nextcloud-federnuba identigilo",
     "Copy to clipboard" : "Kopii tondejen",
     "Copied!" : "Kopiita!",
+    "Do you want to add the remote share {name} from {owner}@{remote}?" : "Ĉu vi volas aldoni la foran kunhavon {name} de {owner}@{remote}?",
+    "Remote share" : "Foran kunhavo",
+    "Remote share password" : "Pasvorto de fora kunhavo",
+    "Cancel" : "Nuligi",
+    "Add remote share" : "Aldoni foran kunhavon",
     "Sharing %1$s failed, because this item is already shared with user %2$s" : "Kunhavigo de %1$s malsukcesis, ĉar la ero jam kunhaviĝis kun uzanto %2$s",
     "Not allowed to create a federated share with the same user" : "Vi ne rajtas krei federan kunhavon kun la sama uzanto",
     "Allow users on this server to receive shares from other servers" : "Permesi al uzantoj en tiu ĉi servilo ricevi kunhavojn el aliaj serviloj",

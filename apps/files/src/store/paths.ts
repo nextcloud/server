@@ -12,7 +12,7 @@ import logger from '../logger'
 import { useFilesStore } from './files'
 
 export const usePathsStore = function(...args) {
-	const files = useFilesStore()
+	const files = useFilesStore(...args)
 
 	const store = defineStore('paths', {
 		state: () => ({

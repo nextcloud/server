@@ -218,7 +218,6 @@
                 "type": "object",
                 "required": [
                     "id",
-                    "order",
                     "href",
                     "icon",
                     "type",
@@ -232,15 +231,8 @@
                         "type": "string"
                     },
                     "order": {
-                        "oneOf": [
-                            {
-                                "type": "integer",
-                                "format": "int64"
-                            },
-                            {
-                                "type": "string"
-                            }
-                        ]
+                        "type": "integer",
+                        "format": "int64"
                     },
                     "href": {
                         "type": "string"
@@ -253,6 +245,12 @@
                     },
                     "name": {
                         "type": "string"
+                    },
+                    "app": {
+                        "type": "string"
+                    },
+                    "default": {
+                        "type": "boolean"
                     },
                     "active": {
                         "type": "boolean"
@@ -358,7 +356,8 @@
                     "richObject": {
                         "type": "object",
                         "additionalProperties": {
-                            "type": "object"
+                            "type": "object",
+                            "nullable": true
                         }
                     },
                     "openGraphObject": {
@@ -416,7 +415,8 @@
                     "richObject": {
                         "type": "object",
                         "additionalProperties": {
-                            "type": "object"
+                            "type": "object",
+                            "nullable": true
                         }
                     },
                     "openGraphObject": {

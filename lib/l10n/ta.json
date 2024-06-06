@@ -9,7 +9,6 @@
     "Apps" : "செயலிகள்",
     "Settings" : "அமைப்புகள்",
     "Log out" : "விடுபதிகை செய்க",
-    "Users" : "பயனாளர்",
     "Email" : "மின்னஞ்சல்",
     "Phone" : "தொலைப்பேசி",
     "Address" : "முகவரி",
@@ -56,6 +55,7 @@
     "Application is not enabled" : "செயலி இயலுமைப்படுத்தப்படவில்லை",
     "Authentication error" : "அத்தாட்சிப்படுத்தலில் வழு",
     "Token expired. Please reload page." : "அடையாளவில்லை காலாவதியாகிவிட்டது. தயவுசெய்து பக்கத்தை மீள் ஏற்றுக.",
-    "Help" : "உதவி"
+    "Help" : "உதவி",
+    "Users" : "பயனாளர்"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

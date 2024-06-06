@@ -31,6 +31,7 @@ OC.L10N.register(
     "An error occurred while trying to delete the comment" : "Si è verificato un errore durante il tentativo di eliminare il commento",
     "An error occurred while trying to create the comment" : "Si è verificato un errore durante il tentativo di creare il commento",
     "You were mentioned on \"{file}\", in a comment by a user that has since been deleted" : "Sei stato menzionato su \"{file}\", in un commento di un utente che è stato eliminato",
+    "Write a message …" : "Scrivi messaggio...",
     "\"@\" for mentions, \":\" for emoji, \"/\" for smart picker" : "\"@\" per le menzioni, \":\" per gli emoji, \"/\" per il selettore intelligente",
     "_%n unread comment_::_%n unread comments_" : ["%n commento non letto","%n commenti non letti","%n commenti non letti"]
 },

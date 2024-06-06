@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "Dashboard" : "Panela",
     "Dashboard app" : "Panela aplikazioa",
+    "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an overview of your upcoming appointments, urgent emails, chat messages, incoming tickets, latest tweets and much more! People can add the widgets they like and change the background to their liking." : "Hasi zure eguna informatuta\n\nNextcloud Panela da zure eguneko abiapuntua, eta zure hurrengo hitzorduen, premiazko mezu elektronikoen, txat-mezuen, sarrerako txartelen, azken txioen eta askoz gehiagoren ikuspegi orokorra eskaintzen dizu! Erabiltzaileek gogoko trepetak gehi ditzakete eta atzealdea nahieran aldatu.",
     "\"{title} icon\"" : "\"{title} ikonoa\"",
     "Customize" : "Pertsonalizatu",
     "Edit widgets" : "Editatu trepetak",

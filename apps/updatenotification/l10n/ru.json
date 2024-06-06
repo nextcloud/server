@@ -35,6 +35,7 @@
     "The selected update channel makes dedicated notifications for the server obsolete." : "Выбранный канал обновлений высылает специальные уведомления, если сервер устарел.",
     "The selected update channel does not support updates of the server." : "Выбранный канал обновлений не поддерживает обновление сервера.",
     "A new version is available: <strong>{newVersionString}</strong>" : "Доступна новая версия: <strong>{newVersionString}</strong> ",
+    "Note that after a new release the update only shows up after the first minor release or later. We roll out new versions spread out over time and sometimes skip a version when issues are found. Learn more about updates and release channels at {link}" : "Обратите внимание, что уведомление о возможности обновления появляется только после первого дополнительного выпуска или позже. Мы выпускаем новые версии с разбивкой по времени и иногда пропускаем версию при обнаружении проблем. Узнайте больше об обновлениях и каналах выпуска на {link}",
     "Checked on {lastCheckedDate} - Open changelog" : "Проверено {lastCheckedDate}. Открыть журнал изменений.",
     "Checking apps for compatible versions" : "Проверка приложений на совместимость версий",
     "Please make sure your config.php does not set <samp>appstoreenabled</samp> to false." : "Убедитесь, что значением параметра <samp>appstoreenabled</samp> в файле «config.php» не является «false».",

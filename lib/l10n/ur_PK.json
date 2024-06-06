@@ -10,7 +10,6 @@
     "Apps" : "ایپز",
     "Settings" : "سیٹینگز",
     "Log out" : "لاگ آؤٹ",
-    "Users" : "یوزرز",
     "Email" : "email",
     "Sunday" : "اتوار",
     "Monday" : "سوموار",
@@ -31,6 +30,7 @@
     "October" : "اکتوبر",
     "November" : "نومبر",
     "December" : "دسمبر",
-    "Help" : "مدد"
+    "Help" : "مدد",
+    "Users" : "یوزرز"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

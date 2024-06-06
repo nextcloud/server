@@ -1,11 +1,6 @@
 OC.L10N.register(
     "federatedfilesharing",
     {
-    "Do you want to add the remote share {name} from {owner}@{remote}?" : "Czy chcesz dodać zdalne udostępnienie {name} od {owner}@{remote}?",
-    "Remote share" : "Zdalne udostępnienie",
-    "Remote share password" : "Hasło zdalnego udostępnienia",
-    "Cancel" : "Anuluj",
-    "Add remote share" : "Dodaj zdalne udostępnienie",
     "Invalid Federated Cloud ID" : "Nieprawidłowe ID Chmury Federacyjnej",
     "Server to server sharing is not enabled on this server" : "Serwer do udostępniania serwera nie jest włączony na tym serwerze",
     "Couldn't establish a federated share." : "Nie udało się ustalić udostępnienia federacyjnego.",
@@ -52,6 +47,11 @@ OC.L10N.register(
     "Copy to clipboard" : "Kopiuj do schowka",
     "Clipboard is not available" : "Schowek jest niedostępny",
     "Copied!" : "Skopiowano!",
+    "Do you want to add the remote share {name} from {owner}@{remote}?" : "Czy chcesz dodać zdalne udostępnienie {name} od {owner}@{remote}?",
+    "Remote share" : "Zdalne udostępnienie",
+    "Remote share password" : "Hasło zdalnego udostępnienia",
+    "Cancel" : "Anuluj",
+    "Add remote share" : "Dodaj zdalne udostępnienie",
     "Sharing %1$s failed, because this item is already shared with user %2$s" : "Udostępnianie %1$s nie powiodło się, ponieważ ten element jest już udostępniony użytkownikowi %2$s",
     "Not allowed to create a federated share with the same user" : "Nie można tworzyć udostępniania federacyjnego z tym samym użytkownikiem",
     "Adjust how people can share between servers. This includes shares between users on this server as well if they are using federated sharing." : "Dostosuj sposób udostępniania między serwerami. Obejmuje to również udostępnianie między użytkownikami na tym serwerze, jeśli korzystają z udostępniania federacyjnego.",

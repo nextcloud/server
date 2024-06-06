@@ -1,11 +1,6 @@
 OC.L10N.register(
     "federatedfilesharing",
     {
-    "Do you want to add the remote share {name} from {owner}@{remote}?" : "Chcete přidat vzdálené sdílení {name} od {owner}@{remote}?",
-    "Remote share" : "Vzdálené sdílení",
-    "Remote share password" : "Heslo ke vzdálenému sdílení",
-    "Cancel" : "Storno",
-    "Add remote share" : "Přidat vzdálené sdílení",
     "Invalid Federated Cloud ID" : "Neplatný identifikátor v rámci federovaného cloudu",
     "Server to server sharing is not enabled on this server" : "Sdílení ze serveru na server není na tomto serveru povoleno",
     "Couldn't establish a federated share." : "Nepodařilo se ustavit federované sdílení.",
@@ -43,6 +38,11 @@ OC.L10N.register(
     "Copy to clipboard" : "Zkopírovat do schránky",
     "Clipboard is not available" : "Schránka není k dispozici",
     "Copied!" : "Zkopírováno",
+    "Do you want to add the remote share {name} from {owner}@{remote}?" : "Chcete přidat vzdálené sdílení {name} od {owner}@{remote}?",
+    "Remote share" : "Vzdálené sdílení",
+    "Remote share password" : "Heslo ke vzdálenému sdílení",
+    "Cancel" : "Storno",
+    "Add remote share" : "Přidat vzdálené sdílení",
     "Sharing %1$s failed, because this item is already shared with user %2$s" : "Sdílení položky %1$s se nezdařilo, protože ta je už s uživatelem %2$s sdílena",
     "Not allowed to create a federated share with the same user" : "Není možné vytvářet federované sdílení mezi jedním a tím samým uživatelem",
     "Adjust how people can share between servers. This includes shares between users on this server as well if they are using federated sharing." : "Upravte to, jak lidé mohou sdílet mezi servery. Součástí toho jsou také i sdílení mezi uživateli na tomto serveru, pokud používají federované sdílení.",

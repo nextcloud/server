@@ -38,6 +38,7 @@ OC.L10N.register(
     "You can choose a different password at any time in the share dialog." : "Nahi duzuenan aukeratu dezakezu beste pasahitz bat partekatze-leihoan.",
     "Could not find share" : "Ezin da partekatzea topatu",
     "Share provider which allows you to share files by mail" : "Partekatze hornitzailea, fitxategiak posta bidez partekatzeko aukera ematen duena",
+    "Allows people to share a personalized link to a file or folder by putting in an email address." : "Pertsonei fitxategi edo karpeta baterako esteka pertsonalizatua partekatzeko aukera ematen die helbide elektronikoa jarriz.",
     "Send password by mail" : "Bidali pasahitza posta bidez",
     "Reply to initiator" : "Erantzun hasieragailuari",
     "Unable to update share by mail config" : "Ezin da eguneratu partekatzea posta konfigurazioaren bidez",
