@@ -159,6 +159,10 @@ Files: apps/encryption/img/app.svg apps/federation/img/app.svg apps/files/img/ad
 Copyright: 2018-2024 Google LLC
 License: Apache-2.0
 
+Files: core/fonts/NotoSans-Bold-cyrillic-ext.woff2 core/fonts/NotoSans-Bold-cyrillic.woff2 core/fonts/NotoSans-Bold-devanagari.woff2 core/fonts/NotoSans-Bold-greek-ext.woff2 core/fonts/NotoSans-Bold-greek.woff2 core/fonts/NotoSans-Bold-latin-ext.woff2 core/fonts/NotoSans-Bold-latin.woff2 core/fonts/NotoSans-Bold-vietnamese.woff2 core/fonts/NotoSans-Bold.ttf core/fonts/NotoSans-Regular-cyrillic-ext.woff2 core/fonts/NotoSans-Regular-cyrillic.woff2 core/fonts/NotoSans-Regular-devanagari.woff2 core/fonts/NotoSans-Regular-greek-ext.woff2 core/fonts/NotoSans-Regular-greek.woff2 core/fonts/NotoSans-Regular-latin-ext.woff2 core/fonts/NotoSans-Regular-latin.woff2 core/fonts/NotoSans-Regular-vietnamese.woff2 core/fonts/NotoSans-Regular.ttf
+Copyright: 2012-2024 Google LLC
+License: OFL-1.1
+
 Files: apps/settings/img/ai.svg
 Copyright: 2019 GreenTurtwig <https://pictogrammers.com/contributor/GreenTurtwig/>
 License: Apache-2.0
