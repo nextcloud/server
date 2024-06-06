@@ -1,3 +1,7 @@
+<!--
+  - SPDX-FileCopyrightText: 2014 Robin Appelman <robin@icewind.nl>
+  - SPDX-License-Identifier: MIT
+-->
 # Streams #
 
 [![CI](https://github.com/icewind1991/Streams/actions/workflows/ci.yaml/badge.svg)](https://github.com/icewind1991/Streams/actions/workflows/ci.yaml)

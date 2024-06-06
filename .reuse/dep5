@@ -91,7 +91,7 @@ Files: core/css/*.css core/css/*.css.map
 Copyright: 2016-2024 Nextcloud GmbH and Nextcloud contributors
 License: AGPL-3.0-or-later
 
-Files: build/psalm-baseline-ocp.xml build/psalm-baseline.xml build/stubs/xsl.php build/stubs/gd.php build/stubs/imagick.php build/stubs/intl.php build/stubs/IntlChar.php build/stubs/ldap.php build/stubs/memcached.php build/stubs/redis.php build/stubs/redis_cluster.php build/stubs/sftp.php build/stubs/ssh2.php build/stubs/apcu.php
+Files: apps/dashboard/img/dashboard.svg build/psalm-baseline-ocp.xml build/psalm-baseline.xml build/stubs/xsl.php build/stubs/gd.php build/stubs/imagick.php build/stubs/intl.php build/stubs/IntlChar.php build/stubs/ldap.php build/stubs/memcached.php build/stubs/redis.php build/stubs/redis_cluster.php build/stubs/sftp.php build/stubs/ssh2.php build/stubs/apcu.php
 Copyright: 2020 Nextcloud GmbH and Nextcloud contributors
 License: AGPL-3.0-or-later
 
@@ -115,7 +115,7 @@ Files: core/js/merged-template-prepend.json apps/theming/img/app-dark.svg apps/t
 Copyright: 2017 Nextcloud GmbH and Nextcloud contributors
 License: AGPL-3.0-or-later
 
-Files: core/src/systemtags/templates/result.handlebars core/src/systemtags/templates/result_form.handlebars core/src/systemtags/templates/selection.handlebars apps/files/js/templates.js apps/files/js/templates/detailsview.handlebars apps/files/js/templates/favorite_mark.handlebars apps/files/js/templates/file_action_trigger.handlebars apps/files/js/templates/fileactionsmenu.handlebars apps/files/js/templates/filemultiselectmenu.handlebars apps/files/js/templates/filesummary.handlebars apps/files/js/templates/mainfileinfodetailsview.handlebars apps/files/js/templates/newfilemenu.handlebars apps/files/js/templates/newfilemenu_filename_form.handlebars apps/files/js/templates/operationprogressbar.handlebars apps/files/js/templates/operationprogressbarlabel.handlebars apps/files/js/templates/template_addbutton.handlebars tests/data/testimage.heic package.json package-lock.json
+Files: core/src/systemtags/templates/result.handlebars core/src/systemtags/templates/result_form.handlebars core/src/systemtags/templates/selection.handlebars apps/files/js/templates.js apps/files/js/templates/detailsview.handlebars apps/files/js/templates/favorite_mark.handlebars apps/files/js/templates/file_action_trigger.handlebars apps/files/js/templates/fileactionsmenu.handlebars apps/files/js/templates/filemultiselectmenu.handlebars apps/files/js/templates/filesummary.handlebars apps/files/js/templates/mainfileinfodetailsview.handlebars apps/files/js/templates/newfilemenu.handlebars apps/files/js/templates/newfilemenu_filename_form.handlebars apps/files/js/templates/operationprogressbar.handlebars apps/files/js/templates/operationprogressbarlabel.handlebars apps/files/js/templates/template_addbutton.handlebars apps/files_external/js/templates.js apps/files_external/js/templates/credentialsDialog.handlebars apps/files_external/js/templates/mountOptionsDropDown.handlebars apps/files_external/js/templates.js tests/data/testimage.heic package.json package-lock.json
 Copyright: 2018 Nextcloud GmbH and Nextcloud contributors
 License: AGPL-3.0-or-later
 
@@ -139,6 +139,10 @@ Files: build/stubs/app_api.php build/stubs/SensitiveParameter.phpstub build/stub
 Copyright: 2023 Nextcloud GmbH and Nextcloud contributors
 License: AGPL-3.0-or-later
 
+Files: apps/dav/tests/misc/caldav-search-limit-timerange-1.ics apps/dav/tests/misc/caldav-search-limit-timerange-2.ics apps/dav/tests/misc/caldav-search-limit-timerange-3.ics apps/dav/tests/misc/caldav-search-limit-timerange-4.ics apps/dav/tests/misc/caldav-search-limit-timerange-5.ics apps/dav/tests/misc/caldav-search-limit-timerange-6.ics apps/dav/tests/misc/caldav-search-missing-start-1.ics apps/dav/tests/misc/caldav-search-missing-start-2.ics
+Copyright: 2023 Nextcloud GmbH and Nextcloud contributors
+License: AGPL-3.0-or-later
+
 Files: apps/cloud_federation_api/l10n/*.js apps/cloud_federation_api/l10n/*.json apps/contactsinteraction/l10n/*.js apps/contactsinteraction/l10n/*.json apps/dashboard/l10n/*.js apps/dashboard/l10n/*.json apps/files_reminders/l10n/*.js apps/files_reminders/l10n/*.json apps/lookup_server_connector/l10n/*.js apps/lookup_server_connector/l10n/*.json apps/oauth2 apps/sharebymail/l10n/*.js apps/oauth2 apps/sharebymail/l10n/*.json apps/theming/l10n/*.js apps/theming/l10n/*.json apps/twofactor_backupcodes/l10n/*.js apps/twofactor_backupcodes/l10n/*.json apps/user_status/l10n/*.js apps/user_status/l10n/*.json apps/weather_status/l10n/*.js apps/weather_status/l10n/*.json apps/workflowengine/l10n/*.js apps/workflowengine/l10n/*.json
 Copyright: 2016-2024 Nextcloud translators
 License: AGPL-3.0-or-later
@@ -151,7 +155,7 @@ Files: vendor-bin/*/composer.json vendor-bin/*/composer.lock
 Copyright: 2021 Nextcloud GmbH and Nextcloud contributors
 License: AGPL-3.0-or-later
 
-Files: apps/user_ldap/img/app-dark.svg apps/user_ldap/img/app.svg  apps/comments/img/comments-dark.svg apps/comments/img/comments.svg apps/files_versions/img/app-dark.svg apps/files_versions/img/app.svg apps/files_trashbin/img/app-dark.svg apps/files_trashbin/img/app.svg apps/theming/img/accessibility-dark.svg apps/testing/img/app.svg apps/sharebymail/img/app.svg apps/systemtags/img/app.svg apps/provisioning_api/img/app.svg apps/settings/img/apps.svg apps/settings/img/change.svg apps/settings/img/help.svg apps/settings/img/password.svg apps/settings/img/personal.png apps/settings/img/personal.svg apps/settings/img/share.svg apps/settings/img/users-white.svg apps/settings/img/users.svg
+Files: apps/encryption/img/app.svg apps/federation/img/app.svg apps/files/img/add-color.png apps/files/img/add-color.svg apps/files/img/app-dark.svg apps/files/img/app.svg apps/files/img/change.png apps/files/img/change.svg apps/files/img/delete-color.png apps/files/img/delete-color.svg apps/files/img/folder.svg apps/files_external/img/app-dark.svg apps/files_external/img/app.svg apps/user_ldap/img/app-dark.svg apps/user_ldap/img/app.svg  apps/comments/img/comments-dark.svg apps/comments/img/comments.svg apps/files_reminders/img/alarm.svg apps/files_versions/img/app-dark.svg apps/files_versions/img/app.svg apps/files_trashbin/img/app-dark.svg apps/files_trashbin/img/app.svg apps/theming/img/accessibility-dark.svg apps/testing/img/app.svg apps/sharebymail/img/app.svg apps/systemtags/img/app.svg apps/provisioning_api/img/app.svg apps/settings/img/apps.svg apps/settings/img/change.svg apps/settings/img/help.svg apps/settings/img/password.svg apps/settings/img/personal.png apps/settings/img/personal.svg apps/settings/img/share.svg apps/settings/img/users-white.svg apps/settings/img/users.svg
 Copyright: 2018-2024 Google LLC
 License: Apache-2.0
 
@@ -159,7 +163,7 @@ Files: apps/settings/img/ai.svg
 Copyright: 2019 GreenTurtwig <https://pictogrammers.com/contributor/GreenTurtwig/>
 License: Apache-2.0
 
-Files: lib/composer/* apps/*/composer/autoload.php apps/*/composer/composer/*.php
+Files: lib/composer/* apps/*/composer/autoload.php apps/*/composer/composer/*.php apps/files_external/3rdparty/autoload.php apps/files_external/3rdparty/composer/*
 Copyright: Nils Adermann, Jordi Boggiano
 License: MIT
 
