@@ -42,8 +42,6 @@ class WebhookListenerMapper extends QBMapper {
 	}
 
 	/**
-	 * @throws DoesNotExistException
-	 * @throws MultipleObjectsReturnedException
 	 * @throws Exception
 	 * @return WebhookListener[]
 	 */
@@ -56,6 +54,9 @@ class WebhookListenerMapper extends QBMapper {
 		return $this->findEntities($qb);
 	}
 
+	/**
+	 * @throws Exception
+	 */
 	public function addWebhookListener(
 		?string $appId,
 		string $userId,
@@ -66,7 +67,7 @@ class WebhookListenerMapper extends QBMapper {
 		?array $headers,
 		AuthMethod $authMethod,
 		?array $authData,
-	) {
+	): WebhookListener {
 		$webhookListener = WebhookListener::fromParams(
 			[
 				'appId' => $appId,
@@ -83,6 +84,9 @@ class WebhookListenerMapper extends QBMapper {
 		return $this->insert($webhookListener);
 	}
 
+	/**
+	 * @throws Exception
+	 */
 	public function updateWebhookListener(
 		int $id,
 		?string $appId,
@@ -94,7 +98,7 @@ class WebhookListenerMapper extends QBMapper {
 		?array $headers,
 		AuthMethod $authMethod,
 		?array $authData,
-	) {
+	): WebhookListener {
 		$webhookListener = WebhookListener::fromParams(
 			[
 				'id' => $id,
@@ -113,8 +117,6 @@ class WebhookListenerMapper extends QBMapper {
 	}
 
 	/**
-	 * @throws DoesNotExistException
-	 * @throws MultipleObjectsReturnedException
 	 * @throws Exception
 	 */
 	public function deleteById(int $id): bool {
@@ -127,6 +129,7 @@ class WebhookListenerMapper extends QBMapper {
 	}
 
 	/**
+	 * @throws Exception
 	 * @return list<string>
 	 * TODO cache
 	 */
@@ -147,6 +150,9 @@ class WebhookListenerMapper extends QBMapper {
 		return $configuredEvents;
 	}
 
+	/**
+	 * @throws Exception
+	 */
 	public function getByEvent(string $event): array {
 		$qb = $this->db->getQueryBuilder();
 

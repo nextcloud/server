@@ -34,14 +34,13 @@ class WebhooksEventListener implements IEventListener {
 
 	public function handle(Event $event): void {
 		$webhookListeners = $this->mapper->getByEvent($event::class);
-		/** @var IUser */
 		$user = $this->userSession->getUser();
 
 		foreach ($webhookListeners as $webhookListener) {
 			// TODO add group membership to be able to filter on it
 			$data = [
 				'event' => $this->serializeEvent($event),
-				'user' => JsonSerializer::serializeUser($user),
+				'user' => (is_null($user) ? null : JsonSerializer::serializeUser($user)),
 				'time' => time(),
 			];
 			if ($this->filterMatch($webhookListener->getEventFilter(), $data)) {

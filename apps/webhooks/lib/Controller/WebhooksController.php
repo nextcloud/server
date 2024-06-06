@@ -9,9 +9,9 @@ declare(strict_types=1);
 
 namespace OCA\Webhooks\Controller;
 
-use Doctrine\DBAL\Exception;
 use OCA\Webhooks\Db\AuthMethod;
 use OCA\Webhooks\Db\WebhookListenerMapper;
+use OCA\Webhooks\ResponseDefinitions;
 use OCP\AppFramework\Http\Attribute\ApiRoute;
 use OCP\AppFramework\Http\Attribute\AuthorizedAdminSetting;
 use OCP\AppFramework\Http\Attribute\OpenAPI;
@@ -210,7 +210,7 @@ class WebhooksController extends OCSController {
 			throw new OCSBadRequestException($e->getMessage(), $e);
 		} catch (\DomainException $e) {
 			throw new OCSForbiddenException($e->getMessage(), $e);
-		} catch (Exception $e) {
+		} catch (\Exception $e) {
 			$this->logger->error('Error when deleting flow with id ' . $id, ['exception' => $e]);
 			throw new OCSException('An internal error occurred', $e->getCode(), $e);
 		}

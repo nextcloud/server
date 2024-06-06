@@ -45,9 +45,9 @@ class WebhookCall extends QueuedJob {
 			$response = $client->request($webhookListener->getHttpMethod(), $webhookListener->getUri(), $options);
 			$statusCode = $response->getStatusCode();
 			if ($statusCode >= 200 && $statusCode < 300) {
-				$this->logger->warning('Webhook returned unexpected status code '.$statusCode, ['body' => $response->getBody()]);
-			} else {
 				$this->logger->debug('Webhook returned status code '.$statusCode, ['body' => $response->getBody()]);
+			} else {
+				$this->logger->warning('Webhook returned unexpected status code '.$statusCode, ['body' => $response->getBody()]);
 			}
 		} catch (\Exception $e) {
 			$this->logger->error('Webhook call failed: '.$e->getMessage(), ['exception' => $e]);

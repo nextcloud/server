@@ -26,7 +26,7 @@ class Version1000Date20240527153425 extends SimpleMigrationStep {
 
 		if (!$schema->hasTable(WebhookListenerMapper::TABLE_NAME)) {
 			$table = $schema->createTable(WebhookListenerMapper::TABLE_NAME);
-			$table->addColumn('id', Types::INTEGER, [
+			$table->addColumn('id', Types::BIGINT, [
 				'autoincrement' => true,
 				'notnull' => true,
 				'length' => 4,
@@ -45,7 +45,7 @@ class Version1000Date20240527153425 extends SimpleMigrationStep {
 			]);
 			$table->addColumn('uri', Types::STRING, [
 				'notnull' => true,
-				'length' => 256,
+				'length' => 4096,
 			]);
 			$table->addColumn('event', Types::TEXT, [
 				'notnull' => true,
