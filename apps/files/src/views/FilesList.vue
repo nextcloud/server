@@ -301,7 +301,7 @@ export default defineComponent({
 			// Filter based on the filterText obtained from nextcloud:unified-search.search event.
 			if (this.filterText) {
 				filteredDirContent = filteredDirContent.filter(node => {
-					return node.attributes.basename.toLowerCase().includes(this.filterText.toLowerCase())
+					return node.basename.toLowerCase().includes(this.filterText.toLowerCase())
 				})
 				console.debug('Files view filtered', filteredDirContent)
 			}
