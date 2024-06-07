@@ -403,8 +403,18 @@ class AddMissingIndices extends Command {
 					$output->writeln($sqlQueries);
 				}
 				$updated = true;
-				$output->writeln('<info>schedulingobjects table updated successfully.</info>');
 			}
+			if (!$table->hasIndex('schedulobj_lastmodified_idx')) {
+				$output->writeln('<info>Adding schedulobj_lastmodified_idx index to the schedulingobjects table, this can take some time...</info>');
+
+				$table->addIndex(['lastmodified'], 'schedulobj_lastmodified_idx');
+				$sqlQueries = $this->connection->migrateToSchema($schema->getWrappedSchema(), $dryRun);
+				if ($dryRun && $sqlQueries !== null) {
+					$output->writeln($sqlQueries);
+				}
+				$updated = true;
+			}
+			$output->writeln('<info>schedulingobjects table updated successfully.</info>');
 		}
 
 		$output->writeln('<info>Check indices of the oc_properties table.</info>');

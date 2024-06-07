@@ -543,6 +543,7 @@
 					OC.SetupChecks.addGenericSetupCheck(data, 'OCA\\Settings\\SetupChecks\\SupportedDatabase', messages)
 					OC.SetupChecks.addGenericSetupCheck(data, 'OCA\\Settings\\SetupChecks\\LdapInvalidUuids', messages)
 					OC.SetupChecks.addGenericSetupCheck(data, 'OCA\\Settings\\SetupChecks\\NeedsSystemAddressBookSync', messages)
+					OC.SetupChecks.addGenericSetupCheck(data, 'OCA\\Settings\\SetupChecks\\SchedulingTableSize', messages)
 				} else {
 					messages.push({
 						msg: t('core', 'Error occurred while checking server setup'),
