@@ -612,7 +612,7 @@ class ManagerTest extends \Test\TestCase {
 		self::invokePrivate($this->manager, 'verifyPassword', ['password']);
 	}
 
-	public function createShare($id, $type, $path, $sharedWith, $sharedBy, $shareOwner,
+	public function createShare($id, $type, $node, $sharedWith, $sharedBy, $shareOwner,
 		$permissions, $expireDate = null, $password = null, $attributes = null) {
 		$share = $this->createMock(IShare::class);
 
@@ -620,7 +620,10 @@ class ManagerTest extends \Test\TestCase {
 		$share->method('getSharedWith')->willReturn($sharedWith);
 		$share->method('getSharedBy')->willReturn($sharedBy);
 		$share->method('getShareOwner')->willReturn($shareOwner);
-		$share->method('getNode')->willReturn($path);
+		$share->method('getNode')->willReturn($node);
+		if ($node && $node->getId()) {
+			$share->method('getNodeId')->willReturn($node->getId());
+		}
 		$share->method('getPermissions')->willReturn($permissions);
 		$share->method('getAttributes')->willReturn($attributes);
 		$share->method('getExpirationDate')->willReturn($expireDate);
@@ -645,8 +648,10 @@ class ManagerTest extends \Test\TestCase {
 			->willReturn(false);
 		$file->method('getStorage')
 			->willReturn($storage);
+		$file->method('getId')->willReturn(108);
 		$node->method('getStorage')
 			->willReturn($storage);
+		$node->method('getId')->willReturn(108);
 
 		$data = [
 			[$this->createShare(null, IShare::TYPE_USER, $file, null, $user0, $user0, 31, null, null), 'SharedWith is not a valid user', true],
@@ -676,6 +681,7 @@ class ManagerTest extends \Test\TestCase {
 		];
 
 		$nonShareAble = $this->createMock(Folder::class);
+		$nonShareAble->method('getId')->willReturn(108);
 		$nonShareAble->method('isShareable')->willReturn(false);
 		$nonShareAble->method('getPath')->willReturn('path');
 		$nonShareAble->method('getName')->willReturn('name');
@@ -711,16 +717,22 @@ class ManagerTest extends \Test\TestCase {
 		$data[] = [$this->createShare(null, IShare::TYPE_GROUP, $limitedPermssions, $group0, $user0, $user0, 17, null, null), 'Cannot increase permissions of path', true];
 		$data[] = [$this->createShare(null, IShare::TYPE_LINK, $limitedPermssions, null, $user0, $user0, 3, null, null), 'Cannot increase permissions of path', true];
 
+		$nonMovableStorage = $this->createMock(Storage\IStorage::class);
+		$nonMovableStorage->method('instanceOfStorage')
+			->with('\OCA\Files_Sharing\External\Storage')
+			->willReturn(false);
+		$nonMovableStorage->method('getPermissions')->willReturn(\OCP\Constants::PERMISSION_ALL);
 		$nonMoveableMountPermssions = $this->createMock(Folder::class);
 		$nonMoveableMountPermssions->method('isShareable')->willReturn(true);
 		$nonMoveableMountPermssions->method('getPermissions')->willReturn(\OCP\Constants::PERMISSION_READ);
 		$nonMoveableMountPermssions->method('getId')->willReturn(108);
 		$nonMoveableMountPermssions->method('getPath')->willReturn('path');
 		$nonMoveableMountPermssions->method('getName')->willReturn('name');
+		$nonMoveableMountPermssions->method('getInternalPath')->willReturn('');
 		$nonMoveableMountPermssions->method('getOwner')
 			->willReturn($owner);
 		$nonMoveableMountPermssions->method('getStorage')
-			->willReturn($storage);
+			->willReturn($nonMovableStorage);
 
 		$data[] = [$this->createShare(null, IShare::TYPE_USER, $nonMoveableMountPermssions, $user2, $user0, $user0, 11, null, null), 'Cannot increase permissions of path', false];
 		$data[] = [$this->createShare(null, IShare::TYPE_GROUP, $nonMoveableMountPermssions, $group0, $user0, $user0, 11, null, null), 'Cannot increase permissions of path', false];
@@ -794,8 +806,7 @@ class ManagerTest extends \Test\TestCase {
 			->method('getId')
 			->willReturn(42);
 		// Id 108 is used in the data to refer to the node of the share.
-		$userFolder->expects($this->any())
-			->method('getById')
+		$userFolder->method('getById')
 			->with(108)
 			->willReturn([$share->getNode()]);
 		$userFolder->expects($this->any())
