@@ -79,7 +79,7 @@ Files: tests/data/integritycheck/htaccessWithValidModifiedContent/.htaccess
 Copyright: 2016 ownCloud, Inc., 2019 Nextcloud GmbH and Nextcloud contributors
 License: AGPL-3.0-only
 
-Files: core/img/favicon*.* core/img/logo/logo*.* tests/data/testimage.webp apps/testing/img/logo.png
+Files: core/img/favicon*.* core/img/logo/logo*.* tests/data/testimage.webp apps/testing/img/logo.png core/img/categories/dashboard.svg core/img/apps/spreed.svg
 Copyright: 2016-2024 Nextcloud GmbH
 License: LicenseRef-NextcloudTrademarks
 
@@ -155,7 +155,7 @@ Files: vendor-bin/*/composer.json vendor-bin/*/composer.lock
 Copyright: 2021 Nextcloud GmbH and Nextcloud contributors
 License: AGPL-3.0-or-later
 
-Files: apps/encryption/img/app.svg apps/federation/img/app.svg apps/files/img/add-color.png apps/files/img/add-color.svg apps/files/img/app-dark.svg apps/files/img/app.svg apps/files/img/change.png apps/files/img/change.svg apps/files/img/delete-color.png apps/files/img/delete-color.svg apps/files/img/folder.svg apps/files_external/img/app-dark.svg apps/files_external/img/app.svg apps/user_ldap/img/app-dark.svg apps/user_ldap/img/app.svg  apps/comments/img/comments-dark.svg apps/comments/img/comments.svg apps/files_reminders/img/alarm.svg apps/files_versions/img/app-dark.svg apps/files_versions/img/app.svg apps/files_trashbin/img/app-dark.svg apps/files_trashbin/img/app.svg apps/theming/img/accessibility-dark.svg apps/testing/img/app.svg apps/sharebymail/img/app.svg apps/systemtags/img/app.svg apps/provisioning_api/img/app.svg apps/settings/img/apps.svg apps/settings/img/change.svg apps/settings/img/help.svg apps/settings/img/password.svg apps/settings/img/personal.png apps/settings/img/personal.svg apps/settings/img/share.svg apps/settings/img/users-white.svg apps/settings/img/users.svg apps/files_sharing/img/app.svg apps/settings/css/settings.css.map apps/settings/img/admin.svg apps/settings/img/settings.svg apps/settings/img/settings_apps.svg apps/settings/img/toggle-filelist.svg core/img/filetypes/application-pdf.svg core/img/filetypes/application.svg core/img/filetypes/audio.svg core/img/filetypes/file.svg core/img/filetypes/folder-drag-accept.svg core/img/filetypes/folder-encrypted.svg core/img/filetypes/folder-external.svg core/img/filetypes/folder-public.svg core/img/filetypes/folder-shared.svg core/img/filetypes/folder-starred.svg core/img/filetypes/folder.svg core/img/filetypes/image.svg core/img/filetypes/link.svg core/img/filetypes/location.svg core/img/filetypes/mindmap.svg core/img/filetypes/text-calendar.svg core/img/filetypes/text-code.svg core/img/filetypes/text-vcard.svg core/img/filetypes/text.svg core/img/filetypes/video.svg core/img/filetypes/x-office-document.svg core/img/filetypes/x-office-drawing.svg core/img/filetypes/x-office-form-template.svg core/img/filetypes/x-office-form.svg core/img/filetypes/x-office-presentation.svg core/img/filetypes/x-office-spreadsheet.svg
+Files: apps/encryption/img/app.svg apps/federation/img/app.svg apps/files/img/add-color.png apps/files/img/add-color.svg apps/files/img/app-dark.svg apps/files/img/app.svg apps/files/img/change.png apps/files/img/change.svg apps/files/img/delete-color.png apps/files/img/delete-color.svg apps/files/img/folder.svg apps/files_external/img/app-dark.svg apps/files_external/img/app.svg apps/user_ldap/img/app-dark.svg apps/user_ldap/img/app.svg  apps/comments/img/comments-dark.svg apps/comments/img/comments.svg apps/files_reminders/img/alarm.svg apps/files_versions/img/app-dark.svg apps/files_versions/img/app.svg apps/files_trashbin/img/app-dark.svg apps/files_trashbin/img/app.svg apps/theming/img/accessibility-dark.svg apps/testing/img/app.svg apps/sharebymail/img/app.svg apps/systemtags/img/app.svg apps/provisioning_api/img/app.svg apps/settings/img/apps.svg apps/settings/img/change.svg apps/settings/img/help.svg apps/settings/img/password.svg apps/settings/img/personal.png apps/settings/img/personal.svg apps/settings/img/share.svg apps/settings/img/users-white.svg apps/settings/img/users.svg apps/files_sharing/img/app.svg apps/settings/css/settings.css.map apps/settings/img/admin.svg apps/settings/img/settings.svg apps/settings/img/settings_apps.svg apps/settings/img/toggle-filelist.svg core/img/filetypes/application-pdf.svg core/img/filetypes/application.svg core/img/filetypes/audio.svg core/img/filetypes/file.svg core/img/filetypes/folder-drag-accept.svg core/img/filetypes/folder-encrypted.svg core/img/filetypes/folder-external.svg core/img/filetypes/folder-public.svg core/img/filetypes/folder-shared.svg core/img/filetypes/folder-starred.svg core/img/filetypes/folder.svg core/img/filetypes/image.svg core/img/filetypes/link.svg core/img/filetypes/location.svg core/img/filetypes/mindmap.svg core/img/filetypes/text-calendar.svg core/img/filetypes/text-code.svg core/img/filetypes/text-vcard.svg core/img/filetypes/text.svg core/img/filetypes/video.svg core/img/filetypes/x-office-document.svg core/img/filetypes/x-office-drawing.svg core/img/filetypes/x-office-form-template.svg core/img/filetypes/x-office-form.svg core/img/filetypes/x-office-presentation.svg core/img/filetypes/x-office-spreadsheet.svg core/img/places/calendar-dark.png core/img/places/calendar.png core/img/places/calendar.svg core/img/places/contacts-dark.png core/img/places/contacts.svg core/img/places/default-app-icon.svg core/img/places/files.svg core/img/places/home.svg core/img/places/link.svg core/img/places/music.svg core/img/places/picture.svg core/img/rating/s0.svg core/img/rating/s1.svg core/img/rating/s10.svg core/img/rating/s2.svg core/img/rating/s3.svg core/img/rating/s4.svg core/img/rating/s5.svg core/img/rating/s6.svg core/img/rating/s7.svg core/img/rating/s8.svg core/img/rating/s9.svg core/img/mail.svg core/img/rss.svg core/img/clients/desktop.svg core/img/clients/phone.svg core/img/clients/tablet.svg core/img/categories/auth.svg core/img/categories/bundles.svg core/img/categories/customization.svg core/img/categories/files.svg core/img/categories/games.svg core/img/categories/integration.svg core/img/categories/monitoring.svg core/img/categories/multimedia.svg core/img/categories/office.svg core/img/categories/organization.svg core/img/categories/social.svg core/img/categories/workflow.svg core/img/apps/circles.svg core/img/apps/notes.svg core/img/apps/richdocuments.svg core/img/caldav/attendees.png core/img/caldav/attendees.svg core/img/caldav/description.png core/img/caldav/description.svg core/img/caldav/link.png core/img/caldav/link.svg core/img/caldav/location.png core/img/caldav/location.svg core/img/caldav/organizer.png core/img/caldav/organizer.svg core/img/caldav/time.png core/img/caldav/time.svg core/img/caldav/title.png core/img/caldav/title.svg
 Copyright: 2018-2024 Google LLC
 License: Apache-2.0
 
@@ -174,6 +174,10 @@ License: MIT
 Files: core/vendor/zxcvbn/dist/zxcvbn.js
 Copyright: 2012-2016 Dan Wheeler and Dropbox, Inc.
 License: MIT
+
+Files: core/img/apps/richdocumentscode.svg
+Copyright: 2016-2024 Collabora Ltd.
+License: LicenseRef-CollaboraTrademarks
 
 Files: core/img/twitter.svg apps/federatedfilesharing/img/social-twitter.svg
 Copyright: X Corp. 
@@ -199,7 +203,7 @@ Files: core/img/appstore.svg
 Copyright: 2024 Apple Inc.
 License: LicenseRef-AppleAppStoreBadge
 
-Files: core/img/fdroid.svg
+Files: core/img/f-droid.svg
 Copyright: 2016 Andrew Nayenko <relan@airpost.net>
 License: CC-BY-SA-3.0 OR GPL-3.0-or-later
 
