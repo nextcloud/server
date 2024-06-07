@@ -17,7 +17,7 @@
 		:scroll-to-index="scrollToIndex"
 		:caption="caption">
 		<template #filters>
-			<FilesListFilters :current-view="currentView" />
+			<FileListFilters />
 		</template>
 
 		<template v-if="!isNoneSelected" #header-overlay>
@@ -82,13 +82,13 @@ import filesListWidthMixin from '../mixins/filesListWidth.ts'
 import VirtualList from './VirtualList.vue'
 import logger from '../logger.js'
 import FilesListTableHeaderActions from './FilesListTableHeaderActions.vue'
-import FilesListFilters from './FilesListFilter/FilesListFilters.vue'
+import FileListFilters from './FileListFilters.vue'
 
 export default defineComponent({
 	name: 'FilesListVirtual',
 
 	components: {
-		FilesListFilters,
+		FileListFilters,
 		FilesListHeader,
 		FilesListTableFooter,
 		FilesListTableHeader,
@@ -325,9 +325,15 @@ export default defineComponent({
 	--clickable-area: var(--default-clickable-area);
 	--icon-preview-size: 32px;
 
+	--fixed-top-position: var(--default-clickable-area);
+
 	overflow: auto;
 	height: 100%;
 	will-change: scroll-position;
+
+	&:has(.file-list-filters__active) {
+		--fixed-top-position: calc(var(--default-clickable-area) + var(--default-grid-baseline) + var(--clickable-area-small));
+	}
 
 	& :deep() {
 		// Table head, body and footer
@@ -371,28 +377,20 @@ export default defineComponent({
 		}
 
 		.files-list__filters {
-			display: flex;
-			align-items: baseline;
-			justify-content: start;
-			gap: calc(var(--default-grid-baseline, 4px) * 2);
 			// Pinned on top when scrolling above table header
 			position: sticky;
 			top: 0;
 			// fix size and background
 			background-color: var(--color-main-background);
 			padding-inline: var(--row-height) var(--default-grid-baseline, 4px);
-			height: var(--row-height);
+			height: var(--fixed-top-position);
 			width: 100%;
-
-			> * {
-				flex: 0 1 fit-content;
-			}
 		}
 
 		.files-list__thead-overlay {
 			// Pinned on top when scrolling
 			position: sticky;
-			top: var(--row-height);
+			top: var(--fixed-top-position);
 			// Save space for a row checkbox
 			margin-left: var(--row-height);
 			// More than .files-list__thead
@@ -421,7 +419,7 @@ export default defineComponent({
 			// Pinned on top when scrolling
 			position: sticky;
 			z-index: 10;
-			top: var(--row-height);
+			top: var(--fixed-top-position);
 		}
 
 		// Table footer

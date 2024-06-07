@@ -111,12 +111,12 @@
 </template>
 
 <script lang="ts">
-import type { ContentsWithRoot } from '@nextcloud/files'
+import type { ContentsWithRoot, INode } from '@nextcloud/files'
 import type { Upload } from '@nextcloud/upload'
 import type { CancelablePromise } from 'cancelable-promise'
 import type { ComponentPublicInstance } from 'vue'
 import type { Route } from 'vue-router'
-import type { FilesFilter, UserConfig } from '../types.ts'
+import type { UserConfig } from '../types.ts'
 
 import { getCapabilities } from '@nextcloud/capabilities'
 import { emit, subscribe, unsubscribe } from '@nextcloud/event-bus'
@@ -143,6 +143,7 @@ import ViewGridIcon from 'vue-material-design-icons/ViewGrid.vue'
 import { action as sidebarAction } from '../actions/sidebarAction.ts'
 import { useNavigation } from '../composables/useNavigation.ts'
 import { useFilesStore } from '../store/files.ts'
+import { useFiltersStore } from '../store/filters.ts'
 import { usePathsStore } from '../store/paths.ts'
 import { useSelectionStore } from '../store/selection.ts'
 import { useUploaderStore } from '../store/uploader.ts'
@@ -182,22 +183,9 @@ export default defineComponent({
 		filesSortingMixin,
 	],
 
-	provide() {
-		return {
-			'files:filter:add': (filter: FilesFilter) => {
-				this.$set(this.filters, filter.id, filter)
-				logger.debug('File list filter updated', { filters: [...Object.keys(this.filters)] })
-			},
-
-			'files:filter:delete': (id: string) => {
-				this.$delete(this.filters, id)
-				logger.debug('File list filter removed', { filter: id, filters: [...Object.keys(this.filters)] })
-			},
-		}
-	},
-
 	setup() {
 		const filesStore = useFilesStore()
+		const filtersStore = useFiltersStore()
 		const pathsStore = usePathsStore()
 		const selectionStore = useSelectionStore()
 		const uploaderStore = useUploaderStore()
@@ -213,6 +201,7 @@ export default defineComponent({
 			t,
 
 			filesStore,
+			filtersStore,
 			pathsStore,
 			selectionStore,
 			uploaderStore,
@@ -228,9 +217,10 @@ export default defineComponent({
 
 	data() {
 		return {
-			filters: {} as Record<string, FilesFilter>, // TODO: With Vue3 use Map
 			loading: true,
 			promise: null as CancelablePromise<ContentsWithRoot> | Promise<ContentsWithRoot> | null,
+
+			dirContentsFiltered: [] as INode[],
 
 			unsubscribeStoreCallback: () => {},
 		}
@@ -298,13 +288,6 @@ export default defineComponent({
 			return (this.currentFolder?._children || [])
 				.map(this.getNode)
 				.filter((node: Node) => !!node)
-				.filter(this.filterHidden)
-		},
-
-		dirContentsFiltered(): Node[] {
-			const filters = [...Object.values(this.filters)]
-			return this.dirContents
-				.filter((node: Node) => filters.every((filter: FilesFilter) => filter.filter(node)))
 		},
 
 		/**
@@ -416,6 +399,10 @@ export default defineComponent({
 			return isSharingEnabled
 				&& this.currentFolder && (this.currentFolder.permissions & Permission.SHARE) !== 0
 		},
+
+		filtersChanged() {
+			return this.filtersStore.filtersChanged
+		},
 	},
 
 	watch: {
@@ -448,10 +435,20 @@ export default defineComponent({
 		dirContents(contents) {
 			logger.debug('Directory contents changed', { view: this.currentView, folder: this.currentFolder, contents })
 			emit('files:list:updated', { view: this.currentView, folder: this.currentFolder, contents })
+			// Also refresh the filtered content
+			this.filterDirContent()
+		},
+
+		filtersChanged() {
+			if (this.filtersChanged) {
+				this.filterDirContent()
+				this.filtersStore.filtersChanged = false
+			}
 		},
 	},
 
 	mounted() {
+		this.filtersStore.init()
 		this.fetchContent()
 
 		subscribe('files:node:deleted', this.onNodeDeleted)
@@ -531,15 +528,6 @@ export default defineComponent({
 		 */
 		getNode(fileId) {
 			return this.filesStore.getNode(fileId)
-		},
-
-		/**
-		 * Whether the node should be shown
-		 * @param node The node to check
-		 */
-		filterHidden(node: Node) {
-			const showHidden = this.userConfigStore?.userConfig.show_hidden
-			return showHidden || (node.attributes.hidden !== true && !node.basename.startsWith('.'))
 		},
 
 		/**
@@ -651,8 +639,17 @@ export default defineComponent({
 			}
 			sidebarAction.exec(this.currentFolder, this.currentView!, this.currentFolder.path)
 		},
+
 		toggleGridView() {
 			this.userConfigStore.update('grid_view', !this.userConfig.grid_view)
+		},
+
+		filterDirContent() {
+			let nodes = this.dirContents
+			for (const filter of this.filtersStore.sortedFilters) {
+				nodes = filter.filter(nodes)
+			}
+			this.dirContentsFiltered = nodes
 		},
 	},
 })

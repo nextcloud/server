@@ -5,6 +5,9 @@
 <template>
 	<NcAppNavigation data-cy-files-navigation
 		:aria-label="t('files', 'Files')">
+		<template #search>
+			<NcAppNavigationSearch v-model="searchQuery" :label="t('files', 'Filter filenames…')" />
+		</template>
 		<template #list>
 			<NcAppNavigationItem v-for="view in parentViews"
 				:key="view.id"
@@ -61,17 +64,20 @@
 import type { View } from '@nextcloud/files'
 
 import { emit } from '@nextcloud/event-bus'
-import { translate as t } from '@nextcloud/l10n'
+import { t } from '@nextcloud/l10n'
 import { defineComponent } from 'vue'
 
 import IconCog from 'vue-material-design-icons/Cog.vue'
 import NcAppNavigation from '@nextcloud/vue/dist/Components/NcAppNavigation.js'
 import NcAppNavigationItem from '@nextcloud/vue/dist/Components/NcAppNavigationItem.js'
+import NcAppNavigationSearch from '@nextcloud/vue/dist/Components/NcAppNavigationSearch.js'
 import NcIconSvgWrapper from '@nextcloud/vue/dist/Components/NcIconSvgWrapper.js'
 import NavigationQuota from '../components/NavigationQuota.vue'
 import SettingsModal from './Settings.vue'
 
 import { useNavigation } from '../composables/useNavigation'
+import { useFilenameFilter } from '../composables/useFilenameFilter'
+import { useFiltersStore } from '../store/filters.ts'
 import { useViewConfigStore } from '../store/viewConfig.ts'
 import logger from '../logger.js'
 
@@ -84,18 +90,24 @@ export default defineComponent({
 		NavigationQuota,
 		NcAppNavigation,
 		NcAppNavigationItem,
+		NcAppNavigationSearch,
 		NcIconSvgWrapper,
 		SettingsModal,
 	},
 
 	setup() {
+		const filtersStore = useFiltersStore()
 		const viewConfigStore = useViewConfigStore()
 		const { currentView, views } = useNavigation()
+		const { searchQuery } = useFilenameFilter()
 
 		return {
 			currentView,
+			searchQuery,
+			t,
 			views,
 
+			filtersStore,
 			viewConfigStore,
 		}
 	},
@@ -160,8 +172,6 @@ export default defineComponent({
 	},
 
 	methods: {
-		t,
-
 		/**
 		 * Only use exact route matching on routes with child views
 		 * Because if a view does not have children (like the files view) then multiple routes might be matched for it

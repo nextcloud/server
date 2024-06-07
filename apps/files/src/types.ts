@@ -105,17 +105,3 @@ export interface TemplateFile {
 	ratio?: number
 	templates?: Record<string, unknown>[]
 }
-
-export interface FilesFilter {
-	/**
-	 * ID of the filter
-	 */
-	id: string
-
-	/**
-	 * Filter function callback
-	 * @param node Node to check
-	 * @return True if keep the file false to remove from list
-	 */
-	filter: (node: Node) => boolean
-}
