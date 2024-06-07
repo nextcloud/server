@@ -236,6 +236,17 @@
 	flex: 1 1 100%;
 }
 
+.header-info {
+	display: flex;
+	flex-direction: column;
+	overflow: hidden;
+}
+
+.header-title {
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
 .header-shared-by  {
 	color: var(--color-primary-element-text);
 	position: relative;
