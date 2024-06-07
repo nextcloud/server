@@ -275,14 +275,18 @@ export default defineComponent({
 
 			logger.debug('Opening file ' + node.path, { node })
 			this.openFileId = fileId
-			getFileActions()
-				.filter(action => !action.enabled || action.enabled([node], this.currentView))
+			const defaultAction = getFileActions()
+				// Get only default actions (visible and hidden)
+				.filter(action => !!action?.default)
+				// Find actions that are either always enabled or enabled for the current node
+				.filter((action) => !action.enabled || action.enabled([node], this.currentView))
+				// Sort enabled default actions by order
 				.sort((a, b) => (a.order || 0) - (b.order || 0))
-				.filter(action => !!action?.default)[0].exec(node, this.currentView, this.currentFolder.path)
-		},
-
-		getFileId(node) {
-			return node.fileid
+				// Get the first one
+				.at(0)
+			// Some file types do not have a default action (e.g. they can only be downloaded)
+			// So if there is an enabled default action, so execute it
+			defaultAction?.exec(node, this.currentView, this.currentFolder.path)
 		},
 
 		onDragOver(event: DragEvent) {
