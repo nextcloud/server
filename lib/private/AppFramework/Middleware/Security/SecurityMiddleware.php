@@ -16,6 +16,7 @@ use OC\AppFramework\Middleware\Security\Exceptions\SecurityException;
 use OC\AppFramework\Middleware\Security\Exceptions\StrictCookieMissingException;
 use OC\AppFramework\Utility\ControllerMethodReflector;
 use OC\Settings\AuthorizedGroupMapper;
+use OC\User\Session;
 use OCP\App\AppPathNotFoundException;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Controller;
@@ -128,7 +129,7 @@ class SecurityMiddleware extends Middleware {
 		// security checks
 		$isPublicPage = $this->hasAnnotationOrAttribute($reflectionMethod, 'PublicPage', PublicPage::class);
 		if (!$isPublicPage) {
-			if (!$this->isLoggedIn) {
+			if (!$this->isLoggedIn && (!$this->userSession instanceof Session || $this->userSession->getSession()->get('app_api') !== true)) {
 				throw new NotLoggedInException();
 			}
 			$authorized = false;
