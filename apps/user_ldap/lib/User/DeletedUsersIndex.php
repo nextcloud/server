@@ -64,7 +64,12 @@ class DeletedUsersIndex {
 
 		$userObjects = [];
 		foreach ($deletedUsers as $user) {
-			$userObjects[] = new OfflineUser($user, $this->config, $this->mapping, $this->shareManager);
+			$userObject = new OfflineUser($user, $this->config, $this->mapping, $this->shareManager);
+			if ($userObject->getLastLogin() > $userObject->getDetectedOn()) {
+				$userObject->unmark();
+			} else {
+				$userObjects[] = $userObject;
+			}
 		}
 		$this->deletedUsers = $userObjects;
 
