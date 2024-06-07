@@ -217,8 +217,8 @@ class AuthSettingsController extends Controller {
 		$currentName = $token->getName();
 
 		if ($scope !== $token->getScopeAsArray()) {
-			$token->setScope(['filesystem' => $scope['filesystem']]);
-			$this->publishActivity($scope['filesystem'] ? Provider::APP_TOKEN_FILESYSTEM_GRANTED : Provider::APP_TOKEN_FILESYSTEM_REVOKED, $token->getId(), ['name' => $currentName]);
+			$token->setScope([IToken::SCOPE_FILESYSTEM => $scope[IToken::SCOPE_FILESYSTEM]]);
+			$this->publishActivity($scope[IToken::SCOPE_FILESYSTEM] ? Provider::APP_TOKEN_FILESYSTEM_GRANTED : Provider::APP_TOKEN_FILESYSTEM_REVOKED, $token->getId(), ['name' => $currentName]);
 		}
 
 		if (mb_strlen($name) > 128) {

@@ -244,7 +244,7 @@ class AuthSettingsControllerTest extends TestCase {
 
 		$token->expects($this->once())
 			->method('getScopeAsArray')
-			->willReturn(['filesystem' => true]);
+			->willReturn([IToken::SCOPE_FILESYSTEM => true]);
 
 		$token->expects($this->once())
 			->method('setName')
@@ -254,7 +254,7 @@ class AuthSettingsControllerTest extends TestCase {
 			->method('updateToken')
 			->with($this->equalTo($token));
 
-		$this->assertSame([], $this->controller->update($tokenId, ['filesystem' => true], $newName));
+		$this->assertSame([], $this->controller->update($tokenId, [IToken::SCOPE_FILESYSTEM => true], $newName));
 	}
 
 	public function dataUpdateFilesystemScope(): array {
@@ -287,17 +287,17 @@ class AuthSettingsControllerTest extends TestCase {
 
 		$token->expects($this->once())
 			->method('getScopeAsArray')
-			->willReturn(['filesystem' => $filesystem]);
+			->willReturn([IToken::SCOPE_FILESYSTEM => $filesystem]);
 
 		$token->expects($this->once())
 			->method('setScope')
-			->with($this->equalTo(['filesystem' => $newFilesystem]));
+			->with($this->equalTo([IToken::SCOPE_FILESYSTEM => $newFilesystem]));
 
 		$this->tokenProvider->expects($this->once())
 			->method('updateToken')
 			->with($this->equalTo($token));
 
-		$this->assertSame([], $this->controller->update($tokenId, ['filesystem' => $newFilesystem], 'App password'));
+		$this->assertSame([], $this->controller->update($tokenId, [IToken::SCOPE_FILESYSTEM => $newFilesystem], 'App password'));
 	}
 
 	public function testUpdateNoChange(): void {
@@ -316,7 +316,7 @@ class AuthSettingsControllerTest extends TestCase {
 
 		$token->expects($this->once())
 			->method('getScopeAsArray')
-			->willReturn(['filesystem' => true]);
+			->willReturn([IToken::SCOPE_FILESYSTEM => true]);
 
 		$token->expects($this->never())
 			->method('setName');
@@ -328,7 +328,7 @@ class AuthSettingsControllerTest extends TestCase {
 			->method('updateToken')
 			->with($this->equalTo($token));
 
-		$this->assertSame([], $this->controller->update($tokenId, ['filesystem' => true], 'App password'));
+		$this->assertSame([], $this->controller->update($tokenId, [IToken::SCOPE_FILESYSTEM => true], 'App password'));
 	}
 
 	public function testUpdateExpired() {
@@ -348,7 +348,7 @@ class AuthSettingsControllerTest extends TestCase {
 			->method('updateToken')
 			->with($this->equalTo($token));
 
-		$this->assertSame([], $this->controller->update($tokenId, ['filesystem' => true], 'App password'));
+		$this->assertSame([], $this->controller->update($tokenId, [IToken::SCOPE_FILESYSTEM => true], 'App password'));
 	}
 
 	public function testUpdateTokenWrongUser() {
@@ -366,7 +366,7 @@ class AuthSettingsControllerTest extends TestCase {
 		$this->tokenProvider->expects($this->never())
 			->method('updateToken');
 
-		$response = $this->controller->update($tokenId, ['filesystem' => true], 'App password');
+		$response = $this->controller->update($tokenId, [IToken::SCOPE_FILESYSTEM => true], 'App password');
 		$this->assertSame([], $response->getData());
 		$this->assertSame(\OCP\AppFramework\Http::STATUS_NOT_FOUND, $response->getStatus());
 	}
@@ -380,7 +380,7 @@ class AuthSettingsControllerTest extends TestCase {
 		$this->tokenProvider->expects($this->never())
 			->method('updateToken');
 
-		$response = $this->controller->update(42, ['filesystem' => true], 'App password');
+		$response = $this->controller->update(42, [IToken::SCOPE_FILESYSTEM => true], 'App password');
 		$this->assertSame([], $response->getData());
 		$this->assertSame(\OCP\AppFramework\Http::STATUS_NOT_FOUND, $response->getStatus());
 	}

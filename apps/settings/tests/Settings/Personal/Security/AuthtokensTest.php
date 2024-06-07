@@ -13,6 +13,7 @@ use OC\Authentication\Token\PublicKeyToken;
 use OCA\Settings\Settings\Personal\Security\Authtokens;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
+use OCP\Authentication\Token\IToken;
 use OCP\ISession;
 use OCP\IUserSession;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -91,7 +92,7 @@ class AuthtokensTest extends TestCase {
 							'type' => 0,
 							'canDelete' => false,
 							'current' => true,
-							'scope' => ['filesystem' => true],
+							'scope' => [IToken::SCOPE_FILESYSTEM => true],
 							'canRename' => false,
 						],
 						[
@@ -100,7 +101,7 @@ class AuthtokensTest extends TestCase {
 							'lastActivity' => 0,
 							'type' => 0,
 							'canDelete' => true,
-							'scope' => ['filesystem' => true],
+							'scope' => [IToken::SCOPE_FILESYSTEM => true],
 							'canRename' => true,
 						],
 					]
