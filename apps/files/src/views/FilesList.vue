@@ -110,6 +110,7 @@
 import type { View, ContentsWithRoot } from '@nextcloud/files'
 import type { Upload } from '@nextcloud/upload'
 import type { CancelablePromise } from 'cancelable-promise'
+import type { ComponentPublicInstance } from 'vue'
 import type { Route } from 'vue-router'
 import type { UserConfig } from '../types.ts'
 
@@ -455,8 +456,9 @@ export default defineComponent({
 			this.fetchContent()
 
 			// Scroll to top, force virtual scroller to re-render
-			if (this.$refs?.filesListVirtual?.$el) {
-				this.$refs.filesListVirtual.$el.scrollTop = 0
+			const filesListVirtual = this.$refs?.filesListVirtual as ComponentPublicInstance<typeof FilesListVirtual> | undefined
+			if (filesListVirtual?.$el) {
+				filesListVirtual.$el.scrollTop = 0
 			}
 		},
 
