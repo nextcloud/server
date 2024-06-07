@@ -166,6 +166,7 @@
     "Your ownership transfer of {path} to {user} has completed." : "A transferência da sua propriedade de {path} para {user} foi concluída.",
     "The ownership transfer of {path} from {user} has completed." : "A transferência da propriedade de {path} de {user} foi concluída.",
     "in %s" : "em %s",
+    "Transferred from %1$s on %2$s" : "Transferido de %1$s para %2$s",
     "File Management" : "Gerenciamento de Arquivos",
     "Current directory path" : "Caminho do diretório atual",
     "Reload current directory" : "Recarregar diretório atual",
