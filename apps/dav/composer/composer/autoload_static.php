@@ -156,6 +156,7 @@ class ComposerStaticInitDAV
         'OCA\\DAV\\CardDAV\\SystemAddressbook' => __DIR__ . '/..' . '/../lib/CardDAV/SystemAddressbook.php',
         'OCA\\DAV\\CardDAV\\UserAddressBooks' => __DIR__ . '/..' . '/../lib/CardDAV/UserAddressBooks.php',
         'OCA\\DAV\\CardDAV\\Xml\\Groups' => __DIR__ . '/..' . '/../lib/CardDAV/Xml/Groups.php',
+        'OCA\\DAV\\CardDAV\\Security\\CardDavRateLimitingPlugin' => __DIR__ . '/..' . '/../lib/CardDAV/Security/CardDavRateLimitingPlugin.php',
         'OCA\\DAV\\Command\\CreateAddressBook' => __DIR__ . '/..' . '/../lib/Command/CreateAddressBook.php',
         'OCA\\DAV\\Command\\CreateCalendar' => __DIR__ . '/..' . '/../lib/Command/CreateCalendar.php',
         'OCA\\DAV\\Command\\DeleteCalendar' => __DIR__ . '/..' . '/../lib/Command/DeleteCalendar.php',

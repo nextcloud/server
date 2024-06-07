@@ -135,6 +135,7 @@ return array(
     'OCA\\DAV\\CardDAV\\MultiGetExportPlugin' => $baseDir . '/../lib/CardDAV/MultiGetExportPlugin.php',
     'OCA\\DAV\\CardDAV\\PhotoCache' => $baseDir . '/../lib/CardDAV/PhotoCache.php',
     'OCA\\DAV\\CardDAV\\Plugin' => $baseDir . '/../lib/CardDAV/Plugin.php',
+    'OCA\\DAV\\CardDAV\\Security\\CardDavRateLimitingPlugin' => $baseDir . '/../lib/CardDAV/Security/CardDavRateLimitingPlugin.php',
     'OCA\\DAV\\CardDAV\\Sharing\\Backend' => $baseDir . '/../lib/CardDAV/Sharing/Backend.php',
     'OCA\\DAV\\CardDAV\\Sharing\\Service' => $baseDir . '/../lib/CardDAV/Sharing/Service.php',
     'OCA\\DAV\\CardDAV\\SyncService' => $baseDir . '/../lib/CardDAV/SyncService.php',
