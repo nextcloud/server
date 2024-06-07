@@ -152,6 +152,13 @@ $CONFIG = [
 'dbpersistent' => '',
 
 /**
+ * Add request id to the database query in a comment.
+ *
+ * This can be enabled to assist in mapping database logs to Nextcloud logs.
+ */
+'db.log_request_id' => false,
+
+/**
  * Indicates whether the Nextcloud instance was installed successfully; ``true``
  * indicates a successful installation, and ``false`` indicates an unsuccessful
  * installation.
