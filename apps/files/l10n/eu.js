@@ -168,6 +168,7 @@ OC.L10N.register(
     "Your ownership transfer of {path} to {user} has completed." : "{path}(r)en jabetza {user} erabiltzaileari transferitzea osatu da.",
     "The ownership transfer of {path} from {user} has completed." : "{path}(r)en jabetza {user} erabiltzailetik transferitzea osatu da.",
     "in %s" : "%s(e)n",
+    "Transferred from %1$s on %2$s" : "%1$s(e)tik %2$s(e)n transferitua",
     "File Management" : "Fitxategi-kudeaketa",
     "Current directory path" : "Uneko direktorio-bidea",
     "Reload current directory" : "Birkargatu uneko direktorioa",

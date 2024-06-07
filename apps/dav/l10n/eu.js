@@ -86,6 +86,7 @@ OC.L10N.register(
     "Organizer:" : "Antolatzailea:",
     "Attendees:" : "Parte-hartzaileak:",
     "Title:" : "Izenburua:",
+    "Date and time:" : "Data eta ordua:",
     "Location:" : "Kokapena:",
     "Link:" : "Esteka:",
     "Accept" : "Onartu",
