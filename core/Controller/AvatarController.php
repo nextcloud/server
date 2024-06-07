@@ -81,9 +81,10 @@ class AvatarController extends Controller {
 	 * @param string $userId ID of the user
 	 * @param int $size Size of the avatar
 	 * @param bool $guestFallback Fallback to guest avatar if not found
-	 * @return FileDisplayResponse<Http::STATUS_OK|Http::STATUS_CREATED, array{Content-Type: string, X-NC-IsCustomAvatar?: int}>|JSONResponse<Http::STATUS_NOT_FOUND, array<empty>, array{}>|Response<Http::STATUS_INTERNAL_SERVER_ERROR, array{}>
+	 * @return FileDisplayResponse<Http::STATUS_OK|Http::STATUS_CREATED, array{Content-Type: string, X-NC-IsCustomAvatar: int}>|JSONResponse<Http::STATUS_NOT_FOUND, array<empty>, array{}>|Response<Http::STATUS_INTERNAL_SERVER_ERROR, array{}>
 	 *
 	 * 200: Avatar returned
+	 * 201: Avatar returned
 	 * 404: Avatar not found
 	 */
 	#[FrontpageRoute(verb: 'GET', url: '/avatar/{userId}/{size}/dark')]
@@ -132,9 +133,10 @@ class AvatarController extends Controller {
 	 * @param string $userId ID of the user
 	 * @param int $size Size of the avatar
 	 * @param bool $guestFallback Fallback to guest avatar if not found
-	 * @return FileDisplayResponse<Http::STATUS_OK|Http::STATUS_CREATED, array{Content-Type: string, X-NC-IsCustomAvatar?: int}>|JSONResponse<Http::STATUS_NOT_FOUND, array<empty>, array{}>|Response<Http::STATUS_INTERNAL_SERVER_ERROR, array{}>
+	 * @return FileDisplayResponse<Http::STATUS_OK|Http::STATUS_CREATED, array{Content-Type: string, X-NC-IsCustomAvatar: int}>|JSONResponse<Http::STATUS_NOT_FOUND, array<empty>, array{}>|Response<Http::STATUS_INTERNAL_SERVER_ERROR, array{}>
 	 *
 	 * 200: Avatar returned
+	 * 201: Avatar returned
 	 * 404: Avatar not found
 	 */
 	#[FrontpageRoute(verb: 'GET', url: '/avatar/{userId}/{size}')]
