@@ -97,7 +97,7 @@ class AppConfig implements IAppConfig {
 	 * @param string $key config keys prefix to search
 	 * @param bool $filtered TRUE to hide sensitive config values. Value are replaced by {@see IConfig::SENSITIVE_VALUE}
 	 *
-	 * @return array<string, string> [configKey => configValue]
+	 * @return array<string, string|int|float|bool|array> [configKey => configValue]
 	 * @since 29.0.0
 	 */
 	public function getAllAppValues(string $key = '', bool $filtered = false): array {
