@@ -190,6 +190,12 @@ class UsersController extends Controller {
 			$userCount -= $disabledUsers;
 		}
 
+		$recentUsersGroup = [
+			'id' => 'recent',
+			'name' => 'Recent accounts',
+			'usercount' => $userCount,
+		];
+
 		$disabledUsersGroup = [
 			'id' => 'disabled',
 			'name' => 'Disabled accounts',
@@ -218,7 +224,7 @@ class UsersController extends Controller {
 		/* FINAL DATA */
 		$serverData = [];
 		// groups
-		$serverData['groups'] = array_merge_recursive($adminGroup, [$disabledUsersGroup], $groups);
+		$serverData['groups'] = array_merge_recursive($adminGroup, [$recentUsersGroup, $disabledUsersGroup], $groups);
 		// Various data
 		$serverData['isAdmin'] = $isAdmin;
 		$serverData['sortGroups'] = $forceSortGroupByName

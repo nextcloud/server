@@ -194,9 +194,9 @@ export default {
 		},
 
 		groups() {
-			// data provided php side + remove the disabled group
+			// data provided php side + remove the recent and disabled groups
 			return this.$store.getters.getGroups
-				.filter(group => group.id !== 'disabled')
+				.filter(group => group.id !== 'recent' && group.id !== 'disabled')
 				.sort((a, b) => a.name.localeCompare(b.name))
 		},
 
@@ -313,6 +313,12 @@ export default {
 					await this.$store.dispatch('getDisabledUsers', {
 						offset: this.disabledUsersOffset,
 						limit: this.disabledUsersLimit,
+					})
+				} else if (this.selectedGroup === 'recent') {
+					await this.$store.dispatch('getRecentUsers', {
+						offset: this.usersOffset,
+						limit: this.usersLimit,
+						search: this.searchQuery,
 					})
 				} else {
 					await this.$store.dispatch('getUsers', {
