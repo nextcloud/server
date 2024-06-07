@@ -40,6 +40,7 @@
 namespace OCA\DAV\CalDAV;
 
 use DateTime;
+use DateTimeImmutable;
 use DateTimeInterface;
 use OCA\DAV\AppInfo\Application;
 use OCA\DAV\CalDAV\Sharing\Backend;
@@ -1920,15 +1921,34 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 					$this->db->escapeLikeParameter($pattern) . '%')));
 		}
 
-		if (isset($options['timerange'])) {
-			if (isset($options['timerange']['start']) && $options['timerange']['start'] instanceof DateTimeInterface) {
-				$outerQuery->andWhere($outerQuery->expr()->gt('lastoccurence',
-					$outerQuery->createNamedParameter($options['timerange']['start']->getTimeStamp())));
-			}
-			if (isset($options['timerange']['end']) && $options['timerange']['end'] instanceof DateTimeInterface) {
-				$outerQuery->andWhere($outerQuery->expr()->lt('firstoccurence',
-					$outerQuery->createNamedParameter($options['timerange']['end']->getTimeStamp())));
-			}
+		$start = null;
+		$end = null;
+
+		$hasLimit = is_int($limit);
+		$hasTimeRange = false;
+
+		if (isset($options['timerange']['start']) && $options['timerange']['start'] instanceof DateTimeInterface) {
+			/** @var DateTimeInterface $start */
+			$start = $options['timerange']['start'];
+			$outerQuery->andWhere(
+				$outerQuery->expr()->gt(
+					'lastoccurence',
+					$outerQuery->createNamedParameter($start->getTimestamp())
+				)
+			);
+			$hasTimeRange = true;
+		}
+
+		if (isset($options['timerange']['end']) && $options['timerange']['end'] instanceof DateTimeInterface) {
+			/** @var DateTimeInterface $end */
+			$end = $options['timerange']['end'];
+			$outerQuery->andWhere(
+				$outerQuery->expr()->lt(
+					'firstoccurence',
+					$outerQuery->createNamedParameter($end->getTimestamp())
+				)
+			);
+			$hasTimeRange = true;
 		}
 
 		if (isset($options['uid'])) {
@@ -1946,54 +1966,46 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 
 		$outerQuery->andWhere($outerQuery->expr()->in('c.id', $outerQuery->createFunction($innerQuery->getSQL())));
 
-		if ($offset) {
-			$outerQuery->setFirstResult($offset);
-		}
-		if ($limit) {
-			$outerQuery->setMaxResults($limit);
-		}
+		// Without explicit order by its undefined in which order the SQL server returns the events.
+		// For the pagination with hasLimit and hasTimeRange, a stable ordering is helpful.
+		$outerQuery->addOrderBy('id');
 
-		$result = $outerQuery->executeQuery();
+		$offset = (int)$offset;
+		$outerQuery->setFirstResult($offset);
+
 		$calendarObjects = [];
-		while (($row = $result->fetch()) !== false) {
-			$start = $options['timerange']['start'] ?? null;
-			$end = $options['timerange']['end'] ?? null;
 
-			if ($start === null || !($start instanceof DateTimeInterface) || $end === null || !($end instanceof DateTimeInterface)) {
-				// No filter required
-				$calendarObjects[] = $row;
-				continue;
+		if ($hasLimit && $hasTimeRange) {
+			/**
+			 * Event recurrences are evaluated at runtime because the database only knows the first and last occurrence.
+			 *
+			 * Given, a user created 8 events with a yearly reoccurrence and two for events tomorrow.
+			 * The upcoming event widget asks the CalDAV backend for 7 events within the next 14 days.
+			 *
+			 * If limit 7 is applied to the SQL query, we find the 7 events with a yearly reoccurrence
+			 * and discard the events after evaluating the reoccurrence rules because they are not due within
+			 * the next 14 days and end up with an empty result even if there are two events to show.
+			 *
+			 * The workaround for search requests with a limit and time range is asking for more row than requested
+			 * and retrying if we have not reached the limit.
+			 *
+			 * 25 rows and 3 retries is entirely arbitrary.
+			 */
+			$maxResults = (int)max($limit, 25);
+			$outerQuery->setMaxResults($maxResults);
+
+			for ($attempt = $objectsCount = 0; $attempt < 3 && $objectsCount < $limit; $attempt++) {
+				$objectsCount = array_push($calendarObjects, ...$this->searchCalendarObjects($outerQuery, $start, $end));
+				$outerQuery->setFirstResult($offset += $maxResults);
 			}
 
-			$isValid = $this->validateFilterForObject($row, [
-				'name' => 'VCALENDAR',
-				'comp-filters' => [
-					[
-						'name' => 'VEVENT',
-						'comp-filters' => [],
-						'prop-filters' => [],
-						'is-not-defined' => false,
-						'time-range' => [
-							'start' => $start,
-							'end' => $end,
-						],
-					],
-				],
-				'prop-filters' => [],
-				'is-not-defined' => false,
-				'time-range' => null,
-			]);
-			if (is_resource($row['calendardata'])) {
-				// Put the stream back to the beginning so it can be read another time
-				rewind($row['calendardata']);
-			}
-			if ($isValid) {
-				$calendarObjects[] = $row;
-			}
+			$calendarObjects = array_slice($calendarObjects, 0, $limit, false);
+		} else {
+			$outerQuery->setMaxResults($limit);
+			$calendarObjects = $this->searchCalendarObjects($outerQuery, $start, $end);
 		}
-		$result->closeCursor();
 
-		return array_map(function ($o) use ($options) {
+		$calendarObjects = array_map(function ($o) use ($options) {
 			$calendarData = Reader::read($o['calendardata']);
 
 			// Expand recurrences if an explicit time range is requested
@@ -2029,6 +2041,64 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 				}, $timezones),
 			];
 		}, $calendarObjects);
+
+		usort($calendarObjects, function (array $a, array $b) {
+			/** @var DateTimeImmutable $startA */
+			$startA = $a['objects'][0]['DTSTART'][0] ?? new DateTimeImmutable(self::MAX_DATE);
+			/** @var DateTimeImmutable $startB */
+			$startB = $b['objects'][0]['DTSTART'][0] ?? new DateTimeImmutable(self::MAX_DATE);
+
+			return $startA->getTimestamp() <=> $startB->getTimestamp();
+		});
+
+		return $calendarObjects;
+	}
+
+	private function searchCalendarObjects(IQueryBuilder $query, DateTimeInterface|null $start, DateTimeInterface|null $end): array {
+		$calendarObjects = [];
+		$filterByTimeRange = ($start instanceof DateTimeInterface) || ($end instanceof DateTimeInterface);
+
+		$result = $query->executeQuery();
+
+		while (($row = $result->fetch()) !== false) {
+			if ($filterByTimeRange === false) {
+				// No filter required
+				$calendarObjects[] = $row;
+				continue;
+			}
+
+			$isValid = $this->validateFilterForObject($row, [
+				'name' => 'VCALENDAR',
+				'comp-filters' => [
+					[
+						'name' => 'VEVENT',
+						'comp-filters' => [],
+						'prop-filters' => [],
+						'is-not-defined' => false,
+						'time-range' => [
+							'start' => $start,
+							'end' => $end,
+						],
+					],
+				],
+				'prop-filters' => [],
+				'is-not-defined' => false,
+				'time-range' => null,
+			]);
+
+			if (is_resource($row['calendardata'])) {
+				// Put the stream back to the beginning so it can be read another time
+				rewind($row['calendardata']);
+			}
+
+			if ($isValid) {
+				$calendarObjects[] = $row;
+			}
+		}
+
+		$result->closeCursor();
+
+		return $calendarObjects;
 	}
 
 	/**
