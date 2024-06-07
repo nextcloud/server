@@ -49,13 +49,14 @@
 </template>
 
 <script>
-import { generateUrl } from '@nextcloud/router'
+// eslint-disable-next-line n/no-extraneous-import
+import { agents } from 'caniuse-lite/dist/unpacker/agents.js'
+import { generateUrl, getRootUrl } from '@nextcloud/router'
 import { translate as t, translatePlural as n } from '@nextcloud/l10n'
+
 import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 import NcEmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent.js'
 import Web from 'vue-material-design-icons/Web.vue'
-// eslint-disable-next-line n/no-extraneous-import
-import { agents } from 'caniuse-lite/dist/unpacker/agents.js'
 
 import { browserStorageKey } from '../utils/RedirectUnsupportedBrowsers.js'
 import { supportedBrowsers } from '../services/BrowsersListService.js'
@@ -130,12 +131,22 @@ export default {
 			// Redirect if there is the data
 			const urlParams = new URLSearchParams(window.location.search)
 			if (urlParams.has('redirect_url')) {
-				const redirectPath = Buffer.from(urlParams.get('redirect_url'), 'base64').toString() || '/'
+				let redirectPath = Buffer.from(urlParams.get('redirect_url'), 'base64').toString() || '/'
+
+				// remove index.php and double slashes
+				redirectPath = redirectPath
+					.replace('index.php', '')
+					.replace(getRootUrl(), '')
+					.replace(/\/\//g, '/')
+
+				// if we have a valid redirect url, use it
 				if (redirectPath.startsWith('/')) {
 					window.location = generateUrl(redirectPath)
 					return
 				}
 			}
+
+			// else redirect to root
 			window.location = generateUrl('/')
 		},
 
