@@ -168,6 +168,7 @@ OC.L10N.register(
     "Your ownership transfer of {path} to {user} has completed." : "您將 {path} 的所有權轉移給 {user} 已經完成。",
     "The ownership transfer of {path} from {user} has completed." : "來自 {user} 的 {path} 所有權轉移已經完成。",
     "in %s" : "在 %s",
+    "Transferred from %1$s on %2$s" : "於 %2$s 從 %1$s 轉移",
     "File Management" : "檔案管理",
     "Current directory path" : "目前目錄路徑",
     "Reload current directory" : "重新載入目前的目錄",

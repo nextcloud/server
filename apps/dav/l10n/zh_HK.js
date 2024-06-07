@@ -86,6 +86,7 @@ OC.L10N.register(
     "Organizer:" : "主辦單位：",
     "Attendees:" : "參加者：",
     "Title:" : "標題：",
+    "Date and time:" : "日期和時間：",
     "Location:" : "位置：",
     "Link:" : "連結：",
     "Accept" : "接受",

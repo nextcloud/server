@@ -334,6 +334,7 @@ OC.L10N.register(
     "Manager" : "Administrér",
     "Total rows summary" : "Samlet række antal",
     "Avatar" : "Avatar",
+    "Account name" : "Kontonavn",
     "Group admin for" : "Gruppeadministrator for",
     "Storage location" : "Placering af lageret",
     "Last login" : "Seneste login",

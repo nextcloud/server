@@ -607,7 +607,7 @@
     "_{userCount} account …_::_{userCount} accounts …_" : ["{userCount} Konto …","{userCount} Konten …"],
     "_{userCount} account_::_{userCount} accounts_" : ["{userCount} Konto","{userCount} Konten"],
     "Avatar" : "Avatar",
-    "Account name" : "Konto Name",
+    "Account name" : "Name des Kontos",
     "Group admin for" : "Gruppenadministration für",
     "Account backend" : "Konto-Backend",
     "Storage location" : "Speicherort",
