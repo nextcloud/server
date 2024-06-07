@@ -21,7 +21,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        branches: ["main", "master", "stable29", "stable28", "stable27"]
+        branches: ['main', 'master', 'stable29', 'stable28', 'stable27']
 
     name: npm-audit-fix-${{ matrix.branches }}
 
@@ -36,25 +36,24 @@ jobs:
         id: versions
         with:
           fallbackNode: '^20'
-          fallbackNpm: '^9'
+          fallbackNpm: '^10'
 
       - name: Set up node ${{ steps.versions.outputs.nodeVersion }}
-        uses: actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8 # v4.0.2
+        uses: actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8 # v3
         with:
           node-version: ${{ steps.versions.outputs.nodeVersion }}
 
       - name: Set up npm ${{ steps.versions.outputs.npmVersion }}
-        run: npm i -g npm@"${{ steps.versions.outputs.npmVersion }}"
+        run: npm i -g 'npm@${{ steps.versions.outputs.npmVersion }}'
 
       - name: Fix npm audit
-        run: |
-          npm audit fix
+        id: npm-audit
+        uses: nextcloud-libraries/npm-audit-action@2a60bd2e79cc77f2cc4d9a3fe40f1a69896f3a87 # v0.1.0
 
       - name: Run npm ci and npm run build
         if: always()
         env:
           CYPRESS_INSTALL_BINARY: 0
-          PUPPETEER_SKIP_DOWNLOAD: true
         run: |
           npm ci
           npm run build --if-present
@@ -64,14 +63,13 @@ jobs:
         uses: peter-evans/create-pull-request@6d6857d36972b65feb161a90e484f2984215f83e # v6.0.5
         with:
           token: ${{ secrets.COMMAND_BOT_PAT }}
-          commit-message: "fix(deps): fix npm audit"
+          commit-message: 'fix(deps): Fix npm audit'
           committer: GitHub <noreply@github.com>
           author: nextcloud-command <nextcloud-command@users.noreply.github.com>
           signoff: true
           branch: automated/noid/${{ matrix.branches }}-fix-npm-audit
-          title: "[${{ matrix.branches }}] Fix npm audit"
-          body: |
-            Auto-generated fix of npm audit
+          title: '[${{ matrix.branches }}] Fix npm audit'
+          body: ${{ steps.npm-audit.outputs.markdown }}
           labels: |
             dependencies
             3. to review

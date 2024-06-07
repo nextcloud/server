@@ -34,10 +34,11 @@ jobs:
           php-version: '8.2'
           extensions: xml
           coverage: none
+          ini-file: development
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Composer install
+      - name: Set up dependencies
         run: composer i
 
       - name: OpenAPI checker
