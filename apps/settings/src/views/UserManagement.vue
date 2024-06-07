@@ -80,13 +80,15 @@ export default defineComponent({
 		 * @param {string} icon the icon class
 		 * @param {string} text the text to display
 		 * @param {Function} action the function to run
+		 * @param {(user: Record<string, unknown>) => boolean} enabled return true if the action is enabled for the user
 		 * @return {Array}
 		 */
-		registerAction(icon, text, action) {
+		registerAction(icon, text, action, enabled) {
 			this.externalActions.push({
 				icon,
 				text,
 				action,
+				enabled,
 			})
 			return this.externalActions
 		},

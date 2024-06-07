@@ -15,11 +15,12 @@
 				<NcIconSvgWrapper :key="editSvg" :svg="editSvg" aria-hidden="true" />
 			</template>
 		</NcActionButton>
-		<NcActionButton v-for="({ action, icon, text }, index) in actions"
+		<NcActionButton v-for="({ action, icon, text }, index) in enabledActions"
 			:key="index"
 			:disabled="disabled"
 			:aria-label="text"
 			:icon="icon"
+			close-after-click
 			@click="(event) => action(event, { ...user })">
 			{{ text }}
 		</NcActionButton>
@@ -38,8 +39,9 @@ import SvgPencil from '@mdi/svg/svg/pencil.svg?raw'
 
 interface UserAction {
 	action: (event: MouseEvent, user: Record<string, unknown>) => void,
+	enabled?: (user: Record<string, unknown>) => boolean,
 	icon: string,
-	text: string
+	text: string,
 }
 
 export default defineComponent({
@@ -87,8 +89,15 @@ export default defineComponent({
 		/**
 		 * Current MDI logo to show for edit toggle
 		 */
-		editSvg() {
+		editSvg(): string {
 			return this.edit ? SvgCheck : SvgPencil
+		},
+
+		/**
+		 * Enabled user row actions
+		 */
+		enabledActions(): UserAction[] {
+			return this.actions.filter(action => typeof action.enabled === 'function' ? action.enabled(this.user) : true)
 		},
 	},
 
