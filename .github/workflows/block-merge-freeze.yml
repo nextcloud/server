@@ -29,7 +29,7 @@ jobs:
 
     steps:
       - name: Download version.php from ${{ github.base_ref }}
-        run: curl https://raw.githubusercontent.com/nextcloud/server/${{ github.base_ref }}/version.php --output version.php
+        run: curl 'https://raw.githubusercontent.com/nextcloud/server/${{ github.base_ref }}/version.php' --output version.php
 
       - name: Run check
         run: cat version.php | grep 'OC_VersionString' | grep -i -v 'RC'

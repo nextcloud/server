@@ -25,7 +25,7 @@ jobs:
           token: ${{ secrets.COMMAND_BOT_PAT }}
           repository: ${{ github.event.repository.full_name }}
           comment-id: ${{ github.event.comment.id }}
-          reactions: "+1"
+          reactions: '+1'
 
       - name: Init branch
         uses: xt0rted/pull-request-comment-branch@d97294d304604fa98a2600a6e2f916a84b596dc7 # v1
@@ -40,16 +40,16 @@ jobs:
 
       - name: Setup git
         run: |
-          git config --local user.email "nextcloud-command@users.noreply.github.com"
-          git config --local user.name "nextcloud-command"
+          git config --local user.email 'nextcloud-command@users.noreply.github.com'
+          git config --local user.name 'nextcloud-command'
 
       - name: Pull 3rdparty
-        run: git submodule foreach 'if [ "$sm_path" == "3rdparty" ]; then git pull origin ${{ github.event.issue.pull_request.base.ref }}; fi'
+        run: git submodule foreach 'if [ "$sm_path" == "3rdparty" ]; then git pull origin '"'"'${{ github.event.issue.pull_request.base.ref }}'"'"'; fi'
 
       - name: Commit and push changes
         run: |
           git add 3rdparty
-          git commit -s -m "Update submodule 3rdparty to latest ${{ github.event.issue.pull_request.base.ref }}"
+          git commit -s -m 'Update submodule 3rdparty to latest ${{ github.event.issue.pull_request.base.ref }}'
           git push
 
       - name: Add reaction on failure
@@ -59,4 +59,4 @@ jobs:
           token: ${{ secrets.COMMAND_BOT_PAT }}
           repository: ${{ github.event.repository.full_name }}
           comment-id: ${{ github.event.comment.id }}
-          reactions: "-1"
+          reactions: '-1'

@@ -31,7 +31,7 @@ jobs:
       pull-requests: write
 
     steps:
-      # Github actions bot approve
+      # GitHub actions bot approve
       - uses: hmarr/auto-approve-action@b40d6c9ed2fa10c9a2749eca7eb004418a705501 # v2
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}

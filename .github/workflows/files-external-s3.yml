@@ -56,7 +56,7 @@ jobs:
           MINIO_ROOT_PASSWORD: bWluaW8tc2VjcmV0LWtleS1uZXh0Y2xvdWQ=
           MINIO_DEFAULT_BUCKETS: nextcloud
         ports:
-          - "9000:9000"
+          - '9000:9000'
 
     steps:
       - name: Checkout server

@@ -46,8 +46,8 @@ jobs:
       - name: Compare if 3rdparty commits are different
         run: |
           echo '3rdparty/ seems to not point to the last commit of the dedicated branch:'
-          echo "Branch has: ${{ steps.actual.outputs.commit }}"
-          echo "${{ github.base_ref }} has: ${{ steps.target.outputs.commit }}"
+          echo 'Branch has: ${{ steps.actual.outputs.commit }}'
+          echo '${{ github.base_ref }} has: ${{ steps.target.outputs.commit }}'
 
       - name: Fail if 3rdparty commits are different
         if: ${{ steps.changes.outputs.src != 'false' && steps.actual.outputs.commit != steps.target.outputs.commit }}

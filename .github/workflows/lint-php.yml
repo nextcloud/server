@@ -8,8 +8,7 @@
 
 name: Lint php
 
-on:
-  pull_request:
+on: pull_request
 
 permissions:
   contents: read
@@ -21,10 +20,8 @@ concurrency:
 jobs:
   changes:
     runs-on: ubuntu-latest-low
-
     outputs:
       src: ${{ steps.changes.outputs.src}}
-
     steps:
       - uses: dorny/paths-filter@de90cc6fb38fc0963ad72b210f1f284cd68cea36 # v3.0.2
         id: changes
@@ -50,7 +47,7 @@ jobs:
 
     strategy:
       matrix:
-        php-versions: [ "8.1", "8.2", "8.3" ]
+        php-versions: [ '8.1', '8.2', '8.3' ]
 
     name: php-lint
 
