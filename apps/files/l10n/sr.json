@@ -166,6 +166,7 @@
     "Your ownership transfer of {path} to {user} has completed." : "Ваш пренос власништва {path} на корисника {user} завршен.",
     "The ownership transfer of {path} from {user} has completed." : "Пренос власништва {path} на корисника {user} завршен.",
     "in %s" : "за %s",
+    "Transferred from %1$s on %2$s" : "Пренесено са %1$s на %2$s",
     "File Management" : "Управљање фајловима",
     "Current directory path" : "Путања текућег директоријума",
     "Reload current directory" : "Поново учитај текући директоријум",
