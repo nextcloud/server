@@ -41,7 +41,7 @@ trait CheckServerResponseTrait {
 	 * @return string[] List of possible absolute URLs
 	 */
 	protected function getTestUrls(string $url): array {
-		$hosts = $this->config->getSystemValue('trusted_domains', []);
+		$hosts = array_map(fn (string $host): string => 'https://' . $host, $this->config->getSystemValue('trusted_domains', []));
 		$cliUrl = $this->config->getSystemValue('overwrite.cli.url', '');
 		if ($cliUrl !== '') {
 			$hosts[] = $cliUrl;
