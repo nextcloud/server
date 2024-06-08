@@ -86,6 +86,7 @@ OC.L10N.register(
     "Organizer:" : "Организатор:",
     "Attendees:" : "Присутни:",
     "Title:" : "Наслов:",
+    "Date and time:" : "Датум и време:",
     "Location:" : "Локација:",
     "Link:" : "Веза:",
     "Accept" : "Прихвати",
