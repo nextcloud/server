@@ -43,7 +43,7 @@ export const action = new FileAction({
 			window.OCP.Files.Router.goToRoute(
 				null,
 				{ view: view.id, fileid: node.fileid },
-				{ dir },
+				{ ...window.OCP.Files.Router.query, dir },
 				true,
 			)
 
