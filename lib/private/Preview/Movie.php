@@ -99,52 +99,65 @@ class Movie extends ProviderV2 {
 
 	private function generateThumbNail(int $maxX, int $maxY, string $absPath, int $second): ?IImage {
 		$tmpPath = \OC::$server->getTempManager()->getTemporaryFile();
-
 		$binaryType = substr(strrchr($this->binary, '/'), 1);
+		$cmd = $this->buildCommand($binaryType, $second, $absPath, $tmpPath);
 
-		if ($binaryType === 'avconv') {
-			$cmd = [$this->binary, '-y', '-ss', (string)$second,
-				'-i', $absPath,
-				'-an', '-f', 'mjpeg', '-vframes', '1', '-vsync', '1',
-				$tmpPath];
-		} elseif ($binaryType === 'ffmpeg') {
-			$cmd = [$this->binary, '-y', '-ss', (string)$second,
-				'-i', $absPath,
-				'-f', 'mjpeg', '-vframes', '1',
-				$tmpPath];
-		} else {
-			// Not supported
+		if (!$cmd) {
 			unlink($tmpPath);
 			return null;
 		}
 
 		$proc = proc_open($cmd, [1 => ['pipe', 'w'], 2 => ['pipe', 'w']], $pipes);
-		$returnCode = -1;
-		$output = "";
-		if (is_resource($proc)) {
-			$stdout = trim(stream_get_contents($pipes[1]));
-			$stderr = trim(stream_get_contents($pipes[2]));
-			$returnCode = proc_close($proc);
-			$output = $stdout . $stderr;
+		if (!is_resource($proc)) {
+			unlink($tmpPath);
+			return null;
 		}
+
+		$output = $this->processPipes($pipes);
+		$returnCode = proc_close($proc);
 
 		if ($returnCode === 0) {
-			$image = new \OCP\Image();
-			$image->loadFromFile($tmpPath);
-			if ($image->valid()) {
-				unlink($tmpPath);
-				$image->scaleDownToFit($maxX, $maxY);
-
-				return $image;
-			}
+			return $this->handleSuccessfulThumbnailCreation($tmpPath, $maxX, $maxY);
 		}
 
-		if ($second === 0) {
-			$logger = \OC::$server->get(LoggerInterface::class);
-			$logger->info('Movie preview generation failed Output: {output}', ['app' => 'core', 'output' => $output]);
-		}
-
+		$this->logError($second, $output);
 		unlink($tmpPath);
 		return null;
+	}
+
+	private function buildCommand(string $binaryType, int $second, string $absPath, string $tmpPath): ?array {
+		if ($binaryType === 'avconv' || $binaryType === 'ffmpeg') {
+			// Faster seeking for ffmpeg
+			$fastSeek = ($binaryType === 'ffmpeg') ? ['-ss', (string)$second, '-i', $absPath] : ['-i', $absPath, '-ss', (string)$second];
+			return array_merge([$this->binary, '-y'], $fastSeek, ['-an', '-f', 'mjpeg', '-vframes', '1', '-vsync', '1', $tmpPath]);
+		}
+		return null;
+	}
+
+	private function processPipes(array $pipes): string {
+		$output = "";
+		foreach ([1, 2] as $pipeNum) {
+			while (!feof($pipes[$pipeNum])) {
+				$output .= fread($pipes[$pipeNum], 8192);
+			}
+			fclose($pipes[$pipeNum]);
+		}
+		return $output;
+	}
+
+	private function handleSuccessfulThumbnailCreation(string $tmpPath, int $maxX, int $maxY): ?IImage {
+		$image = new \OCP\Image();
+		$image->loadFromFile($tmpPath);
+		if ($image->valid()) {
+			unlink($tmpPath);
+			$image->scaleDownToFit($maxX, $maxY);
+			return $image;
+		}
+		return null;
+	}
+
+	private function logError(int $second, string $output): void {
+		$logger = \OC::$server->get(LoggerInterface::class);
+		$logger->info('Thumbnail generation failed at second {second}. Output: {output}', ['app' => 'core', 'second' => $second, 'output' => $output]);
 	}
 }
