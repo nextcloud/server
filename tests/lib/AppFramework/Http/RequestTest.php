@@ -1613,43 +1613,47 @@ class RequestTest extends \Test\TestCase {
 
 	public function providesGetRequestUriWithOverwriteData() {
 		return [
-			['/scriptname.php/some/PathInfo', '/owncloud/', ''],
-			['/scriptname.php/some/PathInfo', '/owncloud/', '123', '123.123.123.123'],
+			['/nextcloud/tests/lib/AppFramework/Http/RequestTest.php', '/nextcloud', ''            , []            , ''               , ''],
+			['/nextcloud/tests/lib/AppFramework/Http/RequestTest.php', '/nextcloud', '123'         , []            , '123.123.123.123', ''],
+			['/nextcloud/tests/lib/AppFramework/Http/RequestTest.php', '/nextcloud', '123'         , []            , '123.123.123.123', '123.123.123.123, 10.0.0.10, 172.16.0.2'],
+			['/RequestTest.php',                                       '/nextcloud', '123'         , ['172.16.0.2'], '123.123.123.123', '123.123.123.123, 10.0.0.10, 172.16.0.2'],
+			['/nextcloud/tests/lib/AppFramework/Http/RequestTest.php', '/nextcloud', '10\.0\.0\.10', ['172.16.0.2'], '123.123.123.123', '123.123.123.123, 10.0.0.10, 172.16.0.2'],
+			['/RequestTest.php',                                       '/nextcloud', '999'         , ['172.16.0.2'], '123.123.123.123', '10.0.0.10, 172.16.0.2'],
 		];
 	}
 
 	/**
 	 * @dataProvider providesGetRequestUriWithOverwriteData
 	 */
-	public function testGetRequestUriWithOverwrite($expectedUri, $overwriteWebRoot, $overwriteCondAddr, $remoteAddr = '') {
+	public function testGetRequestUriWithOverwrite($expectedUri, $overwriteWebRoot, $overwriteCondAddr, $trustedProxies, $remoteAddr, $forwardedForHeader) {
 		$this->config
-			->expects($this->exactly(2))
 			->method('getSystemValueString')
 			->willReturnMap([
 				['overwritewebroot', '', $overwriteWebRoot],
 				['overwritecondaddr', '', $overwriteCondAddr],
 			]);
+		$this->config
+			->method('getSystemValue')
+			->willReturnMap([
+				['trusted_proxies', [], $trustedProxies],
+				['forwarded_for_headers', ['HTTP_X_FORWARDED_FOR', 'HTTP_FORWARDED'], ['HTTP_X_FORWARDED_FOR']],
+			]);
 
-		$request = $this->getMockBuilder(Request::class)
-			->setMethods(['getScriptName'])
-			->setConstructorArgs([
-				[
-					'server' => [
-						'REQUEST_URI' => '/test.php/some/PathInfo',
-						'SCRIPT_NAME' => '/test.php',
-						'REMOTE_ADDR' => $remoteAddr
-					]
-				],
-				$this->requestId,
-				$this->config,
-				$this->csrfTokenManager,
-				$this->stream
-			])
-			->getMock();
-		$request
-			->expects($this->once())
-			->method('getScriptName')
-			->willReturn('/scriptname.php');
+		$request = new Request(
+			[
+				'server' => [
+					'SCRIPT_FILENAME' => __FILE__,
+					'SCRIPT_NAME' => __FILE__,
+					'REQUEST_URI' => '/RequestTest.php',
+					'REMOTE_ADDR' => $remoteAddr,
+					'HTTP_X_FORWARDED_FOR' => $forwardedForHeader,
+				]
+			],
+			$this->requestId,
+			$this->config,
+			$this->csrfTokenManager,
+			$this->stream
+		);
 
 		$this->assertSame($expectedUri, $request->getRequestUri());
 	}

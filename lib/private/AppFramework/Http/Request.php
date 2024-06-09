@@ -569,6 +569,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 		if (!is_array($trustedProxies) || count($trustedProxies) == 0 || $this->isTrustedProxy($trustedProxies, $remoteAddress)) {
 			return ['remote_address' => $remoteAddress, 'proxies' => []];
 		}
+
 		$forwardedForHeaders = $this->config->getSystemValue('forwarded_for_headers', [
 			'HTTP_X_FORWARDED_FOR',  // de-facto standard to keep track of the proxy chain
 			'HTTP_FORWARDED',        // new standard to keep track of the proxy chain
