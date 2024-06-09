@@ -166,6 +166,7 @@
     "Your ownership transfer of {path} to {user} has completed." : "Din ägaröverföring av {path} till {user} är klar.",
     "The ownership transfer of {path} from {user} has completed." : "Ägaröverföringen av {path} från {user} är klar.",
     "in %s" : "om %s",
+    "Transferred from %1$s on %2$s" : "Överförd från %1$s på %2$s",
     "File Management" : "Filhantering",
     "Current directory path" : "Aktuell katalogsökväg",
     "Reload current directory" : "Ladda om nuvarande mapp",

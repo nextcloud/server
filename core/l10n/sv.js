@@ -271,6 +271,7 @@ OC.L10N.register(
     "The server was unable to complete your request." : "Servern kunde inte slutföra din begäran.",
     "If this happens again, please send the technical details below to the server administrator." : "Om det händer igen, vänligen skicka de tekniska detaljerna nedan till din serveradministratör.",
     "More details can be found in the server log." : "Mer detaljer återfinns i serverns logg.",
+    "For more details see the documentation ↗." : "För mer information se dokumentationen ↗.",
     "Technical details" : "Tekniska detaljer",
     "Remote Address: %s" : "Extern adress: %s",
     "Request ID: %s" : "Begärd ID: %s",
