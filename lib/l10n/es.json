@@ -297,9 +297,9 @@
     "Username must not consist of dots only" : "El nombre de usuario no debe consistir solo de puntos",
     "Username is invalid because files already exist for this user" : "El nombre de usuario es incorrecto debido a a que los archivos ya existen para este usuario",
     "User disabled" : "Usuario deshabilitado",
-    "PostgreSQL >= 9 required." : "PostgreSQL >= 9 requerido.",
-    "Please upgrade your database version." : "Por favor, actualiza la versión de tu base de datos.",
-    "Your data directory is readable by other users." : "Tu carpeta de datos puede ser leído por otros usuarios.",
-    "Please change the permissions to 0770 so that the directory cannot be listed by other users." : "Por favor, cambia los permisos a 0770 para que el directorio no se pueda mostrar a otros usuarios."
+    "PostgreSQL >= 9 required." : "Se requiere PostgreSQL >= 9.",
+    "Please upgrade your database version." : "Por favor, actualice la versión de su base de datos.",
+    "Your data directory is readable by other users." : "Su carpeta de datos puede ser leída por otros usuarios.",
+    "Please change the permissions to 0770 so that the directory cannot be listed by other users." : "Por favor, cambie los permisos a 0770 para que el directorio no se pueda ser listado por otros usuarios."
 },"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }
