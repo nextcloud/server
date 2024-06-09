@@ -49,6 +49,7 @@ OC.L10N.register(
     "Privacy policy" : "Integritetspolicy",
     "Adjust the Nextcloud theme" : "Justera Nextcloud-tema",
     "Theming makes it possible to easily customize the look and feel of your instance and supported clients. This will be visible for all users." : "Teman gör det möjligt att enkelt skräddarsy utseendet på ditt moln. Detta kommer att synas för alla användare.",
+    "Background color" : "Bakgrundsfärg",
     "Upload new logo" : "Ladda upp ny logotyp",
     "Logo" : "Logotyp",
     "Upload new background and login image" : "Ladda upp ny bakgrund och inloggningsbild",
