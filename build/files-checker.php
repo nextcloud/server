@@ -23,7 +23,6 @@ $expectedFiles = [
 	'.',
 	'..',
 	'.devcontainer',
-	'.drone.yml',
 	'.editorconfig',
 	'.eslintignore',
 	'.eslintrc.js',
