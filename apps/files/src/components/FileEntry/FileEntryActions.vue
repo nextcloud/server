@@ -228,12 +228,12 @@ export default defineComponent({
 			return this.enabledActions
 				.filter(action => action.parent)
 				.reduce((arr, action) => {
-					if (!arr[action.parent]) {
-						arr[action.parent] = []
+					if (!arr[action.parent!]) {
+						arr[action.parent!] = []
 					}
-					arr[action.parent].push(action)
+					arr[action.parent!].push(action)
 					return arr
-				}, {} as Record<string, FileAction>)
+				}, {} as Record<string, FileAction[]>)
 		},
 
 		openedMenu: {
@@ -255,7 +255,7 @@ export default defineComponent({
 		},
 
 		mountType() {
-			return this.source._attributes['mount-type']
+			return this.source.attributes['mount-type']
 		},
 	},
 
