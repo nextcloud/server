@@ -40,8 +40,8 @@
 
 namespace OC\Files\Cache;
 
-use Doctrine\DBAL\Exception\RetryableException;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
+use OC\DB\Exceptions\DbalException;
 use OC\Files\Search\SearchComparison;
 use OC\Files\Search\SearchQuery;
 use OC\Files\Storage\Wrapper\Encryption;
@@ -714,7 +714,11 @@ class Cache implements ICache {
 					} catch (\OC\DatabaseException $e) {
 						$this->connection->rollBack();
 						throw $e;
-					} catch (RetryableException $e) {
+					} catch (DbalException $e) {
+						if (!$e->isRetryable()) {
+							throw $e;
+						}
+
 						// Simply throw if we already retried 4 times.
 						if ($i === $retryLimit) {
 							throw $e;
