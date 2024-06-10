@@ -37,7 +37,7 @@ import ChartPie from 'vue-material-design-icons/ChartPie.vue'
 import NcAppNavigationItem from '@nextcloud/vue/dist/Components/NcAppNavigationItem.js'
 import NcProgressBar from '@nextcloud/vue/dist/Components/NcProgressBar.js'
 
-import logger from '../logger.js'
+import logger from '../logger.ts'
 
 export default {
 	name: 'NavigationQuota',

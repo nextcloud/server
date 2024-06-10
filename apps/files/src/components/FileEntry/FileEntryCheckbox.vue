@@ -23,8 +23,7 @@ import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
 
 import { useKeyboardStore } from '../../store/keyboard.ts'
 import { useSelectionStore } from '../../store/selection.ts'
-import logger from '../../logger.js'
-import type { FileSource } from '../../types.ts'
+import logger from '../../logger.ts'
 
 export default defineComponent({
 	name: 'FileEntryCheckbox',

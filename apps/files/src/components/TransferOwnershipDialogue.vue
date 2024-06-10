@@ -52,7 +52,7 @@ import NcSelect from '@nextcloud/vue/dist/Components/NcSelect.js'
 import Vue from 'vue'
 import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 
-import logger from '../logger.js'
+import logger from '../logger.ts'
 
 const picker = getFilePickerBuilder(t('files', 'Choose a file or folder to transfer'))
 	.setMultiSelect(false)

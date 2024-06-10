@@ -18,7 +18,7 @@ import { action as sidebarAction } from '../actions/sidebarAction.ts'
 import { getDragAndDropPreview } from '../utils/dragUtils.ts'
 import { hashCode } from '../utils/hashUtils.ts'
 import { dataTransferToFileTree, onDropExternalFiles, onDropInternalFiles } from '../services/DropService.ts'
-import logger from '../logger.js'
+import logger from '../logger.ts'
 
 Vue.directive('onClickOutside', vOnClickOutside)
 

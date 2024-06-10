@@ -159,7 +159,7 @@ import BreadCrumbs from '../components/BreadCrumbs.vue'
 import FilesListVirtual from '../components/FilesListVirtual.vue'
 import filesListWidthMixin from '../mixins/filesListWidth.ts'
 import filesSortingMixin from '../mixins/filesSorting.ts'
-import logger from '../logger.js'
+import logger from '../logger.ts'
 import DragAndDropNotice from '../components/DragAndDropNotice.vue'
 
 const isSharingEnabled = (getCapabilities() as { files_sharing?: boolean })?.files_sharing !== undefined

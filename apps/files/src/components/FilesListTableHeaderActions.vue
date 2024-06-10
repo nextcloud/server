@@ -39,7 +39,7 @@ import { useActionsMenuStore } from '../store/actionsmenu.ts'
 import { useFilesStore } from '../store/files.ts'
 import { useSelectionStore } from '../store/selection.ts'
 import filesListWidthMixin from '../mixins/filesListWidth.ts'
-import logger from '../logger.js'
+import logger from '../logger.ts'
 import type { FileSource } from '../types'
 
 // The registered actions list
