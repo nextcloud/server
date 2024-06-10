@@ -1648,6 +1648,7 @@ class RequestTest extends \Test\TestCase {
 	public function providesGetRequestUriWithOverwriteData() {
 		return [
 			['/scriptname.php/some/PathInfo', '/owncloud/', ''],
+			['/scriptname.php/some/PathInfo', '/owncloud', ''],
 			['/scriptname.php/some/PathInfo', '/owncloud/', '123', '123.123.123.123'],
 		];
 	}
