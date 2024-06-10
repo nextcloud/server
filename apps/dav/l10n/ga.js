@@ -86,6 +86,7 @@ OC.L10N.register(
     "Organizer:" : "Eagraí:",
     "Attendees:" : "Lucht freastail:",
     "Title:" : "Teideal:",
+    "Date and time:" : "Dáta agus am:",
     "Location:" : "Suíomh:",
     "Link:" : "Nasc:",
     "Accept" : "Glac",

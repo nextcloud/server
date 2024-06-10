@@ -166,6 +166,7 @@
     "Your ownership transfer of {path} to {user} has completed." : "Tá d'aistriú úinéireachta de {path} go {user} críochnaithe.",
     "The ownership transfer of {path} from {user} has completed." : "Tá aistriú úinéireachta {path} ó {user} críochnaithe.",
     "in %s" : "i %s",
+    "Transferred from %1$s on %2$s" : "Aistrithe ó %1$s ar %2$s",
     "File Management" : "Bainistíocht Comhad",
     "Current directory path" : "An cosán eolaire reatha",
     "Reload current directory" : "Athlódáil an eolaire reatha",
