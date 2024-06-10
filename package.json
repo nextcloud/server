@@ -140,6 +140,7 @@
     "babel-jest": "^29.6.4",
     "babel-loader": "^9.1.0",
     "babel-loader-exclude-node-modules-except": "^1.2.1",
+    "babel-plugin-module-resolver": "^5.0.2",
     "colord": "^2.9.3",
     "css-loader": "^6.8.1",
     "cypress": "^13.7.2",
