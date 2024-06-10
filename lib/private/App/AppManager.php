@@ -319,7 +319,9 @@ class AppManager implements IAppManager {
 
 			if (!is_array($groupIds)) {
 				$jsonError = json_last_error();
-				$this->logger->warning('AppManger::checkAppForUser - can\'t decode group IDs: ' . print_r($enabled, true) . ' - json error code: ' . $jsonError);
+				$jsonErrorMsg = json_last_error_msg();
+				// this really should never happen (if it does, the admin should check the `enabled` key value via `occ config:list` because it's bogus for some reason)
+				$this->logger->warning('AppManager::checkAppForUser - can\'t decode group IDs listed in app\'s enabled config key: ' . print_r($enabled, true) . ' - JSON error (' . $jsonError . ') ' . $jsonErrorMsg);
 				return false;
 			}
 
@@ -345,7 +347,9 @@ class AppManager implements IAppManager {
 
 			if (!is_array($groupIds)) {
 				$jsonError = json_last_error();
-				$this->logger->warning('AppManger::checkAppForUser - can\'t decode group IDs: ' . print_r($enabled, true) . ' - json error code: ' . $jsonError);
+				$jsonErrorMsg = json_last_error_msg();
+				// this really should never happen (if it does, the admin should check the `enabled` key value via `occ config:list` because it's bogus for some reason)
+				$this->logger->warning('AppManager::checkAppForGroups - can\'t decode group IDs listed in app\'s enabled config key: ' . print_r($enabled, true) . ' - JSON error (' . $jsonError . ') ' . $jsonErrorMsg);
 				return false;
 			}
 
