@@ -2,16 +2,18 @@
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+import type { ContentsWithRoot } from '@nextcloud/files'
 import type { FileStat, ResponseDataDetailed } from 'webdav'
 import type { TagWithId } from '../types'
 
-import { Folder, type ContentsWithRoot, Permission, getDavNameSpaces, getDavProperties } from '@nextcloud/files'
+import { Folder, Permission, getDavNameSpaces, getDavProperties, davGetClient, davResultToNode } from '@nextcloud/files'
 import { generateRemoteUrl } from '@nextcloud/router'
 import { getCurrentUser } from '@nextcloud/auth'
 
 import { fetchTags } from './api'
-import { getClient } from '../../../files/src/services/WebdavClient'
-import { resultToNode } from '../../../files/src/services/Files'
+
+const client = davGetClient()
+const resultToNode = (node: FileStat) => davResultToNode(node)
 
 const formatReportPayload = (tagId: number) => `<?xml version="1.0"?>
 <oc:filter-files ${getDavNameSpaces()}>
@@ -62,7 +64,7 @@ export const getContents = async (path = '/'): Promise<ContentsWithRoot> => {
 	}
 
 	const folder = tagToNode(tag)
-	const contentsResponse = await getClient().getDirectoryContents('/', {
+	const contentsResponse = await client.getDirectoryContents('/', {
 		details: true,
 		// Only filter favorites if we're at the root
 		data: formatReportPayload(tagId),
