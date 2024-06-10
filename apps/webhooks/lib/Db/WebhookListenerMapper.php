@@ -81,6 +81,8 @@ class WebhookListenerMapper extends QBMapper {
 		AuthMethod $authMethod,
 		?array $authData,
 	): WebhookListener {
+		/* Remove any superfluous antislash */
+		$event = ltrim($event, '\\');
 		if (!class_exists($event) || !is_a($event, IWebhookCompatibleEvent::class, true)) {
 			throw new \UnexpectedValueException("$event is not an event class compatible with webhooks");
 		}
@@ -116,6 +118,8 @@ class WebhookListenerMapper extends QBMapper {
 		AuthMethod $authMethod,
 		?array $authData,
 	): WebhookListener {
+		/* Remove any superfluous antislash */
+		$event = ltrim($event, '\\');
 		if (!class_exists($event) || !is_a($event, IWebhookCompatibleEvent::class, true)) {
 			throw new \UnexpectedValueException("$event is not an event class compatible with webhooks");
 		}
