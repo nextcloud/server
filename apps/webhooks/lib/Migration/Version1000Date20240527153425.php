@@ -45,7 +45,7 @@ class Version1000Date20240527153425 extends SimpleMigrationStep {
 			]);
 			$table->addColumn('uri', Types::STRING, [
 				'notnull' => true,
-				'length' => 4096,
+				'length' => 4000,
 			]);
 			$table->addColumn('event', Types::TEXT, [
 				'notnull' => true,
