@@ -24,4 +24,4 @@ enableApp('provisioning_api');
 enableApp('federation');
 enableApp('federatedfilesharing');
 enableApp('admin_audit');
-enableApp('webhooks');
+enableApp('webhook_listeners');
