@@ -11,6 +11,8 @@ namespace OCA\Webhooks\Tests\Db;
 
 use OCA\Webhooks\Db\AuthMethod;
 use OCA\Webhooks\Db\WebhookListenerMapper;
+use OCP\Files\Events\Node\NodeWrittenEvent;
+use OCP\ICacheFactory;
 use OCP\IDBConnection;
 use OCP\User\Events\UserCreatedEvent;
 use Test\TestCase;
@@ -21,15 +23,18 @@ use Test\TestCase;
 class WebhookListenerMapperTest extends TestCase {
 	private IDBConnection $connection;
 	private WebhookListenerMapper $mapper;
+	private ICacheFactory $cacheFactory;
 
 	protected function setUp(): void {
 		parent::setUp();
 
 		$this->connection = \OCP\Server::get(IDBConnection::class);
+		$this->cacheFactory = \OCP\Server::get(ICacheFactory::class);
 		$this->pruneTables();
 
 		$this->mapper = new WebhookListenerMapper(
 			$this->connection,
+			$this->cacheFactory,
 		);
 	}
 
@@ -43,13 +48,28 @@ class WebhookListenerMapperTest extends TestCase {
 		$query->delete(WebhookListenerMapper::TABLE_NAME)->executeStatement();
 	}
 
-	public function testInsertListenerAndGetIt() {
+	public function testInsertListenerWithNotSupportedEvent() {
+		$this->expectException(\UnexpectedValueException::class);
 		$listener1 = $this->mapper->addWebhookListener(
 			null,
 			'bob',
 			'POST',
 			'https://webhook.example.com/endpoint',
 			UserCreatedEvent::class,
+			null,
+			null,
+			AuthMethod::None,
+			null,
+		);
+	}
+
+	public function testInsertListenerAndGetIt() {
+		$listener1 = $this->mapper->addWebhookListener(
+			null,
+			'bob',
+			'POST',
+			'https://webhook.example.com/endpoint',
+			NodeWrittenEvent::class,
 			null,
 			null,
 			AuthMethod::None,
@@ -68,7 +88,7 @@ class WebhookListenerMapperTest extends TestCase {
 			'bob',
 			'POST',
 			'https://webhook.example.com/endpoint',
-			UserCreatedEvent::class,
+			NodeWrittenEvent::class,
 			null,
 			null,
 			AuthMethod::Header,
