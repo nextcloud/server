@@ -32,7 +32,7 @@ class WebhookCall extends QueuedJob {
 		$client = $this->clientService->newClient();
 		$options = [];
 		$options['body'] = json_encode($data);
-		$options['headers'] = $webhookListener->getHeaders();
+		$options['headers'] = $webhookListener->getHeaders() ?? [];
 		try {
 			switch ($webhookListener->getAuthMethodEnum()) {
 				case AuthMethod::None:

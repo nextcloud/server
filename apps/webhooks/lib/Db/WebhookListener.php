@@ -15,6 +15,7 @@ use OCP\Security\ICrypto;
 /**
  * @method void setUserId(string $userId)
  * @method string getUserId()
+ * @method ?array getHeaders()
  */
 class WebhookListener extends Entity implements \JsonSerializable {
 	/** @var ?string id of the app_api application who added the webhook listener */
