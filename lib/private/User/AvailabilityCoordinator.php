@@ -61,6 +61,8 @@ class AvailabilityCoordinator implements IAvailabilityCoordinator {
 			$cachedData['endDate'],
 			$cachedData['shortMessage'],
 			$cachedData['message'],
+			$cachedData['replacementUserId'],
+			$cachedData['replacementUserDisplayName'],
 		);
 	}
 
@@ -72,6 +74,8 @@ class AvailabilityCoordinator implements IAvailabilityCoordinator {
 				'endDate' => $data->getEndDate(),
 				'shortMessage' => $data->getShortMessage(),
 				'message' => $data->getMessage(),
+				'replacementUserId' => $data->getReplacementUserId(),
+				'replacementUserDisplayName' => $data->getReplacementUserDisplayName(),
 			], JSON_THROW_ON_ERROR);
 		} catch (JsonException $e) {
 			$this->logger->error('Failed to serialize out-of-office data: ' . $e->getMessage(), [

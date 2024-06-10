@@ -13,6 +13,7 @@ SPDX-FileCopyrightText: jden <jason@denizac.org>
 SPDX-FileCopyrightText: inherits developers
 SPDX-FileCopyrightText: escape-html developers
 SPDX-FileCopyrightText: defunctzombie
+SPDX-FileCopyrightText: debounce developers
 SPDX-FileCopyrightText: atomiks
 SPDX-FileCopyrightText: assert developers
 SPDX-FileCopyrightText: Varun A P
@@ -110,6 +111,9 @@ This file is generated from multiple sources. Included packages:
 - @nextcloud/router
 	- version: 3.0.1
 	- license: GPL-3.0-or-later
+- @nextcloud/sharing
+	- version: 0.1.0
+	- license: GPL-3.0-or-later
 - @nextcloud/vue-select
 	- version: 3.25.0
 	- license: MIT
@@ -178,6 +182,9 @@ This file is generated from multiple sources. Included packages:
 	- license: BSD-3-Clause
 - css-loader
 	- version: 6.10.0
+	- license: MIT
+- debounce
+	- version: 2.1.0
 	- license: MIT
 - define-data-property
 	- version: 1.1.4

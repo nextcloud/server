@@ -93,6 +93,8 @@ class OutOfOfficeController extends OCSController {
 			'lastDay' => $data->getLastDay(),
 			'status' => $data->getStatus(),
 			'message' => $data->getMessage(),
+			'replacementUserId' => $data->getReplacementUserId(),
+			'replacementUserDisplayName' => $data->getReplacementUserDisplayName(),
 		]);
 	}
 
@@ -103,11 +105,14 @@ class OutOfOfficeController extends OCSController {
 	 * @param string $lastDay Last day of the absence in format `YYYY-MM-DD`
 	 * @param string $status Short text that is set as user status during the absence
 	 * @param string $message Longer multiline message that is shown to others during the absence
-	 * @return DataResponse<Http::STATUS_OK, DAVOutOfOfficeData, array{}>|DataResponse<Http::STATUS_BAD_REQUEST, array{error: 'firstDay'}, array{}>|DataResponse<Http::STATUS_UNAUTHORIZED, null, array{}>
+	 * @param string $replacementUserId User id of the replacement user
+	 * @param string $replacementUserDisplayName Display name of the replacement user
+	 * @return DataResponse<Http::STATUS_OK, DAVOutOfOfficeData, array{}>|DataResponse<Http::STATUS_BAD_REQUEST, array{error: 'firstDay'}, array{}>|DataResponse<Http::STATUS_UNAUTHORIZED, null, array{}>|DataResponse<Http::STATUS_NOT_FOUND, null, array{}>
 	 *
 	 * 200: Absence data
 	 * 400: When the first day is not before the last day
 	 * 401: When the user is not logged in
+	 * 404: When the replacementUserId was provided but replacement user was not found
 	 */
 	#[NoAdminRequired]
 	public function setOutOfOffice(
@@ -115,10 +120,20 @@ class OutOfOfficeController extends OCSController {
 		string $lastDay,
 		string $status,
 		string $message,
+		string $replacementUserId = '',
+		string $replacementUserDisplayName = ''
+
 	): DataResponse {
 		$user = $this->userSession?->getUser();
 		if ($user === null) {
 			return new DataResponse(null, Http::STATUS_UNAUTHORIZED);
+		}
+
+		if ($replacementUserId !== '') {
+			$replacementUser = $this->userManager->get($replacementUserId);
+			if ($replacementUser === null) {
+				return new DataResponse(null, Http::STATUS_NOT_FOUND);
+			}
 		}
 
 		$parsedFirstDay = new DateTimeImmutable($firstDay);
@@ -133,6 +148,8 @@ class OutOfOfficeController extends OCSController {
 			$lastDay,
 			$status,
 			$message,
+			$replacementUserId,
+			$replacementUserDisplayName
 		);
 		$this->coordinator->clearCache($user->getUID());
 
@@ -143,6 +160,8 @@ class OutOfOfficeController extends OCSController {
 			'lastDay' => $data->getLastDay(),
 			'status' => $data->getStatus(),
 			'message' => $data->getMessage(),
+			'replacementUserId' => $data->getReplacementUserId(),
+			'replacementUserDisplayName' => $data->getReplacementUserDisplayName(),
 		]);
 	}
 

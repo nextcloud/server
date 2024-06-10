@@ -47,6 +47,8 @@ class AbsenceService {
 		string $lastDay,
 		string $status,
 		string $message,
+		?string $replacementUserId = null,
+		?string $replacementUserDisplayName = null,
 	): Absence {
 		try {
 			$absence = $this->absenceMapper->findByUserId($user->getUID());
@@ -59,6 +61,8 @@ class AbsenceService {
 		$absence->setLastDay($lastDay);
 		$absence->setStatus($status);
 		$absence->setMessage($message);
+		$absence->setReplacementUserId($replacementUserId ?? '');
+		$absence->setReplacementUserDisplayName($replacementUserDisplayName ?? '');
 
 		if ($absence->getId() === null) {
 			$absence = $this->absenceMapper->insert($absence);
