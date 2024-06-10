@@ -14,11 +14,13 @@ use OCA\Webhooks\Db\WebhookListenerMapper;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\QueuedJob;
 use OCP\Http\Client\IClientService;
+use OCP\ICertificateManager;
 use Psr\Log\LoggerInterface;
 
 class WebhookCall extends QueuedJob {
 	public function __construct(
 		private IClientService $clientService,
+		private ICertificateManager $certificateManager,
 		private WebhookListenerMapper $mapper,
 		private LoggerInterface $logger,
 		ITimeFactory $timeFactory,
@@ -30,9 +32,11 @@ class WebhookCall extends QueuedJob {
 		[$data, $webhookId] = $argument;
 		$webhookListener = $this->mapper->getById($webhookId);
 		$client = $this->clientService->newClient();
-		$options = [];
-		$options['body'] = json_encode($data);
-		$options['headers'] = $webhookListener->getHeaders() ?? [];
+		$options = [
+			'verify' => $this->certificateManager->getAbsoluteBundlePath(),
+			'headers' => $webhookListener->getHeaders() ?? [],
+			'body' => json_encode($data),
+		];
 		try {
 			switch ($webhookListener->getAuthMethodEnum()) {
 				case AuthMethod::None:
