@@ -79,6 +79,7 @@ class WebhookListenerMapper extends QBMapper {
 		?array $eventFilter,
 		?array $headers,
 		AuthMethod $authMethod,
+		#[\SensitiveParameter]
 		?array $authData,
 	): WebhookListener {
 		/* Remove any superfluous antislash */
@@ -116,6 +117,7 @@ class WebhookListenerMapper extends QBMapper {
 		?array $eventFilter,
 		?array $headers,
 		AuthMethod $authMethod,
+		#[\SensitiveParameter]
 		?array $authData,
 	): WebhookListener {
 		/* Remove any superfluous antislash */

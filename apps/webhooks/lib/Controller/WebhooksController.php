@@ -98,6 +98,7 @@ class WebhooksController extends OCSController {
 		?array $eventFilter,
 		?array $headers,
 		?string $authMethod,
+		#[\SensitiveParameter]
 		?array $authData,
 	): DataResponse {
 		$appId = null;
@@ -157,6 +158,7 @@ class WebhooksController extends OCSController {
 		?array $eventFilter,
 		?array $headers,
 		?string $authMethod,
+		#[\SensitiveParameter]
 		?array $authData,
 	): DataResponse {
 		$appId = null;

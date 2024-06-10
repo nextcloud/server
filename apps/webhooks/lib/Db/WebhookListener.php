@@ -76,7 +76,10 @@ class WebhookListener extends Entity implements \JsonSerializable {
 		return json_decode($this->crypto->decrypt($this->getAuthData()), associative:true, flags:JSON_THROW_ON_ERROR);
 	}
 
-	public function setAuthDataClear(?array $data): void {
+	public function setAuthDataClear(
+		#[\SensitiveParameter]
+		?array $data
+	): void {
 		if ($data === null) {
 			if ($this->getAuthMethodEnum() === AuthMethod::Header) {
 				throw new \UnexpectedValueException('Header auth method needs an associative array of headers as auth data');
