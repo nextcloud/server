@@ -107,7 +107,7 @@ function formatVersion(version: any, fileInfo: any): Version {
 
 	return {
 		fileId: fileInfo.id,
-		label: version.props['version-label'],
+		label: String(version.props['version-label']),
 		author: version.props['version-author'] ?? null,
 		filename: version.filename,
 		basename: moment(mtime).format('LLL'),
