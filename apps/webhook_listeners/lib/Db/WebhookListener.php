@@ -15,7 +15,12 @@ use OCP\Security\ICrypto;
 /**
  * @method void setUserId(string $userId)
  * @method string getUserId()
+ * @method string getHttpMethod()
+ * @method string getUri()
  * @method ?array getHeaders()
+ * @method ?string getAuthData()
+ * @method void setAuthData(?string $data)
+ * @method ?string getAuthMethod()
  */
 class WebhookListener extends Entity implements \JsonSerializable {
 	/** @var ?string id of the app_api application who added the webhook listener */
@@ -66,7 +71,7 @@ class WebhookListener extends Entity implements \JsonSerializable {
 	}
 
 	public function getAuthMethodEnum(): AuthMethod {
-		return AuthMethod::from(parent::getAuthMethod());
+		return AuthMethod::from($this->getAuthMethod());
 	}
 
 	public function getAuthDataClear(): array {

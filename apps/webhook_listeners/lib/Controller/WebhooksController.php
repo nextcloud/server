@@ -12,6 +12,7 @@ namespace OCA\WebhookListeners\Controller;
 use OCA\WebhookListeners\Db\AuthMethod;
 use OCA\WebhookListeners\Db\WebhookListenerMapper;
 use OCA\WebhookListeners\ResponseDefinitions;
+use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\ApiRoute;
 use OCP\AppFramework\Http\Attribute\AuthorizedAdminSetting;
 use OCP\AppFramework\Http\Attribute\OpenAPI;

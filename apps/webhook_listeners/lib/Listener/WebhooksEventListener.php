@@ -22,7 +22,7 @@ use Psr\Log\LoggerInterface;
 
 /**
  * The class to handle the share events
- * @template-implements IEventListener<IWebhookCompatibleEvent>
+ * @template-implements IEventListener<IWebhookCompatibleEvent&Event>
  */
 class WebhooksEventListener implements IEventListener {
 	public function __construct(
