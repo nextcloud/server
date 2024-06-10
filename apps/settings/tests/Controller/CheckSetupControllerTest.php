@@ -47,7 +47,10 @@ use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataDisplayResponse;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\RedirectResponse;
+use OCP\DB\IResult;
+use OCP\DB\QueryBuilder\IFunctionBuilder;
 use OCP\DB\QueryBuilder\IQueryBuilder;
+use OCP\DB\QueryBuilder\IQueryFunction;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Http\Client\IClientService;
 use OCP\IConfig;
@@ -612,8 +615,13 @@ class CheckSetupControllerTest extends TestCase {
 		$this->connection->method('getDatabasePlatform')
 			->willReturn($sqlitePlatform);
 		$queryBuilder = $this->getMockBuilder(IQueryBuilder::class)->getMock();
-		$this->connection->method('getQueryBuilder')
-			->willReturn($queryBuilder);
+		$functionBuilder = $this->getMockBuilder(IFunctionBuilder::class)->getMock();
+		$this->connection->method('getQueryBuilder')->willReturn($queryBuilder);
+		$queryBuilder->method('func')->willReturn($functionBuilder);
+		$queryBuilder->method('select')->willReturn($queryBuilder);
+		$queryBuilder->method('from')->willReturn($queryBuilder);
+		$queryBuilder->method('executeQuery')->willReturn($this->getMockBuilder(IResult::class)->getMock());
+		$functionBuilder->method('count')->willReturn($this->getMockBuilder(IQueryFunction::class)->getMock());
 
 		$expected = new DataResponse(
 			[
