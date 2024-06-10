@@ -23,7 +23,8 @@
 import { basename } from 'path'
 import { expect } from '@jest/globals'
 import { Folder, Navigation, getNavigation } from '@nextcloud/files'
-import eventBus, { emit } from '@nextcloud/event-bus'
+import { CancelablePromise } from 'cancelable-promise'
+import eventBus from '@nextcloud/event-bus'
 import * as initialState from '@nextcloud/initial-state'
 
 import { action } from '../actions/favoriteAction'
@@ -57,7 +58,7 @@ describe('Favorites view definition', () => {
 
 	test('Default empty favorite view', () => {
 		jest.spyOn(eventBus, 'subscribe')
-		jest.spyOn(favoritesService, 'getContents').mockReturnValue(Promise.resolve({ folder: {} as Folder, contents: [] }))
+		jest.spyOn(favoritesService, 'getContents').mockReturnValue(CancelablePromise.resolve({ folder: {} as Folder, contents: [] }))
 
 		registerFavoritesView()
 		const favoritesView = Navigation.views.find(view => view.id === 'favorites')
@@ -89,7 +90,7 @@ describe('Favorites view definition', () => {
 			{ fileid: 3, path: '/foo/bar' },
 		]
 		jest.spyOn(initialState, 'loadState').mockReturnValue(favoriteFolders)
-		jest.spyOn(favoritesService, 'getContents').mockReturnValue(Promise.resolve({ folder: {} as Folder, contents: [] }))
+		jest.spyOn(favoritesService, 'getContents').mockReturnValue(CancelablePromise.resolve({ folder: {} as Folder, contents: [] }))
 
 		registerFavoritesView()
 		const favoritesView = Navigation.views.find(view => view.id === 'favorites')
@@ -132,7 +133,7 @@ describe('Dynamic update of favourite folders', () => {
 	test('Add a favorite folder creates a new entry in the navigation', async () => {
 		jest.spyOn(eventBus, 'emit')
 		jest.spyOn(initialState, 'loadState').mockReturnValue([])
-		jest.spyOn(favoritesService, 'getContents').mockReturnValue(Promise.resolve({ folder: {} as Folder, contents: [] }))
+		jest.spyOn(favoritesService, 'getContents').mockReturnValue(CancelablePromise.resolve({ folder: {} as Folder, contents: [] }))
 
 		registerFavoritesView()
 		const favoritesView = Navigation.views.find(view => view.id === 'favorites')
@@ -161,7 +162,7 @@ describe('Dynamic update of favourite folders', () => {
 		jest.spyOn(eventBus, 'emit')
 		jest.spyOn(eventBus, 'subscribe')
 		jest.spyOn(initialState, 'loadState').mockReturnValue([{ fileid: 42, path: '/Foo/Bar' }])
-		jest.spyOn(favoritesService, 'getContents').mockReturnValue(Promise.resolve({ folder: {} as Folder, contents: [] }))
+		jest.spyOn(favoritesService, 'getContents').mockReturnValue(CancelablePromise.resolve({ folder: {} as Folder, contents: [] }))
 
 		registerFavoritesView()
 		let favoritesView = Navigation.views.find(view => view.id === 'favorites')
@@ -201,7 +202,8 @@ describe('Dynamic update of favourite folders', () => {
 	test('Renaming a favorite folder updates the navigation', async () => {
 		jest.spyOn(eventBus, 'emit')
 		jest.spyOn(initialState, 'loadState').mockReturnValue([])
-		jest.spyOn(favoritesService, 'getContents').mockReturnValue(Promise.resolve({ folder: {} as Folder, contents: [] }))
+		jest.spyOn(favoritesService, 'getContents')
+			.mockReturnValue(CancelablePromise.resolve({ folder: {} as Folder, contents: [] }))
 
 		registerFavoritesView()
 		const favoritesView = Navigation.views.find(view => view.id === 'favorites')
@@ -211,8 +213,6 @@ describe('Dynamic update of favourite folders', () => {
 		expect(Navigation.views.length).toBe(1)
 		expect(favoritesView).toBeDefined()
 		expect(favoriteFoldersViews.length).toBe(0)
-
-		// expect(eventBus.emit).toHaveBeenCalledTimes(2)
 
 		// Create new folder to favorite
 		const folder = new Folder({
@@ -233,7 +233,7 @@ describe('Dynamic update of favourite folders', () => {
 		})
 
 		// Exec the rename action
-		emit('files:node:renamed', renamedFolder)
+		eventBus.emit('files:node:renamed', renamedFolder)
 		expect(eventBus.emit).toHaveBeenNthCalledWith(2, 'files:node:renamed', renamedFolder)
 	})
 })
