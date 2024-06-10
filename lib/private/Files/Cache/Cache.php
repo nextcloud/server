@@ -691,7 +691,7 @@ class Cache implements ICache {
 				for ($i = 1; $i <= $retryLimit; $i++) {
 					try {
 						$this->connection->beginTransaction();
-						$query->executeStatement();
+						$query->execute();
 						break;
 					} catch (\OC\DatabaseException $e) {
 						$this->connection->rollBack();
