@@ -138,9 +138,9 @@ class TagSearchProvider implements IProvider {
 		// prepare direct tag results
 		$tagResults = array_map(function (ISystemTag $tag) {
 			$thumbnailUrl = '';
-			$link = $this->urlGenerator->linkToRoute(
-				'files.view.index'
-			) . '?view=systemtagsfilter&tags='.$tag->getId();
+			$link = $this->urlGenerator->linkToRoute('files.view.indexView', [
+				'view' => 'tags',
+			]) . '?dir='.$tag->getId();
 			$searchResultEntry = new SearchResultEntry(
 				$thumbnailUrl,
 				$this->l10n->t('All tagged %s …', [$tag->getName()]),
