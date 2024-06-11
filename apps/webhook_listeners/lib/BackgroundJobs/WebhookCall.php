@@ -28,6 +28,9 @@ class WebhookCall extends QueuedJob {
 		parent::__construct($timeFactory);
 	}
 
+	/**
+	 * @param array $argument
+	 */
 	protected function run($argument): void {
 		[$data, $webhookId] = $argument;
 		$webhookListener = $this->mapper->getById($webhookId);

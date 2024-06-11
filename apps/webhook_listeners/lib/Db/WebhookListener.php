@@ -20,35 +20,60 @@ use OCP\Security\ICrypto;
  * @method ?array getHeaders()
  * @method ?string getAuthData()
  * @method void setAuthData(?string $data)
- * @method ?string getAuthMethod()
+ * @method string getAuthMethod()
+ * @psalm-suppress PropertyNotSetInConstructor
  */
 class WebhookListener extends Entity implements \JsonSerializable {
-	/** @var ?string id of the app_api application who added the webhook listener */
-	protected $appId;
+	/**
+	 * @var ?string id of the app_api application who added the webhook listener
+	 */
+	protected $appId = null;
 
-	/** @var string id of the user who added the webhook listener */
+	/**
+	 * @var string id of the user who added the webhook listener
+	 * @psalm-suppress PropertyNotSetInConstructor
+	 */
 	protected $userId;
 
-	/** @var string */
+	/**
+	 * @var string
+	 * @psalm-suppress PropertyNotSetInConstructor
+	 */
 	protected $httpMethod;
 
-	/** @var string */
+	/**
+	 * @var string
+	 * @psalm-suppress PropertyNotSetInConstructor
+	 */
 	protected $uri;
 
-	/** @var string */
+	/**
+	 * @var string
+	 * @psalm-suppress PropertyNotSetInConstructor
+	 */
 	protected $event;
 
-	/** @var array */
+	/**
+	 * @var array
+	 * @psalm-suppress PropertyNotSetInConstructor
+	 */
 	protected $eventFilter;
 
-	/** @var ?array */
-	protected $headers;
+	/**
+	 * @var ?array
+	 */
+	protected $headers = null;
 
-	/** @var ?string */
+	/**
+	 * @var string
+	 * @psalm-suppress PropertyNotSetInConstructor
+	 */
 	protected $authMethod;
 
-	/** @var ?string */
-	protected $authData;
+	/**
+	 * @var ?string
+	 */
+	protected $authData = null;
 
 	private ICrypto $crypto;
 
@@ -75,10 +100,11 @@ class WebhookListener extends Entity implements \JsonSerializable {
 	}
 
 	public function getAuthDataClear(): array {
-		if ($this->authData === null) {
+		$authData = $this->getAuthData();
+		if ($authData === null) {
 			return [];
 		}
-		return json_decode($this->crypto->decrypt($this->getAuthData()), associative:true, flags:JSON_THROW_ON_ERROR);
+		return json_decode($this->crypto->decrypt($authData), associative:true, flags:JSON_THROW_ON_ERROR);
 	}
 
 	public function setAuthDataClear(
