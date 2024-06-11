@@ -1032,9 +1032,6 @@
     </MissingTemplateParam>
   </file>
   <file src="apps/files/lib/Service/OwnershipTransferService.php">
-    <TypeDoesNotContainType>
-      <code>empty($encryptedFiles)</code>
-    </TypeDoesNotContainType>
     <UndefinedInterfaceMethod>
       <code>isReadyForUser</code>
     </UndefinedInterfaceMethod>
