@@ -10,7 +10,7 @@ declare(strict_types=1);
 namespace OCA\WebhookListeners;
 
 /**
- * @psalm-type WebhooksListenerInfo = array{
+ * @psalm-type WebhookListenersWebhookInfo = array{
  *     id: string,
  *     userId: string,
  *     httpMethod: string,

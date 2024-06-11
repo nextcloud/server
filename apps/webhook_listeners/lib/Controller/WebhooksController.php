@@ -26,7 +26,7 @@ use OCP\ISession;
 use Psr\Log\LoggerInterface;
 
 /**
- * @psalm-import-type WebhooksListenerInfo from ResponseDefinitions
+ * @psalm-import-type WebhookListenersWebhookInfo from ResponseDefinitions
  */
 #[OpenAPI(scope: OpenAPI::SCOPE_ADMINISTRATION)]
 class WebhooksController extends OCSController {
@@ -44,7 +44,7 @@ class WebhooksController extends OCSController {
 	/**
 	 * List registered webhooks
 	 *
-	 * @return DataResponse<Http::STATUS_OK, WebhooksListenerInfo[], array{}>
+	 * @return DataResponse<Http::STATUS_OK, WebhookListenersWebhookInfo[], array{}>
 	 *
 	 * 200: Webhook registrations returned
 	 */
@@ -61,7 +61,7 @@ class WebhooksController extends OCSController {
 	 *
 	 * @param int $id id of the webhook
 	 *
-	 * @return DataResponse<Http::STATUS_OK, WebhooksListenerInfo, array{}>
+	 * @return DataResponse<Http::STATUS_OK, WebhookListenersWebhookInfo, array{}>
 	 *
 	 * 200: Webhook registration returned
 	 */
@@ -82,7 +82,7 @@ class WebhooksController extends OCSController {
 	 * @param "none"|"headers"|null $authMethod Authentication method to use
 	 * @param ?array<string,mixed> $authData Array of data for authentication
 	 *
-	 * @return DataResponse<Http::STATUS_OK, WebhooksListenerInfo, array{}>
+	 * @return DataResponse<Http::STATUS_OK, WebhookListenersWebhookInfo, array{}>
 	 *
 	 * 200: Webhook registration returned
 	 *
@@ -141,7 +141,7 @@ class WebhooksController extends OCSController {
 	 * @param "none"|"headers"|null $authMethod Authentication method to use
 	 * @param ?array<string,mixed> $authData Array of data for authentication
 	 *
-	 * @return DataResponse<Http::STATUS_OK, WebhooksListenerInfo, array{}>
+	 * @return DataResponse<Http::STATUS_OK, WebhookListenersWebhookInfo, array{}>
 	 *
 	 * 200: Webhook registration returned
 	 *

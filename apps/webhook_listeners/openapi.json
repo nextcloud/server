@@ -1,7 +1,7 @@
 {
     "openapi": "3.0.3",
     "info": {
-        "title": "webhooks",
+        "title": "webhook_listeners",
         "version": "0.0.1",
         "description": "Nextcloud webhook support",
         "license": {
@@ -20,7 +20,31 @@
             }
         },
         "schemas": {
-            "ListenerInfo": {
+            "OCSMeta": {
+                "type": "object",
+                "required": [
+                    "status",
+                    "statuscode"
+                ],
+                "properties": {
+                    "status": {
+                        "type": "string"
+                    },
+                    "statuscode": {
+                        "type": "integer"
+                    },
+                    "message": {
+                        "type": "string"
+                    },
+                    "totalitems": {
+                        "type": "string"
+                    },
+                    "itemsperpage": {
+                        "type": "string"
+                    }
+                }
+            },
+            "WebhookInfo": {
                 "type": "object",
                 "required": [
                     "id",
@@ -67,35 +91,11 @@
                         }
                     }
                 }
-            },
-            "OCSMeta": {
-                "type": "object",
-                "required": [
-                    "status",
-                    "statuscode"
-                ],
-                "properties": {
-                    "status": {
-                        "type": "string"
-                    },
-                    "statuscode": {
-                        "type": "integer"
-                    },
-                    "message": {
-                        "type": "string"
-                    },
-                    "totalitems": {
-                        "type": "string"
-                    },
-                    "itemsperpage": {
-                        "type": "string"
-                    }
-                }
             }
         }
     },
     "paths": {
-        "/ocs/v2.php/apps/webhooks/api/v1/webhooks": {
+        "/ocs/v2.php/apps/webhook_listeners/api/v1/webhooks": {
             "get": {
                 "operationId": "webhooks-index",
                 "summary": "List registered webhooks",
@@ -147,7 +147,7 @@
                                                 "data": {
                                                     "type": "array",
                                                     "items": {
-                                                        "$ref": "#/components/schemas/ListenerInfo"
+                                                        "$ref": "#/components/schemas/WebhookInfo"
                                                     }
                                                 }
                                             }
@@ -275,7 +275,7 @@
                                                     "$ref": "#/components/schemas/OCSMeta"
                                                 },
                                                 "data": {
-                                                    "$ref": "#/components/schemas/ListenerInfo"
+                                                    "$ref": "#/components/schemas/WebhookInfo"
                                                 }
                                             }
                                         }
@@ -343,7 +343,7 @@
                 }
             }
         },
-        "/ocs/v2.php/apps/webhooks/api/v1/webhooks/{id}": {
+        "/ocs/v2.php/apps/webhook_listeners/api/v1/webhooks/{id}": {
             "get": {
                 "operationId": "webhooks-show",
                 "summary": "Get details on a registered webhook",
@@ -403,7 +403,7 @@
                                                     "$ref": "#/components/schemas/OCSMeta"
                                                 },
                                                 "data": {
-                                                    "$ref": "#/components/schemas/ListenerInfo"
+                                                    "$ref": "#/components/schemas/WebhookInfo"
                                                 }
                                             }
                                         }
@@ -540,7 +540,7 @@
                                                     "$ref": "#/components/schemas/OCSMeta"
                                                 },
                                                 "data": {
-                                                    "$ref": "#/components/schemas/ListenerInfo"
+                                                    "$ref": "#/components/schemas/WebhookInfo"
                                                 }
                                             }
                                         }
