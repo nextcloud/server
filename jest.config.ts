@@ -9,6 +9,7 @@ const ignorePatterns = [
 	'@buttercup/fetch',
 	'@juliushaertl',
 	'@mdi/svg',
+	'@nextcloud/files',
 	'@nextcloud/upload',
 	'@nextcloud/vue',
 	'ansi-regex',
@@ -16,6 +17,7 @@ const ignorePatterns = [
 	'char-regex',
 	'hot-patcher',
 	'is-svg',
+	'layerr',
 	'mime',
 	'p-cancelable',
 	'p-limit',
@@ -26,6 +28,7 @@ const ignorePatterns = [
 	'strip-ansi',
 	'tributejs',
 	'unist-.+',
+	'url-join',
 	'vue-material-design-icons',
 	'webdav',
 	'yocto-queue',
@@ -49,7 +52,7 @@ const config: Config = {
 
 	transform: {
 		// process `*.js` files with `babel-jest`
-		'^.+\\.js$': 'babel-jest',
+		'^.+\\.c?js$': 'babel-jest',
 		'^.+\\.vue$': '@vue/vue2-jest',
 		'^.+\\.ts$': ['ts-jest', {
 			// @see https://github.com/kulshekhar/ts-jest/issues/4081
@@ -65,6 +68,7 @@ const config: Config = {
 		'^.+\\.svg(\\?raw)?$': '<rootDir>/__mocks__/svg.js',
 		'\\.s?css$': '<rootDir>/__mocks__/css.js',
 	},
+
 	modulePathIgnorePatterns: [
 		'<rootDir>/apps2/',
 		'<rootDir>/apps-extra/',
