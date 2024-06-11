@@ -94,7 +94,7 @@
   </file>
   <file src="apps/dav/appinfo/v1/webdav.php">
     <InvalidArgument>
-      <code>'OCA\DAV\Connector\Sabre::addPlugin'</code>
+      <code><![CDATA['OCA\DAV\Connector\Sabre::addPlugin']]></code>
     </InvalidArgument>
     <TooManyArguments>
       <code>dispatch</code>
@@ -155,11 +155,11 @@
       <code>$uris</code>
     </MoreSpecificImplementedParamType>
     <NullableReturnStatement>
-      <code><![CDATA[$this->atomic(function () use ($calendarId, $syncToken, $syncLevel, $limit, $calendarType) {
+      <code><![CDATA[$this->atomic(function () use ($calendarId, $syncToken, $syncLevel, $limit, $calendarType, $table) {
 			// Current synctoken
 			$qb = $this->db->getQueryBuilder();
 			$qb->select('synctoken')
-				->from('calendars')
+				->from($table)
 				->where(
 					$qb->expr()->eq('id', $qb->createNamedParameter($calendarId))
 				);
@@ -326,7 +326,7 @@
     </RedundantCast>
     <RedundantCondition>
       <code><![CDATA[!empty($modified['old']) && is_array($modified['old'])]]></code>
-      <code>is_array($modified['old'])</code>
+      <code><![CDATA[is_array($modified['old'])]]></code>
     </RedundantCondition>
   </file>
   <file src="apps/dav/lib/CalDAV/Schedule/IMipService.php">
@@ -337,8 +337,8 @@
   </file>
   <file src="apps/dav/lib/CalDAV/Schedule/Plugin.php">
     <InvalidArgument>
-      <code>[$aclPlugin, 'propFind']</code>
-      <code>[$aclPlugin, 'propFind']</code>
+      <code><![CDATA[[$aclPlugin, 'propFind']]]></code>
+      <code><![CDATA[[$aclPlugin, 'propFind']]]></code>
     </InvalidArgument>
     <UndefinedInterfaceMethod>
       <code>get</code>
@@ -370,12 +370,12 @@
   </file>
   <file src="apps/dav/lib/CalDAV/Search/Xml/Request/CalendarSearchReport.php">
     <TypeDoesNotContainType>
-      <code>!is_array($newProps['filters']['comps'])</code>
-      <code>!is_array($newProps['filters']['params'])</code>
-      <code>!is_array($newProps['filters']['props'])</code>
-      <code>!isset($newProps['filters']['comps']) || !is_array($newProps['filters']['comps'])</code>
-      <code>!isset($newProps['filters']['params']) || !is_array($newProps['filters']['params'])</code>
-      <code>!isset($newProps['filters']['props']) || !is_array($newProps['filters']['props'])</code>
+      <code><![CDATA[!is_array($newProps['filters']['comps'])]]></code>
+      <code><![CDATA[!is_array($newProps['filters']['params'])]]></code>
+      <code><![CDATA[!is_array($newProps['filters']['props'])]]></code>
+      <code><![CDATA[!isset($newProps['filters']['comps']) || !is_array($newProps['filters']['comps'])]]></code>
+      <code><![CDATA[!isset($newProps['filters']['params']) || !is_array($newProps['filters']['params'])]]></code>
+      <code><![CDATA[!isset($newProps['filters']['props']) || !is_array($newProps['filters']['props'])]]></code>
     </TypeDoesNotContainType>
   </file>
   <file src="apps/dav/lib/CalDAV/WebcalCaching/RefreshWebcalService.php">
@@ -399,7 +399,7 @@
       <code>false</code>
     </FalsableReturnStatement>
     <TypeDoesNotContainType>
-      <code>$addressBooks[$row['id']][$readOnlyPropertyName] === 0</code>
+      <code><![CDATA[$addressBooks[$row['id']][$readOnlyPropertyName] === 0]]></code>
     </TypeDoesNotContainType>
   </file>
   <file src="apps/dav/lib/CardDAV/MultiGetExportPlugin.php">
@@ -452,7 +452,7 @@
       <code>200</code>
     </InvalidArgument>
     <InvalidScalarArgument>
-      <code>$args['datetime']</code>
+      <code><![CDATA[$args['datetime']]]></code>
     </InvalidScalarArgument>
     <UndefinedFunction>
       <code>\Sabre\HTTP\toDate($value)</code>
@@ -516,13 +516,12 @@
   <file src="apps/dav/lib/Connector/Sabre/FilesReportPlugin.php">
     <InvalidArgument>
       <code>0</code>
-      <code>200</code>
     </InvalidArgument>
     <InvalidNullableReturnType>
       <code>bool</code>
     </InvalidNullableReturnType>
     <TooManyArguments>
-      <code>new PreconditionFailed('Cannot filter by non-existing tag', 0, $e)</code>
+      <code><![CDATA[new PreconditionFailed('Cannot filter by non-existing tag', 0, $e)]]></code>
     </TooManyArguments>
     <UndefinedClass>
       <code>\OCA\Circles\Api\v1\Circles</code>
@@ -793,8 +792,8 @@
   </file>
   <file src="apps/dav/lib/Server.php">
     <InvalidArgument>
-      <code>'OCA\DAV\Connector\Sabre::addPlugin'</code>
-      <code>'OCA\DAV\Connector\Sabre::authInit'</code>
+      <code><![CDATA['OCA\DAV\Connector\Sabre::addPlugin']]></code>
+      <code><![CDATA['OCA\DAV\Connector\Sabre::authInit']]></code>
     </InvalidArgument>
     <TooManyArguments>
       <code>dispatch</code>
@@ -857,7 +856,7 @@
       <code>$userSession</code>
     </RedundantCondition>
     <TypeDoesNotContainType>
-      <code>get_class($res) === 'OpenSSLAsymmetricKey'</code>
+      <code><![CDATA[get_class($res) === 'OpenSSLAsymmetricKey']]></code>
     </TypeDoesNotContainType>
   </file>
   <file src="apps/encryption/lib/Crypto/Encryption.php">
@@ -877,7 +876,7 @@
   </file>
   <file src="apps/encryption/lib/Session.php">
     <TooManyArguments>
-      <code>new Exceptions\PrivateKeyMissingException('please try to log-out and log-in again', 0)</code>
+      <code><![CDATA[new Exceptions\PrivateKeyMissingException('please try to log-out and log-in again', 0)]]></code>
     </TooManyArguments>
   </file>
   <file src="apps/encryption/lib/Util.php">
@@ -910,7 +909,7 @@
       <code>$shareId</code>
       <code>$shareId</code>
       <code>$shareId</code>
-      <code>(int)$data['id']</code>
+      <code><![CDATA[(int)$data['id']]]></code>
     </InvalidArgument>
   </file>
   <file src="apps/federatedfilesharing/lib/Listeners/LoadAdditionalScriptsListener.php">
@@ -939,7 +938,7 @@
       <code>string</code>
     </InvalidReturnType>
     <InvalidScalarArgument>
-      <code>(int)$share['id']</code>
+      <code><![CDATA[(int)$share['id']]]></code>
     </InvalidScalarArgument>
   </file>
   <file src="apps/federation/lib/Listener/SabrePluginAuthInitListener.php">
@@ -1034,16 +1033,13 @@
     </MissingTemplateParam>
   </file>
   <file src="apps/files/lib/Service/OwnershipTransferService.php">
-    <TypeDoesNotContainType>
-      <code>empty($encryptedFiles)</code>
-    </TypeDoesNotContainType>
     <UndefinedInterfaceMethod>
       <code>isReadyForUser</code>
     </UndefinedInterfaceMethod>
   </file>
   <file src="apps/files/lib/Service/TagService.php">
     <InvalidArgument>
-      <code>self::class . '::' . $eventName</code>
+      <code><![CDATA[self::class . '::' . $eventName]]></code>
     </InvalidArgument>
     <TooManyArguments>
       <code>dispatch</code>
@@ -1124,7 +1120,7 @@
   </file>
   <file src="apps/files_external/lib/Service/BackendService.php">
     <InvalidArgument>
-      <code>'OCA\\Files_External::loadAdditionalBackends'</code>
+      <code><![CDATA['OCA\\Files_External::loadAdditionalBackends']]></code>
     </InvalidArgument>
     <TooManyArguments>
       <code>dispatch</code>
@@ -1234,7 +1230,7 @@
   </file>
   <file src="apps/files_sharing/templates/public.php">
     <RedundantCondition>
-      <code>$_['hideFileList'] !== true</code>
+      <code><![CDATA[$_['hideFileList'] !== true]]></code>
       <code><![CDATA[isset($_['hideFileList']) && $_['hideFileList'] !== true]]></code>
     </RedundantCondition>
   </file>
@@ -1282,7 +1278,7 @@
   </file>
   <file src="apps/files_trashbin/lib/Storage.php">
     <InvalidArgument>
-      <code>'OCA\Files_Trashbin::moveToTrash'</code>
+      <code><![CDATA['OCA\Files_Trashbin::moveToTrash']]></code>
     </InvalidArgument>
     <InvalidOperand>
       <code><![CDATA[$this->mountPoint]]></code>
@@ -1437,7 +1433,7 @@
   <file src="apps/sharebymail/lib/ShareByMailProvider.php">
     <InvalidArgument>
       <code><![CDATA[$share->getId()]]></code>
-      <code>(int)$data['id']</code>
+      <code><![CDATA[(int)$data['id']]]></code>
     </InvalidArgument>
   </file>
   <file src="apps/systemtags/lib/Activity/Listener.php">
@@ -1531,7 +1527,7 @@
   </file>
   <file src="apps/user_ldap/lib/AppInfo/Application.php">
     <InvalidArgument>
-      <code>'OCA\\User_LDAP\\User\\User::postLDAPBackendAdded'</code>
+      <code><![CDATA['OCA\\User_LDAP\\User\\User::postLDAPBackendAdded']]></code>
     </InvalidArgument>
     <TooManyArguments>
       <code>dispatch</code>
@@ -1903,7 +1899,7 @@
   </file>
   <file src="lib/private/Accounts/AccountManager.php">
     <InvalidArgument>
-      <code>'OC\AccountManager::userUpdated'</code>
+      <code><![CDATA['OC\AccountManager::userUpdated']]></code>
     </InvalidArgument>
     <TooManyArguments>
       <code>dispatch</code>
@@ -2081,7 +2077,7 @@
   </file>
   <file src="lib/private/AppFramework/Routing/RouteConfig.php">
     <InvalidArrayOffset>
-      <code>$action['url-postfix']</code>
+      <code><![CDATA[$action['url-postfix']]]></code>
     </InvalidArrayOffset>
   </file>
   <file src="lib/private/AppFramework/Services/AppConfig.php">
@@ -2190,7 +2186,7 @@
   </file>
   <file src="lib/private/Authentication/TwoFactorAuth/Registry.php">
     <InvalidArrayAccess>
-      <code>$provider['provider_id']</code>
+      <code><![CDATA[$provider['provider_id']]]></code>
     </InvalidArrayAccess>
   </file>
   <file src="lib/private/BackgroundJob/QueuedJob.php">
@@ -2319,7 +2315,7 @@
       <code>getParams</code>
     </InternalMethod>
     <InvalidArrayOffset>
-      <code>$params['collation']</code>
+      <code><![CDATA[$params['collation']]]></code>
     </InvalidArrayOffset>
   </file>
   <file src="lib/private/DB/Connection.php">
@@ -2330,8 +2326,8 @@
       <code>$params</code>
     </InvalidArgument>
     <InvalidArrayOffset>
-      <code>$params['adapter']</code>
-      <code>$params['tablePrefix']</code>
+      <code><![CDATA[$params['adapter']]]></code>
+      <code><![CDATA[$params['tablePrefix']]]></code>
     </InvalidArrayOffset>
     <InvalidReturnStatement>
       <code><![CDATA[$this->adapter->lastInsertId($seqName)]]></code>
@@ -2377,7 +2373,7 @@
       <code>getParams</code>
     </InternalMethod>
     <InvalidArrayOffset>
-      <code>$params['collation']</code>
+      <code><![CDATA[$params['collation']]]></code>
     </InvalidArrayOffset>
   </file>
   <file src="lib/private/DB/QueryBuilder/QueryBuilder.php">
@@ -2388,7 +2384,6 @@
       <code>$alias</code>
     </NullableReturnStatement>
     <ParamNameMismatch>
-      <code>$groupBys</code>
       <code>$selects</code>
     </ParamNameMismatch>
   </file>
@@ -2572,10 +2567,10 @@
       <code>$user</code>
     </InvalidOperand>
     <RedundantCondition>
-      <code>get_class($provider) !== 'OCA\Files_Sharing\MountProvider'</code>
+      <code><![CDATA[get_class($provider) !== 'OCA\Files_Sharing\MountProvider']]></code>
     </RedundantCondition>
     <TypeDoesNotContainType>
-      <code>get_class($provider) === 'OCA\Files_Sharing\MountProvider'</code>
+      <code><![CDATA[get_class($provider) === 'OCA\Files_Sharing\MountProvider']]></code>
     </TypeDoesNotContainType>
   </file>
   <file src="lib/private/Files/Config/UserMountCache.php">
@@ -2625,19 +2620,19 @@
   </file>
   <file src="lib/private/Files/Node/HookConnector.php">
     <InvalidArgument>
-      <code>'\OCP\Files::postCopy'</code>
-      <code>'\OCP\Files::postCreate'</code>
-      <code>'\OCP\Files::postDelete'</code>
-      <code>'\OCP\Files::postRename'</code>
-      <code>'\OCP\Files::postTouch'</code>
-      <code>'\OCP\Files::postWrite'</code>
-      <code>'\OCP\Files::preCopy'</code>
-      <code>'\OCP\Files::preCreate'</code>
-      <code>'\OCP\Files::preDelete'</code>
-      <code>'\OCP\Files::preRename'</code>
-      <code>'\OCP\Files::preTouch'</code>
-      <code>'\OCP\Files::preWrite'</code>
-      <code>'\OCP\Files::read'</code>
+      <code><![CDATA['\OCP\Files::postCopy']]></code>
+      <code><![CDATA['\OCP\Files::postCreate']]></code>
+      <code><![CDATA['\OCP\Files::postDelete']]></code>
+      <code><![CDATA['\OCP\Files::postRename']]></code>
+      <code><![CDATA['\OCP\Files::postTouch']]></code>
+      <code><![CDATA['\OCP\Files::postWrite']]></code>
+      <code><![CDATA['\OCP\Files::preCopy']]></code>
+      <code><![CDATA['\OCP\Files::preCreate']]></code>
+      <code><![CDATA['\OCP\Files::preDelete']]></code>
+      <code><![CDATA['\OCP\Files::preRename']]></code>
+      <code><![CDATA['\OCP\Files::preTouch']]></code>
+      <code><![CDATA['\OCP\Files::preWrite']]></code>
+      <code><![CDATA['\OCP\Files::read']]></code>
     </InvalidArgument>
     <TooManyArguments>
       <code>dispatch</code>
@@ -2677,7 +2672,7 @@
   </file>
   <file src="lib/private/Files/Node/Node.php">
     <InvalidArgument>
-      <code>'\OCP\Files::' . $hook</code>
+      <code><![CDATA['\OCP\Files::' . $hook]]></code>
     </InvalidArgument>
     <InvalidNullableReturnType>
       <code>FileInfo</code>
@@ -2732,7 +2727,7 @@
       <code>Promise\promise_for(
 					new Credentials($key, $secret)
 				)</code>
-      <code>\Aws\or_chain([self::class, 'legacySignatureProvider'], ClientResolver::_default_signature_provider())</code>
+      <code><![CDATA[\Aws\or_chain([self::class, 'legacySignatureProvider'], ClientResolver::_default_signature_provider())]]></code>
     </UndefinedFunction>
   </file>
   <file src="lib/private/Files/ObjectStore/S3ObjectTrait.php">
@@ -2941,12 +2936,12 @@
   </file>
   <file src="lib/private/Group/Group.php">
     <InvalidArgument>
-      <code>IGroup::class . '::postAddUser'</code>
-      <code>IGroup::class . '::postDelete'</code>
-      <code>IGroup::class . '::postRemoveUser'</code>
-      <code>IGroup::class . '::preAddUser'</code>
-      <code>IGroup::class . '::preDelete'</code>
-      <code>IGroup::class . '::preRemoveUser'</code>
+      <code><![CDATA[IGroup::class . '::postAddUser']]></code>
+      <code><![CDATA[IGroup::class . '::postDelete']]></code>
+      <code><![CDATA[IGroup::class . '::postRemoveUser']]></code>
+      <code><![CDATA[IGroup::class . '::preAddUser']]></code>
+      <code><![CDATA[IGroup::class . '::preDelete']]></code>
+      <code><![CDATA[IGroup::class . '::preRemoveUser']]></code>
       <code>bool</code>
     </InvalidArgument>
     <InvalidOperand>
@@ -3001,8 +2996,8 @@
       <code>false</code>
     </InvalidArgument>
     <InvalidArrayOffset>
-      <code>$app['path']</code>
-      <code>$app['path']</code>
+      <code><![CDATA[$app['path']]]></code>
+      <code><![CDATA[$app['path']]]></code>
     </InvalidArrayOffset>
     <NullArgument>
       <code>null</code>
@@ -3349,8 +3344,8 @@
   </file>
   <file src="lib/private/Setup.php">
     <RedundantCondition>
-      <code>$content !== ''</code>
-      <code>$type === 'pdo'</code>
+      <code><![CDATA[$content !== '']]></code>
+      <code><![CDATA[$type === 'pdo']]></code>
     </RedundantCondition>
     <UndefinedVariable>
       <code>$vendor</code>
@@ -3380,7 +3375,7 @@
     <InvalidArgument>
       <code><![CDATA[$share->getId()]]></code>
       <code><![CDATA[$share->getId()]]></code>
-      <code>(int)$data['id']</code>
+      <code><![CDATA[(int)$data['id']]]></code>
     </InvalidArgument>
     <TooManyArguments>
       <code>set</code>
@@ -3392,12 +3387,12 @@
   <file src="lib/private/Share20/Manager.php">
     <InvalidArgument>
       <code>$id</code>
-      <code>'OCP\Share::postAcceptShare'</code>
-      <code>'OCP\Share::postShare'</code>
-      <code>'OCP\Share::postUnshare'</code>
-      <code>'OCP\Share::postUnshareFromSelf'</code>
-      <code>'OCP\Share::preShare'</code>
-      <code>'OCP\Share::preUnshare'</code>
+      <code><![CDATA['OCP\Share::postAcceptShare']]></code>
+      <code><![CDATA['OCP\Share::postShare']]></code>
+      <code><![CDATA['OCP\Share::postUnshare']]></code>
+      <code><![CDATA['OCP\Share::postUnshareFromSelf']]></code>
+      <code><![CDATA['OCP\Share::preShare']]></code>
+      <code><![CDATA['OCP\Share::preUnshare']]></code>
     </InvalidArgument>
     <TooManyArguments>
       <code>dispatch</code>
@@ -3586,7 +3581,7 @@
       <code>boolean|null</code>
     </ImplementedReturnTypeMismatch>
     <InvalidArgument>
-      <code>IUser::class . '::firstLogin'</code>
+      <code><![CDATA[IUser::class . '::firstLogin']]></code>
     </InvalidArgument>
     <NoInterfaceProperties>
       <code><![CDATA[$request->server]]></code>
@@ -3598,11 +3593,11 @@
   </file>
   <file src="lib/private/User/User.php">
     <InvalidArgument>
-      <code>IUser::class . '::changeUser'</code>
-      <code>IUser::class . '::postDelete'</code>
-      <code>IUser::class . '::postSetPassword'</code>
-      <code>IUser::class . '::preDelete'</code>
-      <code>IUser::class . '::preSetPassword'</code>
+      <code><![CDATA[IUser::class . '::changeUser']]></code>
+      <code><![CDATA[IUser::class . '::postDelete']]></code>
+      <code><![CDATA[IUser::class . '::postSetPassword']]></code>
+      <code><![CDATA[IUser::class . '::preDelete']]></code>
+      <code><![CDATA[IUser::class . '::preSetPassword']]></code>
     </InvalidArgument>
     <TooManyArguments>
       <code>dispatch</code>
@@ -3633,8 +3628,8 @@
       <code>ManagerEvent::EVENT_APP_UPDATE</code>
     </InvalidArgument>
     <InvalidArrayOffset>
-      <code>$dir['path']</code>
-      <code>$dir['url']</code>
+      <code><![CDATA[$dir['path']]]></code>
+      <code><![CDATA[$dir['url']]]></code>
     </InvalidArrayOffset>
     <NullArgument>
       <code>null</code>
