@@ -71,7 +71,6 @@ use OCP\IGroupManager;
 use OCP\IL10N;
 use OCP\IPreview;
 use OCP\IRequest;
-use OCP\IServerContainer;
 use OCP\IURLGenerator;
 use OCP\IUserManager;
 use OCP\Lock\ILockingProvider;
@@ -83,6 +82,7 @@ use OCP\Share\IManager;
 use OCP\Share\IShare;
 use OCP\UserStatus\IManager as IUserStatusManager;
 use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -92,32 +92,8 @@ use Psr\Log\LoggerInterface;
  */
 class ShareAPIController extends OCSController {
 
-	/** @var IManager */
-	private $shareManager;
-	/** @var IGroupManager */
-	private $groupManager;
-	/** @var IUserManager */
-	private $userManager;
-	/** @var IRootFolder */
-	private $rootFolder;
-	/** @var IURLGenerator */
-	private $urlGenerator;
-	/** @var string */
-	private $currentUser;
-	/** @var IL10N */
-	private $l;
-	/** @var \OCP\Files\Node */
-	private $lockedNode;
-	/** @var IConfig */
-	private $config;
-	/** @var IAppManager */
-	private $appManager;
-	/** @var IServerContainer */
-	private $serverContainer;
-	/** @var IUserStatusManager */
-	private $userStatusManager;
-	/** @var IPreview */
-	private $previewManager;
+	private ?Node $lockedNode = null;
+	private string $currentUser;
 
 	/**
 	 * Share20OCS constructor.
@@ -125,35 +101,23 @@ class ShareAPIController extends OCSController {
 	public function __construct(
 		string $appName,
 		IRequest $request,
-		IManager $shareManager,
-		IGroupManager $groupManager,
-		IUserManager $userManager,
-		IRootFolder $rootFolder,
-		IURLGenerator $urlGenerator,
-		string $userId = null,
-		IL10N $l10n,
-		IConfig $config,
-		IAppManager $appManager,
-		IServerContainer $serverContainer,
-		IUserStatusManager $userStatusManager,
-		IPreview $previewManager,
+		private IManager $shareManager,
+		private IGroupManager $groupManager,
+		private IUserManager $userManager,
+		private IRootFolder $rootFolder,
+		private IURLGenerator $urlGenerator,
+		private IL10N $l,
+		private IConfig $config,
+		private IAppManager $appManager,
+		private ContainerInterface $serverContainer,
+		private IUserStatusManager $userStatusManager,
+		private IPreview $previewManager,
 		private IDateTimeZone $dateTimeZone,
+		private LoggerInterface $logger,
+		?string $userId = null
 	) {
 		parent::__construct($appName, $request);
-
-		$this->shareManager = $shareManager;
-		$this->userManager = $userManager;
-		$this->groupManager = $groupManager;
-		$this->request = $request;
-		$this->rootFolder = $rootFolder;
-		$this->urlGenerator = $urlGenerator;
 		$this->currentUser = $userId;
-		$this->l = $l10n;
-		$this->config = $config;
-		$this->appManager = $appManager;
-		$this->serverContainer = $serverContainer;
-		$this->userStatusManager = $userStatusManager;
-		$this->previewManager = $previewManager;
 	}
 
 	/**
@@ -355,7 +319,7 @@ class ShareAPIController extends OCSController {
 				'strict_search' => true,
 			]);
 		} catch (Exception $e) {
-			Server::get(LoggerInterface::class)->error(
+			$this->logger->error(
 				$e->getMessage(),
 				['exception' => $e]
 			);
@@ -437,7 +401,7 @@ class ShareAPIController extends OCSController {
 		try {
 			$slaveService = Server::get(\OCA\GlobalSiteSelector\Service\SlaveService::class);
 		} catch (\Throwable $e) {
-			Server::get(LoggerInterface::class)->error(
+			$this->logger->error(
 				$e->getMessage(),
 				['exception' => $e]
 			);
@@ -656,8 +620,8 @@ class ShareAPIController extends OCSController {
 		if ($expireDate !== null) {
 			if ($expireDate !== '') {
 				try {
-					$expireDate = $this->parseDate($expireDate);
-					$share->setExpirationDate($expireDate);
+					$expireDateTime = $this->parseDate($expireDate);
+					$share->setExpirationDate($expireDateTime);
 				} catch (\Exception $e) {
 					throw new OCSNotFoundException($this->l->t('Invalid date, date format must be YYYY-MM-DD'));
 				}
@@ -754,7 +718,6 @@ class ShareAPIController extends OCSController {
 
 			$share->setSharedWith($shareWith);
 			$share->setPermissions($permissions);
-
 			$share->setSharedWithDisplayName($this->getCachedFederatedDisplayName($shareWith, false));
 		} elseif ($shareType === IShare::TYPE_REMOTE_GROUP) {
 			if (!$this->shareManager->outgoingServer2ServerGroupSharesAllowed()) {
@@ -767,7 +730,6 @@ class ShareAPIController extends OCSController {
 
 			$share->setSharedWith($shareWith);
 			$share->setPermissions($permissions);
-
 		} elseif ($shareType === IShare::TYPE_CIRCLE) {
 			if (!\OC::$server->getAppManager()->isEnabledForUser('circles') || !class_exists('\OCA\Circles\ShareByCircleProvider')) {
 				throw new OCSNotFoundException($this->l->t('You cannot share to a Circle if the app is not enabled'));
@@ -812,11 +774,11 @@ class ShareAPIController extends OCSController {
 		try {
 			$share = $this->shareManager->createShare($share);
 		} catch (GenericShareException $e) {
-			\OC::$server->getLogger()->logException($e);
+			$this->logger->error($e->getMessage(), ['exception' => $e]);
 			$code = $e->getCode() === 0 ? 403 : $e->getCode();
 			throw new OCSException($e->getHint(), $code);
 		} catch (\Exception $e) {
-			\OC::$server->getLogger()->logException($e);
+			$this->logger->error($e->getMessage(), ['exception' => $e]);
 			throw new OCSForbiddenException($e->getMessage(), $e);
 		}
 

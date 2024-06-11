@@ -49,9 +49,10 @@ use OCP\IDateTimeZone;
 use OCP\IL10N;
 use OCP\IPreview;
 use OCP\IRequest;
-use OCP\IServerContainer;
 use OCP\Share\IShare;
 use OCP\UserStatus\IManager as IUserStatusManager;
+use Psr\Container\ContainerInterface;
+use Psr\Log\LoggerInterface;
 
 /**
  * Class ApiTest
@@ -121,10 +122,11 @@ class ApiTest extends TestCase {
 			});
 		$config = $this->createMock(IConfig::class);
 		$appManager = $this->createMock(IAppManager::class);
-		$serverContainer = $this->createMock(IServerContainer::class);
+		$serverContainer = $this->createMock(ContainerInterface::class);
 		$userStatusManager = $this->createMock(IUserStatusManager::class);
 		$previewManager = $this->createMock(IPreview::class);
 		$dateTimeZone = $this->createMock(IDateTimeZone::class);
+		$logger = $this->createMock(LoggerInterface::class);
 		$dateTimeZone->method('getTimeZone')->willReturn(new \DateTimeZone(date_default_timezone_get()));
 
 		return new ShareAPIController(
@@ -135,7 +137,6 @@ class ApiTest extends TestCase {
 			\OC::$server->getUserManager(),
 			\OC::$server->getRootFolder(),
 			\OC::$server->getURLGenerator(),
-			$userId,
 			$l,
 			$config,
 			$appManager,
@@ -143,6 +144,8 @@ class ApiTest extends TestCase {
 			$userStatusManager,
 			$previewManager,
 			$dateTimeZone,
+			$logger,
+			$userId,
 		);
 	}
 
