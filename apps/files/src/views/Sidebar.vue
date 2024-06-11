@@ -6,7 +6,7 @@
 <template>
 	<NcAppSidebar v-if="file"
 		ref="sidebar"
-		cy-data-sidebar
+		data-cy-sidebar
 		v-bind="appSidebar"
 		:force-menu="true"
 		@close="close"

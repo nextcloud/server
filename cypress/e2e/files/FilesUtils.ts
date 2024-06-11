@@ -113,7 +113,7 @@ export const navigateToFolder = (dirPath: string) => {
 
 export const closeSidebar = () => {
 	// {force: true} as it might be hidden behind toasts
-	cy.get('[cy-data-sidebar] .app-sidebar__close').click({ force: true })
+	cy.get('[data-cy-sidebar] .app-sidebar__close').click({ force: true })
 }
 
 export const clickOnBreadcrumbs = (label: string) => {

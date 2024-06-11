@@ -26,7 +26,7 @@ describe('Files: Sidebar', { testIsolation: true }, () => {
 
 		triggerActionForFile('file', 'details')
 
-		cy.get('[cy-data-sidebar]').should('be.visible')
+		cy.get('[data-cy-sidebar]').should('be.visible')
 	})
 
 	it('changes the current fileid', () => {
@@ -35,7 +35,7 @@ describe('Files: Sidebar', { testIsolation: true }, () => {
 
 		triggerActionForFile('file', 'details')
 
-		cy.get('[cy-data-sidebar]').should('be.visible')
+		cy.get('[data-cy-sidebar]').should('be.visible')
 		cy.url().should('contain', `apps/files/files/${fileId}`)
 	})
 
@@ -46,10 +46,10 @@ describe('Files: Sidebar', { testIsolation: true }, () => {
 		// open the sidebar
 		triggerActionForFile('file', 'details')
 		// validate it is open
-		cy.get('[cy-data-sidebar]').should('be.visible')
+		cy.get('[data-cy-sidebar]').should('be.visible')
 
 		triggerActionForFile('file', 'delete')
-		cy.get('[cy-data-sidebar]').should('not.exist')
+		cy.get('[data-cy-sidebar]').should('not.exist')
 	})
 
 	it('changes the fileid on delete', () => {
@@ -65,11 +65,11 @@ describe('Files: Sidebar', { testIsolation: true }, () => {
 			// open the sidebar
 			triggerActionForFile('other', 'details')
 			// validate it is open
-			cy.get('[cy-data-sidebar]').should('be.visible')
+			cy.get('[data-cy-sidebar]').should('be.visible')
 			cy.url().should('contain', `apps/files/files/${otherFileId}`)
 
 			triggerActionForFile('other', 'delete')
-			cy.get('[cy-data-sidebar]').should('not.exist')
+			cy.get('[data-cy-sidebar]').should('not.exist')
 			// Ensure the URL is changed
 			cy.url().should('not.contain', `apps/files/files/${otherFileId}`)
 		})
