@@ -80,8 +80,6 @@ class Encryption implements IEncryptionModule {
 	/** @var int Current version of the file */
 	private int $version = 0;
 
-	private bool $useLegacyFileKey = true;
-
 	/** @var array remember encryption signature version */
 	private static $rememberVersion = [];
 
@@ -138,7 +136,6 @@ class Encryption implements IEncryptionModule {
 		$this->writeCache = '';
 		$this->useLegacyBase64Encoding = true;
 
-		$this->useLegacyFileKey = ($header['useLegacyFileKey'] ?? 'true') !== 'false';
 
 		if (isset($header['encoding'])) {
 			$this->useLegacyBase64Encoding = $header['encoding'] !== Crypt::BINARY_ENCODING_FORMAT;
@@ -152,19 +149,10 @@ class Encryption implements IEncryptionModule {
 			}
 		}
 
-		if ($this->session->decryptAllModeActivated()) {
-			$shareKey = $this->keyManager->getShareKey($this->path, $this->session->getDecryptAllUid());
-			if ($this->useLegacyFileKey) {
-				$encryptedFileKey = $this->keyManager->getEncryptedFileKey($this->path);
-				$this->fileKey = $this->crypt->multiKeyDecryptLegacy($encryptedFileKey,
-					$shareKey,
-					$this->session->getDecryptAllKey());
-			} else {
-				$this->fileKey = $this->crypt->multiKeyDecrypt($shareKey, $this->session->getDecryptAllKey());
-			}
-		} else {
-			$this->fileKey = $this->keyManager->getFileKey($this->path, $this->user, $this->useLegacyFileKey);
-		}
+		/* If useLegacyFileKey is not specified in header, auto-detect, to be safe */
+		$useLegacyFileKey = (($header['useLegacyFileKey'] ?? '') == 'false' ? false : null);
+
+		$this->fileKey = $this->keyManager->getFileKey($this->path, $this->user, $useLegacyFileKey, $this->session->decryptAllModeActivated());
 
 		// always use the version from the original file, also part files
 		// need to have a correct version number if they get moved over to the
