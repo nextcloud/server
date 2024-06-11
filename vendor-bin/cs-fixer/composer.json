@@ -1,7 +1,8 @@
 {
 	"config": {
+		"sort-packages": true,
 		"platform": {
-			"php": "8.0"
+			"php": "8.1"
 		}
 	},
 	"require": {
