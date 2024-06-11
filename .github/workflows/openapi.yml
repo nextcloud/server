@@ -32,7 +32,7 @@ jobs:
         uses: shivammathur/setup-php@c665c7a15b5295c2488ac8a87af9cb806cd72198 # v2
         with:
           php-version: '8.2'
-          extensions: xml
+          extensions: ctype, curl, dom, fileinfo, gd, json, libxml, mbstring, openssl, pcntl, pdo, posix, session, simplexml, xml, xmlreader, xmlwriter, zip, zlib
           coverage: none
           ini-file: development
         env:
