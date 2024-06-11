@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace OCA\WebhookListeners\Settings;
 
+use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\IL10N;
 use OCP\Settings\IDelegatedSettings;
@@ -28,7 +29,8 @@ class Admin implements IDelegatedSettings {
 	 * Empty template response
 	 */
 	public function getForm(): TemplateResponse {
-		return new class($this->appName, '') extends TemplateResponse {
+
+		return new /** @template-extends TemplateResponse<Http::STATUS_OK, array{}> */ class($this->appName, '') extends TemplateResponse {
 			public function render(): string {
 				return '';
 			}

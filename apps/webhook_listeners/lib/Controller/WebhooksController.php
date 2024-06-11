@@ -10,8 +10,10 @@ declare(strict_types=1);
 namespace OCA\WebhookListeners\Controller;
 
 use OCA\WebhookListeners\Db\AuthMethod;
+use OCA\WebhookListeners\Db\WebhookListener;
 use OCA\WebhookListeners\Db\WebhookListenerMapper;
 use OCA\WebhookListeners\ResponseDefinitions;
+use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\ApiRoute;
 use OCP\AppFramework\Http\Attribute\AuthorizedAdminSetting;
@@ -20,6 +22,7 @@ use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCS\OCSBadRequestException;
 use OCP\AppFramework\OCS\OCSException;
 use OCP\AppFramework\OCS\OCSForbiddenException;
+use OCP\AppFramework\OCS\OCSNotFoundException;
 use OCP\AppFramework\OCSController;
 use OCP\IRequest;
 use OCP\ISession;
@@ -45,15 +48,26 @@ class WebhooksController extends OCSController {
 	 * List registered webhooks
 	 *
 	 * @return DataResponse<Http::STATUS_OK, WebhookListenersWebhookInfo[], array{}>
+	 * @throws OCSException Other internal error
 	 *
 	 * 200: Webhook registrations returned
 	 */
 	#[ApiRoute(verb: 'GET', url: '/api/v1/webhooks')]
 	#[AuthorizedAdminSetting(settings:'OCA\WebhookListeners\Settings\Admin')]
 	public function index(): DataResponse {
-		$webhookListeners = $this->mapper->getAll();
+		try {
+			$webhookListeners = $this->mapper->getAll();
 
-		return new DataResponse($webhookListeners);
+			return new DataResponse(
+				array_map(
+					fn (WebhookListener $listener): array => $listener->jsonSerialize(),
+					$webhookListeners
+				)
+			);
+		} catch (\Exception $e) {
+			$this->logger->error('Error when listing webhooks', ['exception' => $e]);
+			throw new OCSException('An internal error occurred', Http::STATUS_INTERNAL_SERVER_ERROR, $e);
+		}
 	}
 
 	/**
@@ -62,13 +76,22 @@ class WebhooksController extends OCSController {
 	 * @param int $id id of the webhook
 	 *
 	 * @return DataResponse<Http::STATUS_OK, WebhookListenersWebhookInfo, array{}>
+	 * @throws OCSNotFoundException Webhook not found
+	 * @throws OCSException Other internal error
 	 *
 	 * 200: Webhook registration returned
 	 */
 	#[ApiRoute(verb: 'GET', url: '/api/v1/webhooks/{id}')]
 	#[AuthorizedAdminSetting(settings:'OCA\WebhookListeners\Settings\Admin')]
 	public function show(int $id): DataResponse {
-		return new DataResponse($this->mapper->getById($id));
+		try {
+			return new DataResponse($this->mapper->getById($id)->jsonSerialize());
+		} catch (DoesNotExistException $e) {
+			throw new OCSNotFoundException($e->getMessage(), $e);
+		} catch (\Exception $e) {
+			$this->logger->error('Error when getting webhook', ['exception' => $e]);
+			throw new OCSException('An internal error occurred', Http::STATUS_INTERNAL_SERVER_ERROR, $e);
+		}
 	}
 
 	/**
@@ -107,6 +130,11 @@ class WebhooksController extends OCSController {
 			$appId = $this->request->getHeader('EX-APP-ID');
 		}
 		try {
+			$authMethod = AuthMethod::from($authMethod ?? AuthMethod::None->value);
+		} catch (\ValueError $e) {
+			throw new OCSBadRequestException('This auth method does not exist');
+		}
+		try {
 			$webhookListener = $this->mapper->addWebhookListener(
 				$appId,
 				$this->userId,
@@ -115,17 +143,17 @@ class WebhooksController extends OCSController {
 				$event,
 				$eventFilter,
 				$headers,
-				AuthMethod::from($authMethod ?? AuthMethod::None->value),
+				$authMethod,
 				$authData,
 			);
-			return new DataResponse($webhookListener);
+			return new DataResponse($webhookListener->jsonSerialize());
 		} catch (\UnexpectedValueException $e) {
 			throw new OCSBadRequestException($e->getMessage(), $e);
 		} catch (\DomainException $e) {
 			throw new OCSForbiddenException($e->getMessage(), $e);
 		} catch (\Exception $e) {
 			$this->logger->error('Error when inserting webhook', ['exception' => $e]);
-			throw new OCSException('An internal error occurred', $e->getCode(), $e);
+			throw new OCSException('An internal error occurred', Http::STATUS_INTERNAL_SERVER_ERROR, $e);
 		}
 	}
 
@@ -167,6 +195,11 @@ class WebhooksController extends OCSController {
 			$appId = $this->request->getHeader('EX-APP-ID');
 		}
 		try {
+			$authMethod = AuthMethod::from($authMethod ?? AuthMethod::None->value);
+		} catch (\ValueError $e) {
+			throw new OCSBadRequestException('This auth method does not exist');
+		}
+		try {
 			$webhookListener = $this->mapper->updateWebhookListener(
 				$id,
 				$appId,
@@ -176,17 +209,17 @@ class WebhooksController extends OCSController {
 				$event,
 				$eventFilter,
 				$headers,
-				AuthMethod::from($authMethod ?? AuthMethod::None->value),
+				$authMethod,
 				$authData,
 			);
-			return new DataResponse($webhookListener);
+			return new DataResponse($webhookListener->jsonSerialize());
 		} catch (\UnexpectedValueException $e) {
 			throw new OCSBadRequestException($e->getMessage(), $e);
 		} catch (\DomainException $e) {
 			throw new OCSForbiddenException($e->getMessage(), $e);
 		} catch (\Exception $e) {
 			$this->logger->error('Error when updating flow with id ' . $id, ['exception' => $e]);
-			throw new OCSException('An internal error occurred', $e->getCode(), $e);
+			throw new OCSException('An internal error occurred', Http::STATUS_INTERNAL_SERVER_ERROR, $e);
 		}
 	}
 
@@ -215,7 +248,7 @@ class WebhooksController extends OCSController {
 			throw new OCSForbiddenException($e->getMessage(), $e);
 		} catch (\Exception $e) {
 			$this->logger->error('Error when deleting flow with id ' . $id, ['exception' => $e]);
-			throw new OCSException('An internal error occurred', $e->getCode(), $e);
+			throw new OCSException('An internal error occurred', Http::STATUS_INTERNAL_SERVER_ERROR, $e);
 		}
 	}
 }
