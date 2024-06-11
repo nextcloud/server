@@ -1525,7 +1525,6 @@ class Server extends ServerContainer implements IServerContainer {
 		$eventDispatched->addServiceListener(LoginFailed::class, LoginFailedListener::class);
 		$eventDispatched->addServiceListener(PostLoginEvent::class, UserLoggedInListener::class);
 		$eventDispatched->addServiceListener(BeforeUserDeletedEvent::class, BeforeUserDeletedListener::class);
-
 	}
 
 	/**
