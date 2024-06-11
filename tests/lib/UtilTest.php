@@ -91,9 +91,25 @@ class UtilTest extends \Test\TestCase {
 		$this->assertEquals($expected, \OC_Util::fileInfoLoaded());
 	}
 
+	/**
+	 * Host is "localhost" this is a valid for emails,
+	 * but not for default strict email verification that requires a top level domain.
+	 * So we check that with strict email verification we fallback to the default
+	 */
 	public function testGetDefaultEmailAddress() {
 		$email = \OCP\Util::getDefaultEmailAddress("no-reply");
 		$this->assertEquals('no-reply@localhost', $email);
+	}
+
+	/**
+	 * If strict email check is enabled "localhost.localdomain" should validate as a valid email domain
+	 */
+	public function testGetDefaultEmailAddressStrict() {
+		$config = \OC::$server->getConfig();
+		$config->setAppValue('core', 'enforce_strict_email_check', 'yes');
+		$email = \OCP\Util::getDefaultEmailAddress("no-reply");
+		$this->assertEquals('no-reply@localhost.localdomain', $email);
+		$config->deleteAppValue('core', 'enforce_strict_email_check');
 	}
 
 	public function testGetDefaultEmailAddressFromConfig() {
