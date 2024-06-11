@@ -25,8 +25,6 @@ namespace OC\User\Listeners;
 
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
-use OCP\Files\NotFoundException;
-use OCP\IAvatarManager;
 use OCP\Security\ICredentialsManager;
 use OCP\User\Events\BeforeUserDeletedEvent;
 use Psr\Log\LoggerInterface;
@@ -35,12 +33,10 @@ use Psr\Log\LoggerInterface;
  * @template-implements IEventListener<BeforeUserDeletedEvent>
  */
 class BeforeUserDeletedListener implements IEventListener {
-	private IAvatarManager $avatarManager;
 	private ICredentialsManager $credentialsManager;
 	private LoggerInterface $logger;
 
-	public function __construct(LoggerInterface $logger, IAvatarManager $avatarManager, ICredentialsManager $credentialsManager) {
-		$this->avatarManager = $avatarManager;
+	public function __construct(LoggerInterface $logger, ICredentialsManager $credentialsManager) {
 		$this->credentialsManager = $credentialsManager;
 		$this->logger = $logger;
 	}
@@ -51,19 +47,6 @@ class BeforeUserDeletedListener implements IEventListener {
 		}
 
 		$user = $event->getUser();
-
-		// Delete avatar on user deletion
-		try {
-			$avatar = $this->avatarManager->getAvatar($user->getUID());
-			$avatar->remove(true);
-		} catch (NotFoundException $e) {
-			// no avatar to remove
-		} catch (\Exception $e) {
-			// Ignore exceptions
-			$this->logger->info('Could not cleanup avatar of ' . $user->getUID(), [
-				'exception' => $e,
-			]);
-		}
 		// Delete storages credentials on user deletion
 		$this->credentialsManager->erase($user->getUID());
 	}
