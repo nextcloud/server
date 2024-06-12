@@ -76,4 +76,19 @@ class AdapterSqlite extends Adapter {
 			return 0;
 		}
 	}
+
+	public function insertIgnoreConflict(string $table, array $values): int {
+		$builder = $this->conn->getQueryBuilder();
+		$builder->insert($table);
+		$updates = [];
+		foreach ($values as $key => $value) {
+			$builder->setValue($key, $builder->createNamedParameter($value));
+		}
+
+		return $this->conn->executeStatement(
+			$builder->getSQL() . ' ON CONFLICT DO NOTHING',
+			$builder->getParameters(),
+			$builder->getParameterTypes()
+		);
+	}
 }
