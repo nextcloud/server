@@ -200,7 +200,7 @@ class OC_User {
 				if (empty($password)) {
 					$tokenProvider = \OC::$server->get(IProvider::class);
 					$token = $tokenProvider->getToken($userSession->getSession()->getId());
-					$token->setScope(['sso-based-login' => true]);
+					$token->setScope(['password-unconfirmable' => true]);
 					$tokenProvider->updateToken($token);
 				}
 
