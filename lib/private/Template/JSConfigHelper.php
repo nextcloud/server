@@ -34,10 +34,14 @@ declare(strict_types=1);
 namespace OC\Template;
 
 use bantu\IniGetWrapper\IniGetWrapper;
+use OC\Authentication\Token\IProvider;
 use OC\CapabilitiesManager;
 use OC\Share\Share;
 use OCP\App\AppPathNotFoundException;
 use OCP\App\IAppManager;
+use OCP\Authentication\Exceptions\ExpiredTokenException;
+use OCP\Authentication\Exceptions\InvalidTokenException;
+use OCP\Authentication\Exceptions\WipeTokenException;
 use OCP\Constants;
 use OCP\Defaults;
 use OCP\Files\FileInfo;
@@ -49,47 +53,29 @@ use OCP\ILogger;
 use OCP\ISession;
 use OCP\IURLGenerator;
 use OCP\IUser;
+use OCP\Session\Exceptions\SessionNotAvailableException;
 use OCP\User\Backend\IPasswordConfirmationBackend;
 use OCP\Util;
 
 class JSConfigHelper {
-	protected IL10N $l;
-	protected Defaults $defaults;
-	protected IAppManager $appManager;
-	protected ISession $session;
-	protected ?IUser $currentUser;
-	protected IConfig $config;
-	protected IGroupManager $groupManager;
-	protected IniGetWrapper $iniWrapper;
-	protected IURLGenerator $urlGenerator;
-	protected CapabilitiesManager $capabilitiesManager;
-	protected IInitialStateService $initialStateService;
 
 	/** @var array user back-ends excluded from password verification */
 	private $excludedUserBackEnds = ['user_saml' => true, 'user_globalsiteselector' => true];
 
-	public function __construct(IL10N $l,
-		Defaults $defaults,
-		IAppManager $appManager,
-		ISession $session,
-		?IUser $currentUser,
-		IConfig $config,
-		IGroupManager $groupManager,
-		IniGetWrapper $iniWrapper,
-		IURLGenerator $urlGenerator,
-		CapabilitiesManager $capabilitiesManager,
-		IInitialStateService $initialStateService) {
-		$this->l = $l;
-		$this->defaults = $defaults;
-		$this->appManager = $appManager;
-		$this->session = $session;
-		$this->currentUser = $currentUser;
-		$this->config = $config;
-		$this->groupManager = $groupManager;
-		$this->iniWrapper = $iniWrapper;
-		$this->urlGenerator = $urlGenerator;
-		$this->capabilitiesManager = $capabilitiesManager;
-		$this->initialStateService = $initialStateService;
+	public function __construct(
+		protected IL10N                $l,
+		protected Defaults             $defaults,
+		protected IAppManager          $appManager,
+		protected ISession             $session,
+		protected ?IUser               $currentUser,
+		protected IConfig              $config,
+		protected IGroupManager        $groupManager,
+		protected IniGetWrapper        $iniWrapper,
+		protected IURLGenerator        $urlGenerator,
+		protected CapabilitiesManager  $capabilitiesManager,
+		protected IInitialStateService $initialStateService,
+		protected IProvider            $tokenProvider,
+	) {
 	}
 
 	public function getConfig(): string {
@@ -155,9 +141,13 @@ class JSConfigHelper {
 		}
 
 		if ($this->currentUser instanceof IUser) {
-			$lastConfirmTimestamp = $this->session->get('last-password-confirm');
-			if (!is_int($lastConfirmTimestamp)) {
-				$lastConfirmTimestamp = 0;
+			if ($this->canUserValidatePassword()) {
+				$lastConfirmTimestamp = $this->session->get('last-password-confirm');
+				if (!is_int($lastConfirmTimestamp)) {
+					$lastConfirmTimestamp = 0;
+				}
+			} else {
+				$lastConfirmTimestamp = PHP_INT_MAX;
 			}
 		} else {
 			$lastConfirmTimestamp = 0;
@@ -310,5 +300,16 @@ class JSConfigHelper {
 		}
 
 		return $result;
+	}
+
+	protected function canUserValidatePassword(): bool {
+		try {
+			$token = $this->tokenProvider->getToken($this->session->getId());
+		} catch (ExpiredTokenException|WipeTokenException|InvalidTokenException|SessionNotAvailableException) {
+			// actually we do not know, so we fall back to this statement
+			return true;
+		}
+		$scope = $token->getScopeAsArray();
+		return !isset($scope['password-unconfirmable']) || $scope['password-unconfirmable'] === false;
 	}
 }

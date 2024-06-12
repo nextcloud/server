@@ -29,6 +29,7 @@
 namespace OC\Core\Controller;
 
 use bantu\IniGetWrapper\IniGetWrapper;
+use OC\Authentication\Token\IProvider;
 use OC\CapabilitiesManager;
 use OC\Template\JSConfigHelper;
 use OCP\App\IAppManager;
@@ -64,6 +65,7 @@ class OCJSController extends Controller {
 		IURLGenerator $urlGenerator,
 		CapabilitiesManager $capabilitiesManager,
 		IInitialStateService $initialStateService,
+		IProvider $tokenProvider,
 	) {
 		parent::__construct($appName, $request);
 
@@ -78,7 +80,8 @@ class OCJSController extends Controller {
 			$iniWrapper,
 			$urlGenerator,
 			$capabilitiesManager,
-			$initialStateService
+			$initialStateService,
+			$tokenProvider
 		);
 	}
 
