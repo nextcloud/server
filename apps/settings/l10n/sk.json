@@ -696,7 +696,7 @@
     "Could not register device: Network error" : "Zariadenie sa nepodarilo zaregistrovať: Chyba siete",
     "Could not register device: Probably already registered" : "Zariadenie sa nepodarilo zaregistrovať: Pravdepodobne je už zaregistrované",
     "Could not register device" : "Zariadenie sa nepodarilo zaregistrovať",
-    "An error occurred during the request. Unable to proceed." : "Počas vykonania požiadavky nastala chyba.  Nie je možné pokračovať.",
+    "An error occurred during the request. Unable to proceed." : "Počas vybavovania požiadavky nastala chyba.  Nie je možné pokračovať.",
     "The app has been enabled but needs to be updated. You will be redirected to the update page in 5 seconds." : "Aplikácia bola povolená, ale vyžaduje sa aktualizácia. Presmerovanie na stránku aktualizácie o 5 sekúnd.",
     "Error: This app cannot be enabled because it makes the server unstable" : "Chyba: aplikáciu nie je možné povoliť, lebo naruší stabilitu servera",
     "Do you really want to wipe your data from this device?" : "Naozaj chcete vymazať svoje údaje z tohto zariadenia?",
