@@ -47,7 +47,7 @@ export const resultToNode = function(node: FileStat): File | Folder {
 
 	const props = node.props as ResponseProps
 	const permissions = davParsePermissions(props?.permissions)
-	const owner = (props['owner-id'] || userId).toString()
+	const owner = String(props['owner-id'] || userId)
 
 	const source = generateRemoteUrl('dav' + rootPath + node.filename)
 	const id = props?.fileid < 0
@@ -66,7 +66,9 @@ export const resultToNode = function(node: FileStat): File | Folder {
 		attributes: {
 			...node,
 			...props,
-			hasPreview: props?.['has-preview'],
+			'owner-id': owner,
+			'owner-display-name': String(props['owner-display-name']),
+			hasPreview: !!props?.['has-preview'],
 			failed: props?.fileid < 0,
 		},
 	}
