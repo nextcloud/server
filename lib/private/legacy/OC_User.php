@@ -36,6 +36,7 @@
  *
  */
 
+use OC\Authentication\Token\IProvider;
 use OC\User\LoginException;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IGroupManager;
@@ -197,6 +198,14 @@ class OC_User {
 
 				$userSession->createSessionToken($request, $uid, $uid, $password);
 				$userSession->createRememberMeToken($userSession->getUser());
+
+				if (empty($password)) {
+					$tokenProvider = \OC::$server->get(IProvider::class);
+					$token = $tokenProvider->getToken($userSession->getSession()->getId());
+					$token->setScope(['sso-based-login' => true]);
+					$tokenProvider->updateToken($token);
+				}
+
 				// setup the filesystem
 				OC_Util::setupFS($uid);
 				// first call the post_login hooks, the login-process needs to be
