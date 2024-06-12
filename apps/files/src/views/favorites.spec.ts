@@ -6,6 +6,7 @@
 import { basename } from 'path'
 import { expect } from '@jest/globals'
 import { Folder, Navigation, getNavigation } from '@nextcloud/files'
+import { CancelablePromise } from 'cancelable-promise'
 import eventBus from '@nextcloud/event-bus'
 import * as initialState from '@nextcloud/initial-state'
 
@@ -40,7 +41,7 @@ describe('Favorites view definition', () => {
 
 	test('Default empty favorite view', () => {
 		jest.spyOn(eventBus, 'subscribe')
-		jest.spyOn(favoritesService, 'getContents').mockReturnValue(Promise.resolve({ folder: {} as Folder, contents: [] }))
+		jest.spyOn(favoritesService, 'getContents').mockReturnValue(CancelablePromise.resolve({ folder: {} as Folder, contents: [] }))
 
 		registerFavoritesView()
 		const favoritesView = Navigation.views.find(view => view.id === 'favorites')
@@ -71,7 +72,7 @@ describe('Favorites view definition', () => {
 			{ fileid: 3, path: '/foo/bar' },
 		]
 		jest.spyOn(initialState, 'loadState').mockReturnValue(favoriteFolders)
-		jest.spyOn(favoritesService, 'getContents').mockReturnValue(Promise.resolve({ folder: {} as Folder, contents: [] }))
+		jest.spyOn(favoritesService, 'getContents').mockReturnValue(CancelablePromise.resolve({ folder: {} as Folder, contents: [] }))
 
 		registerFavoritesView()
 		const favoritesView = Navigation.views.find(view => view.id === 'favorites')
@@ -114,7 +115,7 @@ describe('Dynamic update of favourite folders', () => {
 	test('Add a favorite folder creates a new entry in the navigation', async () => {
 		jest.spyOn(eventBus, 'emit')
 		jest.spyOn(initialState, 'loadState').mockReturnValue([])
-		jest.spyOn(favoritesService, 'getContents').mockReturnValue(Promise.resolve({ folder: {} as Folder, contents: [] }))
+		jest.spyOn(favoritesService, 'getContents').mockReturnValue(CancelablePromise.resolve({ folder: {} as Folder, contents: [] }))
 
 		registerFavoritesView()
 		const favoritesView = Navigation.views.find(view => view.id === 'favorites')
@@ -143,7 +144,7 @@ describe('Dynamic update of favourite folders', () => {
 		jest.spyOn(eventBus, 'emit')
 		jest.spyOn(eventBus, 'subscribe')
 		jest.spyOn(initialState, 'loadState').mockReturnValue([{ fileid: 42, path: '/Foo/Bar' }])
-		jest.spyOn(favoritesService, 'getContents').mockReturnValue(Promise.resolve({ folder: {} as Folder, contents: [] }))
+		jest.spyOn(favoritesService, 'getContents').mockReturnValue(CancelablePromise.resolve({ folder: {} as Folder, contents: [] }))
 
 		registerFavoritesView()
 		let favoritesView = Navigation.views.find(view => view.id === 'favorites')

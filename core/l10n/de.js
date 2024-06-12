@@ -114,7 +114,7 @@ OC.L10N.register(
     "An internal error occurred." : "Es ist ein interner Fehler aufgetreten.",
     "Please try again or contact your administrator." : "Bitte versuche es noch einmal oder kontaktiere den Administrator.",
     "Password" : "Passwort",
-    "Log in to {productName}" : "Bei {productName} Anmelden",
+    "Log in to {productName}" : "Anmelden bei {productName}",
     "Wrong login or password." : "Anmeldename oder Passwort falsch",
     "This account is disabled" : "Dieses Konto ist deaktiviert",
     "We have detected multiple invalid login attempts from your IP. Therefore your next login is throttled up to 30 seconds." : "Es wurden mehrere ungültige Anmeldeversuche von deiner IP-Adresse festgestellt. Daher wird die nächste Anmeldung um 30 Sekunden verzögert.",

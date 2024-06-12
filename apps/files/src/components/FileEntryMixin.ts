@@ -4,6 +4,7 @@
  */
 
 import type { ComponentPublicInstance, PropType } from 'vue'
+import type { FileSource } from '../types.ts'
 
 import { showError } from '@nextcloud/dialogs'
 import { FileType, Permission, Folder, File as NcFile, NodeStatus, Node, View } from '@nextcloud/files'
@@ -85,13 +86,13 @@ export default defineComponent({
 		},
 
 		draggingFiles() {
-			return this.draggingStore.dragging
+			return this.draggingStore.dragging as FileSource[]
 		},
 		selectedFiles() {
-			return this.selectionStore.selected
+			return this.selectionStore.selected as FileSource[]
 		},
 		isSelected() {
-			return this.fileid && this.selectedFiles.includes(this.fileid)
+			return this.selectedFiles.includes(this.source.source)
 		},
 
 		isRenaming() {
@@ -116,7 +117,7 @@ export default defineComponent({
 
 			// If we're dragging a selection, we need to check all files
 			if (this.selectedFiles.length > 0) {
-				const nodes = this.selectedFiles.map(fileid => this.filesStore.getNode(fileid)) as Node[]
+				const nodes = this.selectedFiles.map(source => this.filesStore.getNode(source)) as Node[]
 				return nodes.every(canDrag)
 			}
 			return canDrag(this.source)
@@ -128,7 +129,7 @@ export default defineComponent({
 			}
 
 			// If the current folder is also being dragged, we can't drop it on itself
-			if (this.fileid && this.draggingFiles.includes(this.fileid)) {
+			if (this.draggingFiles.includes(this.source.source)) {
 				return false
 			}
 
@@ -207,7 +208,8 @@ export default defineComponent({
 		},
 
 		execDefaultAction(event) {
-			if (event.ctrlKey || event.metaKey) {
+			// if ctrl+click or middle mouse button, open in new tab
+			if (event.ctrlKey || event.metaKey || event.button === 1) {
 				event.preventDefault()
 				window.open(generateUrl('/f/{fileId}', { fileId: this.fileid }))
 				return false
@@ -268,14 +270,14 @@ export default defineComponent({
 
 			// Dragging set of files, if we're dragging a file
 			// that is already selected, we use the entire selection
-			if (this.selectedFiles.includes(this.fileid)) {
+			if (this.selectedFiles.includes(this.source.source)) {
 				this.draggingStore.set(this.selectedFiles)
 			} else {
-				this.draggingStore.set([this.fileid])
+				this.draggingStore.set([this.source.source])
 			}
 
 			const nodes = this.draggingStore.dragging
-				.map(fileid => this.filesStore.getNode(fileid)) as Node[]
+				.map(source => this.filesStore.getNode(source)) as Node[]
 
 			const image = await getDragAndDropPreview(nodes)
 			event.dataTransfer?.setDragImage(image, -10, -10)
@@ -329,12 +331,12 @@ export default defineComponent({
 			}
 
 			// Else we're moving/copying files
-			const nodes = selection.map(fileid => this.filesStore.getNode(fileid)) as Node[]
+			const nodes = selection.map(source => this.filesStore.getNode(source)) as Node[]
 			await onDropInternalFiles(nodes, folder, contents.contents, isCopy)
 
 			// Reset selection after we dropped the files
 			// if the dropped files are within the selection
-			if (selection.some(fileid => this.selectedFiles.includes(fileid))) {
+			if (selection.some(source => this.selectedFiles.includes(source))) {
 				logger.debug('Dropped selection, resetting select store...')
 				this.selectionStore.reset()
 			}

@@ -3,67 +3,24 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 import type { ContentsWithRoot } from '@nextcloud/files'
-import type { FileStat, ResponseDataDetailed, DAVResultResponseProps } from 'webdav'
+import type { FileStat, ResponseDataDetailed } from 'webdav'
 
 import { CancelablePromise } from 'cancelable-promise'
-import { File, Folder, davParsePermissions, davGetDefaultPropfind } from '@nextcloud/files'
-import { generateRemoteUrl } from '@nextcloud/router'
-import { getCurrentUser } from '@nextcloud/auth'
+import { File, Folder, davGetDefaultPropfind, davResultToNode, davRootPath } from '@nextcloud/files'
+import { client } from './WebdavClient.ts'
+import logger from '../logger.js'
 
-import { getClient, rootPath } from './WebdavClient'
-import { hashCode } from '../utils/hashUtils'
-import logger from '../logger'
+/**
+ * Slim wrapper over `@nextcloud/files` `davResultToNode` to allow using the function with `Array.map`
+ * @param node The node returned by the webdav library
+ */
+export const resultToNode = (node: FileStat): File | Folder => davResultToNode(node)
 
-const client = getClient()
-
-interface ResponseProps extends DAVResultResponseProps {
-	permissions: string,
-	fileid: number,
-	size: number,
-}
-
-export const resultToNode = function(node: FileStat): File | Folder {
-	const userId = getCurrentUser()?.uid
-	if (!userId) {
-		throw new Error('No user id found')
-	}
-
-	const props = node.props as ResponseProps
-	const permissions = davParsePermissions(props?.permissions)
-	const owner = (props['owner-id'] || userId).toString()
-
-	const source = generateRemoteUrl('dav' + rootPath + node.filename)
-	const id = props?.fileid < 0
-		? hashCode(source)
-		: props?.fileid as number || 0
-
-	const nodeData = {
-		id,
-		source,
-		mtime: new Date(node.lastmod),
-		mime: node.mime || 'application/octet-stream',
-		size: props?.size as number || 0,
-		permissions,
-		owner,
-		root: rootPath,
-		attributes: {
-			...node,
-			...props,
-			hasPreview: props?.['has-preview'],
-			failed: props?.fileid < 0,
-		},
-	}
-
-	delete nodeData.attributes.props
-
-	return node.type === 'file'
-		? new File(nodeData)
-		: new Folder(nodeData)
-}
-
-export const getContents = (path = '/'): Promise<ContentsWithRoot> => {
+export const getContents = (path = '/'): CancelablePromise<ContentsWithRoot> => {
 	const controller = new AbortController()
 	const propfindPayload = davGetDefaultPropfind()
+
+	path = `${davRootPath}${path}`
 
 	return new CancelablePromise(async (resolve, reject, onCancel) => {
 		onCancel(() => controller.abort())
@@ -77,13 +34,14 @@ export const getContents = (path = '/'): Promise<ContentsWithRoot> => {
 
 			const root = contentsResponse.data[0]
 			const contents = contentsResponse.data.slice(1)
-			if (root.filename !== path) {
+			if (root.filename !== path && `${root.filename}/` !== path) {
+				logger.debug(`Exepected "${path}" but got filename "${root.filename}" instead.`)
 				throw new Error('Root node does not match requested path')
 			}
 
 			resolve({
 				folder: resultToNode(root) as Folder,
-				contents: contents.map(result => {
+				contents: contents.map((result) => {
 					try {
 						return resultToNode(result)
 					} catch (error) {

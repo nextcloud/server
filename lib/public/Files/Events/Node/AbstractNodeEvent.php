@@ -9,12 +9,14 @@ declare(strict_types=1);
 namespace OCP\Files\Events\Node;
 
 use OCP\EventDispatcher\Event;
+use OCP\EventDispatcher\IWebhookCompatibleEvent;
+use OCP\EventDispatcher\JsonSerializer;
 use OCP\Files\Node;
 
 /**
  * @since 20.0.0
  */
-abstract class AbstractNodeEvent extends Event {
+abstract class AbstractNodeEvent extends Event implements IWebhookCompatibleEvent {
 	/**
 	 * @since 20.0.0
 	 */
@@ -28,5 +30,14 @@ abstract class AbstractNodeEvent extends Event {
 	 */
 	public function getNode(): Node {
 		return $this->node;
+	}
+
+	/**
+	 * @since 30.0.0
+	 */
+	public function getWebhookSerializable(): array {
+		return [
+			'node' => JsonSerializer::serializeFileInfo($this->node),
+		];
 	}
 }

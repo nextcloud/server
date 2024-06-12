@@ -86,6 +86,7 @@ OC.L10N.register(
     "Organizer:" : "Düzenleyen:",
     "Attendees:" : "Katılımcılar:",
     "Title:" : "Başlık:",
+    "Date and time:" : "Tarih ve saat:",
     "Location:" : "Konum:",
     "Link:" : "Bağlantı:",
     "Accept" : "Kabul et",

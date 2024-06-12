@@ -166,6 +166,7 @@
     "Your ownership transfer of {path} to {user} has completed." : "{path} yolundaki sahipliğiniz {user} kullanıcısına aktarıldı.",
     "The ownership transfer of {path} from {user} has completed." : "{path} yolundaki {user} kullanıcısının sahipliği size aktarıldı.",
     "in %s" : "%s içinde",
+    "Transferred from %1$s on %2$s" : "%1$s üzerinden %2$s zamanında aktarıldı",
     "File Management" : "Dosya yönetimi",
     "Current directory path" : "Geçerli klasör yolu",
     "Reload current directory" : "Geçerli klasörü yeniden yükle",

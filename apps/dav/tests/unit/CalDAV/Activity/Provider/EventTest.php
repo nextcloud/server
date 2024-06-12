@@ -91,7 +91,9 @@ class EventTest extends TestCase {
 	 * @param bool $calendarAppEnabled
 	 */
 	public function testGenerateObjectParameter(int $id, string $name, ?array $link, bool $calendarAppEnabled = true): void {
+		$affectedUser = 'otheruser';
 		if ($link) {
+			$affectedUser = $link['owner'];
 			$generatedLink = [
 				'view' => 'dayGridMonth',
 				'timeRange' => 'now',
@@ -124,7 +126,40 @@ class EventTest extends TestCase {
 		if ($link && $calendarAppEnabled) {
 			$result['link'] = 'fullLink';
 		}
-		$this->assertEquals($result, $this->invokePrivate($this->provider, 'generateObjectParameter', [$objectParameter]));
+		$this->assertEquals($result, $this->invokePrivate($this->provider, 'generateObjectParameter', [$objectParameter, $affectedUser]));
+	}
+
+	public function testGenerateObjectParameterWithSharedCalendar(): void {
+		$link = [
+			'object_uri' => 'someuuid.ics',
+			'calendar_uri' => 'personal',
+			'owner' => 'sharer'
+		];
+		$generatedLink = [
+			'view' => 'dayGridMonth',
+			'timeRange' => 'now',
+			'mode' => 'sidebar',
+			'objectId' => base64_encode('/remote.php/dav/calendars/sharee/' . $link['calendar_uri'] . '_shared_by_sharer/' . $link['object_uri']),
+			'recurrenceId' => 'next'
+		];
+		$this->appManager->expects($this->once())
+			->method('isEnabledForUser')
+			->with('calendar')
+			->willReturn(true);
+		$this->url->expects($this->once())
+			->method('getWebroot');
+		$this->url->expects($this->once())
+			->method('linkToRouteAbsolute')
+			->with('calendar.view.indexview.timerange.edit', $generatedLink)
+			->willReturn('fullLink');
+		$objectParameter = ['id' => 42, 'name' => 'calendar', 'link' => $link];
+		$result = [
+			'type' => 'calendar-event',
+			'id' => 42,
+			'name' => 'calendar',
+			'link' => 'fullLink',
+		];
+		$this->assertEquals($result, $this->invokePrivate($this->provider, 'generateObjectParameter', [$objectParameter, 'sharee']));
 	}
 
 	public function dataGenerateObjectParameterThrows() {
@@ -143,6 +178,6 @@ class EventTest extends TestCase {
 	public function testGenerateObjectParameterThrows($eventData, string $exception = InvalidArgumentException::class): void {
 		$this->expectException($exception);
 
-		$this->invokePrivate($this->provider, 'generateObjectParameter', [$eventData]);
+		$this->invokePrivate($this->provider, 'generateObjectParameter', [$eventData, 'no_user']);
 	}
 }

@@ -64,6 +64,7 @@ import FilesListTableHeaderButton from './FilesListTableHeaderButton.vue'
 import filesSortingMixin from '../mixins/filesSorting.ts'
 import logger from '../logger.js'
 import type { Node } from '@nextcloud/files'
+import type { FileSource } from '../types.ts'
 
 export default defineComponent({
 	name: 'FilesListTableHeader',
@@ -169,7 +170,7 @@ export default defineComponent({
 
 		onToggleAll(selected) {
 			if (selected) {
-				const selection = this.nodes.map(node => node.fileid).filter(Boolean) as number[]
+				const selection = this.nodes.map(node => node.source).filter(Boolean) as FileSource[]
 				logger.debug('Added all nodes to selection', { selection })
 				this.selectionStore.setLastIndex(null)
 				this.selectionStore.set(selection)

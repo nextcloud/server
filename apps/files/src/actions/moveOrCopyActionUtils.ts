@@ -51,7 +51,8 @@ export const canDownload = (nodes: Node[]) => {
 }
 
 export const canCopy = (nodes: Node[]) => {
-	// For now the only restriction is that a shared file
-	// cannot be copied if the download is disabled
+	// a shared file cannot be copied if the download is disabled
+	// it can be copied if the user has at least read permissions
 	return canDownload(nodes)
+		&& !nodes.some(node => node.permissions === Permission.NONE)
 }

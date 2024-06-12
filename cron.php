@@ -154,14 +154,33 @@ Options:
 			$jobDetails = get_class($job) . ' (id: ' . $job->getId() . ', arguments: ' . json_encode($job->getArgument()) . ')';
 			$logger->debug('CLI cron call has selected job ' . $jobDetails, ['app' => 'cron']);
 
+			$timeBefore = time();
 			$memoryBefore = memory_get_usage();
 			$memoryPeakBefore = memory_get_peak_usage();
 
 			/** @psalm-suppress DeprecatedMethod Calling execute until it is removed, then will switch to start */
 			$job->execute($jobList);
 
+			$timeAfter = time();
 			$memoryAfter = memory_get_usage();
 			$memoryPeakAfter = memory_get_peak_usage();
+
+			$cronInterval = 5 * 60;
+			$timeSpent = $timeAfter - $timeBefore;
+			if ($timeSpent > $cronInterval) {
+				$logLevel = match (true) {
+					$timeSpent > $cronInterval * 128 => \OCP\ILogger::FATAL,
+					$timeSpent > $cronInterval * 64 => \OCP\ILogger::ERROR,
+					$timeSpent > $cronInterval * 16 => \OCP\ILogger::WARN,
+					$timeSpent > $cronInterval * 8 => \OCP\ILogger::INFO,
+					default => \OCP\ILogger::DEBUG,
+				};
+				$logger->log(
+					$logLevel,
+					'Background job ' . $jobDetails . ' ran for ' . $timeSpent . ' seconds',
+					['app' => 'cron']
+				);
+			}
 
 			if ($memoryAfter - $memoryBefore > 50_000_000) {
 				$logger->warning('Used memory grew by more than 50 MB when executing job ' . $jobDetails . ': ' . Util::humanFileSize($memoryAfter). ' (before: ' . Util::humanFileSize($memoryBefore) . ')', ['app' => 'cron']);
@@ -178,7 +197,7 @@ Options:
 			$executedJobs[$job->getId()] = true;
 			unset($job);
 
-			if (time() > $endTime) {
+			if ($timeAfter > $endTime) {
 				break;
 			}
 		}
