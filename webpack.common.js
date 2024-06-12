@@ -4,14 +4,16 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 const { VueLoaderPlugin } = require('vue-loader')
+const { readFileSync } = require('fs')
 const path = require('path')
+
 const BabelLoaderExcludeNodeModulesExcept = require('babel-loader-exclude-node-modules-except')
 const webpack = require('webpack')
 const NodePolyfillPlugin = require('node-polyfill-webpack-plugin')
 const WorkboxPlugin = require('workbox-webpack-plugin')
+const WebpackSPDXPlugin = require('./build/WebpackSPDXPlugin.js')
 
 const modules = require('./webpack.modules.js')
-const { readFileSync } = require('fs')
 
 const appVersion = readFileSync('./version.php').toString().match(/OC_VersionString[^']+'([^']+)/)?.[1] ?? 'unknown'
 
@@ -152,14 +154,11 @@ module.exports = {
 				// Lazy load the Terser plugin
 				const TerserPlugin = require('terser-webpack-plugin')
 				new TerserPlugin({
-					extractComments: {
-						condition: /^\**!|@license|@copyright|SPDX-License-Identifier|SPDX-FileCopyrightText/i,
-						filename: (fileData) => {
-						  // The "fileData" argument contains object with "filename", "basename", "query" and "hash"
-						  return `${fileData.filename}.license${fileData.query}`
-						},
-					},
+					extractComments: false,
 					terserOptions: {
+						format: {
+							comments: false,
+						},
 						compress: {
 							passes: 2,
 						},
@@ -238,6 +237,13 @@ module.exports = {
 		new webpack.IgnorePlugin({
 			resourceRegExp: /^\.\/locale$/,
 			contextRegExp: /moment\/min$/,
+		}),
+
+		// Generate reuse license files
+		new WebpackSPDXPlugin({
+			override: {
+				select2: 'MIT',
+			}
 		}),
 	],
 	externals: {
