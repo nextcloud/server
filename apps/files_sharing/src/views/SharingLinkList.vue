@@ -116,7 +116,7 @@ export default {
 		 */
 		addShare(share, resolve) {
 			// eslint-disable-next-line vue/no-mutating-props
-			this.shares = [share, ...this.shares]
+			this.shares.unshift(share)
 			this.awaitForShare(share, resolve)
 		},
 
