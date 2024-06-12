@@ -346,12 +346,27 @@ describe('SharingService share to Node mapping', () => {
 		expect(folder.attributes.favorite).toBe(1)
 	})
 
+	test('Empty', async () => {
+		jest.spyOn(logger, 'error').mockImplementationOnce(() => {})
+		jest.spyOn(axios, 'get').mockReturnValueOnce(Promise.resolve({
+			data: {
+				ocs: {
+					data: [],
+				},
+			},
+		}))
+
+		const shares = await getContents(false, true, false, false)
+		expect(shares.contents).toHaveLength(0)
+		expect(logger.error).toHaveBeenCalledTimes(0)
+	})
+
 	test('Error', async () => {
 		jest.spyOn(logger, 'error').mockImplementationOnce(() => {})
 		jest.spyOn(axios, 'get').mockReturnValueOnce(Promise.resolve({
 			data: {
 				ocs: {
-					data: [{}],
+					data: [null],
 				},
 			},
 		}))
