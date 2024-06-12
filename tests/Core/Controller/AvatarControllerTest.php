@@ -19,6 +19,7 @@ namespace Tests\Core\Controller;
 
 use OC\AppFramework\Utility\TimeFactory;
 use OC\Core\Controller\AvatarController;
+use OC\Core\Controller\GuestAvatarController;
 use OCP\AppFramework\Http;
 use OCP\Files\File;
 use OCP\Files\IRootFolder;
@@ -42,13 +43,15 @@ use Psr\Log\LoggerInterface;
 class AvatarControllerTest extends \Test\TestCase {
 	/** @var AvatarController */
 	private $avatarController;
+	/** @var GuestAvatarController */
+	private $guestAvatarController;
+
 	/** @var IAvatar|\PHPUnit\Framework\MockObject\MockObject */
 	private $avatarMock;
 	/** @var IUser|\PHPUnit\Framework\MockObject\MockObject */
 	private $userMock;
 	/** @var ISimpleFile|\PHPUnit\Framework\MockObject\MockObject */
 	private $avatarFile;
-
 	/** @var IAvatarManager|\PHPUnit\Framework\MockObject\MockObject */
 	private $avatarManager;
 	/** @var ICache|\PHPUnit\Framework\MockObject\MockObject */
@@ -83,6 +86,13 @@ class AvatarControllerTest extends \Test\TestCase {
 		$this->avatarMock = $this->getMockBuilder('OCP\IAvatar')->getMock();
 		$this->userMock = $this->getMockBuilder(IUser::class)->getMock();
 
+		$this->guestAvatarController = new GuestAvatarController(
+			'core',
+			$this->request,
+			$this->avatarManager,
+			$this->logger
+		);
+
 		$this->avatarController = new AvatarController(
 			'core',
 			$this->request,
@@ -93,7 +103,8 @@ class AvatarControllerTest extends \Test\TestCase {
 			$this->rootFolder,
 			$this->logger,
 			'userid',
-			$this->timeFactory
+			$this->timeFactory,
+			$this->guestAvatarController,
 		);
 
 		// Configure userMock
