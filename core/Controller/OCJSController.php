@@ -63,7 +63,6 @@ class OCJSController extends Controller {
 								IInitialStateService $initialStateService,
 								IProvider $tokenProvider,
 	) {
-
 		parent::__construct($appName, $request);
 
 		$this->helper = new JSConfigHelper(

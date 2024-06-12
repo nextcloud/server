@@ -58,7 +58,6 @@ use OCP\User\Backend\IPasswordConfirmationBackend;
 use OCP\Util;
 
 class JSConfigHelper {
-
 	/** @var array user back-ends excluded from password verification */
 	private $excludedUserBackEnds = ['user_saml' => true, 'user_globalsiteselector' => true];
 
