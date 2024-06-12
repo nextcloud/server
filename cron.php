@@ -129,7 +129,7 @@ try {
 			$executedJobs[$job->getId()] = true;
 			unset($job);
 
-			if (time() > $endTime) {
+			if ($timeAfter > $endTime) {
 				break;
 			}
 		}
