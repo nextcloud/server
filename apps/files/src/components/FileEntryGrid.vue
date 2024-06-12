@@ -32,6 +32,7 @@
 				:dragover="dragover"
 				:grid-mode="true"
 				:source="source"
+				@auxclick.native="execDefaultAction"
 				@click.native="execDefaultAction" />
 
 			<FileEntryName ref="name"
@@ -41,7 +42,8 @@
 				:grid-mode="true"
 				:nodes="nodes"
 				:source="source"
-				@click="execDefaultAction" />
+				@auxclick.native="execDefaultAction"
+				@click.native="execDefaultAction" />
 		</td>
 
 		<!-- Actions -->

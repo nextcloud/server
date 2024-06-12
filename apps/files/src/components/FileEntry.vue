@@ -30,6 +30,7 @@
 			<FileEntryPreview ref="preview"
 				:source="source"
 				:dragover="dragover"
+				@auxclick.native="execDefaultAction"
 				@click.native="execDefaultAction" />
 
 			<FileEntryName ref="name"
@@ -38,7 +39,8 @@
 				:files-list-width="filesListWidth"
 				:nodes="nodes"
 				:source="source"
-				@click="execDefaultAction" />
+				@auxclick.native="execDefaultAction"
+				@click.native="execDefaultAction" />
 		</td>
 
 		<!-- Actions -->
