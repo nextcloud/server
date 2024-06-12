@@ -172,7 +172,7 @@ class DefaultTheme implements ITheme {
 			// pill-style button, value is large so big buttons also have correct roundness
 			'--border-radius-pill' => '100px',
 
-			'--default-clickable-area' => '32px',
+			'--default-clickable-area' => '34px',
 			'--clickable-area-large' => '48px',
 			'--clickable-area-small' => '24px',
 			'--default-line-height' => '24px',
