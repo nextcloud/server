@@ -309,6 +309,6 @@ class JSConfigHelper {
 			return true;
 		}
 		$scope = $token->getScopeAsArray();
-		return !isset($scope['sso-based-login']) || $scope['sso-based-login'] === false;
+		return !isset($scope['password-unconfirmable']) || $scope['password-unconfirmable'] === false;
 	}
 }

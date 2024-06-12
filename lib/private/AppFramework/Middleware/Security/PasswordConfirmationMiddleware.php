@@ -99,7 +99,7 @@ class PasswordConfirmationMiddleware extends Middleware {
 				return;
 			}
 			$scope = $token->getScopeAsArray();
-			if (isset($scope['sso-based-login']) && $scope['sso-based-login'] === true) {
+			if (isset($scope['password-unconfirmable']) && $scope['password-unconfirmable'] === true) {
 				// Users logging in from SSO backends cannot confirm their password by design
 				return;
 			}
