@@ -38,6 +38,7 @@ use OCP\AppFramework\Http\Attribute\FrontpageRoute;
 use OCP\AppFramework\Http\DataDisplayResponse;
 use OCP\AppFramework\Http\FileDisplayResponse;
 use OCP\AppFramework\Http\JSONResponse;
+use OCP\AppFramework\Http\Response;
 use OCP\Files\File;
 use OCP\Files\IRootFolder;
 use OCP\IAvatarManager;
@@ -64,6 +65,7 @@ class AvatarController extends Controller {
 		protected LoggerInterface $logger,
 		protected ?string $userId,
 		protected TimeFactory $timeFactory,
+		protected GuestAvatarController $guestAvatarController,
 	) {
 		parent::__construct($appName, $request);
 	}
@@ -78,13 +80,15 @@ class AvatarController extends Controller {
 	 *
 	 * @param string $userId ID of the user
 	 * @param int $size Size of the avatar
-	 * @return FileDisplayResponse<Http::STATUS_OK, array{Content-Type: string, X-NC-IsCustomAvatar: int}>|JSONResponse<Http::STATUS_NOT_FOUND, array<empty>, array{}>
+	 * @param bool $guestFallback Fallback to guest avatar if not found
+	 * @return FileDisplayResponse<Http::STATUS_OK|Http::STATUS_CREATED, array{Content-Type: string, X-NC-IsCustomAvatar: int}>|JSONResponse<Http::STATUS_NOT_FOUND, array<empty>, array{}>|Response<Http::STATUS_INTERNAL_SERVER_ERROR, array{}>
 	 *
 	 * 200: Avatar returned
+	 * 201: Avatar returned
 	 * 404: Avatar not found
 	 */
 	#[FrontpageRoute(verb: 'GET', url: '/avatar/{userId}/{size}/dark')]
-	public function getAvatarDark(string $userId, int $size) {
+	public function getAvatarDark(string $userId, int $size, bool $guestFallback = false) {
 		if ($size <= 64) {
 			if ($size !== 64) {
 				$this->logger->debug('Avatar requested in deprecated size ' . $size);
@@ -106,6 +110,9 @@ class AvatarController extends Controller {
 				['Content-Type' => $avatarFile->getMimeType(), 'X-NC-IsCustomAvatar' => (int)$avatar->isCustomAvatar()]
 			);
 		} catch (\Exception $e) {
+			if ($guestFallback) {
+				return $this->guestAvatarController->getAvatarDark($userId, (string)$size);
+			}
 			return new JSONResponse([], Http::STATUS_NOT_FOUND);
 		}
 
@@ -125,13 +132,15 @@ class AvatarController extends Controller {
 	 *
 	 * @param string $userId ID of the user
 	 * @param int $size Size of the avatar
-	 * @return FileDisplayResponse<Http::STATUS_OK, array{Content-Type: string, X-NC-IsCustomAvatar: int}>|JSONResponse<Http::STATUS_NOT_FOUND, array<empty>, array{}>
+	 * @param bool $guestFallback Fallback to guest avatar if not found
+	 * @return FileDisplayResponse<Http::STATUS_OK|Http::STATUS_CREATED, array{Content-Type: string, X-NC-IsCustomAvatar: int}>|JSONResponse<Http::STATUS_NOT_FOUND, array<empty>, array{}>|Response<Http::STATUS_INTERNAL_SERVER_ERROR, array{}>
 	 *
 	 * 200: Avatar returned
+	 * 201: Avatar returned
 	 * 404: Avatar not found
 	 */
 	#[FrontpageRoute(verb: 'GET', url: '/avatar/{userId}/{size}')]
-	public function getAvatar(string $userId, int $size) {
+	public function getAvatar(string $userId, int $size, bool $guestFallback = false) {
 		if ($size <= 64) {
 			if ($size !== 64) {
 				$this->logger->debug('Avatar requested in deprecated size ' . $size);
@@ -153,6 +162,9 @@ class AvatarController extends Controller {
 				['Content-Type' => $avatarFile->getMimeType(), 'X-NC-IsCustomAvatar' => (int)$avatar->isCustomAvatar()]
 			);
 		} catch (\Exception $e) {
+			if ($guestFallback) {
+				return $this->guestAvatarController->getAvatar($userId, (string)$size);
+			}
 			return new JSONResponse([], Http::STATUS_NOT_FOUND);
 		}
 

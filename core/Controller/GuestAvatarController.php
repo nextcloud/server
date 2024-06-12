@@ -57,7 +57,7 @@ class GuestAvatarController extends Controller {
 	 * @param string $guestName The guest name, e.g. "Albert"
 	 * @param string $size The desired avatar size, e.g. 64 for 64x64px
 	 * @param bool|null $darkTheme Return dark avatar
-	 * @return FileDisplayResponse<Http::STATUS_OK|Http::STATUS_CREATED, array{Content-Type: string}>|Response<Http::STATUS_INTERNAL_SERVER_ERROR, array{}>
+	 * @return FileDisplayResponse<Http::STATUS_OK|Http::STATUS_CREATED, array{Content-Type: string, X-NC-IsCustomAvatar: int}>|Response<Http::STATUS_INTERNAL_SERVER_ERROR, array{}>
 	 *
 	 * 200: Custom avatar returned
 	 * 201: Avatar returned
@@ -86,7 +86,7 @@ class GuestAvatarController extends Controller {
 			$resp = new FileDisplayResponse(
 				$avatarFile,
 				$avatar->isCustomAvatar() ? Http::STATUS_OK : Http::STATUS_CREATED,
-				['Content-Type' => $avatarFile->getMimeType()]
+				['Content-Type' => $avatarFile->getMimeType(), 'X-NC-IsCustomAvatar' => (int)$avatar->isCustomAvatar()]
 			);
 		} catch (\Exception $e) {
 			$this->logger->error('error while creating guest avatar', [
@@ -110,7 +110,7 @@ class GuestAvatarController extends Controller {
 	 *
 	 * @param string $guestName The guest name, e.g. "Albert"
 	 * @param string $size The desired avatar size, e.g. 64 for 64x64px
-	 * @return FileDisplayResponse<Http::STATUS_OK|Http::STATUS_CREATED, array{Content-Type: string}>|Response<Http::STATUS_INTERNAL_SERVER_ERROR, array{}>
+	 * @return FileDisplayResponse<Http::STATUS_OK|Http::STATUS_CREATED, array{Content-Type: string, X-NC-IsCustomAvatar: int}>|Response<Http::STATUS_INTERNAL_SERVER_ERROR, array{}>
 	 *
 	 * 200: Custom avatar returned
 	 * 201: Avatar returned
