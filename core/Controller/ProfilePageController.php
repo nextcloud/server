@@ -29,10 +29,12 @@ namespace OC\Core\Controller;
 use OC\Profile\ProfileManager;
 use OCP\Profile\BeforeTemplateRenderedEvent;
 use OCP\AppFramework\Controller;
+use OCP\AppFramework\Http\Attribute\AnonRateLimit;
+use OCP\AppFramework\Http\Attribute\BruteForceProtection;
+use OCP\AppFramework\Http\Attribute\UserRateLimit;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
 use OCP\IRequest;
-use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\Share\IManager as IShareManager;
@@ -75,6 +77,9 @@ class ProfilePageController extends Controller {
 	 * @NoAdminRequired
 	 * @NoSubAdminRequired
 	 */
+	#[BruteForceProtection(action: 'user')]
+	#[UserRateLimit(limit: 30, period: 120)]
+	#[AnonRateLimit(limit: 30, period: 120)]
 	public function index(string $targetUserId): TemplateResponse {
 		$profileNotFoundTemplate = new TemplateResponse(
 			'core',
@@ -84,7 +89,11 @@ class ProfilePageController extends Controller {
 		);
 
 		$targetUser = $this->userManager->get($targetUserId);
-		if (!($targetUser instanceof IUser) || !$targetUser->isEnabled()) {
+		if ($targetUser === null) {
+			$profileNotFoundTemplate->throttle();
+			return $profileNotFoundTemplate;
+		}
+		if (!$targetUser->isEnabled()) {
 			return $profileNotFoundTemplate;
 		}
 		$visitingUser = $this->userSession->getUser();
