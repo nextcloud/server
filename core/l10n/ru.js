@@ -119,6 +119,7 @@ OC.L10N.register(
     "This account is disabled" : "Эта учётная запись отключена",
     "We have detected multiple invalid login attempts from your IP. Therefore your next login is throttled up to 30 seconds." : "С вашего IP-адреса было выполнено множество неудачных попыток входа в систему. Следующую попытку можно будет выполнить через 30 секунд.",
     "Account name or email" : "Учётная запись или адрес эл. почты",
+    "Account name" : "Имя учётной записи",
     "Log in with a device" : "Войти с устройства",
     "Login or email" : "Имя пользователя или адрес эл. почты",
     "Your account is not setup for passwordless login." : "Ваша учётная запись не настроена на вход без пароля.",
