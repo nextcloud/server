@@ -5,7 +5,7 @@ OC.L10N.register(
     "Your redirect URL needs to be a full URL for example: https://yourdomain.com/path" : "عنوان URL المُعاد توجيهه يجب أن يكون عنواناً كاملاً كما في المثال التالي:  https://yourdomain.com/path",
     "OAuth 2.0" : "OAuth 2.0",
     "Allows OAuth2 compatible authentication from other web applications." : "يسمح بالتحقّق من الهويّة عن طريق تطبيقات وب أخرى متوافقة مع OAuth2.",
-    "The OAuth2 app allows administrators to configure the built-in authentication workflow to also allow OAuth2 compatible authentication from other web applications." : "التطبيق OAuth2 يسمح للمشرفين بتهيئة الأجراء الأساسي للتحقّق من الهويّةبحيث يسمح بالتحقّق من الهويّة عن طريق تطبيقات وب أخرى متوافقة مع OAuth2.",
+    "The OAuth2 app allows administrators to configure the built-in authentication workflow to also allow OAuth2 compatible authentication from other web applications." : "التطبيق OAuth2 يسمح للمشرفين بتهيئة الإجراء الأساسي للتحقّق من الهويّةبحيث يسمح بالتحقّق من الهويّة عن طريق تطبيقات وب أخرى متوافقة مع OAuth2.",
     "OAuth 2.0 clients" : "عملاء OAuth2,0",
     "OAuth 2.0 allows external services to request access to {instanceName}." : "يسمح OAuth2.0 لخدمات خارجية بطلب الوصول إلى {instanceName}",
     "Name" : "الاسم",
