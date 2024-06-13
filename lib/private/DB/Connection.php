@@ -23,6 +23,8 @@ use Doctrine\DBAL\Platforms\SqlitePlatform;
 use Doctrine\DBAL\Result;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\DBAL\Statement;
+use OC\DB\QueryBuilder\Partitioned\PartitionSplit;
+use OC\DB\QueryBuilder\Partitioned\PartitionedQueryBuilder;
 use OC\DB\QueryBuilder\QueryBuilder;
 use OC\SystemConfig;
 use OCP\DB\QueryBuilder\IQueryBuilder;
@@ -76,6 +78,9 @@ class Connection extends PrimaryReadReplicaConnection {
 	protected bool $logRequestId;
 	protected string $requestId;
 
+	/** @var array<string, list<string>> */
+	protected array $partitions;
+
 	/**
 	 * Initializes a new instance of the Connection class.
 	 *
@@ -117,6 +122,8 @@ class Connection extends PrimaryReadReplicaConnection {
 			$this->dbDataCollector->setDebugStack($debugStack);
 			$this->_config->setSQLLogger($debugStack);
 		}
+
+		$this->partitions = $this->systemConfig->getValue('db.partitions', []);
 
 		$this->setNestTransactionsWithSavepoints(true);
 	}
@@ -169,11 +176,21 @@ class Connection extends PrimaryReadReplicaConnection {
 	 */
 	public function getQueryBuilder(): IQueryBuilder {
 		$this->queriesBuilt++;
-		return new QueryBuilder(
+		$builder = new QueryBuilder(
 			new ConnectionAdapter($this),
 			$this->systemConfig,
 			$this->logger
 		);
+		if (count($this->partitions) > 0) {
+			$builder = new PartitionedQueryBuilder($builder);
+			foreach ($this->partitions as $name => $tables) {
+				$partition = new PartitionSplit($name, $tables);
+				$builder->addPartition($partition);
+			}
+			return $builder;
+		} else {
+			return $builder;
+		}
 	}
 
 	/**
