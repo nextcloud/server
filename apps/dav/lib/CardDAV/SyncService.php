@@ -10,14 +10,14 @@ namespace OCA\DAV\CardDAV;
 
 use OCP\AppFramework\Db\TTransactional;
 use OCP\AppFramework\Http;
+use OCP\Http\Client\IClientService;
 use OCP\IDBConnection;
 use OCP\IUser;
 use OCP\IUserManager;
+use Psr\Http\Client\ClientExceptionInterface;
 use Psr\Log\LoggerInterface;
-use Sabre\DAV\Client;
 use Sabre\DAV\Xml\Response\MultiStatus;
 use Sabre\DAV\Xml\Service;
-use Sabre\HTTP\ClientHttpException;
 use Sabre\VObject\Reader;
 use function is_null;
 
@@ -32,18 +32,21 @@ class SyncService {
 	private ?array $localSystemAddressBook = null;
 	private Converter $converter;
 	protected string $certPath;
+	private IClientService $clientService;
 
 	public function __construct(CardDavBackend $backend,
 		IUserManager $userManager,
 		IDBConnection $dbConnection,
 		LoggerInterface $logger,
-		Converter $converter) {
+		Converter $converter,
+		IClientService $clientService) {
 		$this->backend = $backend;
 		$this->userManager = $userManager;
 		$this->logger = $logger;
 		$this->converter = $converter;
 		$this->certPath = '';
 		$this->dbConnection = $dbConnection;
+		$this->clientService = $clientService;
 	}
 
 	/**
@@ -57,7 +60,7 @@ class SyncService {
 		// 2. query changes
 		try {
 			$response = $this->requestSyncReport($url, $userName, $addressBookUrl, $sharedSecret, $syncToken);
-		} catch (ClientHttpException $ex) {
+		} catch (ClientExceptionInterface $ex) {
 			if ($ex->getCode() === Http::STATUS_UNAUTHORIZED) {
 				// remote server revoked access to the address book, remove it
 				$this->backend->deleteAddressBook($addressBookId);
@@ -77,9 +80,9 @@ class SyncService {
 				$this->atomic(function () use ($addressBookId, $cardUri, $vCard) {
 					$existingCard = $this->backend->getCard($addressBookId, $cardUri);
 					if ($existingCard === false) {
-						$this->backend->createCard($addressBookId, $cardUri, $vCard['body']);
+						$this->backend->createCard($addressBookId, $cardUri, $vCard);
 					} else {
-						$this->backend->updateCard($addressBookId, $cardUri, $vCard['body']);
+						$this->backend->updateCard($addressBookId, $cardUri, $vCard);
 					}
 				}, $this->dbConnection);
 			} else {
@@ -106,56 +109,50 @@ class SyncService {
 	}
 
 	/**
-	 * Check if there is a valid certPath we should use
+	 * @throws ClientExceptionInterface
 	 */
-	protected function getCertPath(): string {
-
-		// we already have a valid certPath
-		if ($this->certPath !== '') {
-			return $this->certPath;
-		}
-
-		$certManager = \OC::$server->getCertificateManager();
-		$certPath = $certManager->getAbsoluteBundlePath();
-		if (file_exists($certPath)) {
-			$this->certPath = $certPath;
-		}
-
-		return $this->certPath;
-	}
-
-	protected function getClient(string $url, string $userName, string $sharedSecret): Client {
-		$settings = [
-			'baseUri' => $url . '/',
-			'userName' => $userName,
-			'password' => $sharedSecret,
-		];
-		$client = new Client($settings);
-		$certPath = $this->getCertPath();
-		$client->setThrowExceptions(true);
-
-		if ($certPath !== '' && !str_starts_with($url, 'http://')) {
-			$client->addCurlSetting(CURLOPT_CAINFO, $this->certPath);
-		}
-
-		return $client;
-	}
-
 	protected function requestSyncReport(string $url, string $userName, string $addressBookUrl, string $sharedSecret, ?string $syncToken): array {
-		$client = $this->getClient($url, $userName, $sharedSecret);
+		$client = $this->clientService->newClient();
 
-		$body = $this->buildSyncCollectionRequestBody($syncToken);
+		// the trailing slash is important for merging base_uri and uri
+		$url = rtrim($url, '/') . '/';
 
-		$response = $client->request('REPORT', $addressBookUrl, $body, [
-			'Content-Type' => 'application/xml'
-		]);
+		$options = [
+			'auth' => [$userName, $sharedSecret],
+			'base_uri' => $url,
+			'body' => $this->buildSyncCollectionRequestBody($syncToken),
+			'headers' => ['Content-Type' => 'application/xml']
+		];
 
-		return $this->parseMultiStatus($response['body']);
+		$response = $client->request(
+			'REPORT',
+			$addressBookUrl,
+			$options
+		);
+
+		$body = $response->getBody();
+		assert(is_string($body));
+
+		return $this->parseMultiStatus($body);
 	}
 
-	protected function download(string $url, string $userName, string $sharedSecret, string $resourcePath): array {
-		$client = $this->getClient($url, $userName, $sharedSecret);
-		return $client->request('GET', $resourcePath);
+	protected function download(string $url, string $userName, string $sharedSecret, string $resourcePath): string {
+		$client = $this->clientService->newClient();
+
+		// the trailing slash is important for merging base_uri and uri
+		$url = rtrim($url, '/') . '/';
+
+		$options = [
+			'auth' => [$userName, $sharedSecret],
+			'base_uri' => $url,
+		];
+
+		$response = $client->get(
+			$resourcePath,
+			$options
+		);
+
+		return (string)$response->getBody();
 	}
 
 	private function buildSyncCollectionRequestBody(?string $syncToken): string {
