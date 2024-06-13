@@ -208,6 +208,11 @@ export default defineComponent({
 		},
 
 		execDefaultAction(event) {
+			// Ignore right click.
+			if (event.button > 1) {
+				return
+			}
+
 			// if ctrl+click or middle mouse button, open in new tab
 			if (event.ctrlKey || event.metaKey || event.button === 1) {
 				event.preventDefault()
