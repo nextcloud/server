@@ -26,6 +26,8 @@ use Psr\Log\LoggerInterface;
  * @package OCA\AdminAudit\Actions
  */
 class Files extends Action {
+
+	private array|null $renameParams = null;
 	/**
 	 * Logs file read actions
 	 *
@@ -68,12 +70,7 @@ class Files extends Action {
 			);
 			return;
 		}
-
-		$this->log(
-			'File with id "%s" renamed from "%s"',
-			$params,
-			array_keys($params)
-		);
+		$this->renameParams = $params;
 	}
 
 	/**
@@ -84,8 +81,10 @@ class Files extends Action {
 	public function afterRename(NodeRenamedEvent $event): void {
 		try {
 			$target = $event->getTarget();
+			$renameParams = $this->renameParams;
 			$params = [
 				'newid' => $target->getId(),
+				'oldpath' => $renameParams['oldpath'],
 				'newpath' => mb_substr($target->getInternalPath(), 5),
 			];
 		} catch (InvalidPathException|NotFoundException $e) {
@@ -96,7 +95,7 @@ class Files extends Action {
 		}
 
 		$this->log(
-			'File with id "%s" renamed to "%s"',
+			'File renamed with id "%s" from "%s" to "%s"',
 			$params,
 			array_keys($params)
 		);

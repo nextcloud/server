@@ -181,16 +181,16 @@ class Application extends App implements IBootstrap {
 		);
 
 		$eventDispatcher->addListener(
-			NodeRenamedEvent::class,
-			function (NodeRenamedEvent $event) use ($fileActions) {
-				$fileActions->afterRename($event);
+			BeforeNodeRenamedEvent::class,
+			function (BeforeNodeRenamedEvent $event) use ($fileActions) {
+				$fileActions->beforeRename($event);
 			}
 		);
 
 		$eventDispatcher->addListener(
-			BeforeNodeRenamedEvent::class,
-			function (BeforeNodeRenamedEvent $event) use ($fileActions) {
-				$fileActions->beforeRename($event);
+			NodeRenamedEvent::class,
+			function (NodeRenamedEvent $event) use ($fileActions) {
+				$fileActions->afterRename($event);
 			}
 		);
 
