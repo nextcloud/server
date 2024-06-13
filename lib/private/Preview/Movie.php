@@ -131,12 +131,24 @@ class Movie extends ProviderV2 {
 	}
 
 	private function buildCommand(string $binaryType, int $second, string $absPath, string $tmpPath): ?array {
-		if ($binaryType === 'avconv' || $binaryType === 'ffmpeg') {
-			// Faster seeking for ffmpeg
-			$fastSeek = ($binaryType === 'ffmpeg') ? ['-ss', (string)$second, '-i', $absPath] : ['-i', $absPath, '-ss', (string)$second];
-			return array_merge([$this->binary, '-y'], $fastSeek, ['-an', '-f', 'mjpeg', '-vframes', '1', '-vsync', '1', $tmpPath]);
+		if ($binaryType === 'avconv') {
+			$cmd = [
+				$this->binary, '-y', '-ss', (string)$second,
+				'-i', $absPath,
+				'-an', '-f', 'mjpeg', '-vframes', '1', '-vsync', '1',
+				$tmpPath
+			];
+		} elseif ($binaryType === 'ffmpeg') {
+			$cmd = [
+				$this->binary, '-y', '-ss', (string)$second,
+				'-i', $absPath,
+				'-f', 'mjpeg', '-vframes', '1',
+				$tmpPath
+			];
+		} else {
+			return null;
 		}
-		return null;
+		return $cmd;
 	}
 
 	private function processPipes(array $pipes): string {
