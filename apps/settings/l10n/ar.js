@@ -114,7 +114,7 @@ OC.L10N.register(
     "Overview" : "مُلخّص",
     "Basic settings" : "الإعدادات الأساسية",
     "Sharing" : "مشاركة",
-    "Availability" : "أوقات التواجد availability",
+    "Availability" : "أوقات التواجد  ",
     "Calendar" : "التقويم",
     "Personal info" : "المعلومات الشخصية",
     "Mobile & desktop" : "الجوال وسطح المكتب",
