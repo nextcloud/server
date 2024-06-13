@@ -50,14 +50,14 @@ export default defineComponent({
 	computed: {
 		currentDir() {
 			// Remove any trailing slash but leave root slash
-			return (this.$route?.query?.dir?.toString() || '/').replace(/^(.+)\/$/, '$1')
+			return (this.$route.query?.dir?.toString() || '/').replace(/^(.+)\/$/, '$1')
 		},
 		currentFileId() {
 			return this.$route.params?.fileid || this.$route.query?.fileid || null
 		},
 
 		fileid() {
-			return this.source?.fileid
+			return this.source.fileid ?? 0
 		},
 		uniqueId() {
 			return hashCode(this.source.source)

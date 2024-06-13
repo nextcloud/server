@@ -90,10 +90,9 @@ import NcActionSeparator from '@nextcloud/vue/dist/Components/NcActionSeparator.
 import NcIconSvgWrapper from '@nextcloud/vue/dist/Components/NcIconSvgWrapper.js'
 import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
 import ArrowLeftIcon from 'vue-material-design-icons/ArrowLeft.vue'
-
-import { useNavigation } from '../../composables/useNavigation'
 import CustomElementRender from '../CustomElementRender.vue'
 
+import { useNavigation } from '../../composables/useNavigation'
 import logger from '../../logger.js'
 
 // The registered actions list
