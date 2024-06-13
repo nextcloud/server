@@ -30,7 +30,7 @@ import { AxiosError } from 'axios'
 import { basename, join } from 'path'
 import { FilePickerClosed, getFilePickerBuilder, showError, showInfo, TOAST_PERMANENT_TIMEOUT } from '@nextcloud/dialogs'
 import { emit } from '@nextcloud/event-bus'
-import { FileAction, FileType, NodeStatus, davGetClient, davRootPath, davResultToNode, davGetDefaultPropfind, getUniqueName } from '@nextcloud/files'
+import { FileAction, FileType, NodeStatus, davGetClient, davRootPath, davResultToNode, davGetDefaultPropfind, getUniqueName, Permission } from '@nextcloud/files'
 import { translate as t } from '@nextcloud/l10n'
 import { openConflictPicker, hasConflict } from '@nextcloud/upload'
 import Vue from 'vue'
@@ -245,6 +245,7 @@ async function openFilePickerForAction(
 					label: target ? t('files', 'Copy to {target}', { target }, undefined, { escape: false, sanitize: false }) : t('files', 'Copy'),
 					type: 'primary',
 					icon: CopyIconSvg,
+					disabled: selection.some((node) => (node.permissions & Permission.CREATE) === 0),
 					async callback(destination: Node[]) {
 						resolve({
 							destination: destination[0] as Folder,
