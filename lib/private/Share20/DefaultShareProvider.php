@@ -1305,6 +1305,7 @@ class DefaultShareProvider implements IShareProvider {
 	 *
 	 * @param string $uid
 	 * @param string $gid
+	 * @return void
 	 */
 	public function userDeletedFromGroup($uid, $gid) {
 		/*
@@ -1338,45 +1339,42 @@ class DefaultShareProvider implements IShareProvider {
 		}
 
 		if ($this->shareManager->shareWithGroupMembersOnly()) {
-			$deleteQuery = $this->dbConn->getQueryBuilder();
-			$deleteQuery->delete('share')
-				->where($deleteQuery->expr()->in('id', $deleteQuery->createParameter('id')));
+			$user = $this->userManager->get($uid);
+			if ($user === null) {
+				return;
+			}
+			$userGroups = $this->groupManager->getUserGroupIds($user);
+			$userGroups = array_diff($userGroups, $this->shareManager->shareWithGroupMembersOnlyExcludeGroupsList());
 
-			// Delete direct shares received by the user from users in the group.
-			$selectInboundShares = $this->dbConn->getQueryBuilder();
-			$selectInboundShares->select('id')
-				->from('share', 's')
-				->join('s', 'group_user', 'g', 's.uid_initiator = g.uid')
-				->where($selectInboundShares->expr()->eq('share_type', $selectInboundShares->createNamedParameter(IShare::TYPE_USER)))
-				->andWhere($selectInboundShares->expr()->eq('share_with', $selectInboundShares->createNamedParameter($uid)))
-				->andWhere($selectInboundShares->expr()->eq('gid', $selectInboundShares->createNamedParameter($gid)))
-				->setMaxResults(1000)
-				->executeQuery();
+			// Delete user shares received by the user from users in the group.
+			$userReceivedShares = $this->shareManager->getSharedWith($uid, IShare::TYPE_USER, null, -1);
+			foreach ($userReceivedShares as $share) {
+				$owner = $this->userManager->get($share->getSharedBy());
+				if ($owner === null) {
+					continue;
+				}
+				$ownerGroups = $this->groupManager->getUserGroupIds($owner);
+				$mutualGroups = array_intersect($userGroups, $ownerGroups);
 
-			do {
-				$rows = $selectInboundShares->executeQuery();
-				$ids = $rows->fetchAll();
-				$deleteQuery->setParameter('id', array_column($ids, 'id'), IQueryBuilder::PARAM_INT_ARRAY);
-				$deleteQuery->executeStatement();
-			} while (count($ids) > 0);
+				if (count($mutualGroups) === 0) {
+					$this->shareManager->deleteShare($share);
+				}
+			}
 
-			// Delete direct shares from the user to users in the group.
-			$selectOutboundShares = $this->dbConn->getQueryBuilder();
-			$selectOutboundShares->select('id')
-				->from('share', 's')
-				->join('s', 'group_user', 'g', 's.share_with = g.uid')
-				->where($selectOutboundShares->expr()->eq('share_type', $selectOutboundShares->createNamedParameter(IShare::TYPE_USER)))
-				->andWhere($selectOutboundShares->expr()->eq('uid_initiator', $selectOutboundShares->createNamedParameter($uid)))
-				->andWhere($selectOutboundShares->expr()->eq('gid', $selectOutboundShares->createNamedParameter($gid)))
-				->setMaxResults(1000)
-				->executeQuery();
+			// Delete user shares from the user to users in the group.
+			$userEmittedShares = $this->shareManager->getSharesBy($uid, IShare::TYPE_USER, null, true, -1);
+			foreach ($userEmittedShares as $share) {
+				$recipient = $this->userManager->get($share->getSharedWith());
+				if ($recipient === null) {
+					continue;
+				}
+				$recipientGroups = $this->groupManager->getUserGroupIds($recipient);
+				$mutualGroups = array_intersect($userGroups, $recipientGroups);
 
-			do {
-				$rows = $selectOutboundShares->executeQuery();
-				$ids = $rows->fetchAll();
-				$deleteQuery->setParameter('id', array_column($ids, 'id'), IQueryBuilder::PARAM_INT_ARRAY);
-				$deleteQuery->executeStatement();
-			} while (count($ids) > 0);
+				if (count($mutualGroups) === 0) {
+					$this->shareManager->deleteShare($share);
+				}
+			}
 		}
 	}
 
