@@ -30,9 +30,11 @@ use OCP\AppFramework\Controller;
 use OC\Authentication\Token\IProvider;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OC\Authentication\Token\IToken;
+use OCP\IRequest;
 use OCP\ISession;
 use OCP\IUser;
 use OCP\IUserSession;
+use Test\AppFramework\Middleware\Security\Mock\PasswordConfirmationMiddlewareController;
 use Test\TestCase;
 
 class PasswordConfirmationMiddlewareTest extends TestCase {
@@ -47,7 +49,7 @@ class PasswordConfirmationMiddlewareTest extends TestCase {
 	/** @var PasswordConfirmationMiddleware */
 	private $middleware;
 	/** @var Controller */
-	private $contoller;
+	private $controller;
 	/** @var ITimeFactory|\PHPUnit\Framework\MockObject\MockObject */
 	private $timeFactory;
 	private IProvider|\PHPUnit\Framework\MockObject\MockObject $tokenProvider;
@@ -57,7 +59,10 @@ class PasswordConfirmationMiddlewareTest extends TestCase {
 		$this->session = $this->createMock(ISession::class);
 		$this->userSession = $this->createMock(IUserSession::class);
 		$this->user = $this->createMock(IUser::class);
-		$this->contoller = $this->createMock(Controller::class);
+		$this->controller = new PasswordConfirmationMiddlewareController(
+			'test',
+			$this->createMock(IRequest::class)
+		);
 		$this->timeFactory = $this->createMock(ITimeFactory::class);
 		$this->tokenProvider = $this->createMock(IProvider::class);
 
@@ -77,7 +82,7 @@ class PasswordConfirmationMiddlewareTest extends TestCase {
 		$this->userSession->expects($this->never())
 			->method($this->anything());
 
-		$this->middleware->beforeController($this->contoller, __FUNCTION__);
+		$this->middleware->beforeController($this->controller, __FUNCTION__);
 	}
 
 	/**
@@ -90,7 +95,7 @@ class PasswordConfirmationMiddlewareTest extends TestCase {
 		$this->userSession->expects($this->never())
 			->method($this->anything());
 
-		$this->middleware->beforeController($this->contoller, __FUNCTION__);
+		$this->middleware->beforeController($this->controller, __FUNCTION__);
 	}
 
 	/**
@@ -128,7 +133,7 @@ class PasswordConfirmationMiddlewareTest extends TestCase {
 
 		$thrown = false;
 		try {
-			$this->middleware->beforeController($this->contoller, __FUNCTION__);
+			$this->middleware->beforeController($this->controller, __FUNCTION__);
 		} catch (NotConfirmedException $e) {
 			$thrown = true;
 		}
