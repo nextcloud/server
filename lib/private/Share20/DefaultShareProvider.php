@@ -672,6 +672,7 @@ class DefaultShareProvider implements IShareProviderWithNotification, IShareProv
 
 		foreach ($chunks as $chunk) {
 			$qb->setParameter('chunk', $chunk, IQueryBuilder::PARAM_INT_ARRAY);
+			$a = $qb->getSQL();
 			$cursor = $qb->executeQuery();
 			while ($data = $cursor->fetch()) {
 				$shares[$data['fileid']][] = $this->createShare($data);
