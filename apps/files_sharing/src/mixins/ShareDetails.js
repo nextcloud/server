@@ -1,4 +1,5 @@
 import Share from '../models/Share.js'
+import Config from '../services/ConfigService.js'
 
 export default {
 	methods: {
@@ -50,7 +51,7 @@ export default {
 				user: shareRequestObject.shareWith,
 				share_with_displayname: shareRequestObject.displayName,
 				subtitle: shareRequestObject.subtitle,
-				permissions: shareRequestObject.permissions,
+				permissions: shareRequestObject.permissions ?? new Config().defaultPermissions,
 				expiration: '',
 			}
 
