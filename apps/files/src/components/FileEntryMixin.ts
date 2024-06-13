@@ -102,6 +102,13 @@ export default defineComponent({
 			return String(this.fileid) === String(this.currentFileId)
 		},
 
+		/**
+		 * Check if the source is in a failed state after an API request
+		 */
+		isFailedSource() {
+			return this.source.status === NodeStatus.FAILED
+		},
+
 		canDrag() {
 			if (this.isRenaming) {
 				return false

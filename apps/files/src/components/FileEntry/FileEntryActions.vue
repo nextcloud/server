@@ -93,6 +93,7 @@ import ArrowLeftIcon from 'vue-material-design-icons/ArrowLeft.vue'
 
 import { useNavigation } from '../../composables/useNavigation'
 import CustomElementRender from '../CustomElementRender.vue'
+
 import logger from '../../logger.js'
 
 // The registered actions list
@@ -160,7 +161,7 @@ export default defineComponent({
 
 		// Sorted actions that are enabled for this node
 		enabledActions() {
-			if (this.source.attributes.failed) {
+			if (this.source.status === NodeStatus.FAILED) {
 				return []
 			}
 

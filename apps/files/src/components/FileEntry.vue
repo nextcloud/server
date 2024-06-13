@@ -16,7 +16,7 @@
 		class="files-list__row"
 		v-on="rowListeners">
 		<!-- Failed indicator -->
-		<span v-if="source.attributes.failed" class="files-list__row--failed" />
+		<span v-if="isFailedSource" class="files-list__row--failed" />
 
 		<!-- Checkbox -->
 		<FileEntryCheckbox :fileid="fileid"
