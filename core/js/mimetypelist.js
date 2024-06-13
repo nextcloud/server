@@ -142,7 +142,7 @@ OC.MimeTypeList={
     "text-code",
     "text-vcard",
     "video",
-	"whiteboard",
+    "whiteboard",
     "x-office-document",
     "x-office-drawing",
     "x-office-form",
