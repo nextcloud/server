@@ -259,8 +259,13 @@ export default defineComponent({
 			if (this.dir === '/') {
 				return this.filesStore.getRoot(this.currentView.id)
 			}
-			const fileId = this.pathsStore.getPath(this.currentView.id, this.dir)
-			return this.filesStore.getNode(fileId)
+
+			const source = this.pathsStore.getPath(this.currentView.id, this.dir)
+			if (source === undefined) {
+				return
+			}
+
+			return this.filesStore.getNode(source) as Folder
 		},
 
 		/**
@@ -507,7 +512,7 @@ export default defineComponent({
 
 				// Define current directory children
 				// TODO: make it more official
-				this.$set(folder, '_children', contents.map(node => node.fileid))
+				this.$set(folder, '_children', contents.map(node => node.source))
 
 				// If we're in the root dir, define the root
 				if (dir === '/') {
@@ -516,7 +521,7 @@ export default defineComponent({
 					// Otherwise, add the folder to the store
 					if (folder.fileid) {
 						this.filesStore.updateNodes([folder])
-						this.pathsStore.addPath({ service: currentView.id, fileid: folder.fileid, path: dir })
+						this.pathsStore.addPath({ service: currentView.id, source: folder.source, path: dir })
 					} else {
 						// If we're here, the view API messed up
 						logger.error('Invalid root folder returned', { dir, folder, currentView })
