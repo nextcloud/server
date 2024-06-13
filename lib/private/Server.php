@@ -151,7 +151,6 @@ use OC\Security\VerificationToken\VerificationToken;
 use OC\Session\CryptoWrapper;
 use OC\SetupCheck\SetupCheckManager;
 use OC\Share20\ProviderFactory;
-use OC\Share20\ShareDisableChecker;
 use OC\Share20\ShareHelper;
 use OC\SpeechToText\SpeechToTextManager;
 use OC\SystemTag\ManagerFactory as SystemTagManagerFactory;
@@ -259,6 +258,7 @@ use OCP\Security\ITrustedDomainHelper;
 use OCP\Security\RateLimiting\ILimiter;
 use OCP\Security\VerificationToken\IVerificationToken;
 use OCP\SetupCheck\ISetupCheckManager;
+use OCP\Share\IProviderFactory;
 use OCP\Share\IShareHelper;
 use OCP\SpeechToText\ISpeechToTextManager;
 use OCP\SystemTag\ISystemTagManager;
@@ -1241,36 +1241,14 @@ class Server extends ServerContainer implements IServerContainer {
 		/** @deprecated 19.0.0 */
 		$this->registerDeprecatedAlias('ContentSecurityPolicyManager', ContentSecurityPolicyManager::class);
 
-		$this->registerService(\OCP\Share\IManager::class, function (IServerContainer $c) {
+		$this->registerService(IProviderFactory::class, function (ContainerInterface $c) {
 			$config = $c->get(\OCP\IConfig::class);
 			$factoryClass = $config->getSystemValue('sharing.managerFactory', ProviderFactory::class);
 			/** @var \OCP\Share\IProviderFactory $factory */
-			$factory = new $factoryClass($this);
-
-			$manager = new \OC\Share20\Manager(
-				$c->get(LoggerInterface::class),
-				$c->get(\OCP\IConfig::class),
-				$c->get(ISecureRandom::class),
-				$c->get(IHasher::class),
-				$c->get(IMountManager::class),
-				$c->get(IGroupManager::class),
-				$c->getL10N('lib'),
-				$c->get(IFactory::class),
-				$factory,
-				$c->get(IUserManager::class),
-				$c->get(IRootFolder::class),
-				$c->get(IMailer::class),
-				$c->get(IURLGenerator::class),
-				$c->get('ThemingDefaults'),
-				$c->get(IEventDispatcher::class),
-				$c->get(IUserSession::class),
-				$c->get(KnownUserService::class),
-				$c->get(ShareDisableChecker::class),
-				$c->get(IDateTimeZone::class),
-			);
-
-			return $manager;
+			return new $factoryClass($this);
 		});
+
+		$this->registerAlias(\OCP\Share\IManager::class, \OC\Share20\Manager::class);
 		/** @deprecated 19.0.0 */
 		$this->registerDeprecatedAlias('ShareManager', \OCP\Share\IManager::class);
 

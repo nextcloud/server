@@ -81,7 +81,9 @@ trait Sharing {
 			$fd = $body->getRowsHash();
 			if (array_key_exists('expireDate', $fd)) {
 				$dateModification = $fd['expireDate'];
-				$fd['expireDate'] = date('Y-m-d', strtotime($dateModification));
+				if (!empty($dateModification)) {
+					$fd['expireDate'] = date('Y-m-d', strtotime($dateModification));
+				}
 			}
 			$options['form_params'] = $fd;
 		}
@@ -328,7 +330,9 @@ trait Sharing {
 	public function isFieldInResponse($field, $contentExpected) {
 		$data = simplexml_load_string($this->response->getBody())->data[0];
 		if ((string)$field == 'expiration') {
-			$contentExpected = date('Y-m-d', strtotime($contentExpected)) . " 00:00:00";
+			if (!empty($contentExpected)) {
+				$contentExpected = date('Y-m-d', strtotime($contentExpected)) . " 00:00:00";
+			}
 		}
 		if (count($data->element) > 0) {
 			foreach ($data as $element) {
