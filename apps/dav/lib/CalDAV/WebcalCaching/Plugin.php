@@ -23,7 +23,7 @@ class Plugin extends ServerPlugin {
 	 * that do not support subscriptions on their own
 	 *
 	 * /^MSFT-WIN-3/ - Windows 10 Calendar
-     * /Evolution/ - Gnome Calendar/Evolution
+	 * /Evolution/ - Gnome Calendar/Evolution
 	 * /KIO/ - KDE PIM/Akonadi
 	 * @var string[]
 	 */
