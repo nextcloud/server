@@ -38,7 +38,7 @@ Vue.use(PiniaVuePlugin)
 const pinia = createPinia()
 
 // Init Navigation Service
-const Navigation = new NavigationService()
+const Navigation = Vue.observable(new NavigationService())
 Object.assign(window.OCP.Files, { Navigation })
 Vue.prototype.$navigation = Navigation
 
