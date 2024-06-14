@@ -41,6 +41,7 @@ use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserSession;
 use PHPUnit\Framework\MockObject\MockObject;
+use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 class ThemesServiceTest extends TestCase {
@@ -51,6 +52,9 @@ class ThemesServiceTest extends TestCase {
 	private $userSession;
 	/** @var IConfig|MockObject */
 	private $config;
+	/** @var LoggerInterface|MockObject */
+	private $logger;
+
 	/** @var ThemingDefaults|MockObject */
 	private $themingDefaults;
 
@@ -60,6 +64,7 @@ class ThemesServiceTest extends TestCase {
 	protected function setUp(): void {
 		$this->userSession = $this->createMock(IUserSession::class);
 		$this->config = $this->createMock(IConfig::class);
+		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->themingDefaults = $this->createMock(ThemingDefaults::class);
 
 		$this->themingDefaults->expects($this->any())
@@ -75,6 +80,7 @@ class ThemesServiceTest extends TestCase {
 		$this->themesService = new ThemesService(
 			$this->userSession,
 			$this->config,
+			$this->logger,
 			...array_values($this->themes)
 		);
 
@@ -93,6 +99,42 @@ class ThemesServiceTest extends TestCase {
 		$this->assertEquals($expected, array_keys($this->themesService->getThemes()));
 	}
 
+	public function testGetThemesEnforced() {
+		$this->config->expects($this->once())
+			->method('getSystemValueString')
+			->with('enforce_theme', '')
+			->willReturn('dark');
+		$this->logger->expects($this->never())
+			->method('error');
+
+		$expected = [
+			'default',
+			'dark',
+		];
+
+		$this->assertEquals($expected, array_keys($this->themesService->getThemes()));
+	}
+
+	public function testGetThemesEnforcedInvalid() {
+		$this->config->expects($this->once())
+			->method('getSystemValueString')
+			->with('enforce_theme', '')
+			->willReturn('invalid');
+		$this->logger->expects($this->once())
+			->method('error')
+			->with('Enforced theme not found', ['theme' => 'invalid']);
+
+		$expected = [
+			'default',
+			'light',
+			'dark',
+			'light-highcontrast',
+			'dark-highcontrast',
+			'opendyslexic',
+		];
+
+		$this->assertEquals($expected, array_keys($this->themesService->getThemes()));
+	}
 
 	public function dataTestEnableTheme() {
 		return [
