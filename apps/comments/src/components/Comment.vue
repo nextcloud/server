@@ -40,27 +40,22 @@
 					show if we have a message id and current user is author -->
 				<NcActions v-if="isOwnComment && id && !loading" class="comment__actions">
 					<template v-if="!editing">
-						<NcActionButton close-after-click
+						<NcActionButton :close-after-click="true"
+							icon="icon-rename"
 							@click="onEdit">
-							<template #icon>
-								<IconEdit :size="20" />
-							</template>
 							{{ t('comments', 'Edit comment') }}
 						</NcActionButton>
 						<NcActionSeparator />
-						<NcActionButton close-after-click
+						<NcActionButton :close-after-click="true"
+							icon="icon-delete"
 							@click="onDeleteWithUndo">
-							<template #icon>
-								<IconDelete :size="20" />
-							</template>
 							{{ t('comments', 'Delete comment') }}
 						</NcActionButton>
 					</template>
 
-					<NcActionButton v-else @click="onEditCancel">
-						<template #icon>
-							<IconClose :size="20" />
-						</template>
+					<NcActionButton v-else
+						icon="icon-close"
+						@click="onEditCancel">
 						{{ t('comments', 'Cancel edit') }}
 					</NcActionButton>
 				</NcActions>
@@ -92,8 +87,8 @@
 							:disabled="isEmptyMessage"
 							@click="onSubmit">
 							<template #icon>
-								<NcLoadingIcon v-if="loading" />
-								<IconArrowRight v-else :size="20" />
+								<span v-if="loading" class="icon-loading-small" />
+								<ArrowRight v-else :size="20" />
 							</template>
 						</NcButton>
 					</div>
@@ -127,11 +122,7 @@ import NcActionSeparator from '@nextcloud/vue/dist/Components/NcActionSeparator.
 import NcAvatar from '@nextcloud/vue/dist/Components/NcAvatar.js'
 import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 import RichEditorMixin from '@nextcloud/vue/dist/Mixins/richEditor.js'
-
-import IconArrowRight from 'vue-material-design-icons/ArrowRight.vue'
-import IconClose from 'vue-material-design-icons/Close.vue'
-import IconDelete from 'vue-material-design-icons/Delete.vue'
-import IconEdit from 'vue-material-design-icons/Pencil.vue'
+import ArrowRight from 'vue-material-design-icons/ArrowRight.vue'
 
 import Moment from './Moment.vue'
 import CommentMixin from '../mixins/CommentMixin.js'
@@ -143,16 +134,13 @@ export default {
 	name: 'Comment',
 
 	components: {
-		IconArrowRight,
-		IconClose,
-		IconDelete,
-		IconEdit,
-		Moment,
 		NcActionButton,
 		NcActions,
 		NcActionSeparator,
+		ArrowRight,
 		NcAvatar,
 		NcButton,
+		Moment,
 		NcRichContenteditable,
 	},
 	mixins: [RichEditorMixin, CommentMixin],

@@ -34,7 +34,6 @@
 </template>
 
 <script lang="ts">
-import type { PropType } from 'vue'
 import { translate as t } from '@nextcloud/l10n'
 
 import Comment from '../components/Comment.vue'
@@ -54,7 +53,7 @@ export default {
 			required: true,
 		},
 		reloadCallback: {
-			type: Function as PropType<() => void>,
+			type: Function,
 			required: true,
 		},
 	},
