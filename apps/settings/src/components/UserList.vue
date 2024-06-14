@@ -277,6 +277,9 @@ export default {
 		 * If disabled group but empty, redirect
 		 */
 		await this.redirectIfDisabled()
+
+		subscribe('guests:user:deleted', (userId) => this.$store.commit('deleteUser', userId))
+		subscribe('guests:user:created', (userId) => this.$store.dispatch('addUserData', userId))
 	},
 
 	beforeDestroy() {
