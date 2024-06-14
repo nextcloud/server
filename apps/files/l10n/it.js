@@ -168,6 +168,7 @@ OC.L10N.register(
     "Your ownership transfer of {path} to {user} has completed." : "Il tuo trasferimento di proprietà di {path} a {user} è completato.",
     "The ownership transfer of {path} from {user} has completed." : "Il trasferimento di proprietà di {path} da {user} è completato.",
     "in %s" : "in %s",
+    "Transferred from %1$s on %2$s" : "Trasferito da %1$s su %2$s",
     "File Management" : "Gestione dei file",
     "Current directory path" : "Percorso della cartella corrente",
     "Reload current directory" : "Ricarica la cartella corrente",
