@@ -136,6 +136,7 @@ if ($config->getSystemValueBool('installed', false)) {
 	$application->add(Server::get(Command\SystemTag\Edit::class));
 
 	$application->add(Server::get(Command\Security\ListCertificates::class));
+	$application->add(Server::get(Command\Security\ExportCertificates::class));
 	$application->add(Server::get(Command\Security\ImportCertificate::class));
 	$application->add(Server::get(Command\Security\RemoveCertificate::class));
 	$application->add(Server::get(Command\Security\BruteforceAttempts::class));
