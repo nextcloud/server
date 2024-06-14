@@ -1,4 +1,4 @@
-import * as InitialState from '@nextcloud/initial-state'
+import InitialState from '@nextcloud/initial-state'
 import * as L10n from '@nextcloud/l10n'
 // eslint-disable-next-line import/no-unresolved
 import FolderSvg from '@mdi/svg/svg/folder.svg?raw'
