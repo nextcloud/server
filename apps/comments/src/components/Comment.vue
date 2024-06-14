@@ -143,13 +143,16 @@ export default {
 	name: 'Comment',
 
 	components: {
+		IconArrowRight,
+		IconClose,
+		IconDelete,
+		IconEdit,
+		Moment,
 		NcActionButton,
 		NcActions,
 		NcActionSeparator,
-		ArrowRight,
 		NcAvatar,
 		NcButton,
-		Moment,
 		NcRichContenteditable,
 	},
 	mixins: [RichEditorMixin, CommentMixin],
