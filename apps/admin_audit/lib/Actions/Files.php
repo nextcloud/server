@@ -27,7 +27,7 @@ use Psr\Log\LoggerInterface;
  */
 class Files extends Action {
 
-	private array|null $renameParams = null;
+	private array $renamedNodes = [];
 	/**
 	 * Logs file read actions
 	 *
@@ -60,17 +60,13 @@ class Files extends Action {
 	public function beforeRename(BeforeNodeRenamedEvent $event): void {
 		try {
 			$source = $event->getSource();
-			$params = [
-				'oldid' => $source->getId(),
-				'oldpath' => mb_substr($source->getInternalPath(), 5),
-			];
+			$this->renamedNodes[$source->getId()] = $source;
 		} catch (InvalidPathException|NotFoundException $e) {
 			\OCP\Server::get(LoggerInterface::class)->error(
 				"Exception thrown in file rename: ".$e->getMessage(), ['app' => 'admin_audit', 'exception' => $e]
 			);
 			return;
 		}
-		$this->renameParams = $params;
 	}
 
 	/**
@@ -81,10 +77,10 @@ class Files extends Action {
 	public function afterRename(NodeRenamedEvent $event): void {
 		try {
 			$target = $event->getTarget();
-			$renameParams = $this->renameParams;
+			$originalSource = $this->renamedNodes[$target->getId()];
 			$params = [
 				'newid' => $target->getId(),
-				'oldpath' => $renameParams['oldpath'],
+				'oldpath' => mb_substr($originalSource->getInternalPath(), 5),
 				'newpath' => mb_substr($target->getInternalPath(), 5),
 			];
 		} catch (InvalidPathException|NotFoundException $e) {
