@@ -9,7 +9,7 @@
   },
   "scripts": {
     "build": "webpack --node-env production --progress",
-    "postbuild": "npm run sass && npm run sass:icons",
+    "postbuild": "build/npm-post-build.sh",
     "dev": "webpack --node-env development --progress",
     "watch": "webpack --node-env development --progress --watch",
     "lint": "eslint $(for appdir in $(ls apps); do if ! $(git check-ignore -q $appdir); then printf \"$appdir \"; fi; done) core --no-error-on-unmatched-pattern",
