@@ -63,6 +63,9 @@
 !/themes/example
 !/themes/README
 
+# Love to people that develop the updater
+/updater
+
 # just sane ignores
 .*.sw[po]
 *.bak
