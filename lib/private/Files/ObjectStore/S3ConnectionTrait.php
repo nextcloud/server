@@ -11,7 +11,7 @@ use Aws\Credentials\Credentials;
 use Aws\Exception\CredentialsException;
 use Aws\S3\Exception\S3Exception;
 use Aws\S3\S3Client;
-use GuzzleHttp\Promise;
+use GuzzleHttp\Promise\Create;
 use GuzzleHttp\Promise\RejectedPromise;
 use OCP\ICertificateManager;
 use Psr\Log\LoggerInterface;
@@ -178,7 +178,7 @@ trait S3ConnectionTrait {
 			$secret = empty($this->params['secret']) ? null : $this->params['secret'];
 
 			if ($key && $secret) {
-				return Promise\promise_for(
+				return Create::promiseFor(
 					new Credentials($key, $secret)
 				);
 			}

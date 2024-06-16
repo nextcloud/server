@@ -93,7 +93,7 @@ class S3Signature implements SignatureInterface {
 			}
 		}
 
-		$queryString = http_build_query($query, null, '&', PHP_QUERY_RFC3986);
+		$queryString = http_build_query($query, '', '&', PHP_QUERY_RFC3986);
 
 		return $request->withUri($request->getUri()->withQuery($queryString));
 	}
