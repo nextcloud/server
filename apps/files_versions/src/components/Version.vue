@@ -45,10 +45,12 @@
 		<!-- Version file size as subline -->
 		<template #subname>
 			<div class="version__info version__info__subline">
-				<span :title="formattedDate">{{ version.mtime | humanDateFromNow }}</span>
+				<NcDateTime class="version__info__date"
+					relative-time="short"
+					:timestamp="version.mtime" />
 				<!-- Separate dot to improve alignement -->
 				<span>•</span>
-				<span>{{ version.size | humanReadableSize }}</span>
+				<span>{{ humanReadableSize }}</span>
 			</div>
 		</template>
 
@@ -117,6 +119,7 @@ import Pencil from 'vue-material-design-icons/Pencil.vue'
 import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
 import NcActionLink from '@nextcloud/vue/dist/Components/NcActionLink.js'
 import NcAvatar from '@nextcloud/vue/dist/Components/NcAvatar.js'
+import NcDateTime from '@nextcloud/vue/dist/Components/NcDateTime.js'
 import NcListItem from '@nextcloud/vue/dist/Components/NcListItem.js'
 import Tooltip from '@nextcloud/vue/dist/Directives/Tooltip.js'
 
@@ -138,6 +141,7 @@ export default defineComponent({
 		NcActionLink,
 		NcActionButton,
 		NcAvatar,
+		NcDateTime,
 		NcListItem,
 		BackupRestore,
 		Download,
@@ -149,20 +153,6 @@ export default defineComponent({
 
 	directives: {
 		tooltip: Tooltip,
-	},
-
-	created() {
-		this.fetchDisplayName()
-	},
-
-	filters: {
-		humanReadableSize(bytes: number): string {
-			return formatFileSize(bytes)
-		},
-
-		humanDateFromNow(timestamp: number): string {
-			return moment(timestamp).fromNow()
-		},
 	},
 
 	props: {
@@ -208,6 +198,10 @@ export default defineComponent({
 	},
 
 	computed: {
+		humanReadableSize() {
+			return formatFileSize(this.version.size)
+		},
+
 		versionLabel(): string {
 			const label = this.version.label ?? ''
 
@@ -232,10 +226,6 @@ export default defineComponent({
 			} else {
 				return getRootUrl() + this.version.url
 			}
-		},
-
-		formattedDate(): string {
-			return moment(this.version.mtime).format('LLL')
 		},
 
 		enableLabeling(): boolean {
@@ -271,6 +261,10 @@ export default defineComponent({
 
 			return true
 		},
+	},
+
+	created() {
+		this.fetchDisplayName()
 	},
 
 	methods: {
