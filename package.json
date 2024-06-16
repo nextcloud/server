@@ -2,6 +2,7 @@
   "name": "nextcloud",
   "version": "1.0.0",
   "description": "Nextcloud Server",
+  "author": "Nextcloud GmbH and Nextcloud contributors",
   "private": true,
   "directories": {
     "lib": "lib",
