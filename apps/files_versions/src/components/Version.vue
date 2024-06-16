@@ -28,9 +28,13 @@
 		<!-- author -->
 		<template #name>
 			<div class="version__info">
-				<div v-if="versionLabel" class="version__info__label">{{ versionLabel }}</div>
+				<div v-if="versionLabel"
+					class="version__info__label"
+					:title="versionLabel">
+					{{ versionLabel }}
+				</div>
 				<div v-if="versionAuthor" class="version__info">
-					<div v-if="versionLabel">•</div>
+					<span v-if="versionLabel">•</span>
 					<NcAvatar class="avatar"
 						:user="version.author"
 						:size="16"
@@ -107,6 +111,7 @@
 </template>
 
 <script lang="ts">
+import type { PropType } from 'vue'
 import type { Version } from '../utils/versions'
 
 import BackupRestore from 'vue-material-design-icons/BackupRestore.vue'
@@ -123,14 +128,14 @@ import NcDateTime from '@nextcloud/vue/dist/Components/NcDateTime.js'
 import NcListItem from '@nextcloud/vue/dist/Components/NcListItem.js'
 import Tooltip from '@nextcloud/vue/dist/Directives/Tooltip.js'
 
-import { defineComponent, type PropType } from 'vue'
-import axios from '@nextcloud/axios'
 import { getRootUrl, generateOcsUrl } from '@nextcloud/router'
 import { joinPaths } from '@nextcloud/paths'
 import { loadState } from '@nextcloud/initial-state'
 import { Permission, formatFileSize } from '@nextcloud/files'
 import { translate as t } from '@nextcloud/l10n'
-import moment from '@nextcloud/moment'
+import { defineComponent } from 'vue'
+
+import axios from '@nextcloud/axios'
 
 const hasPermission = (permissions: number, permission: number): boolean => (permissions & permission) !== 0
 
@@ -332,11 +337,20 @@ export default defineComponent({
 
 		&__label {
 			font-weight: 700;
+			// Fix overflow on narrow screens
+			overflow: hidden;
+			text-overflow: ellipsis;
+		}
+
+		&__date {
+			// Fix overflow on narrow screens
+			overflow: hidden;
+			text-overflow: ellipsis;
 		}
 
 		&__subline {
-		color: var(--color-text-maxcontrast)
-	}
+			color: var(--color-text-maxcontrast)
+		}
 	}
 
 	&__image {
