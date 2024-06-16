@@ -11,6 +11,7 @@ OC.L10N.register(
     "All files" : "Todos os ficheiros",
     "You" : "Vde.",
     "Original location" : "Localización orixinal",
+    "Deleted by" : "Eliminado por",
     "Deleted" : "Eliminado",
     "A long time ago" : "Hai moito tempo",
     "List of files that have been deleted." : "Lista de ficheiros que foron eliminados.",

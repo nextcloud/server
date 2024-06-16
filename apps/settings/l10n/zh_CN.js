@@ -556,6 +556,7 @@ OC.L10N.register(
     "Total rows summary" : "总行摘要",
     "Scroll to load more rows" : "滚动以加载更多列。",
     "Avatar" : "头像",
+    "Account name" : "账户名称",
     "Group admin for" : "分组管理员",
     "Storage location" : "存储位置",
     "Last login" : "最后登录",
