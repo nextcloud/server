@@ -166,6 +166,7 @@
     "Your ownership transfer of {path} to {user} has completed." : "您的 {path} 向 {user} 的所有权转移已完成。",
     "The ownership transfer of {path} from {user} has completed." : "来自 {user} 的 {path} 的所有权转移已完成。",
     "in %s" : "在 %s",
+    "Transferred from %1$s on %2$s" : "从 %1$s 转移至 %2$s",
     "File Management" : "文件管理",
     "Current directory path" : "当前文件目录",
     "Reload current directory" : "重新载入当前目录",
