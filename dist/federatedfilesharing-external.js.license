@@ -1,5 +1,19 @@
-/**
- * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
- * SPDX-FileCopyrightText: 2014-2016 ownCloud, Inc.
- * SPDX-License-Identifier: AGPL-3.0-or-later
- */
+This file is generated from multiple sources. Included packages:
+
+- @nextcloud/initial-state
+	- version: 2.1.0
+	- license: GPL-3.0-or-later
+- @nextcloud/router
+	- version: 3.0.1
+	- license: GPL-3.0-or-later
+- webpack
+	- version: 5.91.0
+	- license: MIT
+- nextcloud
+	- version: 1.0.0
+	- license: AGPL-3.0-or-later
+
+SPDX-License-Identifier: AGPL-3.0-or-later AND GPL-3.0-or-later AND MIT
+SPDX-FileCopyrightText: Christoph Wurst
+SPDX-FileCopyrightText: Nextcloud GmbH and Nextcloud contributors
+SPDX-FileCopyrightText: Tobias Koppers @sokra
