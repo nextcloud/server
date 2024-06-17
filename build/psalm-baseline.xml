@@ -2125,9 +2125,6 @@
       <code><![CDATA[ClientResolver::_default_signature_provider()]]></code>
     </InternalMethod>
     <UndefinedFunction>
-      <code><![CDATA[Promise\promise_for(
-					new Credentials($key, $secret)
-				)]]></code>
       <code><![CDATA[\Aws\or_chain([self::class, 'legacySignatureProvider'], ClientResolver::_default_signature_provider())]]></code>
     </UndefinedFunction>
   </file>
@@ -2138,11 +2135,6 @@
     <UndefinedFunction>
       <code><![CDATA[\Aws\serialize($command)]]></code>
     </UndefinedFunction>
-  </file>
-  <file src="lib/private/Files/ObjectStore/S3Signature.php">
-    <NullArgument>
-      <code><![CDATA[null]]></code>
-    </NullArgument>
   </file>
   <file src="lib/private/Files/ObjectStore/StorageObjectStore.php">
     <InvalidReturnType>
