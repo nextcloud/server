@@ -28,9 +28,13 @@
 		<!-- author -->
 		<template #name>
 			<div class="version__info">
-				<div v-if="versionLabel" class="version__info__label">{{ versionLabel }}</div>
+				<div v-if="versionLabel"
+					class="version__info__label"
+					:title="versionLabel">
+					{{ versionLabel }}
+				</div>
 				<div v-if="versionAuthor" class="version__info">
-					<div v-if="versionLabel">•</div>
+					<span v-if="versionLabel">•</span>
 					<NcAvatar class="avatar"
 						:user="version.author"
 						:size="16"
@@ -45,10 +49,12 @@
 		<!-- Version file size as subline -->
 		<template #subname>
 			<div class="version__info version__info__subline">
-				<span :title="formattedDate">{{ version.mtime | humanDateFromNow }}</span>
+				<NcDateTime class="version__info__date"
+					relative-time="short"
+					:timestamp="version.mtime" />
 				<!-- Separate dot to improve alignement -->
 				<span>•</span>
-				<span>{{ version.size | humanReadableSize }}</span>
+				<span>{{ humanReadableSize }}</span>
 			</div>
 		</template>
 
@@ -105,6 +111,7 @@
 </template>
 
 <script lang="ts">
+import type { PropType } from 'vue'
 import type { Version } from '../utils/versions'
 
 import BackupRestore from 'vue-material-design-icons/BackupRestore.vue'
@@ -117,17 +124,18 @@ import Pencil from 'vue-material-design-icons/Pencil.vue'
 import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
 import NcActionLink from '@nextcloud/vue/dist/Components/NcActionLink.js'
 import NcAvatar from '@nextcloud/vue/dist/Components/NcAvatar.js'
+import NcDateTime from '@nextcloud/vue/dist/Components/NcDateTime.js'
 import NcListItem from '@nextcloud/vue/dist/Components/NcListItem.js'
 import Tooltip from '@nextcloud/vue/dist/Directives/Tooltip.js'
 
-import { defineComponent, type PropType } from 'vue'
-import axios from '@nextcloud/axios'
 import { getRootUrl, generateOcsUrl } from '@nextcloud/router'
 import { joinPaths } from '@nextcloud/paths'
 import { loadState } from '@nextcloud/initial-state'
 import { Permission, formatFileSize } from '@nextcloud/files'
 import { translate as t } from '@nextcloud/l10n'
-import moment from '@nextcloud/moment'
+import { defineComponent } from 'vue'
+
+import axios from '@nextcloud/axios'
 
 const hasPermission = (permissions: number, permission: number): boolean => (permissions & permission) !== 0
 
@@ -138,6 +146,7 @@ export default defineComponent({
 		NcActionLink,
 		NcActionButton,
 		NcAvatar,
+		NcDateTime,
 		NcListItem,
 		BackupRestore,
 		Download,
@@ -149,20 +158,6 @@ export default defineComponent({
 
 	directives: {
 		tooltip: Tooltip,
-	},
-
-	created() {
-		this.fetchDisplayName()
-	},
-
-	filters: {
-		humanReadableSize(bytes: number): string {
-			return formatFileSize(bytes)
-		},
-
-		humanDateFromNow(timestamp: number): string {
-			return moment(timestamp).fromNow()
-		},
 	},
 
 	props: {
@@ -208,6 +203,10 @@ export default defineComponent({
 	},
 
 	computed: {
+		humanReadableSize() {
+			return formatFileSize(this.version.size)
+		},
+
 		versionLabel(): string {
 			const label = this.version.label ?? ''
 
@@ -232,10 +231,6 @@ export default defineComponent({
 			} else {
 				return getRootUrl() + this.version.url
 			}
-		},
-
-		formattedDate(): string {
-			return moment(this.version.mtime).format('LLL')
 		},
 
 		enableLabeling(): boolean {
@@ -271,6 +266,10 @@ export default defineComponent({
 
 			return true
 		},
+	},
+
+	created() {
+		this.fetchDisplayName()
 	},
 
 	methods: {
@@ -338,11 +337,20 @@ export default defineComponent({
 
 		&__label {
 			font-weight: 700;
+			// Fix overflow on narrow screens
+			overflow: hidden;
+			text-overflow: ellipsis;
+		}
+
+		&__date {
+			// Fix overflow on narrow screens
+			overflow: hidden;
+			text-overflow: ellipsis;
 		}
 
 		&__subline {
-		color: var(--color-text-maxcontrast)
-	}
+			color: var(--color-text-maxcontrast)
+		}
 	}
 
 	&__image {
