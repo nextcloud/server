@@ -11,6 +11,7 @@ use OC\Files\Cache\Cache;
 use OC\Share20\Exception\BackendError;
 use OC\Share20\Exception\InvalidShare;
 use OC\Share20\Exception\ProviderException;
+use OC\User\LazyUser;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Defaults;
@@ -909,8 +910,8 @@ class DefaultShareProvider implements IShareProvider {
 			}
 			$cursor->closeCursor();
 		} elseif ($shareType === IShare::TYPE_GROUP) {
-			$user = $this->userManager->get($userId);
-			$allGroups = ($user instanceof IUser) ? $this->groupManager->getUserGroupIds($user) : [];
+			$user = new LazyUser($userId, $this->userManager);
+			$allGroups = $this->groupManager->getUserGroupIds($user);
 
 			/** @var Share[] $shares2 */
 			$shares2 = [];
@@ -1045,9 +1046,9 @@ class DefaultShareProvider implements IShareProvider {
 
 		if ($share->getShareType() === IShare::TYPE_USER) {
 			$share->setSharedWith($data['share_with']);
-			$user = $this->userManager->get($data['share_with']);
-			if ($user !== null) {
-				$share->setSharedWithDisplayName($user->getDisplayName());
+			$displayName = $this->userManager->getDisplayName($data['share_with']);
+			if ($displayName !== null) {
+				$share->setSharedWithDisplayName($displayName);
 			}
 		} elseif ($share->getShareType() === IShare::TYPE_GROUP) {
 			$share->setSharedWith($data['share_with']);
