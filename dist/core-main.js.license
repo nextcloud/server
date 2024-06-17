@@ -202,7 +202,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.1.13
 	- license: MIT
 - jquery-ui-dist
-	- version: 1.13.2
+	- version: 1.13.3
 	- license: MIT
 - jquery
 	- version: 3.7.1
@@ -367,4 +367,3 @@ SPDX-FileCopyrightText: clipboard developers
 SPDX-FileCopyrightText: debounce developers
 SPDX-FileCopyrightText: escape-html developers
 SPDX-FileCopyrightText: inherits developers
-SPDX-FileCopyrightText: jQuery Foundation and other contributors

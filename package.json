@@ -80,7 +80,7 @@
     "is-svg": "^5.0.1",
     "jquery": "~3.7",
     "jquery-ui": "^1.13.2",
-    "jquery-ui-dist": "^1.13.2",
+    "jquery-ui-dist": "^1.13.3",
     "libphonenumber-js": "^1.10.60",
     "lodash": "^4.17.21",
     "marked": "^11.2.0",
