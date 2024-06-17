@@ -19,43 +19,8 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-import { basename, extname } from 'path'
 import { FileType, type Node } from '@nextcloud/files'
 import { translate as t, translatePlural as n } from '@nextcloud/l10n'
-
-// TODO: move to @nextcloud/files
-/**
- * Create an unique file name
- * @param name The initial name to use
- * @param otherNames Other names that are already used
- * @param options Optional parameters for tuning the behavior
- * @param options.suffix A function that takes an index and returns a suffix to add to the file name, defaults to '(index)'
- * @param options.ignoreFileExtension Set to true to ignore the file extension when adding the suffix (when getting a unique directory name)
- * @return Either the initial name, if unique, or the name with the suffix so that the name is unique
- */
-export const getUniqueName = (
-	name: string,
-	otherNames: string[],
-	options: {
-		suffix?: (i: number) => string,
-		ignoreFileExtension?: boolean,
-	} = {},
-): string => {
-	const opts = {
-		suffix: (n: number) => `(${n})`,
-		ignoreFileExtension: false,
-		...options,
-	}
-
-	let newName = name
-	let i = 1
-	while (otherNames.includes(newName)) {
-		const ext = opts.ignoreFileExtension ? '' : extname(name)
-		const base = basename(name, ext)
-		newName = `${base} ${opts.suffix(i++)}${ext}`
-	}
-	return newName
-}
 
 /**
  * Extract dir and name from file path
