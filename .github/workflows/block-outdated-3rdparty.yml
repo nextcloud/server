@@ -39,7 +39,7 @@ jobs:
       - name: Last 3rdparty commit on target branch
         id: target
         run: |
-          echo "commit=$(git ls-remote https://github.com/nextcloud/3rdparty ${{ github.base_ref }} | awk '{ print $1}')" >> "$GITHUB_OUTPUT"
+          echo "commit=$(git ls-remote https://github.com/nextcloud/3rdparty refs/heads/${{ github.base_ref }} | awk '{ print $1}')" >> "$GITHUB_OUTPUT"
 
       - name: Compare if 3rdparty commits are different
         run: |
