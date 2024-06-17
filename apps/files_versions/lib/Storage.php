@@ -896,7 +896,7 @@ class Storage {
 					$pathparts = pathinfo($path);
 					$timestamp = (int)substr($pathparts['extension'] ?? '', 1);
 					$versionEntity = $versionsMapper->findVersionForFileId($file->getId(), $timestamp);
-					if ($versionEntity->getMetadataValue('label') !== '') {
+					if ($versionEntity->getMetadataValue('label') !== null && $versionEntity->getMetadataValue('label') !== '') {
 						continue;
 					}
 					$versionsMapper->delete($versionEntity);
