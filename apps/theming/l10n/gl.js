@@ -52,6 +52,7 @@ OC.L10N.register(
     "Privacy policy" : "Directiva de privacidade",
     "Adjust the Nextcloud theme" : "Axustar o tema de Nextcloud",
     "Theming makes it possible to easily customize the look and feel of your instance and supported clients. This will be visible for all users." : "Os temas fan posíbel personalizar facilmente a aparencia da súa instancia e os clientes compatíbeis. Isto será visíbel para todos os usuarios.",
+    "Instead of a background image you can also configure a plain background color. If you use a background image changing this color will influence the color of the app menu icons." : "No canto dunha imaxe de fondo, tamén pode configurar unha cor de fondo liso. Se usa unha imaxe de fondo, o cambio da cor influirá na cor das iconas do menú da aplicación.",
     "Background color" : "Cor de fondo",
     "Upload new logo" : "Enviar un novo logotipo",
     "Logo" : "Logotipo",
