@@ -177,6 +177,7 @@ interface IRequest {
 	 *
 	 * @return bool true if CSRF check passed
 	 * @since 6.0.0
+	 * @deprecated 30.0.0 use \OCP\Security\CSRF\ICsrfValidator::validate instead
 	 */
 	public function passesCSRFCheck(): bool;
 
