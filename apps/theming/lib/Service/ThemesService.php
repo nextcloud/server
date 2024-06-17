@@ -16,24 +16,22 @@ use OCA\Theming\Themes\LightTheme;
 use OCP\IConfig;
 use OCP\IUser;
 use OCP\IUserSession;
+use Psr\Log\LoggerInterface;
 
 class ThemesService {
-	private IUserSession $userSession;
-	private IConfig $config;
-
 	/** @var ITheme[] */
 	private array $themesProviders;
 
-	public function __construct(IUserSession $userSession,
-		IConfig $config,
-		DefaultTheme $defaultTheme,
+	public function __construct(
+		private IUserSession $userSession,
+		private IConfig $config,
+		private LoggerInterface $logger,
+		private DefaultTheme $defaultTheme,
 		LightTheme $lightTheme,
 		DarkTheme $darkTheme,
 		HighContrastTheme $highContrastTheme,
 		DarkHighContrastTheme $darkHighContrastTheme,
 		DyslexiaFont $dyslexiaFont) {
-		$this->userSession = $userSession;
-		$this->config = $config;
 
 		// Register themes
 		$this->themesProviders = [
@@ -52,6 +50,22 @@ class ThemesService {
 	 * @return ITheme[]
 	 */
 	public function getThemes(): array {
+		// Enforced theme if configured
+		$enforcedTheme = $this->config->getSystemValueString('enforce_theme', '');
+		if ($enforcedTheme !== '') {
+			if (!isset($this->themesProviders[$enforcedTheme])) {
+				$this->logger->error('Enforced theme not found', ['theme' => $enforcedTheme]);
+				return $this->themesProviders;
+			}
+
+			$defaultTheme = $this->themesProviders[$this->defaultTheme->getId()];
+			$theme = $this->themesProviders[$enforcedTheme];
+			return [
+				$defaultTheme->getId() => $defaultTheme,
+				$theme->getId() => $theme,
+			];
+		}
+
 		return $this->themesProviders;
 	}
 
