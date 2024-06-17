@@ -59,7 +59,7 @@ const isAllFolders = (nodes: Node[]) => {
 	return !nodes.some(node => node.type !== FileType.Folder)
 }
 
-const queue = new PQueue({ concurrency: 1 })
+const queue = new PQueue({ concurrency: 5 })
 
 export const action = new FileAction({
 	id: 'delete',
