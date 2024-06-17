@@ -284,8 +284,8 @@ export default defineComponent({
 				...(this.userConfig.sort_folders_first ? [v => v.type !== 'folder'] : []),
 				// 3: Use sorting mode if NOT basename (to be able to use displayName too)
 				...(this.sortingMode !== 'basename' ? [v => v[this.sortingMode]] : []),
-				// 4: Use displayName if available, fallback to name
-				v => v.attributes?.displayName || v.basename,
+				// 4: Use displayname if available, fallback to name
+				v => v.attributes?.displayname || v.basename,
 				// 5: Finally, use basename if all previous sorting methods failed
 				v => v.basename,
 			]

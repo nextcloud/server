@@ -71,14 +71,14 @@ export default defineComponent({
 		},
 
 		extension() {
-			if (this.source.attributes?.displayName) {
-				return extname(this.source.attributes.displayName)
+			if (this.source.attributes?.displayname) {
+				return extname(this.source.attributes.displayname)
 			}
 			return this.source.extension || ''
 		},
 		displayName() {
 			const ext = this.extension
-			const name = String(this.source.attributes.displayName
+			const name = String(this.source.attributes.displayname
 				|| this.source.basename)
 
 			// Strip extension from name if defined

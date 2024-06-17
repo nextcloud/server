@@ -160,7 +160,7 @@ export default defineComponent({
 
 			const source: FileSource | undefined = this.getFileSourceFromPath(path)
 			const node: Node | undefined = source ? this.getNodeFromSource(source) : undefined
-			return node?.attributes?.displayName || basename(path)
+			return node?.attributes?.displayname || basename(path)
 		},
 
 		onClick(to) {

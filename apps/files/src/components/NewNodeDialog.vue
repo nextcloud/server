@@ -30,7 +30,7 @@ import type { PropType } from 'vue'
 
 import { defineComponent } from 'vue'
 import { translate as t } from '@nextcloud/l10n'
-import { getUniqueName } from '../utils/fileUtils'
+import { getUniqueName } from '@nextcloud/files'
 
 import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 import NcDialog from '@nextcloud/vue/dist/Components/NcDialog.js'

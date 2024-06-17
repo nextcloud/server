@@ -10,7 +10,7 @@ export const action = new FileAction({
 	id: 'open-folder',
 	displayName(files: Node[]) {
 		// Only works on single node
-		const displayName = files[0].attributes.displayName || files[0].basename
+		const displayName = files[0].attributes.displayname || files[0].basename
 		return t('files', 'Open folder {displayName}', { displayName })
 	},
 	iconSvgInline: () => FolderSvg,
