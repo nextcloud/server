@@ -53,7 +53,7 @@ class CSPMiddleware extends Middleware {
 		$defaultPolicy = $this->contentSecurityPolicyManager->mergePolicies($defaultPolicy, $policy);
 
 		if ($this->cspNonceManager->browserSupportsCspV3()) {
-			$defaultPolicy->useJsNonce($this->csrfTokenManager->getToken()->getEncryptedValue());
+			$defaultPolicy->useJsNonce($this->cspNonceManager->getNonce());
 		}
 
 		$response->setContentSecurityPolicy($defaultPolicy);
