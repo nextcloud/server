@@ -44,7 +44,7 @@ OC.L10N.register(
     "Internal error" : "Produciuse un erro interno",
     "Not found" : "Non atopado",
     "Requested task type does not exist" : "O tipo de tarefa solicitado non existe",
-    "Necessary language model provider is not available" : "O fornecedor de modelos de idioma necesario non está dispoñíbel",
+    "Necessary language model provider is not available" : "O provedor de modelos de linguaxe necesario non está dispoñíbel",
     "No text to image provider is available" : "Non hai ningún fornecedor de texto a imaxe dispoñíbel",
     "Image not found" : "Non se atopou a imaxe",
     "No translation provider available" : "Non hai ningún fornecedor de tradución dispoñíbel",
