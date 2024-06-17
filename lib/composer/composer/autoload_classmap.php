@@ -1565,6 +1565,7 @@ return array(
     'OC\\MemoryInfo' => $baseDir . '/lib/private/MemoryInfo.php',
     'OC\\Migration\\BackgroundRepair' => $baseDir . '/lib/private/Migration/BackgroundRepair.php',
     'OC\\Migration\\ConsoleOutput' => $baseDir . '/lib/private/Migration/ConsoleOutput.php',
+    'OC\\Migration\\NullOutput' => $baseDir . '/lib/private/Migration/NullOutput.php',
     'OC\\Migration\\SimpleOutput' => $baseDir . '/lib/private/Migration/SimpleOutput.php',
     'OC\\NaturalSort' => $baseDir . '/lib/private/NaturalSort.php',
     'OC\\NaturalSort_DefaultCollator' => $baseDir . '/lib/private/NaturalSort_DefaultCollator.php',
