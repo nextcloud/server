@@ -5,10 +5,9 @@
 
 <template>
 	<div class="sharing-search">
-		<label for="sharing-search-input">{{ t('files_sharing', 'Search for share recipients') }}</label>
 		<NcSelect ref="select"
 			v-model="value"
-			input-id="sharing-search-input"
+			:input-label="t('files_sharing', 'Search for share recipients')"
 			class="sharing-search__input"
 			:disabled="!canReshare"
 			:loading="loading"
@@ -529,10 +528,6 @@ export default {
 	display: flex;
 	flex-direction: column;
 	margin-bottom: 4px;
-
-	label[for="sharing-search-input"] {
-		margin-bottom: 2px;
-	}
 
 	&__input {
 		width: 100%;
