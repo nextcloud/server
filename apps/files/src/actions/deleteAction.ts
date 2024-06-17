@@ -103,7 +103,7 @@ const displayName = (nodes: Node[], view: View) => {
 	return t('files', 'Delete')
 }
 
-const queue = new PQueue({ concurrency: 1 })
+const queue = new PQueue({ concurrency: 5 })
 
 export const action = new FileAction({
 	id: 'delete',
