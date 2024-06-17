@@ -136,8 +136,20 @@ export default {
 	},
 
 	methods: {
-		onSelected(option) {
+		async onSelected(option) {
 			this.value = null // Reset selected option
+
+			// Not a real option, but a lookup = global search button
+			if (option.lookup) {
+				await this.getSuggestions(this.query, true)
+				// Wait until select is re-rendered with new options
+				await this.$nextTick()
+				// Open the select again
+				this.$refs.select.$children[0].open = true
+
+				return
+			}
+
 			this.openSharingDetails(option)
 		},
 
