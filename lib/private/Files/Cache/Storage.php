@@ -9,6 +9,7 @@ namespace OC\Files\Cache;
 
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Files\Storage\IStorage;
+use OCP\ICacheFactory;
 use OCP\IDBConnection;
 use Psr\Log\LoggerInterface;
 
@@ -34,7 +35,10 @@ class Storage {
 	 */
 	public static function getGlobalCache() {
 		if (is_null(self::$globalCache)) {
-			self::$globalCache = new StorageGlobal(\OC::$server->getDatabaseConnection());
+			self::$globalCache = new StorageGlobal(
+				\OC::$server->getDatabaseConnection(),
+				\OC::$server->get(ICacheFactory::class),
+			);
 		}
 		return self::$globalCache;
 	}
@@ -158,6 +162,7 @@ class Storage {
 			->set('last_checked', $query->createNamedParameter(time() + $delay))
 			->where($query->expr()->eq('id', $query->createNamedParameter($this->storageId)));
 		$query->execute();
+		self::getGlobalCache()->removeFromMemcache($this->numericId, $this->storageId);
 	}
 
 	/**
@@ -178,6 +183,7 @@ class Storage {
 	public static function remove($storageId) {
 		$storageId = self::adjustStorageId($storageId);
 		$numericId = self::getNumericStorageId($storageId);
+		self::getGlobalCache()->removeFromMemcache($numericId, $storageId);
 
 		$query = \OC::$server->getDatabaseConnection()->getQueryBuilder();
 		$query->delete('storages')
