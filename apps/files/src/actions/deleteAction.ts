@@ -32,7 +32,7 @@ import { encodePath } from '@nextcloud/paths'
 
 import PQueue from 'p-queue'
 
-const queue = new PQueue({ concurrency: 1 })
+const queue = new PQueue({ concurrency: 5 })
 
 registerFileAction(new FileAction({
 	id: 'delete',
