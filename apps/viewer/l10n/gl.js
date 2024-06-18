@@ -96,7 +96,7 @@ OC.L10N.register(
     "Choose watermark type" : "Escoller o tipo de marca de auga",
     "Upload watermark" : "Enviar a marca de auga",
     "Add as text" : "Engadir como texto",
-    "Padding" : "Recheo",
+    "Padding" : "Enchedura",
     "Shadow" : "Sombra",
     "Horizontal" : "Horizontal",
     "Vertical" : "Vertical",
