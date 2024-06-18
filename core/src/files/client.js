@@ -58,8 +58,8 @@ import escapeHTML from 'escape-html'
 		if (options.password) {
 			clientOptions.password = options.password
 		}
-		this._client = new dav.Client(clientOptions)
-		this._client.xhrProvider = _.bind(this._xhrProvider, this)
+		this._client = new window.dav.Client(clientOptions)
+		this._client.xhrProvider = window._.bind(this._xhrProvider, this)
 		this._fileInfoParsers = []
 	}
 

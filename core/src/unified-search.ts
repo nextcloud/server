@@ -4,16 +4,12 @@
  */
 
 import { getLoggerBuilder } from '@nextcloud/logger'
-import { getRequestToken } from '@nextcloud/auth'
 import { translate as t, translatePlural as n } from '@nextcloud/l10n'
 import { createPinia, PiniaVuePlugin } from 'pinia'
 import Vue from 'vue'
 
 import UnifiedSearch from './views/UnifiedSearch.vue'
 import { useSearchStore } from '../src/store/unified-search-external-filters.js'
-
-// eslint-disable-next-line camelcase
-__webpack_nonce__ = btoa(getRequestToken())
 
 const logger = getLoggerBuilder()
 	.setApp('unified-search')
@@ -34,11 +30,11 @@ Vue.mixin({
 
 // Define type structure for unified searc action
 interface UnifiedSearchAction {
-    id: string;
-    appId: string;
-    label: string;
-    icon: string;
-    callback: () => void;
+	id: string;
+	appId: string;
+	label: string;
+	icon: string;
+	callback: () => void;
 }
 
 // Register the add/register filter action API globally

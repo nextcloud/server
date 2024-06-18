@@ -1,0 +1,2 @@
+/*! third party licenses: dist/vendor.LICENSE.txt */
+window.OCP.Collaboration.registerType("file",{action:()=>new Promise((i,e)=>{OC.dialogs.filepicker(t("files_sharing","Link to a file"),function(n){OC.Files.getClient().getFileInfo(n).then((l,o)=>{i(o.id)}).fail(()=>{e(new Error("Cannot get fileinfo"))})},!1,null,!1,OC.dialogs.FILEPICKER_TYPE_CHOOSE,"",{allowDirectoryChooser:!0})}),typeString:t("files_sharing","Link to a file"),typeIconClass:"icon-files-dark"});

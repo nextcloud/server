@@ -14,3 +14,5 @@
 // If you include .css, it will be imported as url
 @import '../../node_modules/@nextcloud/dialogs/dist/style';
 @import 'public.scss';
+// Import the vendor styles - extracted from our dependencies
+@import url('../../dist/style.css');

@@ -3,9 +3,6 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-// eslint-disable-next-line camelcase
-__webpack_nonce__ = btoa(OC.requestToken)
-
 window.OCP.Collaboration.registerType('file', {
 	action: () => {
 		return new Promise((resolve, reject) => {

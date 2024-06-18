@@ -7,9 +7,6 @@ import Vue from 'vue'
 
 import ArtificialIntelligence from './components/AdminAI.vue'
 
-// eslint-disable-next-line camelcase
-__webpack_nonce__ = btoa(OC.requestToken)
-
 Vue.prototype.t = t
 
 // Not used here but required for legacy templates

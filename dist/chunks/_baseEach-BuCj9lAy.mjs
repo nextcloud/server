@@ -1,0 +1,2 @@
+/*! third party licenses: dist/vendor.LICENSE.txt */
+import{_ as e}from"./_isIterateeCall-CX-rKv74.mjs";import{k as c,i as m}from"./_overRest-DjFtaWRq.mjs";var v=e,l=c;function p(n,t){return n&&v(n,t,l)}var x=p,_=m;function a(n,t){return function(r,f){if(r==null)return r;if(!_(r))return n(r,f);for(var i=r.length,o=t?i:-1,u=Object(r);(t?o--:++o<i)&&f(u[o],o,u)!==!1;);return r}}var b=a,h=x,k=b,s=k(h),g=s;export{g as _};

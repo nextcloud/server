@@ -47,19 +47,24 @@ class TemplateFunctionsTest extends \Test\TestCase {
 		emit_script_tag('', 'alert()');
 	}
 
+	public function testEmitScriptTagWithImportmap() {
+		$this->expectOutputRegex('/<script nonce=".*" type="importmap">\n\{\}\n<\/script>/');
+		emit_script_tag('', '{}', 'importmap');
+	}
+
 	public function testEmitScriptTagWithSource() {
 		$this->expectOutputRegex('/<script nonce=".*" defer src="some.js"><\/script>/');
 		emit_script_tag('some.js');
 	}
 
 	public function testEmitScriptTagWithModuleSource() {
-		$this->expectOutputRegex('/<script nonce=".*" defer src="some.mjs" type="module"><\/script>/');
+		$this->expectOutputRegex('/<script nonce=".*" type="module" defer src="some.mjs"><\/script>/');
 		emit_script_tag('some.mjs', '', 'module');
 	}
 
 	public function testEmitScriptLoadingTags() {
 		// Test mjs js and inline content
-		$pattern = '/src="some\.mjs"[^>]+type="module"[^>]*>.+\n'; // some.mjs with type = module
+		$pattern = '/type="module"[^>]+src="some\.mjs"[^>]*>.+\n'; // some.mjs with type = module
 		$pattern .= '<script[^>]+src="other\.js"[^>]*>.+\n'; // other.js as plain javascript
 		$pattern .= '<script[^>]*>\n?.*inline.*\n?<\/script>'; // inline content
 		$pattern .= '/'; // no flags
@@ -73,13 +78,31 @@ class TemplateFunctionsTest extends \Test\TestCase {
 
 	public function testEmitScriptLoadingTagsWithVersion() {
 		// Test mjs js and inline content
-		$pattern = '/src="some\.mjs\?v=ab123cd"[^>]+type="module"[^>]*>.+\n'; // some.mjs with type = module
+		$pattern = '/type="module"[^>]+src="some\.mjs\?v=ab123cd"[^>]*>.+\n'; // some.mjs with type = module
 		$pattern .= '<script[^>]+src="other\.js\?v=12abc34"[^>]*>.+\n'; // other.js as plain javascript
 		$pattern .= '/'; // no flags
 
 		$this->expectOutputRegex($pattern);
 		emit_script_loading_tags([
 			'jsfiles' => ['some.mjs?v=ab123cd', 'other.js?v=12abc34'],
+		]);
+	}
+
+	public function testEmitScriptLoadingTagsImportMap() {
+		// Test mjs and importmap
+		$pattern = '/type="importmap"[^>]*>\n'; // type importmap
+		$pattern .= '{"imports":{"@nextcloud\\\\\/vue":"dist\\\\\/modules\\\\\/nextcloud-vue.mjs","vue":"dist\\\\\/modules\\\\\/vue.mjs"}}\n'; // with modules content
+		$pattern .= '<\/script>\n';
+		//$pattern .= '<script [^<]*type="module"[^>]+src="some\.mjs"[^>]*>'; // the plain mjs file
+		$pattern .= '/'; // no flags
+
+		$this->expectOutputRegex($pattern);
+		emit_script_loading_tags([
+			'jsmodules' => [
+				'@nextcloud/vue' => 'dist/modules/nextcloud-vue.mjs',
+				'vue' => 'dist/modules/vue.mjs',
+			],
+			'jsfiles' => ['some.mjs'],
 		]);
 	}
 

@@ -4,7 +4,6 @@
  */
 
 import Vue from 'vue'
-import { getRequestToken } from '@nextcloud/auth'
 import { loadState } from '@nextcloud/initial-state'
 import { translate as t } from '@nextcloud/l10n'
 
@@ -26,8 +25,6 @@ import HeadlineSection from './components/PersonalInfo/HeadlineSection.vue'
 import BiographySection from './components/PersonalInfo/BiographySection.vue'
 import ProfileVisibilitySection from './components/PersonalInfo/ProfileVisibilitySection/ProfileVisibilitySection.vue'
 import BirthdaySection from './components/PersonalInfo/BirthdaySection.vue'
-
-__webpack_nonce__ = btoa(getRequestToken())
 
 const profileEnabledGlobally = loadState('settings', 'profileEnabledGlobally', true)
 

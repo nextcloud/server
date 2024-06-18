@@ -4,15 +4,11 @@
  */
 
 import Vue from 'vue'
-import { getRequestToken } from '@nextcloud/auth'
 import { subscribe } from '@nextcloud/event-bus'
 
 import UserStatus from './UserStatus.vue'
 
 import store from './store/index.js'
-
-// eslint-disable-next-line camelcase
-__webpack_nonce__ = btoa(getRequestToken())
 
 Vue.prototype.t = t
 Vue.prototype.$t = t

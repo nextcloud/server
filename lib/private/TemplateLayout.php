@@ -37,7 +37,7 @@ class TemplateLayout extends \OC_Template {
 	/** @var IConfig */
 	private $config;
 
-	/** @var IInitialStateService */
+	/** @var InitialStateService */
 	private $initialState;
 
 	/** @var INavigationManager */
@@ -51,12 +51,12 @@ class TemplateLayout extends \OC_Template {
 		/** @var IConfig */
 		$this->config = \OC::$server->get(IConfig::class);
 
-		/** @var IInitialStateService */
-		$this->initialState = \OC::$server->get(IInitialStateService::class);
+		/** @var InitialStateService */
+		$this->initialState = \OCP\Server::get(IInitialStateService::class);
 
 		// Add fallback theming variables if theming is disabled
 		if ($renderAs !== TemplateResponse::RENDER_AS_USER
-			|| !\OC::$server->getAppManager()->isEnabledForUser('theming')) {
+			|| !\OCP\Server::get(IAppManager::class)->isEnabledForUser('theming')) {
 			// TODO cache generated default theme if enabled for fallback if server is erroring ?
 			Util::addStyle('theming', 'default');
 		}
@@ -242,6 +242,13 @@ class TemplateLayout extends \OC_Template {
 			$this->append('jsfiles', $web.'/'.$file . $this->getVersionHashSuffix());
 		}
 
+		$jsModules = array_map(function (string $path) {
+			$jsFiles = self::findJavascriptFiles([$path]);
+			[, $web, $file] = end($jsFiles);
+			return $web . '/' . $file . $this->getVersionHashSuffix();
+		}, Util::getSharedModules());
+		$this->assign('jsmodules', $jsModules);
+
 		try {
 			$pathInfo = \OC::$server->getRequest()->getPathInfo();
 		} catch (\Exception $e) {
@@ -360,7 +367,7 @@ class TemplateLayout extends \OC_Template {
 
 	/**
 	 * @param array $scripts
-	 * @return array
+	 * @return array<int, array{0: string, 1: string, 2: string}>
 	 */
 	public static function findJavascriptFiles($scripts) {
 		if (!self::$jsLocator) {

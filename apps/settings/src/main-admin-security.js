@@ -10,9 +10,6 @@ import AdminTwoFactor from './components/AdminTwoFactor.vue'
 import Encryption from './components/Encryption.vue'
 import store from './store/admin-security.js'
 
-// eslint-disable-next-line camelcase
-__webpack_nonce__ = btoa(OC.requestToken)
-
 Vue.prototype.t = t
 
 // Not used here but required for legacy templates

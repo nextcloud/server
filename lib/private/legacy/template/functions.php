@@ -53,10 +53,10 @@ function emit_script_tag(string $src, string $script_content = '', string $conte
 	$defer_str = ' defer';
 	$type = $content_type !== '' ? ' type="' . $content_type . '"' : '';
 
-	$s = '<script nonce="' . $nonceManager->getNonce() . '"';
+	$s = '<script nonce="' . $nonceManager->getNonce() . '"' . $type;
 	if (!empty($src)) {
 		// emit script tag for deferred loading from $src
-		$s .= $defer_str.' src="' . $src .'"' . $type . '>';
+		$s .= $defer_str.' src="' . $src .'">';
 	} elseif ($script_content !== '') {
 		// emit script tag for inline script from $script_content without defer (see MDN)
 		$s .= ">\n".$script_content."\n";
@@ -73,11 +73,16 @@ function emit_script_tag(string $src, string $script_content = '', string $conte
  * @param array $obj all the script information from template
  */
 function emit_script_loading_tags($obj) {
+	if (!empty($obj['jsmodules'])) {
+		emit_script_tag('', json_encode(['imports' => $obj['jsmodules']]), 'importmap');
+	}
+
 	foreach ($obj['jsfiles'] as $jsfile) {
 		$fileName = explode('?', $jsfile, 2)[0];
 		$type = str_ends_with($fileName, '.mjs') ? 'module' : '';
 		emit_script_tag($jsfile, '', $type);
 	}
+
 	if (!empty($obj['inline_ocjs'])) {
 		emit_script_tag('', $obj['inline_ocjs']);
 	}

@@ -8,9 +8,6 @@ import { loadState } from '@nextcloud/initial-state'
 
 import WebAuthnSection from './components/WebAuthn/Section.vue'
 
-// eslint-disable-next-line camelcase
-__webpack_nonce__ = btoa(OC.requestToken)
-
 Vue.prototype.t = t
 
 const View = Vue.extend(WebAuthnSection)

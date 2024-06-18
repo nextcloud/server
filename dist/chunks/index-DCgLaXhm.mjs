@@ -1,0 +1,2 @@
+/*! third party licenses: dist/vendor.LICENSE.txt */
+import{bV as f}from"../core-common.mjs";function i(r,o,c){var n,t,u,s,l;o==null&&(o=100);function p(){var e=Date.now()-s;e<o&&e>=0?n=setTimeout(p,o-e):(n=null,c||(l=r.apply(u,t),u=t=null))}var a=function(){u=this,t=arguments,s=Date.now();var e=c&&!n;return n||(n=setTimeout(p,o)),e&&(l=r.apply(u,t),u=t=null),l};return a.clear=function(){n&&(clearTimeout(n),n=null)},a.flush=function(){n&&(l=r.apply(u,t),u=t=null,clearTimeout(n),n=null)},a}i.debounce=i;var m=i;const T=f(m);export{m as a,T as d};

@@ -78,8 +78,7 @@
 				:on-scroll-bottom-reached="tab.scrollBottomReached"
 				:file-info="fileInfo">
 				<template v-if="tab.iconSvg !== undefined" #icon>
-					<!-- eslint-disable-next-line vue/no-v-html -->
-					<span class="svg-icon" v-html="tab.iconSvg" />
+					<NcIconSvgWrapper :svg="tab.iconSvg" :size="20" />
 				</template>
 			</SidebarTab>
 		</template>
@@ -577,14 +576,6 @@ export default {
 	:deep {
 		.app-sidebar-header__description {
 			margin: 0 16px 4px 16px !important;
-		}
-	}
-
-	.svg-icon {
-		::v-deep svg {
-			width: 20px;
-			height: 20px;
-			fill: currentColor;
 		}
 	}
 }

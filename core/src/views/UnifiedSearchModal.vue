@@ -159,6 +159,7 @@ import SearchResult from '../components/UnifiedSearch/SearchResult.vue'
 
 import debounce from 'debounce'
 import { emit, subscribe } from '@nextcloud/event-bus'
+import { translate as t } from '@nextcloud/l10n'
 import { useBrowserLocation } from '@vueuse/core'
 import { getProviders, search as unifiedSearch, getContacts } from '../services/UnifiedSearchService.js'
 import { useSearchStore } from '../store/unified-search-external-filters.js'

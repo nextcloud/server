@@ -1,0 +1,2 @@
+/*! third party licenses: dist/vendor.LICENSE.txt */
+import{bS as s}from"../core-common.mjs";const t=Object.freeze({discover:s("settings","Discover"),installed:s("settings","Your apps"),enabled:s("settings","Active apps"),disabled:s("settings","Disabled apps"),updates:s("settings","Updates"),"app-bundles":s("settings","App bundles"),featured:s("settings","Featured apps"),supported:s("settings","Supported apps")});export{t as A};

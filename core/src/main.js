@@ -11,15 +11,11 @@ import 'regenerator-runtime/runtime.js'
 import OC from './OC/index.js'
 
 import './globals.js'
-import './jquery/index.js'
+// import './jquery/index.js'
 import { initCore } from './init.js'
 import { registerAppsSlideToggle } from './OC/apps.js'
-import { getRequestToken } from '@nextcloud/auth'
 import { generateUrl } from '@nextcloud/router'
 import Axios from '@nextcloud/axios'
-
-// eslint-disable-next-line camelcase
-__webpack_nonce__ = btoa(getRequestToken())
 
 window.addEventListener('DOMContentLoaded', function() {
 	initCore()
