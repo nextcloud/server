@@ -50,6 +50,6 @@ Object.assign(window.OCA.Files.Settings, { Setting: SettingsModel })
 
 const FilesAppVue = Vue.extend(FilesApp)
 new FilesAppVue({
-	router: window.OCP.Files.Router.router,
+	router: (window.OCP.Files.Router as RouterService)._router,
 	pinia,
 }).$mount('#content')
