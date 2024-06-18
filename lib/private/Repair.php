@@ -102,6 +102,8 @@ class Repair implements IOutput {
 				$this->dispatcher->dispatchTyped(new RepairErrorEvent($e->getMessage()));
 			}
 		}
+
+		$this->repairSteps = [];
 	}
 
 	/**
