@@ -161,4 +161,12 @@ interface ICacheEntry extends ArrayAccess {
 	 * @since 25.0.0
 	 */
 	public function getUnencryptedSize(): int;
+
+	/**
+	 * Get the cache data as array
+	 *
+	 * @return array
+	 * @since 30.0.0
+	 */
+	public function getData(): array;
 }
