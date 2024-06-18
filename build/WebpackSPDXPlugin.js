@@ -1,4 +1,4 @@
-"use strict";
+'use strict'
 
 /**
  * Party inspired by https://github.com/FormidableLabs/webpack-stats-plugin
@@ -13,6 +13,7 @@ const path = require('node:path')
 const webpack = require('webpack')
 
 class WebpackSPDXPlugin {
+
 	#options
 
 	/**
@@ -24,16 +25,16 @@ class WebpackSPDXPlugin {
 	}
 
 	apply(compiler) {
-		compiler.hooks.thisCompilation.tap("spdx-plugin", (compilation) => {
+		compiler.hooks.thisCompilation.tap('spdx-plugin', (compilation) => {
 			// `processAssets` is one of the last hooks before frozen assets.
 			// We choose `PROCESS_ASSETS_STAGE_REPORT` which is the last possible
 			// stage after which to emit.
 			compilation.hooks.processAssets.tapPromise(
 				{
-					name: "spdx-plugin",
-					stage: compilation.constructor.PROCESS_ASSETS_STAGE_REPORT
+					name: 'spdx-plugin',
+					stage: compilation.constructor.PROCESS_ASSETS_STAGE_REPORT,
 				},
-				() => this.emitLicenses(compilation)
+				() => this.emitLicenses(compilation),
 			)
 		})
 	}
@@ -64,13 +65,11 @@ class WebpackSPDXPlugin {
 	}
 
 	/**
-	 * 
-	 * @param {webpack.Compilation} compilation 
-	 * @param {*} callback 
-	 * @returns 
+	 * Emit licenses found in compilation to '.license' files
+	 * @param {webpack.Compilation} compilation Webpack compilation object
+	 * @param {*} callback Callback for old webpack versions
 	 */
 	async emitLicenses(compilation, callback) {
-		const moduleNames = (module) => module.modules?.map(moduleNames) ?? [module.name]
 		const logger = compilation.getLogger('spdx-plugin')
 		// cache the node packages
 		const packageInformation = new Map()
@@ -93,7 +92,7 @@ class WebpackSPDXPlugin {
 			/** @type {Set<webpack.Module>} */
 			const modules = new Set()
 			/**
-			 * @param {webpack.Module} module 
+			 * @param {webpack.Module} module
 			 */
 			const addModule = (module) => {
 				if (module && !modules.has(module)) {
@@ -161,7 +160,7 @@ class WebpackSPDXPlugin {
 					// Get the information from the package
 					const { author: packageAuthor, name, version, license: packageLicense, licenses } = JSON.parse(await fs.readFile(pkg))
 					// Handle legacy packages
-					let license = !packageLicense  && licenses
+					let license = !packageLicense && licenses
 						? licenses.map((entry) => entry.type ?? entry).join(' OR ')
 						: packageLicense
 					if (license?.includes(' ') && !license?.startsWith('(')) {
@@ -196,13 +195,15 @@ class WebpackSPDXPlugin {
 				}
 				licenses.add(license || 'unknown')
 				authors.add(pkg.author)
-				output += `\n- ${pkg.name}\n\t- version: ${pkg.version}\n\t- license: ${license}`
+				output += `- ${pkg.name}\n\t- version: ${pkg.version}\n\t- license: ${license}\n`
 			}
-			output += '\n\n'
+			output = `\n\n${output}`
+			for (const author of [...authors].sort()) {
+				output = `SPDX-FileCopyrightText: ${author}\n${output}`
+			}
 			for (const license of [...licenses].sort()) {
-				output += `SPDX-License-Identifier: ${license}\n`
+				output = `SPDX-License-Identifier: ${license}\n${output}`
 			}
-			output += [...authors].sort().map((author) => `SPDX-FileCopyrightText: ${author}`).join('\n')
 
 			compilation.emitAsset(
 				asset.split('?', 2)[0] + '.license',
