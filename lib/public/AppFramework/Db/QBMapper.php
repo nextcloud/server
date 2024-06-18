@@ -7,6 +7,7 @@ declare(strict_types=1);
  */
 namespace OCP\AppFramework\Db;
 
+use Generator;
 use OCP\DB\Exception;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
@@ -316,6 +317,26 @@ abstract class QBMapper {
 				$entities[] = $this->mapRowToEntity($row);
 			}
 			return $entities;
+		} finally {
+			$result->closeCursor();
+		}
+	}
+
+	/**
+	 * Runs a sql query and yields each resulting entity to obtain database entries in a memory-efficient way
+	 *
+	 * @param IQueryBuilder $query
+	 * @return Generator Generator of fetched entities
+	 * @psalm-return Generator<T> Generator of fetched entities
+	 * @throws Exception
+	 * @since 30.0.0
+	 */
+	protected function yieldEntities(IQueryBuilder $query): Generator {
+		$result = $query->executeQuery();
+		try {
+			while ($row = $result->fetch()) {
+				yield $this->mapRowToEntity($row);
+			}
 		} finally {
 			$result->closeCursor();
 		}
