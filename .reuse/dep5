@@ -155,11 +155,11 @@ Files: apps/dav/tests/misc/caldav-search-limit-timerange-1.ics apps/dav/tests/mi
 Copyright: 2023 Nextcloud GmbH and Nextcloud contributors
 License: AGPL-3.0-or-later
 
-Files: apps/cloud_federation_api/l10n/*.js apps/cloud_federation_api/l10n/*.json apps/contactsinteraction/l10n/*.js apps/contactsinteraction/l10n/*.json apps/dashboard/l10n/*.js apps/dashboard/l10n/*.json apps/files_reminders/l10n/*.js apps/files_reminders/l10n/*.json apps/lookup_server_connector/l10n/*.js apps/lookup_server_connector/l10n/*.json apps/oauth2 apps/sharebymail/l10n/*.js apps/oauth2 apps/sharebymail/l10n/*.json apps/theming/l10n/*.js apps/theming/l10n/*.json apps/twofactor_backupcodes/l10n/*.js apps/twofactor_backupcodes/l10n/*.json apps/user_status/l10n/*.js apps/user_status/l10n/*.json apps/weather_status/l10n/*.js apps/weather_status/l10n/*.json apps/workflowengine/l10n/*.js apps/workflowengine/l10n/*.json
+Files: apps/cloud_federation_api/l10n/*.js apps/cloud_federation_api/l10n/*.json apps/contactsinteraction/l10n/*.js apps/contactsinteraction/l10n/*.json apps/dashboard/l10n/*.js apps/dashboard/l10n/*.json apps/files_reminders/l10n/*.js apps/files_reminders/l10n/*.json apps/lookup_server_connector/l10n/*.js apps/lookup_server_connector/l10n/*.json apps/sharebymail/l10n/*.js apps/oauth2/l10n/*.js apps/oauth2/l10n/*.json apps/sharebymail/l10n/*.json apps/theming/l10n/*.js apps/theming/l10n/*.json apps/twofactor_backupcodes/l10n/*.js apps/twofactor_backupcodes/l10n/*.json apps/user_status/l10n/*.js apps/user_status/l10n/*.json apps/weather_status/l10n/*.js apps/weather_status/l10n/*.json apps/workflowengine/l10n/*.js apps/workflowengine/l10n/*.json
 Copyright: 2016-2024 Nextcloud translators
 License: AGPL-3.0-or-later
 
-Files: .gitattributes composer.json composer.lock .github/CODEOWNERS __tests__/tsconfig.json tsconfig.json build/integration/composer.* build/integration/data/*.png vendor-bin/*/composer.json vendor-bin/*/composer.lock apps/*/composer/composer.json apps/*/composer/composer.lock apps/*/composer/composer/installed.json
+Files: composer.json composer.lock .github/CODEOWNERS __tests__/tsconfig.json tsconfig.json build/integration/composer.* vendor-bin/*/composer.json vendor-bin/*/composer.lock apps/*/composer/composer.json apps/*/composer/composer.lock apps/*/composer/composer/installed.json
 Copyright: 2011-2016 ownCloud, Inc., 2016-2024 Nextcloud GmbH and Nextcloud contributors
 License: AGPL-3.0-only OR AGPL-3.0-or-later
 
