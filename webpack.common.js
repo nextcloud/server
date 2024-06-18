@@ -243,6 +243,8 @@ module.exports = {
 		new WebpackSPDXPlugin({
 			override: {
 				select2: 'MIT',
+				'@nextcloud/axios': 'GPL-3.0-or-later',
+				'@nextcloud/vue': 'AGPL-3.0-or-later',
 			}
 		}),
 	],
