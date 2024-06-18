@@ -30,7 +30,8 @@ import { subscribe } from '@nextcloud/event-bus'
 import logger from '../logger'
 import Vue from 'vue'
 
-import { client } from '../services/WebdavClient.ts'
+import { getClient } from '../services/WebdavClient.ts'
+const client = getClient()
 
 const fetchNode = async (node: Node): Promise<Node> => {
 	const propfindPayload = davGetDefaultPropfind()
