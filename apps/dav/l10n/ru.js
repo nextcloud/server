@@ -86,7 +86,7 @@ OC.L10N.register(
     "Organizer:" : "Организатор:",
     "Attendees:" : "Участники:",
     "Title:" : "Название:",
-    "Time:" : "Время:",
+    "Date and time:" : "Дата и время:",
     "Location:" : "Местонахождение:",
     "Link:" : "Ссылка:",
     "Accept" : "Принять",
@@ -171,6 +171,7 @@ OC.L10N.register(
     "Delete slot" : "Удалить интервал",
     "No working hours set" : "Рабочие часы не указаны",
     "Add slot" : "Добавить интервал",
+    "Weekdays" : "Дни недели",
     "Monday" : "Понедельник",
     "Tuesday" : "Вторник",
     "Wednesday" : "Среда",
@@ -206,6 +207,7 @@ OC.L10N.register(
     "Tentative" : "Под вопросом",
     "Your attendance was updated successfully." : "Статус участия обновлён.",
     "To-dos" : "Задачи",
+    "Time:" : "Время:",
     "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "Если вы настроите свое рабочее время, другие пользователи будут видеть, когда вас нет в офисе, когда они планируют встречу."
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

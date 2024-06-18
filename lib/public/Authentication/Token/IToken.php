@@ -35,6 +35,15 @@ interface IToken extends JsonSerializable {
 	public const REMEMBER = 1;
 
 	/**
+	 * @since 30.0.0
+	 */
+	public const SCOPE_FILESYSTEM = 'filesystem';
+	/**
+	 * @since 30.0.0
+	 */
+	public const SCOPE_SKIP_PASSWORD_VALIDATION = 'password-unconfirmable';
+
+	/**
 	 * Get the token ID
 	 * @since 28.0.0
 	 */

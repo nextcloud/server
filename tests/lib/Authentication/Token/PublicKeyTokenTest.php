@@ -9,11 +9,12 @@ declare(strict_types=1);
 namespace Test\Authentication\Token;
 
 use OC\Authentication\Token\PublicKeyToken;
+use OCP\Authentication\Token\IToken;
 use Test\TestCase;
 
 class PublicKeyTokenTest extends TestCase {
 	public function testSetScopeAsArray() {
-		$scope = ['filesystem' => false];
+		$scope = [IToken::SCOPE_FILESYSTEM => false];
 		$token = new PublicKeyToken();
 		$token->setScope($scope);
 		$this->assertEquals(json_encode($scope), $token->getScope());
@@ -21,7 +22,7 @@ class PublicKeyTokenTest extends TestCase {
 	}
 
 	public function testDefaultScope() {
-		$scope = ['filesystem' => true];
+		$scope = [IToken::SCOPE_FILESYSTEM => true];
 		$token = new PublicKeyToken();
 		$this->assertEquals($scope, $token->getScopeAsArray());
 	}

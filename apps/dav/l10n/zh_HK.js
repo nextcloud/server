@@ -86,7 +86,7 @@ OC.L10N.register(
     "Organizer:" : "主辦單位：",
     "Attendees:" : "參加者：",
     "Title:" : "標題：",
-    "Time:" : "時間：",
+    "Date and time:" : "日期和時間：",
     "Location:" : "位置：",
     "Link:" : "連結：",
     "Accept" : "接受",
@@ -209,6 +209,7 @@ OC.L10N.register(
     "Tentative" : "暫定",
     "Your attendance was updated successfully." : "您的參與狀況成功更新",
     "To-dos" : "待辦事項",
+    "Time:" : "時間：",
     "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "若您設定了您的工作時間，其他用戶在預約會議時就會知道您何時不在辦公室。"
 },
 "nplurals=1; plural=0;");

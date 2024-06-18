@@ -30,4 +30,8 @@ class PasswordConfirmationMiddlewareController extends \OCP\AppFramework\Control
 	#[PasswordConfirmationRequired]
 	public function testAttribute() {
 	}
+
+	#[PasswordConfirmationRequired]
+	public function testSSO() {
+	}
 }

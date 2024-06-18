@@ -274,7 +274,13 @@ export default {
 		updateUsername() {
 			this.$emit('update:username', this.user)
 		},
-		submit() {
+		submit(event) {
+			if (this.loading) {
+				// Prevent the form from being submitted twice
+				event.preventDefault()
+				return
+			}
+
 			this.loading = true
 			this.$emit('submit')
 		},

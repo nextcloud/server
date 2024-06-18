@@ -50,6 +50,7 @@ class PreviewManager implements IPreview {
 	private IServerContainer $container;
 	private IBinaryFinder $binaryFinder;
 	private IMagickSupport $imagickSupport;
+	private bool $enablePreviews;
 
 	public function __construct(
 		IConfig                  $config,
@@ -73,6 +74,7 @@ class PreviewManager implements IPreview {
 		$this->container = $container;
 		$this->binaryFinder = $binaryFinder;
 		$this->imagickSupport = $imagickSupport;
+		$this->enablePreviews = $config->getSystemValueBool('enable_previews', true);
 	}
 
 	/**
@@ -86,7 +88,7 @@ class PreviewManager implements IPreview {
 	 * @return void
 	 */
 	public function registerProvider($mimeTypeRegex, \Closure $callable): void {
-		if (!$this->config->getSystemValueBool('enable_previews', true)) {
+		if (!$this->enablePreviews) {
 			return;
 		}
 
@@ -101,7 +103,7 @@ class PreviewManager implements IPreview {
 	 * Get all providers
 	 */
 	public function getProviders(): array {
-		if (!$this->config->getSystemValueBool('enable_previews', true)) {
+		if (!$this->enablePreviews) {
 			return [];
 		}
 
@@ -158,6 +160,7 @@ class PreviewManager implements IPreview {
 	 * @since 11.0.0 - \InvalidArgumentException was added in 12.0.0
 	 */
 	public function getPreview(File $file, $width = -1, $height = -1, $crop = false, $mode = IPreview::MODE_FILL, $mimeType = null) {
+		$this->throwIfPreviewsDisabled();
 		$previewConcurrency = $this->getGenerator()->getNumConcurrentPreviews('preview_concurrency_all');
 		$sem = Generator::guardWithSemaphore(Generator::SEMAPHORE_ID_ALL, $previewConcurrency);
 		try {
@@ -181,6 +184,7 @@ class PreviewManager implements IPreview {
 	 * @since 19.0.0
 	 */
 	public function generatePreviews(File $file, array $specifications, $mimeType = null) {
+		$this->throwIfPreviewsDisabled();
 		return $this->getGenerator()->generatePreviews($file, $specifications, $mimeType);
 	}
 
@@ -191,7 +195,7 @@ class PreviewManager implements IPreview {
 	 * @return boolean
 	 */
 	public function isMimeSupported($mimeType = '*') {
-		if (!$this->config->getSystemValueBool('enable_previews', true)) {
+		if (!$this->enablePreviews) {
 			return false;
 		}
 
@@ -216,7 +220,7 @@ class PreviewManager implements IPreview {
 	 * Check if a preview can be generated for a file
 	 */
 	public function isAvailable(\OCP\Files\FileInfo $file): bool {
-		if (!$this->config->getSystemValueBool('enable_previews', true)) {
+		if (!$this->enablePreviews) {
 			return false;
 		}
 
@@ -450,6 +454,15 @@ class PreviewManager implements IPreview {
 					return null;
 				}
 			});
+		}
+	}
+
+	/**
+	 * @throws NotFoundException if preview generation is disabled
+	 */
+	private function throwIfPreviewsDisabled(): void {
+		if (!$this->enablePreviews) {
+			throw new NotFoundException('Previews disabled');
 		}
 	}
 }

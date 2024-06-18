@@ -58,9 +58,11 @@
   --border-radius-large: 10px;
   --border-radius-rounded: 28px;
   /* Border radius of interactive elements such as buttons, input, navigation and list items. Available since Nextcloud 30. */
-  --border-radius-element: 10px;
+  --border-radius-element: 8px;
   --border-radius-pill: 100px;
-  --default-clickable-area: 44px;
+  --default-clickable-area: 34px;
+  --clickable-area-large: 48px;
+  --clickable-area-small: 24px;
   --default-line-height: 24px;
   --default-grid-baseline: 4px;
   --header-height: 50px;

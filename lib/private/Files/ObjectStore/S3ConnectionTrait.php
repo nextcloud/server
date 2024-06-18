@@ -11,7 +11,7 @@ use Aws\Credentials\Credentials;
 use Aws\Exception\CredentialsException;
 use Aws\S3\Exception\S3Exception;
 use Aws\S3\S3Client;
-use GuzzleHttp\Promise;
+use GuzzleHttp\Promise\Create;
 use GuzzleHttp\Promise\RejectedPromise;
 use OCP\ICertificateManager;
 use Psr\Log\LoggerInterface;
@@ -44,8 +44,8 @@ trait S3ConnectionTrait {
 		$this->copySizeLimit = $params['copySizeLimit'] ?? 5242880000;
 		$this->useMultipartCopy = (bool)($params['useMultipartCopy'] ?? true);
 		$params['region'] = empty($params['region']) ? 'eu-west-1' : $params['region'];
-		$params['s3-accelerate'] = $params['hostname'] == 's3-accelerate.amazonaws.com' || $params['hostname'] == 's3-accelerate.dualstack.amazonaws.com';
 		$params['hostname'] = empty($params['hostname']) ? 's3.' . $params['region'] . '.amazonaws.com' : $params['hostname'];
+		$params['s3-accelerate'] = $params['hostname'] === 's3-accelerate.amazonaws.com' || $params['hostname'] === 's3-accelerate.dualstack.amazonaws.com';
 		if (!isset($params['port']) || $params['port'] === '') {
 			$params['port'] = (isset($params['use_ssl']) && $params['use_ssl'] === false) ? 80 : 443;
 		}
@@ -178,7 +178,7 @@ trait S3ConnectionTrait {
 			$secret = empty($this->params['secret']) ? null : $this->params['secret'];
 
 			if ($key && $secret) {
-				return Promise\promise_for(
+				return Create::promiseFor(
 					new Credentials($key, $secret)
 				);
 			}

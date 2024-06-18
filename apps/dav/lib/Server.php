@@ -263,13 +263,15 @@ class Server {
 						$this->server->tree, \OC::$server->getTagManager()
 					)
 				);
+
 				// TODO: switch to LazyUserFolder
 				$userFolder = \OC::$server->getUserFolder();
+				$shareManager = \OCP\Server::get(\OCP\Share\IManager::class);
 				$this->server->addPlugin(new SharesPlugin(
 					$this->server->tree,
 					$userSession,
 					$userFolder,
-					\OC::$server->getShareManager()
+					$shareManager,
 				));
 				$this->server->addPlugin(new CommentPropertiesPlugin(
 					\OC::$server->getCommentsManager(),
@@ -304,7 +306,7 @@ class Server {
 						$this->server->tree,
 						$user,
 						\OC::$server->getRootFolder(),
-						\OC::$server->getShareManager(),
+						$shareManager,
 						$view,
 						\OCP\Server::get(IFilesMetadataManager::class)
 					));

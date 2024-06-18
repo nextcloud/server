@@ -8,6 +8,7 @@
 namespace OC;
 
 use bantu\IniGetWrapper\IniGetWrapper;
+use OC\Authentication\Token\IProvider;
 use OC\Search\SearchQuery;
 use OC\Template\CSSResourceLocator;
 use OC\Template\JSConfigHelper;
@@ -225,7 +226,8 @@ class TemplateLayout extends \OC_Template {
 				\OC::$server->get(IniGetWrapper::class),
 				\OC::$server->getURLGenerator(),
 				\OC::$server->get(CapabilitiesManager::class),
-				\OCP\Server::get(IInitialStateService::class)
+				\OCP\Server::get(IInitialStateService::class),
+				\OCP\Server::get(IProvider::class),
 			);
 			$config = $jsConfigHelper->getConfig();
 			if (\OC::$server->getContentSecurityPolicyNonceManager()->browserSupportsCspV3()) {

@@ -17,10 +17,6 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
             'OC\\' => 3,
             'OCP\\' => 4,
         ),
-        'B' => 
-        array (
-            'Bamarni\\Composer\\Bin\\' => 21,
-        ),
     );
 
     public static $prefixDirsPsr4 = array (
@@ -35,10 +31,6 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OCP\\' => 
         array (
             0 => __DIR__ . '/../../..' . '/lib/public',
-        ),
-        'Bamarni\\Composer\\Bin\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/bamarni/composer-bin-plugin/src',
         ),
     );
 
@@ -322,6 +314,8 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OCP\\EventDispatcher\\GenericEvent' => __DIR__ . '/../../..' . '/lib/public/EventDispatcher/GenericEvent.php',
         'OCP\\EventDispatcher\\IEventDispatcher' => __DIR__ . '/../../..' . '/lib/public/EventDispatcher/IEventDispatcher.php',
         'OCP\\EventDispatcher\\IEventListener' => __DIR__ . '/../../..' . '/lib/public/EventDispatcher/IEventListener.php',
+        'OCP\\EventDispatcher\\IWebhookCompatibleEvent' => __DIR__ . '/../../..' . '/lib/public/EventDispatcher/IWebhookCompatibleEvent.php',
+        'OCP\\EventDispatcher\\JsonSerializer' => __DIR__ . '/../../..' . '/lib/public/EventDispatcher/JsonSerializer.php',
         'OCP\\Exceptions\\AbortedEventException' => __DIR__ . '/../../..' . '/lib/public/Exceptions/AbortedEventException.php',
         'OCP\\Exceptions\\AppConfigException' => __DIR__ . '/../../..' . '/lib/public/Exceptions/AppConfigException.php',
         'OCP\\Exceptions\\AppConfigIncorrectTypeException' => __DIR__ . '/../../..' . '/lib/public/Exceptions/AppConfigIncorrectTypeException.php',

@@ -60,7 +60,7 @@ class Event extends Base {
 	 * @param array $eventData
 	 * @return array
 	 */
-	protected function generateObjectParameter(array $eventData) {
+	protected function generateObjectParameter(array $eventData, string $affectedUser): array {
 		if (!isset($eventData['id']) || !isset($eventData['name'])) {
 			throw new \InvalidArgumentException();
 		}
@@ -76,7 +76,15 @@ class Event extends Base {
 				// The calendar app needs to be manually loaded for the routes to be loaded
 				OC_App::loadApp('calendar');
 				$linkData = $eventData['link'];
-				$objectId = base64_encode($this->url->getWebroot() . '/remote.php/dav/calendars/' . $linkData['owner'] . '/' . $linkData['calendar_uri'] . '/' . $linkData['object_uri']);
+				if ($affectedUser === $linkData['owner']) {
+					$objectId = base64_encode($this->url->getWebroot() . '/remote.php/dav/calendars/' . $linkData['owner'] . '/' . $linkData['calendar_uri'] . '/' . $linkData['object_uri']);
+				} else {
+					// Can't use the "real" owner and calendar names here because we create a custom
+					// calendar for incoming shares with the name "<calendar>_shared_by_<sharer>".
+					// Hack: Fix the link by generating it for the incoming shared calendar instead,
+					//       as seen from the affected user.
+					$objectId = base64_encode($this->url->getWebroot() . '/remote.php/dav/calendars/' . $affectedUser . '/' . $linkData['calendar_uri'] . '_shared_by_' . $linkData['owner'] . '/' . $linkData['object_uri']);
+				}
 				$link = [
 					'view' => 'dayGridMonth',
 					'timeRange' => 'now',
@@ -168,7 +176,7 @@ class Event extends Base {
 					return [
 						'actor' => $this->generateUserParameter($parameters['actor']),
 						'calendar' => $this->generateCalendarParameter($parameters['calendar'], $this->l),
-						'event' => $this->generateClassifiedObjectParameter($parameters['object']),
+						'event' => $this->generateClassifiedObjectParameter($parameters['object'], $event->getAffectedUser()),
 					];
 				case self::SUBJECT_OBJECT_ADD . '_event_self':
 				case self::SUBJECT_OBJECT_DELETE . '_event_self':
@@ -177,7 +185,7 @@ class Event extends Base {
 				case self::SUBJECT_OBJECT_RESTORE . '_event_self':
 					return [
 						'calendar' => $this->generateCalendarParameter($parameters['calendar'], $this->l),
-						'event' => $this->generateClassifiedObjectParameter($parameters['object']),
+						'event' => $this->generateClassifiedObjectParameter($parameters['object'], $event->getAffectedUser()),
 					];
 			}
 		}
@@ -189,13 +197,13 @@ class Event extends Base {
 						'actor' => $this->generateUserParameter($parameters['actor']),
 						'sourceCalendar' => $this->generateCalendarParameter($parameters['sourceCalendar'], $this->l),
 						'targetCalendar' => $this->generateCalendarParameter($parameters['targetCalendar'], $this->l),
-						'event' => $this->generateClassifiedObjectParameter($parameters['object']),
+						'event' => $this->generateClassifiedObjectParameter($parameters['object'], $event->getAffectedUser()),
 					];
 				case self::SUBJECT_OBJECT_MOVE . '_event_self':
 					return [
 						'sourceCalendar' => $this->generateCalendarParameter($parameters['sourceCalendar'], $this->l),
 						'targetCalendar' => $this->generateCalendarParameter($parameters['targetCalendar'], $this->l),
-						'event' => $this->generateClassifiedObjectParameter($parameters['object']),
+						'event' => $this->generateClassifiedObjectParameter($parameters['object'], $event->getAffectedUser()),
 					];
 			}
 		}
@@ -212,22 +220,22 @@ class Event extends Base {
 				return [
 					'actor' => $this->generateUserParameter($parameters[0]),
 					'calendar' => $this->generateLegacyCalendarParameter($event->getObjectId(), $parameters[1]),
-					'event' => $this->generateObjectParameter($parameters[2]),
+					'event' => $this->generateObjectParameter($parameters[2], $event->getAffectedUser()),
 				];
 			case self::SUBJECT_OBJECT_ADD . '_event_self':
 			case self::SUBJECT_OBJECT_DELETE . '_event_self':
 			case self::SUBJECT_OBJECT_UPDATE . '_event_self':
 				return [
 					'calendar' => $this->generateLegacyCalendarParameter($event->getObjectId(), $parameters[1]),
-					'event' => $this->generateObjectParameter($parameters[2]),
+					'event' => $this->generateObjectParameter($parameters[2], $event->getAffectedUser()),
 				];
 		}
 
 		throw new \InvalidArgumentException();
 	}
 
-	private function generateClassifiedObjectParameter(array $eventData) {
-		$parameter = $this->generateObjectParameter($eventData);
+	private function generateClassifiedObjectParameter(array $eventData, string $affectedUser): array {
+		$parameter = $this->generateObjectParameter($eventData, $affectedUser);
 		if (!empty($eventData['classified'])) {
 			$parameter['name'] = $this->l->t('Busy');
 		}

@@ -7319,6 +7319,19 @@
                 ],
                 "parameters": [
                     {
+                        "name": "guestFallback",
+                        "in": "query",
+                        "description": "Fallback to guest avatar if not found",
+                        "schema": {
+                            "type": "integer",
+                            "default": 0,
+                            "enum": [
+                                0,
+                                1
+                            ]
+                        }
+                    },
+                    {
                         "name": "userId",
                         "in": "path",
                         "description": "ID of the user",
@@ -7358,6 +7371,25 @@
                             }
                         }
                     },
+                    "201": {
+                        "description": "Avatar returned",
+                        "headers": {
+                            "X-NC-IsCustomAvatar": {
+                                "schema": {
+                                    "type": "integer",
+                                    "format": "int64"
+                                }
+                            }
+                        },
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "string",
+                                    "format": "binary"
+                                }
+                            }
+                        }
+                    },
                     "404": {
                         "description": "Avatar not found",
                         "content": {
@@ -7365,6 +7397,9 @@
                                 "schema": {}
                             }
                         }
+                    },
+                    "500": {
+                        "description": ""
                     }
                 }
             }
@@ -7387,6 +7422,19 @@
                 ],
                 "parameters": [
                     {
+                        "name": "guestFallback",
+                        "in": "query",
+                        "description": "Fallback to guest avatar if not found",
+                        "schema": {
+                            "type": "integer",
+                            "default": 0,
+                            "enum": [
+                                0,
+                                1
+                            ]
+                        }
+                    },
+                    {
                         "name": "userId",
                         "in": "path",
                         "description": "ID of the user",
@@ -7426,6 +7474,25 @@
                             }
                         }
                     },
+                    "201": {
+                        "description": "Avatar returned",
+                        "headers": {
+                            "X-NC-IsCustomAvatar": {
+                                "schema": {
+                                    "type": "integer",
+                                    "format": "int64"
+                                }
+                            }
+                        },
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "string",
+                                    "format": "binary"
+                                }
+                            }
+                        }
+                    },
                     "404": {
                         "description": "Avatar not found",
                         "content": {
@@ -7433,6 +7500,9 @@
                                 "schema": {}
                             }
                         }
+                    },
+                    "500": {
+                        "description": ""
                     }
                 }
             }
@@ -7569,6 +7639,14 @@
                 "responses": {
                     "200": {
                         "description": "Custom avatar returned",
+                        "headers": {
+                            "X-NC-IsCustomAvatar": {
+                                "schema": {
+                                    "type": "integer",
+                                    "format": "int64"
+                                }
+                            }
+                        },
                         "content": {
                             "*/*": {
                                 "schema": {
@@ -7580,6 +7658,14 @@
                     },
                     "201": {
                         "description": "Avatar returned",
+                        "headers": {
+                            "X-NC-IsCustomAvatar": {
+                                "schema": {
+                                    "type": "integer",
+                                    "format": "int64"
+                                }
+                            }
+                        },
                         "content": {
                             "*/*": {
                                 "schema": {
@@ -7634,6 +7720,14 @@
                 "responses": {
                     "200": {
                         "description": "Custom avatar returned",
+                        "headers": {
+                            "X-NC-IsCustomAvatar": {
+                                "schema": {
+                                    "type": "integer",
+                                    "format": "int64"
+                                }
+                            }
+                        },
                         "content": {
                             "*/*": {
                                 "schema": {
@@ -7645,6 +7739,14 @@
                     },
                     "201": {
                         "description": "Avatar returned",
+                        "headers": {
+                            "X-NC-IsCustomAvatar": {
+                                "schema": {
+                                    "type": "integer",
+                                    "format": "int64"
+                                }
+                            }
+                        },
                         "content": {
                             "*/*": {
                                 "schema": {

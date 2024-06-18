@@ -2,7 +2,7 @@
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import type { FileId, SelectionStore } from '../types'
+import type { FileSource, SelectionStore } from '../types'
 import { defineStore } from 'pinia'
 import Vue from 'vue'
 
@@ -17,14 +17,14 @@ export const useSelectionStore = defineStore('selection', {
 		/**
 		 * Set the selection of fileIds
 		 */
-		set(selection = [] as FileId[]) {
+		set(selection = [] as FileSource[]) {
 			Vue.set(this, 'selected', [...new Set(selection)])
 		},
 
 		/**
 		 * Set the last selected index
 		 */
-		setLastIndex(lastSelectedIndex = null as FileId | null) {
+		setLastIndex(lastSelectedIndex = null as number | null) {
 			// Update the last selection if we provided a new selection starting point
 			Vue.set(this, 'lastSelection', lastSelectedIndex ? this.selected : [])
 			Vue.set(this, 'lastSelectedIndex', lastSelectedIndex)

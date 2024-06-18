@@ -212,6 +212,8 @@ OC.L10N.register(
     "User profile Headline will be set from the specified attribute" : "使用者個人資料標題將從指定的屬性設定",
     "Biography Field" : "傳記欄位",
     "User profile Biography will be set from the specified attribute" : "使用者個人資料傳記將從指定的屬性設定",
+    "Birthdate Field" : "出生日期欄位",
+    "User profile Date of birth will be set from the specified attribute" : "使用者個人資料的出生日期將從指定的屬性中設定",
     "Internal Username" : "內部使用者名稱",
     "By default the internal username will be created from the UUID attribute. It makes sure that the username is unique and characters do not need to be converted. The internal username has the restriction that only these characters are allowed: [a-zA-Z0-9_.@-]. Other characters are replaced with their ASCII correspondence or simply omitted. On collisions a number will be added/increased. The internal username is used to identify a user internally. It is also the default name for the user home folder. It is also a part of remote URLs, for instance for all DAV services. With this setting, the default behavior can be overridden. Changes will have effect only on newly mapped (added) LDAP users. Leave it empty for default behavior." : "預設情況下，內部使用者名稱將從 UUID 屬性建立。其確保了使用者名稱是唯一且不需要轉換字元。內部使用者名稱的限制是只能使用下列字元：[a-zA-Z0-9_.@-]。其他字元會使用其 ASCII 對映或被忽略。發生碰撞時，將會加入數字。內部使用者名稱用於內部識別使用者。其也是使用者家資料夾的預設名稱。也是遠端 URL 的一部分，舉例來說，會用於所有 DAV 服務。使用此設定，預設的行為將會被覆寫。變更僅對新映射（新增）的 LDAP 使用者有效。將其留空會使用預設行為。",
     "Internal Username Attribute:" : "內部使用者名稱屬性：",

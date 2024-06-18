@@ -86,7 +86,6 @@ OC.L10N.register(
     "Organizer:" : "Skipuleggjandi:",
     "Attendees:" : "Þáttakendur:",
     "Title:" : "Titill:",
-    "Time:" : "Tími:",
     "Location:" : "Staðsetning:",
     "Link:" : "Tengill:",
     "Accept" : "Samþykkja",
@@ -205,6 +204,7 @@ OC.L10N.register(
     "Tentative" : "Bráðabirgða",
     "Your attendance was updated successfully." : "Mætingarstaða þín var uppfærð.",
     "To-dos" : "Verkþættir",
+    "Time:" : "Tími:",
     "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "Ef þú stillir vinnutímana þína, geta aðrir séð hvenæt þú sért fjarverandi þegar þeir bóka fundi með þér."
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

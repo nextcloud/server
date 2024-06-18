@@ -6,7 +6,7 @@
 <template>
 	<NcAppSidebar v-if="file"
 		ref="sidebar"
-		cy-data-sidebar
+		data-cy-sidebar
 		v-bind="appSidebar"
 		:force-menu="true"
 		@close="close"
@@ -89,7 +89,7 @@
 import { getCurrentUser } from '@nextcloud/auth'
 import { getCapabilities } from '@nextcloud/capabilities'
 import { showError } from '@nextcloud/dialogs'
-import { emit } from '@nextcloud/event-bus'
+import { emit, subscribe, unsubscribe } from '@nextcloud/event-bus'
 import { File, Folder, formatFileSize } from '@nextcloud/files'
 import { encodePath } from '@nextcloud/paths'
 import { generateRemoteUrl, generateUrl } from '@nextcloud/router'
@@ -289,10 +289,13 @@ export default {
 		},
 	},
 	created() {
+		subscribe('files:node:deleted', this.onNodeDeleted)
+
 		window.addEventListener('resize', this.handleWindowResize)
 		this.handleWindowResize()
 	},
 	beforeDestroy() {
+		unsubscribe('file:node:deleted', this.onNodeDeleted)
 		window.removeEventListener('resize', this.handleWindowResize)
 	},
 
@@ -491,6 +494,16 @@ export default {
 			this.Sidebar.file = ''
 			this.showTags = false
 			this.resetData()
+		},
+
+		/**
+		 * Handle if the current node was deleted
+		 * @param {import('@nextcloud/files').Node} node The deleted node
+		 */
+		onNodeDeleted(node) {
+			if (this.fileInfo && node && this.fileInfo.id === node.fileid) {
+				this.close()
+			}
 		},
 
 		/**

@@ -62,9 +62,9 @@ jobs:
 
       - name: Apply PR
         run: |
-          git remote add pr ${{ github.event.pull_request.head.repo.clone_url }}
-          git fetch pr ${{ github.event.pull_request.head.ref }}
-          git checkout -b pr/${{ github.event.pull_request.head.ref }}
+          git remote add pr '${{ github.event.pull_request.head.repo.clone_url }}'
+          git fetch pr '${{ github.event.pull_request.head.ref }}'
+          git checkout -b 'pr/${{ github.event.pull_request.head.ref }}'
           git submodule update
 
           ./occ upgrade

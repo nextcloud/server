@@ -110,6 +110,7 @@
 import type { View, ContentsWithRoot } from '@nextcloud/files'
 import type { Upload } from '@nextcloud/upload'
 import type { CancelablePromise } from 'cancelable-promise'
+import type { ComponentPublicInstance } from 'vue'
 import type { Route } from 'vue-router'
 import type { UserConfig } from '../types.ts'
 
@@ -244,6 +245,14 @@ export default defineComponent({
 		},
 
 		/**
+		 * The current file id
+		 */
+		fileId(): number | null {
+			const number = Number.parseInt(this.$route?.params.fileid ?? '')
+			return Number.isNaN(number) ? null : number
+		},
+
+		/**
 		 * The current folder.
 		 */
 		currentFolder(): Folder | undefined {
@@ -254,12 +263,13 @@ export default defineComponent({
 			if (this.dir === '/') {
 				return this.filesStore.getRoot(this.currentView.id)
 			}
-			const fileId = this.pathsStore.getPath(this.currentView.id, this.dir)
-			if (fileId === undefined) {
+
+			const source = this.pathsStore.getPath(this.currentView.id, this.dir)
+			if (source === undefined) {
 				return
 			}
 
-			return this.filesStore.getNode(fileId) as Folder
+			return this.filesStore.getNode(source) as Folder
 		},
 
 		/**
@@ -447,8 +457,9 @@ export default defineComponent({
 			this.fetchContent()
 
 			// Scroll to top, force virtual scroller to re-render
-			if (this.$refs?.filesListVirtual?.$el) {
-				this.$refs.filesListVirtual.$el.scrollTop = 0
+			const filesListVirtual = this.$refs?.filesListVirtual as ComponentPublicInstance<typeof FilesListVirtual> | undefined
+			if (filesListVirtual?.$el) {
+				filesListVirtual.$el.scrollTop = 0
 			}
 		},
 
@@ -460,6 +471,8 @@ export default defineComponent({
 
 	mounted() {
 		this.fetchContent()
+
+		subscribe('files:node:deleted', this.onNodeDeleted)
 		subscribe('files:node:updated', this.onUpdatedNode)
 		subscribe('nextcloud:unified-search.search', this.onSearch)
 		subscribe('nextcloud:unified-search.reset', this.onSearch)
@@ -469,6 +482,7 @@ export default defineComponent({
 	},
 
 	unmounted() {
+		unsubscribe('files:node:deleted', this.onNodeDeleted)
 		unsubscribe('files:node:updated', this.onUpdatedNode)
 		unsubscribe('nextcloud:unified-search.search', this.onSearch)
 		unsubscribe('nextcloud:unified-search.reset', this.onSearch)
@@ -505,7 +519,7 @@ export default defineComponent({
 
 				// Define current directory children
 				// TODO: make it more official
-				this.$set(folder, '_children', contents.map(node => node.fileid))
+				this.$set(folder, '_children', contents.map(node => node.source))
 
 				// If we're in the root dir, define the root
 				if (dir === '/') {
@@ -514,7 +528,7 @@ export default defineComponent({
 					// Otherwise, add the folder to the store
 					if (folder.fileid) {
 						this.filesStore.updateNodes([folder])
-						this.pathsStore.addPath({ service: currentView.id, fileid: folder.fileid, path: dir })
+						this.pathsStore.addPath({ service: currentView.id, source: folder.source, path: dir })
 					} else {
 						// If we're here, the view API messed up
 						logger.fatal('Invalid root folder returned', { dir, folder, currentView })
@@ -524,8 +538,7 @@ export default defineComponent({
 				// Update paths store
 				const folders = contents.filter(node => node.type === 'folder')
 				folders.forEach((node) => {
-					// Folders from API always have the fileID set
-					this.pathsStore.addPath({ service: currentView.id, fileid: node.fileid!, path: join(dir, node.basename) })
+					this.pathsStore.addPath({ service: currentView.id, source: node.source, path: join(dir, node.basename) })
 				})
 			} catch (error) {
 				logger.error('Error while fetching content', { error })
@@ -543,6 +556,31 @@ export default defineComponent({
 		 */
 		getNode(fileId) {
 			return this.filesStore.getNode(fileId)
+		},
+
+		/**
+		 * Handle the node deleted event to reset open file
+		 * @param node The deleted node
+		 */
+		 onNodeDeleted(node: Node) {
+			if (node.fileid && node.fileid === this.fileId) {
+				if (node.fileid === this.currentFolder?.fileid) {
+					// Handle the edge case that the current directory is deleted
+					// in this case we neeed to keept the current view but move to the parent directory
+					window.OCP.Files.Router.goToRoute(
+						null,
+						{ view: this.$route.params.view },
+						{ dir: this.currentFolder?.dirname ?? '/' },
+					)
+				} else {
+					// If the currently active file is deleted we need to remove the fileid and possible the `openfile` query
+					window.OCP.Files.Router.goToRoute(
+						null,
+						{ ...this.$route.params, fileid: undefined },
+						{ ...this.$route.query, openfile: undefined },
+					)
+				}
+			}
 		},
 
 		/**

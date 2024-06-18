@@ -105,7 +105,7 @@ jobs:
       - name: Enable ONLY_FULL_GROUP_BY MariaDB option
         run: |
           echo "SET GLOBAL sql_mode=(SELECT CONCAT(@@sql_mode,',ONLY_FULL_GROUP_BY'));" | mysql -h 127.0.0.1 -P 4444 -u root -prootpassword
-          echo "SELECT @@sql_mode;" | mysql -h 127.0.0.1 -P 4444 -u root -prootpassword
+          echo 'SELECT @@sql_mode;' | mysql -h 127.0.0.1 -P 4444 -u root -prootpassword
 
       - name: Set up Nextcloud
         env:
@@ -126,11 +126,6 @@ jobs:
         with:
           files: ./clover.db.xml
           flags: phpunit-mariadb
-
-      - name: Print logs
-        if: always()
-        run: |
-          cat data/nextcloud.log
 
   summary:
     permissions:

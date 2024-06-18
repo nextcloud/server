@@ -84,7 +84,7 @@
     "Organizer:" : "Organizador:",
     "Attendees:" : "Participantes:",
     "Title:" : "Título:",
-    "Time:" : "Horário:",
+    "Date and time:" : "Data e hora:",
     "Location:" : "Localização:",
     "Link:" : "Link:",
     "Accept" : "Aceitar",
@@ -207,6 +207,7 @@
     "Tentative" : "Tentativa",
     "Your attendance was updated successfully." : "Sua presença foi atualizada com sucesso.",
     "To-dos" : "Tarefas",
+    "Time:" : "Horário:",
     "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "Se você configurar seu horário de trabalho, outros usuários verão quando você estiver fora do escritório quando marcarem uma reunião. "
 },"pluralForm" :"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

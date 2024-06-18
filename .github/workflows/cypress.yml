@@ -17,6 +17,7 @@ concurrency:
 env:
   # Adjust APP_NAME if your repository name is different
   APP_NAME: ${{ github.event.repository.name }}
+
   # Server requires head_ref instead of base_ref, as we want to test the PR branch
   BRANCH: ${{ github.head_ref || github.ref_name }}
 
@@ -52,7 +53,7 @@ jobs:
         id: versions
         with:
           fallbackNode: "^20"
-          fallbackNpm: "^9"
+          fallbackNpm: "^10"
 
       - name: Set up node ${{ steps.versions.outputs.nodeVersion }}
         uses: actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8 # v4.0.2
@@ -60,7 +61,7 @@ jobs:
           node-version: ${{ steps.versions.outputs.nodeVersion }}
 
       - name: Set up npm ${{ steps.versions.outputs.npmVersion }}
-        run: npm i -g npm@"${{ steps.versions.outputs.npmVersion }}"
+        run: npm i -g 'npm@${{ steps.versions.outputs.npmVersion }}'
 
       - name: Install node dependencies & build app
         run: |
@@ -85,9 +86,9 @@ jobs:
       matrix:
         # Run multiple copies of the current job in parallel
         # Please increase the number or runners as your tests suite grows (0 based index for e2e tests)
-        containers: ["component", 0, 1, 2, 3, 4, 5]
+        containers: ["component", '0', '1', '2', '3', '4', '5']
         # Hack as strategy.job-total includes the component and GitHub does not allow math expressions
-        # Always aling this number with the total of e2e runners (max. index + 1)
+        # Always align this number with the total of e2e runners (max. index + 1)
         total-containers: [6]
 
     name: runner ${{ matrix.containers }}
@@ -106,7 +107,7 @@ jobs:
           node-version: ${{ needs.init.outputs.nodeVersion }}
 
       - name: Set up npm ${{ needs.init.outputs.npmVersion }}
-        run: npm i -g npm@"${{ needs.init.outputs.npmVersion }}"
+        run: npm i -g 'npm@${{ needs.init.outputs.npmVersion }}'
 
       - name: Run ${{ matrix.containers == 'component' && 'component' || 'E2E' }} cypress tests
         uses: cypress-io/github-action@f88a151c986cab2e339cdbede6a5c4468bb62c17 # v6.7.0

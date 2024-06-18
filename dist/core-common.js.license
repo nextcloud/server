@@ -1,740 +1,748 @@
-/*!
- * Determine if an object is a Buffer
- *
- * @author   Feross Aboukhadijeh <https://feross.org>
- * @license  MIT
- */
+This file is generated from multiple sources. Included packages:
 
-/*!
- * The buffer module from node.js, for the browser.
- *
- * @author   Feross Aboukhadijeh <feross@feross.org> <http://feross.org>
- * @license  MIT
- */
+- @babel/runtime
+	- version: 7.23.9
+	- license: MIT
+- @floating-ui/core
+	- version: 1.6.0
+	- license: MIT
+- @floating-ui/utils
+	- version: 0.2.1
+	- license: MIT
+- unist-util-is
+	- version: 3.0.0
+	- license: MIT
+- unist-util-visit-parents
+	- version: 2.1.2
+	- license: MIT
+- unist-util-visit
+	- version: 1.4.1
+	- license: MIT
+- @mapbox/hast-util-table-cell-style
+	- version: 0.2.1
+	- license: BSD-2-Clause
+- @mdi/svg
+	- version: 7.4.47
+	- license: Apache-2.0
+- @nextcloud/auth
+	- version: 2.3.0
+	- license: GPL-3.0-or-later
+- @nextcloud/router
+	- version: 2.2.0
+	- license: GPL-3.0-or-later
+- @nextcloud/axios
+	- version: 2.4.0
+	- license: GPL-3.0
+- @nextcloud/browser-storage
+	- version: 0.3.0
+	- license: GPL-3.0-or-later
+- @nextcloud/capabilities
+	- version: 1.2.0
+	- license: GPL-3.0-or-later
+- @nextcloud/dialogs
+	- version: 5.3.1
+	- license: GPL-3.0-or-later
+- semver
+	- version: 7.6.2
+	- license: ISC
+- @nextcloud/event-bus
+	- version: 3.3.1
+	- license: GPL-3.0-or-later
+- @nextcloud/l10n
+	- version: 3.1.0
+	- license: GPL-3.0-or-later
+- @nextcloud/initial-state
+	- version: 2.1.0
+	- license: GPL-3.0-or-later
+- @nextcloud/router
+	- version: 2.2.0
+	- license: GPL-3.0-or-later
+- @nextcloud/l10n
+	- version: 2.2.0
+	- license: GPL-3.0-or-later
+- @nextcloud/logger
+	- version: 3.0.2
+	- license: GPL-3.0-or-later
+- @nextcloud/moment
+	- version: 1.3.1
+	- license: GPL-3.0-or-later
+- @nextcloud/password-confirmation
+	- version: 5.1.0
+	- license: MIT
+- @nextcloud/paths
+	- version: 2.1.0
+	- license: GPL-3.0-or-later
+- @nextcloud/router
+	- version: 3.0.1
+	- license: GPL-3.0-or-later
+- @nextcloud/sharing
+	- version: 0.1.0
+	- license: GPL-3.0-or-later
+- @nextcloud/vue-select
+	- version: 3.25.0
+	- license: MIT
+- @nextcloud/logger
+	- version: 2.7.0
+	- license: GPL-3.0-or-later
+- debounce
+	- version: 2.0.0
+	- license: MIT
+- @nextcloud/vue
+	- version: 8.11.2
+	- license: AGPL-3.0
+- @ungap/structured-clone
+	- version: 1.2.0
+	- license: ISC
+- @vue/devtools-api
+	- version: 6.6.1
+	- license: MIT
+- @vueuse/components
+	- version: 10.9.0
+	- license: MIT
+- @vueuse/core
+	- version: 10.9.0
+	- license: MIT
+- @vueuse/shared
+	- version: 10.9.0
+	- license: MIT
+- assert
+	- version: 2.1.0
+	- license: MIT
+- available-typed-arrays
+	- version: 1.0.7
+	- license: MIT
+- axios
+	- version: 1.6.8
+	- license: MIT
+- bail
+	- version: 2.0.2
+	- license: MIT
+- balanced-match
+	- version: 1.0.2
+	- license: MIT
+- base-64
+	- version: 1.0.0
+	- license: MIT
+- base64-js
+	- version: 1.5.1
+	- license: MIT
+- brace-expansion
+	- version: 2.0.1
+	- license: MIT
+- buffer
+	- version: 6.0.3
+	- license: MIT
+- builtin-status-codes
+	- version: 3.0.0
+	- license: MIT
+- byte-length
+	- version: 1.0.2
+	- license: MIT
+- call-bind
+	- version: 1.0.7
+	- license: MIT
+- camelcase
+	- version: 8.0.0
+	- license: MIT
+- cancelable-promise
+	- version: 4.3.1
+	- license: MIT
+- ccount
+	- version: 2.0.1
+	- license: MIT
+- char-regex
+	- version: 2.0.1
+	- license: MIT
+- charenc
+	- version: 0.0.2
+	- license: BSD-3-Clause
+- comma-separated-tokens
+	- version: 2.0.3
+	- license: MIT
+- console-browserify
+	- version: 1.2.0
+	- license: MIT
+- core-js
+	- version: 3.37.1
+	- license: MIT
+- crypt
+	- version: 0.0.2
+	- license: BSD-3-Clause
+- css-loader
+	- version: 6.10.0
+	- license: MIT
+- date-format-parse
+	- version: 0.2.7
+	- license: MIT
+- debounce
+	- version: 1.2.1
+	- license: MIT
+- decode-named-character-reference
+	- version: 1.0.2
+	- license: MIT
+- define-data-property
+	- version: 1.1.4
+	- license: MIT
+- define-properties
+	- version: 1.2.1
+	- license: MIT
+- devlop
+	- version: 1.1.0
+	- license: MIT
+- dompurify
+	- version: 3.1.4
+	- license: (MPL-2.0 OR Apache-2.0)
+- emoji-mart-vue-fast
+	- version: 15.0.1
+	- license: BSD-3-Clause
+- es-define-property
+	- version: 1.0.0
+	- license: MIT
+- es-errors
+	- version: 1.3.0
+	- license: MIT
+- escape-html
+	- version: 1.0.3
+	- license: MIT
+- events
+	- version: 3.3.0
+	- license: MIT
+- extend
+	- version: 3.0.2
+	- license: MIT
+- fast-xml-parser
+	- version: 4.3.4
+	- license: MIT
+- floating-vue
+	- version: 1.0.0-beta.19
+	- license: MIT
+- focus-trap
+	- version: 7.5.4
+	- license: MIT
+- for-each
+	- version: 0.3.3
+	- license: MIT
+- function-bind
+	- version: 1.1.2
+	- license: MIT
+- get-intrinsic
+	- version: 1.2.4
+	- license: MIT
+- gopd
+	- version: 1.0.1
+	- license: MIT
+- handlebars
+	- version: 4.7.8
+	- license: MIT
+- has-property-descriptors
+	- version: 1.0.2
+	- license: MIT
+- has-proto
+	- version: 1.0.3
+	- license: MIT
+- has-symbols
+	- version: 1.0.3
+	- license: MIT
+- has-tostringtag
+	- version: 1.0.2
+	- license: MIT
+- hasown
+	- version: 2.0.1
+	- license: MIT
+- hast-to-hyperscript
+	- version: 10.0.3
+	- license: MIT
+- hast-util-is-element
+	- version: 3.0.0
+	- license: MIT
+- hast-util-whitespace
+	- version: 2.0.1
+	- license: MIT
+- hot-patcher
+	- version: 2.0.1
+	- license: MIT
+- https-browserify
+	- version: 1.0.0
+	- license: MIT
+- ical.js
+	- version: 1.5.0
+	- license: MPL-2.0
+- ieee754
+	- version: 1.2.1
+	- license: BSD-3-Clause
+- inherits
+	- version: 2.0.4
+	- license: ISC
+- inline-style-parser
+	- version: 0.1.1
+	- license: MIT
+- is-absolute-url
+	- version: 4.0.1
+	- license: MIT
+- is-arguments
+	- version: 1.1.1
+	- license: MIT
+- is-buffer
+	- version: 1.1.6
+	- license: MIT
+- is-callable
+	- version: 1.2.7
+	- license: MIT
+- is-generator-function
+	- version: 1.0.10
+	- license: MIT
+- is-nan
+	- version: 1.3.2
+	- license: MIT
+- is-typed-array
+	- version: 1.1.13
+	- license: MIT
+- jquery
+	- version: 3.7.1
+	- license: MIT
+- layerr
+	- version: 2.0.1
+	- license: MIT
+- linkify-string
+	- version: 4.1.3
+	- license: MIT
+- lodash.get
+	- version: 4.4.2
+	- license: MIT
+- lodash
+	- version: 4.17.21
+	- license: MIT
+- longest-streak
+	- version: 3.1.0
+	- license: MIT
+- markdown-table
+	- version: 3.0.3
+	- license: MIT
+- marked
+	- version: 11.2.0
+	- license: MIT
+- md5
+	- version: 2.3.0
+	- license: BSD-3-Clause
+- escape-string-regexp
+	- version: 5.0.0
+	- license: MIT
+- mdast-util-find-and-replace
+	- version: 3.0.1
+	- license: MIT
+- mdast-util-from-markdown
+	- version: 2.0.0
+	- license: MIT
+- mdast-util-gfm-autolink-literal
+	- version: 2.0.0
+	- license: MIT
+- mdast-util-gfm-footnote
+	- version: 2.0.0
+	- license: MIT
+- mdast-util-gfm-strikethrough
+	- version: 2.0.0
+	- license: MIT
+- mdast-util-gfm-table
+	- version: 2.0.0
+	- license: MIT
+- mdast-util-gfm-task-list-item
+	- version: 2.0.0
+	- license: MIT
+- mdast-util-gfm
+	- version: 3.0.0
+	- license: MIT
+- mdast-util-newline-to-break
+	- version: 2.0.0
+	- license: MIT
+- mdast-util-phrasing
+	- version: 4.1.0
+	- license: MIT
+- mdast-util-to-hast
+	- version: 13.1.0
+	- license: MIT
+- mdast-util-to-markdown
+	- version: 2.1.0
+	- license: MIT
+- mdast-util-to-string
+	- version: 4.0.0
+	- license: MIT
+- micromark-core-commonmark
+	- version: 2.0.0
+	- license: MIT
+- micromark-extension-gfm-autolink-literal
+	- version: 2.0.0
+	- license: MIT
+- micromark-extension-gfm-footnote
+	- version: 2.0.0
+	- license: MIT
+- micromark-extension-gfm-strikethrough
+	- version: 2.0.0
+	- license: MIT
+- micromark-extension-gfm-table
+	- version: 2.0.0
+	- license: MIT
+- micromark-extension-gfm-tagfilter
+	- version: 2.0.0
+	- license: MIT
+- micromark-extension-gfm-task-list-item
+	- version: 2.0.1
+	- license: MIT
+- micromark-extension-gfm
+	- version: 3.0.0
+	- license: MIT
+- micromark-factory-destination
+	- version: 2.0.0
+	- license: MIT
+- micromark-factory-label
+	- version: 2.0.0
+	- license: MIT
+- micromark-factory-space
+	- version: 2.0.0
+	- license: MIT
+- micromark-factory-title
+	- version: 2.0.0
+	- license: MIT
+- micromark-factory-whitespace
+	- version: 2.0.0
+	- license: MIT
+- micromark-util-character
+	- version: 2.1.0
+	- license: MIT
+- micromark-util-chunked
+	- version: 2.0.0
+	- license: MIT
+- micromark-util-classify-character
+	- version: 2.0.0
+	- license: MIT
+- micromark-util-combine-extensions
+	- version: 2.0.0
+	- license: MIT
+- micromark-util-decode-numeric-character-reference
+	- version: 2.0.1
+	- license: MIT
+- micromark-util-decode-string
+	- version: 2.0.0
+	- license: MIT
+- micromark-util-encode
+	- version: 2.0.0
+	- license: MIT
+- micromark-util-html-tag-name
+	- version: 2.0.0
+	- license: MIT
+- micromark-util-normalize-identifier
+	- version: 2.0.0
+	- license: MIT
+- micromark-util-resolve-all
+	- version: 2.0.0
+	- license: MIT
+- micromark-util-sanitize-uri
+	- version: 2.0.0
+	- license: MIT
+- micromark-util-subtokenize
+	- version: 2.0.0
+	- license: MIT
+- micromark
+	- version: 4.0.0
+	- license: MIT
+- moment
+	- version: 2.30.1
+	- license: MIT
+- nested-property
+	- version: 4.0.0
+	- license: MIT
+- node-gettext
+	- version: 3.0.0
+	- license: MIT
+- object-inspect
+	- version: 1.13.1
+	- license: MIT
+- object-is
+	- version: 1.1.5
+	- license: MIT
+- object-keys
+	- version: 1.1.1
+	- license: MIT
+- object.assign
+	- version: 4.1.5
+	- license: MIT
+- eventemitter3
+	- version: 5.0.1
+	- license: MIT
+- p-queue
+	- version: 7.4.1
+	- license: MIT
+- path-posix
+	- version: 1.0.0
+	- license: ISC
+- inherits
+	- version: 2.0.3
+	- license: ISC
+- util
+	- version: 0.10.4
+	- license: MIT
+- path
+	- version: 0.12.7
+	- license: MIT
+- pinia
+	- version: 2.1.7
+	- license: MIT
+- possible-typed-array-names
+	- version: 1.0.0
+	- license: MIT
+- process
+	- version: 0.11.10
+	- license: MIT
+- property-information
+	- version: 6.4.1
+	- license: MIT
+- querystringify
+	- version: 2.2.0
+	- license: MIT
+- readable-stream
+	- version: 3.6.2
+	- license: MIT
+- rehype-external-links
+	- version: 3.0.0
+	- license: MIT
+- rehype-react
+	- version: 7.2.0
+	- license: MIT
+- remark-breaks
+	- version: 4.0.0
+	- license: MIT
+- remark-gfm
+	- version: 4.0.0
+	- license: MIT
+- remark-parse
+	- version: 11.0.0
+	- license: MIT
+- remark-rehype
+	- version: 11.1.0
+	- license: MIT
+- requires-port
+	- version: 1.0.0
+	- license: MIT
+- safe-buffer
+	- version: 5.2.1
+	- license: MIT
+- set-function-length
+	- version: 1.2.1
+	- license: MIT
+- side-channel
+	- version: 1.0.5
+	- license: MIT
+- space-separated-tokens
+	- version: 2.0.2
+	- license: MIT
+- splitpanes
+	- version: 2.4.1
+	- license: MIT
+- stream-browserify
+	- version: 3.0.0
+	- license: MIT
+- stream-http
+	- version: 3.2.0
+	- license: MIT
+- string_decoder
+	- version: 1.3.0
+	- license: MIT
+- striptags
+	- version: 3.2.0
+	- license: MIT
+- strnum
+	- version: 1.0.5
+	- license: MIT
+- style-loader
+	- version: 3.3.4
+	- license: MIT
+- style-to-object
+	- version: 0.4.4
+	- license: MIT
+- tabbable
+	- version: 6.2.0
+	- license: MIT
+- toastify-js
+	- version: 1.12.0
+	- license: MIT
+- trim-lines
+	- version: 3.0.1
+	- license: MIT
+- trough
+	- version: 2.2.0
+	- license: MIT
+- is-plain-obj
+	- version: 4.1.0
+	- license: MIT
+- unified
+	- version: 11.0.4
+	- license: MIT
+- unist-builder
+	- version: 4.0.0
+	- license: MIT
+- unist-util-is
+	- version: 6.0.0
+	- license: MIT
+- unist-util-position
+	- version: 5.0.0
+	- license: MIT
+- unist-util-stringify-position
+	- version: 4.0.0
+	- license: MIT
+- unist-util-visit-parents
+	- version: 6.0.1
+	- license: MIT
+- unist-util-visit
+	- version: 5.0.0
+	- license: MIT
+- url-join
+	- version: 5.0.0
+	- license: MIT
+- url-parse
+	- version: 1.5.10
+	- license: MIT
+- punycode
+	- version: 1.4.1
+	- license: MIT
+- qs
+	- version: 6.11.2
+	- license: BSD-3-Clause
+- url
+	- version: 0.11.3
+	- license: MIT
+- util-deprecate
+	- version: 1.0.2
+	- license: MIT
+- util
+	- version: 0.12.5
+	- license: MIT
+- uuid
+	- version: 9.0.1
+	- license: MIT
+- v-tooltip
+	- version: 2.1.3
+	- license: MIT
+- vfile-message
+	- version: 4.0.2
+	- license: MIT
+- vfile
+	- version: 6.0.1
+	- license: MIT
+- vue-color
+	- version: 2.8.1
+	- license: MIT
+- vue-frag
+	- version: 1.4.3
+	- license: MIT
+- vue-loader
+	- version: 15.11.1
+	- license: MIT
+- vue-material-design-icons
+	- version: 5.3.0
+	- license: MIT
+- vue
+	- version: 2.7.16
+	- license: MIT
+- vuex
+	- version: 3.6.2
+	- license: MIT
+- web-namespaces
+	- version: 2.0.1
+	- license: MIT
+- webdav
+	- version: 5.6.0
+	- license: MIT
+- which-typed-array
+	- version: 1.1.14
+	- license: MIT
+- xtend
+	- version: 4.0.2
+	- license: MIT
+- zwitch
+	- version: 2.0.4
+	- license: MIT
 
-/*!
- * The buffer module from node.js, for the browser.
- *
- * @author   Feross Aboukhadijeh <https://feross.org>
- * @license  MIT
- */
-
-/*!
- * Toastify js 1.12.0
- * https://github.com/apvarun/toastify-js
- * @license MIT licensed
- *
- * Copyright (C) 2018 Varun A P
- */
-
-/*!
- * Vue.js v2.7.16
- * (c) 2014-2023 Evan You
- * Released under the MIT License.
- */
-
-/*!
- * escape-html
- * Copyright(c) 2012-2013 TJ Holowaychuk
- * Copyright(c) 2015 Andreas Lubbe
- * Copyright(c) 2015 Tiancheng "Timothy" Gu
- * MIT Licensed
- */
-
-/*!
- * jQuery JavaScript Library v3.7.1
- * https://jquery.com/
- *
- * Copyright OpenJS Foundation and other contributors
- * Released under the MIT license
- * https://jquery.org/license
- *
- * Date: 2023-08-28T13:37Z
- */
-
-/*!
- * pinia v2.1.7
- * (c) 2023 Eduardo San Martin Morote
- * @license MIT
- */
-
-/*!
- * vuex v3.6.2
- * (c) 2021 Evan You
- * @license MIT
- */
-
-/*!
-* focus-trap 7.5.4
-* @license MIT, https://github.com/focus-trap/focus-trap/blob/master/LICENSE
-*/
-
-/*!
-* tabbable 6.2.0
-* @license MIT, https://github.com/focus-trap/tabbable/blob/master/LICENSE
-*/
-
-/*! @license DOMPurify 3.1.4 | (c) Cure53 and other contributors | Released under the Apache license 2.0 and Mozilla Public License 2.0 | github.com/cure53/DOMPurify/blob/3.1.4/LICENSE */
-
-/*! ieee754. BSD-3-Clause License. Feross Aboukhadijeh <https://feross.org/opensource> */
-
-/**
- * @copyright 2021 Christoph Wurst <christoph@winzerhof-wurst.at>
- *
- * @author 2021 Christoph Wurst <christoph@winzerhof-wurst.at>
- *
- * @license AGPL-3.0-or-later
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
-
-/**
- * @copyright 2023 Christopher Ng <chrng8@gmail.com>
- *
- * @author Christopher Ng <chrng8@gmail.com>
- *
- * @license AGPL-3.0-or-later
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
- */
-
-/**
- * @copyright Copyright (c) 2018 John Molakvoæ <skjnldsv@protonmail.com>
- *
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- *
- * @license AGPL-3.0-or-later
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
- */
-
-/**
- * @copyright Copyright (c) 2018 John Molakvoæ <skjnldsv@protonmail.com>
- *
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- *
- * @license AGPL-3.0-or-later
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
- */
-
-/**
- * @copyright Copyright (c) 2018 John Molakvoæ <skjnldsv@protonmail.com>
- *
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- *
- * @license AGPL-3.0-or-later
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
- */
-
-/**
- * @copyright Copyright (c) 2019 Georg Ehrke
- *
- * @author Georg Ehrke <georg-nextcloud@ehrke.email>
- *
- * @author Richard Steinmetz <richard@steinmetz.cloud>
- *
- * @license AGPL-3.0-or-later
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
- */
-
-/**
- * @copyright Copyright (c) 2019 Georg Ehrke
- *
- * @author Georg Ehrke <georg-nextcloud@ehrke.email>
- *
- * @license AGPL-3.0-or-later
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
- */
-
-/**
- * @copyright Copyright (c) 2019 Georg Ehrke
- *
- * @author Georg Ehrke <georg-nextcloud@ehrke.email>
- * @author Richard Steinmetz <richard@steinmetz.cloud>
- *
- * @license AGPL-3.0-or-later
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
- */
-
-/**
- * @copyright Copyright (c) 2019 Georg Ehrke
- *
- * @author Georg Ehrke <oc.list@georgehrke.com>
- *
- * @license AGPL-3.0-or-later
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
- */
-
-/**
- * @copyright Copyright (c) 2019 John Molakvoæ <skjnldsv@protonmail.com>
- *
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- *
- * @license AGPL-3.0-or-later
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
- */
-
-/**
- * @copyright Copyright (c) 2019 John Molakvoæ <skjnldsv@protonmail.com>
- *
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- *
- * @license AGPL-3.0-or-later
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
- */
-
-/**
- * @copyright Copyright (c) 2019 John Molakvoæ <skjnldsv@protonmail.com>
- *
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- * @author Grigorii K. Shartsev <me@shgk.me>
- *
- * @license AGPL-3.0-or-later
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
- */
-
-/**
- * @copyright Copyright (c) 2019 Julius Härtl <jus@bitgrid.net>
- *
- * @author Julius Härtl <jus@bitgrid.net>
- *
- * @license AGPL-3.0-or-later
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
- */
-
-/**
- * @copyright Copyright (c) 2019 Julius Härtl <jus@bitgrid.net>
- *
- * @author Julius Härtl <jus@bitgrid.net>
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- *
- * @license AGPL-3.0-or-later
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
- */
-
-/**
- * @copyright Copyright (c) 2019 Julius Härtl <jus@bitgrid.net>
- *
- * @author Julius Härtl <jus@bitgrid.net>
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- */
-
-/**
- * @copyright Copyright (c) 2020 Georg Ehrke <georg-nextcloud@ehrke.email>
- *
- * @author Georg Ehrke <georg-nextcloud@ehrke.email>
- *
- * @license AGPL-3.0-or-later
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
- */
-
-/**
- * @copyright Copyright (c) 2020 John Molakvoæ <skjnldsv@protonmail.com>
- *
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- *
- * @license AGPL-3.0-or-later
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
- */
-
-/**
- * @copyright Copyright (c) 2020 Raimund Schlüßler <raimund.schluessler@mailbox.org>
- *
- * @author Raimund Schlüßler <raimund.schluessler@mailbox.org>
- *
- * @license AGPL-3.0-or-later
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
- */
-
-/**
- * @copyright Copyright (c) 2021 Jonas Meurer <jonas@freesources.org>
- *
- * @author Jonas Meurer <jonas@freesources.org>
- *
- * @license AGPL-3.0-or-later
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
- */
-
-/**
- * @copyright Copyright (c) 2021 Raimund Schlüßler <raimund.schluessler@mailbox.org>
- *
- * @author Raimund Schlüßler <raimund.schluessler@mailbox.org>
- *
- * @license AGPL-3.0-or-later
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
- */
-
-/**
- * @copyright Copyright (c) 2022 John Molakvoæ <skjnldsv@protonmail.com>
- *
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- *
- * @license AGPL-3.0-or-later
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
- */
-
-/**
- * @copyright Copyright (c) 2022 Julia Kirschenheuter <julia.kirschenheuter@nextcloud.com>
- *
- * @author Julia Kirschenheuter <julia.kirschenheuter@nextcloud.com>
- *
- * @license AGPL-3.0-or-later
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
- */
-
-/**
- * @copyright Copyright (c) 2022 Julius Härtl <jus@bitgrid.net>
- *
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Raimund Schlüßler <raimund.schluessler@mailbox.org>
- * @author Maksim Sukharev <antreesy.web@gmail.com>
- * @author Grigorii K. Shartsev <me@shgk.me>
- *
- * @license AGPL-3.0-or-later
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
- */
-
-/**
- * @copyright Copyright (c) 2023 Ferdinand Thiessen <opensource@fthiessen.de>
- *
- * @author Ferdinand Thiessen <opensource@fthiessen.de>
- *
- * @license AGPL-3.0-or-later
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
- */
-
-/**
- * @copyright Copyright (c) 2023 Ferdinand Thiessen <opensource@fthiessen.de>
- *
- * @author Ferdinand Thiessen <opensource@fthiessen.de>
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- *
- * @license AGPL-3.0-or-later
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
- */
-
-/**
- * @copyright Copyright (c) 2023 Grigorii K. Shartsev <me@shgk.me>
- *
- * @author Grigorii K. Shartsev <me@shgk.me>
- *
- * @license AGPL-3.0-or-later
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
- */
-
-/**
- * @copyright Copyright (c) 2024 Ferdinand Thiessen <opensource@fthiessen.de>
- *
- * @author Ferdinand Thiessen <opensource@fthiessen.de>
- *
- * @license AGPL-3.0-or-later
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
- */
-
-/**
- * @copyright Copyright (c) 2024 Maksim Sukharev <antreesy.web@gmail.com>
- *
- * @author Maksim Sukharev <antreesy.web@gmail.com>
- *
- * @license AGPL-3.0-or-later
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
- */
-
-/**!
- * @fileOverview Kickass library to create and place poppers near their reference elements.
- * @version 1.16.1
- * @license
- * Copyright (c) 2016 Federico Zivolo and contributors
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- */
-
-//! authors : Tim Wood, Iskren Chernev, Moment.js contributors
-
-//! license : MIT
-
-//! moment.js
-
-//! moment.js locale configuration
-
-//! momentjs.com
-
-//! version : 2.30.1
+SPDX-License-Identifier: (MPL-2.0 OR Apache-2.0) AND AGPL-3.0 AND Apache-2.0 AND BSD-2-Clause AND BSD-3-Clause AND GPL-3.0 AND GPL-3.0-or-later AND ISC AND MIT AND MPL-2.0
+SPDX-FileCopyrightText: @nextcloud/dialogs developers
+SPDX-FileCopyrightText: @nextcloud/password-confirmation developers
+SPDX-FileCopyrightText: Alkemics
+SPDX-FileCopyrightText: Amit Gupta (https://amitkumargupta.work/)
+SPDX-FileCopyrightText: Amit Gupta (https://solothought.com)
+SPDX-FileCopyrightText: Andrea Giammarchi
+SPDX-FileCopyrightText: Andris Reinman
+SPDX-FileCopyrightText: Anthony Fu <https://github.com/antfu>
+SPDX-FileCopyrightText: Antoni Andre <antoniandre.web@gmail.com>
+SPDX-FileCopyrightText: Arnout Kazemier
+SPDX-FileCopyrightText: Austin Andrews
+SPDX-FileCopyrightText: Ben Drucker
+SPDX-FileCopyrightText: Borys Serebrov
+SPDX-FileCopyrightText: Christoph Wurst
+SPDX-FileCopyrightText: Christopher Jeffrey
+SPDX-FileCopyrightText: David Clark
+SPDX-FileCopyrightText: Denis Pushkarev
+SPDX-FileCopyrightText: Dr.-Ing. Mario Heiderich, Cure53 <mario@cure53.de> (https://cure53.de/)
+SPDX-FileCopyrightText: Dylan Piercey <pierceydylan@gmail.com>
+SPDX-FileCopyrightText: Eduardo San Martin Morote
+SPDX-FileCopyrightText: Eric Norris (https://github.com/ericnorris)
+SPDX-FileCopyrightText: Eugene Sharygin <eush77@gmail.com>
+SPDX-FileCopyrightText: Evan You
+SPDX-FileCopyrightText: Feross Aboukhadijeh
+SPDX-FileCopyrightText: GitHub Inc.
+SPDX-FileCopyrightText: Guillaume Chau
+SPDX-FileCopyrightText: Guillaume Chau <guillaume.b.chau@gmail.com>
+SPDX-FileCopyrightText: Hiroki Osame
+SPDX-FileCopyrightText: Hypercontext
+SPDX-FileCopyrightText: Irakli Gozalishvili <rfobic@gmail.com> (http://jeditoolkit.com)
+SPDX-FileCopyrightText: Iskren Ivov Chernev <iskren.chernev@gmail.com> (https://github.com/ichernev)
+SPDX-FileCopyrightText: Jacob Clevenger<https://github.com/wheatjs>
+SPDX-FileCopyrightText: James Halliday
+SPDX-FileCopyrightText: Jeff Sagal <sagalbot@gmail.com>
+SPDX-FileCopyrightText: John Hiesey
+SPDX-FileCopyrightText: John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+SPDX-FileCopyrightText: John-David Dalton <john.david.dalton@gmail.com>
+SPDX-FileCopyrightText: John-David Dalton <john.david.dalton@gmail.com> (http://allyoucanleet.com/)
+SPDX-FileCopyrightText: Jordan Harband
+SPDX-FileCopyrightText: Jordan Harband <ljharb@gmail.com>
+SPDX-FileCopyrightText: José F. Romaniello <jfromaniello@gmail.com> (http://joseoncode.com)
+SPDX-FileCopyrightText: Joyent
+SPDX-FileCopyrightText: Julian Gruber
+SPDX-FileCopyrightText: Mapbox
+SPDX-FileCopyrightText: Mark <mark@remarkablemark.org>
+SPDX-FileCopyrightText: Mathias Bynens
+SPDX-FileCopyrightText: Matt Zabriskie
+SPDX-FileCopyrightText: Nathan Rajlich <nathan@tootallnate.net> (http://n8.io/)
+SPDX-FileCopyrightText: Olivier Scherrer <pode.fr@gmail.com>
+SPDX-FileCopyrightText: OpenJS Foundation and other contributors
+SPDX-FileCopyrightText: Paul Vorbach <paul@vorb.de> (http://vorb.de)
+SPDX-FileCopyrightText: Paul Vorbach <paul@vorba.ch> (http://paul.vorba.ch)
+SPDX-FileCopyrightText: Perry Mitchell <perry@perrymitchell.net>
+SPDX-FileCopyrightText: Philipp Kewisch
+SPDX-FileCopyrightText: Raynos <raynos2@gmail.com>
+SPDX-FileCopyrightText: Richie Bendall
+SPDX-FileCopyrightText: Rob Cresswell <robcresswell@pm.me>
+SPDX-FileCopyrightText: Roeland Jago Douma
+SPDX-FileCopyrightText: Roman Shtylman <shtylman@gmail.com>
+SPDX-FileCopyrightText: Sindre Sorhus
+SPDX-FileCopyrightText: Stefan Thomas <justmoon@members.fsf.org> (http://www.justmoon.net)
+SPDX-FileCopyrightText: T. Jameson Little <t.jameson.little@gmail.com>
+SPDX-FileCopyrightText: The Babel Team (https://babel.dev/team)
+SPDX-FileCopyrightText: Titus Wormer <tituswormer@gmail.com> (https://wooorm.com)
+SPDX-FileCopyrightText: Tobias Koppers @sokra
+SPDX-FileCopyrightText: Varun A P
+SPDX-FileCopyrightText: Victor Felder <victor@draft.li> (https://draft.li)
+SPDX-FileCopyrightText: Yehuda Katz
+SPDX-FileCopyrightText: assert developers
+SPDX-FileCopyrightText: atomiks
+SPDX-FileCopyrightText: debounce developers
+SPDX-FileCopyrightText: defunctzombie
+SPDX-FileCopyrightText: escape-html developers
+SPDX-FileCopyrightText: inherits developers
+SPDX-FileCopyrightText: inline-style-parser developers
+SPDX-FileCopyrightText: jden <jason@denizac.org>
+SPDX-FileCopyrightText: p-queue developers
+SPDX-FileCopyrightText: qs developers
+SPDX-FileCopyrightText: readable-stream developers
+SPDX-FileCopyrightText: rhysd <lin90162@yahoo.co.jp>
+SPDX-FileCopyrightText: string_decoder developers
+SPDX-FileCopyrightText: uuid developers
+SPDX-FileCopyrightText: xiaokai <kexiaokai@gmail.com>
+SPDX-FileCopyrightText: xiemengxiong

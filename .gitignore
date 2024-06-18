@@ -45,6 +45,7 @@
 !/apps/twofactor_backupcodes
 !/apps/user_status
 !/apps/weather_status
+!/apps/webhook_listeners
 !/apps/workflowengine
 /apps/files_external/3rdparty/irodsphp/PHPUnitTest
 /apps/files_external/3rdparty/irodsphp/web
@@ -61,6 +62,9 @@
 /themes/*
 !/themes/example
 !/themes/README
+
+# Love to people that develop the updater
+/updater
 
 # just sane ignores
 .*.sw[po]

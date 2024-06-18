@@ -1,11 +1,6 @@
 OC.L10N.register(
     "federatedfilesharing",
     {
-    "Do you want to add the remote share {name} from {owner}@{remote}?" : "Ønsker du at tilføje det eksterne drev  {name} fra {owner}@{remote}?",
-    "Remote share" : "Eksterne drev",
-    "Remote share password" : "Fjerndrev adgangskode",
-    "Cancel" : "Annuller",
-    "Add remote share" : "Tilføj ekstern deling",
     "Invalid Federated Cloud ID" : "Ugyldigt Federated Cloud ID",
     "Server to server sharing is not enabled on this server" : "Server til serverdeling er ikke slået til på denne server",
     "Couldn't establish a federated share." : "Kunne ikke skabe forbindelse til føderal deling ",
@@ -52,6 +47,11 @@ OC.L10N.register(
     "Copy to clipboard" : "Kopier til udklipsholder",
     "Clipboard is not available" : "Udklipsholderen er ikke tilgængelig",
     "Copied!" : "Kopieret!",
+    "Do you want to add the remote share {name} from {owner}@{remote}?" : "Ønsker du at tilføje det eksterne drev  {name} fra {owner}@{remote}?",
+    "Remote share" : "Eksterne drev",
+    "Remote share password" : "Fjerndrev adgangskode",
+    "Cancel" : "Annuller",
+    "Add remote share" : "Tilføj ekstern deling",
     "Sharing %1$s failed, because this item is already shared with user %2$s" : "Deling af %1$s mislykkedes, fordi dette element allerede er delt med bruger%2$s",
     "Not allowed to create a federated share with the same user" : "Det er ikke tilladt at danne et datafællesskab med samme bruger",
     "Adjust how people can share between servers. This includes shares between users on this server as well if they are using federated sharing." : "Juster, hvordan folk kan dele mellem servere. Dette inkluderer også delinger mellem brugere på denne server, hvis de bruger fødereret deling.",

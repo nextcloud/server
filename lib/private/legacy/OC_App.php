@@ -19,8 +19,10 @@ use OCP\App\ManagerEvent;
 use OCP\Authentication\IAlternativeLogin;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IAppConfig;
+use OCP\Server;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Log\LoggerInterface;
+use function OCP\Log\logger;
 
 /**
  * This class manages the apps. It allows them to register and integrate in the
@@ -777,16 +779,16 @@ class OC_App {
 		// load the app
 		self::loadApp($appId);
 
-		$dispatcher = \OC::$server->get(IEventDispatcher::class);
+		$dispatcher = Server::get(IEventDispatcher::class);
 
 		// load the steps
-		$r = \OCP\Server::get(Repair::class);
+		$r = Server::get(Repair::class);
 		foreach ($steps as $step) {
 			try {
 				$r->addStep($step);
 			} catch (Exception $ex) {
 				$dispatcher->dispatchTyped(new RepairErrorEvent($ex->getMessage()));
-				\OC::$server->getLogger()->logException($ex);
+				logger('core')->error('Failed to add app migration step ' . $step, ['exception' => $ex]);
 			}
 		}
 		// run the steps

@@ -168,11 +168,13 @@ class DefaultTheme implements ITheme {
 			'--border-radius' => '3px',
 			'--border-radius-large' => '10px',
 			'--border-radius-rounded' => '28px',
-			'--border-radius-element' => '10px',
+			'--border-radius-element' => '8px',
 			// pill-style button, value is large so big buttons also have correct roundness
 			'--border-radius-pill' => '100px',
 
-			'--default-clickable-area' => '44px',
+			'--default-clickable-area' => '34px',
+			'--clickable-area-large' => '48px',
+			'--clickable-area-small' => '24px',
 			'--default-line-height' => '24px',
 			'--default-grid-baseline' => '4px',
 

@@ -37,7 +37,7 @@ jobs:
           token: ${{ secrets.COMMAND_BOT_PAT }}
           repository: ${{ github.event.repository.full_name }}
           comment-id: ${{ github.event.comment.id }}
-          reactions: "+1"
+          reactions: '+1'
 
       - name: Parse command
         uses: skjnldsv/parse-command-comment@5c955203c52424151e6d0e58fb9de8a9f6a605a1 # v2
@@ -77,8 +77,8 @@ jobs:
 
       - name: Setup git
         run: |
-          git config --local user.email "nextcloud-command@users.noreply.github.com"
-          git config --local user.name "nextcloud-command"
+          git config --local user.email 'nextcloud-command@users.noreply.github.com'
+          git config --local user.name 'nextcloud-command'
 
       - name: Read package.json node and npm engines version
         uses: skjnldsv/read-package-engines-version-actions@06d6baf7d8f41934ab630e97d9e6c0bc9c9ac5e4 # v3
@@ -94,13 +94,13 @@ jobs:
           cache: npm
 
       - name: Set up npm ${{ steps.package-engines-versions.outputs.npmVersion }}
-        run: npm i -g npm@"${{ steps.package-engines-versions.outputs.npmVersion }}"
+        run: npm i -g 'npm@${{ steps.package-engines-versions.outputs.npmVersion }}'
       
       - name: Rebase to ${{ needs.init.outputs.base_ref }}
         if: ${{ contains(needs.init.outputs.arg1, 'rebase') }}
         run: |
-          git fetch origin ${{ needs.init.outputs.base_ref }}:${{ needs.init.outputs.base_ref }}
-          git rebase origin/${{ needs.init.outputs.base_ref }}
+          git fetch origin '${{ needs.init.outputs.base_ref }}:${{ needs.init.outputs.base_ref }}'
+          git rebase 'origin/${{ needs.init.outputs.base_ref }}'
 
       - name: Install dependencies & build
         env:
@@ -113,30 +113,30 @@ jobs:
       - name: Commit default
         if: ${{ !contains(needs.init.outputs.arg1, 'fixup') && !contains(needs.init.outputs.arg1, 'amend') }}
         run: |
-          git add ${{ github.workspace }}${{ needs.init.outputs.git_path }}
+          git add '${{ github.workspace }}${{ needs.init.outputs.git_path }}'
           git commit --signoff -m 'chore(assets): Recompile assets'
  
       - name: Commit fixup
         if: ${{ contains(needs.init.outputs.arg1, 'fixup') }}
         run: |
-          git add ${{ github.workspace }}${{ needs.init.outputs.git_path }}
+          git add '${{ github.workspace }}${{ needs.init.outputs.git_path }}'
           git commit --fixup=HEAD --signoff
 
       - name: Commit amend
         if: ${{ contains(needs.init.outputs.arg1, 'amend') }}
         run: |
-          git add ${{ github.workspace }}${{ needs.init.outputs.git_path }}
+          git add '${{ github.workspace }}${{ needs.init.outputs.git_path }}'
           git commit --amend --no-edit --signoff
           # Remove any [skip ci] from the amended commit
           git commit --amend -m "$(git log -1 --format='%B' | sed '/\[skip ci\]/d')"
  
       - name: Push normally
         if: ${{ !contains(needs.init.outputs.arg1, 'rebase') && !contains(needs.init.outputs.arg1, 'amend') }}
-        run: git push origin ${{ needs.init.outputs.head_ref }}
+        run: git push origin '${{ needs.init.outputs.head_ref }}'
 
       - name: Force push
         if: ${{ contains(needs.init.outputs.arg1, 'rebase') || contains(needs.init.outputs.arg1, 'amend') }}
-        run: git push --force origin ${{ needs.init.outputs.head_ref }}
+        run: git push --force origin '${{ needs.init.outputs.head_ref }}'
 
       - name: Add reaction on failure
         uses: peter-evans/create-or-update-comment@71345be0265236311c031f5c7866368bd1eff043 # v4.0.0

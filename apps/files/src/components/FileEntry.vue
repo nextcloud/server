@@ -30,6 +30,7 @@
 			<FileEntryPreview ref="preview"
 				:source="source"
 				:dragover="dragover"
+				@auxclick.native="execDefaultAction"
 				@click.native="execDefaultAction" />
 
 			<FileEntryName ref="name"
@@ -38,7 +39,8 @@
 				:files-list-width="filesListWidth"
 				:nodes="nodes"
 				:source="source"
-				@click="execDefaultAction" />
+				@auxclick.native="execDefaultAction"
+				@click.native="execDefaultAction" />
 		</td>
 
 		<!-- Actions -->
@@ -65,7 +67,7 @@
 			class="files-list__row-mtime"
 			data-cy-files-list-row-mtime
 			@click="openDetailsIfAvailable">
-			<NcDateTime :timestamp="source.mtime" :ignore-seconds="true" />
+			<NcDateTime v-if="source.mtime" :timestamp="source.mtime" :ignore-seconds="true" />
 		</td>
 
 		<!-- View columns -->
@@ -177,8 +179,8 @@ export default defineComponent({
 		},
 
 		size() {
-			const size = parseInt(this.source.size, 10) || 0
-			if (typeof size !== 'number' || size < 0) {
+			const size = parseInt(this.source.size, 10)
+			if (typeof size !== 'number' || isNaN(size) || size < 0) {
 				return this.t('files', 'Pending')
 			}
 			return formatFileSize(size, true)
@@ -186,8 +188,8 @@ export default defineComponent({
 		sizeOpacity() {
 			const maxOpacitySize = 10 * 1024 * 1024
 
-			const size = parseInt(this.source.size, 10) || 0
-			if (!size || size < 0) {
+			const size = parseInt(this.source.size, 10)
+			if (!size || isNaN(size) || size < 0) {
 				return {}
 			}
 

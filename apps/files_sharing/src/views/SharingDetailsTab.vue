@@ -1,3 +1,7 @@
+<!--
+  - SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 <template>
 	<div class="sharingTabDetailsView">
 		<div class="sharingTabDetailsView__header">
@@ -888,6 +892,7 @@ export default {
 				this.share = share
 				this.$emit('add:share', this.share)
 			} else {
+				this.$emit('update:share', this.share)
 				this.queueUpdate(...permissionsAndAttributes)
 			}
 

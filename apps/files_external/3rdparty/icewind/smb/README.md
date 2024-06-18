@@ -1,3 +1,7 @@
+<!--
+  - SPDX-FileCopyrightText: 2014 Robin Appelman <robin@icewind.nl>
+  - SPDX-License-Identifier: MIT
+-->
 SMB
 ===
 

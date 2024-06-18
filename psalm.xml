@@ -45,6 +45,7 @@
 		<directory name="apps/user_ldap"/>
 		<directory name="apps/user_status"/>
 		<directory name="apps/weather_status"/>
+		<directory name="apps/webhook_listeners"/>
 		<directory name="apps/workflowengine"/>
 		<directory name="core"/>
 		<directory name="lib"/>

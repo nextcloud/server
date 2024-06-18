@@ -1,15 +1,13 @@
 #!/usr/bin/env bash
 #
-# ownCloud
+# SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+# SPDX-License-Identifier: AGPL-3.0-or-later
 #
 # This script start a docker container to test the files_external tests
 # against. It will also change the files_external config to use the docker
 # container as testing environment. This is reverted in the stop step.W
 #
 # Set environment variable DEBUG to print config file
-#
-# @author Morris Jobke
-# @copyright 2015 Morris Jobke <hey@morrisjobke.de>
 #
 
 # retrieve current folder to place the config in the parent folder

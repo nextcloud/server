@@ -129,7 +129,7 @@
     "Scope" : "Ámbito",
     "Personal" : "Personal",
     "System" : "Sistema",
-    "No external storage configured or you don't have the permission to configure them" : "No se ha configurado ningún almacenamiento externo o no tienes permiso para configurarlos",
+    "No external storage configured or you don't have the permission to configure them" : "No se ha configurado ningún almacenamiento externo o no tiene permiso para configurarlos",
     "Open documentation" : "Abrir la documentación",
     "External storage enables you to mount external storage services and devices as secondary Nextcloud storage devices. You may also allow people to mount their own external storage services." : "O almacenamento externo permítelle montar servizos e dispositivos de almacenamento externos como dispositivos de almacenamento Nextcloud secundarios. Tamén podes permitir que as persoas monten os seus propios servizos de almacenamento externo.",
     "Folder name" : "Nombre de la carpeta",

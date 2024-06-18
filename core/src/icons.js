@@ -233,7 +233,7 @@ const colorSvg = function(svg = '', color = '000') {
 	}
 
 	// add fill (fill is not present on black elements)
-	const fillRe = /<((circle|rect|path)((?!fill)[a-z0-9 =".\-#():;,])+)\/>/gmi
+	const fillRe = /<((circle|rect|path)((?!fill=)[a-z0-9 =".\-#():;,])+)\/>/gmi
 	svg = svg.replace(fillRe, '<$1 fill="#' + color + '"/>')
 
 	// replace any fill or stroke colors
