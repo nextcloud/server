@@ -5,9 +5,11 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC\Share20;
 
 use OC\Files\Cache\Cache;
+use OC\Files\Cache\CachedFileAccess;
 use OC\Files\Cache\CacheEntry;
 use OC\Files\Cache\FileAccess;
 use OC\Share20\Exception\BackendError;
@@ -46,16 +48,16 @@ class DefaultShareProvider implements IShareProvider {
 	private IDBConnection $dbConn;
 
 	public function __construct(
-		IDBConnection         $connection,
-		private IUserManager  $userManager,
-		private IGroupManager $groupManager,
-		private IRootFolder   $rootFolder,
-		private IMailer       $mailer,
-		private Defaults      $defaults,
-		private IFactory      $l10nFactory,
-		private IURLGenerator $urlGenerator,
-		private ITimeFactory  $timeFactory,
-		private FileAccess    $cacheAccess,
+		IDBConnection            $connection,
+		private IUserManager     $userManager,
+		private IGroupManager    $groupManager,
+		private IRootFolder      $rootFolder,
+		private IMailer          $mailer,
+		private Defaults         $defaults,
+		private IFactory         $l10nFactory,
+		private IURLGenerator    $urlGenerator,
+		private ITimeFactory     $timeFactory,
+		private CachedFileAccess $cacheAccess,
 	) {
 		$this->dbConn = $connection;
 	}
@@ -749,7 +751,7 @@ class DefaultShareProvider implements IShareProvider {
 
 		// If the recipient is set for a group share resolve to that user
 		if ($recipientId !== null && $share->getShareType() === IShare::TYPE_GROUP) {
-			$share = $this->resolveGroupShares([(int) $share->getId() => $share], $recipientId)[0];
+			$share = $this->resolveGroupShares([(int)$share->getId() => $share], $recipientId)[0];
 		}
 
 		return $share;
@@ -1296,14 +1298,15 @@ class DefaultShareProvider implements IShareProvider {
 
 	/**
 	 * For each user the path with the fewest slashes is returned
+	 *
 	 * @param array $shares
 	 * @return array
 	 */
 	protected function filterSharesOfUser(array $shares) {
 		// Group shares when the user has a share exception
 		foreach ($shares as $id => $share) {
-			$type = (int) $share['share_type'];
-			$permissions = (int) $share['permissions'];
+			$type = (int)$share['share_type'];
+			$permissions = (int)$share['permissions'];
 
 			if ($type === IShare::TYPE_USERGROUP) {
 				unset($shares[$share['parent']]);
