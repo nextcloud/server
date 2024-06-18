@@ -1554,6 +1554,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\MemoryInfo' => __DIR__ . '/../../..' . '/lib/private/MemoryInfo.php',
         'OC\\Migration\\BackgroundRepair' => __DIR__ . '/../../..' . '/lib/private/Migration/BackgroundRepair.php',
         'OC\\Migration\\ConsoleOutput' => __DIR__ . '/../../..' . '/lib/private/Migration/ConsoleOutput.php',
+        'OC\\Migration\\NullOutput' => __DIR__ . '/../../..' . '/lib/private/Migration/NullOutput.php',
         'OC\\Migration\\SimpleOutput' => __DIR__ . '/../../..' . '/lib/private/Migration/SimpleOutput.php',
         'OC\\NaturalSort' => __DIR__ . '/../../..' . '/lib/private/NaturalSort.php',
         'OC\\NaturalSort_DefaultCollator' => __DIR__ . '/../../..' . '/lib/private/NaturalSort_DefaultCollator.php',
