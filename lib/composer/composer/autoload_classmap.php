@@ -370,6 +370,7 @@ return array(
     'OCP\\Files\\Events\\Node\\NodeRenamedEvent' => $baseDir . '/lib/public/Files/Events/Node/NodeRenamedEvent.php',
     'OCP\\Files\\Events\\Node\\NodeTouchedEvent' => $baseDir . '/lib/public/Files/Events/Node/NodeTouchedEvent.php',
     'OCP\\Files\\Events\\Node\\NodeWrittenEvent' => $baseDir . '/lib/public/Files/Events/Node/NodeWrittenEvent.php',
+    'OCP\\Files\\Events\\RegisterMountProviderEvent' => $baseDir . '/lib/public/Files/Events/RegisterMountProviderEvent.php',
     'OCP\\Files\\File' => $baseDir . '/lib/public/Files/File.php',
     'OCP\\Files\\FileInfo' => $baseDir . '/lib/public/Files/FileInfo.php',
     'OCP\\Files\\FileNameTooLongException' => $baseDir . '/lib/public/Files/FileNameTooLongException.php',

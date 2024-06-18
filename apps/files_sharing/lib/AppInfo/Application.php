@@ -19,13 +19,13 @@ use OCA\Files_Sharing\Listener\BeforeDirectFileDownloadListener;
 use OCA\Files_Sharing\Listener\BeforeZipCreatedListener;
 use OCA\Files_Sharing\Listener\LoadAdditionalListener;
 use OCA\Files_Sharing\Listener\LoadSidebarListener;
+use OCA\Files_Sharing\Listener\RegisterMountProviderListener;
 use OCA\Files_Sharing\Listener\ShareInteractionListener;
 use OCA\Files_Sharing\Listener\UserAddedToGroupListener;
 use OCA\Files_Sharing\Listener\UserShareAcceptanceListener;
 use OCA\Files_Sharing\Middleware\OCSShareAPIMiddleware;
 use OCA\Files_Sharing\Middleware\ShareInfoMiddleware;
 use OCA\Files_Sharing\Middleware\SharingCheckMiddleware;
-use OCA\Files_Sharing\MountProvider;
 use OCA\Files_Sharing\Notification\Listener;
 use OCA\Files_Sharing\Notification\Notifier;
 use OCA\Files_Sharing\ShareBackend\File;
@@ -37,9 +37,9 @@ use OCP\AppFramework\Bootstrap\IRegistrationContext;
 use OCP\Collaboration\Resources\LoadAdditionalScriptsEvent as ResourcesLoadAdditionalScriptsEvent;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Federation\ICloudIdManager;
-use OCP\Files\Config\IMountProviderCollection;
 use OCP\Files\Events\BeforeDirectFileDownloadEvent;
 use OCP\Files\Events\BeforeZipCreatedEvent;
+use OCP\Files\Events\RegisterMountProviderEvent;
 use OCP\Group\Events\GroupChangedEvent;
 use OCP\Group\Events\GroupDeletedEvent;
 use OCP\Group\Events\UserAddedEvent;
@@ -95,22 +95,17 @@ class Application extends App implements IBootstrap {
 		// Handle download events for view only checks
 		$context->registerEventListener(BeforeZipCreatedEvent::class, BeforeZipCreatedListener::class);
 		$context->registerEventListener(BeforeDirectFileDownloadEvent::class, BeforeDirectFileDownloadListener::class);
+
+		$context->registerEventListener(RegisterMountProviderEvent::class, RegisterMountProviderListener::class);
 	}
 
 	public function boot(IBootContext $context): void {
-		$context->injectFn([$this, 'registerMountProviders']);
 		$context->injectFn([$this, 'registerEventsScripts']);
 
 		Helper::registerHooks();
 
 		Share::registerBackend('file', File::class);
 		Share::registerBackend('folder', Folder::class, 'file');
-	}
-
-
-	public function registerMountProviders(IMountProviderCollection $mountProviderCollection, MountProvider $mountProvider, ExternalMountProvider $externalMountProvider): void {
-		$mountProviderCollection->registerProvider($mountProvider);
-		$mountProviderCollection->registerProvider($externalMountProvider);
 	}
 
 	public function registerEventsScripts(IEventDispatcher $dispatcher): void {

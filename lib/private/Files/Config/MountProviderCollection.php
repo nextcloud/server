@@ -10,11 +10,13 @@ namespace OC\Files\Config;
 use OC\Hooks\Emitter;
 use OC\Hooks\EmitterTrait;
 use OCP\Diagnostics\IEventLogger;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Config\IHomeMountProvider;
 use OCP\Files\Config\IMountProvider;
 use OCP\Files\Config\IMountProviderCollection;
 use OCP\Files\Config\IRootMountProvider;
 use OCP\Files\Config\IUserMountCache;
+use OCP\Files\Events\RegisterMountProviderEvent;
 use OCP\Files\Mount\IMountManager;
 use OCP\Files\Mount\IMountPoint;
 use OCP\Files\Storage\IStorageFactory;
@@ -23,46 +25,30 @@ use OCP\IUser;
 class MountProviderCollection implements IMountProviderCollection, Emitter {
 	use EmitterTrait;
 
-	/**
-	 * @var \OCP\Files\Config\IHomeMountProvider[]
-	 */
-	private $homeProviders = [];
+	/** @var \OCP\Files\Config\IHomeMountProvider[] */
+	private array $homeProviders = [];
 
-	/**
-	 * @var \OCP\Files\Config\IMountProvider[]
-	 */
-	private $providers = [];
+	/** @var \OCP\Files\Config\IMountProvider[] */
+	private array $providers = [];
 
 	/** @var \OCP\Files\Config\IRootMountProvider[] */
-	private $rootProviders = [];
-
-	/**
-	 * @var \OCP\Files\Storage\IStorageFactory
-	 */
-	private $loader;
-
-	/**
-	 * @var \OCP\Files\Config\IUserMountCache
-	 */
-	private $mountCache;
+	private array $rootProviders = [];
 
 	/** @var callable[] */
-	private $mountFilters = [];
+	private array $mountFilters = [];
 
-	private IEventLogger $eventLogger;
+	private bool $registerEventEmitted = false;
 
 	/**
 	 * @param \OCP\Files\Storage\IStorageFactory $loader
 	 * @param IUserMountCache $mountCache
 	 */
 	public function __construct(
-		IStorageFactory $loader,
-		IUserMountCache $mountCache,
-		IEventLogger $eventLogger
+		private IStorageFactory $loader,
+		private IUserMountCache $mountCache,
+		private IEventLogger $eventLogger,
+		private IEventDispatcher $eventDispatcher,
 	) {
-		$this->loader = $loader;
-		$this->mountCache = $mountCache;
-		$this->eventLogger = $eventLogger;
 	}
 
 	private function getMountsFromProvider(IMountProvider $provider, IUser $user, IStorageFactory $loader): array {
@@ -91,12 +77,12 @@ class MountProviderCollection implements IMountProviderCollection, Emitter {
 	}
 
 	public function getMountsForUser(IUser $user): array {
-		return $this->getUserMountsForProviders($user, $this->providers);
+		return $this->getUserMountsForProviders($user, $this->getProviders());
 	}
 
 	public function getUserMountsForProviderClasses(IUser $user, array $mountProviderClasses): array {
 		$providers = array_filter(
-			$this->providers,
+			$this->getProviders(),
 			fn (IMountProvider $mountProvider) => (in_array(get_class($mountProvider), $mountProviderClasses))
 		);
 		return $this->getUserMountsForProviders($user, $providers);
@@ -107,9 +93,9 @@ class MountProviderCollection implements IMountProviderCollection, Emitter {
 		// to check for name collisions
 		$firstMounts = [];
 		if ($providerFilter) {
-			$providers = array_filter($this->providers, $providerFilter);
+			$providers = array_filter($this->getProviders(), $providerFilter);
 		} else {
-			$providers = $this->providers;
+			$providers = $this->getProviders();
 		}
 		$firstProviders = array_filter($providers, function (IMountProvider $provider) {
 			return (get_class($provider) !== 'OCA\Files_Sharing\MountProvider');
@@ -230,12 +216,17 @@ class MountProviderCollection implements IMountProviderCollection, Emitter {
 	}
 
 	public function clearProviders() {
+		$this->registerEventEmitted = false;
 		$this->providers = [];
 		$this->homeProviders = [];
 		$this->rootProviders = [];
 	}
 
 	public function getProviders(): array {
+		if (!$this->registerEventEmitted) {
+			$this->registerEventEmitted = true;
+			$this->eventDispatcher->dispatchTyped(new RegisterMountProviderEvent($this));
+		}
 		return $this->providers;
 	}
 }

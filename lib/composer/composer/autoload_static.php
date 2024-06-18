@@ -403,6 +403,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OCP\\Files\\Events\\Node\\NodeRenamedEvent' => __DIR__ . '/../../..' . '/lib/public/Files/Events/Node/NodeRenamedEvent.php',
         'OCP\\Files\\Events\\Node\\NodeTouchedEvent' => __DIR__ . '/../../..' . '/lib/public/Files/Events/Node/NodeTouchedEvent.php',
         'OCP\\Files\\Events\\Node\\NodeWrittenEvent' => __DIR__ . '/../../..' . '/lib/public/Files/Events/Node/NodeWrittenEvent.php',
+        'OCP\\Files\\Events\\RegisterMountProviderEvent' => __DIR__ . '/../../..' . '/lib/public/Files/Events/RegisterMountProviderEvent.php',
         'OCP\\Files\\File' => __DIR__ . '/../../..' . '/lib/public/Files/File.php',
         'OCP\\Files\\FileInfo' => __DIR__ . '/../../..' . '/lib/public/Files/FileInfo.php',
         'OCP\\Files\\FileNameTooLongException' => __DIR__ . '/../../..' . '/lib/public/Files/FileNameTooLongException.php',
