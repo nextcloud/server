@@ -198,8 +198,11 @@ class WebpackSPDXPlugin {
 				authors.add(pkg.author)
 				output += `\n- ${pkg.name}\n\t- version: ${pkg.version}\n\t- license: ${license}`
 			}
-			output += `\n\nSPDX-License-Identifier: ${[...licenses].sort().join(' AND ')}\n`
-			output += [...authors].sort().map((author) => `SPDX-FileCopyrightText: ${author}`).join('\n');
+			output += '\n\n'
+			for (const license of [...licenses].sort()) {
+				output += `SPDX-License-Identifier: ${license}\n`
+			}
+			output += [...authors].sort().map((author) => `SPDX-FileCopyrightText: ${author}`).join('\n')
 
 			compilation.emitAsset(
 				asset.split('?', 2)[0] + '.license',
@@ -208,9 +211,10 @@ class WebpackSPDXPlugin {
 		}
 
 		if (callback) {
-			return void callback()
+			return callback()
 		}
 	}
+
 }
 
-module.exports = WebpackSPDXPlugin;
+module.exports = WebpackSPDXPlugin
