@@ -69,6 +69,7 @@ OC.L10N.register(
     "Custom user agent" : "Axente de usuario personalizado",
     "Select groups" : "Seleccionar grupos",
     "Groups" : "Grupos",
+    "Type to search for group …" : "Escriba para buscar por grupo…",
     "Select a trigger" : "Seleccione un disparador",
     "At least one event must be selected" : "Ten que seleccionar polo menos un evento",
     "Add new flow" : "Engadir un novo fluxo",
@@ -115,6 +116,7 @@ OC.L10N.register(
     "between" : "entre",
     "not between" : "non entre",
     "Request user agent" : "Cliente usado para a solicitude",
+    "Group membership" : "Pertenza ao grupo",
     "is member of" : "é membro de",
     "is not member of" : "non é membro de",
     "User group membership" : "Pertenza a un grupo de usuarios"
