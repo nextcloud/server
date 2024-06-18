@@ -27,10 +27,14 @@ use OC\AppFramework\Middleware\Security\Exceptions\NotConfirmedException;
 use OC\AppFramework\Middleware\Security\PasswordConfirmationMiddleware;
 use OC\AppFramework\Utility\ControllerMethodReflector;
 use OCP\AppFramework\Controller;
+use OC\Authentication\Token\IProvider;
 use OCP\AppFramework\Utility\ITimeFactory;
+use OC\Authentication\Token\IToken;
+use OCP\IRequest;
 use OCP\ISession;
 use OCP\IUser;
 use OCP\IUserSession;
+use Test\AppFramework\Middleware\Security\Mock\PasswordConfirmationMiddlewareController;
 use Test\TestCase;
 
 class PasswordConfirmationMiddlewareTest extends TestCase {
@@ -45,23 +49,29 @@ class PasswordConfirmationMiddlewareTest extends TestCase {
 	/** @var PasswordConfirmationMiddleware */
 	private $middleware;
 	/** @var Controller */
-	private $contoller;
+	private $controller;
 	/** @var ITimeFactory|\PHPUnit\Framework\MockObject\MockObject */
 	private $timeFactory;
+	private IProvider|\PHPUnit\Framework\MockObject\MockObject $tokenProvider;
 
 	protected function setUp(): void {
 		$this->reflector = new ControllerMethodReflector();
 		$this->session = $this->createMock(ISession::class);
 		$this->userSession = $this->createMock(IUserSession::class);
 		$this->user = $this->createMock(IUser::class);
-		$this->contoller = $this->createMock(Controller::class);
+		$this->controller = new PasswordConfirmationMiddlewareController(
+			'test',
+			$this->createMock(IRequest::class)
+		);
 		$this->timeFactory = $this->createMock(ITimeFactory::class);
+		$this->tokenProvider = $this->createMock(IProvider::class);
 
 		$this->middleware = new PasswordConfirmationMiddleware(
 			$this->reflector,
 			$this->session,
 			$this->userSession,
-			$this->timeFactory
+			$this->timeFactory,
+			$this->tokenProvider,
 		);
 	}
 
@@ -72,7 +82,7 @@ class PasswordConfirmationMiddlewareTest extends TestCase {
 		$this->userSession->expects($this->never())
 			->method($this->anything());
 
-		$this->middleware->beforeController($this->contoller, __FUNCTION__);
+		$this->middleware->beforeController($this->controller, __FUNCTION__);
 	}
 
 	/**
@@ -85,7 +95,7 @@ class PasswordConfirmationMiddlewareTest extends TestCase {
 		$this->userSession->expects($this->never())
 			->method($this->anything());
 
-		$this->middleware->beforeController($this->contoller, __FUNCTION__);
+		$this->middleware->beforeController($this->controller, __FUNCTION__);
 	}
 
 	/**
@@ -94,6 +104,13 @@ class PasswordConfirmationMiddlewareTest extends TestCase {
 	 */
 	public function testAnnotation($backend, $lastConfirm, $currentTime, $exception) {
 		$this->reflector->reflect(__CLASS__, __FUNCTION__);
+		$token = $this->createMock(IToken::class);
+		$token->method('getScopeAsArray')
+			->willReturn([]);
+		$this->tokenProvider->expects($this->once())
+			->method('getToken')
+			->willReturn($token);
+
 
 		$this->user->method('getBackendClassName')
 			->willReturn($backend);
@@ -107,15 +124,24 @@ class PasswordConfirmationMiddlewareTest extends TestCase {
 		$this->timeFactory->method('getTime')
 			->willReturn($currentTime);
 
+		$token = $this->createMock(IToken::class);
+		$token->method('getScopeAsArray')
+			->willReturn([]);
+		$this->tokenProvider->expects($this->once())
+			->method('getToken')
+			->willReturn($token);
+
 		$thrown = false;
 		try {
-			$this->middleware->beforeController($this->contoller, __FUNCTION__);
+			$this->middleware->beforeController($this->controller, __FUNCTION__);
 		} catch (NotConfirmedException $e) {
 			$thrown = true;
 		}
 
 		$this->assertSame($exception, $thrown);
 	}
+
+
 
 	public function dataProvider() {
 		return [
@@ -126,5 +152,42 @@ class PasswordConfirmationMiddlewareTest extends TestCase {
 			['foo', 2000, 3815, false],
 			['foo', 2000, 3816, true],
 		];
+	}
+
+	public function testSSO() {
+		static $sessionId = 'mySession1d';
+
+		$this->reflector->reflect($this->controller, __FUNCTION__);
+
+		$this->user->method('getBackendClassName')
+			->willReturn('fictional_backend');
+		$this->userSession->method('getUser')
+			->willReturn($this->user);
+
+		$this->session->method('get')
+			->with('last-password-confirm')
+			->willReturn(0);
+		$this->session->method('getId')
+			->willReturn($sessionId);
+
+		$this->timeFactory->method('getTime')
+			->willReturn(9876);
+
+		$token = $this->createMock(IToken::class);
+		$token->method('getScopeAsArray')
+			->willReturn(['password-unconfirmable' => true]);
+		$this->tokenProvider->expects($this->once())
+			->method('getToken')
+			->with($sessionId)
+			->willReturn($token);
+
+		$thrown = false;
+		try {
+			$this->middleware->beforeController($this->controller, __FUNCTION__);
+		} catch (NotConfirmedException) {
+			$thrown = true;
+		}
+
+		$this->assertSame(false, $thrown);
 	}
 }

@@ -25,11 +25,16 @@ namespace OC\AppFramework\Middleware\Security;
 
 use OC\AppFramework\Middleware\Security\Exceptions\NotConfirmedException;
 use OC\AppFramework\Utility\ControllerMethodReflector;
+use OC\Authentication\Exceptions\ExpiredTokenException;
+use OC\Authentication\Exceptions\InvalidTokenException;
+use OC\Authentication\Exceptions\WipeTokenException;
+use OC\Authentication\Token\IProvider;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Middleware;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\ISession;
 use OCP\IUserSession;
+use OCP\Session\Exceptions\SessionNotAvailableException;
 use OCP\User\Backend\IPasswordConfirmationBackend;
 
 class PasswordConfirmationMiddleware extends Middleware {
@@ -43,6 +48,7 @@ class PasswordConfirmationMiddleware extends Middleware {
 	private $timeFactory;
 	/** @var array */
 	private $excludedUserBackEnds = ['user_saml' => true, 'user_globalsiteselector' => true];
+	private IProvider $tokenProvider;
 
 	/**
 	 * PasswordConfirmationMiddleware constructor.
@@ -53,13 +59,16 @@ class PasswordConfirmationMiddleware extends Middleware {
 	 * @param ITimeFactory $timeFactory
 	 */
 	public function __construct(ControllerMethodReflector $reflector,
-								ISession $session,
-								IUserSession $userSession,
-								ITimeFactory $timeFactory) {
+		ISession $session,
+		IUserSession $userSession,
+		ITimeFactory $timeFactory,
+		IProvider $tokenProvider,
+	) {
 		$this->reflector = $reflector;
 		$this->session = $session;
 		$this->userSession = $userSession;
 		$this->timeFactory = $timeFactory;
+		$this->tokenProvider = $tokenProvider;
 	}
 
 	/**
@@ -82,8 +91,21 @@ class PasswordConfirmationMiddleware extends Middleware {
 				$backendClassName = $user->getBackendClassName();
 			}
 
+			try {
+				$sessionId = $this->session->getId();
+				$token = $this->tokenProvider->getToken($sessionId);
+			} catch (SessionNotAvailableException|InvalidTokenException|WipeTokenException|ExpiredTokenException) {
+				// States we do not deal with here.
+				return;
+			}
+			$scope = $token->getScopeAsArray();
+			if (isset($scope['password-unconfirmable']) && $scope['password-unconfirmable'] === true) {
+				// Users logging in from SSO backends cannot confirm their password by design
+				return;
+			}
+
 			$lastConfirm = (int) $this->session->get('last-password-confirm');
-			// we can't check the password against a SAML backend, so skip password confirmation in this case
+			// TODO: confirm excludedUserBackEnds can go away and remove it
 			if (!isset($this->excludedUserBackEnds[$backendClassName]) && $lastConfirm < ($this->timeFactory->getTime() - (30 * 60 + 15))) { // allow 15 seconds delay
 				throw new NotConfirmedException();
 			}
