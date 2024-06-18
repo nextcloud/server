@@ -1,8 +1,8 @@
-This file is generated from multiple sources. Included packages:
+SPDX-License-Identifier: MIT
+SPDX-FileCopyrightText: Robert Kieffer
 
+
+This file is generated from multiple sources. Included packages:
 - mime
 	- version: 4.0.1
 	- license: MIT
-
-SPDX-License-Identifier: MIT
-SPDX-FileCopyrightText: Robert Kieffer

@@ -1,5 +1,72 @@
-This file is generated from multiple sources. Included packages:
+SPDX-License-Identifier: MPL-2.0
+SPDX-License-Identifier: MIT
+SPDX-License-Identifier: ISC
+SPDX-License-Identifier: GPL-3.0-or-later
+SPDX-License-Identifier: BSD-3-Clause
+SPDX-License-Identifier: BSD-2-Clause
+SPDX-License-Identifier: Apache-2.0
+SPDX-License-Identifier: AGPL-3.0-or-later
+SPDX-License-Identifier: (MPL-2.0 OR Apache-2.0)
+SPDX-FileCopyrightText: xiemengxiong
+SPDX-FileCopyrightText: xiaokai <kexiaokai@gmail.com>
+SPDX-FileCopyrightText: uuid developers
+SPDX-FileCopyrightText: rhysd <lin90162@yahoo.co.jp>
+SPDX-FileCopyrightText: inline-style-parser developers
+SPDX-FileCopyrightText: inherits developers
+SPDX-FileCopyrightText: escape-html developers
+SPDX-FileCopyrightText: debounce developers
+SPDX-FileCopyrightText: atomiks
+SPDX-FileCopyrightText: assert developers
+SPDX-FileCopyrightText: Victor Felder <victor@draft.li> (https://draft.li)
+SPDX-FileCopyrightText: Varun A P
+SPDX-FileCopyrightText: Tobias Koppers @sokra
+SPDX-FileCopyrightText: Titus Wormer <tituswormer@gmail.com> (https://wooorm.com)
+SPDX-FileCopyrightText: T. Jameson Little <t.jameson.little@gmail.com>
+SPDX-FileCopyrightText: Stefan Thomas <justmoon@members.fsf.org> (http://www.justmoon.net)
+SPDX-FileCopyrightText: Sindre Sorhus
+SPDX-FileCopyrightText: Roman Shtylman <shtylman@gmail.com>
+SPDX-FileCopyrightText: Roeland Jago Douma
+SPDX-FileCopyrightText: Richie Bendall
+SPDX-FileCopyrightText: Raynos <raynos2@gmail.com>
+SPDX-FileCopyrightText: Philipp Kewisch
+SPDX-FileCopyrightText: Perry Mitchell <perry@perrymitchell.net>
+SPDX-FileCopyrightText: Paul Vorbach <paul@vorba.ch> (http://paul.vorba.ch)
+SPDX-FileCopyrightText: Paul Vorbach <paul@vorb.de> (http://vorb.de)
+SPDX-FileCopyrightText: OpenJS Foundation and other contributors
+SPDX-FileCopyrightText: Matt Zabriskie
+SPDX-FileCopyrightText: Mark <mark@remarkablemark.org>
+SPDX-FileCopyrightText: Mapbox
+SPDX-FileCopyrightText: Joyent
+SPDX-FileCopyrightText: Jordan Harband <ljharb@gmail.com>
+SPDX-FileCopyrightText: Jordan Harband
+SPDX-FileCopyrightText: John-David Dalton <john.david.dalton@gmail.com> (http://allyoucanleet.com/)
+SPDX-FileCopyrightText: John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+SPDX-FileCopyrightText: Jeff Sagal <sagalbot@gmail.com>
+SPDX-FileCopyrightText: Jacob Clevenger<https://github.com/wheatjs>
+SPDX-FileCopyrightText: Hypercontext
+SPDX-FileCopyrightText: Hiroki Osame
+SPDX-FileCopyrightText: Guillaume Chau <guillaume.b.chau@gmail.com>
+SPDX-FileCopyrightText: GitHub Inc.
+SPDX-FileCopyrightText: Feross Aboukhadijeh
+SPDX-FileCopyrightText: Evan You
+SPDX-FileCopyrightText: Eugene Sharygin <eush77@gmail.com>
+SPDX-FileCopyrightText: Eric Norris (https://github.com/ericnorris)
+SPDX-FileCopyrightText: Dr.-Ing. Mario Heiderich, Cure53 <mario@cure53.de> (https://cure53.de/)
+SPDX-FileCopyrightText: Denis Pushkarev
+SPDX-FileCopyrightText: David Clark
+SPDX-FileCopyrightText: Christoph Wurst <christoph@winzerhof-wurst.at>
+SPDX-FileCopyrightText: Christoph Wurst
+SPDX-FileCopyrightText: Borys Serebrov
+SPDX-FileCopyrightText: Austin Andrews
+SPDX-FileCopyrightText: Antoni Andre <antoniandre.web@gmail.com>
+SPDX-FileCopyrightText: Anthony Fu <https://github.com/antfu>
+SPDX-FileCopyrightText: Andris Reinman
+SPDX-FileCopyrightText: Andrea Giammarchi
+SPDX-FileCopyrightText: Alkemics
+SPDX-FileCopyrightText: @nextcloud/dialogs developers
 
+
+This file is generated from multiple sources. Included packages:
 - @floating-ui/core
 	- version: 1.6.0
 	- license: MIT
@@ -29,7 +96,7 @@ This file is generated from multiple sources. Included packages:
 	- license: GPL-3.0-or-later
 - @nextcloud/axios
 	- version: 2.4.0
-	- license: GPL-3.0
+	- license: GPL-3.0-or-later
 - @nextcloud/browser-storage
 	- version: 0.3.0
 	- license: GPL-3.0-or-later
@@ -80,7 +147,7 @@ This file is generated from multiple sources. Included packages:
 	- license: MIT
 - @nextcloud/vue
 	- version: 8.11.2
-	- license: AGPL-3.0
+	- license: AGPL-3.0-or-later
 - @ungap/structured-clone
 	- version: 1.2.0
 	- license: ISC
@@ -522,62 +589,3 @@ This file is generated from multiple sources. Included packages:
 - zwitch
 	- version: 2.0.4
 	- license: MIT
-
-SPDX-License-Identifier: (MPL-2.0 OR Apache-2.0) AND AGPL-3.0 AND AGPL-3.0-or-later AND Apache-2.0 AND BSD-2-Clause AND BSD-3-Clause AND GPL-3.0 AND GPL-3.0-or-later AND ISC AND MIT AND MPL-2.0
-SPDX-FileCopyrightText: @nextcloud/dialogs developers
-SPDX-FileCopyrightText: Alkemics
-SPDX-FileCopyrightText: Andrea Giammarchi
-SPDX-FileCopyrightText: Andris Reinman
-SPDX-FileCopyrightText: Anthony Fu <https://github.com/antfu>
-SPDX-FileCopyrightText: Antoni Andre <antoniandre.web@gmail.com>
-SPDX-FileCopyrightText: Austin Andrews
-SPDX-FileCopyrightText: Borys Serebrov
-SPDX-FileCopyrightText: Christoph Wurst
-SPDX-FileCopyrightText: Christoph Wurst <christoph@winzerhof-wurst.at>
-SPDX-FileCopyrightText: David Clark
-SPDX-FileCopyrightText: Denis Pushkarev
-SPDX-FileCopyrightText: Dr.-Ing. Mario Heiderich, Cure53 <mario@cure53.de> (https://cure53.de/)
-SPDX-FileCopyrightText: Eric Norris (https://github.com/ericnorris)
-SPDX-FileCopyrightText: Eugene Sharygin <eush77@gmail.com>
-SPDX-FileCopyrightText: Evan You
-SPDX-FileCopyrightText: Feross Aboukhadijeh
-SPDX-FileCopyrightText: GitHub Inc.
-SPDX-FileCopyrightText: Guillaume Chau <guillaume.b.chau@gmail.com>
-SPDX-FileCopyrightText: Hiroki Osame
-SPDX-FileCopyrightText: Hypercontext
-SPDX-FileCopyrightText: Jacob Clevenger<https://github.com/wheatjs>
-SPDX-FileCopyrightText: Jeff Sagal <sagalbot@gmail.com>
-SPDX-FileCopyrightText: John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
-SPDX-FileCopyrightText: John-David Dalton <john.david.dalton@gmail.com> (http://allyoucanleet.com/)
-SPDX-FileCopyrightText: Jordan Harband
-SPDX-FileCopyrightText: Jordan Harband <ljharb@gmail.com>
-SPDX-FileCopyrightText: Joyent
-SPDX-FileCopyrightText: Mapbox
-SPDX-FileCopyrightText: Mark <mark@remarkablemark.org>
-SPDX-FileCopyrightText: Matt Zabriskie
-SPDX-FileCopyrightText: OpenJS Foundation and other contributors
-SPDX-FileCopyrightText: Paul Vorbach <paul@vorb.de> (http://vorb.de)
-SPDX-FileCopyrightText: Paul Vorbach <paul@vorba.ch> (http://paul.vorba.ch)
-SPDX-FileCopyrightText: Perry Mitchell <perry@perrymitchell.net>
-SPDX-FileCopyrightText: Philipp Kewisch
-SPDX-FileCopyrightText: Raynos <raynos2@gmail.com>
-SPDX-FileCopyrightText: Richie Bendall
-SPDX-FileCopyrightText: Roeland Jago Douma
-SPDX-FileCopyrightText: Roman Shtylman <shtylman@gmail.com>
-SPDX-FileCopyrightText: Sindre Sorhus
-SPDX-FileCopyrightText: Stefan Thomas <justmoon@members.fsf.org> (http://www.justmoon.net)
-SPDX-FileCopyrightText: T. Jameson Little <t.jameson.little@gmail.com>
-SPDX-FileCopyrightText: Titus Wormer <tituswormer@gmail.com> (https://wooorm.com)
-SPDX-FileCopyrightText: Tobias Koppers @sokra
-SPDX-FileCopyrightText: Varun A P
-SPDX-FileCopyrightText: Victor Felder <victor@draft.li> (https://draft.li)
-SPDX-FileCopyrightText: assert developers
-SPDX-FileCopyrightText: atomiks
-SPDX-FileCopyrightText: debounce developers
-SPDX-FileCopyrightText: escape-html developers
-SPDX-FileCopyrightText: inherits developers
-SPDX-FileCopyrightText: inline-style-parser developers
-SPDX-FileCopyrightText: rhysd <lin90162@yahoo.co.jp>
-SPDX-FileCopyrightText: uuid developers
-SPDX-FileCopyrightText: xiaokai <kexiaokai@gmail.com>
-SPDX-FileCopyrightText: xiemengxiong

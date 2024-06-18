@@ -1,5 +1,18 @@
-This file is generated from multiple sources. Included packages:
+SPDX-License-Identifier: MIT
+SPDX-License-Identifier: ISC
+SPDX-License-Identifier: Apache-2.0
+SPDX-FileCopyrightText: inherits developers
+SPDX-FileCopyrightText: assert developers
+SPDX-FileCopyrightText: Roman Shtylman <shtylman@gmail.com>
+SPDX-FileCopyrightText: Raynos <raynos2@gmail.com>
+SPDX-FileCopyrightText: Joyent
+SPDX-FileCopyrightText: Jordan Harband <ljharb@gmail.com>
+SPDX-FileCopyrightText: Jordan Harband
+SPDX-FileCopyrightText: Evan You
+SPDX-FileCopyrightText: Austin Andrews
 
+
+This file is generated from multiple sources. Included packages:
 - @mdi/js
 	- version: 7.4.47
 	- license: Apache-2.0
@@ -102,14 +115,3 @@ This file is generated from multiple sources. Included packages:
 - which-typed-array
 	- version: 1.1.14
 	- license: MIT
-
-SPDX-License-Identifier: Apache-2.0 AND ISC AND MIT
-SPDX-FileCopyrightText: Austin Andrews
-SPDX-FileCopyrightText: Evan You
-SPDX-FileCopyrightText: Jordan Harband
-SPDX-FileCopyrightText: Jordan Harband <ljharb@gmail.com>
-SPDX-FileCopyrightText: Joyent
-SPDX-FileCopyrightText: Raynos <raynos2@gmail.com>
-SPDX-FileCopyrightText: Roman Shtylman <shtylman@gmail.com>
-SPDX-FileCopyrightText: assert developers
-SPDX-FileCopyrightText: inherits developers
