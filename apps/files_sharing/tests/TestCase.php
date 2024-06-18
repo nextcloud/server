@@ -13,10 +13,7 @@ use OC\SystemConfig;
 use OC\User\DisplayNameCache;
 use OC\User\Session;
 use OCA\Files_Sharing\AppInfo\Application;
-use OCA\Files_Sharing\External\MountProvider as ExternalMountProvider;
 use OCA\Files_Sharing\Listener\SharesUpdatedListener;
-use OCA\Files_Sharing\MountProvider;
-use OCP\Files\Config\IMountProviderCollection;
 use OCP\Files\IRootFolder;
 use OCP\Files\ISetupManager;
 use OCP\IDBConnection;
@@ -75,11 +72,6 @@ abstract class TestCase extends \Test\TestCase {
 		$this->userSession = Server::get(IUserSession::class);
 
 		$app = new Application();
-		$app->registerMountProviders(
-			Server::get(IMountProviderCollection::class),
-			Server::get(MountProvider::class),
-			Server::get(ExternalMountProvider::class),
-		);
 
 		// clear share hooks
 		\OC_Hook::clear('OCP\\Share');
