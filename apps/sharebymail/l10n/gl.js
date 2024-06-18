@@ -38,6 +38,7 @@ OC.L10N.register(
     "You can choose a different password at any time in the share dialog." : "Pode escoller un contrasinal diferente en calquera momento no diálogo de compartir.",
     "Could not find share" : "Non foi posíbel atopar a compartición",
     "Share provider which allows you to share files by mail" : "Provedor que permite compartirficheiros por correo",
+    "Allows people to share a personalized link to a file or folder by putting in an email address." : "Permite que a xente comparta unha ligazón personalizada ou un ficheiro ou cartafol enviándoo a un enderezo de correo.",
     "Send password by mail" : "Enviar contrasinal por correo",
     "Reply to initiator" : "Resposta ao iniciador",
     "Unable to update share by mail config" : "Non é posíbel actualizar a configuración para compartir por correo",
