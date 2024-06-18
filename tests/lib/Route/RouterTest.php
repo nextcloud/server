@@ -40,8 +40,7 @@ use Test\TestCase;
  * @package Test\Route
  */
 class RouterTest extends TestCase {
-	/** @var Router */
-	private $router;
+	private Router $router;
 	protected function setUp(): void {
 		parent::setUp();
 		/** @var LoggerInterface $logger */
