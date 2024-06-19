@@ -161,6 +161,8 @@ OC.L10N.register(
     "Reject" : "Diúltaigh",
     "Incoming ownership transfer from {user}" : "Aistriú úinéireachta isteach ó {user}",
     "Do you want to accept {path}?\n\nNote: The transfer process after accepting may take up to 1 hour." : "Ar mhaith leat glacadh le {path}?\n\nNóta: Féadfaidh an próiseas aistrithe tar éis glacadh suas le 1 uair an chloig a ghlacadh.",
+    "Ownership transfer denied" : "Aistriú úinéireachta diúltaithe",
+    "Your ownership transfer of {path} was denied by {user}." : "Dhiúltaigh {user} d'aistriú úinéireachta ar {path}.",
     "Ownership transfer failed" : "Theip ar aistriú úinéireachta",
     "Your ownership transfer of {path} to {user} failed." : "Theip ar d'aistriú úinéireachta de {path} go {user}.",
     "The ownership transfer of {path} from {user} failed." : "Theip ar aistriú úinéireachta {path} ó {user}.",
