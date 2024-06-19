@@ -117,6 +117,7 @@ class Local extends \OC\Files\Storage\Common {
 				}
 				$it->next();
 			}
+			unset ($it);
 			clearstatcache(true, $this->getSourcePath($path));
 			return rmdir($this->getSourcePath($path));
 		} catch (\UnexpectedValueException $e) {
