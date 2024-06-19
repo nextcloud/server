@@ -238,7 +238,9 @@ class ApiController extends Controller {
 	 */
 	public function getStorageStats($dir = '/'): JSONResponse {
 		$storageInfo = \OC_Helper::getStorageInfo($dir ?: '/');
-		return new JSONResponse(['message' => 'ok', 'data' => $storageInfo]);
+		$response = new JSONResponse(['message' => 'ok', 'data' => $storageInfo]);
+		$response->cacheFor(5 * 60);
+		return $response;
 	}
 
 	/**
