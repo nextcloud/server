@@ -126,11 +126,16 @@ class SystemTagObjectMapper implements ISystemTagObjectMapper {
 		$result = $query->executeQuery();
 		$rows = $result->fetchAll();
 		$existingTags = [];
-		foreach ($rows as $k => $row) {
+		foreach ($rows as $row) {
 			$existingTags[] = $row['systemtagid'];
 		}
 		//filter only tags that do not exist in db
 		$tagIds = array_diff($tagIds, $existingTags);
+		if (empty($tagIds)) {
+			// no tags to insert so return here
+			$this->connection->commit();
+			return;
+		}
 
 		$query = $this->connection->getQueryBuilder();
 		$query->insert(self::RELATION_TABLE)
