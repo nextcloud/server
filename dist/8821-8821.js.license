@@ -4,7 +4,6 @@ SPDX-License-Identifier: ISC
 SPDX-License-Identifier: GPL-3.0-or-later
 SPDX-License-Identifier: BSD-3-Clause
 SPDX-License-Identifier: AGPL-3.0-or-later
-SPDX-License-Identifier: AGPL-3.0
 SPDX-License-Identifier: (MPL-2.0 OR Apache-2.0)
 SPDX-FileCopyrightText: xiemengxiong
 SPDX-FileCopyrightText: uuid developers
@@ -261,7 +260,7 @@ This file is generated from multiple sources. Included packages:
 	- license: GPL-3.0-or-later
 - nextcloud-vue-collections
 	- version: 0.12.0
-	- license: AGPL-3.0
+	- license: AGPL-3.0-or-later
 - node-gettext
 	- version: 3.0.0
 	- license: MIT
