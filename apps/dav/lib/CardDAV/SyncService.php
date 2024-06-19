@@ -181,7 +181,7 @@ class SyncService {
 		$dom = new \DOMDocument('1.0', 'UTF-8');
 		$dom->formatOutput = true;
 		$root = $dom->createElementNS('DAV:', 'd:sync-collection');
-		$sync = $dom->createElement('d:sync-token', $syncToken);
+		$sync = $dom->createElement('d:sync-token', $syncToken ?? '');
 		$prop = $dom->createElement('d:prop');
 		$cont = $dom->createElement('d:getcontenttype');
 		$etag = $dom->createElement('d:getetag');
