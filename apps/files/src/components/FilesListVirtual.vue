@@ -206,8 +206,7 @@ export default defineComponent({
 		const mainContent = window.document.querySelector('main.app-content') as HTMLElement
 		mainContent.addEventListener('dragover', this.onDragOver)
 
-		// handle initially opening a given file
-		const { id } = loadState<{ id?: number }>('files', 'openFileInfo', {})
+		const { id } = loadState<{ id?: number }>('files', 'fileInfo', {})
 		this.scrollToFile(id ?? this.fileId)
 		this.openSidebarForFile(id ?? this.fileId)
 		this.handleOpenFile(id ?? null)
@@ -248,6 +247,10 @@ export default defineComponent({
 		 * @param fileId File to open
 		 */
 		handleOpenFile(fileId: number|null) {
+			if (!this.openFile) {
+				return
+			}
+
 			if (fileId === null || this.openFileId === fileId) {
 				return
 			}
