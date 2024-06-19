@@ -102,6 +102,7 @@ return array(
     'OCA\\Settings\\SetupChecks\\LegacySSEKeyFormat' => $baseDir . '/../lib/SetupChecks/LegacySSEKeyFormat.php',
     'OCA\\Settings\\SetupChecks\\MaintenanceWindowStart' => $baseDir . '/../lib/SetupChecks/MaintenanceWindowStart.php',
     'OCA\\Settings\\SetupChecks\\MemcacheConfigured' => $baseDir . '/../lib/SetupChecks/MemcacheConfigured.php',
+    'OCA\\Settings\\SetupChecks\\MimeTypeMigrationAvailable' => $baseDir . '/../lib/SetupChecks/MimeTypeMigrationAvailable.php',
     'OCA\\Settings\\SetupChecks\\MysqlUnicodeSupport' => $baseDir . '/../lib/SetupChecks/MysqlUnicodeSupport.php',
     'OCA\\Settings\\SetupChecks\\OcxProviders' => $baseDir . '/../lib/SetupChecks/OcxProviders.php',
     'OCA\\Settings\\SetupChecks\\OverwriteCliUrl' => $baseDir . '/../lib/SetupChecks/OverwriteCliUrl.php',
