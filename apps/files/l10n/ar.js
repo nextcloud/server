@@ -161,6 +161,8 @@ OC.L10N.register(
     "Reject" : "رفض",
     "Incoming ownership transfer from {user}" : "تم تحويل ملكية الملف إليك من قبل {user}",
     "Do you want to accept {path}?\n\nNote: The transfer process after accepting may take up to 1 hour." : "هل تريد الموافقة {path}?\n\nملاحظة: عملية موافقة على النقل قد تستغرق إلى 1 ساعة.",
+    "Ownership transfer denied" : "تمّ رفض نقل الملكية",
+    "Your ownership transfer of {path} was denied by {user}." : "تمّ رفض نقلك لمِلكيّتك في {path} من قِبَل المستخدِم {user}.",
     "Ownership transfer failed" : "فشل نقل الملكية",
     "Your ownership transfer of {path} to {user} failed." : "فشلت عمليتك لنقل الـ {path} إلى {user}",
     "The ownership transfer of {path} from {user} failed." : "فشل عملية النقل لـ {path} من قبل {user}",

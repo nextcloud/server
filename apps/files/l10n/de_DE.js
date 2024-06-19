@@ -161,6 +161,8 @@ OC.L10N.register(
     "Reject" : "Ablehnen",
     "Incoming ownership transfer from {user}" : "Eingehende Besitzübertragung von {user}",
     "Do you want to accept {path}?\n\nNote: The transfer process after accepting may take up to 1 hour." : "Soll {path} angenommen werden?\n\nInfo: Der Übertragungsprozess nach der Annahme kann bis zu einer Stunde dauern.",
+    "Ownership transfer denied" : "Besitzübertragung verweigert",
+    "Your ownership transfer of {path} was denied by {user}." : "Die Eigentumsübertragung von {path} wurde von {user} abgelehnt.",
     "Ownership transfer failed" : "Besitzübertragung fehlgeschlagen",
     "Your ownership transfer of {path} to {user} failed." : "Die Besitzübertragung von {path} an {user} ist fehlgeschlagen.",
     "The ownership transfer of {path} from {user} failed." : "Die Besitzübertragung von {path} vom Benutzer {user} ist fehlgeschlagen.",
