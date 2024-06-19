@@ -24,17 +24,20 @@ import { createClient } from 'webdav'
 import { getRootPath, getToken, isPublic } from '../utils/davUtils'
 import { getRequestToken } from '@nextcloud/auth'
 
-const headers = {
-	// Add this so the server knows it is an request from the browser
-	'X-Requested-With': 'XMLHttpRequest',
-	// Add the request token to the request
-	requesttoken: getRequestToken() || '',
+// Use a method for the headers, to always get the current request token
+const getHeaders = () => {
+	return {
+		// Add this so the server knows it is an request from the browser
+		'X-Requested-With': 'XMLHttpRequest',
+		// Add the request token to the request
+		requesttoken: getRequestToken() || '',
+	}
 }
 
 export const getClient = () => {
 	const client = createClient(getRootPath(), isPublic()
-		? { username: getToken(), password: '', headers }
-		: { headers },
+		? { username: getToken(), password: '', headers: getHeaders() }
+		: { headers: getHeaders() },
 	)
 
 	return client
