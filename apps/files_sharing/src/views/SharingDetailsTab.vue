@@ -62,7 +62,7 @@
 						type="radio"
 						button-variant-grouped="vertical"
 						@update:checked="toggleCustomPermissions">
-						{{ t('files_sharing', 'File drop') }}
+						{{ t('files_sharing', 'File requests') }}
 						<small class="subline">{{ t('files_sharing', 'Upload only') }}</small>
 						<template #icon>
 							<UploadIcon :size="20" />
@@ -433,7 +433,7 @@ export default {
 		},
 		/**
 		 * Is this share readable
-		 * Needed for some federated shares that might have been added from file drop links
+		 * Needed for some federated shares that might have been added from file requests links
 		 */
 		hasRead: {
 			get() {
