@@ -230,7 +230,7 @@ import IconQr from 'vue-material-design-icons/Qrcode.vue'
 import ErrorIcon from 'vue-material-design-icons/Exclamation.vue'
 import LockIcon from 'vue-material-design-icons/Lock.vue'
 import CheckIcon from 'vue-material-design-icons/CheckBold.vue'
-import ClipboardIcon from 'vue-material-design-icons/ClipboardFlow.vue'
+import ClipboardIcon from 'vue-material-design-icons/ContentCopy.vue'
 import CloseIcon from 'vue-material-design-icons/Close.vue'
 import PlusIcon from 'vue-material-design-icons/Plus.vue'
 
