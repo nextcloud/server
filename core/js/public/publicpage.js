@@ -14,7 +14,6 @@ window.addEventListener('DOMContentLoaded', function () {
 		$('#remote_address').focus();
 	});
 
-
 	$(document).mouseup(function(e) {
 		var toggle = $('#body-public').find('.header-right .menutoggle');
 		var container = toggle.next('.popovermenu');

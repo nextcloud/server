@@ -54,7 +54,7 @@ class BeforeTemplateRenderedListener implements IEventListener {
 
 				// If installed and background job is set to ajax, add dedicated script
 				if ($this->config->getAppValue('core', 'backgroundjobs_mode', 'ajax') == 'ajax') {
-					Util::addScript('core', 'backgroundjobs');
+					Util::addScript('core', 'ajax-cron');
 				}
 			}
 		}
