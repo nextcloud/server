@@ -211,31 +211,4 @@ class ChecksumsContext implements \Behat\Behat\Context\Context {
 			throw new \Exception("Expected no checksum header but got ".$this->response->getHeader('OC-Checksum')[0]);
 		}
 	}
-
-	/**
-	 * @Given user :user uploads chunk file :num of :total with :data to :destination with checksum :checksum
-	 * @param string $user
-	 * @param int $num
-	 * @param int $total
-	 * @param string $data
-	 * @param string $destination
-	 * @param string $checksum
-	 */
-	public function userUploadsChunkFileOfWithToWithChecksum($user, $num, $total, $data, $destination, $checksum) {
-		$num -= 1;
-		$this->response = $this->client->put(
-			$this->baseUrl . '/remote.php/webdav' . $destination . '-chunking-42-'.$total.'-'.$num,
-			[
-				'auth' => [
-					$user,
-					$this->getPasswordForUser($user)
-				],
-				'body' => $data,
-				'headers' => [
-					'OC-Checksum' => $checksum,
-					'OC-Chunked' => '1',
-				]
-			]
-		);
-	}
 }

@@ -1942,7 +1942,6 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC_API' => __DIR__ . '/../../..' . '/lib/private/legacy/OC_API.php',
         'OC_App' => __DIR__ . '/../../..' . '/lib/private/legacy/OC_App.php',
         'OC_Defaults' => __DIR__ . '/../../..' . '/lib/private/legacy/OC_Defaults.php',
-        'OC_FileChunking' => __DIR__ . '/../../..' . '/lib/private/legacy/OC_FileChunking.php',
         'OC_Files' => __DIR__ . '/../../..' . '/lib/private/legacy/OC_Files.php',
         'OC_Helper' => __DIR__ . '/../../..' . '/lib/private/legacy/OC_Helper.php',
         'OC_Hook' => __DIR__ . '/../../..' . '/lib/private/legacy/OC_Hook.php',

@@ -86,21 +86,8 @@ class Directory extends \OCA\DAV\Connector\Sabre\Node implements \Sabre\DAV\ICol
 	 */
 	public function createFile($name, $data = null) {
 		try {
-			// for chunked upload also updating a existing file is a "createFile"
-			// because we create all the chunks before re-assemble them to the existing file.
-			if (isset($_SERVER['HTTP_OC_CHUNKED'])) {
-				// exit if we can't create a new file and we don't updatable existing file
-				$chunkInfo = \OC_FileChunking::decodeName($name);
-				if (!$this->fileView->isCreatable($this->path) &&
-					!$this->fileView->isUpdatable($this->path . '/' . $chunkInfo['name'])
-				) {
-					throw new \Sabre\DAV\Exception\Forbidden();
-				}
-			} else {
-				// For non-chunked upload it is enough to check if we can create a new file
-				if (!$this->fileView->isCreatable($this->path)) {
-					throw new \Sabre\DAV\Exception\Forbidden();
-				}
+			if (!$this->fileView->isCreatable($this->path)) {
+				throw new \Sabre\DAV\Exception\Forbidden();
 			}
 
 			$this->fileView->verifyPath($this->path, $name);

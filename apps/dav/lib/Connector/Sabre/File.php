@@ -41,7 +41,6 @@ use Sabre\DAV\Exception;
 use Sabre\DAV\Exception\BadRequest;
 use Sabre\DAV\Exception\Forbidden;
 use Sabre\DAV\Exception\NotFound;
-use Sabre\DAV\Exception\NotImplemented;
 use Sabre\DAV\Exception\ServiceUnavailable;
 use Sabre\DAV\IFile;
 
@@ -117,16 +116,6 @@ class File extends Node implements IFile {
 
 		// verify path of the target
 		$this->verifyPath();
-
-		// chunked handling
-		$chunkedHeader = $this->request->getHeader('oc-chunked');
-		if ($chunkedHeader) {
-			try {
-				return $this->createFileChunked($data);
-			} catch (\Exception $e) {
-				$this->convertToSabreException($e);
-			}
-		}
 
 		/** @var Storage $partStorage */
 		[$partStorage] = $this->fileView->resolvePath($this->path);
@@ -553,135 +542,6 @@ class File extends Node implements IFile {
 		}
 
 		return $storage->getDirectDownload($internalPath);
-	}
-
-	/**
-	 * @param resource $data
-	 * @return null|string
-	 * @throws Exception
-	 * @throws BadRequest
-	 * @throws NotImplemented
-	 * @throws ServiceUnavailable
-	 */
-	private function createFileChunked($data) {
-		[$path, $name] = \Sabre\Uri\split($this->path);
-
-		$info = \OC_FileChunking::decodeName($name);
-		if (empty($info)) {
-			throw new NotImplemented($this->l10n->t('Invalid chunk name'));
-		}
-
-		$chunk_handler = new \OC_FileChunking($info);
-		$bytesWritten = $chunk_handler->store($info['index'], $data);
-
-		//detect aborted upload
-		if ($this->request->getMethod() === 'PUT') {
-			$lengthHeader = $this->request->getHeader('content-length');
-			if ($lengthHeader) {
-				$expected = (int)$lengthHeader;
-				if ($bytesWritten !== $expected) {
-					$chunk_handler->remove($info['index']);
-					throw new BadRequest(
-						$this->l10n->t(
-							'Expected filesize of %1$s but read (from Nextcloud client) and wrote (to Nextcloud storage) %2$s. Could either be a network problem on the sending side or a problem writing to the storage on the server side.',
-							[
-								$this->l10n->n('%n byte', '%n bytes', $expected),
-								$this->l10n->n('%n byte', '%n bytes', $bytesWritten),
-							],
-						)
-					);
-				}
-			}
-		}
-
-		if ($chunk_handler->isComplete()) {
-			/** @var Storage $storage */
-			[$storage,] = $this->fileView->resolvePath($path);
-			$needsPartFile = $storage->needsPartFile();
-			$partFile = null;
-
-			$targetPath = $path . '/' . $info['name'];
-			/** @var \OC\Files\Storage\Storage $targetStorage */
-			[$targetStorage, $targetInternalPath] = $this->fileView->resolvePath($targetPath);
-
-			$exists = $this->fileView->file_exists($targetPath);
-
-			try {
-				$this->fileView->lockFile($targetPath, ILockingProvider::LOCK_SHARED);
-
-				$this->emitPreHooks($exists, $targetPath);
-				$this->fileView->changeLock($targetPath, ILockingProvider::LOCK_EXCLUSIVE);
-				/** @var \OC\Files\Storage\Storage $targetStorage */
-				[$targetStorage, $targetInternalPath] = $this->fileView->resolvePath($targetPath);
-
-				if ($needsPartFile) {
-					// we first assembly the target file as a part file
-					$partFile = $this->getPartFileBasePath($path . '/' . $info['name']) . '.ocTransferId' . $info['transferid'] . '.part';
-					/** @var \OC\Files\Storage\Storage $targetStorage */
-					[$partStorage, $partInternalPath] = $this->fileView->resolvePath($partFile);
-
-
-					$chunk_handler->file_assemble($partStorage, $partInternalPath);
-
-					// here is the final atomic rename
-					$renameOkay = $targetStorage->moveFromStorage($partStorage, $partInternalPath, $targetInternalPath);
-					$fileExists = $targetStorage->file_exists($targetInternalPath);
-					if ($renameOkay === false || $fileExists === false) {
-						\OC::$server->get(LoggerInterface::class)->error('\OC\Files\Filesystem::rename() failed', ['app' => 'webdav']);
-						// only delete if an error occurred and the target file was already created
-						if ($fileExists) {
-							// set to null to avoid double-deletion when handling exception
-							// stray part file
-							$partFile = null;
-							$targetStorage->unlink($targetInternalPath);
-						}
-						$this->fileView->changeLock($targetPath, ILockingProvider::LOCK_SHARED);
-						throw new Exception($this->l10n->t('Could not rename part file assembled from chunks'));
-					}
-				} else {
-					// assemble directly into the final file
-					$chunk_handler->file_assemble($targetStorage, $targetInternalPath);
-				}
-
-				// allow sync clients to send the mtime along in a header
-				$mtimeHeader = $this->request->getHeader('x-oc-mtime');
-				if ($mtimeHeader !== '') {
-					$mtime = $this->sanitizeMtime($mtimeHeader);
-					if ($targetStorage->touch($targetInternalPath, $mtime)) {
-						$this->header('X-OC-MTime: accepted');
-					}
-				}
-
-				// since we skipped the view we need to scan and emit the hooks ourselves
-				$targetStorage->getUpdater()->update($targetInternalPath);
-
-				$this->fileView->changeLock($targetPath, ILockingProvider::LOCK_SHARED);
-
-				$this->emitPostHooks($exists, $targetPath);
-
-				// FIXME: should call refreshInfo but can't because $this->path is not the of the final file
-				$info = $this->fileView->getFileInfo($targetPath);
-
-				$checksumHeader = $this->request->getHeader('oc-checksum');
-				if ($checksumHeader) {
-					$checksum = trim($checksumHeader);
-					$this->fileView->putFileInfo($targetPath, ['checksum' => $checksum]);
-				} elseif ($info->getChecksum() !== null && $info->getChecksum() !== '') {
-					$this->fileView->putFileInfo($this->path, ['checksum' => '']);
-				}
-
-				$this->fileView->unlockFile($targetPath, ILockingProvider::LOCK_SHARED);
-
-				return $info->getEtag();
-			} catch (\Exception $e) {
-				if ($partFile !== null) {
-					$targetStorage->unlink($targetInternalPath);
-				}
-				$this->convertToSabreException($e);
-			}
-		}
-
-		return null;
 	}
 
 	/**
