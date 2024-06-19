@@ -50,6 +50,7 @@ declare(strict_types=1);
  * @author Tobia De Koninck <tobia@ledfan.be>
  * @author Vincent Petry <vincent@nextcloud.com>
  * @author Volkan Gezer <volkangezer@gmail.com>
+ * @author Thomas Lehmann <t.lehmann@strato.de>
  *
  * @license AGPL-3.0
  *
@@ -1047,7 +1048,27 @@ class OC {
 					OC_App::loadApps(['filesystem', 'logging']);
 					OC_App::loadApps();
 				}
-				Server::get(\OC\Route\Router::class)->match($request->getRawPathInfo());
+				$requestPath = $request->getRawPathInfo();
+				$redirects = $systemConfig->getValue('redirects', []);
+
+				if ($redirects) {
+					foreach ($redirects as $fromPattern => $toLocator) {
+						if (!preg_match('/' . $fromPattern . '/', $requestPath)) {
+							continue;
+						}
+
+						try {
+							$targetLocation = Server::get(IURLGenerator::class)->linkToRouteAbsolute($toLocator);
+							header('Location: ' . $targetLocation);
+							return;
+						} catch (\Exception) {
+							// In case of container exceptions or
+							// route not found exceptions we proceed as usual.
+						}
+					}
+				}
+
+				Server::get(\OC\Route\Router::class)->match($requestPath);
 				return;
 			} catch (Symfony\Component\Routing\Exception\ResourceNotFoundException $e) {
 				//header('HTTP/1.0 404 Not Found');
