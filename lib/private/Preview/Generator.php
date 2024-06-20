@@ -11,6 +11,7 @@ use OCP\Files\IAppData;
 use OCP\Files\InvalidPathException;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
+use OCP\Files\SimpleFS\InMemoryFile;
 use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\Files\SimpleFS\ISimpleFolder;
 use OCP\IConfig;
@@ -62,11 +63,12 @@ class Generator {
 	 * @param bool $crop
 	 * @param string $mode
 	 * @param string|null $mimeType
+	 * @param bool $inMemory Don't persist the preview anywhere. Only keep it in memory.
 	 * @return ISimpleFile
 	 * @throws NotFoundException
 	 * @throws \InvalidArgumentException if the preview would be invalid (in case the original image is invalid)
 	 */
-	public function getPreview(File $file, $width = -1, $height = -1, $crop = false, $mode = IPreview::MODE_FILL, $mimeType = null) {
+	public function getPreview(File $file, $width = -1, $height = -1, $crop = false, $mode = IPreview::MODE_FILL, $mimeType = null, bool $inMemory = false) {
 		$specification = [
 			'width' => $width,
 			'height' => $height,
@@ -83,7 +85,7 @@ class Generator {
 		));
 
 		// since we only ask for one preview, and the generate method return the last one it created, it returns the one we want
-		return $this->generatePreviews($file, [$specification], $mimeType);
+		return $this->generatePreviews($file, [$specification], $mimeType, $inMemory);
 	}
 
 	/**
@@ -92,11 +94,12 @@ class Generator {
 	 * @param File $file
 	 * @param non-empty-array $specifications
 	 * @param string $mimeType
+	 * @param bool $inMemory Don't persist the previews anywhere. Only keep them in memory.
 	 * @return ISimpleFile the last preview that was generated
 	 * @throws NotFoundException
 	 * @throws \InvalidArgumentException if the preview would be invalid (in case the original image is invalid)
 	 */
-	public function generatePreviews(File $file, array $specifications, $mimeType = null) {
+	public function generatePreviews(File $file, array $specifications, $mimeType = null, bool $inMemory = false) {
 		//Make sure that we can read the file
 		if (!$file->isReadable()) {
 			throw new NotFoundException('Cannot read file');
@@ -116,7 +119,7 @@ class Generator {
 		}
 
 		// Get the max preview and infer the max preview sizes from that
-		$maxPreview = $this->getMaxPreview($previewFolder, $previewFiles, $file, $mimeType, $previewVersion);
+		$maxPreview = $this->getMaxPreview($previewFolder, $previewFiles, $file, $mimeType, $previewVersion, $inMemory);
 		$maxPreviewImage = null; // only load the image when we need it
 		if ($maxPreview->getSize() === 0) {
 			$maxPreview->delete();
@@ -166,7 +169,7 @@ class Generator {
 						$maxPreviewImage = $this->helper->getImage($maxPreview);
 					}
 
-					$preview = $this->generatePreview($previewFolder, $maxPreviewImage, $width, $height, $crop, $maxWidth, $maxHeight, $previewVersion);
+					$preview = $this->generatePreview($previewFolder, $maxPreviewImage, $width, $height, $crop, $maxWidth, $maxHeight, $previewVersion, $inMemory);
 					// New file, augment our array
 					$previewFiles[] = $preview;
 				}
@@ -294,10 +297,11 @@ class Generator {
 	 * @param File $file
 	 * @param string $mimeType
 	 * @param string $prefix
+	 * @param bool $inMemory Don't persist the previews anywhere. Only keep them in memory.
 	 * @return ISimpleFile
 	 * @throws NotFoundException
 	 */
-	private function getMaxPreview(ISimpleFolder $previewFolder, array $previewFiles, File $file, $mimeType, $prefix) {
+	private function getMaxPreview(ISimpleFolder $previewFolder, array $previewFiles, File $file, $mimeType, $prefix, bool $inMemory = false) {
 		// We don't know the max preview size, so we can't use getCachedPreview.
 		// It might have been generated with a higher resolution than the current value.
 		foreach ($previewFiles as $node) {
@@ -310,10 +314,10 @@ class Generator {
 		$maxWidth = $this->config->getSystemValueInt('preview_max_x', 4096);
 		$maxHeight = $this->config->getSystemValueInt('preview_max_y', 4096);
 
-		return $this->generateProviderPreview($previewFolder, $file, $maxWidth, $maxHeight, false, true, $mimeType, $prefix);
+		return $this->generateProviderPreview($previewFolder, $file, $maxWidth, $maxHeight, false, true, $mimeType, $prefix, $inMemory);
 	}
 
-	private function generateProviderPreview(ISimpleFolder $previewFolder, File $file, int $width, int $height, bool $crop, bool $max, string $mimeType, string $prefix) {
+	private function generateProviderPreview(ISimpleFolder $previewFolder, File $file, int $width, int $height, bool $crop, bool $max, string $mimeType, string $prefix, bool $inMemory = false) {
 		$previewProviders = $this->previewManager->getProviders();
 		foreach ($previewProviders as $supportedMimeType => $providers) {
 			// Filter out providers that does not support this mime
@@ -344,6 +348,14 @@ class Generator {
 				}
 
 				$path = $this->generatePath($preview->width(), $preview->height(), $crop, $max, $preview->dataMimeType(), $prefix);
+
+				if ($inMemory) {
+					if ($preview instanceof IStreamImage) {
+						return new InMemoryFile($path, $preview->resource());
+					}
+					return new InMemoryFile($path, $preview->data());
+				}
+
 				try {
 					$file = $previewFolder->newFile($path);
 					if ($preview instanceof IStreamImage) {
@@ -492,11 +504,12 @@ class Generator {
 	 * @param int $maxWidth
 	 * @param int $maxHeight
 	 * @param string $prefix
+	 * @param bool $inMemory Don't persist the preview anywhere. Only keep it in memory.
 	 * @return ISimpleFile
 	 * @throws NotFoundException
 	 * @throws \InvalidArgumentException if the preview would be invalid (in case the original image is invalid)
 	 */
-	private function generatePreview(ISimpleFolder $previewFolder, IImage $maxPreview, $width, $height, $crop, $maxWidth, $maxHeight, $prefix) {
+	private function generatePreview(ISimpleFolder $previewFolder, IImage $maxPreview, $width, $height, $crop, $maxWidth, $maxHeight, $prefix, bool $inMemory = false) {
 		$preview = $maxPreview;
 		if (!$preview->valid()) {
 			throw new \InvalidArgumentException('Failed to generate preview, failed to load image');
@@ -530,8 +543,12 @@ class Generator {
 			self::unguardWithSemaphore($sem);
 		}
 
-
 		$path = $this->generatePath($width, $height, $crop, false, $preview->dataMimeType(), $prefix);
+
+		if ($inMemory) {
+			return new InMemoryFile($path, $preview->data());
+		}
+
 		try {
 			$file = $previewFolder->newFile($path);
 			$file->putContent($preview->data());

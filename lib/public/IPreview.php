@@ -71,12 +71,13 @@ interface IPreview {
 	 * @param bool $crop
 	 * @param string $mode
 	 * @param string $mimeType To force a given mimetype for the file (files_versions needs this)
+	 * @param bool $inMemory Don't persist the preview anywhere. Only keep it in memory.
 	 * @return ISimpleFile
 	 * @throws NotFoundException
 	 * @throws \InvalidArgumentException if the preview would be invalid (in case the original image is invalid)
 	 * @since 11.0.0 - \InvalidArgumentException was added in 12.0.0
 	 */
-	public function getPreview(File $file, $width = -1, $height = -1, $crop = false, $mode = IPreview::MODE_FILL, $mimeType = null);
+	public function getPreview(File $file, $width = -1, $height = -1, $crop = false, $mode = IPreview::MODE_FILL, $mimeType = null, bool $inMemory = false);
 
 	/**
 	 * Returns true if the passed mime type is supported

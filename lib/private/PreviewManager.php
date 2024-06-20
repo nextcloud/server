@@ -154,17 +154,18 @@ class PreviewManager implements IPreview {
 	 * @param bool $crop
 	 * @param string $mode
 	 * @param string $mimeType
+	 * @param bool $inMemory Don't persist the previews anywhere. Only keep them in memory.
 	 * @return ISimpleFile
 	 * @throws NotFoundException
 	 * @throws \InvalidArgumentException if the preview would be invalid (in case the original image is invalid)
 	 * @since 11.0.0 - \InvalidArgumentException was added in 12.0.0
 	 */
-	public function getPreview(File $file, $width = -1, $height = -1, $crop = false, $mode = IPreview::MODE_FILL, $mimeType = null) {
+	public function getPreview(File $file, $width = -1, $height = -1, $crop = false, $mode = IPreview::MODE_FILL, $mimeType = null, bool $inMemory = false) {
 		$this->throwIfPreviewsDisabled();
 		$previewConcurrency = $this->getGenerator()->getNumConcurrentPreviews('preview_concurrency_all');
 		$sem = Generator::guardWithSemaphore(Generator::SEMAPHORE_ID_ALL, $previewConcurrency);
 		try {
-			$preview = $this->getGenerator()->getPreview($file, $width, $height, $crop, $mode, $mimeType);
+			$preview = $this->getGenerator()->getPreview($file, $width, $height, $crop, $mode, $mimeType, $inMemory);
 		} finally {
 			Generator::unguardWithSemaphore($sem);
 		}

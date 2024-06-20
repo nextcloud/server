@@ -70,7 +70,7 @@ class GenerateBlurhashMetadata implements IEventListener {
 		$image = false;
 		try {
 			// using preview image to generate the blurhash
-			$preview = $this->preview->getPreview($file, 256, 256);
+			$preview = $this->preview->getPreview($file, 256, 256, false, IPreview::MODE_FILL, null, true);
 			$image = @imagecreatefromstring($preview->getContent());
 		} catch (NotFoundException $e) {
 			// https://github.com/nextcloud/server/blob/9d70fd3e64b60a316a03fb2b237891380c310c58/lib/private/legacy/OC_Image.php#L668
