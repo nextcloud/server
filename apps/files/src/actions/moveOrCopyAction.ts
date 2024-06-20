@@ -265,7 +265,11 @@ export const action = new FileAction({
 		}
 	},
 	iconSvgInline: () => FolderMoveSvg,
-	enabled(nodes: Node[]) {
+	enabled(nodes: Node[], view: View) {
+		// We can not copy or move in single file shares
+		if (view.id === 'public-file-share') {
+			return false
+		}
 		// We only support moving/copying files within the user folder
 		if (!nodes.every(node => node.root?.startsWith('/files/'))) {
 			return false
