@@ -129,17 +129,58 @@ class EventTest extends TestCase {
 		$this->assertEquals($result, $this->invokePrivate($this->provider, 'generateObjectParameter', [$objectParameter, $affectedUser]));
 	}
 
-	public function testGenerateObjectParameterWithSharedCalendar(): void {
-		$link = [
-			'object_uri' => 'someuuid.ics',
-			'calendar_uri' => 'personal',
-			'owner' => 'sharer'
+	public static function generateObjectParameterLinkEncodingDataProvider(): array {
+		return [
+			[ // Shared calendar
+				[
+					'object_uri' => 'someuuid.ics',
+					'calendar_uri' => 'personal',
+					'owner' => 'sharer'
+				],
+				base64_encode('/remote.php/dav/calendars/sharee/personal_shared_by_sharer/someuuid.ics'),
+			],
+			[ // Shared calendar with umlauts
+				[
+					'object_uri' => 'someuuid.ics',
+					'calendar_uri' => 'umlaut_äüöß',
+					'owner' => 'sharer'
+				],
+				base64_encode('/remote.php/dav/calendars/sharee/umlaut_%c3%a4%c3%bc%c3%b6%c3%9f_shared_by_sharer/someuuid.ics'),
+			],
+			[ // Shared calendar with umlauts and mixed casing
+				[
+					'object_uri' => 'someuuid.ics',
+					'calendar_uri' => 'Umlaut_äüöß',
+					'owner' => 'sharer'
+				],
+				base64_encode('/remote.php/dav/calendars/sharee/Umlaut_%c3%a4%c3%bc%c3%b6%c3%9f_shared_by_sharer/someuuid.ics'),
+			],
+			[ // Owned calendar with umlauts
+				[
+					'object_uri' => 'someuuid.ics',
+					'calendar_uri' => 'umlaut_äüöß',
+					'owner' => 'sharee'
+				],
+				base64_encode('/remote.php/dav/calendars/sharee/umlaut_%c3%a4%c3%bc%c3%b6%c3%9f/someuuid.ics'),
+			],
+			[ // Owned calendar with umlauts and mixed casing
+				[
+					'object_uri' => 'someuuid.ics',
+					'calendar_uri' => 'Umlaut_äüöß',
+					'owner' => 'sharee'
+				],
+				base64_encode('/remote.php/dav/calendars/sharee/Umlaut_%c3%a4%c3%bc%c3%b6%c3%9f/someuuid.ics'),
+			],
 		];
+	}
+
+	/** @dataProvider generateObjectParameterLinkEncodingDataProvider */
+	public function testGenerateObjectParameterLinkEncoding(array $link, string $objectId): void {
 		$generatedLink = [
 			'view' => 'dayGridMonth',
 			'timeRange' => 'now',
 			'mode' => 'sidebar',
-			'objectId' => base64_encode('/remote.php/dav/calendars/sharee/' . $link['calendar_uri'] . '_shared_by_sharer/' . $link['object_uri']),
+			'objectId' => $objectId,
 			'recurrenceId' => 'next'
 		];
 		$this->appManager->expects($this->once())
