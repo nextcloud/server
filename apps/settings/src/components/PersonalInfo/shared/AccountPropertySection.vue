@@ -148,7 +148,7 @@ export default {
 					return
 				}
 				await this.updateProperty(value)
-			}, 500)
+			}, 1000)
 		},
 	},
 
