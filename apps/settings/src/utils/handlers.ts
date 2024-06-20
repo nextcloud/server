@@ -3,16 +3,17 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
+import type { AxiosError } from '@nextcloud/axios'
 import { showError } from '@nextcloud/dialogs'
 import { translate as t } from '@nextcloud/l10n'
 
 import logger from '../logger.ts'
 
 /**
- * @param {import('axios').AxiosError} error the error
- * @param {string?} message the message to display
+ * @param error the error
+ * @param message the message to display
  */
-export const handleError = (error, message) => {
+export function handleError(error: AxiosError, message: string) {
 	let fullMessage = ''
 
 	if (message) {
@@ -26,6 +27,7 @@ export const handleError = (error, message) => {
 		fullMessage += t('settings', 'There were too many requests from your network. Retry later or contact your administrator if this is an error.')
 	}
 
+	fullMessage = fullMessage || t('settings', 'Error')
 	showError(fullMessage)
-	logger.error(fullMessage || t('Error'), error)
+	logger.error(fullMessage, { error })
 }

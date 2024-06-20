@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 /* eslint-disable camelcase, n/no-extraneous-import */
-import type { AxiosPromise } from 'axios'
+import type { AxiosPromise } from '@nextcloud/axios'
 import type { OCSResponse } from '@nextcloud/typings/ocs'
 
 import { Folder, File, type ContentsWithRoot, Permission } from '@nextcloud/files'
