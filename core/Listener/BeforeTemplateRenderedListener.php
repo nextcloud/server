@@ -13,12 +13,14 @@ use OCP\AppFramework\Http\Events\BeforeTemplateRenderedEvent;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
-use OCP\IConfig;
+use OCP\IAppConfig;
 use OCP\Util;
 
 /** @template-implements IEventListener<BeforeLoginTemplateRenderedEvent|BeforeTemplateRenderedEvent> */
 class BeforeTemplateRenderedListener implements IEventListener {
-	public function __construct(private IConfig $config) {
+	public function __construct(
+		private IAppConfig $appConfig,
+	) {
 	}
 
 	public function handle(Event $event): void {
@@ -53,7 +55,7 @@ class BeforeTemplateRenderedListener implements IEventListener {
 
 
 				// If installed and background job is set to ajax, add dedicated script
-				if ($this->config->getAppValue('core', 'backgroundjobs_mode', 'ajax') == 'ajax') {
+				if ($this->appConfig->getValueString('core', 'backgroundjobs_mode', 'ajax') === 'ajax') {
 					Util::addScript('core', 'ajax-cron');
 				}
 			}
