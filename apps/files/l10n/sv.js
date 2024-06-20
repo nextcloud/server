@@ -161,6 +161,8 @@ OC.L10N.register(
     "Reject" : "Avvisa",
     "Incoming ownership transfer from {user}" : "Inkommande ägaröverföring från {user}",
     "Do you want to accept {path}?\n\nNote: The transfer process after accepting may take up to 1 hour." : "Vill du acceptera {path}?\n\nNotera: Överföringen kan efter att du accepterat ta upp till 1 timme.",
+    "Ownership transfer denied" : "Ägarskapsöverföring nekad",
+    "Your ownership transfer of {path} was denied by {user}." : "Din ägaröverföring av {path} nekades av {user}.",
     "Ownership transfer failed" : "Ägarskapsöverföring misslyckades",
     "Your ownership transfer of {path} to {user} failed." : "Din ägaröverföring av {path} till {user} misslyckades.",
     "The ownership transfer of {path} from {user} failed." : "Din ägaröverföring av {path} från {user} misslyckades.",
