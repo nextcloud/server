@@ -117,6 +117,7 @@ class Local extends \OC\Files\Storage\Common {
 				}
 				$it->next();
 			}
+			unset($it);  // Release iterator and thereby its potential directory lock (e.g. in case of VirtualBox shared folders)
 			clearstatcache(true, $this->getSourcePath($path));
 			return rmdir($this->getSourcePath($path));
 		} catch (\UnexpectedValueException $e) {
