@@ -493,7 +493,9 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 		$stat['checksum'] = '';
 
 		$exists = $this->getCache()->inCache($path);
+		// if ($this->needsPartFile()) {
 		$uploadPath = $exists ? $path : $path . '.part';
+		// }
 
 		if ($exists) {
 			$fileId = $stat['fileid'];
@@ -554,7 +556,8 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 			$this->getCache()->update($fileId, $stat);
 		} else {
 			if (!$this->validateWrites || $this->objectStore->objectExists($urn)) {
-				$this->getCache()->move($uploadPath, $path);
+				// Here we rename
+				// $this->getCache()->move($uploadPath, $path);
 			} else {
 				$this->getCache()->remove($uploadPath);
 				throw new \Exception("Object not found after writing (urn: $urn, path: $path)", 404);

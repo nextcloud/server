@@ -1791,6 +1791,8 @@ class View {
 	 * Get a fileinfo object for files that are ignored in the cache (part files)
 	 */
 	private function getPartFileInfo(string $path): \OC\Files\FileInfo {
+		// For S3 we could actually get the file info here already
+		// $storage->getCache()->get($internalPath);
 		$mount = $this->getMount($path);
 		$storage = $mount->getStorage();
 		$internalPath = $mount->getInternalPath($this->getAbsolutePath($path));

@@ -22,6 +22,7 @@ use OCP\Files\NotFoundException;
 use OCP\IPreview;
 use OCP\IRequest;
 use OCP\Preview\IMimeIconProvider;
+use Psr\Log\LoggerInterface;
 
 class PreviewController extends Controller {
 	public function __construct(
@@ -138,6 +139,11 @@ class PreviewController extends Controller {
 			return new DataResponse([], Http::STATUS_NOT_FOUND);
 		}
 		if (!$node->isReadable()) {
+			return new DataResponse([], Http::STATUS_FORBIDDEN);
+		}
+
+		if ($node->getId() <= 0) {
+			\OCP\Server::get(LoggerInterface::class)->error('Requested preview with invalid file id: ' . $node->getId());
 			return new DataResponse([], Http::STATUS_FORBIDDEN);
 		}
 
