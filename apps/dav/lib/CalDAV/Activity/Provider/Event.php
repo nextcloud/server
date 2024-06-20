@@ -76,14 +76,15 @@ class Event extends Base {
 				// The calendar app needs to be manually loaded for the routes to be loaded
 				OC_App::loadApp('calendar');
 				$linkData = $eventData['link'];
+				$calendarUri = $this->urlencodeLowerHex($linkData['calendar_uri']);
 				if ($affectedUser === $linkData['owner']) {
-					$objectId = base64_encode($this->url->getWebroot() . '/remote.php/dav/calendars/' . $linkData['owner'] . '/' . $linkData['calendar_uri'] . '/' . $linkData['object_uri']);
+					$objectId = base64_encode($this->url->getWebroot() . '/remote.php/dav/calendars/' . $linkData['owner'] . '/' . $calendarUri . '/' . $linkData['object_uri']);
 				} else {
 					// Can't use the "real" owner and calendar names here because we create a custom
 					// calendar for incoming shares with the name "<calendar>_shared_by_<sharer>".
 					// Hack: Fix the link by generating it for the incoming shared calendar instead,
 					//       as seen from the affected user.
-					$objectId = base64_encode($this->url->getWebroot() . '/remote.php/dav/calendars/' . $affectedUser . '/' . $linkData['calendar_uri'] . '_shared_by_' . $linkData['owner'] . '/' . $linkData['object_uri']);
+					$objectId = base64_encode($this->url->getWebroot() . '/remote.php/dav/calendars/' . $affectedUser . '/' . $calendarUri . '_shared_by_' . $linkData['owner'] . '/' . $linkData['object_uri']);
 				}
 				$link = [
 					'view' => 'dayGridMonth',
@@ -240,5 +241,17 @@ class Event extends Base {
 			$parameter['name'] = $this->l->t('Busy');
 		}
 		return $parameter;
+	}
+
+	/**
+	 * Return urlencoded string but with lower cased hex sequences.
+	 * The remaining casing will be untouched.
+	 */
+	private function urlencodeLowerHex(string $raw): string {
+		return preg_replace_callback(
+			'/%[0-9A-F]{2}/',
+			static fn (array $matches) => strtolower($matches[0]),
+			urlencode($raw),
+		);
 	}
 }
