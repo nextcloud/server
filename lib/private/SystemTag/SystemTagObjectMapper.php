@@ -115,6 +115,27 @@ class SystemTagObjectMapper implements ISystemTagObjectMapper {
 		}
 
 		$this->assertTagsExist($tagIds);
+		$this->connection->beginTransaction();
+
+		$query = $this->connection->getQueryBuilder();
+		$query->select('systemtagid')
+			->from(self::RELATION_TABLE)
+			->where($query->expr()->in('systemtagid', $query->createNamedParameter($tagIds, IQueryBuilder::PARAM_INT_ARRAY)))
+			->andWhere($query->expr()->eq('objecttype', $query->createNamedParameter($objectType)))
+			->andWhere($query->expr()->eq('objectid', $query->createNamedParameter($objId)));
+		$result = $query->executeQuery();
+		$rows = $result->fetchAll();
+		$existingTags = [];
+		foreach ($rows as $row) {
+			$existingTags[] = $row['systemtagid'];
+		}
+		//filter only tags that do not exist in db
+		$tagIds = array_diff($tagIds, $existingTags);
+		if (empty($tagIds)) {
+			// no tags to insert so return here
+			$this->connection->commit();
+			return;
+		}
 
 		$query = $this->connection->getQueryBuilder();
 		$query->insert(self::RELATION_TABLE)
@@ -135,6 +156,7 @@ class SystemTagObjectMapper implements ISystemTagObjectMapper {
 			}
 		}
 
+		$this->connection->commit();
 		if (empty($tagsAssigned)) {
 			return;
 		}
