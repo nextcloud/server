@@ -240,7 +240,7 @@ import PlusIcon from 'vue-material-design-icons/Plus.vue'
 import SharingEntryQuickShareSelect from './SharingEntryQuickShareSelect.vue'
 
 import ExternalShareAction from './ExternalShareAction.vue'
-import GeneratePassword from '../utils/GeneratePassword.js'
+import GeneratePassword from '../utils/GeneratePassword.ts'
 import Share from '../models/Share.js'
 import SharesMixin from '../mixins/SharesMixin.js'
 import ShareDetails from '../mixins/ShareDetails.js'
@@ -369,7 +369,7 @@ export default {
 			},
 			async set(enabled) {
 				// TODO: directly save after generation to make sure the share is always protected
-				Vue.set(this.share, 'password', enabled ? await GeneratePassword() : '')
+				Vue.set(this.share, 'password', enabled ? await GeneratePassword(true) : '')
 				Vue.set(this.share, 'newPassword', this.share.password)
 			},
 		},
@@ -590,7 +590,7 @@ export default {
 				// ELSE, show the pending popovermenu
 				// if password default or enforced, pre-fill with random one
 				if (this.config.enableLinkPasswordByDefault || this.config.enforcePasswordForPublicLink) {
-					shareDefaults.password = await GeneratePassword()
+					shareDefaults.password = await GeneratePassword(true)
 				}
 
 				// create share & close menu

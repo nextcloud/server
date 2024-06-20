@@ -272,7 +272,7 @@ import DotsHorizontalIcon from 'vue-material-design-icons/DotsHorizontal.vue'
 
 import ExternalShareAction from '../components/ExternalShareAction.vue'
 
-import GeneratePassword from '../utils/GeneratePassword.js'
+import GeneratePassword from '../utils/GeneratePassword.ts'
 import Share from '../models/Share.js'
 import ShareRequests from '../mixins/ShareRequests.js'
 import ShareTypes from '../mixins/ShareTypes.js'
@@ -470,7 +470,7 @@ export default {
 			},
 			async set(enabled) {
 				if (enabled) {
-					this.share.password = await GeneratePassword()
+					this.share.password = await GeneratePassword(true)
 					this.$set(this.share, 'newPassword', this.share.password)
 				} else {
 					this.share.password = ''
@@ -772,7 +772,7 @@ export default {
 
 			if (this.isNewShare) {
 				if (this.isPasswordEnforced && this.isPublicShare) {
-					this.$set(this.share, 'newPassword', await GeneratePassword())
+					this.$set(this.share, 'newPassword', await GeneratePassword(true))
 					this.advancedSectionAccordionExpanded = true
 				}
 				/* Set default expiration dates if configured */

@@ -277,7 +277,7 @@ class ShareByMailProvider implements IShareProvider {
 	/**
 	 * @throws \Exception If mail couldn't be sent
 	 */
-	protected function sendMailNotification(
+	public function sendMailNotification(
 		string $filename,
 		string $link,
 		string $initiator,
