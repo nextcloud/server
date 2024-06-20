@@ -159,6 +159,8 @@
     "Reject" : "Reject",
     "Incoming ownership transfer from {user}" : "Incoming ownership transfer from {user}",
     "Do you want to accept {path}?\n\nNote: The transfer process after accepting may take up to 1 hour." : "Do you want to accept {path}?\n\nNote: The transfer process after accepting may take up to 1 hour.",
+    "Ownership transfer denied" : "Ownership transfer denied",
+    "Your ownership transfer of {path} was denied by {user}." : "Your ownership transfer of {path} was denied by {user}.",
     "Ownership transfer failed" : "Ownership transfer failed",
     "Your ownership transfer of {path} to {user} failed." : "Your ownership transfer of {path} to {user} failed.",
     "The ownership transfer of {path} from {user} failed." : "The ownership transfer of {path} from {user} failed.",
