@@ -12,19 +12,12 @@
 		<p v-else-if="loadingAppsError" class="loading-error text-center">
 			{{ t('core', 'Could not fetch list of apps from the App Store.') }}
 		</p>
-		<p v-else-if="installingApps" class="text-center">
-			{{ t('core', 'Installing apps …') }}
-		</p>
 
 		<div v-for="app in recommendedApps" :key="app.id" class="app">
 			<template v-if="!isHidden(app.id)">
 				<img :src="customIcon(app.id)" alt="">
 				<div class="info">
-					<h3>
-						{{ customName(app) }}
-						<span v-if="app.loading" class="icon icon-loading-small-dark" />
-						<span v-else-if="app.active" class="icon icon-checkmark-white" />
-					</h3>
+					<h3>{{ customName(app) }}</h3>
 					<p v-html="customDescription(app.id)" />
 					<p v-if="app.installationError">
 						<strong>{{ t('core', 'App download or installation failed') }}</strong>
@@ -36,11 +29,15 @@
 						<strong>{{ t('core', 'Cannot install this app') }}</strong>
 					</p>
 				</div>
+				<NcCheckboxRadioSwitch :checked="app.isSelected || app.active"
+					:disabled="!app.isCompatible || app.active"
+					:loading="app.loading"
+					@update:checked="toggleSelect(app.id)" />
 			</template>
 		</div>
 
 		<div class="dialog-row">
-			<NcButton v-if="showInstallButton"
+			<NcButton v-if="showInstallButton && !installingApps"
 				type="tertiary"
 				role="link"
 				:href="defaultPageUrl">
@@ -49,8 +46,9 @@
 
 			<NcButton v-if="showInstallButton"
 				type="primary"
+				:disabled="installingApps || !isAnyAppSelected"
 				@click.stop.prevent="installApps">
-				{{ t('core', 'Install recommended apps') }}
+				{{ installingApps ? t('core', 'Installing apps …') : t('core', 'Install recommended apps') }}
 			</NcButton>
 		</div>
 	</div>
@@ -63,6 +61,7 @@ import { loadState } from '@nextcloud/initial-state'
 import pLimit from 'p-limit'
 import { translate as t } from '@nextcloud/l10n'
 
+import NcCheckboxRadioSwitch from '@nextcloud/vue/dist/Components/NcCheckboxRadioSwitch.js'
 import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 
 import logger from '../../logger.js'
@@ -102,6 +101,7 @@ const recommendedIds = Object.keys(recommended)
 export default {
 	name: 'RecommendedApps',
 	components: {
+		NcCheckboxRadioSwitch,
 		NcButton,
 	},
 	data() {
@@ -111,12 +111,15 @@ export default {
 			loadingApps: true,
 			loadingAppsError: false,
 			apps: [],
-			defaultPageUrl: loadState('core', 'defaultPageUrl')
+			defaultPageUrl: loadState('core', 'defaultPageUrl'),
 		}
 	},
 	computed: {
 		recommendedApps() {
 			return this.apps.filter(app => recommendedIds.includes(app.id))
+		},
+		isAnyAppSelected() {
+			return this.recommendedApps.some(app => app.isSelected)
 		},
 	},
 	async mounted() {
@@ -124,7 +127,7 @@ export default {
 			const { data } = await axios.get(generateUrl('settings/apps/list'))
 			logger.info(`${data.apps.length} apps fetched`)
 
-			this.apps = data.apps.map(app => Object.assign(app, { loading: false, installationError: false }))
+			this.apps = data.apps.map(app => Object.assign(app, { loading: false, installationError: false, isSelected: app.isCompatible }))
 			logger.debug(`${this.recommendedApps.length} recommended apps found`, { apps: this.recommendedApps })
 
 			this.showInstallButton = true
@@ -138,23 +141,24 @@ export default {
 	},
 	methods: {
 		installApps() {
-			this.showInstallButton = false
 			this.installingApps = true
 
 			const limit = pLimit(1)
 			const installing = this.recommendedApps
-				.filter(app => !app.active && app.isCompatible && app.canInstall)
-				.map(app => limit(() => {
+				.filter(app => !app.active && app.isCompatible && app.canInstall && app.isSelected)
+				.map(app => limit(async () => {
 					logger.info(`installing ${app.id}`)
 					app.loading = true
 					return axios.post(generateUrl('settings/apps/enable'), { appIds: [app.id], groups: [] })
 						.catch(error => {
 							logger.error(`could not install ${app.id}`, { error })
+							app.isSelected = false
 							app.installationError = true
 						})
 						.then(() => {
 							logger.info(`installed ${app.id}`)
 							app.loading = false
+							app.active = true
 						})
 				}))
 			logger.debug(`installing ${installing.length} recommended apps`)
@@ -191,6 +195,14 @@ export default {
 				return false
 			}
 			return !!recommended[appId].hidden
+		},
+		toggleSelect(appId) {
+			// disable toggle when installButton is disabled
+			if (!(appId in recommended) || !this.showInstallButton) {
+				return
+			}
+			const index = this.apps.findIndex(app => app.id === appId)
+			this.$set(this.apps[index], 'isSelected', !this.apps[index].isSelected)
 		},
 	},
 }
@@ -240,10 +252,11 @@ p {
 		h3 {
 			margin-top: 0;
 		}
+	}
 
-		h3 > span.icon {
-			display: inline-block;
-		}
+	.checkbox-radio-switch {
+		margin-left: auto;
+		padding: 0 2px;
 	}
 }
 </style>
