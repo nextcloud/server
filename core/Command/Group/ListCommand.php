@@ -78,6 +78,7 @@ class ListCommand extends Base {
 		if ($addInfo) {
 			$values = array_map(function (IGroup $group) {
 				return [
+					'displayName' => $group->getDisplayName(),
 					'backends' => $group->getBackendNames(),
 					'users' => $this->usersForGroup($group),
 				];
