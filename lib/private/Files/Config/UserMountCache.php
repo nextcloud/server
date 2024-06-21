@@ -89,13 +89,13 @@ class UserMountCache implements IUserMountCache {
 
 		foreach ($newMounts as $mountKey => $newMount) {
 			if (!isset($cachedMounts[$mountKey])) {
-				$addedMounts[] = $newMount;
+				$addedMounts[$mountKey] = $newMount;
 			}
 		}
 
 		foreach ($cachedMounts as $mountKey => $cachedMount) {
 			if (!isset($newMounts[$mountKey])) {
-				$removedMounts[] = $cachedMount;
+				$removedMounts[$mountKey] = $cachedMount;
 			}
 		}
 
@@ -124,6 +124,13 @@ class UserMountCache implements IUserMountCache {
 				$this->connection->rollBack();
 				throw $e;
 			}
+			$this->logger->debug('Update mount points', [
+				'cachedMounts' => implode(', ', array_keys($cachedMounts)),
+				'addedMounts' => implode(', ', array_keys($addedMounts)),
+				'removedMounts' => implode(', ', array_keys($removedMounts)),
+				'changedMounts' => implode(', ', array_keys($changedMounts)),
+
+			]);
 		}
 		$this->eventLogger->end('fs:setup:user:register');
 	}
@@ -143,7 +150,7 @@ class UserMountCache implements IUserMountCache {
 					$newMount->getMountId() !== $cachedMount->getMountId() ||
 					$newMount->getMountProvider() !== $cachedMount->getMountProvider()
 				) {
-					$changed[] = $newMount;
+					$changed[$key] = $newMount;
 				}
 			}
 		}
