@@ -490,6 +490,7 @@ OC.L10N.register(
     "Error while updating device token name" : "Villa við að uppfæra nafn fyrir teikn tækisins",
     "Error while updating device token scope" : "Villa við að uppfæra gildissvið fyrir teikn tækisins",
     "There were too many requests from your network. Retry later or contact your administrator if this is an error." : "Það komu of margar beiðnir frá netkerfinu þínu. Reyndu aftur eða hafðu samband við kerfisstjóra ef þetta er ekki rétt.",
+    "Error" : "Villa",
     "Account documentation" : "Hjálparskjöl fyrir notendaaðganga",
     "Administration documentation" : "Hjálparskjöl fyrir stjórnendur",
     "Forum" : "Vefspjall",

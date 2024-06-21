@@ -708,6 +708,7 @@
     "Error while updating device token scope" : "Fehler bei der Aktualisierung des Geräte-Token-Scope",
     "Could not set group sorting" : "Die Gruppensortierung konnte nicht festgelegt werden",
     "There were too many requests from your network. Retry later or contact your administrator if this is an error." : "Zu viele Anfragen aus deinem Netzwerk. Versuche es später erneut oder wende dich an deinen Administrator, wenn dies ein Fehler sein sollte.",
+    "Error" : "Benötigt keine Übersetzung. Hier wird nur die formelle Übersetzung verwendet (de_DE).",
     "Account documentation" : "Kontodokumentation",
     "Administration documentation" : "Administrationsdokumentation",
     "Forum" : "Forum",

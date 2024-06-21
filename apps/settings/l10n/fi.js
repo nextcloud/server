@@ -479,6 +479,7 @@ OC.L10N.register(
     "Error while wiping the device with the token" : "Virhe tyhjennettäessä laitetta polettia käyttäen",
     "Error while updating device token name" : "Virhe laitepoletin nimeä päivittäessä",
     "There were too many requests from your network. Retry later or contact your administrator if this is an error." : "Verkostasi tehtiin liian monta pyyntöä. Yritä myöhemmin uudelleen tai ole yhteydessä ylläpitäjään, jos tämä on mielestäsi virhe.",
+    "Error" : "Virhe",
     "Account documentation" : "Tilin dokumentaatio",
     "Administration documentation" : "Ylläpidon dokumentaatio",
     "Forum" : "Keskustelupalsta",
