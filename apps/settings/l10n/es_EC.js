@@ -420,6 +420,7 @@ OC.L10N.register(
     "Error while updating device token name" : "Error al actualizar el nombre del token del dispositivo",
     "Error while updating device token scope" : "Error al actualizar el alcance del token del dispositivo",
     "There were too many requests from your network. Retry later or contact your administrator if this is an error." : "Había demasiadas solicitudes desde tu red. Vuelve a intentarlo más tarde o contacta a tu administrador si se trata de un error.",
+    "Error" : "Error",
     "Forum" : "Foro",
     "Legal notice" : "Aviso legal",
     "Privacy policy" : "Política de privacidad",

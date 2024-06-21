@@ -710,6 +710,7 @@ OC.L10N.register(
     "Error while updating device token scope" : "Feil under oppdatering av omfang av enhetstoken",
     "Could not set group sorting" : "Kunne ikke angi gruppesortering",
     "There were too many requests from your network. Retry later or contact your administrator if this is an error." : "Det var for mange forespørsler fra ditt nettverk. Prøv igjen senere eller kontakt din administrator hvis dette er en feil.",
+    "Error" : "Feil",
     "Account documentation" : "Kontodokumentasjon",
     "Administration documentation" : "Dokumentasjon for administrasjon",
     "Forum" : "Forum",

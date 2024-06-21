@@ -722,6 +722,7 @@ OC.L10N.register(
     "Error while updating device token scope" : "Errorea gailuaren tokenaren irismena eguneratzean",
     "Could not set group sorting" : "Ezin izan da talde-ordena ezarri",
     "There were too many requests from your network. Retry later or contact your administrator if this is an error." : "Eskaera gehiegi zeuden zure saretik. Saiatu beranduago edo kontaktatu zure administrailearekin hau errorea bada.",
+    "Error" : "Errorea",
     "Account documentation" : "Kontuen dokumentazioa",
     "Administration documentation" : "Administrazioaren dokumentazioa",
     "Forum" : "Foroa",

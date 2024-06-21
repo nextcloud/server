@@ -75,7 +75,7 @@ OC.L10N.register(
     "This file has the tags {firstTags} and {lastTag}" : "Esti ficheru tien les etiquetes «{firstTags}» y «{lastTag}»",
     "List of tags and their associated files and folders." : "Una llista d'etiquetes y los sos ficheros y carpetes asociaos.",
     "No tags found" : "Nun s'atopó nenguna etiqueta",
-    "Tags you have created will show up here." : "Equí van apaecer les etiquetes que crees.",
+    "Tags you have created will show up here." : "Equí apaecen les etiquetes que crees.",
     "Failed to load last used tags" : "Nun se puen cargar les últimes etiquetes usaes",
     "Missing \"Content-Location\" header" : "Falta la peñera «Content-Location»",
     "Failed to load tags for file" : "Nun se puen cargar les etiquetes pal ficheru",

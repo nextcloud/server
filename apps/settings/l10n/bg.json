@@ -400,6 +400,7 @@
     "Error while updating device token name" : "Грешка при актуализиране на името на токена на устройството",
     "Error while updating device token scope" : "Грешка при актуализиране на обхвата на токена на устройството",
     "There were too many requests from your network. Retry later or contact your administrator if this is an error." : "Имаше твърде много заявки от вашата мрежа. Опитайте отново по-късно или се свържете с вашия администратор, ако това е грешка.",
+    "Error" : "Грешка",
     "Forum" : "Форум",
     "Legal notice" : "Правна информация",
     "Privacy policy" : "Политика за поверителност",

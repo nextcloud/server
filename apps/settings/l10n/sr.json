@@ -739,6 +739,7 @@
     "Error while updating device token scope" : "Грешка при ажурирању домета токена уређаја",
     "Could not set group sorting" : "Није могло да се постави соритирање групе",
     "There were too many requests from your network. Retry later or contact your administrator if this is an error." : "Са ваше мреже долази превише захтева. Покушајте поново касније или контактирајте администратора уколико је ово нека грешка.",
+    "Error" : "Грешка",
     "Account documentation" : "Документација налога",
     "Administration documentation" : "Администраторска документација",
     "Forum" : "Форум",

@@ -441,6 +441,7 @@
     "Error while updating device token name" : "Lỗi trong khi cập nhật tên mã thông báo thiết bị",
     "Error while updating device token scope" : "Lỗi trong khi cập nhật phạm vi mã thông báo thiết bị",
     "There were too many requests from your network. Retry later or contact your administrator if this is an error." : "Có quá nhiều yêu cầu từ mạng của bạn. Thử lại sau hoặc liên hệ với quản trị viên của bạn nếu đây là lỗi.",
+    "Error" : "Lỗi",
     "Account documentation" : "Tài liệu tài khoản",
     "Administration documentation" : "Tài liệu hành chính",
     "Forum" : "Diễn đàn",

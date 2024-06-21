@@ -433,6 +433,7 @@ OC.L10N.register(
     "Error while updating device token name" : "Fejl under opdatering af enhedstokennavn",
     "Error while updating device token scope" : "Fejl under opdatering af enhedstokenomfang",
     "There were too many requests from your network. Retry later or contact your administrator if this is an error." : "Der har været for mange forespørgsmåler fra dit netværk. Forsøg igen senere eller kontakt din administrator hvis dette er en fejl.",
+    "Error" : "Fejl",
     "Account documentation" : "Konto dokumentation",
     "Administration documentation" : "Administrations dokumentation",
     "Forum" : "Forum",

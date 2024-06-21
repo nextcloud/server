@@ -739,6 +739,7 @@
     "Error while updating device token scope" : "更新裝置權杖範圍時發生錯誤",
     "Could not set group sorting" : "無法設定群組排序",
     "There were too many requests from your network. Retry later or contact your administrator if this is an error." : "有太多請求來自你的網路，請稍後再試，若你認為這不該發生，請回報系統管理員這項錯誤。",
+    "Error" : "錯誤",
     "Account documentation" : "帳號文件",
     "Administration documentation" : "管理文件",
     "Forum" : "論壇",

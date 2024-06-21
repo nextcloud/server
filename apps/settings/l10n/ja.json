@@ -681,6 +681,7 @@
     "Error while updating device token name" : "デバイストークン名の更新中にエラーが発生しました",
     "Error while updating device token scope" : "デバイストークンのスコープ更新中にエラーが発生しました",
     "There were too many requests from your network. Retry later or contact your administrator if this is an error." : "ネットワークからのリクエストが多すぎました。このようなエラーが発生した場合は、後で再試行するか、管理者に連絡してください。",
+    "Error" : "エラー",
     "Account documentation" : "アカウント・ドキュメント",
     "Administration documentation" : "管理者ドキュメント",
     "Forum" : "フォーラム",

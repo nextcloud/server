@@ -268,7 +268,7 @@
     "The audio to transcribe" : "O audio para transcribir",
     "Transcription" : "Transcrición",
     "The transcribed text" : "O texto transcrito",
-    "ContextWrite" : "EscrituraDeContexto",
+    "ContextWrite" : "RedacciónPorContexto",
     "Writes text in a given style based on the provided source material." : "Escribe texto nun estilo determinado baseándose no material de orixe fornecido.",
     "Writing style" : "Estilo de escritura",
     "Demonstrate a writing style that you would like to immitate" : "Demostre un estilo de escritura que lle gustaría imitar",

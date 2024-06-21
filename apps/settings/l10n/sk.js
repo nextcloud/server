@@ -709,6 +709,7 @@ OC.L10N.register(
     "Error while updating device token scope" : "Chyba pri aktualizácii rozsahu tokenu zariadenia",
     "Could not set group sorting" : "Nepodarilo sa nastaviť triedenie podľa skupín",
     "There were too many requests from your network. Retry later or contact your administrator if this is an error." : "Príliš mnoho požiadaviek z vašej siete. Skúste to znovu neskôr alebo kontaktujte svojho administrátora ak je toto chyba.",
+    "Error" : "Chyba",
     "Account documentation" : "Dokumentácia k účtom",
     "Administration documentation" : "Príručka administrátora",
     "Forum" : "Fórum",
