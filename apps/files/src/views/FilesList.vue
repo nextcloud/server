@@ -34,7 +34,7 @@
 						type="tertiary"
 						@click="openSharingSidebar">
 						<template #icon>
-							<LinkIcon v-if="shareButtonType === Type.SHARE_TYPE_LINK" />
+							<LinkIcon v-if="shareButtonType === ShareType.Link" />
 							<AccountPlusIcon v-else :size="20" />
 						</template>
 					</NcButton>
@@ -116,21 +116,23 @@
 </template>
 
 <script lang="ts">
-import type { Route } from 'vue-router'
+import type { ContentsWithRoot } from '@nextcloud/files'
 import type { Upload } from '@nextcloud/upload'
+import type { CancelablePromise } from 'cancelable-promise'
+import type { ComponentInstance } from 'vue'
+import type { Route } from 'vue-router'
 import type { UserConfig } from '../types.ts'
-import type { View, ContentsWithRoot } from '@nextcloud/files'
 
+import { getCapabilities } from '@nextcloud/capabilities'
+import { showError } from '@nextcloud/dialogs'
 import { emit, subscribe, unsubscribe } from '@nextcloud/event-bus'
 import { Folder, Node, Permission } from '@nextcloud/files'
-import { getCapabilities } from '@nextcloud/capabilities'
+import { loadState } from '@nextcloud/initial-state'
+import { translate as t, translatePlural as n } from '@nextcloud/l10n'
+import { ShareType } from '@nextcloud/sharing'
+import { UploadPicker } from '@nextcloud/upload'
 import { join, dirname } from 'path'
 import { Parser } from 'xml2js'
-import { showError } from '@nextcloud/dialogs'
-import { translate, translatePlural } from '@nextcloud/l10n'
-import { Type } from '@nextcloud/sharing'
-import { UploadPicker } from '@nextcloud/upload'
-import { loadState } from '@nextcloud/initial-state'
 import { defineComponent } from 'vue'
 
 import LinkIcon from 'vue-material-design-icons/Link.vue'
@@ -145,6 +147,7 @@ import AccountPlusIcon from 'vue-material-design-icons/AccountPlus.vue'
 import ViewGridIcon from 'vue-material-design-icons/ViewGrid.vue'
 
 import { action as sidebarAction } from '../actions/sidebarAction.ts'
+import { useNavigation } from '../composables/useNavigation.ts'
 import { useFilesStore } from '../store/files.ts'
 import { usePathsStore } from '../store/paths.ts'
 import { useSelectionStore } from '../store/selection.ts'
@@ -194,10 +197,15 @@ export default defineComponent({
 		const uploaderStore = useUploaderStore()
 		const userConfigStore = useUserConfigStore()
 		const viewConfigStore = useViewConfigStore()
+		const { currentView } = useNavigation()
 
 		const enableGridView = (loadState('core', 'config', [])['enable_non-accessible_features'] ?? true)
 
 		return {
+			currentView,
+			n,
+			t,
+
 			filesStore,
 			pathsStore,
 			selectionStore,
@@ -205,6 +213,8 @@ export default defineComponent({
 			userConfigStore,
 			viewConfigStore,
 			enableGridView,
+
+			ShareType,
 		}
 	},
 
@@ -212,20 +222,15 @@ export default defineComponent({
 		return {
 			filterText: '',
 			loading: true,
-			promise: null,
-			Type,
+			promise: null as Promise<ContentsWithRoot> | CancelablePromise<ContentsWithRoot> | null,
 
-			_unsubscribeStore: () => {},
+			unsubscribeStoreCallback: () => {},
 		}
 	},
 
 	computed: {
 		userConfig(): UserConfig {
 			return this.userConfigStore.userConfig
-		},
-
-		currentView(): View {
-			return this.$navigation.active || this.$navigation.views.find((view) => view.id === (this.$route.params?.view ?? 'files'))
 		},
 
 		pageHeading(): string {
@@ -384,22 +389,22 @@ export default defineComponent({
 				return this.t('files', 'Share')
 			}
 
-			if (this.shareButtonType === Type.SHARE_TYPE_LINK) {
+			if (this.shareButtonType === ShareType.Link) {
 				return this.t('files', 'Shared by link')
 			}
 			return this.t('files', 'Shared')
 		},
-		shareButtonType(): Type | null {
+		shareButtonType(): ShareType | null {
 			if (!this.shareAttributes) {
 				return null
 			}
 
 			// If all types are links, show the link icon
-			if (this.shareAttributes.some(type => type === Type.SHARE_TYPE_LINK)) {
-				return Type.SHARE_TYPE_LINK
+			if (this.shareAttributes.some(type => type === ShareType.Link)) {
+				return ShareType.Link
 			}
 
-			return Type.SHARE_TYPE_USER
+			return ShareType.User
 		},
 
 		gridViewButtonLabel() {
@@ -431,6 +436,18 @@ export default defineComponent({
 			return isSharingEnabled
 				&& this.currentFolder && (this.currentFolder.permissions & Permission.SHARE) !== 0
 		},
+
+		/**
+		 * Handle search event from unified search.
+		 *
+		 * @return {(searchEvent: {query: string}) => void}
+		 */
+		onSearch() {
+			return debounce((searchEvent: { query: string }) => {
+				console.debug('Files app handling search event from unified search...', searchEvent)
+				this.filterText = searchEvent.query
+			}, 500)
+		 },
 	},
 
 	watch: {
@@ -453,8 +470,9 @@ export default defineComponent({
 			this.fetchContent()
 
 			// Scroll to top, force virtual scroller to re-render
-			if (this.$refs?.filesListVirtual?.$el) {
-				this.$refs.filesListVirtual.$el.scrollTop = 0
+			const filesListVirtual = this.$refs?.filesListVirtual as ComponentInstance | undefined
+			if (filesListVirtual?.$el) {
+				filesListVirtual.$el.scrollTop = 0
 			}
 		},
 
@@ -470,18 +488,18 @@ export default defineComponent({
 		subscribe('files:node:deleted', this.onNodeDeleted)
 		subscribe('files:node:updated', this.onUpdatedNode)
 		subscribe('nextcloud:unified-search.search', this.onSearch)
-		subscribe('nextcloud:unified-search.reset', this.onSearch)
+		subscribe('nextcloud:unified-search.reset', this.resetSearch)
 
 		// reload on settings change
-		this._unsubscribeStore = this.userConfigStore.$subscribe(() => this.fetchContent(), { deep: true })
+		this.unsubscribeStoreCallback = this.userConfigStore.$subscribe(() => this.fetchContent(), { deep: true })
 	},
 
 	unmounted() {
 		unsubscribe('files:node:deleted', this.onNodeDeleted)
 		unsubscribe('files:node:updated', this.onUpdatedNode)
 		unsubscribe('nextcloud:unified-search.search', this.onSearch)
-		unsubscribe('nextcloud:unified-search.reset', this.onSearch)
-		this._unsubscribeStore()
+		unsubscribe('nextcloud:unified-search.reset', this.resetSearch)
+		this.unsubscribeStoreCallback()
 	},
 
 	methods: {
@@ -496,7 +514,7 @@ export default defineComponent({
 			}
 
 			// If we have a cancellable promise ongoing, cancel it
-			if (typeof this.promise?.cancel === 'function') {
+			if (this.promise && 'cancel' in this.promise) {
 				this.promise.cancel()
 				logger.debug('Cancelled previous ongoing fetch')
 			}
@@ -531,7 +549,7 @@ export default defineComponent({
 				// Update paths store
 				const folders = contents.filter(node => node.type === 'folder')
 				folders.forEach(node => {
-					this.pathsStore.addPath({ service: currentView.id, fileid: node.fileid, path: join(dir, node.basename) })
+					this.pathsStore.addPath({ service: currentView.id, source: node.source, path: join(dir, node.basename) })
 				})
 			} catch (error) {
 				logger.error('Error while fetching content', { error })
@@ -642,20 +660,14 @@ export default defineComponent({
 				this.fetchContent()
 			}
 		},
-		/**
-		 * Handle search event from unified search.
-		 *
-		 * @param searchEvent is event object.
-		 */
-		onSearch: debounce(function(searchEvent) {
-			console.debug('Files app handling search event from unified search...', searchEvent)
-			this.filterText = searchEvent.query
-		}, 500),
 
 		/**
 		 * Reset the search query
 		 */
 		resetSearch() {
+			// Reset debounced calls to not set the query again
+			this.onSearch.clear()
+			// Reset filter query
 			this.filterText = ''
 		},
 
@@ -668,14 +680,11 @@ export default defineComponent({
 			if (window?.OCA?.Files?.Sidebar?.setActiveTab) {
 				window.OCA.Files.Sidebar.setActiveTab('sharing')
 			}
-			sidebarAction.exec(this.currentFolder, this.currentView, this.currentFolder.path)
+			sidebarAction.exec(this.currentFolder, this.currentView!, this.currentFolder.path)
 		},
 		toggleGridView() {
 			this.userConfigStore.update('grid_view', !this.userConfig.grid_view)
 		},
-
-		t: translate,
-		n: translatePlural,
 	},
 })
 </script>
