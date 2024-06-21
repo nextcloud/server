@@ -351,9 +351,11 @@ class Generator {
 
 				if ($inMemory) {
 					if ($preview instanceof IStreamImage) {
-						return new InMemoryFile($path, $preview->resource());
+						$contents = stream_get_contents($preview->resource());
+					} else {
+						$contents = $preview->data();
 					}
-					return new InMemoryFile($path, $preview->data());
+					return new InMemoryFile($path, $contents);
 				}
 
 				try {
