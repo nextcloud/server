@@ -33,6 +33,7 @@
  */
 namespace OC\Repair;
 
+use OC\Migration\NullOutput;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IConfig;
 use OCP\IDBConnection;
@@ -40,18 +41,16 @@ use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
 
 class RepairMimeTypes implements IRepairStep {
-	/** @var IConfig */
-	protected $config;
-	/** @var IDBConnection */
-	protected $connection;
+	private bool $dryRun = false;
+	private int $changeCount = 0;
 
 	/** @var int */
 	protected $folderMimeTypeId;
 
-	public function __construct(IConfig $config,
-		IDBConnection $connection) {
-		$this->config = $config;
-		$this->connection = $connection;
+	public function __construct(
+		protected IConfig $config,
+		protected IDBConnection $connection
+	) {
 	}
 
 	public function getName() {
@@ -59,6 +58,10 @@ class RepairMimeTypes implements IRepairStep {
 	}
 
 	private function updateMimetypes($updatedMimetypes) {
+		if ($this->dryRun) {
+			$this->changeCount += count($updatedMimetypes);
+			return;
+		}
 		$query = $this->connection->getQueryBuilder();
 		$query->select('id')
 			->from('mimetypes')
@@ -262,77 +265,97 @@ class RepairMimeTypes implements IRepairStep {
 		return $this->updateMimetypes($updatedMimetypes);
 	}
 
+	public function migrationsAvailable(): bool {
+		$this->dryRun = true;
+		$this->run(new NullOutput());
+		$this->dryRun = false;
+		return $this->changeCount > 0;
+	}
+
+	private function getMimeTypeVersion(): string {
+		$mimeVersion = $this->config->getAppValue('files', 'mimetype_version', '');
+		if ($mimeVersion) {
+			return $mimeVersion;
+		}
+		return $this->config->getSystemValueString('version', '0.0.0');
+	}
+
 	/**
 	 * Fix mime types
 	 */
 	public function run(IOutput $out) {
-		$ocVersionFromBeforeUpdate = $this->config->getSystemValueString('version', '0.0.0');
+		$serverVersion = $this->config->getSystemValueString('version', '0.0.0');
+		$mimeTypeVersion = $this->getMimeTypeVersion();
 
 		// NOTE TO DEVELOPERS: when adding new mime types, please make sure to
 		// add a version comparison to avoid doing it every time
 
-		if (version_compare($ocVersionFromBeforeUpdate, '12.0.0.14', '<') && $this->introduceImageTypes()) {
+		if (version_compare($mimeTypeVersion, '12.0.0.14', '<') && $this->introduceImageTypes()) {
 			$out->info('Fixed image mime types');
 		}
 
-		if (version_compare($ocVersionFromBeforeUpdate, '12.0.0.13', '<') && $this->introduceWindowsProgramTypes()) {
+		if (version_compare($mimeTypeVersion, '12.0.0.13', '<') && $this->introduceWindowsProgramTypes()) {
 			$out->info('Fixed windows program mime types');
 		}
 
-		if (version_compare($ocVersionFromBeforeUpdate, '13.0.0.0', '<') && $this->introduceLocationTypes()) {
+		if (version_compare($mimeTypeVersion, '13.0.0.0', '<') && $this->introduceLocationTypes()) {
 			$out->info('Fixed geospatial mime types');
 		}
 
-		if (version_compare($ocVersionFromBeforeUpdate, '13.0.0.3', '<') && $this->introduceInternetShortcutTypes()) {
+		if (version_compare($mimeTypeVersion, '13.0.0.3', '<') && $this->introduceInternetShortcutTypes()) {
 			$out->info('Fixed internet-shortcut mime types');
 		}
 
-		if (version_compare($ocVersionFromBeforeUpdate, '13.0.0.6', '<') && $this->introduceStreamingTypes()) {
+		if (version_compare($mimeTypeVersion, '13.0.0.6', '<') && $this->introduceStreamingTypes()) {
 			$out->info('Fixed streaming mime types');
 		}
 
-		if (version_compare($ocVersionFromBeforeUpdate, '14.0.0.8', '<') && $this->introduceVisioTypes()) {
+		if (version_compare($mimeTypeVersion, '14.0.0.8', '<') && $this->introduceVisioTypes()) {
 			$out->info('Fixed visio mime types');
 		}
 
-		if (version_compare($ocVersionFromBeforeUpdate, '14.0.0.10', '<') && $this->introduceComicbookTypes()) {
+		if (version_compare($mimeTypeVersion, '14.0.0.10', '<') && $this->introduceComicbookTypes()) {
 			$out->info('Fixed comicbook mime types');
 		}
 
-		if (version_compare($ocVersionFromBeforeUpdate, '20.0.0.5', '<') && $this->introduceOpenDocumentTemplates()) {
+		if (version_compare($mimeTypeVersion, '20.0.0.5', '<') && $this->introduceOpenDocumentTemplates()) {
 			$out->info('Fixed OpenDocument template mime types');
 		}
 
-		if (version_compare($ocVersionFromBeforeUpdate, '21.0.0.7', '<') && $this->introduceOrgModeType()) {
+		if (version_compare($mimeTypeVersion, '21.0.0.7', '<') && $this->introduceOrgModeType()) {
 			$out->info('Fixed orgmode mime types');
 		}
 
-		if (version_compare($ocVersionFromBeforeUpdate, '23.0.0.2', '<') && $this->introduceFlatOpenDocumentType()) {
+		if (version_compare($mimeTypeVersion, '23.0.0.2', '<') && $this->introduceFlatOpenDocumentType()) {
 			$out->info('Fixed Flat OpenDocument mime types');
 		}
 
-		if (version_compare($ocVersionFromBeforeUpdate, '25.0.0.2', '<') && $this->introduceOnlyofficeFormType()) {
+		if (version_compare($mimeTypeVersion, '25.0.0.2', '<') && $this->introduceOnlyofficeFormType()) {
 			$out->info('Fixed ONLYOFFICE Forms OpenXML mime types');
 		}
 
-		if (version_compare($ocVersionFromBeforeUpdate, '26.0.0.1', '<') && $this->introduceAsciidocType()) {
+		if (version_compare($mimeTypeVersion, '26.0.0.1', '<') && $this->introduceAsciidocType()) {
 			$out->info('Fixed AsciiDoc mime types');
 		}
 
-		if (version_compare($ocVersionFromBeforeUpdate, '28.0.0.5', '<') && $this->introduceEnhancedMetafileFormatType()) {
+		if (version_compare($mimeTypeVersion, '28.0.0.5', '<') && $this->introduceEnhancedMetafileFormatType()) {
 			$out->info('Fixed Enhanced Metafile Format mime types');
 		}
 
-		if (version_compare($ocVersionFromBeforeUpdate, '29.0.0.2', '<') && $this->introduceEmlAndMsgFormatType()) {
+		if (version_compare($mimeTypeVersion, '29.0.0.2', '<') && $this->introduceEmlAndMsgFormatType()) {
 			$out->info('Fixed eml and msg mime type');
 		}
 
-		if (version_compare($ocVersionFromBeforeUpdate, '29.0.0.6', '<') && $this->introduceAacAudioType()) {
+		if (version_compare($mimeTypeVersion, '29.0.0.6', '<') && $this->introduceAacAudioType()) {
 			$out->info('Fixed aac mime type');
 		}
 
-		if (version_compare($ocVersionFromBeforeUpdate, '29.0.0.10', '<') && $this->introduceReStructuredTextFormatType()) {
+		if (version_compare($mimeTypeVersion, '29.0.0.10', '<') && $this->introduceReStructuredTextFormatType()) {
 			$out->info('Fixed ReStructured Text mime type');
+		}
+
+		if (!$this->dryRun) {
+			$this->config->setAppValue('files', 'mimetype_version', $serverVersion);
 		}
 	}
 }

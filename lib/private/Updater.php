@@ -122,6 +122,10 @@ class Updater extends BasicEmitter {
 		$installedVersion = $this->config->getSystemValueString('version', '0.0.0');
 		$currentVersion = implode('.', \OCP\Util::getVersion());
 
+		if ($this->config->getAppValue('files', 'mimetype_version', '') === '') {
+			$this->config->setAppValue('files', 'mimetype_version', $installedVersion);
+		}
+
 		$this->log->debug('starting upgrade from ' . $installedVersion . ' to ' . $currentVersion, ['app' => 'core']);
 
 		$success = true;
