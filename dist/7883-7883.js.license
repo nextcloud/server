@@ -1,10 +1,35 @@
-This file is generated from multiple sources. Included packages:
+SPDX-License-Identifier: MIT
+SPDX-License-Identifier: ISC
+SPDX-License-Identifier: GPL-3.0-or-later
+SPDX-License-Identifier: CC-BY-4.0
+SPDX-License-Identifier: BSD-3-Clause
+SPDX-License-Identifier: AGPL-3.0-or-later
+SPDX-FileCopyrightText: inherits developers
+SPDX-FileCopyrightText: dangreen
+SPDX-FileCopyrightText: assert developers
+SPDX-FileCopyrightText: T. Jameson Little <t.jameson.little@gmail.com>
+SPDX-FileCopyrightText: Sergey Rubanov <chi187@gmail.com>
+SPDX-FileCopyrightText: Roman Shtylman <shtylman@gmail.com>
+SPDX-FileCopyrightText: Raynos <raynos2@gmail.com>
+SPDX-FileCopyrightText: Nextcloud GmbH and Nextcloud contributors
+SPDX-FileCopyrightText: Kilian Valkhof
+SPDX-FileCopyrightText: Joyent
+SPDX-FileCopyrightText: Jordan Harband <ljharb@gmail.com>
+SPDX-FileCopyrightText: Jordan Harband
+SPDX-FileCopyrightText: GitHub Inc.
+SPDX-FileCopyrightText: Feross Aboukhadijeh
+SPDX-FileCopyrightText: Dmitry Soshnikov
+SPDX-FileCopyrightText: Christoph Wurst
+SPDX-FileCopyrightText: Ben Briggs
+SPDX-FileCopyrightText: Andrey Sitnik <andrey@sitnik.ru>
 
+
+This file is generated from multiple sources. Included packages:
 - @nextcloud/auth
 	- version: 2.3.0
 	- license: GPL-3.0-or-later
 - @nextcloud/browser-storage
-	- version: 0.3.0
+	- version: 0.4.0
 	- license: GPL-3.0-or-later
 - @nextcloud/browserslist-config
 	- version: 3.0.1
@@ -147,23 +172,3 @@ This file is generated from multiple sources. Included packages:
 - nextcloud
 	- version: 1.0.0
 	- license: AGPL-3.0-or-later
-
-SPDX-License-Identifier: AGPL-3.0-or-later AND BSD-3-Clause AND CC-BY-4.0 AND GPL-3.0-or-later AND ISC AND MIT
-SPDX-FileCopyrightText: Andrey Sitnik <andrey@sitnik.ru>
-SPDX-FileCopyrightText: Ben Briggs
-SPDX-FileCopyrightText: Christoph Wurst
-SPDX-FileCopyrightText: Dmitry Soshnikov
-SPDX-FileCopyrightText: Feross Aboukhadijeh
-SPDX-FileCopyrightText: GitHub Inc.
-SPDX-FileCopyrightText: Jordan Harband
-SPDX-FileCopyrightText: Jordan Harband <ljharb@gmail.com>
-SPDX-FileCopyrightText: Joyent
-SPDX-FileCopyrightText: Kilian Valkhof
-SPDX-FileCopyrightText: Nextcloud GmbH and Nextcloud contributors
-SPDX-FileCopyrightText: Raynos <raynos2@gmail.com>
-SPDX-FileCopyrightText: Roman Shtylman <shtylman@gmail.com>
-SPDX-FileCopyrightText: Sergey Rubanov <chi187@gmail.com>
-SPDX-FileCopyrightText: T. Jameson Little <t.jameson.little@gmail.com>
-SPDX-FileCopyrightText: assert developers
-SPDX-FileCopyrightText: dangreen
-SPDX-FileCopyrightText: inherits developers

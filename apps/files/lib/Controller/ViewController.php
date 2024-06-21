@@ -292,7 +292,7 @@ class ViewController extends Controller {
 		}
 
 		$this->initialState->provideInitialState(
-			'openFileInfo', [
+			'fileInfo', [
 				'id' => $node->getId(),
 				'name' => $isRoot ? '' : $node->getName(),
 				'path' => $path,

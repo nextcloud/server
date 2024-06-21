@@ -144,6 +144,10 @@ export default defineComponent({
 				this.actionsMenuStore.opened = opened ? this.uniqueId.toString() : null
 			},
 		},
+
+		isRenaming() {
+			return this.renamingStore.renamingNode === this.source
+		},
 	},
 
 	watch: {
@@ -208,6 +212,11 @@ export default defineComponent({
 		},
 
 		execDefaultAction(event) {
+			// Ignore click if we are renaming
+			if (this.isRenaming) {
+				return
+			}
+
 			// Ignore right click.
 			if (event.button > 1) {
 				return

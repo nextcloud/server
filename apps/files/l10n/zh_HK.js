@@ -161,6 +161,8 @@ OC.L10N.register(
     "Reject" : "拒絕",
     "Incoming ownership transfer from {user}" : "來自 {user} 的擁有權轉移",
     "Do you want to accept {path}?\n\nNote: The transfer process after accepting may take up to 1 hour." : "您想要接收 \"{path}\" 嗎？\n\n註：所有權轉移的流程最多需要一小時",
+    "Ownership transfer denied" : "擁有權轉移被拒絕",
+    "Your ownership transfer of {path} was denied by {user}." : "您 \"{path}\" 的擁有權轉移被 {user} 拒絕",
     "Ownership transfer failed" : "擁有權轉讓失敗",
     "Your ownership transfer of {path} to {user} failed." : "您將 \"{path}\" 的擁有權轉移給 {user} 失敗",
     "The ownership transfer of {path} from {user} failed." : "來自 {user} 的 \"{path}\" 擁有權轉移失敗",

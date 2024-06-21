@@ -607,6 +607,7 @@
     "Error while updating device token name" : "Chyba při aktualizaci názvu tokenu zařízení",
     "Error while updating device token scope" : "Chyba při aktualizaci rozsahu tokenu zařízení",
     "There were too many requests from your network. Retry later or contact your administrator if this is an error." : "Z vaší sítě bylo příliš mnoho požadavků. Zkuste to později nebo (pokud je toto chyba) se obraťte na svého správce.",
+    "Error" : "Chyba",
     "Account documentation" : "Dokumentace k účtům",
     "Administration documentation" : "Dokumentace ke správě",
     "Forum" : "Diskuzní fórum",

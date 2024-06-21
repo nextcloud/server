@@ -613,6 +613,7 @@
     "Error while updating device token scope" : "Błąd podczas aktualizacji zakresu tokena urządzenia",
     "Could not set group sorting" : "Nie można ustawić sortowania grupy",
     "There were too many requests from your network. Retry later or contact your administrator if this is an error." : "Zbyt wiele żądań z Twojej sieci. Spróbuj ponownie później lub skontaktuj się z administratorem, jeśli jest to błąd.",
+    "Error" : "Błąd",
     "Account documentation" : "Dokumentacja konta",
     "Administration documentation" : "Dokumentacja administracyjna",
     "Forum" : "Forum",

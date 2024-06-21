@@ -210,6 +210,7 @@
     "Never" : "Mitte kunagi",
     "The app has been enabled but needs to be updated. You will be redirected to the update page in 5 seconds." : "Rakendus on lubatud, aga see vajab uuendamist. Sind suunatakse 5 sekundi pärast uuendamise lehele.",
     "There were too many requests from your network. Retry later or contact your administrator if this is an error." : "Sinu võrgust tuli liiga palju päringuid. Proovi hiljem uuesti, või võta ühendust administraatoriga, kui tegu on veaga.",
+    "Error" : "Viga",
     "Forum" : "Foorum",
     "SSL" : "SSL",
     "Open documentation" : "Ava dokumentatsioon",

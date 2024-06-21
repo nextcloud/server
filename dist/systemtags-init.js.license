@@ -1,14 +1,58 @@
-This file is generated from multiple sources. Included packages:
+SPDX-License-Identifier: MIT
+SPDX-License-Identifier: ISC
+SPDX-License-Identifier: GPL-3.0-or-later
+SPDX-License-Identifier: BSD-3-Clause
+SPDX-License-Identifier: AGPL-3.0-or-later
+SPDX-License-Identifier: (MPL-2.0 OR Apache-2.0)
+SPDX-FileCopyrightText: string_decoder developers
+SPDX-FileCopyrightText: readable-stream developers
+SPDX-FileCopyrightText: qs developers
+SPDX-FileCopyrightText: jden <jason@denizac.org>
+SPDX-FileCopyrightText: inherits developers
+SPDX-FileCopyrightText: escape-html developers
+SPDX-FileCopyrightText: defunctzombie
+SPDX-FileCopyrightText: assert developers
+SPDX-FileCopyrightText: Tobias Koppers @sokra
+SPDX-FileCopyrightText: T. Jameson Little <t.jameson.little@gmail.com>
+SPDX-FileCopyrightText: Sindre Sorhus
+SPDX-FileCopyrightText: Roman Shtylman <shtylman@gmail.com>
+SPDX-FileCopyrightText: Raynos <raynos2@gmail.com>
+SPDX-FileCopyrightText: Perry Mitchell <perry@perrymitchell.net>
+SPDX-FileCopyrightText: Paul Vorbach <paul@vorba.ch> (http://paul.vorba.ch)
+SPDX-FileCopyrightText: Paul Vorbach <paul@vorb.de> (http://vorb.de)
+SPDX-FileCopyrightText: Olivier Scherrer <pode.fr@gmail.com>
+SPDX-FileCopyrightText: Nextcloud GmbH and Nextcloud contributors
+SPDX-FileCopyrightText: Nathan Rajlich <nathan@tootallnate.net> (http://n8.io/)
+SPDX-FileCopyrightText: Matt Zabriskie
+SPDX-FileCopyrightText: Mathias Bynens
+SPDX-FileCopyrightText: Julian Gruber
+SPDX-FileCopyrightText: Joyent
+SPDX-FileCopyrightText: José F. Romaniello <jfromaniello@gmail.com> (http://joseoncode.com)
+SPDX-FileCopyrightText: Jordan Harband <ljharb@gmail.com>
+SPDX-FileCopyrightText: Jordan Harband
+SPDX-FileCopyrightText: John Hiesey
+SPDX-FileCopyrightText: James Halliday
+SPDX-FileCopyrightText: Irakli Gozalishvili <rfobic@gmail.com> (http://jeditoolkit.com)
+SPDX-FileCopyrightText: GitHub Inc.
+SPDX-FileCopyrightText: Feross Aboukhadijeh
+SPDX-FileCopyrightText: Dylan Piercey <pierceydylan@gmail.com>
+SPDX-FileCopyrightText: Dr.-Ing. Mario Heiderich, Cure53 <mario@cure53.de> (https://cure53.de/)
+SPDX-FileCopyrightText: Denis Pushkarev
+SPDX-FileCopyrightText: Christoph Wurst
+SPDX-FileCopyrightText: Ben Drucker
+SPDX-FileCopyrightText: Arnout Kazemier
+SPDX-FileCopyrightText: Amit Gupta (https://solothought.com)
+SPDX-FileCopyrightText: Amit Gupta (https://amitkumargupta.work/)
+SPDX-FileCopyrightText: Alkemics
 
+
+This file is generated from multiple sources. Included packages:
 - @nextcloud/auth
 	- version: 2.3.0
 	- license: GPL-3.0-or-later
-- @nextcloud/router
-	- version: 2.2.0
-	- license: GPL-3.0-or-later
 - @nextcloud/axios
-	- version: 2.4.0
-	- license: GPL-3.0
+	- version: 2.5.0
+	- license: GPL-3.0-or-later
 - semver
 	- version: 7.6.2
 	- license: ISC
@@ -276,45 +320,3 @@ This file is generated from multiple sources. Included packages:
 - nextcloud
 	- version: 1.0.0
 	- license: AGPL-3.0-or-later
-
-SPDX-License-Identifier: (MPL-2.0 OR Apache-2.0) AND AGPL-3.0-or-later AND BSD-3-Clause AND GPL-3.0 AND GPL-3.0-or-later AND ISC AND MIT
-SPDX-FileCopyrightText: Alkemics
-SPDX-FileCopyrightText: Amit Gupta (https://amitkumargupta.work/)
-SPDX-FileCopyrightText: Amit Gupta (https://solothought.com)
-SPDX-FileCopyrightText: Arnout Kazemier
-SPDX-FileCopyrightText: Ben Drucker
-SPDX-FileCopyrightText: Christoph Wurst
-SPDX-FileCopyrightText: Denis Pushkarev
-SPDX-FileCopyrightText: Dr.-Ing. Mario Heiderich, Cure53 <mario@cure53.de> (https://cure53.de/)
-SPDX-FileCopyrightText: Dylan Piercey <pierceydylan@gmail.com>
-SPDX-FileCopyrightText: Feross Aboukhadijeh
-SPDX-FileCopyrightText: GitHub Inc.
-SPDX-FileCopyrightText: Irakli Gozalishvili <rfobic@gmail.com> (http://jeditoolkit.com)
-SPDX-FileCopyrightText: James Halliday
-SPDX-FileCopyrightText: John Hiesey
-SPDX-FileCopyrightText: Jordan Harband
-SPDX-FileCopyrightText: Jordan Harband <ljharb@gmail.com>
-SPDX-FileCopyrightText: José F. Romaniello <jfromaniello@gmail.com> (http://joseoncode.com)
-SPDX-FileCopyrightText: Joyent
-SPDX-FileCopyrightText: Julian Gruber
-SPDX-FileCopyrightText: Mathias Bynens
-SPDX-FileCopyrightText: Matt Zabriskie
-SPDX-FileCopyrightText: Nathan Rajlich <nathan@tootallnate.net> (http://n8.io/)
-SPDX-FileCopyrightText: Nextcloud GmbH and Nextcloud contributors
-SPDX-FileCopyrightText: Olivier Scherrer <pode.fr@gmail.com>
-SPDX-FileCopyrightText: Paul Vorbach <paul@vorb.de> (http://vorb.de)
-SPDX-FileCopyrightText: Paul Vorbach <paul@vorba.ch> (http://paul.vorba.ch)
-SPDX-FileCopyrightText: Perry Mitchell <perry@perrymitchell.net>
-SPDX-FileCopyrightText: Raynos <raynos2@gmail.com>
-SPDX-FileCopyrightText: Roman Shtylman <shtylman@gmail.com>
-SPDX-FileCopyrightText: Sindre Sorhus
-SPDX-FileCopyrightText: T. Jameson Little <t.jameson.little@gmail.com>
-SPDX-FileCopyrightText: Tobias Koppers @sokra
-SPDX-FileCopyrightText: assert developers
-SPDX-FileCopyrightText: defunctzombie
-SPDX-FileCopyrightText: escape-html developers
-SPDX-FileCopyrightText: inherits developers
-SPDX-FileCopyrightText: jden <jason@denizac.org>
-SPDX-FileCopyrightText: qs developers
-SPDX-FileCopyrightText: readable-stream developers
-SPDX-FileCopyrightText: string_decoder developers

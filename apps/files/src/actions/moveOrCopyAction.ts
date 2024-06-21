@@ -7,14 +7,13 @@ import type { IFilePickerButton } from '@nextcloud/dialogs'
 import type { FileStat, ResponseDataDetailed } from 'webdav'
 import type { MoveCopyResult } from './moveOrCopyActionUtils'
 
-// eslint-disable-next-line n/no-extraneous-import
-import { AxiosError } from 'axios'
-import { basename, join } from 'path'
-import { emit } from '@nextcloud/event-bus'
+import { isAxiosError } from '@nextcloud/axios'
 import { FilePickerClosed, getFilePickerBuilder, showError } from '@nextcloud/dialogs'
+import { emit } from '@nextcloud/event-bus'
 import { Permission, FileAction, FileType, NodeStatus, davGetClient, davRootPath, davResultToNode, davGetDefaultPropfind } from '@nextcloud/files'
 import { translate as t } from '@nextcloud/l10n'
 import { openConflictPicker, hasConflict } from '@nextcloud/upload'
+import { basename, join } from 'path'
 import Vue from 'vue'
 
 import CopyIconSvg from '@mdi/svg/svg/folder-multiple.svg?raw'
@@ -151,12 +150,12 @@ export const handleCopyMoveNodeTo = async (node: Node, destination: Folder, meth
 				emit('files:node:deleted', node)
 			}
 		} catch (error) {
-			if (error instanceof AxiosError) {
-				if (error?.response?.status === 412) {
+			if (isAxiosError(error)) {
+				if (error.response?.status === 412) {
 					throw new Error(t('files', 'A file or folder with that name already exists in this folder'))
-				} else if (error?.response?.status === 423) {
+				} else if (error.response?.status === 423) {
 					throw new Error(t('files', 'The files are locked'))
-				} else if (error?.response?.status === 404) {
+				} else if (error.response?.status === 404) {
 					throw new Error(t('files', 'The file does not exist anymore'))
 				} else if (error.message) {
 					throw new Error(error.message)
@@ -182,17 +181,15 @@ const openFilePickerForAction = async (action: MoveCopyAction, dir = '/', nodes:
 	const filePicker = getFilePickerBuilder(t('files', 'Choose destination'))
 		.allowDirectories(true)
 		.setFilter((n: Node) => {
-			// We only want to show folders that we can create nodes in
-			return (n.permissions & Permission.CREATE) !== 0
-				// We don't want to show the current nodes in the file picker
-				&& !fileIDs.includes(n.fileid)
+			// We don't want to show the current nodes in the file picker
+			return !fileIDs.includes(n.fileid)
 		})
 		.setMimeTypeFilter([])
 		.setMultiSelect(false)
 		.startAt(dir)
 
 	return new Promise((resolve, reject) => {
-		filePicker.setButtonFactory((_selection, path: string) => {
+		filePicker.setButtonFactory((selection: Node[], path: string) => {
 			const buttons: IFilePickerButton[] = []
 			const target = basename(path)
 

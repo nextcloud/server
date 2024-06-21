@@ -169,18 +169,20 @@ class UserAvatar extends Avatar {
 	 * @throws NotFoundException
 	 */
 	private function getExtension(bool $generated, bool $darkTheme): string {
-		if ($darkTheme && !$generated) {
-			if ($this->folder->fileExists('avatar-dark.jpg')) {
-				return 'jpg';
-			} elseif ($this->folder->fileExists('avatar-dark.png')) {
-				return 'png';
-			}
+		if ($darkTheme && $generated) {
+			$name = 'avatar-dark.';
+		} else {
+			$name = 'avatar.';
 		}
-		if ($this->folder->fileExists('avatar.jpg')) {
+
+		if ($this->folder->fileExists($name . 'jpg')) {
 			return 'jpg';
-		} elseif ($this->folder->fileExists('avatar.png')) {
+		}
+
+		if ($this->folder->fileExists($name . 'png')) {
 			return 'png';
 		}
+
 		throw new NotFoundException;
 	}
 

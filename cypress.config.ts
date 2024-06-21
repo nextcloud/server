@@ -94,7 +94,10 @@ export default defineConfig({
 			config.baseUrl = `http://${ip}/index.php`
 			await waitOnNextcloud(ip)
 			await configureNextcloud()
-			await applyChangesToNextcloud()
+
+			if (!process.env.CI) {
+				await applyChangesToNextcloud()
+			}
 
 			// IMPORTANT: return the config otherwise cypress-split will not work
 			return config

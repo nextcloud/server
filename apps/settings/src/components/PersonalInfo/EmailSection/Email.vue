@@ -74,7 +74,7 @@ import debounce from 'debounce'
 import { mdiArrowLeft, mdiLock, mdiStar, mdiStarOutline, mdiTrashCan } from '@mdi/js'
 
 import FederationControl from '../shared/FederationControl.vue'
-import { handleError } from '../../../utils/handlers.js'
+import { handleError } from '../../../utils/handlers.ts'
 
 import { ACCOUNT_PROPERTY_READABLE_ENUM, VERIFICATION_ENUM } from '../../../constants/AccountPropertyConstants.js'
 import {
@@ -262,7 +262,7 @@ export default {
 					}
 				}
 			}
-		}, 500),
+		}, 1000),
 
 		async deleteEmail() {
 			if (this.primary) {

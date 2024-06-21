@@ -505,6 +505,7 @@ OC.L10N.register(
     "Error while updating device token scope" : "Hebo un error mentanto s'anovaba l'ámbitu'l pase'l preséu",
     "Could not set group sorting" : "Nun se pudo afitar l'orde de los grupos",
     "There were too many requests from your network. Retry later or contact your administrator if this is an error." : "Ficiéronse milenta solicitúes dende la to rede. Volvi tentalo dempués o ponte en contautu cola alministración si esti mensaxe ye un error.",
+    "Error" : "Error",
     "Account documentation" : "Documentación de la cuenta",
     "Administration documentation" : "Documentación de l'alministración",
     "Forum" : "Foru",

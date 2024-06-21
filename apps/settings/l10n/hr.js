@@ -344,6 +344,7 @@ OC.L10N.register(
     "Error while updating device token name" : "Pogreška pri ažuriranju naziva tokena za uređaja",
     "Error while updating device token scope" : "Pogreška pri ažuriranju raspona tokena za uređaj",
     "There were too many requests from your network. Retry later or contact your administrator if this is an error." : "Zaprimljeno je previše zahtjeva iz vaše mreže. Pokušajte kasnije ili se obratite administratoru ako se radi o pogrešci.",
+    "Error" : "Pogreška",
     "Forum" : "Forum",
     "Legal notice" : "Pravna obavijest",
     "Privacy policy" : "Pravila o privatnosti",

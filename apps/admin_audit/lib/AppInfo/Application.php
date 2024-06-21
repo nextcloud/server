@@ -32,6 +32,7 @@ use OCP\Authentication\TwoFactorAuth\TwoFactorProviderChallengePassed;
 use OCP\Console\ConsoleEvent;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Events\Node\BeforeNodeReadEvent;
+use OCP\Files\Events\Node\BeforeNodeRenamedEvent;
 use OCP\Files\Events\Node\BeforeNodeWrittenEvent;
 use OCP\Files\Events\Node\NodeCopiedEvent;
 use OCP\Files\Events\Node\NodeCreatedEvent;
@@ -180,9 +181,16 @@ class Application extends App implements IBootstrap {
 		);
 
 		$eventDispatcher->addListener(
+			BeforeNodeRenamedEvent::class,
+			function (BeforeNodeRenamedEvent $event) use ($fileActions) {
+				$fileActions->beforeRename($event);
+			}
+		);
+
+		$eventDispatcher->addListener(
 			NodeRenamedEvent::class,
 			function (NodeRenamedEvent $event) use ($fileActions) {
-				$fileActions->rename($event);
+				$fileActions->afterRename($event);
 			}
 		);
 
