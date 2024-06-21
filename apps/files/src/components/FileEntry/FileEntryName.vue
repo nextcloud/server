@@ -54,6 +54,7 @@
 </template>
 
 <script lang="ts">
+import type { Node } from '@nextcloud/files'
 import type { PropType } from 'vue'
 
 import { emit } from '@nextcloud/event-bus'
@@ -66,6 +67,7 @@ import Vue from 'vue'
 
 import NcTextField from '@nextcloud/vue/dist/Components/NcTextField.js'
 
+import { useNavigation } from '../../composables/useNavigation'
 import { useRenamingStore } from '../../store/renaming.ts'
 import logger from '../../logger.js'
 
@@ -106,8 +108,12 @@ export default Vue.extend({
 	},
 
 	setup() {
+		const { currentView } = useNavigation()
 		const renamingStore = useRenamingStore()
+
 		return {
+			currentView,
+
 			renamingStore,
 		}
 	},
