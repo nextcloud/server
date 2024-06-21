@@ -310,7 +310,8 @@ class Util {
 			return $defaultEmailAddress;
 		}
 
-		// in case we cannot build a valid email address from the hostname let's fallback to 'localhost.localdomain'
+		// in case we cannot build a valid email address from the hostname we log an error and fallback to 'localhost.localdomain' for now
+		\OCP\Server::get(LoggerInterface::class)->error('Unable to determine default email address ("mail_from_address" may be wrong). Using ' . $user_part . '@localhost.localdomain for the time being.');
 		return $user_part.'@localhost.localdomain';
 	}
 
