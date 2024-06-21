@@ -187,6 +187,7 @@ class PreviewControllerTest extends \Test\TestCase {
 			->willReturn($userFolder);
 
 		$file = $this->createMock(File::class);
+		$file->method('getId')->willReturn(123);
 		$userFolder->method('get')
 			->with($this->equalTo('file'))
 			->willReturn($file);
