@@ -435,6 +435,7 @@ OC.L10N.register(
     "Error while updating device token name" : "هنگام بروزرسانی نام کد وسیله خطایی رخ داد",
     "Error while updating device token scope" : "هنگام بروزرسانی دامنه توکن وسیله خطایی رخ داد",
     "There were too many requests from your network. Retry later or contact your administrator if this is an error." : "There were too many requests from your network. Retry later or contact your administrator if this is an error.",
+    "Error" : "خطا",
     "Forum" : "انجمن",
     "Legal notice" : "توصیهٔ حقوقی",
     "Privacy policy" : "سیاست محرمانگی",

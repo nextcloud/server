@@ -471,6 +471,7 @@ OC.L10N.register(
     "Error while updating device token name" : "Hiba az eszköztoken nevének frissítése során",
     "Error while updating device token scope" : "Hiba az eszköztoken hatókörének frissítése során",
     "There were too many requests from your network. Retry later or contact your administrator if this is an error." : "Túl sok kérés érkezett a hálózatától. Próbálja újra később, vagy ha ez egy hiba, akkor forduljon a rendszergazdához.",
+    "Error" : "Hiba",
     "Account documentation" : "Fiók dokumentációja",
     "Administration documentation" : "Rengszergazdai dokumentáció",
     "Forum" : "Fórum",

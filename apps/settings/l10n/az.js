@@ -159,6 +159,7 @@ OC.L10N.register(
     "Never" : "Heç vaxt",
     "Confirm wipe" : "Silməni təsdiq edin",
     "Error while updating device token name" : "Cihazın tokeninin adını yeniləyən vaxtı səhv baş verdi",
+    "Error" : "Səhv",
     "Forum" : "Forum",
     "SSL" : "SSL",
     "Open documentation" : "Sənədləri aç",

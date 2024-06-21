@@ -538,6 +538,7 @@ OC.L10N.register(
     "Error while updating device token name" : "S'ha produït un error mentre s'actualitzava el nom del testimoni del dispositiu",
     "Error while updating device token scope" : "S'ha produït un error mentre s'actualitzava l’abast de testimonis del dispositiu",
     "There were too many requests from your network. Retry later or contact your administrator if this is an error." : "Hi havia massa sol·licituds de la seva xarxa. Reintentar més tard o contactar amb l'administrador si això és un error.",
+    "Error" : "Error",
     "Account documentation" : "Documentació del compte",
     "Administration documentation" : "Documentació administrativa",
     "Forum" : "Fòrum",

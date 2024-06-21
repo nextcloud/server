@@ -644,6 +644,7 @@
     "Error while updating device token name" : "Помилка під час оновлення назви маркера пристрою",
     "Error while updating device token scope" : "Помилка під час оновлення області маркера пристрою",
     "There were too many requests from your network. Retry later or contact your administrator if this is an error." : "Забагато запитів із вашої мережі. Повторіть спробу пізніше або зверніться до адміністратора, якщо це помилка.",
+    "Error" : "Помилка",
     "Account documentation" : "Документація для облікового запису",
     "Administration documentation" : "Документація для адміністратора",
     "Forum" : "Форум",

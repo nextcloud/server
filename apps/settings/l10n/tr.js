@@ -741,6 +741,7 @@ OC.L10N.register(
     "Error while updating device token scope" : "Aygıt kodu aralığı güncellenirken sorun çıktı",
     "Could not set group sorting" : "Grup sıralaması ayarlanamadı",
     "There were too many requests from your network. Retry later or contact your administrator if this is an error." : "Ağınızdan çok fazla istekte bulunuldu. Bir süre sonra yeniden deneyin ya da bir sorun olduğunu düşünüyorsanız BT yöneticiniz ile görüşün.",
+    "Error" : "Hata",
     "Account documentation" : "Hesap belgeleri",
     "Administration documentation" : "Yönetim belgeleri",
     "Forum" : "Forum",

@@ -557,6 +557,7 @@
     "Error while updating device token name" : "Errore durante l'aggiornamento del nome del token del dispositivo",
     "Error while updating device token scope" : "Errore durante l'aggiornamento del campo del token del dispositivo",
     "There were too many requests from your network. Retry later or contact your administrator if this is an error." : "Sono arrivate troppe richieste dalla tua rete. Riprova più tardi o contatta il tuo amministratore se questo è un errore.",
+    "Error" : "Errore",
     "Account documentation" : "Documentazione dell'account",
     "Administration documentation" : "Documentazione di amministrazione",
     "Forum" : "Forum",

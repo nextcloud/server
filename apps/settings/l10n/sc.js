@@ -313,6 +313,7 @@ OC.L10N.register(
     "Error while updating device token name" : "Errore agiornende si nùmene de su token de su dispositivu",
     "Error while updating device token scope" : "Errore agiornende s'àmbitu de su token de su dispositivu",
     "There were too many requests from your network. Retry later or contact your administrator if this is an error." : "Tropu rechestas sunt arribadas dae sa rete tua. Torra a proare prus a tardu o cuntata s'amministradore tuo chi ddoe at un'errore.",
+    "Error" : "Errore",
     "Forum" : "Forum",
     "Legal notice" : "Avisu legale",
     "Privacy policy" : "Critèriu de riservadesa",

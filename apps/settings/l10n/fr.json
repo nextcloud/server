@@ -703,6 +703,7 @@
     "Error while updating device token scope" : "Erreur lors de la mise à jour de la visibilité du jeton de l'appareil",
     "Could not set group sorting" : "Impossible de définir le tri des groupes",
     "There were too many requests from your network. Retry later or contact your administrator if this is an error." : "Il y a trop de requêtes depuis votre réseau. Réessayez plus tard ou contactez votre administrateur s'il s'agit d'une erreur.",
+    "Error" : "Erreur",
     "Account documentation" : "Documentation utilisateur",
     "Administration documentation" : "Documentation de l'administration",
     "Forum" : "Forum",
