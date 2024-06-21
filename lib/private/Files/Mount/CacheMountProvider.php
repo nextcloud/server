@@ -39,24 +39,24 @@ class CacheMountProvider implements IMountProvider {
 	 */
 	public function getMountsForUser(IUser $user, IStorageFactory $loader) {
 		$cacheBaseDir = $this->config->getSystemValueString('cache_path', '');
-        $mounts = [];
+		$mounts = [];
 		if ($cacheBaseDir !== '') {
 			$cacheDir = rtrim($cacheBaseDir, '/') . '/' . $user->getUID();
 			if (!file_exists($cacheDir)) {
 				mkdir($cacheDir, 0770, true);
 			}
-            $mounts[] = new MountPoint('\OC\Files\Storage\Local', '/' . $user->getUID() . '/cache', ['datadir' => $cacheDir], $loader, null, null, self::class);
+			$mounts[] = new MountPoint('\OC\Files\Storage\Local', '/' . $user->getUID() . '/cache', ['datadir' => $cacheDir], $loader, null, null, self::class);
 		}
 
-        $uploadsPath = $this->config->getSystemValueString('uploads_path', $this->config->getSystemValueString('cache_path', ''));
-        if ($uploadsPath !== '') {
-            $uploadsDir = rtrim($uploadsPath, '/') . '/' . $user->getUID() . '/uploads';
-            if (!file_exists($uploadsDir)) {
-                mkdir($uploadsDir, 0770, true);
-            }
-            $mounts[] = new MountPoint('\OC\Files\Storage\Local', '/' . $user->getUID() . '/uploads', ['datadir' => $uploadsDir], $loader, null, null, self::class);
-        }
-        
-        return $mounts;
+		$uploadsPath = $this->config->getSystemValueString('uploads_path', $this->config->getSystemValueString('cache_path', ''));
+		if ($uploadsPath !== '') {
+			$uploadsDir = rtrim($uploadsPath, '/') . '/' . $user->getUID() . '/uploads';
+			if (!file_exists($uploadsDir)) {
+				mkdir($uploadsDir, 0770, true);
+			}
+			$mounts[] = new MountPoint('\OC\Files\Storage\Local', '/' . $user->getUID() . '/uploads', ['datadir' => $uploadsDir], $loader, null, null, self::class);
+		}
+		
+		return $mounts;
 	}
 }
