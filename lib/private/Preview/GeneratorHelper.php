@@ -7,6 +7,7 @@ namespace OC\Preview;
 
 use OCP\Files\File;
 use OCP\Files\IRootFolder;
+use OCP\Files\SimpleFS\InMemoryFile;
 use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\IConfig;
 use OCP\IImage;
@@ -64,5 +65,9 @@ class GeneratorHelper {
 			$provider = new ProviderV1Adapter($provider);
 		}
 		return $provider;
+	}
+
+	public function createInMemoryFile(string $name, string $content): ISimpleFile {
+		return new InMemoryFile($name, $content);
 	}
 }

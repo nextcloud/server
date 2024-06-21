@@ -355,7 +355,7 @@ class Generator {
 					} else {
 						$contents = $preview->data();
 					}
-					return new InMemoryFile($path, $contents);
+					return $this->helper->createInMemoryFile($path, $contents);
 				}
 
 				try {
@@ -548,7 +548,7 @@ class Generator {
 		$path = $this->generatePath($width, $height, $crop, false, $preview->dataMimeType(), $prefix);
 
 		if ($inMemory) {
-			return new InMemoryFile($path, $preview->data());
+			return $this->helper->createInMemoryFile($path, $preview->data());
 		}
 
 		try {
