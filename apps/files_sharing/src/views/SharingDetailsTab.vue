@@ -681,8 +681,8 @@ export default {
 	beforeMount() {
 		this.initializePermissions()
 		this.initializeAttributes()
-		console.debug('shareSentIn', this.share)
-		console.debug('config', this.config)
+		logger.debug('Share object received', { share: this.share })
+		logger.debug('Configuration object received', { config: this.config })
 	},
 
 	mounted() {
@@ -858,7 +858,7 @@ export default {
 		 * @param {Share} share incoming share object
 		 */
 		async addShare(share) {
-			console.debug('Adding a new share from the input for', share)
+			logger.debug('Adding a new share from the input for', { share })
 			const path = this.path
 			try {
 				const resultingShare = await this.createShare({
@@ -873,7 +873,7 @@ export default {
 				})
 				return resultingShare
 			} catch (error) {
-				console.error('Error while adding new share', error)
+				logger.error('Error while adding new share', { error })
 			} finally {
 				// this.loading = false // No loader here yet
 			}
