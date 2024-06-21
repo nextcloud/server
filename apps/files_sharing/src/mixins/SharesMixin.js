@@ -25,6 +25,8 @@
  *
  */
 
+import { emit } from '@nextcloud/event-bus'
+import { fetchNode } from '../services/WebdavClient.ts'
 import { showError, showSuccess } from '@nextcloud/dialogs'
 import { getCurrentUser } from '@nextcloud/auth'
 // eslint-disable-next-line import/no-unresolved, n/no-missing-import
@@ -35,6 +37,7 @@ import Share from '../models/Share.js'
 import SharesRequests from './ShareRequests.js'
 import ShareTypes from './ShareTypes.js'
 import Config from '../services/ConfigService.js'
+import logger from '../services/logger.ts'
 
 import {
 	BUNDLED_PERMISSIONS,
@@ -62,6 +65,7 @@ export default {
 	data() {
 		return {
 			config: new Config(),
+			node: null,
 
 			// errors helpers
 			errors: {},
@@ -84,7 +88,9 @@ export default {
 	},
 
 	computed: {
-
+		path() {
+			return (this.fileInfo.path + '/' + this.fileInfo.name).replace('//', '/')
+		},
 		/**
 		 * Does the current share have a note
 		 *
@@ -171,6 +177,20 @@ export default {
 	},
 
 	methods: {
+		/**
+		 * Fetch webdav node
+		 *
+		 * @return {Node}
+		 */
+		async getNode() {
+			const node = { path: this.path }
+			try {
+				this.node = await fetchNode(node)
+				logger.info('Fetched node:', { node: this.node })
+			} catch (error) {
+				logger.error('Error:', error)
+			}
+		},
 		/**
 		 * Check if a share is valid before
 		 * firing the request
@@ -269,6 +289,8 @@ export default {
 					: t('files_sharing', 'Folder "{path}" has been unshared', { path: this.share.path })
 				showSuccess(message)
 				this.$emit('remove:share', this.share)
+				await this.getNode()
+				emit('files:node:updated', this.node)
 			} catch (error) {
 				// re-open menu if error
 				this.open = true

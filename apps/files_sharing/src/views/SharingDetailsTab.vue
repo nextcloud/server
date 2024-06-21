@@ -215,6 +215,7 @@
 </template>
 
 <script>
+import { emit } from '@nextcloud/event-bus'
 import { getLanguage } from '@nextcloud/l10n'
 
 import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
@@ -243,6 +244,7 @@ import Share from '../models/Share.js'
 import ShareRequests from '../mixins/ShareRequests.js'
 import ShareTypes from '../mixins/ShareTypes.js'
 import SharesMixin from '../mixins/SharesMixin.js'
+import logger from '../services/logger.ts'
 
 import {
 	ATOMIC_PERMISSIONS,
@@ -839,7 +841,7 @@ export default {
 				}
 
 				this.creating = true
-				const share = await this.addShare(incomingShare, this.fileInfo)
+				const share = await this.addShare(incomingShare)
 				this.creating = false
 				this.share = share
 				this.$emit('add:share', this.share)
@@ -854,12 +856,11 @@ export default {
 		 * Process the new share request
 		 *
 		 * @param {Share} share incoming share object
-		 * @param {object} fileInfo file data
 		 */
-		async addShare(share, fileInfo) {
+		async addShare(share) {
 			console.debug('Adding a new share from the input for', share)
+			const path = this.path
 			try {
-				const path = (fileInfo.path + '/' + fileInfo.name).replace('//', '/')
 				const resultingShare = await this.createShare({
 					path,
 					shareType: share.shareType,
@@ -879,6 +880,8 @@ export default {
 		},
 		async removeShare() {
 			await this.onDelete()
+			await this.getNode()
+			emit('files:node:updated', this.node)
 			this.$emit('close-sharing-details')
 		},
 		/**
