@@ -156,6 +156,7 @@ OC.L10N.register(
     "Updates" : "Atjauninājumi",
     "Hide" : "Slēpt",
     "Never" : "Nekad",
+    "Error" : "Kļūda",
     "Forum" : "Forums",
     "Nextcloud help & privacy resources" : "Nextcloud palīdzība un privātuma līdzekļi",
     "Privacy policy" : "Privātuma politika",

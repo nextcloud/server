@@ -368,6 +368,7 @@ OC.L10N.register(
     "Error while updating device token name" : "Fout tijdens bijwerken device tokennaam",
     "Error while updating device token scope" : "Fout tijdens bijwerken device tokenscope",
     "There were too many requests from your network. Retry later or contact your administrator if this is an error." : "Er waren te veel aanvragen afkomstig uit uw netwerk. Probeer later opnieuw of contacteer de beheerder als dat niet correct is.",
+    "Error" : "Fout",
     "Forum" : "Forum",
     "Legal notice" : "Juridische bepalingen",
     "Privacy policy" : "Privacybeleid",

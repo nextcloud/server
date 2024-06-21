@@ -741,6 +741,7 @@ OC.L10N.register(
     "Error while updating device token scope" : "Erro ao atualizar o escopo do token do dispositivo",
     "Could not set group sorting" : "Não foi possível definir a classificação de grupo",
     "There were too many requests from your network. Retry later or contact your administrator if this is an error." : "Houve muitas solicitações de sua rede. Tente novamente mais tarde ou entre em contato com o administrador se isso for um erro.",
+    "Error" : "Erro",
     "Account documentation" : "Documentação da conta",
     "Administration documentation" : "Documentação de administração",
     "Forum" : "Fórum",

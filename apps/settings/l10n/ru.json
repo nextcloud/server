@@ -686,6 +686,7 @@
     "Error while updating device token scope" : "Ошибка при обновлении разрешений токена устройства",
     "Could not set group sorting" : "Не удалось настроить сортировку групп",
     "There were too many requests from your network. Retry later or contact your administrator if this is an error." : "Превышено количество запросов из вашей сети. Попробуйте позднее или сообщите администратору об этой ошибке.",
+    "Error" : "Ошибка",
     "Administration documentation" : "Документация администратора",
     "Forum" : "Форум",
     "Nextcloud help & privacy resources" : "Справочные ресурсы Nexcloud и руководства по безопасности",

@@ -526,6 +526,7 @@
     "Error while updating device token name" : "Napaka med posodabljanjem imena žetona naprave",
     "Error while updating device token scope" : "Napaka med posodabljanjem obsega žetona naprave",
     "There were too many requests from your network. Retry later or contact your administrator if this is an error." : "Iz omrežja je bilo prejetih preveč zahtev. Če je to napaka, stopite v stik s skrbnikom, sicer pa poskusite spet kasneje.",
+    "Error" : "Napaka",
     "Account documentation" : "Dokumentacija računa",
     "Administration documentation" : "Skrbniška dokumentacija",
     "Forum" : "Forum",
