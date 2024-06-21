@@ -35,6 +35,7 @@
 
 <script lang="ts">
 import type { Node } from '@nextcloud/files'
+import type { FileSource } from '../types.ts'
 
 import { basename } from 'path'
 import { defineComponent } from 'vue'
@@ -45,6 +46,7 @@ import NcBreadcrumb from '@nextcloud/vue/dist/Components/NcBreadcrumb.js'
 import NcBreadcrumbs from '@nextcloud/vue/dist/Components/NcBreadcrumbs.js'
 import NcIconSvgWrapper from '@nextcloud/vue/dist/Components/NcIconSvgWrapper.js'
 
+import { useNavigation } from '../composables/useNavigation'
 import { onDropInternalFiles, dataTransferToFileTree, onDropExternalFiles } from '../services/DropService'
 import { showError } from '@nextcloud/dialogs'
 import { useDragAndDropStore } from '../store/dragging.ts'
@@ -54,7 +56,6 @@ import { useSelectionStore } from '../store/selection.ts'
 import { useUploaderStore } from '../store/uploader.ts'
 import filesListWidthMixin from '../mixins/filesListWidth.ts'
 import logger from '../logger'
-import type { FileSource } from '../types.ts'
 
 export default defineComponent({
 	name: 'BreadCrumbs',
@@ -82,6 +83,7 @@ export default defineComponent({
 		const pathsStore = usePathsStore()
 		const selectionStore = useSelectionStore()
 		const uploaderStore = useUploaderStore()
+		const { currentView } = useNavigation()
 
 		return {
 			draggingStore,
@@ -89,14 +91,12 @@ export default defineComponent({
 			pathsStore,
 			selectionStore,
 			uploaderStore,
+
+			currentView,
 		}
 	},
 
 	computed: {
-		currentView() {
-			return this.$navigation.active
-		},
-
 		dirs(): string[] {
 			const cumulativePath = (acc: string) => (value: string) => (acc += `${value}/`)
 			// Generate a cumulative path for each path segment: ['/', '/foo', '/foo/bar', ...] etc
@@ -150,15 +150,15 @@ export default defineComponent({
 		getNodeFromSource(source: FileSource): Node | undefined {
 			return this.filesStore.getNode(source)
 		},
-		getFileSourceFromPath(path: string): FileSource | undefined {
-			return this.pathsStore.getPath(this.currentView?.id, path)
+		getFileSourceFromPath(path: string): FileSource | null {
+			return (this.currentView && this.pathsStore.getPath(this.currentView.id, path)) ?? null
 		},
 		getDirDisplayName(path: string): string {
 			if (path === '/') {
 				return this.$navigation?.active?.name || t('files', 'Home')
 			}
 
-			const source: FileSource | undefined = this.getFileSourceFromPath(path)
+			const source: FileSource | null = this.getFileSourceFromPath(path)
 			const node: Node | undefined = source ? this.getNodeFromSource(source) : undefined
 			return node?.attributes?.displayname || basename(path)
 		},
@@ -170,6 +170,10 @@ export default defineComponent({
 		},
 
 		onDragOver(event: DragEvent, path: string) {
+			if (!event.dataTransfer) {
+				return
+			}
+
 			// Cannot drop on the current directory
 			if (path === this.dirs[this.dirs.length - 1]) {
 				event.dataTransfer.dropEffect = 'none'

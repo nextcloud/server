@@ -48,10 +48,6 @@ export default defineComponent({
 	},
 
 	computed: {
-		currentView(): View {
-			return this.$navigation.active as View
-		},
-
 		currentDir() {
 			// Remove any trailing slash but leave root slash
 			return (this.$route?.query?.dir?.toString() || '/').replace(/^(.+)\/$/, '$1')
