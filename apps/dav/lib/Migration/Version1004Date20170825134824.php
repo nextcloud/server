@@ -471,6 +471,9 @@ class Version1004Date20170825134824 extends SimpleMigrationStep {
 			]);
 			$table->setPrimaryKey(['id']);
 			$table->addUniqueIndex(['principaluri', 'resourceid', 'type', 'publicuri'], 'dav_shares_index');
+			// modified on 2024-6-21 to add performance improving indices on new instances
+			$table->addIndex(['resourceid', 'type'], 'dav_shares_resourceid_type');
+			$table->addIndex(['resourceid', 'access'], 'dav_shares_resourceid_access');
 		}
 		return $schema;
 	}
