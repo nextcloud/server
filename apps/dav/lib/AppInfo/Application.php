@@ -72,6 +72,7 @@ use OCA\DAV\Events\SubscriptionCreatedEvent;
 use OCA\DAV\Events\SubscriptionDeletedEvent;
 use OCA\DAV\HookManager;
 use OCA\DAV\Listener\ActivityUpdaterListener;
+use OCA\DAV\Listener\AddMissingIndicesListener;
 use OCA\DAV\Listener\AddressbookListener;
 use OCA\DAV\Listener\BirthdayListener;
 use OCA\DAV\Listener\CalendarContactInteractionListener;
@@ -102,6 +103,7 @@ use OCP\Calendar\IManager as ICalendarManager;
 use OCP\Config\BeforePreferenceDeletedEvent;
 use OCP\Config\BeforePreferenceSetEvent;
 use OCP\Contacts\IManager as IContactsManager;
+use OCP\DB\Events\AddMissingIndicesEvent;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Federation\Events\TrustedServerRemovedEvent;
 use OCP\Files\AppData\IAppDataFactory;
@@ -152,6 +154,8 @@ class Application extends App implements IBootstrap {
 		/**
 		 * Register event listeners
 		 */
+		$context->registerEventListener(AddMissingIndicesEvent::class, AddMissingIndicesListener::class);
+
 		$context->registerEventListener(CalendarCreatedEvent::class, ActivityUpdaterListener::class);
 		$context->registerEventListener(CalendarDeletedEvent::class, ActivityUpdaterListener::class);
 		$context->registerEventListener(CalendarDeletedEvent::class, CalendarObjectReminderUpdaterListener::class);
@@ -258,6 +262,7 @@ class Application extends App implements IBootstrap {
 
 			// Here we should recalculate if reminders should be sent to new or old sharees
 		});
+
 	}
 
 	public function registerContactsManager(IContactsManager $cm, IAppContainer $container): void {

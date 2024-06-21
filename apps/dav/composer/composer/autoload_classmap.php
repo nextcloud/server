@@ -271,6 +271,7 @@ return array(
     'OCA\\DAV\\Files\\Sharing\\PublicLinkCheckPlugin' => $baseDir . '/../lib/Files/Sharing/PublicLinkCheckPlugin.php',
     'OCA\\DAV\\HookManager' => $baseDir . '/../lib/HookManager.php',
     'OCA\\DAV\\Listener\\ActivityUpdaterListener' => $baseDir . '/../lib/Listener/ActivityUpdaterListener.php',
+    'OCA\\DAV\\Listener\\AddMissingIndicesListener' => $baseDir . '/../lib/Listener/AddMissingIndicesListener.php',
     'OCA\\DAV\\Listener\\AddressbookListener' => $baseDir . '/../lib/Listener/AddressbookListener.php',
     'OCA\\DAV\\Listener\\BirthdayListener' => $baseDir . '/../lib/Listener/BirthdayListener.php',
     'OCA\\DAV\\Listener\\CalendarContactInteractionListener' => $baseDir . '/../lib/Listener/CalendarContactInteractionListener.php',
