@@ -57,13 +57,13 @@
     "@nextcloud/paths": "^2.1.0",
     "@nextcloud/router": "^3.0.0",
     "@nextcloud/sharing": "^0.1.0",
-    "@nextcloud/upload": "^1.1.1",
+    "@nextcloud/upload": "^1.4.1",
     "@nextcloud/vue": "^8.11.2",
     "@simplewebauthn/browser": "^10.0.0",
     "@skjnldsv/sanitize-svg": "^1.0.2",
-    "@vueuse/components": "^10.9.0",
-    "@vueuse/core": "^10.9.0",
-    "@vueuse/integrations": "^10.9.0",
+    "@vueuse/components": "^10.11.0",
+    "@vueuse/core": "^10.11.0",
+    "@vueuse/integrations": "^10.11.0",
     "backbone": "^1.4.1",
     "blueimp-md5": "^2.19.0",
     "browserslist-useragent-regexp": "^4.1.1",
@@ -113,7 +113,7 @@
     "vuedraggable": "^2.24.3",
     "vuex": "^3.6.2",
     "vuex-router-sync": "^5.0.0",
-    "webdav": "^5.5.0"
+    "webdav": "^5.6.0"
   },
   "devDependencies": {
     "@babel/node": "^7.22.10",
