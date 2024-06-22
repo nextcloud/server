@@ -123,7 +123,7 @@
     "@jest/globals": "^29.7.0",
     "@nextcloud/babel-config": "^1.0.0",
     "@nextcloud/cypress": "^1.0.0-beta.7",
-    "@nextcloud/eslint-config": "^v8.3.0-beta.2",
+    "@nextcloud/eslint-config": "^v8.4.1",
     "@nextcloud/stylelint-config": "^2.4.0",
     "@nextcloud/typings": "^1.8.0",
     "@nextcloud/webpack-vue-config": "^6.0.1",
