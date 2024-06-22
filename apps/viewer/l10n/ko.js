@@ -9,6 +9,7 @@ OC.L10N.register(
     "Error saving image" : "이미지 저장 중 오류 발생",
     "Unsaved changes" : "저장하지 않은 변경 사항",
     "Drop changes" : "변경 사항 버리기",
+    "LIVE" : "라이브",
     "Your browser does not support videos." : "브라우저가 영상을 지원하지 않습니다.",
     "Edit" : "편집",
     "Open sidebar" : "사이드바 열기",
