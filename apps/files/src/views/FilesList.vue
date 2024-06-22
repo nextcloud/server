@@ -112,7 +112,7 @@ import type { Upload } from '@nextcloud/upload'
 import type { CancelablePromise } from 'cancelable-promise'
 import type { ComponentPublicInstance } from 'vue'
 import type { Route } from 'vue-router'
-import type { UserConfig } from '../types.ts'
+import type { FilesFilter, UserConfig } from '../types.ts'
 
 import { getCapabilities } from '@nextcloud/capabilities'
 import { emit, subscribe, unsubscribe } from '@nextcloud/event-bus'
@@ -150,7 +150,6 @@ import filesListWidthMixin from '../mixins/filesListWidth.ts'
 import filesSortingMixin from '../mixins/filesSorting.ts'
 import logger from '../logger.js'
 import DragAndDropNotice from '../components/DragAndDropNotice.vue'
-import debounce from 'debounce'
 
 const isSharingEnabled = (getCapabilities() as { files_sharing?: boolean })?.files_sharing !== undefined
 
@@ -179,6 +178,20 @@ export default defineComponent({
 		filesSortingMixin,
 	],
 
+	provide() {
+		return {
+			'files:filter:add': (filter: FilesFilter) => {
+				this.$set(this.filters, filter.id, filter)
+				logger.debug('File list filter updated', { filters: [...Object.keys(this.filters)] })
+			},
+
+			'files:filter:delete': (id: string) => {
+				this.$delete(this.filters, id)
+				logger.debug('File list filter removed', { filter: id, filters: [...Object.keys(this.filters)] })
+			},
+		}
+	},
+
 	setup() {
 		const filesStore = useFilesStore()
 		const pathsStore = usePathsStore()
@@ -205,7 +218,7 @@ export default defineComponent({
 
 	data() {
 		return {
-			filterText: '',
+			filters: {} as Record<string, FilesFilter>, // TODO: With Vue3 use Map
 			loading: true,
 			promise: null as CancelablePromise<ContentsWithRoot> | Promise<ContentsWithRoot> | null,
 
@@ -214,16 +227,6 @@ export default defineComponent({
 	},
 
 	computed: {
-		/**
-		 * Handle search event from unified search.
-		 */
-		onSearch() {
-			return debounce((searchEvent: { query: string }) => {
-				console.debug('Files app handling search event from unified search...', searchEvent)
-				this.filterText = searchEvent.query
-			}, 500)
-		},
-
 		userConfig(): UserConfig {
 			return this.userConfigStore.userConfig
 		},
@@ -306,6 +309,19 @@ export default defineComponent({
 			return [identifiers, orders] as const
 		},
 
+		dirContents(): Node[] {
+			return (this.currentFolder?._children || [])
+				.map(this.getNode)
+				.filter((node: Node) => !!node)
+				.filter(this.filterHidden)
+		},
+
+		dirContentsFiltered(): Node[] {
+			const filters = [...Object.values(this.filters)]
+			return this.dirContents
+				.filter((node: Node) => filters.every((filter: FilesFilter) => filter.filter(node)))
+		},
+
 		/**
 		 * The current directory contents.
 		 */
@@ -314,41 +330,19 @@ export default defineComponent({
 				return []
 			}
 
-			let filteredDirContent = [...this.dirContents]
-			// Filter based on the filterText obtained from nextcloud:unified-search.search event.
-			if (this.filterText) {
-				filteredDirContent = filteredDirContent.filter(node => {
-					return node.basename.toLowerCase().includes(this.filterText.toLowerCase())
-				})
-				console.debug('Files view filtered', filteredDirContent)
-			}
-
 			const customColumn = (this.currentView?.columns || [])
 				.find(column => column.id === this.sortingMode)
 
 			// Custom column must provide their own sorting methods
 			if (customColumn?.sort && typeof customColumn.sort === 'function') {
-				const results = [...this.dirContents].sort(customColumn.sort)
+				const results = [...this.dirContentsFiltered].sort(customColumn.sort)
 				return this.isAscSorting ? results : results.reverse()
 			}
 
 			return orderBy(
-				filteredDirContent,
+				this.dirContentsFiltered,
 				...this.sortingParameters,
 			)
-		},
-
-		dirContents(): Node[] {
-			const showHidden = this.userConfigStore?.userConfig.show_hidden
-			return (this.currentFolder?._children || [])
-				.map(this.getNode)
-				.filter(file => {
-					if (!showHidden) {
-						return file && file?.attributes?.hidden !== true && !file?.basename.startsWith('.')
-					}
-
-					return !!file
-				})
 		},
 
 		/**
@@ -445,7 +439,6 @@ export default defineComponent({
 
 			logger.debug('View changed', { newView, oldView })
 			this.selectionStore.reset()
-			this.resetSearch()
 			this.fetchContent()
 		},
 
@@ -453,7 +446,6 @@ export default defineComponent({
 			logger.debug('Directory changed', { newDir, oldDir })
 			// TODO: preserve selection on browsing?
 			this.selectionStore.reset()
-			this.resetSearch()
 			this.fetchContent()
 
 			// Scroll to top, force virtual scroller to re-render
@@ -474,8 +466,6 @@ export default defineComponent({
 
 		subscribe('files:node:deleted', this.onNodeDeleted)
 		subscribe('files:node:updated', this.onUpdatedNode)
-		subscribe('nextcloud:unified-search.search', this.onSearch)
-		subscribe('nextcloud:unified-search.reset', this.onSearch)
 
 		// reload on settings change
 		this.unsubscribeStoreCallback = this.userConfigStore.$subscribe(() => this.fetchContent(), { deep: true })
@@ -484,8 +474,6 @@ export default defineComponent({
 	unmounted() {
 		unsubscribe('files:node:deleted', this.onNodeDeleted)
 		unsubscribe('files:node:updated', this.onUpdatedNode)
-		unsubscribe('nextcloud:unified-search.search', this.onSearch)
-		unsubscribe('nextcloud:unified-search.reset', this.onSearch)
 		this.unsubscribeStoreCallback()
 	},
 
@@ -556,6 +544,15 @@ export default defineComponent({
 		 */
 		getNode(fileId) {
 			return this.filesStore.getNode(fileId)
+		},
+
+		/**
+		 * Whether the node should be shown
+		 * @param node The node to check
+		 */
+		filterHidden(node: Node) {
+			const showHidden = this.userConfigStore?.userConfig.show_hidden
+			return showHidden || (node.attributes.hidden !== true && !node.basename.startsWith('.'))
 		},
 
 		/**
@@ -650,13 +647,6 @@ export default defineComponent({
 			if (node?.fileid === this.currentFolder?.fileid) {
 				this.fetchContent()
 			}
-		},
-
-		/**
-		 * Reset the search query
-		 */
-		resetSearch() {
-			this.filterText = ''
 		},
 
 		openSharingSidebar() {
