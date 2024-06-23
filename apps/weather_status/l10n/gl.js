@@ -9,7 +9,7 @@ OC.L10N.register(
     "Weather status in your dashboard" : "Estado meteorolóxico no seu taboleiro",
     "Weather status integrated in the Dashboard app.\n    The geographic location can be automatically determined or manually defined. A 6 hours forecast is then displayed.\n    This status can also be integrated in other places like the Calendar app." : "Estado meteorolóxico integrado na aplicación do Taboleiro.\n    A localización xeográfica do usuario pódese determinar automaticamente ou definir manualmente. A seguir amósase unha previsión de 6 horas.\n    Este estado tamén se pode integrar noutros lugares como a aplicación Calendario.",
     "Detect location" : "Detectar localización",
-    "Set custom address" : "Estabelecer o enderezo personalizado",
+    "Set custom address" : "Definir o enderezo personalizado",
     "Favorites" : "Favoritos",
     "{temperature} {unit} clear sky later today" : "{temperature} {unit} ceo despexado hoxe máis tarde",
     "{temperature} {unit} clear sky" : "{temperature} {unit} ceo despexado",
