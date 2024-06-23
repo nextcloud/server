@@ -489,7 +489,7 @@ class Manager implements IManager {
 	 * @psalm-template T
 	 */
 	private function removeSuperfluousArrayKeys(array $array, ...$specs): array {
-		$keys = array_unique(array_reduce($specs, fn ($carry, $spec) => $carry + array_keys($spec), []));
+		$keys = array_unique(array_reduce($specs, fn ($carry, $spec) => array_merge($carry, array_keys($spec)), []));
 		$values = array_map(fn (string $key) => $array[$key], $keys);
 		return array_combine($keys, $values);
 	}
