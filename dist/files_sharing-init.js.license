@@ -18,6 +18,7 @@ SPDX-FileCopyrightText: Matt Zabriskie
 SPDX-FileCopyrightText: Joyent
 SPDX-FileCopyrightText: Jordan Harband <ljharb@gmail.com>
 SPDX-FileCopyrightText: Jordan Harband
+SPDX-FileCopyrightText: Jonas Schade <derzade@gmail.com>
 SPDX-FileCopyrightText: GitHub Inc.
 SPDX-FileCopyrightText: Feross Aboukhadijeh
 SPDX-FileCopyrightText: Dr.-Ing. Mario Heiderich, Cure53 <mario@cure53.de> (https://cure53.de/)
@@ -45,6 +46,12 @@ This file is generated from multiple sources. Included packages:
 	- license: GPL-3.0-or-later
 - @nextcloud/l10n
 	- version: 3.1.0
+	- license: GPL-3.0-or-later
+- @nextcloud/sharing
+	- version: 0.2.2
+	- license: GPL-3.0-or-later
+- @nextcloud/initial-state
+	- version: 2.2.0
 	- license: GPL-3.0-or-later
 - @nextcloud/router
 	- version: 2.2.0
@@ -189,6 +196,9 @@ This file is generated from multiple sources. Included packages:
 	- license: MIT
 - style-loader
 	- version: 3.3.4
+	- license: MIT
+- typescript-event-target
+	- version: 1.1.1
 	- license: MIT
 - util
 	- version: 0.12.5

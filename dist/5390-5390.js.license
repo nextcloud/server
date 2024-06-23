@@ -27,7 +27,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 7.4.47
 	- license: Apache-2.0
 - @nextcloud/initial-state
-	- version: 2.1.0
+	- version: 2.2.0
 	- license: GPL-3.0-or-later
 - @nextcloud/router
 	- version: 2.2.0

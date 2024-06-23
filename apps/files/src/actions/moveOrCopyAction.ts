@@ -10,7 +10,7 @@ import type { MoveCopyResult } from './moveOrCopyActionUtils'
 import { isAxiosError } from '@nextcloud/axios'
 import { FilePickerClosed, getFilePickerBuilder, showError } from '@nextcloud/dialogs'
 import { emit } from '@nextcloud/event-bus'
-import { Permission, FileAction, FileType, NodeStatus, davGetClient, davRootPath, davResultToNode, davGetDefaultPropfind } from '@nextcloud/files'
+import { FileAction, FileType, NodeStatus, davGetClient, davRootPath, davResultToNode, davGetDefaultPropfind, getUniqueName } from '@nextcloud/files'
 import { translate as t } from '@nextcloud/l10n'
 import { openConflictPicker, hasConflict } from '@nextcloud/upload'
 import { basename, join } from 'path'
@@ -22,7 +22,6 @@ import FolderMoveSvg from '@mdi/svg/svg/folder-move.svg?raw'
 import { MoveCopyAction, canCopy, canMove, getQueue } from './moveOrCopyActionUtils'
 import { getContents } from '../services/Files'
 import logger from '../logger'
-import { getUniqueName } from '../utils/fileUtils'
 
 /**
  * Return the action that is possible for the given nodes

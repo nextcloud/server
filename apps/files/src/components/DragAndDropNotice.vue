@@ -26,16 +26,18 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
-import { Folder, Permission } from '@nextcloud/files'
+import type { Folder } from '@nextcloud/files'
+import { Permission } from '@nextcloud/files'
 import { showError } from '@nextcloud/dialogs'
 import { translate as t } from '@nextcloud/l10n'
 import { UploadStatus } from '@nextcloud/upload'
+import { defineComponent, type PropType } from 'vue'
 
 import TrayArrowDownIcon from 'vue-material-design-icons/TrayArrowDown.vue'
 
-import logger from '../logger.js'
+import { useNavigation } from '../composables/useNavigation'
 import { dataTransferToFileTree, onDropExternalFiles } from '../services/DropService'
+import logger from '../logger.js'
 
 export default defineComponent({
 	name: 'DragAndDropNotice',
@@ -46,9 +48,17 @@ export default defineComponent({
 
 	props: {
 		currentFolder: {
-			type: Folder,
+			type: Object as PropType<Folder>,
 			required: true,
 		},
+	},
+
+	setup() {
+		const { currentView } = useNavigation()
+
+		return {
+			currentView,
+		}
 	},
 
 	data() {
@@ -58,10 +68,6 @@ export default defineComponent({
 	},
 
 	computed: {
-		currentView() {
-			return this.$navigation.active
-		},
-
 		/**
 		 * Check if the current folder has create permissions
 		 */

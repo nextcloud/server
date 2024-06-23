@@ -101,7 +101,7 @@
 import { loadState } from '@nextcloud/initial-state'
 import { translate as t } from '@nextcloud/l10n'
 import { generateUrl, imagePath } from '@nextcloud/router'
-import { debounce } from 'debounce'
+import debounce from 'debounce'
 
 import NcPasswordField from '@nextcloud/vue/dist/Components/NcPasswordField.js'
 import NcTextField from '@nextcloud/vue/dist/Components/NcTextField.js'

@@ -195,10 +195,11 @@ import {
 import { showError, showSuccess } from '@nextcloud/dialogs'
 import { translate as t } from '@nextcloud/l10n'
 import { loadState } from '@nextcloud/initial-state'
+import { snakeCase } from 'lodash'
 import { defineComponent } from 'vue'
+import debounce from 'debounce'
 
 import SelectSharingPermissions from './SelectSharingPermissions.vue'
-import { snakeCase, debounce } from 'lodash'
 
 interface IShareSettings {
 	enabled: boolean

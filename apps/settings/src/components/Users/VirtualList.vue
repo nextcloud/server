@@ -35,7 +35,7 @@
 <script lang="ts">
 import Vue from 'vue'
 import { vElementVisibility } from '@vueuse/components'
-import { debounce } from 'debounce'
+import debounce from 'debounce'
 
 import logger from '../../logger.ts'
 

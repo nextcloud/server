@@ -107,7 +107,7 @@
 </template>
 
 <script lang="ts">
-import type { View, ContentsWithRoot } from '@nextcloud/files'
+import type { ContentsWithRoot } from '@nextcloud/files'
 import type { Upload } from '@nextcloud/upload'
 import type { CancelablePromise } from 'cancelable-promise'
 import type { ComponentPublicInstance } from 'vue'
@@ -137,6 +137,7 @@ import AccountPlusIcon from 'vue-material-design-icons/AccountPlus.vue'
 import ViewGridIcon from 'vue-material-design-icons/ViewGrid.vue'
 
 import { action as sidebarAction } from '../actions/sidebarAction.ts'
+import { useNavigation } from '../composables/useNavigation.ts'
 import { useFilesStore } from '../store/files.ts'
 import { usePathsStore } from '../store/paths.ts'
 import { useSelectionStore } from '../store/selection.ts'
@@ -186,10 +187,13 @@ export default defineComponent({
 		const uploaderStore = useUploaderStore()
 		const userConfigStore = useUserConfigStore()
 		const viewConfigStore = useViewConfigStore()
+		const { currentView } = useNavigation()
 
 		const enableGridView = (loadState('core', 'config', [])['enable_non-accessible_features'] ?? true)
 
 		return {
+			currentView,
+
 			filesStore,
 			pathsStore,
 			selectionStore,
@@ -226,10 +230,6 @@ export default defineComponent({
 
 		userConfig(): UserConfig {
 			return this.userConfigStore.userConfig
-		},
-
-		currentView(): View {
-			return this.$navigation.active || this.$navigation.views.find((view) => view.id === (this.$route.params?.view ?? 'files'))!
 		},
 
 		pageHeading(): string {
@@ -284,8 +284,8 @@ export default defineComponent({
 				...(this.userConfig.sort_folders_first ? [v => v.type !== 'folder'] : []),
 				// 3: Use sorting mode if NOT basename (to be able to use displayName too)
 				...(this.sortingMode !== 'basename' ? [v => v[this.sortingMode]] : []),
-				// 4: Use displayName if available, fallback to name
-				v => v.attributes?.displayName || v.basename,
+				// 4: Use displayname if available, fallback to name
+				v => v.attributes?.displayname || v.basename,
 				// 5: Finally, use basename if all previous sorting methods failed
 				v => v.basename,
 			]
@@ -475,7 +475,7 @@ export default defineComponent({
 		subscribe('files:node:deleted', this.onNodeDeleted)
 		subscribe('files:node:updated', this.onUpdatedNode)
 		subscribe('nextcloud:unified-search.search', this.onSearch)
-		subscribe('nextcloud:unified-search.reset', this.onSearch)
+		subscribe('nextcloud:unified-search.reset', this.resetSearch)
 
 		// reload on settings change
 		this.unsubscribeStoreCallback = this.userConfigStore.$subscribe(() => this.fetchContent(), { deep: true })
@@ -485,7 +485,7 @@ export default defineComponent({
 		unsubscribe('files:node:deleted', this.onNodeDeleted)
 		unsubscribe('files:node:updated', this.onUpdatedNode)
 		unsubscribe('nextcloud:unified-search.search', this.onSearch)
-		unsubscribe('nextcloud:unified-search.reset', this.onSearch)
+		unsubscribe('nextcloud:unified-search.reset', this.resetSearch)
 		this.unsubscribeStoreCallback()
 	},
 
@@ -656,6 +656,9 @@ export default defineComponent({
 		 * Reset the search query
 		 */
 		resetSearch() {
+			// Reset debounced calls to not set the query again
+			this.onSearch.clear()
+			// Reset filter query
 			this.filterText = ''
 		},
 
@@ -668,7 +671,7 @@ export default defineComponent({
 			if (window?.OCA?.Files?.Sidebar?.setActiveTab) {
 				window.OCA.Files.Sidebar.setActiveTab('sharing')
 			}
-			sidebarAction.exec(this.currentFolder, this.currentView, this.currentFolder.path)
+			sidebarAction.exec(this.currentFolder, this.currentView!, this.currentFolder.path)
 		},
 		toggleGridView() {
 			this.userConfigStore.update('grid_view', !this.userConfig.grid_view)
