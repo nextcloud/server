@@ -40,7 +40,7 @@ class TemporaryNoTouch extends Temporary {
 }
 
 class TemporaryNoCross extends Temporary {
-	public function copyFromStorage(IStorage $sourceStorage, $sourceInternalPath, $targetInternalPath, $preserveMtime = null) {
+	public function copyFromStorage(IStorage $sourceStorage, $sourceInternalPath, $targetInternalPath, bool $preserveMtime = false): bool {
 		return Common::copyFromStorage($sourceStorage, $sourceInternalPath, $targetInternalPath, $preserveMtime);
 	}
 
