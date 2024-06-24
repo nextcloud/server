@@ -168,7 +168,10 @@ class WebhookListenerMapper extends QBMapper {
 
 		$qb->selectDistinct('event')
 			->from($this->getTableName())
-			->where($qb->expr()->in('user_id_filter', $qb->createNamedParameter(['',$userId], IQueryBuilder::PARAM_STR_ARRAY), IQueryBuilder::PARAM_STR));
+			->where($qb->expr()->in(
+				'user_id_filter',
+				$qb->createNamedParameter(array_unique(['',$userId]), IQueryBuilder::PARAM_STR_ARRAY),
+			));
 
 		$result = $qb->executeQuery();
 
@@ -201,12 +204,18 @@ class WebhookListenerMapper extends QBMapper {
 	/**
 	 * @throws Exception
 	 */
-	public function getByEvent(string $event): array {
+	public function getByEvent(string $event, ?string $userId = null): array {
 		$qb = $this->db->getQueryBuilder();
 
 		$qb->select('*')
 			->from($this->getTableName())
-			->where($qb->expr()->eq('event', $qb->createNamedParameter($event, IQueryBuilder::PARAM_STR)));
+			->where($qb->expr()->eq('event', $qb->createNamedParameter($event, IQueryBuilder::PARAM_STR)))
+			->andWhere(
+				$qb->expr()->in(
+					'user_id_filter',
+					$qb->createNamedParameter(array_unique(['',$userId ?? '']), IQueryBuilder::PARAM_STR_ARRAY),
+				)
+			);
 
 		return $this->findEntities($qb);
 	}
