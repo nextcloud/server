@@ -14,9 +14,13 @@
 </template>
 
 <script lang="ts">
-import { Node, FileType } from '@nextcloud/files'
+import type { Node } from '@nextcloud/files'
+import type { PropType } from 'vue'
+import type { FileSource } from '../../types.ts'
+
+import { FileType } from '@nextcloud/files'
 import { translate as t } from '@nextcloud/l10n'
-import { type PropType, defineComponent } from 'vue'
+import { defineComponent } from 'vue'
 
 import NcCheckboxRadioSwitch from '@nextcloud/vue/dist/Components/NcCheckboxRadioSwitch.js'
 import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'

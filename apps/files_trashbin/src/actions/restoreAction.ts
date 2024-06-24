@@ -3,6 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 import { emit } from '@nextcloud/event-bus'
+import { encodePath } from '@nextcloud/paths'
 import { generateRemoteUrl } from '@nextcloud/router'
 import { getCurrentUser } from '@nextcloud/auth'
 import { Permission, Node, View, registerFileAction, FileAction } from '@nextcloud/files'
@@ -10,8 +11,7 @@ import { translate as t } from '@nextcloud/l10n'
 import axios from '@nextcloud/axios'
 import History from '@mdi/svg/svg/history.svg?raw'
 
-import logger from '../../../files/src/logger.js'
-import { encodePath } from '@nextcloud/paths'
+import logger from '../../../files/src/logger.ts'
 
 registerFileAction(new FileAction({
 	id: 'restore',
