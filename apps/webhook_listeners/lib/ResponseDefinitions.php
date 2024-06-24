@@ -17,6 +17,7 @@ namespace OCA\WebhookListeners;
  *     uri: string,
  *     event?: string,
  *     eventFilter?: array<string,mixed>,
+ *     userIdFilter?: string,
  *     headers?: array<string,string>,
  *     authMethod: string,
  *     authData?: array<string,mixed>,

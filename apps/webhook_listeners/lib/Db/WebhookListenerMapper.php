@@ -25,7 +25,7 @@ use OCP\IDBConnection;
 class WebhookListenerMapper extends QBMapper {
 	public const TABLE_NAME = 'webhook_listeners';
 
-	private const EVENTS_CACHE_KEY = 'eventsUsedInWebhooks';
+	private const EVENTS_CACHE_KEY_PREFIX = 'eventsUsedInWebhooks';
 
 	private ?ICache $cache = null;
 
@@ -77,6 +77,7 @@ class WebhookListenerMapper extends QBMapper {
 		string $uri,
 		string $event,
 		?array $eventFilter,
+		?string $userIdFilter,
 		?array $headers,
 		AuthMethod $authMethod,
 		#[\SensitiveParameter]
@@ -95,12 +96,13 @@ class WebhookListenerMapper extends QBMapper {
 				'uri' => $uri,
 				'event' => $event,
 				'eventFilter' => $eventFilter ?? [],
+				'userIdFilter' => $userIdFilter ?? '',
 				'headers' => $headers,
 				'authMethod' => $authMethod->value,
 			]
 		);
 		$webhookListener->setAuthDataClear($authData);
-		$this->cache?->remove(self::EVENTS_CACHE_KEY);
+		$this->cache?->remove($this->buildCacheKey($userIdFilter));
 		return $this->insert($webhookListener);
 	}
 
@@ -115,6 +117,7 @@ class WebhookListenerMapper extends QBMapper {
 		string $uri,
 		string $event,
 		?array $eventFilter,
+		?string $userIdFilter,
 		?array $headers,
 		AuthMethod $authMethod,
 		#[\SensitiveParameter]
@@ -134,12 +137,13 @@ class WebhookListenerMapper extends QBMapper {
 				'uri' => $uri,
 				'event' => $event,
 				'eventFilter' => $eventFilter ?? [],
+				'userIdFilter' => $userIdFilter ?? '',
 				'headers' => $headers,
 				'authMethod' => $authMethod->value,
 			]
 		);
 		$webhookListener->setAuthDataClear($authData);
-		$this->cache?->remove(self::EVENTS_CACHE_KEY);
+		$this->cache?->remove($this->buildCacheKey($userIdFilter));
 		return $this->update($webhookListener);
 	}
 
@@ -159,11 +163,12 @@ class WebhookListenerMapper extends QBMapper {
 	 * @throws Exception
 	 * @return list<string>
 	 */
-	private function getAllConfiguredEventsFromDatabase(): array {
+	private function getAllConfiguredEventsFromDatabase(string $userId): array {
 		$qb = $this->db->getQueryBuilder();
 
 		$qb->selectDistinct('event')
-			->from($this->getTableName());
+			->from($this->getTableName())
+			->where($qb->expr()->in('user_id_filter', $qb->createNamedParameter(['',$userId], IQueryBuilder::PARAM_STR_ARRAY), IQueryBuilder::PARAM_STR));
 
 		$result = $qb->executeQuery();
 
@@ -181,14 +186,15 @@ class WebhookListenerMapper extends QBMapper {
 	 * @throws Exception
 	 * @return list<string>
 	 */
-	public function getAllConfiguredEvents(): array {
-		$events = $this->cache?->get(self::EVENTS_CACHE_KEY);
+	public function getAllConfiguredEvents(?string $userId = null): array {
+		$cacheKey = $this->buildCacheKey($userId);
+		$events = $this->cache?->get($cacheKey);
 		if ($events !== null) {
 			return json_decode($events);
 		}
-		$events = $this->getAllConfiguredEventsFromDatabase();
+		$events = $this->getAllConfiguredEventsFromDatabase($userId ?? '');
 		// cache for 5 minutes
-		$this->cache?->set(self::EVENTS_CACHE_KEY, json_encode($events), 300);
+		$this->cache?->set($cacheKey, json_encode($events), 300);
 		return $events;
 	}
 
@@ -216,5 +222,9 @@ class WebhookListenerMapper extends QBMapper {
 			->where($qb->expr()->eq('uri', $qb->createNamedParameter($uri, IQueryBuilder::PARAM_STR)));
 
 		return $this->findEntities($qb);
+	}
+
+	private function buildCacheKey(?string $userIdFilter = ''): string {
+		return self::EVENTS_CACHE_KEY_PREFIX.'_'.($userIdFilter ?? '');
 	}
 }

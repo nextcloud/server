@@ -60,6 +60,12 @@ class WebhookListener extends Entity implements \JsonSerializable {
 	protected $eventFilter;
 
 	/**
+	 * @var string
+	 * If not empty, id of the user that needs to be connected for the webhook to trigger
+	 */
+	protected $userIdFilter;
+
+	/**
 	 * @var ?array
 	 */
 	protected $headers = null;
@@ -90,6 +96,7 @@ class WebhookListener extends Entity implements \JsonSerializable {
 		$this->addType('uri', 'string');
 		$this->addType('event', 'string');
 		$this->addType('eventFilter', 'json');
+		$this->addType('userIdFilter', 'string');
 		$this->addType('headers', 'json');
 		$this->addType('authMethod', 'string');
 		$this->addType('authData', 'string');
