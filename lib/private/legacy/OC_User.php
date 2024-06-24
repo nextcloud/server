@@ -172,7 +172,10 @@ class OC_User {
 				if (empty($password)) {
 					$tokenProvider = \OC::$server->get(IProvider::class);
 					$token = $tokenProvider->getToken($userSession->getSession()->getId());
-					$token->setScope([IToken::SCOPE_SKIP_PASSWORD_VALIDATION => true]);
+					$token->setScope([
+						IToken::SCOPE_SKIP_PASSWORD_VALIDATION => true,
+						IToken::SCOPE_FILESYSTEM => true,
+					]);
 					$tokenProvider->updateToken($token);
 				}
 
