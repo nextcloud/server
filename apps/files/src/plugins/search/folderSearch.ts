@@ -5,7 +5,7 @@
 
 import type { Node } from '@nextcloud/files'
 import { emit } from '@nextcloud/event-bus'
-import { getFilePickerBuilder } from '@nextcloud/dialogs';
+import { getFilePickerBuilder } from '@nextcloud/dialogs'
 import { imagePath } from '@nextcloud/router'
 import { translate as t } from '@nextcloud/l10n'
 import logger from '../../logger'
@@ -19,7 +19,7 @@ function init() {
 		return
 	}
 
-	logger.info('Initializing unified search plugin: folder search from files app');
+	logger.info('Initializing unified search plugin: folder search from files app')
 	OCA.UnifiedSearch.registerFilterAction({
 		id: 'files',
 		appId: 'files',

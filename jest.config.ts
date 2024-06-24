@@ -38,7 +38,10 @@ const config: Config = {
 	testMatch: ['<rootDir>/**/*.(spec|test).(ts|js)'],
 
 	clearMocks: true,
-	setupFilesAfterEnv: ['<rootDir>/__tests__/jest-setup.ts'],
+	setupFilesAfterEnv: [
+		'<rootDir>/__tests__/jest-setup.ts',
+		'<rootDir>/__tests__/mock-window.js',
+	],
 
 	testEnvironment: 'jest-environment-jsdom',
 	preset: 'ts-jest/presets/js-with-ts',

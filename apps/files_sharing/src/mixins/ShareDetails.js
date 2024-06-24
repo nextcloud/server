@@ -3,7 +3,6 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-
 import Share from '../models/Share.js'
 import Config from '../services/ConfigService.js'
 

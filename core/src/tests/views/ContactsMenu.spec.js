@@ -82,19 +82,19 @@ describe('ContactsMenu', function() {
 						topAction: {
 							title: 'Mail',
 							icon: 'icon-mail',
-							hyperlink: 'mailto:deboraoliver%40centrexin.com'
+							hyperlink: 'mailto:deboraoliver%40centrexin.com',
 						},
 						actions: [
 							{
 								title: 'Mail',
 								icon: 'icon-mail',
-								hyperlink: 'mailto:mathisholland%40virxo.com'
+								hyperlink: 'mailto:mathisholland%40virxo.com',
 							},
 							{
 								title: 'Details',
 								icon: 'icon-info',
-								hyperlink: 'https://localhost/index.php/apps/contacts'
-							}
+								hyperlink: 'https://localhost/index.php/apps/contacts',
+							},
 						],
 						lastMessage: '',
 						emailAddresses: [],
@@ -105,23 +105,23 @@ describe('ContactsMenu', function() {
 						topAction: {
 							title: 'Mail',
 							icon: 'icon-mail',
-							hyperlink: 'mailto:ceciliasoto%40essensia.com'
+							hyperlink: 'mailto:ceciliasoto%40essensia.com',
 						},
 						actions: [
 							{
 								title: 'Mail',
 								icon: 'icon-mail',
-								hyperlink: 'mailto:pearliesellers%40inventure.com'
+								hyperlink: 'mailto:pearliesellers%40inventure.com',
 							},
 							{
 								title: 'Details',
 								icon: 'icon-info',
-								hyperlink: 'https://localhost/index.php/apps/contacts'
-							}
+								hyperlink: 'https://localhost/index.php/apps/contacts',
+							},
 						],
 						lastMessage: 'cu',
 						emailAddresses: [],
-					}
+					},
 				],
 				contactsAppEnabled: true,
 			},

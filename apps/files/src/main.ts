@@ -19,9 +19,9 @@ __webpack_nonce__ = btoa(getRequestToken())
 
 declare global {
 	interface Window {
-		OC: any;
-		OCA: any;
-		OCP: any;
+		OC: Nextcloud.v28.OC;
+		OCA: Record<string, unknown>;
+		OCP: Nextcloud.v28.OCP;
 	}
 }
 

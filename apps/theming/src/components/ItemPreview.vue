@@ -7,7 +7,9 @@
 		<div class="theming__preview-image" :style="{ backgroundImage: 'url(' + img + ')' }" @click="onToggle" />
 		<div class="theming__preview-description">
 			<h3>{{ theme.title }}</h3>
-			<p class="theming__preview-explanation">{{ theme.description }}</p>
+			<p class="theming__preview-explanation">
+				{{ theme.description }}
+			</p>
 			<span v-if="enforced" class="theming__preview-warning" role="note">
 				{{ t('theming', 'Theme selection is enforced') }}
 			</span>

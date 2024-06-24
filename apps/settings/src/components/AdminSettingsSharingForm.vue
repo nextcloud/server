@@ -62,18 +62,24 @@
 			<label>{{ t('settings', 'Limit sharing based on groups') }}</label>
 			<div class="sharing__sub-section">
 				<NcCheckboxRadioSwitch :checked.sync="settings.excludeGroups"
-															 name="excludeGroups" value="no"
-															 type="radio" @update:checked="onUpdateExcludeGroups">
+					name="excludeGroups"
+					value="no"
+					type="radio"
+					@update:checked="onUpdateExcludeGroups">
 					{{ t('settings', 'Allow sharing for everyone (default)') }}
 				</NcCheckboxRadioSwitch>
 				<NcCheckboxRadioSwitch :checked.sync="settings.excludeGroups"
-															 name="excludeGroups" value="yes"
-															 type="radio" @update:checked="onUpdateExcludeGroups">
+					name="excludeGroups"
+					value="yes"
+					type="radio"
+					@update:checked="onUpdateExcludeGroups">
 					{{ t('settings', 'Exclude some groups from sharing') }}
 				</NcCheckboxRadioSwitch>
 				<NcCheckboxRadioSwitch :checked.sync="settings.excludeGroups"
-															 name="excludeGroups" value="allow"
-															 type="radio" @update:checked="onUpdateExcludeGroups">
+					name="excludeGroups"
+					value="allow"
+					type="radio"
+					@update:checked="onUpdateExcludeGroups">
 					{{ t('settings', 'Limit sharing to some groups') }}
 				</NcCheckboxRadioSwitch>
 				<div v-show="settings.excludeGroups !== 'no'" class="sharing__labeled-entry sharing__input">
@@ -305,7 +311,7 @@ export default defineComponent({
 		onUpdateExcludeGroups: debounce(function(value: string) {
 			window.OCP.AppConfig.setValue('core', 'excludeGroups', value)
 			this.settings.excludeGroups = value
-		}, 500) as (v?: string) => void
+		}, 500) as (v?: string) => void,
 	},
 })
 </script>

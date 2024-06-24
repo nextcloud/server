@@ -8,7 +8,7 @@ import { getRootUrl } from '@nextcloud/router'
 /**
  *
  * @param {string} url the URL to check
- * @returns {boolean}
+ * @return {boolean}
  */
 const isRelativeUrl = (url) => {
 	return !url.startsWith('https://') && !url.startsWith('http://')
