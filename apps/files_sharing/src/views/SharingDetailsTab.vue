@@ -273,6 +273,8 @@ import ShareRequests from '../mixins/ShareRequests.js'
 import ShareTypes from '../mixins/ShareTypes.js'
 import SharesMixin from '../mixins/SharesMixin.js'
 
+import { subscribe } from '@nextcloud/event-bus'
+
 import {
 	ATOMIC_PERMISSIONS,
 	BUNDLED_PERMISSIONS,
@@ -729,6 +731,7 @@ export default {
 
 	mounted() {
 		this.$refs.quickPermissions?.querySelector('input:checked')?.focus()
+		subscribe('files_sharing:external:add-share', this.handleExistingShareFromExternalSource)
 	},
 
 	methods: {
@@ -996,6 +999,9 @@ export default {
 			default:
 				return null // Or a default icon component if needed
 			}
+		},
+		handleExistingShareFromExternalSource(share) {
+			logger.info('Existing share from external source/app', { share })
 		},
 	},
 }
