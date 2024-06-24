@@ -61,7 +61,7 @@
 				:required="newUser.password === '' || settings.newUserRequireEmail" />
 			<div class="dialog__item">
 				<NcSelect class="dialog__select"
-					:input-label="!settings.isAdmin ? t('settings', 'Groups (required)') : t('settings', 'Groups')"
+					:input-label="!settings.isAdmin ? t('settings', 'Member of the following groups (required)') : t('settings', 'Member of the following groups')"
 					:placeholder="t('settings', 'Set account groups')"
 					:disabled="loading.groups || loading.all"
 					:options="canAddGroups"
@@ -81,7 +81,7 @@
 				class="dialog__item">
 				<NcSelect v-model="newUser.subAdminsGroups"
 					class="dialog__select"
-					:input-label="t('settings', 'Administered groups')"
+					:input-label="t('settings', 'Admin of the following groups')"
 					:placeholder="t('settings', 'Set account as admin for …')"
 					:options="subAdminsGroups"
 					:close-on-select="false"
