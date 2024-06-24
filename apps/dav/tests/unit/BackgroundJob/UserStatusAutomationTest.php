@@ -125,8 +125,6 @@ class UserStatusAutomationTest extends TestCase {
 			->willReturn(new \DateTime($currentTime, new \DateTimeZone('UTC')));
 		$this->logger->expects(self::exactly(4))
 			->method('debug');
-		$this->statusManager->expects(self::exactly(2))
-			->method('revertUserStatus');
 		if (!$isAvailable) {
 			$this->statusManager->expects(self::once())
 				->method('setUserStatus')
@@ -189,8 +187,6 @@ END:VCALENDAR');
 			->willReturn('yes');
 		$this->time->method('getDateTime')
 			->willReturn(new \DateTime('2023-02-24 13:58:24.479357', new \DateTimeZone('UTC')));
-		$this->statusManager->expects($this->exactly(3))
-			->method('revertUserStatus');
 		$this->jobList->expects($this->once())
 			->method('remove')
 			->with(UserStatusAutomation::class, ['userId' => 'user']);
@@ -224,8 +220,6 @@ END:VCALENDAR');
 		$this->coordinator->expects(self::once())
 			->method('isInEffect')
 			->willReturn(true);
-		$this->statusManager->expects($this->exactly(2))
-			->method('revertUserStatus');
 		$this->statusManager->expects(self::once())
 			->method('setUserStatus')
 			->with('user', IUserStatus::MESSAGE_OUT_OF_OFFICE, IUserStatus::DND, true, $ooo->getShortMessage());
