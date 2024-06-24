@@ -84,15 +84,21 @@ class AjaxController extends Controller {
 	 */
 	public function saveGlobalCredentials($uid, $user, $password) {
 		$currentUser = $this->userSession->getUser();
+		if ($currentUser === null) {
+			return false;
+		}
 
 		// Non-admins can only edit their own credentials
-		$allowedToEdit = ($currentUser->getUID() === $uid);
+		// Admin can edit global credentials
+		$allowedToEdit = $uid === ''
+			? $this->groupManager->isAdmin($currentUser->getUID())
+			: $currentUser->getUID() === $uid;
 
 		if ($allowedToEdit) {
 			$this->globalAuth->saveAuth($uid, $user, $password);
 			return true;
-		} else {
-			return false;
 		}
+
+		return false;
 	}
 }
