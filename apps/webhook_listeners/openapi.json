@@ -75,6 +75,9 @@
                             "type": "object"
                         }
                     },
+                    "userIdFilter": {
+                        "type": "string"
+                    },
                     "headers": {
                         "type": "object",
                         "additionalProperties": {
@@ -222,6 +225,11 @@
                                         "additionalProperties": {
                                             "type": "object"
                                         }
+                                    },
+                                    "userIdFilter": {
+                                        "type": "string",
+                                        "nullable": true,
+                                        "description": "User id to filter on. The webhook will only be called by requests from this user. Empty or null means no filtering."
                                     },
                                     "headers": {
                                         "type": "object",
@@ -500,6 +508,11 @@
                                         "additionalProperties": {
                                             "type": "object"
                                         }
+                                    },
+                                    "userIdFilter": {
+                                        "type": "string",
+                                        "nullable": true,
+                                        "description": "User id to filter on. The webhook will only be called by requests from this user. Empty or null means no filtering."
                                     },
                                     "headers": {
                                         "type": "object",
