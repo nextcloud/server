@@ -7,7 +7,7 @@ import type { ComponentPublicInstance, PropType } from 'vue'
 import type { FileSource } from '../types.ts'
 
 import { showError } from '@nextcloud/dialogs'
-import { FileType, Permission, Folder, File as NcFile, NodeStatus, Node, View } from '@nextcloud/files'
+import { FileType, Permission, Folder, File as NcFile, NodeStatus, Node } from '@nextcloud/files'
 import { translate as t } from '@nextcloud/l10n'
 import { generateUrl } from '@nextcloud/router'
 import { vOnClickOutside } from '@vueuse/components'
@@ -179,6 +179,8 @@ export default defineComponent({
 		/**
 		 * When the source changes, reset the preview
 		 * and fetch the new one.
+		 * @param a
+		 * @param b
 		 */
 		source(a: Node, b: Node) {
 			if (a.source !== b.source) {

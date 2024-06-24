@@ -288,7 +288,7 @@ import NcTextField from '@nextcloud/vue/dist/Components/NcTextField.js'
 import UserRowActions from './UserRowActions.vue'
 
 import UserRowMixin from '../../mixins/UserRowMixin.js'
-import { isObfuscated, unlimitedQuota } from '../../utils/userUtils.ts';
+import { isObfuscated, unlimitedQuota } from '../../utils/userUtils.ts'
 
 export default {
 	name: 'UserRow',

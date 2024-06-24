@@ -102,7 +102,7 @@ export default {
 	methods: {
 		deleteClient(id) {
 			axios.delete(generateUrl('apps/oauth2/clients/{id}', { id }))
-				.then((response) => {
+				.then(() => {
 					// eslint-disable-next-line vue/no-mutating-props
 					this.clients = this.clients.filter(client => client.id !== id)
 				})

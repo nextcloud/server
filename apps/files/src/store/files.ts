@@ -34,12 +34,14 @@ export const useFilesStore = function(...args) {
 		getters: {
 			/**
 			 * Get a file or folder by its source
+			 * @param state
 			 */
 			getNode: (state) => (source: FileSource): Node|undefined => state.files[source],
 
 			/**
 			 * Get a list of files or folders by their IDs
 			 * Note: does not return undefined values
+			 * @param state
 			 */
 			getNodes: (state) => (sources: FileSource[]): Node[] => sources
 				.map(source => state.files[source])
@@ -49,11 +51,13 @@ export const useFilesStore = function(...args) {
 			 * Get files or folders by their file ID
 			 * Multiple nodes can have the same file ID but different sources
 			 * (e.g. in a shared context)
+			 * @param state
 			 */
 			getNodesById: (state) => (fileId: number): Node[] => Object.values(state.files).filter(node => node.fileid === fileId),
 
 			/**
 			 * Get the root folder of a service
+			 * @param state
 			 */
 			getRoot: (state) => (service: Service): Folder|undefined => state.roots[service],
 		},

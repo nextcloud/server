@@ -12,6 +12,8 @@ import { defineStore } from 'pinia'
 import axios from '@nextcloud/axios'
 import logger from '../logger'
 
+import '@nextcloud/password-confirmation/dist/style.css'
+
 const BASE_URL = generateUrl('/settings/personal/authtokens')
 
 const confirm = () => {
