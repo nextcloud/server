@@ -152,7 +152,6 @@ class ViewController extends Controller {
 	/**
 	 * @NoCSRFRequired
 	 * @NoAdminRequired
-	 * @UseSession
 	 *
 	 * @param string $dir
 	 * @param string $view
@@ -167,7 +166,6 @@ class ViewController extends Controller {
 	/**
 	 * @NoCSRFRequired
 	 * @NoAdminRequired
-	 * @UseSession
 	 *
 	 * @param string $dir
 	 * @param string $view
@@ -182,7 +180,6 @@ class ViewController extends Controller {
 	/**
 	 * @NoCSRFRequired
 	 * @NoAdminRequired
-	 * @UseSession
 	 *
 	 * @param string $dir
 	 * @param string $view
