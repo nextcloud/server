@@ -37,10 +37,12 @@
 
 					<!-- Uploader -->
 					<UploadPicker v-else-if="currentFolder"
-						:content="dirContents"
-						:destination="currentFolder"
-						:multiple="true"
+						allow-folders
 						class="files-list__header-upload-button"
+						:content="getContent"
+						:destination="currentFolder"
+						:forbidden-characters="forbiddenCharacters"
+						multiple
 						@failed="onUploadFail"
 						@uploaded="onUpload" />
 				</template>
@@ -79,9 +81,11 @@
 			<template v-if="dir !== '/'" #action>
 				<!-- Uploader -->
 				<UploadPicker v-if="currentFolder && canUpload && !isQuotaExceeded"
-					:content="dirContents"
-					:destination="currentFolder"
+					allow-folders
 					class="files-list__header-upload-button"
+					:content="getContent"
+					:destination="currentFolder"
+					:forbidden-characters="forbiddenCharacters"
 					multiple
 					@failed="onUploadFail"
 					@uploaded="onUpload" />
@@ -118,10 +122,10 @@ import { getCapabilities } from '@nextcloud/capabilities'
 import { emit, subscribe, unsubscribe } from '@nextcloud/event-bus'
 import { Folder, Node, Permission } from '@nextcloud/files'
 import { translate as t } from '@nextcloud/l10n'
-import { join, dirname } from 'path'
-import { showError } from '@nextcloud/dialogs'
+import { join, dirname, normalize } from 'path'
+import { showError, showWarning } from '@nextcloud/dialogs'
 import { Type } from '@nextcloud/sharing'
-import { UploadPicker } from '@nextcloud/upload'
+import { UploadPicker, UploadStatus } from '@nextcloud/upload'
 import { loadState } from '@nextcloud/initial-state'
 import { defineComponent } from 'vue'
 
@@ -190,6 +194,7 @@ export default defineComponent({
 		const { currentView } = useNavigation()
 
 		const enableGridView = (loadState('core', 'config', [])['enable_non-accessible_features'] ?? true)
+		const forbiddenCharacters = loadState<string[]>('files', 'forbiddenCharacters', [])
 
 		return {
 			currentView,
@@ -200,9 +205,10 @@ export default defineComponent({
 			uploaderStore,
 			userConfigStore,
 			viewConfigStore,
-			enableGridView,
 
 			// non reactive data
+			enableGridView,
+			forbiddenCharacters,
 			Type,
 		}
 	},
@@ -226,6 +232,19 @@ export default defineComponent({
 				console.debug('Files app handling search event from unified search...', searchEvent)
 				this.filterText = searchEvent.query
 			}, 500)
+		},
+
+		/**
+		 * Get a callback function for the uploader to fetch directory contents for conflict resolution
+		 */
+		getContent() {
+			const view = this.currentView
+			return async (path?: string) => {
+				// as the path is allowed to be undefined we need to normalize the path ('//' to '/')
+				const normalizedPath = normalize(`${this.currentFolder?.path ?? ''}/${path ?? ''}`)
+				// use the current view to fetch the content for the requested path
+				return (await view.getContents(normalizedPath)).contents
+			}
 		},
 
 		userConfig(): UserConfig {
@@ -590,8 +609,7 @@ export default defineComponent({
 		onUpload(upload: Upload) {
 			// Let's only refresh the current Folder
 			// Navigating to a different folder will refresh it anyway
-			const destinationSource = dirname(upload.source)
-			const needsRefresh = destinationSource === this.currentFolder?.source
+			const needsRefresh = dirname(upload.source) === this.currentFolder!.source
 
 			// TODO: fetch uploaded files data only
 			// Use parseInt(upload.response?.headers?.['oc-fileid']) to get the fileid
@@ -603,6 +621,11 @@ export default defineComponent({
 
 		async onUploadFail(upload: Upload) {
 			const status = upload.response?.status || 0
+
+			if (upload.status === UploadStatus.CANCELLED) {
+				showWarning(t('files', 'Upload was cancelled by user'))
+				return
+			}
 
 			// Check known status codes
 			if (status === 507) {

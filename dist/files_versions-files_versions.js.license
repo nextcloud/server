@@ -125,13 +125,13 @@ This file is generated from multiple sources. Included packages:
 	- version: 8.11.2
 	- license: AGPL-3.0-or-later
 - @vueuse/components
-	- version: 10.9.0
+	- version: 10.11.0
 	- license: MIT
 - @vueuse/core
-	- version: 10.9.0
+	- version: 10.11.0
 	- license: MIT
 - @vueuse/shared
-	- version: 10.9.0
+	- version: 10.11.0
 	- license: MIT
 - assert
 	- version: 2.1.0
@@ -140,7 +140,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.0.7
 	- license: MIT
 - axios
-	- version: 1.6.8
+	- version: 1.7.2
 	- license: MIT
 - balanced-match
 	- version: 1.0.2
