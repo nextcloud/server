@@ -126,7 +126,7 @@ export default defineComponent({
 		},
 
 		linkTo() {
-			if (this.source.attributes.failed) {
+			if (this.source.status === NodeStatus.FAILED) {
 				return {
 					is: 'span',
 					params: {
