@@ -101,24 +101,20 @@ $server = $serverFactory->createServer($baseuri, $requestUri, $authPlugin, funct
 	/** @psalm-suppress InternalMethod */
 	Filesystem::logWarningWhenAddingStorageWrapper($previousLog);
 
-	OC_Util::tearDownFS();
-	OC_Util::setupFS($owner);
-	$ownerView = new View('/'. $owner . '/files');
-	$path = $ownerView->getPath($fileId);
-	$fileInfo = $ownerView->getFileInfo($path);
-
-	if ($fileInfo === false) {
+	$rootFolder = \OCP\Server::get(\OCP\Files\IRootFolder::class);
+	$userFolder = $rootFolder->getUserFolder($owner);
+	$node = $userFolder->getFirstNodeById($fileId);
+	if (!$node) {
 		throw new NotFound();
 	}
+	$linkCheckPlugin->setFileInfo($node);
 
-	$linkCheckPlugin->setFileInfo($fileInfo);
-
-	// If not readble (files_drop) enable the filesdrop plugin
+	// If not readable (files_drop) enable the filesdrop plugin
 	if (!$isReadable) {
 		$filesDropPlugin->enable();
 	}
 
-	$view = new View($ownerView->getAbsolutePath($path));
+	$view = new View($node->getPath());
 	$filesDropPlugin->setView($view);
 
 	return $view;

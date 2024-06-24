@@ -72,19 +72,20 @@ $server = $serverFactory->createServer($baseuri, $requestUri, $authPlugin, funct
 	});
 	\OC\Files\Filesystem::logWarningWhenAddingStorageWrapper($previousLog);
 
-	OC_Util::tearDownFS();
-	OC_Util::setupFS($owner);
-	$ownerView = new \OC\Files\View('/'. $owner . '/files');
-	$path = $ownerView->getPath($fileId);
-	$fileInfo = $ownerView->getFileInfo($path);
-	$linkCheckPlugin->setFileInfo($fileInfo);
+	$rootFolder = \OCP\Server::get(\OCP\Files\IRootFolder::class);
+	$userFolder = $rootFolder->getUserFolder($owner);
+	$node = $userFolder->getFirstNodeById($fileId);
+	if (!$node) {
+		throw new \Sabre\DAV\Exception\NotFound();
+	}
+	$linkCheckPlugin->setFileInfo($node);
 
 	// If not readable (files_drop) enable the filesdrop plugin
 	if (!$isReadable) {
 		$filesDropPlugin->enable();
 	}
 
-	$view = new \OC\Files\View($ownerView->getAbsolutePath($path));
+	$view = new \OC\Files\View($node->getPath());
 	$filesDropPlugin->setView($view);
 
 	return $view;
