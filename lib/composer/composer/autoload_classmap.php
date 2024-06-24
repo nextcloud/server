@@ -1909,7 +1909,6 @@ return array(
     'OC_API' => $baseDir . '/lib/private/legacy/OC_API.php',
     'OC_App' => $baseDir . '/lib/private/legacy/OC_App.php',
     'OC_Defaults' => $baseDir . '/lib/private/legacy/OC_Defaults.php',
-    'OC_FileChunking' => $baseDir . '/lib/private/legacy/OC_FileChunking.php',
     'OC_Files' => $baseDir . '/lib/private/legacy/OC_Files.php',
     'OC_Helper' => $baseDir . '/lib/private/legacy/OC_Helper.php',
     'OC_Hook' => $baseDir . '/lib/private/legacy/OC_Hook.php',

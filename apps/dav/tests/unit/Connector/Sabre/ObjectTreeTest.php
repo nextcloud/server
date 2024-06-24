@@ -127,13 +127,8 @@ class ObjectTreeTest extends \Test\TestCase {
 		$inputFileName,
 		$fileInfoQueryPath,
 		$outputFileName,
-		$type,
-		$enableChunkingHeader
+		$type
 	): void {
-		if ($enableChunkingHeader) {
-			$_SERVER['HTTP_OC_CHUNKED'] = true;
-		}
-
 		$rootNode = $this->getMockBuilder(Directory::class)
 			->disableOriginalConstructor()
 			->getMock();
@@ -170,8 +165,6 @@ class ObjectTreeTest extends \Test\TestCase {
 		} else {
 			$this->assertTrue($node instanceof \OCA\DAV\Connector\Sabre\Directory);
 		}
-
-		unset($_SERVER['HTTP_OC_CHUNKED']);
 	}
 
 	public function nodeForPathProvider() {
@@ -182,7 +175,6 @@ class ObjectTreeTest extends \Test\TestCase {
 				'regularfile.txt',
 				'regularfile.txt',
 				'file',
-				false
 			],
 			// regular directory
 			[
@@ -190,31 +182,6 @@ class ObjectTreeTest extends \Test\TestCase {
 				'regulardir',
 				'regulardir',
 				'dir',
-				false
-			],
-			// regular file with chunking
-			[
-				'regularfile.txt',
-				'regularfile.txt',
-				'regularfile.txt',
-				'file',
-				true
-			],
-			// regular directory with chunking
-			[
-				'regulardir',
-				'regulardir',
-				'regulardir',
-				'dir',
-				true
-			],
-			// file with chunky file name
-			[
-				'regularfile.txt-chunking-123566789-10-1',
-				'regularfile.txt',
-				'regularfile.txt',
-				'file',
-				true
 			],
 			// regular file in subdir
 			[
@@ -222,7 +189,6 @@ class ObjectTreeTest extends \Test\TestCase {
 				'subdir/regularfile.txt',
 				'regularfile.txt',
 				'file',
-				false
 			],
 			// regular directory in subdir
 			[
@@ -230,15 +196,6 @@ class ObjectTreeTest extends \Test\TestCase {
 				'subdir/regulardir',
 				'regulardir',
 				'dir',
-				false
-			],
-			// file with chunky file name in subdir
-			[
-				'subdir/regularfile.txt-chunking-123566789-10-1',
-				'subdir/regularfile.txt',
-				'regularfile.txt',
-				'file',
-				true
 			],
 		];
 	}

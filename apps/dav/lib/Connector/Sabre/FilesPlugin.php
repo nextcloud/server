@@ -642,15 +642,6 @@ class FilesPlugin extends ServerPlugin {
 	 * @throws \Sabre\DAV\Exception\BadRequest
 	 */
 	public function sendFileIdHeader($filePath, ?\Sabre\DAV\INode $node = null) {
-		// chunked upload handling
-		if (isset($_SERVER['HTTP_OC_CHUNKED'])) {
-			[$path, $name] = \Sabre\Uri\split($filePath);
-			$info = \OC_FileChunking::decodeName($name);
-			if (!empty($info)) {
-				$filePath = $path . '/' . $info['name'];
-			}
-		}
-
 		// we get the node for the given $filePath here because in case of afterCreateFile $node is the parent folder
 		if (!$this->server->tree->nodeExists($filePath)) {
 			return;

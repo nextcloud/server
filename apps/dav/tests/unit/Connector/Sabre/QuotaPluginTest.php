@@ -143,29 +143,6 @@ class QuotaPluginTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider quotaChunkedOkProvider
-	 */
-	public function testCheckQuotaChunkedOk($quota, $chunkTotalSize, $headers): void {
-		$this->init($quota, 'sub/test.txt');
-
-		$mockChunking = $this->getMockBuilder(\OC_FileChunking::class)
-			->disableOriginalConstructor()
-			->getMock();
-		$mockChunking->expects($this->once())
-			->method('getCurrentSize')
-			->willReturn($chunkTotalSize);
-
-		$this->plugin->expects($this->once())
-			->method('getFileChunking')
-			->willReturn($mockChunking);
-
-		$headers['OC-CHUNKED'] = 1;
-		$this->server->httpRequest = new \Sabre\HTTP\Request('POST', 'dummy.file', $headers);
-		$result = $this->plugin->checkQuota('/sub/test.txt-chunking-12345-3-1');
-		$this->assertTrue($result);
-	}
-
 	public function quotaChunkedFailProvider() {
 		return [
 			[400, 0, ['X-EXPECTED-ENTITY-LENGTH' => '1024']],
@@ -176,30 +153,6 @@ class QuotaPluginTest extends TestCase {
 			[380, 128, ['CONTENT-LENGTH' => '512']],
 			[380, 128, ['OC-TOTAL-LENGTH' => '512', 'CONTENT-LENGTH' => '500']],
 		];
-	}
-
-	/**
-	 * @dataProvider quotaChunkedFailProvider
-	 */
-	public function testCheckQuotaChunkedFail($quota, $chunkTotalSize, $headers): void {
-		$this->expectException(\Sabre\DAV\Exception\InsufficientStorage::class);
-
-		$this->init($quota, 'sub/test.txt');
-
-		$mockChunking = $this->getMockBuilder(\OC_FileChunking::class)
-			->disableOriginalConstructor()
-			->getMock();
-		$mockChunking->expects($this->once())
-			->method('getCurrentSize')
-			->willReturn($chunkTotalSize);
-
-		$this->plugin->expects($this->once())
-			->method('getFileChunking')
-			->willReturn($mockChunking);
-
-		$headers['OC-CHUNKED'] = 1;
-		$this->server->httpRequest = new \Sabre\HTTP\Request('POST', 'dummy.file', $headers);
-		$this->plugin->checkQuota('/sub/test.txt-chunking-12345-3-1');
 	}
 
 	private function buildFileViewMock($quota, $checkedPath) {
