@@ -15,13 +15,14 @@ export default {
 			// TODO : Better name/interface for handler required
 			// For example `externalAppCreateShareHook` with proper documentation
 			if (shareRequestObject.handler) {
+				const handlerInput = {}
 				if (this.suggestions) {
-					shareRequestObject.suggestions = this.suggestions
-					shareRequestObject.fileInfo = this.fileInfo
-					shareRequestObject.query = this.query
+					handlerInput.suggestions = this.suggestions
+					handlerInput.fileInfo = this.fileInfo
+					handlerInput.query = this.query
 				}
-				share = await shareRequestObject.handler(shareRequestObject)
-				share = new Share(share)
+				const externalShareRequestObject = await shareRequestObject.handler(handlerInput)
+				share = this.mapShareRequestToShareObject(externalShareRequestObject)
 			} else {
 				share = this.mapShareRequestToShareObject(shareRequestObject)
 			}
