@@ -204,17 +204,17 @@ class CertificateManager implements ICertificateManager {
 			if ($this->bundlePath === null) {
 				if (!$this->hasCertificates()) {
 					$this->bundlePath = \OC::$SERVERROOT . '/resources/config/ca-bundle.crt';
-				}
+				} else {
+					if ($this->needsRebundling()) {
+						$this->createCertificateBundle();
+					}
 
-				if ($this->needsRebundling()) {
-					$this->createCertificateBundle();
-				}
+					$certificateBundle = $this->getCertificateBundle();
+					$this->bundlePath = $this->view->getLocalFile($certificateBundle) ?: null;
 
-				$certificateBundle = $this->getCertificateBundle();
-				$this->bundlePath = $this->view->getLocalFile($certificateBundle) ?: null;
-
-				if ($this->bundlePath === null) {
-					throw new \RuntimeException('Unable to get certificate bundle "' . $certificateBundle . '".');
+					if ($this->bundlePath === null) {
+						throw new \RuntimeException('Unable to get certificate bundle "' . $certificateBundle . '".');
+					}
 				}
 			}
 			return $this->bundlePath;
