@@ -99,9 +99,6 @@ This file is generated from multiple sources. Included packages:
 - @nextcloud/l10n
 	- version: 3.1.0
 	- license: GPL-3.0-or-later
-- @nextcloud/sharing
-	- version: 0.2.2
-	- license: GPL-3.0-or-later
 - @nextcloud/files
 	- version: 3.5.1
 	- license: AGPL-3.0-or-later

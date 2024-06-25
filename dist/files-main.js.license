@@ -19,7 +19,6 @@ SPDX-FileCopyrightText: Roman Shtylman <shtylman@gmail.com>
 SPDX-FileCopyrightText: Roeland Jago Douma
 SPDX-FileCopyrightText: Rob Cresswell <robcresswell@pm.me>
 SPDX-FileCopyrightText: Raynos <raynos2@gmail.com>
-SPDX-FileCopyrightText: Perry Mitchell <perry@perrymitchell.net>
 SPDX-FileCopyrightText: Nextcloud GmbH and Nextcloud contributors
 SPDX-FileCopyrightText: Matt Zabriskie
 SPDX-FileCopyrightText: Joyent
@@ -76,9 +75,6 @@ This file is generated from multiple sources. Included packages:
 	- license: GPL-3.0-or-later
 - @nextcloud/l10n
 	- version: 3.1.0
-	- license: GPL-3.0-or-later
-- @nextcloud/sharing
-	- version: 0.2.2
 	- license: GPL-3.0-or-later
 - @nextcloud/files
 	- version: 3.5.1
@@ -322,9 +318,6 @@ This file is generated from multiple sources. Included packages:
 	- license: MIT
 - vue
 	- version: 2.7.16
-	- license: MIT
-- webdav
-	- version: 5.6.0
 	- license: MIT
 - webpack
 	- version: 5.91.0

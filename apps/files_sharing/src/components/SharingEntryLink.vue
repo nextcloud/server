@@ -134,7 +134,7 @@
 						{{ t('files_sharing', 'Customize link') }}
 					</NcActionButton>
 				</template>
-				
+
 				<NcActionButton :close-after-click="true"
 					@click.prevent="showQRCode = true">
 					<template #icon>
@@ -210,11 +210,12 @@
 </template>
 
 <script>
+import { emit } from '@nextcloud/event-bus'
 import { generateUrl } from '@nextcloud/router'
 import { showError, showSuccess } from '@nextcloud/dialogs'
 import { Type as ShareTypes } from '@nextcloud/sharing'
 import Vue from 'vue'
-import VueQrcode from '@chenfengyuan/vue-qrcode';
+import VueQrcode from '@chenfengyuan/vue-qrcode'
 
 import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
 import NcActionInput from '@nextcloud/vue/dist/Components/NcActionInput.js'
@@ -685,6 +686,9 @@ export default {
 						this.$emit('add:share', newShare, resolve)
 					})
 				}
+
+				await this.getNode()
+				emit('files:node:updated', this.node)
 
 				// Execute the copy link method
 				// freshly created share component
