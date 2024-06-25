@@ -20,6 +20,7 @@
 import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 import Magnify from 'vue-material-design-icons/Magnify.vue'
 import UnifiedSearchModal from './UnifiedSearchModal.vue'
+import logger from '../logger.js'
 
 export default {
 	name: 'UnifiedSearch',
@@ -34,7 +35,7 @@ export default {
 		}
 	},
 	mounted() {
-		console.debug('Unified search initialized!')
+		logger.info('Unified search initialized!')
 		window.addEventListener('keydown', this.handleKeyDown)
 	},
 	beforeDestroy() {
