@@ -82,6 +82,26 @@ class WebhookListenerMapperTest extends TestCase {
 		$this->assertEquals($listener1, $listener2);
 	}
 
+	public function testInsertListenerAndGetItByUri() {
+		$uri = 'https://webhook.example.com/endpoint';
+		$listener1 = $this->mapper->addWebhookListener(
+			null,
+			'bob',
+			'POST',
+			$uri,
+			NodeWrittenEvent::class,
+			null,
+			null,
+			AuthMethod::None,
+			null,
+		);
+
+		$listeners = $this->mapper->getByUri($uri);
+
+		$listener1->resetUpdatedFields();
+		$this->assertContains($listener1->getId(), array_map(fn ($listener) => $listener->getId(), $listeners));
+	}
+
 	public function testInsertListenerAndGetItWithAuthData() {
 		$listener1 = $this->mapper->addWebhookListener(
 			null,
