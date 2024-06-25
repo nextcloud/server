@@ -235,6 +235,7 @@ OC.L10N.register(
     "Shared" : "Compartilhado",
     "Switch to list view" : "Mudar para a visualizar lista",
     "Switch to grid view" : "Mudar para visualização em grade",
+    "Upload was cancelled by user" : "O upload foi cancelado pelo usuário",
     "Error during upload: {message}" : "Erro durante o upload: {message}",
     "Error during upload, status code {status}" : "Erro durante o upload, código de status {status}",
     "Unknown error during upload" : "Erro desconhecido durante o upload",

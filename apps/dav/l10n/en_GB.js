@@ -133,8 +133,6 @@ OC.L10N.register(
     "Encryption not ready: %1$s" : "Encryption not ready: %1$s",
     "Failed to open file: %1$s" : "Failed to open file: %1$s",
     "Failed to unlink: %1$s" : "Failed to unlink: %1$s",
-    "Invalid chunk name" : "Invalid chunk name",
-    "Could not rename part file assembled from chunks" : "Could not rename part file assembled from chunks",
     "Failed to write file contents: %1$s" : "Failed to write file contents: %1$s",
     "File not found: %1$s" : "File not found: %1$s",
     "System is in maintenance mode." : "System is in maintenance mode.",
@@ -210,6 +208,8 @@ OC.L10N.register(
     "Your attendance was updated successfully." : "Your attendance was updated successfully.",
     "To-dos" : "To-dos",
     "Time:" : "Time:",
+    "Invalid chunk name" : "Invalid chunk name",
+    "Could not rename part file assembled from chunks" : "Could not rename part file assembled from chunks",
     "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "If you configure your working hours, other users will see when you are out of office when they book a meeting."
 },
 "nplurals=2; plural=(n != 1);");

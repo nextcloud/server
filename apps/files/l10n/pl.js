@@ -234,6 +234,7 @@ OC.L10N.register(
     "Shared" : "Udostępnione",
     "Switch to list view" : "Przełącz na widok listy",
     "Switch to grid view" : "Przełącz na widok siatki",
+    "Upload was cancelled by user" : "Przesyłanie zostało anulowane przez użytkownika",
     "Error during upload: {message}" : "Błąd podczas wysyłania: {message}",
     "Error during upload, status code {status}" : "Błąd podczas wysyłania, kod statusu {status}",
     "Unknown error during upload" : "Nieznany błąd podczas wysyłania",

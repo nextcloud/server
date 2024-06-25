@@ -234,6 +234,7 @@ OC.L10N.register(
     "Shared" : "Опубликованное",
     "Switch to list view" : "Переключение в режим просмотра списка",
     "Switch to grid view" : "Переключиться на режим просмотра сеткой",
+    "Upload was cancelled by user" : "Загрузка была отменена пользователем",
     "Error during upload: {message}" : "Ошибка при загрузке: {message}",
     "Error during upload, status code {status}" : "Ошибка при передаче на сервер. Сообщение об ошибке: {status}",
     "Unknown error during upload" : "Неизвестная ошибка при загрузке",

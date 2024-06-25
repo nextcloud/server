@@ -132,8 +132,6 @@ OC.L10N.register(
     "Encryption not ready: %1$s" : "El xifratge no està preparat: %1$s",
     "Failed to open file: %1$s" : "No s'ha pogut obrir el fitxer: %1$s",
     "Failed to unlink: %1$s" : "No s'ha pogut desenllaçar: %1$s",
-    "Invalid chunk name" : "El nom del fragment no és vàlid",
-    "Could not rename part file assembled from chunks" : "No s'ha pogut canviar el nom del fitxer de part muntat a partir de fragments",
     "Failed to write file contents: %1$s" : "No s'ha pogut escriure el contingut del fitxer: %1$s",
     "File not found: %1$s" : "No s'ha trobat el fitxer: %1$s",
     "System is in maintenance mode." : "El sistema és en mode de manteniment.",
@@ -209,6 +207,8 @@ OC.L10N.register(
     "Your attendance was updated successfully." : "S'ha actualitzat correctament l'assistència.",
     "To-dos" : "Tasques pendents",
     "Time:" : "Hora:",
+    "Invalid chunk name" : "El nom del fragment no és vàlid",
+    "Could not rename part file assembled from chunks" : "No s'ha pogut canviar el nom del fitxer de part muntat a partir de fragments",
     "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "Si configureu el vostre horari laboral, la resta d'usuaris veuran quan sou fora de l'oficina quan planifiquin una reunió."
 },
 "nplurals=2; plural=(n != 1);");

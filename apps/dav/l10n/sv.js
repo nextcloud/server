@@ -133,8 +133,6 @@ OC.L10N.register(
     "Encryption not ready: %1$s" : "Kryptering ej redo: %1$s",
     "Failed to open file: %1$s" : "Kunde inte öppna fil: %1$s",
     "Failed to unlink: %1$s" : "Kunde inte ta bort: %1$s",
-    "Invalid chunk name" : "Ogiltigt delnamn",
-    "Could not rename part file assembled from chunks" : "Kunde inte ändra namn på temporära filen ihopsatt från delar",
     "Failed to write file contents: %1$s" : "Kunde inte skriva filinnehåll: %1$s",
     "File not found: %1$s" : "Filen hittades inte: %1$s",
     "System is in maintenance mode." : "Systemet är i underhållsläge.",
@@ -210,6 +208,8 @@ OC.L10N.register(
     "Your attendance was updated successfully." : "Dina närvaro uppdaterades.",
     "To-dos" : "Uppgifter",
     "Time:" : "Tid:",
+    "Invalid chunk name" : "Ogiltigt delnamn",
+    "Could not rename part file assembled from chunks" : "Kunde inte ändra namn på temporära filen ihopsatt från delar",
     "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "Om du konfigurerar dina arbetstimmar kan andra användare se när du inte är på jobbet när de bokar ett möte."
 },
 "nplurals=2; plural=(n != 1);");

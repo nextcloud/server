@@ -131,8 +131,6 @@
     "Encryption not ready: %1$s" : "Verschlüsselung nicht bereit: %1$s",
     "Failed to open file: %1$s" : "Datei konnte nicht geöffnet werden: %1$s",
     "Failed to unlink: %1$s" : "Fehler beim Aufheben der Verknüpfung: %1$s",
-    "Invalid chunk name" : "Ungültiger Chunk-Name",
-    "Could not rename part file assembled from chunks" : "Aus Chunks zusammengesetzte temporäre Datei konnte nicht umbenannt werden",
     "Failed to write file contents: %1$s" : "Fehler beim Schreiben des Dateiinhaltes: %1$s",
     "File not found: %1$s" : "Datei nicht gefunden: %1$s",
     "System is in maintenance mode." : "Das System befindet sich im Wartungsmodus.",
@@ -208,6 +206,8 @@
     "Your attendance was updated successfully." : "Dein Teilnehmerstatus wurde aktualisiert.",
     "To-dos" : "Aufgaben",
     "Time:" : "Zeit:",
+    "Invalid chunk name" : "Ungültiger Chunk-Name",
+    "Could not rename part file assembled from chunks" : "Aus Chunks zusammengesetzte temporäre Datei konnte nicht umbenannt werden",
     "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "Wenn du deine Arbeitszeiten konfigurierst, können andere Benutzer sehen, wann du nicht im Büro bist, wenn sie eine Besprechung buchen."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

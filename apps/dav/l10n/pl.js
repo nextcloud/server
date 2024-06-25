@@ -132,8 +132,6 @@ OC.L10N.register(
     "Encryption not ready: %1$s" : "Szyfrowanie nie jest gotowe: %1$s",
     "Failed to open file: %1$s" : "Nie udało się otworzyć pliku: %1$s",
     "Failed to unlink: %1$s" : "Nie udało się odłączyć: %1$s",
-    "Invalid chunk name" : "Nieprawidłowa nazwa fragmentu",
-    "Could not rename part file assembled from chunks" : "Nie można zmienić nazwy pliku podzielonego złożonego z kawałków",
     "Failed to write file contents: %1$s" : "Nie udało się zapisać zawartości pliku: %1$s",
     "File not found: %1$s" : "Nie znaleziono pliku: %1$s",
     "System is in maintenance mode." : "Serwer jest w trybie konserwacji.",
@@ -203,6 +201,8 @@ OC.L10N.register(
     "Your attendance was updated successfully." : "Twoja obecność została pomyślnie zaktualizowana.",
     "To-dos" : "Do zrobienia",
     "Time:" : "Czas:",
+    "Invalid chunk name" : "Nieprawidłowa nazwa fragmentu",
+    "Could not rename part file assembled from chunks" : "Nie można zmienić nazwy pliku podzielonego złożonego z kawałków",
     "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "Jeśli skonfigurujesz godziny pracy, inni użytkownicy będą widzieć, kiedy jesteś poza biurem, gdy będą rezerwować spotkanie."
 },
 "nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");
