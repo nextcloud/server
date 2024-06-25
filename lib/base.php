@@ -63,6 +63,7 @@ class OC {
 	 * check if Nextcloud runs in cli mode
 	 */
 	public static bool $CLI = false;
+	public static bool $CLI_DEBUG = false;
 
 	public static \OC\Autoloader $loader;
 
@@ -556,6 +557,12 @@ class OC {
 		self::$composerAutoloader = require_once OC::$SERVERROOT . '/lib/composer/autoload.php';
 		self::$composerAutoloader->setApcuPrefix(null);
 
+		if (self::$CLI && ($key = array_search('--debug', $_SERVER['argv'])) !== false) {
+			self::$CLI_DEBUG = true;
+		} else {
+			self::$CLI_DEBUG = false;
+		}
+
 		try {
 			self::initPaths();
 			// setup 3rdparty autoloader
@@ -577,6 +584,11 @@ class OC {
 		// setup the basic server
 		self::$server = new \OC\Server(\OC::$WEBROOT, self::$config);
 		self::$server->boot();
+
+		if (self::$CLI_DEBUG) {
+			$eventDispatcher = \OCP\Server::get(IEventDispatcher::class);
+			$eventDispatcher->addServiceListener(\OCP\Log\BeforeMessageLoggedEvent::class, \OC\Core\Listener\BeforeMessageLoggedEventListener::class);
+		}
 
 		$eventLogger = Server::get(\OCP\Diagnostics\IEventLogger::class);
 		$eventLogger->log('autoloader', 'Autoloader', $loaderStart, $loaderEnd);

@@ -1236,6 +1236,7 @@ return array(
     'OC\\Core\\Events\\PasswordResetEvent' => $baseDir . '/core/Events/PasswordResetEvent.php',
     'OC\\Core\\Exception\\LoginFlowV2NotFoundException' => $baseDir . '/core/Exception/LoginFlowV2NotFoundException.php',
     'OC\\Core\\Exception\\ResetPasswordException' => $baseDir . '/core/Exception/ResetPasswordException.php',
+    'OC\\Core\\Listener\\BeforeMessageLoggedEventListener' => $baseDir . '/core/Listener/BeforeMessageLoggedEventListener.php',
     'OC\\Core\\Listener\\BeforeTemplateRenderedListener' => $baseDir . '/core/Listener/BeforeTemplateRenderedListener.php',
     'OC\\Core\\Middleware\\TwoFactorMiddleware' => $baseDir . '/core/Middleware/TwoFactorMiddleware.php',
     'OC\\Core\\Migrations\\Version13000Date20170705121758' => $baseDir . '/core/Migrations/Version13000Date20170705121758.php',
