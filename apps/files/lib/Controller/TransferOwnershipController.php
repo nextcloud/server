@@ -208,19 +208,9 @@ class TransferOwnershipController extends OCSController {
 			->setObject('transfer', (string)$id);
 		$this->notificationManager->markProcessed($notification);
 
-		$notification = $this->notificationManager->createNotification();
-		$notification->setUser($transferOwnership->getSourceUser())
-			->setApp($this->appName)
-			->setDateTime($this->timeFactory->getDateTime())
-			->setSubject('transferownershipRequestDenied', [
-				'sourceUser' => $transferOwnership->getSourceUser(),
-				'targetUser' => $transferOwnership->getTargetUser(),
-				'nodeName' => $transferOwnership->getNodeName()
-			])
-			->setObject('transfer', (string)$transferOwnership->getId());
-		$this->notificationManager->notify($notification);
-
 		$this->mapper->delete($transferOwnership);
+
+		// A "request denied" notification will be created by Notifier::dismissNotification
 
 		return new DataResponse([], Http::STATUS_OK);
 	}
