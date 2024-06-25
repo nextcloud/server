@@ -85,7 +85,9 @@ class OwnershipTransferService {
 		// Requesting the user folder will set it up if the user hasn't logged in before
 		// We need a setupFS for the full filesystem setup before as otherwise we will just return
 		// a lazy root folder which does not create the destination users folder
+		\OC_Util::setupFS($sourceUser->getUID());
 		\OC_Util::setupFS($destinationUser->getUID());
+		\OC::$server->getUserFolder($sourceUser->getUID());
 		\OC::$server->getUserFolder($destinationUser->getUID());
 		Filesystem::initMountPoints($sourceUid);
 		Filesystem::initMountPoints($destinationUid);
