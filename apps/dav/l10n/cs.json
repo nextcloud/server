@@ -130,8 +130,6 @@
     "Encryption not ready: %1$s" : "Šifrování není připraveno: %1$s",
     "Failed to open file: %1$s" : "Nepodařilo se otevřít soubor: %1$s",
     "Failed to unlink: %1$s" : "Nepodařilo se zrušit propojení: %1$s",
-    "Invalid chunk name" : "Neplatný název pro shluk (chunk)",
-    "Could not rename part file assembled from chunks" : "Nedaří se přejmenovat částečný soubor složený ze shluků",
     "Failed to write file contents: %1$s" : "Nepodařilo se zapsat obsahy souborů: %1$s",
     "File not found: %1$s" : "Soubor nenalezen: %1$s",
     "System is in maintenance mode." : "Systém se právě nachází v režimu údržby.",
@@ -203,6 +201,8 @@
     "Your attendance was updated successfully." : "Vaše účast byla úspěšně aktualizována.",
     "To-dos" : "Zbývá udělat",
     "Time:" : "Čas:",
+    "Invalid chunk name" : "Neplatný název pro shluk (chunk)",
+    "Could not rename part file assembled from chunks" : "Nedaří se přejmenovat částečný soubor složený ze shluků",
     "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "Když sem zadáte svou pracovní dobu, ostatní uživatelé při rezervování schůzky uvidí, kdy jste mimo kancelář."
 },"pluralForm" :"nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;"
 }

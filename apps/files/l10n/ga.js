@@ -237,6 +237,7 @@ OC.L10N.register(
     "Shared" : "Roinnte",
     "Switch to list view" : "Athraigh go dtí an amharc liosta",
     "Switch to grid view" : "Téigh go dtí an radharc greille",
+    "Upload was cancelled by user" : "Chuir an t-úsáideoir an uaslódáil ar ceal",
     "Error during upload: {message}" : "Earráid le linn uaslódála: {message}",
     "Error during upload, status code {status}" : "Earráid le linn uaslódála, cód stádais {status}",
     "Unknown error during upload" : "Earráid anaithnid le linn uaslódála",

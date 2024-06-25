@@ -233,6 +233,7 @@
     "Shared" : "Подељено",
     "Switch to list view" : "Пређи на поглед листе",
     "Switch to grid view" : "Пређи на поглед мреже",
+    "Upload was cancelled by user" : "Корисник је прекинуо отпремање",
     "Error during upload: {message}" : "Грешка при отпремању: {message}",
     "Error during upload, status code {status}" : "Грешка приликом отпремања, кôд статуса {status}",
     "Unknown error during upload" : "Непозната грешка током отпремања",

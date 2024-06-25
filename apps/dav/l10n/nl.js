@@ -120,8 +120,6 @@ OC.L10N.register(
     "Encryption not ready: %1$s" : "Versleuteling niet gereed: %1$s",
     "Failed to open file: %1$s" : "Kon het bestand %1$s niet openen",
     "Failed to unlink: %1$s" : "Kon link niet verwijderen: %1$s",
-    "Invalid chunk name" : "Ongeldige chunknaam",
-    "Could not rename part file assembled from chunks" : "Kon een bestandsdeel dat uit chunks is samengesteld niet hernoemen",
     "Failed to write file contents: %1$s" : "Kon bestandsinhoud niet wegschrijven: %1$s",
     "File not found: %1$s" : "Bestand niet gevonden: %1$s",
     "System is in maintenance mode." : "Systeem in onderhoudsmodus.",
@@ -173,6 +171,8 @@ OC.L10N.register(
     "Your attendance was updated successfully." : "Je deelname is succesvol bijgewerkt.",
     "To-dos" : "Taken",
     "Time:" : "Tijd:",
+    "Invalid chunk name" : "Ongeldige chunknaam",
+    "Could not rename part file assembled from chunks" : "Kon een bestandsdeel dat uit chunks is samengesteld niet hernoemen",
     "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "Als je je werkuren instelt kunnen andere gebruikers zien wanneer je niet beschikbaar bent als ze een meeting willen plannen."
 },
 "nplurals=2; plural=(n != 1);");

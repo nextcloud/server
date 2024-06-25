@@ -131,8 +131,6 @@ OC.L10N.register(
     "Encryption not ready: %1$s" : "Šifriranje ni mogoče: %1$s",
     "Failed to open file: %1$s" : "Odpiranje datoteke je spodletelo: %1$s",
     "Failed to unlink: %1$s" : "Odstranjevanje povezave je spodletelo: %1$s",
-    "Invalid chunk name" : "Neveljavno ime dela",
-    "Could not rename part file assembled from chunks" : "Ni mogoče preimenovati delne datoteke, združene iz delov.",
     "Failed to write file contents: %1$s" : "Zapisovanje vsebine datoteke je spodletelo: %1$s",
     "File not found: %1$s" : "Datoteke ni mogoče najti: %1$s",
     "System is in maintenance mode." : "Sistem je v vzdrževalnem načinu.",
@@ -202,6 +200,8 @@ OC.L10N.register(
     "Your attendance was updated successfully." : "Vaša prisotnost je uspešno posodobljena.",
     "To-dos" : "Naloge To-Do",
     "Time:" : "Čas:",
+    "Invalid chunk name" : "Neveljavno ime dela",
+    "Could not rename part file assembled from chunks" : "Ni mogoče preimenovati delne datoteke, združene iz delov.",
     "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "Če nastavite delovni čas, bodo drugi uporabniki pri izbiri časa sestanka videli, kdaj ste zasedeni."
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");

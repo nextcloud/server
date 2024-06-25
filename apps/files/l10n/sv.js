@@ -237,6 +237,7 @@ OC.L10N.register(
     "Shared" : "Delad",
     "Switch to list view" : "Växla till listvy",
     "Switch to grid view" : "Växla till rutnätsvy",
+    "Upload was cancelled by user" : "Uppladdningen avbröts av användaren",
     "Error during upload: {message}" : "Fel vid uppladdning: {message}",
     "Error during upload, status code {status}" : "Fel vid uppladdning, statuskod {status}",
     "Unknown error during upload" : "Okänt fel under uppladdning",

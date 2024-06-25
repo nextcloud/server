@@ -132,8 +132,6 @@ OC.L10N.register(
     "Encryption not ready: %1$s" : "Dulritun ekki tilbúin: %1$s",
     "Failed to open file: %1$s" : "Mistókst að opna skrá: %1$s",
     "Failed to unlink: %1$s" : "Mistókst að aftengja: %1$s",
-    "Invalid chunk name" : "Ógilt heiti á bút",
-    "Could not rename part file assembled from chunks" : "Ekki var hægt að endurnefna hlutaskrá setta saman úr bútum",
     "Failed to write file contents: %1$s" : "Mistókst að skrifa innihald skrár: %1$s",
     "File not found: %1$s" : "Skrá fannst ekki: %1$s",
     "System is in maintenance mode." : "Kerfið er í viðhaldsham.",
@@ -205,6 +203,8 @@ OC.L10N.register(
     "Your attendance was updated successfully." : "Mætingarstaða þín var uppfærð.",
     "To-dos" : "Verkþættir",
     "Time:" : "Tími:",
+    "Invalid chunk name" : "Ógilt heiti á bút",
+    "Could not rename part file assembled from chunks" : "Ekki var hægt að endurnefna hlutaskrá setta saman úr bútum",
     "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "Ef þú stillir vinnutímana þína, geta aðrir séð hvenæt þú sért fjarverandi þegar þeir bóka fundi með þér."
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

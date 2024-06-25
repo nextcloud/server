@@ -235,6 +235,7 @@ OC.L10N.register(
     "Shared" : "Спільне",
     "Switch to list view" : "У вигляді списку",
     "Switch to grid view" : "У вигляді сітки",
+    "Upload was cancelled by user" : "Завантаження скасовано користувачем",
     "Error during upload: {message}" : "Помилка під час завантаження: {message}",
     "Error during upload, status code {status}" : "Помилка під час завантаження, код стану {status}",
     "Unknown error during upload" : "Невідома помилка під час завантаження",

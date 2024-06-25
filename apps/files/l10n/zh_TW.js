@@ -235,6 +235,7 @@ OC.L10N.register(
     "Shared" : "已分享",
     "Switch to list view" : "切換至列表檢視",
     "Switch to grid view" : "切換到網格檢視",
+    "Upload was cancelled by user" : "使用者已取消上傳",
     "Error during upload: {message}" : "上傳時發生錯誤：{message}",
     "Error during upload, status code {status}" : "上傳時發生錯誤，狀態碼 {status}",
     "Unknown error during upload" : "上傳時發生未知的錯誤",

@@ -235,6 +235,7 @@
     "Shared" : "Compartido",
     "Switch to list view" : "Cambiar á vista de lista",
     "Switch to grid view" : "Cambiar á vista de grade",
+    "Upload was cancelled by user" : "O envío foi cancelado polo usuario",
     "Error during upload: {message}" : "Produciuse un erro durante o envío: {message}",
     "Error during upload, status code {status}" : "Produciuse un erro durante o envío, código de estado {status}",
     "Unknown error during upload" : "Produciuse un erro descoñecido durante o envío",

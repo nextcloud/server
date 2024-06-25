@@ -132,8 +132,6 @@ OC.L10N.register(
     "Encryption not ready: %1$s" : "Шифрування не готове: %1$s",
     "Failed to open file: %1$s" : "Не вдалося відкрити файл: %1$s",
     "Failed to unlink: %1$s" : "Не вдалося від’єднати: %1$s",
-    "Invalid chunk name" : "Недійсна назва блоку",
-    "Could not rename part file assembled from chunks" : "Не вдалося перейменувати файл частини, зібраний із фрагментів",
     "Failed to write file contents: %1$s" : "Не вдалося записати вміст файлу: %1$s",
     "File not found: %1$s" : "Файл не знайдено: %1$s",
     "System is in maintenance mode." : "Система в режимі обслуговування.",
@@ -209,6 +207,8 @@ OC.L10N.register(
     "Your attendance was updated successfully." : "Ваша участь успішно оновлена.",
     "To-dos" : "Завдання",
     "Time:" : "Час:",
+    "Invalid chunk name" : "Недійсна назва блоку",
+    "Could not rename part file assembled from chunks" : "Не вдалося перейменувати файл частини, зібраний із фрагментів",
     "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "Будь ласка, налаштуйте ваш робочий час, щоби інші користувачі могли бачити, коли ви відсутні під час бронювання зустрічей."
 },
 "nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);");

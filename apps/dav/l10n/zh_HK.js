@@ -133,8 +133,6 @@ OC.L10N.register(
     "Encryption not ready: %1$s" : "尚未準備好加密：%1$s",
     "Failed to open file: %1$s" : "開啟檔案失敗：%1$s",
     "Failed to unlink: %1$s" : "解除連結失敗：%1$s",
-    "Invalid chunk name" : "無效的區塊名稱",
-    "Could not rename part file assembled from chunks" : "無法重新命名從區塊組合成的部份檔案",
     "Failed to write file contents: %1$s" : "寫入檔案內容失敗：%1$s",
     "File not found: %1$s" : "找不到檔案：%1$s",
     "System is in maintenance mode." : "系統處於維護模式。",
@@ -210,6 +208,8 @@ OC.L10N.register(
     "Your attendance was updated successfully." : "您的參與狀況成功更新",
     "To-dos" : "待辦事項",
     "Time:" : "時間：",
+    "Invalid chunk name" : "無效的區塊名稱",
+    "Could not rename part file assembled from chunks" : "無法重新命名從區塊組合成的部份檔案",
     "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "若您設定了您的工作時間，其他用戶在預約會議時就會知道您何時不在辦公室。"
 },
 "nplurals=1; plural=0;");
