@@ -17,6 +17,7 @@ use OCP\L10N\IFactory;
 use OCP\Notification\AlreadyProcessedException;
 use OCP\Notification\INotification;
 use OCP\Notification\INotifier;
+use OCP\Notification\UnknownNotificationException;
 
 class Notifier implements INotifier {
 	public function __construct(
@@ -52,19 +53,19 @@ class Notifier implements INotifier {
 	 * @param INotification $notification
 	 * @param string $languageCode The code of the language that should be used to prepare the notification
 	 * @return INotification
-	 * @throws \InvalidArgumentException When the notification was not prepared by a notifier
+	 * @throws UnknownNotificationException When the notification was not prepared by a notifier
 	 * @throws AlreadyProcessedException When the notification is not needed anymore and should be deleted
 	 * @since 9.0.0
 	 */
 	public function prepare(INotification $notification, string $languageCode): INotification {
 		if ($notification->getApp() !== 'comments') {
-			throw new \InvalidArgumentException();
+			throw new UnknownNotificationException();
 		}
 		try {
 			$comment = $this->commentsManager->get($notification->getObjectId());
 		} catch (NotFoundException $e) {
 			// needs to be converted to InvalidArgumentException, otherwise none Notifications will be shown at all
-			throw new \InvalidArgumentException('Comment not found', 0, $e);
+			throw new UnknownNotificationException('Comment not found', 0, $e);
 		}
 		$l = $this->l10nFactory->get('comments', $languageCode);
 		$displayName = $comment->getActorId();
@@ -80,7 +81,7 @@ class Notifier implements INotifier {
 			case 'mention':
 				$parameters = $notification->getSubjectParameters();
 				if ($parameters[0] !== 'files') {
-					throw new \InvalidArgumentException('Unsupported comment object');
+					throw new UnknownNotificationException('Unsupported comment object');
 				}
 				$userFolder = $this->rootFolder->getUserFolder($notification->getUser());
 				$nodes = $userFolder->getById((int)$parameters[1]);
@@ -128,7 +129,7 @@ class Notifier implements INotifier {
 				break;
 
 			default:
-				throw new \InvalidArgumentException('Invalid subject');
+				throw new UnknownNotificationException('Invalid subject');
 		}
 	}
 
