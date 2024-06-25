@@ -25,6 +25,7 @@ use OCP\IUser;
 use OCP\IUserBackend;
 use OCP\Notification\IManager as INotificationManager;
 use OCP\User\Backend\IGetHomeBackend;
+use OCP\User\Backend\IPasswordHashBackend;
 use OCP\User\Backend\IProvideAvatarBackend;
 use OCP\User\Backend\IProvideEnabledStateBackend;
 use OCP\User\Backend\ISetDisplayNameBackend;
@@ -317,6 +318,20 @@ class User implements IUser {
 		} else {
 			return false;
 		}
+	}
+
+	public function getPasswordHash(): ?string {
+		if (!($this->backend instanceof IPasswordHashBackend)) {
+			return null;
+		}
+		return $this->backend->getPasswordHash($this->uid);
+	}
+
+	public function setPasswordHash(string $passwordHash): bool {
+		if (!($this->backend instanceof IPasswordHashBackend)) {
+			return false;
+		}
+		return $this->backend->setPasswordHash($this->uid, $passwordHash);
 	}
 
 	/**

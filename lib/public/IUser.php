@@ -77,6 +77,20 @@ interface IUser {
 	public function setPassword($password, $recoveryPassword = null);
 
 	/**
+	 * Get the password hash of the user
+	 *
+	 * @since 30.0.0
+	 */
+	public function getPasswordHash(): ?string;
+
+	/**
+	 * Set the password hash of the user
+	 *
+	 * @since 30.0.0
+	 */
+	public function setPasswordHash(string $passwordHash): bool;
+
+	/**
 	 * get the users home folder to mount
 	 *
 	 * @return string

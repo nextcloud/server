@@ -73,6 +73,14 @@ class LazyUser implements IUser {
 		return $this->getUser()->setPassword($password, $recoveryPassword);
 	}
 
+	public function getPasswordHash(): ?string {
+		return $this->getUser()->getPasswordHash();
+	}
+
+	public function setPasswordHash(string $passwordHash): bool {
+		return $this->getUser()->setPasswordHash($passwordHash);
+	}
+
 	public function getHome() {
 		return $this->getUser()->getHome();
 	}
