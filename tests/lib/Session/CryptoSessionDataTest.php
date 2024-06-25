@@ -34,7 +34,7 @@ class CryptoSessionDataTest extends Session {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->wrappedSession = new \OC\Session\Memory($this->getUniqueID());
+		$this->wrappedSession = new \OC\Session\Memory();
 		$this->crypto = $this->createMock(ICrypto::class);
 		$this->crypto->expects($this->any())
 			->method('encrypt')
