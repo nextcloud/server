@@ -197,7 +197,10 @@ class OC_User {
 				if (empty($password)) {
 					$tokenProvider = \OC::$server->get(IProvider::class);
 					$token = $tokenProvider->getToken($userSession->getSession()->getId());
-					$token->setScope(['password-unconfirmable' => true]);
+					$token->setScope([
+						'password-unconfirmable' => true,
+						'filesystem' => true,
+					]);
 					$tokenProvider->updateToken($token);
 				}
 
