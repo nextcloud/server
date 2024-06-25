@@ -20,6 +20,7 @@ use OCP\Notification\IDismissableNotifier;
 use OCP\Notification\IManager;
 use OCP\Notification\INotification;
 use OCP\Notification\INotifier;
+use OCP\Notification\UnknownNotificationException;
 
 class Notifier implements INotifier, IDismissableNotifier {
 	/** @var IFactory */
@@ -62,11 +63,11 @@ class Notifier implements INotifier, IDismissableNotifier {
 	 * @param INotification $notification
 	 * @param string $languageCode The code of the language that should be used to prepare the notification
 	 * @return INotification
-	 * @throws \InvalidArgumentException When the notification was not prepared by a notifier
+	 * @throws UnknownNotificationException When the notification was not prepared by a notifier
 	 */
 	public function prepare(INotification $notification, string $languageCode): INotification {
 		if ($notification->getApp() !== 'files') {
-			throw new \InvalidArgumentException('Unhandled app');
+			throw new UnknownNotificationException('Unhandled app');
 		}
 
 		return match($notification->getSubject()) {
@@ -76,7 +77,7 @@ class Notifier implements INotifier, IDismissableNotifier {
 			'transferOwnershipFailedTarget' => $this->handleTransferOwnershipFailedTarget($notification, $languageCode),
 			'transferOwnershipDoneSource' => $this->handleTransferOwnershipDoneSource($notification, $languageCode),
 			'transferOwnershipDoneTarget' => $this->handleTransferOwnershipDoneTarget($notification, $languageCode),
-			default => throw new \InvalidArgumentException('Unhandled subject')
+			default => throw new UnknownNotificationException('Unhandled subject')
 		};
 	}
 
@@ -256,7 +257,7 @@ class Notifier implements INotifier, IDismissableNotifier {
 
 	public function dismissNotification(INotification $notification): void {
 		if ($notification->getApp() !== 'files') {
-			throw new \InvalidArgumentException('Unhandled app');
+			throw new UnknownNotificationException('Unhandled app');
 		}
 
 		// TODO: This should all be moved to a service that also the transferownershipController uses.
