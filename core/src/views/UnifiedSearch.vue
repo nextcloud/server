@@ -96,7 +96,8 @@ export default defineComponent({
 	},
 
 	mounted() {
-		logger.debug('Unified search initialized!')
+		// register keyboard listener for search shortcut
+		window.addEventListener('keydown', this.onKeyDown)
 
 		// Deprecated events to be removed
 		subscribe('nextcloud:unified-search:reset', () => {
@@ -105,9 +106,31 @@ export default defineComponent({
 		subscribe('nextcloud:unified-search:search', ({ query }) => {
 			emit('nextcloud:unified-search.search', { query })
 		})
+
+		// all done
+		logger.debug('Unified search initialized!')
+	},
+
+	beforeDestroy() {
+		// keep in mind to remove the event listener
+		window.removeEventListener('keydown', this.onKeyDown)
 	},
 
 	methods: {
+		/**
+		 * Handle the key down event to open search on `ctrl + F`
+		 * @param event The keyboard event
+		 */
+		onKeyDown(event: KeyboardEvent) {
+			if (event.ctrlKey && event.code === 'KeyF') {
+				// only handle search if not already open - in this case the browser native search should be used
+				if (!this.showLocalSearch && !this.showUnifiedSearch) {
+					this.toggleUnifiedSearch()
+					event.preventDefault()
+				}
+			}
+		},
+
 		/**
 		 * Toggle the local search if available - otherwise open the unified search modal
 		 */
