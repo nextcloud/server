@@ -35,6 +35,10 @@ export default {
 	},
 	mounted() {
 		console.debug('Unified search initialized!')
+		window.addEventListener('keydown', this.handleKeyDown)
+	},
+	beforeDestroy() {
+		window.removeEventListener('keydown', this.handleKeyDown)
 	},
 	methods: {
 		toggleUnifiedSearch() {
@@ -42,6 +46,16 @@ export default {
 		},
 		handleModalVisibilityChange(newVisibilityVal) {
 			this.showUnifiedSearch = newVisibilityVal
+		},
+		handleKeyDown(event) {
+			// if not already opened, allows us to trigger default browser on second keydown
+			if (event.ctrlKey && event.code === 'KeyF' && !this.showUnifiedSearch) {
+				event.preventDefault()
+				this.showUnifiedSearch = true
+			} else if (event.ctrlKey && event.key === 'f' && this.showUnifiedSearch) {
+				// User wants to use the native browser search, so we close ours again
+				this.showUnifiedSearch = false
+			}
 		},
 	},
 }
