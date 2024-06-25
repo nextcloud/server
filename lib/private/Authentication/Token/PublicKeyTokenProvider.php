@@ -70,8 +70,8 @@ class PublicKeyTokenProvider implements IProvider {
 		$this->logger = $logger;
 		$this->time = $time;
 
-		$this->cache = $cacheFactory->isLocalCacheAvailable()
-			? $cacheFactory->createLocal('authtoken_')
+		$this->cache = $cacheFactory->isAvailable()
+			? $cacheFactory->createDistributed('authtoken_')
 			: $cacheFactory->createInMemory();
 		$this->hasher = $hasher;
 	}
