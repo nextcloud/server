@@ -100,28 +100,6 @@ updates:
     - "3. to review"
     - "feature: dependencies"
 
-
-# Main stableXX npm
-- package-ecosystem: npm
-  directory: "/"
-  schedule:
-    interval: weekly
-    day: saturday
-    time: "03:00"
-    timezone: Europe/Paris
-  target-branch: stable27
-  labels:
-    - "3. to review"
-    - "feature: dependencies"
-  reviewers:
-    - "nextcloud/server-dependabot"
-  ignore:
-    # ignore all GitHub linguist patch updates
-    - dependency-name: "*"
-      update-types: ["version-update:semver-major", "version-update:semver-minor", "version-update:semver-patch"]
-  # Disable automatic rebasing because without a build CI will likely fail anyway
-  rebase-strategy: "disabled"
-
 - package-ecosystem: npm
   directory: "/"
   schedule:
@@ -161,25 +139,6 @@ updates:
       update-types: ["version-update:semver-major", "version-update:semver-minor", "version-update:semver-patch"]
   # Disable automatic rebasing because without a build CI will likely fail anyway
   rebase-strategy: "disabled"
-
-  # Testing StableXX composer
-- package-ecosystem: composer
-  directory: "/build/integration"
-  schedule:
-    interval: weekly
-    day: saturday
-    time: "03:00"
-    timezone: Europe/Paris
-  target-branch: stable27
-  labels:
-    - "3. to review"
-    - "feature: dependencies"
-  reviewers:
-    - "nextcloud/server-dependabot"
-  ignore:
-    # ignore all GitHub linguist patch updates
-    - dependency-name: "*"
-      update-types: ["version-update:semver-major", "version-update:semver-minor", "version-update:semver-patch"]
 
 - package-ecosystem: composer
   directory: "/build/integration"
