@@ -21,6 +21,7 @@ use OCP\User\Backend\ICreateUserBackend;
 use OCP\User\Backend\IGetDisplayNameBackend;
 use OCP\User\Backend\IGetHomeBackend;
 use OCP\User\Backend\IGetRealUIDBackend;
+use OCP\User\Backend\IPasswordHashBackend;
 use OCP\User\Backend\ISearchKnownUsersBackend;
 use OCP\User\Backend\ISetDisplayNameBackend;
 use OCP\User\Backend\ISetPasswordBackend;
@@ -37,7 +38,8 @@ class Database extends ABackend implements
 	IGetHomeBackend,
 	ICountUsersBackend,
 	ISearchKnownUsersBackend,
-	IGetRealUIDBackend {
+	IGetRealUIDBackend,
+	IPasswordHashBackend {
 	/** @var CappedMemoryCache */
 	private $cache;
 
@@ -174,6 +176,34 @@ class Database extends ABackend implements
 		}
 
 		return false;
+	}
+
+	public function getPasswordHash(string $userId): ?string {
+		$this->fixDI();
+		if (!$this->userExists($userId)) {
+			return null;
+		}
+		$qb = $this->dbConn->getQueryBuilder();
+		$qb->select('password')
+			->from($this->table)
+			->where($qb->expr()->eq('uid_lower', $qb->createNamedParameter(mb_strtolower($userId))));
+		/** @var false|string $hash */
+		$hash = $qb->executeQuery()->fetchOne();
+		if ($hash === false) {
+			return null;
+		}
+		$this->cache[$userId]['password'] = $hash;
+		return $hash;
+	}
+
+	public function setPasswordHash(string $userId, string $passwordHash): bool {
+		$this->fixDI();
+		$result = $this->updatePassword($userId, $passwordHash);
+		if (!$result) {
+			return false;
+		}
+		$this->cache[$userId]['password'] = $passwordHash;
+		return true;
 	}
 
 	/**
