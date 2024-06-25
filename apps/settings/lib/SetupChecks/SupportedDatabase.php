@@ -38,8 +38,8 @@ class SupportedDatabase implements ISetupCheck {
 		$version = null;
 		$databasePlatform = $this->connection->getDatabasePlatform();
 		if ($databasePlatform instanceof MySQLPlatform) {
-			$result = $this->connection->prepare("SHOW VARIABLES LIKE 'version';");
-			$result->execute();
+			$statement = $this->connection->prepare("SHOW VARIABLES LIKE 'version';");
+			$result = $statement->execute();
 			$row = $result->fetch();
 			$version = $row['Value'];
 			$versionlc = strtolower($version);
@@ -47,17 +47,19 @@ class SupportedDatabase implements ISetupCheck {
 			[$major, $minor, ] = explode('.', $versionlc);
 			$versionConcern = $major . '.' . $minor;
 			if (str_contains($versionlc, 'mariadb')) {
-				if (version_compare($versionConcern, '10.3', '<') || version_compare($versionConcern, '10.11', '>')) {
-					return SetupResult::warning($this->l10n->t('MariaDB version "%s" detected. MariaDB >=10.3 and <=10.11 is suggested for best performance, stability and functionality with this version of Nextcloud.', $version));
+				if (version_compare($versionConcern, '10.3', '=')) {
+					return SetupResult::info($this->l10n->t('MariaDB version 10.3 detected, this version is end-of-life and only supported as part of Ubuntu 20.04. MariaDB >=10.6 and <=11.4 is suggested for best performance, stability and functionality with this version of Nextcloud.'));
+				} elseif (version_compare($versionConcern, '10.6', '<') || version_compare($versionConcern, '11.4', '>')) {
+					return SetupResult::warning($this->l10n->t('MariaDB version "%s" detected. MariaDB >=10.6 and <=11.4 is suggested for best performance, stability and functionality with this version of Nextcloud.', $version));
 				}
 			} else {
-				if (version_compare($versionConcern, '8.0', '<') || version_compare($versionConcern, '8.3', '>')) {
-					return SetupResult::warning($this->l10n->t('MySQL version "%s" detected. MySQL >=8.0 and <=8.3 is suggested for best performance, stability and functionality with this version of Nextcloud.', $version));
+				if (version_compare($versionConcern, '8.0', '<') || version_compare($versionConcern, '8.4', '>')) {
+					return SetupResult::warning($this->l10n->t('MySQL version "%s" detected. MySQL >=8.0 and <=8.4 is suggested for best performance, stability and functionality with this version of Nextcloud.', $version));
 				}
 			}
 		} elseif ($databasePlatform instanceof PostgreSQLPlatform) {
-			$result = $this->connection->prepare('SHOW server_version;');
-			$result->execute();
+			$statement = $this->connection->prepare('SHOW server_version;');
+			$result = $statement->execute();
 			$row = $result->fetch();
 			$version = $row['server_version'];
 			$versionlc = strtolower($version);

@@ -46,7 +46,7 @@ class SupportedDatabaseTest extends TestCase {
 			/** SQlite always gets a warning */
 			$this->assertEquals(SetupResult::WARNING, $this->check->run()->getSeverity());
 		} else {
-			$this->assertEquals(SetupResult::SUCCESS, $this->check->run()->getSeverity());
+			$this->assertContains($this->check->run()->getSeverity(), [SetupResult::SUCCESS, SetupResult::INFO]);
 		}
 	}
 }
