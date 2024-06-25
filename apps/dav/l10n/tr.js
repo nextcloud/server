@@ -133,8 +133,6 @@ OC.L10N.register(
     "Encryption not ready: %1$s" : "Şifreleme hazır değil: %1$s",
     "Failed to open file: %1$s" : "Dosya açılamadı: %1$s",
     "Failed to unlink: %1$s" : "Bağlantı kaldırılamadı: %1$s",
-    "Invalid chunk name" : "Parça adı geçersiz",
-    "Could not rename part file assembled from chunks" : "Parçalardan oluşturulan parça dosyası yeniden adlandırılamadı ",
     "Failed to write file contents: %1$s" : "Dosya içerikleri yazılamadı: %1$s",
     "File not found: %1$s" : "Dosya bulunamadı: %1$s",
     "System is in maintenance mode." : "Sistem bakım kipinde.",
@@ -210,6 +208,8 @@ OC.L10N.register(
     "Your attendance was updated successfully." : "Katılımınız güncellendi.",
     "To-dos" : "Yapılacak işler",
     "Time:" : "Zaman:",
+    "Invalid chunk name" : "Parça adı geçersiz",
+    "Could not rename part file assembled from chunks" : "Parçalardan oluşturulan parça dosyası yeniden adlandırılamadı ",
     "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "Çalışma saatlerinizi ayarlarsanız, diğer kullanıcılar bir toplantı ayarladıklarında ofis dışında olduğunuzu görürler."
 },
 "nplurals=2; plural=(n > 1);");

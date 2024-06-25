@@ -132,8 +132,6 @@ OC.L10N.register(
     "Encryption not ready: %1$s" : "Kryptering ikke klar: %1$s",
     "Failed to open file: %1$s" : "Kunne ikke åpne filen: %1$s",
     "Failed to unlink: %1$s" : "Kunne ikke fjerne tilknytningen: %1$s",
-    "Invalid chunk name" : "Ugyldig bitnavn",
-    "Could not rename part file assembled from chunks" : "Kunne ikke gi nytt navn til delfil satt sammen fra biter",
     "Failed to write file contents: %1$s" : "Kunne ikke skrive filinnhold: %1$s",
     "File not found: %1$s" : "Filen ble ikke funnet: %1$s",
     "System is in maintenance mode." : "System i vedlikeholdsmodus.",
@@ -209,6 +207,8 @@ OC.L10N.register(
     "Your attendance was updated successfully." : "Deltakelsen din ble oppdatert.",
     "To-dos" : "Gjøremål",
     "Time:" : "Tid:",
+    "Invalid chunk name" : "Ugyldig bitnavn",
+    "Could not rename part file assembled from chunks" : "Kunne ikke gi nytt navn til delfil satt sammen fra biter",
     "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "Hvis du konfigurerer arbeidstiden din, vil andre brukere se når du ikke er på kontoret når de bestiller et møte."
 },
 "nplurals=2; plural=(n != 1);");

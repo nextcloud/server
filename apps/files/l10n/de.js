@@ -237,6 +237,7 @@ OC.L10N.register(
     "Shared" : "Geteilt",
     "Switch to list view" : "Zur Listenansicht wechseln",
     "Switch to grid view" : "Zur Rasteransicht wechseln",
+    "Upload was cancelled by user" : "Benötigt keine Übersetzung. Hier wird nur die formelle Übersetzung verwendet (de_DE).",
     "Error during upload: {message}" : "Fehler beim Hochladen: {message}",
     "Error during upload, status code {status}" : "Fehler beim Hochladen, Statuscode {status}",
     "Unknown error during upload" : "unbekannte Fehler während des Hochladens",

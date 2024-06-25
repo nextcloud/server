@@ -235,6 +235,7 @@ OC.L10N.register(
     "Shared" : "Paylaşılan",
     "Switch to list view" : "Liste görünümüne geç",
     "Switch to grid view" : "Tablo görünümüne geç",
+    "Upload was cancelled by user" : "Kullanıcı yüklemeyi iptal etti",
     "Error during upload: {message}" : "Yükleme sırasında sorun çıktı: {message}",
     "Error during upload, status code {status}" : "Yüklenirken sorun çıktı, durum kodu {status}",
     "Unknown error during upload" : "Yükleme sırasında bilinmeyen bir sorun çıktı",

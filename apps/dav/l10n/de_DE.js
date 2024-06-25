@@ -86,7 +86,7 @@ OC.L10N.register(
     "Organizer:" : "Organisator:",
     "Attendees:" : "Teilnehmer:",
     "Title:" : "Titel:",
-    "Date and time:" : "Datum und Zeit:",
+    "Date and time:" : "Datum und Uhrzeit:",
     "Location:" : "Ort:",
     "Link:" : "Link:",
     "Accept" : "Akzeptieren",
@@ -133,8 +133,6 @@ OC.L10N.register(
     "Encryption not ready: %1$s" : "Verschlüsselung nicht bereit: %1$s",
     "Failed to open file: %1$s" : "Datei konnte nicht geöffnet werden: %1$s",
     "Failed to unlink: %1$s" : "Fehler beim Aufheben der Verknüpfung: %1$s",
-    "Invalid chunk name" : "Ungültiger Chunk-Name",
-    "Could not rename part file assembled from chunks" : "Aus Chunks zusammengesetzte Teildatei konnte nicht umbenannt werden",
     "Failed to write file contents: %1$s" : "Fehler beim Schreiben des Dateiinhalts: %1$s",
     "File not found: %1$s" : "Datei nicht gefunden: %1$s",
     "System is in maintenance mode." : "Das System befindet sich im Wartungsmodus.",
@@ -210,6 +208,8 @@ OC.L10N.register(
     "Your attendance was updated successfully." : "Ihr Teilnehmerstatus wurde aktualisiert.",
     "To-dos" : "Aufgaben",
     "Time:" : "Zeit:",
+    "Invalid chunk name" : "Ungültiger Chunk-Name",
+    "Could not rename part file assembled from chunks" : "Aus Chunks zusammengesetzte Teildatei konnte nicht umbenannt werden",
     "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "Wenn Sie Ihre Arbeitszeiten konfigurieren, können andere Benutzer sehen, wann Sie nicht im Büro sind, wenn sie eine Besprechung buchen."
 },
 "nplurals=2; plural=(n != 1);");

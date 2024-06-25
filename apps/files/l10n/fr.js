@@ -234,6 +234,7 @@ OC.L10N.register(
     "Shared" : "Partagé",
     "Switch to list view" : "Basculer en vue liste",
     "Switch to grid view" : "Basculer en vue grille",
+    "Upload was cancelled by user" : "Le téléversement a été annulé par l'utilisateur",
     "Error during upload: {message}" : "Erreur lors du téléversement : {message}",
     "Error during upload, status code {status}" : "Erreur lors du téléversement, code d'état {status}",
     "Unknown error during upload" : "Erreur inconnue lors du téléversement",

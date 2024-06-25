@@ -132,8 +132,6 @@ OC.L10N.register(
     "Encryption not ready: %1$s" : "La encriptación no está lista: %1$s",
     "Failed to open file: %1$s" : "Error al abrir el archivo: %1$s",
     "Failed to unlink: %1$s" : "Error al eliminar: %1$s",
-    "Invalid chunk name" : "Nombre de fragmento no válido",
-    "Could not rename part file assembled from chunks" : "No se pudo renombrar el archivo parcial ensamblado a archivo final",
     "Failed to write file contents: %1$s" : "Error al escribir el contenido del archivo: %1$s",
     "File not found: %1$s" : "Archivo no encontrado: %1$s",
     "System is in maintenance mode." : "El sistema está en modo de mantenimiento.",
@@ -190,6 +188,8 @@ OC.L10N.register(
     "Your attendance was updated successfully." : "Tu asistencia se actualizó correctamente.",
     "To-dos" : "Tareas pendientes",
     "Time:" : "Hora:",
+    "Invalid chunk name" : "Nombre de fragmento no válido",
+    "Could not rename part file assembled from chunks" : "No se pudo renombrar el archivo parcial ensamblado a archivo final",
     "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "Si configuras tus horas de trabajo, otros usuarios verán cuando estás fuera de la oficina al reservar una reunión."
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

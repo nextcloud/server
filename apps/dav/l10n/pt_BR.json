@@ -131,8 +131,6 @@
     "Encryption not ready: %1$s" : "A criptografia não está pronta: %1$s",
     "Failed to open file: %1$s" : "Falha ao abrir arquivo: %1$s",
     "Failed to unlink: %1$s" : "Falha ao desvincular: %1$s",
-    "Invalid chunk name" : "Nome do bloco inválido",
-    "Could not rename part file assembled from chunks" : "Não foi possível renomear parte do arquivo montado a partir de pedaços",
     "Failed to write file contents: %1$s" : "Falha ao gravar o conteúdo do arquivo:%1$s",
     "File not found: %1$s" : "Arquivo não encontrado:%1$s",
     "System is in maintenance mode." : "O sistema está em modo de manutenção",
@@ -208,6 +206,8 @@
     "Your attendance was updated successfully." : "Sua presença foi atualizada com sucesso.",
     "To-dos" : "Tarefas",
     "Time:" : "Horário:",
+    "Invalid chunk name" : "Nome do bloco inválido",
+    "Could not rename part file assembled from chunks" : "Não foi possível renomear parte do arquivo montado a partir de pedaços",
     "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "Se você configurar seu horário de trabalho, outros usuários verão quando você estiver fora do escritório quando marcarem uma reunião. "
 },"pluralForm" :"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

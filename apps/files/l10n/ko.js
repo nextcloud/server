@@ -234,6 +234,7 @@ OC.L10N.register(
     "Shared" : "공유됨",
     "Switch to list view" : "목록 보기로 전환",
     "Switch to grid view" : "바둑판식 보기로 전환",
+    "Upload was cancelled by user" : "사용자에 의해 업로드가 취소됨",
     "Error during upload: {message}" : "업로드 오류: {message}",
     "Error during upload, status code {status}" : "업로드 중 오류 발생, 상태 코드 {status}",
     "Unknown error during upload" : "업로드 중 알 수 없는 오류 발생",

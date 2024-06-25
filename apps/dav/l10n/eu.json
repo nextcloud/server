@@ -131,8 +131,6 @@
     "Encryption not ready: %1$s" : "Enkriptatzea ez dago prest:%1$s",
     "Failed to open file: %1$s" : "Ezin izan da fitxategia ireki:%1$s",
     "Failed to unlink: %1$s" : "Ezin izan da deskonektatu:%1$s",
-    "Invalid chunk name" : "Zati izen baliogabea",
-    "Could not rename part file assembled from chunks" : "Ezin izan da zati-fitxategiaren izena aldatu zenbait zatiz osatuta dagoelako",
     "Failed to write file contents: %1$s" : "Ezin izan dira fitxategiaren edukiak idatzi:%1$s",
     "File not found: %1$s" : "Ez da fitxategirik aurkitu:%1$s",
     "System is in maintenance mode." : "Sistema mantentze moduan dago.",
@@ -208,6 +206,8 @@
     "Your attendance was updated successfully." : "Zure parte-hartzea ondo eguneratu da.",
     "To-dos" : "Egitekoak",
     "Time:" : "Noiz:",
+    "Invalid chunk name" : "Zati izen baliogabea",
+    "Could not rename part file assembled from chunks" : "Ezin izan da zati-fitxategiaren izena aldatu zenbait zatiz osatuta dagoelako",
     "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "Zure lan orduak konfiguratzen badituzu, beste erabiltzaileek bulegotik kanpo zaudela ikusiko dute bilera bat erreserbatzen dutenean."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
