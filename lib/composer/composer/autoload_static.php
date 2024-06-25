@@ -1053,6 +1053,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\Calendar\\CalendarQuery' => __DIR__ . '/../../..' . '/lib/private/Calendar/CalendarQuery.php',
         'OC\\Calendar\\Manager' => __DIR__ . '/../../..' . '/lib/private/Calendar/Manager.php',
         'OC\\Calendar\\Resource\\Manager' => __DIR__ . '/../../..' . '/lib/private/Calendar/Resource/Manager.php',
+        'OC\\Calendar\\ResourcesRoomsUpdater' => __DIR__ . '/../../..' . '/lib/private/Calendar/ResourcesRoomsUpdater.php',
         'OC\\Calendar\\Room\\Manager' => __DIR__ . '/../../..' . '/lib/private/Calendar/Room/Manager.php',
         'OC\\CapabilitiesManager' => __DIR__ . '/../../..' . '/lib/private/CapabilitiesManager.php',
         'OC\\Collaboration\\AutoComplete\\Manager' => __DIR__ . '/../../..' . '/lib/private/Collaboration/AutoComplete/Manager.php',

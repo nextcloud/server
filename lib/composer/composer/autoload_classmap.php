@@ -1020,6 +1020,7 @@ return array(
     'OC\\Calendar\\CalendarQuery' => $baseDir . '/lib/private/Calendar/CalendarQuery.php',
     'OC\\Calendar\\Manager' => $baseDir . '/lib/private/Calendar/Manager.php',
     'OC\\Calendar\\Resource\\Manager' => $baseDir . '/lib/private/Calendar/Resource/Manager.php',
+    'OC\\Calendar\\ResourcesRoomsUpdater' => $baseDir . '/lib/private/Calendar/ResourcesRoomsUpdater.php',
     'OC\\Calendar\\Room\\Manager' => $baseDir . '/lib/private/Calendar/Room/Manager.php',
     'OC\\CapabilitiesManager' => $baseDir . '/lib/private/CapabilitiesManager.php',
     'OC\\Collaboration\\AutoComplete\\Manager' => $baseDir . '/lib/private/Collaboration/AutoComplete/Manager.php',
