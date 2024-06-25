@@ -219,6 +219,7 @@ OC.L10N.register(
     "Shared by link" : "اشتراک گذاشته شده از طریق لینک",
     "Shared" : "به اشتراک گذاشته شده ",
     "Switch to list view" : "Switch to list view",
+    "Upload was cancelled by user" : "آپلود توسط کاربر لغو شد",
     "Open the files app settings" : "تنظیمات برنامه فایل ها را باز کنید",
     "Files settings" : "تنظیمات پرونده‌ها",
     "File cannot be accessed" : "فایل قابل دسترسی نیست",

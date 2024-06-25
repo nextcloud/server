@@ -132,8 +132,6 @@ OC.L10N.register(
     "Encryption not ready: %1$s" : "El cifráu nun ta preparáu: %1$s",
     "Failed to open file: %1$s" : "Nun se pue abrir el ficheru: %1$s",
     "Failed to unlink: %1$s" : "Nun se pue desenllaciar: %1$s",
-    "Invalid chunk name" : "El nome del cachu ye inválidu",
-    "Could not rename part file assembled from chunks" : "Nun se pudo renomar el ficheru parcial ensambláu de los cachos",
     "Failed to write file contents: %1$s" : "Nun se pue escribir el conteníu nel ficheru: %1$s",
     "File not found: %1$s" : "Nun s'atopó'l ficheru: %1$s",
     "System is in maintenance mode." : "El sistema ta nel mou de caltenimientu.",
@@ -209,6 +207,8 @@ OC.L10N.register(
     "Your attendance was updated successfully." : "La to asistencia anovóse correutamente.",
     "To-dos" : "Xeres pendientes",
     "Time:" : "Hora:",
+    "Invalid chunk name" : "El nome del cachu ye inválidu",
+    "Could not rename part file assembled from chunks" : "Nun se pudo renomar el ficheru parcial ensambláu de los cachos",
     "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "Si configures les hores llaborales, los demás usuarios van ver cuando coles de la oficina al acutar una reunión."
 },
 "nplurals=2; plural=(n != 1);");

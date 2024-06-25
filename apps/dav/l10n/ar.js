@@ -133,8 +133,6 @@ OC.L10N.register(
     "Encryption not ready: %1$s" : "التشفير غير جاهز: %1$s",
     "Failed to open file: %1$s" : "تعذّر فتح الملف: %1$s",
     "Failed to unlink: %1$s" : "تعذّر فك الارتباط: %1$s",
-    "Invalid chunk name" : "اسم كتلة chunk غير صحيح",
-    "Could not rename part file assembled from chunks" : "تعذّرت إعادة تسمية ملف جزئي مُجمّعٍ من كُتلٍ chunks",
     "Failed to write file contents: %1$s" : "إخفاق في كتابة محتويات الملف: %1$s",
     "File not found: %1$s" : "ملف غير موجود: %1$s",
     "System is in maintenance mode." : "النظام في حالة صيانة.",
@@ -210,6 +208,8 @@ OC.L10N.register(
     "Your attendance was updated successfully." : "حضورك تم تحديثه بنجاحٍ",
     "To-dos" : "قائمة الواجبات",
     "Time:" : "الوقت:",
+    "Invalid chunk name" : "اسم كتلة chunk غير صحيح",
+    "Could not rename part file assembled from chunks" : "تعذّرت إعادة تسمية ملف جزئي مُجمّعٍ من كُتلٍ chunks",
     "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "إذا قمت بتهيئة ساعات العمل الخاصة بك، فسيظهر للمستخدمين الآخرين عندما يحجزون معك موعداً إذا ما كنت في المكتب أو خارجه."
 },
 "nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;");

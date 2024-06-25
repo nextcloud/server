@@ -132,8 +132,6 @@ OC.L10N.register(
     "Encryption not ready: %1$s" : "A titkosítás nincs kész: %1$s",
     "Failed to open file: %1$s" : "A fájl megnyitása sikertelen: %1$s",
     "Failed to unlink: %1$s" : "A hivatkozás eltávolítása sikertelen: %1$s",
-    "Invalid chunk name" : "Érvénytelen darabnév",
-    "Could not rename part file assembled from chunks" : "Nem lehet átnevezni a darabokból összeállított részleges fájlt",
     "Failed to write file contents: %1$s" : "A fájl tartalmának kiírása sikertelen: %1$s",
     "File not found: %1$s" : "A fájl nem található: %1$s",
     "System is in maintenance mode." : "A rendszer karbantartási módban van.",
@@ -192,6 +190,8 @@ OC.L10N.register(
     "Your attendance was updated successfully." : "A részvétele frissítése sikeres.",
     "To-dos" : "Teendők",
     "Time:" : "Idő:",
+    "Invalid chunk name" : "Érvénytelen darabnév",
+    "Could not rename part file assembled from chunks" : "Nem lehet átnevezni a darabokból összeállított részleges fájlt",
     "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "Ha beállítja a munkaidejét, akkor más felhasználók a megbeszélések létrehozásakor látni fogják, hogy Ön mikor nem érhető el."
 },
 "nplurals=2; plural=(n != 1);");

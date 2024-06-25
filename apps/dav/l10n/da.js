@@ -132,8 +132,6 @@ OC.L10N.register(
     "Encryption not ready: %1$s" : "Kryptering ikke klar: %1$s",
     "Failed to open file: %1$s" : "Kunne ikke åbne fil: %1$s",
     "Failed to unlink: %1$s" : "Tilknytningen kunne ikke fjernes: %1$s",
-    "Invalid chunk name" : "Ugyldigt stykke navn",
-    "Could not rename part file assembled from chunks" : "Kunne ikke omdøbe delfilen samlet fra stykker",
     "Failed to write file contents: %1$s" : "Kunne ikke skrive filindhold: %1$s",
     "File not found: %1$s" : "Fil ikke fundet: %1$s",
     "System is in maintenance mode." : "Systemet er i vedligeholdelsestilstand.",
@@ -209,6 +207,8 @@ OC.L10N.register(
     "Your attendance was updated successfully." : "Dit tilstedeværelse blev opdateret.",
     "To-dos" : "Opgaver",
     "Time:" : "Tid:",
+    "Invalid chunk name" : "Ugyldigt stykke navn",
+    "Could not rename part file assembled from chunks" : "Kunne ikke omdøbe delfilen samlet fra stykker",
     "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "Hvis du konfigurerer din arbejdstid, vil andre brugere se, når du er fraværende, når de booker et møde."
 },
 "nplurals=2; plural=(n != 1);");

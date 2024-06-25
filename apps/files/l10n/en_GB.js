@@ -237,6 +237,7 @@ OC.L10N.register(
     "Shared" : "Shared",
     "Switch to list view" : "Switch to list view",
     "Switch to grid view" : "Switch to grid view",
+    "Upload was cancelled by user" : "Upload was cancelled by user",
     "Error during upload: {message}" : "Error during upload: {message}",
     "Error during upload, status code {status}" : "Error during upload, status code {status}",
     "Unknown error during upload" : "Unknown error during upload",

@@ -131,8 +131,6 @@
     "Encryption not ready: %1$s" : "Cifratura non pronta: %1$s",
     "Failed to open file: %1$s" : "Apertura del file non riuscito: %1$s",
     "Failed to unlink: %1$s" : "Scollegamento non riuscito: %1$s",
-    "Invalid chunk name" : "Nome non valido per lo spezzone",
-    "Could not rename part file assembled from chunks" : "Non è possibile rinominare il file assemblato da più spezzoni",
     "Failed to write file contents: %1$s" : "Scrittura del contenuto del file non riuscita: %1$s",
     "File not found: %1$s" : "File non trovato: %1$s",
     "System is in maintenance mode." : "Il sistema è in modalità di manutenzione.",
@@ -208,6 +206,8 @@
     "Your attendance was updated successfully." : "La tua partecipazione è stata aggiornata correttamente.",
     "To-dos" : "Da fare",
     "Time:" : "Ora:",
+    "Invalid chunk name" : "Nome non valido per lo spezzone",
+    "Could not rename part file assembled from chunks" : "Non è possibile rinominare il file assemblato da più spezzoni",
     "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "Se imposti il tuo orario di lavoro, gli altri utenti potranno vedere quando non sei in ufficio per organizzare una riunione."
 },"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

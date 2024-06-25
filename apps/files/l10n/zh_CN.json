@@ -233,6 +233,7 @@
     "Shared" : "已共享",
     "Switch to list view" : "切换为列表视图",
     "Switch to grid view" : "切换到网格视图",
+    "Upload was cancelled by user" : "用户已取消上传",
     "Error during upload: {message}" : "上传时发生错误: {message}",
     "Error during upload, status code {status}" : "上传时发生错误，状态码 {status}",
     "Unknown error during upload" : "上传时发生未知错误",

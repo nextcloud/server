@@ -235,6 +235,7 @@ OC.L10N.register(
     "Shared" : "Partekatuta",
     "Switch to list view" : "Aldatu zerrenda ikuspegira",
     "Switch to grid view" : "Aldatu sareta ikuspegira",
+    "Upload was cancelled by user" : "Igoera bertan behera utzi du erabiltzaileak",
     "Error during upload: {message}" : "Errorea igotzean: {message}",
     "Error during upload, status code {status}" : "Errore bat gertatu da igotzean, {status} egoera kodea",
     "Unknown error during upload" : "Errore ezezaguna igotzean",

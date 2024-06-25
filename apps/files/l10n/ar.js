@@ -237,6 +237,7 @@ OC.L10N.register(
     "Shared" : "مُشارَكة",
     "Switch to list view" : "التبديل إلى عرض القائمة",
     "Switch to grid view" : "بدِّل إلى المنظور الصندوقي",
+    "Upload was cancelled by user" : "عملية الرفع تمّ إلغاؤها من مُستخدِم",
     "Error during upload: {message}" : "حدث خطأ أثناء الرفع: {message}",
     "Error during upload, status code {status}" : "حدث خطأ أثناء الرفع. رمز الحالة {status}",
     "Unknown error during upload" : "خطأ غير محدد حدث أثناء الرفع",
