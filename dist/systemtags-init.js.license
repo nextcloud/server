@@ -39,6 +39,7 @@ SPDX-FileCopyrightText: Feross Aboukhadijeh
 SPDX-FileCopyrightText: Dylan Piercey <pierceydylan@gmail.com>
 SPDX-FileCopyrightText: Dr.-Ing. Mario Heiderich, Cure53 <mario@cure53.de> (https://cure53.de/)
 SPDX-FileCopyrightText: Denis Pushkarev
+SPDX-FileCopyrightText: Christoph Wurst <christoph@winzerhof-wurst.at>
 SPDX-FileCopyrightText: Christoph Wurst
 SPDX-FileCopyrightText: Ben Drucker
 SPDX-FileCopyrightText: Arnout Kazemier
@@ -63,9 +64,9 @@ This file is generated from multiple sources. Included packages:
 - @nextcloud/l10n
 	- version: 3.1.0
 	- license: GPL-3.0-or-later
-- @nextcloud/sharing
-	- version: 0.2.2
-	- license: GPL-3.0-or-later
+- @nextcloud/files
+	- version: 3.5.1
+	- license: AGPL-3.0-or-later
 - @nextcloud/initial-state
 	- version: 2.2.0
 	- license: GPL-3.0-or-later
