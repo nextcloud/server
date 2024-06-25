@@ -32,6 +32,9 @@
 	}
 
 	.header-right {
+		// Add some spacing so the last entry looks ok
+		margin-inline-end: calc(3 * var(--default-grid-baseline));
+
 		a:not(.button):focus-visible::after, div[role=button]:focus-visible::after {
 			bottom: 4px;
 		}
