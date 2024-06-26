@@ -204,4 +204,17 @@ class WebhookListenerMapper extends QBMapper {
 
 		return $this->findEntities($qb);
 	}
+
+	/**
+	 * @throws Exception
+	 */
+	public function getByUri(string $uri): array {
+		$qb = $this->db->getQueryBuilder();
+
+		$qb->select('*')
+			->from($this->getTableName())
+			->where($qb->expr()->eq('uri', $qb->createNamedParameter($uri, IQueryBuilder::PARAM_STR)));
+
+		return $this->findEntities($qb);
+	}
 }

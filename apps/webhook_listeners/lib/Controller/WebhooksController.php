@@ -48,6 +48,7 @@ class WebhooksController extends OCSController {
 	/**
 	 * List registered webhooks
 	 *
+	 * @param string|null $uri The callback URI to filter by
 	 * @return DataResponse<Http::STATUS_OK, WebhookListenersWebhookInfo[], array{}>
 	 * @throws OCSException Other internal error
 	 *
@@ -55,9 +56,13 @@ class WebhooksController extends OCSController {
 	 */
 	#[ApiRoute(verb: 'GET', url: '/api/v1/webhooks')]
 	#[AuthorizedAdminSetting(settings:Admin::class)]
-	public function index(): DataResponse {
+	public function index(?string $uri = null): DataResponse {
 		try {
-			$webhookListeners = $this->mapper->getAll();
+			if ($uri !== null) {
+				$webhookListeners = $this->mapper->getByUri($uri);
+			} else {
+				$webhookListeners = $this->mapper->getAll();
+			}
 
 			return new DataResponse(
 				array_map(

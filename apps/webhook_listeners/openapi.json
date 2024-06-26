@@ -113,6 +113,15 @@
                 ],
                 "parameters": [
                     {
+                        "name": "uri",
+                        "in": "query",
+                        "description": "The callback URI to filter by",
+                        "schema": {
+                            "type": "string",
+                            "nullable": true
+                        }
+                    },
+                    {
                         "name": "OCS-APIRequest",
                         "in": "header",
                         "description": "Required to be true for the API request to pass",
