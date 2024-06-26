@@ -1656,9 +1656,6 @@ class ShareAPIController extends OCSController {
 			throw new \Exception('Invalid date. Format must be YYYY-MM-DD');
 		}
 
-		// Use server timezone to store the date
-		$date->setTimezone(new \DateTimeZone(date_default_timezone_get()));
-
 		return $date;
 	}
 
