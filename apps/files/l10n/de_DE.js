@@ -237,7 +237,7 @@ OC.L10N.register(
     "Shared" : "Geteilt",
     "Switch to list view" : "Zur Listenansicht wechseln",
     "Switch to grid view" : "Zur Kachelansicht wechseln",
-    "Upload was cancelled by user" : "Der Upload wurde manuell abgebrochen",
+    "Upload was cancelled by user" : "Das Hochladen wurde vom Benutzer abgebrochen",
     "Error during upload: {message}" : "Fehler beim Hochladen: {message}",
     "Error during upload, status code {status}" : "Fehler beim Hochladen, Statuscode {status}",
     "Unknown error during upload" : "Unbekannter Fehler beim Hochladen",
