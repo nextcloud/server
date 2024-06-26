@@ -267,7 +267,6 @@ class UsersController extends AUserData {
 
 	/**
 	 * @NoAdminRequired
-	 * @NoCSRFRequired
 	 *
 	 * Get the list of disabled users and their details
 	 *
@@ -281,10 +280,10 @@ class UsersController extends AUserData {
 	 * 200: Users details returned based on last logged in information
 	 */
 	public function getLastLoggedInUsers(string $search = '',
-										 ?int   $limit = null,
-										 int    $offset = 0,
-										 string $sortMode = 'lastLogin',
-										 string $sortOrder = 'desc'
+		?int   $limit = null,
+		int    $offset = 0,
+		string $sortMode = 'lastLogin',
+		string $sortOrder = 'desc'
 	): DataResponse {
 		$currentUser = $this->userSession->getUser();
 		if ($currentUser === null) {
