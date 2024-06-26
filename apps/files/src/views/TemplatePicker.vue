@@ -59,7 +59,7 @@ import { createFromTemplate, getTemplates } from '../services/Templates.js'
 import NcEmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent.js'
 import NcModal from '@nextcloud/vue/dist/Components/NcModal.js'
 import TemplatePreview from '../components/TemplatePreview.vue'
-import logger from '../logger.js'
+import logger from '../logger.ts'
 
 const border = 2
 const margin = 8

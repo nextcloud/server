@@ -6,7 +6,7 @@ import { Permission, type Node, View, FileAction, FileType } from '@nextcloud/fi
 import { translate as t } from '@nextcloud/l10n'
 import InformationSvg from '@mdi/svg/svg/information-variant.svg?raw'
 
-import logger from '../logger.js'
+import logger from '../logger.ts'
 
 export const ACTION_DETAILS = 'details'
 

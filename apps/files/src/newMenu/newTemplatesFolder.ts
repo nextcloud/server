@@ -15,7 +15,7 @@ import { newNodeName } from '../utils/newNodeDialog'
 
 import PlusSvg from '@mdi/svg/svg/plus.svg?raw'
 import axios from '@nextcloud/axios'
-import logger from '../logger.js'
+import logger from '../logger.ts'
 
 let templatesPath = loadState<string|false>('files', 'templates_path', false)
 logger.debug('Initial templates folder', { templatesPath })

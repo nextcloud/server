@@ -37,7 +37,7 @@ import TrayArrowDownIcon from 'vue-material-design-icons/TrayArrowDown.vue'
 
 import { useNavigation } from '../composables/useNavigation'
 import { dataTransferToFileTree, onDropExternalFiles } from '../services/DropService'
-import logger from '../logger.js'
+import logger from '../logger.ts'
 
 export default defineComponent({
 	name: 'DragAndDropNotice',

@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 import { generateUrl } from '@nextcloud/router'
-import logger from '../logger.js'
+import logger from '../logger.ts'
 
 export default () => {
 	if ('serviceWorker' in navigator) {

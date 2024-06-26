@@ -76,7 +76,7 @@ import FilesListTableFooter from './FilesListTableFooter.vue'
 import FilesListTableHeader from './FilesListTableHeader.vue'
 import filesListWidthMixin from '../mixins/filesListWidth.ts'
 import VirtualList from './VirtualList.vue'
-import logger from '../logger.js'
+import logger from '../logger.ts'
 import FilesListTableHeaderActions from './FilesListTableHeaderActions.vue'
 
 export default defineComponent({

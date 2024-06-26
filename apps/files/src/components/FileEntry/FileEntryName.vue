@@ -52,7 +52,7 @@ import NcTextField from '@nextcloud/vue/dist/Components/NcTextField.js'
 
 import { useNavigation } from '../../composables/useNavigation'
 import { useRenamingStore } from '../../store/renaming.ts'
-import logger from '../../logger.js'
+import logger from '../../logger.ts'
 
 const forbiddenCharacters = loadState<string[]>('files', 'forbiddenCharacters', [])
 

@@ -12,7 +12,7 @@ import CloseSvg from '@mdi/svg/svg/close.svg?raw'
 import NetworkOffSvg from '@mdi/svg/svg/network-off.svg?raw'
 import TrashCanSvg from '@mdi/svg/svg/trash-can.svg?raw'
 
-import logger from '../logger.js'
+import logger from '../logger.ts'
 import PQueue from 'p-queue'
 
 const canUnshareOnly = (nodes: Node[]) => {

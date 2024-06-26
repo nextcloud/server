@@ -73,7 +73,7 @@ import SettingsModal from './Settings.vue'
 
 import { useNavigation } from '../composables/useNavigation'
 import { useViewConfigStore } from '../store/viewConfig.ts'
-import logger from '../logger.js'
+import logger from '../logger.ts'
 
 export default defineComponent({
 	name: 'Navigation',
