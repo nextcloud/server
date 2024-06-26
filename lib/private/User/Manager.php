@@ -272,10 +272,10 @@ class Manager extends PublicEmitter implements IUserManager {
 				}
 			}
 		}
+
 		uasort($users, function (IUser $a, IUser $b) {
 			return strcasecmp($a->getUID(), $b->getUID());
 		});
-
 		return $users;
 	}
 
@@ -301,7 +301,6 @@ class Manager extends PublicEmitter implements IUserManager {
 		usort($users, function (IUser $a, IUser $b) {
 			return strcasecmp($a->getDisplayName(), $b->getDisplayName());
 		});
-
 		return $users;
 	}
 
