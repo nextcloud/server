@@ -107,6 +107,21 @@ export default () => {
 	})
 
 	/**
+	 * Update favourites navigation when a folder is renamed
+	 */
+	subscribe('files:node:renamed', (node: Node) => {
+		if (node.type !== FileType.Folder) {
+			return
+		}
+
+		if (node.attributes.favorite !== 1) {
+			return
+		}
+
+		updateNodeFromFavorites(node as Folder)
+	})
+
+	/**
 	 * Sort the favorites paths array and
 	 * update the order property of the existing views
 	 */
@@ -156,5 +171,18 @@ export default () => {
 		// Update and sort views
 		Navigation.remove(id)
 		updateAndSortViews()
+	}
+
+	// Update a folder from the favorites paths array and update the views
+	const updateNodeFromFavorites = function(node: Folder) {
+		const favoriteFolder = favoriteFolders.find((folder) => folder.fileid === node.fileid)
+
+		// Skip if it does not exists
+		if (favoriteFolder === undefined) {
+			return
+		}
+
+		removePathFromFavorites(favoriteFolder.path)
+		addToFavorites(node)
 	}
 }
