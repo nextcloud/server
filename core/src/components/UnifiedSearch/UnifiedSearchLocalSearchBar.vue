@@ -8,7 +8,8 @@
 			class="local-unified-search animated-width"
 			:class="{ 'local-unified-search--open': open }">
 			<!-- We can not use labels as it breaks the header layout so only aria-label and placeholder -->
-			<NcInputField class="local-unified-search__input animated-width"
+			<NcInputField ref="searchInput"
+				class="local-unified-search__input animated-width"
 				:aria-label="t('core', 'Search in current app')"
 				:placeholder="t('core', 'Search in current app')"
 				show-trailing-button
@@ -21,13 +22,17 @@
 				</template>
 			</NcInputField>
 
-			<NcButton class="local-unified-search__global-search"
+			<NcButton ref="searchGlobalButton"
+				class="local-unified-search__global-search"
 				:aria-label="t('core', 'Search everywhere')"
 				:title="t('core', 'Search everywhere')"
 				type="tertiary-no-background"
 				@click="$emit('global-search')">
+				<template v-if="!isMobile" #default>
+					{{ t('core', 'Search everywhere') }}
+				</template>
 				<template #icon>
-					<NcIconSvgWrapper :path="mdiEarth" />
+					<NcIconSvgWrapper :path="mdiCloudSearch" />
 				</template>
 			</NcButton>
 		</div>
@@ -35,14 +40,18 @@
 </template>
 
 <script lang="ts" setup>
-import { mdiEarth, mdiClose } from '@mdi/js'
+import type { ComponentPublicInstance } from 'vue'
+import { mdiCloudSearch, mdiClose } from '@mdi/js'
 import { translate as t } from '@nextcloud/l10n'
+import { useIsMobile } from '@nextcloud/vue/dist/Composables/useIsMobile.js'
+import { computed, ref, watchEffect } from 'vue'
 
 import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 import NcIconSvgWrapper from '@nextcloud/vue/dist/Components/NcIconSvgWrapper.js'
 import NcInputField from '@nextcloud/vue/dist/Components/NcInputField.js'
+import { useElementSize } from '@vueuse/core'
 
-defineProps<{
+const props = defineProps<{
 	query: string,
 	open: boolean
 }>()
@@ -53,6 +62,28 @@ const emit = defineEmits<{
 	(e: 'global-search'): void
 }>()
 
+// Hacky type until the library provides real Types
+type FocusableComponent = ComponentPublicInstance<object, object, object, Record<string, never>, { focus: () => void }>
+/** The input field component */
+const searchInput = ref<FocusableComponent>()
+/** When the search bar is opened we focus the input */
+watchEffect(() => {
+	if (props.open && searchInput.value) {
+		searchInput.value.focus()
+	}
+})
+
+/** Current window size is below the "mobile" breakpoint (currently 1024px) */
+const isMobile = useIsMobile()
+
+const searchGlobalButton = ref<ComponentPublicInstance>()
+/** Width of the search global button, used to resize the input field */
+const { width: searchGlobalButtonWidth } = useElementSize(searchGlobalButton)
+const searchGlobalButtonCSSWidth = computed(() => searchGlobalButtonWidth.value ? `${searchGlobalButtonWidth.value}px` : 'var(--default-clickable-area)')
+
+/**
+ * Clear the search query and close the search bar
+ */
 function clearAndCloseSearch() {
 	emit('update:query', '')
 	emit('update:open', false)
@@ -61,10 +92,12 @@ function clearAndCloseSearch() {
 
 <style scoped lang="scss">
 .local-unified-search {
-	--width: min(250px, 95vw);
+	--local-search-width: min(calc(250px + v-bind('searchGlobalButtonCSSWidth')), 95vw);
+
+	box-sizing: border-box;
 	position: relative;
 	height: var(--header-height);
-	width: var(--width);
+	width: var(--local-search-width);
 	display: flex;
 	align-items: center;
 	// Ensure it overlays the other entries
@@ -78,21 +111,20 @@ function clearAndCloseSearch() {
 
 	#{&} &__global-search {
 		position: absolute;
-		inset-inline-end: 0;
+		inset-inline-end: var(--default-clickable-area);
 	}
 
 	#{&} &__input {
+		box-sizing: border-box;
 		// override some nextcloud-vue styles
 		margin: 0;
-		width: var(--width);
+		width: var(--local-search-width);
 
 		// Fixup the spacing so we can fit in the "search globally" button
 		// this can break at any time the component library changes
 		:deep(input) {
-			padding-inline-end: calc(2 * var(--default-clickable-area) + var(--default-grid-baseline));
-		}
-		:deep(button) {
-			inset-inline-end: var(--default-clickable-area);
+			// search global width + close button width
+			padding-inline-end: calc(v-bind('searchGlobalButtonWidth') + var(--default-clickable-area));
 		}
 	}
 }
@@ -110,22 +142,26 @@ function clearAndCloseSearch() {
 .v-enter,
 .v-leave-to {
 	&.local-unified-search {
-		// Start with only those two buttons + a little bit of the input element
-		--width: calc(3 * var(--default-clickable-area));
+		// Start with only the overlayed button
+		--local-search-width: var(--clickable-area-large);
 	}
 }
 
 @media screen and (max-width: 500px) {
 	.local-unified-search.local-unified-search--open {
 		// 100% but still show the menu toggle on the very right
-		--width: calc(100vw - (var(--clickable-area-large) + 5 * var(--default-grid-baseline)));
+		--local-search-width: 100vw;
+		padding-inline: var(--default-grid-baseline);
 	}
 
 	// when open we need to position it absolut to allow overlay the full bar
 	:global(.unified-search-menu:has(.local-unified-search--open)) {
 		position: absolute !important;
-		// Keep showing the menu toggle
-		inset-inline-end: calc(var(--clickable-area-large) + 4 * var(--default-grid-baseline));
+		inset-inline: 0;
+	}
+	// Hide all other entries, especially the user menu as it might leak pixels
+	:global(.header-right:has(.local-unified-search--open) > :not(.unified-search-menu)) {
+		display: none;
 	}
 }
 </style>
