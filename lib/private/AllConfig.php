@@ -491,6 +491,14 @@ class AllConfig implements IConfig {
 		return $userIDs;
 	}
 
+	/**
+	 * Gets the list of users based on their lastLogin info asc or desc
+	 *
+	 * @param string $search search users based on search params
+	 * @param string $sortMode can be lastLogin or any key in preferences
+	 * @param string $sortOrder asc or desc
+	 * @return array of user IDs
+	 */
 	public function getLastLoggedInUsers($search, $sortMode, $sortOrder): array {
 		// TODO - FIXME
 		$this->fixDIInit();
