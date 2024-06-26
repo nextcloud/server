@@ -286,6 +286,7 @@ class ComposerStaticInitDAV
         'OCA\\DAV\\Files\\Sharing\\PublicLinkCheckPlugin' => __DIR__ . '/..' . '/../lib/Files/Sharing/PublicLinkCheckPlugin.php',
         'OCA\\DAV\\HookManager' => __DIR__ . '/..' . '/../lib/HookManager.php',
         'OCA\\DAV\\Listener\\ActivityUpdaterListener' => __DIR__ . '/..' . '/../lib/Listener/ActivityUpdaterListener.php',
+        'OCA\\DAV\\Listener\\AddMissingIndicesListener' => __DIR__ . '/..' . '/../lib/Listener/AddMissingIndicesListener.php',
         'OCA\\DAV\\Listener\\AddressbookListener' => __DIR__ . '/..' . '/../lib/Listener/AddressbookListener.php',
         'OCA\\DAV\\Listener\\BirthdayListener' => __DIR__ . '/..' . '/../lib/Listener/BirthdayListener.php',
         'OCA\\DAV\\Listener\\CalendarContactInteractionListener' => __DIR__ . '/..' . '/../lib/Listener/CalendarContactInteractionListener.php',
