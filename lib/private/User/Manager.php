@@ -262,48 +262,19 @@ class Manager extends PublicEmitter implements IUserManager {
 	 * @return IUser[]
 	 * @deprecated since 27.0.0, use searchDisplayName instead
 	 */
-	public function search($pattern, $limit = null, $offset = null, $sortMode = 'uid', $sortOrder = 'asc'): array {
+	public function search($pattern, $limit = null, $offset = null) {
 		$users = [];
 		foreach ($this->backends as $backend) {
-			$backendUsers = $backend->getUsers($pattern, $limit, $offset, $sortMode, $sortOrder);
+			$backendUsers = $backend->getUsers($pattern, $limit, $offset);
 			if (is_array($backendUsers)) {
 				foreach ($backendUsers as $uid) {
 					$users[$uid] = new LazyUser($uid, $this, null, $backend);
 				}
 			}
 		}
-		switch ($sortMode.' '.$sortOrder) {
-			case 'uid desc':
-				uasort($users, function (IUser $a, IUser $b) {
-					return strcasecmp($b->getUID(), $a->getUID());
-				});
-				break;
-			case 'lastLogin asc':
-				uasort($users, function (IUser $a, IUser $b) {
-					return $a->getLastLogin() - $b->getLastLogin();
-				});
-				break;
-			case 'lastLogin desc':
-				uasort($users, function (IUser $a, IUser $b) {
-					return $b->getLastLogin() - $a->getLastLogin();
-				});
-				break;
-			case 'displayName asc':
-				uasort($users, function (IUser $a, IUser $b) {
-					return strcasecmp($a->getDisplayName(), $b->getDisplayName());
-				});
-				break;
-			case 'displayName desc':
-				uasort($users, function (IUser $a, IUser $b) {
-					return strcasecmp($b->getDisplayName(), $a->getDisplayName());
-				});
-				break;
-			default:
-				uasort($users, function (IUser $a, IUser $b) {
-					return strcasecmp($a->getUID(), $b->getUID());
-				});
-				break;
-		}
+		uasort($users, function (IUser $a, IUser $b) {
+			return strcasecmp($a->getUID(), $b->getUID());
+		});
 
 		return $users;
 	}
@@ -316,7 +287,7 @@ class Manager extends PublicEmitter implements IUserManager {
 	 * @param int $offset
 	 * @return IUser[]
 	 */
-	public function searchDisplayName($pattern, $limit = null, $offset = null, $sortMode = 'uid', $sortOrder = 'asc') {
+	public function searchDisplayName($pattern, $limit = null, $offset = null) {
 		$users = [];
 		foreach ($this->backends as $backend) {
 			$backendUsers = $backend->getDisplayNames($pattern, $limit, $offset);
@@ -327,39 +298,9 @@ class Manager extends PublicEmitter implements IUserManager {
 			}
 		}
 
-		switch ($sortMode.' '.$sortOrder) {
-			case 'uid asc':
-				uasort($users, function (IUser $a, IUser $b) {
-					return strcasecmp($a->getUID(), $b->getUID());
-				});
-				break;
-			case 'uid desc':
-				uasort($users, function (IUser $a, IUser $b) {
-					return strcasecmp($b->getUID(), $a->getUID());
-				});
-				break;
-			case 'lastLogin asc':
-				uasort($users, function (IUser $a, IUser $b) {
-					return $a->getLastLogin() - $b->getLastLogin();
-				});
-				break;
-			case 'lastLogin desc':
-				uasort($users, function (IUser $a, IUser $b) {
-					return $b->getLastLogin() - $a->getLastLogin();
-				});
-				break;
-			case 'displayName asc':
-				uasort($users, function (IUser $a, IUser $b) {
-					return strcasecmp($b->getDisplayName(), $a->getDisplayName());
-				});
-				break;
-			default:
-				uasort($users, function (IUser $a, IUser $b) {
-					return strcasecmp($a->getDisplayName(), $b->getDisplayName());
-				});
-				break;
-		}
-
+		usort($users, function (IUser $a, IUser $b) {
+			return strcasecmp($a->getDisplayName(), $b->getDisplayName());
+		});
 
 		return $users;
 	}
