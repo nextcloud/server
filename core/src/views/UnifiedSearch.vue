@@ -80,7 +80,7 @@ export default defineComponent({
 		 */
 		supportsLocalSearch() {
 			// TODO: Make this an API
-			const providerPaths = ['/settings/users', '/apps/files', '/apps/deck']
+			const providerPaths = ['/settings/users', '/apps/files', '/apps/deck', '/settings/apps']
 			return providerPaths.some((path) => this.currentLocation.pathname?.includes?.(path))
 		},
 	},
