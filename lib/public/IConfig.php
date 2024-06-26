@@ -257,6 +257,7 @@ interface IConfig {
 	 * @param string $sortMode can be lastLogin or any key in preferences
 	 * @param string $sortOrder asc or desc
 	 * @return array of user IDs
+	 * @since 30.0.0
 	 */
 	public function getLastLoggedInUsers($search, $sortMode, $sortOrder);
 }
