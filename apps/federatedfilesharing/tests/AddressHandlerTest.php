@@ -94,6 +94,11 @@ class AddressHandlerTest extends \Test\TestCase {
 				foreach ($protocols as $protocol) {
 					$baseUrl = $user . '@' . $protocol . $remote;
 
+					if ($protocol === '') {
+						// https:// protocol is expected in the final result
+						$protocol = 'https://';
+					}
+
 					$testCases[] = [$baseUrl, $user, $protocol . $remote];
 					$testCases[] = [$baseUrl . '/', $user, $protocol . $remote];
 					$testCases[] = [$baseUrl . '/index.php', $user, $protocol . $remote];
