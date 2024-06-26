@@ -9,6 +9,7 @@ declare module '@nextcloud/event-bus' {
 		// mapping of 'event name' => 'event type'
 		'files:favorites:removed': Node
 		'files:favorites:added': Node
+		'files:node:renamed': Node
 	}
 }
 
