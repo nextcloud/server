@@ -99,6 +99,12 @@ export default defineComponent({
 		// register keyboard listener for search shortcut
 		window.addEventListener('keydown', this.onKeyDown)
 
+		// Allow external reset of the search / close local search
+		subscribe('nextcloud:unified-search:reset', () => {
+			this.showLocalSearch = false
+			this.queryText = ''
+		})
+
 		// Deprecated events to be removed
 		subscribe('nextcloud:unified-search:reset', () => {
 			emit('nextcloud:unified-search.reset', { query: '' })
