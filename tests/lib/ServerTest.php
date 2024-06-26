@@ -119,8 +119,6 @@ class ServerTest extends \Test\TestCase {
 			['RootFolder', '\OCP\Files\Folder'],
 			['Router', '\OCP\Route\IRouter'],
 
-			['Search', '\OC\Search'],
-			['Search', '\OCP\ISearch'],
 			['SecureRandom', '\OC\Security\SecureRandom'],
 			['SecureRandom', '\OCP\Security\ISecureRandom'],
 			['ShareManager', '\OC\Share20\Manager'],

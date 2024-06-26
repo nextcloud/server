@@ -14,7 +14,6 @@ use OCA\Comments\Listener\LoadSidebarScripts;
 use OCA\Comments\MaxAutoCompleteResultsInitialState;
 use OCA\Comments\Notification\Notifier;
 use OCA\Comments\Search\CommentsSearchProvider;
-use OCA\Comments\Search\LegacyProvider;
 use OCA\Files\Event\LoadAdditionalScriptsEvent;
 use OCA\Files\Event\LoadSidebar;
 use OCP\AppFramework\App;
@@ -23,7 +22,6 @@ use OCP\AppFramework\Bootstrap\IBootstrap;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
 use OCP\Comments\CommentsEntityEvent;
 use OCP\Comments\ICommentsManager;
-use OCP\ISearch;
 use OCP\IServerContainer;
 
 class Application extends App implements IBootstrap {
@@ -57,8 +55,6 @@ class Application extends App implements IBootstrap {
 
 	public function boot(IBootContext $context): void {
 		$context->injectFn(Closure::fromCallable([$this, 'registerCommentsEventHandler']));
-
-		$context->getServerContainer()->get(ISearch::class)->registerProvider(LegacyProvider::class, ['apps' => ['files']]);
 	}
 
 	protected function registerCommentsEventHandler(IServerContainer $container): void {
