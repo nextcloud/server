@@ -395,6 +395,11 @@ class RemotePluginTest extends TestCase {
 				foreach ($protocols as $protocol) {
 					$baseUrl = $user . '@' . $protocol . $remote;
 
+					if ($protocol === 'https://') {
+						// https:// protocol is not expected in the final result
+						$protocol = '';
+					}
+
 					$testCases[] = [$baseUrl, $user, $protocol . $remote];
 					$testCases[] = [$baseUrl . '/', $user, $protocol . $remote];
 					$testCases[] = [$baseUrl . '/index.php', $user, $protocol . $remote];
