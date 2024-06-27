@@ -8,6 +8,7 @@ declare(strict_types=1);
  */
 namespace OC\User;
 
+use InvalidArgumentException;
 use OCP\AppFramework\Db\TTransactional;
 use OCP\Cache\CappedMemoryCache;
 use OCP\EventDispatcher\IEventDispatcher;
@@ -200,6 +201,9 @@ class Database extends ABackend implements
 	}
 
 	public function setPasswordHash(string $userId, string $passwordHash): bool {
+		if (!\OCP\Server::get(IHasher::class)->validate($passwordHash)) {
+			throw new InvalidArgumentException();
+		}
 		$this->fixDI();
 		$result = $this->updatePassword($userId, $passwordHash);
 		if (!$result) {
