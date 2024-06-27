@@ -133,6 +133,7 @@ class ComposerStaticInitDAV
         'OCA\\DAV\\CardDAV\\MultiGetExportPlugin' => __DIR__ . '/..' . '/../lib/CardDAV/MultiGetExportPlugin.php',
         'OCA\\DAV\\CardDAV\\PhotoCache' => __DIR__ . '/..' . '/../lib/CardDAV/PhotoCache.php',
         'OCA\\DAV\\CardDAV\\Plugin' => __DIR__ . '/..' . '/../lib/CardDAV/Plugin.php',
+        'OCA\\DAV\\CardDAV\\Security\\CardDavRateLimitingPlugin' => __DIR__ . '/..' . '/../lib/CardDAV/Security/CardDavRateLimitingPlugin.php',
         'OCA\\DAV\\CardDAV\\SyncService' => __DIR__ . '/..' . '/../lib/CardDAV/SyncService.php',
         'OCA\\DAV\\CardDAV\\SystemAddressbook' => __DIR__ . '/..' . '/../lib/CardDAV/SystemAddressbook.php',
         'OCA\\DAV\\CardDAV\\UserAddressBooks' => __DIR__ . '/..' . '/../lib/CardDAV/UserAddressBooks.php',
