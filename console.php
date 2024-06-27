@@ -10,6 +10,10 @@ declare(strict_types=1);
 require_once __DIR__ . '/lib/versioncheck.php';
 
 use OC\Console\Application;
+use OCP\AppFramework\Http\Response;
+use OCP\Diagnostics\IEventLogger;
+use OCP\IRequest;
+use OCP\Profiler\IProfiler;
 use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Output\ConsoleOutput;
 
@@ -67,9 +71,34 @@ try {
 		echo "Additionally the function 'pcntl_signal' and 'pcntl_signal_dispatch' need to be enabled in your php.ini." . PHP_EOL;
 	}
 
+	$eventLogger = \OCP\Server::get(IEventLogger::class);
+	$eventLogger->start('console:build_application', 'Build Application instance and load commands');
+
 	$application = \OCP\Server::get(Application::class);
 	$application->loadCommands(new ArgvInput(), new ConsoleOutput());
-	$application->run();
+
+	$eventLogger->end('console:build_application');
+	$eventLogger->start('console:run', 'Run the command');
+
+	$application->setAutoExit(false);
+	$exitCode = $application->run();
+
+	$eventLogger->end('console:run');
+
+	$profiler = \OCP\Server::get(IProfiler::class);
+	if ($profiler->isEnabled()) {
+		$eventLogger->end('runtime');
+		$profile = $profiler->collect(\OCP\Server::get(IRequest::class), new Response());
+		$profile->setMethod('occ');
+		$profile->setUrl(implode(' ', $argv));
+		$profiler->saveProfile($profile);
+	}
+
+	if ($exitCode > 255) {
+		$exitCode = 255;
+	}
+
+	exit($exitCode);
 } catch (Exception $ex) {
 	exceptionHandler($ex);
 } catch (Error $ex) {
