@@ -296,7 +296,7 @@
     "The generated text from the assistant" : "Der vom Assitenten erstellte Text",
     "Generate a headline" : "Eine Überschirft erstellen",
     "Generates a possible headline for a text." : "Erzeugt eine mögliche Überschrift für einen Text.",
-    "Original text" : "Original Text",
+    "Original text" : "Originaltext",
     "The original text to generate a headline for" : "Der Originaltext, für den eine Überschrift erstellt werden soll",
     "The generated headline" : "Die erstellte Überschrift",
     "Summarize" : "Zusammenfassen",
