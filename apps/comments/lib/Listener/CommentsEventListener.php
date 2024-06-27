@@ -1,28 +1,34 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-namespace OCA\Comments;
+
+
+namespace OCA\Comments\Listener;
 
 use OCA\Comments\Activity\Listener as ActivityListener;
 use OCA\Comments\Notification\Listener as NotificationListener;
 use OCP\Comments\CommentsEvent;
-use OCP\Comments\ICommentsEventHandler;
+use OCP\EventDispatcher\Event;
+use OCP\EventDispatcher\IEventListener;
 
-/**
- * Class EventHandler
- *
- * @package OCA\Comments
- */
-class EventHandler implements ICommentsEventHandler {
+/** @template-implements IEventListener<CommentsEvent|Event> */
+class CommentsEventListener implements IEventListener {
 	public function __construct(
 		private ActivityListener $activityListener,
 		private NotificationListener $notificationListener,
 	) {
 	}
 
-	public function handle(CommentsEvent $event): void {
+	public function handle(Event $event): void {
+		if (!$event instanceof CommentsEvent) {
+			return;
+		}
+
 		if ($event->getComment()->getObjectType() !== 'files') {
 			// this is a 'files'-specific Handler
 			return;
