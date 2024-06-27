@@ -79,7 +79,7 @@ class Hasher implements IHasher {
 	/**
 	 * Get the version and hash from a prefixedHash
 	 * @param string $prefixedHash
-	 * @return null|array Null if the hash is not prefixed, otherwise array('version' => 1, 'hash' => 'foo')
+	 * @return null|array{version: int, hash: string} Null if the hash is not prefixed, otherwise array('version' => 1, 'hash' => 'foo')
 	 */
 	protected function splitHash(string $prefixedHash): ?array {
 		$explodedString = explode('|', $prefixedHash, 2);
