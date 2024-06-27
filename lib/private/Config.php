@@ -259,9 +259,10 @@ class Config {
 		// grab any "NC_" environment variables
 		$envRaw = getenv();
 		// only save environment variables prefixed with "NC_" in the cache
+		$envPrefixLen = strlen(self::ENV_PREFIX);
 		foreach ($envRaw as $rawEnvKey => $rawEnvValue) {
 			if (str_starts_with($rawEnvKey, self::ENV_PREFIX)) {
-				$realKey = explode(self::ENV_PREFIX, $rawEnvKey)[1];
+				$realKey = substr($rawEnvKey, $envPrefixLen);
 				$this->envCache[$realKey] = $rawEnvValue;
 			}
 		}
