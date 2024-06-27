@@ -179,6 +179,10 @@ Files: apps/settings/img/ai.svg
 Copyright: 2019 GreenTurtwig <https://pictogrammers.com/contributor/GreenTurtwig/>
 License: Apache-2.0
 
+Files: core/img/filetypes/whiteboard.svg
+Copyright: 2019 Simran-B <https://pictogrammers.com/contributor/Simran-B/>
+License: Apache-2.0
+
 Files: lib/composer/* apps/*/composer/autoload.php apps/*/composer/composer/*.php apps/files_external/3rdparty/autoload.php apps/files_external/3rdparty/composer/*
 Copyright: Nils Adermann, Jordi Boggiano
 License: MIT
