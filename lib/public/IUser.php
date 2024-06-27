@@ -79,6 +79,7 @@ interface IUser {
 	/**
 	 * Get the password hash of the user
 	 *
+	 * @return ?string the password hash hashed by `\OCP\Security\IHasher::hash()`
 	 * @since 30.0.0
 	 */
 	public function getPasswordHash(): ?string;
@@ -86,6 +87,8 @@ interface IUser {
 	/**
 	 * Set the password hash of the user
 	 *
+	 * @param string $passwordHash the password hash hashed by `\OCP\Security\IHasher::hash()`
+	 * @throws InvalidArgumentException when `$passwordHash` is not a valid hash
 	 * @since 30.0.0
 	 */
 	public function setPasswordHash(string $passwordHash): bool;
