@@ -60,7 +60,9 @@
 
 			<!-- password -->
 			<NcActionText v-if="pendingEnforcedPassword">
-				<LockIcon :size="20" />
+				<template #icon>
+					<LockIcon :size="20" />
+				</template>
 				{{ t('files_sharing', 'Password protection (enforced)') }}
 			</NcActionText>
 			<NcActionCheckbox v-else-if="pendingPassword"
