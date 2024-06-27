@@ -159,6 +159,8 @@
     "Reject" : "拒绝",
     "Incoming ownership transfer from {user}" : "来自 {user} 的所有权转移",
     "Do you want to accept {path}?\n\nNote: The transfer process after accepting may take up to 1 hour." : "您要接受 {path} 吗？\n\n注意：接受后转移过程可能长达1小时。",
+    "Ownership transfer denied" : "所有权转移被拒绝",
+    "Your ownership transfer of {path} was denied by {user}." : "你路径 {path} 下的文件所属权转移被 {user} 拒绝。",
     "Ownership transfer failed" : "所有权转移失败",
     "Your ownership transfer of {path} to {user} failed." : "您 {path} 的所有权向 {user} 转移失败。",
     "The ownership transfer of {path} from {user} failed." : "来自 {user} 的 {path} 的所有权转移失败。",
