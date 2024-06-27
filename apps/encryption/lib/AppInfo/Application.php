@@ -18,16 +18,40 @@ use OCA\Encryption\Recovery;
 use OCA\Encryption\Session;
 use OCA\Encryption\Users\Setup;
 use OCA\Encryption\Util;
+use OCP\AppFramework\App;
+use OCP\AppFramework\Bootstrap\IBootContext;
+use OCP\AppFramework\Bootstrap\IBootstrap;
+use OCP\AppFramework\Bootstrap\IRegistrationContext;
 use OCP\Encryption\IManager;
 use OCP\IConfig;
 use Psr\Log\LoggerInterface;
 
-class Application extends \OCP\AppFramework\App {
-	/**
-	 * @param array $urlParams
-	 */
-	public function __construct($urlParams = []) {
-		parent::__construct('encryption', $urlParams);
+class Application extends App implements IBootstrap {
+	public const APP_ID = 'encryption';
+
+	public function __construct(array $urlParams = []) {
+		parent::__construct(self::APP_ID, $urlParams);
+	}
+
+	public function register(IRegistrationContext $context): void {
+	}
+
+	public function boot(IBootContext $context): void {
+		\OCP\Util::addScript(self::APP_ID, 'encryption');
+
+		$context->injectFn(function (IManager $encryptionManager) use ($context) {
+			if (!($encryptionManager instanceof \OC\Encryption\Manager)) {
+				return;
+			}
+
+			if (!$encryptionManager->isReady()) {
+				return;
+			}
+
+			$context->injectFn($this->registerEncryptionModule(...));
+			$context->injectFn($this->registerHooks(...));
+			$context->injectFn($this->setUp(...));
+		});
 	}
 
 	public function setUp(IManager $encryptionManager) {
