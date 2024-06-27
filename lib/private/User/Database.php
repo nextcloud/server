@@ -183,6 +183,9 @@ class Database extends ABackend implements
 		if (!$this->userExists($userId)) {
 			return null;
 		}
+		if (!empty($this->cache[$userId]['password'])) {
+			return $this->cache[$userId]['password'];
+		}
 		$qb = $this->dbConn->getQueryBuilder();
 		$qb->select('password')
 			->from($this->table)
