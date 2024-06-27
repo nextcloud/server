@@ -190,4 +190,18 @@ class Hasher implements IHasher {
 
 		return $default;
 	}
+
+	public function validate(string $prefixedHash): bool {
+		$splitHash = $this->splitHash($prefixedHash);
+		if (empty($splitHash)) {
+			return false;
+		}
+		$validVersions = [3, 2, 1];
+		$version = $splitHash['version'];
+		if (!in_array($version, $validVersions, true)) {
+			return false;
+		}
+		$algoName = password_get_info($splitHash['hash'])['algoName'];
+		return $algoName !== 'unknown';
+	}
 }
