@@ -38,9 +38,7 @@ if ($config->getSystemValueBool('installed', false)) {
 	$application->add(Server::get(Command\TwoFactorAuth\Disable::class));
 	$application->add(Server::get(Command\TwoFactorAuth\State::class));
 
-	$application->add(Server::get(Command\Background\Cron::class));
-	$application->add(Server::get(Command\Background\WebCron::class));
-	$application->add(Server::get(Command\Background\Ajax::class));
+	$application->add(Server::get(Command\Background\Mode::class));
 	$application->add(Server::get(Command\Background\Job::class));
 	$application->add(Server::get(Command\Background\ListCommand::class));
 	$application->add(Server::get(Command\Background\Delete::class));
