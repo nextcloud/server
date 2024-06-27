@@ -47,6 +47,7 @@ class OwnershipTransferService {
 		private IUserMountCache $userMountCache,
 		private IUserManager $userManager,
 		private IFactory $l10nFactory,
+		private IRootFolder $rootFolder,
 	) {
 		$this->encryptionManager = $encryptionManager;
 	}
@@ -87,8 +88,8 @@ class OwnershipTransferService {
 		// a lazy root folder which does not create the destination users folder
 		\OC_Util::setupFS($sourceUser->getUID());
 		\OC_Util::setupFS($destinationUser->getUID());
-		\OC::$server->getUserFolder($sourceUser->getUID());
-		\OC::$server->getUserFolder($destinationUser->getUID());
+		$this->rootFolder->getUserFolder($sourceUser->getUID());
+		$this->rootFolder->getUserFolder($destinationUser->getUID());
 		Filesystem::initMountPoints($sourceUid);
 		Filesystem::initMountPoints($destinationUid);
 
@@ -418,7 +419,6 @@ class OwnershipTransferService {
 	):void {
 		$output->writeln("Restoring shares ...");
 		$progress = new ProgressBar($output, count($shares));
-		$rootFolder = \OCP\Server::get(IRootFolder::class);
 
 		foreach ($shares as ['share' => $share, 'suffix' => $suffix]) {
 			try {
@@ -457,7 +457,7 @@ class OwnershipTransferService {
 						} catch (\OCP\Files\NotFoundException) {
 							// ID has changed due to transfer between different storages
 							// Try to get the new ID from the target path and suffix of the share
-							$node = $rootFolder->get(Filesystem::normalizePath($targetLocation . '/' . $suffix));
+							$node = $this->rootFolder->get(Filesystem::normalizePath($targetLocation . '/' . $suffix));
 							$newNodeId = $node->getId();
 						}
 						$share->setNodeId($newNodeId);
