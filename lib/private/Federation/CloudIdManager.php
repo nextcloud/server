@@ -84,7 +84,7 @@ class CloudIdManager implements ICloudIdManager {
 		}
 
 		// Find the first character that is not allowed in user names
-		$id = $this->fixRemoteURL($cloudId);
+		$id = $this->stripShareLinkFragments($cloudId);
 		$posSlash = strpos($id, '/');
 		$posColon = strpos($id, ':');
 
@@ -107,6 +107,7 @@ class CloudIdManager implements ICloudIdManager {
 			$this->userManager->validateUserId($user);
 
 			if (!empty($user) && !empty($remote)) {
+				$remote = $this->ensureDefaultProtocol($remote);
 				return new CloudId($id, $user, $remote, $this->getDisplayNameFromContact($id));
 			}
 		}
@@ -152,8 +153,9 @@ class CloudIdManager implements ICloudIdManager {
 		// note that for remote id's we don't strip the protocol for the remote we use to construct the CloudId
 		// this way if a user has an explicit non-https cloud id this will be preserved
 		// we do still use the version without protocol for looking up the display name
-		$remote = $this->fixRemoteURL($remote);
+		$remote = $this->stripShareLinkFragments($remote);
 		$host = $this->removeProtocolFromUrl($remote);
+		$remote = $this->ensureDefaultProtocol($remote);
 
 		$key = $user . '@' . ($isLocal ? 'local' : $host);
 		$cached = $this->cache[$key] ?? $this->memCache->get($key);
@@ -198,6 +200,14 @@ class CloudIdManager implements ICloudIdManager {
 		return $url;
 	}
 
+	protected function ensureDefaultProtocol(string $remote): string {
+		if (!str_contains($remote, '://')) {
+			$remote = 'https://' . $remote;
+		}
+
+		return $remote;
+	}
+
 	/**
 	 * Strips away a potential file names and trailing slashes:
 	 * - http://localhost
@@ -210,7 +220,7 @@ class CloudIdManager implements ICloudIdManager {
 	 * @param string $remote
 	 * @return string
 	 */
-	protected function fixRemoteURL(string $remote): string {
+	protected function stripShareLinkFragments(string $remote): string {
 		$remote = str_replace('\\', '/', $remote);
 		if ($fileNamePosition = strpos($remote, '/index.php')) {
 			$remote = substr($remote, 0, $fileNamePosition);
