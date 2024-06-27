@@ -63,7 +63,7 @@ class CloudIdManagerTest extends TestCase {
 		);
 	}
 
-	public function cloudIdProvider() {
+	public function cloudIdProvider(): array {
 		return [
 			['test@example.com', 'test', 'example.com', 'test@example.com'],
 			['test@example.com/cloud', 'test', 'example.com/cloud', 'test@example.com/cloud'],
@@ -75,12 +75,8 @@ class CloudIdManagerTest extends TestCase {
 
 	/**
 	 * @dataProvider cloudIdProvider
-	 *
-	 * @param string $cloudId
-	 * @param string $user
-	 * @param string $remote
 	 */
-	public function testResolveCloudId($cloudId, $user, $remote, $cleanId) {
+	public function testResolveCloudId(string $cloudId, string $user, string $noProtocolRemote, string $cleanId): void {
 		$displayName = 'Ample Ex';
 
 		$this->contactsManager->expects($this->any())
@@ -96,12 +92,12 @@ class CloudIdManagerTest extends TestCase {
 		$cloudId = $this->cloudIdManager->resolveCloudId($cloudId);
 
 		$this->assertEquals($user, $cloudId->getUser());
-		$this->assertEquals($remote, $cloudId->getRemote());
+		$this->assertEquals('https://' . $noProtocolRemote, $cloudId->getRemote());
 		$this->assertEquals($cleanId, $cloudId->getId());
-		$this->assertEquals($displayName . '@' . $remote, $cloudId->getDisplayId());
+		$this->assertEquals($displayName . '@' . $noProtocolRemote, $cloudId->getDisplayId());
 	}
 
-	public function invalidCloudIdProvider() {
+	public function invalidCloudIdProvider(): array {
 		return [
 			['example.com'],
 			['test:foo@example.com'],
@@ -115,7 +111,7 @@ class CloudIdManagerTest extends TestCase {
 	 * @param string $cloudId
 	 *
 	 */
-	public function testInvalidCloudId($cloudId) {
+	public function testInvalidCloudId(string $cloudId): void {
 		$this->expectException(\InvalidArgumentException::class);
 
 		$this->contactsManager->expects($this->never())
@@ -126,10 +122,10 @@ class CloudIdManagerTest extends TestCase {
 
 	public function getCloudIdProvider(): array {
 		return [
-			['test', 'example.com', 'test@example.com'],
+			['test', 'example.com', 'test@example.com', null, 'https://example.com', 'https://example.com'],
 			['test', 'http://example.com', 'test@http://example.com', 'test@example.com'],
 			['test', null, 'test@http://example.com', 'test@example.com', 'http://example.com', 'http://example.com'],
-			['test@example.com', 'example.com', 'test@example.com@example.com'],
+			['test@example.com', 'example.com', 'test@example.com@example.com', null, 'https://example.com', 'https://example.com'],
 			['test@example.com', 'https://example.com', 'test@example.com@example.com'],
 			['test@example.com', null, 'test@example.com@example.com', null, 'https://example.com', 'https://example.com'],
 			['test@example.com', 'https://example.com/index.php/s/shareToken', 'test@example.com@example.com', null, 'https://example.com', 'https://example.com'],
@@ -138,10 +134,6 @@ class CloudIdManagerTest extends TestCase {
 
 	/**
 	 * @dataProvider getCloudIdProvider
-	 *
-	 * @param string $user
-	 * @param null|string $remote
-	 * @param string $id
 	 */
 	public function testGetCloudId(string $user, ?string $remote, string $id, ?string $searchCloudId = null, ?string $localHost = 'https://example.com', ?string $expectedRemoteId = null): void {
 		if ($remote !== null) {
