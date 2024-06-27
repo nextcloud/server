@@ -5,9 +5,10 @@
 
 import type { User } from '@nextcloud/cypress'
 import { getRowForFile, navigateToFolder } from './FilesUtils'
-import { UnifiedSearchFilter, getUnifiedSearchFilter, getUnifiedSearchInput, getUnifiedSearchModal, openUnifiedSearch } from '../core-utils.ts'
+import { UnifiedSearchPage } from '../../pages/UnifiedSearch.ts'
 
 describe('files: Search and filter in files list', { testIsolation: true }, () => {
+	const unifiedSearch = new UnifiedSearchPage()
 	let user: User
 
 	beforeEach(() => cy.createRandomUser().then(($user) => {
@@ -20,17 +21,21 @@ describe('files: Search and filter in files list', { testIsolation: true }, () =
 		cy.visit('/apps/files')
 	}))
 
+	it('files app supports local search', () => {
+		unifiedSearch.openLocalSearch()
+		unifiedSearch.localSearchInput()
+			.should('not.have.css', 'display', 'none')
+			.and('not.be.disabled')
+	})
+
 	it('filters current view', () => {
 		// All are visible by default
 		getRowForFile('a folder').should('be.visible')
 		getRowForFile('b file').should('be.visible')
 
 		// Set up a search query
-		openUnifiedSearch()
-		getUnifiedSearchInput().type('a folder')
-		getUnifiedSearchFilter(UnifiedSearchFilter.FilterCurrentView).click({ force: true })
-		// Wait for modal to close
-		getUnifiedSearchModal().should('not.be.visible')
+		unifiedSearch.openLocalSearch()
+		unifiedSearch.typeLocalSearch('a folder')
 
 		// See that only the folder is visible
 		getRowForFile('a folder').should('be.visible')
@@ -43,11 +48,8 @@ describe('files: Search and filter in files list', { testIsolation: true }, () =
 		getRowForFile('b file').should('be.visible')
 
 		// Set up a search query
-		openUnifiedSearch()
-		getUnifiedSearchInput().type('a folder')
-		getUnifiedSearchFilter(UnifiedSearchFilter.FilterCurrentView).click({ force: true })
-		// Wait for modal to close
-		getUnifiedSearchModal().should('not.be.visible')
+		unifiedSearch.openLocalSearch()
+		unifiedSearch.typeLocalSearch('a folder')
 
 		// See that only the folder is visible
 		getRowForFile('a folder').should('be.visible')
@@ -66,11 +68,8 @@ describe('files: Search and filter in files list', { testIsolation: true }, () =
 		getRowForFile('b file').should('be.visible')
 
 		// Set up a search query
-		openUnifiedSearch()
-		getUnifiedSearchInput().type('a folder')
-		getUnifiedSearchFilter(UnifiedSearchFilter.FilterCurrentView).click({ force: true })
-		// Wait for modal to close
-		getUnifiedSearchModal().should('not.be.visible')
+		unifiedSearch.openLocalSearch()
+		unifiedSearch.typeLocalSearch('a folder')
 
 		// See that only the folder is visible
 		getRowForFile('a folder').should('be.visible')
@@ -84,5 +83,8 @@ describe('files: Search and filter in files list', { testIsolation: true }, () =
 		// see that the folder is not filtered
 		getRowForFile('a folder').should('be.visible')
 		getRowForFile('b file').should('be.visible')
+
+		// see the filter bar is gone
+		unifiedSearch.localSearchInput().should('not.exist')
 	})
 })

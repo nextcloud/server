@@ -464,7 +464,7 @@ export default defineComponent({
 
 			logger.debug('View changed', { newView, oldView })
 			this.selectionStore.reset()
-			this.resetSearch()
+			this.triggerResetSearch()
 			this.fetchContent()
 		},
 
@@ -472,7 +472,7 @@ export default defineComponent({
 			logger.debug('Directory changed', { newDir, oldDir })
 			// TODO: preserve selection on browsing?
 			this.selectionStore.reset()
-			this.resetSearch()
+			this.triggerResetSearch()
 			this.fetchContent()
 
 			// Scroll to top, force virtual scroller to re-render
@@ -493,8 +493,8 @@ export default defineComponent({
 
 		subscribe('files:node:deleted', this.onNodeDeleted)
 		subscribe('files:node:updated', this.onUpdatedNode)
-		subscribe('nextcloud:unified-search.search', this.onSearch)
-		subscribe('nextcloud:unified-search.reset', this.resetSearch)
+		subscribe('nextcloud:unified-search:search', this.onSearch)
+		subscribe('nextcloud:unified-search:reset', this.onResetSearch)
 
 		// reload on settings change
 		this.unsubscribeStoreCallback = this.userConfigStore.$subscribe(() => this.fetchContent(), { deep: true })
@@ -503,8 +503,8 @@ export default defineComponent({
 	unmounted() {
 		unsubscribe('files:node:deleted', this.onNodeDeleted)
 		unsubscribe('files:node:updated', this.onUpdatedNode)
-		unsubscribe('nextcloud:unified-search.search', this.onSearch)
-		unsubscribe('nextcloud:unified-search.reset', this.resetSearch)
+		unsubscribe('nextcloud:unified-search:search', this.onSearch)
+		unsubscribe('nextcloud:unified-search:reset', this.onResetSearch)
 		this.unsubscribeStoreCallback()
 	},
 
@@ -676,13 +676,21 @@ export default defineComponent({
 		},
 
 		/**
-		 * Reset the search query
+		 * Handle reset search query event
 		 */
-		resetSearch() {
+		onResetSearch() {
 			// Reset debounced calls to not set the query again
 			this.onSearch.clear()
 			// Reset filter query
 			this.filterText = ''
+		},
+
+		/**
+		 * Trigger a reset of the local search (part of unified search)
+		 * This is usful to reset the search on directory / view change
+		 */
+		triggerResetSearch() {
+			emit('nextcloud:unified-search:reset')
 		},
 
 		openSharingSidebar() {
