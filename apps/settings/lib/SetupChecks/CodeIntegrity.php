@@ -50,7 +50,14 @@ class CodeIntegrity implements ISetupCheck {
 	public function run(): SetupResult {
 		if (!$this->checker->isCodeCheckEnforced()) {
 			return SetupResult::info($this->l10n->t('Integrity checker has been disabled. Integrity cannot be verified.'));
-		} elseif ($this->checker->hasPassedCheck()) {
+		}
+
+		// If there are no results we need to run the verification
+		if ($this->checker->getResults() === null) {
+			$this->checker->runInstanceVerification();
+		}
+
+		if ($this->checker->hasPassedCheck()) {
 			return SetupResult::success($this->l10n->t('No altered files'));
 		} else {
 			return SetupResult::error(

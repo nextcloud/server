@@ -123,6 +123,10 @@ class CheckSetupController extends Controller {
 
 		$completeResults = $this->checker->getResults();
 
+		if ($completeResults === null) {
+			return new DataDisplayResponse('Integrity checker has not been run. Integrity information not available.');
+		}
+
 		if (!empty($completeResults)) {
 			$formattedTextResponse = 'Technical information
 =====================

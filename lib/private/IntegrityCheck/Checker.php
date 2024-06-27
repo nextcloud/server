@@ -396,7 +396,7 @@ class Checker {
 	 */
 	public function hasPassedCheck(): bool {
 		$results = $this->getResults();
-		if (empty($results)) {
+		if ($results !== null && empty($results)) {
 			return true;
 		}
 
@@ -404,15 +404,20 @@ class Checker {
 	}
 
 	/**
-	 * @return array
+	 * @return array|null Either the results or null if no results available
 	 */
-	public function getResults(): array {
+	public function getResults(): array|null {
 		$cachedResults = $this->cache->get(self::CACHE_KEY);
 		if (!\is_null($cachedResults) and $cachedResults !== false) {
 			return json_decode($cachedResults, true);
 		}
 
-		return $this->appConfig?->getValueArray('core', self::CACHE_KEY, lazy: true) ?? [];
+		if ($this->appConfig?->hasKey('core', self::CACHE_KEY, lazy: true)) {
+			return $this->appConfig->getValueArray('core', self::CACHE_KEY, lazy: true);
+		}
+
+		// No results available
+		return null;
 	}
 
 	/**
@@ -422,7 +427,7 @@ class Checker {
 	 * @param array $result
 	 */
 	private function storeResults(string $scope, array $result) {
-		$resultArray = $this->getResults();
+		$resultArray = $this->getResults() ?? [];
 		unset($resultArray[$scope]);
 		if (!empty($result)) {
 			$resultArray[$scope] = $result;
