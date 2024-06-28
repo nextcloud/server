@@ -33,6 +33,18 @@ use OCP\DB\QueryBuilder\IQueryFunction;
 use Psr\Log\LoggerInterface;
 
 class QueryBuilder implements IQueryBuilder {
+	/** @internal */
+	protected const SELECT = 0;
+
+	/** @internal */
+	protected const DELETE = 1;
+
+	/** @internal */
+	protected const UPDATE = 2;
+
+	/** @internal */
+	protected const INSERT = 3;
+
 	/** @var ConnectionAdapter */
 	private $connection;
 
@@ -49,6 +61,8 @@ class QueryBuilder implements IQueryBuilder {
 
 	/** @var bool */
 	private $automaticTablePrefix = true;
+	private bool $nonEmptyWhere = false;
+	private int $type = self::SELECT;
 
 	/** @var string */
 	protected $lastInsertedTable;
@@ -147,7 +161,7 @@ class QueryBuilder implements IQueryBuilder {
 	 * @return integer
 	 */
 	public function getType() {
-		return $this->queryBuilder->getType();
+		return $this->type;
 	}
 
 	/**
@@ -254,7 +268,11 @@ class QueryBuilder implements IQueryBuilder {
 			]);
 		}
 
-		$result = $this->queryBuilder->execute();
+		if ($this->getType() !== self::SELECT) {
+			$result = $this->queryBuilder->executeStatement();
+		} else {
+			$result = $this->queryBuilder->executeQuery();
+		}
 		if (is_int($result)) {
 			return $result;
 		}
@@ -262,7 +280,7 @@ class QueryBuilder implements IQueryBuilder {
 	}
 
 	public function executeQuery(): IResult {
-		if ($this->getType() !== \Doctrine\DBAL\Query\QueryBuilder::SELECT) {
+		if ($this->getType() !== self::SELECT) {
 			throw new \RuntimeException('Invalid query type, expected SELECT query');
 		}
 
@@ -280,7 +298,7 @@ class QueryBuilder implements IQueryBuilder {
 	}
 
 	public function executeStatement(): int {
-		if ($this->getType() === \Doctrine\DBAL\Query\QueryBuilder::SELECT) {
+		if ($this->getType() === self::SELECT) {
 			throw new \RuntimeException('Invalid query type, expected INSERT, DELETE or UPDATE statement');
 		}
 
@@ -472,12 +490,13 @@ class QueryBuilder implements IQueryBuilder {
 	 * '@return $this This QueryBuilder instance.
 	 */
 	public function select(...$selects) {
+		$this->type = self::SELECT;
 		if (count($selects) === 1 && is_array($selects[0])) {
 			$selects = $selects[0];
 		}
 
 		$this->queryBuilder->select(
-			$this->helper->quoteColumnNames($selects)
+			...$this->helper->quoteColumnNames($selects)
 		);
 
 		return $this;
@@ -499,6 +518,7 @@ class QueryBuilder implements IQueryBuilder {
 	 * @return $this This QueryBuilder instance.
 	 */
 	public function selectAlias($select, $alias) {
+		$this->type = self::SELECT;
 		$this->queryBuilder->addSelect(
 			$this->helper->quoteColumnName($select) . ' AS ' . $this->helper->quoteColumnName($alias)
 		);
@@ -520,6 +540,7 @@ class QueryBuilder implements IQueryBuilder {
 	 * @return $this This QueryBuilder instance.
 	 */
 	public function selectDistinct($select) {
+		$this->type = self::SELECT;
 		if (!is_array($select)) {
 			$select = [$select];
 		}
@@ -549,12 +570,13 @@ class QueryBuilder implements IQueryBuilder {
 	 * @return $this This QueryBuilder instance.
 	 */
 	public function addSelect(...$selects) {
+		$this->type = self::SELECT;
 		if (count($selects) === 1 && is_array($selects[0])) {
 			$selects = $selects[0];
 		}
 
 		$this->queryBuilder->addSelect(
-			$this->helper->quoteColumnNames($selects)
+			...$this->helper->quoteColumnNames($selects)
 		);
 
 		return $this;
@@ -577,6 +599,7 @@ class QueryBuilder implements IQueryBuilder {
 	 * @return $this This QueryBuilder instance.
 	 */
 	public function delete($delete = null, $alias = null) {
+		$this->type = self::DELETE;
 		$this->queryBuilder->delete(
 			$this->getTableName($delete),
 			$alias
@@ -602,6 +625,7 @@ class QueryBuilder implements IQueryBuilder {
 	 * @return $this This QueryBuilder instance.
 	 */
 	public function update($update = null, $alias = null) {
+		$this->type = self::UPDATE;
 		$this->queryBuilder->update(
 			$this->getTableName($update),
 			$alias
@@ -630,6 +654,7 @@ class QueryBuilder implements IQueryBuilder {
 	 * @return $this This QueryBuilder instance.
 	 */
 	public function insert($insert = null) {
+		$this->type = self::INSERT;
 		$this->queryBuilder->insert(
 			$this->getTableName($insert)
 		);
@@ -826,11 +851,13 @@ class QueryBuilder implements IQueryBuilder {
 	 * @return $this This QueryBuilder instance.
 	 */
 	public function where(...$predicates) {
-		if ($this->getQueryPart('where') !== null && $this->systemConfig->getValue('debug', false)) {
+		if ($this->nonEmptyWhere && $this->systemConfig->getValue('debug', false)) {
 			// Only logging a warning, not throwing for now.
 			$e = new QueryException('Using where() on non-empty WHERE part, please verify it is intentional to not call andWhere() or orWhere() instead. Otherwise consider creating a new query builder object or call resetQueryPart(\'where\') first.');
 			$this->logger->warning($e->getMessage(), ['exception' => $e]);
 		}
+
+		$this->nonEmptyWhere = true;
 
 		call_user_func_array(
 			[$this->queryBuilder, 'where'],
@@ -859,6 +886,7 @@ class QueryBuilder implements IQueryBuilder {
 	 * @see where()
 	 */
 	public function andWhere(...$where) {
+		$this->nonEmptyWhere = true;
 		call_user_func_array(
 			[$this->queryBuilder, 'andWhere'],
 			$where
@@ -886,6 +914,7 @@ class QueryBuilder implements IQueryBuilder {
 	 * @see where()
 	 */
 	public function orWhere(...$where) {
+		$this->nonEmptyWhere = true;
 		call_user_func_array(
 			[$this->queryBuilder, 'orWhere'],
 			$where
@@ -1268,7 +1297,7 @@ class QueryBuilder implements IQueryBuilder {
 	 * @throws \BadMethodCallException When being called before an insert query has been run.
 	 */
 	public function getLastInsertId(): int {
-		if ($this->getType() === \Doctrine\DBAL\Query\QueryBuilder::INSERT && $this->lastInsertedTable) {
+		if ($this->getType() === self::INSERT && $this->lastInsertedTable) {
 			// lastInsertId() needs the prefix but no quotes
 			$table = $this->prefixTableName($this->lastInsertedTable);
 			return $this->connection->lastInsertId($table);
