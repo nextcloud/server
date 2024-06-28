@@ -7,14 +7,9 @@ Files in Nextcloud are licensed under the Affero General Public License version 
 the text of which can be found in `COPYING`, or any later version of the AGPL,
 unless otherwise noted.
 
-Licensing of components:
-* jQuery: MIT / GPL
-* HTTP: 3 clause BSD
-* MDB2: BSD style custom
-* User: AGPL
-* XML/RPC: MIT / PHP
-* Elementary filetype icons: GPL v3+
-* Material UI icons: APACHE LICENSE, VERSION 2.0
+For licensing of components please see the respective SPDX headers of the shipped
+files in the `dist` folder.
+
 All unmodified files from these and other sources retain their original copyright
 and license notices: see the relevant individual files.
 
