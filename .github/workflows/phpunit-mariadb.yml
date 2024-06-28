@@ -56,10 +56,10 @@ jobs:
     strategy:
       matrix:
         php-versions: ['8.1']
-        mariadb-versions: ['10.3', '10.5', '10.6', '10.11']
+        mariadb-versions: ['10.3', '10.6', '10.11', '11.4']
         include:
           - php-versions: '8.3'
-            mariadb-versions: '10.6'
+            mariadb-versions: '10.11'
             coverage: ${{ github.event_name != 'pull_request' }}
 
     name: MariaDB ${{ matrix.mariadb-versions }} (PHP ${{ matrix.php-versions }}) - database tests
@@ -80,7 +80,7 @@ jobs:
           MYSQL_USER: oc_autotest
           MYSQL_PASSWORD: nextcloud
           MYSQL_DATABASE: oc_autotest
-        options: --health-cmd="mysqladmin ping" --health-interval 5s --health-timeout 2s --health-retries 5
+        options: --health-cmd="${{ matrix.mariadb-versions <= 10.4 && 'mysqladmin' || 'mariadb-admin'}} ping" --health-interval 5s --health-timeout 2s --health-retries 5
 
     steps:
       - name: Checkout server
