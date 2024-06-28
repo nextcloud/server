@@ -41,6 +41,34 @@ class QueryBuilder extends TypedQueryBuilder {
 	protected ?string $lastInsertedTable = null;
 	private array $selectedColumns = [];
 
+	/** @internal */
+	protected const SELECT = 0;
+
+	/** @internal */
+	protected const DELETE = 1;
+
+	/** @internal */
+	protected const UPDATE = 2;
+
+	/** @internal */
+	protected const INSERT = 3;
+
+	/** @var ConnectionAdapter */
+	private $connection;
+
+	/** @var SystemConfig */
+	private $systemConfig;
+
+	private LoggerInterface $logger;
+
+	/** @var \Doctrine\DBAL\Query\QueryBuilder */
+	private $queryBuilder;
+
+	/** @var QuoteHelper */
+	private $helper;
+
+	private int $type = self::SELECT;
+
 	/**
 	 * Initializes a new QueryBuilder.
 	 */
@@ -126,7 +154,7 @@ class QueryBuilder extends TypedQueryBuilder {
 	 */
 	#[\Override]
 	public function getType() {
-		return $this->queryBuilder->getType();
+		return $this->type;
 	}
 
 	/**
@@ -228,12 +256,22 @@ class QueryBuilder extends TypedQueryBuilder {
 				'exception' => $exception,
 			]);
 		}
+
+		if ($this->getType() !== self::SELECT) {
+			$result = $this->queryBuilder->executeStatement();
+		} else {
+			$result = $this->queryBuilder->executeQuery();
+		}
+		if (is_int($result)) {
+			return $result;
+		}
+		return new ResultAdapter($result);
 	}
 
 	#[\Override]
-	public function executeQuery(?IDBConnection $connection = null): IResult {
-		if ($this->getType() !== \Doctrine\DBAL\Query\QueryBuilder::SELECT) {
-			throw new RuntimeException('Invalid query type, expected SELECT query');
+	public function executeQuery(): IResult {
+		if ($this->getType() !== self::SELECT) {
+			throw new \RuntimeException('Invalid query type, expected SELECT query');
 		}
 
 		$this->prepareForExecute();
@@ -249,9 +287,9 @@ class QueryBuilder extends TypedQueryBuilder {
 	}
 
 	#[\Override]
-	public function executeStatement(?IDBConnection $connection = null): int {
-		if ($this->getType() === \Doctrine\DBAL\Query\QueryBuilder::SELECT) {
-			throw new RuntimeException('Invalid query type, expected INSERT, DELETE or UPDATE statement');
+	public function executeStatement(): int {
+		if ($this->getType() === self::SELECT) {
+			throw new \RuntimeException('Invalid query type, expected INSERT, DELETE or UPDATE statement');
 		}
 
 		$this->prepareForExecute();
@@ -452,13 +490,14 @@ class QueryBuilder extends TypedQueryBuilder {
 	 */
 	#[\Override]
 	public function select(...$selects) {
+		$this->type = self::SELECT;
 		if (count($selects) === 1 && is_array($selects[0])) {
 			$selects = $selects[0];
 		}
 		$this->addOutputColumns($selects);
 
 		$this->queryBuilder->select(
-			$this->helper->quoteColumnNames($selects)
+			...$this->helper->quoteColumnNames($selects)
 		);
 
 		return $this;
@@ -481,6 +520,7 @@ class QueryBuilder extends TypedQueryBuilder {
 	 */
 	#[\Override]
 	public function selectAlias($select, $alias): self {
+		$this->type = self::SELECT;
 		$this->queryBuilder->addSelect(
 			$this->helper->quoteColumnName($select) . ' AS ' . $this->helper->quoteColumnName($alias)
 		);
@@ -504,6 +544,7 @@ class QueryBuilder extends TypedQueryBuilder {
 	 */
 	#[\Override]
 	public function selectDistinct($select) {
+		$this->type = self::SELECT;
 		if (!is_array($select)) {
 			$select = [$select];
 		}
@@ -534,14 +575,15 @@ class QueryBuilder extends TypedQueryBuilder {
 	 * @return $this This QueryBuilder instance.
 	 */
 	#[\Override]
-	public function addSelect(...$select) {
-		if (count($select) === 1 && is_array($select[0])) {
-			$select = $select[0];
+	public function addSelect(...$selects) {
+		$this->type = self::SELECT;
+		if (count($selects) === 1 && is_array($selects[0])) {
+			$selects = $selects[0];
 		}
 		$this->addOutputColumns($select);
 
 		$this->queryBuilder->addSelect(
-			$this->helper->quoteColumnNames($select)
+			...$this->helper->quoteColumnNames($selects)
 		);
 
 		return $this;
@@ -591,6 +633,7 @@ class QueryBuilder extends TypedQueryBuilder {
 			$this->logger->debug('DELETE queries with alias are no longer supported and the provided alias is ignored', ['exception' => new \InvalidArgumentException('Table alias provided for DELETE query')]);
 		}
 
+		$this->type = self::DELETE;
 		$this->queryBuilder->delete(
 			$this->getTableName($delete),
 			$alias
@@ -622,6 +665,7 @@ class QueryBuilder extends TypedQueryBuilder {
 			$this->logger->debug('UPDATE queries with alias are no longer supported and the provided alias is ignored', ['exception' => new \InvalidArgumentException('Table alias provided for UPDATE query')]);
 		}
 
+		$this->type = self::UPDATE;
 		$this->queryBuilder->update(
 			$this->getTableName($update),
 			$alias
@@ -651,6 +695,7 @@ class QueryBuilder extends TypedQueryBuilder {
 	 */
 	#[\Override]
 	public function insert($insert = null) {
+		$this->type = self::INSERT;
 		$this->queryBuilder->insert(
 			$this->getTableName($insert)
 		);
@@ -1329,7 +1374,7 @@ class QueryBuilder extends TypedQueryBuilder {
 	 */
 	#[\Override]
 	public function getLastInsertId(): int {
-		if ($this->getType() === \Doctrine\DBAL\Query\QueryBuilder::INSERT && $this->lastInsertedTable) {
+		if ($this->getType() === self::INSERT && $this->lastInsertedTable) {
 			// lastInsertId() needs the prefix but no quotes
 			$table = $this->prefixTableName($this->lastInsertedTable);
 			return $this->connection->lastInsertId($table);
