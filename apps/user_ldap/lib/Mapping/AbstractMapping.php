@@ -8,7 +8,7 @@
 namespace OCA\User_LDAP\Mapping;
 
 use Doctrine\DBAL\Exception;
-use Doctrine\DBAL\Platforms\SqlitePlatform;
+use Doctrine\DBAL\Platforms\SQLitePlatform;
 use OCP\DB\IPreparedStatement;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use Psr\Log\LoggerInterface;
@@ -216,7 +216,7 @@ abstract class AbstractMapping {
 	public function getListOfIdsByDn(array $fdns): array {
 		$totalDBParamLimit = 65000;
 		$sliceSize = 1000;
-		$maxSlices = $this->dbc->getDatabasePlatform() instanceof SqlitePlatform ? 9 : $totalDBParamLimit / $sliceSize;
+		$maxSlices = $this->dbc->getDatabasePlatform() instanceof SQLitePlatform ? 9 : $totalDBParamLimit / $sliceSize;
 		$results = [];
 
 		$slice = 1;

@@ -10,7 +10,7 @@ namespace OC\DB\QueryBuilder;
 use Doctrine\DBAL\Platforms\MySQLPlatform;
 use Doctrine\DBAL\Platforms\OraclePlatform;
 use Doctrine\DBAL\Platforms\PostgreSQL94Platform;
-use Doctrine\DBAL\Platforms\SqlitePlatform;
+use Doctrine\DBAL\Platforms\SQLitePlatform;
 use Doctrine\DBAL\Query\QueryException;
 use OC\DB\ConnectionAdapter;
 use OC\DB\QueryBuilder\ExpressionBuilder\ExpressionBuilder;
@@ -104,7 +104,7 @@ class QueryBuilder implements IQueryBuilder {
 		if ($this->connection->getDatabasePlatform() instanceof MySQLPlatform) {
 			return new MySqlExpressionBuilder($this->connection, $this);
 		}
-		if ($this->connection->getDatabasePlatform() instanceof SqlitePlatform) {
+		if ($this->connection->getDatabasePlatform() instanceof SQLitePlatform) {
 			return new SqliteExpressionBuilder($this->connection, $this);
 		}
 
@@ -131,7 +131,7 @@ class QueryBuilder implements IQueryBuilder {
 		if ($this->connection->getDatabasePlatform() instanceof OraclePlatform) {
 			return new OCIFunctionBuilder($this->connection, $this, $this->helper);
 		}
-		if ($this->connection->getDatabasePlatform() instanceof SqlitePlatform) {
+		if ($this->connection->getDatabasePlatform() instanceof SQLitePlatform) {
 			return new SqliteFunctionBuilder($this->connection, $this, $this->helper);
 		}
 		if ($this->connection->getDatabasePlatform() instanceof PostgreSQL94Platform) {

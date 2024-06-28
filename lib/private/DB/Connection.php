@@ -17,7 +17,7 @@ use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\Exception\ConnectionLost;
 use Doctrine\DBAL\Platforms\MySQLPlatform;
 use Doctrine\DBAL\Platforms\OraclePlatform;
-use Doctrine\DBAL\Platforms\SqlitePlatform;
+use Doctrine\DBAL\Platforms\SQLitePlatform;
 use Doctrine\DBAL\Result;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\DBAL\Statement;
@@ -671,7 +671,7 @@ class Connection extends PrimaryReadReplicaConnection {
 		$platform = $this->getDatabasePlatform();
 		$config = \OC::$server->getConfig();
 		$dispatcher = Server::get(\OCP\EventDispatcher\IEventDispatcher::class);
-		if ($platform instanceof SqlitePlatform) {
+		if ($platform instanceof SQLitePlatform) {
 			return new SQLiteMigrator($this, $config, $dispatcher);
 		} elseif ($platform instanceof OraclePlatform) {
 			return new OracleMigrator($this, $config, $dispatcher);

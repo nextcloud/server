@@ -11,7 +11,7 @@ namespace Test\DB;
 use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Platforms\OraclePlatform;
-use Doctrine\DBAL\Platforms\SqlitePlatform;
+use Doctrine\DBAL\Platforms\SQLitePlatform;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\DBAL\Schema\SchemaConfig;
 use OC\DB\Migrator;
@@ -59,7 +59,7 @@ class MigratorTest extends \Test\TestCase {
 		$platform = $this->connection->getDatabasePlatform();
 		$random = \OC::$server->get(ISecureRandom::class);
 		$dispatcher = \OC::$server->get(\OCP\EventDispatcher\IEventDispatcher::class);
-		if ($platform instanceof SqlitePlatform) {
+		if ($platform instanceof SQLitePlatform) {
 			return new SQLiteMigrator($this->connection, $this->config, $dispatcher);
 		} elseif ($platform instanceof OraclePlatform) {
 			return new OracleMigrator($this->connection, $this->config, $dispatcher);
