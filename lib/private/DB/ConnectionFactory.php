@@ -103,8 +103,8 @@ class ConnectionFactory {
 	 */
 	public function getConnection($type, $additionalConnectionParams) {
 		$normalizedType = $this->normalizeType($type);
-		$eventManager = new EventManager();
-		$eventManager->addEventSubscriber(new SetTransactionIsolationLevel());
+		// FIXME $eventManager = new EventManager();
+		// FIXME $eventManager->addEventSubscriber(new SetTransactionIsolationLevel());
 		$additionalConnectionParams = array_merge($this->createConnectionParams(), $additionalConnectionParams);
 		switch ($normalizedType) {
 			case 'pgsql':
@@ -117,7 +117,7 @@ class ConnectionFactory {
 				break;
 
 			case 'oci':
-				$eventManager->addEventSubscriber(new OracleSessionInit);
+				// FIXME $eventManager->addEventSubscriber(new OracleSessionInit);
 				// the driverOptions are unused in dbal and need to be mapped to the parameters
 				if (isset($additionalConnectionParams['driverOptions'])) {
 					$additionalConnectionParams = array_merge($additionalConnectionParams, $additionalConnectionParams['driverOptions']);
@@ -138,14 +138,14 @@ class ConnectionFactory {
 			case 'sqlite3':
 				$journalMode = $additionalConnectionParams['sqlite.journal_mode'];
 				$additionalConnectionParams['platform'] = new OCSqlitePlatform();
-				$eventManager->addEventSubscriber(new SQLiteSessionInit(true, $journalMode));
+				// FIXME $eventManager->addEventSubscriber(new SQLiteSessionInit(true, $journalMode));
 				break;
 		}
 		/** @var Connection $connection */
 		$connection = DriverManager::getConnection(
 			$additionalConnectionParams,
 			new Configuration(),
-			$eventManager
+			// FIXME $eventManager
 		);
 		return $connection;
 	}
