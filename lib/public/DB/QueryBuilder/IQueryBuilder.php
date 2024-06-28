@@ -833,6 +833,7 @@ interface IQueryBuilder {
 	 *
 	 * @return mixed
 	 * @since 8.2.0
+	 * @deprecated 30.0.0 The function always throws an exception
 	 */
 	public function getQueryPart($queryPartName);
 
@@ -841,6 +842,7 @@ interface IQueryBuilder {
 	 *
 	 * @return array
 	 * @since 8.2.0
+	 * @deprecated 30.0.0 The function always throws an exception
 	 */
 	public function getQueryParts();
 
@@ -851,6 +853,7 @@ interface IQueryBuilder {
 	 *
 	 * @return $this This QueryBuilder instance.
 	 * @since 8.2.0
+	 * @since 30.0.0 Only null and a list of 'where'|'having'|'groupBy'|'orderBy' is supported. Everything else will throw.
 	 */
 	public function resetQueryParts($queryPartNames = null);
 
@@ -861,6 +864,7 @@ interface IQueryBuilder {
 	 *
 	 * @return $this This QueryBuilder instance.
 	 * @since 8.2.0
+	 * @since 30.0.0 Only 'where'|'having'|'groupBy'|'orderBy' are supported. Everything else will throw.
 	 */
 	public function resetQueryPart($queryPartName);
 
