@@ -27,7 +27,7 @@ jobs:
           submodules: true
 
       - name: Set up php
-        uses: shivammathur/setup-php@v2
+        uses: shivammathur/setup-php@2e947f1f6932d141d076ca441d0e1e881775e95b #v2.31.0
         with:
           php-version: '8.1'
           extensions: apcu,ctype,curl,dom,fileinfo,ftp,gd,intl,json,ldap,mbstring,openssl,pdo_sqlite,posix,sqlite,xml,zip
