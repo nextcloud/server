@@ -555,46 +555,84 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	 * @return string IP address
 	 */
 	public function getRemoteAddress(): string {
-		$remoteAddress = isset($this->server['REMOTE_ADDR']) ? $this->server['REMOTE_ADDR'] : '';
+		return $this->getRemoteAddressAndProxyChain()['remote_address'];
+	}
+
+	/**
+	 * Returns the remote address and the trusted proxy chain from the `forwarded_for_headers`
+	 * @return array{remote_address: string, proxies: list<string>}
+	 */
+	public function getRemoteAddressAndProxyChain(): array {
+		$remoteAddress = $this->server['REMOTE_ADDR'] ?? '';
+
 		$trustedProxies = $this->config->getSystemValue('trusted_proxies', []);
+		if (!is_array($trustedProxies) || count($trustedProxies) == 0 || $this->isTrustedProxy($trustedProxies, $remoteAddress)) {
+			return ['remote_address' => $remoteAddress, 'proxies' => []];
+		}
 
-		if (\is_array($trustedProxies) && $this->isTrustedProxy($trustedProxies, $remoteAddress)) {
-			$forwardedForHeaders = $this->config->getSystemValue('forwarded_for_headers', [
-				'HTTP_X_FORWARDED_FOR'
-				// only have one default, so we cannot ship an insecure product out of the box
-			]);
+		$forwardedForHeaders = $this->config->getSystemValue('forwarded_for_headers', [
+			'HTTP_X_FORWARDED_FOR',  // de-facto standard to keep track of the proxy chain
+			'HTTP_FORWARDED',        // new standard to keep track of the proxy chain
+		]);
+		$proxies = [];
 
-			// Read the x-forwarded-for headers and values in reverse order as per
-			// https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Forwarded-For#selecting_an_ip_address
-			foreach (array_reverse($forwardedForHeaders) as $header) {
-				if (isset($this->server[$header])) {
-					foreach (array_reverse(explode(',', $this->server[$header])) as $IP) {
-						$IP = trim($IP);
-						$colons = substr_count($IP, ':');
-						if ($colons > 1) {
-							// Extract IP from string with brackets and optional port
-							if (preg_match('/^\[(.+?)\](?::\d+)?$/', $IP, $matches) && isset($matches[1])) {
-								$IP = $matches[1];
+		foreach ($forwardedForHeaders as $header) {
+			if (isset($this->server[$header])) {
+				$proxies = []; // reset for each possible header
+
+				$headerContent = $this->server[$header];
+
+				$IPs = [];
+				if (str_contains($headerContent, 'for')) {
+					// newer HTTP_FORWARDED format
+					$proxyEntries = explode(',', $headerContent);
+					foreach ($proxyEntries as $proxy) {
+						$parts = explode(';', $proxy);
+						foreach ($parts as $part) {
+							if (str_starts_with(strtolower(ltrim($part)), 'for') && str_contains($part, '=')) {
+								$part = substr($part, strpos($part, '=') + 1, strlen($part));
+								$IPs = array_merge($IPs, explode(',', $part));
 							}
-						} elseif ($colons === 1) {
-							// IPv4 with port
-							$IP = substr($IP, 0, strpos($IP, ':'));
-						}
-
-						if ($this->isTrustedProxy($trustedProxies, $IP)) {
-							continue;
-						}
-
-						if (filter_var($IP, FILTER_VALIDATE_IP) !== false) {
-							return $IP;
 						}
 					}
+				} else {
+					// old school HTTP_X_FORWARDED_FOR format
+					$IPs = explode(',', $headerContent);
+				}
+
+				// Read the x-forwarded-for headers and values in reverse order as per
+				// https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Forwarded-For#selecting_an_ip_address
+				foreach (array_reverse($IPs) as $IP) {
+					$IP = trim($IP);
+					$colons = substr_count($IP, ':');
+					// $colons == 0 -> IPv4 without port, nothing to do
+					if ($colons === 1) {
+						// IPv4 with port
+						$IP = substr($IP, 0, strpos($IP, ':'));
+					} elseif ($colons > 1) {
+						// Extract IPv6 from string with brackets and optional port
+						if (preg_match('/^\[(.+?)\](?::\d+)?$/', $IP, $matches) && isset($matches[1])) {
+							$IP = $matches[1];
+						}
+					}
+
+					if (filter_var($IP, FILTER_VALIDATE_IP) === false) {
+						break;
+					}
+
+					if (!$this->isTrustedProxy($trustedProxies, $IP)) {
+						$remoteAddress = $IP;
+						break;
+					}
+
+					$proxies[] = $IP;
 				}
 			}
 		}
 
-		return $remoteAddress;
+		return ['remote_address' => $remoteAddress, 'proxies' => $proxies];
 	}
+
 
 	/**
 	 * Check overwrite condition
@@ -602,8 +640,25 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	 */
 	private function isOverwriteCondition(): bool {
 		$regex = '/' . $this->config->getSystemValueString('overwritecondaddr', '')  . '/';
-		$remoteAddr = isset($this->server['REMOTE_ADDR']) ? $this->server['REMOTE_ADDR'] : '';
-		return $regex === '//' || preg_match($regex, $remoteAddr) === 1;
+		if ($regex === '//') {
+			return true;
+		}
+
+		$remoteAddressAndProxyChain = $this->getRemoteAddressAndProxyChain();
+		$remoteAddress = $remoteAddressAndProxyChain['remote_address'];
+		$proxies = $remoteAddressAndProxyChain['proxies'];
+
+		if(preg_match($regex, $remoteAddress) === 1) {
+			return true;
+		}
+
+		foreach ($proxies as $proxy) {
+			if(preg_match($regex, $proxy) === 1) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	/**
