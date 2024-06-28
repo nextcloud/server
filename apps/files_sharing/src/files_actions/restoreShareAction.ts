@@ -11,7 +11,7 @@ import { translatePlural as n } from '@nextcloud/l10n'
 import ArrowULeftTopSvg from '@mdi/svg/svg/arrow-u-left-top.svg?raw'
 import axios from '@nextcloud/axios'
 
-import { deletedSharesViewId } from '../views/shares'
+import { deletedSharesViewId } from '../files_views/shares'
 
 export const action = new FileAction({
 	id: 'restore-share',

@@ -10,6 +10,7 @@ import { translate as t } from '@nextcloud/l10n'
 import FileUploadSvg from '@mdi/svg/svg/file-upload.svg?raw'
 
 import Config from '../services/ConfigService'
+import { isPublicShare } from '@nextcloud/sharing/public'
 const sharingConfig = new Config()
 
 const NewFileRequestDialogVue = defineAsyncComponent(() => import('../components/NewFileRequestDialog.vue'))
@@ -22,6 +23,10 @@ export const entry = {
 	iconSvgInline: FileUploadSvg,
 	order: 10,
 	enabled(): boolean {
+		// not on public shares
+		if (isPublicShare()) {
+			return false
+		}
 		// We will check for the folder permission on the dialog
 		return sharingConfig.isPublicShareAllowed
 	},

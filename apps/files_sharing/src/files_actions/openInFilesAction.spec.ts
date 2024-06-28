@@ -4,10 +4,10 @@
  */
 import { File, Permission, View, DefaultType, FileAction } from '@nextcloud/files'
 import { describe, expect, test, vi } from 'vitest'
+import { deletedSharesViewId, pendingSharesViewId, sharedWithOthersViewId, sharedWithYouViewId, sharesViewId, sharingByLinksViewId } from '../files_views/shares'
+import { action } from './openInFilesAction'
 
 import '../main'
-import { action } from './openInFilesAction'
-import { deletedSharesViewId, pendingSharesViewId, sharedWithOthersViewId, sharedWithYouViewId, sharesViewId, sharingByLinksViewId } from '../views/shares'
 
 const view = {
 	id: 'files',
