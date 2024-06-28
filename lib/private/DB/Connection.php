@@ -564,7 +564,7 @@ class Connection extends PrimaryReadReplicaConnection {
 	 */
 	public function tableExists($table) {
 		$table = $this->tablePrefix . trim($table);
-		$schema = $this->getSchemaManager();
+		$schema = $this->createSchemaManager();
 		return $schema->tablesExist([$table]);
 	}
 
