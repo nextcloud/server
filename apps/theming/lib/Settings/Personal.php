@@ -17,7 +17,6 @@ use OCP\Settings\ISettings;
 use OCP\Util;
 
 class Personal implements ISettings {
-
 	public function __construct(
 		protected string $appName,
 		private string $userId,
