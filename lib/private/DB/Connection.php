@@ -21,7 +21,7 @@ use Doctrine\DBAL\Platforms\MariaDBPlatform;
 use Doctrine\DBAL\Platforms\MySQLPlatform;
 use Doctrine\DBAL\Platforms\OraclePlatform;
 use Doctrine\DBAL\Platforms\PostgreSQLPlatform;
-use Doctrine\DBAL\Platforms\SqlitePlatform;
+use Doctrine\DBAL\Platforms\SQLitePlatform;
 use Doctrine\DBAL\Result;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\DBAL\Statement;
@@ -834,7 +834,7 @@ class Connection extends PrimaryReadReplicaConnection {
 		$platform = $this->getDatabasePlatform();
 		$config = Server::get(IConfig::class);
 		$dispatcher = Server::get(IEventDispatcher::class);
-		if ($platform instanceof SqlitePlatform) {
+		if ($platform instanceof SQLitePlatform) {
 			return new SQLiteMigrator($this, $config, $dispatcher);
 		} elseif ($platform instanceof OraclePlatform) {
 			return new OracleMigrator($this, $config, $dispatcher);
