@@ -768,7 +768,7 @@
     "Save" : "Gardar",
     "Test and verify email settings" : "Probe e verifique os axustes do correo",
     "It's important for the security and performance of your instance that everything is configured correctly. To help you with that we are doing some automatic checks. Please see the linked documentation for more information." : "É importante para a seguranza e o bo funcionamento da súa instancia que todo estea configurado correctamente. Para axudarlle niso, imos facer algunhas comprobacións automáticas. Vexa a documentación ligada para obter máis información. ",
-    "All checks passed." : "Pasáronse todas as verificacións.",
+    "All checks passed." : "Pasáronse todas as comprobacións.",
     "There are some errors regarding your setup." : "Hai algún erro relativo aos seus axustes.",
     "There are some warnings regarding your setup." : "Hai algunha advertencia relativa aos seus axustes.",
     "Checking for system and security issues." : "Verificando incidencias de sistema e seguranza.",

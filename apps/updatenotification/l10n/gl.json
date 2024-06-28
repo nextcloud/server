@@ -37,7 +37,7 @@
     "Notify members of the following groups about available updates:" : "Notificar aos membros dos seguintes grupos sobre actualizacións dispoñíbeis:",
     "No groups" : "Non hai grupos",
     "Only notifications for app updates are available." : "Só están dispoñíbeis as notificacións para actualizacións de aplicación.",
-    "The selected update channel makes dedicated notifications for the server obsolete." : "A canle de actualización seleccionada fai obsoletas as notificacións dedicadas para o servidor.",
+    "The selected update channel makes dedicated notifications for the server obsolete." : "A canle de actualización seleccionada fai obsoletas as notificacións específicas para o servidor.",
     "The selected update channel does not support updates of the server." : "A canle de actualización seleccionada non admite actualizacións do servidor.",
     "A new version is available: <strong>{newVersionString}</strong>" : "Hai dispoñíbel unha versión nova:<strong>{newVersionString}</strong>",
     "Note that after a new release the update only shows up after the first minor release or later. We roll out new versions spread out over time and sometimes skip a version when issues are found. Learn more about updates and release channels at {link}" : "Teña en conta que após unha nova versión, a actualización só aparece após a primeira versión menor ou posterior. Publicamos novas versións espalladas ao longo do tempo e ás veces saltamos unha versión cando se atopan problemas. Máis información sobre actualizacións e canles de publicación en {link}",

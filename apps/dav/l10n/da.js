@@ -86,6 +86,7 @@ OC.L10N.register(
     "Organizer:" : "Arrangør:",
     "Attendees:" : "Deltagere:",
     "Title:" : "Titel:",
+    "Date and time:" : "Dato og tid:",
     "Location:" : "Sted:",
     "Link:" : "Link:",
     "Accept" : "Accepter",
