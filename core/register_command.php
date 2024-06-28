@@ -66,6 +66,8 @@ if ($config->getSystemValueBool('installed', false)) {
 	$application->add(Server::get(Command\Db\AddMissingColumns::class));
 	$application->add(Server::get(Command\Db\AddMissingIndices::class));
 	$application->add(Server::get(Command\Db\AddMissingPrimaryKeys::class));
+	$application->add(Server::get(Command\Db\ExpectedSchema::class));
+	$application->add(Server::get(Command\Db\ExportSchema::class));
 
 	if ($config->getSystemValueBool('debug', false)) {
 		$application->add(Server::get(Command\Db\Migrations\StatusCommand::class));
