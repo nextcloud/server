@@ -5,7 +5,7 @@
  */
 namespace OCA\WorkflowEngine\Check;
 
-use OC\Files\Storage\Wrapper\Wrapper;
+use OC\Files\Storage\Wrapper\Jail;
 use OCA\Files_Sharing\SharedStorage;
 use OCA\WorkflowEngine\Entity\File;
 use OCP\Files\Cache\ICache;
@@ -133,27 +133,15 @@ class FileSystemTags implements ICheck, IFileCheck {
 	 * @return int[]
 	 */
 	protected function getFileIds(ICache $cache, $path, $isExternalStorage) {
-		/** @psalm-suppress InvalidArgument */
-		if ($this->storage->instanceOfStorage(\OCA\GroupFolders\Mount\GroupFolderStorage::class)) {
-			// Special implementation for groupfolder since all groupfolders share the same storage
-			// id so add the group folder id in the cache key too.
-			$groupFolderStorage = $this->storage;
-			if ($this->storage instanceof Wrapper) {
-				$groupFolderStorage = $this->storage->getInstanceOfStorage(\OCA\GroupFolders\Mount\GroupFolderStorage::class);
-			}
-			if ($groupFolderStorage === null) {
-				throw new \LogicException('Should not happen: Storage is instance of GroupFolderStorage but no group folder storage found while unwrapping.');
-			}
-			/**
-			 * @psalm-suppress UndefinedDocblockClass
-			 * @psalm-suppress UndefinedInterfaceMethod
-			 */
-			$cacheId = $cache->getNumericStorageId() . '/' . $groupFolderStorage->getFolderId();
+		$cacheId = $cache->getNumericStorageId();
+		if ($this->storage->instanceOfStorage(Jail::class)) {
+			$absolutePath = $this->storage->getUnjailedPath($path);
 		} else {
-			$cacheId = $cache->getNumericStorageId();
+			$absolutePath = $path;
 		}
-		if (isset($this->fileIds[$cacheId][$path])) {
-			return $this->fileIds[$cacheId][$path];
+
+		if (isset($this->fileIds[$cacheId][$absolutePath])) {
+			return $this->fileIds[$cacheId][$absolutePath];
 		}
 
 		$parentIds = [];
@@ -168,7 +156,7 @@ class FileSystemTags implements ICheck, IFileCheck {
 			$parentIds[] = $fileId;
 		}
 
-		$this->fileIds[$cacheId][$path] = $parentIds;
+		$this->fileIds[$cacheId][$absolutePath] = $parentIds;
 
 		return $parentIds;
 	}
