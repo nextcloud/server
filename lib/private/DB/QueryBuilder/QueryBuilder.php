@@ -183,24 +183,6 @@ class QueryBuilder extends TypedQueryBuilder {
 			}
 		}
 
-		// if (!empty($this->getQueryPart('select'))) {
-		// $select = $this->getQueryPart('select');
-		// $hasSelectAll = array_filter($select, static function ($s) {
-		// return $s === '*';
-		// });
-		// $hasSelectSpecific = array_filter($select, static function ($s) {
-		// return $s !== '*';
-		// });
-
-		// if (empty($hasSelectAll) === empty($hasSelectSpecific)) {
-		// $exception = new QueryException('Query is selecting * and specific values in the same query. This is not supported in Oracle.');
-		// $this->logger->error($exception->getMessage(), [
-		// 'query' => $this->getSQL(),
-		// 'app' => 'core',
-		// 'exception' => $exception,
-		// ]);
-		// }
-		// }
 
 		$tooLongOutputColumns = [];
 		foreach ($this->getOutputColumns() as $column) {
@@ -1166,26 +1148,22 @@ class QueryBuilder extends TypedQueryBuilder {
 	 * @param string $queryPartName
 	 *
 	 * @return mixed
-	 * @deprecated 30.0.0 This function is going to be removed with the next Doctrine/DBAL update
-	 *   and we can not fix this in our wrapper. Please track the details you need, outside the object.
+	 * @deprecated 35.0.0 The function always throws an exception
 	 */
 	#[\Override]
 	public function getQueryPart($queryPartName) {
-		$this->logger->debug(IQueryBuilder::class . '::' . __FUNCTION__ . ' is deprecated and will be removed soon.', ['exception' => new \Exception('Deprecated call to ' . __METHOD__)]);
-		return $this->queryBuilder->getQueryPart($queryPartName);
+		throw new \Exception('Getting query parts is no longer supported as they are implementation details.');
 	}
 
 	/**
 	 * Gets all query parts.
 	 *
 	 * @return array
-	 * @deprecated 30.0.0 This function is going to be removed with the next Doctrine/DBAL update
-	 *   and we can not fix this in our wrapper. Please track the details you need, outside the object.
+	 * @deprecated 35.0.0 The function always throws an exception
 	 */
 	#[\Override]
 	public function getQueryParts() {
-		$this->logger->debug(IQueryBuilder::class . '::' . __FUNCTION__ . ' is deprecated and will be removed soon.', ['exception' => new \Exception('Deprecated call to ' . __METHOD__)]);
-		return $this->queryBuilder->getQueryParts();
+		throw new \Exception('Getting query parts is no longer supported as they are implementation details.');
 	}
 
 	/**
@@ -1194,13 +1172,21 @@ class QueryBuilder extends TypedQueryBuilder {
 	 * @param array|null $queryPartNames
 	 *
 	 * @return $this This QueryBuilder instance.
-	 * @deprecated 30.0.0 This function is going to be removed with the next Doctrine/DBAL update
-	 *  and we can not fix this in our wrapper. Please create a new IQueryBuilder instead.
+	 * @since 35.0.0 Only null and a list of 'where'|'having'|'groupBy'|'orderBy' is supported. Everything else will throw.
 	 */
 	#[\Override]
 	public function resetQueryParts($queryPartNames = null) {
-		$this->logger->debug(IQueryBuilder::class . '::' . __FUNCTION__ . ' is deprecated and will be removed soon.', ['exception' => new \Exception('Deprecated call to ' . __METHOD__)]);
-		$this->queryBuilder->resetQueryParts($queryPartNames);
+		if ($queryPartNames === null) {
+			$this->queryBuilder->resetWhere();
+			$this->queryBuilder->resetHaving();
+			$this->queryBuilder->resetGroupBy();
+			$this->queryBuilder->resetOrderBy();
+			return $this;
+		}
+
+		foreach ($queryPartNames as $queryPartName) {
+			$this->resetQueryPart($queryPartName);
+		}
 
 		return $this;
 	}
@@ -1211,13 +1197,17 @@ class QueryBuilder extends TypedQueryBuilder {
 	 * @param string $queryPartName
 	 *
 	 * @return $this This QueryBuilder instance.
-	 * @deprecated 30.0.0 This function is going to be removed with the next Doctrine/DBAL update
-	 *  and we can not fix this in our wrapper. Please create a new IQueryBuilder instead.
+	 * @since 35.0.0 Only 'where'|'having'|'groupBy'|'orderBy' are supported. Everything else will throw.
 	 */
 	#[\Override]
 	public function resetQueryPart($queryPartName) {
-		$this->logger->debug(IQueryBuilder::class . '::' . __FUNCTION__ . ' is deprecated and will be removed soon.', ['exception' => new \Exception('Deprecated call to ' . __METHOD__)]);
-		$this->queryBuilder->resetQueryPart($queryPartName);
+		match ($queryPartName) {
+			'where' => $this->queryBuilder->resetWhere(),
+			'having' => $this->queryBuilder->resetHaving(),
+			'groupBy' => $this->queryBuilder->resetGroupBy(),
+			'orderBy' => $this->queryBuilder->resetOrderBy(),
+			default => throw new \Exception('Resetting query part "' . $queryPartName. '" is no longer supported. Please create a new QueryBuilder instead.'),
+		};
 
 		return $this;
 	}
