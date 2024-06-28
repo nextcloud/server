@@ -213,7 +213,7 @@ class Connection extends PrimaryReadReplicaConnection {
 	 * @throws Exception
 	 */
 	#[\Override]
-	public function connect($connectionName = null) {
+	public function connect(?string $connectionName = null): Driver\Connection {
 		try {
 			if ($this->_conn) {
 				$this->reconnectIfNeeded();
@@ -238,7 +238,7 @@ class Connection extends PrimaryReadReplicaConnection {
 	}
 
 	#[\Override]
-	protected function performConnect(?string $connectionName = null): bool {
+	protected function performConnect(?string $connectionName = null): Driver\Connection {
 		if (($connectionName ?? 'replica') === 'replica'
 			&& count($this->params['replica']) === 1
 			&& $this->params['primary'] === $this->params['replica'][0]) {
@@ -297,25 +297,11 @@ class Connection extends PrimaryReadReplicaConnection {
 	 * @deprecated 8.0.0 please use $this->getQueryBuilder() instead
 	 */
 	#[\Override]
-	public function createQueryBuilder() {
+	public function createQueryBuilder(): \Doctrine\DBAL\Query\QueryBuilder {
 		$backtrace = $this->getCallerBacktrace();
 		$this->logger->debug('Doctrine QueryBuilder retrieved in {backtrace}', ['app' => 'core', 'backtrace' => $backtrace]);
 		$this->queriesBuilt++;
 		return parent::createQueryBuilder();
-	}
-
-	/**
-	 * Gets the ExpressionBuilder for the connection.
-	 *
-	 * @return \Doctrine\DBAL\Query\Expression\ExpressionBuilder
-	 * @deprecated 8.0.0 please use $this->getQueryBuilder()->expr() instead
-	 */
-	#[\Override]
-	public function getExpressionBuilder() {
-		$backtrace = $this->getCallerBacktrace();
-		$this->logger->debug('Doctrine ExpressionBuilder retrieved in {backtrace}', ['app' => 'core', 'backtrace' => $backtrace]);
-		$this->queriesBuilt++;
-		return parent::getExpressionBuilder();
 	}
 
 	/**
@@ -844,17 +830,17 @@ class Connection extends PrimaryReadReplicaConnection {
 	}
 
 	#[\Override]
-	public function beginTransaction() {
+	public function beginTransaction(): void {
 		if (!$this->inTransaction()) {
 			$this->transactionBacktrace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
 			$this->transactionActiveSince = microtime(true);
 		}
-		return parent::beginTransaction();
+		parent::beginTransaction();
 	}
 
 	#[\Override]
-	public function commit() {
-		$result = parent::commit();
+	public function commit(): void {
+		parent::commit();
 		if ($this->getTransactionNestingLevel() === 0) {
 			$timeTook = microtime(true) - $this->transactionActiveSince;
 			$this->transactionBacktrace = null;
@@ -876,12 +862,11 @@ class Connection extends PrimaryReadReplicaConnection {
 				);
 			}
 		}
-		return $result;
 	}
 
 	#[\Override]
-	public function rollBack() {
-		$result = parent::rollBack();
+	public function rollBack(): void {
+		parent::rollBack();
 		if ($this->getTransactionNestingLevel() === 0) {
 			$timeTook = microtime(true) - $this->transactionActiveSince;
 			$this->transactionBacktrace = null;
@@ -903,7 +888,6 @@ class Connection extends PrimaryReadReplicaConnection {
 				);
 			}
 		}
-		return $result;
 	}
 
 	private function reconnectIfNeeded(): void {
