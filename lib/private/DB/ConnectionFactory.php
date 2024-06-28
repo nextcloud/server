@@ -120,9 +120,7 @@ class ConnectionFactory {
 	 */
 	public function getConnection(string $type, array $additionalConnectionParams): Connection {
 		$normalizedType = $this->normalizeType($type);
-		$eventManager = new EventManager();
-		$eventManager->addEventSubscriber(new SetTransactionIsolationLevel());
-		$connectionParams = $this->createConnectionParams('', $additionalConnectionParams, $type);
+		$additionalConnectionParams = array_merge($this->createConnectionParams(), $additionalConnectionParams);
 		switch ($normalizedType) {
 			case 'pgsql':
 				// pg_connect used by Doctrine DBAL does not support URI notation (enclosed in brackets)
@@ -134,7 +132,7 @@ class ConnectionFactory {
 				break;
 
 			case 'oci':
-				$eventManager->addEventSubscriber(new OracleSessionInit);
+				// FIXME $eventManager->addEventSubscriber(new OracleSessionInit);
 				$connectionParams = $this->forceConnectionStringOracle($connectionParams);
 				$connectionParams['primary'] = $this->forceConnectionStringOracle($connectionParams['primary']);
 				$connectionParams['replica'] = array_map([$this, 'forceConnectionStringOracle'], $connectionParams['replica']);
@@ -143,7 +141,7 @@ class ConnectionFactory {
 			case 'sqlite3':
 				$journalMode = $connectionParams['sqlite.journal_mode'];
 				$connectionParams['platform'] = new OCSqlitePlatform();
-				$eventManager->addEventSubscriber(new SQLiteSessionInit(true, $journalMode));
+				// FIXME $eventManager->addEventSubscriber(new SQLiteSessionInit(true, $journalMode));
 				break;
 		}
 		$configuration = new Configuration();
@@ -157,7 +155,7 @@ class ConnectionFactory {
 		$connection = DriverManager::getConnection(
 			$connectionParams,
 			$configuration,
-			$eventManager
+			// FIXME $eventManager
 		);
 		return $connection;
 	}
