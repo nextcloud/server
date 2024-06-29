@@ -33,6 +33,7 @@ declare(strict_types=1);
 			   href="<?php p(\OC::$server->getURLGenerator()->linkToRoute('core.TwoFactorChallenge.setupProvider',
 			   	[
 			   		'providerId' => $provider->getId(),
+			   		'redirect_url' => $_['redirect_url'],
 			   	]
 			   )) ?>">
 				<?php

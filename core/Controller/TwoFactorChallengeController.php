@@ -216,6 +216,7 @@ class TwoFactorChallengeController extends Controller {
 		$data = [
 			'providers' => $setupProviders,
 			'logout_url' => $this->getLogoutUrl(),
+			'redirect_url' => $redirect_url,
 		];
 
 		return new StandaloneTemplateResponse($this->appName, 'twofactorsetupselection', $data, 'guest');
@@ -246,6 +247,7 @@ class TwoFactorChallengeController extends Controller {
 		$data = [
 			'provider' => $provider,
 			'logout_url' => $this->getLogoutUrl(),
+			'redirect_url' => $redirect_url,
 			'template' => $tmpl->fetchPage(),
 		];
 		$response = new StandaloneTemplateResponse($this->appName, 'twofactorsetupchallenge', $data, 'guest');
@@ -263,6 +265,7 @@ class TwoFactorChallengeController extends Controller {
 			'core.TwoFactorChallenge.showChallenge',
 			[
 				'challengeProviderId' => $providerId,
+				'redirect_url' => $redirect_url,
 			]
 		));
 	}
