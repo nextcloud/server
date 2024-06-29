@@ -26,6 +26,7 @@ use OCA\Settings\SetupChecks\AppDirsWithDifferentOwner;
 use OCA\Settings\SetupChecks\BruteForceThrottler;
 use OCA\Settings\SetupChecks\CheckUserCertificates;
 use OCA\Settings\SetupChecks\CodeIntegrity;
+use OCA\Settings\SetupChecks\ConfigValidation;
 use OCA\Settings\SetupChecks\CronErrors;
 use OCA\Settings\SetupChecks\CronInfo;
 use OCA\Settings\SetupChecks\DatabaseHasMissingColumns;
@@ -158,6 +159,7 @@ class Application extends App implements IBootstrap {
 		$context->registerSetupCheck(BruteForceThrottler::class);
 		$context->registerSetupCheck(CheckUserCertificates::class);
 		$context->registerSetupCheck(CodeIntegrity::class);
+		$context->registerSetupCheck(ConfigValidation::class);
 		$context->registerSetupCheck(CronErrors::class);
 		$context->registerSetupCheck(CronInfo::class);
 		$context->registerSetupCheck(DatabaseHasMissingColumns::class);
