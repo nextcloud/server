@@ -27,49 +27,285 @@
  */
 namespace OCA\DAV\Tests\unit\CardDAV;
 
+use GuzzleHttp\Exception\ClientException;
+use GuzzleHttp\Psr7\Request as PsrRequest;
+use GuzzleHttp\Psr7\Response as PsrResponse;
+use OC\Http\Client\Response;
 use OCA\DAV\CardDAV\CardDavBackend;
 use OCA\DAV\CardDAV\Converter;
 use OCA\DAV\CardDAV\SyncService;
+use OCP\Http\Client\IClient;
+use OCP\Http\Client\IClientService;
 use OCP\IDBConnection;
 use OCP\IUser;
 use OCP\IUserManager;
+use Psr\Http\Client\ClientExceptionInterface;
 use Psr\Log\LoggerInterface;
+use Psr\Log\NullLogger;
 use Sabre\VObject\Component\VCard;
 use Test\TestCase;
 
 class SyncServiceTest extends TestCase {
-	public function testEmptySync(): void {
-		$backend = $this->getBackendMock(0, 0, 0);
 
-		$ss = $this->getSyncServiceMock($backend, []);
-		$return = $ss->syncRemoteAddressBook('', 'system', 'system', '1234567890', null, '1', 'principals/system/system', []);
-		$this->assertEquals('sync-token-1', $return);
+	protected CardDavBackend $backend;
+	protected IUserManager $userManager;
+	protected IDBConnection $dbConnection;
+	protected LoggerInterface $logger;
+	protected Converter $converter;
+	protected IClient $client;
+	protected SyncService $service;
+	public function setUp(): void {
+		$addressBook = [
+			'id' => 1,
+			'uri' => 'system',
+			'principaluri' => 'principals/system/system',
+			'{DAV:}displayname' => 'system',
+			// watch out, incomplete address book mock.
+		];
+
+		$this->backend = $this->createMock(CardDavBackend::class);
+		$this->backend->method('getAddressBooksByUri')
+			->with('principals/system/system', 1)
+			->willReturn($addressBook);
+
+		$this->userManager = $this->createMock(IUserManager::class);
+		$this->dbConnection = $this->createMock(IDBConnection::class);
+		$this->logger = new NullLogger();
+		$this->converter = $this->createMock(Converter::class);
+		$this->client = $this->createMock(IClient::class);
+
+		$clientService = $this->createMock(IClientService::class);
+		$clientService->method('newClient')
+			->willReturn($this->client);
+
+		$this->service = new SyncService(
+			$this->backend,
+			$this->userManager,
+			$this->dbConnection,
+			$this->logger,
+			$this->converter,
+			$clientService
+		);
+	}
+
+	public function testEmptySync(): void {
+		$this->backend->expects($this->exactly(0))
+			->method('createCard');
+		$this->backend->expects($this->exactly(0))
+			->method('updateCard');
+		$this->backend->expects($this->exactly(0))
+			->method('deleteCard');
+
+		$body = '<?xml version="1.0"?>
+<d:multistatus xmlns:d="DAV:" xmlns:s="http://sabredav.org/ns" xmlns:card="urn:ietf:params:xml:ns:carddav" xmlns:oc="http://owncloud.org/ns">
+    <d:sync-token>http://sabre.io/ns/sync/1</d:sync-token>
+</d:multistatus>';
+
+		$requestResponse = new Response(new PsrResponse(
+			207,
+			['Content-Type' => 'application/xml; charset=utf-8', 'Content-Length' => strlen($body)],
+			$body
+		));
+
+		$this->client
+			->method('request')
+			->willReturn($requestResponse);
+
+		$token = $this->service->syncRemoteAddressBook(
+			'',
+			'system',
+			'system',
+			'1234567890',
+			null,
+			'1',
+			'principals/system/system',
+			[]
+		);
+
+		$this->assertEquals('http://sabre.io/ns/sync/1', $token);
 	}
 
 	public function testSyncWithNewElement(): void {
-		$backend = $this->getBackendMock(1, 0, 0);
-		$backend->method('getCard')->willReturn(false);
+		$this->backend->expects($this->exactly(1))
+			->method('createCard');
+		$this->backend->expects($this->exactly(0))
+			->method('updateCard');
+		$this->backend->expects($this->exactly(0))
+			->method('deleteCard');
 
-		$ss = $this->getSyncServiceMock($backend, ['0' => [200 => '']]);
-		$return = $ss->syncRemoteAddressBook('', 'system', 'system', '1234567890', null, '1', 'principals/system/system', []);
-		$this->assertEquals('sync-token-1', $return);
+		$this->backend->method('getCard')
+			->willReturn(false);
+
+
+		$body = '<?xml version="1.0"?>
+<d:multistatus xmlns:d="DAV:" xmlns:s="http://sabredav.org/ns" xmlns:card="urn:ietf:params:xml:ns:carddav" xmlns:oc="http://owncloud.org/ns">
+    <d:response>
+        <d:href>/remote.php/dav/addressbooks/system/system/system/Database:alice.vcf</d:href>
+        <d:propstat>
+            <d:prop>
+                <d:getcontenttype>text/vcard; charset=utf-8</d:getcontenttype>
+                <d:getetag>&quot;2df155fa5c2a24cd7f750353fc63f037&quot;</d:getetag>
+            </d:prop>
+            <d:status>HTTP/1.1 200 OK</d:status>
+        </d:propstat>
+    </d:response>
+    <d:sync-token>http://sabre.io/ns/sync/2</d:sync-token>
+</d:multistatus>';
+
+		$reportResponse = new Response(new PsrResponse(
+			207,
+			['Content-Type' => 'application/xml; charset=utf-8', 'Content-Length' => strlen($body)],
+			$body
+		));
+
+		$this->client
+			->method('request')
+			->willReturn($reportResponse);
+
+		$vCard = 'BEGIN:VCARD
+VERSION:3.0
+PRODID:-//Sabre//Sabre VObject 4.5.4//EN
+UID:alice
+FN;X-NC-SCOPE=v2-federated:alice
+N;X-NC-SCOPE=v2-federated:alice;;;;
+X-SOCIALPROFILE;TYPE=NEXTCLOUD;X-NC-SCOPE=v2-published:https://server2.internal/index.php/u/alice
+CLOUD:alice@server2.internal
+END:VCARD';
+
+		$getResponse = new Response(new PsrResponse(
+			200,
+			['Content-Type' => 'text/vcard; charset=utf-8', 'Content-Length' => strlen($vCard)],
+			$vCard,
+		));
+
+		$this->client
+			->method('get')
+			->willReturn($getResponse);
+
+		$token = $this->service->syncRemoteAddressBook(
+			'',
+			'system',
+			'system',
+			'1234567890',
+			null,
+			'1',
+			'principals/system/system',
+			[]
+		);
+
+		$this->assertEquals('http://sabre.io/ns/sync/2', $token);
 	}
 
 	public function testSyncWithUpdatedElement(): void {
-		$backend = $this->getBackendMock(0, 1, 0);
-		$backend->method('getCard')->willReturn(true);
+		$this->backend->expects($this->exactly(0))
+			->method('createCard');
+		$this->backend->expects($this->exactly(1))
+			->method('updateCard');
+		$this->backend->expects($this->exactly(0))
+			->method('deleteCard');
 
-		$ss = $this->getSyncServiceMock($backend, ['0' => [200 => '']]);
-		$return = $ss->syncRemoteAddressBook('', 'system', 'system', '1234567890', null, '1', 'principals/system/system', []);
-		$this->assertEquals('sync-token-1', $return);
+		$this->backend->method('getCard')
+			->willReturn(true);
+
+
+		$body = '<?xml version="1.0"?>
+<d:multistatus xmlns:d="DAV:" xmlns:s="http://sabredav.org/ns" xmlns:card="urn:ietf:params:xml:ns:carddav" xmlns:oc="http://owncloud.org/ns">
+    <d:response>
+        <d:href>/remote.php/dav/addressbooks/system/system/system/Database:alice.vcf</d:href>
+        <d:propstat>
+            <d:prop>
+                <d:getcontenttype>text/vcard; charset=utf-8</d:getcontenttype>
+                <d:getetag>&quot;2df155fa5c2a24cd7f750353fc63f037&quot;</d:getetag>
+            </d:prop>
+            <d:status>HTTP/1.1 200 OK</d:status>
+        </d:propstat>
+    </d:response>
+    <d:sync-token>http://sabre.io/ns/sync/3</d:sync-token>
+</d:multistatus>';
+
+		$reportResponse = new Response(new PsrResponse(
+			207,
+			['Content-Type' => 'application/xml; charset=utf-8', 'Content-Length' => strlen($body)],
+			$body
+		));
+
+		$this->client
+			->method('request')
+			->willReturn($reportResponse);
+
+		$vCard = 'BEGIN:VCARD
+VERSION:3.0
+PRODID:-//Sabre//Sabre VObject 4.5.4//EN
+UID:alice
+FN;X-NC-SCOPE=v2-federated:alice
+N;X-NC-SCOPE=v2-federated:alice;;;;
+X-SOCIALPROFILE;TYPE=NEXTCLOUD;X-NC-SCOPE=v2-published:https://server2.internal/index.php/u/alice
+CLOUD:alice@server2.internal
+END:VCARD';
+
+		$getResponse = new Response(new PsrResponse(
+			200,
+			['Content-Type' => 'text/vcard; charset=utf-8', 'Content-Length' => strlen($vCard)],
+			$vCard,
+		));
+
+		$this->client
+			->method('get')
+			->willReturn($getResponse);
+
+		$token = $this->service->syncRemoteAddressBook(
+			'',
+			'system',
+			'system',
+			'1234567890',
+			null,
+			'1',
+			'principals/system/system',
+			[]
+		);
+
+		$this->assertEquals('http://sabre.io/ns/sync/3', $token);
 	}
 
 	public function testSyncWithDeletedElement(): void {
-		$backend = $this->getBackendMock(0, 0, 1);
+		$this->backend->expects($this->exactly(0))
+			->method('createCard');
+		$this->backend->expects($this->exactly(0))
+			->method('updateCard');
+		$this->backend->expects($this->exactly(1))
+			->method('deleteCard');
 
-		$ss = $this->getSyncServiceMock($backend, ['0' => [404 => '']]);
-		$return = $ss->syncRemoteAddressBook('', 'system', 'system', '1234567890', null, '1', 'principals/system/system', []);
-		$this->assertEquals('sync-token-1', $return);
+		$body = '<?xml version="1.0"?>
+<d:multistatus xmlns:d="DAV:" xmlns:s="http://sabredav.org/ns" xmlns:card="urn:ietf:params:xml:ns:carddav" xmlns:oc="http://owncloud.org/ns">
+<d:response>
+    <d:href>/remote.php/dav/addressbooks/system/system/system/Database:alice.vcf</d:href>
+    <d:status>HTTP/1.1 404 Not Found</d:status>
+</d:response>
+<d:sync-token>http://sabre.io/ns/sync/4</d:sync-token>
+</d:multistatus>';
+
+		$reportResponse = new Response(new PsrResponse(
+			207,
+			['Content-Type' => 'application/xml; charset=utf-8', 'Content-Length' => strlen($body)],
+			$body
+		));
+
+		$this->client
+			->method('request')
+			->willReturn($reportResponse);
+
+		$token = $this->service->syncRemoteAddressBook(
+			'',
+			'system',
+			'system',
+			'1234567890',
+			null,
+			'1',
+			'principals/system/system',
+			[]
+		);
+
+		$this->assertEquals('http://sabre.io/ns/sync/4', $token);
 	}
 
 	public function testEnsureSystemAddressBookExists(): void {
@@ -88,8 +324,9 @@ class SyncServiceTest extends TestCase {
 		$dbConnection = $this->createMock(IDBConnection::class);
 		$logger = $this->getMockBuilder(LoggerInterface::class)->disableOriginalConstructor()->getMock();
 		$converter = $this->createMock(Converter::class);
+		$clientService = $this->createMock(IClientService::class);
 
-		$ss = new SyncService($backend, $userManager, $dbConnection, $logger, $converter);
+		$ss = new SyncService($backend, $userManager, $dbConnection, $logger, $converter, $clientService);
 		$ss->ensureSystemAddressBookExists('principals/users/adam', 'contacts', []);
 	}
 
@@ -142,7 +379,9 @@ class SyncServiceTest extends TestCase {
 			->method('createCardFromUser')
 			->willReturn($this->createMock(VCard::class));
 
-		$ss = new SyncService($backend, $userManager, $dbConnection, $logger, $converter);
+		$clientService = $this->createMock(IClientService::class);
+
+		$ss = new SyncService($backend, $userManager, $dbConnection, $logger, $converter, $clientService);
 		$ss->updateUser($user);
 
 		$ss->updateUser($user);
@@ -150,45 +389,61 @@ class SyncServiceTest extends TestCase {
 		$ss->deleteUser($user);
 	}
 
-	/**
-	 * @param int $createCount
-	 * @param int $updateCount
-	 * @param int $deleteCount
-	 * @return \PHPUnit\Framework\MockObject\MockObject|CardDavBackend
-	 */
-	private function getBackendMock($createCount, $updateCount, $deleteCount) {
-		$backend = $this->getMockBuilder(CardDavBackend::class)
-			->disableOriginalConstructor()
-			->getMock();
-		$backend->expects($this->exactly($createCount))->method('createCard');
-		$backend->expects($this->exactly($updateCount))->method('updateCard');
-		$backend->expects($this->exactly($deleteCount))->method('deleteCard');
-		return $backend;
-	}
+	public function testDeleteAddressbookWhenAccessRevoked(): void {
+		$this->expectException(ClientExceptionInterface::class);
 
-	/**
-	 * @param $backend
-	 * @param $response
-	 * @return SyncService|\PHPUnit\Framework\MockObject\MockObject
-	 */
-	private function getSyncServiceMock($backend, $response) {
-		$userManager = $this->getMockBuilder(IUserManager::class)->disableOriginalConstructor()->getMock();
-		$dbConnection = $this->createMock(IDBConnection::class);
-		$logger = $this->getMockBuilder(LoggerInterface::class)->disableOriginalConstructor()->getMock();
-		$converter = $this->createMock(Converter::class);
-		/** @var SyncService | \PHPUnit\Framework\MockObject\MockObject $ss */
-		$ss = $this->getMockBuilder(SyncService::class)
-			->setMethods(['ensureSystemAddressBookExists', 'requestSyncReport', 'download', 'getCertPath'])
-			->setConstructorArgs([$backend, $userManager, $dbConnection, $logger, $converter])
-			->getMock();
-		$ss->method('requestSyncReport')->withAnyParameters()->willReturn(['response' => $response, 'token' => 'sync-token-1']);
-		$ss->method('ensureSystemAddressBookExists')->willReturn(['id' => 1]);
-		$ss->method('download')->willReturn([
-			'body' => '',
-			'statusCode' => 200,
-			'headers' => []
-		]);
-		$ss->method('getCertPath')->willReturn('');
-		return $ss;
+		$this->backend->expects($this->exactly(0))
+			->method('createCard');
+		$this->backend->expects($this->exactly(0))
+			->method('updateCard');
+		$this->backend->expects($this->exactly(0))
+			->method('deleteCard');
+		$this->backend->expects($this->exactly(1))
+			->method('deleteAddressBook');
+
+		$request = new PsrRequest(
+			'REPORT',
+			'https://server2.internal/remote.php/dav/addressbooks/system/system/system',
+			['Content-Type' => 'application/xml'],
+		);
+
+		$body = '<?xml version="1.0" encoding="utf-8"?>
+<d:error xmlns:d="DAV:" xmlns:s="http://sabredav.org/ns">
+  <s:exception>Sabre\DAV\Exception\NotAuthenticated</s:exception>
+  <s:message>No public access to this resource., Username or password was incorrect, No \'Authorization: Bearer\' header found. Either the client didn\'t send one, or the server is mis-configured, Username or password was incorrect</s:message>
+</d:error>';
+
+		$response = new PsrResponse(
+			401,
+			['Content-Type' => 'application/xml; charset=utf-8', 'Content-Length' => strlen($body)],
+			$body
+		);
+
+		$message = 'Client error: `REPORT https://server2.internal/cloud/remote.php/dav/addressbooks/system/system/system` resulted in a `401 Unauthorized` response:
+<?xml version="1.0" encoding="utf-8"?>
+<d:error xmlns:d="DAV:" xmlns:s="http://sabredav.org/ns">
+  <s:exception>Sabre\DA (truncated...)
+';
+
+		$reportException = new ClientException(
+			$message,
+			$request,
+			$response
+		);
+
+		$this->client
+			->method('request')
+			->willThrowException($reportException);
+
+		$this->service->syncRemoteAddressBook(
+			'',
+			'system',
+			'system',
+			'1234567890',
+			null,
+			'1',
+			'principals/system/system',
+			[]
+		);
 	}
 }
