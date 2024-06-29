@@ -161,6 +161,8 @@ OC.L10N.register(
     "Reject" : "Ukatu",
     "Incoming ownership transfer from {user}" : "{user}(r)en jabetza-transferentzia",
     "Do you want to accept {path}?\n\nNote: The transfer process after accepting may take up to 1 hour." : "{path} onartu nahi duzu?\n\nOharra: onarpenaren ondoren transferentzia prozesuak ordu 1 iraun dezake.",
+    "Ownership transfer denied" : "Jabetza transferentzia ukatu egin da",
+    "Your ownership transfer of {path} was denied by {user}." : "{path}-ren zure jabetza-transferentzia {user} erabiltzaileak ukatu du",
     "Ownership transfer failed" : "Jabetzaren transferentziak huts egin du",
     "Your ownership transfer of {path} to {user} failed." : "{path}(r)en jabetza {user} erabiltzaileari transferitzeak huts egin du.",
     "The ownership transfer of {path} from {user} failed." : "{path}(r)ren jabetza {user} erabiltzailetik transferitzeak huts egin du.",

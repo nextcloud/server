@@ -277,8 +277,6 @@ OC.L10N.register(
     "Could not check that your web server serves security headers correctly, unable to query `%s`" : "無法檢查您的網路伺服器是否正確提供安全性標頭，無法查詢 `%s`",
     "Your server is correctly configured to send security headers." : "您的伺服器正確設定了傳送安全性標頭。",
     "Database version" : "數據庫版本",
-    "MariaDB version \"%s\" detected. MariaDB >=10.3 and <=10.11 is suggested for best performance, stability and functionality with this version of Nextcloud." : "偵測到 MariaDB 版本「%s」。建議使用 MariaDB >=10.3 且 <=10.11 以取得此版本 Nextcloud 的最佳效能、穩定性與功能。",
-    "MySQL version \"%s\" detected. MySQL >=8.0 and <=8.3 is suggested for best performance, stability and functionality with this version of Nextcloud." : "偵測到 MySQL 版本「%s」。建議使用 MySQL >=8.0 且 <=8.3 以取得此版本 Nextcloud 的最佳效能、穩定性與功能。",
     "PostgreSQL version \"%s\" detected. PostgreSQL >=12 and <=16 is suggested for best performance, stability and functionality with this version of Nextcloud." : "偵測到 PostgreSQL 版本「%s」。建議使用 PostgreSQL >=12 且 <=16 以取得此版本 Nextcloud 的最佳效能、穩定性與功能。",
     "SQLite is currently being used as the backend database. For larger installations we recommend that you switch to a different database backend. This is particularly recommended when using the desktop client for file synchronisation. To migrate to another database use the command line tool: \"occ db:convert-type\"." : "目前使用 SQLite 作為後端資料庫。對於較大型的站台，我們建議您切換到其他資料庫後端。當使用桌面客戶端進行檔案同步時，我們更強烈建議您這麼做。若要遷移到其他資料庫，請使用命令列工具：「occ db:convert-type」。",
     "Unknown database platform" : "數據庫平台不詳",
