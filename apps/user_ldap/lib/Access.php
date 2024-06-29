@@ -16,6 +16,7 @@ use OCA\User_LDAP\Mapping\AbstractMapping;
 use OCA\User_LDAP\User\Manager;
 use OCA\User_LDAP\User\OfflineUser;
 use OCP\HintException;
+use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IUserManager;
 use Psr\Log\LoggerInterface;
@@ -30,10 +31,6 @@ use function substr;
 class Access extends LDAPUtility {
 	public const UUID_ATTRIBUTES = ['entryuuid', 'nsuniqueid', 'objectguid', 'guid', 'ipauniqueid'];
 
-	/** @var \OCA\User_LDAP\Connection */
-	public $connection;
-	/** @var Manager */
-	public $userManager;
 	/**
 	 * never ever check this var directly, always use getPagedSearchResultState
 	 * @var ?bool
@@ -45,27 +42,17 @@ class Access extends LDAPUtility {
 
 	/** @var ?AbstractMapping */
 	protected $groupMapper;
-
-	/**
-	 * @var \OCA\User_LDAP\Helper
-	 */
-	private $helper;
-	/** @var IConfig */
-	private $config;
-	/** @var IUserManager */
-	private $ncUserManager;
-	/** @var LoggerInterface */
-	private $logger;
 	private string $lastCookie = '';
 
 	public function __construct(
-		Connection $connection,
 		ILDAPWrapper $ldap,
-		Manager $userManager,
-		Helper $helper,
-		IConfig $config,
-		IUserManager $ncUserManager,
-		LoggerInterface $logger
+		public Connection $connection,
+		public Manager $userManager,
+		private Helper $helper,
+		private IConfig $config,
+		private IUserManager $ncUserManager,
+		private LoggerInterface $logger,
+		private IAppConfig $appConfig,
 	) {
 		parent::__construct($ldap);
 		$this->connection = $connection;
@@ -822,8 +809,7 @@ class Access extends LDAPUtility {
 		$ldapRecords = $this->searchUsers($filter, $attr, $limit, $offset);
 		$recordsToUpdate = $ldapRecords;
 		if (!$forceApplyAttributes) {
-			$isBackgroundJobModeAjax = $this->config
-					->getAppValue('core', 'backgroundjobs_mode', 'ajax') === 'ajax';
+			$isBackgroundJobModeAjax = $this->appConfig->getValueString('core', 'backgroundjobs_mode', 'ajax') === 'ajax';
 			$listOfDNs = array_reduce($ldapRecords, function ($listOfDNs, $entry) {
 				$listOfDNs[] = $entry['dn'][0];
 				return $listOfDNs;

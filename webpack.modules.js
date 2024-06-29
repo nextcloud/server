@@ -11,6 +11,7 @@ module.exports = {
 		init: path.join(__dirname, 'apps/comments/src', 'init.ts'),
 	},
 	core: {
+		'ajax-cron': path.join(__dirname, 'core/src', 'ajax-cron.ts'),
 		files_client: path.join(__dirname, 'core/src', 'files/client.js'),
 		files_fileinfo: path.join(__dirname, 'core/src', 'files/fileinfo.js'),
 		install: path.join(__dirname, 'core/src', 'install.js'),

@@ -9,30 +9,30 @@ namespace Test\Command;
 use OC\Core\Command\Background\Ajax;
 use OC\Core\Command\Background\Cron;
 use OC\Core\Command\Background\WebCron;
-
+use OCP\IAppConfig;
 use Symfony\Component\Console\Input\StringInput;
 use Symfony\Component\Console\Output\NullOutput;
 use Test\TestCase;
 
 class BackgroundJobsTest extends TestCase {
 	public function testCronCommand() {
-		$config = \OC::$server->getConfig();
-		$job = new Cron($config);
+		$appConfig = \OCP\Server::get(IAppConfig::class);
+		$job = new Cron($appConfig);
 		$job->run(new StringInput(''), new NullOutput());
-		$this->assertEquals('cron', $config->getAppValue('core', 'backgroundjobs_mode'));
+		$this->assertEquals('cron', $appConfig->getValueString('core', 'backgroundjobs_mode'));
 	}
 
 	public function testAjaxCommand() {
-		$config = \OC::$server->getConfig();
-		$job = new Ajax($config);
+		$appConfig = \OCP\Server::get(IAppConfig::class);
+		$job = new Ajax($appConfig);
 		$job->run(new StringInput(''), new NullOutput());
-		$this->assertEquals('ajax', $config->getAppValue('core', 'backgroundjobs_mode'));
+		$this->assertEquals('ajax', $appConfig->getValueString('core', 'backgroundjobs_mode'));
 	}
 
 	public function testWebCronCommand() {
-		$config = \OC::$server->getConfig();
-		$job = new WebCron($config);
+		$appConfig = \OCP\Server::get(IAppConfig::class);
+		$job = new WebCron($appConfig);
 		$job->run(new StringInput(''), new NullOutput());
-		$this->assertEquals('webcron', $config->getAppValue('core', 'backgroundjobs_mode'));
+		$this->assertEquals('webcron', $appConfig->getValueString('core', 'backgroundjobs_mode'));
 	}
 }
