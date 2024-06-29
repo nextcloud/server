@@ -568,6 +568,7 @@ OC.L10N.register(
     "Total rows summary" : "総行数のサマリー",
     "Scroll to load more rows" : "スクロールしてより多くの行を読み込む",
     "Avatar" : "アバター",
+    "Account name" : "アカウント名",
     "Group admin for" : "グループの管理者",
     "Storage location" : "データの保存場所",
     "Last login" : "最終ログイン",
