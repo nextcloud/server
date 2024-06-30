@@ -36,6 +36,7 @@
     "The selected update channel makes dedicated notifications for the server obsolete." : "Valittu päivityskanava tekee palvelimen omat ilmoitukset tarpeettomiksi.",
     "The selected update channel does not support updates of the server." : "Valittu päivityskanava ei tue palvelimen päivityksiä.",
     "A new version is available: <strong>{newVersionString}</strong>" : "Uusi versio on saatavilla: <strong>{newVersionString}</strong>",
+    "Checked on {lastCheckedDate} - Open changelog" : "Tarkistettu {lastCheckedDate} - Avaa muutosloki",
     "Checking apps for compatible versions" : "Tarkistetaan sovellusten yhteensopivat versiot ",
     "Please make sure your config.php does not set <samp>appstoreenabled</samp> to false." : "Varmista, ettei config.php-tiedosto aseta valintaa <samp>appstoreenabled</samp> arvoon false.",
     "<strong>All</strong> apps have a compatible version for this Nextcloud version available." : "<strong>Kaikilla</strong> sovelluksilla on yhteensopiva versio saatavilla tälle Nextcloud-versiolle.",
