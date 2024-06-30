@@ -31,6 +31,8 @@ use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Middleware;
 use OCP\AppFramework\OCSController;
+use OCP\Group\ISubAdmin;
+use OCP\IGroupManager;
 use OCP\IL10N;
 use OCP\INavigationManager;
 use OCP\IRequest;
@@ -47,60 +49,40 @@ use ReflectionMethod;
  * check fails
  */
 class SecurityMiddleware extends Middleware {
-	/** @var INavigationManager */
-	private $navigationManager;
-	/** @var IRequest */
-	private $request;
-	/** @var ControllerMethodReflector */
-	private $reflector;
-	/** @var string */
-	private $appName;
-	/** @var IURLGenerator */
-	private $urlGenerator;
-	/** @var LoggerInterface */
-	private $logger;
-	/** @var bool */
-	private $isLoggedIn;
-	/** @var bool */
-	private $isAdminUser;
-	/** @var bool */
-	private $isSubAdmin;
-	/** @var IAppManager */
-	private $appManager;
-	/** @var IL10N */
-	private $l10n;
-	/** @var AuthorizedGroupMapper */
-	private $groupAuthorizationMapper;
-	/** @var IUserSession */
-	private $userSession;
+	private ?bool $isAdminUser = null;
+	private ?bool $isSubAdmin = null;
 
-	public function __construct(IRequest $request,
-		ControllerMethodReflector $reflector,
-		INavigationManager $navigationManager,
-		IURLGenerator $urlGenerator,
-		LoggerInterface $logger,
-		string $appName,
-		bool $isLoggedIn,
-		bool $isAdminUser,
-		bool $isSubAdmin,
-		IAppManager $appManager,
-		IL10N $l10n,
-		AuthorizedGroupMapper $mapper,
-		IUserSession $userSession
+	public function __construct(
+		private IRequest $request,
+		private ControllerMethodReflector $reflector,
+		private INavigationManager $navigationManager,
+		private IURLGenerator $urlGenerator,
+		private LoggerInterface $logger,
+		private string $appName,
+		private bool $isLoggedIn,
+		private IGroupManager $groupManager,
+		private ISubAdmin $subAdminManager,
+		private IAppManager $appManager,
+		private IL10N $l10n,
+		private AuthorizedGroupMapper $groupAuthorizationMapper,
+		private IUserSession $userSession,
 	) {
-		$this->navigationManager = $navigationManager;
-		$this->request = $request;
-		$this->reflector = $reflector;
-		$this->appName = $appName;
-		$this->urlGenerator = $urlGenerator;
-		$this->logger = $logger;
-		$this->isLoggedIn = $isLoggedIn;
-		$this->isAdminUser = $isAdminUser;
-		$this->isSubAdmin = $isSubAdmin;
-		$this->appManager = $appManager;
-		$this->l10n = $l10n;
-		$this->groupAuthorizationMapper = $mapper;
-		$this->userSession = $userSession;
+	}
+
+	private function isAdminUser(): bool {
+		if ($this->isAdminUser === null) {
+			$user = $this->userSession->getUser();
+			$this->isAdminUser = $user && $this->groupManager->isAdmin($user->getUID());
+		}
+		return $this->isAdminUser;
+	}
+
+	private function isSubAdmin(): bool {
+		if ($this->isSubAdmin === null) {
+			$user = $this->userSession->getUser();
+			$this->isSubAdmin = $user && $this->subAdminManager->isSubAdmin($user);
+		}
+		return $this->isSubAdmin;
 	}
 
 	/**
@@ -133,10 +115,10 @@ class SecurityMiddleware extends Middleware {
 			}
 			$authorized = false;
 			if ($this->hasAnnotationOrAttribute($reflectionMethod, 'AuthorizedAdminSetting', AuthorizedAdminSetting::class)) {
-				$authorized = $this->isAdminUser;
+				$authorized = $this->isAdminUser();
 
 				if (!$authorized && $this->hasAnnotationOrAttribute($reflectionMethod, 'SubAdminRequired', SubAdminRequired::class)) {
-					$authorized = $this->isSubAdmin;
+					$authorized = $this->isSubAdmin();
 				}
 
 				if (!$authorized) {
@@ -155,14 +137,14 @@ class SecurityMiddleware extends Middleware {
 				}
 			}
 			if ($this->hasAnnotationOrAttribute($reflectionMethod, 'SubAdminRequired', SubAdminRequired::class)
-				&& !$this->isSubAdmin
-				&& !$this->isAdminUser
+				&& !$this->isSubAdmin()
+				&& !$this->isAdminUser()
 				&& !$authorized) {
 				throw new NotAdminException($this->l10n->t('Logged in account must be an admin or sub admin'));
 			}
 			if (!$this->hasAnnotationOrAttribute($reflectionMethod, 'SubAdminRequired', SubAdminRequired::class)
 				&& !$this->hasAnnotationOrAttribute($reflectionMethod, 'NoAdminRequired', NoAdminRequired::class)
-				&& !$this->isAdminUser
+				&& !$this->isAdminUser()
 				&& !$authorized) {
 				throw new NotAdminException($this->l10n->t('Logged in account must be an admin'));
 			}

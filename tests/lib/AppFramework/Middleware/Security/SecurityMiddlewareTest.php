@@ -22,12 +22,15 @@ use OCP\App\IAppManager;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\Group\ISubAdmin;
 use OCP\IConfig;
+use OCP\IGroupManager;
 use OCP\IL10N;
 use OCP\INavigationManager;
 use OCP\IRequest;
 use OCP\IRequestId;
 use OCP\IURLGenerator;
+use OCP\IUser;
 use OCP\IUserSession;
 use Psr\Log\LoggerInterface;
 use Test\AppFramework\Middleware\Security\Mock\NormalController;
@@ -67,6 +70,9 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 
 		$this->authorizedGroupMapper = $this->createMock(AuthorizedGroupMapper::class);
 		$this->userSession = $this->createMock(IUserSession::class);
+		$user = $this->createMock(IUser::class);
+		$user->method('getUID')->willReturn('test');
+		$this->userSession->method('getUser')->willReturn($user);
 		$this->request = $this->createMock(IRequest::class);
 		$this->controller = new SecurityMiddlewareController(
 			'test',
@@ -88,6 +94,13 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 			->method('isEnabledForUser')
 			->willReturn($isAppEnabledForUser);
 
+		$groupManager = $this->createMock(IGroupManager::class);
+		$groupManager->method('isAdmin')
+			->willReturn($isAdminUser);
+		$subAdminManager = $this->createMock(ISubAdmin::class);
+		$subAdminManager->method('isSubAdmin')
+			->willReturn($isSubAdmin);
+
 		return new SecurityMiddleware(
 			$this->request,
 			$this->reader,
@@ -96,8 +109,8 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 			$this->logger,
 			'files',
 			$isLoggedIn,
-			$isAdminUser,
-			$isSubAdmin,
+			$groupManager,
+			$subAdminManager,
 			$this->appManager,
 			$this->l10n,
 			$this->authorizedGroupMapper,
