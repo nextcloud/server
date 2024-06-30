@@ -40,7 +40,7 @@ OC.L10N.register(
     "Your email address was changed by an administrator" : "Vaša emailová adresa bola zmenená administrátorom",
     "You created an app password for a session named \"{token}\"" : "Vytvorili ste heslo aplikácie pre reláciu s názvom \"{token}\"",
     "An administrator created an app password for a session named \"{token}\"" : "Administrátor vytvoril heslo aplikácie pre reláciu s názvom \"{token}\"",
-    "You deleted app password \"{token}\"" : "Vymazali ste heslo pre aplikáciu \"{token}\"",
+    "You deleted app password \"{token}\"" : "Odstránili ste heslo pre aplikáciu \"{token}\"",
     "You renamed app password \"{token}\" to \"{newToken}\"" : "Premenovali ste heslo aplikácie \"{token}\" na \"{newToken}\"",
     "You granted filesystem access to app password \"{token}\"" : "Povolili ste prístup k súborovému systému aplikácii, používajúcej heslo \"{token}\"",
     "You revoked filesystem access from app password \"{token}\"" : "Zrušili ste prístup k súborovému systému pre aplikáciu, používajúcej heslo \"{token}\"",
