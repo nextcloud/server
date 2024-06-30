@@ -55,6 +55,7 @@ OC.L10N.register(
     "API key" : "API-avain",
     "Global credentials" : "Yleiset tunnistetiedot",
     "Log-in credentials, save in database" : "Kirjautumistiedot, tallennetaan tietokantaan",
+    "Login and password" : "Käyttäjätunnus ja salasana",
     "Log-in credentials, save in session" : "Kirjautumistiedot, tallenna istuntoon",
     "RSA public key" : "Julkinen RSA-avain",
     "Public key" : "Julkinen avain",
