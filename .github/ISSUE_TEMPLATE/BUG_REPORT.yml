@@ -86,7 +86,6 @@ body:
         Select Nextcloud Server version.
         _Versions not listed here are not maintained and not supported anymore_
       options:
-        - "27"
         - "28"
         - "29"
         - "master"
@@ -148,8 +147,8 @@ body:
       description: |
         Select if bug is present after an update or on a fresh install.
       options:
-        - "Updated from a MINOR version (ex. 22.1 to 22.2)"
-        - "Upgraded to a MAJOR version (ex. 22 to 23)"
+        - "Updated from a MINOR version (ex. 28.0.1 to 28.0.2)"
+        - "Upgraded to a MAJOR version (ex. 28 to 29)"
         - "Fresh Nextcloud Server install"
   - type: dropdown
     id: encryption
