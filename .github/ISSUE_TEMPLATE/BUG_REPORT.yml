@@ -110,6 +110,7 @@ body:
         Select PHP engine version serving Nextcloud Server.
         _Describe in the "Additional info" section if you chose "Other"._
       options:
+        - "PHP 8.0"
         - "PHP 8.1"
         - "PHP 8.2"
         - "PHP 8.3"
