@@ -41,6 +41,13 @@ class ConfigTest extends TestCase {
 		$this->assertSame($expectedConfig, $this->getConfig()->getKeys());
 	}
 
+	public function testGetKeysReturnsEnvironmentKeysIfSet() {
+		$expectedConfig = ['foo', 'beers', 'alcohol_free', 'taste'];
+		putenv('NC_taste=great');
+		$this->assertSame($expectedConfig, $this->getConfig()->getKeys());
+		putenv('NC_taste');
+	}
+
 	public function testGetValue() {
 		$config = $this->getConfig();
 		$this->assertSame('bar', $config->getValue('foo'));
