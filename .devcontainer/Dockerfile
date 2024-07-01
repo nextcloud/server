@@ -52,6 +52,9 @@ RUN { \
 	echo "xdebug.start_with_request=yes"; \
 } >> /etc/php/8.3/apache2/conf.d/20-xdebug.ini
 
+# Increase PHP memory limit to 512mb
+RUN sed -i 's/memory_limit = .*/memory_limit = 512M/' /etc/php/8.3/apache2/php.ini
+
 # Docker
 RUN apt-get -y install \
     apt-transport-https \
