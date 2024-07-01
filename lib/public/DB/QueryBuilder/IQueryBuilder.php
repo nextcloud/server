@@ -395,8 +395,8 @@ interface IQueryBuilder {
 	 *
 	 * <code>
 	 *     $qb = $conn->getQueryBuilder()
-	 *         ->delete('users', 'u')
-	 *         ->where('u.id = :user_id');
+	 *         ->delete('users')
+	 *         ->where('id = :user_id');
 	 *         ->setParameter(':user_id', 1);
 	 * </code>
 	 *
@@ -405,6 +405,7 @@ interface IQueryBuilder {
 	 *
 	 * @return $this This QueryBuilder instance.
 	 * @since 8.2.0
+	 * @since 30.0.0 Alias is deprecated and will no longer be used with the next Doctrine/DBAL update
 	 *
 	 * @psalm-taint-sink sql $delete
 	 */
@@ -416,9 +417,10 @@ interface IQueryBuilder {
 	 *
 	 * <code>
 	 *     $qb = $conn->getQueryBuilder()
-	 *         ->update('users', 'u')
-	 *         ->set('u.password', md5('password'))
-	 *         ->where('u.id = ?');
+	 *         ->update('users')
+	 *         ->set('email', ':email')
+	 *         ->where('id = :user_id');
+	 *         ->setParameter(':user_id', 1);
 	 * </code>
 	 *
 	 * @param string $update The table whose rows are subject to the update.
@@ -426,6 +428,7 @@ interface IQueryBuilder {
 	 *
 	 * @return $this This QueryBuilder instance.
 	 * @since 8.2.0
+	 * @since 30.0.0 Alias is deprecated and will no longer be used with the next Doctrine/DBAL update
 	 *
 	 * @psalm-taint-sink sql $update
 	 */

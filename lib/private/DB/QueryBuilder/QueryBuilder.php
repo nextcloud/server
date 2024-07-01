@@ -583,8 +583,13 @@ class QueryBuilder implements IQueryBuilder {
 	 * @param string $alias The table alias used in the constructed query.
 	 *
 	 * @return $this This QueryBuilder instance.
+	 * @since 30.0.0 Alias is deprecated and will no longer be used with the next Doctrine/DBAL update
 	 */
 	public function delete($delete = null, $alias = null) {
+		if ($alias !== null) {
+			$this->logger->debug('DELETE queries with alias are no longer supported and the provided alias is ignored', ['exception' => new \InvalidArgumentException('Table alias provided for DELETE query')]);
+		}
+
 		$this->queryBuilder->delete(
 			$this->getTableName($delete),
 			$alias
@@ -608,8 +613,13 @@ class QueryBuilder implements IQueryBuilder {
 	 * @param string $alias The table alias used in the constructed query.
 	 *
 	 * @return $this This QueryBuilder instance.
+	 * @since 30.0.0 Alias is deprecated and will no longer be used with the next Doctrine/DBAL update
 	 */
 	public function update($update = null, $alias = null) {
+		if ($alias !== null) {
+			$this->logger->debug('UPDATE queries with alias are no longer supported and the provided alias is ignored', ['exception' => new \InvalidArgumentException('Table alias provided for UPDATE query')]);
+		}
+
 		$this->queryBuilder->update(
 			$this->getTableName($update),
 			$alias
