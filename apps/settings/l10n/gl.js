@@ -288,6 +288,7 @@ OC.L10N.register(
     "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit!" : "Semella que está a executar unha versión de PHP de 32 bits. Nextcloud necesita 64 bits para funcionar ben. Actualice o seu sistema operativo e PHP a 64 bits.",
     "Temporary space available" : "Espazo temporal dispoñíbel",
     "Error while checking the temporary PHP path - it was not properly set to a directory. Returned value: %s" : "Produciuse un erro ao comprobar a ruta temporal de PHP: non se axustou correctamente a un directorio. Valor devolto: %s",
+    "The PHP function \"disk_free_space\" is disabled, which prevents the check for enough space in the temporary directories." : "A función PHP «disk_free_space» está desactivada, o que impide comprobar se hai espazo abondo nos directorios temporais.",
     "Error while checking the available disk space of temporary PHP path or no free disk space returned. Temporary path: %s" : "Produciuse un erro ao comprobar o espazo dispoñíbel no disco da ruta PHP temporal ou non se devolveu o espazo libre en disco. Ruta temporal: %s",
     "- %.1f GiB available in %s (PHP temporary directory)" : "- %.1f GiB dispoñíbeis en %s (directorio temporal PHP)",
     "- %.1f GiB available in %s (Nextcloud temporary directory)" : "- %.1f GiB dispoñíbeis en %s (directorio temporal de Nextcloud)",

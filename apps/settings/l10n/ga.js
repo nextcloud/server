@@ -288,6 +288,7 @@ OC.L10N.register(
     "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit!" : "Is cosúil go bhfuil leagan PHP 32-giotán á rith agat. Tá 64-giotán ag teastáil ó Nextcloud chun go n-éireoidh go maith. Uasghrádaigh do OS agus PHP go 64-giotán le do thoil!",
     "Temporary space available" : "Spás sealadach ar fáil",
     "Error while checking the temporary PHP path - it was not properly set to a directory. Returned value: %s" : "Earráid agus an cosán PHP sealadach á sheiceáil - níor socraíodh go heolaire é i gceart. Luach aischurtha: %s",
+    "The PHP function \"disk_free_space\" is disabled, which prevents the check for enough space in the temporary directories." : "Tá an fheidhm PHP \"disk_free_space\" díchumasaithe, rud a chuireann cosc ​​​​ar an seiceáil le haghaidh spás leordhóthanach sna heolairí sealadacha.",
     "Error while checking the available disk space of temporary PHP path or no free disk space returned. Temporary path: %s" : "Earráid agus an spás diosca atá ar fáil de chonair PHP sealadach á sheiceáil nó níor cuireadh aon spás diosca saor in aisce ar ais. Conair shealadach: %s",
     "- %.1f GiB available in %s (PHP temporary directory)" : "- %.1f GiB ar fáil i %s (eolaire sealadach PHP)",
     "- %.1f GiB available in %s (Nextcloud temporary directory)" : "- %.1f GiB ar fáil i %s (eolaire sealadach Nextcloud)",
