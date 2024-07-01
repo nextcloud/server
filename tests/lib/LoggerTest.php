@@ -34,6 +34,13 @@ class LoggerTest extends TestCase implements IWriter {
 		$this->config = $this->createMock(SystemConfig::class);
 		$this->registry = $this->createMock(IRegistry::class);
 		$this->logger = new Log($this, $this->config, null, $this->registry);
+
+		$this->config->expects($this->any())
+			->method('getValue')
+			->will(($this->returnValueMap([
+				['loglevel', ILogger::WARN, ILogger::WARN],
+				['log.condition', [], ['apps' => ['files']]]
+			])));
 	}
 
 	public function testInterpolation() {
@@ -45,12 +52,6 @@ class LoggerTest extends TestCase implements IWriter {
 	}
 
 	public function testAppCondition() {
-		$this->config->expects($this->any())
-			->method('getValue')
-			->will(($this->returnValueMap([
-				['loglevel', ILogger::WARN, ILogger::WARN],
-				['log.condition', [], ['apps' => ['files']]]
-			])));
 		$logger = $this->logger;
 
 		$logger->info('Don\'t display info messages');
