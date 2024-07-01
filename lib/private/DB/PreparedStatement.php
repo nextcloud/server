@@ -66,7 +66,17 @@ class PreparedStatement implements IPreparedStatement {
 	}
 
 	public function execute($params = null): IResult {
-		return ($this->result = new ResultAdapter($this->statement->executeQuery($params)));
+		if ($params !== null) {
+			foreach ($params as $key => $param) {
+				if (is_int($key)) {
+					// Parameter count starts with 1
+					$this->bindValue($key + 1, $param);
+				} else {
+					$this->bindValue($key, $param);
+				}
+			}
+		}
+		return ($this->result = new ResultAdapter($this->statement->executeQuery()));
 	}
 
 	public function rowCount(): int {
