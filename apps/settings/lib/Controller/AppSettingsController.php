@@ -434,7 +434,7 @@ class AppSettingsController extends Controller {
 					$nextCloudVersionDependencies,
 					$phpDependencies
 				),
-				'level' => ($app['isFeatured'] === true) ? 200 : 100,
+				'level' => 100,
 				'missingMaxOwnCloudVersion' => false,
 				'missingMinOwnCloudVersion' => false,
 				'canInstall' => true,

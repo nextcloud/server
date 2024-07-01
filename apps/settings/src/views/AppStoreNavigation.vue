@@ -68,13 +68,6 @@
 						<NcIconSvgWrapper :path="APPSTORE_CATEGORY_ICONS.supported" />
 					</template>
 				</NcAppNavigationItem>
-				<NcAppNavigationItem id="app-category-featured"
-					:to="{ name: 'apps-category', params: { category: 'featured' } }"
-					:name="APPS_SECTION_ENUM.featured">
-					<template #icon>
-						<NcIconSvgWrapper :path="APPSTORE_CATEGORY_ICONS.featured" />
-					</template>
-				</NcAppNavigationItem>
 
 				<NcAppNavigationItem v-for="category in categories"
 					:id="`app-category-${category.id}`"
