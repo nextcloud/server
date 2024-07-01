@@ -47,7 +47,7 @@
 import type { TemplateFile } from '../types.ts'
 
 import { getCurrentUser } from '@nextcloud/auth'
-import { showError } from '@nextcloud/dialogs'
+import { showError, spawnDialog } from '@nextcloud/dialogs'
 import { emit } from '@nextcloud/event-bus'
 import { File } from '@nextcloud/files'
 import { translate as t } from '@nextcloud/l10n'
@@ -59,6 +59,7 @@ import { createFromTemplate, getTemplates } from '../services/Templates.js'
 import NcEmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent.js'
 import NcModal from '@nextcloud/vue/dist/Components/NcModal.js'
 import TemplatePreview from '../components/TemplatePreview.vue'
+import TemplateFiller from '../components/TemplateFiller.vue'
 import logger from '../logger.js'
 
 const border = 2
@@ -202,12 +203,21 @@ export default defineComponent({
 
 		async onSubmit() {
 			this.loading = true
+
 			const currentDirectory = new URL(window.location.href).searchParams.get('dir') || '/'
 
 			// If the file doesn't have an extension, add the default one
 			if (this.nameWithoutExt === this.name) {
 				logger.warn('Fixed invalid filename', { name: this.name, extension: this.provider?.extension })
 				this.name = `${this.name}${this.provider?.extension ?? ''}`
+			}
+
+			if (this.selectedTemplate?.fields) {
+				spawnDialog(TemplateFiller, {
+					fields: this.selectedTemplate?.fields
+				})
+
+				return
 			}
 
 			try {
