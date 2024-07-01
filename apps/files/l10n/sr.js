@@ -161,6 +161,8 @@ OC.L10N.register(
     "Reject" : "Одбаци",
     "Incoming ownership transfer from {user}" : "Надолазећи пренос власништва од корисника {user}",
     "Do you want to accept {path}?\n\nNote: The transfer process after accepting may take up to 1 hour." : "Да ли желите да прихватите {path}?\n\nПажња: После прихватања, процес трансфера може потрајати и до 1h.",
+    "Ownership transfer denied" : "Пренос власништва је одбијен",
+    "Your ownership transfer of {path} was denied by {user}." : "Корисник {user} је одбио ваш пренос власништва над {path}.",
     "Ownership transfer failed" : "Пренос власништва није успео",
     "Your ownership transfer of {path} to {user} failed." : "Ваш пренос власништва {path} на корисника {user} није успео.",
     "The ownership transfer of {path} from {user} failed." : "Пренос власништва {path} на корисника {user} није успео.",
