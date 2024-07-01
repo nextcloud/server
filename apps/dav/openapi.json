@@ -133,13 +133,21 @@
                 "type": "object",
                 "required": [
                     "userId",
-                    "message"
+                    "message",
+                    "replacementUserId",
+                    "replacementUserDisplayName"
                 ],
                 "properties": {
                     "userId": {
                         "type": "string"
                     },
                     "message": {
+                        "type": "string"
+                    },
+                    "replacementUserId": {
+                        "type": "string"
+                    },
+                    "replacementUserDisplayName": {
                         "type": "string"
                     }
                 }
@@ -571,6 +579,24 @@
                         }
                     },
                     {
+                        "name": "replacementUserId",
+                        "in": "query",
+                        "description": "User id of the replacement user",
+                        "schema": {
+                            "type": "string",
+                            "default": ""
+                        }
+                    },
+                    {
+                        "name": "replacementUserDisplayName",
+                        "in": "query",
+                        "description": "Display name of the replacement user",
+                        "schema": {
+                            "type": "string",
+                            "default": ""
+                        }
+                    },
+                    {
                         "name": "userId",
                         "in": "path",
                         "required": true,
@@ -663,6 +689,36 @@
                     },
                     "401": {
                         "description": "When the user is not logged in",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "nullable": true
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "When the replacementUserId was provided but replacement user was not found",
                         "content": {
                             "application/json": {
                                 "schema": {

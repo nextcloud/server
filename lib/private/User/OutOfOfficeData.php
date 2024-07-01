@@ -18,7 +18,9 @@ class OutOfOfficeData implements IOutOfOfficeData {
 		private int $startDate,
 		private int $endDate,
 		private string $shortMessage,
-		private string $message) {
+		private string $message,
+		private string $replacementUserId,
+		private string $replacementUserDisplayName) {
 	}
 
 	public function getId(): string {
@@ -45,6 +47,14 @@ class OutOfOfficeData implements IOutOfOfficeData {
 		return $this->message;
 	}
 
+	public function getReplacementUserId(): string {
+		return $this->replacementUserId;
+	}
+
+	public function getReplacementUserDisplayName(): string {
+		return $this->replacementUserDisplayName;
+	}
+
 	public function jsonSerialize(): array {
 		return [
 			'id' => $this->getId(),
@@ -53,6 +63,8 @@ class OutOfOfficeData implements IOutOfOfficeData {
 			'endDate' => $this->getEndDate(),
 			'shortMessage' => $this->getShortMessage(),
 			'message' => $this->getMessage(),
+			'replacementUserId' => $this->getReplacementUserId(),
+			'replacementUserDisplayName' => $this->getReplacementUserDisplayName(),
 		];
 	}
 }

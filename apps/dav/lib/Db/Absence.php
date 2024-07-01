@@ -29,6 +29,10 @@ use OCP\User\IOutOfOfficeData;
  * @method void setStatus(string $status)
  * @method string getMessage()
  * @method void setMessage(string $message)
+ * @method string getReplacementUserId()
+ * @method void setReplacementUserId(string $replacementUserId)
+ * @method string getReplacementUserDisplayName()
+ * @method void setReplacementUserDisplayName(string $replacementUserDisplayName)
  */
 class Absence extends Entity implements JsonSerializable {
 	protected string $userId = '';
@@ -43,12 +47,18 @@ class Absence extends Entity implements JsonSerializable {
 
 	protected string $message = '';
 
+	protected string $replacementUserId = '';
+
+	protected string $replacementUserDisplayName = '';
+
 	public function __construct() {
 		$this->addType('userId', 'string');
 		$this->addType('firstDay', 'string');
 		$this->addType('lastDay', 'string');
 		$this->addType('status', 'string');
 		$this->addType('message', 'string');
+		$this->addType('replacementUserId', 'string');
+		$this->addType('replacementUserDisplayName', 'string');
 	}
 
 	public function toOutOufOfficeData(IUser $user, string $timezone): IOutOfOfficeData {
@@ -70,6 +80,8 @@ class Absence extends Entity implements JsonSerializable {
 			$endDate->getTimestamp(),
 			$this->getStatus(),
 			$this->getMessage(),
+			$this->getReplacementUserId(),
+			$this->getReplacementUserDisplayName(),
 		);
 	}
 
@@ -80,6 +92,8 @@ class Absence extends Entity implements JsonSerializable {
 			'lastDay' => $this->lastDay,
 			'status' => $this->status,
 			'message' => $this->message,
+			'replacementUserId' => $this->replacementUserId,
+			'replacementUserDisplayName' => $this->replacementUserDisplayName,
 		];
 	}
 }
