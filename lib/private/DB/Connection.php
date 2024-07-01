@@ -9,7 +9,6 @@ declare(strict_types=1);
 
 namespace OC\DB;
 
-use Doctrine\Common\EventManager;
 use Doctrine\DBAL\Cache\QueryCacheProfile;
 use Doctrine\DBAL\Configuration;
 use Doctrine\DBAL\ConnectionException;
@@ -112,7 +111,6 @@ class Connection extends PrimaryReadReplicaConnection {
 		private array $params,
 		Driver $driver,
 		?Configuration $config = null,
-		?EventManager $eventManager = null,
 	) {
 		if (!isset($params['adapter'])) {
 			throw new \Exception('adapter not set');
@@ -123,7 +121,7 @@ class Connection extends PrimaryReadReplicaConnection {
 		/**
 		 * @psalm-suppress InternalMethod
 		 */
-		parent::__construct($params, $driver, $config, $eventManager);
+		parent::__construct($params, $driver, $config);
 		$this->adapter = new $params['adapter']($this);
 		$this->tablePrefix = $params['tablePrefix'];
 		$activityNotifier = $params['activity_notifier'] ?? null;
@@ -156,7 +154,7 @@ class Connection extends PrimaryReadReplicaConnection {
 			$profiler->add($this->dbDataCollector);
 			$debugStack = new BacktraceDebugStack();
 			$this->dbDataCollector->setDebugStack($debugStack);
-			$this->_config->setSQLLogger($debugStack);
+			// FIXME $this->_config->setSQLLogger($debugStack);
 		}
 
 		/** @var array<string, array{shards: array[], mapper: ?string, from_primary_key: ?int, from_shard_key: ?int}> $shardConfig */
