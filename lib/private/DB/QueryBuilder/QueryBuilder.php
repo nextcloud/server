@@ -31,7 +31,6 @@ use OCP\DB\QueryBuilder\IQueryFunction;
 use OCP\IDBConnection;
 use Override;
 use Psr\Log\LoggerInterface;
-use RuntimeException;
 
 class QueryBuilder extends TypedQueryBuilder {
 	private \Doctrine\DBAL\Query\QueryBuilder $queryBuilder;
@@ -210,7 +209,6 @@ class QueryBuilder extends TypedQueryBuilder {
 				$this->logger->error('DB QueryBuilder: error trying to log SQL query', ['exception' => $e]);
 			}
 		}
-
 
 		$tooLongOutputColumns = [];
 		foreach ($this->getOutputColumns() as $column) {
@@ -1251,7 +1249,7 @@ class QueryBuilder extends TypedQueryBuilder {
 			'having' => $this->queryBuilder->resetHaving(),
 			'groupBy' => $this->queryBuilder->resetGroupBy(),
 			'orderBy' => $this->queryBuilder->resetOrderBy(),
-			default => throw new \Exception('Resetting query part "' . $queryPartName. '" is no longer supported. Please create a new QueryBuilder instead.'),
+			default => throw new \Exception('Resetting query part "' . $queryPartName . '" is no longer supported. Please create a new QueryBuilder instead.'),
 		};
 
 		return $this;
