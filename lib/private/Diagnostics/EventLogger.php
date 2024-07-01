@@ -48,7 +48,7 @@ class EventLogger implements IEventLogger {
 			return true;
 		}
 
-		$isDebugLevel = $this->internalLogger->getLogLevel([]) === Log::DEBUG;
+		$isDebugLevel = $this->internalLogger->getLogLevel([], '') === Log::DEBUG;
 		return $systemValue && $isDebugLevel;
 	}
 
