@@ -13,7 +13,7 @@ class EducationBundleTest extends BundleBase {
 		parent::setUp();
 		$this->bundle = new EducationBundle($this->l10n);
 		$this->bundleIdentifier = 'EducationBundle';
-		$this->bundleName = 'Education Edition';
+		$this->bundleName = 'Education bundle';
 		$this->bundleAppIds = [
 			'dashboard',
 			'circles',
