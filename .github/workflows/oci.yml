@@ -22,9 +22,24 @@ jobs:
 
     services:
       oracle:
-        image: deepdiver/docker-oracle-xe-11g # "wnameless/oracle-xe-11g-r2"
+        image: ghcr.io/gvenzl/oracle-xe:11
+
+        # Provide passwords and other environment variables to container
+        env:
+          ORACLE_RANDOM_PASSWORD: true
+          APP_USER: autotest
+          APP_USER_PASSWORD: owncloud
+
+        # Forward Oracle port
         ports:
-          - "1521:1521"
+          - 1521:1521/tcp
+
+        # Provide healthcheck script options for startup
+        options: >-
+          --health-cmd healthcheck.sh
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 10
 
     steps:
       - name: Checkout server
@@ -41,7 +56,7 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php-versions }}
-          extensions: ctype,curl,dom,fileinfo,gd,intl,json,mbstring,oci8,openssl,pdo_sqlite,posix,sqlite,xml,zip
+          extensions: ctype,curl,dom,fileinfo,gd,intl,json,mbstring,oci8,openssl,pcntl,pdo_sqlite,posix,sqlite,xml,zip
           tools: phpunit:8.5.2
           coverage: none
 
