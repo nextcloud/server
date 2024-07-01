@@ -206,7 +206,7 @@ export default {
 			}
 			if (this.category === 'featured') {
 				// An app level of `200` will be set for apps featured on the app store
-				return apps.filter(app => app.level <= 200)
+				return apps.filter(app => app.level <= 300)
 			}
 
 			// filter app store categories
