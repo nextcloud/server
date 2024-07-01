@@ -362,7 +362,7 @@ class ConvertType extends Command implements CompletionAwareInterface {
 			return $this->columnTypes[$tableName][$columnName];
 		}
 
-		$type = $table->getColumn($columnName)->getType()->getName();
+		$type = Types::getType($table->getColumn($columnName)->getType());
 
 		switch ($type) {
 			case Types::BLOB:

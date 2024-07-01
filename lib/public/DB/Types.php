@@ -8,6 +8,10 @@ declare(strict_types=1);
  */
 namespace OCP\DB;
 
+use Doctrine\DBAL\Types\Exception\TypeNotRegistered;
+use Doctrine\DBAL\Types\Type;
+use OC\DB\Exceptions\DbalException;
+
 /**
  * Database types supported by Nextcloud's DBs
  *
@@ -99,4 +103,36 @@ final class Types {
 	 * @since 24.0.0
 	 */
 	public const JSON = 'json';
+
+	/**
+	 * @param Type $type
+	 * @return string
+	 * @throws Exception
+	 * @since 30.0.0
+	 */
+	public static function getType(Type $type): string {
+		try {
+			$doctrineType = $type->getTypeRegistry()->lookupName($type);
+		} catch (\Doctrine\DBAL\Exception $e) {
+			throw DbalException::wrap($e);
+		}
+
+		return match ($doctrineType) {
+			self::BIGINT,
+			self::BINARY,
+			self::BLOB,
+			self::BOOLEAN,
+			self::DATE,
+			self::DATETIME,
+			self::DECIMAL,
+			self::FLOAT,
+			self::INTEGER,
+			self::SMALLINT,
+			self::STRING,
+			self::TEXT,
+			self::TIME,
+			self::JSON => $doctrineType,
+			default => throw DbalException::wrap(new TypeNotRegistered(sprintf('Type of the class %s is not registered.', $doctrineType))),
+		};
+	}
 }
