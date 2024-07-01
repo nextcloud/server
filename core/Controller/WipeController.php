@@ -42,8 +42,8 @@ class WipeController extends Controller {
 	 * 404: Device should not be wiped
 	 */
 	#[FrontpageRoute(verb: 'POST', url: '/core/wipe/check')]
-	public function checkWipe(string $token = ''): JSONResponse {
-		if ($token !== '') {
+	public function checkWipe(?string $token = ''): JSONResponse {
+		if (!empty($token)) {
 			try {
 				if ($this->remoteWipe->start($token)) {
 					return new JSONResponse([
@@ -76,8 +76,8 @@ class WipeController extends Controller {
 	 * 404: Device should not be wiped
 	 */
 	#[FrontpageRoute(verb: 'POST', url: '/core/wipe/success')]
-	public function wipeDone(string $token = ''): JSONResponse {
-		if ($token !== '') {
+	public function wipeDone(?string $token = ''): JSONResponse {
+		if (!empty($token)) {
 			try {
 				if ($this->remoteWipe->finish($token)) {
 					return new JSONResponse([]);
