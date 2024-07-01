@@ -466,4 +466,125 @@ class GeneratorTest extends \Test\TestCase {
 
 		$this->generator->getPreview($file, 100, 100, false);
 	}
+
+	public function testGetPreviewInMemory(): void {
+		$file = $this->createMock(File::class);
+		$file->method('isReadable')
+			->willReturn(true);
+		$file->method('getMimeType')
+			->willReturn('myMimeType');
+		$file->method('getId')
+			->willReturn(42);
+
+		$this->previewManager->method('isMimeSupported')
+			->with($this->equalTo('myMimeType'))
+			->willReturn(true);
+
+		$previewFolder = $this->createMock(ISimpleFolder::class);
+		$previewFolder->expects(self::never())
+			->method('newFile');
+		$previewFolder->method('getDirectoryListing')
+			->willReturn([]);
+
+		$this->appData->method('getFolder')
+			->with($this->equalTo(42))
+			->willThrowException(new NotFoundException());
+
+		$this->appData->method('newFolder')
+			->with($this->equalTo(42))
+			->willReturn($previewFolder);
+
+		$this->config->method('getSystemValue')
+			->willReturnCallback(function ($key, $default) {
+				return $default;
+			});
+
+		$this->config->method('getSystemValueInt')
+			->willReturnCallback(function ($key, $default) {
+				return $default;
+			});
+
+		$validProvider = $this->createMock(IProviderV2::class);
+		$validProvider->method('isAvailable')
+			->with($file)
+			->willReturn(true);
+
+		$this->previewManager->method('getProviders')
+			->willReturn([
+				'/myMimeType/' => ['validProvider'],
+			]);
+
+		$this->helper->method('getProvider')
+			->willReturnCallback(function ($provider) use ($validProvider) {
+				if ($provider === 'validProvider') {
+					return $validProvider;
+				}
+
+				$this->fail('Unexpected provider requested');
+			});
+
+		$image = $this->createMock(\OC_Image::class);
+		$image->method('width')->willReturn(2048);
+		$image->method('height')->willReturn(2048);
+		$image->method('valid')->willReturn(true);
+		$image->method('dataMimeType')->willReturn('image/png');
+
+		$this->helper->method('getThumbnail')
+			->willReturnCallback(function ($provider, $file, $x, $y) use ($validProvider, $image) {
+				if ($provider === $validProvider) {
+					return $image;
+				}
+
+				return false;
+			});
+
+		$image->method('data')
+			->willReturn('my data');
+
+		$maxPreview = $this->createMock(ISimpleFile::class);
+		$maxPreview->method('getName')->willReturn('2048-2048-max.png');
+		$maxPreview->method('getMimeType')->willReturn('image/png');
+		$maxPreview->method('getSize')->willReturn(1000);
+
+		$previewFile = $this->createMock(ISimpleFile::class);
+		$previewFile->method('getSize')->willReturn(1000);
+
+		$this->helper->expects(self::exactly(2))
+			->method('createInMemoryFile')
+			->willReturnCallback(fn (string $name, string $data) => match ($name) {
+				'2048-2048-max.png' => $maxPreview,
+				'256-256.png' => $previewFile,
+				default => $this->fail('Unexpected file'),
+			});
+
+		$maxPreview->expects($this->never())
+			->method('putContent');
+
+		$previewFolder->method('getFile')
+			->with($this->equalTo('256-256.png'))
+			->willThrowException(new NotFoundException());
+
+		$image = $this->getMockImage(2048, 2048, 'my resized data');
+		$this->helper->method('getImage')
+			->with($this->equalTo($maxPreview))
+			->willReturn($image);
+
+		$previewFile->expects($this->never())
+			->method('putContent');
+
+		$this->eventDispatcher->expects($this->once())
+			->method('dispatchTyped')
+			->with(new BeforePreviewFetchedEvent($file, 100, 100, false, IPreview::MODE_FILL));
+
+		$result = $this->generator->getPreview(
+			$file,
+			100,
+			100,
+			false,
+			IPreview::MODE_FILL,
+			null,
+			true,
+		);
+		$this->assertSame($previewFile, $result);
+	}
 }
