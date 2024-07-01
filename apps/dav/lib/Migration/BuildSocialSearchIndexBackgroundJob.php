@@ -12,6 +12,7 @@ use OCA\DAV\CardDAV\CardDavBackend;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\IJobList;
 use OCP\BackgroundJob\QueuedJob;
+use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 use Psr\Log\LoggerInterface;
 
@@ -59,6 +60,7 @@ class BuildSocialSearchIndexBackgroundJob extends QueuedJob {
 			->from('cards', 'c')
 			->orderBy('id', 'ASC')
 			->where($query->expr()->like('carddata', $query->createNamedParameter('%SOCIALPROFILE%')))
+			->andWhere($query->expr()->gt('id', $query->createNamedParameter((int)$offset, IQueryBuilder::PARAM_INT)))
 			->setMaxResults(100);
 		$social_cards = $query->executeQuery()->fetchAll();
 
