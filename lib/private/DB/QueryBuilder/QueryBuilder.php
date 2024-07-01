@@ -623,18 +623,17 @@ class QueryBuilder extends TypedQueryBuilder {
 	 * @param string $alias The table alias used in the constructed query.
 	 *
 	 * @return $this This QueryBuilder instance.
-	 * @since 30.0.0 Alias is deprecated and will no longer be used with the next Doctrine/DBAL update
+	 * @since 35.0.0 Alias is no longer supported
 	 */
 	#[\Override]
 	public function delete($delete = null, $alias = null) {
 		if ($alias !== null) {
-			$this->logger->debug('DELETE queries with alias are no longer supported and the provided alias is ignored', ['exception' => new \InvalidArgumentException('Table alias provided for DELETE query')]);
+			$this->logger->error('DELETE queries with alias are no longer supported and the provided alias is ignored', ['exception' => new \InvalidArgumentException('Table alias provided for DELETE query')]);
 		}
 
 		$this->type = self::DELETE;
 		$this->queryBuilder->delete(
 			$this->getTableName($delete),
-			$alias
 		);
 
 		return $this;
@@ -655,18 +654,17 @@ class QueryBuilder extends TypedQueryBuilder {
 	 * @param string $alias The table alias used in the constructed query.
 	 *
 	 * @return $this This QueryBuilder instance.
-	 * @since 30.0.0 Alias is deprecated and will no longer be used with the next Doctrine/DBAL update
+	 * @since 35.0.0 Alias is no longer supported
 	 */
 	#[\Override]
 	public function update($update = null, $alias = null) {
 		if ($alias !== null) {
-			$this->logger->debug('UPDATE queries with alias are no longer supported and the provided alias is ignored', ['exception' => new \InvalidArgumentException('Table alias provided for UPDATE query')]);
+			$this->logger->error('UPDATE queries with alias are no longer supported and the provided alias is ignored', ['exception' => new \InvalidArgumentException('Table alias provided for UPDATE query')]);
 		}
 
 		$this->type = self::UPDATE;
 		$this->queryBuilder->update(
 			$this->getTableName($update),
-			$alias
 		);
 
 		return $this;

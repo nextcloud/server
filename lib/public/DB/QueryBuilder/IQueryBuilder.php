@@ -451,7 +451,7 @@ interface IQueryBuilder {
 	 *
 	 * @return $this This QueryBuilder instance.
 	 * @since 8.2.0
-	 * @since 30.0.0 Alias is deprecated and will no longer be used with the next Doctrine/DBAL update
+	 * @since 35.0.0 Alias is no longer supported
 	 *
 	 * @psalm-taint-sink sql $delete
 	 */
@@ -474,7 +474,7 @@ interface IQueryBuilder {
 	 *
 	 * @return $this This QueryBuilder instance.
 	 * @since 8.2.0
-	 * @since 30.0.0 Alias is deprecated and will no longer be used with the next Doctrine/DBAL update
+	 * @since 35.0.0 Alias is no longer supported
 	 *
 	 * @psalm-taint-sink sql $update
 	 */
