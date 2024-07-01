@@ -576,6 +576,10 @@ class Factory implements IFactory {
 		}
 
 		$languageCodes = $this->findAvailableLanguages();
+		$reduceToLanguages = $this->config->getSystemValue('reduce_to_languages', []);
+		if (!empty($reduceToLanguages)) {
+			$languageCodes = array_intersect($languageCodes, $reduceToLanguages);
+		}
 
 		$commonLanguages = [];
 		$otherLanguages = [];

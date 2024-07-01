@@ -5,7 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
- 
+
 /**
  * This configuration file is only provided to document the different
  * configuration options and their usage.
@@ -227,6 +227,15 @@ $CONFIG = [
  * Defaults to ``en``
  */
 'default_locale' => 'en_US',
+
+/**
+ * With this setting is possible to reduce the languages available in the
+ * language chooser. The languages have to be set as array values using ISO_639-1
+ * language codes such as ``en`` for English, ``de`` for German etc.
+ *
+ * For example: Set to ['de', 'fr'] to only allow German and French languages.
+ */
+'reduce_to_languages' => [],
 
 /**
  * This sets the default region for phone numbers on your Nextcloud server,
