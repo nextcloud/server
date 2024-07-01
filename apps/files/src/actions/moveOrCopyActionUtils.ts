@@ -29,12 +29,15 @@ import PQueue from 'p-queue'
 // This is the processing queue. We only want to allow 3 concurrent requests
 let queue: PQueue
 
+// Maximum number of concurrent operations
+const MAX_CONCURRENCY = 5
+
 /**
  * Get the processing queue
  */
 export const getQueue = () => {
 	if (!queue) {
-		queue = new PQueue({ concurrency: 3 })
+		queue = new PQueue({ concurrency: MAX_CONCURRENCY })
 	}
 	return queue
 }
