@@ -597,12 +597,16 @@ class QueryBuilder implements IQueryBuilder {
 	 * @param string $alias The table alias used in the constructed query.
 	 *
 	 * @return $this This QueryBuilder instance.
+	 * @since 30.0.0 Alias is no longer supported
 	 */
 	public function delete($delete = null, $alias = null) {
+		if ($alias !== null) {
+			$this->logger->debug('DELETE queries with alias are no longer supported and the provided alias is ignored', ['exception' => new \InvalidArgumentException('Table alias provided for DELETE query')]);
+		}
+
 		$this->type = self::DELETE;
 		$this->queryBuilder->delete(
 			$this->getTableName($delete),
-			$alias
 		);
 
 		return $this;
@@ -623,12 +627,16 @@ class QueryBuilder implements IQueryBuilder {
 	 * @param string $alias The table alias used in the constructed query.
 	 *
 	 * @return $this This QueryBuilder instance.
+	 * @since 30.0.0 Alias is no longer supported
 	 */
 	public function update($update = null, $alias = null) {
+		if ($alias !== null) {
+			$this->logger->debug('UPDATE queries with alias are no longer supported and the provided alias is ignored', ['exception' => new \InvalidArgumentException('Table alias provided for UPDATE query')]);
+		}
+
 		$this->type = self::UPDATE;
 		$this->queryBuilder->update(
 			$this->getTableName($update),
-			$alias
 		);
 
 		return $this;
