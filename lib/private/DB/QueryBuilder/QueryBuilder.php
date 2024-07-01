@@ -9,7 +9,6 @@ namespace OC\DB\QueryBuilder;
 
 use Doctrine\DBAL\Platforms\MySQLPlatform;
 use Doctrine\DBAL\Platforms\OraclePlatform;
-use Doctrine\DBAL\Platforms\PostgreSQL94Platform;
 use Doctrine\DBAL\Platforms\SQLitePlatform;
 use Doctrine\DBAL\Query\QueryException;
 use OC\DB\ConnectionAdapter;
@@ -30,6 +29,7 @@ use OCP\DB\QueryBuilder\ILiteral;
 use OCP\DB\QueryBuilder\IParameter;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\DB\QueryBuilder\IQueryFunction;
+use OCP\IDBConnection;
 use Psr\Log\LoggerInterface;
 
 class QueryBuilder implements IQueryBuilder {
@@ -112,7 +112,7 @@ class QueryBuilder implements IQueryBuilder {
 		if ($this->connection->getDatabasePlatform() instanceof OraclePlatform) {
 			return new OCIExpressionBuilder($this->connection, $this);
 		}
-		if ($this->connection->getDatabasePlatform() instanceof PostgreSQL94Platform) {
+		if ($this->connection->getDatabaseProvider() !== IDBConnection::PLATFORM_POSTGRES) {
 			return new PgSqlExpressionBuilder($this->connection, $this);
 		}
 		if ($this->connection->getDatabasePlatform() instanceof MySQLPlatform) {
@@ -148,7 +148,7 @@ class QueryBuilder implements IQueryBuilder {
 		if ($this->connection->getDatabasePlatform() instanceof SQLitePlatform) {
 			return new SqliteFunctionBuilder($this->connection, $this, $this->helper);
 		}
-		if ($this->connection->getDatabasePlatform() instanceof PostgreSQL94Platform) {
+		if ($this->connection->getDatabaseProvider() === IDBConnection::PLATFORM_POSTGRES) {
 			return new PgSqlFunctionBuilder($this->connection, $this, $this->helper);
 		}
 
