@@ -8,6 +8,7 @@ namespace OC\DB;
 use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Schema\Schema;
+use Doctrine\DBAL\Schema\Table;
 use OCP\DB\ISchemaWrapper;
 
 class SchemaWrapper implements ISchemaWrapper {
@@ -43,26 +44,25 @@ class SchemaWrapper implements ISchemaWrapper {
 	/**
 	 * Gets all table names
 	 *
-	 * @return array
+	 * @return list<string>
 	 */
-	public function getTableNamesWithoutPrefix() {
-		$tableNames = $this->schema->getTableNames();
-		return array_map(function ($tableName) {
+	public function getTableNamesWithoutPrefix(): array {
+		return array_map(function (string $tableName) {
 			if (str_starts_with($tableName, $this->connection->getPrefix())) {
 				return substr($tableName, strlen($this->connection->getPrefix()));
 			}
 
 			return $tableName;
-		}, $tableNames);
+		}, $this->getTableNames());
 	}
 
 	// Overwritten methods
 
 	/**
-	 * @return array
+	 * @return list<string>
 	 */
-	public function getTableNames() {
-		return $this->schema->getTableNames();
+	public function getTableNames(): array {
+		return array_map(static fn (Table $table) => $table->getName(), $this->schema->getTables());
 	}
 
 	/**
