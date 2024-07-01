@@ -595,7 +595,7 @@ class MigrationService {
 			}
 
 			$primaryKey = $table->getPrimaryKey();
-			if ($primaryKey instanceof Index && (!$sourceTable instanceof Table || !$sourceTable->hasPrimaryKey())) {
+			if ($primaryKey instanceof Index && (!$sourceTable instanceof Table || !$sourceTable->getPrimaryKey())) {
 				$indexName = strtolower($primaryKey->getName());
 				$isUsingDefaultName = $indexName === 'primary';
 
