@@ -11,6 +11,7 @@ use OC\AppFramework\Http;
 use OC\AppFramework\Http\Request;
 use OC\AppFramework\Middleware\Security\Exceptions\AppNotEnabledException;
 use OC\AppFramework\Middleware\Security\Exceptions\CrossSiteRequestForgeryException;
+use OC\AppFramework\Middleware\Security\Exceptions\ExAppRequiredException;
 use OC\AppFramework\Middleware\Security\Exceptions\NotAdminException;
 use OC\AppFramework\Middleware\Security\Exceptions\NotLoggedInException;
 use OC\AppFramework\Middleware\Security\Exceptions\SecurityException;
@@ -18,6 +19,7 @@ use OC\Appframework\Middleware\Security\Exceptions\StrictCookieMissingException;
 use OC\AppFramework\Middleware\Security\SecurityMiddleware;
 use OC\AppFramework\Utility\ControllerMethodReflector;
 use OC\Settings\AuthorizedGroupMapper;
+use OC\User\Session;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\RedirectResponse;
@@ -27,6 +29,7 @@ use OCP\IL10N;
 use OCP\INavigationManager;
 use OCP\IRequest;
 use OCP\IRequestId;
+use OCP\ISession;
 use OCP\IURLGenerator;
 use OCP\IUserSession;
 use Psr\Log\LoggerInterface;
@@ -66,7 +69,7 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 		parent::setUp();
 
 		$this->authorizedGroupMapper = $this->createMock(AuthorizedGroupMapper::class);
-		$this->userSession = $this->createMock(IUserSession::class);
+		$this->userSession = $this->createMock(Session::class);
 		$this->request = $this->createMock(IRequest::class);
 		$this->controller = new SecurityMiddlewareController(
 			'test',
@@ -164,6 +167,13 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 			['testAnnotationNoCSRFRequiredAttributeSubAdminRequired'],
 			['testAnnotationSubAdminRequiredAttributeNoCSRFRequired'],
 			['testAttributeNoCSRFRequiredSubAdminRequired'],
+		];
+	}
+
+	public static function dataExAppRequired(): array {
+		return [
+			['testAnnotationExAppRequired'],
+			['testAttributeExAppRequired'],
 		];
 	}
 
@@ -681,5 +691,41 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 			$this->secAjaxException);
 
 		$this->assertTrue($response instanceof JSONResponse);
+	}
+
+	/**
+	 * @dataProvider dataExAppRequired
+	 */
+	public function testExAppRequired(string $method): void {
+		$middleware = $this->getMiddleware(true, false, false);
+		$this->reader->reflect($this->controller, $method);
+
+		$session = $this->createMock(ISession::class);
+		$session->method('get')->with('app_api')->willReturn(true);
+		$this->userSession->method('getSession')->willReturn($session);
+
+		$this->request->expects($this->once())
+			->method('passesStrictCookieCheck')
+			->willReturn(true);
+		$this->request->expects($this->once())
+			->method('passesCSRFCheck')
+			->willReturn(true);
+
+		$middleware->beforeController($this->controller, $method);
+	}
+
+	/**
+	 * @dataProvider dataExAppRequired
+	 */
+	public function testExAppRequiredError(string $method): void {
+		$middleware = $this->getMiddleware(true, false, false, false);
+		$this->reader->reflect($this->controller, $method);
+
+		$session = $this->createMock(ISession::class);
+		$session->method('get')->with('app_api')->willReturn(false);
+		$this->userSession->method('getSession')->willReturn($session);
+
+		$this->expectException(ExAppRequiredException::class);
+		$middleware->beforeController($this->controller, $method);
 	}
 }

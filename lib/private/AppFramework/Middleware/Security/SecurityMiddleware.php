@@ -10,16 +10,19 @@ namespace OC\AppFramework\Middleware\Security;
 
 use OC\AppFramework\Middleware\Security\Exceptions\AppNotEnabledException;
 use OC\AppFramework\Middleware\Security\Exceptions\CrossSiteRequestForgeryException;
+use OC\AppFramework\Middleware\Security\Exceptions\ExAppRequiredException;
 use OC\AppFramework\Middleware\Security\Exceptions\NotAdminException;
 use OC\AppFramework\Middleware\Security\Exceptions\NotLoggedInException;
 use OC\AppFramework\Middleware\Security\Exceptions\SecurityException;
 use OC\AppFramework\Middleware\Security\Exceptions\StrictCookieMissingException;
 use OC\AppFramework\Utility\ControllerMethodReflector;
 use OC\Settings\AuthorizedGroupMapper;
+use OC\User\Session;
 use OCP\App\AppPathNotFoundException;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\Attribute\AuthorizedAdminSetting;
+use OCP\AppFramework\Http\Attribute\ExAppRequired;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
 use OCP\AppFramework\Http\Attribute\PublicPage;
@@ -127,7 +130,12 @@ class SecurityMiddleware extends Middleware {
 
 		// security checks
 		$isPublicPage = $this->hasAnnotationOrAttribute($reflectionMethod, 'PublicPage', PublicPage::class);
-		if (!$isPublicPage) {
+
+		if ($this->hasAnnotationOrAttribute($reflectionMethod, 'ExAppRequired', ExAppRequired::class)) {
+			if (!$this->userSession instanceof Session || $this->userSession->getSession()->get('app_api') !== true) {
+				throw new ExAppRequiredException();
+			}
+		} elseif (!$isPublicPage) {
 			if (!$this->isLoggedIn) {
 				throw new NotLoggedInException();
 			}

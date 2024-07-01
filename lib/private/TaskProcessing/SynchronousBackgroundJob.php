@@ -43,7 +43,7 @@ class SynchronousBackgroundJob extends QueuedJob {
 			}
 			$taskType = $provider->getTaskTypeId();
 			try {
-				$task = $this->taskProcessingManager->getNextScheduledTask($taskType);
+				$task = $this->taskProcessingManager->getNextScheduledTask([$taskType]);
 			} catch (NotFoundException $e) {
 				continue;
 			} catch (Exception $e) {
@@ -91,7 +91,7 @@ class SynchronousBackgroundJob extends QueuedJob {
 		));
 		$taskTypesWithTasks = array_filter($taskTypes, function ($taskType) {
 			try {
-				$this->taskProcessingManager->getNextScheduledTask($taskType);
+				$this->taskProcessingManager->getNextScheduledTask([$taskType]);
 				return true;
 			} catch (NotFoundException|Exception $e) {
 				return false;

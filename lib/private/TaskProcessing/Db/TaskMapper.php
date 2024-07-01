@@ -45,21 +45,33 @@ class TaskMapper extends QBMapper {
 	}
 
 	/**
-	 * @param string|null $taskType
+	 * @param list<string> $taskTypes
+	 * @param list<int> $taskIdsToIgnore
 	 * @return Task
 	 * @throws DoesNotExistException
 	 * @throws Exception
 	 */
-	public function findOldestScheduledByType(?string $taskType): Task {
+	public function findOldestScheduledByType(array $taskTypes, array $taskIdsToIgnore): Task {
 		$qb = $this->db->getQueryBuilder();
 		$qb->select(Task::$columns)
 			->from($this->tableName)
 			->where($qb->expr()->eq('status', $qb->createPositionalParameter(\OCP\TaskProcessing\Task::STATUS_SCHEDULED, IQueryBuilder::PARAM_INT)))
 			->setMaxResults(1)
 			->orderBy('last_updated', 'ASC');
-		if ($taskType !== null) {
-			$qb->andWhere($qb->expr()->eq('type', $qb->createPositionalParameter($taskType)));
+
+		if (count($taskTypes) > 0) {
+			$filter = $qb->expr()->orX();
+			foreach ($taskTypes as $taskType) {
+				$filter->add($qb->expr()->eq('type', $qb->createPositionalParameter($taskType)));
+			}
+
+			$qb->andWhere($filter);
 		}
+
+		if (count($taskIdsToIgnore) > 0) {
+			$qb->andWhere($qb->expr()->notIn('id', $qb->createNamedParameter($taskIdsToIgnore, IQueryBuilder::PARAM_INT_ARRAY)));
+		}
+
 		return $this->findEntity($qb);
 	}
 
@@ -139,5 +151,18 @@ class TaskMapper extends QBMapper {
 	public function update(Entity $entity): Entity {
 		$entity->setLastUpdated($this->timeFactory->now()->getTimestamp());
 		return parent::update($entity);
+	}
+
+	public function lockTask(Entity $entity): int {
+		$qb = $this->db->getQueryBuilder();
+		$qb->update($this->tableName)
+			->set('status', $qb->createPositionalParameter(\OCP\TaskProcessing\Task::STATUS_RUNNING, IQueryBuilder::PARAM_INT))
+			->where($qb->expr()->eq('id', $qb->createPositionalParameter($entity->getId(), IQueryBuilder::PARAM_INT)))
+			->andWhere($qb->expr()->neq('status', $qb->createPositionalParameter(2, IQueryBuilder::PARAM_INT)));
+		try {
+			return $qb->executeStatement();
+		} catch (Exception) {
+			return 0;
+		}
 	}
 }

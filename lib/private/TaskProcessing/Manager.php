@@ -421,21 +421,6 @@ class Manager implements IManager {
 	}
 
 	/**
-	 * @param string $taskType
-	 * @return IProvider
-	 * @throws \OCP\TaskProcessing\Exception\Exception
-	 */
-	private function _getPreferredProvider(string $taskType) {
-		$providers = $this->getProviders();
-		foreach ($providers as $provider) {
-			if ($provider->getTaskTypeId() === $taskType) {
-				return $provider;
-			}
-		}
-		throw new \OCP\TaskProcessing\Exception\Exception('No matching provider found');
-	}
-
-	/**
 	 * @param ShapeDescriptor[] $spec
 	 * @param array $io
 	 * @return void
@@ -505,6 +490,16 @@ class Manager implements IManager {
 		}
 
 		return $this->providers;
+	}
+
+	public function getPreferredProvider(string $taskType) {
+		$providers = $this->getProviders();
+		foreach ($providers as $provider) {
+			if ($provider->getTaskTypeId() === $taskType) {
+				return $provider;
+			}
+		}
+		throw new \OCP\TaskProcessing\Exception\Exception('No matching provider found');
 	}
 
 	public function getAvailableTaskTypes(): array {
@@ -579,7 +574,7 @@ class Manager implements IManager {
 		// remove superfluous keys and set input
 		$task->setInput($this->removeSuperfluousArrayKeys($task->getInput(), $inputShape, $optionalInputShape));
 		$task->setStatus(Task::STATUS_SCHEDULED);
-		$provider = $this->_getPreferredProvider($task->getTaskTypeId());
+		$provider = $this->getPreferredProvider($task->getTaskTypeId());
 		// calculate expected completion time
 		$completionExpectedAt = new \DateTime('now');
 		$completionExpectedAt->add(new \DateInterval('PT'.$provider->getExpectedRuntime().'S'));
@@ -698,9 +693,9 @@ class Manager implements IManager {
 		$this->dispatcher->dispatchTyped($event);
 	}
 
-	public function getNextScheduledTask(?string $taskTypeId = null): Task {
+	public function getNextScheduledTask(array $taskTypeIds = [], array $taskIdsToIgnore = []): Task {
 		try {
-			$taskEntity = $this->taskMapper->findOldestScheduledByType($taskTypeId);
+			$taskEntity = $this->taskMapper->findOldestScheduledByType($taskTypeIds, $taskIdsToIgnore);
 			return $taskEntity->toPublicTask();
 		} catch (DoesNotExistException $e) {
 			throw new \OCP\TaskProcessing\Exception\NotFoundException('Could not find the task', 0, $e);
@@ -865,5 +860,14 @@ class Manager implements IManager {
 		$input = $this->removeSuperfluousArrayKeys($input, $inputShape, $optionalInputShape);
 		$input = $this->fillInputFileData($task->getUserId(), $input, $inputShape, $optionalInputShape);
 		return $input;
+	}
+
+	public function lockTask(Task $task): bool {
+		$taskEntity = \OC\TaskProcessing\Db\Task::fromPublicTask($task);
+		if ($this->taskMapper->lockTask($taskEntity) === 0) {
+			return false;
+		}
+		$task->setStatus(Task::STATUS_RUNNING);
+		return true;
 	}
 }
