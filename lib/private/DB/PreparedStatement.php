@@ -66,7 +66,7 @@ class PreparedStatement implements IPreparedStatement {
 	}
 
 	public function execute($params = null): IResult {
-		return ($this->result = new ResultAdapter($this->statement->execute($params)));
+		return ($this->result = new ResultAdapter($this->statement->executeQuery($params)));
 	}
 
 	public function rowCount(): int {
@@ -78,6 +78,6 @@ class PreparedStatement implements IPreparedStatement {
 			return $this->result;
 		}
 
-		throw new Exception("You have to execute the prepared statement before accessing the results");
+		throw new \Exception("You have to execute the prepared statement before accessing the results");
 	}
 }
