@@ -310,8 +310,8 @@ class Manager implements IManager {
 
 		// If $expirationDate is falsy, noExpirationDate is true and expiration not enforced
 		// Then skip expiration date validation as null is accepted
-		if (!($share->getNoExpirationDate() && !$isEnforced)) {
-			if ($expirationDate != null) {
+		if (!$share->getNoExpirationDate() || $isEnforced) {
+			if ($expirationDate !== null) {
 				$expirationDate->setTimezone($this->dateTimeZone->getTimeZone());
 				$expirationDate->setTime(0, 0, 0);
 
@@ -394,7 +394,7 @@ class Manager implements IManager {
 			if ($expirationDate !== null) {
 				$expirationDate->setTimezone($this->dateTimeZone->getTimeZone());
 				$expirationDate->setTime(0, 0, 0);
-	
+
 				$date = new \DateTime('now', $this->dateTimeZone->getTimeZone());
 				$date->setTime(0, 0, 0);
 				if ($date >= $expirationDate) {
@@ -410,24 +410,24 @@ class Manager implements IManager {
 			} catch (\UnexpectedValueException $e) {
 				// This is a new share
 			}
-	
+
 			if ($fullId === null && $expirationDate === null && $this->shareApiLinkDefaultExpireDate()) {
 				$expirationDate = new \DateTime('now', $this->dateTimeZone->getTimeZone());
 				$expirationDate->setTime(0, 0, 0);
-	
+
 				$days = (int)$this->config->getAppValue('core', 'link_defaultExpDays', (string)$this->shareApiLinkDefaultExpireDays());
 				if ($days > $this->shareApiLinkDefaultExpireDays()) {
 					$days = $this->shareApiLinkDefaultExpireDays();
 				}
 				$expirationDate->add(new \DateInterval('P' . $days . 'D'));
 			}
-	
+
 			// If we enforce the expiration date check that is does not exceed
 			if ($isEnforced) {
 				if (empty($expirationDate)) {
 					throw new \InvalidArgumentException('Expiration date is enforced');
 				}
-	
+
 				$date = new \DateTime('now', $this->dateTimeZone->getTimeZone());
 				$date->setTime(0, 0, 0);
 				$date->add(new \DateInterval('P' . $this->shareApiLinkDefaultExpireDays() . 'D'));
@@ -452,9 +452,6 @@ class Manager implements IManager {
 			throw new \Exception($message);
 		}
 
-		if ($expirationDate instanceof \DateTime) {
-			$expirationDate->setTimezone(new \DateTimeZone(date_default_timezone_get()));
-		}
 		$share->setExpirationDate($expirationDate);
 
 		return $share;
@@ -812,7 +809,7 @@ class Manager implements IManager {
 		$link,
 		$initiator,
 		$shareWith,
-		\DateTime $expiration = null,
+		?\DateTime $expiration = null,
 		$note = '') {
 		$initiatorUser = $this->userManager->get($initiator);
 		$initiatorDisplayName = ($initiatorUser instanceof IUser) ? $initiatorUser->getDisplayName() : $initiator;
