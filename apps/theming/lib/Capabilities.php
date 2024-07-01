@@ -117,14 +117,14 @@ class Capabilities implements IPublicCapability {
 			}
 			$colorText = $this->util->invertTextColor($color) ? '#000000' : '#ffffff';
 
-			$backgroundImage = $this->config->getUserValue($user->getUID(), Application::APP_ID, 'background_image', BackgroundService::BACKGROUND_DEFAULT);
+			$backgroundImage = $this->config->getUserValue($user->getUID(), Application::APP_ID, 'background_image', BackgroundService::DEFAULT_BACKGROUND_IMAGE);
 			if ($backgroundImage === BackgroundService::BACKGROUND_CUSTOM) {
 				$backgroundPlain = false;
 				$background = $this->url->linkToRouteAbsolute('theming.userTheme.getBackground');
 			} elseif (isset(BackgroundService::SHIPPED_BACKGROUNDS[$backgroundImage])) {
 				$backgroundPlain = false;
-				$background = $this->url->linkTo(Application::APP_ID, "img/background/$backgroundImage");
-			} elseif ($backgroundImage !== BackgroundService::BACKGROUND_DEFAULT) {
+				$background = $this->url->getAbsoluteURL($this->url->linkTo(Application::APP_ID, "img/background/$backgroundImage"));
+			} else {
 				$backgroundPlain = true;
 				$background = $color;
 			}
