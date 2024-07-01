@@ -27,6 +27,7 @@ class DummyJobList extends \OC\BackgroundJob\JobList {
 	private array $reserved = [];
 
 	private int $last = 0;
+	private int $lastId = 0;
 
 	public function __construct() {
 	}
@@ -41,6 +42,8 @@ class DummyJobList extends \OC\BackgroundJob\JobList {
 			$job = \OCP\Server::get($job);
 		}
 		$job->setArgument($argument);
+		$job->setId($this->lastId);
+		$this->lastId++;
 		if (!$this->has($job, null)) {
 			$this->jobs[] = $job;
 		}
@@ -51,9 +54,20 @@ class DummyJobList extends \OC\BackgroundJob\JobList {
 	 * @param mixed $argument
 	 */
 	public function remove($job, $argument = null): void {
-		$index = array_search($job, $this->jobs);
-		if ($index !== false) {
-			unset($this->jobs[$index]);
+		foreach ($this->jobs as $index => $listJob) {
+			if (get_class($job) === get_class($listJob) && $job->getArgument() == $listJob->getArgument()) {
+				unset($this->jobs[$index]);
+				return;
+			}
+		}
+	}
+
+	public function removeById(int $id): void {
+		foreach ($this->jobs as $index => $listJob) {
+			if ($listJob->getId() === $id) {
+				unset($this->jobs[$index]);
+				return;
+			}
 		}
 	}
 
@@ -123,7 +137,7 @@ class DummyJobList extends \OC\BackgroundJob\JobList {
 		}
 	}
 
-	public function getById(int $id): IJob {
+	public function getById(int $id): ?IJob {
 		foreach ($this->jobs as $job) {
 			if ($job->getId() === $id) {
 				return $job;
