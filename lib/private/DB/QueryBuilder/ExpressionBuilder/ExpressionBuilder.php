@@ -55,9 +55,10 @@ class ExpressionBuilder implements IExpressionBuilder {
 	#[\Override]
 	public function andX(...$x): ICompositeExpression {
 		if (empty($x)) {
-			$this->logger->debug('Calling ' . IQueryBuilder::class . '::' . __FUNCTION__ . ' without parameters is deprecated and will throw soon.', ['exception' => new \Exception('No parameters in call to ' . __METHOD__)]);
+			throw new \Exception('No parameters in call to ' . __METHOD__);
 		}
-		return new CompositeExpression(CompositeExpression::TYPE_AND, $x);
+		$compositeExpression = call_user_func_array([$this->expressionBuilder, 'and'], $x);
+		return new CompositeExpression($compositeExpression);
 	}
 
 	/**
@@ -77,9 +78,10 @@ class ExpressionBuilder implements IExpressionBuilder {
 	#[\Override]
 	public function orX(...$x): ICompositeExpression {
 		if (empty($x)) {
-			$this->logger->debug('Calling ' . IQueryBuilder::class . '::' . __FUNCTION__ . ' without parameters is deprecated and will throw soon.', ['exception' => new \Exception('No parameters in call to ' . __METHOD__)]);
+			throw new \Exception('No parameters in call to ' . __METHOD__);
 		}
-		return new CompositeExpression(CompositeExpression::TYPE_OR, $x);
+		$compositeExpression = call_user_func_array([$this->expressionBuilder, 'or'], $x);
+		return new CompositeExpression($compositeExpression);
 	}
 
 	/**
