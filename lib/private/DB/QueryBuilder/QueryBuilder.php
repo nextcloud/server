@@ -170,13 +170,12 @@ class QueryBuilder extends TypedQueryBuilder {
 	 * Gets the state of this query builder instance.
 	 *
 	 * @return int Always returns 0 which is former `QueryBuilder::STATE_DIRTY`
-	 * @deprecated 30.0.0 This function is going to be removed with the next Doctrine/DBAL update
-	 *    and we can not fix this in our wrapper.
+	 * @deprecated 35.0.0 Function is no-op because it's removed upstream
 	 */
 	#[\Override]
 	public function getState() {
-		$this->logger->debug(IQueryBuilder::class . '::' . __FUNCTION__ . ' is deprecated and will be removed soon.', ['exception' => new \Exception('Deprecated call to ' . __METHOD__)]);
-		return $this->queryBuilder->getState();
+		$this->logger->debug('Relying on the query builder state is deprecated as it is an internal concern.', ['exception' => new \Exception('Table alias provided for UPDATE query')]);
+		return 0;
 	}
 
 	private function prepareForExecute() {
