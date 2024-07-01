@@ -305,10 +305,7 @@ class Connection extends PrimaryReadReplicaConnection {
 	 * @throws Exception
 	 */
 	public function executeUpdate(string $sql, array $params = [], array $types = []): int {
-		$sql = $this->finishQuery($sql);
-		$this->queriesExecuted++;
-		$this->logQueryToFile($sql);
-		return parent::executeUpdate($sql, $params, $types);
+		return $this->executeStatement($sql, $params, $types);
 	}
 
 	/**
