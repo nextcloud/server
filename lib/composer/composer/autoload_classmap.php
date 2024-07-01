@@ -1559,7 +1559,7 @@ return array(
     'OC\\User\\Database' => $baseDir . '/lib/private/User/Database.php',
     'OC\\User\\DisplayNameCache' => $baseDir . '/lib/private/User/DisplayNameCache.php',
     'OC\\User\\LazyUser' => $baseDir . '/lib/private/User/LazyUser.php',
-	'OC\\User\\Listeners\\BeforeUserDeletedListener' => $baseDir . '/lib/private/User/Listeners/BeforeUserDeletedListener.php',
+    'OC\\User\\Listeners\\BeforeUserDeletedListener' => $baseDir . '/lib/private/User/Listeners/BeforeUserDeletedListener.php',
     'OC\\User\\LoginException' => $baseDir . '/lib/private/User/LoginException.php',
     'OC\\User\\Manager' => $baseDir . '/lib/private/User/Manager.php',
     'OC\\User\\NoUserException' => $baseDir . '/lib/private/User/NoUserException.php',
