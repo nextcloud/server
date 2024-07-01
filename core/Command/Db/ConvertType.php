@@ -245,7 +245,7 @@ class ConvertType extends Command implements CompletionAwareInterface {
 			$output->writeln('<info>Clearing schema in new database</info>');
 		}
 		foreach ($toTables as $table) {
-			$db->getSchemaManager()->dropTable($table);
+			$db->createSchemaManager()->dropTable($table);
 		}
 	}
 
@@ -258,7 +258,7 @@ class ConvertType extends Command implements CompletionAwareInterface {
 			}
 			return preg_match($filterExpression, $asset) !== false;
 		});
-		return $db->getSchemaManager()->listTableNames();
+		return $db->createSchemaManager()->listTableNames();
 	}
 
 	/**

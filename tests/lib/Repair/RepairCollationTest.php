@@ -73,7 +73,7 @@ class RepairCollationTest extends TestCase {
 	}
 
 	protected function tearDown(): void {
-		$this->connection->getInner()->getSchemaManager()->dropTable($this->tableName);
+		$this->connection->getInner()->createSchemaManager()->dropTable($this->tableName);
 		parent::tearDown();
 	}
 
