@@ -85,7 +85,7 @@ class PreparedStatement implements IPreparedStatement {
 
 	#[\Override]
 	public function execute($params = null): IResult {
-		return ($this->result = new ResultAdapter($this->statement->execute($params ?? [])));
+		return ($this->result = new ResultAdapter($this->statement->executeQuery($params ?? [])));
 	}
 
 	#[\Override]
