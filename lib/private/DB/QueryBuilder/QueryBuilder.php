@@ -7,14 +7,9 @@
  */
 namespace OC\DB\QueryBuilder;
 
-use Doctrine\DBAL\Platforms\MySQLPlatform;
-use Doctrine\DBAL\Platforms\OraclePlatform;
-use Doctrine\DBAL\Platforms\PostgreSQL94Platform;
-use Doctrine\DBAL\Platforms\SqlitePlatform;
 use Doctrine\DBAL\Query\QueryException;
 use OC\DB\ConnectionAdapter;
 use OC\DB\Exceptions\DbalException;
-use OC\DB\QueryBuilder\ExpressionBuilder\ExpressionBuilder;
 use OC\DB\QueryBuilder\ExpressionBuilder\MySqlExpressionBuilder;
 use OC\DB\QueryBuilder\ExpressionBuilder\OCIExpressionBuilder;
 use OC\DB\QueryBuilder\ExpressionBuilder\PgSqlExpressionBuilder;
@@ -96,20 +91,12 @@ class QueryBuilder implements IQueryBuilder {
 	 * @return \OCP\DB\QueryBuilder\IExpressionBuilder
 	 */
 	public function expr() {
-		if ($this->connection->getDatabasePlatform() instanceof OraclePlatform) {
-			return new OCIExpressionBuilder($this->connection, $this);
-		}
-		if ($this->connection->getDatabasePlatform() instanceof PostgreSQL94Platform) {
-			return new PgSqlExpressionBuilder($this->connection, $this);
-		}
-		if ($this->connection->getDatabasePlatform() instanceof MySQLPlatform) {
-			return new MySqlExpressionBuilder($this->connection, $this);
-		}
-		if ($this->connection->getDatabasePlatform() instanceof SqlitePlatform) {
-			return new SqliteExpressionBuilder($this->connection, $this);
-		}
-
-		return new ExpressionBuilder($this->connection, $this);
+		return match($this->connection->getDatabaseProvider()) {
+			IDBConnection::PLATFORM_ORACLE => new OCIExpressionBuilder($this->connection, $this),
+			IDBConnection::PLATFORM_POSTGRES => new PgSqlExpressionBuilder($this->connection, $this),
+			IDBConnection::PLATFORM_MYSQL => new MySqlExpressionBuilder($this->connection, $this),
+			IDBConnection::PLATFORM_SQLITE => new SqliteExpressionBuilder($this->connection, $this),
+		};
 	}
 
 	/**
@@ -129,17 +116,12 @@ class QueryBuilder implements IQueryBuilder {
 	 * @return \OCP\DB\QueryBuilder\IFunctionBuilder
 	 */
 	public function func() {
-		if ($this->connection->getDatabasePlatform() instanceof OraclePlatform) {
-			return new OCIFunctionBuilder($this->connection, $this, $this->helper);
-		}
-		if ($this->connection->getDatabasePlatform() instanceof SqlitePlatform) {
-			return new SqliteFunctionBuilder($this->connection, $this, $this->helper);
-		}
-		if ($this->connection->getDatabasePlatform() instanceof PostgreSQL94Platform) {
-			return new PgSqlFunctionBuilder($this->connection, $this, $this->helper);
-		}
-
-		return new FunctionBuilder($this->connection, $this, $this->helper);
+		return match($this->connection->getDatabaseProvider()) {
+			IDBConnection::PLATFORM_ORACLE => new OCIFunctionBuilder($this->connection, $this, $this->helper),
+			IDBConnection::PLATFORM_POSTGRES => new PgSqlFunctionBuilder($this->connection, $this, $this->helper),
+			IDBConnection::PLATFORM_MYSQL => new FunctionBuilder($this->connection, $this, $this->helper),
+			IDBConnection::PLATFORM_SQLITE => new SqliteFunctionBuilder($this->connection, $this, $this->helper),
+		};
 	}
 
 	/**

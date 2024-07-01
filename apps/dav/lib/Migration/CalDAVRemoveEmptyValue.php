@@ -5,7 +5,6 @@
  */
 namespace OCA\DAV\Migration;
 
-use Doctrine\DBAL\Platforms\OraclePlatform;
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
@@ -75,7 +74,7 @@ class CalDAVRemoveEmptyValue implements IRepairStep {
 	}
 
 	protected function getInvalidObjects($pattern) {
-		if ($this->db->getDatabasePlatform() instanceof OraclePlatform) {
+		if ($this->db->getDatabaseProvider() === IDBConnection::PLATFORM_ORACLE) {
 			$rows = [];
 			$chunkSize = 500;
 			$query = $this->db->getQueryBuilder();
