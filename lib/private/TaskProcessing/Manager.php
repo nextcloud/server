@@ -490,6 +490,7 @@ class Manager implements IManager {
 	 */
 	private function removeSuperfluousArrayKeys(array $array, ...$specs): array {
 		$keys = array_unique(array_reduce($specs, fn ($carry, $spec) => array_merge($carry, array_keys($spec)), []));
+		$keys = array_filter($keys, fn ($key) => array_key_exists($key, $array));
 		$values = array_map(fn (string $key) => $array[$key], $keys);
 		return array_combine($keys, $values);
 	}
