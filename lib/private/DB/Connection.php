@@ -11,6 +11,7 @@ namespace OC\DB;
 use Doctrine\Common\EventManager;
 use Doctrine\DBAL\Cache\QueryCacheProfile;
 use Doctrine\DBAL\Configuration;
+use Doctrine\DBAL\ConnectionException;
 use Doctrine\DBAL\Connections\PrimaryReadReplicaConnection;
 use Doctrine\DBAL\Driver;
 use Doctrine\DBAL\Exception;
@@ -136,7 +137,7 @@ class Connection extends PrimaryReadReplicaConnection {
 			return $status;
 		} catch (Exception $e) {
 			// throw a new exception to prevent leaking info from the stacktrace
-			throw new Exception('Failed to connect to the database: ' . $e->getMessage(), $e->getCode());
+			throw new ConnectionException('Failed to connect to the database: ' . $e->getMessage(), $e->getCode());
 		}
 	}
 
