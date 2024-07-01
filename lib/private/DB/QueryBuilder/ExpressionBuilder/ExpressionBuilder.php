@@ -63,7 +63,7 @@ class ExpressionBuilder implements IExpressionBuilder {
 	 * @return \OCP\DB\QueryBuilder\ICompositeExpression
 	 */
 	public function andX(...$x): ICompositeExpression {
-		$compositeExpression = call_user_func_array([$this->expressionBuilder, 'andX'], $x);
+		$compositeExpression = call_user_func_array([$this->expressionBuilder, 'and'], $x);
 		return new CompositeExpression($compositeExpression);
 	}
 
@@ -82,7 +82,7 @@ class ExpressionBuilder implements IExpressionBuilder {
 	 * @return \OCP\DB\QueryBuilder\ICompositeExpression
 	 */
 	public function orX(...$x): ICompositeExpression {
-		$compositeExpression = call_user_func_array([$this->expressionBuilder, 'orX'], $x);
+		$compositeExpression = call_user_func_array([$this->expressionBuilder, 'or'], $x);
 		return new CompositeExpression($compositeExpression);
 	}
 
