@@ -288,6 +288,7 @@ OC.L10N.register(
     "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit!" : "يبدو أنك تستعمل إصدار PHP لـ 32-بِت. نكست كلاود تتطلب 64-بِت للعمل بشكل جيد. من فضلك، قُم بترقية نظام تشغيلك و PHP إلى 64-بِت.",
     "Temporary space available" : "مساحة مؤقتة متاحة",
     "Error while checking the temporary PHP path - it was not properly set to a directory. Returned value: %s" : "حدث خطأ أثناء فحص المسار المؤقت لـ PHP - لم يتم تعيينه إلى مُجلّد بالشكل الصحيح. القيمة الراجعة: %s",
+    "The PHP function \"disk_free_space\" is disabled, which prevents the check for enough space in the temporary directories." : "دالة بي إتش بي المسماة  \"disk_free_space\" معطلة؛ الأمر الذي يمنع فحص مدى توافر المساحة الكافية للمجلدات المؤقتة.",
     "Error while checking the available disk space of temporary PHP path or no free disk space returned. Temporary path: %s" : "حدث خطأ أثناء فحص مساحة التخزين المتاحة للمسار المؤقت لـ PHP، أو لم يتم إرجاع أي مساحة متاحة للتخزين. المسار المؤقت: %s",
     "- %.1f GiB available in %s (PHP temporary directory)" : "- %.1f غيغا بايت متاحة في %s (المجلد المؤقت لـ PHP)",
     "- %.1f GiB available in %s (Nextcloud temporary directory)" : "- %.1f غيغا بايت متاحة فثي %s (المجلد المؤقت لنكست كلاود)",
