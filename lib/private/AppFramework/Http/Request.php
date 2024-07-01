@@ -414,8 +414,10 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 
 
 	/**
-	 * Checks if the CSRF check was correct
-	 * @return bool true if CSRF check passed
+	 * Checks if the request passes the CSRF checks.
+	 *
+	 * A request must always pass the strict cookie check, unless it has the OCS-APIRequest set or no session (@see cookieCheckRequired).
+	 * If the OCS-APIRequest is set or a valid CSRF token is sent the check will succeed.
 	 */
 	public function passesCSRFCheck(): bool {
 		if ($this->csrfTokenManager === null) {
@@ -424,6 +426,10 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 
 		if (!$this->passesStrictCookieCheck()) {
 			return false;
+		}
+
+		if ($this->getHeader('OCS-APIRequest') !== '') {
+			return true;
 		}
 
 		if (isset($this->items['get']['requesttoken'])) {
@@ -444,17 +450,12 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	/**
 	 * Whether the cookie checks are required
 	 *
+	 * In case the OCS-APIRequest header is set or the user has no session, we don't need to check the cookies because the client is not a browser and thus doesn't need CSRF checks.
+	 *
 	 * @return bool
 	 */
 	private function cookieCheckRequired(): bool {
-		if ($this->getHeader('OCS-APIREQUEST')) {
-			return false;
-		}
-		if ($this->getCookie(session_name()) === null && $this->getCookie('nc_token') === null) {
-			return false;
-		}
-
-		return true;
+		return $this->getHeader('OCS-APIRequest') === '' && ($this->getCookie(session_name()) !== null || $this->getCookie('nc_token') !== null);
 	}
 
 	/**
@@ -495,11 +496,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 		}
 
 		$cookieName = $this->getProtectedCookieName('nc_sameSiteCookiestrict');
-		if ($this->getCookie($cookieName) === 'true'
-			&& $this->passesLaxCookieCheck()) {
-			return true;
-		}
-		return false;
+		return $this->getCookie($cookieName) === 'true' && $this->passesLaxCookieCheck();
 	}
 
 	/**
@@ -515,10 +512,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 		}
 
 		$cookieName = $this->getProtectedCookieName('nc_sameSiteCookielax');
-		if ($this->getCookie($cookieName) === 'true') {
-			return true;
-		}
-		return false;
+		return $this->getCookie($cookieName) === 'true';
 	}
 
 
