@@ -59,6 +59,7 @@
 	"eps": ["application/postscript"],
 	"epub": ["application/epub+zip"],
 	"erf": ["image/x-dcraw"],
+	"excalidraw": ["application/vnd.excalidraw+json"],
 	"exe": ["application/x-ms-dos-executable"],
 	"fb2": ["application/x-fictionbook+xml", "text/plain"],
 	"flac": ["audio/flac"],
