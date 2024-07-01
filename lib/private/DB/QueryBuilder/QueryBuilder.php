@@ -176,10 +176,12 @@ class QueryBuilder implements IQueryBuilder {
 	/**
 	 * Gets the state of this query builder instance.
 	 *
-	 * @return integer Either QueryBuilder::STATE_DIRTY or QueryBuilder::STATE_CLEAN.
+	 * @return int Always returns 0 which is former `QueryBuilder::STATE_DIRTY`
+	 * @deprecated 30.0.0 Function is no-op because it's removed upstream
 	 */
 	public function getState() {
-		return $this->queryBuilder->getState();
+		$this->logger->debug('Relying on the query builder state is deprecated as it is an internal concern.', ['exception' => new \Exception('Table alias provided for UPDATE query')]);
+		return 0;
 	}
 
 	/**
