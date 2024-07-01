@@ -134,6 +134,8 @@ interface IQueryBuilder {
 	 *
 	 * @return integer Either QueryBuilder::STATE_DIRTY or QueryBuilder::STATE_CLEAN.
 	 * @since 8.2.0
+	 * @deprecated 30.0.0 This function is going to be removed with the next Doctrine/DBAL update
+	 *    and we can not fix this in our wrapper.
 	 */
 	public function getState();
 

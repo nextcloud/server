@@ -145,9 +145,12 @@ class QueryBuilder implements IQueryBuilder {
 	/**
 	 * Gets the state of this query builder instance.
 	 *
-	 * @return integer Either QueryBuilder::STATE_DIRTY or QueryBuilder::STATE_CLEAN.
+	 * @return int Always returns 0 which is former `QueryBuilder::STATE_DIRTY`
+	 * @deprecated 30.0.0 This function is going to be removed with the next Doctrine/DBAL update
+	 *    and we can not fix this in our wrapper.
 	 */
 	public function getState() {
+		$this->logger->debug(IQueryBuilder::class . '::' . __FUNCTION__ . ' is deprecated and will be removed soon.', ['exception' => new \Exception('Deprecated call to ' . __METHOD__)]);
 		return $this->queryBuilder->getState();
 	}
 
