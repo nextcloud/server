@@ -106,6 +106,7 @@ class Manager {
 	/**
 	 * @brief checks whether the Access instance has been set
 	 * @throws \Exception if Access has not been set
+	 * @psalm-assert !null $this->access
 	 * @return null
 	 */
 	private function checkAccess() {
@@ -236,5 +237,40 @@ class Manager {
 		}
 
 		return $this->createInstancyByUserName($id);
+	}
+
+	/**
+	 * @brief Checks whether a User object by its DN or Nextcloud username exists
+	 * @param string $id the DN or username of the user
+	 * @throws \Exception when connection could not be established
+	 */
+	public function exists($id): bool {
+		$this->checkAccess();
+		$this->logger->debug('Checking if {id} exists', ['id' => $id]);
+		if (isset($this->usersByDN[$id])) {
+			return true;
+		} elseif (isset($this->usersByUid[$id])) {
+			return true;
+		}
+
+		if ($this->access->stringResemblesDN($id)) {
+			$this->logger->debug('{id} looks like a dn', ['id' => $id]);
+			$uid = $this->access->dn2username($id);
+			if ($uid !== false) {
+				return true;
+			}
+		}
+
+		// Most likely a uid. Check whether it is a deleted user
+		if ($this->isDeletedUser($id)) {
+			return true;
+		}
+		$this->logger->debug('username2dn({id})', ['id' => $id]);
+		$dn = $this->access->username2dn($id);
+		$this->logger->debug('end username2dn({id})', ['id' => $id]);
+		if ($dn !== false) {
+			return true;
+		}
+		return false;
 	}
 }
