@@ -288,7 +288,7 @@ class ExpressionBuilder implements IExpressionBuilder {
 	 * @since 9.0.0
 	 */
 	public function iLike($x, $y, $type = null): string {
-		return $this->expressionBuilder->like($this->functionBuilder->lower($x), $this->functionBuilder->lower($y));
+		return $this->expressionBuilder->like((string) $this->functionBuilder->lower($x), (string) $this->functionBuilder->lower($y));
 	}
 
 	/**
