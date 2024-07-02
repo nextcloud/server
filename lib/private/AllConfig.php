@@ -495,29 +495,23 @@ class AllConfig implements IConfig {
 	 * Gets the list of users based on their lastLogin info asc or desc
 	 *
 	 * @param string $search search users based on search params
-	 * @param string $sortMode can be lastLogin or any key in preferences
-	 * @param string $sortOrder asc or desc
 	 * @return array of user IDs
 	 */
-	public function getLastLoggedInUsers($search, $sortMode, $sortOrder): array {
+	public function getLastLoggedInUsers($search): array {
 		// TODO - FIXME
 		$this->fixDIInit();
 
 		$query = $this->connection->getQueryBuilder();
 
-		if ($sortMode === 'lastLogin') {
-			$lastLoginSubSelect = $this->connection->getQueryBuilder();
-			$lastLoginSubSelect->select('configvalue')
-				->from('preferences', 'p2')
-				->where($lastLoginSubSelect->expr()->andX(
-					$lastLoginSubSelect->expr()->eq('p2.userid', 'uid'),
-					$lastLoginSubSelect->expr()->eq('p2.appid', $lastLoginSubSelect->expr()->literal('login')),
-					$lastLoginSubSelect->expr()->eq('p2.configkey', $lastLoginSubSelect->expr()->literal('lastLogin')),
-				));
-			$orderByExpression = $query->createFunction('(' . $lastLoginSubSelect->getSQL() .')');
-		} else {
-			$orderByExpression = $query->func()->lower('displayname');
-		}
+		$lastLoginSubSelect = $this->connection->getQueryBuilder();
+		$lastLoginSubSelect->select('configvalue')
+			->from('preferences', 'p2')
+			->where($lastLoginSubSelect->expr()->andX(
+				$lastLoginSubSelect->expr()->eq('p2.userid', 'uid'),
+				$lastLoginSubSelect->expr()->eq('p2.appid', $lastLoginSubSelect->expr()->literal('login')),
+				$lastLoginSubSelect->expr()->eq('p2.configkey', $lastLoginSubSelect->expr()->literal('lastLogin')),
+			));
+		$orderByExpression = $query->createFunction('(' . $lastLoginSubSelect->getSQL() .')');
 
 		$query->select('uid', 'displayname', $orderByExpression)
 			->from('users', 'u')
@@ -530,7 +524,7 @@ class AllConfig implements IConfig {
 			->where($query->expr()->iLike('uid', $query->createPositionalParameter('%' . $this->connection->escapeLikeParameter($search) . '%')))
 			->orWhere($query->expr()->iLike('displayname', $query->createPositionalParameter('%' . $this->connection->escapeLikeParameter($search) . '%')))
 			->orWhere($query->expr()->iLike('configvalue', $query->createPositionalParameter('%' . $this->connection->escapeLikeParameter($search) . '%')))
-			->orderBy($orderByExpression, $sortOrder)
+			->orderBy($orderByExpression, 'DESC')
 			->addOrderBy('uid_lower', 'ASC');
 
 		$result = $query->executeQuery();

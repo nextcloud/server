@@ -267,14 +267,13 @@ class UsersController extends AUserData {
 
 	/**
 	 * @NoAdminRequired
+	 * @NoCSRFRequired
 	 *
-	 * Get the list of disabled users and their details
+	 * Get the list of last logged-in users and their details
 	 *
 	 * @param string $search Text to search for
 	 * @param ?int $limit Limit the amount of users returned
 	 * @param int $offset Offset
-	 * @param string $sortMode Field to order the results with
-	 * @param string $sortOrder asc or desc
 	 * @return DataResponse<Http::STATUS_OK, array{users: array<string, Provisioning_APIUserDetails|array{id: string}>}, array{}>
 	 *
 	 * 200: Users details returned based on last logged in information
@@ -282,8 +281,6 @@ class UsersController extends AUserData {
 	public function getLastLoggedInUsers(string $search = '',
 		?int   $limit = null,
 		int    $offset = 0,
-		string $sortMode = 'lastLogin',
-		string $sortOrder = 'desc'
 	): DataResponse {
 		$currentUser = $this->userSession->getUser();
 		if ($currentUser === null) {
@@ -302,7 +299,7 @@ class UsersController extends AUserData {
 		$uid = $currentUser->getUID();
 		$subAdminManager = $this->groupManager->getSubAdmin();
 		if ($this->groupManager->isAdmin($uid)) {
-			$users = $this->userManager->getUsersSortedByLastLogin($limit, $offset, $search, $sortMode, $sortOrder);
+			$users = $this->userManager->getUsersSortedByLastLogin($limit, $offset, $search);
 			$users = array_map(fn (IUser $user): string => $user->getUID(), $users);
 		} elseif ($subAdminManager->isSubAdmin($currentUser)) {
 			$subAdminOfGroups = $subAdminManager->getSubAdminsGroups($currentUser);
