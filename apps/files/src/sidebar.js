@@ -59,4 +59,5 @@ window.addEventListener('DOMContentLoaded', function() {
 	window.OCA.Files.Sidebar.open = AppSidebar.open
 	window.OCA.Files.Sidebar.close = AppSidebar.close
 	window.OCA.Files.Sidebar.setFullScreenMode = AppSidebar.setFullScreenMode
+	window.OCA.Files.Sidebar.setShowTagsDefault = AppSidebar.setShowTagsDefault
 })
