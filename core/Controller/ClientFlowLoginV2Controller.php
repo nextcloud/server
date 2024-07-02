@@ -10,8 +10,8 @@ namespace OC\Core\Controller;
 
 use OC\Core\Db\LoginFlowV2;
 use OC\Core\Exception\LoginFlowV2NotFoundException;
+use OC\Core\ResponseDefinitions;
 use OC\Core\Service\LoginFlowV2Service;
-use OCA\Core\ResponseDefinitions;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\FrontpageRoute;

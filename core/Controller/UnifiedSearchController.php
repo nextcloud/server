@@ -9,10 +9,10 @@ declare(strict_types=1);
 namespace OC\Core\Controller;
 
 use InvalidArgumentException;
+use OC\Core\ResponseDefinitions;
 use OC\Search\SearchComposer;
 use OC\Search\SearchQuery;
 use OC\Search\UnsupportedFilter;
-use OCA\Core\ResponseDefinitions;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\ApiRoute;
 use OCP\AppFramework\Http\DataResponse;

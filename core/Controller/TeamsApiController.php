@@ -8,7 +8,7 @@ declare(strict_types=1);
 
 namespace OC\Core\Controller;
 
-use OCA\Core\ResponseDefinitions;
+use OC\Core\ResponseDefinitions;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\ApiRoute;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
