@@ -428,6 +428,7 @@ class MigrationService {
 			$this->output->debug('- Checking target database schema');
 			$targetSchema = $toSchema->getWrappedSchema();
 			$beforeSchema = $this->connection->createSchema();
+			$this->ensureVarcharLength($targetSchema);
 			$this->ensureUniqueNamesConstraints($targetSchema, true);
 			$this->ensureNamingConstraints($beforeSchema, $targetSchema, \strlen($this->connection->getPrefix()));
 			if ($this->checkOracle) {
@@ -506,6 +507,7 @@ class MigrationService {
 		if ($toSchema instanceof SchemaWrapper) {
 			$targetSchema = $toSchema->getWrappedSchema();
 			$sourceSchema = $this->connection->createSchema();
+			$this->ensureVarcharLength($targetSchema);
 			$this->ensureUniqueNamesConstraints($targetSchema, $schemaOnly);
 			$this->ensureNamingConstraints($sourceSchema, $targetSchema, \strlen($this->connection->getPrefix()));
 			if ($this->checkOracle) {
@@ -782,6 +784,23 @@ class MigrationService {
 				$this->logErrorOrWarning('Sequence name "' . $sequence->getName() . '" for table "' . $table->getName() . '" collides with the constraint on table "' . $constraintNames[$thing->getName()] . '".');
 			}
 			$constraintNames[$sequence->getName()] = 'sequence';
+		}
+	}
+
+	/**
+	 * Ensure VARCHAR columns have a default length (required since Doctrine/DBAL 4.0)
+	 *
+	 * @param Schema $targetSchema
+	 */
+	public function ensureVarcharLength(Schema $targetSchema): void {
+		foreach ($targetSchema->getTables() as $table) {
+			foreach ($table->getColumns() as $column) {
+				if ($column->getLength() === null) {
+					if ($column->getType()->getTypeRegistry()->lookupName($column->getType()) === 'string') {
+						$column->setLength(255);
+					}
+				}
+			}
 		}
 	}
 
