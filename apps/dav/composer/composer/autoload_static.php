@@ -222,6 +222,7 @@ class ComposerStaticInitDAV
         'OCA\\DAV\\Controller\\DirectController' => __DIR__ . '/..' . '/../lib/Controller/DirectController.php',
         'OCA\\DAV\\Controller\\InvitationResponseController' => __DIR__ . '/..' . '/../lib/Controller/InvitationResponseController.php',
         'OCA\\DAV\\Controller\\OutOfOfficeController' => __DIR__ . '/..' . '/../lib/Controller/OutOfOfficeController.php',
+        'OCA\\DAV\\Controller\\UpcomingEventsController' => __DIR__ . '/..' . '/../lib/Controller/UpcomingEventsController.php',
         'OCA\\DAV\\DAV\\CustomPropertiesBackend' => __DIR__ . '/..' . '/../lib/DAV/CustomPropertiesBackend.php',
         'OCA\\DAV\\DAV\\GroupPrincipalBackend' => __DIR__ . '/..' . '/../lib/DAV/GroupPrincipalBackend.php',
         'OCA\\DAV\\DAV\\PublicAuth' => __DIR__ . '/..' . '/../lib/DAV/PublicAuth.php',
