@@ -114,7 +114,6 @@ updates:
   reviewers:
     - "nextcloud/server-dependabot"
   ignore:
-    # ignore all GitHub linguist patch updates
     - dependency-name: "*"
       update-types: ["version-update:semver-major", "version-update:semver-minor"]
   # Disable automatic rebasing because without a build CI will likely fail anyway
@@ -134,7 +133,6 @@ updates:
   reviewers:
     - "nextcloud/server-dependabot"
   ignore:
-    # ignore all GitHub linguist patch updates
     - dependency-name: "*"
       update-types: ["version-update:semver-major", "version-update:semver-minor"]
   # Disable automatic rebasing because without a build CI will likely fail anyway
