@@ -60,6 +60,6 @@ class ResultAdapter implements IResult {
 	}
 
 	public function rowCount(): int {
-		return $this->inner->rowCount();
+		return (int) $this->inner->rowCount();
 	}
 }

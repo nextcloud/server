@@ -187,7 +187,7 @@ class QueryBuilder implements IQueryBuilder {
 	/**
 	 * Executes this query using the bound parameters and their types.
 	 *
-	 * Uses {@see Connection::executeQuery} for select statements and {@see Connection::executeUpdate}
+	 * Uses {@see Connection::executeQuery} for select statements and {@see Connection::executeStatement}
 	 * for insert, update and delete statements.
 	 *
 	 * @return IResult|int
@@ -272,12 +272,10 @@ class QueryBuilder implements IQueryBuilder {
 
 		if ($this->getType() !== self::SELECT) {
 			$result = $this->queryBuilder->executeStatement();
-		} else {
-			$result = $this->queryBuilder->executeQuery();
+			return (int) $result;
 		}
-		if (is_int($result)) {
-			return $result;
-		}
+
+		$result = $this->queryBuilder->executeQuery();
 		return new ResultAdapter($result);
 	}
 

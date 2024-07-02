@@ -317,7 +317,7 @@ class Connection extends PrimaryReadReplicaConnection {
 	 * @param array  $params The query parameters.
 	 * @param array  $types  The parameter types.
 	 *
-	 * @return int The number of affected rows.
+	 * @return int The number of affected rows, if the result is bigger than PHP_INT_MAX, PHP_INT_MAX is returned
 	 *
 	 * @throws \Doctrine\DBAL\Exception
 	 */
