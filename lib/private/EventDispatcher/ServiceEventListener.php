@@ -83,6 +83,13 @@ final class ServiceEventListener {
 			}
 		}
 
+		$start = microtime(true);
 		$this->service->handle($event);
+		$end = microtime(true);
+		if ($event instanceof \OCA\Talk\Events\BeforeParticipantModifiedEvent || $event instanceof \OCA\Talk\Events\ParticipantModifiedEvent) {
+			if (isset($_SERVER['REQUEST_URI']) && str_contains($_SERVER['REQUEST_URI'], 'apps/spreed/api/v4/call/c9bui2ju')) {
+				error_log('[' . get_class($event) . '] ' . $this->class . ' - ' . ($end - $start));
+			}
+		}
 	}
 }
