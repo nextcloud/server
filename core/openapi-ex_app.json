@@ -1,7 +1,7 @@
 {
     "openapi": "3.0.3",
     "info": {
-        "title": "core-administration",
+        "title": "core-ex_app",
         "version": "0.0.1",
         "description": "Core functionality of Nextcloud",
         "license": {
@@ -355,17 +355,27 @@
                         "basic_auth": []
                     }
                 ],
-                "parameters": [
-                    {
-                        "name": "progress",
-                        "in": "query",
-                        "description": "The progress",
-                        "required": true,
-                        "schema": {
-                            "type": "number",
-                            "format": "double"
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "required": [
+                                    "progress"
+                                ],
+                                "properties": {
+                                    "progress": {
+                                        "type": "number",
+                                        "format": "double",
+                                        "description": "The progress"
+                                    }
+                                }
+                            }
                         }
-                    },
+                    }
+                },
+                "parameters": [
                     {
                         "name": "taskId",
                         "in": "path",
@@ -521,25 +531,32 @@
                         "basic_auth": []
                     }
                 ],
+                "requestBody": {
+                    "required": false,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "output": {
+                                        "type": "object",
+                                        "nullable": true,
+                                        "description": "The resulting task output",
+                                        "additionalProperties": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "errorMessage": {
+                                        "type": "string",
+                                        "nullable": true,
+                                        "description": "An error message if the task failed"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
                 "parameters": [
-                    {
-                        "name": "output",
-                        "in": "query",
-                        "description": "The resulting task output",
-                        "schema": {
-                            "type": "string",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "errorMessage",
-                        "in": "query",
-                        "description": "An error message if the task failed",
-                        "schema": {
-                            "type": "string",
-                            "nullable": true
-                        }
-                    },
                     {
                         "name": "taskId",
                         "in": "path",
@@ -695,31 +712,37 @@
                         "basic_auth": []
                     }
                 ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "required": [
+                                    "providerIds",
+                                    "taskTypeIds"
+                                ],
+                                "properties": {
+                                    "providerIds": {
+                                        "type": "array",
+                                        "description": "The ids of the providers",
+                                        "items": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "taskTypeIds": {
+                                        "type": "array",
+                                        "description": "The ids of the task types",
+                                        "items": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
                 "parameters": [
-                    {
-                        "name": "providerIds[]",
-                        "in": "query",
-                        "description": "The ids of the providers",
-                        "required": true,
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "type": "string"
-                            }
-                        }
-                    },
-                    {
-                        "name": "taskTypeIds[]",
-                        "in": "query",
-                        "description": "The ids of the task types",
-                        "required": true,
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "type": "string"
-                            }
-                        }
-                    },
                     {
                         "name": "OCS-APIRequest",
                         "in": "header",

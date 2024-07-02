@@ -51,6 +51,14 @@ class OpenAPI {
 	public const SCOPE_IGNORE = 'ignore';
 
 	/**
+	 * APIs used by ExApps.
+	 * Will be set automatically when an ExApp is required to access the route.
+	 *
+	 * @since 30.0.0
+	 */
+	public const SCOPE_EX_APP = 'ex_app';
+
+	/**
 	 * @param self::SCOPE_*|string $scope Scopes are used to define different clients.
 	 *   It is recommended to go with the scopes available as self::SCOPE_* constants,
 	 *   but in exotic cases other APIs might need documentation as well,

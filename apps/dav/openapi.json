@@ -170,27 +170,33 @@
                         "basic_auth": []
                     }
                 ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "required": [
+                                    "fileId",
+                                    "expirationTime"
+                                ],
+                                "properties": {
+                                    "fileId": {
+                                        "type": "integer",
+                                        "format": "int64",
+                                        "description": "ID of the file"
+                                    },
+                                    "expirationTime": {
+                                        "type": "integer",
+                                        "format": "int64",
+                                        "description": "Duration until the link expires"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
                 "parameters": [
-                    {
-                        "name": "fileId",
-                        "in": "query",
-                        "description": "ID of the file",
-                        "required": true,
-                        "schema": {
-                            "type": "integer",
-                            "format": "int64"
-                        }
-                    },
-                    {
-                        "name": "expirationTime",
-                        "in": "query",
-                        "description": "Duration until the link expires",
-                        "required": true,
-                        "schema": {
-                            "type": "integer",
-                            "format": "int64"
-                        }
-                    },
                     {
                         "name": "OCS-APIRequest",
                         "in": "header",
@@ -541,61 +547,51 @@
                         "basic_auth": []
                     }
                 ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "required": [
+                                    "firstDay",
+                                    "lastDay",
+                                    "status",
+                                    "message"
+                                ],
+                                "properties": {
+                                    "firstDay": {
+                                        "type": "string",
+                                        "description": "First day of the absence in format `YYYY-MM-DD`"
+                                    },
+                                    "lastDay": {
+                                        "type": "string",
+                                        "description": "Last day of the absence in format `YYYY-MM-DD`"
+                                    },
+                                    "status": {
+                                        "type": "string",
+                                        "description": "Short text that is set as user status during the absence"
+                                    },
+                                    "message": {
+                                        "type": "string",
+                                        "description": "Longer multiline message that is shown to others during the absence"
+                                    },
+                                    "replacementUserId": {
+                                        "type": "string",
+                                        "default": "",
+                                        "description": "User id of the replacement user"
+                                    },
+                                    "replacementUserDisplayName": {
+                                        "type": "string",
+                                        "default": "",
+                                        "description": "Display name of the replacement user"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
                 "parameters": [
-                    {
-                        "name": "firstDay",
-                        "in": "query",
-                        "description": "First day of the absence in format `YYYY-MM-DD`",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "lastDay",
-                        "in": "query",
-                        "description": "Last day of the absence in format `YYYY-MM-DD`",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "status",
-                        "in": "query",
-                        "description": "Short text that is set as user status during the absence",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "message",
-                        "in": "query",
-                        "description": "Longer multiline message that is shown to others during the absence",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "replacementUserId",
-                        "in": "query",
-                        "description": "User id of the replacement user",
-                        "schema": {
-                            "type": "string",
-                            "default": ""
-                        }
-                    },
-                    {
-                        "name": "replacementUserDisplayName",
-                        "in": "query",
-                        "description": "Display name of the replacement user",
-                        "schema": {
-                            "type": "string",
-                            "default": ""
-                        }
-                    },
                     {
                         "name": "userId",
                         "in": "path",

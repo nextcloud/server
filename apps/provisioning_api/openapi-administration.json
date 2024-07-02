@@ -95,16 +95,24 @@
                         "basic_auth": []
                     }
                 ],
-                "parameters": [
-                    {
-                        "name": "filter",
-                        "in": "query",
-                        "description": "Filter for enabled or disabled apps",
-                        "schema": {
-                            "type": "string",
-                            "nullable": true
+                "requestBody": {
+                    "required": false,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "filter": {
+                                        "type": "string",
+                                        "nullable": true,
+                                        "description": "Filter for enabled or disabled apps"
+                                    }
+                                }
+                            }
                         }
-                    },
+                    }
+                },
+                "parameters": [
                     {
                         "name": "OCS-APIRequest",
                         "in": "header",
@@ -461,25 +469,31 @@
                         "basic_auth": []
                     }
                 ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "required": [
+                                    "groupid"
+                                ],
+                                "properties": {
+                                    "groupid": {
+                                        "type": "string",
+                                        "description": "ID of the group"
+                                    },
+                                    "displayname": {
+                                        "type": "string",
+                                        "default": "",
+                                        "description": "Display name of the group"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
                 "parameters": [
-                    {
-                        "name": "groupid",
-                        "in": "query",
-                        "description": "ID of the group",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "displayname",
-                        "in": "query",
-                        "description": "Display name of the group",
-                        "schema": {
-                            "type": "string",
-                            "default": ""
-                        }
-                    },
                     {
                         "name": "OCS-APIRequest",
                         "in": "header",
@@ -539,25 +553,31 @@
                         "basic_auth": []
                     }
                 ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "required": [
+                                    "key",
+                                    "value"
+                                ],
+                                "properties": {
+                                    "key": {
+                                        "type": "string",
+                                        "description": "Key to update, only 'displayname'"
+                                    },
+                                    "value": {
+                                        "type": "string",
+                                        "description": "New value for the key"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
                 "parameters": [
-                    {
-                        "name": "key",
-                        "in": "query",
-                        "description": "Key to update, only 'displayname'",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "value",
-                        "in": "query",
-                        "description": "New value for the key",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
                     {
                         "name": "groupId",
                         "in": "path",
@@ -767,16 +787,26 @@
                         "basic_auth": []
                     }
                 ],
-                "parameters": [
-                    {
-                        "name": "groupid",
-                        "in": "query",
-                        "description": "ID of the group",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "required": [
+                                    "groupid"
+                                ],
+                                "properties": {
+                                    "groupid": {
+                                        "type": "string",
+                                        "description": "ID of the group"
+                                    }
+                                }
+                            }
                         }
-                    },
+                    }
+                },
+                "parameters": [
                     {
                         "name": "userId",
                         "in": "path",
@@ -843,16 +873,26 @@
                         "basic_auth": []
                     }
                 ],
-                "parameters": [
-                    {
-                        "name": "groupid",
-                        "in": "query",
-                        "description": "ID of the group",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "required": [
+                                    "groupid"
+                                ],
+                                "properties": {
+                                    "groupid": {
+                                        "type": "string",
+                                        "description": "ID of the group"
+                                    }
+                                }
+                            }
                         }
-                    },
+                    }
+                },
+                "parameters": [
                     {
                         "name": "userId",
                         "in": "path",
@@ -1122,16 +1162,24 @@
                         "basic_auth": []
                     }
                 ],
-                "parameters": [
-                    {
-                        "name": "defaultValue",
-                        "in": "query",
-                        "description": "Default returned value if the value is empty",
-                        "schema": {
-                            "type": "string",
-                            "default": ""
+                "requestBody": {
+                    "required": false,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "defaultValue": {
+                                        "type": "string",
+                                        "default": "",
+                                        "description": "Default returned value if the value is empty"
+                                    }
+                                }
+                            }
                         }
-                    },
+                    }
+                },
+                "parameters": [
                     {
                         "name": "app",
                         "in": "path",

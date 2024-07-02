@@ -63,35 +63,35 @@
                         "basic_auth": []
                     }
                 ],
-                "parameters": [
-                    {
-                        "name": "shareWith",
-                        "in": "query",
-                        "description": "Username to share with",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "token",
-                        "in": "query",
-                        "description": "Token of the share",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "password",
-                        "in": "query",
-                        "description": "Password of the share",
-                        "schema": {
-                            "type": "string",
-                            "default": ""
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "required": [
+                                    "shareWith",
+                                    "token"
+                                ],
+                                "properties": {
+                                    "shareWith": {
+                                        "type": "string",
+                                        "description": "Username to share with"
+                                    },
+                                    "token": {
+                                        "type": "string",
+                                        "description": "Token of the share"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "default": "",
+                                        "description": "Password of the share"
+                                    }
+                                }
+                            }
                         }
                     }
-                ],
+                },
                 "responses": {
                     "200": {
                         "description": "Remote URL returned",
@@ -148,89 +148,65 @@
                         "basic_auth": []
                     }
                 ],
+                "requestBody": {
+                    "required": false,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "remote": {
+                                        "type": "string",
+                                        "nullable": true,
+                                        "description": "Address of the remote"
+                                    },
+                                    "token": {
+                                        "type": "string",
+                                        "nullable": true,
+                                        "description": "Shared secret between servers"
+                                    },
+                                    "name": {
+                                        "type": "string",
+                                        "nullable": true,
+                                        "description": "Name of the shared resource"
+                                    },
+                                    "owner": {
+                                        "type": "string",
+                                        "nullable": true,
+                                        "description": "Display name of the receiver"
+                                    },
+                                    "sharedBy": {
+                                        "type": "string",
+                                        "nullable": true,
+                                        "description": "Display name of the sender"
+                                    },
+                                    "shareWith": {
+                                        "type": "string",
+                                        "nullable": true,
+                                        "description": "ID of the user that receives the share"
+                                    },
+                                    "remoteId": {
+                                        "type": "integer",
+                                        "format": "int64",
+                                        "nullable": true,
+                                        "description": "ID of the remote"
+                                    },
+                                    "sharedByFederatedId": {
+                                        "type": "string",
+                                        "nullable": true,
+                                        "description": "Federated ID of the sender"
+                                    },
+                                    "ownerFederatedId": {
+                                        "type": "string",
+                                        "nullable": true,
+                                        "description": "Federated ID of the receiver"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
                 "parameters": [
-                    {
-                        "name": "remote",
-                        "in": "query",
-                        "description": "Address of the remote",
-                        "schema": {
-                            "type": "string",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "token",
-                        "in": "query",
-                        "description": "Shared secret between servers",
-                        "schema": {
-                            "type": "string",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "name",
-                        "in": "query",
-                        "description": "Name of the shared resource",
-                        "schema": {
-                            "type": "string",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "owner",
-                        "in": "query",
-                        "description": "Display name of the receiver",
-                        "schema": {
-                            "type": "string",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "sharedBy",
-                        "in": "query",
-                        "description": "Display name of the sender",
-                        "schema": {
-                            "type": "string",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "shareWith",
-                        "in": "query",
-                        "description": "ID of the user that receives the share",
-                        "schema": {
-                            "type": "string",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "remoteId",
-                        "in": "query",
-                        "description": "ID of the remote",
-                        "schema": {
-                            "type": "integer",
-                            "format": "int64",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "sharedByFederatedId",
-                        "in": "query",
-                        "description": "Federated ID of the sender",
-                        "schema": {
-                            "type": "string",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "ownerFederatedId",
-                        "in": "query",
-                        "description": "Federated ID of the receiver",
-                        "schema": {
-                            "type": "string",
-                            "nullable": true
-                        }
-                    },
                     {
                         "name": "OCS-APIRequest",
                         "in": "header",
@@ -290,36 +266,36 @@
                         "basic_auth": []
                     }
                 ],
+                "requestBody": {
+                    "required": false,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "token": {
+                                        "type": "string",
+                                        "nullable": true,
+                                        "description": "Shared secret between servers"
+                                    },
+                                    "shareWith": {
+                                        "type": "string",
+                                        "nullable": true,
+                                        "description": "ID of the user that receives the share"
+                                    },
+                                    "remoteId": {
+                                        "type": "integer",
+                                        "format": "int64",
+                                        "nullable": true,
+                                        "default": 0,
+                                        "description": "ID of the remote"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
                 "parameters": [
-                    {
-                        "name": "token",
-                        "in": "query",
-                        "description": "Shared secret between servers",
-                        "schema": {
-                            "type": "string",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "shareWith",
-                        "in": "query",
-                        "description": "ID of the user that receives the share",
-                        "schema": {
-                            "type": "string",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "remoteId",
-                        "in": "query",
-                        "description": "ID of the remote",
-                        "schema": {
-                            "type": "integer",
-                            "format": "int64",
-                            "nullable": true,
-                            "default": 0
-                        }
-                    },
                     {
                         "name": "id",
                         "in": "path",
@@ -431,26 +407,30 @@
                         "basic_auth": []
                     }
                 ],
+                "requestBody": {
+                    "required": false,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "token": {
+                                        "type": "string",
+                                        "nullable": true,
+                                        "description": "Shared secret between servers"
+                                    },
+                                    "permissions": {
+                                        "type": "integer",
+                                        "format": "int64",
+                                        "nullable": true,
+                                        "description": "New permissions"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
                 "parameters": [
-                    {
-                        "name": "token",
-                        "in": "query",
-                        "description": "Shared secret between servers",
-                        "schema": {
-                            "type": "string",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "permissions",
-                        "in": "query",
-                        "description": "New permissions",
-                        "schema": {
-                            "type": "integer",
-                            "format": "int64",
-                            "nullable": true
-                        }
-                    },
                     {
                         "name": "id",
                         "in": "path",
@@ -548,16 +528,24 @@
                         "basic_auth": []
                     }
                 ],
-                "parameters": [
-                    {
-                        "name": "token",
-                        "in": "query",
-                        "description": "Shared secret between servers",
-                        "schema": {
-                            "type": "string",
-                            "nullable": true
+                "requestBody": {
+                    "required": false,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "token": {
+                                        "type": "string",
+                                        "nullable": true,
+                                        "description": "Shared secret between servers"
+                                    }
+                                }
+                            }
                         }
-                    },
+                    }
+                },
+                "parameters": [
                     {
                         "name": "id",
                         "in": "path",
@@ -637,16 +625,24 @@
                         "basic_auth": []
                     }
                 ],
-                "parameters": [
-                    {
-                        "name": "token",
-                        "in": "query",
-                        "description": "Shared secret between servers",
-                        "schema": {
-                            "type": "string",
-                            "nullable": true
+                "requestBody": {
+                    "required": false,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "token": {
+                                        "type": "string",
+                                        "nullable": true,
+                                        "description": "Shared secret between servers"
+                                    }
+                                }
+                            }
                         }
-                    },
+                    }
+                },
+                "parameters": [
                     {
                         "name": "id",
                         "in": "path",
@@ -716,16 +712,24 @@
                         "basic_auth": []
                     }
                 ],
-                "parameters": [
-                    {
-                        "name": "token",
-                        "in": "query",
-                        "description": "Shared secret between servers",
-                        "schema": {
-                            "type": "string",
-                            "nullable": true
+                "requestBody": {
+                    "required": false,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "token": {
+                                        "type": "string",
+                                        "nullable": true,
+                                        "description": "Shared secret between servers"
+                                    }
+                                }
+                            }
                         }
-                    },
+                    }
+                },
+                "parameters": [
                     {
                         "name": "id",
                         "in": "path",
@@ -795,16 +799,24 @@
                         "basic_auth": []
                     }
                 ],
-                "parameters": [
-                    {
-                        "name": "token",
-                        "in": "query",
-                        "description": "Shared secret between servers",
-                        "schema": {
-                            "type": "string",
-                            "nullable": true
+                "requestBody": {
+                    "required": false,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "token": {
+                                        "type": "string",
+                                        "nullable": true,
+                                        "description": "Shared secret between servers"
+                                    }
+                                }
+                            }
                         }
-                    },
+                    }
+                },
+                "parameters": [
                     {
                         "name": "id",
                         "in": "path",
@@ -902,34 +914,34 @@
                         "basic_auth": []
                     }
                 ],
+                "requestBody": {
+                    "required": false,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "token": {
+                                        "type": "string",
+                                        "nullable": true,
+                                        "description": "Shared secret between servers"
+                                    },
+                                    "remote": {
+                                        "type": "string",
+                                        "nullable": true,
+                                        "description": "Address of the remote"
+                                    },
+                                    "remote_id": {
+                                        "type": "string",
+                                        "nullable": true,
+                                        "description": "ID of the remote"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
                 "parameters": [
-                    {
-                        "name": "token",
-                        "in": "query",
-                        "description": "Shared secret between servers",
-                        "schema": {
-                            "type": "string",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "remote",
-                        "in": "query",
-                        "description": "Address of the remote",
-                        "schema": {
-                            "type": "string",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "remote_id",
-                        "in": "query",
-                        "description": "ID of the remote",
-                        "schema": {
-                            "type": "string",
-                            "nullable": true
-                        }
-                    },
                     {
                         "name": "id",
                         "in": "path",

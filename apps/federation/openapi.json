@@ -63,25 +63,31 @@
                         "basic_auth": []
                     }
                 ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "required": [
+                                    "url",
+                                    "token"
+                                ],
+                                "properties": {
+                                    "url": {
+                                        "type": "string",
+                                        "description": "URL of the server"
+                                    },
+                                    "token": {
+                                        "type": "string",
+                                        "description": "Token of the server"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
                 "parameters": [
-                    {
-                        "name": "url",
-                        "in": "query",
-                        "description": "URL of the server",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "token",
-                        "in": "query",
-                        "description": "Token of the server",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
                     {
                         "name": "OCS-APIRequest",
                         "in": "header",
@@ -179,25 +185,31 @@
                         "basic_auth": []
                     }
                 ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "required": [
+                                    "url",
+                                    "token"
+                                ],
+                                "properties": {
+                                    "url": {
+                                        "type": "string",
+                                        "description": "URL of the server"
+                                    },
+                                    "token": {
+                                        "type": "string",
+                                        "description": "Token of the server"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
                 "parameters": [
-                    {
-                        "name": "url",
-                        "in": "query",
-                        "description": "URL of the server",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "token",
-                        "in": "query",
-                        "description": "Token of the server",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
                     {
                         "name": "OCS-APIRequest",
                         "in": "header",
@@ -285,25 +297,31 @@
                         "basic_auth": []
                     }
                 ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "required": [
+                                    "url",
+                                    "token"
+                                ],
+                                "properties": {
+                                    "url": {
+                                        "type": "string",
+                                        "description": "URL of the server"
+                                    },
+                                    "token": {
+                                        "type": "string",
+                                        "description": "Token of the server"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
                 "parameters": [
-                    {
-                        "name": "url",
-                        "in": "query",
-                        "description": "URL of the server",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "token",
-                        "in": "query",
-                        "description": "Token of the server",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
                     {
                         "name": "OCS-APIRequest",
                         "in": "header",
@@ -399,25 +417,31 @@
                         "basic_auth": []
                     }
                 ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "required": [
+                                    "url",
+                                    "token"
+                                ],
+                                "properties": {
+                                    "url": {
+                                        "type": "string",
+                                        "description": "URL of the server"
+                                    },
+                                    "token": {
+                                        "type": "string",
+                                        "description": "Token of the server"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
                 "parameters": [
-                    {
-                        "name": "url",
-                        "in": "query",
-                        "description": "URL of the server",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "token",
-                        "in": "query",
-                        "description": "Token of the server",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
                     {
                         "name": "OCS-APIRequest",
                         "in": "header",
