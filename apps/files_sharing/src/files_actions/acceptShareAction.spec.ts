@@ -2,12 +2,14 @@
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import { action } from './rejectShareAction'
+import { action } from './acceptShareAction'
 import { expect } from '@jest/globals'
-import { File, Folder, Permission, View, FileAction } from '@nextcloud/files'
+import { File, Permission, View, FileAction } from '@nextcloud/files'
 import eventBus from '@nextcloud/event-bus'
 import axios from '@nextcloud/axios'
-import '../main'
+
+import '../main.ts'
+import { ShareType } from '@nextcloud/sharing'
 
 const view = {
 	id: 'files',
@@ -25,7 +27,7 @@ beforeAll(() => {
 	(window as any)._oc_webroot = ''
 })
 
-describe('Reject share action conditions tests', () => {
+describe('Accept share action conditions tests', () => {
 	test('Default values', () => {
 		const file = new File({
 			id: 1,
@@ -36,11 +38,11 @@ describe('Reject share action conditions tests', () => {
 		})
 
 		expect(action).toBeInstanceOf(FileAction)
-		expect(action.id).toBe('reject-share')
-		expect(action.displayName([file], pendingShareView)).toBe('Reject share')
+		expect(action.id).toBe('accept-share')
+		expect(action.displayName([file], pendingShareView)).toBe('Accept share')
 		expect(action.iconSvgInline([file], pendingShareView)).toBe('<svg>SvgMock</svg>')
 		expect(action.default).toBeUndefined()
-		expect(action.order).toBe(2)
+		expect(action.order).toBe(1)
 		expect(action.inline).toBeDefined()
 		expect(action.inline!(file, pendingShareView)).toBe(true)
 	})
@@ -61,11 +63,11 @@ describe('Reject share action conditions tests', () => {
 			permissions: Permission.ALL,
 		})
 
-		expect(action.displayName([file1, file2], pendingShareView)).toBe('Reject shares')
+		expect(action.displayName([file1, file2], pendingShareView)).toBe('Accept shares')
 	})
 })
 
-describe('Reject share action enabled tests', () => {
+describe('Accept share action enabled tests', () => {
 	test('Enabled with on pending shares view', () => {
 		const file = new File({
 			id: 1,
@@ -88,38 +90,11 @@ describe('Reject share action enabled tests', () => {
 		expect(action.enabled).toBeDefined()
 		expect(action.enabled!([], pendingShareView)).toBe(false)
 	})
-
-	test('Disabled if some nodes are remote group shares', () => {
-		const folder1 = new Folder({
-			id: 1,
-			source: 'https://cloud.domain.com/remote.php/dav/files/admin/Foo/',
-			owner: 'admin',
-			permissions: Permission.READ,
-			attributes: {
-				share_type: window.OC.Share.SHARE_TYPE_USER,
-			},
-		})
-		const folder2 = new Folder({
-			id: 2,
-			source: 'https://cloud.domain.com/remote.php/dav/files/admin/Bar/',
-			owner: 'admin',
-			permissions: Permission.READ,
-			attributes: {
-				remote_id: 1,
-				share_type: window.OC.Share.SHARE_TYPE_REMOTE_GROUP,
-			},
-		})
-
-		expect(action.enabled).toBeDefined()
-		expect(action.enabled!([folder1], pendingShareView)).toBe(true)
-		expect(action.enabled!([folder2], pendingShareView)).toBe(false)
-		expect(action.enabled!([folder1, folder2], pendingShareView)).toBe(false)
-	})
 })
 
-describe('Reject share action execute tests', () => {
-	test('Reject share action', async () => {
-		jest.spyOn(axios, 'delete')
+describe('Accept share action execute tests', () => {
+	test('Accept share action', async () => {
+		jest.spyOn(axios, 'post')
 		jest.spyOn(eventBus, 'emit')
 
 		const file = new File({
@@ -130,22 +105,22 @@ describe('Reject share action execute tests', () => {
 			permissions: Permission.READ,
 			attributes: {
 				id: 123,
-				share_type: window.OC.Share.SHARE_TYPE_USER,
+				share_type: ShareType.User,
 			},
 		})
 
 		const exec = await action.exec(file, pendingShareView, '/')
 
 		expect(exec).toBe(true)
-		expect(axios.delete).toBeCalledTimes(1)
-		expect(axios.delete).toBeCalledWith('http://localhost/ocs/v2.php/apps/files_sharing/api/v1/shares/123')
+		expect(axios.post).toBeCalledTimes(1)
+		expect(axios.post).toBeCalledWith('http://localhost/ocs/v2.php/apps/files_sharing/api/v1/shares/pending/123')
 
 		expect(eventBus.emit).toBeCalledTimes(1)
 		expect(eventBus.emit).toBeCalledWith('files:node:deleted', file)
 	})
 
-	test('Reject remote share action', async () => {
-		jest.spyOn(axios, 'delete')
+	test('Accept remote share action', async () => {
+		jest.spyOn(axios, 'post')
 		jest.spyOn(eventBus, 'emit')
 
 		const file = new File({
@@ -157,22 +132,22 @@ describe('Reject share action execute tests', () => {
 			attributes: {
 				id: 123,
 				remote: 3,
-				share_type: window.OC.Share.SHARE_TYPE_USER,
+				share_type: ShareType.User,
 			},
 		})
 
 		const exec = await action.exec(file, pendingShareView, '/')
 
 		expect(exec).toBe(true)
-		expect(axios.delete).toBeCalledTimes(1)
-		expect(axios.delete).toBeCalledWith('http://localhost/ocs/v2.php/apps/files_sharing/api/v1/remote_shares/123')
+		expect(axios.post).toBeCalledTimes(1)
+		expect(axios.post).toBeCalledWith('http://localhost/ocs/v2.php/apps/files_sharing/api/v1/remote_shares/pending/123')
 
 		expect(eventBus.emit).toBeCalledTimes(1)
 		expect(eventBus.emit).toBeCalledWith('files:node:deleted', file)
 	})
 
-	test('Reject share action batch', async () => {
-		jest.spyOn(axios, 'delete')
+	test('Accept share action batch', async () => {
+		jest.spyOn(axios, 'post')
 		jest.spyOn(eventBus, 'emit')
 
 		const file1 = new File({
@@ -183,7 +158,7 @@ describe('Reject share action execute tests', () => {
 			permissions: Permission.READ,
 			attributes: {
 				id: 123,
-				share_type: window.OC.Share.SHARE_TYPE_USER,
+				share_type: ShareType.User,
 			},
 		})
 
@@ -195,24 +170,24 @@ describe('Reject share action execute tests', () => {
 			permissions: Permission.READ,
 			attributes: {
 				id: 456,
-				share_type: window.OC.Share.SHARE_TYPE_USER,
+				share_type: ShareType.User,
 			},
 		})
 
 		const exec = await action.execBatch!([file1, file2], pendingShareView, '/')
 
 		expect(exec).toStrictEqual([true, true])
-		expect(axios.delete).toBeCalledTimes(2)
-		expect(axios.delete).toHaveBeenNthCalledWith(1, 'http://localhost/ocs/v2.php/apps/files_sharing/api/v1/shares/123')
-		expect(axios.delete).toHaveBeenNthCalledWith(2, 'http://localhost/ocs/v2.php/apps/files_sharing/api/v1/shares/456')
+		expect(axios.post).toBeCalledTimes(2)
+		expect(axios.post).toHaveBeenNthCalledWith(1, 'http://localhost/ocs/v2.php/apps/files_sharing/api/v1/shares/pending/123')
+		expect(axios.post).toHaveBeenNthCalledWith(2, 'http://localhost/ocs/v2.php/apps/files_sharing/api/v1/shares/pending/456')
 
 		expect(eventBus.emit).toBeCalledTimes(2)
 		expect(eventBus.emit).toHaveBeenNthCalledWith(1, 'files:node:deleted', file1)
 		expect(eventBus.emit).toHaveBeenNthCalledWith(2, 'files:node:deleted', file2)
 	})
 
-	test('Reject fails', async () => {
-		jest.spyOn(axios, 'delete').mockImplementation(() => { throw new Error('Mock error') })
+	test('Accept fails', async () => {
+		jest.spyOn(axios, 'post').mockImplementation(() => { throw new Error('Mock error') })
 
 		const file = new File({
 			id: 1,
@@ -222,15 +197,15 @@ describe('Reject share action execute tests', () => {
 			permissions: Permission.READ,
 			attributes: {
 				id: 123,
-				share_type: window.OC.Share.SHARE_TYPE_USER,
+				share_type: ShareType.User,
 			},
 		})
 
 		const exec = await action.exec(file, pendingShareView, '/')
 
 		expect(exec).toBe(false)
-		expect(axios.delete).toBeCalledTimes(1)
-		expect(axios.delete).toBeCalledWith('http://localhost/ocs/v2.php/apps/files_sharing/api/v1/shares/123')
+		expect(axios.post).toBeCalledTimes(1)
+		expect(axios.post).toBeCalledWith('http://localhost/ocs/v2.php/apps/files_sharing/api/v1/shares/pending/123')
 
 		expect(eventBus.emit).toBeCalledTimes(0)
 	})

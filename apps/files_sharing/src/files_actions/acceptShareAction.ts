@@ -11,7 +11,7 @@ import { translatePlural as n } from '@nextcloud/l10n'
 import axios from '@nextcloud/axios'
 import CheckSvg from '@mdi/svg/svg/check.svg?raw'
 
-import { pendingSharesViewId } from '../views/shares'
+import { pendingSharesViewId } from '../files_views/shares'
 
 export const action = new FileAction({
 	id: 'accept-share',

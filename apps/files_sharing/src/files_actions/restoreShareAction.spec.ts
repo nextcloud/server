@@ -8,6 +8,7 @@ import { File, Permission, View, FileAction } from '@nextcloud/files'
 import eventBus from '@nextcloud/event-bus'
 import axios from '@nextcloud/axios'
 import '../main'
+import { ShareType } from '@nextcloud/sharing'
 
 const view = {
 	id: 'files',
@@ -103,7 +104,7 @@ describe('Restore share action execute tests', () => {
 			permissions: Permission.READ,
 			attributes: {
 				id: 123,
-				share_type: window.OC.Share.SHARE_TYPE_USER,
+				share_type: ShareType.User,
 			},
 		})
 
@@ -129,7 +130,7 @@ describe('Restore share action execute tests', () => {
 			permissions: Permission.READ,
 			attributes: {
 				id: 123,
-				share_type: window.OC.Share.SHARE_TYPE_USER,
+				share_type: ShareType.User,
 			},
 		})
 
@@ -141,7 +142,7 @@ describe('Restore share action execute tests', () => {
 			permissions: Permission.READ,
 			attributes: {
 				id: 456,
-				share_type: window.OC.Share.SHARE_TYPE_USER,
+				share_type: ShareType.User,
 			},
 		})
 
@@ -168,7 +169,7 @@ describe('Restore share action execute tests', () => {
 			permissions: Permission.READ,
 			attributes: {
 				id: 123,
-				share_type: window.OC.Share.SHARE_TYPE_USER,
+				share_type: ShareType.User,
 			},
 		})
 

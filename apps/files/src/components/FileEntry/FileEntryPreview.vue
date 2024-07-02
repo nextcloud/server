@@ -43,9 +43,10 @@ import type { PropType } from 'vue'
 import type { UserConfig } from '../../types.ts'
 
 import { Node, FileType } from '@nextcloud/files'
-import { generateUrl } from '@nextcloud/router'
 import { translate as t } from '@nextcloud/l10n'
-import { Type as ShareType } from '@nextcloud/sharing'
+import { generateUrl } from '@nextcloud/router'
+import { ShareType } from '@nextcloud/sharing'
+import { getSharingToken, isPublicShare } from '@nextcloud/sharing/public'
 
 import Vue from 'vue'
 import AccountGroupIcon from 'vue-material-design-icons/AccountGroup.vue'
@@ -99,8 +100,14 @@ export default Vue.extend({
 
 	setup() {
 		const userConfigStore = useUserConfigStore()
+		const isPublic = isPublicShare()
+		const publicSharingToken = getSharingToken()
+
 		return {
 			userConfigStore,
+
+			isPublic,
+			publicSharingToken,
 		}
 	},
 
@@ -111,9 +118,6 @@ export default Vue.extend({
 	},
 
 	computed: {
-		fileid() {
-			return this.source?.fileid?.toString?.()
-		},
 		isFavorite(): boolean {
 			return this.source.attributes.favorite === 1
 		},
@@ -136,9 +140,15 @@ export default Vue.extend({
 
 			try {
 				const previewUrl = this.source.attributes.previewUrl
-					|| generateUrl('/core/preview?fileId={fileid}', {
-						fileid: this.fileid,
-					})
+					|| (this.isPublic
+						? generateUrl('/apps/files_sharing/publicpreview/{token}?file={file}', {
+							token: this.publicSharingToken,
+							file: this.source.path,
+						})
+						: generateUrl('/core/preview?fileId={fileid}', {
+							fileid: String(this.source.fileid),
+						})
+					)
 				const url = new URL(window.location.origin + previewUrl)
 
 				// Request tiny previews
@@ -183,7 +193,7 @@ export default Vue.extend({
 
 			// Link and mail shared folders
 			const shareTypes = Object.values(this.source?.attributes?.['share-types'] || {}).flat() as number[]
-			if (shareTypes.some(type => type === ShareType.SHARE_TYPE_LINK || type === ShareType.SHARE_TYPE_EMAIL)) {
+			if (shareTypes.some(type => type === ShareType.Link || type === ShareType.Email)) {
 				return LinkIcon
 			}
 
@@ -212,7 +222,7 @@ export default Vue.extend({
 			// Reset background state to cancel any ongoing requests
 			this.backgroundFailed = undefined
 			if (this.$refs.previewImg) {
-				this.$refs.previewImg.src = ''
+				(this.$refs.previewImg as HTMLImageElement).src = ''
 			}
 		},
 

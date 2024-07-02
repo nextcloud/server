@@ -19,9 +19,10 @@ __webpack_nonce__ = btoa(getRequestToken())
 
 declare global {
 	interface Window {
-		OC: any;
-		OCA: any;
-		OCP: any;
+		OC: Nextcloud.v28.OC
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
+		OCA: Record<string, any>
+		OCP: Nextcloud.v28.OCP
 	}
 }
 
@@ -30,8 +31,10 @@ window.OCA.Files = window.OCA.Files ?? {}
 window.OCP.Files = window.OCP.Files ?? {}
 
 // Expose router
-const Router = new RouterService(router)
-Object.assign(window.OCP.Files, { Router })
+if (!window.OCP.Files.Router) {
+	const Router = new RouterService(router)
+	Object.assign(window.OCP.Files, { Router })
+}
 
 // Init Pinia store
 Vue.use(PiniaVuePlugin)
@@ -48,6 +51,6 @@ Object.assign(window.OCA.Files.Settings, { Setting: SettingsModel })
 
 const FilesAppVue = Vue.extend(FilesApp)
 new FilesAppVue({
-	router,
+	router: (window.OCP.Files.Router as RouterService)._router,
 	pinia,
 }).$mount('#content')

@@ -7,7 +7,7 @@ import { File, Permission, View, DefaultType, FileAction } from '@nextcloud/file
 
 import '../main'
 import { action } from './openInFilesAction'
-import { deletedSharesViewId, pendingSharesViewId, sharedWithOthersViewId, sharedWithYouViewId, sharesViewId, sharingByLinksViewId } from '../views/shares'
+import { deletedSharesViewId, pendingSharesViewId, sharedWithOthersViewId, sharedWithYouViewId, sharesViewId, sharingByLinksViewId } from '../files_views/shares'
 
 const view = {
 	id: 'files',
@@ -57,7 +57,15 @@ describe('Open in files action enabled tests', () => {
 describe('Open in files action execute tests', () => {
 	test('Open in files', async () => {
 		const goToRouteMock = jest.fn()
-		window.OCP = { Files: { Router: { goToRoute: goToRouteMock } } }
+		window.OCP = {
+			// @ts-expect-error We are mocking so we expect that the types are not match
+			Files: {
+				Router: {
+					goTo: jest.fn(),
+					goToRoute: goToRouteMock,
+				},
+			},
+		}
 
 		const file = new File({
 			id: 1,
