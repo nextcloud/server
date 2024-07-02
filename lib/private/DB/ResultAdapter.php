@@ -74,7 +74,7 @@ class ResultAdapter implements IResult {
 
 	#[Override]
 	public function rowCount(): int {
-		return $this->inner->rowCount();
+		return (int) $this->inner->rowCount();
 	}
 
 	#[Override]

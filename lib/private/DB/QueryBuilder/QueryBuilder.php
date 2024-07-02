@@ -256,12 +256,10 @@ class QueryBuilder extends TypedQueryBuilder {
 
 		if ($this->getType() !== self::SELECT) {
 			$result = $this->queryBuilder->executeStatement();
-		} else {
-			$result = $this->queryBuilder->executeQuery();
+			return (int) $result;
 		}
-		if (is_int($result)) {
-			return $result;
-		}
+
+		$result = $this->queryBuilder->executeQuery();
 		return new ResultAdapter($result);
 	}
 
