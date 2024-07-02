@@ -1413,6 +1413,22 @@ class ShareAPIControllerTest extends TestCase {
 			->method('outgoingServer2ServerGroupSharesAllowed')
 			->willReturn($extraShareTypes[ISHARE::TYPE_REMOTE_GROUP] ?? false);
 
+		$sharesWithoutTypes = [];
+		foreach ($shares as $file => $fileShares) {
+			$sharesWithoutTypes[$file] = [];
+			foreach ($fileShares as $shareType => $shareTypeShares) {
+				if ($shareType === ISHARE::TYPE_REMOTE or $shareType === ISHARE::TYPE_REMOTE_GROUP) {
+					if ($extraShareTypes[$shareType] ?? false) {
+						$sharesWithoutTypes[$file] = array_merge($sharesWithoutTypes[$file], $shareTypeShares);
+					}
+				} else {
+					$sharesWithoutTypes[$file] = array_merge($sharesWithoutTypes[$file], $shareTypeShares);
+				}
+			}
+		}
+		$this->shareManager
+			->method('getSharesInFolder')->willReturn($sharesWithoutTypes);
+
 		$this->groupManager
 			->method('isInGroup')
 			->willReturnCallback(
