@@ -75,6 +75,7 @@ class ComposerStaticInitFiles_Sharing
         'OCA\\Files_Sharing\\Listener\\BeforeZipCreatedListener' => __DIR__ . '/..' . '/../lib/Listener/BeforeZipCreatedListener.php',
         'OCA\\Files_Sharing\\Listener\\LoadAdditionalListener' => __DIR__ . '/..' . '/../lib/Listener/LoadAdditionalListener.php',
         'OCA\\Files_Sharing\\Listener\\LoadSidebarListener' => __DIR__ . '/..' . '/../lib/Listener/LoadSidebarListener.php',
+        'OCA\\Files_Sharing\\Listener\\RegisterMountProviderListener' => __DIR__ . '/..' . '/../lib/Listener/RegisterMountProviderListener.php',
         'OCA\\Files_Sharing\\Listener\\ShareInteractionListener' => __DIR__ . '/..' . '/../lib/Listener/ShareInteractionListener.php',
         'OCA\\Files_Sharing\\Listener\\UserAddedToGroupListener' => __DIR__ . '/..' . '/../lib/Listener/UserAddedToGroupListener.php',
         'OCA\\Files_Sharing\\Listener\\UserShareAcceptanceListener' => __DIR__ . '/..' . '/../lib/Listener/UserShareAcceptanceListener.php',

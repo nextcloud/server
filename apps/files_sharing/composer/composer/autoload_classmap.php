@@ -60,6 +60,7 @@ return array(
     'OCA\\Files_Sharing\\Listener\\BeforeZipCreatedListener' => $baseDir . '/../lib/Listener/BeforeZipCreatedListener.php',
     'OCA\\Files_Sharing\\Listener\\LoadAdditionalListener' => $baseDir . '/../lib/Listener/LoadAdditionalListener.php',
     'OCA\\Files_Sharing\\Listener\\LoadSidebarListener' => $baseDir . '/../lib/Listener/LoadSidebarListener.php',
+    'OCA\\Files_Sharing\\Listener\\RegisterMountProviderListener' => $baseDir . '/../lib/Listener/RegisterMountProviderListener.php',
     'OCA\\Files_Sharing\\Listener\\ShareInteractionListener' => $baseDir . '/../lib/Listener/ShareInteractionListener.php',
     'OCA\\Files_Sharing\\Listener\\UserAddedToGroupListener' => $baseDir . '/../lib/Listener/UserAddedToGroupListener.php',
     'OCA\\Files_Sharing\\Listener\\UserShareAcceptanceListener' => $baseDir . '/../lib/Listener/UserShareAcceptanceListener.php',
