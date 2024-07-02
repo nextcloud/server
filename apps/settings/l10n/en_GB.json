@@ -286,6 +286,7 @@
     "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit!" : "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit!",
     "Temporary space available" : "Temporary space available",
     "Error while checking the temporary PHP path - it was not properly set to a directory. Returned value: %s" : "Error while checking the temporary PHP path - it was not properly set to a directory. Returned value: %s",
+    "The PHP function \"disk_free_space\" is disabled, which prevents the check for enough space in the temporary directories." : "The PHP function \"disk_free_space\" is disabled, preventing the system from checking for sufficient space in the temporary directories.",
     "Error while checking the available disk space of temporary PHP path or no free disk space returned. Temporary path: %s" : "Error while checking the available disk space of temporary PHP path or no free disk space returned. Temporary path: %s",
     "- %.1f GiB available in %s (PHP temporary directory)" : "- %.1f GiB available in %s (PHP temporary directory)",
     "- %.1f GiB available in %s (Nextcloud temporary directory)" : "- %.1f GiB available in %s (Nextcloud temporary directory)",
