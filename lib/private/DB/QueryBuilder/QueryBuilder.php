@@ -1314,4 +1314,8 @@ class QueryBuilder implements IQueryBuilder {
 
 		return $this->helper->quoteColumnName($alias);
 	}
+
+	public function escapeLikeParameter(string $parameter): string {
+		return $this->connection->escapeLikeParameter($parameter);
+	}
 }
