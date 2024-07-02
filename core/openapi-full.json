@@ -1209,16 +1209,26 @@
                         "basic_auth": []
                     }
                 ],
-                "parameters": [
-                    {
-                        "name": "password",
-                        "in": "query",
-                        "description": "The password of the user",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "required": [
+                                    "password"
+                                ],
+                                "properties": {
+                                    "password": {
+                                        "type": "string",
+                                        "description": "The password of the user"
+                                    }
+                                }
+                            }
                         }
-                    },
+                    }
+                },
+                "parameters": [
                     {
                         "name": "OCS-APIRequest",
                         "in": "header",
@@ -1316,66 +1326,56 @@
                         "basic_auth": []
                     }
                 ],
-                "parameters": [
-                    {
-                        "name": "search",
-                        "in": "query",
-                        "description": "Text to search for",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "itemType",
-                        "in": "query",
-                        "description": "Type of the items to search for",
-                        "schema": {
-                            "type": "string",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "itemId",
-                        "in": "query",
-                        "description": "ID of the items to search for",
-                        "schema": {
-                            "type": "string",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "sorter",
-                        "in": "query",
-                        "description": "can be piped, top prio first, e.g.: \"commenters|share-recipients\"",
-                        "schema": {
-                            "type": "string",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "shareTypes[]",
-                        "in": "query",
-                        "description": "Types of shares to search for",
-                        "schema": {
-                            "type": "array",
-                            "default": [],
-                            "items": {
-                                "type": "integer",
-                                "format": "int64"
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "required": [
+                                    "search"
+                                ],
+                                "properties": {
+                                    "search": {
+                                        "type": "string",
+                                        "description": "Text to search for"
+                                    },
+                                    "itemType": {
+                                        "type": "string",
+                                        "nullable": true,
+                                        "description": "Type of the items to search for"
+                                    },
+                                    "itemId": {
+                                        "type": "string",
+                                        "nullable": true,
+                                        "description": "ID of the items to search for"
+                                    },
+                                    "sorter": {
+                                        "type": "string",
+                                        "nullable": true,
+                                        "description": "can be piped, top prio first, e.g.: \"commenters|share-recipients\""
+                                    },
+                                    "shareTypes": {
+                                        "type": "array",
+                                        "default": [],
+                                        "description": "Types of shares to search for",
+                                        "items": {
+                                            "type": "integer",
+                                            "format": "int64"
+                                        }
+                                    },
+                                    "limit": {
+                                        "type": "integer",
+                                        "format": "int64",
+                                        "default": 10,
+                                        "description": "Maximum number of results to return"
+                                    }
+                                }
                             }
                         }
-                    },
-                    {
-                        "name": "limit",
-                        "in": "query",
-                        "description": "Maximum number of results to return",
-                        "schema": {
-                            "type": "integer",
-                            "format": "int64",
-                            "default": 10
-                        }
-                    },
+                    }
+                },
+                "parameters": [
                     {
                         "name": "OCS-APIRequest",
                         "in": "header",
@@ -1564,25 +1564,31 @@
                         "basic_auth": []
                     }
                 ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "required": [
+                                    "resourceType",
+                                    "resourceId"
+                                ],
+                                "properties": {
+                                    "resourceType": {
+                                        "type": "string",
+                                        "description": "Name of the resource"
+                                    },
+                                    "resourceId": {
+                                        "type": "string",
+                                        "description": "ID of the resource"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
                 "parameters": [
-                    {
-                        "name": "resourceType",
-                        "in": "query",
-                        "description": "Name of the resource",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "resourceId",
-                        "in": "query",
-                        "description": "ID of the resource",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
                     {
                         "name": "collectionId",
                         "in": "path",
@@ -1707,25 +1713,31 @@
                         "basic_auth": []
                     }
                 ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "required": [
+                                    "resourceType",
+                                    "resourceId"
+                                ],
+                                "properties": {
+                                    "resourceType": {
+                                        "type": "string",
+                                        "description": "Name of the resource"
+                                    },
+                                    "resourceId": {
+                                        "type": "string",
+                                        "description": "ID of the resource"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
                 "parameters": [
-                    {
-                        "name": "resourceType",
-                        "in": "query",
-                        "description": "Name of the resource",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "resourceId",
-                        "in": "query",
-                        "description": "ID of the resource",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
                     {
                         "name": "collectionId",
                         "in": "path",
@@ -1850,16 +1862,26 @@
                         "basic_auth": []
                     }
                 ],
-                "parameters": [
-                    {
-                        "name": "collectionName",
-                        "in": "query",
-                        "description": "New name",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "required": [
+                                    "collectionName"
+                                ],
+                                "properties": {
+                                    "collectionName": {
+                                        "type": "string",
+                                        "description": "New name"
+                                    }
+                                }
+                            }
                         }
-                    },
+                    }
+                },
+                "parameters": [
                     {
                         "name": "collectionId",
                         "in": "path",
@@ -2197,16 +2219,26 @@
                         "basic_auth": []
                     }
                 ],
-                "parameters": [
-                    {
-                        "name": "name",
-                        "in": "query",
-                        "description": "Name of the collection",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "required": [
+                                    "name"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "description": "Name of the collection"
+                                    }
+                                }
+                            }
                         }
-                    },
+                    }
+                },
+                "parameters": [
                     {
                         "name": "baseResourceType",
                         "in": "path",
@@ -2486,20 +2518,24 @@
                         "basic_auth": []
                     }
                 ],
-                "parameters": [
-                    {
-                        "name": "absolute",
-                        "in": "query",
-                        "description": "Rewrite URLs to absolute ones",
-                        "schema": {
-                            "type": "integer",
-                            "default": 0,
-                            "enum": [
-                                0,
-                                1
-                            ]
+                "requestBody": {
+                    "required": false,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "absolute": {
+                                        "type": "boolean",
+                                        "default": false,
+                                        "description": "Rewrite URLs to absolute ones"
+                                    }
+                                }
+                            }
                         }
-                    },
+                    }
+                },
+                "parameters": [
                     {
                         "name": "OCS-APIRequest",
                         "in": "header",
@@ -2566,20 +2602,24 @@
                         "basic_auth": []
                     }
                 ],
-                "parameters": [
-                    {
-                        "name": "absolute",
-                        "in": "query",
-                        "description": "Rewrite URLs to absolute ones",
-                        "schema": {
-                            "type": "integer",
-                            "default": 0,
-                            "enum": [
-                                0,
-                                1
-                            ]
+                "requestBody": {
+                    "required": false,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "absolute": {
+                                        "type": "boolean",
+                                        "default": false,
+                                        "description": "Rewrite URLs to absolute ones"
+                                    }
+                                }
+                            }
                         }
-                    },
+                    }
+                },
+                "parameters": [
                     {
                         "name": "OCS-APIRequest",
                         "in": "header",
@@ -2755,25 +2795,31 @@
                         "basic_auth": []
                     }
                 ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "required": [
+                                    "paramId",
+                                    "visibility"
+                                ],
+                                "properties": {
+                                    "paramId": {
+                                        "type": "string",
+                                        "description": "ID of the parameter"
+                                    },
+                                    "visibility": {
+                                        "type": "string",
+                                        "description": "New visibility"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
                 "parameters": [
-                    {
-                        "name": "paramId",
-                        "in": "query",
-                        "description": "ID of the parameter",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "visibility",
-                        "in": "query",
-                        "description": "New visibility",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
                     {
                         "name": "targetUserId",
                         "in": "path",
@@ -2925,39 +2971,37 @@
                         "basic_auth": []
                     }
                 ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "required": [
+                                    "text"
+                                ],
+                                "properties": {
+                                    "text": {
+                                        "type": "string",
+                                        "description": "Text to extract from"
+                                    },
+                                    "resolve": {
+                                        "type": "boolean",
+                                        "default": false,
+                                        "description": "Resolve the references"
+                                    },
+                                    "limit": {
+                                        "type": "integer",
+                                        "format": "int64",
+                                        "default": 1,
+                                        "description": "Maximum amount of references to extract"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
                 "parameters": [
-                    {
-                        "name": "text",
-                        "in": "query",
-                        "description": "Text to extract from",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "resolve",
-                        "in": "query",
-                        "description": "Resolve the references",
-                        "schema": {
-                            "type": "integer",
-                            "default": 0,
-                            "enum": [
-                                0,
-                                1
-                            ]
-                        }
-                    },
-                    {
-                        "name": "limit",
-                        "in": "query",
-                        "description": "Maximum amount of references to extract",
-                        "schema": {
-                            "type": "integer",
-                            "format": "int64",
-                            "default": 1
-                        }
-                    },
                     {
                         "name": "OCS-APIRequest",
                         "in": "header",
@@ -3030,16 +3074,26 @@
                         "basic_auth": []
                     }
                 ],
-                "parameters": [
-                    {
-                        "name": "reference",
-                        "in": "query",
-                        "description": "Reference to resolve",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "required": [
+                                    "reference"
+                                ],
+                                "properties": {
+                                    "reference": {
+                                        "type": "string",
+                                        "description": "Reference to resolve"
+                                    }
+                                }
+                            }
                         }
-                    },
+                    }
+                },
+                "parameters": [
                     {
                         "name": "OCS-APIRequest",
                         "in": "header",
@@ -3110,29 +3164,35 @@
                         "basic_auth": []
                     }
                 ],
-                "parameters": [
-                    {
-                        "name": "references[]",
-                        "in": "query",
-                        "description": "References to resolve",
-                        "required": true,
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "type": "string"
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "required": [
+                                    "references"
+                                ],
+                                "properties": {
+                                    "references": {
+                                        "type": "array",
+                                        "description": "References to resolve",
+                                        "items": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "limit": {
+                                        "type": "integer",
+                                        "format": "int64",
+                                        "default": 1,
+                                        "description": "Maximum amount of references to resolve"
+                                    }
+                                }
                             }
                         }
-                    },
-                    {
-                        "name": "limit",
-                        "in": "query",
-                        "description": "Maximum amount of references to resolve",
-                        "schema": {
-                            "type": "integer",
-                            "format": "int64",
-                            "default": 1
-                        }
-                    },
+                    }
+                },
+                "parameters": [
                     {
                         "name": "OCS-APIRequest",
                         "in": "header",
@@ -3269,17 +3329,25 @@
                         "basic_auth": []
                     }
                 ],
-                "parameters": [
-                    {
-                        "name": "timestamp",
-                        "in": "query",
-                        "description": "Timestamp of the last usage",
-                        "schema": {
-                            "type": "integer",
-                            "format": "int64",
-                            "nullable": true
+                "requestBody": {
+                    "required": false,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "timestamp": {
+                                        "type": "integer",
+                                        "format": "int64",
+                                        "nullable": true,
+                                        "description": "Timestamp of the last usage"
+                                    }
+                                }
+                            }
                         }
-                    },
+                    }
+                },
+                "parameters": [
                     {
                         "name": "providerId",
                         "in": "path",
@@ -3431,43 +3499,44 @@
                         "basic_auth": []
                     }
                 ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "required": [
+                                    "input",
+                                    "type",
+                                    "appId"
+                                ],
+                                "properties": {
+                                    "input": {
+                                        "type": "object",
+                                        "description": "Task's input parameters",
+                                        "additionalProperties": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": {
+                                        "type": "string",
+                                        "description": "Type of the task"
+                                    },
+                                    "appId": {
+                                        "type": "string",
+                                        "description": "ID of the app that will execute the task"
+                                    },
+                                    "customId": {
+                                        "type": "string",
+                                        "default": "",
+                                        "description": "An arbitrary identifier for the task"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
                 "parameters": [
-                    {
-                        "name": "input",
-                        "in": "query",
-                        "description": "Task's input parameters",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "type",
-                        "in": "query",
-                        "description": "Type of the task",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "appId",
-                        "in": "query",
-                        "description": "ID of the app that will execute the task",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "customId",
-                        "in": "query",
-                        "description": "An arbitrary identifier for the task",
-                        "schema": {
-                            "type": "string",
-                            "default": ""
-                        }
-                    },
                     {
                         "name": "OCS-APIRequest",
                         "in": "header",
@@ -3952,16 +4021,24 @@
                         "basic_auth": []
                     }
                 ],
-                "parameters": [
-                    {
-                        "name": "customId",
-                        "in": "query",
-                        "description": "An arbitrary identifier for the task",
-                        "schema": {
-                            "type": "string",
-                            "nullable": true
+                "requestBody": {
+                    "required": false,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "customId": {
+                                        "type": "string",
+                                        "nullable": true,
+                                        "description": "An arbitrary identifier for the task"
+                                    }
+                                }
+                            }
                         }
-                    },
+                    }
+                },
+                "parameters": [
                     {
                         "name": "appId",
                         "in": "path",
@@ -4080,25 +4157,29 @@
                         "basic_auth": []
                     }
                 ],
+                "requestBody": {
+                    "required": false,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "taskType": {
+                                        "type": "string",
+                                        "nullable": true,
+                                        "description": "The task type to filter by"
+                                    },
+                                    "customId": {
+                                        "type": "string",
+                                        "nullable": true,
+                                        "description": "An arbitrary identifier for the task"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
                 "parameters": [
-                    {
-                        "name": "taskType",
-                        "in": "query",
-                        "description": "The task type to filter by",
-                        "schema": {
-                            "type": "string",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "customId",
-                        "in": "query",
-                        "description": "An arbitrary identifier for the task",
-                        "schema": {
-                            "type": "string",
-                            "nullable": true
-                        }
-                    },
                     {
                         "name": "OCS-APIRequest",
                         "in": "header",
@@ -4762,43 +4843,41 @@
                         "basic_auth": []
                     }
                 ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "required": [
+                                    "input",
+                                    "type",
+                                    "appId"
+                                ],
+                                "properties": {
+                                    "input": {
+                                        "type": "string",
+                                        "description": "Input text"
+                                    },
+                                    "type": {
+                                        "type": "string",
+                                        "description": "Type of the task"
+                                    },
+                                    "appId": {
+                                        "type": "string",
+                                        "description": "ID of the app that will execute the task"
+                                    },
+                                    "identifier": {
+                                        "type": "string",
+                                        "default": "",
+                                        "description": "An arbitrary identifier for the task"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
                 "parameters": [
-                    {
-                        "name": "input",
-                        "in": "query",
-                        "description": "Input text",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "type",
-                        "in": "query",
-                        "description": "Type of the task",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "appId",
-                        "in": "query",
-                        "description": "ID of the app that will execute the task",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "identifier",
-                        "in": "query",
-                        "description": "An arbitrary identifier for the task",
-                        "schema": {
-                            "type": "string",
-                            "default": ""
-                        }
-                    },
                     {
                         "name": "OCS-APIRequest",
                         "in": "header",
@@ -5290,16 +5369,24 @@
                         "basic_auth": []
                     }
                 ],
-                "parameters": [
-                    {
-                        "name": "identifier",
-                        "in": "query",
-                        "description": "An arbitrary identifier for the task",
-                        "schema": {
-                            "type": "string",
-                            "nullable": true
+                "requestBody": {
+                    "required": false,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "identifier": {
+                                        "type": "string",
+                                        "nullable": true,
+                                        "description": "An arbitrary identifier for the task"
+                                    }
+                                }
+                            }
                         }
-                    },
+                    }
+                },
+                "parameters": [
                     {
                         "name": "appId",
                         "in": "path",
@@ -5489,44 +5576,42 @@
                         "basic_auth": []
                     }
                 ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "required": [
+                                    "input",
+                                    "appId"
+                                ],
+                                "properties": {
+                                    "input": {
+                                        "type": "string",
+                                        "description": "Input text"
+                                    },
+                                    "appId": {
+                                        "type": "string",
+                                        "description": "ID of the app that will execute the task"
+                                    },
+                                    "identifier": {
+                                        "type": "string",
+                                        "default": "",
+                                        "description": "An arbitrary identifier for the task"
+                                    },
+                                    "numberOfImages": {
+                                        "type": "integer",
+                                        "format": "int64",
+                                        "default": 8,
+                                        "description": "The number of images to generate"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
                 "parameters": [
-                    {
-                        "name": "input",
-                        "in": "query",
-                        "description": "Input text",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "appId",
-                        "in": "query",
-                        "description": "ID of the app that will execute the task",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "identifier",
-                        "in": "query",
-                        "description": "An arbitrary identifier for the task",
-                        "schema": {
-                            "type": "string",
-                            "default": ""
-                        }
-                    },
-                    {
-                        "name": "numberOfImages",
-                        "in": "query",
-                        "description": "The number of images to generate",
-                        "schema": {
-                            "type": "integer",
-                            "format": "int64",
-                            "default": 8
-                        }
-                    },
                     {
                         "name": "OCS-APIRequest",
                         "in": "header",
@@ -6119,16 +6204,24 @@
                         "basic_auth": []
                     }
                 ],
-                "parameters": [
-                    {
-                        "name": "identifier",
-                        "in": "query",
-                        "description": "An arbitrary identifier for the task",
-                        "schema": {
-                            "type": "string",
-                            "nullable": true
+                "requestBody": {
+                    "required": false,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "identifier": {
+                                        "type": "string",
+                                        "nullable": true,
+                                        "description": "An arbitrary identifier for the task"
+                                    }
+                                }
+                            }
                         }
-                    },
+                    }
+                },
+                "parameters": [
                     {
                         "name": "appId",
                         "in": "path",
@@ -6345,34 +6438,36 @@
                         "basic_auth": []
                     }
                 ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "required": [
+                                    "text",
+                                    "toLanguage"
+                                ],
+                                "properties": {
+                                    "text": {
+                                        "type": "string",
+                                        "description": "Text to be translated"
+                                    },
+                                    "fromLanguage": {
+                                        "type": "string",
+                                        "nullable": true,
+                                        "description": "Language to translate from"
+                                    },
+                                    "toLanguage": {
+                                        "type": "string",
+                                        "description": "Language to translate to"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
                 "parameters": [
-                    {
-                        "name": "text",
-                        "in": "query",
-                        "description": "Text to be translated",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "fromLanguage",
-                        "in": "query",
-                        "description": "Language to translate from",
-                        "schema": {
-                            "type": "string",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "toLanguage",
-                        "in": "query",
-                        "description": "Language to translate to",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
                     {
                         "name": "OCS-APIRequest",
                         "in": "header",
@@ -6572,16 +6667,24 @@
                         "basic_auth": []
                     }
                 ],
-                "parameters": [
-                    {
-                        "name": "from",
-                        "in": "query",
-                        "description": "the url the user is currently at",
-                        "schema": {
-                            "type": "string",
-                            "default": ""
+                "requestBody": {
+                    "required": false,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "from": {
+                                        "type": "string",
+                                        "default": "",
+                                        "description": "the url the user is currently at"
+                                    }
+                                }
+                            }
                         }
-                    },
+                    }
+                },
+                "parameters": [
                     {
                         "name": "OCS-APIRequest",
                         "in": "header",
@@ -6646,62 +6749,54 @@
                         "basic_auth": []
                     }
                 ],
-                "parameters": [
-                    {
-                        "name": "term",
-                        "in": "query",
-                        "description": "Term to search",
-                        "schema": {
-                            "type": "string",
-                            "default": ""
-                        }
-                    },
-                    {
-                        "name": "sortOrder",
-                        "in": "query",
-                        "description": "Order of entries",
-                        "schema": {
-                            "type": "integer",
-                            "format": "int64",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "limit",
-                        "in": "query",
-                        "description": "Maximum amount of entries, limited to 25",
-                        "schema": {
-                            "type": "integer",
-                            "format": "int64",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "cursor",
-                        "in": "query",
-                        "description": "Offset for searching",
-                        "schema": {
-                            "nullable": true,
-                            "oneOf": [
-                                {
-                                    "type": "integer",
-                                    "format": "int64"
-                                },
-                                {
-                                    "type": "string"
+                "requestBody": {
+                    "required": false,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "term": {
+                                        "type": "string",
+                                        "default": "",
+                                        "description": "Term to search"
+                                    },
+                                    "sortOrder": {
+                                        "type": "integer",
+                                        "format": "int64",
+                                        "nullable": true,
+                                        "description": "Order of entries"
+                                    },
+                                    "limit": {
+                                        "type": "integer",
+                                        "format": "int64",
+                                        "nullable": true,
+                                        "description": "Maximum amount of entries, limited to 25"
+                                    },
+                                    "cursor": {
+                                        "nullable": true,
+                                        "description": "Offset for searching",
+                                        "oneOf": [
+                                            {
+                                                "type": "integer",
+                                                "format": "int64"
+                                            },
+                                            {
+                                                "type": "string"
+                                            }
+                                        ]
+                                    },
+                                    "from": {
+                                        "type": "string",
+                                        "default": "",
+                                        "description": "The current user URL"
+                                    }
                                 }
-                            ]
+                            }
                         }
-                    },
-                    {
-                        "name": "from",
-                        "in": "query",
-                        "description": "The current user URL",
-                        "schema": {
-                            "type": "string",
-                            "default": ""
-                        }
-                    },
+                    }
+                },
+                "parameters": [
                     {
                         "name": "providerId",
                         "in": "path",
@@ -6900,16 +6995,26 @@
                         "basic_auth": []
                     }
                 ],
-                "parameters": [
-                    {
-                        "name": "version",
-                        "in": "query",
-                        "description": "Version to dismiss the changes for",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "required": [
+                                    "version"
+                                ],
+                                "properties": {
+                                    "version": {
+                                        "type": "string",
+                                        "description": "Version to dismiss the changes for"
+                                    }
+                                }
+                            }
                         }
-                    },
+                    }
+                },
+                "parameters": [
                     {
                         "name": "OCS-APIRequest",
                         "in": "header",
@@ -6979,20 +7084,24 @@
                         "basic_auth": []
                     }
                 ],
-                "parameters": [
-                    {
-                        "name": "guestFallback",
-                        "in": "query",
-                        "description": "Fallback to guest avatar if not found",
-                        "schema": {
-                            "type": "integer",
-                            "default": 0,
-                            "enum": [
-                                0,
-                                1
-                            ]
+                "requestBody": {
+                    "required": false,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "guestFallback": {
+                                        "type": "boolean",
+                                        "default": false,
+                                        "description": "Fallback to guest avatar if not found"
+                                    }
+                                }
+                            }
                         }
-                    },
+                    }
+                },
+                "parameters": [
                     {
                         "name": "userId",
                         "in": "path",
@@ -7082,20 +7191,24 @@
                         "basic_auth": []
                     }
                 ],
-                "parameters": [
-                    {
-                        "name": "guestFallback",
-                        "in": "query",
-                        "description": "Fallback to guest avatar if not found",
-                        "schema": {
-                            "type": "integer",
-                            "default": 0,
-                            "enum": [
-                                0,
-                                1
-                            ]
+                "requestBody": {
+                    "required": false,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "guestFallback": {
+                                        "type": "boolean",
+                                        "default": false,
+                                        "description": "Fallback to guest avatar if not found"
+                                    }
+                                }
+                            }
                         }
-                    },
+                    }
+                },
+                "parameters": [
                     {
                         "name": "userId",
                         "in": "path",
@@ -7185,17 +7298,25 @@
                         "basic_auth": []
                     }
                 ],
-                "parameters": [
-                    {
-                        "name": "token",
-                        "in": "query",
-                        "description": "Token of the flow",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "required": [
+                                    "token"
+                                ],
+                                "properties": {
+                                    "token": {
+                                        "type": "string",
+                                        "description": "Token of the flow"
+                                    }
+                                }
+                            }
                         }
                     }
-                ],
+                },
                 "responses": {
                     "200": {
                         "description": "Login flow credentials returned",
@@ -7264,21 +7385,25 @@
                         "basic_auth": []
                     }
                 ],
-                "parameters": [
-                    {
-                        "name": "darkTheme",
-                        "in": "query",
-                        "description": "Return dark avatar",
-                        "schema": {
-                            "type": "integer",
-                            "nullable": true,
-                            "default": 0,
-                            "enum": [
-                                0,
-                                1
-                            ]
+                "requestBody": {
+                    "required": false,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "darkTheme": {
+                                        "type": "boolean",
+                                        "nullable": true,
+                                        "default": false,
+                                        "description": "Return dark avatar"
+                                    }
+                                }
+                            }
                         }
-                    },
+                    }
+                },
+                "parameters": [
                     {
                         "name": "guestName",
                         "in": "path",
@@ -7439,17 +7564,25 @@
                         "basic_auth": []
                     }
                 ],
-                "parameters": [
-                    {
-                        "name": "password",
-                        "in": "query",
-                        "description": "The password of the user",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "required": [
+                                    "password"
+                                ],
+                                "properties": {
+                                    "password": {
+                                        "type": "string",
+                                        "description": "The password of the user"
+                                    }
+                                }
+                            }
                         }
                     }
-                ],
+                },
                 "responses": {
                     "200": {
                         "description": "Password confirmation succeeded",
@@ -7604,89 +7737,59 @@
                         "basic_auth": []
                     }
                 ],
-                "parameters": [
-                    {
-                        "name": "file",
-                        "in": "query",
-                        "description": "Path of the file",
-                        "schema": {
-                            "type": "string",
-                            "default": ""
-                        }
-                    },
-                    {
-                        "name": "x",
-                        "in": "query",
-                        "description": "Width of the preview. A width of -1 will use the original image width.",
-                        "schema": {
-                            "type": "integer",
-                            "format": "int64",
-                            "default": 32
-                        }
-                    },
-                    {
-                        "name": "y",
-                        "in": "query",
-                        "description": "Height of the preview. A height of -1 will use the original image height.",
-                        "schema": {
-                            "type": "integer",
-                            "format": "int64",
-                            "default": 32
-                        }
-                    },
-                    {
-                        "name": "a",
-                        "in": "query",
-                        "description": "Preserve the aspect ratio",
-                        "schema": {
-                            "type": "integer",
-                            "default": 0,
-                            "enum": [
-                                0,
-                                1
-                            ]
-                        }
-                    },
-                    {
-                        "name": "forceIcon",
-                        "in": "query",
-                        "description": "Force returning an icon",
-                        "schema": {
-                            "type": "integer",
-                            "default": 1,
-                            "enum": [
-                                0,
-                                1
-                            ]
-                        }
-                    },
-                    {
-                        "name": "mode",
-                        "in": "query",
-                        "description": "How to crop the image",
-                        "schema": {
-                            "type": "string",
-                            "default": "fill",
-                            "enum": [
-                                "fill",
-                                "cover"
-                            ]
-                        }
-                    },
-                    {
-                        "name": "mimeFallback",
-                        "in": "query",
-                        "description": "Whether to fallback to the mime icon if no preview is available",
-                        "schema": {
-                            "type": "integer",
-                            "default": 0,
-                            "enum": [
-                                0,
-                                1
-                            ]
+                "requestBody": {
+                    "required": false,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "file": {
+                                        "type": "string",
+                                        "default": "",
+                                        "description": "Path of the file"
+                                    },
+                                    "x": {
+                                        "type": "integer",
+                                        "format": "int64",
+                                        "default": 32,
+                                        "description": "Width of the preview. A width of -1 will use the original image width."
+                                    },
+                                    "y": {
+                                        "type": "integer",
+                                        "format": "int64",
+                                        "default": 32,
+                                        "description": "Height of the preview. A height of -1 will use the original image height."
+                                    },
+                                    "a": {
+                                        "type": "boolean",
+                                        "default": false,
+                                        "description": "Preserve the aspect ratio"
+                                    },
+                                    "forceIcon": {
+                                        "type": "boolean",
+                                        "default": true,
+                                        "description": "Force returning an icon"
+                                    },
+                                    "mode": {
+                                        "type": "string",
+                                        "default": "fill",
+                                        "enum": [
+                                            "fill",
+                                            "cover"
+                                        ],
+                                        "description": "How to crop the image"
+                                    },
+                                    "mimeFallback": {
+                                        "type": "boolean",
+                                        "default": false,
+                                        "description": "Whether to fallback to the mime icon if no preview is available"
+                                    }
+                                }
+                            }
                         }
                     }
-                ],
+                },
                 "responses": {
                     "200": {
                         "description": "Preview returned",
@@ -7751,90 +7854,60 @@
                         "basic_auth": []
                     }
                 ],
-                "parameters": [
-                    {
-                        "name": "fileId",
-                        "in": "query",
-                        "description": "ID of the file",
-                        "schema": {
-                            "type": "integer",
-                            "format": "int64",
-                            "default": -1
-                        }
-                    },
-                    {
-                        "name": "x",
-                        "in": "query",
-                        "description": "Width of the preview. A width of -1 will use the original image width.",
-                        "schema": {
-                            "type": "integer",
-                            "format": "int64",
-                            "default": 32
-                        }
-                    },
-                    {
-                        "name": "y",
-                        "in": "query",
-                        "description": "Height of the preview. A height of -1 will use the original image height.",
-                        "schema": {
-                            "type": "integer",
-                            "format": "int64",
-                            "default": 32
-                        }
-                    },
-                    {
-                        "name": "a",
-                        "in": "query",
-                        "description": "Preserve the aspect ratio",
-                        "schema": {
-                            "type": "integer",
-                            "default": 0,
-                            "enum": [
-                                0,
-                                1
-                            ]
-                        }
-                    },
-                    {
-                        "name": "forceIcon",
-                        "in": "query",
-                        "description": "Force returning an icon",
-                        "schema": {
-                            "type": "integer",
-                            "default": 1,
-                            "enum": [
-                                0,
-                                1
-                            ]
-                        }
-                    },
-                    {
-                        "name": "mode",
-                        "in": "query",
-                        "description": "How to crop the image",
-                        "schema": {
-                            "type": "string",
-                            "default": "fill",
-                            "enum": [
-                                "fill",
-                                "cover"
-                            ]
-                        }
-                    },
-                    {
-                        "name": "mimeFallback",
-                        "in": "query",
-                        "description": "Whether to fallback to the mime icon if no preview is available",
-                        "schema": {
-                            "type": "integer",
-                            "default": 0,
-                            "enum": [
-                                0,
-                                1
-                            ]
+                "requestBody": {
+                    "required": false,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "fileId": {
+                                        "type": "integer",
+                                        "format": "int64",
+                                        "default": -1,
+                                        "description": "ID of the file"
+                                    },
+                                    "x": {
+                                        "type": "integer",
+                                        "format": "int64",
+                                        "default": 32,
+                                        "description": "Width of the preview. A width of -1 will use the original image width."
+                                    },
+                                    "y": {
+                                        "type": "integer",
+                                        "format": "int64",
+                                        "default": 32,
+                                        "description": "Height of the preview. A height of -1 will use the original image height."
+                                    },
+                                    "a": {
+                                        "type": "boolean",
+                                        "default": false,
+                                        "description": "Preserve the aspect ratio"
+                                    },
+                                    "forceIcon": {
+                                        "type": "boolean",
+                                        "default": true,
+                                        "description": "Force returning an icon"
+                                    },
+                                    "mode": {
+                                        "type": "string",
+                                        "default": "fill",
+                                        "enum": [
+                                            "fill",
+                                            "cover"
+                                        ],
+                                        "description": "How to crop the image"
+                                    },
+                                    "mimeFallback": {
+                                        "type": "boolean",
+                                        "default": false,
+                                        "description": "Whether to fallback to the mime icon if no preview is available"
+                                    }
+                                }
+                            }
                         }
                     }
-                ],
+                },
                 "responses": {
                     "200": {
                         "description": "Preview returned",
@@ -7952,17 +8025,25 @@
                         "basic_auth": []
                     }
                 ],
-                "parameters": [
-                    {
-                        "name": "token",
-                        "in": "query",
-                        "description": "App password",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "required": [
+                                    "token"
+                                ],
+                                "properties": {
+                                    "token": {
+                                        "type": "string",
+                                        "description": "App password"
+                                    }
+                                }
+                            }
                         }
                     }
-                ],
+                },
                 "responses": {
                     "200": {
                         "description": "Device should be wiped",
@@ -8009,17 +8090,25 @@
                         "basic_auth": []
                     }
                 ],
-                "parameters": [
-                    {
-                        "name": "token",
-                        "in": "query",
-                        "description": "App password",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "required": [
+                                    "token"
+                                ],
+                                "properties": {
+                                    "token": {
+                                        "type": "string",
+                                        "description": "App password"
+                                    }
+                                }
+                            }
                         }
                     }
-                ],
+                },
                 "responses": {
                     "200": {
                         "description": "Wipe finished successfully",
@@ -8212,17 +8301,27 @@
                         "basic_auth": []
                     }
                 ],
-                "parameters": [
-                    {
-                        "name": "progress",
-                        "in": "query",
-                        "description": "The progress",
-                        "required": true,
-                        "schema": {
-                            "type": "number",
-                            "format": "double"
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "required": [
+                                    "progress"
+                                ],
+                                "properties": {
+                                    "progress": {
+                                        "type": "number",
+                                        "format": "double",
+                                        "description": "The progress"
+                                    }
+                                }
+                            }
                         }
-                    },
+                    }
+                },
+                "parameters": [
                     {
                         "name": "taskId",
                         "in": "path",
@@ -8378,25 +8477,32 @@
                         "basic_auth": []
                     }
                 ],
+                "requestBody": {
+                    "required": false,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "output": {
+                                        "type": "object",
+                                        "nullable": true,
+                                        "description": "The resulting task output",
+                                        "additionalProperties": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "errorMessage": {
+                                        "type": "string",
+                                        "nullable": true,
+                                        "description": "An error message if the task failed"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
                 "parameters": [
-                    {
-                        "name": "output",
-                        "in": "query",
-                        "description": "The resulting task output",
-                        "schema": {
-                            "type": "string",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "errorMessage",
-                        "in": "query",
-                        "description": "An error message if the task failed",
-                        "schema": {
-                            "type": "string",
-                            "nullable": true
-                        }
-                    },
                     {
                         "name": "taskId",
                         "in": "path",
@@ -8552,31 +8658,37 @@
                         "basic_auth": []
                     }
                 ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "required": [
+                                    "providerIds",
+                                    "taskTypeIds"
+                                ],
+                                "properties": {
+                                    "providerIds": {
+                                        "type": "array",
+                                        "description": "The ids of the providers",
+                                        "items": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "taskTypeIds": {
+                                        "type": "array",
+                                        "description": "The ids of the task types",
+                                        "items": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
                 "parameters": [
-                    {
-                        "name": "providerIds[]",
-                        "in": "query",
-                        "description": "The ids of the providers",
-                        "required": true,
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "type": "string"
-                            }
-                        }
-                    },
-                    {
-                        "name": "taskTypeIds[]",
-                        "in": "query",
-                        "description": "The ids of the task types",
-                        "required": true,
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "type": "string"
-                            }
-                        }
-                    },
                     {
                         "name": "OCS-APIRequest",
                         "in": "header",
