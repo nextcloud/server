@@ -168,10 +168,11 @@ class WebhookListenerMapper extends QBMapper {
 
 		$qb->selectDistinct('event')
 			->from($this->getTableName())
-			->where($qb->expr()->in(
-				'user_id_filter',
-				$qb->createNamedParameter(array_unique(['',$userId]), IQueryBuilder::PARAM_STR_ARRAY),
-			));
+			->where($qb->expr()->emptyString('user_id_filter'));
+
+		if ($userId !== '') {
+			$qb->orWhere($qb->expr()->eq('user_id_filter', $qb->createNamedParameter($userId)));
+		}
 
 		$result = $qb->executeQuery();
 
@@ -209,13 +210,19 @@ class WebhookListenerMapper extends QBMapper {
 
 		$qb->select('*')
 			->from($this->getTableName())
-			->where($qb->expr()->eq('event', $qb->createNamedParameter($event, IQueryBuilder::PARAM_STR)))
-			->andWhere(
-				$qb->expr()->in(
-					'user_id_filter',
-					$qb->createNamedParameter(array_unique(['',$userId ?? '']), IQueryBuilder::PARAM_STR_ARRAY),
+			->where($qb->expr()->eq('event', $qb->createNamedParameter($event, IQueryBuilder::PARAM_STR)));
+
+
+		if ($userId === '' || $userId === null) {
+			$qb->andWhere($qb->expr()->emptyString('user_id_filter'));
+		} else {
+			$qb->andWhere(
+				$qb->expr()->orX(
+					$qb->expr()->emptyString('user_id_filter'),
+					$qb->expr()->eq('user_id_filter', $qb->createNamedParameter($userId)),
 				)
 			);
+		}
 
 		return $this->findEntities($qb);
 	}

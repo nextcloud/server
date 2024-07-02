@@ -168,5 +168,6 @@ class WebhookListenerMapperTest extends TestCase {
 
 		$this->assertEquals([$listener1, $listener2], $this->mapper->getByEvent(NodeWrittenEvent::class, 'alice'));
 		$this->assertEquals([$listener2], $this->mapper->getByEvent(NodeWrittenEvent::class, 'otherUser'));
+		$this->assertEquals([$listener2], $this->mapper->getByEvent(NodeWrittenEvent::class));
 	}
 }
