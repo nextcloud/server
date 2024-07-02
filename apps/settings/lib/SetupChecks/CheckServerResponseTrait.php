@@ -52,24 +52,49 @@ trait CheckServerResponseTrait {
 
 	/**
 	 * Get all possible URLs that need to be checked for a local request test.
-	 * This takes all `trusted_domains` and the CLI overwrite URL into account.
 	 *
 	 * @param string $url The relative URL to test
 	 * @return string[] List of possible absolute URLs
 	 */
-	protected function getTestUrls(string $url): array {
-		$hosts = $this->config->getSystemValue('trusted_domains', []);
-		$cliUrl = $this->config->getSystemValue('overwrite.cli.url', '');
-		if ($cliUrl !== '') {
-			$hosts[] = $cliUrl;
-		}
+	protected function getTestUrls(string $url, bool $removeWebroot): array {
+		$testUrls = [];
 
-		$testUrls = array_merge(
-			[$this->urlGenerator->getAbsoluteURL($url)],
-			array_map(fn (string $host): string => $host . $url, $hosts),
+		$webroot = $this->urlGenerator->getWebroot();
+
+		$baseUrl = $this->normalizeUrl(
+			$this->urlGenerator->getBaseUrl(),
+			$webroot,
+			$removeWebroot
 		);
 
+		$testUrls[] = $baseUrl . $url;
+
+		$cliUrl = $this->config->getSystemValueString('overwrite.cli.url', '');
+		if ($cliUrl === '') {
+			return $testUrls;
+		}
+
+		$cliUrl = $this->normalizeUrl(
+			$cliUrl,
+			$webroot,
+			$removeWebroot
+		);
+
+		if ($cliUrl !== $baseUrl) {
+			$testUrls[] = $cliUrl . $url;
+		}
+
 		return $testUrls;
+	}
+
+	/**
+	 * Strip a trailing slash and remove the webroot if requested.
+	 */
+	protected function normalizeUrl(string $url, string $webroot, bool $removeWebroot): string {
+		if ($removeWebroot && str_contains($url, $webroot)) {
+			$url = substr($url, -strlen($webroot));
+		}
+		return rtrim($url, '/');
 	}
 
 	/**
@@ -86,14 +111,14 @@ trait CheckServerResponseTrait {
 	 *
 	 * @return Generator<int, IResponse>
 	 */
-	protected function runRequest(string $method, string $url, array $options = []): Generator {
+	protected function runRequest(string $method, string $url, array $options = [], bool $removeWebroot = false): Generator {
 		$options = array_merge(['ignoreSSL' => true, 'httpErrors' => true], $options);
 
 		$client = $this->clientService->newClient();
 		$requestOptions = $this->getRequestOptions($options['ignoreSSL'], $options['httpErrors']);
 		$requestOptions = array_merge($requestOptions, $options['options'] ?? []);
 
-		foreach ($this->getTestUrls($url) as $testURL) {
+		foreach ($this->getTestUrls($url, $removeWebroot) as $testURL) {
 			try {
 				yield $client->request($method, $testURL, $requestOptions);
 			} catch (\Throwable $e) {
