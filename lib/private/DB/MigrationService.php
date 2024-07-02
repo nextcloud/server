@@ -459,7 +459,7 @@ class MigrationService {
 	 * @return IMigrationStep
 	 * @throws \InvalidArgumentException
 	 */
-	protected function createInstance($version) {
+	public function createInstance($version) {
 		$class = $this->getClass($version);
 		try {
 			$s = \OCP\Server::get($class);
