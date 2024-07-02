@@ -60,8 +60,9 @@ class WebhookListener extends Entity implements \JsonSerializable {
 	protected $eventFilter;
 
 	/**
-	 * @var string
+	 * @var ?string
 	 * If not empty, id of the user that needs to be connected for the webhook to trigger
+	 * @psalm-suppress PropertyNotSetInConstructor
 	 */
 	protected $userIdFilter;
 

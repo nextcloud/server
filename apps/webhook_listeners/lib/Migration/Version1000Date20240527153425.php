@@ -54,7 +54,7 @@ class Version1000Date20240527153425 extends SimpleMigrationStep {
 				'notnull' => false,
 			]);
 			$table->addColumn('user_id_filter', Types::STRING, [
-				'notnull' => true,
+				'notnull' => false,
 				'length' => 64,
 			]);
 			$table->addColumn('headers', Types::TEXT, [
