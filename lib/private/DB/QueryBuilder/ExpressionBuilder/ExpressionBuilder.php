@@ -407,7 +407,7 @@ class ExpressionBuilder implements IExpressionBuilder {
 	public function bitwiseAnd($x, int $y): IQueryFunction {
 		return new QueryFunction($this->connection->getDatabasePlatform()->getBitAndComparisonExpression(
 			$this->helper->quoteColumnName($x),
-			$y
+			(string) $y
 		));
 	}
 
@@ -423,7 +423,7 @@ class ExpressionBuilder implements IExpressionBuilder {
 	public function bitwiseOr($x, int $y): IQueryFunction {
 		return new QueryFunction($this->connection->getDatabasePlatform()->getBitOrComparisonExpression(
 			$this->helper->quoteColumnName($x),
-			$y
+			(string) $y
 		));
 	}
 
