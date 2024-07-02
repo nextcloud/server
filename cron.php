@@ -148,8 +148,28 @@ try {
 				break;
 			}
 
+			$jobDetails = get_class($job) . ' (id: ' . $job->getId() . ', arguments: ' . json_encode($job->getArgument()) . ')';
 			$logger->debug('CLI cron call has selected job with ID ' . strval($job->getId()), ['app' => 'cron']);
+			$timeBefore = time();
 			$job->execute($jobList, $logger);
+			$timeAfter = time();
+			$cronInterval = 5 * 60;
+			$timeSpent = $timeAfter - $timeBefore;
+			if ($timeSpent > $cronInterval) {
+				$logLevel = match (true) {
+					$timeSpent > $cronInterval * 128 => \OCP\ILogger::FATAL,
+					$timeSpent > $cronInterval * 64 => \OCP\ILogger::ERROR,
+					$timeSpent > $cronInterval * 16 => \OCP\ILogger::WARN,
+					$timeSpent > $cronInterval * 8 => \OCP\ILogger::INFO,
+					default => \OCP\ILogger::DEBUG,
+				};
+				$logger->log(
+					$logLevel,
+					'Background job ' . $jobDetails . ' ran for ' . $timeSpent . ' seconds',
+					['app' => 'cron']
+				);
+			}
+
 
 			// clean up after unclean jobs
 			\OC_Util::tearDownFS();
@@ -159,7 +179,7 @@ try {
 			$executedJobs[$job->getId()] = true;
 			unset($job);
 
-			if (time() > $endTime) {
+			if ($timeAfter > $endTime) {
 				break;
 			}
 		}
