@@ -93,6 +93,7 @@ interface IPreparedStatement {
 	 * @throws Exception
 	 *
 	 * @since 21.0.0
+	 * @deprecated 30.0.0 Use {@see self::bindValue()} instead
 	 */
 	public function bindParam($param, &$variable, $type = ParameterType::STRING, $length = null): bool;
 
