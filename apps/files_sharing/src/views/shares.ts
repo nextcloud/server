@@ -4,6 +4,7 @@
  */
 import { translate as t } from '@nextcloud/l10n'
 import { View, getNavigation } from '@nextcloud/files'
+import { ShareType } from '@nextcloud/sharing'
 import AccountClockSvg from '@mdi/svg/svg/account-clock.svg?raw'
 import AccountGroupSvg from '@mdi/svg/svg/account-group.svg?raw'
 import AccountPlusSvg from '@mdi/svg/svg/account-plus.svg?raw'
@@ -86,7 +87,7 @@ export default () => {
 
 		columns: [],
 
-		getContents: () => getContents(false, true, false, false, [window.OC.Share.SHARE_TYPE_LINK]),
+		getContents: () => getContents(false, true, false, false, [ShareType.Link]),
 	}))
 
 	Navigation.register(new View({

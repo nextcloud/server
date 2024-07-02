@@ -114,6 +114,7 @@ describe('View in folder action enabled tests', () => {
 describe('View in folder action execute tests', () => {
 	test('View in folder', async () => {
 		const goToRouteMock = jest.fn()
+		// @ts-expect-error We only mock what needed, we do not need Files.Router.goTo or Files.Navigation
 		window.OCP = { Files: { Router: { goToRoute: goToRouteMock } } }
 
 		const file = new File({
@@ -133,6 +134,7 @@ describe('View in folder action execute tests', () => {
 
 	test('View in (sub) folder', async () => {
 		const goToRouteMock = jest.fn()
+		// @ts-expect-error We only mock what needed, we do not need Files.Router.goTo or Files.Navigation
 		window.OCP = { Files: { Router: { goToRoute: goToRouteMock } } }
 
 		const file = new File({
@@ -153,6 +155,7 @@ describe('View in folder action execute tests', () => {
 
 	test('View in folder fails without node', async () => {
 		const goToRouteMock = jest.fn()
+		// @ts-expect-error We only mock what needed, we do not need Files.Router.goTo or Files.Navigation
 		window.OCP = { Files: { Router: { goToRoute: goToRouteMock } } }
 
 		const exec = await action.exec(null as unknown as Node, view, '/')
@@ -162,6 +165,7 @@ describe('View in folder action execute tests', () => {
 
 	test('View in folder fails without File', async () => {
 		const goToRouteMock = jest.fn()
+		// @ts-expect-error We only mock what needed, we do not need Files.Router.goTo or Files.Navigation
 		window.OCP = { Files: { Router: { goToRoute: goToRouteMock } } }
 
 		const folder = new Folder({

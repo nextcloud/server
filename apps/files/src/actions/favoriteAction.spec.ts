@@ -21,6 +21,7 @@ const favoriteView = {
 } as View
 
 global.window.OC = {
+	// @ts-expect-error This constant is currently missing in @nextcloud/typings
 	TAG_FAVORITE: '_$!<Favorite>!$_',
 }
 
