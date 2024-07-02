@@ -25,11 +25,9 @@ use OCP\IDBConnection;
  * Adapts the public API to our internal DBAL connection wrapper
  */
 class ConnectionAdapter implements IDBConnection {
-	/** @var Connection */
-	private $inner;
-
-	public function __construct(Connection $inner) {
-		$this->inner = $inner;
+	public function __construct(
+		protected Connection $inner,
+	) {
 	}
 
 	public function getQueryBuilder(): IQueryBuilder {
@@ -162,7 +160,8 @@ class ConnectionAdapter implements IDBConnection {
 
 	public function connect(): bool {
 		try {
-			return $this->inner->connect();
+			$this->inner->connect();
+			return true;
 		} catch (Exception $e) {
 			throw DbalException::wrap($e);
 		}
