@@ -30,14 +30,25 @@ class ResultAdapter implements IResult {
 	}
 
 	public function fetch(int $fetchMode = PDO::FETCH_ASSOC) {
-		return $this->inner->fetch($fetchMode);
+		if ($fetchMode === PDO::FETCH_ASSOC) {
+			return $this->inner->fetchAssociative();
+		} elseif ($fetchMode === PDO::FETCH_NUM) {
+			return $this->inner->fetchNumeric();
+		} elseif ($fetchMode === PDO::FETCH_COLUMN) {
+			return $this->inner->fetchOne();
+		}
+		throw new \Exception('Fetch mode needs to be assoc, num or column.');
 	}
 
 	public function fetchAll(int $fetchMode = PDO::FETCH_ASSOC): array {
-		if ($fetchMode !== PDO::FETCH_ASSOC && $fetchMode !== PDO::FETCH_NUM && $fetchMode !== PDO::FETCH_COLUMN) {
-			throw new \Exception('Fetch mode needs to be assoc, num or column.');
+		if ($fetchMode === PDO::FETCH_ASSOC) {
+			return $this->inner->fetchAllAssociative();
+		} elseif ($fetchMode === PDO::FETCH_NUM) {
+			return $this->inner->fetchAllNumeric();
+		} elseif ($fetchMode === PDO::FETCH_COLUMN) {
+			return $this->inner->fetchFirstColumn();
 		}
-		return $this->inner->fetchAll($fetchMode);
+		throw new \Exception('Fetch mode needs to be assoc, num or column.');
 	}
 
 	public function fetchColumn($columnIndex = 0) {
@@ -49,6 +60,6 @@ class ResultAdapter implements IResult {
 	}
 
 	public function rowCount(): int {
-		return $this->inner->rowCount();
+		return (int) $this->inner->rowCount();
 	}
 }

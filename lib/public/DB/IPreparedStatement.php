@@ -9,7 +9,7 @@ declare(strict_types=1);
 namespace OCP\DB;
 
 use Doctrine\DBAL\Exception;
-use Doctrine\DBAL\ParameterType;
+use OCP\DB\QueryBuilder\IQueryBuilder;
 use PDO;
 
 /**
@@ -80,7 +80,7 @@ interface IPreparedStatement {
 	 *
 	 * @since 21.0.0
 	 */
-	public function bindValue($param, $value, $type = ParameterType::STRING): bool;
+	public function bindValue($param, $value, $type = IQueryBuilder::PARAM_STR): bool;
 
 	/**
 	 * @param int|string $param
@@ -93,8 +93,9 @@ interface IPreparedStatement {
 	 * @throws Exception
 	 *
 	 * @since 21.0.0
+	 * @deprecated 30.0.0 Use {@see self::bindValue()} instead
 	 */
-	public function bindParam($param, &$variable, $type = ParameterType::STRING, $length = null): bool;
+	public function bindParam($param, &$variable, $type = IQueryBuilder::PARAM_STR, $length = null): bool;
 
 	/**
 	 * @param mixed[]|null $params

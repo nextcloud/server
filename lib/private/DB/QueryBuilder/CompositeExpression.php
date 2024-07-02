@@ -30,7 +30,9 @@ class CompositeExpression implements ICompositeExpression, \Countable {
 	 * @return \OCP\DB\QueryBuilder\ICompositeExpression
 	 */
 	public function addMultiple(array $parts = []): ICompositeExpression {
-		$this->compositeExpression->addMultiple($parts);
+		foreach ($parts as $part) {
+			$this->add($part);
+		}
 
 		return $this;
 	}
@@ -43,8 +45,7 @@ class CompositeExpression implements ICompositeExpression, \Countable {
 	 * @return \OCP\DB\QueryBuilder\ICompositeExpression
 	 */
 	public function add($part): ICompositeExpression {
-		$this->compositeExpression->add($part);
-
+		$this->compositeExpression = $this->compositeExpression->with($part);
 		return $this;
 	}
 

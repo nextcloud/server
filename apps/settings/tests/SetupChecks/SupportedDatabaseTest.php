@@ -8,7 +8,7 @@ declare(strict_types=1);
  */
 namespace OCA\Settings\Tests;
 
-use Doctrine\DBAL\Platforms\SqlitePlatform;
+use Doctrine\DBAL\Platforms\SQLitePlatform;
 use OCA\Settings\SetupChecks\SupportedDatabase;
 use OCP\IDBConnection;
 use OCP\IL10N;
@@ -42,7 +42,7 @@ class SupportedDatabaseTest extends TestCase {
 
 	public function testPass(): void {
 		$platform = $this->connection->getDatabasePlatform();
-		if ($platform instanceof SqlitePlatform) {
+		if ($platform instanceof SQLitePlatform) {
 			/** SQlite always gets a warning */
 			$this->assertEquals(SetupResult::WARNING, $this->check->run()->getSeverity());
 		} else {

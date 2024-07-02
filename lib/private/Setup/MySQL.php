@@ -66,7 +66,7 @@ class MySQL extends AbstractDatabase {
 			//we can't use OC_DB functions here because we need to connect as the administrative user.
 			$characterSet = $this->config->getValue('mysql.utf8mb4', false) ? 'utf8mb4' : 'utf8';
 			$query = "CREATE DATABASE IF NOT EXISTS `$name` CHARACTER SET $characterSet COLLATE {$characterSet}_bin;";
-			$connection->executeUpdate($query);
+			$connection->executeStatement($query);
 		} catch (\Exception $ex) {
 			$this->logger->error('Database creation failed.', [
 				'exception' => $ex,
@@ -78,7 +78,7 @@ class MySQL extends AbstractDatabase {
 		try {
 			//this query will fail if there aren't the right permissions, ignore the error
 			$query = "GRANT SELECT, INSERT, UPDATE, DELETE, CREATE, DROP, REFERENCES, INDEX, ALTER, CREATE TEMPORARY TABLES, LOCK TABLES, EXECUTE, CREATE VIEW, SHOW VIEW, CREATE ROUTINE, ALTER ROUTINE, EVENT, TRIGGER ON `$name` . * TO '$user'";
-			$connection->executeUpdate($query);
+			$connection->executeStatement($query);
 		} catch (\Exception $ex) {
 			$this->logger->debug('Could not automatically grant privileges, this can be ignored if database user already had privileges.', [
 				'exception' => $ex,
@@ -100,14 +100,14 @@ class MySQL extends AbstractDatabase {
 
 			if ($connection->getDatabasePlatform() instanceof Mysql80Platform) {
 				$query = "CREATE USER '$name'@'localhost' IDENTIFIED WITH mysql_native_password BY '$password'";
-				$connection->executeUpdate($query);
+				$connection->executeStatement($query);
 				$query = "CREATE USER '$name'@'%' IDENTIFIED WITH mysql_native_password BY '$password'";
-				$connection->executeUpdate($query);
+				$connection->executeStatement($query);
 			} else {
 				$query = "CREATE USER '$name'@'localhost' IDENTIFIED BY '$password'";
-				$connection->executeUpdate($query);
+				$connection->executeStatement($query);
 				$query = "CREATE USER '$name'@'%' IDENTIFIED BY '$password'";
-				$connection->executeUpdate($query);
+				$connection->executeStatement($query);
 			}
 		} catch (\Exception $ex) {
 			$this->logger->error('Database user creation failed.', [

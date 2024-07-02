@@ -411,7 +411,7 @@ class CustomPropertiesBackend implements BackendInterface {
 			// request only a subset
 			$sql .= ' AND `propertyname` in (?)';
 			$whereValues[] = $requestedProperties;
-			$whereTypes[] = \Doctrine\DBAL\Connection::PARAM_STR_ARRAY;
+			$whereTypes[] = IQueryBuilder::PARAM_STR_ARRAY;
 		}
 
 		$result = $this->connection->executeQuery(

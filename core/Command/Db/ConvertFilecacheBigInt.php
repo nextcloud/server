@@ -5,7 +5,7 @@
  */
 namespace OC\Core\Command\Db;
 
-use Doctrine\DBAL\Platforms\SqlitePlatform;
+use Doctrine\DBAL\Platforms\SQLitePlatform;
 use Doctrine\DBAL\Types\Type;
 use OC\DB\Connection;
 use OC\DB\SchemaWrapper;
@@ -53,7 +53,7 @@ class ConvertFilecacheBigInt extends Command {
 
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$schema = new SchemaWrapper($this->connection);
-		$isSqlite = $this->connection->getDatabasePlatform() instanceof SqlitePlatform;
+		$isSqlite = $this->connection->getDatabasePlatform() instanceof SQLitePlatform;
 		$updates = [];
 
 		$tables = static::getColumnsByTable();
@@ -68,7 +68,7 @@ class ConvertFilecacheBigInt extends Command {
 				$column = $table->getColumn($columnName);
 				$isAutoIncrement = $column->getAutoincrement();
 				$isAutoIncrementOnSqlite = $isSqlite && $isAutoIncrement;
-				if ($column->getType()->getName() !== Types::BIGINT && !$isAutoIncrementOnSqlite) {
+				if (Types::getType($column->getType()) !== Types::BIGINT && !$isAutoIncrementOnSqlite) {
 					$column->setType(Type::getType(Types::BIGINT));
 					$column->setOptions(['length' => 20]);
 

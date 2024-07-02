@@ -5,7 +5,6 @@
  */
 namespace OC\DirectEditing;
 
-use Doctrine\DBAL\FetchMode;
 use OCP\AppFramework\Http\NotFoundResponse;
 use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Http\TemplateResponse;
@@ -210,7 +209,7 @@ class Manager implements IManager {
 		$query->select('*')->from(self::TABLE_TOKENS)
 			->where($query->expr()->eq('token', $query->createNamedParameter($token, IQueryBuilder::PARAM_STR)));
 		$result = $query->execute();
-		if ($tokenRow = $result->fetch(FetchMode::ASSOCIATIVE)) {
+		if ($tokenRow = $result->fetch()) {
 			return new Token($this, $tokenRow);
 		}
 		throw new \RuntimeException('Failed to validate the token');
