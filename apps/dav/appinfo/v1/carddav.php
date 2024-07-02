@@ -49,6 +49,7 @@ $cardDavBackend = new CardDavBackend(
 	\OC::$server->getUserManager(),
 	\OC::$server->get(\OCP\EventDispatcher\IEventDispatcher::class),
 	\OC::$server->get(\OCA\DAV\CardDAV\Sharing\Backend::class),
+	\OC::$server->get(\OCP\IConfig::class),
 );
 
 $debugging = \OC::$server->getConfig()->getSystemValue('debug', false);

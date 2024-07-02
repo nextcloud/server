@@ -8,6 +8,7 @@
 namespace OCA\DAV\CardDAV;
 
 use OC\Search\Filter\DateTimeFilter;
+use OCA\DAV\AppInfo\Application;
 use OCA\DAV\Connector\Sabre\Principal;
 use OCA\DAV\DAV\Sharing\Backend;
 use OCA\DAV\DAV\Sharing\IShareable;
@@ -23,6 +24,7 @@ use OCP\AppFramework\Db\TTransactional;
 use OCP\DB\Exception;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IUserManager;
 use PDO;
@@ -59,6 +61,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 		private IUserManager $userManager,
 		private IEventDispatcher $dispatcher,
 		private Sharing\Backend $sharingBackend,
+		private IConfig $config,
 	) {
 	}
 
@@ -605,6 +608,13 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 	 * @return string
 	 */
 	public function createCard($addressBookId, $cardUri, $cardData, bool $checkAlreadyExists = true) {
+
+		// evaluate if card size exceeds defined limit
+		$cardSizeLimit = (int) $this->config->getAppValue(Application::APP_ID, 'card_size_limit', '5242880');
+		if (strlen($cardData) > $cardSizeLimit) {
+			throw new \Sabre\DAV\Exception\BadRequest("VCard object exceeds $cardSizeLimit bytes");
+		}
+
 		$etag = md5($cardData);
 		$uid = $this->getUID($cardData);
 		return $this->atomic(function () use ($addressBookId, $cardUri, $cardData, $checkAlreadyExists, $etag, $uid) {
@@ -677,6 +687,13 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 	 * @return string
 	 */
 	public function updateCard($addressBookId, $cardUri, $cardData) {
+
+		// evaluate if card size exceeds defined limit
+		$cardSizeLimit = (int) $this->config->getAppValue(Application::APP_ID, 'card_size_limit', '5242880');
+		if (strlen($cardData) > $cardSizeLimit) {
+			throw new \Sabre\DAV\Exception\BadRequest("VCard object exceeds $cardSizeLimit bytes");
+		}
+		
 		$uid = $this->getUID($cardData);
 		$etag = md5($cardData);
 
