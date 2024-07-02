@@ -8,6 +8,7 @@
  */
 namespace OCA\DAV\CalDAV\Schedule;
 
+use OC\Mail\Provider\Manager as MailManager;
 use OCA\DAV\CalDAV\CalendarObject;
 use OCA\DAV\CalDAV\EventComparisonService;
 use OCP\AppFramework\Utility\ITimeFactory;
@@ -15,6 +16,7 @@ use OCP\Defaults;
 use OCP\IConfig;
 use OCP\IUserSession;
 use OCP\Mail\IMailer;
+use OCP\Mail\Provider\IMessageSend;
 use OCP\Util;
 use Psr\Log\LoggerInterface;
 use Sabre\CalDAV\Schedule\IMipPlugin as SabreIMipPlugin;
@@ -212,21 +214,6 @@ class IMipPlugin extends SabreIMipPlugin {
 		$fromEMail = Util::getDefaultEmailAddress('invitations-noreply');
 		$fromName = $this->imipService->getFrom($senderName, $this->defaults->getName());
 
-		$message = $this->mailer->createMessage()
-			->setFrom([$fromEMail => $fromName]);
-
-		if ($recipientName !== null) {
-			$message->setTo([$recipient => $recipientName]);
-		} else {
-			$message->setTo([$recipient]);
-		}
-
-		if ($senderName !== null) {
-			$message->setReplyTo([$sender => $senderName]);
-		} else {
-			$message->setReplyTo([$sender]);
-		}
-
 		$template = $this->mailer->createEMailTemplate('dav.calendarInvite.' . $method, $data);
 		$template->addHeader();
 
@@ -268,18 +255,57 @@ class IMipPlugin extends SabreIMipPlugin {
 		}
 
 		$template->addFooter();
-
-		$message->useTemplate($template);
-
+		// convert iTip Message to string
 		$itip_msg = $iTipMessage->message->serialize();
-		$message->attachInline(
-			$itip_msg,
-			'event.ics',
-			'text/calendar; method=' . $iTipMessage->method,
-		);
 
 		try {
-			$failed = $this->mailer->send($message);
+			// evaluate if user object exists
+			if ($this->userSession->getUser() !== null) {
+				// load mail provider manager
+				$mailManager = \OC::$server->get(MailManager::class);
+				// retrieve all services
+				$mailService = $mailManager->findServiceByAddress($this->userSession->getUser()->getUID(), $sender);
+			}
+			// evaluate if a mail service was found and has sending capabilities
+			if ($mailService !== null && $mailService instanceof IMessageSend) {
+				// construct mail provider message and set required parameters
+				$message = new \OCP\Mail\Provider\Message();
+				$message->setFrom(
+					(new \OCP\Mail\Provider\Address($sender, $fromName))
+				);
+				$message->setTo(
+					(new \OCP\Mail\Provider\Address($recipient, $recipientName))
+				);
+				$message->setSubject($template->renderSubject());
+				$message->setBodyPlain($template->renderText());
+				$message->setBodyHtml($template->renderHtml());
+				$message->setAttachments((new \OCP\Mail\Provider\Attachment(
+					$itip_msg,
+					'event.ics',
+					'text/calendar; method=' . $iTipMessage->method,
+					true
+				)));
+				// send message
+				$mailService->sendMessage($message);
+			} else {
+				// construct symfony mailer message and set required parameters
+				$message = $this->mailer->createMessage();
+				$message->setFrom([$fromEMail => $fromName]);
+				$message->setTo(
+					(($recipientName !== null) ? [$recipient => $recipientName] : [$recipient])
+				);
+				$message->setReplyTo(
+					(($senderName !== null) ? [$sender => $senderName] : [$sender])
+				);
+				$message->useTemplate($template);
+				$message->attachInline(
+					$itip_msg,
+					'event.ics',
+					'text/calendar; method=' . $iTipMessage->method
+				);
+				$failed = $this->mailer->send($message);
+			}
+
 			$iTipMessage->scheduleStatus = '1.1; Scheduling message is sent via iMip';
 			if (!empty($failed)) {
 				$this->logger->error('Unable to deliver message to {failed}', ['app' => 'dav', 'failed' => implode(', ', $failed)]);
