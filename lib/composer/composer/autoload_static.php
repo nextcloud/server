@@ -1394,6 +1394,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\DB\\ResultAdapter' => __DIR__ . '/../../..' . '/lib/private/DB/ResultAdapter.php',
         'OC\\DB\\SQLiteMigrator' => __DIR__ . '/../../..' . '/lib/private/DB/SQLiteMigrator.php',
         'OC\\DB\\SchemaWrapper' => __DIR__ . '/../../..' . '/lib/private/DB/SchemaWrapper.php',
+        'OC\\DB\\TDoctrineParameterTypeMap' => __DIR__ . '/../../..' . '/lib/private/DB/TDoctrineParameterTypeMap.php',
         'OC\\Dashboard\\Manager' => __DIR__ . '/../../..' . '/lib/private/Dashboard/Manager.php',
         'OC\\DatabaseException' => __DIR__ . '/../../..' . '/lib/private/DatabaseException.php',
         'OC\\DatabaseSetupException' => __DIR__ . '/../../..' . '/lib/private/DatabaseSetupException.php',

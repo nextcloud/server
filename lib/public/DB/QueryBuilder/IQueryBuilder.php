@@ -23,23 +23,23 @@ interface IQueryBuilder {
 	/**
 	 * @since 9.0.0
 	 */
-	public const PARAM_NULL = ParameterType::NULL;
+	public const PARAM_NULL = 0; // Translates to ParameterType::NULL;
 	/**
 	 * @since 9.0.0
 	 */
-	public const PARAM_BOOL = ParameterType::BOOLEAN;
+	public const PARAM_BOOL = 4; // Translates to ParameterType::BOOLEAN;
 	/**
 	 * @since 9.0.0
 	 */
-	public const PARAM_INT = ParameterType::INTEGER;
+	public const PARAM_INT = 1; // Translates to ParameterType::INTEGER;
 	/**
 	 * @since 9.0.0
 	 */
-	public const PARAM_STR = ParameterType::STRING;
+	public const PARAM_STR = 2; // Translates to ParameterType::STRING;
 	/**
 	 * @since 9.0.0
 	 */
-	public const PARAM_LOB = ParameterType::LARGE_OBJECT;
+	public const PARAM_LOB = 3; // Translates to ParameterType::LARGE_OBJECT;
 	/**
 	 * @since 9.0.0
 	 */
@@ -53,11 +53,11 @@ interface IQueryBuilder {
 	/**
 	 * @since 9.0.0
 	 */
-	public const PARAM_INT_ARRAY = ArrayParameterType::INTEGER;
+	public const PARAM_INT_ARRAY = 100; // Translates to ArrayParameterType::INTEGER;
 	/**
 	 * @since 9.0.0
 	 */
-	public const PARAM_STR_ARRAY = ArrayParameterType::STRING;
+	public const PARAM_STR_ARRAY = 101; // Translates to ArrayParameterType::STRING;
 
 	/**
 	 * @since 24.0.0 Indicates how many rows can be deleted at once with MySQL

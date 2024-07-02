@@ -1361,6 +1361,7 @@ return array(
     'OC\\DB\\ResultAdapter' => $baseDir . '/lib/private/DB/ResultAdapter.php',
     'OC\\DB\\SQLiteMigrator' => $baseDir . '/lib/private/DB/SQLiteMigrator.php',
     'OC\\DB\\SchemaWrapper' => $baseDir . '/lib/private/DB/SchemaWrapper.php',
+    'OC\\DB\\TDoctrineParameterTypeMap' => $baseDir . '/lib/private/DB/TDoctrineParameterTypeMap.php',
     'OC\\Dashboard\\Manager' => $baseDir . '/lib/private/Dashboard/Manager.php',
     'OC\\DatabaseException' => $baseDir . '/lib/private/DatabaseException.php',
     'OC\\DatabaseSetupException' => $baseDir . '/lib/private/DatabaseSetupException.php',
