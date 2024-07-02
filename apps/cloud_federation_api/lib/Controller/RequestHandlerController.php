@@ -5,6 +5,7 @@
  */
 namespace OCA\CloudFederationAPI\Controller;
 
+use OC\OCM\OCMSignatoryManager;
 use OCA\CloudFederationAPI\Config;
 use OCA\CloudFederationAPI\ResponseDefinitions;
 use OCP\AppFramework\Controller;
@@ -19,10 +20,16 @@ use OCP\Federation\Exceptions\ProviderDoesNotExistsException;
 use OCP\Federation\ICloudFederationFactory;
 use OCP\Federation\ICloudFederationProviderManager;
 use OCP\Federation\ICloudIdManager;
+use OCP\IAppConfig;
 use OCP\IGroupManager;
 use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\IUserManager;
+use OCP\Security\Signature\Exceptions\IncomingRequestException;
+use OCP\Security\Signature\Exceptions\SignatoryNotFoundException;
+use OCP\Security\Signature\Exceptions\SignatureException;
+use OCP\Security\Signature\ISignatureManager;
+use OCP\Security\Signature\Model\IIncomingSignedRequest;
 use OCP\Share\Exceptions\ShareNotFound;
 use Psr\Log\LoggerInterface;
 
@@ -46,8 +53,11 @@ class RequestHandlerController extends Controller {
 		private IURLGenerator $urlGenerator,
 		private ICloudFederationProviderManager $cloudFederationProviderManager,
 		private Config $config,
+		private readonly IAppConfig $appConfig,
 		private ICloudFederationFactory $factory,
-		private ICloudIdManager $cloudIdManager
+		private ICloudIdManager $cloudIdManager,
+		private readonly ISignatureManager $signatureManager,
+		private readonly OCMSignatoryManager $signatoryManager,
 	) {
 		parent::__construct($appName, $request);
 	}
@@ -77,6 +87,19 @@ class RequestHandlerController extends Controller {
 	 * 501: Share type or the resource type is not supported
 	 */
 	public function addShare($shareWith, $name, $description, $providerId, $owner, $ownerDisplayName, $sharedBy, $sharedByDisplayName, $protocol, $shareType, $resourceType) {
+		try {
+			$this->logger->warning('___1');
+
+			$signedRequest = $this->getSignedRequest();
+			if ($signedRequest !== null && $signedRequest->getOrigin()) {
+				\OC::$server->getLogger()->log(3,' ### SIGNED REQUEST -- ' . $signedRequest->getBody());
+			}
+		} catch (IncomingRequestException $e) {
+			$this->logger->warning('incoming request exception', ['exception' => $e]);
+			return new JSONResponse(['message' => $e->getMessage(), 'validationErrors' => []],
+									Http::STATUS_BAD_REQUEST);
+		}
+
 		// check if all required parameters are set
 		if ($shareWith === null ||
 			$name === null ||
@@ -98,6 +121,7 @@ class RequestHandlerController extends Controller {
 				Http::STATUS_BAD_REQUEST
 			);
 		}
+
 
 		$supportedShareTypes = $this->config->getSupportedShareTypes($resourceType);
 		if (!in_array($shareType, $supportedShareTypes)) {
@@ -278,5 +302,28 @@ class RequestHandlerController extends Controller {
 		$this->logger->debug('shareWith after, ' . $uid, ['app' => $this->appName]);
 
 		return $uid;
+	}
+
+
+	/**
+	 * @return IIncomingSignedRequest|null null if remote is not yet compatible with signed request and we ignore this fact
+	 * @throws IncomingRequestException
+	 */
+	private function getSignedRequest(): ?IIncomingSignedRequest {
+		try {
+ 			return $this->signatureManager->getIncomingSignedRequest($this->signatoryManager);
+		} catch (SignatoryNotFoundException $e) {
+			// remote does not support signed request.
+			// currently we still accept unsigned request until lazy appconfig
+			// core.enforce_signed_ocm_request is set to true (default: false)
+			if ($this->appConfig->getValueBool('enforce_signed_ocm_request', false, lazy: true)) {
+				$this->logger->notice('ignored unsigned request', ['exception' => $e]);
+				throw new IncomingRequestException('Unsigned request');
+			}
+		} catch (SignatureException $e) {
+			$this->logger->notice('wrongly signed request', ['exception' => $e]);
+			throw new IncomingRequestException('Invalid signature');
+		}
+		return null;
 	}
 }

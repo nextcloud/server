@@ -352,7 +352,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	 *
 	 * @throws \LogicException
 	 */
-	protected function getContent() {
+	public function getContent() {
 		// If the content can't be parsed into an array then return a stream resource.
 		if ($this->isPutStreamContent()) {
 			if ($this->content === false) {

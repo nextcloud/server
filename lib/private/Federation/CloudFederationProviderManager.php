@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace OC\Federation;
 
 use OC\AppFramework\Http;
+use OC\OCM\OCMSignatoryManager;
 use OCP\App\IAppManager;
 use OCP\Federation\Exceptions\ProviderDoesNotExistsException;
 use OCP\Federation\ICloudFederationNotification;
@@ -21,6 +22,7 @@ use OCP\Http\Client\IResponse;
 use OCP\IConfig;
 use OCP\OCM\Exceptions\OCMProviderException;
 use OCP\OCM\IOCMDiscoveryService;
+use OCP\Security\Signature\ISignatureManager;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -40,7 +42,9 @@ class CloudFederationProviderManager implements ICloudFederationProviderManager 
 		private IClientService $httpClientService,
 		private ICloudIdManager $cloudIdManager,
 		private IOCMDiscoveryService $discoveryService,
-		private LoggerInterface $logger
+		private readonly ISignatureManager $signatureManager,
+		private readonly OCMSignatoryManager $signatoryManager,
+		private LoggerInterface $logger,
 	) {
 	}
 
@@ -106,13 +110,18 @@ class CloudFederationProviderManager implements ICloudFederationProviderManager 
 
 		$client = $this->httpClientService->newClient();
 		try {
-			$response = $client->post($ocmProvider->getEndPoint() . '/shares', [
-				'body' => json_encode($share->getShare()),
-				'headers' => ['content-type' => 'application/json'],
-				'verify' => !$this->config->getSystemValueBool('sharing.federation.allowSelfSignedCertificates', false),
-				'timeout' => 10,
-				'connect_timeout' => 10,
-			]);
+			$uri = $ocmProvider->getEndPoint() . '/shares';
+			$signedPayload = $this->signatureManager->signOutgoingRequestIClientPayload(
+				$this->signatoryManager,
+				[
+					'body' => json_encode($share->getShare()),
+					'headers' => ['content-type' => 'application/json'],
+					'verify' => !$this->config->getSystemValueBool('sharing.federation.allowSelfSignedCertificates', false),
+					'timeout' => 10,
+					'connect_timeout' => 10,
+				],
+			'post', $uri);
+			$response = $client->post($uri, $signedPayload);
 
 			if ($response->getStatusCode() === Http::STATUS_CREATED) {
 				$result = json_decode($response->getBody(), true);

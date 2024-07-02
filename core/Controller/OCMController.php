@@ -15,6 +15,7 @@ use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\FrontpageRoute;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\Capabilities\ICapability;
+use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IRequest;
 use OCP\Server;
@@ -29,7 +30,7 @@ use Psr\Log\LoggerInterface;
 class OCMController extends Controller {
 	public function __construct(
 		IRequest $request,
-		private IConfig $config,
+		private readonly IAppConfig $appConfig,
 		private LoggerInterface $logger
 	) {
 		parent::__construct('core', $request);
@@ -52,10 +53,10 @@ class OCMController extends Controller {
 	public function discovery(): DataResponse {
 		try {
 			$cap = Server::get(
-				$this->config->getAppValue(
-					'core',
-					'ocm_providers',
-					'\OCA\CloudFederationAPI\Capabilities'
+				$this->appConfig->getValueString(
+					'core', 'ocm_providers',
+					\OCA\CloudFederationAPI\Capabilities::class,
+					lazy: true
 				)
 			);
 

@@ -22,7 +22,10 @@ class Cache extends \OC\Files\Cache\Cache {
 	public function __construct($storage, ICloudId $cloudId) {
 		$this->cloudId = $cloudId;
 		$this->storage = $storage;
-		[, $remote] = explode('://', $cloudId->getRemote(), 2);
+		$remote = $cloudId->getRemote();
+		if (str_contains($remote, '://')) {
+			[, $remote] = explode('://', $cloudId->getRemote(), 2);
+		}
 		$this->remote = $remote;
 		$this->remoteUser = $cloudId->getUser();
 		parent::__construct($storage);
