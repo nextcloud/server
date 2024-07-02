@@ -27,8 +27,19 @@ class PathVerificationTest extends \Test\TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 		$this->view = new View();
+		self::resetOCPUtil();
 	}
 
+	protected function tearDown(): void {
+		parent::tearDown();
+		self::resetOCPUtil();
+	}
+
+	protected static function resetOCPUtil(): void {
+		// Reset util cache
+		self::invokePrivate(\OCP\Util::class, 'invalidChars', [[]]);
+		self::invokePrivate(\OCP\Util::class, 'invalidFilenames', [[]]);
+	}
 
 	public function testPathVerificationFileNameTooLong() {
 		$this->expectException(\OCP\Files\InvalidPathException::class);
@@ -115,12 +126,16 @@ class PathVerificationTest extends \Test\TestCase {
 		$storage = new Local(['datadir' => '']);
 
 		$fileName = " 123{$fileName}456 ";
-		self::invokePrivate($storage, 'verifyPosixPath', [$fileName]);
+		$storage->verifyPath('', $fileName);
 	}
 
 	public function providesInvalidCharsPosix() {
 		return [
+			// posix forbidden
 			[\chr(0)],
+			['/'],
+			['\\'],
+			// We restrict also ascii 1-31
 			[\chr(1)],
 			[\chr(2)],
 			[\chr(3)],
@@ -152,8 +167,6 @@ class PathVerificationTest extends \Test\TestCase {
 			[\chr(29)],
 			[\chr(30)],
 			[\chr(31)],
-			['/'],
-			['\\'],
 		];
 	}
 

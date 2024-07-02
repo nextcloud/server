@@ -13,6 +13,7 @@ use OC\Files\Storage\Wrapper\Jail;
 use OCP\Constants;
 use OCP\Files\ForbiddenException;
 use OCP\Files\GenericFileException;
+use OCP\Files\IFilenameValidator;
 use OCP\Files\IMimeTypeDetector;
 use OCP\Files\Storage\IStorage;
 use OCP\Files\StorageNotAvailableException;
@@ -69,6 +70,8 @@ class Local extends \OC\Files\Storage\Common {
 			// on an unmounted system mount point
 			throw new StorageNotAvailableException('Local storage path does not exist "' . $this->getSourcePath('') . '"');
 		}
+
+		$this->filenameValidator = \OCP\Server::get(IFilenameValidator::class);
 	}
 
 	public function __destruct() {
@@ -317,9 +320,9 @@ class Local extends \OC\Files\Storage\Common {
 
 	private function checkTreeForForbiddenItems(string $path) {
 		$iterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($path));
+		/** @var \SplFileInfo $file */
 		foreach ($iterator as $file) {
-			/** @var \SplFileInfo $file */
-			if (Filesystem::isFileBlacklisted($file->getBasename())) {
+			if (!$this->filenameValidator->isFilenameValid($file->getBasename())) {
 				throw new ForbiddenException('Invalid path: ' . $file->getPathname(), false);
 			}
 		}
@@ -474,7 +477,7 @@ class Local extends \OC\Files\Storage\Common {
 	 * @throws ForbiddenException
 	 */
 	public function getSourcePath($path) {
-		if (Filesystem::isFileBlacklisted($path)) {
+		if (!$this->filenameValidator->isFilenameValid($path)) {
 			throw new ForbiddenException('Invalid path: ' . $path, false);
 		}
 
@@ -556,7 +559,7 @@ class Local extends \OC\Files\Storage\Common {
 			// more permissions checks.
 			&& !$sourceStorage->instanceOfStorage('OCA\GroupFolders\ACL\ACLStorageWrapper')
 			// Same for access control
-			&& !$sourceStorage->instanceOfStorage(\OCA\FilesAccessControl\StorageWrapper::class)
+			&& !$sourceStorage->instanceOfStorage('\OCA\FilesAccessControl\StorageWrapper')
 			// when moving encrypted files we have to handle keys and the target might not be encrypted
 			&& !$sourceStorage->instanceOfStorage(Encryption::class);
 	}

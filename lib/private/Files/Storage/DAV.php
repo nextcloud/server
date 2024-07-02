@@ -17,6 +17,7 @@ use OCP\Constants;
 use OCP\Diagnostics\IEventLogger;
 use OCP\Files\FileInfo;
 use OCP\Files\ForbiddenException;
+use OCP\Files\IFilenameValidator;
 use OCP\Files\IMimeTypeDetector;
 use OCP\Files\StorageInvalidException;
 use OCP\Files\StorageNotAvailableException;
@@ -125,6 +126,7 @@ class DAV extends Common {
 		// This timeout value will be used for the download and upload of files
 		$this->timeout = \OC::$server->get(IConfig::class)->getSystemValueInt('davstorage.request_timeout', 30);
 		$this->mimeTypeDetector = \OC::$server->getMimeTypeDetector();
+		$this->filenameValidator = \OCP\Server::get(IFilenameValidator::class);
 	}
 
 	protected function init() {
@@ -561,7 +563,7 @@ class DAV extends Common {
 	}
 
 	public function getMetaData($path) {
-		if (Filesystem::isFileBlacklisted($path)) {
+		if (!$this->filenameValidator->isFilenameValid($path)) {
 			throw new ForbiddenException('Invalid path: ' . $path, false);
 		}
 		$response = $this->propfind($path);

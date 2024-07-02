@@ -28,6 +28,12 @@ use Psr\Log\LoggerInterface;
 class Util {
 	private static ?IManager $shareManager = null;
 
+	/** @var list<string> */
+	private static array $invalidChars = [];
+	/** @var list<string> */
+	private static array $invalidFilenames = [];
+	/** @var list<string> */
+	private static array $invalidFilenameExtensions = [];
 	private static array $scriptsInit = [];
 	private static array $scripts = [];
 	private static array $scriptDeps = [];
@@ -486,39 +492,6 @@ class Util {
 	 */
 	public static function uploadLimit(): int|float {
 		return \OC_Helper::uploadLimit();
-	}
-
-	/**
-	 * Get a list of characters forbidden in file names
-	 * @return string[]
-	 * @since 29.0.0
-	 */
-	public static function getForbiddenFileNameChars(): array {
-		// Get always forbidden characters
-		$invalidChars = str_split(\OCP\Constants::FILENAME_INVALID_CHARS);
-		if ($invalidChars === false) {
-			$invalidChars = [];
-		}
-
-		// Get admin defined invalid characters
-		$additionalChars = \OCP\Server::get(IConfig::class)->getSystemValue('forbidden_chars', []);
-		if (!is_array($additionalChars)) {
-			\OCP\Server::get(LoggerInterface::class)->error('Invalid system config value for "forbidden_chars" is ignored.');
-			$additionalChars = [];
-		}
-		return array_merge($invalidChars, $additionalChars);
-	}
-
-	/**
-	 * Returns whether the given file name is valid
-	 * @param string $file file name to check
-	 * @return bool true if the file name is valid, false otherwise
-	 * @deprecated 8.1.0 use OCP\Files\Storage\IStorage::verifyPath()
-	 * @since 7.0.0
-	 * @suppress PhanDeprecatedFunction
-	 */
-	public static function isValidFileName($file) {
-		return \OC_Util::isValidFileName($file);
 	}
 
 	/**
