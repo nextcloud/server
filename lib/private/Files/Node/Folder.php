@@ -270,8 +270,8 @@ class Folder extends Node implements \OCP\Files\Folder {
 	 * @param string $userId owner of the tags
 	 * @return Node[]
 	 */
-	public function searchByTag($tag, $userId) {
-		$query = $this->queryFromOperator(new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'tagname', $tag), $userId);
+	public function searchByTag($tag, $userId, int $limit = 0, int $offset = 0) {
+		$query = $this->queryFromOperator(new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'tagname', $tag), $userId, $limit, $offset);
 		return $this->search($query);
 	}
 
