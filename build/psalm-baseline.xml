@@ -2915,11 +2915,6 @@
       <code><![CDATA[$appId === null]]></code>
     </TypeDoesNotContainNull>
   </file>
-  <file src="lib/private/legacy/OC_FileChunking.php">
-    <UndefinedDocblockClass>
-      <code><![CDATA[\OC\InsufficientStorageException]]></code>
-    </UndefinedDocblockClass>
-  </file>
   <file src="lib/private/legacy/OC_Files.php">
     <RedundantCondition>
       <code><![CDATA[$getType === self::ZIP_DIR]]></code>
