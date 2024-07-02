@@ -4,10 +4,6 @@
  */
 
 // register default shares types
-if (!window.OC) {
-	window.OC = {}
-}
-
 Object.assign(window.OC, {
 	Share: {
 		SHARE_TYPE_USER: 0,

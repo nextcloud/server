@@ -191,6 +191,7 @@ describe('Delete action execute tests', () => {
 		jest.spyOn(eventBus, 'emit')
 
 		const confirmMock = jest.fn()
+		// @ts-expect-error We only mock what needed
 		window.OC = { dialogs: { confirmDestructive: confirmMock } }
 
 		const file1 = new File({
