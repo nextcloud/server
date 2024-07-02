@@ -184,7 +184,8 @@ class ConnectionAdapter implements IDBConnection {
 	#[\Override]
 	public function connect(): bool {
 		try {
-			return $this->inner->connect();
+			$this->inner->connect();
+			return true;
 		} catch (Exception $e) {
 			throw DbalException::wrap($e);
 		}
