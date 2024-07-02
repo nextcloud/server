@@ -65,7 +65,7 @@ class CryptoTest extends \Test\TestCase {
 
 	public function testWrongParameters() {
 		$this->expectException(\Exception::class);
-		$this->expectExceptionMessage('Authenticated ciphertext could not be decoded.');
+		$this->expectExceptionMessage('Authenticated ciphertext could not be decoded (invalid format).');
 
 		$encryptedString = '1|2';
 		$this->crypto->decrypt($encryptedString, 'ThisIsAVeryS3cur3P4ssw0rd');
