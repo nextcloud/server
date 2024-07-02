@@ -265,6 +265,91 @@ class UsersController extends AUserData {
 		]);
 	}
 
+	/**
+	 * @NoAdminRequired
+	 *
+	 * Get the list of last logged-in users and their details
+	 *
+	 * @param string $search Text to search for
+	 * @param ?int $limit Limit the amount of users returned
+	 * @param int $offset Offset
+	 * @return DataResponse<Http::STATUS_OK, array{users: array<string, Provisioning_APIUserDetails|array{id: string}>}, array{}>
+	 *
+	 * 200: Users details returned based on last logged in information
+	 */
+	public function getLastLoggedInUsers(string $search = '',
+		?int   $limit = null,
+		int    $offset = 0,
+	): DataResponse {
+		$currentUser = $this->userSession->getUser();
+		if ($currentUser === null) {
+			return new DataResponse(['users' => []]);
+		}
+		if ($limit !== null && $limit < 0) {
+			throw new InvalidArgumentException("Invalid limit value: $limit");
+		}
+		if ($offset < 0) {
+			throw new InvalidArgumentException("Invalid offset value: $offset");
+		}
+
+		$users = [];
+
+		// Admin? Or SubAdmin?
+		$uid = $currentUser->getUID();
+		$subAdminManager = $this->groupManager->getSubAdmin();
+		if ($this->groupManager->isAdmin($uid)) {
+			$users = $this->userManager->getUsersSortedByLastLogin($limit, $offset, $search);
+			$users = array_map(fn (IUser $user): string => $user->getUID(), $users);
+		} elseif ($subAdminManager->isSubAdmin($currentUser)) {
+			$subAdminOfGroups = $subAdminManager->getSubAdminsGroups($currentUser);
+
+			$users = [];
+			/* We have to handle offset ourselve for correctness */
+			$tempLimit = ($limit === null ? null : $limit + $offset);
+			foreach ($subAdminOfGroups as $group) {
+				$users = array_merge(
+					$users,
+					array_map(
+						fn (IUser $user): string => $user->getUID(),
+						array_filter(
+							$group->searchUsers($search, ($tempLimit === null ? null : $tempLimit - count($users))),
+							fn (IUser $user): bool => !$user->isEnabled()
+						)
+					)
+				);
+				if (($tempLimit !== null) && (count($users) >= $tempLimit)) {
+					break;
+				}
+			}
+			$users = array_slice($users, $offset);
+		}
+
+		$usersDetails = [];
+		foreach ($users as $userId) {
+			try {
+				$userData = $this->getUserData($userId);
+			} catch (OCSNotFoundException $e) {
+				// We still want to return all other accounts, but this one was removed from the backends
+				// yet they are still in our database. Might be a LDAP remnant.
+				$userData = null;
+				$this->logger->warning('Found one disabled account that was removed from its backend, but still exists in Nextcloud database', ['accountId' => $userId]);
+			}
+			// Do not insert empty entry
+			if ($userData !== null) {
+				$usersDetails[$userId] = $userData;
+			} else {
+				// Currently logged in user does not have permissions to see this user
+				// only showing its id
+				$usersDetails[$userId] = ['id' => $userId];
+			}
+		}
+
+		return new DataResponse([
+			'users' => $usersDetails
+		]);
+	}
+
+
 
 	/**
 	 * @NoAdminRequired

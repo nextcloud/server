@@ -492,6 +492,51 @@ class AllConfig implements IConfig {
 	}
 
 	/**
+	 * Gets the list of users based on their lastLogin info asc or desc
+	 *
+	 * @param string $search search users based on search params
+	 * @return array of user IDs
+	 */
+	public function getLastLoggedInUsers($search): array {
+		// TODO - FIXME
+		$this->fixDIInit();
+
+		$query = $this->connection->getQueryBuilder();
+
+		$lastLoginSubSelect = $this->connection->getQueryBuilder();
+		$lastLoginSubSelect->select('configvalue')
+			->from('preferences', 'p2')
+			->where($lastLoginSubSelect->expr()->andX(
+				$lastLoginSubSelect->expr()->eq('p2.userid', 'uid'),
+				$lastLoginSubSelect->expr()->eq('p2.appid', $lastLoginSubSelect->expr()->literal('login')),
+				$lastLoginSubSelect->expr()->eq('p2.configkey', $lastLoginSubSelect->expr()->literal('lastLogin')),
+			));
+		$orderByExpression = $query->createFunction('(' . $lastLoginSubSelect->getSQL() .')');
+
+		$query->select('uid', 'displayname', $orderByExpression)
+			->from('users', 'u')
+			->leftJoin('u', 'preferences', 'p', $query->expr()->andX(
+				$query->expr()->eq('userid', 'uid'),
+				$query->expr()->eq('appid', $query->expr()->literal('settings')),
+				$query->expr()->eq('configkey', $query->expr()->literal('email')))
+			)
+			// sqlite doesn't like re-using a single named parameter here
+			->where($query->expr()->iLike('uid', $query->createPositionalParameter('%' . $this->connection->escapeLikeParameter($search) . '%')))
+			->orWhere($query->expr()->iLike('displayname', $query->createPositionalParameter('%' . $this->connection->escapeLikeParameter($search) . '%')))
+			->orWhere($query->expr()->iLike('configvalue', $query->createPositionalParameter('%' . $this->connection->escapeLikeParameter($search) . '%')))
+			->orderBy($orderByExpression, 'DESC')
+			->addOrderBy('uid_lower', 'ASC');
+
+		$result = $query->executeQuery();
+		$displayNames = [];
+		while ($row = $result->fetch()) {
+			$displayNames[(string)$row['uid']] = (string)$row['uid'];
+		}
+
+		return $displayNames;
+	}
+
+	/**
 	 * Determines the users that have the given value set for a specific app-key-pair
 	 *
 	 * @param string $appName the app to get the user for

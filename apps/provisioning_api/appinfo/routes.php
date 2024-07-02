@@ -28,6 +28,7 @@ return [
 		['root' => '/cloud', 'name' => 'Users#getUsers', 'url' => '/users', 'verb' => 'GET'],
 		['root' => '/cloud', 'name' => 'Users#getUsersDetails', 'url' => '/users/details', 'verb' => 'GET'],
 		['root' => '/cloud', 'name' => 'Users#getDisabledUsersDetails', 'url' => '/users/disabled', 'verb' => 'GET'],
+		['root' => '/cloud', 'name' => 'Users#getLastLoggedInUsers', 'url' => '/users/recent', 'verb' => 'GET'],
 		['root' => '/cloud', 'name' => 'Users#searchByPhoneNumbers', 'url' => '/users/search/by-phone', 'verb' => 'POST'],
 		['root' => '/cloud', 'name' => 'Users#addUser', 'url' => '/users', 'verb' => 'POST'],
 		['root' => '/cloud', 'name' => 'Users#getUser', 'url' => '/users/{userId}', 'verb' => 'GET'],

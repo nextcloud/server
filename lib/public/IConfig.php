@@ -249,4 +249,13 @@ interface IConfig {
 	 * @since 8.0.0
 	 */
 	public function getUsersForUserValue($appName, $key, $value);
+
+	/**
+	 * Gets the list of users based on their lastLogin info asc or desc
+	 *
+	 * @param string $search search users based on search params
+	 * @return array of user IDs
+	 * @since 30.0.0
+	 */
+	public function getLastLoggedInUsers($search);
 }
