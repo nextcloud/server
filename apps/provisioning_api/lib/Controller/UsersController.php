@@ -267,7 +267,6 @@ class UsersController extends AUserData {
 
 	/**
 	 * @NoAdminRequired
-	 * @NoCSRFRequired
 	 *
 	 * Get the list of last logged-in users and their details
 	 *
