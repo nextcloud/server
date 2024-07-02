@@ -101,9 +101,12 @@ This file is generated from multiple sources. Included packages:
 - @nextcloud/capabilities
 	- version: 1.2.0
 	- license: GPL-3.0-or-later
-- @nextcloud/dialogs
-	- version: 5.3.1
+- @nextcloud/l10n
+	- version: 3.1.0
 	- license: GPL-3.0-or-later
+- @nextcloud/dialogs
+	- version: 5.3.4
+	- license: AGPL-3.0-or-later
 - semver
 	- version: 7.6.2
 	- license: ISC
