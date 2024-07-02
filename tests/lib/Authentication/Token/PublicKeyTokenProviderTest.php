@@ -191,8 +191,6 @@ class PublicKeyTokenProviderTest extends TestCase {
 			]);
 
 		$this->tokenProvider->updateTokenActivity($tk);
-
-		$this->assertEquals($this->time, $tk->getLastActivity());
 	}
 
 	public function testUpdateTokenDebounce() {
@@ -204,6 +202,22 @@ class PublicKeyTokenProviderTest extends TestCase {
 		$tk->setLastActivity($this->time - 30);
 
 		$this->mapper->expects($this->never())
+			->method('updateActivity')
+			->with($tk, $this->time);
+
+		$this->tokenProvider->updateTokenActivity($tk);
+	}
+
+	public function testUpdateTokenDebounceWithUpdatedFields() {
+		$tk = new PublicKeyToken();
+		$this->config->method('getSystemValueInt')
+			->willReturnCallback(function ($value, $default) {
+				return $default;
+			});
+		$tk->setLastActivity($this->time - 30);
+		$tk->setLastCheck($this->time - 30);
+
+		$this->mapper->expects($this->once())
 			->method('updateActivity')
 			->with($tk, $this->time);
 
