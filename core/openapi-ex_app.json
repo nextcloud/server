@@ -1,7 +1,7 @@
 {
     "openapi": "3.0.3",
     "info": {
-        "title": "core-administration",
+        "title": "core-ex_app",
         "version": "0.0.1",
         "description": "Core functionality of Nextcloud",
         "license": {
