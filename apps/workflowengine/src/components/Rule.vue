@@ -132,7 +132,7 @@ export default {
 			this.$set(this.rule, 'operation', operation)
 			await this.updateRule()
 		},
-		validate(state) {
+		validate(/* state */) {
 			this.error = null
 			this.$store.dispatch('updateRule', this.rule)
 		},

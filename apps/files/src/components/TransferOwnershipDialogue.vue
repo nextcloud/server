@@ -9,7 +9,7 @@
 		<form @submit.prevent="submit">
 			<p class="transfer-select-row">
 				<span>{{ readableDirectory }}</span>
-				<NcButton v-if="directory === undefined" 
+				<NcButton v-if="directory === undefined"
 					class="transfer-select-row__choose_button"
 					@click.prevent="start">
 					{{ t('files', 'Choose file or folder to transfer') }}
@@ -22,8 +22,8 @@
 				<label for="targetUser">
 					<span>{{ t('files', 'New owner') }}</span>
 				</label>
-				<NcSelect input-id="targetUser"
-					v-model="selectedUser"
+				<NcSelect v-model="selectedUser"
+					input-id="targetUser"
 					:options="formatedUserSuggestions"
 					:multiple="false"
 					:loading="loadingUsers"

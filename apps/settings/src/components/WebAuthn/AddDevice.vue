@@ -59,6 +59,8 @@ import {
 	finishRegistration,
 } from '../../service/WebAuthnRegistrationSerice.ts'
 
+import '@nextcloud/password-confirmation/dist/style.css'
+
 const logAndPass = (text) => (data) => {
 	logger.debug(text)
 	return data

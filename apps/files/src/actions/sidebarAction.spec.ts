@@ -110,6 +110,7 @@ describe('Open sidebar action exec tests', () => {
 		const openMock = jest.fn()
 		window.OCA = { Files: { Sidebar: { open: openMock } } }
 		const goToRouteMock = jest.fn()
+		// @ts-expect-error We only mock what needed, we do not need Files.Router.goTo or Files.Navigation
 		window.OCP = { Files: { Router: { goToRoute: goToRouteMock } } }
 
 		const file = new File({

@@ -390,6 +390,7 @@ const actions = {
 	 * @param {object} options destructuring object
 	 * @param {number} options.offset List offset to request
 	 * @param {number} options.limit List number to return from offset
+	 * @param options.search
 	 * @return {Promise<number>}
 	 */
 	async getDisabledUsers(context, { offset, limit, search }) {

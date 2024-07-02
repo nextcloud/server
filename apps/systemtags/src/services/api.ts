@@ -52,6 +52,7 @@ export const fetchLastUsedTagIds = async (): Promise<number[]> => {
 }
 
 /**
+ * @param tag
  * @return created tag id
  */
 export const createTag = async (tag: Tag | ServerTag): Promise<number> => {

@@ -60,7 +60,7 @@ const getDirectoryFiles = function(
 	// Map all items to a consistent output structure (results)
 	return responseItems.map(item => {
 		// Each item should contain a stat object
-		const props = item.propstat!.prop!;
+		const props = item.propstat!.prop!
 
 		return prepareFileFromProps(props, props.id!.toString(), isDetailed)
 	})

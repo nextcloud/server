@@ -109,7 +109,7 @@ const processIncomingShareFromUrl = function() {
 						password,
 					},
 				).done(function(data) {
-					if (data.hasOwnProperty('legacyMount')) {
+					if (Object.hasOwn(data, 'legacyMount')) {
 						reloadFilesList()
 					} else {
 						window.OC.Notification.showTemporary(data.message)

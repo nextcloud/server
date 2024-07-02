@@ -20,7 +20,7 @@ describe('OCA.Files_External.App tests', function() {
 			+ '<div id="app-content-extstoragemounts" class="hidden">'
 			+ '</div>'
 			+ '</div>'
-			+ '</div>'
+			+ '</div>',
 		)
 		fileList = App.initList($('#app-content-extstoragemounts'))
 	})

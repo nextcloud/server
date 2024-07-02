@@ -2,7 +2,9 @@
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-/* eslint-disable camelcase, n/no-extraneous-import */
+// TODO: Fix this instead of disabling ESLint!!!
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import type { AxiosPromise } from '@nextcloud/axios'
 import type { OCSResponse } from '@nextcloud/typings/ocs'
 
@@ -71,7 +73,7 @@ const ocsEntryToNode = async function(ocsEntry: any): Promise<Folder | File | nu
 				'owner-id': ocsEntry?.uid_owner,
 				'owner-display-name': ocsEntry?.displayname_owner,
 				'share-types': ocsEntry?.share_type,
-				favorite: ocsEntry?.tags?.includes(window.OC.TAG_FAVORITE) ? 1 : 0,
+				favorite: ocsEntry?.tags?.includes((window.OC as Nextcloud.v28.OC & { TAG_FAVORITE: string }).TAG_FAVORITE) ? 1 : 0,
 			},
 		})
 	} catch (error) {
@@ -80,12 +82,12 @@ const ocsEntryToNode = async function(ocsEntry: any): Promise<Folder | File | nu
 	}
 }
 
-const getShares = function(shared_with_me = false): AxiosPromise<OCSResponse<any>> {
+const getShares = function(shareWithMe = false): AxiosPromise<OCSResponse<any>> {
 	const url = generateOcsUrl('apps/files_sharing/api/v1/shares')
 	return axios.get(url, {
 		headers,
 		params: {
-			shared_with_me,
+			shared_with_me: shareWithMe,
 			include_tags: true,
 		},
 	})
@@ -142,6 +144,8 @@ const getDeletedShares = function(): AxiosPromise<OCSResponse<any>> {
 /**
  * Group an array of objects (here Nodes) by a key
  * and return an array of arrays of them.
+ * @param nodes
+ * @param key
  */
 const groupBy = function(nodes: (Folder | File)[], key: string) {
 	return Object.values(nodes.reduce(function(acc, curr) {

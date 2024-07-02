@@ -27,6 +27,8 @@ export const fetchTagsForFile = async (fileId: number): Promise<TagWithId[]> => 
 }
 
 /**
+ * @param tag
+ * @param fileId
  * @return created tag id
  */
 export const createTagForFile = async (tag: Tag, fileId: number): Promise<number> => {

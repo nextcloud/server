@@ -36,4 +36,13 @@ module.exports = {
 			mode: 'typescript',
 		},
 	},
+	overrides: [
+		// Allow any in tests
+		{
+			files: ['**/*.spec.ts'],
+			rules: {
+				'@typescript-eslint/no-explicit-any': 'warn',
+			},
+		}
+	],
 }

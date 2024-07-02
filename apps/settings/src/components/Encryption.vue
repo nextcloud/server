@@ -59,22 +59,18 @@
 </template>
 
 <script>
+import { showError } from '@nextcloud/dialogs'
+import { loadState } from '@nextcloud/initial-state'
+import { generateOcsUrl } from '@nextcloud/router'
+import { confirmPassword } from '@nextcloud/password-confirmation'
 import axios from '@nextcloud/axios'
 import NcCheckboxRadioSwitch from '@nextcloud/vue/dist/Components/NcCheckboxRadioSwitch.js'
 import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 import NcSettingsSection from '@nextcloud/vue/dist/Components/NcSettingsSection.js'
-import { loadState } from '@nextcloud/initial-state'
-import { getLoggerBuilder } from '@nextcloud/logger'
 
-import { generateOcsUrl } from '@nextcloud/router'
-import { confirmPassword } from '@nextcloud/password-confirmation'
+import logger from '../logger'
+
 import '@nextcloud/password-confirmation/dist/style.css'
-import { showError } from '@nextcloud/dialogs'
-
-const logger = getLoggerBuilder()
-	.setApp('settings')
-	.detectUser()
-	.build()
 
 export default {
 	name: 'Encryption',
@@ -122,7 +118,7 @@ export default {
 
 			try {
 				const { data } = await axios.post(url, {
-					value: value,
+					value,
 				})
 				this.handleResponse({
 					status: data.ocs?.meta?.status,

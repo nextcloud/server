@@ -14,12 +14,12 @@ const client = createClient(rootUrl)
 
 // set CSRF token header
 const setHeaders = (token: string | null) => {
-  client.setHeaders({
-    // Add this so the server knows it is an request from the browser
-    'X-Requested-With': 'XMLHttpRequest',
-    // Inject user auth
-    requesttoken: token ?? '',
-  })
+	client.setHeaders({
+		// Add this so the server knows it is an request from the browser
+		'X-Requested-With': 'XMLHttpRequest',
+		// Inject user auth
+		requesttoken: token ?? '',
+	})
 }
 
 // refresh headers when request token changes

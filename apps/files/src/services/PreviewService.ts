@@ -8,6 +8,7 @@ const SWCacheName = 'previews'
 
 /**
  * Check if the preview is already cached by the service worker
+ * @param previewUrl
  */
 export const isCachedPreview = function(previewUrl: string): Promise<boolean> {
 	if (!window?.caches?.open) {
