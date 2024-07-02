@@ -17,6 +17,8 @@ class OC_Image implements \OCP\IImage {
 
 	// Default quality for jpeg images
 	protected const DEFAULT_JPEG_QUALITY = 80;
+	protected const DEFAULT_WEBP_QUALITY = 80;
+	protected const DEFAULT_AVIF_QUALITY = 50;
 
 	// Default quality for webp images
 	protected const DEFAULT_WEBP_QUALITY = 80;
@@ -233,6 +235,12 @@ class OC_Image implements \OCP\IImage {
 				case 'image/jpeg':
 					$imageType = IMAGETYPE_JPEG;
 					break;
+				case 'image/webp':
+					$imageType = IMAGETYPE_WEBP;
+					break;
+				case 'image/avif':
+					$imageType = IMAGETYPE_JPEG;
+					break;
 				case 'image/png':
 					$imageType = IMAGETYPE_PNG;
 					break;
@@ -251,6 +259,19 @@ class OC_Image implements \OCP\IImage {
 			}
 		}
 
+		if ($this->mimeType !== 'image/gif') {
+			$preview_format = $this->config->getSystemValueString('preview_format', '');
+			switch ($preview_format) {
+				case 'webp':
+					$imageType = IMAGETYPE_WEBP;
+					break;
+				case 'avif':
+					$imageType = IMAGETYPE_AVIF;
+					break;
+				default:
+			}
+		}
+
 		switch ($imageType) {
 			case IMAGETYPE_GIF:
 				$retVal = imagegif($this->resource, $filePath);
@@ -258,6 +279,16 @@ class OC_Image implements \OCP\IImage {
 			case IMAGETYPE_JPEG:
 				imageinterlace($this->resource, true);
 				$retVal = imagejpeg($this->resource, $filePath, $this->getJpegQuality());
+				break;
+			case "image/webp":
+				/** @psalm-suppress InvalidScalarArgument */
+				imageinterlace($this->resource, (PHP_VERSION_ID >= 80000 ? true : 1));
+				$retVal = imagewebp($this->resource, $filePath, $this->getWebpQuality());
+				break;
+			case "image/avif":
+				/** @psalm-suppress InvalidScalarArgument */
+				imageinterlace($this->resource, (PHP_VERSION_ID >= 80100 ? true : 1));
+				$retVal = imageavif($this->resource, $filePath, $this->getAvifQuality(), 10);
 				break;
 			case IMAGETYPE_PNG:
 				$retVal = imagepng($this->resource, $filePath);
@@ -314,9 +345,23 @@ class OC_Image implements \OCP\IImage {
 			return null;
 		}
 
+		if ($this->mimeType !== 'image/gif') {
+			$preview_format = $this->config->getSystemValueString('preview_format', '');
+			switch ($preview_format) {
+				case 'webp':
+					return 'image/webp';
+				case 'avif':
+					return 'image/avif';
+				default:
+			}
+		}
+
 		switch ($this->mimeType) {
 			case 'image/png':
 			case 'image/jpeg':
+			case 'image/webp':
+			case 'image/avif':
+				return 'image/jpeg';
 			case 'image/gif':
 			case 'image/webp':
 				return $this->mimeType;
@@ -333,7 +378,23 @@ class OC_Image implements \OCP\IImage {
 			return null;
 		}
 		ob_start();
-		switch ($this->mimeType) {
+		$imageType = $this->imageType;
+		if ($imageType == 'image/avif') {
+			$imageType = 'image/jpeg';
+		}
+		if ($imageType !== 'image/gif') {
+			$preview_format = $this->config->getSystemValueString('preview_format', '');
+			switch ($preview_format) {
+				case 'webp':
+					$imageType = 'image/webp';
+					break;
+				case 'avif':
+					$imageType = 'image/avif';
+					break;
+				default:
+			}
+		}
+		switch ($imageType) {
 			case "image/png":
 				$res = imagepng($this->resource);
 				break;
@@ -341,6 +402,16 @@ class OC_Image implements \OCP\IImage {
 				imageinterlace($this->resource, true);
 				$quality = $this->getJpegQuality();
 				$res = imagejpeg($this->resource, null, $quality);
+				break;
+			case "image/webp":
+				/** @psalm-suppress InvalidScalarArgument */
+				imageinterlace($this->resource, (PHP_VERSION_ID >= 80000 ? true : 1));
+				$res = imagewebp($this->resource, null, $this->getWebpQuality());
+				break;
+			case "image/avif":
+				/** @psalm-suppress InvalidScalarArgument */
+				imageinterlace($this->resource, (PHP_VERSION_ID >= 80100 ? true : 1));
+				$res = imageavif($this->resource, null, $this->getAvifQuality(), 10);
 				break;
 			case "image/gif":
 				$res = imagegif($this->resource);
@@ -374,6 +445,24 @@ class OC_Image implements \OCP\IImage {
 		// TODO: remove when getAppValue is type safe
 		if ($quality === null) {
 			$quality = self::DEFAULT_JPEG_QUALITY;
+		}
+		return min(100, max(10, (int) $quality));
+	}
+
+	protected function getWebpQuality(): int {
+		$quality = $this->config->getAppValue('preview', 'webp_quality', (string) self::DEFAULT_WEBP_QUALITY);
+		// TODO: remove when getAppValue is type safe
+		if ($quality === null) {
+			$quality = self::DEFAULT_WEBP_QUALITY;
+		}
+		return min(100, max(10, (int) $quality));
+	}
+
+	protected function getAvifQuality(): int {
+		$quality = $this->config->getAppValue('preview', 'avif_quality', (string) self::DEFAULT_AVIF_QUALITY);
+		// TODO: remove when getAppValue is type safe
+		if ($quality === null) {
+			$quality = self::DEFAULT_AVIF_QUALITY;
 		}
 		return min(100, max(10, (int) $quality));
 	}
@@ -681,6 +770,16 @@ class OC_Image implements \OCP\IImage {
 					$this->resource = @imagecreatefromwbmp($imagePath);
 				} else {
 					$this->logger->debug('OC_Image->loadFromFile, WBMP images not supported: ' . $imagePath, ['app' => 'core']);
+				}
+				break;
+			case IMAGETYPE_AVIF:
+				if (imagetypes() & IMG_AVIF) {
+					if (!$this->checkImageSize($imagePath)) {
+						return false;
+					}
+					$this->resource = @imagecreatefromavif($imagePath);
+				} else {
+					$this->logger->debug('OC_Image->loadFromFile, AVIF images not supported: ' . $imagePath, ['app' => 'core']);
 				}
 				break;
 			case IMAGETYPE_BMP:
