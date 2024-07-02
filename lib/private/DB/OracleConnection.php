@@ -13,15 +13,10 @@ class OracleConnection extends Connection {
 	 * @param array<string, string> $data
 	 * @return array<string, string>
 	 */
-	private function quoteKeys(array $data) {
+	private function quoteKeys(array $data): array {
 		$return = [];
-		$c = $this->getDatabasePlatform()->getIdentifierQuoteCharacter();
 		foreach ($data as $key => $value) {
-			if ($key[0] !== $c) {
-				$return[$this->quoteIdentifier($key)] = $value;
-			} else {
-				$return[$key] = $value;
-			}
+			$return[$this->quoteIdentifier($key)] = $value;
 		}
 		return $return;
 	}
@@ -29,10 +24,8 @@ class OracleConnection extends Connection {
 	/**
 	 * {@inheritDoc}
 	 */
-	public function insert($table, array $data, array $types = []) {
-		if ($table[0] !== $this->getDatabasePlatform()->getIdentifierQuoteCharacter()) {
-			$table = $this->quoteIdentifier($table);
-		}
+	public function insert(string $table, array $data, array $types = []): int|string {
+		$table = $this->quoteIdentifier($table);
 		$data = $this->quoteKeys($data);
 		return parent::insert($table, $data, $types);
 	}
@@ -40,10 +33,8 @@ class OracleConnection extends Connection {
 	/**
 	 * {@inheritDoc}
 	 */
-	public function update($table, array $data, array $criteria, array $types = []) {
-		if ($table[0] !== $this->getDatabasePlatform()->getIdentifierQuoteCharacter()) {
-			$table = $this->quoteIdentifier($table);
-		}
+	public function update(string $table, array $data, array $criteria = [], array $types = []): int|string {
+		$table = $this->quoteIdentifier($table);
 		$data = $this->quoteKeys($data);
 		$criteria = $this->quoteKeys($criteria);
 		return parent::update($table, $data, $criteria, $types);
@@ -52,10 +43,8 @@ class OracleConnection extends Connection {
 	/**
 	 * {@inheritDoc}
 	 */
-	public function delete($table, array $criteria, array $types = []) {
-		if ($table[0] !== $this->getDatabasePlatform()->getIdentifierQuoteCharacter()) {
-			$table = $this->quoteIdentifier($table);
-		}
+	public function delete(string $table, array $criteria = [], array $types = []): int|string {
+		$table = $this->quoteIdentifier($table);
 		$criteria = $this->quoteKeys($criteria);
 		return parent::delete($table, $criteria);
 	}
@@ -65,7 +54,7 @@ class OracleConnection extends Connection {
 	 *
 	 * @param string $table table name without the prefix
 	 */
-	public function dropTable($table) {
+	public function dropTable($table): void {
 		$table = $this->tablePrefix . trim($table);
 		$table = $this->quoteIdentifier($table);
 		$schema = $this->createSchemaManager();
@@ -80,7 +69,7 @@ class OracleConnection extends Connection {
 	 * @param string $table table name without the prefix
 	 * @return bool
 	 */
-	public function tableExists($table) {
+	public function tableExists($table): bool {
 		$table = $this->tablePrefix . trim($table);
 		$table = $this->quoteIdentifier($table);
 		$schema = $this->createSchemaManager();
