@@ -899,7 +899,7 @@ class Connection extends PrimaryReadReplicaConnection {
 		}
 
 		try {
-			$this->_conn->query($this->getDriver()->getDatabasePlatform()->getDummySelectSQL());
+			$this->_conn->query($this->getDatabasePlatform()->getDummySelectSQL());
 			$this->refreshLastConnectionCheck();
 		} catch (ConnectionLost|\Exception $e) {
 			$this->logger->warning('Exception during connectivity check, closing and reconnecting', ['exception' => $e]);
