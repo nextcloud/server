@@ -49,6 +49,9 @@ if (loadState('comments', 'activityEnabled', false) && OCA?.Activity?.registerSi
 			TabInstance = new OCA.Comments.View('files', {
 				// Better integration with vue parent component
 				parent: context,
+				propsData: {
+					resourceId: fileInfo.id,
+				},
 			})
 			// Only mount after we have all the info we need
 			await TabInstance.update(fileInfo.id)

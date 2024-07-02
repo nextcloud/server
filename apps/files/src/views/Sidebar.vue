@@ -33,7 +33,7 @@
 		@opened="handleOpened"
 		@closing="handleClosing"
 		@closed="handleClosed">
-		<template #subname>
+		<template v-if="fileInfo" #subname>
 			<NcIconSvgWrapper v-if="fileInfo.isFavourited"
 				:path="mdiStar"
 				:name="t('files', 'Favorite')"
@@ -221,7 +221,7 @@ export default {
 		 * @return {string}
 		 */
 		size() {
-			return formatFileSize(this.fileInfo.size)
+			return formatFileSize(this.fileInfo?.size)
 		},
 
 		/**
@@ -336,7 +336,7 @@ export default {
 		},
 
 		getPreviewIfAny(fileInfo) {
-			if (fileInfo.hasPreview && !this.isFullScreen) {
+			if (fileInfo?.hasPreview && !this.isFullScreen) {
 				return generateUrl(`/core/preview?fileId=${fileInfo.id}&x=${screen.width}&y=${screen.height}&a=true`)
 			}
 			return this.getIconUrl(fileInfo)
@@ -350,7 +350,7 @@ export default {
 		 * @return {string} Url to the icon for mimeType
 		 */
 		getIconUrl(fileInfo) {
-			const mimeType = fileInfo.mimetype || 'application/octet-stream'
+			const mimeType = fileInfo?.mimetype || 'application/octet-stream'
 			if (mimeType === 'httpd/unix-directory') {
 				// use default folder icon
 				if (fileInfo.mountType === 'shared' || fileInfo.mountType === 'shared-root') {
