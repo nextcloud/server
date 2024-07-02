@@ -178,6 +178,7 @@ class ConnectionAdapter implements IDBConnection {
 
 	/**
 	 * @todo we are leaking a 3rdparty type here
+	 * @deprecated 30.0.0 Use {@see getDatabaseProvider()} instead
 	 */
 	public function getDatabasePlatform(): AbstractPlatform {
 		return $this->inner->getDatabasePlatform();

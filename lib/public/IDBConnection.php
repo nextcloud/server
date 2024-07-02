@@ -278,6 +278,7 @@ interface IDBConnection {
 	 *
 	 * @return \Doctrine\DBAL\Platforms\AbstractPlatform The database platform.
 	 * @since 8.0.0
+	 * @deprecated 30.0.0 Use {@see getDatabaseProvider()} instead
 	 */
 	public function getDatabasePlatform();
 
