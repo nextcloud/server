@@ -13,6 +13,7 @@ use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Statement;
 use OCP\DB\IPreparedStatement;
 use OCP\DB\IResult;
+use OCP\DB\QueryBuilder\IQueryBuilder;
 use PDO;
 
 /**
@@ -58,11 +59,16 @@ class PreparedStatement implements IPreparedStatement {
 	}
 
 	public function bindValue($param, $value, $type = ParameterType::STRING): bool {
-		return $this->statement->bindValue($param, $value, $type);
+		$this->statement->bindValue($param, $value, $type);
+		return true;
 	}
 
 	public function bindParam($param, &$variable, $type = ParameterType::STRING, $length = null): bool {
-		return $this->statement->bindParam($param, $variable, $type, $length);
+		if ($type !== IQueryBuilder::PARAM_STR) {
+			\OC::$server->getLogger()->warning('PreparedStatement::bindParam() is no longer supported. Use bindValue() instead.', ['exception' => new \BadMethodCallException('bindParam() is no longer supported')]);
+		}
+		$this->bindValue($param, $variable, $type);
+		return true;
 	}
 
 	public function execute($params = null): IResult {
