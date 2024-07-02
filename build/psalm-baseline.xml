@@ -3323,9 +3323,6 @@
     </MoreSpecificReturnType>
   </file>
   <file src="lib/private/Streamer.php">
-    <InvalidArgument>
-      <code>$stream</code>
-    </InvalidArgument>
     <UndefinedInterfaceMethod>
       <code>get</code>
     </UndefinedInterfaceMethod>
