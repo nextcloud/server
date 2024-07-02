@@ -198,7 +198,10 @@ class ConnectionAdapter implements IDBConnection {
 
 	#[\Override]
 	public function quote($input, $type = IQueryBuilder::PARAM_STR) {
-		return $this->inner->quote($input, $type);
+		if ($type !== IQueryBuilder::PARAM_STR) {
+			\OC::$server->getLogger()->debug('Parameter $type is no longer supported and the function only handles resulting database type string', ['exception' => new \InvalidArgumentException('$type parameter is no longer supported')]);
+		}
+		return $this->inner->getDatabasePlatform()->quoteStringLiteral($input);
 	}
 
 	/**
