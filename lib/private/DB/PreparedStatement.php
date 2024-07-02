@@ -9,13 +9,12 @@ declare(strict_types=1);
 
 namespace OC\DB;
 
-use Doctrine\DBAL\Exception;
-use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Statement;
 use OCP\DB\IPreparedStatement;
 use OCP\DB\IResult;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use PDO;
+use Psr\Log\LoggerInterface;
 
 /**
  * Adapts our public API to what doctrine/dbal exposed with 2.6
@@ -27,6 +26,8 @@ use PDO;
  * methods without much magic.
  */
 class PreparedStatement implements IPreparedStatement {
+	use TDoctrineParameterTypeMap;
+
 	/** @var Statement */
 	private $statement;
 
@@ -76,14 +77,14 @@ class PreparedStatement implements IPreparedStatement {
 
 	#[\Override]
 	public function bindValue($param, $value, $type = ParameterType::STRING): bool {
-		$this->statement->bindValue($param, $value, $type);
+		$this->statement->bindValue($param, $value, $this->convertParameterTypeToDoctrine($type));
 		return true;
 	}
 
 	#[\Override]
-	public function bindParam($param, &$variable, $type = ParameterType::STRING, $length = null): bool {
+	public function bindParam($param, &$variable, $type = IQueryBuilder::PARAM_STR, $length = null): bool {
 		if ($type !== IQueryBuilder::PARAM_STR) {
-			\OC::$server->getLogger()->warning('PreparedStatement::bindParam() is no longer supported. Use bindValue() instead.', ['exception' => new \BadMethodCallException('bindParam() is no longer supported')]);
+			\OCP\Server::get(LoggerInterface::class)->warning('PreparedStatement::bindParam() is no longer supported. Use bindValue() instead.', ['exception' => new \BadMethodCallException('bindParam() is no longer supported')]);
 		}
 		$this->bindValue($param, $variable, $type);
 		return true;

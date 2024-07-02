@@ -18,6 +18,8 @@ use OC\DB\QueryBuilder\FunctionBuilder\FunctionBuilder;
 use OC\DB\QueryBuilder\FunctionBuilder\OCIFunctionBuilder;
 use OC\DB\QueryBuilder\FunctionBuilder\PgSqlFunctionBuilder;
 use OC\DB\QueryBuilder\FunctionBuilder\SqliteFunctionBuilder;
+use OC\DB\ResultAdapter;
+use OC\DB\TDoctrineParameterTypeMap;
 use OC\SystemConfig;
 use OCP\DB\IResult;
 use OCP\DB\QueryBuilder\ConflictResolutionMode;
@@ -33,6 +35,7 @@ use Override;
 use Psr\Log\LoggerInterface;
 
 class QueryBuilder extends TypedQueryBuilder {
+	use TDoctrineParameterTypeMap;
 	private \Doctrine\DBAL\Query\QueryBuilder $queryBuilder;
 	private QuoteHelper $helper;
 	private bool $automaticTablePrefix = true;
@@ -335,7 +338,7 @@ class QueryBuilder extends TypedQueryBuilder {
 	 */
 	#[\Override]
 	public function setParameter($key, $value, $type = null) {
-		$this->queryBuilder->setParameter($key, $value, $type);
+		$this->queryBuilder->setParameter($key, $value, $this->convertParameterTypeToDoctrine($type));
 
 		return $this;
 	}
@@ -361,6 +364,7 @@ class QueryBuilder extends TypedQueryBuilder {
 	 */
 	#[\Override]
 	public function setParameters(array $params, array $types = []) {
+		$types = array_map($this->convertParameterTypeToDoctrine(...), $types);
 		$this->queryBuilder->setParameters($params, $types);
 
 		return $this;
@@ -1281,7 +1285,7 @@ class QueryBuilder extends TypedQueryBuilder {
 	 */
 	#[\Override]
 	public function createNamedParameter($value, $type = IQueryBuilder::PARAM_STR, $placeHolder = null) {
-		return new Parameter($this->queryBuilder->createNamedParameter($value, $type, $placeHolder));
+		return new Parameter($this->queryBuilder->createNamedParameter($value, $this->convertParameterTypeToDoctrine($type), $placeHolder));
 	}
 
 	/**
@@ -1308,7 +1312,7 @@ class QueryBuilder extends TypedQueryBuilder {
 	 */
 	#[\Override]
 	public function createPositionalParameter($value, $type = IQueryBuilder::PARAM_STR) {
-		return new Parameter($this->queryBuilder->createPositionalParameter($value, $type));
+		return new Parameter($this->queryBuilder->createPositionalParameter($value, $this->convertParameterTypeToDoctrine($type)));
 	}
 
 	/**
