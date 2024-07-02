@@ -7,9 +7,6 @@
  */
 namespace OC\DB\QueryBuilder;
 
-use Doctrine\DBAL\Platforms\MySQLPlatform;
-use Doctrine\DBAL\Platforms\OraclePlatform;
-use Doctrine\DBAL\Platforms\SQLitePlatform;
 use Doctrine\DBAL\Query\QueryException;
 use OC\DB\ConnectionAdapter;
 use OC\DB\QueryBuilder\ExpressionBuilder\ExpressionBuilder;
@@ -112,16 +109,16 @@ class QueryBuilder implements IQueryBuilder {
 	 * @return \OCP\DB\QueryBuilder\IExpressionBuilder
 	 */
 	public function expr() {
-		if ($this->connection->getDatabasePlatform() instanceof OraclePlatform) {
+		if ($this->connection->getDatabaseProvider() === IDBConnection::PLATFORM_ORACLE) {
 			return new OCIExpressionBuilder($this->connection, $this);
 		}
-		if ($this->connection->getDatabaseProvider() !== IDBConnection::PLATFORM_POSTGRES) {
+		if ($this->connection->getDatabaseProvider() === IDBConnection::PLATFORM_POSTGRES) {
 			return new PgSqlExpressionBuilder($this->connection, $this);
 		}
-		if ($this->connection->getDatabasePlatform() instanceof MySQLPlatform) {
+		if ($this->connection->getDatabaseProvider() === IDBConnection::PLATFORM_MYSQL) {
 			return new MySqlExpressionBuilder($this->connection, $this);
 		}
-		if ($this->connection->getDatabasePlatform() instanceof SQLitePlatform) {
+		if ($this->connection->getDatabaseProvider() === IDBConnection::PLATFORM_SQLITE) {
 			return new SqliteExpressionBuilder($this->connection, $this);
 		}
 
@@ -145,10 +142,10 @@ class QueryBuilder implements IQueryBuilder {
 	 * @return \OCP\DB\QueryBuilder\IFunctionBuilder
 	 */
 	public function func() {
-		if ($this->connection->getDatabasePlatform() instanceof OraclePlatform) {
+		if ($this->connection->getDatabaseProvider() === IDBConnection::PLATFORM_ORACLE) {
 			return new OCIFunctionBuilder($this->connection, $this, $this->helper);
 		}
-		if ($this->connection->getDatabasePlatform() instanceof SQLitePlatform) {
+		if ($this->connection->getDatabaseProvider() === IDBConnection::PLATFORM_SQLITE) {
 			return new SqliteFunctionBuilder($this->connection, $this, $this->helper);
 		}
 		if ($this->connection->getDatabaseProvider() === IDBConnection::PLATFORM_POSTGRES) {
