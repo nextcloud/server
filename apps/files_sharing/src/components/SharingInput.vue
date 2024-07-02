@@ -35,7 +35,7 @@ import debounce from 'debounce'
 import NcSelect from '@nextcloud/vue/dist/Components/NcSelect.js'
 
 import Config from '../services/ConfigService.js'
-import GeneratePassword from '../utils/GeneratePassword.js'
+import GeneratePassword from '../utils/GeneratePassword.ts'
 import Share from '../models/Share.js'
 import ShareRequests from '../mixins/ShareRequests.js'
 import ShareTypes from '../mixins/ShareTypes.js'
@@ -479,7 +479,7 @@ export default {
 
 				if (this.config.enforcePasswordForPublicLink
 					&& value.shareType === this.SHARE_TYPES.SHARE_TYPE_EMAIL) {
-					password = await GeneratePassword()
+					password = await GeneratePassword(true)
 				}
 
 				const path = (this.fileInfo.path + '/' + this.fileInfo.name).replace('//', '/')

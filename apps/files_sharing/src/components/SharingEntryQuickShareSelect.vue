@@ -80,7 +80,7 @@ export default {
 			return t('files_sharing', 'Can edit')
 		},
 		fileDropText() {
-			return t('files_sharing', 'File drop')
+			return t('files_sharing', 'File requests')
 		},
 		customPermissionsText() {
 			return t('files_sharing', 'Custom permissions')
