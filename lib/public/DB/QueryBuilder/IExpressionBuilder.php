@@ -403,6 +403,7 @@ interface IExpressionBuilder {
 	 *
 	 * @return ILiteral
 	 * @since 8.2.0
+	 * @deprecated 30.0.0 Only strings are supported as database type in the end and the $type parameter is ignored going forward
 	 *
 	 * @psalm-taint-sink sql $input
 	 * @psalm-taint-sink sql $type
