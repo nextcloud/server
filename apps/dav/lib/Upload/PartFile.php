@@ -1,10 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2021-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\Upload;
 
 use OCA\DAV\Connector\Sabre\Directory;
@@ -16,10 +19,8 @@ use Sabre\DAV\IFile;
  * but handled directly by external storage services like S3 with Multipart Upload
  */
 class PartFile implements IFile {
-	/** @var Directory */
-	private $root;
-	/** @var array */
-	private $partInfo;
+	private Directory $root;
+	private array $partInfo;
 
 	public function __construct(Directory $root, array $partInfo) {
 		$this->root = $root;
@@ -40,7 +41,7 @@ class PartFile implements IFile {
 		throw new Forbidden('Permission denied to get this file');
 	}
 
-	public function getPath() {
+	public function getPath(): string {
 		return $this->root->getFileInfo()->getInternalPath() . '/' . $this->partInfo['PartNumber'];
 	}
 

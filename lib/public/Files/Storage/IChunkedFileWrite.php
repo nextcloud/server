@@ -1,10 +1,12 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-declare(strict_types=1);
 
 
 namespace OCP\Files\Storage;
@@ -29,6 +31,7 @@ interface IChunkedFileWrite extends IStorage {
 	 * @param string $chunkId
 	 * @param resource $data
 	 * @param int|null $size
+	 * @return array|null
 	 * @throws GenericFileException
 	 * @since 26.0.0
 	 */
