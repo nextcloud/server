@@ -400,7 +400,10 @@ class ExpressionBuilder implements IExpressionBuilder {
 	 * @return ILiteral
 	 */
 	public function literal($input, $type = IQueryBuilder::PARAM_STR): ILiteral {
-		return new Literal($this->expressionBuilder->literal($input, $type));
+		if ($type !== IQueryBuilder::PARAM_STR) {
+			\OC::$server->getLogger()->debug('Parameter $type is no longer supported and the function only handles resulting database type string', ['exception' => new \InvalidArgumentException('$type parameter is no longer supported')]);
+		}
+		return new Literal($this->connection->getDatabasePlatform()->quoteStringLiteral((string) $input));
 	}
 
 	/**
