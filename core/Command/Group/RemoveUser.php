@@ -50,6 +50,9 @@ class RemoveUser extends Base {
 			return 1;
 		}
 		$group->removeUser($user);
+
+		$output->writeln('<info>success</info>');
+
 		return 0;
 	}
 
