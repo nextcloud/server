@@ -75,13 +75,8 @@ try {
 	$eventLogger->start('console:build_application', 'Build Application instance and load commands');
 
 	$application = \OCP\Server::get(Application::class);
+	/* base.php will have removed eventual debug options from argv in $_SERVER */
 	$argv = $_SERVER['argv'];
-	if (($key = array_search('--debug', $argv)) !== false) {
-		// Remove --debug option if it was passed
-		unset($argv[$key]);
-		$argv = array_values($argv);
-	}
-
 	$input = new ArgvInput($argv);
 	$application->loadCommands($input, new ConsoleOutput());
 

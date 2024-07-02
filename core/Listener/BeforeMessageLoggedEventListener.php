@@ -10,16 +10,26 @@ declare(strict_types=1);
 namespace OC\Core\Listener;
 
 use OCP\EventDispatcher\Event;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\EventDispatcher\IEventListener;
 use OCP\Log\BeforeMessageLoggedEvent;
+use OCP\Server;
 
 /**
  * Listen to log calls and output them to STDOUT for debug purposes
  * @template-implements IEventListener<BeforeMessageLoggedEvent>
  */
 class BeforeMessageLoggedEventListener implements IEventListener {
+	public function __construct(
+		private int $level,
+	) {
+	}
+
 	public function handle(Event $event): void {
 		if (!$event instanceof BeforeMessageLoggedEvent) {
+			return;
+		}
+		if ($event->getLevel() < $this->level) {
 			return;
 		}
 		echo
@@ -34,5 +44,25 @@ class BeforeMessageLoggedEventListener implements IEventListener {
 		.' ['.$event->getApp().'] '
 		.$event->getMessage()['message']
 		."\n";
+	}
+
+	/**
+	 * Register listener to log messages and remove debug options from $_SERVER['argv']
+	 */
+	public static function setup(): void {
+		$eventDispatcher = Server::get(IEventDispatcher::class);
+		$argv = $_SERVER['argv'];
+		$level = 0;
+		foreach ($argv as $key => $arg) {
+			if ($arg === '--debug-log') {
+				unset($argv[$key]);
+			} elseif (str_starts_with($arg, '--debug-log-level=')) {
+				$level = (int)substr($arg, strlen('--debug-log-level='));
+				unset($argv[$key]);
+			}
+		}
+		$_SERVER['argv'] = array_values($argv);
+		$debugLoggerEventListener = new self($level);
+		$eventDispatcher->addListener(BeforeMessageLoggedEvent::class, $debugLoggerEventListener->handle(...));
 	}
 }
