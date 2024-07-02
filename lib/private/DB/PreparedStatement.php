@@ -9,7 +9,6 @@ declare(strict_types=1);
 namespace OC\DB;
 
 use Doctrine\DBAL\Exception;
-use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Statement;
 use OCP\DB\IPreparedStatement;
 use OCP\DB\IResult;
@@ -26,6 +25,8 @@ use PDO;
  * methods without much magic.
  */
 class PreparedStatement implements IPreparedStatement {
+	use TDoctrineParameterTypeMap;
+
 	/** @var Statement */
 	private $statement;
 
@@ -58,12 +59,12 @@ class PreparedStatement implements IPreparedStatement {
 		return $this->getResult()->fetchOne();
 	}
 
-	public function bindValue($param, $value, $type = ParameterType::STRING): bool {
-		$this->statement->bindValue($param, $value, $type);
+	public function bindValue($param, $value, $type = IQueryBuilder::PARAM_STR): bool {
+		$this->statement->bindValue($param, $value, $this->convertParameterTypeToDoctrine($type));
 		return true;
 	}
 
-	public function bindParam($param, &$variable, $type = ParameterType::STRING, $length = null): bool {
+	public function bindParam($param, &$variable, $type = IQueryBuilder::PARAM_STR, $length = null): bool {
 		if ($type !== IQueryBuilder::PARAM_STR) {
 			\OC::$server->getLogger()->warning('PreparedStatement::bindParam() is no longer supported. Use bindValue() instead.', ['exception' => new \BadMethodCallException('bindParam() is no longer supported')]);
 		}
