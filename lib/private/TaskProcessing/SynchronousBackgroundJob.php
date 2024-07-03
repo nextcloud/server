@@ -18,6 +18,7 @@ use OCP\TaskProcessing\Exception\ProcessingException;
 use OCP\TaskProcessing\Exception\ValidationException;
 use OCP\TaskProcessing\IManager;
 use OCP\TaskProcessing\ISynchronousProvider;
+use OCP\TaskProcessing\Task;
 use Psr\Log\LoggerInterface;
 
 class SynchronousBackgroundJob extends QueuedJob {
@@ -61,6 +62,7 @@ class SynchronousBackgroundJob extends QueuedJob {
 					return;
 				}
 				try {
+					$this->taskProcessingManager->setTaskStatus($task, Task::STATUS_RUNNING);
 					$output = $provider->process($task->getUserId(), $input, fn (float $progress) => $this->taskProcessingManager->setTaskProgress($task->getId(), $progress));
 				} catch (ProcessingException $e) {
 					$this->logger->warning('Failed to process a TaskProcessing task with synchronous provider ' . $provider->getId(), ['exception' => $e]);

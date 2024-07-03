@@ -15,6 +15,7 @@ use OC\TaskProcessing\Db\TaskMapper;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Db\MultipleObjectsReturnedException;
 use OCP\BackgroundJob\IJobList;
+use OCP\DB\Exception;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\AppData\IAppDataFactory;
 use OCP\Files\File;
@@ -869,5 +870,15 @@ class Manager implements IManager {
 		}
 		$task->setStatus(Task::STATUS_RUNNING);
 		return true;
+	}
+
+	/**
+	 * @throws \JsonException
+	 * @throws Exception
+	 */
+	public function setTaskStatus(Task $task, int $status): void {
+		$task->setStatus($status);
+		$taskEntity = \OC\TaskProcessing\Db\Task::fromPublicTask($task);
+		$this->taskMapper->update($taskEntity);
 	}
 }
