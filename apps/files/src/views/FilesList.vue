@@ -194,7 +194,7 @@ export default defineComponent({
 		const { currentView } = useNavigation()
 
 		const enableGridView = (loadState('core', 'config', [])['enable_non-accessible_features'] ?? true)
-		const forbiddenCharacters = loadState<string[]>('files', 'forbiddenCharacters', [])
+		const forbiddenCharacters = (window as unknown as { '_oc_config': { 'forbidden_filename_characters': string }})._oc_config.forbidden_filename_characters
 
 		return {
 			currentView,
