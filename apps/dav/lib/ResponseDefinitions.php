@@ -13,8 +13,8 @@ namespace OCA\DAV;
  * @psalm-type DAVOutOfOfficeDataCommon = array{
  *      userId: string,
  *      message: string,
- *      replacementUserId: string,
- *      replacementUserDisplayName: string,
+ *      replacementUserId: ?string,
+ *      replacementUserDisplayName: ?string,
  *  }
  *
  * @psalm-type DAVOutOfOfficeData = DAVOutOfOfficeDataCommon&array{

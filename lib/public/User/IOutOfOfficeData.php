@@ -22,8 +22,8 @@ use OCP\IUser;
  *      endDate: int,
  *      shortMessage: string,
  *      message: string,
- * 		replacementUserId: string,
- * 		replacementUserDisplayName: string
+ * 		replacementUserId: ?string,
+ * 		replacementUserDisplayName: ?string
  * }
  *
  * @since 28.0.0
@@ -76,14 +76,14 @@ interface IOutOfOfficeData extends JsonSerializable {
 	 *
 	 * @since 30.0.0
 	 */
-	public function getReplacementUserId(): string;
+	public function getReplacementUserId(): ?string;
 
 	/**
 	 * Get the replacement user displayName for auto responders and similar
 	 *
 	 * @since 30.0.0
 	 */
-	public function getReplacementUserDisplayName(): string;
+	public function getReplacementUserDisplayName(): ?string;
 
 	/**
 	 * @return OutOfOfficeData
