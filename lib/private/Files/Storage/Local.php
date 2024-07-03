@@ -321,7 +321,9 @@ class Local extends \OC\Files\Storage\Common {
 		/** @var \SplFileInfo $file */
 		foreach ($iterator as $file) {
 			if (!$this->getFilenameValidator()->isFilenameValid($file->getBasename())) {
-				throw new ForbiddenException('Invalid path: ' . $file->getPathname(), false);
+				// Do not leak data dir
+				$filePath = substr($file->getPathname(), strlen($this->datadir));
+				throw new ForbiddenException('Invalid path: ' . $filePath, false);
 			}
 		}
 	}
