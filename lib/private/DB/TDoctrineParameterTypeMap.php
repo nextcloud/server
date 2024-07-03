@@ -13,10 +13,8 @@ use Doctrine\DBAL\ParameterType;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 
 trait TDoctrineParameterTypeMap {
-	protected function convertParameterTypeToDoctrine(string|int|null $type): ArrayParameterType|ParameterType|string {
+	protected function convertParameterTypeToDoctrine(ArrayParameterType|ParameterType|string|int|null $type): ArrayParameterType|ParameterType|string {
 		return match($type) {
-			IQueryBuilder::PARAM_DATE,
-			IQueryBuilder::PARAM_JSON => $type,
 			IQueryBuilder::PARAM_NULL => ParameterType::NULL,
 			IQueryBuilder::PARAM_BOOL => ParameterType::BOOLEAN,
 			IQueryBuilder::PARAM_INT => ParameterType::INTEGER,
@@ -25,6 +23,9 @@ trait TDoctrineParameterTypeMap {
 			IQueryBuilder::PARAM_LOB => ParameterType::LARGE_OBJECT,
 			IQueryBuilder::PARAM_INT_ARRAY => ArrayParameterType::INTEGER,
 			IQueryBuilder::PARAM_STR_ARRAY => ArrayParameterType::STRING,
+			// IQueryBuilder::PARAM_DATE,
+			// IQueryBuilder::PARAM_JSON,
+			default => $type,
 		};
 	}
 
