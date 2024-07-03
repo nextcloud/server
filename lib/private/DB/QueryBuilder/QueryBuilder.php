@@ -1105,7 +1105,7 @@ class QueryBuilder implements IQueryBuilder {
 	public function orderBy($sort, $order = null) {
 		$this->queryBuilder->orderBy(
 			$this->helper->quoteColumnName($sort),
-			$order
+			$order ?? 'ASC'
 		);
 
 		return $this;
@@ -1122,7 +1122,7 @@ class QueryBuilder implements IQueryBuilder {
 	public function addOrderBy($sort, $order = null) {
 		$this->queryBuilder->addOrderBy(
 			$this->helper->quoteColumnName($sort),
-			$order
+			$order ?? 'ASC'
 		);
 
 		return $this;
