@@ -10,6 +10,7 @@ namespace OC\Template;
 use bantu\IniGetWrapper\IniGetWrapper;
 use OC\Authentication\Token\IProvider;
 use OC\CapabilitiesManager;
+use OC\Files\FilenameValidator;
 use OC\Share\Share;
 use OCP\App\AppPathNotFoundException;
 use OCP\App\IAppManager;
@@ -51,6 +52,7 @@ class JSConfigHelper {
 		protected CapabilitiesManager  $capabilitiesManager,
 		protected IInitialStateService $initialStateService,
 		protected IProvider            $tokenProvider,
+		protected FilenameValidator   $filenameValidator,
 	) {
 	}
 
@@ -133,8 +135,13 @@ class JSConfigHelper {
 
 		$config = [
 			'auto_logout' => $this->config->getSystemValue('auto_logout', false),
+			/** @deprecated 30.0.0 */
 			'blacklist_files_regex' => FileInfo::BLACKLIST_FILES_REGEX,
-			'forbidden_filename_characters' => Util::getForbiddenFileNameChars(),
+
+			'forbidden_filenames' => $this->filenameValidator->getForbiddenFilenames(),
+			'forbidden_filename_characters' => $this->filenameValidator->getForbiddenCharacters(),
+			'forbidden_filename_extensions' => $this->filenameValidator->getForbiddenExtensions(),
+
 			'loglevel' => $this->config->getSystemValue('loglevel_frontend',
 				$this->config->getSystemValue('loglevel', ILogger::WARN)
 			),

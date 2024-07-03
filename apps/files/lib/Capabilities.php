@@ -7,28 +7,31 @@
  */
 namespace OCA\Files;
 
+use OC\Files\FilenameValidator;
 use OCP\Capabilities\ICapability;
-use OCP\IConfig;
 
 class Capabilities implements ICapability {
 
-	protected IConfig $config;
-
-	public function __construct(IConfig $config) {
-		$this->config = $config;
+	public function __construct(
+		protected FilenameValidator $filenameValidator,
+	) {
 	}
 
 	/**
 	 * Return this classes capabilities
 	 *
-	 * @return array{files: array{bigfilechunking: bool, blacklisted_files: array<mixed>, forbidden_filename_characters: array<string>}}
+	 * @return array{files: array{$comment: string, bigfilechunking: bool, blacklisted_files: array<mixed>, forbidden_filenames: list<string>, forbidden_filename_characters: list<string>, forbidden_filename_extensions: list<string>}}
 	 */
 	public function getCapabilities() {
 		return [
 			'files' => [
+				'$comment' => '"blacklisted_files" is deprecacted as of Nextcloud 30, use "forbidden_filenames" instead',
+				'blacklisted_files' => $this->filenameValidator->getForbiddenFilenames(),
+				'forbidden_filenames' => $this->filenameValidator->getForbiddenFilenames(),
+				'forbidden_filename_characters' => $this->filenameValidator->getForbiddenCharacters(),
+				'forbidden_filename_extensions' => $this->filenameValidator->getForbiddenExtensions(),
+
 				'bigfilechunking' => true,
-				'blacklisted_files' => (array)$this->config->getSystemValue('blacklisted_files', ['.htaccess']),
-				'forbidden_filename_characters' => \OCP\Util::getForbiddenFileNameChars(),
 			],
 		];
 	}
