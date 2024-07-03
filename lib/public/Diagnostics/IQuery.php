@@ -1,5 +1,6 @@
 <?php
 
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -11,40 +12,44 @@ namespace OCP\Diagnostics;
  * Interface IQuery
  *
  * @since 8.0.0
+ * @since 30.0.0 The IQueryLogger no longer extends `\Doctrine\DBAL\Logging\SQLLogger`.
+ *               Due to more underlying changes the types and parameter content could not be kept consistent.
  */
 interface IQuery {
 	/**
-	 * @return string
 	 * @since 8.0.0
 	 */
-	public function getSql();
+	public function getSql(): string;
 
 	/**
-	 * @return array
 	 * @since 8.0.0
 	 */
-	public function getParams();
+	public function getParams(): ?array;
 
 	/**
-	 * @return float
+	 * @since 30.0.0
+	 */
+	public function getTypes(): ?array;
+
+	/**
 	 * @since 8.0.0
 	 */
-	public function getDuration();
+	public function getDuration(): float;
 
 	/**
-	 * @return float
 	 * @since 11.0.0
 	 */
-	public function getStartTime();
+	public function getStartTime(): float;
 
 	/**
-	 * @return array
 	 * @since 11.0.0
 	 */
-	public function getStacktrace();
+	public function getStacktrace(): array;
+
 	/**
-	 * @return array
 	 * @since 12.0.0
+	 * @since 30.0.0 Documented return type was fixed to actual type float
+	 * @deprecated 30.0.0  Use {@see self::getStartTime()} instead
 	 */
-	public function getStart();
+	public function getStart(): float;
 }

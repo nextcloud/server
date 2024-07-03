@@ -8,31 +8,22 @@ declare(strict_types = 1);
 
 namespace OC\DB;
 
-use Doctrine\DBAL\Types\ConversionException;
-use Doctrine\DBAL\Types\Type;
 use OC\AppFramework\Http\Request;
+use OC\Diagnostics\Query;
 use OCP\AppFramework\Http\Response;
+use OCP\Diagnostics\IQueryLogger;
 
 class DbDataCollector extends \OCP\DataCollector\AbstractDataCollector {
-	protected ?BacktraceDebugStack $debugStack = null;
-	private Connection $connection;
-
-	/**
-	 * DbDataCollector constructor.
-	 */
-	public function __construct(Connection $connection) {
-		$this->connection = $connection;
-	}
-
-	public function setDebugStack(BacktraceDebugStack $debugStack, $name = 'default'): void {
-		$this->debugStack = $debugStack;
+	public function __construct(
+		private readonly IQueryLogger $queryLogger,
+	) {
 	}
 
 	/**
 	 * @inheritDoc
 	 */
 	public function collect(Request $request, Response $response, ?\Throwable $exception = null): void {
-		$queries = $this->sanitizeQueries($this->debugStack->queries);
+		$queries = $this->sanitizeQueries($this->queryLogger->getQueries());
 
 		$this->data = [
 			'queries' => $queries,
@@ -55,37 +46,19 @@ class DbDataCollector extends \OCP\DataCollector\AbstractDataCollector {
 		return $queries;
 	}
 
-	private function sanitizeQuery(array $query): array {
-		$query['explainable'] = true;
-		$query['runnable'] = true;
-		if ($query['params'] === null) {
-			$query['params'] = [];
-		}
-		if (!\is_array($query['params'])) {
-			$query['params'] = [$query['params']];
-		}
-		if (!\is_array($query['types'])) {
-			$query['types'] = [];
-		}
-		foreach ($query['params'] as $j => $param) {
-			$e = null;
-			if (isset($query['types'][$j])) {
-				// Transform the param according to the type
-				$type = $query['types'][$j];
-				if (\is_string($type)) {
-					$type = Type::getType($type);
-				}
-				if ($type instanceof Type) {
-					$query['types'][$j] = $type->getBindingType();
-					try {
-						$param = $type->convertToDatabaseValue($param, $this->connection->getDatabasePlatform());
-					} catch (\TypeError $e) {
-					} catch (ConversionException $e) {
-					}
-				}
-			}
+	private function sanitizeQuery(Query $queryObject): array {
+		$query = [
+			'sql' => $queryObject->getSql(),
+			'params' => $queryObject->getParams() ?? [],
+			'types' => $queryObject->getTypes() ?? [],
+			'executionMS' => $queryObject->getDuration(),
+			'backtrace' => $queryObject->getStacktrace(),
+			'explainable' => true,
+			'runnable' => true,
+		];
 
-			[$query['params'][$j], $explainable, $runnable] = $this->sanitizeParam($param, $e);
+		foreach ($query['params'] as $j => $param) {
+			[$query['params'][$j], $explainable, $runnable] = $this->sanitizeParam($param);
 			if (!$explainable) {
 				$query['explainable'] = false;
 			}
@@ -105,20 +78,16 @@ class DbDataCollector extends \OCP\DataCollector\AbstractDataCollector {
 	 * indicating if the original value was kept (allowing to use the sanitized
 	 * value to explain the query).
 	 */
-	private function sanitizeParam($var, ?\Throwable $error): array {
+	private function sanitizeParam($var): array {
 		if (\is_object($var)) {
-			return [$o = new ObjectParameter($var, $error), false, $o->isStringable() && !$error];
-		}
-
-		if ($error) {
-			return ['⚠ '.$error->getMessage(), false, false];
+			return [$o = new ObjectParameter($var, null), false, $o->isStringable()];
 		}
 
 		if (\is_array($var)) {
 			$a = [];
 			$explainable = $runnable = true;
 			foreach ($var as $k => $v) {
-				[$value, $e, $r] = $this->sanitizeParam($v, null);
+				[$value, $e, $r] = $this->sanitizeParam($v);
 				$explainable = $explainable && $e;
 				$runnable = $runnable && $r;
 				$a[$k] = $value;

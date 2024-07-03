@@ -9,10 +9,14 @@ namespace OC\DB;
 
 use Doctrine\DBAL\Configuration;
 use Doctrine\DBAL\DriverManager;
+use OC\DB\Logging\Middleware;
 use OC\DB\Middlewares\SetTransactionIsolationLevel;
 use OC\DB\Middlewares\SQLiteCaseSensitiveLike;
 use OC\DB\Middlewares\SQLiteJournalMode;
 use OC\SystemConfig;
+use OCP\Diagnostics\IQueryLogger;
+use OCP\Profiler\IProfiler;
+use OCP\Server;
 
 /**
  * Takes care of creating and configuring Doctrine connections.
@@ -108,6 +112,11 @@ class ConnectionFactory {
 
 		$doctrineConfiguration = new Configuration();
 		$doctrineMiddlewares = $doctrineConfiguration->getMiddlewares();
+		/** @var IProfiler */
+		$profiler = Server::get(IProfiler::class);
+		if ($profiler->isEnabled()) {
+			$doctrineMiddlewares[] = new Middleware(Server::get(IQueryLogger::class));
+		}
 		$doctrineMiddlewares[] = new SetTransactionIsolationLevel();
 
 		switch ($normalizedType) {

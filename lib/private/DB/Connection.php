@@ -25,6 +25,7 @@ use OC\DB\QueryBuilder\QueryBuilder;
 use OC\SystemConfig;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Diagnostics\IEventLogger;
+use OCP\Diagnostics\IQueryLogger;
 use OCP\IRequestId;
 use OCP\PreConditionNotMetException;
 use OCP\Profiler\IProfiler;
@@ -99,14 +100,11 @@ class Connection extends PrimaryReadReplicaConnection {
 		$this->logRequestId = $this->systemConfig->getValue('db.log_request_id', false);
 		$this->requestId = Server::get(IRequestId::class)->getId();
 
-		/** @var \OCP\Profiler\IProfiler */
+		/** @var IProfiler */
 		$profiler = Server::get(IProfiler::class);
 		if ($profiler->isEnabled()) {
-			$this->dbDataCollector = new DbDataCollector($this);
+			$this->dbDataCollector = new DbDataCollector(Server::get(IQueryLogger::class));
 			$profiler->add($this->dbDataCollector);
-			$debugStack = new BacktraceDebugStack();
-			$this->dbDataCollector->setDebugStack($debugStack);
-			// FIXME $this->_config->setSQLLogger($debugStack);
 		}
 
 		$this->setNestTransactionsWithSavepoints(true);

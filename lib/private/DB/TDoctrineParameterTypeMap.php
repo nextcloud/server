@@ -28,4 +28,18 @@ trait TDoctrineParameterTypeMap {
 		};
 	}
 
+	protected function convertParameterTypeToJsonSerializable(ArrayParameterType|ParameterType|string $type): string {
+		return match($type) {
+			ParameterType::NULL => 'null',
+			ParameterType::BOOLEAN => 'boolean',
+			ParameterType::INTEGER => 'integer',
+			ArrayParameterType::INTEGER => 'integer[]',
+			ParameterType::STRING => 'string',
+			ArrayParameterType::STRING => 'string[]',
+			ParameterType::LARGE_OBJECT => 'lob',
+			IQueryBuilder::PARAM_DATE,
+			IQueryBuilder::PARAM_JSON => $type,
+			default => 'unsupported-type',
+		};
+	}
 }

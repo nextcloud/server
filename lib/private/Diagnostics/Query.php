@@ -1,5 +1,6 @@
 <?php
 
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -10,65 +11,46 @@ namespace OC\Diagnostics;
 use OCP\Diagnostics\IQuery;
 
 class Query implements IQuery {
-	private $sql;
+	private float $end = 0;
 
-	private $params;
-
-	private $start;
-
-	private $end;
-
-	private $stack;
-
-	/**
-	 * @param string $sql
-	 * @param array $params
-	 * @param int $start
-	 */
-	public function __construct($sql, $params, $start, array $stack) {
-		$this->sql = $sql;
-		$this->params = $params;
-		$this->start = $start;
-		$this->stack = $stack;
+	public function __construct(
+		private readonly string $sql,
+		private readonly ?array $params,
+		private readonly ?array $types,
+		private readonly float $start,
+		private readonly array $stack,
+	) {
 	}
 
-	public function end($time) {
+	public function end(float $time): void {
 		$this->end = $time;
 	}
 
-	/**
-	 * @return array
-	 */
-	public function getParams() {
+	public function getParams(): ?array {
 		return $this->params;
 	}
 
-	/**
-	 * @return string
-	 */
-	public function getSql() {
+	public function getTypes(): ?array {
+		return $this->types;
+	}
+
+	public function getSql(): string {
 		return $this->sql;
 	}
 
-	/**
-	 * @return float
-	 */
-	public function getStart() {
+	public function getStart(): float {
 		return $this->start;
 	}
-	
-	/**
-	 * @return float
-	 */
-	public function getDuration() {
+
+	public function getDuration(): float {
 		return $this->end - $this->start;
 	}
 
-	public function getStartTime() {
+	public function getStartTime(): float {
 		return $this->start;
 	}
 
-	public function getStacktrace() {
+	public function getStacktrace(): array {
 		return $this->stack;
 	}
 }
