@@ -145,10 +145,12 @@
                         "type": "string"
                     },
                     "replacementUserId": {
-                        "type": "string"
+                        "type": "string",
+                        "nullable": true
                     },
                     "replacementUserDisplayName": {
-                        "type": "string"
+                        "type": "string",
+                        "nullable": true
                     }
                 }
             }
@@ -578,12 +580,12 @@
                                     },
                                     "replacementUserId": {
                                         "type": "string",
-                                        "default": "",
+                                        "nullable": true,
                                         "description": "User id of the replacement user"
                                     },
                                     "replacementUserDisplayName": {
                                         "type": "string",
-                                        "default": "",
+                                        "nullable": true,
                                         "description": "Display name of the replacement user"
                                     }
                                 }
