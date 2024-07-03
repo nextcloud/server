@@ -7,7 +7,6 @@ declare(strict_types=1);
  */
 namespace Test\DB\Exception;
 
-use Doctrine\DBAL\ConnectionException;
 use Doctrine\DBAL\Driver\Exception as TheDriverException;
 use Doctrine\DBAL\Exception\ConstraintViolationException;
 use Doctrine\DBAL\Exception\DatabaseObjectExistsException;
@@ -15,9 +14,10 @@ use Doctrine\DBAL\Exception\DatabaseObjectNotFoundException;
 use Doctrine\DBAL\Exception\DeadlockException;
 use Doctrine\DBAL\Exception\DriverException;
 use Doctrine\DBAL\Exception\ForeignKeyConstraintViolationException;
-use Doctrine\DBAL\Exception\InvalidArgumentException;
 use Doctrine\DBAL\Exception\InvalidFieldNameException;
+use Doctrine\DBAL\Exception\InvalidWrapperClass;
 use Doctrine\DBAL\Exception\LockWaitTimeoutException;
+use Doctrine\DBAL\Exception\NoActiveTransaction;
 use Doctrine\DBAL\Exception\NonUniqueFieldNameException;
 use Doctrine\DBAL\Exception\NotNullConstraintViolationException;
 use Doctrine\DBAL\Exception\ServerException;
@@ -63,12 +63,12 @@ class DbalExceptionTest extends \Test\TestCase {
 	}
 
 	public function testConnectionException(): void {
-		$result = DbalException::wrap(ConnectionException::noActiveTransaction());
+		$result = DbalException::wrap(NoActiveTransaction::new());
 		$this->assertSame(DbalException::REASON_CONNECTION_LOST, $result->getReason());
 	}
 
 	public function testInvalidArgumentException(): void {
-		$result = DbalException::wrap(InvalidArgumentException::fromEmptyCriteria());
+		$result = DbalException::wrap(InvalidWrapperClass::new('A'));
 		$this->assertSame(DbalException::REASON_INVALID_ARGUMENT, $result->getReason());
 	}
 }
