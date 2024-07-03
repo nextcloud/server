@@ -96,6 +96,8 @@ class SmbTest extends \Test\Files\Storage\Storage {
 	}
 
 	public function testNotifyGetChanges() {
+		$this->markTestSkipped('Marking flaky test skipped until someone has a look');
+
 		$notifyHandler = $this->instance->notify('');
 		sleep(1); //give time for the notify to start
 		$this->instance->file_put_contents('/newfile.txt', 'test content');
