@@ -56,7 +56,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.5.1
 	- license: MIT
 - browserslist-useragent-regexp
-	- version: 4.1.1
+	- version: 4.1.3
 	- license: MIT
 - browserslist
 	- version: 4.23.0
