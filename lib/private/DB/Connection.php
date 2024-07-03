@@ -15,6 +15,7 @@ use Doctrine\DBAL\Connections\PrimaryReadReplicaConnection;
 use Doctrine\DBAL\Driver;
 use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\Exception\ConnectionLost;
+use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Platforms\MySQLPlatform;
 use Doctrine\DBAL\Platforms\OraclePlatform;
 use Doctrine\DBAL\Platforms\SQLitePlatform;
@@ -37,6 +38,8 @@ use function count;
 use function in_array;
 
 class Connection extends PrimaryReadReplicaConnection {
+	use TDoctrineParameterTypeMap;
+
 	/** @var string */
 	protected $tablePrefix;
 
@@ -285,6 +288,7 @@ class Connection extends PrimaryReadReplicaConnection {
 		$sql = $this->finishQuery($sql);
 		$this->queriesExecuted++;
 		$this->logQueryToFile($sql);
+		$types = array_map($this->convertParameterTypeToDoctrine(...), $types);
 		return parent::executeQuery($sql, $params, $types, $qcp);
 	}
 
