@@ -138,64 +138,6 @@ class UtilTest extends \Test\TestCase {
 	}
 
 	/**
-	 * @dataProvider filenameValidationProvider
-	 */
-	public function testFilenameValidation($file, $valid) {
-		// private API
-		$this->assertEquals($valid, \OC_Util::isValidFileName($file));
-		// public API
-		$this->assertEquals($valid, \OCP\Util::isValidFileName($file));
-	}
-
-	public function filenameValidationProvider() {
-		return [
-			// valid names
-			['boringname', true],
-			['something.with.extension', true],
-			['now with spaces', true],
-			['.a', true],
-			['..a', true],
-			['.dotfile', true],
-			['single\'quote', true],
-			['  spaces before', true],
-			['spaces after   ', true],
-			['allowed chars including the crazy ones $%&_-^@!,()[]{}=;#', true],
-			['汉字也能用', true],
-			['und Ümläüte sind auch willkommen', true],
-			// disallowed names
-			['', false],
-			['     ', false],
-			['.', false],
-			['..', false],
-			['back\\slash', false],
-			['sl/ash', false],
-			['lt<lt', true],
-			['gt>gt', true],
-			['col:on', true],
-			['double"quote', true],
-			['pi|pe', true],
-			['dont?ask?questions?', true],
-			['super*star', true],
-			['new\nline', false],
-
-			// better disallow these to avoid unexpected trimming to have side effects
-			[' ..', false],
-			['.. ', false],
-			['. ', false],
-			[' .', false],
-
-			// part files not allowed
-			['.part', false],
-			['notallowed.part', false],
-			['neither.filepart', false],
-
-			// part in the middle is ok
-			['super movie part one.mkv', true],
-			['super.movie.part.mkv', true],
-		];
-	}
-
-	/**
 	 * Test needUpgrade() when the core version is increased
 	 */
 	public function testNeedUpgradeCore() {

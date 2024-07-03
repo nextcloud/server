@@ -12,8 +12,10 @@ namespace Test\Security;
 
 use OC\Files\View;
 use OC\Security\CertificateManager;
+use OCP\Files\IFilenameValidator;
 use OCP\IConfig;
 use OCP\Security\ISecureRandom;
+use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -25,12 +27,10 @@ class CertificateManagerTest extends \Test\TestCase {
 	use \Test\Traits\UserTrait;
 	use \Test\Traits\MountProviderTrait;
 
-	/** @var CertificateManager */
-	private $certificateManager;
-	/** @var String */
-	private $username;
-	/** @var ISecureRandom */
-	private $random;
+	private string $username;
+	private CertificateManager $certificateManager;
+	private ISecureRandom&MockObject $random;
+	private IFilenameValidator&MockObject $filenameValidator;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -54,11 +54,19 @@ class CertificateManagerTest extends \Test\TestCase {
 		$this->random->method('generate')
 			->willReturn('random');
 
+		$this->filenameValidator = $this->createMock(IFilenameValidator::class);
+		$this->filenameValidator->method('isFilenameValid')
+			->willReturnCallback(fn ($name) => match($name) {
+				'.htaccess' => false,
+				default => true,
+			});
+
 		$this->certificateManager = new CertificateManager(
 			new \OC\Files\View(),
 			$config,
 			$this->createMock(LoggerInterface::class),
-			$this->random
+			$this->random,
+			$this->filenameValidator,
 		);
 	}
 
@@ -101,26 +109,14 @@ class CertificateManagerTest extends \Test\TestCase {
 		$this->certificateManager->addCertificate('InvalidCertificate', 'invalidCertificate');
 	}
 
-	/**
-	 * @return array
-	 */
-	public function dangerousFileProvider() {
-		return [
-			['.htaccess'],
-			['../../foo.txt'],
-			['..\..\foo.txt'],
-		];
-	}
+	public function testAddDangerousFile() {
+		$this->filenameValidator->expects($this->once())
+			->method('isFilenameValid');
 
-	/**
-	 * @dataProvider dangerousFileProvider
-	 * @param string $filename
-	 */
-	public function testAddDangerousFile($filename) {
 		$this->expectException(\Exception::class);
 		$this->expectExceptionMessage('Filename is not valid');
 
-		$this->certificateManager->addCertificate(file_get_contents(__DIR__ . '/../../data/certificates/expiredCertificate.crt'), $filename);
+		$this->certificateManager->addCertificate(file_get_contents(__DIR__ . '/../../data/certificates/expiredCertificate.crt'), '.htaccess');
 	}
 
 	public function testRemoveDangerousFile() {
@@ -155,7 +151,7 @@ class CertificateManagerTest extends \Test\TestCase {
 
 		/** @var CertificateManager | \PHPUnit\Framework\MockObject\MockObject $certificateManager */
 		$certificateManager = $this->getMockBuilder('OC\Security\CertificateManager')
-			->setConstructorArgs([$view, $config, $this->createMock(LoggerInterface::class), $this->random])
+			->setConstructorArgs([$view, $config, $this->createMock(LoggerInterface::class), $this->random, $this->filenameValidator])
 			->setMethods(['getFilemtimeOfCaBundle', 'getCertificateBundle'])
 			->getMock();
 

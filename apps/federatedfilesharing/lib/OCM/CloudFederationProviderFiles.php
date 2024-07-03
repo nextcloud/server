@@ -23,6 +23,7 @@ use OCP\Federation\ICloudFederationProvider;
 use OCP\Federation\ICloudFederationProviderManager;
 use OCP\Federation\ICloudFederationShare;
 use OCP\Federation\ICloudIdManager;
+use OCP\Files\IFilenameValidator;
 use OCP\Files\NotFoundException;
 use OCP\HintException;
 use OCP\IConfig;
@@ -59,6 +60,7 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 		private IConfig $config,
 		private Manager $externalShareManager,
 		private LoggerInterface $logger,
+		private IFilenameValidator $filenameValidator,
 	) {
 	}
 
@@ -115,7 +117,7 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 		}
 
 		if ($remote && $token && $name && $owner && $remoteId && $shareWith) {
-			if (!Util::isValidFileName($name)) {
+			if (!$this->filenameValidator->isFilenameValid($name)) {
 				throw new ProviderCouldNotAddShareException('The mountpoint name contains invalid characters.', '', Http::STATUS_BAD_REQUEST);
 			}
 
@@ -732,7 +734,7 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 		}
 
 		try {
-			$slaveService = Server::get(\OCA\GlobalSiteSelector\Service\SlaveService::class);
+			$slaveService = Server::get('\OCA\GlobalSiteSelector\Service\SlaveService');
 		} catch (\Throwable $e) {
 			Server::get(LoggerInterface::class)->error(
 				$e->getMessage(),

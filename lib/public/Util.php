@@ -510,18 +510,6 @@ class Util {
 	}
 
 	/**
-	 * Returns whether the given file name is valid
-	 * @param string $file file name to check
-	 * @return bool true if the file name is valid, false otherwise
-	 * @deprecated 8.1.0 use OCP\Files\Storage\IStorage::verifyPath()
-	 * @since 7.0.0
-	 * @suppress PhanDeprecatedFunction
-	 */
-	public static function isValidFileName($file) {
-		return \OC_Util::isValidFileName($file);
-	}
-
-	/**
 	 * Compare two strings to provide a natural sort
 	 * @param string $a first string to compare
 	 * @param string $b second string to compare

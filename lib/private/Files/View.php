@@ -58,6 +58,7 @@ class View {
 	private bool $updaterEnabled = true;
 	private UserManager $userManager;
 	private LoggerInterface $logger;
+	private FilenameValidator $filenameValidator;
 
 	/**
 	 * @throws \Exception If $root contains an invalid path
@@ -72,6 +73,7 @@ class View {
 		$this->lockingEnabled = !($this->lockingProvider instanceof \OC\Lock\NoopLockingProvider);
 		$this->userManager = \OC::$server->getUserManager();
 		$this->logger = \OC::$server->get(LoggerInterface::class);
+		$this->filenameValidator = \OCP\Server::get(FilenameValidator::class);
 	}
 
 	/**
@@ -588,7 +590,7 @@ class View {
 		if (is_resource($data)) { //not having to deal with streams in file_put_contents makes life easier
 			$absolutePath = Filesystem::normalizePath($this->getAbsolutePath($path));
 			if (Filesystem::isValidPath($path)
-				&& !Filesystem::isFileBlacklisted($path)
+				&& $this->filenameValidator->isFilenameValid(basename($absolutePath))
 			) {
 				$path = $this->getRelativePath($absolutePath);
 				if ($path === null) {
@@ -706,7 +708,7 @@ class View {
 		if (
 			Filesystem::isValidPath($target)
 			&& Filesystem::isValidPath($source)
-			&& !Filesystem::isFileBlacklisted($target)
+			&& $this->filenameValidator->isFilenameValid(basename($target))
 		) {
 			$source = $this->getRelativePath($absolutePath1);
 			$target = $this->getRelativePath($absolutePath2);
@@ -843,7 +845,7 @@ class View {
 		if (
 			Filesystem::isValidPath($target)
 			&& Filesystem::isValidPath($source)
-			&& !Filesystem::isFileBlacklisted($target)
+			&& $this->filenameValidator->isFilenameValid(basename($target))
 		) {
 			$source = $this->getRelativePath($absolutePath1);
 			$target = $this->getRelativePath($absolutePath2);
@@ -1099,9 +1101,8 @@ class View {
 	private function basicOperation(string $operation, string $path, array $hooks = [], $extraParam = null) {
 		$postFix = (substr($path, -1) === '/') ? '/' : '';
 		$absolutePath = Filesystem::normalizePath($this->getAbsolutePath($path));
-		if (Filesystem::isValidPath($path)
-			&& !Filesystem::isFileBlacklisted($path)
-		) {
+		$filename = basename($absolutePath);
+		if (Filesystem::isValidPath($path) && !$this->filenameValidator->isForbidden($filename)) {
 			$path = $this->getRelativePath($absolutePath);
 			if ($path == null) {
 				return false;

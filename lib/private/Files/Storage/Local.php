@@ -7,7 +7,6 @@
  */
 namespace OC\Files\Storage;
 
-use OC\Files\Filesystem;
 use OC\Files\Storage\Wrapper\Encryption;
 use OC\Files\Storage\Wrapper\Jail;
 use OCP\Constants;
@@ -44,6 +43,8 @@ class Local extends \OC\Files\Storage\Common {
 		if (!isset($arguments['datadir']) || !is_string($arguments['datadir'])) {
 			throw new \InvalidArgumentException('No data directory set for local storage');
 		}
+		parent::__construct($arguments);
+
 		$this->datadir = str_replace('//', '/', $arguments['datadir']);
 		// some crazy code uses a local storage on root...
 		if ($this->datadir === '/') {
@@ -316,10 +317,10 @@ class Local extends \OC\Files\Storage\Common {
 	}
 
 	private function checkTreeForForbiddenItems(string $path) {
-		$iterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($path));
+		$iterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($path, \RecursiveDirectoryIterator::SKIP_DOTS));
+		/** @var \SplFileInfo $file */
 		foreach ($iterator as $file) {
-			/** @var \SplFileInfo $file */
-			if (Filesystem::isFileBlacklisted($file->getBasename())) {
+			if (!$this->getFilenameValidator()->isFilenameValid($file->getBasename())) {
 				throw new ForbiddenException('Invalid path: ' . $file->getPathname(), false);
 			}
 		}
@@ -474,11 +475,17 @@ class Local extends \OC\Files\Storage\Common {
 	 * @throws ForbiddenException
 	 */
 	public function getSourcePath($path) {
-		if (Filesystem::isFileBlacklisted($path)) {
+		$fullPath = $this->datadir . $path;
+		// Special handling for getting the source path
+		if ($path === '') {
+			return $fullPath;
+		}
+
+		// Validate the path for invalid access, we only check forbidden files
+		if ($this->getFilenameValidator()->isForbidden(basename($path))) {
 			throw new ForbiddenException('Invalid path: ' . $path, false);
 		}
 
-		$fullPath = $this->datadir . $path;
 		$currentPath = $path;
 		$allowSymlinks = $this->config->getSystemValueBool('localstorage.allowsymlinks', false);
 		if ($allowSymlinks || $currentPath === '') {
@@ -556,7 +563,7 @@ class Local extends \OC\Files\Storage\Common {
 			// more permissions checks.
 			&& !$sourceStorage->instanceOfStorage('OCA\GroupFolders\ACL\ACLStorageWrapper')
 			// Same for access control
-			&& !$sourceStorage->instanceOfStorage(\OCA\FilesAccessControl\StorageWrapper::class)
+			&& !$sourceStorage->instanceOfStorage('\OCA\FilesAccessControl\StorageWrapper')
 			// when moving encrypted files we have to handle keys and the target might not be encrypted
 			&& !$sourceStorage->instanceOfStorage(Encryption::class);
 	}

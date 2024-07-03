@@ -13,21 +13,21 @@ use OC\Files\Cache\Propagator;
 use OC\Files\Cache\Scanner;
 use OC\Files\Cache\Updater;
 use OC\Files\Cache\Watcher;
+use OC\Files\FilenameValidator;
 use OC\Files\Filesystem;
 use OC\Files\Storage\Wrapper\Jail;
 use OC\Files\Storage\Wrapper\Wrapper;
 use OCP\Files\EmptyFileNameException;
-use OCP\Files\FileNameTooLongException;
 use OCP\Files\ForbiddenException;
 use OCP\Files\GenericFileException;
 use OCP\Files\InvalidCharacterInPathException;
 use OCP\Files\InvalidDirectoryException;
 use OCP\Files\InvalidPathException;
-use OCP\Files\ReservedWordException;
 use OCP\Files\Storage\ILockingStorage;
 use OCP\Files\Storage\IStorage;
 use OCP\Files\Storage\IWriteStreamStorage;
 use OCP\Files\StorageNotAvailableException;
+use OCP\IDBConnection;
 use OCP\Lock\ILockingProvider;
 use OCP\Lock\LockedException;
 use OCP\Server;
@@ -53,6 +53,7 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 	protected $propagator;
 	protected $storageCache;
 	protected $updater;
+	protected ?FilenameValidator $filenameValidator;
 
 	protected $mountOptions = [];
 	protected $owner = null;
@@ -491,6 +492,13 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 		return [];
 	}
 
+	protected function getFilenameValidator(): FilenameValidator {
+		if (!isset($this->filenameValidator)) {
+			$this->filenameValidator = \OCP\Server::get(FilenameValidator::class);
+		}
+		return $this->filenameValidator;
+	}
+
 	/**
 	 * @inheritdoc
 	 * @throws InvalidPathException
@@ -506,7 +514,8 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 			throw new InvalidDirectoryException();
 		}
 
-		if (!\OC::$server->getDatabaseConnection()->supports4ByteText()) {
+		$connection = \OCP\Server::get(IDBConnection::class);
+		if (!$connection->supports4ByteText()) {
 			// verify database - e.g. mysql only 3-byte chars
 			if (preg_match('%(?:
       \xF0[\x90-\xBF][\x80-\xBF]{2}      # planes 1-3
@@ -517,47 +526,10 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 			}
 		}
 
-		// 255 characters is the limit on common file systems (ext/xfs)
-		// oc_filecache has a 250 char length limit for the filename
-		if (isset($fileName[250])) {
-			throw new FileNameTooLongException();
-		}
+		$this->getFilenameValidator()
+			->validateFilename($fileName);
 
 		// NOTE: $path will remain unverified for now
-		$this->verifyPosixPath($fileName);
-	}
-
-	/**
-	 * @param string $fileName
-	 * @throws InvalidPathException
-	 */
-	protected function verifyPosixPath($fileName) {
-		$invalidChars = \OCP\Util::getForbiddenFileNameChars();
-		$this->scanForInvalidCharacters($fileName, $invalidChars);
-
-		$fileName = trim($fileName);
-		$reservedNames = ['*'];
-		if (in_array($fileName, $reservedNames)) {
-			throw new ReservedWordException();
-		}
-	}
-
-	/**
-	 * @param string $fileName
-	 * @param string[] $invalidChars
-	 * @throws InvalidPathException
-	 */
-	private function scanForInvalidCharacters(string $fileName, array $invalidChars) {
-		foreach ($invalidChars as $char) {
-			if (str_contains($fileName, $char)) {
-				throw new InvalidCharacterInPathException();
-			}
-		}
-
-		$sanitizedFileName = filter_var($fileName, FILTER_UNSAFE_RAW, FILTER_FLAG_STRIP_LOW);
-		if ($sanitizedFileName !== $fileName) {
-			throw new InvalidCharacterInPathException();
-		}
 	}
 
 	/**
@@ -682,7 +654,9 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 	 * @inheritdoc
 	 */
 	public function getMetaData($path) {
-		if (Filesystem::isFileBlacklisted($path)) {
+		try {
+			$this->verifyPath($path, basename($path));
+		} catch (InvalidPathException) {
 			throw new ForbiddenException('Invalid path: ' . $path, false);
 		}
 
