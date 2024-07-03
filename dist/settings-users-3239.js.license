@@ -7,7 +7,6 @@ SPDX-License-Identifier: Apache-2.0
 SPDX-License-Identifier: AGPL-3.0-or-later
 SPDX-License-Identifier: (MPL-2.0 OR Apache-2.0)
 SPDX-FileCopyrightText: xiemengxiong
-SPDX-FileCopyrightText: uuid developers
 SPDX-FileCopyrightText: inherits developers
 SPDX-FileCopyrightText: escape-html developers
 SPDX-FileCopyrightText: debounce developers
@@ -122,20 +121,11 @@ This file is generated from multiple sources. Included packages:
 - @nextcloud/vue-select
 	- version: 3.25.0
 	- license: MIT
-- @nextcloud/browser-storage
-	- version: 0.3.0
+- @nextcloud/l10n
+	- version: 3.1.0
 	- license: GPL-3.0-or-later
-- @nextcloud/logger
-	- version: 2.7.0
-	- license: GPL-3.0-or-later
-- core-js
-	- version: 3.33.0
-	- license: MIT
-- debounce
-	- version: 2.0.0
-	- license: MIT
 - @nextcloud/vue
-	- version: 8.11.2
+	- version: 8.14.0
 	- license: AGPL-3.0-or-later
 - @vueuse/components
 	- version: 10.11.0
@@ -243,7 +233,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 2.0.1
 	- license: MIT
 - ical.js
-	- version: 1.5.0
+	- version: 2.0.1
 	- license: MPL-2.0
 - ieee754
 	- version: 1.2.1
@@ -343,9 +333,6 @@ This file is generated from multiple sources. Included packages:
 	- license: MIT
 - util
 	- version: 0.12.5
-	- license: MIT
-- uuid
-	- version: 9.0.1
 	- license: MIT
 - vue-frag
 	- version: 1.4.3
