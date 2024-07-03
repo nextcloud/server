@@ -10,6 +10,7 @@ namespace OC\Security;
 
 use OC\Files\Filesystem;
 use OC\Files\View;
+use OCP\Files\IFilenameValidator;
 use OCP\ICertificate;
 use OCP\ICertificateManager;
 use OCP\IConfig;
@@ -27,6 +28,7 @@ class CertificateManager implements ICertificateManager {
 		protected IConfig $config,
 		protected LoggerInterface $logger,
 		protected ISecureRandom $random,
+		protected IFilenameValidator $filenameValidator,
 	) {
 	}
 
@@ -150,7 +152,7 @@ class CertificateManager implements ICertificateManager {
 	 * @throws \Exception If the certificate could not get added
 	 */
 	public function addCertificate(string $certificate, string $name): ICertificate {
-		if (!Filesystem::isValidPath($name) or Filesystem::isFileBlacklisted($name)) {
+		if (!$this->filenameValidator->isFilenameValid($name)) {
 			throw new \Exception('Filename is not valid');
 		}
 		$this->bundlePath = null;

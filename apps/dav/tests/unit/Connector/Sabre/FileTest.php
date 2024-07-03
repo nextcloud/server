@@ -570,7 +570,7 @@ class FileTest extends TestCase {
 			->method('getRelativePath')
 			->willReturnArgument(0);
 
-		$info = new \OC\Files\FileInfo('/*', $this->getMockStorage(), null, [
+		$info = new \OC\Files\FileInfo("/\n", $this->getMockStorage(), null, [
 			'permissions' => \OCP\Constants::PERMISSION_ALL,
 			'type' => FileInfo::TYPE_FOLDER,
 		], null);
@@ -611,14 +611,13 @@ class FileTest extends TestCase {
 			->method('getRelativePath')
 			->willReturnArgument(0);
 
-		$info = new \OC\Files\FileInfo('/*', $this->getMockStorage(), null, [
+		$info = new \OC\Files\FileInfo('/super', $this->getMockStorage(), null, [
 			'permissions' => \OCP\Constants::PERMISSION_ALL,
 			'type' => FileInfo::TYPE_FOLDER,
 		], null);
 		$file = new \OCA\DAV\Connector\Sabre\File($view, $info);
-		$file->setName('/super*star.txt');
+		$file->setName("/super\nstar.txt");
 	}
-
 
 	public function testUploadAbort(): void {
 		// setup

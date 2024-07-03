@@ -15,6 +15,7 @@ use OC\Files\View;
 use OCA\DAV\Connector\Sabre\Directory;
 use OCA\DAV\Connector\Sabre\ObjectTree;
 use OCP\Files\Mount\IMountManager;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Class ObjectTreeTest
@@ -205,12 +206,11 @@ class ObjectTreeTest extends \Test\TestCase {
 		$this->expectException(\OCA\DAV\Connector\Sabre\Exception\InvalidPath::class);
 
 		$path = '/foo\bar';
-
-
 		$storage = new Temporary([]);
 
+		/** @var View&MockObject */
 		$view = $this->getMockBuilder(View::class)
-			->setMethods(['resolvePath'])
+			->onlyMethods(['resolvePath'])
 			->getMock();
 		$view->expects($this->once())
 			->method('resolvePath')
@@ -218,6 +218,7 @@ class ObjectTreeTest extends \Test\TestCase {
 				return [$storage, ltrim($path, '/')];
 			});
 
+		/** @var Directory&MockObject */
 		$rootNode = $this->getMockBuilder(Directory::class)
 			->disableOriginalConstructor()
 			->getMock();
