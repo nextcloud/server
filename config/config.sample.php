@@ -1976,26 +1976,38 @@ $CONFIG = [
 'updatedirectory' => '',
 
 /**
- * Blacklist a specific file or files and disallow the upload of files
+ * Block a specific file or files and disallow the upload of files
  * with this name. ``.htaccess`` is blocked by default.
+ *
  * WARNING: USE THIS ONLY IF YOU KNOW WHAT YOU ARE DOING.
+ *
+ * Note that this list is case-insensitive.
  *
  * Defaults to ``array('.htaccess')``
  */
-'blacklisted_files' => ['.htaccess'],
+'forbidden_filenames' => ['.htaccess'],
 
 /**
- * Blacklist characters from being used in filenames. This is useful if you
+ * Block characters from being used in filenames. This is useful if you
  * have a filesystem or OS which does not support certain characters like windows.
  *
- * The '/' and '\' characters are always forbidden.
+ * The '/' and '\' characters are always forbidden, as well as all characters in the ASCII range [0-31].
  *
- * Example for windows systems: ``array('?', '<', '>', ':', '*', '|', '"', chr(0), "\n", "\r")``
+ * Example for windows systems: ``array('?', '<', '>', ':', '*', '|', '"')``
  * see https://en.wikipedia.org/wiki/Comparison_of_file_systems#Limits
  *
  * Defaults to ``array()``
  */
-'forbidden_chars' => [],
+'forbidden_filename_characters' => [],
+
+/**
+ * Deny extensions from being used for filenames.
+ * 
+ * The '.part' extension is always forbidden, as this is used internally by Nextcloud.
+ * 
+ * Defaults to ``array('.filepart', '.part')``
+ */
+'forbidden_filename_extensions' => ['.part', '.filepart'],
 
 /**
  * If you are applying a theme to Nextcloud, enter the name of the theme here.
