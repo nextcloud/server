@@ -1156,7 +1156,7 @@ class QueryBuilder extends TypedQueryBuilder {
 
 		$this->queryBuilder->orderBy(
 			$this->helper->quoteColumnName($sort),
-			$order
+			$order ?? 'ASC'
 		);
 
 		return $this;
@@ -1178,7 +1178,7 @@ class QueryBuilder extends TypedQueryBuilder {
 
 		$this->queryBuilder->addOrderBy(
 			$this->helper->quoteColumnName($sort),
-			$order
+			$order ?? 'ASC'
 		);
 
 		return $this;
