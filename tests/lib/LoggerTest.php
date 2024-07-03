@@ -40,7 +40,16 @@ class LoggerTest extends TestCase implements IWriter {
 		$this->logger = new Log($this, $this->config, null, $this->registry);
 	}
 
+	private function mockDefaultLogLevel(): void {
+		$this->config->expects($this->any())
+			->method('getValue')
+			->will(($this->returnValueMap([
+				['loglevel', ILogger::WARN, ILogger::WARN],
+			])));
+	}
+
 	public function testInterpolation() {
+		$this->mockDefaultLogLevel();
 		$logger = $this->logger;
 		$logger->warning('{Message {nothing} {user} {foo.bar} a}', ['user' => 'Bob', 'foo.bar' => 'Bar']);
 
@@ -69,6 +78,7 @@ class LoggerTest extends TestCase implements IWriter {
 	}
 
 	public function testLoggingWithDataArray(): void {
+		$this->mockDefaultLogLevel();
 		$writerMock = $this->createMock(IWriter::class);
 		$logFile = new Log($writerMock, $this->config);
 		$writerMock->expects($this->once())->method('write')->with('no app in context', ['something' => 'extra', 'message' => 'Testing logging with john']);
@@ -104,6 +114,7 @@ class LoggerTest extends TestCase implements IWriter {
 	 * @dataProvider userAndPasswordData
 	 */
 	public function testDetectlogin(string $user, string $password): void {
+		$this->mockDefaultLogLevel();
 		$e = new \Exception('test');
 		$this->registry->expects($this->once())
 			->method('delegateReport')
@@ -126,6 +137,7 @@ class LoggerTest extends TestCase implements IWriter {
 	 * @dataProvider userAndPasswordData
 	 */
 	public function testDetectcheckPassword(string $user, string $password): void {
+		$this->mockDefaultLogLevel();
 		$e = new \Exception('test');
 		$this->registry->expects($this->once())
 			->method('delegateReport')
@@ -148,6 +160,7 @@ class LoggerTest extends TestCase implements IWriter {
 	 * @dataProvider userAndPasswordData
 	 */
 	public function testDetectvalidateUserPass(string $user, string $password): void {
+		$this->mockDefaultLogLevel();
 		$e = new \Exception('test');
 		$this->registry->expects($this->once())
 			->method('delegateReport')
@@ -170,6 +183,7 @@ class LoggerTest extends TestCase implements IWriter {
 	 * @dataProvider userAndPasswordData
 	 */
 	public function testDetecttryLogin(string $user, string $password): void {
+		$this->mockDefaultLogLevel();
 		$e = new \Exception('test');
 		$this->registry->expects($this->once())
 			->method('delegateReport')
@@ -192,6 +206,7 @@ class LoggerTest extends TestCase implements IWriter {
 	 * @dataProvider userAndPasswordData
 	 */
 	public function testDetectclosure(string $user, string $password): void {
+		$this->mockDefaultLogLevel();
 		$a = function ($user, $password) {
 			throw new \Exception('test');
 		};
