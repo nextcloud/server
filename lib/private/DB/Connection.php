@@ -44,6 +44,7 @@ use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\ILogger;
+use OCP\Diagnostics\IQueryLogger;
 use OCP\IRequestId;
 use OCP\PreConditionNotMetException;
 use OCP\Profiler\IProfiler;
@@ -150,11 +151,8 @@ class Connection extends PrimaryReadReplicaConnection {
 		/** @var IProfiler */
 		$profiler = Server::get(IProfiler::class);
 		if ($profiler->isEnabled()) {
-			$this->dbDataCollector = new DbDataCollector($this);
+			$this->dbDataCollector = new DbDataCollector(Server::get(IQueryLogger::class));
 			$profiler->add($this->dbDataCollector);
-			$debugStack = new BacktraceDebugStack();
-			$this->dbDataCollector->setDebugStack($debugStack);
-			// FIXME $this->_config->setSQLLogger($debugStack);
 		}
 
 		/** @var array<string, array{shards: array[], mapper: ?string, from_primary_key: ?int, from_shard_key: ?int}> $shardConfig */

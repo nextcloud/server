@@ -10,7 +10,7 @@ namespace OC\DB;
 
 use Doctrine\DBAL\Configuration;
 use Doctrine\DBAL\DriverManager;
-use Doctrine\DBAL\Event\Listeners\OracleSessionInit;
+use OC\DB\Logging\Middleware;
 use OC\DB\Middleware\ConnectionActivityMiddleware;
 use OC\DB\Middleware\UtcTimezoneMiddleware;
 use OC\DB\QueryBuilder\Sharded\AutoIncrementHandler;
@@ -19,7 +19,9 @@ use OC\DB\Middlewares\SetTransactionIsolationLevel;
 use OC\DB\Middlewares\SQLiteCaseSensitiveLike;
 use OC\DB\Middlewares\SQLiteJournalMode;
 use OC\SystemConfig;
+use OCP\Diagnostics\IQueryLogger;
 use OCP\ICacheFactory;
+use OCP\Profiler\IProfiler;
 use OCP\Server;
 
 /**
@@ -126,9 +128,15 @@ class ConnectionFactory {
 
 		$doctrineConfiguration = new Configuration();
 		$doctrineMiddlewares = $doctrineConfiguration->getMiddlewares();
+		/** @var IProfiler */
+		$profiler = Server::get(IProfiler::class);
+		if ($profiler->isEnabled()) {
+			$doctrineMiddlewares[] = new Middleware(Server::get(IQueryLogger::class));
+		}
 		$doctrineMiddlewares[] = new SetTransactionIsolationLevel();
 		$doctrineMiddlewares[] = new UtcTimezoneMiddleware();
-		$doctrineMiddlewares[] = new $activityMiddleware;
+		$activityMiddleware = new ConnectionActivityMiddleware();
+		$doctrineMiddlewares[] = $activityMiddleware;
 
 		switch ($normalizedType) {
 			case 'pgsql':
@@ -155,7 +163,6 @@ class ConnectionFactory {
 				break;
 		}
 
-		$activityMiddleware = new ConnectionActivityMiddleware();
 		$additionalConnectionParams['activity_notifier'] = $activityMiddleware->getNotifier();
 
 		$doctrineConfiguration->setMiddlewares($doctrineMiddlewares);
