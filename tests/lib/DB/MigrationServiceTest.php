@@ -9,10 +9,10 @@
 namespace Test\DB;
 
 use Doctrine\DBAL\Schema\Column;
+use Doctrine\DBAL\Schema\Exception\TableDoesNotExist;
 use Doctrine\DBAL\Schema\ForeignKeyConstraint;
 use Doctrine\DBAL\Schema\Index;
 use Doctrine\DBAL\Schema\Schema;
-use Doctrine\DBAL\Schema\SchemaException;
 use Doctrine\DBAL\Schema\Sequence;
 use Doctrine\DBAL\Schema\Table;
 use Doctrine\DBAL\Types\Type;
@@ -104,7 +104,7 @@ class MigrationServiceTest extends \Test\TestCase {
 			->method('migrateToSchema');
 
 		$wrappedSchema = $this->createMock(Schema::class);
-		$wrappedSchema->expects($this->atLeast(2))
+		$wrappedSchema->expects($this->any())
 			->method('getTables')
 			->willReturn([]);
 		$wrappedSchema->expects($this->atLeast(2))
@@ -265,7 +265,7 @@ class MigrationServiceTest extends \Test\TestCase {
 		$sourceSchema->expects($this->any())
 			->method('getTable')
 			->willReturnCallback(fn () => match($tableExists) {
-				false => throw new SchemaException(),
+				false => throw TableDoesNotExist::new('a'),
 				true => $table,
 			});
 		$sourceSchema->expects($this->any())
@@ -363,7 +363,7 @@ class MigrationServiceTest extends \Test\TestCase {
 		$sourceSchema = $this->createMock(Schema::class);
 		$sourceSchema->expects($this->any())
 			->method('getTable')
-			->willThrowException(new SchemaException());
+			->willThrowException(TableDoesNotExist::new('a'));
 		$sourceSchema->expects($this->any())
 			->method('hasSequence')
 			->willReturn(false);
@@ -436,7 +436,7 @@ class MigrationServiceTest extends \Test\TestCase {
 		$sourceSchema->expects($this->any())
 			->method('getTable')
 			->willReturnCallback(fn () => match($newIndex) {
-				true => throw new SchemaException(),
+				true => throw TableDoesNotExist::new('a'),
 				false => $table,
 			});
 		$sourceSchema->expects($this->any())
@@ -512,7 +512,7 @@ class MigrationServiceTest extends \Test\TestCase {
 		$sourceSchema = $this->createMock(Schema::class);
 		$sourceSchema->expects(self::any())
 			->method('getTable')
-			->willThrowException(new SchemaException());
+			->willThrowException(TableDoesNotExist::new('a'));
 		$sourceSchema->expects(self::any())
 			->method('hasSequence')
 			->willReturn(false);
@@ -557,7 +557,7 @@ class MigrationServiceTest extends \Test\TestCase {
 		$sourceSchema = $this->createMock(Schema::class);
 		$sourceSchema->expects(self::any())
 			->method('getTable')
-			->willThrowException(new SchemaException());
+			->willThrowException(TableDoesNotExist::new('a'));
 		$sourceSchema->expects(self::any())
 			->method('hasSequence')
 			->willReturn(false);
@@ -602,7 +602,7 @@ class MigrationServiceTest extends \Test\TestCase {
 		$sourceSchema = $this->createMock(Schema::class);
 		$sourceSchema->expects(self::any())
 			->method('getTable')
-			->willThrowException(new SchemaException());
+			->willThrowException(TableDoesNotExist::new('a'));
 		$sourceSchema->expects(self::any())
 			->method('hasSequence')
 			->willReturn(false);
@@ -632,7 +632,7 @@ class MigrationServiceTest extends \Test\TestCase {
 		$sourceSchema = $this->createMock(Schema::class);
 		$sourceSchema->expects($this->any())
 			->method('getTable')
-			->willThrowException(new SchemaException());
+			->willThrowException(TableDoesNotExist::new('a'));
 		$sourceSchema->expects($this->any())
 			->method('hasSequence')
 			->willReturn(false);
@@ -678,7 +678,7 @@ class MigrationServiceTest extends \Test\TestCase {
 		$sourceSchema = $this->createMock(Schema::class);
 		$sourceSchema->expects($this->any())
 			->method('getTable')
-			->willThrowException(new SchemaException());
+			->willThrowException(TableDoesNotExist::new('a'));
 		$sourceSchema->expects($this->any())
 			->method('hasSequence')
 			->willReturn(false);
@@ -715,7 +715,7 @@ class MigrationServiceTest extends \Test\TestCase {
 		$sourceSchema = $this->createMock(Schema::class);
 		$sourceSchema->expects($this->any())
 			->method('getTable')
-			->willThrowException(new SchemaException());
+			->willThrowException(TableDoesNotExist::new('a'));
 		$sourceSchema->expects($this->any())
 			->method('hasSequence')
 			->willReturn(false);
@@ -762,7 +762,7 @@ class MigrationServiceTest extends \Test\TestCase {
 		$sourceSchema = $this->createMock(Schema::class);
 		$sourceSchema->expects($this->any())
 			->method('getTable')
-			->willThrowException(new SchemaException());
+			->willThrowException(TableDoesNotExist::new('a'));
 		$sourceSchema->expects($this->any())
 			->method('hasSequence')
 			->willReturn(false);
@@ -796,7 +796,7 @@ class MigrationServiceTest extends \Test\TestCase {
 		$sourceSchema = $this->createMock(Schema::class);
 		$sourceSchema->expects($this->any())
 			->method('getTable')
-			->willThrowException(new SchemaException());
+			->willThrowException(TableDoesNotExist::new('a'));
 		$sourceSchema->expects($this->any())
 			->method('hasSequence')
 			->willReturn(false);
@@ -830,7 +830,7 @@ class MigrationServiceTest extends \Test\TestCase {
 		$sourceSchema = $this->createMock(Schema::class);
 		$sourceSchema->expects($this->any())
 			->method('getTable')
-			->willThrowException(new SchemaException());
+			->willThrowException(TableDoesNotExist::new('a'));
 		$sourceSchema->expects($this->any())
 			->method('hasSequence')
 			->willReturn(false);
@@ -880,7 +880,7 @@ class MigrationServiceTest extends \Test\TestCase {
 		$sourceSchema = $this->createMock(Schema::class);
 		$sourceSchema->expects($this->any())
 			->method('getTable')
-			->willThrowException(new SchemaException());
+			->willThrowException(TableDoesNotExist::new('a'));
 		$sourceSchema->expects($this->any())
 			->method('hasSequence')
 			->willReturn(false);
@@ -928,7 +928,7 @@ class MigrationServiceTest extends \Test\TestCase {
 		$sourceSchema = $this->createMock(Schema::class);
 		$sourceSchema->expects($this->any())
 			->method('getTable')
-			->willThrowException(new SchemaException());
+			->willThrowException(TableDoesNotExist::new('a'));
 		$sourceSchema->expects($this->any())
 			->method('hasSequence')
 			->willReturn(false);
