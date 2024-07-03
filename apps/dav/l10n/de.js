@@ -158,6 +158,7 @@ OC.L10N.register(
     "WebDAV" : "WebDAV",
     "First day" : "Erster Tag",
     "Last day (inclusive)" : "Letzter Tag (Inklusive)",
+    "No results." : "Keine Ergebnisse",
     "Short absence status" : "Kurze Abwesenheits Meldung",
     "Long absence Message" : "Lange Abwesenheits Meldung",
     "Save" : "Speichern",
