@@ -40,6 +40,7 @@ jobs:
               - '**.js'
               - '**.ts'
               - '**.vue'
+              - 'core/css/*'
               - 'core/img/**'
 
   build:
