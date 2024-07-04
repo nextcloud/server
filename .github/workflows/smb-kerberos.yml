@@ -23,7 +23,7 @@ jobs:
       matrix:
         php-versions: ['7.4', '8.0']
 
-    name: php${{ matrix.php-versions }}-${{ matrix.ftpd }}
+    name: php${{ matrix.php-versions }}-smb-kerberos
 
     steps:
       - name: Checkout server
@@ -33,7 +33,7 @@ jobs:
       - name: Pull images
         run: |
           docker pull icewind1991/samba-krb-test-dc
-          docker pull icewind1991/samba-krb-test-apache
+          docker pull icewind1991/samba-krb-test-apache:${{ matrix.php-versions }}
           docker pull icewind1991/samba-krb-test-client
       - name: Setup AD-DC
         run: |
@@ -41,25 +41,32 @@ jobs:
           mkdir data
           sudo chown -R 33 data apps config
           DC_IP=$(./start-dc.sh)
-          ./start-apache.sh $DC_IP $PWD
+          ./start-apache.sh $DC_IP $PWD ${{ matrix.php-versions }}
           echo "DC_IP=$DC_IP" >> $GITHUB_ENV
+
       - name: Set up Nextcloud
         run: |
           docker exec --user 33 apache ./occ maintenance:install --verbose --database=sqlite --database-name=nextcloud --database-host=127.0.0.1 --database-user=root --database-pass=rootpassword --admin-user admin --admin-pass password
           docker exec --user 33 apache ./occ config:system:set trusted_domains 1 --value 'httpd.domain.test'
 
-          # setup user_saml
+      - name: Set up user_saml
+        run: |
+          # Avoid DNS issue inside the image
+          docker exec --user 33 apache ./occ config:system:set allow_local_remote_servers --value true --type bool
           docker exec --user 33 apache ./occ app:enable user_saml --force
+          docker exec --user 33 apache ./occ config:system:delete allow_local_remote_servers
           docker exec --user 33 apache ./occ config:app:set user_saml type --value 'environment-variable'
           docker exec --user 33 apache ./occ saml:config:create
           docker exec --user 33 apache ./occ saml:config:set 1 --general-uid_mapping=REMOTE_USER
 
-          # setup external storage
+      - name: Set up files_external
+        run: |
           docker exec --user 33 apache ./occ app:enable files_external --force
           docker exec --user 33 apache ./occ files_external:create smb smb smb::kerberosapache
           docker exec --user 33 apache ./occ files_external:config 1 host krb.domain.test
           docker exec --user 33 apache ./occ files_external:config 1 share netlogon
           docker exec --user 33 apache ./occ files_external:list
+
       - name: Test SSO
         run: |
           mkdir /tmp/shared/cookies
