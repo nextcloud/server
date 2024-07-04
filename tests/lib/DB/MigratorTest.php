@@ -1,5 +1,6 @@
 <?php
 
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2017-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -67,7 +68,7 @@ class MigratorTest extends \Test\TestCase {
 		return new Migrator($this->connection, $this->config, $dispatcher);
 	}
 
-	private function getUniqueTableName() {
+	private function getUniqueTableName(): string {
 		return strtolower($this->getUniqueID($this->config->getSystemValueString('dbtableprefix', 'oc_') . 'test_'));
 	}
 
@@ -88,17 +89,17 @@ class MigratorTest extends \Test\TestCase {
 	/**
 	 * @return \Doctrine\DBAL\Schema\Schema[]
 	 */
-	private function getDuplicateKeySchemas() {
+	private function getDuplicateKeySchemas(): array {
 		$startSchema = new Schema([], [], $this->getSchemaConfig());
 		$table = $startSchema->createTable($this->tableName);
-		$table->addColumn('id', 'integer');
-		$table->addColumn('name', 'string');
+		$table->addColumn('id', Types::INTEGER);
+		$table->addColumn('name', Types::STRING, ['length' => 255]);
 		$table->addIndex(['id'], $this->tableName . '_id');
 
 		$endSchema = new Schema([], [], $this->getSchemaConfig());
 		$table = $endSchema->createTable($this->tableName);
-		$table->addColumn('id', 'integer');
-		$table->addColumn('name', 'string');
+		$table->addColumn('id', Types::INTEGER);
+		$table->addColumn('name', Types::STRING, ['length' => 255]);
 		$table->addUniqueIndex(['id'], $this->tableName . '_id');
 
 		return [$startSchema, $endSchema];
@@ -107,30 +108,30 @@ class MigratorTest extends \Test\TestCase {
 	/**
 	 * @return \Doctrine\DBAL\Schema\Schema[]
 	 */
-	private function getChangedTypeSchema($from, $to) {
+	private function getChangedTypeSchema(string $from, string $to): array {
 		$startSchema = new Schema([], [], $this->getSchemaConfig());
 		$table = $startSchema->createTable($this->tableName);
 		$table->addColumn('id', $from);
-		$table->addColumn('name', 'string');
+		$table->addColumn('name', Types::STRING, ['length' => 255]);
 		$table->addIndex(['id'], $this->tableName . '_id');
 
 		$endSchema = new Schema([], [], $this->getSchemaConfig());
 		$table = $endSchema->createTable($this->tableName);
 		$table->addColumn('id', $to);
-		$table->addColumn('name', 'string');
+		$table->addColumn('name', Types::STRING, ['length' => 255]);
 		$table->addIndex(['id'], $this->tableName . '_id');
 
 		return [$startSchema, $endSchema];
 	}
 
 
-	private function getSchemaConfig() {
+	private function getSchemaConfig(): SchemaConfig {
 		$config = new SchemaConfig();
 		$config->setName($this->connection->getDatabase());
 		return $config;
 	}
 
-	public function testUpgrade() {
+	public function testUpgrade(): void {
 		[$startSchema, $endSchema] = $this->getDuplicateKeySchemas();
 		$migrator = $this->getMigrator();
 		$migrator->migrate($startSchema);
@@ -143,7 +144,7 @@ class MigratorTest extends \Test\TestCase {
 		$this->addToAssertionCount(1);
 	}
 
-	public function testUpgradeDifferentPrefix() {
+	public function testUpgradeDifferentPrefix(): void {
 		$oldTablePrefix = $this->config->getSystemValueString('dbtableprefix', 'oc_');
 
 		$this->config->setSystemValue('dbtableprefix', 'ownc_');
@@ -163,7 +164,7 @@ class MigratorTest extends \Test\TestCase {
 		$this->config->setSystemValue('dbtableprefix', $oldTablePrefix);
 	}
 
-	public function testInsertAfterUpgrade() {
+	public function testInsertAfterUpgrade(): void {
 		[$startSchema, $endSchema] = $this->getDuplicateKeySchemas();
 		$migrator = $this->getMigrator();
 		$migrator->migrate($startSchema);
@@ -180,16 +181,16 @@ class MigratorTest extends \Test\TestCase {
 		}
 	}
 
-	public function testAddingPrimaryKeyWithAutoIncrement() {
+	public function testAddingPrimaryKeyWithAutoIncrement(): void {
 		$startSchema = new Schema([], [], $this->getSchemaConfig());
 		$table = $startSchema->createTable($this->tableName);
-		$table->addColumn('id', 'integer');
-		$table->addColumn('name', 'string');
+		$table->addColumn('id', Types::INTEGER);
+		$table->addColumn('name', Types::STRING, ['length' => 255]);
 
 		$endSchema = new Schema([], [], $this->getSchemaConfig());
 		$table = $endSchema->createTable($this->tableName);
-		$table->addColumn('id', 'integer', ['autoincrement' => true]);
-		$table->addColumn('name', 'string');
+		$table->addColumn('id', Types::INTEGER, ['autoincrement' => true]);
+		$table->addColumn('name', Types::STRING, ['length' => 255]);
 		$table->setPrimaryKey(['id']);
 
 		$migrator = $this->getMigrator();
@@ -200,17 +201,17 @@ class MigratorTest extends \Test\TestCase {
 		$this->addToAssertionCount(1);
 	}
 
-	public function testReservedKeywords() {
+	public function testReservedKeywords(): void {
 		$startSchema = new Schema([], [], $this->getSchemaConfig());
 		$table = $startSchema->createTable($this->tableName);
-		$table->addColumn('id', 'integer', ['autoincrement' => true]);
-		$table->addColumn('user', 'string', ['length' => 255]);
+		$table->addColumn('id', Types::INTEGER, ['autoincrement' => true]);
+		$table->addColumn('user', Types::STRING, ['length' => 255]);
 		$table->setPrimaryKey(['id']);
 
 		$endSchema = new Schema([], [], $this->getSchemaConfig());
 		$table = $endSchema->createTable($this->tableName);
-		$table->addColumn('id', 'integer', ['autoincrement' => true]);
-		$table->addColumn('user', 'string', ['length' => 64]);
+		$table->addColumn('id', Types::INTEGER, ['autoincrement' => true]);
+		$table->addColumn('user', Types::STRING, ['length' => 64]);
 		$table->setPrimaryKey(['id']);
 
 		$migrator = $this->getMigrator();
@@ -224,17 +225,17 @@ class MigratorTest extends \Test\TestCase {
 	/**
 	 * Test for nextcloud/server#36803
 	 */
-	public function testColumnCommentsInUpdate() {
+	public function testColumnCommentsInUpdate(): void {
 		$startSchema = new Schema([], [], $this->getSchemaConfig());
 		$table = $startSchema->createTable($this->tableName);
-		$table->addColumn('id', 'integer', ['autoincrement' => true, 'comment' => 'foo']);
+		$table->addColumn('id', Types::INTEGER, ['autoincrement' => true, 'comment' => 'foo']);
 		$table->setPrimaryKey(['id']);
 
 		$endSchema = new Schema([], [], $this->getSchemaConfig());
 		$table = $endSchema->createTable($this->tableName);
-		$table->addColumn('id', 'integer', ['autoincrement' => true, 'comment' => 'foo']);
+		$table->addColumn('id', Types::INTEGER, ['autoincrement' => true, 'comment' => 'foo']);
 		// Assert adding comments on existing tables work (or at least does not throw)
-		$table->addColumn('time', 'integer', ['comment' => 'unix-timestamp', 'notnull' => false]);
+		$table->addColumn('time', Types::INTEGER, ['comment' => 'unix-timestamp', 'notnull' => false]);
 		$table->setPrimaryKey(['id']);
 
 		$migrator = $this->getMigrator();
@@ -245,17 +246,17 @@ class MigratorTest extends \Test\TestCase {
 		$this->addToAssertionCount(1);
 	}
 
-	public function testAddingForeignKey() {
+	public function testAddingForeignKey(): void {
 		$startSchema = new Schema([], [], $this->getSchemaConfig());
 		$table = $startSchema->createTable($this->tableName);
-		$table->addColumn('id', 'integer', ['autoincrement' => true]);
-		$table->addColumn('name', 'string');
+		$table->addColumn('id', Types::INTEGER, ['autoincrement' => true]);
+		$table->addColumn('name', Types::STRING, ['length' => 255]);
 		$table->setPrimaryKey(['id']);
 
 		$fkName = "fkc";
 		$tableFk = $startSchema->createTable($this->tableNameTmp);
-		$tableFk->addColumn('fk_id', 'integer');
-		$tableFk->addColumn('name', 'string');
+		$tableFk->addColumn('fk_id', Types::INTEGER);
+		$tableFk->addColumn('name', Types::STRING, ['length' => 255]);
 		$tableFk->addForeignKeyConstraint($this->tableName, ['fk_id'], ['id'], [], $fkName);
 
 		$migrator = $this->getMigrator();
@@ -292,9 +293,13 @@ class MigratorTest extends \Test\TestCase {
 		$startSchema = new Schema([], [], $this->getSchemaConfig());
 		$table = $startSchema->createTable($this->tableName);
 		$table->addColumn('id', Types::BIGINT);
-		$table->addColumn('will_it_blend', $columnType, [
+		$options = $columnType === Types::STRING ? [
+			'length' => 255,
 			'notnull' => true,
-		]);
+		] : [
+			'notnull' => true,
+		];
+		$table->addColumn('will_it_blend', $columnType, $options);
 		$table->addIndex(['id'], $this->tableName . '_id');
 
 		$migrator = $this->getMigrator();
