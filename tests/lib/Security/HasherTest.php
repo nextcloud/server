@@ -264,4 +264,29 @@ class HasherTest extends \Test\TestCase {
 		$info = password_get_info($relativePath['hash']);
 		$this->assertEquals(PASSWORD_BCRYPT, $info['algo']);
 	}
+
+	public function testValidHash() {
+		$hash = '3|$argon2id$v=19$m=65536,t=4,p=1$czFCSjk3LklVdXppZ2VCWA$li0NgdXe2/jwSRxgteGQPWlzJU0E0xdtfHbCbrpych0';
+
+		$isValid = $this->hasher->validate($hash);
+
+		$this->assertTrue($isValid);
+	}
+
+	public function testValidGeneratedHash() {
+		$message = 'secret';
+		$hash = $this->hasher->hash($message);
+
+		$isValid = $this->hasher->validate($hash);
+
+		$this->assertTrue($isValid);
+	}
+
+	public function testInvalidHash() {
+		$invalidHash = 'someInvalidHash';
+
+		$isValid = $this->hasher->validate($invalidHash);
+
+		$this->assertFalse($isValid);
+	}
 }
