@@ -9,6 +9,7 @@ namespace Test\DB\QueryBuilder;
 use Doctrine\DBAL\Schema\SchemaException;
 use Doctrine\DBAL\Types\Types;
 use OC\DB\QueryBuilder\Literal;
+use OCP\DB\Exception;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IConfig;
 use OCP\Server;
@@ -215,7 +216,11 @@ class ExpressionBuilderDBTest extends TestCase {
 		try {
 			$schema->getTable($prefix . 'testing');
 			$this->connection->getQueryBuilder()->delete('testing')->executeStatement();
-		} catch (SchemaException $e) {
+		} catch (SchemaException|Exception $e) {
+			if ($e instanceof Exception && $e->getReason() !== Exception::REASON_DATABASE_OBJECT_NOT_FOUND) {
+				throw $e;
+			}
+
 			$this->schemaSetup = true;
 			$table = $schema->createTable($prefix . 'testing');
 			$table->addColumn('id', Types::BIGINT, [
