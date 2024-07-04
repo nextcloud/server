@@ -253,11 +253,11 @@ interface IConfig {
 	/**
 	 * Gets the list of users based on their lastLogin info asc or desc
 	 *
-	 * @param int $limit how many records to fetch
+	 * @param int|null $limit how many records to fetch
 	 * @param int $offset from which offset to fetch
 	 * @param string $search search users based on search params
 	 * @return array of user IDs
 	 * @since 30.0.0
 	 */
-	public function getLastLoggedInUsers(int $limit, int $offset, string $search): array;
+	public function getLastLoggedInUsers(?int $limit = null, int $offset = 0, string $search = ''): array;
 }

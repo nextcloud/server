@@ -345,7 +345,7 @@ class Manager extends PublicEmitter implements IUserManager {
 	/**
 	 * @return IUser[]
 	 */
-	public function getUsersSortedByLastLogin(?int $limit = 25, int $offset = 0, $search = ''): array {
+	public function getUsersSortedByLastLogin(?int $limit = null, int $offset = 0, $search = ''): array {
 		$users = $this->config->getLastLoggedInUsers($limit, $offset, $search);
 		return array_combine(
 			$users,

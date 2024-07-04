@@ -494,12 +494,13 @@ class AllConfig implements IConfig {
 	/**
 	 * Gets the list of users based on their lastLogin info asc or desc
 	 *
-	 * @param int $limit how many users to fetch
+	 * @param int|null $limit how many users to fetch
 	 * @param int $offset from which offset to fetch
 	 * @param string $search search users based on search params
 	 * @return array of user IDs
 	 */
-	public function getLastLoggedInUsers(int $limit = 25, int $offset = 0, string $search = ''): array {
+	public function getLastLoggedInUsers(?int $limit = null, int $offset = 0, string $search = ''): array {
+		$limit = $this->fixLimit($limit);
 		// TODO - FIXME
 		$this->fixDIInit();
 
@@ -572,5 +573,13 @@ class AllConfig implements IConfig {
 
 	public function getSystemConfig() {
 		return $this->systemConfig;
+	}
+
+	private function fixLimit($limit) {
+		if (is_int($limit) && $limit >= 0) {
+			return $limit;
+		}
+
+		return null;
 	}
 }

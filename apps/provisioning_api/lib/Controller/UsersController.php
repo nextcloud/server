@@ -278,7 +278,7 @@ class UsersController extends AUserData {
 	 * 200: Users details returned based on last logged in information
 	 */
 	public function getLastLoggedInUsers(string $search = '',
-		?int   $limit = 25,
+		?int   $limit = null,
 		int    $offset = 0,
 	): DataResponse {
 		$currentUser = $this->userSession->getUser();
