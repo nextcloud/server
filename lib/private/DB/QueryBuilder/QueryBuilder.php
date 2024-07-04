@@ -55,20 +55,6 @@ class QueryBuilder extends TypedQueryBuilder {
 	/** @internal */
 	protected const INSERT = 3;
 
-	/** @var ConnectionAdapter */
-	private $connection;
-
-	/** @var SystemConfig */
-	private $systemConfig;
-
-	private LoggerInterface $logger;
-
-	/** @var \Doctrine\DBAL\Query\QueryBuilder */
-	private $queryBuilder;
-
-	/** @var QuoteHelper */
-	private $helper;
-
 	private int $type = self::SELECT;
 
 	/**

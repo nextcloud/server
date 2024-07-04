@@ -1,0 +1,16 @@
+diff --git a/lib/private/legacy/OC_User.php b/lib/private/legacy/OC_User.php
+index e5343864c4585..1f2f159d52b1d 100644
+--- a/lib/private/legacy/OC_User.php
++++ b/lib/private/legacy/OC_User.php
+@@ -294,7 +294,10 @@ public static function getLogoutUrl(\OCP\IURLGenerator $urlGenerator) {
+ 		if ($user instanceof IUser) {
+ 			$backend = $user->getBackend();
+ 			if ($backend instanceof \OCP\User\Backend\ICustomLogout) {
+-				return $backend->getLogoutUrl();
++				$logoutUrl = $backend->getLogoutUrl();
++				if ($logoutUrl !== '') {
++					return $logoutUrl;
++				}
+ 			}
+ 		}
+ 
