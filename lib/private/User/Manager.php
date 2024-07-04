@@ -343,21 +343,6 @@ class Manager extends PublicEmitter implements IUserManager {
 	}
 
 	/**
-	 * @return IUser[]
-	 */
-	public function getUsersSortedByLastLogin(?int $limit = null, int $offset = 0, $search = ''): array {
-		$users = $this->config->getLastLoggedInUsers($limit, $offset, $search);
-		return array_combine(
-			$users,
-			array_map(
-				fn (string $uid): IUser => new LazyUser($uid, $this),
-				$users
-			)
-		);
-	}
-
-
-	/**
 	 * Search known users (from phonebook sync) by displayName
 	 *
 	 * @param string $searcher

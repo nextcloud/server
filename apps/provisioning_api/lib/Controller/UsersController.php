@@ -266,9 +266,7 @@ class UsersController extends AUserData {
 	}
 
 	/**
-	 * @NoAdminRequired
-	 *
-	 * Get the list of last logged-in users and their details
+	 * Gets the list of users sorted by lastLogin, from most recent to least recent
 	 *
 	 * @param string $search Text to search for
 	 * @param ?int $limit Limit the amount of users returned
@@ -278,8 +276,8 @@ class UsersController extends AUserData {
 	 * 200: Users details returned based on last logged in information
 	 */
 	public function getLastLoggedInUsers(string $search = '',
-		?int   $limit = null,
-		int    $offset = 0,
+		?int $limit = null,
+		int $offset = 0,
 	): DataResponse {
 		$currentUser = $this->userSession->getUser();
 		if ($currentUser === null) {
@@ -295,11 +293,7 @@ class UsersController extends AUserData {
 		$users = [];
 
 		// For Admin alone user sorting based on lastLogin. For sub admin and groups this is not supported
-		$uid = $currentUser->getUID();
-		if ($this->groupManager->isAdmin($uid)) {
-			$users = $this->userManager->getUsersSortedByLastLogin($limit, $offset, $search);
-			$users = array_map(fn (IUser $user): string => $user->getUID(), $users);
-		}
+		$users = $this->config->getLastLoggedInUsers($limit, $offset, $search);
 
 		$usersDetails = [];
 		foreach ($users as $userId) {
