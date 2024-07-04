@@ -199,6 +199,7 @@ class Cache implements ICache {
 			$query = $this->getQueryBuilder();
 			$query->selectFileCache()
 				->whereParent($fileId)
+				->whereStorageId($this->getNumericStorageId())
 				->orderBy('name', 'ASC');
 
 			$metadataQuery = $query->selectMetadata();
@@ -337,6 +338,7 @@ class Cache implements ICache {
 
 			$query->update('filecache')
 				->whereFileId($id)
+				->whereStorageId($this->getNumericStorageId())
 				->andWhere($query->expr()->orX(...array_map(function ($key, $value) use ($query) {
 					return $query->expr()->orX(
 						$query->expr()->neq($key, $query->createNamedParameter($value)),
@@ -512,6 +514,7 @@ class Cache implements ICache {
 		if ($entry instanceof ICacheEntry) {
 			$query = $this->getQueryBuilder();
 			$query->delete('filecache')
+				->whereStorageId($this->getNumericStorageId())
 				->whereFileId($entry->getId());
 			$query->execute();
 
@@ -583,6 +586,7 @@ class Cache implements ICache {
 
 		$query = $this->getQueryBuilder();
 		$query->delete('filecache')
+			->whereStorageId($this->getNumericStorageId())
 			->whereParentInParameter('parentIds');
 
 		// Sorting before chunking allows the db to find the entries close to each
@@ -929,6 +933,7 @@ class Cache implements ICache {
 			$query = $this->getQueryBuilder();
 			$query->select('size', 'unencrypted_size')
 				->from('filecache')
+				->whereStorageId($this->getNumericStorageId())
 				->whereParent($id);
 			if ($ignoreUnknown) {
 				$query->andWhere($query->expr()->gte('size', $query->createNamedParameter(0)));
