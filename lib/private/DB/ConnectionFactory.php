@@ -7,11 +7,16 @@
  */
 namespace OC\DB;
 
-use Doctrine\Common\EventManager;
 use Doctrine\DBAL\Configuration;
 use Doctrine\DBAL\DriverManager;
-use Doctrine\DBAL\Event\Listeners\OracleSessionInit;
+use OC\DB\Logging\Middleware;
+use OC\DB\Middlewares\SetTransactionIsolationLevel;
+use OC\DB\Middlewares\SQLiteCaseSensitiveLike;
+use OC\DB\Middlewares\SQLiteJournalMode;
 use OC\SystemConfig;
+use OCP\Diagnostics\IQueryLogger;
+use OCP\Profiler\IProfiler;
+use OCP\Server;
 
 /**
  * Takes care of creating and configuring Doctrine connections.
@@ -103,9 +108,17 @@ class ConnectionFactory {
 	 */
 	public function getConnection($type, $additionalConnectionParams) {
 		$normalizedType = $this->normalizeType($type);
-		$eventManager = new EventManager();
-		$eventManager->addEventSubscriber(new SetTransactionIsolationLevel());
 		$additionalConnectionParams = array_merge($this->createConnectionParams(), $additionalConnectionParams);
+
+		$doctrineConfiguration = new Configuration();
+		$doctrineMiddlewares = $doctrineConfiguration->getMiddlewares();
+		/** @var IProfiler */
+		$profiler = Server::get(IProfiler::class);
+		if ($profiler->isEnabled()) {
+			$doctrineMiddlewares[] = new Middleware(Server::get(IQueryLogger::class));
+		}
+		$doctrineMiddlewares[] = new SetTransactionIsolationLevel();
+
 		switch ($normalizedType) {
 			case 'pgsql':
 				// pg_connect used by Doctrine DBAL does not support URI notation (enclosed in brackets)
@@ -117,7 +130,8 @@ class ConnectionFactory {
 				break;
 
 			case 'oci':
-				$eventManager->addEventSubscriber(new OracleSessionInit);
+				$doctrineMiddlewares[] = new \Doctrine\DBAL\Driver\OCI8\Middleware\InitializeSession();
+
 				// the driverOptions are unused in dbal and need to be mapped to the parameters
 				if (isset($additionalConnectionParams['driverOptions'])) {
 					$additionalConnectionParams = array_merge($additionalConnectionParams, $additionalConnectionParams['driverOptions']);
@@ -137,16 +151,26 @@ class ConnectionFactory {
 
 			case 'sqlite3':
 				$journalMode = $additionalConnectionParams['sqlite.journal_mode'];
-				$additionalConnectionParams['platform'] = new OCSqlitePlatform();
-				$eventManager->addEventSubscriber(new SQLiteSessionInit(true, $journalMode));
+				$doctrineMiddlewares[] = new \Doctrine\DBAL\Driver\AbstractSQLiteDriver\Middleware\EnableForeignKeys();
+				$doctrineMiddlewares[] = new SQLiteCaseSensitiveLike();
+				SQLiteJournalMode::$journalMode = $additionalConnectionParams['sqlite.journal_mode'];
+				$doctrineMiddlewares[] = new SQLiteJournalMode();
 				break;
 		}
+
+		$doctrineConfiguration->setMiddlewares($doctrineMiddlewares);
+
 		/** @var Connection $connection */
 		$connection = DriverManager::getConnection(
 			$additionalConnectionParams,
-			new Configuration(),
-			$eventManager
+			$doctrineConfiguration,
 		);
+
+		if ($normalizedType === 'sqlite3') {
+			$pdo = $connection->getNativeConnection();
+			$pdo->sqliteCreateFunction('md5', 'md5', 1);
+		}
+
 		return $connection;
 	}
 

@@ -1148,20 +1148,20 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 			/**
 			 * FIXME Find a way to match only 4 last digits
 			 * BDAY can be --1018 without year or 20001019 with it
-			 * $bDayOr = $query2->expr()->orX();
+			 * $bDayOr = [];
 			 * if ($options['since'] instanceof DateTimeFilter) {
-			 * $bDayOr->add(
+			 * $bDayOr[] =
 			 * $query2->expr()->gte('SUBSTR(cp_bday.value, -4)',
-			 * $query2->createNamedParameter($options['since']->get()->format('md')))
+			 * $query2->createNamedParameter($options['since']->get()->format('md'))
 			 * );
 			 * }
 			 * if ($options['until'] instanceof DateTimeFilter) {
-			 * $bDayOr->add(
+			 * $bDayOr[] =
 			 * $query2->expr()->lte('SUBSTR(cp_bday.value, -4)',
-			 * $query2->createNamedParameter($options['until']->get()->format('md')))
+			 * $query2->createNamedParameter($options['until']->get()->format('md'))
 			 * );
 			 * }
-			 * $query2->andWhere($bDayOr);
+			 * $query2->andWhere($query2->expr()->orX(...$bDayOr));
 			 */
 		}
 

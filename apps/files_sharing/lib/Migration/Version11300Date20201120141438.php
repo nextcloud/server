@@ -90,7 +90,7 @@ class Version11300Date20201120141438 extends SimpleMigrationStep {
 		} else {
 			$table = $schema->getTable('share_external');
 			$remoteIdColumn = $table->getColumn('remote_id');
-			if ($remoteIdColumn && $remoteIdColumn->getType()->getName() !== Types::STRING) {
+			if (Types::getType($remoteIdColumn->getType()) !== Types::STRING) {
 				$remoteIdColumn->setNotnull(false);
 				$remoteIdColumn->setType(Type::getType(Types::STRING));
 				$remoteIdColumn->setOptions(['length' => 255]);

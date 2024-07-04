@@ -11,7 +11,7 @@ namespace OCA\Settings\SetupChecks;
 use Doctrine\DBAL\Platforms\MySQLPlatform;
 use Doctrine\DBAL\Platforms\OraclePlatform;
 use Doctrine\DBAL\Platforms\PostgreSQLPlatform;
-use Doctrine\DBAL\Platforms\SqlitePlatform;
+use Doctrine\DBAL\Platforms\SQLitePlatform;
 use OCP\IDBConnection;
 use OCP\IL10N;
 use OCP\IURLGenerator;
@@ -103,7 +103,7 @@ class SupportedDatabase implements ISetupCheck {
 			}
 		} elseif ($databasePlatform instanceof OraclePlatform) {
 			$version = 'Oracle';
-		} elseif ($databasePlatform instanceof SqlitePlatform) {
+		} elseif ($databasePlatform instanceof SQLitePlatform) {
 			return SetupResult::warning(
 				$this->l10n->t('SQLite is currently being used as the backend database. For larger installations we recommend that you switch to a different database backend. This is particularly recommended when using the desktop client for file synchronisation. To migrate to another database use the command line tool: "occ db:convert-type".'),
 				$this->urlGenerator->linkToDocs('admin-db-conversion')

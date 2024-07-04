@@ -7,10 +7,6 @@
  */
 namespace OC\DB\QueryBuilder;
 
-use Doctrine\DBAL\Platforms\MySQLPlatform;
-use Doctrine\DBAL\Platforms\OraclePlatform;
-use Doctrine\DBAL\Platforms\PostgreSQL94Platform;
-use Doctrine\DBAL\Platforms\SqlitePlatform;
 use Doctrine\DBAL\Query\QueryException;
 use OC\DB\ConnectionAdapter;
 use OC\DB\QueryBuilder\ExpressionBuilder\ExpressionBuilder;
@@ -23,6 +19,7 @@ use OC\DB\QueryBuilder\FunctionBuilder\OCIFunctionBuilder;
 use OC\DB\QueryBuilder\FunctionBuilder\PgSqlFunctionBuilder;
 use OC\DB\QueryBuilder\FunctionBuilder\SqliteFunctionBuilder;
 use OC\DB\ResultAdapter;
+use OC\DB\TDoctrineParameterTypeMap;
 use OC\SystemConfig;
 use OCP\DB\IResult;
 use OCP\DB\QueryBuilder\ICompositeExpression;
@@ -30,9 +27,24 @@ use OCP\DB\QueryBuilder\ILiteral;
 use OCP\DB\QueryBuilder\IParameter;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\DB\QueryBuilder\IQueryFunction;
+use OCP\IDBConnection;
 use Psr\Log\LoggerInterface;
 
 class QueryBuilder implements IQueryBuilder {
+	use TDoctrineParameterTypeMap;
+
+	/** @internal */
+	protected const SELECT = 0;
+
+	/** @internal */
+	protected const DELETE = 1;
+
+	/** @internal */
+	protected const UPDATE = 2;
+
+	/** @internal */
+	protected const INSERT = 3;
+
 	/** @var ConnectionAdapter */
 	private $connection;
 
@@ -49,6 +61,8 @@ class QueryBuilder implements IQueryBuilder {
 
 	/** @var bool */
 	private $automaticTablePrefix = true;
+	private bool $nonEmptyWhere = false;
+	private int $type = self::SELECT;
 
 	/** @var string */
 	protected $lastInsertedTable;
@@ -95,20 +109,12 @@ class QueryBuilder implements IQueryBuilder {
 	 * @return \OCP\DB\QueryBuilder\IExpressionBuilder
 	 */
 	public function expr() {
-		if ($this->connection->getDatabasePlatform() instanceof OraclePlatform) {
-			return new OCIExpressionBuilder($this->connection, $this);
-		}
-		if ($this->connection->getDatabasePlatform() instanceof PostgreSQL94Platform) {
-			return new PgSqlExpressionBuilder($this->connection, $this);
-		}
-		if ($this->connection->getDatabasePlatform() instanceof MySQLPlatform) {
-			return new MySqlExpressionBuilder($this->connection, $this);
-		}
-		if ($this->connection->getDatabasePlatform() instanceof SqlitePlatform) {
-			return new SqliteExpressionBuilder($this->connection, $this);
-		}
-
-		return new ExpressionBuilder($this->connection, $this);
+		return match($this->connection->getDatabaseProvider()) {
+			IDBConnection::PLATFORM_ORACLE => new OCIExpressionBuilder($this->connection, $this),
+			IDBConnection::PLATFORM_POSTGRES => new PgSqlExpressionBuilder($this->connection, $this),
+			IDBConnection::PLATFORM_MYSQL => new MySqlExpressionBuilder($this->connection, $this),
+			IDBConnection::PLATFORM_SQLITE => new SqliteExpressionBuilder($this->connection, $this),
+		};
 	}
 
 	/**
@@ -128,13 +134,13 @@ class QueryBuilder implements IQueryBuilder {
 	 * @return \OCP\DB\QueryBuilder\IFunctionBuilder
 	 */
 	public function func() {
-		if ($this->connection->getDatabasePlatform() instanceof OraclePlatform) {
+		if ($this->connection->getDatabaseProvider() === IDBConnection::PLATFORM_ORACLE) {
 			return new OCIFunctionBuilder($this->connection, $this, $this->helper);
 		}
-		if ($this->connection->getDatabasePlatform() instanceof SqlitePlatform) {
+		if ($this->connection->getDatabaseProvider() === IDBConnection::PLATFORM_SQLITE) {
 			return new SqliteFunctionBuilder($this->connection, $this, $this->helper);
 		}
-		if ($this->connection->getDatabasePlatform() instanceof PostgreSQL94Platform) {
+		if ($this->connection->getDatabaseProvider() === IDBConnection::PLATFORM_POSTGRES) {
 			return new PgSqlFunctionBuilder($this->connection, $this, $this->helper);
 		}
 
@@ -147,7 +153,7 @@ class QueryBuilder implements IQueryBuilder {
 	 * @return integer
 	 */
 	public function getType() {
-		return $this->queryBuilder->getType();
+		return $this->type;
 	}
 
 	/**
@@ -162,16 +168,18 @@ class QueryBuilder implements IQueryBuilder {
 	/**
 	 * Gets the state of this query builder instance.
 	 *
-	 * @return integer Either QueryBuilder::STATE_DIRTY or QueryBuilder::STATE_CLEAN.
+	 * @return int Always returns 0 which is former `QueryBuilder::STATE_DIRTY`
+	 * @deprecated 30.0.0 Function is no-op because it's removed upstream
 	 */
 	public function getState() {
-		return $this->queryBuilder->getState();
+		$this->logger->debug('Relying on the query builder state is deprecated as it is an internal concern.', ['exception' => new \Exception('Table alias provided for UPDATE query')]);
+		return 0;
 	}
 
 	/**
 	 * Executes this query using the bound parameters and their types.
 	 *
-	 * Uses {@see Connection::executeQuery} for select statements and {@see Connection::executeUpdate}
+	 * Uses {@see Connection::executeQuery} for select statements and {@see Connection::executeStatement}
 	 * for insert, update and delete statements.
 	 *
 	 * @return IResult|int
@@ -207,24 +215,24 @@ class QueryBuilder implements IQueryBuilder {
 			}
 		}
 
-		if (!empty($this->getQueryPart('select'))) {
-			$select = $this->getQueryPart('select');
-			$hasSelectAll = array_filter($select, static function ($s) {
-				return $s === '*';
-			});
-			$hasSelectSpecific = array_filter($select, static function ($s) {
-				return $s !== '*';
-			});
+		//if (!empty($this->getQueryPart('select'))) {
+		//	$select = $this->getQueryPart('select');
+		//	$hasSelectAll = array_filter($select, static function ($s) {
+		//		return $s === '*';
+		//	});
+		//	$hasSelectSpecific = array_filter($select, static function ($s) {
+		//		return $s !== '*';
+		//	});
 
-			if (empty($hasSelectAll) === empty($hasSelectSpecific)) {
-				$exception = new QueryException('Query is selecting * and specific values in the same query. This is not supported in Oracle.');
-				$this->logger->error($exception->getMessage(), [
-					'query' => $this->getSQL(),
-					'app' => 'core',
-					'exception' => $exception,
-				]);
-			}
-		}
+		//	if (empty($hasSelectAll) === empty($hasSelectSpecific)) {
+		//		$exception = new QueryException('Query is selecting * and specific values in the same query. This is not supported in Oracle.');
+		//		$this->logger->error($exception->getMessage(), [
+		//			'query' => $this->getSQL(),
+		//			'app' => 'core',
+		//			'exception' => $exception,
+		//		]);
+		//	}
+		//}
 
 		$numberOfParameters = 0;
 		$hasTooLargeArrayParameter = false;
@@ -254,15 +262,17 @@ class QueryBuilder implements IQueryBuilder {
 			]);
 		}
 
-		$result = $this->queryBuilder->execute();
-		if (is_int($result)) {
-			return $result;
+		if ($this->getType() !== self::SELECT) {
+			$result = $this->queryBuilder->executeStatement();
+			return (int) $result;
 		}
+
+		$result = $this->queryBuilder->executeQuery();
 		return new ResultAdapter($result);
 	}
 
 	public function executeQuery(): IResult {
-		if ($this->getType() !== \Doctrine\DBAL\Query\QueryBuilder::SELECT) {
+		if ($this->getType() !== self::SELECT) {
 			throw new \RuntimeException('Invalid query type, expected SELECT query');
 		}
 
@@ -280,7 +290,7 @@ class QueryBuilder implements IQueryBuilder {
 	}
 
 	public function executeStatement(): int {
-		if ($this->getType() === \Doctrine\DBAL\Query\QueryBuilder::SELECT) {
+		if ($this->getType() === self::SELECT) {
 			throw new \RuntimeException('Invalid query type, expected INSERT, DELETE or UPDATE statement');
 		}
 
@@ -332,7 +342,7 @@ class QueryBuilder implements IQueryBuilder {
 	 * @return $this This QueryBuilder instance.
 	 */
 	public function setParameter($key, $value, $type = null) {
-		$this->queryBuilder->setParameter($key, $value, $type);
+		$this->queryBuilder->setParameter($key, $value, $this->convertParameterTypeToDoctrine($type));
 
 		return $this;
 	}
@@ -357,6 +367,7 @@ class QueryBuilder implements IQueryBuilder {
 	 * @return $this This QueryBuilder instance.
 	 */
 	public function setParameters(array $params, array $types = []) {
+		$types = array_map($this->convertParameterTypeToDoctrine(...), $types);
 		$this->queryBuilder->setParameters($params, $types);
 
 		return $this;
@@ -472,12 +483,13 @@ class QueryBuilder implements IQueryBuilder {
 	 * '@return $this This QueryBuilder instance.
 	 */
 	public function select(...$selects) {
+		$this->type = self::SELECT;
 		if (count($selects) === 1 && is_array($selects[0])) {
 			$selects = $selects[0];
 		}
 
 		$this->queryBuilder->select(
-			$this->helper->quoteColumnNames($selects)
+			...$this->helper->quoteColumnNames($selects)
 		);
 
 		return $this;
@@ -499,6 +511,7 @@ class QueryBuilder implements IQueryBuilder {
 	 * @return $this This QueryBuilder instance.
 	 */
 	public function selectAlias($select, $alias) {
+		$this->type = self::SELECT;
 		$this->queryBuilder->addSelect(
 			$this->helper->quoteColumnName($select) . ' AS ' . $this->helper->quoteColumnName($alias)
 		);
@@ -520,6 +533,7 @@ class QueryBuilder implements IQueryBuilder {
 	 * @return $this This QueryBuilder instance.
 	 */
 	public function selectDistinct($select) {
+		$this->type = self::SELECT;
 		if (!is_array($select)) {
 			$select = [$select];
 		}
@@ -549,12 +563,13 @@ class QueryBuilder implements IQueryBuilder {
 	 * @return $this This QueryBuilder instance.
 	 */
 	public function addSelect(...$selects) {
+		$this->type = self::SELECT;
 		if (count($selects) === 1 && is_array($selects[0])) {
 			$selects = $selects[0];
 		}
 
 		$this->queryBuilder->addSelect(
-			$this->helper->quoteColumnNames($selects)
+			...$this->helper->quoteColumnNames($selects)
 		);
 
 		return $this;
@@ -575,11 +590,16 @@ class QueryBuilder implements IQueryBuilder {
 	 * @param string $alias The table alias used in the constructed query.
 	 *
 	 * @return $this This QueryBuilder instance.
+	 * @since 30.0.0 Alias is no longer supported
 	 */
 	public function delete($delete = null, $alias = null) {
+		if ($alias !== null) {
+			$this->logger->debug('DELETE queries with alias are no longer supported and the provided alias is ignored', ['exception' => new \InvalidArgumentException('Table alias provided for DELETE query')]);
+		}
+
+		$this->type = self::DELETE;
 		$this->queryBuilder->delete(
 			$this->getTableName($delete),
-			$alias
 		);
 
 		return $this;
@@ -600,11 +620,16 @@ class QueryBuilder implements IQueryBuilder {
 	 * @param string $alias The table alias used in the constructed query.
 	 *
 	 * @return $this This QueryBuilder instance.
+	 * @since 30.0.0 Alias is no longer supported
 	 */
 	public function update($update = null, $alias = null) {
+		if ($alias !== null) {
+			$this->logger->debug('UPDATE queries with alias are no longer supported and the provided alias is ignored', ['exception' => new \InvalidArgumentException('Table alias provided for UPDATE query')]);
+		}
+
+		$this->type = self::UPDATE;
 		$this->queryBuilder->update(
 			$this->getTableName($update),
-			$alias
 		);
 
 		return $this;
@@ -630,6 +655,7 @@ class QueryBuilder implements IQueryBuilder {
 	 * @return $this This QueryBuilder instance.
 	 */
 	public function insert($insert = null) {
+		$this->type = self::INSERT;
 		$this->queryBuilder->insert(
 			$this->getTableName($insert)
 		);
@@ -812,9 +838,10 @@ class QueryBuilder implements IQueryBuilder {
 	 *     // You can optionally programmatically build and/or expressions
 	 *     $qb = $conn->getQueryBuilder();
 	 *
-	 *     $or = $qb->expr()->orx();
-	 *     $or->add($qb->expr()->eq('u.id', 1));
-	 *     $or->add($qb->expr()->eq('u.id', 2));
+	 *     $or = $qb->expr()->orx(
+	 *         $qb->expr()->eq('u.id', 1),
+	 *         $qb->expr()->eq('u.id', 2),
+	 *     );
 	 *
 	 *     $qb->update('users', 'u')
 	 *         ->set('u.password', md5('password'))
@@ -826,11 +853,13 @@ class QueryBuilder implements IQueryBuilder {
 	 * @return $this This QueryBuilder instance.
 	 */
 	public function where(...$predicates) {
-		if ($this->getQueryPart('where') !== null && $this->systemConfig->getValue('debug', false)) {
+		if ($this->nonEmptyWhere && $this->systemConfig->getValue('debug', false)) {
 			// Only logging a warning, not throwing for now.
 			$e = new QueryException('Using where() on non-empty WHERE part, please verify it is intentional to not call andWhere() or orWhere() instead. Otherwise consider creating a new query builder object or call resetQueryPart(\'where\') first.');
 			$this->logger->warning($e->getMessage(), ['exception' => $e]);
 		}
+
+		$this->nonEmptyWhere = true;
 
 		call_user_func_array(
 			[$this->queryBuilder, 'where'],
@@ -859,6 +888,7 @@ class QueryBuilder implements IQueryBuilder {
 	 * @see where()
 	 */
 	public function andWhere(...$where) {
+		$this->nonEmptyWhere = true;
 		call_user_func_array(
 			[$this->queryBuilder, 'andWhere'],
 			$where
@@ -886,6 +916,7 @@ class QueryBuilder implements IQueryBuilder {
 	 * @see where()
 	 */
 	public function orWhere(...$where) {
+		$this->nonEmptyWhere = true;
 		call_user_func_array(
 			[$this->queryBuilder, 'orWhere'],
 			$where
@@ -1067,7 +1098,7 @@ class QueryBuilder implements IQueryBuilder {
 	public function orderBy($sort, $order = null) {
 		$this->queryBuilder->orderBy(
 			$this->helper->quoteColumnName($sort),
-			$order
+			$order ?? 'ASC'
 		);
 
 		return $this;
@@ -1084,7 +1115,7 @@ class QueryBuilder implements IQueryBuilder {
 	public function addOrderBy($sort, $order = null) {
 		$this->queryBuilder->addOrderBy(
 			$this->helper->quoteColumnName($sort),
-			$order
+			$order ?? 'ASC'
 		);
 
 		return $this;
@@ -1096,18 +1127,20 @@ class QueryBuilder implements IQueryBuilder {
 	 * @param string $queryPartName
 	 *
 	 * @return mixed
+	 * @deprecated 30.0.0 The function always throws an exception
 	 */
 	public function getQueryPart($queryPartName) {
-		return $this->queryBuilder->getQueryPart($queryPartName);
+		throw new \Exception('Getting query parts is no longer supported as they are implementation details.');
 	}
 
 	/**
 	 * Gets all query parts.
 	 *
 	 * @return array
+	 * @deprecated 30.0.0 The function always throws an exception
 	 */
 	public function getQueryParts() {
-		return $this->queryBuilder->getQueryParts();
+		throw new \Exception('Getting query parts is no longer supported as they are implementation details.');
 	}
 
 	/**
@@ -1116,9 +1149,20 @@ class QueryBuilder implements IQueryBuilder {
 	 * @param array|null $queryPartNames
 	 *
 	 * @return $this This QueryBuilder instance.
+	 * @since 30.0.0 Only null and a list of 'where'|'having'|'groupBy'|'orderBy' is supported. Everything else will throw.
 	 */
 	public function resetQueryParts($queryPartNames = null) {
-		$this->queryBuilder->resetQueryParts($queryPartNames);
+		if ($queryPartNames === null) {
+			$this->queryBuilder->resetWhere();
+			$this->queryBuilder->resetHaving();
+			$this->queryBuilder->resetGroupBy();
+			$this->queryBuilder->resetOrderBy();
+			return $this;
+		}
+
+		foreach ($queryPartNames as $queryPartName) {
+			$this->resetQueryPart($queryPartName);
+		}
 
 		return $this;
 	}
@@ -1129,9 +1173,16 @@ class QueryBuilder implements IQueryBuilder {
 	 * @param string $queryPartName
 	 *
 	 * @return $this This QueryBuilder instance.
+	 * @since 30.0.0 Only 'where'|'having'|'groupBy'|'orderBy' are supported. Everything else will throw.
 	 */
 	public function resetQueryPart($queryPartName) {
-		$this->queryBuilder->resetQueryPart($queryPartName);
+		match ($queryPartName) {
+			'where' => $this->queryBuilder->resetWhere(),
+			'having' => $this->queryBuilder->resetHaving(),
+			'groupBy' => $this->queryBuilder->resetGroupBy(),
+			'orderBy' => $this->queryBuilder->resetOrderBy(),
+			default => throw new \Exception('Resetting query part "' . $queryPartName. '" is no longer supported. Please create a new QueryBuilder instead.'),
+		};
 
 		return $this;
 	}
@@ -1166,7 +1217,7 @@ class QueryBuilder implements IQueryBuilder {
 	 * @return IParameter the placeholder name used.
 	 */
 	public function createNamedParameter($value, $type = IQueryBuilder::PARAM_STR, $placeHolder = null) {
-		return new Parameter($this->queryBuilder->createNamedParameter($value, $type, $placeHolder));
+		return new Parameter($this->queryBuilder->createNamedParameter($value, $this->convertParameterTypeToDoctrine($type), $placeHolder));
 	}
 
 	/**
@@ -1192,7 +1243,7 @@ class QueryBuilder implements IQueryBuilder {
 	 * @return IParameter
 	 */
 	public function createPositionalParameter($value, $type = IQueryBuilder::PARAM_STR) {
-		return new Parameter($this->queryBuilder->createPositionalParameter($value, $type));
+		return new Parameter($this->queryBuilder->createPositionalParameter($value, $this->convertParameterTypeToDoctrine($type)));
 	}
 
 	/**
@@ -1248,7 +1299,7 @@ class QueryBuilder implements IQueryBuilder {
 	 * @throws \BadMethodCallException When being called before an insert query has been run.
 	 */
 	public function getLastInsertId(): int {
-		if ($this->getType() === \Doctrine\DBAL\Query\QueryBuilder::INSERT && $this->lastInsertedTable) {
+		if ($this->getType() === self::INSERT && $this->lastInsertedTable) {
 			// lastInsertId() needs the prefix but no quotes
 			$table = $this->prefixTableName($this->lastInsertedTable);
 			return $this->connection->lastInsertId($table);

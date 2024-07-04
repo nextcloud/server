@@ -6,20 +6,19 @@
  */
 namespace OC\DB;
 
-use Doctrine\DBAL\Platforms\OraclePlatform;
-use Doctrine\DBAL\Platforms\PostgreSQL94Platform;
 use Doctrine\DBAL\Schema\Index;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\DBAL\Schema\SchemaException;
 use Doctrine\DBAL\Schema\Sequence;
 use Doctrine\DBAL\Schema\Table;
-use Doctrine\DBAL\Types\Types;
 use OC\App\InfoParser;
 use OC\IntegrityCheck\Helpers\AppLocator;
 use OC\Migration\SimpleOutput;
 use OCP\AppFramework\App;
 use OCP\AppFramework\QueryException;
 use OCP\DB\ISchemaWrapper;
+use OCP\DB\Types;
+use OCP\IDBConnection;
 use OCP\Migration\IMigrationStep;
 use OCP\Migration\IOutput;
 use OCP\Server;
@@ -419,6 +418,7 @@ class MigrationService {
 		if ($toSchema instanceof SchemaWrapper) {
 			$this->output->debug('- Checking target database schema');
 			$targetSchema = $toSchema->getWrappedSchema();
+			$this->ensureVarcharLength($targetSchema);
 			$this->ensureUniqueNamesConstraints($targetSchema, true);
 			if ($this->checkOracle) {
 				$beforeSchema = $this->connection->createSchema();
@@ -500,6 +500,7 @@ class MigrationService {
 
 		if ($toSchema instanceof SchemaWrapper) {
 			$targetSchema = $toSchema->getWrappedSchema();
+			$this->ensureVarcharLength($targetSchema);
 			$this->ensureUniqueNamesConstraints($targetSchema, $schemaOnly);
 			if ($this->checkOracle) {
 				$sourceSchema = $this->connection->createSchema();
@@ -565,7 +566,7 @@ class MigrationService {
 						throw new \InvalidArgumentException('Column "' . $table->getName() . '"."' . $thing->getName() . '" is NotNull, but has empty string or null as default.');
 					}
 
-					if ($thing->getNotnull() && $thing->getType()->getName() === Types::BOOLEAN) {
+					if ($thing->getNotnull() && Types::getType($thing->getType()) === Types::BOOLEAN) {
 						throw new \InvalidArgumentException('Column "' . $table->getName() . '"."' . $thing->getName() . '" is type Bool and also NotNull, so it can not store "false".');
 					}
 
@@ -576,8 +577,8 @@ class MigrationService {
 
 				// If the column was just created OR the length changed OR the type changed
 				// we will NOT detect invalid length if the column is not modified
-				if (($sourceColumn === null || $sourceColumn->getLength() !== $thing->getLength() || $sourceColumn->getType()->getName() !== Types::STRING)
-					&& $thing->getLength() > 4000 && $thing->getType()->getName() === Types::STRING) {
+				if (($sourceColumn === null || $sourceColumn->getLength() !== $thing->getLength() || Types::getType($sourceColumn->getType()) !== Types::STRING)
+					&& $thing->getLength() > 4000 && Types::getType($thing->getType()) === Types::STRING) {
 					throw new \InvalidArgumentException('Column "' . $table->getName() . '"."' . $thing->getName() . '" is type String, but exceeding the 4.000 length limit.');
 				}
 			}
@@ -595,11 +596,11 @@ class MigrationService {
 			}
 
 			$primaryKey = $table->getPrimaryKey();
-			if ($primaryKey instanceof Index && (!$sourceTable instanceof Table || !$sourceTable->hasPrimaryKey())) {
+			if ($primaryKey instanceof Index && (!$sourceTable instanceof Table || !$sourceTable->getPrimaryKey())) {
 				$indexName = strtolower($primaryKey->getName());
 				$isUsingDefaultName = $indexName === 'primary';
 
-				if ($this->connection->getDatabasePlatform() instanceof PostgreSQL94Platform) {
+				if ($this->connection->getDatabaseProvider() === IDBConnection::PLATFORM_POSTGRES) {
 					$defaultName = $table->getName() . '_pkey';
 					$isUsingDefaultName = strtolower($defaultName) === $indexName;
 
@@ -609,7 +610,7 @@ class MigrationService {
 							return $sequence->getName() !== $sequenceName;
 						});
 					}
-				} elseif ($this->connection->getDatabasePlatform() instanceof OraclePlatform) {
+				} elseif ($this->connection->getDatabaseProvider() === IDBConnection::PLATFORM_ORACLE) {
 					$defaultName = $table->getName() . '_seq';
 					$isUsingDefaultName = strtolower($defaultName) === $indexName;
 				}
@@ -709,6 +710,23 @@ class MigrationService {
 				$this->logErrorOrWarning('Sequence name "' . $sequence->getName() . '" for table "' . $table->getName() . '" collides with the constraint on table "' . $constraintNames[$thing->getName()] . '".');
 			}
 			$constraintNames[$sequence->getName()] = 'sequence';
+		}
+	}
+
+	/**
+	 * Ensure VARCHAR columns have a default length (required since Doctrine/DBAL 4.0)
+	 *
+	 * @param Schema $targetSchema
+	 */
+	public function ensureVarcharLength(Schema $targetSchema): void {
+		foreach ($targetSchema->getTables() as $table) {
+			foreach ($table->getColumns() as $column) {
+				if ($column->getLength() === null) {
+					if ($column->getType()->getTypeRegistry()->lookupName($column->getType()) === 'string') {
+						$column->setLength(255);
+					}
+				}
+			}
 		}
 	}
 

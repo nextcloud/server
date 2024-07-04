@@ -63,7 +63,7 @@ class ExpressionBuilder implements IExpressionBuilder {
 	 * @return \OCP\DB\QueryBuilder\ICompositeExpression
 	 */
 	public function andX(...$x): ICompositeExpression {
-		$compositeExpression = call_user_func_array([$this->expressionBuilder, 'andX'], $x);
+		$compositeExpression = call_user_func_array([$this->expressionBuilder, 'and'], $x);
 		return new CompositeExpression($compositeExpression);
 	}
 
@@ -82,7 +82,7 @@ class ExpressionBuilder implements IExpressionBuilder {
 	 * @return \OCP\DB\QueryBuilder\ICompositeExpression
 	 */
 	public function orX(...$x): ICompositeExpression {
-		$compositeExpression = call_user_func_array([$this->expressionBuilder, 'orX'], $x);
+		$compositeExpression = call_user_func_array([$this->expressionBuilder, 'or'], $x);
 		return new CompositeExpression($compositeExpression);
 	}
 
@@ -288,7 +288,7 @@ class ExpressionBuilder implements IExpressionBuilder {
 	 * @since 9.0.0
 	 */
 	public function iLike($x, $y, $type = null): string {
-		return $this->expressionBuilder->like($this->functionBuilder->lower($x), $this->functionBuilder->lower($y));
+		return $this->expressionBuilder->like((string) $this->functionBuilder->lower($x), (string) $this->functionBuilder->lower($y));
 	}
 
 	/**
@@ -372,7 +372,7 @@ class ExpressionBuilder implements IExpressionBuilder {
 	public function bitwiseAnd($x, int $y): IQueryFunction {
 		return new QueryFunction($this->connection->getDatabasePlatform()->getBitAndComparisonExpression(
 			$this->helper->quoteColumnName($x),
-			$y
+			(string) $y
 		));
 	}
 
@@ -387,7 +387,7 @@ class ExpressionBuilder implements IExpressionBuilder {
 	public function bitwiseOr($x, int $y): IQueryFunction {
 		return new QueryFunction($this->connection->getDatabasePlatform()->getBitOrComparisonExpression(
 			$this->helper->quoteColumnName($x),
-			$y
+			(string) $y
 		));
 	}
 
@@ -400,7 +400,10 @@ class ExpressionBuilder implements IExpressionBuilder {
 	 * @return ILiteral
 	 */
 	public function literal($input, $type = IQueryBuilder::PARAM_STR): ILiteral {
-		return new Literal($this->expressionBuilder->literal($input, $type));
+		if ($type !== IQueryBuilder::PARAM_STR) {
+			\OC::$server->getLogger()->debug('Parameter $type is no longer supported and the function only handles resulting database type string', ['exception' => new \InvalidArgumentException('$type parameter is no longer supported')]);
+		}
+		return new Literal($this->connection->getDatabasePlatform()->quoteStringLiteral((string) $input));
 	}
 
 	/**

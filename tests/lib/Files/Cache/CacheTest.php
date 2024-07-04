@@ -7,12 +7,12 @@
 
 namespace Test\Files\Cache;
 
-use Doctrine\DBAL\Platforms\MySqlPlatform;
 use OC\Files\Cache\Cache;
 use OC\Files\Search\SearchComparison;
 use OC\Files\Search\SearchQuery;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Search\ISearchComparison;
+use OCP\IDBConnection;
 use OCP\IUser;
 
 class LongId extends \OC\Files\Storage\Temporary {
@@ -142,7 +142,7 @@ class CacheTest extends \Test\TestCase {
 		if (strpos($folder, 'F09F9890')) {
 			// 4 byte UTF doesn't work on mysql
 			$params = \OC::$server->get(\OC\DB\Connection::class)->getParams();
-			if (\OC::$server->getDatabaseConnection()->getDatabasePlatform() instanceof MySqlPlatform && $params['charset'] !== 'utf8mb4') {
+			if (\OC::$server->getDatabaseConnection()->getDatabaseProvider() === IDBConnection::PLATFORM_MYSQL && $params['charset'] !== 'utf8mb4') {
 				$this->markTestSkipped('MySQL doesn\'t support 4 byte UTF-8');
 			}
 		}

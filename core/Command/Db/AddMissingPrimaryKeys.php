@@ -55,7 +55,7 @@ class AddMissingPrimaryKeys extends Command {
 			foreach ($missingKeys as $missingKey) {
 				if ($schema->hasTable($missingKey['tableName'])) {
 					$table = $schema->getTable($missingKey['tableName']);
-					if (!$table->hasPrimaryKey()) {
+					if (!$table->getPrimaryKey()) {
 						$output->writeln('<info>Adding primary key to the ' . $missingKey['tableName'] . ' table, this can take some time...</info>');
 						$table->setPrimaryKey($missingKey['columns'], $missingKey['primaryKeyName']);
 

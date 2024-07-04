@@ -5,7 +5,6 @@
  */
 namespace OC\Core\Migrations;
 
-use Doctrine\DBAL\Platforms\PostgreSQL94Platform;
 use OCP\DB\ISchemaWrapper;
 use OCP\DB\Types;
 use OCP\IDBConnection;
@@ -238,7 +237,7 @@ class Version13000Date20170718121200 extends SimpleMigrationStep {
 			$table->addIndex(['name'], 'fs_name_hash');
 			$table->addIndex(['mtime'], 'fs_mtime');
 			$table->addIndex(['size'], 'fs_size');
-			if (!$schema->getDatabasePlatform() instanceof PostgreSQL94Platform) {
+			if ($this->connection->getDatabaseProvider() !== IDBConnection::PLATFORM_POSTGRES) {
 				$table->addIndex(['storage', 'path'], 'fs_storage_path_prefix', [], ['lengths' => [null, 64]]);
 			}
 		}

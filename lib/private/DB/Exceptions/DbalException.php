@@ -24,6 +24,7 @@ use Doctrine\DBAL\Exception\RetryableException;
 use Doctrine\DBAL\Exception\ServerException;
 use Doctrine\DBAL\Exception\SyntaxErrorException;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
+use Doctrine\DBAL\Types\Exception\TypeNotRegistered;
 use OCP\DB\Exception;
 
 /**
@@ -83,6 +84,9 @@ class DbalException extends Exception {
 		/**
 		 * Other server errors
 		 */
+		if ($this->original instanceof TypeNotRegistered) {
+			return parent::REASON_TYPE_UNKNOWN;
+		}
 		if ($this->original instanceof LockWaitTimeoutException) {
 			return parent::REASON_LOCK_WAIT_TIMEOUT;
 		}

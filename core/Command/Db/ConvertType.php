@@ -9,6 +9,7 @@ namespace OC\Core\Command\Db;
 
 use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\Schema\AbstractAsset;
+use Doctrine\DBAL\Schema\Index;
 use Doctrine\DBAL\Schema\Table;
 use OC\DB\Connection;
 use OC\DB\ConnectionFactory;
@@ -245,7 +246,7 @@ class ConvertType extends Command implements CompletionAwareInterface {
 			$output->writeln('<info>Clearing schema in new database</info>');
 		}
 		foreach ($toTables as $table) {
-			$db->getSchemaManager()->dropTable($table);
+			$db->createSchemaManager()->dropTable($table);
 		}
 	}
 
@@ -258,7 +259,7 @@ class ConvertType extends Command implements CompletionAwareInterface {
 			}
 			return preg_match($filterExpression, $asset) !== false;
 		});
-		return $db->getSchemaManager()->listTableNames();
+		return $db->createSchemaManager()->listTableNames();
 	}
 
 	/**
@@ -302,7 +303,12 @@ class ConvertType extends Command implements CompletionAwareInterface {
 			->setMaxResults($chunkSize);
 
 		try {
-			$orderColumns = $table->getPrimaryKeyColumns();
+			$key = $table->getPrimaryKey();
+			if ($key instanceof Index) {
+				$orderColumns = $key->getColumns();
+			} else {
+				$orderColumns = $table->getColumns();
+			}
 		} catch (Exception $e) {
 			$orderColumns = $table->getColumns();
 		}
@@ -362,7 +368,7 @@ class ConvertType extends Command implements CompletionAwareInterface {
 			return $this->columnTypes[$tableName][$columnName];
 		}
 
-		$type = $table->getColumn($columnName)->getType()->getName();
+		$type = Types::getType($table->getColumn($columnName)->getType());
 
 		switch ($type) {
 			case Types::BLOB:

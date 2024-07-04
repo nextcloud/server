@@ -269,6 +269,7 @@ interface IDBConnection {
 	 * @param int $type Type of the parameter.
 	 * @return mixed The quoted parameter.
 	 * @since 8.0.0
+	 * @deprecated 30.0.0 Only strings are supported as database type in the end and the $type parameter is ignored going forward
 	 */
 	public function quote($input, $type = IQueryBuilder::PARAM_STR);
 
@@ -278,6 +279,7 @@ interface IDBConnection {
 	 *
 	 * @return \Doctrine\DBAL\Platforms\AbstractPlatform The database platform.
 	 * @since 8.0.0
+	 * @deprecated 30.0.0 Use {@see getDatabaseProvider()} instead
 	 */
 	public function getDatabasePlatform();
 
@@ -341,7 +343,7 @@ interface IDBConnection {
 	 * Returns the database provider name
 	 * @link https://github.com/nextcloud/server/issues/30877
 	 * @since 28.0.0
-	 * @return IDBConnection::PLATFORM_*
+	 * @return self::PLATFORM_MYSQL|self::PLATFORM_ORACLE|self::PLATFORM_POSTGRES|self::PLATFORM_SQLITE
 	 */
 	public function getDatabaseProvider(): string;
 }

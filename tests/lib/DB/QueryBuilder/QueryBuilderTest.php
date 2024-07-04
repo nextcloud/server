@@ -407,28 +407,18 @@ class QueryBuilderTest extends \Test\TestCase {
 		$this->deleteTestingRows();
 	}
 
-	public function dataDelete() {
+	public function dataDelete(): array {
 		return [
-			['data', null, ['table' => '`*PREFIX*data`', 'alias' => null], '`*PREFIX*data`'],
-			['data', 't', ['table' => '`*PREFIX*data`', 'alias' => 't'], '`*PREFIX*data` t'],
+			['data', null, '`*PREFIX*data`'],
+			['data', 't', '`*PREFIX*data`'],
 		];
 	}
 
 	/**
 	 * @dataProvider dataDelete
-	 *
-	 * @param string $tableName
-	 * @param string $tableAlias
-	 * @param array $expectedQueryPart
-	 * @param string $expectedQuery
 	 */
-	public function testDelete($tableName, $tableAlias, $expectedQueryPart, $expectedQuery) {
+	public function testDelete(string $tableName, ?string $tableAlias, string $expectedQuery): void {
 		$this->queryBuilder->delete($tableName, $tableAlias);
-
-		$this->assertSame(
-			$expectedQueryPart,
-			$this->queryBuilder->getQueryPart('from')
-		);
 
 		$this->assertSame(
 			'DELETE FROM ' . $expectedQuery,
@@ -436,28 +426,18 @@ class QueryBuilderTest extends \Test\TestCase {
 		);
 	}
 
-	public function dataUpdate() {
+	public function dataUpdate(): array {
 		return [
-			['data', null, ['table' => '`*PREFIX*data`', 'alias' => null], '`*PREFIX*data`'],
-			['data', 't', ['table' => '`*PREFIX*data`', 'alias' => 't'], '`*PREFIX*data` t'],
+			['data', null, '`*PREFIX*data`'],
+			['data', 't',  '`*PREFIX*data`'],
 		];
 	}
 
 	/**
 	 * @dataProvider dataUpdate
-	 *
-	 * @param string $tableName
-	 * @param string $tableAlias
-	 * @param array $expectedQueryPart
-	 * @param string $expectedQuery
 	 */
-	public function testUpdate($tableName, $tableAlias, $expectedQueryPart, $expectedQuery) {
+	public function testUpdate(string $tableName, ?string $tableAlias, string $expectedQuery): void {
 		$this->queryBuilder->update($tableName, $tableAlias);
-
-		$this->assertSame(
-			$expectedQueryPart,
-			$this->queryBuilder->getQueryPart('from')
-		);
 
 		$this->assertSame(
 			'UPDATE ' . $expectedQuery . ' SET ',
@@ -465,26 +445,17 @@ class QueryBuilderTest extends \Test\TestCase {
 		);
 	}
 
-	public function dataInsert() {
+	public function dataInsert(): array {
 		return [
-			['data', ['table' => '`*PREFIX*data`'], '`*PREFIX*data`'],
+			['data', '`*PREFIX*data`'],
 		];
 	}
 
 	/**
 	 * @dataProvider dataInsert
-	 *
-	 * @param string $tableName
-	 * @param array $expectedQueryPart
-	 * @param string $expectedQuery
 	 */
-	public function testInsert($tableName, $expectedQueryPart, $expectedQuery) {
+	public function testInsert(string $tableName, string $expectedQuery): void {
 		$this->queryBuilder->insert($tableName);
-
-		$this->assertSame(
-			$expectedQueryPart,
-			$this->queryBuilder->getQueryPart('from')
-		);
 
 		$this->assertSame(
 			'INSERT INTO ' . $expectedQuery . ' () VALUES()',
@@ -492,69 +463,43 @@ class QueryBuilderTest extends \Test\TestCase {
 		);
 	}
 
-	public function dataFrom() {
+	public function dataFrom(): array {
 		$config = $this->createMock(SystemConfig::class);
 		$logger = $this->createMock(LoggerInterface::class);
 		$qb = new QueryBuilder(\OC::$server->getDatabaseConnection(), $config, $logger);
 		return [
-			[$qb->createFunction('(' . $qb->select('*')->from('test')->getSQL() . ')'), 'q', null, null, [
-				['table' => '(SELECT * FROM `*PREFIX*test`)', 'alias' => '`q`']
-			], '(SELECT * FROM `*PREFIX*test`) `q`'],
-			['data', null, null, null, [['table' => '`*PREFIX*data`', 'alias' => null]], '`*PREFIX*data`'],
-			['data', 't', null, null, [['table' => '`*PREFIX*data`', 'alias' => '`t`']], '`*PREFIX*data` `t`'],
-			['data1', null, 'data2', null, [
-				['table' => '`*PREFIX*data1`', 'alias' => null],
-				['table' => '`*PREFIX*data2`', 'alias' => null]
-			], '`*PREFIX*data1`, `*PREFIX*data2`'],
-			['data', 't1', 'data', 't2', [
-				['table' => '`*PREFIX*data`', 'alias' => '`t1`'],
-				['table' => '`*PREFIX*data`', 'alias' => '`t2`']
-			], '`*PREFIX*data` `t1`, `*PREFIX*data` `t2`'],
+			[$qb->createFunction('(' . $qb->select('*')->from('test')->getSQL() . ')'), 'q', null, null, '(SELECT * FROM `*PREFIX*test`) `q`'],
+			['data', null, null, null, '`*PREFIX*data`'],
+			['data', 't', null, null, '`*PREFIX*data` `t`'],
+			['data1', null, 'data2', null, '`*PREFIX*data1`, `*PREFIX*data2`'],
+			['data', 't1', 'data', 't2', '`*PREFIX*data` `t1`, `*PREFIX*data` `t2`'],
 		];
 	}
 
 	/**
 	 * @dataProvider dataFrom
-	 *
-	 * @param string|IQueryFunction $table1Name
-	 * @param string $table1Alias
-	 * @param string|IQueryFunction $table2Name
-	 * @param string $table2Alias
-	 * @param array $expectedQueryPart
-	 * @param string $expectedQuery
 	 */
-	public function testFrom($table1Name, $table1Alias, $table2Name, $table2Alias, $expectedQueryPart, $expectedQuery) {
+	public function testFrom(string|IQueryFunction $table1Name, ?string $table1Alias, null|string|IQueryFunction $table2Name, ?string $table2Alias, string $expectedQuery): void {
+		$this->queryBuilder->select('*');
 		$this->queryBuilder->from($table1Name, $table1Alias);
 		if ($table2Name !== null) {
 			$this->queryBuilder->from($table2Name, $table2Alias);
 		}
 
 		$this->assertSame(
-			$expectedQueryPart,
-			$this->queryBuilder->getQueryPart('from')
-		);
-
-		$this->assertSame(
-			'SELECT  FROM ' . $expectedQuery,
+			'SELECT * FROM ' . $expectedQuery,
 			$this->queryBuilder->getSQL()
 		);
 	}
 
-	public function dataJoin() {
+	public function dataJoin(): array {
 		return [
 			[
-				'd1', 'data2', null, null,
-				['`d1`' => [['joinType' => 'inner', 'joinTable' => '`*PREFIX*data2`', 'joinAlias' => null, 'joinCondition' => null]]],
-				'`*PREFIX*data1` `d1` INNER JOIN `*PREFIX*data2` '
-			],
-			[
 				'd1', 'data2', 'd2', null,
-				['`d1`' => [['joinType' => 'inner', 'joinTable' => '`*PREFIX*data2`', 'joinAlias' => '`d2`', 'joinCondition' => null]]],
 				'`*PREFIX*data1` `d1` INNER JOIN `*PREFIX*data2` `d2`'
 			],
 			[
 				'd1', 'data2', 'd2', '`d1`.`field1` = `d2`.`field2`',
-				['`d1`' => [['joinType' => 'inner', 'joinTable' => '`*PREFIX*data2`', 'joinAlias' => '`d2`', 'joinCondition' => '`d1`.`field1` = `d2`.`field2`']]],
 				'`*PREFIX*data1` `d1` INNER JOIN `*PREFIX*data2` `d2` ON `d1`.`field1` = `d2`.`field2`'
 			],
 
@@ -563,15 +508,9 @@ class QueryBuilderTest extends \Test\TestCase {
 
 	/**
 	 * @dataProvider dataJoin
-	 *
-	 * @param string $fromAlias
-	 * @param string $tableName
-	 * @param string $tableAlias
-	 * @param string $condition
-	 * @param array $expectedQueryPart
-	 * @param string $expectedQuery
 	 */
-	public function testJoin($fromAlias, $tableName, $tableAlias, $condition, $expectedQueryPart, $expectedQuery) {
+	public function testJoin(string $fromAlias, string $tableName, string $tableAlias, ?string $condition, string $expectedQuery): void {
+		$this->queryBuilder->select('*');
 		$this->queryBuilder->from('data1', 'd1');
 		$this->queryBuilder->join(
 			$fromAlias,
@@ -580,28 +519,18 @@ class QueryBuilderTest extends \Test\TestCase {
 			$condition
 		);
 
-		$this->assertSame(
-			$expectedQueryPart,
-			$this->queryBuilder->getQueryPart('join')
-		);
 
 		$this->assertSame(
-			'SELECT  FROM ' . $expectedQuery,
+			'SELECT * FROM ' . $expectedQuery,
 			$this->queryBuilder->getSQL()
 		);
 	}
 
 	/**
 	 * @dataProvider dataJoin
-	 *
-	 * @param string $fromAlias
-	 * @param string $tableName
-	 * @param string $tableAlias
-	 * @param string $condition
-	 * @param array $expectedQueryPart
-	 * @param string $expectedQuery
 	 */
-	public function testInnerJoin($fromAlias, $tableName, $tableAlias, $condition, $expectedQueryPart, $expectedQuery) {
+	public function testInnerJoin(string $fromAlias, string $tableName, string $tableAlias, ?string $condition, string $expectedQuery): void {
+		$this->queryBuilder->select('*');
 		$this->queryBuilder->from('data1', 'd1');
 		$this->queryBuilder->innerJoin(
 			$fromAlias,
@@ -611,31 +540,19 @@ class QueryBuilderTest extends \Test\TestCase {
 		);
 
 		$this->assertSame(
-			$expectedQueryPart,
-			$this->queryBuilder->getQueryPart('join')
-		);
-
-		$this->assertSame(
-			'SELECT  FROM ' . $expectedQuery,
+			'SELECT * FROM ' . $expectedQuery,
 			$this->queryBuilder->getSQL()
 		);
 	}
 
-	public function dataLeftJoin() {
+	public function dataLeftJoin(): array {
 		return [
 			[
-				'd1', 'data2', null, null,
-				['`d1`' => [['joinType' => 'left', 'joinTable' => '`*PREFIX*data2`', 'joinAlias' => null, 'joinCondition' => null]]],
-				'`*PREFIX*data1` `d1` LEFT JOIN `*PREFIX*data2` '
-			],
-			[
 				'd1', 'data2', 'd2', null,
-				['`d1`' => [['joinType' => 'left', 'joinTable' => '`*PREFIX*data2`', 'joinAlias' => '`d2`', 'joinCondition' => null]]],
 				'`*PREFIX*data1` `d1` LEFT JOIN `*PREFIX*data2` `d2`'
 			],
 			[
 				'd1', 'data2', 'd2', '`d1`.`field1` = `d2`.`field2`',
-				['`d1`' => [['joinType' => 'left', 'joinTable' => '`*PREFIX*data2`', 'joinAlias' => '`d2`', 'joinCondition' => '`d1`.`field1` = `d2`.`field2`']]],
 				'`*PREFIX*data1` `d1` LEFT JOIN `*PREFIX*data2` `d2` ON `d1`.`field1` = `d2`.`field2`'
 			],
 		];
@@ -643,15 +560,9 @@ class QueryBuilderTest extends \Test\TestCase {
 
 	/**
 	 * @dataProvider dataLeftJoin
-	 *
-	 * @param string $fromAlias
-	 * @param string $tableName
-	 * @param string $tableAlias
-	 * @param string $condition
-	 * @param array $expectedQueryPart
-	 * @param string $expectedQuery
 	 */
-	public function testLeftJoin($fromAlias, $tableName, $tableAlias, $condition, $expectedQueryPart, $expectedQuery) {
+	public function testLeftJoin(string $fromAlias, string $tableName, string $tableAlias, ?string $condition, string $expectedQuery): void {
+		$this->queryBuilder->select('*');
 		$this->queryBuilder->from('data1', 'd1');
 		$this->queryBuilder->leftJoin(
 			$fromAlias,
@@ -661,31 +572,19 @@ class QueryBuilderTest extends \Test\TestCase {
 		);
 
 		$this->assertSame(
-			$expectedQueryPart,
-			$this->queryBuilder->getQueryPart('join')
-		);
-
-		$this->assertSame(
-			'SELECT  FROM ' . $expectedQuery,
+			'SELECT * FROM ' . $expectedQuery,
 			$this->queryBuilder->getSQL()
 		);
 	}
 
-	public function dataRightJoin() {
+	public function dataRightJoin(): array {
 		return [
 			[
-				'd1', 'data2', null, null,
-				['`d1`' => [['joinType' => 'right', 'joinTable' => '`*PREFIX*data2`', 'joinAlias' => null, 'joinCondition' => null]]],
-				'`*PREFIX*data1` `d1` RIGHT JOIN `*PREFIX*data2` '
-			],
-			[
 				'd1', 'data2', 'd2', null,
-				['`d1`' => [['joinType' => 'right', 'joinTable' => '`*PREFIX*data2`', 'joinAlias' => '`d2`', 'joinCondition' => null]]],
 				'`*PREFIX*data1` `d1` RIGHT JOIN `*PREFIX*data2` `d2`'
 			],
 			[
 				'd1', 'data2', 'd2', '`d1`.`field1` = `d2`.`field2`',
-				['`d1`' => [['joinType' => 'right', 'joinTable' => '`*PREFIX*data2`', 'joinAlias' => '`d2`', 'joinCondition' => '`d1`.`field1` = `d2`.`field2`']]],
 				'`*PREFIX*data1` `d1` RIGHT JOIN `*PREFIX*data2` `d2` ON `d1`.`field1` = `d2`.`field2`'
 			],
 		];
@@ -693,15 +592,9 @@ class QueryBuilderTest extends \Test\TestCase {
 
 	/**
 	 * @dataProvider dataRightJoin
-	 *
-	 * @param string $fromAlias
-	 * @param string $tableName
-	 * @param string $tableAlias
-	 * @param string $condition
-	 * @param array $expectedQueryPart
-	 * @param string $expectedQuery
 	 */
-	public function testRightJoin($fromAlias, $tableName, $tableAlias, $condition, $expectedQueryPart, $expectedQuery) {
+	public function testRightJoin(string $fromAlias, string $tableName, string $tableAlias, ?string $condition, string $expectedQuery): void {
+		$this->queryBuilder->select('*');
 		$this->queryBuilder->from('data1', 'd1');
 		$this->queryBuilder->rightJoin(
 			$fromAlias,
@@ -711,36 +604,24 @@ class QueryBuilderTest extends \Test\TestCase {
 		);
 
 		$this->assertSame(
-			$expectedQueryPart,
-			$this->queryBuilder->getQueryPart('join')
-		);
-
-		$this->assertSame(
-			'SELECT  FROM ' . $expectedQuery,
+			'SELECT * FROM ' . $expectedQuery,
 			$this->queryBuilder->getSQL()
 		);
 	}
 
-	public function dataSet() {
+	public function dataSet(): array {
 		return [
-			['column1', new Literal('value'), null, null, ['`column1` = value'], '`column1` = value'],
-			['column1', new Parameter(':param'), null, null, ['`column1` = :param'], '`column1` = :param'],
-			['column1', 'column2', null, null, ['`column1` = `column2`'], '`column1` = `column2`'],
-			['column1', 'column2', 'column3', new Literal('value'), ['`column1` = `column2`', '`column3` = value'], '`column1` = `column2`, `column3` = value'],
+			['column1', new Literal('value'), null, null, '`column1` = value'],
+			['column1', new Parameter(':param'), null, null, '`column1` = :param'],
+			['column1', 'column2', null, null, '`column1` = `column2`'],
+			['column1', 'column2', 'column3', new Literal('value'), '`column1` = `column2`, `column3` = value'],
 		];
 	}
 
 	/**
 	 * @dataProvider dataSet
-	 *
-	 * @param string $partOne1
-	 * @param string $partOne2
-	 * @param string $partTwo1
-	 * @param string $partTwo2
-	 * @param array $expectedQueryPart
-	 * @param string $expectedQuery
 	 */
-	public function testSet($partOne1, $partOne2, $partTwo1, $partTwo2, $expectedQueryPart, $expectedQuery) {
+	public function testSet(string $partOne1, string|Literal|Parameter $partOne2, ?string $partTwo1, null|string|Literal|Parameter $partTwo2, string $expectedQuery): void {
 		$this->queryBuilder->update('data');
 		$this->queryBuilder->set($partOne1, $partOne2);
 		if ($partTwo1 !== null) {
@@ -748,42 +629,28 @@ class QueryBuilderTest extends \Test\TestCase {
 		}
 
 		$this->assertSame(
-			$expectedQueryPart,
-			$this->queryBuilder->getQueryPart('set')
-		);
-
-		$this->assertSame(
 			'UPDATE `*PREFIX*data` SET ' . $expectedQuery,
 			$this->queryBuilder->getSQL()
 		);
 	}
 
-	public function dataWhere() {
+	public function dataWhere(): array {
 		return [
-			[['where1'], new CompositeExpression('AND', ['where1']), 'where1'],
-			[['where1', 'where2'], new CompositeExpression('AND', ['where1', 'where2']), '(where1) AND (where2)'],
+			[['where1'], 'where1'],
+			[['where1', 'where2'], '(where1) AND (where2)'],
 		];
 	}
 
 	/**
 	 * @dataProvider dataWhere
-	 *
-	 * @param array $whereArguments
-	 * @param array $expectedQueryPart
-	 * @param string $expectedQuery
 	 */
-	public function testWhere($whereArguments, $expectedQueryPart, $expectedQuery) {
+	public function testWhere(array $whereArguments, string $expectedQuery): void {
 		$this->queryBuilder->select('column');
 		call_user_func_array(
 			[$this->queryBuilder, 'where'],
 			$whereArguments
 		);
 
-		$this->assertEquals(
-			$expectedQueryPart,
-			$this->queryBuilder->getQueryPart('where')
-		);
-
 		$this->assertSame(
 			'SELECT `column` WHERE ' . $expectedQuery,
 			$this->queryBuilder->getSQL()
@@ -797,103 +664,75 @@ class QueryBuilderTest extends \Test\TestCase {
 	 * @param array $expectedQueryPart
 	 * @param string $expectedQuery
 	 */
-	public function testAndWhere($whereArguments, $expectedQueryPart, $expectedQuery) {
+	public function testAndWhere(array $whereArguments, string $expectedQuery): void {
 		$this->queryBuilder->select('column');
 		call_user_func_array(
 			[$this->queryBuilder, 'andWhere'],
 			$whereArguments
 		);
 
-		$this->assertEquals(
-			$expectedQueryPart,
-			$this->queryBuilder->getQueryPart('where')
-		);
-
 		$this->assertSame(
 			'SELECT `column` WHERE ' . $expectedQuery,
 			$this->queryBuilder->getSQL()
 		);
 	}
 
-	public function dataOrWhere() {
+	public function dataOrWhere(): array {
 		return [
-			[['where1'], new CompositeExpression('OR', ['where1']), 'where1'],
-			[['where1', 'where2'], new CompositeExpression('OR', ['where1', 'where2']), '(where1) OR (where2)'],
+			[['where1'],  'where1'],
+			[['where1', 'where2'], '(where1) OR (where2)'],
 		];
 	}
 
 	/**
 	 * @dataProvider dataOrWhere
-	 *
-	 * @param array $whereArguments
-	 * @param array $expectedQueryPart
-	 * @param string $expectedQuery
 	 */
-	public function testOrWhere($whereArguments, $expectedQueryPart, $expectedQuery) {
+	public function testOrWhere(array $whereArguments, string $expectedQuery): void {
 		$this->queryBuilder->select('column');
 		call_user_func_array(
 			[$this->queryBuilder, 'orWhere'],
 			$whereArguments
 		);
 
-		$this->assertEquals(
-			$expectedQueryPart,
-			$this->queryBuilder->getQueryPart('where')
-		);
-
 		$this->assertSame(
 			'SELECT `column` WHERE ' . $expectedQuery,
 			$this->queryBuilder->getSQL()
 		);
 	}
 
-	public function dataGroupBy() {
+	public function dataGroupBy(): array {
 		return [
-			[['column1'], ['`column1`'], '`column1`'],
-			[['column1', 'column2'], ['`column1`', '`column2`'], '`column1`, `column2`'],
+			[['column1'], '`column1`'],
+			[['column1', 'column2'], '`column1`, `column2`'],
 		];
 	}
 
 	/**
 	 * @dataProvider dataGroupBy
-	 *
-	 * @param array $groupByArguments
-	 * @param array $expectedQueryPart
-	 * @param string $expectedQuery
 	 */
-	public function testGroupBy($groupByArguments, $expectedQueryPart, $expectedQuery) {
+	public function testGroupBy(array $groupByArguments, string $expectedQuery): void {
 		$this->queryBuilder->select('column');
 		call_user_func_array(
 			[$this->queryBuilder, 'groupBy'],
 			$groupByArguments
 		);
-
-		$this->assertEquals(
-			$expectedQueryPart,
-			$this->queryBuilder->getQueryPart('groupBy')
-		);
-
 		$this->assertSame(
 			'SELECT `column` GROUP BY ' . $expectedQuery,
 			$this->queryBuilder->getSQL()
 		);
 	}
 
-	public function dataAddGroupBy() {
+	public function dataAddGroupBy(): array {
 		return [
-			[['column2'], ['`column1`', '`column2`'], '`column1`, `column2`'],
-			[['column2', 'column3'], ['`column1`', '`column2`', '`column3`'], '`column1`, `column2`, `column3`'],
+			[['column2'], '`column1`, `column2`'],
+			[['column2', 'column3'], '`column1`, `column2`, `column3`'],
 		];
 	}
 
 	/**
 	 * @dataProvider dataAddGroupBy
-	 *
-	 * @param array $groupByArguments
-	 * @param array $expectedQueryPart
-	 * @param string $expectedQuery
 	 */
-	public function testAddGroupBy($groupByArguments, $expectedQueryPart, $expectedQuery) {
+	public function testAddGroupBy(array $groupByArguments, string $expectedQuery): void {
 		$this->queryBuilder->select('column');
 		$this->queryBuilder->groupBy('column1');
 		call_user_func_array(
@@ -901,39 +740,24 @@ class QueryBuilderTest extends \Test\TestCase {
 			$groupByArguments
 		);
 
-		$this->assertEquals(
-			$expectedQueryPart,
-			$this->queryBuilder->getQueryPart('groupBy')
-		);
-
 		$this->assertSame(
 			'SELECT `column` GROUP BY ' . $expectedQuery,
 			$this->queryBuilder->getSQL()
 		);
 	}
 
-	public function dataSetValue() {
+	public function dataSetValue(): array {
 		return [
-			['column', 'value', ['`column`' => 'value'], '(`column`) VALUES(value)'],
+			['column', 'value', '(`column`) VALUES(value)'],
 		];
 	}
 
 	/**
 	 * @dataProvider dataSetValue
-	 *
-	 * @param string $column
-	 * @param string $value
-	 * @param array $expectedQueryPart
-	 * @param string $expectedQuery
 	 */
-	public function testSetValue($column, $value, $expectedQueryPart, $expectedQuery) {
+	public function testSetValue(string $column, string $value, string $expectedQuery): void {
 		$this->queryBuilder->insert('data');
 		$this->queryBuilder->setValue($column, $value);
-
-		$this->assertEquals(
-			$expectedQueryPart,
-			$this->queryBuilder->getQueryPart('values')
-		);
 
 		$this->assertSame(
 			'INSERT INTO `*PREFIX*data` ' . $expectedQuery,
@@ -943,22 +767,12 @@ class QueryBuilderTest extends \Test\TestCase {
 
 	/**
 	 * @dataProvider dataSetValue
-	 *
-	 * @param string $column
-	 * @param string $value
-	 * @param array $expectedQueryPart
-	 * @param string $expectedQuery
 	 */
-	public function testValues($column, $value, $expectedQueryPart, $expectedQuery) {
+	public function testValues(string $column, string $value, string $expectedQuery): void {
 		$this->queryBuilder->insert('data');
 		$this->queryBuilder->values([
 			$column => $value,
 		]);
-
-		$this->assertEquals(
-			$expectedQueryPart,
-			$this->queryBuilder->getQueryPart('values')
-		);
 
 		$this->assertSame(
 			'INSERT INTO `*PREFIX*data` ' . $expectedQuery,
@@ -966,18 +780,16 @@ class QueryBuilderTest extends \Test\TestCase {
 		);
 	}
 
-	public function dataHaving() {
+	public function dataHaving(): array {
 		return [
-			[['condition1'], new CompositeExpression('AND', ['condition1']), 'HAVING condition1'],
-			[['condition1', 'condition2'], new CompositeExpression('AND', ['condition1', 'condition2']), 'HAVING (condition1) AND (condition2)'],
+			[['condition1'], 'HAVING condition1'],
+			[['condition1', 'condition2'], 'HAVING (condition1) AND (condition2)'],
 			[
-				[new CompositeExpression('OR', ['condition1', 'condition2'])],
-				new CompositeExpression('OR', ['condition1', 'condition2']),
+				[new CompositeExpression('OR', 'condition1', 'condition2')],
 				'HAVING (condition1) OR (condition2)'
 			],
 			[
-				[new CompositeExpression('AND', ['condition1', 'condition2'])],
-				new CompositeExpression('AND', ['condition1', 'condition2']),
+				[new CompositeExpression('AND', 'condition1', 'condition2')],
 				'HAVING (condition1) AND (condition2)'
 			],
 		];
@@ -985,40 +797,30 @@ class QueryBuilderTest extends \Test\TestCase {
 
 	/**
 	 * @dataProvider dataHaving
-	 *
-	 * @param array $havingArguments
-	 * @param array $expectedQueryPart
-	 * @param string $expectedQuery
 	 */
-	public function testHaving($havingArguments, $expectedQueryPart, $expectedQuery) {
+	public function testHaving(array $havingArguments, string $expectedQuery): void {
+		$this->queryBuilder->select('*');
 		call_user_func_array(
 			[$this->queryBuilder, 'having'],
 			$havingArguments
 		);
 
-		$this->assertEquals(
-			$expectedQueryPart,
-			$this->queryBuilder->getQueryPart('having')
-		);
-
 		$this->assertSame(
-			'SELECT  ' . $expectedQuery,
+			'SELECT * ' . $expectedQuery,
 			$this->queryBuilder->getSQL()
 		);
 	}
 
-	public function dataAndHaving() {
+	public function dataAndHaving(): array {
 		return [
-			[['condition2'], new CompositeExpression('AND', ['condition1', 'condition2']), 'HAVING (condition1) AND (condition2)'],
-			[['condition2', 'condition3'], new CompositeExpression('AND', ['condition1', 'condition2', 'condition3']), 'HAVING (condition1) AND (condition2) AND (condition3)'],
+			[['condition2'], 'HAVING (condition1) AND (condition2)'],
+			[['condition2', 'condition3'], 'HAVING (condition1) AND (condition2) AND (condition3)'],
 			[
-				[new CompositeExpression('OR', ['condition2', 'condition3'])],
-				new CompositeExpression('AND', ['condition1', new CompositeExpression('OR', ['condition2', 'condition3'])]),
+				[new CompositeExpression('OR', 'condition2', 'condition3')],
 				'HAVING (condition1) AND ((condition2) OR (condition3))'
 			],
 			[
-				[new CompositeExpression('AND', ['condition2', 'condition3'])],
-				new CompositeExpression('AND', ['condition1', new CompositeExpression('AND', ['condition2', 'condition3'])]),
+				[new CompositeExpression('AND', 'condition2', 'condition3')],
 				'HAVING (condition1) AND ((condition2) AND (condition3))'
 			],
 		];
@@ -1026,41 +828,31 @@ class QueryBuilderTest extends \Test\TestCase {
 
 	/**
 	 * @dataProvider dataAndHaving
-	 *
-	 * @param array $havingArguments
-	 * @param array $expectedQueryPart
-	 * @param string $expectedQuery
 	 */
-	public function testAndHaving($havingArguments, $expectedQueryPart, $expectedQuery) {
+	public function testAndHaving(array $havingArguments, string $expectedQuery): void {
+		$this->queryBuilder->select('*');
 		$this->queryBuilder->having('condition1');
 		call_user_func_array(
 			[$this->queryBuilder, 'andHaving'],
 			$havingArguments
 		);
 
-		$this->assertEquals(
-			$expectedQueryPart,
-			$this->queryBuilder->getQueryPart('having')
-		);
-
 		$this->assertSame(
-			'SELECT  ' . $expectedQuery,
+			'SELECT * ' . $expectedQuery,
 			$this->queryBuilder->getSQL()
 		);
 	}
 
-	public function dataOrHaving() {
+	public function dataOrHaving(): array {
 		return [
-			[['condition2'], new CompositeExpression('OR', ['condition1', 'condition2']), 'HAVING (condition1) OR (condition2)'],
-			[['condition2', 'condition3'], new CompositeExpression('OR', ['condition1', 'condition2', 'condition3']), 'HAVING (condition1) OR (condition2) OR (condition3)'],
+			[['condition2'], 'HAVING (condition1) OR (condition2)'],
+			[['condition2', 'condition3'], 'HAVING (condition1) OR (condition2) OR (condition3)'],
 			[
-				[new CompositeExpression('OR', ['condition2', 'condition3'])],
-				new CompositeExpression('OR', ['condition1', new CompositeExpression('OR', ['condition2', 'condition3'])]),
+				[new CompositeExpression('OR', 'condition2', 'condition3')],
 				'HAVING (condition1) OR ((condition2) OR (condition3))'
 			],
 			[
-				[new CompositeExpression('AND', ['condition2', 'condition3'])],
-				new CompositeExpression('OR', ['condition1', new CompositeExpression('AND', ['condition2', 'condition3'])]),
+				[new CompositeExpression('AND', 'condition2', 'condition3')],
 				'HAVING (condition1) OR ((condition2) AND (condition3))'
 			],
 		];
@@ -1068,93 +860,66 @@ class QueryBuilderTest extends \Test\TestCase {
 
 	/**
 	 * @dataProvider dataOrHaving
-	 *
-	 * @param array $havingArguments
-	 * @param array $expectedQueryPart
-	 * @param string $expectedQuery
 	 */
-	public function testOrHaving($havingArguments, $expectedQueryPart, $expectedQuery) {
+	public function testOrHaving(array $havingArguments, string $expectedQuery): void {
+		$this->queryBuilder->select('*');
 		$this->queryBuilder->having('condition1');
 		call_user_func_array(
 			[$this->queryBuilder, 'orHaving'],
 			$havingArguments
 		);
 
-		$this->assertEquals(
-			$expectedQueryPart,
-			$this->queryBuilder->getQueryPart('having')
-		);
-
 		$this->assertSame(
-			'SELECT  ' . $expectedQuery,
+			'SELECT * ' . $expectedQuery,
 			$this->queryBuilder->getSQL()
 		);
 	}
 
-	public function dataOrderBy() {
+	public function dataOrderBy(): array {
 		return [
-			['column', null, ['`column` ASC'], 'ORDER BY `column` ASC'],
-			['column', 'ASC', ['`column` ASC'], 'ORDER BY `column` ASC'],
-			['column', 'DESC', ['`column` DESC'], 'ORDER BY `column` DESC'],
+			['column', null, 'ORDER BY `column` ASC'],
+			['column', 'ASC', 'ORDER BY `column` ASC'],
+			['column', 'DESC', 'ORDER BY `column` DESC'],
 		];
 	}
 
 	/**
 	 * @dataProvider dataOrderBy
-	 *
-	 * @param string $sort
-	 * @param string $order
-	 * @param array $expectedQueryPart
-	 * @param string $expectedQuery
 	 */
-	public function testOrderBy($sort, $order, $expectedQueryPart, $expectedQuery) {
+	public function testOrderBy(string $sort, ?string $order, string $expectedQuery): void {
+		$this->queryBuilder->select('*');
 		$this->queryBuilder->orderBy($sort, $order);
 
-		$this->assertEquals(
-			$expectedQueryPart,
-			$this->queryBuilder->getQueryPart('orderBy')
-		);
-
 		$this->assertSame(
-			'SELECT  ' . $expectedQuery,
+			'SELECT * ' . $expectedQuery,
 			$this->queryBuilder->getSQL()
 		);
 	}
 
-	public function dataAddOrderBy() {
+	public function dataAddOrderBy(): array {
 		return [
-			['column2', null, null, ['`column1` ASC', '`column2` ASC'], 'ORDER BY `column1` ASC, `column2` ASC'],
-			['column2', null, 'ASC', ['`column1` ASC', '`column2` ASC'], 'ORDER BY `column1` ASC, `column2` ASC'],
-			['column2', null, 'DESC', ['`column1` DESC', '`column2` ASC'], 'ORDER BY `column1` DESC, `column2` ASC'],
-			['column2', 'ASC', null, ['`column1` ASC', '`column2` ASC'], 'ORDER BY `column1` ASC, `column2` ASC'],
-			['column2', 'ASC', 'ASC', ['`column1` ASC', '`column2` ASC'], 'ORDER BY `column1` ASC, `column2` ASC'],
-			['column2', 'ASC', 'DESC', ['`column1` DESC', '`column2` ASC'], 'ORDER BY `column1` DESC, `column2` ASC'],
-			['column2', 'DESC', null, ['`column1` ASC', '`column2` DESC'], 'ORDER BY `column1` ASC, `column2` DESC'],
-			['column2', 'DESC', 'ASC', ['`column1` ASC', '`column2` DESC'], 'ORDER BY `column1` ASC, `column2` DESC'],
-			['column2', 'DESC', 'DESC', ['`column1` DESC', '`column2` DESC'], 'ORDER BY `column1` DESC, `column2` DESC'],
+			['column2', null, null, 'ORDER BY `column1` ASC, `column2` ASC'],
+			['column2', null, 'ASC', 'ORDER BY `column1` ASC, `column2` ASC'],
+			['column2', null, 'DESC', 'ORDER BY `column1` DESC, `column2` ASC'],
+			['column2', 'ASC', null, 'ORDER BY `column1` ASC, `column2` ASC'],
+			['column2', 'ASC', 'ASC', 'ORDER BY `column1` ASC, `column2` ASC'],
+			['column2', 'ASC', 'DESC', 'ORDER BY `column1` DESC, `column2` ASC'],
+			['column2', 'DESC', null, 'ORDER BY `column1` ASC, `column2` DESC'],
+			['column2', 'DESC', 'ASC', 'ORDER BY `column1` ASC, `column2` DESC'],
+			['column2', 'DESC', 'DESC', 'ORDER BY `column1` DESC, `column2` DESC'],
 		];
 	}
 
 	/**
 	 * @dataProvider dataAddOrderBy
-	 *
-	 * @param string $sort2
-	 * @param string $order2
-	 * @param string $order1
-	 * @param array $expectedQueryPart
-	 * @param string $expectedQuery
 	 */
-	public function testAddOrderBy($sort2, $order2, $order1, $expectedQueryPart, $expectedQuery) {
+	public function testAddOrderBy(string $sort2, ?string $order2, ?string $order1, string $expectedQuery): void {
+		$this->queryBuilder->select('*');
 		$this->queryBuilder->orderBy('column1', $order1);
 		$this->queryBuilder->addOrderBy($sort2, $order2);
 
-		$this->assertEquals(
-			$expectedQueryPart,
-			$this->queryBuilder->getQueryPart('orderBy')
-		);
-
 		$this->assertSame(
-			'SELECT  ' . $expectedQuery,
+			'SELECT * ' . $expectedQuery,
 			$this->queryBuilder->getSQL()
 		);
 	}
@@ -1253,11 +1018,11 @@ class QueryBuilderTest extends \Test\TestCase {
 		);
 	}
 
-	public function testExecuteWithoutLogger() {
+	public function testExecuteWithoutLogger(): void {
 		$queryBuilder = $this->createMock(\Doctrine\DBAL\Query\QueryBuilder::class);
 		$queryBuilder
 			->expects($this->once())
-			->method('execute')
+			->method('executeStatement')
 			->willReturn(3);
 		$queryBuilder
 			->expects($this->any())
@@ -1272,11 +1037,12 @@ class QueryBuilderTest extends \Test\TestCase {
 			->with('log_query', false)
 			->willReturn(false);
 
-		$this->invokePrivate($this->queryBuilder, 'queryBuilder', [$queryBuilder]);
+		$this->queryBuilder->insert('migrations');
+		self::invokePrivate($this->queryBuilder, 'queryBuilder', [$queryBuilder]);
 		$this->assertEquals(3, $this->queryBuilder->execute());
 	}
 
-	public function testExecuteWithLoggerAndNamedArray() {
+	public function testExecuteWithLoggerAndNamedArray(): void {
 		$queryBuilder = $this->createMock(\Doctrine\DBAL\Query\QueryBuilder::class);
 		$queryBuilder
 			->expects($this->any())
@@ -1291,7 +1057,7 @@ class QueryBuilderTest extends \Test\TestCase {
 			->willReturn('SELECT * FROM FOO WHERE BAR = ?');
 		$queryBuilder
 			->expects($this->once())
-			->method('execute')
+			->method('executeStatement')
 			->willReturn(3);
 		$this->logger
 			->expects($this->once())
@@ -1310,11 +1076,12 @@ class QueryBuilderTest extends \Test\TestCase {
 			->with('log_query', false)
 			->willReturn(true);
 
-		$this->invokePrivate($this->queryBuilder, 'queryBuilder', [$queryBuilder]);
+		$this->queryBuilder->insert('migrations');
+		self::invokePrivate($this->queryBuilder, 'queryBuilder', [$queryBuilder]);
 		$this->assertEquals(3, $this->queryBuilder->execute());
 	}
 
-	public function testExecuteWithLoggerAndUnnamedArray() {
+	public function testExecuteWithLoggerAndUnnamedArray(): void {
 		$queryBuilder = $this->createMock(\Doctrine\DBAL\Query\QueryBuilder::class);
 		$queryBuilder
 			->expects($this->any())
@@ -1326,7 +1093,7 @@ class QueryBuilderTest extends \Test\TestCase {
 			->willReturn('SELECT * FROM FOO WHERE BAR = ?');
 		$queryBuilder
 			->expects($this->once())
-			->method('execute')
+			->method('executeStatement')
 			->willReturn(3);
 		$this->logger
 			->expects($this->once())
@@ -1345,11 +1112,12 @@ class QueryBuilderTest extends \Test\TestCase {
 			->with('log_query', false)
 			->willReturn(true);
 
-		$this->invokePrivate($this->queryBuilder, 'queryBuilder', [$queryBuilder]);
+		$this->queryBuilder->insert('migrations');
+		self::invokePrivate($this->queryBuilder, 'queryBuilder', [$queryBuilder]);
 		$this->assertEquals(3, $this->queryBuilder->execute());
 	}
 
-	public function testExecuteWithLoggerAndNoParams() {
+	public function testExecuteWithLoggerAndNoParams(): void {
 		$queryBuilder = $this->createMock(\Doctrine\DBAL\Query\QueryBuilder::class);
 		$queryBuilder
 			->expects($this->any())
@@ -1361,7 +1129,7 @@ class QueryBuilderTest extends \Test\TestCase {
 			->willReturn('SELECT * FROM FOO WHERE BAR = ?');
 		$queryBuilder
 			->expects($this->once())
-			->method('execute')
+			->method('executeStatement')
 			->willReturn(3);
 		$this->logger
 			->expects($this->once())
@@ -1379,11 +1147,12 @@ class QueryBuilderTest extends \Test\TestCase {
 			->with('log_query', false)
 			->willReturn(true);
 
-		$this->invokePrivate($this->queryBuilder, 'queryBuilder', [$queryBuilder]);
+		$this->queryBuilder->insert('migrations');
+		self::invokePrivate($this->queryBuilder, 'queryBuilder', [$queryBuilder]);
 		$this->assertEquals(3, $this->queryBuilder->execute());
 	}
 
-	public function testExecuteWithParameterTooLarge() {
+	public function testExecuteWithParameterTooLarge(): void {
 		$queryBuilder = $this->createMock(\Doctrine\DBAL\Query\QueryBuilder::class);
 		$p = array_fill(0, 1001, 'foo');
 		$queryBuilder
@@ -1396,7 +1165,7 @@ class QueryBuilderTest extends \Test\TestCase {
 			->willReturn('SELECT * FROM FOO WHERE BAR IN (?)');
 		$queryBuilder
 			->expects($this->once())
-			->method('execute')
+			->method('executeQuery')
 			->willReturn($this->createMock(Result::class));
 		$this->logger
 			->expects($this->once())
@@ -1414,11 +1183,11 @@ class QueryBuilderTest extends \Test\TestCase {
 			->with('log_query', false)
 			->willReturn(false);
 
-		$this->invokePrivate($this->queryBuilder, 'queryBuilder', [$queryBuilder]);
+		self::invokePrivate($this->queryBuilder, 'queryBuilder', [$queryBuilder]);
 		$this->queryBuilder->execute();
 	}
 
-	public function testExecuteWithParametersTooMany() {
+	public function testExecuteWithParametersTooMany(): void {
 		$queryBuilder = $this->createMock(\Doctrine\DBAL\Query\QueryBuilder::class);
 		$p = array_fill(0, 999, 'foo');
 		$queryBuilder
@@ -1431,7 +1200,7 @@ class QueryBuilderTest extends \Test\TestCase {
 			->willReturn('SELECT * FROM FOO WHERE BAR IN (?) OR BAR IN (?)');
 		$queryBuilder
 			->expects($this->once())
-			->method('execute')
+			->method('executeQuery')
 			->willReturn($this->createMock(Result::class));
 		$this->logger
 			->expects($this->once())
@@ -1449,7 +1218,7 @@ class QueryBuilderTest extends \Test\TestCase {
 			->with('log_query', false)
 			->willReturn(false);
 
-		$this->invokePrivate($this->queryBuilder, 'queryBuilder', [$queryBuilder]);
+		self::invokePrivate($this->queryBuilder, 'queryBuilder', [$queryBuilder]);
 		$this->queryBuilder->execute();
 	}
 }
