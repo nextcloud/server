@@ -504,23 +504,26 @@ class AllConfig implements IConfig {
 		$this->fixDIInit();
 
 		$query = $this->connection->getQueryBuilder();
-
 		$query->selectDistinct('uid')
 			->from('users', 'u')
 			->leftJoin('u', 'preferences', 'p', $query->expr()->andX(
 				$query->expr()->eq('p.userid', 'uid'),
 				$query->expr()->eq('p.appid', $query->expr()->literal('login')),
 				$query->expr()->eq('p.configkey', $query->expr()->literal('lastLogin')))
-			)->leftJoin('u', 'preferences', 'p1', $query->expr()->andX(
-				$query->expr()->eq('p1.userid', 'uid'),
-				$query->expr()->eq('p1.appid', $query->expr()->literal('settings')),
-				$query->expr()->eq('p1.configkey', $query->expr()->literal('email')))
-			)
-			// sqlite doesn't like re-using a single named parameter here
-			->where($query->expr()->iLike('uid', $query->createPositionalParameter('%' . $this->connection->escapeLikeParameter($search) . '%')))
-			->orWhere($query->expr()->iLike('displayname', $query->createPositionalParameter('%' . $this->connection->escapeLikeParameter($search) . '%')))
-			->orWhere($query->expr()->iLike('p1.configvalue', $query->createPositionalParameter('%' . $this->connection->escapeLikeParameter($search) . '%')))
-			->orderBy($query->func()->lower('p.configvalue'), 'DESC')
+			);
+		if($search !== '') {
+			$query->leftJoin('u', 'preferences', 'p1', $query->expr()->andX(
+					$query->expr()->eq('p1.userid', 'uid'),
+					$query->expr()->eq('p1.appid', $query->expr()->literal('settings')),
+					$query->expr()->eq('p1.configkey', $query->expr()->literal('email')))
+				)
+				// sqlite doesn't like re-using a single named parameter here
+				->where($query->expr()->iLike('uid', $query->createPositionalParameter('%' . $this->connection->escapeLikeParameter($search) . '%')))
+				->orWhere($query->expr()->iLike('displayname', $query->createPositionalParameter('%' . $this->connection->escapeLikeParameter($search) . '%')))
+				->orWhere($query->expr()->iLike('p1.configvalue', $query->createPositionalParameter('%' . $this->connection->escapeLikeParameter($search) . '%'))
+			);
+		}
+		$query->orderBy($query->func()->lower('p.configvalue'), 'DESC')
 			->addOrderBy('uid_lower', 'ASC')
 			->setFirstResult($offset)
 			->setMaxResults($limit);
