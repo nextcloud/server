@@ -220,6 +220,7 @@ return array(
     'OCP\\Config\\BeforePreferenceDeletedEvent' => $baseDir . '/lib/public/Config/BeforePreferenceDeletedEvent.php',
     'OCP\\Config\\BeforePreferenceSetEvent' => $baseDir . '/lib/public/Config/BeforePreferenceSetEvent.php',
     'OCP\\Console\\ConsoleEvent' => $baseDir . '/lib/public/Console/ConsoleEvent.php',
+    'OCP\\Console\\ReservedOptions' => $baseDir . '/lib/public/Console/ReservedOptions.php',
     'OCP\\Constants' => $baseDir . '/lib/public/Constants.php',
     'OCP\\Contacts\\ContactsMenu\\IAction' => $baseDir . '/lib/public/Contacts/ContactsMenu/IAction.php',
     'OCP\\Contacts\\ContactsMenu\\IActionFactory' => $baseDir . '/lib/public/Contacts/ContactsMenu/IActionFactory.php',

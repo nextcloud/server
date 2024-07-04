@@ -253,6 +253,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OCP\\Config\\BeforePreferenceDeletedEvent' => __DIR__ . '/../../..' . '/lib/public/Config/BeforePreferenceDeletedEvent.php',
         'OCP\\Config\\BeforePreferenceSetEvent' => __DIR__ . '/../../..' . '/lib/public/Config/BeforePreferenceSetEvent.php',
         'OCP\\Console\\ConsoleEvent' => __DIR__ . '/../../..' . '/lib/public/Console/ConsoleEvent.php',
+        'OCP\\Console\\ReservedOptions' => __DIR__ . '/../../..' . '/lib/public/Console/ReservedOptions.php',
         'OCP\\Constants' => __DIR__ . '/../../..' . '/lib/public/Constants.php',
         'OCP\\Contacts\\ContactsMenu\\IAction' => __DIR__ . '/../../..' . '/lib/public/Contacts/ContactsMenu/IAction.php',
         'OCP\\Contacts\\ContactsMenu\\IActionFactory' => __DIR__ . '/../../..' . '/lib/public/Contacts/ContactsMenu/IActionFactory.php',
