@@ -158,6 +158,8 @@ OC.L10N.register(
     "WebDAV" : "WebDAV",
     "First day" : "Erster Tag",
     "Last day (inclusive)" : "Letzter Tag (Inklusive)",
+    "Out of office replacement (optional)" : "Abwesenheitsvertretung (optional)",
+    "Name of the replacement" : "Name der Vertretung",
     "No results." : "Keine Ergebnisse",
     "Short absence status" : "Kurze Abwesenheits Meldung",
     "Long absence Message" : "Lange Abwesenheits Meldung",
