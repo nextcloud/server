@@ -505,29 +505,31 @@ class AllConfig implements IConfig {
 
 		$query = $this->connection->getQueryBuilder();
 
-		$query->select('uid', 'displayname')
+		$query->selectDistinct('uid')
 			->from('users', 'u')
 			->leftJoin('u', 'preferences', 'p', $query->expr()->andX(
-				$query->expr()->eq('userid', 'uid'),
-				$query->expr()->eq('appid', $query->expr()->literal('login')),
-				$query->expr()->eq('configkey', $query->expr()->literal('lastLogin')))
+				$query->expr()->eq('p.userid', 'uid'),
+				$query->expr()->eq('p.appid', $query->expr()->literal('login')),
+				$query->expr()->eq('p.configkey', $query->expr()->literal('lastLogin')))
+			)->leftJoin('u', 'preferences', 'p1', $query->expr()->andX(
+				$query->expr()->eq('p1.userid', 'uid'),
+				$query->expr()->eq('p1.appid', $query->expr()->literal('settings')),
+				$query->expr()->eq('p1.configkey', $query->expr()->literal('email')))
 			)
 			// sqlite doesn't like re-using a single named parameter here
 			->where($query->expr()->iLike('uid', $query->createPositionalParameter('%' . $this->connection->escapeLikeParameter($search) . '%')))
 			->orWhere($query->expr()->iLike('displayname', $query->createPositionalParameter('%' . $this->connection->escapeLikeParameter($search) . '%')))
-			->orWhere($query->expr()->iLike('configvalue', $query->createPositionalParameter('%' . $this->connection->escapeLikeParameter($search) . '%')))
-			->orderBy($query->func()->lower('configvalue'), 'DESC')
+			->orWhere($query->expr()->iLike('p1.configvalue', $query->createPositionalParameter('%' . $this->connection->escapeLikeParameter($search) . '%')))
+			->orderBy($query->func()->lower('p.configvalue'), 'DESC')
 			->addOrderBy('uid_lower', 'ASC')
 			->setFirstResult($offset)
 			->setMaxResults($limit);
 
 		$result = $query->executeQuery();
-		$displayNames = [];
-		while ($row = $result->fetch()) {
-			$displayNames[(string)$row['uid']] = (string)$row['uid'];
-		}
+		$uids = $result->fetchAll(\PDO::FETCH_COLUMN);
+		$result->closeCursor();
 
-		return $displayNames;
+		return $uids;
 	}
 
 	/**
