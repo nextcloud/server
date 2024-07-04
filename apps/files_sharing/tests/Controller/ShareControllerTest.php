@@ -37,6 +37,7 @@ use OCP\ISession;
 use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserManager;
+use OCP\IUserSession;
 use OCP\Security\ISecureRandom;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IPublicShareTemplateFactory;
@@ -84,6 +85,8 @@ class ShareControllerTest extends \Test\TestCase {
 	private $defaults;
 	/** @var IPublicShareTemplateFactory|MockObject */
 	private $publicShareTemplateFactory;
+	/** @var IUserSession|MockObject */
+	private $userSession;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -124,6 +127,8 @@ class ShareControllerTest extends \Test\TestCase {
 				)
 			);
 
+		$this->userSession = $this->createMock(IUserSession::class);
+
 		$this->shareController = new \OCA\Files_Sharing\Controller\ShareController(
 			$this->appName,
 			$this->createMock(IRequest::class),
@@ -142,6 +147,7 @@ class ShareControllerTest extends \Test\TestCase {
 			$this->secureRandom,
 			$this->defaults,
 			$this->publicShareTemplateFactory,
+			$this->userSession,
 		);
 
 
