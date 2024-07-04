@@ -141,6 +141,7 @@ return array(
     'OCA\\DAV\\CardDAV\\SyncService' => $baseDir . '/../lib/CardDAV/SyncService.php',
     'OCA\\DAV\\CardDAV\\SystemAddressbook' => $baseDir . '/../lib/CardDAV/SystemAddressbook.php',
     'OCA\\DAV\\CardDAV\\UserAddressBooks' => $baseDir . '/../lib/CardDAV/UserAddressBooks.php',
+    'OCA\\DAV\\CardDAV\\Validation\\CardDavValidatePlugin' => $baseDir . '/../lib/CardDAV/Validation/CardDavValidatePlugin.php',
     'OCA\\DAV\\CardDAV\\Xml\\Groups' => $baseDir . '/../lib/CardDAV/Xml/Groups.php',
     'OCA\\DAV\\Command\\CreateAddressBook' => $baseDir . '/../lib/Command/CreateAddressBook.php',
     'OCA\\DAV\\Command\\CreateCalendar' => $baseDir . '/../lib/Command/CreateCalendar.php',
