@@ -84,7 +84,7 @@
 			class="files-list__row-mtime"
 			data-cy-files-list-row-mtime
 			@click="openDetailsIfAvailable">
-			<NcDateTime v-if="mtime" :timestamp="mtime" :ignore-seconds="true" />
+			<NcDateTime v-if="source.mtime" :timestamp="source.mtime" :ignore-seconds="true" />
 			<span v-else>{{ t('files', 'Unknown date') }}</span>
 		</td>
 
@@ -105,7 +105,6 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 import { formatFileSize } from '@nextcloud/files'
-import moment from '@nextcloud/moment'
 
 import { useNavigation } from '../composables/useNavigation'
 import { useActionsMenuStore } from '../store/actionsmenu.ts'
@@ -139,15 +138,7 @@ export default defineComponent({
 	],
 
 	props: {
-		isMtimeAvailable: {
-			type: Boolean,
-			default: false,
-		},
 		isSizeAvailable: {
-			type: Boolean,
-			default: false,
-		},
-		compact: {
 			type: Boolean,
 			default: false,
 		},
@@ -221,41 +212,6 @@ export default defineComponent({
 			return {
 				color: `color-mix(in srgb, var(--color-main-text) ${ratio}%, var(--color-text-maxcontrast))`,
 			}
-		},
-		mtimeOpacity() {
-			const maxOpacityTime = 31 * 24 * 60 * 60 * 1000 // 31 days
-
-			const mtime = this.source.mtime?.getTime?.()
-			if (!mtime) {
-				return {}
-			}
-
-			// 1 = today, 0 = 31 days ago
-			const ratio = Math.round(Math.min(100, 100 * (maxOpacityTime - (Date.now() - mtime)) / maxOpacityTime))
-			if (ratio < 0) {
-				return {}
-			}
-			return {
-				color: `color-mix(in srgb, var(--color-main-text) ${ratio}%, var(--color-text-maxcontrast))`,
-			}
-		},
-		mtime() {
-			// If the mtime is not a valid date, return it as is
-			if (this.source.mtime && !isNaN(this.source.mtime.getDate())) {
-				return this.source.mtime
-			}
-
-			if (this.source.crtime && !isNaN(this.source.crtime.getDate())) {
-				return this.source.crtime
-			}
-
-			return null
-		},
-		mtimeTitle() {
-			if (this.source.mtime) {
-				return moment(this.source.mtime).format('LLL')
-			}
-			return ''
 		},
 	},
 
