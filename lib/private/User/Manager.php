@@ -345,30 +345,15 @@ class Manager extends PublicEmitter implements IUserManager {
 	/**
 	 * @return IUser[]
 	 */
-	public function getUsersSortedByLastLogin(?int $limit = null, int $offset = 0, $search = ''): array {
-		$users = $this->config->getLastLoggedInUsers($search);
-		$users = array_combine(
+	public function getUsersSortedByLastLogin(?int $limit = 25, int $offset = 0, $search = ''): array {
+		$users = $this->config->getLastLoggedInUsers($limit, $offset, $search);
+		return array_combine(
 			$users,
 			array_map(
 				fn (string $uid): IUser => new LazyUser($uid, $this),
 				$users
 			)
 		);
-
-		$tempLimit = ($limit === null ? null : $limit + $offset);
-		foreach ($this->backends as $backend) {
-			if (($tempLimit !== null) && (count($users) >= $tempLimit)) {
-				break;
-			}
-			if ($backend instanceof IProvideEnabledStateBackend) {
-				$backendUsers = $backend->getDisabledUserList(($tempLimit === null ? null : $tempLimit - count($users)));
-				foreach ($backendUsers as $uid) {
-					$users[$uid] = new LazyUser($uid, $this, null, $backend);
-				}
-			}
-		}
-
-		return array_slice($users, $offset, $limit);
 	}
 
 
