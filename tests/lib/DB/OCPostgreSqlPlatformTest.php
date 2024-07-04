@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2017-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2017 ownCloud, Inc.
@@ -23,7 +25,7 @@ use Doctrine\DBAL\Types\Types;
  * @package Test\DB
  */
 class OCPostgreSqlPlatformTest extends \Test\TestCase {
-	public function testAlterBigint() {
+	public function testAlterBigint(): void {
 		$platform = new PostgreSQLPlatform();
 		$sourceSchema = new Schema();
 		$targetSchema = new Schema();
@@ -31,23 +33,21 @@ class OCPostgreSqlPlatformTest extends \Test\TestCase {
 		$this->createTableAndColumn($sourceSchema, Types::INTEGER);
 		$this->createTableAndColumn($targetSchema, Types::BIGINT);
 
-		$comparator = new Comparator();
-		$diff = $comparator->compare($sourceSchema, $targetSchema);
-		$sqlStatements = $diff->toSql($platform);
+		$comparator = new Comparator($platform);
+		$diff = $comparator->compareSchemas($sourceSchema, $targetSchema);
+		$sqlStatements = $platform->getAlterSchemaSQL($diff);
 		$this->assertContains(
 			'ALTER TABLE poor_yorick ALTER id TYPE BIGINT',
-			$sqlStatements,
-			true
+			$sqlStatements
 		);
 
 		$this->assertNotContains(
 			'ALTER TABLE poor_yorick ALTER id DROP DEFAULT',
-			$sqlStatements,
-			true
+			$sqlStatements
 		);
 	}
 
-	protected function createTableAndColumn($schema, $type) {
+	protected function createTableAndColumn(Schema $schema, string $type): void {
 		$table = $schema->createTable("poor_yorick");
 		$table->addColumn('id', $type, [
 			'autoincrement' => true,
