@@ -459,22 +459,22 @@ class Connection extends PrimaryReadReplicaConnection {
 			foreach ($values as $name => $value) {
 				$updateQb->set($name, $updateQb->createNamedParameter($value, $this->getType($value)));
 			}
-			$where = $updateQb->expr()->andX();
+			$where = [];
 			$whereValues = array_merge($keys, $updatePreconditionValues);
 			foreach ($whereValues as $name => $value) {
 				if ($value === '') {
-					$where->add($updateQb->expr()->emptyString(
+					$where[] = $updateQb->expr()->emptyString(
 						$name
-					));
+					);
 				} else {
-					$where->add($updateQb->expr()->eq(
+					$where[] = $updateQb->expr()->eq(
 						$name,
 						$updateQb->createNamedParameter($value, $this->getType($value)),
 						$this->getType($value)
-					));
+					);
 				}
 			}
-			$updateQb->where($where);
+			$updateQb->where($updateQb->expr()->andX(...$where));
 			$affected = $updateQb->executeStatement();
 
 			if ($affected === 0 && !empty($updatePreconditionValues)) {

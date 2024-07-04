@@ -29,24 +29,24 @@ class CardSearchDao {
 		$cardQuery = $this->db->getQueryBuilder();
 		$propQuery = $this->db->getQueryBuilder();
 
-		$propOr = $propQuery->expr()->orX();
+		$additionalWheres = [];
 		if ($uid !== null) {
-			$propOr->add($propQuery->expr()->andX(
+			$additionalWheres[] = $propQuery->expr()->andX(
 				$propQuery->expr()->eq('name', $cardQuery->createNamedParameter('UID')),
 				$propQuery->expr()->eq('value', $cardQuery->createNamedParameter($uid))
-			));
+			);
 		}
 		if ($email !== null) {
-			$propOr->add($propQuery->expr()->andX(
+			$additionalWheres[] = $propQuery->expr()->andX(
 				$propQuery->expr()->eq('name', $cardQuery->createNamedParameter('EMAIL')),
 				$propQuery->expr()->eq('value', $cardQuery->createNamedParameter($email))
-			));
+			);
 		}
 		if ($cloudId !== null) {
-			$propOr->add($propQuery->expr()->andX(
+			$additionalWheres[] = $propQuery->expr()->andX(
 				$propQuery->expr()->eq('name', $cardQuery->createNamedParameter('CLOUD')),
 				$propQuery->expr()->eq('value', $cardQuery->createNamedParameter($cloudId))
-			));
+			);
 		}
 		$addressbooksQuery->selectDistinct('id')
 			->from('addressbooks')
@@ -54,8 +54,12 @@ class CardSearchDao {
 		$propQuery->selectDistinct('cardid')
 			->from('cards_properties')
 			->where($propQuery->expr()->in('addressbookid', $propQuery->createFunction($addressbooksQuery->getSQL()), IQueryBuilder::PARAM_INT_ARRAY))
-			->andWhere($propOr)
 			->groupBy('cardid');
+
+		if (!empty($additionalWheres)) {
+			$propQuery->andWhere($propQuery->expr()->orX(...$additionalWheres));
+		}
+
 		$cardQuery->select('carddata')
 			->from('cards')
 			->where($cardQuery->expr()->in('id', $cardQuery->createFunction($propQuery->getSQL()), IQueryBuilder::PARAM_INT_ARRAY))
