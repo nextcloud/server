@@ -279,6 +279,7 @@ class QueryBuilder implements IQueryBuilder {
 		try {
 			$result = $this->execute();
 		} catch (\Doctrine\DBAL\Exception $e) {
+			var_dump($this->getSQL(), $this->getParameters(), $this->getParameterTypes());
 			throw \OC\DB\Exceptions\DbalException::wrap($e);
 		}
 
