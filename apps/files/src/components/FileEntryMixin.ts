@@ -37,6 +37,14 @@ export default defineComponent({
 			type: Number,
 			default: 0,
 		},
+		isMtimeAvailable: {
+			type: Boolean,
+			default: false,
+		},
+		compact: {
+			type: Boolean,
+			default: false,
+		},
 	},
 
 	data() {
@@ -148,8 +156,22 @@ export default defineComponent({
 			},
 		},
 
-		isRenaming() {
-			return this.renamingStore.renamingNode === this.source
+		mtimeOpacity() {
+			const maxOpacityTime = 31 * 24 * 60 * 60 * 1000 // 31 days
+
+			const mtime = this.source.mtime?.getTime?.()
+			if (!mtime) {
+				return {}
+			}
+
+			// 1 = today, 0 = 31 days ago
+			const ratio = Math.round(Math.min(100, 100 * (maxOpacityTime - (Date.now() - mtime)) / maxOpacityTime))
+			if (ratio < 0) {
+				return {}
+			}
+			return {
+				color: `color-mix(in srgb, var(--color-main-text) ${ratio}%, var(--color-text-maxcontrast))`,
+			}
 		},
 	},
 

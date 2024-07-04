@@ -121,15 +121,7 @@ export default defineComponent({
 	],
 
 	props: {
-		isMtimeAvailable: {
-			type: Boolean,
-			default: false,
-		},
 		isSizeAvailable: {
-			type: Boolean,
-			default: false,
-		},
-		compact: {
 			type: Boolean,
 			default: false,
 		},
@@ -204,23 +196,7 @@ export default defineComponent({
 				color: `color-mix(in srgb, var(--color-main-text) ${ratio}%, var(--color-text-maxcontrast))`,
 			}
 		},
-		mtimeOpacity() {
-			const maxOpacityTime = 31 * 24 * 60 * 60 * 1000 // 31 days
 
-			const mtime = this.source.mtime?.getTime?.()
-			if (!mtime) {
-				return {}
-			}
-
-			// 1 = today, 0 = 31 days ago
-			const ratio = Math.round(Math.min(100, 100 * (maxOpacityTime - (Date.now() - mtime)) / maxOpacityTime))
-			if (ratio < 0) {
-				return {}
-			}
-			return {
-				color: `color-mix(in srgb, var(--color-main-text) ${ratio}%, var(--color-text-maxcontrast))`,
-			}
-		},
 		mtimeTitle() {
 			if (this.source.mtime) {
 				return moment(this.source.mtime).format('LLL')
