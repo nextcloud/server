@@ -158,6 +158,8 @@ OC.L10N.register(
     "WebDAV" : "WebDAV",
     "First day" : "Första dagen",
     "Last day (inclusive)" : "Sista dagen (inklusive)",
+    "No results." : "Inga resultat.",
+    "Start typing." : "Börja skriva.",
     "Short absence status" : "Meddelande om kort frånvaro",
     "Long absence Message" : "Meddelande om långvarig frånvaro",
     "Save" : "Spara",

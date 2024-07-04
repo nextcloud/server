@@ -439,7 +439,7 @@ OC.L10N.register(
     "Marked for remote wipe" : "Marcado para limpeza remota",
     "Device settings" : "Axustes do dispositivo",
     "Allow filesystem access" : "Permitir o acceso aos  sistema de ficheiros",
-    "Rename" : "Renomear",
+    "Rename" : "Cambiar o nome",
     "Revoke" : "Revogar",
     "Wipe device" : "Limpar o dispositivo",
     "Revoking this token might prevent the wiping of your device if it has not started the wipe yet." : "A revogación deste testemuño pode impedir a limpeza do seu dispositivo se aínda non iniciou a limpeza.",
