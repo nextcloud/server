@@ -55,12 +55,14 @@ class Downloads extends Base {
 
 		if ($event->getSubject() === self::SUBJECT_PUBLIC_SHARED_FILE_DOWNLOADED ||
 			$event->getSubject() === self::SUBJECT_PUBLIC_SHARED_FOLDER_DOWNLOADED) {
-			if (!isset($parsedParameters['remote-address-hash']['type'])) {
-				$subject = $this->l->t('{file} downloaded via public link');
-				$this->setSubjects($event, $subject, $parsedParameters);
+			if (isset($parsedParameters['actor'])) {
+				$subject = $this->l->t('{file} downloaded via public link by {actor}');
 			} else {
 				$subject = $this->l->t('{file} downloaded via public link');
-				$this->setSubjects($event, $subject, $parsedParameters);
+			}
+
+			$this->setSubjects($event, $subject, $parsedParameters);
+			if (isset($parsedParameters['remote-address-hash']['type'])) {
 				$event = $this->eventMerger->mergeEvents('file', $event, $previousEvent);
 			}
 		} elseif ($event->getSubject() === self::SUBJECT_SHARED_FILE_BY_EMAIL_DOWNLOADED ||
@@ -92,20 +94,25 @@ class Downloads extends Base {
 		switch ($subject) {
 			case self::SUBJECT_PUBLIC_SHARED_FILE_DOWNLOADED:
 			case self::SUBJECT_PUBLIC_SHARED_FOLDER_DOWNLOADED:
-				if (isset($parameters[1])) {
-					return [
-						'file' => $this->getFile($parameters[0], $event),
-						'remote-address-hash' => [
-							'type' => 'highlight',
-							'id' => $parameters[1],
-							'name' => $parameters[1],
-							'link' => '',
-						],
-					];
-				}
-				return [
+				$parsedParameters = [
 					'file' => $this->getFile($parameters[0], $event),
 				];
+
+				if (isset($parameters[1])) {
+					$parsedParameters['remote-address-hash'] = [
+						'type' => 'highlight',
+						'id' => $parameters[1],
+						'name' => $parameters[1],
+						'link' => '',
+					];
+				}
+
+				if (isset($parameters[2])) {
+					$parsedParameters['actor'] = $this->getUser($parameters[2]);
+				}
+
+				return $parsedParameters;
+
 			case self::SUBJECT_SHARED_FILE_BY_EMAIL_DOWNLOADED:
 			case self::SUBJECT_SHARED_FOLDER_BY_EMAIL_DOWNLOADED:
 				return [
