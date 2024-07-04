@@ -1,9 +1,3 @@
-/*!
-  * vue-router v3.6.5
-  * (c) 2022 Evan You
-  * @license MIT
-  */
-
 /*! http://mths.be/fromcodepoint v0.1.0 by @mathias */
 
 /*! safe-buffer. MIT License. Feross Aboukhadijeh <https://feross.org/opensource> */
