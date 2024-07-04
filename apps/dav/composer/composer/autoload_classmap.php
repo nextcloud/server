@@ -112,6 +112,7 @@ return array(
     'OCA\\DAV\\CalDAV\\Trashbin\\Plugin' => $baseDir . '/../lib/CalDAV/Trashbin/Plugin.php',
     'OCA\\DAV\\CalDAV\\Trashbin\\RestoreTarget' => $baseDir . '/../lib/CalDAV/Trashbin/RestoreTarget.php',
     'OCA\\DAV\\CalDAV\\Trashbin\\TrashbinHome' => $baseDir . '/../lib/CalDAV/Trashbin/TrashbinHome.php',
+    'OCA\\DAV\\CalDAV\\Validation\\CalDavValidatePlugin' => $baseDir . '/../lib/CalDAV/Validation/CalDavValidatePlugin.php',
     'OCA\\DAV\\CalDAV\\WebcalCaching\\Plugin' => $baseDir . '/../lib/CalDAV/WebcalCaching/Plugin.php',
     'OCA\\DAV\\CalDAV\\WebcalCaching\\RefreshWebcalService' => $baseDir . '/../lib/CalDAV/WebcalCaching/RefreshWebcalService.php',
     'OCA\\DAV\\Capabilities' => $baseDir . '/../lib/Capabilities.php',
