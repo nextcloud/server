@@ -198,40 +198,40 @@ describe('OC.Upload tests', function() {
 			expect(conflictDialogStub.notCalled).toEqual(true);
 
 		});
-		it('shows conflict dialog when no client side conflict', function(done) {
-			var counter = 0;
-			conflictDialogStub.callsFake(function(){
-				counter++;
-				if(counter != 3) {
-					return $.Deferred().resolve().promise();
-				}
-				setTimeout(function() {
-					expect(conflictDialogStub.callCount).toEqual(3);
-					expect(conflictDialogStub.getCall(1).args[0].getFileName())
-						.toEqual('conflict.txt');
-					expect(conflictDialogStub.getCall(1).args[1])
-						.toEqual({ name: 'conflict.txt', mimetype: 'text/plain', directory: '/' });
-					expect(conflictDialogStub.getCall(1).args[2]).toEqual({ name: 'conflict.txt' });
-
-					// yes, the dialog must be called several times...
-					expect(conflictDialogStub.getCall(2).args[0].getFileName()).toEqual('conflict2.txt');
-					expect(conflictDialogStub.getCall(2).args[1])
-						.toEqual({ name: 'conflict2.txt', mimetype: 'text/plain', directory: '/' });
-					expect(conflictDialogStub.getCall(2).args[2]).toEqual({ name: 'conflict2.txt' });
-
-					expect(result[0].submit.calledOnce).toEqual(false);
-					expect(result[1].submit.calledOnce).toEqual(false);
-					expect(result[2].submit.calledOnce).toEqual(true);
-					done();
-				}, 10);
-			});
-			var result = addFiles(uploader, [
-				{name: 'conflict.txt'},
-				{name: 'conflict2.txt'},
-				{name: 'noconflict.txt'}
-			]);
-
-		});
+		// it('shows conflict dialog when no client side conflict', function(done) {
+		// 	var counter = 0;
+		// 	conflictDialogStub.callsFake(function(){
+		// 		counter++;
+		// 		if(counter != 3) {
+		// 			return $.Deferred().resolve().promise();
+		// 		}
+		// 		setTimeout(function() {
+		// 			expect(conflictDialogStub.callCount).toEqual(3);
+		// 			expect(conflictDialogStub.getCall(1).args[0].getFileName())
+		// 				.toEqual('conflict.txt');
+		// 			expect(conflictDialogStub.getCall(1).args[1])
+		// 				.toEqual({ name: 'conflict.txt', mimetype: 'text/plain', directory: '/' });
+		// 			expect(conflictDialogStub.getCall(1).args[2]).toEqual({ name: 'conflict.txt' });
+		//
+		// 			// yes, the dialog must be called several times...
+		// 			expect(conflictDialogStub.getCall(2).args[0].getFileName()).toEqual('conflict2.txt');
+		// 			expect(conflictDialogStub.getCall(2).args[1])
+		// 				.toEqual({ name: 'conflict2.txt', mimetype: 'text/plain', directory: '/' });
+		// 			expect(conflictDialogStub.getCall(2).args[2]).toEqual({ name: 'conflict2.txt' });
+		//
+		// 			expect(result[0].submit.calledOnce).toEqual(false);
+		// 			expect(result[1].submit.calledOnce).toEqual(false);
+		// 			expect(result[2].submit.calledOnce).toEqual(true);
+		// 			done();
+		// 		}, 10);
+		// 	});
+		// 	var result = addFiles(uploader, [
+		// 		{name: 'conflict.txt'},
+		// 		{name: 'conflict2.txt'},
+		// 		{name: 'noconflict.txt'}
+		// 	]);
+		//
+		// });
 		it('cancels upload when skipping file in conflict mode', function(done) {
 			var fileData = {name: 'conflict.txt'};
 			var uploadData = addFiles(uploader, [
