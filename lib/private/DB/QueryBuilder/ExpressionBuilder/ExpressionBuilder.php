@@ -58,7 +58,7 @@ class ExpressionBuilder implements IExpressionBuilder {
 			throw new \Exception('No parameters in call to ' . __METHOD__);
 		}
 		$compositeExpression = call_user_func_array([$this->expressionBuilder, 'and'], $x);
-		return new CompositeExpression($compositeExpression);
+		return new CompositeExpression($compositeExpression->getType(), $x);
 	}
 
 	/**
@@ -81,7 +81,7 @@ class ExpressionBuilder implements IExpressionBuilder {
 			throw new \Exception('No parameters in call to ' . __METHOD__);
 		}
 		$compositeExpression = call_user_func_array([$this->expressionBuilder, 'or'], $x);
-		return new CompositeExpression($compositeExpression);
+		return new CompositeExpression($compositeExpression->getType(), $x);
 	}
 
 	/**
