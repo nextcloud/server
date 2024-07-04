@@ -39,6 +39,7 @@ use OCA\DAV\AppInfo\PluginManager;
 use OCA\DAV\BulkUpload\BulkUploadPlugin;
 use OCA\DAV\CalDAV\BirthdayService;
 use OCA\DAV\CalDAV\Security\RateLimitingPlugin;
+use OCA\DAV\CalDAV\Validation\CalDavValidatePlugin;
 use OCA\DAV\CardDAV\HasPhotoPlugin;
 use OCA\DAV\CardDAV\ImageExportPlugin;
 use OCA\DAV\CardDAV\MultiGetExportPlugin;
@@ -196,6 +197,7 @@ class Server {
 			));
 
 			$this->server->addPlugin(\OCP\Server::get(RateLimitingPlugin::class));
+			$this->server->addPlugin(\OCP\Server::get(CalDavValidatePlugin::class));
 		}
 
 		// addressbook plugins
