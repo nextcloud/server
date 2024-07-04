@@ -31,7 +31,9 @@ use OCP\IPreview;
 use OCP\IRequest;
 use OCP\ISession;
 use OCP\IURLGenerator;
+use OCP\IUser;
 use OCP\IUserManager;
+use OCP\IUserSession;
 use OCP\Security\Events\GenerateSecurePasswordEvent;
 use OCP\Security\ISecureRandom;
 use OCP\Security\PasswordContext;
@@ -47,6 +49,7 @@ use OCP\Share\IShare;
 #[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
 class ShareController extends AuthPublicShareController {
 	protected ?Share\IShare $share = null;
+	private ?IUser $currentUser = null;
 
 	public const SHARE_ACCESS = 'access';
 	public const SHARE_AUTH = 'auth';
@@ -70,8 +73,11 @@ class ShareController extends AuthPublicShareController {
 		protected ISecureRandom $secureRandom,
 		protected Defaults $defaults,
 		private IPublicShareTemplateFactory $publicShareTemplateFactory,
+		IUserSession $userSession,
 	) {
 		parent::__construct($appName, $request, $session, $urlGenerator);
+
+		$this->currentUser = $userSession->getUser();
 	}
 
 	/**
@@ -444,11 +450,11 @@ class ShareController extends AuthPublicShareController {
 		} else {
 			if ($node instanceof \OCP\Files\File) {
 				$subject = Downloads::SUBJECT_PUBLIC_SHARED_FILE_DOWNLOADED;
-				$parameters[] = $remoteAddressHash;
 			} else {
 				$subject = Downloads::SUBJECT_PUBLIC_SHARED_FOLDER_DOWNLOADED;
-				$parameters[] = $remoteAddressHash;
 			}
+			$parameters[] = $remoteAddressHash;
+			$parameters[] = $this->currentUser?->getUID();
 		}
 
 		$this->publishActivity($subject, $parameters, $share->getSharedBy(), $fileId, $userPath);
