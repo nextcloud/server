@@ -497,7 +497,7 @@ class AllConfig implements IConfig {
 	 * @param int|null $limit how many users to fetch
 	 * @param int $offset from which offset to fetch
 	 * @param string $search search users based on search params
-	 * @return array<string, string> list of user IDs
+	 * @return list<string> list of user IDs
 	 */
 	public function getLastLoggedInUsers(?int $limit = null, int $offset = 0, string $search = ''): array {
 		// TODO - FIXME
@@ -513,15 +513,15 @@ class AllConfig implements IConfig {
 			);
 		if($search !== '') {
 			$query->leftJoin('u', 'preferences', 'p1', $query->expr()->andX(
-					$query->expr()->eq('p1.userid', 'uid'),
-					$query->expr()->eq('p1.appid', $query->expr()->literal('settings')),
-					$query->expr()->eq('p1.configkey', $query->expr()->literal('email')))
-				)
+				$query->expr()->eq('p1.userid', 'uid'),
+				$query->expr()->eq('p1.appid', $query->expr()->literal('settings')),
+				$query->expr()->eq('p1.configkey', $query->expr()->literal('email')))
+			)
 				// sqlite doesn't like re-using a single named parameter here
 				->where($query->expr()->iLike('uid', $query->createPositionalParameter('%' . $this->connection->escapeLikeParameter($search) . '%')))
 				->orWhere($query->expr()->iLike('displayname', $query->createPositionalParameter('%' . $this->connection->escapeLikeParameter($search) . '%')))
 				->orWhere($query->expr()->iLike('p1.configvalue', $query->createPositionalParameter('%' . $this->connection->escapeLikeParameter($search) . '%'))
-			);
+				);
 		}
 		$query->orderBy($query->func()->lower('p.configvalue'), 'DESC')
 			->addOrderBy('uid_lower', 'ASC')
@@ -529,6 +529,7 @@ class AllConfig implements IConfig {
 			->setMaxResults($limit);
 
 		$result = $query->executeQuery();
+		/** @var list<string> $uids */
 		$uids = $result->fetchAll(\PDO::FETCH_COLUMN);
 		$result->closeCursor();
 
