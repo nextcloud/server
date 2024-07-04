@@ -55,11 +55,16 @@ jobs:
 
     strategy:
       matrix:
-        oracle-versions: ['11']
-        php-versions: ['8.1', '8.2', '8.3']
         include:
-          - php-versions: '8.3'
+          - oracle-versions: '18'
+            php-versions: '8.3'
             coverage: ${{ github.event_name != 'pull_request' }}
+          - oracle-versions: '18'
+            php-versions: '8.1'
+          - oracle-versions: '21'
+            php-versions: '8.2'
+          - oracle-versions: '23'
+            php-versions: '8.3'
 
     name: Oracle ${{ matrix.oracle-versions }} (PHP ${{ matrix.php-versions }}) - database tests
 
@@ -71,7 +76,7 @@ jobs:
         options: --health-cmd="redis-cli ping" --health-interval=10s --health-timeout=5s --health-retries=3
 
       oracle:
-        image: ghcr.io/gvenzl/oracle-xe:${{ matrix.oracle-versions }}
+        image: gvenzl/oracle-${{ matrix.oracle-versions < 23 && 'xe' || 'free'  }}:${{ matrix.oracle-versions }}
 
         # Provide passwords and other environment variables to container
         env:
