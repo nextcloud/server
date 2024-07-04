@@ -497,7 +497,7 @@ class AllConfig implements IConfig {
 	 * @param int|null $limit how many users to fetch
 	 * @param int $offset from which offset to fetch
 	 * @param string $search search users based on search params
-	 * @return list<string> list of user IDs
+	 * @return array<string, string> list of user IDs
 	 */
 	public function getLastLoggedInUsers(?int $limit = null, int $offset = 0, string $search = ''): array {
 		// TODO - FIXME
