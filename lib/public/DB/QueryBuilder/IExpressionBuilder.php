@@ -55,6 +55,7 @@ interface IExpressionBuilder {
 	 *
 	 * @return \OCP\DB\QueryBuilder\ICompositeExpression
 	 * @since 8.2.0
+	 * @since 30.0.0 Calling the method without any arguments is deprecated and will throw with the next Doctrine/DBAL update
 	 *
 	 * @psalm-taint-sink sql $x
 	 */
@@ -74,6 +75,7 @@ interface IExpressionBuilder {
 	 *
 	 * @return \OCP\DB\QueryBuilder\ICompositeExpression
 	 * @since 8.2.0
+	 * @since 30.0.0 Calling the method without any arguments is deprecated and will throw with the next Doctrine/DBAL update
 	 *
 	 * @psalm-taint-sink sql $x
 	 */

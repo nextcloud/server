@@ -92,10 +92,10 @@ class QueryBuilder implements IQueryBuilder {
 	 */
 	public function expr() {
 		return match($this->connection->getDatabaseProvider()) {
-			IDBConnection::PLATFORM_ORACLE => new OCIExpressionBuilder($this->connection, $this),
-			IDBConnection::PLATFORM_POSTGRES => new PgSqlExpressionBuilder($this->connection, $this),
-			IDBConnection::PLATFORM_MYSQL => new MySqlExpressionBuilder($this->connection, $this),
-			IDBConnection::PLATFORM_SQLITE => new SqliteExpressionBuilder($this->connection, $this),
+			IDBConnection::PLATFORM_ORACLE => new OCIExpressionBuilder($this->connection, $this, $this->logger),
+			IDBConnection::PLATFORM_POSTGRES => new PgSqlExpressionBuilder($this->connection, $this, $this->logger),
+			IDBConnection::PLATFORM_MYSQL => new MySqlExpressionBuilder($this->connection, $this, $this->logger),
+			IDBConnection::PLATFORM_SQLITE => new SqliteExpressionBuilder($this->connection, $this, $this->logger),
 		};
 	}
 
@@ -815,9 +815,10 @@ class QueryBuilder implements IQueryBuilder {
 	 *     // You can optionally programmatically build and/or expressions
 	 *     $qb = $conn->getQueryBuilder();
 	 *
-	 *     $or = $qb->expr()->orx();
-	 *     $or->add($qb->expr()->eq('u.id', 1));
-	 *     $or->add($qb->expr()->eq('u.id', 2));
+	 *     $or = $qb->expr()->orx(
+	 *         $qb->expr()->eq('u.id', 1),
+	 *         $qb->expr()->eq('u.id', 2),
+	 *     );
 	 *
 	 *     $qb->update('users', 'u')
 	 *         ->set('u.password', md5('password'))
