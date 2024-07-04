@@ -6,7 +6,6 @@
  */
 namespace OC;
 
-use Doctrine\DBAL\Platforms\OraclePlatform;
 use OCP\Cache\CappedMemoryCache;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IConfig;
@@ -470,7 +469,7 @@ class AllConfig implements IConfig {
 		$this->fixDIInit();
 
 		$qb = $this->connection->getQueryBuilder();
-		$configValueColumn = ($this->connection->getDatabasePlatform() instanceof OraclePlatform)
+		$configValueColumn = ($this->connection->getDatabaseProvider() === IDBConnection::PLATFORM_ORACLE)
 			? $qb->expr()->castColumn('configvalue', IQueryBuilder::PARAM_STR)
 			: 'configvalue';
 		$result = $qb->select('userid')
@@ -509,7 +508,7 @@ class AllConfig implements IConfig {
 		}
 
 		$qb = $this->connection->getQueryBuilder();
-		$configValueColumn = ($this->connection->getDatabasePlatform() instanceof OraclePlatform)
+		$configValueColumn = ($this->connection->getDatabaseProvider() === IDBConnection::PLATFORM_ORACLE)
 			? $qb->expr()->castColumn('configvalue', IQueryBuilder::PARAM_STR)
 			: 'configvalue';
 

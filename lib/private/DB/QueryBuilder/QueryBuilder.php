@@ -109,20 +109,12 @@ class QueryBuilder implements IQueryBuilder {
 	 * @return \OCP\DB\QueryBuilder\IExpressionBuilder
 	 */
 	public function expr() {
-		if ($this->connection->getDatabaseProvider() === IDBConnection::PLATFORM_ORACLE) {
-			return new OCIExpressionBuilder($this->connection, $this);
-		}
-		if ($this->connection->getDatabaseProvider() === IDBConnection::PLATFORM_POSTGRES) {
-			return new PgSqlExpressionBuilder($this->connection, $this);
-		}
-		if ($this->connection->getDatabaseProvider() === IDBConnection::PLATFORM_MYSQL) {
-			return new MySqlExpressionBuilder($this->connection, $this);
-		}
-		if ($this->connection->getDatabaseProvider() === IDBConnection::PLATFORM_SQLITE) {
-			return new SqliteExpressionBuilder($this->connection, $this);
-		}
-
-		return new ExpressionBuilder($this->connection, $this);
+		return match($this->connection->getDatabaseProvider()) {
+			IDBConnection::PLATFORM_ORACLE => new OCIExpressionBuilder($this->connection, $this),
+			IDBConnection::PLATFORM_POSTGRES => new PgSqlExpressionBuilder($this->connection, $this),
+			IDBConnection::PLATFORM_MYSQL => new MySqlExpressionBuilder($this->connection, $this),
+			IDBConnection::PLATFORM_SQLITE => new SqliteExpressionBuilder($this->connection, $this),
+		};
 	}
 
 	/**

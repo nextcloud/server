@@ -18,6 +18,7 @@ use Doctrine\DBAL\Exception\ConnectionLost;
 use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Platforms\MySQLPlatform;
 use Doctrine\DBAL\Platforms\OraclePlatform;
+use Doctrine\DBAL\Platforms\PostgreSQLPlatform;
 use Doctrine\DBAL\Platforms\SQLitePlatform;
 use Doctrine\DBAL\Result;
 use Doctrine\DBAL\Schema\Schema;
@@ -27,6 +28,7 @@ use OC\SystemConfig;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Diagnostics\IEventLogger;
 use OCP\Diagnostics\IQueryLogger;
+use OCP\IDBConnection;
 use OCP\IRequestId;
 use OCP\PreConditionNotMetException;
 use OCP\Profiler\IProfiler;
@@ -714,5 +716,20 @@ class Connection extends PrimaryReadReplicaConnection {
 
 	private function getConnectionName(): string {
 		return $this->isConnectedToPrimary() ? 'primary' : 'replica';
+	}
+
+	public function getDatabaseProvider(): string {
+		$platform = $this->getDatabasePlatform();
+		if ($platform instanceof MySQLPlatform) {
+			return IDBConnection::PLATFORM_MYSQL;
+		} elseif ($platform instanceof OraclePlatform) {
+			return IDBConnection::PLATFORM_ORACLE;
+		} elseif ($platform instanceof PostgreSQLPlatform) {
+			return IDBConnection::PLATFORM_POSTGRES;
+		} elseif ($platform instanceof SQLitePlatform) {
+			return IDBConnection::PLATFORM_SQLITE;
+		} else {
+			throw new \Exception('Database ' . $platform::class . ' not supported');
+		}
 	}
 }

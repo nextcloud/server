@@ -343,7 +343,7 @@ interface IDBConnection {
 	 * Returns the database provider name
 	 * @link https://github.com/nextcloud/server/issues/30877
 	 * @since 28.0.0
-	 * @return IDBConnection::PLATFORM_*
+	 * @return self::PLATFORM_MYSQL|self::PLATFORM_ORACLE|self::PLATFORM_POSTGRES|self::PLATFORM_SQLITE
 	 */
 	public function getDatabaseProvider(): string;
 }
