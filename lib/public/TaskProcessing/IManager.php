@@ -172,4 +172,14 @@ interface IManager {
 	 * @since 30.0.0
 	 */
 	public function lockTask(Task $task): bool;
+
+	/**
+	 * @param Task $task
+	 * @psalm-param Task::STATUS_* $status
+	 * @param int $status
+	 * @throws \JsonException
+	 * @throws Exception
+	 * @since 30.0.0
+	 */
+	public function setTaskStatus(Task $task, int $status): void;
 }
