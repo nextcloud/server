@@ -25,7 +25,6 @@ SPDX-FileCopyrightText: GitHub Inc.
 SPDX-FileCopyrightText: Feross Aboukhadijeh
 SPDX-FileCopyrightText: Evan You
 SPDX-FileCopyrightText: Dr.-Ing. Mario Heiderich, Cure53 <mario@cure53.de> (https://cure53.de/)
-SPDX-FileCopyrightText: Denis Pushkarev
 SPDX-FileCopyrightText: David Clark
 SPDX-FileCopyrightText: Christoph Wurst
 SPDX-FileCopyrightText: Anthony Fu <https://github.com/antfu>
@@ -62,23 +61,20 @@ This file is generated from multiple sources. Included packages:
 - @nextcloud/l10n
 	- version: 2.2.0
 	- license: GPL-3.0-or-later
+- @nextcloud/logger
+	- version: 3.0.2
+	- license: GPL-3.0-or-later
 - @nextcloud/password-confirmation
 	- version: 5.1.0
 	- license: MIT
 - @nextcloud/router
 	- version: 3.0.1
 	- license: GPL-3.0-or-later
-- @nextcloud/logger
-	- version: 2.7.0
+- @nextcloud/l10n
+	- version: 3.1.0
 	- license: GPL-3.0-or-later
-- core-js
-	- version: 3.33.0
-	- license: MIT
-- debounce
-	- version: 2.0.0
-	- license: MIT
 - @nextcloud/vue
-	- version: 8.11.2
+	- version: 8.14.0
 	- license: AGPL-3.0-or-later
 - @vueuse/core
 	- version: 10.11.0
@@ -109,6 +105,9 @@ This file is generated from multiple sources. Included packages:
 	- license: MIT
 - css-loader
 	- version: 6.10.0
+	- license: MIT
+- debounce
+	- version: 2.1.0
 	- license: MIT
 - define-data-property
 	- version: 1.1.4

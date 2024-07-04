@@ -6,7 +6,6 @@ SPDX-License-Identifier: BSD-3-Clause
 SPDX-License-Identifier: AGPL-3.0-or-later
 SPDX-License-Identifier: (MPL-2.0 OR Apache-2.0)
 SPDX-FileCopyrightText: xiemengxiong
-SPDX-FileCopyrightText: uuid developers
 SPDX-FileCopyrightText: inherits developers
 SPDX-FileCopyrightText: escape-html developers
 SPDX-FileCopyrightText: debounce developers
@@ -41,7 +40,6 @@ SPDX-FileCopyrightText: Evan You
 SPDX-FileCopyrightText: Eugene Sharygin <eush77@gmail.com>
 SPDX-FileCopyrightText: Eric Norris (https://github.com/ericnorris)
 SPDX-FileCopyrightText: Dr.-Ing. Mario Heiderich, Cure53 <mario@cure53.de> (https://cure53.de/)
-SPDX-FileCopyrightText: Denis Pushkarev
 SPDX-FileCopyrightText: David Clark
 SPDX-FileCopyrightText: Christoph Wurst
 SPDX-FileCopyrightText: Anthony Fu <https://github.com/antfu>
@@ -61,6 +59,9 @@ This file is generated from multiple sources. Included packages:
 	- license: GPL-3.0-or-later
 - @nextcloud/axios
 	- version: 2.5.0
+	- license: GPL-3.0-or-later
+- @nextcloud/browser-storage
+	- version: 0.4.0
 	- license: GPL-3.0-or-later
 - @nextcloud/capabilities
 	- version: 1.2.0
@@ -86,6 +87,9 @@ This file is generated from multiple sources. Included packages:
 - @nextcloud/l10n
 	- version: 2.2.0
 	- license: GPL-3.0-or-later
+- @nextcloud/logger
+	- version: 3.0.2
+	- license: GPL-3.0-or-later
 - @nextcloud/moment
 	- version: 1.3.1
 	- license: GPL-3.0-or-later
@@ -95,20 +99,11 @@ This file is generated from multiple sources. Included packages:
 - @nextcloud/vue-select
 	- version: 3.25.0
 	- license: MIT
-- @nextcloud/browser-storage
-	- version: 0.3.0
+- @nextcloud/l10n
+	- version: 3.1.0
 	- license: GPL-3.0-or-later
-- @nextcloud/logger
-	- version: 2.7.0
-	- license: GPL-3.0-or-later
-- core-js
-	- version: 3.33.0
-	- license: MIT
-- debounce
-	- version: 2.0.0
-	- license: MIT
 - @nextcloud/vue
-	- version: 8.11.2
+	- version: 8.14.0
 	- license: AGPL-3.0-or-later
 - @vueuse/components
 	- version: 10.11.0
@@ -151,6 +146,9 @@ This file is generated from multiple sources. Included packages:
 	- license: MIT
 - date-format-parse
 	- version: 0.2.7
+	- license: MIT
+- debounce
+	- version: 2.1.0
 	- license: MIT
 - define-data-property
 	- version: 1.1.4
@@ -204,7 +202,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 2.0.1
 	- license: MIT
 - ical.js
-	- version: 1.5.0
+	- version: 2.0.1
 	- license: MPL-2.0
 - ieee754
 	- version: 1.2.1
@@ -298,9 +296,6 @@ This file is generated from multiple sources. Included packages:
 	- license: MIT
 - util
 	- version: 0.12.5
-	- license: MIT
-- uuid
-	- version: 9.0.1
 	- license: MIT
 - vue-loader
 	- version: 15.11.1
