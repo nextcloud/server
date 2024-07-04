@@ -23,6 +23,8 @@ use OCP\ICache;
 use OCP\ICacheFactory;
 use OCP\IRequest;
 use OCP\ISession;
+use OCP\IUser;
+use OCP\IUserSession;
 use OCP\Share\IShare;
 
 /**
@@ -30,6 +32,7 @@ use OCP\Share\IShare;
  */
 class BeforeNodeReadListener implements IEventListener {
 	private ICache $cache;
+	private ?IUser $currentUser = null;
 
 	public function __construct(
 		private ISession $session,
@@ -37,8 +40,10 @@ class BeforeNodeReadListener implements IEventListener {
 		private \OCP\Activity\IManager $activityManager,
 		private IRequest $request,
 		ICacheFactory $cacheFactory,
+		IUserSession $userSession,
 	) {
 		$this->cache = $cacheFactory->createDistributed('files_sharing_activity_events');
+		$this->currentUser = $userSession->getUser();
 	}
 
 	public function handle(Event $event): void {
@@ -156,6 +161,7 @@ class BeforeNodeReadListener implements IEventListener {
 			$dateTime = $dateTime->format('Y-m-d H');
 			$remoteAddressHash = md5($dateTime . '-' . $remoteAddress);
 			$parameters[] = $remoteAddressHash;
+			$parameters[] = $this->currentUser?->getUID();
 		} else {
 			return;
 		}
