@@ -566,6 +566,9 @@ export default {
 			// allowed to revoke it too (but not to grant it again).
 			return (this.fileInfo.canDownload() || this.canDownload)
 		},
+		canRemoveReadPermission() {
+			return this.allowsFileDrop && this.share.type === this.SHARE_TYPES.SHARE_TYPE_LINK
+		},
 		// if newPassword exists, but is empty, it means
 		// the user deleted the original password
 		hasUnsavedPassword() {
@@ -773,6 +776,10 @@ export default {
 					this.advancedSectionAccordionExpanded = true
 					this.setCustomPermissions = true
 				}
+			}
+			// Read permission required for share creation
+			if (!this.canRemoveReadPermission) {
+				this.hasRead = true
 			}
 		},
 		handleCustomPermissions() {
