@@ -261,6 +261,7 @@
     "Storage is temporarily not available" : "Lagringsutrymme är för tillfället inte tillgängligt",
     "Storage connection timeout. %s" : "Lagringsutrymme lyckas inte ansluta \"timeout\". %s",
     "Prompt" : "Uppmaning",
+    "Chat" : "Chat",
     "Generates a possible headline for a text." : "Genererar en möjlig rubrik för en text.",
     "Summarize" : "Sammanfatta",
     "Summary" : "Sammanfattning",

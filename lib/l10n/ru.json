@@ -237,6 +237,7 @@
     "Storage connection error. %s" : "Ошибка подключения к хранилищу. %s",
     "Storage is temporarily not available" : "Хранилище временно недоступно",
     "Storage connection timeout. %s" : "Истекло время ожидания подключения к хранилищу. %s",
+    "Chat" : "Разговор",
     "Generates a possible headline for a text." : "Генерирует возможный заголовок для текста.",
     "Summarize" : "Обобщить",
     "Summary" : "Всего",
