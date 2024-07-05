@@ -421,13 +421,13 @@ export default {
 		 */
 		canDownload: {
 			get() {
-				return this.share.attributes.find(attr => attr.key === 'download')?.enabled || false
+				return this.share.attributes.find(attr => attr.key === 'download')?.value || false
 			},
 			set(checked) {
 				// Find the 'download' attribute and update its value
 				const downloadAttr = this.share.attributes.find(attr => attr.key === 'download')
 				if (downloadAttr) {
-					downloadAttr.enabled = checked
+					downloadAttr.value = checked
 				}
 			},
 		},
@@ -678,7 +678,7 @@ export default {
 			return OC.appswebroots.spreed !== undefined
 		},
 		canChangeHideDownload() {
-			const hasDisabledDownload = (shareAttribute) => shareAttribute.key === 'download' && shareAttribute.scope === 'permissions' && shareAttribute.enabled === false
+			const hasDisabledDownload = (shareAttribute) => shareAttribute.key === 'download' && shareAttribute.scope === 'permissions' && shareAttribute.value === false
 			return this.fileInfo.shareAttributes.some(hasDisabledDownload)
 		},
 		customPermissionsList() {

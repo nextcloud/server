@@ -1986,10 +1986,17 @@ class ShareAPIController extends OCSController {
 			$formattedShareAttributes = \json_decode($attributesString, true);
 			if (is_array($formattedShareAttributes)) {
 				foreach ($formattedShareAttributes as $formattedAttr) {
+					// Legacy handling of the 'enabled' attribute
+					if ($formattedAttr['enabled']) {
+						$formattedAttr['value'] = is_string($formattedAttr['enabled'])
+							? (bool) \json_decode($formattedAttr['enabled'])
+							: $formattedAttr['enabled'];
+					}
+
 					$newShareAttributes->setAttribute(
 						$formattedAttr['scope'],
 						$formattedAttr['key'],
-						is_string($formattedAttr['enabled']) ? (bool) \json_decode($formattedAttr['enabled']) : $formattedAttr['enabled']
+						$formattedAttr['value'],
 					);
 				}
 			} else {

@@ -535,7 +535,7 @@ export default class Share {
 		for (const i in this._share.attributes) {
 			const attr = this._share.attributes[i]
 			if (attr.scope === 'permissions' && attr.key === 'download') {
-				return attr.enabled
+				return attr.value
 			}
 		}
 
@@ -546,11 +546,11 @@ export default class Share {
 		this.setAttribute('permissions', 'download', !!enabled)
 	}
 
-	setAttribute(scope, key, enabled) {
+	setAttribute(scope, key, value) {
 		const attrUpdate = {
 			scope,
 			key,
-			enabled,
+			value,
 		}
 
 		// try and replace existing

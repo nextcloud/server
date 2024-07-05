@@ -20,11 +20,11 @@ class ShareAttributes implements IAttributes {
 	/**
 	 * @inheritdoc
 	 */
-	public function setAttribute($scope, $key, $enabled) {
+	public function setAttribute($scope, $key, $value) {
 		if (!\array_key_exists($scope, $this->attributes)) {
 			$this->attributes[$scope] = [];
 		}
-		$this->attributes[$scope][$key] = $enabled;
+		$this->attributes[$scope][$key] = $value;
 		return $this;
 	}
 
@@ -45,11 +45,11 @@ class ShareAttributes implements IAttributes {
 	public function toArray() {
 		$result = [];
 		foreach ($this->attributes as $scope => $keys) {
-			foreach ($keys as $key => $enabled) {
+			foreach ($keys as $key => $value) {
 				$result[] = [
 					"scope" => $scope,
 					"key" => $key,
-					"enabled" => $enabled
+					"value" => $value
 				];
 			}
 		}

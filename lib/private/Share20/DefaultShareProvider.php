@@ -1382,7 +1382,7 @@ class DefaultShareProvider implements IShareProviderWithNotification {
 		}
 	}
 
-	public function sendMailNotification(IShare $share): true {
+	public function sendMailNotification(IShare $share): bool {
 		try {
 			// Check user
 			$user = $this->userManager->get($share->getSharedWith());
@@ -1616,7 +1616,7 @@ class DefaultShareProvider implements IShareProviderWithNotification {
 	 *
 	 * @return IShare the modified share
 	 */
-	private function updateShareAttributes(IShare $share, ?string $data): IShare {
+	protected function updateShareAttributes(IShare $share, ?string $data): IShare {
 		if ($data !== null && $data !== '') {
 			$attributes = new ShareAttributes();
 			$compressedAttributes = \json_decode($data, true);
@@ -1639,7 +1639,7 @@ class DefaultShareProvider implements IShareProviderWithNotification {
 	/**
 	 * Format IAttributes to database format (JSON string)
 	 */
-	private function formatShareAttributes(?IAttributes $attributes): ?string {
+	protected function formatShareAttributes(?IAttributes $attributes): ?string {
 		if ($attributes === null || empty($attributes->toArray())) {
 			return null;
 		}
@@ -1649,7 +1649,7 @@ class DefaultShareProvider implements IShareProviderWithNotification {
 			$compressedAttributes[] = [
 				0 => $attribute['scope'],
 				1 => $attribute['key'],
-				2 => $attribute['enabled']
+				2 => $attribute['value']
 			];
 		}
 		return \json_encode($compressedAttributes);

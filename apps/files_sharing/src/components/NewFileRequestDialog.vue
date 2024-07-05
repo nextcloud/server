@@ -244,7 +244,7 @@ export default defineComponent({
 			try {
 				const request = await axios.post(shareUrl, {
 					path: this.destination,
-					shareType: Type.SHARE_TYPE_LINK,
+					shareType: Type.SHARE_TYPE_EMAIL,
 					publicUpload: 'true',
 					password: this.password || undefined,
 					expireDate,

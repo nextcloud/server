@@ -5,6 +5,7 @@
  */
 namespace OCA\ShareByMail;
 
+use OC\Share20\DefaultShareProvider;
 use OC\Share20\Exception\InvalidShare;
 use OC\Share20\Share;
 use OC\User\NoUserException;
@@ -29,6 +30,7 @@ use OCP\Security\IHasher;
 use OCP\Security\ISecureRandom;
 use OCP\Share\Exceptions\GenericShareException;
 use OCP\Share\Exceptions\ShareNotFound;
+use OCP\Share\IAttributes;
 use OCP\Share\IManager as IShareManager;
 use OCP\Share\IShare;
 use OCP\Share\IShareProviderWithNotification;
@@ -39,7 +41,7 @@ use Psr\Log\LoggerInterface;
  *
  * @package OCA\ShareByMail
  */
-class ShareByMailProvider implements IShareProviderWithNotification {
+class ShareByMailProvider extends DefaultShareProvider implements IShareProviderWithNotification {
 	/**
 	 * Return the identifier of this provider.
 	 *
@@ -76,11 +78,10 @@ class ShareByMailProvider implements IShareProviderWithNotification {
 	 */
 	public function create(IShare $share): IShare {
 		$shareWith = $share->getSharedWith();
-		/*
-		 * Check if file is not already shared with the remote user
-		 */
+		// Check if file is not already shared with the given email,
+		// if we have an email at all.
 		$alreadyShared = $this->getSharedWith($shareWith, IShare::TYPE_EMAIL, $share->getNode(), 1, 0);
-		if (!empty($alreadyShared)) {
+		if ($shareWith !== '' && !empty($alreadyShared)){
 			$message = 'Sharing %1$s failed, because this item is already shared with the account %2$s';
 			$message_t = $this->l->t('Sharing %1$s failed, because this item is already shared with the account %2$s', [$share->getNode()->getName(), $shareWith]);
 			$this->logger->debug(sprintf($message, $share->getNode()->getName(), $shareWith), ['app' => 'Federated File Sharing']);
@@ -224,7 +225,8 @@ class ShareByMailProvider implements IShareProviderWithNotification {
 			$share->getHideDownload(),
 			$share->getLabel(),
 			$share->getExpirationDate(),
-			$share->getNote()
+			$share->getNote(),
+			$share->getAttributes(),
 		);
 	}
 
@@ -233,11 +235,17 @@ class ShareByMailProvider implements IShareProviderWithNotification {
 	 */
 	public function sendMailNotification(IShare $share): bool {
 		$shareId = $share->getId();
-		if (!$this->mailer->validateMailAddress($share->getSharedWith())) {
+
+		$emails = $this->getSharedWithEmails($share);
+		$validEmails = array_filter($emails, function ($email) {
+			return $this->mailer->validateMailAddress($email);
+		});
+
+		if (count($validEmails) === 0) {
 			$this->removeShareFromTable($shareId);
-			$e = new HintException('Failed to send share by mail. Got an invalid email address: ' . $share->getSharedWith(),
+			$e = new HintException('Failed to send share by mail. Could not find a valid email address: ' . join(', ', $emails),
 				$this->l->t('Failed to send share by email. Got an invalid email address'));
-			$this->logger->error('Failed to send share by mail. Got an invalid email address ' . $share->getSharedWith(), [
+			$this->logger->error('Failed to send share by mail. Could not find a valid email address ' . join(', ', $emails), [
 				'app' => 'sharebymail',
 				'exception' => $e,
 			]);
@@ -250,7 +258,7 @@ class ShareByMailProvider implements IShareProviderWithNotification {
 				$share->getNode()->getName(),
 				$link,
 				$share->getSharedBy(),
-				$share->getSharedWith(),
+				$emails,
 				$share->getExpirationDate(),
 				$share->getNote()
 			);
@@ -293,7 +301,7 @@ class ShareByMailProvider implements IShareProviderWithNotification {
 	 * @param string $filename file/folder name
 	 * @param string $link link to the file/folder
 	 * @param string $initiator user ID of share sender
-	 * @param string $shareWith email addresses
+	 * @param string[] $shareWith email addresses
 	 * @param \DateTime|null $expiration expiration date
 	 * @param string $note note
 	 * @throws \Exception If mail couldn't be sent
@@ -302,7 +310,7 @@ class ShareByMailProvider implements IShareProviderWithNotification {
 		string $filename,
 		string $link,
 		string $initiator,
-		string $shareWith,
+		array $shareWith,
 		?\DateTime $expiration = null,
 		string $note = '',
 	): void {
@@ -337,7 +345,13 @@ class ShareByMailProvider implements IShareProviderWithNotification {
 			$link
 		);
 
-		$message->setTo([$shareWith]);
+		// If multiple recipients are given, we send the mail to all of them
+		if (count($shareWith) > 1) {
+			// We do not want to expose the email addresses of the other recipients
+			$message->setBcc($shareWith);
+		} else {
+			$message->setTo($shareWith);
+		}
 
 		// The "From" contains the sharers name
 		$instanceName = $this->defaults->getName();
@@ -618,7 +632,8 @@ class ShareByMailProvider implements IShareProviderWithNotification {
 		?bool $hideDownload,
 		?string $label,
 		?\DateTimeInterface $expirationTime,
-		?string $note = ''
+		?string $note = '',
+		?IAttributes $attributes = null,
 	): int {
 		$qb = $this->dbConnection->getQueryBuilder();
 		$qb->insert('share')
@@ -640,6 +655,10 @@ class ShareByMailProvider implements IShareProviderWithNotification {
 			->setValue('note', $qb->createNamedParameter($note))
 			->setValue('mail_send', $qb->createNamedParameter(1));
 
+		// set share attributes
+		$shareAttributes = $this->formatShareAttributes($attributes);
+
+		$qb->setValue('attributes', $qb->createNamedParameter($shareAttributes));
 		if ($expirationTime !== null) {
 			$qb->setValue('expiration', $qb->createNamedParameter($expirationTime, IQueryBuilder::PARAM_DATE));
 		}
@@ -955,6 +974,8 @@ class ShareByMailProvider implements IShareProviderWithNotification {
 			}
 		}
 
+		$share = $this->updateShareAttributes($share, $data['attributes']);
+
 		$share->setNodeId((int)$data['file_source']);
 		$share->setNodeType($data['item_type']);
 
@@ -1136,5 +1157,18 @@ class ShareByMailProvider implements IShareProviderWithNotification {
 			yield $share;
 		}
 		$cursor->closeCursor();
+	}
+
+	/**
+	 * Extract the emails from the share
+	 * It can be a single email, from the share_with field
+	 * or a list of emails from the emails attributes field.
+	 */
+	protected function getSharedWithEmails(IShare $share) {
+		$attributes = $share->getAttributes()->getAttribute('sharedWith', 'emails');
+		if (isset($attributes) && is_array($attributes) && !empty($attributes)) {
+			return $attributes;
+		}
+		return [$share->getSharedWith()];
 	}
 }

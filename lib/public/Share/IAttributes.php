@@ -17,7 +17,7 @@ interface IAttributes {
 	 *
 	 * @param string $scope scope
 	 * @param string $key key
-	 * @param bool $enabled enabled
+	 * @param bool|string|array|null $value value
 	 * @return IAttributes The modified object
 	 * @since 25.0.0
 	 */
@@ -29,7 +29,7 @@ interface IAttributes {
 	 *
 	 * @param string $scope scope
 	 * @param string $key key
-	 * @return bool|null
+	 * @return bool|string|array|null
 	 * @since 25.0.0
 	 */
 	public function getAttribute($scope, $key);
