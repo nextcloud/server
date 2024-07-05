@@ -946,6 +946,123 @@
                 }
             }
         },
+        "/ocs/v2.php/cloud/users/recent": {
+            "get": {
+                "operationId": "users-get-last-logged-in-users",
+                "summary": "Gets the list of users sorted by lastLogin, from most recent to least recent",
+                "description": "This endpoint requires admin access",
+                "tags": [
+                    "users"
+                ],
+                "security": [
+                    {
+                        "bearer_auth": []
+                    },
+                    {
+                        "basic_auth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "search",
+                        "in": "query",
+                        "description": "Text to search for",
+                        "schema": {
+                            "type": "string",
+                            "default": ""
+                        }
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "Limit the amount of users returned",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "nullable": true
+                        }
+                    },
+                    {
+                        "name": "offset",
+                        "in": "query",
+                        "description": "Offset",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "default": 0
+                        }
+                    },
+                    {
+                        "name": "OCS-APIRequest",
+                        "in": "header",
+                        "description": "Required to be true for the API request to pass",
+                        "required": true,
+                        "schema": {
+                            "type": "boolean",
+                            "default": true
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Users details returned based on last logged in information",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "type": "object",
+                                                    "required": [
+                                                        "users"
+                                                    ],
+                                                    "properties": {
+                                                        "users": {
+                                                            "type": "object",
+                                                            "additionalProperties": {
+                                                                "anyOf": [
+                                                                    {
+                                                                        "$ref": "#/components/schemas/UserDetails"
+                                                                    },
+                                                                    {
+                                                                        "type": "object",
+                                                                        "required": [
+                                                                            "id"
+                                                                        ],
+                                                                        "properties": {
+                                                                            "id": {
+                                                                                "type": "string"
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                ]
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/ocs/v2.php/cloud/users/{userId}/subadmins": {
             "get": {
                 "operationId": "users-get-user-sub-admin-groups",
