@@ -161,6 +161,8 @@ OC.L10N.register(
     "Reject" : "Відхилити",
     "Incoming ownership transfer from {user}" : "Запит від користувача {user} на передавання прав власника",
     "Do you want to accept {path}?\n\nNote: The transfer process after accepting may take up to 1 hour." : "Прийняти {path}?\n\nУвага: Процес передавання після прийняття запиту може тривати до 1 години.",
+    "Ownership transfer denied" : "Перенесення прав власності відхилено",
+    "Your ownership transfer of {path} was denied by {user}." : "Перенесення прав на ваші дані {path} відхилено користувачем {user}.",
     "Ownership transfer failed" : "Не вдалося передати право власності",
     "Your ownership transfer of {path} to {user} failed." : "Не вдалося перадати ваші права власника на {path} користувачеві {user}.",
     "The ownership transfer of {path} from {user} failed." : "Не вдалося передати права власника на {path} від користувача {user}.",
