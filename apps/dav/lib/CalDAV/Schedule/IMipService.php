@@ -596,31 +596,6 @@ class IMipService {
 	}
 
 	/**
-	 * Create a valid VCalendar object out of the details of
-	 * a VEvent and its associated iTip Message
-	 *
-	 * We do this to filter out all unchanged VEvents
-	 * This is especially important in iTip Messages with recurrences
-	 * and recurrence exceptions
-	 *
-	 * @param Message $iTipMessage
-	 * @param VEvent $vEvent
-	 * @return VCalendar
-	 */
-	public function generateVCalendar(Message $iTipMessage, VEvent $vEvent): VCalendar {
-		$vCalendar = new VCalendar();
-		$vCalendar->add('METHOD', $iTipMessage->method);
-		foreach ($iTipMessage->message->getComponents() as $component) {
-			if ($component instanceof VEvent) {
-				continue;
-			}
-			$vCalendar->add(clone $component);
-		}
-		$vCalendar->add($vEvent);
-		return $vCalendar;
-	}
-
-	/**
 	 * @param IEMailTemplate $template
 	 * @param $token
 	 */
