@@ -81,7 +81,7 @@ import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 import Twitter from 'vue-material-design-icons/Twitter.vue'
 import Facebook from 'vue-material-design-icons/Facebook.vue'
 import Web from 'vue-material-design-icons/Web.vue'
-import Clipboard from 'vue-material-design-icons/Clipboard.vue'
+import Clipboard from 'vue-material-design-icons/ContentCopy.vue'
 
 export default {
 	name: 'PersonalSettings',
