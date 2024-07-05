@@ -96,7 +96,10 @@ export default {
 				if (window.isSecureContext) {
 					await navigator.clipboard.writeText(this.internalLink)
 				} else { // nothing to lose by trying the fallback
-					document.execCommand('copy')
+					window.prompt(
+						t('Could not copy to clipboard, please copy manually:'),
+						this.internalLink
+					)
 				}
 				showSuccess(t('files_sharing', 'Link copied'))
 				this.$refs.shareEntrySimple.$refs.actionsComponent.$el.focus()
