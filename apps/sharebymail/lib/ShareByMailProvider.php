@@ -31,7 +31,7 @@ use OCP\Share\Exceptions\GenericShareException;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IManager as IShareManager;
 use OCP\Share\IShare;
-use OCP\Share\IShareProvider;
+use OCP\Share\IShareProviderWithNotification;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -39,7 +39,7 @@ use Psr\Log\LoggerInterface;
  *
  * @package OCA\ShareByMail
  */
-class ShareByMailProvider implements IShareProvider {
+class ShareByMailProvider implements IShareProviderWithNotification {
 	/**
 	 * Return the identifier of this provider.
 	 *
@@ -216,7 +216,7 @@ class ShareByMailProvider implements IShareProvider {
 	 */
 	protected function createMailShare(IShare $share): int {
 		$share->setToken($this->generateToken());
-		$shareId = $this->addShareToDB(
+		return $this->addShareToDB(
 			$share->getNodeId(),
 			$share->getNodeType(),
 			$share->getSharedWith(),
@@ -232,7 +232,13 @@ class ShareByMailProvider implements IShareProvider {
 			$share->getExpirationDate(),
 			$share->getNote()
 		);
+	}
 
+	/**
+	 * @inheritDoc
+	 */
+	public function sendMailNotification(IShare $share): bool {
+		$shareId = $share->getId();
 		if (!$this->mailer->validateMailAddress($share->getSharedWith())) {
 			$this->removeShareFromTable($shareId);
 			$e = new HintException('Failed to send share by mail. Got an invalid email address: ' . $share->getSharedWith(),
@@ -246,7 +252,7 @@ class ShareByMailProvider implements IShareProvider {
 		try {
 			$link = $this->urlGenerator->linkToRouteAbsolute('files_sharing.sharecontroller.showShare',
 				['token' => $share->getToken()]);
-			$this->sendMailNotification(
+			$this->sendEmail(
 				$share->getNode()->getName(),
 				$link,
 				$share->getSharedBy(),
@@ -254,6 +260,7 @@ class ShareByMailProvider implements IShareProvider {
 				$share->getExpirationDate(),
 				$share->getNote()
 			);
+			return true;
 		} catch (HintException $hintException) {
 			$this->logger->error('Failed to send share by mail.', [
 				'app' => 'sharebymail',
@@ -270,14 +277,19 @@ class ShareByMailProvider implements IShareProvider {
 			throw new HintException('Failed to send share by mail',
 				$this->l->t('Failed to send share by email'));
 		}
-
-		return $shareId;
+		return false;
 	}
 
 	/**
+	 * @param string $filename file/folder name
+	 * @param string $link link to the file/folder
+	 * @param string $initiator user ID of share sender
+	 * @param string $shareWith email addresses
+	 * @param \DateTime|null $expiration expiration date
+	 * @param string $note note
 	 * @throws \Exception If mail couldn't be sent
 	 */
-	public function sendMailNotification(
+	public function sendEmail(
 		string $filename,
 		string $link,
 		string $initiator,
@@ -348,7 +360,7 @@ class ShareByMailProvider implements IShareProvider {
 	/**
 	 * send password to recipient of a mail share
 	 */
-	protected function sendPassword(IShare $share, string $password): bool {
+	public function sendPassword(IShare $share, string $password): bool {
 		$filename = $share->getNode()->getName();
 		$initiator = $share->getSharedBy();
 		$shareWith = $share->getSharedWith();
@@ -607,17 +619,12 @@ class ShareByMailProvider implements IShareProvider {
 			->setValue('stime', $qb->createNamedParameter(time()))
 			->setValue('hide_download', $qb->createNamedParameter((int)$hideDownload, IQueryBuilder::PARAM_INT))
 			->setValue('label', $qb->createNamedParameter($label))
-			->setValue('note', $qb->createNamedParameter($note));
+			->setValue('note', $qb->createNamedParameter($note))
+			->setValue('mail_send', $qb->createNamedParameter(1));
 
 		if ($expirationTime !== null) {
 			$qb->setValue('expiration', $qb->createNamedParameter($expirationTime, IQueryBuilder::PARAM_DATE));
 		}
-
-		/*
-		 * Added to fix https://github.com/owncloud/core/issues/22215
-		 * Can be removed once we get rid of ajax/share.php
-		 */
-		$qb->setValue('file_target', $qb->createNamedParameter(''));
 
 		$qb->executeStatement();
 		return $qb->getLastInsertId();

@@ -13,14 +13,14 @@ use Exception;
 use OC\Files\FileInfo;
 use OC\Files\Storage\Wrapper\Wrapper;
 use OC\Share20\Exception\ProviderException;
-use OCA\Files\Helper;
 use OCA\Files_Sharing\Exceptions\SharingRightsException;
 use OCA\Files_Sharing\External\Storage;
-use OCA\Files_Sharing\ResponseDefinitions;
 use OCA\Files_Sharing\SharedStorage;
+use OCA\Files\Helper;
 use OCA\ShareByMail\ShareByMailProvider;
 use OCP\App\IAppManager;
-use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\BruteForceProtection;
+use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\OCS\OCSBadRequestException;
@@ -51,6 +51,7 @@ use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IManager;
 use OCP\Share\IProviderFactory;
 use OCP\Share\IShare;
+use OCP\Share\IShareProviderWithNotification;
 use OCP\UserStatus\IManager as IUserStatusManager;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
@@ -2032,46 +2033,29 @@ class ShareAPIController extends OCSController {
 		}
 	}
 
-	public function sendShareEmail(int $shareId, $emails = []) {
+	/**
+	 * @param string $id
+	 * @param string[] $emails a list of emails to send the notification to
+	 * @return void
+	 */
+	#[NoAdminRequired]
+	#[BruteForceProtection(action: 'sendShareEmail')]
+	public function sendShareEmail(string $id, $emails = []) {
 		try {
-			$share = $this->shareManager->getShareById($shareId);
-
-			// Only mail and link shares are supported
-			if ($share->getShareType() !== IShare::TYPE_EMAIL
-				&& $share->getShareType() !== IShare::TYPE_LINK) {
-				throw new OCSBadRequestException('Only email and link shares are supported');
-			}
-
-			// Allow sending the mail again if the share is an email share
-			if ($share->getShareType() === IShare::TYPE_EMAIL && count($emails) !== 0) {
-				throw new OCSBadRequestException('Emails should not be provided for email shares');
-			}
-
-			// Allow sending a mail if the share is a link share AND a list of emails is provided
-			if ($share->getShareType() === IShare::TYPE_LINK && count($emails) === 0) {
-				throw new OCSBadRequestException('Emails should be provided for link shares');
-			}
-
-			$link = $this->urlGenerator->linkToRouteAbsolute('files_sharing.sharecontroller.showShare',
-				['token' => $share->getToken()]);
+			$share = $this->getShareById($id);
 
 			try {
-				/** @var ShareByMailProvider */
-				$provider = $this->factory->getProviderForType(IShare::TYPE_EMAIL);
-				$provider->sendMailNotification(
-					$share->getNode()->getName(),
-					$link,
-					$share->getSharedBy(),
-					$share->getSharedWith(),
-					$share->getExpirationDate(),
-					$share->getNote()
-				);
+				$provider = $this->factory->getProviderForType($share->getShareType());
+				if (!($provider instanceof IShareProviderWithNotification)) {
+					throw new OCSBadRequestException($this->l->t('No mail notification configured for this share type'));
+				}
+
+				$provider->sendMailNotification($share);
 				return new JSONResponse(['message' => 'ok']);
-			} catch (ProviderException $e) {
-				throw new OCSBadRequestException($this->l->t('Sending mail notification is not enabled'));
 			} catch (Exception $e) {
 				throw new OCSException($this->l->t('Error while sending mail notification'));
 			}
+			
 		} catch (ShareNotFound $e) {
 			throw new OCSNotFoundException($this->l->t('Wrong share ID, share does not exist'));
 		}

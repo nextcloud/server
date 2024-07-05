@@ -564,7 +564,7 @@ interface IShare {
 	public function getShareTime();
 
 	/**
-	 * Set if the recipient is informed by mail about the share.
+	 * Set if the recipient should be informed by mail about the share.
 	 *
 	 * @param bool $mailSend
 	 * @return \OCP\Share\IShare The modified object
@@ -573,7 +573,7 @@ interface IShare {
 	public function setMailSend($mailSend);
 
 	/**
-	 * Get if the recipient informed by mail about the share.
+	 * Get if the recipient should be informed by mail about the share.
 	 *
 	 * @return bool
 	 * @since 9.0.0

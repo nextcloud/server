@@ -20,6 +20,7 @@ use OCP\Files\IRootFolder;
 use OCP\Files\Node;
 use OCP\IDBConnection;
 use OCP\IGroupManager;
+use OCP\IL10N;
 use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserManager;
@@ -28,7 +29,7 @@ use OCP\Mail\IMailer;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IAttributes;
 use OCP\Share\IShare;
-use OCP\Share\IShareProvider;
+use OCP\Share\IShareProviderWithNotification;
 use Psr\Log\LoggerInterface;
 use function str_starts_with;
 
@@ -37,57 +38,22 @@ use function str_starts_with;
  *
  * @package OC\Share20
  */
-class DefaultShareProvider implements IShareProvider {
+class DefaultShareProvider implements IShareProviderWithNotification {
 	// Special share type for user modified group shares
 	public const SHARE_TYPE_USERGROUP = 2;
 
-	/** @var IDBConnection */
-	private $dbConn;
-
-	/** @var IUserManager */
-	private $userManager;
-
-	/** @var IGroupManager */
-	private $groupManager;
-
-	/** @var IRootFolder */
-	private $rootFolder;
-
-	/** @var IMailer */
-	private $mailer;
-
-	/** @var Defaults */
-	private $defaults;
-
-	/** @var IFactory */
-	private $l10nFactory;
-
-	/** @var IURLGenerator */
-	private $urlGenerator;
-
-	private ITimeFactory $timeFactory;
-
 	public function __construct(
-		IDBConnection $connection,
-		IUserManager $userManager,
-		IGroupManager $groupManager,
-		IRootFolder $rootFolder,
-		IMailer $mailer,
-		Defaults $defaults,
-		IFactory $l10nFactory,
-		IURLGenerator $urlGenerator,
-		ITimeFactory $timeFactory,
-	) {
-		$this->dbConn = $connection;
-		$this->userManager = $userManager;
-		$this->groupManager = $groupManager;
-		$this->rootFolder = $rootFolder;
-		$this->mailer = $mailer;
-		$this->defaults = $defaults;
-		$this->l10nFactory = $l10nFactory;
-		$this->urlGenerator = $urlGenerator;
-		$this->timeFactory = $timeFactory;
-	}
+		private IDBConnection $dbConn,
+		private IUserManager $userManager,
+		private IGroupManager $groupManager,
+		private IRootFolder $rootFolder,
+		private IMailer $mailer,
+		private Defaults $defaults,
+		private IFactory $l10nFactory,
+		private IURLGenerator $urlGenerator,
+		private ITimeFactory $timeFactory,
+		private LoggerInterface $logger,
+	) {}
 
 	/**
 	 * Return the identifier of this provider.
@@ -1200,7 +1166,7 @@ class DefaultShareProvider implements IShareProvider {
 			);
 		} else {
 			$e = new \InvalidArgumentException('Default share provider tried to delete all shares for type: ' . $shareType);
-			\OCP\Server::get(LoggerInterface::class)->error($e->getMessage(), ['exception' => $e]);
+			$this->logger->error($e->getMessage(), ['exception' => $e]);
 			return;
 		}
 
@@ -1413,6 +1379,129 @@ class DefaultShareProvider implements IShareProvider {
 			$group = $this->groupManager->get($share->getSharedWith());
 			$groupMembers = $group->getUsers();
 			$this->sendNote($groupMembers, $share);
+		}
+	}
+
+	public function sendMailNotification(IShare $share): true {
+		try {
+			// Handle user shares
+			if ($share->getShareType() === IShare::TYPE_USER) {
+				$user = $this->userManager->get($share->getSharedWith());
+				if ($user !== null) {
+					$emailAddress = $user->getEMailAddress();
+					if ($emailAddress !== null && $emailAddress !== '') {
+						$userLang = $this->l10nFactory->getUserLanguage($user);
+						$l = $this->l10nFactory->get('lib', $userLang);
+						$this->sendUserShareMail(
+							$l,
+							$share->getNode()->getName(),
+							$this->urlGenerator->linkToRouteAbsolute('files_sharing.Accept.accept', ['shareId' => $share->getFullId()]),
+							$share->getSharedBy(),
+							$emailAddress,
+							$share->getExpirationDate(),
+							$share->getNote()
+						);
+						$this->logger->debug('Sent share notification to ' . $emailAddress . ' for share with ID ' . $share->getId() . '.', ['app' => 'share']);
+						return true;
+
+					}
+					$this->logger->debug('Share notification not sent to ' . $share->getSharedWith() . ' because email address is not set.', ['app' => 'share']);
+					return false;
+				}
+				$this->logger->debug('Share notification not sent to ' . $share->getSharedWith() . ' because user could not be found.', ['app' => 'share']);
+				return false;
+			}
+
+			// Handle link shares
+			if ($share->getShareType() === IShare::TYPE_LINK) {
+				return true;
+			}
+		} catch (\Exception $e) {
+			$this->logger->error('Share notification mail could not be sent.', ['exception' => $e]);
+		}
+
+		return false;
+	}
+
+	/**
+	 * Send mail notifications for the user share type
+	 *
+	 * @param IL10N $l Language of the recipient
+	 * @param string $filename file/folder name
+	 * @param string $link link to the file/folder
+	 * @param string $initiator user ID of share sender
+	 * @param string $shareWith email address of share receiver
+	 * @param \DateTime|null $expiration
+	 * @param string $note
+	 * @throws \Exception
+	 */
+	protected function sendUserShareMail(
+		IL10N $l,
+		$filename,
+		$link,
+		$initiator,
+		$shareWith,
+		?\DateTime $expiration = null,
+		$note = '') {
+		$initiatorUser = $this->userManager->get($initiator);
+		$initiatorDisplayName = ($initiatorUser instanceof IUser) ? $initiatorUser->getDisplayName() : $initiator;
+
+		$message = $this->mailer->createMessage();
+
+		$emailTemplate = $this->mailer->createEMailTemplate('files_sharing.RecipientNotification', [
+			'filename' => $filename,
+			'link' => $link,
+			'initiator' => $initiatorDisplayName,
+			'expiration' => $expiration,
+			'shareWith' => $shareWith,
+		]);
+
+		$emailTemplate->setSubject($l->t('%1$s shared »%2$s« with you', [$initiatorDisplayName, $filename]));
+		$emailTemplate->addHeader();
+		$emailTemplate->addHeading($l->t('%1$s shared »%2$s« with you', [$initiatorDisplayName, $filename]), false);
+		$text = $l->t('%1$s shared »%2$s« with you.', [$initiatorDisplayName, $filename]);
+
+		if ($note !== '') {
+			$emailTemplate->addBodyText(htmlspecialchars($note), $note);
+		}
+
+		$emailTemplate->addBodyText(
+			htmlspecialchars($text . ' ' . $l->t('Click the button below to open it.')),
+			$text
+		);
+		$emailTemplate->addBodyButton(
+			$l->t('Open »%s«', [$filename]),
+			$link
+		);
+
+		$message->setTo([$shareWith]);
+
+		// The "From" contains the sharers name
+		$instanceName = $this->defaults->getName();
+		$senderName = $l->t(
+			'%1$s via %2$s',
+			[
+				$initiatorDisplayName,
+				$instanceName,
+			]
+		);
+		$message->setFrom([\OCP\Util::getDefaultEmailAddress('noreply') => $senderName]);
+
+		// The "Reply-To" is set to the sharer if an mail address is configured
+		// also the default footer contains a "Do not reply" which needs to be adjusted.
+		$initiatorEmail = $initiatorUser->getEMailAddress();
+		if ($initiatorEmail !== null) {
+			$message->setReplyTo([$initiatorEmail => $initiatorDisplayName]);
+			$emailTemplate->addFooter($instanceName . ($this->defaults->getSlogan($l->getLanguageCode()) !== '' ? ' - ' . $this->defaults->getSlogan($l->getLanguageCode()) : ''));
+		} else {
+			$emailTemplate->addFooter('', $l->getLanguageCode());
+		}
+
+		$message->useTemplate($emailTemplate);
+		$failedRecipients = $this->mailer->send($message);
+		if (!empty($failedRecipients)) {
+			$this->logger->error('Share notification mail could not be sent to: ' . implode(', ', $failedRecipients));
+			return;
 		}
 	}
 
