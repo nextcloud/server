@@ -316,7 +316,7 @@ export default defineComponent({
 
 	--checkbox-padding: calc((var(--row-height) - var(--checkbox-size)) / 2);
 	--checkbox-size: 24px;
-	--clickable-area: 44px;
+	--clickable-area: var(--default-clickable-area);
 	--icon-preview-size: 32px;
 
 	overflow: auto;
@@ -687,39 +687,56 @@ export default defineComponent({
 // Grid mode
 tbody.files-list__tbody.files-list__tbody--grid {
 	--half-clickable-area: calc(var(--clickable-area) / 2);
-	--row-width: 160px;
-	// We use half of the clickable area as visual balance margin
-	--row-height: calc(var(--row-width) - var(--half-clickable-area));
-	--icon-preview-size: calc(var(--row-width) - var(--clickable-area));
+	--item-padding: 16px;
+	--icon-preview-size: 208px;
+	--name-height: 32px;
+	--mtime-height: 16px;
+	--row-width: calc(var(--icon-preview-size));
+	--row-height: calc(var(--icon-preview-size) + var(--name-height) + var(--mtime-height));
 	--checkbox-padding: 0px;
 
 	display: grid;
 	grid-template-columns: repeat(auto-fill, var(--row-width));
-	grid-gap: 15px;
-	row-gap: 15px;
+	gap: 22px;
 
 	align-content: center;
 	align-items: center;
 	justify-content: space-around;
 	justify-items: center;
+	margin: 16px;
+	width: calc(100% - 32px);
 
 	tr {
+		display: flex;
+		flex-direction: column;
 		width: var(--row-width);
-		height: calc(var(--row-height) + var(--clickable-area));
+		height: var(--row-height);
 		border: none;
-		border-radius: var(--border-radius);
+		padding: var(--item-padding);
+		box-sizing: content-box
 	}
 
 	// Checkbox in the top left
 	.files-list__row-checkbox {
 		position: absolute;
 		z-index: 9;
-		top: 0;
-		left: 0;
+		top: calc(var(--item-padding)/2);
+		left: calc(var(--item-padding)/2);
 		overflow: hidden;
-		width: var(--clickable-area);
-		height: var(--clickable-area);
-		border-radius: var(--half-clickable-area);
+		--checkbox-container-size: 44px;
+		width: var(--checkbox-container-size);
+		height: var(--checkbox-container-size);
+
+		// Add a background to the checkbox so we do not see the image through it.
+		.checkbox-radio-switch__content::after {
+			content: '';
+			width: 16px;
+			height: 16px;
+			position: absolute;
+			left: 14px;
+			z-index: -1;
+			background: var(--color-main-background);
+		}
 	}
 
 	// Star icon in the top right
@@ -735,36 +752,44 @@ tbody.files-list__tbody.files-list__tbody--grid {
 	}
 
 	.files-list__row-name {
-		display: grid;
-		justify-content: stretch;
-		width: 100%;
-		height: 100%;
-		grid-auto-rows: var(--row-height) var(--clickable-area);
+		display: flex;
+		flex-direction: column;
+		width: var(--icon-preview-size);
+		height: calc(var(--icon-preview-size) + var(--name-height));
+		// Ensure that the name outline is visible.
+		overflow: visible;
 
 		span.files-list__row-icon {
-			width: 100%;
-			height: 100%;
-			// Visual balance, we use half of the clickable area
-			// as a margin around the preview
-			padding-top: var(--half-clickable-area);
+			width: var(--icon-preview-size);
+			height: var(--icon-preview-size);
+		}
+
+		.files-list__row-icon-preview {
+			border-radius: 0;
 		}
 
 		a.files-list__row-name-link {
-			// Minus action menu
-			width: calc(100% - var(--clickable-area));
-			height: var(--clickable-area);
+			height: var(--name-height);
 		}
 
 		.files-list__row-name-text {
 			margin: 0;
-			padding-right: 0;
+			// Ensure that the outline is not too close to the text.
+			margin-left: -4px;
+			padding: 0px 4px;
 		}
+	}
+
+	.files-list__row-mtime {
+		width: var(--icon-preview-size);
+		height: var(--mtime-height);
+		font-size: calc(var(--default-font-size) - 4px);
 	}
 
 	.files-list__row-actions {
 		position: absolute;
-		right: 0;
-		bottom: 0;
+		right: calc(var(--half-clickable-area) / 2);
+		bottom: calc(var(--mtime-height) / 2);
 		width: var(--clickable-area);
 		height: var(--clickable-area);
 	}

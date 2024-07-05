@@ -46,6 +46,15 @@
 				@click.native="execDefaultAction" />
 		</td>
 
+		<!-- Mtime -->
+		<td v-if="!compact && isMtimeAvailable"
+			:style="mtimeOpacity"
+			class="files-list__row-mtime"
+			data-cy-files-list-row-mtime
+			@click="openDetailsIfAvailable">
+			<NcDateTime v-if="source.mtime" :timestamp="source.mtime" :ignore-seconds="true" />
+		</td>
+
 		<!-- Actions -->
 		<FileEntryActions ref="actions"
 			:class="`files-list__row-actions-${uniqueId}`"
@@ -59,6 +68,8 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
+
+import NcDateTime from '@nextcloud/vue/dist/Components/NcDateTime.js'
 
 import { useNavigation } from '../composables/useNavigation'
 import { useActionsMenuStore } from '../store/actionsmenu.ts'
@@ -80,6 +91,7 @@ export default defineComponent({
 		FileEntryCheckbox,
 		FileEntryName,
 		FileEntryPreview,
+		NcDateTime,
 	},
 
 	mixins: [
