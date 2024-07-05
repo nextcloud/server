@@ -54,13 +54,12 @@ jobs:
     if: needs.changes.outputs.src != 'false' && ${{ github.repository_owner != 'nextcloud-gmbh' }}
 
     strategy:
+      fail-fast: false
       matrix:
         include:
           - oracle-versions: '18'
-            php-versions: '8.3'
-            coverage: ${{ github.event_name != 'pull_request' }}
-          - oracle-versions: '18'
             php-versions: '8.1'
+            coverage: ${{ github.event_name != 'pull_request' }}
           - oracle-versions: '21'
             php-versions: '8.2'
           - oracle-versions: '23'
@@ -81,6 +80,7 @@ jobs:
         # Provide passwords and other environment variables to container
         env:
           ORACLE_RANDOM_PASSWORD: true
+          ORACLE_DATABASE: XEPDB1
           APP_USER: oc_autotest
           APP_USER_PASSWORD: nextcloud
 
@@ -122,7 +122,7 @@ jobs:
           mkdir data
           cp tests/redis.config.php config/
           cp tests/preseed-config.php config/config.php
-          ./occ maintenance:install --verbose --database=oci --database-name=${{ matrix.oracle-versions < 23 && 'XE' || 'FREE'  }} --database-host=127.0.0.1 --database-port=$DB_PORT --database-user=oc_autotest --database-pass=nextcloud --admin-user admin --admin-pass admin
+          ./occ maintenance:install --verbose --database=XEPDB1 --database-name=${{ matrix.oracle-versions < 23 && 'XE' || 'FREE'  }} --database-host=127.0.0.1 --database-port=$DB_PORT --database-user=oc_autotest --database-pass=nextcloud --admin-user admin --admin-pass admin
           php -f tests/enable_all.php | grep -i -C9999 error && echo "Error during app setup" && exit 1 || exit 0
 
       - name: PHPUnit
