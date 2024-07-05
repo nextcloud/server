@@ -238,18 +238,28 @@ export default defineComponent({
 		async createShare() {
 			this.loading = true
 
-			const shareUrl = generateOcsUrl('apps/files_sharing/api/v1/shares')
 			// Format must be YYYY-MM-DD
 			const expireDate = this.deadline ? this.deadline.toISOString().split('T')[0] : undefined
+			const shareUrl = generateOcsUrl('apps/files_sharing/api/v1/shares')
 			try {
 				const request = await axios.post(shareUrl, {
-					path: this.destination,
 					shareType: Type.SHARE_TYPE_EMAIL,
 					publicUpload: 'true',
+	
+					label: this.label,
+					path: this.destination,
+					note: this.note,
+
 					password: this.password || undefined,
 					expireDate,
-					label: this.label,
-					attributes: JSON.stringify({ is_file_request: true })
+
+					// Empty string to fallback to the attributes
+					sharedWith: '',
+					attributes: JSON.stringify({
+						value: this.emails,
+						key: 'emails',
+						scope: 'sharedWith',
+					})
 				})
 
 				// If not an ocs request
