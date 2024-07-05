@@ -77,6 +77,7 @@
 			:share="shareDetailsData.share"
 			@close-sharing-details="toggleShareDetailsView"
 			@add:share="addShare"
+			@update:share="handleShareUpdated"
 			@remove:share="removeShare" />
 	</div>
 </template>
@@ -398,6 +399,27 @@ export default {
 					this.returnFocusElement?.focus()
 					this.returnFocusElement = null
 				})
+			}
+		},
+
+		handleShareUpdated(updatedShare) {
+			// Check if the updated share is in the `shares` list
+			let index = this.shares.findIndex(share => share.id === updatedShare.id)
+			if (index !== -1) {
+				console.log("Let us see", this.shares[index].permissions, updatedShare.permissions)
+				// Update the share in the `shares` list
+				this.$set(this.shares, index, updatedShare)
+				console.log('Updated???', updatedShare)
+				console.log("Let us see (AFTER)", this.shares[index].permissions, updatedShare.permissions)
+			} else {
+				// Check if the updated share is in the `linkShares` list
+				index = this.linkShares.findIndex(share => share.id === updatedShare.id)
+				if (index !== -1) {
+					// Update the share in the `linkShares` list
+					this.$set(this.linkShares, index, updatedShare)
+					this.linkShares[index] = updatedShare
+					console.log('Updated link???', updatedShare)
+				}
 			}
 		},
 	},
