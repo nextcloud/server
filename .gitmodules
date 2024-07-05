@@ -10,3 +10,6 @@
 [submodule "apps-external/viewer"]
 	path = apps-external/viewer
 	url = https://github.com/nextcloud/viewer.git
+[submodule "apps-custom/simplesettings"]
+	path = apps-custom/simplesettings
+	url = git@github.com:IONOS-Productivity/nc-simplesettings.git
