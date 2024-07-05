@@ -74,6 +74,8 @@
     "Disable user theming" : "ユーザー毎のテーマを無効",
     "Although you can select and customize your instance, users can change their background and colors. If you want to enforce your customization, you can toggle this on." : "このサーバーの外観のカスタマイズと画像を変更を変更できますが、さらにユーザーは背景と色を変更できます。外観のカスタマイズを強制する場合は以下のチェック設定をオンにしてください。",
     "Appearance and accessibility settings" : "外観とアクセシビリティの設定",
+    "Misc accessibility options" : "その他のアクセシビリティオプション",
+    "Enable blur background filter (may increase GPU load)" : "背景ぼかしフィルターを有効にする (GPU負荷が増加する可能性があります)",
     "Customization has been disabled by your administrator" : "カスタマイズは管理者によって無効にされています",
     "Set a primary color to highlight important elements. The color used for elements such as primary buttons might differ a bit as it gets adjusted to fulfill accessibility requirements." : "重要な要素を強調表示するための原色を設定します。主ボタンなどの要素に使用される色は、アクセシビリティ要件を満たすように調整されるため、多少異なる場合があります。",
     "Background and color" : "背景と色",
