@@ -120,11 +120,11 @@ class Cache implements ICache {
 			// normalize file
 			$file = $this->normalize($file);
 
-			$query->whereStorageId($this->getNumericStorageId())
-				->wherePath($file);
+			$query->wherePath($file);
 		} else { //file id
 			$query->whereFileId($file);
 		}
+		$query->whereStorageId($this->getNumericStorageId());
 
 		$result = $query->execute();
 		$data = $result->fetch();
