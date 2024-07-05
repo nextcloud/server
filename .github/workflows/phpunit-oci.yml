@@ -80,7 +80,6 @@ jobs:
         # Provide passwords and other environment variables to container
         env:
           ORACLE_RANDOM_PASSWORD: true
-          ORACLE_DATABASE: XEPDB1
           APP_USER: oc_autotest
           APP_USER_PASSWORD: nextcloud
 
