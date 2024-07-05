@@ -47,4 +47,11 @@ interface IHasher {
 	 * @since 8.0.0
 	 */
 	public function verify(string $message, string $hash, &$newHash = null): bool ;
+
+	/**
+	 * Check if the prefixed hash is valid
+	 *
+	 * @since 30.0.0
+	 */
+	public function validate(string $prefixedHash): bool;
 }
