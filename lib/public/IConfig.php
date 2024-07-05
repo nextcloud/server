@@ -251,7 +251,7 @@ interface IConfig {
 	public function getUsersForUserValue($appName, $key, $value);
 
 	/**
-	 * Gets the list of users based on their lastLogin info asc or desc
+	 * Gets the list of users sorted by lastLogin, from most recent to least recent
 	 *
 	 * @param int|null $limit how many records to fetch
 	 * @param int $offset from which offset to fetch
