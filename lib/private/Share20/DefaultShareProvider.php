@@ -1384,36 +1384,34 @@ class DefaultShareProvider implements IShareProviderWithNotification {
 
 	public function sendMailNotification(IShare $share): true {
 		try {
-			// Handle user shares
-			if ($share->getShareType() === IShare::TYPE_USER) {
-				$user = $this->userManager->get($share->getSharedWith());
-				if ($user !== null) {
-					$emailAddress = $user->getEMailAddress();
-					if ($emailAddress !== null && $emailAddress !== '') {
-						$userLang = $this->l10nFactory->getUserLanguage($user);
-						$l = $this->l10nFactory->get('lib', $userLang);
-						$this->sendUserShareMail(
-							$l,
-							$share->getNode()->getName(),
-							$this->urlGenerator->linkToRouteAbsolute('files_sharing.Accept.accept', ['shareId' => $share->getFullId()]),
-							$share->getSharedBy(),
-							$emailAddress,
-							$share->getExpirationDate(),
-							$share->getNote()
-						);
-						$this->logger->debug('Sent share notification to ' . $emailAddress . ' for share with ID ' . $share->getId() . '.', ['app' => 'share']);
-						return true;
-
-					}
-					$this->logger->debug('Share notification not sent to ' . $share->getSharedWith() . ' because email address is not set.', ['app' => 'share']);
-					return false;
-				}
+			// Check user
+			$user = $this->userManager->get($share->getSharedWith());
+			if ($user === null) {
 				$this->logger->debug('Share notification not sent to ' . $share->getSharedWith() . ' because user could not be found.', ['app' => 'share']);
 				return false;
 			}
 
-			// Handle link shares
-			if ($share->getShareType() === IShare::TYPE_LINK) {
+			// Handle user shares
+			if ($share->getShareType() === IShare::TYPE_USER) {
+				// Check email address
+				$emailAddress = $user->getEMailAddress();
+				if ($emailAddress === null || $emailAddress === '') {
+					$this->logger->debug('Share notification not sent to ' . $share->getSharedWith() . ' because email address is not set.', ['app' => 'share']);
+					return false;
+				}
+
+				$userLang = $this->l10nFactory->getUserLanguage($user);
+				$l = $this->l10nFactory->get('lib', $userLang);
+				$this->sendUserShareMail(
+					$l,
+					$share->getNode()->getName(),
+					$this->urlGenerator->linkToRouteAbsolute('files_sharing.Accept.accept', ['shareId' => $share->getFullId()]),
+					$share->getSharedBy(),
+					$emailAddress,
+					$share->getExpirationDate(),
+					$share->getNote()
+				);
+				$this->logger->debug('Sent share notification to ' . $emailAddress . ' for share with ID ' . $share->getId() . '.', ['app' => 'share']);
 				return true;
 			}
 		} catch (\Exception $e) {

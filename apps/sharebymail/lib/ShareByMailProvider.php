@@ -101,17 +101,11 @@ class ShareByMailProvider implements IShareProviderWithNotification {
 
 		$shareId = $this->createMailShare($share);
 
-		// Sends share password to receiver when it's a permanent one (otherwise she will have to request it via the showShare UI)
-		// or to owner when the password shall be given during a Talk session
-		if ($this->config->getSystemValue('sharing.enable_mail_link_password_expiration', false) === false || $share->getSendPasswordByTalk()) {
-			$send = $this->sendPassword($share, $password);
-			if ($passwordEnforced && $send === false) {
-				$this->sendPasswordToOwner($share, $password);
-			}
-		}
-
 		$this->createShareActivity($share);
 		$data = $this->getRawShare($shareId);
+
+		// Temporary set the clear password again to send it by mail
+		$data['password'] = $password;
 
 		return $this->createShareObject($data);
 	}
@@ -260,6 +254,21 @@ class ShareByMailProvider implements IShareProviderWithNotification {
 				$share->getExpirationDate(),
 				$share->getNote()
 			);
+
+			// If we have a password set, we send it to the recipient
+			if ($share->getPassword()) {
+				// Sends share password to receiver when it's a permanent one (otherwise she will have to request it via the showShare UI)
+				// or to owner when the password shall be given during a Talk session
+				$passwordExpire = $this->config->getSystemValue('sharing.enable_mail_link_password_expiration', false);
+				$passwordEnforced = $this->shareManager->shareApiLinkEnforcePassword();
+				if ($passwordExpire === false || $share->getSendPasswordByTalk()) {
+					$send = $this->sendPassword($share, $share->getPassword());
+					if ($passwordEnforced && $send === false) {
+						$this->sendPasswordToOwner($share, $share->getPassword());
+					}
+				}
+			}
+
 			return true;
 		} catch (HintException $hintException) {
 			$this->logger->error('Failed to send share by mail.', [
@@ -289,7 +298,7 @@ class ShareByMailProvider implements IShareProviderWithNotification {
 	 * @param string $note note
 	 * @throws \Exception If mail couldn't be sent
 	 */
-	public function sendEmail(
+	protected function sendEmail(
 		string $filename,
 		string $link,
 		string $initiator,
@@ -318,6 +327,7 @@ class ShareByMailProvider implements IShareProviderWithNotification {
 		if ($note !== '') {
 			$emailTemplate->addBodyText(htmlspecialchars($note), $note);
 		}
+
 		$emailTemplate->addBodyText(
 			htmlspecialchars($text . ' ' . $this->l->t('Click the button below to open it.')),
 			$text
@@ -354,13 +364,21 @@ class ShareByMailProvider implements IShareProviderWithNotification {
 		}
 
 		$message->useTemplate($emailTemplate);
-		$this->mailer->send($message);
+		$failedRecipients = $this->mailer->send($message);
+		if (!empty($failedRecipients)) {
+			$this->logger->error('Share notification mail could not be sent to: ' . implode(', ', $failedRecipients));
+			return;
+		}
 	}
 
 	/**
-	 * send password to recipient of a mail share
+	 * Send password to recipient of a mail share
+	 * Will return false if
+	 *  1. the password is empty
+	 *  2. the setting to send the password by mail is disabled
+	 *  3. the share is set to send the password by talk
 	 */
-	public function sendPassword(IShare $share, string $password): bool {
+	protected function sendPassword(IShare $share, string $password): bool {
 		$filename = $share->getNode()->getName();
 		$initiator = $share->getSharedBy();
 		$shareWith = $share->getSharedWith();
@@ -660,6 +678,7 @@ class ShareByMailProvider implements IShareProviderWithNotification {
 			->set('expiration', $qb->createNamedParameter($share->getExpirationDate(), IQueryBuilder::PARAM_DATE))
 			->set('note', $qb->createNamedParameter($share->getNote()))
 			->set('hide_download', $qb->createNamedParameter((int)$share->getHideDownload(), IQueryBuilder::PARAM_INT))
+			->set('mail_send', $qb->createNamedParameter(1))
 			->executeStatement();
 
 		if ($originalShare->getNote() !== $share->getNote() && $share->getNote() !== '') {

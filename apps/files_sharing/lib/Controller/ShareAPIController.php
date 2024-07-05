@@ -2040,9 +2040,26 @@ class ShareAPIController extends OCSController {
 	 */
 	#[NoAdminRequired]
 	#[BruteForceProtection(action: 'sendShareEmail')]
-	public function sendShareEmail(string $id, $emails = []) {
+	public function sendShareEmail(string $id, $password = '') {
 		try {
 			$share = $this->getShareById($id);
+
+			if (!$this->canAccessShare($share, false)) {
+				throw new OCSNotFoundException($this->l->t('Wrong share ID, share does not exist'));
+			}
+	
+			if (!$this->canEditShare($share)) {
+				throw new OCSForbiddenException('You are not allowed to send mail notifications');
+			}
+
+			// For mail and link shares, the user must be
+			// the owner of the share, not only the file owner.
+			if ($share->getShareType() === IShare::TYPE_EMAIL
+				|| $share->getShareType() === IShare::TYPE_LINK){
+				if ($share->getSharedBy() !== $this->currentUser) {
+					throw new OCSForbiddenException('You are not allowed to send mail notifications');
+				}
+			}
 
 			try {
 				$provider = $this->factory->getProviderForType($share->getShareType());
@@ -2050,8 +2067,22 @@ class ShareAPIController extends OCSController {
 					throw new OCSBadRequestException($this->l->t('No mail notification configured for this share type'));
 				}
 
+				// Circumvent the password encrypted data by
+				// setting the password clear. We're not storing
+				// the password clear, it is just a temporary
+				// object manipulation. The password will stay
+				// encrypted in the database.
+				if ($share->getPassword() && $share->getPassword() !== $password) {
+					if (!$this->shareManager->checkPassword($share, $password)) {
+						throw new OCSBadRequestException($this->l->t('Wrong password'));
+					}
+					$share = $share->setPassword($password);
+				}
+
 				$provider->sendMailNotification($share);
 				return new JSONResponse(['message' => 'ok']);
+			} catch(OCSBadRequestException $e) {
+				throw $e;
 			} catch (Exception $e) {
 				throw new OCSException($this->l->t('Error while sending mail notification'));
 			}
