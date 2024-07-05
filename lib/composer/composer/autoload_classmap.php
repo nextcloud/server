@@ -435,6 +435,7 @@ return array(
     'OCP\\Files\\Storage\\IStorage' => $baseDir . '/lib/public/Files/Storage/IStorage.php',
     'OCP\\Files\\Storage\\IStorageFactory' => $baseDir . '/lib/public/Files/Storage/IStorageFactory.php',
     'OCP\\Files\\Storage\\IWriteStreamStorage' => $baseDir . '/lib/public/Files/Storage/IWriteStreamStorage.php',
+    'OCP\\Files\\Template\\BeforeGetTemplatesEvent' => $baseDir . '/lib/public/Files/Template/BeforeGetTemplatesEvent.php',
     'OCP\\Files\\Template\\Field' => $baseDir . '/lib/public/Files/Template/Field.php',
     'OCP\\Files\\Template\\FieldType' => $baseDir . '/lib/public/Files/Template/FieldType.php',
     'OCP\\Files\\Template\\FileCreatedFromTemplateEvent' => $baseDir . '/lib/public/Files/Template/FileCreatedFromTemplateEvent.php',

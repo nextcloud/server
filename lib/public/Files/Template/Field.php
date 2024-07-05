@@ -7,8 +7,6 @@
 
 namespace OCP\Files\Template;
 
-use OCP\Files\Template\FieldType;
-
 class Field {
 	public FieldType $type;
 

@@ -18,6 +18,7 @@ use OCP\Files\GenericFileException;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;
 use OCP\Files\NotFoundException;
+use OCP\Files\Template\BeforeGetTemplatesEvent;
 use OCP\Files\Template\FileCreatedFromTemplateEvent;
 use OCP\Files\Template\ICustomTemplateProvider;
 use OCP\Files\Template\ITemplateManager;
@@ -203,6 +204,8 @@ class TemplateManager implements ITemplateManager {
 				$templates[] = $template;
 			}
 		}
+
+		$this->eventDispatcher->dispatchTyped(new BeforeGetTemplatesEvent($templates));
 
 		return $templates;
 	}

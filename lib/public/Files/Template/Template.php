@@ -9,8 +9,6 @@ declare(strict_types=1);
 namespace OCP\Files\Template;
 
 use OCP\Files\File;
-use OCP\Files\Template\Field;
-use OCP\Files\Template\FieldType;
 
 /**
  * @since 21.0.0
