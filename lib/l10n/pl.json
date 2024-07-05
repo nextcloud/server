@@ -251,6 +251,7 @@
     "Storage connection error. %s" : "Błąd połączenia z magazynem. %s",
     "Storage is temporarily not available" : "Magazyn jest tymczasowo niedostępny",
     "Storage connection timeout. %s" : "Limit czasu połączenia do magazynu. %s",
+    "Chat" : "Rozmowa",
     "Generates a possible headline for a text." : "Generuje możliwy nagłówek tekstu.",
     "Summarize" : "Podsumuj",
     "Summary" : "Podsumowanie",
