@@ -323,7 +323,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 3.7.1
 	- license: MIT
 - libphonenumber-js
-	- version: 1.10.60
+	- version: 1.11.4
 	- license: MIT
 - linkify-string
 	- version: 4.1.3
