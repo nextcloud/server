@@ -180,7 +180,7 @@
     "ts-jest": "^29.1.1",
     "ts-loader": "^9.5.0",
     "ts-node": "^10.9.1",
-    "tslib": "^2.6.2",
+    "tslib": "^2.6.3",
     "typescript": "^5.4.2",
     "vue-loader": "^15.9.8",
     "vue-template-compiler": "^2.7.16",
