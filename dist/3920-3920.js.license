@@ -172,7 +172,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 3.3.0
 	- license: MIT
 - fast-xml-parser
-	- version: 4.3.4
+	- version: 4.4.0
 	- license: MIT
 - floating-vue
 	- version: 1.0.0-beta.19
