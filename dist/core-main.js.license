@@ -106,8 +106,11 @@ This file is generated from multiple sources. Included packages:
 - @nextcloud/logger
 	- version: 3.0.2
 	- license: GPL-3.0-or-later
+- @nextcloud/l10n
+	- version: 3.1.0
+	- license: GPL-3.0-or-later
 - @nextcloud/password-confirmation
-	- version: 5.1.0
+	- version: 5.1.1
 	- license: MIT
 - @nextcloud/paths
 	- version: 2.1.0
