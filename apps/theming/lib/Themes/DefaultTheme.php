@@ -160,6 +160,8 @@ class DefaultTheme implements ITheme {
 
 			'--font-face' => "system-ui, -apple-system, 'Segoe UI', Roboto, Oxygen-Sans, Cantarell, Ubuntu, 'Helvetica Neue', 'Noto Sans', 'Liberation Sans', Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'",
 			'--default-font-size' => '15px',
+			// 1.5 * font-size for accessibility
+			'--default-line-height' => '24px',
 
 			// TODO: support "(prefers-reduced-motion)"
 			'--animation-quick' => '100ms',
@@ -179,20 +181,24 @@ class DefaultTheme implements ITheme {
 			'--default-clickable-area' => '34px',
 			'--clickable-area-large' => '48px',
 			'--clickable-area-small' => '24px',
-			'--default-line-height' => '24px',
+
 			'--default-grid-baseline' => '4px',
 
 			// various structure data
 			'--header-height' => '50px',
+			'--header-menu-item-height' => '44px',
 			'--navigation-width' => '300px',
 			'--sidebar-min-width' => '300px',
 			'--sidebar-max-width' => '500px',
-			'--list-min-width' => '200px',
-			'--list-max-width' => '300px',
-			'--header-menu-item-height' => '44px',
-			'--header-menu-profile-item-height' => '66px',
 
-			// mobile. Keep in sync with core/js/js.js
+			// Border radius of the body container
+			'--body-container-radius' => 'calc(var(--default-grid-baseline) * 3)',
+			// Margin of the body container
+			'--body-container-margin' => 'calc(var(--default-grid-baseline) * 2)',
+			// Height of the body container to fully fill the view port
+			'--body-height' => 'calc(100% - env(safe-area-inset-bottom) - var(--header-height) - var(--body-container-margin))',
+
+			// mobile. Keep in sync with core/src/init.js
 			'--breakpoint-mobile' => '1024px',
 			'--background-invert-if-dark' => 'no',
 			'--background-invert-if-bright' => 'invert(100%)',

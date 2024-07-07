@@ -7,20 +7,11 @@
 @use 'sass:math';
 @import 'functions';
 
-
-:root {
-	/* - 2px is required for making it look nice */
-	--border-radius-rounded: calc(var(--default-clickable-area) / 2 + var(--default-grid-baseline) * 2 - 2px);
-
-	--body-container-radius: calc(var(--default-grid-baseline) * 3);
-	--body-container-margin: calc(var(--default-grid-baseline) * 2);
-	--body-height: calc(100% - env(safe-area-inset-bottom) - 50px - var(--body-container-margin));
-}
-
 @media screen and (max-width: variables.$breakpoint-mobile) {
+	// Make the body full width on mobile
 	:root {
-		--body-container-margin: 0px;
-		--body-container-radius: 0px;
+		--body-container-margin: 0px !important;
+		--body-container-radius: 0px !important;
 	}
 }
 
