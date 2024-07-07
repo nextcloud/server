@@ -535,7 +535,7 @@ class Trashbin {
 	 * @param int $timestamp deletion time
 	 * @return false|null
 	 */
-	private static function restoreVersions(View $view, string $file, string $filename, string $uniqueFilename, string $location, int $timestamp): ?false {
+	private static function restoreVersions(View $view, string $file, string $filename, string $uniqueFilename, string $location, int $timestamp) {
 		if (Server::get(IAppManager::class)->isEnabledForUser('files_versions')) {
 			$user = OC_User::getUser();
 			$rootView = new View('/');
