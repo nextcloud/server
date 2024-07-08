@@ -74,7 +74,7 @@ class TemplateLayout extends \OC_Template {
 			}
 
 			$this->initialState->provideInitialState('core', 'active-app', $this->navigationManager->getActiveEntry());
-			$this->initialState->provideInitialState('core', 'apps', $this->navigationManager->getAll());
+			$this->initialState->provideInitialState('core', 'apps', array_values($this->navigationManager->getAll()));
 
 			if ($this->config->getSystemValueBool('unified_search.enabled', false) || !$this->config->getSystemValueBool('enable_non-accessible_features', true)) {
 				$this->initialState->provideInitialState('unified-search', 'limit-default', (int)$this->config->getAppValue('core', 'unified-search.limit-default', (string)SearchQuery::LIMIT_DEFAULT));
