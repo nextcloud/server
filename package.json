@@ -198,8 +198,8 @@
     "extends @nextcloud/browserslist-config"
   ],
   "engines": {
-    "node": "^20.0.0",
-    "npm": "^10.0.0"
+    "node": "^20.15.0",
+    "npm": "^10.7.0"
   },
   "overrides": {
     "colors": "1.4.0"
