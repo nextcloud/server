@@ -51,13 +51,13 @@ class ListFiles extends Base {
 			->addOption("type", "", InputArgument::OPTIONAL, "Filter by type like application, image, video etc")
 			->addOption(
 				"minSize",
-				0,
+				"0",
 				InputArgument::OPTIONAL,
 				"Filter by min size"
 			)
 			->addOption(
 				"maxSize",
-				0,
+				"0",
 				InputArgument::OPTIONAL,
 				"Filter by max size"
 			)
