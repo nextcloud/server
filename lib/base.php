@@ -556,6 +556,7 @@ class OC {
 		self::$composerAutoloader = require_once OC::$SERVERROOT . '/lib/composer/autoload.php';
 		self::$composerAutoloader->setApcuPrefix(null);
 
+
 		try {
 			self::initPaths();
 			// setup 3rdparty autoloader
@@ -577,6 +578,10 @@ class OC {
 		// setup the basic server
 		self::$server = new \OC\Server(\OC::$WEBROOT, self::$config);
 		self::$server->boot();
+
+		if (self::$CLI && in_array('--'.\OCP\Console\ReservedOptions::DEBUG_LOG, $_SERVER['argv'])) {
+			\OC\Core\Listener\BeforeMessageLoggedEventListener::setup();
+		}
 
 		$eventLogger = Server::get(\OCP\Diagnostics\IEventLogger::class);
 		$eventLogger->log('autoloader', 'Autoloader', $loaderStart, $loaderEnd);
