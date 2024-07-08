@@ -133,9 +133,9 @@ class ConnectionFactory {
 //					$additionalConnectionParams['dbname'] = '//' . $host . (!empty($port) ? ":{$port}" : "") . '/' . $dbName;
 //				}
 //				unset($additionalConnectionParams['host']);
-				$additionalConnectionParams['servicename'] = 'FREEPDB1';
-				$additionalConnectionParams['primary']['servicename'] = 'FREEPDB1';
-				$additionalConnectionParams['replica'][0]['servicename'] = 'FREEPDB1';
+				$additionalConnectionParams['servicename'] = 'FREE';
+				$additionalConnectionParams['primary']['servicename'] = 'FREE';
+				$additionalConnectionParams['replica'][0]['servicename'] = 'FREE';
 				break;
 
 			case 'sqlite3':
