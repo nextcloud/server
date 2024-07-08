@@ -10,6 +10,7 @@ use OC\KnownUser\KnownUserService;
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\CalDAV\CalendarRoot;
 use OCA\DAV\CalDAV\Security\RateLimitingPlugin;
+use OCA\DAV\CalDAV\Validation\CalDavValidatePlugin;
 use OCA\DAV\Connector\LegacyDAVACL;
 use OCA\DAV\Connector\Sabre\Auth;
 use OCA\DAV\Connector\Sabre\ExceptionLoggerPlugin;
@@ -98,6 +99,7 @@ if ($sendInvitations) {
 }
 $server->addPlugin(new ExceptionLoggerPlugin('caldav', $logger));
 $server->addPlugin(\OCP\Server::get(RateLimitingPlugin::class));
+$server->addPlugin(\OCP\Server::get(CalDavValidatePlugin::class));
 
 // And off we go!
 $server->exec();
