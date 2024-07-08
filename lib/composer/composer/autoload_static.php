@@ -11,7 +11,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
     );
 
     public static $prefixLengthsPsr4 = array (
-        'O' => 
+        'O' =>
         array (
             'OC\\Core\\' => 8,
             'OC\\' => 3,
@@ -20,15 +20,15 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
     );
 
     public static $prefixDirsPsr4 = array (
-        'OC\\Core\\' => 
+        'OC\\Core\\' =>
         array (
             0 => __DIR__ . '/../../..' . '/core',
         ),
-        'OC\\' => 
+        'OC\\' =>
         array (
             0 => __DIR__ . '/../../..' . '/lib/private',
         ),
-        'OCP\\' => 
+        'OCP\\' =>
         array (
             0 => __DIR__ . '/../../..' . '/lib/public',
         ),
@@ -1359,7 +1359,8 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\Core\\Migrations\\Version29000Date20240124132202' => __DIR__ . '/../../..' . '/core/Migrations/Version29000Date20240124132202.php',
         'OC\\Core\\Migrations\\Version29000Date20240131122720' => __DIR__ . '/../../..' . '/core/Migrations/Version29000Date20240131122720.php',
         'OC\\Core\\Migrations\\Version30000Date20240429122720' => __DIR__ . '/../../..' . '/core/Migrations/Version30000Date20240429122720.php',
-        'OC\\Core\\Migrations\\Version30000Date20240717111406' => __DIR__ . '/../../..' . '/core/Migrations/Version30000Date20240717111406.php',
+        'OC\\Core\\Migrations\\Version30000Date20240708160048' => __DIR__ . '/../../..' . '/core/Migrations/Version30000Date20240708160048.php',
+		'OC\\Core\\Migrations\\Version30000Date20240717111406' => __DIR__ . '/../../..' . '/core/Migrations/Version30000Date20240717111406.php',
         'OC\\Core\\Notification\\CoreNotifier' => __DIR__ . '/../../..' . '/core/Notification/CoreNotifier.php',
         'OC\\Core\\ResponseDefinitions' => __DIR__ . '/../../..' . '/core/ResponseDefinitions.php',
         'OC\\Core\\Service\\LoginFlowV2Service' => __DIR__ . '/../../..' . '/core/Service/LoginFlowV2Service.php',

@@ -39,6 +39,12 @@ use OCP\TaskProcessing\Task as OCPTask;
  * @method string getWebhookUri()
  * @method setWebhookMethod(string $webhookMethod)
  * @method string getWebhookMethod()
+ * @method setScheduledAt(int $scheduledAt)
+ * @method int getScheduledAt()
+ * @method setStartedAt(int $startedAt)
+ * @method int getStartedAt()
+ * @method setEndedAt(int $endedAt)
+ * @method int getEndedAt()
  */
 class Task extends Entity {
 	protected $lastUpdated;
@@ -54,6 +60,9 @@ class Task extends Entity {
 	protected $progress;
 	protected $webhookUri;
 	protected $webhookMethod;
+	protected $scheduledAt;
+	protected $startedAt;
+	protected $endedAt;
 
 	/**
 	 * @var string[]
@@ -82,6 +91,9 @@ class Task extends Entity {
 		$this->addType('progress', 'float');
 		$this->addType('webhookUri', 'string');
 		$this->addType('webhookMethod', 'string');
+		$this->addType('scheduleAt', 'integer');
+		$this->addType('startedAt', 'integer');
+		$this->addType('endedAt', 'integer');
 	}
 
 	public function toRow(): array {
@@ -107,6 +119,9 @@ class Task extends Entity {
 			'progress' => $task->getProgress(),
 			'webhookUri' => $task->getWebhookUri(),
 			'webhookMethod' => $task->getWebhookMethod(),
+			'scheduledAt' => $task->getScheduledAt(),
+			'startedAt' => $task->getStartedAt(),
+			'endedAt' => $task->getEndedAt(),
 		]);
 		return $taskEntity;
 	}
@@ -126,6 +141,9 @@ class Task extends Entity {
 		$task->setProgress($this->getProgress());
 		$task->setWebhookUri($this->getWebhookUri());
 		$task->setWebhookMethod($this->getWebhookMethod());
+		$task->setScheduledAt($this->getScheduledAt());
+		$task->setStartedAt($this->getStartedAt());
+		$task->setEndedAt($this->getEndedAt());
 		return $task;
 	}
 }
