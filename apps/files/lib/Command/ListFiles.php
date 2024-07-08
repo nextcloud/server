@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * SPDX-FileCopyrightText: 2017-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
@@ -8,6 +9,7 @@ namespace OCA\Files\Command;
 
 use OC\Core\Command\Base;
 use OC\Core\Command\InterruptedException;
+use OC\Files\Node\Node;
 use OC\FilesMetadata\FilesMetadataManager;
 use OC\ForbiddenException;
 use OCP\EventDispatcher\IEventDispatcher;
@@ -49,13 +51,13 @@ class ListFiles extends Base {
 			->addOption("type", "", InputArgument::OPTIONAL, "Filter by type like application, image, video etc")
 			->addOption(
 				"minSize",
-				'0',
+				0,
 				InputArgument::OPTIONAL,
 				"Filter by min size"
 			)
 			->addOption(
 				"maxSize",
-				'0',
+				0,
 				InputArgument::OPTIONAL,
 				"Filter by max size"
 			)
@@ -68,7 +70,7 @@ class ListFiles extends Base {
 			->addOption("order", "ASC", InputArgument::OPTIONAL, "Order is either ASC or DESC");
 	}
 
-	private function getNodeInfo(File|Folder $node): array {
+	private function getNodeInfo(Node $node): array {
 		$nodeInfo = [
 			"name" => $node->getName(),
 			"size" => $node->getSize() . " bytes",
@@ -98,9 +100,11 @@ class ListFiles extends Base {
 
 			$files = $userFolder->getDirectoryListing();
 			foreach ($files as $file) {
+				/** @var Node $fileNode */
+				$fileNode = $file;
 				$includeType = $includeMin = $includeMax = true;
-				$nodeInfo = $this->getNodeInfo($file);
-				if ($type != "" && $type != $nodeInfo['type']) {
+				$nodeInfo = $this->getNodeInfo($fileNode);
+				if ($type !== "" && $type !== $nodeInfo['type']) {
 					$includeType = false;
 				}
 				if ($minSize > 0) {
@@ -147,6 +151,7 @@ class ListFiles extends Base {
 		OutputInterface $output
 	): int {
 		$inputPath = $input->getArgument("path");
+		$user = '';
 		if ($inputPath) {
 			$inputPath = ltrim($inputPath, "path=");
 			[, $user] = explode("/", rtrim($inputPath, "/").'/', 4);
@@ -154,9 +159,6 @@ class ListFiles extends Base {
 
 		$this->initTools($output);
 
-		if (is_object($user)) {
-			$user = $user->getUID();
-		}
 		$path = $inputPath ?: "/" . $user;
 
 		if ($this->userManager->userExists($user)) {
@@ -168,8 +170,8 @@ class ListFiles extends Base {
 				$path,
 				$output,
 				$input->getOption("type"),
-				$input->getOption("minSize"),
-				$input->getOption("maxSize")
+				(int) $input->getOption("minSize"),
+				(int) $input->getOption("maxSize")
 			);
 		} else {
 			$output->writeln(
