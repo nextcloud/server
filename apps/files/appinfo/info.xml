@@ -49,6 +49,7 @@
 		<command>OCA\Files\Command\Object\Delete</command>
 		<command>OCA\Files\Command\Object\Get</command>
 		<command>OCA\Files\Command\Object\Put</command>
+		<command>OCA\Files\Command\ListFiles</command>
 	</commands>
 
 	<settings>
