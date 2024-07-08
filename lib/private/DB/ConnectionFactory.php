@@ -133,6 +133,7 @@ class ConnectionFactory {
 //					$additionalConnectionParams['dbname'] = '//' . $host . (!empty($port) ? ":{$port}" : "") . '/' . $dbName;
 //				}
 //				unset($additionalConnectionParams['host']);
+				$additionalConnectionParams['servicename'] = 'XEPDB1';
 				break;
 
 			case 'sqlite3':
