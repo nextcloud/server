@@ -141,6 +141,7 @@ class ConnectionFactory {
 				$eventManager->addEventSubscriber(new SQLiteSessionInit(true, $journalMode));
 				break;
 		}
+		var_dump($additionalConnectionParams);
 		/** @var Connection $connection */
 		$connection = DriverManager::getConnection(
 			$additionalConnectionParams,
