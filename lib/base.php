@@ -579,7 +579,7 @@ class OC {
 		self::$server = new \OC\Server(\OC::$WEBROOT, self::$config);
 		self::$server->boot();
 
-		if (self::$CLI && in_array('--debug-log', $_SERVER['argv'])) {
+		if (self::$CLI && in_array('--'.\OCP\Console\ReservedOptions::DEBUG_LOG, $_SERVER['argv'])) {
 			\OC\Core\Listener\BeforeMessageLoggedEventListener::setup();
 		}
 
