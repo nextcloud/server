@@ -85,7 +85,7 @@ jobs:
 
         # Forward Oracle port
         ports:
-          - 4444:1521/tcp
+          - 1521:1521
 
         # Provide healthcheck script options for startup
         options: >-
@@ -116,7 +116,7 @@ jobs:
 
       - name: Set up Nextcloud
         env:
-          DB_PORT: 4444
+          DB_PORT: 1521
         run: |
           mkdir data
           cp tests/redis.config.php config/
