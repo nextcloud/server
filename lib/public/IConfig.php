@@ -249,15 +249,4 @@ interface IConfig {
 	 * @since 8.0.0
 	 */
 	public function getUsersForUserValue($appName, $key, $value);
-
-	/**
-	 * Gets the list of users sorted by lastLogin, from most recent to least recent
-	 *
-	 * @param int|null $limit how many records to fetch
-	 * @param int $offset from which offset to fetch
-	 * @param string $search search users based on search params
-	 * @return list<string> list of user IDs
-	 * @since 30.0.0
-	 */
-	public function getLastLoggedInUsers(?int $limit = null, int $offset = 0, string $search = ''): array;
 }

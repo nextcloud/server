@@ -293,7 +293,7 @@ class UsersController extends AUserData {
 		$users = [];
 
 		// For Admin alone user sorting based on lastLogin. For sub admin and groups this is not supported
-		$users = $this->config->getLastLoggedInUsers($limit, $offset, $search);
+		$users = $this->userManager->getLastLoggedInUsers($limit, $offset, $search);
 
 		$usersDetails = [];
 		foreach ($users as $userId) {
