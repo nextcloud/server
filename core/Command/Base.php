@@ -37,17 +37,17 @@ class Base extends Command implements CompletionAwareInterface {
 		;
 	}
 
-	protected function writeArrayInOutputFormat(InputInterface $input, OutputInterface $output, array $items, string $prefix = '  - '): void {
+	protected function writeArrayInOutputFormat(InputInterface $input, OutputInterface $output, iterable $items, string $prefix = '  - '): void {
 		switch ($input->getOption('output')) {
 			case self::OUTPUT_FORMAT_JSON:
-				$output->writeln(json_encode($items));
+				$output->writeln(json_encode(iterator_to_array($items)));
 				break;
 			case self::OUTPUT_FORMAT_JSON_PRETTY:
-				$output->writeln(json_encode($items, JSON_PRETTY_PRINT));
+				$output->writeln(json_encode(iterator_to_array($items), JSON_PRETTY_PRINT));
 				break;
 			default:
 				foreach ($items as $key => $item) {
-					if (is_array($item)) {
+					if (is_iterable($item)) {
 						$output->writeln($prefix . $key . ':');
 						$this->writeArrayInOutputFormat($input, $output, $item, '  ' . $prefix);
 						continue;
