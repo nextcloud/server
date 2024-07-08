@@ -127,12 +127,12 @@ class ConnectionFactory {
 				$dbName = $additionalConnectionParams['dbname'];
 
 				// we set the connect string as dbname and unset the host to coerce doctrine into using it as connect string
-				if ($host === '') {
-					$additionalConnectionParams['dbname'] = $dbName; // use dbname as easy connect name
-				} else {
-					$additionalConnectionParams['dbname'] = '//' . $host . (!empty($port) ? ":{$port}" : "") . '/' . $dbName;
-				}
-				unset($additionalConnectionParams['host']);
+//				if ($host === '') {
+//					$additionalConnectionParams['dbname'] = $dbName; // use dbname as easy connect name
+//				} else {
+//					$additionalConnectionParams['dbname'] = '//' . $host . (!empty($port) ? ":{$port}" : "") . '/' . $dbName;
+//				}
+//				unset($additionalConnectionParams['host']);
 				break;
 
 			case 'sqlite3':
