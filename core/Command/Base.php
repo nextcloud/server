@@ -40,10 +40,12 @@ class Base extends Command implements CompletionAwareInterface {
 	protected function writeArrayInOutputFormat(InputInterface $input, OutputInterface $output, iterable $items, string $prefix = '  - '): void {
 		switch ($input->getOption('output')) {
 			case self::OUTPUT_FORMAT_JSON:
-				$output->writeln(json_encode(iterator_to_array($items)));
+				$items = (is_array($items) ? $items : iterator_to_array($items));
+				$output->writeln(json_encode($items));
 				break;
 			case self::OUTPUT_FORMAT_JSON_PRETTY:
-				$output->writeln(json_encode(iterator_to_array($items), JSON_PRETTY_PRINT));
+				$items = (is_array($items) ? $items : iterator_to_array($items));
+				$output->writeln(json_encode($items, JSON_PRETTY_PRINT));
 				break;
 			default:
 				foreach ($items as $key => $item) {
