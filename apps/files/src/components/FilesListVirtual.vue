@@ -794,7 +794,8 @@ tbody.files-list__tbody.files-list__tbody--grid {
 			width: 16px;
 			height: 16px;
 			position: absolute;
-			left: 14px;
+			left: 50%;
+			margin-left: -8px;
 			z-index: -1;
 			background: var(--color-main-background);
 		}
