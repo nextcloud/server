@@ -90,8 +90,8 @@ jobs:
         # Provide healthcheck script options for startup
         options: >-
           --health-cmd healthcheck.sh
-          --health-interval 10s
-          --health-timeout 5s
+          --health-interval 20s
+          --health-timeout 10s
           --health-retries 10
 
     steps:
@@ -121,7 +121,7 @@ jobs:
           mkdir data
           cp tests/redis.config.php config/
           cp tests/preseed-config.php config/config.php
-          ./occ maintenance:install --verbose --database=oci --database-name=${{ matrix.oracle-versions < 23 && 'XE' || 'FREE'  }} --database-host=127.0.0.1 --database-port=$DB_PORT --database-user=oc_autotest --database-pass=nextcloud --admin-user admin --admin-pass admin
+          ./occ maintenance:install --verbose --database=oci --database-name=${{ matrix.oracle-versions < 23 && 'XE' || 'FREE'  }} --database-host=localhost --database-port=$DB_PORT --database-user=oc_autotest --database-pass=nextcloud --admin-user admin --admin-pass admin
           php -f tests/enable_all.php | grep -i -C9999 error && echo "Error during app setup" && exit 1 || exit 0
 
       - name: PHPUnit
