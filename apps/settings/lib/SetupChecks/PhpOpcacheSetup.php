@@ -114,6 +114,11 @@ class PhpOpcacheSetup implements ISetupCheck {
 	}
 
 	public function run(): SetupResult {
+		// Skip OPcache checks if running from CLI
+		if (PHP_SAPI === 'cli') {
+			return SetupResult::success($this->l10n->t('Checking from CLI, OPcache checks have been skipped.'));
+		}
+
 		[$level,$recommendations] = $this->getOpcacheSetupRecommendations();
 		if (!empty($recommendations)) {
 			return match($level) {
