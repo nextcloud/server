@@ -18,7 +18,7 @@ permissions:
 
 concurrency:
   group: phpunit-oci-${{ github.head_ref || github.run_id }}
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
   changes:
@@ -121,7 +121,7 @@ jobs:
           mkdir data
           cp tests/redis.config.php config/
           cp tests/preseed-config.php config/config.php
-          ./occ maintenance:install --verbose --database=oci --database-name=${{ matrix.oracle-versions < 23 && 'XE' || 'FREE'  }} --database-host=127.0.0.1 --database-port=$DB_PORT --database-user=doctrine --database-pass=oracle --admin-user admin --admin-pass admin
+          ./occ maintenance:install --verbose --database=oci --database-name=${{ matrix.oracle-versions < 23 && 'XE' || 'FREE'  }} --database-host=127.0.0.1 --database-port=$DB_PORT --database-user=system --database-pass=oracle --admin-user admin --admin-pass admin
           php -f tests/enable_all.php | grep -i -C9999 error && echo "Error during app setup" && exit 1 || exit 0
 
       - name: PHPUnit
