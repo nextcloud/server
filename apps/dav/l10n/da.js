@@ -158,6 +158,7 @@ OC.L10N.register(
     "WebDAV" : "WebDAV",
     "First day" : "Første dag",
     "Last day (inclusive)" : "Sidste dag (indklusiv)",
+    "Name of the replacement" : "Navn på udskiftning",
     "Short absence status" : "Kort fraværsstatus",
     "Long absence Message" : "Langt fravær besked",
     "Save" : "Gem",
