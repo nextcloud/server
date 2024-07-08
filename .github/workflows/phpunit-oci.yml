@@ -81,9 +81,7 @@ jobs:
 
         # Provide passwords and other environment variables to container
         env:
-          ORACLE_RANDOM_PASSWORD: true
-          APP_USER: oc_autotest
-          APP_USER_PASSWORD: nextcloud
+          ORACLE_PASSWORD: oracle
 
         # Forward Oracle port
         ports:
@@ -123,7 +121,7 @@ jobs:
           mkdir data
           cp tests/redis.config.php config/
           cp tests/preseed-config.php config/config.php
-          ./occ maintenance:install --verbose --database=oci --database-name=${{ matrix.oracle-versions < 23 && 'XE' || 'FREE'  }} --database-host=127.0.0.1 --database-port=$DB_PORT --database-user=oc_autotest --database-pass=nextcloud --admin-user admin --admin-pass admin
+          ./occ maintenance:install --verbose --database=oci --database-name=${{ matrix.oracle-versions < 23 && 'XE' || 'FREE'  }} --database-host=127.0.0.1 --database-port=$DB_PORT --database-user=doctrine --database-pass=oracle --admin-user admin --admin-pass admin
           php -f tests/enable_all.php | grep -i -C9999 error && echo "Error during app setup" && exit 1 || exit 0
 
       - name: PHPUnit
