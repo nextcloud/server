@@ -77,17 +77,17 @@ jobs:
         options: --health-cmd="redis-cli ping" --health-interval=10s --health-timeout=5s --health-retries=3
 
       oracle:
-        image: gvenzl/oracle-${{ matrix.oracle-versions < 23 && 'xe' || 'free'  }}:${{ matrix.oracle-versions }}
+        image: ghcr.io/gvenzl/oracle-${{ matrix.oracle-versions < 23 && 'xe' || 'free'  }}:${{ matrix.oracle-versions }}
 
         # Provide passwords and other environment variables to container
         env:
-          ORACLE_PASSWORD: oracle
+          ORACLE_RANDOM_PASSWORD: true
           APP_USER: oc_autotest
           APP_USER_PASSWORD: nextcloud
 
         # Forward Oracle port
         ports:
-          - 1521:1521/tcp
+          - 4444:1521/tcp
 
         # Provide healthcheck script options for startup
         options: >-
@@ -118,12 +118,12 @@ jobs:
 
       - name: Set up Nextcloud
         env:
-          DB_PORT: 1521
+          DB_PORT: 4444
         run: |
           mkdir data
           cp tests/redis.config.php config/
           cp tests/preseed-config.php config/config.php
-          ./occ maintenance:install --verbose --database=oci --database-name=${{ matrix.oracle-versions < 23 && 'XE' || 'FREE'  }} --database-host=localhost --database-port=$DB_PORT --database-user=doctrine --database-pass=oracle --admin-user admin --admin-pass admin
+          ./occ maintenance:install --verbose --database=oci --database-name=${{ matrix.oracle-versions < 23 && 'XE' || 'FREE'  }} --database-host=127.0.0.1 --database-port=$DB_PORT --database-user=oc_autotest --database-pass=nextcloud --admin-user admin --admin-pass admin
           php -f tests/enable_all.php | grep -i -C9999 error && echo "Error during app setup" && exit 1 || exit 0
 
       - name: PHPUnit
