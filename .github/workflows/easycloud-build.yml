@@ -22,6 +22,7 @@ on:
       - master
       - stable*
       - ionos-dev
+      - tl/dev/build-apps 
 
 env:
   TARGET_PACKAGE_NAME: easy-storage.zip
@@ -45,6 +46,24 @@ jobs:
         uses: actions/checkout@v3
         with:
           submodules: true
+
+      - name: Set up node ${{ steps.versions.outputs.nodeVersion }}
+        uses: actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8 # v4.0.2
+        with:
+          node-version: ${{ steps.versions.outputs.nodeVersion }}
+
+      - name: Set up npm ${{ steps.versions.outputs.npmVersion }}
+        run: npm i -g npm@"${{ steps.versions.outputs.npmVersion }}"
+
+      - name: Install dependencies & build
+        env:
+          CYPRESS_INSTALL_BINARY: 0
+          PUPPETEER_SKIP_DOWNLOAD: true
+        run: |
+          cd apps-custom/simplesettings
+          npm ci
+          npm run build
+          cd ..
 
       - name: Zip dependencies
         run: |
