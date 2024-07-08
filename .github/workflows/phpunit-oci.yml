@@ -48,7 +48,7 @@ jobs:
               - '**.php'
 
   phpunit-oci:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
 
     needs: changes
     if: needs.changes.outputs.src != 'false' && ${{ github.repository_owner != 'nextcloud-gmbh' }}
