@@ -1,7 +1,7 @@
 name: EasyCloud Build
 
 # The EasyCloud source is packaged as a container image.
-# This is a workaround because releases can not be created without tags 
+# This is a workaround because releases can not be created without tags
 # and we want to be able to create snapshots from branches.
 
 on:
@@ -45,6 +45,31 @@ jobs:
         uses: actions/checkout@v3
         with:
           submodules: true
+
+      - name: Set up node with version from package.json's engines
+        uses: actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8 # v4.0.2
+        with:
+          node-version-file: "package.json"
+
+      - name: Install dependencies & build simplesettings app
+        env:
+          CYPRESS_INSTALL_BINARY: 0
+          PUPPETEER_SKIP_DOWNLOAD: true
+        run: |
+          cd apps-custom/simplesettings
+          npm ci
+          npm run build
+          cd ../..
+
+      - name: Install dependencies & build user_oidc app
+        env:
+          CYPRESS_INSTALL_BINARY: 0
+          PUPPETEER_SKIP_DOWNLOAD: true
+        run: |
+          cd apps-external/user_oidc
+          npm ci
+          npm run build
+          cd ../..
 
       - name: Zip dependencies
         run: |
