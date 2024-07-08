@@ -133,9 +133,9 @@ class ConnectionFactory {
 //					$additionalConnectionParams['dbname'] = '//' . $host . (!empty($port) ? ":{$port}" : "") . '/' . $dbName;
 //				}
 //				unset($additionalConnectionParams['host']);
-				$additionalConnectionParams['servicename'] = 'XEPDB1';
-				$additionalConnectionParams['primary']['servicename'] = 'XEPDB1';
-				$additionalConnectionParams['replica'][0]['servicename'] = 'XEPDB1';
+				$additionalConnectionParams['servicename'] = 'FREEPDB1';
+				$additionalConnectionParams['primary']['servicename'] = 'FREEPDB1';
+				$additionalConnectionParams['replica'][0]['servicename'] = 'FREEPDB1';
 				break;
 
 			case 'sqlite3':
