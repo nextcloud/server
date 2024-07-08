@@ -147,11 +147,8 @@ export const handleCopyMoveNodeTo = async (node: Node, destination: Folder, meth
 					try {
 						// Let the user choose what to do with the conflicting files
 						const { selected, renamed } = await openConflictPicker(destination.path, [node], otherNodes.contents)
-						// if the user selected to keep the old file, and did not select the new file
-						// that means they opted to delete the current node
+						// two empty arrays: either only old files or conflict skipped -> no action required
 						if (!selected.length && !renamed.length) {
-							await client.deleteFile(currentPath)
-							emit('files:node:deleted', node)
 							return
 						}
 					} catch (error) {
