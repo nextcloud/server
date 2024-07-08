@@ -222,6 +222,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OCP\\Collaboration\\Collaborators\\SearchResultType' => __DIR__ . '/../../..' . '/lib/public/Collaboration/Collaborators/SearchResultType.php',
         'OCP\\Collaboration\\Reference\\ADiscoverableReferenceProvider' => __DIR__ . '/../../..' . '/lib/public/Collaboration/Reference/ADiscoverableReferenceProvider.php',
         'OCP\\Collaboration\\Reference\\IDiscoverableReferenceProvider' => __DIR__ . '/../../..' . '/lib/public/Collaboration/Reference/IDiscoverableReferenceProvider.php',
+        'OCP\\Collaboration\\Reference\\IPublicReferenceProvider' => __DIR__ . '/../../..' . '/lib/public/Collaboration/Reference/IPublicReferenceProvider.php',
         'OCP\\Collaboration\\Reference\\IReference' => __DIR__ . '/../../..' . '/lib/public/Collaboration/Reference/IReference.php',
         'OCP\\Collaboration\\Reference\\IReferenceManager' => __DIR__ . '/../../..' . '/lib/public/Collaboration/Reference/IReferenceManager.php',
         'OCP\\Collaboration\\Reference\\IReferenceProvider' => __DIR__ . '/../../..' . '/lib/public/Collaboration/Reference/IReferenceProvider.php',
