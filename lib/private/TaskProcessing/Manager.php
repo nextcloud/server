@@ -689,6 +689,11 @@ class Manager implements IManager {
 				} else {
 					$output = $this->validateOutputFileIds($output, $outputShape, $optionalOutputShape);
 				}
+				foreach ($output as $key => $value) {
+					if ($value instanceof Node) {
+						$output[$key] = $value->getId();
+					}
+				}
 				$task->setOutput($output);
 				$task->setProgress(1);
 				$task->setStatus(Task::STATUS_SUCCESSFUL);
