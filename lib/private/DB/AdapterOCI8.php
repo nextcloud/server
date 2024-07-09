@@ -26,6 +26,13 @@ class AdapterOCI8 extends Adapter {
 		$statement = str_replace('`', '"', $statement);
 		$statement = str_ireplace('NOW()', 'CURRENT_TIMESTAMP', $statement);
 		$statement = str_ireplace('UNIX_TIMESTAMP()', self::UNIX_TIMESTAMP_REPLACEMENT, $statement);
+
+		$statement = preg_replace(
+			'/^INSERT INTO (.*) VALUES (.*) INTO (.*)$/',
+			'INSERT INTO ${1} VALUES ${2} RETURNING pk_id INTO ${3}',
+			$statement
+		);
+
 		return $statement;
 	}
 }

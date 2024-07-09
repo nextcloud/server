@@ -8,6 +8,9 @@
 namespace OC\DB;
 
 class OracleConnection extends Connection {
+	/** @var array<string, int> */
+	protected array $lastInsertId = [];
+
 	/**
 	 * Quote the keys of the array
 	 * @param array<string, string> $data
@@ -85,5 +88,40 @@ class OracleConnection extends Connection {
 		$table = $this->quoteIdentifier($table);
 		$schema = $this->createSchemaManager();
 		return $schema->tablesExist([$table]);
+	}
+
+	/**
+	 * Executes an SQL INSERT/UPDATE/DELETE query with the given parameters
+	 * and returns the number of affected rows.
+	 *
+	 * This method supports PDO binding types as well as DBAL mapping types.
+	 *
+	 * @param string $sql  The SQL query.
+	 * @param array  $params The query parameters.
+	 * @param array  $types  The parameter types.
+	 *
+	 * @return int The number of affected rows, if the result is bigger than PHP_INT_MAX, PHP_INT_MAX is returned
+	 *
+	 * @throws \Doctrine\DBAL\Exception
+	 */
+	public function executeStatement($sql, array $params = [], array $types = []): int {
+		$returned = parent::executeStatement($sql, $params, $types);
+
+		var_dump($sql);
+		if (preg_match('/^INSERT INTO (.*) VALUES (.*) INTO (.*)$/', $sql, $matches)) {
+			var_dump($returned);
+			$this->lastInsertId[$matches[1]] = $returned;
+			var_dump($this->lastInsertId);
+			$returned = 1;
+		}
+
+		return $returned;
+	}
+
+	public function lastInsertId($name = null): int {
+		if ($name) {
+			$name = $this->replaceTablePrefix($name);
+		}
+		return $this->lastInsertId[$name];
 	}
 }
