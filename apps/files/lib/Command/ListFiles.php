@@ -74,6 +74,7 @@ class ListFiles extends Base {
 		$nodeInfo = [
 			"name" => $node->getName(),
 			"size" => \OCP\Util::humanFileSize($node->getSize()),
+			"realSize" => $node->getSize(),
 			"perm" => $node->getPermissions(),
 			"owner" => $node->getOwner()?->getDisplayName(),
 			"created-at" => $node->getCreationTime(),
@@ -246,6 +247,9 @@ class ListFiles extends Base {
 		$sortKey = array_key_exists($input->getOption("sort"), $fileInfo)
 			? $input->getOption("sort")
 			: "";
+		if($sortKey == 'size') {
+			$sortKey = 'realSize';
+		}
 		$order = $input->getOption("order") == "ASC" ? SORT_ASC : SORT_DESC;
 		$fileArr = array_column($this->fileInfo, $sortKey);
 		$dirArr = array_column($this->dirInfo, $sortKey);
@@ -253,11 +257,13 @@ class ListFiles extends Base {
 			array_multisort(
 				$fileArr,
 				$order,
+				SORT_NATURAL | SORT_FLAG_CASE,
 				$this->fileInfo
 			);
 			array_multisort(
 				$dirArr,
 				$order,
+				SORT_NATURAL | SORT_FLAG_CASE,
 				$this->dirInfo
 			);
 		}
