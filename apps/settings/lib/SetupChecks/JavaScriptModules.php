@@ -61,6 +61,7 @@ class JavaScriptModules implements ISetupCheck {
 			array_map(fn (string $host): string => $host . $testFile, $this->config->getSystemValue('trusted_domains', []))
 		);
 
+		$gotResponse = false;
 		foreach ($testURLs as $testURL) {
 			try {
 				$client = $this->clientService->newClient();
@@ -73,13 +74,16 @@ class JavaScriptModules implements ISetupCheck {
 						'allow_local_address' => true,
 					],
 				]);
+				$gotResponse = true;
 				if (preg_match('/(text|application)\/javascript/i', $response->getHeader('Content-Type'))) {
 					return SetupResult::success();
 				}
 			} catch (\Throwable $e) {
 				$this->logger->debug('Can not connect to local server for checking JavaScript modules support', ['exception' => $e, 'url' => $testURL]);
-				return SetupResult::warning($this->l10n->t('Could not check for JavaScript support. Please check manually if your webserver serves `.mjs` files using the JavaScript MIME type.'));
 			}
+		}
+		if (!$gotResponse) {
+			return SetupResult::warning($this->l10n->t('Could not check for JavaScript support. Please check manually if your webserver serves `.mjs` files using the JavaScript MIME type.'));
 		}
 		return SetupResult::error($this->l10n->t('Your webserver does not serve `.mjs` files using the JavaScript MIME type. This will break some apps by preventing browsers from executing the JavaScript files. You should configure your webserver to serve `.mjs` files with either the `text/javascript` or `application/javascript` MIME type.'));
 	}
