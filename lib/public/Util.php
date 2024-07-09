@@ -18,7 +18,6 @@ use OCP\L10N\IFactory;
 use OCP\Mail\IMailer;
 use OCP\Share\IManager;
 use Psr\Container\ContainerExceptionInterface;
-use Psr\Log\LoggerInterface;
 
 /**
  * This class provides different helper functions to make the life of a developer easier
@@ -486,27 +485,6 @@ class Util {
 	 */
 	public static function uploadLimit(): int|float {
 		return \OC_Helper::uploadLimit();
-	}
-
-	/**
-	 * Get a list of characters forbidden in file names
-	 * @return string[]
-	 * @since 29.0.0
-	 */
-	public static function getForbiddenFileNameChars(): array {
-		// Get always forbidden characters
-		$invalidChars = str_split(\OCP\Constants::FILENAME_INVALID_CHARS);
-		if ($invalidChars === false) {
-			$invalidChars = [];
-		}
-
-		// Get admin defined invalid characters
-		$additionalChars = \OCP\Server::get(IConfig::class)->getSystemValue('forbidden_chars', []);
-		if (!is_array($additionalChars)) {
-			\OCP\Server::get(LoggerInterface::class)->error('Invalid system config value for "forbidden_chars" is ignored.');
-			$additionalChars = [];
-		}
-		return array_merge($invalidChars, $additionalChars);
 	}
 
 	/**

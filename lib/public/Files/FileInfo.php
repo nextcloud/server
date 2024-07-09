@@ -48,6 +48,7 @@ interface FileInfo {
 	/**
 	 * @const \OCP\Files\FileInfo::BLACKLIST_FILES_REGEX Return regular expression to test filenames against (blacklisting)
 	 * @since 12.0.0
+	 * @deprecated 30.0.0 Use \OCP\Files\Storage\IStorage::verifyPath()
 	 */
 	public const BLACKLIST_FILES_REGEX = '\.(part|filepart)$';
 
