@@ -28,8 +28,8 @@ class AdapterOCI8 extends Adapter {
 		$statement = str_ireplace('UNIX_TIMESTAMP()', self::UNIX_TIMESTAMP_REPLACEMENT, $statement);
 
 		$statement = preg_replace(
-			'/^INSERT INTO (.*) VALUES (.*) INTO (.*)$/',
-			'INSERT INTO ${1} VALUES ${2} RETURNING pk_id INTO ${3}',
+			'/^INSERT INTO (".*")( ?\(.*) ?VALUES( ?\(.*)$/',
+			'DECLARE vRowid ROWID; BEGIN INSERT INTO ${1} VALUES ${2} RETURNING ROWID INTO vRowid dbms_output.put_line(vRowid); END',
 			$statement
 		);
 

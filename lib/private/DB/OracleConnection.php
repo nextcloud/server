@@ -108,7 +108,7 @@ class OracleConnection extends Connection {
 		$returned = parent::executeStatement($sql, $params, $types);
 
 		var_dump($sql);
-		if (preg_match('/^INSERT INTO (.*) VALUES (.*) INTO (.*)$/', $sql, $matches)) {
+		if (preg_match('/^DECLARE vRowid ROWID; BEGIN INSERT INTO (.*) VALUES (.*) INTO (.*)$/', $sql, $matches)) {
 			var_dump($returned);
 			$this->lastInsertId[$matches[1]] = $returned;
 			var_dump($this->lastInsertId);
