@@ -265,9 +265,7 @@ class Manager {
 		if ($this->isDeletedUser($id)) {
 			return true;
 		}
-		$this->logger->debug('username2dn({id})', ['id' => $id]);
 		$dn = $this->access->username2dn($id);
-		$this->logger->debug('end username2dn({id})', ['id' => $id]);
 		if ($dn !== false) {
 			return true;
 		}

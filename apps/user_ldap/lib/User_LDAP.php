@@ -612,7 +612,6 @@ class User_LDAP extends BackendUtility implements IUserBackend, UserInterface, I
 							$uuid,
 							true
 						);
-						$this->access->cacheUserExists($username);
 					} else {
 						$this->logger->warning(
 							'Failed to map created LDAP user with userid {userid}, because UUID could not be determined',
