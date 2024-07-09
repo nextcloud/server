@@ -89,7 +89,11 @@ jobs:
             version.json  \
           -x "apps/theming/img/background/**" \
           -x "apps/*/tests/**" \
-          -x "apps-external/*/tests**" \
+          -x "apps-*/*/.git" \
+          -x "apps-*/*/.github" \
+          -x "apps-*/*/src**" \
+          -x "apps-*/*/node_modules**" \
+          -x "apps-*/*/tests**" \
           -x "**/cypress/**" \
           -x "*.git*" \
           -x "*.editorconfig*"
