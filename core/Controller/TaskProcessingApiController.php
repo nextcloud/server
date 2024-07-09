@@ -295,7 +295,7 @@ class TaskProcessingApiController extends \OCP\AppFramework\OCSController {
 	 * Use field 'file' for the file upload
 	 *
 	 * @param int $taskId The id of the task
-	 * @return DataDownloadResponse<Http::STATUS_CREATED, array{fileId: int}, array{}>|DataResponse<Http::STATUS_INTERNAL_SERVER_ERROR|Http::STATUS_NOT_FOUND, array{message: string}, array{}>
+	 * @return DataResponse<Http::STATUS_CREATED, array{fileId: int}, array{}>|DataResponse<Http::STATUS_INTERNAL_SERVER_ERROR|Http::STATUS_NOT_FOUND, array{message: string}, array{}>
 	 *
 	 *  201: File created
 	 *  404: Task not found
@@ -313,7 +313,7 @@ class TaskProcessingApiController extends \OCP\AppFramework\OCSController {
 			if (!$data) {
 				return new DataResponse(['message' => $this->l->t('Internal error')], Http::STATUS_INTERNAL_SERVER_ERROR);
 			}
-			$fileId = $this->setFileContentsInternal($task, $data);
+			$fileId = $this->setFileContentsInternal($data);
 			return new DataResponse(['fileId' => $fileId], Http::STATUS_CREATED);
 		} catch (NotFoundException) {
 			return new DataResponse(['message' => $this->l->t('Not found')], Http::STATUS_NOT_FOUND);
@@ -530,7 +530,7 @@ class TaskProcessingApiController extends \OCP\AppFramework\OCSController {
 		}
 	}
 
-	private function setFileContentsInternal(Task $task, string $data) {
+	private function setFileContentsInternal(string $data): int {
 		try {
 			$folder = $this->appData->getFolder('TaskProcessing');
 		} catch (\OCP\Files\NotFoundException) {
