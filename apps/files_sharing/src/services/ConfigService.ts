@@ -4,7 +4,91 @@
  */
 import { getCapabilities } from '@nextcloud/capabilities'
 
+type PasswordPolicyCapabilities = {
+	enforceNonCommonPassword: boolean
+	enforceNumericCharacters: boolean
+	enforceSpecialCharacters: boolean
+	enforceUpperLowerCase: boolean
+	minLength: number
+}
+
+type FileSharingCapabilities = {
+	api_enabled: boolean,
+	public: {
+		enabled: boolean,
+		password: {
+			enforced: boolean,
+			askForOptionalPassword: boolean
+		},
+		expire_date: {
+			enabled: boolean,
+			days: number,
+			enforced: boolean
+		},
+		multiple_links: boolean,
+		expire_date_internal: {
+			enabled: boolean
+		},
+		expire_date_remote: {
+			enabled: boolean
+		},
+		send_mail: boolean,
+		upload: boolean,
+		upload_files_drop: boolean
+	},
+	resharing: boolean,
+	user: {
+		send_mail: boolean,
+		expire_date: {
+			enabled: boolean
+		}
+	},
+	group_sharing: boolean,
+	group: {
+		enabled: boolean,
+		expire_date: {
+			enabled: true
+		}
+	},
+	default_permissions: number,
+	federation: {
+		outgoing: boolean,
+		incoming: boolean,
+		expire_date: {
+			enabled: boolean
+		},
+		expire_date_supported: {
+			enabled: boolean
+		}
+	},
+	sharee: {
+		query_lookup_default: boolean,
+		always_show_unique: boolean
+	},
+	sharebymail: {
+		enabled: boolean,
+		send_password_by_mail: boolean,
+		upload_files_drop: {
+			enabled: boolean
+		},
+		password: {
+			enabled: boolean,
+			enforced: boolean
+		},
+		expire_date: {
+			enabled: boolean,
+			enforced: boolean
+		}
+	}
+}
+
+type Capabilities = {
+	files_sharing: FileSharingCapabilities
+	password_policy: PasswordPolicyCapabilities
+}
+
 export default class Config {
+
 	_capabilities: Capabilities
 
 	constructor() {
@@ -207,87 +291,4 @@ export default class Config {
 		return this._capabilities?.password_policy || {}
 	}
 
-}
-
-type PasswordPolicyCapabilities = {
-	enforceNonCommonPassword: boolean
-	enforceNumericCharacters: boolean
-	enforceSpecialCharacters: boolean
-	enforceUpperLowerCase: boolean
-	minLength: number
-}
-
-type FileSharingCapabilities = {
-	api_enabled: boolean,
-	public: {
-		enabled: boolean,
-		password: {
-			enforced: boolean,
-			askForOptionalPassword: boolean
-		},
-		expire_date: {
-			enabled: boolean,
-			days: number,
-			enforced: boolean
-		},
-		multiple_links: boolean,
-		expire_date_internal: {
-			enabled: boolean
-		},
-		expire_date_remote: {
-			enabled: boolean
-		},
-		send_mail: boolean,
-		upload: boolean,
-		upload_files_drop: boolean
-	},
-	resharing: boolean,
-	user: {
-		send_mail: boolean,
-		expire_date: {
-			enabled: boolean
-		}
-	},
-	group_sharing: boolean,
-	group: {
-		enabled: boolean,
-		expire_date: {
-			enabled: true
-		}
-	},
-	default_permissions: number,
-	federation: {
-		outgoing: boolean,
-		incoming: boolean,
-		expire_date: {
-			enabled: boolean
-		},
-		expire_date_supported: {
-			enabled: boolean
-		}
-	},
-	sharee: {
-		query_lookup_default: boolean,
-		always_show_unique: boolean
-	},
-	sharebymail: {
-		enabled: boolean,
-		send_password_by_mail: boolean,
-		upload_files_drop: {
-			enabled: boolean
-		},
-		password: {
-			enabled: boolean,
-			enforced: boolean
-		},
-		expire_date: {
-			enabled: boolean,
-			enforced: boolean
-		}
-	}
-}
-
-type Capabilities = {
-	files_sharing: FileSharingCapabilities
-	password_policy: PasswordPolicyCapabilities
 }

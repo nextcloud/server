@@ -41,7 +41,7 @@
 			<FileRequestFinish v-if="share"
 				v-show="currentStep === STEP.LAST"
 				:emails="emails"
-				:isShareByMailEnabled="isShareByMailEnabled"
+				:is-share-by-mail-enabled="isShareByMailEnabled"
 				:share="share"
 				@add-email="email => emails.push(email)"
 				@remove-email="onRemoveEmail" />
@@ -103,8 +103,9 @@
 </template>
 
 <script lang="ts">
+// eslint-disable-next-line n/no-extraneous-import
 import type { AxiosError } from 'axios'
-import { Permission, type Folder, type Node } from '@nextcloud/files'
+import type { Folder, Node } from '@nextcloud/files'
 import type { OCSResponse } from '@nextcloud/typings/ocs'
 import type { PropType } from 'vue'
 
@@ -112,9 +113,10 @@ import { defineComponent } from 'vue'
 import { emit } from '@nextcloud/event-bus'
 import { generateOcsUrl } from '@nextcloud/router'
 import { getCapabilities } from '@nextcloud/capabilities'
+import { Permission } from '@nextcloud/files'
+import { ShareType } from '@nextcloud/sharing'
 import { showError, showSuccess } from '@nextcloud/dialogs'
 import { translate, translatePlural } from '@nextcloud/l10n'
-import { Type } from '@nextcloud/sharing'
 import axios from '@nextcloud/axios'
 
 import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
@@ -170,7 +172,7 @@ export default defineComponent({
 			n: translatePlural,
 			t: translate,
 
-			isShareByMailEnabled: getCapabilities()?.files_sharing?.sharebymail?.enabled === true
+			isShareByMailEnabled: getCapabilities()?.files_sharing?.sharebymail?.enabled === true,
 		}
 	},
 
@@ -254,9 +256,9 @@ export default defineComponent({
 			const shareUrl = generateOcsUrl('apps/files_sharing/api/v1/shares')
 			try {
 				const request = await axios.post<OCSResponse>(shareUrl, {
-					shareType: Type.SHARE_TYPE_EMAIL,
+					shareType: ShareType.Email,
 					permissions: Permission.CREATE,
-	
+
 					label: this.label,
 					path: this.destination,
 					note: this.note,
@@ -331,7 +333,7 @@ export default defineComponent({
 			}
 		},
 
-		async sendEmails () {
+		async sendEmails() {
 			this.loading = true
 
 			// This should never happen™
@@ -358,7 +360,7 @@ export default defineComponent({
 			}
 		},
 
-		onEmailSendError(error: AxiosError<OCSResponse>|any) {
+		onEmailSendError(error: AxiosError<OCSResponse>) {
 			const errorMessage = error.response?.data?.ocs?.meta?.message
 			showError(
 				errorMessage

@@ -73,7 +73,7 @@ import IconCheck from 'vue-material-design-icons/Check.vue'
 import IconClipboard from 'vue-material-design-icons/Clipboard.vue'
 
 export default defineComponent({
-	name: 'FileRequestFinish',
+	name: 'NewFileRequestDialogFinish',
 
 	components: {
 		IconCheck,

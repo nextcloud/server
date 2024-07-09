@@ -27,6 +27,7 @@ use OCP\Mail\IMailer;
 use OCP\Share\IManager as IShareManager;
 use OCP\Share\IShare;
 use PHPUnit\Framework\MockObject\MockObject;
+use Psr\Log\LoggerInterface;
 
 /**
  * Class DefaultShareProviderTest
@@ -68,6 +69,9 @@ class DefaultShareProviderTest extends \Test\TestCase {
 	/** @var ITimeFactory|MockObject */
 	protected $timeFactory;
 
+	/** @var LoggerInterface|MockObject */
+	protected $logger;
+
 	protected function setUp(): void {
 		$this->dbConn = \OC::$server->getDatabaseConnection();
 		$this->userManager = $this->createMock(IUserManager::class);
@@ -79,6 +83,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$this->defaults = $this->getMockBuilder(Defaults::class)->disableOriginalConstructor()->getMock();
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
 		$this->timeFactory = $this->createMock(ITimeFactory::class);
+		$this->logger = $this->createMock(LoggerInterface::class);
 
 		$this->userManager->expects($this->any())->method('userExists')->willReturn(true);
 		$this->timeFactory->expects($this->any())->method('now')->willReturn(new \DateTimeImmutable("2023-05-04 00:00 Europe/Berlin"));
@@ -95,7 +100,8 @@ class DefaultShareProviderTest extends \Test\TestCase {
 			$this->defaults,
 			$this->l10nFactory,
 			$this->urlGenerator,
-			$this->timeFactory
+			$this->timeFactory,
+			$this->logger
 		);
 	}
 
@@ -355,6 +361,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 
 		$node = $this->createMock(Folder::class);
 		$node->method('getId')->willReturn(42);
+		$node->method('getName')->willReturn('myTarget');
 
 		$this->rootFolder->method('getUserFolder')->with('user0')->willReturnSelf();
 		$this->rootFolder->method('getFirstNodeById')->willReturn($node);
@@ -456,7 +463,8 @@ class DefaultShareProviderTest extends \Test\TestCase {
 				$this->defaults,
 				$this->l10nFactory,
 				$this->urlGenerator,
-				$this->timeFactory
+				$this->timeFactory,
+				$this->logger
 			])
 			->setMethods(['getShareById'])
 			->getMock();
@@ -551,7 +559,8 @@ class DefaultShareProviderTest extends \Test\TestCase {
 				$this->defaults,
 				$this->l10nFactory,
 				$this->urlGenerator,
-				$this->timeFactory
+				$this->timeFactory,
+				$this->logger
 			])
 			->setMethods(['getShareById'])
 			->getMock();
@@ -722,7 +731,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 				[
 					'scope' => 'permissions',
 					'key' => 'download',
-					'enabled' => true
+					'value' => true
 				]
 			],
 			$share->getAttributes()->toArray()
@@ -792,7 +801,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 				[
 					'scope' => 'permissions',
 					'key' => 'download',
-					'enabled' => true
+					'value' => true
 				]
 			],
 			$share->getAttributes()->toArray()
@@ -2519,7 +2528,8 @@ class DefaultShareProviderTest extends \Test\TestCase {
 			$this->defaults,
 			$this->l10nFactory,
 			$this->urlGenerator,
-			$this->timeFactory
+			$this->timeFactory,
+			$this->logger
 		);
 
 		$password = md5(time());
@@ -2617,7 +2627,8 @@ class DefaultShareProviderTest extends \Test\TestCase {
 			$this->defaults,
 			$this->l10nFactory,
 			$this->urlGenerator,
-			$this->timeFactory
+			$this->timeFactory,
+			$this->logger
 		);
 
 		$u1 = $userManager->createUser('testShare1', 'test');
@@ -2713,7 +2724,8 @@ class DefaultShareProviderTest extends \Test\TestCase {
 			$this->defaults,
 			$this->l10nFactory,
 			$this->urlGenerator,
-			$this->timeFactory
+			$this->timeFactory,
+			$this->logger
 		);
 
 		$u1 = $userManager->createUser('testShare1', 'test');

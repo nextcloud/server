@@ -73,7 +73,7 @@ import NcTextArea from '@nextcloud/vue/dist/Components/NcTextArea.js'
 import NcTextField from '@nextcloud/vue/dist/Components/NcTextField.js'
 
 export default defineComponent({
-	name: 'FileRequestIntro',
+	name: 'NewFileRequestDialogIntro',
 
 	components: {
 		IconFolder,

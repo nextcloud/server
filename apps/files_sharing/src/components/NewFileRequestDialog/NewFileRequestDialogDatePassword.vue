@@ -37,7 +37,7 @@
 				:value="expirationDate"
 				name="expirationDate"
 				type="date"
-				@update:value="$emit('update:expirationDate', $event)"/>
+				@update:value="$emit('update:expirationDate', $event)" />
 		</fieldset>
 
 		<!-- Password -->
@@ -96,7 +96,7 @@ import GeneratePassword from '../../utils/GeneratePassword'
 const sharingConfig = new Config()
 
 export default defineComponent({
-	name: 'FileRequestDatePassword',
+	name: 'NewFileRequestDialogDatePassword',
 
 	components: {
 		IconPasswordGen,
@@ -206,7 +206,6 @@ export default defineComponent({
 			}
 			this.$emit('update:password', null)
 		},
-
 
 		async onGeneratePassword() {
 			await this.generatePassword()

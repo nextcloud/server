@@ -106,7 +106,11 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 		$data = $this->getRawShare($shareId);
 
 		// Temporary set the clear password again to send it by mail
-		$data['password'] = $password;
+		// This need to be done after the share was created in the database
+		// as the password is hashed in between.
+		if (!empty($password)) {
+			$data['password'] = $password;
+		}
 
 		return $this->createShareObject($data);
 	}
@@ -257,8 +261,11 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 
 			// If we have a password set, we send it to the recipient
 			if ($share->getPassword() !== null) {
-				// Sends share password to receiver when it's a permanent one (otherwise she will have to request it via the showShare UI)
-				// or to owner when the password shall be given during a Talk session
+				// If share-by-talk password is enabled, we do not send the notification
+				// to the recipient. They will have to request it to the owner after opening the link.
+				// Secondly, if the password expiration is disabled, we send the notification to the recipient
+				// Lastly, if the mail to recipient failed, we send the password to the owner as a fallback.
+				// If a password expires, the recipient will still be able to request a new one via talk.
 				$passwordExpire = $this->config->getSystemValue('sharing.enable_mail_link_password_expiration', false);
 				$passwordEnforced = $this->shareManager->shareApiLinkEnforcePassword();
 				if ($passwordExpire === false || $share->getSendPasswordByTalk()) {
@@ -283,8 +290,12 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 				'exception' => $e,
 			]);
 			$this->removeShareFromTable((int)$shareId);
-			throw new HintException('Failed to send share by mail',
-				$this->l->t('Failed to send share by email'));
+			throw new HintException(
+				'Failed to send share by mail',
+				$this->l->t('Failed to send share by email'),
+				0,
+				$e,
+			);
 		}
 		return false;
 	}
@@ -359,10 +370,14 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 
 		// The "Reply-To" is set to the sharer if an mail address is configured
 		// also the default footer contains a "Do not reply" which needs to be adjusted.
-		$initiatorEmail = $initiatorUser->getEMailAddress();
-		if ($this->settingsManager->replyToInitiator() && $initiatorEmail !== null) {
-			$message->setReplyTo([$initiatorEmail => $initiatorDisplayName]);
-			$emailTemplate->addFooter($instanceName . ($this->defaults->getSlogan() !== '' ? ' - ' . $this->defaults->getSlogan() : ''));
+		if ($initiatorUser && $this->settingsManager->replyToInitiator()) {
+			$initiatorEmail = $initiatorUser->getEMailAddress();
+			if ($initiatorEmail !== null) {
+				$message->setReplyTo([$initiatorEmail => $initiatorDisplayName]);
+				$emailTemplate->addFooter($instanceName . ($this->defaults->getSlogan() !== '' ? ' - ' . $this->defaults->getSlogan() : ''));
+			} else {
+				$emailTemplate->addFooter();
+			}
 		} else {
 			$emailTemplate->addFooter();
 		}
@@ -451,10 +466,14 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 
 		// The "Reply-To" is set to the sharer if an mail address is configured
 		// also the default footer contains a "Do not reply" which needs to be adjusted.
-		$initiatorEmail = $initiatorUser->getEMailAddress();
-		if ($this->settingsManager->replyToInitiator() && $initiatorEmail !== null) {
-			$message->setReplyTo([$initiatorEmail => $initiatorDisplayName]);
-			$emailTemplate->addFooter($instanceName . ($this->defaults->getSlogan() !== '' ? ' - ' . $this->defaults->getSlogan() : ''));
+		if ($initiatorUser && $this->settingsManager->replyToInitiator()) {
+			$initiatorEmail = $initiatorUser->getEMailAddress();
+			if ($initiatorEmail !== null) {
+				$message->setReplyTo([$initiatorEmail => $initiatorDisplayName]);
+				$emailTemplate->addFooter($instanceName . ($this->defaults->getSlogan() !== '' ? ' - ' . $this->defaults->getSlogan() : ''));
+			} else {
+				$emailTemplate->addFooter();
+			}
 		} else {
 			$emailTemplate->addFooter();
 		}
@@ -714,7 +733,7 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 			->set('note', $qb->createNamedParameter($share->getNote()))
 			->set('hide_download', $qb->createNamedParameter((int)$share->getHideDownload(), IQueryBuilder::PARAM_INT))
 			->set('attributes', $qb->createNamedParameter($shareAttributes))
-			->set('mail_send', $qb->createNamedParameter($share->getMailSend(), IQueryBuilder::PARAM_INT))
+			->set('mail_send', $qb->createNamedParameter((int)$share->getMailSend(), IQueryBuilder::PARAM_INT))
 			->executeStatement();
 
 		if ($originalShare->getNote() !== $share->getNote() && $share->getNote() !== '') {

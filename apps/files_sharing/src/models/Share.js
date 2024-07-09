@@ -552,7 +552,6 @@ export default class Share {
 		return this.attributes.some(isFileRequest)
 	}
 
-
 	set hasDownloadPermission(enabled) {
 		this.setAttribute('permissions', 'download', !!enabled)
 	}

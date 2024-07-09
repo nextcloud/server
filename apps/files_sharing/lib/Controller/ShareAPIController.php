@@ -2065,8 +2065,14 @@ class ShareAPIController extends OCSController {
 	/**
 	 * Send a mail notification again for a share.
 	 * The mail_send option must be enabled for the given share.
-	 * @param string $id
+	 * @param string $id the share ID
 	 * @param string $password optional, the password to check against. Necessary for password protected shares.
+	 * @throws OCSNotFoundException Share not found
+	 * @throws OCSForbiddenException You are not allowed to send mail notifications
+	 * @throws OCSBadRequestException Invalid request or wrong password
+	 * @throws OCSException Error while sending mail notification
+	 * @return DataResponse<Http::STATUS_OK, array<empty>, array{}>
+	 * 200: The email notification was sent successfully
 	 */
 	#[NoAdminRequired]
 	#[UserRateLimit(limit: 5, period: 120)]
@@ -2110,7 +2116,7 @@ class ShareAPIController extends OCSController {
 				}
 
 				$provider->sendMailNotification($share);
-				return new DataResponse(['message' => 'ok']);
+				return new DataResponse();
 			} catch(OCSBadRequestException $e) {
 				throw $e;
 			} catch (Exception $e) {
