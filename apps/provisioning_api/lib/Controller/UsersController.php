@@ -265,6 +265,62 @@ class UsersController extends AUserData {
 		]);
 	}
 
+	/**
+	 * Gets the list of users sorted by lastLogin, from most recent to least recent
+	 *
+	 * @param string $search Text to search for
+	 * @param ?int $limit Limit the amount of users returned
+	 * @param int $offset Offset
+	 * @return DataResponse<Http::STATUS_OK, array{users: array<string, Provisioning_APIUserDetails|array{id: string}>}, array{}>
+	 *
+	 * 200: Users details returned based on last logged in information
+	 */
+	public function getLastLoggedInUsers(string $search = '',
+		?int $limit = null,
+		int $offset = 0,
+	): DataResponse {
+		$currentUser = $this->userSession->getUser();
+		if ($currentUser === null) {
+			return new DataResponse(['users' => []]);
+		}
+		if ($limit !== null && $limit < 0) {
+			throw new InvalidArgumentException("Invalid limit value: $limit");
+		}
+		if ($offset < 0) {
+			throw new InvalidArgumentException("Invalid offset value: $offset");
+		}
+
+		$users = [];
+
+		// For Admin alone user sorting based on lastLogin. For sub admin and groups this is not supported
+		$users = $this->userManager->getLastLoggedInUsers($limit, $offset, $search);
+
+		$usersDetails = [];
+		foreach ($users as $userId) {
+			try {
+				$userData = $this->getUserData($userId);
+			} catch (OCSNotFoundException $e) {
+				// We still want to return all other accounts, but this one was removed from the backends
+				// yet they are still in our database. Might be a LDAP remnant.
+				$userData = null;
+				$this->logger->warning('Found one account that was removed from its backend, but still exists in Nextcloud database', ['accountId' => $userId]);
+			}
+			// Do not insert empty entry
+			if ($userData !== null) {
+				$usersDetails[$userId] = $userData;
+			} else {
+				// Currently logged-in user does not have permissions to see this user
+				// only showing its id
+				$usersDetails[$userId] = ['id' => $userId];
+			}
+		}
+
+		return new DataResponse([
+			'users' => $usersDetails
+		]);
+	}
+
+
 
 	/**
 	 * @NoAdminRequired
