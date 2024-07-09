@@ -456,7 +456,7 @@ class Manager implements IManager {
 	 * @return void
 	 * @throws ValidationException
 	 */
-	private function validateOutput(array $spec, array $io, bool $optional = false): void {
+	private function validateOutputWithFileIds(array $spec, array $io, bool $optional = false): void {
 		foreach ($spec as $key => $descriptor) {
 			$type = $descriptor->getShapeType();
 			if (!isset($io[$key])) {
@@ -466,7 +466,31 @@ class Manager implements IManager {
 				throw new ValidationException('Missing key: "' . $key . '"');
 			}
 			try {
-				$type->validateOutput($io[$key]);
+				$type->validateOutputWithFileIds($io[$key]);
+			} catch (ValidationException $e) {
+				throw new ValidationException('Failed to validate output key "' . $key . '": ' . $e->getMessage());
+			}
+		}
+	}
+
+	/**
+	 * @param ShapeDescriptor[] $spec
+	 * @param array $io
+	 * @param bool $optional
+	 * @return void
+	 * @throws ValidationException
+	 */
+	private function validateOutputWithFileData(array $spec, array $io, bool $optional = false): void {
+		foreach ($spec as $key => $descriptor) {
+			$type = $descriptor->getShapeType();
+			if (!isset($io[$key])) {
+				if ($optional) {
+					continue;
+				}
+				throw new ValidationException('Missing key: "' . $key . '"');
+			}
+			try {
+				$type->validateOutputWithFileData($io[$key]);
 			} catch (ValidationException $e) {
 				throw new ValidationException('Failed to validate output key "' . $key . '": ' . $e->getMessage());
 			}
@@ -651,8 +675,13 @@ class Manager implements IManager {
 			$optionalOutputShape = $taskTypes[$task->getTaskTypeId()]['optionalOutputShape'];
 			try {
 				// validate output
-				$this->validateOutput($outputShape, $result);
-				$this->validateOutput($optionalOutputShape, $result, true);
+				if (!$isUsingFileIds) {
+					$this->validateOutputWithFileData($outputShape, $result);
+					$this->validateOutputWithFileData($optionalOutputShape, $result, true);
+				} else {
+					$this->validateOutputWithFileIds($outputShape, $result);
+					$this->validateOutputWithFileIds($optionalOutputShape, $result, true);
+				}
 				$output = $this->removeSuperfluousArrayKeys($result, $outputShape, $optionalOutputShape);
 				// extract raw data and put it in files, replace it with file ids
 				if (!$isUsingFileIds) {
