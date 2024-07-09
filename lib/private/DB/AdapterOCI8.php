@@ -29,7 +29,7 @@ class AdapterOCI8 extends Adapter {
 
 		$statement = preg_replace(
 			'/^INSERT INTO (".*")( ?\(.*) ?VALUES( ?\(.*)$/',
-			'DECLARE vRowid ROWID; BEGIN INSERT INTO ${1} VALUES ${2} RETURNING ROWID INTO vRowid dbms_output.put_line(vRowid); END',
+			'DECLARE vRowid ROWID; BEGIN INSERT INTO ${1} VALUES ${2}; RETURNING ROWID INTO vRowid dbms_output.put_line(vRowid); END;',
 			$statement
 		);
 
