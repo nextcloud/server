@@ -24,21 +24,23 @@
 			class="file-request-dialog__form"
 			aria-labelledby="file-request-dialog-description"
 			data-cy-file-request-dialog-form
-			@submit.prevent.stop="onSubmit">
-			<FileRequestIntro v-if="currentStep === STEP.FIRST"
+			@submit.prevent.stop="">
+			<FileRequestIntro v-show="currentStep === STEP.FIRST"
 				:context="context"
 				:destination.sync="destination"
 				:disabled="loading"
 				:label.sync="label"
 				:note.sync="note" />
 
-			<FileRequestDatePassword v-else-if="currentStep === STEP.SECOND"
+			<FileRequestDatePassword v-show="currentStep === STEP.SECOND"
 				:deadline.sync="deadline"
 				:disabled="loading"
 				:password.sync="password" />
 
-			<FileRequestFinish v-else-if="share"
+			<FileRequestFinish v-if="share"
+				v-show="currentStep === STEP.LAST"
 				:emails="emails"
+				:isShareByMailEnabled="isShareByMailEnabled"
 				:share="share"
 				@add-email="email => emails.push(email)"
 				@remove-email="onRemoveEmail" />
@@ -79,17 +81,19 @@
 					<NcLoadingIcon v-if="loading" />
 					<IconNext v-else :size="20" />
 				</template>
-				{{ continueButtonLabel }}
+				{{ t('files_sharing', 'Continue') }}
 			</NcButton>
 
 			<!-- Finish -->
 			<NcButton v-else
-				:aria-label="t('files_sharing', 'Close the creation dialog')"
+				:aria-label="finishButtonLabel"
+				:disabled="loading"
 				data-cy-file-request-dialog-controls="finish"
 				type="primary"
-				@click="$emit('close')">
+				@click="onFinish">
 				<template #icon>
-					<IconCheck :size="20" />
+					<NcLoadingIcon v-if="loading" />
+					<IconCheck v-else :size="20" />
 				</template>
 				{{ finishButtonLabel }}
 			</NcButton>
@@ -99,14 +103,15 @@
 
 <script lang="ts">
 import type { AxiosError } from 'axios'
-import type { Folder, Node } from '@nextcloud/files'
+import { Permission, type Folder, type Node } from '@nextcloud/files'
 import type { OCSResponse } from '@nextcloud/typings/ocs'
 import type { PropType } from 'vue'
 
 import { defineComponent } from 'vue'
 import { emit } from '@nextcloud/event-bus'
 import { generateOcsUrl } from '@nextcloud/router'
-import { showError } from '@nextcloud/dialogs'
+import { getCapabilities } from '@nextcloud/capabilities'
+import { showError, showSuccess } from '@nextcloud/dialogs'
 import { translate, translatePlural } from '@nextcloud/l10n'
 import { Type } from '@nextcloud/sharing'
 import axios from '@nextcloud/axios'
@@ -159,9 +164,12 @@ export default defineComponent({
 
 	setup() {
 		return {
+			STEP,
+
 			n: translatePlural,
 			t: translate,
-			STEP,
+
+			isShareByMailEnabled: getCapabilities()?.files_sharing?.sharebymail?.enabled === true
 		}
 	},
 
@@ -183,13 +191,6 @@ export default defineComponent({
 	},
 
 	computed: {
-		continueButtonLabel() {
-			if (this.currentStep === STEP.LAST) {
-				return this.t('files_sharing', 'Close')
-			}
-			return this.t('files_sharing', 'Continue')
-		},
-
 		finishButtonLabel() {
 			if (this.emails.length === 0) {
 				return this.t('files_sharing', 'Close')
@@ -231,8 +232,17 @@ export default defineComponent({
 			this.$emit('close')
 		},
 
-		onSubmit() {
-			this.$emit('submit')
+		async onFinish() {
+			if (this.emails.length === 0 || this.isShareByMailEnabled === false) {
+				showSuccess(this.t('files_sharing', 'File request created'))
+				this.$emit('close')
+				return
+			}
+
+			await this.setShareEmails()
+			await this.sendEmails()
+			showSuccess(this.t('files_sharing', 'File request created and emails sent'))
+			this.$emit('close')
 		},
 
 		async createShare() {
@@ -244,7 +254,7 @@ export default defineComponent({
 			try {
 				const request = await axios.post(shareUrl, {
 					shareType: Type.SHARE_TYPE_EMAIL,
-					publicUpload: 'true',
+					permissions: Permission.CREATE,
 	
 					label: this.label,
 					path: this.destination,
@@ -253,13 +263,13 @@ export default defineComponent({
 					password: this.password || undefined,
 					expireDate,
 
-					// Empty string to fallback to the attributes
-					sharedWith: '',
-					attributes: JSON.stringify({
-						value: this.emails,
-						key: 'emails',
-						scope: 'sharedWith',
-					})
+					// Empty string
+					shareWith: '',
+					attributes: JSON.stringify([{
+						value: true,
+						key: 'enabled',
+						scope: 'fileRequest',
+					}])
 				})
 
 				// If not an ocs request
@@ -287,6 +297,74 @@ export default defineComponent({
 			} finally {
 				this.loading = false
 			}
+		},
+
+		async setShareEmails() {
+			this.loading = true
+
+			// This should never happen™
+			if (!this.share || !this.share?.id) {
+				throw new Error('Share ID is missing')
+			}
+
+			const shareUrl = generateOcsUrl('apps/files_sharing/api/v1/shares/' + this.share.id)
+			try {
+				// Convert link share to email share
+				const request = await axios.put(shareUrl, {
+					attributes: JSON.stringify([{
+						value: this.emails,
+						key: 'emails',
+						scope: 'shareWith',
+					}])
+				})
+
+				// If not an ocs request
+				if (!request?.data?.ocs) {
+					throw request
+				}
+			} catch (error) {
+				this.onEmailSendError(error)
+				throw error
+			} finally {
+				this.loading = false
+			}
+		},
+
+		async sendEmails () {
+			this.loading = true
+
+			// This should never happen™
+			if (!this.share || !this.share?.id) {
+				throw new Error('Share ID is missing')
+			}
+
+			const shareUrl = generateOcsUrl('apps/files_sharing/api/v1/shares/' + this.share.id + '/send-email')
+			try {
+				// Convert link share to email share
+				const request = await axios.post(shareUrl, {
+					password: this.password || undefined,
+				})
+
+				// If not an ocs request
+				if (!request?.data?.ocs) {
+					throw request
+				}
+			} catch (error) {
+				this.onEmailSendError(error)
+				throw error
+			} finally {
+				this.loading = false
+			}
+		},
+
+		onEmailSendError(error: AxiosError<OCSResponse>|any) {
+			const errorMessage = error.response?.data?.ocs?.meta?.message
+			showError(
+				errorMessage
+					? this.t('files_sharing', 'Error sending emails: {errorMessage}', { errorMessage })
+					: this.t('files_sharing', 'Error sending emails'),
+			)
+			logger.error('Error while sending emails', { error, errorMessage })
 		},
 	},
 })

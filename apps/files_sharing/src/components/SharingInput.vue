@@ -34,7 +34,7 @@ import axios from '@nextcloud/axios'
 import debounce from 'debounce'
 import NcSelect from '@nextcloud/vue/dist/Components/NcSelect.js'
 
-import Config from '../services/ConfigService.js'
+import Config from '../services/ConfigService.ts'
 import GeneratePassword from '../utils/GeneratePassword.ts'
 import Share from '../models/Share.js'
 import ShareRequests from '../mixins/ShareRequests.js'

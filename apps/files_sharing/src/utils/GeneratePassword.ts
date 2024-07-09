@@ -4,7 +4,7 @@
  */
 
 import axios from '@nextcloud/axios'
-import Config from '../services/ConfigService.js'
+import Config from '../services/ConfigService.ts'
 import { showError, showSuccess } from '@nextcloud/dialogs'
 import { translate as t } from '@nextcloud/l10n'
 

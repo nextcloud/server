@@ -62,7 +62,7 @@
 						type="radio"
 						button-variant-grouped="vertical"
 						@update:checked="toggleCustomPermissions">
-						{{ t('files_sharing', 'File requests') }}
+						{{ t('files_sharing', 'File request') }}
 						<small class="subline">{{ t('files_sharing', 'Upload only') }}</small>
 						<template #icon>
 							<UploadIcon :size="20" />

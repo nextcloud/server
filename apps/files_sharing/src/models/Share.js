@@ -532,15 +532,26 @@ export default class Share {
 	 * @memberof Share
 	 */
 	get hasDownloadPermission() {
-		for (const i in this._share.attributes) {
-			const attr = this._share.attributes[i]
-			if (attr.scope === 'permissions' && attr.key === 'download') {
-				return attr.value
-			}
+		const hasDisabledDownload = (attribute) => {
+			return attribute.scope === 'permissions' && attribute.key === 'download' && attribute.value === false
 		}
-
-		return true
+		return this.attributes.some(hasDisabledDownload)
 	}
+
+	/**
+	 * Is this mail share a file request ?
+	 *
+	 * @return {boolean}
+	 * @readonly
+	 * @memberof Share
+	 */
+	get isFileRequest() {
+		const isFileRequest = (attribute) => {
+			return attribute.scope === 'fileRequest' && attribute.key === 'enabled' && attribute.value === true
+		}
+		return this.attributes.some(isFileRequest)
+	}
+
 
 	set hasDownloadPermission(enabled) {
 		this.setAttribute('permissions', 'download', !!enabled)

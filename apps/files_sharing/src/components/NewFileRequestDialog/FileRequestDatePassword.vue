@@ -68,7 +68,7 @@
 				<NcButton :aria-label="t('files_sharing', 'Generate a new password')"
 					:title="t('files_sharing', 'Generate a new password')"
 					type="tertiary-no-background"
-					@click="generatePassword(); showPassword()">
+					@click="onGeneratePassword">
 					<template #icon>
 						<IconPasswordGen :size="20" />
 					</template>
@@ -90,7 +90,10 @@ import NcPasswordField from '@nextcloud/vue/dist/Components/NcPasswordField.js'
 
 import IconPasswordGen from 'vue-material-design-icons/AutoFix.vue'
 
+import Config from '../../services/ConfigService'
 import GeneratePassword from '../../utils/GeneratePassword'
+
+const sharingConfig = new Config()
 
 export default defineComponent({
 	name: 'FileRequestDatePassword',
@@ -132,16 +135,16 @@ export default defineComponent({
 			t: translate,
 
 			// Default expiration date if defaultExpireDateEnabled is true
-			defaultExpireDate: window.OC.appConfig.core.defaultExpireDate as number,
+			defaultExpireDate: sharingConfig.defaultExpireDate,
 			// Default expiration date is enabled for public links (can be disabled)
-			defaultExpireDateEnabled: window.OC.appConfig.core.defaultExpireDateEnabled === true,
+			defaultExpireDateEnabled: sharingConfig.isDefaultExpireDateEnabled,
 			// Default expiration date is enforced for public links (can't be disabled)
-			defaultExpireDateEnforced: window.OC.appConfig.core.defaultExpireDateEnforced === true,
+			defaultExpireDateEnforced: sharingConfig.isDefaultExpireDateEnforced,
 
 			// Default password protection is enabled for public links (can be disabled)
-			enableLinkPasswordByDefault: window.OC.appConfig.core.enableLinkPasswordByDefault === true,
+			enableLinkPasswordByDefault: sharingConfig.enableLinkPasswordByDefault,
 			// Password protection is enforced for public links (can't be disabled)
-			enforcePasswordForPublicLink: window.OC.appConfig.core.enforcePasswordForPublicLink === true,
+			enforcePasswordForPublicLink: sharingConfig.enforcePasswordForPublicLink,
 		}
 	},
 
@@ -176,13 +179,13 @@ export default defineComponent({
 
 	mounted() {
 		// If defined, we set the default expiration date
-		if (this.defaultExpireDate > 0) {
-			this.$emit('update:deadline', new Date(new Date().setDate(new Date().getDate() + this.defaultExpireDate)))
+		if (this.defaultExpireDate) {
+			this.$emit('update:deadline', sharingConfig.defaultExpirationDate)
 		}
 
 		// If enforced, we cannot set a date before the default expiration days (see admin settings)
 		if (this.defaultExpireDateEnforced) {
-			this.maxDate = new Date(new Date().setDate(new Date().getDate() + this.defaultExpireDate))
+			this.maxDate = sharingConfig.defaultExpirationDate
 		}
 
 		// If enabled by default, we generate a valid password
@@ -204,8 +207,14 @@ export default defineComponent({
 			this.$emit('update:password', null)
 		},
 
-		generatePassword() {
-			GeneratePassword().then(password => {
+
+		async onGeneratePassword() {
+			await this.generatePassword()
+			this.showPassword()
+		},
+
+		async generatePassword() {
+			await GeneratePassword().then(password => {
 				this.$emit('update:password', password)
 			})
 		},

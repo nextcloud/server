@@ -14,7 +14,7 @@ import debounce from 'debounce'
 import Share from '../models/Share.js'
 import SharesRequests from './ShareRequests.js'
 import ShareTypes from './ShareTypes.js'
-import Config from '../services/ConfigService.js'
+import Config from '../services/ConfigService.ts'
 import logger from '../services/logger.ts'
 
 import {

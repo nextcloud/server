@@ -7,7 +7,7 @@
 	<div>
 		<!-- Request note -->
 		<NcNoteCard type="success">
-			{{ t('files_sharing', 'You can now share the link below to allow others to upload files to your directory.') }}
+			{{ t('files_sharing', 'Once created, you can share the link below to allow people to upload files to your directory.') }}
 		</NcNoteCard>
 
 		<!-- Copy share link -->
@@ -71,7 +71,6 @@ import NcChip from '@nextcloud/vue/dist/Components/NcChip.js'
 
 import IconCheck from 'vue-material-design-icons/Check.vue'
 import IconClipboard from 'vue-material-design-icons/Clipboard.vue'
-import { getCapabilities } from '@nextcloud/capabilities'
 
 export default defineComponent({
 	name: 'FileRequestFinish',
@@ -95,6 +94,10 @@ export default defineComponent({
 			type: Array as PropType<string[]>,
 			required: true,
 		},
+		isShareByMailEnabled: {
+			type: Boolean,
+			required: true,
+		},
 	},
 
 	emits: ['add-email', 'remove-email'],
@@ -103,7 +106,6 @@ export default defineComponent({
 		return {
 			n: translatePlural,
 			t: translate,
-			isShareByMailEnabled: getCapabilities()?.files_sharing?.sharebymail?.enabled === true,
 		}
 	},
 

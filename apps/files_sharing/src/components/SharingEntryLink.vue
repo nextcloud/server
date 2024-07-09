@@ -327,6 +327,11 @@ export default {
 				}
 				if (this.share.label && this.share.label.trim() !== '') {
 					if (this.isEmailShareType) {
+						if (this.isFileRequest) {
+							return t('files_sharing', 'File request ({label})', {
+								label: this.share.label.trim(),
+							})
+						}
 						return t('files_sharing', 'Mail share ({label})', {
 							label: this.share.label.trim(),
 						})
@@ -336,6 +341,11 @@ export default {
 					})
 				}
 				if (this.isEmailShareType) {
+					if (!this.share.shareWith || this.share.shareWith.trim() === '') {
+						return this.isFileRequest
+							? t('files_sharing', 'File request')
+							: t('files_sharing', 'Mail share')
+					}
 					return this.share.shareWith
 				}
 			}
@@ -554,8 +564,12 @@ export default {
 		},
 
 		canChangeHideDownload() {
-			const hasDisabledDownload = (shareAttribute) => shareAttribute.key === 'download' && shareAttribute.scope === 'permissions' && shareAttribute.value === false
+			const hasDisabledDownload = (shareAttribute) => shareAttribute.scope === 'permissions' && shareAttribute.key === 'download'&& shareAttribute.value === false
 			return this.fileInfo.shareAttributes.some(hasDisabledDownload)
+		},
+
+		isFileRequest() {
+			return this.share.isFileRequest
 		},
 	},
 

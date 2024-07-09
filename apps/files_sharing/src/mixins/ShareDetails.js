@@ -4,7 +4,7 @@
  */
 
 import Share from '../models/Share.js'
-import Config from '../services/ConfigService.js'
+import Config from '../services/ConfigService.ts'
 
 export default {
 	methods: {
