@@ -55,6 +55,7 @@
 /apps/files_external/tests/config.*.php
 # IONOS: this should not be upsteamed!
 !/apps-external/viewer
+!/apps-external/user_oidc
 !/apps-custom/*
 
 # apps modules
