@@ -19,25 +19,25 @@
 			<!-- Enable expiration -->
 			<legend>{{ t('files_sharing', 'When should the request expire ?') }}</legend>
 			<NcCheckboxRadioSwitch v-show="!defaultExpireDateEnforced"
-				:checked="defaultExpireDateEnforced || deadline !== null"
+				:checked="defaultExpireDateEnforced || expirationDate !== null"
 				:disabled="disabled || defaultExpireDateEnforced"
 				@update:checked="onToggleDeadline">
-				{{ t('files_sharing', 'Set a submission deadline') }}
+				{{ t('files_sharing', 'Set a submission expirationDate') }}
 			</NcCheckboxRadioSwitch>
 
 			<!-- Date picker -->
-			<NcDateTimePickerNative v-if="deadline !== null"
-				id="file-request-dialog-deadline"
+			<NcDateTimePickerNative v-if="expirationDate !== null"
+				id="file-request-dialog-expirationDate"
 				:disabled="disabled"
 				:hide-label="true"
 				:max="maxDate"
 				:min="minDate"
 				:placeholder="t('files_sharing', 'Select a date')"
 				:required="defaultExpireDateEnforced"
-				:value="deadline"
-				name="deadline"
+				:value="expirationDate"
+				name="expirationDate"
 				type="date"
-				@update:value="$emit('update:deadline', $event)"/>
+				@update:value="$emit('update:expirationDate', $event)"/>
 		</fieldset>
 
 		<!-- Password -->
@@ -113,7 +113,7 @@ export default defineComponent({
 			required: false,
 			default: false,
 		},
-		deadline: {
+		expirationDate: {
 			type: Date as PropType<Date | null>,
 			required: false,
 			default: null,
@@ -126,7 +126,7 @@ export default defineComponent({
 	},
 
 	emits: [
-		'update:deadline',
+		'update:expirationDate',
 		'update:password',
 	],
 
@@ -157,15 +157,15 @@ export default defineComponent({
 
 	computed: {
 		passwordAndExpirationSummary(): string {
-			if (this.deadline && this.password) {
+			if (this.expirationDate && this.password) {
 				return this.t('files_sharing', 'The request will expire on {date} at midnight and will be password protected.', {
-					date: this.deadline.toLocaleDateString(),
+					date: this.expirationDate.toLocaleDateString(),
 				})
 			}
 
-			if (this.deadline) {
+			if (this.expirationDate) {
 				return this.t('files_sharing', 'The request will expire on {date} at midnight.', {
-					date: this.deadline.toLocaleDateString(),
+					date: this.expirationDate.toLocaleDateString(),
 				})
 			}
 
@@ -180,7 +180,7 @@ export default defineComponent({
 	mounted() {
 		// If defined, we set the default expiration date
 		if (this.defaultExpireDate) {
-			this.$emit('update:deadline', sharingConfig.defaultExpirationDate)
+			this.$emit('update:expirationDate', sharingConfig.defaultExpirationDate)
 		}
 
 		// If enforced, we cannot set a date before the default expiration days (see admin settings)
@@ -196,7 +196,7 @@ export default defineComponent({
 
 	methods: {
 		onToggleDeadline(checked: boolean) {
-			this.$emit('update:deadline', checked ? new Date() : null)
+			this.$emit('update:expirationDate', checked ? new Date() : null)
 		},
 
 		async onTogglePassword(checked: boolean) {

@@ -18,7 +18,7 @@ use OCA\Files_Sharing\External\Storage;
 use OCA\Files_Sharing\ResponseDefinitions;
 use OCA\Files_Sharing\SharedStorage;
 use OCP\App\IAppManager;
-use OCP\AppFramework\Http\Attribute\BruteForceProtection;
+use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\Attribute\UserRateLimit;
 use OCP\AppFramework\Http\DataResponse;

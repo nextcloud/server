@@ -124,9 +124,14 @@ export default defineComponent({
 
 	methods: {
 		async copyShareLink(event: MouseEvent) {
+			if (this.isCopied) {
+				this.isCopied = false
+				return
+			}
+
 			if (!navigator.clipboard) {
 				// Clipboard API not available
-				showError(this.t('files_sharing', 'Clipboard is not available'))
+				window.prompt(this.t('files_sharing', 'Automatically copying failed, please copy the share link manually'), this.shareLink)
 				return
 			}
 

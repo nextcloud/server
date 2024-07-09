@@ -23,6 +23,7 @@
 		<form ref="form"
 			class="file-request-dialog__form"
 			aria-labelledby="file-request-dialog-description"
+			aria-live="polite"
 			data-cy-file-request-dialog-form
 			@submit.prevent.stop="">
 			<FileRequestIntro v-show="currentStep === STEP.FIRST"
@@ -33,8 +34,8 @@
 				:note.sync="note" />
 
 			<FileRequestDatePassword v-show="currentStep === STEP.SECOND"
-				:deadline.sync="deadline"
 				:disabled="loading"
+				:expiration-date.sync="expirationDate"
 				:password.sync="password" />
 
 			<FileRequestFinish v-if="share"
@@ -124,9 +125,9 @@ import NcNoteCard from '@nextcloud/vue/dist/Components/NcNoteCard.js'
 import IconCheck from 'vue-material-design-icons/Check.vue'
 import IconNext from 'vue-material-design-icons/ArrowRight.vue'
 
-import FileRequestDatePassword from './NewFileRequestDialog/FileRequestDatePassword.vue'
-import FileRequestFinish from './NewFileRequestDialog/FileRequestFinish.vue'
-import FileRequestIntro from './NewFileRequestDialog/FileRequestIntro.vue'
+import FileRequestDatePassword from './NewFileRequestDialog/NewFileRequestDialogDatePassword.vue'
+import FileRequestFinish from './NewFileRequestDialog/NewFileRequestDialogFinish.vue'
+import FileRequestIntro from './NewFileRequestDialog/NewFileRequestDialogIntro.vue'
 import Share from '../models/Share'
 import logger from '../services/logger'
 
@@ -182,7 +183,7 @@ export default defineComponent({
 			label: '',
 			note: '',
 
-			deadline: null as Date | null,
+			expirationDate: null as Date | null,
 			password: null as string | null,
 
 			share: null as Share | null,
@@ -249,7 +250,7 @@ export default defineComponent({
 			this.loading = true
 
 			// Format must be YYYY-MM-DD
-			const expireDate = this.deadline ? this.deadline.toISOString().split('T')[0] : undefined
+			const expireDate = this.expirationDate ? this.expirationDate.toISOString().split('T')[0] : undefined
 			const shareUrl = generateOcsUrl('apps/files_sharing/api/v1/shares')
 			try {
 				const request = await axios.post<OCSResponse>(shareUrl, {
