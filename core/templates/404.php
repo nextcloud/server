@@ -3,7 +3,8 @@
 /** @var \OCP\IL10N $l */
 /** @var \OCP\Defaults $theme */
 // @codeCoverageIgnoreStart
-if (!isset($_)) {//standalone  page is not supported anymore - redirect to /
+if (!isset($_)) {
+//standalone  page is not supported anymore - redirect to /
 	require_once '../../lib/base.php';
 
 	$urlGenerator = \OC::$server->getURLGenerator();
@@ -12,7 +13,10 @@ if (!isset($_)) {//standalone  page is not supported anymore - redirect to /
 }
 // @codeCoverageIgnoreEnd
 ?>
-<?php if (isset($_['content'])): ?>
+<?php
+header('Location:'.\OC::$server->getURLGenerator()->linkTo('', 'index.php'));
+exit;
+if (isset($_['content'])): ?>
 	<?php print_unescaped($_['content']) ?>
 <?php else: ?>
 	<div class="body-login-container update">

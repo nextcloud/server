@@ -10,7 +10,7 @@
 			<?php
 				p(!empty($_['pageTitle']) ? $_['pageTitle'] . ' – ' : '');
 p($theme->getTitle());
-?>
+$base_url=\OC::$server->getURLGenerator()->getAbsoluteURL('/');?>
 		</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
 		<?php if ($theme->getiTunesAppId() !== '') { ?>
@@ -46,13 +46,13 @@ p($theme->getTitle());
 			<!-- Vendor CSS Files -->
 
 
-			<link async href="../assets/css/style.css" rel="stylesheet">
-			<link async href="../assets/css/google-fonts.css" rel="stylesheet">
-			<link async href="../assets/vendor/aos/aos.css" rel="stylesheet">
-			<link async href="../assets/vendor/optimized/css/bootstrap.min.css" rel="stylesheet">
-			<link async href="../assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
-			<link async href="../assets/vendor/remixicon/remixicon.css" rel="stylesheet">
-			<link async href="../assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+			<link async href="<?php echo $base_url;?>/assets/css/style.css" rel="stylesheet">
+			<link async href="<?php echo $base_url;?>/assets/css/google-fonts.css" rel="stylesheet">
+			<link async href="<?php echo $base_url;?>/assets/vendor/aos/aos.css" rel="stylesheet">
+			<link async href="<?php echo $base_url;?>/assets/vendor/optimized/css/bootstrap.min.css" rel="stylesheet">
+			<link async href="<?php echo $base_url;?>/assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+			<link async href="<?php echo $base_url;?>/assets/vendor/remixicon/remixicon.css" rel="stylesheet">
+			<link async href="<?php echo $base_url;?>/assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
 
 
 			<style>
@@ -119,7 +119,7 @@ p($theme->getTitle());
                     <header id="header" class="header fixed-top">
                     <div class="container-fluid container-xl d-flex align-items-center justify-content-between">
                         <a href="index.php" class="scale-logo d-flex align-items-center">
-                        <img src="../assets/img/logo.png" alt="Logo of scaleinfinite">
+                        <img src="<?php echo $base_url;?>/assets/img/logo.png" alt="Logo of scaleinfinite">
                         </a>
                         <nav id="navbar" class="navbar">
                             <ul>
@@ -127,7 +127,7 @@ p($theme->getTitle());
                                 <li><a class="nav-link scrollto" href="https://docs.scaleinfinite.fr/" target="_blank">Tutorial</a></li>
                                 <li>
                                 <a class="nav-link scrollto g-signin2" href="apps/sociallogin/oauth/google">
-                                <img src="../assets/img/g-signin.png" alt="Sign in with google" style ="width:150px; Height:auto;">
+                                <img src="<?php echo $base_url;?>/assets/img/g-signin.png" alt="Sign in with google" style ="width:150px; Height:auto;">
                                 </a
                                     >
                                 </li>
@@ -152,13 +152,13 @@ p($theme->getTitle());
                            <div class="text-center text-lg-start">
                               <a href="#values" class="btn-get-started scrollto d-inline-flex align-items-center justify-content-center align-self-center">
                               <span>Get Started</span>
-                              <img src="../assets/img/right-arrow.png" style="margin-left: .8rem;" class="img-fluid" alt="Get Started">
+                              <img src="<?php echo $base_url;?>/assets/img/right-arrow.png" style="margin-left: .8rem;" class="img-fluid" alt="Get Started">
                               </a>
                            </div>
                         </div>
                      </div>
                      <div class="col-lg-6 hero-img" data-aos="zoom-out" data-aos-delay="200">
-                        <img src="../assets/img/hero-img.png" class="img-fluid" alt="Hero image">
+                        <img src="<?php echo $base_url;?>/assets/img/hero-img.png" class="img-fluid" alt="Hero image">
                      </div>
                   </div>
                </div>
@@ -178,13 +178,13 @@ p($theme->getTitle());
                            <div class="text-center text-lg-start">
                               <a href="https://docs.scaleinfinite.fr/" target="_blank" class="btn-read-more d-inline-flex align-items-center justify-content-center align-self-center">
                               <span>Get Started</span>
-                              <img src="../assets/img/right-arrow.png" style="margin-left: .8rem;" class="img-fluid" alt="Get Started">
+                              <img src="<?php echo $base_url;?>/assets/img/right-arrow.png" style="margin-left: .8rem;" class="img-fluid" alt="Get Started">
                               </a>
                            </div>
                         </div>
                      </div>
                      <div class="col-lg-6 d-flex align-items-center" data-aos="zoom-out" data-aos-delay="200">
-                        <img src="../assets/img/my-apps.png" class="img-fluid" alt="App presentation" style="width: 100%;height: 100%;">
+                        <img src="<?php echo $base_url;?>/assets/img/my-apps.png" class="img-fluid" alt="App presentation" style="width: 100%;height: 100%;">
                      </div>
                   </div>
                </div>
@@ -200,21 +200,21 @@ p($theme->getTitle());
                   <div class="row">
                      <div class="col-lg-4" data-aos="fade-up" data-aos-delay="200">
                         <div class="box">
-                           <img src="../assets/img/choose.webp" class="img-fluid" alt="Women speaking" style="width: 100%;height: auto;">
+                           <img src="<?php echo $base_url;?>/assets/img/choose.webp" class="img-fluid" alt="Women speaking" style="width: 100%;height: auto;">
                            <h3>Look for the application you are searching for</h3>
                            <p>By using the search bar, you can find +1000 applications from our database & dockerhub</p>
                         </div>
                      </div>
                      <div class="col-lg-4 mt-4 mt-lg-0" data-aos="fade-up" data-aos-delay="400">
                         <div class="box">
-                           <img src="../assets/img/install1.webp" class="img-fluid" alt="Women walking" style="width: 100%;height: auto;">
+                           <img src="<?php echo $base_url;?>/assets/img/install1.webp" class="img-fluid" alt="Women walking" style="width: 100%;height: auto;">
                            <h3>Install application easily</h3>
-                           <p>Once you have found the application, you can instantly install the app. Don't forget to specify custom name, ports & environnement variable</p>
+                           <p>Once you have found the application, you can instantly install the app. Don\'t forget to specify custom name, ports & environnement variable</p>
                         </div>
                      </div>
                      <div class="col-lg-4 mt-4 mt-lg-0" data-aos="fade-up" data-aos-delay="600">
                         <div class="box">
-                           <img src="../assets/img/mindful1.webp" class="img-fluid" alt="Women doing yoga" style="width: 100%;height: auto;">
+                           <img src="<?php echo $base_url;?>/assets/img/mindful1.webp" class="img-fluid" alt="Women doing yoga" style="width: 100%;height: auto;">
                            <h3>Ready to use!</h3>
                            <p>You can now use your application peacefully. You can access it with HTTP or TCP/UDP adress.</p>
                         </div>
@@ -233,21 +233,21 @@ p($theme->getTitle());
                   <div class="row gy-4">
                      <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
                         <div class="service-box green">
-                           <img src="../assets/img/secured.svg" alt="Image of secured" style="max-width: 20%; margin-bottom: 20px;">
+                           <img src="<?php echo $base_url;?>/assets/img/secured.svg" alt="Image of secured" style="max-width: 20%; margin-bottom: 20px;">
                            <h3>Secured</h3>
                            <p>We offer different layer of security options. Users can choose the right security level that suits well for the application as well for their needs.</p>
                         </div>
                      </div>
                      <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="300">
                         <div class="service-box orange">
-                           <img src="../assets/img/easy.svg" alt="Image of secured" style="max-width: 13%; margin-bottom: 20px;">
+                           <img src="<?php echo $base_url;?>/assets/img/easy.svg" alt="Image of secured" style="max-width: 13%; margin-bottom: 20px;">
                            <h3>User Friendly</h3>
                            <p>The plateform is designed in a way that anybody from technical and most importantly the non-technical background can easily deploy and run their applications securly</p>
                         </div>
                      </div>
                      <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="400">
                         <div class="service-box blue">
-                           <img src="../assets/img/choice.png" alt="Image of thumb" style="width: 25%;height: auto;" >
+                           <img src="<?php echo $base_url;?>/assets/img/choice.png" alt="Image of thumb" style="width: 25%;height: auto;" >
                            <h3>Choice</h3>
                            <p>Your are not limited to one application from a list of applications that are supported. You choose to deploy and run any application that is publicly available on docker hub and also choose the application from your private docker registry by synchronising your account. </p>
                         </div>
@@ -262,7 +262,7 @@ p($theme->getTitle());
                   <div class="row gy-4">
                      <div class="col-lg-3 col-md-6">
                         <div class="count-box">
-                           <img src="../assets/img/happy-clients.png" alt="happy Clients" style="height:100px; width:auto; padding-right:20px;">
+                           <img src="<?php echo $base_url;?>/assets/img/happy-clients.png" alt="happy Clients" style="height:100px; width:auto; padding-right:20px;">
                            <div>
                               <span data-purecounter-start="0" data-purecounter-end="232" data-purecounter-duration="1" class="purecounter"></span>
                               <p>Happy Clients</p>
@@ -271,7 +271,7 @@ p($theme->getTitle());
                      </div>
                      <div class="col-lg-3 col-md-6">
                         <div class="count-box">
-                           <img src="../assets/img/projects.png" alt="Projects" style="height:100px; width:auto; padding-right:20px;">
+                           <img src="http://localhost/scaleinfinite-nextcloud-all/assets/img/projects.png" alt="Projects" style="height:100px; width:auto; padding-right:20px;">
                            <div>
                               <span data-purecounter-start="0" data-purecounter-end="521" data-purecounter-duration="1" class="purecounter"></span>
                               <p>Projects</p>
@@ -280,7 +280,7 @@ p($theme->getTitle());
                      </div>
                      <div class="col-lg-3 col-md-6">
                         <div class="count-box">
-                           <img src="../assets/img/support.png" alt="Support" style="height:100px; width:auto; padding-right:20px;">
+                           <img src="http://localhost/scaleinfinite-nextcloud-all/assets/img/support.png" alt="Support" style="height:100px; width:auto; padding-right:20px;">
                            <div>
                               <span data-purecounter-start="0" data-purecounter-end="1463" data-purecounter-duration="1" class="purecounter"></span>
                               <p>Hours Of Support</p>
@@ -289,7 +289,7 @@ p($theme->getTitle());
                      </div>
                      <div class="col-lg-3 col-md-6">
                         <div class="count-box">
-                           <img src="../assets/img/team.png" alt="Team" style="height:100px; width:auto; padding-right:20px;">
+                           <img src="http://localhost/scaleinfinite-nextcloud-all/assets/img/team.png" alt="Team" style="height:100px; width:auto; padding-right:20px;">
                            <div>
                               <span data-purecounter-start="0" data-purecounter-end="15" data-purecounter-duration="1" class="purecounter"></span>
                               <p>Hard Workers</p>
@@ -485,7 +485,7 @@ p($theme->getTitle());
             <div class="row gy-4">
             <div class="col-lg-7 col-md-12 footer-info">
             <a href="index.php" class="scale-logo d-flex align-items-center">
-            <img src="../assets/img/logo.png" alt="Image of logo of scaleinfinite" style="width: 20rem;height: 100%;">
+            <img src="http://localhost/scaleinfinite-nextcloud-all/assets/img/logo.png" alt="Image of logo of scaleinfinite" style="width: 20rem;height: 100%;">
             </a>
             <p>Scale Infinite is a data software company based Europe and Asia that develop, educate and offers commercial support for open-source softwares designed to manage Big Data solutions and associated processing.</p>
             <div class="social-links mt-3">
@@ -517,18 +517,18 @@ p($theme->getTitle());
             </footer>
             <!-- End Footer -->
             <a href="#" class="back-to-top d-flex align-items-center justify-content-center">
-            <img src="../assets/img/up-arrow.png" alt="scroll-up" style="height:30px; width:auto;">
+            <img src="http://localhost/scaleinfinite-nextcloud-all/assets/img/up-arrow.png" alt="scroll-up" style="height:30px; width:auto;">
             </a>
             <!-- Vendor JS Files -->
-            <script src="../assets/vendor/purecounter/purecounter.js"  nonce="<?php p(\OC::$server->getContentSecurityPolicyNonceManager()->getNonce()) ?>"></script>
-            <script src="../assets/vendor/aos/aos.js"  nonce="<?php p(\OC::$server->getContentSecurityPolicyNonceManager()->getNonce()) ?>"></script>
-            <script src="../assets/vendor/bootstrap/js/bootstrap.bundle.min.js"  nonce="<?php p(\OC::$server->getContentSecurityPolicyNonceManager()->getNonce()) ?>"></script>
-            <script src="../assets/vendor/glightbox/js/glightbox.min.js"  nonce="<?php p(\OC::$server->getContentSecurityPolicyNonceManager()->getNonce()) ?>"></script>
-            <script src="../assets/vendor/isotope-layout/isotope.pkgd.min.js"  nonce="<?php p(\OC::$server->getContentSecurityPolicyNonceManager()->getNonce()) ?>"></script>
-            <script src="../assets/vendor/swiper/swiper-bundle.min.js"  nonce="<?php p(\OC::$server->getContentSecurityPolicyNonceManager()->getNonce()) ?>"></script>
-            <script src="../assets/vendor/php-email-form/validate.js"  nonce="<?php p(\OC::$server->getContentSecurityPolicyNonceManager()->getNonce()) ?>"></script>
+            <script src="http://localhost/scaleinfinite-nextcloud-all/assets/vendor/purecounter/purecounter.js"  nonce="<?php p(\OC::$server->getContentSecurityPolicyNonceManager()->getNonce()) ?>"></script>
+            <script src="http://localhost/scaleinfinite-nextcloud-all/assets/vendor/aos/aos.js"  nonce="<?php p(\OC::$server->getContentSecurityPolicyNonceManager()->getNonce()) ?>"></script>
+            <script src="http://localhost/scaleinfinite-nextcloud-all/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"  nonce="<?php p(\OC::$server->getContentSecurityPolicyNonceManager()->getNonce()) ?>"></script>
+            <script src="http://localhost/scaleinfinite-nextcloud-all/assets/vendor/glightbox/js/glightbox.min.js"  nonce="<?php p(\OC::$server->getContentSecurityPolicyNonceManager()->getNonce()) ?>"></script>
+            <script src="http://localhost/scaleinfinite-nextcloud-all/assets/vendor/isotope-layout/isotope.pkgd.min.js"  nonce="<?php p(\OC::$server->getContentSecurityPolicyNonceManager()->getNonce()) ?>"></script>
+            <script src="http://localhost/scaleinfinite-nextcloud-all/assets/vendor/swiper/swiper-bundle.min.js"  nonce="<?php p(\OC::$server->getContentSecurityPolicyNonceManager()->getNonce()) ?>"></script>
+            <script src="http://localhost/scaleinfinite-nextcloud-all/assets/vendor/php-email-form/validate.js"  nonce="<?php p(\OC::$server->getContentSecurityPolicyNonceManager()->getNonce()) ?>"></script>
             <!-- Template Main JS File -->
-            <script src="../assets/js/mainLandingPage.js"  nonce="<?php p(\OC::$server->getContentSecurityPolicyNonceManager()->getNonce()) ?>"></script>
+            <script src="http://localhost/scaleinfinite-nextcloud-all/assets/js/mainLandingPage.js"  nonce="<?php p(\OC::$server->getContentSecurityPolicyNonceManager()->getNonce()) ?>"></script>
             <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"  nonce="<?php p(\OC::$server->getContentSecurityPolicyNonceManager()->getNonce()) ?>"></script>
             <!-- Loading script -->
             <script  nonce="<?php p(\OC::$server->getContentSecurityPolicyNonceManager()->getNonce()) ?>">
