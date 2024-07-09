@@ -106,7 +106,8 @@ export const action = new FileAction({
 
 		const node = nodes[0]
 		const ownerId = node?.attributes?.['owner-id']
-		const isMixed = Array.isArray(node.attributes?.['share-types'])
+		const shareTypes = node.attributes?.['share-types']
+		const isMixed = Array.isArray(shareTypes) && shareTypes.length > 0
 
 		// If the node is shared multiple times with
 		// different share types to the current user
