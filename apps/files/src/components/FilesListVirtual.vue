@@ -773,8 +773,9 @@ tbody.files-list__tbody.files-list__tbody--grid {
 		width: var(--row-width);
 		height: var(--row-height);
 		border: none;
+		border-radius: var(--border-radius-large);
 		padding: var(--item-padding);
-		box-sizing: content-box
+		box-sizing: content-box;
 	}
 
 	// Checkbox in the top left
@@ -824,10 +825,6 @@ tbody.files-list__tbody.files-list__tbody--grid {
 		span.files-list__row-icon {
 			width: var(--icon-preview-size);
 			height: var(--icon-preview-size);
-		}
-
-		.files-list__row-icon-preview {
-			border-radius: 0;
 		}
 
 		a.files-list__row-name-link {
