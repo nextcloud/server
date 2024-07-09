@@ -12,7 +12,8 @@ import { getContents } from './SharingService'
 import { File, Folder } from '@nextcloud/files'
 import logger from './logger'
 
-global.window.OC = {
+window.OC = {
+	...window.OC,
 	TAG_FAVORITE: '_$!<Favorite>!$_',
 }
 

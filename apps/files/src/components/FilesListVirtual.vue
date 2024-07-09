@@ -134,7 +134,7 @@ export default defineComponent({
 		},
 
 		fileId() {
-			return parseInt(this.$route.params.fileid) || null
+			return Number.parseInt(this.$route.params.fileid ?? '0') || null
 		},
 
 		/**

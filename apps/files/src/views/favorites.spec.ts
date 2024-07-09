@@ -18,7 +18,8 @@ jest.mock('webdav/dist/node/request.js', () => ({
 	request: jest.fn(),
 }))
 
-global.window.OC = {
+window.OC = {
+	...window.OC,
 	TAG_FAVORITE: '_$!<Favorite>!$_',
 }
 

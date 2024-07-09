@@ -126,7 +126,7 @@ describe('Open sidebar action exec tests', () => {
 		expect(openMock).toBeCalledWith('/foobar.txt')
 		expect(goToRouteMock).toBeCalledWith(
 			null,
-			{ view: view.id, fileid: 1 },
+			{ view: view.id, fileid: '1' },
 			{ dir: '/' },
 			true,
 		)

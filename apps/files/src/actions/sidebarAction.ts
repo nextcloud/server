@@ -42,7 +42,7 @@ export const action = new FileAction({
 			// Silently update current fileid
 			window.OCP.Files.Router.goToRoute(
 				null,
-				{ view: view.id, fileid: node.fileid },
+				{ view: view.id, fileid: String(node.fileid) },
 				{ ...window.OCP.Files.Router.query, dir },
 				true,
 			)

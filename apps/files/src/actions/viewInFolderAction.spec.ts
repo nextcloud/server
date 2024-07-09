@@ -129,7 +129,7 @@ describe('View in folder action execute tests', () => {
 		// Silent action
 		expect(exec).toBe(null)
 		expect(goToRouteMock).toBeCalledTimes(1)
-		expect(goToRouteMock).toBeCalledWith(null, { fileid: 1, view: 'files' }, { dir: '/' })
+		expect(goToRouteMock).toBeCalledWith(null, { fileid: '1', view: 'files' }, { dir: '/' })
 	})
 
 	test('View in (sub) folder', async () => {
@@ -150,7 +150,7 @@ describe('View in folder action execute tests', () => {
 		// Silent action
 		expect(exec).toBe(null)
 		expect(goToRouteMock).toBeCalledTimes(1)
-		expect(goToRouteMock).toBeCalledWith(null, { fileid: 1, view: 'files' }, { dir: '/Foo/Bar' })
+		expect(goToRouteMock).toBeCalledWith(null, { fileid: '1', view: 'files' }, { dir: '/Foo/Bar' })
 	})
 
 	test('View in folder fails without node', async () => {
