@@ -81,7 +81,7 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 		// Check if file is not already shared with the given email,
 		// if we have an email at all.
 		$alreadyShared = $this->getSharedWith($shareWith, IShare::TYPE_EMAIL, $share->getNode(), 1, 0);
-		if ($shareWith !== '' && !empty($alreadyShared)){
+		if ($shareWith !== '' && !empty($alreadyShared)) {
 			$message = 'Sharing %1$s failed, because this item is already shared with the account %2$s';
 			$message_t = $this->l->t('Sharing %1$s failed, because this item is already shared with the account %2$s', [$share->getNode()->getName(), $shareWith]);
 			$this->logger->debug(sprintf($message, $share->getNode()->getName(), $shareWith), ['app' => 'Federated File Sharing']);
@@ -238,12 +238,12 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 		$shareId = $share->getId();
 
 		$emails = $this->getSharedWithEmails($share);
-		$validEmails = array_filter($emails, function ($email) {
+		$validEmails = array_filter($emails, function (string $email) {
 			return $this->mailer->validateMailAddress($email);
 		});
 
 		if (count($validEmails) === 0) {
-			$this->removeShareFromTable($shareId);
+			$this->removeShareFromTable((int)$shareId);
 			$e = new HintException('Failed to send share by mail. Could not find a valid email address: ' . join(', ', $emails),
 				$this->l->t('Failed to send share by email. Got an invalid email address'));
 			$this->logger->error('Failed to send share by mail. Could not find a valid email address ' . join(', ', $emails), [
@@ -256,7 +256,7 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 			$this->sendEmail($share, $validEmails);
 
 			// If we have a password set, we send it to the recipient
-			if ($share->getPassword()) {
+			if ($share->getPassword() !== null) {
 				// Sends share password to receiver when it's a permanent one (otherwise she will have to request it via the showShare UI)
 				// or to owner when the password shall be given during a Talk session
 				$passwordExpire = $this->config->getSystemValue('sharing.enable_mail_link_password_expiration', false);
@@ -275,14 +275,14 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 				'app' => 'sharebymail',
 				'exception' => $hintException,
 			]);
-			$this->removeShareFromTable($shareId);
+			$this->removeShareFromTable((int)$shareId);
 			throw $hintException;
 		} catch (\Exception $e) {
 			$this->logger->error('Failed to send share by mail.', [
 				'app' => 'sharebymail',
 				'exception' => $e,
 			]);
-			$this->removeShareFromTable($shareId);
+			$this->removeShareFromTable((int)$shareId);
 			throw new HintException('Failed to send share by mail',
 				$this->l->t('Failed to send share by email'));
 		}
@@ -381,13 +381,13 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 	 *  1. the password is empty
 	 *  2. the setting to send the password by mail is disabled
 	 *  3. the share is set to send the password by talk
-	 * 
+	 *
 	 * @param IShare $share
 	 * @param string $password
 	 * @param array $emails
 	 * @return bool
 	 */
-	protected function sendPassword(IShare $share, string $password, array $emails) {
+	protected function sendPassword(IShare $share, string $password, array $emails): bool {
 		$filename = $share->getNode()->getName();
 		$initiator = $share->getSharedBy();
 		$shareWith = $share->getSharedWith();
@@ -463,10 +463,11 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 		$failedRecipients = $this->mailer->send($message);
 		if (!empty($failedRecipients)) {
 			$this->logger->error('Share password mail could not be sent to: ' . implode(', ', $failedRecipients));
-			return;
+			return false;
 		}
 
 		$this->createPasswordSendActivity($share, $shareWith, false);
+		return true;
 	}
 
 	protected function sendNote(IShare $share): void {
@@ -1179,8 +1180,10 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 	 * Extract the emails from the share
 	 * It can be a single email, from the share_with field
 	 * or a list of emails from the emails attributes field.
+	 * @param IShare $share
+	 * @return string[]
 	 */
-	protected function getSharedWithEmails(IShare $share) {
+	protected function getSharedWithEmails(IShare $share): array {
 		$attributes = $share->getAttributes();
 
 		if ($attributes === null) {

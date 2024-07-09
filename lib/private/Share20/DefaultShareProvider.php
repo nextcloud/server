@@ -53,7 +53,8 @@ class DefaultShareProvider implements IShareProviderWithNotification {
 		private IURLGenerator $urlGenerator,
 		private ITimeFactory $timeFactory,
 		private LoggerInterface $logger,
-	) {}
+	) {
+	}
 
 	/**
 	 * Return the identifier of this provider.

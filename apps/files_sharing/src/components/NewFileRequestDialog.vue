@@ -252,7 +252,7 @@ export default defineComponent({
 			const expireDate = this.deadline ? this.deadline.toISOString().split('T')[0] : undefined
 			const shareUrl = generateOcsUrl('apps/files_sharing/api/v1/shares')
 			try {
-				const request = await axios.post(shareUrl, {
+				const request = await axios.post<OCSResponse>(shareUrl, {
 					shareType: Type.SHARE_TYPE_EMAIL,
 					permissions: Permission.CREATE,
 	
@@ -269,7 +269,7 @@ export default defineComponent({
 						value: true,
 						key: 'enabled',
 						scope: 'fileRequest',
-					}])
+					}]),
 				})
 
 				// If not an ocs request
@@ -310,12 +310,12 @@ export default defineComponent({
 			const shareUrl = generateOcsUrl('apps/files_sharing/api/v1/shares/' + this.share.id)
 			try {
 				// Convert link share to email share
-				const request = await axios.put(shareUrl, {
+				const request = await axios.put<OCSResponse>(shareUrl, {
 					attributes: JSON.stringify([{
 						value: this.emails,
 						key: 'emails',
 						scope: 'shareWith',
-					}])
+					}]),
 				})
 
 				// If not an ocs request
@@ -341,7 +341,7 @@ export default defineComponent({
 			const shareUrl = generateOcsUrl('apps/files_sharing/api/v1/shares/' + this.share.id + '/send-email')
 			try {
 				// Convert link share to email share
-				const request = await axios.post(shareUrl, {
+				const request = await axios.post<OCSResponse>(shareUrl, {
 					password: this.password || undefined,
 				})
 

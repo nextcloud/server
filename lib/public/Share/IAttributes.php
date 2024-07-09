@@ -21,7 +21,7 @@ interface IAttributes {
 	 * @return IAttributes The modified object
 	 * @since 25.0.0
 	 */
-	public function setAttribute($scope, $key, $enabled);
+	public function setAttribute($scope, $key, $value);
 
 	/**
 	 * Returns if attribute is enabled/disabled for given scope id and key.

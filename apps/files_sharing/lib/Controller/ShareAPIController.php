@@ -12,15 +12,16 @@ namespace OCA\Files_Sharing\Controller;
 use Exception;
 use OC\Files\FileInfo;
 use OC\Files\Storage\Wrapper\Wrapper;
+use OCA\Files\Helper;
 use OCA\Files_Sharing\Exceptions\SharingRightsException;
 use OCA\Files_Sharing\External\Storage;
+use OCA\Files_Sharing\ResponseDefinitions;
 use OCA\Files_Sharing\SharedStorage;
-use OCA\Files\Helper;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http\Attribute\BruteForceProtection;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
+use OCP\AppFramework\Http\Attribute\UserRateLimit;
 use OCP\AppFramework\Http\DataResponse;
-use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\OCS\OCSBadRequestException;
 use OCP\AppFramework\OCS\OCSException;
 use OCP\AppFramework\OCS\OCSForbiddenException;
@@ -523,6 +524,7 @@ class ShareAPIController extends OCSController {
 	 * @param string $note Note for the share
 	 * @param string $label Label for the share (only used in link and email)
 	 * @param string|null $attributes Additional attributes for the share
+	 * @param 'false'|'true'|null $sendMail Send a mail to the recipient
 	 *
 	 * @return DataResponse<Http::STATUS_OK, Files_SharingShare, array{}>
 	 * @throws OCSBadRequestException Unknown share type
@@ -545,7 +547,7 @@ class ShareAPIController extends OCSController {
 		string $note = '',
 		string $label = '',
 		?string $attributes = null,
-		?string $mailSend = null
+		?string $sendMail = null
 	): DataResponse {
 		$share = $this->shareManager->newShare();
 
@@ -636,8 +638,8 @@ class ShareAPIController extends OCSController {
 		$this->checkInheritedAttributes($share);
 
 		// Handle mail send
-		if ($mailSend === 'true' || $mailSend === 'false') {
-			$share->setMailSend($mailSend === 'true');
+		if ($sendMail === 'true' || $sendMail === 'false') {
+			$share->setMailSend($sendMail === 'true');
 		}
 
 		if ($shareType === IShare::TYPE_USER) {
@@ -1132,7 +1134,7 @@ class ShareAPIController extends OCSController {
 	 * @param string|null $label New label
 	 * @param string|null $hideDownload New condition if the download should be hidden
 	 * @param string|null $attributes New additional attributes
-	 * @param string|null $mailSend if the share should be send by mail.
+	 * @param string|null $sendMail if the share should be send by mail.
 	 *                    Considering the share already exists, no mail will be send after the share is updated.
 	 *  				  You will have to use the sendMail action to send the mail.
 	 * @param string|null $shareWith New recipient for email shares
@@ -1154,7 +1156,7 @@ class ShareAPIController extends OCSController {
 		?string $label = null,
 		?string $hideDownload = null,
 		?string $attributes = null,
-		?string $mailSend = null,
+		?string $sendMail = null,
 	): DataResponse {
 		try {
 			$share = $this->getShareById($id);
@@ -1182,7 +1184,7 @@ class ShareAPIController extends OCSController {
 			$label === null &&
 			$hideDownload === null &&
 			$attributes === null &&
-			$mailSend === null
+			$sendMail === null
 		) {
 			throw new OCSBadRequestException($this->l->t('Wrong or no update parameter given'));
 		}
@@ -1197,8 +1199,8 @@ class ShareAPIController extends OCSController {
 		$this->checkInheritedAttributes($share);
 
 		// Handle mail send
-		if ($mailSend === 'true' || $mailSend === 'false') {
-			$share->setMailSend($mailSend === 'true');
+		if ($sendMail === 'true' || $sendMail === 'false') {
+			$share->setMailSend($sendMail === 'true');
 		}
 
 		/**
@@ -2061,13 +2063,14 @@ class ShareAPIController extends OCSController {
 	}
 
 	/**
+	 * Send a mail notification again for a share.
+	 * The mail_send option must be enabled for the given share.
 	 * @param string $id
-	 * @param string[] $emails a list of emails to send the notification to
-	 * @return void
+	 * @param string $password optional, the password to check against. Necessary for password protected shares.
 	 */
 	#[NoAdminRequired]
-	#[BruteForceProtection(action: 'sendShareEmail')]
-	public function sendShareEmail(string $id, $password = '') {
+	#[UserRateLimit(limit: 5, period: 120)]
+	public function sendShareEmail(string $id, $password = ''): DataResponse {
 		try {
 			$share = $this->getShareById($id);
 
@@ -2082,7 +2085,7 @@ class ShareAPIController extends OCSController {
 			// For mail and link shares, the user must be
 			// the owner of the share, not only the file owner.
 			if ($share->getShareType() === IShare::TYPE_EMAIL
-				|| $share->getShareType() === IShare::TYPE_LINK){
+				|| $share->getShareType() === IShare::TYPE_LINK) {
 				if ($share->getSharedBy() !== $this->currentUser) {
 					throw new OCSForbiddenException('You are not allowed to send mail notifications');
 				}
@@ -2099,7 +2102,7 @@ class ShareAPIController extends OCSController {
 				// the password clear, it is just a temporary
 				// object manipulation. The password will stay
 				// encrypted in the database.
-				if ($share->getPassword() && $share->getPassword() !== $password) {
+				if ($share->getPassword() !== null && $share->getPassword() !== $password) {
 					if (!$this->shareManager->checkPassword($share, $password)) {
 						throw new OCSBadRequestException($this->l->t('Wrong password'));
 					}

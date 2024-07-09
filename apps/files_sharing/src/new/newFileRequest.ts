@@ -16,7 +16,7 @@ export const entry = {
 	iconSvgInline: FileUploadSvg,
 	order: 30,
 	enabled(): boolean {
-		// determine requirements
+		// TODO: determine requirements
 		// 1. user can share the root folder
 		// 2. OR user can create subfolders ?
 		return true
