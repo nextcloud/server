@@ -16,3 +16,6 @@
 [submodule "apps-custom/simplesettings"]
 	path = apps-custom/simplesettings
 	url = git@github.com:IONOS-Productivity/nc-simplesettings.git
+[submodule "apps-external/user_oidc"]
+	path = apps-external/user_oidc
+	url = https://github.com/nextcloud/user_oidc.git
