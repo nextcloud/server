@@ -74,7 +74,7 @@ class ListFiles extends Base {
 	private function getNodeInfo(Node $node): array {
 		$nodeInfo = [
 			"name" => $node->getName(),
-			"size" => $node->getSize() . " bytes",
+			"size" => \OCP\Util::humanFileSize($node->getSize()),
 			"perm" => $node->getPermissions(),
 			"owner" => $node->getOwner()?->getDisplayName(),
 			"created-at" => $node->getCreationTime(),
@@ -105,7 +105,7 @@ class ListFiles extends Base {
 				$fileNode = $file;
 				$includeType = $includeMin = $includeMax = true;
 				$nodeInfo = $this->getNodeInfo($fileNode);
-				if ($type !== "" && $type !== $nodeInfo['type']) {
+				if ($type != "" && $type !== $nodeInfo['type']) {
 					$includeType = false;
 				}
 				if ($minSize > 0) {
@@ -152,11 +152,8 @@ class ListFiles extends Base {
 		OutputInterface $output
 	): int {
 		$inputPath = $input->getArgument("path");
-		$user = '';
-		if ($inputPath) {
-			$inputPath = ltrim($inputPath, "path=");
-			[, $user] = explode("/", rtrim($inputPath, "/").'/', 4);
-		}
+		$inputPath = ltrim($inputPath, "path=");
+		[, $user] = explode("/", rtrim($inputPath, "/").'/', 4);
 
 		$this->initTools($output);
 
@@ -245,56 +242,47 @@ class ListFiles extends Base {
 		InputInterface $input,
 		OutputInterface $output
 	): void {
-		$headers = [
-			"Permission",
-			"Size",
-			"Owner",
-			"Created at",
-			"Filename",
-			"Type",
-		];
 		$rows = [];
 		$fileInfo = $this->fileInfo[0] ?? [];
 		$sortKey = array_key_exists($input->getOption("sort"), $fileInfo)
 			? $input->getOption("sort")
-			: "name";
+			: "";
 		$order = $input->getOption("order") == "ASC" ? SORT_ASC : SORT_DESC;
 		$fileArr = array_column($this->fileInfo, $sortKey);
 		$dirArr = array_column($this->dirInfo, $sortKey);
-		array_multisort(
-			$fileArr,
-			$order,
-			$this->fileInfo
-		);
-		array_multisort(
-			$dirArr,
-			$order,
-			$this->dirInfo
-		);
-
+		if($sortKey != '') {
+			array_multisort(
+				$fileArr,
+				$order,
+				$this->fileInfo
+			);
+			array_multisort(
+				$dirArr,
+				$order,
+				$this->dirInfo
+			);
+		}
 		foreach ($this->fileInfo as $k => $item) {
 			$rows[$k] = [
-				$item["perm"],
-				$item["size"],
-				$item["owner"],
-				$item["created-at"],
-				$item["name"],
-				$item["type"],
+				"Permission" => $item["perm"],
+				"Size" => $item["size"],
+				"Owner" => $item["owner"],
+				"Created at" => $item["created-at"],
+				"Filename" => $item["name"],
+				"Type" => $item["type"],
 			];
 		}
 		foreach ($this->dirInfo as $k => $item) {
 			$rows[] = [
-				$item["perm"],
-				$item["size"],
-				$item["owner"],
-				$item["created-at"],
-				$item["name"],
-				$item["type"],
+				"Permission" => $item["perm"],
+				"Size" => $item["size"],
+				"Owner" => $item["owner"],
+				"Created at" => $item["created-at"],
+				"Filename" => $item["name"],
+				"Type" => $item["type"],
 			];
 		}
 
-		$table = new Table($output);
-		$table->setHeaders($headers)->setRows($rows);
-		$table->render();
+		$this->writeTableInOutputFormat($input, $output, $rows);
 	}
 }
