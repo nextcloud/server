@@ -4,7 +4,8 @@
  */
 import { User } from '@nextcloud/cypress'
 
-import { defaultPrimary, defaultBackground, pickRandomColor, validateBodyThemingCss } from './themingUtils'
+import { defaultPrimary, defaultBackground, validateBodyThemingCss } from './themingUtils'
+import { NavigationHeader } from '../../pages/NavigationHeader'
 
 const admin = new User('admin', 'admin')
 
@@ -122,6 +123,8 @@ describe('User select a custom color', function() {
 })
 
 describe('User select a bright custom color and remove background', function() {
+	const navigationHeader = new NavigationHeader()
+
 	before(function() {
 		cy.createRandomUser().then((user: User) => {
 			cy.login(user)
@@ -159,12 +162,12 @@ describe('User select a bright custom color and remove background', function() {
 	})
 
 	it('See the header being inverted', function() {
-		cy.waitUntil(() => cy.window().then((win) => {
-			const firstEntry = win.document.querySelector('.app-menu-main li img')
-			if (!firstEntry) {
-				return false
-			}
-			return getComputedStyle(firstEntry).filter === 'invert(1)'
+		cy.waitUntil(() => navigationHeader.getNavigationEntries().find('img').then((el) => {
+			let ret = true
+			el.each(function() {
+				ret = ret && window.getComputedStyle(this).filter === 'invert(1)'
+			})
+			return ret
 		}))
 	})
 
@@ -181,12 +184,12 @@ describe('User select a bright custom color and remove background', function() {
 	})
 
 	it('See the header NOT being inverted this time', function() {
-		cy.waitUntil(() => cy.window().then((win) => {
-			const firstEntry = win.document.querySelector('.app-menu-main li')
-			if (!firstEntry) {
-				return false
-			}
-			return getComputedStyle(firstEntry).filter === 'none'
+		cy.waitUntil(() => navigationHeader.getNavigationEntries().find('img').then((el) => {
+			let ret = true
+			el.each(function() {
+				ret = ret && window.getComputedStyle(this).filter === 'none'
+			})
+			return ret
 		}))
 	})
 })
