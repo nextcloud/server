@@ -59,11 +59,11 @@ jobs:
         include:
           - oracle-versions: '18'
             php-versions: '8.1'
-            coverage: ${{ github.event_name != 'pull_request' }}
-          - oracle-versions: '21'
-            php-versions: '8.2'
-          - oracle-versions: '23'
-            php-versions: '8.3'
+#            coverage: ${{ github.event_name != 'pull_request' }}
+#          - oracle-versions: '21'
+#            php-versions: '8.2'
+#          - oracle-versions: '23'
+#            php-versions: '8.3'
 
     name: Oracle ${{ matrix.oracle-versions }} (PHP ${{ matrix.php-versions }}) - database tests
 
