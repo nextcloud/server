@@ -12,12 +12,10 @@ namespace OCA\Files_Sharing\Controller;
 use Exception;
 use OC\Files\FileInfo;
 use OC\Files\Storage\Wrapper\Wrapper;
-use OC\Share20\Exception\ProviderException;
 use OCA\Files_Sharing\Exceptions\SharingRightsException;
 use OCA\Files_Sharing\External\Storage;
 use OCA\Files_Sharing\SharedStorage;
 use OCA\Files\Helper;
-use OCA\ShareByMail\ShareByMailProvider;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http\Attribute\BruteForceProtection;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
@@ -45,6 +43,7 @@ use OCP\IURLGenerator;
 use OCP\IUserManager;
 use OCP\Lock\ILockingProvider;
 use OCP\Lock\LockedException;
+use OCP\Mail\IMailer;
 use OCP\Server;
 use OCP\Share\Exceptions\GenericShareException;
 use OCP\Share\Exceptions\ShareNotFound;
@@ -87,6 +86,7 @@ class ShareAPIController extends OCSController {
 		private IDateTimeZone $dateTimeZone,
 		private LoggerInterface $logger,
 		private IProviderFactory $factory,
+		private IMailer $mailer,
 		?string $userId = null
 	) {
 		parent::__construct($appName, $request);
@@ -544,7 +544,8 @@ class ShareAPIController extends OCSController {
 		?string $expireDate = null,
 		string $note = '',
 		string $label = '',
-		?string $attributes = null
+		?string $attributes = null,
+		?string $mailSend = null
 	): DataResponse {
 		$share = $this->shareManager->newShare();
 
@@ -615,7 +616,7 @@ class ShareAPIController extends OCSController {
 			$share = $this->setShareAttributes($share, $attributes);
 		}
 
-		//Expire date
+		// Expire date
 		if ($expireDate !== null) {
 			if ($expireDate !== '') {
 				try {
@@ -633,6 +634,11 @@ class ShareAPIController extends OCSController {
 
 		$share->setSharedBy($this->currentUser);
 		$this->checkInheritedAttributes($share);
+
+		// Handle mail send
+		if ($mailSend === 'true' || $mailSend === 'false') {
+			$share->setMailSend($mailSend === 'true');
+		}
 
 		if ($shareType === IShare::TYPE_USER) {
 			// Valid user is required to share
@@ -691,6 +697,10 @@ class ShareAPIController extends OCSController {
 
 			// Only share by mail have a recipient
 			if (is_string($shareWith) && $shareType === IShare::TYPE_EMAIL) {
+				// If sending a mail have been requested, validate the mail address
+				if ($share->getMailSend() && !$this->mailer->validateMailAddress($shareWith)) {
+					throw new OCSNotFoundException($this->l->t('Please specify a valid email address'));
+				}
 				$share->setSharedWith($shareWith);
 			}
 
@@ -1031,7 +1041,6 @@ class ShareAPIController extends OCSController {
 	 * 200: Shares returned
 	 */
 	public function getInheritedShares(string $path): DataResponse {
-
 		// get Node from (string) path.
 		$userFolder = $this->rootFolder->getUserFolder($this->currentUser);
 		try {
@@ -1123,6 +1132,10 @@ class ShareAPIController extends OCSController {
 	 * @param string|null $label New label
 	 * @param string|null $hideDownload New condition if the download should be hidden
 	 * @param string|null $attributes New additional attributes
+	 * @param string|null $mailSend if the share should be send by mail.
+	 *                    Considering the share already exists, no mail will be send after the share is updated.
+	 *  				  You will have to use the sendMail action to send the mail.
+	 * @param string|null $shareWith New recipient for email shares
 	 * @return DataResponse<Http::STATUS_OK, Files_SharingShare, array{}>
 	 * @throws OCSBadRequestException Share could not be updated because the requested changes are invalid
 	 * @throws OCSForbiddenException Missing permissions to update the share
@@ -1140,7 +1153,8 @@ class ShareAPIController extends OCSController {
 		?string $note = null,
 		?string $label = null,
 		?string $hideDownload = null,
-		?string $attributes = null
+		?string $attributes = null,
+		?string $mailSend = null,
 	): DataResponse {
 		try {
 			$share = $this->getShareById($id);
@@ -1167,7 +1181,8 @@ class ShareAPIController extends OCSController {
 			$note === null &&
 			$label === null &&
 			$hideDownload === null &&
-			$attributes === null
+			$attributes === null &&
+			$mailSend === null
 		) {
 			throw new OCSBadRequestException($this->l->t('Wrong or no update parameter given'));
 		}
@@ -1180,6 +1195,11 @@ class ShareAPIController extends OCSController {
 			$share = $this->setShareAttributes($share, $attributes);
 		}
 		$this->checkInheritedAttributes($share);
+
+		// Handle mail send
+		if ($mailSend === 'true' || $mailSend === 'false') {
+			$share->setMailSend($mailSend === 'true');
+		}
 
 		/**
 		 * expirationdate, password and publicUpload only make sense for link shares
@@ -1987,7 +2007,7 @@ class ShareAPIController extends OCSController {
 			if (is_array($formattedShareAttributes)) {
 				foreach ($formattedShareAttributes as $formattedAttr) {
 					// Legacy handling of the 'enabled' attribute
-					if ($formattedAttr['enabled']) {
+					if (array_key_exists('enabled', $formattedAttr)) {
 						$formattedAttr['value'] = is_string($formattedAttr['enabled'])
 							? (bool) \json_decode($formattedAttr['enabled'])
 							: $formattedAttr['enabled'];
@@ -2087,7 +2107,7 @@ class ShareAPIController extends OCSController {
 				}
 
 				$provider->sendMailNotification($share);
-				return new JSONResponse(['message' => 'ok']);
+				return new DataResponse(['message' => 'ok']);
 			} catch(OCSBadRequestException $e) {
 				throw $e;
 			} catch (Exception $e) {
