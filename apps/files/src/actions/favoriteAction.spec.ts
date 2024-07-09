@@ -20,7 +20,8 @@ const favoriteView = {
 	name: 'Favorites',
 } as View
 
-global.window.OC = {
+window.OC = {
+	...window.OC,
 	TAG_FAVORITE: '_$!<Favorite>!$_',
 }
 

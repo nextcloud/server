@@ -74,6 +74,7 @@ describe('Open in files action enabled tests', () => {
 describe('Open in files action execute tests', () => {
 	test('Open in files', async () => {
 		const goToRouteMock = jest.fn()
+		// @ts-expect-error We only mock what needed, we do not need Files.Router.goTo or Files.Navigation
 		window.OCP = { Files: { Router: { goToRoute: goToRouteMock } } }
 
 		const storage = new Folder({
@@ -98,6 +99,7 @@ describe('Open in files action execute tests', () => {
 
 	test('Open in files broken storage', async () => {
 		const confirmMock = jest.fn()
+		// @ts-expect-error We only mock what is needed
 		window.OC = { dialogs: { confirm: confirmMock } }
 
 		const storage = new Folder({

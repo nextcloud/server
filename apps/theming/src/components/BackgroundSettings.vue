@@ -96,7 +96,7 @@ const shippedBackgroundList = loadState('theming', 'shippedBackgrounds')
 const backgroundImage = loadState('theming', 'userBackgroundImage')
 const {
 	backgroundImage: defaultBackgroundImage,
-	backgroundColor: defaultBackgroundColor,
+	// backgroundColor: defaultBackgroundColor,
 	backgroundMime: defaultBackgroundMime,
 	defaultShippedBackground,
 } = loadState('theming', 'themingDefaults')

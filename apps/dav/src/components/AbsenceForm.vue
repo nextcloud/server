@@ -26,8 +26,7 @@
 			:clear-search-on-blur="() => false"
 			:user-select="true"
 			:options="options"
-			@search="asyncFind"
-			>
+			@search="asyncFind">
 			<template #no-options="{ search }">
 				{{ search ?$t('dav', 'No results.') : $t('dav', 'Start typing.') }}
 			</template>
@@ -51,21 +50,21 @@
 </template>
 
 <script>
+import { getCurrentUser } from '@nextcloud/auth'
+import { showError, showSuccess } from '@nextcloud/dialogs'
+import { loadState } from '@nextcloud/initial-state'
+import { generateOcsUrl } from '@nextcloud/router'
+import { ShareType } from '@nextcloud/sharing'
+import { formatDateAsYMD } from '../utils/date.js'
+import axios from '@nextcloud/axios'
+import debounce from 'debounce'
+import logger from '../service/logger.js'
+
 import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 import NcTextField from '@nextcloud/vue/dist/Components/NcTextField.js'
 import NcTextArea from '@nextcloud/vue/dist/Components/NcTextArea.js'
 import NcSelect from '@nextcloud/vue/dist/Components/NcSelect.js'
 import NcDateTimePickerNative from '@nextcloud/vue/dist/Components/NcDateTimePickerNative.js'
-import { generateOcsUrl } from '@nextcloud/router'
-import { getCurrentUser } from '@nextcloud/auth'
-import debounce from 'debounce'
-import axios from '@nextcloud/axios'
-import { formatDateAsYMD } from '../utils/date.js'
-import { loadState } from '@nextcloud/initial-state'
-import { showError, showSuccess } from '@nextcloud/dialogs'
-import { Type as ShareTypes } from '@nextcloud/sharing'
-
-import logger from '../service/logger.js'
 
 export default {
 	name: 'AbsenceForm',
@@ -74,17 +73,17 @@ export default {
 		NcTextField,
 		NcTextArea,
 		NcDateTimePickerNative,
-		NcSelect
+		NcSelect,
 	},
 	data() {
-		const { firstDay, lastDay, status, message ,replacementUserId ,replacementUserDisplayName } = loadState('dav', 'absence', {})
+		const { firstDay, lastDay, status, message, replacementUserId, replacementUserDisplayName } = loadState('dav', 'absence', {})
 		return {
 			loading: false,
 			status: status ?? '',
 			message: message ?? '',
 			firstDay: firstDay ? new Date(firstDay) : new Date(),
 			lastDay: lastDay ? new Date(lastDay) : null,
-			replacementUserId: replacementUserId ,
+			replacementUserId,
 			replacementUser: replacementUserId ? { user: replacementUserId, displayName: replacementUserDisplayName } : null,
 			searchLoading: false,
 			options: [],
@@ -126,10 +125,10 @@ export default {
 			return {
 				user: result.uuid || result.value.shareWith,
 				displayName: result.name || result.label,
-				subtitle: result.dsc | ''
+				subtitle: result.dsc | '',
 			}
 		},
-	
+
 		async asyncFind(query) {
 			this.searchLoading = true
 			await this.debounceGetSuggestions(query.trim())
@@ -142,7 +141,7 @@ export default {
 		 async getSuggestions(search) {
 
 			const shareType = [
-				ShareTypes.SHARE_TYPE_USER,
+				ShareType.SHARE_TYPE_USER,
 			]
 
 			let request = null

@@ -101,6 +101,7 @@ describe('Open folder action enabled tests', () => {
 describe('Open folder action execute tests', () => {
 	test('Open folder', async () => {
 		const goToRouteMock = jest.fn()
+		// @ts-expect-error We only mock what needed, we do not need Files.Router.goTo or Files.Navigation
 		window.OCP = { Files: { Router: { goToRoute: goToRouteMock } } }
 
 		const folder = new Folder({
@@ -114,11 +115,12 @@ describe('Open folder action execute tests', () => {
 		// Silent action
 		expect(exec).toBe(null)
 		expect(goToRouteMock).toBeCalledTimes(1)
-		expect(goToRouteMock).toBeCalledWith(null, { fileid: 1, view: 'files' }, { dir: '/FooBar' })
+		expect(goToRouteMock).toBeCalledWith(null, { fileid: '1', view: 'files' }, { dir: '/FooBar' })
 	})
 
 	test('Open folder fails without node', async () => {
 		const goToRouteMock = jest.fn()
+		// @ts-expect-error We only mock what needed, we do not need Files.Router.goTo or Files.Navigation
 		window.OCP = { Files: { Router: { goToRoute: goToRouteMock } } }
 
 		const exec = await action.exec(null as unknown as Node, view, '/')
@@ -128,6 +130,7 @@ describe('Open folder action execute tests', () => {
 
 	test('Open folder fails without Folder', async () => {
 		const goToRouteMock = jest.fn()
+		// @ts-expect-error We only mock what needed, we do not need Files.Router.goTo or Files.Navigation
 		window.OCP = { Files: { Router: { goToRoute: goToRouteMock } } }
 
 		const file = new File({

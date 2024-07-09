@@ -62,6 +62,10 @@ interface RecycledPoolItem {
 	item: Node,
 }
 
+type DataSource = File | Folder
+
+type DataSourceKey = keyof DataSource
+
 export default Vue.extend({
 	name: 'VirtualList',
 
@@ -73,11 +77,11 @@ export default Vue.extend({
 			required: true,
 		},
 		dataKey: {
-			type: String,
+			type: String as PropType<DataSourceKey>,
 			required: true,
 		},
 		dataSources: {
-			type: Array as PropType<(File | Folder)[]>,
+			type: Array as PropType<DataSource[]>,
 			required: true,
 		},
 		extraProps: {
@@ -260,7 +264,7 @@ export default Vue.extend({
 		// Adding scroll listener AFTER the initial scroll to index
 		this.$el.addEventListener('scroll', this.onScroll, { passive: true })
 
-		this.$_recycledPool = {} as Record<string, any>
+		this.$_recycledPool = {} as Record<string, DataSource[DataSourceKey]>
 	},
 
 	beforeDestroy() {

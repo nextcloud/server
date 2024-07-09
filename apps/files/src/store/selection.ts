@@ -16,6 +16,7 @@ export const useSelectionStore = defineStore('selection', {
 	actions: {
 		/**
 		 * Set the selection of fileIds
+		 * @param selection
 		 */
 		set(selection = [] as FileSource[]) {
 			Vue.set(this, 'selected', [...new Set(selection)])
@@ -23,6 +24,7 @@ export const useSelectionStore = defineStore('selection', {
 
 		/**
 		 * Set the last selected index
+		 * @param lastSelectedIndex
 		 */
 		setLastIndex(lastSelectedIndex = null as number | null) {
 			// Update the last selection if we provided a new selection starting point

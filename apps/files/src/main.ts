@@ -19,9 +19,10 @@ __webpack_nonce__ = btoa(getRequestToken())
 
 declare global {
 	interface Window {
-		OC: any;
-		OCA: any;
-		OCP: any;
+		OC: Nextcloud.v29.OC
+		OCP: Nextcloud.v29.OCP
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
+		OCA: Record<string, any>
 	}
 }
 

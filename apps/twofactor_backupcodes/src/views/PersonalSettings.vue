@@ -49,8 +49,9 @@
 
 <script>
 import { confirmPassword } from '@nextcloud/password-confirmation'
-import '@nextcloud/password-confirmation/dist/style.css'
 import { print } from '../service/PrintService.js'
+
+import '@nextcloud/password-confirmation/dist/style.css'
 
 export default {
 	name: 'PersonalSettings',
@@ -97,7 +98,7 @@ export default {
 				// Hide old codes
 				this.generatingCodes = true
 
-				this.$store.dispatch('generate').then(data => {
+				this.$store.dispatch('generate').then(() => {
 					this.generatingCodes = false
 				}).catch(err => {
 					OC.Notification.showTemporary(t('twofactor_backupcodes', 'An error occurred while generating your backup codes'))

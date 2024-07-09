@@ -45,12 +45,13 @@ export const parseIdFromLocation = (url: string): number => {
 }
 
 export const formatTag = (initialTag: Tag | ServerTag): ServerTag => {
-	const tag: any = { ...initialTag }
-	if (tag.name && !tag.displayName) {
-		return tag
+	if ('name' in initialTag && !('displayName' in initialTag)) {
+		return { ...initialTag }
 	}
+
+	const tag: Record<string, unknown> = { ...initialTag }
 	tag.name = tag.displayName
 	delete tag.displayName
 
-	return tag
+	return tag as unknown as ServerTag
 }
