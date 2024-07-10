@@ -87,8 +87,8 @@
     "dockerode": "^4.0.2",
     "eslint-plugin-cypress": "^2.15.1",
     "ts-node": "^10.9.2",
-    "tslib": "^2.6.2",
-    "typescript": "^5.4.3",
+    "tslib": "^2.6.3",
+    "typescript": "^5.5.3",
     "vite": "^5.2.4",
     "wait-on": "^7.2.0"
   }
