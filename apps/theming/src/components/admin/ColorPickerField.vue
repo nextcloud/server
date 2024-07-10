@@ -57,7 +57,8 @@
 </template>
 
 <script>
-import { debounce } from 'debounce'
+import debounce from 'debounce'
+
 import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 import NcColorPicker from '@nextcloud/vue/dist/Components/NcColorPicker.js'
 import NcNoteCard from '@nextcloud/vue/dist/Components/NcNoteCard.js'

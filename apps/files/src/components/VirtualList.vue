@@ -47,7 +47,7 @@
 import type { File, Folder, Node } from '@nextcloud/files'
 import type { PropType } from 'vue'
 
-import { debounce } from 'debounce'
+import debounce from 'debounce'
 import Vue from 'vue'
 
 import filesListWidthMixin from '../mixins/filesListWidth.ts'
