@@ -40,7 +40,15 @@ class Imaginary extends ProviderV2 {
 	}
 
 	public static function supportedMimeTypes(): string {
-		return '/(image\/(bmp|x-bitmap|png|jpeg|gif|heic|heif|svg\+xml|tiff|webp)|application\/(pdf|illustrator))/';
+		$config = \OC::$server->getConfig();
+		// Check if processing of documents is enabled
+		$processDocuments = $config->getSystemValueBool('imaginary_process_documents', false);
+
+		if ($processDocuments) {
+			return '/(image\/(bmp|x-bitmap|png|jpeg|gif|heic|heif|svg\+xml|tiff|webp)|application\/(pdf|illustrator))/';
+		} else {
+			return '/(image\/(bmp|x-bitmap|png|jpeg|gif|heic|heif|svg\+xml|tiff|webp))/';
+		}
 	}
 
 	public function getCroppedThumbnail(File $file, int $maxX, int $maxY, bool $crop): ?IImage {
@@ -81,8 +89,17 @@ class Imaginary extends ProviderV2 {
 				$mimeType = 'png';
 				break;
 			case 'image/svg+xml':
+				$convert = true;
+				// Converted files do not need to be autorotated
+				$autorotate = false;
+				$mimeType = 'png';
+				break;
 			case 'application/pdf':
 			case 'application/illustrator':
+				// Check if processing of documents is enabled
+				if (!$this->config->getSystemValueBool('imaginary_process_documents', false)) {
+					return null;
+				}
 				$convert = true;
 				// Converted files do not need to be autorotated
 				$autorotate = false;
