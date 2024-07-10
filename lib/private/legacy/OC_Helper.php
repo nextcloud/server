@@ -6,6 +6,7 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 use bantu\IniGetWrapper\IniGetWrapper;
+use OC\Files\FilenameValidator;
 use OC\Files\Filesystem;
 use OCP\Files\Mount\IMountPoint;
 use OCP\IBinaryFinder;
@@ -126,8 +127,11 @@ class OC_Helper {
 					self::copyr("$src/$file", "$dest/$file");
 				}
 			}
-		} elseif (file_exists($src) && !\OC\Files\Filesystem::isFileBlacklisted($src)) {
-			copy($src, $dest);
+		} elseif (file_exists($src)) {
+			$validator = \OCP\Server::get(FilenameValidator::class);
+			if (!$validator->isForbidden(\basename($src))) {
+				copy($src, $dest);
+			}
 		}
 	}
 
@@ -499,7 +503,7 @@ class OC_Helper {
 
 		// TODO: need a better way to get total space from storage
 		if ($sourceStorage->instanceOfStorage('\OC\Files\Storage\Wrapper\Quota')) {
-			/** @var \OC\Files\Storage\Wrapper\Quota $storage */
+			/** @var \OC\Files\Storage\Wrapper\Quota $sourceStorage */
 			$quota = $sourceStorage->getQuota();
 		}
 		try {

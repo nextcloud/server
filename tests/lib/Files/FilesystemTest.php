@@ -258,28 +258,6 @@ class FilesystemTest extends \Test\TestCase {
 		$this->assertSame($expected, \OC\Files\Filesystem::isValidPath($path));
 	}
 
-	public function isFileBlacklistedData() {
-		return [
-			['/etc/foo/bar/foo.txt', false],
-			['\etc\foo/bar\foo.txt', false],
-			['.htaccess', true],
-			['.htaccess/', true],
-			['.htaccess\\', true],
-			['/etc/foo\bar/.htaccess\\', true],
-			['/etc/foo\bar/.htaccess/', true],
-			['/etc/foo\bar/.htaccess/foo', false],
-			['//foo//bar/\.htaccess/', true],
-			['\foo\bar\.HTAccess', true],
-		];
-	}
-
-	/**
-	 * @dataProvider isFileBlacklistedData
-	 */
-	public function testIsFileBlacklisted($path, $expected) {
-		$this->assertSame($expected, \OC\Files\Filesystem::isFileBlacklisted($path));
-	}
-
 	public function testNormalizePathUTF8() {
 		if (!class_exists('Patchwork\PHP\Shim\Normalizer')) {
 			$this->markTestSkipped('UTF8 normalizer Patchwork was not found');

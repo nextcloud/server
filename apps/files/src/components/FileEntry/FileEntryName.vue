@@ -42,8 +42,7 @@ import type { PropType } from 'vue'
 
 import { showError, showSuccess } from '@nextcloud/dialogs'
 import { emit } from '@nextcloud/event-bus'
-import { FileType, NodeStatus, Permission } from '@nextcloud/files'
-import { loadState } from '@nextcloud/initial-state'
+import { FileType, NodeStatus, Permission, isFilenameValid } from '@nextcloud/files'
 import { translate as t } from '@nextcloud/l10n'
 import axios, { isAxiosError } from '@nextcloud/axios'
 import { defineComponent } from 'vue'
@@ -53,8 +52,6 @@ import NcTextField from '@nextcloud/vue/dist/Components/NcTextField.js'
 import { useNavigation } from '../../composables/useNavigation'
 import { useRenamingStore } from '../../store/renaming.ts'
 import logger from '../../logger.js'
-
-const forbiddenCharacters = loadState<string[]>('files', 'forbiddenCharacters', [])
 
 export default defineComponent({
 	name: 'FileEntryName',
@@ -210,22 +207,10 @@ export default defineComponent({
 		},
 
 		isFileNameValid(name: string) {
-			const trimmedName = name.trim()
-			if (trimmedName === '.' || trimmedName === '..') {
+			if (!isFilenameValid(name)) {
 				throw new Error(t('files', '"{name}" is an invalid file name.', { name }))
-			} else if (trimmedName.length === 0) {
-				throw new Error(t('files', 'File name cannot be empty.'))
-			} else if (trimmedName.indexOf('/') !== -1) {
-				throw new Error(t('files', '"/" is not allowed inside a file name.'))
-			} else if (trimmedName.match(window.OC.config.blacklist_files_regex)) {
-				throw new Error(t('files', '"{name}" is not an allowed filetype.', { name }))
 			} else if (this.checkIfNodeExists(name)) {
 				throw new Error(t('files', '{newName} already exists.', { newName: name }))
-			}
-
-			const char = forbiddenCharacters.find((char) => trimmedName.includes(char))
-			if (char) {
-				throw new Error(t('files', '"{char}" is not allowed inside a file name.', { char }))
 			}
 
 			return true

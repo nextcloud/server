@@ -220,10 +220,6 @@ class ViewController extends Controller {
 		$filesSortingConfig = json_decode($this->config->getUserValue($userId, 'files', 'files_sorting_configs', '{}'), true);
 		$this->initialState->provideInitialState('filesSortingConfig', $filesSortingConfig);
 
-		// Forbidden file characters
-		$forbiddenCharacters = \OCP\Util::getForbiddenFileNameChars();
-		$this->initialState->provideInitialState('forbiddenCharacters', $forbiddenCharacters);
-
 		$event = new LoadAdditionalScriptsEvent();
 		$this->eventDispatcher->dispatchTyped($event);
 		$this->eventDispatcher->dispatchTyped(new ResourcesLoadAdditionalScriptsEvent());

@@ -8,7 +8,9 @@
 namespace Test\Files\Storage;
 
 use OC\Files\Cache\Watcher;
+use OC\Files\FilenameValidator;
 use OCP\Files\Storage\IWriteStreamStorage;
+use PHPUnit\Framework\MockObject\MockObject;
 
 abstract class Storage extends \Test\TestCase {
 	/**
@@ -16,6 +18,22 @@ abstract class Storage extends \Test\TestCase {
 	 */
 	protected $instance;
 	protected $waitDelay = 0;
+
+	protected FilenameValidator&MockObject $filenameValidator;
+
+	protected function setUp(): void {
+		$this->filenameValidator = $this->createMock(FilenameValidator::class);
+		$this->filenameValidator->method('isFilenameValid')->willReturn(true);
+		$this->filenameValidator->method('isForbidden')->willReturn(false);
+		$this->overwriteService(FilenameValidator::class, $this->filenameValidator);
+
+		parent::setUp();
+	}
+
+	protected function tearDown(): void {
+		$this->restoreService(FilenameValidator::class);
+		parent::tearDown();
+	}
 
 	/**
 	 * Sleep for the number of seconds specified in the

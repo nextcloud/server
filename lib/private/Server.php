@@ -1371,6 +1371,8 @@ class Server extends ServerContainer implements IServerContainer {
 
 		$this->registerAlias(\OCP\Files\AppData\IAppDataFactory::class, \OC\Files\AppData\Factory::class);
 
+		$this->registerAlias(\OCP\Files\IFilenameValidator::class, \OC\Files\FilenameValidator::class);
+
 		$this->registerAlias(IBinaryFinder::class, BinaryFinder::class);
 
 		$this->registerAlias(\OCP\Share\IPublicShareTemplateFactory::class, \OC\Share20\PublicShareTemplateFactory::class);

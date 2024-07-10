@@ -18,6 +18,7 @@ use OCP\Diagnostics\IEventLogger;
 use OCP\Files\FileInfo;
 use OCP\Files\ForbiddenException;
 use OCP\Files\IMimeTypeDetector;
+use OCP\Files\InvalidPathException;
 use OCP\Files\StorageInvalidException;
 use OCP\Files\StorageNotAvailableException;
 use OCP\Http\Client\IClientService;
@@ -561,7 +562,9 @@ class DAV extends Common {
 	}
 
 	public function getMetaData($path) {
-		if (Filesystem::isFileBlacklisted($path)) {
+		try {
+			$this->verifyPath($path, basename($path));
+		} catch (InvalidPathException) {
 			throw new ForbiddenException('Invalid path: ' . $path, false);
 		}
 		$response = $this->propfind($path);
