@@ -16,6 +16,7 @@ use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\L10N\IFactory;
 use OCP\Security\ISecureRandom;
+use OCP\Server;
 use OCP\Share\IManager;
 use Psr\Log\LoggerInterface;
 
@@ -34,22 +35,20 @@ class OC_Util {
 	/**
 	 * Setup the file system
 	 *
-	 * @param string|null $user
-	 * @return boolean
 	 * @description configure the initial filesystem based on the configuration
 	 * @suppress PhanDeprecatedFunction
 	 * @suppress PhanAccessMethodInternal
 	 */
-	public static function setupFS(?string $user = '') {
+	public static function setupFS(?string $user = ''): bool {
 		// If we are not forced to load a specific user we load the one that is logged in
 		if ($user === '') {
-			$userObject = \OC::$server->get(\OCP\IUserSession::class)->getUser();
+			$userObject = Server::get(\OCP\IUserSession::class)->getUser();
 		} else {
-			$userObject = \OC::$server->get(\OCP\IUserManager::class)->get($user);
+			$userObject = Server::get(\OCP\IUserManager::class)->get($user);
 		}
 
 		/** @var SetupManager $setupManager */
-		$setupManager = \OC::$server->get(SetupManager::class);
+		$setupManager = Server::get(SetupManager::class);
 
 		if ($userObject) {
 			$setupManager->setupForUser($userObject);
@@ -62,26 +61,21 @@ class OC_Util {
 	/**
 	 * Check if a password is required for each public link
 	 *
-	 * @param bool $checkGroupMembership Check group membership exclusion
-	 * @return boolean
 	 * @suppress PhanDeprecatedFunction
 	 */
-	public static function isPublicLinkPasswordRequired(bool $checkGroupMembership = true) {
+	public static function isPublicLinkPasswordRequired(bool $checkGroupMembership = true): bool {
 		/** @var IManager $shareManager */
-		$shareManager = \OC::$server->get(IManager::class);
+		$shareManager = Server::get(IManager::class);
 		return $shareManager->shareApiLinkEnforcePassword($checkGroupMembership);
 	}
 
 	/**
 	 * check if sharing is disabled for the current user
-	 * @param IConfig $config
-	 * @param IGroupManager $groupManager
-	 * @param IUser|null $user
-	 * @return bool
+	 *
 	 */
-	public static function isSharingDisabledForUser(IConfig $config, IGroupManager $groupManager, $user) {
+	public static function isSharingDisabledForUser(IConfig $config, IGroupManager $groupManager, ?IUser $user): bool {
 		/** @var IManager $shareManager */
-		$shareManager = \OC::$server->get(IManager::class);
+		$shareManager = Server::get(IManager::class);
 		$userId = $user ? $user->getUID() : null;
 		return $shareManager->sharingDisabledForUser($userId);
 	}
@@ -89,22 +83,19 @@ class OC_Util {
 	/**
 	 * check if share API enforces a default expire date
 	 *
-	 * @return bool
 	 * @suppress PhanDeprecatedFunction
 	 */
-	public static function isDefaultExpireDateEnforced() {
+	public static function isDefaultExpireDateEnforced(): bool {
 		/** @var IManager $shareManager */
-		$shareManager = \OC::$server->get(IManager::class);
+		$shareManager = Server::get(IManager::class);
 		return $shareManager->shareApiLinkDefaultExpireDateEnforced();
 	}
 
 	/**
 	 * Get the quota of a user
 	 *
-	 * @param IUser|null $user
-	 * @return int|\OCP\Files\FileInfo::SPACE_UNLIMITED|false|float Quota bytes
 	 */
-	public static function getUserQuota(?IUser $user) {
+	public static function getUserQuota(?IUser $user): int|float|false {
 		if (is_null($user)) {
 			return \OCP\Files\FileInfo::SPACE_UNLIMITED;
 		}
@@ -118,18 +109,17 @@ class OC_Util {
 	/**
 	 * copies the skeleton to the users /files
 	 *
-	 * @param string $userId
-	 * @param \OCP\Files\Folder $userDirectory
 	 * @throws \OCP\Files\NotFoundException
 	 * @throws \OCP\Files\NotPermittedException
 	 * @suppress PhanDeprecatedFunction
 	 */
-	public static function copySkeleton($userId, \OCP\Files\Folder $userDirectory) {
+	public static function copySkeleton(string $userId, \OCP\Files\Folder $userDirectory): void {
 		/** @var LoggerInterface $logger */
-		$logger = \OC::$server->get(LoggerInterface::class);
+		$logger = Server::get(LoggerInterface::class);
+		$config = Server::get(IConfig::class);
 
-		$plainSkeletonDirectory = \OC::$server->getConfig()->getSystemValueString('skeletondirectory', \OC::$SERVERROOT . '/core/skeleton');
-		$userLang = \OC::$server->get(IFactory::class)->findLanguage();
+		$plainSkeletonDirectory = $config->getSystemValueString('skeletondirectory', \OC::$SERVERROOT . '/core/skeleton');
+		$userLang = Server::get(IFactory::class)->findLanguage();
 		$skeletonDirectory = str_replace('{lang}', $userLang, $plainSkeletonDirectory);
 
 		if (!file_exists($skeletonDirectory)) {
@@ -145,7 +135,7 @@ class OC_Util {
 			}
 		}
 
-		$instanceId = \OC::$server->getConfig()->getSystemValue('instanceid', '');
+		$instanceId = $config->getSystemValueString('instanceid', '');
 
 		if ($instanceId === null) {
 			throw new \RuntimeException('no instance id!');
@@ -162,7 +152,7 @@ class OC_Util {
 			$userDirectory->getStorage()->getScanner()->scan('', \OC\Files\Cache\Scanner::SCAN_RECURSIVE);
 
 			/** @var ITemplateManager $templateManager */
-			$templateManager = \OC::$server->get(ITemplateManager::class);
+			$templateManager = Server::get(ITemplateManager::class);
 			$templateManager->initializeTemplateDirectory(null, $userId);
 		}
 	}
@@ -170,12 +160,10 @@ class OC_Util {
 	/**
 	 * copies a directory recursively by using streams
 	 *
-	 * @param string $source
-	 * @param \OCP\Files\Folder $target
-	 * @return void
 	 */
-	public static function copyr($source, \OCP\Files\Folder $target) {
-		$logger = \OC::$server->getLogger();
+	public static function copyr(string $source, \OCP\Files\Folder $target): void {
+		/** @var LoggerInterface $logger */
+		$logger = Server::get(LoggerInterface::class);
 
 		// Verify if folder exists
 		$dir = opendir($source);
@@ -206,21 +194,19 @@ class OC_Util {
 	}
 
 	/**
-	 * @return void
 	 * @suppress PhanUndeclaredMethod
 	 */
-	public static function tearDownFS() {
+	public static function tearDownFS(): void {
 		/** @var SetupManager $setupManager */
-		$setupManager = \OC::$server->get(SetupManager::class);
+		$setupManager = Server::get(SetupManager::class);
 		$setupManager->tearDown();
 	}
 
 	/**
 	 * get the current installed version of ownCloud
 	 *
-	 * @return array
 	 */
-	public static function getVersion() {
+	public static function getVersion(): array {
 		OC_Util::loadVersion();
 		return self::$versionCache['OC_Version'];
 	}
@@ -228,35 +214,35 @@ class OC_Util {
 	/**
 	 * get the current installed version string of ownCloud
 	 *
-	 * @return string
 	 */
-	public static function getVersionString() {
+	public static function getVersionString(): string {
 		OC_Util::loadVersion();
 		return self::$versionCache['OC_VersionString'];
 	}
 
 	/**
 	 * @deprecated the value is of no use anymore
-	 * @return string
+	 *
 	 */
-	public static function getEditionString() {
+	public static function getEditionString(): string {
 		return '';
 	}
 
 	/**
 	 * @description get the update channel of the current installed of ownCloud.
-	 * @return string
+	 *
 	 */
-	public static function getChannel() {
+	public static function getChannel(): string {
 		OC_Util::loadVersion();
-		return \OC::$server->getConfig()->getSystemValueString('updater.release.channel', self::$versionCache['OC_Channel']);
+		$config = Server::get(IConfig::class);
+		return $config->getSystemValueString('updater.release.channel', self::$versionCache['OC_Channel']);
 	}
 
 	/**
 	 * @description get the build number of the current installed of ownCloud.
-	 * @return string
+	 *
 	 */
-	public static function getBuild() {
+	public static function getBuild(): string {
 		OC_Util::loadVersion();
 		return self::$versionCache['OC_Build'];
 	}
@@ -265,7 +251,7 @@ class OC_Util {
 	 * @description load the version.php into the session as cache
 	 * @suppress PhanUndeclaredVariable
 	 */
-	private static function loadVersion() {
+	private static function loadVersion(): void {
 		if (self::$versionCache !== null) {
 			return;
 		}
@@ -288,12 +274,8 @@ class OC_Util {
 	/**
 	 * generates a path for JS/CSS files. If no application is provided it will create the path for core.
 	 *
-	 * @param string $application application to get the files from
-	 * @param string $directory directory within this application (css, js, vendor, etc)
-	 * @param string $file the file inside of the above folder
-	 * @return string the path
 	 */
-	private static function generatePath($application, $directory, $file) {
+	private static function generatePath(string $application, string $directory, string $file): string {
 		if (is_null($file)) {
 			$file = $application;
 			$application = "";
@@ -310,12 +292,8 @@ class OC_Util {
 	 *
 	 * @deprecated 24.0.0 - Use \OCP\Util::addScript
 	 *
-	 * @param string $application application id
-	 * @param string|null $file filename
-	 * @param bool $prepend prepend the Script to the beginning of the list
-	 * @return void
 	 */
-	public static function addScript($application, $file = null, $prepend = false) {
+	public static function addScript(string $application, ?string $file = null, bool $prepend = false): void {
 		$path = OC_Util::generatePath($application, 'js', $file);
 
 		// core js files need separate handling
@@ -328,12 +306,8 @@ class OC_Util {
 	/**
 	 * add a javascript file from the vendor sub folder
 	 *
-	 * @param string $application application id
-	 * @param string|null $file filename
-	 * @param bool $prepend prepend the Script to the beginning of the list
-	 * @return void
 	 */
-	public static function addVendorScript($application, $file = null, $prepend = false) {
+	public static function addVendorScript(string $application, ?string $file = null, bool $prepend = false): void {
 		$path = OC_Util::generatePath($application, 'vendor', $file);
 		self::addExternalResource($application, $prepend, $path, "script");
 	}
@@ -347,9 +321,9 @@ class OC_Util {
 	 * @param string|null $languageCode language code, defaults to the current language
 	 * @param bool|null $prepend prepend the Script to the beginning of the list
 	 */
-	public static function addTranslations($application, $languageCode = null, $prepend = false) {
+	public static function addTranslations(string $application, ?string $languageCode = null, bool $prepend = false): void {
 		if (is_null($languageCode)) {
-			$languageCode = \OC::$server->get(IFactory::class)->findLanguage($application);
+			$languageCode = Server::get(IFactory::class)->findLanguage($application);
 		}
 		if (!empty($application)) {
 			$path = "$application/l10n/$languageCode";
@@ -362,12 +336,8 @@ class OC_Util {
 	/**
 	 * add a css file
 	 *
-	 * @param string $application application id
-	 * @param string|null $file filename
-	 * @param bool $prepend prepend the Style to the beginning of the list
-	 * @return void
 	 */
-	public static function addStyle($application, $file = null, $prepend = false) {
+	public static function addStyle(string $application, ?string $file = null, bool $prepend = false): void {
 		$path = OC_Util::generatePath($application, 'css', $file);
 		self::addExternalResource($application, $prepend, $path, "style");
 	}
@@ -375,12 +345,8 @@ class OC_Util {
 	/**
 	 * add a css file from the vendor sub folder
 	 *
-	 * @param string $application application id
-	 * @param string|null $file filename
-	 * @param bool $prepend prepend the Style to the beginning of the list
-	 * @return void
 	 */
-	public static function addVendorStyle($application, $file = null, $prepend = false) {
+	public static function addVendorStyle(string $application, ?string $file = null, bool $prepend = false): void {
 		$path = OC_Util::generatePath($application, 'vendor', $file);
 		self::addExternalResource($application, $prepend, $path, "style");
 	}
@@ -388,13 +354,8 @@ class OC_Util {
 	/**
 	 * add an external resource css/js file
 	 *
-	 * @param string $application application id
-	 * @param bool $prepend prepend the file to the beginning of the list
-	 * @param string $path
-	 * @param string $type (script or style)
-	 * @return void
 	 */
-	private static function addExternalResource($application, $prepend, $path, $type = "script") {
+	private static function addExternalResource(string $application, bool $prepend, string $path, string $type = "script"): void {
 		if ($type === "style") {
 			if (!in_array($path, self::$styles)) {
 				if ($prepend === true) {
@@ -418,12 +379,9 @@ class OC_Util {
 	 * Add a custom element to the header
 	 * If $text is null then the element will be written as empty element.
 	 * So use "" to get a closing tag.
-	 * @param string $tag tag name of the element
-	 * @param array $attributes array of attributes for the element
-	 * @param string $text the text content for the element
-	 * @param bool $prepend prepend the header to the beginning of the list
+	 *
 	 */
-	public static function addHeader($tag, $attributes, $text = null, $prepend = false) {
+	public static function addHeader(string $tag, array $attributes, ?string $text = null, bool $prepend = false): void {
 		$header = [
 			'tag' => $tag,
 			'attributes' => $attributes,
@@ -439,15 +397,13 @@ class OC_Util {
 	/**
 	 * check if the current server configuration is suitable for ownCloud
 	 *
-	 * @param \OC\SystemConfig $config
-	 * @return array arrays with error messages and hints
 	 */
-	public static function checkServer(\OC\SystemConfig $config) {
+	public static function checkServer(IConfig $config): array {
 		$l = \OC::$server->getL10N('lib');
 		$errors = [];
-		$CONFIG_DATADIRECTORY = $config->getValue('datadirectory', OC::$SERVERROOT . '/data');
+		$CONFIG_DATADIRECTORY = $config->getSystemValueString('datadirectory', OC::$SERVERROOT . '/data');
 
-		if (!self::needUpgrade($config) && $config->getValue('installed', false)) {
+		if (!self::needUpgrade($config) && $config->getSystemValueBool('installed', false)) {
 			// this check needs to be done every time
 			$errors = self::checkDataDirectoryValidity($CONFIG_DATADIRECTORY);
 		}
@@ -473,7 +429,7 @@ class OC_Util {
 
 		// Check if config folder is writable.
 		if (!OC_Helper::isReadOnlyConfigEnabled()) {
-			if (!is_writable(OC::$configDir) or !is_readable(OC::$configDir)) {
+			if (!is_writable(OC::$configDir) || !is_readable(OC::$configDir)) {
 				$errors[] = [
 					'error' => $l->t('Cannot write into "config" directory.'),
 					'hint' => $l->t('This can usually be fixed by giving the web server write access to the config directory. See %s',
@@ -510,7 +466,7 @@ class OC_Util {
 							[$urlGenerator->linkToDocs('admin-dir_permissions')])
 					];
 				}
-			} elseif (!is_writable($CONFIG_DATADIRECTORY) or !is_readable($CONFIG_DATADIRECTORY)) {
+			} elseif (!is_writable($CONFIG_DATADIRECTORY) || !is_readable($CONFIG_DATADIRECTORY)) {
 				// is_writable doesn't work for NFS mounts, so try to write a file and check if it exists.
 				$testFile = sprintf('%s/%s.tmp', $CONFIG_DATADIRECTORY, uniqid('data_dir_writability_test_'));
 				$handle = fopen($testFile, 'w');
@@ -576,7 +532,7 @@ class OC_Util {
 		$missingDependencies = [];
 		$invalidIniSettings = [];
 
-		$iniWrapper = \OC::$server->get(IniGetWrapper::class);
+		$iniWrapper = Server::get(IniGetWrapper::class);
 		foreach ($dependencies['classes'] as $class => $module) {
 			if (!class_exists($class)) {
 				$missingDependencies[] = $module;
@@ -661,11 +617,10 @@ class OC_Util {
 	/**
 	 * Check for correct file permissions of data directory
 	 *
-	 * @param string $dataDirectory
-	 * @return array arrays with error messages and hints
 	 */
-	public static function checkDataDirectoryPermissions($dataDirectory) {
-		if (!\OC::$server->getConfig()->getSystemValueBool('check_data_directory_permissions', true)) {
+	public static function checkDataDirectoryPermissions(string $dataDirectory): array {
+		$config = Server::get(IConfig::class);
+		if (!$config->getSystemValueBool('check_data_directory_permissions', true)) {
 			return  [];
 		}
 
@@ -689,10 +644,8 @@ class OC_Util {
 	 * Check that the data directory exists and is valid by
 	 * checking the existence of the ".ocdata" file.
 	 *
-	 * @param string $dataDirectory data directory path
-	 * @return array errors found
 	 */
-	public static function checkDataDirectoryValidity($dataDirectory) {
+	public static function checkDataDirectoryValidity(string $dataDirectory): array {
 		$l = \OC::$server->getL10N('lib');
 		$errors = [];
 		if ($dataDirectory[0] !== '/') {
@@ -715,11 +668,12 @@ class OC_Util {
 	 * Check if the user is logged in, redirects to home if not. With
 	 * redirect URL parameter to the request URI.
 	 *
-	 * @return void
 	 */
-	public static function checkLoggedIn() {
+	public static function checkLoggedIn(): void {
 		// Check if we are a user
-		if (!\OC::$server->getUserSession()->isLoggedIn()) {
+		/** @var IUserSession $userSession */
+		$userSession = Server::get(IUserSession::class);
+		if (!$userSession->isLoggedIn()) {
 			header('Location: ' . \OC::$server->getURLGenerator()->linkToRoute(
 				'core.login.showLoginForm',
 				[
@@ -730,7 +684,7 @@ class OC_Util {
 			exit();
 		}
 		// Redirect to 2FA challenge selection if 2FA challenge was not solved yet
-		if (\OC::$server->get(TwoFactorAuthManager::class)->needsSecondFactor(\OC::$server->getUserSession()->getUser())) {
+		if (Server::get(TwoFactorAuthManager::class)->needsSecondFactor(\OC::$server->getUserSession()->getUser())) {
 			header('Location: ' . \OC::$server->getURLGenerator()->linkToRoute('core.TwoFactorChallenge.selectChallenge'));
 			exit();
 		}
@@ -739,9 +693,8 @@ class OC_Util {
 	/**
 	 * Check if the user is a admin, redirects to home if not
 	 *
-	 * @return void
 	 */
-	public static function checkAdminUser() {
+	public static function checkAdminUser(): void {
 		OC_Util::checkLoggedIn();
 		if (!OC_User::isAdminUser(OC_User::getUser())) {
 			header('Location: ' . \OCP\Util::linkToAbsolute('', 'index.php'));
@@ -754,21 +707,19 @@ class OC_Util {
 	 * based on the system configuration and
 	 * the apps visible for the current user
 	 *
-	 * @return string URL
 	 * @suppress PhanDeprecatedFunction
 	 */
-	public static function getDefaultPageUrl() {
+	public static function getDefaultPageUrl(): string {
 		/** @var IURLGenerator $urlGenerator */
-		$urlGenerator = \OC::$server->get(IURLGenerator::class);
+		$urlGenerator = Server::get(IURLGenerator::class);
 		return $urlGenerator->linkToDefaultPageUrl();
 	}
 
 	/**
 	 * Redirect to the user default page
 	 *
-	 * @return void
 	 */
-	public static function redirectToDefaultPage() {
+	public static function redirectToDefaultPage(): void {
 		$location = self::getDefaultPageUrl();
 		header('Location: ' . $location);
 		exit();
@@ -777,14 +728,14 @@ class OC_Util {
 	/**
 	 * get an id unique for this instance
 	 *
-	 * @return string
 	 */
-	public static function getInstanceId() {
-		$id = \OC::$server->getSystemConfig()->getValue('instanceid', null);
+	public static function getInstanceId(): string {
+		$config = Server::get(IConfig::class);
+		$id = $config->getSystemValueString('instanceid', null);
 		if (is_null($id)) {
 			// We need to guarantee at least one letter in instanceid so it can be used as the session_name
-			$id = 'oc' . \OC::$server->get(ISecureRandom::class)->generate(10, \OCP\Security\ISecureRandom::CHAR_LOWER.\OCP\Security\ISecureRandom::CHAR_DIGITS);
-			\OC::$server->getSystemConfig()->setValue('instanceid', $id);
+			$id = 'oc' . Server::get(ISecureRandom::class)->generate(10, \OCP\Security\ISecureRandom::CHAR_LOWER.\OCP\Security\ISecureRandom::CHAR_DIGITS);
+			$config->setValueString('instanceid', $id);
 		}
 		return $id;
 	}
@@ -795,18 +746,14 @@ class OC_Util {
 	 * This function is used to sanitize HTML and should be applied on any
 	 * string or array of strings before displaying it on a web page.
 	 *
-	 * @param string|string[] $value
-	 * @return string|string[] an array of sanitized strings or a single sanitized string, depends on the input parameter.
 	 */
-	public static function sanitizeHTML($value) {
+	public static function sanitizeHTML(string|array $value): string|array {
 		if (is_array($value)) {
 			/** @var string[] $value */
-			$value = array_map(function ($value) {
-				return self::sanitizeHTML($value);
-			}, $value);
+			$value = array_map([self::class, 'sanitizeHTML'], $value);
 		} else {
 			// Specify encoding for PHP<5.4
-			$value = htmlspecialchars((string)$value, ENT_QUOTES, 'UTF-8');
+			$value = htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
 		}
 		return $value;
 	}
@@ -818,17 +765,19 @@ class OC_Util {
 	 * Encoding is done according to RFC 3986 with one exception:
 	 * Character '/' is preserved as is.
 	 *
-	 * @param string $component part of URI to encode
-	 * @return string
 	 */
-	public static function encodePath($component) {
+	public static function encodePath(string $component): string {
 		$encoded = rawurlencode($component);
 		$encoded = str_replace('%2F', '/', $encoded);
 		return $encoded;
 	}
 
-
-	public function createHtaccessTestFile(\OCP\IConfig $config) {
+	/**
+	 * Check if the .htaccess test file can be created
+	 *
+	 * @throws \OCP\HintException If the test file can't get written.
+	 */
+	public function createHtaccessTestFile(IConfig $config): string|false {
 		// php dev server does not support htaccess
 		if (php_sapi_name() === 'cli-server') {
 			return false;
@@ -859,12 +808,10 @@ class OC_Util {
 	/**
 	 * Check if the .htaccess file is working
 	 *
-	 * @param \OCP\IConfig $config
-	 * @return bool
 	 * @throws Exception
 	 * @throws \OCP\HintException If the test file can't get written.
 	 */
-	public function isHtaccessWorking(\OCP\IConfig $config) {
+	public function isHtaccessWorking(IConfig $config): bool {
 		if (\OC::$CLI || !$config->getSystemValueBool('check_for_working_htaccess', true)) {
 			return true;
 		}
@@ -880,7 +827,7 @@ class OC_Util {
 		// accessing the file via http
 		$url = \OC::$server->getURLGenerator()->getAbsoluteURL(OC::$WEBROOT . '/data' . $fileName);
 		try {
-			$content = \OC::$server->get(IClientService::class)->newClient()->get($url)->getBody();
+			$content = Server::get(IClientService::class)->newClient()->get($url)->getBody();
 		} catch (\Exception $e) {
 			$content = false;
 		}
@@ -892,7 +839,7 @@ class OC_Util {
 		}
 
 		try {
-			$fallbackContent = \OC::$server->get(IClientService::class)->newClient()->get($url)->getBody();
+			$fallbackContent = Server::get(IClientService::class)->newClient()->get($url)->getBody();
 		} catch (\Exception $e) {
 			$fallbackContent = false;
 		}
@@ -910,9 +857,8 @@ class OC_Util {
 	/**
 	 * Check if current locale is non-UTF8
 	 *
-	 * @return bool
 	 */
-	private static function isNonUTF8Locale() {
+	private static function isNonUTF8Locale(): bool {
 		if (function_exists('escapeshellcmd')) {
 			return escapeshellcmd('§') === '';
 		} elseif (function_exists('escapeshellarg')) {
@@ -926,9 +872,8 @@ class OC_Util {
 	 * Check if the setlocale call does not work. This can happen if the right
 	 * local packages are not available on the server.
 	 *
-	 * @return bool
 	 */
-	public static function isSetLocaleWorking() {
+	public static function isSetLocaleWorking(): bool {
 		if (self::isNonUTF8Locale()) {
 			// Borrowed from \Patchwork\Utf8\Bootup::initLocale
 			setlocale(LC_ALL, 'C.UTF-8', 'C');
@@ -946,9 +891,8 @@ class OC_Util {
 	/**
 	 * Check if it's possible to get the inline annotations
 	 *
-	 * @return bool
 	 */
-	public static function isAnnotationsWorking() {
+	public static function isAnnotationsWorking(): bool {
 		$reflection = new \ReflectionMethod(__METHOD__);
 		$docs = $reflection->getDocComment();
 
@@ -958,18 +902,16 @@ class OC_Util {
 	/**
 	 * Check if the PHP module fileinfo is loaded.
 	 *
-	 * @return bool
 	 */
-	public static function fileInfoLoaded() {
+	public static function fileInfoLoaded(): bool {
 		return function_exists('finfo_open');
 	}
 
 	/**
 	 * clear all levels of output buffering
 	 *
-	 * @return void
 	 */
-	public static function obEnd() {
+	public static function obEnd(): void {
 		while (ob_get_level()) {
 			ob_end_clean();
 		}
@@ -978,9 +920,8 @@ class OC_Util {
 	/**
 	 * Checks whether the server is running on Mac OS X
 	 *
-	 * @return bool true if running on Mac OS X, false otherwise
 	 */
-	public static function runningOnMac() {
+	public static function runningOnMac(): bool {
 		return (strtoupper(substr(PHP_OS, 0, 6)) === 'DARWIN');
 	}
 
@@ -988,10 +929,10 @@ class OC_Util {
 	 * Handles the case that there may not be a theme, then check if a "default"
 	 * theme exists and take that one
 	 *
-	 * @return string the theme
 	 */
-	public static function getTheme() {
-		$theme = \OC::$server->getSystemConfig()->getValue("theme", '');
+	public static function getTheme(): string {
+		$config = Server::get(IConfig::class);
+		$theme = $config->getSystemValueString('theme', '');
 
 		if ($theme === '') {
 			if (is_dir(OC::$SERVERROOT . '/themes/default')) {
@@ -1005,17 +946,17 @@ class OC_Util {
 	/**
 	 * Normalize a unicode string
 	 *
-	 * @param string $value a not normalized string
-	 * @return bool|string
 	 */
-	public static function normalizeUnicode($value) {
+	public static function normalizeUnicode(string $value): bool|string {
 		if (Normalizer::isNormalized($value)) {
 			return $value;
 		}
 
 		$normalizedValue = Normalizer::normalize($value);
 		if ($normalizedValue === null || $normalizedValue === false) {
-			\OC::$server->getLogger()->warning('normalizing failed for "' . $value . '"', ['app' => 'core']);
+			/** @var LoggerInterface $logger */
+			$logger = Server::get(LoggerInterface::class);
+			$logger->warning('normalizing failed for "' . $value . '"', ['app' => 'core']);
 			return $value;
 		}
 
@@ -1025,12 +966,11 @@ class OC_Util {
 	/**
 	 * A human readable string is generated based on version and build number
 	 *
-	 * @return string
 	 */
-	public static function getHumanVersion() {
+	public static function getHumanVersion(): string {
 		$version = OC_Util::getVersionString();
 		$build = OC_Util::getBuild();
-		if (!empty($build) and OC_Util::getChannel() === 'daily') {
+		if (!empty($build) && OC_Util::getChannel() === 'daily') {
 			$version .= ' Build:' . $build;
 		}
 		return $version;
@@ -1039,11 +979,9 @@ class OC_Util {
 	/**
 	 * Returns whether the given file name is valid
 	 *
-	 * @param string $file file name to check
-	 * @return bool true if the file name is valid, false otherwise
 	 * @deprecated use \OC\Files\View::verifyPath()
 	 */
-	public static function isValidFileName($file) {
+	public static function isValidFileName(string $file): bool {
 		$trimmed = trim($file);
 		if ($trimmed === '') {
 			return false;
@@ -1070,18 +1008,16 @@ class OC_Util {
 	 * either when the core version is higher or any app requires
 	 * an upgrade.
 	 *
-	 * @param \OC\SystemConfig $config
-	 * @return bool whether the core or any app needs an upgrade
 	 * @throws \OCP\HintException When the upgrade from the given version is not allowed
 	 */
-	public static function needUpgrade(\OC\SystemConfig $config) {
-		if ($config->getValue('installed', false)) {
-			$installedVersion = $config->getValue('version', '0.0.0');
+	public static function needUpgrade(IConfig $config): bool {
+		if ($config->getSystemValueBool('installed', false)) {
+			$installedVersion = $config->getSystemValueString('version', '0.0.0');
 			$currentVersion = implode('.', \OCP\Util::getVersion());
 			$versionDiff = version_compare($currentVersion, $installedVersion);
 			if ($versionDiff > 0) {
 				return true;
-			} elseif ($config->getValue('debug', false) && $versionDiff < 0) {
+			} elseif ($config->getSystemValueBool('debug', false) && $versionDiff < 0) {
 				// downgrade with debug
 				$installedMajor = explode('.', $installedVersion);
 				$installedMajor = $installedMajor[0] . '.' . $installedMajor[1];
