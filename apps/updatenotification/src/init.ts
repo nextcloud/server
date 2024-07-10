@@ -2,13 +2,15 @@
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+import type { INavigationEntry } from '../../../core/src/types/navigation'
+
 import { subscribe } from '@nextcloud/event-bus'
 import { loadState } from '@nextcloud/initial-state'
 import { generateOcsUrl } from '@nextcloud/router'
 import Vue, { defineAsyncComponent } from 'vue'
 import axios from '@nextcloud/axios'
 
-const navigationEntries = loadState('core', 'apps', {})
+const navigationEntries = loadState<INavigationEntry[]>('core', 'apps', [])
 
 const DialogVue = defineAsyncComponent(() => import('./components/AppChangelogDialog.vue'))
 
@@ -39,8 +41,9 @@ function showDialog(appId: string, version?: string) {
 							dialog.$destroy?.()
 							resolve(dismissed)
 
-							if (dismissed && appId in navigationEntries) {
-								window.location = navigationEntries[appId].href
+							const app = navigationEntries.find(({ app }) => app === appId)
+							if (dismissed && app !== undefined) {
+								window.location.href = app.href
 							}
 						}
 					},
