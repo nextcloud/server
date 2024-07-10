@@ -30,6 +30,9 @@ interface IMemcache extends ICache {
 	/**
 	 * Increase a stored number
 	 *
+	 * If no value is stored with the key, it will behave as if a 0 was stored.
+	 * If a non-numeric value is stored, the operation will fail and `false` is returned.
+	 *
 	 * @param string $key
 	 * @param int $step
 	 * @return int | bool
@@ -39,6 +42,9 @@ interface IMemcache extends ICache {
 
 	/**
 	 * Decrease a stored number
+	 *
+	 *  If no value is stored with the key, the operation will fail and `false` is returned.
+	 *  If a non-numeric value is stored, the operation will fail and `false` is returned.
 	 *
 	 * @param string $key
 	 * @param int $step
