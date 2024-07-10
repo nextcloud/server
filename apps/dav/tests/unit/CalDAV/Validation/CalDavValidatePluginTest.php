@@ -10,7 +10,7 @@ declare(strict_types=1);
 namespace OCA\DAV\Tests\unit\CalDAV\Validation;
 
 use OCA\DAV\CalDAV\Validation\CalDavValidatePlugin;
-use OCP\IAppConfig;
+use OCP\IConfig;
 use PHPUnit\Framework\MockObject\MockObject;
 use Sabre\DAV\Exception\Forbidden;
 use Sabre\HTTP\RequestInterface;
@@ -20,14 +20,14 @@ use Test\TestCase;
 class CalDavValidatePluginTest extends TestCase {
 
 	private CalDavValidatePlugin $plugin;
-	private IAppConfig|MockObject $config;
+	private IConfig|MockObject $config;
 	private RequestInterface|MockObject $request;
 	private ResponseInterface|MockObject $response;
 
 	protected function setUp(): void {
 		parent::setUp();
 		// construct mock objects
-		$this->config = $this->createMock(IAppConfig::class);
+		$this->config = $this->createMock(IConfig::class);
 		$this->request = $this->createMock(RequestInterface::class);
 		$this->response = $this->createMock(ResponseInterface::class);
 		$this->plugin = new CalDavValidatePlugin(
@@ -39,7 +39,7 @@ class CalDavValidatePluginTest extends TestCase {
 		
 		// construct method responses
 		$this->config
-			->method('getValueInt')
+			->method('getAppValue')
 			->with('dav', 'event_size_limit', 10485760)
 			->willReturn(10485760);
 		$this->request
@@ -57,7 +57,7 @@ class CalDavValidatePluginTest extends TestCase {
 		
 		// construct method responses
 		$this->config
-			->method('getValueInt')
+			->method('getAppValue')
 			->with('dav', 'event_size_limit', 10485760)
 			->willReturn(10485760);
 		$this->request

@@ -9,7 +9,7 @@ declare(strict_types=1);
 namespace OCA\DAV\CalDAV\Validation;
 
 use OCA\DAV\AppInfo\Application;
-use OCP\IAppConfig;
+use OCP\IConfig;
 use Sabre\DAV\Exception\Forbidden;
 use Sabre\DAV\Server;
 use Sabre\DAV\ServerPlugin;
@@ -19,7 +19,7 @@ use Sabre\HTTP\ResponseInterface;
 class CalDavValidatePlugin extends ServerPlugin {
 
 	public function __construct(
-		private IAppConfig $config
+		private IConfig $config
 	) {
 	}
 
@@ -29,7 +29,7 @@ class CalDavValidatePlugin extends ServerPlugin {
 
 	public function beforePut(RequestInterface $request, ResponseInterface $response): bool {
 		// evaluate if card size exceeds defined limit
-		$eventSizeLimit = $this->config->getValueInt(Application::APP_ID, 'event_size_limit', 10485760);
+		$eventSizeLimit = $this->config->getAppValue(Application::APP_ID, 'event_size_limit', 10485760);
 		if ((int) $request->getRawServerValue('CONTENT_LENGTH') > $eventSizeLimit) {
 			throw new Forbidden("VEvent or VTodo object exceeds $eventSizeLimit bytes");
 		}
