@@ -209,6 +209,10 @@ class ImageManager {
 		} catch (NotFoundException $e) {
 		} catch (NotPermittedException $e) {
 		}
+
+		if ($key === 'logo') {
+			$this->config->deleteAppValue('theming', 'logoDimensions');
+		}
 	}
 
 	public function updateImage(string $key, string $tmpFile): string {
@@ -271,6 +275,25 @@ class ImageManager {
 		}
 
 		$target->putContent(file_get_contents($tmpFile));
+
+		if ($key === 'logo') {
+			$content = file_get_contents($tmpFile);
+			$newImage = @imagecreatefromstring($content);
+			if ($newImage !== false) {
+				$this->config->setAppValue('theming', 'logoDimensions', imagesx($newImage) . 'x' . imagesy($newImage));
+			} elseif (str_starts_with($detectedMimeType, 'image/svg')) {
+				$matched = preg_match('/viewbox=["\']\d* \d* (\d*\.?\d*) (\d*\.?\d*)["\']/i', $content, $matches);
+				if ($matched) {
+					$this->config->setAppValue('theming', 'logoDimensions', $matches[1] . 'x' . $matches[2]);
+				} else {
+					$this->logger->warning('Could not read logo image dimensions to optimize for mail header');
+					$this->config->deleteAppValue('theming', 'logoDimensions');
+				}
+			} else {
+				$this->logger->warning('Could not read logo image dimensions to optimize for mail header');
+				$this->config->deleteAppValue('theming', 'logoDimensions');
+			}
+		}
 
 		return $detectedMimeType;
 	}
