@@ -28,6 +28,7 @@ class Internal extends Session {
 	public function __construct(string $name) {
 		set_error_handler([$this, 'trapError']);
 		$this->invoke('session_name', [$name]);
+		$this->invoke('session_cache_limiter', ['']);
 		try {
 			$this->startSession();
 		} catch (\Exception $e) {
