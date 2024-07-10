@@ -25,6 +25,9 @@ class APCu extends Cache implements IMemcache {
 	}
 
 	public function set($key, $value, $ttl = 0) {
+		if ($ttl === 0) {
+			$ttl = self::DEFAULT_TTL;
+		}
 		return apcu_store($this->getPrefix() . $key, $value, $ttl);
 	}
 
@@ -56,6 +59,9 @@ class APCu extends Cache implements IMemcache {
 	 * @return bool
 	 */
 	public function add($key, $value, $ttl = 0) {
+		if ($ttl === 0) {
+			$ttl = self::DEFAULT_TTL;
+		}
 		return apcu_add($this->getPrefix() . $key, $value, $ttl);
 	}
 
