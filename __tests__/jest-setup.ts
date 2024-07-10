@@ -27,3 +27,6 @@ import 'jest-location-mock'
 
 // Mock `window.fetch` with Jest
 import 'jest-fetch-mock'
+
+// Mock webroot to be empty
+(window as unknown as Record<string, unknown>)._oc_webroot = ''
