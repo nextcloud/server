@@ -65,10 +65,18 @@ class RouterTest extends TestCase {
 		);
 	}
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function testHeartbeat(): void {
 		$this->assertEquals('/index.php/heartbeat', $this->router->generate('heartbeat'));
 	}
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function testGenerateConsecutively(): void {
 
 		$this->assertEquals('/index.php/apps/files/', $this->router->generate('files.view.index'));
