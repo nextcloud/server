@@ -46,13 +46,13 @@ $base_url=\OC::$server->getURLGenerator()->getAbsoluteURL('/');?>
 			<!-- Vendor CSS Files -->
 
 
-			<link async href="<?php echo $base_url;?>/assets/css/style.css" rel="stylesheet">
-			<link async href="<?php echo $base_url;?>/assets/css/google-fonts.css" rel="stylesheet">
-			<link async href="<?php echo $base_url;?>/assets/vendor/aos/aos.css" rel="stylesheet">
-			<link async href="<?php echo $base_url;?>/assets/vendor/optimized/css/bootstrap.min.css" rel="stylesheet">
-			<link async href="<?php echo $base_url;?>/assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
-			<link async href="<?php echo $base_url;?>/assets/vendor/remixicon/remixicon.css" rel="stylesheet">
-			<link async href="<?php echo $base_url;?>/assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+			<link async href="<?php echo $base_url;?>assets/css/style.css" rel="stylesheet">
+			<link async href="<?php echo $base_url;?>assets/css/google-fonts.css" rel="stylesheet">
+			<link async href="<?php echo $base_url;?>assets/vendor/aos/aos.css" rel="stylesheet">
+			<link async href="<?php echo $base_url;?>assets/vendor/optimized/css/bootstrap.min.css" rel="stylesheet">
+			<link async href="<?php echo $base_url;?>assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+			<link async href="<?php echo $base_url;?>assets/vendor/remixicon/remixicon.css" rel="stylesheet">
+			<link async href="<?php echo $base_url;?>assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
 
 
 			<style>
@@ -271,7 +271,7 @@ $base_url=\OC::$server->getURLGenerator()->getAbsoluteURL('/');?>
                      </div>
                      <div class="col-lg-3 col-md-6">
                         <div class="count-box">
-                           <img src="http://localhost/scaleinfinite-nextcloud-all/assets/img/projects.png" alt="Projects" style="height:100px; width:auto; padding-right:20px;">
+                           <img src="<?php echo $base_url;?>assets/img/projects.png" alt="Projects" style="height:100px; width:auto; padding-right:20px;">
                            <div>
                               <span data-purecounter-start="0" data-purecounter-end="521" data-purecounter-duration="1" class="purecounter"></span>
                               <p>Projects</p>
@@ -280,7 +280,7 @@ $base_url=\OC::$server->getURLGenerator()->getAbsoluteURL('/');?>
                      </div>
                      <div class="col-lg-3 col-md-6">
                         <div class="count-box">
-                           <img src="http://localhost/scaleinfinite-nextcloud-all/assets/img/support.png" alt="Support" style="height:100px; width:auto; padding-right:20px;">
+                           <img src="<?php echo $base_url;?>assets/img/support.png" alt="Support" style="height:100px; width:auto; padding-right:20px;">
                            <div>
                               <span data-purecounter-start="0" data-purecounter-end="1463" data-purecounter-duration="1" class="purecounter"></span>
                               <p>Hours Of Support</p>
@@ -289,7 +289,7 @@ $base_url=\OC::$server->getURLGenerator()->getAbsoluteURL('/');?>
                      </div>
                      <div class="col-lg-3 col-md-6">
                         <div class="count-box">
-                           <img src="http://localhost/scaleinfinite-nextcloud-all/assets/img/team.png" alt="Team" style="height:100px; width:auto; padding-right:20px;">
+                           <img src="<?php echo $base_url;?>assets/img/team.png" alt="Team" style="height:100px; width:auto; padding-right:20px;">
                            <div>
                               <span data-purecounter-start="0" data-purecounter-end="15" data-purecounter-duration="1" class="purecounter"></span>
                               <p>Hard Workers</p>
@@ -485,7 +485,7 @@ $base_url=\OC::$server->getURLGenerator()->getAbsoluteURL('/');?>
             <div class="row gy-4">
             <div class="col-lg-7 col-md-12 footer-info">
             <a href="index.php" class="scale-logo d-flex align-items-center">
-            <img src="http://localhost/scaleinfinite-nextcloud-all/assets/img/logo.png" alt="Image of logo of scaleinfinite" style="width: 20rem;height: 100%;">
+            <img src="<?php echo $base_url;?>assets/img/logo.png" alt="Image of logo of scaleinfinite" style="width: 20rem;height: 100%;">
             </a>
             <p>Scale Infinite is a data software company based Europe and Asia that develop, educate and offers commercial support for open-source softwares designed to manage Big Data solutions and associated processing.</p>
             <div class="social-links mt-3">
@@ -498,7 +498,7 @@ $base_url=\OC::$server->getURLGenerator()->getAbsoluteURL('/');?>
             <ul>
             <li><i class="bi bi-chevron-right"></i> <a href="#contact">Contact</a></li>
             <li><i class="bi bi-chevron-right"></i> <a href="https://docs.scaleinfinite.fr/" target="_blank">Tutorial</a></li>
-            <li><i class="bi bi-chevron-right"></i> <a href="http://localhost/newcloud/index.php/apps/sociallogin/oauth/google">Login</a></li>
+            <li><i class="bi bi-chevron-right"></i> <a href="<?php echo $base_url;?>index.php/apps/sociallogin/oauth/google">Login</a></li>
             </ul>
             </div>
             <div class="col-lg-2 col-md-12 footer-contact text-center text-md-start">
@@ -517,18 +517,18 @@ $base_url=\OC::$server->getURLGenerator()->getAbsoluteURL('/');?>
             </footer>
             <!-- End Footer -->
             <a href="#" class="back-to-top d-flex align-items-center justify-content-center">
-            <img src="http://localhost/scaleinfinite-nextcloud-all/assets/img/up-arrow.png" alt="scroll-up" style="height:30px; width:auto;">
+            <img src="<?php echo $base_url;?>assets/img/up-arrow.png" alt="scroll-up" style="height:30px; width:auto;">
             </a>
             <!-- Vendor JS Files -->
-            <script src="http://localhost/scaleinfinite-nextcloud-all/assets/vendor/purecounter/purecounter.js"  nonce="<?php p(\OC::$server->getContentSecurityPolicyNonceManager()->getNonce()) ?>"></script>
-            <script src="http://localhost/scaleinfinite-nextcloud-all/assets/vendor/aos/aos.js"  nonce="<?php p(\OC::$server->getContentSecurityPolicyNonceManager()->getNonce()) ?>"></script>
-            <script src="http://localhost/scaleinfinite-nextcloud-all/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"  nonce="<?php p(\OC::$server->getContentSecurityPolicyNonceManager()->getNonce()) ?>"></script>
-            <script src="http://localhost/scaleinfinite-nextcloud-all/assets/vendor/glightbox/js/glightbox.min.js"  nonce="<?php p(\OC::$server->getContentSecurityPolicyNonceManager()->getNonce()) ?>"></script>
-            <script src="http://localhost/scaleinfinite-nextcloud-all/assets/vendor/isotope-layout/isotope.pkgd.min.js"  nonce="<?php p(\OC::$server->getContentSecurityPolicyNonceManager()->getNonce()) ?>"></script>
-            <script src="http://localhost/scaleinfinite-nextcloud-all/assets/vendor/swiper/swiper-bundle.min.js"  nonce="<?php p(\OC::$server->getContentSecurityPolicyNonceManager()->getNonce()) ?>"></script>
-            <script src="http://localhost/scaleinfinite-nextcloud-all/assets/vendor/php-email-form/validate.js"  nonce="<?php p(\OC::$server->getContentSecurityPolicyNonceManager()->getNonce()) ?>"></script>
+            <script src="<?php echo $base_url;?>assets/vendor/purecounter/purecounter.js"  nonce="<?php p(\OC::$server->getContentSecurityPolicyNonceManager()->getNonce()) ?>"></script>
+            <script src="<?php echo $base_url;?>assets/vendor/aos/aos.js"  nonce="<?php p(\OC::$server->getContentSecurityPolicyNonceManager()->getNonce()) ?>"></script>
+            <script src="<?php echo $base_url;?>assets/vendor/bootstrap/js/bootstrap.bundle.min.js"  nonce="<?php p(\OC::$server->getContentSecurityPolicyNonceManager()->getNonce()) ?>"></script>
+            <script src="<?php echo $base_url;?>assets/vendor/glightbox/js/glightbox.min.js"  nonce="<?php p(\OC::$server->getContentSecurityPolicyNonceManager()->getNonce()) ?>"></script>
+            <script src="<?php echo $base_url;?>assets/vendor/isotope-layout/isotope.pkgd.min.js"  nonce="<?php p(\OC::$server->getContentSecurityPolicyNonceManager()->getNonce()) ?>"></script>
+            <script src="<?php echo $base_url;?>assets/vendor/swiper/swiper-bundle.min.js"  nonce="<?php p(\OC::$server->getContentSecurityPolicyNonceManager()->getNonce()) ?>"></script>
+            <script src="<?php echo $base_url;?>assets/vendor/php-email-form/validate.js"  nonce="<?php p(\OC::$server->getContentSecurityPolicyNonceManager()->getNonce()) ?>"></script>
             <!-- Template Main JS File -->
-            <script src="http://localhost/scaleinfinite-nextcloud-all/assets/js/mainLandingPage.js"  nonce="<?php p(\OC::$server->getContentSecurityPolicyNonceManager()->getNonce()) ?>"></script>
+            <script src="<?php echo $base_url;?>assets/js/mainLandingPage.js"  nonce="<?php p(\OC::$server->getContentSecurityPolicyNonceManager()->getNonce()) ?>"></script>
             <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"  nonce="<?php p(\OC::$server->getContentSecurityPolicyNonceManager()->getNonce()) ?>"></script>
             <!-- Loading script -->
             <script  nonce="<?php p(\OC::$server->getContentSecurityPolicyNonceManager()->getNonce()) ?>">
