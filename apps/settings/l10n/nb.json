@@ -286,6 +286,7 @@
     "It seems like you are running a 32-bit PHP version. Nextcloud needs 64-bit to run well. Please upgrade your OS and PHP to 64-bit!" : "Det virker som om du kjører en 32-biters PHP-versjon. Nextcloud trenger 64-bit for å kjøre bra. Vennligst oppgrader OS og PHP til 64-bit!",
     "Temporary space available" : "Midlertidig plass tilgjengelig",
     "Error while checking the temporary PHP path - it was not properly set to a directory. Returned value: %s" : "Feil under kontroll av den midlertidige PHP-banen - den var ikke riktig satt til en katalog. Returnert verdi: %s.",
+    "The PHP function \"disk_free_space\" is disabled, which prevents the check for enough space in the temporary directories." : "PHP-funksjonen \"disk_free_space\" er deaktivert, noe som forhindrer kontroll for nok plass i de midlertidige katalogene.",
     "Error while checking the available disk space of temporary PHP path or no free disk space returned. Temporary path: %s" : "Feil under kontroll av tilgjengelig diskplass på midlertidig PHP-bane eller ingen ledig diskplass returnert. Midlertidig bane: %s.",
     "- %.1f GiB available in %s (PHP temporary directory)" : "- %.1f GB tilgjengelig i %s (midlertidig PHP-katalog)",
     "- %.1f GiB available in %s (Nextcloud temporary directory)" : "- %.1f GB tilgjengelig i %s (midlertidig Nextcloud-katalog)",

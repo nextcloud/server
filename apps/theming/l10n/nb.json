@@ -74,6 +74,8 @@
     "Disable user theming" : "Deaktiver brukertema",
     "Although you can select and customize your instance, users can change their background and colors. If you want to enforce your customization, you can toggle this on." : "Selv om du kan velge og tilpasse forekomsten, kan brukerne endre bakgrunn og farger. Hvis du vil håndheve tilpasningen din, kan du slå på dette.",
     "Appearance and accessibility settings" : "Innstilinger for utseende og tilgjengelighet",
+    "Misc accessibility options" : "Diverse tilgjengelighetsalternativer",
+    "Enable blur background filter (may increase GPU load)" : "Aktiver bakgrunnsfilter for uskarphet (kan øke GPU-belastningen)",
     "Customization has been disabled by your administrator" : "Tilpassing er deaktivert av systemansvarlig",
     "Set a primary color to highlight important elements. The color used for elements such as primary buttons might differ a bit as it gets adjusted to fulfill accessibility requirements." : "Angi en primærfarge for å fremheve viktige elementer. Fargen som brukes for elementer som primærknapper, kan variere litt ettersom den blir justert for å oppfylle tilgjengelighetskrav.",
     "Background and color" : "Bakgrunn og farge",
