@@ -85,6 +85,8 @@ class NewUserMailHelperTest extends TestCase {
 			$this->defaults,
 			$this->urlGenerator,
 			$this->l10nFactory,
+			null,
+			null,
 			'test.TestTemplate',
 			[]
 		);
