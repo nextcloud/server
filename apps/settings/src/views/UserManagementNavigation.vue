@@ -18,7 +18,7 @@
 			data-cy-users-settings-navigation-groups="system">
 			<NcAppNavigationItem id="everyone"
 				:exact="true"
-				:name="t('settings', 'Active accounts')"
+				:name="t('settings', 'All accounts')"
 				:to="{ name: 'users' }">
 				<template #icon>
 					<NcIconSvgWrapper :path="mdiAccount" />
@@ -48,7 +48,7 @@
 
 			<NcAppNavigationItem id="recent"
 				:exact="true"
-				:name="t('settings', 'Recent accounts')"
+				:name="t('settings', 'Recently active')"
 				:to="{ name: 'group', params: { selectedGroup: '__nc_internal_recent' } }">
 				<template #icon>
 					<NcIconSvgWrapper :path="mdiHistory" />

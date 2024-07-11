@@ -36,7 +36,7 @@ export default defineComponent({
 	computed: {
 		pageHeading() {
 			if (this.selectedGroupDecoded === null) {
-				return t('settings', 'Active accounts')
+				return t('settings', 'All accounts')
 			}
 			const matchHeading = {
 				admin: t('settings', 'Admins'),
