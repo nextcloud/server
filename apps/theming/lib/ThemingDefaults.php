@@ -437,7 +437,11 @@ class ThemingDefaults extends \OC_Defaults {
 	 * Revert all settings to the default value
 	 */
 	public function undoAll(): void {
+		// Remember the current cachebuster value, as we do not want to reset this value
+		// Otherwise this can lead to caching issues as the value might be known to a browser already
+		$cacheBusterKey = $this->config->getAppValue('theming', 'cachebuster', '0');
 		$this->config->deleteAppValues('theming');
+		$this->config->setAppValue('theming', 'cachebuster', $cacheBusterKey);
 		$this->increaseCacheBuster();
 	}
 
