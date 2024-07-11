@@ -222,13 +222,16 @@ class LegacyVersionsBackend implements IVersionBackend, IDeletableVersionBackend
 	}
 
 	public function createVersionEntity(File $file): void {
-		$versionEntity = new VersionEntity();
-		$versionEntity->setFileId($file->getId());
-		$versionEntity->setTimestamp($file->getMTime());
-		$versionEntity->setSize($file->getSize());
-		$versionEntity->setMimetype($this->mimeTypeLoader->getId($file->getMimetype()));
-		$versionEntity->setMetadata([]);
-		$this->versionsMapper->insert($versionEntity);
+		$versionEntityExists = $this->versionsMapper->findVersionForFileId($file->getId(), $file->getMTime());
+		if (!$versionEntityExists) {
+			$versionEntity = new VersionEntity();
+			$versionEntity->setFileId($file->getId());
+			$versionEntity->setTimestamp($file->getMTime());
+			$versionEntity->setSize($file->getSize());
+			$versionEntity->setMimetype($this->mimeTypeLoader->getId($file->getMimetype()));
+			$versionEntity->setMetadata([]);
+			$this->versionsMapper->insert($versionEntity);
+		}
 	}
 
 	public function updateVersionEntity(File $sourceFile, int $revision, array $properties): void {
