@@ -166,13 +166,13 @@ class UsersController extends Controller {
 
 		$recentUsersGroup = [
 			'id' => '__nc_internal_recent',
-			'name' => 'Recent accounts',
+			'name' => $this->l10n->t('Recent accounts'),
 			'usercount' => $userCount,
 		];
 
 		$disabledUsersGroup = [
 			'id' => 'disabled',
-			'name' => 'Disabled accounts',
+			'name' => $this->l10n->t('Disabled accounts'),
 			'usercount' => $disabledUsers
 		];
 
