@@ -255,11 +255,13 @@ class OC_App {
 
 
 	/**
-	 * search for an app in all app-directories
+	 * Find the apps root for an app id.
+	 *
+	 * If multiple copies are found, the apps root the latest version is returned.
 	 *
 	 * @param string $appId
 	 * @param bool $ignoreCache ignore cache and rebuild it
-	 * @return false|string
+	 * @return false|array{path: string, url: string} the apps root shape
 	 */
 	public static function findAppInDirectories(string $appId, bool $ignoreCache = false) {
 		$sanitizedAppId = self::cleanAppId($appId);
