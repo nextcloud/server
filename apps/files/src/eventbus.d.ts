@@ -6,6 +6,7 @@ declare module '@nextcloud/event-bus' {
 		'files:favorites:removed': Node
 		'files:favorites:added': Node
 		'files:node:renamed': Node
+		'nextcloud:unified-search.search': { query: string }
 	}
 }
 
