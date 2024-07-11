@@ -97,6 +97,12 @@ class SharedStorage extends \OC\Files\Storage\Wrapper\Jail implements ISharedSto
 
 	private string $sourcePath = '';
 
+	/**
+	 * @psalm-suppress NonInvariantDocblockPropertyType
+	 * @var ?\OC\Files\Storage\Storage $storage
+	 */
+	protected $storage;
+
 	private static int $initDepth = 0;
 
 	public function __construct($arguments) {
@@ -134,8 +140,21 @@ class SharedStorage extends \OC\Files\Storage\Wrapper\Jail implements ISharedSto
 		return $this->sourceRootInfo;
 	}
 
+	/**
+	 * @psalm-assert \OC\Files\Storage\Storage $this->storage
+	 */
 	private function init() {
 		if ($this->initialized) {
+			if (!$this->storage) {
+				// marked as initialized but no storage set
+				// this is probably because some code path has caused recursion during the share setup
+				// we setup a "failed storage" so `getWrapperStorage` doesn't return null.
+				// If the share setup completes after this the "failed storage" will be overwritten by the correct one
+				$this->logger->warning('Possible share setup recursion detected');
+				$this->storage = new FailedStorage(['exception' => new \Exception('Possible share setup recursion detected')]);
+				$this->cache = new FailedCache();
+				$this->rootPath = '';
+			}
 			return;
 		}
 
