@@ -50,6 +50,7 @@ use OC\Hooks\PublicEmitter;
 use OC_User;
 use OC_Util;
 use OCA\DAV\Connector\Sabre\Auth;
+use OCP\AppFramework\Db\TTransactional;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Authentication\Exceptions\ExpiredTokenException;
 use OCP\Authentication\Exceptions\InvalidTokenException;
@@ -57,6 +58,7 @@ use OCP\EventDispatcher\GenericEvent;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\NotPermittedException;
 use OCP\IConfig;
+use OCP\IDBConnection;
 use OCP\IRequest;
 use OCP\ISession;
 use OCP\IUser;
@@ -93,53 +95,22 @@ use Psr\Log\LoggerInterface;
  * @package OC\User
  */
 class Session implements IUserSession, Emitter {
-	/** @var Manager $manager */
-	private $manager;
-
-	/** @var ISession $session */
-	private $session;
-
-	/** @var ITimeFactory */
-	private $timeFactory;
-
-	/** @var IProvider */
-	private $tokenProvider;
-
-	/** @var IConfig */
-	private $config;
+	use TTransactional;
 
 	/** @var User $activeUser */
 	protected $activeUser;
 
-	/** @var ISecureRandom */
-	private $random;
-
-	/** @var ILockdownManager  */
-	private $lockdownManager;
-
-	private LoggerInterface $logger;
-	/** @var IEventDispatcher */
-	private $dispatcher;
-
-	public function __construct(Manager $manager,
-		ISession $session,
-		ITimeFactory $timeFactory,
-		?IProvider $tokenProvider,
-		IConfig $config,
-		ISecureRandom $random,
-		ILockdownManager $lockdownManager,
-		LoggerInterface $logger,
-		IEventDispatcher $dispatcher
+	public function __construct(
+		private Manager          $manager,
+		private ISession         $session,
+		private ITimeFactory     $timeFactory,
+		private ?IProvider       $tokenProvider,
+		private IConfig          $config,
+		private ISecureRandom    $random,
+		private ILockdownManager $lockdownManager,
+		private LoggerInterface  $logger,
+		private IEventDispatcher $dispatcher,
 	) {
-		$this->manager = $manager;
-		$this->session = $session;
-		$this->timeFactory = $timeFactory;
-		$this->tokenProvider = $tokenProvider;
-		$this->config = $config;
-		$this->random = $random;
-		$this->lockdownManager = $lockdownManager;
-		$this->logger = $logger;
-		$this->dispatcher = $dispatcher;
 	}
 
 	/**
@@ -705,8 +676,10 @@ class Session implements IUserSession, Emitter {
 			$sessionId = $this->session->getId();
 			$pwd = $this->getPassword($password);
 			// Make sure the current sessionId has no leftover tokens
-			$this->tokenProvider->invalidateToken($sessionId);
-			$this->tokenProvider->generateToken($sessionId, $uid, $loginName, $pwd, $name, IToken::TEMPORARY_TOKEN, $remember);
+			$this->atomic(function () use ($sessionId, $uid, $loginName, $pwd, $name, $remember) {
+				$this->tokenProvider->invalidateToken($sessionId);
+				$this->tokenProvider->generateToken($sessionId, $uid, $loginName, $pwd, $name, IToken::TEMPORARY_TOKEN, $remember);
+			}, \OCP\Server::get(IDBConnection::class));
 			return true;
 		} catch (SessionNotAvailableException $ex) {
 			// This can happen with OCC, where a memory session is used
