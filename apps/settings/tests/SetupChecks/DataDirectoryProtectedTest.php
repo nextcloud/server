@@ -45,7 +45,7 @@ class DataDirectoryProtectedTest extends TestCase {
 		$this->logger = $this->createMock(LoggerInterface::class);
 
 		$this->setupcheck = $this->getMockBuilder(DataDirectoryProtected::class)
-			->onlyMethods(['runHEAD'])
+			->onlyMethods(['runRequest'])
 			->setConstructorArgs([
 				$this->l10n,
 				$this->config,
@@ -59,16 +59,17 @@ class DataDirectoryProtectedTest extends TestCase {
 	/**
 	 * @dataProvider dataTestStatusCode
 	 */
-	public function testStatusCode(array $status, string $expected): void {
-		$responses = array_map(function ($state) {
+	public function testStatusCode(array $status, string $expected, bool $hasBody): void {
+		$responses = array_map(function ($state) use ($hasBody) {
 			$response = $this->createMock(IResponse::class);
 			$response->expects($this->any())->method('getStatusCode')->willReturn($state);
+			$response->expects(($this->atMost(1)))->method('getBody')->willReturn($hasBody ? '# Nextcloud data directory' : 'something else');
 			return $response;
 		}, $status);
 
 		$this->setupcheck
 			->expects($this->once())
-			->method('runHEAD')
+			->method('runRequest')
 			->will($this->generate($responses));
 
 		$this->config
@@ -82,10 +83,11 @@ class DataDirectoryProtectedTest extends TestCase {
 
 	public function dataTestStatusCode(): array {
 		return [
-			'success: forbidden access' => [[403], SetupResult::SUCCESS],
-			'error: can access' => [[200], SetupResult::ERROR],
-			'error: one forbidden one can access' => [[403, 200], SetupResult::ERROR],
-			'warning: connection issue' => [[], SetupResult::WARNING],
+			'success: forbidden access' => [[403], SetupResult::SUCCESS, true],
+			'success: forbidden access with redirect' => [[200], SetupResult::SUCCESS, false],
+			'error: can access' => [[200], SetupResult::ERROR, true],
+			'error: one forbidden one can access' => [[403, 200], SetupResult::ERROR, true],
+			'warning: connection issue' => [[], SetupResult::WARNING, true],
 		];
 	}
 
@@ -95,7 +97,7 @@ class DataDirectoryProtectedTest extends TestCase {
 
 		$this->setupcheck
 			->expects($this->once())
-			->method('runHEAD')
+			->method('runRequest')
 			->will($this->generate([]));
 
 		$this->config
