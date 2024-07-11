@@ -1308,8 +1308,8 @@ $CONFIG = [
 'preview_imaginary_key' => 'secret',
 
 /**
- * Due to security concerns, Imaginary does not process document files by default.
- * The following mimetypes are always processed:
+ * Imaginary can, but does not, process PDF and Illustrator files by default.
+ * The following MIME types are always processed:
  * bmp, x-bitmap, png, jpeg, gif, heic, heif, svg+xml, tiff and webp
  * 
  * Set to ``true``  to enable processing of documents of type pdf and illustrator.
