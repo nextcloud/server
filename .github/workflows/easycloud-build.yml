@@ -71,6 +71,10 @@ jobs:
           npm run build
           cd ../..
 
+      - name: Add config partials
+        run: |
+          cp IONOS/configs/*.config.php config/
+
       - name: Zip dependencies
         run: |
           buildDate=$(date +%s)
