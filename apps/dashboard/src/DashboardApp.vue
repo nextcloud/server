@@ -20,7 +20,12 @@
 					class="panel">
 					<div class="panel--header">
 						<h2>
-							<span :aria-labelledby="`panel-${panels[panelId].id}--header--icon--description`"
+							<img v-if="apiWidgets[panels[panelId].id].icon_url"
+								:alt="apiWidgets[panels[panelId].id].title + ' icon'"
+								:src="apiWidgets[panels[panelId].id].icon_url"
+								aria-hidden="true">
+							<span v-else
+								:aria-labelledby="`panel-${panels[panelId].id}--header--icon--description`"
 								aria-hidden="true"
 								:class="apiWidgets[panels[panelId].id].icon_class"
 								role="img" />
@@ -93,7 +98,11 @@
 							:checked="isActive(panel)"
 							@input="updateCheckbox(panel, $event.target.checked)">
 						<label :for="'panel-checkbox-' + panel.id" :class="{ draggable: isActive(panel) }">
-							<span :class="panel.iconClass" aria-hidden="true" />
+							<img v-if="panel.iconUrl"
+								:alt="panel.title + ' icon'"
+								:src="panel.iconUrl"
+								aria-hidden="true">
+							<span v-else :class="panel.iconClass" aria-hidden="true" />
 							{{ panel.title }}
 						</label>
 					</li>
@@ -546,6 +555,8 @@ export default {
 			overflow: hidden;
 			text-overflow: ellipsis;
 			cursor: grab;
+
+			img,
 			span {
 				background-size: 32px;
 				width: 32px;
@@ -555,6 +566,10 @@ export default {
 				float: left;
 				margin-top: -6px;
 				margin-left: 6px;
+			}
+
+			img {
+				filter: var(--background-invert-if-dark);
 			}
 		}
 	}
@@ -643,12 +658,17 @@ export default {
 			text-overflow: ellipsis;
 			white-space: nowrap;
 
+			img,
 			span {
 				position: absolute;
 				top: 16px;
 				width: 24px;
 				height: 24px;
 				background-size: 24px;
+			}
+
+			img {
+				filter: var(--background-invert-if-dark);
 			}
 
 			&:hover {
