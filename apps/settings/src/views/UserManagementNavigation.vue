@@ -46,6 +46,21 @@
 				</template>
 			</NcAppNavigationItem>
 
+			<NcAppNavigationItem id="recent"
+				:exact="true"
+				:name="t('settings', 'Recent accounts')"
+				:to="{ name: 'group', params: { selectedGroup: '__nc_internal_recent' } }">
+				<template #icon>
+					<NcIconSvgWrapper :path="mdiHistory" />
+				</template>
+				<template #counter>
+					<NcCounterBubble v-if="recentGroup?.usercount > 0"
+						:type="selectedGroupDecoded === '__nc_internal_recent' ? 'highlighted' : undefined">
+						{{ recentGroup.usercount }}
+					</NcCounterBubble>
+				</template>
+			</NcAppNavigationItem>
+
 			<!-- Hide the disabled if none, if we don't have the data (-1) show it -->
 			<NcAppNavigationItem v-if="disabledGroup && (disabledGroup.usercount > 0 || disabledGroup.usercount === -1)"
 				id="disabled"
@@ -115,7 +130,7 @@
 </template>
 
 <script setup lang="ts">
-import { mdiAccount, mdiAccountOff, mdiCog, mdiPlus, mdiShieldAccount } from '@mdi/js'
+import { mdiAccount, mdiAccountOff, mdiCog, mdiPlus, mdiShieldAccount, mdiHistory } from '@mdi/js'
 import { showError } from '@nextcloud/dialogs'
 import { translate as t } from '@nextcloud/l10n'
 import { computed, ref } from 'vue'
@@ -154,7 +169,7 @@ const selectedGroupDecoded = computed(() => selectedGroup.value ? decodeURICompo
 const userCount = computed(() => store.getters.getUserCount)
 /** All available groups */
 const groups = computed(() => store.getters.getSortedGroups)
-const { adminGroup, disabledGroup, userGroups } = useFormatGroups(groups)
+const { adminGroup, recentGroup, disabledGroup, userGroups } = useFormatGroups(groups)
 
 /** True if the current user is an administrator */
 const isAdmin = computed(() => store.getters.getServerData.isAdmin)
