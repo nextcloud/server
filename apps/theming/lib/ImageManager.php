@@ -42,6 +42,9 @@ class ImageManager {
 		$cacheBusterCounter = $this->config->getAppValue(Application::APP_ID, 'cachebuster', '0');
 		if ($this->hasImage($key)) {
 			return $this->urlGenerator->linkToRoute('theming.Theming.getImage', [ 'key' => $key ]) . '?v=' . $cacheBusterCounter;
+		} elseif ($key === 'backgroundDark' && $this->hasImage('background')) {
+			// Fall back to light variant
+			return $this->urlGenerator->linkToRoute('theming.Theming.getImage', [ 'key' => 'background' ]) . '?v=' . $cacheBusterCounter;
 		}
 
 		switch ($key) {
@@ -49,11 +52,16 @@ class ImageManager {
 			case 'logoheader':
 			case 'favicon':
 				return $this->urlGenerator->imagePath('core', 'logo/logo.png') . '?v=' . $cacheBusterCounter;
+			case 'backgroundDark':
 			case 'background':
 				// Removing the background defines its mime as 'backgroundColor'
 				$mimeSetting = $this->config->getAppValue('theming', 'backgroundMime', '');
 				if ($mimeSetting !== 'backgroundColor') {
-					return $this->urlGenerator->linkTo(Application::APP_ID, 'img/background/' . BackgroundService::DEFAULT_BACKGROUND_IMAGE);
+					$image = BackgroundService::DEFAULT_BACKGROUND_IMAGE;
+					if ($key === 'backgroundDark') {
+						$image = BackgroundService::SHIPPED_BACKGROUNDS[$image]['dark_variant'] ?? $image;
+					}
+					return $this->urlGenerator->linkTo(Application::APP_ID, "img/background/$image");
 				}
 		}
 		return '';
