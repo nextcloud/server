@@ -16,10 +16,12 @@ use OC\KnownUser\KnownUserService;
 use OC\User\Backend;
 use OCA\Provisioning_API\ResponseDefinitions;
 use OCA\Settings\Mailer\NewUserMailHelper;
+use OCA\Settings\Settings\Admin\Users;
 use OCP\Accounts\IAccountManager;
 use OCP\Accounts\IAccountProperty;
 use OCP\Accounts\PropertyDoesNotExistException;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\AuthorizedAdminSetting;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCS\OCSException;
 use OCP\AppFramework\OCS\OCSForbiddenException;
@@ -101,7 +103,9 @@ class UsersController extends AUserData {
 		// Admin? Or SubAdmin?
 		$uid = $user->getUID();
 		$subAdminManager = $this->groupManager->getSubAdmin();
-		if ($this->groupManager->isAdmin($uid)) {
+		$isAdmin = $this->groupManager->isAdmin($uid);
+		$isDelegatedAdmin = $this->groupManager->isDelegatedAdmin($uid);
+		if ($isAdmin || $isDelegatedAdmin) {
 			$users = $this->userManager->search($search, $limit, $offset);
 		} elseif ($subAdminManager->isSubAdmin($user)) {
 			$subAdminOfGroups = $subAdminManager->getSubAdminsGroups($user);
@@ -142,7 +146,9 @@ class UsersController extends AUserData {
 		// Admin? Or SubAdmin?
 		$uid = $currentUser->getUID();
 		$subAdminManager = $this->groupManager->getSubAdmin();
-		if ($this->groupManager->isAdmin($uid)) {
+		$isAdmin = $this->groupManager->isAdmin($uid);
+		$isDelegatedAdmin = $this->groupManager->isDelegatedAdmin($uid);
+		if ($isAdmin || $isDelegatedAdmin) {
 			$users = $this->userManager->search($search, $limit, $offset);
 			$users = array_keys($users);
 		} elseif ($subAdminManager->isSubAdmin($currentUser)) {
@@ -213,7 +219,9 @@ class UsersController extends AUserData {
 		// Admin? Or SubAdmin?
 		$uid = $currentUser->getUID();
 		$subAdminManager = $this->groupManager->getSubAdmin();
-		if ($this->groupManager->isAdmin($uid)) {
+		$isAdmin = $this->groupManager->isAdmin($uid);
+		$isDelegatedAdmin = $this->groupManager->isDelegatedAdmin($uid);
+		if ($isAdmin || $isDelegatedAdmin) {
 			$users = $this->userManager->getDisabledUsers($limit, $offset, $search);
 			$users = array_map(fn (IUser $user): string => $user->getUID(), $users);
 		} elseif ($subAdminManager->isSubAdmin($currentUser)) {
@@ -275,6 +283,7 @@ class UsersController extends AUserData {
 	 *
 	 * 200: Users details returned based on last logged in information
 	 */
+	#[AuthorizedAdminSetting(settings:Users::class)]
 	public function getLastLoggedInUsers(string $search = '',
 		?int $limit = null,
 		int $offset = 0,
@@ -447,6 +456,7 @@ class UsersController extends AUserData {
 	): DataResponse {
 		$user = $this->userSession->getUser();
 		$isAdmin = $this->groupManager->isAdmin($user->getUID());
+		$isDelegatedAdmin = $this->groupManager->isDelegatedAdmin($user->getUID());
 		$subAdminManager = $this->groupManager->getSubAdmin();
 
 		if (empty($userid) && $this->config->getAppValue('core', 'newUser.generateUserID', 'no') === 'yes') {
@@ -463,12 +473,12 @@ class UsersController extends AUserData {
 				if (!$this->groupManager->groupExists($group)) {
 					throw new OCSException($this->l10n->t('Group %1$s does not exist', [$group]), 104);
 				}
-				if (!$isAdmin && !$subAdminManager->isSubAdminOfGroup($user, $this->groupManager->get($group))) {
+				if (!$isAdmin && !($isDelegatedAdmin && $group !== 'admin') && !$subAdminManager->isSubAdminOfGroup($user, $this->groupManager->get($group))) {
 					throw new OCSException($this->l10n->t('Insufficient privileges for group %1$s', [$group]), 105);
 				}
 			}
 		} else {
-			if (!$isAdmin) {
+			if (!$isAdmin && !$isDelegatedAdmin) {
 				throw new OCSException($this->l10n->t('No group specified (required for sub-admins)'), 106);
 			}
 		}
@@ -486,7 +496,7 @@ class UsersController extends AUserData {
 					throw new OCSException($this->l10n->t('Cannot create sub-admins for admin group'), 103);
 				}
 				// Check if has permission to promote subadmins
-				if (!$subAdminManager->isSubAdminOfGroup($user, $group) && !$isAdmin) {
+				if (!$subAdminManager->isSubAdminOfGroup($user, $group) && !$isAdmin && !$isDelegatedAdmin) {
 					throw new OCSForbiddenException($this->l10n->t('No permissions to promote sub-admins'));
 				}
 				$subadminGroups[] = $group;
@@ -718,8 +728,10 @@ class UsersController extends AUserData {
 			}
 
 			$subAdminManager = $this->groupManager->getSubAdmin();
+			$isAdmin = $this->groupManager->isAdmin($currentLoggedInUser->getUID());
+			$isDelegatedAdmin = $this->groupManager->isDelegatedAdmin($currentLoggedInUser->getUID());
 			if (
-				!$this->groupManager->isAdmin($currentLoggedInUser->getUID())
+				!($isAdmin || $isDelegatedAdmin)
 				&& !$subAdminManager->isUserAccessible($currentLoggedInUser, $targetUser)
 			) {
 				throw new OCSException('', OCSController::RESPOND_NOT_FOUND);
@@ -788,6 +800,7 @@ class UsersController extends AUserData {
 		}
 
 		$subAdminManager = $this->groupManager->getSubAdmin();
+		$isDelegatedAdmin = $this->groupManager->isDelegatedAdmin($currentLoggedInUser->getUID());
 		$isAdminOrSubadmin = $this->groupManager->isAdmin($currentLoggedInUser->getUID())
 			|| $subAdminManager->isUserAccessible($currentLoggedInUser, $targetUser);
 
@@ -798,7 +811,7 @@ class UsersController extends AUserData {
 			$permittedFields[] = IAccountManager::COLLECTION_EMAIL . self::SCOPE_SUFFIX;
 		} else {
 			// Check if admin / subadmin
-			if ($isAdminOrSubadmin) {
+			if ($isAdminOrSubadmin || $isDelegatedAdmin && !$this->groupManager->isInGroup($targetUser->getUID(), 'admin')) {
 				// They have permissions over the user
 				$permittedFields[] = IAccountManager::COLLECTION_EMAIL;
 			} else {
@@ -903,14 +916,16 @@ class UsersController extends AUserData {
 			$permittedFields[] = self::USER_FIELD_NOTIFICATION_EMAIL;
 			if (
 				$this->config->getSystemValue('force_language', false) === false ||
-				$this->groupManager->isAdmin($currentLoggedInUser->getUID())
+				$this->groupManager->isAdmin($currentLoggedInUser->getUID()) ||
+				$this->groupManager->isDelegatedAdmin($currentLoggedInUser->getUID())
 			) {
 				$permittedFields[] = self::USER_FIELD_LANGUAGE;
 			}
 
 			if (
 				$this->config->getSystemValue('force_locale', false) === false ||
-				$this->groupManager->isAdmin($currentLoggedInUser->getUID())
+				$this->groupManager->isAdmin($currentLoggedInUser->getUID()) ||
+				$this->groupManager->isDelegatedAdmin($currentLoggedInUser->getUID())
 			) {
 				$permittedFields[] = self::USER_FIELD_LOCALE;
 			}
@@ -941,7 +956,9 @@ class UsersController extends AUserData {
 			$permittedFields[] = IAccountManager::PROPERTY_AVATAR . self::SCOPE_SUFFIX;
 
 			// If admin they can edit their own quota and manager
-			if ($this->groupManager->isAdmin($currentLoggedInUser->getUID())) {
+			$isAdmin = $this->groupManager->isAdmin($currentLoggedInUser->getUID());
+			$isDelegatedAdmin = $this->groupManager->isDelegatedAdmin($currentLoggedInUser->getUID());
+			if ($isAdmin || $isDelegatedAdmin) {
 				$permittedFields[] = self::USER_FIELD_QUOTA;
 				$permittedFields[] = self::USER_FIELD_MANAGER;
 			}
@@ -949,7 +966,8 @@ class UsersController extends AUserData {
 			// Check if admin / subadmin
 			$subAdminManager = $this->groupManager->getSubAdmin();
 			if (
-				$this->groupManager->isAdmin($currentLoggedInUser->getUID())
+				$this->groupManager->isAdmin($currentLoggedInUser->getUID()) ||
+				$this->groupManager->isDelegatedAdmin($currentLoggedInUser->getUID()) && !$this->groupManager->isInGroup($targetUser->getUID(), 'admin')
 				|| $subAdminManager->isUserAccessible($currentLoggedInUser, $targetUser)
 			) {
 				// They have permissions over the user
@@ -1204,7 +1222,9 @@ class UsersController extends AUserData {
 
 		// If not permitted
 		$subAdminManager = $this->groupManager->getSubAdmin();
-		if (!$this->groupManager->isAdmin($currentLoggedInUser->getUID()) && !$subAdminManager->isUserAccessible($currentLoggedInUser, $targetUser)) {
+		$isAdmin = $this->groupManager->isAdmin($currentLoggedInUser->getUID());
+		$isDelegatedAdmin = $this->groupManager->isDelegatedAdmin($currentLoggedInUser->getUID());
+		if (!$isAdmin && !($isDelegatedAdmin && !$this->groupManager->isInGroup($targetUser->getUID(), 'admin')) && !$subAdminManager->isUserAccessible($currentLoggedInUser, $targetUser)) {
 			throw new OCSException('', OCSController::RESPOND_NOT_FOUND);
 		}
 
@@ -1240,7 +1260,9 @@ class UsersController extends AUserData {
 
 		// If not permitted
 		$subAdminManager = $this->groupManager->getSubAdmin();
-		if (!$this->groupManager->isAdmin($currentLoggedInUser->getUID()) && !$subAdminManager->isUserAccessible($currentLoggedInUser, $targetUser)) {
+		$isAdmin = $this->groupManager->isAdmin($currentLoggedInUser->getUID());
+		$isDelegatedAdmin = $this->groupManager->isDelegatedAdmin($currentLoggedInUser->getUID());
+		if (!$isAdmin && !($isDelegatedAdmin && !$this->groupManager->isInGroup($targetUser->getUID(), 'admin')) && !$subAdminManager->isUserAccessible($currentLoggedInUser, $targetUser)) {
 			throw new OCSException('', OCSController::RESPOND_NOT_FOUND);
 		}
 
@@ -1300,7 +1322,9 @@ class UsersController extends AUserData {
 
 		// If not permitted
 		$subAdminManager = $this->groupManager->getSubAdmin();
-		if (!$this->groupManager->isAdmin($currentLoggedInUser->getUID()) && !$subAdminManager->isUserAccessible($currentLoggedInUser, $targetUser)) {
+		$isAdmin = $this->groupManager->isAdmin($currentLoggedInUser->getUID());
+		$isDelegatedAdmin = $this->groupManager->isDelegatedAdmin($currentLoggedInUser->getUID());
+		if (!$isAdmin && !($isDelegatedAdmin && !$this->groupManager->isInGroup($targetUser->getUID(), 'admin')) && !$subAdminManager->isUserAccessible($currentLoggedInUser, $targetUser)) {
 			throw new OCSException('', OCSController::RESPOND_NOT_FOUND);
 		}
 
@@ -1329,7 +1353,9 @@ class UsersController extends AUserData {
 			throw new OCSException('', OCSController::RESPOND_NOT_FOUND);
 		}
 
-		if ($targetUser->getUID() === $loggedInUser->getUID() || $this->groupManager->isAdmin($loggedInUser->getUID())) {
+		$isAdmin = $this->groupManager->isAdmin($loggedInUser->getUID());
+		$isDelegatedAdmin = $this->groupManager->isDelegatedAdmin($loggedInUser->getUID());
+		if ($targetUser->getUID() === $loggedInUser->getUID() || $isAdmin || $isDelegatedAdmin) {
 			// Self lookup or admin lookup
 			return new DataResponse([
 				'groups' => $this->groupManager->getUserGroupIds($targetUser)
@@ -1388,7 +1414,9 @@ class UsersController extends AUserData {
 		// If they're not an admin, check they are a subadmin of the group in question
 		$loggedInUser = $this->userSession->getUser();
 		$subAdminManager = $this->groupManager->getSubAdmin();
-		if (!$this->groupManager->isAdmin($loggedInUser->getUID()) && !$subAdminManager->isSubAdminOfGroup($loggedInUser, $group)) {
+		$isAdmin = $this->groupManager->isAdmin($loggedInUser->getUID());
+		$isDelegatedAdmin = $this->groupManager->isDelegatedAdmin($loggedInUser->getUID());
+		if (!$isAdmin && !($isDelegatedAdmin && $groupid !== 'admin') && !$subAdminManager->isSubAdminOfGroup($loggedInUser, $group)) {
 			throw new OCSException('', 104);
 		}
 
@@ -1429,13 +1457,15 @@ class UsersController extends AUserData {
 
 		// If they're not an admin, check they are a subadmin of the group in question
 		$subAdminManager = $this->groupManager->getSubAdmin();
-		if (!$this->groupManager->isAdmin($loggedInUser->getUID()) && !$subAdminManager->isSubAdminOfGroup($loggedInUser, $group)) {
+		$isAdmin = $this->groupManager->isAdmin($loggedInUser->getUID());
+		$isDelegatedAdmin = $this->groupManager->isDelegatedAdmin($loggedInUser->getUID());
+		if (!$isAdmin && !($isDelegatedAdmin && $groupid !== 'admin') && !$subAdminManager->isSubAdminOfGroup($loggedInUser, $group)) {
 			throw new OCSException('', 104);
 		}
 
 		// Check they aren't removing themselves from 'admin' or their 'subadmin; group
 		if ($targetUser->getUID() === $loggedInUser->getUID()) {
-			if ($this->groupManager->isAdmin($loggedInUser->getUID())) {
+			if ($isAdmin || $isDelegatedAdmin) {
 				if ($group->getGID() === 'admin') {
 					throw new OCSException($this->l10n->t('Cannot remove yourself from the admin group'), 105);
 				}
@@ -1443,7 +1473,7 @@ class UsersController extends AUserData {
 				// Not an admin, so the user must be a subadmin of this group, but that is not allowed.
 				throw new OCSException($this->l10n->t('Cannot remove yourself from this group as you are a sub-admin'), 105);
 			}
-		} elseif (!$this->groupManager->isAdmin($loggedInUser->getUID())) {
+		} elseif (!($isAdmin || $isDelegatedAdmin)) {
 			/** @var IGroup[] $subAdminGroups */
 			$subAdminGroups = $subAdminManager->getSubAdminsGroups($loggedInUser);
 			$subAdminGroups = array_map(function (IGroup $subAdminGroup) {
@@ -1475,6 +1505,7 @@ class UsersController extends AUserData {
 	 *
 	 * 200: User added as group subadmin successfully
 	 */
+	#[AuthorizedAdminSetting(settings:Users::class)]
 	public function addSubAdmin(string $userId, string $groupid): DataResponse {
 		$group = $this->groupManager->get($groupid);
 		$user = $this->userManager->get($userId);
@@ -1515,6 +1546,7 @@ class UsersController extends AUserData {
 	 *
 	 * 200: User removed as group subadmin successfully
 	 */
+	#[AuthorizedAdminSetting(settings:Users::class)]
 	public function removeSubAdmin(string $userId, string $groupid): DataResponse {
 		$group = $this->groupManager->get($groupid);
 		$user = $this->userManager->get($userId);
@@ -1547,6 +1579,7 @@ class UsersController extends AUserData {
 	 *
 	 * 200: User subadmin groups returned
 	 */
+	#[AuthorizedAdminSetting(settings:Users::class)]
 	public function getUserSubAdminGroups(string $userId): DataResponse {
 		$groups = $this->getUserSubAdminGroupsData($userId);
 		return new DataResponse($groups);
@@ -1574,9 +1607,11 @@ class UsersController extends AUserData {
 
 		// Check if admin / subadmin
 		$subAdminManager = $this->groupManager->getSubAdmin();
+		$isAdmin = $this->groupManager->isAdmin($currentLoggedInUser->getUID());
+		$isDelegatedAdmin = $this->groupManager->isDelegatedAdmin($currentLoggedInUser->getUID());
 		if (
 			!$subAdminManager->isUserAccessible($currentLoggedInUser, $targetUser)
-			&& !$this->groupManager->isAdmin($currentLoggedInUser->getUID())
+			&& !($isAdmin || $isDelegatedAdmin)
 		) {
 			// No rights
 			throw new OCSException('', OCSController::RESPOND_NOT_FOUND);

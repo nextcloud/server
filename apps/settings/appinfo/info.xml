@@ -34,6 +34,7 @@
 		<admin>OCA\Settings\Settings\Admin\Sharing</admin>
 		<admin>OCA\Settings\Settings\Admin\Security</admin>
 		<admin>OCA\Settings\Settings\Admin\Delegation</admin>
+		<admin>OCA\Settings\Settings\Admin\Users</admin>
 		<admin-section>OCA\Settings\Sections\Admin\Additional</admin-section>
 		<admin-section>OCA\Settings\Sections\Admin\Delegation</admin-section>
 		<admin-section>OCA\Settings\Sections\Admin\Groupware</admin-section>
