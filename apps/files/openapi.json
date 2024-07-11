@@ -29,12 +29,19 @@
                     "files": {
                         "type": "object",
                         "required": [
+                            "$comment",
                             "bigfilechunking",
                             "blacklisted_files",
+                            "forbidden_filenames",
                             "forbidden_filename_characters",
+                            "forbidden_filename_extensions",
                             "directEditing"
                         ],
                         "properties": {
+                            "$comment": {
+                                "type": "string",
+                                "nullable": true
+                            },
                             "bigfilechunking": {
                                 "type": "boolean"
                             },
@@ -44,7 +51,19 @@
                                     "type": "object"
                                 }
                             },
+                            "forbidden_filenames": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string"
+                                }
+                            },
                             "forbidden_filename_characters": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string"
+                                }
+                            },
+                            "forbidden_filename_extensions": {
                                 "type": "array",
                                 "items": {
                                     "type": "string"
