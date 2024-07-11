@@ -47,14 +47,15 @@ use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IURLGenerator;
 use OCP\IUserSession;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class PersonalTest extends TestCase {
-	private IConfig $config;
-	private ThemesService $themesService;
-	private IInitialState $initialStateService;
-	private ThemingDefaults $themingDefaults;
-	private IAppManager $appManager;
+	private IConfig|MockObject $config;
+	private ThemesService|MockObject $themesService;
+	private IInitialState|MockObject $initialStateService;
+	private ThemingDefaults|MockObject $themingDefaults;
+	private IAppManager|MockObject $appManager;
 	private Personal $admin;
 
 	/** @var ITheme[] */
@@ -116,23 +117,26 @@ class PersonalTest extends TestCase {
 			->with('enforce_theme', '')
 			->willReturn($enforcedTheme);
 
-		$this->config->expects($this->once())
+		$this->config->expects($this->exactly(2))
 			->method('getUserValue')
-			->with('admin', 'core', 'apporder')
-			->willReturn('[]');
+			->willReturnMap([
+				['admin', 'core', 'apporder', '[]', '[]'],
+				['admin', 'theming', 'force_enable_blur_filter', '', ''],
+			]);
 
 		$this->appManager->expects($this->once())
 			->method('getDefaultAppForUser')
 			->willReturn('forcedapp');
 
-		$this->initialStateService->expects($this->exactly(4))
+		$this->initialStateService->expects($this->exactly(5))
 			->method('provideInitialState')
-			->withConsecutive(
+			->willReturnMap([
 				['themes', $themesState],
+				['enableBlurFilter', ''],
 				['enforceTheme', $enforcedTheme],
 				['isUserThemingDisabled', false],
 				['navigationBar', ['userAppOrder' => [], 'enforcedDefaultApp' => 'forcedapp']],
-			);
+			]);
 
 		$expected = new TemplateResponse('theming', 'settings-personal');
 		$this->assertEquals($expected, $this->admin->getForm());
@@ -174,6 +178,7 @@ class PersonalTest extends TestCase {
 				$config,
 				$l10n,
 				$appManager,
+				null,
 			),
 			'light' => new LightTheme(
 				$util,
@@ -184,6 +189,7 @@ class PersonalTest extends TestCase {
 				$config,
 				$l10n,
 				$appManager,
+				null,
 			),
 			'dark' => new DarkTheme(
 				$util,
@@ -194,6 +200,7 @@ class PersonalTest extends TestCase {
 				$config,
 				$l10n,
 				$appManager,
+				null,
 			),
 			'light-highcontrast' => new HighContrastTheme(
 				$util,
@@ -204,6 +211,7 @@ class PersonalTest extends TestCase {
 				$config,
 				$l10n,
 				$appManager,
+				null,
 			),
 			'dark-highcontrast' => new DarkHighContrastTheme(
 				$util,
@@ -214,6 +222,7 @@ class PersonalTest extends TestCase {
 				$config,
 				$l10n,
 				$appManager,
+				null,
 			),
 			'opendyslexic' => new DyslexiaFont(
 				$util,
@@ -224,6 +233,7 @@ class PersonalTest extends TestCase {
 				$config,
 				$l10n,
 				$appManager,
+				null,
 			),
 		];
 	}
