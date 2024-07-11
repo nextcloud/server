@@ -14,7 +14,7 @@ OC.L10N.register(
     "Set reminder" : "Erinnerung erstellen",
     "Set reminder for \"{fileName}\"" : "Erinnerung für \"{fileName}\" setzen",
     "Set reminder at custom date & time" : "Erinnerung für benutzerdefinierten Zeitpunkt und Tag erstellen",
-    "Reminder set for \"{fileName}\"" : "Erinnerung für \"{filename}\" gesetzt",
+    "Reminder set for \"{fileName}\"" : "Erinnerung für \"{fileName}\" gesetzt",
     "Failed to set reminder" : "Fehler beim Setzen der Erinnerung",
     "Failed to clear reminder" : "Fehler beim Löschen der Erinnerung",
     "Set custom reminder" : "Benutzerdefinierte Erinnerung erstellen",
