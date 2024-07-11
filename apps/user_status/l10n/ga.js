@@ -25,7 +25,7 @@ OC.L10N.register(
     "Set status message" : "Socraigh teachtaireacht stádais",
     "Reset status to \"{icon} {message}\"" : "Athshocraigh stádas go \"{icon} {message}\"",
     "Reset status to \"{message}\"" : "Athshocraigh stádas go \"{message}\"",
-    "Reset status to \"{icon}\"" : "Athshocraigh stádas go \"{ icon}\"",
+    "Reset status to \"{icon}\"" : "Athshocraigh stádas go \"{icon}\"",
     "There was an error saving the status" : "Tharla earráid agus an stádas á shábháil",
     "There was an error clearing the status" : "Tharla earráid agus an stádas á ghlanadh",
     "There was an error reverting the status" : "Tharla earráid agus an stádas á chur ar ais",
