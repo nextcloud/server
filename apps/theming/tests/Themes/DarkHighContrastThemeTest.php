@@ -110,6 +110,7 @@ class DarkHighContrastThemeTest extends AccessibleThemeTestCase {
 			$this->config,
 			$this->l10n,
 			$this->appManager,
+			null,
 		);
 
 		parent::setUp();
