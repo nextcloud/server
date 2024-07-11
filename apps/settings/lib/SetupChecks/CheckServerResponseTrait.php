@@ -98,6 +98,7 @@ trait CheckServerResponseTrait {
 
 	protected function getRequestOptions(bool $ignoreSSL, bool $httpErrors): array {
 		$requestOptions = [
+			'allow_redirects' => false,
 			'connect_timeout' => 10,
 			'http_errors' => $httpErrors,
 			'nextcloud' => [
