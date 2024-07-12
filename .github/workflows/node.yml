@@ -42,6 +42,7 @@ jobs:
               - '**.vue'
               - 'core/css/*'
               - 'core/img/**'
+              - 'version.php'
 
   build:
     runs-on: ubuntu-latest
