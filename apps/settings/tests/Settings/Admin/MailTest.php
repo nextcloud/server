@@ -30,6 +30,7 @@ namespace OCA\Settings\Tests\Settings\Admin;
 
 use OCA\Settings\Settings\Admin\Mail;
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\IBinaryFinder;
 use OCP\IConfig;
 use OCP\IL10N;
 use Test\TestCase;
