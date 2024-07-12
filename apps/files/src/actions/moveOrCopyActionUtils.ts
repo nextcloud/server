@@ -24,7 +24,7 @@ export const getQueue = () => {
 }
 
 type ShareAttribute = {
-	value: any
+	value: boolean|string|number|null|object|Array<unknown>
 	key: string
 	scope: string
 }

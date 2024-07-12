@@ -17,7 +17,7 @@
 			</NcNoteCard>
 
 			<!-- Enable expiration -->
-			<legend>{{ t('files_sharing', 'When should the request expire ?') }}</legend>
+			<legend>{{ t('files_sharing', 'When should the request expire?') }}</legend>
 			<NcCheckboxRadioSwitch v-show="!defaultExpireDateEnforced"
 				:checked="defaultExpireDateEnforced || expirationDate !== null"
 				:disabled="disabled || defaultExpireDateEnforced"
@@ -47,7 +47,7 @@
 			</NcNoteCard>
 
 			<!-- Enable password -->
-			<legend>{{ t('files_sharing', 'What password should be used for the request ?') }}</legend>
+			<legend>{{ t('files_sharing', 'What password should be used for the request?') }}</legend>
 			<NcCheckboxRadioSwitch v-show="!enforcePasswordForPublicLink"
 				:checked="enforcePasswordForPublicLink || password !== null"
 				:disabled="disabled || enforcePasswordForPublicLink"

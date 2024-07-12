@@ -14,7 +14,7 @@
 		<!-- Header -->
 		<NcNoteCard v-show="currentStep === STEP.FIRST" type="info" class="file-request-dialog__header">
 			<p id="file-request-dialog-description" class="file-request-dialog__description">
-				{{ t('files_sharing', 'Collect files from others even if they don\'t have an account.') }}
+				{{ t('files_sharing', 'Collect files from others even if they do not have an account.') }}
 				{{ t('files_sharing', 'To ensure you can receive files, verify you have enough storage available.') }}
 			</p>
 		</NcNoteCard>
@@ -103,8 +103,7 @@
 </template>
 
 <script lang="ts">
-// eslint-disable-next-line n/no-extraneous-import
-import type { AxiosError } from 'axios'
+import type { AxiosError } from '@nextcloud/axios'
 import type { Folder, Node } from '@nextcloud/files'
 import type { OCSResponse } from '@nextcloud/typings/ocs'
 import type { PropType } from 'vue'
@@ -112,7 +111,6 @@ import type { PropType } from 'vue'
 import { defineComponent } from 'vue'
 import { emit } from '@nextcloud/event-bus'
 import { generateOcsUrl } from '@nextcloud/router'
-import { getCapabilities } from '@nextcloud/capabilities'
 import { Permission } from '@nextcloud/files'
 import { ShareType } from '@nextcloud/sharing'
 import { showError, showSuccess } from '@nextcloud/dialogs'
@@ -127,17 +125,20 @@ import NcNoteCard from '@nextcloud/vue/dist/Components/NcNoteCard.js'
 import IconCheck from 'vue-material-design-icons/Check.vue'
 import IconNext from 'vue-material-design-icons/ArrowRight.vue'
 
+import Config from '../services/ConfigService'
 import FileRequestDatePassword from './NewFileRequestDialog/NewFileRequestDialogDatePassword.vue'
 import FileRequestFinish from './NewFileRequestDialog/NewFileRequestDialogFinish.vue'
 import FileRequestIntro from './NewFileRequestDialog/NewFileRequestDialogIntro.vue'
-import Share from '../models/Share'
 import logger from '../services/logger'
+import Share from '../models/Share'
 
 enum STEP {
 	FIRST = 0,
 	SECOND = 1,
 	LAST = 2,
 }
+
+const sharingConfig = new Config()
 
 export default defineComponent({
 	name: 'NewFileRequestDialog',
@@ -172,7 +173,7 @@ export default defineComponent({
 			n: translatePlural,
 			t: translate,
 
-			isShareByMailEnabled: getCapabilities()?.files_sharing?.sharebymail?.enabled === true,
+			isShareByMailEnabled: sharingConfig.isMailShareAllowed,
 		}
 	},
 
@@ -310,7 +311,7 @@ export default defineComponent({
 				throw new Error('Share ID is missing')
 			}
 
-			const shareUrl = generateOcsUrl('apps/files_sharing/api/v1/shares/' + this.share.id)
+			const shareUrl = generateOcsUrl('apps/files_sharing/api/v1/shares/{id}', { id: this.share.id })
 			try {
 				// Convert link share to email share
 				const request = await axios.put<OCSResponse>(shareUrl, {
@@ -341,7 +342,7 @@ export default defineComponent({
 				throw new Error('Share ID is missing')
 			}
 
-			const shareUrl = generateOcsUrl('apps/files_sharing/api/v1/shares/' + this.share.id + '/send-email')
+			const shareUrl = generateOcsUrl('apps/files_sharing/api/v1/shares/{id}/send-email', { id: this.share.id })
 			try {
 				// Convert link share to email share
 				const request = await axios.post<OCSResponse>(shareUrl, {

@@ -2562,7 +2562,7 @@
                                     "password": {
                                         "type": "string",
                                         "default": "",
-                                        "description": "optional, the password to check against. Necessary for password protected shares."
+                                        "description": "the password to check against. Necessary for password protected shares."
                                     }
                                 }
                             }

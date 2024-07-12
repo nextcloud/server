@@ -2059,7 +2059,7 @@ class ShareAPIController extends OCSController {
 	 * Send a mail notification again for a share.
 	 * The mail_send option must be enabled for the given share.
 	 * @param string $id the share ID
-	 * @param string $password optional, the password to check against. Necessary for password protected shares.
+	 * @param string $password the password to check against. Necessary for password protected shares.
 	 * @throws OCSNotFoundException Share not found
 	 * @throws OCSForbiddenException You are not allowed to send mail notifications
 	 * @throws OCSBadRequestException Invalid request or wrong password

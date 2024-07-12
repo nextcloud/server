@@ -8,7 +8,7 @@
 		<!-- Request label -->
 		<fieldset class="file-request-dialog__label" data-cy-file-request-dialog-fieldset="label">
 			<legend>
-				{{ t('files_sharing', 'What are you requesting ?') }}
+				{{ t('files_sharing', 'What are you requesting?') }}
 			</legend>
 			<NcTextField :value="label"
 				:disabled="disabled"
@@ -22,7 +22,7 @@
 		<!-- Request destination -->
 		<fieldset class="file-request-dialog__destination" data-cy-file-request-dialog-fieldset="destination">
 			<legend>
-				{{ t('files_sharing', 'Where should these files go ?') }}
+				{{ t('files_sharing', 'Where should these files go?') }}
 			</legend>
 			<NcTextField :value="destination"
 				:disabled="disabled"

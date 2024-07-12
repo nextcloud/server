@@ -59,7 +59,7 @@ import type { PropType } from 'vue'
 import Share from '../../models/Share'
 
 import { defineComponent } from 'vue'
-import { generateUrl } from '@nextcloud/router'
+import { generateUrl, getBaseUrl } from '@nextcloud/router'
 import { showError, showSuccess } from '@nextcloud/dialogs'
 import { translate, translatePlural } from '@nextcloud/l10n'
 
@@ -118,7 +118,7 @@ export default defineComponent({
 
 	computed: {
 		shareLink() {
-			return window.location.protocol + '//' + window.location.host + generateUrl('/s/') + this.share.token
+			return generateUrl('/s/{token}', { token: this.share.token }, { baseURL: getBaseUrl() })
 		},
 	},
 
