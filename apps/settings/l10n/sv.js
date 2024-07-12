@@ -72,6 +72,7 @@ OC.L10N.register(
     "Email could not be sent. Check your mail server log" : "E-post kunde inte skickas. Titta i din e-postserverlogg",
     "A problem occurred while sending the email. Please revise your settings. (Error: %s)" : "Ett problem uppstod när e-post försökte skickas. Kontrollera dina inställningar. (Fel: %s)",
     "You need to set your account email before being able to send test emails. Go to %s for that." : "Du måste ställa in epostadressen på kontot innan du kan skicka testmail. Gå till %s för att göra det.",
+    "Disabled accounts" : "Inaktiverade konton",
     "Invalid account" : "Felaktigt konto",
     "Invalid mail address" : "Ogiltig e-postadress",
     "Settings saved" : "Inställningar sparade",
@@ -571,9 +572,7 @@ OC.L10N.register(
     "Loading categories" : "Laddar kategorier",
     "Developer documentation ↗" : "Utvecklardokumentation ↗",
     "Version {version}, {license}-licensed" : "Version {version}, {license}-licensierad",
-    "Active accounts" : "Aktiva konton",
     "Admins" : "Administratörer",
-    "Disabled accounts" : "Inaktiverade konton",
     "Account group: {group}" : "Kontogrupp: {group}",
     "Account management" : "Kontohantering",
     "Creating group…" : "Skapar grupp...",
@@ -807,6 +806,7 @@ OC.L10N.register(
     "User management" : "Användarhantering",
     "Creating group …" : "Skapar grupp ...",
     "User group: {group}" : "Användargrupp: {group}",
-    "Nextcloud help resources" : "Nextcloud hjälpresurser"
+    "Nextcloud help resources" : "Nextcloud hjälpresurser",
+    "Active accounts" : "Aktiva konton"
 },
 "nplurals=2; plural=(n != 1);");

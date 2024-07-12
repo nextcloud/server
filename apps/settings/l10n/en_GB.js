@@ -72,6 +72,7 @@ OC.L10N.register(
     "Email could not be sent. Check your mail server log" : "Email could not be sent. Check your mail server log",
     "A problem occurred while sending the email. Please revise your settings. (Error: %s)" : "A problem occurred while sending the email. Please revise your settings. (Error: %s)",
     "You need to set your account email before being able to send test emails. Go to %s for that." : "You need to set your account email before being able to send test emails. Go to %s for that.",
+    "Disabled accounts" : "Disabled accounts",
     "Invalid account" : "Invalid account",
     "Invalid mail address" : "Invalid mail address",
     "Settings saved" : "Settings saved",
@@ -686,9 +687,7 @@ OC.L10N.register(
     "Loading categories" : "Loading categories",
     "Developer documentation ↗" : "Developer documentation ↗",
     "Version {version}, {license}-licensed" : "Version {version}, {license}-licensed",
-    "Active accounts" : "Active accounts",
     "Admins" : "Admins",
-    "Disabled accounts" : "Disabled accounts",
     "Account group: {group}" : "Account group: {group}",
     "Account management" : "Account management",
     "Creating group…" : "Creating group…",
@@ -927,6 +926,7 @@ OC.L10N.register(
     "User group: {group}" : "User group: {group}",
     "Nextcloud help resources" : "Nextcloud help resources",
     "To allow this check to run you have to make sure that your webserver can connect to itself. Therefor it must be able to resolve and connect to at least one its `trusted_domains` or the `overwrite.cli.url`." : "To allow this check to run you have to make sure that your webserver can connect to itself. Therefor it must be able to resolve and connect to at least one its `trusted_domains` or the `overwrite.cli.url`.",
-    "Could not check for JavaScript support via any of your `trusted_domains` nor `overwrite.cli.url`. This may be the result of a server-side DNS mismatch or outbound firewall rule. Please check manually if your webserver serves `.mjs` files using the JavaScript MIME type." : "Could not check for JavaScript support via any of your `trusted_domains` nor `overwrite.cli.url`. This may be the result of a server-side DNS mismatch or outbound firewall rule. Please check manually if your webserver serves `.mjs` files using the JavaScript MIME type."
+    "Could not check for JavaScript support via any of your `trusted_domains` nor `overwrite.cli.url`. This may be the result of a server-side DNS mismatch or outbound firewall rule. Please check manually if your webserver serves `.mjs` files using the JavaScript MIME type." : "Could not check for JavaScript support via any of your `trusted_domains` nor `overwrite.cli.url`. This may be the result of a server-side DNS mismatch or outbound firewall rule. Please check manually if your webserver serves `.mjs` files using the JavaScript MIME type.",
+    "Active accounts" : "Active accounts"
 },
 "nplurals=2; plural=(n != 1);");
