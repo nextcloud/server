@@ -70,6 +70,7 @@ OC.L10N.register(
     "Email could not be sent. Check your mail server log" : "Не вдалося надіслати електронну пошту. Перевірте журнал поштового сервера",
     "A problem occurred while sending the email. Please revise your settings. (Error: %s)" : "Під час надсилання email сталася помилка. Будь ласка перевірте налаштування. (Помилка: %s)",
     "You need to set your account email before being able to send test emails. Go to %s for that." : "Перед надсиланням тестового ел.листа потрібно додати ел.адресу. Для цього перейдіть до %s.",
+    "Disabled accounts" : "Вимкнені облікові записи",
     "Invalid account" : "Недійсний обліковий запис",
     "Invalid mail address" : "Недійсна електронна адреса",
     "Settings saved" : "Налаштування збережено",
@@ -589,9 +590,7 @@ OC.L10N.register(
     "Loading app list" : "Завантаження переліку застосунків",
     "Loading categories" : "Завантаження категорій",
     "Developer documentation ↗" : "Документація розробника ↗",
-    "Active accounts" : "Активні облікові записи",
     "Admins" : "Адміністратори",
-    "Disabled accounts" : "Вимкнені облікові записи",
     "Account group: {group}" : "Група облікового запису: {group}",
     "Account management" : "Керування обліковими записами",
     "Creating group…" : "Створення групи...",
@@ -822,6 +821,7 @@ OC.L10N.register(
     "User management" : "Керування користувачами",
     "Creating group …" : "Створення групи ...",
     "User group: {group}" : "Група користувачів: {group}",
-    "Nextcloud help resources" : "Посібники та допомога у користуванні Nextcloud"
+    "Nextcloud help resources" : "Посібники та допомога у користуванні Nextcloud",
+    "Active accounts" : "Активні облікові записи"
 },
 "nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);");

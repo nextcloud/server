@@ -72,6 +72,7 @@ OC.L10N.register(
     "Email could not be sent. Check your mail server log" : "メールが送信できませんでした。メールサーバーのログを確認してください",
     "A problem occurred while sending the email. Please revise your settings. (Error: %s)" : "メールの送信中に問題が発生しました。設定を確認してください。 (Error: %s)",
     "You need to set your account email before being able to send test emails. Go to %s for that." : "テストメールを送信する前に、あなたのアカウントのメールを設定する必要があります。%s に移動して設定してください。",
+    "Disabled accounts" : "無効なアカウント",
     "Invalid account" : "無効なアカウント",
     "Invalid mail address" : "無効なメールアドレスです",
     "Settings saved" : "設定を保存しました",
@@ -686,9 +687,7 @@ OC.L10N.register(
     "Loading categories" : "カテゴリーの読み込み中",
     "Developer documentation ↗" : "開発者向けドキュメント ↗",
     "Version {version}, {license}-licensed" : "バージョン{version}, {license}ライセンス",
-    "Active accounts" : "アクティブなアカウント",
     "Admins" : "管理者",
-    "Disabled accounts" : "無効なアカウント",
     "Account group: {group}" : "アカウントグループ: {group}",
     "Account management" : "アカウント管理",
     "Creating group…" : "グループを作成中...",
@@ -927,6 +926,7 @@ OC.L10N.register(
     "User group: {group}" : "ユーザーグループ: {group}",
     "Nextcloud help resources" : "Nextcloud ヘルプのリソース",
     "To allow this check to run you have to make sure that your webserver can connect to itself. Therefor it must be able to resolve and connect to at least one its `trusted_domains` or the `overwrite.cli.url`." : "このチェックを実行させるには、ウェブサーバが自分自身に接続できることを確認する必要があります。したがって、少なくとも `trusted_domains` または `overwrite.cli.url` を解決して接続できなければなりません。",
-    "Could not check for JavaScript support via any of your `trusted_domains` nor `overwrite.cli.url`. This may be the result of a server-side DNS mismatch or outbound firewall rule. Please check manually if your webserver serves `.mjs` files using the JavaScript MIME type." : "`trusted_domains` または `overwrite.cli.url` で JavaScript のサポートを確認できませんでした。これはサーバ側の DNS の不一致か、アウトバウンドファイアウォールルールの結果である可能性があります。お使いのウェブサーバーが JavaScript MIMEタイプを使用して `.mjs` ファイルを提供しているかどうかを手動で確認してください。"
+    "Could not check for JavaScript support via any of your `trusted_domains` nor `overwrite.cli.url`. This may be the result of a server-side DNS mismatch or outbound firewall rule. Please check manually if your webserver serves `.mjs` files using the JavaScript MIME type." : "`trusted_domains` または `overwrite.cli.url` で JavaScript のサポートを確認できませんでした。これはサーバ側の DNS の不一致か、アウトバウンドファイアウォールルールの結果である可能性があります。お使いのウェブサーバーが JavaScript MIMEタイプを使用して `.mjs` ファイルを提供しているかどうかを手動で確認してください。",
+    "Active accounts" : "アクティブなアカウント"
 },
 "nplurals=1; plural=0;");

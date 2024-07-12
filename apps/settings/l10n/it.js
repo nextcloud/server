@@ -68,6 +68,7 @@ OC.L10N.register(
     "If you received this email, the email configuration seems to be correct." : "Se hai ricevuto questo messaggio, la configurazione della posta elettronica dovrebbe essere corretta.",
     "Email could not be sent. Check your mail server log" : "Il messaggio non può essere inviato. Controlla il log del tuo server di posta",
     "A problem occurred while sending the email. Please revise your settings. (Error: %s)" : "Si è verificato un problema durante l'invio dell'email. Controlla le tue impostazioni. (Errore: %s)",
+    "Disabled accounts" : "Account disabilitati",
     "Invalid account" : "Account non valido",
     "Invalid mail address" : "Indirizzo email non valido",
     "Settings saved" : "Impostazioni salvate",
@@ -508,9 +509,7 @@ OC.L10N.register(
     "As admin you can fine-tune the sharing behavior. Please see the documentation for more information." : "In qualità di amministratore puoi configurare in modo granulare il comportamento della condivisione. Vedi la documentazione per ulteriori informazioni.",
     "You need to enable the File sharing App." : "Devi attivare l'applicazione Condivisione file.",
     "App Store" : "App Store",
-    "Active accounts" : "Account attivi",
     "Admins" : "Amministratori",
-    "Disabled accounts" : "Account disabilitati",
     "Create group" : "Crea gruppo",
     "Group name" : "Nome del gruppo",
     "Please enter a valid group name" : "Inserisci un nome di gruppo valido",
@@ -732,6 +731,7 @@ OC.L10N.register(
     "User management" : "Gestione degli utenti",
     "Creating group …" : "Creazione gruppo …",
     "User group: {group}" : "Gruppo utenti: {group}",
-    "Nextcloud help resources" : "Risorse dell'aiuto per Nextcloud"
+    "Nextcloud help resources" : "Risorse dell'aiuto per Nextcloud",
+    "Active accounts" : "Account attivi"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");
