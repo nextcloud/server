@@ -67,6 +67,7 @@ jobs:
           PUPPETEER_SKIP_DOWNLOAD: true
         run: |
           cd apps-external/user_oidc
+          composer install --no-dev -o
           npm ci
           npm run build
           cd ../..
