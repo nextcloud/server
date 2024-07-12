@@ -72,6 +72,7 @@ OC.L10N.register(
     "Email could not be sent. Check your mail server log" : "No fue posible enviar el correo electrónico. Por favor verfica la bitácora de tu servidor de correo",
     "A problem occurred while sending the email. Please revise your settings. (Error: %s)" : "Se presentó un problema al enviar el correo electrónico. Por favor revisa tus configuraciones (Error: %s)",
     "You need to set your account email before being able to send test emails. Go to %s for that." : "Necesita establecer su cuenta de correo electrónico antes de poder enviar correos de prueba. Vaya a %s para hacerlo.",
+    "Disabled accounts" : "Cuentas deshabilitadas",
     "Invalid account" : "Cuenta inválida",
     "Invalid mail address" : "Dirección de correo inválida",
     "Settings saved" : "Se han guardado las configuraciones ",
@@ -614,9 +615,7 @@ OC.L10N.register(
     "Loading categories" : "Cargando categorías",
     "Developer documentation ↗" : "Documentación del desarrollador ↗",
     "Version {version}, {license}-licensed" : "Versión {version}, licencia {license}",
-    "Active accounts" : "Cuentas activas",
     "Admins" : "Administradores",
-    "Disabled accounts" : "Cuentas deshabilitadas",
     "Account group: {group}" : "Grupo de cuentas: {group}",
     "Account management" : "Administración de cuentas",
     "Creating group…" : "Creando grupo...",
@@ -834,6 +833,7 @@ OC.L10N.register(
     "Creating group …" : "Creando grupo …",
     "User group: {group}" : "Grupo del usuario: {group}",
     "Nextcloud help resources" : "Recursos de ayuda de Nextcloud",
-    "To allow this check to run you have to make sure that your webserver can connect to itself. Therefor it must be able to resolve and connect to at least one its `trusted_domains` or the `overwrite.cli.url`." : "Para permitir que esta verificación se lleve a cabo, debe asegurarse que su servidor web pueda conectarse a sí mismo. Por lo tanto, éste debe poder resolver y conectarse a al menos uno de sus `trusted_domains` o a `overwrite.cli.url`"
+    "To allow this check to run you have to make sure that your webserver can connect to itself. Therefor it must be able to resolve and connect to at least one its `trusted_domains` or the `overwrite.cli.url`." : "Para permitir que esta verificación se lleve a cabo, debe asegurarse que su servidor web pueda conectarse a sí mismo. Por lo tanto, éste debe poder resolver y conectarse a al menos uno de sus `trusted_domains` o a `overwrite.cli.url`",
+    "Active accounts" : "Cuentas activas"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");
