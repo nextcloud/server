@@ -7,6 +7,8 @@
 
 namespace OCP\Files\Template;
 
+use OCP\Files\Template\InvalidFieldTypeException;
+
 class Field implements \JsonSerializable {
 	private int $index;
 	private string $content;
@@ -26,7 +28,7 @@ class Field implements \JsonSerializable {
 			$this->type = $type;
 		} else {
 			// TODO: Throw a proper enum with descriptive message
-			$this->type = FieldType::tryFrom($type) ?? throw new \Exception();
+			$this->type = FieldType::tryFrom($type) ?? throw new InvalidFieldTypeException();
 		}
 	}
 
