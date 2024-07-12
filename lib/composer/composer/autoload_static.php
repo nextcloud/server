@@ -469,6 +469,8 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OCP\\Files\\Storage\\IStorageFactory' => __DIR__ . '/../../..' . '/lib/public/Files/Storage/IStorageFactory.php',
         'OCP\\Files\\Storage\\IWriteStreamStorage' => __DIR__ . '/../../..' . '/lib/public/Files/Storage/IWriteStreamStorage.php',
         'OCP\\Files\\Template\\BeforeGetTemplatesEvent' => __DIR__ . '/../../..' . '/lib/public/Files/Template/BeforeGetTemplatesEvent.php',
+        'OCP\\Files\\Template\\Field' => __DIR__ . '/../../..' . '/lib/public/Files/Template/Field.php',
+        'OCP\\Files\\Template\\FieldType' => __DIR__ . '/../../..' . '/lib/public/Files/Template/FieldType.php',
         'OCP\\Files\\Template\\FileCreatedFromTemplateEvent' => __DIR__ . '/../../..' . '/lib/public/Files/Template/FileCreatedFromTemplateEvent.php',
         'OCP\\Files\\Template\\ICustomTemplateProvider' => __DIR__ . '/../../..' . '/lib/public/Files/Template/ICustomTemplateProvider.php',
         'OCP\\Files\\Template\\ITemplateManager' => __DIR__ . '/../../..' . '/lib/public/Files/Template/ITemplateManager.php',
