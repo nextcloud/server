@@ -960,7 +960,7 @@ class ApiTest extends TestCase {
 		$ocs = $this->createOCS(self::TEST_FILES_SHARING_API_USER1);
 		$ocs->updateShare(
 			$share1->getId(), 1, null, null, null, null, null, null, null,
-			'[{"scope": "app1", "key": "attr1", "enabled": true}]'
+			'[{"scope": "app1", "key": "attr1", "value": true}]'
 		);
 		$ocs->cleanup();
 

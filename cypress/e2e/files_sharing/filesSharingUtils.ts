@@ -33,6 +33,8 @@ export function createShare(fileName: string, username: string, shareSettings: P
 export function updateShare(fileName: string, index: number, shareSettings: Partial<ShareSetting> = {}) {
 	openSharingPanel(fileName)
 
+	cy.intercept({ times: 1, method: 'PUT', url: '**/apps/files_sharing/api/v1/shares/*' }).as('updateShare')
+
 	cy.get('#app-sidebar-vue').within(() => {
 		cy.get('[data-cy-files-sharing-share-actions]').eq(index).click()
 		cy.get('[data-cy-files-sharing-share-permissions-bundle="custom"]').click()
@@ -82,6 +84,8 @@ export function updateShare(fileName: string, index: number, shareSettings: Part
 		}
 
 		cy.get('[data-cy-files-sharing-share-editor-action="save"]').click({ scrollBehavior: 'nearest' })
+
+		cy.wait('@updateShare')
 	})
 }
 

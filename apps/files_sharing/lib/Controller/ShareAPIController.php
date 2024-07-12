@@ -1055,7 +1055,7 @@ class ShareAPIController extends OCSController {
 		}
 
 		if (!($node->getPermissions() & Constants::PERMISSION_SHARE)) {
-			throw new SharingRightsException('no sharing rights on this item');
+			throw new SharingRightsException($this->l->t('no sharing rights on this item'));
 		}
 
 		// The current top parent we have access to
@@ -1171,7 +1171,7 @@ class ShareAPIController extends OCSController {
 		}
 
 		if (!$this->canEditShare($share)) {
-			throw new OCSForbiddenException('You are not allowed to edit incoming shares');
+			throw new OCSForbiddenException($this->l->t('You are not allowed to edit incoming shares'));
 		}
 
 		if (
@@ -1218,7 +1218,7 @@ class ShareAPIController extends OCSController {
 			 */
 
 			if ($share->getSharedBy() !== $this->currentUser) {
-				throw new OCSForbiddenException('You are not allowed to edit link shares that you don\'t own');
+				throw new OCSForbiddenException($this->l->t('You are not allowed to edit link shares that you don\'t own'));
 			}
 
 			// Update hide download state
@@ -1640,7 +1640,7 @@ class ShareAPIController extends OCSController {
 			// Make sure it expires at midnight in owner timezone
 			$date->setTime(0, 0, 0);
 		} catch (\Exception $e) {
-			throw new \Exception('Invalid date. Format must be YYYY-MM-DD');
+			throw new \Exception($this->l->t('Invalid date. Format must be YYYY-MM-DD'));
 		}
 
 		return $date;
@@ -1845,7 +1845,7 @@ class ShareAPIController extends OCSController {
 	 */
 	private function confirmSharingRights(Node $node): void {
 		if (!$this->hasResharingRights($this->currentUser, $node)) {
-			throw new SharingRightsException('no sharing rights on this item');
+			throw new SharingRightsException($this->l->t('No sharing rights on this item'));
 		}
 	}
 
@@ -2008,13 +2008,6 @@ class ShareAPIController extends OCSController {
 			$formattedShareAttributes = \json_decode($attributesString, true);
 			if (is_array($formattedShareAttributes)) {
 				foreach ($formattedShareAttributes as $formattedAttr) {
-					// Legacy handling of the 'enabled' attribute
-					if (array_key_exists('enabled', $formattedAttr)) {
-						$formattedAttr['value'] = is_string($formattedAttr['enabled'])
-							? (bool) \json_decode($formattedAttr['enabled'])
-							: $formattedAttr['enabled'];
-					}
-
 					$newShareAttributes->setAttribute(
 						$formattedAttr['scope'],
 						$formattedAttr['key'],
@@ -2022,7 +2015,7 @@ class ShareAPIController extends OCSController {
 					);
 				}
 			} else {
-				throw new OCSBadRequestException('Invalid share attributes provided: \"' . $attributesString . '\"');
+				throw new OCSBadRequestException($this->l->t('Invalid share attributes provided: "%s"', [$attributesString]));
 			}
 		}
 		$share->setAttributes($newShareAttributes);
@@ -2044,10 +2037,10 @@ class ShareAPIController extends OCSController {
 			if ($storage instanceof Wrapper) {
 				$storage = $storage->getInstanceOfStorage(SharedStorage::class);
 				if ($storage === null) {
-					throw new \RuntimeException('Should not happen, instanceOfStorage but getInstanceOfStorage return null');
+					throw new \RuntimeException($this->l->t('Should not happen, instanceOfStorage but getInstanceOfStorage return null'));
 				}
 			} else {
-				throw new \RuntimeException('Should not happen, instanceOfStorage but not a wrapper');
+				throw new \RuntimeException($this->l->t('Should not happen, instanceOfStorage but not a wrapper'));
 			}
 			/** @var \OCA\Files_Sharing\SharedStorage $storage */
 			$inheritedAttributes = $storage->getShare()->getAttributes();
@@ -2085,7 +2078,7 @@ class ShareAPIController extends OCSController {
 			}
 	
 			if (!$this->canEditShare($share)) {
-				throw new OCSForbiddenException('You are not allowed to send mail notifications');
+				throw new OCSForbiddenException($this->l->t('You are not allowed to send mail notifications'));
 			}
 
 			// For mail and link shares, the user must be
@@ -2093,7 +2086,7 @@ class ShareAPIController extends OCSController {
 			if ($share->getShareType() === IShare::TYPE_EMAIL
 				|| $share->getShareType() === IShare::TYPE_LINK) {
 				if ($share->getSharedBy() !== $this->currentUser) {
-					throw new OCSForbiddenException('You are not allowed to send mail notifications');
+					throw new OCSForbiddenException($this->l->t('You are not allowed to send mail notifications'));
 				}
 			}
 

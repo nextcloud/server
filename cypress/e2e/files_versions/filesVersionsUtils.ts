@@ -4,7 +4,6 @@
  */
 /* eslint-disable jsdoc/require-jsdoc */
 import type { User } from '@nextcloud/cypress'
-import path from 'path'
 import { createShare, type ShareSetting } from '../files_sharing/filesSharingUtils'
 
 export const uploadThreeVersions = (user: User, fileName: string) => {

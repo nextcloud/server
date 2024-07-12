@@ -33,7 +33,7 @@ const isDownloadable = function(node: Node) {
 	if (node.attributes['mount-type'] === 'shared') {
 		const shareAttributes = JSON.parse(node.attributes['share-attributes'] ?? 'null')
 		const downloadAttribute = shareAttributes?.find?.((attribute: { scope: string; key: string }) => attribute.scope === 'permissions' && attribute.key === 'download')
-		if (downloadAttribute !== undefined && downloadAttribute.enabled === false) {
+		if (downloadAttribute !== undefined && downloadAttribute.value === false) {
 			return false
 		}
 	}

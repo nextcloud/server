@@ -13,7 +13,7 @@ namespace OCP\Share;
  */
 interface IAttributes {
 	/**
-	 * Sets an attribute enabled/disabled. If the key did not exist before it will be created.
+	 * Sets an attribute. If the key did not exist before it will be created.
 	 *
 	 * @param string $scope scope
 	 * @param string $key key
@@ -21,10 +21,10 @@ interface IAttributes {
 	 * @return IAttributes The modified object
 	 * @since 25.0.0
 	 */
-	public function setAttribute($scope, $key, $value);
+	public function setAttribute(string $scope, string $key, mixed $value): IAttributes;
 
 	/**
-	 * Returns if attribute is enabled/disabled for given scope id and key.
+	 * Returns the attribute for given scope id and key.
 	 * If attribute does not exist, returns null
 	 *
 	 * @param string $scope scope
@@ -32,7 +32,7 @@ interface IAttributes {
 	 * @return bool|string|array|null
 	 * @since 25.0.0
 	 */
-	public function getAttribute($scope, $key);
+	public function getAttribute(string $scope, string $key): mixed;
 
 	/**
 	 * Formats the IAttributes object to array with the following format:
@@ -40,13 +40,14 @@ interface IAttributes {
 	 * 	0 => [
 	 * 			"scope" => <string>,
 	 * 			"key" => <string>,
-	 * 			"enabled" => <bool>
+	 * 			"value" => <bool|string|array|null>,
 	 * 		],
 	 * 	...
 	 * ]
 	 *
 	 * @return array formatted IAttributes
 	 * @since 25.0.0
+	 * @since 30.0.0, `enabled` was renamed to `value`
 	 */
-	public function toArray();
+	public function toArray(): array;
 }
