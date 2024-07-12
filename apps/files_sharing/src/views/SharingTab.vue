@@ -88,7 +88,7 @@ import NcAvatar from '@nextcloud/vue/dist/Components/NcAvatar.js'
 import axios from '@nextcloud/axios'
 import { loadState } from '@nextcloud/initial-state'
 
-import Config from '../services/ConfigService.js'
+import Config from '../services/ConfigService.ts'
 import { shareWithTitle } from '../utils/SharedWithMe.js'
 import Share from '../models/Share.js'
 import ShareTypes from '../mixins/ShareTypes.js'

@@ -20,6 +20,7 @@ SPDX-FileCopyrightText: Jordan Harband
 SPDX-FileCopyrightText: Jonas Schade <derzade@gmail.com>
 SPDX-FileCopyrightText: GitHub Inc.
 SPDX-FileCopyrightText: Feross Aboukhadijeh
+SPDX-FileCopyrightText: Evan You
 SPDX-FileCopyrightText: Dr.-Ing. Mario Heiderich, Cure53 <mario@cure53.de> (https://cure53.de/)
 SPDX-FileCopyrightText: Denis Pushkarev
 SPDX-FileCopyrightText: Christoph Wurst <christoph@winzerhof-wurst.at>
@@ -196,6 +197,9 @@ This file is generated from multiple sources. Included packages:
 	- license: MIT
 - util
 	- version: 0.12.5
+	- license: MIT
+- vue
+	- version: 2.7.16
 	- license: MIT
 - webpack
 	- version: 5.91.0

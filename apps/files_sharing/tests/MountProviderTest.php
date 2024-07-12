@@ -70,7 +70,7 @@ class MountProviderTest extends \Test\TestCase {
 				$result = null;
 				foreach ($attrs as $attr) {
 					if ($attr['key'] === $key && $attr['scope'] === $scope) {
-						$result = $attr['enabled'];
+						$result = $attr['value'];
 					}
 				}
 				return $result;
@@ -117,7 +117,7 @@ class MountProviderTest extends \Test\TestCase {
 		$rootFolder = $this->createMock(IRootFolder::class);
 		$userManager = $this->createMock(IUserManager::class);
 		$attr1 = [];
-		$attr2 = [['scope' => 'permission', 'key' => 'download', 'enabled' => true]];
+		$attr2 = [['scope' => 'permission', 'key' => 'download', 'value' => true]];
 		$userShares = [
 			$this->makeMockShare(1, 100, 'user2', '/share2', 0, $attr1),
 			$this->makeMockShare(2, 100, 'user2', '/share2', 31, $attr2),
@@ -221,14 +221,14 @@ class MountProviderTest extends \Test\TestCase {
 			// #1: share as outsider with "group1" and "user1" with different permissions
 			[
 				[
-					[1, 100, 'user2', '/share', 31, [['scope' => 'permission', 'key' => 'download', 'enabled' => true], ['scope' => 'app', 'key' => 'attribute1', 'enabled' => true]]],
+					[1, 100, 'user2', '/share', 31, [['scope' => 'permission', 'key' => 'download', 'value' => true], ['scope' => 'app', 'key' => 'attribute1', 'value' => true]]],
 				],
 				[
-					[2, 100, 'user2', '/share', 15, [['scope' => 'permission', 'key' => 'download', 'enabled' => false], ['scope' => 'app', 'key' => 'attribute2', 'enabled' => false]]],
+					[2, 100, 'user2', '/share', 15, [['scope' => 'permission', 'key' => 'download', 'value' => false], ['scope' => 'app', 'key' => 'attribute2', 'value' => false]]],
 				],
 				[
 					// use highest permissions
-					['1', 100, 'user2', '/share', 31, [['scope' => 'permission', 'key' => 'download', 'enabled' => true], ['scope' => 'app', 'key' => 'attribute1', 'enabled' => true], ['scope' => 'app', 'key' => 'attribute2', 'enabled' => false]]],
+					['1', 100, 'user2', '/share', 31, [['scope' => 'permission', 'key' => 'download', 'value' => true], ['scope' => 'app', 'key' => 'attribute1', 'value' => true], ['scope' => 'app', 'key' => 'attribute2', 'value' => false]]],
 				],
 			],
 			// #2: share as outsider with "group1" and "group2" with same permissions
@@ -249,12 +249,12 @@ class MountProviderTest extends \Test\TestCase {
 				[
 				],
 				[
-					[1, 100, 'user2', '/share', 31, [['scope' => 'permission', 'key' => 'download', 'enabled' => false]]],
-					[2, 100, 'user2', '/share', 15, [['scope' => 'permission', 'key' => 'download', 'enabled' => true]]],
+					[1, 100, 'user2', '/share', 31, [['scope' => 'permission', 'key' => 'download', 'value' => false]]],
+					[2, 100, 'user2', '/share', 15, [['scope' => 'permission', 'key' => 'download', 'value' => true]]],
 				],
 				[
 					// use higher permissions (most permissive)
-					['1', 100, 'user2', '/share', 31, [['scope' => 'permission', 'key' => 'download', 'enabled' => true]]],
+					['1', 100, 'user2', '/share', 31, [['scope' => 'permission', 'key' => 'download', 'value' => true]]],
 				],
 			],
 			// #4: share as insider with "group1"
@@ -273,8 +273,8 @@ class MountProviderTest extends \Test\TestCase {
 				[
 				],
 				[
-					[1, 100, 'user1', '/share', 31, [['scope' => 'permission', 'key' => 'download', 'enabled' => true]]],
-					[2, 100, 'user1', '/share', 15, [['scope' => 'permission', 'key' => 'download', 'enabled' => false]]],
+					[1, 100, 'user1', '/share', 31, [['scope' => 'permission', 'key' => 'download', 'value' => true]]],
+					[2, 100, 'user1', '/share', 15, [['scope' => 'permission', 'key' => 'download', 'value' => false]]],
 				],
 				[
 					// no received share since "user1" is the sharer/owner

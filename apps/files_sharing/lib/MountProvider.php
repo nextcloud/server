@@ -215,7 +215,7 @@ class MountProvider implements IMountProvider {
 							continue;
 						}
 						// update supershare attributes with subshare attribute
-						$superAttributes->setAttribute($attribute['scope'], $attribute['key'], $attribute['enabled']);
+						$superAttributes->setAttribute($attribute['scope'], $attribute['key'], $attribute['value']);
 					}
 				}
 

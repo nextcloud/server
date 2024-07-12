@@ -24,7 +24,7 @@ export const getQueue = () => {
 }
 
 type ShareAttribute = {
-	enabled: boolean
+	value: boolean|string|number|null|object|Array<unknown>
 	key: string
 	scope: string
 }
@@ -48,7 +48,7 @@ export const canMove = (nodes: Node[]) => {
 export const canDownload = (nodes: Node[]) => {
 	return nodes.every(node => {
 		const shareAttributes = JSON.parse(node.attributes?.['share-attributes'] ?? '[]') as Array<ShareAttribute>
-		return !shareAttributes.some(attribute => attribute.scope === 'permissions' && attribute.enabled === false && attribute.key === 'download')
+		return !shareAttributes.some(attribute => attribute.scope === 'permissions' && attribute.value === false && attribute.key === 'download')
 
 	})
 }

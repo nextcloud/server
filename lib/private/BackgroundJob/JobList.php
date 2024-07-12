@@ -220,7 +220,7 @@ class JobList implements IJobList {
 			$job = $this->buildJob($row);
 
 			if ($job instanceof IParallelAwareJob && !$job->getAllowParallelRuns() && $this->hasReservedJob(get_class($job))) {
-				$this->logger->debug('Skipping ' . get_class($job) . ' job with ID ' . $job->getId() . ' because another job with the same class is already running', ['app' => 'cron']);
+				$this->logger->info('Skipping ' . get_class($job) . ' job with ID ' . $job->getId() . ' because another job with the same class is already running', ['app' => 'cron']);
 
 				$update = $this->connection->getQueryBuilder();
 				$update->update('jobs')
