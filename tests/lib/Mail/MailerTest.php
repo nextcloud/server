@@ -86,7 +86,7 @@ class MailerTest extends TestCase {
 				['mail_sendmailmode', 'smtp', $sendmailMode],
 			]);
 
-		$path = \OCP\Server::get(IBinaryFinder::class)->findBinaryPath('sendmail');
+		$path = \IBinaryFinder::findBinaryPath('sendmail');
 		if ($path === false) {
 			$path = '/usr/sbin/sendmail';
 		}
