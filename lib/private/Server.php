@@ -101,6 +101,7 @@ use OC\Security\CSRF\CsrfTokenManager;
 use OC\Security\CSRF\TokenStorage\SessionStorage;
 use OC\Security\Hasher;
 use OC\Security\RateLimiting\Limiter;
+use OC\Security\RemoteIpAddress;
 use OC\Security\SecureRandom;
 use OC\Security\TrustedDomainHelper;
 use OC\Security\VerificationToken\VerificationToken;
@@ -464,7 +465,8 @@ class Server extends ServerContainer implements IServerContainer {
 				$this->get(IUserManager::class),
 				$this->get(IEventDispatcher::class),
 				$this->get(LoggerInterface::class),
-				$this->get(ICacheFactory::class)
+				$this->get(ICacheFactory::class),
+				$this->get(RemoteIpAddress::class),
 			);
 			return $groupManager;
 		});

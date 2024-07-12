@@ -93,6 +93,7 @@ class ComposerStaticInitSettings
         'OCA\\Settings\\Settings\\Personal\\Security\\TwoFactor' => __DIR__ . '/..' . '/../lib/Settings/Personal/Security/TwoFactor.php',
         'OCA\\Settings\\Settings\\Personal\\Security\\WebAuthn' => __DIR__ . '/..' . '/../lib/Settings/Personal/Security/WebAuthn.php',
         'OCA\\Settings\\Settings\\Personal\\ServerDevNotice' => __DIR__ . '/..' . '/../lib/Settings/Personal/ServerDevNotice.php',
+        'OCA\\Settings\\SetupChecks\\AllowedAdminRanges' => __DIR__ . '/..' . '/../lib/SetupChecks/AllowedAdminRanges.php',
         'OCA\\Settings\\SetupChecks\\AppDirsWithDifferentOwner' => __DIR__ . '/..' . '/../lib/SetupChecks/AppDirsWithDifferentOwner.php',
         'OCA\\Settings\\SetupChecks\\BruteForceThrottler' => __DIR__ . '/..' . '/../lib/SetupChecks/BruteForceThrottler.php',
         'OCA\\Settings\\SetupChecks\\CheckServerResponseTrait' => __DIR__ . '/..' . '/../lib/SetupChecks/CheckServerResponseTrait.php',
