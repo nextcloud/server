@@ -5,7 +5,7 @@ on:
 
 jobs:
   init:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest-low
 
     # On pull requests and if the comment starts with `/compile`
     if: github.event.issue.pull_request != '' && startsWith(github.event.comment.body, '/compile')

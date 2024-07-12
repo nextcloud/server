@@ -120,7 +120,7 @@ jobs:
           docker logs $(docker ps -aq)
 
   s3-external-summary:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest-low
     needs: [s3-external-tests-minio, s3-external-tests-localstack]
 
     if: always()

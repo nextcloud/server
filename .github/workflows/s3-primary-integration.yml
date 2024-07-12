@@ -85,7 +85,7 @@ jobs:
 
 
   s3-primary-integration-summary:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest-low
     needs: [s3-primary-integration-tests-minio]
 
     if: always()
