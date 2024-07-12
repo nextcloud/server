@@ -5,8 +5,8 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-namespace OCA\Richdocuments\Template;
+namespace OCP\Files\Template;
 
-enum FieldType {
-	case PlainText;
+enum FieldType: string {
+	case PlainText = "plain-text";
 }
