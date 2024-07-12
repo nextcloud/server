@@ -72,6 +72,7 @@ OC.L10N.register(
     "Email could not be sent. Check your mail server log" : "E-posta gönderilemedi. E-posta sunucunuzun günlüklerine bakın",
     "A problem occurred while sending the email. Please revise your settings. (Error: %s)" : "E-posta gönderilirken bir sorun çıktı. Lütfen ayarlarınızı gözden geçirin. (Hata: %s)",
     "You need to set your account email before being able to send test emails. Go to %s for that." : "Sınama e-postaları göndermeden önce hesap e-postanızı ayarlamalısınız. Bunun için %s bölümüne gidin.",
+    "Disabled accounts" : "Devre dışı hesaplar",
     "Invalid account" : "Hesap geçersiz",
     "Invalid mail address" : "E-posta adresi geçersiz",
     "Settings saved" : "Ayarlar kaydedildi",
@@ -677,9 +678,7 @@ OC.L10N.register(
     "Loading categories" : "Kategoriler yükleniyor",
     "Developer documentation ↗" : "Geliştirici belgeleri ↗",
     "Version {version}, {license}-licensed" : "{version} sürümü, {license} lisansı",
-    "Active accounts" : "Etkin hesaplar",
     "Admins" : "Yöneticiler",
-    "Disabled accounts" : "Devre dışı hesaplar",
     "Account group: {group}" : "Hesap grubu: {group}",
     "Account management" : "Hesap yönetimi",
     "Creating group…" : "Grup oluşturuluyor…",
@@ -918,6 +917,7 @@ OC.L10N.register(
     "User group: {group}" : "Kullanıcı grubu: {group}",
     "Nextcloud help resources" : "Nextcloud yardım kaynakları",
     "To allow this check to run you have to make sure that your webserver can connect to itself. Therefor it must be able to resolve and connect to at least one its `trusted_domains` or the `overwrite.cli.url`." : "Bu denetimi çalıştırabilmek için site sunucunuzun kendisine bağlanabildiğinden emin olmanız gerekir. Bu nedenle, `trusted_domains` ya da `overwrite.cli.url` değerlerinden en az birini çözümleyebilmeli ve bunlara bağlanabilmelidir.",
-    "Could not check for JavaScript support via any of your `trusted_domains` nor `overwrite.cli.url`. This may be the result of a server-side DNS mismatch or outbound firewall rule. Please check manually if your webserver serves `.mjs` files using the JavaScript MIME type." : "`trusted_domains` ya da `overwrite.cli.url` değerlerinden biri ile JavaScript desteği olup olmadığ denetlenemedi. Bu durum, sunucu tarafı DNS uyuşmazlığından ya da giden güvenlik duvarı kuralından kaynaklanıyor olabilir. Lütfen site sunucunuzun JavaScript MIME türünü kullanarak `.mjs` dosyalarını sunup sunmadığını el ile denetleyin."
+    "Could not check for JavaScript support via any of your `trusted_domains` nor `overwrite.cli.url`. This may be the result of a server-side DNS mismatch or outbound firewall rule. Please check manually if your webserver serves `.mjs` files using the JavaScript MIME type." : "`trusted_domains` ya da `overwrite.cli.url` değerlerinden biri ile JavaScript desteği olup olmadığ denetlenemedi. Bu durum, sunucu tarafı DNS uyuşmazlığından ya da giden güvenlik duvarı kuralından kaynaklanıyor olabilir. Lütfen site sunucunuzun JavaScript MIME türünü kullanarak `.mjs` dosyalarını sunup sunmadığını el ile denetleyin.",
+    "Active accounts" : "Etkin hesaplar"
 },
 "nplurals=2; plural=(n > 1);");

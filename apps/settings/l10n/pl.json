@@ -69,6 +69,7 @@
     "Email could not be sent. Check your mail server log" : "E-mail nie został wysłany. Sprawdź logi swojego serwera poczty",
     "A problem occurred while sending the email. Please revise your settings. (Error: %s)" : "Wystąpił problem podczas wysyłania wiadomości e-mail. Zmień ustawienia. (Błąd: %s)",
     "You need to set your account email before being able to send test emails. Go to %s for that." : "Zanim będziesz mógł wysyłać wiadomości testowe, musisz ustawić adres e-mail swojego konta. Idź do %s, aby to zrobić.",
+    "Disabled accounts" : "Wyłączone konta",
     "Invalid account" : "Nieprawidłowe konto",
     "Invalid mail address" : "Nieprawidłowy adres e-mail",
     "Settings saved" : "Zapisano ustawienia",
@@ -552,9 +553,7 @@
     "Loading app list" : "Wczytywanie listy aplikacji",
     "Loading categories" : "Wczytywanie kategorii",
     "Developer documentation ↗" : "Dokumentacja deweloperska ↗",
-    "Active accounts" : "Aktywne konta",
     "Admins" : "Administratorzy",
-    "Disabled accounts" : "Wyłączone konta",
     "Account group: {group}" : "Grupa kont: {group}",
     "Account management" : "Zarządzanie kontem",
     "Creating group…" : "Tworzenie grupy",
@@ -786,6 +785,7 @@
     "User management" : "Zarządzanie użytkownikiem",
     "Creating group …" : "Tworzenie grupy...",
     "User group: {group}" : "Grupa użytkownika: {group}",
-    "Nextcloud help resources" : "Zasoby pomocy Nextcloud"
+    "Nextcloud help resources" : "Zasoby pomocy Nextcloud",
+    "Active accounts" : "Aktywne konta"
 },"pluralForm" :"nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);"
 }

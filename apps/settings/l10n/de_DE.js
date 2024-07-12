@@ -72,6 +72,7 @@ OC.L10N.register(
     "Email could not be sent. Check your mail server log" : "E-Mail konnte nicht versandt werden. Prüfen Sie Ihr E-Mail-Server-Protokoll",
     "A problem occurred while sending the email. Please revise your settings. (Error: %s)" : "Beim Senden der E-Mail ist ein Problem aufgetreten. Bitte überprüfen Sie Ihre Einstellungen. (Fehler: %s)",
     "You need to set your account email before being able to send test emails. Go to %s for that." : "Sie müssen Ihre Konto-E-Mail-Adresse festlegen, bevor Sie Test-E-Mails senden können. Gehen Sie dazu zu %s.",
+    "Disabled accounts" : "Deaktivierte Konten",
     "Invalid account" : "Ungültiges Konto",
     "Invalid mail address" : "Ungültige E-Mail-Adresse",
     "Settings saved" : "Einstellungen gespeichert",
@@ -686,9 +687,7 @@ OC.L10N.register(
     "Loading categories" : "Lade Kategorien",
     "Developer documentation ↗" : "Entwickler-Dokumentation ↗",
     "Version {version}, {license}-licensed" : "Version {version}, {license}-lizensiert",
-    "Active accounts" : "Aktive Konten",
     "Admins" : "Administration",
-    "Disabled accounts" : "Deaktivierte Konten",
     "Account group: {group}" : "Kontengruppe: {group}",
     "Account management" : "Kontoverwaltung",
     "Creating group…" : "Erstelle Gruppe…",
@@ -927,6 +926,7 @@ OC.L10N.register(
     "User group: {group}" : "Kontengruppe: {group}",
     "Nextcloud help resources" : "Nextcloud-Hilferessourcen",
     "To allow this check to run you have to make sure that your webserver can connect to itself. Therefor it must be able to resolve and connect to at least one its `trusted_domains` or the `overwrite.cli.url`." : "Um diese Prüfung auszuführen, müssen Sie sicherstellen, dass Ihr Webserver eine Verbindung zu sich selbst herstellen kann. Dafür muss er in der Lage sein, sich mit mindestens einer seiner \"trusted_domains\" oder der \"overwrite.cli.url\" zu verbinden und diese aufzulösen.",
-    "Could not check for JavaScript support via any of your `trusted_domains` nor `overwrite.cli.url`. This may be the result of a server-side DNS mismatch or outbound firewall rule. Please check manually if your webserver serves `.mjs` files using the JavaScript MIME type." : "Es konnte weder über Ihre `trusted_domains` noch über `overwrite.cli.url` nach JavaScript-Unterstützung gesucht werden. Dies kann auf eine serverseitige DNS-Nichtübereinstimmung oder eine ausgehende Firewall-Regel zurückzuführen sein. Bitte überprüfen Sie manuell, ob Ihr Webserver `.mjs`-Dateien mit dem JavaScript-MIME-Typ bereitstellt."
+    "Could not check for JavaScript support via any of your `trusted_domains` nor `overwrite.cli.url`. This may be the result of a server-side DNS mismatch or outbound firewall rule. Please check manually if your webserver serves `.mjs` files using the JavaScript MIME type." : "Es konnte weder über Ihre `trusted_domains` noch über `overwrite.cli.url` nach JavaScript-Unterstützung gesucht werden. Dies kann auf eine serverseitige DNS-Nichtübereinstimmung oder eine ausgehende Firewall-Regel zurückzuführen sein. Bitte überprüfen Sie manuell, ob Ihr Webserver `.mjs`-Dateien mit dem JavaScript-MIME-Typ bereitstellt.",
+    "Active accounts" : "Aktive Konten"
 },
 "nplurals=2; plural=(n != 1);");

@@ -65,6 +65,7 @@ OC.L10N.register(
     "If you received this email, the email configuration seems to be correct." : "Jos vastaanotit tämän viestin, sähköpostimääritykset vaikuttavat olevan kunnossa.",
     "Email could not be sent. Check your mail server log" : "Sähköpostia ei voitu lähettää. Tarkista sähköpostipalvelimen lokitiedosto",
     "A problem occurred while sending the email. Please revise your settings. (Error: %s)" : "Sähköpostia lähettäessä tapahtui virhe. Tarkista asetukset. (Virhe: %s)",
+    "Disabled accounts" : "Käytöstä poistetut tilit",
     "Invalid account" : "Virheellinen tili",
     "Invalid mail address" : "Virheellinen sähköpostiosoite",
     "Settings saved" : "Asetukset tallennettu",
@@ -438,9 +439,7 @@ OC.L10N.register(
     "Loading categories" : "Ladataan luokkia",
     "Developer documentation ↗" : "Kehittäjien dokumentaatio ↗",
     "Version {version}, {license}-licensed" : "Versio {version}, lisenssi {license}",
-    "Active accounts" : "Aktiiviset tilit",
     "Admins" : "Ylläpitäjät",
-    "Disabled accounts" : "Käytöstä poistetut tilit",
     "Account group: {group}" : "Tiliryhmä: {group}",
     "Account management" : "Tilihallinta",
     "Creating group…" : "Luodaan ryhmä…",
@@ -628,6 +627,7 @@ OC.L10N.register(
     "User management" : "Käyttäjähallinta",
     "Creating group …" : "Luodaan ryhmää…",
     "User group: {group}" : "Käyttäjäryhmä: {group}",
-    "Nextcloud help resources" : "Nextcloud-ohjeresurssit"
+    "Nextcloud help resources" : "Nextcloud-ohjeresurssit",
+    "Active accounts" : "Aktiiviset tilit"
 },
 "nplurals=2; plural=(n != 1);");

@@ -70,6 +70,7 @@
     "Email could not be sent. Check your mail server log" : "Non foi posíbel enviar o correo. Comprobe o rexistro do servidor de correo",
     "A problem occurred while sending the email. Please revise your settings. (Error: %s)" : "Ocorreu un problema ao enviar o correo. Revise os seus axustes. (Erro: %s)",
     "You need to set your account email before being able to send test emails. Go to %s for that." : "É necesario configurar o correo da súa conta antes de poder enviar correos de proba. Vaia a %s para iso.",
+    "Disabled accounts" : "Contas desactivadas",
     "Invalid account" : "Conta incorrecta",
     "Invalid mail address" : "Enderezo de correo incorrecto",
     "Settings saved" : "Axustes gardados",
@@ -684,9 +685,7 @@
     "Loading categories" : "Cargando categorías",
     "Developer documentation ↗" : "Documentación para desenvolvedores ↗",
     "Version {version}, {license}-licensed" : "Versión {version}, con licenza {license}",
-    "Active accounts" : "Contas activas",
     "Admins" : "Administración",
-    "Disabled accounts" : "Contas desactivadas",
     "Account group: {group}" : "Grupo de contas: {group}",
     "Account management" : "Xestión de contas",
     "Creating group…" : "Creando un grupo…",
@@ -925,6 +924,7 @@
     "User group: {group}" : "Grupo de usuarios: {group}",
     "Nextcloud help resources" : "Recursos de axuda de Nextcloud",
     "To allow this check to run you have to make sure that your webserver can connect to itself. Therefor it must be able to resolve and connect to at least one its `trusted_domains` or the `overwrite.cli.url`." : "Para permitir que esta comprobación se execute, debe asegurarse de que o seu servidor web poida conectarse a si mesmo. Polo tanto, debe ser quen de resolver e conectarse a polo menos un dos seus «trusted_domains» ou ao «overwrite.cli.url».",
-    "Could not check for JavaScript support via any of your `trusted_domains` nor `overwrite.cli.url`. This may be the result of a server-side DNS mismatch or outbound firewall rule. Please check manually if your webserver serves `.mjs` files using the JavaScript MIME type." : "Non foi posíbel comprobar a compatibilidade de JavaScript a través de ningún dos seus «trusted_domains» nin «overwrite.cli.url». Isto pode ser o resultado dunha falta de coincidencia de DNS do servidor ou dunha regra da devasa de saída. Comprobe manualmente se o seu servidor web serve ficheiros «.mjs» usando o tipo MIME JavaScript."
+    "Could not check for JavaScript support via any of your `trusted_domains` nor `overwrite.cli.url`. This may be the result of a server-side DNS mismatch or outbound firewall rule. Please check manually if your webserver serves `.mjs` files using the JavaScript MIME type." : "Non foi posíbel comprobar a compatibilidade de JavaScript a través de ningún dos seus «trusted_domains» nin «overwrite.cli.url». Isto pode ser o resultado dunha falta de coincidencia de DNS do servidor ou dunha regra da devasa de saída. Comprobe manualmente se o seu servidor web serve ficheiros «.mjs» usando o tipo MIME JavaScript.",
+    "Active accounts" : "Contas activas"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
