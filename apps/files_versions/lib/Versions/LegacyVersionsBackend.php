@@ -222,8 +222,11 @@ class LegacyVersionsBackend implements IVersionBackend, IDeletableVersionBackend
 	}
 
 	public function createVersionEntity(File $file): void {
-		$versionEntityExists = $this->versionsMapper->findVersionForFileId($file->getId(), $file->getMTime());
-		if (!$versionEntityExists) {
+		try {
+			$versionEntityExists = $this->versionsMapper->findVersionForFileId($file->getId(), $file->getMTime());
+		} catch (\Exception $e) {
+			// If an exception is caught, it means the version entity
+			// does not exist so we proceed creating it
 			$versionEntity = new VersionEntity();
 			$versionEntity->setFileId($file->getId());
 			$versionEntity->setTimestamp($file->getMTime());
