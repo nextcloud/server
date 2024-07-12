@@ -239,6 +239,10 @@ Files: cypress/fixtures/image.jpg
 Copyright: 2019 Tom Gainor <https://unsplash.com/@its_tgain> <https://unsplash.com/photos/mountain-cliff-under-starry-night-KidY3t8O4PE>
 License: LicenseRef-Unsplash
 
+Files: apps/theming/img/background/jenna-kim-the-globe.webp apps/theming/img/background/jenna-kim-the-globe-dark.webp
+Copyright: 2024 Nextcloud GmbH
+License: CC-BY-SA-4.0
+
 Files: apps/theming/img/background/anatoly-mikhaltsov-butterfly-wing-scale.jpg apps/theming/img/background/preview/anatoly-mikhaltsov-butterfly-wing-scale.jpg
 Copyright: 2015 Anatoly Mikhaltsov <https://commons.wikimedia.org/wiki/File:%D0%A7%D0%B5%D1%88%D1%83%D0%B9%D0%BA%D0%B8_%D0%BA%D1%80%D1%8B%D0%BB%D0%B0_%D0%B1%D0%B0%D0%B1%D0%BE%D1%87%D0%BA%D0%B8.jpg>
 License: CC-BY-SA-4.0

@@ -284,10 +284,11 @@ class ThemingDefaults extends \OC_Defaults {
 	/**
 	 * Themed background image url
 	 *
+	 * @param bool $darkVariant if the dark variant (if available) of the background should be used
 	 * @return string
 	 */
-	public function getBackground(): string {
-		return $this->imageManager->getImageUrl('background');
+	public function getBackground(bool $darkVariant = false): string {
+		return $this->imageManager->getImageUrl('background' . ($darkVariant ? 'Dark' : ''));
 	}
 
 	/**

@@ -29,8 +29,9 @@ A reference to why it was very difficult to actually find good background pictur
 
 In `img/background/`:
 
-- Default background: [Clouds (Kamil Porembiński, CC BY-SA)](https://www.flickr.com/photos/paszczak000/8715851521/) – original 4k, color modified and sky color changed to Nextcloud blue.
-- Default dark mode background: [Pedra azul milky way (Eduardo Neves, CC BY-SA)](https://commons.wikimedia.org/wiki/File:Pedra_Azul_Milky_Way.jpg) – original 5k.
+- Default background: [Globe (Jenna Kim - Nextcloud GmbH, C-BY-SA-4.0)](https://nextcloud.com/trademarks/) - orginal 4k
+- [Clouds (Kamil Porembiński, CC BY-SA)](https://www.flickr.com/photos/paszczak000/8715851521/) – original 4k, color modified and sky color changed to Nextcloud blue.
+- [Pedra azul milky way (Eduardo Neves, CC BY-SA)](https://commons.wikimedia.org/wiki/File:Pedra_Azul_Milky_Way.jpg) – original 5k.
 - [Soft floral (Hannah MacLean, CC0)](https://stocksnap.io/photo/soft-floral-XOYWCCW5PA) – original 5.5k.
 - [Morning fog (Ted Moravec, Public Domain)](https://flickr.com/photos/tmoravec/52392410261) – original 3k.
 - [Underwater ocean (Stefanus Martanto Setyo Husodo, CC0)](https://stocksnap.io/photo/underwater-ocean-TJA9LBH4WS) – original 5k.

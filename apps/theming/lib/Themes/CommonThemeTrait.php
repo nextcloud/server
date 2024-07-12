@@ -17,6 +17,8 @@ trait CommonThemeTrait {
 	public Util $util;
 	public ThemingDefaults $themingDefaults;
 
+	protected bool $isDarkVariant = false;
+
 	/**
 	 * Generate primary-related variables
 	 * This is shared between multiple themes because colorMainBackground and colorMainText
@@ -87,7 +89,7 @@ trait CommonThemeTrait {
 				$variables["--image-$image"] = "url('" . $imageUrl . "')";
 			} elseif ($image === 'background') {
 				// Apply default background if nothing is configured
-				$variables['--image-background'] = "url('" . $this->themingDefaults->getBackground() . "')";
+				$variables['--image-background'] = "url('" . $this->themingDefaults->getBackground($this->isDarkVariant) . "')";
 			}
 		}
 
@@ -139,6 +141,10 @@ trait CommonThemeTrait {
 
 			// The user picked a shipped background
 			if (isset(BackgroundService::SHIPPED_BACKGROUNDS[$backgroundImage])) {
+				$shippedBackground = BackgroundService::SHIPPED_BACKGROUNDS[$backgroundImage];
+				if ($this->isDarkVariant && isset($shippedBackground['dark_variant'])) {
+					$backgroundImage = $shippedBackground['dark_variant'];
+				}
 				$variables['--image-background'] = "url('" . $this->urlGenerator->linkTo(Application::APP_ID, "img/background/$backgroundImage") . "')";
 			}
 
