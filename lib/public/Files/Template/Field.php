@@ -20,14 +20,11 @@ class Field implements \JsonSerializable {
 		$this->index = $index;
 		$this->id = $id;
 		$this->tag = $tag;
-
-		// TODO: Sanitize content
 		$this->content = $content;
 
 		if ($type instanceof FieldType) {
 			$this->type = $type;
 		} else {
-			// TODO: Throw a proper enum with descriptive message
 			$this->type = FieldType::tryFrom($type) ?? throw new InvalidFieldTypeException();
 		}
 	}
