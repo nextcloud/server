@@ -38,6 +38,8 @@ jobs:
               - '**.js'
               - '**.ts'
               - '**.vue'
+              - 'core/css/*'
+              - 'core/img/**'
 
   build:
     runs-on: ubuntu-latest
