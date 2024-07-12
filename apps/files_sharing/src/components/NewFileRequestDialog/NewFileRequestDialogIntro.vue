@@ -12,7 +12,7 @@
 			</legend>
 			<NcTextField :value="label"
 				:disabled="disabled"
-				:label-outside="true"
+				:label="t('files_sharing', 'Request subject')"
 				:placeholder="t('files_sharing', 'Birthday party photos, History assignment…')"
 				:required="false"
 				name="label"
@@ -27,7 +27,7 @@
 			<NcTextField :value="destination"
 				:disabled="disabled"
 				:helper-text="t('files_sharing', 'The uploaded files are visible only to you unless you choose to share them.')"
-				:label-outside="true"
+				:label="t('files_sharing', 'Upload destination')"
 				:minlength="2/* cannot share root */"
 				:placeholder="t('files_sharing', 'Select a destination')"
 				:readonly="false /* cannot validate a readonly input */"
@@ -51,7 +51,7 @@
 			</legend>
 			<NcTextArea :value="note"
 				:disabled="disabled"
-				:label-outside="true"
+				:label="t('files_sharing', 'Note for recipient')"
 				:placeholder="t('files_sharing', 'Add a note to help people understand what you are requesting.')"
 				:required="false"
 				name="note"

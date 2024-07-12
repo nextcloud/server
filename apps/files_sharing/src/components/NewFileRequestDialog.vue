@@ -22,7 +22,8 @@
 		<!-- Main form -->
 		<form ref="form"
 			class="file-request-dialog__form"
-			aria-labelledby="file-request-dialog-description"
+			aria-describedby="file-request-dialog-description"
+			:aria-label="t('files_sharing', 'File request')"
 			aria-live="polite"
 			data-cy-file-request-dialog-form
 			@submit.prevent.stop="">
@@ -69,7 +70,7 @@
 				data-cy-file-request-dialog-controls="back"
 				type="tertiary"
 				@click="currentStep = STEP.FIRST">
-				{{ t('files_sharing', 'Previous') }}
+				{{ t('files_sharing', 'Previous step') }}
 			</NcButton>
 
 			<!-- Next -->

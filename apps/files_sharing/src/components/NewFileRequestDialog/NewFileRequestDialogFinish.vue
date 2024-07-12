@@ -20,8 +20,8 @@
 			@click="copyShareLink"
 			@click-trailing-button="copyShareLink">
 			<template #trailing-button-icon>
-				<IconCheck v-if="isCopied" :size="20" @click="isCopied = false" />
-				<IconClipboard v-else :size="20" @click="copyShareLink" />
+				<IconCheck v-if="isCopied" :size="20" />
+				<IconClipboard v-else :size="20" />
 			</template>
 		</NcInputField>
 
