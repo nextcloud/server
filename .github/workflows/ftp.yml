@@ -74,7 +74,7 @@ jobs:
           docker logs ftp
 
   ftp-summary:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest-low
     needs: ftp-tests
 
     if: always()

@@ -17,7 +17,7 @@ concurrency:
 
 jobs:
   changes:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest-low
 
     outputs:
       src: ${{ steps.changes.outputs.src}}
@@ -38,6 +38,9 @@ jobs:
               - '**.js'
               - '**.ts'
               - '**.vue'
+              - 'core/css/*'
+              - 'core/img/**'
+              - 'version.php'
 
   build:
     runs-on: ubuntu-latest
@@ -87,7 +90,7 @@ jobs:
   summary:
     permissions:
       contents: none
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest-low
     needs: [changes, build]
 
     if: always()
