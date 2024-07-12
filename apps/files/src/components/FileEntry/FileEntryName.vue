@@ -299,6 +299,13 @@ export default defineComponent({
 					},
 				})
 
+				if (oldName === this.source.attributes?.displayname) {
+					// We have to assume that the displayname is not set but just the Nextcloud fallback to the basename
+					// so we need to adjust this as well
+					// eslint-disable-next-line vue/no-mutating-props
+					this.source.attributes.displayname = this.source.basename
+				}
+
 				// Success 🎉
 				emit('files:node:updated', this.source)
 				emit('files:node:renamed', this.source)
