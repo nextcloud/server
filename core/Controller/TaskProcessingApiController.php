@@ -295,9 +295,10 @@ class TaskProcessingApiController extends \OCP\AppFramework\OCSController {
 	 * Use field 'file' for the file upload
 	 *
 	 * @param int $taskId The id of the task
-	 * @return DataResponse<Http::STATUS_CREATED, array{fileId: int}, array{}>|DataResponse<Http::STATUS_INTERNAL_SERVER_ERROR|Http::STATUS_NOT_FOUND, array{message: string}, array{}>
+	 * @return DataResponse<Http::STATUS_CREATED, array{fileId: int}, array{}>|DataResponse<Http::STATUS_BAD_REQUEST|Http::STATUS_INTERNAL_SERVER_ERROR|Http::STATUS_NOT_FOUND, array{message: string}, array{}>
 	 *
 	 *  201: File created
+	 *  400: File upload failed or no file was uploaded
 	 *  404: Task not found
 	 */
 	#[ExAppRequired]
@@ -530,6 +531,11 @@ class TaskProcessingApiController extends \OCP\AppFramework\OCSController {
 		}
 	}
 
+	/**
+	 * @param resource $data
+	 * @return int
+	 * @throws NotPermittedException
+	 */
 	private function setFileContentsInternal($data): int {
 		try {
 			$folder = $this->appData->getFolder('TaskProcessing');
