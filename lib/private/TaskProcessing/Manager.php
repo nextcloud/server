@@ -24,6 +24,7 @@ use OCP\Files\IAppData;
 use OCP\Files\IRootFolder;
 use OCP\Files\NotPermittedException;
 use OCP\Files\SimpleFS\ISimpleFile;
+use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IServerContainer;
 use OCP\L10N\IFactory;
@@ -66,6 +67,7 @@ class Manager implements IManager {
 	private IAppData $appData;
 
 	public function __construct(
+		private IConfig $config,
 		private Coordinator $coordinator,
 		private IServerContainer $serverContainer,
 		private LoggerInterface $logger,
@@ -497,11 +499,23 @@ class Manager implements IManager {
 	}
 
 	public function getPreferredProvider(string $taskType) {
-		$providers = $this->getProviders();
-		foreach ($providers as $provider) {
-			if ($provider->getTaskTypeId() === $taskType) {
-				return $provider;
+		try {
+			$preferences = json_decode($this->config->getAppValue('core', 'ai.taskprocessing_provider_preferences', 'null'), associative: true, flags: JSON_THROW_ON_ERROR);
+			if (isset($preferences[$taskType])) {
+				$providers = $this->getProviders();
+				$provider = current(array_values(array_filter($providers, fn ($provider) => $provider->getId() === $preferences[$taskType])));
+				if ($provider !== false) {
+					return $provider;
+				}
 			}
+			// By default, use the first available provider
+			foreach ($providers as $provider) {
+				if ($provider->getTaskTypeId() === $taskType) {
+					return $provider;
+				}
+			}
+		} catch (\JsonException $e) {
+			$this->logger->warning('Failed to parse provider preferences while getting preferred provider for task type ' . $taskType, ['exception' => $e]);
 		}
 		throw new \OCP\TaskProcessing\Exception\Exception('No matching provider found');
 	}
