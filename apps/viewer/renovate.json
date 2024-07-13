@@ -20,8 +20,7 @@
   "baseBranches": [
     "master",
     "stable29",
-    "stable28",
-    "stable27"
+    "stable28"
   ],
   "enabledManagers": [
     "npm"
@@ -69,9 +68,7 @@
       ],
       "matchBaseBranches": [
         "stable29",
-        "stable28",
-        "stable27",
-        "stable26"
+        "stable28"
       ],
       "enabled": false
     },
