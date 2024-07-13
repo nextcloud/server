@@ -2,6 +2,9 @@
 #
 # https://github.com/nextcloud/.github
 # https://docs.github.com/en/actions/learn-github-actions/sharing-workflows-with-your-organization
+#
+# SPDX-FileCopyrightText: 2022-2024 Nextcloud GmbH and Nextcloud contributors
+# SPDX-License-Identifier: MIT
 
 name: Block merges during freezes
 
@@ -27,10 +30,10 @@ jobs:
     steps:
       - name: Register server reference to fallback to master branch
         run: |
-          server_ref="$(if [ "${{ github.base_ref }}" = "main" ]; then echo -n "master"; else echo -n "${{ github.base_ref }}"; fi)"
+          server_ref="$(if [ '${{ github.base_ref }}' = 'main' ]; then echo -n 'master'; else echo -n '${{ github.base_ref }}'; fi)"
           echo "server_ref=$server_ref" >> $GITHUB_ENV
       - name: Download version.php from ${{ env.server_ref }}
-        run: curl https://raw.githubusercontent.com/nextcloud/server/${{ env.server_ref }}/version.php --output version.php
+        run: curl 'https://raw.githubusercontent.com/nextcloud/server/${{ env.server_ref }}/version.php' --output version.php
 
       - name: Run check
         run: cat version.php | grep 'OC_VersionString' | grep -i -v 'RC'
