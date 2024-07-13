@@ -309,11 +309,11 @@ class TaskProcessingApiController extends \OCP\AppFramework\OCSController {
 			if (!isset($file['tmp_name'])) {
 				return new DataResponse(['message' => $this->l->t('Bad request')], Http::STATUS_BAD_REQUEST);
 			}
-			$data = file_get_contents($file['tmp_name']);
-			if (!$data) {
+			$handle = fopen($file['tmp_name'], 'r');
+			if (!$handle) {
 				return new DataResponse(['message' => $this->l->t('Internal error')], Http::STATUS_INTERNAL_SERVER_ERROR);
 			}
-			$fileId = $this->setFileContentsInternal($data);
+			$fileId = $this->setFileContentsInternal($handle);
 			return new DataResponse(['fileId' => $fileId], Http::STATUS_CREATED);
 		} catch (NotFoundException) {
 			return new DataResponse(['message' => $this->l->t('Not found')], Http::STATUS_NOT_FOUND);
@@ -530,14 +530,14 @@ class TaskProcessingApiController extends \OCP\AppFramework\OCSController {
 		}
 	}
 
-	private function setFileContentsInternal(string $data): int {
+	private function setFileContentsInternal($data): int {
 		try {
 			$folder = $this->appData->getFolder('TaskProcessing');
 		} catch (\OCP\Files\NotFoundException) {
 			$folder = $this->appData->newFolder('TaskProcessing');
 		}
 		/** @var SimpleFile $file */
-		$file = $folder->newFile((string) rand(0, 10000000), $data);
+		$file = $folder->newFile(time() . '-' . rand(1, 100000), $data);
 		return $file->getId();
 	}
 }
