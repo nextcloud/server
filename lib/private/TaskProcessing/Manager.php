@@ -845,13 +845,13 @@ class Manager implements IManager {
 			}
 			if ($type->value < 10) {
 				/** @var SimpleFile $file */
-				$file = $folder->newFile((string) rand(0, 10000000), $output[$key]);
+				$file = $folder->newFile(time() . '-' . rand(1, 100000), $output[$key]);
 				$newOutput[$key] = $file->getId(); // polymorphic call to SimpleFile
 			} else {
 				$newOutput = [];
 				foreach ($output[$key] as $item) {
 					/** @var SimpleFile $file */
-					$file = $folder->newFile((string) rand(0, 10000000), $item);
+					$file = $folder->newFile(time() . '-' . rand(1, 100000), $item);
 					$newOutput[$key][] = $file->getId();
 				}
 			}
