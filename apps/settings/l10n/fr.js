@@ -68,7 +68,7 @@ OC.L10N.register(
     "Invalid SMTP password." : "Mot de passe SMTP incorrect.",
     "Email setting test" : "Test des paramètres de messagerie",
     "Well done, %s!" : "Bien joué, %s !",
-    "If you received this email, the email configuration seems to be correct." : "Si vous avez reçu cet e-mail, la configuration de l'adresse e-mail semble être correcte.",
+    "If you received this email, the email configuration seems to be correct." : "Si vous avez reçu cet e-mail, la configuration de l'e-mail semble être correcte.",
     "Email could not be sent. Check your mail server log" : "L'e-mail n'a pu être envoyé. Vérifiez le journal du serveur de messagerie",
     "A problem occurred while sending the email. Please revise your settings. (Error: %s)" : "Une erreur est survenue lors de l’envoi de l'e-mail. Veuillez vérifier vos paramètres. (Erreur : %s)",
     "You need to set your account email before being able to send test emails. Go to %s for that." : "Vous devez définir l'e-mail de votre compte avant de pouvoir envoyer des e-mails de test. Allez à %s pour cela.",
