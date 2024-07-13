@@ -113,6 +113,12 @@ class InfoParser {
 		if (!array_key_exists('personal-section', $array['settings'])) {
 			$array['settings']['personal-section'] = [];
 		}
+		if (!array_key_exists('dependencies', $array)) {
+			$array['dependencies'] = [];
+		}
+		if (!array_key_exists('backend', $array['dependencies'])) {
+			$array['dependencies']['backend'] = [];
+		}
 
 		if (array_key_exists('types', $array)) {
 			if (is_array($array['types'])) {
@@ -177,9 +183,11 @@ class InfoParser {
 		if (isset($array['settings']['personal-section']) && !is_array($array['settings']['personal-section'])) {
 			$array['settings']['personal-section'] = [$array['settings']['personal-section']];
 		}
-
 		if (isset($array['navigations']['navigation']) && $this->isNavigationItem($array['navigations']['navigation'])) {
 			$array['navigations']['navigation'] = [$array['navigations']['navigation']];
+		}
+		if (isset($array['dependencies']['backend']) && !is_array($array['dependencies']['backend'])) {
+			$array['dependencies']['backend'] = [$array['dependencies']['backend']];
 		}
 
 		if ($this->cache !== null) {
