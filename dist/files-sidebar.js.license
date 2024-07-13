@@ -422,7 +422,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 5.6.0
 	- license: MIT
 - webpack
-	- version: 5.91.0
+	- version: 5.93.0
 	- license: MIT
 - which-typed-array
 	- version: 1.1.15
