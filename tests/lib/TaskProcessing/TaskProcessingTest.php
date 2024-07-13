@@ -582,6 +582,58 @@ class TaskProcessingTest extends \Test\TestCase {
 		self::assertEquals('World', $node->getContent());
 	}
 
+	public function testAsyncProviderWithFilesShouldBeRegisteredAndRunReturningFileIds() {
+		$this->registrationContext->expects($this->any())->method('getTaskProcessingTaskTypes')->willReturn([
+			new ServiceRegistration('test', AudioToImage::class)
+		]);
+		$this->registrationContext->expects($this->any())->method('getTaskProcessingProviders')->willReturn([
+			new ServiceRegistration('test', AsyncProvider::class)
+		]);
+		$user = $this->createMock(IUser::class);
+		$user->expects($this->any())->method('getUID')->willReturn('testuser');
+		$mount = $this->createMock(ICachedMountInfo::class);
+		$mount->expects($this->any())->method('getUser')->willReturn($user);
+		$this->userMountCache->expects($this->any())->method('getMountsForFileId')->willReturn([$mount]);
+		self::assertCount(1, $this->manager->getAvailableTaskTypes());
+
+		self::assertTrue($this->manager->hasProviders());
+		$audioId = $this->getFile('audioInput', 'Hello')->getId();
+		$task = new Task(AudioToImage::ID, ['audio' => $audioId], 'test', 'testuser');
+		self::assertNull($task->getId());
+		self::assertEquals(Task::STATUS_UNKNOWN, $task->getStatus());
+		$this->manager->scheduleTask($task);
+		self::assertNotNull($task->getId());
+		self::assertEquals(Task::STATUS_SCHEDULED, $task->getStatus());
+
+		// Task object retrieved from db is up-to-date
+		$task2 = $this->manager->getTask($task->getId());
+		self::assertEquals($task->getId(), $task2->getId());
+		self::assertEquals(['audio' => $audioId], $task2->getInput());
+		self::assertNull($task2->getOutput());
+		self::assertEquals(Task::STATUS_SCHEDULED, $task2->getStatus());
+
+		$this->eventDispatcher->expects($this->once())->method('dispatchTyped')->with(new IsInstanceOf(TaskSuccessfulEvent::class));
+
+		$this->manager->setTaskProgress($task2->getId(), 0.1);
+		$input = $this->manager->prepareInputData($task2);
+		self::assertTrue(isset($input['audio']));
+		self::assertInstanceOf(\OCP\Files\File::class, $input['audio']);
+		self::assertEquals($audioId, $input['audio']->getId());
+
+		$outputFileId = $this->getFile('audioOutput', 'World')->getId();
+
+		$this->manager->setTaskResult($task2->getId(), null, ['spectrogram' => $outputFileId], true);
+
+		$task = $this->manager->getTask($task->getId());
+		self::assertEquals(Task::STATUS_SUCCESSFUL, $task->getStatus());
+		self::assertEquals(1, $task->getProgress());
+		self::assertTrue(isset($task->getOutput()['spectrogram']));
+		$node = $this->rootFolder->getFirstNodeById($task->getOutput()['spectrogram']);
+		self::assertNotNull($node, 'fileId:'  . $task->getOutput()['spectrogram']);
+		self::assertInstanceOf(\OCP\Files\File::class, $node);
+		self::assertEquals('World', $node->getContent());
+	}
+
 	public function testNonexistentTask() {
 		$this->expectException(\OCP\TaskProcessing\Exception\NotFoundException::class);
 		$this->manager->getTask(2147483646);
