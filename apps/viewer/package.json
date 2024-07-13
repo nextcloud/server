@@ -57,7 +57,7 @@
     "@nextcloud/vue": "^8.11.1",
     "@skjnldsv/vue-plyr": "^7.4.0",
     "camelcase": "^8.0.0",
-    "debounce": "^2.0.0",
+    "debounce": "^2.1.0",
     "filerobot-image-editor": "^4.7.0",
     "nextcloud-server": "^0.15.10",
     "path-parse": "^1.0.7",
