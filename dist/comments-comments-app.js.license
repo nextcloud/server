@@ -205,7 +205,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.0.2
 	- license: MIT
 - hasown
-	- version: 2.0.1
+	- version: 2.0.2
 	- license: MIT
 - hot-patcher
 	- version: 2.0.1
@@ -301,7 +301,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.2.1
 	- license: MIT
 - side-channel
-	- version: 1.0.5
+	- version: 1.0.6
 	- license: MIT
 - stream-browserify
 	- version: 3.0.0
@@ -376,7 +376,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 5.91.0
 	- license: MIT
 - which-typed-array
-	- version: 1.1.14
+	- version: 1.1.15
 	- license: MIT
 - xtend
 	- version: 4.0.2
