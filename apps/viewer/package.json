@@ -55,7 +55,7 @@
     "@nextcloud/router": "^3.0.0",
     "@nextcloud/typings": "^1.8.0",
     "@nextcloud/vue": "^8.11.1",
-    "@skjnldsv/vue-plyr": "^7.4.0",
+    "@skjnldsv/vue-plyr": "^7.5.0",
     "camelcase": "^8.0.0",
     "debounce": "^2.0.0",
     "filerobot-image-editor": "^4.7.0",
