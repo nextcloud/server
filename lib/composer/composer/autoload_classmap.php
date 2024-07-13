@@ -1689,6 +1689,7 @@ return array(
     'OC\\Preview\\Illustrator' => $baseDir . '/lib/private/Preview/Illustrator.php',
     'OC\\Preview\\Image' => $baseDir . '/lib/private/Preview/Image.php',
     'OC\\Preview\\Imaginary' => $baseDir . '/lib/private/Preview/Imaginary.php',
+    'OC\\Preview\\ImaginaryPDF' => $baseDir . '/lib/private/Preview/ImaginaryPDF.php',
     'OC\\Preview\\JPEG' => $baseDir . '/lib/private/Preview/JPEG.php',
     'OC\\Preview\\Krita' => $baseDir . '/lib/private/Preview/Krita.php',
     'OC\\Preview\\MP3' => $baseDir . '/lib/private/Preview/MP3.php',

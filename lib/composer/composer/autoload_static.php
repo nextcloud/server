@@ -1722,6 +1722,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\Preview\\Illustrator' => __DIR__ . '/../../..' . '/lib/private/Preview/Illustrator.php',
         'OC\\Preview\\Image' => __DIR__ . '/../../..' . '/lib/private/Preview/Image.php',
         'OC\\Preview\\Imaginary' => __DIR__ . '/../../..' . '/lib/private/Preview/Imaginary.php',
+        'OC\\Preview\\ImaginaryPDF' => __DIR__ . '/../../..' . '/lib/private/Preview/ImaginaryPDF.php',
         'OC\\Preview\\JPEG' => __DIR__ . '/../../..' . '/lib/private/Preview/JPEG.php',
         'OC\\Preview\\Krita' => __DIR__ . '/../../..' . '/lib/private/Preview/Krita.php',
         'OC\\Preview\\MP3' => __DIR__ . '/../../..' . '/lib/private/Preview/MP3.php',
