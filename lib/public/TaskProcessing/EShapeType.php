@@ -121,6 +121,7 @@ enum EShapeType: int {
 	 * @param mixed $value
 	 * @return void
 	 * @throws ValidationException
+	 * @since 30.0.0
 	 */
 	public function validateOutputWithFileIds(mixed $value): void {
 		$this->validateNonFileType($value);
