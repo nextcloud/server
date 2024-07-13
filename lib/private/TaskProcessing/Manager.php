@@ -773,11 +773,13 @@ class Manager implements IManager {
 				$newInputOutput[$key] = $input[$key];
 				continue;
 			}
-			if ($type->value < 10) {
+			if (EShapeType::getScalarType($type) === $type) {
+				// is scalar
 				$node = $this->validateFileId((int)$input[$key]);
 				$this->validateUserAccessToFile($input[$key], $userId);
 				$newInputOutput[$key] = $node;
 			} else {
+				// is list
 				$newInputOutput[$key] = [];
 				foreach ($input[$key] as $item) {
 					$node = $this->validateFileId((int)$item);
@@ -849,7 +851,7 @@ class Manager implements IManager {
 				$newOutput[$key] = $output[$key];
 				continue;
 			}
-			if ($type->value < 10) {
+			if (EShapeType::getScalarType($type) === $type) {
 				/** @var SimpleFile $file */
 				$file = $folder->newFile(time() . '-' . rand(1, 100000), $output[$key]);
 				$newOutput[$key] = $file->getId(); // polymorphic call to SimpleFile
@@ -923,7 +925,7 @@ class Manager implements IManager {
 				$newOutput[$key] = $output[$key];
 				continue;
 			}
-			if ($type->value < 10) {
+			if (EShapeType::getScalarType($type) === $type) {
 				// Is scalar file ID
 				$newOutput[$key] = $this->validateFileId($output[$key]);
 			} else {
@@ -939,10 +941,10 @@ class Manager implements IManager {
 
 	/**
 	 * @param mixed $id
-	 * @return Node
+	 * @return File
 	 * @throws ValidationException
 	 */
-	private function validateFileId(mixed $id): Node {
+	private function validateFileId(mixed $id): File {
 		$node = $this->rootFolder->getFirstNodeById($id);
 		if ($node === null) {
 			$node = $this->rootFolder->getFirstNodeByIdInPath($id, '/' . $this->rootFolder->getAppDataDirectoryName() . '/');
