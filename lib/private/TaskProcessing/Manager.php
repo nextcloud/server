@@ -696,7 +696,7 @@ class Manager implements IManager {
 						$output[$key] = $value->getId();
 					}
 					if (is_array($value) && $value[0] instanceof Node) {
-						$output[$key] = array_map(fn($node) => $node->getId(), $value);
+						$output[$key] = array_map(fn ($node) => $node->getId(), $value);
 					}
 				}
 				$task->setOutput($output);

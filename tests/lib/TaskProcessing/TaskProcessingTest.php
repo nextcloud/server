@@ -18,7 +18,6 @@ use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\AppData\IAppDataFactory;
 use OCP\Files\Config\ICachedMountInfo;
 use OCP\Files\Config\IUserMountCache;
-use OCP\Files\IAppData;
 use OCP\Files\IRootFolder;
 use OCP\IConfig;
 use OCP\IDBConnection;
