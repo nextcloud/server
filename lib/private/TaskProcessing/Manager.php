@@ -687,12 +687,7 @@ class Manager implements IManager {
 				if (!$isUsingFileIds) {
 					$output = $this->encapsulateOutputFileData($output, $outputShape, $optionalOutputShape);
 				} else {
-					$output = $this->validateOutputFileIds($output, $outputShape, $optionalOutputShape);
-				}
-				foreach ($output as $key => $value) {
-					if ($value instanceof Node) {
-						$output[$key] = $value->getId();
-					}
+					$this->validateOutputFileIds($output, $outputShape, $optionalOutputShape);
 				}
 				$task->setOutput($output);
 				$task->setProgress(1);
