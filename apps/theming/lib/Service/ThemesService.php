@@ -28,7 +28,7 @@ class ThemesService {
 		private LoggerInterface $logger,
 		private DefaultTheme $defaultTheme,
 		LightTheme $lightTheme,
-		DarkTheme $darkTheme,
+		private DarkTheme $darkTheme,
 		HighContrastTheme $highContrastTheme,
 		DarkHighContrastTheme $darkHighContrastTheme,
 		DyslexiaFont $dyslexiaFont) {
@@ -59,9 +59,15 @@ class ThemesService {
 			}
 
 			$defaultTheme = $this->themesProviders[$this->defaultTheme->getId()];
+			$darkTheme = $this->themesProviders[$this->darkTheme->getId()];
 			$theme = $this->themesProviders[$enforcedTheme];
 			return [
+				// Leave the default theme as a fallback
 				$defaultTheme->getId() => $defaultTheme,
+				// Make sure we also have the dark theme to allow apps
+				// to scope sections of their UI to the dark theme
+				$darkTheme->getId() => $darkTheme,
+				// Finally, the enforced theme
 				$theme->getId() => $theme,
 			];
 		}
