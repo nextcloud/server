@@ -22,6 +22,7 @@ use OCP\Files\Config\IUserMountCache;
 use OCP\Files\File;
 use OCP\Files\GenericFileException;
 use OCP\Files\IAppData;
+use OCP\Files\InvalidPathException;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;
 use OCP\Files\NotPermittedException;
@@ -713,7 +714,12 @@ class Manager implements IManager {
 				$error = 'The task was processed successfully but storing the output in a file failed';
 				$task->setErrorMessage($error);
 				$this->logger->error($error, ['exception' => $e]);
-
+			} catch (InvalidPathException|\OCP\Files\NotFoundException $e) {
+				$task->setProgress(1);
+				$task->setStatus(Task::STATUS_FAILED);
+				$error = 'The task was processed successfully but the result file could not be found';
+				$task->setErrorMessage($error);
+				$this->logger->error($error, ['exception' => $e]);
 			}
 		}
 		$taskEntity = \OC\TaskProcessing\Db\Task::fromPublicTask($task);
