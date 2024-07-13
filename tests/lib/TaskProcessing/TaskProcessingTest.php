@@ -16,11 +16,14 @@ use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\IJobList;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\AppData\IAppDataFactory;
+use OCP\Files\Config\ICachedMountInfo;
+use OCP\Files\Config\IUserMountCache;
 use OCP\Files\IAppData;
 use OCP\Files\IRootFolder;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IServerContainer;
+use OCP\IUser;
 use OCP\IUserManager;
 use OCP\SpeechToText\ISpeechToTextManager;
 use OCP\TaskProcessing\EShapeType;
@@ -295,8 +298,7 @@ class TaskProcessingTest extends \Test\TestCase {
 	private RegistrationContext $registrationContext;
 	private TaskMapper $taskMapper;
 	private IJobList $jobList;
-	private IAppData $appData;
-	private \OCP\Share\IManager $shareManager;
+	private IUserMountCache $userMountCache;
 	private IRootFolder $rootFolder;
 
 	public const TEST_USER = 'testuser';
@@ -370,7 +372,7 @@ class TaskProcessingTest extends \Test\TestCase {
 			\OC::$server->get(IAppDataFactory::class),
 		);
 
-		$this->shareManager = $this->createMock(\OCP\Share\IManager::class);
+		$this->userMountCache = $this->createMock(IUserMountCache::class);
 
 		$this->manager = new Manager(
 			$this->coordinator,
@@ -384,7 +386,7 @@ class TaskProcessingTest extends \Test\TestCase {
 			$textProcessingManager,
 			$text2imageManager,
 			\OC::$server->get(ISpeechToTextManager::class),
-			$this->shareManager,
+			$this->userMountCache,
 		);
 	}
 
@@ -415,17 +417,21 @@ class TaskProcessingTest extends \Test\TestCase {
 	}
 
 	public function testProviderShouldBeRegisteredAndTaskWithFilesFailValidation() {
-		$this->shareManager->expects($this->any())->method('getAccessList')->willReturn(['users' => []]);
 		$this->registrationContext->expects($this->any())->method('getTaskProcessingTaskTypes')->willReturn([
 			new ServiceRegistration('test', AudioToImage::class)
 		]);
 		$this->registrationContext->expects($this->any())->method('getTaskProcessingProviders')->willReturn([
 			new ServiceRegistration('test', AsyncProvider::class)
 		]);
-		$this->shareManager->expects($this->any())->method('getAccessList')->willReturn(['users' => [null]]);
-		self::assertCount(1, $this->manager->getAvailableTaskTypes());
+		$user = $this->createMock(IUser::class);
+		$user->expects($this->any())->method('getUID')->willReturn(null);
+		$mount = $this->createMock(ICachedMountInfo::class);
+		$mount->expects($this->any())->method('getUser')->willReturn($user);
+		$this->userMountCache->expects($this->any())->method('getMountsForFileId')->willReturn([$mount]);
 
+		self::assertCount(1, $this->manager->getAvailableTaskTypes());
 		self::assertTrue($this->manager->hasProviders());
+
 		$audioId = $this->getFile('audioInput', 'Hello')->getId();
 		$task = new Task(AudioToImage::ID, ['audio' => $audioId], 'test', null);
 		self::assertNull($task->getId());
@@ -536,14 +542,20 @@ class TaskProcessingTest extends \Test\TestCase {
 		self::assertEquals(1, $task->getProgress());
 	}
 
-	public function testAsyncProviderWithFilesShouldBeRegisteredAndRun() {
+	public function testAsyncProviderWithFilesShouldBeRegisteredAndRunReturningRawFileData() {
 		$this->registrationContext->expects($this->any())->method('getTaskProcessingTaskTypes')->willReturn([
 			new ServiceRegistration('test', AudioToImage::class)
 		]);
 		$this->registrationContext->expects($this->any())->method('getTaskProcessingProviders')->willReturn([
 			new ServiceRegistration('test', AsyncProvider::class)
 		]);
-		$this->shareManager->expects($this->any())->method('getAccessList')->willReturn(['users' => ['testuser' => 1]]);
+
+		$user = $this->createMock(IUser::class);
+		$user->expects($this->any())->method('getUID')->willReturn('testuser');
+		$mount = $this->createMock(ICachedMountInfo::class);
+		$mount->expects($this->any())->method('getUser')->willReturn($user);
+		$this->userMountCache->expects($this->any())->method('getMountsForFileId')->willReturn([$mount]);
+
 		self::assertCount(1, $this->manager->getAvailableTaskTypes());
 
 		self::assertTrue($this->manager->hasProviders());
