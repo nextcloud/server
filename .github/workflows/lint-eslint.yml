@@ -20,6 +20,9 @@ concurrency:
 jobs:
   changes:
     runs-on: ubuntu-latest-low
+    permissions:
+      contents: read
+      pull-requests: read
 
     outputs:
       src: ${{ steps.changes.outputs.src}}
@@ -32,8 +35,8 @@ jobs:
           filters: |
             src:
               - '.github/workflows/**'
-              - '**/src/**'
-              - '**/appinfo/info.xml'
+              - 'src/**'
+              - 'appinfo/info.xml'
               - 'package.json'
               - 'package-lock.json'
               - 'tsconfig.json'

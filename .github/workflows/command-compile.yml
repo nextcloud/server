@@ -145,4 +145,4 @@ jobs:
           token: ${{ secrets.COMMAND_BOT_PAT }}
           repository: ${{ github.event.repository.full_name }}
           comment-id: ${{ github.event.comment.id }}
-          reactions: "-1"
+          reactions: '-1'
