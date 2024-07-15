@@ -1353,6 +1353,7 @@ return array(
     'OC\\DB\\QueryBuilder\\ExpressionBuilder\\OCIExpressionBuilder' => $baseDir . '/lib/private/DB/QueryBuilder/ExpressionBuilder/OCIExpressionBuilder.php',
     'OC\\DB\\QueryBuilder\\ExpressionBuilder\\PgSqlExpressionBuilder' => $baseDir . '/lib/private/DB/QueryBuilder/ExpressionBuilder/PgSqlExpressionBuilder.php',
     'OC\\DB\\QueryBuilder\\ExpressionBuilder\\SqliteExpressionBuilder' => $baseDir . '/lib/private/DB/QueryBuilder/ExpressionBuilder/SqliteExpressionBuilder.php',
+    'OC\\DB\\QueryBuilder\\ExtendedQueryBuilder' => $baseDir . '/lib/private/DB/QueryBuilder/ExtendedQueryBuilder.php',
     'OC\\DB\\QueryBuilder\\FunctionBuilder\\FunctionBuilder' => $baseDir . '/lib/private/DB/QueryBuilder/FunctionBuilder/FunctionBuilder.php',
     'OC\\DB\\QueryBuilder\\FunctionBuilder\\OCIFunctionBuilder' => $baseDir . '/lib/private/DB/QueryBuilder/FunctionBuilder/OCIFunctionBuilder.php',
     'OC\\DB\\QueryBuilder\\FunctionBuilder\\PgSqlFunctionBuilder' => $baseDir . '/lib/private/DB/QueryBuilder/FunctionBuilder/PgSqlFunctionBuilder.php',

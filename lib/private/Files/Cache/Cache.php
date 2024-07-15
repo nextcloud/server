@@ -87,9 +87,7 @@ class Cache implements ICache {
 
 	protected function getQueryBuilder() {
 		return new CacheQueryBuilder(
-			$this->connection,
-			$this->systemConfig,
-			$this->logger,
+			$this->connection->getQueryBuilder(),
 			$this->metadataManager,
 		);
 	}

@@ -1386,6 +1386,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\DB\\QueryBuilder\\ExpressionBuilder\\OCIExpressionBuilder' => __DIR__ . '/../../..' . '/lib/private/DB/QueryBuilder/ExpressionBuilder/OCIExpressionBuilder.php',
         'OC\\DB\\QueryBuilder\\ExpressionBuilder\\PgSqlExpressionBuilder' => __DIR__ . '/../../..' . '/lib/private/DB/QueryBuilder/ExpressionBuilder/PgSqlExpressionBuilder.php',
         'OC\\DB\\QueryBuilder\\ExpressionBuilder\\SqliteExpressionBuilder' => __DIR__ . '/../../..' . '/lib/private/DB/QueryBuilder/ExpressionBuilder/SqliteExpressionBuilder.php',
+        'OC\\DB\\QueryBuilder\\ExtendedQueryBuilder' => __DIR__ . '/../../..' . '/lib/private/DB/QueryBuilder/ExtendedQueryBuilder.php',
         'OC\\DB\\QueryBuilder\\FunctionBuilder\\FunctionBuilder' => __DIR__ . '/../../..' . '/lib/private/DB/QueryBuilder/FunctionBuilder/FunctionBuilder.php',
         'OC\\DB\\QueryBuilder\\FunctionBuilder\\OCIFunctionBuilder' => __DIR__ . '/../../..' . '/lib/private/DB/QueryBuilder/FunctionBuilder/OCIFunctionBuilder.php',
         'OC\\DB\\QueryBuilder\\FunctionBuilder\\PgSqlFunctionBuilder' => __DIR__ . '/../../..' . '/lib/private/DB/QueryBuilder/FunctionBuilder/PgSqlFunctionBuilder.php',
