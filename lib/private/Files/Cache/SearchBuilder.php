@@ -62,6 +62,7 @@ class SearchBuilder {
 		'share_with' => 'string',
 		'share_type' => 'integer',
 		'owner' => 'string',
+		'parentid' => 'integer',
 	];
 
 	/** @var array<string, int> */
@@ -239,6 +240,8 @@ class SearchBuilder {
 			$value = md5((string)$value);
 		} elseif ($field === 'owner') {
 			$field = 'uid_owner';
+		} elseif ($field === 'parentid') {
+			$field = 'parent';
 		}
 		return [$field, $value, $type, $paramType];
 	}
@@ -258,6 +261,7 @@ class SearchBuilder {
 			'share_with' => ['eq'],
 			'share_type' => ['eq'],
 			'owner' => ['eq'],
+			'parentid' => ['eq'],
 		];
 
 		if (!isset(self::$fieldTypes[$operator->getField()])) {

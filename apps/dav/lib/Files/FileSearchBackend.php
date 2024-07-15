@@ -82,6 +82,7 @@ class FileSearchBackend implements ISearchBackend {
 			new SearchPropertyDefinition('{DAV:}displayname', true, true, true),
 			new SearchPropertyDefinition('{DAV:}getcontenttype', true, true, true),
 			new SearchPropertyDefinition('{DAV:}getlastmodified', true, true, true, SearchPropertyDefinition::DATATYPE_DATETIME),
+			new SearchPropertyDefinition('{DAV:}parentid', true, true, true, SearchPropertyDefinition::DATATYPE_NONNEGATIVE_INTEGER),
 			new SearchPropertyDefinition(FilesPlugin::SIZE_PROPERTYNAME, true, true, true, SearchPropertyDefinition::DATATYPE_NONNEGATIVE_INTEGER),
 			new SearchPropertyDefinition(TagsPlugin::FAVORITE_PROPERTYNAME, true, true, true, SearchPropertyDefinition::DATATYPE_BOOLEAN),
 			new SearchPropertyDefinition(FilesPlugin::INTERNAL_FILEID_PROPERTYNAME, true, true, false, SearchPropertyDefinition::DATATYPE_NONNEGATIVE_INTEGER),
@@ -443,6 +444,8 @@ class FileSearchBackend implements ISearchBackend {
 		switch ($property->name) {
 			case '{DAV:}displayname':
 				return 'name';
+			case '{DAV:}parentid':
+				return 'parentid';
 			case '{DAV:}getcontenttype':
 				return 'mimetype';
 			case '{DAV:}getlastmodified':

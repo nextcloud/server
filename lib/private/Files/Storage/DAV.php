@@ -73,6 +73,7 @@ class DAV extends Common {
 		'{DAV:}getlastmodified',
 		'{DAV:}getcontentlength',
 		'{DAV:}getcontenttype',
+		'{DAV:}parentid',
 		'{http://owncloud.org/ns}permissions',
 		'{http://open-collaboration-services.org/ns}share-permissions',
 		'{DAV:}resourcetype',
