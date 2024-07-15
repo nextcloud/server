@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\DAV\Search;
 
 use OCA\DAV\CalDAV\CalDavBackend;
@@ -28,7 +29,8 @@ use function array_map;
  *
  * @package OCA\DAV\Search
  */
-class EventsSearchProvider extends ACalendarSearchProvider implements IFilteringProvider {
+class EventsSearchProvider extends ACalendarSearchProvider implements IFilteringProvider
+{
 	/**
 	 * @var string[]
 	 */
@@ -57,21 +59,24 @@ class EventsSearchProvider extends ACalendarSearchProvider implements IFiltering
 	/**
 	 * @inheritDoc
 	 */
-	public function getId(): string {
+	public function getId(): string
+	{
 		return 'calendar';
 	}
 
 	/**
 	 * @inheritDoc
 	 */
-	public function getName(): string {
+	public function getName(): string
+	{
 		return $this->l10n->t('Events');
 	}
 
 	/**
 	 * @inheritDoc
 	 */
-	public function getOrder(string $route, array $routeParameters): ?int {
+	public function getOrder(string $route, array $routeParameters): ?int
+	{
 		if ($this->appManager->isEnabledForUser('calendar')) {
 			return $route === 'calendar.View.index' ? -1 : 30;
 		}
@@ -115,6 +120,7 @@ class EventsSearchProvider extends ACalendarSearchProvider implements IFiltering
 				]
 			);
 		}
+
 		/** @var IUser|null $person */
 		$person = $query->getFilter('person')?->get();
 		$personDisplayName = $person?->getDisplayName();
@@ -147,6 +153,16 @@ class EventsSearchProvider extends ACalendarSearchProvider implements IFiltering
 				$searchResults[] = $attendeeResult;
 			}
 		}
+
+		// Sorting the search results by event start date (DTSTART)
+		usort($searchResults, function ($a, $b) {
+			$componentA = $this->getPrimaryComponent($a['calendardata'], self::$componentType);
+			$componentB = $this->getPrimaryComponent($b['calendardata'], self::$componentType);
+			$dateA = $componentA->DTSTART->getDateTime();
+			$dateB = $componentB->DTSTART->getDateTime();
+			return $dateB <=> $dateA;
+		});
+
 		$formattedResults = \array_map(function (array $eventRow) use ($calendarsById, $subscriptionsById): SearchResultEntry {
 			$component = $this->getPrimaryComponent($eventRow['calendardata'], self::$componentType);
 			$title = (string)($component->SUMMARY ?? $this->l10n->t('Untitled event'));
@@ -186,8 +202,8 @@ class EventsSearchProvider extends ACalendarSearchProvider implements IFiltering
 		// This route will automatically figure out what recurrence-id to open
 		return $this->urlGenerator->getAbsoluteURL(
 			$this->urlGenerator->linkToRoute('calendar.view.index')
-			. 'edit/'
-			. base64_encode($davUrl)
+				. 'edit/'
+				. base64_encode($davUrl)
 		);
 	}
 
@@ -204,7 +220,8 @@ class EventsSearchProvider extends ACalendarSearchProvider implements IFiltering
 			. $calendarObjectUri;
 	}
 
-	protected function generateSubline(Component $eventComponent): string {
+	protected function generateSubline(Component $eventComponent): string
+	{
 		$dtStart = $eventComponent->DTSTART;
 		$dtEnd = $this->getDTEndForEvent($eventComponent);
 		$isAllDayEvent = $dtStart instanceof Property\ICalendar\Date;
@@ -234,7 +251,8 @@ class EventsSearchProvider extends ACalendarSearchProvider implements IFiltering
 		return "$formattedStartDate $formattedStartTime - $formattedEndDate $formattedEndTime";
 	}
 
-	protected function getDTEndForEvent(Component $eventComponent):Property {
+	protected function getDTEndForEvent(Component $eventComponent): Property
+	{
 		if (isset($eventComponent->DTEND)) {
 			$end = $eventComponent->DTEND;
 		} elseif (isset($eventComponent->DURATION)) {
@@ -263,7 +281,8 @@ class EventsSearchProvider extends ACalendarSearchProvider implements IFiltering
 		return $dtStart->format('Y-m-d') === $dtEnd->format('Y-m-d');
 	}
 
-	public function getSupportedFilters(): array {
+	public function getSupportedFilters(): array
+	{
 		return [
 			'term',
 			'person',
@@ -272,11 +291,13 @@ class EventsSearchProvider extends ACalendarSearchProvider implements IFiltering
 		];
 	}
 
-	public function getAlternateIds(): array {
+	public function getAlternateIds(): array
+	{
 		return [];
 	}
 
-	public function getCustomFilters(): array {
+	public function getCustomFilters(): array
+	{
 		return [];
 	}
 }
