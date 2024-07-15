@@ -34,7 +34,11 @@ export default function(node, view, dir) {
 		{ ...window.OCP.Files.Router.query },
 		true,
 	]
-	const onClose = () => window.OCP.Files.Router.goToRoute(...oldRoute)
+	const onClose = () => {
+		// This can sometime be called with the openfile set to true already. But we don't want to keep openfile when closing the viewer.
+		delete oldRoute[2].openfile
+		window.OCP.Files.Router.goToRoute(...oldRoute)
+	}
 	pushToHistory(node, view, dir)
 	OCA.Viewer.open({ path, onPrev: pushToHistory, onNext: pushToHistory, onClose })
 }
