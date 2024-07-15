@@ -34,7 +34,7 @@ jobs:
               - '**.php'
 
   files-external-smb-kerberos:
-    runs-on: ubuntu-22.04
+    runs-on: self-hosted
     needs: changes
 
     if: ${{ github.repository_owner != 'nextcloud-gmbh' && needs.changes.outputs.src != 'false' }}
@@ -53,12 +53,22 @@ jobs:
           repository: nextcloud/user_saml
           path: apps/user_saml
 
+
+      - name: Checkout SystemKeeper samba-krb-test
+        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332
+        with:
+          repository: SystemKeeper/samba-krb-test
+          path: krb-test
+          ref: samba-acl-name
+
+      - name: Build image
+        working-directory: krb-test/dc
+        run: docker build -t icewind1991/samba-krb-test-dc .
+
       - name: Pull images
         run: |
-          docker pull ghcr.io/icewind1991/samba-krb-test-dc
           docker pull ghcr.io/icewind1991/samba-krb-test-apache
           docker pull ghcr.io/icewind1991/samba-krb-test-client
-          docker tag ghcr.io/icewind1991/samba-krb-test-dc icewind1991/samba-krb-test-dc
           docker tag ghcr.io/icewind1991/samba-krb-test-apache icewind1991/samba-krb-test-apache
           docker tag ghcr.io/icewind1991/samba-krb-test-client icewind1991/samba-krb-test-client
 
