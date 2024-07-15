@@ -1327,7 +1327,7 @@ return array(
     'OC\\Core\\Migrations\\Version29000Date20240131122720' => $baseDir . '/core/Migrations/Version29000Date20240131122720.php',
     'OC\\Core\\Migrations\\Version30000Date20240429122720' => $baseDir . '/core/Migrations/Version30000Date20240429122720.php',
     'OC\\Core\\Migrations\\Version30000Date20240708160048' => $baseDir . '/core/Migrations/Version30000Date20240708160048.php',
-	'OC\\Core\\Migrations\\Version30000Date20240717111406' => $baseDir . '/core/Migrations/Version30000Date20240717111406.php',
+    'OC\\Core\\Migrations\\Version30000Date20240717111406' => $baseDir . '/core/Migrations/Version30000Date20240717111406.php',
     'OC\\Core\\Notification\\CoreNotifier' => $baseDir . '/core/Notification/CoreNotifier.php',
     'OC\\Core\\ResponseDefinitions' => $baseDir . '/core/ResponseDefinitions.php',
     'OC\\Core\\Service\\LoginFlowV2Service' => $baseDir . '/core/Service/LoginFlowV2Service.php',

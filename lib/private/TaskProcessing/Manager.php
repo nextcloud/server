@@ -850,6 +850,19 @@ class Manager implements IManager {
 		}
 	}
 
+	public function getTasks(
+		?string $userId, ?string $taskTypeId = null, ?string $customId = null, ?int $status = null, ?int $scheduleAfter = null, ?int $endedBefore = null
+	): array {
+		try {
+			$taskEntities = $this->taskMapper->findTasks($userId, $taskTypeId, $customId, $status, $scheduleAfter, $endedBefore);
+			return array_map(fn ($taskEntity): Task => $taskEntity->toPublicTask(), $taskEntities);
+		} catch (\OCP\DB\Exception $e) {
+			throw new \OCP\TaskProcessing\Exception\Exception('There was a problem finding the tasks', 0, $e);
+		} catch (\JsonException $e) {
+			throw new \OCP\TaskProcessing\Exception\Exception('There was a problem parsing JSON after finding the tasks', 0, $e);
+		}
+	}
+
 	public function getUserTasksByApp(?string $userId, string $appId, ?string $customId = null): array {
 		try {
 			$taskEntities = $this->taskMapper->findUserTasksByApp($userId, $appId, $customId);

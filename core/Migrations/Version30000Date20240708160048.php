@@ -34,17 +34,17 @@ class Version30000Date20240708160048 extends SimpleMigrationStep {
 
 			$table->addColumn('scheduled_at', Types::INTEGER, [
 				'notnull' => false,
-				'default' => 0,
+				'default' => null,
 				'unsigned' => true,
 			]);
 			$table->addColumn('started_at', Types::INTEGER, [
 				'notnull' => false,
-				'default' => 0,
+				'default' => null,
 				'unsigned' => true,
 			]);
 			$table->addColumn('ended_at', Types::INTEGER, [
 				'notnull' => false,
-				'default' => 0,
+				'default' => null,
 				'unsigned' => true,
 			]);
 
