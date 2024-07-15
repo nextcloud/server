@@ -21,6 +21,7 @@ use OCP\AppFramework\Middleware;
 use OCP\IRequest;
 use OCP\ISession;
 use OCP\Security\Bruteforce\IThrottler;
+use Psr\Log\LoggerInterface;
 use ReflectionMethod;
 
 /**
@@ -42,7 +43,9 @@ class CORSMiddleware extends Middleware {
 	public function __construct(IRequest $request,
 		ControllerMethodReflector $reflector,
 		Session $session,
-		IThrottler $throttler) {
+		IThrottler $throttler,
+		private readonly LoggerInterface $logger,
+	) {
 		$this->request = $request;
 		$this->reflector = $reflector;
 		$this->session = $session;
@@ -103,6 +106,7 @@ class CORSMiddleware extends Middleware {
 
 
 		if (!empty($reflectionMethod->getAttributes($attributeClass))) {
+			$this->logger->debug($reflectionMethod->getDeclaringClass()->getName() . '::' . $reflectionMethod->getName() . ' uses the @' . $annotationName . ' annotation and should use the #[' . $attributeClass . '] attribute instead');
 			return true;
 		}
 
