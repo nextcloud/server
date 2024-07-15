@@ -128,7 +128,7 @@ class FilenameValidatorTest extends TestCase {
 				'a: b.txt', ['.htaccess'], [], [], [], null
 			],
 			'forbidden name in the middle is ok' => [
-				'a.htaccess.txt', ['.htaccess'], [], [], null
+				'a.htaccess.txt', ['.htaccess'], [], [], [], null
 			],
 			'valid name with some more parameters' => [
 				'a: b.txt', ['.htaccess'], [], ['exe'], ['~'], null
@@ -169,7 +169,7 @@ class FilenameValidatorTest extends TestCase {
 				'..', [], [], [], [], InvalidDirectoryException::class
 			],
 			'weird but valid tripple dot name' => [
-				'...', [], [], [], null // is valid
+				'...', [], [], [], [], null // is valid
 			],
 			'too long filename "."' => [
 				str_repeat('a', 251), [], [], [], [], FileNameTooLongException::class

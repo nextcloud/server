@@ -122,11 +122,11 @@ abstract class Node implements \Sabre\DAV\INode {
 
 		[$parentPath,] = \Sabre\Uri\split($this->path);
 		[, $newName] = \Sabre\Uri\split($name);
+		$newPath = $parentPath . '/' . $newName;
 
 		// verify path of the target
-		$this->verifyPath();
+		$this->verifyPath($newPath);
 
-		$newPath = $parentPath . '/' . $newName;
 
 		if (!$this->fileView->rename($this->path, $newPath)) {
 			throw new \Sabre\DAV\Exception('Failed to rename '. $this->path . ' to ' . $newPath);
@@ -355,10 +355,13 @@ abstract class Node implements \Sabre\DAV\INode {
 		return $this->info->getOwner();
 	}
 
-	protected function verifyPath() {
+	protected function verifyPath(?string $path = null): void {
 		try {
-			$fileName = basename($this->info->getPath());
-			$this->fileView->verifyPath($this->path, $fileName);
+			$path = $path ?? $this->info->getPath();
+			$this->fileView->verifyPath(
+				dirname($path),
+				basename($path),
+			);
 		} catch (\OCP\Files\InvalidPathException $ex) {
 			throw new InvalidPath($ex->getMessage());
 		}
