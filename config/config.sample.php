@@ -1988,6 +1988,18 @@ $CONFIG = [
 'forbidden_filenames' => ['.htaccess'],
 
 /**
+ * Disallow the upload of files with specific basenames.
+ *
+ * The basename is the name of the file without the extension,
+ * e.g. for "archive.tar.gz" the basename would be "archive".
+ *
+ * Note that this list is case-insensitive.
+ *
+ * Defaults to ``array()``
+ */
+'forbidden_filename_basenames' => [],
+
+/**
  * Block characters from being used in filenames. This is useful if you
  * have a filesystem or OS which does not support certain characters like windows.
  *

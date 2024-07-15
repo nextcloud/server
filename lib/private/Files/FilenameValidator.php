@@ -33,6 +33,10 @@ class FilenameValidator implements IFilenameValidator {
 	/**
 	 * @var list<string>
 	 */
+	private array $forbiddenBasenames = [];
+	/**
+	 * @var list<string>
+	 */
 	private array $forbiddenCharacters = [];
 
 	/**
@@ -56,17 +60,11 @@ class FilenameValidator implements IFilenameValidator {
 	 */
 	public function getForbiddenExtensions(): array {
 		if (empty($this->forbiddenExtensions)) {
-			$forbiddenExtensions = $this->config->getSystemValue('forbidden_filename_extensions', ['.filepart']);
-			if (!is_array($forbiddenExtensions)) {
-				$this->logger->error('Invalid system config value for "forbidden_filename_extensions" is ignored.');
-				$forbiddenExtensions = ['.filepart'];
-			}
+			$forbiddenExtensions = $this->getConfigValue('forbidden_filename_extensions', ['.filepart']);
 
 			// Always forbid .part files as they are used internally
-			$forbiddenExtensions = array_merge($forbiddenExtensions, ['.part']);
+			$forbiddenExtensions[] = '.part';
 
-			// The list is case insensitive so we provide it always lowercase
-			$forbiddenExtensions = array_map('mb_strtolower', $forbiddenExtensions);
 			$this->forbiddenExtensions = array_values($forbiddenExtensions);
 		}
 		return $this->forbiddenExtensions;
@@ -80,29 +78,35 @@ class FilenameValidator implements IFilenameValidator {
 	 */
 	public function getForbiddenFilenames(): array {
 		if (empty($this->forbiddenNames)) {
-			$forbiddenNames = $this->config->getSystemValue('forbidden_filenames', ['.htaccess']);
-			if (!is_array($forbiddenNames)) {
-				$this->logger->error('Invalid system config value for "forbidden_filenames" is ignored.');
-				$forbiddenNames = ['.htaccess'];
-			}
+			$forbiddenNames = $this->getConfigValue('forbidden_filenames', ['.htaccess']);
 
 			// Handle legacy config option
 			// TODO: Drop with Nextcloud 34
-			$legacyForbiddenNames = $this->config->getSystemValue('blacklisted_files', []);
-			if (!is_array($legacyForbiddenNames)) {
-				$this->logger->error('Invalid system config value for "blacklisted_files" is ignored.');
-				$legacyForbiddenNames = [];
-			}
+			$legacyForbiddenNames = $this->getConfigValue('blacklisted_files', []);
 			if (!empty($legacyForbiddenNames)) {
 				$this->logger->warning('System config option "blacklisted_files" is deprecated and will be removed in Nextcloud 34, use "forbidden_filenames" instead.');
 			}
 			$forbiddenNames = array_merge($legacyForbiddenNames, $forbiddenNames);
 
-			// The list is case insensitive so we provide it always lowercase
-			$forbiddenNames = array_map('mb_strtolower', $forbiddenNames);
+			// Ensure we are having a proper string list
 			$this->forbiddenNames = array_values($forbiddenNames);
 		}
 		return $this->forbiddenNames;
+	}
+
+	/**
+	 * Get a list of forbidden file basenames that must not be used
+	 * This list should be checked case-insensitive, all names are returned lowercase.
+	 * @return list<string>
+	 * @since 30.0.0
+	 */
+	public function getForbiddenBasenames(): array {
+		if (empty($this->forbiddenBasenames)) {
+			$forbiddenBasenames = $this->getConfigValue('forbidden_filename_basenames', []);
+			// Ensure we are having a proper string list
+			$this->forbiddenBasenames = array_values($forbiddenBasenames);
+		}
+		return $this->forbiddenBasenames;
 	}
 
 	/**
@@ -194,6 +198,7 @@ class FilenameValidator implements IFilenameValidator {
 	 * @return bool True if invalid name, False otherwise
 	 */
 	public function isForbidden(string $path): bool {
+		// We support paths here as this function is also used in some storage internals
 		$filename = basename($path);
 		$filename = mb_strtolower($filename);
 
@@ -201,10 +206,16 @@ class FilenameValidator implements IFilenameValidator {
 			return false;
 		}
 
-		// The name part without extension
-		$basename = substr($filename, 0, strpos($filename, '.', 1) ?: null);
 		// Check for forbidden filenames
 		$forbiddenNames = $this->getForbiddenFilenames();
+		if (in_array($filename, $forbiddenNames)) {
+			return true;
+		}
+
+		// Check for forbidden basenames - basenames are the part of the file until the first dot
+		// (except if the dot is the first character as this is then part of the basename "hidden files")
+		$basename = substr($filename, 0, strpos($filename, '.', 1) ?: null);
+		$forbiddenNames = $this->getForbiddenBasenames();
 		if (in_array($basename, $forbiddenNames)) {
 			return true;
 		}
@@ -226,7 +237,7 @@ class FilenameValidator implements IFilenameValidator {
 
 		foreach ($this->getForbiddenCharacters() as $char) {
 			if (str_contains($filename, $char)) {
-				throw new InvalidCharacterInPathException($char);
+				throw new InvalidCharacterInPathException($this->l10n->t('Invalid character "%1$s" in filename', [$char]));
 			}
 		}
 	}
@@ -245,5 +256,19 @@ class FilenameValidator implements IFilenameValidator {
 				throw new InvalidPathException($this->l10n->t('Invalid filename extension "%1$s"', [$extension]));
 			}
 		}
+	}
+
+	/**
+	 * Helper to get lower case list from config with validation
+	 * @return string[]
+	 */
+	private function getConfigValue(string $key, array $fallback): array {
+		$values = $this->config->getSystemValue($key, ['.filepart']);
+		if (!is_array($values)) {
+			$this->logger->error('Invalid system config value for "' . $key . '" is ignored.');
+			$values = $fallback;
+		}
+
+		return array_map('mb_strtolower', $values);
 	}
 };
