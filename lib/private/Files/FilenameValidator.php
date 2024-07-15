@@ -11,9 +11,11 @@ use OCP\Files\EmptyFileNameException;
 use OCP\Files\FileNameTooLongException;
 use OCP\Files\IFilenameValidator;
 use OCP\Files\InvalidCharacterInPathException;
+use OCP\Files\InvalidDirectoryException;
 use OCP\Files\InvalidPathException;
 use OCP\Files\ReservedWordException;
 use OCP\IConfig;
+use OCP\IDBConnection;
 use OCP\IL10N;
 use OCP\L10N\IFactory;
 use Psr\Log\LoggerInterface;
@@ -46,6 +48,7 @@ class FilenameValidator implements IFilenameValidator {
 
 	public function __construct(
 		IFactory $l10nFactory,
+		private IDBConnection $database,
 		private IConfig $config,
 		private LoggerInterface $logger,
 	) {
@@ -173,14 +176,26 @@ class FilenameValidator implements IFilenameValidator {
 		}
 
 		// the special directories . and .. would cause never ending recursion
+		// we check the trimmed name here to ensure unexpected trimming will not cause severe issues
 		if ($trimmed === '.' || $trimmed === '..') {
-			throw new ReservedWordException();
+			throw new InvalidDirectoryException($this->l10n->t('Dot files are not allowed'));
 		}
 
 		// 255 characters is the limit on common file systems (ext/xfs)
 		// oc_filecache has a 250 char length limit for the filename
 		if (isset($filename[250])) {
 			throw new FileNameTooLongException();
+		}
+
+		if (!$this->database->supports4ByteText()) {
+			// verify database - e.g. mysql only 3-byte chars
+			if (preg_match('%(?:
+      \xF0[\x90-\xBF][\x80-\xBF]{2}      # planes 1-3
+    | [\xF1-\xF3][\x80-\xBF]{3}          # planes 4-15
+    | \xF4[\x80-\x8F][\x80-\xBF]{2}      # plane 16
+)%xs', $filename)) {
+				throw new InvalidCharacterInPathException();
+			}
 		}
 
 		if ($this->isForbidden($filename)) {
@@ -263,7 +278,7 @@ class FilenameValidator implements IFilenameValidator {
 	 * @return string[]
 	 */
 	private function getConfigValue(string $key, array $fallback): array {
-		$values = $this->config->getSystemValue($key, ['.filepart']);
+		$values = $this->config->getSystemValue($key, $fallback);
 		if (!is_array($values)) {
 			$this->logger->error('Invalid system config value for "' . $key . '" is ignored.');
 			$values = $fallback;
