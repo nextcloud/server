@@ -21,6 +21,7 @@ use OC\User\Session;
 use OCP\App\AppPathNotFoundException;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Controller;
+use OCP\AppFramework\Http\Attribute\AppApiAdminAccessWithoutUser;
 use OCP\AppFramework\Http\Attribute\AuthorizedAdminSetting;
 use OCP\AppFramework\Http\Attribute\ExAppRequired;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
@@ -136,11 +137,19 @@ class SecurityMiddleware extends Middleware {
 				throw new ExAppRequiredException();
 			}
 		} elseif (!$isPublicPage) {
-			if (!$this->isLoggedIn) {
+			$authorized = false;
+			if ($this->hasAnnotationOrAttribute($reflectionMethod, null, AppApiAdminAccessWithoutUser::class)) {
+				// this attribute allows ExApp to access admin endpoints only if "userId" is "null"
+				if ($this->userSession instanceof Session && $this->userSession->getSession()->get('app_api') === true && $this->userSession->getUser() === null) {
+					$authorized = true;
+				}
+			}
+
+			if (!$authorized && !$this->isLoggedIn) {
 				throw new NotLoggedInException();
 			}
-			$authorized = false;
-			if ($this->hasAnnotationOrAttribute($reflectionMethod, 'AuthorizedAdminSetting', AuthorizedAdminSetting::class)) {
+
+			if (!$authorized && $this->hasAnnotationOrAttribute($reflectionMethod, 'AuthorizedAdminSetting', AuthorizedAdminSetting::class)) {
 				$authorized = $this->isAdminUser;
 
 				if (!$authorized && $this->hasAnnotationOrAttribute($reflectionMethod, 'SubAdminRequired', SubAdminRequired::class)) {
@@ -233,16 +242,16 @@ class SecurityMiddleware extends Middleware {
 	 * @template T
 	 *
 	 * @param ReflectionMethod $reflectionMethod
-	 * @param string $annotationName
+	 * @param ?string $annotationName
 	 * @param class-string<T> $attributeClass
 	 * @return boolean
 	 */
-	protected function hasAnnotationOrAttribute(ReflectionMethod $reflectionMethod, string $annotationName, string $attributeClass): bool {
+	protected function hasAnnotationOrAttribute(ReflectionMethod $reflectionMethod, ?string $annotationName, string $attributeClass): bool {
 		if (!empty($reflectionMethod->getAttributes($attributeClass))) {
 			return true;
 		}
 
-		if ($this->reflector->hasAnnotation($annotationName)) {
+		if ($annotationName && $this->reflector->hasAnnotation($annotationName)) {
 			return true;
 		}
 
