@@ -7,17 +7,17 @@
 
 namespace OCP\Files\Template;
 
-use OCP\Files\Template\InvalidFieldTypeException;
-
 class Field implements \JsonSerializable {
 	private string $index;
 	private string $content;
 	private FieldType $type;
+	private ?string $alias;
 	private ?int $id;
 	private ?string $tag;
 
-	public function __construct($index, $content, $type, $id = null, $tag = null) {
+	public function __construct($index, $content, $type, $alias = null, $id = null, $tag = null) {
 		$this->index = $index;
+		$this->alias = $alias;
 		$this->id = $id;
 		$this->tag = $tag;
 		$this->content = $content;
@@ -34,6 +34,7 @@ class Field implements \JsonSerializable {
 			"index" => $this->index,
 			"content" => $this->content,
 			"type" => $this->type->value,
+			"alias" => $this->alias,
 			"id" => $this->id,
 			"tag" => $this->tag,
 		];
