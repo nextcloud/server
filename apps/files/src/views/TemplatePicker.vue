@@ -214,7 +214,7 @@ export default defineComponent({
 
 			if (this.selectedTemplate?.fields) {
 				spawnDialog(TemplateFiller, {
-					fields: this.selectedTemplate?.fields
+					fields: this.selectedTemplate?.fields,
 				})
 
 				return
