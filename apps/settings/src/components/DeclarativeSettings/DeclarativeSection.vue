@@ -28,7 +28,7 @@
 						@update:value="onChangeDebounced(formField)"
 						@submit="updateDeclarativeSettingsValue(formField)" />
 				</div>
-				<span class="hint">{{ t(formApp, formField.description) }}</span>
+				<span v-if="formField.description" class="hint">{{ t(formApp, formField.description) }}</span>
 			</template>
 
 			<template v-if="formField.type === 'select'">
@@ -41,7 +41,7 @@
 						:value="formFieldsData[formField.id].value"
 						@input="(value) => updateFormFieldDataValue(value, formField, true)" />
 				</div>
-				<span class="hint">{{ t(formApp, formField.description) }}</span>
+				<span v-if="formField.description" class="hint">{{ t(formApp, formField.description) }}</span>
 			</template>
 
 			<template v-if="formField.type === 'multi-select'">
@@ -59,21 +59,22 @@
 						}
 						" />
 				</div>
-				<span class="hint">{{ t(formApp, formField.description) }}</span>
+				<span v-if="formField.description" class="hint">{{ t(formApp, formField.description) }}</span>
 			</template>
 
 			<template v-if="formField.type === 'checkbox'">
-				<label :for="formField.id + '_field'">{{ t(formApp, formField.title) }}</label>
+				<label v-if="formField.label" :for="formField.id + '_field'">{{ t(formApp, formField.title) }}</label>
 				<NcCheckboxRadioSwitch :id="formField.id + '_field'"
 					:checked="Boolean(formFieldsData[formField.id].value)"
+					type="switch"
 					@update:checked="(value) => {
 						formField.value = value
 						updateFormFieldDataValue(+value, formField, true)
 					}
 					">
-					{{ t(formApp, formField.label) }}
+					{{ t(formApp, formField.label ?? formField.title) }}
 				</NcCheckboxRadioSwitch>
-				<span class="hint">{{ t(formApp, formField.description) }}</span>
+				<span v-if="formField.description" class="hint">{{ t(formApp, formField.description) }}</span>
 			</template>
 
 			<template v-if="formField.type === 'multi-checkbox'">
@@ -90,7 +91,7 @@
 					">
 					{{ t(formApp, option.name) }}
 				</NcCheckboxRadioSwitch>
-				<span class="hint">{{ t(formApp, formField.description) }}</span>
+				<span v-if="formField.description" class="hint">{{ t(formApp, formField.description) }}</span>
 			</template>
 
 			<template v-if="formField.type === 'radio'">
@@ -103,7 +104,7 @@
 					@update:checked="(value) => updateFormFieldDataValue(value, formField, true)">
 					{{ t(formApp, option.name) }}
 				</NcCheckboxRadioSwitch>
-				<span class="hint">{{ t(formApp, formField.description) }}</span>
+				<span v-if="formField.description" class="hint">{{ t(formApp, formField.description) }}</span>
 			</template>
 		</div>
 	</NcSettingsSection>
@@ -228,7 +229,6 @@ export default {
 
 <style lang="scss" scoped>
 .declarative-form-field {
-	margin: 20px 0;
 	padding: 10px 0;
 
 	.input-wrapper {
