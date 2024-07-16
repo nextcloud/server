@@ -8,5 +8,9 @@
 namespace OCP\Files\Template;
 
 enum FieldType: string {
-	case PlainText = "plain-text";
+	case RichText = "rich-text";
+	case CheckBox = "checkbox";
+	case DropDownList = "drop-down-list";
+	case Picture = "picture";
+	case Date = "date";
 }
