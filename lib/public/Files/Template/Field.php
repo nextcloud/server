@@ -10,7 +10,7 @@ namespace OCP\Files\Template;
 use OCP\Files\Template\InvalidFieldTypeException;
 
 class Field implements \JsonSerializable {
-	private int $index;
+	private string $index;
 	private string $content;
 	private FieldType $type;
 	private ?int $id;
