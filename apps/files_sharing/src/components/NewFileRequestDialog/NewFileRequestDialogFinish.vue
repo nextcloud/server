@@ -7,7 +7,7 @@
 	<div>
 		<!-- Request note -->
 		<NcNoteCard type="success">
-			{{ t('files_sharing', 'Once created, you can share the link below to allow people to upload files to your directory.') }}
+			{{ t('files_sharing', 'You can now share the link below to allow people to upload files to your directory.') }}
 		</NcNoteCard>
 
 		<!-- Copy share link -->
@@ -32,7 +32,8 @@
 				:placeholder="t('files_sharing', 'Enter an email address or paste a list')"
 				type="email"
 				@keypress.enter.stop="addNewEmail"
-				@paste.stop.prevent="onPasteEmails" />
+				@paste.stop.prevent="onPasteEmails"
+				@focusout.native="addNewEmail" />
 
 			<!-- Email list -->
 			<div v-if="emails.length > 0" class="file-request-dialog__emails">
