@@ -26,8 +26,24 @@ jobs:
       base_ref: ${{ steps.comment-branch.outputs.base_ref }}
 
     steps:
+      - name: Get repository from pull request comment
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v7.0.1
+        id: get-repository
+        with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          script: |
+            const pull = await github.rest.pulls.get({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: context.issue.number
+            });
+
+            const repositoryName = pull.data.head?.repo?.full_name
+            console.log(repositoryName)
+            return repositoryName
+
       - name: Disabled on forks
-        if: ${{ github.event.pull_request.head.repo.full_name != github.repository }}
+        if: ${{ fromJSON(steps.get-repository.outputs.result) != github.repository }}
         run: |
           echo 'Can not execute /compile on forks'
           exit 1
