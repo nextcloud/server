@@ -18,7 +18,7 @@
 			:show-trailing-button="true"
 			:trailing-button-label="t('files_sharing', 'Copy to clipboard')"
 			@click="copyShareLink"
-			@click-trailing-button="copyShareLink">
+			@trailing-button-click="copyShareLink">
 			<template #trailing-button-icon>
 				<IconCheck v-if="isCopied" :size="20" />
 				<IconClipboard v-else :size="20" />
@@ -72,7 +72,7 @@ import NcTextField from '@nextcloud/vue/dist/Components/NcTextField.js'
 import NcChip from '@nextcloud/vue/dist/Components/NcChip.js'
 
 import IconCheck from 'vue-material-design-icons/Check.vue'
-import IconClipboard from 'vue-material-design-icons/Clipboard.vue'
+import IconClipboard from 'vue-material-design-icons/ClipboardText.vue'
 
 export default defineComponent({
 	name: 'NewFileRequestDialogFinish',
