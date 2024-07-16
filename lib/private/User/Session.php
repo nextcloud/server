@@ -50,10 +50,12 @@ use OC\Hooks\PublicEmitter;
 use OC_User;
 use OC_Util;
 use OCA\DAV\Connector\Sabre\Auth;
+use OCP\AppFramework\Db\TTransactional;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\NotPermittedException;
 use OCP\IConfig;
+use OCP\IDBConnection;
 use OCP\IRequest;
 use OCP\ISession;
 use OCP\IUser;
@@ -90,6 +92,8 @@ use Symfony\Component\EventDispatcher\GenericEvent;
  * @package OC\User
  */
 class Session implements IUserSession, Emitter {
+	use TTransactional;
+
 	/** @var Manager $manager */
 	private $manager;
 
@@ -692,8 +696,10 @@ class Session implements IUserSession, Emitter {
 			$sessionId = $this->session->getId();
 			$pwd = $this->getPassword($password);
 			// Make sure the current sessionId has no leftover tokens
-			$this->tokenProvider->invalidateToken($sessionId);
-			$this->tokenProvider->generateToken($sessionId, $uid, $loginName, $pwd, $name, IToken::TEMPORARY_TOKEN, $remember);
+			$this->atomic(function () use ($sessionId, $uid, $loginName, $pwd, $name, $remember) {
+				$this->tokenProvider->invalidateToken($sessionId);
+				$this->tokenProvider->generateToken($sessionId, $uid, $loginName, $pwd, $name, IToken::TEMPORARY_TOKEN, $remember);
+			}, \OCP\Server::get(IDBConnection::class));
 			return true;
 		} catch (SessionNotAvailableException $ex) {
 			// This can happen with OCC, where a memory session is used
