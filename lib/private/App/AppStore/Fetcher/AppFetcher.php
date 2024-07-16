@@ -154,6 +154,7 @@ class AppFetcher extends Fetcher {
 
 		$apps = parent::get($allowPreReleases);
 		if (empty($apps)) {
+			$this->logger->warning('Could not get apps from the appstore', ['app' => 'appstoreFetcher']);
 			return [];
 		}
 		$allowList = $this->config->getSystemValue('appsallowlist');
