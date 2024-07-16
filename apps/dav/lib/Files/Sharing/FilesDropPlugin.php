@@ -22,10 +22,7 @@ class FilesDropPlugin extends ServerPlugin {
 	/** @var bool */
 	private $enabled = false;
 
-	/**
-	 * @param View $view
-	 */
-	public function setView($view) {
+	public function setView(View $view) {
 		$this->view = $view;
 	}
 
@@ -52,7 +49,7 @@ class FilesDropPlugin extends ServerPlugin {
 			return;
 		}
 
-		if ($request->getMethod() !== 'PUT') {
+		if ($request->getMethod() !== 'PUT' && $request->getMethod() !== 'MKCOL') {
 			throw new MethodNotAllowed('Only PUT is allowed on files drop');
 		}
 
