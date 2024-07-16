@@ -296,7 +296,6 @@ OC.L10N.register(
     "File drop" : "File drop",
     "Circle" : "Circle",
     "Update" : "Update",
-    "Share with " : "Share with ",
     "No other users with access found" : "No other users with access found",
     "No entries found in this folder" : "No entries found in this folder",
     "Name" : "Name",

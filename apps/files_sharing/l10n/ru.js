@@ -299,7 +299,6 @@ OC.L10N.register(
     "File drop" : "Принимать файлы",
     "Circle" : "Круг",
     "Update" : "Изменение",
-    "Share with " : "Поделиться",
     "No other users with access found" : "Не найдено пользователей, имеющих доступ",
     "No entries found in this folder" : "В этой папке ничего нет",
     "Name" : "Имя",

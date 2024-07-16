@@ -311,7 +311,6 @@ OC.L10N.register(
     "File drop" : "Vložiť súbor",
     "Circle" : "Kruh",
     "Update" : "Aktualizovať",
-    "Share with " : "Zdieľať s ",
     "No other users with access found" : "Neboli nájdení ďalší používatelia s prístupom",
     "No entries found in this folder" : "V tomto priečinku nebolo nič nájdené",
     "Name" : "Názov",

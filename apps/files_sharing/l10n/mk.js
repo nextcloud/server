@@ -288,7 +288,6 @@ OC.L10N.register(
     "File drop" : "Повлечи и прикачи",
     "Circle" : "Круг",
     "Update" : "Ажурирај",
-    "Share with " : "Сподели со",
     "No other users with access found" : "Не се пројандени други корисници со простап",
     "No entries found in this folder" : "Нема ништо во оваа папка",
     "Name" : "Име",

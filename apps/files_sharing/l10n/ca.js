@@ -310,7 +310,6 @@ OC.L10N.register(
     "File drop" : "Pujada de fitxers",
     "Circle" : "Cercle",
     "Update" : "Actualitza",
-    "Share with " : "Comparteix amb",
     "No other users with access found" : "No s'ha trobat cap altre usuari amb accés",
     "No entries found in this folder" : "No hi ha cap entrada en aquesta carpeta",
     "Name" : "Nom",

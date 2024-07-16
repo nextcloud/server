@@ -312,7 +312,6 @@ OC.L10N.register(
     "File drop" : "文件拖放",
     "Circle" : "圈子",
     "Update" : "更新",
-    "Share with " : "分享给",
     "No other users with access found" : "找不到其他具有访问权限的用户",
     "No entries found in this folder" : "在此文件夹中找不到项目",
     "Name" : "名称",
