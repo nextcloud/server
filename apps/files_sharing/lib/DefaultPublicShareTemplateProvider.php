@@ -96,6 +96,7 @@ class DefaultPublicShareTemplateProvider implements IPublicShareTemplateProvider
 
 		$shareTmpl['filename'] = $shareNode->getName();
 		$shareTmpl['directory_path'] = $share->getTarget();
+		$shareTmpl['label'] = $share->getLabel();
 		$shareTmpl['note'] = $share->getNote();
 		$shareTmpl['mimetype'] = $shareNode->getMimetype();
 		$shareTmpl['previewSupported'] = $this->previewManager->isMimeSupported($shareNode->getMimetype());
@@ -238,6 +239,11 @@ class DefaultPublicShareTemplateProvider implements IPublicShareTemplateProvider
 		$response->setHeaderTitle($shareTmpl['filename']);
 		if ($shareTmpl['shareOwner'] !== '') {
 			$response->setHeaderDetails($this->l10n->t('shared by %s', [$shareTmpl['shareOwner']]));
+		}
+
+		// If the share has a label, use it as the title
+		if ($shareTmpl['label'] !== '') {
+			$response->setHeaderTitle($shareTmpl['label']);
 		}
 
 		$isNoneFileDropFolder = $shareIsFolder === false || $share->getPermissions() !== Constants::PERMISSION_CREATE;

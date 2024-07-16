@@ -104,7 +104,10 @@ $maxUploadFilesize = min($upload_max_filesize, $post_max_size);
 				<div id="displayavatar"><div class="avatardiv"></div></div>
 				<h2><?php p($l->t('Upload files to %s', [$_['shareOwner']])) ?></h2>
 				<p><span class="icon-folder"></span> <?php p($_['filename']) ?></p>
-			<?php } else { ?>
+			<?php } else if ($_['label']) { ?>
+				<div id="displayavatar"><span class="icon-folder"></span></div>
+				<h2><?php p($l->t('Upload files to %s', [$_['label']])) ?></h2>
+			<?php } else{ ?>
 				<div id="displayavatar"><span class="icon-folder"></span></div>
 				<h2><?php p($l->t('Upload files to %s', [$_['filename']])) ?></h2>
 			<?php } ?>
