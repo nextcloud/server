@@ -13,9 +13,11 @@ use OC\Files\FilenameValidator;
 use OCP\Files\EmptyFileNameException;
 use OCP\Files\FileNameTooLongException;
 use OCP\Files\InvalidCharacterInPathException;
+use OCP\Files\InvalidDirectoryException;
 use OCP\Files\InvalidPathException;
 use OCP\Files\ReservedWordException;
 use OCP\IConfig;
+use OCP\IDBConnection;
 use OCP\IL10N;
 use OCP\L10N\IFactory;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -26,6 +28,7 @@ class FilenameValidatorTest extends TestCase {
 
 	protected IFactory&MockObject $l10n;
 	protected IConfig&MockObject $config;
+	protected IDBConnection&MockObject $database;
 	protected LoggerInterface&MockObject $logger;
 
 	protected function setUp(): void {
@@ -41,6 +44,8 @@ class FilenameValidatorTest extends TestCase {
 
 		$this->config = $this->createMock(IConfig::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
+		$this->database = $this->createMock(IDBConnection::class);
+		$this->database->method('supports4ByteText')->willReturn(true);
 	}
 
 	/**
@@ -62,7 +67,7 @@ class FilenameValidatorTest extends TestCase {
 				'getForbiddenExtensions',
 				'getForbiddenFilenames',
 			])
-			->setConstructorArgs([$this->l10n, $this->config, $this->logger])
+			->setConstructorArgs([$this->l10n, $this->database, $this->config, $this->logger])
 			->getMock();
 
 		$validator->method('getForbiddenBasenames')
@@ -101,7 +106,7 @@ class FilenameValidatorTest extends TestCase {
 				'getForbiddenFilenames',
 				'getForbiddenCharacters',
 			])
-			->setConstructorArgs([$this->l10n, $this->config, $this->logger])
+			->setConstructorArgs([$this->l10n, $this->database, $this->config, $this->logger])
 			->getMock();
 
 		$validator->method('getForbiddenBasenames')
@@ -121,6 +126,9 @@ class FilenameValidatorTest extends TestCase {
 		return [
 			'valid name' => [
 				'a: b.txt', ['.htaccess'], [], [], [], null
+			],
+			'forbidden name in the middle is ok' => [
+				'a.htaccess.txt', ['.htaccess'], [], [], [], null
 			],
 			'valid name with some more parameters' => [
 				'a: b.txt', ['.htaccess'], [], ['exe'], ['~'], null
@@ -155,10 +163,13 @@ class FilenameValidatorTest extends TestCase {
 				'', [], [], [], [], EmptyFileNameException::class
 			],
 			'reserved unix name "."' => [
-				'.', [], [], [], [], InvalidPathException::class
+				'.', [], [], [], [], InvalidDirectoryException::class
 			],
 			'reserved unix name ".."' => [
-				'..', [], [], [], [], ReservedWordException::class
+				'..', [], [], [], [], InvalidDirectoryException::class
+			],
+			'weird but valid tripple dot name' => [
+				'...', [], [], [], [], null // is valid
 			],
 			'too long filename "."' => [
 				str_repeat('a', 251), [], [], [], [], FileNameTooLongException::class
@@ -172,13 +183,80 @@ class FilenameValidatorTest extends TestCase {
 	}
 
 	/**
+	 * @dataProvider data4ByteUnicode
+	 */
+	public function testDatabaseDoesNotSupport4ByteText($filename): void {
+		$database = $this->createMock(IDBConnection::class);
+		$database->expects($this->once())
+			->method('supports4ByteText')
+			->willReturn(false);
+		$this->expectException(InvalidCharacterInPathException::class);
+		$validator = new FilenameValidator($this->l10n, $database, $this->config, $this->logger);
+		$validator->validateFilename($filename);
+	}
+
+	public function data4ByteUnicode(): array {
+		return [
+			['plane 1 𐪅'],
+			['emoji 😶‍🌫️'],
+
+		];
+	}
+
+	/**
+	 * @dataProvider dataInvalidAsciiCharacters
+	 */
+	public function testInvalidAsciiCharactersAreAlwaysForbidden(string $filename): void {
+		$this->expectException(InvalidPathException::class);
+		$validator = new FilenameValidator($this->l10n, $this->database, $this->config, $this->logger);
+		$validator->validateFilename($filename);
+	}
+
+	public function dataInvalidAsciiCharacters(): array {
+		return [
+			[\chr(0)],
+			[\chr(1)],
+			[\chr(2)],
+			[\chr(3)],
+			[\chr(4)],
+			[\chr(5)],
+			[\chr(6)],
+			[\chr(7)],
+			[\chr(8)],
+			[\chr(9)],
+			[\chr(10)],
+			[\chr(11)],
+			[\chr(12)],
+			[\chr(13)],
+			[\chr(14)],
+			[\chr(15)],
+			[\chr(16)],
+			[\chr(17)],
+			[\chr(18)],
+			[\chr(19)],
+			[\chr(20)],
+			[\chr(21)],
+			[\chr(22)],
+			[\chr(23)],
+			[\chr(24)],
+			[\chr(25)],
+			[\chr(26)],
+			[\chr(27)],
+			[\chr(28)],
+			[\chr(29)],
+			[\chr(30)],
+			[\chr(31)],
+		];
+	}
+
+	/**
 	 * @dataProvider dataIsForbidden
 	 */
 	public function testIsForbidden(string $filename, array $forbiddenNames, array $forbiddenBasenames, bool $expected): void {
 		/** @var FilenameValidator&MockObject */
 		$validator = $this->getMockBuilder(FilenameValidator::class)
 			->onlyMethods(['getForbiddenFilenames', 'getForbiddenBasenames'])
-			->setConstructorArgs([$this->l10n, $this->config, $this->logger])
+			->setConstructorArgs([$this->l10n, $this->database, $this->config, $this->logger])
 			->getMock();
 
 		$validator->method('getForbiddenBasenames')

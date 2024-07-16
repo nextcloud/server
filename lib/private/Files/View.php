@@ -716,6 +716,12 @@ class View {
 				return false;
 			}
 
+			try {
+				$this->verifyPath(dirname($target), basename($target));
+			} catch (InvalidPathException) {
+				return false;
+			}
+
 			$this->lockFile($source, ILockingProvider::LOCK_SHARED, true);
 			try {
 				$this->lockFile($target, ILockingProvider::LOCK_SHARED, true);
@@ -739,8 +745,6 @@ class View {
 					}
 				}
 				if ($run) {
-					$this->verifyPath(dirname($target), basename($target));
-
 					$manager = Filesystem::getMountManager();
 					$mount1 = $this->getMount($source);
 					$mount2 = $this->getMount($target);
