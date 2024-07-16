@@ -31,8 +31,10 @@ use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
 use OCP\FilesMetadata\IFilesMetadataManager;
 use OCP\IConfig;
+use OCP\IDBConnection;
 use OCP\Lock\ILockingProvider;
 use OCP\Lock\LockedException;
+use OCP\Server;
 use Psr\Log\LoggerInterface;
 
 class Trashbin {
@@ -983,10 +985,8 @@ class Trashbin {
 		// Manually fetch all versions from the file cache to be able to filter them by their parent
 		$cache = $storage->getCache('');
 		$query = new CacheQueryBuilder(
-			\OC::$server->getDatabaseConnection(),
-			\OC::$server->getSystemConfig(),
-			\OC::$server->get(LoggerInterface::class),
-			\OC::$server->get(IFilesMetadataManager::class),
+			Server::get(IDBConnection::class)->getQueryBuilder(),
+			Server::get(IFilesMetadataManager::class),
 		);
 		$normalizedParentPath = ltrim(Filesystem::normalizePath(dirname('files_trashbin/versions/'. $filename)), '/');
 		$parentId = $cache->getId($normalizedParentPath);

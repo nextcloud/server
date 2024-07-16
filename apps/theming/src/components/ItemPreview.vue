@@ -13,7 +13,10 @@
 			<span v-if="enforced" class="theming__preview-warning" role="note">
 				{{ t('theming', 'Theme selection is enforced') }}
 			</span>
-			<NcCheckboxRadioSwitch class="theming__preview-toggle"
+
+			<!-- Only show checkbox if we can change themes -->
+			<NcCheckboxRadioSwitch v-show="!enforced"
+				class="theming__preview-toggle"
 				:checked.sync="checked"
 				:disabled="enforced"
 				:name="name"
@@ -73,6 +76,10 @@ export default {
 				return this.selected
 			},
 			set(checked) {
+				if (this.enforced) {
+					return
+				}
+
 				console.debug('Changed theme', this.theme.id, checked)
 
 				// If this is a radio, we can only enable
@@ -89,6 +96,10 @@ export default {
 
 	methods: {
 		onToggle() {
+			if (this.enforced) {
+				return
+			}
+
 			if (this.switchType === 'radio') {
 				this.checked = true
 				return

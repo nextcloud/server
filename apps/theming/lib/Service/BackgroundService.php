@@ -44,7 +44,7 @@ class BackgroundService {
 	 */
 	public const BACKGROUND_COLOR = 'color';
 
-	public const DEFAULT_BACKGROUND_IMAGE = 'kamil-porembinski-clouds.jpg';
+	public const DEFAULT_BACKGROUND_IMAGE = 'jenna-kim-the-globe.webp';
 
 	/**
 	 * 'attribution': Name, artist and license
@@ -54,6 +54,21 @@ class BackgroundService {
 	 * 'primary_color': Recommended primary color for this theme / image
 	 */
 	public const SHIPPED_BACKGROUNDS = [
+		'jenna-kim-the-globe.webp' => [
+			'attribution' => 'Globe (Jenna Kim - Nextcloud GmbH, CC-BY-SA-4.0)',
+			'description' => 'Background picture of white clouds on in front of a blue sky',
+			'attribution_url' => 'https://nextcloud.com/trademarks/',
+			'dark_variant' => 'jenna-kim-the-globe-dark.webp',
+			'background_color' => self::DEFAULT_BACKGROUND_COLOR,
+			'primary_color' => self::DEFAULT_COLOR,
+		],
+		'kamil-porembinski-clouds.jpg' => [
+			'attribution' => 'Clouds (Kamil Porembiński, CC BY-SA)',
+			'description' => 'Background picture of white clouds on in front of a blue sky',
+			'attribution_url' => 'https://www.flickr.com/photos/paszczak000/8715851521/',
+			'background_color' => self::DEFAULT_BACKGROUND_COLOR,
+			'primary_color' => self::DEFAULT_COLOR,
+		],
 		'hannah-maclean-soft-floral.jpg' => [
 			'attribution' => 'Soft floral (Hannah MacLean, CC0)',
 			'description' => 'Abstract background picture in yellow and white color whith a flower on it',
@@ -137,13 +152,6 @@ class BackgroundService {
 			'attribution_url' => 'http://hannes.photos/sea-spray',
 			'background_color' => '#333f47',
 			'primary_color' => '#4f6071',
-		],
-		'kamil-porembinski-clouds.jpg' => [
-			'attribution' => 'Clouds (Kamil Porembiński, CC BY-SA)',
-			'description' => 'Background picture of white clouds on in front of a blue sky',
-			'attribution_url' => 'https://www.flickr.com/photos/paszczak000/8715851521/',
-			'background_color' => self::DEFAULT_BACKGROUND_COLOR,
-			'primary_color' => self::DEFAULT_COLOR,
 		],
 		'bernard-spragg-new-zealand-fern.jpg' => [
 			'attribution' => 'New zealand fern (Bernard Spragg, CC0)',

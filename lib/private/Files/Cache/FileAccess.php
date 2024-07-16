@@ -31,9 +31,7 @@ class FileAccess implements IFileAccess {
 
 	private function getQuery(): CacheQueryBuilder {
 		return new CacheQueryBuilder(
-			$this->connection,
-			$this->systemConfig,
-			$this->logger,
+			$this->connection->getQueryBuilder(),
 			$this->metadataManager,
 		);
 	}

@@ -72,6 +72,8 @@ OC.L10N.register(
     "Email could not be sent. Check your mail server log" : "E-post kunne ikke sendes. Sjekk serverloggen på din e-postserver",
     "A problem occurred while sending the email. Please revise your settings. (Error: %s)" : "Et problem oppsto med sending av e-post. Sjekk innstillingene. (Feil: %s)",
     "You need to set your account email before being able to send test emails. Go to %s for that." : "Du må angi konto-e-postadressen din før du kan sende test-e-post. Gå til %s for det.",
+    "Recently active" : "Nylig aktiv",
+    "Disabled accounts" : "Deaktiverte kontoer",
     "Invalid account" : "Ugyldig konto",
     "Invalid mail address" : "Ugyldig e-postadresse",
     "Settings saved" : "Innstillinger lagret",
@@ -686,9 +688,8 @@ OC.L10N.register(
     "Loading categories" : "Laster kategorier",
     "Developer documentation ↗" : "Utviklerdokumentasjon ↗",
     "Version {version}, {license}-licensed" : "Versjon {version}, {license}-lisensiert",
-    "Active accounts" : "Aktive kontoer",
+    "All accounts" : "Alle kontoer",
     "Admins" : "Administratorer",
-    "Disabled accounts" : "Deaktiverte kontoer",
     "Account group: {group}" : "Kontogruppe: {group}",
     "Account management" : "Kontoadministrasjon",
     "Creating group…" : "Oppretter gruppe...",
@@ -927,6 +928,7 @@ OC.L10N.register(
     "User group: {group}" : "Brukergruppe: {group}",
     "Nextcloud help resources" : "Hjelperessurser for Nextcloud",
     "To allow this check to run you have to make sure that your webserver can connect to itself. Therefor it must be able to resolve and connect to at least one its `trusted_domains` or the `overwrite.cli.url`." : "For å la denne kontrollen kjøre, må du sørge for at webserveren din kan koble til seg selv. Derfor må den kunne løse og koble til minst en sin 'trusted_domains' eller 'overwrite.cli.url'.",
-    "Could not check for JavaScript support via any of your `trusted_domains` nor `overwrite.cli.url`. This may be the result of a server-side DNS mismatch or outbound firewall rule. Please check manually if your webserver serves `.mjs` files using the JavaScript MIME type." : "Kunne ikke se etter JavaScript-støtte via noen av dine 'trusted_domains' eller 'overwrite.cli.url'. Dette kan være et resultat av DNS-avvik på serversiden eller en regel for utgående brannmur. Kontroller manuelt om webserveren din tjener .mjs-filer ved hjelp av JavaScript MIME-typen."
+    "Could not check for JavaScript support via any of your `trusted_domains` nor `overwrite.cli.url`. This may be the result of a server-side DNS mismatch or outbound firewall rule. Please check manually if your webserver serves `.mjs` files using the JavaScript MIME type." : "Kunne ikke se etter JavaScript-støtte via noen av dine 'trusted_domains' eller 'overwrite.cli.url'. Dette kan være et resultat av DNS-avvik på serversiden eller en regel for utgående brannmur. Kontroller manuelt om webserveren din tjener .mjs-filer ved hjelp av JavaScript MIME-typen.",
+    "Active accounts" : "Aktive kontoer"
 },
 "nplurals=2; plural=(n != 1);");

@@ -9,11 +9,12 @@ namespace Test\DB\QueryBuilder;
 
 use Doctrine\DBAL\Query\Expression\CompositeExpression;
 use Doctrine\DBAL\Query\QueryException;
-use Doctrine\DBAL\Result;
 use OC\DB\QueryBuilder\Literal;
 use OC\DB\QueryBuilder\Parameter;
 use OC\DB\QueryBuilder\QueryBuilder;
 use OC\SystemConfig;
+use OCP\DB\IResult;
+use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\DB\QueryBuilder\IQueryFunction;
 use OCP\IDBConnection;
 use Psr\Log\LoggerInterface;
@@ -1253,16 +1254,29 @@ class QueryBuilderTest extends \Test\TestCase {
 		);
 	}
 
+	private function getConnection(): IDBConnection {
+		$connection = $this->createMock(IDBConnection::class);
+		$connection->method('executeStatement')
+			->willReturn(3);
+		$connection->method('executeQuery')
+			->willReturn($this->createMock(IResult::class));
+		return $connection;
+	}
+
 	public function testExecuteWithoutLogger() {
 		$queryBuilder = $this->createMock(\Doctrine\DBAL\Query\QueryBuilder::class);
 		$queryBuilder
-			->expects($this->once())
-			->method('execute')
-			->willReturn(3);
+			->method('getSQL')
+			->willReturn('');
 		$queryBuilder
-			->expects($this->any())
 			->method('getParameters')
 			->willReturn([]);
+		$queryBuilder
+			->method('getParameterTypes')
+			->willReturn([]);
+		$queryBuilder
+			->method('getType')
+			->willReturn(\Doctrine\DBAL\Query\QueryBuilder::UPDATE);
 		$this->logger
 			->expects($this->never())
 			->method('debug');
@@ -1273,6 +1287,7 @@ class QueryBuilderTest extends \Test\TestCase {
 			->willReturn(false);
 
 		$this->invokePrivate($this->queryBuilder, 'queryBuilder', [$queryBuilder]);
+		$this->invokePrivate($this->queryBuilder, 'connection', [$this->getConnection()]);
 		$this->assertEquals(3, $this->queryBuilder->execute());
 	}
 
@@ -1286,20 +1301,25 @@ class QueryBuilderTest extends \Test\TestCase {
 				'key' => 'value',
 			]);
 		$queryBuilder
+			->method('getParameterTypes')
+			->willReturn([
+				'foo' => IQueryBuilder::PARAM_STR,
+				'key' => IQueryBuilder::PARAM_STR,
+			]);
+		$queryBuilder
+			->method('getType')
+			->willReturn(\Doctrine\DBAL\Query\QueryBuilder::UPDATE);
+		$queryBuilder
 			->expects($this->any())
 			->method('getSQL')
-			->willReturn('SELECT * FROM FOO WHERE BAR = ?');
-		$queryBuilder
-			->expects($this->once())
-			->method('execute')
-			->willReturn(3);
+			->willReturn('UPDATE FOO SET bar = 1 WHERE BAR = ?');
 		$this->logger
 			->expects($this->once())
 			->method('debug')
 			->with(
 				'DB QueryBuilder: \'{query}\' with parameters: {params}',
 				[
-					'query' => 'SELECT * FROM FOO WHERE BAR = ?',
+					'query' => 'UPDATE FOO SET bar = 1 WHERE BAR = ?',
 					'params' => 'foo => \'bar\', key => \'value\'',
 					'app' => 'core',
 				]
@@ -1311,6 +1331,7 @@ class QueryBuilderTest extends \Test\TestCase {
 			->willReturn(true);
 
 		$this->invokePrivate($this->queryBuilder, 'queryBuilder', [$queryBuilder]);
+		$this->invokePrivate($this->queryBuilder, 'connection', [$this->getConnection()]);
 		$this->assertEquals(3, $this->queryBuilder->execute());
 	}
 
@@ -1321,20 +1342,22 @@ class QueryBuilderTest extends \Test\TestCase {
 			->method('getParameters')
 			->willReturn(['Bar']);
 		$queryBuilder
+			->method('getParameterTypes')
+			->willReturn([IQueryBuilder::PARAM_STR]);
+		$queryBuilder
+			->method('getType')
+			->willReturn(\Doctrine\DBAL\Query\QueryBuilder::UPDATE);
+		$queryBuilder
 			->expects($this->any())
 			->method('getSQL')
-			->willReturn('SELECT * FROM FOO WHERE BAR = ?');
-		$queryBuilder
-			->expects($this->once())
-			->method('execute')
-			->willReturn(3);
+			->willReturn('UPDATE FOO SET bar = false WHERE BAR = ?');
 		$this->logger
 			->expects($this->once())
 			->method('debug')
 			->with(
 				'DB QueryBuilder: \'{query}\' with parameters: {params}',
 				[
-					'query' => 'SELECT * FROM FOO WHERE BAR = ?',
+					'query' => 'UPDATE FOO SET bar = false WHERE BAR = ?',
 					'params' => '0 => \'Bar\'',
 					'app' => 'core',
 				]
@@ -1346,6 +1369,7 @@ class QueryBuilderTest extends \Test\TestCase {
 			->willReturn(true);
 
 		$this->invokePrivate($this->queryBuilder, 'queryBuilder', [$queryBuilder]);
+		$this->invokePrivate($this->queryBuilder, 'connection', [$this->getConnection()]);
 		$this->assertEquals(3, $this->queryBuilder->execute());
 	}
 
@@ -1356,20 +1380,22 @@ class QueryBuilderTest extends \Test\TestCase {
 			->method('getParameters')
 			->willReturn([]);
 		$queryBuilder
+			->method('getParameterTypes')
+			->willReturn([]);
+		$queryBuilder
+			->method('getType')
+			->willReturn(\Doctrine\DBAL\Query\QueryBuilder::UPDATE);
+		$queryBuilder
 			->expects($this->any())
 			->method('getSQL')
-			->willReturn('SELECT * FROM FOO WHERE BAR = ?');
-		$queryBuilder
-			->expects($this->once())
-			->method('execute')
-			->willReturn(3);
+			->willReturn('UPDATE FOO SET bar = false WHERE BAR = ?');
 		$this->logger
 			->expects($this->once())
 			->method('debug')
 			->with(
 				'DB QueryBuilder: \'{query}\'',
 				[
-					'query' => 'SELECT * FROM FOO WHERE BAR = ?',
+					'query' => 'UPDATE FOO SET bar = false WHERE BAR = ?',
 					'app' => 'core',
 				]
 			);
@@ -1380,6 +1406,7 @@ class QueryBuilderTest extends \Test\TestCase {
 			->willReturn(true);
 
 		$this->invokePrivate($this->queryBuilder, 'queryBuilder', [$queryBuilder]);
+		$this->invokePrivate($this->queryBuilder, 'connection', [$this->getConnection()]);
 		$this->assertEquals(3, $this->queryBuilder->execute());
 	}
 
@@ -1391,13 +1418,12 @@ class QueryBuilderTest extends \Test\TestCase {
 			->method('getParameters')
 			->willReturn([$p]);
 		$queryBuilder
+			->method('getParameterTypes')
+			->willReturn([IQueryBuilder::PARAM_STR_ARRAY]);
+		$queryBuilder
 			->expects($this->any())
 			->method('getSQL')
 			->willReturn('SELECT * FROM FOO WHERE BAR IN (?)');
-		$queryBuilder
-			->expects($this->once())
-			->method('execute')
-			->willReturn($this->createMock(Result::class));
 		$this->logger
 			->expects($this->once())
 			->method('error')
@@ -1415,6 +1441,7 @@ class QueryBuilderTest extends \Test\TestCase {
 			->willReturn(false);
 
 		$this->invokePrivate($this->queryBuilder, 'queryBuilder', [$queryBuilder]);
+		$this->invokePrivate($this->queryBuilder, 'connection', [$this->getConnection()]);
 		$this->queryBuilder->execute();
 	}
 
@@ -1426,13 +1453,12 @@ class QueryBuilderTest extends \Test\TestCase {
 			->method('getParameters')
 			->willReturn(array_fill(0, 66, $p));
 		$queryBuilder
+			->method('getParameterTypes')
+			->willReturn([IQueryBuilder::PARAM_STR_ARRAY]);
+		$queryBuilder
 			->expects($this->any())
 			->method('getSQL')
 			->willReturn('SELECT * FROM FOO WHERE BAR IN (?) OR BAR IN (?)');
-		$queryBuilder
-			->expects($this->once())
-			->method('execute')
-			->willReturn($this->createMock(Result::class));
 		$this->logger
 			->expects($this->once())
 			->method('error')
@@ -1450,6 +1476,7 @@ class QueryBuilderTest extends \Test\TestCase {
 			->willReturn(false);
 
 		$this->invokePrivate($this->queryBuilder, 'queryBuilder', [$queryBuilder]);
+		$this->invokePrivate($this->queryBuilder, 'connection', [$this->getConnection()]);
 		$this->queryBuilder->execute();
 	}
 }

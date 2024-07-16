@@ -7,6 +7,7 @@
  */
 namespace OCA\Files\Tests\Controller;
 
+use OC\Files\FilenameValidator;
 use OCA\Files\Activity\Helper;
 use OCA\Files\Controller\ViewController;
 use OCA\Files\Service\UserConfig;
@@ -87,10 +88,12 @@ class ViewControllerTest extends TestCase {
 		$this->activityHelper = $this->createMock(Helper::class);
 		$this->initialState = $this->createMock(IInitialState::class);
 		$this->templateManager = $this->createMock(ITemplateManager::class);
-		$this->shareManager = $this->createMock(IManager::class);
 		$this->userConfig = $this->createMock(UserConfig::class);
 		$this->viewConfig = $this->createMock(ViewConfig::class);
-		$this->viewController = $this->getMockBuilder('\OCA\Files\Controller\ViewController')
+
+		$filenameValidator = $this->createMock(FilenameValidator::class);
+
+		$this->viewController = $this->getMockBuilder(ViewController::class)
 			->setConstructorArgs([
 				'files',
 				$this->request,
@@ -104,11 +107,11 @@ class ViewControllerTest extends TestCase {
 				$this->activityHelper,
 				$this->initialState,
 				$this->templateManager,
-				$this->shareManager,
 				$this->userConfig,
 				$this->viewConfig,
+				$filenameValidator,
 			])
-		->setMethods([
+		->onlyMethods([
 			'getStorageInfo',
 		])
 		->getMock();

@@ -7,6 +7,7 @@
  */
 namespace OCA\Files\Controller;
 
+use OC\Files\FilenameValidator;
 use OCA\Files\Activity\Helper;
 use OCA\Files\AppInfo\Application;
 use OCA\Files\Event\LoadAdditionalScriptsEvent;
@@ -34,57 +35,31 @@ use OCP\IL10N;
 use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\IUserSession;
-use OCP\Share\IManager;
 
 /**
  * @package OCA\Files\Controller
  */
 #[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
 class ViewController extends Controller {
-	private IURLGenerator $urlGenerator;
-	private IL10N $l10n;
-	private IConfig $config;
-	private IEventDispatcher $eventDispatcher;
-	private IUserSession $userSession;
-	private IAppManager $appManager;
-	private IRootFolder $rootFolder;
-	private Helper $activityHelper;
-	private IInitialState $initialState;
-	private ITemplateManager $templateManager;
-	private IManager $shareManager;
-	private UserConfig $userConfig;
-	private ViewConfig $viewConfig;
 
-	public function __construct(string $appName,
+	public function __construct(
+		string $appName,
 		IRequest $request,
-		IURLGenerator $urlGenerator,
-		IL10N $l10n,
-		IConfig $config,
-		IEventDispatcher $eventDispatcher,
-		IUserSession $userSession,
-		IAppManager $appManager,
-		IRootFolder $rootFolder,
-		Helper $activityHelper,
-		IInitialState $initialState,
-		ITemplateManager $templateManager,
-		IManager $shareManager,
-		UserConfig $userConfig,
-		ViewConfig $viewConfig
+		private IURLGenerator $urlGenerator,
+		private IL10N $l10n,
+		private IConfig $config,
+		private IEventDispatcher $eventDispatcher,
+		private IUserSession $userSession,
+		private IAppManager $appManager,
+		private IRootFolder $rootFolder,
+		private Helper $activityHelper,
+		private IInitialState $initialState,
+		private ITemplateManager $templateManager,
+		private UserConfig $userConfig,
+		private ViewConfig $viewConfig,
+		private FilenameValidator $filenameValidator,
 	) {
 		parent::__construct($appName, $request);
-		$this->urlGenerator = $urlGenerator;
-		$this->l10n = $l10n;
-		$this->config = $config;
-		$this->eventDispatcher = $eventDispatcher;
-		$this->userSession = $userSession;
-		$this->appManager = $appManager;
-		$this->rootFolder = $rootFolder;
-		$this->activityHelper = $activityHelper;
-		$this->initialState = $initialState;
-		$this->templateManager = $templateManager;
-		$this->shareManager = $shareManager;
-		$this->userConfig = $userConfig;
-		$this->viewConfig = $viewConfig;
 	}
 
 	/**
@@ -220,8 +195,9 @@ class ViewController extends Controller {
 		$filesSortingConfig = json_decode($this->config->getUserValue($userId, 'files', 'files_sorting_configs', '{}'), true);
 		$this->initialState->provideInitialState('filesSortingConfig', $filesSortingConfig);
 
-		// Forbidden file characters
-		$forbiddenCharacters = \OCP\Util::getForbiddenFileNameChars();
+		// Forbidden file characters (deprecated use capabilities)
+		// TODO: Remove with next release of `@nextcloud/files`
+		$forbiddenCharacters = $this->filenameValidator->getForbiddenCharacters();
 		$this->initialState->provideInitialState('forbiddenCharacters', $forbiddenCharacters);
 
 		$event = new LoadAdditionalScriptsEvent();

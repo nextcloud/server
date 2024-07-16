@@ -11,6 +11,8 @@ use OCA\Theming\ITheme;
 
 class DarkTheme extends DefaultTheme implements ITheme {
 
+	protected bool $isDarkVariant = true;
+
 	public function getId(): string {
 		return 'dark';
 	}

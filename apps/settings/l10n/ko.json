@@ -69,6 +69,7 @@
     "Email could not be sent. Check your mail server log" : "이메일을 보낼 수 없습니다. 메일 서버 로그를 확인하십시오.",
     "A problem occurred while sending the email. Please revise your settings. (Error: %s)" : "이메일을 보내는 중 오류가 발생했습니다. 설정을 확인하십시오.(오류: %s)",
     "You need to set your account email before being able to send test emails. Go to %s for that." : "이메일 발송 테스트를 진행하기 앞서 계정 이메일을 설정해야 합니다. 설정을 위해 %s(으)로 가십시오.",
+    "Disabled accounts" : "비활성화된 계정",
     "Invalid account" : "잘못된 계정",
     "Invalid mail address" : "잘못된 이메일 주소",
     "Settings saved" : "설정 저장됨",
@@ -579,9 +580,7 @@
     "As admin you can fine-tune the sharing behavior. Please see the documentation for more information." : "관리자로 공유 행동을 미세 조정할 수 있습니다. 더 많은 정보를 보려면 문서를 참조하십시오.",
     "You need to enable the File sharing App." : "파일 공유 앱을 활성화해야 합니다.",
     "Developer documentation ↗" : "개발자 문서 ↗",
-    "Active accounts" : "활성화된 계정",
     "Admins" : "관리자",
-    "Disabled accounts" : "비활성화된 계정",
     "Account group: {group}" : "계정 그룹: {group}",
     "Account management" : "계정 관리",
     "Creating group…" : "그룹 생성 ...",
@@ -809,6 +808,7 @@
     "User management" : "사용자 관리",
     "Creating group …" : "그룹 생성 ...",
     "User group: {group}" : "사용자 그룹: {group}",
-    "Nextcloud help resources" : "Nextcloud 도움말 자원"
+    "Nextcloud help resources" : "Nextcloud 도움말 자원",
+    "Active accounts" : "활성화된 계정"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

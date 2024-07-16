@@ -396,14 +396,14 @@ export default defineComponent({
 			return { ...this.$route, query: { dir } }
 		},
 
-		shareAttributes(): number[] | undefined {
+		shareTypesAttributes(): number[] | undefined {
 			if (!this.currentFolder?.attributes?.['share-types']) {
 				return undefined
 			}
 			return Object.values(this.currentFolder?.attributes?.['share-types'] || {}).flat() as number[]
 		},
 		shareButtonLabel() {
-			if (!this.shareAttributes) {
+			if (!this.shareTypesAttributes) {
 				return t('files', 'Share')
 			}
 
@@ -413,12 +413,12 @@ export default defineComponent({
 			return t('files', 'Shared')
 		},
 		shareButtonType(): Type | null {
-			if (!this.shareAttributes) {
+			if (!this.shareTypesAttributes) {
 				return null
 			}
 
 			// If all types are links, show the link icon
-			if (this.shareAttributes.some(type => type === Type.SHARE_TYPE_LINK)) {
+			if (this.shareTypesAttributes.some(type => type === Type.SHARE_TYPE_LINK)) {
 				return Type.SHARE_TYPE_LINK
 			}
 
@@ -473,6 +473,9 @@ export default defineComponent({
 			// TODO: preserve selection on browsing?
 			this.selectionStore.reset()
 			this.triggerResetSearch()
+			if (window.OCA.Files.Sidebar?.close) {
+				window.OCA.Files.Sidebar.close()
+			}
 			this.fetchContent()
 
 			// Scroll to top, force virtual scroller to re-render

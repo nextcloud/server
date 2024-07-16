@@ -70,6 +70,8 @@
     "Email could not be sent. Check your mail server log" : "無法傳送郵件。請檢查您的郵件伺服器紀錄檔",
     "A problem occurred while sending the email. Please revise your settings. (Error: %s)" : "傳送郵件時發生問題。請檢查您的設定。（錯誤：%s）",
     "You need to set your account email before being able to send test emails. Go to %s for that." : "您必須先設定您的帳戶電郵地址，然後才能傳送測試電郵。前往 %s 進行設置。",
+    "Recently active" : "最近活躍",
+    "Disabled accounts" : "已停用帳戶",
     "Invalid account" : "無效的帳戶",
     "Invalid mail address" : "無效的電郵地址",
     "Settings saved" : "設定已儲存",
@@ -684,9 +686,8 @@
     "Loading categories" : "正在加載分類",
     "Developer documentation ↗" : "開發人員使用手冊 ↗",
     "Version {version}, {license}-licensed" : "版本 {version}，授權條款：{license}",
-    "Active accounts" : "活躍帳戶",
+    "All accounts" : "所有帳戶",
     "Admins" : "管理員",
-    "Disabled accounts" : "已停用帳戶",
     "Account group: {group}" : "帳戶群組：{group}",
     "Account management" : "帳戶管理",
     "Creating group…" : "正在創建群組 ...",
@@ -925,6 +926,7 @@
     "User group: {group}" : "用戶群組：{group}",
     "Nextcloud help resources" : "Nextcloud 幫助資源",
     "To allow this check to run you have to make sure that your webserver can connect to itself. Therefor it must be able to resolve and connect to at least one its `trusted_domains` or the `overwrite.cli.url`." : "要執行此檢查，您必須確保您的網路伺服器可以連線到其自身。因此，其必須至少能解析並連線至 `trusted_domains` 或 `overwrite.cli.url` 其中一個。",
-    "Could not check for JavaScript support via any of your `trusted_domains` nor `overwrite.cli.url`. This may be the result of a server-side DNS mismatch or outbound firewall rule. Please check manually if your webserver serves `.mjs` files using the JavaScript MIME type." : "無法透過您的任何「trusted_domains」或「overwrite.cli.url」檢查 JavaScript 支援。這可能是伺服器端 DNS 不符或連出防火牆規則造成的。請手動檢查您的網頁伺服器是否使用 JavaScript MIME 類型提供「.mjs」檔案。"
+    "Could not check for JavaScript support via any of your `trusted_domains` nor `overwrite.cli.url`. This may be the result of a server-side DNS mismatch or outbound firewall rule. Please check manually if your webserver serves `.mjs` files using the JavaScript MIME type." : "無法透過您的任何「trusted_domains」或「overwrite.cli.url」檢查 JavaScript 支援。這可能是伺服器端 DNS 不符或連出防火牆規則造成的。請手動檢查您的網頁伺服器是否使用 JavaScript MIME 類型提供「.mjs」檔案。",
+    "Active accounts" : "活躍帳戶"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

@@ -117,6 +117,11 @@ return [
 			'verb' => 'DELETE',
 		],
 		[
+			'name' => 'ShareAPI#sendShareEmail',
+			'url' => '/api/v1/shares/{id}/send-email',
+			'verb' => 'POST',
+		],
+		[
 			'name' => 'ShareAPI#acceptShare',
 			'url' => '/api/v1/shares/pending/{id}',
 			'verb' => 'POST',

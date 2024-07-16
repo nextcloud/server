@@ -70,6 +70,8 @@
     "Email could not be sent. Check your mail server log" : "تعذر إرسال البريد الإلكتروني. تحقق من سجل حركات log خادوم بريدك mail server",
     "A problem occurred while sending the email. Please revise your settings. (Error: %s)" : "حدث خطأ أثناء إرسال البريد الإلكتروني. برجى مراجعة الإعدادات. (خطأ: %s)",
     "You need to set your account email before being able to send test emails. Go to %s for that." : "يلزمك تعيين حساب إيميلك قبل أن تتمكن من إرسال إيميلات تجريبية. إذهب إلى %s لأجل ذلك.",
+    "Recently active" : "نشِطة مؤخّراً",
+    "Disabled accounts" : "حسابات موقوفة",
     "Invalid account" : "حساب غير صالح",
     "Invalid mail address" : "عنوان البريد الإلكتروني غير صحيح",
     "Settings saved" : "تمّ حفظ الإعدادات",
@@ -684,9 +686,8 @@
     "Loading categories" : "تحميل الفئات",
     "Developer documentation ↗" : "توثيق المطورين ↗",
     "Version {version}, {license}-licensed" : "النسخة {version}, {license}-مُرخَّصَة",
-    "Active accounts" : "حسابات نشطة",
+    "All accounts" : "كل الحسابات",
     "Admins" : "المُشرِفون",
-    "Disabled accounts" : "حسابات موقوفة",
     "Account group: {group}" : "مجموعة الحساب: {group}",
     "Account management" : "إدارة الحساب",
     "Creating group…" : "جارٍ إنشاء مجموعة ...",
@@ -925,6 +926,7 @@
     "User group: {group}" : "مجموعة المستخدِم: {group}",
     "Nextcloud help resources" : "موارد \"مُساعَدَة نكست كلاود\"",
     "To allow this check to run you have to make sure that your webserver can connect to itself. Therefor it must be able to resolve and connect to at least one its `trusted_domains` or the `overwrite.cli.url`." : "للسماح بتشغيل هذا الفحص، عليك التأكد من أن خادوم الويب عندك يمكنه الاتصال بنفسه. ولذلك، يجب أن يكون قادراً على حل المشكلة والاتصال بنطاق واحد على الأقل من \"النطاقات_الموثوقة\" أو 'overwrite.cli.url'.",
-    "Could not check for JavaScript support via any of your `trusted_domains` nor `overwrite.cli.url`. This may be the result of a server-side DNS mismatch or outbound firewall rule. Please check manually if your webserver serves `.mjs` files using the JavaScript MIME type." : "تعذر التحقُّق من دعم JavaScript عبر أيٍّ من \"النطاقات_الموثوقة\" أو \"overwrite.cli.url\". قد يكون هذا نتيجة عدم تطابق DNS من جانب الخادوم أو بسبب إحدى سياسات إدارة الحركة الصادرة في جدار الحماية. يرجى التحقق يدويًا مما إذا كان خادوم الويب عندك يقدم ملفات `.mjs` باستخدام نوع JavaScript MIME."
+    "Could not check for JavaScript support via any of your `trusted_domains` nor `overwrite.cli.url`. This may be the result of a server-side DNS mismatch or outbound firewall rule. Please check manually if your webserver serves `.mjs` files using the JavaScript MIME type." : "تعذر التحقُّق من دعم JavaScript عبر أيٍّ من \"النطاقات_الموثوقة\" أو \"overwrite.cli.url\". قد يكون هذا نتيجة عدم تطابق DNS من جانب الخادوم أو بسبب إحدى سياسات إدارة الحركة الصادرة في جدار الحماية. يرجى التحقق يدويًا مما إذا كان خادوم الويب عندك يقدم ملفات `.mjs` باستخدام نوع JavaScript MIME.",
+    "Active accounts" : "حسابات نشطة"
 },"pluralForm" :"nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;"
 }

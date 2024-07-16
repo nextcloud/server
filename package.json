@@ -145,7 +145,7 @@
     "babel-plugin-module-resolver": "^5.0.2",
     "colord": "^2.9.3",
     "css-loader": "^6.8.1",
-    "cypress": "^13.7.2",
+    "cypress": "^13.13.0",
     "cypress-axe": "^1.5.0",
     "cypress-if": "^1.10.5",
     "cypress-split": "^1.24.0",
@@ -171,7 +171,7 @@
     "karma-spec-reporter": "^0.0.36",
     "karma-viewport": "^1.0.9",
     "mime": "^4.0.3",
-    "puppeteer": "^22.11.2",
+    "puppeteer": "^22.13.0",
     "raw-loader": "^4.0.2",
     "regextras": "^0.8.0",
     "sass": "^1.75.0",
@@ -183,14 +183,14 @@
     "ts-loader": "^9.5.0",
     "ts-node": "^10.9.1",
     "tslib": "^2.6.2",
-    "typescript": "^5.4.5",
+    "typescript": "^5.5.3",
     "vue-loader": "^15.9.8",
     "vue-template-compiler": "^2.7.16",
     "wait-on": "^7.2.0",
-    "webpack": "^5.91.0",
+    "webpack": "^5.93.0",
     "webpack-cli": "^5.0.2",
     "webpack-merge": "^5.8.0",
-    "workbox-webpack-plugin": "^7.0.0"
+    "workbox-webpack-plugin": "^7.1.0"
   },
   "browserslist": [
     "extends @nextcloud/browserslist-config"

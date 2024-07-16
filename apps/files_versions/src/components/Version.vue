@@ -259,7 +259,7 @@ export default defineComponent({
 				const downloadAttribute = this.fileInfo.shareAttributes
 					.find((attribute) => attribute.scope === 'permissions' && attribute.key === 'download') || {}
 				// If the download attribute is set to false, the file is not downloadable
-				if (downloadAttribute?.enabled === false) {
+				if (downloadAttribute?.value === false) {
 					return false
 				}
 			}

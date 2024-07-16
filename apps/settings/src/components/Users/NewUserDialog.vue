@@ -200,9 +200,9 @@ export default {
 		},
 
 		groups() {
-			// data provided php side + remove the disabled group
+			// data provided php side + remove the recent and disabled groups
 			return this.$store.getters.getGroups
-				.filter(group => group.id !== 'disabled')
+				.filter(group => group.id !== '__nc_internal_recent' && group.id !== 'disabled')
 				.sort((a, b) => a.name.localeCompare(b.name))
 		},
 

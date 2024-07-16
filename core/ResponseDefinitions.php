@@ -7,7 +7,7 @@ declare(strict_types=1);
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-namespace OCA\Core;
+namespace OC\Core;
 
 /**
  * @psalm-type CoreLoginFlowV2Credentials = array{

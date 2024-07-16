@@ -70,6 +70,8 @@
     "Email could not be sent. Check your mail server log" : "O e-mail não pôde ser enviado. Verifique o log do servidor de e-mail",
     "A problem occurred while sending the email. Please revise your settings. (Error: %s)" : "Ocorreu um problema ao enviar o e-mail. Por favor, revise suas configurações. (Erro: %s)",
     "You need to set your account email before being able to send test emails. Go to %s for that." : "Você precisa definir o e-mail da sua conta antes de poder enviar e-mails de teste. Acesse para fazer isso %s.",
+    "Recently active" : "Recentemente ativo",
+    "Disabled accounts" : "Contas desativadas",
     "Invalid account" : "Conta inválida",
     "Invalid mail address" : "Endereço de e-mail inválido",
     "Settings saved" : "Configurações salvas",
@@ -684,9 +686,8 @@
     "Loading categories" : "Carregando categorias",
     "Developer documentation ↗" : "Documentação do desenvolvedor ↗",
     "Version {version}, {license}-licensed" : "Versão {version}, licenciada por {license}",
-    "Active accounts" : "Contas ativas",
+    "All accounts" : "Todas as contas",
     "Admins" : "Administradores",
-    "Disabled accounts" : "Contas desativadas",
     "Account group: {group}" : "Grupo de contas: {group}",
     "Account management" : "Gerenciamento de contas",
     "Creating group…" : "Criando grupo…",
@@ -925,6 +926,7 @@
     "User group: {group}" : "Grupo de usuários: {grupo}",
     "Nextcloud help resources" : "Recursos de ajuda Nextcloud",
     "To allow this check to run you have to make sure that your webserver can connect to itself. Therefor it must be able to resolve and connect to at least one its `trusted_domains` or the `overwrite.cli.url`." : "Para permitir que esta verificação seja executada, você deve garantir que seu servidor web possa se conectar a si mesmo. Portanto, ele deve ser capaz de resolver e se conectar a pelo menos um de seus `trusted_domains` ou ao `overwrite.cli.url`.",
-    "Could not check for JavaScript support via any of your `trusted_domains` nor `overwrite.cli.url`. This may be the result of a server-side DNS mismatch or outbound firewall rule. Please check manually if your webserver serves `.mjs` files using the JavaScript MIME type." : "Não foi possível verificar o suporte a JavaScript por meio de nenhum dos seus `trusted_domains` nem `overwrite.cli.url`. Isso pode ser o resultado de uma incompatibilidade de DNS no servidor ou de uma regra de firewall de saída. Verifique manualmente se o seu servidor web serve arquivos `.mjs` usando o tipo JavaScript MIME."
+    "Could not check for JavaScript support via any of your `trusted_domains` nor `overwrite.cli.url`. This may be the result of a server-side DNS mismatch or outbound firewall rule. Please check manually if your webserver serves `.mjs` files using the JavaScript MIME type." : "Não foi possível verificar o suporte a JavaScript por meio de nenhum dos seus `trusted_domains` nem `overwrite.cli.url`. Isso pode ser o resultado de uma incompatibilidade de DNS no servidor ou de uma regra de firewall de saída. Verifique manualmente se o seu servidor web serve arquivos `.mjs` usando o tipo JavaScript MIME.",
+    "Active accounts" : "Contas ativas"
 },"pluralForm" :"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

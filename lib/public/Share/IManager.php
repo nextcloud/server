@@ -300,7 +300,7 @@ interface IManager {
 	public function shareApiAllowLinks();
 
 	/**
-	 * Is password on public link requires
+	 * Is password on public link required
 	 *
 	 * @param bool $checkGroupMembership Check group membership exclusion
 	 * @return bool

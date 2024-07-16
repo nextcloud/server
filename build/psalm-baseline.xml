@@ -1232,11 +1232,6 @@
       <code><![CDATA[string]]></code>
     </InvalidReturnType>
   </file>
-  <file src="apps/workflowengine/lib/Check/FileSystemTags.php">
-    <UndefinedDocblockClass>
-      <code><![CDATA[$this->storage]]></code>
-    </UndefinedDocblockClass>
-  </file>
   <file src="apps/workflowengine/lib/Check/RequestRemoteAddress.php">
     <InvalidArgument>
       <code><![CDATA[$decodedValue[1]]]></code>
@@ -2367,10 +2362,6 @@
       <code><![CDATA[false]]></code>
       <code><![CDATA[false]]></code>
     </InvalidArgument>
-    <InvalidArrayOffset>
-      <code><![CDATA[$app['path']]]></code>
-      <code><![CDATA[$app['path']]]></code>
-    </InvalidArrayOffset>
     <NullArgument>
       <code><![CDATA[null]]></code>
     </NullArgument>
@@ -2906,10 +2897,6 @@
     <InvalidArgument>
       <code><![CDATA[$groupsList]]></code>
     </InvalidArgument>
-    <InvalidArrayOffset>
-      <code><![CDATA[$dir['path']]]></code>
-      <code><![CDATA[$dir['url']]]></code>
-    </InvalidArrayOffset>
     <NullArgument>
       <code><![CDATA[null]]></code>
     </NullArgument>
@@ -2917,11 +2904,6 @@
       <code><![CDATA[$appId === null]]></code>
       <code><![CDATA[$appId === null]]></code>
     </TypeDoesNotContainNull>
-  </file>
-  <file src="lib/private/legacy/OC_FileChunking.php">
-    <UndefinedDocblockClass>
-      <code><![CDATA[\OC\InsufficientStorageException]]></code>
-    </UndefinedDocblockClass>
   </file>
   <file src="lib/private/legacy/OC_Files.php">
     <RedundantCondition>

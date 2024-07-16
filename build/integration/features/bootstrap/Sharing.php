@@ -286,7 +286,7 @@ trait Sharing {
 		}
 
 		if ($viewOnly === true) {
-			$body['attributes'] = json_encode([['scope' => 'permissions', 'key' => 'download', 'enabled' => false]]);
+			$body['attributes'] = json_encode([['scope' => 'permissions', 'key' => 'download', 'value' => false]]);
 		}
 
 		$options['form_params'] = $body;
