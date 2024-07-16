@@ -45,9 +45,10 @@
 					<template #icon>
 						<NcAvatar :disable-menu="true"
 							:disable-tooltip="true"
-							:is-guest="true"
-							:size="24"
-							:user="mail" />
+							:display-name="mail"
+							:is-no-user="true"
+							:show-user-status="false"
+							:size="24" />
 					</template>
 				</NcChip>
 			</div>
@@ -147,7 +148,15 @@ export default defineComponent({
 		},
 
 		addNewEmail(e: KeyboardEvent) {
+			if (this.email.trim() === '') {
+				return
+			}
+
 			if (e.target instanceof HTMLInputElement) {
+				// Reset the custom validity
+				e.target.setCustomValidity('')
+
+				// Check if the field is valid
 				if (e.target.checkValidity() === false) {
 					e.target.reportValidity()
 					return
@@ -160,6 +169,7 @@ export default defineComponent({
 					return
 				}
 
+				// Check if the email is valid
 				if (!this.isValidEmail(this.email.trim())) {
 					e.target.setCustomValidity(t('files_sharing', 'Invalid email address'))
 					e.target.reportValidity()
@@ -203,9 +213,9 @@ export default defineComponent({
 			this.email = ''
 		},
 
-		isValidEmail(email) {
-			const regExpEmail = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-			return regExpEmail.test(email)
+		// No need to have a fancy regex, just check for an @
+		isValidEmail(email: string): boolean {
+			return email.includes('@')
 		},
 	},
 })

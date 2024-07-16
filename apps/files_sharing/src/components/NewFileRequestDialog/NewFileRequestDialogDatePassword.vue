@@ -13,7 +13,7 @@
 		<!-- Expiration date -->
 		<fieldset class="file-request-dialog__expiration" data-cy-file-request-dialog-fieldset="expiration">
 			<NcNoteCard v-if="defaultExpireDateEnforced" type="info">
-				{{ t('files_sharing', 'Your administrator has enforced a default expiration date with a maximum {days} days.', { days: defaultExpireDate }) }}
+				{{ t('files_sharing', 'Your administrator has enforced a default expiration date with a maximum of {days} days.', { days: defaultExpireDate }) }}
 			</NcNoteCard>
 
 			<!-- Enable expiration -->
@@ -22,7 +22,7 @@
 				:checked="defaultExpireDateEnforced || expirationDate !== null"
 				:disabled="disabled || defaultExpireDateEnforced"
 				@update:checked="onToggleDeadline">
-				{{ t('files_sharing', 'Set a submission expirationDate') }}
+				{{ t('files_sharing', 'Set a submission expiration date') }}
 			</NcCheckboxRadioSwitch>
 
 			<!-- Date picker -->

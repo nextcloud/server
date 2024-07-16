@@ -212,7 +212,7 @@ export default defineComponent({
 			if (this.emails.length === 0) {
 				return t('files_sharing', 'Close')
 			}
-			return n('files_sharing', 'Close and send email', 'Close and send {count} emails', this.emails.length, { count: this.emails.length })
+			return n('files_sharing', 'Send email and close', 'Send {count} emails and close', this.emails.length, { count: this.emails.length })
 		},
 	},
 
