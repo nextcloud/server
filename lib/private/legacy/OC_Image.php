@@ -569,7 +569,7 @@ class OC_Image implements \OCP\IImage {
 	private function checkImageSize($path) {
 		$size = @getimagesize($path);
 		if (!$size) {
-			return true;
+			return false;
 		}
 
 		$width = $size[0];
@@ -590,7 +590,7 @@ class OC_Image implements \OCP\IImage {
 	private function checkImageDataSize($data) {
 		$size = @getimagesizefromstring($data);
 		if (!$size) {
-			return true;
+			return false;
 		}
 
 		$width = $size[0];
@@ -637,7 +637,7 @@ class OC_Image implements \OCP\IImage {
 					if (!$this->checkImageSize($imagePath)) {
 						return false;
 					}
-					if (getimagesize($imagePath) !== false) {
+					if (@getimagesize($imagePath) !== false) {
 						$this->resource = @imagecreatefromjpeg($imagePath);
 					} else {
 						$this->logger->debug('OC_Image->loadFromFile, JPG image not valid: ' . $imagePath, ['app' => 'core']);
