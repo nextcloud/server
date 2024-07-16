@@ -36,7 +36,9 @@ class PhpSAPI implements ISetupCheck {
 			if ($sapi_max_children_reached === 1) {
 				$sapi_max_children_reached_actual = fpm_get_status()['max-active-processes'];
 				return SetupResult::error($this->l10n->t('Your PHP-FPM pool reached it\'s maximum number of allowed processes (' . $sapi_max_children_reached_actual . ') at least once since your last restart. You may want to increase your pm.max_children value in your PHP-FPM pool configuration to avoid problems such as Gateway Timeouts, client connection errors, and slow performance.'), $this->urlGenerator->linkToDocs('admin-php-fpm'));
+			}
 		}
+
 		return SetupResult::success();
 	}
 }
