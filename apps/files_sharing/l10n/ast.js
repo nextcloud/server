@@ -310,7 +310,6 @@ OC.L10N.register(
     "File drop" : "Suelta de ficheros",
     "Circle" : "Círculu",
     "Update" : "Anovar",
-    "Share with " : "Compartir con",
     "No other users with access found" : "Nun s'atopó nengún usuariu más con accesu",
     "No entries found in this folder" : "Nun s'atopó nenguna entrada nesta carpeta",
     "Name" : "Nome",

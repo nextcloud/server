@@ -312,7 +312,6 @@ OC.L10N.register(
     "File drop" : "Dosya bırakma",
     "Circle" : "Takım",
     "Update" : "Güncelle",
-    "Share with " : "Şunlarla paylaş",
     "No other users with access found" : "Erişebilen başka bir kullanıcı bulunamadı",
     "No entries found in this folder" : "Bu klasörde herhangi bir kayıt yok",
     "Name" : "Ad",

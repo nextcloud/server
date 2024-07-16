@@ -296,7 +296,6 @@ OC.L10N.register(
     "File drop" : "Dateiablage",
     "Circle" : "Kreis",
     "Update" : "Aktualisieren",
-    "Share with " : "Teilen mit",
     "No other users with access found" : "Keine anderen Benutzer mit Zugriff gefunden",
     "No entries found in this folder" : "Keine Einträge in diesem Ordner gefunden",
     "Name" : "Name",

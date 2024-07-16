@@ -370,7 +370,6 @@ OC.L10N.register(
     "File drop" : "اسقاط الملف",
     "Circle" : "الدائرة ",
     "Update" : "تحديث",
-    "Share with " : "شَارِك مع",
     "No other users with access found" : "لم يتم العثور على مستخدمين آخرين لهم حق الوصول",
     "No entries found in this folder" : "لا يوجد مدخلات في هذا المجلد ",
     "Name" : "الاسم",

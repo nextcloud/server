@@ -1,0 +1,28 @@
+OC.L10N.register(
+    "weather_status",
+    {
+    "Unknown address" : "Địa chỉ không xác định",
+    "No result." : "Không có kết quả",
+    "Error" : "Lỗi",
+    "Weather status" : "Tình trạng thời tiết",
+    "Weather status in your dashboard" : "Tình trạng thời tiết trên bảng điều khiển của bạn",
+    "Weather status integrated in the Dashboard app.\n    The geographic location can be automatically determined or manually defined. A 6 hours forecast is then displayed.\n    This status can also be integrated in other places like the Calendar app." : "Tình trạng thời tiết được tích hợp trong ứng dụng Dashboard.\nVị trí địa lý có thể được xác định tự động hoặc được xác định thủ công. Một dự báo 6 giờ sẽ được hiển thị.\nTình trạng này cũng có thể được tích hợp vào các nơi khác như ứng dụng Lịch.",
+    "Detect location" : "Phát hiện vị trí",
+    "Set custom address" : "Cài đặt vị trí tuỳ chọn",
+    "Favorites" : "Ưa thích",
+    "{temperature} {unit} clear sky later today" : "Trời quang đãng vào cuối ngày hôm nay",
+    "{temperature} {unit} clear sky" : "{temperature} {unit} trời quang",
+    "{temperature} {unit} cloudy later today" : "Trời nhiều mây vào cuối ngày hôm nay",
+    "{temperature} {unit} cloudy" : "{temperature} {unit} nhiều mây",
+    "{temperature} {unit} foggy" : "{temperature} {unit} sương mù",
+    "{temperature} {unit} light rainfall" : "{temperature} {unit} mưa nhẹ",
+    "Loading weather" : "Đang tải thông tin thời tiết",
+    "Remove from favorites" : "Xóa khỏi ưa thích",
+    "Add as favorite" : "Thêm vào yêu thích",
+    "You are not logged in." : "Bạn chưa đăng nhập",
+    "There was an error getting the weather status information." : "Đã xảy ra lỗi khi lấy thông tin tình trạng thời tiết.",
+    "No weather information found" : " Không tìm thấy thông tin thời tiết.",
+    "Location not found" : "Không tìm thấy vị trí",
+    "Set location for weather" : "Chọn vị trí cho thời tiết"
+},
+"nplurals=1; plural=0;");

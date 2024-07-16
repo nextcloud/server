@@ -291,7 +291,6 @@ OC.L10N.register(
     "File drop" : "Thả file",
     "Circle" : "Vòng kết nối",
     "Update" : "Cập nhật",
-    "Share with " : "Chia sẽ với",
     "No other users with access found" : "Không tìm thấy người dùng khác có quyền truy cập",
     "No entries found in this folder" : "Chưa có mục nào trong thư mục",
     "Name" : "Tên",

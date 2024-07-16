@@ -311,7 +311,6 @@ OC.L10N.register(
     "File drop" : "Відкинути файл",
     "Circle" : "Коло",
     "Update" : "Оновлювати",
-    "Share with " : "Поділитися з ",
     "No other users with access found" : "Більше немає користувачів, які мають доступ",
     "No entries found in this folder" : "Записів не знайдено в цьому каталозі",
     "Name" : "Ім’я",

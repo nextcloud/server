@@ -367,7 +367,6 @@ OC.L10N.register(
     "File drop" : "Fitxategiak jaregin",
     "Circle" : "Zirkulua",
     "Update" : "Eguneratu",
-    "Share with " : "Partekatu honekin",
     "No other users with access found" : "Ez da sarbidea duen erabiltzailerik aurkitu",
     "No entries found in this folder" : "Karpeta honetan ez da sarreraik aurkitu",
     "Name" : "Izena",

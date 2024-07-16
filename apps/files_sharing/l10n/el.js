@@ -286,7 +286,6 @@ OC.L10N.register(
     "File drop" : "Απόθεση αρχείου",
     "Circle" : "Κύκλος",
     "Update" : "Ενημέρωση",
-    "Share with " : "Κοινή χρήση με",
     "No other users with access found" : "Δεν βρέθηκαν άλλοι χρήστες με πρόσβαση",
     "No entries found in this folder" : "Δεν βρέθηκαν καταχωρήσεις σε αυτόν το φάκελο",
     "Name" : "Όνομα",
