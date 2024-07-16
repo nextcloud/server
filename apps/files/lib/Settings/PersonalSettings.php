@@ -14,6 +14,7 @@ use OCP\Settings\ISettings;
 
 class PersonalSettings implements ISettings {
 	public function getForm(): TemplateResponse {
+		\OCP\Util::addScript(Application::APP_ID, 'settings-personal');
 		return new TemplateResponse(Application::APP_ID, 'settings-personal');
 	}
 

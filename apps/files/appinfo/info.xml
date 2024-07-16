@@ -51,6 +51,10 @@
 		<command>OCA\Files\Command\Object\Put</command>
 	</commands>
 
+	<settings>
+		<personal>OCA\Files\Settings\PersonalSettings</personal>
+	</settings>
+
 	<activity>
 		<settings>
 			<setting>OCA\Files\Activity\Settings\FavoriteAction</setting>
@@ -76,9 +80,5 @@
 			<order>0</order>
 		</navigation>
 	</navigations>
-
-	<settings>
-		<personal>OCA\Files\Settings\PersonalSettings</personal>
-	</settings>
 
 </info>
