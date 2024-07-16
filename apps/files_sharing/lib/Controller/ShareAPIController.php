@@ -2037,10 +2037,10 @@ class ShareAPIController extends OCSController {
 			if ($storage instanceof Wrapper) {
 				$storage = $storage->getInstanceOfStorage(SharedStorage::class);
 				if ($storage === null) {
-					throw new \RuntimeException($this->l->t('Should not happen, instanceOfStorage but getInstanceOfStorage return null'));
+					throw new \RuntimeException('Should not happen, instanceOfStorage but getInstanceOfStorage return null');
 				}
 			} else {
-				throw new \RuntimeException($this->l->t('Should not happen, instanceOfStorage but not a wrapper'));
+				throw new \RuntimeException('Should not happen, instanceOfStorage but not a wrapper');
 			}
 			/** @var \OCA\Files_Sharing\SharedStorage $storage */
 			$inheritedAttributes = $storage->getShare()->getAttributes();
