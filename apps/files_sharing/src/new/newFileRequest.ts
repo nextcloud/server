@@ -4,22 +4,27 @@
  */
 import type { Entry, Folder, Node } from '@nextcloud/files'
 
+import { Permission } from '@nextcloud/files'
 import { translate as t } from '@nextcloud/l10n'
-import Vue, { defineAsyncComponent } from 'vue'
 import FileUploadSvg from '@mdi/svg/svg/file-upload.svg?raw'
+import Vue, { defineAsyncComponent } from 'vue'
+import Config from '../services/ConfigService'
 
 const NewFileRequestDialogVue = defineAsyncComponent(() => import('../components/NewFileRequestDialog.vue'))
+
+const sharingConfig = new Config()
 
 export const entry = {
 	id: 'file-request',
 	displayName: t('files', 'Create new file request'),
 	iconSvgInline: FileUploadSvg,
 	order: 30,
-	enabled(): boolean {
-		// TODO: determine requirements
-		// 1. user can share the root folder
-		// 2. OR user can create subfolders ?
-		return true
+	enabled(context: Folder): boolean {
+		if ((context.permissions & Permission.SHARE) !== 0) {
+			// We need to have either link shares creation permissions
+			return sharingConfig.isPublicShareAllowed
+		}
+		return false
 	},
 	async handler(context: Folder, content: Node[]) {
 		// Create document root

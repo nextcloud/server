@@ -211,13 +211,20 @@ export default class Config {
 	}
 
 	/**
+	 * Is public sharing enabled ?
+	 */
+	get isPublicShareAllowed(): boolean {
+		return this._capabilities?.files_sharing?.public?.enabled === true
+	}
+
+	/**
 	 * Is sharing my mail (link share) enabled ?
 	 */
 	get isMailShareAllowed(): boolean {
 		// eslint-disable-next-line camelcase
 		return this._capabilities?.files_sharing?.sharebymail?.enabled === true
 			// eslint-disable-next-line camelcase
-			&& this._capabilities?.files_sharing?.public?.enabled === true
+			&& this.isPublicShareAllowed === true
 	}
 
 	/**

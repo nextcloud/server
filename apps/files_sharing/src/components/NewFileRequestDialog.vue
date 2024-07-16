@@ -95,7 +95,7 @@
 				@click="onFinish">
 				<template #icon>
 					<NcLoadingIcon v-if="loading" />
-					<IconCheck v-else :size="20" />
+					<IconCheck v-else-if="success" :size="20" />
 				</template>
 				{{ finishButtonLabel }}
 			</NcButton>
@@ -182,6 +182,7 @@ export default defineComponent({
 		return {
 			currentStep: STEP.FIRST,
 			loading: false,
+			success: false,
 
 			destination: this.context.path || '/',
 			label: '',
@@ -244,10 +245,19 @@ export default defineComponent({
 				return
 			}
 
-			await this.setShareEmails()
-			await this.sendEmails()
-			showSuccess(this.t('files_sharing', 'File request created and emails sent'))
-			this.$emit('close')
+			if (sharingConfig.isMailShareAllowed && this.emails.length > 0) {
+				await this.setShareEmails()
+				await this.sendEmails()
+				showSuccess(this.n('files_sharing', 'File request created and email sent', 'File request created and {count} emails sent', this.emails.length, { count: this.emails.length }))
+			} else {
+				showSuccess(this.t('files_sharing', 'File request created'))
+			}
+
+			// Show success then close
+			this.success = true
+			setTimeout(() => {
+				this.$emit('close')
+			}, 3000)
 		},
 
 		async createShare() {
@@ -258,7 +268,9 @@ export default defineComponent({
 			const shareUrl = generateOcsUrl('apps/files_sharing/api/v1/shares')
 			try {
 				const request = await axios.post<OCSResponse>(shareUrl, {
-					shareType: ShareType.Email,
+					// Always create a file request, but without mail share
+					// permissions, only a share link will be created.
+					shareType: sharingConfig.isMailShareAllowed ? ShareType.Email : ShareType.Link,
 					permissions: Permission.CREATE,
 
 					label: this.label,
