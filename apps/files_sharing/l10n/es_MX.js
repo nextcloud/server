@@ -311,7 +311,6 @@ OC.L10N.register(
     "File drop" : "Soltar archivo",
     "Circle" : "Círculo",
     "Update" : "Actualizar",
-    "Share with " : "Compartir con",
     "No other users with access found" : "No se encontraron otros usuarios con acceso",
     "No entries found in this folder" : "No se encontraron elementos en esta carpeta",
     "Name" : "Nombre",

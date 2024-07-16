@@ -312,7 +312,6 @@ OC.L10N.register(
     "File drop" : "ファイルを転送",
     "Circle" : "サークル",
     "Update" : "更新",
-    "Share with " : "共有先",
     "No other users with access found" : "アクセス権を持つ他のユーザーは見つかりませんでした",
     "No entries found in this folder" : "このフォルダーにはエントリーがありません",
     "Name" : "名前",
