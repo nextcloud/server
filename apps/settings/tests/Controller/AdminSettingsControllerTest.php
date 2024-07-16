@@ -81,6 +81,8 @@ class AdminSettingsControllerTest extends TestCase {
 
 	protected function tearDown(): void {
 		\OC::$server->getUserManager()->get($this->adminUid)->delete();
+		\OC_User::setUserId(null);
+		\OC::$server->getUserSession()->setUser(null);
 
 		parent::tearDown();
 	}
