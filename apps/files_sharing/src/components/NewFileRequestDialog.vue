@@ -50,19 +50,6 @@
 
 		<!-- Controls -->
 		<template #actions>
-			<!-- Cancel the creation -->
-			<NcButton :aria-label="t('files_sharing', 'Cancel')"
-				:disabled="loading"
-				:title="t('files_sharing', 'Cancel the file request creation')"
-				data-cy-file-request-dialog-controls="cancel"
-				type="tertiary"
-				@click="onCancel">
-				{{ t('files_sharing', 'Cancel') }}
-			</NcButton>
-
-			<!-- Align right -->
-			<span class="dialog__actions-separator" />
-
 			<!-- Back -->
 			<NcButton v-show="currentStep === STEP.SECOND"
 				:aria-label="t('files_sharing', 'Previous step')"
@@ -71,6 +58,31 @@
 				type="tertiary"
 				@click="currentStep = STEP.FIRST">
 				{{ t('files_sharing', 'Previous step') }}
+			</NcButton>
+
+			<!-- Align right -->
+			<span class="dialog__actions-separator" />
+
+			<!-- Cancel the creation -->
+			<NcButton v-if="currentStep !== STEP.LAST"
+				:aria-label="t('files_sharing', 'Cancel')"
+				:disabled="loading"
+				:title="t('files_sharing', 'Cancel the file request creation')"
+				data-cy-file-request-dialog-controls="cancel"
+				type="tertiary"
+				@click="onCancel">
+				{{ t('files_sharing', 'Cancel') }}
+			</NcButton>
+
+			<!-- Cancel email and just close -->
+			<NcButton v-else-if="emails.length !== 0"
+				:aria-label="t('files_sharing', 'Close without sending emails')"
+				:disabled="loading"
+				:title="t('files_sharing', 'Close without sending emails')"
+				data-cy-file-request-dialog-controls="cancel"
+				type="tertiary"
+				@click="onCancel">
+				{{ t('files_sharing', 'Close') }}
 			</NcButton>
 
 			<!-- Next -->
@@ -388,8 +400,7 @@ export default defineComponent({
 
 <style scoped lang="scss">
 .file-request-dialog {
-	--margin: 36px;
-	--secondary-margin: 18px;
+	--margin: 18px;
 
 	&__header {
 		margin: 0 var(--margin);
@@ -398,16 +409,16 @@ export default defineComponent({
 	&__form {
 		position: relative;
 		overflow: auto;
-		padding: var(--secondary-margin) var(--margin);
+		padding: var(--margin) var(--margin);
 		// overlap header bottom padding
-		margin-top: calc(-1 * var(--secondary-margin));
+		margin-top: calc(-1 * var(--margin));
 	}
 
 	:deep(fieldset) {
 		display: flex;
 		flex-direction: column;
 		width: 100%;
-		margin-top: var(--secondary-margin);
+		margin-top: var(--margin);
 
 		:deep(legend) {
 			display: flex;
@@ -419,8 +430,6 @@ export default defineComponent({
 	:deep(.dialog__actions) {
 		width: auto;
 		margin-inline: 12px;
-		// align left and remove margin
-		margin-left: 0;
 		span.dialog__actions-separator {
 			margin-left: auto;
 		}

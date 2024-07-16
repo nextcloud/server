@@ -213,7 +213,7 @@ export default defineComponent({
 <style scoped>
 .input-field,
 .file-request-dialog__emails {
-	margin-top: var(--secondary-margin);
+	margin-top: var(--margin);
 }
 
 .file-request-dialog__emails {
