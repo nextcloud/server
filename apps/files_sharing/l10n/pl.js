@@ -300,7 +300,6 @@ OC.L10N.register(
     "File drop" : "Upuść plik",
     "Circle" : "Krąg",
     "Update" : "Aktualizuj",
-    "Share with " : "Udostępnij dla",
     "No other users with access found" : "Nie znaleziono innych użytkowników z dostępem",
     "No entries found in this folder" : "Brak wpisów w tym katalogu",
     "Name" : "Nazwa",

@@ -300,7 +300,6 @@ OC.L10N.register(
     "File drop" : "Předání souboru",
     "Circle" : "Okruh",
     "Update" : "Aktualizovat",
-    "Share with " : "Sdílet s",
     "No other users with access found" : "Nenalezeni žádní další uživatelé, kteří mají přístup",
     "No entries found in this folder" : "V této složce nebylo nic nalezeno",
     "Name" : "Název",

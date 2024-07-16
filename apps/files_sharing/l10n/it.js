@@ -312,7 +312,6 @@ OC.L10N.register(
     "File drop" : "Elimina file",
     "Circle" : "Cerchia",
     "Update" : "Aggiorna",
-    "Share with " : "Condividi con",
     "No other users with access found" : "Nessun altro utente con accesso trovato",
     "No entries found in this folder" : "Nessuna voce trovata in questa cartella",
     "Name" : "Nome",

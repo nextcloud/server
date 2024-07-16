@@ -294,7 +294,6 @@ OC.L10N.register(
     "File drop" : "Slepping skráa",
     "Circle" : "Hringur",
     "Update" : "Uppfæra",
-    "Share with " : "Deila með ",
     "No other users with access found" : "Engir aðrir notendur með aðgang fundust",
     "No entries found in this folder" : "Engar skrár fundust í þessari möppu",
     "Name" : "Nafn",

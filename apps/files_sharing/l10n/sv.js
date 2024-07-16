@@ -370,7 +370,6 @@ OC.L10N.register(
     "File drop" : "Göm fillista",
     "Circle" : "Cirkel",
     "Update" : "Uppdatera",
-    "Share with " : "Dela med",
     "No other users with access found" : "Inga andra användare med åtkomst hittades",
     "No entries found in this folder" : "Inga filer hittades i denna mapp",
     "Name" : "Namn",
