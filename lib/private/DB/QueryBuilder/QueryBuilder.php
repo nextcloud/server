@@ -13,6 +13,7 @@ use Doctrine\DBAL\Platforms\PostgreSQL94Platform;
 use Doctrine\DBAL\Platforms\SqlitePlatform;
 use Doctrine\DBAL\Query\QueryException;
 use OC\DB\ConnectionAdapter;
+use OC\DB\Exceptions\DbalException;
 use OC\DB\QueryBuilder\ExpressionBuilder\ExpressionBuilder;
 use OC\DB\QueryBuilder\ExpressionBuilder\MySqlExpressionBuilder;
 use OC\DB\QueryBuilder\ExpressionBuilder\OCIExpressionBuilder;
@@ -22,7 +23,6 @@ use OC\DB\QueryBuilder\FunctionBuilder\FunctionBuilder;
 use OC\DB\QueryBuilder\FunctionBuilder\OCIFunctionBuilder;
 use OC\DB\QueryBuilder\FunctionBuilder\PgSqlFunctionBuilder;
 use OC\DB\QueryBuilder\FunctionBuilder\SqliteFunctionBuilder;
-use OC\DB\ResultAdapter;
 use OC\SystemConfig;
 use OCP\DB\IResult;
 use OCP\DB\QueryBuilder\ICompositeExpression;
@@ -30,6 +30,7 @@ use OCP\DB\QueryBuilder\ILiteral;
 use OCP\DB\QueryBuilder\IParameter;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\DB\QueryBuilder\IQueryFunction;
+use OCP\IDBConnection;
 use Psr\Log\LoggerInterface;
 
 class QueryBuilder implements IQueryBuilder {
@@ -168,15 +169,7 @@ class QueryBuilder implements IQueryBuilder {
 		return $this->queryBuilder->getState();
 	}
 
-	/**
-	 * Executes this query using the bound parameters and their types.
-	 *
-	 * Uses {@see Connection::executeQuery} for select statements and {@see Connection::executeUpdate}
-	 * for insert, update and delete statements.
-	 *
-	 * @return IResult|int
-	 */
-	public function execute() {
+	private function prepareForExecute() {
 		if ($this->systemConfig->getValue('log_query', false)) {
 			try {
 				$params = [];
@@ -253,48 +246,63 @@ class QueryBuilder implements IQueryBuilder {
 				'exception' => $exception,
 			]);
 		}
-
-		$result = $this->queryBuilder->execute();
-		if (is_int($result)) {
-			return $result;
-		}
-		return new ResultAdapter($result);
 	}
 
-	public function executeQuery(): IResult {
+	/**
+	 * Executes this query using the bound parameters and their types.
+	 *
+	 * Uses {@see Connection::executeQuery} for select statements and {@see Connection::executeUpdate}
+	 * for insert, update and delete statements.
+	 *
+	 * @return IResult|int
+	 */
+	public function execute(?IDBConnection $connection = null) {
+		try {
+			if ($this->getType() === \Doctrine\DBAL\Query\QueryBuilder::SELECT) {
+				return $this->executeQuery($connection);
+			} else {
+				return $this->executeStatement($connection);
+			}
+		} catch (DBALException $e) {
+			// `IQueryBuilder->execute` never wrapped the exception, but `executeQuery` and `executeStatement` do
+			/** @var \Doctrine\DBAL\Exception $previous */
+			$previous = $e->getPrevious();
+			throw $previous;
+		}
+	}
+
+	public function executeQuery(?IDBConnection $connection = null): IResult {
 		if ($this->getType() !== \Doctrine\DBAL\Query\QueryBuilder::SELECT) {
 			throw new \RuntimeException('Invalid query type, expected SELECT query');
 		}
 
-		try {
-			$result = $this->execute();
-		} catch (\Doctrine\DBAL\Exception $e) {
-			throw \OC\DB\Exceptions\DbalException::wrap($e);
+		$this->prepareForExecute();
+		if (!$connection) {
+			$connection = $this->connection;
 		}
 
-		if ($result instanceof IResult) {
-			return $result;
-		}
-
-		throw new \RuntimeException('Invalid return type for query');
+		return $connection->executeQuery(
+			$this->getSQL(),
+			$this->getParameters(),
+			$this->getParameterTypes(),
+		);
 	}
 
-	public function executeStatement(): int {
+	public function executeStatement(?IDBConnection $connection = null): int {
 		if ($this->getType() === \Doctrine\DBAL\Query\QueryBuilder::SELECT) {
 			throw new \RuntimeException('Invalid query type, expected INSERT, DELETE or UPDATE statement');
 		}
 
-		try {
-			$result = $this->execute();
-		} catch (\Doctrine\DBAL\Exception $e) {
-			throw \OC\DB\Exceptions\DbalException::wrap($e);
+		$this->prepareForExecute();
+		if (!$connection) {
+			$connection = $this->connection;
 		}
 
-		if (!is_int($result)) {
-			throw new \RuntimeException('Invalid return type for statement');
-		}
-
-		return $result;
+		return $connection->executeStatement(
+			$this->getSQL(),
+			$this->getParameters(),
+			$this->getParameterTypes(),
+		);
 	}
 
 
