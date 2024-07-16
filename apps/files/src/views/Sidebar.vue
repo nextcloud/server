@@ -110,7 +110,7 @@ import { emit, subscribe, unsubscribe } from '@nextcloud/event-bus'
 import { File, Folder, formatFileSize } from '@nextcloud/files'
 import { encodePath } from '@nextcloud/paths'
 import { generateRemoteUrl, generateUrl } from '@nextcloud/router'
-import { ShareTypes } from '@nextcloud/sharing'
+import { ShareType } from '@nextcloud/sharing'
 import { mdiStar, mdiStarOutline } from '@mdi/js'
 import axios from '@nextcloud/axios'
 import $ from 'jquery'
@@ -361,8 +361,8 @@ export default {
 				} else if (fileInfo.mountType !== undefined && fileInfo.mountType !== '') {
 					return OC.MimeType.getIconUrl('dir-' + fileInfo.mountType)
 				} else if (fileInfo.shareTypes && (
-					fileInfo.shareTypes.indexOf(ShareTypes.SHARE_TYPE_LINK) > -1
-					|| fileInfo.shareTypes.indexOf(ShareTypes.SHARE_TYPE_EMAIL) > -1)
+					fileInfo.shareTypes.indexOf(ShareType.Link) > -1
+					|| fileInfo.shareTypes.indexOf(ShareType.Email) > -1)
 				) {
 					return OC.MimeType.getIconUrl('dir-public')
 				} else if (fileInfo.shareTypes && fileInfo.shareTypes.length > 0) {
