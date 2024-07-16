@@ -49,16 +49,24 @@ class FilenameValidatorTest extends TestCase {
 	public function testValidateFilename(
 		string $filename,
 		array $forbiddenNames,
+		array $forbiddenBasenames,
 		array $forbiddenExtensions,
 		array $forbiddenCharacters,
 		?string $exception,
 	): void {
 		/** @var FilenameValidator&MockObject */
 		$validator = $this->getMockBuilder(FilenameValidator::class)
-			->onlyMethods(['getForbiddenExtensions', 'getForbiddenFilenames', 'getForbiddenCharacters'])
+			->onlyMethods([
+				'getForbiddenBasenames',
+				'getForbiddenCharacters',
+				'getForbiddenExtensions',
+				'getForbiddenFilenames',
+			])
 			->setConstructorArgs([$this->l10n, $this->config, $this->logger])
 			->getMock();
 
+		$validator->method('getForbiddenBasenames')
+			->willReturn($forbiddenBasenames);
 		$validator->method('getForbiddenCharacters')
 			->willReturn($forbiddenCharacters);
 		$validator->method('getForbiddenExtensions')
@@ -80,16 +88,24 @@ class FilenameValidatorTest extends TestCase {
 	public function testIsFilenameValid(
 		string $filename,
 		array $forbiddenNames,
+		array $forbiddenBasenames,
 		array $forbiddenExtensions,
 		array $forbiddenCharacters,
 		?string $exception,
 	): void {
 		/** @var FilenameValidator&MockObject */
 		$validator = $this->getMockBuilder(FilenameValidator::class)
-			->onlyMethods(['getForbiddenExtensions', 'getForbiddenFilenames', 'getForbiddenCharacters'])
+			->onlyMethods([
+				'getForbiddenBasenames',
+				'getForbiddenExtensions',
+				'getForbiddenFilenames',
+				'getForbiddenCharacters',
+			])
 			->setConstructorArgs([$this->l10n, $this->config, $this->logger])
 			->getMock();
 
+		$validator->method('getForbiddenBasenames')
+			->willReturn($forbiddenBasenames);
 		$validator->method('getForbiddenCharacters')
 			->willReturn($forbiddenCharacters);
 		$validator->method('getForbiddenExtensions')
@@ -104,84 +120,99 @@ class FilenameValidatorTest extends TestCase {
 	public function dataValidateFilename(): array {
 		return [
 			'valid name' => [
-				'a: b.txt', ['.htaccess'], [], [], null
+				'a: b.txt', ['.htaccess'], [], [], [], null
 			],
 			'valid name with some more parameters' => [
-				'a: b.txt', ['.htaccess'], ['exe'], ['~'], null
+				'a: b.txt', ['.htaccess'], [], ['exe'], ['~'], null
+			],
+			'valid name checks only the full name' => [
+				'.htaccess.sample', ['.htaccess'], [], [], [], null
 			],
 			'forbidden name' => [
-				'.htaccess', ['.htaccess'], [], [], ReservedWordException::class
+				'.htaccess', ['.htaccess'], [], [], [], ReservedWordException::class
 			],
 			'forbidden name - name is case insensitive' => [
-				'COM1', ['.htaccess', 'com1'], [], [], ReservedWordException::class
+				'COM1', ['.htaccess', 'com1'], [], [], [], ReservedWordException::class
 			],
-			'forbidden name - name checks the filename' => [
+			'forbidden basename' => [
 				// needed for Windows namespaces
-				'com1.suffix', ['.htaccess', 'com1'], [], [], ReservedWordException::class
+				'com1.suffix', ['.htaccess'], ['com1'], [], [], ReservedWordException::class
+			],
+			'forbidden basename for hidden files' => [
+				// needed for Windows namespaces
+				'.thumbs.db', ['.htaccess'], ['.thumbs'], [], [], ReservedWordException::class
 			],
 			'invalid character' => [
-				'a: b.txt', ['.htaccess'], [], [':'], InvalidCharacterInPathException::class
+				'a: b.txt', ['.htaccess'], [], [], [':'], InvalidCharacterInPathException::class
 			],
 			'invalid path' => [
-				'../../foo.bar', ['.htaccess'], [], ['/', '\\'], InvalidCharacterInPathException::class,
+				'../../foo.bar', ['.htaccess'], [], [], ['/', '\\'], InvalidCharacterInPathException::class,
 			],
 			'invalid extension' => [
-				'a: b.txt', ['.htaccess'], ['.txt'], [], InvalidPathException::class
+				'a: b.txt', ['.htaccess'], [], ['.txt'], [], InvalidPathException::class
 			],
 			'empty filename' => [
-				'', [], [], [], EmptyFileNameException::class
+				'', [], [], [], [], EmptyFileNameException::class
 			],
 			'reserved unix name "."' => [
-				'.', [], [], [], InvalidPathException::class
+				'.', [], [], [], [], InvalidPathException::class
 			],
 			'reserved unix name ".."' => [
-				'..', [], [], [], ReservedWordException::class
+				'..', [], [], [], [], ReservedWordException::class
 			],
 			'too long filename "."' => [
-				str_repeat('a', 251), [], [], [], FileNameTooLongException::class
+				str_repeat('a', 251), [], [], [], [], FileNameTooLongException::class
 			],
 			// make sure to not split the list entries as they migh contain Unicode sequences
 			// in this example the "face in clouds" emoji contains the clouds emoji so only having clouds is ok
-			['🌫️.txt', ['.htaccess'], [], ['😶‍🌫️'], null],
+			['🌫️.txt', ['.htaccess'], [], [], ['😶‍🌫️'], null],
 			// This is the reverse: clouds are forbidden -> so is also the face in the clouds emoji
-			['😶‍🌫️.txt', ['.htaccess'], [], ['🌫️'], InvalidCharacterInPathException::class],
+			['😶‍🌫️.txt', ['.htaccess'], [], [], ['🌫️'], InvalidCharacterInPathException::class],
 		];
 	}
 
 	/**
 	 * @dataProvider dataIsForbidden
 	 */
-	public function testIsForbidden(string $filename, array $forbiddenNames, bool $expected): void {
+	public function testIsForbidden(string $filename, array $forbiddenNames, array $forbiddenBasenames, bool $expected): void {
 		/** @var FilenameValidator&MockObject */
 		$validator = $this->getMockBuilder(FilenameValidator::class)
-			->onlyMethods(['getForbiddenFilenames'])
+			->onlyMethods(['getForbiddenFilenames', 'getForbiddenBasenames'])
 			->setConstructorArgs([$this->l10n, $this->config, $this->logger])
 			->getMock();
 
+		$validator->method('getForbiddenBasenames')
+			->willReturn($forbiddenBasenames);
 		$validator->method('getForbiddenFilenames')
 			->willReturn($forbiddenNames);
 
-
-		$this->assertEquals($expected, $validator->isFilenameValid($filename));
+		$this->assertEquals($expected, $validator->isForbidden($filename));
 	}
 
 	public function dataIsForbidden(): array {
 		return [
 			'valid name' => [
-				'a: b.txt', ['.htaccess'], true
+				'a: b.txt', ['.htaccess'], [], false
 			],
 			'valid name with some more parameters' => [
-				'a: b.txt', ['.htaccess'], true
+				'a: b.txt', ['.htaccess'], [], false
+			],
+			'valid name as only full forbidden should be matched' => [
+				'.htaccess.sample', ['.htaccess'], [], false,
 			],
 			'forbidden name' => [
-				'.htaccess', ['.htaccess'], false
+				'.htaccess', ['.htaccess'], [], true
 			],
 			'forbidden name - name is case insensitive' => [
-				'COM1', ['.htaccess', 'com1'], false
+				'COM1', ['.htaccess', 'com1'], [], true,
 			],
-			'forbidden name - name checks the filename' => [
+			'forbidden name - basename is checked' => [
 				// needed for Windows namespaces
-				'com1.suffix', ['.htaccess', 'com1'], false
+				'com1.suffix', ['.htaccess'], ['com1'], true
+			],
+			'forbidden name - basename is checked also with multiple extensions' => [
+				// needed for Windows namespaces
+				'com1.tar.gz', ['.htaccess'], ['com1'], true
 			],
 		];
 	}

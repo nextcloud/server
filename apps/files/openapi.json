@@ -33,6 +33,7 @@
                             "bigfilechunking",
                             "blacklisted_files",
                             "forbidden_filenames",
+                            "forbidden_filename_basenames",
                             "forbidden_filename_characters",
                             "forbidden_filename_extensions",
                             "directEditing"
@@ -52,6 +53,12 @@
                                 }
                             },
                             "forbidden_filenames": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string"
+                                }
+                            },
+                            "forbidden_filename_basenames": {
                                 "type": "array",
                                 "items": {
                                     "type": "string"
