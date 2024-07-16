@@ -61,7 +61,7 @@ import Share from '../../models/Share'
 import { defineComponent } from 'vue'
 import { generateUrl, getBaseUrl } from '@nextcloud/router'
 import { showError, showSuccess } from '@nextcloud/dialogs'
-import { translate, translatePlural } from '@nextcloud/l10n'
+import { n, t } from '@nextcloud/l10n'
 
 import NcAvatar from '@nextcloud/vue/dist/Components/NcAvatar.js'
 import NcInputField from '@nextcloud/vue/dist/Components/NcInputField.js'
@@ -104,8 +104,7 @@ export default defineComponent({
 
 	setup() {
 		return {
-			n: translatePlural,
-			t: translate,
+			n, t,
 		}
 	},
 
@@ -131,13 +130,13 @@ export default defineComponent({
 
 			if (!navigator.clipboard) {
 				// Clipboard API not available
-				window.prompt(this.t('files_sharing', 'Automatically copying failed, please copy the share link manually'), this.shareLink)
+				window.prompt(t('files_sharing', 'Automatically copying failed, please copy the share link manually'), this.shareLink)
 				return
 			}
 
 			await navigator.clipboard.writeText(this.shareLink)
 
-			showSuccess(this.t('files_sharing', 'Link copied to clipboard'))
+			showSuccess(t('files_sharing', 'Link copied to clipboard'))
 			this.isCopied = true
 			event.target?.select?.()
 
@@ -155,13 +154,13 @@ export default defineComponent({
 
 				// The email is already in the list
 				if (this.emails.includes(this.email.trim())) {
-					e.target.setCustomValidity(this.t('files_sharing', 'Email already added'))
+					e.target.setCustomValidity(t('files_sharing', 'Email already added'))
 					e.target.reportValidity()
 					return
 				}
 
 				if (!this.isValidEmail(this.email.trim())) {
-					e.target.setCustomValidity(this.t('files_sharing', 'Invalid email address'))
+					e.target.setCustomValidity(t('files_sharing', 'Invalid email address'))
 					e.target.reportValidity()
 					return
 				}
@@ -188,16 +187,16 @@ export default defineComponent({
 
 			// Warn about invalid emails
 			if (invalidEmails.length > 0) {
-				showError(this.n('files_sharing', 'The following email address is not valid: {emails}', 'The following email addresses are not valid: {emails}', invalidEmails.length, { emails: invalidEmails.join(', ') }))
+				showError(n('files_sharing', 'The following email address is not valid: {emails}', 'The following email addresses are not valid: {emails}', invalidEmails.length, { emails: invalidEmails.join(', ') }))
 			}
 
 			// Warn about duplicate emails
 			if (duplicateEmails.length > 0) {
-				showError(this.n('files_sharing', '1 email address already added', '{count} email addresses already added', duplicateEmails.length, { count: duplicateEmails.length }))
+				showError(n('files_sharing', '1 email address already added', '{count} email addresses already added', duplicateEmails.length, { count: duplicateEmails.length }))
 			}
 
 			if (validEmails.length > 0) {
-				showSuccess(this.n('files_sharing', '1 email address added', '{count} email addresses added', validEmails.length, { count: validEmails.length }))
+				showSuccess(n('files_sharing', '1 email address added', '{count} email addresses added', validEmails.length, { count: validEmails.length }))
 			}
 
 			this.email = ''

@@ -115,7 +115,7 @@ import { generateOcsUrl } from '@nextcloud/router'
 import { Permission } from '@nextcloud/files'
 import { ShareType } from '@nextcloud/sharing'
 import { showError, showSuccess } from '@nextcloud/dialogs'
-import { translate, translatePlural } from '@nextcloud/l10n'
+import { n, t } from '@nextcloud/l10n'
 import axios from '@nextcloud/axios'
 
 import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
@@ -170,9 +170,8 @@ export default defineComponent({
 	setup() {
 		return {
 			STEP,
-
-			n: translatePlural,
-			t: translate,
+			n,
+			t,
 
 			isShareByMailEnabled: sharingConfig.isMailShareAllowed,
 		}
@@ -199,9 +198,9 @@ export default defineComponent({
 	computed: {
 		finishButtonLabel() {
 			if (this.emails.length === 0) {
-				return this.t('files_sharing', 'Close')
+				return t('files_sharing', 'Close')
 			}
-			return this.n('files_sharing', 'Close and send email', 'Close and send {count} emails', this.emails.length, { count: this.emails.length })
+			return n('files_sharing', 'Close and send email', 'Close and send {count} emails', this.emails.length, { count: this.emails.length })
 		},
 	},
 
@@ -216,7 +215,7 @@ export default defineComponent({
 			// cannot share root
 			if (this.destination === '/' || this.destination === '') {
 				const destinationInput = form.querySelector('input[name="destination"]') as HTMLInputElement
-				destinationInput?.setCustomValidity(this.t('files_sharing', 'Please select a folder, you cannot share the root directory.'))
+				destinationInput?.setCustomValidity(t('files_sharing', 'Please select a folder, you cannot share the root directory.'))
 				form.reportValidity()
 				return
 			}
@@ -240,7 +239,7 @@ export default defineComponent({
 
 		async onFinish() {
 			if (this.emails.length === 0 || this.isShareByMailEnabled === false) {
-				showSuccess(this.t('files_sharing', 'File request created'))
+				showSuccess(t('files_sharing', 'File request created'))
 				this.$emit('close')
 				return
 			}
@@ -248,9 +247,9 @@ export default defineComponent({
 			if (sharingConfig.isMailShareAllowed && this.emails.length > 0) {
 				await this.setShareEmails()
 				await this.sendEmails()
-				showSuccess(this.n('files_sharing', 'File request created and email sent', 'File request created and {count} emails sent', this.emails.length, { count: this.emails.length }))
+				showSuccess(n('files_sharing', 'File request created and email sent', 'File request created and {count} emails sent', this.emails.length, { count: this.emails.length }))
 			} else {
-				showSuccess(this.t('files_sharing', 'File request created'))
+				showSuccess(t('files_sharing', 'File request created'))
 			}
 
 			// Show success then close
@@ -306,8 +305,8 @@ export default defineComponent({
 				const errorMessage = (error as AxiosError<OCSResponse>)?.response?.data?.ocs?.meta?.message
 				showError(
 					errorMessage
-						? this.t('files_sharing', 'Error creating the share: {errorMessage}', { errorMessage })
-						: this.t('files_sharing', 'Error creating the share'),
+						? t('files_sharing', 'Error creating the share: {errorMessage}', { errorMessage })
+						: t('files_sharing', 'Error creating the share'),
 				)
 				logger.error('Error while creating share', { error, errorMessage })
 				throw error
@@ -378,8 +377,8 @@ export default defineComponent({
 			const errorMessage = error.response?.data?.ocs?.meta?.message
 			showError(
 				errorMessage
-					? this.t('files_sharing', 'Error sending emails: {errorMessage}', { errorMessage })
-					: this.t('files_sharing', 'Error sending emails'),
+					? t('files_sharing', 'Error sending emails: {errorMessage}', { errorMessage })
+					: t('files_sharing', 'Error sending emails'),
 			)
 			logger.error('Error while sending emails', { error, errorMessage })
 		},

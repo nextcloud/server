@@ -66,7 +66,7 @@ import type { Folder, Node } from '@nextcloud/files'
 
 import { defineComponent } from 'vue'
 import { getFilePickerBuilder } from '@nextcloud/dialogs'
-import { translate } from '@nextcloud/l10n'
+import { t } from '@nextcloud/l10n'
 
 import IconFolder from 'vue-material-design-icons/Folder.vue'
 import NcTextArea from '@nextcloud/vue/dist/Components/NcTextArea.js'
@@ -113,17 +113,17 @@ export default defineComponent({
 
 	setup() {
 		return {
-			t: translate,
+			t,
 		}
 	},
 
 	methods: {
 		onPickDestination() {
-			const filepicker = getFilePickerBuilder(this.t('files_sharing', 'Select a destination'))
+			const filepicker = getFilePickerBuilder(t('files_sharing', 'Select a destination'))
 				.addMimeTypeFilter('httpd/unix-directory')
 				.allowDirectories(true)
 				.addButton({
-					label: this.t('files_sharing', 'Select'),
+					label: t('files_sharing', 'Select'),
 					callback: this.onPickedDestination,
 				})
 				.setFilter(node => node.path !== '/')

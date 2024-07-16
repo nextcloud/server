@@ -81,7 +81,7 @@
 
 <script lang="ts">
 import { defineComponent, type PropType } from 'vue'
-import { translate } from '@nextcloud/l10n'
+import { t } from '@nextcloud/l10n'
 
 import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 import NcCheckboxRadioSwitch from '@nextcloud/vue/dist/Components/NcCheckboxRadioSwitch.js'
@@ -133,7 +133,7 @@ export default defineComponent({
 
 	setup() {
 		return {
-			t: translate,
+			t,
 
 			// Default expiration date if defaultExpireDateEnabled is true
 			defaultExpireDate: sharingConfig.defaultExpireDate,
@@ -159,19 +159,19 @@ export default defineComponent({
 	computed: {
 		passwordAndExpirationSummary(): string {
 			if (this.expirationDate && this.password) {
-				return this.t('files_sharing', 'The request will expire on {date} at midnight and will be password protected.', {
+				return t('files_sharing', 'The request will expire on {date} at midnight and will be password protected.', {
 					date: this.expirationDate.toLocaleDateString(),
 				})
 			}
 
 			if (this.expirationDate) {
-				return this.t('files_sharing', 'The request will expire on {date} at midnight.', {
+				return t('files_sharing', 'The request will expire on {date} at midnight.', {
 					date: this.expirationDate.toLocaleDateString(),
 				})
 			}
 
 			if (this.password) {
-				return this.t('files_sharing', 'The request will be password protected.')
+				return t('files_sharing', 'The request will be password protected.')
 			}
 
 			return ''
