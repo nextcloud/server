@@ -397,7 +397,7 @@ class DirectoryTest extends \Test\TestCase {
 
 	public function moveFailedInvalidCharsProvider() {
 		return [
-			['a/b', 'a/*', ['a' => true, 'a/b' => true, 'a/c*' => false], []],
+			['a/b', 'a/	', ['a' => true, 'a/b' => true, 'a/c	' => false], []],
 		];
 	}
 
