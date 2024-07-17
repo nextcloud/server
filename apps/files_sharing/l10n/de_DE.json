@@ -107,8 +107,6 @@
     "Invalid date. Format must be YYYY-MM-DD" : "Ungültiges Datum. Zulässiges Datumsformat: JJJJ-MM-TT",
     "No sharing rights on this item" : "Hierfür bestehen keine Freigaberechte",
     "Invalid share attributes provided: \"%s\"" : "Ungültige Freigabeattribute angegeben: \"%s\"",
-    "Should not happen, instanceOfStorage but getInstanceOfStorage return null" : "Das sollte nicht passieren, instanceOfStorage aber getInstanceOfStorage gibt Null zurück",
-    "Should not happen, instanceOfStorage but not a wrapper" : "Das sollte nicht passieren, instanceOfStorage aber kein Wrapper",
     "You are not allowed to send mail notifications" : "Sie dürfen keine E-Mail-Benachrichtigungen senden",
     "No mail notification configured for this share type" : "Für diesen Freigabetyp ist keine E-Mail-Benachrichtigung eingerichtet",
     "Wrong password" : "Falsches Passwort",

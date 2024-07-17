@@ -107,8 +107,6 @@
     "Invalid date. Format must be YYYY-MM-DD" : "Dáta neamhbhailí. Ní mór don fhormáid a bheith BBBB-MM-LL",
     "No sharing rights on this item" : "Níl aon chearta comhroinnte ar an mír seo",
     "Invalid share attributes provided: \"%s\"" : "Cuireadh tréithe comhroinnte neamhbhailí: \"%s\"",
-    "Should not happen, instanceOfStorage but getInstanceOfStorage return null" : "Níor cheart go dtarlódh sé, instanceOfStorage ach tuairisceán getInstanceOfStorage null",
-    "Should not happen, instanceOfStorage but not a wrapper" : "Níor cheart go dtarlódh sé, mar shamplaOfStorage ach ní fillteán",
     "You are not allowed to send mail notifications" : "Níl cead agat fógraí ríomhphoist a sheoladh",
     "No mail notification configured for this share type" : "Níl aon fhógra ríomhphoist cumraithe don chineál comhroinnte seo",
     "Wrong password" : "Pasfhocal mícheart",
