@@ -109,7 +109,6 @@ class ReferenceApiController extends \OCP\AppFramework\OCSController {
 	 * 200: Reference returned
 	 */
 	#[ApiRoute(verb: 'GET', url: '/resolve', root: '/references')]
-	#[AnonRateLimit(limit: 10, period: 120)]
 	public function resolveOne(string $reference): DataResponse {
 		/** @var ?CoreReference $resolvedReference */
 		$resolvedReference = $this->referenceManager->resolveReference(trim($reference))?->jsonSerialize();
