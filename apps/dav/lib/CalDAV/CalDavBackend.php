@@ -99,6 +99,7 @@ use Sabre\VObject\ParseException;
 use Sabre\VObject\Property;
 use Sabre\VObject\Reader;
 use Sabre\VObject\Recur\EventIterator;
+use Sabre\VObject\Recur\NoInstancesException;
 use function array_column;
 use function array_map;
 use function array_merge;
@@ -3011,7 +3012,15 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 					$lastOccurrence = $firstOccurrence;
 				}
 			} else {
-				$it = new EventIterator($vEvents);
+				try {
+					$it = new EventIterator($vEvents);
+				} catch (NoInstancesException $e) {
+					$this->logger->debug('Caught no instance exception for calendar data. This usually indicates invalid calendar data.', [
+						'app' => 'dav',
+						'exception' => $e,
+					]);
+					throw new Forbidden($e->getMessage());
+				}
 				$maxDate = new DateTime(self::MAX_DATE);
 				$firstOccurrence = $it->getDtStart()->getTimestamp();
 				if ($it->isInfinite()) {
