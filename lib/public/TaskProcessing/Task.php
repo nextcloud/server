@@ -30,6 +30,9 @@ final class Task implements \JsonSerializable {
 
 	protected int $lastUpdated;
 
+	protected ?string $webhookUri = null;
+	protected ?string $webhookMethod = null;
+
 	/**
 	 * @since 30.0.0
 	 */
@@ -262,6 +265,40 @@ final class Task implements \JsonSerializable {
 	 */
 	final public function getProgress(): ?float {
 		return $this->progress;
+	}
+
+	/**
+	 * @return null|string
+	 * @since 30.0.0
+	 */
+	final public function getWebhookUri(): ?string {
+		return $this->webhookUri;
+	}
+
+	/**
+	 * @param string|null $webhookUri
+	 * @return void
+	 * @since 30.0.0
+	 */
+	final public function setWebhookUri(?string $webhookUri): void {
+		$this->webhookUri = $webhookUri;
+	}
+
+	/**
+	 * @return null|string
+	 * @since 30.0.0
+	 */
+	final public function getWebhookMethod(): ?string {
+		return $this->webhookMethod;
+	}
+
+	/**
+	 * @param string|null $webhookMethod
+	 * @return void
+	 * @since 30.0.0
+	 */
+	final public function setWebhookMethod(?string $webhookMethod): void {
+		$this->webhookMethod = $webhookMethod;
 	}
 
 	/**

@@ -9,9 +9,12 @@ declare(strict_types=1);
 
 namespace OC\TaskProcessing;
 
+use GuzzleHttp\Exception\ClientException;
+use GuzzleHttp\Exception\ServerException;
 use OC\AppFramework\Bootstrap\Coordinator;
 use OC\Files\SimpleFS\SimpleFile;
 use OC\TaskProcessing\Db\TaskMapper;
+use OCP\App\IAppManager;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Db\MultipleObjectsReturnedException;
 use OCP\BackgroundJob\IJobList;
@@ -27,6 +30,7 @@ use OCP\Files\IRootFolder;
 use OCP\Files\Node;
 use OCP\Files\NotPermittedException;
 use OCP\Files\SimpleFS\ISimpleFile;
+use OCP\Http\Client\IClientService;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IServerContainer;
@@ -53,6 +57,8 @@ use OCP\TaskProcessing\TaskTypes\TextToText;
 use OCP\TaskProcessing\TaskTypes\TextToTextHeadline;
 use OCP\TaskProcessing\TaskTypes\TextToTextSummary;
 use OCP\TaskProcessing\TaskTypes\TextToTextTopics;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use Psr\Log\LoggerInterface;
 
 class Manager implements IManager {
@@ -83,6 +89,8 @@ class Manager implements IManager {
 		private \OCP\TextToImage\IManager $textToImageManager,
 		private \OCP\SpeechToText\ISpeechToTextManager $speechToTextManager,
 		private IUserMountCache $userMountCache,
+		private IClientService $clientService,
+		private IAppManager $appManager,
 	) {
 		$this->appData = $appDataFactory->get('core');
 	}
@@ -651,6 +659,7 @@ class Manager implements IManager {
 		$taskEntity = \OC\TaskProcessing\Db\Task::fromPublicTask($task);
 		try {
 			$this->taskMapper->update($taskEntity);
+			$this->runWebhook($task);
 		} catch (\OCP\DB\Exception $e) {
 			throw new \OCP\TaskProcessing\Exception\Exception('There was a problem finding the task', 0, $e);
 		}
@@ -739,6 +748,7 @@ class Manager implements IManager {
 		$taskEntity = \OC\TaskProcessing\Db\Task::fromPublicTask($task);
 		try {
 			$this->taskMapper->update($taskEntity);
+			$this->runWebhook($task);
 		} catch (\OCP\DB\Exception $e) {
 			throw new \OCP\TaskProcessing\Exception\Exception('There was a problem finding the task', 0, $e);
 		}
@@ -975,7 +985,7 @@ class Manager implements IManager {
 
 	/**
 	 * @param mixed $fileId
-	 * @param string $userId
+	 * @param string|null $userId
 	 * @return void
 	 * @throws UnauthorizedException
 	 */
@@ -987,6 +997,73 @@ class Manager implements IManager {
 		$userIds = array_map(fn ($mount) => $mount->getUser()->getUID(), $mounts);
 		if (!in_array($userId, $userIds)) {
 			throw new UnauthorizedException('User ' . $userId . ' does not have access to file ' . $fileId);
+		}
+	}
+
+	/**
+	 * Make a request to the task's webhookUri if necessary
+	 *
+	 * @param Task $task
+	 */
+	private function runWebhook(Task $task): void {
+		$uri = $task->getWebhookUri();
+		$method = $task->getWebhookMethod();
+
+		if (!$uri || !$method) {
+			return;
+		}
+
+		if (in_array($method, ['HTTP:GET', 'HTTP:POST', 'HTTP:PUT', 'HTTP:DELETE'], true)) {
+			$client = $this->clientService->newClient();
+			$httpMethod = preg_replace('/^HTTP:/', '', $method);
+			$options = [
+				'timeout' => 30,
+				'body' => json_encode([
+					'task' => $task->jsonSerialize(),
+				]),
+				'headers' => ['Content-Type' => 'application/json'],
+			];
+			try {
+				$client->request($httpMethod, $uri, $options);
+			} catch (ClientException | ServerException $e) {
+				$this->logger->warning('Task processing HTTP webhook failed for task ' . $task->getId() . '. Request failed', ['exception' => $e]);
+			} catch (\Exception | \Throwable $e) {
+				$this->logger->warning('Task processing HTTP webhook failed for task ' . $task->getId() . '. Unknown error', ['exception' => $e]);
+			}
+		} elseif (str_starts_with($method, 'AppAPI:') && str_starts_with($uri, '/')) {
+			$parsedMethod = explode(':', $method, 4);
+			if (count($parsedMethod) < 3) {
+				$this->logger->warning('Task processing AppAPI webhook failed for task ' . $task->getId() . '. Invalid method: ' . $method);
+			}
+			[, $exAppId, $httpMethod] = $parsedMethod;
+			if (!$this->appManager->isInstalled('app_api')) {
+				$this->logger->warning('Task processing AppAPI webhook failed for task ' . $task->getId() . '. AppAPI is disabled or not installed.');
+				return;
+			}
+			try {
+				$appApiFunctions = \OCP\Server::get(\OCA\AppAPI\PublicFunctions::class);
+			} catch (ContainerExceptionInterface|NotFoundExceptionInterface) {
+				$this->logger->warning('Task processing AppAPI webhook failed for task ' . $task->getId() . '. Could not get AppAPI public functions.');
+				return;
+			}
+			$exApp = $appApiFunctions->getExApp($exAppId);
+			if ($exApp === null) {
+				$this->logger->warning('Task processing AppAPI webhook failed for task ' . $task->getId() . '. ExApp ' . $exAppId . ' is missing.');
+				return;
+			} elseif (!$exApp['enabled']) {
+				$this->logger->warning('Task processing AppAPI webhook failed for task ' . $task->getId() . '. ExApp ' . $exAppId . ' is disabled.');
+				return;
+			}
+			$requestParams = [
+				'task' => $task->jsonSerialize(),
+			];
+			$requestOptions = [
+				'timeout' => 30,
+			];
+			$response = $appApiFunctions->exAppRequest($exAppId, $uri, $task->getUserId(), $httpMethod, $requestParams, $requestOptions);
+			if (is_array($response) && isset($response['error'])) {
+				$this->logger->warning('Task processing AppAPI webhook failed for task ' . $task->getId() . '. Error during request to ExApp(' . $exAppId . '): ', $response['error']);
+			}
 		}
 	}
 }
