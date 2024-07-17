@@ -277,7 +277,8 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 					$c->get(IUserSession::class),
 					$c->get(IControllerMethodReflector::class),
 					$c->get(OC\Security\RateLimiting\Limiter::class),
-					$c->get(ISession::class)
+					$c->get(ISession::class),
+					$c->get(IConfig::class)
 				)
 			);
 			$dispatcher->registerMiddleware(
