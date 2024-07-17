@@ -8,8 +8,8 @@ declare(strict_types=1);
  */
 namespace OCA\Settings\SetupChecks;
 
-use IPLib\Factory;
-use OC\Security\RemoteIpAddress;
+use OC\Security\Ip\Range;
+use OC\Security\Ip\RemoteAddress;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\SetupCheck\ISetupCheck;
@@ -31,8 +31,11 @@ class AllowedAdminRanges implements ISetupCheck {
 	}
 
 	public function run(): SetupResult {
-		$allowedAdminRanges = $this->config->getSystemValue(RemoteIpAddress::SETTING_NAME, false);
-		if ($allowedAdminRanges === false) {
+		$allowedAdminRanges = $this->config->getSystemValue(RemoteAddress::SETTING_NAME, false);
+		if (
+			$allowedAdminRanges === false
+			|| (is_array($allowedAdminRanges) && empty($allowedAdminRanges))
+		) {
 			return SetupResult::success($this->l10n->t('Admin IP filtering isn’t applied.'));
 		}
 
@@ -40,23 +43,17 @@ class AllowedAdminRanges implements ISetupCheck {
 			return SetupResult::error(
 				$this->l10n->t(
 					'Configuration key "%1$s" expects an array (%2$s found). Admin IP range validation will not be applied.',
-					[RemoteIpAddress::SETTING_NAME, gettype($allowedAdminRanges)],
+					[RemoteAddress::SETTING_NAME, gettype($allowedAdminRanges)],
 				)
 			);
 		}
 
-		$invalidRanges = array_reduce($allowedAdminRanges, static function (array $carry, mixed $range) {
-			if (!is_string($range) || Factory::parseRangeString($range) === null) {
-				$carry[] = $range;
-			}
-
-			return $carry;
-		}, []);
-		if (count($invalidRanges) > 0) {
+		$invalidRanges = array_filter($allowedAdminRanges, static fn (mixed $range): bool => !is_string($range) || !Range::isValid($range));
+		if (!empty($invalidRanges)) {
 			return SetupResult::warning(
 				$this->l10n->t(
 					'Configuration key "%1$s" contains invalid IP range(s): "%2$s"',
-					[RemoteIpAddress::SETTING_NAME, implode('", "', $invalidRanges)],
+					[RemoteAddress::SETTING_NAME, implode('", "', $invalidRanges)],
 				),
 			);
 		}

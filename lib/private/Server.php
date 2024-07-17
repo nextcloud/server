@@ -100,8 +100,8 @@ use OC\Security\CSP\ContentSecurityPolicyNonceManager;
 use OC\Security\CSRF\CsrfTokenManager;
 use OC\Security\CSRF\TokenStorage\SessionStorage;
 use OC\Security\Hasher;
+use OC\Security\Ip\RemoteAddress;
 use OC\Security\RateLimiting\Limiter;
-use OC\Security\RemoteIpAddress;
 use OC\Security\SecureRandom;
 use OC\Security\TrustedDomainHelper;
 use OC\Security\VerificationToken\VerificationToken;
@@ -214,6 +214,7 @@ use OCP\Security\IContentSecurityPolicyManager;
 use OCP\Security\ICredentialsManager;
 use OCP\Security\ICrypto;
 use OCP\Security\IHasher;
+use OCP\Security\Ip\IRemoteAddress;
 use OCP\Security\ISecureRandom;
 use OCP\Security\ITrustedDomainHelper;
 use OCP\Security\RateLimiting\ILimiter;
@@ -466,7 +467,7 @@ class Server extends ServerContainer implements IServerContainer {
 				$this->get(IEventDispatcher::class),
 				$this->get(LoggerInterface::class),
 				$this->get(ICacheFactory::class),
-				$this->get(RemoteIpAddress::class),
+				$this->get(IRemoteAddress::class),
 			);
 			return $groupManager;
 		});
@@ -1404,6 +1405,8 @@ class Server extends ServerContainer implements IServerContainer {
 		$this->registerAlias(IDeclarativeManager::class, DeclarativeManager::class);
 
 		$this->registerAlias(\OCP\TaskProcessing\IManager::class, \OC\TaskProcessing\Manager::class);
+
+		$this->registerAlias(IRemoteAddress::class, RemoteAddress::class);
 
 		$this->connectDispatcher();
 	}

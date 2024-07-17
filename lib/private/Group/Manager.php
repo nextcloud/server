@@ -8,7 +8,6 @@
 namespace OC\Group;
 
 use OC\Hooks\PublicEmitter;
-use OC\Security\RemoteIpAddress;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Group\Backend\IBatchMethodsBackend;
 use OCP\Group\Backend\ICreateNamedGroupBackend;
@@ -20,6 +19,7 @@ use OCP\ICacheFactory;
 use OCP\IGroup;
 use OCP\IGroupManager;
 use OCP\IUser;
+use OCP\Security\Ip\IRemoteAddress;
 use Psr\Log\LoggerInterface;
 use function is_string;
 
@@ -60,7 +60,7 @@ class Manager extends PublicEmitter implements IGroupManager {
 		private IEventDispatcher $dispatcher,
 		private LoggerInterface $logger,
 		ICacheFactory $cacheFactory,
-		private RemoteIpAddress $remoteIpAddress,
+		private IRemoteAddress $remoteAddress,
 	) {
 		$this->displayNameCache = new DisplayNameCache($cacheFactory, $this);
 
@@ -321,7 +321,7 @@ class Manager extends PublicEmitter implements IGroupManager {
 	 * @return bool if admin
 	 */
 	public function isAdmin($userId) {
-		if (!$this->remoteIpAddress->allowsAdminActions()) {
+		if (!$this->remoteAddress->allowsAdminActions()) {
 			return false;
 		}
 

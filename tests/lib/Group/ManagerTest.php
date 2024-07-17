@@ -9,7 +9,6 @@
 namespace Test\Group;
 
 use OC\Group\Database;
-use OC\Security\RemoteIpAddress;
 use OC\User\Manager;
 use OC\User\User;
 use OCP\EventDispatcher\IEventDispatcher;
@@ -17,6 +16,7 @@ use OCP\Group\Backend\ISearchableGroupBackend;
 use OCP\GroupInterface;
 use OCP\ICacheFactory;
 use OCP\IUser;
+use OCP\Security\Ip\IRemoteAddress;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
@@ -33,7 +33,7 @@ class ManagerTest extends TestCase {
 	protected $logger;
 	/** @var ICacheFactory|MockObject */
 	private $cache;
-	/** @var RemoteIpAddress|MockObject */
+	/** @var IRemoteAddress|MockObject */
 	private $remoteIpAddress;
 
 	protected function setUp(): void {
@@ -44,7 +44,7 @@ class ManagerTest extends TestCase {
 		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->cache = $this->createMock(ICacheFactory::class);
 
-		$this->remoteIpAddress = $this->createMock(RemoteIpAddress::class);
+		$this->remoteIpAddress = $this->createMock(IRemoteAddress::class);
 		$this->remoteIpAddress->method('allowsAdminActions')->willReturn(true);
 	}
 

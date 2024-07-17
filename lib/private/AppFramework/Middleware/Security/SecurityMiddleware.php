@@ -17,7 +17,6 @@ use OC\AppFramework\Middleware\Security\Exceptions\NotLoggedInException;
 use OC\AppFramework\Middleware\Security\Exceptions\SecurityException;
 use OC\AppFramework\Middleware\Security\Exceptions\StrictCookieMissingException;
 use OC\AppFramework\Utility\ControllerMethodReflector;
-use OC\Security\RemoteIpAddress;
 use OC\Settings\AuthorizedGroupMapper;
 use OC\User\Session;
 use OCP\App\AppPathNotFoundException;
@@ -42,6 +41,7 @@ use OCP\INavigationManager;
 use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\IUserSession;
+use OCP\Security\Ip\IRemoteAddress;
 use OCP\Util;
 use Psr\Log\LoggerInterface;
 use ReflectionMethod;
@@ -67,7 +67,7 @@ class SecurityMiddleware extends Middleware {
 		private IL10N $l10n,
 		private AuthorizedGroupMapper $groupAuthorizationMapper,
 		private IUserSession $userSession,
-		private RemoteIpAddress $remoteIpAddress,
+		private IRemoteAddress $remoteAddress,
 	) {
 	}
 
@@ -134,7 +134,7 @@ class SecurityMiddleware extends Middleware {
 				if (!$authorized) {
 					throw new NotAdminException($this->l10n->t('Logged in account must be an admin, a sub admin or gotten special right to access this setting'));
 				}
-				if (!$this->remoteIpAddress->allowsAdminActions()) {
+				if (!$this->remoteAddress->allowsAdminActions()) {
 					throw new AdminIpNotAllowedException($this->l10n->t('Your current IP address doesn’t allow you to perform admin actions'));
 				}
 			}
@@ -151,12 +151,12 @@ class SecurityMiddleware extends Middleware {
 				throw new NotAdminException($this->l10n->t('Logged in account must be an admin'));
 			}
 			if ($this->hasAnnotationOrAttribute($reflectionMethod, 'SubAdminRequired', SubAdminRequired::class)
-				&& !$this->remoteIpAddress->allowsAdminActions()) {
+				&& !$this->remoteAddress->allowsAdminActions()) {
 				throw new AdminIpNotAllowedException($this->l10n->t('Your current IP address doesn’t allow you to perform admin actions'));
 			}
 			if (!$this->hasAnnotationOrAttribute($reflectionMethod, 'SubAdminRequired', SubAdminRequired::class)
 				&& !$this->hasAnnotationOrAttribute($reflectionMethod, 'NoAdminRequired', NoAdminRequired::class)
-				&& !$this->remoteIpAddress->allowsAdminActions()) {
+				&& !$this->remoteAddress->allowsAdminActions()) {
 				throw new AdminIpNotAllowedException($this->l10n->t('Your current IP address doesn’t allow you to perform admin actions'));
 			}
 

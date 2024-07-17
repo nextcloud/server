@@ -21,7 +21,6 @@ use OC\AppFramework\Utility\SimpleContainer;
 use OC\Core\Middleware\TwoFactorMiddleware;
 use OC\Diagnostics\EventLogger;
 use OC\Log\PsrLoggerAdapter;
-use OC\Security\RemoteIpAddress;
 use OC\ServerContainer;
 use OC\Settings\AuthorizedGroupMapper;
 use OCA\WorkflowEngine\Manager;
@@ -47,6 +46,7 @@ use OCP\ISession;
 use OCP\IURLGenerator;
 use OCP\IUserSession;
 use OCP\Security\Bruteforce\IThrottler;
+use OCP\Security\Ip\IRemoteAddress;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 
@@ -234,7 +234,7 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 				$server->getL10N('lib'),
 				$c->get(AuthorizedGroupMapper::class),
 				$server->get(IUserSession::class),
-				$c->get(RemoteIpAddress::class),
+				$c->get(IRemoteAddress::class),
 			);
 			$dispatcher->registerMiddleware($securityMiddleware);
 			$dispatcher->registerMiddleware(

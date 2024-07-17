@@ -18,7 +18,6 @@ use OC\AppFramework\Middleware\Security\Exceptions\SecurityException;
 use OC\Appframework\Middleware\Security\Exceptions\StrictCookieMissingException;
 use OC\AppFramework\Middleware\Security\SecurityMiddleware;
 use OC\AppFramework\Utility\ControllerMethodReflector;
-use OC\Security\RemoteIpAddress;
 use OC\Settings\AuthorizedGroupMapper;
 use OC\User\Session;
 use OCP\App\IAppManager;
@@ -33,6 +32,7 @@ use OCP\IRequestId;
 use OCP\ISession;
 use OCP\IURLGenerator;
 use OCP\IUserSession;
+use OCP\Security\Ip\IRemoteAddress;
 use Psr\Log\LoggerInterface;
 use Test\AppFramework\Middleware\Security\Mock\NormalController;
 use Test\AppFramework\Middleware\Security\Mock\OCSController;
@@ -91,7 +91,7 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 		$this->appManager->expects($this->any())
 			->method('isEnabledForUser')
 			->willReturn($isAppEnabledForUser);
-		$remoteIpAddress = $this->createMock(RemoteIpAddress::class);
+		$remoteIpAddress = $this->createMock(IRemoteAddress::class);
 		$remoteIpAddress->method('allowsAdminActions')->willReturn(true);
 
 		return new SecurityMiddleware(
