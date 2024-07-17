@@ -7,6 +7,8 @@ namespace OCA\DAV\Tests\Files\Sharing;
 
 use OC\Files\View;
 use OCA\DAV\Files\Sharing\FilesDropPlugin;
+use OCP\Share\IAttributes;
+use OCP\Share\IShare;
 use Sabre\DAV\Exception\MethodNotAllowed;
 use Sabre\DAV\Server;
 use Sabre\HTTP\RequestInterface;
@@ -17,6 +19,9 @@ class FilesDropPluginTest extends TestCase {
 
 	/** @var View|\PHPUnit\Framework\MockObject\MockObject */
 	private $view;
+
+	/** @var IShare|\PHPUnit\Framework\MockObject\MockObject */
+	private $share;
 
 	/** @var Server|\PHPUnit\Framework\MockObject\MockObject */
 	private $server;
@@ -34,6 +39,7 @@ class FilesDropPluginTest extends TestCase {
 		parent::setUp();
 
 		$this->view = $this->createMock(View::class);
+		$this->share = $this->createMock(IShare::class);
 		$this->server = $this->createMock(Server::class);
 		$this->plugin = new FilesDropPlugin();
 
@@ -42,6 +48,11 @@ class FilesDropPluginTest extends TestCase {
 
 		$this->response->expects($this->never())
 			->method($this->anything());
+
+		$attributes = $this->createMock(IAttributes::class);
+		$this->share->expects($this->any())
+			->method('getAttributes')
+			->willReturn($attributes);
 	}
 
 	public function testInitialize(): void {
@@ -69,6 +80,7 @@ class FilesDropPluginTest extends TestCase {
 	public function testValid(): void {
 		$this->plugin->enable();
 		$this->plugin->setView($this->view);
+		$this->plugin->setShare($this->share);
 
 		$this->request->method('getMethod')
 			->willReturn('PUT');
@@ -93,6 +105,7 @@ class FilesDropPluginTest extends TestCase {
 	public function testFileAlreadyExistsValid(): void {
 		$this->plugin->enable();
 		$this->plugin->setView($this->view);
+		$this->plugin->setShare($this->share);
 
 		$this->request->method('getMethod')
 			->willReturn('PUT');
@@ -122,6 +135,7 @@ class FilesDropPluginTest extends TestCase {
 	public function testNoMKCOL(): void {
 		$this->plugin->enable();
 		$this->plugin->setView($this->view);
+		$this->plugin->setShare($this->share);
 
 		$this->request->method('getMethod')
 			->willReturn('MKCOL');
@@ -134,6 +148,7 @@ class FilesDropPluginTest extends TestCase {
 	public function testNoSubdirPut(): void {
 		$this->plugin->enable();
 		$this->plugin->setView($this->view);
+		$this->plugin->setShare($this->share);
 
 		$this->request->method('getMethod')
 			->willReturn('PUT');

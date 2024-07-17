@@ -107,7 +107,7 @@
 				@click="onFinish">
 				<template #icon>
 					<NcLoadingIcon v-if="loading" />
-					<IconCheck v-else-if="success" :size="20" />
+					<IconCheck v-else :size="20" />
 				</template>
 				{{ finishButtonLabel }}
 			</NcButton>
@@ -193,7 +193,6 @@ export default defineComponent({
 		return {
 			currentStep: STEP.FIRST,
 			loading: false,
-			success: false,
 
 			destination: this.context.path || '/',
 			label: '',
@@ -264,11 +263,7 @@ export default defineComponent({
 				showSuccess(t('files_sharing', 'File request created'))
 			}
 
-			// Show success then close
-			this.success = true
-			setTimeout(() => {
-				this.$emit('close')
-			}, 3000)
+			this.$emit('close')
 		},
 
 		async createShare() {
@@ -343,6 +338,11 @@ export default defineComponent({
 						value: this.emails,
 						key: 'emails',
 						scope: 'shareWith',
+					},
+					{
+						value: true,
+						key: 'enabled',
+						scope: 'fileRequest',
 					}]),
 				})
 
