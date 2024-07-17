@@ -153,6 +153,10 @@ class AppFetcher extends Fetcher {
 		$allowPreReleases = $allowUnstable || $this->getChannel() === 'beta' || $this->getChannel() === 'daily' || $this->getChannel() === 'git';
 
 		$apps = parent::get($allowPreReleases);
+		if (empty($apps)) {
+			$this->logger->warning('Could not get apps from the appstore', ['app' => 'appstoreFetcher']);
+			return [];
+		}
 		$allowList = $this->config->getSystemValue('appsallowlist');
 
 		// If the admin specified a allow list, filter apps from the appstore
