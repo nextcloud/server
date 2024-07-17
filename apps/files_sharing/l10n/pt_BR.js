@@ -109,8 +109,6 @@ OC.L10N.register(
     "Invalid date. Format must be YYYY-MM-DD" : "Data inválida. O formato deve ser AAAA-MM-DD",
     "No sharing rights on this item" : "Não há direitos de compartilhamento neste item",
     "Invalid share attributes provided: \"%s\"" : "Atributos de compartilhamento inválidos fornecidos: \"%s\"",
-    "Should not happen, instanceOfStorage but getInstanceOfStorage return null" : "Não deveria acontecer, instanceOfStorage mas getInstanceOfStorage retorna nulo",
-    "Should not happen, instanceOfStorage but not a wrapper" : "Não deveria acontecer, instanceOfStorage, mas não um wrapper",
     "You are not allowed to send mail notifications" : "Você não tem permissão para enviar notificações por e-mail",
     "No mail notification configured for this share type" : "Nenhuma notificação por e-mail configurada para este tipo de compartilhamento",
     "Wrong password" : "Senha incorreta",

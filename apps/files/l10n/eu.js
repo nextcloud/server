@@ -34,7 +34,7 @@ OC.L10N.register(
     "Move" : "Mugitu",
     "Copy" : "Kopiatu",
     "Choose target folder" : "Aukeratu helburuko karpeta",
-    "Set reminder" : "Ezarri abisua",
+    "Set reminder" : "Ezarri gogorarazpena",
     "Edit locally" : "Editatu lokalean",
     "Open" : "Ireki",
     "Delete file" : "Fitxategia ezabatu",

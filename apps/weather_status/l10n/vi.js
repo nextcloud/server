@@ -16,6 +16,7 @@ OC.L10N.register(
     "{temperature} {unit} cloudy" : "{temperature} {unit} nhiều mây",
     "{temperature} {unit} foggy" : "{temperature} {unit} sương mù",
     "{temperature} {unit} light rainfall" : "{temperature} {unit} mưa nhẹ",
+    "More weather for {adr}" : "Thêm thông tin thời tiết cho {adr}",
     "Loading weather" : "Đang tải thông tin thời tiết",
     "Remove from favorites" : "Xóa khỏi ưa thích",
     "Add as favorite" : "Thêm vào yêu thích",
@@ -23,6 +24,11 @@ OC.L10N.register(
     "There was an error getting the weather status information." : "Đã xảy ra lỗi khi lấy thông tin tình trạng thời tiết.",
     "No weather information found" : " Không tìm thấy thông tin thời tiết.",
     "Location not found" : "Không tìm thấy vị trí",
-    "Set location for weather" : "Chọn vị trí cho thời tiết"
+    "There was an error setting the location address." : "Đã xảy ra lỗi khi thiết lập địa chỉ vị trí.",
+    "There was an error setting the location." : "Đã xảy ra lỗi khi thiết lập vị trí.",
+    "There was an error saving the mode." : "Đã xảy ra lỗi khi lưu chế độ.",
+    "There was an error using personal address." : "Có lỗi khi sử dụng địa chỉ cá nhân.",
+    "Set location for weather" : "Chọn vị trí cho thời tiết",
+    "Weather status integrated in the Dashboard app.\n    User's position can be automatically determined or manually defined. A 6 hours forecast is then displayed.\n    This status can also be integrated in other places like the Calendar app." : "Trạng thái thời tiết được tích hợp trong ứng dụng Bảng điều khiển.\nVị trí của người dùng có thể tự động xác định hoặc được xác định thủ công. Dự báo 6 giờ sau được hiển thị.\nTrạng thái này cũng có thể được tích hợp vào các nơi khác như ứng dụng Lịch."
 },
 "nplurals=1; plural=0;");
