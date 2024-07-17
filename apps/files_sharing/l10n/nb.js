@@ -109,8 +109,6 @@ OC.L10N.register(
     "Invalid date. Format must be YYYY-MM-DD" : "Ugyldig dato. Formatet må være YYYY-MM-DD",
     "No sharing rights on this item" : "Ingen delingsrettigheter på dette elementet",
     "Invalid share attributes provided: \"%s\"" : "Ugyldige delingsattributter angitt: \"%s\"",
-    "Should not happen, instanceOfStorage but getInstanceOfStorage return null" : "Bør ikke skje, instanceOfStorage men getInstanceOfStorage returnere null",
-    "Should not happen, instanceOfStorage but not a wrapper" : "Bør ikke skje, instanceOfStorage, men ikke en wrapper",
     "You are not allowed to send mail notifications" : "Du har ikke lov til å sende e-postvarsler",
     "No mail notification configured for this share type" : "Ingen e-postvarsling konfigurert for denne delte ressurstypen",
     "Wrong password" : "Feil passord",

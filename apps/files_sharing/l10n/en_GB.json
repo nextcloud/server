@@ -107,8 +107,6 @@
     "Invalid date. Format must be YYYY-MM-DD" : "Invalid date. Format must be YYYY-MM-DD",
     "No sharing rights on this item" : "No sharing rights on this item",
     "Invalid share attributes provided: \"%s\"" : "Invalid share attributes provided: \"%s\"",
-    "Should not happen, instanceOfStorage but getInstanceOfStorage return null" : "Should not happen, instanceOfStorage but getInstanceOfStorage return null",
-    "Should not happen, instanceOfStorage but not a wrapper" : "Should not happen, instanceOfStorage but not a wrapper",
     "You are not allowed to send mail notifications" : "You are not allowed to send mail notifications",
     "No mail notification configured for this share type" : "No mail notification configured for this share type",
     "Wrong password" : "Incorrect password",

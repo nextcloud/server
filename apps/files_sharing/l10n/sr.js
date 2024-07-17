@@ -109,8 +109,6 @@ OC.L10N.register(
     "Invalid date. Format must be YYYY-MM-DD" : "Неисправан датум. Формат датума мора да буде ГГГГ-ММ-ДД",
     "No sharing rights on this item" : "Нема права за дељење ове ставке",
     "Invalid share attributes provided: \"%s\"" : "Наведени су неисправни атрибути дељења: „%s”",
-    "Should not happen, instanceOfStorage but getInstanceOfStorage return null" : "Не би требало да се догоди, instanceOfStorage али је getInstanceOfStorage вратила null",
-    "Should not happen, instanceOfStorage but not a wrapper" : "Не би требало да се догоди, instanceOfStorage али није обвојна функција",
     "You are not allowed to send mail notifications" : "Није вам дозвољено да шаљете обавештења поштом",
     "No mail notification configured for this share type" : "За овај тип дељења није подешено слање обавештења поштом",
     "Wrong password" : "Погрешна лозинка",

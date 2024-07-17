@@ -109,8 +109,6 @@ OC.L10N.register(
     "Invalid date. Format must be YYYY-MM-DD" : "無效的日期。格式必須為 YYYY-MM-DD",
     "No sharing rights on this item" : "沒有此項目的分享權限",
     "Invalid share attributes provided: \"%s\"" : "提供的分享屬性無效：「%s」",
-    "Should not happen, instanceOfStorage but getInstanceOfStorage return null" : "不應該發生，不是 instanceOfStorage 而是 getInstanceOfStorage 回傳了 null",
-    "Should not happen, instanceOfStorage but not a wrapper" : "不應該發生，instanceOfStorage 但不是包裝函式",
     "You are not allowed to send mail notifications" : "您無權寄送郵件通知",
     "No mail notification configured for this share type" : "此分享類型並未設定郵件通知",
     "Wrong password" : "密碼錯誤",
