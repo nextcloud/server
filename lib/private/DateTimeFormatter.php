@@ -133,7 +133,7 @@ class DateTimeFormatter implements \OCP\IDateTimeFormatter {
 		$timestamp->setTime(0, 0, 0);
 
 		if ($baseTimestamp === null) {
-			$baseTimestamp = time();
+			$baseTimestamp = new \DateTime();
 		}
 		$baseTimestamp = $this->getDateTime($baseTimestamp);
 		$baseTimestamp->setTime(0, 0, 0);
@@ -211,32 +211,36 @@ class DateTimeFormatter implements \OCP\IDateTimeFormatter {
 	 * 				< 13 month	=> last month, n months ago
 	 * 				>= 13 month	=> last year, n years ago
 	 */
-	public function formatTimeSpan($timestamp, $baseTimestamp = null, ?\OCP\IL10N $l = null) {
+	public function formatTimeSpan($timestamp, $baseTimestamp = null, ?\OCP\IL10N $l = null): string {
 		$l = $this->getLocale($l);
 		$timestamp = $this->getDateTime($timestamp);
 		if ($baseTimestamp === null) {
-			$baseTimestamp = time();
+			$baseTimestamp = new \DateTime();
 		}
-		$baseTimestamp = $this->getDateTime($baseTimestamp);
 
 		$diff = $timestamp->diff($baseTimestamp);
 		if ($diff->y > 0 || $diff->m > 0 || $diff->d > 0) {
 			return $this->formatDateSpan($timestamp, $baseTimestamp, $l);
 		}
 
-		if ($diff->h > 0) {
+		// Calculate the total difference in minutes
+		$totalMinutes = ($diff->h * 60) + $diff->i;
+
+		if ($totalMinutes >= 60) {
+			$hours = intdiv($totalMinutes, 60);
 			if ($timestamp > $baseTimestamp) {
-				return $l->n('in %n hour', 'in %n hours', $diff->h);
+				return $l->n('in %n hour', 'in %n hours', $hours);
 			} else {
-				return $l->n('%n hour ago', '%n hours ago', $diff->h);
+				return $l->n('%n hour ago', '%n hours ago', $hours);
 			}
-		} elseif ($diff->i > 0) {
+		} elseif ($totalMinutes > 0) {
 			if ($timestamp > $baseTimestamp) {
-				return $l->n('in %n minute', 'in %n minutes', $diff->i);
+				return $l->n('in %n minute', 'in %n minutes', $totalMinutes);
 			} else {
-				return $l->n('%n minute ago', '%n minutes ago', $diff->i);
+				return $l->n('%n minute ago', '%n minutes ago', $totalMinutes);
 			}
 		}
+
 		if ($timestamp > $baseTimestamp) {
 			return $l->t('in a few seconds');
 		} else {
