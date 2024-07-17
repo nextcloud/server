@@ -345,7 +345,7 @@ $comment-padding: 10px;
 
 	&__submit {
 		position: absolute !important;
-		bottom: 0;
+		bottom: 5px;
 		right: 0;
 	}
 
