@@ -501,8 +501,8 @@ class Manager implements IManager {
 	public function getPreferredProvider(string $taskType) {
 		try {
 			$preferences = json_decode($this->config->getAppValue('core', 'ai.taskprocessing_provider_preferences', 'null'), associative: true, flags: JSON_THROW_ON_ERROR);
+			$providers = $this->getProviders();
 			if (isset($preferences[$taskType])) {
-				$providers = $this->getProviders();
 				$provider = current(array_values(array_filter($providers, fn ($provider) => $provider->getId() === $preferences[$taskType])));
 				if ($provider !== false) {
 					return $provider;
