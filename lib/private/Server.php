@@ -889,7 +889,8 @@ class Server extends ServerContainer implements IServerContainer {
 			$loader = $c->get(IStorageFactory::class);
 			$mountCache = $c->get(IUserMountCache::class);
 			$eventLogger = $c->get(IEventLogger::class);
-			$manager = new MountProviderCollection($loader, $mountCache, $eventLogger);
+			$eventDispatcher = $c->get(IEventDispatcher::class);
+			$manager = new MountProviderCollection($loader, $mountCache, $eventLogger, $eventDispatcher);
 
 			// builtin providers
 
