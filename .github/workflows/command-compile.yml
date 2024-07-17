@@ -61,7 +61,7 @@ jobs:
           key: git-repo
 
       - name: Checkout ${{ needs.init.outputs.head_ref }}
-        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
+        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
         with:
           token: ${{ secrets.COMMAND_BOT_PAT }}
           fetch-depth: 0
@@ -80,14 +80,14 @@ jobs:
           fallbackNpm: '^10'
 
       - name: Set up node ${{ steps.package-engines-versions.outputs.nodeVersion }}
-        uses: actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8 # v3
+        uses: actions/setup-node@1e60f620b9541d16bece96c5465dc8ee9832be0b # v4.0.3
         with:
           node-version: ${{ steps.package-engines-versions.outputs.nodeVersion }}
           cache: npm
 
       - name: Set up npm ${{ steps.package-engines-versions.outputs.npmVersion }}
         run: npm i -g npm@"${{ steps.package-engines-versions.outputs.npmVersion }}"
-      
+
       - name: Rebase to ${{ needs.init.outputs.base_ref }}
         if: ${{ contains(needs.init.outputs.arg1, 'rebase') }}
         run: |
@@ -107,7 +107,7 @@ jobs:
         run: |
           git add ${{ github.workspace }}${{ needs.init.outputs.git_path }}
           git commit --signoff -m 'chore(assets): Recompile assets'
- 
+
       - name: Commit fixup
         if: ${{ contains(needs.init.outputs.arg1, 'fixup') }}
         run: |
@@ -121,7 +121,7 @@ jobs:
           git commit --amend --no-edit --signoff
           # Remove any [skip ci] from the amended commit
           git commit --amend -m "$(git log -1 --format='%B' | sed '/\[skip ci\]/d')"
- 
+
       - name: Push normally
         if: ${{ !contains(needs.init.outputs.arg1, 'rebase') && !contains(needs.init.outputs.arg1, 'amend') }}
         run: git push origin ${{ needs.init.outputs.head_ref }}

@@ -19,13 +19,13 @@ jobs:
     name: update-psalm-baseline-${{ matrix.branches }}
 
     steps:
-      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
+      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
         with:
           ref: ${{ matrix.branches }}
           submodules: true
 
       - name: Set up php
-        uses: shivammathur/setup-php@v2
+        uses: shivammathur/setup-php@c541c155eee45413f5b09a52248675b1a2575231 # v2.31.1
         with:
           php-version: '8.0'
           extensions: apcu,ctype,curl,dom,fileinfo,ftp,gd,intl,json,ldap,mbstring,openssl,pdo_sqlite,posix,sqlite,xml,zip
