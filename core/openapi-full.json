@@ -3059,6 +3059,115 @@
                 }
             }
         },
+        "/ocs/v2.php/references/extractPublic": {
+            "post": {
+                "operationId": "reference_api-extract-public",
+                "summary": "Extract references from a text",
+                "tags": [
+                    "reference_api"
+                ],
+                "security": [
+                    {},
+                    {
+                        "bearer_auth": []
+                    },
+                    {
+                        "basic_auth": []
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "required": [
+                                    "text",
+                                    "sharingToken"
+                                ],
+                                "properties": {
+                                    "text": {
+                                        "type": "string",
+                                        "description": "Text to extract from"
+                                    },
+                                    "sharingToken": {
+                                        "type": "string",
+                                        "description": "Token of the public share"
+                                    },
+                                    "resolve": {
+                                        "type": "boolean",
+                                        "default": false,
+                                        "description": "Resolve the references"
+                                    },
+                                    "limit": {
+                                        "type": "integer",
+                                        "format": "int64",
+                                        "default": 1,
+                                        "description": "Maximum amount of references to extract, limited to 15"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "OCS-APIRequest",
+                        "in": "header",
+                        "description": "Required to be true for the API request to pass",
+                        "required": true,
+                        "schema": {
+                            "type": "boolean",
+                            "default": true
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "References returned",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "type": "object",
+                                                    "required": [
+                                                        "references"
+                                                    ],
+                                                    "properties": {
+                                                        "references": {
+                                                            "type": "object",
+                                                            "additionalProperties": {
+                                                                "$ref": "#/components/schemas/Reference",
+                                                                "nullable": true
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/ocs/v2.php/references/resolve": {
             "get": {
                 "operationId": "reference_api-resolve-one",
@@ -3186,6 +3295,209 @@
                                         "format": "int64",
                                         "default": 1,
                                         "description": "Maximum amount of references to resolve"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "OCS-APIRequest",
+                        "in": "header",
+                        "description": "Required to be true for the API request to pass",
+                        "required": true,
+                        "schema": {
+                            "type": "boolean",
+                            "default": true
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "References returned",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "type": "object",
+                                                    "required": [
+                                                        "references"
+                                                    ],
+                                                    "properties": {
+                                                        "references": {
+                                                            "type": "object",
+                                                            "additionalProperties": {
+                                                                "$ref": "#/components/schemas/Reference",
+                                                                "nullable": true
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/ocs/v2.php/references/resolvePublic": {
+            "get": {
+                "operationId": "reference_api-resolve-one-public",
+                "summary": "Resolve from a public page",
+                "tags": [
+                    "reference_api"
+                ],
+                "security": [
+                    {},
+                    {
+                        "bearer_auth": []
+                    },
+                    {
+                        "basic_auth": []
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "required": [
+                                    "reference",
+                                    "sharingToken"
+                                ],
+                                "properties": {
+                                    "reference": {
+                                        "type": "string",
+                                        "description": "Reference to resolve"
+                                    },
+                                    "sharingToken": {
+                                        "type": "string",
+                                        "description": "Token of the public share"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "OCS-APIRequest",
+                        "in": "header",
+                        "description": "Required to be true for the API request to pass",
+                        "required": true,
+                        "schema": {
+                            "type": "boolean",
+                            "default": true
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Reference returned",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "type": "object",
+                                                    "required": [
+                                                        "references"
+                                                    ],
+                                                    "properties": {
+                                                        "references": {
+                                                            "type": "object",
+                                                            "additionalProperties": {
+                                                                "$ref": "#/components/schemas/Reference",
+                                                                "nullable": true
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "operationId": "reference_api-resolve-public",
+                "summary": "Resolve multiple references from a public page",
+                "tags": [
+                    "reference_api"
+                ],
+                "security": [
+                    {},
+                    {
+                        "bearer_auth": []
+                    },
+                    {
+                        "basic_auth": []
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "required": [
+                                    "references",
+                                    "sharingToken"
+                                ],
+                                "properties": {
+                                    "references": {
+                                        "type": "array",
+                                        "description": "References to resolve",
+                                        "items": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "sharingToken": {
+                                        "type": "string",
+                                        "description": "Token of the public share"
+                                    },
+                                    "limit": {
+                                        "type": "integer",
+                                        "format": "int64",
+                                        "default": 1,
+                                        "description": "Maximum amount of references to resolve, limited to 15"
                                     }
                                 }
                             }

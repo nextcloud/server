@@ -189,6 +189,7 @@ return array(
     'OCP\\Collaboration\\Collaborators\\SearchResultType' => $baseDir . '/lib/public/Collaboration/Collaborators/SearchResultType.php',
     'OCP\\Collaboration\\Reference\\ADiscoverableReferenceProvider' => $baseDir . '/lib/public/Collaboration/Reference/ADiscoverableReferenceProvider.php',
     'OCP\\Collaboration\\Reference\\IDiscoverableReferenceProvider' => $baseDir . '/lib/public/Collaboration/Reference/IDiscoverableReferenceProvider.php',
+    'OCP\\Collaboration\\Reference\\IPublicReferenceProvider' => $baseDir . '/lib/public/Collaboration/Reference/IPublicReferenceProvider.php',
     'OCP\\Collaboration\\Reference\\IReference' => $baseDir . '/lib/public/Collaboration/Reference/IReference.php',
     'OCP\\Collaboration\\Reference\\IReferenceManager' => $baseDir . '/lib/public/Collaboration/Reference/IReferenceManager.php',
     'OCP\\Collaboration\\Reference\\IReferenceProvider' => $baseDir . '/lib/public/Collaboration/Reference/IReferenceProvider.php',
