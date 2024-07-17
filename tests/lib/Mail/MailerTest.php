@@ -236,6 +236,9 @@ class MailerTest extends TestCase {
 		$this->config->method('getSystemValueString')
 			->with('mail_template_class', '')
 			->willReturnArgument(1);
+		$this->config->method('getAppValue')
+			->with('theming', 'logoDimensions', Mailer::DEFAULT_DIMENSIONS)
+			->willReturn(Mailer::DEFAULT_DIMENSIONS);
 
 		$this->assertSame(EMailTemplate::class, get_class($this->mailer->createEMailTemplate('tests.MailerTest')));
 	}

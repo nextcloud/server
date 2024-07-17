@@ -76,7 +76,7 @@ EOF;
 							<tbody>
 							<tr style="padding:0;text-align:left;vertical-align:top">
 								<center data-parsed="" style="background-color:%s;min-width:175px;max-height:175px; padding:35px 0px;border-radius:200px">
-									<img class="logo float-center" src="%s" alt="%s" align="center" style="-ms-interpolation-mode:bicubic;clear:both;display:block;float:none;margin:0 auto;outline:0;text-align:center;text-decoration:none;max-height:105px;max-width:105px;width:auto;height:auto">
+									<img class="logo float-center" src="%s" alt="%s" align="center" style="-ms-interpolation-mode:bicubic;clear:both;display:block;float:none;margin:0 auto;outline:0;text-align:center;text-decoration:none;max-height:105px;max-width:105px;width:auto;height:auto"%s>
 								</center>
 							</tr>
 							</tbody>
@@ -308,6 +308,8 @@ EOF;
 		protected Defaults $themingDefaults,
 		protected IURLGenerator $urlGenerator,
 		protected IFactory $l10nFactory,
+		protected ?int $logoWidth,
+		protected ?int $logoHeight,
 		protected string $emailId,
 		protected array $data,
 	) {
@@ -330,8 +332,14 @@ EOF;
 		}
 		$this->headerAdded = true;
 
+		$logoSizeDimensions = '';
+		if ($this->logoWidth && $this->logoHeight) {
+			// Provide a logo size when we have the dimensions so that it displays nicely in Outlook
+			$logoSizeDimensions = ' width="' . $this->logoWidth . '" height="' . $this->logoHeight . '"';
+		}
+
 		$logoUrl = $this->urlGenerator->getAbsoluteURL($this->themingDefaults->getLogo(false));
-		$this->htmlBody .= vsprintf($this->header, [$this->themingDefaults->getDefaultColorPrimary(), $logoUrl, $this->themingDefaults->getName()]);
+		$this->htmlBody .= vsprintf($this->header, [$this->themingDefaults->getDefaultColorPrimary(), $logoUrl, $this->themingDefaults->getName(), $logoSizeDimensions]);
 	}
 
 	/**
