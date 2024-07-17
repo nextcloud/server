@@ -99,12 +99,14 @@ export const PROPERTY_READABLE_KEYS_ENUM = Object.freeze({
 export const ACCOUNT_SETTING_PROPERTY_ENUM = Object.freeze({
 	LANGUAGE: 'language',
 	LOCALE: 'locale',
+	FIRST_DAY_OF_WEEK: 'first_day_of_week',
 })
 
 /** Enum of account setting properties to human readable setting properties */
 export const ACCOUNT_SETTING_PROPERTY_READABLE_ENUM = Object.freeze({
 	LANGUAGE: t('settings', 'Language'),
 	LOCALE: t('settings', 'Locale'),
+	FIRST_DAY_OF_WEEK: t('settings', 'First day of week'),
 })
 
 /** Enum of scopes */

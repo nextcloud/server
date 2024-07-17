@@ -39,6 +39,7 @@ abstract class AUserData extends OCSController {
 	public const USER_FIELD_DISPLAYNAME = 'display';
 	public const USER_FIELD_LANGUAGE = 'language';
 	public const USER_FIELD_LOCALE = 'locale';
+	public const USER_FIELD_FIRST_DAY_OF_WEEK = 'first_day_of_week';
 	public const USER_FIELD_PASSWORD = 'password';
 	public const USER_FIELD_QUOTA = 'quota';
 	public const USER_FIELD_MANAGER = 'manager';

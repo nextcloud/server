@@ -12,6 +12,7 @@ use OC\Authentication\Token\IProvider;
 use OC\CapabilitiesManager;
 use OC\Files\FilenameValidator;
 use OC\Share\Share;
+use OCA\Provisioning_API\Controller\AUserData;
 use OCP\App\AppPathNotFoundException;
 use OCP\App\IAppManager;
 use OCP\Authentication\Exceptions\ExpiredTokenException;
@@ -133,6 +134,9 @@ class JSConfigHelper {
 
 		$capabilities = $this->capabilitiesManager->getCapabilities(false, true);
 
+		$userFirstDay = $this->config->getUserValue($uid, 'core', AUserData::USER_FIELD_FIRST_DAY_OF_WEEK, null);
+		$firstDay = (int)($userFirstDay ?? $this->l->l('firstday', null));
+
 		$config = [
 			/** @deprecated 30.0.0 - use files capabilities instead */
 			'blacklist_files_regex' => FileInfo::BLACKLIST_FILES_REGEX,
@@ -220,7 +224,7 @@ class JSConfigHelper {
 				$this->l->t('Nov.'),
 				$this->l->t('Dec.')
 			]),
-			"firstDay" => json_encode($this->l->l('firstday', null)),
+			"firstDay" => json_encode($firstDay),
 			"_oc_config" => json_encode($config),
 			"oc_appconfig" => json_encode([
 				'core' => [

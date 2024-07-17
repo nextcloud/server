@@ -130,7 +130,7 @@ export default {
 		}
 
 		&.setting-property {
-			height: 44px;
+			height: 34px;
 		}
 
 		label {

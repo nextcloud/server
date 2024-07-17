@@ -26,6 +26,7 @@ import HeadlineSection from './components/PersonalInfo/HeadlineSection.vue'
 import BiographySection from './components/PersonalInfo/BiographySection.vue'
 import ProfileVisibilitySection from './components/PersonalInfo/ProfileVisibilitySection/ProfileVisibilitySection.vue'
 import BirthdaySection from './components/PersonalInfo/BirthdaySection.vue'
+import FirstDayOfWeekSection from './components/PersonalInfo/FirstDayOfWeekSection.vue'
 
 __webpack_nonce__ = btoa(getRequestToken())
 
@@ -49,6 +50,7 @@ const FediverseView = Vue.extend(FediverseSection)
 const LanguageView = Vue.extend(LanguageSection)
 const LocaleView = Vue.extend(LocaleSection)
 const BirthdayView = Vue.extend(BirthdaySection)
+const FirstDayOfWeekView = Vue.extend(FirstDayOfWeekSection)
 
 new AvatarView().$mount('#vue-avatar-section')
 new DetailsView().$mount('#vue-details-section')
@@ -61,6 +63,7 @@ new TwitterView().$mount('#vue-twitter-section')
 new FediverseView().$mount('#vue-fediverse-section')
 new LanguageView().$mount('#vue-language-section')
 new LocaleView().$mount('#vue-locale-section')
+new FirstDayOfWeekView().$mount('#vue-fdow-section')
 new BirthdayView().$mount('#vue-birthday-section')
 
 if (profileEnabledGlobally) {
