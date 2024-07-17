@@ -6,6 +6,7 @@
 namespace OCA\DAV\Tests\Unit\DAV\Settings;
 
 use OCA\DAV\Settings\CalDAVSettings;
+use OCP\App\IAppManager;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
 use OCP\IConfig;
@@ -24,6 +25,9 @@ class CalDAVSettingsTest extends TestCase {
 	/** @var IURLGenerator|MockObject */
 	private $urlGenerator;
 
+	/** @var IAppManager|MockObject */
+	private $appManager;
+
 	private CalDAVSettings $settings;
 
 	protected function setUp(): void {
@@ -32,7 +36,8 @@ class CalDAVSettingsTest extends TestCase {
 		$this->config = $this->createMock(IConfig::class);
 		$this->initialState = $this->createMock(IInitialState::class);
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
-		$this->settings = new CalDAVSettings($this->config, $this->initialState, $this->urlGenerator);
+		$this->appManager = $this->createMock(IAppManager::class);
+		$this->settings = new CalDAVSettings($this->config, $this->initialState, $this->urlGenerator, $this->appManager);
 	}
 
 	public function testGetForm(): void {
@@ -65,10 +70,23 @@ class CalDAVSettingsTest extends TestCase {
 	}
 
 	public function testGetSection(): void {
+		$this->appManager->expects(self::once())
+			->method('isBackendRequired')
+			->with(IAppManager::BACKEND_CALDAV)
+			->willReturn(true);
 		$this->assertEquals('groupware', $this->settings->getSection());
+	}
+
+	public function testGetSectionWithoutCaldavBackend(): void {
+		$this->appManager->expects(self::once())
+			->method('isBackendRequired')
+			->with(IAppManager::BACKEND_CALDAV)
+			->willReturn(false);
+		$this->assertEquals(null, $this->settings->getSection());
 	}
 
 	public function testGetPriority(): void {
 		$this->assertEquals(10, $this->settings->getPriority());
 	}
+
 }

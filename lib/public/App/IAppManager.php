@@ -20,6 +20,11 @@ use OCP\IUser;
  */
 interface IAppManager {
 	/**
+	 * @since 30.0.0
+	 */
+	public const BACKEND_CALDAV = 'caldav';
+
+	/**
 	 * Returns the app information from "appinfo/info.xml".
 	 *
 	 * @param string|null $lang
@@ -261,4 +266,14 @@ interface IAppManager {
 	 * @since 28.0.0
 	 */
 	public function setDefaultApps(array $defaultApps): void;
+
+	/**
+	 * Check whether the given backend is required by at least one app.
+	 *
+	 * @param self::BACKEND_* $backend Name of the backend, one of `self::BACKEND_*`
+	 * @return bool True if at least one app requires the backend
+	 *
+	 * @since 30.0.0
+	 */
+	public function isBackendRequired(string $backend): bool;
 }
