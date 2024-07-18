@@ -243,6 +243,7 @@ class SecurityMiddleware extends Middleware {
 		}
 
 		if ($this->reflector->hasAnnotation($annotationName)) {
+			$this->logger->debug($reflectionMethod->getDeclaringClass()->getName() . '::' . $reflectionMethod->getName() . ' uses the @' . $annotationName . ' annotation and should use the #[' . $attributeClass . '] attribute instead');
 			return true;
 		}
 
