@@ -837,6 +837,8 @@ interface IQueryBuilder {
 	 *
 	 * @return mixed
 	 * @since 8.2.0
+	 * @deprecated 30.0.0 This function is going to be removed with the next Doctrine/DBAL update
+	 *  and we can not fix this in our wrapper. Please track the details you need, outside the object.
 	 */
 	public function getQueryPart($queryPartName);
 
@@ -845,6 +847,8 @@ interface IQueryBuilder {
 	 *
 	 * @return array
 	 * @since 8.2.0
+	 * @deprecated 30.0.0 This function is going to be removed with the next Doctrine/DBAL update
+	 *  and we can not fix this in our wrapper. Please track the details you need, outside the object.
 	 */
 	public function getQueryParts();
 
@@ -855,6 +859,8 @@ interface IQueryBuilder {
 	 *
 	 * @return $this This QueryBuilder instance.
 	 * @since 8.2.0
+	 * @deprecated 30.0.0 This function is going to be removed with the next Doctrine/DBAL update
+	 * and we can not fix this in our wrapper. Please create a new IQueryBuilder instead.
 	 */
 	public function resetQueryParts($queryPartNames = null);
 
@@ -865,6 +871,8 @@ interface IQueryBuilder {
 	 *
 	 * @return $this This QueryBuilder instance.
 	 * @since 8.2.0
+	 * @deprecated 30.0.0 This function is going to be removed with the next Doctrine/DBAL update
+	 *  and we can not fix this in our wrapper. Please create a new IQueryBuilder instead.
 	 */
 	public function resetQueryPart($queryPartName);
 

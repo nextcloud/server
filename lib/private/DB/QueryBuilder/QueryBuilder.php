@@ -1104,8 +1104,11 @@ class QueryBuilder implements IQueryBuilder {
 	 * @param string $queryPartName
 	 *
 	 * @return mixed
+	 * @deprecated 30.0.0 This function is going to be removed with the next Doctrine/DBAL update
+	 *   and we can not fix this in our wrapper. Please track the details you need, outside the object.
 	 */
 	public function getQueryPart($queryPartName) {
+		$this->logger->debug(IQueryBuilder::class . '::' . __FUNCTION__ . ' is deprecated and will be removed soon.', ['exception' => new \Exception('Deprecated call to ' . __METHOD__)]);
 		return $this->queryBuilder->getQueryPart($queryPartName);
 	}
 
@@ -1113,8 +1116,11 @@ class QueryBuilder implements IQueryBuilder {
 	 * Gets all query parts.
 	 *
 	 * @return array
+	 * @deprecated 30.0.0 This function is going to be removed with the next Doctrine/DBAL update
+	 *   and we can not fix this in our wrapper. Please track the details you need, outside the object.
 	 */
 	public function getQueryParts() {
+		$this->logger->debug(IQueryBuilder::class . '::' . __FUNCTION__ . ' is deprecated and will be removed soon.', ['exception' => new \Exception('Deprecated call to ' . __METHOD__)]);
 		return $this->queryBuilder->getQueryParts();
 	}
 
@@ -1124,8 +1130,11 @@ class QueryBuilder implements IQueryBuilder {
 	 * @param array|null $queryPartNames
 	 *
 	 * @return $this This QueryBuilder instance.
+	 * @deprecated 30.0.0 This function is going to be removed with the next Doctrine/DBAL update
+	 *  and we can not fix this in our wrapper. Please create a new IQueryBuilder instead.
 	 */
 	public function resetQueryParts($queryPartNames = null) {
+		$this->logger->debug(IQueryBuilder::class . '::' . __FUNCTION__ . ' is deprecated and will be removed soon.', ['exception' => new \Exception('Deprecated call to ' . __METHOD__)]);
 		$this->queryBuilder->resetQueryParts($queryPartNames);
 
 		return $this;
@@ -1137,8 +1146,11 @@ class QueryBuilder implements IQueryBuilder {
 	 * @param string $queryPartName
 	 *
 	 * @return $this This QueryBuilder instance.
+	 * @deprecated 30.0.0 This function is going to be removed with the next Doctrine/DBAL update
+	 *  and we can not fix this in our wrapper. Please create a new IQueryBuilder instead.
 	 */
 	public function resetQueryPart($queryPartName) {
+		$this->logger->debug(IQueryBuilder::class . '::' . __FUNCTION__ . ' is deprecated and will be removed soon.', ['exception' => new \Exception('Deprecated call to ' . __METHOD__)]);
 		$this->queryBuilder->resetQueryPart($queryPartName);
 
 		return $this;
