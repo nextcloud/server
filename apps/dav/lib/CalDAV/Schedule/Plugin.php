@@ -154,6 +154,11 @@ class Plugin extends \Sabre\CalDAV\Schedule\Plugin {
 		if ($result === null) {
 			$result = [];
 		}
+		
+		// iterate through items and html decode values
+		foreach ($result as $key => $value) {
+			$result[$key] = urldecode($value);
+		}
 
 		return $result;
 	}
