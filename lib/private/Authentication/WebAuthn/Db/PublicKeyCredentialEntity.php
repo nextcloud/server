@@ -41,7 +41,8 @@ use Webauthn\PublicKeyCredentialSource;
  * @method void setPublicKeyCredentialId(string $id);
  * @method string getData();
  * @method void setData(string $data);
- * @since 30.0.0
+ *
+ * @since 30.0.0 Add userVerification attribute
  * @method bool|null getUserVerification();
  * @method void setUserVerification(bool $userVerification);
  */
