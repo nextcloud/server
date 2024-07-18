@@ -30,6 +30,7 @@ $base_url=\OC::$server->getURLGenerator()->getAbsoluteURL('/');?>
 			<meta charset="utf-8">
 			<meta content="width=device-width, initial-scale=1.0" name="viewport">
 			<meta http-equiv="Content-Security-Policy" content="style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;">
+         
 			<meta content="" name="description">
 			<meta content="" name="keywords">
          <!-- <meta http-equiv="Content-Security-Policy" content="style-src 'self' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com;"> -->
@@ -38,13 +39,7 @@ $base_url=\OC::$server->getURLGenerator()->getAbsoluteURL('/');?>
 			<!-- Favicons -->
 			<link href="../assets/img/favicon.png" rel="icon">
 			<link href="../assets/img/apple-touch-icon.png" rel="apple-touch-icon">
-			<!-- Google Fonts -->
-			<link async href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Montserrat:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet"  nonce="<?php p(\OC::$server->getContentSecurityPolicyNonceManager()->getNonce()) ?>" />
-			<!-- <link  href='https://css.gg/userlane.css' rel='stylesheet'> -->
-			<!-- font Icons -->
-			 <link async rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css"  nonce="<?php p(\OC::$server->getContentSecurityPolicyNonceManager()->getNonce()) ?>" />
-			<!-- Vendor CSS Files -->
-
+			
 
 			<link async href="<?php echo $base_url;?>assets/css/style.css" rel="stylesheet">
 			<link async href="<?php echo $base_url;?>assets/css/google-fonts.css" rel="stylesheet">
