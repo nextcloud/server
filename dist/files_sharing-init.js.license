@@ -11,6 +11,7 @@ SPDX-FileCopyrightText: assert developers
 SPDX-FileCopyrightText: Tobias Koppers @sokra
 SPDX-FileCopyrightText: T. Jameson Little <t.jameson.little@gmail.com>
 SPDX-FileCopyrightText: Roman Shtylman <shtylman@gmail.com>
+SPDX-FileCopyrightText: Roeland Jago Douma
 SPDX-FileCopyrightText: Raynos <raynos2@gmail.com>
 SPDX-FileCopyrightText: Nextcloud GmbH and Nextcloud contributors
 SPDX-FileCopyrightText: Matt Zabriskie
@@ -38,6 +39,9 @@ This file is generated from multiple sources. Included packages:
 	- license: GPL-3.0-or-later
 - @nextcloud/axios
 	- version: 2.5.0
+	- license: GPL-3.0-or-later
+- @nextcloud/capabilities
+	- version: 1.2.0
 	- license: GPL-3.0-or-later
 - semver
 	- version: 7.6.2
