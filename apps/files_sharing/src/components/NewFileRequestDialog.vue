@@ -270,8 +270,19 @@ export default defineComponent({
 		async createShare() {
 			this.loading = true
 
+			// This should never happen™
+			if (this.expirationDate == null) {
+				throw new Error('Expiration date is missing')
+			}
+
+			const year = this.expirationDate.getFullYear()
+			const month = (this.expirationDate.getMonth() + 1).toString().padStart(2, '0')
+			const day = this.expirationDate.getDate().toString().padStart(2, '0')
+
 			// Format must be YYYY-MM-DD
-			const expireDate = this.expirationDate ? this.expirationDate.toISOString().split('T')[0] : undefined
+			const expireDate = this.expirationDate
+				? `${year}-${month}-${day}`
+				: undefined
 			const shareUrl = generateOcsUrl('apps/files_sharing/api/v1/shares')
 			try {
 				const request = await axios.post<OCSResponse>(shareUrl, {
