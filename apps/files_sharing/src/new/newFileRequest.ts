@@ -16,7 +16,7 @@ const sharingConfig = new Config()
 
 export const entry = {
 	id: 'file-request',
-	displayName: t('files', 'Create new file request'),
+	displayName: t('files_sharing', 'Create file request'),
 	iconSvgInline: FileUploadSvg,
 	order: 30,
 	enabled(context: Folder): boolean {

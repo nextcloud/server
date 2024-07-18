@@ -26,7 +26,6 @@
 			</legend>
 			<NcTextField :value="destination"
 				:disabled="disabled"
-				:helper-text="t('files_sharing', 'The uploaded files are visible only to you unless you choose to share them.')"
 				:label="t('files_sharing', 'Upload destination')"
 				:minlength="2/* cannot share root */"
 				:placeholder="t('files_sharing', 'Select a destination')"
@@ -42,6 +41,11 @@
 				@trailing-button-click="$emit('update:destination', '')">
 				<IconFolder :size="18" />
 			</NcTextField>
+
+			<p class="file-request-dialog__info">
+				<IconLock :size="18" class="file-request-dialog__info-icon" />
+				{{ t('files_sharing', 'The uploaded files are visible only to you unless you choose to share them.') }}
+			</p>
 		</fieldset>
 
 		<!-- Request note -->
@@ -56,6 +60,11 @@
 				:required="false"
 				name="note"
 				@update:value="$emit('update:note', $event)" />
+
+			<p class="file-request-dialog__info">
+				<IconInfo :size="18" class="file-request-dialog__info-icon" />
+				{{ t('files_sharing', 'You can add links, date or any other information that will help the recipient understand what you are requesting.') }}
+			</p>
 		</fieldset>
 	</div>
 </template>
@@ -69,6 +78,8 @@ import { getFilePickerBuilder } from '@nextcloud/dialogs'
 import { t } from '@nextcloud/l10n'
 
 import IconFolder from 'vue-material-design-icons/Folder.vue'
+import IconInfo from 'vue-material-design-icons/Information.vue'
+import IconLock from 'vue-material-design-icons/Lock.vue'
 import NcTextArea from '@nextcloud/vue/dist/Components/NcTextArea.js'
 import NcTextField from '@nextcloud/vue/dist/Components/NcTextField.js'
 
@@ -77,6 +88,8 @@ export default defineComponent({
 
 	components: {
 		IconFolder,
+		IconInfo,
+		IconLock,
 		NcTextArea,
 		NcTextField,
 	},

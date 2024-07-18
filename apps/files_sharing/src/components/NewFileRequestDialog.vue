@@ -398,7 +398,7 @@ export default defineComponent({
 })
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
 .file-request-dialog {
 	--margin: 18px;
 
@@ -414,20 +414,32 @@ export default defineComponent({
 		margin-top: calc(-1 * var(--margin));
 	}
 
-	:deep(fieldset) {
+	fieldset {
 		display: flex;
 		flex-direction: column;
 		width: 100%;
 		margin-top: var(--margin);
 
-		:deep(legend) {
+		legend {
 			display: flex;
 			align-items: center;
 			width: 100%;
 		}
 	}
 
-	:deep(.dialog__actions) {
+	// Using a NcNoteCard was a bit much sometimes.
+	// Using a simple paragraph instead does it.
+	&__info {
+		color: var(--color-text-maxcontrast);
+		padding-block: 4px;
+		display: flex;
+		align-items: center;
+		.file-request-dialog__info-icon {
+			margin-inline-end: 8px;
+		}
+	}
+
+	.dialog__actions {
 		width: auto;
 		margin-inline: 12px;
 		span.dialog__actions-separator {
@@ -435,7 +447,7 @@ export default defineComponent({
 		}
 	}
 
-	:deep(.input-field__helper-text-message) {
+	.input-field__helper-text-message {
 		// reduce helper text standing out
 		color: var(--color-text-maxcontrast);
 	}

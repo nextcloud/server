@@ -12,10 +12,6 @@
 
 		<!-- Expiration date -->
 		<fieldset class="file-request-dialog__expiration" data-cy-file-request-dialog-fieldset="expiration">
-			<NcNoteCard v-if="defaultExpireDateEnforced" type="info">
-				{{ t('files_sharing', 'Your administrator has enforced a default expiration date with a maximum of {days} days.', { days: defaultExpireDate }) }}
-			</NcNoteCard>
-
 			<!-- Enable expiration -->
 			<legend>{{ t('files_sharing', 'When should the request expire?') }}</legend>
 			<NcCheckboxRadioSwitch v-show="!defaultExpireDateEnforced"
@@ -39,14 +35,15 @@
 				name="expirationDate"
 				type="date"
 				@update:value="$emit('update:expirationDate', $event)" />
+
+			<p v-if="defaultExpireDateEnforced" class="file-request-dialog__info">
+				<IconInfo :size="18" class="file-request-dialog__info-icon" />
+				{{ t('files_sharing', 'Your administrator has enforced a {count} days expiration policy.', { count: defaultExpireDate }) }}
+			</p>
 		</fieldset>
 
 		<!-- Password -->
 		<fieldset class="file-request-dialog__password" data-cy-file-request-dialog-fieldset="password">
-			<NcNoteCard v-if="enforcePasswordForPublicLink" type="info">
-				{{ t('files_sharing', 'Your administrator has enforced a password protection.') }}
-			</NcNoteCard>
-
 			<!-- Enable password -->
 			<legend>{{ t('files_sharing', 'What password should be used for the request?') }}</legend>
 			<NcCheckboxRadioSwitch v-show="!enforcePasswordForPublicLink"
@@ -75,6 +72,11 @@
 					</template>
 				</NcButton>
 			</div>
+
+			<p v-if="enforcePasswordForPublicLink" class="file-request-dialog__info">
+				<IconInfo :size="18" class="file-request-dialog__info-icon" />
+				{{ t('files_sharing', 'Your administrator has enforced a password protection.') }}
+			</p>
 		</fieldset>
 	</div>
 </template>
@@ -89,6 +91,7 @@ import NcDateTimePickerNative from '@nextcloud/vue/dist/Components/NcDateTimePic
 import NcNoteCard from '@nextcloud/vue/dist/Components/NcNoteCard.js'
 import NcPasswordField from '@nextcloud/vue/dist/Components/NcPasswordField.js'
 
+import IconInfo from 'vue-material-design-icons/Information.vue'
 import IconPasswordGen from 'vue-material-design-icons/AutoFix.vue'
 
 import Config from '../../services/ConfigService'
@@ -100,6 +103,7 @@ export default defineComponent({
 	name: 'NewFileRequestDialogDatePassword',
 
 	components: {
+		IconInfo,
 		IconPasswordGen,
 		NcButton,
 		NcCheckboxRadioSwitch,
@@ -232,5 +236,11 @@ export default defineComponent({
 	display: flex;
 	align-items: flex-start;
 	gap: 8px;
+	// Compensate label gab with legend
+	margin-top: 12px;
+	> div {
+		// Force margin to 0 as we handle it above
+		margin: 0;
+	}
 }
 </style>
