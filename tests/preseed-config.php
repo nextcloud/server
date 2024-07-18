@@ -78,3 +78,24 @@ if (getenv('OBJECT_STORE') === 's3') {
 		]
 	];
 }
+
+if (getenv('SHARDING') == '1') {
+	$CONFIG['dbsharding'] = [
+		"filecache" => [
+			"shards" => [
+				[
+					"port" => 5001,
+				],
+				[
+					"port" => 5002,
+				],
+				[
+					"port" => 5003,
+				],
+				[
+					"port" => 5004,
+				],
+			]
+		]
+	];
+}
