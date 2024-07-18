@@ -545,7 +545,10 @@ export default {
 			return (this.fileInfo.canDownload() || this.canDownload)
 		},
 		canRemoveReadPermission() {
-			return this.allowsFileDrop && this.share.type === this.SHARE_TYPES.SHARE_TYPE_LINK
+			return this.allowsFileDrop && (
+				this.share.type === this.SHARE_TYPES.SHARE_TYPE_LINK
+					|| this.share.type === this.SHARE_TYPES.SHARE_TYPE_EMAIL
+			)
 		},
 		// if newPassword exists, but is empty, it means
 		// the user deleted the original password
