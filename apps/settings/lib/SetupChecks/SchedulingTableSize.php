@@ -24,7 +24,7 @@ class SchedulingTableSize {
 	}
 
 	public function description(): string {
-		return $this->l10n->t('You have more than 500 000 rows in the scheduling objects table. Please run the expensive repair jobs via occ maintenance:repair --include-expensive');
+		return $this->l10n->t('You have more than 50 000 rows in the scheduling objects table. Please run the expensive repair jobs via occ maintenance:repair --include-expensive');
 	}
 
 	public function severity(): string {
@@ -39,6 +39,6 @@ class SchedulingTableSize {
 		$count = $query->fetchOne();
 		$query->closeCursor();
 
-		return $count <= 500000;
+		return $count <= 50000;
 	}
 }
