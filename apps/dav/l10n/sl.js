@@ -165,6 +165,7 @@ OC.L10N.register(
     "Delete slot" : "Izbriši možnost",
     "No working hours set" : "Ni navedenih delovnih ur",
     "Add slot" : "Dodaj možnost",
+    "Weekdays" : "Delovni dnevi",
     "Monday" : "ponedeljek",
     "Tuesday" : "torek",
     "Wednesday" : "sreda",
