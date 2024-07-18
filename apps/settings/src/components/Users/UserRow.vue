@@ -278,6 +278,7 @@
 import { formatFileSize, parseFileSize } from '@nextcloud/files'
 import { getCurrentUser } from '@nextcloud/auth'
 import { showSuccess, showError } from '@nextcloud/dialogs'
+import { confirmPassword } from '@nextcloud/password-confirmation'
 
 import NcAvatar from '@nextcloud/vue/dist/Components/NcAvatar.js'
 import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
@@ -503,8 +504,9 @@ export default {
 	},
 
 	methods: {
-		wipeUserDevices() {
+		async wipeUserDevices() {
 			const userid = this.user.id
+			await confirmPassword()
 			OC.dialogs.confirmDestructive(
 				t('settings', 'In case of lost device or exiting the organization, this can remotely wipe the Nextcloud data from all devices associated with {userid}. Only works if the devices are connected to the internet.', { userid }),
 				t('settings', 'Remote wipe of devices'),
@@ -575,8 +577,9 @@ export default {
 			}
 		},
 
-		deleteUser() {
+		async deleteUser() {
 			const userid = this.user.id
+			await confirmPassword()
 			OC.dialogs.confirmDestructive(
 				t('settings', 'Fully delete {userid}\'s account including all their personal files, app data, etc.', { userid }),
 				t('settings', 'Account deletion'),
