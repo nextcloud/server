@@ -45,6 +45,7 @@ class QueryBuilder implements IQueryBuilder {
 
 	/** @var bool */
 	private $automaticTablePrefix = true;
+	private bool $nonEmptyWhere = false;
 
 	/** @var string */
 	protected $lastInsertedTable;
@@ -185,24 +186,24 @@ class QueryBuilder implements IQueryBuilder {
 			}
 		}
 
-		if (!empty($this->getQueryPart('select'))) {
-			$select = $this->getQueryPart('select');
-			$hasSelectAll = array_filter($select, static function ($s) {
-				return $s === '*';
-			});
-			$hasSelectSpecific = array_filter($select, static function ($s) {
-				return $s !== '*';
-			});
+		// if (!empty($this->getQueryPart('select'))) {
+		// $select = $this->getQueryPart('select');
+		// $hasSelectAll = array_filter($select, static function ($s) {
+		// return $s === '*';
+		// });
+		// $hasSelectSpecific = array_filter($select, static function ($s) {
+		// return $s !== '*';
+		// });
 
-			if (empty($hasSelectAll) === empty($hasSelectSpecific)) {
-				$exception = new QueryException('Query is selecting * and specific values in the same query. This is not supported in Oracle.');
-				$this->logger->error($exception->getMessage(), [
-					'query' => $this->getSQL(),
-					'app' => 'core',
-					'exception' => $exception,
-				]);
-			}
-		}
+		// if (empty($hasSelectAll) === empty($hasSelectSpecific)) {
+		// $exception = new QueryException('Query is selecting * and specific values in the same query. This is not supported in Oracle.');
+		// $this->logger->error($exception->getMessage(), [
+		// 'query' => $this->getSQL(),
+		// 'app' => 'core',
+		// 'exception' => $exception,
+		// ]);
+		// }
+		// }
 
 		$numberOfParameters = 0;
 		$hasTooLargeArrayParameter = false;
@@ -830,11 +831,13 @@ class QueryBuilder implements IQueryBuilder {
 	 * @return $this This QueryBuilder instance.
 	 */
 	public function where(...$predicates) {
-		if ($this->getQueryPart('where') !== null && $this->systemConfig->getValue('debug', false)) {
+		if ($this->nonEmptyWhere && $this->systemConfig->getValue('debug', false)) {
 			// Only logging a warning, not throwing for now.
 			$e = new QueryException('Using where() on non-empty WHERE part, please verify it is intentional to not call andWhere() or orWhere() instead. Otherwise consider creating a new query builder object or call resetQueryPart(\'where\') first.');
 			$this->logger->warning($e->getMessage(), ['exception' => $e]);
 		}
+
+		$this->nonEmptyWhere = true;
 
 		call_user_func_array(
 			[$this->queryBuilder, 'where'],
@@ -863,6 +866,7 @@ class QueryBuilder implements IQueryBuilder {
 	 * @see where()
 	 */
 	public function andWhere(...$where) {
+		$this->nonEmptyWhere = true;
 		call_user_func_array(
 			[$this->queryBuilder, 'andWhere'],
 			$where
@@ -890,6 +894,7 @@ class QueryBuilder implements IQueryBuilder {
 	 * @see where()
 	 */
 	public function orWhere(...$where) {
+		$this->nonEmptyWhere = true;
 		call_user_func_array(
 			[$this->queryBuilder, 'orWhere'],
 			$where
