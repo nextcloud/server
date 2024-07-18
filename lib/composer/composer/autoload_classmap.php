@@ -44,6 +44,7 @@ return array(
     'OCP\\AppFramework\\Http\\Attribute\\ARateLimit' => $baseDir . '/lib/public/AppFramework/Http/Attribute/ARateLimit.php',
     'OCP\\AppFramework\\Http\\Attribute\\AnonRateLimit' => $baseDir . '/lib/public/AppFramework/Http/Attribute/AnonRateLimit.php',
     'OCP\\AppFramework\\Http\\Attribute\\ApiRoute' => $baseDir . '/lib/public/AppFramework/Http/Attribute/ApiRoute.php',
+    'OCP\\AppFramework\\Http\\Attribute\\AppApiAdminAccessWithoutUser' => $baseDir . '/lib/public/AppFramework/Http/Attribute/AppApiAdminAccessWithoutUser.php',
     'OCP\\AppFramework\\Http\\Attribute\\AuthorizedAdminSetting' => $baseDir . '/lib/public/AppFramework/Http/Attribute/AuthorizedAdminSetting.php',
     'OCP\\AppFramework\\Http\\Attribute\\BruteForceProtection' => $baseDir . '/lib/public/AppFramework/Http/Attribute/BruteForceProtection.php',
     'OCP\\AppFramework\\Http\\Attribute\\CORS' => $baseDir . '/lib/public/AppFramework/Http/Attribute/CORS.php',

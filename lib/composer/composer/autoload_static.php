@@ -77,6 +77,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OCP\\AppFramework\\Http\\Attribute\\ARateLimit' => __DIR__ . '/../../..' . '/lib/public/AppFramework/Http/Attribute/ARateLimit.php',
         'OCP\\AppFramework\\Http\\Attribute\\AnonRateLimit' => __DIR__ . '/../../..' . '/lib/public/AppFramework/Http/Attribute/AnonRateLimit.php',
         'OCP\\AppFramework\\Http\\Attribute\\ApiRoute' => __DIR__ . '/../../..' . '/lib/public/AppFramework/Http/Attribute/ApiRoute.php',
+        'OCP\\AppFramework\\Http\\Attribute\\AppApiAdminAccessWithoutUser' => __DIR__ . '/../../..' . '/lib/public/AppFramework/Http/Attribute/AppApiAdminAccessWithoutUser.php',
         'OCP\\AppFramework\\Http\\Attribute\\AuthorizedAdminSetting' => __DIR__ . '/../../..' . '/lib/public/AppFramework/Http/Attribute/AuthorizedAdminSetting.php',
         'OCP\\AppFramework\\Http\\Attribute\\BruteForceProtection' => __DIR__ . '/../../..' . '/lib/public/AppFramework/Http/Attribute/BruteForceProtection.php',
         'OCP\\AppFramework\\Http\\Attribute\\CORS' => __DIR__ . '/../../..' . '/lib/public/AppFramework/Http/Attribute/CORS.php',
