@@ -15,7 +15,7 @@ class FilesDropContext implements Context, SnippetAcceptingContext {
 	/**
 	 * @When Dropping file :path with :content
 	 */
-	public function droppingFileWith($path, $content) {
+	public function droppingFileWith($path, $content, $nickName = null) {
 		$client = new Client();
 		$options = [];
 		if (count($this->lastShareData->data->element) > 0) {
@@ -25,11 +25,16 @@ class FilesDropContext implements Context, SnippetAcceptingContext {
 		}
 
 		$base = substr($this->baseUrl, 0, -4);
-		$fullUrl = $base . "/public.php/dav/files/$token/$path";
+		$fullUrl = str_replace('//', '/', $base . "/public.php/dav/files/$token/$path");
 
 		$options['headers'] = [
 			'X-REQUESTED-WITH' => 'XMLHttpRequest'
 		];
+
+		if ($nickName) {
+			$options['headers']['X-NC-NICKNAME'] = $nickName;
+		}
+
 		$options['body'] = \GuzzleHttp\Psr7\Utils::streamFor($content);
 
 		try {
@@ -38,6 +43,15 @@ class FilesDropContext implements Context, SnippetAcceptingContext {
 			$this->response = $e->getResponse();
 		}
 	}
+		
+		
+	/**
+	 * @When Dropping file :path with :content as :nickName
+	 */
+	public function droppingFileWithAs($path, $content, $nickName) {
+		$this->droppingFileWith($path, $content, $nickName);
+	}
+
 
 	/**
 	 * @When Creating folder :folder in drop
@@ -52,7 +66,7 @@ class FilesDropContext implements Context, SnippetAcceptingContext {
 		}
 
 		$base = substr($this->baseUrl, 0, -4);
-		$fullUrl = $base . "/public.php/dav/files/$token/$folder";
+		$fullUrl = str_replace('//', '/', $base . "/public.php/dav/files/$token/$folder");
 
 		$options['headers'] = [
 			'X-REQUESTED-WITH' => 'XMLHttpRequest'

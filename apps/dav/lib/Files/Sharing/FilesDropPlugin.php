@@ -62,14 +62,12 @@ class FilesDropPlugin extends ServerPlugin {
 		$path = array_pop($path);
 
 		// Extract the attributes for the file request
+		$isFileRequest = false;
 		$attributes = $this->share->getAttributes();
-		if ($attributes === null) {
-			return;
-		}
-
-		// Prepare file request
 		$nickName = $request->getHeader('X-NC-Nickname');
-		$isFileRequest = $attributes->getAttribute('fileRequest', 'enabled') === true;
+		if ($attributes !== null) {
+			$isFileRequest = $attributes->getAttribute('fileRequest', 'enabled') === true;
+		}
 
 		// We need a valid nickname for file requests
 		if ($isFileRequest && ($nickName == null || trim($nickName) === '')) {
