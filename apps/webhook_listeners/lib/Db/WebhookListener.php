@@ -14,6 +14,7 @@ use OCP\Security\ICrypto;
 
 /**
  * @method void setUserId(string $userId)
+ * @method ?string getAppId()
  * @method string getUserId()
  * @method string getHttpMethod()
  * @method string getUri()
@@ -138,5 +139,9 @@ class WebhookListener extends Entity implements \JsonSerializable {
 				$fields
 			)
 		);
+	}
+
+	public function getAppId(): ?string {
+		return $this->appId;
 	}
 }

@@ -16,14 +16,10 @@ use OC\Files\Cache\Watcher;
 use OC\Files\Filesystem;
 use OC\Files\Storage\Wrapper\Jail;
 use OC\Files\Storage\Wrapper\Wrapper;
-use OCP\Files\EmptyFileNameException;
-use OCP\Files\FileNameTooLongException;
 use OCP\Files\ForbiddenException;
 use OCP\Files\GenericFileException;
-use OCP\Files\InvalidCharacterInPathException;
-use OCP\Files\InvalidDirectoryException;
+use OCP\Files\IFilenameValidator;
 use OCP\Files\InvalidPathException;
-use OCP\Files\ReservedWordException;
 use OCP\Files\Storage\ILockingStorage;
 use OCP\Files\Storage\IStorage;
 use OCP\Files\Storage\IWriteStreamStorage;
@@ -57,10 +53,9 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 	protected $mountOptions = [];
 	protected $owner = null;
 
-	/** @var ?bool */
-	private $shouldLogLocks = null;
-	/** @var ?LoggerInterface */
-	private $logger;
+	private ?bool $shouldLogLocks = null;
+	private ?LoggerInterface $logger = null;
+	private ?IFilenameValidator $filenameValidator = null;
 
 	public function __construct($parameters) {
 	}
@@ -496,68 +491,21 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 	 * @throws InvalidPathException
 	 */
 	public function verifyPath($path, $fileName) {
-		// verify empty and dot files
-		$trimmed = trim($fileName);
-		if ($trimmed === '') {
-			throw new EmptyFileNameException();
-		}
-
-		if (\OC\Files\Filesystem::isIgnoredDir($trimmed)) {
-			throw new InvalidDirectoryException();
-		}
-
-		if (!\OC::$server->getDatabaseConnection()->supports4ByteText()) {
-			// verify database - e.g. mysql only 3-byte chars
-			if (preg_match('%(?:
-      \xF0[\x90-\xBF][\x80-\xBF]{2}      # planes 1-3
-    | [\xF1-\xF3][\x80-\xBF]{3}          # planes 4-15
-    | \xF4[\x80-\x8F][\x80-\xBF]{2}      # plane 16
-)%xs', $fileName)) {
-				throw new InvalidCharacterInPathException();
-			}
-		}
-
-		// 255 characters is the limit on common file systems (ext/xfs)
-		// oc_filecache has a 250 char length limit for the filename
-		if (isset($fileName[250])) {
-			throw new FileNameTooLongException();
-		}
+		$this->getFilenameValidator()
+			->validateFilename($fileName);
 
 		// NOTE: $path will remain unverified for now
-		$this->verifyPosixPath($fileName);
 	}
 
 	/**
-	 * @param string $fileName
-	 * @throws InvalidPathException
+	 * Get the filename validator
+	 * (cached for performance)
 	 */
-	protected function verifyPosixPath($fileName) {
-		$invalidChars = \OCP\Util::getForbiddenFileNameChars();
-		$this->scanForInvalidCharacters($fileName, $invalidChars);
-
-		$fileName = trim($fileName);
-		$reservedNames = ['*'];
-		if (in_array($fileName, $reservedNames)) {
-			throw new ReservedWordException();
+	protected function getFilenameValidator(): IFilenameValidator {
+		if ($this->filenameValidator === null) {
+			$this->filenameValidator = \OCP\Server::get(IFilenameValidator::class);
 		}
-	}
-
-	/**
-	 * @param string $fileName
-	 * @param string[] $invalidChars
-	 * @throws InvalidPathException
-	 */
-	private function scanForInvalidCharacters(string $fileName, array $invalidChars) {
-		foreach ($invalidChars as $char) {
-			if (str_contains($fileName, $char)) {
-				throw new InvalidCharacterInPathException();
-			}
-		}
-
-		$sanitizedFileName = filter_var($fileName, FILTER_UNSAFE_RAW, FILTER_FLAG_STRIP_LOW);
-		if ($sanitizedFileName !== $fileName) {
-			throw new InvalidCharacterInPathException();
-		}
+		return $this->filenameValidator;
 	}
 
 	/**

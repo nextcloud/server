@@ -208,7 +208,6 @@ OC.L10N.register(
     "File drop" : "Fil drop",
     "Circle" : "Cirkel",
     "Update" : "Opdatér",
-    "Share with " : "Del med",
     "No other users with access found" : "Ingen andre brugere med adgang fundet",
     "No entries found in this folder" : "Der blev ikke fundet poster i denne mappe",
     "Name" : "Navn",

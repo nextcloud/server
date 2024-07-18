@@ -3,7 +3,35 @@
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 <template>
-	<div>
+	<div class="ai-settings">
+		<NcSettingsSection :name="t('settings', 'Unified task processing')"
+			:description="t('settings', 'AI tasks can be implemented by different apps. Here you can set which app should be used for which task.')">
+			<template v-for="type in taskProcessingTaskTypes">
+				<div :key="type">
+					<h3>{{ t('settings', 'Task:') }} {{ type.name }}</h3>
+					<p>{{ type.description }}</p>
+					<p>&nbsp;</p>
+					<NcSelect v-model="settings['ai.taskprocessing_provider_preferences'][type.id]"
+						class="provider-select"
+						:clearable="false"
+						:options="taskProcessingProviders.filter(p => p.taskType === type.id).map(p => p.id)"
+						@input="saveChanges">
+						<template #option="{label}">
+							{{ taskProcessingProviders.find(p => p.id === label)?.name }}
+						</template>
+						<template #selected-option="{label}">
+							{{ taskProcessingProviders.find(p => p.id === label)?.name }}
+						</template>
+					</NcSelect>
+					<p>&nbsp;</p>
+				</div>
+			</template>
+			<template v-if="!hasTaskProcessing">
+				<NcNoteCard type="info">
+					{{ t('settings', 'None of your currently installed apps provide Task processing functionality') }}
+				</NcNoteCard>
+			</template>
+		</NcSettingsSection>
 		<NcSettingsSection :name="t('settings', 'Machine translation')"
 			:description="t('settings', 'Machine translation can be implemented by different apps. Here you can define the precedence of the machine translation apps you have installed at the moment.')">
 			<draggable v-model="settings['ai.translation_provider_preferences']" @change="saveChanges">
@@ -62,10 +90,11 @@
 			:description="t('settings', 'Text processing tasks can be implemented by different apps. Here you can set which app should be used for which task.')">
 			<template v-for="type in tpTaskTypes">
 				<div :key="type">
-					<h3>{{ t('settings', 'Task:') }} {{ getTaskType(type).name }}</h3>
-					<p>{{ getTaskType(type).description }}</p>
+					<h3>{{ t('settings', 'Task:') }} {{ getTextProcessingTaskType(type).name }}</h3>
+					<p>{{ getTextProcessingTaskType(type).description }}</p>
 					<p>&nbsp;</p>
 					<NcSelect v-model="settings['ai.textprocessing_provider_preferences'][type]"
+						class="provider-select"
 						:clearable="false"
 						:options="textProcessingProviders.filter(p => p.taskType === type).map(p => p.class)"
 						@input="saveChanges">
@@ -127,6 +156,8 @@ export default {
 			textProcessingProviders: loadState('settings', 'ai-text-processing-providers'),
 			textProcessingTaskTypes: loadState('settings', 'ai-text-processing-task-types'),
 			text2imageProviders: loadState('settings', 'ai-text2image-providers'),
+			taskProcessingProviders: loadState('settings', 'ai-task-processing-providers'),
+			taskProcessingTaskTypes: loadState('settings', 'ai-task-processing-task-types'),
 			settings: loadState('settings', 'ai-settings'),
 		}
 	},
@@ -138,10 +169,13 @@ export default {
 			return Object.keys(this.settings['ai.textprocessing_provider_preferences']).length > 0 && Array.isArray(this.textProcessingTaskTypes)
 		},
 		tpTaskTypes() {
-			return Object.keys(this.settings['ai.textprocessing_provider_preferences']).filter(type => !!this.getTaskType(type))
+			return Object.keys(this.settings['ai.textprocessing_provider_preferences']).filter(type => !!this.getTextProcessingTaskType(type))
 		},
 		hasText2ImageProviders() {
 		  return this.text2imageProviders.length > 0
+		},
+		hasTaskProcessing() {
+			return Object.keys(this.settings['ai.taskprocessing_provider_preferences']).length > 0 && Array.isArray(this.taskProcessingTaskTypes)
 		},
 	},
 	methods: {
@@ -171,7 +205,7 @@ export default {
 			}
 			this.loading = false
 		},
-		getTaskType(type) {
+		getTextProcessingTaskType(type) {
 		  if (!Array.isArray(this.textProcessingTaskTypes)) {
 				return null
 			}
@@ -202,5 +236,13 @@ export default {
 
 .drag-vertical-icon {
   float: left;
+}
+
+.ai-settings h3 {
+	font-size: 16px; /* to offset against the 20px section heading */
+}
+
+.provider-select {
+	min-width: 350px !important;
 }
 </style>

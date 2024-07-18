@@ -38,6 +38,8 @@ class EMailTemplateTest extends TestCase {
 			$this->defaults,
 			$this->urlGenerator,
 			$this->l10n,
+			252,
+			120,
 			'test.TestTemplate',
 			[]
 		);

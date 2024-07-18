@@ -22,6 +22,12 @@ jobs:
     name: performance-${{ matrix.php-versions }}
 
     steps:
+      - name: Disabled on forks
+        if: ${{ github.event.pull_request.head.repo.full_name != github.repository }}
+        run: |
+          echo 'Can not run performance tests on forks'
+          exit 1
+
       - name: Checkout server before PR
         uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332
         with:

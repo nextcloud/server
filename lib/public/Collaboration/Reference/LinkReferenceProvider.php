@@ -26,7 +26,7 @@ use Psr\Log\LoggerInterface;
 /**
  * @since 29.0.0
  */
-class LinkReferenceProvider implements IReferenceProvider {
+class LinkReferenceProvider implements IReferenceProvider, IPublicReferenceProvider {
 
 	/**
 	 * for image size and webpage header
@@ -85,6 +85,14 @@ class LinkReferenceProvider implements IReferenceProvider {
 		}
 
 		return null;
+	}
+
+	/**
+	 * @inheritDoc
+	 * @since 30.0.0
+	 */
+	public function resolveReferencePublic(string $referenceText, string $sharingToken): ?IReference {
+		return $this->resolveReference($referenceText);
 	}
 
 	/**
@@ -199,6 +207,14 @@ class LinkReferenceProvider implements IReferenceProvider {
 	 * @since 29.0.0
 	 */
 	public function getCacheKey(string $referenceId): ?string {
+		return null;
+	}
+
+	/**
+	 * @inheritDoc
+	 * @since 30.0.0
+	 */
+	public function getCacheKeyPublic(string $referenceId, string $sharingToken): ?string {
 		return null;
 	}
 }

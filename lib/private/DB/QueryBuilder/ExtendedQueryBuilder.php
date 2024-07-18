@@ -11,6 +11,7 @@ namespace OC\DB\QueryBuilder;
 use OC\DB\Exceptions\DbalException;
 use OCP\DB\IResult;
 use OCP\DB\QueryBuilder\IQueryBuilder;
+use OCP\IDBConnection;
 
 /**
  * Base class for creating classes that extend the builtin query builder
@@ -46,12 +47,12 @@ abstract class ExtendedQueryBuilder implements IQueryBuilder {
 		return $this->builder->getState();
 	}
 
-	public function execute() {
+	public function execute(?IDBConnection $connection = null) {
 		try {
 			if ($this->getType() === \Doctrine\DBAL\Query\QueryBuilder::SELECT) {
-				return $this->executeQuery();
+				return $this->executeQuery($connection);
 			} else {
-				return $this->executeStatement();
+				return $this->executeStatement($connection);
 			}
 		} catch (DBALException $e) {
 			// `IQueryBuilder->execute` never wrapped the exception, but `executeQuery` and `executeStatement` do
@@ -280,11 +281,11 @@ abstract class ExtendedQueryBuilder implements IQueryBuilder {
 		return $this->builder->getColumnName($column, $tableAlias);
 	}
 
-	public function executeQuery(): IResult {
-		return $this->builder->executeQuery();
+	public function executeQuery(?IDBConnection $connection = null): IResult {
+		return $this->builder->executeQuery($connection);
 	}
 
-	public function executeStatement(): int {
-		return $this->builder->executeStatement();
+	public function executeStatement(?IDBConnection $connection = null): int {
+		return $this->builder->executeStatement($connection);
 	}
 }

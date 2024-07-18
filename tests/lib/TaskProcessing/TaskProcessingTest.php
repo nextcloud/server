@@ -373,6 +373,7 @@ class TaskProcessingTest extends \Test\TestCase {
 		$this->shareManager = $this->createMock(\OCP\Share\IManager::class);
 
 		$this->manager = new Manager(
+			\OC::$server->get(IConfig::class),
 			$this->coordinator,
 			$this->serverContainer,
 			\OC::$server->get(LoggerInterface::class),

@@ -6,9 +6,11 @@
 import { translate as t, translatePlural as n } from '@nextcloud/l10n'
 import { getRequestToken } from '@nextcloud/auth'
 import Vue from 'vue'
+import { PiniaVuePlugin, createPinia } from 'pinia'
 import CommentsApp from '../views/Comments.vue'
 import logger from '../logger.js'
 
+Vue.use(PiniaVuePlugin)
 // eslint-disable-next-line camelcase
 __webpack_nonce__ = btoa(getRequestToken())
 
@@ -34,6 +36,8 @@ export default class CommentInstance {
 	 * @param  {object} options the vue options (propsData, parent, el...)
 	 */
 	constructor(resourceType = 'files', options = {}) {
+		const pinia = createPinia()
+
 		// Merge options and set `resourceType` property
 		options = {
 			...options,
@@ -41,6 +45,7 @@ export default class CommentInstance {
 				...(options.propsData ?? {}),
 				resourceType,
 			},
+			pinia,
 		}
 		// Init Comments component
 		const View = Vue.extend(CommentsApp)

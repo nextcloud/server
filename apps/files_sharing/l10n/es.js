@@ -312,7 +312,6 @@ OC.L10N.register(
     "File drop" : "Entrega de archivos",
     "Circle" : "Círculo",
     "Update" : "Actualizar",
-    "Share with " : "Compartir con",
     "No other users with access found" : "No se encontraron otros usuarios con acceso",
     "No entries found in this folder" : "No hay nada en esta carpeta",
     "Name" : "Nombre",

@@ -12,6 +12,7 @@ use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\ParameterType;
 use OCP\DB\Exception;
 use OCP\DB\IResult;
+use OCP\IDBConnection;
 
 /**
  * This class provides a wrapper around Doctrine's QueryBuilder
@@ -146,34 +147,37 @@ interface IQueryBuilder {
 	 *          that interface changed in a breaking way the adapter \OCP\DB\QueryBuilder\IStatement is returned
 	 *          to bridge old code to the new API
 	 *
+	 * @param ?IDBConnection $connection (optional) the connection to run the query against. since 30.0
 	 * @return IResult|int
 	 * @throws Exception since 21.0.0
 	 * @since 8.2.0
 	 * @deprecated 22.0.0 Use executeQuery or executeStatement
 	 */
-	public function execute();
+	public function execute(?IDBConnection $connection = null);
 
 	/**
 	 * Execute for select statements
 	 *
+	 * @param ?IDBConnection $connection (optional) the connection to run the query against. since 30.0
 	 * @return IResult
 	 * @since 22.0.0
 	 *
 	 * @throws Exception
 	 * @throws \RuntimeException in case of usage with non select query
 	 */
-	public function executeQuery(): IResult;
+	public function executeQuery(?IDBConnection $connection = null): IResult;
 
 	/**
 	 * Execute insert, update and delete statements
 	 *
+	 * @param ?IDBConnection $connection (optional) the connection to run the query against. since 30.0
 	 * @return int the number of affected rows
 	 * @since 22.0.0
 	 *
 	 * @throws Exception
 	 * @throws \RuntimeException in case of usage with select query
 	 */
-	public function executeStatement(): int;
+	public function executeStatement(?IDBConnection $connection = null): int;
 
 	/**
 	 * Gets the complete SQL string formed by the current specifications of this QueryBuilder.
