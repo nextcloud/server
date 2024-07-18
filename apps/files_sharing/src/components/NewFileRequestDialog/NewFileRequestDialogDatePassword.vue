@@ -34,7 +34,7 @@
 				:value="expirationDate"
 				name="expirationDate"
 				type="date"
-				@update:value="$emit('update:expirationDate', $event)" />
+				@input="$emit('update:expirationDate', $event)" />
 
 			<p v-if="defaultExpireDateEnforced" class="file-request-dialog__info">
 				<IconInfo :size="18" class="file-request-dialog__info-icon" />

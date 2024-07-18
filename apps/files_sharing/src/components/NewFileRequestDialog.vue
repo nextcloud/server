@@ -220,6 +220,7 @@ export default defineComponent({
 			const form = this.$refs.form as HTMLFormElement
 			if (!form.checkValidity()) {
 				form.reportValidity()
+				return
 			}
 
 			// custom destination validation
