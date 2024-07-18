@@ -13,9 +13,9 @@ use OCP\AppFramework\Db\Entity;
 use OCP\Security\ICrypto;
 
 /**
- * @method void setUserId(string $userId)
+ * @method void setUserId(?string $userId)
  * @method ?string getAppId()
- * @method string getUserId()
+ * @method ?string getUserId()
  * @method string getHttpMethod()
  * @method string getUri()
  * @method ?array getHeaders()
@@ -31,10 +31,10 @@ class WebhookListener extends Entity implements \JsonSerializable {
 	protected $appId = null;
 
 	/**
-	 * @var string id of the user who added the webhook listener
+	 * @var ?string id of the user who added the webhook listener
 	 * @psalm-suppress PropertyNotSetInConstructor
 	 */
-	protected $userId;
+	protected $userId = null;
 
 	/**
 	 * @var string
