@@ -4,7 +4,7 @@
  */
 /* eslint-disable jsdoc/require-jsdoc */
 import type { User } from '@nextcloud/cypress'
-import { createShare, type ShareSetting } from '../files_sharing/filesSharingUtils'
+import { createShare, type ShareSetting } from '../files_sharing/FilesSharingUtils'
 
 export const uploadThreeVersions = (user: User, fileName: string) => {
 	// A new version will not be created if the changes occur

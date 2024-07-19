@@ -5,6 +5,7 @@
 
 <template>
 	<NcDialog class="public-auth-prompt"
+		data-cy-public-auth-prompt-dialog
 		dialog-classes="public-auth-prompt__dialog"
 		:can-close="false"
 		:name="dialogName">
@@ -26,16 +27,18 @@
 			@submit.prevent.stop="">
 			<NcTextField ref="input"
 				class="public-auth-prompt__input"
+				data-cy-public-auth-prompt-dialog-name
 				:label="t('files_sharing', 'Enter your name')"
-				name="name"
-				:required="true"
 				:minlength="2"
-				:value.sync="name" />
+				:required="true"
+				:value.sync="name"
+				name="name" />
 		</form>
 
 		<!-- Submit -->
 		<template #actions>
 			<NcButton ref="submit"
+				data-cy-public-auth-prompt-dialog-submit
 				:disabled="name.trim() === ''"
 				@click="onSubmit">
 				{{ t('files_sharing', 'Submit name') }}
