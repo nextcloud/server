@@ -29,7 +29,9 @@ namespace OCP\Dashboard;
  */
 interface IIconWidget extends IWidget {
 	/**
-	 * Get the absolute url for the widget icon
+	 * Get the absolute url for the widget icon (should be colored black or not have a color)
+	 *
+	 * The icon will be inverted automatically in mobile clients and when using dark mode
 	 *
 	 * @return string
 	 * @since 25.0.0
