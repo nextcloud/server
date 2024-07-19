@@ -91,11 +91,12 @@ interface IManager {
 	 * @param int $id The id of the task
 	 * @param string|null $error
 	 * @param array|null $result
+	 * @param bool $isUsingFileIds
 	 * @throws Exception If the query failed
 	 * @throws NotFoundException If the task could not be found
 	 * @since 30.0.0
 	 */
-	public function setTaskResult(int $id, ?string $error, ?array $result): void;
+	public function setTaskResult(int $id, ?string $error, ?array $result, bool $isUsingFileIds = false): void;
 
 	/**
 	 * @param int $id
@@ -152,7 +153,7 @@ interface IManager {
 
 	/**
 	 * Prepare the task's input data, so it can be processed by the provider
-	 * ie. this replaces file ids with base64 data
+	 * ie. this replaces file ids with File objects
 	 *
 	 * @param Task $task
 	 * @return array<array-key, list<numeric|string|File>|numeric|string|File>
@@ -160,6 +161,7 @@ interface IManager {
 	 * @throws GenericFileException
 	 * @throws LockedException
 	 * @throws ValidationException
+	 * @throws UnauthorizedException
 	 * @since 30.0.0
 	 */
 	public function prepareInputData(Task $task): array;
