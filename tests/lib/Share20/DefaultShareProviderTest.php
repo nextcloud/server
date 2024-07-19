@@ -111,7 +111,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 
 	protected function tearDown(): void {
 		$this->dbConn->getQueryBuilder()->delete('share')->execute();
-		$this->dbConn->getQueryBuilder()->delete('filecache')->execute();
+		$this->dbConn->getQueryBuilder()->delete('filecache')->runAcrossAllShards()->execute();
 		$this->dbConn->getQueryBuilder()->delete('storages')->execute();
 	}
 
@@ -924,10 +924,10 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$qb = $this->dbConn->getQueryBuilder();
 		$qb->insert('filecache')
 			->values([
-				'storage' => $qb->expr()->literal($storage),
-				'path' => $qb->expr()->literal($path),
-				'path_hash' => $qb->expr()->literal(md5($path)),
-				'name' => $qb->expr()->literal(basename($path)),
+				'storage' => $qb->createNamedParameter($storage, IQueryBuilder::PARAM_INT),
+				'path' => $qb->createNamedParameter($path),
+				'path_hash' => $qb->createNamedParameter(md5($path)),
+				'name' => $qb->createNamedParameter(basename($path)),
 			]);
 		$this->assertEquals(1, $qb->execute());
 		return $qb->getLastInsertId();
