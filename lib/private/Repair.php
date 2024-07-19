@@ -27,7 +27,6 @@ use OC\Repair\Events\RepairStartEvent;
 use OC\Repair\Events\RepairStepEvent;
 use OC\Repair\Events\RepairWarningEvent;
 use OC\Repair\MoveUpdaterStepFile;
-use OC\Repair\NC11\FixMountStorages;
 use OC\Repair\NC13\AddLogRotateJob;
 use OC\Repair\NC14\AddPreviewBackgroundCleanupJob;
 use OC\Repair\NC16\AddClenupLoginFlowV2BackgroundJob;
@@ -163,7 +162,6 @@ class Repair implements IOutput {
 				\OC::$server->getConfig()
 			),
 			new MigrateOauthTables(\OC::$server->get(Connection::class)),
-			new FixMountStorages(\OC::$server->getDatabaseConnection()),
 			new UpdateLanguageCodes(\OC::$server->getDatabaseConnection(), \OC::$server->getConfig()),
 			new AddLogRotateJob(\OC::$server->getJobList()),
 			new ClearFrontendCaches(\OC::$server->getMemCacheFactory(), \OCP\Server::get(JSCombiner::class)),
