@@ -371,6 +371,7 @@ class Cache implements ICache {
 				$query = $this->getQueryBuilder();
 				$query->update('filecache_extended')
 					->whereFileId($id)
+					->hintShardKey('storage', $this->getNumericStorageId())
 					->andWhere($query->expr()->orX(...array_map(function ($key, $value) use ($query) {
 						return $query->expr()->orX(
 							$query->expr()->neq($key, $query->createNamedParameter($value)),
@@ -523,7 +524,8 @@ class Cache implements ICache {
 
 			$query = $this->getQueryBuilder();
 			$query->delete('filecache_extended')
-				->whereFileId($entry->getId());
+				->whereFileId($entry->getId())
+				->hintShardKey('storage', $this->getNumericStorageId());
 			$query->execute();
 
 			if ($entry->getMimeType() == FileInfo::MIMETYPE_FOLDER) {
@@ -567,7 +569,8 @@ class Cache implements ICache {
 
 			$query = $this->getQueryBuilder();
 			$query->delete('filecache_extended')
-				->where($query->expr()->in('fileid', $query->createParameter('childIds')));
+				->where($query->expr()->in('fileid', $query->createParameter('childIds')))
+				->hintShardKey('storage', $this->getNumericStorageId());
 
 			foreach (array_chunk($childIds, 1000) as $childIdChunk) {
 				$query->setParameter('childIds', $childIdChunk, IQueryBuilder::PARAM_INT_ARRAY);
