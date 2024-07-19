@@ -73,6 +73,8 @@ class BackgroundCleanupJob extends TimedJob {
 			->where(
 				$qb->expr()->isNull('b.fileid')
 			)->andWhere(
+				$qb->expr()->eq('a.storage', $qb->createNamedParameter($this->previewFolder->getStorageId()))
+			)->andWhere(
 				$qb->expr()->eq('a.parent', $qb->createNamedParameter($this->previewFolder->getId()))
 			)->andWhere(
 				$qb->expr()->like('a.name', $qb->createNamedParameter('__%'))
