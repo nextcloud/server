@@ -272,6 +272,7 @@ OC.L10N.register(
     "Templates" : "Predloge",
     "New template folder" : "Nova mapa predlog",
     "Some files could not be moved" : "Nekaterih datotek ni mogoče premakniti",
+    "Files copied successfully" : "Datoteke so uspešno kopirane",
     "Files moved successfully" : "Datoteke so uspešno premaknjene",
     "Upload cancelled" : "Pošiljanje je bilo preklicano",
     "_{folderCount} folder_::_{folderCount} folders_" : ["{folderCount} mapa","{folderCount} mapi","{folderCount} mape","{folderCount} map"],
