@@ -257,7 +257,7 @@ OC.L10N.register(
     "Advanced settings" : "Напредне поставке",
     "Share label" : "Подели ознаки",
     "Set password" : "Постави лозинку",
-    "Password expires {passwordExpirationTime}" : "Lozinka ističe {passvordEkpirationTime}",
+    "Password expires {passwordExpirationTime}" : "Lozinka ističe {passwordExpirationTime}",
     "Password expired" : "Lozinka istekla",
     "Video verification" : "Видео потврда",
     "Set expiration date" : "Постави датум истека",
