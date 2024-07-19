@@ -100,7 +100,7 @@
 			</div>
 			<div v-if="showConfig.showLanguages"
 				class="dialog__item">
-				<NcSelect	v-model="newUser.language"
+				<NcSelect v-model="newUser.language"
 					class="dialog__select"
 					:input-label="t('settings', 'Language')"
 					:placeholder="t('settings', 'Set default language')"

@@ -114,7 +114,9 @@
 		</div>
 
 		<div v-else class="unified-search-modal__results">
-			<h3 class="hidden-visually">{{ t('core', 'Results') }}</h3>
+			<h3 class="hidden-visually">
+				{{ t('core', 'Results') }}
+			</h3>
 			<div v-for="providerResult in results" :key="providerResult.id" class="result">
 				<h4 :id="`unified-search-result-${providerResult.id}`" class="result-title">
 					{{ providerResult.provider }}
@@ -311,7 +313,7 @@ export default defineComponent({
 			immediate: true,
 			handler() {
 				this.searchQuery = this.query.trim()
-			}
+			},
 		},
 	},
 
