@@ -1408,6 +1408,8 @@ class Server extends ServerContainer implements IServerContainer {
 
 		$this->registerAlias(IRemoteAddress::class, RemoteAddress::class);
 
+		$this->registerAlias(\OCP\Security\Ip\IFactory::class, \OC\Security\Ip\Factory::class);
+
 		$this->connectDispatcher();
 	}
 
