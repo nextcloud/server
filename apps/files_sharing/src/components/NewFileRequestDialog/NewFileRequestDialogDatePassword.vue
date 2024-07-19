@@ -201,7 +201,7 @@ export default defineComponent({
 
 	methods: {
 		onToggleDeadline(checked: boolean) {
-			this.$emit('update:expirationDate', checked ? new Date() : null)
+			this.$emit('update:expirationDate', checked ? (this.maxDate || this.minDate) : null)
 		},
 
 		async onTogglePassword(checked: boolean) {

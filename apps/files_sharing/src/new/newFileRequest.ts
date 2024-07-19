@@ -14,8 +14,10 @@ const NewFileRequestDialogVue = defineAsyncComponent(() => import('../components
 
 const sharingConfig = new Config()
 
+export const EntryId = 'file-request'
+
 export const entry = {
-	id: 'file-request',
+	id: EntryId,
 	displayName: t('files_sharing', 'Create file request'),
 	iconSvgInline: FileUploadSvg,
 	order: 30,

@@ -17,6 +17,7 @@
 			:readonly="true"
 			:show-trailing-button="true"
 			:trailing-button-label="t('files_sharing', 'Copy to clipboard')"
+			data-cy-file-request-dialog-fieldset="link"
 			@click="copyShareLink"
 			@trailing-button-click="copyShareLink">
 			<template #trailing-button-icon>
@@ -30,6 +31,7 @@
 			<NcTextField :value.sync="email"
 				:label="t('files_sharing', 'Send link via email')"
 				:placeholder="t('files_sharing', 'Enter an email address or paste a list')"
+				data-cy-file-request-dialog-fieldset="email"
 				type="email"
 				@keypress.enter.stop="addNewEmail"
 				@paste.stop.prevent="onPasteEmails"
