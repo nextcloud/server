@@ -59,16 +59,16 @@ class TaskMapper extends QBMapper {
 			->setMaxResults(1)
 			->orderBy('last_updated', 'ASC');
 
-		if (count($taskTypes) > 0) {
-			$filter = $qb->expr()->orX();
+		if (!empty($taskTypes)) {
+			$filter = [];
 			foreach ($taskTypes as $taskType) {
-				$filter->add($qb->expr()->eq('type', $qb->createPositionalParameter($taskType)));
+				$filter[] = $qb->expr()->eq('type', $qb->createPositionalParameter($taskType));
 			}
 
-			$qb->andWhere($filter);
+			$qb->andWhere($qb->expr()->orX(...$filter));
 		}
 
-		if (count($taskIdsToIgnore) > 0) {
+		if (!empty($taskIdsToIgnore)) {
 			$qb->andWhere($qb->expr()->notIn('id', $qb->createNamedParameter($taskIdsToIgnore, IQueryBuilder::PARAM_INT_ARRAY)));
 		}
 

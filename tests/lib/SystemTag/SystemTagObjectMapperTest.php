@@ -152,6 +152,7 @@ class SystemTagObjectMapperTest extends TestCase {
 			[$this->tag1->getId(), $this->tag2->getId(), $this->tag3->getId()],
 			'testtype'
 		);
+		sort($objectIds);
 
 		$this->assertEquals([
 			'1',

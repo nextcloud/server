@@ -5,6 +5,7 @@
  */
 namespace OC\DB\QueryBuilder\FunctionBuilder;
 
+use OC\DB\Connection;
 use OC\DB\QueryBuilder\QueryFunction;
 use OC\DB\QueryBuilder\QuoteHelper;
 use OCP\DB\QueryBuilder\IFunctionBuilder;
@@ -13,7 +14,7 @@ use OCP\DB\QueryBuilder\IQueryFunction;
 use OCP\IDBConnection;
 
 class FunctionBuilder implements IFunctionBuilder {
-	/** @var IDBConnection */
+	/** @var IDBConnection|Connection */
 	protected $connection;
 
 	/** @var IQueryBuilder */

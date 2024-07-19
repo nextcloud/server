@@ -10,6 +10,7 @@ namespace Test\DB\QueryBuilder;
 use Doctrine\DBAL\Query\Expression\ExpressionBuilder as DoctrineExpressionBuilder;
 use OC\DB\QueryBuilder\ExpressionBuilder\ExpressionBuilder;
 use OCP\DB\QueryBuilder\IQueryBuilder;
+use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 /**
@@ -32,15 +33,19 @@ class ExpressionBuilderTest extends TestCase {
 	/** @var \Doctrine\DBAL\Connection */
 	protected $internalConnection;
 
+	/** @var LoggerInterface */
+	protected $logger;
+
 	protected function setUp(): void {
 		parent::setUp();
 
 		$this->connection = \OC::$server->getDatabaseConnection();
 		$this->internalConnection = \OC::$server->get(\OC\DB\Connection::class);
+		$this->logger = $this->createMock(LoggerInterface::class);
 
 		$queryBuilder = $this->createMock(IQueryBuilder::class);
 
-		$this->expressionBuilder = new ExpressionBuilder($this->connection, $queryBuilder);
+		$this->expressionBuilder = new ExpressionBuilder($this->connection, $queryBuilder, $this->logger);
 
 		$this->doctrineExpressionBuilder = new DoctrineExpressionBuilder($this->internalConnection);
 	}
