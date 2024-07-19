@@ -847,7 +847,7 @@ class ReminderService {
 	private function getCalendarTimeZone(int $calendarid): DateTimeZone {
 		$calendarInfo = $this->caldavBackend->getCalendarById($calendarid);
 		$tzProp = '{urn:ietf:params:xml:ns:caldav}calendar-timezone';
-		if (!isset($calendarInfo[$tzProp])) {
+		if (empty($calendarInfo[$tzProp])) {
 			// Defaulting to UTC
 			return new DateTimeZone('UTC');
 		}
