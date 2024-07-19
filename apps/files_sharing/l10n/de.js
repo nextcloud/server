@@ -114,7 +114,7 @@ OC.L10N.register(
     "Accept" : "Akzeptieren",
     "Decline" : "Ablehnen",
     "Expiration date" : "Ablaufdatum",
-    "Set a password" : "Benötigt keine Übersetzung. Hier wird nur die formelle Übersetzung verwendet (de_DE).",
+    "Set a password" : "Passwort setzen",
     "Password" : "Passwort",
     "Share link" : "Link teilen",
     "Copy to clipboard" : "In die Zwischenablage kopieren",
