@@ -119,6 +119,9 @@ class InfoParser {
 		if (!array_key_exists('backend', $array['dependencies'])) {
 			$array['dependencies']['backend'] = [];
 		}
+		if (!array_key_exists('api-version', $array)) {
+			$array['api-version'] = [];
+		}
 
 		if (array_key_exists('types', $array)) {
 			if (is_array($array['types'])) {
