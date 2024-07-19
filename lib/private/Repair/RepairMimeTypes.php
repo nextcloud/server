@@ -58,6 +58,7 @@ class RepairMimeTypes implements IRepairStep {
 
 		$update = $this->connection->getQueryBuilder();
 		$update->update('filecache')
+			->runAcrossAllShards()
 			->set('mimetype', $update->createParameter('mimetype'))
 			->where($update->expr()->neq('mimetype', $update->createParameter('mimetype'), IQueryBuilder::PARAM_INT))
 			->andWhere($update->expr()->neq('mimetype', $update->createParameter('folder'), IQueryBuilder::PARAM_INT))
