@@ -54,6 +54,7 @@ module.exports = {
 		init: path.join(__dirname, 'apps/files_sharing/src', 'init.ts'),
 		main: path.join(__dirname, 'apps/files_sharing/src', 'main.ts'),
 		'personal-settings': path.join(__dirname, 'apps/files_sharing/src', 'personal-settings.js'),
+		'public-file-request': path.join(__dirname, 'apps/files_sharing/src', 'public-file-request.ts'),
 	},
 	files_trashbin: {
 		init: path.join(__dirname, 'apps/files_trashbin/src', 'files-init.ts'),

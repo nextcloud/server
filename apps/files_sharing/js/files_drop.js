@@ -22,7 +22,7 @@
 				// note: password not be required, the endpoint
 				// will recognize previous validation from the session
 				root: OC.getRootPath() + '/public.php/dav/files/' + $('#sharingToken').val() + '/',
-				useHTTPS: OC.getProtocol() === 'https'
+				useHTTPS: OC.getProtocol() === 'https',
 			});
 
 			// We only process one file at a time 🤷‍♀️
@@ -45,6 +45,10 @@
 
 			if (!data.headers) {
 				data.headers = {};
+			}
+
+			if (localStorage.getItem('nick') !== null) {
+				data.headers['X-NC-Nickname'] = localStorage.getItem('nick')
 			}
 
 			$('#drop-upload-done-indicator').addClass('hidden');

@@ -25,8 +25,8 @@
 			</div>
 
 			<!-- clipboard -->
-			<NcActions v-if="share && !isEmailShareType && share.token" ref="copyButton" class="sharing-entry__copy">
-				<NcActionButton	:title="copyLinkTooltip"
+			<NcActions v-if="share && (!isEmailShareType || isFileRequest) && share.token" ref="copyButton" class="sharing-entry__copy">
+				<NcActionButton :title="copyLinkTooltip"
 					:aria-label="copyLinkTooltip"
 					@click.prevent="copyLink">
 					<template #icon>

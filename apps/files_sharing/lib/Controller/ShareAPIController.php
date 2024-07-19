@@ -596,8 +596,10 @@ class ShareAPIController extends OCSController {
 			throw new OCSNotFoundException($this->l->t('Invalid permissions'));
 		}
 
-		// Shares always require read permissions
-		$permissions |= Constants::PERMISSION_READ;
+		// Shares always require read permissions OR create permissions
+		if (($permissions & Constants::PERMISSION_READ) === 0 && ($permissions & Constants::PERMISSION_CREATE) === 0) {
+			$permissions |= Constants::PERMISSION_READ;
+		}
 
 		if ($node instanceof \OCP\Files\File) {
 			// Single file shares should never have delete or create permissions
