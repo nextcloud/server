@@ -232,4 +232,12 @@ class ConnectionAdapter implements IDBConnection {
 	public function getDatabaseProvider(): string {
 		return $this->inner->getDatabaseProvider();
 	}
+
+	/**
+	 * @internal Should only be used inside the QueryBuilder, ExpressionBuilder and FunctionBuilder
+	 * All apps and API code should not need this and instead use provided functionality from the above.
+	 */
+	public function getServerVersion(): string {
+		return $this->inner->getServerVersion();
+	}
 }

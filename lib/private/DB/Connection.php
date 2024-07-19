@@ -13,6 +13,7 @@ use Doctrine\DBAL\Cache\QueryCacheProfile;
 use Doctrine\DBAL\Configuration;
 use Doctrine\DBAL\Connections\PrimaryReadReplicaConnection;
 use Doctrine\DBAL\Driver;
+use Doctrine\DBAL\Driver\ServerInfoAwareConnection;
 use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\Exception\ConnectionLost;
 use Doctrine\DBAL\Platforms\MySQLPlatform;
@@ -748,5 +749,14 @@ class Connection extends PrimaryReadReplicaConnection {
 		} else {
 			throw new \Exception('Database ' . $platform::class . ' not supported');
 		}
+	}
+
+	/**
+	 * @internal Should only be used inside the QueryBuilder, ExpressionBuilder and FunctionBuilder
+	 * All apps and API code should not need this and instead use provided functionality from the above.
+	 */
+	public function getServerVersion(): string {
+		/** @var ServerInfoAwareConnection $this->_conn */
+		return $this->_conn->getServerVersion();
 	}
 }
