@@ -468,19 +468,91 @@ EOD;
 		];
 	}
 
-	public function testSyncSupport(): void {
+	public function testCalendarSynchronization(): void {
+
+		// construct calendar for testing
 		$calendarId = $this->createTestCalendar();
 
-		// fist call without synctoken
-		$changes = $this->backend->getChangesForCalendar($calendarId, '', 1);
-		$syncToken = $changes['syncToken'];
+		/** test fresh sync state with NO events in calendar */
+		// construct test state
+		$stateTest = ['syncToken' => 1, 'added' => [], 'modified' => [], 'deleted' => []];
+		// retrieve live state
+		$stateLive = $this->backend->getChangesForCalendar($calendarId, '', 1);
+		// test live state
+		$this->assertEquals($stateTest, $stateLive, 'Failed test fresh sync state with NO events in calendar');
 
-		// add a change
-		$event = $this->createEvent($calendarId, '20130912T130000Z', '20130912T140000Z');
+		/** test delta sync state with NO events in calendar */
+		// construct test state
+		$stateTest = ['syncToken' => 1, 'added' => [], 'modified' => [], 'deleted' => []];
+		// retrieve live state
+		$stateLive = $this->backend->getChangesForCalendar($calendarId, '2', 1);
+		// test live state
+		$this->assertEquals($stateTest, $stateLive, 'Failed test delta sync state with NO events in calendar');
 
-		// look for changes
-		$changes = $this->backend->getChangesForCalendar($calendarId, $syncToken, 1);
-		$this->assertEquals($event, $changes['added'][0]);
+		/** add events to calendar */
+		$event1 = $this->createEvent($calendarId, '20240701T130000Z', '20240701T140000Z');
+		$event2 = $this->createEvent($calendarId, '20240701T140000Z', '20240701T150000Z');
+		$event3 = $this->createEvent($calendarId, '20240701T150000Z', '20240701T160000Z');
+
+		/** test fresh sync state with events in calendar */
+		// construct expected state
+		$stateTest = ['syncToken' => 4, 'added' => [$event1, $event2, $event3], 'modified' => [], 'deleted' => []];
+		sort($stateTest['added']);
+		// retrieve live state
+		$stateLive = $this->backend->getChangesForCalendar($calendarId, '', 1);
+		// sort live state results
+		sort($stateLive['added']);
+		sort($stateLive['modified']);
+		sort($stateLive['deleted']);
+		// test live state
+		$this->assertEquals($stateTest, $stateLive, 'Failed test fresh sync state with events in calendar');
+
+		/** test delta sync state with events in calendar */
+		// construct expected state
+		$stateTest = ['syncToken' => 4, 'added' => [$event2, $event3], 'modified' => [], 'deleted' => []];
+		sort($stateTest['added']);
+		// retrieve live state
+		$stateLive = $this->backend->getChangesForCalendar($calendarId, '2', 1);
+		// sort live state results
+		sort($stateLive['added']);
+		sort($stateLive['modified']);
+		sort($stateLive['deleted']);
+		// test live state
+		$this->assertEquals($stateTest, $stateLive, 'Failed test delta sync state with events in calendar');
+		
+		/** modify/delete events in calendar */
+		$this->deleteEvent($calendarId, $event1);
+		$this->modifyEvent($calendarId, $event2, '20250701T140000Z', '20250701T150000Z');
+
+		/** test fresh sync state with modified/deleted events in calendar */
+		// construct expected state
+		$stateTest = ['syncToken' => 6, 'added' => [$event2, $event3], 'modified' => [], 'deleted' => []];
+		sort($stateTest['added']);
+		// retrieve live state
+		$stateLive = $this->backend->getChangesForCalendar($calendarId, '', 1);
+		// sort live state results
+		sort($stateLive['added']);
+		sort($stateLive['modified']);
+		sort($stateLive['deleted']);
+		// test live state
+		$this->assertEquals($stateTest, $stateLive, 'Failed test fresh sync state with modified/deleted events in calendar');
+
+		/** test delta sync state with modified/deleted events in calendar */
+		// construct expected state
+		$stateTest = ['syncToken' => 6, 'added' => [$event3], 'modified' => [$event2], 'deleted' => [$event1]];
+		// retrieve live state
+		$stateLive = $this->backend->getChangesForCalendar($calendarId, '3', 1);
+		// test live state
+		$this->assertEquals($stateTest, $stateLive, 'Failed test delta sync state with modified/deleted events in calendar');
+
+		/** test delta sync state with modified/deleted events in calendar and invalid token */
+		// construct expected state
+		$stateTest = ['syncToken' => 6, 'added' => [], 'modified' => [], 'deleted' => []];
+		// retrieve live state
+		$stateLive = $this->backend->getChangesForCalendar($calendarId, '6', 1);
+		// test live state
+		$this->assertEquals($stateTest, $stateLive, 'Failed test delta sync state with modified/deleted events in calendar and invalid token');
+
 	}
 
 	public function testPublications(): void {

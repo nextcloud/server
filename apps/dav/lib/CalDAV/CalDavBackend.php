@@ -2410,74 +2410,57 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 				);
 			$stmt = $qb->executeQuery();
 			$currentToken = $stmt->fetchOne();
+			$initialSync = !is_numeric($syncToken);
 
 			if ($currentToken === false) {
 				return null;
 			}
 
-			$result = [
-				'syncToken' => $currentToken,
-				'added' => [],
-				'modified' => [],
-				'deleted' => [],
-			];
-
-			if ($syncToken) {
-				$qb = $this->db->getQueryBuilder();
-
-				$qb->select('uri', 'operation')
-					->from('calendarchanges')
-					->where(
-						$qb->expr()->andX(
-							$qb->expr()->gte('synctoken', $qb->createNamedParameter($syncToken)),
-							$qb->expr()->lt('synctoken', $qb->createNamedParameter($currentToken)),
-							$qb->expr()->eq('calendarid', $qb->createNamedParameter($calendarId)),
-							$qb->expr()->eq('calendartype', $qb->createNamedParameter($calendarType))
-						)
-					)->orderBy('synctoken');
-				if (is_int($limit) && $limit > 0) {
-					$qb->setMaxResults($limit);
-				}
-
-				// Fetching all changes
-				$stmt = $qb->executeQuery();
-				$changes = [];
-
-				// This loop ensures that any duplicates are overwritten, only the
-				// last change on a node is relevant.
-				while ($row = $stmt->fetch()) {
-					$changes[$row['uri']] = $row['operation'];
-				}
-				$stmt->closeCursor();
-
-				foreach ($changes as $uri => $operation) {
-					switch ($operation) {
-						case 1:
-							$result['added'][] = $uri;
-							break;
-						case 2:
-							$result['modified'][] = $uri;
-							break;
-						case 3:
-							$result['deleted'][] = $uri;
-							break;
-					}
-				}
-			} else {
-				// No synctoken supplied, this is the initial sync.
+			// evaluate if this is a initial sync and construct appropriate command
+			if ($initialSync) {
 				$qb = $this->db->getQueryBuilder();
 				$qb->select('uri')
 					->from('calendarobjects')
-					->where(
-						$qb->expr()->andX(
-							$qb->expr()->eq('calendarid', $qb->createNamedParameter($calendarId)),
-							$qb->expr()->eq('calendartype', $qb->createNamedParameter($calendarType))
-						)
-					);
-				$stmt = $qb->executeQuery();
-				$result['added'] = $stmt->fetchAll(\PDO::FETCH_COLUMN);
-				$stmt->closeCursor();
+					->where($qb->expr()->eq('calendarid', $qb->createNamedParameter($calendarId)))
+					->andWhere($qb->expr()->eq('calendartype', $qb->createNamedParameter($calendarType)))
+					->andWhere($qb->expr()->isNull('deleted_at'));
+			} else {
+				$qb = $this->db->getQueryBuilder();
+				$qb->select('uri', $qb->func()->max('operation'))
+					->from('calendarchanges')
+					->where($qb->expr()->eq('calendarid', $qb->createNamedParameter($calendarId)))
+					->andWhere($qb->expr()->eq('calendartype', $qb->createNamedParameter($calendarType)))
+					->andWhere($qb->expr()->gte('synctoken', $qb->createNamedParameter($syncToken)))
+					->andWhere($qb->expr()->lt('synctoken', $qb->createNamedParameter($currentToken)))
+					->groupBy('uri');
 			}
+			// evaluate if limit exists
+			if (is_numeric($limit)) {
+				$qb->setMaxResults($limit);
+			}
+			// execute command
+			$stmt = $qb->executeQuery();
+			// build results
+			$result = ['syncToken' => $currentToken, 'added' => [], 'modified' => [], 'deleted' => []];
+			// retrieve results
+			if ($initialSync) {
+				$result['added'] = $stmt->fetchAll(\PDO::FETCH_COLUMN);
+			} else {
+				// \PDO::FETCH_NUM is needed due to the inconsistent field names
+				// produced by doctrine for MAX() with different databases
+				while ($entry = $stmt->fetch(\PDO::FETCH_NUM)) {
+					// assign uri (column 0) to appropriate mutation based on operation (column 1)
+					// forced (int) is needed as doctrine with OCI returns the operation field as string not integer
+					match ((int)$entry[1]) {
+						1 => $result['added'][] = $entry[0],
+						2 => $result['modified'][] = $entry[0],
+						3 => $result['deleted'][] = $entry[0],
+						default => $this->logger->debug('Unknown calendar change operation detected')
+					};
+				}
+			}
+			$stmt->closeCursor();
+
 			return $result;
 		}, $this->db);
 	}
