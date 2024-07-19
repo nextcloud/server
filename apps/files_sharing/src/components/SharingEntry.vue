@@ -63,6 +63,20 @@ export default {
 	},
 
 	mixins: [SharesMixin, ShareDetails],
+	props: {
+    share: {
+      type: Object,
+      required: true,
+    },
+    fileInfo: {
+      type: Object,
+      required: true,
+    },
+    isUnique: {
+      type: Boolean,
+      required: true,
+    },
+  },
 
 	computed: {
 		title() {
@@ -118,6 +132,11 @@ export default {
 		onMenuClose() {
 			this.onNoteSubmit()
 		},
+	},
+	watch: {
+		share(newShare) {
+			console.log('Shareeeeee prop changed:', newShare)
+		}
 	},
 }
 </script>

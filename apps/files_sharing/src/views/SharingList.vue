@@ -53,5 +53,10 @@ export default {
 			}
 		},
 	},
+	watch: {
+		shares(old, newShares) {
+			console.log('Shares prop changed:', old, newShares)
+		}
+	}
 }
 </script>
