@@ -1259,11 +1259,6 @@
       <code>string</code>
     </InvalidReturnType>
   </file>
-  <file src="apps/workflowengine/lib/Check/FileSystemTags.php">
-    <UndefinedDocblockClass>
-      <code><![CDATA[$this->storage]]></code>
-    </UndefinedDocblockClass>
-  </file>
   <file src="apps/workflowengine/lib/Check/RequestRemoteAddress.php">
     <InvalidArgument>
       <code>$decodedValue[1]</code>
