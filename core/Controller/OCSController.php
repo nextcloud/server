@@ -5,8 +5,10 @@
  */
 namespace OC\Core\Controller;
 
+use OC\App\AppManager;
 use OC\CapabilitiesManager;
 use OC\Security\IdentityProof\Manager;
+use OC_App;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\ApiRoute;
 use OCP\AppFramework\Http\Attribute\OpenAPI;
@@ -23,6 +25,7 @@ class OCSController extends \OCP\AppFramework\OCSController {
 		private IUserSession $userSession,
 		private IUserManager $userManager,
 		private Manager $keyManager,
+		private AppManager $appManager,
 	) {
 		parent::__construct($appName, $request);
 	}
@@ -49,7 +52,7 @@ class OCSController extends \OCP\AppFramework\OCSController {
 	 *
 	 * Get the capabilities
 	 *
-	 * @return DataResponse<Http::STATUS_OK, array{version: array{major: int, minor: int, micro: int, string: string, edition: '', extendedSupport: bool}, capabilities: array<string, mixed>}, array{}>
+	 * @return DataResponse<Http::STATUS_OK, array{version: array{major: int, minor: int, micro: int, string: string, edition: '', extendedSupport: bool}, capabilities: array<string, mixed>, features: array<string, list<string>>, apps: array<string, array{version: string, api_versions: list<string>}>}, array{}>
 	 *
 	 * 200: Capabilities returned
 	 */
@@ -70,6 +73,15 @@ class OCSController extends \OCP\AppFramework\OCSController {
 			$result['capabilities'] = $this->capabilitiesManager->getCapabilities();
 		} else {
 			$result['capabilities'] = $this->capabilitiesManager->getCapabilities(true);
+		}
+
+		$result['features'] = $this->capabilitiesManager->getFeatures();
+
+		$result['apps'] = [];
+		foreach (OC_App::getEnabledApps() as $app) {
+			$info = $this->appManager->getAppInfo($app);
+			$result['apps'][$app]['version'] = (string)$info['version'];
+			$result['apps'][$app]['api_versions'] = array_values(array_map(static fn ($apiVersion) => (string)$apiVersion, (array)$info['api-version']));
 		}
 
 		$response = new DataResponse($result);
