@@ -110,7 +110,6 @@ class QuerySearchHelper {
 		$query
 			->leftJoin('file', 'vcategory_to_object', 'tagmap', $query->expr()->eq('file.fileid', 'tagmap.objid'))
 			->leftJoin('tagmap', 'vcategory', 'tag', $query->expr()->andX(
-				$query->expr()->eq('tagmap.type', 'tag.type'),
 				$query->expr()->eq('tagmap.categoryid', 'tag.id'),
 				$query->expr()->eq('tag.type', $query->createNamedParameter('files')),
 				$query->expr()->eq('tag.uid', $query->createNamedParameter($user->getUID()))
