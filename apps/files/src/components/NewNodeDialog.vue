@@ -3,13 +3,15 @@
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 <template>
-	<NcDialog :name="name"
+	<NcDialog data-cy-files-new-node-dialog
+		:name="name"
 		:open="open"
 		close-on-click-outside
 		out-transition
 		@update:open="onClose">
 		<template #actions>
-			<NcButton type="primary"
+			<NcButton data-cy-files-new-node-dialog-submit
+				type="primary"
 				:disabled="!isUniqueName"
 				@click="onCreate">
 				{{ t('files', 'Create') }}
@@ -17,6 +19,7 @@
 		</template>
 		<form @submit.prevent="onCreate">
 			<NcTextField ref="input"
+				data-cy-files-new-node-dialog-input
 				:error="!isUniqueName"
 				:helper-text="errorMessage"
 				:label="label"
