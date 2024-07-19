@@ -23,7 +23,7 @@ class PgSqlExpressionBuilder extends ExpressionBuilder {
 	public function castColumn($column, $type): IQueryFunction {
 		switch ($type) {
 			case IQueryBuilder::PARAM_INT:
-				return new QueryFunction('CAST(' . $this->helper->quoteColumnName($column) . ' AS INT)');
+				return new QueryFunction('CAST(' . $this->helper->quoteColumnName($column) . ' AS BIGINT)');
 			case IQueryBuilder::PARAM_STR:
 				return new QueryFunction('CAST(' . $this->helper->quoteColumnName($column) . ' AS TEXT)');
 			default:

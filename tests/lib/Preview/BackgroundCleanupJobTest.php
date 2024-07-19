@@ -180,9 +180,11 @@ class BackgroundCleanupJobTest extends \Test\TestCase {
 		$f1->newFile('foo.jpg', 'foo');
 		$f2 = $appdata->newFolder('123456782');
 		$f2->newFile('foo.jpg', 'foo');
+		$f2 = $appdata->newFolder((string)PHP_INT_MAX - 1);
+		$f2->newFile('foo.jpg', 'foo');
 
 		$appdata = \OC::$server->getAppDataDir('preview');
-		$this->assertSame(2, count($appdata->getDirectoryListing()));
+		$this->assertSame(3, count($appdata->getDirectoryListing()));
 
 		$job = new BackgroundCleanupJob($this->timeFactory, $this->connection, $this->getRoot(), $this->mimeTypeLoader, true);
 		$job->run([]);
