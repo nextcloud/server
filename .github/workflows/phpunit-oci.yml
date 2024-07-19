@@ -54,6 +54,7 @@ jobs:
     if: ${{ needs.changes.outputs.src != 'false' && github.repository_owner != 'nextcloud-gmbh' }}
 
     strategy:
+      fail-fast: false
       matrix:
         include:
           - oracle-versions: '11'
