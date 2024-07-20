@@ -12,6 +12,8 @@
     "{temperature} {unit} clear sky" : "{temperature} {unit} trời quang",
     "{temperature} {unit} cloudy later today" : "Trời nhiều mây vào cuối ngày hôm nay",
     "{temperature} {unit} cloudy" : "{temperature} {unit} nhiều mây",
+    "{temperature} {unit} fair weather later today" : "{temperature}{unit}thời tiết đẹp vào cuối ngày hôm nay",
+    "{temperature} {unit} fair weather" : "{temperature}{unit}thời tiết đẹp",
     "{temperature} {unit} foggy" : "{temperature} {unit} sương mù",
     "{temperature} {unit} light rainfall" : "{temperature} {unit} mưa nhẹ",
     "More weather for {adr}" : "Thêm thông tin thời tiết cho {adr}",
