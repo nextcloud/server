@@ -168,6 +168,7 @@ OC.L10N.register(
     "Talk conversation" : "Resonada de Talk",
     "Deck board" : "Tabella in Deck",
     "on {server}" : "in {server}",
+    "Enter your name" : "Inserta•nche su nùmene tuo",
     "Allow upload and editing" : "Permite carrigamentu e modìficas",
     "Allow editing" : "Cunsenti sa modìfica",
     "Advanced settings" : "Cunfiguratziones avantzadas",
