@@ -209,6 +209,13 @@ class IMipService {
 			$endTime = $this->l10n->l('time', $er->endDateTime(), ['width' => 'short']) . ' (' . $er->endTimeZone()->getName() . ')';
 		}
 		// generate localized when string
+		// TRANSLATORS
+		// Indicates when a calendar event will happen, shown on invitation emails
+		// Output produced in order:
+		// In a day/week/month/year on July 1, 2024 for the entire day
+		// In a day/week/month/year on July 1, 2024 between 8:00 AM - 9:00 AM (America/Toronto)
+		// In 2 days/weeks/monthss/years on July 1, 2024 for the entire day
+		// In 2 days/weeks/monthss/years on July 1, 2024 between 8:00 AM - 9:00 AM (America/Toronto)
 		return match ([($occuring[0] > 1), !empty($endTime)]) {
 			[false, false] => $this->l10n->t('In a %1$s on %2$s for the entire day', [$occuring[1], $startDate]),
 			[false, true] => $this->l10n->t('In a %1$s on %2$s between %3$s - %4$s', [$occuring[1], $startDate, $startTime, $endTime]),
@@ -264,6 +271,17 @@ class IMipService {
 			$conclusion = $this->l10n->l('date', $er->recurringConcludesOn(), ['width' => 'long']);
 		}
 		// generate localized when string
+		// TRANSLATORS
+		// Indicates when a calendar event will happen, shown on invitation emails
+		// Output produced in order:
+		// Every Day for the entire day
+		// Every Day for the entire day until July 13, 2024
+		// Every Day between 8:00 AM - 9:00 AM (America/Toronto)
+		// Every Day between 8:00 AM - 9:00 AM (America/Toronto) until July 13, 2024
+		// Every 3 Days for the entire day
+		// Every 3 Days for the entire day until July 13, 2024
+		// Every 3 Days between 8:00 AM - 9:00 AM (America/Toronto)
+		// Every 3 Days between 8:00 AM - 9:00 AM (America/Toronto) until July 13, 2024
 		return match ([($interval > 1), !empty($startTime), !empty($conclusion)]) {
 			[false, false, false] => $this->l10n->t('Every Day for the entire day'),
 			[false, false, true] => $this->l10n->t('Every Day for the entire day until %1$s', [$conclusion]),
@@ -307,6 +325,17 @@ class IMipService {
 			$conclusion = $this->l10n->l('date', $er->recurringConcludesOn(), ['width' => 'long']);
 		}
 		// generate localized when string
+		// TRANSLATORS
+		// Indicates when a calendar event will happen, shown on invitation emails
+		// Output produced in order:
+		// Every Week on Monday, Wednesday, Friday for the entire day
+		// Every Week on Monday, Wednesday, Friday for the entire day until July 13, 2024
+		// Every Week on Monday, Wednesday, Friday between 8:00 AM - 9:00 AM (America/Toronto)
+		// Every Week on Monday, Wednesday, Friday between 8:00 AM - 9:00 AM (America/Toronto) until July 13, 2024
+		// Every 2 Weeks on Monday, Wednesday, Friday for the entire day
+		// Every 2 Weeks on Monday, Wednesday, Friday for the entire day until July 13, 2024
+		// Every 2 Weeks on Monday, Wednesday, Friday between 8:00 AM - 9:00 AM (America/Toronto)
+		// Every 2 Weeks on Monday, Wednesday, Friday between 8:00 AM - 9:00 AM (America/Toronto) until July 13, 2024
 		return match ([($interval > 1), !empty($startTime), !empty($conclusion)]) {
 			[false, false, false] => $this->l10n->t('Every Week on %1$s for the entire day', [$days]),
 			[false, false, true] => $this->l10n->t('Every Week on %1$s for the entire day until %2$s', [$days, $conclusion]),
@@ -355,6 +384,25 @@ class IMipService {
 			$conclusion = $this->l10n->l('date', $er->recurringConcludesOn(), ['width' => 'long']);
 		}
 		// generate localized when string
+		// TRANSLATORS
+		// Indicates when a calendar event will happen, shown on invitation emails
+		// Output produced in order, output varies depending on if the event is absolute or releative:
+		// Absolute: Every Month on the 1, 8 for the entire day
+		// Relative: Every Month on the First Sunday, Saturday for the entire day
+		// Absolute: Every Month on the 1, 8 for the entire day until December 31, 2024
+		// Relative: Every Month on the First Sunday, Saturday for the entire day until December 31, 2024
+		// Absolute: Every Month on the 1, 8 between 8:00 AM - 9:00 AM (America/Toronto)
+		// Relative: Every Month on the First Sunday, Saturday between 8:00 AM - 9:00 AM (America/Toronto)
+		// Absolute: Every Month on the 1, 8 between 8:00 AM - 9:00 AM (America/Toronto) until December 31, 2024
+		// Relative: Every Month on the First Sunday, Saturday between 8:00 AM - 9:00 AM (America/Toronto) until December 31, 2024
+		// Absolute: Every 2 Months on the 1, 8 for the entire day
+		// Relative: Every 2 Months on the First Sunday, Saturday for the entire day
+		// Absolute: Every 2 Months on the 1, 8 for the entire day until December 31, 2024
+		// Relative: Every 2 Months on the First Sunday, Saturday for the entire day until December 31, 2024
+		// Absolute: Every 2 Months on the 1, 8 between 8:00 AM - 9:00 AM (America/Toronto)
+		// Relative: Every 2 Months on the First Sunday, Saturday between 8:00 AM - 9:00 AM (America/Toronto)
+		// Absolute: Every 2 Months on the 1, 8 between 8:00 AM - 9:00 AM (America/Toronto) until December 31, 2024
+		// Relative: Every 2 Months on the First Sunday, Saturday between 8:00 AM - 9:00 AM (America/Toronto) until December 31, 2024
 		return match ([($interval > 1), !empty($startTime), !empty($conclusion)]) {
 			[false, false, false] => $this->l10n->t('Every Month on the %1$s for the entire day', [$days]),
 			[false, false, true] => $this->l10n->t('Every Month on the %1$s for the entire day until %2$s', [$days, $conclusion]),
@@ -404,6 +452,25 @@ class IMipService {
 			$conclusion = $this->l10n->l('date', $er->recurringConcludesOn(), ['width' => 'long']);
 		}
 		// generate localized when string
+		// TRANSLATORS
+		// Indicates when a calendar event will happen, shown on invitation emails
+		// Output produced in order, output varies depending on if the event is absolute or releative:
+		// Absolute: Every Year in July on the 1st for the entire day
+		// Relative: Every Year in July on the First Sunday, Saturday for the entire day
+		// Absolute: Every Year in July on the 1st for the entire day until July 31, 2026
+		// Relative: Every Year in July on the First Sunday, Saturday for the entire day until July 31, 2026
+		// Absolute: Every Year in July on the 1st between 8:00 AM - 9:00 AM (America/Toronto)
+		// Relative: Every Year in July on the First Sunday, Saturday between 8:00 AM - 9:00 AM (America/Toronto)
+		// Absolute: Every Year in July on the 1st between 8:00 AM - 9:00 AM (America/Toronto) until July 31, 2026
+		// Relative: Every Year in July on the First Sunday, Saturday between 8:00 AM - 9:00 AM (America/Toronto) until July 31, 2026
+		// Absolute: Every 2 Years in July on the 1st for the entire day
+		// Relative: Every 2 Years in July on the First Sunday, Saturday for the entire day
+		// Absolute: Every 2 Years in July on the 1st for the entire day until July 31, 2026
+		// Relative: Every 2 Years in July on the First Sunday, Saturday for the entire day until July 31, 2026
+		// Absolute: Every 2 Years in July on the 1st between 8:00 AM - 9:00 AM (America/Toronto)
+		// Relative: Every 2 Years in July on the First Sunday, Saturday between 8:00 AM - 9:00 AM (America/Toronto)
+		// Absolute: Every 2 Years in July on the 1st between 8:00 AM - 9:00 AM (America/Toronto) until July 31, 2026
+		// Relative: Every 2 Years in July on the First Sunday, Saturday between 8:00 AM - 9:00 AM (America/Toronto) until July 31, 2026
 		return match ([($interval > 1), !empty($startTime), !empty($conclusion)]) {
 			[false, false, false] => $this->l10n->t('Every Year in %1$s on the %2$s for the entire day', [$months, $days]),
 			[false, false, true] => $this->l10n->t('Every Year in %1$s on the %2$s for the entire day until %3$s', [$months, $days, $conclusion]),
@@ -440,6 +507,11 @@ class IMipService {
 		// conclusion
 		$conclusion = $this->l10n->l('date', $er->recurringConcludesOn(), ['width' => 'long']);
 		// generate localized when string
+		// TRANSLATORS
+		// Indicates when a calendar event will happen, shown on invitation emails
+		// Output produced in order:
+		// On specific dates for the entire day until July 13, 2024
+		// On specific dates between 8:00 AM - 9:00 AM (America/Toronto) until July 13, 2024
 		return match (!empty($startTime)) {
 			false => $this->l10n->t('On specific dates for the entire day until %1$s', [$conclusion]),
 			true => $this->l10n->t('On specific dates between %1$s - %2$s until %3$s', [$startTime, $endTime, $conclusion]),
@@ -479,7 +551,16 @@ class IMipService {
 				$occurance3 = $this->l10n->l('date', $er->recurrenceDate(), ['width' => 'long']);
 			}
 		}
-		// generate occurance string
+		// generate localized when string
+		// TRANSLATORS
+		// Indicates when a calendar event will happen, shown on invitation emails
+		// Output produced in order:
+		// In a day/week/month/year on July 1, 2024
+		// In a day/week/month/year on July 1, 2024 then on July 3, 2024
+		// In a day/week/month/year on July 1, 2024 then on July 3, 2024 and July 5, 2024
+		// In 2 days/weeks/months/years on July 1, 2024
+		// In 2 days/weeks/months/years on July 1, 2024 then on July 3, 2024
+		// In 2 days/weeks/months/years on July 1, 2024 then on July 3, 2024 and July 5, 2024
 		return match ([($occuranceIn[0] > 1), !empty($occurance2), !empty($occurance3)]) {
 			[false, false, false] => $this->l10n->t('In a %1$s on %2$s', [$occuranceIn[1], $occurance]),
 			[false, true, false] => $this->l10n->t('In a %1$s on %2$s then on %3$s', [$occuranceIn[1], $occurance, $occurance2]),
