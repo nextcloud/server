@@ -36,7 +36,7 @@ use OCP\IDBConnection;
 use OCP\Lock\ILockingProvider;
 use OCP\Lock\LockedException;
 use OCP\Server;
-use OCP\Util:
+use OCP\Util;
 use Psr\Log\LoggerInterface;
 
 class Trashbin {
