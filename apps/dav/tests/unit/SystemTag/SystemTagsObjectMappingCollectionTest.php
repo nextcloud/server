@@ -1,27 +1,9 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Vincent Petry <vincent@nextcloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\DAV\Tests\unit\SystemTag;
 
@@ -32,21 +14,9 @@ use OCP\SystemTag\ISystemTagObjectMapper;
 use OCP\SystemTag\TagNotFoundException;
 
 class SystemTagsObjectMappingCollectionTest extends \Test\TestCase {
-
-	/**
-	 * @var \OCP\SystemTag\ISystemTagManager
-	 */
-	private $tagManager;
-
-	/**
-	 * @var \OCP\SystemTag\ISystemTagObjectMapper
-	 */
-	private $tagMapper;
-
-	/**
-	 * @var \OCP\IUser
-	 */
-	private $user;
+	private ISystemTagManager $tagManager;
+	private ISystemTagObjectMapper $tagMapper;
+	private IUser $user;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -60,13 +30,14 @@ class SystemTagsObjectMappingCollectionTest extends \Test\TestCase {
 			->getMock();
 	}
 
-	public function getNode() {
+	public function getNode(array $writableNodeIds = []) {
 		return new \OCA\DAV\SystemTag\SystemTagsObjectMappingCollection(
 			111,
 			'files',
 			$this->user,
 			$this->tagManager,
-			$this->tagMapper
+			$this->tagMapper,
+			fn ($id): bool => in_array($id, $writableNodeIds),
 		);
 	}
 
@@ -89,6 +60,28 @@ class SystemTagsObjectMappingCollectionTest extends \Test\TestCase {
 			->method('assignTags')
 			->with(111, 'files', '555');
 
+		$this->getNode([111])->createFile('555');
+	}
+
+	public function testAssignTagForbidden(): void {
+		$tag = new SystemTag('1', 'Test', true, true);
+		$this->tagManager->expects($this->once())
+			->method('canUserSeeTag')
+			->with($tag)
+			->willReturn(true);
+		$this->tagManager->expects($this->once())
+			->method('canUserAssignTag')
+			->with($tag)
+			->willReturn(true);
+
+		$this->tagManager->expects($this->once())
+			->method('getTagsByIds')
+			->with(['555'])
+			->willReturn([$tag]);
+		$this->tagMapper->expects($this->never())
+			->method('assignTags');
+
+		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
 		$this->getNode()->createFile('555');
 	}
 
@@ -132,7 +125,7 @@ class SystemTagsObjectMappingCollectionTest extends \Test\TestCase {
 		$this->assertInstanceOf($expectedException, $thrown);
 	}
 
-	
+
 	public function testAssignTagNotFound(): void {
 		$this->expectException(\Sabre\DAV\Exception\PreconditionFailed::class);
 
@@ -144,7 +137,7 @@ class SystemTagsObjectMappingCollectionTest extends \Test\TestCase {
 		$this->getNode()->createFile('555');
 	}
 
-	
+
 	public function testForbiddenCreateDirectory(): void {
 		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
 
@@ -174,7 +167,7 @@ class SystemTagsObjectMappingCollectionTest extends \Test\TestCase {
 		$this->assertEquals('555', $childNode->getName());
 	}
 
-	
+
 	public function testGetChildNonVisible(): void {
 		$this->expectException(\Sabre\DAV\Exception\NotFound::class);
 
@@ -197,7 +190,7 @@ class SystemTagsObjectMappingCollectionTest extends \Test\TestCase {
 		$this->getNode()->getChild('555');
 	}
 
-	
+
 	public function testGetChildRelationNotFound(): void {
 		$this->expectException(\Sabre\DAV\Exception\NotFound::class);
 
@@ -209,7 +202,7 @@ class SystemTagsObjectMappingCollectionTest extends \Test\TestCase {
 		$this->getNode()->getChild('777');
 	}
 
-	
+
 	public function testGetChildInvalidId(): void {
 		$this->expectException(\Sabre\DAV\Exception\BadRequest::class);
 
@@ -221,7 +214,7 @@ class SystemTagsObjectMappingCollectionTest extends \Test\TestCase {
 		$this->getNode()->getChild('badid');
 	}
 
-	
+
 	public function testGetChildTagDoesNotExist(): void {
 		$this->expectException(\Sabre\DAV\Exception\NotFound::class);
 
@@ -325,7 +318,7 @@ class SystemTagsObjectMappingCollectionTest extends \Test\TestCase {
 		$this->assertFalse($this->getNode()->childExists('555'));
 	}
 
-	
+
 	public function testChildExistsInvalidId(): void {
 		$this->expectException(\Sabre\DAV\Exception\BadRequest::class);
 
@@ -337,14 +330,14 @@ class SystemTagsObjectMappingCollectionTest extends \Test\TestCase {
 		$this->getNode()->childExists('555');
 	}
 
-	
+
 	public function testDelete(): void {
 		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
 
 		$this->getNode()->delete();
 	}
 
-	
+
 	public function testSetName(): void {
 		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
 

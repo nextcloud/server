@@ -1,31 +1,8 @@
 <?php
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Jörn Friedrich Dreyer <jfd@butonic.de>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Robin McCorkell <robin@mccorkell.me.uk>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Stefan Weil <sw@weilnetz.de>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OC\Memcache;
 
@@ -46,7 +23,14 @@ class Redis extends Cache implements IMemcacheTTL {
 			'if redis.call("get", KEYS[1]) == ARGV[1] then return redis.call("del", KEYS[1]) else return 0 end',
 			'cf0e94b2e9ffc7e04395cf88f7583fc309985910',
 		],
+		'caSetTtl' => [
+			'if redis.call("get", KEYS[1]) == ARGV[1] then redis.call("expire", KEYS[1], ARGV[2]) return 1 else return 0 end',
+			'fa4acbc946d23ef41d7d3910880b60e6e4972d72',
+		],
 	];
+
+	private const DEFAULT_TTL = 24 * 60 * 60; // 1 day
+	private const MAX_TTL = 30 * 24 * 60 * 60; // 1 month
 
 	/**
 	 * @var \Redis|\RedisCluster $cache
@@ -63,7 +47,7 @@ class Redis extends Cache implements IMemcacheTTL {
 	 */
 	public function getCache() {
 		if (is_null(self::$cache)) {
-			self::$cache = \OC::$server->getGetRedisFactory()->getInstance();
+			self::$cache = \OC::$server->get('RedisFactory')->getInstance();
 		}
 		return self::$cache;
 	}
@@ -79,11 +63,12 @@ class Redis extends Cache implements IMemcacheTTL {
 
 	public function set($key, $value, $ttl = 0) {
 		$value = self::encodeValue($value);
-		if ($ttl > 0) {
-			return $this->getCache()->setex($this->getPrefix() . $key, $ttl, $value);
-		} else {
-			return $this->getCache()->set($this->getPrefix() . $key, $value);
+		if ($ttl === 0) {
+			// having infinite TTL can lead to leaked keys as the prefix changes with version upgrades
+			$ttl = self::DEFAULT_TTL;
 		}
+		$ttl = min($ttl, self::MAX_TTL);
+		return $this->getCache()->setex($this->getPrefix() . $key, $ttl, $value);
 	}
 
 	public function hasKey($key) {
@@ -117,11 +102,14 @@ class Redis extends Cache implements IMemcacheTTL {
 	 */
 	public function add($key, $value, $ttl = 0) {
 		$value = self::encodeValue($value);
+		if ($ttl === 0) {
+			// having infinite TTL can lead to leaked keys as the prefix changes with version upgrades
+			$ttl = self::DEFAULT_TTL;
+		}
+		$ttl = min($ttl, self::MAX_TTL);
 
 		$args = ['nx'];
-		if ($ttl !== 0 && is_int($ttl)) {
-			$args['ex'] = $ttl;
-		}
+		$args['ex'] = $ttl;
 
 		return $this->getCache()->set($this->getPrefix() . $key, $value, $args);
 	}
@@ -178,11 +166,27 @@ class Redis extends Cache implements IMemcacheTTL {
 	}
 
 	public function setTTL($key, $ttl) {
+		if ($ttl === 0) {
+			// having infinite TTL can lead to leaked keys as the prefix changes with version upgrades
+			$ttl = self::DEFAULT_TTL;
+		}
+		$ttl = min($ttl, self::MAX_TTL);
 		$this->getCache()->expire($this->getPrefix() . $key, $ttl);
 	}
 
+	public function getTTL(string $key): int|false {
+		$ttl = $this->getCache()->ttl($this->getPrefix() . $key);
+		return $ttl > 0 ? (int)$ttl : false;
+	}
+
+	public function compareSetTTL(string $key, mixed $value, int $ttl): bool {
+		$value = self::encodeValue($value);
+
+		return $this->evalLua('caSetTtl', [$key], [$value, $ttl]) > 0;
+	}
+
 	public static function isAvailable(): bool {
-		return \OC::$server->getGetRedisFactory()->isAvailable();
+		return \OC::$server->get('RedisFactory')->isAvailable();
 	}
 
 	protected function evalLua(string $scriptName, array $keys, array $args) {
@@ -191,7 +195,7 @@ class Redis extends Cache implements IMemcacheTTL {
 		$script = self::LUA_SCRIPTS[$scriptName];
 
 		$result = $this->getCache()->evalSha($script[1], $args, count($keys));
-		if (false === $result) {
+		if ($result === false) {
 			$result = $this->getCache()->eval($script[0], $args, count($keys));
 		}
 

@@ -1,27 +1,14 @@
 <?php
 /**
- * @author Robin Appelman <icewind@owncloud.com>
- *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2019-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 
 namespace Test\Lock;
 
 use OC\Memcache\ArrayCache;
+use OCP\AppFramework\Utility\ITimeFactory;
 
 class MemcacheLockingProviderTest extends LockingProvider {
 	/**
@@ -34,7 +21,8 @@ class MemcacheLockingProviderTest extends LockingProvider {
 	 */
 	protected function getInstance() {
 		$this->memcache = new ArrayCache();
-		return new \OC\Lock\MemcacheLockingProvider($this->memcache);
+		$timeProvider = \OC::$server->get(ITimeFactory::class);
+		return new \OC\Lock\MemcacheLockingProvider($this->memcache, $timeProvider);
 	}
 
 	protected function tearDown(): void {

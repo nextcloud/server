@@ -3,24 +3,8 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2023 Marcel Klehr <mklehr@gmx.net>
- *
- * @author Marcel Klehr <mklehr@gmx.net>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 
@@ -60,6 +44,17 @@ interface ISpeechToTextManager {
 	 * @since 27.0.0
 	 */
 	public function scheduleFileTranscription(File $file, ?string $userId, string $appId): void;
+
+	/**
+	 * Will cancel a scheduled transcription process
+	 *
+	 * @param File $file The media file involved in the transcription
+	 * @param ?string $userId The user that triggered this request
+	 * @param string $appId The app that triggered this request
+	 * @throws InvalidArgumentException If the file could not be found or is not of a supported type
+	 * @since 29.0.0
+	 */
+	public function cancelScheduledFileTranscription(File $file, ?string $userId, string $appId): void;
 
 	/**
 	 * @param File $file The media file to transcribe

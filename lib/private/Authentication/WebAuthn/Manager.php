@@ -3,27 +3,8 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2020, Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OC\Authentication\WebAuthn;
 
@@ -83,15 +64,15 @@ class Manager {
 	public function startRegistration(IUser $user, string $serverHost): PublicKeyCredentialCreationOptions {
 		$rpEntity = new PublicKeyCredentialRpEntity(
 			'Nextcloud', //Name
-			$this->stripPort($serverHost),        //ID
+			$this->stripPort($serverHost),  //ID
 			null                            //Icon
 		);
 
 		$userEntity = new PublicKeyCredentialUserEntity(
-			$user->getUID(),                              //Name
-			$user->getUID(),                              //ID
-			$user->getDisplayName()                      //Display name
-//            'https://foo.example.co/avatar/123e4567-e89b-12d3-a456-426655440000' //Icon
+			$user->getUID(),                             // Name
+			$user->getUID(),                             // ID
+			$user->getDisplayName()                      // Display name
+			//            'https://foo.example.co/avatar/123e4567-e89b-12d3-a456-426655440000' //Icon
 		);
 
 		$challenge = random_bytes(32);
@@ -108,8 +89,9 @@ class Manager {
 
 		$authenticatorSelectionCriteria = new AuthenticatorSelectionCriteria(
 			null,
+			AuthenticatorSelectionCriteria::USER_VERIFICATION_REQUIREMENT_DISCOURAGED,
+			null,
 			false,
-			AuthenticatorSelectionCriteria::USER_VERIFICATION_REQUIREMENT_DISCOURAGED
 		);
 
 		return new PublicKeyCredentialCreationOptions(
@@ -117,11 +99,10 @@ class Manager {
 			$userEntity,
 			$challenge,
 			$publicKeyCredentialParametersList,
-			$timeout,
-			$excludedPublicKeyDescriptors,
 			$authenticatorSelectionCriteria,
 			PublicKeyCredentialCreationOptions::ATTESTATION_CONVEYANCE_PREFERENCE_NONE,
-			null
+			$excludedPublicKeyDescriptors,
+			$timeout,
 		);
 	}
 
@@ -149,7 +130,7 @@ class Manager {
 		try {
 			// Load the data
 			$publicKeyCredential = $publicKeyCredentialLoader->load($data);
-			$response = $publicKeyCredential->getResponse();
+			$response = $publicKeyCredential->response;
 
 			// Check if the response is an Authenticator Attestation Response
 			if (!$response instanceof AuthenticatorAttestationResponse) {
@@ -162,7 +143,9 @@ class Manager {
 			$publicKeyCredentialSource = $authenticatorAttestationResponseValidator->check(
 				$response,
 				$publicKeyCredentialCreationOptions,
-				$request);
+				$request,
+				['localhost'],
+			);
 		} catch (\Throwable $exception) {
 			throw $exception;
 		}
@@ -180,18 +163,18 @@ class Manager {
 		$registeredPublicKeyCredentialDescriptors = array_map(function (PublicKeyCredentialEntity $entity) {
 			$credential = $entity->toPublicKeyCredentialSource();
 			return new PublicKeyCredentialDescriptor(
-				$credential->getType(),
-				$credential->getPublicKeyCredentialId()
+				$credential->type,
+				$credential->publicKeyCredentialId,
 			);
 		}, $this->credentialMapper->findAllForUid($uid));
 
 		// Public Key Credential Request Options
 		return new PublicKeyCredentialRequestOptions(
-			random_bytes(32),                                                    // Challenge
-			60000,                                                              // Timeout
-			$this->stripPort($serverHost),                                                                  // Relying Party ID
-			$registeredPublicKeyCredentialDescriptors,                                  // Registered PublicKeyCredentialDescriptor classes
-			AuthenticatorSelectionCriteria::USER_VERIFICATION_REQUIREMENT_DISCOURAGED
+			random_bytes(32),                                                          // Challenge
+			$this->stripPort($serverHost),                                             // Relying Party ID
+			$registeredPublicKeyCredentialDescriptors,                                 // Registered PublicKeyCredentialDescriptor classes
+			AuthenticatorSelectionCriteria::USER_VERIFICATION_REQUIREMENT_DISCOURAGED,
+			60000,                                                                     // Timeout
 		);
 	}
 
@@ -213,16 +196,15 @@ class Manager {
 			$tokenBindingHandler,
 			$extensionOutputCheckerHandler,
 			$algorithmManager,
-			null,
-			$this->logger,
 		);
+		$authenticatorAssertionResponseValidator->setLogger($this->logger);
 
 		try {
 			$this->logger->debug('Loading publickey credentials from: ' . $data);
 
 			// Load the data
 			$publicKeyCredential = $publicKeyCredentialLoader->load($data);
-			$response = $publicKeyCredential->getResponse();
+			$response = $publicKeyCredential->response;
 
 			// Check if the response is an Authenticator Attestation Response
 			if (!$response instanceof AuthenticatorAssertionResponse) {
@@ -233,17 +215,16 @@ class Manager {
 			$request = ServerRequest::fromGlobals();
 
 			$publicKeyCredentialSource = $authenticatorAssertionResponseValidator->check(
-				$publicKeyCredential->getRawId(),
+				$publicKeyCredential->rawId,
 				$response,
 				$publicKeyCredentialRequestOptions,
 				$request,
-				$uid
+				$uid,
+				['localhost'],
 			);
 		} catch (\Throwable $e) {
 			throw $e;
 		}
-
-
 
 		return true;
 	}

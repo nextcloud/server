@@ -1,33 +1,13 @@
 <?php
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Vincent Petry <vincent@nextcloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\Files_Sharing\Tests;
 
 use OC\Federation\CloudId;
+use OCA\Files_Sharing\External\Manager as ExternalShareManager;
 use OCP\Http\Client\IClient;
 use OCP\Http\Client\IClientService;
 use OCP\Http\Client\IResponse;
@@ -75,6 +55,7 @@ class ExternalStorageTest extends \Test\TestCase {
 	private function getTestStorage($uri) {
 		$certificateManager = \OC::$server->getCertificateManager();
 		$httpClientService = $this->createMock(IClientService::class);
+		$manager = $this->createMock(ExternalShareManager::class);
 		$client = $this->createMock(IClient::class);
 		$response = $this->createMock(IResponse::class);
 		$client
@@ -98,7 +79,7 @@ class ExternalStorageTest extends \Test\TestCase {
 				'mountpoint' => 'remoteshare',
 				'token' => 'abcdef',
 				'password' => '',
-				'manager' => null,
+				'manager' => $manager,
 				'certificateManager' => $certificateManager,
 				'HttpClientService' => $httpClientService,
 			]

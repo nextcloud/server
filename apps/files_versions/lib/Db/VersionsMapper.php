@@ -3,33 +3,15 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2022 Louis Chmn <louis@chmn.me>
- *
- * @author Louis Chmn <louis@chmn.me>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace OCA\Files_Versions\Db;
 
-use OCA\Files_Versions\Db\VersionEntity;
-use OCP\IDBConnection;
 use OCP\AppFramework\Db\QBMapper;
-use OCP\DB\IResult;
+use OCP\DB\QueryBuilder\IQueryBuilder;
+use OCP\IDBConnection;
 
 /**
  * @extends QBMapper<VersionEntity>
@@ -84,5 +66,39 @@ class VersionsMapper extends QBMapper {
 		return $qb->delete($this->getTableName())
 			 ->where($qb->expr()->eq('file_id', $qb->createNamedParameter($fileId)))
 			 ->executeStatement();
+	}
+
+	public function deleteAllVersionsForUser(int $storageId, ?string $path = null): void {
+		$fileIdsGenerator = $this->getFileIdsGenerator($storageId, $path);
+
+		$versionEntitiesDeleteQuery = $this->db->getQueryBuilder();
+		$versionEntitiesDeleteQuery->delete($this->getTableName())
+			->where($versionEntitiesDeleteQuery->expr()->in('file_id', $versionEntitiesDeleteQuery->createParameter('file_ids')));
+
+		foreach ($fileIdsGenerator as $fileIds) {
+			$versionEntitiesDeleteQuery->setParameter('file_ids', $fileIds, IQueryBuilder::PARAM_INT_ARRAY);
+			$versionEntitiesDeleteQuery->executeStatement();
+		}
+	}
+
+	private function getFileIdsGenerator(int $storageId, ?string $path): \Generator {
+		$offset = 0;
+		do {
+			$filesIdsSelect = $this->db->getQueryBuilder();
+			$filesIdsSelect->select('fileid')
+				->from('filecache')
+				->where($filesIdsSelect->expr()->eq('storage', $filesIdsSelect->createNamedParameter($storageId, IQueryBuilder::PARAM_STR)))
+				->andWhere($filesIdsSelect->expr()->like('path', $filesIdsSelect->createNamedParameter('files' . ($path ? '/' . $this->db->escapeLikeParameter($path) : '') . '/%', IQueryBuilder::PARAM_STR)))
+				->andWhere($filesIdsSelect->expr()->gt('fileid', $filesIdsSelect->createParameter('offset')))
+				->setMaxResults(1000)
+				->orderBy('fileid', 'ASC');
+
+			$filesIdsSelect->setParameter('offset', $offset, IQueryBuilder::PARAM_INT);
+			$result = $filesIdsSelect->executeQuery();
+			$fileIds = $result->fetchAll(\PDO::FETCH_COLUMN);
+			$offset = end($fileIds);
+
+			yield $fileIds;
+		} while (!empty($fileIds));
 	}
 }

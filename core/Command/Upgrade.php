@@ -1,45 +1,14 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Andreas Fischer <bantu@owncloud.com>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Nils Wittenbrink <nilswittenbrink@web.de>
- * @author Owen Winkler <a_github@midnightcircus.com>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Sander Ruitenbeek <sander@grids.be>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Thomas Pulzer <t.pulzer@kniel.de>
- * @author Valdnet <47037905+Valdnet@users.noreply.github.com>
- * @author Vincent Petry <vincent@nextcloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OC\Core\Command;
 
-use OCP\EventDispatcher\Event;
-use OCP\EventDispatcher\IEventDispatcher;
-use OCP\IConfig;
-use OCP\Util;
 use OC\Console\TimestampFormatter;
 use OC\DB\MigratorExecuteSqlEvent;
-use OC\Installer;
 use OC\Repair\Events\RepairAdvanceEvent;
 use OC\Repair\Events\RepairErrorEvent;
 use OC\Repair\Events\RepairFinishEvent;
@@ -48,7 +17,10 @@ use OC\Repair\Events\RepairStartEvent;
 use OC\Repair\Events\RepairStepEvent;
 use OC\Repair\Events\RepairWarningEvent;
 use OC\Updater;
-use Psr\Log\LoggerInterface;
+use OCP\EventDispatcher\Event;
+use OCP\EventDispatcher\IEventDispatcher;
+use OCP\IConfig;
+use OCP\Util;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputInterface;
@@ -63,9 +35,7 @@ class Upgrade extends Command {
 	public const ERROR_FAILURE = 5;
 
 	public function __construct(
-		private IConfig $config,
-		private LoggerInterface $logger,
-		private Installer $installer,
+		private IConfig $config
 	) {
 		parent::__construct();
 	}
@@ -84,19 +54,15 @@ class Upgrade extends Command {
 	 */
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		if (Util::needUpgrade()) {
-			if (OutputInterface::VERBOSITY_NORMAL < $output->getVerbosity()) {
+			if ($output->getVerbosity() > OutputInterface::VERBOSITY_NORMAL) {
 				// Prepend each line with a little timestamp
 				$timestampFormatter = new TimestampFormatter($this->config, $output->getFormatter());
 				$output->setFormatter($timestampFormatter);
 			}
 
 			$self = $this;
-			$updater = new Updater(
-				$this->config,
-				\OC::$server->getIntegrityCodeChecker(),
-				$this->logger,
-				$this->installer
-			);
+			$updater = \OCP\Server::get(Updater::class);
+			$incompatibleOverwrites = $this->config->getSystemValue('app_install_overwrite', []);
 
 			/** @var IEventDispatcher $dispatcher */
 			$dispatcher = \OC::$server->get(IEventDispatcher::class);
@@ -104,7 +70,7 @@ class Upgrade extends Command {
 			$progress->setFormat(" %message%\n %current%/%max% [%bar%] %percent:3s%%");
 			$listener = function (MigratorExecuteSqlEvent $event) use ($progress, $output): void {
 				$message = $event->getSql();
-				if (OutputInterface::VERBOSITY_NORMAL < $output->getVerbosity()) {
+				if ($output->getVerbosity() > OutputInterface::VERBOSITY_NORMAL) {
 					$output->writeln(' Executing SQL ' . $message);
 				} else {
 					if (strlen($message) > 60) {
@@ -140,11 +106,11 @@ class Upgrade extends Command {
 					$progress->finish();
 					$output->writeln('');
 				} elseif ($event instanceof RepairStepEvent) {
-					if (OutputInterface::VERBOSITY_NORMAL < $output->getVerbosity()) {
+					if ($output->getVerbosity() > OutputInterface::VERBOSITY_NORMAL) {
 						$output->writeln('<info>Repair step: ' . $event->getStepName() . '</info>');
 					}
 				} elseif ($event instanceof RepairInfoEvent) {
-					if (OutputInterface::VERBOSITY_NORMAL < $output->getVerbosity()) {
+					if ($output->getVerbosity() > OutputInterface::VERBOSITY_NORMAL) {
 						$output->writeln('<info>Repair info: ' . $event->getMessage() . '</info>');
 					}
 				} elseif ($event instanceof RepairWarningEvent) {
@@ -188,8 +154,10 @@ class Upgrade extends Command {
 			$updater->listen('\OC\Updater', 'dbUpgrade', function () use ($output) {
 				$output->writeln('<info>Updated database</info>');
 			});
-			$updater->listen('\OC\Updater', 'incompatibleAppDisabled', function ($app) use ($output) {
-				$output->writeln('<comment>Disabled incompatible app: ' . $app . '</comment>');
+			$updater->listen('\OC\Updater', 'incompatibleAppDisabled', function ($app) use ($output, &$incompatibleOverwrites) {
+				if (!in_array($app, $incompatibleOverwrites)) {
+					$output->writeln('<comment>Disabled incompatible app: ' . $app . '</comment>');
+				}
 			});
 			$updater->listen('\OC\Updater', 'upgradeAppStoreApp', function ($app) use ($output) {
 				$output->writeln('<info>Update app ' . $app . ' from App Store</info>');

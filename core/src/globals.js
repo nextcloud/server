@@ -1,26 +1,6 @@
 /**
- * @copyright 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license AGPL-3.0-or-later
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 /* eslint-disable @nextcloud/no-deprecations */
@@ -28,16 +8,13 @@ import { initCore } from './init.js'
 
 import _ from 'underscore'
 import $ from 'jquery'
-import 'jquery-migrate/dist/jquery-migrate.min.js'
 // TODO: switch to `jquery-ui` package and import widgets and effects individually
 //       `jquery-ui-dist` is used as a workaround for the issue of missing effects
 import 'jquery-ui-dist/jquery-ui.js'
 import 'jquery-ui-dist/jquery-ui.css'
 import 'jquery-ui-dist/jquery-ui.theme.css'
 // END TODO
-import autosize from 'autosize'
 import Backbone from 'backbone'
-import './Polyfill/tooltip.js'
 import ClipboardJS from 'clipboard'
 import { dav } from 'davclient.js'
 import Handlebars from 'handlebars'
@@ -100,11 +77,11 @@ const setDeprecatedProp = (global, cb, msg) => {
 
 window._ = _
 setDeprecatedProp(['$', 'jQuery'], () => $, 'The global jQuery is deprecated. It will be removed in a later versions without another warning. Please ship your own.')
-setDeprecatedProp('autosize', () => autosize, 'please ship your own, this will be removed in Nextcloud 20')
 setDeprecatedProp('Backbone', () => Backbone, 'please ship your own, this will be removed in Nextcloud 20')
 setDeprecatedProp(['Clipboard', 'ClipboardJS'], () => ClipboardJS, 'please ship your own, this will be removed in Nextcloud 20')
 window.dav = dav
 setDeprecatedProp('Handlebars', () => Handlebars, 'please ship your own, this will be removed in Nextcloud 20')
+// Global md5 only required for: apps/files/js/file-upload.js
 setDeprecatedProp('md5', () => md5, 'please ship your own, this will be removed in Nextcloud 20')
 setDeprecatedProp('moment', () => moment, 'please ship your own, this will be removed in Nextcloud 20')
 

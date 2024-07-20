@@ -1,26 +1,7 @@
 /**
-* @copyright 2015 Vincent Petry <pvince81@owncloud.com>
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Jan-Christoph Borchardt <hey@jancborchardt.net>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Vincent Petry <vincent@nextcloud.com>
- *
- * @license AGPL-3.0-or-later
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 describe('OCA.Sharing.PublicApp tests', function() {
@@ -30,8 +11,8 @@ describe('OCA.Sharing.PublicApp tests', function() {
 	var $preview;
 
 	beforeEach(function() {
-		originalWebroot = OC.webroot;
-		OC.webroot = '/owncloud';
+		originalWebroot = window._oc_webroot;
+		window._oc_webroot = '/owncloud';
 		protocolStub = sinon.stub(OC, 'getProtocol').returns('https');
 		hostStub = sinon.stub(OC, 'getHost').returns('example.com:9876');
 
@@ -45,7 +26,7 @@ describe('OCA.Sharing.PublicApp tests', function() {
 	});
 
 	afterEach(function() {
-		OC.webroot = originalWebroot;
+		window._oc_webroot = originalWebroot;
 		protocolStub.restore();
 		hostStub.restore();
 	});
@@ -107,8 +88,7 @@ describe('OCA.Sharing.PublicApp tests', function() {
 			App.initialize($('#preview'));
 			expect(fakeServer.requests.length).toEqual(1);
 			expect(fakeServer.requests[0].method).toEqual('PROPFIND');
-			expect(fakeServer.requests[0].url).toEqual('https://example.com:9876/owncloud/public.php/webdav/subdir');
-			expect(fakeServer.requests[0].requestHeaders.Authorization).toEqual('Basic c2g0dG9rOm51bGw=');
+			expect(fakeServer.requests[0].url).toEqual('https://example.com:9876/owncloud/public.php/dav/files/sh4tok/subdir');
 			uploaderDetectStub.restore();
 		});
 
@@ -149,11 +129,11 @@ describe('OCA.Sharing.PublicApp tests', function() {
 			});
 			it('returns correct upload URL', function() {
 				expect(fileList.getUploadUrl('some file.txt'))
-					.toEqual('/owncloud/public.php/webdav/subdir/some%20file.txt');
+					.toEqual('/owncloud/public.php/dav/files/sh4tok/subdir/some%20file.txt');
 			});
 			it('returns correct upload URL with specified dir', function() {
 				expect(fileList.getUploadUrl('some file.txt', 'sub'))
-					.toEqual('/owncloud/public.php/webdav/sub/some%20file.txt');
+					.toEqual('/owncloud/public.php/dav/files/sh4tok/sub/some%20file.txt');
 			});
 		});
 	});

@@ -1,49 +1,33 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Bjoern Schiessle <bjoern@schiessle.org>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Lukas Reschke <lukas@statuscode.ch>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OC\OCS;
 
-class Provider extends \OCP\AppFramework\Controller {
-	/** @var \OCP\App\IAppManager */
-	private $appManager;
+use OCP\App\IAppManager;
+use OCP\AppFramework\Controller;
+use OCP\AppFramework\Http\JSONResponse;
+use OCP\IRequest;
 
+class Provider extends Controller {
 	/**
 	 * @param string $appName
-	 * @param \OCP\IRequest $request
-	 * @param \OCP\App\IAppManager $appManager
+	 * @param IRequest $request
+	 * @param IAppManager $appManager
 	 */
 	public function __construct($appName,
-								\OCP\IRequest $request,
-								\OCP\App\IAppManager $appManager) {
+		\OCP\IRequest $request,
+		private \OCP\App\IAppManager $appManager) {
 		parent::__construct($appName, $request);
-		$this->appManager = $appManager;
 	}
 
 	/**
-	 * @return \OCP\AppFramework\Http\JSONResponse
+	 * @return JSONResponse
 	 */
-	public function buildProviderList() {
+	public function buildProviderList(): JSONResponse {
 		$services = [
 			'PRIVATE_DATA' => [
 				'version' => 1,
@@ -108,7 +92,7 @@ class Provider extends \OCP\AppFramework\Controller {
 			];
 		}
 
-		return new \OCP\AppFramework\Http\JSONResponse([
+		return new JSONResponse([
 			'version' => 2,
 			'services' => $services,
 		]);

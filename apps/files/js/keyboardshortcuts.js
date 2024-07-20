@@ -1,7 +1,8 @@
 /**
- * Copyright (c) 2012 Erik Sargent <esthepiking at gmail dot com>
- * This file is licensed under the Affero General Public License version 3 or
- * later.
+ * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2012-2014 ownCloud, Inc.
+ * SPDX-FileCopyrightText: 2012 Erik Sargent <esthepiking at gmail dot com>
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 /*****************************
  * Keyboard shortcuts for Files app

@@ -3,33 +3,8 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2017 Bjoern Schiessle <bjoern@schiessle.org>
- *
- * @author Bjoern Schiessle <bjoern@schiessle.org>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Mario Danic <mario@lovelyhq.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Citharel <nextcloud@tcit.fr>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OC\Core\Command\Db;
 
@@ -38,8 +13,8 @@ use OC\DB\SchemaWrapper;
 use OCP\DB\Events\AddMissingIndicesEvent;
 use OCP\EventDispatcher\IEventDispatcher;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
@@ -73,7 +48,9 @@ class AddMissingIndices extends Command {
 		$this->dispatcher->dispatchTyped($event);
 
 		$missingIndices = $event->getMissingIndices();
-		if ($missingIndices !== []) {
+		$toReplaceIndices = $event->getIndicesToReplace();
+
+		if ($missingIndices !== [] || $toReplaceIndices !== []) {
 			$schema = new SchemaWrapper($this->connection);
 
 			foreach ($missingIndices as $missingIndex) {
@@ -97,13 +74,57 @@ class AddMissingIndices extends Command {
 							$table->addIndex($missingIndex['columns'], $missingIndex['indexName'], [], $missingIndex['options']);
 						}
 
-
-						$sqlQueries = $this->connection->migrateToSchema($schema->getWrappedSchema(), $dryRun);
-						if ($dryRun && $sqlQueries !== null) {
-							$output->writeln($sqlQueries);
+						if (!$dryRun) {
+							$this->connection->migrateToSchema($schema->getWrappedSchema());
 						}
 						$output->writeln('<info>' . $table->getName() . ' table updated successfully.</info>');
 					}
+				}
+			}
+
+			foreach ($toReplaceIndices as $toReplaceIndex) {
+				if ($schema->hasTable($toReplaceIndex['tableName'])) {
+					$table = $schema->getTable($toReplaceIndex['tableName']);
+
+					$allOldIndicesExists = true;
+					foreach ($toReplaceIndex['oldIndexNames'] as $oldIndexName) {
+						if (!$table->hasIndex($oldIndexName)) {
+							$allOldIndicesExists = false;
+						}
+					}
+
+					if (!$allOldIndicesExists) {
+						continue;
+					}
+
+					$output->writeln('<info>Adding additional ' . $toReplaceIndex['newIndexName'] . ' index to the ' . $table->getName() . ' table, this can take some time...</info>');
+
+					if ($toReplaceIndex['uniqueIndex']) {
+						$table->addUniqueIndex($toReplaceIndex['columns'], $toReplaceIndex['newIndexName'], $toReplaceIndex['options']);
+					} else {
+						$table->addIndex($toReplaceIndex['columns'], $toReplaceIndex['newIndexName'], [], $toReplaceIndex['options']);
+					}
+
+					if (!$dryRun) {
+						$this->connection->migrateToSchema($schema->getWrappedSchema());
+					}
+
+					foreach ($toReplaceIndex['oldIndexNames'] as $oldIndexName) {
+						$output->writeln('<info>Removing ' . $oldIndexName . ' index from the ' . $table->getName() . ' table</info>');
+						$table->dropIndex($oldIndexName);
+					}
+
+					if (!$dryRun) {
+						$this->connection->migrateToSchema($schema->getWrappedSchema());
+					}
+					$output->writeln('<info>' . $table->getName() . ' table updated successfully.</info>');
+				}
+			}
+
+			if ($dryRun) {
+				$sqlQueries = $this->connection->migrateToSchema($schema->getWrappedSchema(), $dryRun);
+				if ($sqlQueries !== null) {
+					$output->writeln($sqlQueries);
 				}
 			}
 		}

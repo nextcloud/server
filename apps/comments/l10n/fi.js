@@ -13,6 +13,8 @@ OC.L10N.register(
     "Edit comment" : "Muokkaa kommenttia",
     "Delete comment" : "Poista kommentti",
     "Cancel edit" : "Peruuta muokkaus",
+    "New comment" : "Uusi kommentti",
+    "Write a comment …" : "Kirjoita kommentti…",
     "Post comment" : "Lähetä viesti",
     "No comments yet, start the conversation!" : "Ei kommentteja vielä. Aloita keskustelu!",
     "No more messages" : "Ei enempää viestejä",
@@ -25,7 +27,7 @@ OC.L10N.register(
     "Comment deleted" : "Kommentti poistettu",
     "An error occurred while trying to delete the comment" : "Kommenttia poistaessa tapahtui virhe",
     "An error occurred while trying to create the comment" : "Kommenttia luodessa tapahtui virhe",
-    "%1$s commented" : "%1$s kommentoi",
+    "Write a message …" : "Kirjoita viesti…",
     "_%n unread comment_::_%n unread comments_" : ["%n lukematon kommentti","%n lukematonta kommenttia"]
 },
 "nplurals=2; plural=(n != 1);");

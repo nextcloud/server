@@ -1,9 +1,8 @@
 <?php
 /**
- * Copyright (c) 2015 Lukas Reschke lukas@owncloud.com
- * This file is licensed under the Affero General Public License version 3 or
- * later.
- * See the COPYING-README file.
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace Test\AppFramework\Http;
@@ -422,6 +421,42 @@ class EmptyContentSecurityPolicyTest extends \Test\TestCase {
 		$this->contentSecurityPolicy->addAllowedScriptDomain('www.nextcloud.com');
 		$this->contentSecurityPolicy->useJsNonce('MyJsNonce');
 		$this->contentSecurityPolicy->addAllowedScriptDomain('www.nextcloud.org');
+		$this->assertSame($expectedPolicy, $this->contentSecurityPolicy->buildPolicy());
+	}
+
+	public function testGetPolicyWithJsNonceAndStrictDynamic() {
+		$expectedPolicy = "default-src 'none';base-uri 'none';manifest-src 'self';script-src 'strict-dynamic' 'nonce-TXlKc05vbmNl' www.nextcloud.com;frame-ancestors 'none'";
+
+		$this->contentSecurityPolicy->addAllowedScriptDomain('www.nextcloud.com');
+		$this->contentSecurityPolicy->useStrictDynamic(true);
+		$this->contentSecurityPolicy->useJsNonce('MyJsNonce');
+		$this->assertSame($expectedPolicy, $this->contentSecurityPolicy->buildPolicy());
+	}
+
+	public function testGetPolicyWithJsNonceAndStrictDynamicAndStrictDynamicOnScripts() {
+		$expectedPolicy = "default-src 'none';base-uri 'none';manifest-src 'self';script-src 'strict-dynamic' 'nonce-TXlKc05vbmNl' www.nextcloud.com;frame-ancestors 'none'";
+
+		$this->contentSecurityPolicy->addAllowedScriptDomain('www.nextcloud.com');
+		$this->contentSecurityPolicy->useStrictDynamic(true);
+		$this->contentSecurityPolicy->useStrictDynamicOnScripts(true);
+		$this->contentSecurityPolicy->useJsNonce('MyJsNonce');
+		// Should be same as `testGetPolicyWithJsNonceAndStrictDynamic` because of fallback
+		$this->assertSame($expectedPolicy, $this->contentSecurityPolicy->buildPolicy());
+	}
+
+	public function testGetPolicyWithJsNonceAndStrictDynamicOnScripts() {
+		$expectedPolicy = "default-src 'none';base-uri 'none';manifest-src 'self';script-src 'nonce-TXlKc05vbmNl' www.nextcloud.com;script-src-elem 'strict-dynamic' 'nonce-TXlKc05vbmNl' www.nextcloud.com;frame-ancestors 'none'";
+
+		$this->contentSecurityPolicy->addAllowedScriptDomain('www.nextcloud.com');
+		$this->contentSecurityPolicy->useStrictDynamicOnScripts(true);
+		$this->contentSecurityPolicy->useJsNonce('MyJsNonce');
+		$this->assertSame($expectedPolicy, $this->contentSecurityPolicy->buildPolicy());
+	}
+
+	public function testGetPolicyWithStrictDynamicOnScripts() {
+		$expectedPolicy = "default-src 'none';base-uri 'none';manifest-src 'self';frame-ancestors 'none'";
+
+		$this->contentSecurityPolicy->useStrictDynamicOnScripts(true);
 		$this->assertSame($expectedPolicy, $this->contentSecurityPolicy->buildPolicy());
 	}
 

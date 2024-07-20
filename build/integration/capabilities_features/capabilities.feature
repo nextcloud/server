@@ -1,3 +1,5 @@
+# SPDX-FileCopyrightText: 2015-2016 ownCloud, Inc.
+# SPDX-License-Identifier: AGPL-3.0-only
 Feature: capabilities
 	Background:
 		Given using api version "1"

@@ -3,26 +3,8 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2020 Robin Appelman <robin@icewind.nl>
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Robin Appelman <robin@icewind.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\Files_External\Lib\Storage;
 
@@ -49,6 +31,8 @@ class SFTPReadStream implements File {
 	private $eof = false;
 
 	private $buffer = '';
+	private bool $pendingRead = false;
+	private int $size = 0;
 
 	public static function register($protocol = 'sftpread') {
 		if (in_array($protocol, stream_get_wrappers(), true)) {
@@ -74,6 +58,9 @@ class SFTPReadStream implements File {
 			$this->sftp = $context['session'];
 		} else {
 			throw new \BadMethodCallException('Invalid context, session not set');
+		}
+		if (isset($context['size'])) {
+			$this->size = $context['size'];
 		}
 		return $context;
 	}
@@ -118,7 +105,25 @@ class SFTPReadStream implements File {
 	}
 
 	public function stream_seek($offset, $whence = SEEK_SET) {
-		return false;
+		switch ($whence) {
+			case SEEK_SET:
+				$this->seekTo($offset);
+				break;
+			case SEEK_CUR:
+				$this->seekTo($this->readPosition + $offset);
+				break;
+			case SEEK_END:
+				$this->seekTo($this->size + $offset);
+				break;
+		}
+		return true;
+	}
+
+	private function seekTo(int $offset): void {
+		$this->internalPosition = $offset;
+		$this->readPosition = $offset;
+		$this->buffer = '';
+		$this->request_chunk(256 * 1024);
 	}
 
 	public function stream_tell() {
@@ -142,11 +147,17 @@ class SFTPReadStream implements File {
 	}
 
 	private function request_chunk($size) {
+		if ($this->pendingRead) {
+			$this->sftp->_get_sftp_packet();
+		}
+
 		$packet = pack('Na*N3', strlen($this->handle), $this->handle, $this->internalPosition / 4294967296, $this->internalPosition, $size);
+		$this->pendingRead = true;
 		return $this->sftp->_send_sftp_packet(NET_SFTP_READ, $packet);
 	}
 
 	private function read_chunk() {
+		$this->pendingRead = false;
 		$response = $this->sftp->_get_sftp_packet();
 
 		switch ($this->sftp->packet_type) {
@@ -195,6 +206,10 @@ class SFTPReadStream implements File {
 	}
 
 	public function stream_close() {
+		// we still have a read request incoming that needs to be handled before we can close
+		if ($this->pendingRead) {
+			$this->sftp->_get_sftp_packet();
+		}
 		if (!$this->sftp->_close_handle($this->handle)) {
 			return false;
 		}

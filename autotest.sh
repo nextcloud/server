@@ -1,16 +1,8 @@
 #!/usr/bin/env bash
 #
-# ownCloud
-#
-# @author Vincent Petry
-# @author Morris Jobke
-# @author Robin McCorkell
-# @author Thomas Müller
-# @author Andreas Fischer
-# @author Joas Schilling
-# @author Lukas Reschke
-# @author Jörn Friedrich Dreyer
-# @copyright 2012-2015 Thomas Müller thomas.mueller@tmit.eu
+# SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+# SPDX-FileCopyrightText: 2012-2016 ownCloud, Inc.
+# SPDX-License-Identifier: AGPL-3.0-only
 #
 
 DATABASENAME=oc_autotest
@@ -401,8 +393,8 @@ function execute_tests {
 		echo "No coverage"
 	fi
 
-	echo "$PHPUNIT" --configuration phpunit-autotest.xml $GROUP $COVER --log-junit "autotest-results-$DB.xml" "$2" "$3"
-	"$PHPUNIT" --configuration phpunit-autotest.xml $GROUP $COVER --log-junit "autotest-results-$DB.xml" "$2" "$3"
+	echo "$PHPUNIT" --colors=always --configuration phpunit-autotest.xml $GROUP $COVER --log-junit "autotest-results-$DB.xml" "$2" "$3"
+	"$PHPUNIT" --colors=always --configuration phpunit-autotest.xml $GROUP $COVER --log-junit "autotest-results-$DB.xml" "$2" "$3"
 	RESULT=$?
 
 	if [ "$PRIMARY_STORAGE_CONFIG" == "swift" ] ; then

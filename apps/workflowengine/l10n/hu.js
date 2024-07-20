@@ -67,6 +67,9 @@ OC.L10N.register(
     "Desktop client" : "Asztali kliens",
     "Thunderbird & Outlook addons" : "Thunderbird és Outlook kiegészítők",
     "Custom user agent" : "Egyéni felhasználói ügynök",
+    "Select groups" : "Csoportok kiválasztása",
+    "Groups" : "Csoportok",
+    "Select a trigger" : "Válasszon feltételt",
     "At least one event must be selected" : "Legalább egy eseményt ki kell választani",
     "Add new flow" : "Új folyamat hozzáadása",
     "When" : "Mikor",
@@ -109,10 +112,8 @@ OC.L10N.register(
     "between" : "közötte",
     "not between" : "nincs közötte",
     "Request user agent" : "Kérés felhasználói ügynöke",
-    "User group membership" : "Felhasználói csoporttagság",
     "is member of" : "tagja ennek",
     "is not member of" : "nem tagja ennek",
-    "Predefined URLs" : "Előre definiált URL-ek",
-    "Others" : "Egyebek"
+    "User group membership" : "Felhasználói csoporttagság"
 },
 "nplurals=2; plural=(n != 1);");

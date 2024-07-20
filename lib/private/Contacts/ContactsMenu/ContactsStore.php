@@ -1,38 +1,16 @@
 <?php
 
 /**
- * @copyright 2017 Christoph Wurst <christoph@winzerhof-wurst.at>
- * @copyright 2017 Lukas Reschke <lukas@statuscode.ch>
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Georg Ehrke <oc.list@georgehrke.com>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Tobia De Koninck <tobia@ledfan.be>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace OC\Contacts\ContactsMenu;
 
 use OC\KnownUser\KnownUserService;
 use OC\Profile\ProfileManager;
+use OCA\UserStatus\Db\UserStatus;
+use OCA\UserStatus\Service\StatusService;
 use OCP\Contacts\ContactsMenu\IContactsStore;
 use OCP\Contacts\ContactsMenu\IEntry;
 use OCP\Contacts\IManager;
@@ -42,10 +20,17 @@ use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\L10N\IFactory as IL10NFactory;
+use function array_column;
+use function array_fill_keys;
+use function array_filter;
+use function array_key_exists;
+use function array_merge;
+use function count;
 
 class ContactsStore implements IContactsStore {
 	public function __construct(
 		private IManager $contactsManager,
+		private ?StatusService $userStatusService,
 		private IConfig $config,
 		private ProfileManager $profileManager,
 		private IUserManager $userManager,
@@ -70,15 +55,75 @@ class ContactsStore implements IContactsStore {
 		if ($offset !== null) {
 			$options['offset'] = $offset;
 		}
+		// Status integration only works without pagination and filters
+		if ($offset === null && ($filter === null || $filter === '')) {
+			$recentStatuses = $this->userStatusService?->findAllRecentStatusChanges($limit, $offset) ?? [];
+		} else {
+			$recentStatuses = [];
+		}
 
-		$allContacts = $this->contactsManager->search(
-			$filter ?? '',
-			[
-				'FN',
-				'EMAIL'
-			],
-			$options
-		);
+		// Search by status if there is no filter and statuses are available
+		if (!empty($recentStatuses)) {
+			$allContacts = array_filter(array_map(function (UserStatus $userStatus) use ($options) {
+				// UID is ambiguous with federation. We have to use the federated cloud ID to an exact match of
+				// A local user
+				$user = $this->userManager->get($userStatus->getUserId());
+				if ($user === null) {
+					return null;
+				}
+
+				$contact = $this->contactsManager->search(
+					$user->getCloudId(),
+					[
+						'CLOUD',
+					],
+					array_merge(
+						$options,
+						[
+							'limit' => 1,
+							'offset' => 0,
+						],
+					),
+				)[0] ?? null;
+				if ($contact !== null) {
+					$contact[Entry::PROPERTY_STATUS_MESSAGE_TIMESTAMP] = $userStatus->getStatusMessageTimestamp();
+				}
+				return $contact;
+			}, $recentStatuses));
+			if ($limit !== null && count($allContacts) < $limit) {
+				// More contacts were requested
+				$fromContacts = $this->contactsManager->search(
+					$filter ?? '',
+					[
+						'FN',
+						'EMAIL'
+					],
+					array_merge(
+						$options,
+						[
+							'limit' => $limit - count($allContacts),
+						],
+					),
+				);
+
+				// Create hash map of all status contacts
+				$existing = array_fill_keys(array_column($allContacts, 'URI'), null);
+				// Append the ones that are new
+				$allContacts = array_merge(
+					$allContacts,
+					array_filter($fromContacts, fn (array $contact): bool => !array_key_exists($contact['URI'], $existing))
+				);
+			}
+		} else {
+			$allContacts = $this->contactsManager->search(
+				$filter ?? '',
+				[
+					'FN',
+					'EMAIL'
+				],
+				$options
+			);
+		}
 
 		$userId = $user->getUID();
 		$contacts = array_filter($allContacts, function ($contact) use ($userId) {
@@ -108,6 +153,9 @@ class ContactsStore implements IContactsStore {
 	 *  3. if the `shareapi_only_share_with_group_members` config option is
 	 * enabled it will filter all users which doesn't have a common group
 	 * with the current user.
+	 * If enabled, the 'shareapi_only_share_with_group_members_exclude_group_list'
+	 * config option may specify some groups excluded from the principle of
+	 * belonging to the same group.
 	 *
 	 * @param Entry[] $entries
 	 * @return Entry[] the filtered contacts
@@ -121,7 +169,7 @@ class ContactsStore implements IContactsStore {
 		$restrictEnumerationGroup = $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_to_group', 'no') === 'yes';
 		$restrictEnumerationPhone = $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_to_phone', 'no') === 'yes';
 		$allowEnumerationFullMatch = $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_full_match', 'yes') === 'yes';
-		$excludedGroups = $this->config->getAppValue('core', 'shareapi_exclude_groups', 'no') === 'yes';
+		$excludeGroups = $this->config->getAppValue('core', 'shareapi_exclude_groups', 'no');
 
 		// whether to filter out local users
 		$skipLocal = false;
@@ -130,15 +178,30 @@ class ContactsStore implements IContactsStore {
 
 		$selfGroups = $this->groupManager->getUserGroupIds($self);
 
-		if ($excludedGroups) {
+		if ($excludeGroups && $excludeGroups !== 'no') {
 			$excludedGroups = $this->config->getAppValue('core', 'shareapi_exclude_groups_list', '');
 			$decodedExcludeGroups = json_decode($excludedGroups, true);
 			$excludeGroupsList = $decodedExcludeGroups ?? [];
 
-			if (count(array_intersect($excludeGroupsList, $selfGroups)) !== 0) {
-				// a group of the current user is excluded -> filter all local users
+			if ($excludeGroups != 'allow') {
+				if (count(array_intersect($excludeGroupsList, $selfGroups)) !== 0) {
+					// a group of the current user is excluded -> filter all local users
+					$skipLocal = true;
+				}
+			} else {
 				$skipLocal = true;
+				if (count(array_intersect($excludeGroupsList, $selfGroups)) !== 0) {
+					// a group of the current user is allowed -> do not filter all local users
+					$skipLocal = false;
+				}
 			}
+		}
+
+		// ownGroupsOnly : some groups may be excluded
+		if ($ownGroupsOnly) {
+			$excludeGroupsFromOwnGroups = $this->config->getAppValue('core', 'shareapi_only_share_with_group_members_exclude_group_list', '');
+			$excludeGroupsFromOwnGroupsList = json_decode($excludeGroupsFromOwnGroups, true) ?? [];
+			$selfGroups = array_diff($selfGroups, $excludeGroupsFromOwnGroupsList);
 		}
 
 		$selfUID = $self->getUID();
@@ -265,36 +328,39 @@ class ContactsStore implements IContactsStore {
 	private function contactArrayToEntry(array $contact): Entry {
 		$entry = new Entry();
 
-		if (isset($contact['UID'])) {
+		if (!empty($contact['UID'])) {
 			$uid = $contact['UID'];
 			$entry->setId($uid);
+			$entry->setProperty('isUser', false);
+			// overloaded usage so leaving as-is for now
 			if (isset($contact['isLocalSystemBook'])) {
 				$avatar = $this->urlGenerator->linkToRouteAbsolute('core.avatar.getAvatar', ['userId' => $uid, 'size' => 64]);
-			} elseif (isset($contact['FN'])) {
-				$avatar = $this->urlGenerator->linkToRouteAbsolute('core.GuestAvatar.getAvatar', ['guestName' => $contact['FN'], 'size' => 64]);
+				$entry->setProperty('isUser', true);
+			} elseif (!empty($contact['FN'])) {
+				$avatar = $this->urlGenerator->linkToRouteAbsolute('core.GuestAvatar.getAvatar', ['guestName' => str_replace('/', ' ', $contact['FN']), 'size' => 64]);
 			} else {
-				$avatar = $this->urlGenerator->linkToRouteAbsolute('core.GuestAvatar.getAvatar', ['guestName' => $uid, 'size' => 64]);
+				$avatar = $this->urlGenerator->linkToRouteAbsolute('core.GuestAvatar.getAvatar', ['guestName' => str_replace('/', ' ', $uid), 'size' => 64]);
 			}
 			$entry->setAvatar($avatar);
 		}
 
-		if (isset($contact['FN'])) {
+		if (!empty($contact['FN'])) {
 			$entry->setFullName($contact['FN']);
 		}
 
 		$avatarPrefix = "VALUE=uri:";
-		if (isset($contact['PHOTO']) && str_starts_with($contact['PHOTO'], $avatarPrefix)) {
+		if (!empty($contact['PHOTO']) && str_starts_with($contact['PHOTO'], $avatarPrefix)) {
 			$entry->setAvatar(substr($contact['PHOTO'], strlen($avatarPrefix)));
 		}
 
-		if (isset($contact['EMAIL'])) {
+		if (!empty($contact['EMAIL'])) {
 			foreach ($contact['EMAIL'] as $email) {
 				$entry->addEMailAddress($email);
 			}
 		}
 
 		// Provide profile parameters for core/src/OC/contactsmenu/contact.handlebars template
-		if (isset($contact['UID']) && isset($contact['FN'])) {
+		if (!empty($contact['UID']) && !empty($contact['FN'])) {
 			$targetUserId = $contact['UID'];
 			$targetUser = $this->userManager->get($targetUserId);
 			if (!empty($targetUser)) {

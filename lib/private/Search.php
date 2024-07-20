@@ -1,35 +1,16 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Andrew Brown <andrew@casabrown.com>
- * @author Bart Visscher <bartv@thisnet.nl>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Jörn Friedrich Dreyer <jfd@butonic.de>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OC;
 
 use OCP\ISearch;
 use OCP\Search\PagedProvider;
 use OCP\Search\Provider;
+use Psr\Log\LoggerInterface;
 
 /**
  * Provide an interface to all search providers
@@ -65,7 +46,7 @@ class Search implements ISearch {
 					$results = array_merge($results, $providerResults);
 				}
 			} else {
-				\OC::$server->getLogger()->warning('Ignoring Unknown search provider', ['provider' => $provider]);
+				\OCP\Server::get(LoggerInterface::class)->warning('Ignoring Unknown search provider', ['provider' => $provider]);
 			}
 		}
 		return $results;

@@ -2,23 +2,8 @@
 
 declare(strict_types=1);
 /**
- * @copyright Copyright (c) 2023 Louis Chemineau <louis@chmn.me>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace OCA\Files_Sharing;
@@ -34,12 +19,12 @@ use OCP\AppFramework\Http\Template\LinkMenuAction;
 use OCP\AppFramework\Http\Template\PublicTemplateResponse;
 use OCP\AppFramework\Http\Template\SimpleMenuAction;
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\AppFramework\Services\IInitialState;
 use OCP\Constants;
 use OCP\Defaults;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\FileInfo;
 use OCP\Files\Folder;
-use OCP\Files\NotFoundException;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IPreview;
@@ -47,45 +32,26 @@ use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserManager;
-use OCP\Share\IShare;
 use OCP\Share\IPublicShareTemplateProvider;
+use OCP\Share\IShare;
 use OCP\Template;
 use OCP\Util;
 
 class DefaultPublicShareTemplateProvider implements IPublicShareTemplateProvider {
-	private IUserManager $userManager;
-	private IAccountManager $accountManager;
-	private IPreview $previewManager;
-	protected FederatedShareProvider $federatedShareProvider;
-	private IURLGenerator $urlGenerator;
-	private IEventDispatcher $eventDispatcher;
-	private IL10N $l10n;
-	private Defaults $defaults;
-	private IConfig $config;
-	private IRequest $request;
 
 	public function __construct(
-		IUserManager $userManager,
-		IAccountManager $accountManager,
-		IPreview $previewManager,
-		FederatedShareProvider $federatedShareProvider,
-		IUrlGenerator $urlGenerator,
-		IEventDispatcher $eventDispatcher,
-		IL10N $l10n,
-		Defaults $defaults,
-		IConfig $config,
-		IRequest $request
+		private IUserManager $userManager,
+		private IAccountManager $accountManager,
+		private IPreview $previewManager,
+		protected FederatedShareProvider $federatedShareProvider,
+		private IUrlGenerator $urlGenerator,
+		private IEventDispatcher $eventDispatcher,
+		private IL10N $l10n,
+		private Defaults $defaults,
+		private IConfig $config,
+		private IRequest $request,
+		private IInitialState $initialState,
 	) {
-		$this->userManager = $userManager;
-		$this->accountManager = $accountManager;
-		$this->previewManager = $previewManager;
-		$this->federatedShareProvider = $federatedShareProvider;
-		$this->urlGenerator = $urlGenerator;
-		$this->eventDispatcher = $eventDispatcher;
-		$this->l10n = $l10n;
-		$this->defaults = $defaults;
-		$this->config = $config;
-		$this->request = $request;
 	}
 
 	public function shouldRespond(IShare $share): bool {
@@ -107,11 +73,19 @@ class DefaultPublicShareTemplateProvider implements IPublicShareTemplateProvider
 			if ($ownerName->getScope() === IAccountManager::SCOPE_PUBLISHED) {
 				$shareTmpl['owner'] = $owner->getUID();
 				$shareTmpl['shareOwner'] = $owner->getDisplayName();
+				$this->initialState->provideInitialState('owner', $shareTmpl['owner']);
+				$this->initialState->provideInitialState('ownerDisplayName', $shareTmpl['shareOwner']);
 			}
 		}
 
+		// Provide initial state
+		$this->initialState->provideInitialState('label', $share->getLabel());
+		$this->initialState->provideInitialState('note', $share->getNote());
+		$this->initialState->provideInitialState('filename', $shareNode->getName());
+
 		$shareTmpl['filename'] = $shareNode->getName();
 		$shareTmpl['directory_path'] = $share->getTarget();
+		$shareTmpl['label'] = $share->getLabel();
 		$shareTmpl['note'] = $share->getNote();
 		$shareTmpl['mimetype'] = $shareNode->getMimetype();
 		$shareTmpl['previewSupported'] = $this->previewManager->isMimeSupported($shareNode->getMimetype());
@@ -254,6 +228,11 @@ class DefaultPublicShareTemplateProvider implements IPublicShareTemplateProvider
 		$response->setHeaderTitle($shareTmpl['filename']);
 		if ($shareTmpl['shareOwner'] !== '') {
 			$response->setHeaderDetails($this->l10n->t('shared by %s', [$shareTmpl['shareOwner']]));
+		}
+
+		// If the share has a label, use it as the title
+		if ($shareTmpl['label'] !== '') {
+			$response->setHeaderTitle($shareTmpl['label']);
 		}
 
 		$isNoneFileDropFolder = $shareIsFolder === false || $share->getPermissions() !== Constants::PERMISSION_CREATE;

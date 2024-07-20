@@ -7,10 +7,10 @@ OC.L10N.register(
     "Commuting" : "Työmatkalla",
     "Out sick" : "Sairaana",
     "Vacationing" : "Lomailemassa",
+    "Out of office" : "Ulkona toimistolta",
     "Working remotely" : "Etätyössä",
     "In a call" : "Puhelussa",
     "User status" : "Käyttäjän tilatieto",
-    "View profile" : "Näytä profiili",
     "Clear status after" : "Tyhjennä tilatieto",
     "Emoji for your status message" : "Emoji tilaviestiisi",
     "What is your status?" : "Mikä on tilatietosi?",
@@ -43,6 +43,6 @@ OC.L10N.register(
     "4 hours" : "4 tuntia",
     "Mute all notifications" : "Mykistä kaikki ilmoitukset",
     "Appear offline" : "Näytä olevan poissa",
-    "{status}, {timestamp}" : "{status}, {timestamp}"
+    "View profile" : "Näytä profiili"
 },
 "nplurals=2; plural=(n != 1);");

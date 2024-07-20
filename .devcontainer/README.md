@@ -1,10 +1,14 @@
+<!--
+  - SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 # Nextcloud DevContainer
 
 ## Usage
 
 Make sure you have the [VSCode DevContainer](https://code.visualstudio.com/docs/devcontainers/containers) extensions installed. If you open the project, VSCode will ask you if you want to open it inside of the DevContainer. If that's not the case, use <kbd>F1</kbd>&rarr;*Dev Containers: Open Folder in Container*.
 
-Alternatively open the project directly in [GitHub Codespaces](https://github.com/features/codespaces).
+Alternatively open the project directly in [GitHub Codespaces](https://github.com/codespaces/new?hide_repo_select=true&ref=master&repo=60243197&skip_quickstart=true).
 
 That's already it. Everything else will be configured automatically by the Containers startup routine.
 

@@ -5,7 +5,7 @@ OC.L10N.register(
     "Second-factor backup codes" : "Second-factor dublēšanas kodi",
     "Generate backup codes" : "Izveidot rezerves kodus",
     "Backup code" : "Dublēšanas kods",
-    "Use backup code" : "Izmantojiet dublēšanas kodu",
+    "Use backup code" : "Izmantot rezerves kodu",
     "These are your backup codes. Please save and/or print them as you will not be able to read the codes again later" : "Šie ir jūsu dublējuma kodi. Lūdzu saglabāt un / vai izdrukāt tos, jūs nevarēsiet izlasīt kodus vēlreiz",
     "Save backup codes" : "Saglabāt rezerves kodus",
     "Print backup codes" : "Drukāt dublējuma kodus",

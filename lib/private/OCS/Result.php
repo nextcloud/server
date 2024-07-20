@@ -1,44 +1,20 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Bart Visscher <bartv@thisnet.nl>
- * @author Björn Schießle <bjoern@schiessle.org>
- * @author Christopher Schäpers <kondou@ts.unde.re>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin McCorkell <robin@mccorkell.me.uk>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Tom Needham <tom@owncloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OC\OCS;
 
 class Result {
-	/** @var array  */
-	protected $data;
+	protected array $data;
 
 	/** @var null|string */
-	protected $message;
+	protected ?string $message;
 
 	/** @var int */
-	protected $statusCode;
+	protected int $statusCode;
 
 	/** @var integer */
 	protected $items;
@@ -47,16 +23,17 @@ class Result {
 	protected $perPage;
 
 	/** @var array */
-	private $headers = [];
+	private array $headers = [];
 
 	/**
 	 * create the OCS_Result object
-	 * @param mixed $data the data to return
+	 *
+	 * @param mixed|null $data the data to return
 	 * @param int $code
-	 * @param null|string $message
+	 * @param string|null $message
 	 * @param array $headers
 	 */
-	public function __construct($data = null, $code = 100, $message = null, $headers = []) {
+	public function __construct(mixed $data = null, int $code = 100, ?string $message = null, array $headers = []) {
 		if ($data === null) {
 			$this->data = [];
 		} elseif (!is_array($data)) {
@@ -71,17 +48,19 @@ class Result {
 
 	/**
 	 * optionally set the total number of items available
+	 *
 	 * @param int $items
 	 */
-	public function setTotalItems($items) {
+	public function setTotalItems(int $items): void {
 		$this->items = $items;
 	}
 
 	/**
-	 * optionally set the the number of items per page
+	 * optionally set the number of items per page
+	 *
 	 * @param int $items
 	 */
-	public function setItemsPerPage($items) {
+	public function setItemsPerPage(int $items): void {
 		$this->perPage = $items;
 	}
 
@@ -89,7 +68,7 @@ class Result {
 	 * get the status code
 	 * @return int
 	 */
-	public function getStatusCode() {
+	public function getStatusCode(): int {
 		return $this->statusCode;
 	}
 
@@ -97,7 +76,7 @@ class Result {
 	 * get the meta data for the result
 	 * @return array
 	 */
-	public function getMeta() {
+	public function getMeta(): array {
 		$meta = [];
 		$meta['status'] = $this->succeeded() ? 'ok' : 'failure';
 		$meta['statuscode'] = $this->statusCode;
@@ -115,7 +94,7 @@ class Result {
 	 * get the result data
 	 * @return array
 	 */
-	public function getData() {
+	public function getData(): array {
 		return $this->data;
 	}
 
@@ -123,17 +102,18 @@ class Result {
 	 * return bool Whether the method succeeded
 	 * @return bool
 	 */
-	public function succeeded() {
+	public function succeeded(): bool {
 		return ($this->statusCode == 100);
 	}
 
 	/**
 	 * Adds a new header to the response
+	 *
 	 * @param string $name The name of the HTTP header
 	 * @param string $value The value, null will delete it
 	 * @return $this
 	 */
-	public function addHeader($name, $value) {
+	public function addHeader(string $name, ?string $value): static {
 		$name = trim($name);  // always remove leading and trailing whitespace
 		// to be able to reliably check for security
 		// headers
@@ -151,7 +131,7 @@ class Result {
 	 * Returns the set headers
 	 * @return array the headers
 	 */
-	public function getHeaders() {
+	public function getHeaders(): array {
 		return $this->headers;
 	}
 }

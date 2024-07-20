@@ -1,0 +1,48 @@
+# SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
+# SPDX-License-Identifier: MIT
+name: Update code signing revocation list
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "5 2 * * *"
+
+jobs:
+  update-code-signing-crl:
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        branches: ['master', 'stable29',  'stable28',  'stable27', 'stable26', 'stable25', 'stable24', 'stable23', 'stable22']
+
+    name: update-code-signing-crl-${{ matrix.branches }}
+
+    steps:
+      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332
+        with:
+          ref: ${{ matrix.branches }}
+          submodules: true
+
+      - name: Download CRL file from Appstore repository
+        run: curl --output resources/codesigning/root.crl https://raw.githubusercontent.com/nextcloud/appstore/master/nextcloudappstore/certificate/nextcloud.crl
+
+      - name: Verify CRL is from CRT
+        run: openssl crl -verify -in resources/codesigning/root.crl -CAfile resources/codesigning/root.crt -noout
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@c5a7806660adbe173f04e3e038b0ccdcd758773c
+        with:
+          token: ${{ secrets.COMMAND_BOT_PAT }}
+          commit-message: 'fix(security): Update code signing revocation list'
+          committer: GitHub <noreply@github.com>
+          author: nextcloud-command <nextcloud-command@users.noreply.github.com>
+          signoff: true
+          branch: 'automated/noid/${{ matrix.branches }}-update-code-signing-crl'
+          title: '[${{ matrix.branches }}] fix(security): Update code signing revocation list'
+          body: |
+            Auto-generated update of code signing revocation list from [Appstore](https://github.com/nextcloud/appstore/commits/master/nextcloudappstore/certificate/nextcloud.crl)
+          labels: |
+            dependencies
+            3. to review
+          reviewers: mgallien, miaulalala, nickvergessen

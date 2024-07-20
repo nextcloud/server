@@ -5,11 +5,11 @@
     "Could not add server" : "Serveri lisamine ebaõnnestus",
     "Trusted servers" : "Usaldatud serverid",
     "Federation" : "Liidendus",
-    "Federation allows you to connect with other trusted servers to exchange the user directory." : "Liidendamine võimaldab sul teiste usaldatud serveritega ühenduda, et kasutajaid jagada.",
-    "Federation allows you to connect with other trusted servers to exchange the user directory. For example this will be used to auto-complete external users for federated sharing." : "Liidendamine võimaldab sul teiste usaldatud serveritega ühenduda, et kasutajaid jagada. Näiteks saab seda rakendada liidendatud serverite väliste kasutajanimede automaatseks täitmiseks.",
-    "Federation allows you to connect with other trusted servers to exchange the user directory. For example this will be used to auto-complete external users for federated sharing. It is not necessary to add a server as trusted server in order to create a federated share." : "Liidendamine võimaldab sul teiste usaldatud serveritega ühenduda, et kasutajaid jagada. Näiteks saab seda rakendada liidendatud serverite väliste kasutajanimede automaatseks täitmiseks. Liidendatud jaoskausta loomiseks ei ole vaja serverit usaldatud serverite hulka lisada.",
     "+ Add trusted server" : "+ Lisa usaldatud server",
     "Trusted server" : "Usaldatud server",
-    "Add" : "Lisa"
+    "Add" : "Lisa",
+    "Federation allows you to connect with other trusted servers to exchange the user directory." : "Liidendamine võimaldab sul teiste usaldatud serveritega ühenduda, et kasutajaid jagada.",
+    "Federation allows you to connect with other trusted servers to exchange the user directory. For example this will be used to auto-complete external users for federated sharing." : "Liidendamine võimaldab sul teiste usaldatud serveritega ühenduda, et kasutajaid jagada. Näiteks saab seda rakendada liidendatud serverite väliste kasutajanimede automaatseks täitmiseks.",
+    "Federation allows you to connect with other trusted servers to exchange the user directory. For example this will be used to auto-complete external users for federated sharing. It is not necessary to add a server as trusted server in order to create a federated share." : "Liidendamine võimaldab sul teiste usaldatud serveritega ühenduda, et kasutajaid jagada. Näiteks saab seda rakendada liidendatud serverite väliste kasutajanimede automaatseks täitmiseks. Liidendatud jaoskausta loomiseks ei ole vaja serverit usaldatud serverite hulka lisada."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

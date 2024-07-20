@@ -9,7 +9,6 @@ OC.L10N.register(
     "%1$s commented on %2$s" : "%1$s đã bình luận về%2$s",
     "{author} commented on {file}" : "{author} đã bình luận về tệp tin {file}",
     "<strong>Comments</strong> for files" : "<strong>bình luận</strong> đối với các tệp tin",
-    "You were mentioned on \"{file}\", in a comment by a user that has since been deleted" : "Bạn đã được nhắc tới trên \"{file}\", trong một bình luận bởi một người dùng đã bị xoá",
     "{user} mentioned you in a comment on \"{file}\"" : "{user}  đã nhắc tới bạn trong một bình luận trên \"{file}\"",
     "Files app plugin to add comments to files" : "Plugin ứng dụng Tệp để thêm bình luận vào tệp",
     "Edit comment" : "Sửa bình luận",
@@ -27,7 +26,7 @@ OC.L10N.register(
     "Comment deleted" : "Đã xóa bình luận",
     "An error occurred while trying to delete the comment" : "Đã xảy ra lỗi khi cố gắng xóa bình luận",
     "An error occurred while trying to create the comment" : "Đã xảy ra lỗi khi cố gắng tạo bình luận",
-    "%1$s commented" : "%1$s được bình luận",
+    "You were mentioned on \"{file}\", in a comment by a user that has since been deleted" : "Bạn đã được nhắc tới trên \"{file}\", trong một bình luận bởi một người dùng đã bị xoá",
     "_%n unread comment_::_%n unread comments_" : ["%n bình luận chưa đọc"]
 },
 "nplurals=1; plural=0;");

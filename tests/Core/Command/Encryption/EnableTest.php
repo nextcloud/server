@@ -1,22 +1,8 @@
 <?php
 /**
- * @author Joas Schilling <nickvergessen@owncloud.com>
- *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 
 namespace Tests\Core\Command\Encryption;
@@ -80,42 +66,40 @@ class EnableTest extends TestCase {
 	 * @param string $expectedDefaultModuleString
 	 */
 	public function testEnable($oldStatus, $defaultModule, $availableModules, $isUpdating, $expectedString, $expectedDefaultModuleString) {
-		$invokeCount = 0;
-		$this->config->expects($this->at($invokeCount))
-			->method('getAppValue')
-			->with('core', 'encryption_enabled', $this->anything())
-			->willReturn($oldStatus);
-		$invokeCount++;
-
 		if ($isUpdating) {
 			$this->config->expects($this->once())
 				->method('setAppValue')
 				->with('core', 'encryption_enabled', 'yes');
-			$invokeCount++;
 		}
 
 		$this->manager->expects($this->atLeastOnce())
 			->method('getEncryptionModules')
 			->willReturn($availableModules);
 
-		if (!empty($availableModules)) {
-			$this->config->expects($this->at($invokeCount))
+		if (empty($availableModules)) {
+			$this->config->expects($this->once())
 				->method('getAppValue')
-				->with('core', 'default_encryption_module', $this->anything())
-				->willReturn($defaultModule);
+				->with('core', 'encryption_enabled', $this->anything())
+				->willReturn($oldStatus);
+		} else {
+			$this->config->expects($this->exactly(2))
+				->method('getAppValue')
+				->withConsecutive(
+					['core', 'encryption_enabled', $this->anything()],
+					['core', 'default_encryption_module', $this->anything()],
+				)->willReturnOnConsecutiveCalls(
+					$oldStatus,
+					$defaultModule,
+				);
 		}
 
-		$this->consoleOutput->expects($this->at(0))
+		$this->consoleOutput->expects($this->exactly(3))
 			->method('writeln')
-			->with($this->stringContains($expectedString));
-
-		$this->consoleOutput->expects($this->at(1))
-			->method('writeln')
-			->with('');
-
-		$this->consoleOutput->expects($this->at(2))
-			->method('writeln')
-			->with($this->stringContains($expectedDefaultModuleString));
+			->withConsecutive(
+				[$this->stringContains($expectedString)],
+				[''],
+				[$this->stringContains($expectedDefaultModuleString)],
+			);
 
 		self::invokePrivate($this->command, 'execute', [$this->consoleInput, $this->consoleOutput]);
 	}

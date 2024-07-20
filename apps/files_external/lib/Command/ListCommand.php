@@ -1,27 +1,8 @@
 <?php
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Daniel Kesselberg <mail@danielkesselberg.de>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2017-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\Files_External\Command;
 
@@ -29,6 +10,7 @@ use OC\Core\Command\Base;
 use OC\User\NoUserException;
 use OCA\Files_External\Lib\StorageConfig;
 use OCA\Files_External\Service\GlobalStoragesService;
+use OCA\Files_External\Service\StoragesService;
 use OCA\Files_External\Service\UserStoragesService;
 use OCP\IUserManager;
 use OCP\IUserSession;
@@ -39,19 +21,15 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class ListCommand extends Base {
-	protected GlobalStoragesService $globalService;
-	protected UserStoragesService $userService;
-	protected IUserSession $userSession;
-	protected IUserManager $userManager;
-
 	public const ALL = -1;
 
-	public function __construct(GlobalStoragesService $globalService, UserStoragesService $userService, IUserSession $userSession, IUserManager $userManager) {
+	public function __construct(
+		protected GlobalStoragesService $globalService,
+		protected UserStoragesService $userService,
+		protected IUserSession $userSession,
+		protected IUserManager $userManager,
+	) {
 		parent::__construct();
-		$this->globalService = $globalService;
-		$this->userService = $userService;
-		$this->userSession = $userSession;
-		$this->userManager = $userManager;
 	}
 
 	protected function configure(): void {
@@ -93,7 +71,7 @@ class ListCommand extends Base {
 		}
 
 		$this->listMounts($userId, $mounts, $input, $output);
-		return 0;
+		return self::SUCCESS;
 	}
 
 	/**
@@ -128,12 +106,12 @@ class ListCommand extends Base {
 		}
 
 		if (!$input->getOption('show-password')) {
-			$hideKeys = ['password', 'refresh_token', 'token', 'client_secret', 'public_key', 'private_key'];
+			$hideKeys = ['key', 'bucket', 'secret', 'password', 'refresh_token', 'token', 'client_secret', 'public_key', 'private_key'];
 			foreach ($mounts as $mount) {
 				$config = $mount->getBackendOptions();
 				foreach ($config as $key => $value) {
 					if (in_array($key, $hideKeys)) {
-						$mount->setBackendOption($key, '***');
+						$mount->setBackendOption($key, '***REMOVED SENSITIVE VALUE***');
 					}
 				}
 			}
@@ -245,16 +223,16 @@ class ListCommand extends Base {
 		}
 	}
 
-	protected function getStorageService($userId) {
-		if (!empty($userId)) {
-			$user = $this->userManager->get($userId);
-			if (is_null($user)) {
-				throw new NoUserException("user $userId not found");
-			}
-			$this->userSession->setUser($user);
-			return $this->userService;
-		} else {
+	protected function getStorageService(string $userId): StoragesService {
+		if (empty($userId)) {
 			return $this->globalService;
 		}
+
+		$user = $this->userManager->get($userId);
+		if (is_null($user)) {
+			throw new NoUserException("user $userId not found");
+		}
+		$this->userSession->setUser($user);
+		return $this->userService;
 	}
 }

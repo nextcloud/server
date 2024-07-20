@@ -40,8 +40,6 @@ OC.L10N.register(
     "Enable password recovery:" : "Luba parooli taaste:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Valiku lubamine võimaldab taastada ligipääsu krüpteeritud failidele kui parooli kaotuse puhul",
     "Enabled" : "Sisse lülitatud",
-    "Disabled" : "Väljalülitatud",
-    "The share will expire on %s." : "Jagamine aegub %s.",
-    "Cheers!" : "Terekest!"
+    "Disabled" : "Väljalülitatud"
 },
 "nplurals=2; plural=(n != 1);");

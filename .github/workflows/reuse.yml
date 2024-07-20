@@ -1,0 +1,22 @@
+# This workflow is provided via the organization template repository
+#
+# https://github.com/nextcloud/.github
+# https://docs.github.com/en/actions/learn-github-actions/sharing-workflows-with-your-organization
+
+# SPDX-FileCopyrightText: 2022 Free Software Foundation Europe e.V. <https://fsfe.org>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+name: REUSE Compliance Check
+
+on: [pull_request]
+
+jobs:
+  reuse-compliance-check:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
+
+    - name: REUSE Compliance Check
+      uses: fsfe/reuse-action@3ae3c6bdf1257ab19397fab11fd3312144692083 # v4.0.0

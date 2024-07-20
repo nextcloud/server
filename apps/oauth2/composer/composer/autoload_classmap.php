@@ -7,6 +7,7 @@ $baseDir = $vendorDir;
 
 return array(
     'Composer\\InstalledVersions' => $vendorDir . '/composer/InstalledVersions.php',
+    'OCA\\OAuth2\\BackgroundJob\\CleanupExpiredAuthorizationCode' => $baseDir . '/../lib/BackgroundJob/CleanupExpiredAuthorizationCode.php',
     'OCA\\OAuth2\\Controller\\LoginRedirectorController' => $baseDir . '/../lib/Controller/LoginRedirectorController.php',
     'OCA\\OAuth2\\Controller\\OauthApiController' => $baseDir . '/../lib/Controller/OauthApiController.php',
     'OCA\\OAuth2\\Controller\\SettingsController' => $baseDir . '/../lib/Controller/SettingsController.php',
@@ -21,5 +22,6 @@ return array(
     'OCA\\OAuth2\\Migration\\Version010402Date20190107124745' => $baseDir . '/../lib/Migration/Version010402Date20190107124745.php',
     'OCA\\OAuth2\\Migration\\Version011601Date20230522143227' => $baseDir . '/../lib/Migration/Version011601Date20230522143227.php',
     'OCA\\OAuth2\\Migration\\Version011602Date20230613160650' => $baseDir . '/../lib/Migration/Version011602Date20230613160650.php',
+    'OCA\\OAuth2\\Migration\\Version011603Date20230620111039' => $baseDir . '/../lib/Migration/Version011603Date20230620111039.php',
     'OCA\\OAuth2\\Settings\\Admin' => $baseDir . '/../lib/Settings/Admin.php',
 );

@@ -1,28 +1,12 @@
 /**
- * @copyright Copyright (c) 2023 John Molakvoæ <skjnldsv@protonmail.com>
- *
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- *
- * @license AGPL-3.0-or-later
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 import { action } from './rejectShareAction'
 import { expect } from '@jest/globals'
 import { File, Folder, Permission, View, FileAction } from '@nextcloud/files'
-import * as eventBus from '@nextcloud/event-bus'
+import { ShareType } from '@nextcloud/sharing'
+import eventBus from '@nextcloud/event-bus'
 import axios from '@nextcloud/axios'
 import '../main'
 
@@ -35,6 +19,12 @@ const pendingShareView = {
 	id: 'pendingshares',
 	name: 'Pending shares',
 } as View
+
+// Mock webroot variable
+beforeAll(() => {
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	(window as any)._oc_webroot = ''
+})
 
 describe('Reject share action conditions tests', () => {
 	test('Default values', () => {
@@ -107,7 +97,7 @@ describe('Reject share action enabled tests', () => {
 			owner: 'admin',
 			permissions: Permission.READ,
 			attributes: {
-				share_type: window.OC.Share.SHARE_TYPE_USER,
+				share_type: ShareType.User,
 			},
 		})
 		const folder2 = new Folder({
@@ -117,7 +107,7 @@ describe('Reject share action enabled tests', () => {
 			permissions: Permission.READ,
 			attributes: {
 				remote_id: 1,
-				share_type: window.OC.Share.SHARE_TYPE_REMOTE_GROUP,
+				share_type: ShareType.RemoteGroup,
 			},
 		})
 
@@ -141,7 +131,7 @@ describe('Reject share action execute tests', () => {
 			permissions: Permission.READ,
 			attributes: {
 				id: 123,
-				share_type: window.OC.Share.SHARE_TYPE_USER,
+				share_type: ShareType.User,
 			},
 		})
 
@@ -168,7 +158,7 @@ describe('Reject share action execute tests', () => {
 			attributes: {
 				id: 123,
 				remote: 3,
-				share_type: window.OC.Share.SHARE_TYPE_USER,
+				share_type: ShareType.User,
 			},
 		})
 
@@ -194,7 +184,7 @@ describe('Reject share action execute tests', () => {
 			permissions: Permission.READ,
 			attributes: {
 				id: 123,
-				share_type: window.OC.Share.SHARE_TYPE_USER,
+				share_type: ShareType.User,
 			},
 		})
 
@@ -206,7 +196,7 @@ describe('Reject share action execute tests', () => {
 			permissions: Permission.READ,
 			attributes: {
 				id: 456,
-				share_type: window.OC.Share.SHARE_TYPE_USER,
+				share_type: ShareType.User,
 			},
 		})
 
@@ -233,7 +223,7 @@ describe('Reject share action execute tests', () => {
 			permissions: Permission.READ,
 			attributes: {
 				id: 123,
-				share_type: window.OC.Share.SHARE_TYPE_USER,
+				share_type: ShareType.User,
 			},
 		})
 

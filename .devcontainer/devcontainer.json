@@ -3,6 +3,7 @@
 	"dockerComposeFile": "docker-compose.yml",
 	"service": "nextclouddev",
 	"postCreateCommand": ".devcontainer/setup.sh",
+	"postStartCommand": ".devcontainer/postStart.sh",
 	"forwardPorts": [
 		80,
 		8080,

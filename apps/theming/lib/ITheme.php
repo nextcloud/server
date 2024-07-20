@@ -1,24 +1,9 @@
 <?php
+
 declare(strict_types=1);
 /**
- * @copyright Copyright (c) 2022 John Molakvoæ <skjnldsv@protonmail.com>
- *
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace OCA\Theming;
@@ -30,8 +15,8 @@ namespace OCA\Theming;
  */
 interface ITheme {
 
-	const TYPE_THEME = 1;
-	const TYPE_FONT = 2;
+	public const TYPE_THEME = 1;
+	public const TYPE_FONT = 2;
 
 	/**
 	 * Unique theme id
@@ -69,6 +54,14 @@ interface ITheme {
 	 * @since 25.0.0
 	 */
 	public function getDescription(): string;
+
+	/**
+	 * Get the meta attribute matching the theme
+	 * e.g. https://html.spec.whatwg.org/multipage/semantics.html#meta-color-scheme
+	 * @return array{name?: string, content?: string}[]
+	 * @since 29.0.0
+	 */
+	public function getMeta(): array;
 
 	/**
 	 * Get the media query triggering this theme

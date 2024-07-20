@@ -1,32 +1,8 @@
 <?php
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Björn Schießle <bjoern@schiessle.org>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Tobia De Koninck <tobia@ledfan.be>
- * @author Vincent Petry <vincent@nextcloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\Files_Sharing\Tests;
 
@@ -99,8 +75,8 @@ class UpdaterTest extends TestCase {
 		// check if user2 can see the shared folder
 		$this->assertTrue($view->file_exists($this->folder));
 
-		$foldersShared = \OC\Share\Share::getItemsSharedWith('folder');
-		$this->assertSame(1, count($foldersShared));
+		$foldersShared = $this->shareManager->getSharesBy(self::TEST_FILES_SHARING_API_USER1, IShare::TYPE_USER);
+		$this->assertCount(1, $foldersShared);
 
 		$view->mkdir('localFolder');
 		$view->file_put_contents('localFolder/localFile.txt', 'local file');
@@ -116,8 +92,8 @@ class UpdaterTest extends TestCase {
 		$this->loginHelper(self::TEST_FILES_SHARING_API_USER2);
 
 		// shared folder should be unshared
-		$foldersShared = \OC\Share\Share::getItemsSharedWith('folder');
-		$this->assertTrue(empty($foldersShared));
+		$foldersShared = $this->shareManager->getSharesBy(self::TEST_FILES_SHARING_API_USER1, IShare::TYPE_USER);
+		$this->assertCount(0, $foldersShared);
 
 		// trashbin should contain the local file but not the mount point
 		$rootView = new \OC\Files\View('/' . self::TEST_FILES_SHARING_API_USER2);

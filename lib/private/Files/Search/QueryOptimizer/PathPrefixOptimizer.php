@@ -2,25 +2,9 @@
 
 declare(strict_types=1);
 /**
- * @copyright Copyright (c) 2021 Robin Appelman <robin@icewind.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-
 namespace OC\Files\Search\QueryOptimizer;
 
 use OC\Files\Search\SearchComparison;
@@ -48,7 +32,7 @@ class PathPrefixOptimizer extends QueryOptimizerStep {
 	}
 
 	public function processOperator(ISearchOperator &$operator) {
-		if (!$this->useHashEq && $operator instanceof ISearchComparison && $operator->getField() === 'path' && $operator->getType() === ISearchComparison::COMPARE_EQUAL) {
+		if (!$this->useHashEq && $operator instanceof ISearchComparison && !$operator->getExtra() && $operator->getField() === 'path' && $operator->getType() === ISearchComparison::COMPARE_EQUAL) {
 			$operator->setQueryHint(ISearchComparison::HINT_PATH_EQ_HASH, false);
 		}
 
@@ -69,7 +53,7 @@ class PathPrefixOptimizer extends QueryOptimizerStep {
 	private function operatorPairIsPathPrefix(ISearchOperator $like, ISearchOperator $equal): bool {
 		return (
 			$like instanceof ISearchComparison && $equal instanceof ISearchComparison &&
-			$like->getField() === 'path' && $equal->getField() === 'path' &&
+			!$like->getExtra() && !$equal->getExtra() && $like->getField() === 'path' && $equal->getField() === 'path' &&
 			$like->getType() === ISearchComparison::COMPARE_LIKE_CASE_SENSITIVE && $equal->getType() === ISearchComparison::COMPARE_EQUAL
 			&& $like->getValue() === SearchComparison::escapeLikeParameter($equal->getValue()) . '/%'
 		);

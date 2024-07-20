@@ -24,9 +24,14 @@
     "Android client" : "Cliente Android",
     "iOS client" : "Cliente iOS",
     "Desktop client" : "Cliente de escritorio",
+    "Select groups" : "Seleccionar grupos",
+    "Groups" : "Grupos",
     "Cancel" : "Cancelar",
     "Delete" : "Borrar",
     "Save" : "Guardar",
+    "Browse the App Store" : "Explorar la tienda de aplicaciones",
+    "Show less" : "Mostrar menos",
+    "Show more" : "Mostrar más",
     "matches" : "coincide",
     "does not match" : "No coincide",
     "is" : "es",
@@ -51,9 +56,8 @@
     "between" : "entre",
     "not between" : "no entre",
     "Request user agent" : "Solicitar agente de usuario",
-    "User group membership" : "Membresia al grupo de usuarios",
     "is member of" : "es miembro de",
     "is not member of" : "no es miembro de",
-    "Predefined URLs" : "URLs predefinidos"
+    "User group membership" : "Membresia al grupo de usuarios"
 },"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

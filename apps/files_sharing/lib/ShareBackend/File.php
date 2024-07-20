@@ -1,40 +1,14 @@
 <?php
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Andreas Fischer <bantu@owncloud.com>
- * @author Bart Visscher <bartv@thisnet.nl>
- * @author Bjoern Schiessle <bjoern@schiessle.org>
- * @author Björn Schießle <bjoern@schiessle.org>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Michael Gapczynski <GapczynskiM@gmail.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Vincent Petry <vincent@nextcloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2017-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\Files_Sharing\ShareBackend;
 
 use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCP\Share\IShare;
+use Psr\Log\LoggerInterface;
 
 class File implements \OCP\Share_Backend_File_Dependent {
 	public const FORMAT_SHARED_STORAGE = 0;
@@ -50,7 +24,7 @@ class File implements \OCP\Share_Backend_File_Dependent {
 	/** @var FederatedShareProvider */
 	private $federatedShareProvider;
 
-	public function __construct(FederatedShareProvider $federatedShareProvider = null) {
+	public function __construct(?FederatedShareProvider $federatedShareProvider = null) {
 		if ($federatedShareProvider) {
 			$this->federatedShareProvider = $federatedShareProvider;
 		} else {
@@ -233,7 +207,7 @@ class File implements \OCP\Share_Backend_File_Dependent {
 		if (isset($fileOwner)) {
 			$source['fileOwner'] = $fileOwner;
 		} else {
-			\OC::$server->getLogger()->error('No owner found for reshare', ['app' => 'files_sharing']);
+			\OCP\Server::get(LoggerInterface::class)->error('No owner found for reshare', ['app' => 'files_sharing']);
 		}
 
 		return $source;

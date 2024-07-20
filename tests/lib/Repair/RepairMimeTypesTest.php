@@ -1,10 +1,8 @@
 <?php
 /**
- * Copyright (c) 2014 Vincent Petry <pvince81@owncloud.com>
- * Copyright (c) 2014-2015 Olivier Paroz owncloud@oparoz.com
- * This file is licensed under the Affero General Public License version 3 or
- * later.
- * See the COPYING-README file.
+ * SPDX-FileCopyrightText: 2017-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace Test\Repair;
@@ -41,9 +39,11 @@ class RepairMimeTypesTest extends \Test\TestCase {
 		$config = $this->getMockBuilder(IConfig::class)
 			->disableOriginalConstructor()
 			->getMock();
-		$config->expects($this->any())
-			->method('getSystemValueString')
+		$config->method('getSystemValueString')
 			->with('version')
+			->willReturn('11.0.0.0');
+		$config->method('getAppValue')
+			->with('files', 'mimetype_version')
 			->willReturn('11.0.0.0');
 
 		$this->storage = new \OC\Files\Storage\Temporary([]);

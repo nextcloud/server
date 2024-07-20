@@ -5,7 +5,7 @@
     "Error" : "Feil",
     "Weather status" : "Værstatus",
     "Weather status in your dashboard" : "Værstatus i dashbordet ditt",
-    "Weather status integrated in the Dashboard app.\n    User's position can be automatically determined or manually defined. A 6 hours forecast is then displayed.\n    This status can also be integrated in other places like the Calendar app." : "Værstatus integrert i Dashboard-appen.\nBrukerens posisjon kan bestemmes automatisk eller manuelt. Et 6 timers varsel vises da.\nDenne statusen kan også integreres på andre steder som Kalender-appen.",
+    "Weather status integrated in the Dashboard app.\n    The geographic location can be automatically determined or manually defined. A 6 hours forecast is then displayed.\n    This status can also be integrated in other places like the Calendar app." : "Værstatus integrert i Dashboard-appen.\n    Den geografiske plasseringen kan bestemmes automatisk eller defineres manuelt. En 6 timers prognose vises deretter.\n    Denne statusen kan også integreres andre steder som Kalender-appen.",
     "Detect location" : "Oppdag plassering",
     "Set custom address" : "Angi egendefinert adresse",
     "Favorites" : "Favoritter",
@@ -43,6 +43,7 @@
     "There was an error setting the location." : "Det oppsto en feil ved å angi posisjonen.",
     "There was an error saving the mode." : "Det oppsto en feil da modusen skulle lagres.",
     "There was an error using personal address." : "Det oppsto en feil ved bruk av personlig adresse.",
-    "Set location for weather" : "Angi posisjon for været"
+    "Set location for weather" : "Angi posisjon for været",
+    "Weather status integrated in the Dashboard app.\n    User's position can be automatically determined or manually defined. A 6 hours forecast is then displayed.\n    This status can also be integrated in other places like the Calendar app." : "Værstatus integrert i Dashboard-appen.\nBrukerens posisjon kan bestemmes automatisk eller manuelt. Et 6 timers varsel vises da.\nDenne statusen kan også integreres på andre steder som Kalender-appen."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

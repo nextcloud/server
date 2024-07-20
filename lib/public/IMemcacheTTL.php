@@ -1,24 +1,9 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <robin@icewind.nl>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCP;
 
@@ -35,5 +20,22 @@ interface IMemcacheTTL extends IMemcache {
 	 * @param int $ttl time to live in seconds
 	 * @since 8.2.2
 	 */
-	public function setTTL($key, $ttl);
+	public function setTTL(string $key, int $ttl);
+
+	/**
+	 * Get the ttl for an existing value, in seconds till expiry
+	 *
+	 * @return int|false
+	 * @since 27
+	 */
+	public function getTTL(string $key): int|false;
+	/**
+	 * Set the ttl for an existing value if the value matches
+	 *
+	 * @param string $key
+	 * @param mixed $value
+	 * @param int $ttl time to live in seconds
+	 * @since 27
+	 */
+	public function compareSetTTL(string $key, $value, int $ttl): bool;
 }

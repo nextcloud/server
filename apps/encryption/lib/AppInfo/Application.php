@@ -1,28 +1,9 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Bjoern Schiessle <bjoern@schiessle.org>
- * @author Björn Schießle <bjoern@schiessle.org>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Clark Tomlinson <fallen013@gmail.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\Encryption\AppInfo;
 
@@ -37,16 +18,40 @@ use OCA\Encryption\Recovery;
 use OCA\Encryption\Session;
 use OCA\Encryption\Users\Setup;
 use OCA\Encryption\Util;
+use OCP\AppFramework\App;
+use OCP\AppFramework\Bootstrap\IBootContext;
+use OCP\AppFramework\Bootstrap\IBootstrap;
+use OCP\AppFramework\Bootstrap\IRegistrationContext;
 use OCP\Encryption\IManager;
 use OCP\IConfig;
 use Psr\Log\LoggerInterface;
 
-class Application extends \OCP\AppFramework\App {
-	/**
-	 * @param array $urlParams
-	 */
-	public function __construct($urlParams = []) {
-		parent::__construct('encryption', $urlParams);
+class Application extends App implements IBootstrap {
+	public const APP_ID = 'encryption';
+
+	public function __construct(array $urlParams = []) {
+		parent::__construct(self::APP_ID, $urlParams);
+	}
+
+	public function register(IRegistrationContext $context): void {
+	}
+
+	public function boot(IBootContext $context): void {
+		\OCP\Util::addScript(self::APP_ID, 'encryption');
+
+		$context->injectFn(function (IManager $encryptionManager) use ($context) {
+			if (!($encryptionManager instanceof \OC\Encryption\Manager)) {
+				return;
+			}
+
+			if (!$encryptionManager->isReady()) {
+				return;
+			}
+
+			$context->injectFn($this->registerEncryptionModule(...));
+			$context->injectFn($this->registerHooks(...));
+			$context->injectFn($this->setUp(...));
+		});
 	}
 
 	public function setUp(IManager $encryptionManager) {

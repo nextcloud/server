@@ -1,49 +1,26 @@
 <?php
 
 declare(strict_types=1);
-
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Bernhard Posselt <dev@bernhard-posselt.com>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OC\AppFramework;
 
 use OC\AppFramework\DependencyInjection\DIContainer;
 use OC\AppFramework\Http\Dispatcher;
 use OC\AppFramework\Http\Request;
-use OCP\App\IAppManager;
-use OCP\Profiler\IProfiler;
 use OC\Profiler\RoutingDataCollector;
-use OCP\AppFramework\QueryException;
+use OCP\App\IAppManager;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\ICallbackResponse;
 use OCP\AppFramework\Http\IOutput;
+use OCP\AppFramework\QueryException;
 use OCP\Diagnostics\IEventLogger;
 use OCP\HintException;
 use OCP\IRequest;
+use OCP\Profiler\IProfiler;
 
 /**
  * Entry point for every request in your app. You can consider this as your
@@ -116,7 +93,7 @@ class App {
 	 * @param array $urlParams list of URL parameters (optional)
 	 * @throws HintException
 	 */
-	public static function main(string $controllerName, string $methodName, DIContainer $container, array $urlParams = null) {
+	public static function main(string $controllerName, string $methodName, DIContainer $container, ?array $urlParams = null) {
 		/** @var IProfiler $profiler */
 		$profiler = $container->get(IProfiler::class);
 		$eventLogger = $container->get(IEventLogger::class);
@@ -257,7 +234,7 @@ class App {
 	 * @param DIContainer $container an instance of a pimple container.
 	 */
 	public static function part(string $controllerName, string $methodName, array $urlParams,
-								DIContainer $container) {
+		DIContainer $container) {
 		$container['urlParams'] = $urlParams;
 		$controller = $container[$controllerName];
 

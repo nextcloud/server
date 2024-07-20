@@ -1,41 +1,20 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author J0WI <J0WI@users.noreply.github.com>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Robin McCorkell <robin@mccorkell.me.uk>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Tigran Mkrtchyan <tigran.mkrtchyan@desy.de>
- * @author Vincent Petry <vincent@nextcloud.com>
- * @author Vinicius Cubas Brand <vinicius@eita.org.br>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OC\Files\Storage\Wrapper;
 
+use OC\Files\Storage\FailedStorage;
 use OCP\Files\InvalidPathException;
 use OCP\Files\Storage\ILockingStorage;
 use OCP\Files\Storage\IStorage;
 use OCP\Files\Storage\IWriteStreamStorage;
 use OCP\Lock\ILockingProvider;
+use OCP\Server;
+use Psr\Log\LoggerInterface;
 
 class Wrapper implements \OC\Files\Storage\Storage, ILockingStorage, IWriteStreamStorage {
 	/**
@@ -60,6 +39,12 @@ class Wrapper implements \OC\Files\Storage\Storage, ILockingStorage, IWriteStrea
 	 * @return \OC\Files\Storage\Storage
 	 */
 	public function getWrapperStorage() {
+		if (!$this->storage) {
+			$message = "storage wrapper " . get_class($this) . " doesn't have a wrapped storage set";
+			$logger = Server::get(LoggerInterface::class);
+			$logger->error($message);
+			$this->storage = new FailedStorage(['exception' => new \Exception($message)]);
+		}
 		return $this->storage;
 	}
 
@@ -637,7 +622,7 @@ class Wrapper implements \OC\Files\Storage\Storage, ILockingStorage, IWriteStrea
 		return $this->getWrapperStorage()->needsPartFile();
 	}
 
-	public function writeStream(string $path, $stream, int $size = null): int {
+	public function writeStream(string $path, $stream, ?int $size = null): int {
 		$storage = $this->getWrapperStorage();
 		if ($storage->instanceOfStorage(IWriteStreamStorage::class)) {
 			/** @var IWriteStreamStorage $storage */
@@ -653,5 +638,20 @@ class Wrapper implements \OC\Files\Storage\Storage, ILockingStorage, IWriteStrea
 
 	public function getDirectoryContent($directory): \Traversable {
 		return $this->getWrapperStorage()->getDirectoryContent($directory);
+	}
+
+	public function isWrapperOf(IStorage $storage) {
+		$wrapped = $this->getWrapperStorage();
+		if ($wrapped === $storage) {
+			return true;
+		}
+		if ($wrapped instanceof Wrapper) {
+			return $wrapped->isWrapperOf($storage);
+		}
+		return false;
+	}
+
+	public function setOwner(?string $user): void {
+		$this->getWrapperStorage()->setOwner($user);
 	}
 }

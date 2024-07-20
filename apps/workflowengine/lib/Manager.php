@@ -1,36 +1,11 @@
 <?php
 /**
- * @copyright Copyright (c) 2016 Morris Jobke <hey@morrisjobke.de>
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author blizzz <blizzz@arthur-schiwon.de>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Daniel Kesselberg <mail@danielkesselberg.de>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\WorkflowEngine;
 
 use Doctrine\DBAL\Exception;
-use OCP\Cache\CappedMemoryCache;
 use OCA\WorkflowEngine\AppInfo\Application;
 use OCA\WorkflowEngine\Check\FileMimeType;
 use OCA\WorkflowEngine\Check\FileName;
@@ -46,14 +21,13 @@ use OCA\WorkflowEngine\Helper\ScopeContext;
 use OCA\WorkflowEngine\Service\Logger;
 use OCA\WorkflowEngine\Service\RuleMatcher;
 use OCP\AppFramework\QueryException;
+use OCP\Cache\CappedMemoryCache;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\EventDispatcher\IEventDispatcher;
-use OCP\Files\Storage\IStorage;
 use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IL10N;
-use OCP\ILogger;
 use OCP\IServerContainer;
 use OCP\IUserSession;
 use OCP\WorkflowEngine\Events\RegisterChecksEvent;
@@ -66,31 +40,14 @@ use OCP\WorkflowEngine\IEntityEvent;
 use OCP\WorkflowEngine\IManager;
 use OCP\WorkflowEngine\IOperation;
 use OCP\WorkflowEngine\IRuleMatcher;
+use Psr\Log\LoggerInterface;
 
 class Manager implements IManager {
-	/** @var IStorage */
-	protected $storage;
-
-	/** @var string */
-	protected $path;
-
-	/** @var object */
-	protected $entity;
-
 	/** @var array[] */
 	protected $operations = [];
 
 	/** @var array[] */
 	protected $checks = [];
-
-	/** @var IDBConnection */
-	protected $connection;
-
-	/** @var IServerContainer|\OC\Server */
-	protected $container;
-
-	/** @var IL10N */
-	protected $l;
 
 	/** @var IEntity[] */
 	protected $registeredEntities = [];
@@ -101,41 +58,20 @@ class Manager implements IManager {
 	/** @var ICheck[] */
 	protected $registeredChecks = [];
 
-	/** @var ILogger */
-	protected $logger;
-
 	/** @var CappedMemoryCache<int[]> */
 	protected CappedMemoryCache $operationsByScope;
 
-	/** @var IUserSession */
-	protected $session;
-
-	/** @var IEventDispatcher */
-	private $dispatcher;
-
-	/** @var IConfig */
-	private $config;
-	private ICacheFactory $cacheFactory;
-
 	public function __construct(
-		IDBConnection $connection,
-		IServerContainer $container,
-		IL10N $l,
-		ILogger $logger,
-		IUserSession $session,
-		IEventDispatcher $dispatcher,
-		IConfig $config,
-		ICacheFactory $cacheFactory,
+		protected IDBConnection $connection,
+		protected IServerContainer $container,
+		protected IL10N $l,
+		protected LoggerInterface $logger,
+		protected IUserSession $session,
+		private IEventDispatcher $dispatcher,
+		private IConfig $config,
+		private ICacheFactory $cacheFactory,
 	) {
-		$this->connection = $connection;
-		$this->container = $container;
-		$this->l = $l;
-		$this->logger = $logger;
 		$this->operationsByScope = new CappedMemoryCache(64);
-		$this->session = $session;
-		$this->dispatcher = $dispatcher;
-		$this->config = $config;
-		$this->cacheFactory = $cacheFactory;
 	}
 
 	public function getRuleMatcher(): IRuleMatcher {
@@ -373,7 +309,7 @@ class Manager implements IManager {
 			->where($qb->expr()->eq('s.type', $qb->createParameter('scope')));
 
 		if ($scopeContext->getScope() !== IManager::SCOPE_ADMIN) {
-			$qb->where($qb->expr()->eq('s.value', $qb->createParameter('scopeId')));
+			$qb->andWhere($qb->expr()->eq('s.value', $qb->createParameter('scopeId')));
 		}
 
 		$qb->setParameters(['scope' => $scopeContext->getScope(), 'scopeId' => $scopeContext->getScopeId()]);
@@ -730,7 +666,7 @@ class Manager implements IManager {
 				File::class => $this->container->query(File::class),
 			];
 		} catch (QueryException $e) {
-			$this->logger->logException($e);
+			$this->logger->error($e->getMessage(), ['exception' => $e]);
 			return [];
 		}
 	}
@@ -744,7 +680,7 @@ class Manager implements IManager {
 				// None yet
 			];
 		} catch (QueryException $e) {
-			$this->logger->logException($e);
+			$this->logger->error($e->getMessage(), ['exception' => $e]);
 			return [];
 		}
 	}
@@ -766,7 +702,7 @@ class Manager implements IManager {
 				$this->container->query(UserGroupMembership::class),
 			];
 		} catch (QueryException $e) {
-			$this->logger->logException($e);
+			$this->logger->error($e->getMessage(), ['exception' => $e]);
 			return [];
 		}
 	}

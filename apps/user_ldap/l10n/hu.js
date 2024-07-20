@@ -61,6 +61,8 @@ OC.L10N.register(
     "Your password will expire today." : "A jelszava ma lejár.",
     "_Your password will expire within %n day._::_Your password will expire within %n days._" : ["A jelszava %n nap múlva lejár.","A jelszava %n nap múlva lejár."],
     "LDAP/AD integration" : "LDAP/AD integráció",
+    "Invalid LDAP UUIDs" : "Érvénytelen LADS UUID-k",
+    "None found" : "Nincs találat",
     "_%n group found_::_%n groups found_" : ["%n csoport található","%n csoport található"],
     "> 1000 groups found" : "> 1000 csoport található",
     "> 1000 users found" : "> 1000 felhasználó találhatófound",
@@ -155,6 +157,8 @@ OC.L10N.register(
     "One User Base DN per line" : "Soronként egy felhasználói alap DN",
     "User Search Attributes" : "Felhasználókeresési attribútumok",
     "Optional; one attribute per line" : "Nem kötelező; soronként egy attribútum",
+    "Disable users missing from LDAP" : "Az LDAP-ból hiányzó felhasználók letiltása",
+    "When switched on, users imported from LDAP which are then missing will be disabled" : "Ha engedélyezve van, az LDAP importálásból hiányzó felhasználók letiltásra kerülnek",
     "Group Display Name Field" : "A csoport megjelenítendő nevének mezője",
     "The LDAP attribute to use to generate the groups's display name." : "A csoport megjelenítendő nevének előállításához használandó LDAP attribútum.",
     "Base Group Tree" : "A csoportfa gyökere",
@@ -212,6 +216,7 @@ OC.L10N.register(
     "Username-LDAP User Mapping" : "Felhasználónév–LDAP felhasználó hozzárendelés",
     "Usernames are used to store and assign metadata. In order to precisely identify and recognize users, each LDAP user will have an internal username. This requires a mapping from username to LDAP user. The created username is mapped to the UUID of the LDAP user. Additionally the DN is cached as well to reduce LDAP interaction, but it is not used for identification. If the DN changes, the changes will be found. The internal username is used all over. Clearing the mappings will have leftovers everywhere. Clearing the mappings is not configuration sensitive, it affects all LDAP configurations! Never clear the mappings in a production environment, only in a testing or experimental stage." : "A felhasználónevek a metaadatok kezeléséhez és tárolásához vannak felhasználva. Annak érdekében, hogy teljes mértékben azonosítható legyen egy felhasználó, minden LDAP felhasználó kapni fog egy belső felhasználónevet. Ez egy hozzárendelést igényel az eredeti felhasználónév és az LDAP fiók között. A létrejött felhasználónév hozzárendelődik az LDAP fiók UUID értékéhez. Emellett a DN gyorsítótárazott, hogy csökkentse az LDAP interakciók számát, de nincs használva azonosítás céljából. Ha a DN megváltozik, a rendszer észleli ezeket a változásokat. A belső felhasználónév van mindenhol használva a rendszeren belül. A hozzárendelések törlése adattöredékeket hagy maga után. A hozzárendelések ürítése nem beállításfüggő, minden LDAP beállításra hatással van. Soha ne ürítse éles rendszeren a hozzárendeléseket, csak tesztelési vagy kísérleti szakaszban.",
     "Clear Username-LDAP User Mapping" : "Felhasználónév–LDAP felhasználó hozzárendelés törlése",
-    "Clear Groupname-LDAP Group Mapping" : "Csoport–LDAP csoport hozzárendelés törlése"
+    "Clear Groupname-LDAP Group Mapping" : "Csoport–LDAP csoport hozzárendelés törlése",
+    "Invalid UUIDs of LDAP users or groups have been found. Please review your \"Override UUID detection\" settings in the Expert part of the LDAP configuration and use \"occ ldap:update-uuid\" to update them." : "Felhasználók vagy csoportok érvénytelen UUID azonosítói találhatók. Nézze át a „UUID észlelés felülbírálása” beállítást az LDAP beállítások Szakértő részében, majd a frissítésükhöz használja az „occ ldap:update-uuid” parancsot."
 },
 "nplurals=2; plural=(n != 1);");

@@ -1,42 +1,10 @@
 <?php
 
 declare(strict_types=1);
-
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Bart Visscher <bartv@thisnet.nl>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Daniel Rudolf <github.com@daniel-rudolf.de>
- * @author Felix Epp <work@felixepp.de>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Jörn Friedrich Dreyer <jfd@butonic.de>
- * @author Julius Haertl <jus@bitgrid.net>
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author mmccarn <mmccarn-github@mmsionline.us>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Robin McCorkell <robin@mccorkell.me.uk>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Thomas Tanghus <thomas@tanghus.net>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OC;
 
@@ -70,10 +38,10 @@ class URLGenerator implements IURLGenerator {
 	private ?IAppManager $appManager = null;
 
 	public function __construct(IConfig $config,
-								IUserSession $userSession,
-								ICacheFactory $cacheFactory,
-								IRequest $request,
-								Router $router
+		IUserSession $userSession,
+		ICacheFactory $cacheFactory,
+		IRequest $request,
+		Router $router
 	) {
 		$this->config = $config;
 		$this->userSession = $userSession;
@@ -116,16 +84,25 @@ class URLGenerator implements IURLGenerator {
 	}
 
 	public function linkToOCSRouteAbsolute(string $routeName, array $arguments = []): string {
+		// Returns `/subfolder/index.php/ocsapp/…` with `'htaccess.IgnoreFrontController' => false` in config.php
+		// And `/subfolder/ocsapp/…` with `'htaccess.IgnoreFrontController' => true` in config.php
 		$route = $this->router->generate('ocs.'.$routeName, $arguments, false);
 
-		$indexPhpPos = strpos($route, '/index.php/');
-		if ($indexPhpPos !== false) {
-			$route = substr($route, $indexPhpPos + 10);
+		// Cut off `/subfolder`
+		if (\OC::$WEBROOT !== '' && str_starts_with($route, \OC::$WEBROOT)) {
+			$route = substr($route, \strlen(\OC::$WEBROOT));
 		}
 
+		if (str_starts_with($route, '/index.php/')) {
+			$route = substr($route, 10);
+		}
+
+		// Remove `ocsapp/` bit
 		$route = substr($route, 7);
+		// Prefix with ocs/v2.php endpoint
 		$route = '/ocs/v2.php' . $route;
 
+		// Turn into an absolute URL
 		return $this->getAbsoluteURL($route);
 	}
 
@@ -147,7 +124,7 @@ class URLGenerator implements IURLGenerator {
 			$app_path = $this->getAppManager()->getAppPath($appName);
 			// Check if the app is in the app folder
 			if (file_exists($app_path . '/' . $file)) {
-				if (substr($file, -3) === 'php') {
+				if (str_ends_with($file, 'php')) {
 					$urlLinkTo = \OC::$WEBROOT . '/index.php/apps/' . $appName;
 					if ($frontControllerActive) {
 						$urlLinkTo = \OC::$WEBROOT . '/apps/' . $appName;
@@ -217,7 +194,7 @@ class URLGenerator implements IURLGenerator {
 		$themingEnabled = $this->config->getSystemValueBool('installed', false) && $this->getAppManager()->isEnabledForUser('theming');
 		$themingImagePath = false;
 		if ($themingEnabled) {
-			$themingDefaults = \OC::$server->getThemingDefaults();
+			$themingDefaults = \OC::$server->get('ThemingDefaults');
 			if ($themingDefaults instanceof ThemingDefaults) {
 				$themingImagePath = $themingDefaults->replaceImagePath($appName, $file);
 			}
@@ -290,7 +267,7 @@ class URLGenerator implements IURLGenerator {
 	 * @return string url to the online documentation
 	 */
 	public function linkToDocs(string $key): string {
-		$theme = \OC::$server->getThemingDefaults();
+		$theme = \OC::$server->get('ThemingDefaults');
 		return $theme->buildDocLinkToKey($key);
 	}
 

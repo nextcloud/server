@@ -3,25 +3,8 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2020, Georg Ehrke
- *
- * @author Georg Ehrke <oc.list@georgehrke.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\UserStatus\Service;
 
@@ -46,6 +29,7 @@ class PredefinedStatusService {
 	 * @deprecated See \OCP\UserStatus\IUserStatus::MESSAGE_CALL
 	 */
 	public const CALL = 'call';
+	public const OUT_OF_OFFICE = 'out-of-office';
 
 	/** @var IL10N */
 	private $l10n;
@@ -113,6 +97,13 @@ class PredefinedStatusService {
 				'clearAt' => null,
 				'visible' => false,
 			],
+			[
+				'id' => self::OUT_OF_OFFICE,
+				'icon' => '🛑',
+				'message' => $this->getTranslatedStatusForId(self::OUT_OF_OFFICE),
+				'clearAt' => null,
+				'visible' => false,
+			],
 		];
 	}
 
@@ -148,6 +139,9 @@ class PredefinedStatusService {
 			case self::VACATIONING:
 				return '🌴';
 
+			case self::OUT_OF_OFFICE:
+				return '🛑';
+
 			case self::REMOTE_WORK:
 				return '🏡';
 
@@ -178,6 +172,9 @@ class PredefinedStatusService {
 			case self::VACATIONING:
 				return $this->l10n->t('Vacationing');
 
+			case self::OUT_OF_OFFICE:
+				return $this->l10n->t('Out of office');
+
 			case self::REMOTE_WORK:
 				return $this->l10n->t('Working remotely');
 
@@ -199,9 +196,13 @@ class PredefinedStatusService {
 			self::COMMUTING,
 			self::SICK_LEAVE,
 			self::VACATIONING,
+			self::OUT_OF_OFFICE,
 			self::REMOTE_WORK,
 			IUserStatus::MESSAGE_CALL,
 			IUserStatus::MESSAGE_AVAILABILITY,
+			IUserStatus::MESSAGE_VACATION,
+			IUserStatus::MESSAGE_CALENDAR_BUSY,
+			IUserStatus::MESSAGE_CALENDAR_BUSY_TENTATIVE,
 		], true);
 	}
 }

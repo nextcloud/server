@@ -1,37 +1,25 @@
 <?php
 /**
- * @author Lukas Reschke <lukas@owncloud.com>
- * @author Victor Dubiniuk <dubiniuk@owncloud.com>
- *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 
 namespace Test;
 
-use PHPUnit\Framework\MockObject\MockObject;
-use Psr\Log\LoggerInterface;
 use OC\Installer;
 use OC\IntegrityCheck\Checker;
 use OC\Updater;
+use OCP\IAppConfig;
 use OCP\IConfig;
+use PHPUnit\Framework\MockObject\MockObject;
+use Psr\Log\LoggerInterface;
 
 class UpdaterTest extends TestCase {
 	/** @var IConfig|MockObject */
 	private $config;
+	/** @var IAppConfig|MockObject */
+	private $appConfig;
 	/** @var LoggerInterface|MockObject */
 	private $logger;
 	/** @var Updater */
@@ -46,6 +34,9 @@ class UpdaterTest extends TestCase {
 		$this->config = $this->getMockBuilder(IConfig::class)
 			->disableOriginalConstructor()
 			->getMock();
+		$this->appConfig = $this->getMockBuilder(IAppConfig::class)
+			->disableOriginalConstructor()
+			->getMock();
 		$this->logger = $this->getMockBuilder(LoggerInterface::class)
 			->disableOriginalConstructor()
 			->getMock();
@@ -58,6 +49,7 @@ class UpdaterTest extends TestCase {
 
 		$this->updater = new Updater(
 			$this->config,
+			$this->appConfig,
 			$this->checker,
 			$this->logger,
 			$this->installer

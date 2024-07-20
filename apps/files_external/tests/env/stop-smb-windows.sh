@@ -1,9 +1,7 @@
 #!/usr/bin/env bash
 #
-# ownCloud
-#
-# @author Thomas Müller
-# @copyright 2015 Thomas Müller <deepdiver@owncloud.com>
+# SPDX-FileCopyrightText: 2015 ownCloud, Inc.
+# SPDX-License-Identifier: AGPL-3.0-only
 #
 
 # retrieve current folder to remove the config from the parent folder

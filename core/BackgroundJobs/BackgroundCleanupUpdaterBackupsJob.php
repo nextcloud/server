@@ -3,26 +3,8 @@
 declare(strict_types=1);
 
 /**
- * @copyright 2018 Morris Jobke <hey@morrisjobke.de>
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Morris Jobke <hey@morrisjobke.de>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OC\Core\BackgroundJobs;
 
@@ -42,8 +24,10 @@ class BackgroundCleanupUpdaterBackupsJob extends QueuedJob {
 
 	/**
 	 * This job cleans up all backups except the latest 3 from the updaters backup directory
+	 *
+	 * @param array $argument
 	 */
-	public function run($arguments) {
+	public function run($argument): void {
 		$updateDir = $this->config->getSystemValue('updatedirectory', null) ?? $this->config->getSystemValue('datadirectory', \OC::$SERVERROOT . '/data');
 		$instanceId = $this->config->getSystemValue('instanceid', null);
 

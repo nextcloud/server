@@ -1,41 +1,17 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Georg Ehrke <oc.list@georgehrke.com>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Vincent Petry <vincent@nextcloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\DAV\Connector\Sabre;
 
-use OCP\EventDispatcher\IEventDispatcher;
-use OCP\Files\Folder;
 use OCA\DAV\AppInfo\PluginManager;
 use OCA\DAV\DAV\ViewOnlyPlugin;
 use OCA\DAV\Files\BrowserErrorPagePlugin;
+use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Files\Folder;
 use OCP\Files\Mount\IMountManager;
 use OCP\IConfig;
 use OCP\IDBConnection;
@@ -88,9 +64,9 @@ class ServerFactory {
 	 * @param callable $viewCallBack callback that should return the view for the dav endpoint
 	 */
 	public function createServer(string $baseUri,
-								 string $requestUri,
-								 Plugin $authPlugin,
-								 callable $viewCallBack): Server {
+		string $requestUri,
+		Plugin $authPlugin,
+		callable $viewCallBack): Server {
 		// Fire up server
 		$objectTree = new \OCA\DAV\Connector\Sabre\ObjectTree();
 		$server = new \OCA\DAV\Connector\Sabre\Server($objectTree);
@@ -161,7 +137,7 @@ class ServerFactory {
 
 			// Allow view-only plugin for webdav requests
 			$server->addPlugin(new ViewOnlyPlugin(
-				$this->logger
+				$userFolder,
 			));
 
 			if ($this->userSession->isLoggedIn()) {
@@ -188,6 +164,7 @@ class ServerFactory {
 				$server->addPlugin(
 					new \Sabre\DAV\PropertyStorage\Plugin(
 						new \OCA\DAV\DAV\CustomPropertiesBackend(
+							$server,
 							$objectTree,
 							$this->databaseConnection,
 							$this->userSession->getUser()

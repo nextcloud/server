@@ -1,70 +1,53 @@
 <?php
+
+declare(strict_types=1);
 /**
- * @copyright Copyright (c) 2017 Robin Appelman <robin@icewind.nl>
- *
- * @author Robin Appelman <robin@icewind.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OC\Files\Search;
 
 use OCP\Files\Search\ISearchComparison;
 
+/**
+ * @psalm-import-type ParamValue from ISearchComparison
+ */
 class SearchComparison implements ISearchComparison {
-	/** @var string */
-	private $type;
-	/** @var string */
-	private $field;
-	/** @var string|integer|\DateTime */
-	private $value;
-	private $hints = [];
+	private array $hints = [];
 
-	/**
-	 * SearchComparison constructor.
-	 *
-	 * @param string $type
-	 * @param string $field
-	 * @param \DateTime|int|string $value
-	 */
-	public function __construct($type, $field, $value) {
-		$this->type = $type;
-		$this->field = $field;
-		$this->value = $value;
+	public function __construct(
+		private string $type,
+		private string $field,
+		/** @var ParamValue $value */
+		private \DateTime|int|string|bool|array $value,
+		private string $extra = ''
+	) {
 	}
 
 	/**
 	 * @return string
 	 */
-	public function getType() {
+	public function getType(): string {
 		return $this->type;
 	}
 
 	/**
 	 * @return string
 	 */
-	public function getField() {
+	public function getField(): string {
 		return $this->field;
 	}
 
-	/**
-	 * @return \DateTime|int|string
-	 */
-	public function getValue() {
+	public function getValue(): string|int|bool|\DateTime|array {
 		return $this->value;
+	}
+
+	/**
+	 * @return string
+	 * @since 28.0.0
+	 */
+	public function getExtra(): string {
+		return $this->extra;
 	}
 
 	public function getQueryHint(string $name, $default) {
@@ -77,5 +60,9 @@ class SearchComparison implements ISearchComparison {
 
 	public static function escapeLikeParameter(string $param): string {
 		return addcslashes($param, '\\_%');
+	}
+
+	public function __toString(): string {
+		return $this->field . ' ' . $this->type . ' ' . json_encode($this->value);
 	}
 }

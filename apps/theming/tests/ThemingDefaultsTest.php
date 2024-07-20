@@ -1,36 +1,7 @@
 <?php
 /**
- * @copyright Copyright (c) 2016 Lukas Reschke <lukas@statuscode.ch>
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Bjoern Schiessle <bjoern@schiessle.org>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Guillaume COMPAGNON <gcompagnon@outlook.com>
- * @author Jan-Christoph Borchardt <hey@jancborchardt.net>
- * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- * @author Julius Haertl <jus@bitgrid.net>
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Michael Weimann <mail@michael-weimann.eu>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\Theming\Tests;
 
@@ -78,6 +49,8 @@ class ThemingDefaultsTest extends TestCase {
 	private $imageManager;
 	/** @var INavigationManager|\PHPUnit\Framework\MockObject\MockObject */
 	private $navigationManager;
+	/** @var BackgroundService|\PHPUnit\Framework\MockObject\MockObject */
+	private $backgroundService;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -91,6 +64,7 @@ class ThemingDefaultsTest extends TestCase {
 		$this->imageManager = $this->createMock(ImageManager::class);
 		$this->appManager = $this->createMock(IAppManager::class);
 		$this->navigationManager = $this->createMock(INavigationManager::class);
+		$this->backgroundService = $this->createMock(BackgroundService::class);
 		$this->defaults = new \OC_Defaults();
 		$this->urlGenerator
 			->expects($this->any())
@@ -105,7 +79,8 @@ class ThemingDefaultsTest extends TestCase {
 			$this->util,
 			$this->imageManager,
 			$this->appManager,
-			$this->navigationManager
+			$this->navigationManager,
+			$this->backgroundService,
 		);
 	}
 
@@ -428,7 +403,7 @@ class ThemingDefaultsTest extends TestCase {
 			->method('getAppValue')
 			->willReturnMap([
 				['theming', 'disable-user-theming', 'no', 'no'],
-				['theming', 'color', '', $this->defaults->getColorPrimary()],
+				['theming', 'primary_color', '', $this->defaults->getColorPrimary()],
 			]);
 
 		$this->assertEquals($this->defaults->getColorPrimary(), $this->template->getColorPrimary());
@@ -440,40 +415,57 @@ class ThemingDefaultsTest extends TestCase {
 			->method('getAppValue')
 			->willReturnMap([
 				['theming', 'disable-user-theming', 'no', 'no'],
-				['theming', 'color', '', '#fff'],
+				['theming', 'primary_color', '', '#fff'],
 			]);
 
 		$this->assertEquals('#fff', $this->template->getColorPrimary());
 	}
 
-	public function testGetColorPrimaryWithDefaultBackground() {
-		$user = $this->createMock(IUser::class);
-		$this->userSession->expects($this->any())
-			->method('getUser')
-			->willReturn($user);
-		$user->expects($this->any())
-			->method('getUID')
-			->willReturn('user');
-		$this->config
-			->expects($this->exactly(2))
-			->method('getAppValue')
-			->willReturnMap([
-				['theming', 'disable-user-theming', 'no', 'no'],
-				['theming', 'color', '', ''],
-			]);
-		$this->config
-			->expects($this->once())
-			->method('getUserValue')
-			->with('user', 'theming', 'background_color')
-			->willReturn('');
-
-		$this->assertEquals(BackgroundService::DEFAULT_COLOR, $this->template->getColorPrimary());
+	public function dataGetColorPrimary() {
+		return [
+			'with fallback default' => [
+				'disableTheming' => 'no',
+				'primaryColor' => '',
+				'userPrimaryColor' => '',
+				'expected' => BackgroundService::DEFAULT_COLOR,
+			],
+			'with custom admin primary' => [
+				'disableTheming' => 'no',
+				'primaryColor' => '#aaa',
+				'userPrimaryColor' => '',
+				'expected' => '#aaa',
+			],
+			'with custom invalid admin primary' => [
+				'disableTheming' => 'no',
+				'primaryColor' => 'invalid',
+				'userPrimaryColor' => '',
+				'expected' => BackgroundService::DEFAULT_COLOR,
+			],
+			'with custom invalid user primary' => [
+				'disableTheming' => 'no',
+				'primaryColor' => '',
+				'userPrimaryColor' => 'invalid-name',
+				'expected' => BackgroundService::DEFAULT_COLOR,
+			],
+			'with custom user primary' => [
+				'disableTheming' => 'no',
+				'primaryColor' => '',
+				'userPrimaryColor' => '#bbb',
+				'expected' => '#bbb',
+			],
+			'with disabled user theming primary' => [
+				'disableTheming' => 'yes',
+				'primaryColor' => '#aaa',
+				'userPrimaryColor' => '#bbb',
+				'expected' => '#aaa',
+			],
+		];
 	}
 
-	public function testGetColorPrimaryWithCustomBackground() {
-		$backgroundIndex = 2;
-		$background = array_values(BackgroundService::SHIPPED_BACKGROUNDS)[$backgroundIndex];
-
+	/**
+	 * @dataProvider dataGetColorPrimary
+	 */
+	public function testGetColorPrimary(string $disableTheming, string $primaryColor, string $userPrimaryColor, string $expected) {
 		$user = $this->createMock(IUser::class);
 		$this->userSession->expects($this->any())
 			->method('getUser')
@@ -481,72 +473,20 @@ class ThemingDefaultsTest extends TestCase {
 		$user->expects($this->any())
 			->method('getUID')
 			->willReturn('user');
-
 		$this->config
-			->expects($this->once())
-			->method('getUserValue')
-			->with('user', 'theming', 'background_color', '')
-			->willReturn($background['primary_color']);
-
-		$this->config
-			->expects($this->exactly(2))
+			->expects($this->any())
 			->method('getAppValue')
 			->willReturnMap([
-				['theming', 'color', '', ''],
-				['theming', 'disable-user-theming', 'no', 'no'],
+				['theming', 'disable-user-theming', 'no', $disableTheming],
+				['theming', 'primary_color', '', $primaryColor],
 			]);
-
-		$this->assertEquals($background['primary_color'], $this->template->getColorPrimary());
-	}
-
-	public function testGetColorPrimaryWithCustomBackgroundColor() {
-		$user = $this->createMock(IUser::class);
-		$this->userSession->expects($this->any())
-			->method('getUser')
-			->willReturn($user);
-		$user->expects($this->any())
-			->method('getUID')
-			->willReturn('user');
-
 		$this->config
-			->expects($this->once())
+			->expects($this->any())
 			->method('getUserValue')
-			->with('user', 'theming', 'background_color', '')
-			->willReturn('#fff');
-		$this->config
-			->expects($this->exactly(2))
-			->method('getAppValue')
-			->willReturnMap([
-				['theming', 'color', '', ''],
-				['theming', 'disable-user-theming', 'no', 'no'],
-			]);
+			->with('user', 'theming', 'primary_color', '')
+			->willReturn($userPrimaryColor);
 
-		$this->assertEquals('#fff', $this->template->getColorPrimary());
-	}
-
-	public function testGetColorPrimaryWithInvalidCustomBackgroundColor() {
-		$user = $this->createMock(IUser::class);
-		$this->userSession->expects($this->any())
-			->method('getUser')
-			->willReturn($user);
-		$user->expects($this->any())
-			->method('getUID')
-			->willReturn('user');
-
-		$this->config
-			->expects($this->once())
-			->method('getUserValue')
-			->with('user', 'theming', 'background_color', '')
-			->willReturn('nextcloud');
-		$this->config
-			->expects($this->exactly(3))
-			->method('getAppValue')
-			->willReturnMap([
-				['theming', 'color', '', ''],
-				['theming', 'disable-user-theming', 'no', 'no'],
-			]);
-
-		$this->assertEquals($this->template->getDefaultColorPrimary(), $this->template->getColorPrimary());
+		$this->assertEquals($expected, $this->template->getColorPrimary());
 	}
 
 	public function testSet() {
@@ -646,27 +586,22 @@ class ThemingDefaultsTest extends TestCase {
 		$this->assertSame($this->defaults->getSlogan(), $this->template->undo('slogan'));
 	}
 
-	public function testUndoColor() {
+	public function testUndoPrimaryColor() {
 		$this->config
 			->expects($this->once())
 			->method('deleteAppValue')
-			->with('theming', 'color');
+			->with('theming', 'primary_color');
 		$this->config
-			->expects($this->exactly(2))
+			->expects($this->once())
 			->method('getAppValue')
-			->withConsecutive(
-				['theming', 'cachebuster', '0'],
-				['theming', 'color', null],
-			)->willReturnOnConsecutiveCalls(
-				'15',
-				$this->defaults->getColorPrimary(),
-			);
+			->with('theming', 'cachebuster', '0')
+			->willReturn('15');
 		$this->config
 			->expects($this->once())
 			->method('setAppValue')
 			->with('theming', 'cachebuster', 16);
 
-		$this->assertSame($this->defaults->getColorPrimary(), $this->template->undo('color'));
+		$this->assertSame($this->defaults->getColorPrimary(), $this->template->undo('primary_color'));
 	}
 
 	public function testUndoDefaultAction() {
@@ -764,8 +699,8 @@ class ThemingDefaultsTest extends TestCase {
 				['theming', 'backgroundMime', '', 'jpeg'],
 				['theming', 'logoheaderMime', '', 'jpeg'],
 				['theming', 'faviconMime', '', 'jpeg'],
-				['theming', 'color', '', $this->defaults->getColorPrimary()],
-				['theming', 'color', $this->defaults->getColorPrimary(), $this->defaults->getColorPrimary()],
+				['theming', 'primary_color', '', $this->defaults->getColorPrimary()],
+				['theming', 'primary_color', $this->defaults->getColorPrimary(), $this->defaults->getColorPrimary()],
 			]);
 
 		$this->util->expects($this->any())->method('invertTextColor')->with($this->defaults->getColorPrimary())->willReturn(false);

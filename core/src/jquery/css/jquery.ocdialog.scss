@@ -1,10 +1,14 @@
+/**
+ * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
 .oc-dialog {
 	background: var(--color-main-background);
 	color: var(--color-text-light);
 	border-radius: var(--border-radius-large);
 	box-shadow: 0 0 30px var(--color-box-shadow);
 	padding: 24px;
-	z-index: 10000;
+	z-index: 100001;
 	font-size: 100%;
 	box-sizing: border-box;
 	min-width: 200px;
@@ -69,7 +73,7 @@
 .oc-dialog-dim {
 	background-color: #000;
 	opacity: .2;
-	z-index: 9999;
+	z-index: 100001;
 	position: fixed;
 	top: 0;
 	left: 0;

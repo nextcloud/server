@@ -1,10 +1,10 @@
 OC.L10N.register(
     "twofactor_backupcodes",
     {
-    "You created two-factor backup codes for your account" : "Du har lavet two-factor backup koder til din konto.",
+    "You created two-factor backup codes for your account" : "Du har lavet two-factor backup koder til din konto",
     "Second-factor backup codes" : "Second-factor backup koder",
-    "Generate backup codes" : "Generer backup-koder",
-    "You enabled two-factor authentication but did not generate backup codes yet. They are needed to restore access to your account in case you lose your second factor." : "Du har aktiveret to-faktor-godkendelse, men har ikke genereret backup-koder endnu. De er nødvendige for at gendanne adgangen til din konto, hvis du mister din anden faktor.",
+    "Generate backup codes" : "Generer backup koder",
+    "You enabled two-factor authentication but did not generate backup codes yet. They are needed to restore access to your account in case you lose your second factor." : "Du har aktiveret to-faktor-godkendelse, men har ikke genereret backup-koder endnu. De er nødvendige for at gendanne adgang til din konto, hvis du mister din anden faktor.",
     "Backup code" : "Backup-kode",
     "Use backup code" : "Benyt backup-kode",
     "Two factor backup codes" : "To faktor backup koder",

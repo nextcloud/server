@@ -1,9 +1,11 @@
+# SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
+# SPDX-License-Identifier: AGPL-3.0-or-later
 Feature: ratelimiting
-  
+
   Background:
     Given user "user0" exists
     Given As an "admin"
-    Given app "testing" is enabled
+    Given invoking occ with "app:enable --force testing"
 
   Scenario: Accessing a page with only an AnonRateThrottle as user
     Given user "user0" exists

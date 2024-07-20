@@ -3,39 +3,22 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2019, Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\Settings\Settings\Personal\Security;
 
-use OCP\AppFramework\Services\IInitialState;
-use OCP\IUserSession;
-use function array_map;
-use OC\Authentication\Exceptions\InvalidTokenException;
 use OC\Authentication\Token\INamedToken;
 use OC\Authentication\Token\IProvider as IAuthTokenProvider;
 use OC\Authentication\Token\IToken;
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\AppFramework\Services\IInitialState;
+use OCP\Authentication\Exceptions\InvalidTokenException;
 use OCP\ISession;
+use OCP\IUserSession;
 use OCP\Session\Exceptions\SessionNotAvailableException;
 use OCP\Settings\ISettings;
+use function array_map;
 
 class Authtokens implements ISettings {
 
@@ -55,10 +38,10 @@ class Authtokens implements ISettings {
 	private $userSession;
 
 	public function __construct(IAuthTokenProvider $tokenProvider,
-								ISession $session,
-								IUserSession $userSession,
-								IInitialState $initialState,
-								?string $UserId) {
+		ISession $session,
+		IUserSession $userSession,
+		IInitialState $initialState,
+		?string $UserId) {
 		$this->tokenProvider = $tokenProvider;
 		$this->session = $session;
 		$this->initialState = $initialState;
@@ -105,7 +88,7 @@ class Authtokens implements ISettings {
 		return array_map(function (IToken $token) use ($sessionToken) {
 			$data = $token->jsonSerialize();
 			$data['canDelete'] = true;
-			$data['canRename'] = $token instanceof INamedToken;
+			$data['canRename'] = $token instanceof INamedToken && $data['type'] !== IToken::WIPE_TOKEN;
 			if ($sessionToken->getId() === $token->getId()) {
 				$data['canDelete'] = false;
 				$data['canRename'] = false;

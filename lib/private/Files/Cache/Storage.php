@@ -1,36 +1,15 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Jörn Friedrich Dreyer <jfd@butonic.de>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Robin McCorkell <robin@mccorkell.me.uk>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Vincent Petry <vincent@nextcloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OC\Files\Cache;
 
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Files\Storage\IStorage;
+use OCP\IDBConnection;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -65,7 +44,7 @@ class Storage {
 	 * @param bool $isAvailable
 	 * @throws \RuntimeException
 	 */
-	public function __construct($storage, $isAvailable = true) {
+	public function __construct($storage, $isAvailable, IDBConnection $connection) {
 		if ($storage instanceof IStorage) {
 			$this->storageId = $storage->getId();
 		} else {
@@ -76,7 +55,6 @@ class Storage {
 		if ($row = self::getStorageById($this->storageId)) {
 			$this->numericId = (int)$row['numeric_id'];
 		} else {
-			$connection = \OC::$server->getDatabaseConnection();
 			$available = $isAvailable ? 1 : 0;
 			if ($connection->insertIfNotExist('*PREFIX*storages', ['id' => $this->storageId, 'available' => $available])) {
 				$this->numericId = $connection->lastInsertId('*PREFIX*storages');

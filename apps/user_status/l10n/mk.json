@@ -5,10 +5,10 @@
     "Commuting" : "На пат",
     "Out sick" : "На боледување",
     "Vacationing" : "На одмор",
+    "Out of office" : "Надвор од канцеларија",
     "Working remotely" : "Присутен од дома",
     "In a call" : "Во разговор",
     "User status" : "Статус на корисникот",
-    "View profile" : "Прегледај профил",
     "Clear status after" : "Тргни го статусот после",
     "What is your status?" : "Кој е вашиот статус?",
     "Set status" : "Постави статус",
@@ -32,6 +32,6 @@
     "4 hours" : "4 часа",
     "Mute all notifications" : "Занеми (Mute) ги сите известувања",
     "Appear offline" : "Прикажи исклучен",
-    "{status}, {timestamp}" : "{status}, {timestamp}"
+    "View profile" : "Прегледај профил"
 },"pluralForm" :"nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;"
 }

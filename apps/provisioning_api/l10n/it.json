@@ -2,7 +2,7 @@
     "Logged in user must be an administrator or have authorization to edit this setting." : "L'utente connesso deve essere un amministratore o avere il permesso di modificare questa impostazione.",
     "User already exists" : "L'utente esiste già",
     "Email confirmation" : "Conferma email",
-    "To enable the email address %s please click the button below." : "Per attivare l'indirizzo email %s clicca il pulsante sottostante.",
+    "To enable the email address %s please click the button below." : "Per attivare l'indirizzo email %s fai clic sul pulsante sottostante.",
     "Confirm" : "Conferma",
     "Email was already removed from account and cannot be confirmed anymore." : "L'email era già stata rimossa dall'account e non può più essere confermata.",
     "Could not verify mail because the token is expired." : "Impossibile verificare l'email perché il token è scaduto.",

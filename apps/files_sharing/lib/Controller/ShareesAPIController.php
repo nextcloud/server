@@ -1,46 +1,13 @@
 <?php
 
 declare(strict_types=1);
-
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Bjoern Schiessle <bjoern@schiessle.org>
- * @author Björn Schießle <bjoern@schiessle.org>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Daniel Calviño Sánchez <danxuliu@gmail.com>
- * @author Daniel Kesselberg <mail@danielkesselberg.de>
- * @author J0WI <J0WI@users.noreply.github.com>
- * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Maxence Lange <maxence@nextcloud.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Kate Döen <kate.doeen@nextcloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\Files_Sharing\Controller;
 
-use OCP\Constants;
-use function array_slice;
-use function array_values;
 use Generator;
 use OC\Collaboration\Collaborators\SearchResult;
 use OCA\Files_Sharing\ResponseDefinitions;
@@ -51,30 +18,21 @@ use OCP\AppFramework\OCSController;
 use OCP\Collaboration\Collaborators\ISearch;
 use OCP\Collaboration\Collaborators\ISearchResult;
 use OCP\Collaboration\Collaborators\SearchResultType;
+use OCP\Constants;
 use OCP\IConfig;
 use OCP\IRequest;
 use OCP\IURLGenerator;
-use OCP\Share\IShare;
 use OCP\Share\IManager;
+use OCP\Share\IShare;
+use function array_slice;
+use function array_values;
 use function usort;
 
 /**
- * @psalm-import-type FilesSharingShareesSearchResult from ResponseDefinitions
- * @psalm-import-type FilesSharingShareesRecommendedResult from ResponseDefinitions
+ * @psalm-import-type Files_SharingShareesSearchResult from ResponseDefinitions
+ * @psalm-import-type Files_SharingShareesRecommendedResult from ResponseDefinitions
  */
 class ShareesAPIController extends OCSController {
-
-	/** @var string */
-	protected $userId;
-
-	/** @var IConfig */
-	protected $config;
-
-	/** @var IURLGenerator */
-	protected $urlGenerator;
-
-	/** @var IManager */
-	protected $shareManager;
 
 	/** @var int */
 	protected $offset = 0;
@@ -82,7 +40,7 @@ class ShareesAPIController extends OCSController {
 	/** @var int */
 	protected $limit = 10;
 
-	/** @var FilesSharingShareesSearchResult */
+	/** @var Files_SharingShareesSearchResult */
 	protected $result = [
 		'exact' => [
 			'users' => [],
@@ -105,8 +63,6 @@ class ShareesAPIController extends OCSController {
 	];
 
 	protected $reachedEndFor = [];
-	/** @var ISearch */
-	private $collaboratorSearch;
 
 	/**
 	 * @param string $UserId
@@ -118,20 +74,15 @@ class ShareesAPIController extends OCSController {
 	 * @param ISearch $collaboratorSearch
 	 */
 	public function __construct(
-		$UserId,
 		string $appName,
 		IRequest $request,
-		IConfig $config,
-		IURLGenerator $urlGenerator,
-		IManager $shareManager,
-		ISearch $collaboratorSearch
+		protected string $userId,
+		protected IConfig $config,
+		protected IURLGenerator $urlGenerator,
+		protected IManager $shareManager,
+		protected ISearch $collaboratorSearch,
 	) {
 		parent::__construct($appName, $request);
-		$this->userId = $UserId;
-		$this->config = $config;
-		$this->urlGenerator = $urlGenerator;
-		$this->shareManager = $shareManager;
-		$this->collaboratorSearch = $collaboratorSearch;
 	}
 
 	/**
@@ -145,16 +96,20 @@ class ShareesAPIController extends OCSController {
 	 * @param int $perPage Limit amount of search results per page
 	 * @param int|int[]|null $shareType Limit to specific share types
 	 * @param bool $lookup If a global lookup should be performed too
-	 * @return DataResponse<Http::STATUS_OK, FilesSharingShareesSearchResult, array{Link?: string}>
+	 * @return DataResponse<Http::STATUS_OK, Files_SharingShareesSearchResult, array{Link?: string}>
 	 * @throws OCSBadRequestException Invalid search parameters
 	 *
 	 * 200: Sharees search result returned
 	 */
-	public function search(string $search = '', string $itemType = null, int $page = 1, int $perPage = 200, $shareType = null, bool $lookup = false): DataResponse {
+	public function search(string $search = '', ?string $itemType = null, int $page = 1, int $perPage = 200, $shareType = null, bool $lookup = false): DataResponse {
 
 		// only search for string larger than a given threshold
 		$threshold = $this->config->getSystemValueInt('sharing.minSearchStringLength', 0);
 		if (strlen($search) < $threshold) {
+			return new DataResponse($this->result);
+		}
+
+		if ($this->shareManager->sharingDisabledForUser($this->userId)) {
 			return new DataResponse($this->result);
 		}
 
@@ -347,7 +302,9 @@ class ShareesAPIController extends OCSController {
 	 *
 	 * @param string $itemType Limit to specific item types
 	 * @param int|int[]|null $shareType Limit to specific share types
-	 * @return DataResponse<Http::STATUS_OK, FilesSharingShareesRecommendedResult, array{}>
+	 * @return DataResponse<Http::STATUS_OK, Files_SharingShareesRecommendedResult, array{}>
+	 *
+	 * 200: Recommended sharees returned
 	 */
 	public function findRecommended(string $itemType, $shareType = null): DataResponse {
 		$shareTypes = [

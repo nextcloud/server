@@ -5,10 +5,10 @@
     "Could not add server" : "Palvelimen lisääminen ei onnistunut",
     "Trusted servers" : "Luotetut palvelimet",
     "Federation" : "Federaatio",
-    "Federation allows you to connect with other trusted servers to exchange the user directory." : "Federaatio mahdollistaa yhdistämisen muihin luotettuihin palvelimiin ja siten käyttäjähakemiston vaihtamisen.",
-    "Federation allows you to connect with other trusted servers to exchange the user directory. For example this will be used to auto-complete external users for federated sharing." : "Federointi sallii sinun liittyä toisten luotettujen palvelimien käyttäjähakemistoihin. Sitä käytetään esimerkiksi ulkoisten käyttäjänimien automaattiseen täydentämiseen.",
     "+ Add trusted server" : "+ Lisää luotettu palvelin",
     "Trusted server" : "Luotettu palvelin",
-    "Add" : "Lisää"
+    "Add" : "Lisää",
+    "Federation allows you to connect with other trusted servers to exchange the user directory." : "Federaatio mahdollistaa yhdistämisen muihin luotettuihin palvelimiin ja siten käyttäjähakemiston vaihtamisen.",
+    "Federation allows you to connect with other trusted servers to exchange the user directory. For example this will be used to auto-complete external users for federated sharing." : "Federointi sallii sinun liittyä toisten luotettujen palvelimien käyttäjähakemistoihin. Sitä käytetään esimerkiksi ulkoisten käyttäjänimien automaattiseen täydentämiseen."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

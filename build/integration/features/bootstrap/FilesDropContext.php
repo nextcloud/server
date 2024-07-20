@@ -1,27 +1,7 @@
 <?php
 /**
- * @copyright Copyright (c) 2016 Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 use Behat\Behat\Context\Context;
 use Behat\Behat\Context\SnippetAcceptingContext;
@@ -35,7 +15,7 @@ class FilesDropContext implements Context, SnippetAcceptingContext {
 	/**
 	 * @When Dropping file :path with :content
 	 */
-	public function droppingFileWith($path, $content) {
+	public function droppingFileWith($path, $content, $nickName = null) {
 		$client = new Client();
 		$options = [];
 		if (count($this->lastShareData->data->element) > 0) {
@@ -45,12 +25,16 @@ class FilesDropContext implements Context, SnippetAcceptingContext {
 		}
 
 		$base = substr($this->baseUrl, 0, -4);
-		$fullUrl = $base . '/public.php/webdav' . $path;
+		$fullUrl = str_replace('//', '/', $base . "/public.php/dav/files/$token/$path");
 
-		$options['auth'] = [$token, ''];
 		$options['headers'] = [
 			'X-REQUESTED-WITH' => 'XMLHttpRequest'
 		];
+
+		if ($nickName) {
+			$options['headers']['X-NC-NICKNAME'] = $nickName;
+		}
+
 		$options['body'] = \GuzzleHttp\Psr7\Utils::streamFor($content);
 
 		try {
@@ -59,6 +43,15 @@ class FilesDropContext implements Context, SnippetAcceptingContext {
 			$this->response = $e->getResponse();
 		}
 	}
+		
+		
+	/**
+	 * @When Dropping file :path with :content as :nickName
+	 */
+	public function droppingFileWithAs($path, $content, $nickName) {
+		$this->droppingFileWith($path, $content, $nickName);
+	}
+
 
 	/**
 	 * @When Creating folder :folder in drop
@@ -73,9 +66,8 @@ class FilesDropContext implements Context, SnippetAcceptingContext {
 		}
 
 		$base = substr($this->baseUrl, 0, -4);
-		$fullUrl = $base . '/public.php/webdav/' . $folder;
+		$fullUrl = str_replace('//', '/', $base . "/public.php/dav/files/$token/$folder");
 
-		$options['auth'] = [$token, ''];
 		$options['headers'] = [
 			'X-REQUESTED-WITH' => 'XMLHttpRequest'
 		];

@@ -3,33 +3,9 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- * @copyright Copyright (c) 2019, Georg Ehrke
- *
- * @author Achim Königs <garfonso@tratschtante.de>
- * @author Christian Weiske <cweiske@cweiske.de>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Georg Ehrke <oc.list@georgehrke.com>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Sven Strickroth <email@cs-ware.de>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Valdnet <47037905+Valdnet@users.noreply.github.com>
- * @author Cédric Neukom <github@webguy.ch>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\DAV\CalDAV;
 
@@ -67,11 +43,11 @@ class BirthdayService {
 	 * BirthdayService constructor.
 	 */
 	public function __construct(CalDavBackend $calDavBackEnd,
-								CardDavBackend $cardDavBackEnd,
-								GroupPrincipalBackend $principalBackend,
-								IConfig $config,
-								IDBConnection $dbConnection,
-								IL10N $l10n) {
+		CardDavBackend $cardDavBackEnd,
+		GroupPrincipalBackend $principalBackend,
+		IConfig $config,
+		IDBConnection $dbConnection,
+		IL10N $l10n) {
 		$this->calDavBackEnd = $calDavBackEnd;
 		$this->cardDavBackEnd = $cardDavBackEnd;
 		$this->principalBackend = $principalBackend;
@@ -81,8 +57,8 @@ class BirthdayService {
 	}
 
 	public function onCardChanged(int $addressBookId,
-								  string $cardUri,
-								  string $cardData): void {
+		string $cardUri,
+		string $cardData): void {
 		if (!$this->isGloballyEnabled()) {
 			return;
 		}
@@ -117,7 +93,7 @@ class BirthdayService {
 	}
 
 	public function onCardDeleted(int $addressBookId,
-								  string $cardUri): void {
+		string $cardUri): void {
 		if (!$this->isGloballyEnabled()) {
 			return;
 		}
@@ -164,9 +140,9 @@ class BirthdayService {
 	 * @throws InvalidDataException
 	 */
 	public function buildDateFromContact(string  $cardData,
-										 string  $dateField,
-										 string  $postfix,
-										 ?string $reminderOffset):?VCalendar {
+		string  $dateField,
+		string  $postfix,
+		?string $reminderOffset):?VCalendar {
 		if (empty($cardData)) {
 			return null;
 		}
@@ -322,7 +298,7 @@ class BirthdayService {
 	 * @return bool
 	 */
 	public function birthdayEvenChanged(string $existingCalendarData,
-										VCalendar $newCalendarData):bool {
+		VCalendar $newCalendarData):bool {
 		try {
 			$existingBirthday = Reader::read($existingCalendarData);
 		} catch (Exception $ex) {
@@ -366,11 +342,11 @@ class BirthdayService {
 	 * @throws \Sabre\DAV\Exception\BadRequest
 	 */
 	private function updateCalendar(string $cardUri,
-									string $cardData,
-									array $book,
-									int $calendarId,
-									array $type,
-									?string $reminderOffset):void {
+		string $cardData,
+		array $book,
+		int $calendarId,
+		array $type,
+		?string $reminderOffset):void {
 		$objectUri = $book['uri'] . '-' . $cardUri . $type['postfix'] . '.ics';
 		$calendarData = $this->buildDateFromContact($cardData, $type['field'], $type['postfix'], $reminderOffset);
 		$existing = $this->calDavBackEnd->getCalendarObject($calendarId, $objectUri);
@@ -419,7 +395,7 @@ class BirthdayService {
 	 * @return string|null
 	 */
 	private function principalToUserId(string $userPrincipal):?string {
-		if (substr($userPrincipal, 0, 17) === 'principals/users/') {
+		if (str_starts_with($userPrincipal, 'principals/users/')) {
 			return substr($userPrincipal, 17);
 		}
 		return null;
@@ -469,9 +445,9 @@ class BirthdayService {
 	 * @return string The formatted title
 	 */
 	private function formatTitle(string $field,
-								 string $name,
-								 int $year = null,
-								 bool $supports4Byte = true):string {
+		string $name,
+		?int $year = null,
+		bool $supports4Byte = true):string {
 		if ($supports4Byte) {
 			switch ($field) {
 				case 'BDAY':

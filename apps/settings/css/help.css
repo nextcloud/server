@@ -1,3 +1,8 @@
+/**
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
 .help-includes {
 	overflow: hidden !important;
 }
@@ -13,4 +18,33 @@
 	padding: 0;
 	border: 0;
 	overflow: auto;
+}
+
+.help-wrapper {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100%;
+	width: 100%;
+}
+
+.help-content__heading {
+	text-align: center;
+	padding: 20px;
+}
+
+.help-content {
+	display: block;
+	padding: 20px;
+}
+
+.help-content__body {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-wrap: wrap;
+}
+
+.help-content__body > .button {
+	margin: 20px;
 }

@@ -1,26 +1,9 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Georg Ehrke <oc.list@georgehrke.com>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\DAV\Command;
 
@@ -35,30 +18,15 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class SyncBirthdayCalendar extends Command {
-
-	/** @var BirthdayService */
-	private $birthdayService;
-
-	/** @var IConfig */
-	private $config;
-
-	/** @var IUserManager */
-	private $userManager;
-
-	/**
-	 * @param IUserManager $userManager
-	 * @param IConfig $config
-	 * @param BirthdayService $birthdayService
-	 */
-	public function __construct(IUserManager $userManager, IConfig $config,
-						 BirthdayService $birthdayService) {
+	public function __construct(
+		private IUserManager $userManager,
+		private IConfig $config,
+		private BirthdayService $birthdayService,
+	) {
 		parent::__construct();
-		$this->birthdayService = $birthdayService;
-		$this->config = $config;
-		$this->userManager = $userManager;
 	}
 
-	protected function configure() {
+	protected function configure(): void {
 		$this
 			->setName('dav:sync-birthday-calendar')
 			->setDescription('Synchronizes the birthday calendar')
@@ -67,10 +35,6 @@ class SyncBirthdayCalendar extends Command {
 				'User for whom the birthday calendar will be synchronized');
 	}
 
-	/**
-	 * @param InputInterface $input
-	 * @param OutputInterface $output
-	 */
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$this->verifyEnabled();
 
@@ -89,7 +53,7 @@ class SyncBirthdayCalendar extends Command {
 
 			$output->writeln("Start birthday calendar sync for $user");
 			$this->birthdayService->syncUser($user);
-			return 0;
+			return self::SUCCESS;
 		}
 		$output->writeln("Start birthday calendar sync for all users ...");
 		$p = new ProgressBar($output);
@@ -109,10 +73,10 @@ class SyncBirthdayCalendar extends Command {
 
 		$p->finish();
 		$output->writeln('');
-		return 0;
+		return self::SUCCESS;
 	}
 
-	protected function verifyEnabled() {
+	protected function verifyEnabled(): void {
 		$isEnabled = $this->config->getAppValue('dav', 'generateBirthdayCalendar', 'yes');
 
 		if ($isEnabled !== 'yes') {

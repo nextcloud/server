@@ -1,27 +1,8 @@
 <?php
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2019-2024 Nextcloud GmbH and Nextcloud contributors/**
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\Settings\Middleware;
 
@@ -51,8 +32,8 @@ class SubadminMiddleware extends Middleware {
 	 * @param IL10N $l10n
 	 */
 	public function __construct(ControllerMethodReflector $reflector,
-								$isSubAdmin,
-								IL10N $l10n) {
+		$isSubAdmin,
+		IL10N $l10n) {
 		$this->reflector = $reflector;
 		$this->isSubAdmin = $isSubAdmin;
 		$this->l10n = $l10n;
@@ -67,7 +48,7 @@ class SubadminMiddleware extends Middleware {
 	public function beforeController($controller, $methodName) {
 		if (!$this->reflector->hasAnnotation('NoSubAdminRequired') && !$this->reflector->hasAnnotation('AuthorizedAdminSetting')) {
 			if (!$this->isSubAdmin) {
-				throw new NotAdminException($this->l10n->t('Logged in user must be a subadmin'));
+				throw new NotAdminException($this->l10n->t('Logged in account must be a subadmin'));
 			}
 		}
 	}

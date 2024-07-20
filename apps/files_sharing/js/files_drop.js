@@ -1,11 +1,6 @@
-/*
- * Copyright (c) 2016 Lukas Reschke <lukas@statuscode.ch>
- *
- * This file is licensed under the Affero General Public License version 3
- * or later.
- *
- * See the COPYING-README file.
- *
+/**
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 (function ($) {
@@ -24,11 +19,10 @@
 			var filesClient = new OC.Files.Client({
 				host: OC.getHost(),
 				port: OC.getPort(),
-				userName: $('#sharingToken').val(),
 				// note: password not be required, the endpoint
 				// will recognize previous validation from the session
-				root: OC.getRootPath() + '/public.php/webdav',
-				useHTTPS: OC.getProtocol() === 'https'
+				root: OC.getRootPath() + '/public.php/dav/files/' + $('#sharingToken').val() + '/',
+				useHTTPS: OC.getProtocol() === 'https',
 			});
 
 			// We only process one file at a time 🤷‍♀️
@@ -45,7 +39,7 @@
 				return false;
 			}
 			var base = OC.getProtocol() + '://' + OC.getHost();
-			data.url = base + OC.getRootPath() + '/public.php/webdav/' + encodeURI(name);
+			data.url = base + OC.getRootPath() + '/public.php/dav/files/' + $('#sharingToken').val() + '/' + encodeURI(name);
 
 			data.multipart = false;
 
@@ -53,12 +47,8 @@
 				data.headers = {};
 			}
 
-			var userName = filesClient.getUserName();
-			var password = filesClient.getPassword();
-			if (userName) {
-				// copy username/password from DAV client
-				data.headers['Authorization'] =
-					'Basic ' + btoa(userName + ':' + (password || ''));
+			if (localStorage.getItem('nick') !== null) {
+				data.headers['X-NC-Nickname'] = localStorage.getItem('nick')
 			}
 
 			$('#drop-upload-done-indicator').addClass('hidden');

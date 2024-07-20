@@ -1,26 +1,10 @@
 <?php
 
 declare(strict_types=1);
-
 /**
- * @copyright 2023 Daniel Kesselberg <mail@danielkesselberg.de>
- *
- * @author 2023 Daniel Kesselberg <mail@danielkesselberg.de>
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
-
 use PhpParser\Node\Stmt;
 use PhpParser\Node\Stmt\ClassLike;
 use Psalm\CodeLocation;
@@ -39,7 +23,11 @@ class OcpSinceChecker implements Psalm\Plugin\EventHandler\AfterClassLikeVisitIn
 		self::checkClassComment($stmt, $statementsSource);
 
 		foreach ($stmt->getMethods() as $method) {
-			self::checkMethodComment($method, $statementsSource);
+			self::checkMethodOrConstantComment($method, $statementsSource, 'method');
+		}
+
+		foreach ($stmt->getConstants() as $constant) {
+			self::checkMethodOrConstantComment($constant, $statementsSource, 'constant');
 		}
 	}
 
@@ -76,15 +64,24 @@ class OcpSinceChecker implements Psalm\Plugin\EventHandler\AfterClassLikeVisitIn
 				)
 			);
 		}
+
+		if (isset($parsedDocblock->tags['depreacted'])) {
+			IssueBuffer::maybeAdd(
+				new InvalidDocblock(
+					'Typo in @deprecated for classes/interfaces in OCP.',
+					new CodeLocation($statementsSource, $stmt)
+				)
+			);
+		}
 	}
 
-	private static function checkMethodComment(Stmt $stmt, FileSource $statementsSource): void {
+	private static function checkMethodOrConstantComment(Stmt $stmt, FileSource $statementsSource, string $type): void {
 		$docblock = $stmt->getDocComment();
 
 		if ($docblock === null) {
 			IssueBuffer::maybeAdd(
 				new InvalidDocblock(
-					'PHPDoc is required for methods in OCP.',
+					'PHPDoc is required for ' . $type . 's in OCP.',
 					new CodeLocation($statementsSource, $stmt)
 				),
 			);
@@ -106,7 +103,16 @@ class OcpSinceChecker implements Psalm\Plugin\EventHandler\AfterClassLikeVisitIn
 		if (!isset($parsedDocblock->tags['since'])) {
 			IssueBuffer::maybeAdd(
 				new InvalidDocblock(
-					'@since is required for methods in OCP.',
+					'@since is required for ' . $type . 's in OCP.',
+					new CodeLocation($statementsSource, $stmt)
+				)
+			);
+		}
+
+		if (isset($parsedDocblock->tags['depreacted'])) {
+			IssueBuffer::maybeAdd(
+				new InvalidDocblock(
+					'Typo in @deprecated for ' . $type . ' in OCP.',
 					new CodeLocation($statementsSource, $stmt)
 				)
 			);

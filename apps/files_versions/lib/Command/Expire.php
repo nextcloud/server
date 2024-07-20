@@ -1,25 +1,8 @@
 <?php
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Robin Appelman <robin@icewind.nl>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\Files_Versions\Command;
 
@@ -33,22 +16,13 @@ use Psr\Log\LoggerInterface;
 class Expire implements ICommand {
 	use FileAccess;
 
-	/**
-	 * @var string
-	 */
-	private $fileName;
-
-	/**
-	 * @var string
-	 */
-	private $user;
-
-	public function __construct(string $user, string $fileName) {
-		$this->user = $user;
-		$this->fileName = $fileName;
+	public function __construct(
+		private string $user,
+		private string $fileName,
+	) {
 	}
 
-	public function handle() {
+	public function handle(): void {
 		/** @var IUserManager $userManager */
 		$userManager = \OC::$server->get(IUserManager::class);
 		if (!$userManager->userExists($this->user)) {
@@ -62,7 +36,6 @@ class Expire implements ICommand {
 			// In case of external storage and session credentials, the expiration
 			// fails because the command does not have those credentials
 
-			/** @var LoggerInterface */
 			$logger = \OC::$server->get(LoggerInterface::class);
 			$logger->warning($e->getMessage(), [
 				'exception' => $e,

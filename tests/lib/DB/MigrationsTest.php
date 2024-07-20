@@ -1,16 +1,13 @@
 <?php
 
 /**
- * Copyright (c) 2016 Thomas Müller <thomas.mueller@tmit.eu>
- * This file is licensed under the Affero General Public License version 3 or
- * later.
- * See the COPYING-README file.
+ * SPDX-FileCopyrightText: 2018-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace Test\DB;
 
-use Doctrine\DBAL\Platforms\OraclePlatform;
-use Doctrine\DBAL\Platforms\PostgreSqlPlatform;
 use Doctrine\DBAL\Schema\Column;
 use Doctrine\DBAL\Schema\ForeignKeyConstraint;
 use Doctrine\DBAL\Schema\Index;
@@ -327,9 +324,9 @@ class MigrationsTest extends \Test\TestCase {
 
 	public function testEnsureOracleConstraintsValidWithPrimaryKeyDefault() {
 		$defaultName = 'PRIMARY';
-		if ($this->db->getDatabasePlatform() instanceof PostgreSqlPlatform) {
+		if ($this->db->getDatabaseProvider() === IDBConnection::PLATFORM_POSTGRES) {
 			$defaultName = \str_repeat('a', 26) . '_' . \str_repeat('b', 30) . '_seq';
-		} elseif ($this->db->getDatabasePlatform() instanceof OraclePlatform) {
+		} elseif ($this->db->getDatabaseProvider() === IDBConnection::PLATFORM_ORACLE) {
 			$defaultName = \str_repeat('a', 26) . '_seq';
 		}
 
@@ -408,9 +405,9 @@ class MigrationsTest extends \Test\TestCase {
 		$this->expectException(\InvalidArgumentException::class);
 
 		$defaultName = 'PRIMARY';
-		if ($this->db->getDatabasePlatform() instanceof PostgreSqlPlatform) {
+		if ($this->db->getDatabaseProvider() === IDBConnection::PLATFORM_POSTGRES) {
 			$defaultName = \str_repeat('a', 27) . '_' . \str_repeat('b', 30) . '_seq';
-		} elseif ($this->db->getDatabasePlatform() instanceof OraclePlatform) {
+		} elseif ($this->db->getDatabaseProvider() === IDBConnection::PLATFORM_ORACLE) {
 			$defaultName = \str_repeat('a', 27) . '_seq';
 		}
 

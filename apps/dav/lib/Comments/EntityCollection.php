@@ -1,25 +1,9 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\DAV\Comments;
 
@@ -130,7 +114,7 @@ class EntityCollection extends RootCollection implements IProperties {
 	 * @param \DateTime|null $datetime
 	 * @return CommentNode[]
 	 */
-	public function findChildren($limit = 0, $offset = 0, \DateTime $datetime = null) {
+	public function findChildren($limit = 0, $offset = 0, ?\DateTime $datetime = null) {
 		$comments = $this->commentsManager->getForObject($this->name, $this->id, $limit, $offset, $datetime);
 		$result = [];
 		foreach ($comments as $comment) {

@@ -1,6 +1,8 @@
 #!/bin/bash
 #
-# ownCloud
+# SPDX-FileCopyrightText: 2017-2024 Nextcloud GmbH and Nextcloud contributors
+# SPDX-FileCopyrightText: 2015 ownCloud, Inc.
+# SPDX-License-Identifier: AGPL-3.0-only
 #
 # This script start a docker container to test the files_external tests
 # against. It will also change the files_external config to use the docker
@@ -11,10 +13,6 @@
 #
 # Set environment variable DEBUG to print config file
 #
-# @author Morris Jobke
-# @copyright 2014 Morris Jobke <hey@morrisjobke.de>
-# @copyright 2016 Vincent Petry <pvince81@owncloud.com>
-#
 
 if ! command -v docker >/dev/null 2>&1; then
     echo "No docker executable found - skipped docker setup"
@@ -23,8 +21,8 @@ fi
 
 echo "Docker executable found - setup docker"
 
-echo "Fetch recent morrisjobke/webdav docker image"
-docker pull morrisjobke/webdav
+echo "Fetch recent webdav docker image"
+docker pull ghcr.io/nextcloud/continuous-integration-webdav-apache:latest
 
 # retrieve current folder to place the config in the parent folder
 thisFolder=`echo $0 | sed 's#env/start-webdav-apache\.sh##'`
@@ -45,7 +43,7 @@ if [ -n "$RUN_DOCKER_MYSQL" ]; then
     parameter="--link $containerName:db"
 fi
 
-container=`docker run -P $parameter -d -e USERNAME=test -e PASSWORD=test morrisjobke/webdav`
+container=`docker run -P $parameter -d --rm ghcr.io/nextcloud/continuous-integration-webdav-apache:latest`
 host=`docker inspect --format="{{.NetworkSettings.IPAddress}}" $container`
 
 echo -n "Waiting for Apache initialization on ${host}:${port}"
@@ -64,7 +62,7 @@ return array(
     'run'=>true,
     'host'=>'${host}:80/webdav/',
     'user'=>'test',
-    'password'=>'test',
+    'password'=>'pass',
     'root'=>'',
     // wait delay in seconds after write operations
     // (only in tests)

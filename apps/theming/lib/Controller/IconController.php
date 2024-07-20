@@ -1,30 +1,7 @@
 <?php
 /**
- * @copyright Copyright (c) 2016 Julius Haertl <jus@bitgrid.net>
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Julius Haertl <jus@bitgrid.net>
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Michael Weimann <mail@michael-weimann.eu>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Kate Döen <kate.doeen@nextcloud.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\Theming\Controller;
 
@@ -32,6 +9,7 @@ use OC\IntegrityCheck\Helpers\FileAccessHelper;
 use OCA\Theming\IconBuilder;
 use OCA\Theming\ImageManager;
 use OCA\Theming\ThemingDefaults;
+use OCP\App\IAppManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataDisplayResponse;
@@ -50,24 +28,17 @@ class IconController extends Controller {
 	private $imageManager;
 	/** @var FileAccessHelper */
 	private $fileAccessHelper;
+	/** @var IAppManager */
+	private $appManager;
 
-	/**
-	 * IconController constructor.
-	 *
-	 * @param string $appName
-	 * @param IRequest $request
-	 * @param ThemingDefaults $themingDefaults
-	 * @param IconBuilder $iconBuilder
-	 * @param ImageManager $imageManager
-	 * @param FileAccessHelper $fileAccessHelper
-	 */
 	public function __construct(
 		$appName,
 		IRequest $request,
 		ThemingDefaults $themingDefaults,
 		IconBuilder $iconBuilder,
 		ImageManager $imageManager,
-		FileAccessHelper $fileAccessHelper
+		FileAccessHelper $fileAccessHelper,
+		IAppManager $appManager
 	) {
 		parent::__construct($appName, $request);
 
@@ -75,6 +46,7 @@ class IconController extends Controller {
 		$this->iconBuilder = $iconBuilder;
 		$this->imageManager = $imageManager;
 		$this->fileAccessHelper = $fileAccessHelper;
+		$this->appManager = $appManager;
 	}
 
 	/**
@@ -92,6 +64,11 @@ class IconController extends Controller {
 	 * 404: Themed icon not found
 	 */
 	public function getThemedIcon(string $app, string $image): Response {
+		if ($app !== 'core' && !$this->appManager->isEnabledForUser($app)) {
+			$app = 'core';
+			$image = 'favicon.png';
+		}
+
 		$color = $this->themingDefaults->getColorPrimary();
 		try {
 			$iconFileName = $this->imageManager->getCachedImage('icon-' . $app . '-' . $color . str_replace('/', '_', $image));
@@ -100,7 +77,7 @@ class IconController extends Controller {
 			if ($icon === false || $icon === '') {
 				return new NotFoundResponse();
 			}
-			$iconFileName = $this->imageManager->setCachedImage('icon-' . $app . '-' . $color . str_replace('/', '_', $image),  $icon);
+			$iconFileName = $this->imageManager->setCachedImage('icon-' . $app . '-' . $color . str_replace('/', '_', $image), $icon);
 		}
 		$response = new FileDisplayResponse($iconFileName, Http::STATUS_OK, ['Content-Type' => 'image/svg+xml']);
 		$response->cacheFor(86400, false, true);
@@ -121,6 +98,10 @@ class IconController extends Controller {
 	 * 404: Favicon not found
 	 */
 	public function getFavicon(string $app = 'core'): Response {
+		if ($app !== 'core' && !$this->appManager->isEnabledForUser($app)) {
+			$app = 'core';
+		}
+
 		$response = null;
 		$iconFile = null;
 		try {
@@ -163,6 +144,10 @@ class IconController extends Controller {
 	 * 404: Touch icon not found
 	 */
 	public function getTouchIcon(string $app = 'core'): Response {
+		if ($app !== 'core' && !$this->appManager->isEnabledForUser($app)) {
+			$app = 'core';
+		}
+
 		$response = null;
 		try {
 			$iconFile = $this->imageManager->getImage('favicon');

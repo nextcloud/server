@@ -1,29 +1,18 @@
 <?php
 /**
- * ownCloud
- *
- * @author Robin Appelman
- * @copyright 2012 Robin Appelman icewind@owncloud.com
- *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
- * License as published by the Free Software Foundation; either
- * version 3 of the License, or any later version.
- *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU AFFERO GENERAL PUBLIC LICENSE for more details.
- *
- * You should have received a copy of the GNU Affero General Public
- * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2019-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace Test\Files\Storage;
 
 use OC\Files\Storage\Wrapper\Jail;
 use OC\Files\Storage\Wrapper\Wrapper;
+use OCP\Files\IFilenameValidator;
+use OCP\Files\InvalidCharacterInPathException;
+use OCP\Files\InvalidPathException;
+use OCP\ITempManager;
 use PHPUnit\Framework\MockObject\MockObject;
 
 /**
@@ -34,27 +23,49 @@ use PHPUnit\Framework\MockObject\MockObject;
  * @package Test\Files\Storage
  */
 class CommonTest extends Storage {
-	/**
-	 * @var string tmpDir
-	 */
-	private $tmpDir;
+
+	private string $tmpDir;
+	private IFilenameValidator&MockObject $filenameValidator;
 
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->tmpDir = \OC::$server->getTempManager()->getTemporaryFolder();
+		$this->filenameValidator = $this->createMock(IFilenameValidator::class);
+		$this->overwriteService(IFilenameValidator::class, $this->filenameValidator);
+		$this->tmpDir = \OCP\Server::get(ITempManager::class)->getTemporaryFolder();
 		$this->instance = new \OC\Files\Storage\CommonTest(['datadir' => $this->tmpDir]);
 	}
 
 	protected function tearDown(): void {
 		\OC_Helper::rmdirr($this->tmpDir);
+		$this->restoreService(IFilenameValidator::class);
 		parent::tearDown();
+	}
+
+	public function testVerifyPath() {
+		$this->filenameValidator
+			->expects($this->once())
+			->method('validateFilename')
+			->with('invalid:char.txt')
+			->willThrowException(new InvalidCharacterInPathException());
+		$this->expectException(InvalidPathException::class);
+
+		$this->instance->verifyPath('/', 'invalid:char.txt');
+	}
+
+	public function testVerifyPathSucceed() {
+		$this->filenameValidator
+			->expects($this->once())
+			->method('validateFilename')
+			->with('valid-char.txt');
+
+		$this->instance->verifyPath('/', 'valid-char.txt');
 	}
 
 	public function testMoveFromStorageWrapped() {
 		/** @var \OC\Files\Storage\CommonTest|MockObject $instance */
 		$instance = $this->getMockBuilder(\OC\Files\Storage\CommonTest::class)
-			->setMethods(['copyFromStorage', 'rmdir', 'unlink'])
+			->onlyMethods(['copyFromStorage', 'rmdir', 'unlink'])
 			->setConstructorArgs([['datadir' => $this->tmpDir]])
 			->getMock();
 		$instance->method('copyFromStorage')
@@ -72,7 +83,7 @@ class CommonTest extends Storage {
 	public function testMoveFromStorageJailed() {
 		/** @var \OC\Files\Storage\CommonTest|MockObject $instance */
 		$instance = $this->getMockBuilder(\OC\Files\Storage\CommonTest::class)
-			->setMethods(['copyFromStorage', 'rmdir', 'unlink'])
+			->onlyMethods(['copyFromStorage', 'rmdir', 'unlink'])
 			->setConstructorArgs([['datadir' => $this->tmpDir]])
 			->getMock();
 		$instance->method('copyFromStorage')
@@ -95,7 +106,7 @@ class CommonTest extends Storage {
 	public function testMoveFromStorageNestedJail() {
 		/** @var \OC\Files\Storage\CommonTest|MockObject $instance */
 		$instance = $this->getMockBuilder(\OC\Files\Storage\CommonTest::class)
-			->setMethods(['copyFromStorage', 'rmdir', 'unlink'])
+			->onlyMethods(['copyFromStorage', 'rmdir', 'unlink'])
 			->setConstructorArgs([['datadir' => $this->tmpDir]])
 			->getMock();
 		$instance->method('copyFromStorage')

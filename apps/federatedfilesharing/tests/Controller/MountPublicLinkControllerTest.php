@@ -1,30 +1,8 @@
 <?php
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- * @copyright Copyright (c) 2016, Björn Schießle <bjoern@schiessle.org>
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Bjoern Schiessle <bjoern@schiessle.org>
- * @author Björn Schießle <bjoern@schiessle.org>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\FederatedFileSharing\Tests\Controller;
 
@@ -48,8 +26,8 @@ use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\Share\IManager;
 use OCP\Share\IShare;
-use Psr\Log\LoggerInterface;
 use PHPUnit\Framework\MockObject\MockObject;
+use Psr\Log\LoggerInterface;
 
 class MountPublicLinkControllerTest extends \Test\TestCase {
 	/** @var IContactsManager|MockObject */
@@ -145,13 +123,13 @@ class MountPublicLinkControllerTest extends \Test\TestCase {
 	 * @param string $expectedReturnData
 	 */
 	public function testCreateFederatedShare($shareWith,
-											 $outgoingSharesAllowed,
-											 $validShareWith,
-											 $token,
-											 $validToken,
-											 $createSuccessful,
-											 $expectedReturnData,
-											 $permissions
+		$outgoingSharesAllowed,
+		$validShareWith,
+		$token,
+		$validToken,
+		$createSuccessful,
+		$expectedReturnData,
+		$permissions
 	) {
 		$this->federatedShareProvider->expects($this->any())
 			->method('isOutgoingServer2serverShareEnabled')

@@ -1,23 +1,9 @@
 <?php
 
 /**
- * @author Christoph Wurst <christoph@owncloud.com>
- *
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 
 namespace Test\Authentication\TwoFactorAuth;
@@ -39,8 +25,8 @@ use OCP\ISession;
 use OCP\IUser;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
-use function reset;
 use Test\TestCase;
+use function reset;
 
 class ManagerTest extends TestCase {
 	/** @var IUser|MockObject */
@@ -629,13 +615,26 @@ class ManagerTest extends TestCase {
 					return false;
 				} elseif ($var === 'app_password') {
 					return false;
+				} elseif ($var === 'app_api') {
+					return false;
 				}
 				return true;
 			});
+		$this->session->method('get')
+			->willReturnCallback(function ($var) {
+				if ($var === Manager::SESSION_UID_KEY) {
+					return 'user';
+				} elseif ($var === 'app_api') {
+					return true;
+				}
+				return null;
+			});
 		$this->session->expects($this->once())
 			->method('get')
-			->with(Manager::SESSION_UID_DONE)
-			->willReturn('user');
+			->willReturnMap([
+				[Manager::SESSION_UID_DONE, 'user'],
+				['app_api', true]
+			]);
 
 		$this->assertFalse($this->manager->needsSecondFactor($user));
 	}
@@ -695,8 +694,10 @@ class ManagerTest extends TestCase {
 	public function testNeedsSecondFactorAppPassword() {
 		$user = $this->createMock(IUser::class);
 		$this->session->method('exists')
-			->with('app_password')
-			->willReturn(true);
+			->willReturnMap([
+				['app_password', true],
+				['app_api', true]
+			]);
 
 		$this->assertFalse($this->manager->needsSecondFactor($user));
 	}

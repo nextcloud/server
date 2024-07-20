@@ -3,7 +3,6 @@ OC.L10N.register(
     {
     "Dashboard" : "Tauler",
     "Dashboard app" : "Aplicació Tauler",
-    "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an overview of your upcoming appointments, urgent emails, chat messages, incoming tickets, latest tweets and much more! Users can add the widgets they like and change the background to their liking." : "Comenceu el dia amb tota la informació actualitzada\n\nEl tauler del Nextcloud és el punt de partida del dia i us ofereix una visió general de les pròximes cites, correus electrònics urgents, missatges de xat, informes d'errors rebuts, els tuits més recents i molt més! Els usuaris poden afegir els ginys que els agradin i canviar el fons al seu gust.",
     "\"{title} icon\"" : "«icona de {title}»",
     "Customize" : "Personalitza",
     "Edit widgets" : "Edita els ginys",
@@ -23,6 +22,6 @@ OC.L10N.register(
     "Good evening, {name}" : "Bona nit, {name}",
     "Hello" : "Hola",
     "Hello, {name}" : "Hola, {name}",
-    "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an\noverview of your upcoming appointments, urgent emails, chat messages,\nincoming tickets, latest tweets and much more! Users can add the widgets\nthey like and change the background to their liking." : "Comenceu el dia amb tota la informació actualitzada\n\nEl tauler del Nextcloud és el punt de partida del dia i us ofereix\nuna visió general de les pròximes cites, correus electrònics urgents, missatges de xat,\ninformes d'errors rebuts, els tuits més recents i molt més! Els usuaris poden afegir\nels ginys que els agradin i canviar el fons al seu gust."
+    "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an overview of your upcoming appointments, urgent emails, chat messages, incoming tickets, latest tweets and much more! Users can add the widgets they like and change the background to their liking." : "Comenceu el dia amb tota la informació actualitzada\n\nEl tauler del Nextcloud és el punt de partida del dia i us ofereix una visió general de les pròximes cites, correus electrònics urgents, missatges de xat, informes d'errors rebuts, els tuits més recents i molt més! Els usuaris poden afegir els ginys que els agradin i canviar el fons al seu gust."
 },
 "nplurals=2; plural=(n != 1);");

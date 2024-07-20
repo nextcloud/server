@@ -1,27 +1,9 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Bjoern Schiessle <bjoern@schiessle.org>
- * @author Björn Schießle <bjoern@schiessle.org>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\Federation\Tests\BackgroundJob;
 
@@ -142,6 +124,7 @@ class RequestSharedSecretTest extends TestCase {
 						'url' => 'url',
 						'token' => 'token',
 						'created' => 42,
+						'attempt' => 1,
 					]
 				);
 		} else {
@@ -164,12 +147,12 @@ class RequestSharedSecretTest extends TestCase {
 	 *
 	 * @param int $statusCode
 	 */
-	public function testRun($statusCode) {
+	public function testRun(int $statusCode, int $attempt = 0): void {
 		$target = 'targetURL';
 		$source = 'sourceURL';
 		$token = 'token';
 
-		$argument = ['url' => $target, 'token' => $token];
+		$argument = ['url' => $target, 'token' => $token, 'attempt' => $attempt];
 
 		$this->timeFactory->method('getTime')->willReturn(42);
 
@@ -196,7 +179,7 @@ class RequestSharedSecretTest extends TestCase {
 		$this->invokePrivate($this->requestSharedSecret, 'run', [$argument]);
 		if (
 			$statusCode !== Http::STATUS_OK
-			&& $statusCode !== Http::STATUS_FORBIDDEN
+			&& ($statusCode !== Http::STATUS_FORBIDDEN || $attempt < 5)
 		) {
 			$this->assertTrue($this->invokePrivate($this->requestSharedSecret, 'retainJob'));
 		} else {
@@ -207,6 +190,7 @@ class RequestSharedSecretTest extends TestCase {
 	public function dataTestRun() {
 		return [
 			[Http::STATUS_OK],
+			[Http::STATUS_FORBIDDEN, 5],
 			[Http::STATUS_FORBIDDEN],
 			[Http::STATUS_CONFLICT],
 		];

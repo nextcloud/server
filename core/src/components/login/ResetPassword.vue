@@ -1,23 +1,7 @@
 <!--
-  - @copyright 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
-  -
-  - @author 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
-  -
-  - @license GNU AGPL version 3 or any later version
-  -
-  - This program is free software: you can redistribute it and/or modify
-  - it under the terms of the GNU Affero General Public License as
-  - published by the Free Software Foundation, either version 3 of the
-  - License, or (at your option) any later version.
-  -
-  - This program is distributed in the hope that it will be useful,
-  - but WITHOUT ANY WARRANTY; without even the implied warranty of
-  - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  - GNU Affero General Public License for more details.
-  -
-  - You should have received a copy of the GNU Affero General Public License
-  - along with this program.  If not, see <http://www.gnu.org/licenses/>.
-  -->
+  - SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 
 <template>
 	<form class="login-form" @submit.prevent="submit">
@@ -25,15 +9,18 @@
 			<NcTextField id="user"
 				:value.sync="user"
 				name="user"
+				:maxlength="255"
 				autocapitalize="off"
-				:label="t('core', 'Account name or email')"
+				:label="t('core', 'Login or email')"
+				:error="userNameInputLengthIs255"
+				:helper-text="userInputHelperText"
 				required
 				@change="updateUsername" />
 			<LoginButton :value="t('core', 'Reset password')" />
 
 			<NcNoteCard v-if="message === 'send-success'"
 				type="success">
-				{{ t('core', 'If this account exists, a password reset message has been sent to its email address. If you do not receive it, verify your email address and/or account name, check your spam/junk folders or ask your local administration for help.') }}
+				{{ t('core', 'If this account exists, a password reset message has been sent to its email address. If you do not receive it, verify your email address and/or Login, check your spam/junk folders or ask your local administration for help.') }}
 			</NcNoteCard>
 			<NcNoteCard v-else-if="message === 'send-error'"
 				type="error">
@@ -60,6 +47,8 @@ import LoginButton from './LoginButton.vue'
 import NcTextField from '@nextcloud/vue/dist/Components/NcTextField.js'
 import NcNoteCard from '@nextcloud/vue/dist/Components/NcNoteCard.js'
 
+import AuthMixin from '../../mixins/auth.js'
+
 export default {
 	name: 'ResetPassword',
 	components: {
@@ -67,6 +56,7 @@ export default {
 		NcNoteCard,
 		NcTextField,
 	},
+	mixins: [AuthMixin],
 	props: {
 		username: {
 			type: String,

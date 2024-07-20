@@ -1,23 +1,6 @@
 /**
- * @copyright Copyright (c) 2023 Lucas Azevedo <lhs_azevedo@hotmail.com>
- *
- * @author Lucas Azevedo <lhs_azevedo@hotmail.com>
- *
- * @license AGPL-3.0-or-later
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 import { FileAction, Node, registerDavProperty, registerFileAction } from '@nextcloud/files'
 import { translate as t } from '@nextcloud/l10n'
@@ -50,6 +33,24 @@ export const action = new FileAction({
 	id: 'system-tags',
 	displayName: () => '',
 	iconSvgInline: () => '',
+
+	enabled(nodes: Node[]) {
+		// Only show the action on single nodes
+		if (nodes.length !== 1) {
+			return false
+		}
+
+		const node = nodes[0]
+		const tags = getNodeSystemTags(node)
+
+		// Only show the action if the node has system tags
+		if (tags.length === 0) {
+			return false
+		}
+
+		return true
+	},
+
 	exec: async () => null,
 
 	async renderInline(node: Node) {

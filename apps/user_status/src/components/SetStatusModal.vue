@@ -1,27 +1,12 @@
 <!--
-  - @copyright Copyright (c) 2020 Georg Ehrke <oc.list@georgehrke.com>
-  - @author Georg Ehrke <oc.list@georgehrke.com>
-  -
-  - @license GNU AGPL version 3 or any later version
-  -
-  - This program is free software: you can redistribute it and/or modify
-  - it under the terms of the GNU Affero General Public License as
-  - published by the Free Software Foundation, either version 3 of the
-  - License, or (at your option) any later version.
-  -
-  - This program is distributed in the hope that it will be useful,
-  - but WITHOUT ANY WARRANTY; without even the implied warranty of
-  - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-  - GNU Affero General Public License for more details.
-  -
-  - You should have received a copy of the GNU Affero General Public License
-  - along with this program. If not, see <http://www.gnu.org/licenses/>.
-  -
-  -->
+  - SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 
 <template>
 	<NcModal size="normal"
 		:name="$t('user_status', 'Set status')"
+		:set-return-focus="setReturnFocus"
 		@close="closeModal">
 		<div class="set-status-modal">
 			<!-- Status selector -->
@@ -108,11 +93,22 @@ export default {
 	},
 	mixins: [OnlineStatusMixin],
 
+	props: {
+		/**
+		 * Whether the component should be rendered as a Dashboard Status or a User Menu Entries
+		 * true = Dashboard Status
+		 * false = User Menu Entries
+		 */
+		inline: {
+			type: Boolean,
+			default: false,
+		},
+	},
+
 	data() {
 		return {
 			clearAt: null,
 			editedMessage: '',
-			isCustomStatus: true,
 			isSavingStatus: false,
 			statuses: getAllStatusOptions(),
 		}
@@ -156,6 +152,13 @@ export default {
 
 			return this.$t('user_status', 'Reset status')
 		},
+
+		setReturnFocus() {
+			if (this.inline) {
+				return undefined
+			}
+			return document.querySelector('[aria-controls="header-menu-user-menu"]') ?? undefined
+		},
 	},
 
 	watch: {
@@ -193,7 +196,6 @@ export default {
 		 * @param {string} icon The new icon
 		 */
 		setIcon(icon) {
-			this.isCustomStatus = true
 			this.$store.dispatch('setCustomMessage', {
 				message: this.message,
 				icon,
@@ -209,7 +211,6 @@ export default {
 		 * @param {string} message The new message
 		 */
 		setMessage(message) {
-			this.isCustomStatus = true
 			this.editedMessage = message
 		},
 		/**
@@ -226,7 +227,6 @@ export default {
 		 * @param {object} status The predefined status object
 		 */
 		selectPredefinedMessage(status) {
-			this.isCustomStatus = false
 			this.clearAt = status.clearAt
 			this.$store.dispatch('setPredefinedMessage', {
 				messageId: status.id,
@@ -246,13 +246,11 @@ export default {
 			try {
 				this.isSavingStatus = true
 
-				if (this.isCustomStatus) {
-					await this.$store.dispatch('setCustomMessage', {
-						message: this.editedMessage,
-						icon: this.icon,
-						clearAt: this.clearAt,
-					})
-				}
+				await this.$store.dispatch('setCustomMessage', {
+					message: this.editedMessage,
+					icon: this.icon,
+					clearAt: this.clearAt,
+				})
 			} catch (err) {
 				showError(this.$t('user_status', 'There was an error saving the status'))
 				console.debug(err)

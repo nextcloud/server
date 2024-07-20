@@ -1,22 +1,8 @@
 <?php
 /**
- * @author Olivier Paroz <owncloud@interfasys.ch>
- *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2019-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 
 namespace Test\Preview;
@@ -42,5 +28,34 @@ class SVGTest extends Provider {
 		} else {
 			$this->markTestSkipped('No SVG provider present');
 		}
+	}
+
+	public function dataGetThumbnailSVGHref(): array {
+		return [
+			['href'],
+			[' href'],
+			["\nhref"],
+			['xlink:href'],
+			[' xlink:href'],
+			["\nxlink:href"],
+		];
+	}
+
+	/**
+	 * @dataProvider dataGetThumbnailSVGHref
+	 * @requires extension imagick
+	 */
+	public function testGetThumbnailSVGHref(string $content): void {
+		$handle = fopen('php://temp', 'w+');
+		fwrite($handle, '<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+  <image x="0" y="0"' . $content . '="fxlogo.png" height="100" width="100" />
+</svg>');
+		rewind($handle);
+
+		$file = $this->createMock(\OCP\Files\File::class);
+		$file->method('fopen')
+			->willReturn($handle);
+
+		self::assertNull($this->provider->getThumbnail($file, 512, 512));
 	}
 }

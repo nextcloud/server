@@ -1,28 +1,7 @@
 <?php
 /**
- * @copyright Copyright (c) 2017 Roger Szabo <roger.szabo@web.de>
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Roger Szabo <roger.szabo@web.de>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\User_LDAP\AppInfo;
 
@@ -38,7 +17,10 @@ use OCA\User_LDAP\Handler\ExtStorageConfigHandler;
 use OCA\User_LDAP\Helper;
 use OCA\User_LDAP\ILDAPWrapper;
 use OCA\User_LDAP\LDAP;
+use OCA\User_LDAP\LoginListener;
 use OCA\User_LDAP\Notification\Notifier;
+use OCA\User_LDAP\SetupChecks\LdapConnection;
+use OCA\User_LDAP\SetupChecks\LdapInvalidUuids;
 use OCA\User_LDAP\User\Manager;
 use OCA\User_LDAP\User_Proxy;
 use OCA\User_LDAP\UserPluginManager;
@@ -57,6 +39,7 @@ use OCP\IServerContainer;
 use OCP\IUserManager;
 use OCP\Notification\IManager as INotificationManager;
 use OCP\Share\IManager as IShareManager;
+use OCP\User\Events\PostLoginEvent;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 
@@ -113,6 +96,9 @@ class Application extends App implements IBootstrap {
 			// the instance is specific to a lazy bound Access instance, thus cannot be shared.
 			false
 		);
+		$context->registerEventListener(PostLoginEvent::class, LoginListener::class);
+		$context->registerSetupCheck(LdapInvalidUuids::class);
+		$context->registerSetupCheck(LdapConnection::class);
 	}
 
 	public function boot(IBootContext $context): void {
@@ -151,7 +137,7 @@ class Application extends App implements IBootstrap {
 		);
 	}
 
-	private function registerBackendDependents(IAppContainer $appContainer, IEventDispatcher $dispatcher) {
+	private function registerBackendDependents(IAppContainer $appContainer, IEventDispatcher $dispatcher): void {
 		$dispatcher->addListener(
 			'OCA\\Files_External::loadAdditionalBackends',
 			function () use ($appContainer) {

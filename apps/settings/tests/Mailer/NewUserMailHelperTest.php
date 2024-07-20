@@ -1,35 +1,7 @@
 <?php
 /**
- * @copyright Copyright (c) 2017 Lukas Reschke <lukas@statuscode.ch>
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Brad Rubenstein <brad@wbr.tech>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Jan-Christoph Borchardt <hey@jancborchardt.net>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Liam JACK <liamjack@users.noreply.github.com>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author medcloud <42641918+medcloud@users.noreply.github.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author zulan <git@zulan.net>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\Settings\Tests\Mailer;
 
@@ -85,6 +57,8 @@ class NewUserMailHelperTest extends TestCase {
 			$this->defaults,
 			$this->urlGenerator,
 			$this->l10nFactory,
+			null,
+			null,
 			'test.TestTemplate',
 			[]
 		);
@@ -262,7 +236,7 @@ class NewUserMailHelperTest extends TestCase {
 			<table style="border-collapse:collapse;border-spacing:0;padding:0;text-align:left;vertical-align:top;width:100%">
 				<tr style="padding:0;text-align:left;vertical-align:top">
 					<th style="Margin:0;color:#0a0a0a;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0;padding:0;text-align:left">
-						<p style="Margin:0;Margin-bottom:10px;color:#777;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0;margin-bottom:10px;padding:0;text-align:center">Your username is: john</p>
+						<p style="Margin:0;Margin-bottom:10px;color:#777;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0;margin-bottom:10px;padding:0;text-align:center">Your Login is: john</p>
 					</th>
 					<th class="expander" style="Margin:0;color:#0a0a0a;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0;padding:0!important;text-align:left;visibility:hidden;width:0"></th>
 				</tr>
@@ -363,7 +337,7 @@ Welcome aboard
 
 Welcome to your TestCloud account, you can add, protect, and share your data.
 
-Your username is: john
+Your Login is: john
 
 
 Set your password: https://example.com/resetPassword/MySuperLongSecureRandomToken
@@ -498,7 +472,7 @@ EOF;
 			<table style="border-collapse:collapse;border-spacing:0;padding:0;text-align:left;vertical-align:top;width:100%">
 				<tr style="padding:0;text-align:left;vertical-align:top">
 					<th style="Margin:0;color:#0a0a0a;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0;padding:0;text-align:left">
-						<p style="Margin:0;Margin-bottom:10px;color:#777;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0;margin-bottom:10px;padding:0;text-align:center">Your username is: john</p>
+						<p style="Margin:0;Margin-bottom:10px;color:#777;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0;margin-bottom:10px;padding:0;text-align:center">Your Login is: john</p>
 					</th>
 					<th class="expander" style="Margin:0;color:#0a0a0a;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0;padding:0!important;text-align:left;visibility:hidden;width:0"></th>
 				</tr>
@@ -599,7 +573,7 @@ Welcome aboard John Doe
 
 Welcome to your TestCloud account, you can add, protect, and share your data.
 
-Your username is: john
+Your Login is: john
 
 
 Go to TestCloud: https://example.com/

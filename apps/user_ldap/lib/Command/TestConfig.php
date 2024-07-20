@@ -1,28 +1,9 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Côme Chilliet <come.chilliet@nextcloud.com>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\User_LDAP\Command;
 
@@ -41,18 +22,11 @@ class TestConfig extends Command {
 	protected const BINDFAILURE = 2;
 	protected const SEARCHFAILURE = 3;
 
-	protected AccessFactory $accessFactory;
-	protected Helper $helper;
-	protected ILDAPWrapper $ldap;
-
 	public function __construct(
-		AccessFactory $accessFactory,
-		Helper $helper,
-		ILDAPWrapper $ldap
+		protected AccessFactory $accessFactory,
+		protected Helper $helper,
+		protected ILDAPWrapper $ldap,
 	) {
-		$this->accessFactory = $accessFactory;
-		$this->helper = $helper;
-		$this->ldap = $ldap;
 		parent::__construct();
 	}
 
@@ -73,28 +47,24 @@ class TestConfig extends Command {
 		$configID = $input->getArgument('configID');
 		if (!in_array($configID, $availableConfigs)) {
 			$output->writeln('Invalid configID');
-			return 1;
+			return self::FAILURE;
 		}
 
 		$result = $this->testConfig($configID);
-		switch ($result) {
-			case static::ESTABLISHED:
-				$output->writeln('The configuration is valid and the connection could be established!');
-				return 0;
-			case static::CONF_INVALID:
-				$output->writeln('The configuration is invalid. Please have a look at the logs for further details.');
-				break;
-			case static::BINDFAILURE:
-				$output->writeln('The configuration is valid, but the bind failed. Please check the server settings and credentials.');
-				break;
-			case static::SEARCHFAILURE:
-				$output->writeln('The configuration is valid and the bind passed, but a simple search on the base fails. Please check the server base setting.');
-				break;
-			default:
-				$output->writeln('Your LDAP server was kidnapped by aliens.');
-				break;
-		}
-		return 1;
+
+		$message = match ($result) {
+			static::ESTABLISHED => 'The configuration is valid and the connection could be established!',
+			static::CONF_INVALID => 'The configuration is invalid. Please have a look at the logs for further details.',
+			static::BINDFAILURE => 'The configuration is valid, but the bind failed. Please check the server settings and credentials.',
+			static::SEARCHFAILURE => 'The configuration is valid and the bind passed, but a simple search on the base fails. Please check the server base setting.',
+			default => 'Your LDAP server was kidnapped by aliens.',
+		};
+
+		$output->writeln($message);
+
+		return $result === static::ESTABLISHED
+			? self::SUCCESS
+			: self::FAILURE;
 	}
 
 	/**

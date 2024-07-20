@@ -3,7 +3,7 @@
     "info": {
         "title": "federation",
         "version": "0.0.1",
-        "description": "Federation allows you to connect with other trusted servers to exchange the user directory.",
+        "description": "Federation allows you to connect with other trusted servers to exchange the account directory.",
         "license": {
             "name": "agpl"
         }
@@ -63,32 +63,39 @@
                         "basic_auth": []
                     }
                 ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "required": [
+                                    "url",
+                                    "token"
+                                ],
+                                "properties": {
+                                    "url": {
+                                        "type": "string",
+                                        "description": "URL of the server"
+                                    },
+                                    "token": {
+                                        "type": "string",
+                                        "description": "Token of the server"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
                 "parameters": [
-                    {
-                        "name": "url",
-                        "in": "query",
-                        "description": "URL of the server",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "token",
-                        "in": "query",
-                        "description": "Token of the server",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
                     {
                         "name": "OCS-APIRequest",
                         "in": "header",
+                        "description": "Required to be true for the API request to pass",
                         "required": true,
                         "schema": {
-                            "type": "string",
-                            "default": "true"
+                            "type": "boolean",
+                            "default": true
                         }
                     }
                 ],
@@ -134,9 +141,27 @@
                     "403": {
                         "description": "Getting shared secret is not allowed",
                         "content": {
-                            "text/plain": {
+                            "application/json": {
                                 "schema": {
-                                    "type": "string"
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {}
+                                            }
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -160,32 +185,39 @@
                         "basic_auth": []
                     }
                 ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "required": [
+                                    "url",
+                                    "token"
+                                ],
+                                "properties": {
+                                    "url": {
+                                        "type": "string",
+                                        "description": "URL of the server"
+                                    },
+                                    "token": {
+                                        "type": "string",
+                                        "description": "Token of the server"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
                 "parameters": [
-                    {
-                        "name": "url",
-                        "in": "query",
-                        "description": "URL of the server",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "token",
-                        "in": "query",
-                        "description": "Token of the server",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
                     {
                         "name": "OCS-APIRequest",
                         "in": "header",
+                        "description": "Required to be true for the API request to pass",
                         "required": true,
                         "schema": {
-                            "type": "string",
-                            "default": "true"
+                            "type": "boolean",
+                            "default": true
                         }
                     }
                 ],
@@ -221,9 +253,27 @@
                     "403": {
                         "description": "Requesting shared secret is not allowed",
                         "content": {
-                            "text/plain": {
+                            "application/json": {
                                 "schema": {
-                                    "type": "string"
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {}
+                                            }
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -247,32 +297,39 @@
                         "basic_auth": []
                     }
                 ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "required": [
+                                    "url",
+                                    "token"
+                                ],
+                                "properties": {
+                                    "url": {
+                                        "type": "string",
+                                        "description": "URL of the server"
+                                    },
+                                    "token": {
+                                        "type": "string",
+                                        "description": "Token of the server"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
                 "parameters": [
-                    {
-                        "name": "url",
-                        "in": "query",
-                        "description": "URL of the server",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "token",
-                        "in": "query",
-                        "description": "Token of the server",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
                     {
                         "name": "OCS-APIRequest",
                         "in": "header",
+                        "description": "Required to be true for the API request to pass",
                         "required": true,
                         "schema": {
-                            "type": "string",
-                            "default": "true"
+                            "type": "boolean",
+                            "default": true
                         }
                     }
                 ],
@@ -318,9 +375,27 @@
                     "403": {
                         "description": "Getting shared secret is not allowed",
                         "content": {
-                            "text/plain": {
+                            "application/json": {
                                 "schema": {
-                                    "type": "string"
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {}
+                                            }
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -342,32 +417,39 @@
                         "basic_auth": []
                     }
                 ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "required": [
+                                    "url",
+                                    "token"
+                                ],
+                                "properties": {
+                                    "url": {
+                                        "type": "string",
+                                        "description": "URL of the server"
+                                    },
+                                    "token": {
+                                        "type": "string",
+                                        "description": "Token of the server"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
                 "parameters": [
-                    {
-                        "name": "url",
-                        "in": "query",
-                        "description": "URL of the server",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "token",
-                        "in": "query",
-                        "description": "Token of the server",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
                     {
                         "name": "OCS-APIRequest",
                         "in": "header",
+                        "description": "Required to be true for the API request to pass",
                         "required": true,
                         "schema": {
-                            "type": "string",
-                            "default": "true"
+                            "type": "boolean",
+                            "default": true
                         }
                     }
                 ],
@@ -403,9 +485,27 @@
                     "403": {
                         "description": "Requesting shared secret is not allowed",
                         "content": {
-                            "text/plain": {
+                            "application/json": {
                                 "schema": {
-                                    "type": "string"
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {}
+                                            }
+                                        }
+                                    }
                                 }
                             }
                         }

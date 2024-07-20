@@ -1,22 +1,7 @@
 <?php
 /**
- * @author Konrad Abicht <hi@inspirito.de>
- *
- * @copyright Copyright (c) 2021, Konrad Abicht <hi@inspirito.de>
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 
 namespace Tests\Core\Data;
@@ -27,8 +12,8 @@ use OC\Authentication\Token\IProvider;
 use OC\Authentication\Token\IToken;
 use OC\Core\Data\LoginFlowV2Credentials;
 use OC\Core\Data\LoginFlowV2Tokens;
-use OC\Core\Db\LoginFlowV2Mapper;
 use OC\Core\Db\LoginFlowV2;
+use OC\Core\Db\LoginFlowV2Mapper;
 use OC\Core\Exception\LoginFlowV2NotFoundException;
 use OC\Core\Service\LoginFlowV2Service;
 use OCP\AppFramework\Db\DoesNotExistException;
@@ -392,7 +377,7 @@ class LoginFlowV2ServiceUnitTest extends TestCase {
 			->method('getSystemValue')
 			->willReturn($this->returnCallback(function ($key) {
 				// Note: \OCP\IConfig::getSystemValue returns either an array or string.
-				return 'openssl' == $key ? [] : '';
+				return $key == 'openssl' ? [] : '';
 			}));
 
 		$this->mapper->expects($this->once())

@@ -1,28 +1,13 @@
 /**
- * @copyright 2023 Christopher Ng <chrng8@gmail.com>
- *
- * @author Christopher Ng <chrng8@gmail.com>
- *
- * @license AGPL-3.0-or-later
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 @mixin row {
-	position: absolute;
+	position: relative;
 	display: flex;
+	min-width: 100%;
+	width: fit-content;
 	height: var(--row-height);
 	background-color: var(--color-main-background);
 }
@@ -33,6 +18,7 @@
 		flex-direction: column;
 		justify-content: center;
 		padding: 0 var(--cell-padding);
+		min-width: var(--cell-width);
 		width: var(--cell-width);
 		color: var(--color-main-text);
 
@@ -49,7 +35,7 @@
 			&--avatar,
 			&--displayname {
 				position: sticky;
-				z-index: 10;
+				z-index: var(--sticky-column-z-index);
 				background-color: var(--color-main-background);
 			}
 
@@ -63,7 +49,12 @@
 			}
 		}
 
+		&--username {
+			padding-left: calc(var(--default-grid-baseline) * 3);
+		}
+
 		&--avatar {
+			min-width: var(--avatar-cell-width);
 			width: var(--avatar-cell-width);
 			align-items: center;
 			padding: 0;
@@ -84,20 +75,29 @@
 		}
 
 		&--large {
-			width: 300px;
+			min-width: var(--cell-width-large);
+			width: var(--cell-width-large);
 		}
 
 		&--obfuscated {
+			min-width: 400px;
 			width: 400px;
+		}
+
+		// Fill remaining row space with cell
+		&--fill {
+			min-width: var(--cell-width-large);
+			width: 100%;
 		}
 
 		&--actions {
 			position: sticky;
 			right: 0;
-			z-index: 10;
+			z-index: var(--sticky-column-z-index);
 			display: flex;
 			flex-direction: row;
 			align-items: center;
+			min-width: 110px;
 			width: 110px;
 			background-color: var(--color-main-background);
 			border-left: 1px solid var(--color-border);

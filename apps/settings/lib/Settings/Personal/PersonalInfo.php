@@ -3,39 +3,13 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2017 Arthur Schiwon <blizzz@arthur-schiwon.de>
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Christopher Ng <chrng8@gmail.com>
- * @author Georg Ehrke <oc.list@georgehrke.com>
- * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Citharel <nextcloud@tcit.fr>
- * @author Vincent Petry <vincent@nextcloud.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace OCA\Settings\Settings\Personal;
 
+use OC\Profile\ProfileManager;
 use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCP\Accounts\IAccount;
 use OCP\Accounts\IAccountManager;
@@ -51,7 +25,6 @@ use OCP\IL10N;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\L10N\IFactory;
-use OC\Profile\ProfileManager;
 use OCP\Notification\IManager;
 use OCP\Settings\ISettings;
 
@@ -167,6 +140,7 @@ class PersonalInfo implements ISettings {
 			'role' => $this->getProperty($account, IAccountManager::PROPERTY_ROLE),
 			'headline' => $this->getProperty($account, IAccountManager::PROPERTY_HEADLINE),
 			'biography' => $this->getProperty($account, IAccountManager::PROPERTY_BIOGRAPHY),
+			'birthdate' => $this->getProperty($account, IAccountManager::PROPERTY_BIRTHDATE),
 		];
 
 		$accountParameters = [

@@ -1,28 +1,9 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Côme Chilliet <come.chilliet@nextcloud.com>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\User_LDAP\Command;
 
@@ -37,23 +18,15 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class CheckUser extends Command {
-	/** @var User_Proxy */
-	protected $backend;
+	protected User_Proxy $backend;
 
-	/** @var Helper */
-	protected $helper;
-
-	/** @var DeletedUsersIndex */
-	protected $dui;
-
-	/** @var UserMapping */
-	protected $mapping;
-
-	public function __construct(User_Proxy $uBackend, Helper $helper, DeletedUsersIndex $dui, UserMapping $mapping) {
+	public function __construct(
+		User_Proxy $uBackend,
+		protected Helper $helper,
+		protected DeletedUsersIndex $dui,
+		protected UserMapping $mapping,
+	) {
 		$this->backend = $uBackend;
-		$this->helper = $helper;
-		$this->dui = $dui;
-		$this->mapping = $mapping;
 		parent::__construct();
 	}
 
@@ -62,16 +35,16 @@ class CheckUser extends Command {
 			->setName('ldap:check-user')
 			->setDescription('checks whether a user exists on LDAP.')
 			->addArgument(
-					'ocName',
-					InputArgument::REQUIRED,
-					'the user name as used in Nextcloud, or the LDAP DN'
-					 )
+				'ocName',
+				InputArgument::REQUIRED,
+				'the user name as used in Nextcloud, or the LDAP DN'
+			)
 			->addOption(
-					'force',
-					null,
-					InputOption::VALUE_NONE,
-					'ignores disabled LDAP configuration'
-					 )
+				'force',
+				null,
+				InputOption::VALUE_NONE,
+				'ignores disabled LDAP configuration'
+			)
 			->addOption(
 				'update',
 				null,
@@ -98,19 +71,21 @@ class CheckUser extends Command {
 				if ($input->getOption('update')) {
 					$this->updateUser($uid, $output);
 				}
-				return 0;
-			} elseif ($wasMapped) {
+				return self::SUCCESS;
+			}
+
+			if ($wasMapped) {
 				$this->dui->markUser($uid);
 				$output->writeln('The user does not exists on LDAP anymore.');
 				$output->writeln('Clean up the user\'s remnants by: ./occ user:delete "'
 					. $uid . '"');
-				return 0;
-			} else {
-				throw new \Exception('The given user is not a recognized LDAP user.');
+				return self::SUCCESS;
 			}
+
+			throw new \Exception('The given user is not a recognized LDAP user.');
 		} catch (\Exception $e) {
 			$output->writeln('<error>' . $e->getMessage(). '</error>');
-			return 1;
+			return self::FAILURE;
 		}
 	}
 
@@ -144,7 +119,8 @@ class CheckUser extends Command {
 			$attrs = $access->userManager->getAttributes();
 			$user = $access->userManager->get($uid);
 			$avatarAttributes = $access->getConnection()->resolveRule('avatar');
-			$result = $access->search('objectclass=*', $user->getDN(), $attrs, 1, 0);
+			$baseDn = $this->helper->DNasBaseParameter($user->getDN());
+			$result = $access->search('objectclass=*', $baseDn, $attrs, 1, 0);
 			foreach ($result[0] as $attribute => $valueSet) {
 				$output->writeln('  ' . $attribute . ': ');
 				foreach ($valueSet as $value) {

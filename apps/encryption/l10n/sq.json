@@ -32,7 +32,6 @@
     "Enabling this option encrypts all files stored on the main storage, otherwise only files on external storage will be encrypted" : "Aktivizimi i kësaj mundësie fshehtëzon krejt kartelat e depozituara në depon bazë, përndryshe do të fshehtëzohen vetëm kartelat në depozitën e jashtme",
     "Enable recovery key" : "Aktivizo kyç rimarrjesh",
     "Disable recovery key" : "Çaktivizo kyç rimarrjesh",
-    "The recovery key is an extra encryption key that is used to encrypt files. It allows recovery of a user's files if the user forgets his or her password." : "Kyçi i rimarrjeve është një kyç ekstra fshehtëzimesh që përdoret për të fshehtëzuar kartela. Ai lejon rimarrjen e një kartele të përdoruesit, nëse përdoruesi harron fjalëkalimin e vet.",
     "Recovery key password" : "Fjalëkalim kyçi rimarrjesh",
     "Repeat recovery key password" : "Rijepni fjalëkalim kyçi rimarrjesh",
     "Change recovery key password:" : "Ndryshoni fjalëkalim kyçi rimarrjesh:",
@@ -51,7 +50,6 @@
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Aktivizimi i kësaj mundësie do t’ju lejojë të rifitoni hyrje te kartelat tuaja të fshehtëzuara në rast humbjeje fjalëkalimi",
     "Enabled" : "E aktivizuar",
     "Disabled" : "E çaktivizuar",
-    "The share will expire on %s." : "Ndarja do të skadojë më %s.",
-    "Cheers!" : "Gëzuar!"
+    "The recovery key is an extra encryption key that is used to encrypt files. It allows recovery of a user's files if the user forgets his or her password." : "Kyçi i rimarrjeve është një kyç ekstra fshehtëzimesh që përdoret për të fshehtëzuar kartela. Ai lejon rimarrjen e një kartele të përdoruesit, nëse përdoruesi harron fjalëkalimin e vet."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

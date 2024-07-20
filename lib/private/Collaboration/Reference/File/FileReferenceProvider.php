@@ -2,24 +2,8 @@
 
 declare(strict_types=1);
 /**
- * @copyright Copyright (c) 2022 Julius Härtl <jus@bitgrid.net>
- *
- * @author Julius Härtl <jus@bitgrid.net>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace OC\Collaboration\Reference\File;
@@ -31,7 +15,6 @@ use OCP\Collaboration\Reference\Reference;
 use OCP\Files\IMimeTypeDetector;
 use OCP\Files\InvalidPathException;
 use OCP\Files\IRootFolder;
-use OCP\Files\Node;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
 use OCP\IL10N;
@@ -41,26 +24,18 @@ use OCP\IUserSession;
 use OCP\L10N\IFactory;
 
 class FileReferenceProvider extends ADiscoverableReferenceProvider {
-	private IURLGenerator $urlGenerator;
-	private IRootFolder $rootFolder;
 	private ?string $userId;
-	private IPreview $previewManager;
-	private IMimeTypeDetector $mimeTypeDetector;
 	private IL10N $l10n;
 
 	public function __construct(
-		IURLGenerator $urlGenerator,
-		IRootFolder $rootFolder,
+		private IURLGenerator $urlGenerator,
+		private IRootFolder $rootFolder,
 		IUserSession $userSession,
-		IMimeTypeDetector $mimeTypeDetector,
-		IPreview $previewManager,
-		IFactory $l10n
+		private IMimeTypeDetector $mimeTypeDetector,
+		private IPreview $previewManager,
+		IFactory $l10n,
 	) {
-		$this->urlGenerator = $urlGenerator;
-		$this->rootFolder = $rootFolder;
-		$this->userId = $userSession->getUser() ? $userSession->getUser()->getUID() : null;
-		$this->previewManager = $previewManager;
-		$this->mimeTypeDetector = $mimeTypeDetector;
+		$this->userId = $userSession->getUser()?->getUID();
 		$this->l10n = $l10n->get('files');
 	}
 
@@ -129,14 +104,11 @@ class FileReferenceProvider extends ADiscoverableReferenceProvider {
 
 		try {
 			$userFolder = $this->rootFolder->getUserFolder($this->userId);
-			$files = $userFolder->getById($fileId);
+			$file = $userFolder->getFirstNodeById($fileId);
 
-			if (empty($files)) {
+			if (!$file) {
 				throw new NotFoundException();
 			}
-
-			/** @var Node $file */
-			$file = array_shift($files);
 
 			$reference->setTitle($file->getName());
 			$reference->setDescription($file->getMimetype());

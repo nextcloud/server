@@ -16,7 +16,6 @@ OC.L10N.register(
     "Retry" : "Reprovi",
     "_1 new comment_::_{unread} new comments_" : ["1 nova komento","{unread} novaj komentoj"],
     "Comment" : "Komento",
-    "%1$s commented" : "%1$s komentis",
     "_%n unread comment_::_%n unread comments_" : ["%n nelegataj komentoj","%n nelegataj komentoj"]
 },
 "nplurals=2; plural=(n != 1);");

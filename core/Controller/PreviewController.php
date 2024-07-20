@@ -3,33 +3,15 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2016, Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OC\Core\Controller;
 
 use OCA\Files_Sharing\SharedStorage;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\FrontpageRoute;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\FileDisplayResponse;
 use OCP\AppFramework\Http\RedirectResponse;
@@ -60,11 +42,11 @@ class PreviewController extends Controller {
 	 * Get a preview by file path
 	 *
 	 * @param string $file Path of the file
-	 * @param int $x Width of the preview
-	 * @param int $y Height of the preview
-	 * @param bool $a Whether to not crop the preview
+	 * @param int $x Width of the preview. A width of -1 will use the original image width.
+	 * @param int $y Height of the preview. A height of -1 will use the original image height.
+	 * @param bool $a Preserve the aspect ratio
 	 * @param bool $forceIcon Force returning an icon
-	 * @param string $mode How to crop the image
+	 * @param 'fill'|'cover' $mode How to crop the image
 	 * @param bool $mimeFallback Whether to fallback to the mime icon if no preview is available
 	 * @return FileDisplayResponse<Http::STATUS_OK, array{Content-Type: string}>|DataResponse<Http::STATUS_BAD_REQUEST|Http::STATUS_FORBIDDEN|Http::STATUS_NOT_FOUND, array<empty>, array{}>|RedirectResponse<Http::STATUS_SEE_OTHER, array{}>
 	 *
@@ -74,6 +56,7 @@ class PreviewController extends Controller {
 	 * 403: Getting preview is not allowed
 	 * 404: Preview not found
 	 */
+	#[FrontpageRoute(verb: 'GET', url: '/core/preview.png')]
 	public function getPreview(
 		string $file = '',
 		int $x = 32,
@@ -103,11 +86,11 @@ class PreviewController extends Controller {
 	 * Get a preview by file ID
 	 *
 	 * @param int $fileId ID of the file
-	 * @param int $x Width of the preview
-	 * @param int $y Height of the preview
-	 * @param bool $a Whether to not crop the preview
+	 * @param int $x Width of the preview. A width of -1 will use the original image width.
+	 * @param int $y Height of the preview. A height of -1 will use the original image height.
+	 * @param bool $a Preserve the aspect ratio
 	 * @param bool $forceIcon Force returning an icon
-	 * @param string $mode How to crop the image
+	 * @param 'fill'|'cover' $mode How to crop the image
 	 * @param bool $mimeFallback Whether to fallback to the mime icon if no preview is available
 	 * @return FileDisplayResponse<Http::STATUS_OK, array{Content-Type: string}>|DataResponse<Http::STATUS_BAD_REQUEST|Http::STATUS_FORBIDDEN|Http::STATUS_NOT_FOUND, array<empty>, array{}>|RedirectResponse<Http::STATUS_SEE_OTHER, array{}>
 	 *
@@ -117,6 +100,7 @@ class PreviewController extends Controller {
 	 * 403: Getting preview is not allowed
 	 * 404: Preview not found
 	 */
+	#[FrontpageRoute(verb: 'GET', url: '/core/preview')]
 	public function getPreviewByFileId(
 		int $fileId = -1,
 		int $x = 32,
@@ -130,13 +114,11 @@ class PreviewController extends Controller {
 		}
 
 		$userFolder = $this->root->getUserFolder($this->userId);
-		$nodes = $userFolder->getById($fileId);
+		$node = $userFolder->getFirstNodeById($fileId);
 
-		if (\count($nodes) === 0) {
+		if (!$node) {
 			return new DataResponse([], Http::STATUS_NOT_FOUND);
 		}
-
-		$node = array_pop($nodes);
 
 		return $this->fetchPreview($node, $x, $y, $a, $forceIcon, $mode, $mimeFallback);
 	}

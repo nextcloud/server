@@ -1,23 +1,6 @@
 /**
- * @copyright Copyright (c) 2023 John Molakvoæ <skjnldsv@protonmail.com>
- *
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- *
- * @license AGPL-3.0-or-later
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 import { action } from './openInFilesAction'
 import { expect } from '@jest/globals'
@@ -52,7 +35,7 @@ describe('Open in files action conditions tests', () => {
 
 		expect(action).toBeInstanceOf(FileAction)
 		expect(action.id).toBe('open-in-files-external-storage')
-		expect(action.displayName([storage], externalStorageView)).toBe('Open in files')
+		expect(action.displayName([storage], externalStorageView)).toBe('Open in Files')
 		expect(action.iconSvgInline([storage], externalStorageView)).toBe('')
 		expect(action.default).toBe(DefaultType.HIDDEN)
 		expect(action.order).toBe(-1000)
@@ -91,6 +74,7 @@ describe('Open in files action enabled tests', () => {
 describe('Open in files action execute tests', () => {
 	test('Open in files', async () => {
 		const goToRouteMock = jest.fn()
+		// @ts-expect-error We only mock what needed, we do not need Files.Router.goTo or Files.Navigation
 		window.OCP = { Files: { Router: { goToRoute: goToRouteMock } } }
 
 		const storage = new Folder({
@@ -115,6 +99,7 @@ describe('Open in files action execute tests', () => {
 
 	test('Open in files broken storage', async () => {
 		const confirmMock = jest.fn()
+		// @ts-expect-error We only mock what is needed
 		window.OC = { dialogs: { confirm: confirmMock } }
 
 		const storage = new Folder({

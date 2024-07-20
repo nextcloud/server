@@ -1,4 +1,8 @@
 #!/bin/bash
+#
+# SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+# SPDX-License-Identifier: AGPL-3.0-or-later
+#
 # Update Nextcloud server and apps from latest git master
 # For local development environment
 # Use from Nextcloud server folder with `./build/update.sh`

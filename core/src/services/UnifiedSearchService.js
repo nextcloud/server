@@ -1,38 +1,11 @@
 /**
- * @copyright 2020, John Molakvoæ <skjnldsv@protonmail.com>
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Daniel Calviño Sánchez <danxuliu@gmail.com>
- * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- *
- * @license AGPL-3.0-or-later
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { generateOcsUrl } from '@nextcloud/router'
-import { loadState } from '@nextcloud/initial-state'
+import { generateOcsUrl, generateUrl } from '@nextcloud/router'
 import axios from '@nextcloud/axios'
-
-export const defaultLimit = loadState('unified-search', 'limit-default')
-export const minSearchLength = loadState('unified-search', 'min-search-length', 1)
-export const enableLiveSearch = loadState('unified-search', 'live-search', true)
-
-export const regexFilterIn = /(^|\s)in:([a-z_-]+)/ig
-export const regexFilterNot = /(^|\s)-in:([a-z_-]+)/ig
+import { getCurrentUser } from '@nextcloud/auth'
 
 /**
  * Create a cancel token
@@ -46,7 +19,7 @@ const createCancelToken = () => axios.CancelToken.source()
  *
  * @return {Promise<Array>}
  */
-export async function getTypes() {
+export async function getProviders() {
 	try {
 		const { data } = await axios.get(generateOcsUrl('search/providers'), {
 			params: {
@@ -71,9 +44,14 @@ export async function getTypes() {
  * @param {string} options.type the type to search
  * @param {string} options.query the search
  * @param {number|string|undefined} options.cursor the offset for paginated searches
+ * @param {string} options.since the search
+ * @param {string} options.until the search
+ * @param {string} options.limit the search
+ * @param {string} options.person the search
+ * @param {object} options.extraQueries additional queries to filter search results
  * @return {object} {request: Promise, cancel: Promise}
  */
-export function search({ type, query, cursor }) {
+export function search({ type, query, cursor, since, until, limit, person, extraQueries = {} }) {
 	/**
 	 * Generate an axios cancel token
 	 */
@@ -84,8 +62,13 @@ export function search({ type, query, cursor }) {
 		params: {
 			term: query,
 			cursor,
+			since,
+			until,
+			limit,
+			person,
 			// Sending which location we're currently at
 			from: window.location.pathname.replace('/index.php', '') + window.location.search,
+			...extraQueries,
 		},
 	})
 
@@ -93,4 +76,33 @@ export function search({ type, query, cursor }) {
 		request,
 		cancel: cancelToken.cancel,
 	}
+}
+
+/**
+ * Get the list of active contacts
+ *
+ * @param {object} filter filter contacts by string
+ * @param filter.searchTerm
+ * @return {object} {request: Promise}
+ */
+export async function getContacts({ searchTerm }) {
+	const { data: { contacts } } = await axios.post(generateUrl('/contactsmenu/contacts'), {
+		filter: searchTerm,
+	})
+	/*
+	 * Add authenticated user to list of contacts for search filter
+	 * If authtenicated user is searching/filtering, do not add them to the list
+	 */
+	if (!searchTerm) {
+		let authenticatedUser = getCurrentUser()
+		authenticatedUser = {
+			id: authenticatedUser.uid,
+			fullName: authenticatedUser.displayName,
+			emailAddresses: [],
+		  }
+		contacts.unshift(authenticatedUser)
+		return contacts
+	  }
+
+	return contacts
 }

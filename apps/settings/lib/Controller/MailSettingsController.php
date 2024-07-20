@@ -1,29 +1,8 @@
 <?php
 /**
- * @copyright Copyright (c) 2017  Joas Schilling <coding@schilljs.com>
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Daniel Kesselberg <mail@danielkesselberg.de>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\Settings\Controller;
 
@@ -60,12 +39,12 @@ class MailSettingsController extends Controller {
 	 * @param IMailer $mailer
 	 */
 	public function __construct($appName,
-								IRequest $request,
-								IL10N $l10n,
-								IConfig $config,
-								IUserSession $userSession,
-								IURLGenerator $urlGenerator,
-								IMailer $mailer) {
+		IRequest $request,
+		IL10N $l10n,
+		IConfig $config,
+		IUserSession $userSession,
+		IURLGenerator $urlGenerator,
+		IMailer $mailer) {
 		parent::__construct($appName, $request);
 		$this->l10n = $l10n;
 		$this->config = $config;
@@ -90,13 +69,13 @@ class MailSettingsController extends Controller {
 	 * @return DataResponse
 	 */
 	public function setMailSettings($mail_domain,
-									$mail_from_address,
-									$mail_smtpmode,
-									$mail_smtpsecure,
-									$mail_smtphost,
-									$mail_smtpauth,
-									$mail_smtpport,
-									$mail_sendmailmode) {
+		$mail_from_address,
+		$mail_smtpmode,
+		$mail_smtpsecure,
+		$mail_smtphost,
+		$mail_smtpauth,
+		$mail_smtpport,
+		$mail_sendmailmode) {
 		$params = get_defined_vars();
 		$configs = [];
 		foreach ($params as $key => $value) {
@@ -180,6 +159,6 @@ class MailSettingsController extends Controller {
 		}
 
 		$this->config->setAppValue('core', 'emailTestSuccessful', '0');
-		return new DataResponse($this->l10n->t('You need to set your user email before being able to send test emails. Go to %s for that.', [$this->urlGenerator->linkToRouteAbsolute('settings.PersonalSettings.index')]), Http::STATUS_BAD_REQUEST);
+		return new DataResponse($this->l10n->t('You need to set your account email before being able to send test emails. Go to %s for that.', [$this->urlGenerator->linkToRouteAbsolute('settings.PersonalSettings.index')]), Http::STATUS_BAD_REQUEST);
 	}
 }

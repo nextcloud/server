@@ -1,24 +1,9 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Robin Appelman <robin@icewind.nl>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCP\Files\Cache;
 
@@ -28,12 +13,16 @@ use ArrayAccess;
  * meta data for a file or folder
  *
  * @since 9.0.0
+ * @template-extends ArrayAccess<string,mixed>
  *
  * This interface extends \ArrayAccess since v21.0.0, previous versions only
  * implemented it in the private implementation. Hence php would allow using the
  * object as array, while strictly speaking it didn't support this.
  */
 interface ICacheEntry extends ArrayAccess {
+	/**
+	 * @since 9.0.0
+	 */
 	public const DIRECTORY_MIMETYPE = 'httpd/unix-directory';
 
 	/**
@@ -123,8 +112,8 @@ interface ICacheEntry extends ArrayAccess {
 	public function getEtag();
 
 	/**
-	 * Get the permissions for the file stored as bitwise combination of \OCP\PERMISSION_READ, \OCP\PERMISSION_CREATE
-	 * \OCP\PERMISSION_UPDATE, \OCP\PERMISSION_DELETE and \OCP\PERMISSION_SHARE
+	 * Get the permissions for the file stored as bitwise combination of \OCP\Constants::PERMISSION_READ, \OCP\Constants::PERMISSION_CREATE
+	 * \OCP\Constants::PERMISSION_UPDATE, \OCP\Constants::PERMISSION_DELETE and \OCP\Constants::PERMISSION_SHARE
 	 *
 	 * @return int
 	 * @since 9.0.0

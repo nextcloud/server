@@ -1,29 +1,9 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Bjoern Schiessle <bjoern@schiessle.org>
- * @author Björn Schießle <bjoern@schiessle.org>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Samuel <faust64@gmail.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\FederatedFileSharing;
 
@@ -261,6 +241,7 @@ class Notifications {
 		$status = json_decode($result['result'], true);
 
 		if ($result['success'] &&
+			isset($status['ocs']['meta']['statuscode']) &&
 			($status['ocs']['meta']['statuscode'] === 100 ||
 				$status['ocs']['meta']['statuscode'] === 200
 			)
@@ -345,7 +326,7 @@ class Notifications {
 		// Fall back to old API
 		$client = $this->httpClientService->newClient();
 		$federationEndpoints = $this->discoveryService->discover($remoteDomain, 'FEDERATED_SHARING');
-		$endpoint = isset($federationEndpoints['share']) ? $federationEndpoints['share'] : '/ocs/v2.php/cloud/shares';
+		$endpoint = $federationEndpoints['share'] ?? '/ocs/v2.php/cloud/shares';
 		try {
 			$response = $client->post($remoteDomain . $endpoint . $urlSuffix . '?format=' . self::RESPONSE_FORMAT, [
 				'body' => $fields,

@@ -1,61 +1,32 @@
 <?php
 
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- * @copyright Copyright (c) 2016, Björn Schießle
- *
- * @author Bjoern Schiessle <bjoern@schiessle.org>
- * @author Björn Schießle <bjoern@schiessle.org>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Daniel Calviño Sánchez <danxuliu@gmail.com>
- * @author Daniel Kesselberg <mail@danielkesselberg.de>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Citharel <nextcloud@tcit.fr>
- * @author Vincent Petry <vincent@nextcloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 
 namespace OC\Accounts;
 
 use Exception;
 use InvalidArgumentException;
-use libphonenumber\NumberParseException;
-use libphonenumber\PhoneNumberFormat;
-use libphonenumber\PhoneNumberUtil;
 use OC\Profile\TProfileHelper;
-use OCP\Accounts\UserUpdatedEvent;
-use OCP\Cache\CappedMemoryCache;
 use OCA\Settings\BackgroundJobs\VerifyUserData;
 use OCP\Accounts\IAccount;
 use OCP\Accounts\IAccountManager;
 use OCP\Accounts\IAccountProperty;
 use OCP\Accounts\IAccountPropertyCollection;
 use OCP\Accounts\PropertyDoesNotExistException;
+use OCP\Accounts\UserUpdatedEvent;
 use OCP\BackgroundJob\IJobList;
+use OCP\Cache\CappedMemoryCache;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Defaults;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IL10N;
+use OCP\IPhoneNumberUtil;
 use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\L10N\IFactory;
@@ -105,6 +76,7 @@ class AccountManager implements IAccountManager {
 		self::PROPERTY_ROLE => self::SCOPE_LOCAL,
 		self::PROPERTY_HEADLINE => self::SCOPE_LOCAL,
 		self::PROPERTY_BIOGRAPHY => self::SCOPE_LOCAL,
+		self::PROPERTY_BIRTHDATE => self::SCOPE_LOCAL,
 	];
 
 	public function __construct(
@@ -119,6 +91,7 @@ class AccountManager implements IAccountManager {
 		private IFactory $l10nFactory,
 		private IURLGenerator $urlGenerator,
 		private ICrypto $crypto,
+		private IPhoneNumberUtil $phoneNumberUtil,
 	) {
 		$this->internalCache = new CappedMemoryCache();
 	}
@@ -139,13 +112,9 @@ class AccountManager implements IAccountManager {
 			$defaultRegion = 'EN';
 		}
 
-		$phoneUtil = PhoneNumberUtil::getInstance();
-		try {
-			$phoneNumber = $phoneUtil->parse($input, $defaultRegion);
-			if ($phoneUtil->isValidNumber($phoneNumber)) {
-				return $phoneUtil->format($phoneNumber, PhoneNumberFormat::E164);
-			}
-		} catch (NumberParseException $e) {
+		$phoneNumber = $this->phoneNumberUtil->convertToStandardFormat($input, $defaultRegion);
+		if ($phoneNumber !== null) {
+			return $phoneNumber;
 		}
 
 		throw new InvalidArgumentException(self::PROPERTY_PHONE);
@@ -698,6 +667,12 @@ class AccountManager implements IAccountManager {
 				'name' => self::PROPERTY_BIOGRAPHY,
 				'value' => '',
 				'scope' => $scopes[self::PROPERTY_BIOGRAPHY],
+			],
+
+			[
+				'name' => self::PROPERTY_BIRTHDATE,
+				'value' => '',
+				'scope' => $scopes[self::PROPERTY_BIRTHDATE],
 			],
 
 			[

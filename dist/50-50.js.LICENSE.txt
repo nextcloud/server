@@ -1,1 +1,0 @@
-/*! For license information please see index.module.js.LICENSE.txt */

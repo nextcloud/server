@@ -2,11 +2,10 @@
  * jQuery File Upload Plugin 9.12.5
  * https://github.com/blueimp/jQuery-File-Upload
  *
- * Copyright 2010, Sebastian Tschan
- * https://blueimp.net
- *
- * Licensed under the MIT license:
- * http://www.opensource.org/licenses/MIT
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2012-2016 ownCloud, Inc.
+ * SPDX-FileCopyrightText: 2010 Sebastian Tschan <https://blueimp.net>
+ * SPDX-License-Identifier: MIT
  */
 
 /* jshint nomen:false */

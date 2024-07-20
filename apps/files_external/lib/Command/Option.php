@@ -1,24 +1,8 @@
 <?php
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Joas Schilling <coding@schilljs.com>
- * @author Robin Appelman <robin@icewind.nl>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2019-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\Files_External\Command;
 
@@ -47,11 +31,9 @@ class Option extends Config {
 	}
 
 	/**
-	 * @param StorageConfig $mount
 	 * @param string $key
-	 * @param OutputInterface $output
 	 */
-	protected function getOption(StorageConfig $mount, $key, OutputInterface $output) {
+	protected function getOption(StorageConfig $mount, $key, OutputInterface $output): void {
 		$value = $mount->getMountOption($key);
 		if (!is_string($value)) { // show bools and objects correctly
 			$value = json_encode($value);
@@ -60,12 +42,10 @@ class Option extends Config {
 	}
 
 	/**
-	 * @param StorageConfig $mount
 	 * @param string $key
 	 * @param string $value
-	 * @param OutputInterface $output
 	 */
-	protected function setOption(StorageConfig $mount, $key, $value, OutputInterface $output) {
+	protected function setOption(StorageConfig $mount, $key, $value, OutputInterface $output): void {
 		$decoded = json_decode($value, true);
 		if (!is_null($decoded)) {
 			$value = $decoded;

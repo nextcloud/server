@@ -1,34 +1,15 @@
 <?php
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- * @copyright Copyright (c) 2016 Joas Schilling <coding@schilljs.com>
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Daniel Kesselberg <mail@danielkesselberg.de>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OC\Activity;
 
 use OCP\Activity\ActivitySettings;
+use OCP\Activity\Exceptions\FilterNotFoundException;
+use OCP\Activity\Exceptions\IncompleteActivityException;
+use OCP\Activity\Exceptions\SettingNotFoundException;
 use OCP\Activity\IConsumer;
 use OCP\Activity\IEvent;
 use OCP\Activity\IFilter;
@@ -70,11 +51,11 @@ class Manager implements IManager {
 	protected $l10n;
 
 	public function __construct(
-			IRequest $request,
-			IUserSession $session,
-			IConfig $config,
-			IValidator $validator,
-			IL10N $l10n
+		IRequest $request,
+		IUserSession $session,
+		IConfig $config,
+		IValidator $validator,
+		IL10N $l10n
 	) {
 		$this->request = $request;
 		$this->session = $session;
@@ -127,16 +108,7 @@ class Manager implements IManager {
 	}
 
 	/**
-	 * Publish an event to the activity consumers
-	 *
-	 * Make sure to call at least the following methods before sending an Event:
-	 *  - setApp()
-	 *  - setType()
-	 *  - setAffectedUser()
-	 *  - setSubject()
-	 *
-	 * @param IEvent $event
-	 * @throws \BadMethodCallException if required values have not been set
+	 * {@inheritDoc}
 	 */
 	public function publish(IEvent $event): void {
 		if ($event->getAuthor() === '') {
@@ -150,7 +122,7 @@ class Manager implements IManager {
 		}
 
 		if (!$event->isValid()) {
-			throw new \BadMethodCallException('The given event is invalid');
+			throw new IncompleteActivityException('The given event is invalid');
 		}
 
 		foreach ($this->getConsumers() as $c) {
@@ -206,10 +178,7 @@ class Manager implements IManager {
 	}
 
 	/**
-	 * @param string $id
-	 * @return IFilter
-	 * @throws \InvalidArgumentException when the filter was not found
-	 * @since 11.0.0
+	 * {@inheritDoc}
 	 */
 	public function getFilterById(string $id): IFilter {
 		$filters = $this->getFilters();
@@ -218,7 +187,7 @@ class Manager implements IManager {
 			return $filters[$id];
 		}
 
-		throw new \InvalidArgumentException('Requested filter does not exist');
+		throw new FilterNotFoundException($id);
 	}
 
 	/** @var string[] */
@@ -294,10 +263,7 @@ class Manager implements IManager {
 	}
 
 	/**
-	 * @param string $id
-	 * @return ActivitySettings
-	 * @throws \InvalidArgumentException when the setting was not found
-	 * @since 11.0.0
+	 * {@inheritDoc}
 	 */
 	public function getSettingById(string $id): ActivitySettings {
 		$settings = $this->getSettings();
@@ -306,7 +272,7 @@ class Manager implements IManager {
 			return $settings[$id];
 		}
 
-		throw new \InvalidArgumentException('Requested setting does not exist');
+		throw new SettingNotFoundException($id);
 	}
 
 
@@ -346,12 +312,8 @@ class Manager implements IManager {
 	 * Set the user we need to use
 	 *
 	 * @param string|null $currentUserId
-	 * @throws \UnexpectedValueException If the user is invalid
 	 */
-	public function setCurrentUserId(string $currentUserId = null): void {
-		if (!is_string($currentUserId) && $currentUserId !== null) {
-			throw new \UnexpectedValueException('The given current user is invalid');
-		}
+	public function setCurrentUserId(?string $currentUserId = null): void {
 		$this->currentUserId = $currentUserId;
 	}
 

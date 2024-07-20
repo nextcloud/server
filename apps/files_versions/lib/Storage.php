@@ -1,51 +1,18 @@
 <?php
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Bart Visscher <bartv@thisnet.nl>
- * @author Bjoern Schiessle <bjoern@schiessle.org>
- * @author Björn Schießle <bjoern@schiessle.org>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Felix Moeller <mail@felixmoeller.de>
- * @author Felix Nieuwenhuizen <felix@tdlrali.com>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Jörn Friedrich Dreyer <jfd@butonic.de>
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Liam JACK <liamjack@users.noreply.github.com>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Robin McCorkell <robin@mccorkell.me.uk>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Victor Dubiniuk <dubiniuk@owncloud.com>
- * @author Vincent Petry <vincent@nextcloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 
 namespace OCA\Files_Versions;
 
+use OC\Files\Filesystem;
 use OC\Files\Search\SearchBinaryOperator;
 use OC\Files\Search\SearchComparison;
 use OC\Files\Search\SearchQuery;
-use OC_User;
-use OC\Files\Filesystem;
 use OC\Files\View;
+use OC_User;
 use OCA\Files_Sharing\SharedMount;
 use OCA\Files_Versions\AppInfo\Application;
 use OCA\Files_Versions\Command\Expire;
@@ -53,16 +20,17 @@ use OCA\Files_Versions\Db\VersionsMapper;
 use OCA\Files_Versions\Events\CreateVersionEvent;
 use OCA\Files_Versions\Versions\IVersionManager;
 use OCP\AppFramework\Db\DoesNotExistException;
-use OCP\Files\FileInfo;
-use OCP\Files\Folder;
-use OCP\Files\IRootFolder;
-use OCP\Files\Node;
 use OCP\Command\IBus;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Files\FileInfo;
+use OCP\Files\Folder;
 use OCP\Files\IMimeTypeDetector;
+use OCP\Files\IRootFolder;
+use OCP\Files\Node;
 use OCP\Files\NotFoundException;
 use OCP\Files\Search\ISearchBinaryOperator;
 use OCP\Files\Search\ISearchComparison;
+use OCP\Files\StorageInvalidException;
 use OCP\Files\StorageNotAvailableException;
 use OCP\IURLGenerator;
 use OCP\IUser;
@@ -208,9 +176,9 @@ class Storage {
 		$mount = $file->getMountPoint();
 		if ($mount instanceof SharedMount) {
 			$ownerFolder = $rootFolder->getUserFolder($mount->getShare()->getShareOwner());
-			$ownerNodes = $ownerFolder->getById($file->getId());
-			if (count($ownerNodes)) {
-				$file = current($ownerNodes);
+			$ownerNode = $ownerFolder->getFirstNodeById($file->getId());
+			if ($ownerNode) {
+				$file = $ownerNode;
 				$uid = $mount->getShare()->getShareOwner();
 			}
 		}
@@ -592,14 +560,21 @@ class Storage {
 				throw new DoesNotExistException('Could not find relative path of (' . $info->getPath() . ')');
 			}
 
-			$node = $userFolder->get(substr($path, 0, -strlen('.v'.$version)));
 			try {
+				$node = $userFolder->get(substr($path, 0, -strlen('.v'.$version)));
 				$versionEntity = $versionsMapper->findVersionForFileId($node->getId(), $version);
 				$versionEntities[$info->getId()] = $versionEntity;
 
-				if ($versionEntity->getLabel() !== '') {
+				if ($versionEntity->getMetadataValue('label') !== null && $versionEntity->getMetadataValue('label') !== '') {
 					return false;
 				}
+			} catch (NotFoundException $e) {
+				// Original node not found, delete the version
+				return true;
+			} catch (StorageNotAvailableException | StorageInvalidException $e) {
+				// Storage can't be used, but it might only be temporary so we can't always delete the version
+				// since we can't determine if the version is named we take the safe route and don't expire
+				return false;
 			} catch (DoesNotExistException $ex) {
 				// Version on FS can have no equivalent in the DB if they were created before the version naming feature.
 				// So we ignore DoesNotExistException.
@@ -921,7 +896,7 @@ class Storage {
 					$pathparts = pathinfo($path);
 					$timestamp = (int)substr($pathparts['extension'] ?? '', 1);
 					$versionEntity = $versionsMapper->findVersionForFileId($file->getId(), $timestamp);
-					if ($versionEntity->getLabel() !== '') {
+					if ($versionEntity->getMetadataValue('label') !== '') {
 						continue;
 					}
 					$versionsMapper->delete($versionEntity);

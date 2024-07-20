@@ -1,11 +1,7 @@
-/*
- * Copyright (c) 2014
- *
- * This file is licensed under the Affero General Public License version 3
- * or later.
- *
- * See the COPYING-README file.
- *
+/**
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2012-2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 (function(){
@@ -91,7 +87,7 @@ function initApplicableUsersMultiselect($elements, userListLimit) {
 		return;
 	}
 	return $elements.select2({
-		placeholder: t('files_external', 'Type to select user or group.'),
+		placeholder: t('files_external', 'Type to select account or group.'),
 		allowClear: true,
 		multiple: true,
 		toggleSelect: true,
@@ -1327,9 +1323,6 @@ MountConfigListView.prototype = _.extend({
 		}
 		if (typeof message === 'string') {
 			$statusSpan.attr('title', message);
-			$statusSpan.tooltip();
-		} else {
-			$statusSpan.tooltip('dispose');
 		}
 	},
 

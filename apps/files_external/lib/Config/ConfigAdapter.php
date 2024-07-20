@@ -1,36 +1,14 @@
 <?php
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Robin McCorkell <robin@mccorkell.me.uk>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Vincent Petry <vincent@nextcloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\Files_External\Config;
 
 use OC\Files\Storage\FailedStorage;
 use OC\Files\Storage\Wrapper\Availability;
+use OC\Files\Storage\Wrapper\KnownMtime;
 use OCA\Files_External\Lib\PersonalMount;
 use OCA\Files_External\Lib\StorageConfig;
 use OCA\Files_External\Service\UserGlobalStoragesService;
@@ -40,28 +18,17 @@ use OCP\Files\Storage;
 use OCP\Files\Storage\IStorageFactory;
 use OCP\Files\StorageNotAvailableException;
 use OCP\IUser;
+use Psr\Clock\ClockInterface;
 
 /**
  * Make the old files_external config work with the new public mount config api
  */
 class ConfigAdapter implements IMountProvider {
-
-	/** @var UserStoragesService */
-	private $userStoragesService;
-
-	/** @var UserGlobalStoragesService */
-	private $userGlobalStoragesService;
-
-	/**
-	 * @param UserStoragesService $userStoragesService
-	 * @param UserGlobalStoragesService $userGlobalStoragesService
-	 */
 	public function __construct(
-		UserStoragesService $userStoragesService,
-		UserGlobalStoragesService $userGlobalStoragesService
+		private UserStoragesService $userStoragesService,
+		private UserGlobalStoragesService $userGlobalStoragesService,
+		private ClockInterface $clock,
 	) {
-		$this->userStoragesService = $userStoragesService;
-		$this->userGlobalStoragesService = $userGlobalStoragesService;
 	}
 
 	/**
@@ -150,12 +117,16 @@ class ConfigAdapter implements IMountProvider {
 		}, $storages, $storageConfigs);
 
 		$mounts = array_map(function (StorageConfig $storageConfig, Storage\IStorage $storage) use ($user, $loader) {
-			if ($storageConfig->getType() === StorageConfig::MOUNT_TYPE_PERSONAl) {
+			$storage->setOwner($user->getUID());
+			if ($storageConfig->getType() === StorageConfig::MOUNT_TYPE_PERSONAL) {
 				return new PersonalMount(
 					$this->userStoragesService,
 					$storageConfig,
 					$storageConfig->getId(),
-					$storage,
+					new KnownMtime([
+						'storage' => $storage,
+						'clock' => $this->clock,
+					]),
 					'/' . $user->getUID() . '/files' . $storageConfig->getMountPoint(),
 					null,
 					$loader,

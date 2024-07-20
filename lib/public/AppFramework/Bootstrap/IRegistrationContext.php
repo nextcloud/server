@@ -3,28 +3,8 @@
 declare(strict_types=1);
 
 /**
- * @copyright 2020 Christoph Wurst <christoph@winzerhof-wurst.at>
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace OCP\AppFramework\Bootstrap;
@@ -37,10 +17,11 @@ use OCP\Collaboration\Reference\IReferenceProvider;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Template\ICustomTemplateProvider;
 use OCP\IContainer;
-use OCP\TextProcessing\IProvider as ITextProcessingProvider;
 use OCP\Notification\INotifier;
 use OCP\Preview\IProviderV2;
 use OCP\SpeechToText\ISpeechToTextProvider;
+use OCP\TextProcessing\IProvider as ITextProcessingProvider;
+use OCP\TextToImage\IProvider as ITextToImageProvider;
 use OCP\Translation\ITranslationProvider;
 
 /**
@@ -129,7 +110,7 @@ interface IRegistrationContext {
 	 * @param string $event preferably the fully-qualified class name of the Event sub class to listen for
 	 * @psalm-param string|class-string<T> $event preferably the fully-qualified class name of the Event sub class to listen for
 	 * @param string $listener fully qualified class name (or ::class notation) of a \OCP\EventDispatcher\IEventListener that can be built by the DI container
-	 * @psalm-param class-string<\OCP\EventDispatcher\IEventListener> $listener fully qualified class name that can be built by the DI container
+	 * @psalm-param class-string<\OCP\EventDispatcher\IEventListener<T>> $listener fully qualified class name that can be built by the DI container
 	 * @param int $priority The higher this value, the earlier an event
 	 *                      listener will be triggered in the chain (defaults to 0)
 	 *
@@ -229,6 +210,16 @@ interface IRegistrationContext {
 	 * @since 27.1.0
 	 */
 	public function registerTextProcessingProvider(string $providerClass): void;
+
+	/**
+	 * Register a custom text2image provider class that provides the possibility to generate images
+	 * through the OCP\TextToImage APIs
+	 *
+	 * @param string $providerClass
+	 * @psalm-param class-string<ITextToImageProvider> $providerClass
+	 * @since 28.0.0
+	 */
+	public function registerTextToImageProvider(string $providerClass): void;
 
 	/**
 	 * Register a custom template provider class that is able to inject custom templates
@@ -341,6 +332,14 @@ interface IRegistrationContext {
 	public function registerCalendarRoomBackend(string $class): void;
 
 	/**
+	 * @param string $class
+	 * @psalm-param class-string<\OCP\Calendar\Room\IBackend> $actionClass
+	 * @return void
+	 * @since 29.0.0
+	 */
+	public function registerTeamResourceProvider(string $class): void;
+
+	/**
 	 * Register an implementation of \OCP\UserMigration\IMigrator that
 	 * will handle the implementation of a migrator
 	 *
@@ -371,4 +370,46 @@ interface IRegistrationContext {
 	 * @since 26.0.0
 	 */
 	public function registerPublicShareTemplateProvider(string $class): void;
+
+	/**
+	 * Register an implementation of \OCP\SetupCheck\ISetupCheck that
+	 * will handle the implementation of a setup check
+	 *
+	 * @param class-string<\OCP\SetupCheck\ISetupCheck> $setupCheckClass
+	 * @since 28.0.0
+	 */
+	public function registerSetupCheck(string $setupCheckClass): void;
+
+	/**
+	 * Register an implementation of \OCP\Settings\IDeclarativeSettings that
+	 * will handle the implementation of declarative settings
+	 *
+	 * @param string $declarativeSettingsClass
+	 * @psalm-param class-string<\OCP\Settings\IDeclarativeSettingsForm> $declarativeSettingsClass
+	 * @return void
+	 * @since 29.0.0
+	 */
+	public function registerDeclarativeSettings(string $declarativeSettingsClass): void;
+
+	/**
+	 * Register an implementation of \OCP\TaskProcessing\IProvider that
+	 * will handle the implementation of task processing
+	 *
+	 * @param string $taskProcessingProviderClass
+	 * @psalm-param class-string<\OCP\TaskProcessing\IProvider> $taskProcessingProviderClass
+	 * @return void
+	 * @since 30.0.0
+	 */
+	public function registerTaskProcessingProvider(string $taskProcessingProviderClass): void;
+
+	/**
+	 * Register an implementation of \OCP\TaskProcessing\ITaskType that
+	 * will handle the implementation of a task processing type
+	 *
+	 * @param string $taskProcessingTaskTypeClass
+	 * @psalm-param class-string<\OCP\TaskProcessing\ITaskType> $taskProcessingTaskTypeClass
+	 * @return void
+	 * @since 30.0.0
+	 */
+	public function registerTaskProcessingTaskType(string $taskProcessingTaskTypeClass): void;
 }

@@ -1,58 +1,22 @@
 <?php
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Bjoern Schiessle <bjoern@schiessle.org>
- * @author Björn Schießle <bjoern@schiessle.org>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Daniel Calviño Sánchez <danxuliu@gmail.com>
- * @author Georg Ehrke <oc.list@georgehrke.com>
- * @author j3l11234 <297259024@qq.com>
- * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- * @author Jonas Sulzer <jonas@violoncello.ch>
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author MartB <mart.b@outlook.de>
- * @author Maxence Lange <maxence@pontapreta.net>
- * @author Michael Weimann <mail@michael-weimann.eu>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Piotr Filiciak <piotr@filiciak.pl>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Sascha Sambale <mastixmc@gmail.com>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Vincent Petry <vincent@nextcloud.com>
- * @author Kate Döen <kate.doeen@nextcloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\Files_Sharing\Controller;
 
 use OC\Security\CSP\ContentSecurityPolicy;
 use OC_Files;
 use OC_Util;
+use OCA\DAV\Connector\Sabre\PublicAuth;
 use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCA\Files_Sharing\Activity\Providers\Downloads;
 use OCA\Files_Sharing\Event\BeforeTemplateRenderedEvent;
 use OCA\Files_Sharing\Event\ShareLinkAccessedEvent;
 use OCP\Accounts\IAccountManager;
 use OCP\AppFramework\AuthPublicShareController;
-use OCP\AppFramework\Http\Attribute\IgnoreOpenAPI;
+use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\NotFoundResponse;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\Defaults;
@@ -71,14 +35,14 @@ use OCP\Security\ISecureRandom;
 use OCP\Share;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IManager as ShareManager;
-use OCP\Share\IShare;
 use OCP\Share\IPublicShareTemplateFactory;
+use OCP\Share\IShare;
 use OCP\Template;
 
 /**
  * @package OCA\Files_Sharing\Controllers
  */
-#[IgnoreOpenAPI]
+#[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
 class ShareController extends AuthPublicShareController {
 	protected ?Share\IShare $share = null;
 
@@ -203,7 +167,7 @@ class ShareController extends AuthPublicShareController {
 		return $this->shareManager->checkPassword($this->share, $password);
 	}
 
-	protected function getPasswordHash(): string {
+	protected function getPasswordHash(): ?string {
 		return $this->share->getPassword();
 	}
 
@@ -222,8 +186,12 @@ class ShareController extends AuthPublicShareController {
 	}
 
 	protected function authSucceeded() {
+		if ($this->share === null) {
+			throw new NotFoundException();
+		}
+
 		// For share this was always set so it is still used in other apps
-		$this->session->set('public_link_authenticated', (string)$this->share->getId());
+		$this->session->set(PublicAuth::DAV_AUTHENTICATED, $this->share->getId());
 	}
 
 	protected function authFailed() {
@@ -522,8 +490,7 @@ class ShareController extends AuthPublicShareController {
 		$fileId = $node->getId();
 
 		$userFolder = $this->rootFolder->getUserFolder($share->getSharedBy());
-		$userNodeList = $userFolder->getById($fileId);
-		$userNode = $userNodeList[0];
+		$userNode = $userFolder->getFirstNodeById($fileId);
 		$ownerFolder = $this->rootFolder->getUserFolder($share->getShareOwner());
 		$userPath = $userFolder->getRelativePath($userNode->getPath());
 		$ownerPath = $ownerFolder->getRelativePath($node->getPath());
@@ -569,10 +536,10 @@ class ShareController extends AuthPublicShareController {
 	 * @param string $filePath
 	 */
 	protected function publishActivity($subject,
-										array $parameters,
-										$affectedUser,
-										$fileId,
-										$filePath) {
+		array $parameters,
+		$affectedUser,
+		$fileId,
+		$filePath) {
 		$event = $this->activityManager->generateEvent();
 		$event->setApp('files_sharing')
 			->setType('public_links')

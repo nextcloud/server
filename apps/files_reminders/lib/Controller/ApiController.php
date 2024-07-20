@@ -3,25 +3,8 @@
 declare(strict_types=1);
 
 /**
- * @copyright 2023 Christopher Ng <chrng8@gmail.com>
- *
- * @author Christopher Ng <chrng8@gmail.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace OCA\FilesReminders\Controller;
@@ -59,7 +42,7 @@ class ApiController extends OCSController {
 	 * @return DataResponse<Http::STATUS_OK, array{dueDate: ?string}, array{}>|DataResponse<Http::STATUS_UNAUTHORIZED, array<empty>, array{}>
 	 *
 	 * 200: Reminder returned
-	 * 401: User not found
+	 * 401: Account not found
 	 */
 	#[NoAdminRequired]
 	public function get(int $fileId): DataResponse {
@@ -93,7 +76,7 @@ class ApiController extends OCSController {
 	 * 200: Reminder updated
 	 * 201: Reminder created successfully
 	 * 400: Creating reminder is not possible
-	 * 401: User not found
+	 * 401: Account not found
 	 * 404: File not found
 	 */
 	#[NoAdminRequired]
@@ -129,7 +112,7 @@ class ApiController extends OCSController {
 	 * @return DataResponse<Http::STATUS_OK|Http::STATUS_UNAUTHORIZED|Http::STATUS_NOT_FOUND, array<empty>, array{}>
 	 *
 	 * 200: Reminder deleted successfully
-	 * 401: User not found
+	 * 401: Account not found
 	 * 404: Reminder not found
 	 */
 	#[NoAdminRequired]

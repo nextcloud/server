@@ -1,17 +1,15 @@
 <?php
 /**
- * @author Thomas Müller
- * @copyright 2014 Thomas Müller deepdiver@owncloud.com
- * later.
- * See the COPYING-README file.
+ * SPDX-FileCopyrightText: 2016-2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2014-2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-
 namespace Test\App;
 
 use OC;
 use OC\App\InfoParser;
-use Test\TestCase;
 use OCP\Cache\CappedMemoryCache;
+use Test\TestCase;
 
 class InfoParserTest extends TestCase {
 	/** @var OCP\Cache\CappedMemoryCache */

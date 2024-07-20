@@ -2,6 +2,9 @@
 #
 # https://github.com/nextcloud/.github
 # https://docs.github.com/en/actions/learn-github-actions/sharing-workflows-with-your-organization
+#
+# SPDX-FileCopyrightText: 2021-2024 Nextcloud GmbH and Nextcloud contributors
+# SPDX-License-Identifier: MIT
 
 name: Dependabot
 
@@ -21,14 +24,20 @@ concurrency:
 
 jobs:
   auto-approve-merge:
-    if: github.actor == 'dependabot[bot]'
-    runs-on: ubuntu-latest
+    if: github.actor == 'dependabot[bot]' || github.actor == 'renovate[bot]'
+    runs-on: ubuntu-latest-low
     permissions:
       # for hmarr/auto-approve-action to approve PRs
       pull-requests: write
 
     steps:
-      # Github actions bot approve
+      - name: Disabled on forks
+        if: ${{ github.event.pull_request.head.repo.full_name != github.repository }}
+        run: |
+          echo 'Can not approve PRs from forks'
+          exit 1
+
+      # GitHub actions bot approve
       - uses: hmarr/auto-approve-action@b40d6c9ed2fa10c9a2749eca7eb004418a705501 # v2
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}

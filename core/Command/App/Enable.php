@@ -1,27 +1,10 @@
 <?php
+
+declare(strict_types=1);
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Daniel Kesselberg <mail@danielkesselberg.de>
- * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Sander Ruitenbeek <s.ruitenbeek@getgoing.nl>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OC\Core\Command\App;
 
@@ -103,7 +86,7 @@ class Enable extends Command implements CompletionAwareInterface {
 			/** @var Installer $installer */
 			$installer = \OC::$server->query(Installer::class);
 
-			if (false === $installer->isDownloaded($appId)) {
+			if ($installer->isDownloaded($appId) === false) {
 				$installer->downloadApp($appId);
 			}
 
@@ -146,7 +129,7 @@ class Enable extends Command implements CompletionAwareInterface {
 	 * @param CompletionContext $context
 	 * @return string[]
 	 */
-	public function completeOptionValues($optionName, CompletionContext $context) {
+	public function completeOptionValues($optionName, CompletionContext $context): array {
 		if ($optionName === 'groups') {
 			return array_map(function (IGroup $group) {
 				return $group->getGID();
@@ -160,7 +143,7 @@ class Enable extends Command implements CompletionAwareInterface {
 	 * @param CompletionContext $context
 	 * @return string[]
 	 */
-	public function completeArgumentValues($argumentName, CompletionContext $context) {
+	public function completeArgumentValues($argumentName, CompletionContext $context): array {
 		if ($argumentName === 'app-id') {
 			$allApps = \OC_App::getAllApps();
 			return array_diff($allApps, \OC_App::getEnabledApps(true, true));

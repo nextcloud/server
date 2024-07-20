@@ -1,29 +1,9 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Joas Schilling <coding@schilljs.com>
- * @author Jörn Friedrich Dreyer <jfd@butonic.de>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Robin McCorkell <robin@mccorkell.me.uk>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Stefan Weil <sw@weilnetz.de>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OC\Files\Storage\Wrapper;
 
@@ -140,7 +120,7 @@ class PermissionsMask extends Wrapper {
 		$data = parent::getMetaData($path);
 
 		if ($data && isset($data['permissions'])) {
-			$data['scan_permissions'] = isset($data['scan_permissions']) ? $data['scan_permissions'] : $data['permissions'];
+			$data['scan_permissions'] = $data['scan_permissions'] ?? $data['permissions'];
 			$data['permissions'] &= $this->mask;
 		}
 		return $data;
@@ -155,7 +135,7 @@ class PermissionsMask extends Wrapper {
 
 	public function getDirectoryContent($directory): \Traversable {
 		foreach ($this->getWrapperStorage()->getDirectoryContent($directory) as $data) {
-			$data['scan_permissions'] = isset($data['scan_permissions']) ? $data['scan_permissions'] : $data['permissions'];
+			$data['scan_permissions'] = $data['scan_permissions'] ?? $data['permissions'];
 			$data['permissions'] &= $this->mask;
 
 			yield $data;

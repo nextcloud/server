@@ -1,23 +1,6 @@
 /**
- * @copyright Copyright (c) 2020 John Molakvoæ <skjnldsv@protonmail.com>
- *
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- *
- * @license AGPL-3.0-or-later
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 import client from './DavClient.js'
@@ -25,13 +8,13 @@ import client from './DavClient.js'
 /**
  * Edit an existing comment
  *
- * @param {string} commentsType the ressource type
- * @param {number} ressourceId the ressource ID
+ * @param {string} resourceType the resource type
+ * @param {number} resourceId the resource ID
  * @param {number} commentId the comment iD
  * @param {string} message the message content
  */
-export default async function(commentsType, ressourceId, commentId, message) {
-	const commentPath = ['', commentsType, ressourceId, commentId].join('/')
+export default async function(resourceType, resourceId, commentId, message) {
+	const commentPath = ['', resourceType, resourceId, commentId].join('/')
 
 	return await client.customRequest(commentPath, Object.assign({
 		method: 'PROPPATCH',

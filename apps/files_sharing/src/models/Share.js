@@ -1,28 +1,6 @@
 /**
- * @copyright Copyright (c) 2019 John Molakvoæ <skjnldsv@protonmail.com>
- *
- * @author Daniel Calviño Sánchez <danxuliu@gmail.com>
- * @author Gary Kim <gary@garykim.dev>
- * @author Georg Ehrke <oc.list@georgehrke.com>
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license AGPL-3.0-or-later
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 export default class Share {
@@ -43,11 +21,11 @@ export default class Share {
 		ocsData.hide_download = !!ocsData.hide_download
 		ocsData.mail_send = !!ocsData.mail_send
 
-		if (ocsData.attributes) {
+		if (ocsData.attributes && typeof ocsData.attributes === 'string') {
 			try {
 				ocsData.attributes = JSON.parse(ocsData.attributes)
 			} catch (e) {
-				console.warn('Could not parse share attributes returned by server: "' + ocsData.attributes + '"')
+				console.warn('Could not parse share attributes returned by server', ocsData.attributes)
 			}
 		}
 		ocsData.attributes = ocsData.attributes ?? []
@@ -310,7 +288,7 @@ export default class Share {
 	 * @memberof Share
 	 */
 	get label() {
-		return this._share.label
+		return this._share.label ?? ''
 	}
 
 	/**
@@ -554,25 +532,35 @@ export default class Share {
 	 * @memberof Share
 	 */
 	get hasDownloadPermission() {
-		for (const i in this._share.attributes) {
-			const attr = this._share.attributes[i]
-			if (attr.scope === 'permissions' && attr.key === 'download') {
-				return attr.enabled
-			}
+		const hasDisabledDownload = (attribute) => {
+			return attribute.scope === 'permissions' && attribute.key === 'download' && attribute.value === false
 		}
+		return this.attributes.some(hasDisabledDownload)
+	}
 
-		return true
+	/**
+	 * Is this mail share a file request ?
+	 *
+	 * @return {boolean}
+	 * @readonly
+	 * @memberof Share
+	 */
+	get isFileRequest() {
+		const isFileRequest = (attribute) => {
+			return attribute.scope === 'fileRequest' && attribute.key === 'enabled' && attribute.value === true
+		}
+		return this.attributes.some(isFileRequest)
 	}
 
 	set hasDownloadPermission(enabled) {
 		this.setAttribute('permissions', 'download', !!enabled)
 	}
 
-	setAttribute(scope, key, enabled) {
+	setAttribute(scope, key, value) {
 		const attrUpdate = {
 			scope,
 			key,
-			enabled,
+			value,
 		}
 
 		// try and replace existing

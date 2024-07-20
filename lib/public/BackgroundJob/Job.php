@@ -1,28 +1,9 @@
 <?php
 
 declare(strict_types=1);
-
 /**
- * @copyright Copyright (c) 2018, Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCP\BackgroundJob;
 
@@ -44,7 +25,6 @@ abstract class Job implements IJob, IParallelAwareJob {
 	protected $argument;
 	protected ITimeFactory $time;
 	protected bool $allowParallelRuns = true;
-	private ?ILogger $logger = null;
 
 	/**
 	 * @since 15.0.0
@@ -56,14 +36,13 @@ abstract class Job implements IJob, IParallelAwareJob {
 	/**
 	 * The function to prepare the execution of the job.
 	 *
-	 *
-	 * @param IJobList $jobList
-	 * @param ILogger|null $logger
+	 * @return void
 	 *
 	 * @since 15.0.0
+	 * @deprecated since 25.0.0 Use start() instead. This method will be removed
+	 * with the ILogger interface
 	 */
-	public function execute(IJobList $jobList, ILogger $logger = null) {
-		$this->logger = $logger;
+	public function execute(IJobList $jobList, ?ILogger $logger = null) {
 		$this->start($jobList);
 	}
 
@@ -73,19 +52,20 @@ abstract class Job implements IJob, IParallelAwareJob {
 	 */
 	public function start(IJobList $jobList): void {
 		$jobList->setLastRun($this);
-		$logger = $this->logger ?? \OCP\Server::get(LoggerInterface::class);
+		$logger = \OCP\Server::get(LoggerInterface::class);
 
 		try {
+			$jobDetails = get_class($this) . ' (id: ' . $this->getId() . ', arguments: ' . json_encode($this->getArgument()) . ')';
 			$jobStartTime = $this->time->getTime();
-			$logger->debug('Run ' . get_class($this) . ' job with ID ' . $this->getId(), ['app' => 'cron']);
+			$logger->debug('Starting job ' . $jobDetails, ['app' => 'cron']);
 			$this->run($this->argument);
 			$timeTaken = $this->time->getTime() - $jobStartTime;
 
-			$logger->debug('Finished ' . get_class($this) . ' job with ID ' . $this->getId() . ' in ' . $timeTaken . ' seconds', ['app' => 'cron']);
+			$logger->debug('Finished job ' . $jobDetails . ' in ' . $timeTaken . ' seconds', ['app' => 'cron']);
 			$jobList->setExecutionTime($this, $timeTaken);
 		} catch (\Throwable $e) {
 			if ($logger) {
-				$logger->error('Error while running background job (class: ' . get_class($this) . ', arguments: ' . print_r($this->argument, true) . ')', [
+				$logger->error('Error while running background job ' . $jobDetails, [
 					'app' => 'core',
 					'exception' => $e,
 				]);
@@ -158,6 +138,7 @@ abstract class Job implements IJob, IParallelAwareJob {
 	 * The actual function that is called to run the job
 	 *
 	 * @param $argument
+	 * @return void
 	 *
 	 * @since 15.0.0
 	 */

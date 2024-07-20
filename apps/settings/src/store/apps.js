@@ -1,39 +1,20 @@
 /**
- * @copyright Copyright (c) 2018 Julius Härtl <jus@bitgrid.net>
- *
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license AGPL-3.0-or-later
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 import api from './api.js'
 import Vue from 'vue'
 import { generateUrl } from '@nextcloud/router'
 import { showError, showInfo } from '@nextcloud/dialogs'
-import '@nextcloud/dialogs/dist/index.css'
+import { loadState } from '@nextcloud/initial-state'
 
 const state = {
 	apps: [],
+	bundles: loadState('settings', 'appstoreBundles', []),
 	categories: [],
-	updateCount: 0,
+	updateCount: loadState('settings', 'appstoreUpdateCount', 0),
 	loading: {},
-	loadingList: false,
 	gettingCategoriesPromise: null,
 }
 
@@ -89,6 +70,13 @@ const mutations = {
 		const app = state.apps.find(app => app.id === appId)
 		app.active = true
 		app.groups = groups
+	},
+
+	setInstallState(state, { appId, canInstall }) {
+		const app = state.apps.find(app => app.id === appId)
+		if (app) {
+			app.canInstall = canInstall === true
+		}
 	},
 
 	disableApp(state, appId) {
@@ -158,6 +146,9 @@ const getters = {
 	getAllApps(state) {
 		return state.apps
 	},
+	getAppBundles(state) {
+		return state.bundles
+	},
 	getUpdateCount(state) {
 		return state.updateCount
 	},
@@ -187,19 +178,19 @@ const actions = {
 					})
 
 					// check for server health
-					return api.get(generateUrl('apps/files'))
+					return api.get(generateUrl('apps/files/'))
 						.then(() => {
 							if (response.data.update_required) {
 								showInfo(
 									t(
 										'settings',
-										'The app has been enabled but needs to be updated. You will be redirected to the update page in 5 seconds.'
+										'The app has been enabled but needs to be updated. You will be redirected to the update page in 5 seconds.',
 									),
 									{
 										onClick: () => window.location.reload(),
 										close: false,
 
-									}
+									},
 								)
 								setTimeout(function() {
 									location.reload()
@@ -208,10 +199,12 @@ const actions = {
 						})
 						.catch(() => {
 							if (!Array.isArray(appId)) {
+								showError(t('settings', 'Error: This app cannot be enabled because it makes the server unstable'))
 								context.commit('setError', {
 									appId: apps,
 									error: t('settings', 'Error: This app cannot be enabled because it makes the server unstable'),
 								})
+								context.dispatch('disableApp', { appId })
 							}
 						})
 				})
@@ -238,8 +231,7 @@ const actions = {
 			context.commit('startLoading', 'install')
 			return api.post(generateUrl('settings/apps/force'), { appId })
 				.then((response) => {
-					// TODO: find a cleaner solution
-					location.reload()
+					context.commit('setInstallState', { appId, canInstall: true })
 				})
 				.catch((error) => {
 					context.commit('stopLoading', apps)
@@ -249,6 +241,10 @@ const actions = {
 						error: error.response.data.data.message,
 					})
 					context.commit('APPS_API_FAILURE', { appId, error })
+				})
+				.finally(() => {
+					context.commit('stopLoading', apps)
+					context.commit('stopLoading', 'install')
 				})
 		}).catch((error) => context.commit('API_FAILURE', { appId, error }))
 	},

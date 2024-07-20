@@ -1,9 +1,6 @@
-<!-- File navigation -->
-<div id="app-navigation-files" role="navigation"></div>
-
-<!-- File list vue container -->
-<div id="app-content-vue" class="hidden"></div>
-
-<!-- config hints for javascript -->
-<input type="hidden" name="filesApp" id="filesApp" value="1" />
-<input type="hidden" name="fileNotFound" id="fileNotFound" value="<?php p($_['fileNotFound']); ?>" />
+<?php
+/**
+ * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+// Empty template

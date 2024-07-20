@@ -7,6 +7,7 @@ OC.L10N.register(
     "Commuting" : "Biagende",
     "Out sick" : "In maladia",
     "Vacationing" : "In vacàntzia",
+    "Out of office" : "Foras de serbìtziu",
     "Working remotely" : "Traballende in remotu",
     "User status" : "Istadu de s'utente",
     "Clear status after" : "Lìmpia s'istadu a pustis",
@@ -31,7 +32,6 @@ OC.L10N.register(
     "1 hour" : "1 ora",
     "4 hours" : "4 oras",
     "Mute all notifications" : "Istuda totu is notìficas",
-    "Appear offline" : "Mustra•ti foras de lìnia",
-    "{status}, {timestamp}" : "{status}, {timestamp}"
+    "Appear offline" : "Mustra•ti foras de lìnia"
 },
 "nplurals=2; plural=(n != 1);");

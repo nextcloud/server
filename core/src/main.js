@@ -1,31 +1,10 @@
 /**
- * @copyright 2018 Christoph Wurst <christoph@winzerhof-wurst.at>
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license AGPL-3.0-or-later
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 import 'core-js/stable/index.js'
 import 'regenerator-runtime/runtime.js'
-import './Polyfill/index.js'
 
 // If you remove the line below, tests won't pass
 // eslint-disable-next-line no-unused-vars
@@ -36,6 +15,8 @@ import './jquery/index.js'
 import { initCore } from './init.js'
 import { registerAppsSlideToggle } from './OC/apps.js'
 import { getRequestToken } from '@nextcloud/auth'
+import { generateUrl } from '@nextcloud/router'
+import Axios from '@nextcloud/axios'
 
 // eslint-disable-next-line camelcase
 __webpack_nonce__ = btoa(getRequestToken())
@@ -49,5 +30,22 @@ window.addEventListener('DOMContentLoaded', function() {
 		window.onpopstate = _.bind(OC.Util.History._onPopState, OC.Util.History)
 	} else {
 		window.onhashchange = _.bind(OC.Util.History._onPopState, OC.Util.History)
+	}
+})
+
+// Fix error "CSRF check failed"
+document.addEventListener('DOMContentLoaded', function() {
+	const form = document.getElementById('password-input-form')
+	if (form) {
+		form.addEventListener('submit', async function(event) {
+			event.preventDefault()
+			const requestToken = document.getElementById('requesttoken')
+			if (requestToken) {
+				const url = generateUrl('/csrftoken')
+				const resp = await Axios.get(url)
+				requestToken.value = resp.data.token
+			}
+			form.submit()
+		})
 	}
 })

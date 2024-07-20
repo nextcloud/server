@@ -10,7 +10,6 @@ OC.L10N.register(
     "Server to server sharing is not enabled on this server" : "Le Compartir de Servitor a Servitor non es activate in iste servitor",
     "Couldn't establish a federated share." : "Impossibile establir le Compartir Federate.",
     "Couldn't establish a federated share, maybe the password was wrong." : "Impossibile establir le Compartir Federate, possibilemente le contrasigno esseva incorrecte.",
-    "Not allowed to create a federated share with the same user" : "Il non es permittite crear le Compartir Federate con le mesme usator.",
     "File is already shared with %s" : "File ja es compartite con %s",
     "Could not find share" : "Impossibile trovar le compartite",
     "Federated sharing" : "Compartir Federate",
@@ -20,8 +19,6 @@ OC.L10N.register(
     "Decline" : "Refusar",
     "Federated Cloud Sharing" : "Compartimento del Nube Federate",
     "Sharing" : "Compartente",
-    "Allow users on this server to receive shares from other servers" : "Permitter usatores in iste servitor a reciper elementos compartite ex altere servitores",
-    "Search global and public address book for users" : "Cercar pro usatores in adressarios global e public",
     "Federated Cloud" : "Nube Federate",
     "Your Federated Cloud ID:" : "Tu ID de Nube Federate:",
     "Twitter" : "Twitter",
@@ -30,6 +27,8 @@ OC.L10N.register(
     "HTML Code:" : "Codice HTML:",
     "Share with me through my #Nextcloud Federated Cloud ID" : "Comparti con me per mi ID de Nube Federate #Nextcloud",
     "Copied!" : "Copiate!",
-    "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Comparti con me per mi ID de Nube Federate #Nextcloud, vide %s"
+    "Not allowed to create a federated share with the same user" : "Il non es permittite crear le Compartir Federate con le mesme usator.",
+    "Allow users on this server to receive shares from other servers" : "Permitter usatores in iste servitor a reciper elementos compartite ex altere servitores",
+    "Search global and public address book for users" : "Cercar pro usatores in adressarios global e public"
 },
 "nplurals=2; plural=(n != 1);");

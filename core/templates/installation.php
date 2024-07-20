@@ -1,11 +1,16 @@
 <?php
+/**
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2011-2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
+ */
 script('core', 'install');
 ?>
 <input type='hidden' id='hasMySQL' value='<?php p($_['hasMySQL']) ?>'>
 <input type='hidden' id='hasSQLite' value='<?php p($_['hasSQLite']) ?>'>
 <input type='hidden' id='hasPostgreSQL' value='<?php p($_['hasPostgreSQL']) ?>'>
 <input type='hidden' id='hasOracle' value='<?php p($_['hasOracle']) ?>'>
-<form action="index.php" method="post" class="guest-box install-form">
+<form method="post" class="guest-box install-form">
 <input type="hidden" name="install" value="true">
 	<?php if (count($_['errors']) > 0): ?>
 	<fieldset class="warning">
@@ -35,16 +40,16 @@ script('core', 'install');
 	<fieldset id="adminaccount">
 		<legend><?php print_unescaped($l->t('Create an <strong>admin account</strong>')); ?></legend>
 		<p>
-			<label for="adminlogin"><?php p($l->t('Username')); ?></label>
+			<label for="adminlogin"><?php p($l->t('Login')); ?></label>
 			<input type="text" name="adminlogin" id="adminlogin"
 				value="<?php p($_['adminlogin']); ?>"
-				autocomplete="off" autocapitalize="none" autocorrect="off" autofocus required>
+				autocomplete="off" autocapitalize="none" spellcheck="false" autofocus required>
 		</p>
 		<p class="groupbottom">
 			<label for="adminpass"><?php p($l->t('Password')); ?></label>
 			<input type="password" name="adminpass" data-typetoggle="#show" id="adminpass"
 				value="<?php p($_['adminpass']); ?>"
-				autocomplete="off" autocapitalize="none" autocorrect="off" required>
+				autocomplete="off" autocapitalize="none" spellcheck="false" required>
 			<button id="show" class="toggle-password" aria-label="<?php p($l->t('Show password')); ?>">
 				<img src="<?php print_unescaped(image_path('', 'actions/toggle.svg')); ?>" alt="<?php p($l->t('Toggle password visibility')); ?>">
 			</button>
@@ -64,7 +69,7 @@ script('core', 'install');
 			<input type="text" name="directory" id="directory"
 				placeholder="<?php p(OC::$SERVERROOT.'/data'); ?>"
 				value="<?php p($_['directory']); ?>"
-				autocomplete="off" autocapitalize="none" autocorrect="off">
+				autocomplete="off" autocapitalize="none" spellcheck="false">
 		</div>
 	</fieldset>
 	<?php endif; ?>
@@ -100,16 +105,16 @@ script('core', 'install');
 		<fieldset id='databaseField'>
 		<div id="use_other_db">
 			<p class="grouptop">
-				<label for="dbuser"><?php p($l->t('Database user')); ?></label>
+				<label for="dbuser"><?php p($l->t('Database account')); ?></label>
 				<input type="text" name="dbuser" id="dbuser"
 					value="<?php p($_['dbuser']); ?>"
-					autocomplete="off" autocapitalize="none" autocorrect="off">
+					autocomplete="off" autocapitalize="none" spellcheck="false">
 			</p>
 			<p class="groupmiddle">
 				<label for="dbpass"><?php p($l->t('Database password')); ?></label>
 				<input type="password" name="dbpass" id="dbpass"
 					value="<?php p($_['dbpass']); ?>"
-					autocomplete="off" autocapitalize="none" autocorrect="off">
+					autocomplete="off" autocapitalize="none" spellcheck="false">
 				<button id="show" class="toggle-password" aria-label="<?php p($l->t('Show password')); ?>">
 					<img src="<?php print_unescaped(image_path('', 'actions/toggle.svg')); ?>" alt="<?php p($l->t('Toggle password visibility')); ?>">
 				</button>
@@ -118,7 +123,7 @@ script('core', 'install');
 				<label for="dbname"><?php p($l->t('Database name')); ?></label>
 				<input type="text" name="dbname" id="dbname"
 					value="<?php p($_['dbname']); ?>"
-					autocomplete="off" autocapitalize="none" autocorrect="off"
+					autocomplete="off" autocapitalize="none" spellcheck="false"
 					pattern="[0-9a-zA-Z$_-]+">
 			</p>
 			<?php if ($_['hasOracle']): ?>
@@ -127,7 +132,7 @@ script('core', 'install');
 					<label for="dbtablespace" class="infield"><?php p($l->t('Database tablespace')); ?></label>
 					<input type="text" name="dbtablespace" id="dbtablespace"
 						value="<?php p($_['dbtablespace']); ?>"
-						autocomplete="off" autocapitalize="none" autocorrect="off">
+						autocomplete="off" autocapitalize="none" spellcheck="false">
 				</p>
 			</div>
 			<?php endif; ?>
@@ -135,7 +140,7 @@ script('core', 'install');
 				<label for="dbhost"><?php p($l->t('Database host')); ?></label>
 				<input type="text" name="dbhost" id="dbhost"
 					value="<?php p($_['dbhost']); ?>"
-					autocomplete="off" autocapitalize="none" autocorrect="off">
+					autocomplete="off" autocapitalize="none" spellcheck="false">
 			</p>
 			<p class="info">
 				<?php p($l->t('Please specify the port number along with the host name (e.g., localhost:5432).')); ?>

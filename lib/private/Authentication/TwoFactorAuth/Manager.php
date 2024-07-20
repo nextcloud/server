@@ -1,38 +1,19 @@
 <?php
 
 declare(strict_types=1);
-
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OC\Authentication\TwoFactorAuth;
 
 use BadMethodCallException;
 use Exception;
-use OC\Authentication\Exceptions\InvalidTokenException;
 use OC\Authentication\Token\IProvider as TokenProvider;
 use OCP\Activity\IManager;
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\Authentication\Exceptions\InvalidTokenException;
 use OCP\Authentication\TwoFactorAuth\IActivatableAtLogin;
 use OCP\Authentication\TwoFactorAuth\IProvider;
 use OCP\Authentication\TwoFactorAuth\IRegistry;
@@ -89,15 +70,15 @@ class Manager {
 	private $userIsTwoFactorAuthenticated = [];
 
 	public function __construct(ProviderLoader $providerLoader,
-								IRegistry $providerRegistry,
-								MandatoryTwoFactor $mandatoryTwoFactor,
-								ISession $session,
-								IConfig $config,
-								IManager $activityManager,
-								LoggerInterface $logger,
-								TokenProvider $tokenProvider,
-								ITimeFactory $timeFactory,
-								IEventDispatcher $eventDispatcher) {
+		IRegistry $providerRegistry,
+		MandatoryTwoFactor $mandatoryTwoFactor,
+		ISession $session,
+		IConfig $config,
+		IManager $activityManager,
+		LoggerInterface $logger,
+		TokenProvider $tokenProvider,
+		ITimeFactory $timeFactory,
+		IEventDispatcher $eventDispatcher) {
 		$this->providerLoader = $providerLoader;
 		$this->providerRegistry = $providerRegistry;
 		$this->mandatoryTwoFactor = $mandatoryTwoFactor;
@@ -313,13 +294,13 @@ class Manager {
 	 * @param IUser $user the currently logged in user
 	 * @return boolean
 	 */
-	public function needsSecondFactor(IUser $user = null): bool {
+	public function needsSecondFactor(?IUser $user = null): bool {
 		if ($user === null) {
 			return false;
 		}
 
-		// If we are authenticated using an app password skip all this
-		if ($this->session->exists('app_password')) {
+		// If we are authenticated using an app password or AppAPI Auth, skip all this
+		if ($this->session->exists('app_password') || $this->session->get('app_api') === true) {
 			return false;
 		}
 
