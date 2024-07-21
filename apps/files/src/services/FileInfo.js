@@ -24,6 +24,7 @@ export default async function(url) {
 	// TODO remove when no more legacy backbone is used
 	fileInfo.get = (key) => fileInfo[key]
 	fileInfo.isDirectory = () => fileInfo.mimetype === 'httpd/unix-directory'
+	fileInfo.canEdit = () => Boolean(fileInfo.permissions & OC.PERMISSION_UPDATE)
 
 	return fileInfo
 }

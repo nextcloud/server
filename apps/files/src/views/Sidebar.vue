@@ -30,6 +30,7 @@
 			<div class="sidebar__description">
 				<SystemTags v-if="isSystemTagsEnabled && showTagsDefault"
 					v-show="showTags"
+					:disabled="!fileInfo?.canEdit()"
 					:file-id="fileInfo.id"
 					@has-tags="value => showTags = value" />
 				<LegacyView v-for="view in views"
