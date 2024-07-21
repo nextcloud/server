@@ -43,6 +43,7 @@ OC.L10N.register(
     "Task not found" : "Oppgave ikke funnet",
     "Internal error" : "Intern feil",
     "Not found" : "Ikke funnet",
+    "Bad request" : "Feilaktig forespørsel",
     "Requested task type does not exist" : "Den forespurte oppgavetypen eskisterer ikke",
     "Necessary language model provider is not available" : "Nødvendig tilbyder av språkmodell er ikke tilgjengelig",
     "No text to image provider is available" : "Ingen tilbyder av tekst til bilde er tilgjengelig",

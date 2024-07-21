@@ -43,6 +43,7 @@ OC.L10N.register(
     "Task not found" : "Task not found",
     "Internal error" : "Internal error",
     "Not found" : "Not found",
+    "Bad request" : "Bad request",
     "Requested task type does not exist" : "Requested task type does not exist",
     "Necessary language model provider is not available" : "Necessary language model provider is not available",
     "No text to image provider is available" : "No text to image provider is available",

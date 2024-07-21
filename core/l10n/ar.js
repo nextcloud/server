@@ -43,6 +43,7 @@ OC.L10N.register(
     "Task not found" : "تعذّر العثور على المُهِمَّة",
     "Internal error" : "خطأ داخلي",
     "Not found" : "غير موجود",
+    "Bad request" : "طلب غير جيد",
     "Requested task type does not exist" : "لا توجد مهام من النوع المطلوب",
     "Necessary language model provider is not available" : "مزود نموذج اللغة language model provider ضروري لكنه غير متوفر",
     "No text to image provider is available" : "لا يوجد أي مٌزوِّد لتحويل النصوص إلى صور",
