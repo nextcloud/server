@@ -1392,6 +1392,10 @@ class View {
 			if ($mount instanceof MoveableMount && $internalPath === '') {
 				$data['permissions'] |= \OCP\Constants::PERMISSION_DELETE;
 			}
+			if ($internalPath === '' && $data['name']) {
+				$data['name'] = basename($path);
+			}
+
 			$ownerId = $storage->getOwner($internalPath);
 			$owner = null;
 			if ($ownerId !== null && $ownerId !== false) {
