@@ -90,6 +90,14 @@ class Statistics extends Base {
 		$maxUserWaitingTime = 0;
 		$totalUserWaitingTime = 0;
 		$userWaitingTimeCount = 0;
+
+		$maxInputSize = 0;
+		$maxOutputSize = 0;
+		$inputCount = 0;
+		$inputSum = 0;
+		$outputCount = 0;
+		$outputSum = 0;
+
 		foreach ($tasks as $task) {
 			// running time
 			if ($task->getStartedAt() !== null && $task->getEndedAt() !== null) {
@@ -118,25 +126,58 @@ class Statistics extends Base {
 					$maxUserWaitingTime = $taskUserWaitingTime;
 				}
 			}
+			// input/output sizes
+			if ($task->getStatus() === Task::STATUS_SUCCESSFUL) {
+				$outputString = json_encode($task->getOutput());
+				if ($outputString !== false) {
+					$outputCount++;
+					$outputLength = strlen($outputString);
+					$outputSum += $outputLength;
+					if ($outputLength > $maxOutputSize) {
+						$maxOutputSize = $outputLength;
+					}
+				}
+			}
+			$inputString = json_encode($task->getInput());
+			if ($inputString !== false) {
+				$inputCount++;
+				$inputLength = strlen($inputString);
+				$inputSum += $inputLength;
+				if ($inputLength > $maxInputSize) {
+					$maxInputSize = $inputLength;
+				}
+			}
 		}
 
 		if ($runningTimeCount > 0) {
 			$stats['Max running time'] = $maxRunningTime;
-			$averageRunningTime = (int)($totalRunningTime / $runningTimeCount);
-			$stats['Average running time'] = $averageRunningTime;
+			$averageRunningTime = $totalRunningTime / $runningTimeCount;
+			$stats['Average running time'] = (int)$averageRunningTime;
 			$stats['Running time count'] = $runningTimeCount;
 		}
 		if ($queuingTimeCount > 0) {
 			$stats['Max queuing time'] = $maxQueuingTime;
-			$averageQueuingTime = (int)($totalQueuingTime / $queuingTimeCount);
-			$stats['Average queuing time'] = $averageQueuingTime;
+			$averageQueuingTime = $totalQueuingTime / $queuingTimeCount;
+			$stats['Average queuing time'] = (int)$averageQueuingTime;
 			$stats['Queuing time count'] = $queuingTimeCount;
 		}
 		if ($userWaitingTimeCount > 0) {
 			$stats['Max user waiting time'] = $maxUserWaitingTime;
-			$averageUserWaitingTime = (int)($totalUserWaitingTime / $userWaitingTimeCount);
-			$stats['Average user waiting time'] = $averageUserWaitingTime;
+			$averageUserWaitingTime = $totalUserWaitingTime / $userWaitingTimeCount;
+			$stats['Average user waiting time'] = (int)$averageUserWaitingTime;
 			$stats['User waiting time count'] = $userWaitingTimeCount;
+		}
+		if ($outputCount > 0) {
+			$stats['Max output size (bytes)'] = $maxOutputSize;
+			$averageOutputSize = $outputSum / $outputCount;
+			$stats['Average output size (bytes)'] = (int)$averageOutputSize;
+			$stats['Number of tasks with output'] = $outputCount;
+		}
+		if ($inputCount > 0) {
+			$stats['Max input size (bytes)'] = $maxInputSize;
+			$averageInputSize = $inputSum / $inputCount;
+			$stats['Average input size (bytes)'] = (int)$averageInputSize;
+			$stats['Number of tasks with input'] = $inputCount;
 		}
 
 		$this->writeArrayInOutputFormat($input, $output, $stats);
