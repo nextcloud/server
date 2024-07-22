@@ -45,7 +45,7 @@
 				</NcCounterBubble>
 			</template>
 			<template #actions>
-				<NcActionInput v-if="id !== 'admin' && id !== 'disabled' && settings.isAdmin"
+				<NcActionInput v-if="id !== 'admin' && id !== 'disabled' && (settings.isAdmin || settings.isDelegatedAdmin)"
 					ref="displayNameInput"
 					:trailing-button-label="t('settings', 'Submit')"
 					type="text"
@@ -56,7 +56,7 @@
 						<Pencil :size="20" />
 					</template>
 				</NcActionInput>
-				<NcActionButton v-if="id !== 'admin' && id !== 'disabled' && settings.isAdmin"
+				<NcActionButton v-if="id !== 'admin' && id !== 'disabled' && (settings.isAdmin || settings.isDelegatedAdmin)"
 					@click="showRemoveGroupModal = true">
 					<template #icon>
 						<Delete :size="20" />

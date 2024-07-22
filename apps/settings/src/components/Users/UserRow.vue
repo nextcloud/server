@@ -112,7 +112,7 @@
 					:append-to-body="false"
 					:options="availableGroups"
 					:placeholder="t('settings', 'Add account to group')"
-					:taggable="settings.isAdmin"
+					:taggable="settings.isAdmin || settings.isDelegatedAdmin"
 					:value="userGroups"
 					label="name"
 					:no-wrap="true"
@@ -127,10 +127,10 @@
 			</span>
 		</td>
 
-		<td v-if="subAdminsGroups.length > 0 && settings.isAdmin"
+		<td v-if="subAdminsGroups.length > 0 && (settings.isAdmin || settings.isDelegatedAdmin)"
 			data-cy-user-list-cell-subadmins
 			class="row__cell row__cell--large row__cell--multiline">
-			<template v-if="editing && settings.isAdmin && subAdminsGroups.length > 0">
+			<template v-if="editing && (settings.isAdmin || settings.isDelegatedAdmin) && subAdminsGroups.length > 0">
 				<label class="hidden-visually"
 					:for="'subadmins' + uniqueId">
 					{{ t('settings', 'Set account as admin for') }}
@@ -424,7 +424,7 @@ export default {
 		},
 
 		canEdit() {
-			return getCurrentUser().uid !== this.user.id || this.settings.isAdmin
+			return getCurrentUser().uid !== this.user.id || this.settings.isAdmin || this.settings.isDelegatedAdmin
 		},
 
 		userQuota() {

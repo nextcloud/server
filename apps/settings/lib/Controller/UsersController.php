@@ -204,7 +204,7 @@ class UsersController extends Controller {
 		// groups
 		$serverData['groups'] = array_merge_recursive($adminGroup, [$recentUsersGroup, $disabledUsersGroup], $groups);
 		// Various data
-		$serverData['isAdmin'] = $isAdmin || $isDelegatedAdmin;
+		$serverData['isAdmin'] = $isAdmin;
 		$serverData['isDelegatedAdmin'] = $isDelegatedAdmin;
 		$serverData['sortGroups'] = $forceSortGroupByName
 			? \OC\Group\MetaData::SORT_GROUPNAME
