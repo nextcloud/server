@@ -188,6 +188,7 @@ OC.L10N.register(
     "Delete slot" : "Usuń przedział czasu",
     "No working hours set" : "Nie ustawiono godzin pracy",
     "Add slot" : "Dodaj przedział czasu",
+    "Weekdays" : "Dni powszednie",
     "Pick a start time for {dayName}" : "Wybierz dzień rozpoczęcia {dayName}",
     "Pick a end time for {dayName}" : "Wybierz dzień zakończenia {dayName}",
     "Automatically set user status to \"Do not disturb\" outside of availability to mute all notifications." : "Automatycznie ustaw status użytkownika na \"Nie przeszkadzać\" poza dostępnością, aby wyciszyć wszystkie powiadomienia.",
