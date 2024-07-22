@@ -158,9 +158,9 @@ export default defineComponent({
 				return this.$navigation?.active?.name || t('files', 'Home')
 			}
 
-			const source: FileSource | null = this.getFileSourceFromPath(path)
-			const node: Node | undefined = source ? this.getNodeFromSource(source) : undefined
-			return node?.attributes?.displayname || basename(path)
+			const source = this.getFileSourceFromPath(path)
+			const node = source ? this.getNodeFromSource(source) : undefined
+			return node?.displayname || basename(path)
 		},
 
 		onClick(to) {
