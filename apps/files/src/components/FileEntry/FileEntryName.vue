@@ -29,8 +29,8 @@
 		v-bind="linkTo.params">
 		<!-- File name -->
 		<span class="files-list__row-name-text">
-			<!-- Keep the displayName stuck to the extension to avoid whitespace rendering issues-->
-			<span class="files-list__row-name-" v-text="displayName" />
+			<!-- Keep the filename stuck to the extension to avoid whitespace rendering issues-->
+			<span class="files-list__row-name-" v-text="basename" />
 			<span class="files-list__row-name-ext" v-text="extension" />
 		</span>
 	</component>
@@ -64,10 +64,16 @@ export default defineComponent({
 	},
 
 	props: {
-		displayName: {
+		/**
+		 * The filename without extension
+		 */
+		basename: {
 			type: String,
 			required: true,
 		},
+		/**
+		 * The extension of the filename
+		 */
 		extension: {
 			type: String,
 			required: true,
@@ -155,7 +161,7 @@ export default defineComponent({
 					params: {
 						download: this.source.basename,
 						href: this.source.source,
-						title: t('files', 'Download file {name}', { name: this.displayName }),
+						title: t('files', 'Download file {name}', { name: `${this.basename}${this.extension}` }),
 						tabindex: '0',
 					},
 				}
