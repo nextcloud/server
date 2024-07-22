@@ -98,6 +98,7 @@ class ComposerStaticInitSettings
         'OCA\\Settings\\SetupChecks\\CheckServerResponseTrait' => __DIR__ . '/..' . '/../lib/SetupChecks/CheckServerResponseTrait.php',
         'OCA\\Settings\\SetupChecks\\CheckUserCertificates' => __DIR__ . '/..' . '/../lib/SetupChecks/CheckUserCertificates.php',
         'OCA\\Settings\\SetupChecks\\CodeIntegrity' => __DIR__ . '/..' . '/../lib/SetupChecks/CodeIntegrity.php',
+        'OCA\\Settings\\SetupChecks\\ConfigValidation' => __DIR__ . '/..' . '/../lib/SetupChecks/ConfigValidation.php',
         'OCA\\Settings\\SetupChecks\\CronErrors' => __DIR__ . '/..' . '/../lib/SetupChecks/CronErrors.php',
         'OCA\\Settings\\SetupChecks\\CronInfo' => __DIR__ . '/..' . '/../lib/SetupChecks/CronInfo.php',
         'OCA\\Settings\\SetupChecks\\DataDirectoryProtected' => __DIR__ . '/..' . '/../lib/SetupChecks/DataDirectoryProtected.php',
