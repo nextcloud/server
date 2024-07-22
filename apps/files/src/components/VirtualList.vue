@@ -123,13 +123,13 @@ export default Vue.extend({
 
 		itemHeight() {
 			// Align with css in FilesListVirtual
-			// 208px + 32px (name) + 16px (mtime) + 16px (padding) + 22px (grid gap)
-			return this.gridMode ? (208 + 32 + 16 + 16 + 22) : 55
+			// 166px + 32px (name) + 16px (mtime) + 16px (padding) + 22px (grid gap)
+			return this.gridMode ? (166 + 32 + 16 + 16 + 22) : 55
 		},
 		// Grid mode only
 		itemWidth() {
-			// 208px + 16px padding + 22px grid gap
-			return 208 + 16 + 22
+			// 166px + 16px padding + 22px grid gap
+			return 166 + 16 + 22
 		},
 
 		rowCount() {

@@ -749,7 +749,7 @@ export default defineComponent({
 tbody.files-list__tbody.files-list__tbody--grid {
 	--half-clickable-area: calc(var(--clickable-area) / 2);
 	--item-padding: 16px;
-	--icon-preview-size: 208px;
+	--icon-preview-size: 166px;
 	--name-height: 32px;
 	--mtime-height: 16px;
 	--row-width: calc(var(--icon-preview-size));
