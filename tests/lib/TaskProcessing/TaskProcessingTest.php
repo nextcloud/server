@@ -12,6 +12,7 @@ use OC\EventDispatcher\EventDispatcher;
 use OC\TaskProcessing\Db\TaskMapper;
 use OC\TaskProcessing\Manager;
 use OC\TaskProcessing\RemoveOldTasksBackgroundJob;
+use OCP\App\IAppManager;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\IJobList;
 use OCP\EventDispatcher\IEventDispatcher;
@@ -19,6 +20,7 @@ use OCP\Files\AppData\IAppDataFactory;
 use OCP\Files\Config\ICachedMountInfo;
 use OCP\Files\Config\IUserMountCache;
 use OCP\Files\IRootFolder;
+use OCP\Http\Client\IClientService;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IServerContainer;
@@ -387,6 +389,8 @@ class TaskProcessingTest extends \Test\TestCase {
 			$text2imageManager,
 			\OC::$server->get(ISpeechToTextManager::class),
 			$this->userMountCache,
+			\OC::$server->get(IClientService::class),
+			\OC::$server->get(IAppManager::class),
 		);
 	}
 
