@@ -19,6 +19,7 @@ use OCP\ICacheFactory;
 use OCP\IGroup;
 use OCP\IGroupManager;
 use OCP\IUser;
+use OCP\Security\Ip\IRemoteAddress;
 use Psr\Log\LoggerInterface;
 use function is_string;
 
@@ -41,11 +42,6 @@ class Manager extends PublicEmitter implements IGroupManager {
 	/** @var GroupInterface[] */
 	private $backends = [];
 
-	/** @var \OC\User\Manager */
-	private $userManager;
-	private IEventDispatcher $dispatcher;
-	private LoggerInterface $logger;
-
 	/** @var array<string, IGroup> */
 	private $cachedGroups = [];
 
@@ -59,13 +55,13 @@ class Manager extends PublicEmitter implements IGroupManager {
 
 	private const MAX_GROUP_LENGTH = 255;
 
-	public function __construct(\OC\User\Manager $userManager,
-		IEventDispatcher $dispatcher,
-		LoggerInterface $logger,
-		ICacheFactory $cacheFactory) {
-		$this->userManager = $userManager;
-		$this->dispatcher = $dispatcher;
-		$this->logger = $logger;
+	public function __construct(
+		private \OC\User\Manager $userManager,
+		private IEventDispatcher $dispatcher,
+		private LoggerInterface $logger,
+		ICacheFactory $cacheFactory,
+		private IRemoteAddress $remoteAddress,
+	) {
 		$this->displayNameCache = new DisplayNameCache($cacheFactory, $this);
 
 		$this->listen('\OC\Group', 'postDelete', function (IGroup $group): void {
@@ -325,6 +321,10 @@ class Manager extends PublicEmitter implements IGroupManager {
 	 * @return bool if admin
 	 */
 	public function isAdmin($userId) {
+		if (!$this->remoteAddress->allowsAdminActions()) {
+			return false;
+		}
+
 		foreach ($this->backends as $backend) {
 			if (is_string($userId) && $backend->implementsActions(Backend::IS_ADMIN) && $backend->isAdmin($userId)) {
 				return true;

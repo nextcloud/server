@@ -8,6 +8,7 @@ declare(strict_types=1);
  */
 namespace OC\AppFramework\Middleware\Security;
 
+use OC\AppFramework\Middleware\Security\Exceptions\AdminIpNotAllowedException;
 use OC\AppFramework\Middleware\Security\Exceptions\AppNotEnabledException;
 use OC\AppFramework\Middleware\Security\Exceptions\CrossSiteRequestForgeryException;
 use OC\AppFramework\Middleware\Security\Exceptions\ExAppRequiredException;
@@ -40,6 +41,7 @@ use OCP\INavigationManager;
 use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\IUserSession;
+use OCP\Security\Ip\IRemoteAddress;
 use OCP\Util;
 use Psr\Log\LoggerInterface;
 use ReflectionMethod;
@@ -51,60 +53,22 @@ use ReflectionMethod;
  * check fails
  */
 class SecurityMiddleware extends Middleware {
-	/** @var INavigationManager */
-	private $navigationManager;
-	/** @var IRequest */
-	private $request;
-	/** @var ControllerMethodReflector */
-	private $reflector;
-	/** @var string */
-	private $appName;
-	/** @var IURLGenerator */
-	private $urlGenerator;
-	/** @var LoggerInterface */
-	private $logger;
-	/** @var bool */
-	private $isLoggedIn;
-	/** @var bool */
-	private $isAdminUser;
-	/** @var bool */
-	private $isSubAdmin;
-	/** @var IAppManager */
-	private $appManager;
-	/** @var IL10N */
-	private $l10n;
-	/** @var AuthorizedGroupMapper */
-	private $groupAuthorizationMapper;
-	/** @var IUserSession */
-	private $userSession;
-
-	public function __construct(IRequest $request,
-		ControllerMethodReflector $reflector,
-		INavigationManager $navigationManager,
-		IURLGenerator $urlGenerator,
-		LoggerInterface $logger,
-		string $appName,
-		bool $isLoggedIn,
-		bool $isAdminUser,
-		bool $isSubAdmin,
-		IAppManager $appManager,
-		IL10N $l10n,
-		AuthorizedGroupMapper $mapper,
-		IUserSession $userSession
+	public function __construct(
+		private IRequest $request,
+		private ControllerMethodReflector $reflector,
+		private INavigationManager $navigationManager,
+		private IURLGenerator $urlGenerator,
+		private LoggerInterface $logger,
+		private string $appName,
+		private bool $isLoggedIn,
+		private bool $isAdminUser,
+		private bool $isSubAdmin,
+		private IAppManager $appManager,
+		private IL10N $l10n,
+		private AuthorizedGroupMapper $groupAuthorizationMapper,
+		private IUserSession $userSession,
+		private IRemoteAddress $remoteAddress,
 	) {
-		$this->navigationManager = $navigationManager;
-		$this->request = $request;
-		$this->reflector = $reflector;
-		$this->appName = $appName;
-		$this->urlGenerator = $urlGenerator;
-		$this->logger = $logger;
-		$this->isLoggedIn = $isLoggedIn;
-		$this->isAdminUser = $isAdminUser;
-		$this->isSubAdmin = $isSubAdmin;
-		$this->appManager = $appManager;
-		$this->l10n = $l10n;
-		$this->groupAuthorizationMapper = $mapper;
-		$this->userSession = $userSession;
 	}
 
 	/**
@@ -170,6 +134,9 @@ class SecurityMiddleware extends Middleware {
 				if (!$authorized) {
 					throw new NotAdminException($this->l10n->t('Logged in account must be an admin, a sub admin or gotten special right to access this setting'));
 				}
+				if (!$this->remoteAddress->allowsAdminActions()) {
+					throw new AdminIpNotAllowedException($this->l10n->t('Your current IP address doesn’t allow you to perform admin actions'));
+				}
 			}
 			if ($this->hasAnnotationOrAttribute($reflectionMethod, 'SubAdminRequired', SubAdminRequired::class)
 				&& !$this->isSubAdmin
@@ -183,6 +150,16 @@ class SecurityMiddleware extends Middleware {
 				&& !$authorized) {
 				throw new NotAdminException($this->l10n->t('Logged in account must be an admin'));
 			}
+			if ($this->hasAnnotationOrAttribute($reflectionMethod, 'SubAdminRequired', SubAdminRequired::class)
+				&& !$this->remoteAddress->allowsAdminActions()) {
+				throw new AdminIpNotAllowedException($this->l10n->t('Your current IP address doesn’t allow you to perform admin actions'));
+			}
+			if (!$this->hasAnnotationOrAttribute($reflectionMethod, 'SubAdminRequired', SubAdminRequired::class)
+				&& !$this->hasAnnotationOrAttribute($reflectionMethod, 'NoAdminRequired', NoAdminRequired::class)
+				&& !$this->remoteAddress->allowsAdminActions()) {
+				throw new AdminIpNotAllowedException($this->l10n->t('Your current IP address doesn’t allow you to perform admin actions'));
+			}
+
 		}
 
 		// Check for strict cookie requirement

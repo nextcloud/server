@@ -46,6 +46,7 @@ use OCP\ISession;
 use OCP\IURLGenerator;
 use OCP\IUserSession;
 use OCP\Security\Bruteforce\IThrottler;
+use OCP\Security\Ip\IRemoteAddress;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 
@@ -232,7 +233,8 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 				$server->getAppManager(),
 				$server->getL10N('lib'),
 				$c->get(AuthorizedGroupMapper::class),
-				$server->get(IUserSession::class)
+				$server->get(IUserSession::class),
+				$c->get(IRemoteAddress::class),
 			);
 			$dispatcher->registerMiddleware($securityMiddleware);
 			$dispatcher->registerMiddleware(
