@@ -691,13 +691,12 @@ tbody.files-list__tbody.files-list__tbody--grid {
 	--icon-preview-size: 166px;
 	--name-height: 32px;
 	--mtime-height: 16px;
-	--row-width: calc(var(--icon-preview-size));
-	--row-height: calc(var(--icon-preview-size) + var(--name-height) + var(--mtime-height));
+	--row-width: calc(var(--icon-preview-size) + var(--item-padding) * 2);
+	--row-height: calc(var(--icon-preview-size) + var(--name-height) + var(--mtime-height) + var(--item-padding) * 2);
 	--checkbox-padding: 0px;
 
 	display: grid;
 	grid-template-columns: repeat(auto-fill, var(--row-width));
-	gap: 22px;
 
 	align-content: center;
 	align-items: center;
@@ -714,7 +713,6 @@ tbody.files-list__tbody.files-list__tbody--grid {
 		border: none;
 		border-radius: var(--border-radius-large);
 		padding: var(--item-padding);
-		box-sizing: content-box;
 	}
 
 	// Checkbox in the top left
