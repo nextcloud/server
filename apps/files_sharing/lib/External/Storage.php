@@ -82,6 +82,7 @@ class Storage extends DAV implements ISharedStorage, IDisableEncryptionStorage, 
 		parent::__construct(
 			[
 				'secure' => ((parse_url($remote, PHP_URL_SCHEME) ?? 'https') === 'https'),
+				'verify' => !$this->config->getSystemValueBool('sharing.federation.allowSelfSignedCertificates', false),
 				'host' => $host,
 				'root' => $webDavEndpoint,
 				'user' => $options['token'],

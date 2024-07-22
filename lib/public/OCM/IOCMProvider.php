@@ -12,6 +12,7 @@ namespace OCP\OCM;
 use JsonSerializable;
 use OCP\OCM\Exceptions\OCMArgumentException;
 use OCP\OCM\Exceptions\OCMProviderException;
+use OCP\Security\Signature\Model\ISignatory;
 
 /**
  * Model based on the Open Cloud Mesh Discovery API
@@ -119,6 +120,21 @@ interface IOCMProvider extends JsonSerializable {
 	 * @since 28.0.0
 	 */
 	public function extractProtocolEntry(string $resourceName, string $protocol): string;
+
+	/**
+	 * store signatory (public/private key pair) to sign outgoing/incoming request
+	 *
+	 * @param ISignatory $signatory
+	 * @since 30.0.0
+	 */
+	public function setSignatory(ISignatory $signatory);
+
+	/**
+	 * signatory (public/private key pair) used to sign outgoing/incoming request
+	 *
+	 * @return ISignatory|null returns null if no ISignatory available
+	 */
+	public function getSignatory(): ?ISignatory;
 
 	/**
 	 * import data from an array
