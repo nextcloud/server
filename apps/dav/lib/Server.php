@@ -360,7 +360,7 @@ class Server {
 		/** @var IEventLogger $eventLogger */
 		$eventLogger = \OC::$server->get(IEventLogger::class);
 		$eventLogger->start('dav_server_exec', '');
-		$this->server->exec();
+		$this->server->start();
 		$eventLogger->end('dav_server_exec');
 		if ($this->profiler->isEnabled()) {
 			$eventLogger->end('runtime');
