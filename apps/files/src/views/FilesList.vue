@@ -154,7 +154,6 @@ import { useSelectionStore } from '../store/selection.ts'
 import { useUploaderStore } from '../store/uploader.ts'
 import { useUserConfigStore } from '../store/userconfig.ts'
 import { useViewConfigStore } from '../store/viewConfig.ts'
-import { orderBy } from '../services/SortingService.ts'
 import BreadCrumbs from '../components/BreadCrumbs.vue'
 import FilesListVirtual from '../components/FilesListVirtual.vue'
 import filesListWidthMixin from '../mixins/filesListWidth.ts'
@@ -310,7 +309,7 @@ export default defineComponent({
 		/**
 		 * The current directory contents.
 		 */
-		dirContentsSorted(): Node[] {
+		dirContentsSorted() {
 			if (!this.currentView) {
 				return []
 			}
@@ -333,10 +332,12 @@ export default defineComponent({
 				return this.isAscSorting ? results : results.reverse()
 			}
 
-			return orderBy(
-				filteredDirContent,
-				...this.sortingParameters,
-			)
+			return sortNodes(filteredDirContent, {
+				sortFavoritesFirst: this.userConfig.sort_favorites_first,
+				sortFoldersFirst: this.userConfig.sort_folders_first,
+				sortingMode: this.sortingMode,
+				sortingOrder: this.isAscSorting ? 'asc' : 'desc',
+			})
 		},
 
 		dirContents(): Node[] {
