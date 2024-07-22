@@ -123,7 +123,7 @@ class Manager implements IManager {
 				$this->taskMapper->update(DbTask::fromPublicTask($task));
 				return $output;
 			} catch (\Throwable $e) {
-				$this->logger->info('LanguageModel call using provider ' . $provider->getName() . ' failed', ['exception' => $e]);
+				$this->logger->error('LanguageModel call using provider ' . $provider->getName() . ' failed', ['exception' => $e]);
 				$task->setStatus(OCPTask::STATUS_FAILED);
 				$this->taskMapper->update(DbTask::fromPublicTask($task));
 				throw new TaskFailureException('LanguageModel call using provider ' . $provider->getName() . ' failed: ' . $e->getMessage(), 0, $e);

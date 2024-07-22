@@ -134,6 +134,8 @@ interface IQueryBuilder {
 	 *
 	 * @return integer Either QueryBuilder::STATE_DIRTY or QueryBuilder::STATE_CLEAN.
 	 * @since 8.2.0
+	 * @deprecated 30.0.0 This function is going to be removed with the next Doctrine/DBAL update
+	 *    and we can not fix this in our wrapper.
 	 */
 	public function getState();
 
@@ -395,8 +397,8 @@ interface IQueryBuilder {
 	 *
 	 * <code>
 	 *     $qb = $conn->getQueryBuilder()
-	 *         ->delete('users', 'u')
-	 *         ->where('u.id = :user_id');
+	 *         ->delete('users')
+	 *         ->where('id = :user_id');
 	 *         ->setParameter(':user_id', 1);
 	 * </code>
 	 *
@@ -405,6 +407,7 @@ interface IQueryBuilder {
 	 *
 	 * @return $this This QueryBuilder instance.
 	 * @since 8.2.0
+	 * @since 30.0.0 Alias is deprecated and will no longer be used with the next Doctrine/DBAL update
 	 *
 	 * @psalm-taint-sink sql $delete
 	 */
@@ -416,9 +419,10 @@ interface IQueryBuilder {
 	 *
 	 * <code>
 	 *     $qb = $conn->getQueryBuilder()
-	 *         ->update('users', 'u')
-	 *         ->set('u.password', md5('password'))
-	 *         ->where('u.id = ?');
+	 *         ->update('users')
+	 *         ->set('email', ':email')
+	 *         ->where('id = :user_id');
+	 *         ->setParameter(':user_id', 1);
 	 * </code>
 	 *
 	 * @param string $update The table whose rows are subject to the update.
@@ -426,6 +430,7 @@ interface IQueryBuilder {
 	 *
 	 * @return $this This QueryBuilder instance.
 	 * @since 8.2.0
+	 * @since 30.0.0 Alias is deprecated and will no longer be used with the next Doctrine/DBAL update
 	 *
 	 * @psalm-taint-sink sql $update
 	 */
@@ -609,9 +614,10 @@ interface IQueryBuilder {
 	 *     // You can optionally programmatically build and/or expressions
 	 *     $qb = $conn->getQueryBuilder();
 	 *
-	 *     $or = $qb->expr()->orx();
-	 *     $or->add($qb->expr()->eq('u.id', 1));
-	 *     $or->add($qb->expr()->eq('u.id', 2));
+	 *     $or = $qb->expr()->orx(
+	 *         $qb->expr()->eq('u.id', 1),
+	 *         $qb->expr()->eq('u.id', 2),
+	 *     );
 	 *
 	 *     $qb->update('users', 'u')
 	 *         ->set('u.password', md5('password'))
@@ -837,6 +843,8 @@ interface IQueryBuilder {
 	 *
 	 * @return mixed
 	 * @since 8.2.0
+	 * @deprecated 30.0.0 This function is going to be removed with the next Doctrine/DBAL update
+	 *  and we can not fix this in our wrapper. Please track the details you need, outside the object.
 	 */
 	public function getQueryPart($queryPartName);
 
@@ -845,6 +853,8 @@ interface IQueryBuilder {
 	 *
 	 * @return array
 	 * @since 8.2.0
+	 * @deprecated 30.0.0 This function is going to be removed with the next Doctrine/DBAL update
+	 *  and we can not fix this in our wrapper. Please track the details you need, outside the object.
 	 */
 	public function getQueryParts();
 
@@ -855,6 +865,8 @@ interface IQueryBuilder {
 	 *
 	 * @return $this This QueryBuilder instance.
 	 * @since 8.2.0
+	 * @deprecated 30.0.0 This function is going to be removed with the next Doctrine/DBAL update
+	 * and we can not fix this in our wrapper. Please create a new IQueryBuilder instead.
 	 */
 	public function resetQueryParts($queryPartNames = null);
 
@@ -865,6 +877,8 @@ interface IQueryBuilder {
 	 *
 	 * @return $this This QueryBuilder instance.
 	 * @since 8.2.0
+	 * @deprecated 30.0.0 This function is going to be removed with the next Doctrine/DBAL update
+	 *  and we can not fix this in our wrapper. Please create a new IQueryBuilder instead.
 	 */
 	public function resetQueryPart($queryPartName);
 

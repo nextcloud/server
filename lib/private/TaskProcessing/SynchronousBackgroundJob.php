@@ -15,6 +15,7 @@ use OCP\Lock\LockedException;
 use OCP\TaskProcessing\Exception\Exception;
 use OCP\TaskProcessing\Exception\NotFoundException;
 use OCP\TaskProcessing\Exception\ProcessingException;
+use OCP\TaskProcessing\Exception\UnauthorizedException;
 use OCP\TaskProcessing\Exception\ValidationException;
 use OCP\TaskProcessing\IManager;
 use OCP\TaskProcessing\ISynchronousProvider;
@@ -54,7 +55,7 @@ class SynchronousBackgroundJob extends QueuedJob {
 			try {
 				try {
 					$input = $this->taskProcessingManager->prepareInputData($task);
-				} catch (GenericFileException|NotPermittedException|LockedException|ValidationException $e) {
+				} catch (GenericFileException|NotPermittedException|LockedException|ValidationException|UnauthorizedException $e) {
 					$this->logger->warning('Failed to prepare input data for a TaskProcessing task with synchronous provider ' . $provider->getId(), ['exception' => $e]);
 					$this->taskProcessingManager->setTaskResult($task->getId(), $e->getMessage(), null);
 					// Schedule again

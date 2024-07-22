@@ -89,7 +89,7 @@ enum EShapeType: int {
 	 * @throws ValidationException
 	 * @since 30.0.0
 	 */
-	public function validateOutput(mixed $value) {
+	public function validateOutputWithFileData(mixed $value): void {
 		$this->validateNonFileType($value);
 		if ($this === EShapeType::Image && !is_string($value)) {
 			throw new ValidationException('Non-image item provided for Image slot');
@@ -113,6 +113,40 @@ enum EShapeType: int {
 			throw new ValidationException('Non-file item provided for File slot');
 		}
 		if ($this === EShapeType::ListOfFiles && (!is_array($value) || count(array_filter($value, fn ($item) => !is_string($item))) > 0)) {
+			throw new ValidationException('Non-audio list item provided for ListOfFiles slot');
+		}
+	}
+
+	/**
+	 * @param mixed $value
+	 * @return void
+	 * @throws ValidationException
+	 * @since 30.0.0
+	 */
+	public function validateOutputWithFileIds(mixed $value): void {
+		$this->validateNonFileType($value);
+		if ($this === EShapeType::Image && !is_numeric($value)) {
+			throw new ValidationException('Non-image item provided for Image slot');
+		}
+		if ($this === EShapeType::ListOfImages && (!is_array($value) || count(array_filter($value, fn ($item) => !is_numeric($item))) > 0)) {
+			throw new ValidationException('Non-image list item provided for ListOfImages slot');
+		}
+		if ($this === EShapeType::Audio && !is_string($value)) {
+			throw new ValidationException('Non-audio item provided for Audio slot');
+		}
+		if ($this === EShapeType::ListOfAudios && (!is_array($value) || count(array_filter($value, fn ($item) => !is_numeric($item))) > 0)) {
+			throw new ValidationException('Non-audio list item provided for ListOfAudio slot');
+		}
+		if ($this === EShapeType::Video && !is_string($value)) {
+			throw new ValidationException('Non-video item provided for Video slot');
+		}
+		if ($this === EShapeType::ListOfVideos && (!is_array($value) || count(array_filter($value, fn ($item) => !is_numeric($item))) > 0)) {
+			throw new ValidationException('Non-video list item provided for ListOfTexts slot');
+		}
+		if ($this === EShapeType::File && !is_string($value)) {
+			throw new ValidationException('Non-file item provided for File slot');
+		}
+		if ($this === EShapeType::ListOfFiles && (!is_array($value) || count(array_filter($value, fn ($item) => !is_numeric($item))) > 0)) {
 			throw new ValidationException('Non-audio list item provided for ListOfFiles slot');
 		}
 	}

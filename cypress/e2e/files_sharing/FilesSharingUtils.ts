@@ -5,6 +5,8 @@
 /* eslint-disable jsdoc/require-jsdoc */
 import { triggerActionForFile } from '../files/FilesUtils'
 
+import { EntryId as FileRequestEntryID } from '../../../apps/files_sharing/src/new/newFileRequest'
+
 export interface ShareSetting {
 	read: boolean
 	update: boolean
@@ -95,4 +97,83 @@ export function openSharingPanel(fileName: string) {
 	cy.get('#app-sidebar-vue')
 		.get('[aria-controls="tab-sharing"]')
 		.click()
+}
+
+type FileRequestOptions = {
+	label?: string
+	note?: string
+	password?: string
+	/* YYYY-MM-DD format */
+	expiration?: string
+}
+
+/**
+ * Create a file request for a folder
+ * @param path The path of the folder, leading slash is required
+ * @param options The options for the file request
+ */
+export const createFileRequest = (path: string, options: FileRequestOptions = {}) => {
+	if (!path.startsWith('/')) {
+		throw new Error('Path must start with a slash')
+	}
+
+	// Navigate to the folder
+	cy.visit('/apps/files/files?dir=' + path)
+
+	// Open the file request dialog
+	cy.get('[data-cy-upload-picker] .action-item__menutoggle').first().click()
+	cy.contains('.upload-picker__menu-entry button', 'Create file request').click()
+	cy.get('[data-cy-file-request-dialog]').should('be.visible')
+
+	// Check and fill the first page options
+	cy.get('[data-cy-file-request-dialog-fieldset="label"]').should('be.visible')
+	cy.get('[data-cy-file-request-dialog-fieldset="destination"]').should('be.visible')
+	cy.get('[data-cy-file-request-dialog-fieldset="note"]').should('be.visible')
+
+	cy.get('[data-cy-file-request-dialog-fieldset="destination"] input').should('contain.value', path)
+	if (options.label) {
+		cy.get('[data-cy-file-request-dialog-fieldset="label"] input').type(`{selectall}${options.label}`)
+	}
+	if (options.note) {
+		cy.get('[data-cy-file-request-dialog-fieldset="note"] textarea').type(`{selectall}${options.note}`)
+	}
+
+	// Go to the next page
+	cy.get('[data-cy-file-request-dialog-controls="next"]').click()
+	cy.get('[data-cy-file-request-dialog-fieldset="expiration"] input[type="checkbox"]').should('exist')
+	cy.get('[data-cy-file-request-dialog-fieldset="expiration"] input[type="date"]').should('not.exist')
+	cy.get('[data-cy-file-request-dialog-fieldset="password"] input[type="checkbox"]').should('exist')
+	cy.get('[data-cy-file-request-dialog-fieldset="password"] input[type="password"]').should('not.exist')
+	if (options.expiration) {
+		cy.get('[data-cy-file-request-dialog-fieldset="expiration"] input[type="checkbox"]').check({ force: true })
+		cy.get('[data-cy-file-request-dialog-fieldset="expiration"] input[type="date"]').type(`{selectall}${options.expiration}`)
+	}
+	if (options.password) {
+		cy.get('[data-cy-file-request-dialog-fieldset="password"] input[type="checkbox"]').check({ force: true })
+		cy.get('[data-cy-file-request-dialog-fieldset="password"] input[type="password"]').type(`{selectall}${options.password}`)
+	}
+
+	// Create the file request
+	cy.get('[data-cy-file-request-dialog-controls="next"]').click()
+
+	// Get the file request URL
+	cy.get('[data-cy-file-request-dialog-fieldset="link"]').then(($link) => {
+		const url = $link.val()
+		cy.log(`File request URL: ${url}`)
+		cy.wrap(url).as('fileRequestUrl')
+	})
+
+	// Close
+	cy.get('[data-cy-file-request-dialog-controls="finish"]').click()
+}
+
+export const enterGuestName = (name: string) => {
+	cy.get('[data-cy-public-auth-prompt-dialog]').should('be.visible')
+	cy.get('[data-cy-public-auth-prompt-dialog-name]').should('be.visible')
+	cy.get('[data-cy-public-auth-prompt-dialog-submit]').should('be.visible')
+
+	cy.get('[data-cy-public-auth-prompt-dialog-name]').type(`{selectall}${name}`)
+	cy.get('[data-cy-public-auth-prompt-dialog-submit]').click()
+
+	cy.get('[data-cy-public-auth-prompt-dialog]').should('not.exist')
 }

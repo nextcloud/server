@@ -22,6 +22,7 @@ use OCP\AppFramework\Http\Template\ExternalShareMenuAction;
 use OCP\AppFramework\Http\Template\LinkMenuAction;
 use OCP\AppFramework\Http\Template\PublicTemplateResponse;
 use OCP\AppFramework\Http\Template\SimpleMenuAction;
+use OCP\AppFramework\Services\IInitialState;
 use OCP\Constants;
 use OCP\Defaults;
 use OCP\EventDispatcher\IEventDispatcher;
@@ -121,6 +122,7 @@ class ShareControllerTest extends \Test\TestCase {
 					$this->defaults,
 					$this->config,
 					$this->createMock(IRequest::class),
+					$this->createMock(IInitialState::class)
 				)
 			);
 
@@ -350,7 +352,8 @@ class ShareControllerTest extends \Test\TestCase {
 			'previewURL' => 'downloadURL',
 			'note' => $note,
 			'hideDownload' => false,
-			'showgridview' => false
+			'showgridview' => false,
+			'label' => ''
 		];
 
 		$csp = new \OCP\AppFramework\Http\ContentSecurityPolicy();
@@ -511,7 +514,8 @@ class ShareControllerTest extends \Test\TestCase {
 			'previewURL' => 'downloadURL',
 			'note' => $note,
 			'hideDownload' => false,
-			'showgridview' => false
+			'showgridview' => false,
+			'label' => ''
 		];
 
 		$csp = new \OCP\AppFramework\Http\ContentSecurityPolicy();
@@ -672,7 +676,8 @@ class ShareControllerTest extends \Test\TestCase {
 			'previewURL' => 'downloadURL',
 			'note' => $note,
 			'hideDownload' => true,
-			'showgridview' => false
+			'showgridview' => false,
+			'label' => ''
 		];
 
 		$csp = new \OCP\AppFramework\Http\ContentSecurityPolicy();
@@ -798,7 +803,8 @@ class ShareControllerTest extends \Test\TestCase {
 			'previewURL' => '',
 			'note' => '',
 			'hideDownload' => false,
-			'showgridview' => false
+			'showgridview' => false,
+			'label' => ''
 		];
 
 		$csp = new \OCP\AppFramework\Http\ContentSecurityPolicy();

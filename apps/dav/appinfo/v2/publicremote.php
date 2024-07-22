@@ -116,6 +116,7 @@ $server = $serverFactory->createServer($baseuri, $requestUri, $authPlugin, funct
 
 	$view = new View($node->getPath());
 	$filesDropPlugin->setView($view);
+	$filesDropPlugin->setShare($share);
 
 	return $view;
 });

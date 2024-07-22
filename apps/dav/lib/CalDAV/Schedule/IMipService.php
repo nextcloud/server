@@ -9,6 +9,8 @@ declare(strict_types=1);
 namespace OCA\DAV\CalDAV\Schedule;
 
 use OC\URLGenerator;
+use OCA\DAV\CalDAV\EventReader;
+use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IL10N;
@@ -31,6 +33,7 @@ class IMipService {
 	private ISecureRandom $random;
 	private L10NFactory $l10nFactory;
 	private IL10N $l10n;
+	private ITimeFactory $timeFactory;
 
 	/** @var string[] */
 	private const STRING_DIFF = [
@@ -44,7 +47,8 @@ class IMipService {
 		IConfig $config,
 		IDBConnection $db,
 		ISecureRandom $random,
-		L10NFactory $l10nFactory) {
+		L10NFactory $l10nFactory,
+		ITimeFactory $timeFactory) {
 		$this->urlGenerator = $urlGenerator;
 		$this->config = $config;
 		$this->db = $db;
@@ -52,6 +56,7 @@ class IMipService {
 		$this->l10nFactory = $l10nFactory;
 		$default = $this->l10nFactory->findGenericLanguage();
 		$this->l10n = $this->l10nFactory->get('dav', $default);
+		$this->timeFactory = $timeFactory;
 	}
 
 	/**
@@ -130,9 +135,13 @@ class IMipService {
 	 * @return array
 	 */
 	public function buildBodyData(VEvent $vEvent, ?VEvent $oldVEvent): array {
+
+		// construct event reader
+		$eventReaderCurrent = new EventReader($vEvent);
+		$eventReaderPrevious = !empty($oldVEvent) ? new EventReader($oldVEvent) : null;
 		$defaultVal = '';
 		$data = [];
-		$data['meeting_when'] = $this->generateWhenString($vEvent);
+		$data['meeting_when'] = $this->generateWhenString($eventReaderCurrent);
 
 		foreach(self::STRING_DIFF as $key => $property) {
 			$data[$key] = self::readPropertyWithDefault($vEvent, $property, $defaultVal);
@@ -145,7 +154,7 @@ class IMipService {
 		}
 
 		if(!empty($oldVEvent)) {
-			$oldMeetingWhen = $this->generateWhenString($oldVEvent);
+			$oldMeetingWhen = $this->generateWhenString($eventReaderPrevious);
 			$data['meeting_title_html'] = $this->generateDiffString($vEvent, $oldVEvent, 'SUMMARY', $data['meeting_title']);
 			$data['meeting_description_html'] = $this->generateDiffString($vEvent, $oldVEvent, 'DESCRIPTION', $data['meeting_description']);
 			$data['meeting_location_html'] = $this->generateLinkifiedDiffString($vEvent, $oldVEvent, 'LOCATION', $data['meeting_location']);
@@ -153,107 +162,415 @@ class IMipService {
 			$oldUrl = self::readPropertyWithDefault($oldVEvent, 'URL', $defaultVal);
 			$data['meeting_url_html'] = !empty($oldUrl) && $oldUrl !== $data['meeting_url'] ? sprintf('<a href="%1$s">%1$s</a>', $oldUrl) : $data['meeting_url'];
 
-			$data['meeting_when_html'] =
-				($oldMeetingWhen !== $data['meeting_when'] && $oldMeetingWhen !== null)
-					? sprintf("<span style='text-decoration: line-through'>%s</span><br />%s", $oldMeetingWhen, $data['meeting_when'])
-					: $data['meeting_when'];
+			$data['meeting_when_html'] = $oldMeetingWhen !== $data['meeting_when'] ? sprintf("<span style='text-decoration: line-through'>%s</span><br />%s", $oldMeetingWhen, $data['meeting_when']) : $data['meeting_when'];
 		}
+		// generate occuring next string
+		if ($eventReaderCurrent->recurs()) {
+			$data['meeting_occurring'] = $this->generateOccurringString($eventReaderCurrent);
+		}
+		
 		return $data;
 	}
 
 	/**
-	 * @param IL10N $this->l10n
-	 * @param VEvent $vevent
-	 * @return false|int|string
+	 * genarates a when string based on if a event has an recurrence or not
+	 *
+	 * @since 30.0.0
+	 *
+	 * @param EventReader $er
+	 *
+	 * @return string
 	 */
-	public function generateWhenString(VEvent $vevent) {
-		/** @var Property\ICalendar\DateTime $dtstart */
-		$dtstart = $vevent->DTSTART;
-		if (isset($vevent->DTEND)) {
-			/** @var Property\ICalendar\DateTime $dtend */
-			$dtend = $vevent->DTEND;
-		} elseif (isset($vevent->DURATION)) {
-			$isFloating = $dtstart->isFloating();
-			$dtend = clone $dtstart;
-			$endDateTime = $dtend->getDateTime();
-			$endDateTime = $endDateTime->add(DateTimeParser::parse($vevent->DURATION->getValue()));
-			$dtend->setDateTime($endDateTime, $isFloating);
-		} elseif (!$dtstart->hasTime()) {
-			$isFloating = $dtstart->isFloating();
-			$dtend = clone $dtstart;
-			$endDateTime = $dtend->getDateTime();
-			$endDateTime = $endDateTime->modify('+1 day');
-			$dtend->setDateTime($endDateTime, $isFloating);
+	public function generateWhenString(EventReader $er): string {
+		return match ($er->recurs()) {
+			true => $this->generateWhenStringRecurring($er),
+			false => $this->generateWhenStringSingular($er)
+		};
+	}
+
+	/**
+	 * genarates a when string for a non recurring event
+	 *
+	 * @since 30.0.0
+	 *
+	 * @param EventReader $er
+	 *
+	 * @return string
+	 */
+	public function generateWhenStringSingular(EventReader $er): string {
+		// calculate time differnce from now to start of event
+		$occuring = $this->minimizeInterval($this->timeFactory->getDateTime()->diff($er->recurrenceDate()));
+		// extract start date
+		$startDate = $this->l10n->l('date', $er->startDateTime(), ['width' => 'full']);
+		// time of the day
+		if (!$er->entireDay()) {
+			$startTime = $this->l10n->l('time', $er->startDateTime(), ['width' => 'short']);
+			$startTime .= $er->startTimeZone() != $er->endTimeZone() ? ' (' . $er->startTimeZone()->getName() . ')' : '';
+			$endTime = $this->l10n->l('time', $er->endDateTime(), ['width' => 'short']) . ' (' . $er->endTimeZone()->getName() . ')';
+		}
+		// generate localized when string
+		// TRANSLATORS
+		// Indicates when a calendar event will happen, shown on invitation emails
+		// Output produced in order:
+		// In a day/week/month/year on July 1, 2024 for the entire day
+		// In a day/week/month/year on July 1, 2024 between 8:00 AM - 9:00 AM (America/Toronto)
+		// In 2 days/weeks/monthss/years on July 1, 2024 for the entire day
+		// In 2 days/weeks/monthss/years on July 1, 2024 between 8:00 AM - 9:00 AM (America/Toronto)
+		return match ([($occuring[0] > 1), !empty($endTime)]) {
+			[false, false] => $this->l10n->t('In a %1$s on %2$s for the entire day', [$occuring[1], $startDate]),
+			[false, true] => $this->l10n->t('In a %1$s on %2$s between %3$s - %4$s', [$occuring[1], $startDate, $startTime, $endTime]),
+			[true, false] => $this->l10n->t('In %1$s %2$s on %3$s for the entire day', [$occuring[0], $occuring[1], $startDate]),
+			[true, true] => $this->l10n->t('In %1$s %2$s on %3$s between %4$s - %5$s', [$occuring[0], $occuring[1], $startDate, $startTime, $endTime]),
+			default => $this->l10n->t('Could not generate when statement')
+		};
+	}
+
+	/**
+	 * genarates a when string based on recurrance precision/frequency
+	 *
+	 * @since 30.0.0
+	 *
+	 * @param EventReader $er
+	 *
+	 * @return string
+	 */
+	public function generateWhenStringRecurring(EventReader $er): string {
+		return match ($er->recurringPrecision()) {
+			'daily' => $this->generateWhenStringRecurringDaily($er),
+			'weekly' => $this->generateWhenStringRecurringWeekly($er),
+			'monthly' => $this->generateWhenStringRecurringMonthly($er),
+			'yearly' => $this->generateWhenStringRecurringYearly($er),
+			'fixed' => $this->generateWhenStringRecurringFixed($er),
+		};
+	}
+
+	/**
+	 * genarates a when string for a daily precision/frequency
+	 *
+	 * @since 30.0.0
+	 *
+	 * @param EventReader $er
+	 *
+	 * @return string
+	 */
+	public function generateWhenStringRecurringDaily(EventReader $er): string {
+		
+		// initialize
+		$interval = (int) $er->recurringInterval();
+		$startTime = '';
+		$endTime = '';
+		$conclusion = '';
+		// time of the day
+		if (!$er->entireDay()) {
+			$startTime = $this->l10n->l('time', $er->startDateTime(), ['width' => 'short']);
+			$startTime .= $er->startTimeZone() != $er->endTimeZone() ? ' (' . $er->startTimeZone()->getName() . ')' : '';
+			$endTime = $this->l10n->l('time', $er->endDateTime(), ['width' => 'short']) . ' (' . $er->endTimeZone()->getName() . ')';
+		}
+		// conclusion
+		if ($er->recurringConcludes()) {
+			$conclusion = $this->l10n->l('date', $er->recurringConcludesOn(), ['width' => 'long']);
+		}
+		// generate localized when string
+		// TRANSLATORS
+		// Indicates when a calendar event will happen, shown on invitation emails
+		// Output produced in order:
+		// Every Day for the entire day
+		// Every Day for the entire day until July 13, 2024
+		// Every Day between 8:00 AM - 9:00 AM (America/Toronto)
+		// Every Day between 8:00 AM - 9:00 AM (America/Toronto) until July 13, 2024
+		// Every 3 Days for the entire day
+		// Every 3 Days for the entire day until July 13, 2024
+		// Every 3 Days between 8:00 AM - 9:00 AM (America/Toronto)
+		// Every 3 Days between 8:00 AM - 9:00 AM (America/Toronto) until July 13, 2024
+		return match ([($interval > 1), !empty($startTime), !empty($conclusion)]) {
+			[false, false, false] => $this->l10n->t('Every Day for the entire day'),
+			[false, false, true] => $this->l10n->t('Every Day for the entire day until %1$s', [$conclusion]),
+			[false, true, false] => $this->l10n->t('Every Day between %1$s - %2$s', [$startTime, $endTime]),
+			[false, true, true] => $this->l10n->t('Every Day between %1$s - %2$s until %3$s', [$startTime, $endTime, $conclusion]),
+			[true, false, false] => $this->l10n->t('Every %1$d Days for the entire day', [$interval]),
+			[true, false, true] => $this->l10n->t('Every %1$d Days for the entire day until %2$s', [$interval, $conclusion]),
+			[true, true, false] => $this->l10n->t('Every %1$d Days between %2$s - %3$s', [$interval, $startTime, $endTime]),
+			[true, true, true] => $this->l10n->t('Every %1$d Days between %2$s - %3$s until %4$s', [$interval, $startTime, $endTime, $conclusion]),
+			default => $this->l10n->t('Could not generate event recurrence statement')
+		};
+
+	}
+
+	/**
+	 * genarates a when string for a weekly precision/frequency
+	 *
+	 * @since 30.0.0
+	 *
+	 * @param EventReader $er
+	 *
+	 * @return string
+	 */
+	public function generateWhenStringRecurringWeekly(EventReader $er): string {
+		
+		// initialize
+		$interval = (int) $er->recurringInterval();
+		$startTime = '';
+		$endTime = '';
+		$conclusion = '';
+		// days of the week
+		$days = implode(', ', array_map(function ($value) { return $this->localizeDayName($value); }, $er->recurringDaysOfWeekNamed()));
+		// time of the day
+		if (!$er->entireDay()) {
+			$startTime = $this->l10n->l('time', $er->startDateTime(), ['width' => 'short']);
+			$startTime .= $er->startTimeZone() != $er->endTimeZone() ? ' (' . $er->startTimeZone()->getName() . ')' : '';
+			$endTime = $this->l10n->l('time', $er->endDateTime(), ['width' => 'short']) . ' (' . $er->endTimeZone()->getName() . ')';
+		}
+		// conclusion
+		if ($er->recurringConcludes()) {
+			$conclusion = $this->l10n->l('date', $er->recurringConcludesOn(), ['width' => 'long']);
+		}
+		// generate localized when string
+		// TRANSLATORS
+		// Indicates when a calendar event will happen, shown on invitation emails
+		// Output produced in order:
+		// Every Week on Monday, Wednesday, Friday for the entire day
+		// Every Week on Monday, Wednesday, Friday for the entire day until July 13, 2024
+		// Every Week on Monday, Wednesday, Friday between 8:00 AM - 9:00 AM (America/Toronto)
+		// Every Week on Monday, Wednesday, Friday between 8:00 AM - 9:00 AM (America/Toronto) until July 13, 2024
+		// Every 2 Weeks on Monday, Wednesday, Friday for the entire day
+		// Every 2 Weeks on Monday, Wednesday, Friday for the entire day until July 13, 2024
+		// Every 2 Weeks on Monday, Wednesday, Friday between 8:00 AM - 9:00 AM (America/Toronto)
+		// Every 2 Weeks on Monday, Wednesday, Friday between 8:00 AM - 9:00 AM (America/Toronto) until July 13, 2024
+		return match ([($interval > 1), !empty($startTime), !empty($conclusion)]) {
+			[false, false, false] => $this->l10n->t('Every Week on %1$s for the entire day', [$days]),
+			[false, false, true] => $this->l10n->t('Every Week on %1$s for the entire day until %2$s', [$days, $conclusion]),
+			[false, true, false] => $this->l10n->t('Every Week on %1$s between %2$s - %3$s', [$days, $startTime, $endTime]),
+			[false, true, true] => $this->l10n->t('Every Week on %1$s between %2$s - %3$s until %4$s', [$days, $startTime, $endTime, $conclusion]),
+			[true, false, false] => $this->l10n->t('Every %1$d Weeks on %2$s for the entire day', [$interval, $days]),
+			[true, false, true] => $this->l10n->t('Every %1$d Weeks on %2$s for the entire day until %3$s', [$interval, $days, $conclusion]),
+			[true, true, false] => $this->l10n->t('Every %1$d Weeks on %2$s between %3$s - %4$s', [$interval, $days, $startTime, $endTime]),
+			[true, true, true] => $this->l10n->t('Every %1$d Weeks on %2$s between %3$s - %4$s until %5$s', [$interval, $days, $startTime, $endTime, $conclusion]),
+			default => $this->l10n->t('Could not generate event recurrence statement')
+		};
+
+	}
+
+	/**
+	 * genarates a when string for a monthly precision/frequency
+	 *
+	 * @since 30.0.0
+	 *
+	 * @param EventReader $er
+	 *
+	 * @return string
+	 */
+	public function generateWhenStringRecurringMonthly(EventReader $er): string {
+		
+		// initialize
+		$interval = (int) $er->recurringInterval();
+		$startTime = '';
+		$endTime = '';
+		$conclusion = '';
+		// days of month
+		if ($er->recurringPattern() === 'R') {
+			$days = implode(', ', array_map(function ($value) { return $this->localizeRelativePositionName($value); }, $er->recurringRelativePositionNamed())) . ' ' .
+					implode(', ', array_map(function ($value) { return $this->localizeDayName($value); }, $er->recurringDaysOfWeekNamed()));
 		} else {
-			$dtend = clone $dtstart;
+			$days = implode(', ', $er->recurringDaysOfMonth());
 		}
-
-		/** @var Property\ICalendar\Date | Property\ICalendar\DateTime $dtstart */
-		/** @var \DateTimeImmutable $dtstartDt */
-		$dtstartDt = $dtstart->getDateTime();
-
-		/** @var Property\ICalendar\Date | Property\ICalendar\DateTime $dtend */
-		/** @var \DateTimeImmutable $dtendDt */
-		$dtendDt = $dtend->getDateTime();
-
-		$diff = $dtstartDt->diff($dtendDt);
-
-		$dtstartDt = new \DateTime($dtstartDt->format(\DateTimeInterface::ATOM));
-		$dtendDt = new \DateTime($dtendDt->format(\DateTimeInterface::ATOM));
-
-		if ($dtstart instanceof Property\ICalendar\Date) {
-			// One day event
-			if ($diff->days === 1) {
-				return $this->l10n->l('date', $dtstartDt, ['width' => 'medium']);
-			}
-
-			// DTEND is exclusive, so if the ics data says 2020-01-01 to 2020-01-05,
-			// the email should show 2020-01-01 to 2020-01-04.
-			$dtendDt->modify('-1 day');
-
-			//event that spans over multiple days
-			$localeStart = $this->l10n->l('date', $dtstartDt, ['width' => 'medium']);
-			$localeEnd = $this->l10n->l('date', $dtendDt, ['width' => 'medium']);
-
-			return $localeStart . ' - ' . $localeEnd;
+		// time of the day
+		if (!$er->entireDay()) {
+			$startTime = $this->l10n->l('time', $er->startDateTime(), ['width' => 'short']);
+			$startTime .= $er->startTimeZone() != $er->endTimeZone() ? ' (' . $er->startTimeZone()->getName() . ')' : '';
+			$endTime = $this->l10n->l('time', $er->endDateTime(), ['width' => 'short']) . ' (' . $er->endTimeZone()->getName() . ')';
 		}
-
-		/** @var Property\ICalendar\DateTime $dtstart */
-		/** @var Property\ICalendar\DateTime $dtend */
-		$isFloating = $dtstart->isFloating();
-		$startTimezone = $endTimezone = null;
-		if (!$isFloating) {
-			$prop = $dtstart->offsetGet('TZID');
-			if ($prop instanceof Parameter) {
-				$startTimezone = $prop->getValue();
-			}
-
-			$prop = $dtend->offsetGet('TZID');
-			if ($prop instanceof Parameter) {
-				$endTimezone = $prop->getValue();
-			}
+		// conclusion
+		if ($er->recurringConcludes()) {
+			$conclusion = $this->l10n->l('date', $er->recurringConcludesOn(), ['width' => 'long']);
 		}
+		// generate localized when string
+		// TRANSLATORS
+		// Indicates when a calendar event will happen, shown on invitation emails
+		// Output produced in order, output varies depending on if the event is absolute or releative:
+		// Absolute: Every Month on the 1, 8 for the entire day
+		// Relative: Every Month on the First Sunday, Saturday for the entire day
+		// Absolute: Every Month on the 1, 8 for the entire day until December 31, 2024
+		// Relative: Every Month on the First Sunday, Saturday for the entire day until December 31, 2024
+		// Absolute: Every Month on the 1, 8 between 8:00 AM - 9:00 AM (America/Toronto)
+		// Relative: Every Month on the First Sunday, Saturday between 8:00 AM - 9:00 AM (America/Toronto)
+		// Absolute: Every Month on the 1, 8 between 8:00 AM - 9:00 AM (America/Toronto) until December 31, 2024
+		// Relative: Every Month on the First Sunday, Saturday between 8:00 AM - 9:00 AM (America/Toronto) until December 31, 2024
+		// Absolute: Every 2 Months on the 1, 8 for the entire day
+		// Relative: Every 2 Months on the First Sunday, Saturday for the entire day
+		// Absolute: Every 2 Months on the 1, 8 for the entire day until December 31, 2024
+		// Relative: Every 2 Months on the First Sunday, Saturday for the entire day until December 31, 2024
+		// Absolute: Every 2 Months on the 1, 8 between 8:00 AM - 9:00 AM (America/Toronto)
+		// Relative: Every 2 Months on the First Sunday, Saturday between 8:00 AM - 9:00 AM (America/Toronto)
+		// Absolute: Every 2 Months on the 1, 8 between 8:00 AM - 9:00 AM (America/Toronto) until December 31, 2024
+		// Relative: Every 2 Months on the First Sunday, Saturday between 8:00 AM - 9:00 AM (America/Toronto) until December 31, 2024
+		return match ([($interval > 1), !empty($startTime), !empty($conclusion)]) {
+			[false, false, false] => $this->l10n->t('Every Month on the %1$s for the entire day', [$days]),
+			[false, false, true] => $this->l10n->t('Every Month on the %1$s for the entire day until %2$s', [$days, $conclusion]),
+			[false, true, false] => $this->l10n->t('Every Month on the %1$s between %2$s - %3$s', [$days, $startTime, $endTime]),
+			[false, true, true] => $this->l10n->t('Every Month on the %1$s between %2$s - %3$s until %4$s', [$days, $startTime, $endTime, $conclusion]),
+			[true, false, false] => $this->l10n->t('Every %1$d Months on the %2$s for the entire day', [$interval, $days]),
+			[true, false, true] => $this->l10n->t('Every %1$d Months on the %2$s for the entire day until %3$s', [$interval, $days, $conclusion]),
+			[true, true, false] => $this->l10n->t('Every %1$d Months on the %2$s between %3$s - %4$s', [$interval, $days, $startTime, $endTime]),
+			[true, true, true] => $this->l10n->t('Every %1$d Months on the %2$s between %3$s - %4$s until %5$s', [$interval, $days, $startTime, $endTime, $conclusion]),
+			default => $this->l10n->t('Could not generate event recurrence statement')
+		};
+	}
 
-		$localeStart = $this->l10n->l('weekdayName', $dtstartDt, ['width' => 'abbreviated']) . ', ' .
-			$this->l10n->l('datetime', $dtstartDt, ['width' => 'medium|short']);
-
-		// always show full date with timezone if timezones are different
-		if ($startTimezone !== $endTimezone) {
-			$localeEnd = $this->l10n->l('datetime', $dtendDt, ['width' => 'medium|short']);
-
-			return $localeStart . ' (' . $startTimezone . ') - ' .
-				$localeEnd . ' (' . $endTimezone . ')';
-		}
-
-		// show only end time if date is the same
-		if ($dtstartDt->format('Y-m-d') === $dtendDt->format('Y-m-d')) {
-			$localeEnd = $this->l10n->l('time', $dtendDt, ['width' => 'short']);
+	/**
+	 * genarates a when string for a yearly precision/frequency
+	 *
+	 * @since 30.0.0
+	 *
+	 * @param EventReader $er
+	 *
+	 * @return string
+	 */
+	public function generateWhenStringRecurringYearly(EventReader $er): string {
+		
+		// initialize
+		$interval = (int) $er->recurringInterval();
+		$startTime = '';
+		$endTime = '';
+		$conclusion = '';
+		// months of year
+		$months = implode(', ', array_map(function ($value) { return $this->localizeMonthName($value); }, $er->recurringMonthsOfYearNamed()));
+		// days of month
+		if ($er->recurringPattern() === 'R') {
+			$days = implode(', ', array_map(function ($value) { return $this->localizeRelativePositionName($value); }, $er->recurringRelativePositionNamed())) . ' ' .
+					implode(', ', array_map(function ($value) { return $this->localizeDayName($value); }, $er->recurringDaysOfWeekNamed()));
 		} else {
-			$localeEnd = $this->l10n->l('weekdayName', $dtendDt, ['width' => 'abbreviated']) . ', ' .
-				$this->l10n->l('datetime', $dtendDt, ['width' => 'medium|short']);
+			$days = $er->startDateTime()->format('jS');
 		}
+		// time of the day
+		if (!$er->entireDay()) {
+			$startTime = $this->l10n->l('time', $er->startDateTime(), ['width' => 'short']);
+			$startTime .= $er->startTimeZone() != $er->endTimeZone() ? ' (' . $er->startTimeZone()->getName() . ')' : '';
+			$endTime = $this->l10n->l('time', $er->endDateTime(), ['width' => 'short']) . ' (' . $er->endTimeZone()->getName() . ')';
+		}
+		// conclusion
+		if ($er->recurringConcludes()) {
+			$conclusion = $this->l10n->l('date', $er->recurringConcludesOn(), ['width' => 'long']);
+		}
+		// generate localized when string
+		// TRANSLATORS
+		// Indicates when a calendar event will happen, shown on invitation emails
+		// Output produced in order, output varies depending on if the event is absolute or releative:
+		// Absolute: Every Year in July on the 1st for the entire day
+		// Relative: Every Year in July on the First Sunday, Saturday for the entire day
+		// Absolute: Every Year in July on the 1st for the entire day until July 31, 2026
+		// Relative: Every Year in July on the First Sunday, Saturday for the entire day until July 31, 2026
+		// Absolute: Every Year in July on the 1st between 8:00 AM - 9:00 AM (America/Toronto)
+		// Relative: Every Year in July on the First Sunday, Saturday between 8:00 AM - 9:00 AM (America/Toronto)
+		// Absolute: Every Year in July on the 1st between 8:00 AM - 9:00 AM (America/Toronto) until July 31, 2026
+		// Relative: Every Year in July on the First Sunday, Saturday between 8:00 AM - 9:00 AM (America/Toronto) until July 31, 2026
+		// Absolute: Every 2 Years in July on the 1st for the entire day
+		// Relative: Every 2 Years in July on the First Sunday, Saturday for the entire day
+		// Absolute: Every 2 Years in July on the 1st for the entire day until July 31, 2026
+		// Relative: Every 2 Years in July on the First Sunday, Saturday for the entire day until July 31, 2026
+		// Absolute: Every 2 Years in July on the 1st between 8:00 AM - 9:00 AM (America/Toronto)
+		// Relative: Every 2 Years in July on the First Sunday, Saturday between 8:00 AM - 9:00 AM (America/Toronto)
+		// Absolute: Every 2 Years in July on the 1st between 8:00 AM - 9:00 AM (America/Toronto) until July 31, 2026
+		// Relative: Every 2 Years in July on the First Sunday, Saturday between 8:00 AM - 9:00 AM (America/Toronto) until July 31, 2026
+		return match ([($interval > 1), !empty($startTime), !empty($conclusion)]) {
+			[false, false, false] => $this->l10n->t('Every Year in %1$s on the %2$s for the entire day', [$months, $days]),
+			[false, false, true] => $this->l10n->t('Every Year in %1$s on the %2$s for the entire day until %3$s', [$months, $days, $conclusion]),
+			[false, true, false] => $this->l10n->t('Every Year in %1$s on the %2$s between %3$s - %4$s', [$months, $days, $startTime, $endTime]),
+			[false, true, true] => $this->l10n->t('Every Year in %1$s on the %2$s between %3$s - %4$s until %5$s', [$months, $days, $startTime, $endTime, $conclusion]),
+			[true, false, false] => $this->l10n->t('Every %1$d Years in %2$s on the %3$s for the entire day', [$interval, $months, $days]),
+			[true, false, true] => $this->l10n->t('Every %1$d Years in %2$s on the %3$s for the entire day until %4$s', [$interval, $months,  $days, $conclusion]),
+			[true, true, false] => $this->l10n->t('Every %1$d Years in %2$s on the %3$s between %4$s - %5$s', [$interval, $months, $days, $startTime, $endTime]),
+			[true, true, true] => $this->l10n->t('Every %1$d Years in %2$s on the %3$s between %4$s - %5$s until %6$s', [$interval, $months, $days, $startTime, $endTime, $conclusion]),
+			default => $this->l10n->t('Could not generate event recurrence statement')
+		};
+	}
 
-		return $localeStart . ' - ' . $localeEnd . ' (' . $startTimezone . ')';
+	/**
+	 * genarates a when string for a fixed precision/frequency
+	 *
+	 * @since 30.0.0
+	 *
+	 * @param EventReader $er
+	 *
+	 * @return string
+	 */
+	public function generateWhenStringRecurringFixed(EventReader $er): string {
+		// initialize
+		$startTime = '';
+		$endTime = '';
+		$conclusion = '';
+		// time of the day
+		if (!$er->entireDay()) {
+			$startTime = $this->l10n->l('time', $er->startDateTime(), ['width' => 'short']);
+			$startTime .= $er->startTimeZone() != $er->endTimeZone() ? ' (' . $er->startTimeZone()->getName() . ')' : '';
+			$endTime = $this->l10n->l('time', $er->endDateTime(), ['width' => 'short']) . ' (' . $er->endTimeZone()->getName() . ')';
+		}
+		// conclusion
+		$conclusion = $this->l10n->l('date', $er->recurringConcludesOn(), ['width' => 'long']);
+		// generate localized when string
+		// TRANSLATORS
+		// Indicates when a calendar event will happen, shown on invitation emails
+		// Output produced in order:
+		// On specific dates for the entire day until July 13, 2024
+		// On specific dates between 8:00 AM - 9:00 AM (America/Toronto) until July 13, 2024
+		return match (!empty($startTime)) {
+			false => $this->l10n->t('On specific dates for the entire day until %1$s', [$conclusion]),
+			true => $this->l10n->t('On specific dates between %1$s - %2$s until %3$s', [$startTime, $endTime, $conclusion]),
+		};
+	}
+	
+	/**
+	 * genarates a occurring next string for a recurring event
+	 *
+	 * @since 30.0.0
+	 *
+	 * @param EventReader $er
+	 *
+	 * @return string
+	 */
+	public function generateOccurringString(EventReader $er): string {
+
+		// reset to initial occurance
+		$er->recurrenceRewind();
+		// forward to current date
+		$er->recurrenceAdvanceTo($this->timeFactory->getDateTime());
+		// calculate time differnce from now to start of next event occurance and minimize it
+		$occuranceIn = $this->minimizeInterval($this->timeFactory->getDateTime()->diff($er->recurrenceDate()));
+		// store next occurance value
+		$occurance = $this->l10n->l('date', $er->recurrenceDate(), ['width' => 'long']);
+		// forward one occurance
+		$er->recurrenceAdvance();
+		// evaluate if occurance is valid
+		if ($er->recurrenceDate() !== null) {
+			// store following occurance value
+			$occurance2 = $this->l10n->l('date', $er->recurrenceDate(), ['width' => 'long']);
+			// forward one occurance
+			$er->recurrenceAdvance();
+			// evaluate if occurance is valid
+			if ($er->recurrenceDate()) {
+				// store following occurance value
+				$occurance3 = $this->l10n->l('date', $er->recurrenceDate(), ['width' => 'long']);
+			}
+		}
+		// generate localized when string
+		// TRANSLATORS
+		// Indicates when a calendar event will happen, shown on invitation emails
+		// Output produced in order:
+		// In a day/week/month/year on July 1, 2024
+		// In a day/week/month/year on July 1, 2024 then on July 3, 2024
+		// In a day/week/month/year on July 1, 2024 then on July 3, 2024 and July 5, 2024
+		// In 2 days/weeks/months/years on July 1, 2024
+		// In 2 days/weeks/months/years on July 1, 2024 then on July 3, 2024
+		// In 2 days/weeks/months/years on July 1, 2024 then on July 3, 2024 and July 5, 2024
+		return match ([($occuranceIn[0] > 1), !empty($occurance2), !empty($occurance3)]) {
+			[false, false, false] => $this->l10n->t('In a %1$s on %2$s', [$occuranceIn[1], $occurance]),
+			[false, true, false] => $this->l10n->t('In a %1$s on %2$s then on %3$s', [$occuranceIn[1], $occurance, $occurance2]),
+			[false, true, true] => $this->l10n->t('In a %1$s on %2$s then on %3$s and %4$s', [$occuranceIn[1], $occurance, $occurance2, $occurance3]),
+			[true, false, false] => $this->l10n->t('In %1$s %2$s on %3$s', [$occuranceIn[0], $occuranceIn[1], $occurance]),
+			[true, true, false] => $this->l10n->t('In %1$s %2$s on %3$s then on %4$s', [$occuranceIn[0], $occuranceIn[1], $occurance, $occurance2]),
+			[true, true, true] => $this->l10n->t('In %1$s %2$s on %3$s then on %4$s and %5$s', [$occuranceIn[0], $occuranceIn[1], $occurance, $occurance2, $occurance3]),
+			default => $this->l10n->t('Could not generate next recurrence statement')
+		};
+
 	}
 
 	/**
@@ -261,12 +578,13 @@ class IMipService {
 	 * @return array
 	 */
 	public function buildCancelledBodyData(VEvent $vEvent): array {
+		// construct event reader
+		$eventReaderCurrent = new EventReader($vEvent);
 		$defaultVal = '';
 		$strikethrough = "<span style='text-decoration: line-through'>%s</span>";
 
-		$newMeetingWhen = $this->generateWhenString($vEvent);
+		$newMeetingWhen = $this->generateWhenString($eventReaderCurrent);
 		$newSummary = isset($vEvent->SUMMARY) && (string)$vEvent->SUMMARY !== '' ? (string)$vEvent->SUMMARY : $this->l10n->t('Untitled event');
-		;
 		$newDescription = isset($vEvent->DESCRIPTION) && (string)$vEvent->DESCRIPTION !== '' ? (string)$vEvent->DESCRIPTION : $defaultVal;
 		$newUrl = isset($vEvent->URL) && (string)$vEvent->URL !== '' ? sprintf('<a href="%1$s">%1$s</a>', $vEvent->URL) : $defaultVal;
 		$newLocation = isset($vEvent->LOCATION) && (string)$vEvent->LOCATION !== '' ? (string)$vEvent->LOCATION : $defaultVal;
@@ -522,7 +840,7 @@ class IMipService {
 			$data['meeting_title_html'] ?? $data['meeting_title'], $this->l10n->t('Title:'),
 			$this->getAbsoluteImagePath('caldav/title.png'), $data['meeting_title'], '', IMipPlugin::IMIP_INDENT);
 		if ($data['meeting_when'] !== '') {
-			$template->addBodyListItem($data['meeting_when_html'] ?? $data['meeting_when'], $this->l10n->t('Date and time:'),
+			$template->addBodyListItem($data['meeting_when_html'] ?? $data['meeting_when'], $this->l10n->t('When:'),
 				$this->getAbsoluteImagePath('caldav/time.png'), $data['meeting_when'], '', IMipPlugin::IMIP_INDENT);
 		}
 		if ($data['meeting_location'] !== '') {
@@ -532,6 +850,10 @@ class IMipService {
 		if ($data['meeting_url'] !== '') {
 			$template->addBodyListItem($data['meeting_url_html'] ?? $data['meeting_url'], $this->l10n->t('Link:'),
 				$this->getAbsoluteImagePath('caldav/link.png'), $data['meeting_url'], '', IMipPlugin::IMIP_INDENT);
+		}
+		if (isset($data['meeting_occurring'])) {
+			$template->addBodyListItem($data['meeting_occurring_html'] ?? $data['meeting_occurring'], $this->l10n->t('Occurring:'),
+				$this->getAbsoluteImagePath('caldav/time.png'), $data['meeting_occurring'], '', IMipPlugin::IMIP_INDENT);
 		}
 
 		$this->addAttendees($template, $vevent);
@@ -643,10 +965,104 @@ class IMipService {
 			return false;
 		}
 		$type = $cuType->getValue() ?? 'INDIVIDUAL';
-		if (\in_array(strtoupper($type), ['RESOURCE', 'ROOM'], true)) {
+		if (\in_array(strtoupper($type), ['RESOURCE', 'ROOM', 'UNKNOWN'], true)) {
 			// Don't send emails to things
 			return true;
 		}
 		return false;
+	}
+
+	public function minimizeInterval(\DateInterval $dateInterval): array {
+		// evaluate if time interval is in the past
+		if ($dateInterval->invert == 1) {
+			return [1, 'the past'];
+		}
+		// evaluate interval parts and return smallest time period
+		if ($dateInterval->y > 0) {
+			$interval = $dateInterval->y;
+			$scale = ($dateInterval->y > 1) ? 'years' : 'year';
+		} elseif ($dateInterval->m > 0) {
+			$interval = $dateInterval->m;
+			$scale = ($dateInterval->m > 1) ? 'months' : 'month';
+		} elseif ($dateInterval->d >= 7) {
+			$interval = (int)($dateInterval->d / 7);
+			$scale = ((int)($dateInterval->d / 7) > 1) ? 'weeks' : 'week';
+		} elseif ($dateInterval->d > 0) {
+			$interval = $dateInterval->d;
+			$scale = ($dateInterval->d > 1) ? 'days' : 'day';
+		} elseif ($dateInterval->h > 0) {
+			$interval = $dateInterval->h;
+			$scale = ($dateInterval->h > 1) ? 'hours' : 'hour';
+		} else {
+			$interval = $dateInterval->i;
+			$scale = 'minutes';
+		}
+
+		return [$interval, $scale];
+	}
+
+	/**
+	 * Localizes week day names to another language
+	 *
+	 * @param string $value
+	 *
+	 * @return string
+	 */
+	public function localizeDayName(string $value): string {
+		return match ($value) {
+			'Monday' => $this->l10n->t('Monday'),
+			'Tuesday' => $this->l10n->t('Tuesday'),
+			'Wednesday' => $this->l10n->t('Wednesday'),
+			'Thursday' => $this->l10n->t('Thursday'),
+			'Friday' => $this->l10n->t('Friday'),
+			'Saturday' => $this->l10n->t('Saturday'),
+			'Sunday' => $this->l10n->t('Sunday'),
+		};
+	}
+
+	/**
+	 * Localizes month names to another language
+	 *
+	 * @param string $value
+	 *
+	 * @return string
+	 */
+	public function localizeMonthName(string $value): string {
+		return match ($value) {
+			'January' => $this->l10n->t('January'),
+			'February' => $this->l10n->t('February'),
+			'March' => $this->l10n->t('March'),
+			'April' => $this->l10n->t('April'),
+			'May' => $this->l10n->t('May'),
+			'June' => $this->l10n->t('June'),
+			'July' => $this->l10n->t('July'),
+			'August' => $this->l10n->t('August'),
+			'September' => $this->l10n->t('September'),
+			'October' => $this->l10n->t('October'),
+			'November' => $this->l10n->t('November'),
+			'December' => $this->l10n->t('December'),
+		};
+	}
+
+	/**
+	 * Localizes relative position names to another language
+	 *
+	 * @param string $value
+	 *
+	 * @return string
+	 */
+	public function localizeRelativePositionName(string $value): string {
+		return match ($value) {
+			'First' => $this->l10n->t('First'),
+			'Second' => $this->l10n->t('Second'),
+			'Third' => $this->l10n->t('Third'),
+			'Fourth' => $this->l10n->t('Fourth'),
+			'Fifty' => $this->l10n->t('Fifty'),
+			'Last' => $this->l10n->t('Last'),
+			'Second Last' => $this->l10n->t('Second Last'),
+			'Third Last' => $this->l10n->t('Third Last'),
+			'Fourth Last' => $this->l10n->t('Fourth Last'),
+			'Fifty Last' => $this->l10n->t('Fifty Last'),
+		};
 	}
 }

@@ -20,6 +20,7 @@ use OCP\ISession;
 use OCP\IUserSession;
 use OCP\Session\Exceptions\SessionNotAvailableException;
 use OCP\User\Backend\IPasswordConfirmationBackend;
+use Psr\Log\LoggerInterface;
 use ReflectionMethod;
 
 class PasswordConfirmationMiddleware extends Middleware {
@@ -48,6 +49,7 @@ class PasswordConfirmationMiddleware extends Middleware {
 		IUserSession $userSession,
 		ITimeFactory $timeFactory,
 		IProvider $tokenProvider,
+		private readonly LoggerInterface $logger,
 	) {
 		$this->reflector = $reflector;
 		$this->session = $session;
@@ -113,6 +115,7 @@ class PasswordConfirmationMiddleware extends Middleware {
 		}
 
 		if ($this->reflector->hasAnnotation($annotationName)) {
+			$this->logger->debug($reflectionMethod->getDeclaringClass()->getName() . '::' . $reflectionMethod->getName() . ' uses the @' . $annotationName . ' annotation and should use the #[' . $attributeClass . '] attribute instead');
 			return true;
 		}
 

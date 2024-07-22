@@ -6,6 +6,11 @@
 @use 'sass:math';
 @use 'variables';
 
+:root {
+	font-size: var(--default-font-size);
+	line-height: var(--default-line-height);
+}
+
 html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, code, del, dfn, em, img, q, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, dialog, figure, footer, header, hgroup, nav, section, main {
 	margin: 0;
 	padding: 0;

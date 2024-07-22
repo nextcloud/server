@@ -32,6 +32,7 @@ use OCP\IRequestId;
 use OCP\ISession;
 use OCP\IURLGenerator;
 use OCP\IUserSession;
+use OCP\Security\Ip\IRemoteAddress;
 use Psr\Log\LoggerInterface;
 use Test\AppFramework\Middleware\Security\Mock\NormalController;
 use Test\AppFramework\Middleware\Security\Mock\OCSController;
@@ -90,6 +91,8 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 		$this->appManager->expects($this->any())
 			->method('isEnabledForUser')
 			->willReturn($isAppEnabledForUser);
+		$remoteIpAddress = $this->createMock(IRemoteAddress::class);
+		$remoteIpAddress->method('allowsAdminActions')->willReturn(true);
 
 		return new SecurityMiddleware(
 			$this->request,
@@ -104,7 +107,8 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 			$this->appManager,
 			$this->l10n,
 			$this->authorizedGroupMapper,
-			$this->userSession
+			$this->userSession,
+			$remoteIpAddress
 		);
 	}
 

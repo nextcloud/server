@@ -50,19 +50,6 @@
 
 		<!-- Controls -->
 		<template #actions>
-			<!-- Cancel the creation -->
-			<NcButton :aria-label="t('files_sharing', 'Cancel')"
-				:disabled="loading"
-				:title="t('files_sharing', 'Cancel the file request creation')"
-				data-cy-file-request-dialog-controls="cancel"
-				type="tertiary"
-				@click="onCancel">
-				{{ t('files_sharing', 'Cancel') }}
-			</NcButton>
-
-			<!-- Align right -->
-			<span class="dialog__actions-separator" />
-
 			<!-- Back -->
 			<NcButton v-show="currentStep === STEP.SECOND"
 				:aria-label="t('files_sharing', 'Previous step')"
@@ -71,6 +58,31 @@
 				type="tertiary"
 				@click="currentStep = STEP.FIRST">
 				{{ t('files_sharing', 'Previous step') }}
+			</NcButton>
+
+			<!-- Align right -->
+			<span class="dialog__actions-separator" />
+
+			<!-- Cancel the creation -->
+			<NcButton v-if="currentStep !== STEP.LAST"
+				:aria-label="t('files_sharing', 'Cancel')"
+				:disabled="loading"
+				:title="t('files_sharing', 'Cancel the file request creation')"
+				data-cy-file-request-dialog-controls="cancel"
+				type="tertiary"
+				@click="onCancel">
+				{{ t('files_sharing', 'Cancel') }}
+			</NcButton>
+
+			<!-- Cancel email and just close -->
+			<NcButton v-else-if="emails.length !== 0"
+				:aria-label="t('files_sharing', 'Close without sending emails')"
+				:disabled="loading"
+				:title="t('files_sharing', 'Close without sending emails')"
+				data-cy-file-request-dialog-controls="cancel"
+				type="tertiary"
+				@click="onCancel">
+				{{ t('files_sharing', 'Close') }}
 			</NcButton>
 
 			<!-- Next -->
@@ -115,7 +127,7 @@ import { generateOcsUrl } from '@nextcloud/router'
 import { Permission } from '@nextcloud/files'
 import { ShareType } from '@nextcloud/sharing'
 import { showError, showSuccess } from '@nextcloud/dialogs'
-import { translate, translatePlural } from '@nextcloud/l10n'
+import { n, t } from '@nextcloud/l10n'
 import axios from '@nextcloud/axios'
 
 import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
@@ -170,9 +182,8 @@ export default defineComponent({
 	setup() {
 		return {
 			STEP,
-
-			n: translatePlural,
-			t: translate,
+			n,
+			t,
 
 			isShareByMailEnabled: sharingConfig.isMailShareAllowed,
 		}
@@ -198,9 +209,9 @@ export default defineComponent({
 	computed: {
 		finishButtonLabel() {
 			if (this.emails.length === 0) {
-				return this.t('files_sharing', 'Close')
+				return t('files_sharing', 'Close')
 			}
-			return this.n('files_sharing', 'Close and send email', 'Close and send {count} emails', this.emails.length, { count: this.emails.length })
+			return n('files_sharing', 'Send email and close', 'Send {count} emails and close', this.emails.length, { count: this.emails.length })
 		},
 	},
 
@@ -209,13 +220,14 @@ export default defineComponent({
 			const form = this.$refs.form as HTMLFormElement
 			if (!form.checkValidity()) {
 				form.reportValidity()
+				return
 			}
 
 			// custom destination validation
 			// cannot share root
 			if (this.destination === '/' || this.destination === '') {
 				const destinationInput = form.querySelector('input[name="destination"]') as HTMLInputElement
-				destinationInput?.setCustomValidity(this.t('files_sharing', 'Please select a folder, you cannot share the root directory.'))
+				destinationInput?.setCustomValidity(t('files_sharing', 'Please select a folder, you cannot share the root directory.'))
 				form.reportValidity()
 				return
 			}
@@ -239,26 +251,40 @@ export default defineComponent({
 
 		async onFinish() {
 			if (this.emails.length === 0 || this.isShareByMailEnabled === false) {
-				showSuccess(this.t('files_sharing', 'File request created'))
+				showSuccess(t('files_sharing', 'File request created'))
 				this.$emit('close')
 				return
 			}
 
-			await this.setShareEmails()
-			await this.sendEmails()
-			showSuccess(this.t('files_sharing', 'File request created and emails sent'))
+			if (sharingConfig.isMailShareAllowed && this.emails.length > 0) {
+				await this.setShareEmails()
+				await this.sendEmails()
+				showSuccess(n('files_sharing', 'File request created and email sent', 'File request created and {count} emails sent', this.emails.length, { count: this.emails.length }))
+			} else {
+				showSuccess(t('files_sharing', 'File request created'))
+			}
+
 			this.$emit('close')
 		},
 
 		async createShare() {
 			this.loading = true
 
-			// Format must be YYYY-MM-DD
-			const expireDate = this.expirationDate ? this.expirationDate.toISOString().split('T')[0] : undefined
+			let expireDate = ''
+			if (this.expirationDate) {
+				const year = this.expirationDate.getFullYear()
+				const month = (this.expirationDate.getMonth() + 1).toString().padStart(2, '0')
+				const day = this.expirationDate.getDate().toString().padStart(2, '0')
+
+				// Format must be YYYY-MM-DD
+				expireDate = `${year}-${month}-${day}`
+			}
 			const shareUrl = generateOcsUrl('apps/files_sharing/api/v1/shares')
 			try {
 				const request = await axios.post<OCSResponse>(shareUrl, {
-					shareType: ShareType.Email,
+					// Always create a file request, but without mail share
+					// permissions, only a share link will be created.
+					shareType: sharingConfig.isMailShareAllowed ? ShareType.Email : ShareType.Link,
 					permissions: Permission.CREATE,
 
 					label: this.label,
@@ -266,7 +292,7 @@ export default defineComponent({
 					note: this.note,
 
 					password: this.password || undefined,
-					expireDate,
+					expireDate: expireDate || undefined,
 
 					// Empty string
 					shareWith: '',
@@ -294,8 +320,8 @@ export default defineComponent({
 				const errorMessage = (error as AxiosError<OCSResponse>)?.response?.data?.ocs?.meta?.message
 				showError(
 					errorMessage
-						? this.t('files_sharing', 'Error creating the share: {errorMessage}', { errorMessage })
-						: this.t('files_sharing', 'Error creating the share'),
+						? t('files_sharing', 'Error creating the share: {errorMessage}', { errorMessage })
+						: t('files_sharing', 'Error creating the share'),
 				)
 				logger.error('Error while creating share', { error, errorMessage })
 				throw error
@@ -320,6 +346,11 @@ export default defineComponent({
 						value: this.emails,
 						key: 'emails',
 						scope: 'shareWith',
+					},
+					{
+						value: true,
+						key: 'enabled',
+						scope: 'fileRequest',
 					}]),
 				})
 
@@ -366,8 +397,8 @@ export default defineComponent({
 			const errorMessage = error.response?.data?.ocs?.meta?.message
 			showError(
 				errorMessage
-					? this.t('files_sharing', 'Error sending emails: {errorMessage}', { errorMessage })
-					: this.t('files_sharing', 'Error sending emails'),
+					? t('files_sharing', 'Error sending emails: {errorMessage}', { errorMessage })
+					: t('files_sharing', 'Error sending emails'),
 			)
 			logger.error('Error while sending emails', { error, errorMessage })
 		},
@@ -375,10 +406,9 @@ export default defineComponent({
 })
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
 .file-request-dialog {
-	--margin: 36px;
-	--secondary-margin: 18px;
+	--margin: 18px;
 
 	&__header {
 		margin: 0 var(--margin);
@@ -387,35 +417,45 @@ export default defineComponent({
 	&__form {
 		position: relative;
 		overflow: auto;
-		padding: var(--secondary-margin) var(--margin);
+		padding: var(--margin) var(--margin);
 		// overlap header bottom padding
-		margin-top: calc(-1 * var(--secondary-margin));
+		margin-top: calc(-1 * var(--margin));
 	}
 
-	:deep(fieldset) {
+	fieldset {
 		display: flex;
 		flex-direction: column;
 		width: 100%;
-		margin-top: var(--secondary-margin);
+		margin-top: var(--margin);
 
-		:deep(legend) {
+		legend {
 			display: flex;
 			align-items: center;
 			width: 100%;
 		}
 	}
 
-	:deep(.dialog__actions) {
+	// Using a NcNoteCard was a bit much sometimes.
+	// Using a simple paragraph instead does it.
+	&__info {
+		color: var(--color-text-maxcontrast);
+		padding-block: 4px;
+		display: flex;
+		align-items: center;
+		.file-request-dialog__info-icon {
+			margin-inline-end: 8px;
+		}
+	}
+
+	.dialog__actions {
 		width: auto;
 		margin-inline: 12px;
-		// align left and remove margin
-		margin-left: 0;
 		span.dialog__actions-separator {
 			margin-left: auto;
 		}
 	}
 
-	:deep(.input-field__helper-text-message) {
+	.input-field__helper-text-message {
 		// reduce helper text standing out
 		color: var(--color-text-maxcontrast);
 	}

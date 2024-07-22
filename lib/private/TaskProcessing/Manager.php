@@ -9,21 +9,28 @@ declare(strict_types=1);
 
 namespace OC\TaskProcessing;
 
+use GuzzleHttp\Exception\ClientException;
+use GuzzleHttp\Exception\ServerException;
 use OC\AppFramework\Bootstrap\Coordinator;
 use OC\Files\SimpleFS\SimpleFile;
 use OC\TaskProcessing\Db\TaskMapper;
+use OCP\App\IAppManager;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Db\MultipleObjectsReturnedException;
 use OCP\BackgroundJob\IJobList;
 use OCP\DB\Exception;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\AppData\IAppDataFactory;
+use OCP\Files\Config\IUserMountCache;
 use OCP\Files\File;
 use OCP\Files\GenericFileException;
 use OCP\Files\IAppData;
+use OCP\Files\InvalidPathException;
 use OCP\Files\IRootFolder;
+use OCP\Files\Node;
 use OCP\Files\NotPermittedException;
 use OCP\Files\SimpleFS\ISimpleFile;
+use OCP\Http\Client\IClientService;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IServerContainer;
@@ -50,6 +57,8 @@ use OCP\TaskProcessing\TaskTypes\TextToText;
 use OCP\TaskProcessing\TaskTypes\TextToTextHeadline;
 use OCP\TaskProcessing\TaskTypes\TextToTextSummary;
 use OCP\TaskProcessing\TaskTypes\TextToTextTopics;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use Psr\Log\LoggerInterface;
 
 class Manager implements IManager {
@@ -79,7 +88,9 @@ class Manager implements IManager {
 		private \OCP\TextProcessing\IManager $textProcessingManager,
 		private \OCP\TextToImage\IManager $textToImageManager,
 		private \OCP\SpeechToText\ISpeechToTextManager $speechToTextManager,
-		private \OCP\Share\IManager $shareManager,
+		private IUserMountCache $userMountCache,
+		private IClientService $clientService,
+		private IAppManager $appManager,
 	) {
 		$this->appData = $appDataFactory->get('core');
 	}
@@ -456,7 +467,7 @@ class Manager implements IManager {
 	 * @return void
 	 * @throws ValidationException
 	 */
-	private function validateOutput(array $spec, array $io, bool $optional = false): void {
+	private function validateOutputWithFileIds(array $spec, array $io, bool $optional = false): void {
 		foreach ($spec as $key => $descriptor) {
 			$type = $descriptor->getShapeType();
 			if (!isset($io[$key])) {
@@ -466,7 +477,31 @@ class Manager implements IManager {
 				throw new ValidationException('Missing key: "' . $key . '"');
 			}
 			try {
-				$type->validateOutput($io[$key]);
+				$type->validateOutputWithFileIds($io[$key]);
+			} catch (ValidationException $e) {
+				throw new ValidationException('Failed to validate output key "' . $key . '": ' . $e->getMessage());
+			}
+		}
+	}
+
+	/**
+	 * @param ShapeDescriptor[] $spec
+	 * @param array $io
+	 * @param bool $optional
+	 * @return void
+	 * @throws ValidationException
+	 */
+	private function validateOutputWithFileData(array $spec, array $io, bool $optional = false): void {
+		foreach ($spec as $key => $descriptor) {
+			$type = $descriptor->getShapeType();
+			if (!isset($io[$key])) {
+				if ($optional) {
+					continue;
+				}
+				throw new ValidationException('Missing key: "' . $key . '"');
+			}
+			try {
+				$type->validateOutputWithFileData($io[$key]);
 			} catch (ValidationException $e) {
 				throw new ValidationException('Failed to validate output key "' . $key . '": ' . $e->getMessage());
 			}
@@ -575,19 +610,8 @@ class Manager implements IManager {
 			}
 		}
 		foreach ($ids as $fileId) {
-			$node = $this->rootFolder->getFirstNodeById($fileId);
-			if ($node === null) {
-				$node = $this->rootFolder->getFirstNodeByIdInPath($fileId, '/' . $this->rootFolder->getAppDataDirectoryName() . '/');
-				if ($node === null) {
-					throw new ValidationException('Could not find file ' . $fileId);
-				}
-			}
-			/** @var array{users:array<string,array{node_id:int, node_path: string}>, remote: array<string,array{node_id:int, node_path: string}>, mail: array<string,array{node_id:int, node_path: string}>} $accessList */
-			$accessList = $this->shareManager->getAccessList($node, true, true);
-			$userIds = array_map(fn ($id) => strval($id), array_keys($accessList['users']));
-			if (!in_array($task->getUserId(), $userIds)) {
-				throw new UnauthorizedException('User ' . $task->getUserId() . ' does not have access to file ' . $fileId);
-			}
+			$this->validateFileId($fileId);
+			$this->validateUserAccessToFile($fileId, $task->getUserId());
 		}
 		// remove superfluous keys and set input
 		$task->setInput($this->removeSuperfluousArrayKeys($task->getInput(), $inputShape, $optionalInputShape));
@@ -635,6 +659,7 @@ class Manager implements IManager {
 		$taskEntity = \OC\TaskProcessing\Db\Task::fromPublicTask($task);
 		try {
 			$this->taskMapper->update($taskEntity);
+			$this->runWebhook($task);
 		} catch (\OCP\DB\Exception $e) {
 			throw new \OCP\TaskProcessing\Exception\Exception('There was a problem finding the task', 0, $e);
 		}
@@ -657,7 +682,7 @@ class Manager implements IManager {
 		return true;
 	}
 
-	public function setTaskResult(int $id, ?string $error, ?array $result): void {
+	public function setTaskResult(int $id, ?string $error, ?array $result, bool $isUsingFileIds = false): void {
 		// TODO: Not sure if we should rather catch the exceptions of getTask here and fail silently
 		$task = $this->getTask($id);
 		if ($task->getStatus() === Task::STATUS_CANCELLED) {
@@ -674,11 +699,29 @@ class Manager implements IManager {
 			$optionalOutputShape = $taskTypes[$task->getTaskTypeId()]['optionalOutputShape'];
 			try {
 				// validate output
-				$this->validateOutput($outputShape, $result);
-				$this->validateOutput($optionalOutputShape, $result, true);
+				if (!$isUsingFileIds) {
+					$this->validateOutputWithFileData($outputShape, $result);
+					$this->validateOutputWithFileData($optionalOutputShape, $result, true);
+				} else {
+					$this->validateOutputWithFileIds($outputShape, $result);
+					$this->validateOutputWithFileIds($optionalOutputShape, $result, true);
+				}
 				$output = $this->removeSuperfluousArrayKeys($result, $outputShape, $optionalOutputShape);
 				// extract raw data and put it in files, replace it with file ids
-				$output = $this->encapsulateOutputFileData($output, $outputShape, $optionalOutputShape);
+				if (!$isUsingFileIds) {
+					$output = $this->encapsulateOutputFileData($output, $outputShape, $optionalOutputShape);
+				} else {
+					$this->validateOutputFileIds($output, $outputShape, $optionalOutputShape);
+				}
+				// Turn file objects into IDs
+				foreach ($output as $key => $value) {
+					if ($value instanceof Node) {
+						$output[$key] = $value->getId();
+					}
+					if (is_array($value) && $value[0] instanceof Node) {
+						$output[$key] = array_map(fn ($node) => $node->getId(), $value);
+					}
+				}
 				$task->setOutput($output);
 				$task->setProgress(1);
 				$task->setStatus(Task::STATUS_SUCCESSFUL);
@@ -694,12 +737,18 @@ class Manager implements IManager {
 				$error = 'The task was processed successfully but storing the output in a file failed';
 				$task->setErrorMessage($error);
 				$this->logger->error($error, ['exception' => $e]);
-
+			} catch (InvalidPathException|\OCP\Files\NotFoundException $e) {
+				$task->setProgress(1);
+				$task->setStatus(Task::STATUS_FAILED);
+				$error = 'The task was processed successfully but the result file could not be found';
+				$task->setErrorMessage($error);
+				$this->logger->error($error, ['exception' => $e]);
 			}
 		}
 		$taskEntity = \OC\TaskProcessing\Db\Task::fromPublicTask($task);
 		try {
 			$this->taskMapper->update($taskEntity);
+			$this->runWebhook($task);
 		} catch (\OCP\DB\Exception $e) {
 			throw new \OCP\TaskProcessing\Exception\Exception('There was a problem finding the task', 0, $e);
 		}
@@ -725,16 +774,13 @@ class Manager implements IManager {
 	}
 
 	/**
-	 * Takes task input or output data and replaces fileIds with base64 data
+	 * Takes task input data and replaces fileIds with File objects
 	 *
 	 * @param string|null $userId
 	 * @param array<array-key, list<numeric|string>|numeric|string> $input
 	 * @param ShapeDescriptor[] ...$specs the specs
 	 * @return array<array-key, list<File|numeric|string>|numeric|string|File>
-	 * @throws GenericFileException
-	 * @throws LockedException
-	 * @throws NotPermittedException
-	 * @throws ValidationException
+	 * @throws GenericFileException|LockedException|NotPermittedException|ValidationException|UnauthorizedException
 	 */
 	public function fillInputFileData(?string $userId, array $input, ...$specs): array {
 		if ($userId !== null) {
@@ -751,31 +797,17 @@ class Manager implements IManager {
 				$newInputOutput[$key] = $input[$key];
 				continue;
 			}
-			if ($type->value < 10) {
-				$node = $this->rootFolder->getFirstNodeById((int)$input[$key]);
-				if ($node === null) {
-					$node = $this->rootFolder->getFirstNodeByIdInPath((int)$input[$key], '/' . $this->rootFolder->getAppDataDirectoryName() . '/');
-					if (!$node instanceof File) {
-						throw new ValidationException('File id given for key "' . $key . '" is not a file');
-					}
-				} elseif (!$node instanceof File) {
-					throw new ValidationException('File id given for key "' . $key . '" is not a file');
-				}
-				// TODO: Validate if userId has access to this file
+			if (EShapeType::getScalarType($type) === $type) {
+				// is scalar
+				$node = $this->validateFileId((int)$input[$key]);
+				$this->validateUserAccessToFile($input[$key], $userId);
 				$newInputOutput[$key] = $node;
 			} else {
+				// is list
 				$newInputOutput[$key] = [];
 				foreach ($input[$key] as $item) {
-					$node = $this->rootFolder->getFirstNodeById((int)$item);
-					if ($node === null) {
-						$node = $this->rootFolder->getFirstNodeByIdInPath((int)$item, '/' . $this->rootFolder->getAppDataDirectoryName() . '/');
-						if (!$node instanceof File) {
-							throw new ValidationException('File id given for key "' . $key . '" is not a file');
-						}
-					} elseif (!$node instanceof File) {
-						throw new ValidationException('File id given for key "' . $key . '" is not a file');
-					}
-					// TODO: Validate if userId has access to this file
+					$node = $this->validateFileId((int)$item);
+					$this->validateUserAccessToFile($item, $userId);
 					$newInputOutput[$key][] = $node;
 				}
 			}
@@ -843,15 +875,15 @@ class Manager implements IManager {
 				$newOutput[$key] = $output[$key];
 				continue;
 			}
-			if ($type->value < 10) {
+			if (EShapeType::getScalarType($type) === $type) {
 				/** @var SimpleFile $file */
-				$file = $folder->newFile((string) rand(0, 10000000), $output[$key]);
+				$file = $folder->newFile(time() . '-' . rand(1, 100000), $output[$key]);
 				$newOutput[$key] = $file->getId(); // polymorphic call to SimpleFile
 			} else {
 				$newOutput = [];
 				foreach ($output[$key] as $item) {
 					/** @var SimpleFile $file */
-					$file = $folder->newFile((string) rand(0, 10000000), $item);
+					$file = $folder->newFile(time() . '-' . rand(1, 100000), $item);
 					$newOutput[$key][] = $file->getId();
 				}
 			}
@@ -865,7 +897,7 @@ class Manager implements IManager {
 	 * @throws GenericFileException
 	 * @throws LockedException
 	 * @throws NotPermittedException
-	 * @throws ValidationException
+	 * @throws ValidationException|UnauthorizedException
 	 */
 	public function prepareInputData(Task $task): array {
 		$taskTypes = $this->getAvailableTaskTypes();
@@ -897,5 +929,141 @@ class Manager implements IManager {
 		$task->setStatus($status);
 		$taskEntity = \OC\TaskProcessing\Db\Task::fromPublicTask($task);
 		$this->taskMapper->update($taskEntity);
+	}
+
+	/**
+	 * @param array $output
+	 * @param ShapeDescriptor[] ...$specs the specs that define which keys to keep
+	 * @return array
+	 * @throws NotPermittedException
+	 */
+	private function validateOutputFileIds(array $output, ...$specs): array {
+		$newOutput = [];
+		$spec = array_reduce($specs, fn ($carry, $spec) => $carry + $spec, []);
+		foreach($spec as $key => $descriptor) {
+			$type = $descriptor->getShapeType();
+			if (!isset($output[$key])) {
+				continue;
+			}
+			if (!in_array(EShapeType::getScalarType($type), [EShapeType::Image, EShapeType::Audio, EShapeType::Video, EShapeType::File], true)) {
+				$newOutput[$key] = $output[$key];
+				continue;
+			}
+			if (EShapeType::getScalarType($type) === $type) {
+				// Is scalar file ID
+				$newOutput[$key] = $this->validateFileId($output[$key]);
+			} else {
+				// Is list of file IDs
+				$newOutput = [];
+				foreach ($output[$key] as $item) {
+					$newOutput[$key][] = $this->validateFileId($item);
+				}
+			}
+		}
+		return $newOutput;
+	}
+
+	/**
+	 * @param mixed $id
+	 * @return File
+	 * @throws ValidationException
+	 */
+	private function validateFileId(mixed $id): File {
+		$node = $this->rootFolder->getFirstNodeById($id);
+		if ($node === null) {
+			$node = $this->rootFolder->getFirstNodeByIdInPath($id, '/' . $this->rootFolder->getAppDataDirectoryName() . '/');
+			if ($node === null) {
+				throw new ValidationException('Could not find file ' . $id);
+			} elseif (!$node instanceof File) {
+				throw new ValidationException('File with id "' . $id . '" is not a file');
+			}
+		} elseif (!$node instanceof File) {
+			throw new ValidationException('File with id "' . $id . '" is not a file');
+		}
+		return $node;
+	}
+
+	/**
+	 * @param mixed $fileId
+	 * @param string|null $userId
+	 * @return void
+	 * @throws UnauthorizedException
+	 */
+	private function validateUserAccessToFile(mixed $fileId, ?string $userId): void {
+		if ($userId === null) {
+			throw new UnauthorizedException('User does not have access to file ' . $fileId);
+		}
+		$mounts = $this->userMountCache->getMountsForFileId($fileId);
+		$userIds = array_map(fn ($mount) => $mount->getUser()->getUID(), $mounts);
+		if (!in_array($userId, $userIds)) {
+			throw new UnauthorizedException('User ' . $userId . ' does not have access to file ' . $fileId);
+		}
+	}
+
+	/**
+	 * Make a request to the task's webhookUri if necessary
+	 *
+	 * @param Task $task
+	 */
+	private function runWebhook(Task $task): void {
+		$uri = $task->getWebhookUri();
+		$method = $task->getWebhookMethod();
+
+		if (!$uri || !$method) {
+			return;
+		}
+
+		if (in_array($method, ['HTTP:GET', 'HTTP:POST', 'HTTP:PUT', 'HTTP:DELETE'], true)) {
+			$client = $this->clientService->newClient();
+			$httpMethod = preg_replace('/^HTTP:/', '', $method);
+			$options = [
+				'timeout' => 30,
+				'body' => json_encode([
+					'task' => $task->jsonSerialize(),
+				]),
+				'headers' => ['Content-Type' => 'application/json'],
+			];
+			try {
+				$client->request($httpMethod, $uri, $options);
+			} catch (ClientException | ServerException $e) {
+				$this->logger->warning('Task processing HTTP webhook failed for task ' . $task->getId() . '. Request failed', ['exception' => $e]);
+			} catch (\Exception | \Throwable $e) {
+				$this->logger->warning('Task processing HTTP webhook failed for task ' . $task->getId() . '. Unknown error', ['exception' => $e]);
+			}
+		} elseif (str_starts_with($method, 'AppAPI:') && str_starts_with($uri, '/')) {
+			$parsedMethod = explode(':', $method, 4);
+			if (count($parsedMethod) < 3) {
+				$this->logger->warning('Task processing AppAPI webhook failed for task ' . $task->getId() . '. Invalid method: ' . $method);
+			}
+			[, $exAppId, $httpMethod] = $parsedMethod;
+			if (!$this->appManager->isInstalled('app_api')) {
+				$this->logger->warning('Task processing AppAPI webhook failed for task ' . $task->getId() . '. AppAPI is disabled or not installed.');
+				return;
+			}
+			try {
+				$appApiFunctions = \OCP\Server::get(\OCA\AppAPI\PublicFunctions::class);
+			} catch (ContainerExceptionInterface|NotFoundExceptionInterface) {
+				$this->logger->warning('Task processing AppAPI webhook failed for task ' . $task->getId() . '. Could not get AppAPI public functions.');
+				return;
+			}
+			$exApp = $appApiFunctions->getExApp($exAppId);
+			if ($exApp === null) {
+				$this->logger->warning('Task processing AppAPI webhook failed for task ' . $task->getId() . '. ExApp ' . $exAppId . ' is missing.');
+				return;
+			} elseif (!$exApp['enabled']) {
+				$this->logger->warning('Task processing AppAPI webhook failed for task ' . $task->getId() . '. ExApp ' . $exAppId . ' is disabled.');
+				return;
+			}
+			$requestParams = [
+				'task' => $task->jsonSerialize(),
+			];
+			$requestOptions = [
+				'timeout' => 30,
+			];
+			$response = $appApiFunctions->exAppRequest($exAppId, $uri, $task->getUserId(), $httpMethod, $requestParams, $requestOptions);
+			if (is_array($response) && isset($response['error'])) {
+				$this->logger->warning('Task processing AppAPI webhook failed for task ' . $task->getId() . '. Error during request to ExApp(' . $exAppId . '): ', $response['error']);
+			}
+		}
 	}
 }

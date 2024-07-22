@@ -1824,6 +1824,12 @@ class View {
 	 * @throws InvalidPathException
 	 */
 	public function verifyPath($path, $fileName): void {
+		// All of the view's functions disallow '..' in the path so we can short cut if the path is invalid
+		if (!Filesystem::isValidPath($path ?: '/')) {
+			$l = \OCP\Util::getL10N('lib');
+			throw new InvalidPathException($l->t('Path contains invalid segments'));
+		}
+
 		try {
 			/** @type \OCP\Files\Storage $storage */
 			[$storage, $internalPath] = $this->resolvePath($path);

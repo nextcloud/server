@@ -278,6 +278,7 @@ interface IDBConnection {
 	 *
 	 * @return \Doctrine\DBAL\Platforms\AbstractPlatform The database platform.
 	 * @since 8.0.0
+	 * @deprecated 30.0.0 Please use {@see self::getDatabaseProvider()} and compare to self::PLATFORM_* constants
 	 */
 	public function getDatabasePlatform();
 
@@ -341,7 +342,7 @@ interface IDBConnection {
 	 * Returns the database provider name
 	 * @link https://github.com/nextcloud/server/issues/30877
 	 * @since 28.0.0
-	 * @return IDBConnection::PLATFORM_*
+	 * @return self::PLATFORM_MYSQL|self::PLATFORM_ORACLE|self::PLATFORM_POSTGRES|self::PLATFORM_SQLITE
 	 */
 	public function getDatabaseProvider(): string;
 }

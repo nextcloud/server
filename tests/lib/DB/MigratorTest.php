@@ -10,8 +10,6 @@ namespace Test\DB;
 
 use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\ParameterType;
-use Doctrine\DBAL\Platforms\OraclePlatform;
-use Doctrine\DBAL\Platforms\SqlitePlatform;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\DBAL\Schema\SchemaConfig;
 use OC\DB\Migrator;
@@ -19,7 +17,7 @@ use OC\DB\OracleMigrator;
 use OC\DB\SQLiteMigrator;
 use OCP\DB\Types;
 use OCP\IConfig;
-use OCP\Security\ISecureRandom;
+use OCP\IDBConnection;
 
 /**
  * Class MigratorTest
@@ -56,12 +54,10 @@ class MigratorTest extends \Test\TestCase {
 	}
 
 	private function getMigrator(): Migrator {
-		$platform = $this->connection->getDatabasePlatform();
-		$random = \OC::$server->get(ISecureRandom::class);
 		$dispatcher = \OC::$server->get(\OCP\EventDispatcher\IEventDispatcher::class);
-		if ($platform instanceof SqlitePlatform) {
+		if ($this->connection->getDatabaseProvider() === IDBConnection::PLATFORM_SQLITE) {
 			return new SQLiteMigrator($this->connection, $this->config, $dispatcher);
-		} elseif ($platform instanceof OraclePlatform) {
+		} elseif ($this->connection->getDatabaseProvider() === IDBConnection::PLATFORM_ORACLE) {
 			return new OracleMigrator($this->connection, $this->config, $dispatcher);
 		}
 		return new Migrator($this->connection, $this->config, $dispatcher);
@@ -300,7 +296,7 @@ class MigratorTest extends \Test\TestCase {
 		$migrator = $this->getMigrator();
 		$migrator->migrate($startSchema);
 
-		if ($oracleThrows && $this->connection->getDatabasePlatform() instanceof OraclePlatform) {
+		if ($oracleThrows && $this->connection->getDatabaseProvider() === IDBConnection::PLATFORM_ORACLE) {
 			// Oracle can not store false|empty string in notnull columns
 			$this->expectException(\Doctrine\DBAL\Exception\NotNullConstraintViolationException::class);
 		}

@@ -7,7 +7,6 @@
  */
 namespace OC\BackgroundJob;
 
-use Doctrine\DBAL\Platforms\MySQLPlatform;
 use OCP\AppFramework\QueryException;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\AutoloadNotAllowedException;
@@ -98,7 +97,7 @@ class JobList implements IJobList {
 
 		// Add galera safe delete chunking if using mysql
 		// Stops us hitting wsrep_max_ws_rows when large row counts are deleted
-		if ($this->connection->getDatabasePlatform() instanceof MySQLPlatform) {
+		if ($this->connection->getDatabaseProvider() === IDBConnection::PLATFORM_MYSQL) {
 			// Then use chunked delete
 			$max = IQueryBuilder::MAX_ROW_DELETION;
 
@@ -204,12 +203,12 @@ class JobList implements IJobList {
 			$query->andWhere($query->expr()->eq('time_sensitive', $query->createNamedParameter(IJob::TIME_SENSITIVE, IQueryBuilder::PARAM_INT)));
 		}
 
-		if ($jobClasses !== null && count($jobClasses) > 0) {
-			$orClasses = $query->expr()->orx();
+		if (!empty($jobClasses)) {
+			$orClasses = [];
 			foreach ($jobClasses as $jobClass) {
-				$orClasses->add($query->expr()->eq('class', $query->createNamedParameter($jobClass, IQueryBuilder::PARAM_STR)));
+				$orClasses[] = $query->expr()->eq('class', $query->createNamedParameter($jobClass, IQueryBuilder::PARAM_STR));
 			}
-			$query->andWhere($orClasses);
+			$query->andWhere($query->expr()->orX(...$orClasses));
 		}
 
 		$result = $query->executeQuery();

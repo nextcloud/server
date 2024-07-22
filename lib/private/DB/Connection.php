@@ -13,10 +13,12 @@ use Doctrine\DBAL\Cache\QueryCacheProfile;
 use Doctrine\DBAL\Configuration;
 use Doctrine\DBAL\Connections\PrimaryReadReplicaConnection;
 use Doctrine\DBAL\Driver;
+use Doctrine\DBAL\Driver\ServerInfoAwareConnection;
 use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\Exception\ConnectionLost;
 use Doctrine\DBAL\Platforms\MySQLPlatform;
 use Doctrine\DBAL\Platforms\OraclePlatform;
+use Doctrine\DBAL\Platforms\PostgreSQLPlatform;
 use Doctrine\DBAL\Platforms\SqlitePlatform;
 use Doctrine\DBAL\Result;
 use Doctrine\DBAL\Schema\Schema;
@@ -25,6 +27,7 @@ use OC\DB\QueryBuilder\QueryBuilder;
 use OC\SystemConfig;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Diagnostics\IEventLogger;
+use OCP\IDBConnection;
 use OCP\IRequestId;
 use OCP\PreConditionNotMetException;
 use OCP\Profiler\IProfiler;
@@ -318,10 +321,7 @@ class Connection extends PrimaryReadReplicaConnection {
 	 * @throws Exception
 	 */
 	public function executeUpdate(string $sql, array $params = [], array $types = []): int {
-		$sql = $this->finishQuery($sql);
-		$this->queriesExecuted++;
-		$this->logQueryToFile($sql);
-		return parent::executeUpdate($sql, $params, $types);
+		return $this->executeStatement($sql, $params, $types);
 	}
 
 	/**
@@ -472,22 +472,22 @@ class Connection extends PrimaryReadReplicaConnection {
 			foreach ($values as $name => $value) {
 				$updateQb->set($name, $updateQb->createNamedParameter($value, $this->getType($value)));
 			}
-			$where = $updateQb->expr()->andX();
+			$where = [];
 			$whereValues = array_merge($keys, $updatePreconditionValues);
 			foreach ($whereValues as $name => $value) {
 				if ($value === '') {
-					$where->add($updateQb->expr()->emptyString(
+					$where[] = $updateQb->expr()->emptyString(
 						$name
-					));
+					);
 				} else {
-					$where->add($updateQb->expr()->eq(
+					$where[] = $updateQb->expr()->eq(
 						$name,
 						$updateQb->createNamedParameter($value, $this->getType($value)),
 						$this->getType($value)
-					));
+					);
 				}
 			}
-			$updateQb->where($where);
+			$updateQb->where($updateQb->expr()->andX(...$where));
 			$affected = $updateQb->executeStatement();
 
 			if ($affected === 0 && !empty($updatePreconditionValues)) {
@@ -561,7 +561,7 @@ class Connection extends PrimaryReadReplicaConnection {
 	 */
 	public function dropTable($table) {
 		$table = $this->tablePrefix . trim($table);
-		$schema = $this->getSchemaManager();
+		$schema = $this->createSchemaManager();
 		if ($schema->tablesExist([$table])) {
 			$schema->dropTable($table);
 		}
@@ -577,7 +577,7 @@ class Connection extends PrimaryReadReplicaConnection {
 	 */
 	public function tableExists($table) {
 		$table = $this->tablePrefix . trim($table);
-		$schema = $this->getSchemaManager();
+		$schema = $this->createSchemaManager();
 		return $schema->tablesExist([$table]);
 	}
 
@@ -731,5 +731,32 @@ class Connection extends PrimaryReadReplicaConnection {
 
 	private function getConnectionName(): string {
 		return $this->isConnectedToPrimary() ? 'primary' : 'replica';
+	}
+
+	/**
+	 * @return IDBConnection::PLATFORM_MYSQL|IDBConnection::PLATFORM_ORACLE|IDBConnection::PLATFORM_POSTGRES|IDBConnection::PLATFORM_SQLITE
+	 */
+	public function getDatabaseProvider(): string {
+		$platform = $this->getDatabasePlatform();
+		if ($platform instanceof MySQLPlatform) {
+			return IDBConnection::PLATFORM_MYSQL;
+		} elseif ($platform instanceof OraclePlatform) {
+			return IDBConnection::PLATFORM_ORACLE;
+		} elseif ($platform instanceof PostgreSQLPlatform) {
+			return IDBConnection::PLATFORM_POSTGRES;
+		} elseif ($platform instanceof SqlitePlatform) {
+			return IDBConnection::PLATFORM_SQLITE;
+		} else {
+			throw new \Exception('Database ' . $platform::class . ' not supported');
+		}
+	}
+
+	/**
+	 * @internal Should only be used inside the QueryBuilder, ExpressionBuilder and FunctionBuilder
+	 * All apps and API code should not need this and instead use provided functionality from the above.
+	 */
+	public function getServerVersion(): string {
+		/** @var ServerInfoAwareConnection $this->_conn */
+		return $this->_conn->getServerVersion();
 	}
 }

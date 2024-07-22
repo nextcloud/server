@@ -8,7 +8,6 @@ declare(strict_types=1);
  */
 namespace OC\Security;
 
-use OC\Files\Filesystem;
 use OC\Files\View;
 use OCP\ICertificate;
 use OCP\ICertificateManager;
@@ -150,20 +149,19 @@ class CertificateManager implements ICertificateManager {
 	 * @throws \Exception If the certificate could not get added
 	 */
 	public function addCertificate(string $certificate, string $name): ICertificate {
-		if (!Filesystem::isValidPath($name) or Filesystem::isFileBlacklisted($name)) {
-			throw new \Exception('Filename is not valid');
-		}
+		$path = $this->getPathToCertificates() . 'uploads/' . $name;
+		$directory = dirname($path);
+
+		$this->view->verifyPath($directory, basename($path));
 		$this->bundlePath = null;
 
-		$dir = $this->getPathToCertificates() . 'uploads/';
-		if (!$this->view->file_exists($dir)) {
-			$this->view->mkdir($dir);
+		if (!$this->view->file_exists($directory)) {
+			$this->view->mkdir($directory);
 		}
 
 		try {
-			$file = $dir . $name;
 			$certificateObject = new Certificate($certificate, $name);
-			$this->view->file_put_contents($file, $certificate);
+			$this->view->file_put_contents($path, $certificate);
 			$this->createCertificateBundle();
 			return $certificateObject;
 		} catch (\Exception $e) {
@@ -175,14 +173,17 @@ class CertificateManager implements ICertificateManager {
 	 * Remove the certificate and re-generate the certificate bundle
 	 */
 	public function removeCertificate(string $name): bool {
-		if (!Filesystem::isValidPath($name)) {
+		$path = $this->getPathToCertificates() . 'uploads/' . $name;
+
+		try {
+			$this->view->verifyPath(dirname($path), basename($path));
+		} catch (\Exception) {
 			return false;
 		}
-		$this->bundlePath = null;
 
-		$path = $this->getPathToCertificates() . 'uploads/';
-		if ($this->view->file_exists($path . $name)) {
-			$this->view->unlink($path . $name);
+		$this->bundlePath = null;
+		if ($this->view->file_exists($path)) {
+			$this->view->unlink($path);
 			$this->createCertificateBundle();
 		}
 		return true;

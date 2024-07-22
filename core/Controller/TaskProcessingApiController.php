@@ -11,6 +11,7 @@ declare(strict_types=1);
 namespace OC\Core\Controller;
 
 use OC\Core\ResponseDefinitions;
+use OC\Files\SimpleFS\SimpleFile;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\AnonRateLimit;
 use OCP\AppFramework\Http\Attribute\ApiRoute;
@@ -22,6 +23,7 @@ use OCP\AppFramework\Http\DataDownloadResponse;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\Files\File;
 use OCP\Files\GenericFileException;
+use OCP\Files\IAppData;
 use OCP\Files\IRootFolder;
 use OCP\Files\NotPermittedException;
 use OCP\IL10N;
@@ -50,6 +52,7 @@ class TaskProcessingApiController extends \OCP\AppFramework\OCSController {
 		private IL10N       $l,
 		private ?string     $userId,
 		private IRootFolder $rootFolder,
+		private IAppData    $appData,
 	) {
 		parent::__construct($appName, $request);
 	}
@@ -94,7 +97,8 @@ class TaskProcessingApiController extends \OCP\AppFramework\OCSController {
 	 * @param string $type Type of the task
 	 * @param string $appId ID of the app that will execute the task
 	 * @param string $customId An arbitrary identifier for the task
-	 *
+	 * @param string|null $webhookUri URI to be requested when the task finishes
+	 * @param string|null $webhookMethod Method used for the webhook request (HTTP:GET, HTTP:POST, HTTP:PUT, HTTP:DELETE or AppAPI:APP_ID:GET, AppAPI:APP_ID:POST...)
 	 * @return DataResponse<Http::STATUS_OK, array{task: CoreTaskProcessingTask}, array{}>|DataResponse<Http::STATUS_INTERNAL_SERVER_ERROR|Http::STATUS_BAD_REQUEST|Http::STATUS_PRECONDITION_FAILED|Http::STATUS_UNAUTHORIZED, array{message: string}, array{}>
 	 *
 	 * 200: Task scheduled successfully
@@ -106,8 +110,13 @@ class TaskProcessingApiController extends \OCP\AppFramework\OCSController {
 	#[UserRateLimit(limit: 20, period: 120)]
 	#[AnonRateLimit(limit: 5, period: 120)]
 	#[ApiRoute(verb: 'POST', url: '/schedule', root: '/taskprocessing')]
-	public function schedule(array $input, string $type, string $appId, string $customId = ''): DataResponse {
+	public function schedule(
+		array $input, string $type, string $appId, string $customId = '',
+		?string $webhookUri = null, ?string $webhookMethod = null
+	): DataResponse {
 		$task = new Task($type, $input, $appId, $this->userId, $customId);
+		$task->setWebhookUri($webhookUri);
+		$task->setWebhookMethod($webhookMethod);
 		try {
 			$this->taskProcessingManager->scheduleTask($task);
 
@@ -287,6 +296,40 @@ class TaskProcessingApiController extends \OCP\AppFramework\OCSController {
 	}
 
 	/**
+	 * Upload a file so it can be referenced in a task result (ExApp route version)
+	 *
+	 * Use field 'file' for the file upload
+	 *
+	 * @param int $taskId The id of the task
+	 * @return DataResponse<Http::STATUS_CREATED, array{fileId: int}, array{}>|DataResponse<Http::STATUS_BAD_REQUEST|Http::STATUS_INTERNAL_SERVER_ERROR|Http::STATUS_NOT_FOUND, array{message: string}, array{}>
+	 *
+	 *  201: File created
+	 *  400: File upload failed or no file was uploaded
+	 *  404: Task not found
+	 */
+	#[ExAppRequired]
+	#[ApiRoute(verb: 'POST', url: '/tasks_provider/{taskId}/file', root: '/taskprocessing')]
+	public function setFileContentsExApp(int $taskId): DataResponse {
+		try {
+			$task = $this->taskProcessingManager->getTask($taskId);
+			$file = $this->request->getUploadedFile('file');
+			if (!isset($file['tmp_name'])) {
+				return new DataResponse(['message' => $this->l->t('Bad request')], Http::STATUS_BAD_REQUEST);
+			}
+			$handle = fopen($file['tmp_name'], 'r');
+			if (!$handle) {
+				return new DataResponse(['message' => $this->l->t('Internal error')], Http::STATUS_INTERNAL_SERVER_ERROR);
+			}
+			$fileId = $this->setFileContentsInternal($handle);
+			return new DataResponse(['fileId' => $fileId], Http::STATUS_CREATED);
+		} catch (NotFoundException) {
+			return new DataResponse(['message' => $this->l->t('Not found')], Http::STATUS_NOT_FOUND);
+		} catch (Exception) {
+			return new DataResponse(['message' => $this->l->t('Internal error')], Http::STATUS_INTERNAL_SERVER_ERROR);
+		}
+	}
+
+	/**
 	 * @throws NotPermittedException
 	 * @throws NotFoundException
 	 * @throws GenericFileException
@@ -384,7 +427,7 @@ class TaskProcessingApiController extends \OCP\AppFramework\OCSController {
 	 * Sets the task result
 	 *
 	 * @param int $taskId The id of the task
-	 * @param array<string,mixed>|null $output The resulting task output
+	 * @param array<string,mixed>|null $output The resulting task output, files are represented by their IDs
 	 * @param string|null $errorMessage An error message if the task failed
 	 * @return DataResponse<Http::STATUS_OK, array{task: CoreTaskProcessingTask}, array{}>|DataResponse<Http::STATUS_INTERNAL_SERVER_ERROR|Http::STATUS_NOT_FOUND, array{message: string}, array{}>
 	 *
@@ -396,7 +439,7 @@ class TaskProcessingApiController extends \OCP\AppFramework\OCSController {
 	public function setResult(int $taskId, ?array $output = null, ?string $errorMessage = null): DataResponse {
 		try {
 			// set result
-			$this->taskProcessingManager->setTaskResult($taskId, $errorMessage, $output);
+			$this->taskProcessingManager->setTaskResult($taskId, $errorMessage, $output, true);
 			$task = $this->taskProcessingManager->getTask($taskId);
 
 			/** @var CoreTaskProcessingTask $json */
@@ -492,5 +535,21 @@ class TaskProcessingApiController extends \OCP\AppFramework\OCSController {
 		} catch (Exception) {
 			return new DataResponse(['message' => $this->l->t('Internal error')], Http::STATUS_INTERNAL_SERVER_ERROR);
 		}
+	}
+
+	/**
+	 * @param resource $data
+	 * @return int
+	 * @throws NotPermittedException
+	 */
+	private function setFileContentsInternal($data): int {
+		try {
+			$folder = $this->appData->getFolder('TaskProcessing');
+		} catch (\OCP\Files\NotFoundException) {
+			$folder = $this->appData->newFolder('TaskProcessing');
+		}
+		/** @var SimpleFile $file */
+		$file = $folder->newFile(time() . '-' . rand(1, 100000), $data);
+		return $file->getId();
 	}
 }

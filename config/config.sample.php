@@ -2208,6 +2208,16 @@ $CONFIG = [
 'forwarded_for_headers' => ['HTTP_X_FORWARDED', 'HTTP_FORWARDED_FOR'],
 
 /**
+ * List of trusted IP ranges for admin actions
+ *
+ * If this list is non-empty, all admin actions must be triggered from
+ * IP addresses inside theses ranges.
+ *
+ * Defaults to an empty array.
+ */
+'allowed_admin_ranges' => ['192.0.2.42/32', '233.252.0.0/24', '2001:db8::13:37/64'],
+
+/**
  * max file size for animating gifs on public-sharing-site.
  * If the gif is bigger, it'll show a static preview
  *

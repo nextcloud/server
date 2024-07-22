@@ -17,6 +17,7 @@ use OCA\WebhookListeners\Settings\Admin;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\ApiRoute;
+use OCP\AppFramework\Http\Attribute\AppApiAdminAccessWithoutUser;
 use OCP\AppFramework\Http\Attribute\AuthorizedAdminSetting;
 use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\DataResponse;
@@ -56,6 +57,7 @@ class WebhooksController extends OCSController {
 	 */
 	#[ApiRoute(verb: 'GET', url: '/api/v1/webhooks')]
 	#[AuthorizedAdminSetting(settings:Admin::class)]
+	#[AppApiAdminAccessWithoutUser]
 	public function index(?string $uri = null): DataResponse {
 		try {
 			if ($uri !== null) {
@@ -89,6 +91,7 @@ class WebhooksController extends OCSController {
 	 */
 	#[ApiRoute(verb: 'GET', url: '/api/v1/webhooks/{id}')]
 	#[AuthorizedAdminSetting(settings:Admin::class)]
+	#[AppApiAdminAccessWithoutUser]
 	public function show(int $id): DataResponse {
 		try {
 			return new DataResponse($this->mapper->getById($id)->jsonSerialize());
@@ -122,6 +125,7 @@ class WebhooksController extends OCSController {
 	 */
 	#[ApiRoute(verb: 'POST', url: '/api/v1/webhooks')]
 	#[AuthorizedAdminSetting(settings:Admin::class)]
+	#[AppApiAdminAccessWithoutUser]
 	public function create(
 		string $httpMethod,
 		string $uri,
@@ -143,8 +147,6 @@ class WebhooksController extends OCSController {
 			throw new OCSBadRequestException('This auth method does not exist');
 		}
 		try {
-			/* We can never reach here without a user in session */
-			assert(is_string($this->userId));
 			$webhookListener = $this->mapper->addWebhookListener(
 				$appId,
 				$this->userId,
@@ -191,6 +193,7 @@ class WebhooksController extends OCSController {
 	 */
 	#[ApiRoute(verb: 'POST', url: '/api/v1/webhooks/{id}')]
 	#[AuthorizedAdminSetting(settings:Admin::class)]
+	#[AppApiAdminAccessWithoutUser]
 	public function update(
 		int $id,
 		string $httpMethod,
@@ -213,8 +216,6 @@ class WebhooksController extends OCSController {
 			throw new OCSBadRequestException('This auth method does not exist');
 		}
 		try {
-			/* We can never reach here without a user in session */
-			assert(is_string($this->userId));
 			$webhookListener = $this->mapper->updateWebhookListener(
 				$id,
 				$appId,
@@ -254,6 +255,7 @@ class WebhooksController extends OCSController {
 	 */
 	#[ApiRoute(verb: 'DELETE', url: '/api/v1/webhooks/{id}')]
 	#[AuthorizedAdminSetting(settings:Admin::class)]
+	#[AppApiAdminAccessWithoutUser]
 	public function destroy(int $id): DataResponse {
 		try {
 			$deleted = $this->mapper->deleteById($id);

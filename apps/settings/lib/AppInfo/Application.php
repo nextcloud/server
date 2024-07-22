@@ -22,6 +22,7 @@ use OCA\Settings\Middleware\SubadminMiddleware;
 use OCA\Settings\Search\AppSearch;
 use OCA\Settings\Search\SectionSearch;
 use OCA\Settings\Search\UserSearch;
+use OCA\Settings\SetupChecks\AllowedAdminRanges;
 use OCA\Settings\SetupChecks\AppDirsWithDifferentOwner;
 use OCA\Settings\SetupChecks\BruteForceThrottler;
 use OCA\Settings\SetupChecks\CheckUserCertificates;
@@ -154,6 +155,7 @@ class Application extends App implements IBootstrap {
 				Util::getDefaultEmailAddress('no-reply')
 			);
 		});
+		$context->registerSetupCheck(AllowedAdminRanges::class);
 		$context->registerSetupCheck(AppDirsWithDifferentOwner::class);
 		$context->registerSetupCheck(BruteForceThrottler::class);
 		$context->registerSetupCheck(CheckUserCertificates::class);
