@@ -3,40 +3,47 @@
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 <template>
-	<div>
-		<button v-if="!enabled"
+	<div class="backupcodes-settings">
+		<NcButton v-if="!enabled"
 			id="generate-backup-codes"
 			:disabled="generatingCodes"
 			@click="generateBackupCodes">
+			<template #icon>
+				<NcLoadingIcon v-if="generatingCodes" />
+			</template>
 			{{ t('twofactor_backupcodes', 'Generate backup codes') }}
-			<span :class="{'icon-loading-small': generatingCodes}" />
-		</button>
+		</NcButton>
 		<template v-else>
-			<p>
+			<p class="backupcodes-settings__codes">
 				<template v-if="!haveCodes">
 					{{ t('twofactor_backupcodes', 'Backup codes have been generated. {used} of {total} codes have been used.', {used, total}) }}
 				</template>
 				<template v-else>
-					{{ t('twofactor_backupcodes', 'These are your backup codes. Please save and/or print them as you will not be able to read the codes again later') }}
+					{{ t('twofactor_backupcodes', 'These are your backup codes. Please save and/or print them as you will not be able to read the codes again later.') }}
 					<ul>
-						<li v-for="code in codes" :key="code" class="backup-code">
+						<li v-for="code in codes"
+							:key="code"
+							class="backupcodes-settings__codes__code">
 							{{ code }}
 						</li>
 					</ul>
-					<a :href="downloadUrl"
-						class="button primary"
-						:download="downloadFilename">{{ t('twofactor_backupcodes', 'Save backup codes') }}</a>
-					<button class="button"
-						@click="printCodes">
-						{{ t('twofactor_backupcodes', 'Print backup codes') }}
-					</button>
 				</template>
 			</p>
-			<p>
-				<button id="generate-backup-codes"
+			<p class="backupcodes-settings__actions">
+				<template v-if="haveCodes">
+					<NcButton :href="downloadUrl"
+						:download="downloadFilename"
+						type="primary">
+						{{ t('twofactor_backupcodes', 'Save backup codes') }}
+					</NcButton>
+					<NcButton @click="printCodes">
+						{{ t('twofactor_backupcodes', 'Print backup codes') }}
+					</NcButton>
+				</template>
+				<NcButton id="generate-backup-codes"
 					@click="generateBackupCodes">
 					{{ t('twofactor_backupcodes', 'Regenerate backup codes') }}
-				</button>
+				</NcButton>
 			</p>
 			<p>
 				<em>
@@ -50,11 +57,17 @@
 <script>
 import { confirmPassword } from '@nextcloud/password-confirmation'
 import { print } from '../service/PrintService.js'
+import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
+import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
 
 import '@nextcloud/password-confirmation/dist/style.css'
 
 export default {
 	name: 'PersonalSettings',
+	components: {
+		NcButton,
+		NcLoadingIcon,
+	},
 	data() {
 		return {
 			generatingCodes: false,
@@ -124,13 +137,21 @@ export default {
 }
 </script>
 
-<style scoped>
-	.backup-code {
-		font-family: monospace;
-		letter-spacing: 0.02em;
-		font-size: 1.2em;
+<style lang="scss" scoped>
+.backupcodes-settings {
+	&__codes {
+		&__code {
+			font-family: monospace;
+			letter-spacing: 0.02em;
+			font-size: 1.2em;
+		}
 	}
-	.button {
-		display: inline-block;
+
+	&__actions {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: var(--default-grid-baseline);
 	}
+}
 </style>
