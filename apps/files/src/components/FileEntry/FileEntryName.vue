@@ -101,6 +101,12 @@ export default defineComponent({
 		}
 	},
 
+	data() {
+		return {
+			isConfirmationFileCanHidden: false,
+		}
+	},
+
 	computed: {
 		isRenaming() {
 			return this.renamingStore.renamingNode === this.source
@@ -253,7 +259,7 @@ export default defineComponent({
 			})
 		},
 		stopRenaming() {
-			if (!this.isRenaming) {
+			if (!this.isRenaming || this.isConfirmationFileCanHidden) {
 				return
 			}
 
@@ -280,6 +286,35 @@ export default defineComponent({
 			if (this.checkIfNodeExists(newName)) {
 				showError(t('files', 'Another entry with the same name already exists'))
 				return
+			}
+
+			// Checking and displaying confirmation that a file can be hidden
+			if(/^\.{1,}.+$/.test(newName)){
+				const confirm = await new Promise<boolean>(resolve => {
+					this.isConfirmationFileCanHidden = true
+
+					OC.dialogs.confirmDestructive(
+						t('files', 'Are you sure you want to rename the file from {oldName} to {newName}? The file can be hidden.', { oldName, newName }),
+						t('files', 'Confirm renaming'),
+						{
+							type: OC.dialogs.YES_NO_BUTTONS,
+							confirm: 'Yes',
+							confirmClasses: 'error',
+							cancel: t('files', 'Cancel'),
+						},
+						(decision: boolean) => {
+							resolve(decision)
+						},
+					)
+					return
+				})
+ 
+				// If the user cancels, we don't continue and return focus to the file
+				if (confirm === false) {
+					return
+				}
+
+				this.isConfirmationFileCanHidden = false
 			}
 
 			// Set loading state
