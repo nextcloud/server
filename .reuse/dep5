@@ -239,7 +239,7 @@ Files: cypress/fixtures/image.jpg
 Copyright: 2019 Tom Gainor <https://unsplash.com/@its_tgain> <https://unsplash.com/photos/mountain-cliff-under-starry-night-KidY3t8O4PE>
 License: LicenseRef-Unsplash
 
-Files: apps/theming/img/background/jenna-kim-the-globe.webp apps/theming/img/background/jenna-kim-the-globe-dark.webp
+Files: apps/theming/img/background/jenna-kim-the-globe.webp apps/theming/img/background/jenna-kim-the-globe-dark.webp apps/theming/img/background/preview/jenna-kim-the-globe.jpg
 Copyright: 2024 Nextcloud GmbH
 License: CC-BY-SA-4.0
 
