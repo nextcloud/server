@@ -473,6 +473,7 @@ OC.L10N.register(
     "Account documentation" : "Fiók dokumentációja",
     "Administration documentation" : "Rengszergazdai dokumentáció",
     "Forum" : "Fórum",
+    "Nextcloud help & privacy resources" : "Nextcloud súgó és adatvédelmi erőforrások",
     "General documentation" : "Általános dokumentáció",
     "Legal notice" : "Jogi nyilatkozat",
     "Privacy policy" : "Adatvédelmi irányelvek",
@@ -639,6 +640,7 @@ OC.L10N.register(
     "User management settings" : "Felhasználókezelő beállításai",
     "Send welcome email to new users" : "Üdvözlő e-mail küldése az új felhasználóknak",
     "Creating group …" : "Csoport létrehozása…",
-    "Nextcloud help resources" : "Nextcloud súgóerőforrások"
+    "Nextcloud help resources" : "Nextcloud súgóerőforrások",
+    "Active accounts" : "Aktív fiókok"
 },
 "nplurals=2; plural=(n != 1);");

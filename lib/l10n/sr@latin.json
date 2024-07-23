@@ -1,4 +1,6 @@
 { "translations": {
+    "Unknown filetype" : "Nepoznati tip fajla",
+    "Invalid image" : "Neispravna slika",
     "Files" : "Фајлови",
     "View profile" : "Vidi profil",
     "seconds ago" : "pre par sekundi",
