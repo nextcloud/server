@@ -29,6 +29,7 @@ namespace OCA\DAV\Tests\unit\CalDAV\Schedule;
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\CalDAV\Calendar;
 use OCA\DAV\CalDAV\CalendarHome;
+use OCA\DAV\CalDAV\DefaultCalendarValidator;
 use OCA\DAV\CalDAV\Plugin as CalDAVPlugin;
 use OCA\DAV\CalDAV\Schedule\Plugin;
 use OCA\DAV\CalDAV\Trashbin\Plugin as TrashbinPlugin;
@@ -60,6 +61,9 @@ class PluginTest extends TestCase {
 	/** @var MockObject|LoggerInterface */
 	private $logger;
 
+	/** @property MockObject|DefaultCalendarValidator */
+	private $defaultCalendarValidator;
+
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -74,13 +78,14 @@ class PluginTest extends TestCase {
 		$this->server->xml = new Service();
 
 		$this->logger = $this->createMock(LoggerInterface::class);
+		$this->defaultCalendarValidator = $this->createMock(DefaultCalendarValidator::class);
 
-		$this->plugin = new Plugin($this->config, $this->logger);
+		$this->plugin = new Plugin($this->config, $this->logger, $this->defaultCalendarValidator);
 		$this->plugin->initialize($this->server);
 	}
 
 	public function testInitialize(): void {
-		$plugin = new Plugin($this->config, $this->logger);
+		$plugin = new Plugin($this->config, $this->logger, $this->defaultCalendarValidator);
 
 		$this->server->expects($this->exactly(10))
 			->method('on')
@@ -396,6 +401,13 @@ class PluginTest extends TestCase {
 			->method('getPropertiesForPath')
 			->with($calendarHome .'/' . $calendarUri, [], 1)
 			->willReturn($properties);
+
+		$this->defaultCalendarValidator->method('validateScheduleDefaultCalendar')
+			->willReturnCallback(function (Calendar $node) {
+				if ($node->isDeleted()) {
+					throw new \Sabre\DAV\Exception('Deleted calendar');
+				}
+			});
 
 		$this->plugin->propFindDefaultCalendarUrl($propFind, $node);
 

@@ -36,9 +36,11 @@ namespace OCA\DAV\Tests\unit\Connector\Sabre;
  * See the COPYING-README file.
  */
 
+use OCA\DAV\CalDAV\DefaultCalendarValidator;
 use OCA\DAV\Connector\Sabre\Directory;
 use OCA\DAV\Connector\Sabre\File;
 use OCP\IUser;
+use PHPUnit\Framework\MockObject\MockObject;
 use Sabre\DAV\Tree;
 
 /**
@@ -70,6 +72,9 @@ class CustomPropertiesBackendTest extends \Test\TestCase {
 	 */
 	private $user;
 
+	/** @property MockObject|DefaultCalendarValidator */
+	private $defaultCalendarValidator;
+
 	protected function setUp(): void {
 		parent::setUp();
 		$this->server = new \Sabre\DAV\Server();
@@ -86,11 +91,14 @@ class CustomPropertiesBackendTest extends \Test\TestCase {
 			->method('getUID')
 			->willReturn($userId);
 
+		$this->defaultCalendarValidator = $this->createMock(DefaultCalendarValidator::class);
+
 		$this->plugin = new \OCA\DAV\DAV\CustomPropertiesBackend(
 			$this->server,
 			$this->tree,
 			\OC::$server->getDatabaseConnection(),
-			$this->user
+			$this->user,
+			$this->defaultCalendarValidator,
 		);
 	}
 
