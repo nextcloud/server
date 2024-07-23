@@ -43,7 +43,8 @@ class LinkReferenceProvider implements IReferenceProvider, IPublicReferenceProvi
 		'image/jpeg',
 		'image/gif',
 		'image/svg+xml',
-		'image/webp'
+		'image/webp',
+		'image/avif'
 	];
 
 	/**
