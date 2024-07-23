@@ -215,6 +215,7 @@
 	"webloc": ["application/internet-shortcut"],
 	"webm": ["video/webm"],
 	"webp": ["image/webp"],
+	"whiteboard": ["application/vnd.excalidraw+json"],
 	"wmv": ["video/x-ms-wmv"],
 	"woff": ["application/font-woff"],
 	"wpd": ["application/vnd.wordperfect"],
