@@ -162,6 +162,7 @@ OC.L10N.register(
     "Collaborative tags" : "Klav rannet",
     "No tags found" : "Klav ebet kavet",
     "Personal" : "Personel",
+    "Accounts" : "Kontoù",
     "Apps" : "Meziant",
     "Admin" : "Merour",
     "Help" : "Skoazell",
