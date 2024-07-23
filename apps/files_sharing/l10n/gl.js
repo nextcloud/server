@@ -151,7 +151,7 @@ OC.L10N.register(
     "Email already added" : "O correo xa foi engadido",
     "Invalid email address" : "Enderezo de correo incorrecto",
     "_1 email address already added_::_{count} email addresses already added_" : ["Xa se engadiu 1 enderezo de correo","Xa se engadiron {count} enderezos de correo"],
-    "_1 email address added_::_{count} email addresses added_" : ["Engadiuse 1  de correo","Engadíronse {count} enderezos de correo"],
+    "_1 email address added_::_{count} email addresses added_" : ["Engadiuse 1 enderezo de correo","Engadíronse {count} enderezos de correo"],
     "What are you requesting?" : "Que é o que está a solicitar?",
     "Request subject" : "Asunto da solicitude",
     "Birthday party photos, History assignment…" : "Fotos da festa de aniversario, tarefa de historia…",

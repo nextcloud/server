@@ -43,6 +43,7 @@ OC.L10N.register(
     "Task not found" : "找不到任務",
     "Internal error" : "內部錯誤",
     "Not found" : "找不到",
+    "Bad request" : "錯誤的請求",
     "Requested task type does not exist" : "請求的任務類型不存在",
     "Necessary language model provider is not available" : "無必要的語言模型提供者",
     "No text to image provider is available" : "沒有可用的文字轉影像提供者",
