@@ -11,6 +11,7 @@ namespace OCA\Settings\Settings\Personal;
 
 use OC\Profile\ProfileManager;
 use OCA\FederatedFileSharing\FederatedShareProvider;
+use OCA\Provisioning_API\Controller\AUserData;
 use OCP\Accounts\IAccount;
 use OCP\Accounts\IAccountManager;
 use OCP\Accounts\IAccountProperty;
@@ -141,6 +142,7 @@ class PersonalInfo implements ISettings {
 			'headline' => $this->getProperty($account, IAccountManager::PROPERTY_HEADLINE),
 			'biography' => $this->getProperty($account, IAccountManager::PROPERTY_BIOGRAPHY),
 			'birthdate' => $this->getProperty($account, IAccountManager::PROPERTY_BIRTHDATE),
+			'firstDayOfWeek' => $this->config->getUserValue($uid, 'core', AUserData::USER_FIELD_FIRST_DAY_OF_WEEK),
 		];
 
 		$accountParameters = [

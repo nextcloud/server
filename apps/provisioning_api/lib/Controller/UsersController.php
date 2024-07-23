@@ -913,6 +913,7 @@ class UsersController extends AUserData {
 				$this->groupManager->isAdmin($currentLoggedInUser->getUID())
 			) {
 				$permittedFields[] = self::USER_FIELD_LOCALE;
+				$permittedFields[] = self::USER_FIELD_FIRST_DAY_OF_WEEK;
 			}
 
 			$permittedFields[] = IAccountManager::PROPERTY_PHONE;
@@ -965,6 +966,7 @@ class UsersController extends AUserData {
 				$permittedFields[] = self::USER_FIELD_PASSWORD;
 				$permittedFields[] = self::USER_FIELD_LANGUAGE;
 				$permittedFields[] = self::USER_FIELD_LOCALE;
+				$permittedFields[] = self::USER_FIELD_FIRST_DAY_OF_WEEK;
 				$permittedFields[] = IAccountManager::PROPERTY_PHONE;
 				$permittedFields[] = IAccountManager::PROPERTY_ADDRESS;
 				$permittedFields[] = IAccountManager::PROPERTY_WEBSITE;
@@ -1055,6 +1057,17 @@ class UsersController extends AUserData {
 					throw new OCSException($this->l10n->t('Invalid locale'), 102);
 				}
 				$this->config->setUserValue($targetUser->getUID(), 'core', 'locale', $value);
+				break;
+			case self::USER_FIELD_FIRST_DAY_OF_WEEK:
+				$intValue = (int)$value;
+				if ($intValue < -1 || $intValue > 6) {
+					throw new OCSException($this->l10n->t('Invalid first day of week'), 102);
+				}
+				if ($intValue === -1) {
+					$this->config->deleteUserValue($targetUser->getUID(), 'core', AUserData::USER_FIELD_FIRST_DAY_OF_WEEK);
+				} else {
+					$this->config->setUserValue($targetUser->getUID(), 'core', AUserData::USER_FIELD_FIRST_DAY_OF_WEEK, $value);
+				}
 				break;
 			case self::USER_FIELD_NOTIFICATION_EMAIL:
 				$success = false;
