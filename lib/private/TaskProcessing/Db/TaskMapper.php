@@ -136,7 +136,20 @@ class TaskMapper extends QBMapper {
 		return array_values($this->findEntities($qb));
 	}
 
-	public function findTasks(?string $userId, ?string $taskType = null, ?string $customId = null, ?int $status = null, ?int $scheduleAfter = null, ?int $endedBefore = null): array {
+	/**
+	 * @param string|null $userId
+	 * @param string|null $taskType
+	 * @param string|null $appId
+	 * @param string|null $customId
+	 * @param int|null $status
+	 * @param int|null $scheduleAfter
+	 * @param int|null $endedBefore
+	 * @return array
+	 * @throws Exception
+	 */
+	public function findTasks(
+		?string $userId, ?string $taskType = null, ?string $appId = null, ?string $customId = null,
+		?int $status = null, ?int $scheduleAfter = null, ?int $endedBefore = null): array {
 		$qb = $this->db->getQueryBuilder();
 		$qb->select(Task::$columns)
 			->from($this->tableName);
@@ -147,6 +160,9 @@ class TaskMapper extends QBMapper {
 		}
 		if ($taskType !== null) {
 			$qb->andWhere($qb->expr()->eq('type', $qb->createPositionalParameter($taskType)));
+		}
+		if ($appId !== null) {
+			$qb->andWhere($qb->expr()->eq('app_id', $qb->createPositionalParameter($appId)));
 		}
 		if ($customId !== null) {
 			$qb->andWhere($qb->expr()->eq('custom_id', $qb->createPositionalParameter($customId)));

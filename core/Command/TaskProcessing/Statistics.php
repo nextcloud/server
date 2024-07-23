@@ -36,6 +36,12 @@ class Statistics extends Base {
 				'only get the tasks for one task type'
 			)
 			->addOption(
+				'appId',
+				null,
+				InputOption::VALUE_OPTIONAL,
+				'only get the tasks for one app ID'
+			)
+			->addOption(
 				'customId',
 				null,
 				InputOption::VALUE_OPTIONAL,
@@ -70,12 +76,13 @@ class Statistics extends Base {
 			$userIdFilter = null;
 		}
 		$type = $input->getOption('type');
+		$appId = $input->getOption('appId');
 		$customId = $input->getOption('customId');
 		$status = $input->getOption('status');
 		$scheduledAfter = $input->getOption('scheduledAfter');
 		$endedBefore = $input->getOption('endedBefore');
 
-		$tasks = $this->taskProcessingManager->getTasks($userIdFilter, $type, $customId, $status, $scheduledAfter, $endedBefore);
+		$tasks = $this->taskProcessingManager->getTasks($userIdFilter, $type, $appId, $customId, $status, $scheduledAfter, $endedBefore);
 
 		$stats = ['Number of tasks' => count($tasks)];
 
