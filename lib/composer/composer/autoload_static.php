@@ -11,7 +11,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
     );
 
     public static $prefixLengthsPsr4 = array (
-        'O' =>
+        'O' => 
         array (
             'OC\\Core\\' => 8,
             'OC\\' => 3,
@@ -20,15 +20,15 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
     );
 
     public static $prefixDirsPsr4 = array (
-        'OC\\Core\\' =>
+        'OC\\Core\\' => 
         array (
             0 => __DIR__ . '/../../..' . '/core',
         ),
-        'OC\\' =>
+        'OC\\' => 
         array (
             0 => __DIR__ . '/../../..' . '/lib/private',
         ),
-        'OCP\\' =>
+        'OCP\\' => 
         array (
             0 => __DIR__ . '/../../..' . '/lib/public',
         ),
@@ -1213,6 +1213,8 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\Core\\Command\\SystemTag\\Delete' => __DIR__ . '/../../..' . '/core/Command/SystemTag/Delete.php',
         'OC\\Core\\Command\\SystemTag\\Edit' => __DIR__ . '/../../..' . '/core/Command/SystemTag/Edit.php',
         'OC\\Core\\Command\\SystemTag\\ListCommand' => __DIR__ . '/../../..' . '/core/Command/SystemTag/ListCommand.php',
+        'OC\\Core\\Command\\TaskProcessing\\ListCommand' => __DIR__ . '/../../..' . '/core/Command/TaskProcessing/ListCommand.php',
+        'OC\\Core\\Command\\TaskProcessing\\Statistics' => __DIR__ . '/../../..' . '/core/Command/TaskProcessing/Statistics.php',
         'OC\\Core\\Command\\TwoFactorAuth\\Base' => __DIR__ . '/../../..' . '/core/Command/TwoFactorAuth/Base.php',
         'OC\\Core\\Command\\TwoFactorAuth\\Cleanup' => __DIR__ . '/../../..' . '/core/Command/TwoFactorAuth/Cleanup.php',
         'OC\\Core\\Command\\TwoFactorAuth\\Disable' => __DIR__ . '/../../..' . '/core/Command/TwoFactorAuth/Disable.php',

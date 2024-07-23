@@ -144,7 +144,7 @@ class TaskMapper extends QBMapper {
 	 * @param int|null $status
 	 * @param int|null $scheduleAfter
 	 * @param int|null $endedBefore
-	 * @return array
+	 * @return list<Task>
 	 * @throws Exception
 	 */
 	public function findTasks(
