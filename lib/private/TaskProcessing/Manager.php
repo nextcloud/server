@@ -616,6 +616,7 @@ class Manager implements IManager {
 		// remove superfluous keys and set input
 		$task->setInput($this->removeSuperfluousArrayKeys($task->getInput(), $inputShape, $optionalInputShape));
 		$task->setStatus(Task::STATUS_SCHEDULED);
+		$task->setScheduledAt(time());
 		$provider = $this->getPreferredProvider($task->getTaskTypeId());
 		// calculate expected completion time
 		$completionExpectedAt = new \DateTime('now');
@@ -656,6 +657,7 @@ class Manager implements IManager {
 			return;
 		}
 		$task->setStatus(Task::STATUS_CANCELLED);
+		$task->setEndedAt(time());
 		$taskEntity = \OC\TaskProcessing\Db\Task::fromPublicTask($task);
 		try {
 			$this->taskMapper->update($taskEntity);
@@ -670,6 +672,10 @@ class Manager implements IManager {
 		$task = $this->getTask($id);
 		if ($task->getStatus() === Task::STATUS_CANCELLED) {
 			return false;
+		}
+		// only set the start time if the task is going from scheduled to running
+		if ($task->getstatus() === Task::STATUS_SCHEDULED) {
+			$task->setStartedAt(time());
 		}
 		$task->setStatus(Task::STATUS_RUNNING);
 		$task->setProgress($progress);
@@ -691,6 +697,7 @@ class Manager implements IManager {
 		}
 		if ($error !== null) {
 			$task->setStatus(Task::STATUS_FAILED);
+			$task->setEndedAt(time());
 			$task->setErrorMessage($error);
 			$this->logger->warning('A TaskProcessing ' . $task->getTaskTypeId() . ' task with id ' . $id . ' failed with the following message: ' . $error);
 		} elseif ($result !== null) {
@@ -725,21 +732,25 @@ class Manager implements IManager {
 				$task->setOutput($output);
 				$task->setProgress(1);
 				$task->setStatus(Task::STATUS_SUCCESSFUL);
+				$task->setEndedAt(time());
 			} catch (ValidationException $e) {
 				$task->setProgress(1);
 				$task->setStatus(Task::STATUS_FAILED);
+				$task->setEndedAt(time());
 				$error = 'The task was processed successfully but the provider\'s output doesn\'t pass validation against the task type\'s outputShape spec and/or the provider\'s own optionalOutputShape spec';
 				$task->setErrorMessage($error);
 				$this->logger->error($error, ['exception' => $e]);
 			} catch (NotPermittedException $e) {
 				$task->setProgress(1);
 				$task->setStatus(Task::STATUS_FAILED);
+				$task->setEndedAt(time());
 				$error = 'The task was processed successfully but storing the output in a file failed';
 				$task->setErrorMessage($error);
 				$this->logger->error($error, ['exception' => $e]);
 			} catch (InvalidPathException|\OCP\Files\NotFoundException $e) {
 				$task->setProgress(1);
 				$task->setStatus(Task::STATUS_FAILED);
+				$task->setEndedAt(time());
 				$error = 'The task was processed successfully but the result file could not be found';
 				$task->setErrorMessage($error);
 				$this->logger->error($error, ['exception' => $e]);
@@ -839,6 +850,20 @@ class Manager implements IManager {
 		}
 	}
 
+	public function getTasks(
+		?string $userId, ?string $taskTypeId = null, ?string $appId = null, ?string $customId = null,
+		?int $status = null, ?int $scheduleAfter = null, ?int $endedBefore = null
+	): array {
+		try {
+			$taskEntities = $this->taskMapper->findTasks($userId, $taskTypeId, $appId, $customId, $status, $scheduleAfter, $endedBefore);
+			return array_map(fn ($taskEntity): Task => $taskEntity->toPublicTask(), $taskEntities);
+		} catch (\OCP\DB\Exception $e) {
+			throw new \OCP\TaskProcessing\Exception\Exception('There was a problem finding the tasks', 0, $e);
+		} catch (\JsonException $e) {
+			throw new \OCP\TaskProcessing\Exception\Exception('There was a problem parsing JSON after finding the tasks', 0, $e);
+		}
+	}
+
 	public function getUserTasksByApp(?string $userId, string $appId, ?string $customId = null): array {
 		try {
 			$taskEntities = $this->taskMapper->findUserTasksByApp($userId, $appId, $customId);
@@ -926,6 +951,14 @@ class Manager implements IManager {
 	 * @throws Exception
 	 */
 	public function setTaskStatus(Task $task, int $status): void {
+		$currentTaskStatus = $task->getStatus();
+		if ($currentTaskStatus === Task::STATUS_SCHEDULED && $status === Task::STATUS_RUNNING) {
+			$task->setStartedAt(time());
+		} elseif ($currentTaskStatus === Task::STATUS_RUNNING && ($status === Task::STATUS_FAILED || $status === Task::STATUS_CANCELLED)) {
+			$task->setEndedAt(time());
+		} elseif ($currentTaskStatus === Task::STATUS_UNKNOWN && $status === Task::STATUS_SCHEDULED) {
+			$task->setScheduledAt(time());
+		}
 		$task->setStatus($status);
 		$taskEntity = \OC\TaskProcessing\Db\Task::fromPublicTask($task);
 		$this->taskMapper->update($taskEntity);

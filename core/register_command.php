@@ -140,6 +140,9 @@ if ($config->getSystemValueBool('installed', false)) {
 	$application->add(Server::get(Command\Security\BruteforceResetAttempts::class));
 	$application->add(Server::get(Command\SetupChecks::class));
 	$application->add(Server::get(Command\FilesMetadata\Get::class));
+
+	$application->add(Server::get(Command\TaskProcessing\ListCommand::class));
+	$application->add(Server::get(Command\TaskProcessing\Statistics::class));
 } else {
 	$application->add(Server::get(Command\Maintenance\Install::class));
 }

@@ -141,6 +141,24 @@ interface IManager {
 	public function getUserTasks(?string $userId, ?string $taskTypeId = null, ?string $customId = null): array;
 
 	/**
+	 * @param string|null $userId The user id that scheduled the task
+	 * @param string|null $taskTypeId The task type id to filter by
+	 * @param string|null $appId The app ID of the app that submitted the task
+	 * @param string|null $customId The custom task ID
+	 * @param int|null $status The task status
+	 * @param int|null $scheduleAfter Minimum schedule time filter
+	 * @param int|null $endedBefore Maximum ending time filter
+	 * @return list<Task>
+	 * @throws Exception If the query failed
+	 * @throws NotFoundException If the task could not be found
+	 * @since 30.0.0
+	 */
+	public function getTasks(
+		?string $userId, ?string $taskTypeId = null, ?string $appId = null, ?string $customId = null,
+		?int $status = null, ?int $scheduleAfter = null, ?int $endedBefore = null
+	): array;
+
+	/**
 	 * @param string|null $userId
 	 * @param string $appId
 	 * @param string|null $customId
