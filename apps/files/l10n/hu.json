@@ -278,6 +278,8 @@
     "Files and folders you mark as favorite will show up here" : "A kedvencnek jelölt fájlokat és mappákat itt találja meg",
     "All files" : "Az összes fájl",
     "List of your files and folders." : "Saját fájlok és mappák felsorolása.",
+    "Personal Files" : "Személyes fájlok",
+    "No personal files found" : "Nem találhatóak személyes fájlok",
     "List of recently modified files and folders." : "Közelmúltban módosított fájlok és mappák felsorolása.",
     "No recently modified files" : "Nincs a közelmúltban módosított fájl",
     "Files and folders you recently modified will show up here." : "Az Ön által módosított fájlok és mappák itt jelennek meg.",

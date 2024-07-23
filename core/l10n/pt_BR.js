@@ -43,6 +43,7 @@ OC.L10N.register(
     "Task not found" : "Tarefa não encontrada",
     "Internal error" : "Erro interno",
     "Not found" : "Não encontrado",
+    "Bad request" : "Pedido ruim",
     "Requested task type does not exist" : "O tipo de tarefa solicitada não existe",
     "Necessary language model provider is not available" : "O provedor de modelo de idioma necessário não está disponível",
     "No text to image provider is available" : "Nenhum provedor de texto para imagem está disponível",

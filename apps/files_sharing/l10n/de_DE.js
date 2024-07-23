@@ -130,7 +130,7 @@ OC.L10N.register(
     "Set a submission expiration date" : "Ablaufdatum für die Übermittlung festlegen",
     "Expiration date" : "Ablaufdatum",
     "Select a date" : "Datum auswählen",
-    "Your administrator has enforced a {count} days expiration policy." : "Ihre Administration hat erzeingt über eine Richtlinie den Ablauf nach {count} Tagen.",
+    "Your administrator has enforced a {count} days expiration policy." : "Ihre Administration erzwingt über eine Richtlinie den Ablauf nach {count} Tagen.",
     "What password should be used for the request?" : "Welches Passwort soll für die Anfrage verwendet werden?",
     "Set a password" : "Passwort setzen",
     "Password" : "Passwort",
