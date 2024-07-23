@@ -9,6 +9,7 @@ namespace OCA\DAV;
 use OCA\DAV\AppInfo\PluginManager;
 use OCA\DAV\BulkUpload\BulkUploadPlugin;
 use OCA\DAV\CalDAV\BirthdayService;
+use OCA\DAV\CalDAV\DefaultCalendarValidator;
 use OCA\DAV\CalDAV\Schedule\IMipPlugin;
 use OCA\DAV\CalDAV\Security\RateLimitingPlugin;
 use OCA\DAV\CalDAV\Validation\CalDavValidatePlugin;
@@ -153,7 +154,7 @@ class Server {
 			$this->server->addPlugin(new DAV\Sharing\Plugin($authBackend, \OC::$server->getRequest(), \OC::$server->getConfig()));
 			$this->server->addPlugin(new \OCA\DAV\CalDAV\Plugin());
 			$this->server->addPlugin(new \OCA\DAV\CalDAV\ICSExportPlugin\ICSExportPlugin(\OC::$server->getConfig(), $logger));
-			$this->server->addPlugin(new \OCA\DAV\CalDAV\Schedule\Plugin(\OC::$server->getConfig(), \OC::$server->get(LoggerInterface::class)));
+			$this->server->addPlugin(new \OCA\DAV\CalDAV\Schedule\Plugin(\OC::$server->getConfig(), \OC::$server->get(LoggerInterface::class), \OC::$server->get(DefaultCalendarValidator::class)));
 
 			$this->server->addPlugin(\OC::$server->get(\OCA\DAV\CalDAV\Trashbin\Plugin::class));
 			$this->server->addPlugin(new \OCA\DAV\CalDAV\WebcalCaching\Plugin($request));
@@ -254,7 +255,8 @@ class Server {
 							$this->server,
 							$this->server->tree,
 							\OC::$server->getDatabaseConnection(),
-							\OC::$server->getUserSession()->getUser()
+							\OC::$server->getUserSession()->getUser(),
+							\OC::$server->get(DefaultCalendarValidator::class),
 						)
 					)
 				);
