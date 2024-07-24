@@ -6,7 +6,7 @@
 	<NcAppContent :page-heading="pageHeading" data-cy-files-content>
 		<div class="files-list__header">
 			<!-- Current folder breadcrumbs -->
-			<BreadCrumbs :path="dir" @reload="fetchContent">
+			<BreadCrumbs :path="directory" @reload="fetchContent">
 				<template #actions>
 					<!-- Sharing button -->
 					<NcButton v-if="canShare && filesListWidth >= 512"
@@ -78,7 +78,7 @@
 			:name="currentView?.emptyTitle || t('files', 'No files in here')"
 			:description="currentView?.emptyCaption || t('files', 'Upload some content or sync with your devices!')"
 			data-cy-files-content-empty>
-			<template v-if="dir !== '/'" #action>
+			<template v-if="directory !== '/'" #action>
 				<!-- Uploader -->
 				<UploadPicker v-if="currentFolder && canUpload && !isQuotaExceeded"
 					allow-folders
@@ -142,6 +142,7 @@ import ViewGridIcon from 'vue-material-design-icons/ViewGrid.vue'
 
 import { action as sidebarAction } from '../actions/sidebarAction.ts'
 import { useNavigation } from '../composables/useNavigation.ts'
+import { useRouteParameters } from '../composables/useRouteParameters.ts'
 import { useFilesStore } from '../store/files.ts'
 import { useFiltersStore } from '../store/filters.ts'
 import { usePathsStore } from '../store/paths.ts'
@@ -192,12 +193,15 @@ export default defineComponent({
 		const userConfigStore = useUserConfigStore()
 		const viewConfigStore = useViewConfigStore()
 		const { currentView } = useNavigation()
+		const { directory, fileId } = useRouteParameters()
 
 		const enableGridView = (loadState('core', 'config', [])['enable_non-accessible_features'] ?? true)
 		const forbiddenCharacters = loadState<string[]>('files', 'forbiddenCharacters', [])
 
 		return {
 			currentView,
+			directory,
+			fileId,
 			t,
 
 			filesStore,
@@ -249,22 +253,6 @@ export default defineComponent({
 		},
 
 		/**
-		 * The current directory query.
-		 */
-		dir(): string {
-			// Remove any trailing slash but leave root slash
-			return (this.$route?.query?.dir?.toString() || '/').replace(/^(.+)\/$/, '$1')
-		},
-
-		/**
-		 * The current file id
-		 */
-		fileId(): number | null {
-			const number = Number.parseInt(this.$route?.params.fileid ?? '')
-			return Number.isNaN(number) ? null : number
-		},
-
-		/**
 		 * The current folder.
 		 */
 		currentFolder(): Folder | undefined {
@@ -272,11 +260,11 @@ export default defineComponent({
 				return
 			}
 
-			if (this.dir === '/') {
+			if (this.directory === '/') {
 				return this.filesStore.getRoot(this.currentView.id)
 			}
 
-			const source = this.pathsStore.getPath(this.currentView.id, this.dir)
+			const source = this.pathsStore.getPath(this.currentView.id, this.directory)
 			if (source === undefined) {
 				return
 			}
@@ -337,7 +325,7 @@ export default defineComponent({
 		 * Route to the previous directory.
 		 */
 		toPreviousDir(): Route {
-			const dir = this.dir.split('/').slice(0, -1).join('/') || '/'
+			const dir = this.directory.split('/').slice(0, -1).join('/') || '/'
 			return { ...this.$route, query: { dir } }
 		},
 
@@ -416,7 +404,7 @@ export default defineComponent({
 			this.fetchContent()
 		},
 
-		dir(newDir, oldDir) {
+		directory(newDir, oldDir) {
 			logger.debug('Directory changed', { newDir, oldDir })
 			// TODO: preserve selection on browsing?
 			this.selectionStore.reset()
@@ -466,7 +454,7 @@ export default defineComponent({
 	methods: {
 		async fetchContent() {
 			this.loading = true
-			const dir = this.dir
+			const dir = this.directory
 			const currentView = this.currentView
 
 			if (!currentView) {
@@ -541,7 +529,7 @@ export default defineComponent({
 					// in this case we need to keep the current view but move to the parent directory
 					window.OCP.Files.Router.goToRoute(
 						null,
-						{ view: this.$route.params.view },
+						{ view: this.currentView!.id },
 						{ dir: this.currentFolder?.dirname ?? '/' },
 					)
 				} else {

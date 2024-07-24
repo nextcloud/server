@@ -69,6 +69,7 @@ import { translate as t } from '@nextcloud/l10n'
 import { defineComponent } from 'vue'
 
 import { action as sidebarAction } from '../actions/sidebarAction.ts'
+import { useRouteParameters } from '../composables/useRouteParameters.ts'
 import { getSummaryFor } from '../utils/fileUtils'
 import { useSelectionStore } from '../store/selection.js'
 import { useUserConfigStore } from '../store/userconfig.ts'
@@ -118,7 +119,12 @@ export default defineComponent({
 	setup() {
 		const userConfigStore = useUserConfigStore()
 		const selectionStore = useSelectionStore()
+		const { fileId, openFile } = useRouteParameters()
+
 		return {
+			fileId,
+			openFile,
+
 			userConfigStore,
 			selectionStore,
 		}
@@ -137,18 +143,6 @@ export default defineComponent({
 	computed: {
 		userConfig(): UserConfig {
 			return this.userConfigStore.userConfig
-		},
-
-		fileId() {
-			return Number.parseInt(this.$route.params.fileid ?? '0') || null
-		},
-
-		/**
-		 * If the current `fileId` should be opened
-		 * The state of the `openfile` query param
-		 */
-		openFile() {
-			return !!this.$route.query.openfile
 		},
 
 		summary() {
