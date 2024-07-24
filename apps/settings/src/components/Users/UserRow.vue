@@ -112,7 +112,7 @@
 					:append-to-body="false"
 					:options="availableGroups"
 					:placeholder="t('settings', 'Add account to group')"
-					:taggable="settings.isAdmin"
+					:taggable="settings.isAdmin || settings.isDelegatedAdmin"
 					:value="userGroups"
 					label="name"
 					:no-wrap="true"
@@ -127,10 +127,10 @@
 			</span>
 		</td>
 
-		<td v-if="subAdminsGroups.length > 0 && settings.isAdmin"
+		<td v-if="subAdminsGroups.length > 0 && (settings.isAdmin || settings.isDelegatedAdmin)"
 			data-cy-user-list-cell-subadmins
 			class="row__cell row__cell--large row__cell--multiline">
-			<template v-if="editing && settings.isAdmin && subAdminsGroups.length > 0">
+			<template v-if="editing && (settings.isAdmin || settings.isDelegatedAdmin) && subAdminsGroups.length > 0">
 				<label class="hidden-visually"
 					:for="'subadmins' + uniqueId">
 					{{ t('settings', 'Set account as admin for') }}
@@ -424,7 +424,7 @@ export default {
 		},
 
 		canEdit() {
-			return getCurrentUser().uid !== this.user.id || this.settings.isAdmin
+			return getCurrentUser().uid !== this.user.id || this.settings.isAdmin || this.settings.isDelegatedAdmin
 		},
 
 		userQuota() {
@@ -624,18 +624,21 @@ export default {
 		 *
 		 * @param {string} displayName The display name
 		 */
-		updateDisplayName() {
+		async updateDisplayName() {
 			this.loading.displayName = true
-			this.$store.dispatch('setUserData', {
-				userid: this.user.id,
-				key: 'displayname',
-				value: this.editedDisplayName,
-			}).then(() => {
-				this.loading.displayName = false
+			try {
+				await this.$store.dispatch('setUserData', {
+					userid: this.user.id,
+					key: 'displayname',
+					value: this.editedDisplayName,
+				})
+
 				if (this.editedDisplayName === this.user.displayname) {
 					showSuccess(t('setting', 'Display name was successfully changed'))
 				}
-			})
+			} finally {
+				this.loading.displayName = false
+			}
 		},
 
 		/**
@@ -643,21 +646,23 @@ export default {
 		 *
 		 * @param {string} password The email address
 		 */
-		updatePassword() {
+		async updatePassword() {
 			this.loading.password = true
 			if (this.editedPassword.length === 0) {
 				showError(t('setting', "Password can't be empty"))
 				this.loading.password = false
 			} else {
-				this.$store.dispatch('setUserData', {
-					userid: this.user.id,
-					key: 'password',
-					value: this.editedPassword,
-				}).then(() => {
-					this.loading.password = false
+				try {
+					await this.$store.dispatch('setUserData', {
+						userid: this.user.id,
+						key: 'password',
+						value: this.editedPassword,
+					})
 					this.editedPassword = ''
 					showSuccess(t('setting', 'Password was successfully changed'))
-				})
+				} finally {
+					this.loading.password = false
+				}
 			}
 		},
 
@@ -666,23 +671,26 @@ export default {
 		 *
 		 * @param {string} mailAddress The email address
 		 */
-		updateEmail() {
+		async updateEmail() {
 			this.loading.mailAddress = true
 			if (this.editedMail === '') {
 				showError(t('setting', "Email can't be empty"))
 				this.loading.mailAddress = false
 				this.editedMail = this.user.email
 			} else {
-				this.$store.dispatch('setUserData', {
-					userid: this.user.id,
-					key: 'email',
-					value: this.editedMail,
-				}).then(() => {
-					this.loading.mailAddress = false
+				try {
+					await this.$store.dispatch('setUserData', {
+						userid: this.user.id,
+						key: 'email',
+						value: this.editedMail,
+					})
+
 					if (this.editedMail === this.user.email) {
 						showSuccess(t('setting', 'Email was successfully changed'))
 					}
-				})
+				} finally {
+					this.loading.mailAddress = false
+				}
 			}
 		},
 

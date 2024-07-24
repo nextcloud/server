@@ -10,14 +10,11 @@ namespace Test\Group;
 use OCP\IUserSession;
 
 class MetaDataTest extends \Test\TestCase {
-	/** @var \OC\Group\Manager */
-	private $groupManager;
-	/** @var \OCP\IUserSession */
-	private $userSession;
-	/** @var \OC\Group\MetaData */
-	private $groupMetadata;
-	/** @var bool */
-	private $isAdmin = true;
+	private \OC\Group\Manager $groupManager;
+	private IUserSession $userSession;
+	private \OC\Group\MetaData $groupMetadata;
+	private bool $isAdmin = true;
+	private bool $isDelegatedAdmin = true;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -28,6 +25,7 @@ class MetaDataTest extends \Test\TestCase {
 		$this->groupMetadata = new \OC\Group\MetaData(
 			'foo',
 			$this->isAdmin,
+			$this->isDelegatedAdmin,
 			$this->groupManager,
 			$this->userSession
 		);

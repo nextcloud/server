@@ -9,8 +9,10 @@ declare(strict_types=1);
 namespace OCA\Provisioning_API\Controller;
 
 use OCA\Provisioning_API\ResponseDefinitions;
+use OCA\Settings\Settings\Admin\Users;
 use OCP\Accounts\IAccountManager;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\AuthorizedAdminSetting;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCS\OCSException;
 use OCP\AppFramework\OCS\OCSForbiddenException;
@@ -154,8 +156,9 @@ class GroupsController extends AUserData {
 		}
 
 		// Check subadmin has access to this group
-		if ($this->groupManager->isAdmin($user->getUID())
-		   || $isSubadminOfGroup) {
+		$isAdmin = $this->groupManager->isAdmin($user->getUID());
+		$isDelegatedAdmin = $this->groupManager->isDelegatedAdmin($user->getUID());
+		if ($isAdmin || $isDelegatedAdmin || $isSubadminOfGroup) {
 			$users = $this->groupManager->get($groupId)->getUsers();
 			$users = array_map(function ($user) {
 				/** @var IUser $user */
@@ -197,7 +200,9 @@ class GroupsController extends AUserData {
 		}
 
 		// Check subadmin has access to this group
-		if ($this->groupManager->isAdmin($currentUser->getUID()) || $isSubadminOfGroup) {
+		$isAdmin = $this->groupManager->isAdmin($currentUser->getUID());
+		$isDelegatedAdmin = $this->groupManager->isDelegatedAdmin($currentUser->getUID());
+		if ($isAdmin || $isDelegatedAdmin || $isSubadminOfGroup) {
 			$users = $group->searchUsers($search, $limit, $offset);
 
 			// Extract required number
@@ -237,6 +242,7 @@ class GroupsController extends AUserData {
 	 *
 	 * 200: Group created successfully
 	 */
+	#[AuthorizedAdminSetting(settings:Users::class)]
 	public function addGroup(string $groupid, string $displayname = ''): DataResponse {
 		// Validate name
 		if (empty($groupid)) {
@@ -270,6 +276,7 @@ class GroupsController extends AUserData {
 	 *
 	 * 200: Group updated successfully
 	 */
+	#[AuthorizedAdminSetting(settings:Users::class)]
 	public function updateGroup(string $groupId, string $key, string $value): DataResponse {
 		$groupId = urldecode($groupId);
 
@@ -299,6 +306,7 @@ class GroupsController extends AUserData {
 	 *
 	 * 200: Group deleted successfully
 	 */
+	#[AuthorizedAdminSetting(settings:Users::class)]
 	public function deleteGroup(string $groupId): DataResponse {
 		$groupId = urldecode($groupId);
 
@@ -322,6 +330,7 @@ class GroupsController extends AUserData {
 	 *
 	 * 200: Sub admins returned
 	 */
+	#[AuthorizedAdminSetting(settings:Users::class)]
 	public function getSubAdminsOfGroup(string $groupId): DataResponse {
 		// Check group exists
 		$targetGroup = $this->groupManager->get($groupId);

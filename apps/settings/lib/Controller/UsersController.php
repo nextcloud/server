@@ -19,12 +19,14 @@ use OC\Security\IdentityProof\Manager;
 use OC\User\Manager as UserManager;
 use OCA\Settings\BackgroundJobs\VerifyUserData;
 use OCA\Settings\Events\BeforeTemplateRenderedEvent;
+use OCA\Settings\Settings\Admin\Users;
 use OCA\User_LDAP\User_Proxy;
 use OCP\Accounts\IAccount;
 use OCP\Accounts\IAccountManager;
 use OCP\Accounts\PropertyDoesNotExistException;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Controller;
+use OCP\AppFramework\Http\Attribute\AuthorizedAdminSetting;
 use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\JSONResponse;
@@ -93,6 +95,7 @@ class UsersController extends Controller {
 		$user = $this->userSession->getUser();
 		$uid = $user->getUID();
 		$isAdmin = $this->groupManager->isAdmin($uid);
+		$isDelegatedAdmin = $this->groupManager->isDelegatedAdmin($uid);
 
 		\OC::$server->getNavigationManager()->setActiveEntry('core_users');
 
@@ -118,6 +121,7 @@ class UsersController extends Controller {
 		$groupsInfo = new \OC\Group\MetaData(
 			$uid,
 			$isAdmin,
+			$isDelegatedAdmin,
 			$this->groupManager,
 			$this->userSession
 		);
@@ -135,7 +139,7 @@ class UsersController extends Controller {
 		$userCount = 0;
 
 		if (!$isLDAPUsed) {
-			if ($isAdmin) {
+			if ($isAdmin || $isDelegatedAdmin) {
 				$disabledUsers = $this->userManager->countDisabledUsers();
 				$userCount = array_reduce($this->userManager->countUsers(), function ($v, $w) {
 					return $v + (int)$w;
@@ -201,6 +205,7 @@ class UsersController extends Controller {
 		$serverData['groups'] = array_merge_recursive($adminGroup, [$recentUsersGroup, $disabledUsersGroup], $groups);
 		// Various data
 		$serverData['isAdmin'] = $isAdmin;
+		$serverData['isDelegatedAdmin'] = $isDelegatedAdmin;
 		$serverData['sortGroups'] = $forceSortGroupByName
 			? \OC\Group\MetaData::SORT_GROUPNAME
 			: (int)$this->config->getAppValue('core', 'group.sortBy', (string)\OC\Group\MetaData::SORT_USERCOUNT);
@@ -232,6 +237,7 @@ class UsersController extends Controller {
 	 *
 	 * @return JSONResponse
 	 */
+	#[AuthorizedAdminSetting(settings:Users::class)]
 	public function setPreference(string $key, string $value): JSONResponse {
 		$allowed = ['newUser.sendEmail', 'group.sortBy'];
 		if (!in_array($key, $allowed, true)) {

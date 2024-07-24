@@ -71,6 +71,7 @@ return array(
     'OCA\\Settings\\Settings\\Admin\\Security' => $baseDir . '/../lib/Settings/Admin/Security.php',
     'OCA\\Settings\\Settings\\Admin\\Server' => $baseDir . '/../lib/Settings/Admin/Server.php',
     'OCA\\Settings\\Settings\\Admin\\Sharing' => $baseDir . '/../lib/Settings/Admin/Sharing.php',
+    'OCA\\Settings\\Settings\\Admin\\Users' => $baseDir . '/../lib/Settings/Admin/Users.php',
     'OCA\\Settings\\Settings\\Personal\\Additional' => $baseDir . '/../lib/Settings/Personal/Additional.php',
     'OCA\\Settings\\Settings\\Personal\\PersonalInfo' => $baseDir . '/../lib/Settings/Personal/PersonalInfo.php',
     'OCA\\Settings\\Settings\\Personal\\Security\\Authtokens' => $baseDir . '/../lib/Settings/Personal/Security/Authtokens.php',

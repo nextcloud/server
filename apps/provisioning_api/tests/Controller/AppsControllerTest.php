@@ -45,13 +45,17 @@ class AppsControllerTest extends \OCA\Provisioning_API\Tests\TestCase {
 		);
 	}
 
+	protected function tearDown(): void {
+		$this->userSession->setUser(null);
+	}
+
 	public function testGetAppInfo() {
 		$result = $this->api->getAppInfo('provisioning_api');
 		$expected = $this->appManager->getAppInfo('provisioning_api');
 		$this->assertEquals($expected, $result->getData());
 	}
 
-	
+
 	public function testGetAppInfoOnBadAppID() {
 		$this->expectException(\OCP\AppFramework\OCS\OCSException::class);
 		$this->expectExceptionCode(998);

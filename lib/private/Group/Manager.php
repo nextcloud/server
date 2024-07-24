@@ -8,6 +8,7 @@
 namespace OC\Group;
 
 use OC\Hooks\PublicEmitter;
+use OC\Settings\AuthorizedGroupMapper;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Group\Backend\IBatchMethodsBackend;
 use OCP\Group\Backend\ICreateNamedGroupBackend;
@@ -331,6 +332,18 @@ class Manager extends PublicEmitter implements IGroupManager {
 			}
 		}
 		return $this->isInGroup($userId, 'admin');
+	}
+
+	public function isDelegatedAdmin(string $userId): bool {
+		if (!$this->remoteAddress->allowsAdminActions()) {
+			return false;
+		}
+
+		// Check if the user as admin delegation for users listing
+		$authorizedGroupMapper = \OCP\Server::get(AuthorizedGroupMapper::class);
+		$user = $this->userManager->get($userId);
+		$authorizedClasses = $authorizedGroupMapper->findAllClassesForUser($user);
+		return in_array(\OCA\Settings\Settings\Admin\Users::class, $authorizedClasses, true);
 	}
 
 	/**

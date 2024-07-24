@@ -169,10 +169,6 @@ export default {
 			if (this.selectedGroup === 'disabled') {
 				return this.users.filter(user => user.enabled === false)
 			}
-			if (!this.settings.isAdmin) {
-				// we don't want subadmins to edit themselves
-				return this.users.filter(user => user.enabled !== false)
-			}
 			return this.users.filter(user => user.enabled !== false)
 		},
 
