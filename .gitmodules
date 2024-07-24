@@ -22,3 +22,6 @@
 [submodule "apps-custom/googleanalytics"]
 	path = apps-custom/googleanalytics
 	url = git@github.com:IONOS-Productivity/nc-googleanalytics.git
+[submodule "themes/nc-ionos-theme"]
+	path = themes/nc-ionos-theme
+	url = git@github.com:IONOS-Productivity/nc-ionos-theme.git
