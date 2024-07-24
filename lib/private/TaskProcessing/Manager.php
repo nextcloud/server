@@ -50,6 +50,7 @@ use OCP\TaskProcessing\IProvider;
 use OCP\TaskProcessing\ISynchronousProvider;
 use OCP\TaskProcessing\ITaskType;
 use OCP\TaskProcessing\ShapeDescriptor;
+use OCP\TaskProcessing\ShapeEnumValue;
 use OCP\TaskProcessing\Task;
 use OCP\TaskProcessing\TaskTypes\AudioToText;
 use OCP\TaskProcessing\TaskTypes\TextToImage;
@@ -70,34 +71,33 @@ class Manager implements IManager {
 	/** @var list<IProvider>|null  */
 	private ?array $providers = null;
 
-	/** @var array<string,array{name: string, description: string, inputShape: array<string, ShapeDescriptor>, optionalInputShape: array<string, ShapeDescriptor>, outputShape: array<string, ShapeDescriptor>, optionalOutputShape: array<string, ShapeDescriptor>}>|null  */
+	/**
+	 * @var array<array-key,array{name: string, description: string, inputShape: ShapeDescriptor[], inputShapeEnumValues: ShapeEnumValue[][], inputShapeDefaults: array<array-key, numeric|string>, optionalInputShape: ShapeDescriptor[], optionalInputShapeEnumValues: ShapeEnumValue[][], optionalInputShapeDefaults: array<array-key, numeric|string>, outputShape: ShapeDescriptor[], outputShapeEnumValues: ShapeEnumValue[][], optionalOutputShape: ShapeDescriptor[], optionalOutputShapeEnumValues: ShapeEnumValue[][]}>
+	 */
 	private ?array $availableTaskTypes = null;
 
 	private IAppData $appData;
-
 	public function __construct(
-		private IConfig $config,
-		private Coordinator $coordinator,
-		private IServerContainer $serverContainer,
-		private LoggerInterface $logger,
-		private TaskMapper $taskMapper,
-		private IJobList $jobList,
-		private IEventDispatcher $dispatcher,
-		IAppDataFactory $appDataFactory,
-		private IRootFolder $rootFolder,
-		private \OCP\TextProcessing\IManager $textProcessingManager,
-		private \OCP\TextToImage\IManager $textToImageManager,
-		private \OCP\SpeechToText\ISpeechToTextManager $speechToTextManager,
-		private IUserMountCache $userMountCache,
-		private IClientService $clientService,
-		private IAppManager $appManager,
-	) {
-		$this->appData = $appDataFactory->get('core');
+			private IConfig $config,
+			private Coordinator $coordinator,
+			private IServerContainer $serverContainer,
+			private LoggerInterface $logger,
+			private TaskMapper $taskMapper,
+			private IJobList $jobList,
+			private IEventDispatcher $dispatcher,
+			IAppDataFactory $appDataFactory,
+			private IRootFolder $rootFolder,
+			private \OCP\TextProcessing\IManager $textProcessingManager,
+			private \OCP\TextToImage\IManager $textToImageManager,
+			private \OCP\SpeechToText\ISpeechToTextManager $speechToTextManager,
+			private IUserMountCache $userMountCache,
+			private IClientService $clientService,
+			private IAppManager $appManager,
+		 ) {
+			 $this->appData = $appDataFactory->get('core');
 	}
 
-	/**
-	 * @return IProvider[]
-	 */
+
 	private function _getTextProcessingProviders(): array {
 		$oldProviders = $this->textProcessingManager->getProviders();
 		$newProviders = [];
@@ -154,6 +154,30 @@ class Manager implements IManager {
 					} catch(\RuntimeException $e) {
 						throw new ProcessingException($e->getMessage(), 0, $e);
 					}
+				}
+
+				public function getInputShapeEnumValues(): array {
+					return [];
+				}
+
+				public function getInputShapeDefaults(): array {
+					return [];
+				}
+
+				public function getOptionalInputShapeEnumValues(): array {
+					return [];
+				}
+
+				public function getOptionalInputShapeDefaults(): array {
+					return [];
+				}
+
+				public function getOutputShapeEnumValues(): array {
+					return [];
+				}
+
+				public function getOptionalOutputShapeEnumValues(): array {
+					return [];
 				}
 			};
 			$newProviders[$provider->getId()] = $provider;
@@ -289,6 +313,30 @@ class Manager implements IManager {
 					}
 					return ['images' => array_map(fn (ISimpleFile $file) => $file->getContent(), $files)];
 				}
+
+				public function getInputShapeEnumValues(): array {
+					return [];
+				}
+
+				public function getInputShapeDefaults(): array {
+					return [];
+				}
+
+				public function getOptionalInputShapeEnumValues(): array {
+					return [];
+				}
+
+				public function getOptionalInputShapeDefaults(): array {
+					return [];
+				}
+
+				public function getOutputShapeEnumValues(): array {
+					return [];
+				}
+
+				public function getOptionalOutputShapeEnumValues(): array {
+					return [];
+				}
 			};
 			$newProviders[$newProvider->getId()] = $newProvider;
 		}
@@ -350,6 +398,30 @@ class Manager implements IManager {
 						throw new ProcessingException($e->getMessage(), 0, $e);
 					}
 					return ['output' => $result];
+				}
+
+				public function getInputShapeEnumValues(): array {
+					return [];
+				}
+
+				public function getInputShapeDefaults(): array {
+					return [];
+				}
+
+				public function getOptionalInputShapeEnumValues(): array {
+					return [];
+				}
+
+				public function getOptionalInputShapeDefaults(): array {
+					return [];
+				}
+
+				public function getOutputShapeEnumValues(): array {
+					return [];
+				}
+
+				public function getOptionalOutputShapeEnumValues(): array {
+					return [];
 				}
 			};
 			$newProviders[$newProvider->getId()] = $newProvider;
@@ -439,21 +511,37 @@ class Manager implements IManager {
 
 	/**
 	 * @param ShapeDescriptor[] $spec
+	 * @param array<array-key, string|numeric> $defaults
+	 * @param array<array-key, ShapeEnumValue[]> $enumValues
 	 * @param array $io
+	 * @param bool $optional
 	 * @return void
 	 * @throws ValidationException
 	 */
-	private function validateInput(array $spec, array $io, bool $optional = false): void {
+	private static function validateInput(array $spec, array $defaults, array $enumValues, array $io, bool $optional = false): void {
 		foreach ($spec as $key => $descriptor) {
 			$type = $descriptor->getShapeType();
 			if (!isset($io[$key])) {
 				if ($optional) {
 					continue;
 				}
+				if (isset($defaults[$key])) {
+					if (EShapeType::getScalarType($type) !== $type) {
+						throw new ValidationException('Provider tried to set a default value for a non-scalar slot');
+					}
+					if (EShapeType::isFileType($type)) {
+						throw new ValidationException('Provider tried to set a default value for a slot that is not text or number');
+					}
+					$type->validateInput($defaults[$key]);
+					continue;
+				}
 				throw new ValidationException('Missing key: "' . $key . '"');
 			}
 			try {
 				$type->validateInput($io[$key]);
+				if (isset($enumValues[$key])) {
+					$type->validateEnum($io[$key], $enumValues[$key]);
+				}
 			} catch (ValidationException $e) {
 				throw new ValidationException('Failed to validate input key "' . $key . '": ' . $e->getMessage());
 			}
@@ -461,13 +549,26 @@ class Manager implements IManager {
 	}
 
 	/**
+	 * Takes task input data and replaces fileIds with File objects
+	 *
+	 * @param array<array-key, list<numeric|string>|numeric|string> $input
+	 * @param array<array-key, numeric|string> ...$defaultSpecs the specs
+	 * @return array<array-key, list<numeric|string>|numeric|string>
+	 */
+	public function fillInputDefaults(array $input, ...$defaultSpecs): array {
+		$spec = array_reduce($defaultSpecs, fn ($carry, $spec) => $carry + $spec, []);
+		return $spec + $input;
+	}
+
+	/**
 	 * @param ShapeDescriptor[] $spec
+	 * @param array<array-key, ShapeEnumValue[]> $enumValues
 	 * @param array $io
 	 * @param bool $optional
 	 * @return void
 	 * @throws ValidationException
 	 */
-	private function validateOutputWithFileIds(array $spec, array $io, bool $optional = false): void {
+	private static function validateOutputWithFileIds(array $spec, array $enumValues, array $io, bool $optional = false): void {
 		foreach ($spec as $key => $descriptor) {
 			$type = $descriptor->getShapeType();
 			if (!isset($io[$key])) {
@@ -478,6 +579,9 @@ class Manager implements IManager {
 			}
 			try {
 				$type->validateOutputWithFileIds($io[$key]);
+				if (isset($enumValues[$key])) {
+					$type->validateEnum($io[$key], $enumValues[$key]);
+				}
 			} catch (ValidationException $e) {
 				throw new ValidationException('Failed to validate output key "' . $key . '": ' . $e->getMessage());
 			}
@@ -486,12 +590,13 @@ class Manager implements IManager {
 
 	/**
 	 * @param ShapeDescriptor[] $spec
+	 * @param array<array-key, ShapeEnumValue[]> $enumValues
 	 * @param array $io
 	 * @param bool $optional
 	 * @return void
 	 * @throws ValidationException
 	 */
-	private function validateOutputWithFileData(array $spec, array $io, bool $optional = false): void {
+	private static function validateOutputWithFileData(array $spec, array $enumValues, array $io, bool $optional = false): void {
 		foreach ($spec as $key => $descriptor) {
 			$type = $descriptor->getShapeType();
 			if (!isset($io[$key])) {
@@ -502,6 +607,9 @@ class Manager implements IManager {
 			}
 			try {
 				$type->validateOutputWithFileData($io[$key]);
+				if (isset($enumValues[$key])) {
+					$type->validateEnum($io[$key], $enumValues[$key]);
+				}
 			} catch (ValidationException $e) {
 				throw new ValidationException('Failed to validate output key "' . $key . '": ' . $e->getMessage());
 			}
@@ -569,10 +677,16 @@ class Manager implements IManager {
 				$availableTaskTypes[$provider->getTaskTypeId()] = [
 					'name' => $taskType->getName(),
 					'description' => $taskType->getDescription(),
-					'inputShape' => $taskType->getInputShape(),
 					'optionalInputShape' => $provider->getOptionalInputShape(),
+					'inputShapeEnumValues' => $provider->getInputShapeEnumValues(),
+					'inputShapeDefaults' => $provider->getInputShapeDefaults(),
+					'inputShape' => $taskType->getInputShape(),
+					'optionalInputShapeEnumValues' => $provider->getOptionalInputShapeEnumValues(),
+					'optionalInputShapeDefaults' => $provider->getOptionalInputShapeDefaults(),
 					'outputShape' => $taskType->getOutputShape(),
+					'outputShapeEnumValues' => $provider->getOutputShapeEnumValues(),
 					'optionalOutputShape' => $provider->getOptionalOutputShape(),
+					'optionalOutputShapeEnumValues' => $provider->getOptionalOutputShapeEnumValues(),
 				];
 			}
 
@@ -592,10 +706,14 @@ class Manager implements IManager {
 		}
 		$taskTypes = $this->getAvailableTaskTypes();
 		$inputShape = $taskTypes[$task->getTaskTypeId()]['inputShape'];
+		$inputShapeDefaults = $taskTypes[$task->getTaskTypeId()]['inputShapeDefaults'];
+		$inputShapeEnumValues = $taskTypes[$task->getTaskTypeId()]['inputShapeEnumValues'];
 		$optionalInputShape = $taskTypes[$task->getTaskTypeId()]['optionalInputShape'];
+		$optionalInputShapeEnumValues = $taskTypes[$task->getTaskTypeId()]['optionalInputShapeEnumValues'];
+		$optionalInputShapeDefaults = $taskTypes[$task->getTaskTypeId()]['optionalInputShapeDefaults'];
 		// validate input
-		$this->validateInput($inputShape, $task->getInput());
-		$this->validateInput($optionalInputShape, $task->getInput(), true);
+		$this->validateInput($inputShape, $inputShapeDefaults, $inputShapeEnumValues, $task->getInput());
+		$this->validateInput($optionalInputShape, $optionalInputShapeDefaults, $optionalInputShapeEnumValues, $task->getInput(), true);
 		// authenticate access to mentioned files
 		$ids = [];
 		foreach ($inputShape + $optionalInputShape as $key => $descriptor) {
@@ -614,7 +732,9 @@ class Manager implements IManager {
 			$this->validateUserAccessToFile($fileId, $task->getUserId());
 		}
 		// remove superfluous keys and set input
-		$task->setInput($this->removeSuperfluousArrayKeys($task->getInput(), $inputShape, $optionalInputShape));
+		$input = $this->removeSuperfluousArrayKeys($task->getInput(), $inputShape, $optionalInputShape);
+		$inputWithDefaults = $this->fillInputDefaults($input, $inputShapeDefaults, $optionalInputShapeDefaults);
+		$task->setInput($inputWithDefaults);
 		$task->setStatus(Task::STATUS_SCHEDULED);
 		$task->setScheduledAt(time());
 		$provider = $this->getPreferredProvider($task->getTaskTypeId());
@@ -703,15 +823,17 @@ class Manager implements IManager {
 		} elseif ($result !== null) {
 			$taskTypes = $this->getAvailableTaskTypes();
 			$outputShape = $taskTypes[$task->getTaskTypeId()]['outputShape'];
+			$outputShapeEnumValues = $taskTypes[$task->getTaskTypeId()]['outputShapeEnumValues'];
 			$optionalOutputShape = $taskTypes[$task->getTaskTypeId()]['optionalOutputShape'];
+			$optionalOutputShapeEnumValues = $taskTypes[$task->getTaskTypeId()]['optionalOutputShapeEnumValues'];
 			try {
 				// validate output
 				if (!$isUsingFileIds) {
-					$this->validateOutputWithFileData($outputShape, $result);
-					$this->validateOutputWithFileData($optionalOutputShape, $result, true);
+					$this->validateOutputWithFileData($outputShape, $outputShapeEnumValues, $result);
+					$this->validateOutputWithFileData($optionalOutputShape, $optionalOutputShapeEnumValues, $result, true);
 				} else {
-					$this->validateOutputWithFileIds($outputShape, $result);
-					$this->validateOutputWithFileIds($optionalOutputShape, $result, true);
+					$this->validateOutputWithFileIds($outputShape, $outputShapeEnumValues, $result);
+					$this->validateOutputWithFileIds($optionalOutputShape, $optionalOutputShapeEnumValues, $result, true);
 				}
 				$output = $this->removeSuperfluousArrayKeys($result, $outputShape, $optionalOutputShape);
 				// extract raw data and put it in files, replace it with file ids
@@ -927,11 +1049,15 @@ class Manager implements IManager {
 	public function prepareInputData(Task $task): array {
 		$taskTypes = $this->getAvailableTaskTypes();
 		$inputShape = $taskTypes[$task->getTaskTypeId()]['inputShape'];
+		$inputShapeDefaults = $taskTypes[$task->getTaskTypeId()]['inputShapeDefaults'];
+		$inputShapeEnumValues = $taskTypes[$task->getTaskTypeId()]['inputShapeEnumValues'];
 		$optionalInputShape = $taskTypes[$task->getTaskTypeId()]['optionalInputShape'];
+		$optionalInputShapeEnumValues = $taskTypes[$task->getTaskTypeId()]['optionalInputShapeEnumValues'];
+		$optionalInputShapeDefaults = $taskTypes[$task->getTaskTypeId()]['optionalInputShapeDefaults'];
 		$input = $task->getInput();
 		// validate input, again for good measure (should have been validated in scheduleTask)
-		$this->validateInput($inputShape, $input);
-		$this->validateInput($optionalInputShape, $input, true);
+		$this->validateInput($inputShape, $inputShapeDefaults, $inputShapeEnumValues, $input);
+		$this->validateInput($optionalInputShape, $optionalInputShapeDefaults, $optionalInputShapeEnumValues, $input, true);
 		$input = $this->removeSuperfluousArrayKeys($input, $inputShape, $optionalInputShape);
 		$input = $this->fillInputFileData($task->getUserId(), $input, $inputShape, $optionalInputShape);
 		return $input;

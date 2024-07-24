@@ -104,6 +104,30 @@ class AsyncProvider implements IProvider {
 			'optionalKey' => new ShapeDescriptor('optional Key', 'AN optional key', EShapeType::Text),
 		];
 	}
+
+	public function getInputShapeEnumValues(): array {
+		return [];
+	}
+
+	public function getInputShapeDefaults(): array {
+		return [];
+	}
+
+	public function getOptionalInputShapeEnumValues(): array {
+		return [];
+	}
+
+	public function getOptionalInputShapeDefaults(): array {
+		return [];
+	}
+
+	public function getOutputShapeEnumValues(): array {
+		return [];
+	}
+
+	public function getOptionalOutputShapeEnumValues(): array {
+		return [];
+	}
 }
 
 class SuccessfulSyncProvider implements IProvider, ISynchronousProvider {
@@ -137,6 +161,30 @@ class SuccessfulSyncProvider implements IProvider, ISynchronousProvider {
 
 	public function process(?string $userId, array $input, callable $reportProgress): array {
 		return ['output' => $input['input']];
+	}
+
+	public function getInputShapeEnumValues(): array {
+		return [];
+	}
+
+	public function getInputShapeDefaults(): array {
+		return [];
+	}
+
+	public function getOptionalInputShapeEnumValues(): array {
+		return [];
+	}
+
+	public function getOptionalInputShapeDefaults(): array {
+		return [];
+	}
+
+	public function getOutputShapeEnumValues(): array {
+		return [];
+	}
+
+	public function getOptionalOutputShapeEnumValues(): array {
+		return [];
 	}
 }
 
@@ -173,6 +221,30 @@ class FailingSyncProvider implements IProvider, ISynchronousProvider {
 	public function process(?string $userId, array $input, callable $reportProgress): array {
 		throw new ProcessingException(self::ERROR_MESSAGE);
 	}
+
+	public function getInputShapeEnumValues(): array {
+		return [];
+	}
+
+	public function getInputShapeDefaults(): array {
+		return [];
+	}
+
+	public function getOptionalInputShapeEnumValues(): array {
+		return [];
+	}
+
+	public function getOptionalInputShapeDefaults(): array {
+		return [];
+	}
+
+	public function getOutputShapeEnumValues(): array {
+		return [];
+	}
+
+	public function getOptionalOutputShapeEnumValues(): array {
+		return [];
+	}
 }
 
 class BrokenSyncProvider implements IProvider, ISynchronousProvider {
@@ -205,6 +277,30 @@ class BrokenSyncProvider implements IProvider, ISynchronousProvider {
 	}
 
 	public function process(?string $userId, array $input, callable $reportProgress): array {
+		return [];
+	}
+
+	public function getInputShapeEnumValues(): array {
+		return [];
+	}
+
+	public function getInputShapeDefaults(): array {
+		return [];
+	}
+
+	public function getOptionalInputShapeEnumValues(): array {
+		return [];
+	}
+
+	public function getOptionalInputShapeDefaults(): array {
+		return [];
+	}
+
+	public function getOutputShapeEnumValues(): array {
+		return [];
+	}
+
+	public function getOptionalOutputShapeEnumValues(): array {
 		return [];
 	}
 }
