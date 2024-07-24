@@ -4,7 +4,7 @@
 -->
 
 <template>
-	<NcModal :show="show">
+	<NcModal>
 		<div class="template-field-modal__content">
 			<form>
 				<h3>{{ t('files', 'Fill template fields') }}</h3>
@@ -19,6 +19,7 @@
 		</div>
 
 		<div class="template-field-modal__buttons">
+			<NcLoadingIcon v-if="loading" :name="t('files', 'Submitting fields...')" />
 			<NcButton aria-label="Submit button"
 				type="primary"
 				@click="submit">
@@ -30,7 +31,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import { NcModal, NcButton } from '@nextcloud/vue'
+import { NcModal, NcButton, NcLoadingIcon } from '@nextcloud/vue'
 import { translate as t } from '@nextcloud/l10n'
 import TemplateTextField from './TemplateFiller/TemplateTextField.vue'
 
@@ -40,6 +41,7 @@ export default defineComponent({
 	components: {
 		NcModal,
 		NcButton,
+		NcLoadingIcon,
 		TemplateTextField,
 	},
 
@@ -57,7 +59,7 @@ export default defineComponent({
 	data() {
 		return {
 			localFields: {},
-			show: true,
+			loading: false,
 		}
 	},
 
@@ -69,8 +71,11 @@ export default defineComponent({
 			}
 		},
 		async submit() {
+			this.loading = true
+
 			await this.onSubmit(this.localFields)
-			this.show = false
+
+			this.$emit('close')
 		},
 	},
 })
@@ -90,6 +95,7 @@ $modal-margin: calc(var(--default-grid-baseline) * 4);
 .template-field-modal__buttons {
 	display: flex;
 	justify-content: flex-end;
+	gap: var(--default-grid-baseline);
 	margin: $modal-margin;
 	margin-top: 0;
 }
