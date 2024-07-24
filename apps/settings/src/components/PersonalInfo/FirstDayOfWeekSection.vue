@@ -8,7 +8,7 @@
 		<HeaderBar :input-id="inputId"
 			:readable="propertyReadable" />
 
-		<NcSelect :aria-label-listbox="t('settings', 'Days to use as the first day of week')"
+		<NcSelect :aria-label-listbox="t('settings', 'Day to use as the first day of week')"
 			class="fdow-section__day-select"
 			:clearable="false"
 			:input-id="inputId"
