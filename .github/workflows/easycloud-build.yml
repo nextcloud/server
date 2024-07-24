@@ -72,6 +72,16 @@ jobs:
           npm run build
           cd ../..
 
+      - name: Install dependencies & build IONOS theme custom elements
+        env:
+          CYPRESS_INSTALL_BINARY: 0
+          PUPPETEER_SKIP_DOWNLOAD: true
+        run: |
+          cd themes/nc-ionos-theme/IONOS
+          npm ci
+          npm run build
+          cd ../..
+
       - name: Add config partials
         run: |
           cp IONOS/configs/*.config.php config/
@@ -126,7 +136,9 @@ jobs:
           -x "apps-*/*/tests**" \
           -x "**/cypress/**" \
           -x "*.git*" \
-          -x "*.editorconfig*"
+          -x "*.editorconfig*" \
+          -x "themes/nc-ionos-theme/README.md" \
+          -x "themes/nc-ionos-theme/IONOS**"
 
       - name: Log in to the Container registry
         uses: docker/login-action@65b78e6e13532edd9afa3aa52ac7964289d1a9c1
