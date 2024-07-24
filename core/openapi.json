@@ -496,8 +496,7 @@
                 "required": [
                     "name",
                     "description",
-                    "type",
-                    "mandatory"
+                    "type"
                 ],
                 "properties": {
                     "name": {
@@ -515,6 +514,7 @@
                             "Image",
                             "Video",
                             "File",
+                            "Enum",
                             "ListOfNumbers",
                             "ListOfTexts",
                             "ListOfImages",
@@ -522,9 +522,6 @@
                             "ListOfVideos",
                             "ListOfFiles"
                         ]
-                    },
-                    "mandatory": {
-                        "type": "boolean"
                     }
                 }
             },
@@ -602,7 +599,15 @@
                     "name",
                     "description",
                     "inputShape",
-                    "outputShape"
+                    "inputShapeEnumValues",
+                    "inputShapeDefaults",
+                    "optionalInputShape",
+                    "optionalInputShapeEnumValues",
+                    "optionalInputShapeDefaults",
+                    "outputShape",
+                    "outputShapeEnumValues",
+                    "optionalOutputShape",
+                    "optionalOutputShapeEnumValues"
                 ],
                 "properties": {
                     "name": {
@@ -617,10 +622,132 @@
                             "$ref": "#/components/schemas/TaskProcessingShape"
                         }
                     },
+                    "inputShapeEnumValues": {
+                        "type": "array",
+                        "items": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "required": [
+                                    "name",
+                                    "value"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "value": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "inputShapeDefaults": {
+                        "type": "object",
+                        "additionalProperties": {
+                            "oneOf": [
+                                {
+                                    "type": "number"
+                                },
+                                {
+                                    "type": "string"
+                                }
+                            ]
+                        }
+                    },
+                    "optionalInputShape": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/TaskProcessingShape"
+                        }
+                    },
+                    "optionalInputShapeEnumValues": {
+                        "type": "array",
+                        "items": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "required": [
+                                    "name",
+                                    "value"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "value": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "optionalInputShapeDefaults": {
+                        "type": "object",
+                        "additionalProperties": {
+                            "oneOf": [
+                                {
+                                    "type": "number"
+                                },
+                                {
+                                    "type": "string"
+                                }
+                            ]
+                        }
+                    },
                     "outputShape": {
                         "type": "array",
                         "items": {
                             "$ref": "#/components/schemas/TaskProcessingShape"
+                        }
+                    },
+                    "outputShapeEnumValues": {
+                        "type": "array",
+                        "items": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "required": [
+                                    "name",
+                                    "value"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "value": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "optionalOutputShape": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/TaskProcessingShape"
+                        }
+                    },
+                    "optionalOutputShapeEnumValues": {
+                        "type": "array",
+                        "items": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "required": [
+                                    "name",
+                                    "value"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "value": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
                         }
                     }
                 }
