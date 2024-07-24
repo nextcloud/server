@@ -132,6 +132,7 @@ class ComposerStaticInitDAV
         'OCA\\DAV\\CalDAV\\Trashbin\\RestoreTarget' => __DIR__ . '/..' . '/../lib/CalDAV/Trashbin/RestoreTarget.php',
         'OCA\\DAV\\CalDAV\\Trashbin\\TrashbinHome' => __DIR__ . '/..' . '/../lib/CalDAV/Trashbin/TrashbinHome.php',
         'OCA\\DAV\\CalDAV\\Validation\\CalDavValidatePlugin' => __DIR__ . '/..' . '/../lib/CalDAV/Validation/CalDavValidatePlugin.php',
+        'OCA\\DAV\\CalDAV\\WebcalCaching\\Connection' => __DIR__ . '/..' . '/../lib/CalDAV/WebcalCaching/Connection.php',
         'OCA\\DAV\\CalDAV\\WebcalCaching\\Plugin' => __DIR__ . '/..' . '/../lib/CalDAV/WebcalCaching/Plugin.php',
         'OCA\\DAV\\CalDAV\\WebcalCaching\\RefreshWebcalService' => __DIR__ . '/..' . '/../lib/CalDAV/WebcalCaching/RefreshWebcalService.php',
         'OCA\\DAV\\Capabilities' => __DIR__ . '/..' . '/../lib/Capabilities.php',
