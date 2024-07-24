@@ -7,6 +7,9 @@
 
 namespace OCP\Files\Template;
 
+/**
+ * @since 30.0.0
+ */
 class Field implements \JsonSerializable {
 	private string $index;
 	private string $content;
@@ -15,6 +18,16 @@ class Field implements \JsonSerializable {
 	private ?int $id;
 	private ?string $tag;
 
+	/**
+	 * @param string $index
+	 * @param string $content
+	 * @param FieldType $type
+	 * @param ?string $alias
+	 * @param ?int $id
+	 * @param ?string $tag
+	 * 
+	 * @since 30.0.0
+	 */
 	public function __construct($index, $content, $type, $alias = null, $id = null, $tag = null) {
 		$this->index = $index;
 		$this->alias = $alias;
@@ -29,6 +42,11 @@ class Field implements \JsonSerializable {
 		}
 	}
 
+	/**
+	 * @return array
+	 * 
+	 * @since 30.0.0
+	 */
 	public function jsonSerialize(): array {
 		return [
 			"index" => $this->index,

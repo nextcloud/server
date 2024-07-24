@@ -7,6 +7,9 @@
 
 namespace OCP\Files\Template;
 
+/**
+ * @since 30.0.0
+ */
 enum FieldType: string {
 	case RichText = "rich-text";
 	case CheckBox = "checkbox";
