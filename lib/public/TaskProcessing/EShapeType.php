@@ -46,7 +46,7 @@ enum EShapeType: int {
 				return;
 			}
 		}
-		throw new ValidationException('Wrong value given for Enum slot. Got "' . $value . '", but expected one of the provided enum values: "' . implode('", "', array_map(fn($enumValue) => $enumValue->getValue(), $enumValues)) . '"');
+		throw new ValidationException('Wrong value given for Enum slot. Got "' . $value . '", but expected one of the provided enum values: "' . implode('", "', array_map(fn ($enumValue) => $enumValue->getValue(), $enumValues)) . '"');
 	}
 
 	/**

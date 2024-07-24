@@ -78,23 +78,23 @@ class Manager implements IManager {
 
 	private IAppData $appData;
 	public function __construct(
-			private IConfig $config,
-			private Coordinator $coordinator,
-			private IServerContainer $serverContainer,
-			private LoggerInterface $logger,
-			private TaskMapper $taskMapper,
-			private IJobList $jobList,
-			private IEventDispatcher $dispatcher,
-			IAppDataFactory $appDataFactory,
-			private IRootFolder $rootFolder,
-			private \OCP\TextProcessing\IManager $textProcessingManager,
-			private \OCP\TextToImage\IManager $textToImageManager,
-			private \OCP\SpeechToText\ISpeechToTextManager $speechToTextManager,
-			private IUserMountCache $userMountCache,
-			private IClientService $clientService,
-			private IAppManager $appManager,
-		 ) {
-			 $this->appData = $appDataFactory->get('core');
+		private IConfig $config,
+		private Coordinator $coordinator,
+		private IServerContainer $serverContainer,
+		private LoggerInterface $logger,
+		private TaskMapper $taskMapper,
+		private IJobList $jobList,
+		private IEventDispatcher $dispatcher,
+		IAppDataFactory $appDataFactory,
+		private IRootFolder $rootFolder,
+		private \OCP\TextProcessing\IManager $textProcessingManager,
+		private \OCP\TextToImage\IManager $textToImageManager,
+		private \OCP\SpeechToText\ISpeechToTextManager $speechToTextManager,
+		private IUserMountCache $userMountCache,
+		private IClientService $clientService,
+		private IAppManager $appManager,
+	) {
+		$this->appData = $appDataFactory->get('core');
 	}
 
 
