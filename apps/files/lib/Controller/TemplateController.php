@@ -51,15 +51,25 @@ class TemplateController extends OCSController {
 	 * @param string $filePath Path of the file
 	 * @param string $templatePath Name of the template
 	 * @param string $templateType Type of the template
+	 * @param array $templateFields Fields of the template
 	 *
 	 * @return DataResponse<Http::STATUS_OK, FilesTemplateFile, array{}>
 	 * @throws OCSForbiddenException Creating template is not allowed
 	 *
 	 * 200: Template created successfully
 	 */
-	public function create(string $filePath, string $templatePath = '', string $templateType = 'user'): DataResponse {
+	public function create(
+		string $filePath,
+		string $templatePath = '',
+		string $templateType = 'user',
+		array $templateFields = []
+	): DataResponse {
 		try {
-			return new DataResponse($this->templateManager->createFromTemplate($filePath, $templatePath, $templateType));
+			return new DataResponse($this->templateManager->createFromTemplate(
+				$filePath,
+				$templatePath,
+				$templateType,
+				$templateFields));
 		} catch (GenericFileException $e) {
 			throw new OCSForbiddenException($e->getMessage());
 		}
