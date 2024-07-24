@@ -36,6 +36,7 @@ enum EShapeType: int {
 	 * @param ShapeEnumValue[] $enumValues
 	 * @return void
 	 * @throws ValidationException
+	 * @since 30.0.0
 	 */
 	public function validateEnum(mixed $value, array $enumValues): void {
 		if ($this !== EShapeType::Enum) {
