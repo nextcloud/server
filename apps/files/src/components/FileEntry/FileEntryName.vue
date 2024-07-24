@@ -223,24 +223,21 @@ export default Vue.extend({
 		},
 		isFileNameValid(name) {
 			const trimmedName = name.trim()
+			const char = trimmedName.indexOf('/') !== -1
+				? '/'
+				: forbiddenCharacters.find((char) => trimmedName.includes(char))
+
 			if (trimmedName === '.' || trimmedName === '..') {
 				throw new Error(t('files', '"{name}" is an invalid file name.', { name }))
 			} else if (trimmedName.length === 0) {
 				throw new Error(t('files', 'File name cannot be empty.'))
-			} else if (trimmedName.indexOf('/') !== -1) {
-				throw new Error(t('files', '"/" is not allowed inside a file name.'))
+			} else if (char) {
+				throw new Error(t('files', '"{char}" is not allowed inside a file name.', { char }))
 			} else if (trimmedName.match(OC.config.blacklist_files_regex)) {
 				throw new Error(t('files', '"{name}" is not an allowed filetype.', { name }))
 			} else if (this.checkIfNodeExists(name)) {
 				throw new Error(t('files', '{newName} already exists.', { newName: name }))
 			}
-
-			const toCheck = trimmedName.split('')
-			toCheck.forEach(char => {
-				if (forbiddenCharacters.indexOf(char) !== -1) {
-					throw new Error(this.t('files', '"{char}" is not allowed inside a file name.', { char }))
-				}
-			})
 
 			return true
 		},
