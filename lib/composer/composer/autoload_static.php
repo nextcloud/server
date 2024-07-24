@@ -782,6 +782,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OCP\\TaskProcessing\\ISynchronousProvider' => __DIR__ . '/../../..' . '/lib/public/TaskProcessing/ISynchronousProvider.php',
         'OCP\\TaskProcessing\\ITaskType' => __DIR__ . '/../../..' . '/lib/public/TaskProcessing/ITaskType.php',
         'OCP\\TaskProcessing\\ShapeDescriptor' => __DIR__ . '/../../..' . '/lib/public/TaskProcessing/ShapeDescriptor.php',
+        'OCP\\TaskProcessing\\ShapeEnumValue' => __DIR__ . '/../../..' . '/lib/public/TaskProcessing/ShapeEnumValue.php',
         'OCP\\TaskProcessing\\Task' => __DIR__ . '/../../..' . '/lib/public/TaskProcessing/Task.php',
         'OCP\\TaskProcessing\\TaskTypes\\AudioToText' => __DIR__ . '/../../..' . '/lib/public/TaskProcessing/TaskTypes/AudioToText.php',
         'OCP\\TaskProcessing\\TaskTypes\\ContextWrite' => __DIR__ . '/../../..' . '/lib/public/TaskProcessing/TaskTypes/ContextWrite.php',

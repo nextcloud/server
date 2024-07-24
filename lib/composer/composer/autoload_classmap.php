@@ -749,6 +749,7 @@ return array(
     'OCP\\TaskProcessing\\ISynchronousProvider' => $baseDir . '/lib/public/TaskProcessing/ISynchronousProvider.php',
     'OCP\\TaskProcessing\\ITaskType' => $baseDir . '/lib/public/TaskProcessing/ITaskType.php',
     'OCP\\TaskProcessing\\ShapeDescriptor' => $baseDir . '/lib/public/TaskProcessing/ShapeDescriptor.php',
+    'OCP\\TaskProcessing\\ShapeEnumValue' => $baseDir . '/lib/public/TaskProcessing/ShapeEnumValue.php',
     'OCP\\TaskProcessing\\Task' => $baseDir . '/lib/public/TaskProcessing/Task.php',
     'OCP\\TaskProcessing\\TaskTypes\\AudioToText' => $baseDir . '/lib/public/TaskProcessing/TaskTypes/AudioToText.php',
     'OCP\\TaskProcessing\\TaskTypes\\ContextWrite' => $baseDir . '/lib/public/TaskProcessing/TaskTypes/ContextWrite.php',

@@ -9,9 +9,6 @@ declare(strict_types=1);
 
 namespace OC\Core;
 
-use OCP\TaskProcessing\ShapeDescriptor;
-use OCP\TaskProcessing\ShapeEnumValue;
-
 /**
  * @psalm-type CoreLoginFlowV2Credentials = array{
  *     server: string,
