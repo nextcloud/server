@@ -10,6 +10,7 @@ OC.L10N.register(
     "Two factor backup codes" : "Återställningsnycklar tvåfaktor",
     "A two-factor auth backup codes provider" : "Återställningsnycklar för tvåfaktorautentisering",
     "Backup codes have been generated. {used} of {total} codes have been used." : "Återställningsnycklar har skapats. {used} av {total} nycklar har använts.",
+    "These are your backup codes. Please save and/or print them as you will not be able to read the codes again later." : "Detta är dina reservkoder. Spara och/eller skriv ut dem eftersom du inte kommer att kunna läsa koderna igen senare.",
     "Save backup codes" : "Spara återställningsnycklar",
     "Print backup codes" : "Skriv ut återställningsnycklar",
     "Regenerate backup codes" : "Skapa nya återställningsnycklar",

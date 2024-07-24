@@ -10,6 +10,7 @@ OC.L10N.register(
     "Two factor backup codes" : "Cóid chúltaca dhá fhachtóir",
     "A two-factor auth backup codes provider" : "Soláthraí cóid chúltaca údaráis dhá-fhachtóir",
     "Backup codes have been generated. {used} of {total} codes have been used." : "Gineadh cóid chúltaca. Baineadh úsáid as {used} as {total} cóid.",
+    "These are your backup codes. Please save and/or print them as you will not be able to read the codes again later." : "Seo iad do chóid chúltaca. Sábháil agus/nó priontáil iad mar ní bheidh tú in ann na cóid a léamh arís ar ball le do thoil.",
     "Save backup codes" : "Sábháil cóid chúltaca",
     "Print backup codes" : "Priontáil cóid chúltaca",
     "Regenerate backup codes" : "Athghin cóid chúltaca",
