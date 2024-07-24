@@ -201,9 +201,7 @@ export default defineComponent({
 			this.checked = fileid
 		},
 
-		async onSubmit() {
-			this.loading = true
-
+		async createFile(templateFields) {
 			const currentDirectory = new URL(window.location.href).searchParams.get('dir') || '/'
 
 			// If the file doesn't have an extension, add the default one
@@ -212,19 +210,12 @@ export default defineComponent({
 				this.name = `${this.name}${this.provider?.extension ?? ''}`
 			}
 
-			if (this.selectedTemplate?.fields) {
-				spawnDialog(TemplateFiller, {
-					fields: this.selectedTemplate?.fields,
-				})
-
-				return
-			}
-
 			try {
 				const fileInfo = await createFromTemplate(
 					normalize(`${currentDirectory}/${this.name}`),
 					this.selectedTemplate?.filename as string ?? '',
 					this.selectedTemplate?.templateType as string ?? '',
+					templateFields,
 				)
 				logger.debug('Created new file', fileInfo)
 
@@ -265,6 +256,20 @@ export default defineComponent({
 				showError(t('files', 'Unable to create new file from template'))
 			} finally {
 				this.loading = false
+			}
+		},
+
+		async onSubmit() {
+			this.loading = true
+
+			if (this.selectedTemplate?.fields) {
+				spawnDialog(TemplateFiller, {
+					fields: this.selectedTemplate.fields,
+					onSubmit: this.createFile,
+				})
+
+			} else {
+				await this.createFile()
 			}
 		},
 	},
