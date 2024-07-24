@@ -11,7 +11,7 @@ OC.L10N.register(
     "You can upload into this folder" : "이 폴더에 업로드할 수 있습니다",
     "Terms of service" : "이용 약관",
     "Show list view" : "목록 보기",
-    "Show grid view" : "바둑판식 보기",
+    "Show grid view" : "그리드뷰 보기",
     "No compatible server found at {remote}" : "{remote}에서 호환 서버를 찾을 수 없음",
     "Invalid server URL" : "잘못된 서버 URL",
     "Failed to add the public link to your Nextcloud" : "Nextcloud에 공개 링크를 추가할 수 없음",
