@@ -10,6 +10,7 @@ OC.L10N.register(
     "Two factor backup codes" : "兩階段備用驗證碼",
     "A two-factor auth backup codes provider" : "兩階段驗證備用驗證碼提供者",
     "Backup codes have been generated. {used} of {total} codes have been used." : "備用碼已經建立，共 {total} 組備用碼中有 {used} 組已經使用。",
+    "These are your backup codes. Please save and/or print them as you will not be able to read the codes again later." : "以下是您的備用碼。由於備用碼不會再次顯示，請儲存及／或列印。",
     "Save backup codes" : "儲存備用驗證碼",
     "Print backup codes" : "列印備用驗證碼",
     "Regenerate backup codes" : "重新產生備用驗證碼",

@@ -10,6 +10,7 @@ OC.L10N.register(
     "Two factor backup codes" : "Two factor backup codes",
     "A two-factor auth backup codes provider" : "A two-factor auth backup codes provider",
     "Backup codes have been generated. {used} of {total} codes have been used." : "Backup codes have been generated. {used} of {total} codes have been used.",
+    "These are your backup codes. Please save and/or print them as you will not be able to read the codes again later." : "These are your backup codes. Please save and/or print them as you will not be able to read the codes again later.",
     "Save backup codes" : "Save backup codes",
     "Print backup codes" : "Print backup codes",
     "Regenerate backup codes" : "Regenerate backup codes",
