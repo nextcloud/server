@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -19,32 +21,18 @@ class Field implements \JsonSerializable {
 	private ?string $tag;
 
 	/**
-	 * @param string $index
-	 * @param string $content
-	 * @param FieldType $type
-	 * @param ?string $alias
-	 * @param ?int $id
-	 * @param ?string $tag
-	 * 
 	 * @since 30.0.0
 	 */
-	public function __construct($index, $content, $type, $alias = null, $id = null, $tag = null) {
+	public function __construct(string $index, string $content, FieldType $type, ?string $alias = null, ?int $id = null, ?string $tag = null) {
 		$this->index = $index;
 		$this->alias = $alias;
+		$this->type = $type;
 		$this->id = $id;
 		$this->tag = $tag;
 		$this->content = $content;
-
-		if ($type instanceof FieldType) {
-			$this->type = $type;
-		} else {
-			$this->type = FieldType::tryFrom($type) ?? throw new InvalidFieldTypeException();
-		}
 	}
 
 	/**
-	 * @return array
-	 * 
 	 * @since 30.0.0
 	 */
 	public function jsonSerialize(): array {

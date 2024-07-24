@@ -1060,6 +1060,14 @@
                                         "type": "string",
                                         "default": "user",
                                         "description": "Type of the template"
+                                    },
+                                    "templateFields": {
+                                        "type": "array",
+                                        "default": [],
+                                        "description": "Fields of the template",
+                                        "items": {
+                                            "$ref": "#/components/schemas/TemplateField"
+                                        }
                                     }
                                 }
                             }

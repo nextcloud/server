@@ -21,6 +21,7 @@ use OCP\IRequest;
 /**
  * @psalm-import-type FilesTemplateFile from ResponseDefinitions
  * @psalm-import-type FilesTemplateFileCreator from ResponseDefinitions
+ * @psalm-import-type FilesTemplateField from ResponseDefinitions
  */
 class TemplateController extends OCSController {
 	protected $templateManager;
@@ -51,7 +52,7 @@ class TemplateController extends OCSController {
 	 * @param string $filePath Path of the file
 	 * @param string $templatePath Name of the template
 	 * @param string $templateType Type of the template
-	 * @param array $templateFields Fields of the template
+	 * @param FilesTemplateField[] $templateFields Fields of the template
 	 *
 	 * @return DataResponse<Http::STATUS_OK, FilesTemplateFile, array{}>
 	 * @throws OCSForbiddenException Creating template is not allowed
