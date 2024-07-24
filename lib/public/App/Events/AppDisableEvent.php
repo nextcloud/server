@@ -11,6 +11,8 @@ namespace OCP\App\Events;
 use OCP\EventDispatcher\Event;
 
 /**
+ * This event is triggered when an app is disabled.
+ *
  * @since 27.0.0
  */
 class AppDisableEvent extends Event {
