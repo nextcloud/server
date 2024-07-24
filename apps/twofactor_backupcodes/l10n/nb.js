@@ -10,6 +10,7 @@ OC.L10N.register(
     "Two factor backup codes" : "Sikkerhetskoder for to-faktor",
     "A two-factor auth backup codes provider" : "En tilbyder av sikkerhetskoder for to-faktor autentisering",
     "Backup codes have been generated. {used} of {total} codes have been used." : "Sikkerhetskoder er generert. {used} av {total} koder er brukt.",
+    "These are your backup codes. Please save and/or print them as you will not be able to read the codes again later." : "Dette er reservekodene dine. Lagre og/eller skriv dem ut, da du ikke vil kunne lese kodene igjen senere.",
     "Save backup codes" : "Lagre sikkerhetskodene",
     "Print backup codes" : "Skriv ut sikkerhetskoder",
     "Regenerate backup codes" : "Lag sikkerhetskoder på nytt",
