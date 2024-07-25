@@ -7731,6 +7731,52 @@
                 }
             }
         },
+        "/index.php/csrftoken": {
+            "get": {
+                "operationId": "csrf_token-index",
+                "summary": "Returns a new CSRF token.",
+                "tags": [
+                    "csrf_token"
+                ],
+                "security": [
+                    {},
+                    {
+                        "bearer_auth": []
+                    },
+                    {
+                        "basic_auth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "CSRF token returned",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "token"
+                                    ],
+                                    "properties": {
+                                        "token": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Strict cookie check failed",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/index.php/login/v2/poll": {
             "post": {
                 "operationId": "client_flow_login_v2-poll",
