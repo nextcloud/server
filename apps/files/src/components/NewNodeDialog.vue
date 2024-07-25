@@ -61,7 +61,7 @@ interface ICanFocus {
 	focus: () => void
 }
 
-const forbiddenCharacters = loadState<string[]>('files', 'forbiddenCharacters', [])
+const forbiddenCharacters = loadState<string>('files', 'forbiddenCharacters', '').split('')
 
 export default defineComponent({
 	name: 'NewNodeDialog',
