@@ -12,7 +12,11 @@ use OC\Authentication\WebAuthn\Manager;
 use OCA\Settings\AppInfo\Application;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\NoAdminRequired;
+use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
 use OCP\AppFramework\Http\Attribute\OpenAPI;
+use OCP\AppFramework\Http\Attribute\PasswordConfirmationRequired;
+use OCP\AppFramework\Http\Attribute\UseSession;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\IRequest;
 use OCP\ISession;
@@ -35,12 +39,12 @@ class WebAuthnController extends Controller {
 	}
 
 	/**
-	 * @NoAdminRequired
 	 * @NoSubAdminRequired
-	 * @PasswordConfirmationRequired
-	 * @UseSession
-	 * @NoCSRFRequired
 	 */
+	#[NoAdminRequired]
+	#[PasswordConfirmationRequired]
+	#[UseSession]
+	#[NoCSRFRequired]
 	public function startRegistration(): JSONResponse {
 		$this->logger->debug('Starting WebAuthn registration');
 
@@ -53,11 +57,11 @@ class WebAuthnController extends Controller {
 	}
 
 	/**
-	 * @NoAdminRequired
 	 * @NoSubAdminRequired
-	 * @PasswordConfirmationRequired
-	 * @UseSession
 	 */
+	#[NoAdminRequired]
+	#[PasswordConfirmationRequired]
+	#[UseSession]
 	public function finishRegistration(string $name, string $data): JSONResponse {
 		$this->logger->debug('Finishing WebAuthn registration');
 
@@ -75,10 +79,10 @@ class WebAuthnController extends Controller {
 	}
 
 	/**
-	 * @NoAdminRequired
 	 * @NoSubAdminRequired
-	 * @PasswordConfirmationRequired
 	 */
+	#[NoAdminRequired]
+	#[PasswordConfirmationRequired]
 	public function deleteRegistration(int $id): JSONResponse {
 		$this->logger->debug('Finishing WebAuthn registration');
 
