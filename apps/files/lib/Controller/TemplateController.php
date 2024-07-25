@@ -10,6 +10,7 @@ namespace OCA\Files\Controller;
 
 use OCA\Files\ResponseDefinitions;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCS\OCSForbiddenException;
 use OCP\AppFramework\OCSController;
@@ -32,21 +33,18 @@ class TemplateController extends OCSController {
 	}
 
 	/**
-	 * @NoAdminRequired
-	 *
 	 * List the available templates
 	 *
 	 * @return DataResponse<Http::STATUS_OK, array<FilesTemplateFileCreator>, array{}>
 	 *
 	 * 200: Available templates returned
 	 */
+	#[NoAdminRequired]
 	public function list(): DataResponse {
 		return new DataResponse($this->templateManager->listTemplates());
 	}
 
 	/**
-	 * @NoAdminRequired
-	 *
 	 * Create a template
 	 *
 	 * @param string $filePath Path of the file
@@ -59,6 +57,7 @@ class TemplateController extends OCSController {
 	 *
 	 * 200: Template created successfully
 	 */
+	#[NoAdminRequired]
 	public function create(
 		string $filePath,
 		string $templatePath = '',
@@ -77,8 +76,6 @@ class TemplateController extends OCSController {
 	}
 
 	/**
-	 * @NoAdminRequired
-	 *
 	 * Initialize the template directory
 	 *
 	 * @param string $templatePath Path of the template directory
@@ -89,6 +86,7 @@ class TemplateController extends OCSController {
 	 *
 	 * 200: Template directory initialized successfully
 	 */
+	#[NoAdminRequired]
 	public function path(string $templatePath = '', bool $copySystemTemplates = false) {
 		try {
 			/** @var string $templatePath */

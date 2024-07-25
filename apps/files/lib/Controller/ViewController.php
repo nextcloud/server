@@ -18,6 +18,8 @@ use OCA\Files\Service\ViewConfig;
 use OCA\Viewer\Event\LoadViewer;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Controller;
+use OCP\AppFramework\Http\Attribute\NoAdminRequired;
+use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
 use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\ContentSecurityPolicy;
 use OCP\AppFramework\Http\RedirectResponse;
@@ -75,12 +77,11 @@ class ViewController extends Controller {
 	}
 
 	/**
-	 * @NoCSRFRequired
-	 * @NoAdminRequired
-	 *
 	 * @param string $fileid
 	 * @return TemplateResponse|RedirectResponse
 	 */
+	#[NoAdminRequired]
+	#[NoCSRFRequired]
 	public function showFile(?string $fileid = null): Response {
 		if (!$fileid) {
 			return new RedirectResponse($this->urlGenerator->linkToRoute('files.view.index'));
@@ -96,43 +97,40 @@ class ViewController extends Controller {
 
 
 	/**
-	 * @NoCSRFRequired
-	 * @NoAdminRequired
-	 *
 	 * @param string $dir
 	 * @param string $view
 	 * @param string $fileid
 	 * @param bool $fileNotFound
 	 * @return TemplateResponse|RedirectResponse
 	 */
+	#[NoAdminRequired]
+	#[NoCSRFRequired]
 	public function indexView($dir = '', $view = '', $fileid = null, $fileNotFound = false) {
 		return $this->index($dir, $view, $fileid, $fileNotFound);
 	}
 
 	/**
-	 * @NoCSRFRequired
-	 * @NoAdminRequired
-	 *
 	 * @param string $dir
 	 * @param string $view
 	 * @param string $fileid
 	 * @param bool $fileNotFound
 	 * @return TemplateResponse|RedirectResponse
 	 */
+	#[NoAdminRequired]
+	#[NoCSRFRequired]
 	public function indexViewFileid($dir = '', $view = '', $fileid = null, $fileNotFound = false) {
 		return $this->index($dir, $view, $fileid, $fileNotFound);
 	}
 
 	/**
-	 * @NoCSRFRequired
-	 * @NoAdminRequired
-	 *
 	 * @param string $dir
 	 * @param string $view
 	 * @param string $fileid
 	 * @param bool $fileNotFound
 	 * @return TemplateResponse|RedirectResponse
 	 */
+	#[NoAdminRequired]
+	#[NoCSRFRequired]
 	public function index($dir = '', $view = '', $fileid = null, $fileNotFound = false) {
 		if ($fileid !== null && $view !== 'trashbin') {
 			try {

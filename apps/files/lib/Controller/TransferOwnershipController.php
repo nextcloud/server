@@ -13,6 +13,7 @@ use OCA\Files\Db\TransferOwnership as TransferOwnershipEntity;
 use OCA\Files\Db\TransferOwnershipMapper;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCSController;
 use OCP\AppFramework\Utility\ITimeFactory;
@@ -62,8 +63,6 @@ class TransferOwnershipController extends OCSController {
 
 
 	/**
-	 * @NoAdminRequired
-	 *
 	 * Transfer the ownership to another user
 	 *
 	 * @param string $recipient Username of the recipient
@@ -75,6 +74,7 @@ class TransferOwnershipController extends OCSController {
 	 * 400: Transferring ownership is not possible
 	 * 403: Transferring ownership is not allowed
 	 */
+	#[NoAdminRequired]
 	public function transfer(string $recipient, string $path): DataResponse {
 		$recipientUser = $this->userManager->get($recipient);
 
@@ -118,8 +118,6 @@ class TransferOwnershipController extends OCSController {
 	}
 
 	/**
-	 * @NoAdminRequired
-	 *
 	 * Accept an ownership transfer
 	 *
 	 * @param int $id ID of the ownership transfer
@@ -130,6 +128,7 @@ class TransferOwnershipController extends OCSController {
 	 * 403: Accepting ownership transfer is not allowed
 	 * 404: Ownership transfer not found
 	 */
+	#[NoAdminRequired]
 	public function accept(int $id): DataResponse {
 		try {
 			$transferOwnership = $this->mapper->getById($id);
@@ -161,8 +160,6 @@ class TransferOwnershipController extends OCSController {
 	}
 
 	/**
-	 * @NoAdminRequired
-	 *
 	 * Reject an ownership transfer
 	 *
 	 * @param int $id ID of the ownership transfer
@@ -173,6 +170,7 @@ class TransferOwnershipController extends OCSController {
 	 * 403: Rejecting ownership transfer is not allowed
 	 * 404: Ownership transfer not found
 	 */
+	#[NoAdminRequired]
 	public function reject(int $id): DataResponse {
 		try {
 			$transferOwnership = $this->mapper->getById($id);

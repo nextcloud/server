@@ -13,7 +13,11 @@ use OCA\Files\Service\UserConfig;
 use OCA\Files\Service\ViewConfig;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\NoAdminRequired;
+use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
 use OCP\AppFramework\Http\Attribute\OpenAPI;
+use OCP\AppFramework\Http\Attribute\PublicPage;
+use OCP\AppFramework\Http\Attribute\StrictCookiesRequired;
 use OCP\AppFramework\Http\ContentSecurityPolicy;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\FileDisplayResponse;
@@ -69,10 +73,6 @@ class ApiController extends Controller {
 	 *
 	 * @since API version 1.0
 	 *
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
-	 * @StrictCookieRequired
-	 *
 	 * @param int $x Width of the thumbnail
 	 * @param int $y Height of the thumbnail
 	 * @param string $file URL-encoded filename
@@ -82,6 +82,9 @@ class ApiController extends Controller {
 	 * 400: Getting thumbnail is not possible
 	 * 404: File not found
 	 */
+	#[NoAdminRequired]
+	#[NoCSRFRequired]
+	#[StrictCookiesRequired]
 	public function getThumbnail($x, $y, $file) {
 		if ($x < 1 || $y < 1) {
 			return new DataResponse(['message' => 'Requested size must be numeric and a positive value.'], Http::STATUS_BAD_REQUEST);
@@ -113,12 +116,11 @@ class ApiController extends Controller {
 	 * The passed tags are absolute, which means they will
 	 * replace the actual tag selection.
 	 *
-	 * @NoAdminRequired
-	 *
 	 * @param string $path path
 	 * @param array|string $tags array of tags
 	 * @return DataResponse
 	 */
+	#[NoAdminRequired]
 	public function updateFileTags($path, $tags = null) {
 		$result = [];
 		// if tags specified or empty array, update tags
@@ -221,10 +223,9 @@ class ApiController extends Controller {
 	/**
 	 * Returns a list of recently modified files.
 	 *
-	 * @NoAdminRequired
-	 *
 	 * @return DataResponse
 	 */
+	#[NoAdminRequired]
 	public function getRecentFiles() {
 		$nodes = $this->userFolder->getRecent(100);
 		$files = $this->formatNodes($nodes);
@@ -235,11 +236,10 @@ class ApiController extends Controller {
 	/**
 	 * Returns the current logged-in user's storage stats.
 	 *
-	 * @NoAdminRequired
-	 *
 	 * @param ?string $dir the directory to get the storage stats from
 	 * @return JSONResponse
 	 */
+	#[NoAdminRequired]
 	public function getStorageStats($dir = '/'): JSONResponse {
 		$storageInfo = \OC_Helper::getStorageInfo($dir ?: '/');
 		$response = new JSONResponse(['message' => 'ok', 'data' => $storageInfo]);
@@ -250,13 +250,12 @@ class ApiController extends Controller {
 	/**
 	 * Set a user view config
 	 *
-	 * @NoAdminRequired
-	 *
 	 * @param string $view
 	 * @param string $key
 	 * @param string|bool $value
 	 * @return JSONResponse
 	 */
+	#[NoAdminRequired]
 	public function setViewConfig(string $view, string $key, $value): JSONResponse {
 		try {
 			$this->viewConfig->setConfig($view, $key, (string)$value);
@@ -271,10 +270,9 @@ class ApiController extends Controller {
 	/**
 	 * Get the user view config
 	 *
-	 * @NoAdminRequired
-	 *
 	 * @return JSONResponse
 	 */
+	#[NoAdminRequired]
 	public function getViewConfigs(): JSONResponse {
 		return new JSONResponse(['message' => 'ok', 'data' => $this->viewConfig->getConfigs()]);
 	}
@@ -282,12 +280,11 @@ class ApiController extends Controller {
 	/**
 	 * Set a user config
 	 *
-	 * @NoAdminRequired
-	 *
 	 * @param string $key
 	 * @param string|bool $value
 	 * @return JSONResponse
 	 */
+	#[NoAdminRequired]
 	public function setConfig(string $key, $value): JSONResponse {
 		try {
 			$this->userConfig->setConfig($key, (string)$value);
@@ -302,10 +299,9 @@ class ApiController extends Controller {
 	/**
 	 * Get the user config
 	 *
-	 * @NoAdminRequired
-	 *
 	 * @return JSONResponse
 	 */
+	#[NoAdminRequired]
 	public function getConfigs(): JSONResponse {
 		return new JSONResponse(['message' => 'ok', 'data' => $this->userConfig->getConfigs()]);
 	}
@@ -313,12 +309,11 @@ class ApiController extends Controller {
 	/**
 	 * Toggle default for showing/hiding hidden files
 	 *
-	 * @NoAdminRequired
-	 *
 	 * @param bool $value
 	 * @return Response
 	 * @throws \OCP\PreConditionNotMetException
 	 */
+	#[NoAdminRequired]
 	public function showHiddenFiles(bool $value): Response {
 		$this->config->setUserValue($this->userSession->getUser()->getUID(), 'files', 'show_hidden', $value ? '1' : '0');
 		return new Response();
@@ -327,12 +322,11 @@ class ApiController extends Controller {
 	/**
 	 * Toggle default for cropping preview images
 	 *
-	 * @NoAdminRequired
-	 *
 	 * @param bool $value
 	 * @return Response
 	 * @throws \OCP\PreConditionNotMetException
 	 */
+	#[NoAdminRequired]
 	public function cropImagePreviews(bool $value): Response {
 		$this->config->setUserValue($this->userSession->getUser()->getUID(), 'files', 'crop_image_previews', $value ? '1' : '0');
 		return new Response();
@@ -341,12 +335,11 @@ class ApiController extends Controller {
 	/**
 	 * Toggle default for files grid view
 	 *
-	 * @NoAdminRequired
-	 *
 	 * @param bool $show
 	 * @return Response
 	 * @throws \OCP\PreConditionNotMetException
 	 */
+	#[NoAdminRequired]
 	public function showGridView(bool $show): Response {
 		$this->config->setUserValue($this->userSession->getUser()->getUID(), 'files', 'show_grid', $show ? '1' : '0');
 		return new Response();
@@ -354,19 +347,15 @@ class ApiController extends Controller {
 
 	/**
 	 * Get default settings for the grid view
-	 *
-	 * @NoAdminRequired
 	 */
+	#[NoAdminRequired]
 	public function getGridView() {
 		$status = $this->config->getUserValue($this->userSession->getUser()->getUID(), 'files', 'show_grid', '0') === '1';
 		return new JSONResponse(['gridview' => $status]);
 	}
 
-	/**
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
-	 * @PublicPage
-	 */
+	#[PublicPage]
+	#[NoCSRFRequired]
 	#[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
 	public function serviceWorker(): StreamResponse {
 		$response = new StreamResponse(__DIR__ . '/../../../../dist/preview-service-worker.js');
