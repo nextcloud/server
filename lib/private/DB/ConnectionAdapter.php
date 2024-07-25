@@ -261,4 +261,8 @@ class ConnectionAdapter implements IDBConnection {
 			throw new \Exception('Database ' . $platform::class . ' not supported');
 		}
 	}
+
+	public function logDatabaseException(\Exception $exception) {
+		$this->inner->logDatabaseException($exception);
+	}
 }
