@@ -8,33 +8,40 @@
 		<template #search>
 			<NcAppNavigationSearch v-model="searchQuery" :label="t('files', 'Filter filenames…')" />
 		</template>
-		<template #list>
-			<NcAppNavigationItem v-for="view in parentViews"
-				:key="view.id"
-				:allow-collapse="true"
-				:data-cy-files-navigation-item="view.id"
-				:exact="useExactRouteMatching(view)"
-				:icon="view.iconClass"
-				:name="view.name"
-				:open="isExpanded(view)"
-				:pinned="view.sticky"
-				:to="generateToNavigation(view)"
-				@update:open="onToggleExpand(view)">
-				<!-- Sanitized icon as svg if provided -->
-				<NcIconSvgWrapper v-if="view.icon" slot="icon" :svg="view.icon" />
-
-				<!-- Child views if any -->
-				<NcAppNavigationItem v-for="child in childViews[view.id]"
-					:key="child.id"
-					:data-cy-files-navigation-item="child.id"
-					:exact-path="true"
-					:icon="child.iconClass"
-					:name="child.name"
-					:to="generateToNavigation(child)">
+		<template #default>
+			<NcAppNavigationList :aria-label="t('files', 'Views')">
+				<NcAppNavigationItem v-for="view in parentViews"
+					:key="view.id"
+					:allow-collapse="true"
+					:data-cy-files-navigation-item="view.id"
+					:exact="useExactRouteMatching(view)"
+					:icon="view.iconClass"
+					:name="view.name"
+					:open="isExpanded(view)"
+					:pinned="view.sticky"
+					:to="generateToNavigation(view)"
+					@update:open="onToggleExpand(view)">
 					<!-- Sanitized icon as svg if provided -->
-					<NcIconSvgWrapper v-if="child.icon" slot="icon" :svg="child.icon" />
+					<NcIconSvgWrapper v-if="view.icon" slot="icon" :svg="view.icon" />
+
+					<!-- Child views if any -->
+					<NcAppNavigationItem v-for="child in childViews[view.id]"
+						:key="child.id"
+						:data-cy-files-navigation-item="child.id"
+						:exact-path="true"
+						:icon="child.iconClass"
+						:name="child.name"
+						:to="generateToNavigation(child)">
+						<!-- Sanitized icon as svg if provided -->
+						<NcIconSvgWrapper v-if="child.icon" slot="icon" :svg="child.icon" />
+					</NcAppNavigationItem>
 				</NcAppNavigationItem>
-			</NcAppNavigationItem>
+			</NcAppNavigationList>
+
+			<!-- Settings modal-->
+			<SettingsModal :open="settingsOpened"
+				data-cy-files-navigation-settings
+				@close="onSettingsClose" />
 		</template>
 
 		<!-- Non-scrollable navigation bottom elements -->
@@ -44,19 +51,13 @@
 				<NavigationQuota />
 
 				<!-- Files settings modal toggle-->
-				<NcAppNavigationItem :aria-label="t('files', 'Open the files app settings')"
-					:name="t('files', 'Files settings')"
+				<NcAppNavigationItem :name="t('files', 'Files settings')"
 					data-cy-files-navigation-settings-button
 					@click.prevent.stop="openSettings">
 					<IconCog slot="icon" :size="20" />
 				</NcAppNavigationItem>
 			</ul>
 		</template>
-
-		<!-- Settings modal-->
-		<SettingsModal :open="settingsOpened"
-			data-cy-files-navigation-settings
-			@close="onSettingsClose" />
 	</NcAppNavigation>
 </template>
 
@@ -70,6 +71,7 @@ import { defineComponent } from 'vue'
 import IconCog from 'vue-material-design-icons/Cog.vue'
 import NcAppNavigation from '@nextcloud/vue/dist/Components/NcAppNavigation.js'
 import NcAppNavigationItem from '@nextcloud/vue/dist/Components/NcAppNavigationItem.js'
+import NcAppNavigationList from '@nextcloud/vue/dist/Components/NcAppNavigationList.js'
 import NcAppNavigationSearch from '@nextcloud/vue/dist/Components/NcAppNavigationSearch.js'
 import NcIconSvgWrapper from '@nextcloud/vue/dist/Components/NcIconSvgWrapper.js'
 import NavigationQuota from '../components/NavigationQuota.vue'
@@ -90,6 +92,7 @@ export default defineComponent({
 		NavigationQuota,
 		NcAppNavigation,
 		NcAppNavigationItem,
+		NcAppNavigationList,
 		NcAppNavigationSearch,
 		NcIconSvgWrapper,
 		SettingsModal,

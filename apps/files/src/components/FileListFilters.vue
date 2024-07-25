@@ -4,14 +4,15 @@
 -->
 <template>
 	<div class="file-list-filters">
-		<div class="file-list-filters__filter">
+		<div class="file-list-filters__filter" data-cy-files-filters>
 			<span v-for="filter of visualFilters"
 				:key="filter.id"
 				ref="filterElements" />
 		</div>
 		<ul v-if="activeChips.length > 0" class="file-list-filters__active" :aria-label="t('files', 'Active filters')">
 			<li v-for="(chip, index) of activeChips" :key="index">
-				<NcChip :icon-svg="chip.icon"
+				<NcChip :aria-label-close="t('files', 'Remove filter')"
+					:icon-svg="chip.icon"
 					:text="chip.text"
 					@close="chip.onclick" />
 			</li>
