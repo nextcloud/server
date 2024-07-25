@@ -45,8 +45,16 @@ export const action = new FileAction({
 
 		window.OCP.Files.Router.goToRoute(
 			null, // use default route
-			{ view: 'files', fileid: node.fileid },
-			{ dir: node.dirname, openfile: 'true' },
+			{
+				view: 'files',
+				fileid: String(node.fileid),
+			},
+			{
+				// If this node is a folder open the folder in files
+				dir: isFolder ? node.path : node.dirname,
+				// otherwise if this is a file, we should open it
+				openfile: isFolder ? undefined : 'true',
+			},
 		)
 		return null
 	},
