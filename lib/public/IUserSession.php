@@ -64,6 +64,14 @@ interface IUserSession {
 	public function setUser($user);
 
 	/**
+	 * Temporarily set the currently active user without persisting in the session
+	 *
+	 * @param IUser|null $user
+	 * @since 29.0.0
+	 */
+	public function setVolatileActiveUser(?IUser $user): void;
+
+	/**
 	 * get the current active user
 	 *
 	 * @return \OCP\IUser|null Current user, otherwise null
