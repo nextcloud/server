@@ -51,7 +51,7 @@ class TextToText implements ITaskType {
 	 * @since 30.0.0
 	 */
 	public function getDescription(): string {
-		return $this->l->t('Runs an arbitrary prompt through a language model that retuns a reply');
+		return $this->l->t('Runs an arbitrary prompt through a language model that returns a reply');
 	}
 
 	/**
