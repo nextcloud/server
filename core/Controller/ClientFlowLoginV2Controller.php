@@ -15,7 +15,10 @@ use OC\Core\Service\LoginFlowV2Service;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\FrontpageRoute;
+use OCP\AppFramework\Http\Attribute\NoAdminRequired;
+use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
 use OCP\AppFramework\Http\Attribute\OpenAPI;
+use OCP\AppFramework\Http\Attribute\PublicPage;
 use OCP\AppFramework\Http\Attribute\UseSession;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\RedirectResponse;
@@ -55,9 +58,6 @@ class ClientFlowLoginV2Controller extends Controller {
 	}
 
 	/**
-	 * @NoCSRFRequired
-	 * @PublicPage
-	 *
 	 * Poll the login flow credentials
 	 *
 	 * @param string $token Token of the flow
@@ -66,6 +66,8 @@ class ClientFlowLoginV2Controller extends Controller {
 	 * 200: Login flow credentials returned
 	 * 404: Login flow not found or completed
 	 */
+	#[NoCSRFRequired]
+	#[PublicPage]
 	#[FrontpageRoute(verb: 'POST', url: '/login/v2/poll')]
 	public function poll(string $token): JSONResponse {
 		try {
@@ -77,10 +79,8 @@ class ClientFlowLoginV2Controller extends Controller {
 		return new JSONResponse($creds->jsonSerialize());
 	}
 
-	/**
-	 * @NoCSRFRequired
-	 * @PublicPage
-	 */
+	#[NoCSRFRequired]
+	#[PublicPage]
 	#[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
 	#[UseSession]
 	#[FrontpageRoute(verb: 'GET', url: '/login/v2/flow/{token}')]
@@ -96,10 +96,8 @@ class ClientFlowLoginV2Controller extends Controller {
 		);
 	}
 
-	/**
-	 * @NoCSRFRequired
-	 * @PublicPage
-	 */
+	#[NoCSRFRequired]
+	#[PublicPage]
 	#[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
 	#[UseSession]
 	#[FrontpageRoute(verb: 'GET', url: '/login/v2/flow')]
@@ -131,10 +129,10 @@ class ClientFlowLoginV2Controller extends Controller {
 	}
 
 	/**
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
 	 * @NoSameSiteCookieRequired
 	 */
+	#[NoAdminRequired]
+	#[NoCSRFRequired]
 	#[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
 	#[UseSession]
 	#[FrontpageRoute(verb: 'GET', url: '/login/v2/grant')]
@@ -170,9 +168,7 @@ class ClientFlowLoginV2Controller extends Controller {
 		);
 	}
 
-	/**
-	 * @PublicPage
-	 */
+	#[PublicPage]
 	#[FrontpageRoute(verb: 'POST', url: '/login/v2/apptoken')]
 	public function apptokenRedirect(?string $stateToken, string $user, string $password) {
 		if ($stateToken === null) {
@@ -217,9 +213,7 @@ class ClientFlowLoginV2Controller extends Controller {
 		return $this->handleFlowDone($result);
 	}
 
-	/**
-	 * @NoAdminRequired
-	 */
+	#[NoAdminRequired]
 	#[UseSession]
 	#[FrontpageRoute(verb: 'POST', url: '/login/v2/grant')]
 	public function generateAppPassword(?string $stateToken): Response {
@@ -270,15 +264,14 @@ class ClientFlowLoginV2Controller extends Controller {
 	}
 
 	/**
-	 * @NoCSRFRequired
-	 * @PublicPage
-	 *
 	 * Init a login flow
 	 *
 	 * @return JSONResponse<Http::STATUS_OK, CoreLoginFlowV2, array{}>
 	 *
 	 * 200: Login flow init returned
 	 */
+	#[NoCSRFRequired]
+	#[PublicPage]
 	#[FrontpageRoute(verb: 'POST', url: '/login/v2')]
 	public function init(): JSONResponse {
 		// Get client user agent

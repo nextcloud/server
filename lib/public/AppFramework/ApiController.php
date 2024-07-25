@@ -7,6 +7,7 @@
  */
 namespace OCP\AppFramework;
 
+use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
 use OCP\AppFramework\Http\Attribute\PublicPage;
 use OCP\AppFramework\Http\Response;
@@ -51,13 +52,11 @@ abstract class ApiController extends Controller {
 	 * This method implements a preflighted cors response for you that you can
 	 * link to for the options request
 	 *
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
-	 * @PublicPage
 	 * @since 7.0.0
 	 */
 	#[NoCSRFRequired]
 	#[PublicPage]
+	#[NoAdminRequired]
 	public function preflightedCors() {
 		if (isset($this->request->server['HTTP_ORIGIN'])) {
 			$origin = $this->request->server['HTTP_ORIGIN'];

@@ -20,9 +20,12 @@ use OCA\User_LDAP\Helper;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\BruteForceProtection;
 use OCP\AppFramework\Http\Attribute\FrontpageRoute;
+use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
 use OCP\AppFramework\Http\Attribute\OpenAPI;
+use OCP\AppFramework\Http\Attribute\PublicPage;
 use OCP\AppFramework\Http\Attribute\UseSession;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\RedirectResponse;
@@ -65,10 +68,9 @@ class LoginController extends Controller {
 	}
 
 	/**
-	 * @NoAdminRequired
-	 *
 	 * @return RedirectResponse
 	 */
+	#[NoAdminRequired]
 	#[UseSession]
 	#[FrontpageRoute(verb: 'GET', url: '/logout')]
 	public function logout() {
@@ -97,14 +99,13 @@ class LoginController extends Controller {
 	}
 
 	/**
-	 * @PublicPage
-	 * @NoCSRFRequired
-	 *
 	 * @param string $user
 	 * @param string $redirect_url
 	 *
 	 * @return TemplateResponse|RedirectResponse
 	 */
+	#[NoCSRFRequired]
+	#[PublicPage]
 	#[UseSession]
 	#[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
 	#[FrontpageRoute(verb: 'GET', url: '/login')]
@@ -269,12 +270,11 @@ class LoginController extends Controller {
 	}
 
 	/**
-	 * @PublicPage
-	 * @NoCSRFRequired
-	 * @BruteForceProtection(action=login)
-	 *
 	 * @return RedirectResponse
 	 */
+	#[NoCSRFRequired]
+	#[PublicPage]
+	#[BruteForceProtection('login')]
 	#[UseSession]
 	#[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
 	#[FrontpageRoute(verb: 'POST', url: '/login')]
@@ -377,9 +377,6 @@ class LoginController extends Controller {
 	/**
 	 * Confirm the user password
 	 *
-	 * @NoAdminRequired
-	 * @BruteForceProtection(action=sudo)
-	 *
 	 * @license GNU AGPL version 3 or any later version
 	 *
 	 * @param string $password The password of the user
@@ -389,6 +386,8 @@ class LoginController extends Controller {
 	 * 200: Password confirmation succeeded
 	 * 403: Password confirmation failed
 	 */
+	#[NoAdminRequired]
+	#[BruteForceProtection('sudo')]
 	#[UseSession]
 	#[NoCSRFRequired]
 	#[FrontpageRoute(verb: 'POST', url: '/login/confirm')]
