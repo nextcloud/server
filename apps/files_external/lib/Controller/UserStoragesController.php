@@ -12,6 +12,7 @@ use OCA\Files_External\Lib\StorageConfig;
 use OCA\Files_External\NotFoundException;
 use OCA\Files_External\Service\UserStoragesService;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\IConfig;
 use OCP\IGroupManager;
@@ -69,10 +70,9 @@ class UserStoragesController extends StoragesController {
 	/**
 	 * Get all storage entries
 	 *
-	 * @NoAdminRequired
-	 *
 	 * @return DataResponse
 	 */
+	#[NoAdminRequired]
 	public function index() {
 		return parent::index();
 	}
@@ -80,10 +80,9 @@ class UserStoragesController extends StoragesController {
 	/**
 	 * Return storage
 	 *
-	 * @NoAdminRequired
-	 *
 	 * {@inheritdoc}
 	 */
+	#[NoAdminRequired]
 	public function show($id, $testOnly = true) {
 		return parent::show($id, $testOnly);
 	}
@@ -98,9 +97,8 @@ class UserStoragesController extends StoragesController {
 	 * @param array $mountOptions backend-specific mount options
 	 *
 	 * @return DataResponse
-	 *
-	 * @NoAdminRequired
 	 */
+	#[NoAdminRequired]
 	public function create(
 		$mountPoint,
 		$backend,
@@ -154,9 +152,8 @@ class UserStoragesController extends StoragesController {
 	 * @param bool $testOnly whether to storage should only test the connection or do more things
 	 *
 	 * @return DataResponse
-	 *
-	 * @NoAdminRequired
 	 */
+	#[NoAdminRequired]
 	public function update(
 		$id,
 		$mountPoint,
@@ -205,10 +202,9 @@ class UserStoragesController extends StoragesController {
 	/**
 	 * Delete storage
 	 *
-	 * @NoAdminRequired
-	 *
 	 * {@inheritdoc}
 	 */
+	#[NoAdminRequired]
 	public function destroy($id) {
 		return parent::destroy($id);
 	}
