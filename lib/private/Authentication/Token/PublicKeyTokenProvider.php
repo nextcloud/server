@@ -107,7 +107,9 @@ class PublicKeyTokenProvider implements IProvider {
 		?string $password,
 		string $name,
 		int $type = OCPIToken::TEMPORARY_TOKEN,
-		int $remember = OCPIToken::DO_NOT_REMEMBER): OCPIToken {
+		int $remember = OCPIToken::DO_NOT_REMEMBER,
+		?array $scope = null,
+	): OCPIToken {
 		if (strlen($token) < self::TOKEN_MIN_LENGTH) {
 			$exception = new InvalidTokenException('Token is too short, minimum of ' . self::TOKEN_MIN_LENGTH . ' characters is required, ' . strlen($token) . ' characters given');
 			$this->logger->error('Invalid token provided when generating new token', ['exception' => $exception]);
@@ -127,6 +129,10 @@ class PublicKeyTokenProvider implements IProvider {
 
 		if ($oldTokenMatches) {
 			$dbToken->setPasswordHash($randomOldToken->getPasswordHash());
+		}
+
+		if ($scope !== null) {
+			$dbToken->setScope($scope);
 		}
 
 		$this->mapper->insert($dbToken);
@@ -256,6 +262,8 @@ class PublicKeyTokenProvider implements IProvider {
 				$privateKey = $this->decrypt($token->getPrivateKey(), $oldSessionId);
 				$password = $this->decryptPassword($token->getPassword(), $privateKey);
 			}
+
+			$scope = $token->getScope() === '' ? null : $token->getScopeAsArray();
 			$newToken = $this->generateToken(
 				$sessionId,
 				$token->getUID(),
@@ -263,9 +271,9 @@ class PublicKeyTokenProvider implements IProvider {
 				$password,
 				$token->getName(),
 				OCPIToken::TEMPORARY_TOKEN,
-				$token->getRemember()
+				$token->getRemember(),
+				$scope,
 			);
-			$newToken->setScope($token->getScopeAsArray());
 			$this->cacheToken($newToken);
 
 			$this->cacheInvalidHash($token->getToken());
