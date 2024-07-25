@@ -5,6 +5,7 @@
 <template>
 	<!-- Rename input -->
 	<form v-if="isRenaming"
+		ref="renameForm"
 		v-on-click-outside="onRename"
 		:aria-label="t('files', 'Rename file')"
 		class="files-list__row-rename"
@@ -16,7 +17,6 @@
 			:required="true"
 			:value.sync="newName"
 			enterkeyhint="done"
-			@keyup="checkInputValidity"
 			@keyup.esc="stopRenaming" />
 	</form>
 
@@ -40,21 +40,19 @@
 import type { Node } from '@nextcloud/files'
 import type { PropType } from 'vue'
 
+import axios, { isAxiosError } from '@nextcloud/axios'
 import { showError, showSuccess } from '@nextcloud/dialogs'
 import { emit } from '@nextcloud/event-bus'
 import { FileType, NodeStatus, Permission } from '@nextcloud/files'
-import { loadState } from '@nextcloud/initial-state'
 import { translate as t } from '@nextcloud/l10n'
-import axios, { isAxiosError } from '@nextcloud/axios'
 import { defineComponent } from 'vue'
 
 import NcTextField from '@nextcloud/vue/dist/Components/NcTextField.js'
 
 import { useNavigation } from '../../composables/useNavigation'
 import { useRenamingStore } from '../../store/renaming.ts'
+import { getFilenameValidity } from '../../utils/filenameValidity.ts'
 import logger from '../../logger.js'
-
-const forbiddenCharacters = loadState<string[]>('files', 'forbiddenCharacters', [])
 
 export default defineComponent({
 	name: 'FileEntryName',
@@ -187,55 +185,30 @@ export default defineComponent({
 				}
 			},
 		},
+
+		newName() {
+			// Check validity of the new name
+			const newName = this.newName.trim?.() || ''
+			const input = (this.$refs.renameInput as Vue|undefined)?.$el.querySelector('input')
+			if (!input) {
+				return
+			}
+
+			let validity = getFilenameValidity(newName)
+			// Checking if already exists
+			if (validity === '' && this.checkIfNodeExists(newName)) {
+				validity = t('files', 'Another entry with the same name already exists.')
+			}
+			this.$nextTick(() => {
+				if (this.isRenaming) {
+					input.setCustomValidity(validity)
+					input.reportValidity()
+				}
+			})
+		},
 	},
 
 	methods: {
-		/**
-		 * Check if the file name is valid and update the
-		 * input validity using browser's native validation.
-		 * @param event the keyup event
-		 */
-		checkInputValidity(event: KeyboardEvent) {
-			const input = event.target as HTMLInputElement
-			const newName = this.newName.trim?.() || ''
-			logger.debug('Checking input validity', { newName })
-			try {
-				this.isFileNameValid(newName)
-				input.setCustomValidity('')
-				input.title = ''
-			} catch (e) {
-				if (e instanceof Error) {
-					input.setCustomValidity(e.message)
-					input.title = e.message
-				} else {
-					input.setCustomValidity(t('files', 'Invalid file name'))
-				}
-			} finally {
-				input.reportValidity()
-			}
-		},
-
-		isFileNameValid(name: string) {
-			const trimmedName = name.trim()
-			const char = trimmedName.indexOf('/') !== -1
-				? '/'
-				: forbiddenCharacters.find((char) => trimmedName.includes(char))
-
-			if (trimmedName === '.' || trimmedName === '..') {
-				throw new Error(t('files', '"{name}" is an invalid file name.', { name }))
-			} else if (trimmedName.length === 0) {
-				throw new Error(t('files', 'File name cannot be empty.'))
-			} else if (char) {
-				throw new Error(t('files', '"{char}" is not allowed inside a file name.', { char }))
-			} else if (trimmedName.match(window.OC.config.blacklist_files_regex)) {
-				throw new Error(t('files', '"{name}" is not an allowed filetype.', { name }))
-			} else if (this.checkIfNodeExists(name)) {
-				throw new Error(t('files', '{newName} already exists.', { newName: name }))
-			}
-
-			return true
-		},
-
 		checkIfNodeExists(name: string) {
 			return this.nodes.find(node => node.basename === name && node !== this.source)
 		},
@@ -243,20 +216,20 @@ export default defineComponent({
 		startRenaming() {
 			this.$nextTick(() => {
 				// Using split to get the true string length
-				const extLength = (this.source.extension || '').split('').length
-				const length = this.source.basename.split('').length - extLength
-				const input = this.$refs.renameInput?.$refs?.inputField?.$refs?.input
+				const input = (this.$refs.renameInput as Vue|undefined)?.$el.querySelector('input')
 				if (!input) {
 					logger.error('Could not find the rename input')
 					return
 				}
-				input.setSelectionRange(0, length)
 				input.focus()
+				const length = this.source.basename.length - (this.source.extension ?? '').length
+				input.setSelectionRange(0, length)
 
 				// Trigger a keyup event to update the input validity
 				input.dispatchEvent(new Event('keyup'))
 			})
 		},
+
 		stopRenaming() {
 			if (!this.isRenaming) {
 				return
@@ -268,22 +241,17 @@ export default defineComponent({
 
 		// Rename and move the file
 		async onRename() {
+			const newName = this.newName.trim?.() || ''
+			const form = this.$refs.renameForm as HTMLFormElement
+			if (!form.checkValidity()) {
+				showError(t('files', 'Invalid filename.') + ' ' + getFilenameValidity(newName))
+				return
+			}
+
 			const oldName = this.source.basename
 			const oldEncodedSource = this.source.encodedSource
-			const newName = this.newName.trim?.() || ''
-			if (newName === '') {
-				showError(t('files', 'Name cannot be empty'))
-				return
-			}
-
 			if (oldName === newName) {
 				this.stopRenaming()
-				return
-			}
-
-			// Checking if already exists
-			if (this.checkIfNodeExists(newName)) {
-				showError(t('files', 'Another entry with the same name already exists'))
 				return
 			}
 
