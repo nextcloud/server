@@ -13,6 +13,8 @@ use OCA\Encryption\Session;
 use OCA\Encryption\Util;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\NoAdminRequired;
+use OCP\AppFramework\Http\Attribute\UseSession;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\IL10N;
 use OCP\IRequest;
@@ -82,13 +84,12 @@ class SettingsController extends Controller {
 
 
 	/**
-	 * @NoAdminRequired
-	 * @UseSession
-	 *
 	 * @param string $oldPassword
 	 * @param string $newPassword
 	 * @return DataResponse
 	 */
+	#[NoAdminRequired]
+	#[UseSession]
 	public function updatePrivateKeyPassword($oldPassword, $newPassword) {
 		$result = false;
 		$uid = $this->userSession->getUser()->getUID();
@@ -137,11 +138,10 @@ class SettingsController extends Controller {
 	}
 
 	/**
-	 * @UseSession
-	 *
 	 * @param bool $encryptHomeStorage
 	 * @return DataResponse
 	 */
+	#[UseSession]
 	public function setEncryptHomeStorage($encryptHomeStorage) {
 		$this->util->setEncryptHomeStorage($encryptHomeStorage);
 		return new DataResponse();
