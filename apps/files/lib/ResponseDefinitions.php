@@ -32,6 +32,12 @@ namespace OCA\Files;
  *     ratio: ?float,
  *     actionLabel: string,
  * }
+ *
+ * @psalm-type FilesTemplateField = array{
+ *     index: string,
+ *     content: string,
+ *     type: string,
+ * }
  */
 class ResponseDefinitions {
 }
