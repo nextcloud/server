@@ -44,7 +44,7 @@
 		class="files-list__row-name-link"
 		data-cy-files-list-row-name-link
 		v-bind="linkTo.params">
-		<!-- File name -->
+		<!-- Filename -->
 		<span class="files-list__row-name-text">
 			<!-- Keep the filename stuck to the extension to avoid whitespace rendering issues-->
 			<span class="files-list__row-name-" v-text="basename" />
@@ -60,7 +60,7 @@ import type { PropType } from 'vue'
 import axios from '@nextcloud/axios'
 import { showError, showSuccess } from '@nextcloud/dialogs'
 import { emit } from '@nextcloud/event-bus'
-import { FileType, NodeStatus } from '@nextcloud/files'
+import { FileType, InvalidFilenameError, InvalidFilenameErrorReason, NodeStatus, validateFilename } from '@nextcloud/files'
 import { loadState } from '@nextcloud/initial-state'
 import { translate as t } from '@nextcloud/l10n'
 import { isAxiosError} from 'axios'
@@ -149,7 +149,7 @@ export default Vue.extend({
 
 		renameLabel() {
 			const matchLabel: Record<FileType, string> = {
-				[FileType.File]: t('files', 'File name'),
+				[FileType.File]: t('files', 'Filename'),
 				[FileType.Folder]: t('files', 'Folder name'),
 			}
 			return matchLabel[this.source.type]
@@ -187,7 +187,7 @@ export default Vue.extend({
 
 	watch: {
 		/**
-		 * If renaming starts, select the file name
+		 * If renaming starts, select the filename
 		 * in the input, without the extension.
 		 * @param renaming
 		 */
@@ -222,27 +222,35 @@ export default Vue.extend({
 				input.reportValidity()
 			}
 		},
-		isFileNameValid(name) {
-			const trimmedName = name.trim()
-			const char = trimmedName.indexOf('/') !== -1
-				? '/'
-				: forbiddenCharacters.find((char) => trimmedName.includes(char))
-
-			if (trimmedName === '.' || trimmedName === '..') {
-				throw new Error(t('files', '"{name}" is an invalid file name.', { name }))
-			} else if (trimmedName.length === 0) {
+		isFileNameValid(name: string) {
+			if (name.trim() === '') {
 				throw new Error(t('files', 'File name cannot be empty.'))
-			} else if (char) {
-				throw new Error(t('files', '"{char}" is not allowed inside a file name.', { char }))
-			} else if (trimmedName.match(OC.config.blacklist_files_regex)) {
-				throw new Error(t('files', '"{name}" is not an allowed filetype.', { name }))
 			} else if (this.checkIfNodeExists(name)) {
 				throw new Error(t('files', '{newName} already exists.', { newName: name }))
 			}
 
-			return true
+			try {
+				validateFilename(name)
+			} catch (error) {
+				if (!(error instanceof InvalidFilenameError)) {
+					logger.error(error as Error)
+					return
+				}
+				switch (error.reason) {
+				case InvalidFilenameErrorReason.Character:
+					throw new Error(t('files', '"{segment}" is not allowed inside a filename.', { segment: error.segment }))
+				case InvalidFilenameErrorReason.ReservedName:
+					throw new Error(t('files', '"{segment}" is a forbidden file or folder name.', { segment: error.segment }))
+				case InvalidFilenameErrorReason.Extension:
+					if (error.segment.startsWith('.')) {
+						throw new Error(t('files', '"{segment}" is not an allowed filetype.', { segment: error.segment }))
+					} else {
+						throw new Error(t('files', 'Filenames must not end with "{segment}".', { segment: error.segment }))
+					}
+				}
+			}
 		},
-		checkIfNodeExists(name) {
+		checkIfNodeExists(name: string) {
 			return this.nodes.find(node => node.basename === name && node !== this.source)
 		},
 
