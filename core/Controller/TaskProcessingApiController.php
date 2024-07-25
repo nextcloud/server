@@ -36,7 +36,7 @@ use OCP\TaskProcessing\Exception\PreConditionNotMetException;
 use OCP\TaskProcessing\Exception\UnauthorizedException;
 use OCP\TaskProcessing\Exception\ValidationException;
 use OCP\TaskProcessing\IManager;
-use OCP\TaskProcessing\ShapeDescriptor;
+use OCP\TaskProcessing\ShapeEnumValue;
 use OCP\TaskProcessing\Task;
 use RuntimeException;
 
@@ -67,26 +67,35 @@ class TaskProcessingApiController extends \OCP\AppFramework\OCSController {
 	#[PublicPage]
 	#[ApiRoute(verb: 'GET', url: '/tasktypes', root: '/taskprocessing')]
 	public function taskTypes(): DataResponse {
-		$taskTypes = $this->taskProcessingManager->getAvailableTaskTypes();
-
-		$serializedTaskTypes = [];
-		foreach ($taskTypes as $key => $taskType) {
-			$serializedTaskTypes[$key] = [
-				'name' => $taskType['name'],
-				'description' => $taskType['description'],
-				'inputShape' => array_map(fn (ShapeDescriptor $descriptor) =>
-					$descriptor->jsonSerialize() + ['mandatory' => true], $taskType['inputShape'])
-					+ array_map(fn (ShapeDescriptor $descriptor) =>
-					$descriptor->jsonSerialize() + ['mandatory' => false], $taskType['optionalInputShape']),
-				'outputShape' => array_map(fn (ShapeDescriptor $descriptor) =>
-					$descriptor->jsonSerialize() + ['mandatory' => true], $taskType['outputShape'])
-					+ array_map(fn (ShapeDescriptor $descriptor) =>
-					$descriptor->jsonSerialize() + ['mandatory' => false], $taskType['optionalOutputShape']),
-			];
-		}
-
+		$taskTypes = array_map(function (array $tt) {
+			$tt['inputShape'] = array_map(function ($descriptor) {
+				return $descriptor->jsonSerialize();
+			}, $tt['inputShape']);
+			$tt['outputShape'] = array_map(function ($descriptor) {
+				return $descriptor->jsonSerialize();
+			}, $tt['outputShape']);
+			$tt['optionalInputShape'] = array_map(function ($descriptor) {
+				return $descriptor->jsonSerialize();
+			}, $tt['optionalInputShape']);
+			$tt['optionalOutputShape'] = array_map(function ($descriptor) {
+				return $descriptor->jsonSerialize();
+			}, $tt['optionalOutputShape']);
+			$tt['inputShapeEnumValues'] = array_map(function (array $enumValues) {
+				return array_map(fn (ShapeEnumValue $enumValue) => $enumValue->jsonSerialize(), $enumValues);
+			}, $tt['inputShapeEnumValues']);
+			$tt['optionalInputShapeEnumValues'] = array_map(function (array $enumValues) {
+				return array_map(fn (ShapeEnumValue $enumValue) => $enumValue->jsonSerialize(), $enumValues);
+			}, $tt['optionalInputShapeEnumValues']);
+			$tt['outputShapeEnumValues'] = array_map(function (array $enumValues) {
+				return array_map(fn (ShapeEnumValue $enumValue) => $enumValue->jsonSerialize(), $enumValues);
+			}, $tt['outputShapeEnumValues']);
+			$tt['optionalOutputShapeEnumValues'] = array_map(function (array $enumValues) {
+				return array_map(fn (ShapeEnumValue $enumValue) => $enumValue->jsonSerialize(), $enumValues);
+			}, $tt['optionalOutputShapeEnumValues']);
+			return $tt;
+		}, $this->taskProcessingManager->getAvailableTaskTypes());
 		return new DataResponse([
-			'types' => $serializedTaskTypes,
+			'types' => $taskTypes,
 		]);
 	}
 

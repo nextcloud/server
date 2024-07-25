@@ -19,11 +19,11 @@ use OCP\TaskProcessing\ShapeDescriptor;
  * This is the task processing task type for generic text processing
  * @since 30.0.0
  */
-class TextToText implements ITaskType {
+class TextToTextTranslate implements ITaskType {
 	/**
 	 * @since 30.0.0
 	 */
-	public const ID = 'core:text2text';
+	public const ID = 'core:text2text:translate';
 
 	private IL10N $l;
 
@@ -43,7 +43,7 @@ class TextToText implements ITaskType {
 	 * @since 30.0.0
 	 */
 	public function getName(): string {
-		return $this->l->t('Free text to text prompt');
+		return $this->l->t('Translate');
 	}
 
 	/**
@@ -51,7 +51,7 @@ class TextToText implements ITaskType {
 	 * @since 30.0.0
 	 */
 	public function getDescription(): string {
-		return $this->l->t('Runs an arbitrary prompt through a language model that returns a reply');
+		return $this->l->t('Translate text from one language to another');
 	}
 
 	/**
@@ -69,9 +69,19 @@ class TextToText implements ITaskType {
 	public function getInputShape(): array {
 		return [
 			'input' => new ShapeDescriptor(
-				$this->l->t('Prompt'),
-				$this->l->t('Describe a task that you want the assistant to do or ask a question'),
+				$this->l->t('Origin text'),
+				$this->l->t('The text to translate'),
 				EShapeType::Text
+			),
+			'origin_language' => new ShapeDescriptor(
+				$this->l->t('Origin language'),
+				$this->l->t('The language of the origin text'),
+				EShapeType::Enum
+			),
+			'target_language' => new ShapeDescriptor(
+				$this->l->t('Target language'),
+				$this->l->t('The desired language to translate the origin text in'),
+				EShapeType::Enum
 			),
 		];
 	}
@@ -83,8 +93,8 @@ class TextToText implements ITaskType {
 	public function getOutputShape(): array {
 		return [
 			'output' => new ShapeDescriptor(
-				$this->l->t('Generated reply'),
-				$this->l->t('The generated text from the assistant'),
+				$this->l->t('Result'),
+				$this->l->t('The translated text'),
 				EShapeType::Text
 			),
 		];

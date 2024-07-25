@@ -23,6 +23,7 @@ enum EShapeType: int {
 	case Audio = 3;
 	case Video = 4;
 	case File = 5;
+	case Enum = 6;
 	case ListOfNumbers = 10;
 	case ListOfTexts = 11;
 	case ListOfImages = 12;
@@ -32,11 +33,33 @@ enum EShapeType: int {
 
 	/**
 	 * @param mixed $value
+	 * @param ShapeEnumValue[] $enumValues
+	 * @return void
+	 * @throws ValidationException
+	 * @since 30.0.0
+	 */
+	public function validateEnum(mixed $value, array $enumValues): void {
+		if ($this !== EShapeType::Enum) {
+			throw new ValidationException('Provider provided enum values for non-enum slot');
+		}
+		foreach ($enumValues as $enumValue) {
+			if ($value === $enumValue->getValue()) {
+				return;
+			}
+		}
+		throw new ValidationException('Wrong value given for Enum slot. Got "' . $value . '", but expected one of the provided enum values: "' . implode('", "', array_map(fn ($enumValue) => $enumValue->getValue(), $enumValues)) . '"');
+	}
+
+	/**
+	 * @param mixed $value
 	 * @return void
 	 * @throws ValidationException
 	 * @since 30.0.0
 	 */
 	private function validateNonFileType(mixed $value): void {
+		if ($this === EShapeType::Enum && !is_string($value)) {
+			throw new ValidationException('Non-text item provided for Enum slot');
+		}
 		if ($this === EShapeType::Text && !is_string($value)) {
 			throw new ValidationException('Non-text item provided for Text slot');
 		}
@@ -158,5 +181,14 @@ enum EShapeType: int {
 	 */
 	public static function getScalarType(EShapeType $type): EShapeType {
 		return EShapeType::from($type->value % 10);
+	}
+
+	/**
+	 * @param EShapeType $type
+	 * @return bool
+	 * @since 30.0.0
+	 */
+	public static function isFileType(EShapeType $type): bool {
+		return in_array(EShapeType::getScalarType($type), [EShapeType::File, EShapeType::Image, EShapeType::Audio, EShapeType::Video], true);
 	}
 }
