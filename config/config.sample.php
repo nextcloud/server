@@ -1296,7 +1296,13 @@ $CONFIG = [
 
 /**
  * Set the URL of the Imaginary service to send image previews to.
- * Also requires the ``OC\Preview\Imaginary`` provider to be enabled.
+ * Also requires the
+ *  - ``OC\Preview\Imaginary``
+ * provider to be enabled in the 'enabledPreviewProviders' array, to create previews for these mimetypes:
+ * bmp, x-bitmap, png, jpeg, gif, heic, heif, svg+xml, tiff, webp and illustrator.
+ * If you want Imaginary to also create preview images from PDF Documents, you have to add
+ *  - ``OC\Preview\ImaginaryPDF``
+ * provider as well.
  *
  * See https://github.com/h2non/imaginary
  */
