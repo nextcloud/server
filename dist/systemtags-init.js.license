@@ -31,7 +31,6 @@ SPDX-FileCopyrightText: Joyent
 SPDX-FileCopyrightText: José F. Romaniello <jfromaniello@gmail.com> (http://joseoncode.com)
 SPDX-FileCopyrightText: Jordan Harband <ljharb@gmail.com>
 SPDX-FileCopyrightText: Jordan Harband
-SPDX-FileCopyrightText: Jonas Schade <derzade@gmail.com>
 SPDX-FileCopyrightText: John Hiesey
 SPDX-FileCopyrightText: James Halliday
 SPDX-FileCopyrightText: Irakli Gozalishvili <rfobic@gmail.com> (http://jeditoolkit.com)
@@ -39,7 +38,6 @@ SPDX-FileCopyrightText: GitHub Inc.
 SPDX-FileCopyrightText: Feross Aboukhadijeh
 SPDX-FileCopyrightText: Dylan Piercey <pierceydylan@gmail.com>
 SPDX-FileCopyrightText: Dr.-Ing. Mario Heiderich, Cure53 <mario@cure53.de> (https://cure53.de/)
-SPDX-FileCopyrightText: Denis Pushkarev
 SPDX-FileCopyrightText: Christoph Wurst <christoph@winzerhof-wurst.at>
 SPDX-FileCopyrightText: Christoph Wurst
 SPDX-FileCopyrightText: Ben Drucker
@@ -66,7 +64,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 3.3.1
 	- license: GPL-3.0-or-later
 - @nextcloud/files
-	- version: 3.6.0
+	- version: 3.7.0
 	- license: AGPL-3.0-or-later
 - @nextcloud/initial-state
 	- version: 2.2.0
@@ -78,7 +76,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 3.0.2
 	- license: GPL-3.0-or-later
 - @nextcloud/paths
-	- version: 2.1.0
+	- version: 2.2.0
 	- license: GPL-3.0-or-later
 - @nextcloud/router
 	- version: 3.0.1
@@ -130,9 +128,6 @@ This file is generated from multiple sources. Included packages:
 	- license: BSD-3-Clause
 - console-browserify
 	- version: 1.2.0
-	- license: MIT
-- core-js
-	- version: 3.37.1
 	- license: MIT
 - crypt
 	- version: 0.0.2
@@ -292,9 +287,6 @@ This file is generated from multiple sources. Included packages:
 	- license: MIT
 - style-loader
 	- version: 3.3.4
-	- license: MIT
-- typescript-event-target
-	- version: 1.1.1
 	- license: MIT
 - url-join
 	- version: 5.0.0
