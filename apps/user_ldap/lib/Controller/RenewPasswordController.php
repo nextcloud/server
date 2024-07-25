@@ -6,7 +6,10 @@
 namespace OCA\User_LDAP\Controller;
 
 use OCP\AppFramework\Controller;
+use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
 use OCP\AppFramework\Http\Attribute\OpenAPI;
+use OCP\AppFramework\Http\Attribute\PublicPage;
+use OCP\AppFramework\Http\Attribute\UseSession;
 use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\HintException;
@@ -49,24 +52,22 @@ class RenewPasswordController extends Controller {
 	}
 
 	/**
-	 * @PublicPage
-	 * @NoCSRFRequired
-	 *
 	 * @return RedirectResponse
 	 */
+	#[PublicPage]
+	#[NoCSRFRequired]
 	public function cancel() {
 		return new RedirectResponse($this->urlGenerator->linkToRouteAbsolute('core.login.showLoginForm'));
 	}
 
 	/**
-	 * @PublicPage
-	 * @NoCSRFRequired
-	 * @UseSession
-	 *
 	 * @param string $user
 	 *
 	 * @return TemplateResponse|RedirectResponse
 	 */
+	#[PublicPage]
+	#[NoCSRFRequired]
+	#[UseSession]
 	public function showRenewPasswordForm($user) {
 		if ($this->config->getUserValue($user, 'user_ldap', 'needsPasswordReset') !== 'true') {
 			return new RedirectResponse($this->urlGenerator->linkToRouteAbsolute('core.login.showLoginForm'));
@@ -102,15 +103,14 @@ class RenewPasswordController extends Controller {
 	}
 
 	/**
-	 * @PublicPage
-	 * @UseSession
-	 *
 	 * @param string $user
 	 * @param string $oldPassword
 	 * @param string $newPassword
 	 *
 	 * @return RedirectResponse
 	 */
+	#[PublicPage]
+	#[UseSession]
 	public function tryRenewPassword($user, $oldPassword, $newPassword) {
 		if ($this->config->getUserValue($user, 'user_ldap', 'needsPasswordReset') !== 'true') {
 			return new RedirectResponse($this->urlGenerator->linkToRouteAbsolute('core.login.showLoginForm'));
@@ -146,12 +146,11 @@ class RenewPasswordController extends Controller {
 	}
 
 	/**
-	 * @PublicPage
-	 * @NoCSRFRequired
-	 * @UseSession
-	 *
 	 * @return RedirectResponse
 	 */
+	#[PublicPage]
+	#[NoCSRFRequired]
+	#[UseSession]
 	public function showLoginFormInvalidPassword($user) {
 		$args = !is_null($user) ? ['user' => $user] : [];
 		$this->session->set('loginMessages', [
