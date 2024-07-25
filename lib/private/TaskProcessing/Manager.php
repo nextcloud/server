@@ -556,8 +556,8 @@ class Manager implements IManager {
 	 * @return array<array-key, list<numeric|string>|numeric|string>
 	 */
 	public function fillInputDefaults(array $input, ...$defaultSpecs): array {
-		$spec = array_reduce($defaultSpecs, fn ($carry, $spec) => $carry + $spec, []);
-		return $spec + $input;
+		$spec = array_reduce($defaultSpecs, fn ($carry, $spec) => array_merge($carry, $spec), []);
+		return array_merge($spec, $input);
 	}
 
 	/**
