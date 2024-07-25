@@ -32,14 +32,14 @@ use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
 use OCP\FilesMetadata\Exceptions\FilesMetadataNotFoundException;
 use OCP\FilesMetadata\IFilesMetadataManager;
-use OCP\IConfig;
+use OCP\IAppConfig;
 use OCP\IUserManager;
 use Psr\Log\LoggerInterface;
 
 class GenerateMetadataJob extends TimedJob {
 	public function __construct(
 		ITimeFactory $time,
-		private IConfig $config,
+		private IAppConfig $appConfig,
 		private IRootFolder $rootFolder,
 		private IUserManager $userManager,
 		private IFilesMetadataManager $filesMetadataManager,
@@ -53,8 +53,13 @@ class GenerateMetadataJob extends TimedJob {
 	}
 
 	protected function run(mixed $argument): void {
+		if ($this->appConfig->getValueBool('core', 'metadataGenerationDone', false)) {
+			return;
+		}
+
+		$lastHandledUser = $this->appConfig->getValueString('core', 'metadataGenerationLastHandledUser', '');
+
 		$users = $this->userManager->search('');
-		$lastHandledUser = $this->config->getAppValue('core', 'metadataGenerationLastHandledUser', '');
 
 		// we'll only start timer once we have found a valid user to handle
 		// meaning NOW if we have not handled any user from a previous run
@@ -70,7 +75,7 @@ class GenerateMetadataJob extends TimedJob {
 				continue;
 			}
 
-			$this->config->setAppValue('core', 'metadataGenerationLastHandledUser', $userId);
+			$this->appConfig->setValueString('core', 'metadataGenerationLastHandledUser', $userId);
 			$this->scanFilesForUser($user->getUID());
 
 			// Stop if execution time is more than one hour.
@@ -79,8 +84,8 @@ class GenerateMetadataJob extends TimedJob {
 			}
 		}
 
-		$this->jobList->remove(GenerateMetadataJob::class);
-		$this->config->deleteAppValue('core', 'metadataGenerationLastHandledUser');
+		$this->appConfig->deleteKey('core', 'metadataGenerationLastHandledUser');
+		$this->appConfig->setValueBool('core', 'metadataGenerationDone', true);
 	}
 
 	private function scanFilesForUser(string $userId): void {
