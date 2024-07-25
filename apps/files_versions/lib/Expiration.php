@@ -15,28 +15,17 @@ class Expiration {
 	// how long do we keep files a version if no other value is defined in the config file (unit: days)
 	public const NO_OBLIGATION = -1;
 
-	/** @var ITimeFactory */
-	private $timeFactory;
+	private string $retentionObligation;
+	private int $minAge;
+	private int $maxAge;
+	private bool $canPurgeToSaveSpace;
 
-	/** @var string */
-	private $retentionObligation;
-
-	/** @var int */
-	private $minAge;
-
-	/** @var int */
-	private $maxAge;
-
-	/** @var bool */
-	private $canPurgeToSaveSpace;
-
-	/** @var LoggerInterface */
-	private $logger;
-
-	public function __construct(IConfig $config, ITimeFactory $timeFactory, LoggerInterface $logger) {
-		$this->timeFactory = $timeFactory;
-		$this->logger = $logger;
-		$this->retentionObligation = $config->getSystemValue('versions_retention_obligation', 'auto');
+	public function __construct(
+		IConfig $config,
+		private ITimeFactory $timeFactory,
+		private LoggerInterface $logger
+	) {
+		$this->retentionObligation = $config->getSystemValueString('versions_retention_obligation', 'auto');
 
 		if ($this->retentionObligation !== 'disabled') {
 			$this->parseRetentionObligation();
