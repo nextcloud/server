@@ -1052,15 +1052,8 @@ class Manager implements IManager {
 	public function prepareInputData(Task $task): array {
 		$taskTypes = $this->getAvailableTaskTypes();
 		$inputShape = $taskTypes[$task->getTaskTypeId()]['inputShape'];
-		$inputShapeDefaults = $taskTypes[$task->getTaskTypeId()]['inputShapeDefaults'];
-		$inputShapeEnumValues = $taskTypes[$task->getTaskTypeId()]['inputShapeEnumValues'];
 		$optionalInputShape = $taskTypes[$task->getTaskTypeId()]['optionalInputShape'];
-		$optionalInputShapeEnumValues = $taskTypes[$task->getTaskTypeId()]['optionalInputShapeEnumValues'];
-		$optionalInputShapeDefaults = $taskTypes[$task->getTaskTypeId()]['optionalInputShapeDefaults'];
 		$input = $task->getInput();
-		// validate input, again for good measure (should have been validated in scheduleTask)
-		$this->validateInput($inputShape, $inputShapeDefaults, $inputShapeEnumValues, $input);
-		$this->validateInput($optionalInputShape, $optionalInputShapeDefaults, $optionalInputShapeEnumValues, $input, true);
 		$input = $this->removeSuperfluousArrayKeys($input, $inputShape, $optionalInputShape);
 		$input = $this->fillInputFileData($task->getUserId(), $input, $inputShape, $optionalInputShape);
 		return $input;
