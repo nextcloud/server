@@ -97,6 +97,7 @@ export default defineComponent({
 
 	setup() {
 		const { currentView } = useNavigation()
+		const { directory } = useRouteParameters()
 		const renamingStore = useRenamingStore()
 
 		const defaultFileAction = inject<FileAction | undefined>('defaultFileAction')
@@ -104,6 +105,7 @@ export default defineComponent({
 		return {
 			currentView,
 			defaultFileAction,
+			directory,
 
 			renamingStore,
 		}
@@ -288,7 +290,7 @@ export default defineComponent({
 						showError(t('files', 'Could not rename "{oldName}", it does not exist any more', { oldName }))
 						return
 					} else if (error?.response?.status === 412) {
-						showError(t('files', 'The name "{newName}" is already used in the folder "{dir}". Please choose a different name.', { newName, dir: this.currentDir }))
+						showError(t('files', 'The name "{newName}" is already used in the folder "{dir}". Please choose a different name.', { newName, dir: this.directory }))
 						return
 					}
 				}
