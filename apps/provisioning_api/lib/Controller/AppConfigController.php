@@ -11,6 +11,8 @@ namespace OCA\Provisioning_API\Controller;
 use OC\AppConfig;
 use OC\AppFramework\Middleware\Security\Exceptions\NotAdminException;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\NoAdminRequired;
+use OCP\AppFramework\Http\Attribute\PasswordConfirmationRequired;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCSController;
 use OCP\IAppConfig;
@@ -93,9 +95,7 @@ class AppConfigController extends OCSController {
 	}
 
 	/**
-	 * @PasswordConfirmationRequired
 	 * @NoSubAdminRequired
-	 * @NoAdminRequired
 	 *
 	 * Update the config value of an app
 	 *
@@ -107,6 +107,8 @@ class AppConfigController extends OCSController {
 	 * 200: Value updated successfully
 	 * 403: App or key is not allowed
 	 */
+	#[PasswordConfirmationRequired]
+	#[NoAdminRequired]
 	public function setValue(string $app, string $key, string $value): DataResponse {
 		$user = $this->userSession->getUser();
 		if ($user === null) {
@@ -130,8 +132,6 @@ class AppConfigController extends OCSController {
 	}
 
 	/**
-	 * @PasswordConfirmationRequired
-	 *
 	 * Delete a config key of an app
 	 *
 	 * @param string $app ID of the app
@@ -141,6 +141,7 @@ class AppConfigController extends OCSController {
 	 * 200: Key deleted successfully
 	 * 403: App or key is not allowed
 	 */
+	#[PasswordConfirmationRequired]
 	public function deleteKey(string $app, string $key): DataResponse {
 		try {
 			$this->verifyAppId($app);

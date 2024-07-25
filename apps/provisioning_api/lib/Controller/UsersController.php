@@ -22,6 +22,9 @@ use OCP\Accounts\IAccountProperty;
 use OCP\Accounts\PropertyDoesNotExistException;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\AuthorizedAdminSetting;
+use OCP\AppFramework\Http\Attribute\NoAdminRequired;
+use OCP\AppFramework\Http\Attribute\PasswordConfirmationRequired;
+use OCP\AppFramework\Http\Attribute\UserRateLimit;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCS\OCSException;
 use OCP\AppFramework\OCS\OCSForbiddenException;
@@ -85,8 +88,6 @@ class UsersController extends AUserData {
 	}
 
 	/**
-	 * @NoAdminRequired
-	 *
 	 * Get a list of users
 	 *
 	 * @param string $search Text to search for
@@ -96,6 +97,7 @@ class UsersController extends AUserData {
 	 *
 	 * 200: Users returned
 	 */
+	#[NoAdminRequired]
 	public function getUsers(string $search = '', ?int $limit = null, int $offset = 0): DataResponse {
 		$user = $this->userSession->getUser();
 		$users = [];
@@ -128,8 +130,6 @@ class UsersController extends AUserData {
 	}
 
 	/**
-	 * @NoAdminRequired
-	 *
 	 * Get a list of users and their details
 	 *
 	 * @param string $search Text to search for
@@ -139,6 +139,7 @@ class UsersController extends AUserData {
 	 *
 	 * 200: Users details returned
 	 */
+	#[NoAdminRequired]
 	public function getUsersDetails(string $search = '', ?int $limit = null, int $offset = 0): DataResponse {
 		$currentUser = $this->userSession->getUser();
 		$users = [];
@@ -191,8 +192,6 @@ class UsersController extends AUserData {
 	}
 
 	/**
-	 * @NoAdminRequired
-	 *
 	 * Get the list of disabled users and their details
 	 *
 	 * @param string $search Text to search for
@@ -202,6 +201,7 @@ class UsersController extends AUserData {
 	 *
 	 * 200: Disabled users details returned
 	 */
+	#[NoAdminRequired]
 	public function getDisabledUsersDetails(string $search = '', ?int $limit = null, int $offset = 0): DataResponse {
 		$currentUser = $this->userSession->getUser();
 		if ($currentUser === null) {
@@ -332,7 +332,6 @@ class UsersController extends AUserData {
 
 
 	/**
-	 * @NoAdminRequired
 	 * @NoSubAdminRequired
 	 *
 	 * Search users by their phone numbers
@@ -344,6 +343,7 @@ class UsersController extends AUserData {
 	 * 200: Users returned
 	 * 400: Invalid location
 	 */
+	#[NoAdminRequired]
 	public function searchByPhoneNumbers(string $location, array $search): DataResponse {
 		if ($this->phoneNumberUtil->getCountryCodeForRegion($location) === null) {
 			// Not a valid region code
@@ -423,9 +423,6 @@ class UsersController extends AUserData {
 	}
 
 	/**
-	 * @PasswordConfirmationRequired
-	 * @NoAdminRequired
-	 *
 	 * Create a new user
 	 *
 	 * @param string $userid ID of the user
@@ -443,6 +440,8 @@ class UsersController extends AUserData {
 	 *
 	 * 200: User added successfully
 	 */
+	#[PasswordConfirmationRequired]
+	#[NoAdminRequired]
 	public function addUser(
 		string $userid,
 		string $password = '',
@@ -633,7 +632,6 @@ class UsersController extends AUserData {
 	}
 
 	/**
-	 * @NoAdminRequired
 	 * @NoSubAdminRequired
 	 *
 	 * Get the details of a user
@@ -644,6 +642,7 @@ class UsersController extends AUserData {
 	 *
 	 * 200: User returned
 	 */
+	#[NoAdminRequired]
 	public function getUser(string $userId): DataResponse {
 		$includeScopes = false;
 		$currentUser = $this->userSession->getUser();
@@ -660,7 +659,6 @@ class UsersController extends AUserData {
 	}
 
 	/**
-	 * @NoAdminRequired
 	 * @NoSubAdminRequired
 	 *
 	 * Get the details of the current user
@@ -670,6 +668,7 @@ class UsersController extends AUserData {
 	 *
 	 * 200: Current user returned
 	 */
+	#[NoAdminRequired]
 	public function getCurrentUser(): DataResponse {
 		$user = $this->userSession->getUser();
 		if ($user) {
@@ -682,7 +681,6 @@ class UsersController extends AUserData {
 	}
 
 	/**
-	 * @NoAdminRequired
 	 * @NoSubAdminRequired
 	 *
 	 * Get a list of fields that are editable for the current user
@@ -692,6 +690,7 @@ class UsersController extends AUserData {
 	 *
 	 * 200: Editable fields returned
 	 */
+	#[NoAdminRequired]
 	public function getEditableFields(): DataResponse {
 		$currentLoggedInUser = $this->userSession->getUser();
 		if (!$currentLoggedInUser instanceof IUser) {
@@ -702,7 +701,6 @@ class UsersController extends AUserData {
 	}
 
 	/**
-	 * @NoAdminRequired
 	 * @NoSubAdminRequired
 	 *
 	 * Get a list of fields that are editable for a user
@@ -713,6 +711,7 @@ class UsersController extends AUserData {
 	 *
 	 * 200: Editable fields for user returned
 	 */
+	#[NoAdminRequired]
 	public function getEditableFieldsForUser(string $userId): DataResponse {
 		$currentLoggedInUser = $this->userSession->getUser();
 		if (!$currentLoggedInUser instanceof IUser) {
@@ -767,10 +766,7 @@ class UsersController extends AUserData {
 	}
 
 	/**
-	 * @NoAdminRequired
 	 * @NoSubAdminRequired
-	 * @PasswordConfirmationRequired
-	 * @UserRateThrottle(limit=5, period=60)
 	 *
 	 * Update multiple values of the user's details
 	 *
@@ -783,6 +779,9 @@ class UsersController extends AUserData {
 	 *
 	 * 200: User values edited successfully
 	 */
+	#[PasswordConfirmationRequired]
+	#[NoAdminRequired]
+	#[UserRateLimit(limit: 5, period: 60)]
 	public function editUserMultiValue(
 		string $userId,
 		string $collectionName,
@@ -870,10 +869,7 @@ class UsersController extends AUserData {
 	}
 
 	/**
-	 * @NoAdminRequired
 	 * @NoSubAdminRequired
-	 * @PasswordConfirmationRequired
-	 * @UserRateThrottle(limit=50, period=600)
 	 *
 	 * Update a value of the user's details
 	 *
@@ -885,6 +881,9 @@ class UsersController extends AUserData {
 	 *
 	 * 200: User value edited successfully
 	 */
+	#[PasswordConfirmationRequired]
+	#[NoAdminRequired]
+	#[UserRateLimit(limit: 50, period: 60)]
 	public function editUser(string $userId, string $key, string $value): DataResponse {
 		$currentLoggedInUser = $this->userSession->getUser();
 
@@ -1206,9 +1205,6 @@ class UsersController extends AUserData {
 	}
 
 	/**
-	 * @PasswordConfirmationRequired
-	 * @NoAdminRequired
-	 *
 	 * Wipe all devices of a user
 	 *
 	 * @param string $userId ID of the user
@@ -1219,6 +1215,8 @@ class UsersController extends AUserData {
 	 *
 	 * 200: Wiped all user devices successfully
 	 */
+	#[PasswordConfirmationRequired]
+	#[NoAdminRequired]
 	public function wipeUserDevices(string $userId): DataResponse {
 		/** @var IUser $currentLoggedInUser */
 		$currentLoggedInUser = $this->userSession->getUser();
@@ -1247,9 +1245,6 @@ class UsersController extends AUserData {
 	}
 
 	/**
-	 * @PasswordConfirmationRequired
-	 * @NoAdminRequired
-	 *
 	 * Delete a user
 	 *
 	 * @param string $userId ID of the user
@@ -1258,6 +1253,8 @@ class UsersController extends AUserData {
 	 *
 	 * 200: User deleted successfully
 	 */
+	#[PasswordConfirmationRequired]
+	#[NoAdminRequired]
 	public function deleteUser(string $userId): DataResponse {
 		$currentLoggedInUser = $this->userSession->getUser();
 
@@ -1288,9 +1285,6 @@ class UsersController extends AUserData {
 	}
 
 	/**
-	 * @PasswordConfirmationRequired
-	 * @NoAdminRequired
-	 *
 	 * Disable a user
 	 *
 	 * @param string $userId ID of the user
@@ -1299,14 +1293,13 @@ class UsersController extends AUserData {
 	 *
 	 * 200: User disabled successfully
 	 */
+	#[PasswordConfirmationRequired]
+	#[NoAdminRequired]
 	public function disableUser(string $userId): DataResponse {
 		return $this->setEnabled($userId, false);
 	}
 
 	/**
-	 * @PasswordConfirmationRequired
-	 * @NoAdminRequired
-	 *
 	 * Enable a user
 	 *
 	 * @param string $userId ID of the user
@@ -1315,6 +1308,8 @@ class UsersController extends AUserData {
 	 *
 	 * 200: User enabled successfully
 	 */
+	#[PasswordConfirmationRequired]
+	#[NoAdminRequired]
 	public function enableUser(string $userId): DataResponse {
 		return $this->setEnabled($userId, true);
 	}
@@ -1347,7 +1342,6 @@ class UsersController extends AUserData {
 	}
 
 	/**
-	 * @NoAdminRequired
 	 * @NoSubAdminRequired
 	 *
 	 * Get a list of groups the user belongs to
@@ -1358,6 +1352,7 @@ class UsersController extends AUserData {
 	 *
 	 * 200: Users groups returned
 	 */
+	#[NoAdminRequired]
 	public function getUsersGroups(string $userId): DataResponse {
 		$loggedInUser = $this->userSession->getUser();
 
@@ -1398,9 +1393,6 @@ class UsersController extends AUserData {
 	}
 
 	/**
-	 * @PasswordConfirmationRequired
-	 * @NoAdminRequired
-	 *
 	 * Add a user to a group
 	 *
 	 * @param string $userId ID of the user
@@ -1410,6 +1402,8 @@ class UsersController extends AUserData {
 	 *
 	 * 200: User added to group successfully
 	 */
+	#[PasswordConfirmationRequired]
+	#[NoAdminRequired]
 	public function addToGroup(string $userId, string $groupid = ''): DataResponse {
 		if ($groupid === '') {
 			throw new OCSException('', 101);
@@ -1439,9 +1433,6 @@ class UsersController extends AUserData {
 	}
 
 	/**
-	 * @PasswordConfirmationRequired
-	 * @NoAdminRequired
-	 *
 	 * Remove a user from a group
 	 *
 	 * @param string $userId ID of the user
@@ -1451,6 +1442,8 @@ class UsersController extends AUserData {
 	 *
 	 * 200: User removed from group successfully
 	 */
+	#[PasswordConfirmationRequired]
+	#[NoAdminRequired]
 	public function removeFromGroup(string $userId, string $groupid): DataResponse {
 		$loggedInUser = $this->userSession->getUser();
 
@@ -1507,8 +1500,6 @@ class UsersController extends AUserData {
 	}
 
 	/**
-	 * @PasswordConfirmationRequired
-	 *
 	 * Make a user a subadmin of a group
 	 *
 	 * @param string $userId ID of the user
@@ -1519,6 +1510,7 @@ class UsersController extends AUserData {
 	 * 200: User added as group subadmin successfully
 	 */
 	#[AuthorizedAdminSetting(settings:Users::class)]
+	#[PasswordConfirmationRequired]
 	public function addSubAdmin(string $userId, string $groupid): DataResponse {
 		$group = $this->groupManager->get($groupid);
 		$user = $this->userManager->get($userId);
@@ -1548,8 +1540,6 @@ class UsersController extends AUserData {
 	}
 
 	/**
-	 * @PasswordConfirmationRequired
-	 *
 	 * Remove a user from the subadmins of a group
 	 *
 	 * @param string $userId ID of the user
@@ -1560,6 +1550,7 @@ class UsersController extends AUserData {
 	 * 200: User removed as group subadmin successfully
 	 */
 	#[AuthorizedAdminSetting(settings:Users::class)]
+	#[PasswordConfirmationRequired]
 	public function removeSubAdmin(string $userId, string $groupid): DataResponse {
 		$group = $this->groupManager->get($groupid);
 		$user = $this->userManager->get($userId);
@@ -1599,9 +1590,6 @@ class UsersController extends AUserData {
 	}
 
 	/**
-	 * @NoAdminRequired
-	 * @PasswordConfirmationRequired
-	 *
 	 * Resend the welcome message
 	 *
 	 * @param string $userId ID if the user
@@ -1610,6 +1598,8 @@ class UsersController extends AUserData {
 	 *
 	 * 200: Resent welcome message successfully
 	 */
+	#[PasswordConfirmationRequired]
+	#[NoAdminRequired]
 	public function resendWelcomeMessage(string $userId): DataResponse {
 		$currentLoggedInUser = $this->userSession->getUser();
 
