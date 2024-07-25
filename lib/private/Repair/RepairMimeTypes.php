@@ -311,28 +311,6 @@ class RepairMimeTypes implements IRepairStep {
 	/**
 	 * @throws Exception
 	 */
-	private function introduceAacAudioType(): IResult|int|null {
-		$updatedMimetypes = [
-			'aac' => 'audio/aac',
-		];
-
-		return $this->updateMimetypes($updatedMimetypes);
-	}
-
-	/**
-	 * @throws Exception
-	 */
-	private function introduceReStructuredTextFormatType(): IResult|int|null {
-		$updatedMimetypes = [
-			'rst' => 'text/x-rst',
-		];
-
-		return $this->updateMimetypes($updatedMimetypes);
-	}
-
-	/**
-	 * @throws Exception
-	 */
 	public function migrationsAvailable(): bool {
 		$this->dryRun = true;
 		$this->run(new NullOutput());
@@ -341,13 +319,11 @@ class RepairMimeTypes implements IRepairStep {
 	}
 
 	private function getMimeTypeVersion(): string {
-		$serverVersion = $this->config->getSystemValueString('version', '0.0.0');
-		// 29.0.0.10 is the last version with a mimetype migration before it was moved to a separate version number
-		if (version_compare($serverVersion, '29.0.0.10', '>')) {
-			return $this->config->getAppValue('files', 'mimetype_version', '29.0.0.10');
+		$mimeVersion = $this->config->getAppValue('files', 'mimetype_version', '');
+		if ($mimeVersion) {
+			return $mimeVersion;
 		}
-
-		return $serverVersion;
+		return $this->config->getSystemValueString('version', '0.0.0');
 	}
 
 	/**
@@ -416,14 +392,6 @@ class RepairMimeTypes implements IRepairStep {
 
 		if (version_compare($mimeTypeVersion, '28.0.0.8', '<') && $this->introduceEmlAndMsgFormatType()) {
 			$out->info('Fixed eml and msg mime type');
-		}
-
-		if (version_compare($mimeTypeVersion, '29.0.0.6', '<') && $this->introduceAacAudioType()) {
-			$out->info('Fixed aac mime type');
-		}
-
-		if (version_compare($mimeTypeVersion, '29.0.0.10', '<') && $this->introduceReStructuredTextFormatType()) {
-			$out->info('Fixed ReStructured Text mime type');
 		}
 
 		if (version_compare($mimeTypeVersion, '30.0.0.0', '<') && $this->introduceExcalidrawType()) {
