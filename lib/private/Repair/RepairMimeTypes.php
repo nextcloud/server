@@ -341,13 +341,11 @@ class RepairMimeTypes implements IRepairStep {
 	}
 
 	private function getMimeTypeVersion(): string {
-		$serverVersion = $this->config->getSystemValueString('version', '0.0.0');
-		// 29.0.0.10 is the last version with a mimetype migration before it was moved to a separate version number
-		if (version_compare($serverVersion, '29.0.0.10', '>')) {
-			return $this->config->getAppValue('files', 'mimetype_version', '29.0.0.10');
+		$mimeVersion = $this->config->getAppValue('files', 'mimetype_version', '');
+		if ($mimeVersion) {
+			return $mimeVersion;
 		}
-
-		return $serverVersion;
+		return $this->config->getSystemValueString('version', '0.0.0');
 	}
 
 	/**
