@@ -18,15 +18,32 @@ use OCP\IUserSession;
 
 class PreviewController extends Controller {
 
+	/** @var IRootFolder */
+	private $rootFolder;
+
+	/** @var IUserSession */
+	private $userSession;
+
+	/** @var IVersionManager */
+	private $versionManager;
+
+	/** @var IPreview */
+	private $previewManager;
+
 	public function __construct(
 		string $appName,
 		IRequest $request,
-		private IRootFolder $rootFolder,
-		private IUserSession $userSession,
-		private IVersionManager $versionManager,
-		private IPreview $previewManager
+		IRootFolder $rootFolder,
+		IUserSession $userSession,
+		IVersionManager $versionManager,
+		IPreview $previewManager
 	) {
 		parent::__construct($appName, $request);
+
+		$this->rootFolder = $rootFolder;
+		$this->userSession = $userSession;
+		$this->versionManager = $versionManager;
+		$this->previewManager = $previewManager;
 	}
 
 	/**

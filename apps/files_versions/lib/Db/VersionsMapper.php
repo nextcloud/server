@@ -71,30 +71,30 @@ class VersionsMapper extends QBMapper {
 	public function deleteAllVersionsForUser(int $storageId, ?string $path = null): void {
 		$fileIdsGenerator = $this->getFileIdsGenerator($storageId, $path);
 
-		$qb = $this->db->getQueryBuilder();
-		$qb->delete($this->getTableName())
-			->where($qb->expr()->in('file_id', $qb->createParameter('file_ids')));
+		$versionEntitiesDeleteQuery = $this->db->getQueryBuilder();
+		$versionEntitiesDeleteQuery->delete($this->getTableName())
+			->where($versionEntitiesDeleteQuery->expr()->in('file_id', $versionEntitiesDeleteQuery->createParameter('file_ids')));
 
 		foreach ($fileIdsGenerator as $fileIds) {
-			$qb->setParameter('file_ids', $fileIds, IQueryBuilder::PARAM_INT_ARRAY);
-			$qb->executeStatement();
+			$versionEntitiesDeleteQuery->setParameter('file_ids', $fileIds, IQueryBuilder::PARAM_INT_ARRAY);
+			$versionEntitiesDeleteQuery->executeStatement();
 		}
 	}
 
 	private function getFileIdsGenerator(int $storageId, ?string $path): \Generator {
 		$offset = 0;
 		do {
-			$qb = $this->db->getQueryBuilder();
-			$qb->select('fileid')
+			$filesIdsSelect = $this->db->getQueryBuilder();
+			$filesIdsSelect->select('fileid')
 				->from('filecache')
-				->where($qb->expr()->eq('storage', $qb->createNamedParameter($storageId, IQueryBuilder::PARAM_STR)))
-				->andWhere($qb->expr()->like('path', $qb->createNamedParameter('files' . ($path ? '/' . $this->db->escapeLikeParameter($path) : '') . '/%', IQueryBuilder::PARAM_STR)))
-				->andWhere($qb->expr()->gt('fileid', $qb->createParameter('offset')))
+				->where($filesIdsSelect->expr()->eq('storage', $filesIdsSelect->createNamedParameter($storageId, IQueryBuilder::PARAM_STR)))
+				->andWhere($filesIdsSelect->expr()->like('path', $filesIdsSelect->createNamedParameter('files' . ($path ? '/' . $this->db->escapeLikeParameter($path) : '') . '/%', IQueryBuilder::PARAM_STR)))
+				->andWhere($filesIdsSelect->expr()->gt('fileid', $filesIdsSelect->createParameter('offset')))
 				->setMaxResults(1000)
 				->orderBy('fileid', 'ASC');
 
-			$qb->setParameter('offset', $offset, IQueryBuilder::PARAM_INT);
-			$result = $qb->executeQuery();
+			$filesIdsSelect->setParameter('offset', $offset, IQueryBuilder::PARAM_INT);
+			$result = $filesIdsSelect->executeQuery();
 			$fileIds = $result->fetchAll(\PDO::FETCH_COLUMN);
 			$offset = end($fileIds);
 

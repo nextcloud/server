@@ -16,20 +16,34 @@ use Sabre\DAVACL\PrincipalBackend;
 
 class RootCollection extends AbstractPrincipalCollection {
 
-	/** @var bool */
-	private bool $disableListing;
+	/** @var IRootFolder */
+	private $rootFolder;
+
+	/** @var IUserManager */
+	private $userManager;
+
+	/** @var IVersionManager */
+	private $versionManager;
+
+	/** @var IUserSession */
+	private $userSession;
 
 	public function __construct(
 		PrincipalBackend\BackendInterface $principalBackend,
-		private IRootFolder $rootFolder,
-		private IUserManager $userManager,
-		private IVersionManager $versionManager,
-		private IUserSession $userSession,
-		IConfig $config
+		IRootFolder $rootFolder,
+		IConfig $config,
+		IUserManager $userManager,
+		IVersionManager $versionManager,
+		IUserSession $userSession
 	) {
 		parent::__construct($principalBackend, 'principals/users');
 
-		$this->disableListing = !$config->getSystemValueBool('debug', false);
+		$this->rootFolder = $rootFolder;
+		$this->userManager = $userManager;
+		$this->versionManager = $versionManager;
+		$this->userSession = $userSession;
+
+		$this->disableListing = !$config->getSystemValue('debug', false);
 	}
 
 	/**

@@ -11,10 +11,15 @@ use OCP\Capabilities\ICapability;
 use OCP\IConfig;
 
 class Capabilities implements ICapability {
+	private IConfig $config;
+	private IAppManager $appManager;
+
 	public function __construct(
-		private IConfig $config,
-		private IAppManager $appManager
+		IConfig $config,
+		IAppManager $appManager
 	) {
+		$this->config = $config;
+		$this->appManager = $appManager;
 	}
 
 	/**
