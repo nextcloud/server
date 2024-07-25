@@ -10,6 +10,7 @@ namespace OCA\WorkflowEngine\Controller;
 
 use OCA\WorkflowEngine\Helper\ScopeContext;
 use OCA\WorkflowEngine\Manager;
+use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\Attribute\PasswordConfirmationRequired;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCS\OCSBadRequestException;
@@ -44,47 +45,46 @@ class UserWorkflowsController extends AWorkflowController {
 	 *
 	 * Example: curl -u joann -H "OCS-APIREQUEST: true" "http://my.nc.srvr/ocs/v2.php/apps/workflowengine/api/v1/workflows/user?format=json"
 	 *
-	 * @NoAdminRequired
 	 * @throws OCSForbiddenException
 	 */
+	#[NoAdminRequired]
 	public function index(): DataResponse {
 		return parent::index();
 	}
 
 	/**
-	 * @NoAdminRequired
-	 *
 	 * Example: curl -u joann -H "OCS-APIREQUEST: true" "http://my.nc.srvr/ocs/v2.php/apps/workflowengine/api/v1/workflows/user/OCA\\Workflow_DocToPdf\\Operation?format=json"
 	 * @throws OCSForbiddenException
 	 */
+	#[NoAdminRequired]
 	public function show(string $id): DataResponse {
 		return parent::show($id);
 	}
 
 	/**
-	 * @NoAdminRequired
 	 * @throws OCSBadRequestException
 	 * @throws OCSForbiddenException
 	 */
+	#[NoAdminRequired]
 	#[PasswordConfirmationRequired]
 	public function create(string $class, string $name, array $checks, string $operation, string $entity, array $events): DataResponse {
 		return parent::create($class, $name, $checks, $operation, $entity, $events);
 	}
 
 	/**
-	 * @NoAdminRequired
 	 * @throws OCSBadRequestException
 	 * @throws OCSForbiddenException
 	 */
+	#[NoAdminRequired]
 	#[PasswordConfirmationRequired]
 	public function update(int $id, string $name, array $checks, string $operation, string $entity, array $events): DataResponse {
 		return parent::update($id, $name, $checks, $operation, $entity, $events);
 	}
 
 	/**
-	 * @NoAdminRequired
 	 * @throws OCSForbiddenException
 	 */
+	#[NoAdminRequired]
 	#[PasswordConfirmationRequired]
 	public function destroy(int $id): DataResponse {
 		return parent::destroy($id);
