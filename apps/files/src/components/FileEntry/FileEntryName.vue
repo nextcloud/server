@@ -67,6 +67,7 @@ import { defineComponent, inject } from 'vue'
 import NcTextField from '@nextcloud/vue/dist/Components/NcTextField.js'
 
 import { useNavigation } from '../../composables/useNavigation'
+import { useRouteParameters } from '../../composables/useRouteParameters.ts'
 import { useRenamingStore } from '../../store/renaming.ts'
 import { getFilenameValidity } from '../../utils/filenameValidity.ts'
 import logger from '../../logger.js'
@@ -113,6 +114,7 @@ export default defineComponent({
 
 	setup() {
 		const { currentView } = useNavigation()
+		const { directory } = useRouteParameters()
 		const renamingStore = useRenamingStore()
 
 		const defaultFileAction = inject<FileAction | undefined>('defaultFileAction')
@@ -120,6 +122,7 @@ export default defineComponent({
 		return {
 			currentView,
 			defaultFileAction,
+			directory,
 
 			renamingStore,
 		}
@@ -299,13 +302,15 @@ export default defineComponent({
 				// And ensure we reset to the renaming state
 				this.startRenaming()
 
-				// TODO: 409 means current folder does not exist, redirect ?
-				if (error?.response?.status === 404) {
-					showError(t('files', 'Could not rename "{oldName}", it does not exist any more', { oldName }))
-					return
-				} else if (error?.response?.status === 412) {
-					showError(t('files', 'The name "{newName}" is already used in the folder "{dir}". Please choose a different name.', { newName, dir: this.currentDir }))
-					return
+				if (isAxiosError(error)) {
+					// TODO: 409 means current folder does not exist, redirect ?
+					if (error?.response?.status === 404) {
+						showError(t('files', 'Could not rename "{oldName}", it does not exist any more', { oldName }))
+						return
+					} else if (error?.response?.status === 412) {
+						showError(t('files', 'The name "{newName}" is already used in the folder "{dir}". Please choose a different name.', { newName, dir: this.directory }))
+						return
+					}
 				}
 
 				// Unknown error
