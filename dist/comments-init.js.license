@@ -14,10 +14,8 @@ SPDX-FileCopyrightText: Nextcloud GmbH and Nextcloud contributors
 SPDX-FileCopyrightText: Joyent
 SPDX-FileCopyrightText: Jordan Harband <ljharb@gmail.com>
 SPDX-FileCopyrightText: Jordan Harband
-SPDX-FileCopyrightText: Jonas Schade <derzade@gmail.com>
 SPDX-FileCopyrightText: GitHub Inc.
 SPDX-FileCopyrightText: Dr.-Ing. Mario Heiderich, Cure53 <mario@cure53.de> (https://cure53.de/)
-SPDX-FileCopyrightText: Denis Pushkarev
 SPDX-FileCopyrightText: Christoph Wurst <christoph@winzerhof-wurst.at>
 SPDX-FileCopyrightText: Christoph Wurst
 SPDX-FileCopyrightText: Alkemics
@@ -37,7 +35,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 3.3.1
 	- license: GPL-3.0-or-later
 - @nextcloud/files
-	- version: 3.6.0
+	- version: 3.7.0
 	- license: AGPL-3.0-or-later
 - @nextcloud/initial-state
 	- version: 2.2.0
@@ -49,7 +47,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 3.0.2
 	- license: GPL-3.0-or-later
 - @nextcloud/paths
-	- version: 2.1.0
+	- version: 2.2.0
 	- license: GPL-3.0-or-later
 - @nextcloud/router
 	- version: 3.0.1
@@ -71,9 +69,6 @@ This file is generated from multiple sources. Included packages:
 	- license: MIT
 - console-browserify
 	- version: 1.2.0
-	- license: MIT
-- core-js
-	- version: 3.37.1
 	- license: MIT
 - define-data-property
 	- version: 1.1.4
@@ -164,9 +159,6 @@ This file is generated from multiple sources. Included packages:
 	- license: MIT
 - set-function-length
 	- version: 1.2.1
-	- license: MIT
-- typescript-event-target
-	- version: 1.1.1
 	- license: MIT
 - util
 	- version: 0.12.5

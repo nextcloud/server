@@ -16,6 +16,10 @@
 		}"
 		:scroll-to-index="scrollToIndex"
 		:caption="caption">
+		<template #filters>
+			<FileListFilters />
+		</template>
+
 		<template v-if="!isNoneSelected" #header-overlay>
 			<span class="files-list__selected">{{ t('files', '{count} selected', { count: selectedNodes.length }) }}</span>
 			<FilesListTableHeaderActions :current-view="currentView"
@@ -65,6 +69,7 @@ import { translate as t } from '@nextcloud/l10n'
 import { defineComponent } from 'vue'
 
 import { action as sidebarAction } from '../actions/sidebarAction.ts'
+import { useRouteParameters } from '../composables/useRouteParameters.ts'
 import { getSummaryFor } from '../utils/fileUtils'
 import { useSelectionStore } from '../store/selection.js'
 import { useUserConfigStore } from '../store/userconfig.ts'
@@ -78,11 +83,13 @@ import filesListWidthMixin from '../mixins/filesListWidth.ts'
 import VirtualList from './VirtualList.vue'
 import logger from '../logger.js'
 import FilesListTableHeaderActions from './FilesListTableHeaderActions.vue'
+import FileListFilters from './FileListFilters.vue'
 
 export default defineComponent({
 	name: 'FilesListVirtual',
 
 	components: {
+		FileListFilters,
 		FilesListHeader,
 		FilesListTableFooter,
 		FilesListTableHeader,
@@ -112,7 +119,12 @@ export default defineComponent({
 	setup() {
 		const userConfigStore = useUserConfigStore()
 		const selectionStore = useSelectionStore()
+		const { fileId, openFile } = useRouteParameters()
+
 		return {
+			fileId,
+			openFile,
+
 			userConfigStore,
 			selectionStore,
 		}
@@ -131,18 +143,6 @@ export default defineComponent({
 	computed: {
 		userConfig(): UserConfig {
 			return this.userConfigStore.userConfig
-		},
-
-		fileId() {
-			return Number.parseInt(this.$route.params.fileid ?? '0') || null
-		},
-
-		/**
-		 * If the current `fileId` should be opened
-		 * The state of the `openfile` query param
-		 */
-		openFile() {
-			return !!this.$route.query.openfile
 		},
 
 		summary() {
@@ -319,9 +319,15 @@ export default defineComponent({
 	--clickable-area: var(--default-clickable-area);
 	--icon-preview-size: 32px;
 
+	--fixed-top-position: var(--default-clickable-area);
+
 	overflow: auto;
 	height: 100%;
 	will-change: scroll-position;
+
+	&:has(.file-list-filters__active) {
+		--fixed-top-position: calc(var(--default-clickable-area) + var(--default-grid-baseline) + var(--clickable-area-small));
+	}
 
 	& :deep() {
 		// Table head, body and footer
@@ -364,10 +370,21 @@ export default defineComponent({
 			}
 		}
 
+		.files-list__filters {
+			// Pinned on top when scrolling above table header
+			position: sticky;
+			top: 0;
+			// fix size and background
+			background-color: var(--color-main-background);
+			padding-inline: var(--row-height) var(--default-grid-baseline, 4px);
+			height: var(--fixed-top-position);
+			width: 100%;
+		}
+
 		.files-list__thead-overlay {
 			// Pinned on top when scrolling
 			position: sticky;
-			top: 0;
+			top: var(--fixed-top-position);
 			// Save space for a row checkbox
 			margin-left: var(--row-height);
 			// More than .files-list__thead
@@ -396,7 +413,7 @@ export default defineComponent({
 			// Pinned on top when scrolling
 			position: sticky;
 			z-index: 10;
-			top: 0;
+			top: var(--fixed-top-position);
 		}
 
 		// Table footer

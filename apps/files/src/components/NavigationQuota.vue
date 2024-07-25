@@ -4,7 +4,7 @@
  -->
 <template>
 	<NcAppNavigationItem v-if="storageStats"
-		:aria-label="t('files', 'Storage informations')"
+		:aria-description="t('files', 'Storage information')"
 		:class="{ 'app-navigation-entry__settings-quota--not-unlimited': storageStats.quota >= 0}"
 		:loading="loadingStorageStats"
 		:name="storageStatsTitle"
@@ -17,6 +17,7 @@
 		<!-- Progress bar -->
 		<NcProgressBar v-if="storageStats.quota >= 0"
 			slot="extra"
+			:aria-label="t('files', 'Storage quota')"
 			:error="storageStats.relative > 80"
 			:value="Math.min(storageStats.relative, 100)" />
 	</NcAppNavigationItem>

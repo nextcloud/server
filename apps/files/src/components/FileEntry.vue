@@ -89,7 +89,8 @@ import { defineComponent } from 'vue'
 import { formatFileSize } from '@nextcloud/files'
 import moment from '@nextcloud/moment'
 
-import { useNavigation } from '../composables/useNavigation'
+import { useNavigation } from '../composables/useNavigation.ts'
+import { useRouteParameters } from '../composables/useRouteParameters.ts'
 import { useActionsMenuStore } from '../store/actionsmenu.ts'
 import { useDragAndDropStore } from '../store/dragging.ts'
 import { useFilesStore } from '../store/files.ts'
@@ -134,6 +135,10 @@ export default defineComponent({
 		const renamingStore = useRenamingStore()
 		const selectionStore = useSelectionStore()
 		const { currentView } = useNavigation()
+		const {
+			directory: currentDir,
+			fileId: currentFileId,
+		} = useRouteParameters()
 
 		return {
 			actionsMenuStore,
@@ -142,6 +147,8 @@ export default defineComponent({
 			renamingStore,
 			selectionStore,
 
+			currentDir,
+			currentFileId,
 			currentView,
 		}
 	},
