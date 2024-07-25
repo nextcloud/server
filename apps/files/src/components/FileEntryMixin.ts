@@ -3,11 +3,11 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import type { ComponentPublicInstance, PropType } from 'vue'
+import type { PropType } from 'vue'
 import type { FileSource } from '../types.ts'
 
 import { showError } from '@nextcloud/dialogs'
-import { FileType, Permission, Folder, File as NcFile, NodeStatus, Node } from '@nextcloud/files'
+import { FileType, Permission, Folder, File as NcFile, NodeStatus, Node, getFileActions } from '@nextcloud/files'
 import { translate as t } from '@nextcloud/l10n'
 import { generateUrl } from '@nextcloud/router'
 import { vOnClickOutside } from '@vueuse/components'
@@ -19,9 +19,10 @@ import { getDragAndDropPreview } from '../utils/dragUtils.ts'
 import { hashCode } from '../utils/hashUtils.ts'
 import { dataTransferToFileTree, onDropExternalFiles, onDropInternalFiles } from '../services/DropService.ts'
 import logger from '../logger.js'
-import FileEntryActions from '../components/FileEntry/FileEntryActions.vue'
 
 Vue.directive('onClickOutside', vOnClickOutside)
+
+const actions = getFileActions()
 
 export default defineComponent({
 	props: {
@@ -45,6 +46,13 @@ export default defineComponent({
 			type: Boolean,
 			default: false,
 		},
+	},
+
+	provide() {
+		return {
+			defaultFileAction: this.defaultFileAction,
+			enabledFileActions: this.enabledFileActions,
+		}
 	},
 
 	data() {
@@ -178,6 +186,23 @@ export default defineComponent({
 				color: `color-mix(in srgb, var(--color-main-text) ${ratio}%, var(--color-text-maxcontrast))`,
 			}
 		},
+
+		/**
+		 * Sorted actions that are enabled for this node
+		 */
+		enabledFileActions() {
+			if (this.source.status === NodeStatus.FAILED) {
+				return []
+			}
+
+			return actions
+				.filter(action => !action.enabled || action.enabled([this.source], this.currentView))
+				.sort((a, b) => (a.order || 0) - (b.order || 0))
+		},
+
+		defaultFileAction() {
+			return this.enabledFileActions.find((action) => action.default !== undefined)
+		},
 	},
 
 	watch: {
@@ -261,8 +286,15 @@ export default defineComponent({
 				return false
 			}
 
-			const actions = this.$refs.actions as ComponentPublicInstance<typeof FileEntryActions>
-			actions.execDefaultAction(event)
+			if (this.defaultFileAction) {
+				event.preventDefault()
+				event.stopPropagation()
+				// Execute the first default action if any
+				this.defaultFileAction.exec(this.source, this.currentView, this.currentDir)
+			} else {
+				// fallback to open in current tab
+				window.open(generateUrl('/f/{fileId}', { fileId: this.fileid }), '_self')
+			}
 		},
 
 		openDetailsIfAvailable(event) {

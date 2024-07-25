@@ -4,7 +4,7 @@
  */
 import { action } from './downloadAction'
 import { expect } from '@jest/globals'
-import { File, Folder, Permission, View, FileAction } from '@nextcloud/files'
+import { File, Folder, Permission, View, FileAction, DefaultType } from '@nextcloud/files'
 
 const view = {
 	id: 'files',
@@ -23,7 +23,7 @@ describe('Download action conditions tests', () => {
 		expect(action.id).toBe('download')
 		expect(action.displayName([], view)).toBe('Download')
 		expect(action.iconSvgInline([], view)).toBe('<svg>SvgMock</svg>')
-		expect(action.default).toBeUndefined()
+		expect(action.default).toBe(DefaultType.DEFAULT)
 		expect(action.order).toBe(30)
 	})
 })
