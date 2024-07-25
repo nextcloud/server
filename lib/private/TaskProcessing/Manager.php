@@ -539,7 +539,10 @@ class Manager implements IManager {
 			}
 			try {
 				$type->validateInput($io[$key]);
-				if (isset($enumValues[$key])) {
+				if ($type === EShapeType::Enum) {
+					if (!isset($enumValues[$key])) {
+						throw new ValidationException('Provider did not provide enum values for an enum slot: "' . $key .'"');
+					}
 					$type->validateEnum($io[$key], $enumValues[$key]);
 				}
 			} catch (ValidationException $e) {
