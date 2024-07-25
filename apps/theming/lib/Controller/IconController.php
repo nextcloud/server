@@ -12,6 +12,8 @@ use OCA\Theming\ThemingDefaults;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
+use OCP\AppFramework\Http\Attribute\PublicPage;
 use OCP\AppFramework\Http\DataDisplayResponse;
 use OCP\AppFramework\Http\FileDisplayResponse;
 use OCP\AppFramework\Http\NotFoundResponse;
@@ -50,9 +52,6 @@ class IconController extends Controller {
 	}
 
 	/**
-	 * @PublicPage
-	 * @NoCSRFRequired
-	 *
 	 * Get a themed icon
 	 *
 	 * @param string $app ID of the app
@@ -63,6 +62,8 @@ class IconController extends Controller {
 	 * 200: Themed icon returned
 	 * 404: Themed icon not found
 	 */
+	#[PublicPage]
+	#[NoCSRFRequired]
 	public function getThemedIcon(string $app, string $image): Response {
 		if ($app !== 'core' && !$this->appManager->isEnabledForUser($app)) {
 			$app = 'core';
@@ -87,9 +88,6 @@ class IconController extends Controller {
 	/**
 	 * Return a 32x32 favicon as png
 	 *
-	 * @PublicPage
-	 * @NoCSRFRequired
-	 *
 	 * @param string $app ID of the app
 	 * @return DataDisplayResponse<Http::STATUS_OK, array{Content-Type: 'image/x-icon'}>|FileDisplayResponse<Http::STATUS_OK, array{Content-Type: 'image/x-icon'}>|NotFoundResponse<Http::STATUS_NOT_FOUND, array{}>
 	 * @throws \Exception
@@ -97,6 +95,8 @@ class IconController extends Controller {
 	 * 200: Favicon returned
 	 * 404: Favicon not found
 	 */
+	#[PublicPage]
+	#[NoCSRFRequired]
 	public function getFavicon(string $app = 'core'): Response {
 		if ($app !== 'core' && !$this->appManager->isEnabledForUser($app)) {
 			$app = 'core';
@@ -133,9 +133,6 @@ class IconController extends Controller {
 	/**
 	 * Return a 512x512 icon for touch devices
 	 *
-	 * @PublicPage
-	 * @NoCSRFRequired
-	 *
 	 * @param string $app ID of the app
 	 * @return DataDisplayResponse<Http::STATUS_OK, array{Content-Type: 'image/png'}>|FileDisplayResponse<Http::STATUS_OK, array{Content-Type: 'image/x-icon'|'image/png'}>|NotFoundResponse<Http::STATUS_NOT_FOUND, array{}>
 	 * @throws \Exception
@@ -143,6 +140,8 @@ class IconController extends Controller {
 	 * 200: Touch icon returned
 	 * 404: Touch icon not found
 	 */
+	#[PublicPage]
+	#[NoCSRFRequired]
 	public function getTouchIcon(string $app = 'core'): Response {
 		if ($app !== 'core' && !$this->appManager->isEnabledForUser($app)) {
 			$app = 'core';

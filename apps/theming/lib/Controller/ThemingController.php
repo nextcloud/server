@@ -8,10 +8,15 @@ namespace OCA\Theming\Controller;
 use InvalidArgumentException;
 use OCA\Theming\ImageManager;
 use OCA\Theming\Service\ThemesService;
+use OCA\Theming\Settings\Admin;
 use OCA\Theming\ThemingDefaults;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\AuthorizedAdminSetting;
+use OCP\AppFramework\Http\Attribute\BruteForceProtection;
+use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
+use OCP\AppFramework\Http\Attribute\PublicPage;
 use OCP\AppFramework\Http\DataDisplayResponse;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\FileDisplayResponse;
@@ -66,12 +71,12 @@ class ThemingController extends Controller {
 	}
 
 	/**
-	 * @AuthorizedAdminSetting(settings=OCA\Theming\Settings\Admin)
 	 * @param string $setting
 	 * @param string $value
 	 * @return DataResponse
 	 * @throws NotPermittedException
 	 */
+	#[AuthorizedAdminSetting(settings: Admin::class)]
 	public function updateStylesheet($setting, $value) {
 		$value = trim($value);
 		$error = null;
@@ -146,12 +151,12 @@ class ThemingController extends Controller {
 	}
 
 	/**
-	 * @AuthorizedAdminSetting(settings=OCA\Theming\Settings\Admin)
 	 * @param string $setting
 	 * @param mixed $value
 	 * @return DataResponse
 	 * @throws NotPermittedException
 	 */
+	#[AuthorizedAdminSetting(settings: Admin::class)]
 	public function updateAppMenu($setting, $value) {
 		$error = null;
 		switch ($setting) {
@@ -195,10 +200,10 @@ class ThemingController extends Controller {
 	}
 
 	/**
-	 * @AuthorizedAdminSetting(settings=OCA\Theming\Settings\Admin)
 	 * @return DataResponse
 	 * @throws NotPermittedException
 	 */
+	#[AuthorizedAdminSetting(settings: Admin::class)]
 	public function uploadImage(): DataResponse {
 		$key = $this->request->getParam('key');
 		if (!in_array($key, self::VALID_UPLOAD_KEYS, true)) {
@@ -275,12 +280,12 @@ class ThemingController extends Controller {
 
 	/**
 	 * Revert setting to default value
-	 * @AuthorizedAdminSetting(settings=OCA\Theming\Settings\Admin)
 	 *
 	 * @param string $setting setting which should be reverted
 	 * @return DataResponse
 	 * @throws NotPermittedException
 	 */
+	#[AuthorizedAdminSetting(settings: Admin::class)]
 	public function undo(string $setting): DataResponse {
 		$value = $this->themingDefaults->undo($setting);
 
@@ -298,11 +303,11 @@ class ThemingController extends Controller {
 
 	/**
 	 * Revert all theming settings to their default values
-	 * @AuthorizedAdminSetting(settings=OCA\Theming\Settings\Admin)
 	 *
 	 * @return DataResponse
 	 * @throws NotPermittedException
 	 */
+	#[AuthorizedAdminSetting(settings: Admin::class)]
 	public function undoAll(): DataResponse {
 		$this->themingDefaults->undoAll();
 		$this->appManager->setDefaultApps([]);
@@ -319,8 +324,6 @@ class ThemingController extends Controller {
 	}
 
 	/**
-	 * @PublicPage
-	 * @NoCSRFRequired
 	 * @NoSameSiteCookieRequired
 	 *
 	 * Get an image
@@ -333,6 +336,8 @@ class ThemingController extends Controller {
 	 * 200: Image returned
 	 * 404: Image not found
 	 */
+	#[PublicPage]
+	#[NoCSRFRequired]
 	public function getImage(string $key, bool $useSvg = true) {
 		try {
 			$file = $this->imageManager->getImage($key, $useSvg);
@@ -356,8 +361,6 @@ class ThemingController extends Controller {
 	}
 
 	/**
-	 * @NoCSRFRequired
-	 * @PublicPage
 	 * @NoSameSiteCookieRequired
 	 * @NoTwoFactorRequired
 	 *
@@ -371,6 +374,8 @@ class ThemingController extends Controller {
 	 * 200: Stylesheet returned
 	 * 404: Theme not found
 	 */
+	#[PublicPage]
+	#[NoCSRFRequired]
 	public function getThemeStylesheet(string $themeId, bool $plain = false, bool $withCustomCss = false) {
 		$themes = $this->themesService->getThemes();
 		if (!in_array($themeId, array_keys($themes))) {
@@ -407,10 +412,6 @@ class ThemingController extends Controller {
 	}
 
 	/**
-	 * @NoCSRFRequired
-	 * @PublicPage
-	 * @BruteForceProtection(action=manifest)
-	 *
 	 * Get the manifest for an app
 	 *
 	 * @param string $app ID of the app
@@ -420,6 +421,9 @@ class ThemingController extends Controller {
 	 * 200: Manifest returned
 	 * 404: App not found
 	 */
+	#[PublicPage]
+	#[NoCSRFRequired]
+	#[BruteForceProtection('manifest')]
 	public function getManifest(string $app): JSONResponse {
 		$cacheBusterValue = $this->config->getAppValue('theming', 'cachebuster', '0');
 		if ($app === 'core' || $app === 'settings') {
