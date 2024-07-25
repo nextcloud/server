@@ -763,6 +763,7 @@ return array(
     'OCP\\TaskProcessing\\TaskTypes\\TextToTextSimplification' => $baseDir . '/lib/public/TaskProcessing/TaskTypes/TextToTextSimplification.php',
     'OCP\\TaskProcessing\\TaskTypes\\TextToTextSummary' => $baseDir . '/lib/public/TaskProcessing/TaskTypes/TextToTextSummary.php',
     'OCP\\TaskProcessing\\TaskTypes\\TextToTextTopics' => $baseDir . '/lib/public/TaskProcessing/TaskTypes/TextToTextTopics.php',
+    'OCP\\TaskProcessing\\TaskTypes\\TextToTextTranslate' => $baseDir . '/lib/public/TaskProcessing/TaskTypes/TextToTextTranslate.php',
     'OCP\\Teams\\ITeamManager' => $baseDir . '/lib/public/Teams/ITeamManager.php',
     'OCP\\Teams\\ITeamResourceProvider' => $baseDir . '/lib/public/Teams/ITeamResourceProvider.php',
     'OCP\\Teams\\Team' => $baseDir . '/lib/public/Teams/Team.php',
