@@ -71,7 +71,7 @@ import { useNavigation } from '../../composables/useNavigation'
 import { useRenamingStore } from '../../store/renaming.ts'
 import logger from '../../logger.js'
 
-const forbiddenCharacters = loadState('files', 'forbiddenCharacters', '') as string
+const forbiddenCharacters = loadState<string>('files', 'forbiddenCharacters', '').split('')
 
 export default Vue.extend({
 	name: 'FileEntryName',
