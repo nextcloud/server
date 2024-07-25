@@ -596,24 +596,26 @@ export default defineComponent({
 			// Take as much space as possible
 			flex: 1 1 auto;
 
-			a {
+			button.files-list__row-name-link {
 				display: flex;
 				align-items: center;
+				text-align: start;
 				// Fill cell height and width
 				width: 100%;
 				height: 100%;
 				// Necessary for flex grow to work
 				min-width: 0;
+				margin: 0;
 
 				// Already added to the inner text, see rule below
 				&:focus-visible {
-					outline: none;
+					outline: none !important;
 				}
 
 				// Keyboard indicator a11y
 				&:focus .files-list__row-name-text {
-					outline: 2px solid var(--color-main-text) !important;
-					border-radius: 20px;
+					outline: var(--border-width-input-focused) solid var(--color-main-text) !important;
+					border-radius: var(--border-radius-element);
 				}
 				&:focus:not(:focus-visible) .files-list__row-name-text {
 					outline: none !important;
@@ -623,7 +625,7 @@ export default defineComponent({
 			.files-list__row-name-text {
 				color: var(--color-main-text);
 				// Make some space for the outline
-				padding: 5px 10px;
+				padding: var(--default-grid-baseline) calc(2 * var(--default-grid-baseline));
 				margin-left: -10px;
 				// Align two name and ext
 				display: inline-flex;
@@ -762,12 +764,6 @@ tbody.files-list__tbody.files-list__tbody--grid {
 			// Visual balance, we use half of the clickable area
 			// as a margin around the preview
 			padding-top: var(--half-clickable-area);
-		}
-
-		a.files-list__row-name-link {
-			// Minus action menu
-			width: calc(100% - var(--clickable-area));
-			height: var(--clickable-area);
 		}
 
 		.files-list__row-name-text {
