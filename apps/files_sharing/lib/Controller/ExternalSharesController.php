@@ -7,6 +7,8 @@
 namespace OCA\Files_Sharing\Controller;
 
 use OCP\AppFramework\Controller;
+use OCP\AppFramework\Http\Attribute\NoAdminRequired;
+use OCP\AppFramework\Http\Attribute\PublicPage;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\Http\Client\IClientService;
@@ -30,34 +32,34 @@ class ExternalSharesController extends Controller {
 	}
 
 	/**
-	 * @NoAdminRequired
 	 * @NoOutgoingFederatedSharingRequired
 	 *
 	 * @return JSONResponse
 	 */
+	#[NoAdminRequired]
 	public function index() {
 		return new JSONResponse($this->externalManager->getOpenShares());
 	}
 
 	/**
-	 * @NoAdminRequired
 	 * @NoOutgoingFederatedSharingRequired
 	 *
 	 * @param int $id
 	 * @return JSONResponse
 	 */
+	#[NoAdminRequired]
 	public function create($id) {
 		$this->externalManager->acceptShare($id);
 		return new JSONResponse();
 	}
 
 	/**
-	 * @NoAdminRequired
 	 * @NoOutgoingFederatedSharingRequired
 	 *
 	 * @param integer $id
 	 * @return JSONResponse
 	 */
+	#[NoAdminRequired]
 	public function destroy($id) {
 		$this->externalManager->declineShare($id);
 		return new JSONResponse();
@@ -93,13 +95,13 @@ class ExternalSharesController extends Controller {
 	}
 
 	/**
-	 * @PublicPage
 	 * @NoOutgoingFederatedSharingRequired
 	 * @NoIncomingFederatedSharingRequired
 	 *
 	 * @param string $remote
 	 * @return DataResponse
 	 */
+	#[PublicPage]
 	public function testRemote($remote) {
 		if (str_contains($remote, '#') || str_contains($remote, '?') || str_contains($remote, ';')) {
 			return new DataResponse(false);

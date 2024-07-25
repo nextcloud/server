@@ -16,7 +16,9 @@ use OCA\Files_Sharing\Event\BeforeTemplateRenderedEvent;
 use OCA\Files_Sharing\Event\ShareLinkAccessedEvent;
 use OCP\Accounts\IAccountManager;
 use OCP\AppFramework\AuthPublicShareController;
+use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
 use OCP\AppFramework\Http\Attribute\OpenAPI;
+use OCP\AppFramework\Http\Attribute\PublicPage;
 use OCP\AppFramework\Http\NotFoundResponse;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\Defaults;
@@ -73,12 +75,11 @@ class ShareController extends AuthPublicShareController {
 	}
 
 	/**
-	 * @PublicPage
-	 * @NoCSRFRequired
-	 *
 	 * Show the authentication page
 	 * The form has to submit to the authenticate method route
 	 */
+	#[PublicPage]
+	#[NoCSRFRequired]
 	public function showAuthenticate(): TemplateResponse {
 		$templateParameters = ['share' => $this->share];
 
@@ -277,15 +278,13 @@ class ShareController extends AuthPublicShareController {
 	}
 
 	/**
-	 * @PublicPage
-	 * @NoCSRFRequired
-	 *
-	 *
 	 * @param string $path
 	 * @return TemplateResponse
 	 * @throws NotFoundException
 	 * @throws \Exception
 	 */
+	#[PublicPage]
+	#[NoCSRFRequired]
 	public function showShare($path = ''): TemplateResponse {
 		\OC_User::setIncognitoMode(true);
 
@@ -334,8 +333,6 @@ class ShareController extends AuthPublicShareController {
 	}
 
 	/**
-	 * @PublicPage
-	 * @NoCSRFRequired
 	 * @NoSameSiteCookieRequired
 	 *
 	 * @param string $token
@@ -345,6 +342,8 @@ class ShareController extends AuthPublicShareController {
 	 * @return void|\OCP\AppFramework\Http\Response
 	 * @throws NotFoundException
 	 */
+	#[PublicPage]
+	#[NoCSRFRequired]
 	public function downloadShare($token, $files = null, $path = '', $downloadStartSecret = '') {
 		\OC_User::setIncognitoMode(true);
 

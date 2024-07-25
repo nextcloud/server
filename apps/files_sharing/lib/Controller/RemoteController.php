@@ -9,6 +9,7 @@ namespace OCA\Files_Sharing\Controller;
 use OCA\Files_Sharing\External\Manager;
 use OCA\Files_Sharing\ResponseDefinitions;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCS\OCSForbiddenException;
 use OCP\AppFramework\OCS\OCSNotFoundException;
@@ -21,8 +22,6 @@ use Psr\Log\LoggerInterface;
  */
 class RemoteController extends OCSController {
 	/**
-	 * @NoAdminRequired
-	 *
 	 * Remote constructor.
 	 *
 	 * @param string $appName
@@ -39,21 +38,18 @@ class RemoteController extends OCSController {
 	}
 
 	/**
-	 * @NoAdminRequired
-	 *
 	 * Get list of pending remote shares
 	 *
 	 * @return DataResponse<Http::STATUS_OK, Files_SharingRemoteShare[], array{}>
 	 *
 	 * 200: Pending remote shares returned
 	 */
+	#[NoAdminRequired]
 	public function getOpenShares() {
 		return new DataResponse($this->externalManager->getOpenShares());
 	}
 
 	/**
-	 * @NoAdminRequired
-	 *
 	 * Accept a remote share
 	 *
 	 * @param int $id ID of the share
@@ -62,6 +58,7 @@ class RemoteController extends OCSController {
 	 *
 	 * 200: Share accepted successfully
 	 */
+	#[NoAdminRequired]
 	public function acceptShare($id) {
 		if ($this->externalManager->acceptShare($id)) {
 			return new DataResponse();
@@ -74,8 +71,6 @@ class RemoteController extends OCSController {
 	}
 
 	/**
-	 * @NoAdminRequired
-	 *
 	 * Decline a remote share
 	 *
 	 * @param int $id ID of the share
@@ -84,6 +79,7 @@ class RemoteController extends OCSController {
 	 *
 	 * 200: Share declined successfully
 	 */
+	#[NoAdminRequired]
 	public function declineShare($id) {
 		if ($this->externalManager->declineShare($id)) {
 			return new DataResponse();
@@ -117,14 +113,13 @@ class RemoteController extends OCSController {
 	}
 
 	/**
-	 * @NoAdminRequired
-	 *
 	 * Get a list of accepted remote shares
 	 *
 	 * @return DataResponse<Http::STATUS_OK, Files_SharingRemoteShare[], array{}>
 	 *
 	 * 200: Accepted remote shares returned
 	 */
+	#[NoAdminRequired]
 	public function getShares() {
 		$shares = $this->externalManager->getAcceptedShares();
 		$shares = array_map('self::extendShareInfo', $shares);
@@ -133,8 +128,6 @@ class RemoteController extends OCSController {
 	}
 
 	/**
-	 * @NoAdminRequired
-	 *
 	 * Get info of a remote share
 	 *
 	 * @param int $id ID of the share
@@ -143,6 +136,7 @@ class RemoteController extends OCSController {
 	 *
 	 * 200: Share returned
 	 */
+	#[NoAdminRequired]
 	public function getShare($id) {
 		$shareInfo = $this->externalManager->getShare($id);
 
@@ -155,8 +149,6 @@ class RemoteController extends OCSController {
 	}
 
 	/**
-	 * @NoAdminRequired
-	 *
 	 * Unshare a remote share
 	 *
 	 * @param int $id ID of the share
@@ -166,6 +158,7 @@ class RemoteController extends OCSController {
 	 *
 	 * 200: Share unshared successfully
 	 */
+	#[NoAdminRequired]
 	public function unshare($id) {
 		$shareInfo = $this->externalManager->getShare($id);
 
