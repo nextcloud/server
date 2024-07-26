@@ -1,5 +1,3 @@
-/*! https://mths.be/punycode v1.4.1 by @mathias */
-
 /**
  * @copyright Copyright (c) 2018 John Molakvoæ <skjnldsv@protonmail.com>
  *

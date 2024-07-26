@@ -83,18 +83,31 @@ export default defineComponent({
 			return this.source.status === NodeStatus.LOADING
 		},
 
-		extension() {
-			if (this.source.attributes?.displayname) {
-				return extname(this.source.attributes.displayname)
-			}
-			return this.source.extension || ''
-		},
+		/**
+		 * The display name of the current node
+		 * Either the nodes filename or a custom display name (e.g. for shares)
+		 */
 		displayName() {
-			const ext = this.extension
-			const name = String(this.source.attributes.displayname || this.source.basename)
+			return this.source.displayname
+		},
+		/**
+		 * The display name without extension
+		 */
+		basename() {
+			if (this.extension === '') {
+				return this.displayName
+			}
+			return this.displayName.slice(0, 0 - this.extension.length)
+		},
+		/**
+		 * The extension of the file
+		 */
+		extension() {
+			if (this.source.type === FileType.Folder) {
+				return ''
+			}
 
-			// Strip extension from name if defined
-			return !ext ? name : name.slice(0, 0 - ext.length)
+			return extname(this.displayName)
 		},
 
 		draggingFiles() {
