@@ -113,6 +113,7 @@ OC.L10N.register(
     "You received {share} to group {group} as a share by {user}" : "Obdrželi jste {share} do skupiny {group} jako sdílení od {user}",
     "Accept" : "Přijmout",
     "Decline" : "Odmítnout",
+    "Accounts" : "Účty",
     "Expiration date" : "Datum skončení platnosti",
     "Set a password" : "Nastavit heslo",
     "Password" : "Heslo",
