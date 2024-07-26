@@ -113,6 +113,7 @@ OC.L10N.register(
     "You received {share} to group {group} as a share by {user}" : "Recibiste {share} como compartición de {user} al grupo {group}",
     "Accept" : "Aceptar",
     "Decline" : "Declinar",
+    "Accounts" : "Cuentas",
     "Expiration date" : "Fecha de expiración",
     "Set a password" : "Establecer una contraseña",
     "Share link" : "Compartir enlace",

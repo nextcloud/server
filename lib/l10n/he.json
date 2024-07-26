@@ -162,6 +162,8 @@
     "Storage is temporarily not available" : "האחסון אינו זמין כרגע",
     "Storage connection timeout. %s" : "פסק זמן חיבור אחסון. %s",
     "Summary" : "תקציר",
+    "Translate" : "תרגום",
+    "Result" : "תוצאה",
     "Logged in user must be an admin" : "על המשתמש שנכנס להיות מנהל",
     "Help" : "עזרה",
     "Users" : "משתמשים",

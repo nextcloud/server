@@ -112,6 +112,7 @@ OC.L10N.register(
     "You received {share} to group {group} as a share by {user}" : "Примивте {share} во групата {group} како споделување од {user}",
     "Accept" : "Прифати",
     "Decline" : "Одбиј",
+    "Accounts" : "Сметки",
     "Expiration date" : "Рок на траење",
     "Password" : "Лозинка",
     "Share link" : "Сподели линк",

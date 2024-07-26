@@ -242,6 +242,8 @@
     "Summarize" : "Summarize",
     "Summary" : "Summary",
     "Extract topics" : "Extract topics",
+    "Translate" : "Translate",
+    "Result" : "Result",
     "Free prompt" : "Free prompt",
     "Runs an arbitrary prompt through the language model." : "Runs an arbitrary prompt through the language model.",
     "Generate headline" : "Generate headline",

@@ -115,6 +115,7 @@ OC.L10N.register(
     "You received {share} to group {group} as a share by {user}" : "(user) надав(-ла) вам доступ до спільного ресурсу {share} в групі {group}",
     "Accept" : "Прийняти",
     "Decline" : "Відхилити",
+    "Accounts" : "Облікові записи",
     "Expiration date" : "Термін дії",
     "Set a password" : "Встановити пароль",
     "Password" : "Пароль",

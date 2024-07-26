@@ -151,6 +151,8 @@
     "Storage is temporarily not available" : "საცავი დროებით ხელმიუწვდომელია",
     "Storage connection timeout. %s" : "საცავის კავშირის დროის ამოწურვა. %s",
     "Summary" : "შეჯამება",
+    "Translate" : "გადათარგმნეთ",
+    "Result" : "შედეგი",
     "Logged in user must be an admin" : "ავტორიზირებული მომხმარებელი უნდა იყოს ადმინისტრატორი",
     "Help" : "დახმარება",
     "Users" : "მომხმარებლები",
