@@ -19,6 +19,7 @@ OC.L10N.register(
     "Setting the password is not supported by the users backend" : "O axuste do contrasinal non está admitido na infraestrutura de usuarios",
     "Invalid language" : "Idioma non válido",
     "Invalid locale" : "Configuración rexional incorrecta",
+    "Invalid first day of week" : "O primeiro día da semana non é válido",
     "Cannot remove yourself from the admin group" : "Non pode retirarse do grupo de administración",
     "Cannot remove yourself from this group as you are a sub-admin" : "Non pode retirarse deste grupo xa que Vde. é persoal de subadministración",
     "Not viable to remove user from the last group you are sub-admin of" : "Non é viábel eliminar o usuario do último grupo do que é persoal de subadministración",

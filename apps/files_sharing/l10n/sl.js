@@ -115,6 +115,7 @@ OC.L10N.register(
     "You received {share} to group {group} as a share by {user}" : "{user} vam omogoča souporabo {share} prek skupine {group}",
     "Accept" : "Sprejmi",
     "Decline" : "Zavrni",
+    "Accounts" : "Računi",
     "Expiration date" : "Datum preteka",
     "Select a date" : "Izbor datuma",
     "Set a password" : "Nastavi geslo",

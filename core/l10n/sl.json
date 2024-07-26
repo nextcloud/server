@@ -41,6 +41,7 @@
     "Task not found" : "Naloge ni mogoče najti",
     "Internal error" : "Notranja napaka",
     "Not found" : "Predmeta ni mogoče najti",
+    "Bad request" : "Neustrezna zahteva",
     "Requested task type does not exist" : "Zahtevana vrsta naloge ne obstaja",
     "Necessary language model provider is not available" : "Zahtevan ponudnik jezikovnega modela ni na voljo",
     "No text to image provider is available" : "Pretvornik besedila v sliko ni na voljo.",

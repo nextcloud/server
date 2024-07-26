@@ -100,6 +100,7 @@ OC.L10N.register(
     "You received {share} to group {group} as a share by {user}" : "Vi ricevis „{share}“ al grupo {group} kiel kunhavon el {user}",
     "Accept" : "Akcepti",
     "Decline" : "Malakcepti",
+    "Accounts" : "Kontoj",
     "Expiration date" : "Limdato",
     "Share link" : "Kunhavigi ligilon",
     "Copy to clipboard" : "Kopii tondejen",

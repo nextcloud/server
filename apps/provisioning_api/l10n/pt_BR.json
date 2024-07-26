@@ -17,6 +17,7 @@
     "Setting the password is not supported by the users backend" : "A configuração da senha não é suportada pelo back-end dos usuários",
     "Invalid language" : "Idioma inválido",
     "Invalid locale" : "Local inválido",
+    "Invalid first day of week" : "Primeiro dia da semana inválido",
     "Cannot remove yourself from the admin group" : "Não é possível remover-se do grupo de administradores",
     "Cannot remove yourself from this group as you are a sub-admin" : "Não é possível remover-se deste grupo porque você é um subadministrador",
     "Not viable to remove user from the last group you are sub-admin of" : "Não é viável remover o usuário do último grupo do qual você é subadministrador",

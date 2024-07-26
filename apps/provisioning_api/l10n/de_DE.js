@@ -19,6 +19,7 @@ OC.L10N.register(
     "Setting the password is not supported by the users backend" : "Das Passwort kann nicht über das Benutzerbackend festgelegt werden",
     "Invalid language" : "Ungültige Sprache",
     "Invalid locale" : "Ungültige Lokalisierung",
+    "Invalid first day of week" : "Ungültiger erster Tag der Woche",
     "Cannot remove yourself from the admin group" : "Sie können sich nicht selbst aus der Administrationsgruppe entfernen",
     "Cannot remove yourself from this group as you are a sub-admin" : "Sie können sich nicht selbst aus dieser Gruppe entfernen, da Sie ein Unteradministrator sind",
     "Not viable to remove user from the last group you are sub-admin of" : "Den Benutzer aus der letzten Gruppe zu entfernen, in der Sie Unteradministrator sind ist nicht möglich.",
