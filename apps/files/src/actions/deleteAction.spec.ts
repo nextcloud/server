@@ -22,8 +22,9 @@
 import { action } from './deleteAction'
 import { expect } from '@jest/globals'
 import { File, Folder, Permission, View, FileAction } from '@nextcloud/files'
-import eventBus from '@nextcloud/event-bus'
+import * as capabilities from '@nextcloud/capabilities'
 import axios from '@nextcloud/axios'
+import eventBus from '@nextcloud/event-bus'
 
 import logger from '../logger'
 
@@ -111,6 +112,16 @@ describe('Delete action conditions tests', () => {
 		expect(action.displayName([file], trashbinView)).toBe('Delete permanently')
 	})
 
+	test('Trashbin disabled displayName', () => {
+		jest.spyOn(capabilities, 'getCapabilities').mockImplementation(() => {
+			return {
+				files: {},
+			}
+		})
+		expect(action.displayName([file], view)).toBe('Delete permanently')
+		expect(capabilities.getCapabilities).toBeCalledTimes(1)
+	})
+
 	test('Shared root node displayName', () => {
 		expect(action.displayName([file2], view)).toBe('Leave this share')
 		expect(action.displayName([folder2], view)).toBe('Leave this share')
@@ -181,6 +192,9 @@ describe('Delete action enabled tests', () => {
 })
 
 describe('Delete action execute tests', () => {
+	afterEach(() => {
+		jest.restoreAllMocks()
+	})
 	test('Delete action', async () => {
 		jest.spyOn(axios, 'delete')
 		jest.spyOn(eventBus, 'emit')
@@ -241,9 +255,123 @@ describe('Delete action execute tests', () => {
 		expect(eventBus.emit).toHaveBeenNthCalledWith(2, 'files:node:deleted', file2)
 	})
 
+	test('Delete action batch large set', async () => {
+		jest.spyOn(axios, 'delete')
+		jest.spyOn(eventBus, 'emit')
+
+		// Emulate the confirmation dialog to always confirm
+		const confirmMock = jest.fn().mockImplementation((a, b, c, resolve) => resolve(true))
+		window.OC = { dialogs: { confirmDestructive: confirmMock } }
+
+		const file1 = new File({
+			id: 1,
+			source: 'https://cloud.domain.com/remote.php/dav/files/test/foo.txt',
+			owner: 'test',
+			mime: 'text/plain',
+			permissions: Permission.READ | Permission.UPDATE | Permission.DELETE,
+		})
+
+		const file2 = new File({
+			id: 2,
+			source: 'https://cloud.domain.com/remote.php/dav/files/test/bar.txt',
+			owner: 'test',
+			mime: 'text/plain',
+			permissions: Permission.READ | Permission.UPDATE | Permission.DELETE,
+		})
+
+		const file3 = new File({
+			id: 3,
+			source: 'https://cloud.domain.com/remote.php/dav/files/test/baz.txt',
+			owner: 'test',
+			mime: 'text/plain',
+			permissions: Permission.READ | Permission.UPDATE | Permission.DELETE,
+		})
+
+		const file4 = new File({
+			id: 4,
+			source: 'https://cloud.domain.com/remote.php/dav/files/test/qux.txt',
+			owner: 'test',
+			mime: 'text/plain',
+			permissions: Permission.READ | Permission.UPDATE | Permission.DELETE,
+		})
+
+		const file5 = new File({
+			id: 5,
+			source: 'https://cloud.domain.com/remote.php/dav/files/test/quux.txt',
+			owner: 'test',
+			mime: 'text/plain',
+			permissions: Permission.READ | Permission.UPDATE | Permission.DELETE,
+		})
+
+		const exec = await action.execBatch!([file1, file2, file3, file4, file5], view, '/')
+
+		// Enough nodes to trigger a confirmation dialog
+		expect(confirmMock).toBeCalledTimes(1)
+
+		expect(exec).toStrictEqual([true, true, true, true, true])
+		expect(axios.delete).toBeCalledTimes(5)
+		expect(axios.delete).toHaveBeenNthCalledWith(1, 'https://cloud.domain.com/remote.php/dav/files/test/foo.txt')
+		expect(axios.delete).toHaveBeenNthCalledWith(2, 'https://cloud.domain.com/remote.php/dav/files/test/bar.txt')
+		expect(axios.delete).toHaveBeenNthCalledWith(3, 'https://cloud.domain.com/remote.php/dav/files/test/baz.txt')
+		expect(axios.delete).toHaveBeenNthCalledWith(4, 'https://cloud.domain.com/remote.php/dav/files/test/qux.txt')
+		expect(axios.delete).toHaveBeenNthCalledWith(5, 'https://cloud.domain.com/remote.php/dav/files/test/quux.txt')
+
+		expect(eventBus.emit).toBeCalledTimes(5)
+		expect(eventBus.emit).toHaveBeenNthCalledWith(1, 'files:node:deleted', file1)
+		expect(eventBus.emit).toHaveBeenNthCalledWith(2, 'files:node:deleted', file2)
+		expect(eventBus.emit).toHaveBeenNthCalledWith(3, 'files:node:deleted', file3)
+		expect(eventBus.emit).toHaveBeenNthCalledWith(4, 'files:node:deleted', file4)
+		expect(eventBus.emit).toHaveBeenNthCalledWith(5, 'files:node:deleted', file5)
+	})
+
+	test('Delete action batch trashbin disabled', async () => {
+		jest.spyOn(axios, 'delete')
+		jest.spyOn(eventBus, 'emit')
+		jest.spyOn(capabilities, 'getCapabilities').mockImplementation(() => {
+			return {
+				files: {},
+			}
+		})
+
+		// Emulate the confirmation dialog to always confirm
+		const confirmMock = jest.fn().mockImplementation((a, b, c, resolve) => resolve(true))
+		window.OC = { dialogs: { confirmDestructive: confirmMock } }
+
+		const file1 = new File({
+			id: 1,
+			source: 'https://cloud.domain.com/remote.php/dav/files/test/foo.txt',
+			owner: 'test',
+			mime: 'text/plain',
+			permissions: Permission.READ | Permission.UPDATE | Permission.DELETE,
+		})
+
+		const file2 = new File({
+			id: 2,
+			source: 'https://cloud.domain.com/remote.php/dav/files/test/bar.txt',
+			owner: 'test',
+			mime: 'text/plain',
+			permissions: Permission.READ | Permission.UPDATE | Permission.DELETE,
+		})
+
+		const exec = await action.execBatch!([file1, file2], view, '/')
+
+		// Will trigger a confirmation dialog because trashbin app is disabled
+		expect(confirmMock).toBeCalledTimes(1)
+
+		expect(exec).toStrictEqual([true, true])
+		expect(axios.delete).toBeCalledTimes(2)
+		expect(axios.delete).toHaveBeenNthCalledWith(1, 'https://cloud.domain.com/remote.php/dav/files/test/foo.txt')
+		expect(axios.delete).toHaveBeenNthCalledWith(2, 'https://cloud.domain.com/remote.php/dav/files/test/bar.txt')
+
+		expect(eventBus.emit).toBeCalledTimes(2)
+		expect(eventBus.emit).toHaveBeenNthCalledWith(1, 'files:node:deleted', file1)
+		expect(eventBus.emit).toHaveBeenNthCalledWith(2, 'files:node:deleted', file2)
+	})
+
 	test('Delete fails', async () => {
 		jest.spyOn(axios, 'delete').mockImplementation(() => { throw new Error('Mock error') })
 		jest.spyOn(logger, 'error').mockImplementation(() => jest.fn())
+		jest.spyOn(eventBus, 'emit')
 
 		const file = new File({
 			id: 1,
@@ -261,5 +389,36 @@ describe('Delete action execute tests', () => {
 
 		expect(eventBus.emit).toBeCalledTimes(0)
 		expect(logger.error).toBeCalledTimes(1)
+	})
+
+	test('Delete is cancelled', async () => {
+		jest.spyOn(axios, 'delete')
+		jest.spyOn(eventBus, 'emit')
+		jest.spyOn(capabilities, 'getCapabilities').mockImplementation(() => {
+			return {
+				files: {},
+			}
+		})
+
+		// Emulate the confirmation dialog to always confirm
+		const confirmMock = jest.fn().mockImplementation((a, b, c, resolve) => resolve(false))
+		window.OC = { dialogs: { confirmDestructive: confirmMock } }
+
+		const file1 = new File({
+			id: 1,
+			source: 'https://cloud.domain.com/remote.php/dav/files/test/foo.txt',
+			owner: 'test',
+			mime: 'text/plain',
+			permissions: Permission.READ | Permission.UPDATE | Permission.DELETE,
+		})
+
+		const exec = await action.execBatch!([file1], view, '/')
+
+		expect(confirmMock).toBeCalledTimes(1)
+
+		expect(exec).toStrictEqual([null])
+		expect(axios.delete).toBeCalledTimes(0)
+
+		expect(eventBus.emit).toBeCalledTimes(0)
 	})
 })
