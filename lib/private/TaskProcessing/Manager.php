@@ -935,7 +935,7 @@ class Manager implements IManager {
 				$task->setEndedAt(time());
 				$error = 'The task was processed successfully but the provider\'s output doesn\'t pass validation against the task type\'s outputShape spec and/or the provider\'s own optionalOutputShape spec';
 				$task->setErrorMessage($error);
-				$this->logger->error($error, ['exception' => $e]);
+				$this->logger->error($error . ' Output was: ' . var_export($result, true), ['exception' => $e]);
 			} catch (NotPermittedException $e) {
 				$task->setProgress(1);
 				$task->setStatus(Task::STATUS_FAILED);
@@ -952,7 +952,11 @@ class Manager implements IManager {
 				$this->logger->error($error, ['exception' => $e]);
 			}
 		}
-		$taskEntity = \OC\TaskProcessing\Db\Task::fromPublicTask($task);
+		try {
+			$taskEntity = \OC\TaskProcessing\Db\Task::fromPublicTask($task);
+		} catch (\JsonException $e) {
+			throw new \OCP\TaskProcessing\Exception\Exception('The task was processed successfully but the provider\'s output could not be encoded as JSON for the database.', 0, $e);
+		}
 		try {
 			$this->taskMapper->update($taskEntity);
 			$this->runWebhook($task);
