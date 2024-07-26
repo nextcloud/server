@@ -4,7 +4,6 @@
  */
 import type { Entry, Folder, Node } from '@nextcloud/files'
 
-import { Permission } from '@nextcloud/files'
 import { translate as t } from '@nextcloud/l10n'
 import FileUploadSvg from '@mdi/svg/svg/file-upload.svg?raw'
 import Vue, { defineAsyncComponent } from 'vue'
@@ -21,12 +20,9 @@ export const entry = {
 	displayName: t('files_sharing', 'Create file request'),
 	iconSvgInline: FileUploadSvg,
 	order: 30,
-	enabled(context: Folder): boolean {
-		if ((context.permissions & Permission.SHARE) !== 0) {
-			// We need to have either link shares creation permissions
-			return sharingConfig.isPublicShareAllowed
-		}
-		return false
+	enabled(): boolean {
+		// We will check for the folder permission on the dialog
+		return sharingConfig.isPublicShareAllowed
 	},
 	async handler(context: Folder, content: Node[]) {
 		// Create document root
