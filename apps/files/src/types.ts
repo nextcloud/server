@@ -105,3 +105,18 @@ export interface TemplateFile {
 	ratio?: number
 	templates?: Record<string, unknown>[]
 }
+
+export type Capabilities = {
+	files: {
+		bigfilechunking: boolean
+		blacklisted_files: string[]
+		forbidden_filename_basenames: string[]
+		forbidden_filename_characters: string[]
+		forbidden_filename_extensions: string[]
+		forbidden_filenames: string[]
+		undelete: boolean
+		version_deletion: boolean
+		version_labeling: boolean
+		versioning: boolean
+	}
+}
