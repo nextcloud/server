@@ -9,7 +9,7 @@
 	<div id="app-navigation" role="navigation" tabindex="0">
 		<ul>
 			<li>
-				<a class="icon-user <?php if ($_['mode'] === 'user') {
+				<a class="help-list__link icon-user <?php if ($_['mode'] === 'user') {
 					p('active');
 				} ?>" <?php if ($_['mode'] === 'user') {
 					print_unescaped('aria-current="page"');
@@ -22,7 +22,7 @@
 			</li>
 		<?php if ($_['admin']) { ?>
 			<li>
-				<a class="icon-user-admin <?php if ($_['mode'] === 'admin') {
+				<a class="help-list__link icon-user-admin <?php if ($_['mode'] === 'admin') {
 					p('active');
 				} ?>" <?php if ($_['mode'] === 'admin') {
 					print_unescaped('aria-current="page"');
@@ -36,14 +36,14 @@
 		<?php } ?>
 
 			<li>
-				<a href="https://docs.nextcloud.com" class="icon-category-office" target="_blank" rel="noreferrer noopener">
+				<a href="https://docs.nextcloud.com" class="help-list__link icon-category-office" target="_blank" rel="noreferrer noopener">
 					<span class="help-list__text">
 						<?php p($l->t('Documentation')); ?> ↗
 					</span>
 				</a>
 			</li>
 			<li>
-				<a href="https://help.nextcloud.com" class="icon-comment" target="_blank" rel="noreferrer noopener">
+				<a href="https://help.nextcloud.com" class="help-list__link icon-comment" target="_blank" rel="noreferrer noopener">
 					<span class="help-list__text">
 						<?php p($l->t('Forum')); ?> ↗
 					</span>
