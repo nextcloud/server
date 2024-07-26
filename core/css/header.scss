@@ -204,7 +204,7 @@
 /* TODO: move into minimal css file for public shared template */
 /* only used for public share pages now as we have the app icons when logged in */
 .header-appname {
-	color: var(--color-primary-element-text);
+	color: var(--color-background-plain-text);
 	font-size: 16px;
 	font-weight: bold;
 	margin: 0;
@@ -228,7 +228,7 @@
 }
 
 .header-shared-by  {
-	color: var(--color-primary-element-text);
+	color: var(--color-background-plain-text);
 	position: relative;
 	font-weight: 300;
 	font-size: 11px;
