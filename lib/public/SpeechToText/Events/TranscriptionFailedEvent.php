@@ -15,6 +15,7 @@ use OCP\Files\File;
 /**
  * This Event is emitted if a transcription of a media file using a Speech-To-Text provider failed
  * @since 27.0.0
+ * @deprecated 30.0.0
  */
 class TranscriptionFailedEvent extends AbstractTranscriptionEvent {
 	/**

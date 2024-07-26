@@ -20,6 +20,7 @@ use OCP\Image;
  * This is a text to image task
  *
  * @since 28.0.0
+ * @deprecated 30.0.0
  */
 final class Task implements \JsonSerializable {
 	protected ?int $id = null;

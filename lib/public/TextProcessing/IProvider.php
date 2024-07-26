@@ -17,6 +17,7 @@ use RuntimeException;
  * implement a text processing provider
  * @psalm-template-covariant  T of ITaskType
  * @since 27.1.0
+ * @deprecated 30.0.0
  */
 interface IProvider {
 	/**
