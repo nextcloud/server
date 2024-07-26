@@ -3,6 +3,10 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
+import type { ShareType } from '@nextcloud/sharing'
+import type { ShareAttribute } from '../sharing'
+import { isFileRequest } from '../services/SharingService'
+
 export default class Share {
 
 	_share
@@ -42,8 +46,6 @@ export default class Share {
 	 * state and make the whole class reactive
 	 *
 	 * @return {object} the share raw state
-	 * @readonly
-	 * @memberof Sidebar
 	 */
 	get state() {
 		return this._share
@@ -51,104 +53,69 @@ export default class Share {
 
 	/**
 	 * get the share id
-	 *
-	 * @return {number}
-	 * @readonly
-	 * @memberof Share
 	 */
-	get id() {
+	get id(): number {
 		return this._share.id
 	}
 
 	/**
 	 * Get the share type
-	 *
-	 * @return {number}
-	 * @readonly
-	 * @memberof Share
 	 */
-	get type() {
+	get type(): ShareType {
 		return this._share.share_type
 	}
 
 	/**
 	 * Get the share permissions
-	 * See OC.PERMISSION_* variables
-	 *
-	 * @return {number}
-	 * @readonly
-	 * @memberof Share
+	 * See window.OC.PERMISSION_* variables
 	 */
-	get permissions() {
+	get permissions(): number {
 		return this._share.permissions
 	}
 
 	/**
 	 * Get the share attributes
-	 *
-	 * @return {Array}
-	 * @readonly
-	 * @memberof Share
 	 */
-	get attributes() {
+	get attributes(): Array<ShareAttribute> {
 		return this._share.attributes
 	}
 
 	/**
 	 * Set the share permissions
-	 * See OC.PERMISSION_* variables
-	 *
-	 * @param {number} permissions valid permission, See OC.PERMISSION_* variables
-	 * @memberof Share
+	 * See window.OC.PERMISSION_* variables
 	 */
-	set permissions(permissions) {
+	set permissions(permissions: number) {
 		this._share.permissions = permissions
 	}
 
 	// SHARE OWNER --------------------------------------------------
 	/**
 	 * Get the share owner uid
-	 *
-	 * @return {string}
-	 * @readonly
-	 * @memberof Share
 	 */
-	get owner() {
+	get owner(): string {
 		return this._share.uid_owner
 	}
 
 	/**
 	 * Get the share owner's display name
-	 *
-	 * @return {string}
-	 * @readonly
-	 * @memberof Share
 	 */
-	get ownerDisplayName() {
+	get ownerDisplayName(): string {
 		return this._share.displayname_owner
 	}
 
 	// SHARED WITH --------------------------------------------------
 	/**
 	 * Get the share with entity uid
-	 *
-	 * @return {string}
-	 * @readonly
-	 * @memberof Share
 	 */
-	get shareWith() {
+	get shareWith(): string {
 		return this._share.share_with
 	}
 
 	/**
 	 * Get the share with entity display name
 	 * fallback to its uid if none
-	 *
-	 * @return {string}
-	 * @readonly
-	 * @memberof Share
 	 */
-	get shareWithDisplayName() {
+	get shareWithDisplayName(): string {
 		return this._share.share_with_displayname
 			|| this._share.share_with
 	}
@@ -156,59 +123,39 @@ export default class Share {
 	/**
 	 * Unique display name in case of multiple
 	 * duplicates results with the same name.
-	 *
-	 * @return {string}
-	 * @readonly
-	 * @memberof Share
 	 */
-	get shareWithDisplayNameUnique() {
+	get shareWithDisplayNameUnique(): string {
 		return this._share.share_with_displayname_unique
 			|| this._share.share_with
 	}
 
 	/**
 	 * Get the share with entity link
-	 *
-	 * @return {string}
-	 * @readonly
-	 * @memberof Share
 	 */
-	get shareWithLink() {
+	get shareWithLink(): string {
 		return this._share.share_with_link
 	}
 
 	/**
 	 * Get the share with avatar if any
-	 *
-	 * @return {string}
-	 * @readonly
-	 * @memberof Share
 	 */
-	get shareWithAvatar() {
+	get shareWithAvatar(): string {
 		return this._share.share_with_avatar
 	}
 
 	// SHARED FILE OR FOLDER OWNER ----------------------------------
 	/**
 	 * Get the shared item owner uid
-	 *
-	 * @return {string}
-	 * @readonly
-	 * @memberof Share
 	 */
-	get uidFileOwner() {
+	get uidFileOwner(): string {
 		return this._share.uid_file_owner
 	}
 
 	/**
 	 * Get the shared item display name
 	 * fallback to its uid if none
-	 *
-	 * @return {string}
-	 * @readonly
-	 * @memberof Share
 	 */
-	get displaynameFileOwner() {
+	get displaynameFileOwner(): string {
 		return this._share.displayname_file_owner
 			|| this._share.uid_file_owner
 	}
@@ -216,230 +163,159 @@ export default class Share {
 	// TIME DATA ----------------------------------------------------
 	/**
 	 * Get the share creation timestamp
-	 *
-	 * @return {number}
-	 * @readonly
-	 * @memberof Share
 	 */
-	get createdTime() {
+	get createdTime(): number {
 		return this._share.stime
 	}
 
 	/**
 	 * Get the expiration date
-	 *
 	 * @return {string} date with YYYY-MM-DD format
-	 * @readonly
-	 * @memberof Share
 	 */
-	get expireDate() {
+	get expireDate(): string {
 		return this._share.expiration
 	}
 
 	/**
 	 * Set the expiration date
-	 *
 	 * @param {string} date the share expiration date with YYYY-MM-DD format
-	 * @memberof Share
 	 */
-	set expireDate(date) {
+	set expireDate(date: string) {
 		this._share.expiration = date
 	}
 
 	// EXTRA DATA ---------------------------------------------------
 	/**
 	 * Get the public share token
-	 *
-	 * @return {string} the token
-	 * @readonly
-	 * @memberof Share
 	 */
-	get token() {
+	get token(): string {
 		return this._share.token
 	}
 
 	/**
 	 * Get the share note if any
-	 *
-	 * @return {string}
-	 * @readonly
-	 * @memberof Share
 	 */
-	get note() {
+	get note(): string {
 		return this._share.note
 	}
 
 	/**
 	 * Set the share note if any
-	 *
-	 * @param {string} note the note
-	 * @memberof Share
 	 */
-	set note(note) {
+	set note(note: string) {
 		this._share.note = note
 	}
 
 	/**
 	 * Get the share label if any
 	 * Should only exist on link shares
-	 *
-	 * @return {string}
-	 * @readonly
-	 * @memberof Share
 	 */
-	get label() {
+	get label(): string {
 		return this._share.label ?? ''
 	}
 
 	/**
 	 * Set the share label if any
 	 * Should only be set on link shares
-	 *
-	 * @param {string} label the label
-	 * @memberof Share
 	 */
-	set label(label) {
+	set label(label: string) {
 		this._share.label = label
 	}
 
 	/**
 	 * Have a mail been sent
-	 *
-	 * @return {boolean}
-	 * @readonly
-	 * @memberof Share
 	 */
-	get mailSend() {
+	get mailSend(): boolean {
 		return this._share.mail_send === true
 	}
 
 	/**
 	 * Hide the download button on public page
-	 *
-	 * @return {boolean}
-	 * @readonly
-	 * @memberof Share
 	 */
-	get hideDownload() {
+	get hideDownload(): boolean {
 		return this._share.hide_download === true
 	}
 
 	/**
 	 * Hide the download button on public page
-	 *
-	 * @param {boolean} state hide the button ?
-	 * @memberof Share
 	 */
-	set hideDownload(state) {
+	set hideDownload(state: boolean) {
 		this._share.hide_download = state === true
 	}
 
 	/**
 	 * Password protection of the share
-	 *
-	 * @return {string}
-	 * @readonly
-	 * @memberof Share
 	 */
-	get password() {
+	get password():string {
 		return this._share.password
 	}
 
 	/**
 	 * Password protection of the share
-	 *
-	 * @param {string} password the share password
-	 * @memberof Share
 	 */
-	set password(password) {
+	set password(password: string) {
 		this._share.password = password
 	}
 
 	/**
 	 * Password expiration time
-	 *
-	 * @return {string}
-	 * @readonly
-	 * @memberof Share
+	 * @return {string} date with YYYY-MM-DD format
 	 */
-	get passwordExpirationTime() {
+	get passwordExpirationTime(): string {
 		return this._share.password_expiration_time
 	}
 
 	/**
 	 * Password expiration time
-	 *
-	 * @param {string} password expiration time
-	 * @memberof Share
+	 * @param {string} passwordExpirationTime date with YYYY-MM-DD format
 	 */
-	set passwordExpirationTime(passwordExpirationTime) {
+	set passwordExpirationTime(passwordExpirationTime: string) {
 		this._share.password_expiration_time = passwordExpirationTime
 	}
 
 	/**
 	 * Password protection by Talk of the share
-	 *
-	 * @return {boolean}
-	 * @readonly
-	 * @memberof Share
 	 */
-	get sendPasswordByTalk() {
+	get sendPasswordByTalk(): boolean {
 		return this._share.send_password_by_talk
 	}
 
 	/**
 	 * Password protection by Talk of the share
 	 *
-	 * @param {boolean} sendPasswordByTalk whether to send the password by Talk
-	 *        or not
-	 * @memberof Share
+	 * @param {boolean} sendPasswordByTalk whether to send the password by Talk or not
 	 */
-	set sendPasswordByTalk(sendPasswordByTalk) {
+	set sendPasswordByTalk(sendPasswordByTalk: boolean) {
 		this._share.send_password_by_talk = sendPasswordByTalk
 	}
 
 	// SHARED ITEM DATA ---------------------------------------------
 	/**
 	 * Get the shared item absolute full path
-	 *
-	 * @return {string}
-	 * @readonly
-	 * @memberof Share
 	 */
-	get path() {
+	get path(): string {
 		return this._share.path
 	}
 
 	/**
 	 * Return the item type: file or folder
-	 *
-	 * @return {string} 'folder' or 'file'
-	 * @readonly
-	 * @memberof Share
+	 * @return {string} 'folder' | 'file'
 	 */
-	get itemType() {
+	get itemType(): string {
 		return this._share.item_type
 	}
 
 	/**
 	 * Get the shared item mimetype
-	 *
-	 * @return {string}
-	 * @readonly
-	 * @memberof Share
 	 */
-	get mimetype() {
+	get mimetype(): string {
 		return this._share.mimetype
 	}
 
 	/**
 	 * Get the shared item id
-	 *
-	 * @return {number}
-	 * @readonly
-	 * @memberof Share
-	 */
-	get fileSource() {
+		 */
+	get fileSource(): number {
 		return this._share.file_source
 	}
 
@@ -447,23 +323,15 @@ export default class Share {
 	 * Get the target path on the receiving end
 	 * e.g the file /xxx/aaa will be shared in
 	 * the receiving root as /aaa, the fileTarget is /aaa
-	 *
-	 * @return {string}
-	 * @readonly
-	 * @memberof Share
 	 */
-	get fileTarget() {
+	get fileTarget(): string {
 		return this._share.file_target
 	}
 
 	/**
 	 * Get the parent folder id if any
-	 *
-	 * @return {number}
-	 * @readonly
-	 * @memberof Share
 	 */
-	get fileParent() {
+	get fileParent(): number {
 		return this._share.file_parent
 	}
 
@@ -471,67 +339,43 @@ export default class Share {
 
 	/**
 	 * Does this share have READ permissions
-	 *
-	 * @return {boolean}
-	 * @readonly
-	 * @memberof Share
 	 */
-	get hasReadPermission() {
-		return !!((this.permissions & OC.PERMISSION_READ))
+	get hasReadPermission(): boolean {
+		return !!((this.permissions & window.OC.PERMISSION_READ))
 	}
 
 	/**
 	 * Does this share have CREATE permissions
-	 *
-	 * @return {boolean}
-	 * @readonly
-	 * @memberof Share
 	 */
-	get hasCreatePermission() {
-		return !!((this.permissions & OC.PERMISSION_CREATE))
+	get hasCreatePermission(): boolean {
+		return !!((this.permissions & window.OC.PERMISSION_CREATE))
 	}
 
 	/**
 	 * Does this share have DELETE permissions
-	 *
-	 * @return {boolean}
-	 * @readonly
-	 * @memberof Share
 	 */
-	get hasDeletePermission() {
-		return !!((this.permissions & OC.PERMISSION_DELETE))
+	get hasDeletePermission(): boolean {
+		return !!((this.permissions & window.OC.PERMISSION_DELETE))
 	}
 
 	/**
 	 * Does this share have UPDATE permissions
-	 *
-	 * @return {boolean}
-	 * @readonly
-	 * @memberof Share
 	 */
-	get hasUpdatePermission() {
-		return !!((this.permissions & OC.PERMISSION_UPDATE))
+	get hasUpdatePermission(): boolean {
+		return !!((this.permissions & window.OC.PERMISSION_UPDATE))
 	}
 
 	/**
 	 * Does this share have SHARE permissions
-	 *
-	 * @return {boolean}
-	 * @readonly
-	 * @memberof Share
 	 */
-	get hasSharePermission() {
-		return !!((this.permissions & OC.PERMISSION_SHARE))
+	get hasSharePermission(): boolean {
+		return !!((this.permissions & window.OC.PERMISSION_SHARE))
 	}
 
 	/**
 	 * Does this share have download permissions
-	 *
-	 * @return {boolean}
-	 * @readonly
-	 * @memberof Share
 	 */
-	get hasDownloadPermission() {
+	get hasDownloadPermission(): boolean {
 		const hasDisabledDownload = (attribute) => {
 			return attribute.scope === 'permissions' && attribute.key === 'download' && attribute.value === false
 		}
@@ -540,16 +384,9 @@ export default class Share {
 
 	/**
 	 * Is this mail share a file request ?
-	 *
-	 * @return {boolean}
-	 * @readonly
-	 * @memberof Share
 	 */
-	get isFileRequest() {
-		const isFileRequest = (attribute) => {
-			return attribute.scope === 'fileRequest' && attribute.key === 'enabled' && attribute.value === true
-		}
-		return this.attributes.some(isFileRequest)
+	get isFileRequest(): boolean {
+		return isFileRequest(JSON.stringify(this.attributes))
 	}
 
 	set hasDownloadPermission(enabled) {
@@ -580,45 +417,29 @@ export default class Share {
 	// ! meaning the permissions for the recipient
 	/**
 	 * Can the current user EDIT this share ?
-	 *
-	 * @return {boolean}
-	 * @readonly
-	 * @memberof Share
 	 */
-	get canEdit() {
+	get canEdit(): boolean {
 		return this._share.can_edit === true
 	}
 
 	/**
 	 * Can the current user DELETE this share ?
-	 *
-	 * @return {boolean}
-	 * @readonly
-	 * @memberof Share
 	 */
-	get canDelete() {
+	get canDelete(): boolean {
 		return this._share.can_delete === true
 	}
 
 	/**
 	 * Top level accessible shared folder fileid for the current user
-	 *
-	 * @return {string}
-	 * @readonly
-	 * @memberof Share
 	 */
-	get viaFileid() {
+	get viaFileid(): string {
 		return this._share.via_fileid
 	}
 
 	/**
 	 * Top level accessible shared folder path for the current user
-	 *
-	 * @return {string}
-	 * @readonly
-	 * @memberof Share
 	 */
-	get viaPath() {
+	get viaPath(): string {
 		return this._share.via_path
 	}
 
@@ -628,15 +449,15 @@ export default class Share {
 		return this._share.parent
 	}
 
-	get storageId() {
+	get storageId(): string {
 		return this._share.storage_id
 	}
 
-	get storage() {
+	get storage(): number {
 		return this._share.storage
 	}
 
-	get itemSource() {
+	get itemSource(): number {
 		return this._share.item_source
 	}
 

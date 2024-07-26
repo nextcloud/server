@@ -60,7 +60,7 @@
 
 <script lang="ts">
 import type { PropType } from 'vue'
-import Share from '../../models/Share'
+import Share from '../../models/Share.ts'
 
 import { defineComponent } from 'vue'
 import { generateUrl, getBaseUrl } from '@nextcloud/router'

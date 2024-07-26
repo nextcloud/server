@@ -2,9 +2,12 @@
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import { generateUrl } from '@nextcloud/router'
+import type { ShareAttribute } from '../../../files_sharing/src/sharing'
+
 import { FileAction, Permission, Node, FileType, View } from '@nextcloud/files'
+import { generateUrl } from '@nextcloud/router'
 import { translate as t } from '@nextcloud/l10n'
+
 import ArrowDownSvg from '@mdi/svg/svg/arrow-down.svg?raw'
 
 const triggerDownload = function(url: string) {
@@ -31,7 +34,7 @@ const isDownloadable = function(node: Node) {
 
 	// If the mount type is a share, ensure it got download permissions.
 	if (node.attributes['mount-type'] === 'shared') {
-		const shareAttributes = JSON.parse(node.attributes['share-attributes'] ?? 'null')
+		const shareAttributes = JSON.parse(node.attributes['share-attributes'] ?? '[]') as Array<ShareAttribute>
 		const downloadAttribute = shareAttributes?.find?.((attribute: { scope: string; key: string }) => attribute.scope === 'permissions' && attribute.key === 'download')
 		if (downloadAttribute !== undefined && downloadAttribute.value === false) {
 			return false

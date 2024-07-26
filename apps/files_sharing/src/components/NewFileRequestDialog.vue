@@ -143,7 +143,7 @@ import FileRequestDatePassword from './NewFileRequestDialog/NewFileRequestDialog
 import FileRequestFinish from './NewFileRequestDialog/NewFileRequestDialogFinish.vue'
 import FileRequestIntro from './NewFileRequestDialog/NewFileRequestDialogIntro.vue'
 import logger from '../services/logger'
-import Share from '../models/Share'
+import Share from '../models/Share.ts'
 
 enum STEP {
 	FIRST = 0,

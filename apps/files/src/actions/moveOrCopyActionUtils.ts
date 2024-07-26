@@ -4,6 +4,8 @@
  */
 
 import type { Folder, Node } from '@nextcloud/files'
+import type { ShareAttribute } from '../../../files_sharing/src/sharing'
+
 import { Permission } from '@nextcloud/files'
 import PQueue from 'p-queue'
 
@@ -21,12 +23,6 @@ export const getQueue = () => {
 		queue = new PQueue({ concurrency: MAX_CONCURRENCY })
 	}
 	return queue
-}
-
-type ShareAttribute = {
-	value: boolean|string|number|null|object|Array<unknown>
-	key: string
-	scope: string
 }
 
 export enum MoveCopyAction {
