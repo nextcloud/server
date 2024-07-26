@@ -158,7 +158,7 @@ class ThemingDefaults extends \OC_Defaults {
 			}
 		}
 		if ($legalLinks !== '') {
-			$footer .= '<br/>' . $legalLinks;
+			$footer .= '<br/><span class="footer__legal-links">' . $legalLinks . '</span>';
 		}
 
 		return $footer;
