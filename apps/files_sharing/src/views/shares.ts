@@ -10,9 +10,10 @@ import AccountGroupSvg from '@mdi/svg/svg/account-group.svg?raw'
 import AccountPlusSvg from '@mdi/svg/svg/account-plus.svg?raw'
 import AccountSvg from '@mdi/svg/svg/account.svg?raw'
 import DeleteSvg from '@mdi/svg/svg/delete.svg?raw'
+import FileUploadSvg from '@mdi/svg/svg/file-upload.svg?raw'
 import LinkSvg from '@mdi/svg/svg/link.svg?raw'
 
-import { getContents } from '../services/SharingService'
+import { getContents, isFileRequest } from '../services/SharingService'
 
 export const sharesViewId = 'shareoverview'
 export const sharedWithYouViewId = 'sharingin'
@@ -20,6 +21,7 @@ export const sharedWithOthersViewId = 'sharingout'
 export const sharingByLinksViewId = 'sharinglinks'
 export const deletedSharesViewId = 'deletedshares'
 export const pendingSharesViewId = 'pendingshares'
+export const fileRequestViewId = 'filerequest'
 
 export default () => {
 	const Navigation = getNavigation()
@@ -91,6 +93,29 @@ export default () => {
 	}))
 
 	Navigation.register(new View({
+		id: fileRequestViewId,
+		name: t('files_sharing', 'File requests'),
+		caption: t('files_sharing', 'List of file requests.'),
+
+		emptyTitle: t('files_sharing', 'No file requests'),
+		emptyCaption: t('files_sharing', 'File requests you have created will show up here'),
+
+		icon: FileUploadSvg,
+		order: 4,
+		parent: sharesViewId,
+
+		columns: [],
+
+		getContents: () => getContents(false, true, false, false, [ShareType.Link, ShareType.Email])
+			.then(({ folder, contents }) => {
+				return {
+					folder,
+					contents: contents.filter((node) => isFileRequest(node.attributes?.['share-attributes'] || [])),
+				}
+			}),
+	}))
+
+	Navigation.register(new View({
 		id: deletedSharesViewId,
 		name: t('files_sharing', 'Deleted shares'),
 		caption: t('files_sharing', 'List of shares you left.'),
@@ -99,7 +124,7 @@ export default () => {
 		emptyCaption: t('files_sharing', 'Shares you have left will show up here'),
 
 		icon: DeleteSvg,
-		order: 4,
+		order: 5,
 		parent: sharesViewId,
 
 		columns: [],
@@ -116,7 +141,7 @@ export default () => {
 		emptyCaption: t('files_sharing', 'Shares you have received but not approved will show up here'),
 
 		icon: AccountClockSvg,
-		order: 5,
+		order: 6,
 		parent: sharesViewId,
 
 		columns: [],

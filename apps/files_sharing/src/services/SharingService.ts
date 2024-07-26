@@ -7,6 +7,7 @@
 
 import type { AxiosPromise } from '@nextcloud/axios'
 import type { OCSResponse } from '@nextcloud/typings/ocs'
+import type { ShareAttribute } from '../sharing'
 
 import { Folder, File, type ContentsWithRoot, Permission } from '@nextcloud/files'
 import { generateOcsUrl, generateRemoteUrl } from '@nextcloud/router'
@@ -73,6 +74,7 @@ const ocsEntryToNode = async function(ocsEntry: any): Promise<Folder | File | nu
 				'owner-id': ocsEntry?.uid_owner,
 				'owner-display-name': ocsEntry?.displayname_owner,
 				'share-types': ocsEntry?.share_type,
+				'share-attributes': ocsEntry?.attributes || '[]',
 				favorite: ocsEntry?.tags?.includes((window.OC as Nextcloud.v28.OC & { TAG_FAVORITE: string }).TAG_FAVORITE) ? 1 : 0,
 			},
 		})
@@ -139,6 +141,24 @@ const getDeletedShares = function(): AxiosPromise<OCSResponse<any>> {
 			include_tags: true,
 		},
 	})
+}
+
+/**
+ * Check if a file request is enabled
+ * @param attributes the share attributes json-encoded array
+ */
+export const isFileRequest = (attributes = '[]'): boolean => {
+	const isFileRequest = (attribute) => {
+		return attribute.scope === 'fileRequest' && attribute.key === 'enabled' && attribute.value === true
+	}
+
+	try {
+		const attributesArray = JSON.parse(attributes) as Array<ShareAttribute>
+		return attributesArray.some(isFileRequest)
+	} catch (error) {
+		logger.error('Error while parsing share attributes', { error })
+		return false
+	}
 }
 
 /**

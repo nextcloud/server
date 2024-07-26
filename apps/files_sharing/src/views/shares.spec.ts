@@ -37,12 +37,12 @@ describe('Sharing views definition', () => {
 		const shareOverviewView = Navigation.views.find(view => view.id === 'shareoverview') as View
 		const sharesChildViews = Navigation.views.filter(view => view.parent === 'shareoverview') as View[]
 
-		expect(Navigation.register).toHaveBeenCalledTimes(6)
+		expect(Navigation.register).toHaveBeenCalledTimes(7)
 
 		// one main view and no children
-		expect(Navigation.views.length).toBe(6)
+		expect(Navigation.views.length).toBe(7)
 		expect(shareOverviewView).toBeDefined()
-		expect(sharesChildViews.length).toBe(5)
+		expect(sharesChildViews.length).toBe(6)
 
 		expect(shareOverviewView?.id).toBe('shareoverview')
 		expect(shareOverviewView?.name).toBe('Shares')
@@ -56,6 +56,7 @@ describe('Sharing views definition', () => {
 			{ id: 'sharingin', name: 'Shared with you' },
 			{ id: 'sharingout', name: 'Shared with others' },
 			{ id: 'sharinglinks', name: 'Shared by link' },
+			{ id: 'filerequest', name: 'File requests' },
 			{ id: 'deletedshares', name: 'Deleted shares' },
 			{ id: 'pendingshares', name: 'Pending shares' },
 		]
@@ -103,7 +104,7 @@ describe('Sharing views contents', () => {
 		})
 
 		registerSharingViews()
-		expect(Navigation.views.length).toBe(6)
+		expect(Navigation.views.length).toBe(7)
 		Navigation.views.forEach(async (view: View) => {
 			const content = await view.getContents('/')
 			expect(content.contents).toStrictEqual([])
