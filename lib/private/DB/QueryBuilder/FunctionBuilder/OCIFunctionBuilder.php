@@ -12,6 +12,9 @@ use OCP\DB\QueryBuilder\IQueryFunction;
 
 class OCIFunctionBuilder extends FunctionBuilder {
 	public function md5($input): IQueryFunction {
+		if (version_compare($this->connection->getServerVersion(), '20', '>=')) {
+			return new QueryFunction('LOWER(STANDARD_HASH(' . $this->helper->quoteColumnName($input) . ", 'MD5'))");
+		}
 		return new QueryFunction('LOWER(DBMS_OBFUSCATION_TOOLKIT.md5 (input => UTL_RAW.cast_to_raw(' . $this->helper->quoteColumnName($input) .')))');
 	}
 

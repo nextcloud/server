@@ -56,10 +56,10 @@ jobs:
     strategy:
       matrix:
         php-versions: ['8.1']
-        mariadb-versions: ['10.3', '10.5', '10.6', '10.11']
+        mariadb-versions: ['10.3', '10.6', '10.11', '11.4']
         include:
           - php-versions: '8.3'
-            mariadb-versions: '10.6'
+            mariadb-versions: '10.11'
             coverage: ${{ github.event_name != 'pull_request' }}
 
     name: MariaDB ${{ matrix.mariadb-versions }} (PHP ${{ matrix.php-versions }}) - database tests
@@ -80,16 +80,16 @@ jobs:
           MYSQL_USER: oc_autotest
           MYSQL_PASSWORD: nextcloud
           MYSQL_DATABASE: oc_autotest
-        options: --health-cmd="mysqladmin ping" --health-interval 5s --health-timeout 2s --health-retries 5
+        options: --health-cmd="${{ matrix.mariadb-versions <= 10.4 && 'mysqladmin' || 'mariadb-admin'}} ping" --health-interval 5s --health-timeout 2s --health-retries 5
 
     steps:
       - name: Checkout server
-        uses: actions/checkout@a5ac7e51b41094c92402da3b24376905380afc29 # v4.1.6
+        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
         with:
           submodules: true
 
       - name: Set up php ${{ matrix.php-versions }}
-        uses: shivammathur/setup-php@c665c7a15b5295c2488ac8a87af9cb806cd72198 # v2
+        uses: shivammathur/setup-php@2e947f1f6932d141d076ca441d0e1e881775e95b #v2.31.0
         with:
           php-version: ${{ matrix.php-versions }}
           # https://docs.nextcloud.com/server/stable/admin_manual/installation/source_installation.html#prerequisites-for-manual-installation

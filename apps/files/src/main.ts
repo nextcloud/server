@@ -19,9 +19,10 @@ __webpack_nonce__ = btoa(getRequestToken())
 
 declare global {
 	interface Window {
-		OC: any;
-		OCA: any;
-		OCP: any;
+		OC: Nextcloud.v29.OC
+		OCP: Nextcloud.v29.OCP
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
+		OCA: Record<string, any>
 	}
 }
 
@@ -37,7 +38,7 @@ Object.assign(window.OCP.Files, { Router })
 Vue.use(PiniaVuePlugin)
 
 // Init Navigation Service
-// This only works with Vue 2 - with Vue 3 this will not modify the source but return just a oberserver
+// This only works with Vue 2 - with Vue 3 this will not modify the source but return just a observer
 const Navigation = Vue.observable(getNavigation())
 Vue.prototype.$navigation = Navigation
 

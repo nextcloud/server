@@ -14,7 +14,7 @@ use OCP\IConfig;
 class DashboardService {
 	public function __construct(
 		private IConfig $config,
-		private String $userId,
+		private ?string $userId,
 	) {
 
 	}

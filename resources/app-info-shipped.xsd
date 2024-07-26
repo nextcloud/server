@@ -575,6 +575,8 @@
                         maxOccurs="1"/>
             <xs:element name="architecture" type="architecture" minOccurs="0"
                         maxOccurs="unbounded"/>
+            <xs:element name="backend" type="backend" minOccurs="0"
+                        maxOccurs="unbounded"/>
         </xs:sequence>
     </xs:complexType>
 
@@ -757,4 +759,9 @@
         </xs:restriction>
     </xs:simpleType>
 
+    <xs:simpleType name="backend">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="caldav"/>
+        </xs:restriction>
+    </xs:simpleType>
 </xs:schema>

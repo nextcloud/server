@@ -3,13 +3,12 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 // eslint-disable-next-line n/no-extraneous-import
-import type { AxiosResponse } from 'axios'
-
-import axios from '@nextcloud/axios'
+import axios, { type AxiosResponse } from 'axios'
 import { addCommands, User } from '@nextcloud/cypress'
 import { basename } from 'path'
 
 // Add custom commands
+import '@testing-library/cypress/add-commands'
 import 'cypress-if'
 import 'cypress-wait-until'
 addCommands()

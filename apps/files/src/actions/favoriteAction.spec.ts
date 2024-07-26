@@ -5,9 +5,9 @@
 import { action } from './favoriteAction'
 import { expect } from '@jest/globals'
 import { File, Permission, View, FileAction } from '@nextcloud/files'
+import axios from '@nextcloud/axios'
 import eventBus from '@nextcloud/event-bus'
 import * as favoriteAction from './favoriteAction'
-import axios from '@nextcloud/axios'
 import logger from '../logger'
 
 const view = {
@@ -20,7 +20,8 @@ const favoriteView = {
 	name: 'Favorites',
 } as View
 
-global.window.OC = {
+window.OC = {
+	...window.OC,
 	TAG_FAVORITE: '_$!<Favorite>!$_',
 }
 

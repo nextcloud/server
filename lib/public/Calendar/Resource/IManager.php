@@ -10,7 +10,6 @@ namespace OCP\Calendar\Resource;
 
 /**
  * @since 14.0.0
- * @deprecated 24.0.0
  */
 interface IManager {
 	/**
@@ -55,4 +54,11 @@ interface IManager {
 	 * @deprecated 24.0.0
 	 */
 	public function clear();
+
+	/**
+	 * Update all resources from all backends right now.
+	 *
+	 * @since 30.0.0
+	 */
+	public function update(): void;
 }

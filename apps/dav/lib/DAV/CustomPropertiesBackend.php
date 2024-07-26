@@ -8,12 +8,13 @@
 namespace OCA\DAV\DAV;
 
 use Exception;
+use OCA\DAV\CalDAV\Calendar;
+use OCA\DAV\CalDAV\DefaultCalendarValidator;
 use OCA\DAV\Connector\Sabre\Directory;
 use OCA\DAV\Connector\Sabre\FilesPlugin;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 use OCP\IUser;
-use Sabre\CalDAV\ICalendar;
 use Sabre\DAV\Exception as DavException;
 use Sabre\DAV\PropertyStorage\Backend\BackendInterface;
 use Sabre\DAV\PropFind;
@@ -135,6 +136,7 @@ class CustomPropertiesBackend implements BackendInterface {
 
 	private Server $server;
 	private XmlService $xmlService;
+	private DefaultCalendarValidator $defaultCalendarValidator;
 
 	/**
 	 * @param Tree $tree node tree
@@ -146,6 +148,7 @@ class CustomPropertiesBackend implements BackendInterface {
 		Tree $tree,
 		IDBConnection $connection,
 		IUser $user,
+		DefaultCalendarValidator $defaultCalendarValidator,
 	) {
 		$this->server = $server;
 		$this->tree = $tree;
@@ -156,6 +159,7 @@ class CustomPropertiesBackend implements BackendInterface {
 			$this->xmlService->elementMap,
 			self::COMPLEX_XML_ELEMENT_MAP,
 		);
+		$this->defaultCalendarValidator = $defaultCalendarValidator;
 	}
 
 	/**
@@ -319,10 +323,11 @@ class CustomPropertiesBackend implements BackendInterface {
 
 				// $path is the principal here as this prop is only set on principals
 				$node = $this->tree->getNodeForPath($href);
-				if (!($node instanceof ICalendar) || $node->getOwner() !== $path) {
+				if (!($node instanceof Calendar) || $node->getOwner() !== $path) {
 					throw new DavException('No such calendar');
 				}
 
+				$this->defaultCalendarValidator->validateScheduleDefaultCalendar($node);
 				break;
 		}
 	}
@@ -411,7 +416,7 @@ class CustomPropertiesBackend implements BackendInterface {
 			// request only a subset
 			$sql .= ' AND `propertyname` in (?)';
 			$whereValues[] = $requestedProperties;
-			$whereTypes[] = \Doctrine\DBAL\Connection::PARAM_STR_ARRAY;
+			$whereTypes[] = IQueryBuilder::PARAM_STR_ARRAY;
 		}
 
 		$result = $this->connection->executeQuery(

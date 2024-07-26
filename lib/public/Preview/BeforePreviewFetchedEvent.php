@@ -11,7 +11,12 @@ use OCP\Files\Node;
 use OCP\IPreview;
 
 /**
+ * Emitted before a file preview is being fetched.
+ *
+ * It can be used to block preview rendering by throwing a ``OCP\Files\NotFoundException``
+ *
  * @since 25.0.1
+ * @since 28.0.0 the constructor arguments ``$width``, ``$height``, ``$crop`` and ``$mode`` are no longer nullable.
  */
 class BeforePreviewFetchedEvent extends \OCP\EventDispatcher\Event {
 	/**

@@ -48,9 +48,11 @@ interface ICloudIdManager {
 	 * remove scheme/protocol from an url
 	 *
 	 * @param string $url
+	 * @param bool $httpsOnly
 	 *
 	 * @return string
 	 * @since 28.0.0
+	 * @since 30.0.0 - Optional parameter $httpsOnly was added
 	 */
-	public function removeProtocolFromUrl(string $url): string;
+	public function removeProtocolFromUrl(string $url, bool $httpsOnly = false): string;
 }

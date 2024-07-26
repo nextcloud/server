@@ -29,7 +29,7 @@ class UserSearch implements IProvider {
 	}
 
 	public function getOrder(string $route, array $routeParameters): ?int {
-		return $route === 'settings.Users.usersList'
+		return str_starts_with($route, 'settings.Users.usersList')
 			? 300
 			: null;
 	}

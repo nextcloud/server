@@ -16,6 +16,7 @@ use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\IUserSession;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 
@@ -40,9 +41,10 @@ class Application extends App implements IBootstrap {
 	): void {
 		/** @var WebhookListenerMapper */
 		$mapper = $container->get(WebhookListenerMapper::class);
+		$userSession = $container->get(IUserSession::class);
 
 		/* Listen to all events with at least one webhook configured */
-		$configuredEvents = $mapper->getAllConfiguredEvents();
+		$configuredEvents = $mapper->getAllConfiguredEvents($userSession->getUser()?->getUID());
 		foreach ($configuredEvents as $eventName) {
 			$logger->debug("Listening to {$eventName}");
 			$dispatcher->addServiceListener(

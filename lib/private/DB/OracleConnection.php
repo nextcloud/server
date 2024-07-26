@@ -68,7 +68,7 @@ class OracleConnection extends Connection {
 	public function dropTable($table) {
 		$table = $this->tablePrefix . trim($table);
 		$table = $this->quoteIdentifier($table);
-		$schema = $this->getSchemaManager();
+		$schema = $this->createSchemaManager();
 		if ($schema->tablesExist([$table])) {
 			$schema->dropTable($table);
 		}
@@ -83,7 +83,7 @@ class OracleConnection extends Connection {
 	public function tableExists($table) {
 		$table = $this->tablePrefix . trim($table);
 		$table = $this->quoteIdentifier($table);
-		$schema = $this->getSchemaManager();
+		$schema = $this->createSchemaManager();
 		return $schema->tablesExist([$table]);
 	}
 }

@@ -249,6 +249,7 @@ OC.L10N.register(
     "The app has been enabled but needs to be updated. You will be redirected to the update page in 5 seconds." : "A app foi activada mas necessita ser actualizada. Irá ser redireccionado para a página de actualização em 5 segundos.",
     "Do you really want to wipe your data from this device?" : "Tem a certeza que deseja apagar os dados deste dispositivo?",
     "Confirm wipe" : "Confirmação de limpeza",
+    "Error" : "Erro",
     "Forum" : "Fórum",
     "Legal notice" : "Informação legal",
     "Privacy policy" : "Política de privacidade",

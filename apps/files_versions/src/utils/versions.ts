@@ -91,7 +91,8 @@ function formatVersion(version: any, fileInfo: any): Version {
 
 	return {
 		fileId: fileInfo.id,
-		label: version.props['version-label'],
+		// If version-label is defined make sure it is a string (prevent issue if the label is a number an PHP returns a number then)
+		label: version.props['version-label'] && String(version.props['version-label']),
 		author: version.props['version-author'] ?? null,
 		filename: version.filename,
 		basename: moment(mtime).format('LLL'),

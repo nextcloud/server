@@ -54,17 +54,21 @@
 </template>
 
 <script lang="ts">
-import { translate as t } from '@nextcloud/l10n'
-import NcCheckboxRadioSwitch from '@nextcloud/vue/dist/Components/NcCheckboxRadioSwitch.js'
-import { defineComponent, type PropType } from 'vue'
+import type { Node } from '@nextcloud/files'
+import type { PropType } from 'vue'
+import type { FileSource } from '../types.ts'
 
+import { translate as t } from '@nextcloud/l10n'
+import { defineComponent } from 'vue'
+
+import NcCheckboxRadioSwitch from '@nextcloud/vue/dist/Components/NcCheckboxRadioSwitch.js'
+import FilesListTableHeaderButton from './FilesListTableHeaderButton.vue'
+
+import { useNavigation } from '../composables/useNavigation'
 import { useFilesStore } from '../store/files.ts'
 import { useSelectionStore } from '../store/selection.ts'
-import FilesListTableHeaderButton from './FilesListTableHeaderButton.vue'
 import filesSortingMixin from '../mixins/filesSorting.ts'
 import logger from '../logger.js'
-import type { Node } from '@nextcloud/files'
-import type { FileSource } from '../types.ts'
 
 export default defineComponent({
 	name: 'FilesListTableHeader',
@@ -100,17 +104,17 @@ export default defineComponent({
 	setup() {
 		const filesStore = useFilesStore()
 		const selectionStore = useSelectionStore()
+		const { currentView } = useNavigation()
+
 		return {
 			filesStore,
 			selectionStore,
+
+			currentView,
 		}
 	},
 
 	computed: {
-		currentView() {
-			return this.$navigation.active
-		},
-
 		columns() {
 			// Hide columns if the list is too small
 			if (this.filesListWidth < 512) {

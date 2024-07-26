@@ -5,6 +5,7 @@
 import { action } from './rejectShareAction'
 import { expect } from '@jest/globals'
 import { File, Folder, Permission, View, FileAction } from '@nextcloud/files'
+import { ShareType } from '@nextcloud/sharing'
 import eventBus from '@nextcloud/event-bus'
 import axios from '@nextcloud/axios'
 import '../main'
@@ -96,7 +97,7 @@ describe('Reject share action enabled tests', () => {
 			owner: 'admin',
 			permissions: Permission.READ,
 			attributes: {
-				share_type: window.OC.Share.SHARE_TYPE_USER,
+				share_type: ShareType.User,
 			},
 		})
 		const folder2 = new Folder({
@@ -106,7 +107,7 @@ describe('Reject share action enabled tests', () => {
 			permissions: Permission.READ,
 			attributes: {
 				remote_id: 1,
-				share_type: window.OC.Share.SHARE_TYPE_REMOTE_GROUP,
+				share_type: ShareType.RemoteGroup,
 			},
 		})
 
@@ -130,7 +131,7 @@ describe('Reject share action execute tests', () => {
 			permissions: Permission.READ,
 			attributes: {
 				id: 123,
-				share_type: window.OC.Share.SHARE_TYPE_USER,
+				share_type: ShareType.User,
 			},
 		})
 
@@ -157,7 +158,7 @@ describe('Reject share action execute tests', () => {
 			attributes: {
 				id: 123,
 				remote: 3,
-				share_type: window.OC.Share.SHARE_TYPE_USER,
+				share_type: ShareType.User,
 			},
 		})
 
@@ -183,7 +184,7 @@ describe('Reject share action execute tests', () => {
 			permissions: Permission.READ,
 			attributes: {
 				id: 123,
-				share_type: window.OC.Share.SHARE_TYPE_USER,
+				share_type: ShareType.User,
 			},
 		})
 
@@ -195,7 +196,7 @@ describe('Reject share action execute tests', () => {
 			permissions: Permission.READ,
 			attributes: {
 				id: 456,
-				share_type: window.OC.Share.SHARE_TYPE_USER,
+				share_type: ShareType.User,
 			},
 		})
 
@@ -222,7 +223,7 @@ describe('Reject share action execute tests', () => {
 			permissions: Permission.READ,
 			attributes: {
 				id: 123,
-				share_type: window.OC.Share.SHARE_TYPE_USER,
+				share_type: ShareType.User,
 			},
 		})
 

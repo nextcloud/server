@@ -87,6 +87,7 @@ class ProviderFactory implements IProviderFactory {
 				$this->serverContainer->get(IFactory::class),
 				$this->serverContainer->getURLGenerator(),
 				$this->serverContainer->query(ITimeFactory::class),
+				$this->serverContainer->get(LoggerInterface::class),
 			);
 		}
 

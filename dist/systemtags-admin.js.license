@@ -71,21 +71,18 @@ This file is generated from multiple sources. Included packages:
 - @nextcloud/auth
 	- version: 2.3.0
 	- license: GPL-3.0-or-later
-- @nextcloud/router
-	- version: 2.2.0
-	- license: GPL-3.0-or-later
 - @nextcloud/axios
-	- version: 2.4.0
+	- version: 2.5.0
 	- license: GPL-3.0-or-later
 - @nextcloud/browser-storage
-	- version: 0.3.0
+	- version: 0.4.0
 	- license: GPL-3.0-or-later
 - @nextcloud/capabilities
 	- version: 1.2.0
 	- license: GPL-3.0-or-later
 - @nextcloud/dialogs
-	- version: 5.3.1
-	- license: GPL-3.0-or-later
+	- version: 5.3.5
+	- license: AGPL-3.0-or-later
 - semver
 	- version: 7.6.2
 	- license: ISC
@@ -93,13 +90,10 @@ This file is generated from multiple sources. Included packages:
 	- version: 3.3.1
 	- license: GPL-3.0-or-later
 - @nextcloud/initial-state
-	- version: 2.1.0
-	- license: GPL-3.0-or-later
-- @nextcloud/router
 	- version: 2.2.0
 	- license: GPL-3.0-or-later
 - @nextcloud/l10n
-	- version: 2.2.0
+	- version: 3.1.0
 	- license: GPL-3.0-or-later
 - @nextcloud/logger
 	- version: 3.0.2
@@ -111,16 +105,16 @@ This file is generated from multiple sources. Included packages:
 	- version: 3.25.0
 	- license: MIT
 - @nextcloud/vue
-	- version: 8.11.2
+	- version: 8.15.0
 	- license: AGPL-3.0-or-later
 - @vueuse/components
-	- version: 10.9.0
+	- version: 10.11.0
 	- license: MIT
 - @vueuse/core
-	- version: 10.9.0
+	- version: 10.11.0
 	- license: MIT
 - @vueuse/shared
-	- version: 10.9.0
+	- version: 10.11.0
 	- license: MIT
 - assert
 	- version: 2.1.0
@@ -129,7 +123,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.0.7
 	- license: MIT
 - axios
-	- version: 1.6.8
+	- version: 1.7.2
 	- license: MIT
 - balanced-match
 	- version: 1.0.2
@@ -192,7 +186,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 3.3.0
 	- license: MIT
 - fast-xml-parser
-	- version: 4.3.4
+	- version: 4.4.0
 	- license: MIT
 - floating-vue
 	- version: 1.0.0-beta.19
@@ -225,7 +219,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.0.2
 	- license: MIT
 - hasown
-	- version: 2.0.1
+	- version: 2.0.2
 	- license: MIT
 - hot-patcher
 	- version: 2.0.1
@@ -321,7 +315,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.2.1
 	- license: MIT
 - side-channel
-	- version: 1.0.5
+	- version: 1.0.6
 	- license: MIT
 - stream-browserify
 	- version: 3.0.0
@@ -390,10 +384,10 @@ This file is generated from multiple sources. Included packages:
 	- version: 5.6.0
 	- license: MIT
 - webpack
-	- version: 5.91.0
+	- version: 5.93.0
 	- license: MIT
 - which-typed-array
-	- version: 1.1.14
+	- version: 1.1.15
 	- license: MIT
 - xtend
 	- version: 4.0.2

@@ -17,19 +17,19 @@ describe('Contact', function() {
 					topAction: {
 						title: 'Mail',
 						icon: 'icon-mail',
-						hyperlink: 'mailto:deboraoliver%40centrexin.com'
+						hyperlink: 'mailto:deboraoliver%40centrexin.com',
 					},
 					emailAddresses: [],
 					actions: [
 						{
 							title: 'Mail',
 							icon: 'icon-mail',
-							hyperlink: 'mailto:mathisholland%40virxo.com'
+							hyperlink: 'mailto:mathisholland%40virxo.com',
 						},
 						{
 							title: 'Details',
 							icon: 'icon-info',
-							hyperlink: 'https://localhost/index.php/apps/contacts'
+							hyperlink: 'https://localhost/index.php/apps/contacts',
 						},
 					],
 					lastMessage: '',

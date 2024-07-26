@@ -379,6 +379,7 @@
     "Error while updating device token name" : "Σφάλμα κατά την ενημέρωση του ονόματος αναγνωριστικού συσκευής",
     "Error while updating device token scope" : "Σφάλμα κατά την ενημέρωση του αναγνωριστικού συσκευής",
     "There were too many requests from your network. Retry later or contact your administrator if this is an error." : "Υπήρχαν πάρα πολλά αιτήματα από το δίκτυό σας. Δοκιμάστε ξανά αργότερα ή επικοινωνήστε με τον διαχειριστή σας εάν πρόκειται για σφάλμα.",
+    "Error" : "Σφάλμα",
     "Forum" : "Φόρουμ",
     "Legal notice" : "Νομική ειδοποίηση",
     "Privacy policy" : "Πολιτική Απορρήτου",

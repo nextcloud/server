@@ -10,7 +10,9 @@ namespace OC\Template;
 use bantu\IniGetWrapper\IniGetWrapper;
 use OC\Authentication\Token\IProvider;
 use OC\CapabilitiesManager;
+use OC\Files\FilenameValidator;
 use OC\Share\Share;
+use OCA\Provisioning_API\Controller\AUserData;
 use OCP\App\AppPathNotFoundException;
 use OCP\App\IAppManager;
 use OCP\Authentication\Exceptions\ExpiredTokenException;
@@ -51,6 +53,7 @@ class JSConfigHelper {
 		protected CapabilitiesManager  $capabilitiesManager,
 		protected IInitialStateService $initialStateService,
 		protected IProvider            $tokenProvider,
+		protected FilenameValidator   $filenameValidator,
 	) {
 	}
 
@@ -131,10 +134,16 @@ class JSConfigHelper {
 
 		$capabilities = $this->capabilitiesManager->getCapabilities(false, true);
 
+		$userFirstDay = $this->config->getUserValue($uid, 'core', AUserData::USER_FIELD_FIRST_DAY_OF_WEEK, null);
+		$firstDay = (int)($userFirstDay ?? $this->l->l('firstday', null));
+
 		$config = [
-			'auto_logout' => $this->config->getSystemValue('auto_logout', false),
+			/** @deprecated 30.0.0 - use files capabilities instead */
 			'blacklist_files_regex' => FileInfo::BLACKLIST_FILES_REGEX,
-			'forbidden_filename_characters' => Util::getForbiddenFileNameChars(),
+			/** @deprecated 30.0.0 - use files capabilities instead */
+			'forbidden_filename_characters' => $this->filenameValidator->getForbiddenCharacters(),
+
+			'auto_logout' => $this->config->getSystemValue('auto_logout', false),
 			'loglevel' => $this->config->getSystemValue('loglevel_frontend',
 				$this->config->getSystemValue('loglevel', ILogger::WARN)
 			),
@@ -215,7 +224,7 @@ class JSConfigHelper {
 				$this->l->t('Nov.'),
 				$this->l->t('Dec.')
 			]),
-			"firstDay" => json_encode($this->l->l('firstday', null)),
+			"firstDay" => json_encode($firstDay),
 			"_oc_config" => json_encode($config),
 			"oc_appconfig" => json_encode([
 				'core' => [

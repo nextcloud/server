@@ -4,7 +4,7 @@
 -->
 <template>
 	<component :is="tag"
-		v-show="!deleted"
+		v-show="!deleted && !isLimbo"
 		:class="{'comment--loading': loading}"
 		class="comment">
 		<!-- Comment header toolbar -->
@@ -121,6 +121,8 @@ import IconDelete from 'vue-material-design-icons/Delete.vue'
 import IconEdit from 'vue-material-design-icons/Pencil.vue'
 
 import CommentMixin from '../mixins/CommentMixin.js'
+import { mapStores } from 'pinia'
+import { useDeletedCommentLimbo } from '../store/deletedCommentLimbo.js'
 
 // Dynamic loading
 const NcRichContenteditable = () => import('@nextcloud/vue/dist/Components/NcRichContenteditable.js')
@@ -193,6 +195,7 @@ export default {
 	},
 
 	computed: {
+		...mapStores(useDeletedCommentLimbo),
 
 		/**
 		 * Is the current user the author of this comment
@@ -224,6 +227,10 @@ export default {
 		 */
 		timestamp() {
 			return Date.parse(this.creationDateTime)
+		},
+
+		isLimbo() {
+			return this.deletedCommentLimboStore.checkForId(this.id)
 		},
 	},
 
@@ -338,7 +345,7 @@ $comment-padding: 10px;
 
 	&__submit {
 		position: absolute !important;
-		bottom: 0;
+		bottom: 5px;
 		right: 0;
 	}
 

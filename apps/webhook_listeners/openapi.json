@@ -75,6 +75,9 @@
                             "type": "object"
                         }
                     },
+                    "userIdFilter": {
+                        "type": "string"
+                    },
                     "headers": {
                         "type": "object",
                         "additionalProperties": {
@@ -111,6 +114,23 @@
                         "basic_auth": []
                     }
                 ],
+                "requestBody": {
+                    "required": false,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "uri": {
+                                        "type": "string",
+                                        "nullable": true,
+                                        "description": "The callback URI to filter by"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
                 "parameters": [
                     {
                         "name": "OCS-APIRequest",
@@ -174,74 +194,74 @@
                         "basic_auth": []
                     }
                 ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "required": [
+                                    "httpMethod",
+                                    "uri",
+                                    "event"
+                                ],
+                                "properties": {
+                                    "httpMethod": {
+                                        "type": "string",
+                                        "description": "HTTP method to use to contact the webhook"
+                                    },
+                                    "uri": {
+                                        "type": "string",
+                                        "description": "Webhook URI endpoint"
+                                    },
+                                    "event": {
+                                        "type": "string",
+                                        "description": "Event class name to listen to"
+                                    },
+                                    "eventFilter": {
+                                        "type": "object",
+                                        "nullable": true,
+                                        "description": "Mongo filter to apply to the serialized data to decide if firing",
+                                        "additionalProperties": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "userIdFilter": {
+                                        "type": "string",
+                                        "nullable": true,
+                                        "description": "User id to filter on. The webhook will only be called by requests from this user. Empty or null means no filtering."
+                                    },
+                                    "headers": {
+                                        "type": "object",
+                                        "nullable": true,
+                                        "description": "Array of headers to send",
+                                        "additionalProperties": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "authMethod": {
+                                        "type": "string",
+                                        "nullable": true,
+                                        "enum": [
+                                            "none",
+                                            "headers"
+                                        ],
+                                        "description": "Authentication method to use"
+                                    },
+                                    "authData": {
+                                        "type": "object",
+                                        "nullable": true,
+                                        "description": "Array of data for authentication",
+                                        "additionalProperties": {
+                                            "type": "object"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
                 "parameters": [
-                    {
-                        "name": "httpMethod",
-                        "in": "query",
-                        "description": "HTTP method to use to contact the webhook",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "uri",
-                        "in": "query",
-                        "description": "Webhook URI endpoint",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "event",
-                        "in": "query",
-                        "description": "Event class name to listen to",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "eventFilter",
-                        "in": "query",
-                        "description": "Mongo filter to apply to the serialized data to decide if firing",
-                        "schema": {
-                            "type": "string",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "headers",
-                        "in": "query",
-                        "description": "Array of headers to send",
-                        "schema": {
-                            "type": "string",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "authMethod",
-                        "in": "query",
-                        "description": "Authentication method to use",
-                        "schema": {
-                            "type": "string",
-                            "nullable": true,
-                            "enum": [
-                                "none",
-                                "headers"
-                            ]
-                        }
-                    },
-                    {
-                        "name": "authData",
-                        "in": "query",
-                        "description": "Array of data for authentication",
-                        "schema": {
-                            "type": "string",
-                            "nullable": true
-                        }
-                    },
                     {
                         "name": "OCS-APIRequest",
                         "in": "header",
@@ -457,74 +477,74 @@
                         "basic_auth": []
                     }
                 ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "required": [
+                                    "httpMethod",
+                                    "uri",
+                                    "event"
+                                ],
+                                "properties": {
+                                    "httpMethod": {
+                                        "type": "string",
+                                        "description": "HTTP method to use to contact the webhook"
+                                    },
+                                    "uri": {
+                                        "type": "string",
+                                        "description": "Webhook URI endpoint"
+                                    },
+                                    "event": {
+                                        "type": "string",
+                                        "description": "Event class name to listen to"
+                                    },
+                                    "eventFilter": {
+                                        "type": "object",
+                                        "nullable": true,
+                                        "description": "Mongo filter to apply to the serialized data to decide if firing",
+                                        "additionalProperties": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "userIdFilter": {
+                                        "type": "string",
+                                        "nullable": true,
+                                        "description": "User id to filter on. The webhook will only be called by requests from this user. Empty or null means no filtering."
+                                    },
+                                    "headers": {
+                                        "type": "object",
+                                        "nullable": true,
+                                        "description": "Array of headers to send",
+                                        "additionalProperties": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "authMethod": {
+                                        "type": "string",
+                                        "nullable": true,
+                                        "enum": [
+                                            "none",
+                                            "headers"
+                                        ],
+                                        "description": "Authentication method to use"
+                                    },
+                                    "authData": {
+                                        "type": "object",
+                                        "nullable": true,
+                                        "description": "Array of data for authentication",
+                                        "additionalProperties": {
+                                            "type": "object"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
                 "parameters": [
-                    {
-                        "name": "httpMethod",
-                        "in": "query",
-                        "description": "HTTP method to use to contact the webhook",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "uri",
-                        "in": "query",
-                        "description": "Webhook URI endpoint",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "event",
-                        "in": "query",
-                        "description": "Event class name to listen to",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "eventFilter",
-                        "in": "query",
-                        "description": "Mongo filter to apply to the serialized data to decide if firing",
-                        "schema": {
-                            "type": "string",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "headers",
-                        "in": "query",
-                        "description": "Array of headers to send",
-                        "schema": {
-                            "type": "string",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "authMethod",
-                        "in": "query",
-                        "description": "Authentication method to use",
-                        "schema": {
-                            "type": "string",
-                            "nullable": true,
-                            "enum": [
-                                "none",
-                                "headers"
-                            ]
-                        }
-                    },
-                    {
-                        "name": "authData",
-                        "in": "query",
-                        "description": "Array of data for authentication",
-                        "schema": {
-                            "type": "string",
-                            "nullable": true
-                        }
-                    },
                     {
                         "name": "id",
                         "in": "path",

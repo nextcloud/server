@@ -278,6 +278,7 @@ OC.L10N.register(
     "Error while updating device token name" : "Ur fazi a zo bet en ur adnevesiñ anv jedouer an ardivink",
     "Error while updating device token scope" : "Ur fazi a zo bet en ur adnevesiñ pellder ar jedouer",
     "There were too many requests from your network. Retry later or contact your administrator if this is an error." : "Re a goulennoù a zo bet eus ar rouedat. Klaskit en dro diwezhatoc'h pe galvit ho merour m'az eus ur fazi.",
+    "Error" : "Fazi",
     "Forum" : "Forum",
     "Legal notice" : "Meneg lezenn",
     "Open documentation" : "Digeriñ an dielvadur",

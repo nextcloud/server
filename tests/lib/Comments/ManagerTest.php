@@ -14,6 +14,7 @@ use OCP\Comments\IComment;
 use OCP\Comments\ICommentsEventHandler;
 use OCP\Comments\ICommentsManager;
 use OCP\Comments\NotFoundException;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
 use OCP\IConfig;
@@ -91,6 +92,7 @@ class ManagerTest extends TestCase {
 			new EmojiHelper($this->connection),
 			$this->createMock(IInitialStateService::class),
 			$this->rootFolder,
+			$this->createMock(IEventDispatcher::class),
 		);
 	}
 
@@ -758,6 +760,7 @@ class ManagerTest extends TestCase {
 			new EmojiHelper($this->connection),
 			$this->createMock(IInitialStateService::class),
 			$this->rootFolder,
+			$this->createMock(IEventDispatcher::class)
 		);
 
 		// just to make sure they are really set, with correct actor data
@@ -804,6 +807,7 @@ class ManagerTest extends TestCase {
 			new EmojiHelper($this->connection),
 			$this->createMock(IInitialStateService::class),
 			$this->rootFolder,
+			$this->createMock(IEventDispatcher::class)
 		);
 
 		$deleted = $manager->deleteCommentsExpiredAtObject('files');

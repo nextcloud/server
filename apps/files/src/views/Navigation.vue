@@ -5,33 +5,43 @@
 <template>
 	<NcAppNavigation data-cy-files-navigation
 		:aria-label="t('files', 'Files')">
-		<template #list>
-			<NcAppNavigationItem v-for="view in parentViews"
-				:key="view.id"
-				:allow-collapse="true"
-				:data-cy-files-navigation-item="view.id"
-				:exact="useExactRouteMatching(view)"
-				:icon="view.iconClass"
-				:name="view.name"
-				:open="isExpanded(view)"
-				:pinned="view.sticky"
-				:to="generateToNavigation(view)"
-				@update:open="onToggleExpand(view)">
-				<!-- Sanitized icon as svg if provided -->
-				<NcIconSvgWrapper v-if="view.icon" slot="icon" :svg="view.icon" />
-
-				<!-- Child views if any -->
-				<NcAppNavigationItem v-for="child in childViews[view.id]"
-					:key="child.id"
-					:data-cy-files-navigation-item="child.id"
-					:exact-path="true"
-					:icon="child.iconClass"
-					:name="child.name"
-					:to="generateToNavigation(child)">
+		<template #search>
+			<NcAppNavigationSearch v-model="searchQuery" :label="t('files', 'Filter filenames…')" />
+		</template>
+		<template #default>
+			<NcAppNavigationList :aria-label="t('files', 'Views')">
+				<NcAppNavigationItem v-for="view in parentViews"
+					:key="view.id"
+					:allow-collapse="true"
+					:data-cy-files-navigation-item="view.id"
+					:exact="useExactRouteMatching(view)"
+					:icon="view.iconClass"
+					:name="view.name"
+					:open="isExpanded(view)"
+					:pinned="view.sticky"
+					:to="generateToNavigation(view)"
+					@update:open="onToggleExpand(view)">
 					<!-- Sanitized icon as svg if provided -->
-					<NcIconSvgWrapper v-if="child.icon" slot="icon" :svg="child.icon" />
+					<NcIconSvgWrapper v-if="view.icon" slot="icon" :svg="view.icon" />
+
+					<!-- Child views if any -->
+					<NcAppNavigationItem v-for="child in childViews[view.id]"
+						:key="child.id"
+						:data-cy-files-navigation-item="child.id"
+						:exact-path="true"
+						:icon="child.iconClass"
+						:name="child.name"
+						:to="generateToNavigation(child)">
+						<!-- Sanitized icon as svg if provided -->
+						<NcIconSvgWrapper v-if="child.icon" slot="icon" :svg="child.icon" />
+					</NcAppNavigationItem>
 				</NcAppNavigationItem>
-			</NcAppNavigationItem>
+			</NcAppNavigationList>
+
+			<!-- Settings modal-->
+			<SettingsModal :open="settingsOpened"
+				data-cy-files-navigation-settings
+				@close="onSettingsClose" />
 		</template>
 
 		<!-- Non-scrollable navigation bottom elements -->
@@ -41,19 +51,13 @@
 				<NavigationQuota />
 
 				<!-- Files settings modal toggle-->
-				<NcAppNavigationItem :aria-label="t('files', 'Open the files app settings')"
-					:name="t('files', 'Files settings')"
+				<NcAppNavigationItem :name="t('files', 'Files settings')"
 					data-cy-files-navigation-settings-button
 					@click.prevent.stop="openSettings">
-					<Cog slot="icon" :size="20" />
+					<IconCog slot="icon" :size="20" />
 				</NcAppNavigationItem>
 			</ul>
 		</template>
-
-		<!-- Settings modal-->
-		<SettingsModal :open="settingsOpened"
-			data-cy-files-navigation-settings
-			@close="onSettingsClose" />
 	</NcAppNavigation>
 </template>
 
@@ -61,32 +65,52 @@
 import type { View } from '@nextcloud/files'
 
 import { emit } from '@nextcloud/event-bus'
-import { translate } from '@nextcloud/l10n'
-import Cog from 'vue-material-design-icons/Cog.vue'
+import { t } from '@nextcloud/l10n'
+import { defineComponent } from 'vue'
+
+import IconCog from 'vue-material-design-icons/Cog.vue'
 import NcAppNavigation from '@nextcloud/vue/dist/Components/NcAppNavigation.js'
 import NcAppNavigationItem from '@nextcloud/vue/dist/Components/NcAppNavigationItem.js'
+import NcAppNavigationList from '@nextcloud/vue/dist/Components/NcAppNavigationList.js'
+import NcAppNavigationSearch from '@nextcloud/vue/dist/Components/NcAppNavigationSearch.js'
 import NcIconSvgWrapper from '@nextcloud/vue/dist/Components/NcIconSvgWrapper.js'
-
-import { useViewConfigStore } from '../store/viewConfig.ts'
-import logger from '../logger.js'
 import NavigationQuota from '../components/NavigationQuota.vue'
 import SettingsModal from './Settings.vue'
 
-export default {
+import { useNavigation } from '../composables/useNavigation'
+import { useFilenameFilter } from '../composables/useFilenameFilter'
+import { useFiltersStore } from '../store/filters.ts'
+import { useViewConfigStore } from '../store/viewConfig.ts'
+import logger from '../logger.js'
+
+export default defineComponent({
 	name: 'Navigation',
 
 	components: {
-		Cog,
+		IconCog,
+
 		NavigationQuota,
 		NcAppNavigation,
 		NcAppNavigationItem,
+		NcAppNavigationList,
+		NcAppNavigationSearch,
 		NcIconSvgWrapper,
 		SettingsModal,
 	},
 
 	setup() {
+		const filtersStore = useFiltersStore()
 		const viewConfigStore = useViewConfigStore()
+		const { currentView, views } = useNavigation()
+		const { searchQuery } = useFilenameFilter()
+
 		return {
+			currentView,
+			searchQuery,
+			t,
+			views,
+
+			filtersStore,
 			viewConfigStore,
 		}
 	},
@@ -98,16 +122,11 @@ export default {
 	},
 
 	computed: {
+		/**
+		 * The current view ID from the route params
+		 */
 		currentViewId() {
 			return this.$route?.params?.view || 'files'
-		},
-
-		currentView(): View {
-			return this.views.find(view => view.id === this.currentViewId)!
-		},
-
-		views(): View[] {
-			return this.$navigation.views
 		},
 
 		parentViews(): View[] {
@@ -137,21 +156,22 @@ export default {
 	},
 
 	watch: {
-		currentView(view, oldView) {
-			if (view.id !== oldView?.id) {
-				this.$navigation.setActive(view)
-				logger.debug(`Navigation changed from ${oldView.id} to ${view.id}`, { from: oldView, to: view })
-
+		currentViewId(newView, oldView) {
+			if (this.currentViewId !== this.currentView?.id) {
+				// This is guaranteed to be a view because `currentViewId` falls back to the default 'files' view
+				const view = this.views.find(({ id }) => id === this.currentViewId)!
+				// The the new view as active
 				this.showView(view)
+				logger.debug(`Navigation changed from ${oldView} to ${newView}`, { to: view })
 			}
 		},
 	},
 
 	beforeMount() {
-		if (this.currentView) {
-			logger.debug('Navigation mounted. Showing requested view', { view: this.currentView })
-			this.showView(this.currentView)
-		}
+		// This is guaranteed to be a view because `currentViewId` falls back to the default 'files' view
+		const view = this.views.find(({ id }) => id === this.currentViewId)!
+		this.showView(view)
+		logger.debug('Navigation mounted. Showing requested view', { view })
 	},
 
 	methods: {
@@ -165,9 +185,13 @@ export default {
 			return this.childViews[view.id]?.length > 0
 		},
 
+		/**
+		 * Set the view as active on the navigation and handle internal state
+		 * @param view View to set active
+		 */
 		showView(view: View) {
 			// Closing any opened sidebar
-			window?.OCA?.Files?.Sidebar?.close?.()
+			window.OCA?.Files?.Sidebar?.close?.()
 			this.$navigation.setActive(view)
 			emit('files:navigation:changed', view)
 		},
@@ -221,10 +245,8 @@ export default {
 		onSettingsClose() {
 			this.settingsOpened = false
 		},
-
-		t: translate,
 	},
-}
+})
 </script>
 
 <style scoped lang="scss">

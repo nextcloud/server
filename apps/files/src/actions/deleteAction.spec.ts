@@ -5,8 +5,8 @@
 import { action } from './deleteAction'
 import { expect } from '@jest/globals'
 import { File, Folder, Permission, View, FileAction } from '@nextcloud/files'
-import eventBus from '@nextcloud/event-bus'
 import axios from '@nextcloud/axios'
+import eventBus from '@nextcloud/event-bus'
 
 import logger from '../logger'
 
@@ -191,6 +191,7 @@ describe('Delete action execute tests', () => {
 		jest.spyOn(eventBus, 'emit')
 
 		const confirmMock = jest.fn()
+		// @ts-expect-error We only mock what needed
 		window.OC = { dialogs: { confirmDestructive: confirmMock } }
 
 		const file1 = new File({

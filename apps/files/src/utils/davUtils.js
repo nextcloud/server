@@ -3,16 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { generateRemoteUrl } from '@nextcloud/router'
 import { getCurrentUser } from '@nextcloud/auth'
-
-export const getRootPath = function() {
-	if (getCurrentUser()) {
-		return generateRemoteUrl(`dav/files/${getCurrentUser().uid}`)
-	} else {
-		return generateRemoteUrl('webdav').replace('/remote.php', '/public.php')
-	}
-}
 
 export const isPublic = function() {
 	return !getCurrentUser()

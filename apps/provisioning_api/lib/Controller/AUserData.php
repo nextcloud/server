@@ -39,6 +39,7 @@ abstract class AUserData extends OCSController {
 	public const USER_FIELD_DISPLAYNAME = 'display';
 	public const USER_FIELD_LANGUAGE = 'language';
 	public const USER_FIELD_LOCALE = 'locale';
+	public const USER_FIELD_FIRST_DAY_OF_WEEK = 'first_day_of_week';
 	public const USER_FIELD_PASSWORD = 'password';
 	public const USER_FIELD_QUOTA = 'quota';
 	public const USER_FIELD_MANAGER = 'manager';
@@ -98,7 +99,9 @@ abstract class AUserData extends OCSController {
 		}
 
 		$isAdmin = $this->groupManager->isAdmin($currentLoggedInUser->getUID());
+		$isDelegatedAdmin = $this->groupManager->isDelegatedAdmin($currentLoggedInUser->getUID());
 		if ($isAdmin
+			|| $isDelegatedAdmin
 			|| $this->groupManager->getSubAdmin()->isUserAccessible($currentLoggedInUser, $targetUserObject)) {
 			$data['enabled'] = $this->config->getUserValue($targetUserObject->getUID(), 'core', 'enabled', 'true') === 'true';
 		} else {
@@ -116,7 +119,7 @@ abstract class AUserData extends OCSController {
 			$gids[] = $group->getGID();
 		}
 
-		if ($isAdmin) {
+		if ($isAdmin || $isDelegatedAdmin) {
 			try {
 				# might be thrown by LDAP due to handling of users disappears
 				# from the external source (reasons unknown to us)

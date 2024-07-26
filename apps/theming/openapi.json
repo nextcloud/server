@@ -138,33 +138,29 @@
                         "basic_auth": []
                     }
                 ],
+                "requestBody": {
+                    "required": false,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "plain": {
+                                        "type": "boolean",
+                                        "default": false,
+                                        "description": "Let the browser decide the CSS priority"
+                                    },
+                                    "withCustomCss": {
+                                        "type": "boolean",
+                                        "default": false,
+                                        "description": "Include custom CSS"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
                 "parameters": [
-                    {
-                        "name": "plain",
-                        "in": "query",
-                        "description": "Let the browser decide the CSS priority",
-                        "schema": {
-                            "type": "integer",
-                            "default": 0,
-                            "enum": [
-                                0,
-                                1
-                            ]
-                        }
-                    },
-                    {
-                        "name": "withCustomCss",
-                        "in": "query",
-                        "description": "Include custom CSS",
-                        "schema": {
-                            "type": "integer",
-                            "default": 0,
-                            "enum": [
-                                0,
-                                1
-                            ]
-                        }
-                    },
                     {
                         "name": "themeId",
                         "in": "path",
@@ -216,20 +212,24 @@
                         "basic_auth": []
                     }
                 ],
-                "parameters": [
-                    {
-                        "name": "useSvg",
-                        "in": "query",
-                        "description": "Return image as SVG",
-                        "schema": {
-                            "type": "integer",
-                            "default": 1,
-                            "enum": [
-                                0,
-                                1
-                            ]
+                "requestBody": {
+                    "required": false,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "useSvg": {
+                                        "type": "boolean",
+                                        "default": true,
+                                        "description": "Return image as SVG"
+                                    }
+                                }
+                            }
                         }
-                    },
+                    }
+                },
+                "parameters": [
                     {
                         "name": "key",
                         "in": "path",

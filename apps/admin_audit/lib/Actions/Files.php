@@ -8,6 +8,7 @@ declare(strict_types=1);
 namespace OCA\AdminAudit\Actions;
 
 use OCP\Files\Events\Node\BeforeNodeReadEvent;
+use OCP\Files\Events\Node\BeforeNodeRenamedEvent;
 use OCP\Files\Events\Node\BeforeNodeWrittenEvent;
 use OCP\Files\Events\Node\NodeCopiedEvent;
 use OCP\Files\Events\Node\NodeCreatedEvent;
@@ -25,6 +26,8 @@ use Psr\Log\LoggerInterface;
  * @package OCA\AdminAudit\Actions
  */
 class Files extends Action {
+
+	private array $renamedNodes = [];
 	/**
 	 * Logs file read actions
 	 *
@@ -52,16 +55,33 @@ class Files extends Action {
 	/**
 	 * Logs rename actions of files
 	 *
-	 * @param NodeRenamedEvent $event
+	 * @param BeforeNodeRenamedEvent $event
 	 */
-	public function rename(NodeRenamedEvent $event): void {
+	public function beforeRename(BeforeNodeRenamedEvent $event): void {
 		try {
 			$source = $event->getSource();
+			$this->renamedNodes[$source->getId()] = $source;
+		} catch (InvalidPathException|NotFoundException $e) {
+			\OCP\Server::get(LoggerInterface::class)->error(
+				"Exception thrown in file rename: ".$e->getMessage(), ['app' => 'admin_audit', 'exception' => $e]
+			);
+			return;
+		}
+	}
+
+	/**
+	 * Logs rename actions of files
+	 *
+	 * @param NodeRenamedEvent $event
+	 */
+	public function afterRename(NodeRenamedEvent $event): void {
+		try {
 			$target = $event->getTarget();
+			$originalSource = $this->renamedNodes[$target->getId()];
 			$params = [
 				'newid' => $target->getId(),
-				'oldpath' => mb_substr($source->getPath(), 5),
-				'newpath' => mb_substr($target->getPath(), 5),
+				'oldpath' => mb_substr($originalSource->getInternalPath(), 5),
+				'newpath' => mb_substr($target->getInternalPath(), 5),
 			];
 		} catch (InvalidPathException|NotFoundException $e) {
 			\OCP\Server::get(LoggerInterface::class)->error(
@@ -76,6 +96,7 @@ class Files extends Action {
 			array_keys($params)
 		);
 	}
+
 
 	/**
 	 * Logs creation of files

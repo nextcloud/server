@@ -28,6 +28,7 @@ use OCP\Files\IMimeTypeDetector;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;
 use OCP\Files\NotFoundException;
+use OCP\Files\NotPermittedException;
 use OCP\Files\Search\ISearchBinaryOperator;
 use OCP\Files\Search\ISearchComparison;
 use OCP\Files\StorageInvalidException;
@@ -593,8 +594,12 @@ class Storage {
 				$versionsMapper->delete($versionEntity);
 			}
 
-			$version->delete();
-			\OC_Hook::emit('\OCP\Versions', 'delete', ['path' => $internalPath, 'trigger' => self::DELETE_TRIGGER_RETENTION_CONSTRAINT]);
+			try {
+				$version->delete();
+				\OC_Hook::emit('\OCP\Versions', 'delete', ['path' => $internalPath, 'trigger' => self::DELETE_TRIGGER_RETENTION_CONSTRAINT]);
+			} catch (NotPermittedException $e) {
+				\OCP\Server::get(LoggerInterface::class)->error("Missing permissions to delete version: {$internalPath}", ['app' => 'files_versions', 'exception' => $e]);
+			}
 		}
 	}
 
@@ -896,7 +901,7 @@ class Storage {
 					$pathparts = pathinfo($path);
 					$timestamp = (int)substr($pathparts['extension'] ?? '', 1);
 					$versionEntity = $versionsMapper->findVersionForFileId($file->getId(), $timestamp);
-					if ($versionEntity->getMetadataValue('label') !== '') {
+					if ($versionEntity->getMetadataValue('label') !== null && $versionEntity->getMetadataValue('label') !== '') {
 						continue;
 					}
 					$versionsMapper->delete($versionEntity);

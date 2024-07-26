@@ -201,9 +201,7 @@ class UserStatusAutomation extends TimedJob {
 			return;
 		}
 
-		$this->logger->debug('User is currently NOT available, reverting call status if applicable and then setting DND');
-		// The DND status automation is more important than the "Away - In call" so we also restore that one if it exists.
-		$this->manager->revertUserStatus($userId, IUserStatus::MESSAGE_CALL, IUserStatus::AWAY);
+		$this->logger->debug('User is currently NOT available, reverting call and meeting status if applicable and then setting DND');
 		$this->manager->setUserStatus($userId, IUserStatus::MESSAGE_AVAILABILITY, IUserStatus::DND, true);
 		$this->logger->debug('User status automation ran');
 	}
@@ -232,10 +230,8 @@ class UserStatusAutomation extends TimedJob {
 		}
 
 		$this->logger->debug('User is currently in an OOO period, reverting other automated status and setting OOO DND status');
-		// Revert both a possible 'CALL - away' and 'office hours - DND' status
-		$this->manager->revertUserStatus($user->getUID(), IUserStatus::MESSAGE_CALL, IUserStatus::DND);
-		$this->manager->revertUserStatus($user->getUID(), IUserStatus::MESSAGE_AVAILABILITY, IUserStatus::DND);
 		$this->manager->setUserStatus($user->getUID(), IUserStatus::MESSAGE_OUT_OF_OFFICE, IUserStatus::DND, true, $ooo->getShortMessage());
+
 		// Run at the end of an ooo period to return to availability / regular user status
 		// If it's overwritten by a custom status in the meantime, there's nothing we can do about it
 		$this->setLastRunToNextToggleTime($user->getUID(), $ooo->getEndDate());

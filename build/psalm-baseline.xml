@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="5.24.0@462c80e31c34e58cc4f750c656be3927e80e550e">
+<files psalm-version="5.25.0@01a8eb06b9e9cc6cfb6a320bf9fb14331919d505">
   <file src="3rdparty/sabre/dav/lib/CalDAV/Calendar.php">
     <MoreSpecificImplementedParamType>
       <code><![CDATA[$data]]></code>
@@ -1232,11 +1232,6 @@
       <code><![CDATA[string]]></code>
     </InvalidReturnType>
   </file>
-  <file src="apps/workflowengine/lib/Check/FileSystemTags.php">
-    <UndefinedDocblockClass>
-      <code><![CDATA[$this->storage]]></code>
-    </UndefinedDocblockClass>
-  </file>
   <file src="apps/workflowengine/lib/Check/RequestRemoteAddress.php">
     <InvalidArgument>
       <code><![CDATA[$decodedValue[1]]]></code>
@@ -2367,10 +2362,6 @@
       <code><![CDATA[false]]></code>
       <code><![CDATA[false]]></code>
     </InvalidArgument>
-    <InvalidArrayOffset>
-      <code><![CDATA[$app['path']]]></code>
-      <code><![CDATA[$app['path']]]></code>
-    </InvalidArrayOffset>
     <NullArgument>
       <code><![CDATA[null]]></code>
     </NullArgument>
@@ -2881,6 +2872,9 @@
       <code><![CDATA[$request->server]]></code>
       <code><![CDATA[$request->server]]></code>
     </NoInterfaceProperties>
+    <RedundantCondition>
+      <code><![CDATA[$this->manager instanceof PublicEmitter]]></code>
+    </RedundantCondition>
   </file>
   <file src="lib/private/User/User.php">
     <UndefinedInterfaceMethod>
@@ -2903,10 +2897,6 @@
     <InvalidArgument>
       <code><![CDATA[$groupsList]]></code>
     </InvalidArgument>
-    <InvalidArrayOffset>
-      <code><![CDATA[$dir['path']]]></code>
-      <code><![CDATA[$dir['url']]]></code>
-    </InvalidArrayOffset>
     <NullArgument>
       <code><![CDATA[null]]></code>
     </NullArgument>
@@ -2914,11 +2904,6 @@
       <code><![CDATA[$appId === null]]></code>
       <code><![CDATA[$appId === null]]></code>
     </TypeDoesNotContainNull>
-  </file>
-  <file src="lib/private/legacy/OC_FileChunking.php">
-    <UndefinedDocblockClass>
-      <code><![CDATA[\OC\InsufficientStorageException]]></code>
-    </UndefinedDocblockClass>
   </file>
   <file src="lib/private/legacy/OC_Files.php">
     <RedundantCondition>

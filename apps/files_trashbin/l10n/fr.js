@@ -11,6 +11,7 @@ OC.L10N.register(
     "All files" : "Tous les fichiers",
     "You" : "Vous",
     "Original location" : "Emplacement original",
+    "Deleted by" : "Supprimé par",
     "Deleted" : "Supprimé",
     "A long time ago" : "Il y a longtemps",
     "List of files that have been deleted." : "Liste des fichiers qui ont été supprimés.",

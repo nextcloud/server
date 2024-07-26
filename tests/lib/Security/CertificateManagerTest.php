@@ -12,8 +12,10 @@ namespace Test\Security;
 
 use OC\Files\View;
 use OC\Security\CertificateManager;
+use OCP\Files\InvalidPathException;
 use OCP\IConfig;
 use OCP\Security\ISecureRandom;
+use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -25,12 +27,9 @@ class CertificateManagerTest extends \Test\TestCase {
 	use \Test\Traits\UserTrait;
 	use \Test\Traits\MountProviderTrait;
 
-	/** @var CertificateManager */
-	private $certificateManager;
-	/** @var String */
-	private $username;
-	/** @var ISecureRandom */
-	private $random;
+	private CertificateManager $certificateManager;
+	private string $username;
+	private ISecureRandom&MockObject $random;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -117,9 +116,7 @@ class CertificateManagerTest extends \Test\TestCase {
 	 * @param string $filename
 	 */
 	public function testAddDangerousFile($filename) {
-		$this->expectException(\Exception::class);
-		$this->expectExceptionMessage('Filename is not valid');
-
+		$this->expectException(InvalidPathException::class);
 		$this->certificateManager->addCertificate(file_get_contents(__DIR__ . '/../../data/certificates/expiredCertificate.crt'), $filename);
 	}
 

@@ -5,7 +5,7 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
- 
+
 /**
  * This configuration file is only provided to document the different
  * configuration options and their usage.
@@ -227,6 +227,15 @@ $CONFIG = [
  * Defaults to ``en``
  */
 'default_locale' => 'en_US',
+
+/**
+ * With this setting is possible to reduce the languages available in the
+ * language chooser. The languages have to be set as array values using ISO_639-1
+ * language codes such as ``en`` for English, ``de`` for German etc.
+ *
+ * For example: Set to ['de', 'fr'] to only allow German and French languages.
+ */
+'reduce_to_languages' => [],
 
 /**
  * This sets the default region for phone numbers on your Nextcloud server,
@@ -1287,7 +1296,13 @@ $CONFIG = [
 
 /**
  * Set the URL of the Imaginary service to send image previews to.
- * Also requires the ``OC\Preview\Imaginary`` provider to be enabled.
+ * Also requires the
+ *  - ``OC\Preview\Imaginary``
+ * provider to be enabled in the 'enabledPreviewProviders' array, to create previews for these mimetypes:
+ * bmp, x-bitmap, png, jpeg, gif, heic, heif, svg+xml, tiff, webp and illustrator.
+ * If you want Imaginary to also create preview images from PDF Documents, you have to add
+ *  - ``OC\Preview\ImaginaryPDF``
+ * provider as well.
  *
  * See https://github.com/h2non/imaginary
  */
@@ -1967,26 +1982,50 @@ $CONFIG = [
 'updatedirectory' => '',
 
 /**
- * Blacklist a specific file or files and disallow the upload of files
+ * Block a specific file or files and disallow the upload of files
  * with this name. ``.htaccess`` is blocked by default.
+ *
  * WARNING: USE THIS ONLY IF YOU KNOW WHAT YOU ARE DOING.
+ *
+ * Note that this list is case-insensitive.
  *
  * Defaults to ``array('.htaccess')``
  */
-'blacklisted_files' => ['.htaccess'],
+'forbidden_filenames' => ['.htaccess'],
 
 /**
- * Blacklist characters from being used in filenames. This is useful if you
+ * Disallow the upload of files with specific basenames.
+ *
+ * The basename is the name of the file without the extension,
+ * e.g. for "archive.tar.gz" the basename would be "archive".
+ *
+ * Note that this list is case-insensitive.
+ *
+ * Defaults to ``array()``
+ */
+'forbidden_filename_basenames' => [],
+
+/**
+ * Block characters from being used in filenames. This is useful if you
  * have a filesystem or OS which does not support certain characters like windows.
  *
- * The '/' and '\' characters are always forbidden.
+ * The '/' and '\' characters are always forbidden, as well as all characters in the ASCII range [0-31].
  *
- * Example for windows systems: ``array('?', '<', '>', ':', '*', '|', '"', chr(0), "\n", "\r")``
+ * Example for windows systems: ``array('?', '<', '>', ':', '*', '|', '"')``
  * see https://en.wikipedia.org/wiki/Comparison_of_file_systems#Limits
  *
  * Defaults to ``array()``
  */
-'forbidden_chars' => [],
+'forbidden_filename_characters' => [],
+
+/**
+ * Deny extensions from being used for filenames.
+ * 
+ * The '.part' extension is always forbidden, as this is used internally by Nextcloud.
+ * 
+ * Defaults to ``array('.filepart', '.part')``
+ */
+'forbidden_filename_extensions' => ['.part', '.filepart'],
 
 /**
  * If you are applying a theme to Nextcloud, enter the name of the theme here.
@@ -2173,6 +2212,16 @@ $CONFIG = [
  * Defaults to ``'HTTP_X_FORWARDED_FOR'``
  */
 'forwarded_for_headers' => ['HTTP_X_FORWARDED', 'HTTP_FORWARDED_FOR'],
+
+/**
+ * List of trusted IP ranges for admin actions
+ *
+ * If this list is non-empty, all admin actions must be triggered from
+ * IP addresses inside theses ranges.
+ *
+ * Defaults to an empty array.
+ */
+'allowed_admin_ranges' => ['192.0.2.42/32', '233.252.0.0/24', '2001:db8::13:37/64'],
 
 /**
  * max file size for animating gifs on public-sharing-site.

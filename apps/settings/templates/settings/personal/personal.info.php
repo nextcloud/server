@@ -62,6 +62,9 @@ script('settings', [
 		<div id="vue-locale-section"></div>
 	</div>
 	<div class="personal-settings-setting-box">
+		<div id="vue-fdow-section"></div>
+	</div>
+	<div class="personal-settings-setting-box">
 		<div id="vue-website-section"></div>
 	</div>
 	<div class="personal-settings-setting-box">

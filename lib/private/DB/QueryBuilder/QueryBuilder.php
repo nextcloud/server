@@ -7,13 +7,9 @@
  */
 namespace OC\DB\QueryBuilder;
 
-use Doctrine\DBAL\Platforms\MySQLPlatform;
-use Doctrine\DBAL\Platforms\OraclePlatform;
-use Doctrine\DBAL\Platforms\PostgreSQL94Platform;
-use Doctrine\DBAL\Platforms\SqlitePlatform;
 use Doctrine\DBAL\Query\QueryException;
 use OC\DB\ConnectionAdapter;
-use OC\DB\QueryBuilder\ExpressionBuilder\ExpressionBuilder;
+use OC\DB\Exceptions\DbalException;
 use OC\DB\QueryBuilder\ExpressionBuilder\MySqlExpressionBuilder;
 use OC\DB\QueryBuilder\ExpressionBuilder\OCIExpressionBuilder;
 use OC\DB\QueryBuilder\ExpressionBuilder\PgSqlExpressionBuilder;
@@ -22,7 +18,6 @@ use OC\DB\QueryBuilder\FunctionBuilder\FunctionBuilder;
 use OC\DB\QueryBuilder\FunctionBuilder\OCIFunctionBuilder;
 use OC\DB\QueryBuilder\FunctionBuilder\PgSqlFunctionBuilder;
 use OC\DB\QueryBuilder\FunctionBuilder\SqliteFunctionBuilder;
-use OC\DB\ResultAdapter;
 use OC\SystemConfig;
 use OCP\DB\IResult;
 use OCP\DB\QueryBuilder\ICompositeExpression;
@@ -30,6 +25,7 @@ use OCP\DB\QueryBuilder\ILiteral;
 use OCP\DB\QueryBuilder\IParameter;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\DB\QueryBuilder\IQueryFunction;
+use OCP\IDBConnection;
 use Psr\Log\LoggerInterface;
 
 class QueryBuilder implements IQueryBuilder {
@@ -49,6 +45,7 @@ class QueryBuilder implements IQueryBuilder {
 
 	/** @var bool */
 	private $automaticTablePrefix = true;
+	private bool $nonEmptyWhere = false;
 
 	/** @var string */
 	protected $lastInsertedTable;
@@ -95,20 +92,12 @@ class QueryBuilder implements IQueryBuilder {
 	 * @return \OCP\DB\QueryBuilder\IExpressionBuilder
 	 */
 	public function expr() {
-		if ($this->connection->getDatabasePlatform() instanceof OraclePlatform) {
-			return new OCIExpressionBuilder($this->connection, $this);
-		}
-		if ($this->connection->getDatabasePlatform() instanceof PostgreSQL94Platform) {
-			return new PgSqlExpressionBuilder($this->connection, $this);
-		}
-		if ($this->connection->getDatabasePlatform() instanceof MySQLPlatform) {
-			return new MySqlExpressionBuilder($this->connection, $this);
-		}
-		if ($this->connection->getDatabasePlatform() instanceof SqlitePlatform) {
-			return new SqliteExpressionBuilder($this->connection, $this);
-		}
-
-		return new ExpressionBuilder($this->connection, $this);
+		return match($this->connection->getDatabaseProvider()) {
+			IDBConnection::PLATFORM_ORACLE => new OCIExpressionBuilder($this->connection, $this, $this->logger),
+			IDBConnection::PLATFORM_POSTGRES => new PgSqlExpressionBuilder($this->connection, $this, $this->logger),
+			IDBConnection::PLATFORM_MYSQL => new MySqlExpressionBuilder($this->connection, $this, $this->logger),
+			IDBConnection::PLATFORM_SQLITE => new SqliteExpressionBuilder($this->connection, $this, $this->logger),
+		};
 	}
 
 	/**
@@ -128,17 +117,12 @@ class QueryBuilder implements IQueryBuilder {
 	 * @return \OCP\DB\QueryBuilder\IFunctionBuilder
 	 */
 	public function func() {
-		if ($this->connection->getDatabasePlatform() instanceof OraclePlatform) {
-			return new OCIFunctionBuilder($this->connection, $this, $this->helper);
-		}
-		if ($this->connection->getDatabasePlatform() instanceof SqlitePlatform) {
-			return new SqliteFunctionBuilder($this->connection, $this, $this->helper);
-		}
-		if ($this->connection->getDatabasePlatform() instanceof PostgreSQL94Platform) {
-			return new PgSqlFunctionBuilder($this->connection, $this, $this->helper);
-		}
-
-		return new FunctionBuilder($this->connection, $this, $this->helper);
+		return match($this->connection->getDatabaseProvider()) {
+			IDBConnection::PLATFORM_ORACLE => new OCIFunctionBuilder($this->connection, $this, $this->helper),
+			IDBConnection::PLATFORM_POSTGRES => new PgSqlFunctionBuilder($this->connection, $this, $this->helper),
+			IDBConnection::PLATFORM_MYSQL => new FunctionBuilder($this->connection, $this, $this->helper),
+			IDBConnection::PLATFORM_SQLITE => new SqliteFunctionBuilder($this->connection, $this, $this->helper),
+		};
 	}
 
 	/**
@@ -162,21 +146,16 @@ class QueryBuilder implements IQueryBuilder {
 	/**
 	 * Gets the state of this query builder instance.
 	 *
-	 * @return integer Either QueryBuilder::STATE_DIRTY or QueryBuilder::STATE_CLEAN.
+	 * @return int Always returns 0 which is former `QueryBuilder::STATE_DIRTY`
+	 * @deprecated 30.0.0 This function is going to be removed with the next Doctrine/DBAL update
+	 *    and we can not fix this in our wrapper.
 	 */
 	public function getState() {
+		$this->logger->debug(IQueryBuilder::class . '::' . __FUNCTION__ . ' is deprecated and will be removed soon.', ['exception' => new \Exception('Deprecated call to ' . __METHOD__)]);
 		return $this->queryBuilder->getState();
 	}
 
-	/**
-	 * Executes this query using the bound parameters and their types.
-	 *
-	 * Uses {@see Connection::executeQuery} for select statements and {@see Connection::executeUpdate}
-	 * for insert, update and delete statements.
-	 *
-	 * @return IResult|int
-	 */
-	public function execute() {
+	private function prepareForExecute() {
 		if ($this->systemConfig->getValue('log_query', false)) {
 			try {
 				$params = [];
@@ -207,24 +186,24 @@ class QueryBuilder implements IQueryBuilder {
 			}
 		}
 
-		if (!empty($this->getQueryPart('select'))) {
-			$select = $this->getQueryPart('select');
-			$hasSelectAll = array_filter($select, static function ($s) {
-				return $s === '*';
-			});
-			$hasSelectSpecific = array_filter($select, static function ($s) {
-				return $s !== '*';
-			});
+		// if (!empty($this->getQueryPart('select'))) {
+		// $select = $this->getQueryPart('select');
+		// $hasSelectAll = array_filter($select, static function ($s) {
+		// return $s === '*';
+		// });
+		// $hasSelectSpecific = array_filter($select, static function ($s) {
+		// return $s !== '*';
+		// });
 
-			if (empty($hasSelectAll) === empty($hasSelectSpecific)) {
-				$exception = new QueryException('Query is selecting * and specific values in the same query. This is not supported in Oracle.');
-				$this->logger->error($exception->getMessage(), [
-					'query' => $this->getSQL(),
-					'app' => 'core',
-					'exception' => $exception,
-				]);
-			}
-		}
+		// if (empty($hasSelectAll) === empty($hasSelectSpecific)) {
+		// $exception = new QueryException('Query is selecting * and specific values in the same query. This is not supported in Oracle.');
+		// $this->logger->error($exception->getMessage(), [
+		// 'query' => $this->getSQL(),
+		// 'app' => 'core',
+		// 'exception' => $exception,
+		// ]);
+		// }
+		// }
 
 		$numberOfParameters = 0;
 		$hasTooLargeArrayParameter = false;
@@ -253,48 +232,64 @@ class QueryBuilder implements IQueryBuilder {
 				'exception' => $exception,
 			]);
 		}
-
-		$result = $this->queryBuilder->execute();
-		if (is_int($result)) {
-			return $result;
-		}
-		return new ResultAdapter($result);
 	}
 
-	public function executeQuery(): IResult {
+	/**
+	 * Executes this query using the bound parameters and their types.
+	 *
+	 * Uses {@see Connection::executeQuery} for select statements and {@see Connection::executeUpdate}
+	 * for insert, update and delete statements.
+	 *
+	 * @return IResult|int
+	 */
+	public function execute(?IDBConnection $connection = null) {
+		try {
+			if ($this->getType() === \Doctrine\DBAL\Query\QueryBuilder::SELECT) {
+				return $this->executeQuery($connection);
+			} else {
+				return $this->executeStatement($connection);
+			}
+		} catch (DBALException $e) {
+			// `IQueryBuilder->execute` never wrapped the exception, but `executeQuery` and `executeStatement` do
+			/** @var \Doctrine\DBAL\Exception $previous */
+			$previous = $e->getPrevious();
+
+			throw $previous;
+		}
+	}
+
+	public function executeQuery(?IDBConnection $connection = null): IResult {
 		if ($this->getType() !== \Doctrine\DBAL\Query\QueryBuilder::SELECT) {
 			throw new \RuntimeException('Invalid query type, expected SELECT query');
 		}
 
-		try {
-			$result = $this->execute();
-		} catch (\Doctrine\DBAL\Exception $e) {
-			throw \OC\DB\Exceptions\DbalException::wrap($e);
+		$this->prepareForExecute();
+		if (!$connection) {
+			$connection = $this->connection;
 		}
 
-		if ($result instanceof IResult) {
-			return $result;
-		}
-
-		throw new \RuntimeException('Invalid return type for query');
+		return $connection->executeQuery(
+			$this->getSQL(),
+			$this->getParameters(),
+			$this->getParameterTypes(),
+		);
 	}
 
-	public function executeStatement(): int {
+	public function executeStatement(?IDBConnection $connection = null): int {
 		if ($this->getType() === \Doctrine\DBAL\Query\QueryBuilder::SELECT) {
 			throw new \RuntimeException('Invalid query type, expected INSERT, DELETE or UPDATE statement');
 		}
 
-		try {
-			$result = $this->execute();
-		} catch (\Doctrine\DBAL\Exception $e) {
-			throw \OC\DB\Exceptions\DbalException::wrap($e);
+		$this->prepareForExecute();
+		if (!$connection) {
+			$connection = $this->connection;
 		}
 
-		if (!is_int($result)) {
-			throw new \RuntimeException('Invalid return type for statement');
-		}
-
-		return $result;
+		return $connection->executeStatement(
+			$this->getSQL(),
+			$this->getParameters(),
+			$this->getParameterTypes(),
+		);
 	}
 
 
@@ -575,8 +570,13 @@ class QueryBuilder implements IQueryBuilder {
 	 * @param string $alias The table alias used in the constructed query.
 	 *
 	 * @return $this This QueryBuilder instance.
+	 * @since 30.0.0 Alias is deprecated and will no longer be used with the next Doctrine/DBAL update
 	 */
 	public function delete($delete = null, $alias = null) {
+		if ($alias !== null) {
+			$this->logger->debug('DELETE queries with alias are no longer supported and the provided alias is ignored', ['exception' => new \InvalidArgumentException('Table alias provided for DELETE query')]);
+		}
+
 		$this->queryBuilder->delete(
 			$this->getTableName($delete),
 			$alias
@@ -600,8 +600,13 @@ class QueryBuilder implements IQueryBuilder {
 	 * @param string $alias The table alias used in the constructed query.
 	 *
 	 * @return $this This QueryBuilder instance.
+	 * @since 30.0.0 Alias is deprecated and will no longer be used with the next Doctrine/DBAL update
 	 */
 	public function update($update = null, $alias = null) {
+		if ($alias !== null) {
+			$this->logger->debug('UPDATE queries with alias are no longer supported and the provided alias is ignored', ['exception' => new \InvalidArgumentException('Table alias provided for UPDATE query')]);
+		}
+
 		$this->queryBuilder->update(
 			$this->getTableName($update),
 			$alias
@@ -812,9 +817,10 @@ class QueryBuilder implements IQueryBuilder {
 	 *     // You can optionally programmatically build and/or expressions
 	 *     $qb = $conn->getQueryBuilder();
 	 *
-	 *     $or = $qb->expr()->orx();
-	 *     $or->add($qb->expr()->eq('u.id', 1));
-	 *     $or->add($qb->expr()->eq('u.id', 2));
+	 *     $or = $qb->expr()->orx(
+	 *         $qb->expr()->eq('u.id', 1),
+	 *         $qb->expr()->eq('u.id', 2),
+	 *     );
 	 *
 	 *     $qb->update('users', 'u')
 	 *         ->set('u.password', md5('password'))
@@ -826,11 +832,13 @@ class QueryBuilder implements IQueryBuilder {
 	 * @return $this This QueryBuilder instance.
 	 */
 	public function where(...$predicates) {
-		if ($this->getQueryPart('where') !== null && $this->systemConfig->getValue('debug', false)) {
+		if ($this->nonEmptyWhere && $this->systemConfig->getValue('debug', false)) {
 			// Only logging a warning, not throwing for now.
 			$e = new QueryException('Using where() on non-empty WHERE part, please verify it is intentional to not call andWhere() or orWhere() instead. Otherwise consider creating a new query builder object or call resetQueryPart(\'where\') first.');
 			$this->logger->warning($e->getMessage(), ['exception' => $e]);
 		}
+
+		$this->nonEmptyWhere = true;
 
 		call_user_func_array(
 			[$this->queryBuilder, 'where'],
@@ -859,6 +867,7 @@ class QueryBuilder implements IQueryBuilder {
 	 * @see where()
 	 */
 	public function andWhere(...$where) {
+		$this->nonEmptyWhere = true;
 		call_user_func_array(
 			[$this->queryBuilder, 'andWhere'],
 			$where
@@ -886,6 +895,7 @@ class QueryBuilder implements IQueryBuilder {
 	 * @see where()
 	 */
 	public function orWhere(...$where) {
+		$this->nonEmptyWhere = true;
 		call_user_func_array(
 			[$this->queryBuilder, 'orWhere'],
 			$where
@@ -1096,8 +1106,11 @@ class QueryBuilder implements IQueryBuilder {
 	 * @param string $queryPartName
 	 *
 	 * @return mixed
+	 * @deprecated 30.0.0 This function is going to be removed with the next Doctrine/DBAL update
+	 *   and we can not fix this in our wrapper. Please track the details you need, outside the object.
 	 */
 	public function getQueryPart($queryPartName) {
+		$this->logger->debug(IQueryBuilder::class . '::' . __FUNCTION__ . ' is deprecated and will be removed soon.', ['exception' => new \Exception('Deprecated call to ' . __METHOD__)]);
 		return $this->queryBuilder->getQueryPart($queryPartName);
 	}
 
@@ -1105,8 +1118,11 @@ class QueryBuilder implements IQueryBuilder {
 	 * Gets all query parts.
 	 *
 	 * @return array
+	 * @deprecated 30.0.0 This function is going to be removed with the next Doctrine/DBAL update
+	 *   and we can not fix this in our wrapper. Please track the details you need, outside the object.
 	 */
 	public function getQueryParts() {
+		$this->logger->debug(IQueryBuilder::class . '::' . __FUNCTION__ . ' is deprecated and will be removed soon.', ['exception' => new \Exception('Deprecated call to ' . __METHOD__)]);
 		return $this->queryBuilder->getQueryParts();
 	}
 
@@ -1116,8 +1132,11 @@ class QueryBuilder implements IQueryBuilder {
 	 * @param array|null $queryPartNames
 	 *
 	 * @return $this This QueryBuilder instance.
+	 * @deprecated 30.0.0 This function is going to be removed with the next Doctrine/DBAL update
+	 *  and we can not fix this in our wrapper. Please create a new IQueryBuilder instead.
 	 */
 	public function resetQueryParts($queryPartNames = null) {
+		$this->logger->debug(IQueryBuilder::class . '::' . __FUNCTION__ . ' is deprecated and will be removed soon.', ['exception' => new \Exception('Deprecated call to ' . __METHOD__)]);
 		$this->queryBuilder->resetQueryParts($queryPartNames);
 
 		return $this;
@@ -1129,8 +1148,11 @@ class QueryBuilder implements IQueryBuilder {
 	 * @param string $queryPartName
 	 *
 	 * @return $this This QueryBuilder instance.
+	 * @deprecated 30.0.0 This function is going to be removed with the next Doctrine/DBAL update
+	 *  and we can not fix this in our wrapper. Please create a new IQueryBuilder instead.
 	 */
 	public function resetQueryPart($queryPartName) {
+		$this->logger->debug(IQueryBuilder::class . '::' . __FUNCTION__ . ' is deprecated and will be removed soon.', ['exception' => new \Exception('Deprecated call to ' . __METHOD__)]);
 		$this->queryBuilder->resetQueryPart($queryPartName);
 
 		return $this;

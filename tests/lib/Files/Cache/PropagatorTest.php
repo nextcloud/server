@@ -122,7 +122,7 @@ class PropagatorTest extends TestCase {
 
 		foreach ($oldInfos as $i => $oldInfo) {
 			if ($oldInfo->getPath() !== 'foo/baz') {
-				$this->assertNotEquals($oldInfo->getEtag(), $newInfos[$i]->getEtag());
+				$this->assertNotEquals($oldInfo->getEtag(), $newInfos[$i]->getEtag(), "etag for {$oldInfo->getPath()} not updated");
 			}
 		}
 

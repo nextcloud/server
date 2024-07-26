@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace OC\Calendar\Room;
 
 use OC\AppFramework\Bootstrap\Coordinator;
+use OC\Calendar\ResourcesRoomsUpdater;
 use OCP\Calendar\Room\IBackend;
 use OCP\Calendar\Room\IManager;
 use OCP\IServerContainer;
@@ -28,6 +29,7 @@ class Manager implements IManager {
 	public function __construct(
 		private Coordinator $bootstrapCoordinator,
 		private IServerContainer $server,
+		private ResourcesRoomsUpdater $updater,
 	) {
 	}
 
@@ -114,5 +116,9 @@ class Manager implements IManager {
 	public function clear(): void {
 		$this->backends = [];
 		$this->initializedBackends = [];
+	}
+
+	public function update(): void {
+		$this->updater->updateRooms();
 	}
 }

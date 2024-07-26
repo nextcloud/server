@@ -19,6 +19,7 @@ use OCP\AppFramework\Http\Template\LinkMenuAction;
 use OCP\AppFramework\Http\Template\PublicTemplateResponse;
 use OCP\AppFramework\Http\Template\SimpleMenuAction;
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\AppFramework\Services\IInitialState;
 use OCP\Constants;
 use OCP\Defaults;
 use OCP\EventDispatcher\IEventDispatcher;
@@ -37,39 +38,20 @@ use OCP\Template;
 use OCP\Util;
 
 class DefaultPublicShareTemplateProvider implements IPublicShareTemplateProvider {
-	private IUserManager $userManager;
-	private IAccountManager $accountManager;
-	private IPreview $previewManager;
-	protected FederatedShareProvider $federatedShareProvider;
-	private IURLGenerator $urlGenerator;
-	private IEventDispatcher $eventDispatcher;
-	private IL10N $l10n;
-	private Defaults $defaults;
-	private IConfig $config;
-	private IRequest $request;
 
 	public function __construct(
-		IUserManager $userManager,
-		IAccountManager $accountManager,
-		IPreview $previewManager,
-		FederatedShareProvider $federatedShareProvider,
-		IUrlGenerator $urlGenerator,
-		IEventDispatcher $eventDispatcher,
-		IL10N $l10n,
-		Defaults $defaults,
-		IConfig $config,
-		IRequest $request
+		private IUserManager $userManager,
+		private IAccountManager $accountManager,
+		private IPreview $previewManager,
+		protected FederatedShareProvider $federatedShareProvider,
+		private IUrlGenerator $urlGenerator,
+		private IEventDispatcher $eventDispatcher,
+		private IL10N $l10n,
+		private Defaults $defaults,
+		private IConfig $config,
+		private IRequest $request,
+		private IInitialState $initialState,
 	) {
-		$this->userManager = $userManager;
-		$this->accountManager = $accountManager;
-		$this->previewManager = $previewManager;
-		$this->federatedShareProvider = $federatedShareProvider;
-		$this->urlGenerator = $urlGenerator;
-		$this->eventDispatcher = $eventDispatcher;
-		$this->l10n = $l10n;
-		$this->defaults = $defaults;
-		$this->config = $config;
-		$this->request = $request;
 	}
 
 	public function shouldRespond(IShare $share): bool {
@@ -91,11 +73,19 @@ class DefaultPublicShareTemplateProvider implements IPublicShareTemplateProvider
 			if ($ownerName->getScope() === IAccountManager::SCOPE_PUBLISHED) {
 				$shareTmpl['owner'] = $owner->getUID();
 				$shareTmpl['shareOwner'] = $owner->getDisplayName();
+				$this->initialState->provideInitialState('owner', $shareTmpl['owner']);
+				$this->initialState->provideInitialState('ownerDisplayName', $shareTmpl['shareOwner']);
 			}
 		}
 
+		// Provide initial state
+		$this->initialState->provideInitialState('label', $share->getLabel());
+		$this->initialState->provideInitialState('note', $share->getNote());
+		$this->initialState->provideInitialState('filename', $shareNode->getName());
+
 		$shareTmpl['filename'] = $shareNode->getName();
 		$shareTmpl['directory_path'] = $share->getTarget();
+		$shareTmpl['label'] = $share->getLabel();
 		$shareTmpl['note'] = $share->getNote();
 		$shareTmpl['mimetype'] = $shareNode->getMimetype();
 		$shareTmpl['previewSupported'] = $this->previewManager->isMimeSupported($shareNode->getMimetype());
@@ -238,6 +228,11 @@ class DefaultPublicShareTemplateProvider implements IPublicShareTemplateProvider
 		$response->setHeaderTitle($shareTmpl['filename']);
 		if ($shareTmpl['shareOwner'] !== '') {
 			$response->setHeaderDetails($this->l10n->t('shared by %s', [$shareTmpl['shareOwner']]));
+		}
+
+		// If the share has a label, use it as the title
+		if ($shareTmpl['label'] !== '') {
+			$response->setHeaderTitle($shareTmpl['label']);
 		}
 
 		$isNoneFileDropFolder = $shareIsFolder === false || $share->getPermissions() !== Constants::PERMISSION_CREATE;

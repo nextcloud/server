@@ -10,18 +10,21 @@ import PQueue from 'p-queue'
 // This is the processing queue. We only want to allow 3 concurrent requests
 let queue: PQueue
 
+// Maximum number of concurrent operations
+const MAX_CONCURRENCY = 5
+
 /**
  * Get the processing queue
  */
 export const getQueue = () => {
 	if (!queue) {
-		queue = new PQueue({ concurrency: 3 })
+		queue = new PQueue({ concurrency: MAX_CONCURRENCY })
 	}
 	return queue
 }
 
 type ShareAttribute = {
-	enabled: boolean
+	value: boolean|string|number|null|object|Array<unknown>
 	key: string
 	scope: string
 }
@@ -45,7 +48,7 @@ export const canMove = (nodes: Node[]) => {
 export const canDownload = (nodes: Node[]) => {
 	return nodes.every(node => {
 		const shareAttributes = JSON.parse(node.attributes?.['share-attributes'] ?? '[]') as Array<ShareAttribute>
-		return !shareAttributes.some(attribute => attribute.scope === 'permissions' && attribute.enabled === false && attribute.key === 'download')
+		return !shareAttributes.some(attribute => attribute.scope === 'permissions' && attribute.value === false && attribute.key === 'download')
 
 	})
 }

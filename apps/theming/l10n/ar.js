@@ -76,6 +76,8 @@ OC.L10N.register(
     "Disable user theming" : "إيقاف تصرف المستخدم في الثيمات",
     "Although you can select and customize your instance, users can change their background and colors. If you want to enforce your customization, you can toggle this on." : "على الرغم من أنه يمكنك تحديد وتخصيص الخادوم الخاص بك، فإنه يمكن للمستخدمين تغيير صور خلفيات شاشاتهم وألوانهم. إذا كنت تريد فرض التخصيص الخاص بك ، فيمكنك التبديل إلى هذا.",
     "Appearance and accessibility settings" : "إعدادات المظهر و سهولة الوصول",
+    "Misc accessibility options" : "خيارات متفرقة للوصول",
+    "Enable blur background filter (may increase GPU load)" : "تمكين فلتر تضبيب الخلفية (يمكن أن يتسبب في زيادة العبء على المعالج الرسومي  GPU)",
     "Customization has been disabled by your administrator" : "التخصيص موقوف من قِبَل المُشرف",
     "Set a primary color to highlight important elements. The color used for elements such as primary buttons might differ a bit as it gets adjusted to fulfill accessibility requirements." : "يُستعمل الِلون الأساسي لإبراز بعض العناصر مثل الأزرار الهامة. و قد يتم ضبطه قليلاً تلبيةً لمتطلبات سهولة الوصول.",
     "Background and color" : "الخلفية و الألوان",

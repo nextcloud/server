@@ -6,7 +6,7 @@
 	<NcAppContent :page-heading="pageHeading" data-cy-files-content>
 		<div class="files-list__header">
 			<!-- Current folder breadcrumbs -->
-			<BreadCrumbs :path="dir" @reload="fetchContent">
+			<BreadCrumbs :path="directory" @reload="fetchContent">
 				<template #actions>
 					<!-- Sharing button -->
 					<NcButton v-if="canShare && filesListWidth >= 512"
@@ -37,10 +37,12 @@
 
 					<!-- Uploader -->
 					<UploadPicker v-else-if="currentFolder"
-						:content="dirContents"
-						:destination="currentFolder"
-						:multiple="true"
+						allow-folders
 						class="files-list__header-upload-button"
+						:content="getContent"
+						:destination="currentFolder"
+						:forbidden-characters="forbiddenCharacters"
+						multiple
 						@failed="onUploadFail"
 						@uploaded="onUpload" />
 				</template>
@@ -76,12 +78,14 @@
 			:name="currentView?.emptyTitle || t('files', 'No files in here')"
 			:description="currentView?.emptyCaption || t('files', 'Upload some content or sync with your devices!')"
 			data-cy-files-content-empty>
-			<template v-if="dir !== '/'" #action>
+			<template v-if="directory !== '/'" #action>
 				<!-- Uploader -->
 				<UploadPicker v-if="currentFolder && canUpload && !isQuotaExceeded"
-					:content="dirContents"
-					:destination="currentFolder"
+					allow-folders
 					class="files-list__header-upload-button"
+					:content="getContent"
+					:destination="currentFolder"
+					:forbidden-characters="forbiddenCharacters"
 					multiple
 					@failed="onUploadFail"
 					@uploaded="onUpload" />
@@ -107,7 +111,7 @@
 </template>
 
 <script lang="ts">
-import type { View, ContentsWithRoot } from '@nextcloud/files'
+import type { ContentsWithRoot, INode } from '@nextcloud/files'
 import type { Upload } from '@nextcloud/upload'
 import type { CancelablePromise } from 'cancelable-promise'
 import type { ComponentPublicInstance } from 'vue'
@@ -116,12 +120,12 @@ import type { UserConfig } from '../types.ts'
 
 import { getCapabilities } from '@nextcloud/capabilities'
 import { emit, subscribe, unsubscribe } from '@nextcloud/event-bus'
-import { Folder, Node, Permission } from '@nextcloud/files'
+import { Folder, Node, Permission, sortNodes } from '@nextcloud/files'
 import { translate as t } from '@nextcloud/l10n'
-import { join, dirname } from 'path'
-import { showError } from '@nextcloud/dialogs'
+import { join, dirname, normalize } from 'path'
+import { showError, showWarning } from '@nextcloud/dialogs'
 import { Type } from '@nextcloud/sharing'
-import { UploadPicker } from '@nextcloud/upload'
+import { UploadPicker, UploadStatus } from '@nextcloud/upload'
 import { loadState } from '@nextcloud/initial-state'
 import { defineComponent } from 'vue'
 
@@ -137,20 +141,21 @@ import AccountPlusIcon from 'vue-material-design-icons/AccountPlus.vue'
 import ViewGridIcon from 'vue-material-design-icons/ViewGrid.vue'
 
 import { action as sidebarAction } from '../actions/sidebarAction.ts'
+import { useNavigation } from '../composables/useNavigation.ts'
+import { useRouteParameters } from '../composables/useRouteParameters.ts'
 import { useFilesStore } from '../store/files.ts'
+import { useFiltersStore } from '../store/filters.ts'
 import { usePathsStore } from '../store/paths.ts'
 import { useSelectionStore } from '../store/selection.ts'
 import { useUploaderStore } from '../store/uploader.ts'
 import { useUserConfigStore } from '../store/userconfig.ts'
 import { useViewConfigStore } from '../store/viewConfig.ts'
-import { orderBy } from '../services/SortingService.ts'
 import BreadCrumbs from '../components/BreadCrumbs.vue'
 import FilesListVirtual from '../components/FilesListVirtual.vue'
 import filesListWidthMixin from '../mixins/filesListWidth.ts'
 import filesSortingMixin from '../mixins/filesSorting.ts'
 import logger from '../logger.js'
 import DragAndDropNotice from '../components/DragAndDropNotice.vue'
-import debounce from 'debounce'
 
 const isSharingEnabled = (getCapabilities() as { files_sharing?: boolean })?.files_sharing !== undefined
 
@@ -181,33 +186,45 @@ export default defineComponent({
 
 	setup() {
 		const filesStore = useFilesStore()
+		const filtersStore = useFiltersStore()
 		const pathsStore = usePathsStore()
 		const selectionStore = useSelectionStore()
 		const uploaderStore = useUploaderStore()
 		const userConfigStore = useUserConfigStore()
 		const viewConfigStore = useViewConfigStore()
+		const { currentView } = useNavigation()
+		const { directory, fileId } = useRouteParameters()
 
 		const enableGridView = (loadState('core', 'config', [])['enable_non-accessible_features'] ?? true)
+		const forbiddenCharacters = loadState<string[]>('files', 'forbiddenCharacters', [])
 
 		return {
+			currentView,
+			directory,
+			fileId,
+			t,
+
 			filesStore,
+			filtersStore,
 			pathsStore,
 			selectionStore,
 			uploaderStore,
 			userConfigStore,
 			viewConfigStore,
-			enableGridView,
 
 			// non reactive data
+			enableGridView,
+			forbiddenCharacters,
 			Type,
 		}
 	},
 
 	data() {
 		return {
-			filterText: '',
 			loading: true,
 			promise: null as CancelablePromise<ContentsWithRoot> | Promise<ContentsWithRoot> | null,
+
+			dirContentsFiltered: [] as INode[],
 
 			unsubscribeStoreCallback: () => {},
 		}
@@ -215,41 +232,24 @@ export default defineComponent({
 
 	computed: {
 		/**
-		 * Handle search event from unified search.
+		 * Get a callback function for the uploader to fetch directory contents for conflict resolution
 		 */
-		onSearch() {
-			return debounce((searchEvent: { query: string }) => {
-				console.debug('Files app handling search event from unified search...', searchEvent)
-				this.filterText = searchEvent.query
-			}, 500)
+		getContent() {
+			const view = this.currentView!
+			return async (path?: string) => {
+				// as the path is allowed to be undefined we need to normalize the path ('//' to '/')
+				const normalizedPath = normalize(`${this.currentFolder?.path ?? ''}/${path ?? ''}`)
+				// use the current view to fetch the content for the requested path
+				return (await view.getContents(normalizedPath)).contents
+			}
 		},
 
 		userConfig(): UserConfig {
 			return this.userConfigStore.userConfig
 		},
 
-		currentView(): View {
-			return this.$navigation.active || this.$navigation.views.find((view) => view.id === (this.$route.params?.view ?? 'files'))!
-		},
-
 		pageHeading(): string {
 			return this.currentView?.name ?? t('files', 'Files')
-		},
-
-		/**
-		 * The current directory query.
-		 */
-		dir(): string {
-			// Remove any trailing slash but leave root slash
-			return (this.$route?.query?.dir?.toString() || '/').replace(/^(.+)\/$/, '$1')
-		},
-
-		/**
-		 * The current file id
-		 */
-		fileId(): number | null {
-			const number = Number.parseInt(this.$route?.params.fileid ?? '')
-			return Number.isNaN(number) ? null : number
 		},
 
 		/**
@@ -260,11 +260,11 @@ export default defineComponent({
 				return
 			}
 
-			if (this.dir === '/') {
+			if (this.directory === '/') {
 				return this.filesStore.getRoot(this.currentView.id)
 			}
 
-			const source = this.pathsStore.getPath(this.currentView.id, this.dir)
+			const source = this.pathsStore.getPath(this.currentView.id, this.directory)
 			if (source === undefined) {
 				return
 			}
@@ -272,55 +272,18 @@ export default defineComponent({
 			return this.filesStore.getNode(source) as Folder
 		},
 
-		/**
-		 * Directory content sorting parameters
-		 * Provided by an extra computed property for caching
-		 */
-		sortingParameters() {
-			const identifiers = [
-				// 1: Sort favorites first if enabled
-				...(this.userConfig.sort_favorites_first ? [v => v.attributes?.favorite !== 1] : []),
-				// 2: Sort folders first if sorting by name
-				...(this.userConfig.sort_folders_first ? [v => v.type !== 'folder'] : []),
-				// 3: Use sorting mode if NOT basename (to be able to use displayName too)
-				...(this.sortingMode !== 'basename' ? [v => v[this.sortingMode]] : []),
-				// 4: Use displayName if available, fallback to name
-				v => v.attributes?.displayName || v.basename,
-				// 5: Finally, use basename if all previous sorting methods failed
-				v => v.basename,
-			]
-			const orders = [
-				// (for 1): always sort favorites before normal files
-				...(this.userConfig.sort_favorites_first ? ['asc'] : []),
-				// (for 2): always sort folders before files
-				...(this.userConfig.sort_folders_first ? ['asc'] : []),
-				// (for 3): Reverse if sorting by mtime as mtime higher means edited more recent -> lower
-				...(this.sortingMode === 'mtime' ? [this.isAscSorting ? 'desc' : 'asc'] : []),
-				// (also for 3 so make sure not to conflict with 2 and 3)
-				...(this.sortingMode !== 'mtime' && this.sortingMode !== 'basename' ? [this.isAscSorting ? 'asc' : 'desc'] : []),
-				// for 4: use configured sorting direction
-				this.isAscSorting ? 'asc' : 'desc',
-				// for 5: use configured sorting direction
-				this.isAscSorting ? 'asc' : 'desc',
-			] as ('asc'|'desc')[]
-			return [identifiers, orders] as const
+		dirContents(): Node[] {
+			return (this.currentFolder?._children || [])
+				.map(this.getNode)
+				.filter((node: Node) => !!node)
 		},
 
 		/**
 		 * The current directory contents.
 		 */
-		dirContentsSorted(): Node[] {
+		dirContentsSorted() {
 			if (!this.currentView) {
 				return []
-			}
-
-			let filteredDirContent = [...this.dirContents]
-			// Filter based on the filterText obtained from nextcloud:unified-search.search event.
-			if (this.filterText) {
-				filteredDirContent = filteredDirContent.filter(node => {
-					return node.basename.toLowerCase().includes(this.filterText.toLowerCase())
-				})
-				console.debug('Files view filtered', filteredDirContent)
 			}
 
 			const customColumn = (this.currentView?.columns || [])
@@ -328,27 +291,16 @@ export default defineComponent({
 
 			// Custom column must provide their own sorting methods
 			if (customColumn?.sort && typeof customColumn.sort === 'function') {
-				const results = [...this.dirContents].sort(customColumn.sort)
+				const results = [...this.dirContentsFiltered].sort(customColumn.sort)
 				return this.isAscSorting ? results : results.reverse()
 			}
 
-			return orderBy(
-				filteredDirContent,
-				...this.sortingParameters,
-			)
-		},
-
-		dirContents(): Node[] {
-			const showHidden = this.userConfigStore?.userConfig.show_hidden
-			return (this.currentFolder?._children || [])
-				.map(this.getNode)
-				.filter(file => {
-					if (!showHidden) {
-						return file && file?.attributes?.hidden !== true && !file?.basename.startsWith('.')
-					}
-
-					return !!file
-				})
+			return sortNodes(this.dirContentsFiltered, {
+				sortFavoritesFirst: this.userConfig.sort_favorites_first,
+				sortFoldersFirst: this.userConfig.sort_folders_first,
+				sortingMode: this.sortingMode,
+				sortingOrder: this.isAscSorting ? 'asc' : 'desc',
+			})
 		},
 
 		/**
@@ -373,18 +325,18 @@ export default defineComponent({
 		 * Route to the previous directory.
 		 */
 		toPreviousDir(): Route {
-			const dir = this.dir.split('/').slice(0, -1).join('/') || '/'
+			const dir = this.directory.split('/').slice(0, -1).join('/') || '/'
 			return { ...this.$route, query: { dir } }
 		},
 
-		shareAttributes(): number[] | undefined {
+		shareTypesAttributes(): number[] | undefined {
 			if (!this.currentFolder?.attributes?.['share-types']) {
 				return undefined
 			}
 			return Object.values(this.currentFolder?.attributes?.['share-types'] || {}).flat() as number[]
 		},
 		shareButtonLabel() {
-			if (!this.shareAttributes) {
+			if (!this.shareTypesAttributes) {
 				return t('files', 'Share')
 			}
 
@@ -394,12 +346,12 @@ export default defineComponent({
 			return t('files', 'Shared')
 		},
 		shareButtonType(): Type | null {
-			if (!this.shareAttributes) {
+			if (!this.shareTypesAttributes) {
 				return null
 			}
 
 			// If all types are links, show the link icon
-			if (this.shareAttributes.some(type => type === Type.SHARE_TYPE_LINK)) {
+			if (this.shareTypesAttributes.some(type => type === Type.SHARE_TYPE_LINK)) {
 				return Type.SHARE_TYPE_LINK
 			}
 
@@ -435,6 +387,10 @@ export default defineComponent({
 			return isSharingEnabled
 				&& this.currentFolder && (this.currentFolder.permissions & Permission.SHARE) !== 0
 		},
+
+		filtersChanged() {
+			return this.filtersStore.filtersChanged
+		},
 	},
 
 	watch: {
@@ -445,15 +401,16 @@ export default defineComponent({
 
 			logger.debug('View changed', { newView, oldView })
 			this.selectionStore.reset()
-			this.resetSearch()
 			this.fetchContent()
 		},
 
-		dir(newDir, oldDir) {
+		directory(newDir, oldDir) {
 			logger.debug('Directory changed', { newDir, oldDir })
 			// TODO: preserve selection on browsing?
 			this.selectionStore.reset()
-			this.resetSearch()
+			if (window.OCA.Files.Sidebar?.close) {
+				window.OCA.Files.Sidebar.close()
+			}
 			this.fetchContent()
 
 			// Scroll to top, force virtual scroller to re-render
@@ -466,16 +423,24 @@ export default defineComponent({
 		dirContents(contents) {
 			logger.debug('Directory contents changed', { view: this.currentView, folder: this.currentFolder, contents })
 			emit('files:list:updated', { view: this.currentView, folder: this.currentFolder, contents })
+			// Also refresh the filtered content
+			this.filterDirContent()
+		},
+
+		filtersChanged() {
+			if (this.filtersChanged) {
+				this.filterDirContent()
+				this.filtersStore.filtersChanged = false
+			}
 		},
 	},
 
 	mounted() {
+		this.filtersStore.init()
 		this.fetchContent()
 
 		subscribe('files:node:deleted', this.onNodeDeleted)
 		subscribe('files:node:updated', this.onUpdatedNode)
-		subscribe('nextcloud:unified-search.search', this.onSearch)
-		subscribe('nextcloud:unified-search.reset', this.onSearch)
 
 		// reload on settings change
 		this.unsubscribeStoreCallback = this.userConfigStore.$subscribe(() => this.fetchContent(), { deep: true })
@@ -484,17 +449,12 @@ export default defineComponent({
 	unmounted() {
 		unsubscribe('files:node:deleted', this.onNodeDeleted)
 		unsubscribe('files:node:updated', this.onUpdatedNode)
-		unsubscribe('nextcloud:unified-search.search', this.onSearch)
-		unsubscribe('nextcloud:unified-search.reset', this.onSearch)
-		this.unsubscribeStoreCallback()
 	},
 
 	methods: {
-		t,
-
 		async fetchContent() {
 			this.loading = true
-			const dir = this.dir
+			const dir = this.directory
 			const currentView = this.currentView
 
 			if (!currentView) {
@@ -566,10 +526,10 @@ export default defineComponent({
 			if (node.fileid && node.fileid === this.fileId) {
 				if (node.fileid === this.currentFolder?.fileid) {
 					// Handle the edge case that the current directory is deleted
-					// in this case we neeed to keept the current view but move to the parent directory
+					// in this case we need to keep the current view but move to the parent directory
 					window.OCP.Files.Router.goToRoute(
 						null,
-						{ view: this.$route.params.view },
+						{ view: this.currentView!.id },
 						{ dir: this.currentFolder?.dirname ?? '/' },
 					)
 				} else {
@@ -590,8 +550,7 @@ export default defineComponent({
 		onUpload(upload: Upload) {
 			// Let's only refresh the current Folder
 			// Navigating to a different folder will refresh it anyway
-			const destinationSource = dirname(upload.source)
-			const needsRefresh = destinationSource === this.currentFolder?.source
+			const needsRefresh = dirname(upload.source) === this.currentFolder!.source
 
 			// TODO: fetch uploaded files data only
 			// Use parseInt(upload.response?.headers?.['oc-fileid']) to get the fileid
@@ -603,6 +562,11 @@ export default defineComponent({
 
 		async onUploadFail(upload: Upload) {
 			const status = upload.response?.status || 0
+
+			if (upload.status === UploadStatus.CANCELLED) {
+				showWarning(t('files', 'Upload was cancelled by user'))
+				return
+			}
 
 			// Check known status codes
 			if (status === 507) {
@@ -652,13 +616,6 @@ export default defineComponent({
 			}
 		},
 
-		/**
-		 * Reset the search query
-		 */
-		resetSearch() {
-			this.filterText = ''
-		},
-
 		openSharingSidebar() {
 			if (!this.currentFolder) {
 				logger.debug('No current folder found for opening sharing sidebar')
@@ -668,10 +625,19 @@ export default defineComponent({
 			if (window?.OCA?.Files?.Sidebar?.setActiveTab) {
 				window.OCA.Files.Sidebar.setActiveTab('sharing')
 			}
-			sidebarAction.exec(this.currentFolder, this.currentView, this.currentFolder.path)
+			sidebarAction.exec(this.currentFolder, this.currentView!, this.currentFolder.path)
 		},
+
 		toggleGridView() {
 			this.userConfigStore.update('grid_view', !this.userConfig.grid_view)
+		},
+
+		filterDirContent() {
+			let nodes = this.dirContents
+			for (const filter of this.filtersStore.sortedFilters) {
+				nodes = filter.filter(nodes)
+			}
+			this.dirContentsFiltered = nodes
 		},
 	},
 })

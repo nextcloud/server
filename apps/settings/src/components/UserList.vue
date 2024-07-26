@@ -169,17 +169,13 @@ export default {
 			if (this.selectedGroup === 'disabled') {
 				return this.users.filter(user => user.enabled === false)
 			}
-			if (!this.settings.isAdmin) {
-				// we don't want subadmins to edit themselves
-				return this.users.filter(user => user.enabled !== false)
-			}
 			return this.users.filter(user => user.enabled !== false)
 		},
 
 		groups() {
-			// data provided php side + remove the disabled group
+			// data provided php side + remove the recent and disabled groups
 			return this.$store.getters.getGroups
-				.filter(group => group.id !== 'disabled')
+				.filter(group => group.id !== '__nc_internal_recent' && group.id !== 'disabled')
 				.sort((a, b) => a.name.localeCompare(b.name))
 		},
 
@@ -296,6 +292,12 @@ export default {
 					await this.$store.dispatch('getDisabledUsers', {
 						offset: this.disabledUsersOffset,
 						limit: this.disabledUsersLimit,
+						search: this.searchQuery,
+					})
+				} else if (this.selectedGroup === '__nc_internal_recent') {
+					await this.$store.dispatch('getRecentUsers', {
+						offset: this.usersOffset,
+						limit: this.usersLimit,
 						search: this.searchQuery,
 					})
 				} else {

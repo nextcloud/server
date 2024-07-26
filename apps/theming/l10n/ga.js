@@ -76,6 +76,8 @@ OC.L10N.register(
     "Disable user theming" : "Díchumasaigh téamaí úsáideora",
     "Although you can select and customize your instance, users can change their background and colors. If you want to enforce your customization, you can toggle this on." : "Cé gur féidir leat do chás a roghnú agus a shaincheapadh, is féidir le húsáideoirí a gcúlra agus a ndathanna a athrú. Más mian leat do shaincheapadh a fhorfheidhmiú, is féidir leat é seo a scoránaigh.",
     "Appearance and accessibility settings" : "Cuma agus socruithe inrochtaineachta",
+    "Misc accessibility options" : "Roghanna inrochtaineachta éagsúla",
+    "Enable blur background filter (may increase GPU load)" : "Cumasaigh an scagaire cúlra doiléir (d'fhéadfadh sé ualach GPU a mhéadú)",
     "Customization has been disabled by your administrator" : "Dhíchumasaigh do riarthóir an oiriúnú",
     "Set a primary color to highlight important elements. The color used for elements such as primary buttons might differ a bit as it gets adjusted to fulfill accessibility requirements." : "Socraigh dath príomhúil chun aird a tharraingt ar ghnéithe tábhachtacha. D’fhéadfadh difríocht bheag a bheith idir an dath a úsáidtear le haghaidh eilimintí mar chnaipí príomhúla de réir mar a choigeartaítear é chun riachtanais inrochtaineachta a chomhlíonadh.",
     "Background and color" : "Cúlra agus dath",

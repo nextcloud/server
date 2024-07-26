@@ -63,7 +63,7 @@ class WellKnownUrls implements ISetupCheck {
 					if (!$works && $response->getStatusCode() === 401) {
 						$redirectHops = explode(',', $response->getHeader('X-Guzzle-Redirect-History'));
 						$effectiveUri = end($redirectHops);
-						$works = str_ends_with($effectiveUri, '/remote.php/dav/');
+						$works = str_ends_with(rtrim($effectiveUri, '/'), '/remote.php/dav');
 					}
 				}
 				// Skip the other requests if one works

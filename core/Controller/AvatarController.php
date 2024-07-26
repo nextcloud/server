@@ -189,8 +189,7 @@ class AvatarController extends Controller {
 		} elseif (!is_null($files)) {
 			if (
 				$files['error'][0] === 0 &&
-				 is_uploaded_file($files['tmp_name'][0]) &&
-				!\OC\Files\Filesystem::isFileBlacklisted($files['tmp_name'][0])
+				 is_uploaded_file($files['tmp_name'][0])
 			) {
 				if ($files['size'][0] > 20 * 1024 * 1024) {
 					return new JSONResponse(

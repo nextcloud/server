@@ -37,7 +37,7 @@ class AISettingsController extends Controller {
 	 * @return DataResponse
 	 */
 	public function update($settings) {
-		$keys = ['ai.stt_provider', 'ai.textprocessing_provider_preferences', 'ai.translation_provider_preferences', 'ai.text2image_provider'];
+		$keys = ['ai.stt_provider', 'ai.textprocessing_provider_preferences', 'ai.taskprocessing_provider_preferences', 'ai.translation_provider_preferences', 'ai.text2image_provider'];
 		foreach ($keys as $key) {
 			if (!isset($settings[$key])) {
 				continue;

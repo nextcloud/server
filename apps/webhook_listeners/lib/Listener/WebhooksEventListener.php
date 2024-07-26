@@ -34,8 +34,8 @@ class WebhooksEventListener implements IEventListener {
 	}
 
 	public function handle(Event $event): void {
-		$webhookListeners = $this->mapper->getByEvent($event::class);
 		$user = $this->userSession->getUser();
+		$webhookListeners = $this->mapper->getByEvent($event::class, $user?->getUID());
 
 		foreach ($webhookListeners as $webhookListener) {
 			// TODO add group membership to be able to filter on it

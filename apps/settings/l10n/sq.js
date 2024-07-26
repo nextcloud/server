@@ -194,6 +194,7 @@ OC.L10N.register(
     "Hide" : "Fshihe",
     "Never" : "Kurrë",
     "The app has been enabled but needs to be updated. You will be redirected to the update page in 5 seconds." : "Aplikacioni është aktivizuar, por lyp të përditësohet. Do të ridrejtoheni te faqja e përditësimeve brenda 5 sekondash.",
+    "Error" : "Gabim",
     "Forum" : "Forum",
     "SSL" : "SSL",
     "Open documentation" : "Hapni dokumentimin",

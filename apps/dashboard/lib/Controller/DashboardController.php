@@ -15,6 +15,7 @@ use OCP\AppFramework\Http\Attribute\FrontpageRoute;
 use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
+use OCP\Dashboard\IIconWidget;
 use OCP\Dashboard\IManager;
 use OCP\Dashboard\IWidget;
 use OCP\EventDispatcher\IEventDispatcher;
@@ -54,6 +55,7 @@ class DashboardController extends Controller {
 				'id' => $widget->getId(),
 				'title' => $widget->getTitle(),
 				'iconClass' => $widget->getIconClass(),
+				'iconUrl' => $widget instanceof IIconWidget ? $widget->getIconUrl() : '',
 				'url' => $widget->getUrl()
 			];
 		}, $this->dashboardManager->getWidgets());

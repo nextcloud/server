@@ -74,6 +74,8 @@
     "Disable user theming" : "Disable user theming",
     "Although you can select and customize your instance, users can change their background and colors. If you want to enforce your customization, you can toggle this on." : "Although you can select and customize your instance, users can change their background and colors. If you want to enforce your customization, you can toggle this on.",
     "Appearance and accessibility settings" : "Appearance and accessibility settings",
+    "Misc accessibility options" : "Misc accessibility options",
+    "Enable blur background filter (may increase GPU load)" : "Enable blur background filter (may increase GPU load)",
     "Customization has been disabled by your administrator" : "Customization has been disabled by your administrator",
     "Set a primary color to highlight important elements. The color used for elements such as primary buttons might differ a bit as it gets adjusted to fulfill accessibility requirements." : "Set a primary color to highlight important elements. The color used for elements such as primary buttons might differ a bit as it gets adjusted to fulfill accessibility requirements.",
     "Background and color" : "Background and colour",

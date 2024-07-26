@@ -16,7 +16,7 @@
 		class="files-list__row"
 		v-on="rowListeners">
 		<!-- Failed indicator -->
-		<span v-if="source.attributes.failed" class="files-list__row--failed" />
+		<span v-if="isFailedSource" class="files-list__row--failed" />
 
 		<!-- Checkbox -->
 		<FileEntryCheckbox :fileid="fileid"
@@ -34,7 +34,7 @@
 				@click.native="execDefaultAction" />
 
 			<FileEntryName ref="name"
-				:display-name="displayName"
+				:basename="basename"
 				:extension="extension"
 				:files-list-width="filesListWidth"
 				:nodes="nodes"
@@ -86,9 +86,11 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import { Permission, formatFileSize } from '@nextcloud/files'
+import { formatFileSize } from '@nextcloud/files'
 import moment from '@nextcloud/moment'
 
+import { useNavigation } from '../composables/useNavigation.ts'
+import { useRouteParameters } from '../composables/useRouteParameters.ts'
 import { useActionsMenuStore } from '../store/actionsmenu.ts'
 import { useDragAndDropStore } from '../store/dragging.ts'
 import { useFilesStore } from '../store/files.ts'
@@ -120,15 +122,7 @@ export default defineComponent({
 	],
 
 	props: {
-		isMtimeAvailable: {
-			type: Boolean,
-			default: false,
-		},
 		isSizeAvailable: {
-			type: Boolean,
-			default: false,
-		},
-		compact: {
 			type: Boolean,
 			default: false,
 		},
@@ -140,12 +134,22 @@ export default defineComponent({
 		const filesStore = useFilesStore()
 		const renamingStore = useRenamingStore()
 		const selectionStore = useSelectionStore()
+		const { currentView } = useNavigation()
+		const {
+			directory: currentDir,
+			fileId: currentFileId,
+		} = useRouteParameters()
+
 		return {
 			actionsMenuStore,
 			draggingStore,
 			filesStore,
 			renamingStore,
 			selectionStore,
+
+			currentDir,
+			currentFileId,
+			currentView,
 		}
 	},
 
@@ -179,42 +183,27 @@ export default defineComponent({
 		},
 
 		size() {
-			const size = parseInt(this.source.size, 10)
-			if (typeof size !== 'number' || isNaN(size) || size < 0) {
+			const size = this.source.size
+			if (!size || size < 0) {
 				return this.t('files', 'Pending')
 			}
 			return formatFileSize(size, true)
 		},
+
 		sizeOpacity() {
 			const maxOpacitySize = 10 * 1024 * 1024
 
-			const size = parseInt(this.source.size, 10)
+			const size = this.source.size
 			if (!size || isNaN(size) || size < 0) {
 				return {}
 			}
 
-			const ratio = Math.round(Math.min(100, 100 * Math.pow((this.source.size / maxOpacitySize), 2)))
+			const ratio = Math.round(Math.min(100, 100 * Math.pow((size / maxOpacitySize), 2)))
 			return {
 				color: `color-mix(in srgb, var(--color-main-text) ${ratio}%, var(--color-text-maxcontrast))`,
 			}
 		},
-		mtimeOpacity() {
-			const maxOpacityTime = 31 * 24 * 60 * 60 * 1000 // 31 days
 
-			const mtime = this.source.mtime?.getTime?.()
-			if (!mtime) {
-				return {}
-			}
-
-			// 1 = today, 0 = 31 days ago
-			const ratio = Math.round(Math.min(100, 100 * (maxOpacityTime - (Date.now() - mtime)) / maxOpacityTime))
-			if (ratio < 0) {
-				return {}
-			}
-			return {
-				color: `color-mix(in srgb, var(--color-main-text) ${ratio}%, var(--color-text-maxcontrast))`,
-			}
-		},
 		mtimeTitle() {
 			if (this.source.mtime) {
 				return moment(this.source.mtime).format('LLL')

@@ -194,12 +194,14 @@ class SFTP extends Common {
 	 */
 	private function hostKeysPath() {
 		try {
-			$storage_view = \OCP\Files::getStorage('files_external');
-			if ($storage_view) {
-				return \OC::$server->getConfig()->getSystemValue('datadirectory', \OC::$SERVERROOT . '/data') .
-					$storage_view->getAbsolutePath('') .
-					'ssh_hostKeys';
+			$userId = \OC_User::getUser();
+			if ($userId === false) {
+				return false;
 			}
+
+			$view = new \OC\Files\View('/' . $userId . '/files_external');
+
+			return $view->getLocalFile('ssh_hostKeys');
 		} catch (\Exception $e) {
 		}
 		return false;

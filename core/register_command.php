@@ -38,9 +38,7 @@ if ($config->getSystemValueBool('installed', false)) {
 	$application->add(Server::get(Command\TwoFactorAuth\Disable::class));
 	$application->add(Server::get(Command\TwoFactorAuth\State::class));
 
-	$application->add(Server::get(Command\Background\Cron::class));
-	$application->add(Server::get(Command\Background\WebCron::class));
-	$application->add(Server::get(Command\Background\Ajax::class));
+	$application->add(Server::get(Command\Background\Mode::class));
 	$application->add(Server::get(Command\Background\Job::class));
 	$application->add(Server::get(Command\Background\ListCommand::class));
 	$application->add(Server::get(Command\Background\Delete::class));
@@ -66,6 +64,8 @@ if ($config->getSystemValueBool('installed', false)) {
 	$application->add(Server::get(Command\Db\AddMissingColumns::class));
 	$application->add(Server::get(Command\Db\AddMissingIndices::class));
 	$application->add(Server::get(Command\Db\AddMissingPrimaryKeys::class));
+	$application->add(Server::get(Command\Db\ExpectedSchema::class));
+	$application->add(Server::get(Command\Db\ExportSchema::class));
 
 	if ($config->getSystemValueBool('debug', false)) {
 		$application->add(Server::get(Command\Db\Migrations\StatusCommand::class));
@@ -140,6 +140,9 @@ if ($config->getSystemValueBool('installed', false)) {
 	$application->add(Server::get(Command\Security\BruteforceResetAttempts::class));
 	$application->add(Server::get(Command\SetupChecks::class));
 	$application->add(Server::get(Command\FilesMetadata\Get::class));
+
+	$application->add(Server::get(Command\TaskProcessing\ListCommand::class));
+	$application->add(Server::get(Command\TaskProcessing\Statistics::class));
 } else {
 	$application->add(Server::get(Command\Maintenance\Install::class));
 }

@@ -17,7 +17,6 @@ SPDX-FileCopyrightText: Roman Shtylman <shtylman@gmail.com>
 SPDX-FileCopyrightText: Roeland Jago Douma
 SPDX-FileCopyrightText: Rob Cresswell <robcresswell@pm.me>
 SPDX-FileCopyrightText: Raynos <raynos2@gmail.com>
-SPDX-FileCopyrightText: Perry Mitchell <perry@perrymitchell.net>
 SPDX-FileCopyrightText: OpenJS Foundation and other contributors
 SPDX-FileCopyrightText: Nextcloud GmbH and Nextcloud contributors
 SPDX-FileCopyrightText: Matt Zabriskie
@@ -35,7 +34,6 @@ SPDX-FileCopyrightText: Feross Aboukhadijeh
 SPDX-FileCopyrightText: Evert Pot
 SPDX-FileCopyrightText: Evan You
 SPDX-FileCopyrightText: Dr.-Ing. Mario Heiderich, Cure53 <mario@cure53.de> (https://cure53.de/)
-SPDX-FileCopyrightText: Denis Pushkarev
 SPDX-FileCopyrightText: David Clark
 SPDX-FileCopyrightText: Christoph Wurst <christoph@winzerhof-wurst.at>
 SPDX-FileCopyrightText: Christoph Wurst
@@ -54,65 +52,53 @@ This file is generated from multiple sources. Included packages:
 - @nextcloud/auth
 	- version: 2.3.0
 	- license: GPL-3.0-or-later
-- @nextcloud/router
-	- version: 2.2.0
-	- license: GPL-3.0-or-later
 - @nextcloud/axios
-	- version: 2.4.0
+	- version: 2.5.0
 	- license: GPL-3.0-or-later
 - @nextcloud/capabilities
 	- version: 1.2.0
 	- license: GPL-3.0-or-later
 - @nextcloud/dialogs
-	- version: 5.3.1
-	- license: GPL-3.0-or-later
+	- version: 5.3.5
+	- license: AGPL-3.0-or-later
 - semver
 	- version: 7.6.2
 	- license: ISC
 - @nextcloud/event-bus
 	- version: 3.3.1
 	- license: GPL-3.0-or-later
-- @nextcloud/l10n
-	- version: 3.1.0
-	- license: GPL-3.0-or-later
 - @nextcloud/files
-	- version: 3.4.1
+	- version: 3.7.0
 	- license: AGPL-3.0-or-later
 - @nextcloud/initial-state
-	- version: 2.1.0
-	- license: GPL-3.0-or-later
-- @nextcloud/router
 	- version: 2.2.0
 	- license: GPL-3.0-or-later
 - @nextcloud/l10n
-	- version: 2.2.0
+	- version: 3.1.0
 	- license: GPL-3.0-or-later
 - @nextcloud/logger
 	- version: 3.0.2
 	- license: GPL-3.0-or-later
 - @nextcloud/password-confirmation
-	- version: 5.1.0
+	- version: 5.1.1
 	- license: MIT
 - @nextcloud/paths
-	- version: 2.1.0
+	- version: 2.2.0
 	- license: GPL-3.0-or-later
 - @nextcloud/router
 	- version: 3.0.1
 	- license: GPL-3.0-or-later
-- @nextcloud/logger
-	- version: 2.7.0
+- @nextcloud/sharing
+	- version: 0.2.2
 	- license: GPL-3.0-or-later
-- debounce
-	- version: 2.0.0
-	- license: MIT
 - @nextcloud/vue
-	- version: 8.11.2
+	- version: 8.15.0
 	- license: AGPL-3.0-or-later
 - @vueuse/core
-	- version: 10.9.0
+	- version: 10.11.0
 	- license: MIT
 - @vueuse/shared
-	- version: 10.9.0
+	- version: 10.11.0
 	- license: MIT
 - assert
 	- version: 2.1.0
@@ -121,7 +107,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.0.7
 	- license: MIT
 - axios
-	- version: 1.6.8
+	- version: 1.7.2
 	- license: MIT
 - backbone
 	- version: 1.6.0
@@ -141,9 +127,6 @@ This file is generated from multiple sources. Included packages:
 - console-browserify
 	- version: 1.2.0
 	- license: MIT
-- core-js
-	- version: 3.37.1
-	- license: MIT
 - css-loader
 	- version: 6.10.0
 	- license: MIT
@@ -151,7 +134,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 0.2.1
 	- license: BSD-3-Clause
 - debounce
-	- version: 1.2.1
+	- version: 2.1.0
 	- license: MIT
 - define-data-property
 	- version: 1.1.4
@@ -205,7 +188,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.0.2
 	- license: MIT
 - hasown
-	- version: 2.0.1
+	- version: 2.0.2
 	- license: MIT
 - ieee754
 	- version: 1.2.1
@@ -291,14 +274,11 @@ This file is generated from multiple sources. Included packages:
 - vue
 	- version: 2.7.16
 	- license: MIT
-- webdav
-	- version: 5.6.0
-	- license: MIT
 - webpack
-	- version: 5.91.0
+	- version: 5.93.0
 	- license: MIT
 - which-typed-array
-	- version: 1.1.14
+	- version: 1.1.15
 	- license: MIT
 - nextcloud
 	- version: 1.0.0

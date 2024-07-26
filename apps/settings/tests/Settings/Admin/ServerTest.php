@@ -25,23 +25,23 @@ use Test\TestCase;
  * @group DB
  */
 class ServerTest extends TestCase {
-	/** @var Server */
-	private $admin;
 	/** @var IDBConnection */
 	private $connection;
-	/** @var IInitialState */
+	/** @var Server&MockObject */
+	private $admin;
+	/** @var IInitialState&MockObject */
 	private $initialStateService;
-	/** @var ProfileManager */
+	/** @var ProfileManager&MockObject */
 	private $profileManager;
-	/** @var ITimeFactory|MockObject */
+	/** @var ITimeFactory&MockObject */
 	private $timeFactory;
-	/** @var IConfig|MockObject */
+	/** @var IConfig&MockObject */
 	private $config;
-	/** @var IAppConfig|MockObject */
+	/** @var IAppConfig&MockObject */
 	private $appConfig;
-	/** @var IL10N|MockObject */
+	/** @var IL10N&MockObject */
 	private $l10n;
-	/** @var IUrlGenerator|MockObject */
+	/** @var IUrlGenerator&MockObject */
 	private $urlGenerator;
 
 	protected function setUp(): void {
@@ -78,10 +78,14 @@ class ServerTest extends TestCase {
 			->expects($this->any())
 			->method('getAppValue')
 			->willReturnMap([
-				['core', 'backgroundjobs_mode', 'ajax', 'ajax'],
 				['core', 'lastcron', '0', '0'],
 				['core', 'cronErrors', ''],
 			]);
+		$this->appConfig
+			->expects($this->any())
+			->method('getValueString')
+			->with('core', 'backgroundjobs_mode', 'ajax')
+			->willReturn('ajax');
 		$this->profileManager
 			->expects($this->exactly(2))
 			->method('isProfileEnabled')

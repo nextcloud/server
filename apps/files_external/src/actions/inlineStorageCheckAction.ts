@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 // eslint-disable-next-line n/no-extraneous-import
-import type { AxiosError } from 'axios'
+import type { AxiosError } from '@nextcloud/axios'
 import type { Node } from '@nextcloud/files'
 
 import { showWarning } from '@nextcloud/dialogs'
@@ -30,9 +30,10 @@ export const action = new FileAction({
 	/**
 	 * Use this function to check the storage availability
 	 * We then update the node attributes directly.
+	 * @param node
 	 */
 	async renderInline(node: Node) {
-		let config = null as any as StorageConfig
+		let config = null as unknown as StorageConfig
 		try {
 			const response = await getStatus(node.attributes.id, node.attributes.scope === 'system')
 			config = response.data

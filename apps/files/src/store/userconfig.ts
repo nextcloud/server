@@ -27,6 +27,8 @@ export const useUserConfigStore = function(...args) {
 		actions: {
 			/**
 			 * Update the user config local store
+			 * @param key
+			 * @param value
 			 */
 			onUpdate(key: string, value: boolean) {
 				Vue.set(this.userConfig, key, value)
@@ -34,6 +36,8 @@ export const useUserConfigStore = function(...args) {
 
 			/**
 			 * Update the user config local store AND on server side
+			 * @param key
+			 * @param value
 			 */
 			async update(key: string, value: boolean) {
 				await axios.put(generateUrl('/apps/files/api/v1/config/' + key), {

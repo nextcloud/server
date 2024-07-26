@@ -289,7 +289,7 @@ class Folder extends Node implements \OCP\Files\Folder {
 	}
 
 	public function getFirstNodeById(int $id): ?\OCP\Files\Node {
-		return current($this->getById($id)) ?: null;
+		return $this->root->getFirstNodeByIdInPath($id, $this->getPath());
 	}
 
 	public function getAppDataDirectoryName(): string {

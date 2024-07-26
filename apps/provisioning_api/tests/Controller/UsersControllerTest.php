@@ -232,7 +232,7 @@ class UsersControllerTest extends TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 		$loggedInUser
-			->expects($this->once())
+			->expects($this->exactly(2))
 			->method('getUID')
 			->willReturn('adminUser');
 		$this->userSession
@@ -263,7 +263,7 @@ class UsersControllerTest extends TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 		$loggedInUser
-			->expects($this->once())
+			->expects($this->exactly(2))
 			->method('getUID')
 			->willReturn('adminUser');
 		$this->userSession
@@ -299,7 +299,7 @@ class UsersControllerTest extends TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 		$loggedInUser
-			->expects($this->once())
+			->expects($this->exactly(2))
 			->method('getUID')
 			->willReturn('adminUser');
 		$this->userSession
@@ -344,7 +344,7 @@ class UsersControllerTest extends TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 		$loggedInUser
-			->expects($this->once())
+			->expects($this->exactly(2))
 			->method('getUID')
 			->willReturn('adminUser');
 		$this->userSession
@@ -456,7 +456,7 @@ class UsersControllerTest extends TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 		$loggedInUser
-			->expects($this->once())
+			->expects($this->exactly(2))
 			->method('getUID')
 			->willReturn('adminUser');
 		$this->userSession
@@ -502,7 +502,7 @@ class UsersControllerTest extends TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 		$loggedInUser
-			->expects($this->once())
+			->expects($this->exactly(2))
 			->method('getUID')
 			->willReturn('adminUser');
 		$this->userSession
@@ -552,7 +552,7 @@ class UsersControllerTest extends TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 		$loggedInUser
-			->expects($this->once())
+			->expects($this->exactly(2))
 			->method('getUID')
 			->willReturn('adminUser');
 		$this->userSession
@@ -595,7 +595,7 @@ class UsersControllerTest extends TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 		$loggedInUser
-			->expects($this->once())
+			->expects($this->exactly(2))
 			->method('getUID')
 			->willReturn('adminUser');
 		$this->userSession
@@ -624,7 +624,7 @@ class UsersControllerTest extends TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 		$loggedInUser
-			->expects($this->once())
+			->expects($this->exactly(2))
 			->method('getUID')
 			->willReturn('adminUser');
 		$this->userSession
@@ -706,7 +706,7 @@ class UsersControllerTest extends TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 		$loggedInUser
-			->expects($this->once())
+			->expects($this->exactly(2))
 			->method('getUID')
 			->willReturn('adminUser');
 		$this->userSession
@@ -732,7 +732,7 @@ class UsersControllerTest extends TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 		$loggedInUser
-			->expects($this->once())
+			->expects($this->exactly(2))
 			->method('getUID')
 			->willReturn('regularUser');
 		$this->userSession
@@ -765,7 +765,7 @@ class UsersControllerTest extends TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 		$loggedInUser
-			->expects($this->once())
+			->expects($this->exactly(2))
 			->method('getUID')
 			->willReturn('regularUser');
 		$this->userSession
@@ -814,7 +814,7 @@ class UsersControllerTest extends TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 		$loggedInUser
-			->expects($this->once())
+			->expects($this->exactly(2))
 			->method('getUID')
 			->willReturn('subAdminUser');
 		$this->userSession
@@ -931,7 +931,7 @@ class UsersControllerTest extends TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 		$loggedInUser
-			->expects($this->once())
+			->expects($this->exactly(2))
 			->method('getUID')
 			->willReturn('admin');
 		$targetUser = $this->getMockBuilder(IUser::class)
@@ -1077,7 +1077,7 @@ class UsersControllerTest extends TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 		$loggedInUser
-			->expects($this->once())
+			->expects($this->exactly(2))
 			->method('getUID')
 			->willReturn('subadmin');
 		$targetUser = $this->getMockBuilder(IUser::class)
@@ -1223,7 +1223,7 @@ class UsersControllerTest extends TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 		$loggedInUser
-			->expects($this->exactly(3))
+			->expects($this->exactly(4))
 			->method('getUID')
 			->willReturn('subadmin');
 		$targetUser = $this->getMockBuilder(IUser::class)
@@ -1263,7 +1263,7 @@ class UsersControllerTest extends TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 		$loggedInUser
-			->expects($this->exactly(2))
+			->expects($this->exactly(3))
 			->method('getUID')
 			->willReturn('UID');
 		$targetUser = $this->getMockBuilder(IUser::class)
@@ -2662,7 +2662,7 @@ class UsersControllerTest extends TestCase {
 	public function testGetUsersGroupsSelfTargetted() {
 		$loggedInUser = $this->getMockBuilder(IUser::class)->disableOriginalConstructor()->getMock();
 		$loggedInUser
-			->expects($this->once())
+			->expects($this->exactly(3))
 			->method('getUID')
 			->willReturn('UserToLookup');
 		$targetUser = $this->getMockBuilder(IUser::class)->disableOriginalConstructor()->getMock();
@@ -2691,7 +2691,7 @@ class UsersControllerTest extends TestCase {
 	public function testGetUsersGroupsForAdminUser() {
 		$loggedInUser = $this->getMockBuilder(IUser::class)->disableOriginalConstructor()->getMock();
 		$loggedInUser
-			->expects($this->exactly(2))
+			->expects($this->exactly(3))
 			->method('getUID')
 			->willReturn('admin');
 		$targetUser = $this->getMockBuilder(IUser::class)->disableOriginalConstructor()->getMock();
@@ -2725,7 +2725,7 @@ class UsersControllerTest extends TestCase {
 	public function testGetUsersGroupsForSubAdminUserAndUserIsAccessible() {
 		$loggedInUser = $this->getMockBuilder(IUser::class)->disableOriginalConstructor()->getMock();
 		$loggedInUser
-			->expects($this->exactly(2))
+			->expects($this->exactly(3))
 			->method('getUID')
 			->willReturn('subadmin');
 		$targetUser = $this->getMockBuilder(IUser::class)->disableOriginalConstructor()->getMock();
@@ -2789,7 +2789,7 @@ class UsersControllerTest extends TestCase {
 
 		$loggedInUser = $this->getMockBuilder(IUser::class)->disableOriginalConstructor()->getMock();
 		$loggedInUser
-			->expects($this->exactly(2))
+			->expects($this->exactly(3))
 			->method('getUID')
 			->willReturn('subadmin');
 		$targetUser = $this->getMockBuilder(IUser::class)->disableOriginalConstructor()->getMock();
@@ -2873,7 +2873,7 @@ class UsersControllerTest extends TestCase {
 
 		$targetUser = $this->createMock(IUser::class);
 		$loggedInUser = $this->createMock(IUser::class);
-		$loggedInUser->expects($this->once())
+		$loggedInUser->expects($this->exactly(2))
 			->method('getUID')
 			->willReturn('subadmin');
 
@@ -2917,7 +2917,7 @@ class UsersControllerTest extends TestCase {
 	public function testAddToGroupSuccessAsSubadmin() {
 		$targetUser = $this->createMock(IUser::class);
 		$loggedInUser = $this->createMock(IUser::class);
-		$loggedInUser->expects($this->once())
+		$loggedInUser->expects($this->exactly(2))
 			->method('getUID')
 			->willReturn('subadmin');
 
@@ -2961,7 +2961,7 @@ class UsersControllerTest extends TestCase {
 	public function testAddToGroupSuccessAsAdmin() {
 		$targetUser = $this->createMock(IUser::class);
 		$loggedInUser = $this->createMock(IUser::class);
-		$loggedInUser->expects($this->once())
+		$loggedInUser->expects($this->exactly(2))
 			->method('getUID')
 			->willReturn('admin');
 
@@ -3079,7 +3079,7 @@ class UsersControllerTest extends TestCase {
 
 		$loggedInUser = $this->getMockBuilder(IUser::class)->disableOriginalConstructor()->getMock();
 		$loggedInUser
-			->expects($this->once())
+			->expects($this->exactly(2))
 			->method('getUID')
 			->willReturn('unauthorizedUser');
 		$targetUser = $this->getMockBuilder(IUser::class)->disableOriginalConstructor()->getMock();
@@ -3600,7 +3600,7 @@ class UsersControllerTest extends TestCase {
 			->willReturn($targetUser);
 		$loggedInUser = $this->getMockBuilder(IUser::class)->disableOriginalConstructor()->getMock();
 		$loggedInUser
-			->expects($this->exactly(2))
+			->expects($this->exactly(3))
 			->method('getUID')
 			->willReturn('admin');
 		$this->userSession
@@ -3627,7 +3627,7 @@ class UsersControllerTest extends TestCase {
 			->willReturn($targetUser);
 		$loggedInUser = $this->getMockBuilder(IUser::class)->disableOriginalConstructor()->getMock();
 		$loggedInUser
-			->expects($this->exactly(2))
+			->expects($this->exactly(3))
 			->method('getUID')
 			->willReturn('admin');
 		$this->userSession
@@ -3814,7 +3814,7 @@ class UsersControllerTest extends TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 		$loggedInUser
-			->expects($this->exactly(1))
+			->expects($this->exactly(2))
 			->method('getUID')
 			->willReturn('subadmin');
 		$targetUser = $this->getMockBuilder(IUser::class)
@@ -3883,6 +3883,10 @@ class UsersControllerTest extends TestCase {
 			->expects($this->once())
 			->method('getSubAdmin')
 			->willReturn($subAdminManager);
+		$loggedInUser
+			->expects($this->exactly(2))
+			->method('getUID')
+			->willReturn('logged-user-id');
 		$targetUser
 			->expects($this->once())
 			->method('getEmailAddress')
@@ -3924,6 +3928,10 @@ class UsersControllerTest extends TestCase {
 			->expects($this->once())
 			->method('getSubAdmin')
 			->willReturn($subAdminManager);
+		$loggedInUser
+			->expects($this->exactly(2))
+			->method('getUID')
+			->willReturn('logged-user-id');
 		$targetUser
 			->expects($this->once())
 			->method('getEmailAddress')
@@ -3939,6 +3947,9 @@ class UsersControllerTest extends TestCase {
 		$targetUser = $this->getMockBuilder(IUser::class)
 			->disableOriginalConstructor()
 			->getMock();
+		$loggedInUser
+			->method('getUID')
+			->willReturn('logged-user-id');
 		$targetUser
 			->method('getUID')
 			->willReturn('user-id');
@@ -3987,6 +3998,9 @@ class UsersControllerTest extends TestCase {
 		$targetUser = $this->getMockBuilder(IUser::class)
 			->disableOriginalConstructor()
 			->getMock();
+		$loggedInUser
+			->method('getUID')
+			->willReturn('logged-user-id');
 		$targetUser
 			->method('getUID')
 			->willReturn('user-id');
@@ -4040,6 +4054,10 @@ class UsersControllerTest extends TestCase {
 		$targetUser = $this->getMockBuilder(IUser::class)
 			->disableOriginalConstructor()
 			->getMock();
+		$loggedInUser
+			->expects($this->exactly(2))
+			->method('getUID')
+			->willReturn('logged-user-id');
 		$targetUser
 			->method('getUID')
 			->willReturn('user-id');

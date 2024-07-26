@@ -9,6 +9,7 @@ namespace OC;
 
 use bantu\IniGetWrapper\IniGetWrapper;
 use OC\Authentication\Token\IProvider;
+use OC\Files\FilenameValidator;
 use OC\Search\SearchQuery;
 use OC\Template\CSSResourceLocator;
 use OC\Template\JSConfigHelper;
@@ -74,7 +75,7 @@ class TemplateLayout extends \OC_Template {
 			}
 
 			$this->initialState->provideInitialState('core', 'active-app', $this->navigationManager->getActiveEntry());
-			$this->initialState->provideInitialState('core', 'apps', $this->navigationManager->getAll());
+			$this->initialState->provideInitialState('core', 'apps', array_values($this->navigationManager->getAll()));
 
 			if ($this->config->getSystemValueBool('unified_search.enabled', false) || !$this->config->getSystemValueBool('enable_non-accessible_features', true)) {
 				$this->initialState->provideInitialState('unified-search', 'limit-default', (int)$this->config->getAppValue('core', 'unified-search.limit-default', (string)SearchQuery::LIMIT_DEFAULT));
@@ -228,6 +229,7 @@ class TemplateLayout extends \OC_Template {
 				\OC::$server->get(CapabilitiesManager::class),
 				\OCP\Server::get(IInitialStateService::class),
 				\OCP\Server::get(IProvider::class),
+				\OCP\Server::get(FilenameValidator::class),
 			);
 			$config = $jsConfigHelper->getConfig();
 			if (\OC::$server->getContentSecurityPolicyNonceManager()->browserSupportsCspV3()) {

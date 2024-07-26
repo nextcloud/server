@@ -126,7 +126,7 @@ export const action = new FileAction({
 			.every(permission => (permission & Permission.DELETE) !== 0)
 	},
 
-	async exec(node: Node, view: View, dir: string) {
+	async exec(node: Node) {
 		try {
 			await axios.delete(node.encodedSource)
 

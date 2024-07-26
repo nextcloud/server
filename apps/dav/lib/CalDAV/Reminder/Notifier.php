@@ -17,6 +17,7 @@ use OCP\L10N\IFactory;
 use OCP\Notification\AlreadyProcessedException;
 use OCP\Notification\INotification;
 use OCP\Notification\INotifier;
+use OCP\Notification\UnknownNotificationException;
 
 /**
  * Class Notifier
@@ -78,12 +79,12 @@ class Notifier implements INotifier {
 	 * @param INotification $notification
 	 * @param string $languageCode The code of the language that should be used to prepare the notification
 	 * @return INotification
-	 * @throws \Exception
+	 * @throws UnknownNotificationException
 	 */
 	public function prepare(INotification $notification,
 		string $languageCode):INotification {
 		if ($notification->getApp() !== Application::APP_ID) {
-			throw new \InvalidArgumentException('Notification not from this app');
+			throw new UnknownNotificationException('Notification not from this app');
 		}
 
 		// Read the language from the notification
@@ -95,7 +96,7 @@ class Notifier implements INotifier {
 				return $this->prepareReminderNotification($notification);
 
 			default:
-				throw new \InvalidArgumentException('Unknown subject');
+				throw new UnknownNotificationException('Unknown subject');
 
 		}
 	}

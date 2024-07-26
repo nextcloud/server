@@ -23,7 +23,7 @@ interface ILabels {
  * @param defaultName Default name to use
  * @param folderContent Nodes with in the current folder to check for unique name
  * @param labels Labels to set on the dialog
- * @return string if successfull otherwise null if aborted
+ * @return string if successful otherwise null if aborted
  */
 export function newNodeName(defaultName: string, folderContent: Node[], labels: ILabels = {}) {
 	const contentNames = folderContent.map((node: Node) => node.basename)

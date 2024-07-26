@@ -11,8 +11,10 @@ namespace OCP\Collaboration\Reference;
 use OCP\EventDispatcher\Event;
 
 /**
- * Event that apps can emit on their page rendering to trigger loading of aditional
- * scripts for reference widget rendering
+ * Event emitted when apps might render references like link previews or smart picker widgets.
+ *
+ * This can be used to inject scripts for extending that.
+ * Further details can be found in the :ref:`Reference providers` deep dive.
  *
  * @since 25.0.0
  */

@@ -62,7 +62,7 @@
 						type="radio"
 						button-variant-grouped="vertical"
 						@update:checked="toggleCustomPermissions">
-						{{ t('files_sharing', 'File drop') }}
+						{{ t('files_sharing', 'File request') }}
 						<small class="subline">{{ t('files_sharing', 'Upload only') }}</small>
 						<template #icon>
 							<UploadIcon :size="20" />
@@ -180,7 +180,7 @@
 						{{ t('files_sharing', 'Custom permissions') }}
 					</NcCheckboxRadioSwitch>
 					<section v-if="setCustomPermissions" class="custom-permissions-group">
-						<NcCheckboxRadioSwitch :disabled="!allowsFileDrop && share.type === SHARE_TYPES.SHARE_TYPE_LINK"
+						<NcCheckboxRadioSwitch :disabled="!canRemoveReadPermission"
 							:checked.sync="hasRead"
 							data-cy-files-sharing-share-permissions-checkbox="read">
 							{{ t('files_sharing', 'Read') }}
@@ -245,6 +245,7 @@
 </template>
 
 <script>
+import { emit } from '@nextcloud/event-bus'
 import { getLanguage } from '@nextcloud/l10n'
 import { Type as ShareType } from '@nextcloud/sharing'
 
@@ -271,11 +272,12 @@ import DotsHorizontalIcon from 'vue-material-design-icons/DotsHorizontal.vue'
 
 import ExternalShareAction from '../components/ExternalShareAction.vue'
 
-import GeneratePassword from '../utils/GeneratePassword.js'
+import GeneratePassword from '../utils/GeneratePassword.ts'
 import Share from '../models/Share.js'
 import ShareRequests from '../mixins/ShareRequests.js'
 import ShareTypes from '../mixins/ShareTypes.js'
 import SharesMixin from '../mixins/SharesMixin.js'
+import logger from '../services/logger.ts'
 
 import {
 	ATOMIC_PERMISSIONS,
@@ -419,19 +421,19 @@ export default {
 		 */
 		canDownload: {
 			get() {
-				return this.share.attributes.find(attr => attr.key === 'download')?.enabled || false
+				return this.share.attributes.find(attr => attr.key === 'download')?.value || false
 			},
 			set(checked) {
 				// Find the 'download' attribute and update its value
 				const downloadAttr = this.share.attributes.find(attr => attr.key === 'download')
 				if (downloadAttr) {
-					downloadAttr.enabled = checked
+					downloadAttr.value = checked
 				}
 			},
 		},
 		/**
 		 * Is this share readable
-		 * Needed for some federated shares that might have been added from file drop links
+		 * Needed for some federated shares that might have been added from file requests links
 		 */
 		hasRead: {
 			get() {
@@ -468,7 +470,7 @@ export default {
 			},
 			async set(enabled) {
 				if (enabled) {
-					this.share.password = await GeneratePassword()
+					this.share.password = await GeneratePassword(true)
 					this.$set(this.share, 'newPassword', this.share.password)
 				} else {
 					this.share.password = ''
@@ -600,6 +602,12 @@ export default {
 			// allowed to revoke it too (but not to grant it again).
 			return (this.fileInfo.canDownload() || this.canDownload)
 		},
+		canRemoveReadPermission() {
+			return this.allowsFileDrop && (
+				this.share.type === this.SHARE_TYPES.SHARE_TYPE_LINK
+					|| this.share.type === this.SHARE_TYPES.SHARE_TYPE_EMAIL
+			)
+		},
 		// if newPassword exists, but is empty, it means
 		// the user deleted the original password
 		hasUnsavedPassword() {
@@ -673,7 +681,7 @@ export default {
 			return OC.appswebroots.spreed !== undefined
 		},
 		canChangeHideDownload() {
-			const hasDisabledDownload = (shareAttribute) => shareAttribute.key === 'download' && shareAttribute.scope === 'permissions' && shareAttribute.enabled === false
+			const hasDisabledDownload = (shareAttribute) => shareAttribute.key === 'download' && shareAttribute.scope === 'permissions' && shareAttribute.value === false
 			return this.fileInfo.shareAttributes.some(hasDisabledDownload)
 		},
 		customPermissionsList() {
@@ -727,8 +735,8 @@ export default {
 	beforeMount() {
 		this.initializePermissions()
 		this.initializeAttributes()
-		console.debug('shareSentIn', this.share)
-		console.debug('config', this.config)
+		logger.debug('Share object received', { share: this.share })
+		logger.debug('Configuration object received', { config: this.config })
 	},
 
 	mounted() {
@@ -767,7 +775,7 @@ export default {
 
 			if (this.isNewShare) {
 				if (this.isPasswordEnforced && this.isPublicShare) {
-					this.$set(this.share, 'newPassword', await GeneratePassword())
+					this.$set(this.share, 'newPassword', await GeneratePassword(true))
 					this.advancedSectionAccordionExpanded = true
 				}
 				/* Set default expiration dates if configured */
@@ -819,6 +827,10 @@ export default {
 					this.advancedSectionAccordionExpanded = true
 					this.setCustomPermissions = true
 				}
+			}
+			// Read permission required for share creation
+			if (!this.canRemoveReadPermission) {
+				this.hasRead = true
 			}
 		},
 		handleCustomPermissions() {
@@ -887,7 +899,7 @@ export default {
 				}
 
 				this.creating = true
-				const share = await this.addShare(incomingShare, this.fileInfo)
+				const share = await this.addShare(incomingShare)
 				this.creating = false
 				this.share = share
 				this.$emit('add:share', this.share)
@@ -895,6 +907,9 @@ export default {
 				this.$emit('update:share', this.share)
 				this.queueUpdate(...permissionsAndAttributes)
 			}
+
+			await this.getNode()
+			emit('files:node:updated', this.node)
 
 			if (this.$refs.externalLinkActions?.length > 0) {
 				await Promise.allSettled(this.$refs.externalLinkActions.map((action) => {
@@ -911,12 +926,11 @@ export default {
 		 * Process the new share request
 		 *
 		 * @param {Share} share incoming share object
-		 * @param {object} fileInfo file data
 		 */
-		async addShare(share, fileInfo) {
-			console.debug('Adding a new share from the input for', share)
+		async addShare(share) {
+			logger.debug('Adding a new share from the input for', { share })
+			const path = this.path
 			try {
-				const path = (fileInfo.path + '/' + fileInfo.name).replace('//', '/')
 				const resultingShare = await this.createShare({
 					path,
 					shareType: share.shareType,
@@ -929,13 +943,15 @@ export default {
 				})
 				return resultingShare
 			} catch (error) {
-				console.error('Error while adding new share', error)
+				logger.error('Error while adding new share', { error })
 			} finally {
 				// this.loading = false // No loader here yet
 			}
 		},
 		async removeShare() {
 			await this.onDelete()
+			await this.getNode()
+			emit('files:node:updated', this.node)
 			this.$emit('close-sharing-details')
 		},
 		/**

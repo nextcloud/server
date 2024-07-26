@@ -86,21 +86,8 @@ class Directory extends \OCA\DAV\Connector\Sabre\Node implements \Sabre\DAV\ICol
 	 */
 	public function createFile($name, $data = null) {
 		try {
-			// for chunked upload also updating a existing file is a "createFile"
-			// because we create all the chunks before re-assemble them to the existing file.
-			if (isset($_SERVER['HTTP_OC_CHUNKED'])) {
-				// exit if we can't create a new file and we don't updatable existing file
-				$chunkInfo = \OC_FileChunking::decodeName($name);
-				if (!$this->fileView->isCreatable($this->path) &&
-					!$this->fileView->isUpdatable($this->path . '/' . $chunkInfo['name'])
-				) {
-					throw new \Sabre\DAV\Exception\Forbidden();
-				}
-			} else {
-				// For non-chunked upload it is enough to check if we can create a new file
-				if (!$this->fileView->isCreatable($this->path)) {
-					throw new \Sabre\DAV\Exception\Forbidden();
-				}
+			if (!$this->fileView->isCreatable($this->path)) {
+				throw new \Sabre\DAV\Exception\Forbidden();
 			}
 
 			$this->fileView->verifyPath($this->path, $name);
@@ -157,11 +144,11 @@ class Directory extends \OCA\DAV\Connector\Sabre\Node implements \Sabre\DAV\ICol
 				throw new \Sabre\DAV\Exception\Forbidden('Could not create directory ' . $newPath);
 			}
 		} catch (\OCP\Files\StorageNotAvailableException $e) {
-			throw new \Sabre\DAV\Exception\ServiceUnavailable($e->getMessage());
+			throw new \Sabre\DAV\Exception\ServiceUnavailable($e->getMessage(), 0, $e);
 		} catch (InvalidPathException $ex) {
-			throw new InvalidPath($ex->getMessage());
+			throw new InvalidPath($ex->getMessage(), false, $ex);
 		} catch (ForbiddenException $ex) {
-			throw new Forbidden($ex->getMessage(), $ex->getRetry());
+			throw new Forbidden($ex->getMessage(), $ex->getRetry(), $ex);
 		} catch (LockedException $e) {
 			throw new FileLocked($e->getMessage(), $e->getCode(), $e);
 		}
@@ -189,11 +176,11 @@ class Directory extends \OCA\DAV\Connector\Sabre\Node implements \Sabre\DAV\ICol
 				$this->fileView->verifyPath($this->path, $name);
 				$info = $this->fileView->getFileInfo($path);
 			} catch (\OCP\Files\StorageNotAvailableException $e) {
-				throw new \Sabre\DAV\Exception\ServiceUnavailable($e->getMessage());
+				throw new \Sabre\DAV\Exception\ServiceUnavailable($e->getMessage(), 0, $e);
 			} catch (InvalidPathException $ex) {
-				throw new InvalidPath($ex->getMessage());
+				throw new InvalidPath($ex->getMessage(), false, $ex);
 			} catch (ForbiddenException $e) {
-				throw new \Sabre\DAV\Exception\Forbidden();
+				throw new \Sabre\DAV\Exception\Forbidden($e->getMessage(), $e->getCode(), $e);
 			}
 		}
 
@@ -431,9 +418,9 @@ class Directory extends \OCA\DAV\Connector\Sabre\Node implements \Sabre\DAV\ICol
 				throw new \Sabre\DAV\Exception\Forbidden('');
 			}
 		} catch (StorageNotAvailableException $e) {
-			throw new ServiceUnavailable($e->getMessage());
+			throw new ServiceUnavailable($e->getMessage(), $e->getCode(), $e);
 		} catch (ForbiddenException $ex) {
-			throw new Forbidden($ex->getMessage(), $ex->getRetry());
+			throw new Forbidden($ex->getMessage(), $ex->getRetry(), $ex);
 		} catch (LockedException $e) {
 			throw new FileLocked($e->getMessage(), $e->getCode(), $e);
 		}
@@ -460,9 +447,9 @@ class Directory extends \OCA\DAV\Connector\Sabre\Node implements \Sabre\DAV\ICol
 
 				return $this->fileView->copy($sourcePath, $destinationPath);
 			} catch (StorageNotAvailableException $e) {
-				throw new ServiceUnavailable($e->getMessage());
+				throw new ServiceUnavailable($e->getMessage(), $e->getCode(), $e);
 			} catch (ForbiddenException $ex) {
-				throw new Forbidden($ex->getMessage(), $ex->getRetry());
+				throw new Forbidden($ex->getMessage(), $ex->getRetry(), $ex);
 			} catch (LockedException $e) {
 				throw new FileLocked($e->getMessage(), $e->getCode(), $e);
 			}

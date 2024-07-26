@@ -9,8 +9,7 @@ import { translate as t } from '@nextcloud/l10n'
 import { generateUrl } from '@nextcloud/router'
 import { startRegistration as registerWebAuthn } from '@simplewebauthn/browser'
 
-import Axios from 'axios'
-import axios from '@nextcloud/axios'
+import axios, { isAxiosError } from '@nextcloud/axios'
 import logger from '../logger'
 
 /**
@@ -28,7 +27,7 @@ export async function startRegistration() {
 		return attrs
 	} catch (e) {
 		logger.error(e as Error)
-		if (Axios.isAxiosError(e)) {
+		if (isAxiosError(e)) {
 			throw new Error(t('settings', 'Could not register device: Network error'))
 		} else if ((e as Error).name === 'InvalidStateError') {
 			throw new Error(t('settings', 'Could not register device: Probably already registered'))

@@ -57,51 +57,41 @@
                         "basic_auth": []
                     }
                 ],
-                "parameters": [
-                    {
-                        "name": "fileId",
-                        "in": "query",
-                        "description": "ID of the file",
-                        "schema": {
-                            "type": "integer",
-                            "format": "int64",
-                            "default": -1
-                        }
-                    },
-                    {
-                        "name": "x",
-                        "in": "query",
-                        "description": "Width of the preview",
-                        "schema": {
-                            "type": "integer",
-                            "format": "int64",
-                            "default": 32
-                        }
-                    },
-                    {
-                        "name": "y",
-                        "in": "query",
-                        "description": "Height of the preview",
-                        "schema": {
-                            "type": "integer",
-                            "format": "int64",
-                            "default": 32
-                        }
-                    },
-                    {
-                        "name": "a",
-                        "in": "query",
-                        "description": "Whether to not crop the preview",
-                        "schema": {
-                            "type": "integer",
-                            "default": 0,
-                            "enum": [
-                                0,
-                                1
-                            ]
+                "requestBody": {
+                    "required": false,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "fileId": {
+                                        "type": "integer",
+                                        "format": "int64",
+                                        "default": -1,
+                                        "description": "ID of the file"
+                                    },
+                                    "x": {
+                                        "type": "integer",
+                                        "format": "int64",
+                                        "default": 32,
+                                        "description": "Width of the preview"
+                                    },
+                                    "y": {
+                                        "type": "integer",
+                                        "format": "int64",
+                                        "default": 32,
+                                        "description": "Height of the preview"
+                                    },
+                                    "a": {
+                                        "type": "boolean",
+                                        "default": false,
+                                        "description": "Whether to not crop the preview"
+                                    }
+                                }
+                            }
                         }
                     }
-                ],
+                },
                 "responses": {
                     "200": {
                         "description": "Preview returned",

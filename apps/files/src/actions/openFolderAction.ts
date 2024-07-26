@@ -10,7 +10,7 @@ export const action = new FileAction({
 	id: 'open-folder',
 	displayName(files: Node[]) {
 		// Only works on single node
-		const displayName = files[0].attributes.displayName || files[0].basename
+		const displayName = files[0].displayname
 		return t('files', 'Open folder {displayName}', { displayName })
 	},
 	iconSvgInline: () => FolderSvg,
@@ -38,7 +38,7 @@ export const action = new FileAction({
 
 		window.OCP.Files.Router.goToRoute(
 			null,
-			{ view: view.id, fileid: node.fileid },
+			{ view: view.id, fileid: String(node.fileid) },
 			{ dir: node.path },
 		)
 		return null

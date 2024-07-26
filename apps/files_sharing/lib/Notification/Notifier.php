@@ -19,6 +19,7 @@ use OCP\L10N\IFactory;
 use OCP\Notification\AlreadyProcessedException;
 use OCP\Notification\INotification;
 use OCP\Notification\INotifier;
+use OCP\Notification\UnknownNotificationException;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IManager;
 use OCP\Share\IShare;
@@ -78,7 +79,7 @@ class Notifier implements INotifier {
 	 * @param INotification $notification
 	 * @param string $languageCode The code of the language that should be used to prepare the notification
 	 * @return INotification
-	 * @throws \InvalidArgumentException When the notification was not prepared by a notifier
+	 * @throws UnknownNotificationException When the notification was not prepared by a notifier
 	 * @throws AlreadyProcessedException When the notification is not needed anymore and should be deleted
 	 * @since 9.0.0
 	 */
@@ -86,7 +87,7 @@ class Notifier implements INotifier {
 		if ($notification->getApp() !== 'files_sharing' ||
 			($notification->getSubject() !== 'expiresTomorrow' &&
 				$notification->getObjectType() !== 'share')) {
-			throw new \InvalidArgumentException('Unhandled app or subject');
+			throw new UnknownNotificationException('Unhandled app or subject');
 		}
 
 		$l = $this->l10nFactory->get('files_sharing', $languageCode);
@@ -145,7 +146,7 @@ class Notifier implements INotifier {
 				throw new AlreadyProcessedException();
 			}
 		} else {
-			throw new \InvalidArgumentException('Invalid share type');
+			throw new UnknownNotificationException('Invalid share type');
 		}
 
 		switch ($notification->getSubject()) {
@@ -216,7 +217,7 @@ class Notifier implements INotifier {
 				break;
 
 			default:
-				throw new \InvalidArgumentException('Invalid subject');
+				throw new UnknownNotificationException('Invalid subject');
 		}
 
 		$notification->setRichSubject($subject, $subjectParameters)

@@ -16,6 +16,7 @@ use OCP\IURLGenerator;
 use OCP\L10N\IFactory;
 use OCP\Notification\AlreadyProcessedException;
 use OCP\Notification\INotification;
+use OCP\Notification\UnknownNotificationException;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
@@ -88,7 +89,7 @@ class NotifierTest extends TestCase {
 
 
 	public function testPrepareWrongApp(): void {
-		$this->expectException(\InvalidArgumentException::class);
+		$this->expectException(UnknownNotificationException::class);
 		$this->expectExceptionMessage('Notification not from this app');
 
 		/** @var INotification|MockObject $notification */
@@ -105,7 +106,7 @@ class NotifierTest extends TestCase {
 
 
 	public function testPrepareWrongSubject(): void {
-		$this->expectException(\InvalidArgumentException::class);
+		$this->expectException(UnknownNotificationException::class);
 		$this->expectExceptionMessage('Unknown subject');
 
 		/** @var INotification|MockObject $notification */

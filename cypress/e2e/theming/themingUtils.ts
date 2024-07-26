@@ -5,7 +5,7 @@
 import { colord } from 'colord'
 
 export const defaultPrimary = '#00679e'
-export const defaultBackground = 'kamil-porembinski-clouds.jpg'
+export const defaultBackground = 'jenna-kim-the-globe.webp'
 
 /**
  * Check if a CSS variable is set to a specific color

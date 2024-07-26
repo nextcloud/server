@@ -9,13 +9,16 @@ namespace OCA\DAV;
 use OCA\DAV\AppInfo\PluginManager;
 use OCA\DAV\BulkUpload\BulkUploadPlugin;
 use OCA\DAV\CalDAV\BirthdayService;
+use OCA\DAV\CalDAV\DefaultCalendarValidator;
 use OCA\DAV\CalDAV\Schedule\IMipPlugin;
 use OCA\DAV\CalDAV\Security\RateLimitingPlugin;
+use OCA\DAV\CalDAV\Validation\CalDavValidatePlugin;
 use OCA\DAV\CardDAV\HasPhotoPlugin;
 use OCA\DAV\CardDAV\ImageExportPlugin;
 use OCA\DAV\CardDAV\MultiGetExportPlugin;
 use OCA\DAV\CardDAV\PhotoCache;
 use OCA\DAV\CardDAV\Security\CardDavRateLimitingPlugin;
+use OCA\DAV\CardDAV\Validation\CardDavValidatePlugin;
 use OCA\DAV\Comments\CommentsPlugin;
 use OCA\DAV\Connector\Sabre\AnonymousOptionsPlugin;
 use OCA\DAV\Connector\Sabre\Auth;
@@ -151,7 +154,7 @@ class Server {
 			$this->server->addPlugin(new DAV\Sharing\Plugin($authBackend, \OC::$server->getRequest(), \OC::$server->getConfig()));
 			$this->server->addPlugin(new \OCA\DAV\CalDAV\Plugin());
 			$this->server->addPlugin(new \OCA\DAV\CalDAV\ICSExportPlugin\ICSExportPlugin(\OC::$server->getConfig(), $logger));
-			$this->server->addPlugin(new \OCA\DAV\CalDAV\Schedule\Plugin(\OC::$server->getConfig(), \OC::$server->get(LoggerInterface::class)));
+			$this->server->addPlugin(new \OCA\DAV\CalDAV\Schedule\Plugin(\OC::$server->getConfig(), \OC::$server->get(LoggerInterface::class), \OC::$server->get(DefaultCalendarValidator::class)));
 
 			$this->server->addPlugin(\OC::$server->get(\OCA\DAV\CalDAV\Trashbin\Plugin::class));
 			$this->server->addPlugin(new \OCA\DAV\CalDAV\WebcalCaching\Plugin($request));
@@ -166,6 +169,7 @@ class Server {
 			));
 
 			$this->server->addPlugin(\OCP\Server::get(RateLimitingPlugin::class));
+			$this->server->addPlugin(\OCP\Server::get(CalDavValidatePlugin::class));
 		}
 
 		// addressbook plugins
@@ -181,6 +185,7 @@ class Server {
 			));
 
 			$this->server->addPlugin(\OCP\Server::get(CardDavRateLimitingPlugin::class));
+			$this->server->addPlugin(\OCP\Server::get(CardDavValidatePlugin::class));
 		}
 
 		// system tags plugins
@@ -250,7 +255,8 @@ class Server {
 							$this->server,
 							$this->server->tree,
 							\OC::$server->getDatabaseConnection(),
-							\OC::$server->getUserSession()->getUser()
+							\OC::$server->getUserSession()->getUser(),
+							\OC::$server->get(DefaultCalendarValidator::class),
 						)
 					)
 				);
@@ -286,7 +292,8 @@ class Server {
 						\OC::$server->get(\OCP\Defaults::class),
 						$userSession,
 						\OC::$server->get(\OCA\DAV\CalDAV\Schedule\IMipService::class),
-						\OC::$server->get(\OCA\DAV\CalDAV\EventComparisonService::class)
+						\OC::$server->get(\OCA\DAV\CalDAV\EventComparisonService::class),
+						\OC::$server->get(\OCP\Mail\Provider\IManager::class)
 					));
 				}
 				$this->server->addPlugin(new \OCA\DAV\CalDAV\Search\SearchPlugin());
@@ -356,7 +363,7 @@ class Server {
 		/** @var IEventLogger $eventLogger */
 		$eventLogger = \OC::$server->get(IEventLogger::class);
 		$eventLogger->start('dav_server_exec', '');
-		$this->server->exec();
+		$this->server->start();
 		$eventLogger->end('dav_server_exec');
 		if ($this->profiler->isEnabled()) {
 			$eventLogger->end('runtime');

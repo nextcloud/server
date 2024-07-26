@@ -19,6 +19,8 @@ use OCP\IDateTimeZone;
 use OCP\IL10N;
 use OCP\IPreview;
 use OCP\IRequest;
+use OCP\Mail\IMailer;
+use OCP\Share\IProviderFactory;
 use OCP\Share\IShare;
 use OCP\UserStatus\IManager as IUserStatusManager;
 use Psr\Container\ContainerInterface;
@@ -97,6 +99,8 @@ class ApiTest extends TestCase {
 		$previewManager = $this->createMock(IPreview::class);
 		$dateTimeZone = $this->createMock(IDateTimeZone::class);
 		$logger = $this->createMock(LoggerInterface::class);
+		$providerFactory = $this->createMock(IProviderFactory::class);
+		$mailer = $this->createMock(IMailer::class);
 		$dateTimeZone->method('getTimeZone')->willReturn(new \DateTimeZone(date_default_timezone_get()));
 
 		return new ShareAPIController(
@@ -115,6 +119,8 @@ class ApiTest extends TestCase {
 			$previewManager,
 			$dateTimeZone,
 			$logger,
+			$providerFactory,
+			$mailer,
 			$userId,
 		);
 	}
@@ -954,7 +960,7 @@ class ApiTest extends TestCase {
 		$ocs = $this->createOCS(self::TEST_FILES_SHARING_API_USER1);
 		$ocs->updateShare(
 			$share1->getId(), 1, null, null, null, null, null, null, null,
-			'[{"scope": "app1", "key": "attr1", "enabled": true}]'
+			'[{"scope": "app1", "key": "attr1", "value": true}]'
 		);
 		$ocs->cleanup();
 

@@ -13,10 +13,12 @@ use OCP\App\IAppManager;
 use OCP\IURLGenerator;
 use OCP\IUserManager;
 use OCP\L10N\IFactory;
+use OCP\Notification\AlreadyProcessedException;
 use OCP\Notification\IAction;
 use OCP\Notification\IManager as INotificationManager;
 use OCP\Notification\INotification;
 use OCP\Notification\INotifier;
+use OCP\Notification\UnknownNotificationException;
 use Psr\Log\LoggerInterface;
 
 class AppUpdateNotifier implements INotifier {
@@ -46,26 +48,27 @@ class AppUpdateNotifier implements INotifier {
 	 * @param INotification $notification
 	 * @param string $languageCode The code of the language that should be used to prepare the notification
 	 * @return INotification
-	 * @throws \InvalidArgumentException When the notification was not prepared by a notifier
+	 * @throws UnknownNotificationException When the notification was not prepared by a notifier
+	 * @throws AlreadyProcessedException When the app is no longer known
 	 */
 	public function prepare(INotification $notification, string $languageCode): INotification {
 		if ($notification->getApp() !== Application::APP_NAME) {
-			throw new \InvalidArgumentException('Unknown app');
+			throw new UnknownNotificationException('Unknown app');
 		}
 
 		if ($notification->getSubject() !== 'app_updated') {
-			throw new \InvalidArgumentException('Unknown subject');
+			throw new UnknownNotificationException('Unknown subject');
 		}
 
 		$appId = $notification->getSubjectParameters()[0];
 		$appInfo = $this->appManager->getAppInfo($appId, lang:$languageCode);
 		if ($appInfo === null) {
-			throw new \InvalidArgumentException('App info not found');
+			throw new AlreadyProcessedException();
 		}
 
 		// Prepare translation factory for requested language
 		$l = $this->l10nFactory->get(Application::APP_NAME, $languageCode);
-		
+
 		$icon = $this->appManager->getAppIcon($appId, true);
 		if ($icon === null) {
 			$icon = $this->urlGenerator->imagePath('core', 'actions/change.svg');

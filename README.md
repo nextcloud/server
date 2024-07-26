@@ -4,6 +4,7 @@
  - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 # Nextcloud Server ☁
+[![REUSE status](https://api.reuse.software/badge/github.com/nextcloud/server)](https://api.reuse.software/info/github.com/nextcloud/server)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/nextcloud/server/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/nextcloud/server/?branch=master)
 [![codecov](https://codecov.io/gh/nextcloud/server/branch/master/graph/badge.svg)](https://codecov.io/gh/nextcloud/server)
 [![CII Best Practices](https://bestpractices.coreinfrastructure.org/projects/209/badge)](https://bestpractices.coreinfrastructure.org/projects/209)
@@ -79,12 +80,11 @@ All contributions to this repository from June 16, 2016, and onward are consider
 licensed under the AGPLv3 or any later version.
 
 Nextcloud doesn't require a CLA (Contributor License Agreement).
-The copyright belongs to all the individual contributors. Therefore we recommend
-that every contributor adds the following line to the header of a file if they
-changed it substantially:
+The copyright belongs to all the individual contributors. 
+Therefore we recommend that every contributor adds the following line to the [AUTHORS](AUTHORS) file if they made substantial changes to the code:
 
 ```
-@copyright Copyright (c) <year>, <your name> (<your email address>)
+- <your name> <your email address>
 ```
 
 Please read the [Code of Conduct](https://nextcloud.com/community/code-of-conduct/). This document offers some guidance to ensure Nextcloud participants can cooperate effectively in a positive and inspiring atmosphere and to explain how together we can strengthen and support each other.

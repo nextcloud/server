@@ -15,6 +15,12 @@ use OCP\Capabilities\IPublicCapability;
 use Psr\Log\LoggerInterface;
 
 class CapabilitiesManager {
+	/**
+	 * Anything above 0.1s to load the capabilities of an app qualifies for bad code
+	 * and should be cached within the app.
+	 */
+	public const ACCEPTABLE_LOADING_TIME = 0.1;
+
 	/** @var \Closure[] */
 	private $capabilities = [];
 
@@ -51,7 +57,27 @@ class CapabilitiesManager {
 						// that we would otherwise inject to every page load
 						continue;
 					}
+					$startTime = microtime(true);
 					$capabilities = array_replace_recursive($capabilities, $c->getCapabilities());
+					$endTime = microtime(true);
+					$timeSpent = $endTime - $startTime;
+					if ($timeSpent > self::ACCEPTABLE_LOADING_TIME) {
+						$logLevel = match (true) {
+							$timeSpent > self::ACCEPTABLE_LOADING_TIME * 16 => \OCP\ILogger::FATAL,
+							$timeSpent > self::ACCEPTABLE_LOADING_TIME * 8 => \OCP\ILogger::ERROR,
+							$timeSpent > self::ACCEPTABLE_LOADING_TIME * 4 => \OCP\ILogger::WARN,
+							$timeSpent > self::ACCEPTABLE_LOADING_TIME * 2 => \OCP\ILogger::INFO,
+							default => \OCP\ILogger::DEBUG,
+						};
+						$this->logger->log(
+							$logLevel,
+							'Capabilities of {className} took {duration} seconds to generate.',
+							[
+								'className' => get_class($c),
+								'duration' => round($timeSpent, 2),
+							]
+						);
+					}
 				}
 			} else {
 				throw new \InvalidArgumentException('The given Capability (' . get_class($c) . ') does not implement the ICapability interface');

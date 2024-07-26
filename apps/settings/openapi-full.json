@@ -252,43 +252,41 @@
                         "basic_auth": []
                     }
                 ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "required": [
+                                    "app",
+                                    "formId",
+                                    "fieldId",
+                                    "value"
+                                ],
+                                "properties": {
+                                    "app": {
+                                        "type": "string",
+                                        "description": "ID of the app"
+                                    },
+                                    "formId": {
+                                        "type": "string",
+                                        "description": "ID of the form"
+                                    },
+                                    "fieldId": {
+                                        "type": "string",
+                                        "description": "ID of the field"
+                                    },
+                                    "value": {
+                                        "type": "object",
+                                        "description": "Value to be saved"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
                 "parameters": [
-                    {
-                        "name": "app",
-                        "in": "query",
-                        "description": "ID of the app",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "formId",
-                        "in": "query",
-                        "description": "ID of the form",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "fieldId",
-                        "in": "query",
-                        "description": "ID of the field",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "value",
-                        "in": "query",
-                        "description": "Value to be saved",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
                     {
                         "name": "OCS-APIRequest",
                         "in": "header",

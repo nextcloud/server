@@ -30,6 +30,9 @@ final class Task implements \JsonSerializable {
 
 	protected int $lastUpdated;
 
+	protected ?string $webhookUri = null;
+	protected ?string $webhookMethod = null;
+
 	/**
 	 * @since 30.0.0
 	 */
@@ -59,6 +62,10 @@ final class Task implements \JsonSerializable {
 	 * @psalm-var self::STATUS_*
 	 */
 	protected int $status = self::STATUS_UNKNOWN;
+
+	protected ?int $scheduledAt = null;
+	protected ?int $startedAt = null;
+	protected ?int $endedAt = null;
 
 	/**
 	 * @param string $taskTypeId
@@ -198,7 +205,55 @@ final class Task implements \JsonSerializable {
 	}
 
 	/**
-	 * @psalm-return array{id: ?int, lastUpdated: int, type: string, status: 'STATUS_CANCELLED'|'STATUS_FAILED'|'STATUS_SUCCESSFUL'|'STATUS_RUNNING'|'STATUS_SCHEDULED'|'STATUS_UNKNOWN', userId: ?string, appId: string, input: array<array-key, list<numeric|string>|numeric|string>, output: ?array<array-key, list<numeric|string>|numeric|string>, customId: ?string, completionExpectedAt: ?int, progress: ?float}
+	 * @return int|null
+	 * @since 30.0.0
+	 */
+	final public function getScheduledAt(): ?int {
+		return $this->scheduledAt;
+	}
+
+	/**
+	 * @param int|null $scheduledAt
+	 * @since 30.0.0
+	 */
+	final public function setScheduledAt(?int $scheduledAt): void {
+		$this->scheduledAt = $scheduledAt;
+	}
+
+	/**
+	 * @return int|null
+	 * @since 30.0.0
+	 */
+	final public function getStartedAt(): ?int {
+		return $this->startedAt;
+	}
+
+	/**
+	 * @param int|null $startedAt
+	 * @since 30.0.0
+	 */
+	final public function setStartedAt(?int $startedAt): void {
+		$this->startedAt = $startedAt;
+	}
+
+	/**
+	 * @return int|null
+	 * @since 30.0.0
+	 */
+	final public function getEndedAt(): ?int {
+		return $this->endedAt;
+	}
+
+	/**
+	 * @param int|null $endedAt
+	 * @since 30.0.0
+	 */
+	final public function setEndedAt(?int $endedAt): void {
+		$this->endedAt = $endedAt;
+	}
+
+	/**
+	 * @psalm-return array{id: ?int, lastUpdated: int, type: string, status: 'STATUS_CANCELLED'|'STATUS_FAILED'|'STATUS_SUCCESSFUL'|'STATUS_RUNNING'|'STATUS_SCHEDULED'|'STATUS_UNKNOWN', userId: ?string, appId: string, input: array<array-key, list<numeric|string>|numeric|string>, output: ?array<array-key, list<numeric|string>|numeric|string>, customId: ?string, completionExpectedAt: ?int, progress: ?float, scheduledAt: ?int, startedAt: ?int, endedAt: ?int}
 	 * @since 30.0.0
 	 */
 	final public function jsonSerialize(): array {
@@ -214,6 +269,9 @@ final class Task implements \JsonSerializable {
 			'customId' => $this->getCustomId(),
 			'completionExpectedAt' => $this->getCompletionExpectedAt()?->getTimestamp(),
 			'progress' => $this->getProgress(),
+			'scheduledAt' => $this->getScheduledAt(),
+			'startedAt' => $this->getStartedAt(),
+			'endedAt' => $this->getEndedAt(),
 		];
 	}
 
@@ -262,6 +320,40 @@ final class Task implements \JsonSerializable {
 	 */
 	final public function getProgress(): ?float {
 		return $this->progress;
+	}
+
+	/**
+	 * @return null|string
+	 * @since 30.0.0
+	 */
+	final public function getWebhookUri(): ?string {
+		return $this->webhookUri;
+	}
+
+	/**
+	 * @param string|null $webhookUri
+	 * @return void
+	 * @since 30.0.0
+	 */
+	final public function setWebhookUri(?string $webhookUri): void {
+		$this->webhookUri = $webhookUri;
+	}
+
+	/**
+	 * @return null|string
+	 * @since 30.0.0
+	 */
+	final public function getWebhookMethod(): ?string {
+		return $this->webhookMethod;
+	}
+
+	/**
+	 * @param string|null $webhookMethod
+	 * @return void
+	 * @since 30.0.0
+	 */
+	final public function setWebhookMethod(?string $webhookMethod): void {
+		$this->webhookMethod = $webhookMethod;
 	}
 
 	/**

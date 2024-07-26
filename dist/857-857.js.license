@@ -4,5 +4,5 @@ SPDX-FileCopyrightText: Robert Kieffer
 
 This file is generated from multiple sources. Included packages:
 - mime
-	- version: 4.0.1
+	- version: 4.0.3
 	- license: MIT

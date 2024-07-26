@@ -31,6 +31,7 @@ class ComposerStaticInitWebhookListeners
         'OCA\\WebhookListeners\\Db\\WebhookListenerMapper' => __DIR__ . '/..' . '/../lib/Db/WebhookListenerMapper.php',
         'OCA\\WebhookListeners\\Listener\\WebhooksEventListener' => __DIR__ . '/..' . '/../lib/Listener/WebhooksEventListener.php',
         'OCA\\WebhookListeners\\Migration\\Version1000Date20240527153425' => __DIR__ . '/..' . '/../lib/Migration/Version1000Date20240527153425.php',
+        'OCA\\WebhookListeners\\Migration\\Version1001Date20240716184935' => __DIR__ . '/..' . '/../lib/Migration/Version1001Date20240716184935.php',
         'OCA\\WebhookListeners\\ResponseDefinitions' => __DIR__ . '/..' . '/../lib/ResponseDefinitions.php',
         'OCA\\WebhookListeners\\Service\\PHPMongoQuery' => __DIR__ . '/..' . '/../lib/Service/PHPMongoQuery.php',
         'OCA\\WebhookListeners\\Settings\\Admin' => __DIR__ . '/..' . '/../lib/Settings/Admin.php',

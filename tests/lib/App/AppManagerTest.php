@@ -885,4 +885,52 @@ class AppManagerTest extends TestCase {
 
 		$this->assertEquals($expectedApp, $this->manager->getDefaultAppForUser(null, $withFallbacks));
 	}
+
+	public static function isBackendRequiredDataProvider(): array {
+		return [
+			// backend available
+			[
+				'caldav',
+				['app1' => ['caldav']],
+				true,
+			],
+			[
+				'caldav',
+				['app1' => [], 'app2' => ['foo'], 'app3' => ['caldav']],
+				true,
+			],
+			// backend not available
+			[
+				'caldav',
+				['app3' => [], 'app1' => ['foo'], 'app2' => ['bar', 'baz']],
+				false,
+			],
+			// no app available
+			[
+				'caldav',
+				[],
+				false,
+			],
+		];
+	}
+
+	/**
+	 * @dataProvider isBackendRequiredDataProvider
+	 */
+	public function testIsBackendRequired(
+		string $backend,
+		array $appBackends,
+		bool $expected,
+	): void {
+		$appInfoData = array_map(
+			static fn (array $backends) => ['dependencies' => ['backend' => $backends]],
+			$appBackends,
+		);
+
+		$reflection = new \ReflectionClass($this->manager);
+		$property = $reflection->getProperty('appInfos');
+		$property->setValue($this->manager, $appInfoData);
+
+		$this->assertEquals($expected, $this->manager->isBackendRequired($backend));
+	}
 }

@@ -53,21 +53,18 @@ This file is generated from multiple sources. Included packages:
 - @nextcloud/auth
 	- version: 2.3.0
 	- license: GPL-3.0-or-later
-- @nextcloud/router
-	- version: 2.2.0
-	- license: GPL-3.0-or-later
 - @nextcloud/axios
-	- version: 2.4.0
+	- version: 2.5.0
 	- license: GPL-3.0-or-later
 - @nextcloud/browser-storage
-	- version: 0.3.0
+	- version: 0.4.0
 	- license: GPL-3.0-or-later
 - @nextcloud/capabilities
 	- version: 1.2.0
 	- license: GPL-3.0-or-later
 - @nextcloud/dialogs
-	- version: 5.3.1
-	- license: GPL-3.0-or-later
+	- version: 5.3.5
+	- license: AGPL-3.0-or-later
 - semver
 	- version: 7.6.2
 	- license: ISC
@@ -75,13 +72,10 @@ This file is generated from multiple sources. Included packages:
 	- version: 3.3.1
 	- license: GPL-3.0-or-later
 - @nextcloud/initial-state
-	- version: 2.1.0
-	- license: GPL-3.0-or-later
-- @nextcloud/router
 	- version: 2.2.0
 	- license: GPL-3.0-or-later
 - @nextcloud/l10n
-	- version: 2.2.0
+	- version: 3.1.0
 	- license: GPL-3.0-or-later
 - @nextcloud/logger
 	- version: 3.0.2
@@ -93,16 +87,16 @@ This file is generated from multiple sources. Included packages:
 	- version: 3.25.0
 	- license: MIT
 - @nextcloud/vue
-	- version: 8.11.2
+	- version: 8.15.0
 	- license: AGPL-3.0-or-later
 - @vueuse/components
-	- version: 10.9.0
+	- version: 10.11.0
 	- license: MIT
 - @vueuse/core
-	- version: 10.9.0
+	- version: 10.11.0
 	- license: MIT
 - @vueuse/shared
-	- version: 10.9.0
+	- version: 10.11.0
 	- license: MIT
 - assert
 	- version: 2.1.0
@@ -111,7 +105,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.0.7
 	- license: MIT
 - axios
-	- version: 1.6.8
+	- version: 1.7.2
 	- license: MIT
 - base64-js
 	- version: 1.5.1
@@ -135,7 +129,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 6.10.0
 	- license: MIT
 - debounce
-	- version: 1.2.1
+	- version: 2.1.0
 	- license: MIT
 - define-data-property
 	- version: 1.1.4
@@ -186,7 +180,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.0.2
 	- license: MIT
 - hasown
-	- version: 2.0.1
+	- version: 2.0.2
 	- license: MIT
 - ieee754
 	- version: 1.2.1
@@ -288,10 +282,10 @@ This file is generated from multiple sources. Included packages:
 	- version: 2.7.16
 	- license: MIT
 - webpack
-	- version: 5.91.0
+	- version: 5.93.0
 	- license: MIT
 - which-typed-array
-	- version: 1.1.14
+	- version: 1.1.15
 	- license: MIT
 - nextcloud
 	- version: 1.0.0

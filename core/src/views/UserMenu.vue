@@ -157,8 +157,6 @@ export default {
 
 <style lang="scss" scoped>
 .user-menu {
-	margin-right: 12px;
-
 	&:deep {
 		.header-menu {
 			&__trigger {

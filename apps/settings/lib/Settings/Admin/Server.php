@@ -41,7 +41,7 @@ class Server implements IDelegatedSettings {
 		$cliBasedCronUser = $cliBasedCronPossible ? (posix_getpwuid($ownerConfigFile)['name'] ?? '') : '';
 
 		// Background jobs
-		$this->initialStateService->provideInitialState('backgroundJobsMode', $this->config->getAppValue('core', 'backgroundjobs_mode', 'ajax'));
+		$this->initialStateService->provideInitialState('backgroundJobsMode', $this->appConfig->getValueString('core', 'backgroundjobs_mode', 'ajax'));
 		$this->initialStateService->provideInitialState('lastCron', $this->appConfig->getValueInt('core', 'lastcron', 0));
 		$this->initialStateService->provideInitialState('cronMaxAge', $this->cronMaxAge());
 		$this->initialStateService->provideInitialState('cronErrors', $this->config->getAppValue('core', 'cronErrors'));

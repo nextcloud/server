@@ -44,6 +44,7 @@ use OCP\Share\IManager;
 use OCP\Share\IProviderFactory;
 use OCP\Share\IShare;
 use OCP\Share\IShareProvider;
+use OCP\Share\IShareProviderWithNotification;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -276,8 +277,8 @@ class Manager implements IManager {
 
 		// If $expirationDate is falsy, noExpirationDate is true and expiration not enforced
 		// Then skip expiration date validation as null is accepted
-		if(!($share->getNoExpirationDate() && !$isEnforced)) {
-			if ($expirationDate != null) {
+		if(!$share->getNoExpirationDate() || $isEnforced) {
+			if ($expirationDate !== null) {
 				$expirationDate->setTimezone($this->dateTimeZone->getTimeZone());
 				$expirationDate->setTime(0, 0, 0);
 
@@ -360,7 +361,7 @@ class Manager implements IManager {
 			if ($expirationDate !== null) {
 				$expirationDate->setTimezone($this->dateTimeZone->getTimeZone());
 				$expirationDate->setTime(0, 0, 0);
-	
+
 				$date = new \DateTime('now', $this->dateTimeZone->getTimeZone());
 				$date->setTime(0, 0, 0);
 				if ($date >= $expirationDate) {
@@ -376,24 +377,24 @@ class Manager implements IManager {
 			} catch (\UnexpectedValueException $e) {
 				// This is a new share
 			}
-	
+
 			if ($fullId === null && $expirationDate === null && $this->shareApiLinkDefaultExpireDate()) {
 				$expirationDate = new \DateTime('now', $this->dateTimeZone->getTimeZone());
 				$expirationDate->setTime(0, 0, 0);
-	
+
 				$days = (int)$this->config->getAppValue('core', 'link_defaultExpDays', (string)$this->shareApiLinkDefaultExpireDays());
 				if ($days > $this->shareApiLinkDefaultExpireDays()) {
 					$days = $this->shareApiLinkDefaultExpireDays();
 				}
 				$expirationDate->add(new \DateInterval('P' . $days . 'D'));
 			}
-	
+
 			// If we enforce the expiration date check that is does not exceed
 			if ($isEnforced) {
 				if (empty($expirationDate)) {
 					throw new \InvalidArgumentException('Expiration date is enforced');
 				}
-	
+
 				$date = new \DateTime('now', $this->dateTimeZone->getTimeZone());
 				$date->setTime(0, 0, 0);
 				$date->add(new \DateInterval('P' . $this->shareApiLinkDefaultExpireDays() . 'D'));
@@ -418,9 +419,6 @@ class Manager implements IManager {
 			throw new \Exception($message);
 		}
 
-		if ($expirationDate instanceof \DateTime) {
-			$expirationDate->setTimezone(new \DateTimeZone(date_default_timezone_get()));
-		}
 		$share->setExpirationDate($expirationDate);
 
 		return $share;
@@ -658,7 +656,7 @@ class Manager implements IManager {
 				// Verify the expiration date
 				$share = $this->validateExpirationDateInternal($share);
 			} elseif ($share->getShareType() === IShare::TYPE_REMOTE || $share->getShareType() === IShare::TYPE_REMOTE_GROUP) {
-				//Verify the expiration date
+				// Verify the expiration date
 				$share = $this->validateExpirationDateInternal($share);
 			} elseif ($share->getShareType() === IShare::TYPE_LINK
 				|| $share->getShareType() === IShare::TYPE_EMAIL) {
@@ -735,123 +733,23 @@ class Manager implements IManager {
 		// Post share event
 		$this->dispatcher->dispatchTyped(new ShareCreatedEvent($share));
 
-		if ($this->config->getSystemValueBool('sharing.enable_share_mail', true)
-			&& $share->getShareType() === IShare::TYPE_USER) {
-			$mailSend = $share->getMailSend();
-			if ($mailSend === true) {
-				$user = $this->userManager->get($share->getSharedWith());
-				if ($user !== null) {
-					$emailAddress = $user->getEMailAddress();
-					if ($emailAddress !== null && $emailAddress !== '') {
-						$userLang = $this->l10nFactory->getUserLanguage($user);
-						$l = $this->l10nFactory->get('lib', $userLang);
-						$this->sendMailNotification(
-							$l,
-							$share->getNode()->getName(),
-							$this->urlGenerator->linkToRouteAbsolute('files_sharing.Accept.accept', ['shareId' => $share->getFullId()]),
-							$share->getSharedBy(),
-							$emailAddress,
-							$share->getExpirationDate(),
-							$share->getNote()
-						);
-						$this->logger->debug('Sent share notification to ' . $emailAddress . ' for share with ID ' . $share->getId(), ['app' => 'share']);
-					} else {
-						$this->logger->debug('Share notification not sent to ' . $share->getSharedWith() . ' because email address is not set.', ['app' => 'share']);
-					}
+		// Send email if needed
+		if ($this->config->getSystemValueBool('sharing.enable_share_mail', true)) {
+			if ($share->getMailSend()) {
+				$provider = $this->factory->getProviderForType($share->getShareType());
+				if ($provider instanceof IShareProviderWithNotification) {
+					$provider->sendMailNotification($share);
 				} else {
-					$this->logger->debug('Share notification not sent to ' . $share->getSharedWith() . ' because user could not be found.', ['app' => 'share']);
+					$this->logger->debug('Share notification not sent because the provider does not support it.', ['app' => 'share']);
 				}
 			} else {
 				$this->logger->debug('Share notification not sent because mailsend is false.', ['app' => 'share']);
 			}
+		} else {
+			$this->logger->debug('Share notification not sent because sharing notification emails is disabled.', ['app' => 'share']);
 		}
 
 		return $share;
-	}
-
-	/**
-	 * Send mail notifications
-	 *
-	 * This method will catch and log mail transmission errors
-	 *
-	 * @param IL10N $l Language of the recipient
-	 * @param string $filename file/folder name
-	 * @param string $link link to the file/folder
-	 * @param string $initiator user ID of share sender
-	 * @param string $shareWith email address of share receiver
-	 * @param \DateTime|null $expiration
-	 */
-	protected function sendMailNotification(IL10N $l,
-		$filename,
-		$link,
-		$initiator,
-		$shareWith,
-		?\DateTime $expiration = null,
-		$note = '') {
-		$initiatorUser = $this->userManager->get($initiator);
-		$initiatorDisplayName = ($initiatorUser instanceof IUser) ? $initiatorUser->getDisplayName() : $initiator;
-
-		$message = $this->mailer->createMessage();
-
-		$emailTemplate = $this->mailer->createEMailTemplate('files_sharing.RecipientNotification', [
-			'filename' => $filename,
-			'link' => $link,
-			'initiator' => $initiatorDisplayName,
-			'expiration' => $expiration,
-			'shareWith' => $shareWith,
-		]);
-
-		$emailTemplate->setSubject($l->t('%1$s shared »%2$s« with you', [$initiatorDisplayName, $filename]));
-		$emailTemplate->addHeader();
-		$emailTemplate->addHeading($l->t('%1$s shared »%2$s« with you', [$initiatorDisplayName, $filename]), false);
-		$text = $l->t('%1$s shared »%2$s« with you.', [$initiatorDisplayName, $filename]);
-
-		if ($note !== '') {
-			$emailTemplate->addBodyText(htmlspecialchars($note), $note);
-		}
-
-		$emailTemplate->addBodyText(
-			htmlspecialchars($text . ' ' . $l->t('Click the button below to open it.')),
-			$text
-		);
-		$emailTemplate->addBodyButton(
-			$l->t('Open »%s«', [$filename]),
-			$link
-		);
-
-		$message->setTo([$shareWith]);
-
-		// The "From" contains the sharers name
-		$instanceName = $this->defaults->getName();
-		$senderName = $l->t(
-			'%1$s via %2$s',
-			[
-				$initiatorDisplayName,
-				$instanceName,
-			]
-		);
-		$message->setFrom([\OCP\Util::getDefaultEmailAddress('noreply') => $senderName]);
-
-		// The "Reply-To" is set to the sharer if an mail address is configured
-		// also the default footer contains a "Do not reply" which needs to be adjusted.
-		$initiatorEmail = $initiatorUser->getEMailAddress();
-		if ($initiatorEmail !== null) {
-			$message->setReplyTo([$initiatorEmail => $initiatorDisplayName]);
-			$emailTemplate->addFooter($instanceName . ($this->defaults->getSlogan($l->getLanguageCode()) !== '' ? ' - ' . $this->defaults->getSlogan($l->getLanguageCode()) : ''));
-		} else {
-			$emailTemplate->addFooter('', $l->getLanguageCode());
-		}
-
-		$message->useTemplate($emailTemplate);
-		try {
-			$failedRecipients = $this->mailer->send($message);
-			if (!empty($failedRecipients)) {
-				$this->logger->error('Share notification mail could not be sent to: ' . implode(', ', $failedRecipients));
-				return;
-			}
-		} catch (\Exception $e) {
-			$this->logger->error('Share notification mail could not be sent', ['exception' => $e]);
-		}
 	}
 
 	/**

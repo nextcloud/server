@@ -67,7 +67,11 @@ class TempSpaceAvailable implements ISetupCheck {
 			return SetupResult::error($this->l10n->t('Error while checking the temporary PHP path - it was not properly set to a directory. Returned value: %s', [$phpTempPath]));
 		}
 
-		$freeSpaceInTemp = function_exists('disk_free_space') ? disk_free_space($phpTempPath) : false;
+		if (!function_exists('disk_free_space')) {
+			return SetupResult::info($this->l10n->t('The PHP function "disk_free_space" is disabled, which prevents the check for enough space in the temporary directories.'));
+		}
+
+		$freeSpaceInTemp = disk_free_space($phpTempPath);
 		if ($freeSpaceInTemp === false) {
 			return SetupResult::error($this->l10n->t('Error while checking the available disk space of temporary PHP path or no free disk space returned. Temporary path: %s', [$phpTempPath]));
 		}
@@ -76,7 +80,7 @@ class TempSpaceAvailable implements ISetupCheck {
 		$freeSpaceInTempInGB = $freeSpaceInTemp / 1024 / 1024 / 1024;
 		$spaceDetail = $this->l10n->t('- %.1f GiB available in %s (PHP temporary directory)', [round($freeSpaceInTempInGB, 1),$phpTempPath]);
 		if ($nextcloudTempPath !== $phpTempPath) {
-			$freeSpaceInNextcloudTemp = function_exists('disk_free_space') ? disk_free_space($nextcloudTempPath) : false;
+			$freeSpaceInNextcloudTemp = disk_free_space($nextcloudTempPath);
 			if ($freeSpaceInNextcloudTemp === false) {
 				return SetupResult::error($this->l10n->t('Error while checking the available disk space of temporary PHP path or no free disk space returned. Temporary path: %s', [$nextcloudTempPath]));
 			}

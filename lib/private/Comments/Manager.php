@@ -16,6 +16,7 @@ use OCP\Comments\ICommentsEventHandler;
 use OCP\Comments\ICommentsManager;
 use OCP\Comments\NotFoundException;
 use OCP\DB\QueryBuilder\IQueryBuilder;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\FileInfo;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
@@ -49,6 +50,7 @@ class Manager implements ICommentsManager {
 		protected IEmojiHelper $emojiHelper,
 		protected IInitialStateService $initialStateService,
 		protected IRootFolder $rootFolder,
+		protected IEventDispatcher $eventDispatcher,
 	) {
 	}
 
@@ -1529,6 +1531,7 @@ class Manager implements ICommentsManager {
 		foreach ($entities as $entity) {
 			$entity->handle($event);
 		}
+		$this->eventDispatcher->dispatchTyped($event);
 	}
 
 	/**

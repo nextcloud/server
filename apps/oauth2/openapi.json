@@ -38,35 +38,35 @@
                         "basic_auth": []
                     }
                 ],
-                "parameters": [
-                    {
-                        "name": "client_id",
-                        "in": "query",
-                        "description": "Client ID",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "state",
-                        "in": "query",
-                        "description": "State of the flow",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "response_type",
-                        "in": "query",
-                        "description": "Response type for the flow",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "required": [
+                                    "client_id",
+                                    "state",
+                                    "response_type"
+                                ],
+                                "properties": {
+                                    "client_id": {
+                                        "type": "string",
+                                        "description": "Client ID"
+                                    },
+                                    "state": {
+                                        "type": "string",
+                                        "description": "State of the flow"
+                                    },
+                                    "response_type": {
+                                        "type": "string",
+                                        "description": "Response type for the flow"
+                                    }
+                                }
+                            }
                         }
                     }
-                ],
+                },
                 "responses": {
                     "200": {
                         "description": "Client not found",
@@ -107,53 +107,45 @@
                         "basic_auth": []
                     }
                 ],
-                "parameters": [
-                    {
-                        "name": "grant_type",
-                        "in": "query",
-                        "description": "Token type that should be granted",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "code",
-                        "in": "query",
-                        "description": "Code of the flow",
-                        "schema": {
-                            "type": "string",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "refresh_token",
-                        "in": "query",
-                        "description": "Refresh token",
-                        "schema": {
-                            "type": "string",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "client_id",
-                        "in": "query",
-                        "description": "Client ID",
-                        "schema": {
-                            "type": "string",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "client_secret",
-                        "in": "query",
-                        "description": "Client secret",
-                        "schema": {
-                            "type": "string",
-                            "nullable": true
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "required": [
+                                    "grant_type"
+                                ],
+                                "properties": {
+                                    "grant_type": {
+                                        "type": "string",
+                                        "description": "Token type that should be granted"
+                                    },
+                                    "code": {
+                                        "type": "string",
+                                        "nullable": true,
+                                        "description": "Code of the flow"
+                                    },
+                                    "refresh_token": {
+                                        "type": "string",
+                                        "nullable": true,
+                                        "description": "Refresh token"
+                                    },
+                                    "client_id": {
+                                        "type": "string",
+                                        "nullable": true,
+                                        "description": "Client ID"
+                                    },
+                                    "client_secret": {
+                                        "type": "string",
+                                        "nullable": true,
+                                        "description": "Client secret"
+                                    }
+                                }
+                            }
                         }
                     }
-                ],
+                },
                 "responses": {
                     "500": {
                         "description": "",

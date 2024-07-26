@@ -21,6 +21,7 @@ use OCP\DB\QueryBuilder\IParameter;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\DB\QueryBuilder\IQueryFunction;
 use OCP\IDBConnection;
+use Psr\Log\LoggerInterface;
 
 class ExpressionBuilder implements IExpressionBuilder {
 	/** @var \Doctrine\DBAL\Query\Expression\ExpressionBuilder */
@@ -32,17 +33,15 @@ class ExpressionBuilder implements IExpressionBuilder {
 	/** @var IDBConnection */
 	protected $connection;
 
+	/** @var LoggerInterface */
+	protected $logger;
+
 	/** @var FunctionBuilder */
 	protected $functionBuilder;
 
-	/**
-	 * Initializes a new <tt>ExpressionBuilder</tt>.
-	 *
-	 * @param ConnectionAdapter $connection
-	 * @param IQueryBuilder $queryBuilder
-	 */
-	public function __construct(ConnectionAdapter $connection, IQueryBuilder $queryBuilder) {
+	public function __construct(ConnectionAdapter $connection, IQueryBuilder $queryBuilder, LoggerInterface $logger) {
 		$this->connection = $connection;
+		$this->logger = $logger;
 		$this->helper = new QuoteHelper();
 		$this->expressionBuilder = new DoctrineExpressionBuilder($connection->getInner());
 		$this->functionBuilder = $queryBuilder->func();
@@ -63,8 +62,10 @@ class ExpressionBuilder implements IExpressionBuilder {
 	 * @return \OCP\DB\QueryBuilder\ICompositeExpression
 	 */
 	public function andX(...$x): ICompositeExpression {
-		$compositeExpression = call_user_func_array([$this->expressionBuilder, 'andX'], $x);
-		return new CompositeExpression($compositeExpression);
+		if (empty($x)) {
+			$this->logger->debug('Calling ' . IQueryBuilder::class . '::' . __FUNCTION__ . ' without parameters is deprecated and will throw soon.', ['exception' => new \Exception('No parameters in call to ' . __METHOD__)]);
+		}
+		return new CompositeExpression(CompositeExpression::TYPE_AND, $x);
 	}
 
 	/**
@@ -82,8 +83,10 @@ class ExpressionBuilder implements IExpressionBuilder {
 	 * @return \OCP\DB\QueryBuilder\ICompositeExpression
 	 */
 	public function orX(...$x): ICompositeExpression {
-		$compositeExpression = call_user_func_array([$this->expressionBuilder, 'orX'], $x);
-		return new CompositeExpression($compositeExpression);
+		if (empty($x)) {
+			$this->logger->debug('Calling ' . IQueryBuilder::class . '::' . __FUNCTION__ . ' without parameters is deprecated and will throw soon.', ['exception' => new \Exception('No parameters in call to ' . __METHOD__)]);
+		}
+		return new CompositeExpression(CompositeExpression::TYPE_OR, $x);
 	}
 
 	/**

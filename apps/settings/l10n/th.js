@@ -242,6 +242,7 @@ OC.L10N.register(
     "Error while updating device token name" : "ข้อผิดพลาดขณะอัปเดตชื่อโทเค็นอุปกรณ์",
     "Error while updating device token scope" : "ข้อผิดพลาดขณะอัปเดตขอบเขตโทเค็นอุปกรณ์",
     "There were too many requests from your network. Retry later or contact your administrator if this is an error." : "มีการส่งคำขอจากเครือข่ายของคุณมากเกินไป กรุณาลองอีกครั้งในภายหลัง หรือติดต่อผู้ดูแลระบบหากเป็นข้อผิดพลาด",
+    "Error" : "ข้อผิดพลาด",
     "Forum" : "ฟอรัม",
     "SSL" : "SSL",
     "Open documentation" : "เปิดเอกสารประกอบ",

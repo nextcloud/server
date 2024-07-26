@@ -8,8 +8,9 @@ declare(strict_types=1);
 
 namespace OC\Core\Controller;
 
-use OCA\Core\ResponseDefinitions;
+use OC\Core\ResponseDefinitions;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\AnonRateLimit;
 use OCP\AppFramework\Http\Attribute\ApiRoute;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\Collaboration\Reference\IDiscoverableReferenceProvider;
@@ -22,6 +23,8 @@ use OCP\IRequest;
  * @psalm-import-type CoreReferenceProvider from ResponseDefinitions
  */
 class ReferenceApiController extends \OCP\AppFramework\OCSController {
+	private const LIMIT_MAX = 15;
+
 	public function __construct(
 		string $appName,
 		IRequest $request,
@@ -63,6 +66,39 @@ class ReferenceApiController extends \OCP\AppFramework\OCSController {
 	}
 
 	/**
+	 * @PublicPage
+	 *
+	 * Extract references from a text
+	 *
+	 * @param string $text Text to extract from
+	 * @param string $sharingToken Token of the public share
+	 * @param bool $resolve Resolve the references
+	 * @param int $limit Maximum amount of references to extract, limited to 15
+	 * @return DataResponse<Http::STATUS_OK, array{references: array<string, CoreReference|null>}, array{}>
+	 *
+	 * 200: References returned
+	 */
+	#[ApiRoute(verb: 'POST', url: '/extractPublic', root: '/references')]
+	#[AnonRateLimit(limit: 10, period: 120)]
+	public function extractPublic(string $text, string $sharingToken, bool $resolve = false, int $limit = 1): DataResponse {
+		$references = $this->referenceManager->extractReferences($text);
+
+		$result = [];
+		$index = 0;
+		foreach ($references as $reference) {
+			if ($index++ >= min($limit, self::LIMIT_MAX)) {
+				break;
+			}
+
+			$result[$reference] = $resolve ? $this->referenceManager->resolveReference($reference, true, $sharingToken)?->jsonSerialize() : null;
+		}
+
+		return new DataResponse([
+			'references' => $result
+		]);
+	}
+
+	/**
 	 * @NoAdminRequired
 	 *
 	 * Resolve a reference
@@ -76,6 +112,28 @@ class ReferenceApiController extends \OCP\AppFramework\OCSController {
 	public function resolveOne(string $reference): DataResponse {
 		/** @var ?CoreReference $resolvedReference */
 		$resolvedReference = $this->referenceManager->resolveReference(trim($reference))?->jsonSerialize();
+
+		$response = new DataResponse(['references' => [$reference => $resolvedReference]]);
+		$response->cacheFor(3600, false, true);
+		return $response;
+	}
+
+	/**
+	 * @PublicPage
+	 *
+	 * Resolve from a public page
+	 *
+	 * @param string $reference Reference to resolve
+	 * @param string $sharingToken Token of the public share
+	 * @return DataResponse<Http::STATUS_OK, array{references: array<string, ?CoreReference>}, array{}>
+	 *
+	 * 200: Reference returned
+	 */
+	#[ApiRoute(verb: 'GET', url: '/resolvePublic', root: '/references')]
+	#[AnonRateLimit(limit: 10, period: 120)]
+	public function resolveOnePublic(string $reference, string $sharingToken): DataResponse {
+		/** @var ?CoreReference $resolvedReference */
+		$resolvedReference = $this->referenceManager->resolveReference(trim($reference), true, trim($sharingToken))?->jsonSerialize();
 
 		$response = new DataResponse(['references' => [$reference => $resolvedReference]]);
 		$response->cacheFor(3600, false, true);
@@ -103,6 +161,36 @@ class ReferenceApiController extends \OCP\AppFramework\OCSController {
 			}
 
 			$result[$reference] = $this->referenceManager->resolveReference($reference)?->jsonSerialize();
+		}
+
+		return new DataResponse([
+			'references' => $result
+		]);
+	}
+
+	/**
+	 * @PublicPage
+	 *
+	 * Resolve multiple references from a public page
+	 *
+	 * @param string[] $references References to resolve
+	 * @param string $sharingToken Token of the public share
+	 * @param int $limit Maximum amount of references to resolve, limited to 15
+	 * @return DataResponse<Http::STATUS_OK, array{references: array<string, CoreReference|null>}, array{}>
+	 *
+	 * 200: References returned
+	 */
+	#[ApiRoute(verb: 'POST', url: '/resolvePublic', root: '/references')]
+	#[AnonRateLimit(limit: 10, period: 120)]
+	public function resolvePublic(array $references, string $sharingToken, int $limit = 1): DataResponse {
+		$result = [];
+		$index = 0;
+		foreach ($references as $reference) {
+			if ($index++ >= min($limit, self::LIMIT_MAX)) {
+				break;
+			}
+
+			$result[$reference] = $this->referenceManager->resolveReference($reference, true, $sharingToken)?->jsonSerialize();
 		}
 
 		return new DataResponse([

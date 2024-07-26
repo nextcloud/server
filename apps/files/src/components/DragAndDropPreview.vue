@@ -62,7 +62,7 @@ export default Vue.extend({
 		summary(): string {
 			if (this.isSingleNode) {
 				const node = this.nodes[0]
-				return node.attributes?.displayName || node.basename
+				return node.attributes?.displayname || node.basename
 			}
 
 			return getSummaryFor(this.nodes)

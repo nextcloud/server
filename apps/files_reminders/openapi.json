@@ -177,16 +177,26 @@
                         "basic_auth": []
                     }
                 ],
-                "parameters": [
-                    {
-                        "name": "dueDate",
-                        "in": "query",
-                        "description": "ISO 8601 formatted date time string",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "required": [
+                                    "dueDate"
+                                ],
+                                "properties": {
+                                    "dueDate": {
+                                        "type": "string",
+                                        "description": "ISO 8601 formatted date time string"
+                                    }
+                                }
+                            }
                         }
-                    },
+                    }
+                },
+                "parameters": [
                     {
                         "name": "version",
                         "in": "path",

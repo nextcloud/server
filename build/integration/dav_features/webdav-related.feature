@@ -279,33 +279,6 @@ Feature: webdav-related
 		When Sending a "PROPFIND" to "/remote.php/webdav/welcome.txt" with requesttoken
 		Then the HTTP status code should be "207"
 
-	Scenario: Upload chunked file asc
-		Given user "user0" exists
-		And user "user0" uploads chunk file "1" of "3" with "AAAAA" to "/myChunkedFile.txt"
-		And user "user0" uploads chunk file "2" of "3" with "BBBBB" to "/myChunkedFile.txt"
-		And user "user0" uploads chunk file "3" of "3" with "CCCCC" to "/myChunkedFile.txt"
-		When As an "user0"
-		And Downloading file "/myChunkedFile.txt"
-		Then Downloaded content should be "AAAAABBBBBCCCCC"
-
-	Scenario: Upload chunked file desc
-		Given user "user0" exists
-		And user "user0" uploads chunk file "3" of "3" with "CCCCC" to "/myChunkedFile.txt"
-		And user "user0" uploads chunk file "2" of "3" with "BBBBB" to "/myChunkedFile.txt"
-		And user "user0" uploads chunk file "1" of "3" with "AAAAA" to "/myChunkedFile.txt"
-		When As an "user0"
-		And Downloading file "/myChunkedFile.txt"
-		Then Downloaded content should be "AAAAABBBBBCCCCC"
-
-	Scenario: Upload chunked file random
-		Given user "user0" exists
-		And user "user0" uploads chunk file "2" of "3" with "BBBBB" to "/myChunkedFile.txt"
-		And user "user0" uploads chunk file "3" of "3" with "CCCCC" to "/myChunkedFile.txt"
-		And user "user0" uploads chunk file "1" of "3" with "AAAAA" to "/myChunkedFile.txt"
-		When As an "user0"
-		And Downloading file "/myChunkedFile.txt"
-		Then Downloaded content should be "AAAAABBBBBCCCCC"
-
 	Scenario: A file that is not shared does not have a share-types property
 		Given user "user0" exists
 		And user "user0" created a folder "/test"

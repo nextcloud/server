@@ -133,7 +133,9 @@ abstract class BaseResponse extends Response {
 				$v = [];
 			}
 
-			if (\is_array($v)) {
+			if ($k === '$comment') {
+				$writer->writeComment($v);
+			} elseif (\is_array($v)) {
 				$writer->startElement($k);
 				$this->toXML($v, $writer);
 				$writer->endElement();

@@ -9,7 +9,7 @@
 	<name>Nextcloud webhook support</name>
 	<summary>Nextcloud webhook support</summary>
 	<description>Nextcloud webhook support</description>
-	<version>1.0.0-dev</version>
+	<version>1.1.0-dev</version>
 	<licence>agpl</licence>
 	<author>Côme Chilliet</author>
 	<namespace>WebhookListeners</namespace>

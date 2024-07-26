@@ -146,11 +146,13 @@ const mutations = {
 			return
 		}
 
+		const recentGroup = state.groups.find(group => group.id === '__nc_internal_recent')
 		const disabledGroup = state.groups.find(group => group.id === 'disabled')
 		switch (actionType) {
 		case 'enable':
 		case 'disable':
 			disabledGroup.usercount += user.enabled ? -1 : 1 // update Disabled Users count
+			recentGroup.usercount += user.enabled ? 1 : -1
 			state.userCount += user.enabled ? 1 : -1 // update Active Users count
 			user.groups.forEach(userGroup => {
 				const group = state.groups.find(groupSearch => groupSearch.id === userGroup)
@@ -158,6 +160,7 @@ const mutations = {
 			})
 			break
 		case 'create':
+			recentGroup.usercount++
 			state.userCount++ // increment Active Users count
 
 			user.groups.forEach(userGroup => {
@@ -168,6 +171,7 @@ const mutations = {
 			break
 		case 'remove':
 			if (user.enabled) {
+				recentGroup.usercount--
 				state.userCount-- // decrement Active Users count
 				user.groups.forEach(userGroup => {
 					const group = state.groups.find(groupSearch => groupSearch.id === userGroup)
@@ -241,8 +245,8 @@ const getters = {
 		return state.groups
 	},
 	getSubadminGroups(state) {
-		// Can't be subadmin of admin or disabled
-		return state.groups.filter(group => group.id !== 'admin' && group.id !== 'disabled')
+		// Can't be subadmin of admin, recent, or disabled
+		return state.groups.filter(group => group.id !== 'admin' && group.id !== '__nc_internal_recent' && group.id !== 'disabled')
 	},
 	getSortedGroups(state) {
 		const groups = [...state.groups]
@@ -384,12 +388,37 @@ const actions = {
 	},
 
 	/**
+	 * Get recent users with full details
+	 *
+	 * @param {object} context store context
+	 * @param {object} options destructuring object
+	 * @param {number} options.offset List offset to request
+	 * @param {number} options.limit List number to return from offset
+	 * @param {string} options.search Search query
+	 * @return {Promise<number>}
+	 */
+	async getRecentUsers(context, { offset, limit, search }) {
+		const url = generateOcsUrl('cloud/users/recent?offset={offset}&limit={limit}&search={search}', { offset, limit, search })
+		try {
+			const response = await api.get(url)
+			const usersCount = Object.keys(response.data.ocs.data.users).length
+			if (usersCount > 0) {
+				context.commit('appendUsers', response.data.ocs.data.users)
+			}
+			return usersCount
+		} catch (error) {
+			context.commit('API_FAILURE', error)
+		}
+	},
+
+	/**
 	 * Get disabled users with full details
 	 *
 	 * @param {object} context store context
 	 * @param {object} options destructuring object
 	 * @param {number} options.offset List offset to request
 	 * @param {number} options.limit List number to return from offset
+	 * @param options.search
 	 * @return {Promise<number>}
 	 */
 	async getDisabledUsers(context, { offset, limit, search }) {
@@ -612,11 +641,14 @@ const actions = {
 	 * @param {string} userid User id
 	 * @return {Promise}
 	 */
-	wipeUserDevices(context, userid) {
-		return api.requireAdmin().then((response) => {
-			return api.post(generateOcsUrl('cloud/users/{userid}/wipe', { userid }))
-				.catch((error) => { throw error })
-		}).catch((error) => context.commit('API_FAILURE', { userid, error }))
+	async wipeUserDevices(context, userid) {
+		try {
+			await api.requireAdmin()
+			return await api.post(generateOcsUrl('cloud/users/{userid}/wipe', { userid }))
+		} catch (error) {
+			context.commit('API_FAILURE', { userid, error })
+			return Promise.reject(new Error('Failed to wipe user devices'))
+		}
 	},
 
 	/**
@@ -706,7 +738,7 @@ const actions = {
 	 * @param {string} options.value Value of the change
 	 * @return {Promise}
 	 */
-	setUserData(context, { userid, key, value }) {
+	async setUserData(context, { userid, key, value }) {
 		const allowedEmpty = ['email', 'displayname', 'manager']
 		if (['email', 'language', 'quota', 'displayname', 'password', 'manager'].indexOf(key) !== -1) {
 			// We allow empty email or displayname
@@ -716,11 +748,13 @@ const actions = {
 					|| allowedEmpty.indexOf(key) !== -1
 				)
 			) {
-				return api.requireAdmin().then((response) => {
-					return api.put(generateOcsUrl('cloud/users/{userid}', { userid }), { key, value })
-						.then((response) => context.commit('setUserData', { userid, key, value }))
-						.catch((error) => { throw error })
-				}).catch((error) => context.commit('API_FAILURE', { userid, error }))
+				try {
+					await api.requireAdmin()
+					await api.put(generateOcsUrl('cloud/users/{userid}', { userid }), { key, value })
+					return context.commit('setUserData', { userid, key, value })
+				} catch (error) {
+					context.commit('API_FAILURE', { userid, error })
+				}
 			}
 		}
 		return Promise.reject(new Error('Invalid request data'))

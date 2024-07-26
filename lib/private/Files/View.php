@@ -716,6 +716,12 @@ class View {
 				return false;
 			}
 
+			try {
+				$this->verifyPath(dirname($target), basename($target));
+			} catch (InvalidPathException) {
+				return false;
+			}
+
 			$this->lockFile($source, ILockingProvider::LOCK_SHARED, true);
 			try {
 				$this->lockFile($target, ILockingProvider::LOCK_SHARED, true);
@@ -739,8 +745,6 @@ class View {
 					}
 				}
 				if ($run) {
-					$this->verifyPath(dirname($target), basename($target));
-
 					$manager = Filesystem::getMountManager();
 					$mount1 = $this->getMount($source);
 					$mount2 = $this->getMount($target);
@@ -1334,9 +1338,6 @@ class View {
 		if (!Filesystem::isValidPath($path)) {
 			return false;
 		}
-		if (Cache\Scanner::isPartialFile($path)) {
-			return $this->getPartFileInfo($path);
-		}
 		$relativePath = $path;
 		$path = Filesystem::normalizePath($this->fakeRoot . '/' . $path);
 
@@ -1347,12 +1348,20 @@ class View {
 			$data = $this->getCacheEntry($storage, $internalPath, $relativePath);
 
 			if (!$data instanceof ICacheEntry) {
+				if (Cache\Scanner::isPartialFile($relativePath)) {
+					return $this->getPartFileInfo($relativePath);
+				}
+
 				return false;
 			}
 
 			if ($mount instanceof MoveableMount && $internalPath === '') {
 				$data['permissions'] |= \OCP\Constants::PERMISSION_DELETE;
 			}
+			if ($internalPath === '' && $data['name']) {
+				$data['name'] = basename($path);
+			}
+
 			$ownerId = $storage->getOwner($internalPath);
 			$owner = null;
 			if ($ownerId !== null && $ownerId !== false) {
@@ -1820,6 +1829,12 @@ class View {
 	 * @throws InvalidPathException
 	 */
 	public function verifyPath($path, $fileName): void {
+		// All of the view's functions disallow '..' in the path so we can short cut if the path is invalid
+		if (!Filesystem::isValidPath($path ?: '/')) {
+			$l = \OCP\Util::getL10N('lib');
+			throw new InvalidPathException($l->t('Path contains invalid segments'));
+		}
+
 		try {
 			/** @type \OCP\Files\Storage $storage */
 			[$storage, $internalPath] = $this->resolvePath($path);

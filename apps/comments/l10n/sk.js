@@ -32,7 +32,7 @@ OC.L10N.register(
     "An error occurred while trying to delete the comment" : "Vyskytla sa chyba pri mazaní komentára",
     "An error occurred while trying to create the comment" : "Vyskytla sa chyba pri vytváraní komentára",
     "You were mentioned on \"{file}\", in a comment by a user that has since been deleted" : "Boli ste spomenutý v \"{file}\", v komentári používateľom ktorý bol už vymazaný",
-    "Write a message …" : "Napísať správu …",
+    "Write a message …" : "Píšte správu …",
     "\"@\" for mentions, \":\" for emoji, \"/\" for smart picker" : "\"@\" pre spomienky, \":\" pre emotikony, \"/\" pre inteligentný výber",
     "_%n unread comment_::_%n unread comments_" : ["%n neprečítaný komentár","%n neprečítaných komentárov","%n neprečítaných komentárov","%n neprečítaných komentárov"]
 },

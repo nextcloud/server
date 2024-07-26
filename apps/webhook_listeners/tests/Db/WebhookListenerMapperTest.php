@@ -58,6 +58,7 @@ class WebhookListenerMapperTest extends TestCase {
 			UserCreatedEvent::class,
 			null,
 			null,
+			null,
 			AuthMethod::None,
 			null,
 		);
@@ -72,6 +73,7 @@ class WebhookListenerMapperTest extends TestCase {
 			NodeWrittenEvent::class,
 			null,
 			null,
+			null,
 			AuthMethod::None,
 			null,
 		);
@@ -80,6 +82,27 @@ class WebhookListenerMapperTest extends TestCase {
 
 		$listener1->resetUpdatedFields();
 		$this->assertEquals($listener1, $listener2);
+	}
+
+	public function testInsertListenerAndGetItByUri() {
+		$uri = 'https://webhook.example.com/endpoint';
+		$listener1 = $this->mapper->addWebhookListener(
+			null,
+			'bob',
+			'POST',
+			$uri,
+			NodeWrittenEvent::class,
+			null,
+			null,
+			null,
+			AuthMethod::None,
+			null,
+		);
+
+		$listeners = $this->mapper->getByUri($uri);
+
+		$listener1->resetUpdatedFields();
+		$this->assertContains($listener1->getId(), array_map(fn ($listener) => $listener->getId(), $listeners));
 	}
 
 	public function testInsertListenerAndGetItWithAuthData() {
@@ -91,6 +114,7 @@ class WebhookListenerMapperTest extends TestCase {
 			NodeWrittenEvent::class,
 			null,
 			null,
+			null,
 			AuthMethod::Header,
 			['secretHeader' => 'header'],
 		);
@@ -99,5 +123,51 @@ class WebhookListenerMapperTest extends TestCase {
 
 		$listener1->resetUpdatedFields();
 		$this->assertEquals($listener1, $listener2);
+	}
+
+	public function testInsertListenerAndGetItByEventAndUser() {
+		$listener1 = $this->mapper->addWebhookListener(
+			null,
+			'bob',
+			'POST',
+			'https://webhook.example.com/endpoint',
+			NodeWrittenEvent::class,
+			null,
+			'alice',
+			null,
+			AuthMethod::None,
+			null,
+		);
+		$listener1->resetUpdatedFields();
+
+		$this->assertEquals([NodeWrittenEvent::class], $this->mapper->getAllConfiguredEvents('alice'));
+		$this->assertEquals([], $this->mapper->getAllConfiguredEvents(''));
+		$this->assertEquals([], $this->mapper->getAllConfiguredEvents('otherUser'));
+
+		$this->assertEquals([$listener1], $this->mapper->getByEvent(NodeWrittenEvent::class, 'alice'));
+		$this->assertEquals([], $this->mapper->getByEvent(NodeWrittenEvent::class, ''));
+		$this->assertEquals([], $this->mapper->getByEvent(NodeWrittenEvent::class, 'otherUser'));
+
+		/* Add a second listener with no user filter */
+		$listener2 = $this->mapper->addWebhookListener(
+			null,
+			'bob',
+			'POST',
+			'https://webhook.example.com/endpoint',
+			NodeWrittenEvent::class,
+			null,
+			'',
+			null,
+			AuthMethod::None,
+			null,
+		);
+		$listener2->resetUpdatedFields();
+
+		$this->assertEquals([NodeWrittenEvent::class], $this->mapper->getAllConfiguredEvents('alice'));
+		$this->assertEquals([NodeWrittenEvent::class], $this->mapper->getAllConfiguredEvents(''));
+
+		$this->assertEquals([$listener1, $listener2], $this->mapper->getByEvent(NodeWrittenEvent::class, 'alice'));
+		$this->assertEquals([$listener2], $this->mapper->getByEvent(NodeWrittenEvent::class, 'otherUser'));
+		$this->assertEquals([$listener2], $this->mapper->getByEvent(NodeWrittenEvent::class));
 	}
 }

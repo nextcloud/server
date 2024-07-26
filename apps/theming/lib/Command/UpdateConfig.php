@@ -111,9 +111,9 @@ class UpdateConfig extends Command {
 			$value = $this->imageManager->updateImage($key, $value);
 			$key = $key . 'Mime';
 		}
-	
+
 		if ($key === 'color') {
-			$output->writeln('<warning>Using "color" is depreacted, use "primary_color" instead');
+			$output->writeln('<comment>Using "color" is deprecated, use "primary_color" instead</comment>');
 			$key = 'primary_color';
 		}
 

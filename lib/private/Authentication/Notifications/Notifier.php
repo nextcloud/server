@@ -8,10 +8,10 @@ declare(strict_types=1);
  */
 namespace OC\Authentication\Notifications;
 
-use InvalidArgumentException;
 use OCP\L10N\IFactory as IL10nFactory;
 use OCP\Notification\INotification;
 use OCP\Notification\INotifier;
+use OCP\Notification\UnknownNotificationException;
 
 class Notifier implements INotifier {
 	/** @var IL10nFactory */
@@ -27,7 +27,7 @@ class Notifier implements INotifier {
 	public function prepare(INotification $notification, string $languageCode): INotification {
 		if ($notification->getApp() !== 'auth') {
 			// Not my app => throw
-			throw new InvalidArgumentException();
+			throw new UnknownNotificationException();
 		}
 
 		// Read the language from the notification
@@ -52,7 +52,7 @@ class Notifier implements INotifier {
 				return $notification;
 			default:
 				// Unknown subject => Unknown notification => throw
-				throw new InvalidArgumentException();
+				throw new UnknownNotificationException();
 		}
 	}
 

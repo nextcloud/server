@@ -14,7 +14,14 @@ import logger from '../logger.js'
  * Slim wrapper over `@nextcloud/files` `davResultToNode` to allow using the function with `Array.map`
  * @param node The node returned by the webdav library
  */
-export const resultToNode = (node: FileStat): File | Folder => davResultToNode(node)
+export const resultToNode = (node: FileStat): File | Folder => {
+	// TODO remove this hack with nextcloud-files v3.7
+	// just needed because of a bug in the webdav client
+	if (node.props?.displayname !== undefined) {
+		node.props.displayname = String(node.props.displayname)
+	}
+	return davResultToNode(node)
+}
 
 export const getContents = (path = '/'): CancelablePromise<ContentsWithRoot> => {
 	const controller = new AbortController()

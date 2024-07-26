@@ -2,7 +2,7 @@
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import { Permission, type Node, View, FileAction, FileType } from '@nextcloud/files'
+import { Permission, type Node, View, FileAction } from '@nextcloud/files'
 import { translate as t } from '@nextcloud/l10n'
 import InformationSvg from '@mdi/svg/svg/information-variant.svg?raw'
 
@@ -42,7 +42,7 @@ export const action = new FileAction({
 			// Silently update current fileid
 			window.OCP.Files.Router.goToRoute(
 				null,
-				{ view: view.id, fileid: node.fileid },
+				{ view: view.id, fileid: String(node.fileid) },
 				{ ...window.OCP.Files.Router.query, dir },
 				true,
 			)

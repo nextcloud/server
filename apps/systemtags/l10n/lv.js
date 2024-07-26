@@ -39,6 +39,7 @@ OC.L10N.register(
     "Update" : "Atjaunināt",
     "Delete" : "Dzēst",
     "Reset" : "Atiestatīt",
+    "Loading …" : "Ielādē…",
     "Public" : "Publiska",
     "Restricted" : "Ierobežota",
     "Invisible" : "Neredzama",

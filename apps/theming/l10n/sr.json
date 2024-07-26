@@ -74,6 +74,8 @@
     "Disable user theming" : "Искључи корисничке теме",
     "Although you can select and customize your instance, users can change their background and colors. If you want to enforce your customization, you can toggle this on." : "Мада можете да изаберете и прилагодите своју инстанцу, корисници такође могу да промене своју позадину и боје. Ако желите да форсирате своје прилагођавање, укључите ово подешавање.",
     "Appearance and accessibility settings" : "Подешавања изгледа и приступачности",
+    "Misc accessibility options" : "Разне опције приступаности",
+    "Enable blur background filter (may increase GPU load)" : "Укључи филтер замућења позадине (може да повећа оптерећење GPU)",
     "Customization has been disabled by your administrator" : "Администратор је искључио могућност прилагођавања",
     "Set a primary color to highlight important elements. The color used for elements such as primary buttons might differ a bit as it gets adjusted to fulfill accessibility requirements." : "Поставља примарну боју за истицање важних елемената. Боја које се употреби за елементе као што су примарни дугмићи би могла донекле да се промени јер се подешава тако да задовољи захтеве приступачности.",
     "Background and color" : "Позадина и боја",
