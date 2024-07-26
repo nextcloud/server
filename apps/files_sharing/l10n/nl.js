@@ -110,6 +110,7 @@ OC.L10N.register(
     "You received {share} to group {group} as a share by {user}" : "Je ontving {share} aan groep {group} als een share van {user}",
     "Accept" : "Accepteren",
     "Decline" : "Afwijzen",
+    "Accounts" : "Accounts",
     "Expiration date" : "Vervaldatum",
     "Set a password" : "Instellen wachtwoord",
     "Password" : "Wachtwoord",

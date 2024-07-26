@@ -136,6 +136,7 @@
     "Could not obtain lock type %d on \"%s\"." : "Ei suutnud hankida %d tüüpi lukustust \"%s\".",
     "Storage is temporarily not available" : "Salvestusruum pole ajutiselt kättesaadav",
     "Summary" : "Kokkuvõte",
+    "Translate" : "Tõlgi",
     "Help" : "Abi",
     "Users" : "Kasutajad",
     "Unknown user" : "Tundmatu kasutaja",

@@ -245,6 +245,8 @@
     "Summarize" : "Opsummer",
     "Summary" : "Oversigt",
     "Extract topics" : "Uddrag emner",
+    "Translate" : "Oversæt",
+    "Result" : "Resultat",
     "Free prompt" : "Gratis prompt",
     "Runs an arbitrary prompt through the language model." : "Kører en arbitrær prompt gennem sprogmodellen.",
     "Generate headline" : "Generer overskrift",

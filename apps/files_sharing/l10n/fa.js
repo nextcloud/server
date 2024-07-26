@@ -113,6 +113,7 @@ OC.L10N.register(
     "You received {share} to group {group} as a share by {user}" : "شما {اشتراک} را به گروه {گروه} به عنوان سهم {user }دریافت کردید",
     "Accept" : "پذیرفتن",
     "Decline" : "کاهش می یابد",
+    "Accounts" : "Accounts",
     "Expiration date" : "تاریخ انقضا",
     "Set a password" : "رمزعبور تنظیم کنید",
     "Password" : "گذرواژه",

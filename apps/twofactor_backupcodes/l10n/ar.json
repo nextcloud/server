@@ -8,6 +8,7 @@
     "Two factor backup codes" : "الأكواد الاحتياطية للدّخول المُثنّى",
     "A two-factor auth backup codes provider" : "مُوفّر الأكواد الاحتياطية للتحقّق المُثنّى من الهويّة",
     "Backup codes have been generated. {used} of {total} codes have been used." : "تمّ توليد الأكواد الاحتياطية. {used} من {total} تمّ استخدامها.",
+    "These are your backup codes. Please save and/or print them as you will not be able to read the codes again later." : "هذه هي الرموز الاحتياطية الخاصة بك. يرجى حفظها و/أو طباعتها لأنك لن تتمكن من قراءة الرموز لاحقًا.",
     "Save backup codes" : "الإحتفاظ بالرموز الإحتياطية",
     "Print backup codes" : "طباعة الرموز الإحتياطية",
     "Regenerate backup codes" : "إعادة توليد رموز الإسترجاع الإحتياطية",
