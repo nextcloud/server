@@ -14,6 +14,7 @@ use JsonSerializable;
 
 /**
  * @since 26.0.0
+ * @deprecated 30.0.0
  */
 class LanguageTuple implements JsonSerializable {
 	/**

@@ -11,6 +11,7 @@ namespace OCP\TextToImage\Events;
 
 /**
  * @since 28.0.0
+ * @deprecated 30.0.0
  */
 class TaskSuccessfulEvent extends AbstractTextToImageEvent {
 }

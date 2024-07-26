@@ -13,6 +13,7 @@ use OCP\TextProcessing\Task;
 
 /**
  * @since 27.1.0
+ * @deprecated 30.0.0
  */
 abstract class AbstractTextProcessingEvent extends Event {
 	/**

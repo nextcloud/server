@@ -13,6 +13,7 @@ use OCP\Files\File;
 
 /**
  * @since 27.0.0
+ * @deprecated 30.0.0
  */
 abstract class AbstractTranscriptionEvent extends Event {
 	/**
