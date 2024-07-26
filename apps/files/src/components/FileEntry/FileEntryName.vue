@@ -27,7 +27,7 @@
 		class="files-list__row-name-link"
 		data-cy-files-list-row-name-link
 		v-bind="linkTo.params">
-		<!-- File name -->
+		<!-- Filename -->
 		<span class="files-list__row-name-text">
 			<!-- Keep the filename stuck to the extension to avoid whitespace rendering issues-->
 			<span class="files-list__row-name-" v-text="basename" />
@@ -123,7 +123,7 @@ export default defineComponent({
 
 		renameLabel() {
 			const matchLabel: Record<FileType, string> = {
-				[FileType.File]: t('files', 'File name'),
+				[FileType.File]: t('files', 'Filename'),
 				[FileType.Folder]: t('files', 'Folder name'),
 			}
 			return matchLabel[this.source.type]
@@ -173,7 +173,7 @@ export default defineComponent({
 
 	watch: {
 		/**
-		 * If renaming starts, select the file name
+		 * If renaming starts, select the filename
 		 * in the input, without the extension.
 		 * @param renaming
 		 */
