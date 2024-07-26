@@ -11,6 +11,9 @@ use OC\AppFramework\Utility\TimeFactory;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\FrontpageRoute;
+use OCP\AppFramework\Http\Attribute\NoAdminRequired;
+use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
+use OCP\AppFramework\Http\Attribute\PublicPage;
 use OCP\AppFramework\Http\DataDisplayResponse;
 use OCP\AppFramework\Http\FileDisplayResponse;
 use OCP\AppFramework\Http\JSONResponse;
@@ -47,10 +50,7 @@ class AvatarController extends Controller {
 	}
 
 	/**
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
 	 * @NoSameSiteCookieRequired
-	 * @PublicPage
 	 *
 	 * Get the dark avatar
 	 *
@@ -63,6 +63,8 @@ class AvatarController extends Controller {
 	 * 201: Avatar returned
 	 * 404: Avatar not found
 	 */
+	#[NoCSRFRequired]
+	#[PublicPage]
 	#[FrontpageRoute(verb: 'GET', url: '/avatar/{userId}/{size}/dark')]
 	public function getAvatarDark(string $userId, int $size, bool $guestFallback = false) {
 		if ($size <= 64) {
@@ -99,10 +101,7 @@ class AvatarController extends Controller {
 
 
 	/**
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
 	 * @NoSameSiteCookieRequired
-	 * @PublicPage
 	 *
 	 * Get the avatar
 	 *
@@ -115,6 +114,8 @@ class AvatarController extends Controller {
 	 * 201: Avatar returned
 	 * 404: Avatar not found
 	 */
+	#[NoCSRFRequired]
+	#[PublicPage]
 	#[FrontpageRoute(verb: 'GET', url: '/avatar/{userId}/{size}')]
 	public function getAvatar(string $userId, int $size, bool $guestFallback = false) {
 		if ($size <= 64) {
@@ -149,9 +150,7 @@ class AvatarController extends Controller {
 		return $response;
 	}
 
-	/**
-	 * @NoAdminRequired
-	 */
+	#[NoAdminRequired]
 	#[FrontpageRoute(verb: 'POST', url: '/avatar/')]
 	public function postAvatar(?string $path = null): JSONResponse {
 		$files = $this->request->getUploadedFile('files');
@@ -271,9 +270,7 @@ class AvatarController extends Controller {
 		}
 	}
 
-	/**
-	 * @NoAdminRequired
-	 */
+	#[NoAdminRequired]
 	#[FrontpageRoute(verb: 'DELETE', url: '/avatar/')]
 	public function deleteAvatar(): JSONResponse {
 		try {
@@ -287,10 +284,9 @@ class AvatarController extends Controller {
 	}
 
 	/**
-	 * @NoAdminRequired
-	 *
 	 * @return JSONResponse|DataDisplayResponse
 	 */
+	#[NoAdminRequired]
 	#[FrontpageRoute(verb: 'GET', url: '/avatar/tmp')]
 	public function getTmpAvatar() {
 		$tmpAvatar = $this->cache->get('tmpAvatar');
@@ -315,9 +311,7 @@ class AvatarController extends Controller {
 		return $resp;
 	}
 
-	/**
-	 * @NoAdminRequired
-	 */
+	#[NoAdminRequired]
 	#[FrontpageRoute(verb: 'POST', url: '/avatar/cropped')]
 	public function postCroppedAvatar(?array $crop = null): JSONResponse {
 		if (is_null($crop)) {

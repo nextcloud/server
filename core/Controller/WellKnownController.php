@@ -12,7 +12,9 @@ use OC\Http\WellKnown\RequestManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\FrontpageRoute;
+use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
 use OCP\AppFramework\Http\Attribute\OpenAPI;
+use OCP\AppFramework\Http\Attribute\PublicPage;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\Response;
 use OCP\IRequest;
@@ -27,11 +29,10 @@ class WellKnownController extends Controller {
 	}
 
 	/**
-	 * @PublicPage
-	 * @NoCSRFRequired
-	 *
 	 * @return Response
 	 */
+	#[PublicPage]
+	#[NoCSRFRequired]
 	#[FrontpageRoute(verb: 'GET', url: '.well-known/{service}')]
 	public function handle(string $service): Response {
 		$response = $this->requestManager->process(

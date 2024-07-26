@@ -10,6 +10,7 @@ namespace OC\Core\Controller;
 
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\Attribute\FrontpageRoute;
+use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\IRequest;
 use OCP\ISearch;
@@ -26,9 +27,7 @@ class SearchController extends Controller {
 		parent::__construct($appName, $request);
 	}
 
-	/**
-	 * @NoAdminRequired
-	 */
+	#[NoAdminRequired]
 	#[FrontpageRoute(verb: 'GET', url: '/core/search')]
 	public function search(string $query, array $inApps = [], int $page = 1, int $size = 30): JSONResponse {
 		$results = $this->searcher->searchPaged($query, $inApps, $page, $size);

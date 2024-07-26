@@ -15,6 +15,7 @@ use OC\URLGenerator;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\FrontpageRoute;
+use OCP\AppFramework\Http\Attribute\PublicPage;
 use OCP\AppFramework\Http\Attribute\UseSession;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\IRequest;
@@ -39,10 +40,7 @@ class WebAuthnController extends Controller {
 		parent::__construct($appName, $request);
 	}
 
-	/**
-	 * @NoAdminRequired
-	 * @PublicPage
-	 */
+	#[PublicPage]
 	#[UseSession]
 	#[FrontpageRoute(verb: 'POST', url: 'login/webauthn/start')]
 	public function startAuthentication(string $loginName): JSONResponse {
@@ -64,10 +62,7 @@ class WebAuthnController extends Controller {
 		return new JSONResponse($publicKeyCredentialRequestOptions);
 	}
 
-	/**
-	 * @NoAdminRequired
-	 * @PublicPage
-	 */
+	#[PublicPage]
 	#[UseSession]
 	#[FrontpageRoute(verb: 'POST', url: 'login/webauthn/finish')]
 	public function finishAuthentication(string $data): JSONResponse {

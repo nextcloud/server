@@ -12,6 +12,8 @@ use OCA\Files_Sharing\SharedStorage;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\FrontpageRoute;
+use OCP\AppFramework\Http\Attribute\NoAdminRequired;
+use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\FileDisplayResponse;
 use OCP\AppFramework\Http\RedirectResponse;
@@ -36,9 +38,6 @@ class PreviewController extends Controller {
 	}
 
 	/**
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
-	 *
 	 * Get a preview by file path
 	 *
 	 * @param string $file Path of the file
@@ -56,6 +55,8 @@ class PreviewController extends Controller {
 	 * 403: Getting preview is not allowed
 	 * 404: Preview not found
 	 */
+	#[NoAdminRequired]
+	#[NoCSRFRequired]
 	#[FrontpageRoute(verb: 'GET', url: '/core/preview.png')]
 	public function getPreview(
 		string $file = '',
@@ -80,9 +81,6 @@ class PreviewController extends Controller {
 	}
 
 	/**
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
-	 *
 	 * Get a preview by file ID
 	 *
 	 * @param int $fileId ID of the file
@@ -100,6 +98,8 @@ class PreviewController extends Controller {
 	 * 403: Getting preview is not allowed
 	 * 404: Preview not found
 	 */
+	#[NoAdminRequired]
+	#[NoCSRFRequired]
 	#[FrontpageRoute(verb: 'GET', url: '/core/preview')]
 	public function getPreviewByFileId(
 		int $fileId = -1,

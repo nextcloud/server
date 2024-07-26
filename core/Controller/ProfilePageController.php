@@ -14,7 +14,9 @@ use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\Attribute\AnonRateLimit;
 use OCP\AppFramework\Http\Attribute\BruteForceProtection;
 use OCP\AppFramework\Http\Attribute\FrontpageRoute;
+use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
 use OCP\AppFramework\Http\Attribute\OpenAPI;
+use OCP\AppFramework\Http\Attribute\PublicPage;
 use OCP\AppFramework\Http\Attribute\UserRateLimit;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
@@ -44,12 +46,8 @@ class ProfilePageController extends Controller {
 		parent::__construct($appName, $request);
 	}
 
-	/**
-	 * @PublicPage
-	 * @NoCSRFRequired
-	 * @NoAdminRequired
-	 * @NoSubAdminRequired
-	 */
+	#[PublicPage]
+	#[NoCSRFRequired]
 	#[FrontpageRoute(verb: 'GET', url: '/u/{targetUserId}')]
 	#[BruteForceProtection(action: 'user')]
 	#[UserRateLimit(limit: 30, period: 120)]

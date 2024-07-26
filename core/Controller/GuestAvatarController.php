@@ -8,6 +8,8 @@ namespace OC\Core\Controller;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\FrontpageRoute;
+use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
+use OCP\AppFramework\Http\Attribute\PublicPage;
 use OCP\AppFramework\Http\FileDisplayResponse;
 use OCP\AppFramework\Http\Response;
 use OCP\IAvatarManager;
@@ -33,9 +35,6 @@ class GuestAvatarController extends Controller {
 	/**
 	 * Returns a guest avatar image response
 	 *
-	 * @PublicPage
-	 * @NoCSRFRequired
-	 *
 	 * @param string $guestName The guest name, e.g. "Albert"
 	 * @param string $size The desired avatar size, e.g. 64 for 64x64px
 	 * @param bool|null $darkTheme Return dark avatar
@@ -44,6 +43,8 @@ class GuestAvatarController extends Controller {
 	 * 200: Custom avatar returned
 	 * 201: Avatar returned
 	 */
+	#[PublicPage]
+	#[NoCSRFRequired]
 	#[FrontpageRoute(verb: 'GET', url: '/avatar/guest/{guestName}/{size}')]
 	public function getAvatar(string $guestName, string $size, ?bool $darkTheme = false) {
 		$size = (int) $size;
@@ -87,9 +88,6 @@ class GuestAvatarController extends Controller {
 	/**
 	 * Returns a dark guest avatar image response
 	 *
-	 * @PublicPage
-	 * @NoCSRFRequired
-	 *
 	 * @param string $guestName The guest name, e.g. "Albert"
 	 * @param string $size The desired avatar size, e.g. 64 for 64x64px
 	 * @return FileDisplayResponse<Http::STATUS_OK|Http::STATUS_CREATED, array{Content-Type: string, X-NC-IsCustomAvatar: int}>|Response<Http::STATUS_INTERNAL_SERVER_ERROR, array{}>
@@ -97,6 +95,8 @@ class GuestAvatarController extends Controller {
 	 * 200: Custom avatar returned
 	 * 201: Avatar returned
 	 */
+	#[PublicPage]
+	#[NoCSRFRequired]
 	#[FrontpageRoute(verb: 'GET', url: '/avatar/guest/{guestName}/{size}/dark')]
 	public function getAvatarDark(string $guestName, string $size) {
 		return $this->getAvatar($guestName, $size, true);
