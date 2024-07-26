@@ -113,7 +113,7 @@ if (isset($template) && $template->getActionCount() !== 0) {
 		<?php
 if ($_['showSimpleSignUpLink']) {
 	?>
-			<p>
+			<p class="footer__simple-sign-up">
 				<a href="<?php p($_['signUpLink']); ?>" target="_blank" rel="noreferrer noopener">
 					<?php p($l->t('Get your own free account')); ?>
 				</a>
