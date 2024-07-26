@@ -10,6 +10,9 @@ namespace OCP\Migration\Attributes;
 
 use JsonSerializable;
 
+/**
+ * @since 30.0.0
+ */
 class IndexMigrationAttribute extends MigrationAttribute implements JsonSerializable {
 	public function __construct(
 		string $table = '',
@@ -20,21 +23,41 @@ class IndexMigrationAttribute extends MigrationAttribute implements JsonSerializ
 		parent::__construct($table, $description, $notes);
 	}
 
+	/**
+	 * @param IndexType|null $type
+	 *
+	 * @return $this
+	 * @since 30.0.0
+	 */
 	public function setType(?IndexType $type): self {
 		$this->type = $type;
 		return $this;
 	}
 
+	/**
+	 * @return IndexType|null
+	 * @since 30.0.0
+	 */
 	public function getType(): ?IndexType {
 		return $this->type;
 	}
 
+	/**
+	 * @param array $data
+	 *
+	 * @return $this
+	 * @since 30.0.0
+	 */
 	public function import(array $data): self {
 		parent::import($data);
 		$this->setType(IndexType::tryFrom($data['type'] ?? ''));
 		return $this;
 	}
 
+	/**
+	 * @return array
+	 * @since 30.0.0
+	 */
 	public function jsonSerialize(): array {
 		return array_merge(
 			parent::jsonSerialize(),

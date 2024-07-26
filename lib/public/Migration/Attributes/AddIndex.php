@@ -10,8 +10,15 @@ namespace OCP\Migration\Attributes;
 
 use Attribute;
 
+/**
+ * @since 30.0.0
+ */
 #[Attribute(Attribute::IS_REPEATABLE | Attribute::TARGET_CLASS)]
 class AddIndex extends IndexMigrationAttribute {
+	/**
+	 * @return string
+	 * @since 30.0.0
+	 */
 	public function definition(): string {
 		$type = is_null($this->getType()) ? '' : ' (' . $this->getType()->value . ')';
 		$table = empty($this->getTable()) ? '' : ' to table \'' . $this->getTable() . '\'';

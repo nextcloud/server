@@ -10,10 +10,10 @@ namespace OC\Migration;
 
 use OC\DB\Connection;
 use OC\DB\MigrationService;
+use OC\Migration\Exceptions\AttributeException;
 use OCP\App\IAppManager;
 use OCP\Migration\Attributes\GenericMigrationAttribute;
 use OCP\Migration\Attributes\MigrationAttribute;
-use OCP\Migration\Exceptions\AttributeException;
 use Psr\Log\LoggerInterface;
 use ReflectionClass;
 
@@ -58,10 +58,10 @@ class MetadataManager {
 	/**
 	 * convert direct data from release metadata into a list of Migrations' Attribute
 	 *
-	 * @param array $metadata
+	 * @param array<array-key, array<array-key, array>> $metadata
 	 * @param bool $filterKnownMigrations ignore metadata already done in local instance
 	 *
-	 * @return array
+	 * @return array{apps: array<array-key, array<string, MigrationAttribute[]>>, core: array<string, MigrationAttribute[]>}
 	 * @since 30.0.0
 	 */
 	public function getMigrationsAttributesFromReleaseMetadata(
@@ -73,6 +73,7 @@ class MetadataManager {
 			if ($filterKnownMigrations && !$this->appManager->isInstalled($appId)) {
 				continue; // if not interested and app is not installed
 			}
+
 			$done = ($filterKnownMigrations) ? $this->getKnownMigrations($appId) : [];
 			$appsAttributes[$appId] = $this->parseMigrations($metadata['apps'][$appId] ?? [], $done);
 		}
@@ -125,7 +126,6 @@ class MetadataManager {
 		$ms = new MigrationService($appId, $this->connection);
 		return $ms->getMigratedVersions();
 	}
-
 
 	/**
 	 * generate (deserialize) a MigrationAttribute from a serialized version

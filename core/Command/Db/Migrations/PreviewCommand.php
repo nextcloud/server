@@ -20,6 +20,9 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
+/**
+ * @since 30.0.0
+ */
 class PreviewCommand extends Command {
 	private bool $initiated = false;
 	public function __construct(

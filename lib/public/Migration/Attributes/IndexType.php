@@ -13,9 +13,9 @@ namespace OCP\Migration\Attributes;
  */
 enum IndexType : string {
 	/** @since 30.0.0 */
-	case PRIMARY = 'primary'; // migration is estimated to require few minutes
+	case PRIMARY = 'primary';
 	/** @since 30.0.0 */
-	case INDEX = 'index'; // depends on setup, migration might require some time
+	case INDEX = 'index';
 	/** @since 30.0.0 */
-	case UNIQUE = 'unique'; // migration should be light and quick
+	case UNIQUE = 'unique';
 }

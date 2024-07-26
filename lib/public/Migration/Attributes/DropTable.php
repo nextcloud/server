@@ -10,9 +10,16 @@ namespace OCP\Migration\Attributes;
 
 use Attribute;
 
+/**
+ *
+ */
 #[Attribute(Attribute::IS_REPEATABLE | Attribute::TARGET_CLASS)]
-class DeleteTable extends MigrationAttribute {
+class DropTable extends TableMigrationAttribute {
+	/**
+	 * @return string
+	 * @since 30.0.0
+	 */
 	public function definition(): string {
-		return empty($this->getTable()) ? 'Deletion of a table' : 'Deletion of table \'' . $this->getTable() . '\'';
+		return 'Deletion of table \'' . $this->getTable() . '\'';
 	}
 }

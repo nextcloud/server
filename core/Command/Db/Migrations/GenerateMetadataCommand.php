@@ -14,6 +14,9 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
+/**
+ * @since 30.0.0
+ */
 class GenerateMetadataCommand extends Command {
 	public function __construct(
 		private readonly MetadataManager $metadataManager,
@@ -43,9 +46,7 @@ class GenerateMetadataCommand extends Command {
 		return 0;
 	}
 
-
-
-	public function extractMigrationMetadata(): array {
+	private function extractMigrationMetadata(): array {
 		return [
 			'core' => $this->extractMigrationMetadataFromCore(),
 			'apps' => $this->extractMigrationMetadataFromApps()

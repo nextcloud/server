@@ -10,6 +10,9 @@ namespace OCP\Migration\Attributes;
 
 use JsonSerializable;
 
+/**
+ * @since 30.0.0
+ */
 class GenericMigrationAttribute extends MigrationAttribute implements JsonSerializable {
 	public function __construct(
 		private readonly array $details = []
@@ -21,10 +24,18 @@ class GenericMigrationAttribute extends MigrationAttribute implements JsonSerial
 		);
 	}
 
+	/**
+	 * @return string
+	 * @since 30.0.0
+	 */
 	public function definition(): string {
 		return json_encode($this->jsonSerialize(), JSON_UNESCAPED_SLASHES);
 	}
 
+	/**
+	 * @return array
+	 * @since 30.0.0
+	 */
 	public function jsonSerialize(): array {
 		return $this->details;
 	}
