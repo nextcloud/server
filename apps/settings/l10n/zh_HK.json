@@ -558,6 +558,7 @@
     "Unable to delete additional email address" : "無法刪除其他電郵地址",
     "No email address set" : "未設定電郵地址",
     "Your handle" : "您的別名",
+    "Day to use as the first day of week" : "選擇星期幾作為每星期的第一天",
     "Derived from your locale ({weekDayName})" : "根據您的區域設置推定（{weekDayName}）",
     "Unable to update first day of week" : "無法更新一星期的第一天",
     "Your headline" : "您的標題",

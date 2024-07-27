@@ -158,7 +158,7 @@
     "File Management" : "Failų tvarkymas",
     "You don’t have permission to upload or create files here" : "Jūs neturite leidimo čia įkelti arba kurti failus",
     "Rename file" : "Pervadinti failą",
-    "File name" : "Failo pavadinimas",
+    "Filename" : "Failo pavadinimas",
     "Folder name" : "Aplanko pavadinimas",
     "Download file {name}" : "Atsisiųsti failą {name}",
     "Clear filter" : "Išvalyti filtrą",
@@ -210,7 +210,6 @@
     "Documents" : "Dokumentai",
     "Folders" : "Aplankai",
     "Videos" : "Vaizdo įrašai",
-    "Filename" : "Failo pavadinimas",
     "Unable to initialize the templates directory" : "Nepavyko inicijuoti šablonų katalogo",
     "Templates" : "Šablonai",
     "Some files could not be moved" : "Kai kurių failų nepavyko perkelti",
@@ -236,6 +235,7 @@
     "Shared with you" : "Bendrinama su jumis",
     "Deleted shares" : "Ištrinti viešiniai",
     "Pending shares" : "Laukiantys viešiniai",
+    "File name" : "Failo pavadinimas",
     "{newName} already exists." : "{newName} jau yra.",
     "Name cannot be empty" : "Pavadinimas negali būti tuščias"
 },"pluralForm" :"nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);"
