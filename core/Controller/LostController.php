@@ -81,8 +81,8 @@ class LostController extends Controller {
 	 */
 	#[PublicPage]
 	#[NoCSRFRequired]
-	#[BruteForceProtection('passwordResetEmail')]
-	#[AnonRateLimit(10, 300)]
+	#[BruteForceProtection(action: 'passwordResetEmail')]
+	#[AnonRateLimit(limit: 10, period: 300)]
 	#[FrontpageRoute(verb: 'GET', url: '/lostpassword/reset/form/{token}/{userId}')]
 	public function resetform(string $token, string $userId): TemplateResponse {
 		try {
@@ -144,8 +144,8 @@ class LostController extends Controller {
 	}
 
 	#[PublicPage]
-	#[BruteForceProtection('passwordResetEmail')]
-	#[AnonRateLimit(10, 300)]
+	#[BruteForceProtection(action: 'passwordResetEmail')]
+	#[AnonRateLimit(limit: 10, period: 300)]
 	#[FrontpageRoute(verb: 'POST', url: '/lostpassword/email')]
 	public function email(string $user): JSONResponse {
 		if ($this->config->getSystemValue('lost_password_link', '') !== '') {
@@ -180,8 +180,8 @@ class LostController extends Controller {
 	}
 
 	#[PublicPage]
-	#[BruteForceProtection('passwordResetEmail')]
-	#[AnonRateLimit(10, 300)]
+	#[BruteForceProtection(action: 'passwordResetEmail')]
+	#[AnonRateLimit(limit: 10, period: 300)]
 	#[FrontpageRoute(verb: 'POST', url: '/lostpassword/set/{token}/{userId}')]
 	public function setPassword(string $token, string $userId, string $password, bool $proceed): JSONResponse {
 		if ($this->encryptionManager->isEnabled() && !$proceed) {

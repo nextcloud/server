@@ -274,7 +274,7 @@ class LoginController extends Controller {
 	 */
 	#[NoCSRFRequired]
 	#[PublicPage]
-	#[BruteForceProtection('login')]
+	#[BruteForceProtection(action: 'login')]
 	#[UseSession]
 	#[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
 	#[FrontpageRoute(verb: 'POST', url: '/login')]
@@ -387,7 +387,7 @@ class LoginController extends Controller {
 	 * 403: Password confirmation failed
 	 */
 	#[NoAdminRequired]
-	#[BruteForceProtection('sudo')]
+	#[BruteForceProtection(action: 'sudo')]
 	#[UseSession]
 	#[NoCSRFRequired]
 	#[FrontpageRoute(verb: 'POST', url: '/login/confirm')]

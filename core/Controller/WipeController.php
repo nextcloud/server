@@ -40,7 +40,7 @@ class WipeController extends Controller {
 	 */
 	#[PublicPage]
 	#[NoCSRFRequired]
-	#[AnonRateLimit(10, 300)]
+	#[AnonRateLimit(limit: 10, period: 300)]
 	#[FrontpageRoute(verb: 'POST', url: '/core/wipe/check')]
 	public function checkWipe(string $token): JSONResponse {
 		try {
@@ -69,7 +69,7 @@ class WipeController extends Controller {
 	 */
 	#[PublicPage]
 	#[NoCSRFRequired]
-	#[AnonRateLimit(10, 300)]
+	#[AnonRateLimit(limit: 10, period: 300)]
 	#[FrontpageRoute(verb: 'POST', url: '/core/wipe/success')]
 	public function wipeDone(string $token): JSONResponse {
 		try {

@@ -168,7 +168,7 @@ class AppPasswordController extends \OCP\AppFramework\OCSController {
 	 * 403: Password confirmation failed
 	 */
 	#[NoAdminRequired]
-	#[BruteForceProtection('sudo')]
+	#[BruteForceProtection(action: 'sudo')]
 	#[UseSession]
 	#[ApiRoute(verb: 'PUT', url: '/apppassword/confirm', root: '/core')]
 	public function confirmUserPassword(string $password): DataResponse {

@@ -62,8 +62,8 @@ class TranslationApiController extends \OCP\AppFramework\OCSController {
 	 * 412: Translating is not possible
 	 */
 	#[PublicPage]
-	#[UserRateLimit(25, 120)]
-	#[AnonRateLimit(10, 120)]
+	#[UserRateLimit(limit: 25, period: 120)]
+	#[AnonRateLimit(limit: 10, period: 120)]
 	#[ApiRoute(verb: 'POST', url: '/translate', root: '/translation')]
 	public function translate(string $text, ?string $fromLanguage, string $toLanguage): DataResponse {
 		try {

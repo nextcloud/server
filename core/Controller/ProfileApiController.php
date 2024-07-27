@@ -53,7 +53,7 @@ class ProfileApiController extends OCSController {
 	 */
 	#[NoAdminRequired]
 	#[PasswordConfirmationRequired]
-	#[UserRateLimit(40, 600)]
+	#[UserRateLimit(limit: 40, period: 600)]
 	#[ApiRoute(verb: 'PUT', url: '/{targetUserId}', root: '/profile')]
 	public function setVisibility(string $targetUserId, string $paramId, string $visibility): DataResponse {
 		$requestingUser = $this->userSession->getUser();
