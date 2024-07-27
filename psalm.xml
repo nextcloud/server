@@ -16,6 +16,7 @@
 >
 	<plugins>
 		<plugin filename="build/psalm/AppFrameworkTainter.php" />
+		<plugin filename="build/psalm/AttributeNamedParameters.php" />
 	</plugins>
 	<projectFiles>
 		<directory name="apps/admin_audit"/>
