@@ -344,8 +344,8 @@ class Storage {
 		$root = Server::get(IRootFolder::class);
 		$userFolder = $root->getUserFolder($uid);
 
-		$users_view = new View('/' . $uid);
-		$files_view = new View('/' . $uid . '/files');
+		$users_view = new View('/'.$uid);
+		$files_view = new View('/'.$uid.'/files');
 
 		$versionCreated = false;
 
@@ -357,9 +357,9 @@ class Storage {
 		}
 
 		//first create a new version
-		$version = 'files_versions' . $filename . '.v' . $users_view->filemtime('files' . $filename);
+		$version = 'files_versions'.$filename.'.v'.$users_view->filemtime('files'.$filename);
 		if (!$users_view->file_exists($version)) {
-			$users_view->copy('files' . $filename, 'files_versions' . $filename . '.v' . $users_view->filemtime('files' . $filename));
+			$users_view->copy('files'.$filename, 'files_versions'.$filename.'.v'.$users_view->filemtime('files'.$filename));
 			$versionCreated = true;
 		}
 
