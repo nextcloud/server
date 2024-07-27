@@ -147,7 +147,7 @@
     "css-loader": "^6.8.1",
     "cypress": "^13.13.1",
     "cypress-axe": "^1.5.0",
-    "cypress-if": "^1.10.5",
+    "cypress-if": "^1.12.4",
     "cypress-split": "^1.24.0",
     "cypress-wait-until": "^3.0.2",
     "dockerode": "^4.0.2",
