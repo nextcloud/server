@@ -151,7 +151,7 @@ OC.L10N.register(
     "in %s" : "za %s",
     "File Management" : "Upravljanje datotekama",
     "You don’t have permission to upload or create files here" : "Ovdje ne smijete otpremati ili stvarati datoteke",
-    "File name" : "Naziv datoteke",
+    "Filename" : "Naziv datoteke",
     "Folder name" : "Naziv mape",
     "Clear filter" : "Ukloni filtar",
     "Type" : "Vrsta",
@@ -196,7 +196,6 @@ OC.L10N.register(
     "Documents" : "Dokumenti",
     "Audio" : "Audio",
     "Videos" : "Videozapisi",
-    "Filename" : "Naziv datoteke",
     "Unable to initialize the templates directory" : "Nije moguće inicijalizirati direktorij predložaka",
     "Templates" : "Predlošci",
     "Some files could not be moved" : "Neke datoteke nije moguće premjestiti",
@@ -221,6 +220,7 @@ OC.L10N.register(
     "Shared with you" : "Podijeljeno s vama",
     "Deleted shares" : "Izbrisana dijeljenja",
     "Pending shares" : "Dijeljenja na čekanju",
+    "File name" : "Naziv datoteke",
     "Name cannot be empty" : "Naziv ne može biti prazan"
 },
 "nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;");

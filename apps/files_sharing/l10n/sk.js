@@ -120,6 +120,7 @@ OC.L10N.register(
     "Expiration date" : "Dátum vypršania",
     "Set a password" : "Nastavte si heslo",
     "Password" : "Heslo",
+    "Generate a new password" : "Vygenerovať nové heslo",
     "Share link" : "Sprístupniť odkaz",
     "Copy to clipboard" : "Skopírovať do schránky",
     "Link copied to clipboard" : "Odkaz bol skopírovaný do schránky",
