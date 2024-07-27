@@ -10,6 +10,7 @@ use OCP\TextProcessing\Task;
 
 /**
  * @since 27.1.0
+ * @deprecated 30.0.0
  */
 class TaskFailedEvent extends AbstractTextProcessingEvent {
 	/**

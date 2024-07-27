@@ -15,6 +15,7 @@ use OCP\L10N\IFactory;
 /**
  * This is the text processing task type for summaries
  * @since 27.1.0
+ * @deprecated 30.0.0
  */
 class SummaryTaskType implements ITaskType {
 	private IL10N $l;

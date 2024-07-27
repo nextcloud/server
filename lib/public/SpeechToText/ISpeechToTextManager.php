@@ -17,6 +17,7 @@ use RuntimeException;
 
 /**
  * @since 27.0.0
+ * @deprecated 30.0.0
  */
 interface ISpeechToTextManager {
 	/**

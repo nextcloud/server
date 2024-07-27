@@ -103,13 +103,13 @@ This file is generated from multiple sources. Included packages:
 	- version: 3.0.1
 	- license: GPL-3.0-or-later
 - @nextcloud/sharing
-	- version: 0.2.2
+	- version: 0.2.3
 	- license: GPL-3.0-or-later
 - eventemitter3
 	- version: 5.0.1
 	- license: MIT
 - @nextcloud/upload
-	- version: 1.4.1
+	- version: 1.4.2
 	- license: AGPL-3.0-or-later
 - @nextcloud/vue
 	- version: 8.15.0

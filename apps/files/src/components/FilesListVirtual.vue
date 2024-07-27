@@ -374,8 +374,10 @@ export default defineComponent({
 			// Pinned on top when scrolling above table header
 			position: sticky;
 			top: 0;
-			// fix size and background
+			// ensure there is a background to hide the file list on scroll
 			background-color: var(--color-main-background);
+			z-index: 10;
+			// fixed the size
 			padding-inline: var(--row-height) var(--default-grid-baseline, 4px);
 			height: var(--fixed-top-position);
 			width: 100%;
@@ -698,6 +700,14 @@ export default defineComponent({
 		}
 	}
 }
+
+@media screen and (max-width: 512px) {
+	.files-list :deep(.files-list__filters) {
+		// Reduce padding on mobile
+		padding-inline: var(--default-grid-baseline, 4px);
+	}
+}
+
 </style>
 
 <style lang="scss">

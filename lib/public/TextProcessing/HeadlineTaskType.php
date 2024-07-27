@@ -15,6 +15,7 @@ use OCP\L10N\IFactory;
 /**
  * This is the text processing task type for creating headline
  * @since 27.1.0
+ * @deprecated 30.0.0
  */
 class HeadlineTaskType implements ITaskType {
 	private IL10N $l;

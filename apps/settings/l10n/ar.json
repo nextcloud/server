@@ -558,6 +558,7 @@
     "Unable to delete additional email address" : "تعذّرت إضافة حساب بريد الكتروني إضافي",
     "No email address set" : "لم يتم تعيين أي إيميل",
     "Your handle" : "مَمْسَكُكَ your handle",
+    "Day to use as the first day of week" : "اليوم الذي سيتم اعتباره أول يوم في الأسبوع",
     "Derived from your locale ({weekDayName})" : "مُشتقَّة من إعدادات بلدك ({weekDayName})",
     "Unable to update first day of week" : "تعذّر تحديث اليوم الأول في الأسبوع",
     "Your headline" : "تَرويسَتُك your headline",

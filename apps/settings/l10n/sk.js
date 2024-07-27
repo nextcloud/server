@@ -575,6 +575,7 @@ OC.L10N.register(
     "Quota" : "Kvóta",
     "Language" : "Jazyk",
     "Set default language" : "Nastaviť predvolený jazyk",
+    "Add new account" : " Pridať nový účet",
     "Manager" : "Manažér",
     "Total rows summary" : "Súčet všetkých riadkov",
     "Scroll to load more rows" : "Posúvajte pre načítanie ďalších riadkov",

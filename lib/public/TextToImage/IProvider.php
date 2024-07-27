@@ -15,6 +15,7 @@ use RuntimeException;
  * This is the interface that is implemented by apps that
  * implement a text to image provider
  * @since 28.0.0
+ * @deprecated 30.0.0
  */
 interface IProvider {
 	/**

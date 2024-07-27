@@ -560,6 +560,7 @@ OC.L10N.register(
     "Unable to delete additional email address" : "Unable to delete additional email address",
     "No email address set" : "No email address set",
     "Your handle" : "Your handle",
+    "Day to use as the first day of week" : "Day to use as the first day of week",
     "Derived from your locale ({weekDayName})" : "Derived from your locale ({weekDayName})",
     "Unable to update first day of week" : "Unable to update first day of week",
     "Your headline" : "Your headline",
