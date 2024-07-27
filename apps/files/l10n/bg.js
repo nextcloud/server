@@ -167,7 +167,7 @@ OC.L10N.register(
     "You don’t have permission to upload or create files here" : "Нямаш разрешение да създаваш или качваш файлове тук.",
     "\"{displayName}\" action executed successfully" : "Действието „{displayName}“ е изпълнено успешно",
     "\"{displayName}\" action failed" : "Действието „{displayName}“ е неуспешно",
-    "File name" : "Име на файл",
+    "Filename" : "Име на файла",
     "Folder name" : "Име на папка",
     "Download file {name}" : "Изтегляне на файл {name}",
     "Clear filter" : "Изчстиване на филтър",
@@ -232,7 +232,6 @@ OC.L10N.register(
     "Folders" : "Папки",
     "Audio" : "Аудио",
     "Videos" : "Видеа",
-    "Filename" : "Име на файла",
     "Unable to initialize the templates directory" : "Неуспешно инициализиране на директорията с шаблони",
     "Create new templates folder" : "Създаване на нова папка за шаблони",
     "Templates" : "Шаблони",
@@ -271,6 +270,7 @@ OC.L10N.register(
     "Shared with you" : "Споделени с вас",
     "Deleted shares" : "Изтрити",
     "Pending shares" : "Чакащи споделяния",
+    "File name" : "Име на файл",
     "Name cannot be empty" : "Името не може да бъде празно"
 },
 "nplurals=2; plural=(n != 1);");

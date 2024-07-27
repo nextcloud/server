@@ -104,6 +104,7 @@ OC.L10N.register(
     "Pick start date" : "Välj startdatum",
     "Pick end date" : "Välj slutdatum",
     "Search in date range" : "Sök i datumintervall",
+    "Clear search" : "Rensa sökning",
     "Unified search" : "Enhetlig sökning",
     "Search apps, files, tags, messages" : "Sök efter appar, filer, taggar, meddelanden",
     "Places" : "Platser",
