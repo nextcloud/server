@@ -163,7 +163,7 @@ OC.L10N.register(
     "in %s" : "in %s",
     "File Management" : "Bestandsbeheer",
     "You don’t have permission to upload or create files here" : "Je hebt geen toestemming om hier te uploaden of bestanden te maken",
-    "File name" : "Bestandsnaam",
+    "Filename" : "Bestandsnaam",
     "Folder name" : "Mapnaam",
     "Clear filter" : "Filter leegmaken",
     "Type" : "Type",
@@ -222,7 +222,6 @@ OC.L10N.register(
     "Folders" : "Mappen",
     "Audio" : "Geluid",
     "Videos" : "Video's",
-    "Filename" : "Bestandsnaam",
     "Unable to initialize the templates directory" : "Kon de sjablonenmap niet instellen",
     "Templates" : "Sjablonen",
     "Some files could not be moved" : "Een paar bestanden konden niet worden verplaatst",
@@ -248,6 +247,7 @@ OC.L10N.register(
     "Shared with you" : "Gedeeld met jou",
     "Deleted shares" : "Verwijderde shares",
     "Pending shares" : "Deellinks in behandeling",
+    "File name" : "Bestandsnaam",
     "Name cannot be empty" : "Naam mag niet leeg zijn"
 },
 "nplurals=2; plural=(n != 1);");

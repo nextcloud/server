@@ -558,6 +558,7 @@
     "Unable to delete additional email address" : "Non é posíbel eliminar o enderezo de correo adicional",
     "No email address set" : "Non hai un enderezo de correo definido",
     "Your handle" : "O seu identificador",
+    "Day to use as the first day of week" : "Días que pode usar como primeiro día da semana",
     "Derived from your locale ({weekDayName})" : "Derivado da súa configuración rexional ({weekDayName})",
     "Unable to update first day of week" : "Non é posíbel actualizar o primeiro día da semana",
     "Your headline" : "O seu titular",
