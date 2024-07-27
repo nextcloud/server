@@ -305,7 +305,7 @@ class ThemingDefaultsTest extends TestCase {
 			->method('t')
 			->willReturnArgument(0);
 
-		$this->assertEquals('<a href="url" target="_blank" rel="noreferrer noopener" class="entity-name">Name</a> – Slogan<br/><a href="https://example.com/imprint" class="legal" target="_blank" rel="noreferrer noopener">Legal notice</a>', $this->template->getShortFooter());
+		$this->assertEquals('<a href="url" target="_blank" rel="noreferrer noopener" class="entity-name">Name</a> – Slogan<br/><span class="footer__legal-links"><a href="https://example.com/imprint" class="legal" target="_blank" rel="noreferrer noopener">Legal notice</a></span>', $this->template->getShortFooter());
 	}
 
 	public function testGetShortFooterPrivacy() {
@@ -326,7 +326,7 @@ class ThemingDefaultsTest extends TestCase {
 			->method('t')
 			->willReturnArgument(0);
 
-		$this->assertEquals('<a href="url" target="_blank" rel="noreferrer noopener" class="entity-name">Name</a> – Slogan<br/><a href="https://example.com/privacy" class="legal" target="_blank" rel="noreferrer noopener">Privacy policy</a>', $this->template->getShortFooter());
+		$this->assertEquals('<a href="url" target="_blank" rel="noreferrer noopener" class="entity-name">Name</a> – Slogan<br/><span class="footer__legal-links"><a href="https://example.com/privacy" class="legal" target="_blank" rel="noreferrer noopener">Privacy policy</a></span>', $this->template->getShortFooter());
 	}
 
 	public function testGetShortFooterAllLegalLinks() {
@@ -347,7 +347,7 @@ class ThemingDefaultsTest extends TestCase {
 			->method('t')
 			->willReturnArgument(0);
 
-		$this->assertEquals('<a href="url" target="_blank" rel="noreferrer noopener" class="entity-name">Name</a> – Slogan<br/><a href="https://example.com/imprint" class="legal" target="_blank" rel="noreferrer noopener">Legal notice</a> · <a href="https://example.com/privacy" class="legal" target="_blank" rel="noreferrer noopener">Privacy policy</a>', $this->template->getShortFooter());
+		$this->assertEquals('<a href="url" target="_blank" rel="noreferrer noopener" class="entity-name">Name</a> – Slogan<br/><span class="footer__legal-links"><a href="https://example.com/imprint" class="legal" target="_blank" rel="noreferrer noopener">Legal notice</a> · <a href="https://example.com/privacy" class="legal" target="_blank" rel="noreferrer noopener">Privacy policy</a></span>', $this->template->getShortFooter());
 	}
 
 	public function invalidLegalUrlProvider() {
