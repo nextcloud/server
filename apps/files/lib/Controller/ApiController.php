@@ -123,6 +123,10 @@ class ApiController extends Controller {
 				throw new NotFoundException();
 			}
 
+			if ($file->getId() <= 0) {
+				return new DataResponse(['message' => 'File not found.'], Http::STATUS_NOT_FOUND);
+			}
+
 			/** @var File $file */
 			$preview = $this->previewManager->getPreview($file, $x, $y, true);
 
