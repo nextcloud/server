@@ -12,6 +12,7 @@ use OC_App;
 use OCP\App\AppPathNotFoundException;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\PasswordConfirmationRequired;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCS\OCSException;
 use OCP\AppFramework\OCSController;
@@ -84,8 +85,6 @@ class AppsController extends OCSController {
 	}
 
 	/**
-	 * @PasswordConfirmationRequired
-	 *
 	 * Enable an app
 	 *
 	 * @param string $app ID of the app
@@ -94,6 +93,7 @@ class AppsController extends OCSController {
 	 *
 	 * 200: App enabled successfully
 	 */
+	#[PasswordConfirmationRequired]
 	public function enable(string $app): DataResponse {
 		try {
 			$this->appManager->enableApp($app);
@@ -104,8 +104,6 @@ class AppsController extends OCSController {
 	}
 
 	/**
-	 * @PasswordConfirmationRequired
-	 *
 	 * Disable an app
 	 *
 	 * @param string $app ID of the app
@@ -113,6 +111,7 @@ class AppsController extends OCSController {
 	 *
 	 * 200: App disabled successfully
 	 */
+	#[PasswordConfirmationRequired]
 	public function disable(string $app): DataResponse {
 		$this->appManager->disableApp($app);
 		return new DataResponse();

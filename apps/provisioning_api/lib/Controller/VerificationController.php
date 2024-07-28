@@ -13,6 +13,9 @@ use InvalidArgumentException;
 use OC\Security\Crypto;
 use OCP\Accounts\IAccountManager;
 use OCP\AppFramework\Controller;
+use OCP\AppFramework\Http\Attribute\BruteForceProtection;
+use OCP\AppFramework\Http\Attribute\NoAdminRequired;
+use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
 use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\IL10N;
@@ -58,10 +61,10 @@ class VerificationController extends Controller {
 	}
 
 	/**
-	 * @NoCSRFRequired
-	 * @NoAdminRequired
 	 * @NoSubAdminRequired
 	 */
+	#[NoAdminRequired]
+	#[NoCSRFRequired]
 	public function showVerifyMail(string $token, string $userId, string $key): TemplateResponse {
 		if ($this->userSession->getUser()->getUID() !== $userId) {
 			// not a public page, hence getUser() must return an IUser
@@ -78,10 +81,10 @@ class VerificationController extends Controller {
 	}
 
 	/**
-	 * @NoAdminRequired
 	 * @NoSubAdminRequired
-	 * @BruteForceProtection(action=emailVerification)
 	 */
+	#[NoAdminRequired]
+	#[BruteForceProtection(action: 'emailVerification')]
 	public function verifyMail(string $token, string $userId, string $key): TemplateResponse {
 		$throttle = false;
 		try {
