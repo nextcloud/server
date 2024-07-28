@@ -915,7 +915,6 @@ OC.L10N.register(
     "MySQL unicode support" : "دعم نظام المحارف unicode في قاعدة البيانات MySQL",
     "Overwrite cli URL" : "استبدال عنوان cli URL",
     "You are currently running PHP %s. PHP 8.0 is now deprecated in Nextcloud 27. Nextcloud 28 may require at least PHP 8.1. Please upgrade to one of the officially supported PHP versions provided by the PHP Group as soon as possible." : "إصدار PHP الذي تقوم بتشغيله الآن هو %s. النسخة 8.0 من PHP لم تعد مدعومة منذ الإصدار 27 لنكست كلاود. الإصدار 28 من نكست كلاود يتطلب استعمال الإصدار 8.1 من PHP على الأقل. رجاءً، قم بترقية إصدارPHP إلى إحدى الإصدارات المدعومة من نكست كلاود في أسرع وقت.",
-    "You have more than 500 000 rows in the scheduling objects table. Please run the expensive repair jobs via occ maintenance:repair --include-expensive" : "لديك أكثر من 500,000 صف في جدول كائنات الجدولة. الرجاء تشغيل مهام الإصلاح التي قد تؤثر على أداء النظام عبر أمر الصيانة السطري: repair --include-expensive",
     "Rating: {score}/10" : "التقييم: {score}/10",
     "You are about to remove the group \"{group}\". The users will NOT be deleted." : "أنت على وشك حذف المجموعة \"{group}\"؛ لكن المستخدمين لن يتم حذفهم.",
     "No users" : "لا يوجد مستخدِمون",

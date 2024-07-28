@@ -901,7 +901,6 @@ OC.L10N.register(
     "MySQL unicode support" : "MySQL unicodeサポート",
     "Overwrite cli URL" : "Overwrite cli URL",
     "You are currently running PHP %s. PHP 8.0 is now deprecated in Nextcloud 27. Nextcloud 28 may require at least PHP 8.1. Please upgrade to one of the officially supported PHP versions provided by the PHP Group as soon as possible." : "PHP %s を実行しています。PHP 8.0 は Nextcloud 27 では非推奨です。Nextcloud 28 では、少なくとも PHP 8.1 が必要になる可能性があります。PHP グループが公式にサポートする PHP のいずれかのバージョンにできるだけ早くアップグレードしてください。",
-    "You have more than 500 000 rows in the scheduling objects table. Please run the expensive repair jobs via occ maintenance:repair --include-expensive" : "スケジューリング・オブジェクト・テーブルに500,000行以上あります。大規模な修復ジョブは、occ maintenance:repair --include-expensiveで実行してください。",
     "Rating: {score}/10" : "評価: {score}/10",
     "You are about to remove the group \"{group}\". The users will NOT be deleted." : "グループ \"{group}\" を削除しようとしています。ユーザーは削除されません。",
     "No users" : "No users",
