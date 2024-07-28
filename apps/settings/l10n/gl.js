@@ -915,7 +915,6 @@ OC.L10N.register(
     "MySQL unicode support" : "Compatibilidade con MySQL Unicode",
     "Overwrite cli URL" : "Sobrescribir o URL da interface da liña de ordes",
     "You are currently running PHP %s. PHP 8.0 is now deprecated in Nextcloud 27. Nextcloud 28 may require at least PHP 8.1. Please upgrade to one of the officially supported PHP versions provided by the PHP Group as soon as possible." : "Actualmente está a executar PHP %s. PHP 8.0 é obsoleto en Nextcloud 27. Nextcloud 28 pode precisar polo menos PHP 8.1. Actualice a unha das versións de PHP oficialmente compatíbeis fornecidas polo Grupo PHP o antes posíbel.",
-    "You have more than 500 000 rows in the scheduling objects table. Please run the expensive repair jobs via occ maintenance:repair --include-expensive" : "Ten máis de 500 000 filas na táboa de obxectos de planificación. Execute os custosos traballos de reparación mediante occ maintenance:repair --include-expensive",
     "Rating: {score}/10" : "Valoración: {score}/10",
     "You are about to remove the group \"{group}\". The users will NOT be deleted." : "Está a piques de retirar o grupo «{group}». Os usuarios NON van ser eliminados.",
     "No users" : "Non hai usuarios",

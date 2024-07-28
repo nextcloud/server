@@ -48,6 +48,7 @@ OC.L10N.register(
     "Nextcloud workflow engine" : "Σύστημα ροής εργασιών Nextcloud",
     "Select a filter" : "Επιλογή φίλτρου",
     "Select a comparator" : "Επιλέξτε για σύγκριση",
+    "Remove filter" : "Αφαίρεση φίλτρου",
     "Select a file type" : "Επιλέξτε τύπο αρχείου",
     "e.g. httpd/unix-directory" : "π.χ. httpd/unix-directory",
     "Folder" : "Φάκελος",
