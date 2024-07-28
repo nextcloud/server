@@ -308,6 +308,7 @@ OC.L10N.register(
     "Language" : "Γλώσσα",
     "Total rows summary" : "Συνολική σύνοψη γραμμών",
     "Avatar" : "Εικόνα προφίλ",
+    "Account name" : "Όνομα λογαριασμού",
     "Group admin for" : "Ομαδα διαχειριστή για",
     "Storage location" : "Τοποθεσία αποθηκευτικού χώρου",
     "Last login" : "Τελευταία είσοδος",
