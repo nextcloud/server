@@ -1320,6 +1320,7 @@ MountConfigListView.prototype = _.extend({
 		switch (status) {
 			case null:
 				// remove status
+				$statusSpan.hide();
 				break;
 			case StorageConfig.Status.IN_PROGRESS:
 				$statusSpan.attr('class', 'icon-loading-small');
@@ -1332,6 +1333,9 @@ MountConfigListView.prototype = _.extend({
 				break;
 			default:
 				$statusSpan.attr('class', 'error icon-error-white');
+		}
+		if (status !== null) {
+			$statusSpan.show();
 		}
 		if (typeof message === 'string') {
 			$statusSpan.attr('title', message);
