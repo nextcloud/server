@@ -160,6 +160,10 @@ class PreviewController extends Controller {
 			return new DataResponse([], Http::STATUS_FORBIDDEN);
 		}
 
+		if ($node->getId() <= 0) {
+			return new DataResponse([], Http::STATUS_NOT_FOUND);
+		}
+
 		$storage = $node->getStorage();
 		if ($storage->instanceOfStorage(SharedStorage::class)) {
 			/** @var SharedStorage $storage */
