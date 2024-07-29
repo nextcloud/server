@@ -177,10 +177,10 @@ class SharedStorage extends \OC\Files\Storage\Wrapper\Jail implements ISharedSto
 				$this->cache = new FailedCache();
 				$this->rootPath = '';
 			} else {
+				$this->nonMaskedStorage = $ownerNode->getStorage();
 				if ($this->nonMaskedStorage instanceof Wrapper && $this->nonMaskedStorage->isWrapperOf($this)) {
 					throw new \Exception('recursive share detected');
 				}
-				$this->nonMaskedStorage = $ownerNode->getStorage();
 				$this->sourcePath = $ownerNode->getPath();
 				$this->rootPath = $ownerNode->getInternalPath();
 				$this->storage = new PermissionsMask([
