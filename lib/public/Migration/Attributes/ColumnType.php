@@ -9,7 +9,7 @@ declare(strict_types=1);
 namespace OCP\Migration\Attributes;
 
 /**
- * enum FieldType based on OCP\DB\Types
+ * enum ColumnType based on OCP\DB\Types
  *
  * @see \OCP\DB\Types
  * @since 30.0.0

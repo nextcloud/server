@@ -15,7 +15,7 @@ use JsonSerializable;
  */
 class MigrationAttribute implements JsonSerializable {
 	public function __construct(
-		private string $table = '',
+		private string $table,
 		private string $description = '',
 		private array $notes = [],
 	) {
@@ -93,8 +93,7 @@ class MigrationAttribute implements JsonSerializable {
 	 * @since 30.0.0
 	 */
 	public function import(array $data): self {
-		return $this->setTable($data['table'] ?? '')
-					->setDescription($data['description'] ?? '')
+		return $this->setDescription($data['description'] ?? '')
 					->setNotes($data['notes'] ?? []);
 	}
 
@@ -107,7 +106,7 @@ class MigrationAttribute implements JsonSerializable {
 			'class' => get_class($this),
 			'table' => $this->getTable(),
 			'description' => $this->getDescription(),
-			'notes' => $this->getNotes(),
+			'notes' => $this->getNotes()
 		];
 	}
 }

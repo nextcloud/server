@@ -9,6 +9,8 @@ declare(strict_types=1);
 namespace OCP\Migration\Attributes;
 
 /**
+ * type of index
+ *
  * @since 30.0.0
  */
 enum IndexType : string {

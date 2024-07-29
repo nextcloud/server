@@ -11,6 +11,8 @@ namespace OCP\Migration\Attributes;
 use Attribute;
 
 /**
+ * attribute on column drop
+ *
  * @since 30.0.0
  */
 #[Attribute(Attribute::IS_REPEATABLE | Attribute::TARGET_CLASS)]
@@ -20,9 +22,8 @@ class DropColumn extends ColumnMigrationAttribute {
 	 * @since 30.0.0
 	 */
 	public function definition(): string {
-		$table = empty($this->getTable()) ? '' : ' from table \'' . $this->getTable() . '\'';
 		return empty($this->getName()) ?
-			'Deletion of a column' . $table
-			: 'Deletion of column \'' . $this->getName() . '\'' . $table;
+			'Deletion of a column from table \'' . $this->getTable() . '\''
+			: 'Deletion of column \'' . $this->getName() . '\' from table \'' . $this->getTable() . '\'';
 	}
 }

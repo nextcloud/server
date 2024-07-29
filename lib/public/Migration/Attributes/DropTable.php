@@ -11,7 +11,9 @@ namespace OCP\Migration\Attributes;
 use Attribute;
 
 /**
+ * attribute on table drop
  *
+ * @since 30.0.0
  */
 #[Attribute(Attribute::IS_REPEATABLE | Attribute::TARGET_CLASS)]
 class DropTable extends TableMigrationAttribute {

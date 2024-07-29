@@ -11,6 +11,8 @@ namespace OCP\Migration\Attributes;
 use Attribute;
 
 /**
+ * attribute on index creation
+ *
  * @since 30.0.0
  */
 #[Attribute(Attribute::IS_REPEATABLE | Attribute::TARGET_CLASS)]
@@ -21,7 +23,6 @@ class AddIndex extends IndexMigrationAttribute {
 	 */
 	public function definition(): string {
 		$type = is_null($this->getType()) ? '' : ' (' . $this->getType()->value . ')';
-		$table = empty($this->getTable()) ? '' : ' to table \'' . $this->getTable() . '\'';
-		return 'Addition of a new index' . $type . $table;
+		return 'Addition of a new index' . $type . ' to table \'' . $this->getTable() . '\'';
 	}
 }

@@ -36,7 +36,7 @@ class MetadataManager {
 	 *
 	 * @param string $appId
 	 *
-	 * @return array
+	 * @return array<string, MigrationAttribute[]>
 	 * @since 30.0.0
 	 */
 	public function extractMigrationAttributes(string $appId): array {
@@ -48,7 +48,10 @@ class MetadataManager {
 			$class = new ReflectionClass($ms->createInstance($version));
 			$attributes = $class->getAttributes();
 			foreach ($attributes as $attribute) {
-				$metadata[$version][] = $attribute->newInstance();
+				$item = $attribute->newInstance();
+				if ($item instanceof MigrationAttribute) {
+					$metadata[$version][] = $item;
+				}
 			}
 		}
 
@@ -144,7 +147,7 @@ class MetadataManager {
 		}
 
 		try {
-			$attribute = new $class();
+			$attribute = new $class($item['table'] ?? '');
 			return $attribute->import($item);
 		} catch (\Error) {
 			throw new AttributeException('cannot import Attribute');

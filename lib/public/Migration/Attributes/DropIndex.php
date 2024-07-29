@@ -11,6 +11,8 @@ namespace OCP\Migration\Attributes;
 use Attribute;
 
 /**
+ * attribute on index drop
+ *
  * @since 30.0.0
  */
 #[Attribute(Attribute::IS_REPEATABLE | Attribute::TARGET_CLASS)]
@@ -20,8 +22,6 @@ class DropIndex extends IndexMigrationAttribute {
 	 * @since 30.0.0
 	 */
 	public function definition(): string {
-		return empty($this->getTable()) ?
-			'Deletion of an index'
-			: 'Deletion of an index from table \'' . $this->getTable() . '\'';
+		return 'Deletion of an index from table \'' . $this->getTable() . '\'';
 	}
 }

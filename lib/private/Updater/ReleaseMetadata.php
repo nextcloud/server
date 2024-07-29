@@ -64,8 +64,7 @@ class ReleaseMetadata {
 		try {
 			$response = $client->get($url, [
 				'timeout' => 10,
-				'connect_timeout' => 10,
-				'verify' => false,
+				'connect_timeout' => 10
 			]);
 		} catch (Exception $e) {
 			throw new ReleaseMetadataException('could not reach metadata at ' . $url, previous: $e);

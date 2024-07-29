@@ -11,6 +11,8 @@ namespace OCP\Migration\Attributes;
 use JsonSerializable;
 
 /**
+ * generic class related to migration attribute about table changes
+ *
  * @since 30.0.0
  */
 class TableMigrationAttribute extends MigrationAttribute implements JsonSerializable {

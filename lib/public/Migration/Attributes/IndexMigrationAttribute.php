@@ -11,11 +11,13 @@ namespace OCP\Migration\Attributes;
 use JsonSerializable;
 
 /**
+ * generic class related to migration attribute about index changes
+ *
  * @since 30.0.0
  */
 class IndexMigrationAttribute extends MigrationAttribute implements JsonSerializable {
 	public function __construct(
-		string $table = '',
+		string $table,
 		private ?IndexType $type = null,
 		string $description = '',
 		array $notes = [],

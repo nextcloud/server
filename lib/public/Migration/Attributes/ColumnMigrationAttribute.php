@@ -11,11 +11,13 @@ namespace OCP\Migration\Attributes;
 use JsonSerializable;
 
 /**
+ * generic class related to migration attribute about column changes
+ *
  * @since 30.0.0
  */
 class ColumnMigrationAttribute extends MigrationAttribute implements JsonSerializable {
 	public function __construct(
-		string $table = '',
+		string $table,
 		private string $name = '',
 		private ?ColumnType $type = null,
 		string $description = '',
