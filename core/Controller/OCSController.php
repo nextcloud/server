@@ -77,7 +77,7 @@ class OCSController extends \OCP\AppFramework\OCSController {
 	}
 
 	#[PublicPage]
-	#[BruteForceProtection('login')]
+	#[BruteForceProtection(action: 'login')]
 	#[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
 	#[ApiRoute(verb: 'POST', url: '/check', root: '/person')]
 	public function personCheck(string $login = '', string $password = ''): DataResponse {
