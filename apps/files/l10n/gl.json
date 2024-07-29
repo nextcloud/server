@@ -281,6 +281,8 @@
     "Disconnect storages" : "Desconectar os almacenamentos",
     "Delete files" : "Eliminar ficheiros",
     "Delete folders" : "Eliminar cartafoles",
+    "_You are about to permanently delete {count} item_::_You are about to permanently delete {count} items_" : ["Está a piques de eliminar definitivamente {count} elemento","Está a piques de eliminar definitivamente {count} elementos"],
+    "_You are about to delete {count} item_::_You are about to delete {count} items_" : ["Está a piques de eliminar {count} elemento","Está a piques de eliminar {count} elementos"],
     "Confirm deletion" : "Confirmar a eliminación",
     "Cancel" : "Cancelar",
     "Destination is not a folder" : "O destino non é un cartafol",

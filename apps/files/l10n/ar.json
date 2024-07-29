@@ -281,6 +281,8 @@
     "Disconnect storages" : "فصل وحدات تخزين",
     "Delete files" : "حذف الملفات",
     "Delete folders" : "حذف مجلدين",
+    "_You are about to permanently delete {count} item_::_You are about to permanently delete {count} items_" : ["أنت على وشك أن تحذف نهائياً  {count} عنصراً","أنت على وشك أن تحذف نهائياً {count} عنصراً","أنت على وشك أن تحذف نهائياً  {count} عنصراً","أنت على وشك أن تحذف نهائياً {count} عناصر","أنت على وشك أن تحذف نهائياً {count} عناصر","أنت على وشك أن تحذف نهائياً {count} عنصراً"],
+    "_You are about to delete {count} item_::_You are about to delete {count} items_" : ["أنت على وشك أن تحذف {count} عنصراً","أنت على وشك أن تحذف {count} عنصراً","أنت على وشك أن تحذف {count} عنصراً","أنت على وشك أن تحذف {count} عناصر","أنت على وشك أن تحذف {count} عناصر","أنت على وشك أن تحذف {count} عنصراً"],
     "Confirm deletion" : "أكِّد على الحذف",
     "Cancel" : "الغاء",
     "Destination is not a folder" : "المَقصَد ليس مُجلّداً",
