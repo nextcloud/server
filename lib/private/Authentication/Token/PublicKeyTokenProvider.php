@@ -98,13 +98,16 @@ class PublicKeyTokenProvider implements IProvider {
 	/**
 	 * {@inheritDoc}
 	 */
-	public function generateToken(string $token,
-								  string $uid,
-								  string $loginName,
-								  ?string $password,
-								  string $name,
-								  int $type = IToken::TEMPORARY_TOKEN,
-								  int $remember = IToken::DO_NOT_REMEMBER): IToken {
+	public function generateToken(
+		string  $token,
+		string  $uid,
+		string  $loginName,
+		?string $password,
+		string  $name,
+		int     $type = IToken::TEMPORARY_TOKEN,
+		int     $remember = IToken::DO_NOT_REMEMBER,
+		?array  $scope = null,
+	): IToken {
 		if (strlen($token) < self::TOKEN_MIN_LENGTH) {
 			$exception = new InvalidTokenException('Token is too short, minimum of ' . self::TOKEN_MIN_LENGTH . ' characters is required, ' . strlen($token) . ' characters given');
 			$this->logger->error('Invalid token provided when generating new token', ['exception' => $exception]);
@@ -124,6 +127,10 @@ class PublicKeyTokenProvider implements IProvider {
 
 		if ($oldTokenMatches) {
 			$dbToken->setPasswordHash($randomOldToken->getPasswordHash());
+		}
+
+		if ($scope !== null) {
+			$dbToken->setScope($scope);
 		}
 
 		$this->mapper->insert($dbToken);
@@ -253,6 +260,8 @@ class PublicKeyTokenProvider implements IProvider {
 				$privateKey = $this->decrypt($token->getPrivateKey(), $oldSessionId);
 				$password = $this->decryptPassword($token->getPassword(), $privateKey);
 			}
+
+			$scope = $token->getScope() === '' ? null : $token->getScopeAsArray();
 			$newToken = $this->generateToken(
 				$sessionId,
 				$token->getUID(),
@@ -260,9 +269,9 @@ class PublicKeyTokenProvider implements IProvider {
 				$password,
 				$token->getName(),
 				IToken::TEMPORARY_TOKEN,
-				$token->getRemember()
+				$token->getRemember(),
+				$scope,
 			);
-			$newToken->setScope($token->getScopeAsArray());
 			$this->cacheToken($newToken);
 
 			$this->cacheInvalidHash($token->getToken());
