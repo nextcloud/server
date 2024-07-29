@@ -5,7 +5,7 @@
 
 import Vue from 'vue'
 
-import UserMenu from '../views/UserMenu.vue'
+import AccountMenu from '../views/AccountMenu.vue'
 
 export const setUp = () => {
 	const mountPoint = document.getElementById('user-menu')
@@ -13,7 +13,7 @@ export const setUp = () => {
 		// eslint-disable-next-line no-new
 		new Vue({
 			el: mountPoint,
-			render: h => h(UserMenu),
+			render: h => h(AccountMenu),
 		})
 	}
 }

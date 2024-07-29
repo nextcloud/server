@@ -4,36 +4,39 @@
 -->
 
 <template>
-	<li :id="id"
-		class="menu-entry">
-		<a v-if="href"
-			:href="href"
-			:class="{ active }"
-			@click.exact="handleClick">
-			<NcLoadingIcon v-if="loading"
-				class="menu-entry__loading-icon"
-				:size="18" />
-			<img v-else :src="cachedIcon" alt="">
-			{{ name }}
-		</a>
-		<button v-else>
-			<img :src="cachedIcon" alt="">
-			{{ name }}
-		</button>
-	</li>
+	<NcListItem :id="href ? undefined : id"
+		:anchor-id="id"
+		:active="active"
+		class="account-menu-entry"
+		compact
+		:href="href"
+		:name="name"
+		target="_self">
+		<template #icon>
+			<img class="account-menu-entry__icon"
+				:class="{ 'account-menu-entry__icon--active': active }"
+				:src="iconSource"
+				alt="">
+		</template>
+		<template v-if="loading" #indicator>
+			<NcLoadingIcon />
+		</template>
+	</NcListItem>
 </template>
 
 <script>
 import { loadState } from '@nextcloud/initial-state'
 
+import NcListItem from '@nextcloud/vue/dist/Components/NcListItem.js'
 import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
 
 const versionHash = loadState('core', 'versionHash', '')
 
 export default {
-	name: 'UserMenuEntry',
+	name: 'AccountMenuEntry',
 
 	components: {
+		NcListItem,
 		NcLoadingIcon,
 	},
 
@@ -67,7 +70,7 @@ export default {
 	},
 
 	computed: {
-		cachedIcon() {
+		iconSource() {
 			return `${this.icon}?v=${versionHash}`
 		},
 	},
@@ -81,9 +84,20 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.menu-entry {
-	&__loading-icon {
-		margin-right: 8px;
+.account-menu-entry {
+	&__icon {
+		height: 20px;
+		width: 20px;
+		margin: calc((var(--default-clickable-area) - 20px) / 2); // 20px icon size
+		filter: var(--background-invert-if-dark);
+
+		&--active {
+			filter: var(--primary-invert-if-dark);
+		}
+	}
+
+	:deep(.list-item-content__main) {
+		width: fit-content;
 	}
 }
 </style>
