@@ -981,9 +981,10 @@ MountConfigListView.prototype = _.extend({
 				data: {'testOnly' : true},
 				contentType: 'application/json',
 				success: function(result) {
+					result = Object.values(result);
 					var onCompletion = jQuery.Deferred();
 					var $rows = $();
-					Object.values(result).forEach(function(storageParams) {
+					result.forEach(function(storageParams) {
 						var storageConfig;
 						var isUserGlobal = storageParams.type === 'system' && self._isPersonal;
 						storageParams.mountPoint = storageParams.mountPoint.substr(1); // trim leading slash
