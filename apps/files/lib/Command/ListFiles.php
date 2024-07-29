@@ -44,10 +44,11 @@ class ListFiles extends Base {
 		$this->setName("files:list")
 			->setDescription("List filesystem in the path mentioned in path argument")
 			->addArgument(
-				"path",
+				"user",
 				InputArgument::REQUIRED,
-				'List all the files and folder mentioned in this path, eg occ files:list path="/alice/files/Music", the path being a required argument to determine the user'
+				'List the files and folder belonging to the user, eg occ files:list user="admin", the user being a required argument'
 			)
+			->addOption("path", "", InputArgument::OPTIONAL, "List files inside a particular path of the user, if not mentioned list from user's root directory")
 			->addOption("type", "", InputArgument::OPTIONAL, "Filter by type like application, image, video etc")
 			->addOption(
 				"minSize",
@@ -89,17 +90,18 @@ class ListFiles extends Base {
 
 	protected function listFiles(
 		string $user,
-		string $path,
 		OutputInterface $output,
+		?string $path = "",
 		?string $type = "",
 		?int $minSize = 0,
 		?int $maxSize = 0
 	): void {
 		try {
 			/** @var Folder $userFolder **/
-			$userFolder = $this->rootFolder->get($path);
+			$userFolder = $this->rootFolder->getUserFolder($user);
+			$pathList = $userFolder->get('/'.$path);
 
-			$files = $userFolder->getDirectoryListing();
+			$files = $pathList->getDirectoryListing();
 			foreach ($files as $file) {
 				/** @var Node $fileNode */
 				$fileNode = $file;
@@ -151,13 +153,12 @@ class ListFiles extends Base {
 		InputInterface $input,
 		OutputInterface $output
 	): int {
-		$inputPath = $input->getArgument("path");
-		$inputPath = ltrim($inputPath, "path=");
-		[, $user] = explode("/", rtrim($inputPath, "/").'/', 4);
+		$user = $input->getArgument("user");
+		$user = ltrim($user, "user=");
+		$path  = 				$input->getOption("path");
 
 		$this->initTools($output);
 
-		$path = $inputPath ?: "/" . $user;
 
 		if ($this->userManager->userExists($user)) {
 			$output->writeln(
@@ -165,8 +166,8 @@ class ListFiles extends Base {
 			);
 			$this->listFiles(
 				$user,
-				$path,
 				$output,
+				$path,
 				$input->getOption("type"),
 				(int) $input->getOption("minSize"),
 				(int) $input->getOption("maxSize")
