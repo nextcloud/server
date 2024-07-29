@@ -15,6 +15,8 @@ use OCA\Theming\Service\BackgroundService;
 use OCA\Theming\Service\ThemesService;
 use OCA\Theming\ThemingDefaults;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\NoAdminRequired;
+use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\FileDisplayResponse;
 use OCP\AppFramework\Http\JSONResponse;
@@ -59,8 +61,6 @@ class UserThemeController extends OCSController {
 	}
 
 	/**
-	 * @NoAdminRequired
-	 *
 	 * Enable theme
 	 *
 	 * @param string $themeId the theme ID
@@ -70,6 +70,7 @@ class UserThemeController extends OCSController {
 	 *
 	 * 200: Theme enabled successfully
 	 */
+	#[NoAdminRequired]
 	public function enableTheme(string $themeId): DataResponse {
 		$theme = $this->validateTheme($themeId);
 
@@ -79,8 +80,6 @@ class UserThemeController extends OCSController {
 	}
 
 	/**
-	 * @NoAdminRequired
-	 *
 	 * Disable theme
 	 *
 	 * @param string $themeId the theme ID
@@ -90,6 +89,7 @@ class UserThemeController extends OCSController {
 	 *
 	 * 200: Theme disabled successfully
 	 */
+	#[NoAdminRequired]
 	public function disableTheme(string $themeId): DataResponse {
 		$theme = $this->validateTheme($themeId);
 
@@ -128,15 +128,14 @@ class UserThemeController extends OCSController {
 	}
 
 	/**
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
-	 *
 	 * Get the background image
 	 * @return FileDisplayResponse<Http::STATUS_OK, array{Content-Type: string}>|NotFoundResponse<Http::STATUS_NOT_FOUND, array{}>
 	 *
 	 * 200: Background image returned
 	 * 404: Background image not found
 	 */
+	#[NoAdminRequired]
+	#[NoCSRFRequired]
 	public function getBackground(): Http\Response {
 		$file = $this->backgroundService->getBackground();
 		if ($file !== null) {
@@ -148,14 +147,13 @@ class UserThemeController extends OCSController {
 	}
 
 	/**
-	 * @NoAdminRequired
-	 *
 	 * Delete the background
 	 *
 	 * @return JSONResponse<Http::STATUS_OK, ThemingBackground, array{}>
 	 *
 	 * 200: Background deleted successfully
 	 */
+	#[NoAdminRequired]
 	public function deleteBackground(): JSONResponse {
 		$currentVersion = (int)$this->config->getUserValue($this->userId, Application::APP_ID, 'userCacheBuster', '0');
 		$this->backgroundService->deleteBackgroundImage();
@@ -168,8 +166,6 @@ class UserThemeController extends OCSController {
 	}
 
 	/**
-	 * @NoAdminRequired
-	 *
 	 * Set the background
 	 *
 	 * @param string $type Type of background
@@ -180,6 +176,7 @@ class UserThemeController extends OCSController {
 	 * 200: Background set successfully
 	 * 400: Setting background is not possible
 	 */
+	#[NoAdminRequired]
 	public function setBackground(string $type = BackgroundService::BACKGROUND_DEFAULT, string $value = '', ?string $color = null): JSONResponse {
 		$currentVersion = (int)$this->config->getUserValue($this->userId, Application::APP_ID, 'userCacheBuster', '0');
 
