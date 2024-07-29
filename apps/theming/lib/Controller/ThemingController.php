@@ -423,7 +423,7 @@ class ThemingController extends Controller {
 	 */
 	#[PublicPage]
 	#[NoCSRFRequired]
-	#[BruteForceProtection('manifest')]
+	#[BruteForceProtection(action: 'manifest')]
 	public function getManifest(string $app): JSONResponse {
 		$cacheBusterValue = $this->config->getAppValue('theming', 'cachebuster', '0');
 		if ($app === 'core' || $app === 'settings') {
