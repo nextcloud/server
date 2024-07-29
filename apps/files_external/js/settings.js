@@ -874,7 +874,7 @@ MountConfigListView.prototype = _.extend({
 			$tr.find('.applicable,.mountOptionsToggle').empty();
 			$tr.find('.save').empty();
 			if (backend.invalid) {
-				this.updateStatus($tr, false, 'Unknown backend: ' + backend.name);
+				this.updateStatus($tr, false, t('files_external', 'Unknown backend: {backendName}', {backendName: backend.name}));
 			}
 			return $tr;
 		}
