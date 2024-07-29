@@ -53,6 +53,7 @@
 		:dark="true"
 		:data-handler="handlerId"
 		:enable-slideshow="hasPrevious || hasNext"
+		:slideshow-paused="editing"
 		:enable-swipe="canSwipe && !editing"
 		:has-next="hasNext"
 		:has-previous="hasPrevious"
