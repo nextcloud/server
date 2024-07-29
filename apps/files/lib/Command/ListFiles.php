@@ -42,11 +42,11 @@ class ListFiles extends Base {
 		parent::configure();
 
 		$this->setName("files:list")
-			->setDescription("List filesystem in the path mentioned in path argument")
+			->setDescription("List files of the user and filter by path, type, size optionally")
 			->addArgument(
-				"user",
+				"user_id",
 				InputArgument::REQUIRED,
-				'List the files and folder belonging to the user, eg occ files:list user="admin", the user being a required argument'
+				'List the files and folder belonging to the user, eg occ files:list admin, the user_id being a required argument'
 			)
 			->addOption("path", "", InputArgument::OPTIONAL, "List files inside a particular path of the user, if not mentioned list from user's root directory")
 			->addOption("type", "", InputArgument::OPTIONAL, "Filter by type like application, image, video etc")
@@ -153,11 +153,8 @@ class ListFiles extends Base {
 		InputInterface $input,
 		OutputInterface $output
 	): int {
-		$user = $input->getArgument("user");
-		$user = ltrim($user, "user=");
-
+		$user = $input->getArgument("user_id");
 		$this->initTools($output);
-
 
 		if ($this->userManager->userExists($user)) {
 			$output->writeln(
@@ -166,7 +163,7 @@ class ListFiles extends Base {
 			$this->listFiles(
 				$user,
 				$output,
-				(string) $input->getOption("path"),
+				(string) $input->getOption("path") ? $input->getOption("path") : '',
 				$input->getOption("type"),
 				(int) $input->getOption("minSize"),
 				(int) $input->getOption("maxSize")
@@ -178,7 +175,6 @@ class ListFiles extends Base {
 			$output->writeln("", OutputInterface::VERBOSITY_VERBOSE);
 			return self::FAILURE;
 		}
-
 
 		$this->presentStats($input, $output);
 		return self::SUCCESS;
