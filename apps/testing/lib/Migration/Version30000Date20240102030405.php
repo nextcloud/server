@@ -1,11 +1,11 @@
 <?php
 
 declare(strict_types=1);
-
 /**
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Testing\Migration;
 
 use Closure;
@@ -21,19 +21,19 @@ use OCP\Migration\Attributes\ModifyColumn;
 use OCP\Migration\IOutput;
 use OCP\Migration\SimpleMigrationStep;
 
-#[DropTable('old_table')]
-#[CreateTable('new_table', description: 'Table is used to store things, but also to get more things', notes: ['this is a notice', 'and another one, if really needed'])]
-#[AddColumn('my_table')]
-#[AddColumn('my_table', 'another_field')]
-#[AddColumn('other_table', 'last_one', ColumnType::DATE)]
-#[AddIndex('my_table')]
-#[AddIndex('my_table', IndexType::PRIMARY)]
-#[DropColumn('other_table')]
-#[DropColumn('other_table', 'old_column', description: 'field is not used anymore and replaced by \'last_one\'')]
-#[DropIndex('other_table')]
-#[ModifyColumn('other_table')]
-#[ModifyColumn('other_table', 'this_field')]
-#[ModifyColumn('other_table', 'this_field', ColumnType::BIGINT)]
+#[DropTable(table: 'old_table')]
+#[CreateTable(table: 'new_table', description: 'Table is used to store things, but also to get more things', notes: ['this is a notice', 'and another one, if really needed'])]
+#[AddColumn(table: 'my_table')]
+#[AddColumn(table: 'my_table', name: 'another_field')]
+#[AddColumn(table: 'other_table', name: 'last_one', type: ColumnType::DATE)]
+#[AddIndex(table: 'my_table')]
+#[AddIndex(table: 'my_table', type: IndexType::PRIMARY)]
+#[DropColumn(table: 'other_table')]
+#[DropColumn(table: 'other_table', name: 'old_column', description: 'field is not used anymore and replaced by \'last_one\'')]
+#[DropIndex(table: 'other_table')]
+#[ModifyColumn(table: 'other_table')]
+#[ModifyColumn(table: 'other_table', name: 'this_field')]
+#[ModifyColumn(table: 'other_table', name: 'this_field', type: ColumnType::BIGINT)]
 class Version30000Date20240102030405 extends SimpleMigrationStep {
 	public function changeSchema(IOutput $output, Closure $schemaClosure, array $options) {
 		return null;

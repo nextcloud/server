@@ -17,6 +17,10 @@ use JsonSerializable;
  * @since 30.0.0
  */
 class GenericMigrationAttribute extends MigrationAttribute implements JsonSerializable {
+	/**
+	 * @param array $details
+	 * @since 30.0.0
+	 */
 	public function __construct(
 		private readonly array $details = []
 	) {

@@ -16,6 +16,14 @@ use JsonSerializable;
  * @since 30.0.0
  */
 class ColumnMigrationAttribute extends MigrationAttribute implements JsonSerializable {
+	/**
+	 * @param string $table name of the database table
+	 * @param string $name name of the column
+	 * @param ColumnType|null $type type of the column
+	 * @param string $description description of the migration
+	 * @param array $notes notes about the migration/column
+	 * @since 30.0.0
+	 */
 	public function __construct(
 		string $table,
 		private string $name = '',

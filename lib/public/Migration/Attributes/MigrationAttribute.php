@@ -14,6 +14,12 @@ use JsonSerializable;
  * @since 30.0.0
  */
 class MigrationAttribute implements JsonSerializable {
+	/**
+	 * @param string $table name of the database table
+	 * @param string $description description of the migration
+	 * @param array $notes notes about the migration
+	 * @since 30.0.0
+	 */
 	public function __construct(
 		private string $table,
 		private string $description = '',

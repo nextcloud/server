@@ -16,6 +16,13 @@ use JsonSerializable;
  * @since 30.0.0
  */
 class IndexMigrationAttribute extends MigrationAttribute implements JsonSerializable {
+	/**
+	 * @param string $table name of the database table
+	 * @param IndexType|null $type type of the index
+	 * @param string $description description of the migration
+	 * @param array $notes notes abour the migration/index
+	 * @since 30.0.0
+	 */
 	public function __construct(
 		string $table,
 		private ?IndexType $type = null,
