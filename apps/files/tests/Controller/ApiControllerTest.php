@@ -177,6 +177,7 @@ class ApiControllerTest extends TestCase {
 
 	public function testGetThumbnailInvalidImage() {
 		$file = $this->createMock(File::class);
+		$file->method('getId')->willReturn(123);
 		$this->userFolder->method('get')
 			->with($this->equalTo('unknown.jpg'))
 			->willReturn($file);
@@ -188,8 +189,19 @@ class ApiControllerTest extends TestCase {
 		$this->assertEquals($expected, $this->apiController->getThumbnail(10, 10, 'unknown.jpg'));
 	}
 
+	public function testGetThumbnailInvalidPartFile() {
+		$file = $this->createMock(File::class);
+		$file->method('getId')->willReturn(0);
+		$this->userFolder->method('get')
+			->with($this->equalTo('unknown.jpg'))
+			->willReturn($file);
+		$expected = new DataResponse(['message' => 'File not found.'], Http::STATUS_NOT_FOUND);
+		$this->assertEquals($expected, $this->apiController->getThumbnail(10, 10, 'unknown.jpg'));
+	}
+
 	public function testGetThumbnail() {
 		$file = $this->createMock(File::class);
+		$file->method('getId')->willReturn(123);
 		$this->userFolder->method('get')
 			->with($this->equalTo('known.jpg'))
 			->willReturn($file);
