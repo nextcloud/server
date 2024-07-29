@@ -502,15 +502,15 @@ class Access extends LDAPUtility {
 		}
 
 		if ($isUser) {
-			$nameAttribute = $this->connection->ldapUserDisplayName;
+			$nameAttribute = strtolower($this->connection->ldapUserDisplayName);
 			$filter = $this->connection->ldapUserFilter;
 			$uuidAttr = 'ldapUuidUserAttribute';
 			$uuidOverride = $this->connection->ldapExpertUUIDUserAttr;
-			$usernameAttribute = (string)$this->connection->ldapExpertUsernameAttr;
+			$usernameAttribute = strtolower($this->connection->ldapExpertUsernameAttr);
 			$attributesToRead = [$nameAttribute,$usernameAttribute];
 			// TODO fetch also display name attributes and cache them if the user is mapped
 		} else {
-			$nameAttribute = $this->connection->ldapGroupDisplayName;
+			$nameAttribute = strtolower($this->connection->ldapGroupDisplayName);
 			$filter = $this->connection->ldapGroupFilter;
 			$uuidAttr = 'ldapUuidGroupAttribute';
 			$uuidOverride = $this->connection->ldapExpertUUIDGroupAttr;
