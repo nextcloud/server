@@ -469,7 +469,7 @@ class Encryption extends Wrapper {
 
 
 	/**
-	 * perform some plausibility checks if the the unencrypted size is correct.
+	 * perform some plausibility checks if the unencrypted size is correct.
 	 * If not, we calculate the correct unencrypted size and return it
 	 *
 	 * @param string $path internal path relative to the storage root
