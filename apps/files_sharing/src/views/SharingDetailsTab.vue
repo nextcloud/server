@@ -162,7 +162,7 @@
 						{{ t('files_sharing', 'Custom permissions') }}
 					</NcCheckboxRadioSwitch>
 					<section v-if="setCustomPermissions" class="custom-permissions-group">
-						<NcCheckboxRadioSwitch :disabled="!allowsFileDrop && share.type === SHARE_TYPES.SHARE_TYPE_LINK"
+						<NcCheckboxRadioSwitch :disabled="!canRemoveReadPermission"
 							:checked.sync="hasRead">
 							{{ t('files_sharing', 'Read') }}
 						</NcCheckboxRadioSwitch>
