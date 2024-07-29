@@ -281,6 +281,8 @@
     "Disconnect storages" : "Koppla bort lagringar",
     "Delete files" : "Radera filer",
     "Delete folders" : "Radera mappar",
+    "_You are about to permanently delete {count} item_::_You are about to permanently delete {count} items_" : ["Du är på väg att permanent ta bort {count} objekt","Du är på väg att permanent ta bort {count} objekt"],
+    "_You are about to delete {count} item_::_You are about to delete {count} items_" : ["Du är på väg att ta bort {count} objekt","Du är på väg att ta bort {count} objekt"],
     "Confirm deletion" : "Bekräfta radering",
     "Cancel" : "Avbryt",
     "Destination is not a folder" : "Destinationen är inte en mapp",
