@@ -99,6 +99,7 @@ class ListFiles extends Base {
 		try {
 			/** @var Folder $userFolder **/
 			$userFolder = $this->rootFolder->getUserFolder($user);
+			/** @var Folder $pathList **/
 			$pathList = $userFolder->get('/'.$path);
 
 			$files = $pathList->getDirectoryListing();
@@ -155,7 +156,6 @@ class ListFiles extends Base {
 	): int {
 		$user = $input->getArgument("user");
 		$user = ltrim($user, "user=");
-		$path  = 				$input->getOption("path");
 
 		$this->initTools($output);
 
@@ -167,7 +167,7 @@ class ListFiles extends Base {
 			$this->listFiles(
 				$user,
 				$output,
-				$path,
+				$input->getOption("path"),
 				$input->getOption("type"),
 				(int) $input->getOption("minSize"),
 				(int) $input->getOption("maxSize")
