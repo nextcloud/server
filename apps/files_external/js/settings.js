@@ -1336,9 +1336,10 @@ MountConfigListView.prototype = _.extend({
 		if (status !== null) {
 			$statusSpan.show();
 		}
-		if (typeof message === 'string') {
-			$statusSpan.attr('title', message);
+		if (typeof message !== 'string') {
+			message = t('files_external', 'Click to recheck the configuration');
 		}
+		$statusSpan.attr('title', message);
 	},
 
 	/**
