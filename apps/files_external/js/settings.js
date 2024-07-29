@@ -766,6 +766,8 @@ MountConfigListView.prototype = _.extend({
 		storageConfig.backend = $target.val();
 		$tr.find('.mountPoint input').val('');
 
+		$tr.find('.selectBackend').prop('selectedIndex', 0)
+
 		var onCompletion = jQuery.Deferred();
 		$tr = this.newStorage(storageConfig, onCompletion);
 		$tr.find('.applicableToAllUsers').prop('checked', false).trigger('change');
