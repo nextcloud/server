@@ -48,13 +48,16 @@ interface IProvider {
 	 * @return IToken
 	 * @throws \RuntimeException when OpenSSL reports a problem
 	 */
-	public function generateToken(string $token,
-								  string $uid,
-								  string $loginName,
-								  ?string $password,
-								  string $name,
-								  int $type = IToken::TEMPORARY_TOKEN,
-								  int $remember = IToken::DO_NOT_REMEMBER): IToken;
+	public function generateToken(
+		string  $token,
+		string  $uid,
+		string  $loginName,
+		?string $password,
+		string  $name,
+		int     $type = IToken::TEMPORARY_TOKEN,
+		int     $remember = IToken::DO_NOT_REMEMBER,
+		?array  $scope = null,
+	): IToken;
 
 	/**
 	 * Get a token by token id

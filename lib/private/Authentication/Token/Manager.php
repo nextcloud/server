@@ -54,13 +54,16 @@ class Manager implements IProvider, OCPIProvider {
 	 * @param int $remember whether the session token should be used for remember-me
 	 * @return IToken
 	 */
-	public function generateToken(string $token,
-								  string $uid,
-								  string $loginName,
-								  $password,
-								  string $name,
-								  int $type = IToken::TEMPORARY_TOKEN,
-								  int $remember = IToken::DO_NOT_REMEMBER): IToken {
+	public function generateToken(
+		string $token,
+		string $uid,
+		string $loginName,
+			   $password,
+		string $name,
+		int    $type = IToken::TEMPORARY_TOKEN,
+		int    $remember = IToken::DO_NOT_REMEMBER,
+		?array $scope = null,
+	): IToken {
 		if (mb_strlen($name) > 128) {
 			$name = mb_substr($name, 0, 120) . '…';
 		}
@@ -73,7 +76,8 @@ class Manager implements IProvider, OCPIProvider {
 				$password,
 				$name,
 				$type,
-				$remember
+				$remember,
+				$scope,
 			);
 		} catch (UniqueConstraintViolationException $e) {
 			// It's rare, but if two requests of the same session (e.g. env-based SAML)
