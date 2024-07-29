@@ -160,7 +160,7 @@ export default defineComponent({
 			if (this.currentViewId !== this.currentView?.id) {
 				// This is guaranteed to be a view because `currentViewId` falls back to the default 'files' view
 				const view = this.views.find(({ id }) => id === this.currentViewId)!
-				// The the new view as active
+				// The new view as active
 				this.showView(view)
 				logger.debug(`Navigation changed from ${oldView} to ${newView}`, { to: view })
 			}

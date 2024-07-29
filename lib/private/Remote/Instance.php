@@ -46,7 +46,7 @@ class Instance implements IInstance {
 	}
 
 	/**
-	 * @return string The of of the remote server with protocol
+	 * @return string The of the remote server with protocol
 	 */
 	public function getFullUrl() {
 		return $this->getProtocol() . '://' . $this->getUrl();
