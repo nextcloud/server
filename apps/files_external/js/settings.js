@@ -1009,6 +1009,13 @@ MountConfigListView.prototype = _.extend({
 							// userglobal storages do not expose configuration data
 							$tr.find('.configuration').text(t('files_external', 'Admin defined'));
 						}
+
+						// don't recheck config automatically when there are a large number of storages
+						if (result.length < 20) {
+							self.recheckStorageConfig($tr);
+						} else {
+							self.updateStatus($tr, StorageConfig.Status.INDETERMINATE, t('files_external', 'Automatic status checking is disabled due to the large number of configured storages, click to check status'));
+						}
 						$rows = $rows.add($tr);
 					});
 					initApplicableUsersMultiselect(self.$el.find('.applicableUsers'), this._userListLimit);
