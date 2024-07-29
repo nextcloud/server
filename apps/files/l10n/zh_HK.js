@@ -283,6 +283,7 @@ OC.L10N.register(
     "Disconnect storages" : "解除連結儲存空間",
     "Delete files" : "刪除檔案",
     "Delete folders" : "刪除資料夾",
+    "_You are about to permanently delete {count} item_::_You are about to permanently delete {count} items_" : ["您即將永久刪除 {count} 項。"],
     "Confirm deletion" : "確認刪除",
     "Cancel" : "取消",
     "Destination is not a folder" : "目標地不是資料夾",

@@ -283,6 +283,8 @@ OC.L10N.register(
     "Disconnect storages" : "Disconnect storages",
     "Delete files" : "Delete files",
     "Delete folders" : "Delete folders",
+    "_You are about to permanently delete {count} item_::_You are about to permanently delete {count} items_" : ["You are about to permanently delete {count} item","You are about to permanently delete {count} items"],
+    "_You are about to delete {count} item_::_You are about to delete {count} items_" : ["You are about to delete {count} item","You are about to delete {count} items"],
     "Confirm deletion" : "Confirm deletion",
     "Cancel" : "Cancel",
     "Destination is not a folder" : "Destination is not a folder",
