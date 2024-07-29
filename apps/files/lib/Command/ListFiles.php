@@ -97,10 +97,9 @@ class ListFiles extends Base {
 		?int $maxSize = 0
 	): void {
 		try {
-			/** @var Folder $userFolder **/
 			$userFolder = $this->rootFolder->getUserFolder($user);
 			/** @var Folder $pathList **/
-			$pathList = $userFolder->get('/'.$path);
+			$pathList = $userFolder->get('/' . $path);
 
 			$files = $pathList->getDirectoryListing();
 			foreach ($files as $file) {
@@ -167,7 +166,7 @@ class ListFiles extends Base {
 			$this->listFiles(
 				$user,
 				$output,
-				$input->getOption("path"),
+				(string) $input->getOption("path"),
 				$input->getOption("type"),
 				(int) $input->getOption("minSize"),
 				(int) $input->getOption("maxSize")
