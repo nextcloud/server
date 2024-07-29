@@ -1234,8 +1234,9 @@ MountConfigListView.prototype = _.extend({
 					success: function () {
 						$tr.remove();
 					},
-					error: function () {
-						self.updateStatus($tr, StorageConfig.Status.ERROR);
+					error: function (result) {
+						const statusMessage = (result && result.responseJSON) ? result.responseJSON.message : undefined;
+						self.updateStatus($tr, StorageConfig.Status.ERROR, statusMessage);
 					}
 				});
 			}
@@ -1270,11 +1271,12 @@ MountConfigListView.prototype = _.extend({
 					}
 				}
 			},
-			error: function() {
+			error: function(result) {
 				if (concurrentTimer === undefined
 					|| $tr.data('save-timer') === concurrentTimer
 				) {
-					self.updateStatus($tr, StorageConfig.Status.ERROR);
+					const statusMessage = (result && result.responseJSON) ? result.responseJSON.message : undefined;
+					self.updateStatus($tr, StorageConfig.Status.ERROR, statusMessage);
 				}
 			}
 		});
@@ -1298,8 +1300,9 @@ MountConfigListView.prototype = _.extend({
 			success: function(result) {
 				self.updateStatus($tr, result.status, result.statusMessage);
 			},
-			error: function() {
-				self.updateStatus($tr, StorageConfig.Status.ERROR);
+			error: function(result) {
+				const statusMessage = (result && result.responseJSON) ? result.responseJSON.message : undefined;
+				self.updateStatus($tr, StorageConfig.Status.ERROR, statusMessage);
 			}
 		});
 	},
