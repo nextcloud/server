@@ -1266,7 +1266,7 @@ MountConfigListView.prototype = _.extend({
 				if (concurrentTimer === undefined
 					|| $tr.data('save-timer') === concurrentTimer
 				) {
-					self.updateStatus($tr, result.status);
+					self.updateStatus($tr, result.status, result.statusMessage);
 					$tr.data('id', result.id);
 
 					if (_.isFunction(callback)) {
