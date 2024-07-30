@@ -166,4 +166,4 @@ jobs:
 
     steps:
       - name: Summary status
-        run: if ${{ needs.changes.outputs.src != 'false' && needs.test.result != 'success' && needs.jsunit.result != 'success' && needs.handlebars.result != 'success' }}; then exit 1; fi
+        run: if ${{ needs.changes.outputs.src != 'false' && (needs.test.result != 'success' || needs.jsunit.result != 'success' || needs.handlebars.result != 'success') }}; then exit 1; fi
