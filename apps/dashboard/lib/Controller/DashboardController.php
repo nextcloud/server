@@ -12,6 +12,8 @@ use OCA\Dashboard\Service\DashboardService;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\FrontpageRoute;
+use OCP\AppFramework\Http\Attribute\NoAdminRequired;
+use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
 use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
@@ -41,10 +43,10 @@ class DashboardController extends Controller {
 	}
 
 	/**
-	 * @NoCSRFRequired
-	 * @NoAdminRequired
 	 * @return TemplateResponse
 	 */
+	#[NoCSRFRequired]
+	#[NoAdminRequired]
 	#[FrontpageRoute(verb: 'GET', url: '/')]
 	public function index(): TemplateResponse {
 		\OCP\Util::addStyle('dashboard', 'dashboard');
