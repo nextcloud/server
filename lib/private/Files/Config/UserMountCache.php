@@ -362,9 +362,9 @@ class UserMountCache implements IUserMountCache {
 			return $internalMountPath === '' || str_starts_with($internalPath, $internalMountPath . '/');
 		});
 
-		$filteredMounts = array_filter($filteredMounts, function (ICachedMountInfo $mount) {
+		$filteredMounts = array_values(array_filter($filteredMounts, function (ICachedMountInfo $mount) {
 			return $this->userManager->userExists($mount->getUser()->getUID());
-		});
+		}));
 
 		return array_map(function (ICachedMountInfo $mount) use ($internalPath) {
 			return new CachedMountFileInfo(
