@@ -31,6 +31,7 @@ class ComposerStaticInitTesting
         'OCA\\Testing\\Listener\\RegisterDeclarativeSettingsListener' => __DIR__ . '/..' . '/../lib/Listener/RegisterDeclarativeSettingsListener.php',
         'OCA\\Testing\\Listener\\SetDeclarativeSettingsValueListener' => __DIR__ . '/..' . '/../lib/Listener/SetDeclarativeSettingsValueListener.php',
         'OCA\\Testing\\Locking\\FakeDBLockingProvider' => __DIR__ . '/..' . '/../lib/Locking/FakeDBLockingProvider.php',
+        'OCA\\Testing\\Migration\\Version30000Date20240102030405' => __DIR__ . '/..' . '/../lib/Migration/Version30000Date20240102030405.php',
         'OCA\\Testing\\Provider\\FakeText2ImageProvider' => __DIR__ . '/..' . '/../lib/Provider/FakeText2ImageProvider.php',
         'OCA\\Testing\\Provider\\FakeTextProcessingProvider' => __DIR__ . '/..' . '/../lib/Provider/FakeTextProcessingProvider.php',
         'OCA\\Testing\\Provider\\FakeTextProcessingProviderSync' => __DIR__ . '/..' . '/../lib/Provider/FakeTextProcessingProviderSync.php',

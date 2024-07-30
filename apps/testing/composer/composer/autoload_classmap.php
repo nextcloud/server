@@ -16,6 +16,7 @@ return array(
     'OCA\\Testing\\Listener\\RegisterDeclarativeSettingsListener' => $baseDir . '/../lib/Listener/RegisterDeclarativeSettingsListener.php',
     'OCA\\Testing\\Listener\\SetDeclarativeSettingsValueListener' => $baseDir . '/../lib/Listener/SetDeclarativeSettingsValueListener.php',
     'OCA\\Testing\\Locking\\FakeDBLockingProvider' => $baseDir . '/../lib/Locking/FakeDBLockingProvider.php',
+    'OCA\\Testing\\Migration\\Version30000Date20240102030405' => $baseDir . '/../lib/Migration/Version30000Date20240102030405.php',
     'OCA\\Testing\\Provider\\FakeText2ImageProvider' => $baseDir . '/../lib/Provider/FakeText2ImageProvider.php',
     'OCA\\Testing\\Provider\\FakeTextProcessingProvider' => $baseDir . '/../lib/Provider/FakeTextProcessingProvider.php',
     'OCA\\Testing\\Provider\\FakeTextProcessingProviderSync' => $baseDir . '/../lib/Provider/FakeTextProcessingProviderSync.php',
