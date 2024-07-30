@@ -25,6 +25,8 @@ interface IMessageSend {
 	 *
 	 * @param IMessage $message			mail message object with all required parameters to send a message
 	 * @param array $options			array of options reserved for future use
+	 *
+	 * @throws \OCP\Mail\Provider\Exception\SendException on failure, check message for reason
 	 */
 	public function sendMessage(IMessage $message, array $option = []): void;
 
