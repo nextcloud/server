@@ -260,14 +260,13 @@ export default defineComponent({
 		},
 
 		async onSubmit() {
-			this.loading = true
-
 			if (this.selectedTemplate?.fields?.length > 0) {
 				spawnDialog(TemplateFiller, {
 					fields: this.selectedTemplate.fields,
 					onSubmit: this.createFile,
 				})
 			} else {
+				this.loading = true
 				await this.createFile()
 			}
 		},
