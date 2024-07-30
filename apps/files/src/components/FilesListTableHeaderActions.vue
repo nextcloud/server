@@ -5,6 +5,7 @@
 <template>
 	<div class="files-list__column files-list__row-actions-batch">
 		<NcActions ref="actionsMenu"
+			container="#app-content-vue"
 			:disabled="!!loading || areSomeNodesLoading"
 			:force-name="true"
 			:inline="inlineActions"
