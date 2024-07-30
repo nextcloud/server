@@ -29,6 +29,7 @@ use OCP\Files\NotFoundException;
 use OCP\Files\Search\ISearchComparison;
 use OCP\Files\Search\ISearchOrder;
 use OCP\Files\Storage;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Class FolderTest
@@ -290,7 +291,7 @@ class FolderTest extends NodeTest {
 			->getMock();
 		$root->method('getUser')
 			->willReturn($this->user);
-		/** @var Storage\IStorage $storage */
+		/** @var Storage\IStorage&MockObject $storage */
 		$storage = $this->createMock(Storage\IStorage::class);
 		$storage->method('getId')->willReturn('test::1');
 		$cache = new Cache($storage);
@@ -298,10 +299,17 @@ class FolderTest extends NodeTest {
 		$storage->method('getCache')
 			->willReturn($cache);
 
+		$storage->expects($this->atLeastOnce())
+			->method('getOwner')
+			->with('qwerty')
+			->willReturn(false);
+
 		$mount = $this->createMock(IMountPoint::class);
-		$mount->method('getStorage')
+		$mount->expects($this->atLeastOnce())
+			->method('getStorage')
 			->willReturn($storage);
-		$mount->method('getInternalPath')
+		$mount->expects($this->atLeastOnce())
+			->method('getInternalPath')
 			->willReturn('foo');
 
 		$cache->insert('foo', ['size' => 200, 'mtime' => 55, 'mimetype' => ICacheEntry::DIRECTORY_MIMETYPE]);
