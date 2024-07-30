@@ -226,7 +226,8 @@ export default defineComponent({
 	&__list {
 		display: inline-flex;
 		flex-direction: column;
-		gap: var(--default-grid-baseline);
+		padding-block: var(--default-grid-baseline) 0;
+		padding-inline: 0 var(--default-grid-baseline);
 
 		> :deep(li) {
 			box-sizing: border-box;

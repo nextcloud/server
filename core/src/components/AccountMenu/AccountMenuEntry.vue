@@ -86,9 +86,9 @@ export default {
 <style lang="scss" scoped>
 .account-menu-entry {
 	&__icon {
-		height: 20px;
-		width: 20px;
-		margin: calc((var(--default-clickable-area) - 20px) / 2); // 20px icon size
+		height: 16px;
+		width: 16px;
+		margin: calc((var(--default-clickable-area) - 16px) / 2); // 16px icon size
 		filter: var(--background-invert-if-dark);
 
 		&--active {
