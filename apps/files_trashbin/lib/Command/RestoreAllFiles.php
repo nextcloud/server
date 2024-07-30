@@ -88,13 +88,13 @@ class RestoreAllFiles extends Base {
 				'since',
 				null,
 				InputOption::VALUE_OPTIONAL,
-				'Only restore files deleted after the given timestamp'
+				'Only restore files deleted after the given date and time, see https://www.php.net/manual/en/function.strtotime.php for more information on supported formats'
 			)
 			->addOption(
 				'until',
 				null,
 				InputOption::VALUE_OPTIONAL,
-				'Only restore files deleted before the given timestamp'
+				'Only restore files deleted before the given date and time, see https://www.php.net/manual/en/function.strtotime.php for more information on supported formats'
 			)
 			->addOption(
 				'dry-run',
