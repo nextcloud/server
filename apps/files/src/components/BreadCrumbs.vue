@@ -273,6 +273,7 @@ export default defineComponent({
 	height: 100%;
 	margin-block: 0;
 	margin-inline: 10px;
+	min-width: 0;
 
 	:deep() {
 		a {
