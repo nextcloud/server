@@ -157,7 +157,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 3.3.0
 	- license: MIT
 - fast-xml-parser
-	- version: 4.4.0
+	- version: 4.4.1
 	- license: MIT
 - for-each
 	- version: 0.3.3
