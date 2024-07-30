@@ -44,6 +44,7 @@ use OCP\Share\IManager;
 use OCP\Share\IProviderFactory;
 use OCP\Share\IShare;
 use OCP\Share\IShareProvider;
+use OCP\Share\IShareProviderSupportsAccept;
 use OCP\Share\IShareProviderWithNotification;
 use Psr\Log\LoggerInterface;
 
@@ -905,17 +906,17 @@ class Manager implements IManager {
 	 * @param IShare $share
 	 * @param string $recipientId
 	 * @return IShare The share object
-	 * @throws \InvalidArgumentException
+	 * @throws \InvalidArgumentException Thrown if the provider does not implement `IShareProviderSupportsAccept`
 	 * @since 9.0.0
 	 */
 	public function acceptShare(IShare $share, string $recipientId): IShare {
 		[$providerId,] = $this->splitFullId($share->getFullId());
 		$provider = $this->factory->getProvider($providerId);
 
-		if (!method_exists($provider, 'acceptShare')) {
-			// TODO FIX ME
+		if (!($provider instanceof IShareProviderSupportsAccept)) {
 			throw new \InvalidArgumentException('Share provider does not support accepting');
 		}
+		/** @var IShareProvider&IShareProviderSupportsAccept $provider */
 		$provider->acceptShare($share, $recipientId);
 
 		$event = new ShareAcceptedEvent($share);

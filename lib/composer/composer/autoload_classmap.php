@@ -718,6 +718,7 @@ return array(
     'OCP\\Share\\IShare' => $baseDir . '/lib/public/Share/IShare.php',
     'OCP\\Share\\IShareHelper' => $baseDir . '/lib/public/Share/IShareHelper.php',
     'OCP\\Share\\IShareProvider' => $baseDir . '/lib/public/Share/IShareProvider.php',
+    'OCP\\Share\\IShareProviderSupportsAccept' => $baseDir . '/lib/public/Share/IShareProviderSupportsAccept.php',
     'OCP\\Share\\IShareProviderWithNotification' => $baseDir . '/lib/public/Share/IShareProviderWithNotification.php',
     'OCP\\Share_Backend' => $baseDir . '/lib/public/Share_Backend.php',
     'OCP\\Share_Backend_Collection' => $baseDir . '/lib/public/Share_Backend_Collection.php',
