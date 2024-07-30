@@ -9,7 +9,10 @@ use OCA\CloudFederationAPI\Config;
 use OCA\CloudFederationAPI\ResponseDefinitions;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\BruteForceProtection;
+use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
 use OCP\AppFramework\Http\Attribute\OpenAPI;
+use OCP\AppFramework\Http\Attribute\PublicPage;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\Federation\Exceptions\ActionNotSupportedException;
 use OCP\Federation\Exceptions\AuthenticationFailedException;
@@ -55,10 +58,6 @@ class RequestHandlerController extends Controller {
 	/**
 	 * Add share
 	 *
-	 * @NoCSRFRequired
-	 * @PublicPage
-	 * @BruteForceProtection(action=receiveFederatedShare)
-	 *
 	 * @param string $shareWith The user who the share will be shared with
 	 * @param string $name The resource name (e.g. document.odt)
 	 * @param string|null $description Share description
@@ -76,6 +75,9 @@ class RequestHandlerController extends Controller {
 	 * 400: Bad request due to invalid parameters, e.g. when `shareWith` is not found or required properties are missing
 	 * 501: Share type or the resource type is not supported
 	 */
+	#[PublicPage]
+	#[NoCSRFRequired]
+	#[BruteForceProtection(action: 'receiveFederatedShare')]
 	public function addShare($shareWith, $name, $description, $providerId, $owner, $ownerDisplayName, $sharedBy, $sharedByDisplayName, $protocol, $shareType, $resourceType) {
 		// check if all required parameters are set
 		if ($shareWith === null ||
@@ -185,10 +187,6 @@ class RequestHandlerController extends Controller {
 	/**
 	 * Send a notification about an existing share
 	 *
-	 * @NoCSRFRequired
-	 * @PublicPage
-	 * @BruteForceProtection(action=receiveFederatedShareNotification)
-	 *
 	 * @param string $notificationType Notification type, e.g. SHARE_ACCEPTED
 	 * @param string $resourceType calendar, file, contact,...
 	 * @param string|null $providerId ID of the share
@@ -200,6 +198,9 @@ class RequestHandlerController extends Controller {
 	 * 403: Getting resource is not allowed
 	 * 501: The resource type is not supported
 	 */
+	#[NoCSRFRequired]
+	#[PublicPage]
+	#[BruteForceProtection(action: 'receiveFederatedShareNotification')]
 	public function receiveNotification($notificationType, $resourceType, $providerId, ?array $notification) {
 		// check if all required parameters are set
 		if ($notificationType === null ||
