@@ -38,6 +38,7 @@
     "Check %s is invalid or does not exist" : "Tarkistus %s on virheellinen tai sitä ei ole olemassa",
     "Flow" : "Kulku",
     "Nextcloud workflow engine" : "Nextcloudin työnkulkumoottori",
+    "Remove filter" : "Poista suodatin",
     "Select a file type" : "Valitse tiedostotyyppi",
     "Folder" : "Kansio",
     "Images" : "Kuvat",

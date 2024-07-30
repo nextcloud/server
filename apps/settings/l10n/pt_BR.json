@@ -558,6 +558,7 @@
     "Unable to delete additional email address" : "Incapaz de deletar endereços de e-mail adicionais",
     "No email address set" : "Nenhum endereço de e-mail foi configurado",
     "Your handle" : "Seu identificador",
+    "Day to use as the first day of week" : "Dia a ser usado como o primeiro dia da semana",
     "Derived from your locale ({weekDayName})" : "Derivado da sua localidade ({weekDayName})",
     "Unable to update first day of week" : "Não foi possível atualizar o primeiro dia da semana",
     "Your headline" : "Seu título",

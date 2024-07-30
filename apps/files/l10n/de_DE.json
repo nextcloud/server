@@ -281,7 +281,7 @@
     "Disconnect storages" : "Speicher trennen",
     "Delete files" : "Dateien löschen",
     "Delete folders" : "Ordner löschen",
-    "_You are about to permanently delete {count} item_::_You are about to permanently delete {count} items_" : ["Sie sind dabei, {count} Element endgültig zu löschen","Sie sind dabei,  {count} Elemente endgültig zu löschen"],
+    "_You are about to permanently delete {count} item_::_You are about to permanently delete {count} items_" : ["Sie sind dabei, {count} Element endgültig zu löschen","Sie sind dabei, {count} Elemente endgültig zu löschen"],
     "_You are about to delete {count} item_::_You are about to delete {count} items_" : ["Sie sind dabei, {count} Element zu löschen","Sie sind dabei, {count} Elemente zu löschen"],
     "Confirm deletion" : "Löschen bestätigen",
     "Cancel" : "Abbrechen",
