@@ -34,9 +34,7 @@ p($theme->getTitle());
 	</head>
 	<body id="<?php p($_['bodyid']);?>">
 		<?php include 'layout.noscript.warning.php'; ?>
-		<?php foreach ($_['initialStates'] as $app => $initialState) { ?>
-			<input type="hidden" id="initial-state-<?php p($app); ?>" value="<?php p(base64_encode($initialState)); ?>">
-		<?php }?>
+		<?php include 'layout.initial-state.php'; ?>
 		<div class="wrapper">
 			<div class="v-align">
 				<?php if ($_['bodyid'] === 'body-login'): ?>
