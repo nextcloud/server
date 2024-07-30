@@ -11,7 +11,11 @@ use OCA\FederatedFileSharing\AddressHandler;
 use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\BruteForceProtection;
+use OCP\AppFramework\Http\Attribute\NoAdminRequired;
+use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
 use OCP\AppFramework\Http\Attribute\OpenAPI;
+use OCP\AppFramework\Http\Attribute\PublicPage;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\Constants;
 use OCP\Federation\ICloudIdManager;
@@ -56,10 +60,6 @@ class MountPublicLinkController extends Controller {
 	/**
 	 * send federated share to a user of a public link
 	 *
-	 * @NoCSRFRequired
-	 * @PublicPage
-	 * @BruteForceProtection(action=publicLink2FederatedShare)
-	 *
 	 * @param string $shareWith Username to share with
 	 * @param string $token Token of the share
 	 * @param string $password Password of the share
@@ -67,6 +67,9 @@ class MountPublicLinkController extends Controller {
 	 * 200: Remote URL returned
 	 * 400: Creating share is not possible
 	 */
+	#[NoCSRFRequired]
+	#[PublicPage]
+	#[BruteForceProtection(action: 'publicLink2FederatedShare')]
 	public function createFederatedShare($shareWith, $token, $password = '') {
 		if (!$this->federatedShareProvider->isOutgoingServer2serverShareEnabled()) {
 			return new JSONResponse(
@@ -125,8 +128,6 @@ class MountPublicLinkController extends Controller {
 	/**
 	 * ask other server to get a federated share
 	 *
-	 * @NoAdminRequired
-	 *
 	 * @param string $token
 	 * @param string $remote
 	 * @param string $password
@@ -135,6 +136,7 @@ class MountPublicLinkController extends Controller {
 	 * @param string $name (only for legacy reasons, can be removed with legacyMountPublicLink())
 	 * @return JSONResponse
 	 */
+	#[NoAdminRequired]
 	public function askForFederatedShare($token, $remote, $password = '', $owner = '', $ownerDisplayName = '', $name = '') {
 		// check if server admin allows to mount public links from other servers
 		if ($this->federatedShareProvider->isIncomingServer2serverShareEnabled() === false) {
