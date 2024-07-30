@@ -354,7 +354,7 @@ trait BasicStructure {
 			$fd = $body->getRowsHash();
 			$options['form_params'] = $fd;
 		} elseif ($body) {
-			$options = array_merge($options, $body);
+			$options = array_merge_recursive($options, $body);
 		}
 
 		$client = new Client();
