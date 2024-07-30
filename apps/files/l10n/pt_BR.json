@@ -281,6 +281,8 @@
     "Disconnect storages" : "Desconectar armazenamentos",
     "Delete files" : "Deletar arquivos",
     "Delete folders" : "Excluir pastas",
+    "_You are about to permanently delete {count} item_::_You are about to permanently delete {count} items_" : ["Você está prestes a excluir permanentemente {count} itens","Você está prestes a excluir permanentemente {count} itens","Você está prestes a excluir permanentemente {count} itens"],
+    "_You are about to delete {count} item_::_You are about to delete {count} items_" : ["Você está prestes a excluir {count} itens","Você está prestes a excluir {count} itens","Você está prestes a excluir {count} itens"],
     "Confirm deletion" : "Confirmar exclusão",
     "Cancel" : "Cancelar",
     "Destination is not a folder" : "O destino não é uma pasta",
