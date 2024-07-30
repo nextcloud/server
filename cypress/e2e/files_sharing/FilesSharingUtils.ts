@@ -5,14 +5,13 @@
 /* eslint-disable jsdoc/require-jsdoc */
 import { triggerActionForFile } from '../files/FilesUtils'
 
-import { EntryId as FileRequestEntryID } from '../../../apps/files_sharing/src/new/newFileRequest'
-
 export interface ShareSetting {
 	read: boolean
 	update: boolean
 	delete: boolean
 	share: boolean
 	download: boolean
+	note: string
 }
 
 export function createShare(fileName: string, username: string, shareSettings: Partial<ShareSetting> = {}) {
@@ -83,6 +82,11 @@ export function updateShare(fileName: string, index: number, shareSettings: Part
 				// Force:true because the checkbox is hidden by the pretty UI.
 				cy.get('@deleteCheckbox').uncheck({ force: true, scrollBehavior: 'nearest' })
 			}
+		}
+
+		if (shareSettings.note !== undefined) {
+			cy.findByRole('checkbox', { name: /note to recipient/i }).check({ force: true, scrollBehavior: 'nearest' })
+			cy.findByRole('textbox', { name: /note to recipient/i }).type(shareSettings.note)
 		}
 
 		cy.get('[data-cy-files-sharing-share-editor-action="save"]').click({ scrollBehavior: 'nearest' })
