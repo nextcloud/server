@@ -29,6 +29,7 @@ declare(strict_types=1);
 namespace OCA\Files_External\Lib\Auth\Password;
 
 use OCA\Files_External\Lib\Auth\AuthMechanism;
+use OCA\Files_External\Lib\DefinitionParameter;
 use OCA\Files_External\Lib\InsufficientDataForMeaningfulAnswerException;
 use OCA\Files_External\Lib\StorageConfig;
 use OCA\Files_External\Service\BackendService;
@@ -61,6 +62,12 @@ class UserGlobalAuth extends AuthMechanism {
 		if (!isset($backendOptions['user']) && !isset($backendOptions['password'])) {
 			return;
 		}
+
+		if ($backendOptions['password'] === DefinitionParameter::UNMODIFIED_PLACEHOLDER) {
+			$oldCredentials = $this->credentialsManager->retrieve($user->getUID(), self::CREDENTIALS_IDENTIFIER);
+			$backendOptions['password'] = $oldCredentials['password'];
+		}
+
 		// make sure we're not setting any unexpected keys
 		$credentials = [
 			'user' => $backendOptions['user'],
