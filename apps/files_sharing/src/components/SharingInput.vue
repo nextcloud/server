@@ -35,7 +35,7 @@ import debounce from 'debounce'
 import NcSelect from '@nextcloud/vue/dist/Components/NcSelect.js'
 
 import Config from '../services/ConfigService.ts'
-import Share from '../models/Share.js'
+import Share from '../models/Share.ts'
 import ShareRequests from '../mixins/ShareRequests.js'
 import ShareTypes from '../mixins/ShareTypes.js'
 import ShareDetails from '../mixins/ShareDetails.js'

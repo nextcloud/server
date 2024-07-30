@@ -273,7 +273,7 @@ import DotsHorizontalIcon from 'vue-material-design-icons/DotsHorizontal.vue'
 import ExternalShareAction from '../components/ExternalShareAction.vue'
 
 import GeneratePassword from '../utils/GeneratePassword.ts'
-import Share from '../models/Share.js'
+import Share from '../models/Share.ts'
 import ShareRequests from '../mixins/ShareRequests.js'
 import ShareTypes from '../mixins/ShareTypes.js'
 import SharesMixin from '../mixins/SharesMixin.js'

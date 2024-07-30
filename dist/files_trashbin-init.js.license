@@ -31,6 +31,7 @@ SPDX-FileCopyrightText: Joyent
 SPDX-FileCopyrightText: José F. Romaniello <jfromaniello@gmail.com> (http://joseoncode.com)
 SPDX-FileCopyrightText: Jordan Harband <ljharb@gmail.com>
 SPDX-FileCopyrightText: Jordan Harband
+SPDX-FileCopyrightText: Jonas Schade <derzade@gmail.com>
 SPDX-FileCopyrightText: John-David Dalton <john.david.dalton@gmail.com> (http://allyoucanleet.com/)
 SPDX-FileCopyrightText: John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
 SPDX-FileCopyrightText: John Hiesey
@@ -48,7 +49,6 @@ SPDX-FileCopyrightText: Eric Norris (https://github.com/ericnorris)
 SPDX-FileCopyrightText: Dylan Piercey <pierceydylan@gmail.com>
 SPDX-FileCopyrightText: Dr.-Ing. Mario Heiderich, Cure53 <mario@cure53.de> (https://cure53.de/)
 SPDX-FileCopyrightText: David Clark
-SPDX-FileCopyrightText: Christoph Wurst <christoph@winzerhof-wurst.at>
 SPDX-FileCopyrightText: Christoph Wurst
 SPDX-FileCopyrightText: Ben Drucker
 SPDX-FileCopyrightText: Arnout Kazemier
@@ -78,9 +78,6 @@ This file is generated from multiple sources. Included packages:
 - @nextcloud/event-bus
 	- version: 3.3.1
 	- license: GPL-3.0-or-later
-- @nextcloud/files
-	- version: 3.7.0
-	- license: AGPL-3.0-or-later
 - @nextcloud/initial-state
 	- version: 2.2.0
 	- license: GPL-3.0-or-later
@@ -341,6 +338,9 @@ This file is generated from multiple sources. Included packages:
 	- license: MIT
 - tabbable
 	- version: 6.2.0
+	- license: MIT
+- typescript-event-target
+	- version: 1.1.1
 	- license: MIT
 - unist-builder
 	- version: 4.0.0

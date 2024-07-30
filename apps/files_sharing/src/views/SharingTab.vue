@@ -90,7 +90,7 @@ import { loadState } from '@nextcloud/initial-state'
 
 import Config from '../services/ConfigService.ts'
 import { shareWithTitle } from '../utils/SharedWithMe.js'
-import Share from '../models/Share.js'
+import Share from '../models/Share.ts'
 import ShareTypes from '../mixins/ShareTypes.js'
 import SharingEntryInternal from '../components/SharingEntryInternal.vue'
 import SharingEntrySimple from '../components/SharingEntrySimple.vue'
