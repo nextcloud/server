@@ -156,10 +156,10 @@
 					{{ t('settings', 'If autocompletion "same group" and "phone number integration" are enabled a match in either is enough to show the user.') }}
 				</em>
 				<NcCheckboxRadioSwitch :checked.sync="settings.restrictUserEnumerationToGroup">
-					{{ t('settings', 'Allow account name autocompletion to users within the same groups and limit system address books to users in the same groups') }}
+					{{ t('settings', 'Restrict account name autocompletion and system address book access to users within the same groups') }}
 				</NcCheckboxRadioSwitch>
 				<NcCheckboxRadioSwitch :checked.sync="settings.restrictUserEnumerationToPhone">
-					{{ t('settings', 'Allow account name autocompletion to users based on phone number integration') }}
+					{{ t('settings', 'Restrict account name autocompletion to users based on phone number integration') }}
 				</NcCheckboxRadioSwitch>
 			</fieldset>
 
