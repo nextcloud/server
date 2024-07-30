@@ -80,6 +80,22 @@ Feature: external-storage
     Then fields of last external storage match with
       | status | 0 |
 
+  Scenario: Save an external storage again with an unmodified password provided by user
+    Given Logging in using web as "admin"
+    And logged in user creates external global storage
+      | mountPoint     | "ExternalStorageTest" |
+      | backend        | "owncloud" |
+      | authMechanism  | "password::userprovided" |
+      | backendOptions | {"host":"http://localhost:8080","secure":false} |
+    And fields of last external storage match with
+      | status | 2 |
+    And logged in user updates last external userglobal storage
+      | backendOptions | {"user":"admin","password":"admin"} |
+    When logged in user updates last external userglobal storage
+      | backendOptions | {"user":"admin","password":"__unmodified__"} |
+    Then fields of last external storage match with
+      | status | 0 |
+
   Scenario: Save an external storage with global credentials provided by user
     Given Logging in using web as "admin"
     And logged in user creates external global storage
@@ -91,5 +107,21 @@ Feature: external-storage
       | status | 2 |
     When logged in user updates last external userglobal storage
       | backendOptions | {"user":"admin","password":"admin"} |
+    Then fields of last external storage match with
+      | status | 0 |
+
+  Scenario: Save an external storage again with unmodified global credentials provided by user
+    Given Logging in using web as "admin"
+    And logged in user creates external global storage
+      | mountPoint     | "ExternalStorageTest" |
+      | backend        | "owncloud" |
+      | authMechanism  | "password::global::user" |
+      | backendOptions | {"host":"http://localhost:8080","secure":false} |
+    And fields of last external storage match with
+      | status | 2 |
+    And logged in user updates last external userglobal storage
+      | backendOptions | {"user":"admin","password":"admin"} |
+    When logged in user updates last external userglobal storage
+      | backendOptions | {"user":"admin","password":"__unmodified__"} |
     Then fields of last external storage match with
       | status | 0 |
