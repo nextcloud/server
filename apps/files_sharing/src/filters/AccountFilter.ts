@@ -2,7 +2,7 @@
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import type { INode } from '@nextcloud/files'
+import type { IFileListFilterChip, INode } from '@nextcloud/files'
 
 import { FileListFilter, registerFileListFilter } from '@nextcloud/files'
 import Vue from 'vue'
@@ -13,12 +13,14 @@ export interface IAccountData {
 	displayName: string
 }
 
+type CurrentInstance = Vue & { resetFilter: () => void, toggleAccount: (account: string) => void }
+
 /**
  * File list filter to filter by owner / sharee
  */
 class AccountFilter extends FileListFilter {
 
-	private currentInstance?: Vue
+	private currentInstance?: CurrentInstance
 	private filterAccounts?: IAccountData[]
 
 	constructor() {
@@ -35,7 +37,7 @@ class AccountFilter extends FileListFilter {
 			el,
 		})
 			.$on('update:accounts', this.setAccounts.bind(this))
-			.$mount()
+			.$mount() as CurrentInstance
 	}
 
 	public filter(nodes: INode[]): INode[] {
@@ -66,6 +68,16 @@ class AccountFilter extends FileListFilter {
 
 	public setAccounts(accounts?: IAccountData[]) {
 		this.filterAccounts = accounts
+		let chips: IFileListFilterChip[] = []
+		if (this.filterAccounts && this.filterAccounts.length > 0) {
+			chips = this.filterAccounts.map(({ displayName, uid }) => ({
+				text: displayName,
+				user: uid,
+				onclick: () => this.currentInstance?.toggleAccount(uid),
+			}))
+		}
+
+		this.updateChips(chips)
 		this.filterUpdated()
 	}
 

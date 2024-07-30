@@ -97,7 +97,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 0.2.3
 	- license: GPL-3.0-or-later
 - @nextcloud/vue
-	- version: 8.15.0
+	- version: 8.15.1
 	- license: AGPL-3.0-or-later
 - @vue/devtools-api
 	- version: 6.6.1
