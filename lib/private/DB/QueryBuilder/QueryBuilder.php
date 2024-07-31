@@ -1329,7 +1329,7 @@ class QueryBuilder implements IQueryBuilder {
 	 * @param string $table
 	 * @return string
 	 */
-	public function prefixTableName($table) {
+	public function prefixTableName(string $table): string {
 		if ($this->automaticTablePrefix === false || str_starts_with($table, '*PREFIX*')) {
 			return $table;
 		}

@@ -44,7 +44,7 @@ class JoinCondition {
 		$fromConditions = [];
 		$toConditions = [];
 		foreach ($conditions as $condition) {
-			if (($condition->fromColumn && $fromColumn) ||($condition->toColumn && $toColumn)) {
+			if (($condition->fromColumn && $fromColumn) || ($condition->toColumn && $toColumn)) {
 				throw new InvalidPartitionedQueryException("Can't join from {$condition->fromColumn} to {$condition->toColumn} as it already join froms {$fromColumn} to {$toColumn}");
 			}
 			if ($condition->fromColumn) {

@@ -289,7 +289,21 @@ abstract class ExtendedQueryBuilder implements IQueryBuilder {
 		return $this->builder->executeStatement($connection);
 	}
 
+	public function hintShardKey(string $column, mixed $value) {
+		$this->builder->hintShardKey($column, $value);
+		return $this;
+	}
+
+	public function runAcrossAllShards() {
+		$this->builder->runAcrossAllShards();
+		return $this;
+	}
+
 	public function getOutputColumns(): array {
 		return $this->builder->getOutputColumns();
+	}
+
+	public function prefixTableName(string $table): string {
+		return $this->builder->prefixTableName($table);
 	}
 }

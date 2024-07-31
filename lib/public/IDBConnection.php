@@ -11,6 +11,8 @@
 namespace OCP;
 
 use Doctrine\DBAL\Schema\Schema;
+use OC\DB\QueryBuilder\Sharded\CrossShardMoveHelper;
+use OC\DB\QueryBuilder\Sharded\ShardDefinition;
 use OCP\DB\Exception;
 use OCP\DB\IPreparedStatement;
 use OCP\DB\IResult;
@@ -345,4 +347,21 @@ interface IDBConnection {
 	 * @return self::PLATFORM_MYSQL|self::PLATFORM_ORACLE|self::PLATFORM_POSTGRES|self::PLATFORM_SQLITE
 	 */
 	public function getDatabaseProvider(): string;
+
+	/**
+	 * Get the shard definition by name, if configured
+	 *
+	 * @param string $name
+	 * @return ShardDefinition|null
+	 * @since 30.0.0
+	 */
+	public function getShardDefinition(string $name): ?ShardDefinition;
+
+	/**
+	 * Get a helper class for implementing cross-shard moves
+	 *
+	 * @return CrossShardMoveHelper
+	 * @since 30.0.0
+	 */
+	public function getCrossShardMoveHelper(): CrossShardMoveHelper;
 }
