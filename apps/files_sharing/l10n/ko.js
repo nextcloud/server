@@ -115,7 +115,7 @@ OC.L10N.register(
     "You received {share} to group {group} as a share by {user}" : "{user}님의 공유로 {group}그룹에서 {share}(을)를 받았습니다.",
     "Accept" : "수락",
     "Decline" : "거절",
-    "Accounts" : "계정",
+    "People" : "사람",
     "Expiration date" : "만료 날짜",
     "Set a password" : "암호 설정",
     "Password" : "암호",

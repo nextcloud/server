@@ -110,7 +110,7 @@ OC.L10N.register(
     "You received {share} to group {group} as a share by {user}" : "Λάβατε το {share} ομάδας {group} ως κοινή χρήση από τον {user}",
     "Accept" : "Αποδοχή",
     "Decline" : "Απόρριψη",
-    "Accounts" : "Λογαριασμοί",
+    "People" : "Άτομα",
     "Expiration date" : "Ημερομηνία λήξης",
     "Set a password" : "Ορισμός συνθηματικού",
     "Password" : "Συνθηματικό",
