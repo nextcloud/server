@@ -11,7 +11,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
     );
 
     public static $prefixLengthsPsr4 = array (
-        'O' => 
+        'O' =>
         array (
             'OC\\Core\\' => 8,
             'OC\\' => 3,
@@ -20,15 +20,15 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
     );
 
     public static $prefixDirsPsr4 = array (
-        'OC\\Core\\' => 
+        'OC\\Core\\' =>
         array (
             0 => __DIR__ . '/../../..' . '/core',
         ),
-        'OC\\' => 
+        'OC\\' =>
         array (
             0 => __DIR__ . '/../../..' . '/lib/private',
         ),
-        'OCP\\' => 
+        'OCP\\' =>
         array (
             0 => __DIR__ . '/../../..' . '/lib/public',
         ),
@@ -893,6 +893,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OCP\\User\\Events\\PasswordUpdatedEvent' => __DIR__ . '/../../..' . '/lib/public/User/Events/PasswordUpdatedEvent.php',
         'OCP\\User\\Events\\PostLoginEvent' => __DIR__ . '/../../..' . '/lib/public/User/Events/PostLoginEvent.php',
         'OCP\\User\\Events\\UserChangedEvent' => __DIR__ . '/../../..' . '/lib/public/User/Events/UserChangedEvent.php',
+		'OCP\\User\\Events\\UserConfigChangedEvent' => __DIR__ . '/../../..' . '/lib/public/User/Events/UserConfigChangedEvent.php',
         'OCP\\User\\Events\\UserCreatedEvent' => __DIR__ . '/../../..' . '/lib/public/User/Events/UserCreatedEvent.php',
         'OCP\\User\\Events\\UserDeletedEvent' => __DIR__ . '/../../..' . '/lib/public/User/Events/UserDeletedEvent.php',
         'OCP\\User\\Events\\UserFirstTimeLoggedInEvent' => __DIR__ . '/../../..' . '/lib/public/User/Events/UserFirstTimeLoggedInEvent.php',

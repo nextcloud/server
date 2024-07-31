@@ -867,6 +867,7 @@ return array(
     'OCP\\User\\Events\\UserLoggedInEvent' => $baseDir . '/lib/public/User/Events/UserLoggedInEvent.php',
     'OCP\\User\\Events\\UserLoggedInWithCookieEvent' => $baseDir . '/lib/public/User/Events/UserLoggedInWithCookieEvent.php',
     'OCP\\User\\Events\\UserLoggedOutEvent' => $baseDir . '/lib/public/User/Events/UserLoggedOutEvent.php',
+	'OCP\\User\\Events\\UserConfigChangedEvent' => $baseDir . '/lib/public/User/Events/UserConfigChangedEvent.php',
     'OCP\\User\\GetQuotaEvent' => $baseDir . '/lib/public/User/GetQuotaEvent.php',
     'OCP\\User\\IAvailabilityCoordinator' => $baseDir . '/lib/public/User/IAvailabilityCoordinator.php',
     'OCP\\User\\IOutOfOfficeData' => $baseDir . '/lib/public/User/IOutOfOfficeData.php',

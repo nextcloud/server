@@ -11,6 +11,8 @@ use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\PreConditionNotMetException;
+use OCP\EventDispatcher\IEventDispatcher;
+use OCP\User\Events\UserConfigChangedEvent;
 
 /**
  * Class to combine all the configuration options ownCloud offers
@@ -256,6 +258,7 @@ class AllConfig implements IConfig {
 				$qb->executeStatement();
 
 				$this->userCache[$userId][$appName][$key] = (string)$value;
+				$this->triggerUserValueChange($userId, $appName, $key, $value, $prevValue);
 				return;
 			}
 		}
@@ -281,6 +284,14 @@ class AllConfig implements IConfig {
 				$this->userCache[$userId][$appName] = [];
 			}
 			$this->userCache[$userId][$appName][$key] = (string)$value;
+		}
+		$this->triggerUserValueChange($userId, $appName, $key, $value, $prevValue);
+	}
+
+	private function triggerUserValueChange($userId, $appId, $key, $value, $oldValue = null) {
+		if (\OC::$server instanceof \OCP\IServerContainer) {
+			$dispatcher = \OC::$server->get(IEventDispatcher::class);
+			$dispatcher->dispatchTyped(new UserConfigChangedEvent($userId, $appId, $key, $value, $oldValue));
 		}
 	}
 
