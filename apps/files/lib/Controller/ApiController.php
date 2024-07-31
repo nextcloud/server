@@ -11,6 +11,7 @@ use OC\AppFramework\Middleware\Security\Exceptions\NotLoggedInException;
 use OC\Files\Node\Node;
 use OC\Files\Search\SearchComparison;
 use OC\Files\Search\SearchQuery;
+use OCA\Files\ResponseDefinitions;
 use OCA\Files\Service\TagService;
 use OCA\Files\Service\UserConfig;
 use OCA\Files\Service\ViewConfig;
@@ -46,6 +47,8 @@ use Psr\Log\LoggerInterface;
 use Throwable;
 
 /**
+ * @psalm-import-type FilesFolderTree from ResponseDefinitions
+ *
  * @package OCA\Files\Controller
  */
 class ApiController extends Controller {
@@ -265,7 +268,12 @@ class ApiController extends Controller {
 	}
 
 	/**
-	 * Returns a folder tree for the user.
+	 * Returns the folder tree of the user
+	 *
+	 * @return JSONResponse<Http::STATUS_OK, FilesFolderTree, array{}>|JSONResponse<Http::STATUS_UNAUTHORIZED, array{message: string}, array{}>
+	 *
+	 * 200: Folder tree returned successfully
+	 * 401: Unauthorized
 	 */
 	#[NoAdminRequired]
 	#[ApiRoute(verb: 'GET', url: '/api/v1/folder-tree')]
