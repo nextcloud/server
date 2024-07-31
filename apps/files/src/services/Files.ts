@@ -20,7 +20,7 @@
  *
  */
 import type { ContentsWithRoot } from '@nextcloud/files'
-import type { FileStat, ResponseDataDetailed, DAVResultResponseProps } from 'webdav'
+import type { FileStat, ResponseDataDetailed } from 'webdav'
 
 import { CancelablePromise } from 'cancelable-promise'
 import { File, Folder, davGetClient, davGetDefaultPropfind, davResultToNode, davRootPath } from '@nextcloud/files'
