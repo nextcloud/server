@@ -1018,4 +1018,12 @@ interface IQueryBuilder {
 	 * @since 9.0.0
 	 */
 	public function getColumnName($column, $tableAlias = '');
+
+	/**
+	 * Get a list of column names that are expected in the query output
+	 *
+	 * @return array
+	 * @since 30.0.0
+	 */
+	public function getOutputColumns(): array;
 }
