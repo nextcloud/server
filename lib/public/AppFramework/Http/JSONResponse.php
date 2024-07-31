@@ -47,7 +47,7 @@ class JSONResponse extends Response {
 	 * @throws \Exception If data could not get encoded
 	 */
 	public function render() {
-		return json_encode($this->data, JSON_HEX_TAG | JSON_THROW_ON_ERROR);
+		return json_encode($this->data, JSON_HEX_TAG | JSON_THROW_ON_ERROR, 2048);
 	}
 
 	/**
