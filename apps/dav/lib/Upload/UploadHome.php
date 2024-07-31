@@ -10,6 +10,7 @@ namespace OCA\DAV\Upload;
 use OC\Files\Filesystem;
 use OC\Files\View;
 use OCA\DAV\Connector\Sabre\Directory;
+use OCP\Files\Storage\IStorage;
 use Sabre\DAV\Exception\Forbidden;
 use Sabre\DAV\ICollection;
 
@@ -69,13 +70,13 @@ class UploadHome implements ICollection {
 	/**
 	 * @return Directory
 	 */
-	private function impl() {
+	private function impl(): Directory {
 		$view = $this->getView();
 		$rootInfo = $view->getFileInfo('');
 		return new Directory($view, $rootInfo);
 	}
 
-	private function getView() {
+	private function getView(): View {
 		$rootView = new View();
 		$user = \OC::$server->getUserSession()->getUser();
 		Filesystem::initMountPoints($user->getUID());
@@ -85,7 +86,7 @@ class UploadHome implements ICollection {
 		return new View('/' . $user->getUID() . '/uploads');
 	}
 
-	private function getStorage() {
+	private function getStorage(): IStorage {
 		$view = $this->getView();
 		$storage = $view->getFileInfo('')->getStorage();
 		return $storage;
