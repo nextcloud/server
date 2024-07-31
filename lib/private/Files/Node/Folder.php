@@ -222,9 +222,9 @@ class Folder extends Node implements \OCP\Files\Folder {
 		}, array_values($resultsPerCache), array_keys($resultsPerCache)));
 
 		// don't include this folder in the results
-		$files = array_filter($files, function (FileInfo $file) {
+		$files = array_values(array_filter($files, function (FileInfo $file) {
 			return $file->getPath() !== $this->getPath();
-		});
+		}));
 
 		// since results were returned per-cache, they are no longer fully sorted
 		$order = $query->getOrder();
