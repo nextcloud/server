@@ -676,6 +676,7 @@ class CardDavBackendTest extends TestCase {
 			$vCardIds[] = $query->getLastInsertId();
 		}
 
+		$query = $this->db->getQueryBuilder();
 		$query->insert($this->dbCardsPropertiesTable)
 			->values(
 				[
@@ -687,6 +688,7 @@ class CardDavBackendTest extends TestCase {
 				]
 			);
 		$query->execute();
+		$query = $this->db->getQueryBuilder();
 		$query->insert($this->dbCardsPropertiesTable)
 			->values(
 				[
@@ -698,6 +700,7 @@ class CardDavBackendTest extends TestCase {
 				]
 			);
 		$query->execute();
+		$query = $this->db->getQueryBuilder();
 		$query->insert($this->dbCardsPropertiesTable)
 			->values(
 				[
@@ -709,6 +712,7 @@ class CardDavBackendTest extends TestCase {
 				]
 			);
 		$query->execute();
+		$query = $this->db->getQueryBuilder();
 		$query->insert($this->dbCardsPropertiesTable)
 			->values(
 				[
@@ -720,6 +724,7 @@ class CardDavBackendTest extends TestCase {
 				]
 			);
 		$query->execute();
+		$query = $this->db->getQueryBuilder();
 		$query->insert($this->dbCardsPropertiesTable)
 			->values(
 				[
