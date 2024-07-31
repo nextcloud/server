@@ -363,8 +363,6 @@
     "Privacy settings for sharing" : "Personverninnstillinger for deling",
     "Allow account name autocompletion in share dialog and allow access to the system address book" : "Tillat automatisk fullføring av kontonavn i delingsdialogen og gi tilgang til systemets adressebok",
     "If autocompletion \"same group\" and \"phone number integration\" are enabled a match in either is enough to show the user." : "Hvis autofullføring \"samme gruppe\" og \"telefonnummerintegrasjon\" er aktivert, er en match i begge nok til å vise brukeren.",
-    "Allow account name autocompletion to users within the same groups and limit system address books to users in the same groups" : "Tillat autofullføring av kontonavn for brukere i de samme gruppene, og begrens systemadressebøkene til brukere i de samme gruppene",
-    "Allow account name autocompletion to users based on phone number integration" : "Tillat autofullføring av kontonavn til brukere basert på telefonnummerintegrering",
     "Allow autocompletion when entering the full name or email address (ignoring missing phonebook match and being in the same group)" : "Tillat autofullføring når du skriver inn fullt navn eller e-postadresse (ignorerer manglende telefonbok-treff og er i samme gruppe)",
     "Show disclaimer text on the public link upload page (only shown when the file list is hidden)" : "Vis ansvarsfraskrivelse på den offentlige lenkeopplastingssiden (vises bare når fillisten er skjult)",
     "Disclaimer text" : "Ansvarsfraskrivelse tekst",

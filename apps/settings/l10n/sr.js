@@ -360,8 +360,6 @@ OC.L10N.register(
     "Privacy settings for sharing" : "Поставке приватности за дељење",
     "Allow account name autocompletion in share dialog and allow access to the system address book" : "Омогући аутоматско довршавање имена налога у дијалогу дељења и дозволи приступ системском адресару",
     "If autocompletion \"same group\" and \"phone number integration\" are enabled a match in either is enough to show the user." : "Ако су укључени „иста група” и „интеграција броја телефона”. подударање у било којој од њих ће приказати корисника.",
-    "Allow account name autocompletion to users within the same groups and limit system address books to users in the same groups" : "Омогући аутоматско довршавање имена налога на кориснике у истим групама и ограничи системске адресаре само на кориснике истих група",
-    "Allow account name autocompletion to users based on phone number integration" : "Дозволи аутоматско довршавање имена налога на кориснике добијене на основу интеграције броја телефона",
     "Allow autocompletion when entering the full name or email address (ignoring missing phonebook match and being in the same group)" : "Дозволи аутоматско довршавање када се уноси пуно име или и-мејл адреса (уз игнорисање подударања у телефонском именику и припадања истој групи)",
     "Show disclaimer text on the public link upload page (only shown when the file list is hidden)" : "Прикажи текст о ограђивању на јавној страни за отпремање (приказан је само када је сакривена листа фајлова)",
     "Disclaimer text" : "Текст ограђивања",

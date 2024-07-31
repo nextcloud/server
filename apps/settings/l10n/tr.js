@@ -349,8 +349,6 @@ OC.L10N.register(
     "Privacy settings for sharing" : "Paylaşım için gizlilik ayarı",
     "Allow account name autocompletion in share dialog and allow access to the system address book" : "Paylaşım penceresinde hesap adının otomatik tamamlanmasına ve sistem adres defterine erişilmesine izin verilsin",
     "If autocompletion \"same group\" and \"phone number integration\" are enabled a match in either is enough to show the user." : "\"Aynı grup\" ve \"telefon numarası bütünleştirmesi\" etkinleştirilmiş ise. Kullanıcının görüntülenmesi için ikisinden birinde eşleşme olması yeterlidir.",
-    "Allow account name autocompletion to users within the same groups and limit system address books to users in the same groups" : "Aynı gruplarda hesap adının otomatik olarak tamamlanmasına izin verilsin ve sistem adres defterleri aynı gruplardaki kullanıcılarla sınırlansın",
-    "Allow account name autocompletion to users based on phone number integration" : "Telefon numarası bütünleştirmesi eşleşmelerine göre hesap adları otomatik olarak tamamlanabilsin",
     "Allow autocompletion when entering the full name or email address (ignoring missing phonebook match and being in the same group)" : "Tam ad ya da e-posta adresi yazılırken otomatik olarak tamamlanabilsin (aynı grupta olma ya da telefon defteri eşleşmesi yok sayılarak)",
     "Show disclaimer text on the public link upload page (only shown when the file list is hidden)" : "Herkese açık bağlantı yükleme sayfasında sorumluluk reddi bildirimi görüntülensin (yalnızca dosya listesi gizli iken görüntülenir)",
     "Disclaimer text" : "Sorumluluk reddi metni",

@@ -106,7 +106,7 @@ OC.L10N.register(
     "File sharing" : "Fildeling",
     "Accept" : "Accepter",
     "Decline" : "Afvis",
-    "Accounts" : "Konti",
+    "People" : "Personer",
     "Expiration date" : "Udløbsdato",
     "Set a password" : "Indstil en adgangskode",
     "Password" : "Kodeord",

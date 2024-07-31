@@ -109,7 +109,7 @@ OC.L10N.register(
     "You received {share} to group {group} as a share by {user}" : "Vastaanotit jaon {share} ryhmään {group} käyttäjältä {user}",
     "Accept" : "Hyväksy",
     "Decline" : "Kieltäydy",
-    "Accounts" : "Tilit",
+    "People" : "Ihmiset",
     "Expiration date" : "Vanhenemispäivä",
     "Set a password" : "Aseta salasana",
     "Password" : "Salasana",
