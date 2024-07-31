@@ -4,7 +4,7 @@
 -->
 ## Submitting issues
 
-If you have questions about how to install or use Nextcloud, please direct these to our [forum][forum]. We are also available on [IRC][irc].
+If you have questions about how to install or use Nextcloud, please direct these to our [forum][forum]. We are also available on [IRC][irc] (unofficial).
 
 ### Short version
 
