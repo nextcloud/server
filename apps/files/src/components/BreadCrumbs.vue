@@ -163,6 +163,13 @@ export default defineComponent({
 		},
 
 		getTo(dir: string, node?: Node): Record<string, unknown> {
+			if (dir === '/') {
+				return {
+					...this.$route,
+					params: { view: this.currentView?.id },
+					query: {},
+				}
+			}
 			if (node === undefined) {
 				return {
 					...this.$route,
