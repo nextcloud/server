@@ -113,7 +113,7 @@ OC.L10N.register(
     "You received {share} to group {group} as a share by {user}" : "Þú tókst við {share} fyrir hópinn {group} sem sameign frá {user}",
     "Accept" : "Samþykkja",
     "Decline" : "Hafna",
-    "Accounts" : "Notandaaðgangar",
+    "People" : "Fólk",
     "Expiration date" : "Gildir til",
     "Set a password" : "Setja lykilorð",
     "Password" : "Lykilorð",

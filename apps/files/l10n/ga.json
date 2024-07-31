@@ -281,6 +281,8 @@
     "Disconnect storages" : "Déan stórais a dhícheangal",
     "Delete files" : "Scrios comhaid",
     "Delete folders" : "Scrios fillteáin",
+    "_You are about to permanently delete {count} item_::_You are about to permanently delete {count} items_" : ["Tá tú ar tí {count} mír a scriosadh go buan","Tá tú ar tí {count} mír a scriosadh go buan","Tá tú ar tí {count} mír a scriosadh go buan","Tá tú ar tí {count} mír a scriosadh go buan","Tá tú ar tí {count} mír a scriosadh go buan"],
+    "_You are about to delete {count} item_::_You are about to delete {count} items_" : ["Tá tú ar tí {count} mír a scriosadh","Tá tú ar tí {count} mír a scriosadh","Tá tú ar tí {count} mír a scriosadh","Tá tú ar tí {count} mír a scriosadh","Tá tú ar tí {count} mír a scriosadh"],
     "Confirm deletion" : "Deimhnigh scriosadh",
     "Cancel" : "Cealaigh",
     "Destination is not a folder" : "Ní fillteán é ceann scríbe",

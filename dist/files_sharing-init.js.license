@@ -1,3 +1,4 @@
+SPDX-License-Identifier: MPL-2.0
 SPDX-License-Identifier: MIT
 SPDX-License-Identifier: ISC
 SPDX-License-Identifier: GPL-3.0-or-later
@@ -5,8 +6,10 @@ SPDX-License-Identifier: BSD-3-Clause
 SPDX-License-Identifier: Apache-2.0
 SPDX-License-Identifier: AGPL-3.0-or-later
 SPDX-License-Identifier: (MPL-2.0 OR Apache-2.0)
+SPDX-FileCopyrightText: xiemengxiong
 SPDX-FileCopyrightText: inherits developers
 SPDX-FileCopyrightText: escape-html developers
+SPDX-FileCopyrightText: debounce developers
 SPDX-FileCopyrightText: atomiks
 SPDX-FileCopyrightText: assert developers
 SPDX-FileCopyrightText: Tobias Koppers @sokra
@@ -15,6 +18,7 @@ SPDX-FileCopyrightText: T. Jameson Little <t.jameson.little@gmail.com>
 SPDX-FileCopyrightText: Roman Shtylman <shtylman@gmail.com>
 SPDX-FileCopyrightText: Roeland Jago Douma
 SPDX-FileCopyrightText: Raynos <raynos2@gmail.com>
+SPDX-FileCopyrightText: Philipp Kewisch
 SPDX-FileCopyrightText: Perry Mitchell <perry@perrymitchell.net>
 SPDX-FileCopyrightText: Paul Vorbach <paul@vorba.ch> (http://paul.vorba.ch)
 SPDX-FileCopyrightText: Paul Vorbach <paul@vorb.de> (http://vorb.de)
@@ -52,6 +56,9 @@ This file is generated from multiple sources. Included packages:
 - @floating-ui/utils
 	- version: 0.2.1
 	- license: MIT
+- @mdi/js
+	- version: 7.4.47
+	- license: Apache-2.0
 - @mdi/svg
 	- version: 7.4.47
 	- license: Apache-2.0
@@ -98,7 +105,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 3.25.0
 	- license: MIT
 - @nextcloud/vue
-	- version: 8.15.0
+	- version: 8.15.1
 	- license: AGPL-3.0-or-later
 - @vueuse/components
 	- version: 10.11.0
@@ -141,6 +148,12 @@ This file is generated from multiple sources. Included packages:
 	- license: BSD-3-Clause
 - css-loader
 	- version: 6.10.0
+	- license: MIT
+- date-format-parse
+	- version: 0.2.7
+	- license: MIT
+- debounce
+	- version: 2.1.0
 	- license: MIT
 - define-data-property
 	- version: 1.1.4
@@ -193,6 +206,9 @@ This file is generated from multiple sources. Included packages:
 - hasown
 	- version: 2.0.2
 	- license: MIT
+- ical.js
+	- version: 2.0.1
+	- license: MPL-2.0
 - ieee754
 	- version: 1.2.1
 	- license: BSD-3-Clause

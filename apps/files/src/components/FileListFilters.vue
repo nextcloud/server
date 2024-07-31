@@ -14,7 +14,14 @@
 				<NcChip :aria-label-close="t('files', 'Remove filter')"
 					:icon-svg="chip.icon"
 					:text="chip.text"
-					@close="chip.onclick" />
+					@close="chip.onclick">
+					<template v-if="chip.user" #icon>
+						<NcAvatar disable-menu
+							:show-user-status="false"
+							:size="24"
+							:user="chip.user" />
+					</template>
+				</NcChip>
 			</li>
 		</ul>
 	</div>
@@ -25,6 +32,7 @@ import { t } from '@nextcloud/l10n'
 import { computed, ref, watchEffect } from 'vue'
 import { useFiltersStore } from '../store/filters.ts'
 
+import NcAvatar from '@nextcloud/vue/dist/Components/NcAvatar.js'
 import NcChip from '@nextcloud/vue/dist/Components/NcChip.js'
 
 const filterStore = useFiltersStore()

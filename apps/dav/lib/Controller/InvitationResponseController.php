@@ -10,7 +10,9 @@ namespace OCA\DAV\Controller;
 
 use OCA\DAV\CalDAV\InvitationResponse\InvitationResponseServer;
 use OCP\AppFramework\Controller;
+use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
 use OCP\AppFramework\Http\Attribute\OpenAPI;
+use OCP\AppFramework\Http\Attribute\PublicPage;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IDBConnection;
@@ -52,12 +54,11 @@ class InvitationResponseController extends Controller {
 	}
 
 	/**
-	 * @PublicPage
-	 * @NoCSRFRequired
-	 *
 	 * @param string $token
 	 * @return TemplateResponse
 	 */
+	#[PublicPage]
+	#[NoCSRFRequired]
 	public function accept(string $token):TemplateResponse {
 		$row = $this->getTokenInformation($token);
 		if (!$row) {
@@ -76,12 +77,11 @@ class InvitationResponseController extends Controller {
 	}
 
 	/**
-	 * @PublicPage
-	 * @NoCSRFRequired
-	 *
 	 * @param string $token
 	 * @return TemplateResponse
 	 */
+	#[PublicPage]
+	#[NoCSRFRequired]
 	public function decline(string $token):TemplateResponse {
 		$row = $this->getTokenInformation($token);
 		if (!$row) {
@@ -101,12 +101,11 @@ class InvitationResponseController extends Controller {
 	}
 
 	/**
-	 * @PublicPage
-	 * @NoCSRFRequired
-	 *
 	 * @param string $token
 	 * @return TemplateResponse
 	 */
+	#[PublicPage]
+	#[NoCSRFRequired]
 	public function options(string $token):TemplateResponse {
 		return new TemplateResponse($this->appName, 'schedule-response-options', [
 			'token' => $token
@@ -114,13 +113,12 @@ class InvitationResponseController extends Controller {
 	}
 
 	/**
-	 * @PublicPage
-	 * @NoCSRFRequired
-	 *
 	 * @param string $token
 	 *
 	 * @return TemplateResponse
 	 */
+	#[PublicPage]
+	#[NoCSRFRequired]
 	public function processMoreOptionsResult(string $token):TemplateResponse {
 		$partstat = $this->request->getParam('partStat');
 

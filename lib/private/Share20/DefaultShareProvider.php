@@ -29,6 +29,7 @@ use OCP\Mail\IMailer;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IAttributes;
 use OCP\Share\IShare;
+use OCP\Share\IShareProviderSupportsAccept;
 use OCP\Share\IShareProviderWithNotification;
 use Psr\Log\LoggerInterface;
 use function str_starts_with;
@@ -38,7 +39,7 @@ use function str_starts_with;
  *
  * @package OC\Share20
  */
-class DefaultShareProvider implements IShareProviderWithNotification {
+class DefaultShareProvider implements IShareProviderWithNotification, IShareProviderSupportsAccept {
 	// Special share type for user modified group shares
 	public const SHARE_TYPE_USERGROUP = 2;
 

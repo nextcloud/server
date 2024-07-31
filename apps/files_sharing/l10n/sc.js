@@ -107,6 +107,7 @@ OC.L10N.register(
     "You received {share} to group {group} as a share by {user}" : "As retzidu {share} a su grupu {group} cumpartzidu dae {user}",
     "Accept" : "Atzeta",
     "Decline" : "Refuda",
+    "People" : "Gente",
     "Expiration date" : "Data de iscadèntzia",
     "Set a password" : "Imposta una crae",
     "Password" : "Crae",

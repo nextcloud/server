@@ -1,3 +1,4 @@
+/* eslint-disable n/no-extraneous-require */
 /* eslint-disable camelcase */
 /**
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
@@ -16,6 +17,7 @@ const WebpackSPDXPlugin = require('./build/WebpackSPDXPlugin.js')
 const modules = require('./webpack.modules.js')
 
 const appVersion = readFileSync('./version.php').toString().match(/OC_VersionString[^']+'([^']+)/)?.[1] ?? 'unknown'
+const isDev = process.env.NODE_ENV === 'development'
 
 const formatOutputFromModules = (modules) => {
 	// merge all configs into one object, and use AppID to generate the fileNames
@@ -48,7 +50,7 @@ const modulesToBuild = () => {
 	return formatOutputFromModules(modules)
 }
 
-module.exports = {
+const config = {
 	entry: modulesToBuild(),
 	output: {
 		// Step away from the src folder and extract to the js folder
@@ -149,23 +151,6 @@ module.exports = {
 	},
 
 	optimization: {
-		minimizer: [{
-			apply: (compiler) => {
-				// Lazy load the Terser plugin
-				const TerserPlugin = require('terser-webpack-plugin')
-				new TerserPlugin({
-					extractComments: false,
-					terserOptions: {
-						format: {
-							comments: false,
-						},
-						compress: {
-							passes: 2,
-						},
-					},
-			  }).apply(compiler)
-			},
-		}],
 		splitChunks: {
 			automaticNameDelimiter: '-',
 			minChunks: 3, // minimum number of chunks that must share the module
@@ -238,16 +223,6 @@ module.exports = {
 			resourceRegExp: /^\.\/locale$/,
 			contextRegExp: /moment\/min$/,
 		}),
-
-		// Generate reuse license files
-		new WebpackSPDXPlugin({
-			override: {
-				select2: 'MIT',
-				'@nextcloud/axios': 'GPL-3.0-or-later',
-				'@nextcloud/vue': 'AGPL-3.0-or-later',
-				'nextcloud-vue-collections': 'AGPL-3.0-or-later',
-			}
-		}),
 	],
 	externals: {
 		OC: 'OC',
@@ -274,3 +249,35 @@ module.exports = {
 		},
 	},
 }
+
+// Generate reuse license files if not in development mode
+if (!isDev) {
+	config.plugins.push(new WebpackSPDXPlugin({
+		override: {
+			select2: 'MIT',
+			'@nextcloud/axios': 'GPL-3.0-or-later',
+			'@nextcloud/vue': 'AGPL-3.0-or-later',
+			'nextcloud-vue-collections': 'AGPL-3.0-or-later',
+		},
+	}))
+
+	config.optimization.minimizer = [{
+		apply: (compiler) => {
+			// Lazy load the Terser plugin
+			const TerserPlugin = require('terser-webpack-plugin')
+			new TerserPlugin({
+				extractComments: false,
+				terserOptions: {
+					format: {
+						comments: false,
+					},
+					compress: {
+						passes: 2,
+					},
+				},
+		  }).apply(compiler)
+		},
+	}]
+}
+
+module.exports = config

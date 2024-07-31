@@ -184,4 +184,4 @@ jobs:
 
     steps:
       - name: Summary status
-        run: if ${{ needs.changes.outputs.src != 'false' && needs.files-external-s3-minio.result != 'success' && needs.files-external-s3-localstack.result != 'success' }}; then exit 1; fi
+        run: if ${{ needs.changes.outputs.src != 'false' && (needs.files-external-s3-minio.result != 'success' || needs.files-external-s3-localstack.result != 'success') }}; then exit 1; fi

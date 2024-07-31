@@ -126,7 +126,7 @@ OC.L10N.register(
     "Accept" : "接受",
     "Decline" : "回絕",
     "This application enables people to share files within Nextcloud. If enabled, the admin can choose which groups can share files. The applicable people can then share files and folders with other accounts and groups within Nextcloud. In addition, if the admin enables the share link feature, an external link can be used to share files with other people outside of Nextcloud. Admins can also enforce passwords, expirations dates, and enable server to server sharing via share links, as well as sharing from mobile devices.\nTurning the feature off removes shared files and folders on the server for all share recipients, and also on the sync clients and mobile apps. More information is available in the Nextcloud Documentation." : "此應用程式讓使用者可以在 Nextcloud 中分享檔案。若啟用，管理員可以選擇哪些群組可以分享檔案。應用程式使用者可以與其他在 Nextcloud 中的使用者與群組分享檔案與資料夾。此外，如果管理員啟用了分享連結的功能，則可以使用外部連結與 Nextcloud 之外的使用者分享檔案。管理員也可以啟用密碼、到期日以及啟用透過分享連結的伺服器到伺服器分享，並可從行動裝置分享。\n將此功能關閉會移除伺服器上、同步客戶端與行動應用程式所有的分享收件者，以及檔案與資料夾。更多資訊請見 Nextcloud 文件。",
-    "Accounts" : "帳號",
+    "People" : "人物",
     "When should the request expire?" : "請求應在何時過期？",
     "Set a submission expiration date" : "設定遞交截止日期",
     "Expiration date" : "到期日",

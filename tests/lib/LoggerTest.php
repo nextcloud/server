@@ -10,6 +10,8 @@ namespace Test;
 use OC\Log;
 use OC\SystemConfig;
 use OCP\ILogger;
+use OCP\IUser;
+use OCP\IUserSession;
 use OCP\Log\IWriter;
 use OCP\Support\CrashReport\IRegistry;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -71,6 +73,94 @@ class LoggerTest extends TestCase implements IWriter {
 			'2 Show warning messages of other apps',
 		];
 		$this->assertEquals($expected, $this->getLogs());
+	}
+
+	public function dataMatchesCondition(): array {
+		return [
+			[
+				'user0',
+				[
+					'apps' => ['app2'],
+				],
+				[
+					'1 Info of app2',
+				],
+			],
+			[
+				'user2',
+				[
+					'users' => ['user1', 'user2'],
+					'apps' => ['app1'],
+				],
+				[
+					'1 Info of app1',
+				],
+			],
+			[
+				'user3',
+				[
+					'users' => ['user3'],
+				],
+				[
+					'1 Info without app',
+					'1 Info of app1',
+					'1 Info of app2',
+					'0 Debug of app3',
+				],
+			],
+			[
+				'user4',
+				[
+					'users' => ['user4'],
+					'apps' => ['app3'],
+					'loglevel' => 0,
+				],
+				[
+					'0 Debug of app3',
+				],
+			],
+			[
+				'user4',
+				[
+					'message' => ' of ',
+				],
+				[
+					'1 Info of app1',
+					'1 Info of app2',
+					'0 Debug of app3',
+				],
+			],
+		];
+	}
+
+	/**
+	 * @dataProvider dataMatchesCondition
+	 */
+	public function testMatchesCondition(string $userId, array $conditions, array $expectedLogs): void {
+		$this->config->expects($this->any())
+			->method('getValue')
+			->willReturnMap([
+				['loglevel', ILogger::WARN, ILogger::WARN],
+				['log.condition', [], ['matches' => [
+					$conditions,
+				]]],
+			]);
+		$logger = $this->logger;
+
+		$user = $this->createMock(IUser::class);
+		$user->method('getUID')
+			->willReturn($userId);
+		$userSession = $this->createMock(IUserSession::class);
+		$userSession->method('getUser')
+			->willReturn($user);
+		$this->overwriteService(IUserSession::class, $userSession);
+
+		$logger->info('Info without app');
+		$logger->info('Info of app1', ['app' => 'app1']);
+		$logger->info('Info of app2', ['app' => 'app2']);
+		$logger->debug('Debug of app3', ['app' => 'app3']);
+
+		$this->assertEquals($expectedLogs, $this->getLogs());
 	}
 
 	public function testLoggingWithDataArray(): void {

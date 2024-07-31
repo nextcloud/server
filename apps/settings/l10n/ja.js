@@ -356,8 +356,6 @@ OC.L10N.register(
     "Privacy settings for sharing" : "共有のプライバシー設定",
     "Allow account name autocompletion in share dialog and allow access to the system address book" : "共有ダイアログでアカウント名の自動入力を許可し、システムのアドレス帳へのアクセスを許可します",
     "If autocompletion \"same group\" and \"phone number integration\" are enabled a match in either is enough to show the user." : "自動補完で「同じグループ」と「電話番号の連携」が有効になっている場合は、どちらかに一致するだけでユーザーに表示されます。",
-    "Allow account name autocompletion to users within the same groups and limit system address books to users in the same groups" : "同じグループ内のユーザーにアカウント名の自動入力を許可し、システムアドレス帳を同じグループ内のユーザーに制限します",
-    "Allow account name autocompletion to users based on phone number integration" : "電話番号の統合に基づくユーザーへのアカウント名の自動補完を許可する",
     "Allow autocompletion when entering the full name or email address (ignoring missing phonebook match and being in the same group)" : "氏名または電子メールアドレスを入力するときにユーザー名を自動補完する（連絡先での不一致、同じグループへの所属かどうかを無視）",
     "Show disclaimer text on the public link upload page (only shown when the file list is hidden)" : "公開リンクのアップロードページに免責事項のテキストを表示する。 (ファイルリストが非表示のときのみ表示します)",
     "Disclaimer text" : "免責事項 テキスト",

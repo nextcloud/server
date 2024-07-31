@@ -8,7 +8,7 @@
 
 import Docker from 'dockerode'
 import waitOn from 'wait-on'
-import tar from 'tar'
+import { c as createTar } from 'tar'
 import path from 'path'
 import { execSync } from 'child_process'
 import { existsSync } from 'fs'
@@ -170,7 +170,7 @@ export const applyChangesToNextcloud = async function() {
 	const container = docker.getContainer(CONTAINER_NAME)
 
 	// Tar-streaming the above folders into the container
-	const serverTar = tar.c({ gzip: false }, folderPaths)
+	const serverTar = createTar({ gzip: false }, folderPaths)
 	await container.putArchive(serverTar, {
 		path: htmlPath,
 	})

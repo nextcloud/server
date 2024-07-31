@@ -65,6 +65,8 @@ export const useFiltersStore = defineStore('keyboard', {
 		onFilterUpdateChips(event: FilterUpdateChipsEvent) {
 			const id = (event.target as IFileListFilter).id
 			this.chips = { ...this.chips, [id]: [...event.detail] }
+
+			logger.debug('File list filter chips updated', { filter: id, chips: event.detail })
 		},
 
 		init() {

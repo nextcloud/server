@@ -108,6 +108,7 @@ OC.L10N.register(
     "You received {share} to group {group} as a share by {user}" : "Jūs gavote bendrinimą {share} prie grupės {group}, kuriuo pasidalino {user}",
     "Accept" : "Priimti",
     "Decline" : "Atmesti",
+    "People" : "Žmonės",
     "Expiration date" : "Pabaigos data",
     "Set a password" : "Nustatyti slaptažodį",
     "Password" : "Slaptažodis",
