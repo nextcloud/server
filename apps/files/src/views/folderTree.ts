@@ -9,6 +9,7 @@ import { Folder, Node, View, getNavigation } from '@nextcloud/files'
 import { translate as t } from '@nextcloud/l10n'
 import { subscribe } from '@nextcloud/event-bus'
 import { isSamePath } from '@nextcloud/paths'
+import { loadState } from '@nextcloud/initial-state'
 
 import FolderSvg from '@mdi/svg/svg/folder.svg?raw'
 import FolderMultipleSvg from '@mdi/svg/svg/folder-multiple.svg?raw'
@@ -23,6 +24,8 @@ import {
 	getSourceParent,
 	sourceRoot,
 } from '../services/FolderTree.ts'
+
+const isFolderTreeEnabled = loadState('files', 'config', { folder_tree: true }).folder_tree
 
 const Navigation = getNavigation()
 
@@ -142,6 +145,9 @@ const registerFolderTreeChildren = async () => {
 }
 
 export const registerFolderTreeView = async () => {
+	if (!isFolderTreeEnabled) {
+		return
+	}
 	registerFolderTreeRoot()
 	await registerFolderTreeChildren()
 }
