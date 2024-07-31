@@ -113,7 +113,7 @@ OC.L10N.register(
     "You received {share} to group {group} as a share by {user}" : "A(z) {share} megosztást a(z) {group} csoportba kapta {user} felhasználótól.",
     "Accept" : "Elfogadás",
     "Decline" : "Elutasítás",
-    "Accounts" : "Fiókok",
+    "People" : "Emberek",
     "Expiration date" : "Lejárati dátum",
     "Set a password" : "Jelszó beállítása",
     "Password" : "Jelszó",

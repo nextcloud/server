@@ -112,6 +112,7 @@ OC.L10N.register(
     "You received {share} to group {group} as a share by {user}" : "Ați primit {share} la grupul {group} ca partajare de către {user}",
     "Accept" : "Accept",
     "Decline" : "Refuză",
+    "People" : "Persoane",
     "Expiration date" : "Data expirării",
     "Password" : "Parolă",
     "Share link" : "Partajează link-ul",

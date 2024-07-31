@@ -74,6 +74,8 @@
     "Disable user theming" : "Benutzer-Design deaktivieren",
     "Although you can select and customize your instance, users can change their background and colors. If you want to enforce your customization, you can toggle this on." : "Obwohl du deine Instanz auswählen und anpassen kannst, können Benutzer ihren Hintergrund und ihre Farben ändern. Wenn du deine Anpassung erzwingen möchtest, kannst du dies einschalten.",
     "Appearance and accessibility settings" : "Einstellungen zu Aussehen- und Barrierefreiheit",
+    "Misc accessibility options" : "Verschiedene Barrierefreiheitsoptionen",
+    "Enable blur background filter (may increase GPU load)" : "Filter für unscharfes Hintergrundbild aktivieren (kann die GPU-Auslastung erhöhen)",
     "Customization has been disabled by your administrator" : "Das Ändern der Einstellungen wurde von deinem Administrator deaktiviert.",
     "Set a primary color to highlight important elements. The color used for elements such as primary buttons might differ a bit as it gets adjusted to fulfill accessibility requirements." : "Lege eine Grundfarbe fest, um wichtige Elemente hervorzuheben. Die für Elemente wie Schaltflächen verwendete Farbe kann etwas abweichen, da sie angepasst wird, um die Zugänglichkeitsanforderungen zu erfüllen.",
     "Background and color" : "Hintergrund und Farbe",

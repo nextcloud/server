@@ -113,7 +113,7 @@ OC.L10N.register(
     "You received {share} to group {group} as a share by {user}" : "Вы получили от {user} доступ к ресурсу {share}, предназначенный группе {group}",
     "Accept" : "Принять",
     "Decline" : "Отклонить",
-    "Accounts" : "Учётные записи",
+    "People" : "Люди",
     "Expiration date" : "Срок действия",
     "Set a password" : "Задать пароль",
     "Password" : "Пароль",

@@ -365,8 +365,6 @@ OC.L10N.register(
     "Privacy settings for sharing" : "Datenschutzeinstellungen bezüglich des Teilens",
     "Allow account name autocompletion in share dialog and allow access to the system address book" : "Automatische Vervollständigung des Kontonamens im Freigabedialog und Zugriff auf das Systemadressbuch zulassen",
     "If autocompletion \"same group\" and \"phone number integration\" are enabled a match in either is enough to show the user." : "Wenn die Autovervollständigung \"gleiche Gruppe\" und \"Rufnummernintegration\" aktiviert ist, reicht eine Übereinstimmung in einem der beiden Bereiche aus, um den Benutzer anzuzeigen.",
-    "Allow account name autocompletion to users within the same groups and limit system address books to users in the same groups" : "Automatische Vervollständigung von Kontonamen für Benutzer innerhalb derselben Gruppen zulassen und Systemadressbücher auf Benutzer innerhalb derselben Gruppen beschränken",
-    "Allow account name autocompletion to users based on phone number integration" : "Automatische Vervollständigung des Kontonamens für Benutzer basierend auf der Telefonnummernintegration zulassen",
     "Allow autocompletion when entering the full name or email address (ignoring missing phonebook match and being in the same group)" : "Ermöglicht die automatische Vervollständigung, wenn der volle Namen oder E-Mail-Adresse eingegeben wird (ignoriert fehlende Telefonbuchübereinstimmungen und gleiche Gruppenzugehörigkeit)",
     "Show disclaimer text on the public link upload page (only shown when the file list is hidden)" : "Haftungsausschluss auf der öffentlichen Upload-Seite anzeigen (Wird nur gezeigt, wenn die Dateiliste nicht angezeigt wird.) ",
     "Disclaimer text" : "Haftungsausschlusstext",

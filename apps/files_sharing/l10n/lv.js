@@ -102,7 +102,7 @@ OC.L10N.register(
     "You received {share} to group {group} as a share by {user}" : "Jūs saņēmāt koplietotu {share} grupai {group} no {user}",
     "Accept" : "Pieņemt",
     "Decline" : "Noraidīt",
-    "Accounts" : "Konti",
+    "People" : "Cilvēki",
     "Expiration date" : "Termiņa datums",
     "Password" : "Parole",
     "Share link" : "Koplietot saiti",
