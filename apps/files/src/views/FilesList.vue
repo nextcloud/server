@@ -74,32 +74,37 @@
 			:name="t('files', 'Loading current folder')" />
 
 		<!-- Empty content placeholder -->
-		<NcEmptyContent v-else-if="!loading && isEmptyDir"
-			:name="currentView?.emptyTitle || t('files', 'No files in here')"
-			:description="currentView?.emptyCaption || t('files', 'Upload some content or sync with your devices!')"
-			data-cy-files-content-empty>
-			<template v-if="directory !== '/'" #action>
-				<!-- Uploader -->
-				<UploadPicker v-if="currentFolder && canUpload && !isQuotaExceeded"
-					allow-folders
-					class="files-list__header-upload-button"
-					:content="getContent"
-					:destination="currentFolder"
-					:forbidden-characters="forbiddenCharacters"
-					multiple
-					@failed="onUploadFail"
-					@uploaded="onUpload" />
-				<NcButton v-else
-					:aria-label="t('files', 'Go to the previous folder')"
-					:to="toPreviousDir"
-					type="primary">
-					{{ t('files', 'Go back') }}
-				</NcButton>
-			</template>
-			<template #icon>
-				<NcIconSvgWrapper :svg="currentView.icon" />
-			</template>
-		</NcEmptyContent>
+		<template v-else-if="!loading && isEmptyDir">
+			<div v-if="currentView?.emptyView" class="files-list__empty-view-wrapper">
+				<div ref="customEmptyView" />
+			</div>
+			<NcEmptyContent v-else
+				:name="currentView?.emptyTitle || t('files', 'No files in here')"
+				:description="currentView?.emptyCaption || t('files', 'Upload some content or sync with your devices!')"
+				data-cy-files-content-empty>
+				<template v-if="directory !== '/'" #action>
+					<!-- Uploader -->
+					<UploadPicker v-if="currentFolder && canUpload && !isQuotaExceeded"
+						allow-folders
+						class="files-list__header-upload-button"
+						:content="getContent"
+						:destination="currentFolder"
+						:forbidden-characters="forbiddenCharacters"
+						multiple
+						@failed="onUploadFail"
+						@uploaded="onUpload" />
+					<NcButton v-else
+						:aria-label="t('files', 'Go to the previous folder')"
+						:to="toPreviousDir"
+						type="primary">
+						{{ t('files', 'Go back') }}
+					</NcButton>
+				</template>
+				<template #icon>
+					<NcIconSvgWrapper :svg="currentView.icon" />
+				</template>
+			</NcEmptyContent>
+		</template>
 
 		<!-- File list -->
 		<FilesListVirtual v-else
@@ -391,9 +396,27 @@ export default defineComponent({
 		filtersChanged() {
 			return this.filtersStore.filtersChanged
 		},
+
+		showCustomEmptyView() {
+			return !this.loading && this.isEmptyDir && this.currentView?.emptyView !== undefined
+		}
 	},
 
 	watch: {
+		/**
+		 * Handle rendering the custom empty view
+		 * @param show The current state if the custom empty view should be rendered
+		 */
+		showCustomEmptyView(show: boolean) {
+			if (show) {
+				this.$nextTick(() => {
+					const el = this.$refs.customEmptyView as HTMLDivElement
+					// We can cast here because "showCustomEmptyView" assets that current view is set
+					this.currentView!.emptyView!(el)
+				})
+			}
+		},
+
 		currentView(newView, oldView) {
 			if (newView?.id === oldView?.id) {
 				return
@@ -677,6 +700,11 @@ export default defineComponent({
 				color: var(--color-main-text) !important;
 			}
 		}
+	}
+
+	&__empty-view-wrapper {
+		display: flex;
+		height: 100%;
 	}
 
 	&__refresh-icon {
