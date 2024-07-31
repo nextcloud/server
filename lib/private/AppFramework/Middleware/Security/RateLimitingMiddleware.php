@@ -47,6 +47,10 @@ use ReflectionMethod;
  * @package OC\AppFramework\Middleware\Security
  */
 class RateLimitingMiddleware extends Middleware {
+	protected int $limit;
+	protected int $period;
+	protected int $attempts;
+
 	public function __construct(
 		protected IRequest $request,
 		protected IUserSession $userSession,
@@ -73,7 +77,9 @@ class RateLimitingMiddleware extends Middleware {
 			$rateLimit = $this->readLimitFromAnnotationOrAttribute($controller, $methodName, 'UserRateThrottle', UserRateLimit::class);
 
 			if ($rateLimit !== null) {
-				$this->limiter->registerUserRequest(
+				$this->limit = $rateLimit->getLimit();
+				$this->period = $rateLimit->getPeriod();
+				$this->attempts = $this->limiter->registerUserRequest(
 					$rateLimitIdentifier,
 					$rateLimit->getLimit(),
 					$rateLimit->getPeriod(),
@@ -88,7 +94,9 @@ class RateLimitingMiddleware extends Middleware {
 		$rateLimit = $this->readLimitFromAnnotationOrAttribute($controller, $methodName, 'AnonRateThrottle', AnonRateLimit::class);
 
 		if ($rateLimit !== null) {
-			$this->limiter->registerAnonRequest(
+			$this->limit = $rateLimit->getLimit();
+			$this->period = $rateLimit->getPeriod();
+			$this->attempts = $this->limiter->registerAnonRequest(
 				$rateLimitIdentifier,
 				$rateLimit->getLimit(),
 				$rateLimit->getPeriod(),
@@ -131,6 +139,17 @@ class RateLimitingMiddleware extends Middleware {
 	/**
 	 * {@inheritDoc}
 	 */
+	public function afterController(Controller $controller, string $methodName, Response $response): Response {
+		$response->setHeaders([
+			'RateLimit' => 'limit=' . $this->limit . ', remaining=' . max(0, $this->limit - $this->attempts) . ', reset=' . $this->period,
+			'RateLimit-Policy' => $this->limit . ';w=' . $this->period,
+		]);
+		return $response;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
 	public function afterException(Controller $controller, string $methodName, \Exception $exception): Response {
 		if ($exception instanceof RateLimitExceededException) {
 			if (stripos($this->request->getHeader('Accept'), 'html') === false) {
@@ -142,8 +161,13 @@ class RateLimitingMiddleware extends Middleware {
 					[],
 					TemplateResponse::RENDER_AS_GUEST
 				);
-				$response->setStatus($exception->getCode());
 			}
+
+			$response->setStatus($exception->getCode());
+			$response->setHeaders([
+				'RateLimit' => 'limit=' . $this->limit . ', remaining=' . max(0, $this->limit - $this->attempts) . ', reset=' . $this->period,
+				'RateLimit-Policy' => $this->limit . ';w=' . $this->period,
+			]);
 
 			return $response;
 		}
