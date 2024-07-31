@@ -53,9 +53,9 @@ const initTemplatesFolder = async function(directory: Folder, name: string) {
 
 export const entry = {
 	id: 'template-picker',
-	displayName: t('files', 'Create new templates folder'),
+	displayName: t('files', 'Create templates folder'),
 	iconSvgInline: PlusSvg,
-	order: 10,
+	order: 30,
 	enabled(context: Folder): boolean {
 		// Templates folder already initialized
 		if (templatesPath) {
