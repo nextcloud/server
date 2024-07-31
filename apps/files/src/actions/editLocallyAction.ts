@@ -45,7 +45,7 @@ const confirmLocalEditDialog = (
 		.then(() => {
 			// Ensure the callback is called even if the dialog is dismissed in other ways
 			if (!callbackCalled) {
-				localEditCallback(true)
+				localEditCallback(false)
 			}
 		})
 }
