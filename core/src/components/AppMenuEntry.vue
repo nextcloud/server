@@ -129,5 +129,9 @@ defineProps<{
 	.app-menu-entry--active::before {
 		opacity: 0;
 	}
+
+	.app-menu-icon__unread {
+		opacity: 0;
+	}
 }
 </style>
