@@ -61,10 +61,10 @@ defineProps<{
 		text-align: center;
 		bottom: 0;
 		left: 50%;
+		top: 50%;
 		display: block;
 		min-width: 100%;
 		transform: translateX(-50%);
-		transition: all 0.1s ease-in-out;
 		width: 100%;
 		text-overflow: ellipsis;
 		overflow: hidden;
@@ -84,21 +84,26 @@ defineProps<{
 			pointer-events: none;
 			border-bottom-color: var(--color-main-background);
 			transform: translateX(-50%);
-			width: 12px;
+			width: 10px;
 			height: 5px;
 			border-radius: 3px;
 			background-color: var(--color-background-plain-text);
 			left: 50%;
-			bottom: 6px;
+			bottom: 8px;
 			display: block;
 			transition: all 0.1s ease-in-out;
 			opacity: 1;
 		}
 	}
 
+	&__icon,
+	&__label {
+		transition: all 0.1s ease-in-out;
+	}
+
 	// Make the hovered entry bold to see that it is hovered
-	&:hover &__label,
-	&:focus-within &__label {
+	&:hover .app-menu-entry__label,
+	&:focus-within .app-menu-entry__label {
 		font-weight: bold;
 	}
 }
@@ -106,22 +111,26 @@ defineProps<{
 
 <style lang="scss">
 // Showing the label
-.app-menu-entry:hover .app-menu-entry,
-.app-menu-entry:focus-within .app-menu-entry,
-.app-menu__list:hover .app-menu-entry,
-.app-menu__list:focus-within .app-menu-entry {
+.app-menu-entry:hover,
+.app-menu-entry:focus-within,
+.app-menu__list:hover,
+.app-menu__list:focus-within {
 	// Move icon up so that the name does not overflow the icon
-	&__icon {
+	.app-menu-entry__icon {
 		margin-block-end: calc(1.5 * 12px); // font size of label * line height
 	}
 
 	// Make the label visible
-	&__label {
+	.app-menu-entry__label {
 		opacity: 1;
 	}
 
 	// Hide indicator when the text is shown
-	&--active::before {
+	.app-menu-entry--active::before {
+		opacity: 0;
+	}
+
+	.app-menu-icon__unread {
 		opacity: 0;
 	}
 }
