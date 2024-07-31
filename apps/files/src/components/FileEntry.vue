@@ -184,7 +184,7 @@ export default defineComponent({
 
 		size() {
 			const size = this.source.size
-			if (!size || size < 0) {
+			if (size === undefined || isNaN(size) || size < 0) {
 				return this.t('files', 'Pending')
 			}
 			return formatFileSize(size, true)
@@ -194,7 +194,7 @@ export default defineComponent({
 			const maxOpacitySize = 10 * 1024 * 1024
 
 			const size = this.source.size
-			if (!size || isNaN(size) || size < 0) {
+			if (size === undefined || isNaN(size) || size < 0) {
 				return {}
 			}
 
