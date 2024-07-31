@@ -20,7 +20,7 @@ export const entry = {
 	id: EntryId,
 	displayName: t('files_sharing', 'Create file request'),
 	iconSvgInline: FileUploadSvg,
-	order: 30,
+	order: 10,
 	enabled(): boolean {
 		// We will check for the folder permission on the dialog
 		return sharingConfig.isPublicShareAllowed
