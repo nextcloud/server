@@ -11,6 +11,7 @@ namespace OCA\DAV\Controller;
 use OCA\DAV\Db\Direct;
 use OCA\DAV\Db\DirectMapper;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCS\OCSBadRequestException;
 use OCP\AppFramework\OCS\OCSForbiddenException;
@@ -69,8 +70,6 @@ class DirectController extends OCSController {
 	}
 
 	/**
-	 * @NoAdminRequired
-	 *
 	 * Get a direct link to a file
 	 *
 	 * @param int $fileId ID of the file
@@ -82,6 +81,7 @@ class DirectController extends OCSController {
 	 *
 	 * 200: Direct link returned
 	 */
+	#[NoAdminRequired]
 	public function getUrl(int $fileId, int $expirationTime = 60 * 60 * 8): DataResponse {
 		$userFolder = $this->rootFolder->getUserFolder($this->userId);
 

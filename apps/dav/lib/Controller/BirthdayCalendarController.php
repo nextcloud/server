@@ -7,7 +7,9 @@ namespace OCA\DAV\Controller;
 
 use OCA\DAV\BackgroundJob\GenerateBirthdayCalendarBackgroundJob;
 use OCA\DAV\CalDAV\CalDavBackend;
+use OCA\DAV\Settings\CalDAVSettings;
 use OCP\AppFramework\Controller;
+use OCP\AppFramework\Http\Attribute\AuthorizedAdminSetting;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\Response;
 use OCP\BackgroundJob\IJobList;
@@ -70,8 +72,8 @@ class BirthdayCalendarController extends Controller {
 
 	/**
 	 * @return Response
-	 * @AuthorizedAdminSetting(settings=OCA\DAV\Settings\CalDAVSettings)
 	 */
+	#[AuthorizedAdminSetting(settings: CalDAVSettings::class)]
 	public function enable() {
 		$this->config->setAppValue($this->appName, 'generateBirthdayCalendar', 'yes');
 
@@ -87,8 +89,8 @@ class BirthdayCalendarController extends Controller {
 
 	/**
 	 * @return Response
-	 * @AuthorizedAdminSetting(settings=OCA\DAV\Settings\CalDAVSettings)
 	 */
+	#[AuthorizedAdminSetting(settings: CalDAVSettings::class)]
 	public function disable() {
 		$this->config->setAppValue($this->appName, 'generateBirthdayCalendar', 'no');
 
