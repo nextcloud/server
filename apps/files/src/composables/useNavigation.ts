@@ -3,9 +3,10 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 import type { View } from '@nextcloud/files'
+import type { ShallowRef } from 'vue'
 
 import { getNavigation } from '@nextcloud/files'
-import { onMounted, onUnmounted, shallowRef, type ShallowRef } from 'vue'
+import { onMounted, onUnmounted, shallowRef, triggerRef } from 'vue'
 
 /**
  * Composable to get the currently active files view from the files navigation
@@ -28,6 +29,7 @@ export function useNavigation() {
 	 */
 	function onUpdateViews() {
 		views.value = navigation.views
+		triggerRef(views)
 	}
 
 	onMounted(() => {

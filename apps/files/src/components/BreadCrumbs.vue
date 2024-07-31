@@ -109,12 +109,11 @@ export default defineComponent({
 			return this.dirs.map((dir: string, index: number) => {
 				const source = this.getFileSourceFromPath(dir)
 				const node: Node | undefined = source ? this.getNodeFromSource(source) : undefined
-				const to = { ...this.$route, params: { node: node?.fileid }, query: { dir } }
 				return {
 					dir,
 					exact: true,
 					name: this.getDirDisplayName(dir),
-					to,
+					to: this.getTo(dir, node),
 					// disable drop on current directory
 					disableDrop: index === this.dirs.length - 1,
 				}
@@ -161,6 +160,20 @@ export default defineComponent({
 			const source = this.getFileSourceFromPath(path)
 			const node = source ? this.getNodeFromSource(source) : undefined
 			return node?.displayname || basename(path)
+		},
+
+		getTo(dir: string, node?: Node): Record<string, unknown> {
+			if (node === undefined) {
+				return {
+					...this.$route,
+					query: { dir },
+				}
+			}
+			return {
+				...this.$route,
+				params: { fileid: String(node.fileid) },
+				query: { dir: node.path },
+			}
 		},
 
 		onClick(to) {

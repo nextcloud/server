@@ -27,6 +27,7 @@ import registerFavoritesView from './views/favorites'
 import registerRecentView from './views/recent'
 import registerPersonalFilesView from './views/personal-files'
 import registerFilesView from './views/files'
+import { registerFolderTreeView } from './views/folderTree.ts'
 import registerPreviewServiceWorker from './services/ServiceWorker.js'
 
 import { initLivePhotos } from './services/LivePhotos'
@@ -53,6 +54,7 @@ registerFavoritesView()
 registerFilesView()
 registerRecentView()
 registerPersonalFilesView()
+registerFolderTreeView()
 
 // Register file list filters
 registerHiddenFilesFilter()
