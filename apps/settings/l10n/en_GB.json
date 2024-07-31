@@ -363,8 +363,6 @@
     "Privacy settings for sharing" : "Privacy settings for sharing",
     "Allow account name autocompletion in share dialog and allow access to the system address book" : "Allow account name autocompletion in share dialog and allow access to the system address book",
     "If autocompletion \"same group\" and \"phone number integration\" are enabled a match in either is enough to show the user." : "If autocompletion \"same group\" and \"phone number integration\" are enabled a match in either is enough to show the user.",
-    "Allow account name autocompletion to users within the same groups and limit system address books to users in the same groups" : "Allow account name autocompletion to users within the same groups and limit system address books to users in the same groups",
-    "Allow account name autocompletion to users based on phone number integration" : "Allow account name autocompletion to users based on phone number integration",
     "Allow autocompletion when entering the full name or email address (ignoring missing phonebook match and being in the same group)" : "Allow autocompletion when entering the full name or email address (ignoring missing phonebook match and being in the same group)",
     "Show disclaimer text on the public link upload page (only shown when the file list is hidden)" : "Show disclaimer text on the public link upload page (only shown when the file list is hidden)",
     "Disclaimer text" : "Disclaimer text",

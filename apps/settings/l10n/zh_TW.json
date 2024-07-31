@@ -363,8 +363,6 @@
     "Privacy settings for sharing" : "分享的隱私設定",
     "Allow account name autocompletion in share dialog and allow access to the system address book" : "允許在分享對話方塊中自動補齊帳號名稱並允許存取系統通訊錄",
     "If autocompletion \"same group\" and \"phone number integration\" are enabled a match in either is enough to show the user." : "若同時啟用「同一個群組」與「電話號碼整合」的自動完成，則符合其中一項條件就會顯示使用者。",
-    "Allow account name autocompletion to users within the same groups and limit system address books to users in the same groups" : "允許同一個群組內的使用者自動完成帳號名稱，並將系統通訊錄限制為同一個群組內的使用者",
-    "Allow account name autocompletion to users based on phone number integration" : "允許以電話號碼整合為基礎的帳號名稱自動完成",
     "Allow autocompletion when entering the full name or email address (ignoring missing phonebook match and being in the same group)" : "輸入全名或電子郵件地址時，允許自動完成（忽略缺少的通訊錄相符，以及在同一個群組中的）",
     "Show disclaimer text on the public link upload page (only shown when the file list is hidden)" : "在公開的檔案連結和上傳頁面顯示免責聲明（僅在檔案列表隱藏的時候才會顯示）",
     "Disclaimer text" : "免責聲明文字",

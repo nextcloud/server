@@ -303,8 +303,6 @@
     "Default expiration time of shares in days" : "Срок действия общего доступа по умолчанию",
     "Privacy settings for sharing" : "Настройки приватности для совместного использования",
     "If autocompletion \"same group\" and \"phone number integration\" are enabled a match in either is enough to show the user." : "Если автозаполнение «одна группа» и «интеграция телефонного номера» включены, совпадения в любом из них достаточно, чтобы отобразить пользователя.",
-    "Allow account name autocompletion to users within the same groups and limit system address books to users in the same groups" : "Разрешить автодополнения имени учётной записи пользователям из одних и тех же групп и ограничить доступ к системным адресным книгам пользователями из одних и тех же групп",
-    "Allow account name autocompletion to users based on phone number integration" : "Разрешить пользователям автодополнение имени учётной записи на основе номера телефона",
     "Allow autocompletion when entering the full name or email address (ignoring missing phonebook match and being in the same group)" : "Разрешить автозаполнение при вводе полного имени или адреса электронной почты (игнорируя отсутствие совпадений в телефонной книге и нахождение в одной группе)",
     "Show disclaimer text on the public link upload page (only shown when the file list is hidden)" : "Показывать текст отказа от ответственности на странице публичной ссылки (показывается только когда скрыт список файлов)",
     "Disclaimer text" : "Текст отказа от ответственности",

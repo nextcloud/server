@@ -352,8 +352,6 @@
     "Privacy settings for sharing" : "Pribatutasun ezarpenak partekatzeko",
     "Allow account name autocompletion in share dialog and allow access to the system address book" : "Baimendu kontuaren izena automatikoki osatzea elkarrizketa-koadroan eta baimendu sistemako helbide-liburua atzitzea",
     "If autocompletion \"same group\" and \"phone number integration\" are enabled a match in either is enough to show the user." : "Osatze automatikoa \"talde bera\" eta \"telefono zenbakiaren integrazioa\" gaituta badaude, bat-etortzea nahikoa da erabiltzaileari erakusteko.",
-    "Allow account name autocompletion to users within the same groups and limit system address books to users in the same groups" : "Baimendu kontuaren izena automatikoki osatzea talde bereko erabiltzaileei eta mugatu sistemako helbide-liburuak atzitzea talde bereko erabiltzaileei",
-    "Allow account name autocompletion to users based on phone number integration" : "Baimendu erabiltzaileei kontu-izena automatikoki osatzea telefono-zenbakien integrazioan oinarrituta",
     "Allow autocompletion when entering the full name or email address (ignoring missing phonebook match and being in the same group)" : "Baimendu automatikoki osatzea izen osoa edo helbide elektronikoa sartzerakoan (alde batera utziz falta den telefono-liburuarekin bat etortzea eta talde berean egotea)",
     "Show disclaimer text on the public link upload page (only shown when the file list is hidden)" : "Ohar mezua igotzeko orriaren esteka publikoan erakutsi (fitxategi zerrenda ezkutatuta dagoenen bakarrik ikusten da.)",
     "Disclaimer text" : "Ezeztapen testua",

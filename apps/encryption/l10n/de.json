@@ -40,6 +40,7 @@
     "Enabling this option encrypts all files stored on the main storage, otherwise only files on external storage will be encrypted" : "Die Aktivierung dieser Option verschlüsselt alle Dateien die auf dem Hauptspeicher gespeichert sind, ansonsten werden nur Dateien auf dem externen Speicher verschlüsselt",
     "Enable recovery key" : "Wiederherstellungsschlüssel aktivieren",
     "Disable recovery key" : "Wiederherstellungsschlüssel deaktivieren",
+    "The recovery key is an additional encryption key used to encrypt files. It is used to recover files from an account if the password is forgotten." : "Der Wiederherstellungsschlüssel ist ein zusätzlicher Verschlüsselungsschlüssel, der zur Verschlüsselung von Dateien verwendet wird. Er wird verwendet, um Dateien aus einem Konto wiederherzustellen, wenn das Passwort vergessen wurde.",
     "Recovery key password" : "Passwort für den Wiederherstellungsschlüsse",
     "Repeat recovery key password" : "Passwort für den Wiederherstellungsschlüssel wiederholen",
     "Change recovery key password:" : "Passwort für den Wiederherstellungsschlüssel ändern:",
