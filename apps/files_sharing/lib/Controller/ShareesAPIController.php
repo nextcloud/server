@@ -257,7 +257,7 @@ class ShareesAPIController extends OCSController {
 			$sharees = $this->getAllShareesByType($user, $shareType);
 			$shareTypeResults = [];
 			foreach ($sharees as [$sharee, $displayname]) {
-				if (!isset($this->searchResultTypeMap[$shareType])) {
+				if (!isset($this->searchResultTypeMap[$shareType]) || trim($sharee) === '') {
 					continue;
 				}
 
