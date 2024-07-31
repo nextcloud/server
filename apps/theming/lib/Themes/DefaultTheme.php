@@ -161,7 +161,7 @@ class DefaultTheme implements ITheme {
 			'--font-face' => "system-ui, -apple-system, 'Segoe UI', Roboto, Oxygen-Sans, Cantarell, Ubuntu, 'Helvetica Neue', 'Noto Sans', 'Liberation Sans', Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'",
 			'--default-font-size' => '15px',
 			// 1.5 * font-size for accessibility
-			'--default-line-height' => '24px',
+			'--default-line-height' => '1.5',
 
 			// TODO: support "(prefers-reduced-motion)"
 			'--animation-quick' => '100ms',
