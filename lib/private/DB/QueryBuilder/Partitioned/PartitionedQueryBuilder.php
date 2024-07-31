@@ -8,18 +8,15 @@ declare(strict_types=1);
 
 namespace OC\DB\QueryBuilder\Partitioned;
 
-use OC\DB\ConnectionAdapter;
 use OC\DB\QueryBuilder\CompositeExpression;
-use OC\DB\QueryBuilder\ExtendedQueryBuilder;
 use OC\DB\QueryBuilder\QuoteHelper;
+use OC\DB\QueryBuilder\Sharded\AutoIncrementHandler;
 use OC\DB\QueryBuilder\Sharded\ShardConnectionManager;
 use OC\DB\QueryBuilder\Sharded\ShardedQueryBuilder;
-use OC\SystemConfig;
 use OCP\DB\IResult;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\DB\QueryBuilder\IQueryFunction;
 use OCP\IDBConnection;
-use Psr\Log\LoggerInterface;
 
 /**
  * A special query builder that automatically splits queries that span across multiple database partitions[1].
@@ -38,7 +35,7 @@ use Psr\Log\LoggerInterface;
  *
  * [1]: A set of tables which can't be queried together with the rest of the tables, such as when sharding is used.
  */
-class PartitionedQueryBuilder extends ExtendedQueryBuilder {
+class PartitionedQueryBuilder extends ShardedQueryBuilder {
 	/** @var array<string, PartitionQuery> $splitQueries */
 	private array $splitQueries = [];
 	/** @var list<PartitionSplit> */
@@ -53,14 +50,28 @@ class PartitionedQueryBuilder extends ExtendedQueryBuilder {
 	private ?int $offset = null;
 
 	public function __construct(
-		IQueryBuilder                  $builder,
+		IQueryBuilder          $builder,
+		array                  $shardDefinitions,
+		ShardConnectionManager $shardConnectionManager,
+		AutoIncrementHandler   $autoIncrementHandler,
 	) {
-		parent::__construct($builder);
+		parent::__construct($builder, $shardDefinitions, $shardConnectionManager, $autoIncrementHandler);
 		$this->quoteHelper = new QuoteHelper();
 	}
 
 	private function newQuery(): IQueryBuilder {
-		return $this->builder->getConnection()->getQueryBuilder();
+		// get a fresh, non-partitioning query builder
+		$builder = $this->builder->getConnection()->getQueryBuilder();
+		if ($builder instanceof PartitionedQueryBuilder) {
+			$builder = $builder->builder;
+		}
+
+		return new ShardedQueryBuilder(
+			$builder,
+			$this->shardDefinitions,
+			$this->shardConnectionManager,
+			$this->autoIncrementHandler,
+		);
 	}
 
 	// we need to save selects until we know all the table aliases
@@ -70,8 +81,8 @@ class PartitionedQueryBuilder extends ExtendedQueryBuilder {
 		return $this;
 	}
 
-	public function addSelect(...$selects) {
-		$selects = array_map(function($select) {
+	public function addSelect(...$select) {
+		$select = array_map(function ($select) {
 			return ['select' => $select, 'alias' => null];
 		}, $select);
 		$this->selects = array_merge($this->selects, $select);
@@ -281,7 +292,7 @@ class PartitionedQueryBuilder extends ExtendedQueryBuilder {
 
 		$partitionPredicates = [];
 		foreach ($predicates as $predicate) {
-			$partition = $this->getPartitionForPredicate((string) $predicate);
+			$partition = $this->getPartitionForPredicate((string)$predicate);
 			if ($this->mainPartition === $partition) {
 				$partitionPredicates[''][] = $predicate;
 			} elseif ($partition) {

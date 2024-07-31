@@ -14,12 +14,12 @@ use OCP\DB\QueryBuilder\IQueryBuilder;
  * A sub-query from a partitioned join
  */
 class PartitionQuery {
-	const JOIN_MODE_INNER = 'inner';
-	const JOIN_MODE_LEFT = 'left';
+	public const JOIN_MODE_INNER = 'inner';
+	public const JOIN_MODE_LEFT = 'left';
 	// left-join where the left side IS NULL
-	const JOIN_MODE_LEFT_NULL = 'left_null';
+	public const JOIN_MODE_LEFT_NULL = 'left_null';
 
-	const JOIN_MODE_RIGHT = 'right';
+	public const JOIN_MODE_RIGHT = 'right';
 
 	public function __construct(
 		public IQueryBuilder $query,
