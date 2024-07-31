@@ -25,7 +25,7 @@ import type { TagWithId } from '../types'
 import { Folder, type ContentsWithRoot, Permission, getDavNameSpaces, getDavProperties } from '@nextcloud/files'
 import { generateRemoteUrl } from '@nextcloud/router'
 import { getCurrentUser } from '@nextcloud/auth'
-
+import { Folder, Permission, getDavNameSpaces, getDavProperties, davGetClient, davResultToNode, davRemoteURL, davRootPath } from '@nextcloud/files'
 import { fetchTags } from './api'
 import { getClient } from '../../../files/src/services/WebdavClient'
 import { resultToNode } from '../../../files/src/services/Files'
@@ -35,17 +35,18 @@ const formatReportPayload = (tagId: number) => `<?xml version="1.0"?>
 	<d:prop>
 		${getDavProperties()}
 	</d:prop>
-    <oc:filter-rules>
-        <oc:systemtag>${tagId}</oc:systemtag>
-    </oc:filter-rules>
+	<oc:filter-rules>
+		<oc:systemtag>${tagId}</oc:systemtag>
+	</oc:filter-rules>
 </oc:filter-files>`
 
 const tagToNode = function(tag: TagWithId): Folder {
 	return new Folder({
 		id: tag.id,
-		source: generateRemoteUrl('dav/systemtags/' + tag.id),
-		owner: getCurrentUser()?.uid as string,
-		root: '/systemtags',
+		source: `${davRemoteURL}${rootPath}/${tag.id}`,
+		owner: String(getCurrentUser()?.uid ?? 'anonymous'),
+		root: rootPath,
+		displayname: tag.displayName,
 		permissions: Permission.READ,
 		attributes: {
 			...tag,
@@ -62,16 +63,16 @@ export const getContents = async (path = '/'): Promise<ContentsWithRoot> => {
 		return {
 			folder: new Folder({
 				id: 0,
-				source: generateRemoteUrl('dav/systemtags'),
+				source: `${davRemoteURL}${rootPath}`,
 				owner: getCurrentUser()?.uid as string,
-				root: '/systemtags',
+				root: rootPath,
 				permissions: Permission.NONE,
 			}),
 			contents: tagsCache.map(tagToNode),
 		}
 	}
 
-	const tagId = parseInt(path.replace('/', ''), 10)
+	const tagId = parseInt(path.split('/', 2)[0])
 	const tag = tagsCache.find(tag => tag.id === tagId)
 
 	if (!tag) {
