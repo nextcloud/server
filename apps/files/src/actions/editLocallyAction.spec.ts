@@ -5,8 +5,22 @@
 import { action } from './editLocallyAction'
 import { expect } from '@jest/globals'
 import { File, Permission, View, FileAction } from '@nextcloud/files'
-import * as ncDialogs from '@nextcloud/dialogs'
+import { DialogBuilder, showError } from '@nextcloud/dialogs'
 import axios from '@nextcloud/axios'
+
+const dialogBuilder = {
+	setName: jest.fn().mockReturnThis(),
+	setText: jest.fn().mockReturnThis(),
+	setButtons: jest.fn().mockReturnThis(),
+	build: jest.fn().mockReturnValue({
+		show: jest.fn().mockResolvedValue(true),
+	}),
+} as unknown as DialogBuilder
+
+jest.mock('@nextcloud/dialogs', () => ({
+	DialogBuilder: jest.fn(() => dialogBuilder),
+	showError: jest.fn(),
+}))
 
 const view = {
 	id: 'files',
@@ -16,7 +30,8 @@ const view = {
 // Mock webroot variable
 beforeAll(() => {
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	(window as any)._oc_webroot = ''
+	(window as any)._oc_webroot = '';
+	(window as any).OCA = { Viewer: { open: jest.fn() } }
 })
 
 describe('Edit locally action conditions tests', () => {
@@ -44,7 +59,7 @@ describe('Edit locally action enabled tests', () => {
 		expect(action.enabled!([file], view)).toBe(true)
 	})
 
-	test('Disabled for non-dav ressources', () => {
+	test('Disabled for non-dav resources', () => {
 		const file = new File({
 			id: 1,
 			source: 'https://domain.com/data/foobar.txt',
@@ -104,8 +119,11 @@ describe('Edit locally action enabled tests', () => {
 
 describe('Edit locally action execute tests', () => {
 	test('Edit locally opens proper URL', async () => {
-		jest.spyOn(axios, 'post').mockImplementation(async () => ({ data: { ocs: { data: { token: 'foobar' } } } }))
-		jest.spyOn(ncDialogs, 'showError')
+		jest.spyOn(axios, 'post').mockImplementation(async () => ({
+			data: { ocs: { data: { token: 'foobar' } } }
+		}))
+		const mockedShowError = jest.mocked(showError)
+		const spyDialogBuilder = jest.spyOn(dialogBuilder, 'build')
 
 		const file = new File({
 			id: 1,
@@ -117,17 +135,20 @@ describe('Edit locally action execute tests', () => {
 
 		const exec = await action.exec(file, view, '/')
 
+		expect(spyDialogBuilder).toBeCalled()
+
 		// Silent action
 		expect(exec).toBe(null)
 		expect(axios.post).toBeCalledTimes(1)
 		expect(axios.post).toBeCalledWith('http://localhost/ocs/v2.php/apps/files/api/v1/openlocaleditor?format=json', { path: '/foobar.txt' })
-		expect(ncDialogs.showError).toBeCalledTimes(0)
+		expect(mockedShowError).toBeCalledTimes(0)
 		expect(window.location.href).toBe('nc://open/test@localhost/foobar.txt?token=foobar')
 	})
 
-	test('Edit locally fails and show error', async () => {
+	test('Edit locally fails and shows error', async () => {
 		jest.spyOn(axios, 'post').mockImplementation(async () => ({}))
-		jest.spyOn(ncDialogs, 'showError')
+		const mockedShowError = jest.mocked(showError)
+		const spyDialogBuilder = jest.spyOn(dialogBuilder, 'build')
 
 		const file = new File({
 			id: 1,
@@ -139,12 +160,14 @@ describe('Edit locally action execute tests', () => {
 
 		const exec = await action.exec(file, view, '/')
 
+		expect(spyDialogBuilder).toBeCalled()
+
 		// Silent action
 		expect(exec).toBe(null)
 		expect(axios.post).toBeCalledTimes(1)
 		expect(axios.post).toBeCalledWith('http://localhost/ocs/v2.php/apps/files/api/v1/openlocaleditor?format=json', { path: '/foobar.txt' })
-		expect(ncDialogs.showError).toBeCalledTimes(1)
-		expect(ncDialogs.showError).toBeCalledWith('Failed to redirect to client')
+		expect(mockedShowError).toBeCalledTimes(1)
+		expect(mockedShowError).toBeCalledWith('Failed to redirect to client')
 		expect(window.location.href).toBe('http://localhost/')
 	})
 })
