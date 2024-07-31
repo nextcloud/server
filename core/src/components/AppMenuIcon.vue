@@ -56,8 +56,9 @@ $unread-indicator-size: 10px;
 	&__unread {
 		color: var(--color-error);
 		position: absolute;
-		inset-block-end: calc($unread-indicator-size / -2.5);
-		inset-inline-end: calc($unread-indicator-size / -2.5);
+		// Align the dot to the top right corner of the icon
+		inset-block-end: calc($icon-size + ($unread-indicator-size / -2));
+		inset-inline-end: calc($unread-indicator-size / -2);
 		transition: all 0.1s ease-in-out;
 	}
 }
