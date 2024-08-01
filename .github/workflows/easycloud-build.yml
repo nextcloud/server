@@ -55,90 +55,25 @@ jobs:
         env:
           CYPRESS_INSTALL_BINARY: 0
           PUPPETEER_SKIP_DOWNLOAD: true
-        run: |
-          cd apps-custom/simplesettings
-          npm ci
-          npm run build
-          cd ../..
+        run: make -f IONOS/Makefile build_dep_simplesettings_app
 
       - name: Install dependencies & build user_oidc app
         env:
           CYPRESS_INSTALL_BINARY: 0
           PUPPETEER_SKIP_DOWNLOAD: true
-        run: |
-          cd apps-external/user_oidc
-          composer install --no-dev -o
-          npm ci
-          npm run build
-          cd ../..
+        run: make -f IONOS/Makefile build_dep_user_oidc_app
 
       - name: Install dependencies & build IONOS theme custom elements
         env:
           CYPRESS_INSTALL_BINARY: 0
           PUPPETEER_SKIP_DOWNLOAD: true
-        run: |
-          cd themes/nc-ionos-theme/IONOS
-          npm ci
-          npm run build
-          cd ../..
+        run: make -f IONOS/Makefile build_dep_ionos_theme
 
       - name: Add config partials
-        run: |
-          cp IONOS/configs/*.config.php config/
+        run: make -f IONOS/Makefile add_config_partials
 
       - name: Zip dependencies
-        run: |
-          buildDate=$(date +%s)
-          buildRef=${{ github.sha }}
-          jq -n --arg buildDate "$buildDate" --arg buildRef "$buildRef" '{buildDate: $buildDate, buildRef: $buildRef}' > version.json
-
-          echo "version.json created"
-          jq . version.json
-
-          echo "zip relevant files to ${{ env.TARGET_PACKAGE_NAME }}"
-          zip -r "${{ env.TARGET_PACKAGE_NAME }}" \
-            IONOS/ \
-            3rdparty/ \
-            apps/ \
-            apps-custom/ \
-            apps-external/ \
-            config/ \
-            core/ \
-            dist/ \
-            lib/ \
-            ocs/ \
-            ocs-provider/ \
-            resources/ \
-            themes/ \
-            AUTHORS \
-            composer.json \
-            composer.lock \
-            console.php \
-            COPYING \
-            cron.php \
-            index.html \
-            index.php \
-            occ \
-            package.json \
-            package-lock.json \
-            public.php \
-            remote.php \
-            robots.txt \
-            status.php \
-            version.php \
-            version.json  \
-          -x "apps/theming/img/background/**" \
-          -x "apps/*/tests/**" \
-          -x "apps-*/*/.git" \
-          -x "apps-*/*/.github" \
-          -x "apps-*/*/src**" \
-          -x "apps-*/*/node_modules**" \
-          -x "apps-*/*/tests**" \
-          -x "**/cypress/**" \
-          -x "*.git*" \
-          -x "*.editorconfig*" \
-          -x "themes/nc-ionos-theme/README.md" \
-          -x "themes/nc-ionos-theme/IONOS**"
+        run: make -f IONOS/Makefile zip_dependencies TARGET_PACKAGE_NAME=${{ env.TARGET_PACKAGE_NAME }}
 
       - name: Log in to the Container registry
         uses: docker/login-action@65b78e6e13532edd9afa3aa52ac7964289d1a9c1
