@@ -18,11 +18,10 @@ use OCP\IUserBackend;
 use OCP\Notification\IManager as INotificationManager;
 use OCP\User\Backend\ICountMappedUsersBackend;
 use OCP\User\Backend\ILimitAwareCountUsersBackend;
-use OCP\User\Backend\IProvideEnabledStateBackend;
 use OCP\UserInterface;
 use Psr\Log\LoggerInterface;
 
-class User_LDAP extends BackendUtility implements IUserBackend, UserInterface, IUserLDAP, ILimitAwareCountUsersBackend, ICountMappedUsersBackend, IProvideEnabledStateBackend {
+class User_LDAP extends BackendUtility implements IUserBackend, UserInterface, IUserLDAP, ILimitAwareCountUsersBackend, ICountMappedUsersBackend {
 	public function __construct(
 		Access $access,
 		protected INotificationManager $notificationManager,
@@ -614,14 +613,6 @@ class User_LDAP extends BackendUtility implements IUserBackend, UserInterface, I
 			return (bool)$dn;
 		}
 		return false;
-	}
-
-	public function isUserEnabled(string $uid, callable $queryDatabaseValue): bool {
-		if ($this->deletedUsersIndex->isUserMarked($uid) && ((int)$this->access->connection->markRemnantsAsDisabled === 1)) {
-			return false;
-		} else {
-			return $queryDatabaseValue();
-		}
 	}
 
 	public function setUserEnabled(string $uid, bool $enabled, callable $queryDatabaseValue, callable $setDatabaseValue): bool {

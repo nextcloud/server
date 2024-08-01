@@ -84,6 +84,7 @@ return array(
     'OCA\\User_LDAP\\Service\\BirthdateParserService' => $baseDir . '/../lib/Service/BirthdateParserService.php',
     'OCA\\User_LDAP\\Service\\UpdateGroupsService' => $baseDir . '/../lib/Service/UpdateGroupsService.php',
     'OCA\\User_LDAP\\Settings\\Admin' => $baseDir . '/../lib/Settings/Admin.php',
+    'OCA\\User_LDAP\\Settings\\AppSettings' => $baseDir . '/../lib/Settings/AppSettings.php',
     'OCA\\User_LDAP\\Settings\\Section' => $baseDir . '/../lib/Settings/Section.php',
     'OCA\\User_LDAP\\SetupChecks\\LdapConnection' => $baseDir . '/../lib/SetupChecks/LdapConnection.php',
     'OCA\\User_LDAP\\SetupChecks\\LdapInvalidUuids' => $baseDir . '/../lib/SetupChecks/LdapInvalidUuids.php',
