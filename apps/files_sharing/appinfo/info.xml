@@ -59,6 +59,7 @@ Turning the feature off removes shared files and folders on the server for all s
 			<setting>OCA\Files_Sharing\Activity\Settings\Shared</setting>
 			<setting>OCA\Files_Sharing\Activity\Settings\RemoteShare</setting>
 			<setting>OCA\Files_Sharing\Activity\Settings\PublicLinks</setting>
+			<setting>OCA\Files_Sharing\Activity\Settings\PublicLinksUpload</setting>
 		</settings>
 
 		<filters>
