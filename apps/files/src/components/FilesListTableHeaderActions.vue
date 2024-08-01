@@ -11,9 +11,27 @@
 			:inline="inlineActions"
 			:menu-name="inlineActions <= 1 ? t('files', 'Actions') : null"
 			:open.sync="openedMenu">
-			<NcActionButton v-for="action in enabledActions"
+			<NcActions v-for="action in enabledToplevelMenuActions"
+				:key="action.id"
+				:menuName="action.displayName(nodes, currentView)" >
+				<NcActionButton v-for="action in enabledSubLevelMenuActions(action)"
+					:key="action.id"
+					:class="'files-list__row-actions-batch-' + action.id"
+					:close-after-click="true"
+					:is-menu="false"
+					@click="onActionClick(action)">
+					<template #icon>
+						<NcLoadingIcon v-if="loading === action.id" :size="18" />
+						<NcIconSvgWrapper v-else :svg="action.iconSvgInline(nodes, currentView)" />
+					</template>
+					{{ action.displayName(nodes, currentView) }}
+				</NcActionButton>
+			</NcActions>
+			<NcActionButton v-for="action in enabledToplevelNonMenuActions"
 				:key="action.id"
 				:class="'files-list__row-actions-batch-' + action.id"
+				:close-after-click="true"
+				:is-menu="false"
 				@click="onActionClick(action)">
 				<template #icon>
 					<NcLoadingIcon v-if="loading === action.id" :size="18" />
@@ -26,7 +44,7 @@
 </template>
 
 <script lang="ts">
-import { Node, NodeStatus, View, getFileActions } from '@nextcloud/files'
+import { FileAction, Node, NodeStatus, View, getFileActions } from '@nextcloud/files'
 import { showError, showSuccess } from '@nextcloud/dialogs'
 import { translate } from '@nextcloud/l10n'
 import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
@@ -99,6 +117,32 @@ export default defineComponent({
 				.sort((a, b) => (a.order || 0) - (b.order || 0))
 		},
 
+		enabledToplevelMenuActions() {
+			return this.enabledActions
+				.filter(action => typeof action.parent === 'undefined')
+				.filter(action => this.isMenu(action.id))
+				.sort((a, b) => (a.order || 0) - (b.order || 0))
+		},
+
+		enabledToplevelNonMenuActions() {
+			return this.enabledActions
+				.filter(action => !action.parent)
+				.filter(action => !this.isMenu(action.id))
+				.sort((a, b) => (a.order || 0) - (b.order || 0))
+		},
+
+		enabledSubmenuActions() {
+			return this.enabledActions
+				.filter(action => action.parent)
+				.reduce((arr, action) => {
+					if (!arr[action.parent]) {
+						arr[action.parent] = []
+					}
+					arr[action.parent].push(action)
+					return arr
+				}, {} as Record<string, FileAction>)
+		},
+
 		nodes() {
 			return this.selectedNodes
 				.map(source => this.getNode(source))
@@ -141,6 +185,16 @@ export default defineComponent({
 		 */
 		getNode(fileId) {
 			return this.filesStore.getNode(fileId)
+		},
+
+		isMenu(id: string) {
+			return this.enabledSubmenuActions[id]?.length > 0
+		},
+
+		enabledSubLevelMenuActions(action) {
+			return this.enabledActions
+				.filter(subAction => subAction.parent === action.id)
+				.sort((a, b) => (a.order || 0) - (b.order || 0))
 		},
 
 		async onActionClick(action) {
