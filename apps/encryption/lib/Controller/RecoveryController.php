@@ -10,6 +10,7 @@ namespace OCA\Encryption\Controller;
 use OCA\Encryption\Recovery;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\IConfig;
 use OCP\IL10N;
@@ -136,11 +137,10 @@ class RecoveryController extends Controller {
 	}
 
 	/**
-	 * @NoAdminRequired
-	 *
 	 * @param string $userEnableRecovery
 	 * @return DataResponse
 	 */
+	#[NoAdminRequired]
 	public function userSetRecovery($userEnableRecovery) {
 		if ($userEnableRecovery === '0' || $userEnableRecovery === '1') {
 			$result = $this->recovery->setRecoveryForUser($userEnableRecovery);
