@@ -403,7 +403,7 @@ class Local extends \OC\Files\Storage\Common {
     /** @return string|false */
 	public function hash($type, $path, $raw = false): string|bool {
 		$sourcePath = $this->getSourcePath($path);
-		if ($sourcePath === null || !file_exists($sourcePath) || !is_readable($sourcePath)) {
+		if (!file_exists($sourcePath) || !is_readable($sourcePath)) {
 			\OC::$server->get(LoggerInterface::class)->error('Source path does not exist or is not readable: ' . $sourcePath, ['app' => 'core']);
 			return false;
 		}
