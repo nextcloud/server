@@ -1,3 +1,7 @@
+<!--
+  - SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 <template>
 	<NcSettingsSection :name="t('theming', 'Navigation bar settings')">
 		<h3>{{ t('theming', 'Default app') }}</h3>
@@ -26,6 +30,8 @@
 </template>
 
 <script lang="ts">
+import type { INavigationEntry } from '../../../../../core/src/types/navigation'
+
 import { showError } from '@nextcloud/dialogs'
 import { loadState } from '@nextcloud/initial-state'
 import { translate as t } from '@nextcloud/l10n'
@@ -71,9 +77,8 @@ export default defineComponent({
 		/**
 		 * All enabled apps which can be navigated
 		 */
-		const allApps = Object.values(
-			loadState<Record<string, { id: string, name?: string, icon: string }>>('core', 'apps'),
-		).map(({ id, name, icon }) => ({ label: name, id, icon }))
+		const allApps = loadState<INavigationEntry[]>('core', 'apps')
+			.map(({ id, name, icon }) => ({ label: name, id, icon }))
 
 		/**
 		 * Currently selected app, wrapps the setter

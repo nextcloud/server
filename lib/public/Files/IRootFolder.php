@@ -1,26 +1,9 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Bernhard Posselt <dev@bernhard-posselt.com>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Morris Jobke <hey@morrisjobke.de>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCP\Files;
 
@@ -60,6 +43,24 @@ interface IRootFolder extends Folder, Emitter {
 	public function getByIdInPath(int $id, string $path);
 
 	/**
+	 * get a file or folder inside the folder by its internal id
+	 *
+	 * Unlike getByIdInPath, this method only returns a single node even if the user has
+	 * access to the file with the requested id multiple times.
+	 *
+	 * This method provides no guarantee about which of the nodes in returned and the
+	 * returned node might, for example, have less permissions than other nodes for the same file
+	 *
+	 * Apps that require accurate information about the users access to the file should use getByIdInPath
+	 * instead of pick the correct node out of the result.
+	 *
+	 * @param int $id
+	 * @return Node|null
+	 * @since 29.0.0
+	 */
+	public function getFirstNodeByIdInPath(int $id, string $path): ?Node;
+
+	/**
 	 * @return IMountPoint[]
 	 *
 	 * @since 28.0.0
@@ -80,4 +81,10 @@ interface IRootFolder extends Folder, Emitter {
 	 * @since 28.0.0
 	 */
 	public function getMount(string $mountPoint): IMountPoint;
+
+	/**
+	 * @return string
+	 * @since 30.0.0
+	 */
+	public function getAppDataDirectoryName(): string;
 }

@@ -1,34 +1,8 @@
 <?php
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Bart Visscher <bartv@thisnet.nl>
- * @author Björn Schießle <bjoern@schiessle.org>
- * @author J0WI <J0WI@users.noreply.github.com>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Michael Gapczynski <GapczynskiM@gmail.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Robin McCorkell <robin@mccorkell.me.uk>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author scambra <sergio@entrecables.com>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Vincent Petry <vincent@nextcloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\Files_Sharing;
 
@@ -41,6 +15,7 @@ use OC\Files\Storage\Common;
 use OC\Files\Storage\FailedStorage;
 use OC\Files\Storage\Home;
 use OC\Files\Storage\Wrapper\PermissionsMask;
+use OC\Files\Storage\Wrapper\Wrapper;
 use OC\User\NoUserException;
 use OCA\Files_External\Config\ConfigAdapter;
 use OCP\Constants;
@@ -97,6 +72,14 @@ class SharedStorage extends \OC\Files\Storage\Wrapper\Jail implements ISharedSto
 
 	private string $sourcePath = '';
 
+	private static int $initDepth = 0;
+
+	/**
+	 * @psalm-suppress NonInvariantDocblockPropertyType
+	 * @var ?\OC\Files\Storage\Storage $storage
+	 */
+	protected $storage;
+
 	public function __construct($arguments) {
 		$this->ownerView = $arguments['ownerView'];
 		$this->logger = \OC::$server->get(LoggerInterface::class);
@@ -132,25 +115,46 @@ class SharedStorage extends \OC\Files\Storage\Wrapper\Jail implements ISharedSto
 		return $this->sourceRootInfo;
 	}
 
+	/**
+	 * @psalm-assert \OC\Files\Storage\Storage $this->storage
+	 */
 	private function init() {
 		if ($this->initialized) {
+			if (!$this->storage) {
+				// marked as initialized but no storage set
+				// this is probably because some code path has caused recursion during the share setup
+				// we setup a "failed storage" so `getWrapperStorage` doesn't return null.
+				// If the share setup completes after this the "failed storage" will be overwritten by the correct one
+				$this->logger->warning('Possible share setup recursion detected');
+				$this->storage = new FailedStorage(['exception' => new \Exception('Possible share setup recursion detected')]);
+				$this->cache = new FailedCache();
+				$this->rootPath = '';
+			}
 			return;
 		}
+
 		$this->initialized = true;
+		self::$initDepth++;
+
 		try {
+			if (self::$initDepth > 10) {
+				throw new \Exception("Maximum share depth reached");
+			}
+
 			/** @var IRootFolder $rootFolder */
 			$rootFolder = \OC::$server->get(IRootFolder::class);
 			$this->ownerUserFolder = $rootFolder->getUserFolder($this->superShare->getShareOwner());
 			$sourceId = $this->superShare->getNodeId();
-			$ownerNodes = $this->ownerUserFolder->getById($sourceId);
-			/** @var Node|false $ownerNode */
-			$ownerNode = current($ownerNodes);
+			$ownerNode = $this->ownerUserFolder->getFirstNodeById($sourceId);
 			if (!$ownerNode) {
 				$this->storage = new FailedStorage(['exception' => new NotFoundException("File by id $sourceId not found")]);
 				$this->cache = new FailedCache();
 				$this->rootPath = '';
 			} else {
 				$this->nonMaskedStorage = $ownerNode->getStorage();
+				if ($this->nonMaskedStorage instanceof Wrapper && $this->nonMaskedStorage->isWrapperOf($this)) {
+					throw new \Exception('recursive share detected');
+				}
 				$this->sourcePath = $ownerNode->getPath();
 				$this->rootPath = $ownerNode->getInternalPath();
 				$this->storage = new PermissionsMask([
@@ -178,6 +182,7 @@ class SharedStorage extends \OC\Files\Storage\Wrapper\Jail implements ISharedSto
 		if (!$this->nonMaskedStorage) {
 			$this->nonMaskedStorage = $this->storage;
 		}
+		self::$initDepth--;
 	}
 
 	/**
@@ -411,7 +416,7 @@ class SharedStorage extends \OC\Files\Storage\Wrapper\Jail implements ISharedSto
 			return new FailedCache();
 		}
 
-		$this->cache = new Cache(
+		$this->cache = new \OCA\Files_Sharing\Cache(
 			$storage,
 			$sourceRoot,
 			\OC::$server->get(CacheDependencies::class),
@@ -538,6 +543,16 @@ class SharedStorage extends \OC\Files\Storage\Wrapper\Jail implements ISharedSto
 
 	public function getWrapperStorage() {
 		$this->init();
+
+		/**
+		 * @psalm-suppress DocblockTypeContradiction
+		 */
+		if (!$this->storage) {
+			$message = "no storage set after init for share " . $this->getShareId();
+			$this->logger->error($message);
+			$this->storage = new FailedStorage(['exception' => new \Exception($message)]);
+		}
+
 		return $this->storage;
 	}
 

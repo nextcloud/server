@@ -1,23 +1,6 @@
 /**
- * @copyright Copyright (c) 2024 Ferdinand Thiessen <opensource@fthiessen.de>
- *
- * @author Ferdinand Thiessen <opensource@fthiessen.de>
- *
- * @license AGPL-3.0-or-later
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 import type { User } from '@nextcloud/cypress'
@@ -57,9 +40,9 @@ const validateActiveVisibility = (property: string, active: Visibility) => {
 		.and('match', new RegExp(`current scope is ${active}`, 'i'))
 	getVisibilityButton(property)
 		.click()
-	cy.get('ul[role="dialog"')
+	cy.get('ul[role="menu"]')
 		.contains('button', active)
-		.should('have.attr', 'aria-pressed', 'true')
+		.should('have.attr', 'aria-checked', 'true')
 
 	// close menu
 	getVisibilityButton(property)
@@ -74,7 +57,7 @@ const validateActiveVisibility = (property: string, active: Visibility) => {
 const setActiveVisibility = (property: string, active: Visibility) => {
 	getVisibilityButton(property)
 		.click()
-	cy.get('ul[role="dialog"')
+	cy.get('ul[role="menu"]')
 		.contains('button', active)
 		.click({ force: true })
 	handlePasswordConfirmation(user.password)

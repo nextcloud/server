@@ -3,6 +3,8 @@ OC.L10N.register(
     {
     "Recently contacted" : "Нещодавно спілкувалися",
     "Contacts Interaction" : "Взаємодія з контактами",
+    "Manages interaction between accounts and contacts" : "Керує взаємодією між обліковими записами та контактами",
+    "Collect data about accounts and contacts interactions and provide an address book for the data" : "Збирати дані про облікові записи та взаємодію з контактами, надавати дані адресної книги",
     "Manages interaction between users and contacts" : "Керує взаємодією між користувачами та контактами",
     "Collect data about user and contacts interactions and provide an address book for the data" : "Збирайте дані про взаємодію користувачів і контактів та створюйте адресну книгу на основі цих даних"
 },

@@ -1,34 +1,14 @@
 <?php
 /**
- * @copyright Copyright (c) 2016 Lukas Reschke <lukas@statuscode.ch>
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Georg Ehrke <oc.list@georgehrke.com>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Citharel <nextcloud@tcit.fr>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\DAV\Tests\unit\CalDAV\Schedule;
 
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\CalDAV\Calendar;
 use OCA\DAV\CalDAV\CalendarHome;
+use OCA\DAV\CalDAV\DefaultCalendarValidator;
 use OCA\DAV\CalDAV\Plugin as CalDAVPlugin;
 use OCA\DAV\CalDAV\Schedule\Plugin;
 use OCA\DAV\CalDAV\Trashbin\Plugin as TrashbinPlugin;
@@ -60,6 +40,9 @@ class PluginTest extends TestCase {
 	/** @var MockObject|LoggerInterface */
 	private $logger;
 
+	/** @property MockObject|DefaultCalendarValidator */
+	private $defaultCalendarValidator;
+
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -74,13 +57,14 @@ class PluginTest extends TestCase {
 		$this->server->xml = new Service();
 
 		$this->logger = $this->createMock(LoggerInterface::class);
+		$this->defaultCalendarValidator = $this->createMock(DefaultCalendarValidator::class);
 
-		$this->plugin = new Plugin($this->config, $this->logger);
+		$this->plugin = new Plugin($this->config, $this->logger, $this->defaultCalendarValidator);
 		$this->plugin->initialize($this->server);
 	}
 
 	public function testInitialize(): void {
-		$plugin = new Plugin($this->config, $this->logger);
+		$plugin = new Plugin($this->config, $this->logger, $this->defaultCalendarValidator);
 
 		$this->server->expects($this->exactly(10))
 			->method('on')
@@ -396,6 +380,13 @@ class PluginTest extends TestCase {
 			->method('getPropertiesForPath')
 			->with($calendarHome .'/' . $calendarUri, [], 1)
 			->willReturn($properties);
+
+		$this->defaultCalendarValidator->method('validateScheduleDefaultCalendar')
+			->willReturnCallback(function (Calendar $node) {
+				if ($node->isDeleted()) {
+					throw new \Sabre\DAV\Exception('Deleted calendar');
+				}
+			});
 
 		$this->plugin->propFindDefaultCalendarUrl($propFind, $node);
 

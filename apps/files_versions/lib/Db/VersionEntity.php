@@ -3,25 +3,8 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2022 Louis Chmn <louis@chmn.me>
- *
- * @author Louis Chmn <louis@chmn.me>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace OCA\Files_Versions\Db;
@@ -70,12 +53,22 @@ class VersionEntity extends Entity implements JsonSerializable {
 		];
 	}
 
-	public function getLabel(): string {
-		return $this->metadata['label'] ?? '';
+	/**
+	 * @abstract given a key, return the value associated with the key in the metadata column
+	 * if nothing is found, we return an empty string
+	 * @param string $key key associated with the value
+	 */
+	public function getMetadataValue(string $key): ?string {
+		return $this->metadata[$key] ?? null;
 	}
 
-	public function setLabel(string $label): void {
-		$this->metadata['label'] = $label;
+	/**
+	 * @abstract sets a key value pair in the metadata column
+	 * @param string $key key associated with the value
+	 * @param string $value value associated with the key
+	 */
+	public function setMetadataValue(string $key, string $value): void {
+		$this->metadata[$key] = $value;
 		$this->markFieldUpdated('metadata');
 	}
 }

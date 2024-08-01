@@ -1,24 +1,8 @@
 <?php
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OC\App;
 
@@ -154,7 +138,7 @@ class PlatformRepository {
 	 */
 	public function normalizeVersion(string $version, ?string $fullVersion = null): string {
 		$version = trim($version);
-		if (null === $fullVersion) {
+		if ($fullVersion === null) {
 			$fullVersion = $version;
 		}
 		// ignore aliases and just assume the alias is required instead of the source
@@ -165,7 +149,7 @@ class PlatformRepository {
 		if (preg_match('{^(?:dev-)?(?:master|trunk|default)$}i', $version)) {
 			return '9999999-dev';
 		}
-		if ('dev-' === strtolower(substr($version, 0, 4))) {
+		if (strtolower(substr($version, 0, 4)) === 'dev-') {
 			return 'dev-' . substr($version, 4);
 		}
 		// match classical versioning
@@ -188,7 +172,7 @@ class PlatformRepository {
 		// add version modifiers if a version was matched
 		if (isset($index)) {
 			if (!empty($matches[$index])) {
-				if ('stable' === $matches[$index]) {
+				if ($matches[$index] === 'stable') {
 					return $version;
 				}
 				$version .= '-' . $this->expandStability($matches[$index]) . (!empty($matches[$index + 1]) ? $matches[$index + 1] : '');

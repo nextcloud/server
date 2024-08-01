@@ -1,28 +1,9 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Olivier Paroz <github@oparoz.com>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OC\Preview;
 
@@ -37,6 +18,18 @@ use Psr\Log\LoggerInterface;
  * @package OC\Preview
  */
 abstract class Bitmap extends ProviderV2 {
+	/**
+	 * List of MIME types that this preview provider is allowed to process.
+	 *
+	 * These should correspond to the MIME types *identified* by Imagemagick
+	 * for files to be processed by this provider. These do / will not
+	 * necessarily need to match the MIME types stored in the database
+	 * (which are identified by IMimeTypeDetector).
+	 *
+	 * @return string Regular expression
+	 */
+	abstract protected function getAllowedMimeTypes(): string;
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -86,9 +79,18 @@ abstract class Bitmap extends ProviderV2 {
 	 * @param int $maxY
 	 *
 	 * @return \Imagick
+	 *
+	 * @throws \Exception
 	 */
 	private function getResizedPreview($tmpPath, $maxX, $maxY) {
 		$bp = new Imagick();
+
+		// Validate mime type
+		$bp->pingImage($tmpPath . '[0]');
+		$mimeType = $bp->getImageMimeType();
+		if (!preg_match($this->getAllowedMimeTypes(), $mimeType)) {
+			throw new \Exception('File mime type does not match the preview provider: ' . $mimeType);
+		}
 
 		// Layer 0 contains either the bitmap or a flat representation of all vector layers
 		$bp->readImage($tmpPath . '[0]');

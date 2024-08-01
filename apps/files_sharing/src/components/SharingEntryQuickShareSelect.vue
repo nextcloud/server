@@ -1,3 +1,7 @@
+<!--
+  - SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 <template>
 	<NcActions ref="quickShareActions"
 		class="share-select"
@@ -76,7 +80,7 @@ export default {
 			return t('files_sharing', 'Can edit')
 		},
 		fileDropText() {
-			return t('files_sharing', 'File drop')
+			return t('files_sharing', 'File request')
 		},
 		customPermissionsText() {
 			return t('files_sharing', 'Custom permissions')

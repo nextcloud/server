@@ -1,37 +1,9 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Arne Hamann <kontakt+github@arne.email>
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Björn Schießle <bjoern@schiessle.org>
- * @author Chih-Hsuan Yen <yan12125@gmail.com>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Georg Ehrke <oc.list@georgehrke.com>
- * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- * @author matt <34400929+call-me-matt@users.noreply.github.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Stefan Weil <sw@weilnetz.de>
- * @author Thomas Citharel <nextcloud@tcit.fr>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\DAV\CardDAV;
 
@@ -331,24 +303,24 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 	 * @return void
 	 */
 	public function updateAddressBook($addressBookId, \Sabre\DAV\PropPatch $propPatch) {
-		$this->atomic(function () use ($addressBookId, $propPatch) {
-			$supportedProperties = [
-				'{DAV:}displayname',
-				'{' . Plugin::NS_CARDDAV . '}addressbook-description',
-			];
+		$supportedProperties = [
+			'{DAV:}displayname',
+			'{' . Plugin::NS_CARDDAV . '}addressbook-description',
+		];
 
-			$propPatch->handle($supportedProperties, function ($mutations) use ($addressBookId) {
-				$updates = [];
-				foreach ($mutations as $property => $newValue) {
-					switch ($property) {
-						case '{DAV:}displayname':
-							$updates['displayname'] = $newValue;
-							break;
-						case '{' . Plugin::NS_CARDDAV . '}addressbook-description':
-							$updates['description'] = $newValue;
-							break;
-					}
+		$propPatch->handle($supportedProperties, function ($mutations) use ($addressBookId) {
+			$updates = [];
+			foreach ($mutations as $property => $newValue) {
+				switch ($property) {
+					case '{DAV:}displayname':
+						$updates['displayname'] = $newValue;
+						break;
+					case '{' . Plugin::NS_CARDDAV . '}addressbook-description':
+						$updates['description'] = $newValue;
+						break;
 				}
+			}
+			[$addressBookRow, $shares] = $this->atomic(function () use ($addressBookId, $updates) {
 				$query = $this->db->getQueryBuilder();
 				$query->update('addressbooks');
 
@@ -362,11 +334,13 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 
 				$addressBookRow = $this->getAddressBookById((int)$addressBookId);
 				$shares = $this->getShares((int)$addressBookId);
-				$this->dispatcher->dispatchTyped(new AddressBookUpdatedEvent((int)$addressBookId, $addressBookRow, $shares, $mutations));
+				return [$addressBookRow, $shares];
+			}, $this->db);
 
-				return true;
-			});
-		}, $this->db);
+			$this->dispatcher->dispatchTyped(new AddressBookUpdatedEvent((int)$addressBookId, $addressBookRow, $shares, $mutations));
+
+			return true;
+		});
 	}
 
 	/**
@@ -981,6 +955,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 					'synctoken' => $query->createNamedParameter($syncToken),
 					'addressbookid' => $query->createNamedParameter($addressBookId),
 					'operation' => $query->createNamedParameter($operation),
+					'created_at' => time(),
 				])
 				->executeStatement();
 
@@ -1148,7 +1123,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 			->andWhere($query2->expr()->in('cp.name', $query2->createNamedParameter($searchProperties, IQueryBuilder::PARAM_STR_ARRAY)));
 
 		// No need for like when the pattern is empty
-		if ('' !== $pattern) {
+		if ($pattern !== '') {
 			if (!$useWildcards) {
 				$query2->andWhere($query2->expr()->eq('cp.value', $query2->createNamedParameter($pattern)));
 			} elseif (!$escapePattern) {
@@ -1173,20 +1148,20 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 			/**
 			 * FIXME Find a way to match only 4 last digits
 			 * BDAY can be --1018 without year or 20001019 with it
-			 * $bDayOr = $query2->expr()->orX();
+			 * $bDayOr = [];
 			 * if ($options['since'] instanceof DateTimeFilter) {
-			 * $bDayOr->add(
+			 * $bDayOr[] =
 			 * $query2->expr()->gte('SUBSTR(cp_bday.value, -4)',
-			 * $query2->createNamedParameter($options['since']->get()->format('md')))
+			 * $query2->createNamedParameter($options['since']->get()->format('md'))
 			 * );
 			 * }
 			 * if ($options['until'] instanceof DateTimeFilter) {
-			 * $bDayOr->add(
+			 * $bDayOr[] =
 			 * $query2->expr()->lte('SUBSTR(cp_bday.value, -4)',
-			 * $query2->createNamedParameter($options['until']->get()->format('md')))
+			 * $query2->createNamedParameter($options['until']->get()->format('md'))
 			 * );
 			 * }
-			 * $query2->andWhere($bDayOr);
+			 * $query2->andWhere($query2->expr()->orX(...$bDayOr));
 			 */
 		}
 
@@ -1413,7 +1388,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 	/**
 	 * @throws \InvalidArgumentException
 	 */
-	public function pruneOutdatedSyncTokens(int $keep = 10_000): int {
+	public function pruneOutdatedSyncTokens(int $keep, int $retention): int {
 		if ($keep < 0) {
 			throw new \InvalidArgumentException();
 		}
@@ -1431,7 +1406,10 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 
 		$query = $this->db->getQueryBuilder();
 		$query->delete('addressbookchanges')
-			->where($query->expr()->lte('id', $query->createNamedParameter($maxId - $keep, IQueryBuilder::PARAM_INT), IQueryBuilder::PARAM_INT));
+			->where(
+				$query->expr()->lte('id', $query->createNamedParameter($maxId - $keep, IQueryBuilder::PARAM_INT), IQueryBuilder::PARAM_INT),
+				$query->expr()->lte('created_at', $query->createNamedParameter($retention)),
+			);
 		return $query->executeStatement();
 	}
 

@@ -63,6 +63,8 @@ OC.L10N.register(
     "Desktop client" : "Darbalaukio klientas",
     "Thunderbird & Outlook addons" : "Thunderbird ir Outlook priedai",
     "Custom user agent" : "Tinkintas naudotojo agentas",
+    "Select groups" : "Pasirinkti grupes",
+    "Groups" : "Grupės",
     "At least one event must be selected" : "Privalo būti pasirinktas bent vienas įvykis",
     "Add new flow" : "Pridėti naują eigą",
     "When" : "Kada",

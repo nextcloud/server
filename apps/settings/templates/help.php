@@ -1,11 +1,15 @@
 <?php
+/**
+ * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
 \OC_Util::addStyle('settings', 'help');
 ?>
 <?php if ($_['knowledgebaseEmbedded'] === true) : ?>
 	<div id="app-navigation" role="navigation" tabindex="0">
 		<ul>
 			<li>
-				<a class="icon-user <?php if ($_['mode'] === 'user') {
+				<a class="help-list__link icon-user <?php if ($_['mode'] === 'user') {
 					p('active');
 				} ?>" <?php if ($_['mode'] === 'user') {
 					print_unescaped('aria-current="page"');
@@ -18,7 +22,7 @@
 			</li>
 		<?php if ($_['admin']) { ?>
 			<li>
-				<a class="icon-user-admin <?php if ($_['mode'] === 'admin') {
+				<a class="help-list__link icon-user-admin <?php if ($_['mode'] === 'admin') {
 					p('active');
 				} ?>" <?php if ($_['mode'] === 'admin') {
 					print_unescaped('aria-current="page"');
@@ -32,14 +36,14 @@
 		<?php } ?>
 
 			<li>
-				<a href="https://docs.nextcloud.com" class="icon-category-office" target="_blank" rel="noreferrer noopener">
+				<a href="https://docs.nextcloud.com" class="help-list__link icon-category-office" target="_blank" rel="noreferrer noopener">
 					<span class="help-list__text">
 						<?php p($l->t('Documentation')); ?> ↗
 					</span>
 				</a>
 			</li>
 			<li>
-				<a href="https://help.nextcloud.com" class="icon-comment" target="_blank" rel="noreferrer noopener">
+				<a href="https://help.nextcloud.com" class="help-list__link icon-comment" target="_blank" rel="noreferrer noopener">
 					<span class="help-list__text">
 						<?php p($l->t('Forum')); ?> ↗
 					</span>
@@ -56,7 +60,7 @@
 		<div class="help-wrapper">
 			<div class="help-content">
 				<h2 class="help-content__heading">
-					<?php p($l->t('Nextcloud help resources')); ?>
+					<?php p($l->t('Nextcloud help & privacy resources')); ?>
 				</h2>
 				<div class="help-content__body">
 				<a class="button" target="_blank" rel="noreferrer noopener"
@@ -73,6 +77,16 @@
 				<a href="https://help.nextcloud.com" class="button" target="_blank" rel="noreferrer noopener">
 					<?php p($l->t('Forum')); ?> ↗
 				</a>
+				<?php if ($_['legalNoticeUrl']) { ?>
+					<a href="<?php print_unescaped($_['legalNoticeUrl']); ?>" class="button" target="_blank" rel="noreferrer noopener">
+						<?php p($l->t('Legal notice')); ?> ↗
+					</a>
+				<?php } ?>
+				<?php if ($_['privacyUrl']) { ?>
+					<a href="<?php print_unescaped($_['privacyUrl']); ?>" class="button" target="_blank" rel="noreferrer noopener">
+						<?php p($l->t('Privacy policy')); ?> ↗
+					</a>
+				<?php } ?>
 			</div>
 		</div>
 	</div>

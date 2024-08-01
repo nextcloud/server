@@ -17,12 +17,12 @@ OC.L10N.register(
     "Predefined statuses" : "Estados predefinidos",
     "Previously set" : "Estabelecido previamente",
     "Reset status" : "Restabelecer o estado",
-    "Set status" : "Estabelecer o estado",
+    "Set status" : "Definir o estado",
     "Online status" : "Estado en liña",
     "Status message" : "Mensaxe de estado",
     "Your status was set automatically" : "O seu estado foi estabelecido automaticamente",
     "Clear status message" : "Limpar a mensaxe de estado",
-    "Set status message" : "Estabelecer a mensaxe de estado",
+    "Set status message" : "Definir a mensaxe de estado",
     "Reset status to \"{icon} {message}\"" : "Restabelecer o estado a «{icon} {message}»",
     "Reset status to \"{message}\"" : "Restabelecer o estado a «{message}»",
     "Reset status to \"{icon}\"" : "Restabelecer o estado a «{icon}»",
@@ -43,7 +43,6 @@ OC.L10N.register(
     "4 hours" : "4 horas",
     "Mute all notifications" : "Silenciar todas as notificacións",
     "Appear offline" : "Aparece coma sen conexión",
-    "View profile" : "Ver o perfil",
-    "{status}, {timestamp}" : "{status} ás {timestamp}"
+    "View profile" : "Ver o perfil"
 },
 "nplurals=2; plural=(n != 1);");

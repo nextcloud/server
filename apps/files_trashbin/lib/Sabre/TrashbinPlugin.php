@@ -3,27 +3,8 @@
 declare(strict_types=1);
 
 /**
- * @copyright 2018, Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\Files_Trashbin\Sabre;
 
@@ -41,6 +22,8 @@ class TrashbinPlugin extends ServerPlugin {
 	public const TRASHBIN_ORIGINAL_LOCATION = '{http://nextcloud.org/ns}trashbin-original-location';
 	public const TRASHBIN_DELETION_TIME = '{http://nextcloud.org/ns}trashbin-deletion-time';
 	public const TRASHBIN_TITLE = '{http://nextcloud.org/ns}trashbin-title';
+	public const TRASHBIN_DELETED_BY_ID = '{http://nextcloud.org/ns}trashbin-deleted-by-id';
+	public const TRASHBIN_DELETED_BY_DISPLAY_NAME = '{http://nextcloud.org/ns}trashbin-deleted-by-display-name';
 
 	/** @var Server */
 	private $server;
@@ -81,6 +64,14 @@ class TrashbinPlugin extends ServerPlugin {
 
 		$propFind->handle(self::TRASHBIN_DELETION_TIME, function () use ($node) {
 			return $node->getDeletionTime();
+		});
+
+		$propFind->handle(self::TRASHBIN_DELETED_BY_ID, function () use ($node) {
+			return $node->getDeletedBy()?->getUID();
+		});
+
+		$propFind->handle(self::TRASHBIN_DELETED_BY_DISPLAY_NAME, function () use ($node) {
+			return $node->getDeletedBy()?->getDisplayName();
 		});
 
 		$propFind->handle(FilesPlugin::SIZE_PROPERTYNAME, function () use ($node) {

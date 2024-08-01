@@ -8,6 +8,7 @@
     "Password to access {file} was sent to {email}" : "Password for adgang {file} blev sendt til {email}",
     "Password to access {file} was sent to you" : "Password for adgang {file} blev sendt til dig.",
     "Share by mail" : "Delt med mail",
+    "Sharing %1$s failed, because this item is already shared with the account %2$s" : "Deling af %1$s mislykkedes, fordi dette element allerede er delt med bruger%2$s",
     "Failed to send share by email" : "Kunne ikke sende deling via e-mail",
     "%1$s shared »%2$s« with you" : "%1$s delte \"%2$s\" med dig",
     "%1$s shared »%2$s« with you." : "%1$s delte »%2$s« med dig",

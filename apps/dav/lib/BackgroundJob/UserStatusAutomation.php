@@ -2,23 +2,8 @@
 
 declare(strict_types=1);
 /**
- * @copyright Copyright (c) 2022 Joas Schilling <coding@schilljs.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace OCA\DAV\BackgroundJob;
@@ -216,9 +201,7 @@ class UserStatusAutomation extends TimedJob {
 			return;
 		}
 
-		$this->logger->debug('User is currently NOT available, reverting call status if applicable and then setting DND');
-		// The DND status automation is more important than the "Away - In call" so we also restore that one if it exists.
-		$this->manager->revertUserStatus($userId, IUserStatus::MESSAGE_CALL, IUserStatus::AWAY);
+		$this->logger->debug('User is currently NOT available, reverting call and meeting status if applicable and then setting DND');
 		$this->manager->setUserStatus($userId, IUserStatus::MESSAGE_AVAILABILITY, IUserStatus::DND, true);
 		$this->logger->debug('User status automation ran');
 	}
@@ -247,10 +230,8 @@ class UserStatusAutomation extends TimedJob {
 		}
 
 		$this->logger->debug('User is currently in an OOO period, reverting other automated status and setting OOO DND status');
-		// Revert both a possible 'CALL - away' and 'office hours - DND' status
-		$this->manager->revertUserStatus($user->getUID(), IUserStatus::MESSAGE_CALL, IUserStatus::DND);
-		$this->manager->revertUserStatus($user->getUID(), IUserStatus::MESSAGE_AVAILABILITY, IUserStatus::DND);
 		$this->manager->setUserStatus($user->getUID(), IUserStatus::MESSAGE_OUT_OF_OFFICE, IUserStatus::DND, true, $ooo->getShortMessage());
+
 		// Run at the end of an ooo period to return to availability / regular user status
 		// If it's overwritten by a custom status in the meantime, there's nothing we can do about it
 		$this->setLastRunToNextToggleTime($user->getUID(), $ooo->getEndDate());

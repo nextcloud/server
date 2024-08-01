@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
 namespace OC\Files\Search\QueryOptimizer;
 
 use OC\Files\Search\SearchBinaryOperator;
@@ -20,7 +24,9 @@ class ReplacingOptimizerStep extends QueryOptimizerStep {
 			$modified = false;
 			$arguments = $operator->getArguments();
 			foreach ($arguments as &$argument) {
-				$modified = $modified || $this->processOperator($argument);
+				if ($this->processOperator($argument)) {
+					$modified = true;
+				}
 			}
 			if ($modified) {
 				$operator->setArguments($arguments);

@@ -3,25 +3,8 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2023 Côme Chilliet <come.chilliet@nextcloud.com>
- *
- * @author Côme Chilliet <come.chilliet@nextcloud.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\Settings\SetupChecks;
 
@@ -84,7 +67,11 @@ class TempSpaceAvailable implements ISetupCheck {
 			return SetupResult::error($this->l10n->t('Error while checking the temporary PHP path - it was not properly set to a directory. Returned value: %s', [$phpTempPath]));
 		}
 
-		$freeSpaceInTemp = function_exists('disk_free_space') ? disk_free_space($phpTempPath) : false;
+		if (!function_exists('disk_free_space')) {
+			return SetupResult::info($this->l10n->t('The PHP function "disk_free_space" is disabled, which prevents the check for enough space in the temporary directories.'));
+		}
+
+		$freeSpaceInTemp = disk_free_space($phpTempPath);
 		if ($freeSpaceInTemp === false) {
 			return SetupResult::error($this->l10n->t('Error while checking the available disk space of temporary PHP path or no free disk space returned. Temporary path: %s', [$phpTempPath]));
 		}
@@ -93,7 +80,7 @@ class TempSpaceAvailable implements ISetupCheck {
 		$freeSpaceInTempInGB = $freeSpaceInTemp / 1024 / 1024 / 1024;
 		$spaceDetail = $this->l10n->t('- %.1f GiB available in %s (PHP temporary directory)', [round($freeSpaceInTempInGB, 1),$phpTempPath]);
 		if ($nextcloudTempPath !== $phpTempPath) {
-			$freeSpaceInNextcloudTemp = function_exists('disk_free_space') ? disk_free_space($nextcloudTempPath) : false;
+			$freeSpaceInNextcloudTemp = disk_free_space($nextcloudTempPath);
 			if ($freeSpaceInNextcloudTemp === false) {
 				return SetupResult::error($this->l10n->t('Error while checking the available disk space of temporary PHP path or no free disk space returned. Temporary path: %s', [$nextcloudTempPath]));
 			}

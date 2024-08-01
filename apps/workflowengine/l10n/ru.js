@@ -67,6 +67,8 @@ OC.L10N.register(
     "Desktop client" : "клиент для ПК",
     "Thunderbird & Outlook addons" : "Дополнения для Thunderbird и Outlook",
     "Custom user agent" : "Пользовательский user agent",
+    "Select groups" : "Выберите группы",
+    "Groups" : "Группы",
     "Select a trigger" : "Выберите триггер",
     "At least one event must be selected" : "Необходимо выбрать как минимум одно событие",
     "Add new flow" : "Добавить обработку",

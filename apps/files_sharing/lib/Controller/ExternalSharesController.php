@@ -1,31 +1,14 @@
 <?php
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Björn Schießle <bjoern@schiessle.org>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2019-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\Files_Sharing\Controller;
 
 use OCP\AppFramework\Controller;
+use OCP\AppFramework\Http\Attribute\NoAdminRequired;
+use OCP\AppFramework\Http\Attribute\PublicPage;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\Http\Client\IClientService;
@@ -49,34 +32,34 @@ class ExternalSharesController extends Controller {
 	}
 
 	/**
-	 * @NoAdminRequired
 	 * @NoOutgoingFederatedSharingRequired
 	 *
 	 * @return JSONResponse
 	 */
+	#[NoAdminRequired]
 	public function index() {
 		return new JSONResponse($this->externalManager->getOpenShares());
 	}
 
 	/**
-	 * @NoAdminRequired
 	 * @NoOutgoingFederatedSharingRequired
 	 *
 	 * @param int $id
 	 * @return JSONResponse
 	 */
+	#[NoAdminRequired]
 	public function create($id) {
 		$this->externalManager->acceptShare($id);
 		return new JSONResponse();
 	}
 
 	/**
-	 * @NoAdminRequired
 	 * @NoOutgoingFederatedSharingRequired
 	 *
 	 * @param integer $id
 	 * @return JSONResponse
 	 */
+	#[NoAdminRequired]
 	public function destroy($id) {
 		$this->externalManager->declineShare($id);
 		return new JSONResponse();
@@ -112,13 +95,13 @@ class ExternalSharesController extends Controller {
 	}
 
 	/**
-	 * @PublicPage
 	 * @NoOutgoingFederatedSharingRequired
 	 * @NoIncomingFederatedSharingRequired
 	 *
 	 * @param string $remote
 	 * @return DataResponse
 	 */
+	#[PublicPage]
 	public function testRemote($remote) {
 		if (str_contains($remote, '#') || str_contains($remote, '?') || str_contains($remote, ';')) {
 			return new DataResponse(false);

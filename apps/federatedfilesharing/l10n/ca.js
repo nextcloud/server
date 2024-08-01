@@ -1,11 +1,6 @@
 OC.L10N.register(
     "federatedfilesharing",
     {
-    "Do you want to add the remote share {name} from {owner}@{remote}?" : "Voleu afegir l'element compartit remot {nom} de {owner}@{remote}?",
-    "Remote share" : "Element compartit remot",
-    "Remote share password" : "Contrasenya de l'element compartit remot",
-    "Cancel" : "Cancel·la",
-    "Add remote share" : "Afegeix un element compartit remot",
     "Invalid Federated Cloud ID" : "ID del núvol federat no vàlid",
     "Server to server sharing is not enabled on this server" : "L'ús compartit entre servidors no està habilitat en aquest servidor",
     "Couldn't establish a federated share." : "No s'ha pogut configurar l'ús compartit federat.",
@@ -52,6 +47,11 @@ OC.L10N.register(
     "Copy to clipboard" : "Copia-ho al porta-retalls",
     "Clipboard is not available" : "El porta-retalls no està disponible",
     "Copied!" : "S'ha copiat!",
+    "Do you want to add the remote share {name} from {owner}@{remote}?" : "Voleu afegir l'element compartit remot {nom} de {owner}@{remote}?",
+    "Remote share" : "Element compartit remot",
+    "Remote share password" : "Contrasenya de l'element compartit remot",
+    "Cancel" : "Cancel·la",
+    "Add remote share" : "Afegeix un element compartit remot",
     "Sharing %1$s failed, because this item is already shared with user %2$s" : "No s'ha pogut compartir %1$s perquè l'element ja està compartit amb l'usuari %2$s",
     "Not allowed to create a federated share with the same user" : "No es permet crear un element federat amb el mateix usuari",
     "Adjust how people can share between servers. This includes shares between users on this server as well if they are using federated sharing." : "Ajusteu com els usuaris poden compartir contingut entre servidors. Això també inclou els recursos compartits entre usuaris d'aquest servidor si utilitzen l'ús compartit federat.",

@@ -3,27 +3,8 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2019, Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @author Joas Schilling <coding@schilljs.com>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Sascha Wiswedel <sascha.wiswedel@nextcloud.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\Files\Notification;
 
@@ -39,6 +20,7 @@ use OCP\Notification\IDismissableNotifier;
 use OCP\Notification\IManager;
 use OCP\Notification\INotification;
 use OCP\Notification\INotifier;
+use OCP\Notification\UnknownNotificationException;
 
 class Notifier implements INotifier, IDismissableNotifier {
 	/** @var IFactory */
@@ -81,30 +63,22 @@ class Notifier implements INotifier, IDismissableNotifier {
 	 * @param INotification $notification
 	 * @param string $languageCode The code of the language that should be used to prepare the notification
 	 * @return INotification
-	 * @throws \InvalidArgumentException When the notification was not prepared by a notifier
+	 * @throws UnknownNotificationException When the notification was not prepared by a notifier
 	 */
 	public function prepare(INotification $notification, string $languageCode): INotification {
 		if ($notification->getApp() !== 'files') {
-			throw new \InvalidArgumentException('Unhandled app');
+			throw new UnknownNotificationException('Unhandled app');
 		}
 
-		if ($notification->getSubject() === 'transferownershipRequest') {
-			return $this->handleTransferownershipRequest($notification, $languageCode);
-		}
-		if ($notification->getSubject() === 'transferOwnershipFailedSource') {
-			return $this->handleTransferOwnershipFailedSource($notification, $languageCode);
-		}
-		if ($notification->getSubject() === 'transferOwnershipFailedTarget') {
-			return $this->handleTransferOwnershipFailedTarget($notification, $languageCode);
-		}
-		if ($notification->getSubject() === 'transferOwnershipDoneSource') {
-			return $this->handleTransferOwnershipDoneSource($notification, $languageCode);
-		}
-		if ($notification->getSubject() === 'transferOwnershipDoneTarget') {
-			return $this->handleTransferOwnershipDoneTarget($notification, $languageCode);
-		}
-
-		throw new \InvalidArgumentException('Unhandled subject');
+		return match($notification->getSubject()) {
+			'transferownershipRequest' => $this->handleTransferownershipRequest($notification, $languageCode),
+			'transferownershipRequestDenied' => $this->handleTransferOwnershipRequestDenied($notification, $languageCode),
+			'transferOwnershipFailedSource' => $this->handleTransferOwnershipFailedSource($notification, $languageCode),
+			'transferOwnershipFailedTarget' => $this->handleTransferOwnershipFailedTarget($notification, $languageCode),
+			'transferOwnershipDoneSource' => $this->handleTransferOwnershipDoneSource($notification, $languageCode),
+			'transferOwnershipDoneTarget' => $this->handleTransferOwnershipDoneTarget($notification, $languageCode),
+			default => throw new UnknownNotificationException('Unhandled subject')
+		};
 	}
 
 	public function handleTransferownershipRequest(INotification $notification, string $languageCode): INotification {
@@ -160,6 +134,29 @@ class Notifier implements INotifier, IDismissableNotifier {
 					]
 				]);
 
+		return $notification;
+	}
+
+	public function handleTransferOwnershipRequestDenied(INotification $notification, string $languageCode): INotification {
+		$l = $this->l10nFactory->get('files', $languageCode);
+		$param = $notification->getSubjectParameters();
+
+		$targetUser = $this->getUser($param['targetUser']);
+		$notification->setRichSubject($l->t('Ownership transfer denied'))
+			->setRichMessage(
+				$l->t('Your ownership transfer of {path} was denied by {user}.'),
+				[
+					'path' => [
+						'type' => 'highlight',
+						'id' => $param['targetUser'] . '::' . $param['nodeName'],
+						'name' => $param['nodeName'],
+					],
+					'user' => [
+						'type' => 'user',
+						'id' => $targetUser->getUID(),
+						'name' => $targetUser->getDisplayName(),
+					],
+				]);
 		return $notification;
 	}
 
@@ -260,7 +257,7 @@ class Notifier implements INotifier, IDismissableNotifier {
 
 	public function dismissNotification(INotification $notification): void {
 		if ($notification->getApp() !== 'files') {
-			throw new \InvalidArgumentException('Unhandled app');
+			throw new UnknownNotificationException('Unhandled app');
 		}
 
 		// TODO: This should all be moved to a service that also the transferownershipController uses.

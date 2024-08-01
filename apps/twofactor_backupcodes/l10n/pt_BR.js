@@ -10,7 +10,7 @@ OC.L10N.register(
     "Two factor backup codes" : "Códigos de backup de dois fatores",
     "A two-factor auth backup codes provider" : "Um provedor de códigos de backup de autenticação de dois fatores",
     "Backup codes have been generated. {used} of {total} codes have been used." : "Códigos de backup foram gerados. Foram usados {used} de um total de {total} códigos.",
-    "These are your backup codes. Please save and/or print them as you will not be able to read the codes again later" : "Estes são os seus códigos de backup. Salve e/ou imprima-os, pois não será possível ler os códigos novamente mais tarde",
+    "These are your backup codes. Please save and/or print them as you will not be able to read the codes again later." : "Estes são seus códigos de backup. Salve e/ou imprima-os, pois você não poderá ler os códigos novamente mais tarde.",
     "Save backup codes" : "Salvar códigos de backup",
     "Print backup codes" : "Imprimir códigos de backup",
     "Regenerate backup codes" : "Regerar códigos de backup",
@@ -18,6 +18,7 @@ OC.L10N.register(
     "An error occurred while generating your backup codes" : "Ocorreu um erro ao gerar os códigos de backup",
     "{name} backup codes" : "Códigos de backup {name}",
     "Use one of the backup codes you saved when setting up two-factor authentication." : "Use um dos códigos de backup que você salvou ao configurar a autenticação de dois fatores.",
-    "Submit" : "Enviar"
+    "Submit" : "Enviar",
+    "These are your backup codes. Please save and/or print them as you will not be able to read the codes again later" : "Estes são os seus códigos de backup. Salve e/ou imprima-os, pois não será possível ler os códigos novamente mais tarde"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

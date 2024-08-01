@@ -86,7 +86,7 @@ OC.L10N.register(
     "Verify settings and count the groups" : "설정을 확인하고 그룹 개수 세기",
     "When logging in, %s will find the user based on the following attributes:" : "로그인할 때 %s에서 다음 속성을 기반으로 사용자를 찾습니다:",
     "LDAP/AD Username:" : "LDAP/AD 사용자 이름:",
-    "Allows login against the LDAP/AD username, which is either \"uid\" or \"sAMAccountName\" and will be detected." : "LDAP/AD 사용자 이름으로 로그인하는 것을 허용합니다. \"uid\" 및 \"sAMAccountName\" 중 하나이며 자동으로 감지합니다.",
+    "Allows login against the LDAP/AD username, which is either \"uid\" or \"sAMAccountName\" and will be detected." : "LDAP/AD 사용자 아이디로 로그인하는 것을 허용합니다. \"uid\" 및 \"sAMAccountName\" 중 하나이며 자동으로 감지합니다.",
     "LDAP/AD Email Address:" : "LDAP/AD 이메일 주소:",
     "Allows login against an email attribute. \"mail\" and \"mailPrimaryAddress\" allowed." : "이메일 속성으로 로그인하는 것을 허용합니다. \"mail\" 및 \"mailPrimaryAddress\"를 사용할 수 있습니다.",
     "Other Attributes:" : "기타 속성:",

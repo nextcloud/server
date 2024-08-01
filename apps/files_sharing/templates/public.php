@@ -1,4 +1,10 @@
 <?php
+
+/**
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2012-2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
+ */
 /** @var \OCP\IL10N $l */
 /** @var array $_ */
 ?>
@@ -21,6 +27,7 @@
 <input type="hidden" name="mimetypeIcon" value="<?php p(\OC::$server->getMimeTypeDetector()->mimeTypeIcon($_['mimetype'])); ?>" id="mimetypeIcon">
 <input type="hidden" name="hideDownload" value="<?php p($_['hideDownload'] ? 'true' : 'false'); ?>" id="hideDownload">
 <input type="hidden" id="disclaimerText" value="<?php p($_['disclaimer']) ?>">
+
 <?php
 $upload_max_filesize = OC::$server->get(\bantu\IniGetWrapper\IniGetWrapper::class)->getBytes('upload_max_filesize');
 $post_max_size = OC::$server->get(\bantu\IniGetWrapper\IniGetWrapper::class)->getBytes('post_max_size');
@@ -96,11 +103,11 @@ $maxUploadFilesize = min($upload_max_filesize, $post_max_size);
 				class="emptycontent <?php if (!empty($_['note'])) { ?>has-note<?php } ?>">
 			<?php if ($_['shareOwner']) { ?>
 				<div id="displayavatar"><div class="avatardiv"></div></div>
-				<h2><?php p($l->t('Upload files to %s', [$_['shareOwner']])) ?></h2>
-				<p><span class="icon-folder"></span> <?php p($_['filename']) ?></p>
+				<h2><?php p($l->t('Upload files to %s', [$_['label'] ?: $_['filename']])) ?></h2>
+				<p><?php p($l->t('%s shared a folder with you.', [$_['shareOwner']])) ?></p>
 			<?php } else { ?>
 				<div id="displayavatar"><span class="icon-folder"></span></div>
-				<h2><?php p($l->t('Upload files to %s', [$_['filename']])) ?></h2>
+				<h2><?php p($l->t('Upload files to %s', [$_['label'] ?: $_['filename']])) ?></h2>
 			<?php } ?>
 
 			<?php if (empty($_['note']) === false) { ?>

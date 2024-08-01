@@ -1,37 +1,10 @@
 <?php
 
 declare(strict_types=1);
-
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Bart Visscher <bartv@thisnet.nl>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Ole Ostergaard <ole.c.ostergaard@gmail.com>
- * @author Ole Ostergaard <ole.ostergaard@knime.com>
- * @author Philipp Schaffrath <github@philipp.schaffrath.email>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Robin McCorkell <robin@mccorkell.me.uk>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OC\DB;
 
@@ -40,10 +13,12 @@ use Doctrine\DBAL\Cache\QueryCacheProfile;
 use Doctrine\DBAL\Configuration;
 use Doctrine\DBAL\Connections\PrimaryReadReplicaConnection;
 use Doctrine\DBAL\Driver;
+use Doctrine\DBAL\Driver\ServerInfoAwareConnection;
 use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\Exception\ConnectionLost;
 use Doctrine\DBAL\Platforms\MySQLPlatform;
 use Doctrine\DBAL\Platforms\OraclePlatform;
+use Doctrine\DBAL\Platforms\PostgreSQLPlatform;
 use Doctrine\DBAL\Platforms\SqlitePlatform;
 use Doctrine\DBAL\Result;
 use Doctrine\DBAL\Schema\Schema;
@@ -52,11 +27,15 @@ use OC\DB\QueryBuilder\QueryBuilder;
 use OC\SystemConfig;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Diagnostics\IEventLogger;
+use OCP\IDBConnection;
 use OCP\IRequestId;
 use OCP\PreConditionNotMetException;
 use OCP\Profiler\IProfiler;
+use OCP\Security\ISecureRandom;
+use OCP\Server;
 use Psr\Clock\ClockInterface;
 use Psr\Log\LoggerInterface;
+use function count;
 use function in_array;
 
 class Connection extends PrimaryReadReplicaConnection {
@@ -90,13 +69,19 @@ class Connection extends PrimaryReadReplicaConnection {
 	/** @var array<string, int> */
 	protected $tableDirtyWrites = [];
 
+	protected bool $logDbException = false;
+	private ?array $transactionBacktrace = null;
+
+	protected bool $logRequestId;
+	protected string $requestId;
+
 	/**
 	 * Initializes a new instance of the Connection class.
 	 *
 	 * @throws \Exception
 	 */
 	public function __construct(
-		array $params,
+		private array $params,
 		Driver $driver,
 		?Configuration $config = null,
 		?EventManager $eventManager = null
@@ -115,11 +100,15 @@ class Connection extends PrimaryReadReplicaConnection {
 		$this->tablePrefix = $params['tablePrefix'];
 
 		$this->systemConfig = \OC::$server->getSystemConfig();
-		$this->clock = \OCP\Server::get(ClockInterface::class);
-		$this->logger = \OC::$server->get(LoggerInterface::class);
+		$this->clock = Server::get(ClockInterface::class);
+		$this->logger = Server::get(LoggerInterface::class);
+
+		$this->logRequestId = $this->systemConfig->getValue('db.log_request_id', false);
+		$this->logDbException = $this->systemConfig->getValue('db.log_exceptions', false);
+		$this->requestId = Server::get(IRequestId::class)->getId();
 
 		/** @var \OCP\Profiler\IProfiler */
-		$profiler = \OC::$server->get(IProfiler::class);
+		$profiler = Server::get(IProfiler::class);
 		if ($profiler->isEnabled()) {
 			$this->dbDataCollector = new DbDataCollector($this);
 			$profiler->add($this->dbDataCollector);
@@ -127,6 +116,8 @@ class Connection extends PrimaryReadReplicaConnection {
 			$this->dbDataCollector->setDebugStack($debugStack);
 			$this->_config->setSQLLogger($debugStack);
 		}
+
+		$this->setNestTransactionsWithSavepoints(true);
 	}
 
 	/**
@@ -143,7 +134,7 @@ class Connection extends PrimaryReadReplicaConnection {
 			$this->lastConnectionCheck[$this->getConnectionName()] = time();
 
 			// Only trigger the event logger for the initial connect call
-			$eventLogger = \OC::$server->get(IEventLogger::class);
+			$eventLogger = Server::get(IEventLogger::class);
 			$eventLogger->start('connect:db', 'db connection opened');
 			/** @psalm-suppress InternalMethod */
 			$status = parent::connect();
@@ -154,6 +145,15 @@ class Connection extends PrimaryReadReplicaConnection {
 			// throw a new exception to prevent leaking info from the stacktrace
 			throw new Exception('Failed to connect to the database: ' . $e->getMessage(), $e->getCode());
 		}
+	}
+
+	protected function performConnect(?string $connectionName = null): bool {
+		if (($connectionName ?? 'replica') === 'replica'
+			&& count($this->params['replica']) === 1
+			&& $this->params['primary'] === $this->params['replica'][0]) {
+			return parent::performConnect('primary');
+		}
+		return parent::performConnect($connectionName);
 	}
 
 	public function getStats(): array {
@@ -248,8 +248,7 @@ class Connection extends PrimaryReadReplicaConnection {
 			$platform = $this->getDatabasePlatform();
 			$sql = $platform->modifyLimitQuery($sql, $limit, $offset);
 		}
-		$statement = $this->replaceTablePrefix($sql);
-		$statement = $this->adapter->fixupStatement($statement);
+		$statement = $this->finishQuery($sql);
 
 		return parent::prepare($statement);
 	}
@@ -269,7 +268,7 @@ class Connection extends PrimaryReadReplicaConnection {
 	 *
 	 * @throws \Doctrine\DBAL\Exception
 	 */
-	public function executeQuery(string $sql, array $params = [], $types = [], QueryCacheProfile $qcp = null): Result {
+	public function executeQuery(string $sql, array $params = [], $types = [], ?QueryCacheProfile $qcp = null): Result {
 		$tables = $this->getQueriedTables($sql);
 		$now = $this->clock->now()->getTimestamp();
 		$dirtyTableWrites = [];
@@ -306,11 +305,15 @@ class Connection extends PrimaryReadReplicaConnection {
 			$this->ensureConnectedToPrimary();
 		}
 
-		$sql = $this->replaceTablePrefix($sql);
-		$sql = $this->adapter->fixupStatement($sql);
+		$sql = $this->finishQuery($sql);
 		$this->queriesExecuted++;
 		$this->logQueryToFile($sql);
-		return parent::executeQuery($sql, $params, $types, $qcp);
+		try {
+			return parent::executeQuery($sql, $params, $types, $qcp);
+		} catch (\Exception $e) {
+			$this->logDatabaseException($e);
+			throw $e;
+		}
 	}
 
 	/**
@@ -327,11 +330,7 @@ class Connection extends PrimaryReadReplicaConnection {
 	 * @throws Exception
 	 */
 	public function executeUpdate(string $sql, array $params = [], array $types = []): int {
-		$sql = $this->replaceTablePrefix($sql);
-		$sql = $this->adapter->fixupStatement($sql);
-		$this->queriesExecuted++;
-		$this->logQueryToFile($sql);
-		return parent::executeUpdate($sql, $params, $types);
+		return $this->executeStatement($sql, $params, $types);
 	}
 
 	/**
@@ -353,11 +352,15 @@ class Connection extends PrimaryReadReplicaConnection {
 		foreach ($tables as $table) {
 			$this->tableDirtyWrites[$table] = $this->clock->now()->getTimestamp();
 		}
-		$sql = $this->replaceTablePrefix($sql);
-		$sql = $this->adapter->fixupStatement($sql);
+		$sql = $this->finishQuery($sql);
 		$this->queriesExecuted++;
 		$this->logQueryToFile($sql);
-		return (int)parent::executeStatement($sql, $params, $types);
+		try {
+			return (int)parent::executeStatement($sql, $params, $types);
+		} catch (\Exception $e) {
+			$this->logDatabaseException($e);
+			throw $e;
+		}
 	}
 
 	protected function logQueryToFile(string $sql): void {
@@ -365,7 +368,13 @@ class Connection extends PrimaryReadReplicaConnection {
 		if ($logFile !== '' && is_writable(dirname($logFile)) && (!file_exists($logFile) || is_writable($logFile))) {
 			$prefix = '';
 			if ($this->systemConfig->getValue('query_log_file_requestid') === 'yes') {
-				$prefix .= \OC::$server->get(IRequestId::class)->getId() . "\t";
+				$prefix .= Server::get(IRequestId::class)->getId() . "\t";
+			}
+			$postfix = '';
+			if ($this->systemConfig->getValue('query_log_file_backtrace') === 'yes') {
+				$trace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
+				array_pop($trace);
+				$postfix .= '; ' . json_encode($trace);
 			}
 
 			// FIXME:  Improve to log the actual target db host
@@ -375,7 +384,7 @@ class Connection extends PrimaryReadReplicaConnection {
 
 			file_put_contents(
 				$this->systemConfig->getValue('query_log_file', ''),
-				$prefix . $sql . "\n",
+				$prefix . $sql . $postfix . "\n",
 				FILE_APPEND
 			);
 		}
@@ -423,12 +432,22 @@ class Connection extends PrimaryReadReplicaConnection {
 	 * @throws \Doctrine\DBAL\Exception
 	 * @deprecated 15.0.0 - use unique index and "try { $db->insert() } catch (UniqueConstraintViolationException $e) {}" instead, because it is more reliable and does not have the risk for deadlocks - see https://github.com/nextcloud/server/pull/12371
 	 */
-	public function insertIfNotExist($table, $input, array $compare = null) {
-		return $this->adapter->insertIfNotExist($table, $input, $compare);
+	public function insertIfNotExist($table, $input, ?array $compare = null) {
+		try {
+			return $this->adapter->insertIfNotExist($table, $input, $compare);
+		} catch (\Exception $e) {
+			$this->logDatabaseException($e);
+			throw $e;
+		}
 	}
 
 	public function insertIgnoreConflict(string $table, array $values) : int {
-		return $this->adapter->insertIgnoreConflict($table, $values);
+		try {
+			return $this->adapter->insertIgnoreConflict($table, $values);
+		} catch (\Exception $e) {
+			$this->logDatabaseException($e);
+			throw $e;
+		}
 	}
 
 	private function getType($value) {
@@ -477,22 +496,22 @@ class Connection extends PrimaryReadReplicaConnection {
 			foreach ($values as $name => $value) {
 				$updateQb->set($name, $updateQb->createNamedParameter($value, $this->getType($value)));
 			}
-			$where = $updateQb->expr()->andX();
+			$where = [];
 			$whereValues = array_merge($keys, $updatePreconditionValues);
 			foreach ($whereValues as $name => $value) {
 				if ($value === '') {
-					$where->add($updateQb->expr()->emptyString(
+					$where[] = $updateQb->expr()->emptyString(
 						$name
-					));
+					);
 				} else {
-					$where->add($updateQb->expr()->eq(
+					$where[] = $updateQb->expr()->eq(
 						$name,
 						$updateQb->createNamedParameter($value, $this->getType($value)),
 						$this->getType($value)
-					));
+					);
 				}
 			}
-			$updateQb->where($where);
+			$updateQb->where($updateQb->expr()->andX(...$where));
 			$affected = $updateQb->executeStatement();
 
 			if ($affected === 0 && !empty($updatePreconditionValues)) {
@@ -566,7 +585,7 @@ class Connection extends PrimaryReadReplicaConnection {
 	 */
 	public function dropTable($table) {
 		$table = $this->tablePrefix . trim($table);
-		$schema = $this->getSchemaManager();
+		$schema = $this->createSchemaManager();
 		if ($schema->tablesExist([$table])) {
 			$schema->dropTable($table);
 		}
@@ -582,8 +601,18 @@ class Connection extends PrimaryReadReplicaConnection {
 	 */
 	public function tableExists($table) {
 		$table = $this->tablePrefix . trim($table);
-		$schema = $this->getSchemaManager();
+		$schema = $this->createSchemaManager();
 		return $schema->tablesExist([$table]);
+	}
+
+	protected function finishQuery(string $statement): string {
+		$statement = $this->replaceTablePrefix($statement);
+		$statement = $this->adapter->fixupStatement($statement);
+		if ($this->logRequestId) {
+			return $statement . " /* reqid: " . $this->requestId . " */";
+		} else {
+			return $statement;
+		}
 	}
 
 	// internal use
@@ -662,10 +691,10 @@ class Connection extends PrimaryReadReplicaConnection {
 
 	private function getMigrator() {
 		// TODO properly inject those dependencies
-		$random = \OC::$server->getSecureRandom();
+		$random = \OC::$server->get(ISecureRandom::class);
 		$platform = $this->getDatabasePlatform();
 		$config = \OC::$server->getConfig();
-		$dispatcher = \OC::$server->get(\OCP\EventDispatcher\IEventDispatcher::class);
+		$dispatcher = Server::get(\OCP\EventDispatcher\IEventDispatcher::class);
 		if ($platform instanceof SqlitePlatform) {
 			return new SQLiteMigrator($this, $config, $dispatcher);
 		} elseif ($platform instanceof OraclePlatform) {
@@ -677,6 +706,7 @@ class Connection extends PrimaryReadReplicaConnection {
 
 	public function beginTransaction() {
 		if (!$this->inTransaction()) {
+			$this->transactionBacktrace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
 			$this->transactionActiveSince = microtime(true);
 		}
 		return parent::beginTransaction();
@@ -686,9 +716,10 @@ class Connection extends PrimaryReadReplicaConnection {
 		$result = parent::commit();
 		if ($this->getTransactionNestingLevel() === 0) {
 			$timeTook = microtime(true) - $this->transactionActiveSince;
+			$this->transactionBacktrace = null;
 			$this->transactionActiveSince = null;
 			if ($timeTook > 1) {
-				$this->logger->warning('Transaction took ' . $timeTook . 's', ['exception' => new \Exception('Transaction took ' . $timeTook . 's')]);
+				$this->logger->debug('Transaction took ' . $timeTook . 's', ['exception' => new \Exception('Transaction took ' . $timeTook . 's')]);
 			}
 		}
 		return $result;
@@ -698,9 +729,10 @@ class Connection extends PrimaryReadReplicaConnection {
 		$result = parent::rollBack();
 		if ($this->getTransactionNestingLevel() === 0) {
 			$timeTook = microtime(true) - $this->transactionActiveSince;
+			$this->transactionBacktrace = null;
 			$this->transactionActiveSince = null;
 			if ($timeTook > 1) {
-				$this->logger->warning('Transaction rollback took longer than 1s: ' . $timeTook, ['exception' => new \Exception('Long running transaction rollback')]);
+				$this->logger->debug('Transaction rollback took longer than 1s: ' . $timeTook, ['exception' => new \Exception('Long running transaction rollback')]);
 			}
 		}
 		return $result;
@@ -709,7 +741,7 @@ class Connection extends PrimaryReadReplicaConnection {
 	private function reconnectIfNeeded(): void {
 		if (
 			!isset($this->lastConnectionCheck[$this->getConnectionName()]) ||
-			$this->lastConnectionCheck[$this->getConnectionName()] + 30 >= time() ||
+			time() <= $this->lastConnectionCheck[$this->getConnectionName()] + 30 ||
 			$this->isTransactionActive()
 		) {
 			return;
@@ -726,5 +758,48 @@ class Connection extends PrimaryReadReplicaConnection {
 
 	private function getConnectionName(): string {
 		return $this->isConnectedToPrimary() ? 'primary' : 'replica';
+	}
+
+	/**
+	 * @return IDBConnection::PLATFORM_MYSQL|IDBConnection::PLATFORM_ORACLE|IDBConnection::PLATFORM_POSTGRES|IDBConnection::PLATFORM_SQLITE
+	 */
+	public function getDatabaseProvider(): string {
+		$platform = $this->getDatabasePlatform();
+		if ($platform instanceof MySQLPlatform) {
+			return IDBConnection::PLATFORM_MYSQL;
+		} elseif ($platform instanceof OraclePlatform) {
+			return IDBConnection::PLATFORM_ORACLE;
+		} elseif ($platform instanceof PostgreSQLPlatform) {
+			return IDBConnection::PLATFORM_POSTGRES;
+		} elseif ($platform instanceof SqlitePlatform) {
+			return IDBConnection::PLATFORM_SQLITE;
+		} else {
+			throw new \Exception('Database ' . $platform::class . ' not supported');
+		}
+	}
+
+	/**
+	 * @internal Should only be used inside the QueryBuilder, ExpressionBuilder and FunctionBuilder
+	 * All apps and API code should not need this and instead use provided functionality from the above.
+	 */
+	public function getServerVersion(): string {
+		/** @var ServerInfoAwareConnection $this->_conn */
+		return $this->_conn->getServerVersion();
+	}
+
+	/**
+	 * Log a database exception if enabled
+	 *
+	 * @param \Exception $exception
+	 * @return void
+	 */
+	public function logDatabaseException(\Exception $exception): void {
+		if ($this->logDbException) {
+			if ($exception instanceof Exception\UniqueConstraintViolationException) {
+				$this->logger->info($exception->getMessage(), ['exception' => $exception, 'transaction' => $this->transactionBacktrace]);
+			} else {
+				$this->logger->error($exception->getMessage(), ['exception' => $exception, 'transaction' => $this->transactionBacktrace]);
+			}
+		}
 	}
 }

@@ -1,12 +1,9 @@
 <?php
-
 /**
- * @author Thomas Müller
- * @copyright 2014 Thomas Müller deepdiver@owncloud.com
- * later.
- * See the COPYING-README file.
+ * SPDX-FileCopyrightText: 2020-2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2014-2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-
 namespace Test\App;
 
 use OC;

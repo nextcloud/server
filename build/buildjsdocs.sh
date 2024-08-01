@@ -1,11 +1,10 @@
 #!/usr/bin/env bash
 #
-# ownCloud
+# SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
+# SPDX-FileCopyrightText: 2014-2015 ownCloud, Inc.
+# SPDX-License-Identifier: AGPL-3.0-only
 #
 # Run JS tests
-#
-# @author Vincent Petry
-# @copyright 2014 Vincent Petry <pvince81@owncloud.com>
 #
 NPM="$(which npm 2>/dev/null)"
 OUTPUT_DIR="jsdocs"

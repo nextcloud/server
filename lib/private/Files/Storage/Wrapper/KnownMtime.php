@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
 namespace OC\Files\Storage\Wrapper;
 
 use OCP\Cache\CappedMemoryCache;
@@ -132,7 +136,7 @@ class KnownMtime extends Wrapper {
 		return $result;
 	}
 
-	public function writeStream(string $path, $stream, int $size = null): int {
+	public function writeStream(string $path, $stream, ?int $size = null): int {
 		$result = parent::writeStream($path, $stream, $size);
 		if ($result) {
 			$this->knowMtimes->set($path, $this->clock->now()->getTimestamp());

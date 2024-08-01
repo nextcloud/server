@@ -7,13 +7,13 @@
     "Use backup code" : "Naudoti atsarginį kodą",
     "Two factor backup codes" : "Dviejų faktorių atsarginiai kodai",
     "Backup codes have been generated. {used} of {total} codes have been used." : "Atsarginiai kodai sugeneruoti. Panaudota {used} iš {total} kodų.",
-    "These are your backup codes. Please save and/or print them as you will not be able to read the codes again later" : "Tai yra jūsų atsarginiai kodai. Įsirašykite ir/arba atspausdinkite juos, nes vėliau nebegalėsite dar kartą jų perskaityti",
     "Save backup codes" : "Įrašyti atsarginius kodus",
     "Print backup codes" : "Spausdinti atsarginius kodus",
     "Regenerate backup codes" : "Iš naujo generuoti atsarginius kodus",
     "If you regenerate backup codes, you automatically invalidate old codes." : "Jeigu iš naujo generuosite atsarginius kodus, automatiškai paversite senuosius kodus nebegaliojančiais.",
     "An error occurred while generating your backup codes" : "Generuojant jūsų atsarginius kodus, įvyko klaida",
     "{name} backup codes" : "{name} atsarginiai kodai",
-    "Submit" : "Pateikti"
+    "Submit" : "Pateikti",
+    "These are your backup codes. Please save and/or print them as you will not be able to read the codes again later" : "Tai yra jūsų atsarginiai kodai. Įsirašykite ir/arba atspausdinkite juos, nes vėliau nebegalėsite dar kartą jų perskaityti"
 },"pluralForm" :"nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);"
 }

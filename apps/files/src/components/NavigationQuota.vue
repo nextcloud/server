@@ -1,6 +1,10 @@
+<!--
+ - SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ - SPDX-License-Identifier: AGPL-3.0-or-later
+ -->
 <template>
 	<NcAppNavigationItem v-if="storageStats"
-		:aria-label="t('files', 'Storage informations')"
+		:aria-description="t('files', 'Storage information')"
 		:class="{ 'app-navigation-entry__settings-quota--not-unlimited': storageStats.quota >= 0}"
 		:loading="loadingStorageStats"
 		:name="storageStatsTitle"
@@ -13,6 +17,7 @@
 		<!-- Progress bar -->
 		<NcProgressBar v-if="storageStats.quota >= 0"
 			slot="extra"
+			:aria-label="t('files', 'Storage quota')"
 			:error="storageStats.relative > 80"
 			:value="Math.min(storageStats.relative, 100)" />
 	</NcAppNavigationItem>
@@ -32,7 +37,7 @@ import ChartPie from 'vue-material-design-icons/ChartPie.vue'
 import NcAppNavigationItem from '@nextcloud/vue/dist/Components/NcAppNavigationItem.js'
 import NcProgressBar from '@nextcloud/vue/dist/Components/NcProgressBar.js'
 
-import logger from '../logger.js'
+import logger from '../logger.ts'
 
 export default {
 	name: 'NavigationQuota',
@@ -90,12 +95,12 @@ export default {
 	mounted() {
 		// If the user has a quota set, warn if the available account storage is <=0
 		//
-		// NOTE: This doesn't catch situations where actual *server* 
+		// NOTE: This doesn't catch situations where actual *server*
 		// disk (non-quota) space is low, but those should probably
 		// be handled differently anyway since a regular user can't
-		// can't do much about them (If we did want to indicate server disk 
+		// can't do much about them (If we did want to indicate server disk
 		// space matters to users, we'd probably want to use a warning
-		// specific to that situation anyhow. So this covers warning covers 
+		// specific to that situation anyhow. So this covers warning covers
 		// our primary day-to-day concern (individual account quota usage).
 		//
 		if (this.storageStats?.quota > 0 && this.storageStats?.free <= 0) {
@@ -117,7 +122,7 @@ export default {
 		 * Update the storage stats
 		 * Throttled at max 1 refresh per minute
 		 *
-		 * @param {Event} [event = null] if user interaction
+		 * @param {Event} [event] if user interaction
 		 */
 		async updateStorageStats(event = null) {
 			if (this.loadingStorageStats) {
@@ -131,7 +136,7 @@ export default {
 					throw new Error('Invalid storage stats')
 				}
 
-				// Warn the user if the available account storage changed from > 0 to 0 
+				// Warn the user if the available account storage changed from > 0 to 0
 				// (unless only because quota was intentionally set to 0 by admin in the interim)
 				if (this.storageStats?.free > 0 && response.data.data?.free <= 0 && response.data.data?.quota > 0) {
 					this.showStorageFullWarning()

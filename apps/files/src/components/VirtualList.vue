@@ -1,8 +1,16 @@
+<!--
+ - SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ - SPDX-License-Identifier: AGPL-3.0-or-later
+ -->
 <template>
 	<div class="files-list" data-cy-files-list>
 		<!-- Header -->
 		<div ref="before" class="files-list__before">
 			<slot name="before" />
+		</div>
+
+		<div class="files-list__filters">
+			<slot name="filters" />
 		</div>
 
 		<div v-if="!!$scopedSlots['header-overlay']" class="files-list__thead-overlay">
@@ -47,16 +55,20 @@
 import type { File, Folder, Node } from '@nextcloud/files'
 import type { PropType } from 'vue'
 
-import { debounce } from 'debounce'
+import debounce from 'debounce'
 import Vue from 'vue'
 
 import filesListWidthMixin from '../mixins/filesListWidth.ts'
-import logger from '../logger.js'
+import logger from '../logger.ts'
 
 interface RecycledPoolItem {
 	key: string,
 	item: Node,
 }
+
+type DataSource = File | Folder
+
+type DataSourceKey = keyof DataSource
 
 export default Vue.extend({
 	name: 'VirtualList',
@@ -69,11 +81,11 @@ export default Vue.extend({
 			required: true,
 		},
 		dataKey: {
-			type: String,
+			type: String as PropType<DataSourceKey>,
 			required: true,
 		},
 		dataSources: {
-			type: Array as PropType<(File | Folder)[]>,
+			type: Array as PropType<DataSource[]>,
 			required: true,
 		},
 		extraProps: {
@@ -123,13 +135,13 @@ export default Vue.extend({
 
 		itemHeight() {
 			// Align with css in FilesListVirtual
-			// 138px + 44px (name) + 15px (grid gap)
-			return this.gridMode ? (138 + 44 + 15) : 55
+			// 166px + 32px (name) + 16px (mtime) + 16px (padding)
+			return this.gridMode ? (166 + 32 + 16 + 16) : 55
 		},
 		// Grid mode only
 		itemWidth() {
-			// 160px + 15px grid gap
-			return 160 + 15
+			// 166px + 16px padding
+			return 166 + 16
 		},
 
 		rowCount() {
@@ -142,9 +154,17 @@ export default Vue.extend({
 			return Math.floor(this.filesListWidth / this.itemWidth)
 		},
 
+		/**
+		 * Index of the first item to be rendered
+		 */
 		startIndex() {
 			return Math.max(0, this.index - this.bufferItems)
 		},
+
+		/**
+		 * Number of items to be rendered at the same time
+		 * For list view this is the same as `rowCount`, for grid view this is `rowCount` * `columnCount`
+		 */
 		shownItems() {
 			// If in grid mode, we need to multiply the number of rows by the number of columns
 			if (this.gridMode) {
@@ -153,6 +173,7 @@ export default Vue.extend({
 
 			return this.rowCount
 		},
+
 		renderedItems(): RecycledPoolItem[] {
 			if (!this.isReady) {
 				return []
@@ -181,6 +202,13 @@ export default Vue.extend({
 			})
 		},
 
+		/**
+		 * The total number of rows that are available
+		 */
+		totalRowCount() {
+			return Math.floor(this.dataSources.length / this.columnCount)
+		},
+
 		tbodyStyle() {
 			const isOverScrolled = this.startIndex + this.rowCount > this.dataSources.length
 			const lastIndex = this.dataSources.length - this.startIndex - this.shownItems
@@ -188,6 +216,7 @@ export default Vue.extend({
 			return {
 				paddingTop: `${Math.floor(this.startIndex / this.columnCount) * this.itemHeight}px`,
 				paddingBottom: isOverScrolled ? 0 : `${hiddenAfterItems * this.itemHeight}px`,
+				minHeight: `${this.totalRowCount * this.itemHeight + this.beforeHeight}px`,
 			}
 		},
 	},
@@ -195,6 +224,13 @@ export default Vue.extend({
 		scrollToIndex(index) {
 			this.scrollTo(index)
 		},
+
+		totalRowCount() {
+			if (this.scrollToIndex) {
+				this.$nextTick(() => this.scrollTo(this.scrollToIndex))
+			}
+		},
+
 		columnCount(columnCount, oldColumnCount) {
 			if (oldColumnCount === 0) {
 				// We're initializing, the scroll position
@@ -232,7 +268,7 @@ export default Vue.extend({
 		// Adding scroll listener AFTER the initial scroll to index
 		this.$el.addEventListener('scroll', this.onScroll, { passive: true })
 
-		this.$_recycledPool = {} as Record<string, any>
+		this.$_recycledPool = {} as Record<string, DataSource[DataSourceKey]>
 	},
 
 	beforeDestroy() {

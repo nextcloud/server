@@ -1,43 +1,17 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Daniel Kesselberg <mail@danielkesselberg.de>
- * @author fnuesse <felix.nuesse@t-online.de>
- * @author fnuesse <fnuesse@techfak.uni-bielefeld.de>
- * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Max Kovalenko <mxss1998@yandex.ru>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Nina Pypchenko <22447785+nina-py@users.noreply.github.com>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Vincent Petry <vincent@nextcloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\Files\Controller;
 
+use OC\Files\FilenameValidator;
 use OCA\Files\Activity\Helper;
 use OCA\Files\AppInfo\Application;
 use OCA\Files\Event\LoadAdditionalScriptsEvent;
+use OCA\Files\Event\LoadSearchPlugins;
 use OCA\Files\Event\LoadSidebar;
 use OCA\Files\Service\UserConfig;
 use OCA\Files\Service\ViewConfig;
@@ -51,7 +25,6 @@ use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
 use OCP\Collaboration\Resources\LoadAdditionalScriptsEvent as ResourcesLoadAdditionalScriptsEvent;
-use OCP\Constants;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
@@ -62,57 +35,31 @@ use OCP\IL10N;
 use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\IUserSession;
-use OCP\Share\IManager;
 
 /**
  * @package OCA\Files\Controller
  */
 #[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
 class ViewController extends Controller {
-	private IURLGenerator $urlGenerator;
-	private IL10N $l10n;
-	private IConfig $config;
-	private IEventDispatcher $eventDispatcher;
-	private IUserSession $userSession;
-	private IAppManager $appManager;
-	private IRootFolder $rootFolder;
-	private Helper $activityHelper;
-	private IInitialState $initialState;
-	private ITemplateManager $templateManager;
-	private IManager $shareManager;
-	private UserConfig $userConfig;
-	private ViewConfig $viewConfig;
 
-	public function __construct(string $appName,
+	public function __construct(
+		string $appName,
 		IRequest $request,
-		IURLGenerator $urlGenerator,
-		IL10N $l10n,
-		IConfig $config,
-		IEventDispatcher $eventDispatcher,
-		IUserSession $userSession,
-		IAppManager $appManager,
-		IRootFolder $rootFolder,
-		Helper $activityHelper,
-		IInitialState $initialState,
-		ITemplateManager $templateManager,
-		IManager $shareManager,
-		UserConfig $userConfig,
-		ViewConfig $viewConfig
+		private IURLGenerator $urlGenerator,
+		private IL10N $l10n,
+		private IConfig $config,
+		private IEventDispatcher $eventDispatcher,
+		private IUserSession $userSession,
+		private IAppManager $appManager,
+		private IRootFolder $rootFolder,
+		private Helper $activityHelper,
+		private IInitialState $initialState,
+		private ITemplateManager $templateManager,
+		private UserConfig $userConfig,
+		private ViewConfig $viewConfig,
+		private FilenameValidator $filenameValidator,
 	) {
 		parent::__construct($appName, $request);
-		$this->urlGenerator = $urlGenerator;
-		$this->l10n = $l10n;
-		$this->config = $config;
-		$this->eventDispatcher = $eventDispatcher;
-		$this->userSession = $userSession;
-		$this->appManager = $appManager;
-		$this->rootFolder = $rootFolder;
-		$this->activityHelper = $activityHelper;
-		$this->initialState = $initialState;
-		$this->templateManager = $templateManager;
-		$this->shareManager = $shareManager;
-		$this->userConfig = $userConfig;
-		$this->viewConfig = $viewConfig;
 	}
 
 	/**
@@ -134,7 +81,7 @@ class ViewController extends Controller {
 	 * @param string $fileid
 	 * @return TemplateResponse|RedirectResponse
 	 */
-	public function showFile(string $fileid = null): Response {
+	public function showFile(?string $fileid = null): Response {
 		if (!$fileid) {
 			return new RedirectResponse($this->urlGenerator->linkToRoute('files.view.index'));
 		}
@@ -151,7 +98,6 @@ class ViewController extends Controller {
 	/**
 	 * @NoCSRFRequired
 	 * @NoAdminRequired
-	 * @UseSession
 	 *
 	 * @param string $dir
 	 * @param string $view
@@ -166,7 +112,6 @@ class ViewController extends Controller {
 	/**
 	 * @NoCSRFRequired
 	 * @NoAdminRequired
-	 * @UseSession
 	 *
 	 * @param string $dir
 	 * @param string $view
@@ -181,7 +126,6 @@ class ViewController extends Controller {
 	/**
 	 * @NoCSRFRequired
 	 * @NoAdminRequired
-	 * @UseSession
 	 *
 	 * @param string $dir
 	 * @param string $view
@@ -251,15 +195,16 @@ class ViewController extends Controller {
 		$filesSortingConfig = json_decode($this->config->getUserValue($userId, 'files', 'files_sorting_configs', '{}'), true);
 		$this->initialState->provideInitialState('filesSortingConfig', $filesSortingConfig);
 
-		// Forbidden file characters
-		/** @var string[] */
-		$forbiddenCharacters = $this->config->getSystemValue('forbidden_chars', []);
-		$this->initialState->provideInitialState('forbiddenCharacters', Constants::FILENAME_INVALID_CHARS . implode('', $forbiddenCharacters));
+		// Forbidden file characters (deprecated use capabilities)
+		// TODO: Remove with next release of `@nextcloud/files`
+		$forbiddenCharacters = $this->filenameValidator->getForbiddenCharacters();
+		$this->initialState->provideInitialState('forbiddenCharacters', $forbiddenCharacters);
 
 		$event = new LoadAdditionalScriptsEvent();
 		$this->eventDispatcher->dispatchTyped($event);
 		$this->eventDispatcher->dispatchTyped(new ResourcesLoadAdditionalScriptsEvent());
 		$this->eventDispatcher->dispatchTyped(new LoadSidebar());
+		$this->eventDispatcher->dispatchTyped(new LoadSearchPlugins());
 		// Load Viewer scripts
 		if (class_exists(LoadViewer::class)) {
 			$this->eventDispatcher->dispatchTyped(new LoadViewer());
@@ -302,8 +247,7 @@ class ViewController extends Controller {
 
 		$uid = $user->getUID();
 		$userFolder = $this->rootFolder->getUserFolder($uid);
-		$nodes = $userFolder->getById((int) $fileid);
-		$node = array_shift($nodes);
+		$node = $userFolder->getFirstNodeById((int) $fileid);
 
 		if ($node === null) {
 			return;
@@ -321,7 +265,7 @@ class ViewController extends Controller {
 		}
 
 		$this->initialState->provideInitialState(
-			'openFileInfo', [
+			'fileInfo', [
 				'id' => $node->getId(),
 				'name' => $isRoot ? '' : $node->getName(),
 				'path' => $path,
@@ -343,17 +287,16 @@ class ViewController extends Controller {
 	private function redirectToFileIfInTrashbin($fileId): RedirectResponse {
 		$uid = $this->userSession->getUser()->getUID();
 		$baseFolder = $this->rootFolder->getUserFolder($uid);
-		$nodes = $baseFolder->getById($fileId);
+		$node = $baseFolder->getFirstNodeById($fileId);
 		$params = [];
 
-		if (empty($nodes) && $this->appManager->isEnabledForUser('files_trashbin')) {
+		if (!$node && $this->appManager->isEnabledForUser('files_trashbin')) {
 			/** @var Folder */
 			$baseFolder = $this->rootFolder->get($uid . '/files_trashbin/files/');
-			$nodes = $baseFolder->getById($fileId);
+			$node = $baseFolder->getFirstNodeById($fileId);
 			$params['view'] = 'trashbin';
 
-			if (!empty($nodes)) {
-				$node = current($nodes);
+			if ($node) {
 				$params['fileid'] = $fileId;
 				if ($node instanceof Folder) {
 					// set the full path to enter the folder
@@ -378,7 +321,7 @@ class ViewController extends Controller {
 	private function redirectToFile(int $fileId) {
 		$uid = $this->userSession->getUser()->getUID();
 		$baseFolder = $this->rootFolder->getUserFolder($uid);
-		$nodes = $baseFolder->getById($fileId);
+		$node = $baseFolder->getFirstNodeById($fileId);
 		$params = ['view' => 'files'];
 
 		try {
@@ -386,8 +329,7 @@ class ViewController extends Controller {
 		} catch (NotFoundException $e) {
 		}
 
-		if (!empty($nodes)) {
-			$node = current($nodes);
+		if ($node) {
 			$params['fileid'] = $fileId;
 			if ($node instanceof Folder) {
 				// set the full path to enter the folder

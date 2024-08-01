@@ -8,12 +8,13 @@
     "We will remind you of this file" : "Przypomnimy Tobie o tym pliku",
     "Please choose a valid date & time" : "Wybierz prawidłową datę i godzinę",
     "Cancel" : "Anuluj",
+    "Clear reminder" : "Wyczyść przypomnienie",
     "Set reminder" : "Ustaw przypomnienie",
     "Set reminder for \"{fileName}\"" : "Ustaw przypomnienie dla \"{fileName}\"",
     "Set reminder at custom date & time" : "Ustaw przypomnienie o własnej dacie i godzinie",
-    "Clear reminder" : "Wyczyść przypomnienie",
     "Reminder set for \"{fileName}\"" : "Przypomnienie ustawione dla \"{fileName}\"",
     "Failed to set reminder" : "Nie udało się ustawić przypomnienia",
+    "Failed to clear reminder" : "Nie udało się wyczyścić przypomnienia",
     "Set custom reminder" : "Ustaw niestandardowe przypomnienie",
     "Later today" : "Później dzisiaj",
     "Set reminder for later today" : "Ustaw przypomnienie na dzisiaj na późniejszy czas",
@@ -25,7 +26,6 @@
     "Set reminder for next week" : "Ustaw przypomnienie na przyszły tydzień",
     "Back" : "Poprzednia",
     "Reminder cleared" : "Przypomnienie zostało usunięte",
-    "Failed to clear reminder" : "Nie udało się wyczyścić przypomnienia",
     "Failed to load reminder" : "Nie udało się wczytać przypomnienia"
 },"pluralForm" :"nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);"
 }

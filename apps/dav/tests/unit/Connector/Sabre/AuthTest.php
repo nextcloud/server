@@ -1,31 +1,9 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Bjoern Schiessle <bjoern@schiessle.org>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Vincent Petry <vincent@nextcloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\DAV\Tests\unit\Connector\Sabre;
 
@@ -35,6 +13,7 @@ use OCP\IRequest;
 use OCP\ISession;
 use OCP\IUser;
 use OCP\Security\Bruteforce\IThrottler;
+use PHPUnit\Framework\MockObject\MockObject;
 use Sabre\DAV\Server;
 use Sabre\HTTP\RequestInterface;
 use Sabre\HTTP\ResponseInterface;
@@ -47,17 +26,17 @@ use Test\TestCase;
  * @group DB
  */
 class AuthTest extends TestCase {
-	/** @var ISession */
+	/** @var ISession&MockObject */
 	private $session;
 	/** @var \OCA\DAV\Connector\Sabre\Auth */
 	private $auth;
-	/** @var Session */
+	/** @var Session&MockObject */
 	private $userSession;
-	/** @var IRequest */
+	/** @var IRequest&MockObject */
 	private $request;
-	/** @var Manager */
+	/** @var Manager&MockObject */
 	private $twoFactorManager;
-	/** @var IThrottler */
+	/** @var IThrottler&MockObject */
 	private $throttler;
 
 	protected function setUp(): void {
@@ -549,11 +528,11 @@ class AuthTest extends TestCase {
 		$this->expectException(\Sabre\DAV\Exception\NotAuthenticated::class);
 		$this->expectExceptionMessage('Cannot authenticate over ajax calls');
 
-		/** @var \Sabre\HTTP\RequestInterface $httpRequest */
+		/** @var \Sabre\HTTP\RequestInterface&MockObject $httpRequest */
 		$httpRequest = $this->getMockBuilder(RequestInterface::class)
 			->disableOriginalConstructor()
 			->getMock();
-		/** @var \Sabre\HTTP\ResponseInterface $httpResponse */
+		/** @var \Sabre\HTTP\ResponseInterface&MockObject $httpResponse */
 		$httpResponse = $this->getMockBuilder(ResponseInterface::class)
 			->disableOriginalConstructor()
 			->getMock();
@@ -562,10 +541,59 @@ class AuthTest extends TestCase {
 			->method('isLoggedIn')
 			->willReturn(false);
 		$httpRequest
-			->expects($this->once())
+			->expects($this->exactly(2))
 			->method('getHeader')
-			->with('X-Requested-With')
-			->willReturn('XMLHttpRequest');
+			->willReturnMap([
+				['X-Requested-With', 'XMLHttpRequest'],
+				['Authorization', null],
+			]);
+
+		$this->auth->check($httpRequest, $httpResponse);
+	}
+
+	public function testAuthenticateWithBasicAuthenticateHeadersProvidedWithAjax(): void {
+		// No CSRF
+		$this->request
+			->expects($this->once())
+			->method('passesCSRFCheck')
+			->willReturn(false);
+
+		/** @var \Sabre\HTTP\RequestInterface&MockObject $httpRequest */
+		$httpRequest = $this->getMockBuilder(RequestInterface::class)
+			->disableOriginalConstructor()
+			->getMock();
+		/** @var \Sabre\HTTP\ResponseInterface&MockObject $httpResponse */
+		$httpResponse = $this->getMockBuilder(ResponseInterface::class)
+			->disableOriginalConstructor()
+			->getMock();
+		$httpRequest
+			->expects($this->any())
+			->method('getHeader')
+			->willReturnMap([
+				['X-Requested-With', 'XMLHttpRequest'],
+				['Authorization', 'basic dXNlcm5hbWU6cGFzc3dvcmQ='],
+			]);
+
+		$user = $this->getMockBuilder(IUser::class)
+			->disableOriginalConstructor()
+			->getMock();
+		$user->expects($this->any())
+			->method('getUID')
+			->willReturn('MyDavUser');
+		$this->userSession
+			->expects($this->any())
+			->method('isLoggedIn')
+			->willReturn(false);
+		$this->userSession
+			->expects($this->once())
+			->method('logClientIn')
+			->with('username', 'password')
+			->willReturn(true);
+		$this->userSession
+			->expects($this->any())
+			->method('getUser')
+			->willReturn($user);
+
 		$this->auth->check($httpRequest, $httpResponse);
 	}
 
@@ -619,16 +647,11 @@ class AuthTest extends TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 		$server->httpRequest
-			->expects($this->exactly(2))
+			->expects($this->once())
 			->method('getHeader')
-			->withConsecutive(
-				['X-Requested-With'],
-				['Authorization'],
-			)
-			->willReturnOnConsecutiveCalls(
-				null,
-				'basic dXNlcm5hbWU6cGFzc3dvcmQ=',
-			);
+			->with('Authorization')
+			->willReturn('basic dXNlcm5hbWU6cGFzc3dvcmQ=');
+
 		$server->httpResponse = $this->getMockBuilder(ResponseInterface::class)
 			->disableOriginalConstructor()
 			->getMock();
@@ -661,14 +684,10 @@ class AuthTest extends TestCase {
 		$server->httpRequest
 			->expects($this->exactly(2))
 			->method('getHeader')
-			->withConsecutive(
-				['X-Requested-With'],
-				['Authorization'],
-			)
-			->willReturnOnConsecutiveCalls(
-				null,
-				'basic dXNlcm5hbWU6cGFzc3dvcmQ=',
-			);
+			->willReturnMap([
+				['Authorization', 'basic dXNlcm5hbWU6cGFzc3dvcmQ='],
+				['X-Requested-With', null],
+			]);
 		$server->httpResponse = $this->getMockBuilder(ResponseInterface::class)
 			->disableOriginalConstructor()
 			->getMock();

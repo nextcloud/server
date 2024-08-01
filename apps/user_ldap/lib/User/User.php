@@ -1,42 +1,19 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Jörn Friedrich Dreyer <jfd@butonic.de>
- * @author Juan Pablo Villafáñez <jvillafanez@solidgear.es>
- * @author Marc Hefter <marchefter@march42.net>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Philipp Staiger <philipp@staiger.it>
- * @author Roger Szabo <roger.szabo@web.de>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Victor Dubiniuk <dubiniuk@owncloud.com>
- * @author Vincent Petry <vincent@nextcloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\User_LDAP\User;
 
+use InvalidArgumentException;
 use OC\Accounts\AccountManager;
 use OCA\User_LDAP\Access;
 use OCA\User_LDAP\Connection;
 use OCA\User_LDAP\Exceptions\AttributeNotSet;
 use OCA\User_LDAP\FilesystemHelper;
+use OCA\User_LDAP\Service\BirthdateParserService;
 use OCP\Accounts\IAccountManager;
 use OCP\Accounts\PropertyDoesNotExistException;
 use OCP\IAvatarManager;
@@ -107,6 +84,8 @@ class User {
 	 */
 	protected $avatarImage;
 
+	protected BirthdateParserService $birthdateParser;
+
 	/**
 	 * DB config keys for user preferences
 	 */
@@ -140,6 +119,7 @@ class User {
 		$this->avatarManager = $avatarManager;
 		$this->userManager = $userManager;
 		$this->notificationManager = $notificationManager;
+		$this->birthdateParser = new BirthdateParserService();
 
 		\OCP\Util::connectHook('OC_User', 'post_login', $this, 'handlePasswordExpiry');
 	}
@@ -244,7 +224,7 @@ class User {
 			($profileCached === null) && // no cache or TTL not expired
 			!$this->wasRefreshed('profile')) {
 			// check current data
-			$profileValues = array();
+			$profileValues = [];
 			//User Profile Field - Phone number
 			$attr = strtolower($this->connection->ldapAttributePhone);
 			if (!empty($attr)) { // attribute configured
@@ -316,13 +296,29 @@ class User {
 				if (str_contains($ldapEntry[$attr][0], '\r')) {
 					// convert line endings
 					$profileValues[\OCP\Accounts\IAccountManager::PROPERTY_BIOGRAPHY]
-						= str_replace(array("\r\n","\r"), "\n", $ldapEntry[$attr][0]);
+						= str_replace(["\r\n","\r"], "\n", $ldapEntry[$attr][0]);
 				} else {
 					$profileValues[\OCP\Accounts\IAccountManager::PROPERTY_BIOGRAPHY]
 						= $ldapEntry[$attr][0];
 				}
 			} elseif (!empty($attr)) {	// configured, but not defined
 				$profileValues[\OCP\Accounts\IAccountManager::PROPERTY_BIOGRAPHY] = "";
+			}
+			//User Profile Field - birthday
+			$attr = strtolower($this->connection->ldapAttributeBirthDate);
+			if (!empty($attr) && !empty($ldapEntry[$attr][0])) {
+				$value = $ldapEntry[$attr][0];
+				try {
+					$birthdate = $this->birthdateParser->parseBirthdate($value);
+					$profileValues[\OCP\Accounts\IAccountManager::PROPERTY_BIRTHDATE]
+						= $birthdate->format("Y-m-d");
+				} catch (InvalidArgumentException $e) {
+					// Invalid date -> just skip the property
+					$this->logger->info("Failed to parse user's birthdate from LDAP: $value", [
+						'exception' => $e,
+						'userId' => $username,
+					]);
+				}
 			}
 			// check for changed data and cache just for TTL checking
 			$checksum = hash('sha256', json_encode($profileValues));
@@ -397,9 +393,9 @@ class User {
 		if ($path !== '') {
 			//if attribute's value is an absolute path take this, otherwise append it to data dir
 			//check for / at the beginning or pattern c:\ resp. c:/
-			if ('/' !== $path[0]
-			   && !(3 < strlen($path) && ctype_alpha($path[0])
-				   && $path[1] === ':' && ('\\' === $path[2] || '/' === $path[2]))
+			if ($path[0] !== '/'
+			   && !(strlen($path) > 3 && ctype_alpha($path[0])
+				   && $path[1] === ':' && ($path[2] === '\\' || $path[2] === '/'))
 			) {
 				$path = $this->config->getSystemValue('datadirectory',
 					\OC::$SERVERROOT.'/data') . '/' . $path;
@@ -785,7 +781,7 @@ class User {
 	 * @throws \OCP\PreConditionNotMetException
 	 * @throws \OC\ServerNotAvailableException
 	 */
-	public function updateExtStorageHome(string $valueFromLDAP = null):string {
+	public function updateExtStorageHome(?string $valueFromLDAP = null):string {
 		if ($valueFromLDAP === null) {
 			$extHomeValues = $this->access->readAttribute($this->getDN(), $this->connection->ldapExtStorageHomeAttribute);
 		} else {

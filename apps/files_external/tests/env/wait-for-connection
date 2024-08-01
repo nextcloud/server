@@ -1,6 +1,11 @@
 #!/usr/bin/php
 <?php
 
+/**
+ * SPDX-FileCopyrightText: 2015 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
+ */
+ 
 $timeout = 60;
 
 switch ($argc) {

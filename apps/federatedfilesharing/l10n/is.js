@@ -1,11 +1,6 @@
 OC.L10N.register(
     "federatedfilesharing",
     {
-    "Do you want to add the remote share {name} from {owner}@{remote}?" : "Viltu bæta við fjartengdri sameign {name} frá {owner}@{remote}?",
-    "Remote share" : "Fjartengd sameign",
-    "Remote share password" : "Lykilorð fjartengdrar sameignar",
-    "Cancel" : "Hætta við",
-    "Add remote share" : "Bæta við fjartengdri sameign",
     "Invalid Federated Cloud ID" : "Ógilt skýjasambandsauðkenni (Federated Cloud ID)",
     "Server to server sharing is not enabled on this server" : "Deiling frá þjóni til þjóns er ekki virk á þessum þjóni",
     "Couldn't establish a federated share." : "Gat ekki bætt við skýjasambandssameign.",
@@ -43,6 +38,11 @@ OC.L10N.register(
     "Copy to clipboard" : "Afrita á klippispjald",
     "Clipboard is not available" : "Klippispjald er ekki tiltækt",
     "Copied!" : "Afritað!",
+    "Do you want to add the remote share {name} from {owner}@{remote}?" : "Viltu bæta við fjartengdri sameign {name} frá {owner}@{remote}?",
+    "Remote share" : "Fjartengd sameign",
+    "Remote share password" : "Lykilorð fjartengdrar sameignar",
+    "Cancel" : "Hætta við",
+    "Add remote share" : "Bæta við fjartengdri sameign",
     "Sharing %1$s failed, because this item is already shared with user %2$s" : "Deiling %1$s mistókst, því þessu atriði er þegar deilt með notandanum %2$s",
     "Not allowed to create a federated share with the same user" : "Ekki er heimilt að búa til skýjasambandssameign með sama notanda",
     "Allow users on this server to receive shares from other servers" : "Leyfa notendum á þessum þjóni að taka á móti sameignum frá öðrum þjónum",

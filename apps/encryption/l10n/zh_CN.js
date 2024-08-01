@@ -55,7 +55,6 @@ OC.L10N.register(
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "启用该项将允许您在密码丢失后取回您的加密文件",
     "Enabled" : "启用",
     "Disabled" : "禁用",
-    "In order to use this encryption module you need to enable server-side\n\t\tencryption in the admin settings. Once enabled this module will encrypt\n\t\tall your files transparently. The encryption is based on AES 256 keys.\n\t\tThe module won't touch existing files, only new files will be encrypted\n\t\tafter server-side encryption was enabled. It is also not possible to\n\t\tdisable the encryption again and switch back to a unencrypted system.\n\t\tPlease read the documentation to know all implications before you decide\n\t\tto enable server-side encryption." : "您需要在管理员设置中启用服务器端加密功能以使用此加密模块。\n\t\t此模块一旦被启用您的所有文件将被其透明地加密。\n\t\t加密基于AES 256密钥。在服务器端加密功能启用后，此模块\n\t\t将不会触碰已存在的文件，而只会对新文件进行加密。\n\t\t再次禁用加密功能也不可能切换回一个未加密的系统。\n\t\t在您决定启用服务器端加密功能前请阅读文档以了解\n\t\t这一操作的所有后果。",
     "The recovery key is an extra encryption key that is used to encrypt files. It allows recovery of a user's files if the user forgets his or her password." : "恢复密钥是用于加密文件的额外加密密钥。如果用户忘记了密码，它允许用户恢复文件。"
 },
 "nplurals=1; plural=0;");

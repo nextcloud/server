@@ -1,11 +1,15 @@
 <?xml version="1.0"?>
+<!--
+  - SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 <info xmlns:xsi= "http://www.w3.org/2001/XMLSchema-instance"
 	  xsi:noNamespaceSchemaLocation="https://apps.nextcloud.com/schema/apps/info.xsd">
 	<id>cloud_federation_api</id>
 	<name>Cloud Federation API</name>
 	<summary>Enable clouds to communicate with each other and exchange data</summary>
 	<description>The Cloud Federation API enables various Nextcloud instances to communicate with each other and to exchange data.</description>
-	<version>1.12.0</version>
+	<version>1.13.0</version>
 	<licence>agpl</licence>
 	<author>Bjoern Schiessle</author>
 	<namespace>CloudFederationAPI</namespace>
@@ -15,6 +19,6 @@
 	<category>integration</category>
 	<bugs>https://github.com/nextcloud/server/issues</bugs>
 	<dependencies>
-		<nextcloud min-version="29" max-version="29"/>
+		<nextcloud min-version="30" max-version="30"/>
 	</dependencies>
 </info>

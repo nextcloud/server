@@ -2,25 +2,8 @@
 
 declare(strict_types=1);
 /**
- * @copyright 2024 Maxence Lange <maxence@artificial-owl.com>
- *
- * @author Maxence Lange <maxence@artificial-owl.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace OC\Blurhash\Listener;
@@ -72,6 +55,12 @@ class GenerateBlurhashMetadata implements IEventListener {
 			return;
 		}
 
+		$currentEtag = $file->getEtag();
+		$metadata = $event->getMetadata();
+		if ($metadata->getEtag('blurhash') === $currentEtag) {
+			return;
+		}
+
 		// too heavy to run on the live thread, request a rerun as a background job
 		if ($event instanceof MetadataLiveEvent) {
 			$event->requestBackgroundJob();
@@ -82,7 +71,7 @@ class GenerateBlurhashMetadata implements IEventListener {
 		try {
 			// using preview image to generate the blurhash
 			$preview = $this->preview->getPreview($file, 256, 256);
-			$image = imagecreatefromstring($preview->getContent());
+			$image = @imagecreatefromstring($preview->getContent());
 		} catch (NotFoundException $e) {
 			// https://github.com/nextcloud/server/blob/9d70fd3e64b60a316a03fb2b237891380c310c58/lib/private/legacy/OC_Image.php#L668
 			// The preview system can fail on huge picture, in that case we use our own image resizer.
@@ -95,8 +84,8 @@ class GenerateBlurhashMetadata implements IEventListener {
 			return;
 		}
 
-		$metadata = $event->getMetadata();
-		$metadata->setString('blurhash', $this->generateBlurHash($image));
+		$metadata->setString('blurhash', $this->generateBlurHash($image))
+				 ->setEtag('blurhash', $currentEtag);
 	}
 
 	/**
@@ -108,7 +97,7 @@ class GenerateBlurhashMetadata implements IEventListener {
 	 * @throws LockedException
 	 */
 	private function resizedImageFromFile(File $file): GdImage|false {
-		$image = imagecreatefromstring($file->getContent());
+		$image = @imagecreatefromstring($file->getContent());
 		if ($image === false) {
 			return false;
 		}

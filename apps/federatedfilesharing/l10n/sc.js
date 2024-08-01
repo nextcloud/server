@@ -1,11 +1,6 @@
 OC.L10N.register(
     "federatedfilesharing",
     {
-    "Do you want to add the remote share {name} from {owner}@{remote}?" : "Nche cheres agiùnghere sa cumpartzidura remota {name} dae {owner}@{remote}?",
-    "Remote share" : "Cumpartzidura remota",
-    "Remote share password" : "Cumpartzidura remota crae",
-    "Cancel" : "Annulla",
-    "Add remote share" : "Agiunghe cumpartzidura remota",
     "Invalid Federated Cloud ID" : " ID de sa nue virtuale federada non bàlidu",
     "Server to server sharing is not enabled on this server" : "Sa cumpartzidura intre serbidores no est ativada in custu serbidore",
     "Couldn't establish a federated share." : "No at fatu a istabilire una cumpartzidura federada.",
@@ -37,6 +32,11 @@ OC.L10N.register(
     "Share with me through my #Nextcloud Federated Cloud ID" : "Cumpartzi cun megus tràmite s'ID meu de nue virtuale federada #Nextcloud Federated Cloud ID",
     "Copy to clipboard" : "Còpia in is punta de billete",
     "Copied!" : "Copiadu!",
+    "Do you want to add the remote share {name} from {owner}@{remote}?" : "Nche cheres agiùnghere sa cumpartzidura remota {name} dae {owner}@{remote}?",
+    "Remote share" : "Cumpartzidura remota",
+    "Remote share password" : "Cumpartzidura remota crae",
+    "Cancel" : "Annulla",
+    "Add remote share" : "Agiunghe cumpartzidura remota",
     "Sharing %1$s failed, because this item is already shared with user %2$s" : "Cumpartzidura %1$s faddida, ca custu elementu e giai cumpartzidu cun s'utente %2$s",
     "Not allowed to create a federated share with the same user" : "Non faghet a istabilire una cumpartzidura federada cun su pròpiu utente",
     "Adjust how people can share between servers. This includes shares between users on this server as well if they are using federated sharing." : "Règula comente is persones podent cumpartzire tra serbidores. Includit cumpartzidura tra utentes in custu serbidore e puru si sunt impreende cumpartziduras federadas.",

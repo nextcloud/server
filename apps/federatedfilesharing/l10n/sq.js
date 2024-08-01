@@ -1,11 +1,6 @@
 OC.L10N.register(
     "federatedfilesharing",
     {
-    "Do you want to add the remote share {name} from {owner}@{remote}?" : "Doni që të shtoni ndarjen në remote {name} nga {owner}@{remote}?",
-    "Remote share" : "Ndarje në largësi",
-    "Remote share password" : "Fjalëkalim ndarjeje të largët",
-    "Cancel" : "Anulo",
-    "Add remote share" : "Shto shpëendarje në distancë",
     "Invalid Federated Cloud ID" : "ID Federated Cloud e pavlefshme",
     "Server to server sharing is not enabled on this server" : "Shpërndarja server në server nuk është e mundësuar në këtë server",
     "Couldn't establish a federated share." : "Nuk mund të vendosej një shpërndarje e federuar.",
@@ -31,6 +26,11 @@ OC.L10N.register(
     "Share with me through my #Nextcloud Federated Cloud ID" : "Ndani me mua përmes ID-së time për #Nextcloud Federated Cloud",
     "Copy to clipboard" : "Kopjo në dërrasë ",
     "Copied!" : "U kopjua!",
+    "Do you want to add the remote share {name} from {owner}@{remote}?" : "Doni që të shtoni ndarjen në remote {name} nga {owner}@{remote}?",
+    "Remote share" : "Ndarje në largësi",
+    "Remote share password" : "Fjalëkalim ndarjeje të largët",
+    "Cancel" : "Anulo",
+    "Add remote share" : "Shto shpëendarje në distancë",
     "Not allowed to create a federated share with the same user" : "S’i lejohet të krijojë një ndarje të federuar me të njëjtin përdorues",
     "Allow users on this server to receive shares from other servers" : "Lejoju përdoruesve në këtë shërbyes të marrin ndarje nga shërbyes të tjerë",
     "Search global and public address book for users" : "Kërko librin e adresave globale dhe publike për përdoruesit",

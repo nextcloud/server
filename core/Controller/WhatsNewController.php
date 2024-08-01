@@ -1,26 +1,7 @@
 <?php
 /**
- * @copyright Copyright (c) 2018 Arthur Schiwon <blizzz@arthur-schiwon.de>
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Kate Döen <kate.doeen@nextcloud.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OC\Core\Controller;
 
@@ -30,6 +11,7 @@ use OC\Updater\ChangesCheck;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\ApiRoute;
+use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\Defaults;
 use OCP\IConfig;
@@ -55,8 +37,6 @@ class WhatsNewController extends OCSController {
 	}
 
 	/**
-	 * @NoAdminRequired
-	 *
 	 * Get the changes
 	 *
 	 * @return DataResponse<Http::STATUS_OK, array{changelogURL: string, product: string, version: string, whatsNew?: array{regular: string[], admin: string[]}}, array{}>|DataResponse<Http::STATUS_NO_CONTENT, array<empty>, array{}>
@@ -64,6 +44,7 @@ class WhatsNewController extends OCSController {
 	 * 200: Changes returned
 	 * 204: No changes
 	 */
+	#[NoAdminRequired]
 	#[ApiRoute(verb: 'GET', url: '/whatsnew', root: '/core')]
 	public function get():DataResponse {
 		$user = $this->userSession->getUser();
@@ -100,8 +81,6 @@ class WhatsNewController extends OCSController {
 	}
 
 	/**
-	 * @NoAdminRequired
-	 *
 	 * Dismiss the changes
 	 *
 	 * @param string $version Version to dismiss the changes for
@@ -112,6 +91,7 @@ class WhatsNewController extends OCSController {
 	 *
 	 * 200: Changes dismissed
 	 */
+	#[NoAdminRequired]
 	#[ApiRoute(verb: 'POST', url: '/whatsnew', root: '/core')]
 	public function dismiss(string $version):DataResponse {
 		$user = $this->userSession->getUser();

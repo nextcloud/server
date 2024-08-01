@@ -1,76 +1,39 @@
 <!--
-	- @copyright 2021, Christopher Ng <chrng8@gmail.com>
-	-
-	- @author Christopher Ng <chrng8@gmail.com>
-	-
-	- @license GNU AGPL version 3 or any later version
-	-
-	- This program is free software: you can redistribute it and/or modify
-	- it under the terms of the GNU Affero General Public License as
-	- published by the Free Software Foundation, either version 3 of the
-	- License, or (at your option) any later version.
-	-
-	- This program is distributed in the hope that it will be useful,
-	- but WITHOUT ANY WARRANTY; without even the implied warranty of
-	- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-	- GNU Affero General Public License for more details.
-	-
-	- You should have received a copy of the GNU Affero General Public License
-	- along with this program. If not, see <http://www.gnu.org/licenses/>.
-	-
+  - SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
 <template>
 	<div>
-		<div class="email">
-			<NcInputField :id="inputIdWithDefault"
-				ref="email"
-				autocapitalize="none"
-				autocomplete="email"
-				:error="hasError || !!helperText"
-				:helper-text="helperText || undefined"
-				:label="inputPlaceholder"
-				:placeholder="inputPlaceholder"
-				spellcheck="false"
-				:success="isSuccess"
-				type="email"
-				:value.sync="emailAddress" />
+		<div class="email" :class="{ 'email--additional': !primary }">
+			<div v-if="!primary" class="email__label-container">
+				<label :for="inputIdWithDefault">{{ inputPlaceholder }}</label>
+				<FederationControl v-if="!federationDisabled && !primary"
+					:readable="propertyReadable"
+					:additional="true"
+					:additional-value="email"
+					:disabled="federationDisabled"
+					:handle-additional-scope-change="saveAdditionalEmailScope"
+					:scope.sync="localScope"
+					@update:scope="onScopeChange" />
+			</div>
+			<div class="email__input-container">
+				<NcTextField :id="inputIdWithDefault"
+					ref="email"
+					class="email__input"
+					autocapitalize="none"
+					autocomplete="email"
+					:error="hasError || !!helperText"
+					:helper-text="helperTextWithNonConfirmed"
+					label-outside
+					:placeholder="inputPlaceholder"
+					spellcheck="false"
+					:success="isSuccess"
+					type="email"
+					:value.sync="emailAddress" />
 
-			<div class="email__actions">
-				<NcActions :aria-label="actionsLabel" @close="showFederationSettings = false">
-					<template v-if="showFederationSettings">
-						<NcActionButton @click="showFederationSettings = false">
-							<template #icon>
-								<NcIconSvgWrapper :path="mdiArrowLeft" />
-							</template>
-							{{ t('settings', 'Back') }}
-						</NcActionButton>
-						<FederationControlActions :readable="propertyReadable"
-							:additional="true"
-							:additional-value="email"
-							:disabled="federationDisabled"
-							:handle-additional-scope-change="saveAdditionalEmailScope"
-							:scope.sync="localScope"
-							@update:scope="onScopeChange" />
-					</template>
-					<template v-else>
-						<NcActionButton v-if="!federationDisabled && !primary"
-							@click="showFederationSettings = true">
-							<template #icon>
-								<NcIconSvgWrapper :path="mdiLock" />
-							</template>
-							{{ t('settings', 'Change scope level of {property}', { property: propertyReadable.toLocaleLowerCase() }) }}
-						</NcActionButton>
-						<NcActionCaption v-if="!isConfirmedAddress"
-							:name="t('settings', 'This address is not confirmed')" />
-						<NcActionButton close-after-click
-							:disabled="deleteDisabled"
-							@click="deleteEmail">
-							<template #icon>
-								<NcIconSvgWrapper :path="mdiTrashCan" />
-							</template>
-							{{ deleteEmailLabel }}
-						</NcActionButton>
+				<div class="email__actions">
+					<NcActions :aria-label="actionsLabel">
 						<NcActionButton v-if="!primary || !isNotificationEmail"
 							close-after-click
 							:disabled="!isConfirmedAddress"
@@ -81,8 +44,16 @@
 							</template>
 							{{ setNotificationMailLabel }}
 						</NcActionButton>
-					</template>
-				</NcActions>
+						<NcActionButton close-after-click
+							:disabled="deleteDisabled"
+							@click="deleteEmail">
+							<template #icon>
+								<NcIconSvgWrapper :path="mdiTrashCan" />
+							</template>
+							{{ deleteEmailLabel }}
+						</NcActionButton>
+					</NcActions>
+				</div>
 			</div>
 		</div>
 
@@ -95,14 +66,15 @@
 <script>
 import NcActions from '@nextcloud/vue/dist/Components/NcActions.js'
 import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
-import NcActionCaption from '@nextcloud/vue/dist/Components/NcActionCaption.js'
 import NcIconSvgWrapper from '@nextcloud/vue/dist/Components/NcIconSvgWrapper.js'
-import NcInputField from '@nextcloud/vue/dist/Components/NcInputField.js'
+import NcTextField from '@nextcloud/vue/dist/Components/NcTextField.js'
+
 import debounce from 'debounce'
 
 import { mdiArrowLeft, mdiLock, mdiStar, mdiStarOutline, mdiTrashCan } from '@mdi/js'
-import FederationControlActions from '../shared/FederationControlActions.vue'
-import { handleError } from '../../../utils/handlers.js'
+
+import FederationControl from '../shared/FederationControl.vue'
+import { handleError } from '../../../utils/handlers.ts'
 
 import { ACCOUNT_PROPERTY_READABLE_ENUM, VERIFICATION_ENUM } from '../../../constants/AccountPropertyConstants.js'
 import {
@@ -121,10 +93,9 @@ export default {
 	components: {
 		NcActions,
 		NcActionButton,
-		NcActionCaption,
 		NcIconSvgWrapper,
-		NcInputField,
-		FederationControlActions,
+		NcTextField,
+		FederationControl,
 	},
 
 	props: {
@@ -213,6 +184,20 @@ export default {
 			return this.primary || this.localVerificationState === VERIFICATION_ENUM.VERIFIED
 		},
 
+		isNotConfirmedHelperText() {
+			if (!this.isConfirmedAddress) {
+				return t('settings', 'This address is not confirmed')
+			}
+			return ''
+		},
+
+		helperTextWithNonConfirmed() {
+			if (this.helperText || this.hasError || this.isSuccess) {
+				return this.helperText || ''
+			}
+			return this.isNotConfirmedHelperText
+		},
+
 		setNotificationMailLabel() {
 			if (this.isNotificationEmail) {
 				return t('settings', 'Unset as primary email')
@@ -259,7 +244,8 @@ export default {
 
 	methods: {
 		debounceEmailChange: debounce(async function(email) {
-			this.helperText = this.$refs.email?.$refs.input?.validationMessage || null
+			// TODO: provide method to get native input in NcTextField
+			this.helperText = this.$refs.email.$refs.inputField.$refs.input.validationMessage || null
 			if (this.helperText !== null) {
 				return
 			}
@@ -276,7 +262,7 @@ export default {
 					}
 				}
 			}
-		}, 500),
+		}, 1000),
 
 		async deleteEmail() {
 			if (this.primary) {
@@ -403,16 +389,29 @@ export default {
 
 <style lang="scss" scoped>
 .email {
-	display: flex;
-	flex-direction: row;
-	align-items: start;
-	gap: 4px;
+	&__label-container {
+		height: var(--default-clickable-area);
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		gap: calc(var(--default-grid-baseline) * 2);
+	}
+
+	&__input-container {
+		position: relative;
+	}
+
+	&__input {
+		// TODO: provide a way to hide status icon or combine it with trailing button in NcInputField
+		:deep(.input-field__icon--trailing) {
+			display: none;
+		}
+	}
 
 	&__actions {
-		display: flex;
-		gap: 0 2px;
-		margin-right: 5px;
-		margin-top: 6px;
+		position: absolute;
+		inset-block-start: 0;
+		inset-inline-end: 0;
 	}
 }
 </style>

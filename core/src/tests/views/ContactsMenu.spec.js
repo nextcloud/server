@@ -1,22 +1,6 @@
 /**
- * @copyright 2023 Christoph Wurst <christoph@winzerhof-wurst.at>
- *
- * @author 2023 Christoph Wurst <christoph@winzerhof-wurst.at>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 import axios from '@nextcloud/axios'
@@ -98,19 +82,19 @@ describe('ContactsMenu', function() {
 						topAction: {
 							title: 'Mail',
 							icon: 'icon-mail',
-							hyperlink: 'mailto:deboraoliver%40centrexin.com'
+							hyperlink: 'mailto:deboraoliver%40centrexin.com',
 						},
 						actions: [
 							{
 								title: 'Mail',
 								icon: 'icon-mail',
-								hyperlink: 'mailto:mathisholland%40virxo.com'
+								hyperlink: 'mailto:mathisholland%40virxo.com',
 							},
 							{
 								title: 'Details',
 								icon: 'icon-info',
-								hyperlink: 'https://localhost/index.php/apps/contacts'
-							}
+								hyperlink: 'https://localhost/index.php/apps/contacts',
+							},
 						],
 						lastMessage: '',
 						emailAddresses: [],
@@ -121,23 +105,23 @@ describe('ContactsMenu', function() {
 						topAction: {
 							title: 'Mail',
 							icon: 'icon-mail',
-							hyperlink: 'mailto:ceciliasoto%40essensia.com'
+							hyperlink: 'mailto:ceciliasoto%40essensia.com',
 						},
 						actions: [
 							{
 								title: 'Mail',
 								icon: 'icon-mail',
-								hyperlink: 'mailto:pearliesellers%40inventure.com'
+								hyperlink: 'mailto:pearliesellers%40inventure.com',
 							},
 							{
 								title: 'Details',
 								icon: 'icon-info',
-								hyperlink: 'https://localhost/index.php/apps/contacts'
-							}
+								hyperlink: 'https://localhost/index.php/apps/contacts',
+							},
 						],
 						lastMessage: 'cu',
 						emailAddresses: [],
-					}
+					},
 				],
 				contactsAppEnabled: true,
 			},

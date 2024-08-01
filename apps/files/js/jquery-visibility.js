@@ -5,9 +5,12 @@
  * Project Website: http://mths.be/visibility
  *
  * @version 1.0.11
- * @license MIT.
- * @author Mathias Bynens - @mathias
- * @author Jan Paepke - @janpaepke
+ *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2015 ownCloud, Inc.
+ * SPDX-FileCopyrightText: Mathias Bynens
+ * SPDX-FileCopyrightText: Jan Paepke
+ * SPDX-License-Identifier: MIT
  */
 ;(function (root, factory) {
 	if (typeof define === 'function' && define.amd) {

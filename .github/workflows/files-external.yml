@@ -1,0 +1,95 @@
+# SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
+# SPDX-License-Identifier: MIT
+name: PHPUnit files_external generic
+on:
+  pull_request:
+  schedule:
+    - cron: "5 2 * * *"
+
+concurrency:
+  group: files-external-generic-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
+jobs:
+  changes:
+    runs-on: ubuntu-latest-low
+
+    outputs:
+      src: ${{ steps.changes.outputs.src}}
+
+    steps:
+      - uses: dorny/paths-filter@de90cc6fb38fc0963ad72b210f1f284cd68cea36 # v3.0.2
+        id: changes
+        continue-on-error: true
+        with:
+          filters: |
+            src:
+              - '.github/workflows/**'
+              - '3rdparty/**'
+              - 'apps/files_external/**'
+              - 'vendor/**'
+              - 'vendor-bin/**'
+              - 'composer.json'
+              - 'composer.lock'
+
+  files-external-generic:
+    runs-on: ubuntu-latest
+    needs: changes
+
+    if: ${{ github.repository_owner != 'nextcloud-gmbh' && needs.changes.outputs.src != 'false' }}
+
+    strategy:
+      matrix:
+        php-versions: ['8.1', '8.2', '8.3']
+        include:
+          - php-versions: '8.2'
+            coverage: ${{ github.event_name != 'pull_request' }}
+
+    name: php${{ matrix.php-versions }}-generic
+
+    steps:
+      - name: Checkout server
+        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332
+        with:
+          submodules: true
+
+      - name: Set up php ${{ matrix.php-versions }}
+        uses: shivammathur/setup-php@c541c155eee45413f5b09a52248675b1a2575231 #v2.31.1
+        with:
+          php-version: ${{ matrix.php-versions }}
+          # https://docs.nextcloud.com/server/stable/admin_manual/installation/source_installation.html#prerequisites-for-manual-installation
+          extensions: bz2, ctype, curl, dom, fileinfo, gd, iconv, intl, json, libxml, mbstring, openssl, pcntl, posix, redis, session, simplexml, xmlreader, xmlwriter, zip, zlib, sqlite, pdo_sqlite
+          coverage: ${{ matrix.coverage && 'xdebug' || 'none' }}
+          ini-file: development
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Nextcloud
+        env:
+          OBJECT_STORE_KEY: nextcloud
+          OBJECT_STORE_SECRET: bWluaW8tc2VjcmV0LWtleS1uZXh0Y2xvdWQ=
+        run: |
+          composer install
+          ./occ maintenance:install --verbose --database=sqlite --database-name=nextcloud --database-host=127.0.0.1 --database-user=root --database-pass=rootpassword --admin-user admin --admin-pass password
+          ./occ app:enable --force files_external
+
+      - name: PHPUnit
+        run: composer run test:files_external \
+          ${{ matrix.coverage && ' --coverage-clover ./clover.xml' || '' }}
+
+      - name: Upload code coverage
+        if: ${{ !cancelled() && matrix.coverage }}
+        uses: codecov/codecov-action@v4.5.0
+        with:
+          files: ./clover.xml
+          flags: phpunit-files-external-generic
+
+  files-external-summary:
+    runs-on: ubuntu-latest-low
+    needs: [changes, files-external-generic ]
+
+    if: always()
+
+    steps:
+      - name: Summary status
+        run: if ${{ needs.changes.outputs.src != 'false' && needs.files-external-generic.result != 'success' }}; then exit 1; fi

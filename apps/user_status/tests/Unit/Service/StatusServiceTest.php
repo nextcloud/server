@@ -3,26 +3,8 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2020, Georg Ehrke
- *
- * @author Georg Ehrke <oc.list@georgehrke.com>
- * @author Joas Schilling <coding@schilljs.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\UserStatus\Tests\Service;
 
@@ -45,6 +27,7 @@ use OCP\IEmojiHelper;
 use OCP\IUserManager;
 use OCP\UserStatus\IUserStatus;
 use PHPUnit\Framework\MockObject\MockObject;
+use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 class StatusServiceTest extends TestCase {
@@ -67,6 +50,9 @@ class StatusServiceTest extends TestCase {
 	/** @var IUserManager|MockObject  */
 	private $userManager;
 
+	/** @var LoggerInterface|MockObject  */
+	private $logger;
+
 	private StatusService $service;
 
 	protected function setUp(): void {
@@ -78,6 +64,7 @@ class StatusServiceTest extends TestCase {
 		$this->emojiHelper = $this->createMock(IEmojiHelper::class);
 		$this->userManager = $this->createMock(IUserManager::class);
 		$this->config = $this->createMock(IConfig::class);
+		$this->logger = $this->createMock(LoggerInterface::class);
 
 		$this->config->method('getAppValue')
 			->willReturnMap([
@@ -90,7 +77,8 @@ class StatusServiceTest extends TestCase {
 			$this->predefinedStatusService,
 			$this->emojiHelper,
 			$this->config,
-			$this->userManager
+			$this->userManager,
+			$this->logger,
 		);
 	}
 
@@ -146,7 +134,8 @@ class StatusServiceTest extends TestCase {
 			$this->predefinedStatusService,
 			$this->emojiHelper,
 			$this->config,
-			$this->userManager
+			$this->userManager,
+			$this->logger,
 		);
 
 		$this->assertEquals([], $this->service->findAllRecentStatusChanges(20, 50));
@@ -165,7 +154,8 @@ class StatusServiceTest extends TestCase {
 			$this->predefinedStatusService,
 			$this->emojiHelper,
 			$this->config,
-			$this->userManager
+			$this->userManager,
+			$this->logger,
 		);
 
 		$this->assertEquals([], $this->service->findAllRecentStatusChanges(20, 50));
@@ -749,7 +739,6 @@ class StatusServiceTest extends TestCase {
 	}
 
 	public function testBackup(): void {
-		$e = new Exception('', Exception::REASON_UNIQUE_CONSTRAINT_VIOLATION);
 		$this->mapper->expects($this->once())
 			->method('createBackupStatus')
 			->with('john')
@@ -824,5 +813,64 @@ class StatusServiceTest extends TestCase {
 			->with([2]);
 
 		$this->service->revertMultipleUserStatus(['john', 'nobackup', 'backuponly', 'nobackupanddnd'], 'call');
+	}
+
+	public function dataSetUserStatus(): array {
+		return [
+			[IUserStatus::MESSAGE_CALENDAR_BUSY, '', false],
+
+			// Call > Meeting
+			[IUserStatus::MESSAGE_CALENDAR_BUSY, IUserStatus::MESSAGE_CALL, false],
+			[IUserStatus::MESSAGE_CALL, IUserStatus::MESSAGE_CALENDAR_BUSY, true],
+
+			// Availability > Call&Meeting
+			[IUserStatus::MESSAGE_CALENDAR_BUSY, IUserStatus::MESSAGE_AVAILABILITY, false],
+			[IUserStatus::MESSAGE_CALL, IUserStatus::MESSAGE_AVAILABILITY, false],
+			[IUserStatus::MESSAGE_AVAILABILITY, IUserStatus::MESSAGE_CALENDAR_BUSY, true],
+			[IUserStatus::MESSAGE_AVAILABILITY, IUserStatus::MESSAGE_CALL, true],
+
+			// Out-of-office > Availability&Call&Meeting
+			[IUserStatus::MESSAGE_AVAILABILITY, IUserStatus::MESSAGE_OUT_OF_OFFICE, false],
+			[IUserStatus::MESSAGE_CALENDAR_BUSY, IUserStatus::MESSAGE_OUT_OF_OFFICE, false],
+			[IUserStatus::MESSAGE_CALL, IUserStatus::MESSAGE_OUT_OF_OFFICE, false],
+			[IUserStatus::MESSAGE_OUT_OF_OFFICE, IUserStatus::MESSAGE_AVAILABILITY, true],
+			[IUserStatus::MESSAGE_OUT_OF_OFFICE, IUserStatus::MESSAGE_CALENDAR_BUSY, true],
+			[IUserStatus::MESSAGE_OUT_OF_OFFICE, IUserStatus::MESSAGE_CALL, true],
+		];
+	}
+
+	/**
+	 * @dataProvider dataSetUserStatus
+	 */
+	public function testSetUserStatus(string $messageId, string $oldMessageId, bool $expectedUpdateShortcut): void {
+		$previous = new UserStatus();
+		$previous->setId(1);
+		$previous->setStatus(IUserStatus::AWAY);
+		$previous->setStatusTimestamp(1337);
+		$previous->setIsUserDefined(false);
+		$previous->setMessageId($oldMessageId);
+		$previous->setUserId('john');
+		$previous->setIsBackup(false);
+
+		$this->mapper->expects($this->once())
+			->method('findByUserId')
+			->with('john')
+			->willReturn($previous);
+
+		$e = DbalException::wrap($this->createMock(UniqueConstraintViolationException::class));
+		$this->mapper->expects($expectedUpdateShortcut ? $this->never() : $this->once())
+			->method('createBackupStatus')
+			->willThrowException($e);
+
+		$this->mapper->expects($this->any())
+			->method('update')
+			->willReturnArgument(0);
+
+		$this->predefinedStatusService->expects($this->once())
+			->method('isValidId')
+			->with($messageId)
+			->willReturn(true);
+
+		$this->service->setUserStatus('john', IUserStatus::DND, $messageId, true);
 	}
 }

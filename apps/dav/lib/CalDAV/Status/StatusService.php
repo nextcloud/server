@@ -3,25 +3,8 @@
 declare(strict_types=1);
 
 /**
- * @copyright 2023 Anna Larch <anna.larch@gmx.net>
- *
- * @author Anna Larch <anna.larch@gmx.net>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\DAV\CalDAV\Status;
 
@@ -32,6 +15,7 @@ use OCA\UserStatus\Service\StatusService as UserStatusService;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Calendar\IManager;
+use OCP\DB\Exception;
 use OCP\ICache;
 use OCP\ICacheFactory;
 use OCP\IUser as User;
@@ -72,7 +56,18 @@ class StatusService {
 		}
 
 		if(empty($calendarEvents)) {
-			$this->userStatusService->revertUserStatus($userId, IUserStatus::MESSAGE_CALENDAR_BUSY);
+			try {
+				$this->userStatusService->revertUserStatus($userId, IUserStatus::MESSAGE_CALENDAR_BUSY);
+			} catch (Exception $e) {
+				if ($e->getReason() === Exception::REASON_UNIQUE_CONSTRAINT_VIOLATION) {
+					// A different process might have written another status
+					// update to the DB while we're processing our stuff.
+					// We cannot safely restore the status as we don't know which one is valid at this point
+					// So let's silently log this one and exit
+					$this->logger->debug('Unique constraint violation for live user status', ['exception' => $e]);
+					return;
+				}
+			}
 			$this->logger->debug('No calendar events found for status check', ['user' => $userId]);
 			return;
 		}
@@ -118,7 +113,18 @@ class StatusService {
 		});
 
 		if(empty($applicableEvents)) {
-			$this->userStatusService->revertUserStatus($userId, IUserStatus::MESSAGE_CALENDAR_BUSY);
+			try {
+				$this->userStatusService->revertUserStatus($userId, IUserStatus::MESSAGE_CALENDAR_BUSY);
+			} catch (Exception $e) {
+				if ($e->getReason() === Exception::REASON_UNIQUE_CONSTRAINT_VIOLATION) {
+					// A different process might have written another status
+					// update to the DB while we're processing our stuff.
+					// We cannot safely restore the status as we don't know which one is valid at this point
+					// So let's silently log this one and exit
+					$this->logger->debug('Unique constraint violation for live user status', ['exception' => $e]);
+					return;
+				}
+			}
 			$this->logger->debug('No status relevant events found, skipping calendar status change', ['user' => $userId]);
 			return;
 		}
@@ -154,7 +160,7 @@ class StatusService {
 			}
 
 			$sct = $calendarObject->getSchedulingTransparency();
-			if ($sct !== null && ScheduleCalendarTransp::TRANSPARENT == strtolower($sct->getValue())) {
+			if ($sct !== null && strtolower($sct->getValue()) == ScheduleCalendarTransp::TRANSPARENT) {
 				// If a calendar is marked as 'transparent', it means we must
 				// ignore it for free-busy purposes.
 				continue;

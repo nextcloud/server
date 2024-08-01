@@ -2751,7 +2751,7 @@ class IntlCalendar {
      * <b>IntlCalendar::DOW_SATURDAY</b>.
      * </p>
      * @return int
-     * The number of milliseconds into the day at which the the weekend begins or
+     * The number of milliseconds into the day at which the weekend begins or
      * ends or <b>FALSE</b> on failure.
      */
     public function getWeekendTransition($dayOfWeek) { }
@@ -5229,7 +5229,7 @@ function intlcal_get_type($calendar) { }
  * <b>IntlCalendar::DOW_SATURDAY</b>.
  * </p>
  * @return int
- * The number of milliseconds into the day at which the the weekend begins or
+ * The number of milliseconds into the day at which the weekend begins or
  * ends or <b>FALSE</b> on failure.
  * @since 5.5
  */

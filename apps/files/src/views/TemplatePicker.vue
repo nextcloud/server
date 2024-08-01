@@ -1,24 +1,7 @@
 <!--
-  - @copyright Copyright (c) 2020 John Molakvoæ <skjnldsv@protonmail.com>
-  -
-  - @author John Molakvoæ <skjnldsv@protonmail.com>
-  -
-  - @license GNU AGPL version 3 or any later version
-  -
-  - This program is free software: you can redistribute it and/or modify
-  - it under the terms of the GNU Affero General Public License as
-  - published by the Free Software Foundation, either version 3 of the
-  - License, or (at your option) any later version.
-  -
-  - This program is distributed in the hope that it will be useful,
-  - but WITHOUT ANY WARRANTY; without even the implied warranty of
-  - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  - GNU Affero General Public License for more details.
-  -
-  - You should have received a copy of the GNU Affero General Public License
-  - along with this program. If not, see <http://www.gnu.org/licenses/>.
-  -
-  -->
+  - SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 
 <template>
 	<NcModal v-if="opened"
@@ -64,7 +47,7 @@
 import type { TemplateFile } from '../types.ts'
 
 import { getCurrentUser } from '@nextcloud/auth'
-import { showError } from '@nextcloud/dialogs'
+import { showError, spawnDialog } from '@nextcloud/dialogs'
 import { emit } from '@nextcloud/event-bus'
 import { File } from '@nextcloud/files'
 import { translate as t } from '@nextcloud/l10n'
@@ -76,7 +59,8 @@ import { createFromTemplate, getTemplates } from '../services/Templates.js'
 import NcEmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent.js'
 import NcModal from '@nextcloud/vue/dist/Components/NcModal.js'
 import TemplatePreview from '../components/TemplatePreview.vue'
-import logger from '../logger.js'
+import TemplateFiller from '../components/TemplateFiller.vue'
+import logger from '../logger.ts'
 
 const border = 2
 const margin = 8
@@ -88,6 +72,16 @@ export default defineComponent({
 		NcEmptyContent,
 		NcModal,
 		TemplatePreview,
+	},
+
+	props: {
+		/**
+		 * The parent folder where to create the node
+		 */
+		parent: {
+			type: Object,
+			default: () => null,
+		},
 	},
 
 	data() {
@@ -109,7 +103,7 @@ export default defineComponent({
 		nameWithoutExt() {
 			// Strip extension from name if defined
 			return !this.extension
-				? this.name
+				? this.name!
 				: this.name!.slice(0, 0 - this.extension.length)
 		},
 
@@ -207,8 +201,7 @@ export default defineComponent({
 			this.checked = fileid
 		},
 
-		async onSubmit() {
-			this.loading = true
+		async createFile(templateFields) {
 			const currentDirectory = new URL(window.location.href).searchParams.get('dir') || '/'
 
 			// If the file doesn't have an extension, add the default one
@@ -222,6 +215,7 @@ export default defineComponent({
 					normalize(`${currentDirectory}/${this.name}`),
 					this.selectedTemplate?.filename as string ?? '',
 					this.selectedTemplate?.templateType as string ?? '',
+					templateFields,
 				)
 				logger.debug('Created new file', fileInfo)
 
@@ -236,6 +230,10 @@ export default defineComponent({
 					size: fileInfo.size,
 					permissions: fileInfo.permissions,
 					attributes: {
+						// Inherit some attributes from parent folder like the mount type and real owner
+						'mount-type': this.parent?.attributes?.['mount-type'],
+						'owner-id': this.parent?.attributes?.['owner-id'],
+						'owner-display-name': this.parent?.attributes?.['owner-display-name'],
 						...fileInfo,
 						'has-preview': fileInfo.hasPreview,
 					},
@@ -243,7 +241,13 @@ export default defineComponent({
 
 				// Update files list
 				emit('files:node:created', node)
-				emit('files:node:focus', node)
+
+				// Open the new file
+				window.OCP.Files.Router.goToRoute(
+					null, // use default route
+					{ view: 'files', fileid: node.fileid },
+					{ dir: node.dirname, openfile: 'true' },
+				)
 
 				// Close the picker
 				this.close()
@@ -252,6 +256,18 @@ export default defineComponent({
 				showError(t('files', 'Unable to create new file from template'))
 			} finally {
 				this.loading = false
+			}
+		},
+
+		async onSubmit() {
+			if (this.selectedTemplate?.fields?.length > 0) {
+				spawnDialog(TemplateFiller, {
+					fields: this.selectedTemplate.fields,
+					onSubmit: this.createFile,
+				})
+			} else {
+				this.loading = true
+				await this.createFile()
 			}
 		},
 	},

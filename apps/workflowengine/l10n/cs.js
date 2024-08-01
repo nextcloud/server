@@ -67,6 +67,8 @@ OC.L10N.register(
     "Desktop client" : "Klient pro počítač",
     "Thunderbird & Outlook addons" : "Doplňky pro Thunderbird a Outlook",
     "Custom user agent" : "Uživatelem určený user agent",
+    "Select groups" : "Vybrat skupiny",
+    "Groups" : "Skupiny",
     "Select a trigger" : "Vybrat spouštěč",
     "At least one event must be selected" : "Je třeba vybrat alespoň jednu událost",
     "Add new flow" : "Přidat nový tok",

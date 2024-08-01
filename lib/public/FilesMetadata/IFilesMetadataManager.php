@@ -2,25 +2,8 @@
 
 declare(strict_types=1);
 /**
- * @copyright 2023 Maxence Lange <maxence@artificial-owl.com>
- *
- * @author Maxence Lange <maxence@artificial-owl.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace OCP\FilesMetadata;
@@ -122,7 +105,7 @@ interface IFilesMetadataManager {
 	 * @param string $fileTableAlias alias of the table that contains data about files
 	 * @param string $fileIdField alias of the field that contains file ids
 	 *
-	 * @return IMetadataQuery|null NULL if table are not set yet or never used
+	 * @return IMetadataQuery
 	 * @see IMetadataQuery
 	 * @since 28.0.0
 	 */
@@ -130,11 +113,13 @@ interface IFilesMetadataManager {
 		IQueryBuilder $qb,
 		string $fileTableAlias,
 		string $fileIdField
-	): ?IMetadataQuery;
+	): IMetadataQuery;
 
 	/**
 	 * returns all type of metadata currently available.
 	 * The list is stored in a IFilesMetadata with null values but correct type.
+	 *
+	 * Note: this method loads lazy appconfig values.
 	 *
 	 * @return IFilesMetadata
 	 * @since 28.0.0
@@ -142,10 +127,13 @@ interface IFilesMetadataManager {
 	public function getKnownMetadata(): IFilesMetadata;
 
 	/**
-	 * initiate a metadata key with its type.
+	 * Initiate a metadata key with its type.
+	 *
 	 * The call is mandatory before using the metadata property in a webdav request.
-	 * It is not needed to only use this method when the app is enabled: the method can be
-	 * called each time during the app loading as the metadata will only be initiated if not known
+	 * The call should be part of a migration/repair step and not be called on app's boot
+	 * process as it is using lazy-appconfig value
+	 *
+	 * Note: this method loads lazy appconfig values.
 	 *
 	 * @param string $key metadata key
 	 * @param string $type metadata type
@@ -164,6 +152,7 @@ interface IFilesMetadataManager {
 	 * @see IMetadataValueWrapper::EDIT_REQ_WRITE_PERMISSION
 	 * @see IMetadataValueWrapper::EDIT_REQ_READ_PERMISSION
 	 * @since 28.0.0
+	 * @since 29.0.0 uses lazy config value - do not use this method out of repair steps
 	 */
 	public function initMetadata(string $key, string $type, bool $indexed, int $editPermission): void;
 }

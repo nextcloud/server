@@ -1,7 +1,7 @@
 # App maintainers
 /apps/admin_audit/appinfo/info.xml            @luka-nextcloud @blizzz
 /apps/cloud_federation_api/appinfo/info.xml   @mejo-
-/apps/comments/appinfo/info.xml               @marcelklehr @Pytal
+/apps/comments/appinfo/info.xml               @edward-ly @Pytal
 /apps/contactsinteraction/appinfo/info.xml    @kesselb @miaulalala @ChristophWurst @GretaD @hamza221 @st3iny
 /apps/dashboard/appinfo/info.xml              @julien-nc @juliushaertl
 /apps/dav/lib/CalDAV                          @ChristophWurst @miaulalala @tcitworld
@@ -29,11 +29,11 @@
 /apps/workflowengine/appinfo/info.xml         @blizzz @juliushaertl
 
 # Frontend expertise
-/apps/files/src                  @skjnldsv
-/apps/files_external/src         @skjnldsv
-/apps/files_reminders/src        @skjnldsv
-/apps/files_sharing/src/actions  @skjnldsv
-/apps/files_trashbin/src         @skjnldsv
+/apps/files/src*                  @skjnldsv
+/apps/files_external/src*         @skjnldsv
+/apps/files_reminders/src*        @skjnldsv
+/apps/files_sharing/src/actions*  @skjnldsv
+/apps/files_trashbin/src*         @skjnldsv
 
 # Security team
 /resources/codesigning              @mgallien @miaulalala @nickvergessen

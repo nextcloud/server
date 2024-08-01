@@ -1,11 +1,6 @@
 OC.L10N.register(
     "federatedfilesharing",
     {
-    "Do you want to add the remote share {name} from {owner}@{remote}?" : "Да ли желите да додате удаљено дељење {name} од {owner}@{remote}?",
-    "Remote share" : "Удаљено дељење",
-    "Remote share password" : "Лозинка удаљеног дељења",
-    "Cancel" : "Одустани",
-    "Add remote share" : "Додај удаљено дељење",
     "Invalid Federated Cloud ID" : "Неисправан ИД Здруженог облака",
     "Server to server sharing is not enabled on this server" : "Сервер-сервер дељење није подржано на овом серверу",
     "Couldn't establish a federated share." : "Не могу да успоставим здружено дељење.",
@@ -52,6 +47,11 @@ OC.L10N.register(
     "Copy to clipboard" : "Копирај у оставу",
     "Clipboard is not available" : "Клипборд није доступан",
     "Copied!" : "Копирано!",
+    "Do you want to add the remote share {name} from {owner}@{remote}?" : "Да ли желите да додате удаљено дељење {name} од {owner}@{remote}?",
+    "Remote share" : "Удаљено дељење",
+    "Remote share password" : "Лозинка удаљеног дељења",
+    "Cancel" : "Одустани",
+    "Add remote share" : "Додај удаљено дељење",
     "Sharing %1$s failed, because this item is already shared with user %2$s" : "Дељење %1$s није успело зато што се ова ставка већ дели са корисником %2$s",
     "Not allowed to create a federated share with the same user" : "Није дозвољено да се направи здружено дељење са истим корисником",
     "Adjust how people can share between servers. This includes shares between users on this server as well if they are using federated sharing." : "Подесите како људи могу да деле између сервера. То укључује и дељење између корисника на овом серверу ако користе федерисано дељење.",

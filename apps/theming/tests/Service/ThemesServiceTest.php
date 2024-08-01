@@ -1,24 +1,7 @@
 <?php
 /**
- * @copyright Copyright (c) 2022 John Molakvoæ <skjnldsv@protonmail.com>
- *
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\Theming\Tests\Service;
 
@@ -41,6 +24,7 @@ use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserSession;
 use PHPUnit\Framework\MockObject\MockObject;
+use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 class ThemesServiceTest extends TestCase {
@@ -51,6 +35,9 @@ class ThemesServiceTest extends TestCase {
 	private $userSession;
 	/** @var IConfig|MockObject */
 	private $config;
+	/** @var LoggerInterface|MockObject */
+	private $logger;
+
 	/** @var ThemingDefaults|MockObject */
 	private $themingDefaults;
 
@@ -60,6 +47,7 @@ class ThemesServiceTest extends TestCase {
 	protected function setUp(): void {
 		$this->userSession = $this->createMock(IUserSession::class);
 		$this->config = $this->createMock(IConfig::class);
+		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->themingDefaults = $this->createMock(ThemingDefaults::class);
 
 		$this->themingDefaults->expects($this->any())
@@ -75,6 +63,7 @@ class ThemesServiceTest extends TestCase {
 		$this->themesService = new ThemesService(
 			$this->userSession,
 			$this->config,
+			$this->logger,
 			...array_values($this->themes)
 		);
 
@@ -93,6 +82,42 @@ class ThemesServiceTest extends TestCase {
 		$this->assertEquals($expected, array_keys($this->themesService->getThemes()));
 	}
 
+	public function testGetThemesEnforced() {
+		$this->config->expects($this->once())
+			->method('getSystemValueString')
+			->with('enforce_theme', '')
+			->willReturn('dark');
+		$this->logger->expects($this->never())
+			->method('error');
+
+		$expected = [
+			'default',
+			'dark',
+		];
+
+		$this->assertEquals($expected, array_keys($this->themesService->getThemes()));
+	}
+
+	public function testGetThemesEnforcedInvalid() {
+		$this->config->expects($this->once())
+			->method('getSystemValueString')
+			->with('enforce_theme', '')
+			->willReturn('invalid');
+		$this->logger->expects($this->once())
+			->method('error')
+			->with('Enforced theme not found', ['theme' => 'invalid']);
+
+		$expected = [
+			'default',
+			'light',
+			'dark',
+			'light-highcontrast',
+			'dark-highcontrast',
+			'opendyslexic',
+		];
+
+		$this->assertEquals($expected, array_keys($this->themesService->getThemes()));
+	}
 
 	public function dataTestEnableTheme() {
 		return [
@@ -290,6 +315,7 @@ class ThemesServiceTest extends TestCase {
 				$this->config,
 				$l10n,
 				$appManager,
+				null,
 			),
 			'light' => new LightTheme(
 				$util,
@@ -300,6 +326,7 @@ class ThemesServiceTest extends TestCase {
 				$this->config,
 				$l10n,
 				$appManager,
+				null,
 			),
 			'dark' => new DarkTheme(
 				$util,
@@ -310,6 +337,7 @@ class ThemesServiceTest extends TestCase {
 				$this->config,
 				$l10n,
 				$appManager,
+				null,
 			),
 			'light-highcontrast' => new HighContrastTheme(
 				$util,
@@ -320,6 +348,7 @@ class ThemesServiceTest extends TestCase {
 				$this->config,
 				$l10n,
 				$appManager,
+				null,
 			),
 			'dark-highcontrast' => new DarkHighContrastTheme(
 				$util,
@@ -330,6 +359,7 @@ class ThemesServiceTest extends TestCase {
 				$this->config,
 				$l10n,
 				$appManager,
+				null,
 			),
 			'opendyslexic' => new DyslexiaFont(
 				$util,
@@ -340,6 +370,7 @@ class ThemesServiceTest extends TestCase {
 				$this->config,
 				$l10n,
 				$appManager,
+				null,
 			),
 		];
 	}

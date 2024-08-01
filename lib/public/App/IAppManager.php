@@ -1,32 +1,9 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Daniel Rudolf <github.com@daniel-rudolf.de>
- * @author Greta Doci <gretadoci@gmail.com>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Julius Haertl <jus@bitgrid.net>
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCP\App;
 
@@ -42,6 +19,11 @@ use OCP\IUser;
  * @since 8.0.0
  */
 interface IAppManager {
+	/**
+	 * @since 30.0.0
+	 */
+	public const BACKEND_CALDAV = 'caldav';
+
 	/**
 	 * Returns the app information from "appinfo/info.xml".
 	 *
@@ -60,6 +42,16 @@ interface IAppManager {
 	 * @since 14.0.0
 	 */
 	public function getAppVersion(string $appId, bool $useCache = true): string;
+
+	/**
+	 * Returns the app icon or null if none is found
+	 *
+	 * @param string $appId
+	 * @param bool $dark Enable to request a dark icon variant, default is a white icon
+	 * @return string|null
+	 * @since 29.0.0
+	 */
+	public function getAppIcon(string $appId, bool $dark = false): string|null;
 
 	/**
 	 * Check if an app is enabled for user
@@ -274,4 +266,14 @@ interface IAppManager {
 	 * @since 28.0.0
 	 */
 	public function setDefaultApps(array $defaultApps): void;
+
+	/**
+	 * Check whether the given backend is required by at least one app.
+	 *
+	 * @param self::BACKEND_* $backend Name of the backend, one of `self::BACKEND_*`
+	 * @return bool True if at least one app requires the backend
+	 *
+	 * @since 30.0.0
+	 */
+	public function isBackendRequired(string $backend): bool;
 }

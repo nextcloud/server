@@ -1,23 +1,6 @@
 /**
- * @copyright Copyright (c) 2022 John Molakvoæ <skjnldsv@protonmail.com>
- *
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- *
- * @license AGPL-3.0-or-later
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 describe('Files: Sorting the file list', { testIsolation: true }, () => {
 	let currentUser
@@ -53,6 +36,31 @@ describe('Files: Sorting the file list', { testIsolation: true }, () => {
 			case 5: expect($row.attr('data-cy-files-list-row-name')).to.eq('welcome.txt')
 				break
 			case 6: expect($row.attr('data-cy-files-list-row-name')).to.eq('z last.txt')
+				break
+			}
+		})
+	})
+
+	/**
+	 * Regression test of https://github.com/nextcloud/server/issues/45829
+	 */
+	it('Filesnames with numbers are sorted by name ascending by default', () => {
+		cy.uploadContent(currentUser, new Blob(), 'text/plain', '/name.txt')
+			.uploadContent(currentUser, new Blob(), 'text/plain', '/name_03.txt')
+			.uploadContent(currentUser, new Blob(), 'text/plain', '/name_02.txt')
+			.uploadContent(currentUser, new Blob(), 'text/plain', '/name_01.txt')
+		cy.login(currentUser)
+		cy.visit('/apps/files')
+
+		cy.get('[data-cy-files-list-row]').each(($row, index) => {
+			switch (index) {
+			case 0: expect($row.attr('data-cy-files-list-row-name')).to.eq('name.txt')
+				break
+			case 1: expect($row.attr('data-cy-files-list-row-name')).to.eq('name_01.txt')
+				break
+			case 2: expect($row.attr('data-cy-files-list-row-name')).to.eq('name_02.txt')
+				break
+			case 3: expect($row.attr('data-cy-files-list-row-name')).to.eq('name_03.txt')
 				break
 			}
 		})

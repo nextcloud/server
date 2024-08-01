@@ -7,12 +7,12 @@ OC.L10N.register(
     "Backup code" : "Kod i kopjuar",
     "Use backup code" : "Përdorni kodin e kopjimit",
     "Two factor backup codes" : "Dy kopje rezervë të faktorëve",
-    "These are your backup codes. Please save and/or print them as you will not be able to read the codes again later" : "Këto janë kodet tuaja rezervë. Ju lutemi ruajini dhe/ose printojini ato pasi nuk do të jeni në gjendje që ti lexoni më vonë",
     "Save backup codes" : "Ruaj kodet e kopjuara",
     "Print backup codes" : "Printo kodet rezervë ",
     "Regenerate backup codes" : "Gjenero kodet e kopjuara",
     "If you regenerate backup codes, you automatically invalidate old codes." : "Nëse gjeneroni kode rezervë, automaktikisht ju çaktivizoni kodet e vjetra.",
     "An error occurred while generating your backup codes" : "Ndodhi një problem ndërsa ishin duke u prodhuar kodet tuaja rezervë",
-    "Submit" : "Dërgo"
+    "Submit" : "Dërgo",
+    "These are your backup codes. Please save and/or print them as you will not be able to read the codes again later" : "Këto janë kodet tuaja rezervë. Ju lutemi ruajini dhe/ose printojini ato pasi nuk do të jeni në gjendje që ti lexoni më vonë"
 },
 "nplurals=2; plural=(n != 1);");

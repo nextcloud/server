@@ -1,34 +1,9 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Bjoern Schiessle <bjoern@schiessle.org>
- * @author Björn Schießle <bjoern@schiessle.org>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Georg Ehrke <oc.list@georgehrke.com>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Valdnet <47037905+Valdnet@users.noreply.github.com>
- * @author Vincent Petry <vincent@nextcloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\FederatedFileSharing\Tests;
 
@@ -195,9 +170,9 @@ class FederatedShareProviderTest extends \Test\TestCase {
 				$this->equalTo('myFile'),
 				$this->anything(),
 				'shareOwner',
-				'shareOwner@http://localhost/',
+				'shareOwner@http://localhost',
 				'sharedBy',
-				'sharedBy@http://localhost/'
+				'sharedBy@http://localhost'
 			)
 			->willReturn(true);
 
@@ -276,9 +251,9 @@ class FederatedShareProviderTest extends \Test\TestCase {
 				$this->equalTo('myFile'),
 				$this->anything(),
 				'shareOwner',
-				'shareOwner@http://localhost/',
+				'shareOwner@http://localhost',
 				'sharedBy',
-				'sharedBy@http://localhost/'
+				'sharedBy@http://localhost'
 			)->willReturn(false);
 
 		$this->rootFolder->method('getById')
@@ -337,9 +312,9 @@ class FederatedShareProviderTest extends \Test\TestCase {
 				$this->equalTo('myFile'),
 				$this->anything(),
 				'shareOwner',
-				'shareOwner@http://localhost/',
+				'shareOwner@http://localhost',
 				'sharedBy',
-				'sharedBy@http://localhost/'
+				'sharedBy@http://localhost'
 			)->willThrowException(new \Exception('dummy'));
 
 		$this->rootFolder->method('getById')
@@ -443,9 +418,9 @@ class FederatedShareProviderTest extends \Test\TestCase {
 				$this->equalTo('myFile'),
 				$this->anything(),
 				'shareOwner',
-				'shareOwner@http://localhost/',
+				'shareOwner@http://localhost',
 				'sharedBy',
-				'sharedBy@http://localhost/'
+				'sharedBy@http://localhost'
 			)->willReturn(true);
 
 		$this->rootFolder->expects($this->never())->method($this->anything());
@@ -514,9 +489,9 @@ class FederatedShareProviderTest extends \Test\TestCase {
 				$this->equalTo('myFile'),
 				$this->anything(),
 				$owner,
-				$owner . '@http://localhost/',
+				$owner . '@http://localhost',
 				$sharedBy,
-				$sharedBy . '@http://localhost/'
+				$sharedBy . '@http://localhost'
 			)->willReturn(true);
 
 		if ($owner === $sharedBy) {

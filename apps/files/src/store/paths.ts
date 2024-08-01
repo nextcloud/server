@@ -1,25 +1,8 @@
 /**
- * @copyright Copyright (c) 2023 John Molakvoæ <skjnldsv@protonmail.com>
- *
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- *
- * @license AGPL-3.0-or-later
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import type { FileId, PathsStore, PathOptions, ServicesState } from '../types'
+import type { FileSource, PathsStore, PathOptions, ServicesState } from '../types'
 import { defineStore } from 'pinia'
 import { FileType, Folder, Node, getNavigation } from '@nextcloud/files'
 import { subscribe } from '@nextcloud/event-bus'
@@ -29,7 +12,7 @@ import logger from '../logger'
 import { useFilesStore } from './files'
 
 export const usePathsStore = function(...args) {
-	const files = useFilesStore()
+	const files = useFilesStore(...args)
 
 	const store = defineStore('paths', {
 		state: () => ({
@@ -38,7 +21,7 @@ export const usePathsStore = function(...args) {
 
 		getters: {
 			getPath: (state) => {
-				return (service: string, path: string): FileId|undefined => {
+				return (service: string, path: string): FileSource|undefined => {
 					if (!state.paths[service]) {
 						return undefined
 					}
@@ -55,7 +38,7 @@ export const usePathsStore = function(...args) {
 				}
 
 				// Now we can set the provided path
-				Vue.set(this.paths[payload.service], payload.path, payload.fileid)
+				Vue.set(this.paths[payload.service], payload.path, payload.source)
 			},
 
 			onCreatedNode(node: Node) {
@@ -70,7 +53,7 @@ export const usePathsStore = function(...args) {
 					this.addPath({
 						service,
 						path: node.path,
-						fileid: node.fileid,
+						source: node.source,
 					})
 				}
 
@@ -81,26 +64,26 @@ export const usePathsStore = function(...args) {
 					if (!root._children) {
 						Vue.set(root, '_children', [])
 					}
-					root._children.push(node.fileid)
+					root._children.push(node.source)
 					return
 				}
 
 				// If the folder doesn't exists yet, it will be
 				// fetched later and its children updated anyway.
 				if (this.paths[service][node.dirname]) {
-					const parentId = this.paths[service][node.dirname]
-					const parentFolder = files.getNode(parentId) as Folder
+					const parentSource = this.paths[service][node.dirname]
+					const parentFolder = files.getNode(parentSource) as Folder
 					logger.debug('Path already exists, updating children', { parentFolder, node })
 
 					if (!parentFolder) {
-						logger.error('Parent folder not found', { parentId })
+						logger.error('Parent folder not found', { parentSource })
 						return
 					}
 
 					if (!parentFolder._children) {
 						Vue.set(parentFolder, '_children', [])
 					}
-					parentFolder._children.push(node.fileid)
+					parentFolder._children.push(node.source)
 					return
 				}
 

@@ -19,6 +19,7 @@ OC.L10N.register(
     "Setting the password is not supported by the users backend" : "Setting the password is not supported by the users backend",
     "Invalid language" : "Invalid language",
     "Invalid locale" : "Invalid locale",
+    "Invalid first day of week" : "Invalid first day of week",
     "Cannot remove yourself from the admin group" : "Cannot remove yourself from the admin group",
     "Cannot remove yourself from this group as you are a sub-admin" : "Cannot remove yourself from this group as you are a sub-admin",
     "Not viable to remove user from the last group you are sub-admin of" : "Not viable to remove user from the last group you are sub-admin of",

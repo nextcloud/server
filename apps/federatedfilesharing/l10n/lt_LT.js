@@ -1,11 +1,6 @@
 OC.L10N.register(
     "federatedfilesharing",
     {
-    "Do you want to add the remote share {name} from {owner}@{remote}?" : "Ar norite pridėti nuotolinį viešinį {name} iš {owner}@{remote}?",
-    "Remote share" : "Nuotolinis viešinys",
-    "Remote share password" : "Nuotolinio viešinio slaptažodis",
-    "Cancel" : "Atsisakyti",
-    "Add remote share" : "Pridėti nuotolinį viešinį",
     "Invalid Federated Cloud ID" : "Neteisingas federacinės debesijos ID",
     "Server to server sharing is not enabled on this server" : "Dalinimasis tarp serverių yra neleidžiamas šiame serveryje",
     "Couldn't establish a federated share." : "Nepavyko užmegzti federacinio viešinio.",
@@ -33,6 +28,11 @@ OC.L10N.register(
     "Copy to clipboard" : "Kopijuoti į iškarpinę",
     "Clipboard is not available" : "Iškarpinė neprieinama",
     "Copied!" : "Nukopijuota!",
+    "Do you want to add the remote share {name} from {owner}@{remote}?" : "Ar norite pridėti nuotolinį viešinį {name} iš {owner}@{remote}?",
+    "Remote share" : "Nuotolinis viešinys",
+    "Remote share password" : "Nuotolinio viešinio slaptažodis",
+    "Cancel" : "Atsisakyti",
+    "Add remote share" : "Pridėti nuotolinį viešinį",
     "Sharing %1$s failed, because this item is already shared with user %2$s" : "Nepavyko bendrinti %1$s, nes šis elementas jau yra bendrinamas su naudotoju %2$s",
     "Not allowed to create a federated share with the same user" : "Negalima sukurti federacinį viešinį su tuo pačiu naudotoju",
     "Allow users on this server to receive shares from other servers" : "Leisti naudotojams šiame serveryje gauti viešinius iš kitų serverių",

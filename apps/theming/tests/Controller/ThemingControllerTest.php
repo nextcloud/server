@@ -1,35 +1,7 @@
 <?php
 /**
- * @copyright Copyright (c) 2016 Lukas Reschke <lukas@statuscode.ch>
- *
- * @author Bjoern Schiessle <bjoern@schiessle.org>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Daniel Calviño Sánchez <danxuliu@gmail.com>
- * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- * @author Julius Haertl <jus@bitgrid.net>
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Kyle Fazzari <kyrofa@ubuntu.com>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Michael Weimann <mail@michael-weimann.eu>
- * @author rakekniven <mark.ziegler@rakekniven.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\Theming\Tests\Controller;
 
@@ -42,13 +14,11 @@ use OCP\App\IAppManager;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Utility\ITimeFactory;
-use OCP\Files\IAppData;
 use OCP\Files\NotFoundException;
 use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IRequest;
-use OCP\ITempManager;
 use OCP\IURLGenerator;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
@@ -64,17 +34,13 @@ class ThemingControllerTest extends TestCase {
 	private $l10n;
 	/** @var ThemingController */
 	private $themingController;
-	/** @var ITempManager */
-	private $tempManager;
 	/** @var IAppManager|MockObject */
 	private $appManager;
-	/** @var IAppData|MockObject */
-	private $appData;
 	/** @var ImageManager|MockObject */
 	private $imageManager;
 	/** @var IURLGenerator|MockObject */
 	private $urlGenerator;
-	/** @var ThemeService|MockObject */
+	/** @var ThemesService|MockObject */
 	private $themesService;
 
 	protected function setUp(): void {
@@ -82,9 +48,7 @@ class ThemingControllerTest extends TestCase {
 		$this->config = $this->createMock(IConfig::class);
 		$this->themingDefaults = $this->createMock(ThemingDefaults::class);
 		$this->l10n = $this->createMock(L10N::class);
-		$this->appData = $this->createMock(IAppData::class);
 		$this->appManager = $this->createMock(IAppManager::class);
-		$this->tempManager = \OC::$server->getTempManager();
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
 		$this->imageManager = $this->createMock(ImageManager::class);
 		$this->themesService = $this->createMock(ThemesService::class);
@@ -102,8 +66,6 @@ class ThemingControllerTest extends TestCase {
 			$this->config,
 			$this->themingDefaults,
 			$this->l10n,
-			$this->tempManager,
-			$this->appData,
 			$this->urlGenerator,
 			$this->appManager,
 			$this->imageManager,
@@ -164,9 +126,12 @@ class ThemingControllerTest extends TestCase {
 			['url', str_repeat('a', 501), 'The given web address is not a valid URL'],
 			['url', 'javascript:alert(1)', 'The given web address is not a valid URL'],
 			['slogan', str_repeat('a', 501), 'The given slogan is too long'],
-			['color', '0082C9', 'The given color is invalid'],
-			['color', '#0082Z9', 'The given color is invalid'],
-			['color', 'Nextcloud', 'The given color is invalid'],
+			['primary_color', '0082C9', 'The given color is invalid'],
+			['primary_color', '#0082Z9', 'The given color is invalid'],
+			['primary_color', 'Nextcloud', 'The given color is invalid'],
+			['background_color', '0082C9', 'The given color is invalid'],
+			['background_color', '#0082Z9', 'The given color is invalid'],
+			['background_color', 'Nextcloud', 'The given color is invalid'],
 			['imprintUrl', '0082C9', 'The given legal notice address is not a valid URL'],
 			['imprintUrl', '0082C9', 'The given legal notice address is not a valid URL'],
 			['imprintUrl', 'javascript:foo', 'The given legal notice address is not a valid URL'],

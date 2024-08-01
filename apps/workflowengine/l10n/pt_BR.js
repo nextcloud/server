@@ -67,6 +67,9 @@ OC.L10N.register(
     "Desktop client" : "Cliente de Desktop",
     "Thunderbird & Outlook addons" : "Extensões para Thunderbird & Outlook",
     "Custom user agent" : "Agente do usuário personalizado",
+    "Select groups" : "Selecionar grupos",
+    "Groups" : "Grupos",
+    "Type to search for group …" : "Digite para pesquisar o grupo…",
     "Select a trigger" : "Selecione um gatilho",
     "At least one event must be selected" : "É necessário selecionar ao menos um evento",
     "Add new flow" : "Adicionar novo fluxo",
@@ -113,6 +116,7 @@ OC.L10N.register(
     "between" : "entre",
     "not between" : "não entre",
     "Request user agent" : "Agente de usuário da requisição",
+    "Group membership" : "Associação ao grupo",
     "is member of" : "é membro de",
     "is not member of" : "não é membro de",
     "User group membership" : "Usuário em grupo"

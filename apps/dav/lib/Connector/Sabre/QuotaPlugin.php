@@ -1,32 +1,10 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- * @copyright Copyright (C) 2012 entreCables S.L. All rights reserved.
- * @copyright Copyright (C) 2012 entreCables S.L. All rights reserved.
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Felix Moeller <mail@felixmoeller.de>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author scambra <sergio@entrecables.com>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Vincent Petry <vincent@nextcloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-FileCopyrightText: 2012 entreCables S.L. All rights reserved
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\DAV\Connector\Sabre;
 
@@ -209,36 +187,16 @@ class QuotaPlugin extends \Sabre\DAV\ServerPlugin {
 			}
 			$req = $this->server->httpRequest;
 
-			// If LEGACY chunked upload
-			if ($req->getHeader('OC-Chunked')) {
-				$info = \OC_FileChunking::decodeName($newName);
-				$chunkHandler = $this->getFileChunking($info);
-				// subtract the already uploaded size to see whether
-				// there is still enough space for the remaining chunks
-				$length -= $chunkHandler->getCurrentSize();
-				// use target file name for free space check in case of shared files
-				$path = rtrim($parentPath, '/') . '/' . $info['name'];
-			}
-
 			// Strip any duplicate slashes
 			$path = str_replace('//', '/', $path);
 
 			$freeSpace = $this->getFreeSpace($path);
 			if ($freeSpace >= 0 && $length > $freeSpace) {
-				// If LEGACY chunked upload, clean up
-				if (isset($chunkHandler)) {
-					$chunkHandler->cleanup();
-				}
 				throw new InsufficientStorage("Insufficient space in $path, $length required, $freeSpace available");
 			}
 		}
 
 		return true;
-	}
-
-	public function getFileChunking($info) {
-		// FIXME: need a factory for better mocking support
-		return new \OC_FileChunking($info);
 	}
 
 	public function getLength() {
@@ -250,11 +208,13 @@ class QuotaPlugin extends \Sabre\DAV\ServerPlugin {
 		}
 
 		$ocLength = $req->getHeader('OC-Total-Length');
-		if (is_numeric($length) && is_numeric($ocLength)) {
-			return max($length, $ocLength);
+		if (!is_numeric($ocLength)) {
+			return $length;
 		}
-
-		return $length;
+		if (!is_numeric($length)) {
+			return $ocLength;
+		}
+		return max($length, $ocLength);
 	}
 
 	/**

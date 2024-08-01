@@ -1,44 +1,28 @@
 /**
- * @copyright Copyright (c) 2024 John Molakvoæ <skjnldsv@protonmail.com>
- *
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- *
- * @license AGPL-3.0-or-later
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 import type { PropType } from 'vue'
+import type { FileSource } from '../types.ts'
 
-import { extname, join } from 'path'
-import { FileType, Permission, Folder, File as NcFile, NodeStatus, Node, View } from '@nextcloud/files'
-import { generateUrl } from '@nextcloud/router'
-import { showError, showSuccess } from '@nextcloud/dialogs'
+import { showError } from '@nextcloud/dialogs'
+import { FileType, Permission, Folder, File as NcFile, NodeStatus, Node, getFileActions } from '@nextcloud/files'
 import { translate as t } from '@nextcloud/l10n'
-import { Upload, getUploader } from '@nextcloud/upload'
+import { generateUrl } from '@nextcloud/router'
 import { vOnClickOutside } from '@vueuse/components'
+import { extname } from 'path'
 import Vue, { defineComponent } from 'vue'
 
 import { action as sidebarAction } from '../actions/sidebarAction.ts'
 import { getDragAndDropPreview } from '../utils/dragUtils.ts'
-import { handleCopyMoveNodeTo } from '../actions/moveOrCopyAction.ts'
 import { hashCode } from '../utils/hashUtils.ts'
-import { MoveCopyAction } from '../actions/moveOrCopyActionUtils.ts'
-import logger from '../logger.js'
+import { dataTransferToFileTree, onDropExternalFiles, onDropInternalFiles } from '../services/DropService.ts'
+import logger from '../logger.ts'
 
 Vue.directive('onClickOutside', vOnClickOutside)
+
+const actions = getFileActions()
 
 export default defineComponent({
 	props: {
@@ -54,6 +38,21 @@ export default defineComponent({
 			type: Number,
 			default: 0,
 		},
+		isMtimeAvailable: {
+			type: Boolean,
+			default: false,
+		},
+		compact: {
+			type: Boolean,
+			default: false,
+		},
+	},
+
+	provide() {
+		return {
+			defaultFileAction: this.defaultFileAction,
+			enabledFileActions: this.enabledFileActions,
+		}
 	},
 
 	data() {
@@ -65,21 +64,10 @@ export default defineComponent({
 	},
 
 	computed: {
-		currentView(): View {
-			return this.$navigation.active as View
-		},
-
-		currentDir() {
-			// Remove any trailing slash but leave root slash
-			return (this.$route?.query?.dir?.toString() || '/').replace(/^(.+)\/$/, '$1')
-		},
-		currentFileId() {
-			return this.$route.params?.fileid || this.$route.query?.fileid || null
-		},
-
 		fileid() {
-			return this.source?.fileid
+			return this.source.fileid ?? 0
 		},
+
 		uniqueId() {
 			return hashCode(this.source.source)
 		},
@@ -87,29 +75,41 @@ export default defineComponent({
 			return this.source.status === NodeStatus.LOADING
 		},
 
-		extension() {
-			if (this.source.attributes?.displayName) {
-				return extname(this.source.attributes.displayName)
-			}
-			return this.source.extension || ''
-		},
+		/**
+		 * The display name of the current node
+		 * Either the nodes filename or a custom display name (e.g. for shares)
+		 */
 		displayName() {
-			const ext = this.extension
-			const name = (this.source.attributes.displayName
-				|| this.source.basename)
+			return this.source.displayname
+		},
+		/**
+		 * The display name without extension
+		 */
+		basename() {
+			if (this.extension === '') {
+				return this.displayName
+			}
+			return this.displayName.slice(0, 0 - this.extension.length)
+		},
+		/**
+		 * The extension of the file
+		 */
+		extension() {
+			if (this.source.type === FileType.Folder) {
+				return ''
+			}
 
-			// Strip extension from name if defined
-			return !ext ? name : name.slice(0, 0 - ext.length)
+			return extname(this.displayName)
 		},
 
 		draggingFiles() {
-			return this.draggingStore.dragging
+			return this.draggingStore.dragging as FileSource[]
 		},
 		selectedFiles() {
-			return this.selectionStore.selected
+			return this.selectionStore.selected as FileSource[]
 		},
 		isSelected() {
-			return this.fileid && this.selectedFiles.includes(this.fileid)
+			return this.selectedFiles.includes(this.source.source)
 		},
 
 		isRenaming() {
@@ -120,7 +120,14 @@ export default defineComponent({
 		},
 
 		isActive() {
-			return this.fileid?.toString?.() === this.currentFileId?.toString?.()
+			return String(this.fileid) === String(this.currentFileId)
+		},
+
+		/**
+		 * Check if the source is in a failed state after an API request
+		 */
+		isFailedSource() {
+			return this.source.status === NodeStatus.FAILED
 		},
 
 		canDrag() {
@@ -134,7 +141,7 @@ export default defineComponent({
 
 			// If we're dragging a selection, we need to check all files
 			if (this.selectedFiles.length > 0) {
-				const nodes = this.selectedFiles.map(fileid => this.filesStore.getNode(fileid)) as Node[]
+				const nodes = this.selectedFiles.map(source => this.filesStore.getNode(source)) as Node[]
 				return nodes.every(canDrag)
 			}
 			return canDrag(this.source)
@@ -146,7 +153,7 @@ export default defineComponent({
 			}
 
 			// If the current folder is also being dragged, we can't drop it on itself
-			if (this.fileid && this.draggingFiles.includes(this.fileid)) {
+			if (this.draggingFiles.includes(this.source.source)) {
 				return false
 			}
 
@@ -158,17 +165,43 @@ export default defineComponent({
 				return this.actionsMenuStore.opened === this.uniqueId.toString()
 			},
 			set(opened) {
-				// Only reset when opening a new menu
-				if (opened) {
-					// Reset any right click position override on close
-					// Wait for css animation to be done
-					const root = this.$root.$el as HTMLElement
-					root.style.removeProperty('--mouse-pos-x')
-					root.style.removeProperty('--mouse-pos-y')
-				}
-
 				this.actionsMenuStore.opened = opened ? this.uniqueId.toString() : null
 			},
+		},
+
+		mtimeOpacity() {
+			const maxOpacityTime = 31 * 24 * 60 * 60 * 1000 // 31 days
+
+			const mtime = this.source.mtime?.getTime?.()
+			if (!mtime) {
+				return {}
+			}
+
+			// 1 = today, 0 = 31 days ago
+			const ratio = Math.round(Math.min(100, 100 * (maxOpacityTime - (Date.now() - mtime)) / maxOpacityTime))
+			if (ratio < 0) {
+				return {}
+			}
+			return {
+				color: `color-mix(in srgb, var(--color-main-text) ${ratio}%, var(--color-text-maxcontrast))`,
+			}
+		},
+
+		/**
+		 * Sorted actions that are enabled for this node
+		 */
+		enabledFileActions() {
+			if (this.source.status === NodeStatus.FAILED) {
+				return []
+			}
+
+			return actions
+				.filter(action => !action.enabled || action.enabled([this.source], this.currentView))
+				.sort((a, b) => (a.order || 0) - (b.order || 0))
+		},
+
+		defaultFileAction() {
+			return this.enabledFileActions.find((action) => action.default !== undefined)
 		},
 	},
 
@@ -176,9 +209,13 @@ export default defineComponent({
 		/**
 		 * When the source changes, reset the preview
 		 * and fetch the new one.
+		 * @param a
+		 * @param b
 		 */
-		source() {
-			this.resetState()
+		source(a: Node, b: Node) {
+			if (a.source !== b.source) {
+				this.resetState()
+			}
 		},
 	},
 
@@ -191,7 +228,8 @@ export default defineComponent({
 			// Reset loading state
 			this.loading = ''
 
-			this.$refs.preview.reset()
+			// Reset the preview state
+			this.$refs?.preview?.reset?.()
 
 			// Close menu
 			this.openedMenu = false
@@ -207,12 +245,18 @@ export default defineComponent({
 			// The grid mode is compact enough to not care about
 			// the actions menu mouse position
 			if (!this.gridMode) {
-				const root = this.$root.$el as HTMLElement
+				// Actions menu is contained within the app content
+				const root = this.$el?.closest('main.app-content') as HTMLElement
 				const contentRect = root.getBoundingClientRect()
 				// Using Math.min/max to prevent the menu from going out of the AppContent
 				// 200 = max width of the menu
-				root.style.setProperty('--mouse-pos-x', Math.max(contentRect.left, Math.min(event.clientX, event.clientX - 200)) + 'px')
-				root.style.setProperty('--mouse-pos-y', Math.max(contentRect.top, event.clientY - contentRect.top) + 'px')
+				root.style.setProperty('--mouse-pos-x', Math.max(0, event.clientX - contentRect.left - 200) + 'px')
+				root.style.setProperty('--mouse-pos-y', Math.max(0, event.clientY - contentRect.top) + 'px')
+			} else {
+				// Reset any right menu position potentially set
+				const root = this.$el?.closest('main.app-content') as HTMLElement
+				root.style.removeProperty('--mouse-pos-x')
+				root.style.removeProperty('--mouse-pos-y')
 			}
 
 			// If the clicked row is in the selection, open global menu
@@ -225,13 +269,32 @@ export default defineComponent({
 		},
 
 		execDefaultAction(event) {
-			if (event.ctrlKey || event.metaKey) {
+			// Ignore click if we are renaming
+			if (this.isRenaming) {
+				return
+			}
+
+			// Ignore right click.
+			if (event.button > 1) {
+				return
+			}
+
+			// if ctrl+click or middle mouse button, open in new tab
+			if (event.ctrlKey || event.metaKey || event.button === 1) {
 				event.preventDefault()
 				window.open(generateUrl('/f/{fileId}', { fileId: this.fileid }))
 				return false
 			}
 
-			this.$refs.actions.execDefaultAction(event)
+			if (this.defaultFileAction) {
+				event.preventDefault()
+				event.stopPropagation()
+				// Execute the first default action if any
+				this.defaultFileAction.exec(this.source, this.currentView, this.currentDir)
+			} else {
+				// fallback to open in current tab
+				window.open(generateUrl('/f/{fileId}', { fileId: this.fileid }), '_self')
+			}
 		},
 
 		openDetailsIfAvailable(event) {
@@ -285,14 +348,14 @@ export default defineComponent({
 
 			// Dragging set of files, if we're dragging a file
 			// that is already selected, we use the entire selection
-			if (this.selectedFiles.includes(this.fileid)) {
+			if (this.selectedFiles.includes(this.source.source)) {
 				this.draggingStore.set(this.selectedFiles)
 			} else {
-				this.draggingStore.set([this.fileid])
+				this.draggingStore.set([this.source.source])
 			}
 
 			const nodes = this.draggingStore.dragging
-				.map(fileid => this.filesStore.getNode(fileid)) as Node[]
+				.map(source => this.filesStore.getNode(source)) as Node[]
 
 			const image = await getDragAndDropPreview(nodes)
 			event.dataTransfer?.setDragImage(image, -10, -10)
@@ -305,79 +368,53 @@ export default defineComponent({
 
 		async onDrop(event: DragEvent) {
 			// skip if native drop like text drag and drop from files names
-			if (!this.draggingFiles && !event.dataTransfer?.files?.length) {
+			if (!this.draggingFiles && !event.dataTransfer?.items?.length) {
 				return
 			}
 
 			event.preventDefault()
 			event.stopPropagation()
 
-			// If another button is pressed, cancel it
-			// This allows cancelling the drag with the right click
-			if (!this.canDrop || event.button !== 0) {
+			// Caching the selection
+			const selection = this.draggingFiles
+			const items = [...event.dataTransfer?.items || []] as DataTransferItem[]
+
+			// We need to process the dataTransfer ASAP before the
+			// browser clears it. This is why we cache the items too.
+			const fileTree = await dataTransferToFileTree(items)
+
+			// We might not have the target directory fetched yet
+			const contents = await this.currentView?.getContents(this.source.path)
+			const folder = contents?.folder
+			if (!folder) {
+				showError(this.t('files', 'Target folder does not exist any more'))
+				return
+			}
+
+			// If another button is pressed, cancel it. This
+			// allows cancelling the drag with the right click.
+			if (!this.canDrop || event.button) {
 				return
 			}
 
 			const isCopy = event.ctrlKey
 			this.dragover = false
 
-			logger.debug('Dropped', { event, selection: this.draggingFiles })
+			logger.debug('Dropped', { event, folder, selection, fileTree })
 
 			// Check whether we're uploading files
-			if (event.dataTransfer?.files
-				&& event.dataTransfer.files.length > 0) {
-				const uploader = getUploader()
-
-				// Check whether the uploader is in the same folder
-				// This should never happen™
-				if (!uploader.destination.path.startsWith(uploader.destination.path)) {
-					logger.error('The current uploader destination is not the same as the current folder')
-					showError(t('files', 'An error occurred while uploading. Please try again later.'))
-					return
-				}
-
-				logger.debug(`Uploading files to ${this.source.path}`)
-				const queue = [] as Promise<Upload>[]
-				for (const file of event.dataTransfer.files) {
-					// Because the uploader destination is properly set to the current folder
-					// we can just use the basename as the relative path.
-					queue.push(uploader.upload(join(this.source.basename, file.name), file))
-				}
-
-				const results = await Promise.allSettled(queue)
-				const errors = results.filter(result => result.status === 'rejected')
-				if (errors.length > 0) {
-					logger.error('Error while uploading files', { errors })
-					showError(t('files', 'Some files could not be uploaded'))
-					return
-				}
-
-				logger.debug('Files uploaded successfully')
-				showSuccess(t('files', 'Files uploaded successfully'))
+			if (fileTree.contents.length > 0) {
+				await onDropExternalFiles(fileTree, folder, contents.contents)
 				return
 			}
 
-			const nodes = this.draggingFiles.map(fileid => this.filesStore.getNode(fileid)) as Node[]
-			nodes.forEach(async (node: Node) => {
-				Vue.set(node, 'status', NodeStatus.LOADING)
-				try {
-					// TODO: resolve potential conflicts prior and force overwrite
-					await handleCopyMoveNodeTo(node, this.source, isCopy ? MoveCopyAction.COPY : MoveCopyAction.MOVE)
-				} catch (error) {
-					logger.error('Error while moving file', { error })
-					if (isCopy) {
-						showError(t('files', 'Could not copy {file}. {message}', { file: node.basename, message: error.message || '' }))
-					} else {
-						showError(t('files', 'Could not move {file}. {message}', { file: node.basename, message: error.message || '' }))
-					}
-				} finally {
-					Vue.set(node, 'status', undefined)
-				}
-			})
+			// Else we're moving/copying files
+			const nodes = selection.map(source => this.filesStore.getNode(source)) as Node[]
+			await onDropInternalFiles(nodes, folder, contents.contents, isCopy)
 
 			// Reset selection after we dropped the files
 			// if the dropped files are within the selection
-			if (this.draggingFiles.some(fileid => this.selectedFiles.includes(fileid))) {
+			if (selection.some(source => this.selectedFiles.includes(source))) {
 				logger.debug('Dropped selection, resetting select store...')
 				this.selectionStore.reset()
 			}

@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: 2017-2024 Nextcloud GmbH and Nextcloud contributors
+# SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+# SPDX-License-Identifier: AGPL-3.0-only
 Feature: transfer-ownership
 
 	Scenario: transferring ownership of a file
@@ -39,7 +42,7 @@ Feature: transfer-ownership
 		And As an "user1"
 		And using received transfer folder of "user1" as dav path
 		Then Downloaded content when downloading file "/test/somefile.txt" with range "bytes=0-6" should be "This is"
-		And transfer folder name contains "transferred from user0 -risky- ヂspḷay -na|-|e- on"
+		And transfer folder name contains "Transferred from user0 -risky- ヂspḷay -na|-|e- on"
 		And using old dav path
 		And as "user0" the folder "/test" does not exist
 		And using received transfer folder of "user1" as dav path
@@ -345,7 +348,7 @@ Feature: transfer-ownership
 		And As an "user1"
 		And using received transfer folder of "user1" as dav path
 		Then Downloaded content when downloading file "/test/somefile.txt" with range "bytes=0-6" should be "This is"
-		And transfer folder name contains "transferred from user0 -risky- ヂspḷay -na|-|e- on"
+		And transfer folder name contains "Transferred from user0 -risky- ヂspḷay -na|-|e- on"
 		And using old dav path
 		And as "user0" the folder "/test" does not exist
 		And using received transfer folder of "user1" as dav path

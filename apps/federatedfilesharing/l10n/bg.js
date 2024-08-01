@@ -1,11 +1,6 @@
 OC.L10N.register(
     "federatedfilesharing",
     {
-    "Do you want to add the remote share {name} from {owner}@{remote}?" : "Искате ли да добавите отдалечено споделяне {name} от {owner}@{remote}?",
-    "Remote share" : "Отдалечено споделяне",
-    "Remote share password" : "Парола за отдалечено споделяне",
-    "Cancel" : "Отказ",
-    "Add remote share" : "Добави отдалечено споделяне",
     "Invalid Federated Cloud ID" : "Невалиден Federated Cloud ID",
     "Server to server sharing is not enabled on this server" : "Споделяне между сървъри не е разрешено на този сървър.",
     "Couldn't establish a federated share." : "Неуспешно осъществяване на федерално споделяне",
@@ -43,6 +38,11 @@ OC.L10N.register(
     "Copy to clipboard" : "Копиране в клипборда",
     "Clipboard is not available" : "Клипбордът не е достъпен",
     "Copied!" : "Копирано!",
+    "Do you want to add the remote share {name} from {owner}@{remote}?" : "Искате ли да добавите отдалечено споделяне {name} от {owner}@{remote}?",
+    "Remote share" : "Отдалечено споделяне",
+    "Remote share password" : "Парола за отдалечено споделяне",
+    "Cancel" : "Отказ",
+    "Add remote share" : "Добави отдалечено споделяне",
     "Sharing %1$s failed, because this item is already shared with user %2$s" : "Неуспешно споделяне на %1$s, защото този елемент вече е споделен с потребителя %2$s",
     "Not allowed to create a federated share with the same user" : "Не е позволено създаване на федерално споделяне със същият потребител",
     "Adjust how people can share between servers. This includes shares between users on this server as well if they are using federated sharing." : "Настройка, как хората да могат да споделят между сървърите. Това включва и споделяния между потребители на този сървър, ако те използват федерирано споделяне.",

@@ -41,7 +41,6 @@
     "4 hours" : "۴ ساعت",
     "Mute all notifications" : "خاموش کردن همه اعلانات",
     "Appear offline" : "نمایش آفلاین",
-    "View profile" : "مشاهدهٔ نمایه",
-    "{status}, {timestamp}" : "{status}, {timestamp}"
+    "View profile" : "مشاهدهٔ نمایه"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

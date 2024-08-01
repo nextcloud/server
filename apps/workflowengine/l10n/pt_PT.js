@@ -48,6 +48,8 @@ OC.L10N.register(
     "iOS client" : "Cliente de iOS",
     "Desktop client" : "Cliente de PC",
     "Thunderbird & Outlook addons" : "Extras do Thunderbird & Outlook",
+    "Select groups" : "Selecionar grupos",
+    "Groups" : "Grupos",
     "Cancel" : "Cancelar",
     "Delete" : "Apagar",
     "Save" : "Guardar",

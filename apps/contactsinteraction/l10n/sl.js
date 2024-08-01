@@ -3,6 +3,8 @@ OC.L10N.register(
     {
     "Recently contacted" : "Nedavno v stiku",
     "Contacts Interaction" : "Povezave stikov",
+    "Manages interaction between accounts and contacts" : "Upravlja povezave med uporabniki in stiki",
+    "Collect data about accounts and contacts interactions and provide an address book for the data" : "Zbiranje podatkov o povezavah med uporabniki in stiki ter pripravljanje imenika zbranih podatkov povezav.",
     "Manages interaction between users and contacts" : "Upravlja povezave med uporabniki in stiki",
     "Collect data about user and contacts interactions and provide an address book for the data" : "Zbiranje podatkov o povezavah med uporabniki in stiki ter pripravljanje imenika zbranih podatkov povezav."
 },

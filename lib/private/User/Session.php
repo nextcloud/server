@@ -1,40 +1,8 @@
 <?php
 /**
- * @copyright Copyright (c) 2017, Sandro Lutz <sandro.lutz@temparus.ch>
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Bernhard Posselt <dev@bernhard-posselt.com>
- * @author Bjoern Schiessle <bjoern@schiessle.org>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Felix Rupp <github@felixrupp.com>
- * @author Greta Doci <gretadoci@gmail.com>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Jörn Friedrich Dreyer <jfd@butonic.de>
- * @author Lionel Elie Mamane <lionel@mamane.lu>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Robin McCorkell <robin@mccorkell.me.uk>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Sandro Lutz <sandro.lutz@temparus.ch>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Vincent Petry <vincent@nextcloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OC\User;
 
@@ -43,11 +11,15 @@ use OC\Authentication\Exceptions\PasswordlessTokenException;
 use OC\Authentication\Exceptions\PasswordLoginForbiddenException;
 use OC\Authentication\Token\IProvider;
 use OC\Authentication\Token\IToken;
+use OC\Authentication\Token\PublicKeyToken;
+use OC\Authentication\TwoFactorAuth\Manager as TwoFactorAuthManager;
 use OC\Hooks\Emitter;
 use OC\Hooks\PublicEmitter;
+use OC\Security\CSRF\CsrfTokenManager;
 use OC_User;
 use OC_Util;
 use OCA\DAV\Connector\Sabre\Auth;
+use OCP\AppFramework\Db\TTransactional;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Authentication\Exceptions\ExpiredTokenException;
 use OCP\Authentication\Exceptions\InvalidTokenException;
@@ -55,6 +27,7 @@ use OCP\EventDispatcher\GenericEvent;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\NotPermittedException;
 use OCP\IConfig;
+use OCP\IDBConnection;
 use OCP\IRequest;
 use OCP\ISession;
 use OCP\IUser;
@@ -91,53 +64,22 @@ use Psr\Log\LoggerInterface;
  * @package OC\User
  */
 class Session implements IUserSession, Emitter {
-	/** @var Manager $manager */
-	private $manager;
-
-	/** @var ISession $session */
-	private $session;
-
-	/** @var ITimeFactory */
-	private $timeFactory;
-
-	/** @var IProvider */
-	private $tokenProvider;
-
-	/** @var IConfig */
-	private $config;
+	use TTransactional;
 
 	/** @var User $activeUser */
 	protected $activeUser;
 
-	/** @var ISecureRandom */
-	private $random;
-
-	/** @var ILockdownManager  */
-	private $lockdownManager;
-
-	private LoggerInterface $logger;
-	/** @var IEventDispatcher */
-	private $dispatcher;
-
-	public function __construct(Manager $manager,
-		ISession $session,
-		ITimeFactory $timeFactory,
-		?IProvider $tokenProvider,
-		IConfig $config,
-		ISecureRandom $random,
-		ILockdownManager $lockdownManager,
-		LoggerInterface $logger,
-		IEventDispatcher $dispatcher
+	public function __construct(
+		private Manager          $manager,
+		private ISession         $session,
+		private ITimeFactory     $timeFactory,
+		private ?IProvider       $tokenProvider,
+		private IConfig          $config,
+		private ISecureRandom    $random,
+		private ILockdownManager $lockdownManager,
+		private LoggerInterface  $logger,
+		private IEventDispatcher $dispatcher,
 	) {
-		$this->manager = $manager;
-		$this->session = $session;
-		$this->timeFactory = $timeFactory;
-		$this->tokenProvider = $tokenProvider;
-		$this->config = $config;
-		$this->random = $random;
-		$this->lockdownManager = $lockdownManager;
-		$this->logger = $logger;
-		$this->dispatcher = $dispatcher;
 	}
 
 	/**
@@ -161,7 +103,7 @@ class Session implements IUserSession, Emitter {
 	 * @param string $method optional
 	 * @param callable $callback optional
 	 */
-	public function removeListener($scope = null, $method = null, callable $callback = null) {
+	public function removeListener($scope = null, $method = null, ?callable $callback = null) {
 		$this->manager->removeListener($scope, $method, $callback);
 	}
 
@@ -207,6 +149,15 @@ class Session implements IUserSession, Emitter {
 		} else {
 			$this->session->set('user_id', $user->getUID());
 		}
+		$this->activeUser = $user;
+	}
+
+	/**
+	 * Temporarily set the currently active user without persisting in the session
+	 *
+	 * @param IUser|null $user
+	 */
+	public function setVolatileActiveUser(?IUser $user): void {
 		$this->activeUser = $user;
 	}
 
@@ -524,7 +475,7 @@ class Session implements IUserSession, Emitter {
 			$user = $users[0];
 		}
 		// DI not possible due to cyclic dependencies :'-/
-		return OC::$server->getTwoFactorAuthManager()->isTwoFactorAuthenticated($user);
+		return OC::$server->get(TwoFactorAuthManager::class)->isTwoFactorAuthenticated($user);
 	}
 
 	/**
@@ -552,7 +503,7 @@ class Session implements IUserSession, Emitter {
 		if ($refreshCsrfToken) {
 			// TODO: mock/inject/use non-static
 			// Refresh the token
-			\OC::$server->getCsrfTokenManager()->refreshToken();
+			\OC::$server->get(CsrfTokenManager::class)->refreshToken();
 		}
 
 		if ($firstTimeLogin) {
@@ -694,8 +645,10 @@ class Session implements IUserSession, Emitter {
 			$sessionId = $this->session->getId();
 			$pwd = $this->getPassword($password);
 			// Make sure the current sessionId has no leftover tokens
-			$this->tokenProvider->invalidateToken($sessionId);
-			$this->tokenProvider->generateToken($sessionId, $uid, $loginName, $pwd, $name, IToken::TEMPORARY_TOKEN, $remember);
+			$this->atomic(function () use ($sessionId, $uid, $loginName, $pwd, $name, $remember) {
+				$this->tokenProvider->invalidateToken($sessionId);
+				$this->tokenProvider->generateToken($sessionId, $uid, $loginName, $pwd, $name, IToken::TEMPORARY_TOKEN, $remember);
+			}, \OCP\Server::get(IDBConnection::class));
 			return true;
 		} catch (SessionNotAvailableException $ex) {
 			// This can happen with OCC, where a memory session is used
@@ -757,8 +710,6 @@ class Session implements IUserSession, Emitter {
 				return false;
 			}
 
-			$dbToken->setLastCheck($now);
-			$this->tokenProvider->updateToken($dbToken);
 			return true;
 		}
 
@@ -776,6 +727,9 @@ class Session implements IUserSession, Emitter {
 		}
 
 		$dbToken->setLastCheck($now);
+		if ($dbToken instanceof PublicKeyToken) {
+			$dbToken->setLastActivity($now);
+		}
 		$this->tokenProvider->updateToken($dbToken);
 		return true;
 	}

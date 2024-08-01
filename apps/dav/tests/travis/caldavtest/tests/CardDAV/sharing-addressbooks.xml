@@ -2,6 +2,11 @@
 
 <!DOCTYPE caldavtest SYSTEM "caldavtest.dtd">
 
+<!--
+  - SPDX-FileCopyrightText: 2006-2015 Apple Inc. All rights reserved.
+  - SPDX-License-Identifier: Apache-2.0
+-->
+
 <caldavtest>
 	<description>Test addressbook sharing</description>
 

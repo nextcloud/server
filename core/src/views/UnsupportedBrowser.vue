@@ -1,25 +1,7 @@
- <!--
-  - @copyright 2022 John Molakvoæ <skjnldsv@protonmail.com>
-  -
-  - @author John Molakvoæ <skjnldsv@protonmail.com>
-  - @author Richard Steinmetz <richard@steinmetz.cloud>
-  -
-  - @license GNU AGPL version 3 or any later version
-  -
-  - This program is free software: you can redistribute it and/or modify
-  - it under the terms of the GNU Affero General Public License as
-  - published by the Free Software Foundation, either version 3 of the
-  - License, or (at your option) any later version.
-  -
-  - This program is distributed in the hope that it will be useful,
-  - but WITHOUT ANY WARRANTY; without even the implied warranty of
-  - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  - GNU Affero General Public License for more details.
-  -
-  - You should have received a copy of the GNU Affero General Public License
-  - along with this program.  If not, see <http://www.gnu.org/licenses/>.
-  -
-  -->
+<!--
+ - SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
+ - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 <template>
 	<div class="content-unsupported-browser guest-box">
 		<NcEmptyContent>
@@ -49,13 +31,14 @@
 </template>
 
 <script>
-import { generateUrl } from '@nextcloud/router'
+// eslint-disable-next-line n/no-extraneous-import
+import { agents } from 'caniuse-lite/dist/unpacker/agents.js'
+import { generateUrl, getRootUrl } from '@nextcloud/router'
 import { translate as t, translatePlural as n } from '@nextcloud/l10n'
+
 import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 import NcEmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent.js'
 import Web from 'vue-material-design-icons/Web.vue'
-// eslint-disable-next-line n/no-extraneous-import
-import { agents } from 'caniuse-lite/dist/unpacker/agents.js'
 
 import { browserStorageKey } from '../utils/RedirectUnsupportedBrowsers.js'
 import { supportedBrowsers } from '../services/BrowsersListService.js'
@@ -130,12 +113,22 @@ export default {
 			// Redirect if there is the data
 			const urlParams = new URLSearchParams(window.location.search)
 			if (urlParams.has('redirect_url')) {
-				const redirectPath = Buffer.from(urlParams.get('redirect_url'), 'base64').toString() || '/'
+				let redirectPath = Buffer.from(urlParams.get('redirect_url'), 'base64').toString() || '/'
+
+				// remove index.php and double slashes
+				redirectPath = redirectPath
+					.replace('index.php', '')
+					.replace(getRootUrl(), '')
+					.replace(/\/\//g, '/')
+
+				// if we have a valid redirect url, use it
 				if (redirectPath.startsWith('/')) {
 					window.location = generateUrl(redirectPath)
 					return
 				}
 			}
+
+			// else redirect to root
 			window.location = generateUrl('/')
 		},
 

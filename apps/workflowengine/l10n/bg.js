@@ -66,6 +66,8 @@ OC.L10N.register(
     "Desktop client" : "Клиент за настолен компютър",
     "Thunderbird & Outlook addons" : "Добавки на Thunderbird и Outlook",
     "Custom user agent" : "Персонализиран потребителски агент",
+    "Select groups" : "Избери Групи",
+    "Groups" : "Групи",
     "At least one event must be selected" : "Трябва да бъде избрано поне едно събитие",
     "Add new flow" : "Добавяне на нов поток",
     "When" : "Кога",

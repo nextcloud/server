@@ -1,34 +1,9 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Björn Schießle <bjoern@schiessle.org>
- * @author Christopher Schäpers <kondou@ts.unde.re>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Jörn Friedrich Dreyer <jfd@butonic.de>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Maxence Lange <maxence@artificial-owl.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Vincent Petry <vincent@nextcloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 require_once __DIR__ . '/lib/versioncheck.php';
 
@@ -58,30 +33,33 @@ try {
 	// this policy with a softer one if debug mode is enabled.
 	header("Content-Security-Policy: default-src 'none';");
 
+	// Check if Nextcloud is in maintenance mode
 	if (\OCP\Util::needUpgrade()) {
 		// since the behavior of apps or remotes are unpredictable during
 		// an upgrade, return a 503 directly
-		throw new RemoteException('Service unavailable', 503);
+		throw new \Exception('Service unavailable', 503);
 	}
 
 	$request = \OC::$server->getRequest();
 	$pathInfo = $request->getPathInfo();
 	if ($pathInfo === false || $pathInfo === '') {
-		throw new RemoteException('Path not found', 404);
+		throw new \Exception('Path not found', 404);
 	}
+
+	// Extract the service from the path
 	if (!$pos = strpos($pathInfo, '/', 1)) {
 		$pos = strlen($pathInfo);
 	}
 	$service = substr($pathInfo, 1, $pos - 1);
 
+	// Resolve the service to a file
 	$file = resolveService($service);
-
 	if (!$file) {
-		throw new RemoteException('Path not found', 404);
+		throw new \Exception('Path not found', 404);
 	}
 
+	// Extract the app from the service file
 	$file = ltrim($file, '/');
-
 	$parts = explode('/', $file, 2);
 	$app = $parts[0];
 
@@ -91,9 +69,12 @@ try {
 	OC_App::loadApps(['extended_authentication']);
 	OC_App::loadApps(['filesystem', 'logging']);
 
+	// Check if the app is enabled
 	if (!\OC::$server->getAppManager()->isInstalled($app)) {
-		throw new RemoteException('App not installed: ' . $app);
+		throw new \Exception('App not installed: ' . $app);
 	}
+
+	// Load the app
 	OC_App::loadApp($app);
 	OC_User::setIncognitoMode(true);
 

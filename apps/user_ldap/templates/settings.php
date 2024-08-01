@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2011-2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
+ */
+
 style('user_ldap', 'vendor/ui-multiselect/jquery.multiselect');
 
 script('user_ldap', [
@@ -132,6 +138,7 @@ style('user_ldap', 'settings');
 				<p><label for="ldap_attr_role"> <?php p($l->t('Role Field')); ?></label><input type="text" id="ldap_attr_role" name="ldap_attr_role" title="<?php p($l->t('User profile Role will be set from the specified attribute')); ?>" data-default="<?php p($_['ldap_attr_role_default']); ?>"></p>
 				<p><label for="ldap_attr_headline"> <?php p($l->t('Headline Field')); ?></label><input type="text" id="ldap_attr_headline" name="ldap_attr_headline" title="<?php p($l->t('User profile Headline will be set from the specified attribute')); ?>" data-default="<?php p($_['ldap_attr_headline_default']); ?>"></p>
 				<p><label for="ldap_attr_biography"> <?php p($l->t('Biography Field')); ?></label><input type="text" id="ldap_attr_biography" name="ldap_attr_biography" title="<?php p($l->t('User profile Biography will be set from the specified attribute')); ?>" data-default="<?php p($_['ldap_attr_biography_default']); ?>"></p>
+				<p><label for="ldap_attr_birthdate"> <?php p($l->t('Birthdate Field')); ?></label><input type="text" id="ldap_attr_birthdate" name="ldap_attr_birthdate" title="<?php p($l->t('User profile Date of birth will be set from the specified attribute')); ?>" data-default="<?php p($_['ldap_attr_birthdate_default']); ?>"></p>
 			</div>
 		</div>
 		<?php print_unescaped($_['settingControls']); ?>

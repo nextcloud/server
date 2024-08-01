@@ -151,107 +151,93 @@
                         "basic_auth": []
                     }
                 ],
-                "parameters": [
-                    {
-                        "name": "shareWith",
-                        "in": "query",
-                        "description": "The user who the share will be shared with",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "name",
-                        "in": "query",
-                        "description": "The resource name (e.g. document.odt)",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "description",
-                        "in": "query",
-                        "description": "Share description",
-                        "schema": {
-                            "type": "string",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "providerId",
-                        "in": "query",
-                        "description": "Resource UID on the provider side",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "owner",
-                        "in": "query",
-                        "description": "Provider specific UID of the user who owns the resource",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "ownerDisplayName",
-                        "in": "query",
-                        "description": "Display name of the user who shared the item",
-                        "schema": {
-                            "type": "string",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "sharedBy",
-                        "in": "query",
-                        "description": "Provider specific UID of the user who shared the resource",
-                        "schema": {
-                            "type": "string",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "sharedByDisplayName",
-                        "in": "query",
-                        "description": "Display name of the user who shared the resource",
-                        "schema": {
-                            "type": "string",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "protocol",
-                        "in": "query",
-                        "description": "e,.g. ['name' => 'webdav', 'options' => ['username' => 'john', 'permissions' => 31]]",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "shareType",
-                        "in": "query",
-                        "description": "'group' or 'user' share",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "resourceType",
-                        "in": "query",
-                        "description": "'file', 'calendar',...",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "required": [
+                                    "shareWith",
+                                    "name",
+                                    "providerId",
+                                    "owner",
+                                    "protocol",
+                                    "shareType",
+                                    "resourceType"
+                                ],
+                                "properties": {
+                                    "shareWith": {
+                                        "type": "string",
+                                        "description": "The user who the share will be shared with"
+                                    },
+                                    "name": {
+                                        "type": "string",
+                                        "description": "The resource name (e.g. document.odt)"
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "nullable": true,
+                                        "description": "Share description"
+                                    },
+                                    "providerId": {
+                                        "type": "string",
+                                        "description": "Resource UID on the provider side"
+                                    },
+                                    "owner": {
+                                        "type": "string",
+                                        "description": "Provider specific UID of the user who owns the resource"
+                                    },
+                                    "ownerDisplayName": {
+                                        "type": "string",
+                                        "nullable": true,
+                                        "description": "Display name of the user who shared the item"
+                                    },
+                                    "sharedBy": {
+                                        "type": "string",
+                                        "nullable": true,
+                                        "description": "Provider specific UID of the user who shared the resource"
+                                    },
+                                    "sharedByDisplayName": {
+                                        "type": "string",
+                                        "nullable": true,
+                                        "description": "Display name of the user who shared the resource"
+                                    },
+                                    "protocol": {
+                                        "type": "object",
+                                        "description": "e,.g. ['name' => 'webdav', 'options' => ['username' => 'john', 'permissions' => 31]]",
+                                        "required": [
+                                            "name",
+                                            "options"
+                                        ],
+                                        "properties": {
+                                            "name": {
+                                                "type": "array",
+                                                "items": {
+                                                    "type": "string"
+                                                }
+                                            },
+                                            "options": {
+                                                "type": "object",
+                                                "additionalProperties": {
+                                                    "type": "object"
+                                                }
+                                            }
+                                        }
+                                    },
+                                    "shareType": {
+                                        "type": "string",
+                                        "description": "'group' or 'user' share"
+                                    },
+                                    "resourceType": {
+                                        "type": "string",
+                                        "description": "'file', 'calendar',..."
+                                    }
+                                }
+                            }
                         }
                     }
-                ],
+                },
                 "responses": {
                     "201": {
                         "description": "The notification was successfully received. The display name of the recipient might be returned in the body",
@@ -302,44 +288,43 @@
                         "basic_auth": []
                     }
                 ],
-                "parameters": [
-                    {
-                        "name": "notificationType",
-                        "in": "query",
-                        "description": "Notification type, e.g. SHARE_ACCEPTED",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "resourceType",
-                        "in": "query",
-                        "description": "calendar, file, contact,...",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "providerId",
-                        "in": "query",
-                        "description": "ID of the share",
-                        "schema": {
-                            "type": "string",
-                            "nullable": true
-                        }
-                    },
-                    {
-                        "name": "notification",
-                        "in": "query",
-                        "description": "The actual payload of the notification",
-                        "schema": {
-                            "type": "string",
-                            "nullable": true
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "required": [
+                                    "notificationType",
+                                    "resourceType"
+                                ],
+                                "properties": {
+                                    "notificationType": {
+                                        "type": "string",
+                                        "description": "Notification type, e.g. SHARE_ACCEPTED"
+                                    },
+                                    "resourceType": {
+                                        "type": "string",
+                                        "description": "calendar, file, contact,..."
+                                    },
+                                    "providerId": {
+                                        "type": "string",
+                                        "nullable": true,
+                                        "description": "ID of the share"
+                                    },
+                                    "notification": {
+                                        "type": "object",
+                                        "nullable": true,
+                                        "description": "The actual payload of the notification",
+                                        "additionalProperties": {
+                                            "type": "object"
+                                        }
+                                    }
+                                }
+                            }
                         }
                     }
-                ],
+                },
                 "responses": {
                     "201": {
                         "description": "The notification was successfully received",

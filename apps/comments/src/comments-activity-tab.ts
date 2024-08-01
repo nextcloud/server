@@ -1,28 +1,15 @@
 /**
- * @copyright Copyright (c) 2023 Ferdinand Thiessen <opensource@fthiessen.de>
- *
- * @author Ferdinand Thiessen <opensource@fthiessen.de>
- *
- * @license AGPL-3.0-or-later
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 import moment from '@nextcloud/moment'
-import Vue from 'vue'
+import Vue, { type ComponentPublicInstance } from 'vue'
 import logger from './logger.js'
 import { getComments } from './services/GetComments.js'
+
+import { PiniaVuePlugin, createPinia } from 'pinia'
+
+Vue.use(PiniaVuePlugin)
 
 let ActivityTabPluginView
 let ActivityTabPluginInstance
@@ -33,18 +20,22 @@ let ActivityTabPluginInstance
 export function registerCommentsPlugins() {
 	window.OCA.Activity.registerSidebarAction({
 		mount: async (el, { context, fileInfo, reload }) => {
+			const pinia = createPinia()
+
 			if (!ActivityTabPluginView) {
-				const { default: ActivityCommmentAction } = await import('./views/ActivityCommentAction.vue')
-				ActivityTabPluginView = Vue.extend(ActivityCommmentAction)
+				const { default: ActivityCommentAction } = await import('./views/ActivityCommentAction.vue')
+				/** @ts-expect-error Types are broken for Vue2 */
+				ActivityTabPluginView = Vue.extend(ActivityCommentAction)
 			}
 			ActivityTabPluginInstance = new ActivityTabPluginView({
+				el,
 				parent: context,
+				pinia,
 				propsData: {
 					reloadCallback: reload,
 					resourceId: fileInfo.id,
 				},
 			})
-			ActivityTabPluginInstance.$mount(el)
 			logger.info('Comments plugin mounted in Activity sidebar action', { fileInfo })
 		},
 		unmount: () => {
@@ -59,12 +50,17 @@ export function registerCommentsPlugins() {
 		const { data: comments } = await getComments({ resourceType: 'files', resourceId: fileInfo.id }, { limit, offset })
 		logger.debug('Loaded comments', { fileInfo, comments })
 		const { default: CommentView } = await import('./views/ActivityCommentEntry.vue')
+		/** @ts-expect-error Types are broken for Vue2 */
 		const CommentsViewObject = Vue.extend(CommentView)
 
 		return comments.map((comment) => ({
-			timestamp: moment(comment.props.creationDateTime).toDate().getTime(),
-			mount(element, { context, reload }) {
+			_CommentsViewInstance: undefined as ComponentPublicInstance | undefined,
+
+			timestamp: moment(comment.props?.creationDateTime).toDate().getTime(),
+
+			mount(element: HTMLElement, { context, reload }) {
 				this._CommentsViewInstance = new CommentsViewObject({
+					el: element,
 					parent: context,
 					propsData: {
 						comment,
@@ -72,10 +68,9 @@ export function registerCommentsPlugins() {
 						reloadCallback: reload,
 					},
 				})
-				this._CommentsViewInstance.$mount(element)
 			},
 			unmount() {
-				this._CommentsViewInstance.$destroy()
+				this._CommentsViewInstance?.$destroy()
 			},
 		}))
 	})

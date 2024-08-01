@@ -1,18 +1,19 @@
 <?php
 /**
- * Copyright (c) 2015 Robin Appelman <icewind@owncloud.com>
- * This file is licensed under the Affero General Public License version 3 or
- * later.
- * See the COPYING-README file.
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace Test\Files\Config;
 
+use OC\DB\Exceptions\DbalException;
 use OC\DB\QueryBuilder\Literal;
 use OC\Files\Mount\MountPoint;
 use OC\Files\Storage\Storage;
 use OC\User\Manager;
 use OCP\Cache\CappedMemoryCache;
+use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Diagnostics\IEventLogger;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Config\ICachedMountInfo;
@@ -137,7 +138,7 @@ class UserMountCacheTest extends TestCase {
 		$this->assertCount(1, $cachedMounts);
 		$cachedMount = $cachedMounts[$this->keyForMount($mount)];
 		$this->assertEquals('/asd/', $cachedMount->getMountPoint());
-		$this->assertEquals($user, $cachedMount->getUser());
+		$this->assertEquals($user->getUID(), $cachedMount->getUser()->getUID());
 		$this->assertEquals($storage->getCache()->getId(''), $cachedMount->getRootId());
 		$this->assertEquals($storage->getStorageCache()->getNumericId(), $cachedMount->getStorageId());
 	}
@@ -161,7 +162,7 @@ class UserMountCacheTest extends TestCase {
 		$this->assertCount(1, $cachedMounts);
 		$cachedMount = $cachedMounts[$this->keyForMount($mount)];
 		$this->assertEquals('/asd/', $cachedMount->getMountPoint());
-		$this->assertEquals($user, $cachedMount->getUser());
+		$this->assertEquals($user->getUID(), $cachedMount->getUser()->getUID());
 		$this->assertEquals($storage->getCache()->getId(''), $cachedMount->getRootId());
 		$this->assertEquals($storage->getStorageCache()->getNumericId(), $cachedMount->getStorageId());
 	}
@@ -253,13 +254,13 @@ class UserMountCacheTest extends TestCase {
 
 		$this->assertCount(2, $cachedMounts);
 		$this->assertEquals('/foo/', $cachedMounts[$this->keyForMount($mount1)]->getMountPoint());
-		$this->assertEquals($user1, $cachedMounts[$this->keyForMount($mount1)]->getUser());
+		$this->assertEquals($user1->getUID(), $cachedMounts[$this->keyForMount($mount1)]->getUser()->getUID());
 		$this->assertEquals($id1, $cachedMounts[$this->keyForMount($mount1)]->getRootId());
 		$this->assertEquals(1, $cachedMounts[$this->keyForMount($mount1)]->getStorageId());
 		$this->assertEquals('', $cachedMounts[$this->keyForMount($mount1)]->getRootInternalPath());
 
 		$this->assertEquals('/bar/', $cachedMounts[$this->keyForMount($mount2)]->getMountPoint());
-		$this->assertEquals($user1, $cachedMounts[$this->keyForMount($mount2)]->getUser());
+		$this->assertEquals($user1->getUID(), $cachedMounts[$this->keyForMount($mount2)]->getUser()->getUID());
 		$this->assertEquals($id2, $cachedMounts[$this->keyForMount($mount2)]->getRootId());
 		$this->assertEquals(2, $cachedMounts[$this->keyForMount($mount2)]->getStorageId());
 		$this->assertEquals('foo/bar', $cachedMounts[$this->keyForMount($mount2)]->getRootInternalPath());
@@ -288,12 +289,12 @@ class UserMountCacheTest extends TestCase {
 		$this->assertCount(2, $cachedMounts);
 
 		$this->assertEquals('/bar/', $cachedMounts[0]->getMountPoint());
-		$this->assertEquals($user1, $cachedMounts[0]->getUser());
+		$this->assertEquals($user1->getUID(), $cachedMounts[0]->getUser()->getUID());
 		$this->assertEquals($id2, $cachedMounts[0]->getRootId());
 		$this->assertEquals(2, $cachedMounts[0]->getStorageId());
 
 		$this->assertEquals('/bar/', $cachedMounts[1]->getMountPoint());
-		$this->assertEquals($user2, $cachedMounts[1]->getUser());
+		$this->assertEquals($user2->getUID(), $cachedMounts[1]->getUser()->getUID());
 		$this->assertEquals($id2, $cachedMounts[1]->getRootId());
 		$this->assertEquals(2, $cachedMounts[1]->getStorageId());
 	}
@@ -318,12 +319,12 @@ class UserMountCacheTest extends TestCase {
 		$this->assertCount(2, $cachedMounts);
 
 		$this->assertEquals('/bar/', $cachedMounts[0]->getMountPoint());
-		$this->assertEquals($user1, $cachedMounts[0]->getUser());
+		$this->assertEquals($user1->getUID(), $cachedMounts[0]->getUser()->getUID());
 		$this->assertEquals($id2, $cachedMounts[0]->getRootId());
 		$this->assertEquals(2, $cachedMounts[0]->getStorageId());
 
 		$this->assertEquals('/bar/', $cachedMounts[1]->getMountPoint());
-		$this->assertEquals($user2, $cachedMounts[1]->getUser());
+		$this->assertEquals($user2->getUID(), $cachedMounts[1]->getUser()->getUID());
 		$this->assertEquals($id2, $cachedMounts[1]->getRootId());
 		$this->assertEquals(2, $cachedMounts[1]->getStorageId());
 	}
@@ -336,29 +337,38 @@ class UserMountCacheTest extends TestCase {
 
 	private function createCacheEntry($internalPath, $storageId, $size = 0) {
 		$internalPath = trim($internalPath, '/');
-		$inserted = $this->connection->insertIfNotExist('*PREFIX*filecache', [
-			'storage' => $storageId,
-			'path' => $internalPath,
-			'path_hash' => md5($internalPath),
-			'parent' => -1,
-			'name' => basename($internalPath),
-			'mimetype' => 0,
-			'mimepart' => 0,
-			'size' => $size,
-			'storage_mtime' => 0,
-			'encrypted' => 0,
-			'unencrypted_size' => 0,
-			'etag' => '',
-			'permissions' => 31
-		], ['storage', 'path_hash']);
-		if ($inserted) {
-			$id = (int)$this->connection->lastInsertId('*PREFIX*filecache');
+		try {
+			$query = $this->connection->getQueryBuilder();
+			$query->insert('filecache')
+				->values([
+					'storage' => $query->createNamedParameter($storageId),
+					'path' => $query->createNamedParameter($internalPath),
+					'path_hash' => $query->createNamedParameter(md5($internalPath)),
+					'parent' => $query->createNamedParameter(-1, IQueryBuilder::PARAM_INT),
+					'name' => $query->createNamedParameter(basename($internalPath)),
+					'mimetype' => $query->createNamedParameter(0, IQueryBuilder::PARAM_INT),
+					'mimepart' => $query->createNamedParameter(0, IQueryBuilder::PARAM_INT),
+					'size' => $query->createNamedParameter($size),
+					'storage_mtime' => $query->createNamedParameter(0, IQueryBuilder::PARAM_INT),
+					'encrypted' => $query->createNamedParameter(0, IQueryBuilder::PARAM_INT),
+					'unencrypted_size' => $query->createNamedParameter(0, IQueryBuilder::PARAM_INT),
+					'etag' => $query->createNamedParameter(''),
+					'permissions' => $query->createNamedParameter(31, IQueryBuilder::PARAM_INT),
+				]);
+			$query->executeStatement();
+			$id = $query->getLastInsertId();
 			$this->fileIds[] = $id;
-		} else {
-			$sql = 'SELECT `fileid` FROM `*PREFIX*filecache` WHERE `storage` = ? AND `path_hash` =?';
-			$query = $this->connection->prepare($sql);
-			$query->execute([$storageId, md5($internalPath)]);
-			return (int)$query->fetchOne();
+		} catch (DbalException $e) {
+			if ($e->getReason() === DbalException::REASON_UNIQUE_CONSTRAINT_VIOLATION) {
+				$query = $this->connection->getQueryBuilder();
+				$query->select('fileid')
+					->from('filecache')
+					->where($query->expr()->eq('storage', $query->createNamedParameter($storageId)))
+					->andWhere($query->expr()->eq('path_hash', $query->createNamedParameter(md5($internalPath))));
+				$id = (int)$query->execute()->fetchColumn();
+			} else {
+				throw $e;
+			}
 		}
 		return $id;
 	}
@@ -378,7 +388,7 @@ class UserMountCacheTest extends TestCase {
 		$this->assertCount(1, $cachedMounts);
 
 		$this->assertEquals('/foo/', $cachedMounts[0]->getMountPoint());
-		$this->assertEquals($user1, $cachedMounts[0]->getUser());
+		$this->assertEquals($user1->getUID(), $cachedMounts[0]->getUser()->getUID());
 		$this->assertEquals($rootId, $cachedMounts[0]->getRootId());
 		$this->assertEquals(2, $cachedMounts[0]->getStorageId());
 	}
@@ -400,7 +410,7 @@ class UserMountCacheTest extends TestCase {
 		$this->assertCount(1, $cachedMounts);
 
 		$this->assertEquals('/foo/', $cachedMounts[0]->getMountPoint());
-		$this->assertEquals($user1, $cachedMounts[0]->getUser());
+		$this->assertEquals($user1->getUID(), $cachedMounts[0]->getUser()->getUID());
 		$this->assertEquals($rootId, $cachedMounts[0]->getRootId());
 		$this->assertEquals(2, $cachedMounts[0]->getStorageId());
 		$this->assertEquals('foo/bar', $cachedMounts[0]->getInternalPath());
@@ -433,7 +443,7 @@ class UserMountCacheTest extends TestCase {
 		$this->assertCount(1, $cachedMounts);
 
 		$this->assertEquals('/', $cachedMounts[0]->getMountPoint());
-		$this->assertEquals($user1, $cachedMounts[0]->getUser());
+		$this->assertEquals($user1->getUID(), $cachedMounts[0]->getUser()->getUID());
 		$this->assertEquals($folderId, $cachedMounts[0]->getRootId());
 		$this->assertEquals(2, $cachedMounts[0]->getStorageId());
 		$this->assertEquals('foo', $cachedMounts[0]->getRootInternalPath());

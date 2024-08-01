@@ -1,32 +1,17 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Morris Jobke <hey@morrisjobke.de>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2017-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\Files\Command;
 
+use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
@@ -44,7 +29,8 @@ class DeleteOrphanedFiles extends Command {
 	protected function configure(): void {
 		$this
 			->setName('files:cleanup')
-			->setDescription('cleanup filecache');
+			->setDescription('cleanup filecache')
+			->addOption('skip-filecache-extended', null, InputOption::VALUE_NONE, 'don\'t remove orphaned entries from filecache_extended');
 	}
 
 	public function execute(InputInterface $input, OutputInterface $output): int {
@@ -75,9 +61,42 @@ class DeleteOrphanedFiles extends Command {
 
 		$output->writeln("$deletedEntries orphaned file cache entries deleted");
 
+		if (!$input->getOption('skip-filecache-extended')) {
+			$deletedFileCacheExtended = $this->cleanupOrphanedFileCacheExtended();
+			$output->writeln("$deletedFileCacheExtended orphaned file cache extended entries deleted");
+		}
+
+
 		$deletedMounts = $this->cleanupOrphanedMounts();
 		$output->writeln("$deletedMounts orphaned mount entries deleted");
 		return self::SUCCESS;
+	}
+
+	private function cleanupOrphanedFileCacheExtended(): int {
+		$deletedEntries = 0;
+
+		$query = $this->connection->getQueryBuilder();
+		$query->select('fce.fileid')
+			->from('filecache_extended', 'fce')
+			->leftJoin('fce', 'filecache', 'fc', $query->expr()->eq('fce.fileid', 'fc.fileid'))
+			->where($query->expr()->isNull('fc.fileid'))
+			->setMaxResults(self::CHUNK_SIZE);
+
+		$deleteQuery = $this->connection->getQueryBuilder();
+		$deleteQuery->delete('filecache_extended')
+			->where($deleteQuery->expr()->in('fileid', $deleteQuery->createParameter('idsToDelete')));
+
+		$result = $query->executeQuery();
+		while ($result->rowCount() > 0) {
+			$idsToDelete = $result->fetchAll(\PDO::FETCH_COLUMN);
+
+			$deleteQuery->setParameter('idsToDelete', $idsToDelete, IQueryBuilder::PARAM_INT_ARRAY);
+			$deletedEntries += $deleteQuery->executeStatement();
+
+			$result = $query->executeQuery();
+		}
+
+		return $deletedEntries;
 	}
 
 	private function cleanupOrphanedMounts(): int {

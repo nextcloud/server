@@ -34,7 +34,6 @@ OC.L10N.register(
     "4 hours" : "4 часа",
     "Mute all notifications" : "Занеми (Mute) ги сите известувања",
     "Appear offline" : "Прикажи исклучен",
-    "View profile" : "Прегледај профил",
-    "{status}, {timestamp}" : "{status}, {timestamp}"
+    "View profile" : "Прегледај профил"
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");

@@ -1,11 +1,6 @@
-/*
- * Copyright (c) 2016 Lukas Reschke <lukas@statuscode.ch>
- *
- * This file is licensed under the Affero General Public License version 3
- * or later.
- *
- * See the COPYING-README file.
- *
+/**
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 (function ($) {
@@ -27,7 +22,7 @@
 				// note: password not be required, the endpoint
 				// will recognize previous validation from the session
 				root: OC.getRootPath() + '/public.php/dav/files/' + $('#sharingToken').val() + '/',
-				useHTTPS: OC.getProtocol() === 'https'
+				useHTTPS: OC.getProtocol() === 'https',
 			});
 
 			// We only process one file at a time 🤷‍♀️
@@ -50,6 +45,10 @@
 
 			if (!data.headers) {
 				data.headers = {};
+			}
+
+			if (localStorage.getItem('nick') !== null) {
+				data.headers['X-NC-Nickname'] = localStorage.getItem('nick')
 			}
 
 			$('#drop-upload-done-indicator').addClass('hidden');

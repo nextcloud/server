@@ -1,23 +1,6 @@
 /**
- * @copyright Copyright (c) 2022 John Molakvoæ <skjnldsv@protonmail.com>
- *
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- *
- * @license AGPL-3.0-or-later
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 /* eslint-disable no-console */
 /* eslint-disable n/no-unpublished-import */
@@ -25,8 +8,10 @@
 
 import Docker from 'dockerode'
 import waitOn from 'wait-on'
-import tar from 'tar'
+import { c as createTar } from 'tar'
+import path from 'path'
 import { execSync } from 'child_process'
+import { existsSync } from 'fs'
 
 export const docker = new Docker()
 
@@ -132,6 +117,8 @@ export const configureNextcloud = async function() {
 	await runExec(container, ['php', 'occ', 'config:system:set', 'default_locale', '--value', 'en_US'], true)
 	await runExec(container, ['php', 'occ', 'config:system:set', 'force_locale', '--value', 'en_US'], true)
 	await runExec(container, ['php', 'occ', 'config:system:set', 'enforce_theme', '--value', 'light'], true)
+	// Speed up test and make them less flaky. If a cron execution is needed, it can be triggered manually.
+	await runExec(container, ['php', 'occ', 'background:cron'], true)
 
 	console.log('└─ Nextcloud is now ready to use 🎉')
 }
@@ -144,7 +131,6 @@ export const configureNextcloud = async function() {
  */
 export const applyChangesToNextcloud = async function() {
 	console.log('\nApply local changes to nextcloud...')
-	const container = docker.getContainer(CONTAINER_NAME)
 
 	const htmlPath = '/var/www/html'
 	const folderPaths = [
@@ -164,14 +150,27 @@ export const applyChangesToNextcloud = async function() {
 		'./remote.php',
 		'./status.php',
 		'./version.php',
-	]
+	].filter((folderPath) => {
+		const fullPath = path.resolve(__dirname, '..', folderPath)
 
-	folderPaths.forEach((path) => {
-		console.log(`├─ Copying ${path}`)
+		if (existsSync(fullPath)) {
+			console.log(`├─ Copying ${folderPath}`)
+			return true
+		}
+		return false
 	})
 
+	// Don't try to apply changes, when there are none. Otherwise we
+	// still execute the 'chown' command, which is not needed.
+	if (folderPaths.length === 0) {
+		console.log('└─ No local changes found to apply')
+		return
+	}
+
+	const container = docker.getContainer(CONTAINER_NAME)
+
 	// Tar-streaming the above folders into the container
-	const serverTar = tar.c({ gzip: false }, folderPaths)
+	const serverTar = createTar({ gzip: false }, folderPaths)
 	await container.putArchive(serverTar, {
 		path: htmlPath,
 	})

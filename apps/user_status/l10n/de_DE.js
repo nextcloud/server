@@ -43,7 +43,6 @@ OC.L10N.register(
     "4 hours" : "4 Stunden",
     "Mute all notifications" : "Alle Benachrichtigungen stummschalten",
     "Appear offline" : "Offline erscheinen",
-    "View profile" : "Profil ansehen",
-    "{status}, {timestamp}" : "{status}, {timestamp}"
+    "View profile" : "Profil ansehen"
 },
 "nplurals=2; plural=(n != 1);");

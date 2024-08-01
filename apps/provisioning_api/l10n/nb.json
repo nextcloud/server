@@ -17,6 +17,7 @@
     "Setting the password is not supported by the users backend" : "Innstilling av passordet støttes ikke av brukerens backend",
     "Invalid language" : "Ugyldig språk",
     "Invalid locale" : "Ugyldig nasjonal innstilling",
+    "Invalid first day of week" : "Ugyldig første dag i uken",
     "Cannot remove yourself from the admin group" : "Kan ikke fjerne deg selv fra administratorgruppen",
     "Cannot remove yourself from this group as you are a sub-admin" : "Kan ikke fjerne deg selv fra denne gruppen da du er en underadministrator",
     "Not viable to remove user from the last group you are sub-admin of" : "Ikke mulig å fjerne brukeren fra den siste gruppen du er underadministrator for",

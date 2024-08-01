@@ -43,7 +43,6 @@ OC.L10N.register(
     "4 hours" : "4小时",
     "Mute all notifications" : "静音所有通知",
     "Appear offline" : "显示为离线",
-    "View profile" : "查看个人资料",
-    "{status}, {timestamp}" : "{status}, {timestamp}"
+    "View profile" : "查看个人资料"
 },
 "nplurals=1; plural=0;");

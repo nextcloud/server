@@ -1,5 +1,11 @@
-<?php /** @var \OCP\IL10N $l */ ?>
 <?php
+
+/**
+ * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+/** @var \OCP\IL10N $l */
+
 script('user_ldap', 'renewPassword');
 style('user_ldap', 'renewPassword');
 ?>

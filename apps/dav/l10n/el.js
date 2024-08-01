@@ -58,7 +58,6 @@ OC.L10N.register(
     "Organizer:" : "Διοργανωτής:",
     "Attendees:" : "Συμμετέχοντες:",
     "Title:" : "Τίτλος:",
-    "Time:" : "Ώρα:",
     "Location:" : "Τοποθεσία:",
     "Link:" : "Σύνδεσμος:",
     "Accept" : "Αποδοχή",
@@ -78,9 +77,10 @@ OC.L10N.register(
     "Events" : "Συμβάντα",
     "Untitled task" : "Εργασία χωρίς όνομα",
     "Completed on %s" : "Ολοκληρώθηκε %s",
+    "WebDAV endpoint" : "Τερματικό WebDAV",
+    "Your web server is not yet properly set up to allow file synchronization, because the WebDAV interface seems to be broken." : "Ο διακομιστής σας δεν έχει ρυθμιστεί ακόμη κατάλληλα ώστε να επιτρέπει τον συγχρονισμό αρχείων, διότι η διεπαφή WebDAV φαίνεται να μη λειτουργεί.",
     "Contacts and groups" : "Επαφές και ομάδες",
     "WebDAV" : "WebDAV",
-    "WebDAV endpoint" : "Τερματικό WebDAV",
     "Save" : "Αποθήκευση",
     "Time zone:" : "Ζώνη ώρας:",
     "to" : "προς",
@@ -114,6 +114,7 @@ OC.L10N.register(
     "Are you accepting the invitation?" : "Αποδέχεστε την πρόσκληση;",
     "Tentative" : "Δοκιμαστικό",
     "Your attendance was updated successfully." : "Η παρουσία σας ενημερώθηκε με επιτυχία.",
+    "Time:" : "Ώρα:",
     "If you configure your working hours, other users will see when you are out of office when they book a meeting." : "Εάν διαμορφώσετε τις ώρες εργασίας σας, οι άλλοι χρήστες θα βλέπουν πότε είστε εκτός γραφείου όταν κάνουν κράτηση για μια συνάντηση."
 },
 "nplurals=2; plural=(n != 1);");

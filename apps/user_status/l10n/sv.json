@@ -41,7 +41,6 @@
     "4 hours" : "4 timmar",
     "Mute all notifications" : "Dölj alla aviseringar",
     "Appear offline" : "Visa som frånkopplad",
-    "View profile" : "Visa profil",
-    "{status}, {timestamp}" : "{status}, {timestamp}"
+    "View profile" : "Visa profil"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -1,11 +1,7 @@
-/*
- * Copyright (c) 2014
- *
- * This file is licensed under the Affero General Public License version 3
- * or later.
- *
- * See the COPYING-README file.
- *
+/**
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2012-2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 (function() {
@@ -726,7 +722,7 @@
 				});
 			}
 
-			if (!/Android|iPhone|iPad|iPod/i.test(navigator.userAgent)) {
+			if (!/Android|iPhone|iPad|iPod/i.test(navigator.userAgent) && !!window.oc_current_user) {
 				this.registerAction({
 					name: 'EditLocally',
 					displayName: function(context) {

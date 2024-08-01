@@ -1,23 +1,6 @@
 /**
- * @copyright Copyright (c) 2022 Louis Chmn <louis@chmn.me>
- *
- * @author Louis Chmn <louis@chmn.me>
- *
- * @license AGPL-3.0-or-later
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 import type { User } from '@nextcloud/cypress'
@@ -56,9 +39,9 @@ describe('Versions restoration', () => {
 	})
 
 	it('Downloads versions and assert there content', () => {
-		assertVersionContent(randomFileName, 0, 'v1')
-		assertVersionContent(randomFileName, 1, 'v3')
-		assertVersionContent(randomFileName, 2, 'v2')
+		assertVersionContent(0, 'v1')
+		assertVersionContent(1, 'v3')
+		assertVersionContent(2, 'v2')
 	})
 
 	context('Restore versions of shared file', () => {
@@ -76,9 +59,9 @@ describe('Versions restoration', () => {
 			})
 
 			it('Downloads versions and assert there content', () => {
-				assertVersionContent(randomFileName, 0, 'v1')
-				assertVersionContent(randomFileName, 1, 'v3')
-				assertVersionContent(randomFileName, 2, 'v2')
+				assertVersionContent(0, 'v1')
+				assertVersionContent(1, 'v3')
+				assertVersionContent(2, 'v2')
 			})
 		})
 
@@ -113,7 +96,7 @@ describe('Versions restoration', () => {
 							auth: { user: recipient.userId, pass: recipient.password },
 							headers: {
 								cookie: '',
-								Destination: 'https://nextcloud_server1.test/remote.php/dav/versions/admin/restore/target',
+								Destination: `http://${hostname}/remote.php/dav/versions/${recipient.userId}/restore/target`,
 							},
 							url: `http://${hostname}/remote.php/dav/versions/${recipient.userId}/versions/${fileId}/${versionId}`,
 							failOnStatusCode: false,

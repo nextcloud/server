@@ -1,24 +1,7 @@
 <!--
-  - @copyright Copyright (c) 2023 John Molakvoæ <skjnldsv@protonmail.com>
-  -
-  - @author John Molakvoæ <skjnldsv@protonmail.com>
-  -
-  - @license GNU AGPL version 3 or any later version
-  -
-  - This program is free software: you can redistribute it and/or modify
-  - it under the terms of the GNU Affero General Public License as
-  - published by the Free Software Foundation, either version 3 of the
-  - License, or (at your option) any later version.
-  -
-  - This program is distributed in the hope that it will be useful,
-  - but WITHOUT ANY WARRANTY; without even the implied warranty of
-  - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  - GNU Affero General Public License for more details.
-  -
-  - You should have received a copy of the GNU Affero General Public License
-  - along with this program. If not, see <http://www.gnu.org/licenses/>.
-  -
-  -->
+  - SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 <template>
 	<span class="files-list__row-icon">
 		<template v-if="source.type === 'folder'">
@@ -39,7 +22,7 @@
 			:class="{'files-list__row-icon-preview--loaded': backgroundFailed === false}"
 			loading="lazy"
 			:src="previewUrl"
-			@error="backgroundFailed = true"
+			@error="onBackgroundError"
 			@load="backgroundFailed = false">
 
 		<FileIcon v-else v-once />
@@ -76,10 +59,11 @@ import NetworkIcon from 'vue-material-design-icons/Network.vue'
 import TagIcon from 'vue-material-design-icons/Tag.vue'
 import PlayCircleIcon from 'vue-material-design-icons/PlayCircle.vue'
 
-import { useUserConfigStore } from '../../store/userconfig.ts'
 import CollectivesIcon from './CollectivesIcon.vue'
 import FavoriteIcon from './FavoriteIcon.vue'
+
 import { isLivePhoto } from '../../services/LivePhotos'
+import { useUserConfigStore } from '../../store/userconfig.ts'
 
 export default Vue.extend({
 	name: 'FileEntryPreview',
@@ -162,6 +146,10 @@ export default Vue.extend({
 				url.searchParams.set('y', this.gridMode ? '128' : '32')
 				url.searchParams.set('mimeFallback', 'true')
 
+				// Etag to force refresh preview on change
+				const etag = this.source?.attributes?.etag || ''
+				url.searchParams.set('v', etag.slice(0, 6))
+
 				// Handle cropping
 				url.searchParams.set('a', this.cropPreviews === true ? '0' : '1')
 				return url.href
@@ -219,12 +207,21 @@ export default Vue.extend({
 	},
 
 	methods: {
+		// Called from FileEntry
 		reset() {
-			if (this.backgroundFailed === true && this.$refs.previewImg) {
+			// Reset background state to cancel any ongoing requests
+			this.backgroundFailed = undefined
+			if (this.$refs.previewImg) {
 				this.$refs.previewImg.src = ''
 			}
-			// Reset background state
-			this.backgroundFailed = undefined
+		},
+
+		onBackgroundError(event) {
+			// Do not fail if we just reset the background
+			if (event.target?.src === '') {
+				return
+			}
+			this.backgroundFailed = true
 		},
 
 		t,

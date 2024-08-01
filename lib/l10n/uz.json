@@ -7,10 +7,8 @@
     "last month" : "last month",
     "seconds ago" : "seconds ago",
     "File name is too long" : "File name is too long",
-    "Help" : "Help",
     "Apps" : "Apps",
     "Settings" : "Settings",
-    "Users" : "Users",
     "Address" : "Address",
     "Profile picture" : "Profil rasmi",
     "About" : "About",
@@ -18,7 +16,8 @@
     "January" : "January",
     "Authentication error" : "Authentication error",
     "Storage is temporarily not available" : "Storage is temporarily not available",
-    "Full name" : "Full name",
+    "Help" : "Help",
+    "Users" : "Users",
     "Unknown user" : "Unknown user"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

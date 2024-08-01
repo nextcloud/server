@@ -1,0 +1,55 @@
+# SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
+# SPDX-License-Identifier: MIT
+name: Block merging with outdated 3rdparty/
+
+on:
+  pull_request:
+    types: [opened, ready_for_review, reopened, synchronize]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: block-outdated-3rdparty-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
+jobs:
+  block-outdated-3rdparty:
+    name: Block merging with outdated 3rdparty/
+
+    runs-on: ubuntu-latest-low
+
+    steps:
+      - name: Check requirement
+        uses: dorny/paths-filter@de90cc6fb38fc0963ad72b210f1f284cd68cea36 # v3.0.2
+        id: changes
+        continue-on-error: true
+        with:
+          filters: |
+            src:
+              - '3rdparty'
+              - 'version.php'
+
+      - name: Checkout
+        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
+
+      - name: 3rdparty commit hash on current branch
+        id: actual
+        run: |
+          echo "commit=$(git submodule status | grep ' 3rdparty' | egrep -o '[a-f0-9]{40}')" >> "$GITHUB_OUTPUT"
+
+      - name: Last 3rdparty commit on target branch
+        id: target
+        run: |
+          echo "commit=$(git ls-remote https://github.com/nextcloud/3rdparty refs/heads/${{ github.base_ref }} | awk '{ print $1}')" >> "$GITHUB_OUTPUT"
+
+      - name: Compare if 3rdparty commits are different
+        run: |
+          echo '3rdparty/ seems to not point to the last commit of the dedicated branch:'
+          echo 'Branch has: ${{ steps.actual.outputs.commit }}'
+          echo '${{ github.base_ref }} has: ${{ steps.target.outputs.commit }}'
+
+      - name: Fail if 3rdparty commits are different
+        if: ${{ steps.changes.outputs.src != 'false' && steps.actual.outputs.commit != steps.target.outputs.commit }}
+        run: |
+          exit 1

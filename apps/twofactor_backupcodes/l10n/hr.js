@@ -10,7 +10,6 @@ OC.L10N.register(
     "Two factor backup codes" : "Dvofaktorske pričuvne šifre",
     "A two-factor auth backup codes provider" : "Davatelj pričuvnih šifri za dvofaktorsku autentifikaciju",
     "Backup codes have been generated. {used} of {total} codes have been used." : "Pričuvne šifre su generirane. Iskorišteno je {used} od {total} šifri.",
-    "These are your backup codes. Please save and/or print them as you will not be able to read the codes again later" : "Ovo su vaše pričuvne šifre. Spremite ih i/ili ih ispišite jer ih kasnije više nećete moći pročitati",
     "Save backup codes" : "Spremi pričuvne šifre",
     "Print backup codes" : "Ispis pričuvnih šifri",
     "Regenerate backup codes" : "Ponovno generiranje pričuvnih šifri",
@@ -18,6 +17,7 @@ OC.L10N.register(
     "An error occurred while generating your backup codes" : "Došlo je do pogreške pri generiranju pričuvnih šifri",
     "{name} backup codes" : "{name} pričuvnih šifri",
     "Use one of the backup codes you saved when setting up two-factor authentication." : "Upotrijebite jednu od pričuvnih šifri koje ste spremili prilikom postavljanja dvofaktorske autentifikacije.",
-    "Submit" : "Šalji"
+    "Submit" : "Šalji",
+    "These are your backup codes. Please save and/or print them as you will not be able to read the codes again later" : "Ovo su vaše pričuvne šifre. Spremite ih i/ili ih ispišite jer ih kasnije više nećete moći pročitati"
 },
 "nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;");

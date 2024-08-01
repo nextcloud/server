@@ -1,15 +1,7 @@
-/**
- * @copyright Copyright (c) 2016, John Molakvoæ <skjnldsv@protonmail.com>
- * @copyright Copyright (c) 2016, Morris Jobke <hey@morrisjobke.de>
- * @copyright Copyright (c) 2016, Joas Schilling <coding@schilljs.com>
- * @copyright Copyright (c) 2016, Julius Haertl <jus@bitgrid.net>
- * @copyright Copyright (c) 2016, jowi <sjw@gmx.ch>
- * @copyright Copyright (c) 2015, Joas Schilling <nickvergessen@owncloud.com>
- * @copyright Copyright (c) 2015, Hendrik Leppelsack <hendrik@leppelsack.de>
- * @copyright Copyright (c) 2014-2017, Jan-Christoph Borchardt <hey@jancborchardt.net>
- *
- * @license GNU AGPL version 3 or any later version
- *
+/*!
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 @use 'variables';
 @import 'functions';
@@ -25,7 +17,6 @@ input, textarea, select, button, div[contenteditable=true], div[contenteditable=
 	background-image: unset !important;
 }
 
-$default-height: 36px;
 $opacity-disabled: .7;
 
 /* Simple selector to allow easy overriding */
@@ -40,7 +31,7 @@ textarea,
 div[contenteditable=true],
 div[contenteditable=false] {
 	width: 130px;
-	min-height: $default-height;
+	min-height: var(--default-clickable-area);
 	box-sizing: border-box;
 }
 
@@ -183,7 +174,7 @@ input {
 		-moz-appearance: textfield;
 		appearance: textfield;
 		// force height for inline elements like inputs (not textarea, contenteditable...)
-		height: $default-height;
+		height: var(--default-clickable-area);
 	}
 	&[type='radio'],
 	&[type='checkbox'],
@@ -223,7 +214,7 @@ input[type='reset'] {
 	padding: 8px 14px;
 	font-size: var(--default-font-size);
 	width: auto;
-	min-height: $default-height;
+	min-height: var(--default-clickable-area);
 	cursor: pointer;
 	box-sizing: border-box;
 	background-color: var(--color-background-dark);
@@ -323,6 +314,10 @@ input[type='reset'] {
 		background-color: var(--color-error) !important;
 		border-color: var(--color-error) !important;
 		color: #fff !important;
+		&:hover{
+			background-color: var(--color-error-hover) !important;
+			border-color: var(--color-main-text) !important;
+		}
 	}
 }
 button:not(
@@ -356,8 +351,8 @@ input {
 			/* Avoid background under border */
 			background-color: var(--color-main-background) !important;
 			opacity: 1;
-			height: $default-height;
-			width: $default-height;
+			height: var(--default-clickable-area);
+			width: var(--default-clickable-area);
 			padding: 7px 6px;
 			cursor: pointer;
 			margin-right: 0;

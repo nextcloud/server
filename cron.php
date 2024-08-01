@@ -3,43 +3,9 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Artem Sidorenko <artem@posteo.de>
- * @author Christopher Schäpers <kondou@ts.unde.re>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Côme Chilliet <come.chilliet@nextcloud.com>
- * @author Daniel Kesselberg <mail@danielkesselberg.de>
- * @author hoellen <dev@hoellen.eu>
- * @author J0WI <J0WI@users.noreply.github.com>
- * @author Jakob Sack <mail@jakobsack.de>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Jörn Friedrich Dreyer <jfd@butonic.de>
- * @author Ko- <k.stoffelen@cs.ru.nl>
- * @author Michael Kuhn <michael@ikkoku.de>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Oliver Kohl D.Sc. <oliver@kohl.bz>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Steffen Lindner <mail@steffen-lindner.de>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Vincent Petry <vincent@nextcloud.com>
- * @author Stephen Michel <git@smichel.me>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 
 require_once __DIR__ . '/lib/versioncheck.php';
@@ -56,6 +22,21 @@ use Psr\Log\LoggerInterface;
 
 try {
 	require_once __DIR__ . '/lib/base.php';
+
+	if (isset($argv[1]) && ($argv[1] === '-h' || $argv[1] === '--help')) {
+		echo 'Description:
+  Run the background job routine
+
+Usage:
+  php -f cron.php -- [-h] [<job-classes>...]
+
+Arguments:
+  job-classes                  Optional job class list to only run those jobs
+
+Options:
+  -h, --help                 Display this help message' . PHP_EOL;
+		exit(0);
+	}
 
 	if (Util::needUpgrade()) {
 		Server::get(LoggerInterface::class)->debug('Update required, skipping cron', ['app' => 'cron']);
@@ -160,7 +141,11 @@ try {
 		$endTime = time() + 14 * 60;
 
 		$executedJobs = [];
-		while ($job = $jobList->getNext($onlyTimeSensitive)) {
+		// a specific job class list can optionally be given as argument
+		$jobClasses = array_slice($argv, 1);
+		$jobClasses = empty($jobClasses) ? null : $jobClasses;
+
+		while ($job = $jobList->getNext($onlyTimeSensitive, $jobClasses)) {
 			if (isset($executedJobs[$job->getId()])) {
 				$jobList->unlockJob($job);
 				break;
@@ -169,18 +154,38 @@ try {
 			$jobDetails = get_class($job) . ' (id: ' . $job->getId() . ', arguments: ' . json_encode($job->getArgument()) . ')';
 			$logger->debug('CLI cron call has selected job ' . $jobDetails, ['app' => 'cron']);
 
+			$timeBefore = time();
 			$memoryBefore = memory_get_usage();
 			$memoryPeakBefore = memory_get_peak_usage();
 
-			$job->start($jobList);
+			/** @psalm-suppress DeprecatedMethod Calling execute until it is removed, then will switch to start */
+			$job->execute($jobList);
 
+			$timeAfter = time();
 			$memoryAfter = memory_get_usage();
 			$memoryPeakAfter = memory_get_peak_usage();
 
-			if ($memoryAfter - $memoryBefore > 10_000_000) {
-				$logger->warning('Used memory grew by more than 10 MB when executing job ' . $jobDetails . ': ' . Util::humanFileSize($memoryAfter). ' (before: ' . Util::humanFileSize($memoryBefore) . ')', ['app' => 'cron']);
+			$cronInterval = 5 * 60;
+			$timeSpent = $timeAfter - $timeBefore;
+			if ($timeSpent > $cronInterval) {
+				$logLevel = match (true) {
+					$timeSpent > $cronInterval * 128 => \OCP\ILogger::FATAL,
+					$timeSpent > $cronInterval * 64 => \OCP\ILogger::ERROR,
+					$timeSpent > $cronInterval * 16 => \OCP\ILogger::WARN,
+					$timeSpent > $cronInterval * 8 => \OCP\ILogger::INFO,
+					default => \OCP\ILogger::DEBUG,
+				};
+				$logger->log(
+					$logLevel,
+					'Background job ' . $jobDetails . ' ran for ' . $timeSpent . ' seconds',
+					['app' => 'cron']
+				);
 			}
-			if ($memoryPeakAfter > 300_000_000) {
+
+			if ($memoryAfter - $memoryBefore > 50_000_000) {
+				$logger->warning('Used memory grew by more than 50 MB when executing job ' . $jobDetails . ': ' . Util::humanFileSize($memoryAfter). ' (before: ' . Util::humanFileSize($memoryBefore) . ')', ['app' => 'cron']);
+			}
+			if ($memoryPeakAfter > 300_000_000 && $memoryPeakBefore <= 300_000_000) {
 				$logger->warning('Cron job used more than 300 MB of ram after executing job ' . $jobDetails . ': ' . Util::humanFileSize($memoryPeakAfter) . ' (before: ' . Util::humanFileSize($memoryPeakBefore) . ')', ['app' => 'cron']);
 			}
 
@@ -192,7 +197,7 @@ try {
 			$executedJobs[$job->getId()] = true;
 			unset($job);
 
-			if (time() > $endTime) {
+			if ($timeAfter > $endTime) {
 				break;
 			}
 		}
@@ -207,7 +212,8 @@ try {
 			$job = $jobList->getNext();
 			if ($job != null) {
 				$logger->debug('WebCron call has selected job with ID ' . strval($job->getId()), ['app' => 'cron']);
-				$job->start($jobList);
+				/** @psalm-suppress DeprecatedMethod Calling execute until it is removed, then will switch to start */
+				$job->execute($jobList);
 				$jobList->setLastJob($job);
 			}
 			OC_JSON::success();

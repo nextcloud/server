@@ -1,35 +1,9 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Bjoern Schiessle <bjoern@schiessle.org>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Georg Ehrke <oc.list@georgehrke.com>
- * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- * @author Jörn Friedrich Dreyer <jfd@butonic.de>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Vincent Chan <plus.vincchan@gmail.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OC\User;
 
@@ -79,35 +53,26 @@ class Manager extends PublicEmitter implements IUserManager {
 	/**
 	 * @var \OCP\UserInterface[] $backends
 	 */
-	private $backends = [];
+	private array $backends = [];
 
 	/**
-	 * @var \OC\User\User[] $cachedUsers
+	 * @var array<string,\OC\User\User> $cachedUsers
 	 */
-	private $cachedUsers = [];
+	private array $cachedUsers = [];
 
-	/** @var IConfig */
-	private $config;
-
-	/** @var ICache */
-	private $cache;
-
-	/** @var IEventDispatcher */
-	private $eventDispatcher;
+	private ICache $cache;
 
 	private DisplayNameCache $displayNameCache;
 
-	public function __construct(IConfig $config,
+	public function __construct(
+		private IConfig $config,
 		ICacheFactory $cacheFactory,
-		IEventDispatcher $eventDispatcher) {
-		$this->config = $config;
+		private IEventDispatcher $eventDispatcher,
+	) {
 		$this->cache = new WithLocalCache($cacheFactory->createDistributed('user_backend_map'));
-		$cachedUsers = &$this->cachedUsers;
-		$this->listen('\OC\User', 'postDelete', function ($user) use (&$cachedUsers) {
-			/** @var \OC\User\User $user */
-			unset($cachedUsers[$user->getUID()]);
+		$this->listen('\OC\User', 'postDelete', function (IUser $user): void {
+			unset($this->cachedUsers[$user->getUID()]);
 		});
-		$this->eventDispatcher = $eventDispatcher;
 		$this->displayNameCache = new DisplayNameCache($cacheFactory, $this);
 	}
 
@@ -342,7 +307,7 @@ class Manager extends PublicEmitter implements IUserManager {
 	/**
 	 * @return IUser[]
 	 */
-	public function getDisabledUsers(?int $limit = null, int $offset = 0): array {
+	public function getDisabledUsers(?int $limit = null, int $offset = 0, string $search = ''): array {
 		$users = $this->config->getUsersForUserValue('core', 'enabled', 'false');
 		$users = array_combine(
 			$users,
@@ -351,6 +316,15 @@ class Manager extends PublicEmitter implements IUserManager {
 				$users
 			)
 		);
+		if ($search !== '') {
+			$users = array_filter(
+				$users,
+				fn (IUser $user): bool =>
+					mb_stripos($user->getUID(), $search) !== false ||
+					mb_stripos($user->getDisplayName(), $search) !== false ||
+					mb_stripos($user->getEMailAddress() ?? '', $search) !== false,
+			);
+		}
 
 		$tempLimit = ($limit === null ? null : $limit + $offset);
 		foreach ($this->backends as $backend) {
@@ -358,7 +332,7 @@ class Manager extends PublicEmitter implements IUserManager {
 				break;
 			}
 			if ($backend instanceof IProvideEnabledStateBackend) {
-				$backendUsers = $backend->getDisabledUserList(($tempLimit === null ? null : $tempLimit - count($users)));
+				$backendUsers = $backend->getDisabledUserList(($tempLimit === null ? null : $tempLimit - count($users)), 0, $search);
 				foreach ($backendUsers as $uid) {
 					$users[$uid] = new LazyUser($uid, $this, null, $backend);
 				}
@@ -759,6 +733,49 @@ class Manager extends PublicEmitter implements IUserManager {
 		}
 	}
 
+	/**
+	 * Gets the list of user ids sorted by lastLogin, from most recent to least recent
+	 *
+	 * @param int|null $limit how many users to fetch
+	 * @param int $offset from which offset to fetch
+	 * @param string $search search users based on search params
+	 * @return list<string> list of user IDs
+	 */
+	public function getLastLoggedInUsers(?int $limit = null, int $offset = 0, string $search = ''): array {
+		$connection = \OC::$server->getDatabaseConnection();
+		$queryBuilder = $connection->getQueryBuilder();
+		$queryBuilder->selectDistinct('uid')
+			->from('users', 'u')
+			->leftJoin('u', 'preferences', 'p', $queryBuilder->expr()->andX(
+				$queryBuilder->expr()->eq('p.userid', 'uid'),
+				$queryBuilder->expr()->eq('p.appid', $queryBuilder->expr()->literal('login')),
+				$queryBuilder->expr()->eq('p.configkey', $queryBuilder->expr()->literal('lastLogin')))
+			);
+		if($search !== '') {
+			$queryBuilder->leftJoin('u', 'preferences', 'p1', $queryBuilder->expr()->andX(
+				$queryBuilder->expr()->eq('p1.userid', 'uid'),
+				$queryBuilder->expr()->eq('p1.appid', $queryBuilder->expr()->literal('settings')),
+				$queryBuilder->expr()->eq('p1.configkey', $queryBuilder->expr()->literal('email')))
+			)
+				// sqlite doesn't like re-using a single named parameter here
+				->where($queryBuilder->expr()->iLike('uid', $queryBuilder->createPositionalParameter('%' . $connection->escapeLikeParameter($search) . '%')))
+				->orWhere($queryBuilder->expr()->iLike('displayname', $queryBuilder->createPositionalParameter('%' . $connection->escapeLikeParameter($search) . '%')))
+				->orWhere($queryBuilder->expr()->iLike('p1.configvalue', $queryBuilder->createPositionalParameter('%' . $connection->escapeLikeParameter($search) . '%'))
+				);
+		}
+		$queryBuilder->orderBy($queryBuilder->func()->lower('p.configvalue'), 'DESC')
+			->addOrderBy('uid_lower', 'ASC')
+			->setFirstResult($offset)
+			->setMaxResults($limit);
+
+		$result = $queryBuilder->executeQuery();
+		/** @var list<string> $uids */
+		$uids = $result->fetchAll(\PDO::FETCH_COLUMN);
+		$result->closeCursor();
+
+		return $uids;
+	}
+
 	private function verifyUid(string $uid, bool $checkDataDirectory = false): bool {
 		$appdata = 'appdata_' . $this->config->getSystemValueString('instanceid');
 
@@ -769,6 +786,8 @@ class Manager extends PublicEmitter implements IUserManager {
 			'.ocdata',
 			'owncloud.log',
 			'nextcloud.log',
+			'updater.log',
+			'audit.log',
 			$appdata], true)) {
 			return false;
 		}

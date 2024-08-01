@@ -1,11 +1,6 @@
 OC.L10N.register(
     "federatedfilesharing",
     {
-    "Do you want to add the remote share {name} from {owner}@{remote}?" : "Želite li dodati udaljeni udjel {name} od {owner} u {remote}?",
-    "Remote share" : "Udaljeno dijeljenje",
-    "Remote share password" : "Zaporka za udaljeno dijeljenje",
-    "Cancel" : "Odustani",
-    "Add remote share" : "Dodaj udaljeno dijeljenje",
     "Invalid Federated Cloud ID" : "Nevažeći ID udruženog oblaka",
     "Server to server sharing is not enabled on this server" : "Dijeljenje između poslužitelja nije omogućeno na ovom poslužitelju",
     "Couldn't establish a federated share." : "Nije moguće uspostaviti udruženo dijeljenje.",
@@ -37,6 +32,11 @@ OC.L10N.register(
     "Share with me through my #Nextcloud Federated Cloud ID" : "Dijeli sa mnom putem mog #ID-ja udruženog oblaka Nextclouda",
     "Copy to clipboard" : "Kopiraj u međuspremnik",
     "Copied!" : "Kopirano!",
+    "Do you want to add the remote share {name} from {owner}@{remote}?" : "Želite li dodati udaljeni udjel {name} od {owner} u {remote}?",
+    "Remote share" : "Udaljeno dijeljenje",
+    "Remote share password" : "Zaporka za udaljeno dijeljenje",
+    "Cancel" : "Odustani",
+    "Add remote share" : "Dodaj udaljeno dijeljenje",
     "Sharing %1$s failed, because this item is already shared with user %2$s" : "Dijeljenje %1$s nije uspjelo jer je ova stavka već podijeljena s korisnikom %2$s",
     "Not allowed to create a federated share with the same user" : "Nije dopušteno stvaranje udruženog dijeljenja s istim korisnikom",
     "Adjust how people can share between servers. This includes shares between users on this server as well if they are using federated sharing." : "Prilagodite način na koji ljudi mogu dijeliti između poslužitelja. To uključuje i dijeljenja među korisnicima na ovom poslužitelju ako upotrebljavaju udruženo dijeljenje.",

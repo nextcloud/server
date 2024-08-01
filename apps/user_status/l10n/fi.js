@@ -43,7 +43,6 @@ OC.L10N.register(
     "4 hours" : "4 tuntia",
     "Mute all notifications" : "Mykistä kaikki ilmoitukset",
     "Appear offline" : "Näytä olevan poissa",
-    "View profile" : "Näytä profiili",
-    "{status}, {timestamp}" : "{status}, {timestamp}"
+    "View profile" : "Näytä profiili"
 },
 "nplurals=2; plural=(n != 1);");

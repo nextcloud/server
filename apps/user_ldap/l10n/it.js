@@ -61,6 +61,7 @@ OC.L10N.register(
     "Your password will expire today." : "La tua password scadrà oggi.",
     "_Your password will expire within %n day._::_Your password will expire within %n days._" : ["La tua password scadrà tra %n giorno.","La tua password scadrà oggi tra %n giorni.","La tua password scadrà oggi tra %n giorni."],
     "LDAP/AD integration" : "Integrazione LDAP/AD",
+    "LDAP Connection" : "Connessione LDAP",
     "Invalid LDAP UUIDs" : "UUID LDAP non validi",
     "None found" : "Nessuno trovato",
     "_%n group found_::_%n groups found_" : ["%n gruppo trovato","%n gruppi trovati","%n gruppi trovati"],

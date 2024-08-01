@@ -65,6 +65,8 @@ OC.L10N.register(
     "Desktop client" : "Klijent za stolna računala",
     "Thunderbird & Outlook addons" : "Dodaci za Thunderbird i Outlook",
     "Custom user agent" : "Prilagođeni korisnički agent",
+    "Select groups" : "Označi grupe",
+    "Groups" : "Grupe",
     "At least one event must be selected" : "Morate odabrati barem jedan događaj",
     "Add new flow" : "Dodaj novi tijek",
     "When" : "Kada",

@@ -1,3 +1,10 @@
+<?php
+/**
+ * SPDX-FileCopyrightText: 2017-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
+ */
+?>
 <div class="guest-box update" data-productname="<?php p($_['productName']) ?>" data-version="<?php p($_['version']) ?>">
 	<div class="updateOverview">
 		<h2 class="title"><?php p($l->t('Update needed')) ?></h2>
@@ -12,7 +19,7 @@
 			} else {
 				$cliUpgradeLink = link_to_docs('admin-cli-upgrade');
 			}
-			print_unescaped($l->t('For help, see the  <a target="_blank" rel="noreferrer noopener" href="%s">documentation</a>.', [$cliUpgradeLink])); ?>
+print_unescaped($l->t('For help, see the  <a target="_blank" rel="noreferrer noopener" href="%s">documentation</a>.', [$cliUpgradeLink])); ?>
 		</div>
 	</div>
 

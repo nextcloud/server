@@ -3,26 +3,8 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2020 Julius Härtl <jus@bitgrid.net>
- *
- * @author Joas Schilling <coding@schilljs.com>
- * @author Julius Härtl <jus@bitgrid.net>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OC\Dashboard;
 
@@ -43,16 +25,21 @@ class Manager implements IManager {
 	/** @var array<string, IWidget> */
 	private array $widgets = [];
 
-	private ContainerInterface $serverContainer;
 	private ?IAppManager $appManager = null;
 
-	public function __construct(ContainerInterface $serverContainer) {
-		$this->serverContainer = $serverContainer;
+	public function __construct(
+		private ContainerInterface $serverContainer,
+		private LoggerInterface $logger,
+	) {
 	}
 
 	private function registerWidget(IWidget $widget): void {
 		if (array_key_exists($widget->getId(), $this->widgets)) {
 			throw new InvalidArgumentException('Dashboard widget with this id has already been registered');
+		}
+
+		if (!preg_match('/^[a-z][a-z0-9\-_]*$/', $widget->getId())) {
+			$this->logger->debug('Deprecated dashboard widget ID provided: "' . $widget->getId() . '" [ ' . get_class($widget) . ' ]. Please use a-z, 0-9, - and _ only, starting with a-z');
 		}
 
 		$this->widgets[$widget->getId()] = $widget;

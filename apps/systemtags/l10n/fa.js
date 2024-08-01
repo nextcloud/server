@@ -37,7 +37,7 @@ OC.L10N.register(
     "{actor} removed system tag {systemtag} from {file}" : "{actor} removed system tag {systemtag} from {file}",
     "%s (restricted)" : "%s (restricted)",
     "%s (invisible)" : "%s (invisible)",
-    "<strong>System tags</strong> for a file have been modified" : "<strong>System tags</strong> for a file have been modified",
+    "<strong>System tags</strong> for a file have been modified" : "برچسب های سیستم برای یک فایل تغییر داده شده است",
     "Tags" : "برچسب‌ها",
     "All tagged %s …" : "All tagged %s …",
     "tagged %s" : "tagged %s",

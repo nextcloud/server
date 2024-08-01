@@ -28,6 +28,8 @@ OC.L10N.register(
     "iOS client" : "iOS-biðlari",
     "Desktop client" : "Skjáborðsforrit",
     "Thunderbird & Outlook addons" : "Thunderbird & Outlook viðbætur",
+    "Select groups" : "Veldu hópa",
+    "Groups" : "Hópar",
     "Add new flow" : "Bæta við nýju flæði",
     "Cancel" : "Hætta við",
     "Delete" : "Eyða",

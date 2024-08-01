@@ -10,7 +10,7 @@ OC.L10N.register(
     "Two factor backup codes" : "Zweifaktor-Backup-Codes",
     "A two-factor auth backup codes provider" : "Ein Anbieter für Zweifaktor-Backup-Codes",
     "Backup codes have been generated. {used} of {total} codes have been used." : "Backup-Codes wurden erzeugt. {used} von {total} Codes wurden benutzt.",
-    "These are your backup codes. Please save and/or print them as you will not be able to read the codes again later" : "Dies sind Ihre Backup-Codes. Bitte speichern und/oder drucken Sie diese, da diese Codes später nicht mehr gelesen werden können",
+    "These are your backup codes. Please save and/or print them as you will not be able to read the codes again later." : "Dies sind Ihre Backup-Codes. Bitte speichern und/oder drucken Sie diese aus, da Sie die Codes später nicht mehr abrufen können.",
     "Save backup codes" : "Backup-Codes speichern",
     "Print backup codes" : "Backup-Codes drucken",
     "Regenerate backup codes" : "Backup-Codes erneuern",
@@ -18,6 +18,7 @@ OC.L10N.register(
     "An error occurred while generating your backup codes" : "Es ist ein Fehler beim Erstellen Ihrer Backup-Codes aufgetreten",
     "{name} backup codes" : "{name} Backup-Codes",
     "Use one of the backup codes you saved when setting up two-factor authentication." : "Verwenden Sie einen der Backup-Codes, den Sie bei der Einrichtung der Zwei-Faktor-Authentifizierung gespeichert haben.",
-    "Submit" : "Übermitteln"
+    "Submit" : "Übermitteln",
+    "These are your backup codes. Please save and/or print them as you will not be able to read the codes again later" : "Dies sind Ihre Backup-Codes. Bitte speichern und/oder drucken Sie diese, da diese Codes später nicht mehr gelesen werden können"
 },
 "nplurals=2; plural=(n != 1);");

@@ -28,6 +28,8 @@ OC.L10N.register(
     "iOS client" : "iOS klient",
     "Desktop client" : "Dekstop klient",
     "Thunderbird & Outlook addons" : "Thunderbird & Outlook tilføjelser",
+    "Select groups" : "Vælg grupper",
+    "Groups" : "Grupper",
     "and" : "og",
     "Cancel" : "Annullér",
     "Delete" : "Slet",

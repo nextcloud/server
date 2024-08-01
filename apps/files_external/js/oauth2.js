@@ -1,3 +1,8 @@
+/**
+ * SPDX-FileCopyrightText: 2018-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
+ */
 window.addEventListener('DOMContentLoaded', function() {
 
 	function displayGranted($tr) {

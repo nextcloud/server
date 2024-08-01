@@ -37,4 +37,4 @@ OC.L10N.register(
     "Send password by mail" : "שליחת ססמה בדוא״ל",
     "Allows users to share a personalized link to a file or folder by putting in an email address." : "מאפשר למשתמשים לשתף קישורים מותאמים אישית לקובץ או לתיקייה על ידי הקלדת כתובת דוא״ל."
 },
-"nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;");
+"nplurals=3; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: 2;");

@@ -1,10 +1,13 @@
-/*
+/**
  * DOMParser HTML extension
  * 2012-09-04
  * 
  * By Eli Grey, http://eligrey.com
  * Public domain.
  * NO WARRANTY EXPRESSED OR IMPLIED. USE AT YOUR OWN RISK.
+ *
+ * SPDX-FileCopyrightText: 2012 Eli Grey, http://eligrey.com
+ * SPDX-License-Identifier: CC0-1.0
  */
 
 /*! @source https://gist.github.com/1129031 */

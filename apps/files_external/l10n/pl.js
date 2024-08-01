@@ -129,6 +129,7 @@ OC.L10N.register(
     "Available for" : "Dostępne dla",
     "Click to recheck the configuration" : "Kliknij, aby ponownie sprawdzić konfigurację",
     "Add storage" : "Dodaj zewnętrzne magazyny",
+    "All people" : "Wszystkie osoby",
     "Advanced settings" : "Ustawienia zaawansowane",
     "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Poświadczenia globalne mogą być używane do uwierzytelniania z wieloma zewnętrznymi magazynami, o ile posiadają takie same poświadczenia.",
     "Type to select user or group." : "Wpisz, aby wybrać użytkownika lub grupę.",

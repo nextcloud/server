@@ -1,27 +1,10 @@
 <!--
-  - @copyright Copyright (c) 2020 John Molakvoæ <skjnldsv@protonmail.com>
-  -
-  - @author John Molakvoæ <skjnldsv@protonmail.com>
-  -
-  - @license GNU AGPL version 3 or any later version
-  -
-  - This program is free software: you can redistribute it and/or modify
-  - it under the terms of the GNU Affero General Public License as
-  - published by the Free Software Foundation, either version 3 of the
-  - License, or (at your option) any later version.
-  -
-  - This program is distributed in the hope that it will be useful,
-  - but WITHOUT ANY WARRANTY; without even the implied warranty of
-  - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  - GNU Affero General Public License for more details.
-  -
-  - You should have received a copy of the GNU Affero General Public License
-  - along with this program. If not, see <http://www.gnu.org/licenses/>.
-  -
-  -->
+  - SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 <template>
 	<component :is="tag"
-		v-show="!deleted"
+		v-show="!deleted && !isLimbo"
 		:class="{'comment--loading': loading}"
 		class="comment">
 		<!-- Comment header toolbar -->
@@ -40,22 +23,27 @@
 					show if we have a message id and current user is author -->
 				<NcActions v-if="isOwnComment && id && !loading" class="comment__actions">
 					<template v-if="!editing">
-						<NcActionButton :close-after-click="true"
-							icon="icon-rename"
+						<NcActionButton close-after-click
 							@click="onEdit">
+							<template #icon>
+								<IconEdit :size="20" />
+							</template>
 							{{ t('comments', 'Edit comment') }}
 						</NcActionButton>
 						<NcActionSeparator />
-						<NcActionButton :close-after-click="true"
-							icon="icon-delete"
+						<NcActionButton close-after-click
 							@click="onDeleteWithUndo">
+							<template #icon>
+								<IconDelete :size="20" />
+							</template>
 							{{ t('comments', 'Delete comment') }}
 						</NcActionButton>
 					</template>
 
-					<NcActionButton v-else
-						icon="icon-close"
-						@click="onEditCancel">
+					<NcActionButton v-else @click="onEditCancel">
+						<template #icon>
+							<IconClose :size="20" />
+						</template>
 						{{ t('comments', 'Cancel edit') }}
 					</NcActionButton>
 				</NcActions>
@@ -90,8 +78,8 @@
 							:disabled="isEmptyMessage"
 							@click="onSubmit">
 							<template #icon>
-								<span v-if="loading" class="icon-loading-small" />
-								<ArrowRight v-else :size="20" />
+								<NcLoadingIcon v-if="loading" />
+								<IconArrowRight v-else :size="20" />
 							</template>
 						</NcButton>
 					</div>
@@ -124,10 +112,17 @@ import NcActionSeparator from '@nextcloud/vue/dist/Components/NcActionSeparator.
 import NcAvatar from '@nextcloud/vue/dist/Components/NcAvatar.js'
 import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 import NcDateTime from '@nextcloud/vue/dist/Components/NcDateTime.js'
+import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
 import RichEditorMixin from '@nextcloud/vue/dist/Mixins/richEditor.js'
-import ArrowRight from 'vue-material-design-icons/ArrowRight.vue'
+
+import IconArrowRight from 'vue-material-design-icons/ArrowRight.vue'
+import IconClose from 'vue-material-design-icons/Close.vue'
+import IconDelete from 'vue-material-design-icons/Delete.vue'
+import IconEdit from 'vue-material-design-icons/Pencil.vue'
 
 import CommentMixin from '../mixins/CommentMixin.js'
+import { mapStores } from 'pinia'
+import { useDeletedCommentLimbo } from '../store/deletedCommentLimbo.js'
 
 // Dynamic loading
 const NcRichContenteditable = () => import('@nextcloud/vue/dist/Components/NcRichContenteditable.js')
@@ -136,13 +131,17 @@ export default {
 	name: 'Comment',
 
 	components: {
-		ArrowRight,
+		IconArrowRight,
+		IconClose,
+		IconDelete,
+		IconEdit,
 		NcActionButton,
 		NcActions,
 		NcActionSeparator,
 		NcAvatar,
 		NcButton,
 		NcDateTime,
+		NcLoadingIcon,
 		NcRichContenteditable,
 	},
 	mixins: [RichEditorMixin, CommentMixin],
@@ -196,6 +195,7 @@ export default {
 	},
 
 	computed: {
+		...mapStores(useDeletedCommentLimbo),
 
 		/**
 		 * Is the current user the author of this comment
@@ -227,6 +227,10 @@ export default {
 		 */
 		timestamp() {
 			return Date.parse(this.creationDateTime)
+		},
+
+		isLimbo() {
+			return this.deletedCommentLimboStore.checkForId(this.id)
 		},
 	},
 
@@ -341,7 +345,7 @@ $comment-padding: 10px;
 
 	&__submit {
 		position: absolute !important;
-		bottom: 0;
+		bottom: 5px;
 		right: 0;
 	}
 

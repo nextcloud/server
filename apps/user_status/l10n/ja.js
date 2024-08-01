@@ -43,7 +43,6 @@ OC.L10N.register(
     "4 hours" : "4時間",
     "Mute all notifications" : "全ての通知をミュート",
     "Appear offline" : "オフライン",
-    "View profile" : "プロフィールを表示",
-    "{status}, {timestamp}" : "{status}、{timestamp}"
+    "View profile" : "プロフィールを表示"
 },
 "nplurals=1; plural=0;");

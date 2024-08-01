@@ -3,45 +3,9 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- * @copyright Copyright (c) 2023, Ezhil Shanmugham <ezhil930@gmail.com>
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Bjoern Schiessle <bjoern@schiessle.org>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Daniel Calviño Sánchez <danxuliu@gmail.com>
- * @author Daniel Kesselberg <mail@danielkesselberg.de>
- * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author michag86 <micha_g@arcor.de>
- * @author Mikael Hammarin <mikael@try2.se>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Sujith Haridasan <sujith.h@gmail.com>
- * @author Thomas Citharel <nextcloud@tcit.fr>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Tom Needham <tom@owncloud.com>
- * @author Vincent Petry <vincent@nextcloud.com>
- * @author Kate Döen <kate.doeen@nextcloud.com>
- * @author Ezhil Shanmugham <ezhil930@gmail.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 
 namespace OCA\Provisioning_API\Controller;
@@ -52,13 +16,19 @@ use OC\KnownUser\KnownUserService;
 use OC\User\Backend;
 use OCA\Provisioning_API\ResponseDefinitions;
 use OCA\Settings\Mailer\NewUserMailHelper;
+use OCA\Settings\Settings\Admin\Users;
 use OCP\Accounts\IAccountManager;
 use OCP\Accounts\IAccountProperty;
 use OCP\Accounts\PropertyDoesNotExistException;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\AuthorizedAdminSetting;
+use OCP\AppFramework\Http\Attribute\NoAdminRequired;
+use OCP\AppFramework\Http\Attribute\PasswordConfirmationRequired;
+use OCP\AppFramework\Http\Attribute\UserRateLimit;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCS\OCSException;
 use OCP\AppFramework\OCS\OCSForbiddenException;
+use OCP\AppFramework\OCS\OCSNotFoundException;
 use OCP\AppFramework\OCSController;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\HintException;
@@ -118,8 +88,6 @@ class UsersController extends AUserData {
 	}
 
 	/**
-	 * @NoAdminRequired
-	 *
 	 * Get a list of users
 	 *
 	 * @param string $search Text to search for
@@ -129,14 +97,17 @@ class UsersController extends AUserData {
 	 *
 	 * 200: Users returned
 	 */
-	public function getUsers(string $search = '', int $limit = null, int $offset = 0): DataResponse {
+	#[NoAdminRequired]
+	public function getUsers(string $search = '', ?int $limit = null, int $offset = 0): DataResponse {
 		$user = $this->userSession->getUser();
 		$users = [];
 
 		// Admin? Or SubAdmin?
 		$uid = $user->getUID();
 		$subAdminManager = $this->groupManager->getSubAdmin();
-		if ($this->groupManager->isAdmin($uid)) {
+		$isAdmin = $this->groupManager->isAdmin($uid);
+		$isDelegatedAdmin = $this->groupManager->isDelegatedAdmin($uid);
+		if ($isAdmin || $isDelegatedAdmin) {
 			$users = $this->userManager->search($search, $limit, $offset);
 		} elseif ($subAdminManager->isSubAdmin($user)) {
 			$subAdminOfGroups = $subAdminManager->getSubAdminsGroups($user);
@@ -159,8 +130,6 @@ class UsersController extends AUserData {
 	}
 
 	/**
-	 * @NoAdminRequired
-	 *
 	 * Get a list of users and their details
 	 *
 	 * @param string $search Text to search for
@@ -170,14 +139,17 @@ class UsersController extends AUserData {
 	 *
 	 * 200: Users details returned
 	 */
-	public function getUsersDetails(string $search = '', int $limit = null, int $offset = 0): DataResponse {
+	#[NoAdminRequired]
+	public function getUsersDetails(string $search = '', ?int $limit = null, int $offset = 0): DataResponse {
 		$currentUser = $this->userSession->getUser();
 		$users = [];
 
 		// Admin? Or SubAdmin?
 		$uid = $currentUser->getUID();
 		$subAdminManager = $this->groupManager->getSubAdmin();
-		if ($this->groupManager->isAdmin($uid)) {
+		$isAdmin = $this->groupManager->isAdmin($uid);
+		$isDelegatedAdmin = $this->groupManager->isDelegatedAdmin($uid);
+		if ($isAdmin || $isDelegatedAdmin) {
 			$users = $this->userManager->search($search, $limit, $offset);
 			$users = array_keys($users);
 		} elseif ($subAdminManager->isSubAdmin($currentUser)) {
@@ -196,7 +168,14 @@ class UsersController extends AUserData {
 		$usersDetails = [];
 		foreach ($users as $userId) {
 			$userId = (string) $userId;
-			$userData = $this->getUserData($userId);
+			try {
+				$userData = $this->getUserData($userId);
+			} catch (OCSNotFoundException $e) {
+				// We still want to return all other accounts, but this one was removed from the backends
+				// yet they are still in our database. Might be a LDAP remnant.
+				$userData = null;
+				$this->logger->warning('Found one enabled account that is removed from its backend, but still exists in Nextcloud database', ['accountId' => $userId]);
+			}
 			// Do not insert empty entry
 			if ($userData !== null) {
 				$usersDetails[$userId] = $userData;
@@ -213,17 +192,17 @@ class UsersController extends AUserData {
 	}
 
 	/**
-	 * @NoAdminRequired
-	 *
 	 * Get the list of disabled users and their details
 	 *
+	 * @param string $search Text to search for
 	 * @param ?int $limit Limit the amount of users returned
 	 * @param int $offset Offset
 	 * @return DataResponse<Http::STATUS_OK, array{users: array<string, Provisioning_APIUserDetails|array{id: string}>}, array{}>
 	 *
 	 * 200: Disabled users details returned
 	 */
-	public function getDisabledUsersDetails(?int $limit = null, int $offset = 0): DataResponse {
+	#[NoAdminRequired]
+	public function getDisabledUsersDetails(string $search = '', ?int $limit = null, int $offset = 0): DataResponse {
 		$currentUser = $this->userSession->getUser();
 		if ($currentUser === null) {
 			return new DataResponse(['users' => []]);
@@ -240,8 +219,10 @@ class UsersController extends AUserData {
 		// Admin? Or SubAdmin?
 		$uid = $currentUser->getUID();
 		$subAdminManager = $this->groupManager->getSubAdmin();
-		if ($this->groupManager->isAdmin($uid)) {
-			$users = $this->userManager->getDisabledUsers($limit, $offset);
+		$isAdmin = $this->groupManager->isAdmin($uid);
+		$isDelegatedAdmin = $this->groupManager->isDelegatedAdmin($uid);
+		if ($isAdmin || $isDelegatedAdmin) {
+			$users = $this->userManager->getDisabledUsers($limit, $offset, $search);
 			$users = array_map(fn (IUser $user): string => $user->getUID(), $users);
 		} elseif ($subAdminManager->isSubAdmin($currentUser)) {
 			$subAdminOfGroups = $subAdminManager->getSubAdminsGroups($currentUser);
@@ -255,8 +236,8 @@ class UsersController extends AUserData {
 					array_map(
 						fn (IUser $user): string => $user->getUID(),
 						array_filter(
-							$group->searchUsers('', ($tempLimit === null ? null : $tempLimit - count($users))),
-							fn (IUser $user): bool => $user->isEnabled()
+							$group->searchUsers($search, ($tempLimit === null ? null : $tempLimit - count($users))),
+							fn (IUser $user): bool => !$user->isEnabled()
 						)
 					)
 				);
@@ -269,12 +250,75 @@ class UsersController extends AUserData {
 
 		$usersDetails = [];
 		foreach ($users as $userId) {
-			$userData = $this->getUserData($userId);
+			try {
+				$userData = $this->getUserData($userId);
+			} catch (OCSNotFoundException $e) {
+				// We still want to return all other accounts, but this one was removed from the backends
+				// yet they are still in our database. Might be a LDAP remnant.
+				$userData = null;
+				$this->logger->warning('Found one disabled account that was removed from its backend, but still exists in Nextcloud database', ['accountId' => $userId]);
+			}
 			// Do not insert empty entry
 			if ($userData !== null) {
 				$usersDetails[$userId] = $userData;
 			} else {
-				// Logged user does not have permissions to see this user
+				// Currently logged in user does not have permissions to see this user
+				// only showing its id
+				$usersDetails[$userId] = ['id' => $userId];
+			}
+		}
+
+		return new DataResponse([
+			'users' => $usersDetails
+		]);
+	}
+
+	/**
+	 * Gets the list of users sorted by lastLogin, from most recent to least recent
+	 *
+	 * @param string $search Text to search for
+	 * @param ?int $limit Limit the amount of users returned
+	 * @param int $offset Offset
+	 * @return DataResponse<Http::STATUS_OK, array{users: array<string, Provisioning_APIUserDetails|array{id: string}>}, array{}>
+	 *
+	 * 200: Users details returned based on last logged in information
+	 */
+	#[AuthorizedAdminSetting(settings:Users::class)]
+	public function getLastLoggedInUsers(string $search = '',
+		?int $limit = null,
+		int $offset = 0,
+	): DataResponse {
+		$currentUser = $this->userSession->getUser();
+		if ($currentUser === null) {
+			return new DataResponse(['users' => []]);
+		}
+		if ($limit !== null && $limit < 0) {
+			throw new InvalidArgumentException("Invalid limit value: $limit");
+		}
+		if ($offset < 0) {
+			throw new InvalidArgumentException("Invalid offset value: $offset");
+		}
+
+		$users = [];
+
+		// For Admin alone user sorting based on lastLogin. For sub admin and groups this is not supported
+		$users = $this->userManager->getLastLoggedInUsers($limit, $offset, $search);
+
+		$usersDetails = [];
+		foreach ($users as $userId) {
+			try {
+				$userData = $this->getUserData($userId);
+			} catch (OCSNotFoundException $e) {
+				// We still want to return all other accounts, but this one was removed from the backends
+				// yet they are still in our database. Might be a LDAP remnant.
+				$userData = null;
+				$this->logger->warning('Found one account that was removed from its backend, but still exists in Nextcloud database', ['accountId' => $userId]);
+			}
+			// Do not insert empty entry
+			if ($userData !== null) {
+				$usersDetails[$userId] = $userData;
+			} else {
+				// Currently logged-in user does not have permissions to see this user
 				// only showing its id
 				$usersDetails[$userId] = ['id' => $userId];
 			}
@@ -286,8 +330,8 @@ class UsersController extends AUserData {
 	}
 
 
+
 	/**
-	 * @NoAdminRequired
 	 * @NoSubAdminRequired
 	 *
 	 * Search users by their phone numbers
@@ -299,6 +343,7 @@ class UsersController extends AUserData {
 	 * 200: Users returned
 	 * 400: Invalid location
 	 */
+	#[NoAdminRequired]
 	public function searchByPhoneNumbers(string $location, array $search): DataResponse {
 		if ($this->phoneNumberUtil->getCountryCodeForRegion($location) === null) {
 			// Not a valid region code
@@ -378,9 +423,6 @@ class UsersController extends AUserData {
 	}
 
 	/**
-	 * @PasswordConfirmationRequired
-	 * @NoAdminRequired
-	 *
 	 * Create a new user
 	 *
 	 * @param string $userid ID of the user
@@ -398,6 +440,8 @@ class UsersController extends AUserData {
 	 *
 	 * 200: User added successfully
 	 */
+	#[PasswordConfirmationRequired]
+	#[NoAdminRequired]
 	public function addUser(
 		string $userid,
 		string $password = '',
@@ -411,6 +455,7 @@ class UsersController extends AUserData {
 	): DataResponse {
 		$user = $this->userSession->getUser();
 		$isAdmin = $this->groupManager->isAdmin($user->getUID());
+		$isDelegatedAdmin = $this->groupManager->isDelegatedAdmin($user->getUID());
 		$subAdminManager = $this->groupManager->getSubAdmin();
 
 		if (empty($userid) && $this->config->getAppValue('core', 'newUser.generateUserID', 'no') === 'yes') {
@@ -427,12 +472,12 @@ class UsersController extends AUserData {
 				if (!$this->groupManager->groupExists($group)) {
 					throw new OCSException($this->l10n->t('Group %1$s does not exist', [$group]), 104);
 				}
-				if (!$isAdmin && !$subAdminManager->isSubAdminOfGroup($user, $this->groupManager->get($group))) {
+				if (!$isAdmin && !($isDelegatedAdmin && $group !== 'admin') && !$subAdminManager->isSubAdminOfGroup($user, $this->groupManager->get($group))) {
 					throw new OCSException($this->l10n->t('Insufficient privileges for group %1$s', [$group]), 105);
 				}
 			}
 		} else {
-			if (!$isAdmin) {
+			if (!$isAdmin && !$isDelegatedAdmin) {
 				throw new OCSException($this->l10n->t('No group specified (required for sub-admins)'), 106);
 			}
 		}
@@ -450,7 +495,7 @@ class UsersController extends AUserData {
 					throw new OCSException($this->l10n->t('Cannot create sub-admins for admin group'), 103);
 				}
 				// Check if has permission to promote subadmins
-				if (!$subAdminManager->isSubAdminOfGroup($user, $group) && !$isAdmin) {
+				if (!$subAdminManager->isSubAdminOfGroup($user, $group) && !$isAdmin && !$isDelegatedAdmin) {
 					throw new OCSForbiddenException($this->l10n->t('No permissions to promote sub-admins'));
 				}
 				$subadminGroups[] = $group;
@@ -587,7 +632,6 @@ class UsersController extends AUserData {
 	}
 
 	/**
-	 * @NoAdminRequired
 	 * @NoSubAdminRequired
 	 *
 	 * Get the details of a user
@@ -598,6 +642,7 @@ class UsersController extends AUserData {
 	 *
 	 * 200: User returned
 	 */
+	#[NoAdminRequired]
 	public function getUser(string $userId): DataResponse {
 		$includeScopes = false;
 		$currentUser = $this->userSession->getUser();
@@ -614,7 +659,6 @@ class UsersController extends AUserData {
 	}
 
 	/**
-	 * @NoAdminRequired
 	 * @NoSubAdminRequired
 	 *
 	 * Get the details of the current user
@@ -624,6 +668,7 @@ class UsersController extends AUserData {
 	 *
 	 * 200: Current user returned
 	 */
+	#[NoAdminRequired]
 	public function getCurrentUser(): DataResponse {
 		$user = $this->userSession->getUser();
 		if ($user) {
@@ -636,7 +681,6 @@ class UsersController extends AUserData {
 	}
 
 	/**
-	 * @NoAdminRequired
 	 * @NoSubAdminRequired
 	 *
 	 * Get a list of fields that are editable for the current user
@@ -646,6 +690,7 @@ class UsersController extends AUserData {
 	 *
 	 * 200: Editable fields returned
 	 */
+	#[NoAdminRequired]
 	public function getEditableFields(): DataResponse {
 		$currentLoggedInUser = $this->userSession->getUser();
 		if (!$currentLoggedInUser instanceof IUser) {
@@ -656,7 +701,6 @@ class UsersController extends AUserData {
 	}
 
 	/**
-	 * @NoAdminRequired
 	 * @NoSubAdminRequired
 	 *
 	 * Get a list of fields that are editable for a user
@@ -667,6 +711,7 @@ class UsersController extends AUserData {
 	 *
 	 * 200: Editable fields for user returned
 	 */
+	#[NoAdminRequired]
 	public function getEditableFieldsForUser(string $userId): DataResponse {
 		$currentLoggedInUser = $this->userSession->getUser();
 		if (!$currentLoggedInUser instanceof IUser) {
@@ -682,8 +727,10 @@ class UsersController extends AUserData {
 			}
 
 			$subAdminManager = $this->groupManager->getSubAdmin();
+			$isAdmin = $this->groupManager->isAdmin($currentLoggedInUser->getUID());
+			$isDelegatedAdmin = $this->groupManager->isDelegatedAdmin($currentLoggedInUser->getUID());
 			if (
-				!$this->groupManager->isAdmin($currentLoggedInUser->getUID())
+				!($isAdmin || $isDelegatedAdmin)
 				&& !$subAdminManager->isUserAccessible($currentLoggedInUser, $targetUser)
 			) {
 				throw new OCSException('', OCSController::RESPOND_NOT_FOUND);
@@ -719,10 +766,7 @@ class UsersController extends AUserData {
 	}
 
 	/**
-	 * @NoAdminRequired
 	 * @NoSubAdminRequired
-	 * @PasswordConfirmationRequired
-	 * @UserRateThrottle(limit=5, period=60)
 	 *
 	 * Update multiple values of the user's details
 	 *
@@ -735,6 +779,9 @@ class UsersController extends AUserData {
 	 *
 	 * 200: User values edited successfully
 	 */
+	#[PasswordConfirmationRequired]
+	#[NoAdminRequired]
+	#[UserRateLimit(limit: 5, period: 60)]
 	public function editUserMultiValue(
 		string $userId,
 		string $collectionName,
@@ -752,6 +799,7 @@ class UsersController extends AUserData {
 		}
 
 		$subAdminManager = $this->groupManager->getSubAdmin();
+		$isDelegatedAdmin = $this->groupManager->isDelegatedAdmin($currentLoggedInUser->getUID());
 		$isAdminOrSubadmin = $this->groupManager->isAdmin($currentLoggedInUser->getUID())
 			|| $subAdminManager->isUserAccessible($currentLoggedInUser, $targetUser);
 
@@ -762,7 +810,7 @@ class UsersController extends AUserData {
 			$permittedFields[] = IAccountManager::COLLECTION_EMAIL . self::SCOPE_SUFFIX;
 		} else {
 			// Check if admin / subadmin
-			if ($isAdminOrSubadmin) {
+			if ($isAdminOrSubadmin || $isDelegatedAdmin && !$this->groupManager->isInGroup($targetUser->getUID(), 'admin')) {
 				// They have permissions over the user
 				$permittedFields[] = IAccountManager::COLLECTION_EMAIL;
 			} else {
@@ -821,10 +869,7 @@ class UsersController extends AUserData {
 	}
 
 	/**
-	 * @NoAdminRequired
 	 * @NoSubAdminRequired
-	 * @PasswordConfirmationRequired
-	 * @UserRateThrottle(limit=50, period=600)
 	 *
 	 * Update a value of the user's details
 	 *
@@ -836,6 +881,9 @@ class UsersController extends AUserData {
 	 *
 	 * 200: User value edited successfully
 	 */
+	#[PasswordConfirmationRequired]
+	#[NoAdminRequired]
+	#[UserRateLimit(limit: 50, period: 60)]
 	public function editUser(string $userId, string $key, string $value): DataResponse {
 		$currentLoggedInUser = $this->userSession->getUser();
 
@@ -867,16 +915,19 @@ class UsersController extends AUserData {
 			$permittedFields[] = self::USER_FIELD_NOTIFICATION_EMAIL;
 			if (
 				$this->config->getSystemValue('force_language', false) === false ||
-				$this->groupManager->isAdmin($currentLoggedInUser->getUID())
+				$this->groupManager->isAdmin($currentLoggedInUser->getUID()) ||
+				$this->groupManager->isDelegatedAdmin($currentLoggedInUser->getUID())
 			) {
 				$permittedFields[] = self::USER_FIELD_LANGUAGE;
 			}
 
 			if (
 				$this->config->getSystemValue('force_locale', false) === false ||
-				$this->groupManager->isAdmin($currentLoggedInUser->getUID())
+				$this->groupManager->isAdmin($currentLoggedInUser->getUID()) ||
+				$this->groupManager->isDelegatedAdmin($currentLoggedInUser->getUID())
 			) {
 				$permittedFields[] = self::USER_FIELD_LOCALE;
+				$permittedFields[] = self::USER_FIELD_FIRST_DAY_OF_WEEK;
 			}
 
 			$permittedFields[] = IAccountManager::PROPERTY_PHONE;
@@ -889,6 +940,7 @@ class UsersController extends AUserData {
 			$permittedFields[] = IAccountManager::PROPERTY_HEADLINE;
 			$permittedFields[] = IAccountManager::PROPERTY_BIOGRAPHY;
 			$permittedFields[] = IAccountManager::PROPERTY_PROFILE_ENABLED;
+			$permittedFields[] = IAccountManager::PROPERTY_BIRTHDATE;
 			$permittedFields[] = IAccountManager::PROPERTY_PHONE . self::SCOPE_SUFFIX;
 			$permittedFields[] = IAccountManager::PROPERTY_ADDRESS . self::SCOPE_SUFFIX;
 			$permittedFields[] = IAccountManager::PROPERTY_WEBSITE . self::SCOPE_SUFFIX;
@@ -899,11 +951,14 @@ class UsersController extends AUserData {
 			$permittedFields[] = IAccountManager::PROPERTY_HEADLINE . self::SCOPE_SUFFIX;
 			$permittedFields[] = IAccountManager::PROPERTY_BIOGRAPHY . self::SCOPE_SUFFIX;
 			$permittedFields[] = IAccountManager::PROPERTY_PROFILE_ENABLED . self::SCOPE_SUFFIX;
+			$permittedFields[] = IAccountManager::PROPERTY_BIRTHDATE . self::SCOPE_SUFFIX;
 
 			$permittedFields[] = IAccountManager::PROPERTY_AVATAR . self::SCOPE_SUFFIX;
 
 			// If admin they can edit their own quota and manager
-			if ($this->groupManager->isAdmin($currentLoggedInUser->getUID())) {
+			$isAdmin = $this->groupManager->isAdmin($currentLoggedInUser->getUID());
+			$isDelegatedAdmin = $this->groupManager->isDelegatedAdmin($currentLoggedInUser->getUID());
+			if ($isAdmin || $isDelegatedAdmin) {
 				$permittedFields[] = self::USER_FIELD_QUOTA;
 				$permittedFields[] = self::USER_FIELD_MANAGER;
 			}
@@ -911,7 +966,8 @@ class UsersController extends AUserData {
 			// Check if admin / subadmin
 			$subAdminManager = $this->groupManager->getSubAdmin();
 			if (
-				$this->groupManager->isAdmin($currentLoggedInUser->getUID())
+				$this->groupManager->isAdmin($currentLoggedInUser->getUID()) ||
+				$this->groupManager->isDelegatedAdmin($currentLoggedInUser->getUID()) && !$this->groupManager->isInGroup($targetUser->getUID(), 'admin')
 				|| $subAdminManager->isUserAccessible($currentLoggedInUser, $targetUser)
 			) {
 				// They have permissions over the user
@@ -927,6 +983,7 @@ class UsersController extends AUserData {
 				$permittedFields[] = self::USER_FIELD_PASSWORD;
 				$permittedFields[] = self::USER_FIELD_LANGUAGE;
 				$permittedFields[] = self::USER_FIELD_LOCALE;
+				$permittedFields[] = self::USER_FIELD_FIRST_DAY_OF_WEEK;
 				$permittedFields[] = IAccountManager::PROPERTY_PHONE;
 				$permittedFields[] = IAccountManager::PROPERTY_ADDRESS;
 				$permittedFields[] = IAccountManager::PROPERTY_WEBSITE;
@@ -1018,6 +1075,17 @@ class UsersController extends AUserData {
 				}
 				$this->config->setUserValue($targetUser->getUID(), 'core', 'locale', $value);
 				break;
+			case self::USER_FIELD_FIRST_DAY_OF_WEEK:
+				$intValue = (int)$value;
+				if ($intValue < -1 || $intValue > 6) {
+					throw new OCSException($this->l10n->t('Invalid first day of week'), 102);
+				}
+				if ($intValue === -1) {
+					$this->config->deleteUserValue($targetUser->getUID(), 'core', AUserData::USER_FIELD_FIRST_DAY_OF_WEEK);
+				} else {
+					$this->config->setUserValue($targetUser->getUID(), 'core', AUserData::USER_FIELD_FIRST_DAY_OF_WEEK, $value);
+				}
+				break;
 			case self::USER_FIELD_NOTIFICATION_EMAIL:
 				$success = false;
 				if ($value === '' || filter_var($value, FILTER_VALIDATE_EMAIL)) {
@@ -1069,6 +1137,7 @@ class UsersController extends AUserData {
 			case IAccountManager::PROPERTY_ROLE:
 			case IAccountManager::PROPERTY_HEADLINE:
 			case IAccountManager::PROPERTY_BIOGRAPHY:
+			case IAccountManager::PROPERTY_BIRTHDATE:
 				$userAccount = $this->accountManager->getAccount($targetUser);
 				try {
 					$userProperty = $userAccount->getProperty($key);
@@ -1115,6 +1184,7 @@ class UsersController extends AUserData {
 			case IAccountManager::PROPERTY_HEADLINE . self::SCOPE_SUFFIX:
 			case IAccountManager::PROPERTY_BIOGRAPHY . self::SCOPE_SUFFIX:
 			case IAccountManager::PROPERTY_PROFILE_ENABLED . self::SCOPE_SUFFIX:
+			case IAccountManager::PROPERTY_BIRTHDATE . self::SCOPE_SUFFIX:
 			case IAccountManager::PROPERTY_AVATAR . self::SCOPE_SUFFIX:
 				$propertyName = substr($key, 0, strlen($key) - strlen(self::SCOPE_SUFFIX));
 				$userAccount = $this->accountManager->getAccount($targetUser);
@@ -1135,9 +1205,6 @@ class UsersController extends AUserData {
 	}
 
 	/**
-	 * @PasswordConfirmationRequired
-	 * @NoAdminRequired
-	 *
 	 * Wipe all devices of a user
 	 *
 	 * @param string $userId ID of the user
@@ -1148,6 +1215,8 @@ class UsersController extends AUserData {
 	 *
 	 * 200: Wiped all user devices successfully
 	 */
+	#[PasswordConfirmationRequired]
+	#[NoAdminRequired]
 	public function wipeUserDevices(string $userId): DataResponse {
 		/** @var IUser $currentLoggedInUser */
 		$currentLoggedInUser = $this->userSession->getUser();
@@ -1164,7 +1233,9 @@ class UsersController extends AUserData {
 
 		// If not permitted
 		$subAdminManager = $this->groupManager->getSubAdmin();
-		if (!$this->groupManager->isAdmin($currentLoggedInUser->getUID()) && !$subAdminManager->isUserAccessible($currentLoggedInUser, $targetUser)) {
+		$isAdmin = $this->groupManager->isAdmin($currentLoggedInUser->getUID());
+		$isDelegatedAdmin = $this->groupManager->isDelegatedAdmin($currentLoggedInUser->getUID());
+		if (!$isAdmin && !($isDelegatedAdmin && !$this->groupManager->isInGroup($targetUser->getUID(), 'admin')) && !$subAdminManager->isUserAccessible($currentLoggedInUser, $targetUser)) {
 			throw new OCSException('', OCSController::RESPOND_NOT_FOUND);
 		}
 
@@ -1174,9 +1245,6 @@ class UsersController extends AUserData {
 	}
 
 	/**
-	 * @PasswordConfirmationRequired
-	 * @NoAdminRequired
-	 *
 	 * Delete a user
 	 *
 	 * @param string $userId ID of the user
@@ -1185,6 +1253,8 @@ class UsersController extends AUserData {
 	 *
 	 * 200: User deleted successfully
 	 */
+	#[PasswordConfirmationRequired]
+	#[NoAdminRequired]
 	public function deleteUser(string $userId): DataResponse {
 		$currentLoggedInUser = $this->userSession->getUser();
 
@@ -1200,7 +1270,9 @@ class UsersController extends AUserData {
 
 		// If not permitted
 		$subAdminManager = $this->groupManager->getSubAdmin();
-		if (!$this->groupManager->isAdmin($currentLoggedInUser->getUID()) && !$subAdminManager->isUserAccessible($currentLoggedInUser, $targetUser)) {
+		$isAdmin = $this->groupManager->isAdmin($currentLoggedInUser->getUID());
+		$isDelegatedAdmin = $this->groupManager->isDelegatedAdmin($currentLoggedInUser->getUID());
+		if (!$isAdmin && !($isDelegatedAdmin && !$this->groupManager->isInGroup($targetUser->getUID(), 'admin')) && !$subAdminManager->isUserAccessible($currentLoggedInUser, $targetUser)) {
 			throw new OCSException('', OCSController::RESPOND_NOT_FOUND);
 		}
 
@@ -1213,9 +1285,6 @@ class UsersController extends AUserData {
 	}
 
 	/**
-	 * @PasswordConfirmationRequired
-	 * @NoAdminRequired
-	 *
 	 * Disable a user
 	 *
 	 * @param string $userId ID of the user
@@ -1224,14 +1293,13 @@ class UsersController extends AUserData {
 	 *
 	 * 200: User disabled successfully
 	 */
+	#[PasswordConfirmationRequired]
+	#[NoAdminRequired]
 	public function disableUser(string $userId): DataResponse {
 		return $this->setEnabled($userId, false);
 	}
 
 	/**
-	 * @PasswordConfirmationRequired
-	 * @NoAdminRequired
-	 *
 	 * Enable a user
 	 *
 	 * @param string $userId ID of the user
@@ -1240,6 +1308,8 @@ class UsersController extends AUserData {
 	 *
 	 * 200: User enabled successfully
 	 */
+	#[PasswordConfirmationRequired]
+	#[NoAdminRequired]
 	public function enableUser(string $userId): DataResponse {
 		return $this->setEnabled($userId, true);
 	}
@@ -1260,7 +1330,9 @@ class UsersController extends AUserData {
 
 		// If not permitted
 		$subAdminManager = $this->groupManager->getSubAdmin();
-		if (!$this->groupManager->isAdmin($currentLoggedInUser->getUID()) && !$subAdminManager->isUserAccessible($currentLoggedInUser, $targetUser)) {
+		$isAdmin = $this->groupManager->isAdmin($currentLoggedInUser->getUID());
+		$isDelegatedAdmin = $this->groupManager->isDelegatedAdmin($currentLoggedInUser->getUID());
+		if (!$isAdmin && !($isDelegatedAdmin && !$this->groupManager->isInGroup($targetUser->getUID(), 'admin')) && !$subAdminManager->isUserAccessible($currentLoggedInUser, $targetUser)) {
 			throw new OCSException('', OCSController::RESPOND_NOT_FOUND);
 		}
 
@@ -1270,7 +1342,6 @@ class UsersController extends AUserData {
 	}
 
 	/**
-	 * @NoAdminRequired
 	 * @NoSubAdminRequired
 	 *
 	 * Get a list of groups the user belongs to
@@ -1281,6 +1352,7 @@ class UsersController extends AUserData {
 	 *
 	 * 200: Users groups returned
 	 */
+	#[NoAdminRequired]
 	public function getUsersGroups(string $userId): DataResponse {
 		$loggedInUser = $this->userSession->getUser();
 
@@ -1289,7 +1361,9 @@ class UsersController extends AUserData {
 			throw new OCSException('', OCSController::RESPOND_NOT_FOUND);
 		}
 
-		if ($targetUser->getUID() === $loggedInUser->getUID() || $this->groupManager->isAdmin($loggedInUser->getUID())) {
+		$isAdmin = $this->groupManager->isAdmin($loggedInUser->getUID());
+		$isDelegatedAdmin = $this->groupManager->isDelegatedAdmin($loggedInUser->getUID());
+		if ($targetUser->getUID() === $loggedInUser->getUID() || $isAdmin || $isDelegatedAdmin) {
 			// Self lookup or admin lookup
 			return new DataResponse([
 				'groups' => $this->groupManager->getUserGroupIds($targetUser)
@@ -1319,9 +1393,6 @@ class UsersController extends AUserData {
 	}
 
 	/**
-	 * @PasswordConfirmationRequired
-	 * @NoAdminRequired
-	 *
 	 * Add a user to a group
 	 *
 	 * @param string $userId ID of the user
@@ -1331,6 +1402,8 @@ class UsersController extends AUserData {
 	 *
 	 * 200: User added to group successfully
 	 */
+	#[PasswordConfirmationRequired]
+	#[NoAdminRequired]
 	public function addToGroup(string $userId, string $groupid = ''): DataResponse {
 		if ($groupid === '') {
 			throw new OCSException('', 101);
@@ -1348,7 +1421,9 @@ class UsersController extends AUserData {
 		// If they're not an admin, check they are a subadmin of the group in question
 		$loggedInUser = $this->userSession->getUser();
 		$subAdminManager = $this->groupManager->getSubAdmin();
-		if (!$this->groupManager->isAdmin($loggedInUser->getUID()) && !$subAdminManager->isSubAdminOfGroup($loggedInUser, $group)) {
+		$isAdmin = $this->groupManager->isAdmin($loggedInUser->getUID());
+		$isDelegatedAdmin = $this->groupManager->isDelegatedAdmin($loggedInUser->getUID());
+		if (!$isAdmin && !($isDelegatedAdmin && $groupid !== 'admin') && !$subAdminManager->isSubAdminOfGroup($loggedInUser, $group)) {
 			throw new OCSException('', 104);
 		}
 
@@ -1358,9 +1433,6 @@ class UsersController extends AUserData {
 	}
 
 	/**
-	 * @PasswordConfirmationRequired
-	 * @NoAdminRequired
-	 *
 	 * Remove a user from a group
 	 *
 	 * @param string $userId ID of the user
@@ -1370,6 +1442,8 @@ class UsersController extends AUserData {
 	 *
 	 * 200: User removed from group successfully
 	 */
+	#[PasswordConfirmationRequired]
+	#[NoAdminRequired]
 	public function removeFromGroup(string $userId, string $groupid): DataResponse {
 		$loggedInUser = $this->userSession->getUser();
 
@@ -1389,13 +1463,15 @@ class UsersController extends AUserData {
 
 		// If they're not an admin, check they are a subadmin of the group in question
 		$subAdminManager = $this->groupManager->getSubAdmin();
-		if (!$this->groupManager->isAdmin($loggedInUser->getUID()) && !$subAdminManager->isSubAdminOfGroup($loggedInUser, $group)) {
+		$isAdmin = $this->groupManager->isAdmin($loggedInUser->getUID());
+		$isDelegatedAdmin = $this->groupManager->isDelegatedAdmin($loggedInUser->getUID());
+		if (!$isAdmin && !($isDelegatedAdmin && $groupid !== 'admin') && !$subAdminManager->isSubAdminOfGroup($loggedInUser, $group)) {
 			throw new OCSException('', 104);
 		}
 
 		// Check they aren't removing themselves from 'admin' or their 'subadmin; group
 		if ($targetUser->getUID() === $loggedInUser->getUID()) {
-			if ($this->groupManager->isAdmin($loggedInUser->getUID())) {
+			if ($isAdmin || $isDelegatedAdmin) {
 				if ($group->getGID() === 'admin') {
 					throw new OCSException($this->l10n->t('Cannot remove yourself from the admin group'), 105);
 				}
@@ -1403,7 +1479,7 @@ class UsersController extends AUserData {
 				// Not an admin, so the user must be a subadmin of this group, but that is not allowed.
 				throw new OCSException($this->l10n->t('Cannot remove yourself from this group as you are a sub-admin'), 105);
 			}
-		} elseif (!$this->groupManager->isAdmin($loggedInUser->getUID())) {
+		} elseif (!($isAdmin || $isDelegatedAdmin)) {
 			/** @var IGroup[] $subAdminGroups */
 			$subAdminGroups = $subAdminManager->getSubAdminsGroups($loggedInUser);
 			$subAdminGroups = array_map(function (IGroup $subAdminGroup) {
@@ -1424,8 +1500,6 @@ class UsersController extends AUserData {
 	}
 
 	/**
-	 * @PasswordConfirmationRequired
-	 *
 	 * Make a user a subadmin of a group
 	 *
 	 * @param string $userId ID of the user
@@ -1435,6 +1509,8 @@ class UsersController extends AUserData {
 	 *
 	 * 200: User added as group subadmin successfully
 	 */
+	#[AuthorizedAdminSetting(settings:Users::class)]
+	#[PasswordConfirmationRequired]
 	public function addSubAdmin(string $userId, string $groupid): DataResponse {
 		$group = $this->groupManager->get($groupid);
 		$user = $this->userManager->get($userId);
@@ -1464,8 +1540,6 @@ class UsersController extends AUserData {
 	}
 
 	/**
-	 * @PasswordConfirmationRequired
-	 *
 	 * Remove a user from the subadmins of a group
 	 *
 	 * @param string $userId ID of the user
@@ -1475,6 +1549,8 @@ class UsersController extends AUserData {
 	 *
 	 * 200: User removed as group subadmin successfully
 	 */
+	#[AuthorizedAdminSetting(settings:Users::class)]
+	#[PasswordConfirmationRequired]
 	public function removeSubAdmin(string $userId, string $groupid): DataResponse {
 		$group = $this->groupManager->get($groupid);
 		$user = $this->userManager->get($userId);
@@ -1507,15 +1583,13 @@ class UsersController extends AUserData {
 	 *
 	 * 200: User subadmin groups returned
 	 */
+	#[AuthorizedAdminSetting(settings:Users::class)]
 	public function getUserSubAdminGroups(string $userId): DataResponse {
 		$groups = $this->getUserSubAdminGroupsData($userId);
 		return new DataResponse($groups);
 	}
 
 	/**
-	 * @NoAdminRequired
-	 * @PasswordConfirmationRequired
-	 *
 	 * Resend the welcome message
 	 *
 	 * @param string $userId ID if the user
@@ -1524,6 +1598,8 @@ class UsersController extends AUserData {
 	 *
 	 * 200: Resent welcome message successfully
 	 */
+	#[PasswordConfirmationRequired]
+	#[NoAdminRequired]
 	public function resendWelcomeMessage(string $userId): DataResponse {
 		$currentLoggedInUser = $this->userSession->getUser();
 
@@ -1534,9 +1610,11 @@ class UsersController extends AUserData {
 
 		// Check if admin / subadmin
 		$subAdminManager = $this->groupManager->getSubAdmin();
+		$isAdmin = $this->groupManager->isAdmin($currentLoggedInUser->getUID());
+		$isDelegatedAdmin = $this->groupManager->isDelegatedAdmin($currentLoggedInUser->getUID());
 		if (
 			!$subAdminManager->isUserAccessible($currentLoggedInUser, $targetUser)
-			&& !$this->groupManager->isAdmin($currentLoggedInUser->getUID())
+			&& !($isAdmin || $isDelegatedAdmin)
 		) {
 			// No rights
 			throw new OCSException('', OCSController::RESPOND_NOT_FOUND);

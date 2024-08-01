@@ -33,7 +33,6 @@ OC.L10N.register(
     "4 hours" : "4 hours",
     "Mute all notifications" : "Mute all notifications",
     "Appear offline" : "Appear offline",
-    "View profile" : "View profile",
-    "{status}, {timestamp}" : "{status}, {timestamp}"
+    "View profile" : "View profile"
 },
 "nplurals=1; plural=0;");

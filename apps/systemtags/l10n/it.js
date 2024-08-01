@@ -42,6 +42,8 @@ OC.L10N.register(
     "All tagged %s …" : "Tutti etichettati %s …",
     "tagged %s" : "etichettato %s",
     "Collaborative tags" : "Etichette collaborative",
+    "Collaborative tagging functionality which shares tags among people." : "Funzionalità di etichettatura collaborativa che condivide le etichette tra le persone.",
+    "Collaborative tagging functionality which shares tags among people. Great for teams.\n\t(If you are a provider with a multi-tenancy installation, it is advised to deactivate this app as tags are shared.)" : "Funzionalità di etichettatura collaborativa che condivide le etichette tra le persone. Ottima per le squadre.\n\t(Se sei un fornitore con un'installazione multi-tenant, ti consigliamo di disattivare questa applicazione poiché le etichette sono condivise.)",
     "Create or edit tags" : "Crea o modifica etichette",
     "Search for a tag to edit" : "Cerca un'etichetta da modificare",
     "Collaborative tags …" : "Etichette collaborative …",

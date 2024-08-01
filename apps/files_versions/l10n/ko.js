@@ -3,7 +3,7 @@ OC.L10N.register(
     {
     "Versions" : "버전",
     "This application automatically maintains older versions of files that are changed." : "이 앱은 변경된 파일의 이전 버전을 관리합니다.",
-    "Name this version" : "이 버전의 이름",
+    "Name this version" : "버전 이름 지정",
     "Edit version name" : "버전 이름 수정",
     "Compare to current version" : "현재 버전과 비교하기",
     "Restore version" : "버전 복원",
