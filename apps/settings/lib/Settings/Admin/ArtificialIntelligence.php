@@ -138,7 +138,12 @@ class ArtificialIntelligence implements IDelegatedSettings {
 						$value = array_merge($defaultValue, $value);
 						break;
 					case 'ai.translation_provider_preferences':
-						$value += array_diff($defaultValue, $value); // Add entries from $defaultValue that are not in $value to the end of $value
+						// Only show entries from $value (saved pref list) that are in $defaultValue (enabled providers)
+						// and add all providers that are enabled but not in the pref list
+						if (!is_array($defaultValue)) {
+							break;
+						}
+						$value = array_values(array_unique(array_merge(array_intersect($value, $defaultValue), $defaultValue), SORT_STRING));
 						break;
 					default:
 						break;
