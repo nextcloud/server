@@ -2455,11 +2455,6 @@
       <code><![CDATA[$sessionCallback]]></code>
     </InvalidPropertyAssignmentValue>
   </file>
-  <file src="lib/private/Log.php">
-    <RedundantCondition>
-      <code><![CDATA[$request]]></code>
-    </RedundantCondition>
-  </file>
   <file src="lib/private/Log/File.php">
     <TypeDoesNotContainNull>
       <code><![CDATA[$limit === null]]></code>
