@@ -24,11 +24,14 @@ class Base {
 	 * @param string $template
 	 * @param string $requestToken
 	 * @param \OCP\IL10N $l10n
+	 * @param string $cspNonce
 	 * @param Defaults $theme
 	 */
-	public function __construct($template, $requestToken, $l10n, $theme) {
-		$this->vars = [];
-		$this->vars['requesttoken'] = $requestToken;
+	public function __construct($template, $requestToken, $l10n, $theme, $cspNonce) {
+		$this->vars = [
+			'cspNonce' => $cspNonce,
+			'requesttoken' => $requestToken,
+		];
 		$this->l10n = $l10n;
 		$this->template = $template;
 		$this->theme = $theme;

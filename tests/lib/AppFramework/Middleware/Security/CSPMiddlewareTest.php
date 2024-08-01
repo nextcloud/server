@@ -12,7 +12,6 @@ use OC\AppFramework\Middleware\Security\CSPMiddleware;
 use OC\Security\CSP\ContentSecurityPolicy;
 use OC\Security\CSP\ContentSecurityPolicyManager;
 use OC\Security\CSP\ContentSecurityPolicyNonceManager;
-use OC\Security\CSRF\CsrfToken;
 use OC\Security\CSRF\CsrfTokenManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\EmptyContentSecurityPolicy;

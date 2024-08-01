@@ -33,7 +33,8 @@ class ContentSecurityPolicyNonceManager {
 				// Get the token from the CSRF token, we only use the "shared secret" part
 				// as the first part does not add any security / entropy to the token
 				// so it can be ignored to keep the nonce short while keeping the same randomness
-				$this->nonce = end(explode(':', ($this->csrfTokenManager->getToken()->getEncryptedValue())));
+				$csrfSecret = explode(':', ($this->csrfTokenManager->getToken()->getEncryptedValue()));
+				$this->nonce = end($csrfSecret);
 			} else {
 				$this->nonce = $this->request->server['CSP_NONCE'];
 			}
