@@ -10,7 +10,7 @@ import { openConflictPicker } from '@nextcloud/upload'
 import { showError, showInfo } from '@nextcloud/dialogs'
 import { translate as t } from '@nextcloud/l10n'
 
-import logger from '../logger.js'
+import logger from '../logger.ts'
 
 /**
  * This represents a Directory in the file tree

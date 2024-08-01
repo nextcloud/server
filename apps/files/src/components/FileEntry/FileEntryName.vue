@@ -53,7 +53,7 @@ import { useNavigation } from '../../composables/useNavigation'
 import { useRouteParameters } from '../../composables/useRouteParameters.ts'
 import { useRenamingStore } from '../../store/renaming.ts'
 import { getFilenameValidity } from '../../utils/filenameValidity.ts'
-import logger from '../../logger.js'
+import logger from '../../logger.ts'
 
 export default defineComponent({
 	name: 'FileEntryName',

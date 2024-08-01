@@ -93,7 +93,7 @@ import ArrowLeftIcon from 'vue-material-design-icons/ArrowLeft.vue'
 import CustomElementRender from '../CustomElementRender.vue'
 
 import { useNavigation } from '../../composables/useNavigation'
-import logger from '../../logger.js'
+import logger from '../../logger.ts'
 
 export default defineComponent({
 	name: 'FileEntryActions',

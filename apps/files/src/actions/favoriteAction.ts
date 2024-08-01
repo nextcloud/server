@@ -12,7 +12,7 @@ import Vue from 'vue'
 import StarOutlineSvg from '@mdi/svg/svg/star-outline.svg?raw'
 import StarSvg from '@mdi/svg/svg/star.svg?raw'
 
-import logger from '../logger.js'
+import logger from '../logger.ts'
 import { encodePath } from '@nextcloud/paths'
 
 // If any of the nodes is not favorited, we display the favorite action.

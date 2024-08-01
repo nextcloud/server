@@ -68,7 +68,7 @@ import { useNavigation } from '../composables/useNavigation'
 import { useFilesStore } from '../store/files.ts'
 import { useSelectionStore } from '../store/selection.ts'
 import filesSortingMixin from '../mixins/filesSorting.ts'
-import logger from '../logger.js'
+import logger from '../logger.ts'
 
 export default defineComponent({
 	name: 'FilesListTableHeader',
