@@ -51,11 +51,8 @@ p($theme->getTitle());
 	<body id="<?php p($_['bodyid']);?>" <?php foreach ($_['enabledThemes'] as $themeId) {
 		p("data-theme-$themeId ");
 	}?> data-themes=<?php p(join(',', $_['enabledThemes'])) ?>>
-	<?php include 'layout.noscript.warning.php'; ?>
-
-		<?php foreach ($_['initialStates'] as $app => $initialState) { ?>
-			<input type="hidden" id="initial-state-<?php p($app); ?>" value="<?php p(base64_encode($initialState)); ?>">
-		<?php }?>
+		<?php include 'layout.noscript.warning.php'; ?>
+		<?php include 'layout.initial-state.php'; ?>
 
 		<div id="skip-actions">
 			<?php if ($_['id-app-content'] !== null) { ?><a href="<?php p($_['id-app-content']); ?>" class="button primary skip-navigation skip-content"><?php p($l->t('Skip to main content')); ?></a><?php } ?>
