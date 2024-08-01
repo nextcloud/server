@@ -10,6 +10,7 @@ namespace OCA\Files_Sharing\Controller;
 
 use OCA\Files_Sharing\AppInfo\Application;
 use OCP\AppFramework\Controller;
+use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\IConfig;
 use OCP\IRequest;
@@ -31,25 +32,19 @@ class SettingsController extends Controller {
 		$this->userId = $userId;
 	}
 
-	/**
-	 * @NoAdminRequired
-	 */
+	#[NoAdminRequired]
 	public function setDefaultAccept(bool $accept): JSONResponse {
 		$this->config->setUserValue($this->userId, Application::APP_ID, 'default_accept', $accept ? 'yes' : 'no');
 		return new JSONResponse();
 	}
 
-	/**
-	 * @NoAdminRequired
-	 */
+	#[NoAdminRequired]
 	public function setUserShareFolder(string $shareFolder): JSONResponse {
 		$this->config->setUserValue($this->userId, Application::APP_ID, 'share_folder', $shareFolder);
 		return new JSONResponse();
 	}
 
-	/**
-	 * @NoAdminRequired
-	 */
+	#[NoAdminRequired]
 	public function resetUserShareFolder(): JSONResponse {
 		$this->config->deleteUserValue($this->userId, Application::APP_ID, 'share_folder');
 		return new JSONResponse();

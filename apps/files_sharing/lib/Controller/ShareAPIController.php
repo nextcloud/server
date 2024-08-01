@@ -424,8 +424,6 @@ class ShareAPIController extends OCSController {
 
 
 	/**
-	 * @NoAdminRequired
-	 *
 	 * Get a specific share by id
 	 *
 	 * @param string $id ID of the share
@@ -435,6 +433,7 @@ class ShareAPIController extends OCSController {
 	 *
 	 * 200: Share returned
 	 */
+	#[NoAdminRequired]
 	public function getShare(string $id, bool $include_tags = false): DataResponse {
 		try {
 			$share = $this->getShareById($id);
@@ -462,8 +461,6 @@ class ShareAPIController extends OCSController {
 	}
 
 	/**
-	 * @NoAdminRequired
-	 *
 	 * Delete a share
 	 *
 	 * @param string $id ID of the share
@@ -473,6 +470,7 @@ class ShareAPIController extends OCSController {
 	 *
 	 * 200: Share deleted successfully
 	 */
+	#[NoAdminRequired]
 	public function deleteShare(string $id): DataResponse {
 		try {
 			$share = $this->getShareById($id);
@@ -508,8 +506,6 @@ class ShareAPIController extends OCSController {
 	}
 
 	/**
-	 * @NoAdminRequired
-	 *
 	 * Create a share
 	 *
 	 * @param string|null $path Path of the share
@@ -535,6 +531,7 @@ class ShareAPIController extends OCSController {
 	 *
 	 * 200: Share created
 	 */
+	#[NoAdminRequired]
 	public function createShare(
 		?string $path = null,
 		?int $permissions = null,
@@ -893,8 +890,6 @@ class ShareAPIController extends OCSController {
 	}
 
 	/**
-	 * @NoAdminRequired
-	 *
 	 * Get shares of the current user
 	 *
 	 * @param string $shared_with_me Only get shares with the current user
@@ -908,6 +903,7 @@ class ShareAPIController extends OCSController {
 	 *
 	 * 200: Shares returned
 	 */
+	#[NoAdminRequired]
 	public function getShares(
 		string $shared_with_me = 'false',
 		string $reshares = 'false',
@@ -1030,8 +1026,6 @@ class ShareAPIController extends OCSController {
 
 
 	/**
-	 * @NoAdminRequired
-	 *
 	 * Get all shares relative to a file, including parent folders shares rights
 	 *
 	 * @param string $path Path all shares will be relative to
@@ -1044,6 +1038,7 @@ class ShareAPIController extends OCSController {
 	 *
 	 * 200: Shares returned
 	 */
+	#[NoAdminRequired]
 	public function getInheritedShares(string $path): DataResponse {
 		// get Node from (string) path.
 		$userFolder = $this->rootFolder->getUserFolder($this->currentUser);
@@ -1122,8 +1117,6 @@ class ShareAPIController extends OCSController {
 
 
 	/**
-	 * @NoAdminRequired
-	 *
 	 * Update a share
 	 *
 	 * @param string $id ID of the share
@@ -1147,6 +1140,7 @@ class ShareAPIController extends OCSController {
 	 *
 	 * 200: Share updated successfully
 	 */
+	#[NoAdminRequired]
 	public function updateShare(
 		string $id,
 		?int $permissions = null,
@@ -1339,14 +1333,13 @@ class ShareAPIController extends OCSController {
 	}
 
 	/**
-	 * @NoAdminRequired
-	 *
 	 * Get all shares that are still pending
 	 *
 	 * @return DataResponse<Http::STATUS_OK, Files_SharingShare[], array{}>
 	 *
 	 * 200: Pending shares returned
 	 */
+	#[NoAdminRequired]
 	public function pendingShares(): DataResponse {
 		$pendingShares = [];
 
@@ -1392,8 +1385,6 @@ class ShareAPIController extends OCSController {
 	}
 
 	/**
-	 * @NoAdminRequired
-	 *
 	 * Accept a share
 	 *
 	 * @param string $id ID of the share
@@ -1404,6 +1395,7 @@ class ShareAPIController extends OCSController {
 	 *
 	 * 200: Share accepted successfully
 	 */
+	#[NoAdminRequired]
 	public function acceptShare(string $id): DataResponse {
 		try {
 			$share = $this->getShareById($id);
@@ -2078,7 +2070,7 @@ class ShareAPIController extends OCSController {
 			if (!$this->canAccessShare($share, false)) {
 				throw new OCSNotFoundException($this->l->t('Wrong share ID, share does not exist'));
 			}
-	
+
 			if (!$this->canEditShare($share)) {
 				throw new OCSForbiddenException($this->l->t('You are not allowed to send mail notifications'));
 			}
@@ -2117,7 +2109,7 @@ class ShareAPIController extends OCSController {
 			} catch (Exception $e) {
 				throw new OCSException($this->l->t('Error while sending mail notification'));
 			}
-			
+
 		} catch (ShareNotFound $e) {
 			throw new OCSNotFoundException($this->l->t('Wrong share ID, share does not exist'));
 		}

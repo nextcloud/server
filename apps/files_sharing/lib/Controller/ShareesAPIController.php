@@ -12,6 +12,7 @@ use Generator;
 use OC\Collaboration\Collaborators\SearchResult;
 use OCA\Files_Sharing\ResponseDefinitions;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCS\OCSBadRequestException;
 use OCP\AppFramework\OCSController;
@@ -86,8 +87,6 @@ class ShareesAPIController extends OCSController {
 	}
 
 	/**
-	 * @NoAdminRequired
-	 *
 	 * Search for sharees
 	 *
 	 * @param string $search Text to search for
@@ -101,6 +100,7 @@ class ShareesAPIController extends OCSController {
 	 *
 	 * 200: Sharees search result returned
 	 */
+	#[NoAdminRequired]
 	public function search(string $search = '', ?string $itemType = null, int $page = 1, int $perPage = 200, $shareType = null, bool $lookup = false): DataResponse {
 
 		// only search for string larger than a given threshold
@@ -296,8 +296,6 @@ class ShareesAPIController extends OCSController {
 	}
 
 	/**
-	 * @NoAdminRequired
-	 *
 	 * Find recommended sharees
 	 *
 	 * @param string $itemType Limit to specific item types
@@ -306,6 +304,7 @@ class ShareesAPIController extends OCSController {
 	 *
 	 * 200: Recommended sharees returned
 	 */
+	#[NoAdminRequired]
 	public function findRecommended(string $itemType, $shareType = null): DataResponse {
 		$shareTypes = [
 			IShare::TYPE_USER,
