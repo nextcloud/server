@@ -81,9 +81,9 @@ class StatusService {
 			$currentStatus = null;
 		}
 
-		if($currentStatus !== null && $currentStatus->getMessageId() === IUserStatus::MESSAGE_CALL
-			|| $currentStatus !== null && $currentStatus->getStatus() === IUserStatus::DND
-			|| $currentStatus !== null && $currentStatus->getStatus() === IUserStatus::INVISIBLE) {
+		if(($currentStatus !== null && $currentStatus->getMessageId() === IUserStatus::MESSAGE_CALL)
+			|| ($currentStatus !== null && $currentStatus->getStatus() === IUserStatus::DND)
+			|| ($currentStatus !== null && $currentStatus->getStatus() === IUserStatus::INVISIBLE)) {
 			// We don't overwrite the call status, DND status or Invisible status
 			$this->logger->debug('Higher priority status detected, skipping calendar status change', ['user' => $userId]);
 			return;
