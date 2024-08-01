@@ -400,6 +400,7 @@ class Local extends \OC\Files\Storage\Common {
 		return $result;
 	}
 
+    /** @return string|false */
 	public function hash($type, $path, $raw = false): string|bool {
 		$sourcePath = $this->getSourcePath($path);
 		if ($sourcePath === null || !file_exists($sourcePath) || !is_readable($sourcePath)) {
