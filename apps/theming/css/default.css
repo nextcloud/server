@@ -80,7 +80,7 @@
   --sidebar-min-width: 300px;
   --sidebar-max-width: 500px;
   /* Border radius of the body container */
-  --body-container-radius: calc(var(--default-grid-baseline) * 3);
+  --body-container-radius: var(--border-radius-container-large);
   /* Margin of the body container */
   --body-container-margin: calc(var(--default-grid-baseline) * 2);
   /* Height of the body container to fully fill the view port */

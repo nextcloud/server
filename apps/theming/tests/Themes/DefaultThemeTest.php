@@ -152,6 +152,8 @@ class DefaultThemeTest extends AccessibleThemeTestCase {
 		$fallbackCss = file_get_contents(__DIR__ . '/../../css/default.css');
 		// Remove comments
 		$fallbackCss = preg_replace('/\s*\/\*[\s\S]*?\*\//m', '', $fallbackCss);
+		// Remove blank lines
+		$fallbackCss = preg_replace('/\s*\n\n/', "\n", $fallbackCss);
 
 		$this->assertEquals($css, $fallbackCss);
 	}
