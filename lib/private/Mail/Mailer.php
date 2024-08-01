@@ -280,8 +280,9 @@ class Mailer implements IMailer {
 	protected function getSmtpInstance(): EsmtpTransport {
 		// either null or true - if nothing is passed, let the symfony mailer figure out the configuration by itself
 		$mailSmtpsecure = ($this->config->getSystemValue('mail_smtpsecure', null) === 'ssl') ? true : null;
+		$mailSmtphost = $this->config->getSystemValueString('mail_smtphost', '127.0.0.1');
 		$transport = new EsmtpTransport(
-			$this->config->getSystemValueString('mail_smtphost', '127.0.0.1'),
+			$mailSmtphost,
 			$this->config->getSystemValueInt('mail_smtpport', 25),
 			$mailSmtpsecure,
 			null,
@@ -304,6 +305,17 @@ class Mailer implements IMailer {
 
 			$currentStreamingOptions = array_merge_recursive($currentStreamingOptions, $streamingOptions);
 
+			/** @psalm-suppress InternalMethod */
+			$stream->setStreamOptions($currentStreamingOptions);
+		} else if ($mailSmtphost === 'localhost' || $mailSmtphost === '127.0.0.1') {
+			$currentStreamingOptions = $stream->getStreamOptions();
+			$currentStreamingOptions = array_merge_recursive($currentStreamingOptions, array(
+				'ssl' => array(
+					'allow_self_signed' => true,
+					'verify_peer' => false,
+					'verify_peer_name' => false
+				)
+			));
 			/** @psalm-suppress InternalMethod */
 			$stream->setStreamOptions($currentStreamingOptions);
 		}
