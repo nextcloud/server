@@ -294,11 +294,11 @@ class ShareController extends AuthPublicShareController {
 		} catch (ShareNotFound $e) {
 			// The share does not exists, we do not emit an ShareLinkAccessedEvent
 			$this->emitAccessShareHook($this->getToken(), 404, 'Share not found');
-			throw new NotFoundException();
+			throw new NotFoundException($this->l10n->t('This share does not exist or is no longer available'));
 		}
 
 		if (!$this->validateShare($share)) {
-			throw new NotFoundException();
+			throw new NotFoundException($this->l10n->t('This share does not exist or is no longer available'));
 		}
 
 		$shareNode = $share->getNode();
@@ -309,7 +309,7 @@ class ShareController extends AuthPublicShareController {
 		} catch (NotFoundException $e) {
 			$this->emitAccessShareHook($share, 404, 'Share not found');
 			$this->emitShareAccessEvent($share, ShareController::SHARE_ACCESS, 404, 'Share not found');
-			throw new NotFoundException();
+			throw new NotFoundException($this->l10n->t('This share does not exist or is no longer available'));
 		}
 
 		// We can't get the path of a file share
@@ -317,7 +317,7 @@ class ShareController extends AuthPublicShareController {
 			if ($shareNode instanceof \OCP\Files\File && $path !== '') {
 				$this->emitAccessShareHook($share, 404, 'Share not found');
 				$this->emitShareAccessEvent($share, self::SHARE_ACCESS, 404, 'Share not found');
-				throw new NotFoundException();
+				throw new NotFoundException($this->l10n->t('This share does not exist or is no longer available'));
 			}
 		} catch (\Exception $e) {
 			$this->emitAccessShareHook($share, 404, 'Share not found');
