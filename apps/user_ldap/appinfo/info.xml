@@ -39,16 +39,17 @@ A user logs into Nextcloud with their LDAP or AD credentials, and is granted acc
 	</background-jobs>
 
 	<repair-steps>
+		<post-migration>
+			<step>OCA\User_LDAP\Migration\UUIDFixInsert</step>
+			<step>OCA\User_LDAP\Migration\RemoveRefreshTime</step>
+		</post-migration>
 		<install>
 			<step>OCA\User_LDAP\Migration\SetDefaultProvider</step>
 		</install>
 		<uninstall>
 			<step>OCA\User_LDAP\Migration\UnsetDefaultProvider</step>
 		</uninstall>
-		<post-migration>
-			<step>OCA\User_LDAP\Migration\UUIDFixInsert</step>
-			<step>OCA\User_LDAP\Migration\RemoveRefreshTime</step>
-		</post-migration>
+
 	</repair-steps>
 
 	<commands>
@@ -70,6 +71,7 @@ A user logs into Nextcloud with their LDAP or AD credentials, and is granted acc
 
 	<settings>
 		<admin>OCA\User_LDAP\Settings\Admin</admin>
+		<admin>OCA\User_LDAP\Settings\AppSettings</admin>
 		<admin-section>OCA\User_LDAP\Settings\Section</admin-section>
 	</settings>
 </info>
