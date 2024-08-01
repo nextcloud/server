@@ -152,6 +152,6 @@ onMounted(() => {
 <style scoped>
 .new-node-dialog__form {
 	/* Ensure the dialog does not jump when there is a validity error */
-	min-height: calc(3 * var(--default-clickable-area));
+	min-height: calc(2 * var(--default-clickable-area));
 }
 </style>
