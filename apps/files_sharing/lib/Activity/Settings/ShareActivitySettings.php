@@ -23,10 +23,10 @@ abstract class ShareActivitySettings extends ActivitySettings {
 	}
 
 	public function getGroupIdentifier() {
-		return 'files';
+		return 'sharing';
 	}
 
 	public function getGroupName() {
-		return $this->l->t('Files');
+		return $this->l->t('Sharing');
 	}
 }
