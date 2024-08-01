@@ -42,6 +42,12 @@ class UserConfig {
 			'default' => false,
 			'allowed' => [true, false],
 		],
+		[
+			// Whether to show the folder tree
+			'key' => 'folder_tree',
+			'default' => true,
+			'allowed' => [true, false],
+		],
 	];
 
 	protected IConfig $config;
@@ -108,7 +114,7 @@ class UserConfig {
 		if (!in_array($key, $this->getAllowedConfigKeys())) {
 			throw new \InvalidArgumentException('Unknown config key');
 		}
-	
+
 		if (!in_array($value, $this->getAllowedConfigValues($key))) {
 			throw new \InvalidArgumentException('Invalid config value');
 		}

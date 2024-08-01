@@ -7,12 +7,17 @@
  */
 namespace OCA\Files\Controller;
 
+use OC\AppFramework\Middleware\Security\Exceptions\NotLoggedInException;
 use OC\Files\Node\Node;
+use OC\Files\Search\SearchComparison;
+use OC\Files\Search\SearchQuery;
+use OCA\Files\ResponseDefinitions;
 use OCA\Files\Service\TagService;
 use OCA\Files\Service\UserConfig;
 use OCA\Files\Service\ViewConfig;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\ApiRoute;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
 use OCP\AppFramework\Http\Attribute\OpenAPI;
@@ -24,48 +29,44 @@ use OCP\AppFramework\Http\FileDisplayResponse;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Http\StreamResponse;
+use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\File;
 use OCP\Files\Folder;
+use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
+use OCP\Files\Search\ISearchComparison;
 use OCP\IConfig;
+use OCP\IL10N;
 use OCP\IPreview;
 use OCP\IRequest;
+use OCP\IUser;
 use OCP\IUserSession;
 use OCP\Share\IManager;
 use OCP\Share\IShare;
+use Psr\Log\LoggerInterface;
+use Throwable;
 
 /**
+ * @psalm-import-type FilesFolderTree from ResponseDefinitions
+ *
  * @package OCA\Files\Controller
  */
 class ApiController extends Controller {
-	private TagService $tagService;
-	private IManager $shareManager;
-	private IPreview $previewManager;
-	private IUserSession $userSession;
-	private IConfig $config;
-	private ?Folder $userFolder;
-	private UserConfig $userConfig;
-	private ViewConfig $viewConfig;
-
 	public function __construct(string $appName,
 		IRequest $request,
-		IUserSession $userSession,
-		TagService $tagService,
-		IPreview $previewManager,
-		IManager $shareManager,
-		IConfig $config,
-		?Folder $userFolder,
-		UserConfig $userConfig,
-		ViewConfig $viewConfig) {
+		private IUserSession $userSession,
+		private TagService $tagService,
+		private IPreview $previewManager,
+		private IManager $shareManager,
+		private IConfig $config,
+		private ?Folder $userFolder,
+		private UserConfig $userConfig,
+		private ViewConfig $viewConfig,
+		private IL10N $l10n,
+		private IRootFolder $rootFolder,
+		private LoggerInterface $logger,
+	) {
 		parent::__construct($appName, $request);
-		$this->userSession = $userSession;
-		$this->tagService = $tagService;
-		$this->previewManager = $previewManager;
-		$this->shareManager = $shareManager;
-		$this->config = $config;
-		$this->userFolder = $userFolder;
-		$this->userConfig = $userConfig;
-		$this->viewConfig = $viewConfig;
 	}
 
 	/**
@@ -232,6 +233,77 @@ class ApiController extends Controller {
 		return new DataResponse(['files' => $files]);
 	}
 
+	/**
+	 * @param Folder[] $folders
+	 */
+	private function getTree(array $folders): array {
+		$user = $this->userSession->getUser();
+		if (!($user instanceof IUser)) {
+			throw new NotLoggedInException();
+		}
+
+		$userFolder = $this->rootFolder->getUserFolder($user->getUID());
+		$tree = [];
+		foreach ($folders as $folder) {
+			$path = $userFolder->getRelativePath($folder->getPath());
+			if ($path === null) {
+				continue;
+			}
+			$pathBasenames = explode('/', trim($path, '/'));
+			$current = &$tree;
+			foreach ($pathBasenames as $basename) {
+				if (!isset($current['children'][$basename])) {
+					$current['children'][$basename] = [
+						'id' => $folder->getId(),
+					];
+					$displayName = $folder->getName();
+					if ($displayName !== $basename) {
+						$current['children'][$basename]['displayName'] = $displayName;
+					}
+				}
+				$current = &$current['children'][$basename];
+			}
+		}
+		return $tree['children'] ?? $tree;
+	}
+
+	/**
+	 * Returns the folder tree of the user
+	 *
+	 * @return JSONResponse<Http::STATUS_OK, FilesFolderTree, array{}>|JSONResponse<Http::STATUS_UNAUTHORIZED, array{message: string}, array{}>
+	 *
+	 * 200: Folder tree returned successfully
+	 * 401: Unauthorized
+	 */
+	#[NoAdminRequired]
+	#[ApiRoute(verb: 'GET', url: '/api/v1/folder-tree')]
+	public function getFolderTree(): JSONResponse {
+		$user = $this->userSession->getUser();
+		if (!($user instanceof IUser)) {
+			return new JSONResponse([
+				'message' => $this->l10n->t('Failed to authorize'),
+			], Http::STATUS_UNAUTHORIZED);
+		}
+
+		$userFolder = $this->rootFolder->getUserFolder($user->getUID());
+		try {
+			$searchQuery = new SearchQuery(
+				new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'mimetype', ICacheEntry::DIRECTORY_MIMETYPE),
+				0,
+				0,
+				[],
+				$user,
+				false,
+			);
+			/** @var Folder[] $folders */
+			$folders = $userFolder->search($searchQuery);
+			$tree = $this->getTree($folders);
+		} catch (Throwable $th) {
+			$this->logger->error($th->getMessage(), ['exception' => $th]);
+			$tree = [];
+		}
+		return new JSONResponse($tree, Http::STATUS_OK, [], JSON_FORCE_OBJECT);
+	}
 
 	/**
 	 * Returns the current logged-in user's storage stats.

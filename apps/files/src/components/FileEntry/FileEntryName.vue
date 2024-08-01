@@ -45,6 +45,7 @@ import { showError, showSuccess } from '@nextcloud/dialogs'
 import { emit } from '@nextcloud/event-bus'
 import { FileType, NodeStatus } from '@nextcloud/files'
 import { translate as t } from '@nextcloud/l10n'
+import { dirname } from '@nextcloud/paths'
 import { defineComponent, inject } from 'vue'
 
 import NcTextField from '@nextcloud/vue/dist/Components/NcTextField.js'
@@ -269,6 +270,10 @@ export default defineComponent({
 				// Success 🎉
 				emit('files:node:updated', this.source)
 				emit('files:node:renamed', this.source)
+				emit('files:node:moved', {
+					node: this.source,
+					oldSource: `${dirname(this.source.source)}/${oldName}`,
+				})
 				showSuccess(t('files', 'Renamed "{oldName}" to "{newName}"', { oldName, newName }))
 
 				// Reset the renaming store
