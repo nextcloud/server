@@ -37,6 +37,7 @@ use OC\Files\Search\SearchComparison;
 use OC\Files\Search\SearchOrder;
 use OC\Files\Search\SearchQuery;
 use OC\Files\Utils\PathHelper;
+use OC\User\LazyUser;
 use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\FileInfo;
 use OCP\Files\Mount\IMountPoint;
@@ -51,6 +52,9 @@ use OCP\Files\Search\ISearchQuery;
 use OCP\IUserManager;
 
 class Folder extends Node implements \OCP\Files\Folder {
+
+	private ?IUserManager $userManager = null;
+
 	/**
 	 * Creates a Folder that represents a non-existing path
 	 *
@@ -270,7 +274,26 @@ class Folder extends Node implements \OCP\Files\Folder {
 		$cacheEntry['internalPath'] = $cacheEntry['path'];
 		$cacheEntry['path'] = rtrim($appendRoot . $cacheEntry->getPath(), '/');
 		$subPath = $cacheEntry['path'] !== '' ? '/' . $cacheEntry['path'] : '';
-		return new \OC\Files\FileInfo($this->path . $subPath, $mount->getStorage(), $cacheEntry['internalPath'], $cacheEntry, $mount);
+		$storage = $mount->getStorage();
+
+		$owner = null;
+		$ownerId = $storage->getOwner($cacheEntry['internalPath']);
+		if (!empty($ownerId)) {
+			// Cache the user manager (for performance)
+			if ($this->userManager === null) {
+				$this->userManager = \OCP\Server::get(IUserManager::class);
+			}
+			$owner = new LazyUser($ownerId, $this->userManager);
+		}
+
+		return new \OC\Files\FileInfo(
+			$this->path . $subPath,
+			$storage,
+			$cacheEntry['internalPath'],
+			$cacheEntry,
+			$mount,
+			$owner,
+		);
 	}
 
 	/**
