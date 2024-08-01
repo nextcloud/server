@@ -9,7 +9,6 @@ declare(strict_types=1);
 namespace OCA\Files\AppInfo;
 
 use Closure;
-use OC\Search\Provider\File;
 use OCA\Files\Capabilities;
 use OCA\Files\Collaboration\Resources\Listener;
 use OCA\Files\Collaboration\Resources\ResourceProvider;
@@ -45,7 +44,6 @@ use OCP\Files\Events\Node\NodeCopiedEvent;
 use OCP\IConfig;
 use OCP\IPreview;
 use OCP\IRequest;
-use OCP\ISearch;
 use OCP\IServerContainer;
 use OCP\ITagManager;
 use OCP\IUserSession;
@@ -127,17 +125,12 @@ class Application extends App implements IBootstrap {
 	public function boot(IBootContext $context): void {
 		$context->injectFn(Closure::fromCallable([$this, 'registerCollaboration']));
 		$context->injectFn([Listener::class, 'register']);
-		$context->injectFn(Closure::fromCallable([$this, 'registerSearchProvider']));
 		$this->registerTemplates();
 		$this->registerHooks();
 	}
 
 	private function registerCollaboration(IProviderManager $providerManager): void {
 		$providerManager->registerResourceProvider(ResourceProvider::class);
-	}
-
-	private function registerSearchProvider(ISearch $search): void {
-		$search->registerProvider(File::class, ['apps' => ['files']]);
 	}
 
 	private function registerTemplates(): void {
