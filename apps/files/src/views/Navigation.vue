@@ -81,7 +81,7 @@ import { useNavigation } from '../composables/useNavigation'
 import { useFilenameFilter } from '../composables/useFilenameFilter'
 import { useFiltersStore } from '../store/filters.ts'
 import { useViewConfigStore } from '../store/viewConfig.ts'
-import logger from '../logger.js'
+import logger from '../logger.ts'
 
 export default defineComponent({
 	name: 'Navigation',

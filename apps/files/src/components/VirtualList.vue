@@ -59,7 +59,7 @@ import debounce from 'debounce'
 import Vue from 'vue'
 
 import filesListWidthMixin from '../mixins/filesListWidth.ts'
-import logger from '../logger.js'
+import logger from '../logger.ts'
 
 interface RecycledPoolItem {
 	key: string,

@@ -4,7 +4,7 @@
  */
 
 import type { User } from '@nextcloud/cypress'
-import { createFolder, getRowForFile } from '../files/FilesUtils'
+import { createFolder, getRowForFile, navigateToFolder } from '../files/FilesUtils'
 import { createFileRequest, enterGuestName } from './FilesSharingUtils'
 
 describe('Files', { testIsolation: true }, () => {
@@ -53,7 +53,9 @@ describe('Files', { testIsolation: true }, () => {
 	it('Check the uploaded file', () => {
 		cy.login(user)
 		cy.visit(`/apps/files/files?dir=/${folderName}`)
-		getRowForFile('Guest').should('be.visible').get('a[data-cy-files-list-row-name-link]').click()
+		getRowForFile('Guest')
+			.should('be.visible')
+		navigateToFolder('Guest')
 		getRowForFile('file.txt').should('be.visible')
 	})
 })

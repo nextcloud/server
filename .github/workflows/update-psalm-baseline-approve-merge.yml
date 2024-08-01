@@ -33,7 +33,7 @@ jobs:
           echo 'Can not approve PRs from forks'
           exit 1
 
-      - uses: mdecoleman/pr-branch-name@bab4c71506bcd299fb350af63bb8e53f2940a599 # v2.0.0
+      - uses: mdecoleman/pr-branch-name@55795d86b4566d300d237883103f052125cc7508 # v3.0.0
         id: branchname
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}

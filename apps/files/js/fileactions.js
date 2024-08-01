@@ -722,7 +722,7 @@
 				});
 			}
 
-			if (!/Android|iPhone|iPad|iPod/i.test(navigator.userAgent)) {
+			if (!/Android|iPhone|iPad|iPod/i.test(navigator.userAgent) && !!window.oc_current_user) {
 				this.registerAction({
 					name: 'EditLocally',
 					displayName: function(context) {
