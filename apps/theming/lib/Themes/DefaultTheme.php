@@ -172,11 +172,17 @@ class DefaultTheme implements ITheme {
 			// Border width for input elements such as text fields and selects
 			'--border-width-input' => '1px',
 			'--border-width-input-focused' => '2px',
-			'--border-radius' => '3px',
-			'--border-radius-large' => '10px',
+
+			// Border radii (new values)
+			'--border-radius-small' => '4px', // For smaller elements
+			'--border-radius-element' => '8px', // For interactive elements such as buttons, input, navigation and list items
+			'--border-radius-container' => '12px', // For smaller containers like action menus
+			'--border-radius-container-large' => '16px', // For bigger containers like body or modals
+
+			// Border radii (deprecated)
+			'--border-radius' => 'var(--border-radius-small)',
+			'--border-radius-large' => 'var(--border-radius-element)',
 			'--border-radius-rounded' => '28px',
-			'--border-radius-element' => '8px',
-			// pill-style button, value is large so big buttons also have correct roundness
 			'--border-radius-pill' => '100px',
 
 			'--default-clickable-area' => '34px',
@@ -193,7 +199,7 @@ class DefaultTheme implements ITheme {
 			'--sidebar-max-width' => '500px',
 
 			// Border radius of the body container
-			'--body-container-radius' => 'calc(var(--default-grid-baseline) * 3)',
+			'--body-container-radius' => 'var(--border-radius-container-large)',
 			// Margin of the body container
 			'--body-container-margin' => 'calc(var(--default-grid-baseline) * 2)',
 			// Height of the body container to fully fill the view port
