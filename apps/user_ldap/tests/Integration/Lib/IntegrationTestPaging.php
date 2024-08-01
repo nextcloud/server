@@ -34,7 +34,7 @@ class IntegrationTestPaging extends AbstractIntegrationTest {
 		require(__DIR__ . '/../setup-scripts/createExplicitUsers.php');
 		parent::init();
 
-		$this->backend = new User_LDAP($this->access, \OC::$server->getConfig(), \OC::$server->getNotificationManager(), \OC::$server->getUserSession(), \OC::$server->get(UserPluginManager::class), \OC::$server->get(LoggerInterface::class), \OC::$server->get(DeletedUsersIndex::class));
+		$this->backend = new User_LDAP($this->access, \OC::$server->getNotificationManager(), \OC::$server->get(UserPluginManager::class), \OC::$server->get(LoggerInterface::class), \OC::$server->get(DeletedUsersIndex::class));
 	}
 
 	public function initConnection() {

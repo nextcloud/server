@@ -35,7 +35,7 @@ class IntegrationTestUserAvatar extends AbstractIntegrationTest {
 		$this->mapping = new UserMapping(\OC::$server->getDatabaseConnection());
 		$this->mapping->clear();
 		$this->access->setUserMapper($this->mapping);
-		$userBackend = new User_LDAP($this->access, \OC::$server->getConfig(), \OC::$server->getNotificationManager(), \OC::$server->getUserSession(), \OC::$server->get(UserPluginManager::class), \OC::$server->get(LoggerInterface::class), \OC::$server->get(DeletedUsersIndex::class));
+		$userBackend = new User_LDAP($this->access, \OC::$server->getNotificationManager(), \OC::$server->get(UserPluginManager::class), \OC::$server->get(LoggerInterface::class), \OC::$server->get(DeletedUsersIndex::class));
 		\OC_User::useBackend($userBackend);
 	}
 
