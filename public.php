@@ -33,30 +33,33 @@ try {
 	// this policy with a softer one if debug mode is enabled.
 	header("Content-Security-Policy: default-src 'none';");
 
+	// Check if Nextcloud is in maintenance mode
 	if (\OCP\Util::needUpgrade()) {
 		// since the behavior of apps or remotes are unpredictable during
 		// an upgrade, return a 503 directly
-		throw new RemoteException('Service unavailable', 503);
+		throw new \Exception('Service unavailable', 503);
 	}
 
 	$request = \OC::$server->getRequest();
 	$pathInfo = $request->getPathInfo();
 	if ($pathInfo === false || $pathInfo === '') {
-		throw new RemoteException('Path not found', 404);
+		throw new \Exception('Path not found', 404);
 	}
+
+	// Extract the service from the path
 	if (!$pos = strpos($pathInfo, '/', 1)) {
 		$pos = strlen($pathInfo);
 	}
 	$service = substr($pathInfo, 1, $pos - 1);
 
+	// Resolve the service to a file
 	$file = resolveService($service);
-
 	if (!$file) {
-		throw new RemoteException('Path not found', 404);
+		throw new \Exception('Path not found', 404);
 	}
 
+	// Extract the app from the service file
 	$file = ltrim($file, '/');
-
 	$parts = explode('/', $file, 2);
 	$app = $parts[0];
 
@@ -66,9 +69,12 @@ try {
 	OC_App::loadApps(['extended_authentication']);
 	OC_App::loadApps(['filesystem', 'logging']);
 
+	// Check if the app is enabled
 	if (!\OC::$server->getAppManager()->isInstalled($app)) {
-		throw new RemoteException('App not installed: ' . $app);
+		throw new \Exception('App not installed: ' . $app);
 	}
+
+	// Load the app
 	OC_App::loadApp($app);
 	OC_User::setIncognitoMode(true);
 
