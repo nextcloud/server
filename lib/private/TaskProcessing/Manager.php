@@ -678,20 +678,24 @@ class Manager implements IManager {
 					continue;
 				}
 				$taskType = $taskTypes[$provider->getTaskTypeId()];
-				$availableTaskTypes[$provider->getTaskTypeId()] = [
-					'name' => $taskType->getName(),
-					'description' => $taskType->getDescription(),
-					'optionalInputShape' => $provider->getOptionalInputShape(),
-					'inputShapeEnumValues' => $provider->getInputShapeEnumValues(),
-					'inputShapeDefaults' => $provider->getInputShapeDefaults(),
-					'inputShape' => $taskType->getInputShape(),
-					'optionalInputShapeEnumValues' => $provider->getOptionalInputShapeEnumValues(),
-					'optionalInputShapeDefaults' => $provider->getOptionalInputShapeDefaults(),
-					'outputShape' => $taskType->getOutputShape(),
-					'outputShapeEnumValues' => $provider->getOutputShapeEnumValues(),
-					'optionalOutputShape' => $provider->getOptionalOutputShape(),
-					'optionalOutputShapeEnumValues' => $provider->getOptionalOutputShapeEnumValues(),
-				];
+				try {
+					$availableTaskTypes[$provider->getTaskTypeId()] = [
+						'name' => $taskType->getName(),
+						'description' => $taskType->getDescription(),
+						'optionalInputShape' => $provider->getOptionalInputShape(),
+						'inputShapeEnumValues' => $provider->getInputShapeEnumValues(),
+						'inputShapeDefaults' => $provider->getInputShapeDefaults(),
+						'inputShape' => $taskType->getInputShape(),
+						'optionalInputShapeEnumValues' => $provider->getOptionalInputShapeEnumValues(),
+						'optionalInputShapeDefaults' => $provider->getOptionalInputShapeDefaults(),
+						'outputShape' => $taskType->getOutputShape(),
+						'outputShapeEnumValues' => $provider->getOutputShapeEnumValues(),
+						'optionalOutputShape' => $provider->getOptionalOutputShape(),
+						'optionalOutputShapeEnumValues' => $provider->getOptionalOutputShapeEnumValues(),
+					];
+				} catch (\Throwable $e) {
+					$this->logger->error('Failed to set up TaskProcessing provider ' . $provider::class, ['exception' => $e]);
+				}
 			}
 
 			$this->availableTaskTypes = $availableTaskTypes;
