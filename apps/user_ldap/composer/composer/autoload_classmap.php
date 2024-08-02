@@ -62,6 +62,7 @@ return array(
     'OCA\\User_LDAP\\Mapping\\GroupMapping' => $baseDir . '/../lib/Mapping/GroupMapping.php',
     'OCA\\User_LDAP\\Mapping\\UserMapping' => $baseDir . '/../lib/Mapping/UserMapping.php',
     'OCA\\User_LDAP\\Migration\\GroupMappingMigration' => $baseDir . '/../lib/Migration/GroupMappingMigration.php',
+    'OCA\\User_LDAP\\Migration\\RearrangeMarkRemnantsAsDisabled' => $baseDir . '/../lib/Migration/RearrangeMarkRemnantsAsDisabled.php',
     'OCA\\User_LDAP\\Migration\\RemoveRefreshTime' => $baseDir . '/../lib/Migration/RemoveRefreshTime.php',
     'OCA\\User_LDAP\\Migration\\SetDefaultProvider' => $baseDir . '/../lib/Migration/SetDefaultProvider.php',
     'OCA\\User_LDAP\\Migration\\UUIDFix' => $baseDir . '/../lib/Migration/UUIDFix.php',

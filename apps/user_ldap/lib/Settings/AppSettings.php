@@ -30,7 +30,7 @@ class AppSettings implements IDelegatedSettings {
 
 	public function getForm(): TemplateResponse {
 		$this->initialState->provideInitialState('config', [
-			'ldap_mark_remnants_as_disabled' => $this->appConfig->getValueBool('user_ldap', 'ldap_mark_remnants_as_disabled'),
+			'backend_mark_remnants_as_disabled' => $this->appConfig->getValueBool('user_ldap', 'backend_mark_remnants_as_disabled'),
 		]);
 
 		return new TemplateResponse('user_ldap', 'settings-global');
