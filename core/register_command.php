@@ -110,6 +110,7 @@ if ($config->getSystemValueBool('installed', false)) {
 	$application->add(Server::get(Command\Db\AddMissingIndices::class));
 	$application->add(Server::get(Command\Db\AddMissingPrimaryKeys::class));
 
+	$application->add(Server::get(Command\Db\Migrations\PreviewCommand::class));
 	if ($config->getSystemValueBool('debug', false)) {
 		$application->add(Server::get(Command\Db\Migrations\StatusCommand::class));
 		$application->add(Server::get(Command\Db\Migrations\MigrateCommand::class));
