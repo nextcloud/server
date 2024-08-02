@@ -200,6 +200,8 @@ export default Vue.extend({
 				return AccountGroupIcon
 			case 'collective':
 				return CollectivesIcon
+			case 'shared':
+				return AccountPlusIcon
 			}
 
 			return null
