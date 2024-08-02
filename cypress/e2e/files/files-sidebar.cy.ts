@@ -1,23 +1,6 @@
 /**
- * @copyright Copyright (c) 2024 Ferdinand Thiessen <opensource@fthiessen.de>
- *
- * @author Ferdinand Thiessen <opensource@fthiessen.de>
- *
- * @license AGPL-3.0-or-later
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 import type { User } from '@nextcloud/cypress'
@@ -44,7 +27,10 @@ describe('Files: Sidebar', { testIsolation: true }, () => {
 
 		triggerActionForFile('file', 'details')
 
-		cy.get('[cy-data-sidebar]').should('be.visible')
+		cy.get('[data-cy-sidebar]')
+			.should('be.visible')
+			.findByRole('heading', { name: 'file' })
+			.should('be.visible')
 	})
 
 	it('changes the current fileid', () => {
@@ -53,7 +39,7 @@ describe('Files: Sidebar', { testIsolation: true }, () => {
 
 		triggerActionForFile('file', 'details')
 
-		cy.get('[cy-data-sidebar]').should('be.visible')
+		cy.get('[data-cy-sidebar]').should('be.visible')
 		cy.url().should('contain', `apps/files/files/${fileId}`)
 	})
 
@@ -84,7 +70,8 @@ describe('Files: Sidebar', { testIsolation: true }, () => {
 		// open the sidebar
 		triggerActionForFile('file', 'details')
 		// validate it is open
-		cy.get('[cy-data-sidebar]').should('be.visible')
+		cy.get('[data-cy-sidebar]')
+			.should('be.visible')
 
 		// if we navigate to the folder
 		navigateToFolder('folder')
@@ -104,7 +91,10 @@ describe('Files: Sidebar', { testIsolation: true }, () => {
 		cy.get('[data-cy-sidebar]').should('be.visible')
 		// delete the file
 		triggerActionForFile('file', 'delete')
-		cy.get('[cy-data-sidebar]').should('not.exist')
+		cy.wait('@deleteFile', { timeout: 10000 })
+		// see the sidebar is closed
+		cy.get('[data-cy-sidebar]')
+			.should(assertNotExistOrNotVisible)
 	})
 
 	it('changes the fileid on delete', () => {
@@ -122,11 +112,13 @@ describe('Files: Sidebar', { testIsolation: true }, () => {
 			// open the sidebar
 			triggerActionForFile('other', 'details')
 			// validate it is open
-			cy.get('[cy-data-sidebar]').should('be.visible')
+			cy.get('[data-cy-sidebar]').should('be.visible')
 			cy.url().should('contain', `apps/files/files/${otherFileId}`)
 
 			triggerActionForFile('other', 'delete')
-			cy.get('[cy-data-sidebar]').should('not.exist')
+			cy.wait('@deleteFile')
+
+			cy.get('[data-cy-sidebar]').should('not.exist')
 			// Ensure the URL is changed
 			cy.url().should('not.contain', `apps/files/files/${otherFileId}`)
 		})
