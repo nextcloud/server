@@ -37,6 +37,8 @@ use OCP\IUser;
 use OCP\IUserSession;
 use OCP\Settings\IManager;
 use Test\TestCase;
+use function json_decode;
+use function json_encode;
 
 /**
  * Class AppConfigControllerTest
@@ -204,6 +206,12 @@ class AppConfigControllerTest extends TestCase {
 			['app1', 'key', 'default', new \InvalidArgumentException('error1'), null, Http::STATUS_FORBIDDEN],
 			['app2', 'key', 'default', null, new \InvalidArgumentException('error2'), Http::STATUS_FORBIDDEN],
 			['app2', 'key', 'default', null, null, Http::STATUS_OK],
+			['app2', 'key', '1', null, null, Http::STATUS_OK, IAppConfig::VALUE_BOOL],
+			['app2', 'key', '42', null, null, Http::STATUS_OK, IAppConfig::VALUE_INT],
+			['app2', 'key', '4.2', null, null, Http::STATUS_OK, IAppConfig::VALUE_FLOAT],
+			['app2', 'key', '42', null, null, Http::STATUS_OK, IAppConfig::VALUE_STRING],
+			['app2', 'key', 'secret', null, null, Http::STATUS_OK, IAppConfig::VALUE_STRING | IAppConfig::VALUE_SENSITIVE],
+			['app2', 'key', json_encode([4, 2]), null, null, Http::STATUS_OK, IAppConfig::VALUE_ARRAY],
 		];
 	}
 
@@ -216,7 +224,7 @@ class AppConfigControllerTest extends TestCase {
 	 * @param \Exception|null $keyThrows
 	 * @param int $status
 	 */
-	public function testSetValue($app, $key, $value, $appThrows, $keyThrows, $status) {
+	public function testSetValue($app, $key, $value, $appThrows, $keyThrows, $status, int $type = IAppConfig::VALUE_MIXED) {
 		$adminUser = $this->createMock(IUser::class);
 		$adminUser->expects($this->once())
 			->method('getUid')
@@ -260,8 +268,30 @@ class AppConfigControllerTest extends TestCase {
 				->with($app, $key);
 
 			$this->appConfig->expects($this->once())
-				->method('setValueMixed')
-				->with($app, $key, $value);
+				->method('getDetails')
+				->with($app, $key)
+				->willReturn([
+					'app' => $app,
+					'key' => $key,
+					'value' => '', // 🤷
+					'type' => $type,
+					'lazy' => false,
+					'typeString' => (string)$type, // this is not accurate, but acceptable
+					'sensitive' => ($type & IAppConfig::VALUE_SENSITIVE) !== 0,
+				]);
+
+			$configValueSetter = match ($type) {
+				IAppConfig::VALUE_BOOL => 'setValueBool',
+				IAppConfig::VALUE_FLOAT => 'setValueFloat',
+				IAppConfig::VALUE_INT => 'setValueInt',
+				IAppConfig::VALUE_STRING => 'setValueString',
+				IAppConfig::VALUE_ARRAY => 'setValueArray',
+				default => 'setValueMixed',
+			};
+
+			$this->appConfig->expects($this->once())
+				->method($configValueSetter)
+				->with($app, $key, $configValueSetter === 'setValueArray' ? json_decode($value, true) : $value);
 		}
 
 		$result = $api->setValue($app, $key, $value);
