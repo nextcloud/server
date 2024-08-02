@@ -7,7 +7,11 @@ import type { Folder, Node } from '@nextcloud/files'
 import type { ShareAttribute } from '../../../files_sharing/src/sharing'
 
 import { Permission } from '@nextcloud/files'
+import { isPublicShare } from '@nextcloud/sharing/public'
 import PQueue from 'p-queue'
+import { loadState } from '@nextcloud/initial-state'
+
+const sharePermissions = loadState<number>('files_sharing', 'sharePermissions', Permission.NONE)
 
 // This is the processing queue. We only want to allow 3 concurrent requests
 let queue: PQueue
@@ -51,7 +55,17 @@ export const canDownload = (nodes: Node[]) => {
 
 export const canCopy = (nodes: Node[]) => {
 	// a shared file cannot be copied if the download is disabled
-	// it can be copied if the user has at least read permissions
-	return canDownload(nodes)
-		&& !nodes.some(node => node.permissions === Permission.NONE)
+	if (!canDownload(nodes)) {
+		return false
+	}
+	// it cannot be copied if the user has only view permissions
+	if (nodes.some((node) => node.permissions === Permission.NONE)) {
+		return false
+	}
+	// on public shares all files have the same permission so copy is only possible if write permission is granted
+	if (isPublicShare()) {
+		return Boolean(sharePermissions & Permission.CREATE)
+	}
+	// otherwise permission is granted
+	return true
 }

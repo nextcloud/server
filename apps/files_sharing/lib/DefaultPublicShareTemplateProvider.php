@@ -91,6 +91,7 @@ class DefaultPublicShareTemplateProvider implements IPublicShareTemplateProvider
 		// Set up initial state
 		$this->initialState->provideInitialState('isPublic', true);
 		$this->initialState->provideInitialState('sharingToken', $token);
+		$this->initialState->provideInitialState('sharePermissions', $share->getPermissions());
 		$this->initialState->provideInitialState('filename', $shareNode->getName());
 		$this->initialState->provideInitialState('view', $view);
 
