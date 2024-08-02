@@ -29,6 +29,7 @@ import { emit } from '@nextcloud/event-bus'
 import { fetchNode } from '../services/WebdavClient.ts'
 import { showError, showSuccess } from '@nextcloud/dialogs'
 import { getCurrentUser } from '@nextcloud/auth'
+import { DialogBuilder } from '@nextcloud/dialogs'
 // eslint-disable-next-line import/no-unresolved, n/no-missing-import
 import PQueue from 'p-queue'
 import debounce from 'debounce'
@@ -276,9 +277,49 @@ export default {
 		},
 
 		/**
+		 * Display confirmation dialog
+		 * @param {string} text text of dialog
+		 * @param {string} title title of dialog
+		 * @returns {Promise<boolean>}
+		 */
+		async confirmDeletion(text, title) {
+			let confirmed = false;
+			return (new DialogBuilder())
+				.setName(title)
+				.setText(text)
+				.setButtons([{
+							label: t('core', 'Yes'),
+							type: 'error',
+							callback: () => {
+								confirmed = true
+							},
+						},
+						{
+							label: t('core', 'No'),
+						},
+					]
+				)
+				.build()
+				.show()
+				.then(() => {
+					return confirmed;
+				})
+		},
+		/**
 		 * Delete share button handler
 		 */
 		async onDelete() {
+			console.debug('Deleting share', this.share.id);
+			const deletionConfirmed = await this.confirmDeletion(
+				t('files_sharing', 'Do you really want to delete share?'),
+				t('files_sharing', 'Confirm Deletion'),
+			);
+
+			if (!deletionConfirmed) {
+				console.debug('Deletion aborted', this.share.id);
+				return;
+			}
+
 			try {
 				this.loading = true
 				this.open = false
