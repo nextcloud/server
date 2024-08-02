@@ -54,6 +54,12 @@ export const resultToNode = function(node: FileStat): File | Folder {
 		? hashCode(source)
 		: props?.fileid as number || 0
 
+	// TODO remove this hack with nextcloud-files v3.7
+	// just needed because of a bug in the webdav client
+	if (node.props?.displayname !== undefined) {
+		node.props.displayname = String(node.props.displayname)
+	}
+
 	const nodeData = {
 		id,
 		source,

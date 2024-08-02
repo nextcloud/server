@@ -126,7 +126,7 @@ import type { UserConfig } from '../types.ts'
 import { getCapabilities } from '@nextcloud/capabilities'
 import { showError } from '@nextcloud/dialogs'
 import { emit, subscribe, unsubscribe } from '@nextcloud/event-bus'
-import { Folder, Node, Permission } from '@nextcloud/files'
+import { Folder, Node, Permission, sortNodes } from '@nextcloud/files'
 import { loadState } from '@nextcloud/initial-state'
 import { translate as t, translatePlural as n } from '@nextcloud/l10n'
 import { ShareType } from '@nextcloud/sharing'
@@ -154,7 +154,6 @@ import { useSelectionStore } from '../store/selection.ts'
 import { useUploaderStore } from '../store/uploader.ts'
 import { useUserConfigStore } from '../store/userconfig.ts'
 import { useViewConfigStore } from '../store/viewConfig.ts'
-import { orderBy } from '../services/SortingService.ts'
 import BreadCrumbs from '../components/BreadCrumbs.vue'
 import FilesListVirtual from '../components/FilesListVirtual.vue'
 import filesListWidthMixin from '../mixins/filesListWidth.ts'
@@ -274,43 +273,9 @@ export default defineComponent({
 		},
 
 		/**
-		 * Directory content sorting parameters
-		 * Provided by an extra computed property for caching
-		 */
-		sortingParameters() {
-			const identifiers = [
-				// 1: Sort favorites first if enabled
-				...(this.userConfig.sort_favorites_first ? [v => v.attributes?.favorite !== 1] : []),
-				// 2: Sort folders first if sorting by name
-				...(this.userConfig.sort_folders_first ? [v => v.type !== 'folder'] : []),
-				// 3: Use sorting mode if NOT basename (to be able to use displayName too)
-				...(this.sortingMode !== 'basename' ? [v => v[this.sortingMode]] : []),
-				// 4: Use displayname if available, fallback to name
-				v => v.attributes?.displayname || v.basename,
-				// 5: Finally, use basename if all previous sorting methods failed
-				v => v.basename,
-			]
-			const orders = [
-				// (for 1): always sort favorites before normal files
-				...(this.userConfig.sort_favorites_first ? ['asc'] : []),
-				// (for 2): always sort folders before files
-				...(this.userConfig.sort_folders_first ? ['asc'] : []),
-				// (for 3): Reverse if sorting by mtime as mtime higher means edited more recent -> lower
-				...(this.sortingMode === 'mtime' ? [this.isAscSorting ? 'desc' : 'asc'] : []),
-				// (also for 3 so make sure not to conflict with 2 and 3)
-				...(this.sortingMode !== 'mtime' && this.sortingMode !== 'basename' ? [this.isAscSorting ? 'asc' : 'desc'] : []),
-				// for 4: use configured sorting direction
-				this.isAscSorting ? 'asc' : 'desc',
-				// for 5: use configured sorting direction
-				this.isAscSorting ? 'asc' : 'desc',
-			]
-			return [identifiers, orders] as const
-		},
-
-		/**
 		 * The current directory contents.
 		 */
-		dirContentsSorted(): Node[] {
+		dirContentsSorted() {
 			if (!this.currentView) {
 				return []
 			}
@@ -333,10 +298,12 @@ export default defineComponent({
 				return this.isAscSorting ? results : results.reverse()
 			}
 
-			return orderBy(
-				filteredDirContent,
-				...this.sortingParameters,
-			)
+			return sortNodes(filteredDirContent, {
+				sortFavoritesFirst: this.userConfig.sort_favorites_first,
+				sortFoldersFirst: this.userConfig.sort_folders_first,
+				sortingMode: this.sortingMode,
+				sortingOrder: this.isAscSorting ? 'asc' : 'desc',
+			})
 		},
 
 		dirContents(): Node[] {
