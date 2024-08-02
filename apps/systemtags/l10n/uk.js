@@ -38,6 +38,7 @@ OC.L10N.register(
     "%s (restricted)" : "%s(обмежено)",
     "%s (invisible)" : "%s (невидимий)",
     "<strong>System tags</strong> for a file have been modified" : "<strong>Системні мітки</strong> для файлу було змінено",
+    "Files" : "Файли",
     "Tags" : "Мітки",
     "All tagged %s …" : "Усі позначено мітками %s …",
     "tagged %s" : "позначено міткою %s",

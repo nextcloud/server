@@ -38,6 +38,7 @@ OC.L10N.register(
     "%s (restricted)" : "%s (制限)",
     "%s (invisible)" : "%s (不可視)",
     "<strong>System tags</strong> for a file have been modified" : "ファイルの<strong>タグ</strong>が変更されたとき",
+    "Files" : "ファイル",
     "Tags" : "タグ",
     "All tagged %s …" : "全てのタグ %s …",
     "tagged %s" : "タグ付け済み %s",

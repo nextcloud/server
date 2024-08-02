@@ -38,6 +38,7 @@ OC.L10N.register(
     "%s (restricted)" : "%s (limitadu)",
     "%s (invisible)" : "%s (invisìbile)",
     "<strong>System tags</strong> for a file have been modified" : "<strong>Etichetas de sistema</strong> pro un'archìviu sunt istada modificadas",
+    "Files" : "Archìvios",
     "Tags" : "Etichetas",
     "Collaborative tags" : "Etichetas collaborativas",
     "Create" : "Crea",

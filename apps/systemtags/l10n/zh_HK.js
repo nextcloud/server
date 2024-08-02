@@ -38,6 +38,7 @@ OC.L10N.register(
     "%s (restricted)" : "%s （受限）",
     "%s (invisible)" : "%s （隱藏）",
     "<strong>System tags</strong> for a file have been modified" : "一個檔案的<strong>系統標籤</strong>已經被修改",
+    "Files" : "檔案",
     "Tags" : "標籤",
     "All tagged %s …" : "所有標記為 %s ...",
     "tagged %s" : "標記為 %s ...",

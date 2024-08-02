@@ -38,6 +38,7 @@ OC.L10N.register(
     "%s (restricted)" : "%s (restringit)",
     "%s (invisible)" : "%s (invisible)",
     "<strong>System tags</strong> for a file have been modified" : "S'han modificat les <strong>etiquetes del sistema</strong> d'un fitxer",
+    "Files" : "Fitxers",
     "Tags" : "Etiquetes",
     "All tagged %s …" : "Tots els elements amb l'etiqueta %s…",
     "tagged %s" : "amb l'etiqueta %s",

@@ -38,6 +38,7 @@ OC.L10N.register(
     "%s (restricted)" : "%s (מוגבל)",
     "%s (invisible)" : "%s (נסתר)",
     "<strong>System tags</strong> for a file have been modified" : "<strong>תגיות מערכת</strong> שהשתנו עבור קובץ",
+    "Files" : "קבצים",
     "Tags" : "תגיות",
     "All tagged %s …" : "כל ה־%s המתויגים…",
     "tagged %s" : "%s מתויג",

@@ -38,6 +38,7 @@ OC.L10N.register(
     "%s (restricted)" : "%s (restricted)",
     "%s (invisible)" : "%s (invisible)",
     "<strong>System tags</strong> for a file have been modified" : "برچسب های سیستم برای یک فایل تغییر داده شده است",
+    "Files" : "پرونده‌ها",
     "Tags" : "برچسب‌ها",
     "All tagged %s …" : "All tagged %s …",
     "tagged %s" : "tagged %s",

@@ -36,6 +36,7 @@
     "%s (restricted)" : "%s (limitato)",
     "%s (invisible)" : "%s (invisibile)",
     "<strong>System tags</strong> for a file have been modified" : "Le <strong>etichette di sistema</strong> per un file sono state modificate",
+    "Files" : "File",
     "Tags" : "Etichette",
     "All tagged %s …" : "Tutti etichettati %s …",
     "tagged %s" : "etichettato %s",
