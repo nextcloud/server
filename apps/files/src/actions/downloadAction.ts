@@ -46,11 +46,11 @@ const isDownloadable = function(node: Node) {
 	}
 
 	// If the mount type is a share, ensure it got download permissions.
-	if (node.attributes['mount-type'] === 'shared') {
-		const shareAttributes = JSON.parse(node.attributes['share-attributes'] ?? '[]') as Array<ShareAttribute>
-		const downloadAttribute = shareAttributes?.find?.((attribute: { scope: string; key: string }) => attribute.scope === 'permissions' && attribute.key === 'download')
-		if (downloadAttribute !== undefined && downloadAttribute.value === false) {
-			return false
+	if (node.attributes['share-attributes']) {
+		const shareAttributes = JSON.parse(node.attributes['share-attributes'] || '[]') as Array<ShareAttribute>
+		const downloadAttribute = shareAttributes.find(({ scope, key }: ShareAttribute) => scope === 'permissions' && key === 'download')
+		if (downloadAttribute) {
+			return downloadAttribute.value === true
 		}
 	}
 
