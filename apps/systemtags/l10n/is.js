@@ -38,6 +38,7 @@ OC.L10N.register(
     "%s (restricted)" : "%s (takmarkaður aðgangur)",
     "%s (invisible)" : "%s (ósýnilegt)",
     "<strong>System tags</strong> for a file have been modified" : "<strong>Kerfismerkjum</strong> á skrá hefur verið breytt",
+    "Files" : "Skráaforrit",
     "Tags" : "Merki",
     "All tagged %s …" : "Allt merkt %s …",
     "tagged %s" : "merkt %s",

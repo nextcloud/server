@@ -38,6 +38,7 @@ OC.L10N.register(
     "%s (restricted)" : "%s (begrenset)",
     "%s (invisible)" : "%s (usynlig)",
     "<strong>System tags</strong> for a file have been modified" : "Endringer av en fils <strong>System-merkelapper</strong>",
+    "Files" : "Filer",
     "Tags" : "Merkelapper",
     "All tagged %s …" : "Alle merket med %s…",
     "tagged %s" : "merket %s",

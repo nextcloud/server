@@ -38,6 +38,7 @@ OC.L10N.register(
     "%s (restricted)" : "%s (ограничена)",
     "%s (invisible)" : "%s (невидливо)",
     "<strong>System tags</strong> for a file have been modified" : "Изменета е <strong>Системска ознака</strong> за датотека",
+    "Files" : "Датотеки",
     "Tags" : "Ознаки",
     "All tagged %s …" : "Сите означени %s …",
     "tagged %s" : "означени %s",

@@ -38,6 +38,7 @@ OC.L10N.register(
     "%s (restricted)" : "%s (restrinxóse)",
     "%s (invisible)" : "%s (invisible)",
     "<strong>System tags</strong> for a file have been modified" : "Modificáronse les <strong>etiquetes del sistema</strong> pa un ficheru",
+    "Files" : "Ficheros",
     "Tags" : "Etiquetes",
     "All tagged %s …" : "Tolos elementos cola etiqueta «%s»…",
     "tagged %s" : "elementos etiquetaos con «%s»",

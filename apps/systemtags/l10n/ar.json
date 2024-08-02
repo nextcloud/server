@@ -36,6 +36,7 @@
     "%s (restricted)" : "%s (محظور)",
     "%s (invisible)" : "%s (مخفي)",
     "<strong>System tags</strong> for a file have been modified" : "<strong>وسم النظام</strong> للملف تمّ تغييرها",
+    "Files" : "الملفّات",
     "Tags" : "الوسوم",
     "All tagged %s …" : "جميع الوسوم %s …",
     "tagged %s" : "موسوم %s",

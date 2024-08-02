@@ -9,6 +9,7 @@ OC.L10N.register(
     "%1$s commented on %2$s" : "%1$s at cummentadu %2$s",
     "{author} commented on {file}" : "{author} at cummentadu {file}",
     "<strong>Comments</strong> for files" : "<strong>Cummentos</strong> pro archìvios",
+    "Files" : "Archìvios",
     "Files app plugin to add comments to files" : "Estensione de s'aplicatzione archìvios pro agiùnghere cummentos a archìvios",
     "Edit comment" : "Modìfica cummentu",
     "Delete comment" : "Cantzella cummentu",

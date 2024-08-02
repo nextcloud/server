@@ -38,6 +38,7 @@ OC.L10N.register(
     "%s (restricted)" : "%s (mugatua)",
     "%s (invisible)" : "%s (ikusezina)",
     "<strong>System tags</strong> for a file have been modified" : "Fitxategi baten <strong>sistema-etiketak</strong> aldatu egin dira",
+    "Files" : "Fitxategiak",
     "Tags" : "Etiketak",
     "All tagged %s …" : "%sguztiak etiketatuta …",
     "tagged %s" : "%setiketatuta",

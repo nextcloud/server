@@ -38,6 +38,7 @@ OC.L10N.register(
     "%s (restricted)" : "%s (beperkt)",
     "%s (invisible)" : "%s (onzichtbaar)",
     "<strong>System tags</strong> for a file have been modified" : "<strong>Systeemmarkeringen</strong> voor een bestand zijn gewijzigd",
+    "Files" : "Bestanden",
     "Tags" : "Markering",
     "Collaborative tags" : "Systeemtags",
     "Create" : "Opslaan",

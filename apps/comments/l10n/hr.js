@@ -9,6 +9,7 @@ OC.L10N.register(
     "%1$s commented on %2$s" : "%1$s je komentirao %2$s",
     "{author} commented on {file}" : "{author} je komentirao {file}",
     "<strong>Comments</strong> for files" : "<strong>Komentari</strong> za datoteke",
+    "Files" : "Datoteke",
     "Files app plugin to add comments to files" : "Dodatak za aplikaciju Datoteke za dodavanje komentara na datoteke",
     "Edit comment" : "Uredi komentar",
     "Delete comment" : "Izbriši komentar",
