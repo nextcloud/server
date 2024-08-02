@@ -23,7 +23,7 @@
 <template>
 	<NcAppSidebar v-if="file"
 		ref="sidebar"
-		cy-data-sidebar
+		data-cy-sidebar
 		v-bind="appSidebar"
 		:force-menu="true"
 		@close="close"
@@ -110,7 +110,7 @@ import { emit, subscribe, unsubscribe } from '@nextcloud/event-bus'
 import { File, Folder, formatFileSize } from '@nextcloud/files'
 import { encodePath } from '@nextcloud/paths'
 import { generateRemoteUrl, generateUrl } from '@nextcloud/router'
-import { Type as ShareTypes } from '@nextcloud/sharing'
+import { ShareTypes } from '@nextcloud/sharing'
 import { mdiStar, mdiStarOutline } from '@mdi/js'
 import axios from '@nextcloud/axios'
 import $ from 'jquery'
