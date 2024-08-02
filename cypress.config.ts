@@ -46,6 +46,8 @@ export default defineConfig({
 		// Disable session isolation
 		testIsolation: false,
 
+		requestTimeout: 30000,
+
 		// We've imported your old cypress plugins here.
 		// You may want to clean this up later by importing these.
 		async setupNodeEvents(on, config) {

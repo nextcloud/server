@@ -434,6 +434,9 @@ export default defineComponent({
 			// TODO: preserve selection on browsing?
 			this.selectionStore.reset()
 			this.resetSearch()
+			if (window.OCA.Files.Sidebar?.close) {
+				window.OCA.Files.Sidebar.close()
+			}
 			this.fetchContent()
 
 			// Scroll to top, force virtual scroller to re-render
