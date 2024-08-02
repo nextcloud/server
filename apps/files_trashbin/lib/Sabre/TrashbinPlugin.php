@@ -67,6 +67,11 @@ class TrashbinPlugin extends ServerPlugin {
 			return;
 		}
 
+		// Pass the real filename as the DAV display name
+		$propFind->handle(FilesPlugin::DISPLAYNAME_PROPERTYNAME, function () use ($node) {
+			return $node->getFilename();
+		});
+
 		$propFind->handle(self::TRASHBIN_FILENAME, function () use ($node) {
 			return $node->getFilename();
 		});
