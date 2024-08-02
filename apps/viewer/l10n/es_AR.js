@@ -1,6 +1,7 @@
 OC.L10N.register(
     "viewer",
     {
+    "LIVE" : "EN VIVO",
     "Edit" : "Editar",
     "Open sidebar" : "Abrir barra lateral",
     "Download" : "Descargar",
