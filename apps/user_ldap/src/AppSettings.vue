@@ -7,9 +7,9 @@
 	<NcSettingsSection :name="t('user_ldap', 'Configuration-independent settings')">
 		<ul class="user_ldap__app-settings-list">
 			<li>
-				<NcCheckboxRadioSwitch :checked="config.ldap_mark_remnants_as_disabled"
+				<NcCheckboxRadioSwitch :checked="config.backend_mark_remnants_as_disabled"
 					type="switch"
-					@update:checked="updateBoolSetting('ldap_mark_remnants_as_disabled')">
+					@update:checked="updateBoolSetting('backend_mark_remnants_as_disabled')">
 					{{ t('user_ldap', 'Disable users missing from LDAP') }}
 				</NcCheckboxRadioSwitch>
 			</li>
