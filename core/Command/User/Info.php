@@ -46,15 +46,7 @@ class Info extends Base {
 			$output->writeln('<error>user not found</error>');
 			return 1;
 		}
-
 		$groups = $this->groupManager->getUserGroupIds($user);
-
-		if ($user->getLastLogin() == 0) {
-			$lastseen = "never";
-		} else {
-			$lastseen = date('Y-m-d H:i:s T', $user->getLastLogin());
-		}
-
 		$data = [
 			'user_id' => $user->getUID(),
 			'display_name' => $user->getDisplayName(),
@@ -64,11 +56,10 @@ class Info extends Base {
 			'groups' => $groups,
 			'quota' => $user->getQuota(),
 			'storage' => $this->getStorageInfo($user),
-			'last_seen' => $lastseen,
+			'last_seen' => date(\DateTimeInterface::ATOM, $user->getLastLogin()), // ISO-8601
 			'user_directory' => $user->getHome(),
 			'backend' => $user->getBackendClassName()
 		];
-
 		$this->writeArrayInOutputFormat($input, $output, $data);
 		return 0;
 	}
