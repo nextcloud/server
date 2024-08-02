@@ -21,7 +21,7 @@
  */
 import type { Node } from '@nextcloud/files'
 
-import { registerFileAction, FileAction, DefaultType } from '@nextcloud/files'
+import { registerFileAction, FileAction, DefaultType, FileType } from '@nextcloud/files'
 import { translate as t } from '@nextcloud/l10n'
 
 import { sharesViewId, sharedWithYouViewId, sharedWithOthersViewId, sharingByLinksViewId } from '../views/shares'
@@ -41,10 +41,20 @@ export const action = new FileAction({
 	].includes(view.id),
 
 	async exec(node: Node) {
+		const isFolder = node.type === FileType.Folder
+
 		window.OCP.Files.Router.goToRoute(
 			null, // use default route
-			{ view: 'files', fileid: node.fileid },
-			{ dir: node.dirname, openfile: 'true' },
+			{
+				view: 'files',
+				fileid: String(node.fileid),
+			},
+			{
+				// If this node is a folder open the folder in files
+				dir: isFolder ? node.path : node.dirname,
+				// otherwise if this is a file, we should open it
+				openfile: isFolder ? undefined : 'true',
+			},
 		)
 		return null
 	},
