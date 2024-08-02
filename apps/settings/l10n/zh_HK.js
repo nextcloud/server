@@ -365,6 +365,7 @@ OC.L10N.register(
     "Privacy settings for sharing" : "分享的隱私設定",
     "Allow account name autocompletion in share dialog and allow access to the system address book" : "允許在分享對話方塊中自動補齊帳戶名稱並允許存取系統通訊錄",
     "If autocompletion \"same group\" and \"phone number integration\" are enabled a match in either is enough to show the user." : "如果啟用了自動完成功能“相同的群組”和“電話號碼整合”，則任何一個匹配都足以向用戶顯示。",
+    "Restrict account name autocompletion and system address book access to users within the same groups" : "限制僅有同一個群組內的用戶才能使用帳戶名稱自動完成與系統通訊錄存取",
     "Allow autocompletion when entering the full name or email address (ignoring missing phonebook match and being in the same group)" : "輸入全名或電郵地址時，允許自動完成（忽略缺少的電話簿匹配項，並且位於同一群組中）",
     "Show disclaimer text on the public link upload page (only shown when the file list is hidden)" : "在公開的檔案連結和上傳頁面顯示免責聲明（僅在檔案列表隱藏的時候才會顯示）",
     "Disclaimer text" : "免責聲明文字",

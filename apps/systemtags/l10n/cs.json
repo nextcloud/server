@@ -36,6 +36,7 @@
     "%s (restricted)" : "%s (uživatelsky nepřiřaditelné)",
     "%s (invisible)" : "%s (neviditelný)",
     "<strong>System tags</strong> for a file have been modified" : "<strong>Systémové štítky</strong> souboru byly upraveny",
+    "Files" : "Soubory",
     "Tags" : "Štítky",
     "All tagged %s …" : "Vše oštítkované %s …",
     "tagged %s" : "oštítkované %s",

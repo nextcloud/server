@@ -7,6 +7,7 @@
     "%1$s commented on %2$s" : "%1$s comentó en %2$s",
     "{author} commented on {file}" : "{author} comentó en {file}",
     "<strong>Comments</strong> for files" : "<strong>Comentarios</strong> de los archivos",
+    "Files" : "Archivo",
     "{user} mentioned you in a comment on \"{file}\"" : "{user} te mencionó en un comentario en \"{file}\"",
     "Files app plugin to add comments to files" : "Plugin de la aplicación de archivos para agregar comentarios a los archivos",
     "Edit comment" : "Editar comentario",

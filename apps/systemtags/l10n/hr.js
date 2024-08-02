@@ -38,6 +38,7 @@ OC.L10N.register(
     "%s (restricted)" : "%s (ograničeno)",
     "%s (invisible)" : "%s (nevidljivo)",
     "<strong>System tags</strong> for a file have been modified" : "<strong>Oznake sustava</strong> za datoteku su izmijenjene",
+    "Files" : "Datoteke",
     "Tags" : "Oznake",
     "Collaborative tags" : "Oznake za suradnju",
     "Create" : "Stvori",

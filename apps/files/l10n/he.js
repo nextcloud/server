@@ -186,6 +186,7 @@ OC.L10N.register(
     "No favorites yet" : "אין מועדפים עדיין",
     "Files and folders you mark as favorite will show up here" : "קבצים ותיקיות שסומנו על ידך כמועדפים יוצגו כאן",
     "All files" : "כל הקבצים",
+    "All folders" : "כל התיקיות",
     "No entries found in this folder" : "לא נמצאו כניסות לתיקייה זו",
     "Select all" : "לבחור הכול",
     "Upload too large" : "העלאה גדולה מידי",

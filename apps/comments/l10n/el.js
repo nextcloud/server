@@ -9,6 +9,7 @@ OC.L10N.register(
     "%1$s commented on %2$s" : "%1$s σχολίασε στο %2$s",
     "{author} commented on {file}" : "Ο {author} σχολίασε στο {file}",
     "<strong>Comments</strong> for files" : "<strong>Σχόλια</strong> για αρχεία",
+    "Files" : "Αρχεία",
     "{user} mentioned you in a comment on \"{file}\"" : "Ο/η {user} σας ανέφερε σε σχόλιο στο “{file}”",
     "Files app plugin to add comments to files" : "Επέκταση της εφαρμογής Αρχεία που επιτρέπει την προσθήκη σχολίων σε αρχεία",
     "Edit comment" : "Επεξεργασία σχολίου",

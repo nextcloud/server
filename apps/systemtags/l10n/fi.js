@@ -38,6 +38,7 @@ OC.L10N.register(
     "%s (restricted)" : "%s (rajoitettu)",
     "%s (invisible)" : "%s (näkymätön)",
     "<strong>System tags</strong> for a file have been modified" : "Tiedoston <strong>järjestelmätunnisteita</strong> on muokattu",
+    "Files" : "Tiedostot",
     "Tags" : "Tunnisteet",
     "All tagged %s …" : "Kaikki tunnisteella %s …",
     "Collaborative tags" : "Yhteistyölliset tunnisteet",

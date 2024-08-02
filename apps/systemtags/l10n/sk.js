@@ -38,6 +38,7 @@ OC.L10N.register(
     "%s (restricted)" : "%s (obmedzené)",
     "%s (invisible)" : "%s (neviditeľné)",
     "<strong>System tags</strong> for a file have been modified" : "<strong>Systémové štítky</strong> súboru boli upravené",
+    "Files" : "Súbory",
     "Tags" : "Štítky",
     "All tagged %s …" : "Všetky označené %s …",
     "tagged %s" : "označené %s",

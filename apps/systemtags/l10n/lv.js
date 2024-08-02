@@ -33,6 +33,7 @@ OC.L10N.register(
     "%s (restricted)" : "%s (ierobežots)",
     "%s (invisible)" : "%s (neredzams)",
     "<strong>System tags</strong> for a file have been modified" : "<strong>Sistēmas birkas</strong> datnei tikušas mainītas",
+    "Files" : "Datnes",
     "Tags" : "Birkas",
     "Collaborative tags" : "Sadarbības birkas",
     "Create" : "Izveidot",

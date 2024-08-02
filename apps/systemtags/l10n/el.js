@@ -38,6 +38,7 @@ OC.L10N.register(
     "%s (restricted)" : "%s (περιορισμένο)",
     "%s (invisible)" : "%s (αόρατο)",
     "<strong>System tags</strong> for a file have been modified" : "<strong>Οι ετικέτες συστήματος</strong> για ένα αρχείο έχουν τροποποιηθεί",
+    "Files" : "Αρχεία",
     "Tags" : "Ετικέτες",
     "All tagged %s …" : "Όλα με ετικέτα %s …",
     "tagged %s" : "με ετικέτα %s",

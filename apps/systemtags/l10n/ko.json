@@ -36,6 +36,7 @@
     "%s (restricted)" : "%s(제한됨)",
     "%s (invisible)" : "%s(숨겨짐)",
     "<strong>System tags</strong> for a file have been modified" : "파일의 <strong>시스템 태그</strong>가 수정됨",
+    "Files" : "파일",
     "Tags" : "태그",
     "All tagged %s …" : "모두 %s(으)로 태그됨 ...",
     "tagged %s" : "%s(으)로 태그됨",

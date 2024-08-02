@@ -38,6 +38,7 @@ OC.L10N.register(
     "%s (restricted)" : "%s (ограничен)",
     "%s (invisible)" : "%s (невидим)",
     "<strong>System tags</strong> for a file have been modified" : "Промяна на <strong>системни етикети</strong> за файл",
+    "Files" : "Файлове",
     "Tags" : "Етикети",
     "All tagged %s …" : "Всички маркирани %s ...",
     "tagged %s" : "маркиран %s",

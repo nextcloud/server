@@ -365,6 +365,8 @@ OC.L10N.register(
     "Privacy settings for sharing" : "Socruithe príobháideachais le haghaidh comhroinnte",
     "Allow account name autocompletion in share dialog and allow access to the system address book" : "Ceadaigh uathchríochnú ainm an chuntais sa dialóg scaireanna agus ceadaigh rochtain ar leabhar seoltaí an chórais",
     "If autocompletion \"same group\" and \"phone number integration\" are enabled a match in either is enough to show the user." : "Má chumasaítear an \"grúpa céanna\" agus \"comhtháthú uimhir theileafóin\" uathchríochnú is leor cluiche i gceachtar acu chun an t-úsáideoir a thaispeáint.",
+    "Restrict account name autocompletion and system address book access to users within the same groups" : "Srian a chur ar uathchríochnú ainm cuntais agus rochtain leabhar seoltaí córais d'úsáideoirí laistigh de na grúpaí céanna",
+    "Restrict account name autocompletion to users based on phone number integration" : "Cuir srian ar uathchríochnú ainm cuntais d'úsáideoirí bunaithe ar chomhtháthú uimhir theileafóin",
     "Allow autocompletion when entering the full name or email address (ignoring missing phonebook match and being in the same group)" : "Ceadaigh uathchríochnú agus an t-ainm iomlán nó an seoladh ríomhphoist á iontráil (gan aird a thabhairt ar mheaitseáil leabhar teileafóin atá in easnamh agus a bheith sa ghrúpa céanna)",
     "Show disclaimer text on the public link upload page (only shown when the file list is hidden)" : "Taispeáin téacs séanta ar leathanach uaslódála an naisc phoiblí (ní thaispeántar é ach amháin nuair atá liosta na gcomhad i bhfolach)",
     "Disclaimer text" : "Téacs séanta",

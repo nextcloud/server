@@ -365,6 +365,8 @@ OC.L10N.register(
     "Privacy settings for sharing" : "إعدادات الخصوصية للمشاركة",
     "Allow account name autocompletion in share dialog and allow access to the system address book" : "السماح بالإكمال التلقائي لاسم الحساب في مربع حوار المشاركة والسماح بالوصول إلى دفتر عناوين النظام",
     "If autocompletion \"same group\" and \"phone number integration\" are enabled a match in either is enough to show the user." : "إذا تمّ تمكين الإكمال التلقائي على أساس \"نفس المجموعة\" same group و \"تكامل رقم الهاتف\" phone number integration، فسيكون تمكين أيّاً منهما كافياً لإظهار المستخدم.",
+    "Restrict account name autocompletion and system address book access to users within the same groups" : "تقييد الإكمال التلقائي لاسم الحساب و اقتصار الوصول إلى دفتر عناوين النظام على المستخدمين داخل نفس المجموعة",
+    "Restrict account name autocompletion to users based on phone number integration" : "تقييد الإكمال التلقائي لاسم الحساب على المستخدمين بناءً على تكامل رقم الهاتف",
     "Allow autocompletion when entering the full name or email address (ignoring missing phonebook match and being in the same group)" : "السماح بالإكمال التلقائي عند إدخال الاسم الكامل أو عنوان البريد الإلكتروني ( أي تجاهل شرط تطابق دفتر الهاتف و  شرط الوجود في نفس المجموعة)",
     "Show disclaimer text on the public link upload page (only shown when the file list is hidden)" : "إظهار نص إخلاء المسؤولية في صفحة رابط الرفع العام (يظهر فقط عندما تكون قائمة الملفات مخفية)",
     "Disclaimer text" : "نص إخلاء المسؤولية",
