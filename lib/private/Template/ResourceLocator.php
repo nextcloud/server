@@ -7,6 +7,7 @@
  */
 namespace OC\Template;
 
+use OC\SystemConfig;
 use Psr\Log\LoggerInterface;
 
 abstract class ResourceLocator {
@@ -19,6 +20,8 @@ abstract class ResourceLocator {
 	protected $resources = [];
 
 	protected LoggerInterface $logger;
+
+	private const LOG_LARGE_ASSET_OFFSET = 1024 * 1024;
 
 	public function __construct(LoggerInterface $logger) {
 		$this->logger = $logger;
@@ -76,6 +79,10 @@ abstract class ResourceLocator {
 	 */
 	protected function appendIfExist($root, $file, $webRoot = null) {
 		if ($root !== false && is_file($root.'/'.$file)) {
+			$systemConfig = \OCP\Server::get(SystemConfig::class);
+			if ($systemConfig->getValue('debug', false) && filesize($root.'/'.$file) > self::LOG_LARGE_ASSET_OFFSET) {
+				$this->logger->debug("$root/$file is larger then 1MB, consider reducing the size for javascript entrypoints");
+			}
 			$this->append($root, $file, $webRoot, false);
 			return true;
 		}
