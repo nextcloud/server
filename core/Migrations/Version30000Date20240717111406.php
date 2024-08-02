@@ -11,12 +11,16 @@ namespace OC\Core\Migrations;
 use Closure;
 use OCP\DB\ISchemaWrapper;
 use OCP\DB\Types;
+use OCP\Migration\Attributes\AddColumn;
+use OCP\Migration\Attributes\ColumnType;
 use OCP\Migration\IOutput;
 use OCP\Migration\SimpleMigrationStep;
 
 /**
  *
  */
+#[AddColumn(table: 'taskprocessing_tasks', name: 'webhook_uri', type: ColumnType::STRING)]
+#[AddColumn(table: 'taskprocessing_tasks', name: 'webhook_method', type: ColumnType::STRING)]
 class Version30000Date20240717111406 extends SimpleMigrationStep {
 
 	/**
