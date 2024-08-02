@@ -38,6 +38,7 @@ OC.L10N.register(
     "%s (restricted)" : "%s (begränsad)",
     "%s (invisible)" : "%s (osynlig)",
     "<strong>System tags</strong> for a file have been modified" : "<strong>Systemtaggar</strong> för en fil har blivit ändrade",
+    "Files" : "Filer",
     "Tags" : "Taggar",
     "All tagged %s …" : "Alla taggade %s …",
     "tagged %s" : "taggade %s",

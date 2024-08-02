@@ -7,6 +7,7 @@
     "%1$s commented on %2$s" : "%1$s commented on %2$s",
     "{author} commented on {file}" : "{author} commented on {file}",
     "<strong>Comments</strong> for files" : "<strong>Comments</strong> for files",
+    "Files" : "پرونده‌ها",
     "{user} mentioned you in a comment on \"{file}\"" : "{user} mentioned you in a comment on \"{file}\"",
     "Files app plugin to add comments to files" : "Files app plugin to add comments to files",
     "Edit comment" : "ویرایش توضیح",

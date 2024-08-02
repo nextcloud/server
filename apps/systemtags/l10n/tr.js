@@ -38,6 +38,7 @@ OC.L10N.register(
     "%s (restricted)" : "%s (kısıtlanmış)",
     "%s (invisible)" : "%s (gizli)",
     "<strong>System tags</strong> for a file have been modified" : "Bir dosyanın <strong>sistem etiketleri</strong> değiştirildiğinde",
+    "Files" : "Dosyalar",
     "Tags" : "Etiketler",
     "All tagged %s …" : "Tüm %s etiketliler…",
     "tagged %s" : "%s etiketli",

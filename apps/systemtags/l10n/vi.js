@@ -38,6 +38,7 @@ OC.L10N.register(
     "%s (restricted)" : "%s (bị hạn chế)",
     "%s (invisible)" : "%s (vô hình)",
     "<strong>System tags</strong> for a file have been modified" : "<strong>Nhãn</strong> cho một tập tin đã được sửa đổi",
+    "Files" : "Tệp tin",
     "Tags" : "Nhãn",
     "Collaborative tags" : "Thẻ cộng tác",
     "Create" : "Tạo",

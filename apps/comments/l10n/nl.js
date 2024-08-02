@@ -9,6 +9,7 @@ OC.L10N.register(
     "%1$s commented on %2$s" : "%1$s heeft gereageerd op %2$s",
     "{author} commented on {file}" : "{author} reageerde op {file}",
     "<strong>Comments</strong> for files" : "<strong>Reacties</strong> voor bestanden",
+    "Files" : "Bestanden",
     "{user} mentioned you in a comment on \"{file}\"" : "{user} noemde jou in een reactie op \"{file}\"",
     "Files app plugin to add comments to files" : "Bestanden app plugin om reacties aan bestanden toe te voegen",
     "Edit comment" : "Bewerk reactie",

@@ -34,6 +34,7 @@ OC.L10N.register(
     "%s (restricted)" : "%s (apribotas)",
     "%s (invisible)" : "%s (nematomas)",
     "<strong>System tags</strong> for a file have been modified" : "Modifikuotos failo <strong>sistemos žymės</strong>",
+    "Files" : "Failai",
     "Tags" : "Žymės",
     "All tagged %s …" : "Visi pažymėti %s ...",
     "tagged %s" : "pažymėta %s",

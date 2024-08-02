@@ -9,6 +9,7 @@ OC.L10N.register(
     "%1$s commented on %2$s" : "%1$s pakomentavo %2$s",
     "{author} commented on {file}" : "{author} pakomentavo {file}",
     "<strong>Comments</strong> for files" : "Failų <strong>komentarai</strong>",
+    "Files" : "Failai",
     "Files app plugin to add comments to files" : "Failų programėlės įskiepis, skirtas prie failų pridėti komentarus",
     "Edit comment" : "Taisyti komentarą",
     "Delete comment" : "Ištrinti komentarą",

@@ -9,6 +9,7 @@ OC.L10N.register(
     "%1$s commented on %2$s" : "%1$s đã bình luận về%2$s",
     "{author} commented on {file}" : "{author} đã bình luận về tệp tin {file}",
     "<strong>Comments</strong> for files" : "<strong>bình luận</strong> đối với các tệp tin",
+    "Files" : "Tệp tin",
     "{user} mentioned you in a comment on \"{file}\"" : "{user}  đã nhắc tới bạn trong một bình luận trên \"{file}\"",
     "Files app plugin to add comments to files" : "Plugin ứng dụng Tệp để thêm bình luận vào tệp",
     "Edit comment" : "Sửa bình luận",

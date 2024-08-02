@@ -36,6 +36,7 @@
     "%s (restricted)" : "%s (korlátozott)",
     "%s (invisible)" : "%s (láthatatlan)",
     "<strong>System tags</strong> for a file have been modified" : "A fájl <strong>rendszercímkéi</strong> módosítva lettek",
+    "Files" : "Fájlok",
     "Tags" : "Címkék",
     "All tagged %s …" : "Összes ezzel címkézett: %s…",
     "tagged %s" : "ezzel címkézett: %s",
