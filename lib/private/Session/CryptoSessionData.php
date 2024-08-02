@@ -232,6 +232,17 @@ class CryptoSessionData implements \ArrayAccess, ISession {
 	 * @return void
 	 */
 	public function regenerateId(bool $deleteOldSession = true, bool $updateToken = false) {
+		if ($this->exists('client.flow.v2.state.token') || $this->exists('client.flow.state.token')) {
+			$key = $this->exists('client.flow.v2.state.token') ? 'client.flow.v2.state.token' : 'client.flow.state.token';
+			$e = new \Exception();
+			logger('core')->error('Regenerating session ID', [
+				'loginFlow' => $key === 'client.flow.v2.state.token' ? 'v2' : 'v1',
+				'stateToken' => $this->sessionValues[$key],
+				'deleteOldSessionFile' => $deleteOldSession,
+				'updateToken' => $updateToken,
+				'exception' => $e,
+			]);
+		}
 		$this->session->regenerateId($deleteOldSession, $updateToken);
 	}
 
