@@ -10,6 +10,7 @@ use OC\Files\Filesystem;
 use OC\Files\Storage\Wrapper\PermissionsMask;
 use OC\Files\View;
 use OCA\DAV\Storage\PublicOwnerWrapper;
+use OCA\DAV\Storage\PublicShareWrapper;
 use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Mount\IMountManager;
@@ -97,6 +98,12 @@ $server = $serverFactory->createServer($baseuri, $requestUri, $authPlugin, funct
 	Filesystem::addStorageWrapper('shareOwner', function ($mountPoint, $storage) use ($share) {
 		return new PublicOwnerWrapper(['storage' => $storage, 'owner' => $share->getShareOwner()]);
 	});
+
+	// Ensure that also private shares have the `getShare` method
+	/** @psalm-suppress MissingClosureParamType */
+	Filesystem::addStorageWrapper('getShare', function ($mountPoint, $storage) use ($share) {
+		return new PublicShareWrapper(['storage' => $storage, 'share' => $share]);
+	}, 0);
 
 	/** @psalm-suppress InternalMethod */
 	Filesystem::logWarningWhenAddingStorageWrapper($previousLog);

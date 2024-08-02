@@ -350,6 +350,7 @@ return array(
     'OCA\\DAV\\SetupChecks\\NeedsSystemAddressBookSync' => $baseDir . '/../lib/SetupChecks/NeedsSystemAddressBookSync.php',
     'OCA\\DAV\\SetupChecks\\WebdavEndpoint' => $baseDir . '/../lib/SetupChecks/WebdavEndpoint.php',
     'OCA\\DAV\\Storage\\PublicOwnerWrapper' => $baseDir . '/../lib/Storage/PublicOwnerWrapper.php',
+    'OCA\\DAV\\Storage\\PublicShareWrapper' => $baseDir . '/../lib/Storage/PublicShareWrapper.php',
     'OCA\\DAV\\SystemTag\\SystemTagList' => $baseDir . '/../lib/SystemTag/SystemTagList.php',
     'OCA\\DAV\\SystemTag\\SystemTagMappingNode' => $baseDir . '/../lib/SystemTag/SystemTagMappingNode.php',
     'OCA\\DAV\\SystemTag\\SystemTagNode' => $baseDir . '/../lib/SystemTag/SystemTagNode.php',
