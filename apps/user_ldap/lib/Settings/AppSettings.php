@@ -36,7 +36,7 @@ class AppSettings implements IDelegatedSettings {
 			'backend_mark_remnants_as_disabled' => $this->appConfig->getValueBool('user_ldap', 'backend_mark_remnants_as_disabled'),
 		]);
 
-		return new TemplateResponse('user_ldap', 'settings-global');
+		return new TemplateResponse('user_ldap', 'app-settings');
 	}
 
 	public function getSection(): string {
