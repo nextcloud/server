@@ -52,7 +52,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 5.3.5
 	- license: AGPL-3.0-or-later
 - semver
-	- version: 7.6.2
+	- version: 7.6.3
 	- license: ISC
 - @nextcloud/event-bus
 	- version: 3.3.1
@@ -82,13 +82,10 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.0.7
 	- license: MIT
 - axios
-	- version: 1.7.2
+	- version: 1.7.3
 	- license: MIT
 - base64-js
 	- version: 1.5.1
-	- license: MIT
-- buffer
-	- version: 6.0.3
 	- license: MIT
 - call-bind
 	- version: 1.0.7
@@ -97,7 +94,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.2.0
 	- license: MIT
 - css-loader
-	- version: 6.10.0
+	- version: 6.11.0
 	- license: MIT
 - debounce
 	- version: 2.1.0
@@ -109,7 +106,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.2.1
 	- license: MIT
 - dompurify
-	- version: 3.1.4
+	- version: 3.1.6
 	- license: (MPL-2.0 OR Apache-2.0)
 - es-define-property
 	- version: 1.0.0
@@ -183,14 +180,17 @@ This file is generated from multiple sources. Included packages:
 - node-gettext
 	- version: 3.0.0
 	- license: MIT
+- buffer
+	- version: 6.0.3
+	- license: MIT
 - node-vibrant
 	- version: 3.1.6
 	- license: MIT
 - object-inspect
-	- version: 1.13.1
+	- version: 1.13.2
 	- license: MIT
 - object-is
-	- version: 1.1.5
+	- version: 1.1.6
 	- license: MIT
 - object-keys
 	- version: 1.1.1
@@ -213,8 +213,11 @@ This file is generated from multiple sources. Included packages:
 - process
 	- version: 0.11.10
 	- license: MIT
+- punycode
+	- version: 1.4.1
+	- license: MIT
 - set-function-length
-	- version: 1.2.1
+	- version: 1.2.2
 	- license: MIT
 - side-channel
 	- version: 1.0.6
@@ -228,14 +231,11 @@ This file is generated from multiple sources. Included packages:
 - toastify-js
 	- version: 1.12.0
 	- license: MIT
-- punycode
-	- version: 1.4.1
-	- license: MIT
 - qs
-	- version: 6.11.2
+	- version: 6.13.0
 	- license: BSD-3-Clause
 - url
-	- version: 0.11.3
+	- version: 0.11.4
 	- license: MIT
 - util
 	- version: 0.12.5

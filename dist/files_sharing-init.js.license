@@ -53,10 +53,10 @@ SPDX-FileCopyrightText: @nextcloud/dialogs developers
 
 This file is generated from multiple sources. Included packages:
 - @floating-ui/core
-	- version: 1.6.0
+	- version: 1.6.5
 	- license: MIT
 - @floating-ui/utils
-	- version: 0.2.1
+	- version: 0.2.5
 	- license: MIT
 - @mdi/js
 	- version: 7.4.47
@@ -80,7 +80,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 5.3.5
 	- license: AGPL-3.0-or-later
 - semver
-	- version: 7.6.2
+	- version: 7.6.3
 	- license: ISC
 - @nextcloud/event-bus
 	- version: 3.3.1
@@ -98,7 +98,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 3.0.2
 	- license: GPL-3.0-or-later
 - @nextcloud/paths
-	- version: 2.2.0
+	- version: 2.2.1
 	- license: GPL-3.0-or-later
 - @nextcloud/router
 	- version: 3.0.1
@@ -107,7 +107,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 0.2.3
 	- license: GPL-3.0-or-later
 - @nextcloud/vue-select
-	- version: 3.25.0
+	- version: 3.25.1
 	- license: MIT
 - @nextcloud/vue
 	- version: 8.15.1
@@ -128,13 +128,10 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.0.7
 	- license: MIT
 - axios
-	- version: 1.7.2
+	- version: 1.7.3
 	- license: MIT
 - base64-js
 	- version: 1.5.1
-	- license: MIT
-- buffer
-	- version: 6.0.3
 	- license: MIT
 - call-bind
 	- version: 1.0.7
@@ -152,7 +149,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 0.0.2
 	- license: BSD-3-Clause
 - css-loader
-	- version: 6.10.0
+	- version: 6.11.0
 	- license: MIT
 - date-format-parse
 	- version: 0.2.7
@@ -167,7 +164,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.2.1
 	- license: MIT
 - dompurify
-	- version: 3.1.4
+	- version: 3.1.6
 	- license: (MPL-2.0 OR Apache-2.0)
 - es-define-property
 	- version: 1.0.0
@@ -250,8 +247,11 @@ This file is generated from multiple sources. Included packages:
 - node-gettext
 	- version: 3.0.0
 	- license: MIT
+- buffer
+	- version: 6.0.3
+	- license: MIT
 - object-is
-	- version: 1.1.5
+	- version: 1.1.6
 	- license: MIT
 - object-keys
 	- version: 1.1.1
@@ -275,7 +275,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 0.11.10
 	- license: MIT
 - set-function-length
-	- version: 1.2.1
+	- version: 1.2.2
 	- license: MIT
 - striptags
 	- version: 3.2.0

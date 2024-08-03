@@ -65,10 +65,10 @@ SPDX-FileCopyrightText: @nextcloud/dialogs developers
 
 This file is generated from multiple sources. Included packages:
 - @floating-ui/core
-	- version: 1.6.0
+	- version: 1.6.5
 	- license: MIT
 - @floating-ui/utils
-	- version: 0.2.1
+	- version: 0.2.5
 	- license: MIT
 - @linusborg/vue-simple-portal
 	- version: 0.1.5
@@ -101,7 +101,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 5.3.5
 	- license: AGPL-3.0-or-later
 - semver
-	- version: 7.6.2
+	- version: 7.6.3
 	- license: ISC
 - @nextcloud/event-bus
 	- version: 3.3.1
@@ -122,7 +122,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 0.2.3
 	- license: GPL-3.0-or-later
 - @nextcloud/vue-select
-	- version: 3.25.0
+	- version: 3.25.1
 	- license: MIT
 - @nextcloud/vue
 	- version: 8.15.1
@@ -146,16 +146,13 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.0.7
 	- license: MIT
 - axios
-	- version: 1.7.2
+	- version: 1.7.3
 	- license: MIT
 - bail
 	- version: 2.0.2
 	- license: MIT
 - base64-js
 	- version: 1.5.1
-	- license: MIT
-- buffer
-	- version: 6.0.3
 	- license: MIT
 - call-bind
 	- version: 1.0.7
@@ -179,7 +176,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 0.0.2
 	- license: BSD-3-Clause
 - css-loader
-	- version: 6.10.0
+	- version: 6.11.0
 	- license: MIT
 - date-format-parse
 	- version: 0.2.7
@@ -200,10 +197,10 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.1.0
 	- license: MIT
 - dompurify
-	- version: 3.1.4
+	- version: 3.1.6
 	- license: (MPL-2.0 OR Apache-2.0)
 - emoji-mart-vue-fast
-	- version: 15.0.1
+	- version: 15.0.2
 	- license: BSD-3-Clause
 - es-define-property
 	- version: 1.0.0
@@ -289,6 +286,9 @@ This file is generated from multiple sources. Included packages:
 - is-nan
 	- version: 1.3.2
 	- license: MIT
+- is-plain-obj
+	- version: 4.1.0
+	- license: MIT
 - is-typed-array
 	- version: 1.1.13
 	- license: MIT
@@ -320,7 +320,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 3.0.1
 	- license: MIT
 - mdast-util-from-markdown
-	- version: 2.0.0
+	- version: 2.0.1
 	- license: MIT
 - mdast-util-gfm-autolink-literal
 	- version: 2.0.0
@@ -347,7 +347,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 4.1.0
 	- license: MIT
 - mdast-util-to-hast
-	- version: 13.1.0
+	- version: 13.2.0
 	- license: MIT
 - mdast-util-to-markdown
 	- version: 2.1.0
@@ -356,25 +356,25 @@ This file is generated from multiple sources. Included packages:
 	- version: 4.0.0
 	- license: MIT
 - micromark-core-commonmark
-	- version: 2.0.0
+	- version: 2.0.1
 	- license: MIT
 - micromark-extension-gfm-autolink-literal
-	- version: 2.0.0
+	- version: 2.1.0
 	- license: MIT
 - micromark-extension-gfm-footnote
-	- version: 2.0.0
+	- version: 2.1.0
 	- license: MIT
 - micromark-extension-gfm-strikethrough
-	- version: 2.0.0
+	- version: 2.1.0
 	- license: MIT
 - micromark-extension-gfm-table
-	- version: 2.0.0
+	- version: 2.1.0
 	- license: MIT
 - micromark-extension-gfm-tagfilter
 	- version: 2.0.0
 	- license: MIT
 - micromark-extension-gfm-task-list-item
-	- version: 2.0.1
+	- version: 2.1.0
 	- license: MIT
 - micromark-extension-gfm
 	- version: 3.0.0
@@ -428,7 +428,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 2.0.0
 	- license: MIT
 - micromark-util-subtokenize
-	- version: 2.0.0
+	- version: 2.0.1
 	- license: MIT
 - micromark
 	- version: 4.0.0
@@ -436,8 +436,11 @@ This file is generated from multiple sources. Included packages:
 - node-gettext
 	- version: 3.0.0
 	- license: MIT
+- buffer
+	- version: 6.0.3
+	- license: MIT
 - object-is
-	- version: 1.1.5
+	- version: 1.1.6
 	- license: MIT
 - object-keys
 	- version: 1.1.1
@@ -461,7 +464,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 0.11.10
 	- license: MIT
 - property-information
-	- version: 6.4.1
+	- version: 6.5.0
 	- license: MIT
 - rehype-external-links
 	- version: 3.0.0
@@ -482,7 +485,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 11.1.0
 	- license: MIT
 - set-function-length
-	- version: 1.2.1
+	- version: 1.2.2
 	- license: MIT
 - space-separated-tokens
 	- version: 2.0.2
@@ -511,11 +514,8 @@ This file is generated from multiple sources. Included packages:
 - trough
 	- version: 2.2.0
 	- license: MIT
-- is-plain-obj
-	- version: 4.1.0
-	- license: MIT
 - unified
-	- version: 11.0.4
+	- version: 11.0.5
 	- license: MIT
 - unist-builder
 	- version: 4.0.0
@@ -542,7 +542,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 4.0.2
 	- license: MIT
 - vfile
-	- version: 6.0.1
+	- version: 6.0.2
 	- license: MIT
 - vue-color
 	- version: 2.8.1
