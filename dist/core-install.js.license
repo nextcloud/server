@@ -22,7 +22,7 @@ SPDX-FileCopyrightText: Christoph Wurst
 
 This file is generated from multiple sources. Included packages:
 - semver
-	- version: 7.6.2
+	- version: 7.6.3
 	- license: ISC
 - @nextcloud/event-bus
 	- version: 3.3.1
@@ -46,7 +46,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.2.0
 	- license: MIT
 - css-loader
-	- version: 6.10.0
+	- version: 6.11.0
 	- license: MIT
 - define-data-property
 	- version: 1.1.4
@@ -55,7 +55,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.2.1
 	- license: MIT
 - dompurify
-	- version: 3.1.4
+	- version: 3.1.6
 	- license: (MPL-2.0 OR Apache-2.0)
 - es-define-property
 	- version: 1.0.0
@@ -118,7 +118,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 3.7.1
 	- license: MIT
 - object-is
-	- version: 1.1.5
+	- version: 1.1.6
 	- license: MIT
 - object-keys
 	- version: 1.1.1
@@ -133,7 +133,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 0.11.10
 	- license: MIT
 - set-function-length
-	- version: 1.2.1
+	- version: 1.2.2
 	- license: MIT
 - strengthify
 	- version: 0.5.9
