@@ -18,7 +18,7 @@ export function useRouteParameters() {
 	const directory = computed<string>(
 		() => String(route.query.dir || '/')
 			// Remove any trailing slash but leave root slash
-			.replace(/^(.+)\/$/, '$1')
+			.replace(/^(.+)\/$/, '$1'),
 	)
 
 	/**
@@ -32,7 +32,10 @@ export function useRouteParameters() {
 	/**
 	 * State of `openFile` route param
 	 */
-	const openFile = computed<boolean>(() => 'openFile' in route.params && route.params.openFile.toLocaleLowerCase() !== 'false')
+	const openFile = computed<boolean>(
+		// if `openfile` is set it is considered truthy, but allow to explicitly set it to 'false'
+		() => 'openfile' in route.query && (typeof route.query.openfile !== 'string' || route.query.openfile.toLocaleLowerCase() !== 'false'),
+	)
 
 	return {
 		/** Path of currently open directory */
