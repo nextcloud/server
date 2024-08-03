@@ -247,10 +247,6 @@ export default defineComponent({
 		 * @param fileId File to open
 		 */
 		handleOpenFile(fileId: number|null) {
-			if (!this.openFile) {
-				return
-			}
-
 			if (fileId === null || this.openFileId === fileId) {
 				return
 			}
