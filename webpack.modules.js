@@ -105,6 +105,9 @@ module.exports = {
 		'view-changelog-page': path.join(__dirname, 'apps/updatenotification/src', 'view-changelog-page.ts'),
 		updatenotification: path.join(__dirname, 'apps/updatenotification/src', 'updatenotification.js'),
 	},
+	user_ldap: {
+		'app-settings': path.join(__dirname, 'apps/user_ldap/src', 'app-settings.js'),
+	},
 	user_status: {
 		menu: path.join(__dirname, 'apps/user_status/src', 'menu.js'),
 	},
