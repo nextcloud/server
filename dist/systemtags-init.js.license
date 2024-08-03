@@ -34,6 +34,7 @@ SPDX-FileCopyrightText: Jordan Harband
 SPDX-FileCopyrightText: Jonas Schade <derzade@gmail.com>
 SPDX-FileCopyrightText: John Hiesey
 SPDX-FileCopyrightText: James Halliday
+SPDX-FileCopyrightText: Isaac Z. Schlueter <i@izs.me> (http://blog.izs.me)
 SPDX-FileCopyrightText: Irakli Gozalishvili <rfobic@gmail.com> (http://jeditoolkit.com)
 SPDX-FileCopyrightText: GitHub Inc.
 SPDX-FileCopyrightText: Feross Aboukhadijeh
@@ -214,7 +215,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.1.13
 	- license: MIT
 - layerr
-	- version: 2.0.1
+	- version: 3.0.0
 	- license: MIT
 - md5
 	- version: 2.3.0
@@ -309,8 +310,11 @@ This file is generated from multiple sources. Included packages:
 - util
 	- version: 0.12.5
 	- license: MIT
+- minimatch
+	- version: 10.0.1
+	- license: ISC
 - webdav
-	- version: 5.6.0
+	- version: 5.7.0
 	- license: MIT
 - webpack
 	- version: 5.93.0

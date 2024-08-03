@@ -32,6 +32,7 @@ SPDX-FileCopyrightText: John-David Dalton <john.david.dalton@gmail.com> (http://
 SPDX-FileCopyrightText: John Hiesey
 SPDX-FileCopyrightText: James Halliday
 SPDX-FileCopyrightText: Iskren Ivov Chernev <iskren.chernev@gmail.com> (https://github.com/ichernev)
+SPDX-FileCopyrightText: Isaac Z. Schlueter <i@izs.me> (http://blog.izs.me)
 SPDX-FileCopyrightText: Irakli Gozalishvili <rfobic@gmail.com> (http://jeditoolkit.com)
 SPDX-FileCopyrightText: Guillaume Chau
 SPDX-FileCopyrightText: GitHub Inc.
@@ -197,7 +198,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.1.13
 	- license: MIT
 - layerr
-	- version: 2.0.1
+	- version: 3.0.0
 	- license: MIT
 - lodash.get
 	- version: 4.4.2
@@ -292,8 +293,11 @@ This file is generated from multiple sources. Included packages:
 - vue
 	- version: 2.7.16
 	- license: MIT
+- minimatch
+	- version: 10.0.1
+	- license: ISC
 - webdav
-	- version: 5.6.0
+	- version: 5.7.0
 	- license: MIT
 - webpack
 	- version: 5.93.0
