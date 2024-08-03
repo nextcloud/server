@@ -391,6 +391,8 @@ class ViewController extends Controller {
 			} else {
 				// set parent path as dir
 				$params['dir'] = $baseFolder->getRelativePath($node->getParent()->getPath());
+				// open the file by default (opening the viewer)
+				$params['openfile'] = 'true';
 			}
 			return new RedirectResponse($this->urlGenerator->linkToRoute('files.view.indexViewFileid', $params));
 		}
