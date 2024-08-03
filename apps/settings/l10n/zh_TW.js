@@ -251,6 +251,7 @@ OC.L10N.register(
     "The OPcache interned strings buffer is nearly full. To assure that repeating strings can be effectively cached, it is recommended to apply \"opcache.interned_strings_buffer\" to your PHP configuration with a value higher than \"%s\"." : "OPcache 內部字串緩衝區幾乎快滿了。為確保可以有效快取重複字串，建議在您的 PHP 設定中的「opcache.interned_strings_buffer」套用高於「%s」的值。",
     "OPcache is configured to remove code comments. With OPcache enabled, \"opcache.save_comments=1\" must be set for Nextcloud to function." : "OPcache 被設定為移除程式碼註釋。啟用 OPcache 後，必須設定「opcache.save_comments=1」才能讓 Nextcloud 正常運作。",
     "Nextcloud is not allowed to use the OPcache API. With OPcache enabled, it is highly recommended to include all Nextcloud directories with \"opcache.restrict_api\" or unset this setting to disable OPcache API restrictions, to prevent errors during Nextcloud core or app upgrades." : "Nextcloud 不被允許使用 OPcache API。啟用 OPcache 後，強烈建議使用「opcache.restrict_api」包含所有 Nextcloud 目錄，或是關閉此設定以停用 OPcache API 限制，以避免在 Nextcloud 核心或應用程式升級期間發生錯誤。",
+    "Checking from CLI, OPcache checks have been skipped." : "從 CLI 檢查，OPcache 檢查已跳過。",
     "The PHP OPcache module is not properly configured. %s." : "PHP OPcache 模組設定不正確。%s。",
     "Correctly configured" : "正確設定",
     "PHP version" : "PHP 版本",

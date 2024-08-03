@@ -10,6 +10,7 @@ OC.L10N.register(
     "Two factor backup codes" : "二要素認証バックアップコード",
     "A two-factor auth backup codes provider" : "二要素認証バックアップコードプロバイダー",
     "Backup codes have been generated. {used} of {total} codes have been used." : "バックアップコードが生成されました。 {total} 個のうち {used} 個のコードが使用されています。",
+    "These are your backup codes. Please save and/or print them as you will not be able to read the codes again later." : "これらはバックアップコードです。後でコードを再度読み取ることはできませんので、保存または印刷してください。",
     "Save backup codes" : "バックアップコードを保存",
     "Print backup codes" : "バックアップコードを印刷",
     "Regenerate backup codes" : "バックアップコードを再生成",
