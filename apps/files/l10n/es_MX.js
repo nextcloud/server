@@ -305,6 +305,7 @@ OC.L10N.register(
     "Copy to {target}" : "Copiar a {target}",
     "Move to {target}" : "Mover a {target}",
     "Move or copy operation failed" : "La operación de mover o copiar falló",
+    "Cancelled move or copy of \"{filename}\"." : "Se canceló la operación de mover o copiar de \"{filename}\".",
     "Cancelled move or copy operation" : "Se canceló la operación de mover o copiar",
     "Open folder {displayName}" : "Abrir carpeta {displayName}",
     "Open in Files" : "Abrir en Archivos",

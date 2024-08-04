@@ -305,6 +305,7 @@ OC.L10N.register(
     "Copy to {target}" : "Kopiera till {target}",
     "Move to {target}" : "Flytta till {target}",
     "Move or copy operation failed" : "Flytta eller kopiera misslyckades",
+    "Cancelled move or copy of \"{filename}\"." : "Avbröt flytt eller kopiering av \"{filename}\".",
     "Cancelled move or copy operation" : "Flytta eller kopiera avbröts",
     "Open folder {displayName}" : "Öppna mappen {displayName}",
     "Open in Files" : "Öppna i Filer",

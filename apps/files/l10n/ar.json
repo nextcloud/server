@@ -303,6 +303,7 @@
     "Copy to {target}" : "أُنسُخ إلى {target}",
     "Move to {target}" : "أُنقُل إلى {target}",
     "Move or copy operation failed" : "عملية النسخ أو النقل أخفقت",
+    "Cancelled move or copy of \"{filename}\"." : "تمّ إلغاء عملية حذف أو نقل الملف \"{filename}\".",
     "Cancelled move or copy operation" : ".عملية النسخ أو النقل تمّ إلغاؤها",
     "Open folder {displayName}" : "إفتح المجلد {displayName}",
     "Open in Files" : "إفتَح في \"الملفات\"",
