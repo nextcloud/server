@@ -16,6 +16,7 @@ use OCP\Files\DavUtil;
 use OCP\Files\FileInfo;
 use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
+use OCP\Files\Storage\ISharedStorage;
 use OCP\Files\StorageNotAvailableException;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IManager;
@@ -262,8 +263,8 @@ abstract class Node implements \Sabre\DAV\INode {
 			$storage = null;
 		}
 
-		if ($storage && $storage->instanceOfStorage('\OCA\Files_Sharing\SharedStorage')) {
-			/** @var \OCA\Files_Sharing\SharedStorage $storage */
+		if ($storage && $storage->instanceOfStorage(ISharedStorage::class)) {
+			/** @var ISharedStorage $storage */
 			$permissions = (int)$storage->getShare()->getPermissions();
 		} else {
 			$permissions = $this->info->getPermissions();
@@ -306,8 +307,8 @@ abstract class Node implements \Sabre\DAV\INode {
 		}
 
 		$attributes = [];
-		if (method_exists($storage, 'getShare')) {
-			/** @var \OCA\Files_Sharing\SharedStorage $storage */
+		if ($storage->instanceOfStorage(ISharedStorage::class)) {
+			/** @var ISharedStorage $storage */
 			$attributes = $storage->getShare()->getAttributes();
 			if ($attributes === null) {
 				return [];
@@ -319,25 +320,24 @@ abstract class Node implements \Sabre\DAV\INode {
 		return $attributes;
 	}
 
-	public function getNoteFromShare(?string $user): string {
+	public function getNoteFromShare(?string $user): ?string {
 		try {
 			$storage = $this->node->getStorage();
 		} catch (NotFoundException) {
-			return '';
+			return null;
 		}
 
-		if (!method_exists($storage, 'getShare')) {
-			return '';
+		if ($storage->instanceOfStorage(ISharedStorage::class)) {
+			/** @var ISharedStorage $storage */
+			$share = $storage->getShare();
+			if ($user === $share->getShareOwner()) {
+				// Note is only for recipient not the owner
+				return null;
+			}
+			return $share->getNote();
 		}
-		/** @var \OCA\Files_Sharing\SharedStorage $storage */
 
-		$share = $storage->getShare();
-		$note = $share->getNote();
-		if ($user === $share->getShareOwner()) {
-			// Note is only for recipient not the owner
-			return '';
-		}
-		return $note;
+		return null;
 	}
 
 	/**

@@ -12,8 +12,6 @@ namespace OCA\Files_Versions\Versions;
 use Exception;
 use OC\Files\View;
 use OCA\DAV\Connector\Sabre\Exception\Forbidden;
-use OCA\Files_Sharing\ISharedStorage;
-use OCA\Files_Sharing\SharedStorage;
 use OCA\Files_Versions\Db\VersionEntity;
 use OCA\Files_Versions\Db\VersionsMapper;
 use OCA\Files_Versions\Storage;
@@ -24,6 +22,7 @@ use OCP\Files\IMimeTypeLoader;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;
 use OCP\Files\NotFoundException;
+use OCP\Files\Storage\ISharedStorage;
 use OCP\Files\Storage\IStorage;
 use OCP\IUser;
 use OCP\IUserManager;
@@ -48,7 +47,7 @@ class LegacyVersionsBackend implements IVersionBackend, IDeletableVersionBackend
 	public function getVersionsForFile(IUser $user, FileInfo $file): array {
 		$storage = $file->getStorage();
 
-		if ($storage->instanceOfStorage(SharedStorage::class)) {
+		if ($storage->instanceOfStorage(ISharedStorage::class)) {
 			$owner = $storage->getOwner('');
 			$user = $this->userManager->get($owner);
 
@@ -192,7 +191,7 @@ class LegacyVersionsBackend implements IVersionBackend, IDeletableVersionBackend
 
 		// Shared files have their versions in the owners root folder so we need to obtain them from there
 		if ($storage->instanceOfStorage(ISharedStorage::class) && $owner) {
-			/** @var SharedStorage $storage */
+			/** @var ISharedStorage $storage */
 			$userFolder = $this->rootFolder->getUserFolder($owner->getUID());
 			$user = $owner;
 			$ownerPathInStorage = $sourceFile->getInternalPath();

@@ -15,6 +15,7 @@ use OCA\Files_Versions\Sabre\VersionFile;
 use OCA\Files_Versions\Versions\IVersion;
 use OCP\Files\File;
 use OCP\Files\Folder;
+use OCP\Files\Storage\ISharedStorage;
 use OCP\Files\Storage\IStorage;
 use OCP\IUser;
 use OCP\Share\IAttributes;
@@ -65,7 +66,7 @@ class ViewOnlyPluginTest extends TestCase {
 
 		$storage = $this->createMock(IStorage::class);
 		$file->method('getStorage')->willReturn($storage);
-		$storage->method('instanceOfStorage')->with(SharedStorage::class)->willReturn(false);
+		$storage->method('instanceOfStorage')->with(ISharedStorage::class)->willReturn(false);
 
 		$this->assertTrue($this->plugin->checkViewOnly($this->request));
 	}
@@ -140,7 +141,7 @@ class ViewOnlyPluginTest extends TestCase {
 		$nodeInfo->expects($this->once())
 			->method('getStorage')
 			->willReturn($storage);
-		$storage->method('instanceOfStorage')->with(SharedStorage::class)->willReturn(true);
+		$storage->method('instanceOfStorage')->with(ISharedStorage::class)->willReturn(true);
 		$storage->method('getShare')->willReturn($share);
 
 		$extAttr = $this->createMock(IAttributes::class);

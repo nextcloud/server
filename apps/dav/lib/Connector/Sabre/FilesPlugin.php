@@ -345,14 +345,14 @@ class FilesPlugin extends ServerPlugin {
 				return $node->getNode()->getInternalPath() === '' ? 'true' : 'false';
 			});
 
-			$propFind->handle(self::SHARE_NOTE, function () use ($node, $httpRequest): string {
+			$propFind->handle(self::SHARE_NOTE, function () use ($node): ?string {
 				$user = $this->userSession->getUser();
 				return $node->getNoteFromShare(
 					$user?->getUID()
 				);
 			});
 
-			$propFind->handle(self::DATA_FINGERPRINT_PROPERTYNAME, function () use ($node) {
+			$propFind->handle(self::DATA_FINGERPRINT_PROPERTYNAME, function () {
 				return $this->config->getSystemValue('data-fingerprint', '');
 			});
 			$propFind->handle(self::CREATIONDATE_PROPERTYNAME, function () use ($node) {

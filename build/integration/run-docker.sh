@@ -201,7 +201,7 @@ cd "$(dirname $0)"
 # "--image XXX" option can be provided to set the Docker image to use to run
 # the integration tests (one of the "nextcloudci/phpX.Y:phpX.Y-Z" or
 # "ghcr.io/nextcloud/continuous-integration-integration-phpX.Y:latest" images).
-NEXTCLOUD_LOCAL_IMAGE="ghcr.io/nextcloud/continuous-integration-integration-php8.1:latest"
+NEXTCLOUD_LOCAL_IMAGE="ghcr.io/nextcloud/continuous-integration-integration-php8.2:latest"
 if [ "$1" = "--image" ]; then
 	NEXTCLOUD_LOCAL_IMAGE=$2
 
