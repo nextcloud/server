@@ -1103,8 +1103,11 @@ class ShareAPIController extends OCSController {
 		// generate node list for each parent folders
 		/** @var Node[] $nodes */
 		$nodes = [];
-		while ($node->getPath() !== $basePath) {
+		while (true) {
 			$node = $node->getParent();
+			if ($node->getPath() === $basePath) {
+				break;
+			}
 			$nodes[] = $node;
 		}
 
