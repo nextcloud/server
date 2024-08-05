@@ -66,7 +66,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 3.0.1
 	- license: GPL-3.0-or-later
 - @nextcloud/vue
-	- version: 8.15.1
+	- version: 8.16.0
 	- license: AGPL-3.0-or-later
 - @vueuse/components
 	- version: 10.11.0
@@ -238,6 +238,9 @@ This file is generated from multiple sources. Included packages:
 	- license: MIT
 - vue-loader
 	- version: 15.11.1
+	- license: MIT
+- vue-router
+	- version: 3.6.5
 	- license: MIT
 - vue
 	- version: 2.7.16
