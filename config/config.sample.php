@@ -1341,6 +1341,15 @@ $CONFIG = [
 ],
 
 /**
+ * Maximum file size for metadata generation.
+ * If a file exceeds this size, metadata generation will be skipped.
+ * Note: memory equivalent to this size will be used for metadata generation.
+ *
+ * Default: 256 megabytes.
+ */
+'metadata_max_filesize' => 256,
+
+/**
  * LDAP
  *
  * Global settings used by LDAP User and Group Backend
