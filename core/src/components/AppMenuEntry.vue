@@ -33,6 +33,7 @@ defineProps<{
 
 <style scoped lang="scss">
 .app-menu-entry {
+	--app-menu-entry-font-size: 12px;
 	width: var(--header-height);
 	height: var(--header-height);
 	position: relative;
@@ -54,8 +55,7 @@ defineProps<{
 	&__label {
 		opacity: 0;
 		position: absolute;
-		font-size: 12px;
-		line-height: 1.25;
+		font-size: var(--app-menu-entry-font-size);
 		// this is shown directly on the background
 		color: var(--color-background-plain-text);
 		text-align: center;
@@ -69,6 +69,10 @@ defineProps<{
 		text-overflow: ellipsis;
 		overflow: hidden;
 		letter-spacing: -0.5px;
+	}
+
+	&__icon {
+		font-size: var(--app-menu-entry-font-size);
 	}
 
 	&--active {
@@ -117,7 +121,7 @@ defineProps<{
 .app-menu__list:focus-within {
 	// Move icon up so that the name does not overflow the icon
 	.app-menu-entry__icon {
-		margin-block-end: calc(1.5 * 12px); // font size of label * line height
+		margin-block-end: 1lh;
 	}
 
 	// Make the label visible
