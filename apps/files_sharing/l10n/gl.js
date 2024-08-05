@@ -254,6 +254,7 @@ OC.L10N.register(
     "Deck board" : "Taboleiro da Gabeta",
     "ScienceMesh" : "ScienceMesh",
     "on {server}" : "en {server}",
+    "Note from" : "Nota de",
     "Note:" : "Nota:",
     "{ownerDisplayName} shared a folder with you." : "{ownerDisplayName} compartiu un cartafol con Vde.",
     "To upload files, you need to provide your name first." : "Para enviar ficheiros, primeiro debes fornecer o teu nome.",

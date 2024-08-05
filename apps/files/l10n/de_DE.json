@@ -303,6 +303,7 @@
     "Copy to {target}" : "Nach {target} kopieren",
     "Move to {target}" : "Nach {target} verschieben",
     "Move or copy operation failed" : "Verschiebe- oder Kopieroperation ist fehlgeschlagen.",
+    "Cancelled move or copy of \"{filename}\"." : "Verschieben oder Kopieren von \"{filename}\" abgebrochen.",
     "Cancelled move or copy operation" : "Verschieben oder kopieren abgebrochen",
     "Open folder {displayName}" : "Ordner {displayName} öffnen",
     "Open in Files" : "In Dateien öffnen",
