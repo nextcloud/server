@@ -25,7 +25,7 @@ import {
 	mdiStarCircleOutline,
 	mdiStarShooting,
 	mdiTools,
-	mdiViewDashboard,
+	mdiViewColumn,
 } from '@mdi/js'
 
 /**
@@ -45,7 +45,7 @@ export default Object.freeze({
 	// generic categories
 	auth: mdiKey,
 	customization: mdiCog,
-	dashboard: mdiViewDashboard,
+	dashboard: mdiViewColumn,
 	files: mdiFolder,
 	games: mdiControllerClassic,
 	integration: mdiOpenInApp,
