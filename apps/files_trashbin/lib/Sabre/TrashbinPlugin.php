@@ -74,6 +74,11 @@ class TrashbinPlugin extends ServerPlugin {
 			return $node->getDeletedBy()?->getDisplayName();
 		});
 
+		// Pass the real filename as the DAV display name
+		$propFind->handle(FilesPlugin::DISPLAYNAME_PROPERTYNAME, function () use ($node) {
+			return $node->getFilename();
+		});
+
 		$propFind->handle(FilesPlugin::SIZE_PROPERTYNAME, function () use ($node) {
 			return $node->getSize();
 		});
