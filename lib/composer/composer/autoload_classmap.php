@@ -1778,7 +1778,6 @@ return array(
     'OC\\Repair\\Events\\RepairStepEvent' => $baseDir . '/lib/private/Repair/Events/RepairStepEvent.php',
     'OC\\Repair\\Events\\RepairWarningEvent' => $baseDir . '/lib/private/Repair/Events/RepairWarningEvent.php',
     'OC\\Repair\\MoveUpdaterStepFile' => $baseDir . '/lib/private/Repair/MoveUpdaterStepFile.php',
-    'OC\\Repair\\NC11\\FixMountStorages' => $baseDir . '/lib/private/Repair/NC11/FixMountStorages.php',
     'OC\\Repair\\NC13\\AddLogRotateJob' => $baseDir . '/lib/private/Repair/NC13/AddLogRotateJob.php',
     'OC\\Repair\\NC14\\AddPreviewBackgroundCleanupJob' => $baseDir . '/lib/private/Repair/NC14/AddPreviewBackgroundCleanupJob.php',
     'OC\\Repair\\NC16\\AddClenupLoginFlowV2BackgroundJob' => $baseDir . '/lib/private/Repair/NC16/AddClenupLoginFlowV2BackgroundJob.php',

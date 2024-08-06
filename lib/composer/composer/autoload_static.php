@@ -1811,7 +1811,6 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\Repair\\Events\\RepairStepEvent' => __DIR__ . '/../../..' . '/lib/private/Repair/Events/RepairStepEvent.php',
         'OC\\Repair\\Events\\RepairWarningEvent' => __DIR__ . '/../../..' . '/lib/private/Repair/Events/RepairWarningEvent.php',
         'OC\\Repair\\MoveUpdaterStepFile' => __DIR__ . '/../../..' . '/lib/private/Repair/MoveUpdaterStepFile.php',
-        'OC\\Repair\\NC11\\FixMountStorages' => __DIR__ . '/../../..' . '/lib/private/Repair/NC11/FixMountStorages.php',
         'OC\\Repair\\NC13\\AddLogRotateJob' => __DIR__ . '/../../..' . '/lib/private/Repair/NC13/AddLogRotateJob.php',
         'OC\\Repair\\NC14\\AddPreviewBackgroundCleanupJob' => __DIR__ . '/../../..' . '/lib/private/Repair/NC14/AddPreviewBackgroundCleanupJob.php',
         'OC\\Repair\\NC16\\AddClenupLoginFlowV2BackgroundJob' => __DIR__ . '/../../..' . '/lib/private/Repair/NC16/AddClenupLoginFlowV2BackgroundJob.php',
