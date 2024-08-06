@@ -50,6 +50,8 @@ class WebhooksEventListener implements IEventListener {
 					[
 						$data,
 						$webhookListener->getId(),
+						/* Random string to avoid collision with another job with the same parameters */
+						bin2hex(random_bytes(5)),
 					]
 				);
 			}
