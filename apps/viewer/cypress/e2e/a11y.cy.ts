@@ -39,7 +39,7 @@ describe('A11y tests', function() {
 	})
 
 	it('See the title on the viewer header', function() {
-		cy.get('body > .viewer .modal-name').should('contain', 'image2.jpg')
+		cy.get('body > .viewer .modal-header__name').should('contain', 'image2.jpg')
 	})
 
 	it('Should have rendered the previous video and the next image', function() {
