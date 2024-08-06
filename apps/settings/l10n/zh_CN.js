@@ -689,7 +689,7 @@ OC.L10N.register(
     "Port" : "端口",
     "Authentication" : "身份认证",
     "Authentication required" : "需要认证",
-    "Credentials" : "证书",
+    "Credentials" : "身分验证",
     "SMTP Password" : "SMTP 密码",
     "Save" : "保存",
     "Test and verify email settings" : "测试并验证电子邮箱设置",
