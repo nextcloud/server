@@ -691,9 +691,56 @@ class OC_Image implements \OCP\IImage {
 					if (!$this->checkImageSize($imagePath)) {
 						return false;
 					}
-					$this->resource = @imagecreatefromwebp($imagePath);
+
+					// Check for animated header before generating preview since libgd does not handle them well
+					// Adapted from here: https://stackoverflow.com/a/68491679/4085517 (stripped to only to check for animations + added additional error checking)
+					// Header format details here: https://developers.google.com/speed/webp/docs/riff_container
+
+					// Load up the header data, if any
+					$fp = fopen($imagePath, 'rb');
+					if (!$fp) {
+						return false;
+					}
+					$data = fread($fp, 90);
+					if (!$data) {
+						return false;
+					}
+					fclose($fp);
+					unset($fp);
+
+					$headerFormat = 'A4Riff/' . // get n string
+						'I1Filesize/' . // get integer (file size but not actual size)
+						'A4Webp/' . // get n string
+						'A4Vp/' . // get n string
+						'A74Chunk';
+
+					$header = unpack($headerFormat, $data);
+					unset($data, $headerFormat);
+					if (!$header) {
+						return false;
+					}
+
+					// Check if we're really dealing with a valid WEBP header rather than just one suffixed ".webp"
+					if (!isset($header['Riff']) || strtoupper($header['Riff']) !== 'RIFF') {
+						return false;
+					}
+					if (!isset($header['Webp']) || strtoupper($header['Webp']) !== 'WEBP') {
+						return false;
+					}
+					if (!isset($header['Vp']) || strpos(strtoupper($header['Vp']), 'VP8') === false) {
+						return false;
+					}
+
+					// Check for animation indicators
+					if (strpos(strtoupper($header['Chunk']), 'ANIM') !== false || strpos(strtoupper($header['Chunk']), 'ANMF') !== false) {
+						// Animated so don't let it reach libgd
+						$this->logger->debug('OC_Image->loadFromFile, animated WEBP images not supported: ' . $imagePath, ['app' => 'core']);
+					} else {
+						// We're safe so give it to libgd
+						$this->resource = @imagecreatefromwebp($imagePath);
+					}
 				} else {
-					$this->logger->debug('OC_Image->loadFromFile, webp images not supported: ' . $imagePath, ['app' => 'core']);
+					$this->logger->debug('OC_Image->loadFromFile, WEBP images not supported: ' . $imagePath, ['app' => 'core']);
 				}
 				break;
 				/*
