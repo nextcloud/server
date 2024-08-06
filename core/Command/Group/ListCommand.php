@@ -73,6 +73,7 @@ class ListCommand extends Base {
 		foreach ($groups as $group) {
 			if ($addInfo) {
 				$value = [
+					'displayName' => $group->getDisplayName(),
 					'backends' => $group->getBackendNames(),
 					'users' => $this->usersForGroup($group),
 				];
