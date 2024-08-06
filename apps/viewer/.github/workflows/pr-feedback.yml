@@ -35,7 +35,7 @@ jobs:
         with:
           feedback-message: |
             Hello there,
-            Thank you so much for taking the time and effort to create a pull request to our Nextcloud project. 
+            Thank you so much for taking the time and effort to create a pull request to our Nextcloud project.
 
             We hope that the review process is going smooth and is helpful for you. We want to ensure your pull request is reviewed to your satisfaction. If you have a moment, our community management team would very much appreciate your feedback on your experience with this PR review process.
 
@@ -45,6 +45,6 @@ jobs:
 
             (If you believe you should not receive this message, you can add yourself to the [blocklist](https://github.com/nextcloud/.github/blob/master/non-community-usernames.txt).)
           days-before-feedback: 14
-          start-date: "2024-04-30"
-          exempt-authors: "${{ steps.blocklist.outputs.blocklist }},${{ steps.scrape.outputs.users }},nextcloud-command,nextcloud-android-bot"
+          start-date: '2024-04-30'
+          exempt-authors: '${{ steps.blocklist.outputs.blocklist }},${{ steps.scrape.outputs.users }},nextcloud-command,nextcloud-android-bot'
           exempt-bots: true
