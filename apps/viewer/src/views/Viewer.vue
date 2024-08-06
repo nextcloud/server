@@ -194,14 +194,14 @@ import Vue from 'vue'
 import axios from '@nextcloud/axios'
 import { showError } from '@nextcloud/dialogs'
 import { emit, subscribe, unsubscribe } from '@nextcloud/event-bus'
-import { registerFileAction, FileAction, Permission, DefaultType, Node } from '@nextcloud/files'
+import { registerFileAction, FileAction, Permission, DefaultType, Node, davRemoteURL, davRootPath } from '@nextcloud/files'
+import { loadState } from '@nextcloud/initial-state'
 import getSortingConfig from '../services/FileSortingConfig.ts'
 
 import isFullscreen from '@nextcloud/vue/dist/Mixins/isFullscreen.js'
 import isMobile from '@nextcloud/vue/dist/Mixins/isMobile.js'
 
 import { extractFilePaths, sortCompare } from '../utils/fileUtils.ts'
-import { getRootPath, getUserRoot } from '../utils/davUtils.ts'
 import canDownload from '../utils/canDownload.js'
 import cancelableRequest from '../utils/CancelableRequest.js'
 import Error from '../components/Error.vue'
@@ -219,7 +219,6 @@ import EyeSvg from '@mdi/svg/svg/eye.svg?raw'
 import Fullscreen from 'vue-material-design-icons/Fullscreen.vue'
 import FullscreenExit from 'vue-material-design-icons/FullscreenExit.vue'
 import Pencil from 'vue-material-design-icons/Pencil.vue'
-import { loadState } from '@nextcloud/initial-state'
 
 // Dynamic loading
 const NcModal = () => import(
@@ -290,7 +289,7 @@ export default {
 			// TODO: remove OCA?.Files?.fileActions when public Files is Vue
 			isStandalone: OCP?.Files === undefined && OCA?.Files?.fileActions === undefined,
 			theme: null,
-			root: getRootPath(),
+			root: davRemoteURL,
 			handlerId: '',
 
 			trapElements: [],
@@ -361,7 +360,7 @@ export default {
 		},
 		sidebarOpenFilePath() {
 			try {
-				const relativePath = this.currentFile?.davPath?.split(getUserRoot())[1]
+				const relativePath = this.currentFile?.davPath?.split(davRootPath)[1]
 				return relativePath?.split('/')?.map(decodeURIComponent)?.join('/')
 			} catch (e) {
 				return false

@@ -21,8 +21,8 @@
  */
 
 import axios from '@nextcloud/axios'
-import { isPublic } from '../utils/davUtils'
 import { generateUrl } from '@nextcloud/router'
+import { isPublicShare } from '@nextcloud/sharing/public'
 
 /**
  * @return {object}
@@ -45,7 +45,7 @@ export default async function getSortingConfig() {
  * @return {object}
  */
 async function getViewConfigs() {
-	if (isPublic()) {
+	if (isPublicShare()) {
 		return null
 	}
 	const url = generateUrl('apps/files/api/v1/views')

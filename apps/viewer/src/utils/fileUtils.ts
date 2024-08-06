@@ -22,12 +22,13 @@
 import type { FileStat } from 'webdav'
 import { dirname, encodePath } from '@nextcloud/paths'
 import { generateUrl } from '@nextcloud/router'
+import { getSharingToken, isPublicShare } from '@nextcloud/sharing/public'
 import camelcase from 'camelcase'
 
-import { getRootPath, getToken, getUserRoot, isPublic } from './davUtils'
 import { isNumber } from './numberUtil'
+import { davRemoteURL, davRootPath } from '@nextcloud/files'
 
-declare const OC: Nextcloud.v27.OC
+declare const OC: Nextcloud.v29.OC
 
 /**
  * Extract dir and name from file path
@@ -125,12 +126,12 @@ const genFileInfo = function(obj: FileStat): FileInfo {
 function getDavPath({ filename, basename, source = '' }: { filename: string, basename: string, source?: string }): string|null {
 	// TODO: allow proper dav access without the need of basic auth
 	// https://github.com/nextcloud/server/issues/19700
-	if (isPublic()) {
-		return generateUrl(`/s/${getToken()}/download?path={dirname}&files={basename}`,
+	if (isPublicShare()) {
+		return generateUrl(`/s/${getSharingToken()}/download?path={dirname}&files={basename}`,
 			{ dirname: dirname(filename), basename })
 	}
 
-	const prefixUser = getUserRoot()
+	const prefixUser = davRootPath
 
 	// If we have a source but we're not a dav resource, return null
 	if (source && !source.includes(prefixUser)) {
@@ -141,7 +142,7 @@ function getDavPath({ filename, basename, source = '' }: { filename: string, bas
 	if (filename.startsWith(prefixUser)) {
 		filename = filename.slice(prefixUser.length)
 	}
-	return getRootPath() + encodePath(filename)
+	return davRemoteURL + encodePath(filename)
 }
 
 export { extractFilePaths, sortCompare, genFileInfo, getDavPath }
