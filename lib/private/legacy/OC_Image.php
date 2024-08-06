@@ -83,7 +83,7 @@ class OC_Image implements \OCP\IImage {
 	/**
 	 * Returns the MIME type of the image or null if no image is loaded.
 	 *
-	 * @return string
+	 * @return ?string
 	 */
 	public function mimeType(): ?string {
 		return $this->valid() ? $this->mimeType : null;
@@ -684,7 +684,7 @@ class OC_Image implements \OCP\IImage {
 				}
 				break;
 			case IMAGETYPE_BMP:
-				$this->resource = imagecreatefrombmp($imagePath);
+				$this->resource = @imagecreatefrombmp($imagePath);
 				break;
 			case IMAGETYPE_WEBP:
 				if (imagetypes() & IMG_WEBP) {
