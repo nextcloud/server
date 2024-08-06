@@ -7,6 +7,7 @@
  */
 namespace OC;
 
+use Icewind\Streams\CallbackWrapper;
 use OC\Files\Filesystem;
 use OCP\Files\File;
 use OCP\Files\Folder;
@@ -106,6 +107,7 @@ class Streamer {
 		/** @var LoggerInterface $logger */
 		$logger = \OC::$server->query(LoggerInterface::class);
 		foreach ($files as $file) {
+			if(connection_status() !== CONNECTION_NORMAL) return;
 			if ($file instanceof File) {
 				try {
 					$fh = $file->fopen('r');
@@ -141,6 +143,15 @@ class Streamer {
 	 * @return bool $success
 	 */
 	public function addFileFromStream($stream, string $internalName, int|float $size, $time): bool {
+		if(connection_status() !== CONNECTION_NORMAL) return false;
+		// Close file-stream when user-connection closed
+		$stream = CallbackWrapper::wrap($stream,
+			function ($count) use ($stream) {
+				if (connection_status() !== CONNECTION_NORMAL) {
+					fclose($stream);
+				}
+			});
+
 		$options = [];
 		if ($time) {
 			$options = [
