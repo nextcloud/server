@@ -16,74 +16,77 @@ use OCP\IConfig;
 use OCP\IL10N;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
+use Sabre\CalDAV\Backend\BackendInterface;
 use Sabre\DAV\PropFind;
 use Sabre\DAV\Server;
 use Sabre\DAV\Tree;
 use Sabre\DAV\Xml\Property\Href;
 use Sabre\DAV\Xml\Property\LocalHref;
 use Sabre\DAVACL\IPrincipal;
+use Sabre\HTTP\Request;
+use Sabre\HTTP\Response;
 use Sabre\HTTP\ResponseInterface;
+use Sabre\VObject\Component\VCalendar;
+use Sabre\VObject\ITip\Message;
 use Sabre\VObject\Parameter;
 use Sabre\VObject\Property\ICalendar\CalAddress;
 use Sabre\Xml\Service;
 use Test\TestCase;
 
 class PluginTest extends TestCase {
+
 	/** @var Plugin */
 	private $plugin;
+
 	/** @var Server|MockObject */
 	private $server;
 
 	/** @var IConfig|MockObject  */
 	private $config;
 
-	/** @var MockObject|LoggerInterface */
+	/** @var LoggerInterface&MockObject */
 	private $logger;
 
-	/** @property MockObject|DefaultCalendarValidator */
-	private $defaultCalendarValidator;
+	/** @var DefaultCalendarValidator */
+	private $calendarValidator;
 
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->server = $this->createMock(Server::class);
 		$this->config = $this->createMock(IConfig::class);
+		$this->logger = $this->createMock(LoggerInterface::class);
+		$this->calendarValidator = new DefaultCalendarValidator();
 
-		$response = $this->getMockBuilder(ResponseInterface::class)
+		$this->server = $this->createMock(Server::class);
+		$this->server->httpResponse = $this->getMockBuilder(ResponseInterface::class)
 			->disableOriginalConstructor()
 			->getMock();
-
-		$this->server->httpResponse = $response;
 		$this->server->xml = new Service();
 
-		$this->logger = $this->createMock(LoggerInterface::class);
-		$this->defaultCalendarValidator = $this->createMock(DefaultCalendarValidator::class);
-
-		$this->plugin = new Plugin($this->config, $this->logger, $this->defaultCalendarValidator);
+		$this->plugin = new Plugin($this->config, $this->logger, $this->calendarValidator);
 		$this->plugin->initialize($this->server);
 	}
 
 	public function testInitialize(): void {
-		$plugin = new Plugin($this->config, $this->logger, $this->defaultCalendarValidator);
 
 		$this->server->expects($this->exactly(10))
 			->method('on')
 			->withConsecutive(
 				// Sabre\CalDAV\Schedule\Plugin events
-				['method:POST', [$plugin, 'httpPost']],
-				['propFind', [$plugin, 'propFind']],
-				['propPatch', [$plugin, 'propPatch']],
-				['calendarObjectChange', [$plugin, 'calendarObjectChange']],
-				['beforeUnbind', [$plugin, 'beforeUnbind']],
-				['schedule', [$plugin, 'scheduleLocalDelivery']],
-				['getSupportedPrivilegeSet', [$plugin, 'getSupportedPrivilegeSet']],
+				['method:POST', [$this->plugin, 'httpPost']],
+				['propFind', [$this->plugin, 'propFind']],
+				['propPatch', [$this->plugin, 'propPatch']],
+				['calendarObjectChange', [$this->plugin, 'calendarObjectChange']],
+				['beforeUnbind', [$this->plugin, 'beforeUnbind']],
+				['schedule', [$this->plugin, 'scheduleLocalDelivery']],
+				['getSupportedPrivilegeSet', [$this->plugin, 'getSupportedPrivilegeSet']],
 				// OCA\DAV\CalDAV\Schedule\Plugin events
-				['propFind', [$plugin, 'propFindDefaultCalendarUrl'], 90],
-				['afterWriteContent', [$plugin, 'dispatchSchedulingResponses']],
-				['afterCreateFile', [$plugin, 'dispatchSchedulingResponses']]
+				['propFind', [$this->plugin, 'propFindDefaultCalendarUrl'], 90],
+				['afterWriteContent', [$this->plugin, 'dispatchSchedulingResponses']],
+				['afterCreateFile', [$this->plugin, 'dispatchSchedulingResponses']]
 			);
 
-		$plugin->initialize($this->server);
+		$this->plugin->initialize($this->server);
 	}
 
 	public function testGetAddressesForPrincipal(): void {
@@ -108,7 +111,6 @@ class PluginTest extends TestCase {
 		$result = $this->invokePrivate($this->plugin, 'getAddressesForPrincipal', ['MyPrincipal']);
 		$this->assertSame(['lukas@nextcloud.com', 'rullzer@nextcloud.com'], $result);
 	}
-
 
 	public function testGetAddressesForPrincipalEmpty(): void {
 		$this->server
@@ -381,13 +383,6 @@ class PluginTest extends TestCase {
 			->with($calendarHome .'/' . $calendarUri, [], 1)
 			->willReturn($properties);
 
-		$this->defaultCalendarValidator->method('validateScheduleDefaultCalendar')
-			->willReturnCallback(function (Calendar $node) {
-				if ($node->isDeleted()) {
-					throw new \Sabre\DAV\Exception('Deleted calendar');
-				}
-			});
-
 		$this->plugin->propFindDefaultCalendarUrl($propFind, $node);
 
 		if (!$propertiesForPath) {
@@ -399,4 +394,348 @@ class PluginTest extends TestCase {
 		$result = $propFind->get(Plugin::SCHEDULE_DEFAULT_CALENDAR_URL);
 		$this->assertEquals('/remote.php/dav/'. $calendarHome . '/' . $calendarUri, $result->getHref());
 	}
+
+	/**
+	 * Test Calendar Event Creation for Personal Calendar
+	 *
+	 * Should generate 2 messages for attendees User 2 and User External
+	 */
+	public function testCalendarObjectChangePersonalCalendarCreate() {
+
+		// define place holders
+		/** @var Message[] $iTipMessages */
+		$iTipMessages = [];
+		// construct calendar node
+		$calendarNode = new Calendar(
+			$this->createMock(BackendInterface::class),
+			[
+				'uri' => 'personal',
+				'principaluri' => 'principals/users/user1',
+				'{DAV:}displayname' => 'Calendar Shared By User1',
+			],
+			$this->createMock(IL10N::class),
+			$this->config,
+			$this->logger
+		);
+		// construct server request object
+		$request = new Request(
+			'PUT',
+			'/remote.php/dav/calendars/user1/personal/B0DC78AE-6DD7-47E3-80BE-89F23E6D5383.ics'
+		);
+		$request->setBaseUrl('/remote.php/dav/');
+		// construct server response object
+		$response = new Response();
+		// construct server tree object
+		$tree = $this->createMock(Tree::class);
+		$tree->expects($this->once())
+			->method('getNodeForPath')
+			->with('calendars/user1/personal')
+			->willReturn($calendarNode);
+		// construct server properties and returns
+		$this->server->httpRequest = $request;
+		$this->server->tree = $tree;
+		$this->server->expects($this->exactly(1))->method('getProperties')
+			->willReturnMap([
+				[
+					'principals/users/user1',
+					['{urn:ietf:params:xml:ns:caldav}calendar-user-address-set'],
+					['{urn:ietf:params:xml:ns:caldav}calendar-user-address-set' => new LocalHref(
+						['mailto:user1@testing.local','/remote.php/dav/principals/users/user1/']
+					)]
+				]
+			]);
+		$this->server->expects($this->exactly(2))->method('emit')->willReturnCallback(
+			function (string $eventName, array $arguments = [], ?callable $continueCallBack = null) use (&$iTipMessages) {
+				$this->assertEquals('schedule', $eventName);
+				$this->assertCount(1, $arguments);
+				$iTipMessages[] = $arguments[0];
+				return true;
+			}
+		);
+		// construct calendar with a 1 hour event and same start/end time zones
+		$vCalendar = new VCalendar();
+		$vEvent = $vCalendar->add('VEVENT', []);
+		$vEvent->UID->setValue('96a0e6b1-d886-4a55-a60d-152b31401dcc');
+		$vEvent->add('DTSTART', '20240701T080000', ['TZID' => 'America/Toronto']);
+		$vEvent->add('DTEND', '20240701T090000', ['TZID' => 'America/Toronto']);
+		$vEvent->add('SUMMARY', 'Test Recurring Event');
+		$vEvent->add('ORGANIZER', 'mailto:user1@testing.local', ['CN' => 'User One']);
+		$vEvent->add('ATTENDEE', 'mailto:user2@testing.local', [
+			'CN' => 'User Two',
+			'CUTYPE' => 'INDIVIDUAL',
+			'PARTSTAT' => 'NEEDS-ACTION',
+			'ROLE' => 'REQ-PARTICIPANT',
+			'RSVP' => 'TRUE'
+		]);
+		$vEvent->add('ATTENDEE', 'mailto:user@external.local', [
+			'CN' => 'User External',
+			'CUTYPE' => 'INDIVIDUAL',
+			'PARTSTAT' => 'NEEDS-ACTION',
+			'ROLE' => 'REQ-PARTICIPANT',
+			'RSVP' => 'TRUE'
+		]);
+		// define flags
+		$newFlag = true;
+		$modifiedFlag = false;
+		// execute method
+		$this->plugin->calendarObjectChange(
+			$request,
+			$response,
+			$vCalendar,
+			'calendars/user1/personal',
+			$modifiedFlag,
+			$newFlag
+		);
+		// test for correct iTip message count
+		$this->assertCount(2, $iTipMessages);
+		// test for Sharer Attendee
+		$this->assertEquals('mailto:user1@testing.local', $iTipMessages[0]->sender);
+		$this->assertEquals('mailto:user2@testing.local', $iTipMessages[0]->recipient);
+		$this->assertTrue($iTipMessages[0]->significantChange);
+		// test for External Attendee
+		$this->assertEquals('mailto:user1@testing.local', $iTipMessages[1]->sender);
+		$this->assertEquals('mailto:user@external.local', $iTipMessages[1]->recipient);
+		$this->assertTrue($iTipMessages[1]->significantChange);
+
+	}
+
+	/**
+	 * Test Calendar Event Creation for Shared Calendar as Sharer/Owner
+	 *
+	 * Should generate 3 messages for attendees User 2 (Sharee), User 3 (Non-Sharee) and User External
+	 */
+	public function testCalendarObjectChangeSharedCalendarSharerCreate() {
+
+		// define place holders
+		/** @var Message[] $iTipMessages */
+		$iTipMessages = [];
+		// construct calendar node
+		$calendarNode = new Calendar(
+			$this->createMock(BackendInterface::class),
+			[
+				'uri' => 'calendar_shared_by_user1',
+				'principaluri' => 'principals/users/user1',
+				'{DAV:}displayname' => 'Calendar Shared By User1',
+				'{http://owncloud.org/ns}owner-principal' => 'principals/users/user1'
+			],
+			$this->createMock(IL10N::class),
+			$this->config,
+			$this->logger
+		);
+		// construct server request object
+		$request = new Request(
+			'PUT',
+			'/remote.php/dav/calendars/user1/calendar_shared_by_user1/B0DC78AE-6DD7-47E3-80BE-89F23E6D5383.ics'
+		);
+		$request->setBaseUrl('/remote.php/dav/');
+		// construct server response object
+		$response = new Response();
+		// construct server tree object
+		$tree = $this->createMock(Tree::class);
+		$tree->expects($this->once())
+			->method('getNodeForPath')
+			->with('calendars/user1/calendar_shared_by_user1')
+			->willReturn($calendarNode);
+		// construct server properties and returns
+		$this->server->httpRequest = $request;
+		$this->server->tree = $tree;
+		$this->server->expects($this->exactly(1))->method('getProperties')
+			->willReturnMap([
+				[
+					'principals/users/user1',
+					['{urn:ietf:params:xml:ns:caldav}calendar-user-address-set'],
+					['{urn:ietf:params:xml:ns:caldav}calendar-user-address-set' => new LocalHref(
+						['mailto:user1@testing.local','/remote.php/dav/principals/users/user1/']
+					)]
+				]
+			]);
+		$this->server->expects($this->exactly(3))->method('emit')->willReturnCallback(
+			function (string $eventName, array $arguments = [], ?callable $continueCallBack = null) use (&$iTipMessages) {
+				$this->assertEquals('schedule', $eventName);
+				$this->assertCount(1, $arguments);
+				$iTipMessages[] = $arguments[0];
+				return true;
+			}
+		);
+		// construct calendar with a 1 hour event and same start/end time zones
+		$vCalendar = new VCalendar();
+		$vEvent = $vCalendar->add('VEVENT', []);
+		$vEvent->UID->setValue('96a0e6b1-d886-4a55-a60d-152b31401dcc');
+		$vEvent->add('DTSTART', '20240701T080000', ['TZID' => 'America/Toronto']);
+		$vEvent->add('DTEND', '20240701T090000', ['TZID' => 'America/Toronto']);
+		$vEvent->add('SUMMARY', 'Test Recurring Event');
+		$vEvent->add('ORGANIZER', 'mailto:user1@testing.local', ['CN' => 'User One']);
+		$vEvent->add('ATTENDEE', 'mailto:user2@testing.local', [
+			'CN' => 'User Two',
+			'CUTYPE' => 'INDIVIDUAL',
+			'PARTSTAT' => 'NEEDS-ACTION',
+			'ROLE' => 'REQ-PARTICIPANT',
+			'RSVP' => 'TRUE'
+		]);
+		$vEvent->add('ATTENDEE', 'mailto:user3@testing.local', [
+			'CN' => 'User Three',
+			'CUTYPE' => 'INDIVIDUAL',
+			'PARTSTAT' => 'NEEDS-ACTION',
+			'ROLE' => 'REQ-PARTICIPANT',
+			'RSVP' => 'TRUE'
+		]);
+		$vEvent->add('ATTENDEE', 'mailto:user@external.local', [
+			'CN' => 'User External',
+			'CUTYPE' => 'INDIVIDUAL',
+			'PARTSTAT' => 'NEEDS-ACTION',
+			'ROLE' => 'REQ-PARTICIPANT',
+			'RSVP' => 'TRUE'
+		]);
+		// define flags
+		$newFlag = true;
+		$modifiedFlag = false;
+		// execute method
+		$this->plugin->calendarObjectChange(
+			$request,
+			$response,
+			$vCalendar,
+			'calendars/user1/calendar_shared_by_user1',
+			$modifiedFlag,
+			$newFlag
+		);
+		// test for correct iTip message count
+		$this->assertCount(3, $iTipMessages);
+		// test for Sharer Attendee
+		$this->assertEquals('mailto:user1@testing.local', $iTipMessages[0]->sender);
+		$this->assertEquals('mailto:user2@testing.local', $iTipMessages[0]->recipient);
+		$this->assertTrue($iTipMessages[0]->significantChange);
+		// test for Non Shee Attendee
+		$this->assertEquals('mailto:user1@testing.local', $iTipMessages[1]->sender);
+		$this->assertEquals('mailto:user3@testing.local', $iTipMessages[1]->recipient);
+		$this->assertTrue($iTipMessages[1]->significantChange);
+		// test for External Attendee
+		$this->assertEquals('mailto:user1@testing.local', $iTipMessages[2]->sender);
+		$this->assertEquals('mailto:user@external.local', $iTipMessages[2]->recipient);
+		$this->assertTrue($iTipMessages[2]->significantChange);
+
+	}
+
+	/**
+	 * Test Calendar Event Creation for Shared Calendar as Shree
+	 *
+	 * Should generate 3 messages for attendees User 1 (Sharer/Owner), User 3 (Non-Sharee) and User External
+	 */
+	public function testCalendarObjectChangeSharedCalendarShreeCreate() {
+
+		// define place holders
+		/** @var Message[] $iTipMessages */
+		$iTipMessages = [];
+		// construct calendar node
+		$calendarNode = new Calendar(
+			$this->createMock(BackendInterface::class),
+			[
+				'uri' => 'calendar_shared_by_user1',
+				'principaluri' => 'principals/users/user2',
+				'{DAV:}displayname' => 'Calendar Shared By User1',
+				'{http://owncloud.org/ns}owner-principal' => 'principals/users/user1'
+			],
+			$this->createMock(IL10N::class),
+			$this->config,
+			$this->logger
+		);
+		// construct server request object
+		$request = new Request(
+			'PUT',
+			'/remote.php/dav/calendars/user2/calendar_shared_by_user1/B0DC78AE-6DD7-47E3-80BE-89F23E6D5383.ics'
+		);
+		$request->setBaseUrl('/remote.php/dav/');
+		// construct server response object
+		$response = new Response();
+		// construct server tree object
+		$tree = $this->createMock(Tree::class);
+		$tree->expects($this->once())
+			->method('getNodeForPath')
+			->with('calendars/user2/calendar_shared_by_user1')
+			->willReturn($calendarNode);
+		// construct server properties and returns
+		$this->server->httpRequest = $request;
+		$this->server->tree = $tree;
+		$this->server->expects($this->exactly(2))->method('getProperties')
+			->willReturnMap([
+				[
+					'principals/users/user1',
+					['{urn:ietf:params:xml:ns:caldav}calendar-user-address-set'],
+					['{urn:ietf:params:xml:ns:caldav}calendar-user-address-set' => new LocalHref(
+						['mailto:user1@testing.local','/remote.php/dav/principals/users/user1/']
+					)]
+				],
+				[
+					'principals/users/user2',
+					['{urn:ietf:params:xml:ns:caldav}calendar-user-address-set'],
+					['{urn:ietf:params:xml:ns:caldav}calendar-user-address-set' => new LocalHref(
+						['mailto:user2@testing.local','/remote.php/dav/principals/users/user2/']
+					)]
+				]
+			]);
+		$this->server->expects($this->exactly(3))->method('emit')->willReturnCallback(
+			function (string $eventName, array $arguments = [], ?callable $continueCallBack = null) use (&$iTipMessages) {
+				$this->assertEquals('schedule', $eventName);
+				$this->assertCount(1, $arguments);
+				$iTipMessages[] = $arguments[0];
+				return true;
+			}
+		);
+		// construct calendar with a 1 hour event and same start/end time zones
+		$vCalendar = new VCalendar();
+		$vEvent = $vCalendar->add('VEVENT', []);
+		$vEvent->UID->setValue('96a0e6b1-d886-4a55-a60d-152b31401dcc');
+		$vEvent->add('DTSTART', '20240701T080000', ['TZID' => 'America/Toronto']);
+		$vEvent->add('DTEND', '20240701T090000', ['TZID' => 'America/Toronto']);
+		$vEvent->add('SUMMARY', 'Test Recurring Event');
+		$vEvent->add('ORGANIZER', 'mailto:user2@testing.local', ['CN' => 'User Two']);
+		$vEvent->add('ATTENDEE', 'mailto:user1@testing.local', [
+			'CN' => 'User One',
+			'CUTYPE' => 'INDIVIDUAL',
+			'PARTSTAT' => 'NEEDS-ACTION',
+			'ROLE' => 'REQ-PARTICIPANT',
+			'RSVP' => 'TRUE'
+		]);
+		$vEvent->add('ATTENDEE', 'mailto:user3@testing.local', [
+			'CN' => 'User Three',
+			'CUTYPE' => 'INDIVIDUAL',
+			'PARTSTAT' => 'NEEDS-ACTION',
+			'ROLE' => 'REQ-PARTICIPANT',
+			'RSVP' => 'TRUE'
+		]);
+		$vEvent->add('ATTENDEE', 'mailto:user@external.local', [
+			'CN' => 'User External',
+			'CUTYPE' => 'INDIVIDUAL',
+			'PARTSTAT' => 'NEEDS-ACTION',
+			'ROLE' => 'REQ-PARTICIPANT',
+			'RSVP' => 'TRUE'
+		]);
+		// define flags
+		$newFlag = true;
+		$modifiedFlag = false;
+		// execute method
+		$this->plugin->calendarObjectChange(
+			$request,
+			$response,
+			$vCalendar,
+			'calendars/user2/calendar_shared_by_user1',
+			$modifiedFlag,
+			$newFlag
+		);
+		// test for correct iTip message count
+		$this->assertCount(3, $iTipMessages);
+		// test for Sharer Attendee
+		$this->assertEquals('mailto:user2@testing.local', $iTipMessages[0]->sender);
+		$this->assertEquals('mailto:user1@testing.local', $iTipMessages[0]->recipient);
+		$this->assertTrue($iTipMessages[0]->significantChange);
+		// test for Non Shee Attendee
+		$this->assertEquals('mailto:user2@testing.local', $iTipMessages[1]->sender);
+		$this->assertEquals('mailto:user3@testing.local', $iTipMessages[1]->recipient);
+		$this->assertTrue($iTipMessages[1]->significantChange);
+		// test for External Attendee
+		$this->assertEquals('mailto:user2@testing.local', $iTipMessages[2]->sender);
+		$this->assertEquals('mailto:user@external.local', $iTipMessages[2]->recipient);
+		$this->assertTrue($iTipMessages[2]->significantChange);
+
+	}
+
 }
