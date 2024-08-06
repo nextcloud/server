@@ -10,8 +10,9 @@ use OC\AppFramework\Middleware\PublicShare\Exceptions\NeedAuthenticationExceptio
 use OC\AppFramework\Middleware\PublicShare\PublicShareMiddleware;
 use OCP\AppFramework\AuthPublicShareController;
 use OCP\AppFramework\Controller;
-use OCP\AppFramework\Http\NotFoundResponse;
+use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\RedirectResponse;
+use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\PublicShareController;
 use OCP\Files\NotFoundException;
 use OCP\IConfig;
@@ -236,7 +237,8 @@ class PublicShareMiddlewareTest extends \Test\TestCase {
 		$exception = new NotFoundException();
 
 		$result = $this->middleware->afterException($controller, 'method', $exception);
-		$this->assertInstanceOf(NotFoundResponse::class, $result);
+		$this->assertInstanceOf(TemplateResponse::class, $result);
+		$this->assertEquals($result->getStatus(), Http::STATUS_NOT_FOUND);
 	}
 
 	public function testAfterExceptionPublicShareController() {
