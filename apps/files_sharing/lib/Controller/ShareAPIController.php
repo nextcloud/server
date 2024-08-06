@@ -260,7 +260,7 @@ class ShareAPIController extends OCSController {
 			$result['token'] = $share->getToken();
 		} elseif ($share->getShareType() === IShare::TYPE_CIRCLE) {
 			// getSharedWith() returns either "name (type, owner)" or
-			// "name (type, owner) [id]", depending on the Circles app version.
+			// "name (type, owner) [id]", depending on the Teams app version.
 			$hasCircleId = (substr($share->getSharedWith(), -1) === ']');
 
 			$result['share_with_displayname'] = $share->getSharedWithDisplayName();
@@ -762,14 +762,14 @@ class ShareAPIController extends OCSController {
 			$share->setPermissions($permissions);
 		} elseif ($shareType === IShare::TYPE_CIRCLE) {
 			if (!\OC::$server->getAppManager()->isEnabledForUser('circles') || !class_exists('\OCA\Circles\ShareByCircleProvider')) {
-				throw new OCSNotFoundException($this->l->t('You cannot share to a Circle if the app is not enabled'));
+				throw new OCSNotFoundException($this->l->t('You cannot share to a Team if the app is not enabled'));
 			}
 
 			$circle = \OCA\Circles\Api\v1\Circles::detailsCircle($shareWith);
 
-			// Valid circle is required to share
+			// Valid team is required to share
 			if ($circle === null) {
-				throw new OCSNotFoundException($this->l->t('Please specify a valid circle'));
+				throw new OCSNotFoundException($this->l->t('Please specify a valid team'));
 			}
 			$share->setSharedWith($shareWith);
 			$share->setPermissions($permissions);
@@ -1964,7 +1964,7 @@ class ShareAPIController extends OCSController {
 		// EMAIL SHARES
 		$mailShares = $this->shareManager->getSharesBy($this->currentUser, IShare::TYPE_EMAIL, $path, $reshares, -1, 0);
 
-		// CIRCLE SHARES
+		// TEAM SHARES
 		$circleShares = $this->shareManager->getSharesBy($this->currentUser, IShare::TYPE_CIRCLE, $path, $reshares, -1, 0);
 
 		// TALK SHARES
