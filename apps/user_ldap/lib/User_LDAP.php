@@ -76,11 +76,12 @@ class User_LDAP extends BackendUtility implements IUserBackend, UserInterface, I
 	 * @return string|false
 	 * @throws \Exception
 	 */
-	public function loginName2UserName($loginName) {
+	public function loginName2UserName($loginName, bool $forceLdapRefetch = false) {
 		$cacheKey = 'loginName2UserName-' . $loginName;
 		$username = $this->access->connection->getFromCache($cacheKey);
 
-		if ($username !== null) {
+		$ignoreCache = ($username === false && $forceLdapRefetch);
+		if ($username !== null && !$ignoreCache) {
 			return $username;
 		}
 
@@ -95,6 +96,9 @@ class User_LDAP extends BackendUtility implements IUserBackend, UserInterface, I
 			}
 			$username = $user->getUsername();
 			$this->access->connection->writeToCache($cacheKey, $username);
+			if ($forceLdapRefetch) {
+				$user->processAttributes($ldapRecord);
+			}
 			return $username;
 		} catch (NotOnLDAP $e) {
 			$this->access->connection->writeToCache($cacheKey, false);
@@ -138,16 +142,11 @@ class User_LDAP extends BackendUtility implements IUserBackend, UserInterface, I
 	 * @return false|string
 	 */
 	public function checkPassword($uid, $password) {
-		try {
-			$ldapRecord = $this->getLDAPUserByLoginName($uid);
-		} catch (NotOnLDAP $e) {
-			$this->logger->debug(
-				$e->getMessage(),
-				['app' => 'user_ldap', 'exception' => $e]
-			);
+		$username = $this->loginName2UserName($uid, true);
+		if ($username === false) {
 			return false;
 		}
-		$dn = $ldapRecord['dn'][0];
+		$dn = $this->access->username2dn($username);
 		$user = $this->access->userManager->get($dn);
 
 		if (!$user instanceof User) {
@@ -165,7 +164,6 @@ class User_LDAP extends BackendUtility implements IUserBackend, UserInterface, I
 			}
 
 			$this->access->cacheUserExists($user->getUsername());
-			$user->processAttributes($ldapRecord);
 			$user->markLogin();
 
 			return $user->getUsername();
