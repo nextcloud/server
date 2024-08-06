@@ -4,38 +4,42 @@
 -->
 
 <template>
-	<component :is="inline ? 'div' : 'li'">
-		<!-- User Status = Status modal toggle -->
-		<button v-if="!inline"
+	<Fragment>
+		<NcListItem v-if="!inline"
 			class="user-status-menu-item"
-			@click.stop="openModal">
-			<NcUserStatusIcon class="user-status-icon"
-				:status="statusType"
-				aria-hidden="true" />
-			{{ visibleMessage }}
-		</button>
-
-		<!-- Dashboard Status -->
-		<NcButton v-else
+			compact
+			:name="visibleMessage"
 			@click.stop="openModal">
 			<template #icon>
 				<NcUserStatusIcon class="user-status-icon"
 					:status="statusType"
 					aria-hidden="true" />
 			</template>
-			{{ visibleMessage }}
-		</NcButton>
+		</NcListItem>
 
+		<div v-else>
+			<!-- Dashboard Status -->
+			<NcButton @click.stop="openModal">
+				<template #icon>
+					<NcUserStatusIcon class="user-status-icon"
+						:status="statusType"
+						aria-hidden="true" />
+				</template>
+				{{ visibleMessage }}
+			</NcButton>
+		</div>
 		<!-- Status management modal -->
 		<SetStatusModal v-if="isModalOpen"
 			:inline="inline"
 			@close="closeModal" />
-	</component>
+	</Fragment>
 </template>
 
 <script>
 import { subscribe, unsubscribe } from '@nextcloud/event-bus'
+import { Fragment } from 'vue-frag'
 import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
+import NcListItem from '@nextcloud/vue/dist/Components/NcListItem.js'
 import NcUserStatusIcon from '@nextcloud/vue/dist/Components/NcUserStatusIcon.js'
 import debounce from 'debounce'
 
@@ -46,7 +50,9 @@ export default {
 	name: 'UserStatus',
 
 	components: {
+		Fragment,
 		NcButton,
+		NcListItem,
 		NcUserStatusIcon,
 		SetStatusModal: () => import(/* webpackChunkName: 'user-status-modal' */'./components/SetStatusModal.vue'),
 	},
@@ -166,40 +172,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.user-status-menu-item {
-	// Ensure the maxcontrast color is set for the background
-	--color-text-maxcontrast: var(--color-text-maxcontrast-background-blur, var(--color-main-text));
-
-	width: auto;
-	min-width: 44px;
-	height: 44px;
-	margin: 0;
-	border: 0;
-	border-radius: var(--border-radius-pill);
-	background-color: var(--color-main-background-blur);
-	font-size: inherit;
-	font-weight: normal;
-
-	-webkit-backdrop-filter: var(--background-blur);
-	backdrop-filter: var(--background-blur);
-
-	&:active,
-	&:hover,
-	&:focus-visible {
-		background-color: var(--color-background-hover);
-	}
-	&:focus-visible {
-		box-shadow: 0 0 0 4px var(--color-main-background) !important;
-		outline: 2px solid var(--color-main-text) !important;
-	}
-}
-
 .user-status-icon {
-	width: 16px;
-	height: 16px;
-	margin-right: 10px;
+	width: 20px;
+	height: 20px;
+	margin: calc((var(--default-clickable-area) - 20px) / 2); // 20px icon size
 	opacity: 1 !important;
-	background-size: 16px;
+	background-size: 20px;
 	vertical-align: middle !important;
 }
 </style>
