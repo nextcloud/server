@@ -18,40 +18,20 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class ScanLegacyFormat extends Command {
-	/** @var Util */
-	protected $util;
+	private View $rootView;
 
-	/** @var IConfig */
-	protected $config;
-
-	/** @var  QuestionHelper */
-	protected $questionHelper;
-
-	/** @var IUserManager */
-	private $userManager;
-
-	/** @var View */
-	private $rootView;
-
-	/**
-	 * @param Util $util
-	 * @param IConfig $config
-	 * @param QuestionHelper $questionHelper
-	 */
-	public function __construct(Util $util,
-		IConfig $config,
-		QuestionHelper $questionHelper,
-		IUserManager $userManager) {
+	public function __construct(
+		protected Util $util,
+		protected IConfig $config,
+		protected QuestionHelper $questionHelper,
+		private IUserManager $userManager,
+	) {
 		parent::__construct();
 
-		$this->util = $util;
-		$this->config = $config;
-		$this->questionHelper = $questionHelper;
-		$this->userManager = $userManager;
 		$this->rootView = new View();
 	}
 
-	protected function configure() {
+	protected function configure(): void {
 		$this
 			->setName('encryption:scan:legacy-format')
 			->setDescription('Scan the files for the legacy format');
@@ -78,10 +58,10 @@ class ScanLegacyFormat extends Command {
 
 		if ($result) {
 			$output->writeln('All scanned files are properly encrypted. You can disable the legacy compatibility mode.');
-			return 0;
+			return self::SUCCESS;
 		}
 
-		return 1;
+		return self::FAILURE;
 	}
 
 	private function scanFolder(OutputInterface $output, string $folder): bool {
@@ -112,10 +92,8 @@ class ScanLegacyFormat extends Command {
 
 	/**
 	 * setup user file system
-	 *
-	 * @param string $uid
 	 */
-	protected function setupUserFS($uid) {
+	protected function setupUserFS(string $uid): void {
 		\OC_Util::tearDownFS();
 		\OC_Util::setupFS($uid);
 	}
