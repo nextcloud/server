@@ -184,6 +184,7 @@ OC.L10N.register(
     "Quota" : "โควต้า",
     "Language" : "ภาษา",
     "Avatar" : "ภาพแทนตัว",
+    "Account name" : "ชื่อบัญชี",
     "Group admin for" : "ผู้ดูแลกลุ่มสำหรับ",
     "Storage location" : "สถานที่จัดเก็บข้อมูล",
     "Last login" : "เข้าสู่ระบบล่าสุด",

@@ -8,6 +8,7 @@
     "Two factor backup codes" : "Резервні коди двофакторної авторизації",
     "A two-factor auth backup codes provider" : "Постачальник резервних кодів двофакторної авторизації",
     "Backup codes have been generated. {used} of {total} codes have been used." : "Створено резервні коди. Ви вже використали {used} із {total} кодів.",
+    "These are your backup codes. Please save and/or print them as you will not be able to read the codes again later." : "Це резервні коди. Будь ласка, збережіть їх та/або надрукуйте, оскільки вони подалі будуть недоступні.",
     "Save backup codes" : "Зберегти резервні коди",
     "Print backup codes" : "Друк резервних кодів",
     "Regenerate backup codes" : "Перестворити резервні коди",
