@@ -303,6 +303,7 @@
     "Copy to {target}" : "複製到 {target}",
     "Move to {target}" : "移動至 {target}",
     "Move or copy operation failed" : "移動或複製操作失敗",
+    "Cancelled move or copy of \"{filename}\"." : "已取消移動或複製「{filename}」。",
     "Cancelled move or copy operation" : "已取消移動或複製操作",
     "Open folder {displayName}" : "開啟資料夾 {displayName}",
     "Open in Files" : "在「檔案」應用程式中開啟",
