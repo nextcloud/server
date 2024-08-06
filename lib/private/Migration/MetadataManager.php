@@ -89,6 +89,18 @@ class MetadataManager {
 	}
 
 	/**
+	 * returns list of installed apps that does not support migrations metadata (yet)
+	 *
+	 * @param array<array-key, array<array-key, array>> $metadata
+	 *
+	 * @return string[]
+	 * @since 30.0.0
+	 */
+	public function getUnsupportedApps(array $metadata): array {
+		return array_values(array_diff($this->appManager->getInstalledApps(), array_keys($metadata['apps'])));
+	}
+
+	/**
 	 * convert raw data to a list of MigrationAttribute
 	 *
 	 * @param array $migrations
