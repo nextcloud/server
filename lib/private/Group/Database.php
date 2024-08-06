@@ -529,6 +529,8 @@ class Database extends ABackend implements
 		$notFoundGids = [];
 		$details = [];
 
+		$this->fixDI();
+
 		// In case the data is already locally accessible, not need to do SQL query
 		// or do a SQL query but with a smaller in clause
 		foreach ($gids as $gid) {
