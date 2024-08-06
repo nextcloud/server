@@ -1238,6 +1238,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\Core\\Command\\Preview\\ResetRenderedTexts' => __DIR__ . '/../../..' . '/core/Command/Preview/ResetRenderedTexts.php',
         'OC\\Core\\Command\\Security\\BruteforceAttempts' => __DIR__ . '/../../..' . '/core/Command/Security/BruteforceAttempts.php',
         'OC\\Core\\Command\\Security\\BruteforceResetAttempts' => __DIR__ . '/../../..' . '/core/Command/Security/BruteforceResetAttempts.php',
+        'OC\\Core\\Command\\Security\\ExportCertificates' => __DIR__ . '/../../..' . '/core/Command/Security/ExportCertificates.php',
         'OC\\Core\\Command\\Security\\ImportCertificate' => __DIR__ . '/../../..' . '/core/Command/Security/ImportCertificate.php',
         'OC\\Core\\Command\\Security\\ListCertificates' => __DIR__ . '/../../..' . '/core/Command/Security/ListCertificates.php',
         'OC\\Core\\Command\\Security\\RemoveCertificate' => __DIR__ . '/../../..' . '/core/Command/Security/RemoveCertificate.php',
