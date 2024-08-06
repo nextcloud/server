@@ -90,18 +90,20 @@ class ListCommandTest extends TestCase {
 			->with(
 				$this->equalTo($this->input),
 				$this->equalTo($this->output),
-				[
-					'group1' => [
-						'user1',
-						'user2',
-					],
-					'group2' => [
-					],
-					'group3' => [
-						'user1',
-						'user3',
+				$this->callback(
+					fn ($iterator) => iterator_to_array($iterator) === [
+						'group1' => [
+							'user1',
+							'user2',
+						],
+						'group2' => [
+						],
+						'group3' => [
+							'user1',
+							'user3',
+						]
 					]
-				]
+				)
 			);
 
 		$this->invokePrivate($this->command, 'execute', [$this->input, $this->output]);
@@ -166,26 +168,28 @@ class ListCommandTest extends TestCase {
 			->with(
 				$this->equalTo($this->input),
 				$this->equalTo($this->output),
-				[
-					'group1' => [
-						'backends' => ['Database'],
-						'users' => [
-							'user1',
-							'user2',
+				$this->callback(
+					fn ($iterator) => iterator_to_array($iterator) === [
+						'group1' => [
+							'backends' => ['Database'],
+							'users' => [
+								'user1',
+								'user2',
+							],
 						],
-					],
-					'group2' => [
-						'backends' => ['Database'],
-						'users' => [],
-					],
-					'group3' => [
-						'backends' => ['LDAP'],
-						'users' => [
-							'user1',
-							'user3',
+						'group2' => [
+							'backends' => ['Database'],
+							'users' => [],
 						],
+						'group3' => [
+							'backends' => ['LDAP'],
+							'users' => [
+								'user1',
+								'user3',
+							],
+						]
 					]
-				]
+				)
 			);
 
 		$this->invokePrivate($this->command, 'execute', [$this->input, $this->output]);

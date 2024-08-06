@@ -69,18 +69,13 @@ class ListCommand extends Base {
 
 	/**
 	 * @param IUser[] $users
-	 * @param bool [$detailed=false]
-	 * @return array
+	 * @return \Generator<string,string|array>
 	 */
-	private function formatUsers(array $users, bool $detailed = false) {
-		$keys = array_map(function (IUser $user) {
-			return $user->getUID();
-		}, $users);
-
-		$values = array_map(function (IUser $user) use ($detailed) {
+	private function formatUsers(array $users, bool $detailed = false): \Generator {
+		foreach ($users as $user) {
 			if ($detailed) {
 				$groups = $this->groupManager->getUserGroupIds($user);
-				return [
+				$value = [
 					'user_id' => $user->getUID(),
 					'display_name' => $user->getDisplayName(),
 					'email' => (string)$user->getSystemEMailAddress(),
@@ -92,9 +87,10 @@ class ListCommand extends Base {
 					'user_directory' => $user->getHome(),
 					'backend' => $user->getBackendClassName()
 				];
+			} else {
+				$value = $user->getDisplayName();
 			}
-			return $user->getDisplayName();
-		}, $users);
-		return array_combine($keys, $values);
+			yield $user->getUID() => $value;
+		}
 	}
 }
