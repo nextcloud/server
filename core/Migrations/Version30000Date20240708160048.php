@@ -11,12 +11,17 @@ namespace OC\Core\Migrations;
 use Closure;
 use OCP\DB\ISchemaWrapper;
 use OCP\DB\Types;
+use OCP\Migration\Attributes\AddColumn;
+use OCP\Migration\Attributes\ColumnType;
 use OCP\Migration\IOutput;
 use OCP\Migration\SimpleMigrationStep;
 
 /**
  *
  */
+#[AddColumn(table: 'taskprocessing_tasks', name: 'scheduled_at', type: ColumnType::INTEGER)]
+#[AddColumn(table: 'taskprocessing_tasks', name: 'started_at', type: ColumnType::INTEGER)]
+#[AddColumn(table: 'taskprocessing_tasks', name: 'ended_at', type: ColumnType::INTEGER)]
 class Version30000Date20240708160048 extends SimpleMigrationStep {
 
 	/**

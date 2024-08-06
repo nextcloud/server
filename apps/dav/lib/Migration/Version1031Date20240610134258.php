@@ -12,9 +12,13 @@ namespace OCA\DAV\Migration;
 use Closure;
 use OCP\DB\ISchemaWrapper;
 use OCP\DB\Types;
+use OCP\Migration\Attributes\AddColumn;
+use OCP\Migration\Attributes\ColumnType;
 use OCP\Migration\IOutput;
 use OCP\Migration\SimpleMigrationStep;
 
+#[AddColumn(table: 'dav_absence', name: 'replacement_user_id', type: ColumnType::STRING)]
+#[AddColumn(table: 'dav_absence', name: 'replacement_user_display_name', type:  ColumnType::STRING)]
 class Version1031Date20240610134258 extends SimpleMigrationStep {
 	public function changeSchema(IOutput $output, Closure $schemaClosure, array $options): ?ISchemaWrapper {
 		/** @var ISchemaWrapper $schema */
