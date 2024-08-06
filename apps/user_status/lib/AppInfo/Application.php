@@ -27,6 +27,7 @@ namespace OCA\UserStatus\AppInfo;
 
 use OCA\UserStatus\Capabilities;
 use OCA\UserStatus\Connector\UserStatusProvider;
+use OCA\UserStatus\Dashboard\AllUserStatusWidget;
 use OCA\UserStatus\Dashboard\UserStatusWidget;
 use OCA\UserStatus\Listener\BeforeTemplateRenderedListener;
 use OCA\UserStatus\Listener\OutOfOfficeStatusListener;
@@ -87,6 +88,7 @@ class Application extends App implements IBootstrap {
 		// Register the Dashboard panel if user enumeration is enabled and not limited
 		if ($shareeEnumeration && !$shareeEnumerationInGroupOnly && !$shareeEnumerationPhone) {
 			$context->registerDashboardWidget(UserStatusWidget::class);
+			$context->registerDashboardWidget(AllUserStatusWidget::class);
 		}
 	}
 
