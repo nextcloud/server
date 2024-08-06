@@ -219,6 +219,8 @@ OC.L10N.register(
     "Copy to {target}" : "คัดลอกไปยัง {target}",
     "Move to {target}" : "ย้ายไปยัง {target}",
     "Today" : "วันนี้",
+    "Last 7 days" : "ภายใน 7 วัน",
+    "Last 30 days" : "ภายใน 30 วัน",
     "Folders" : "โฟลเดอร์",
     "Audio" : "เสียง",
     "Videos" : "วิดีโอ",
