@@ -99,7 +99,7 @@ describe(`Download ${fileName} in viewer`, function() {
 	})
 
 	it('See the title on the viewer header but not the Download nor the menu button', function() {
-		cy.get('body > .viewer .modal-name').should('contain', 'image1.jpg')
+		cy.get('body > .viewer .modal-header__name').should('contain', 'image1.jpg')
 		cy.get('body a[download="image1.jpg"]').should('not.exist')
 		cy.get('body > .viewer .modal-header button.action-item__menutoggle').should('not.exist')
 		cy.get('body > .viewer .modal-header button.header-close').should('be.visible')
