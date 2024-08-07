@@ -730,7 +730,6 @@ class Session implements IUserSession, Emitter {
 		if ($dbToken instanceof PublicKeyToken) {
 			$dbToken->setLastActivity($now);
 		}
-		$this->tokenProvider->updateToken($dbToken);
 		return true;
 	}
 
