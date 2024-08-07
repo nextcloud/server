@@ -57,7 +57,7 @@ export const getContents = async (path = '/'): Promise<ContentsWithRoot> => {
 		}
 	}
 
-	const tagId = parseInt(path.split('/', 2)[0])
+	const tagId = parseInt(path.split('/', 2)[1])
 	const tag = tagsCache.find(tag => tag.id === tagId)
 
 	if (!tag) {
