@@ -1850,6 +1850,87 @@ class RequestTest extends \Test\TestCase {
 		$this->assertTrue($request->passesCSRFCheck());
 	}
 
+	public function testPassesCSRFCheckWithGetAndWithoutCSRFCookies() {
+		/** @var Request $request */
+		$request = $this->getMockBuilder('\OC\AppFramework\Http\Request')
+			->setMethods(['getScriptName'])
+			->setConstructorArgs([
+				[
+					'get' => [
+						'requesttoken' => 'AAAHGxsTCTc3BgMQESAcNR0OAR0=:MyTotalSecretShareds',
+					],
+					'cookies' => [
+						'some_already_set_cookie' => 'true',
+					],
+				],
+				$this->requestId,
+				$this->config,
+				$this->csrfTokenManager,
+				$this->stream
+			])
+			->getMock();
+		$this->csrfTokenManager
+			->expects($this->once())
+			->method('isTokenValid')
+			->willReturn(true);
+
+		$this->assertTrue($request->passesCSRFCheck());
+	}
+
+	public function testPassesCSRFCheckWithPostAndWithoutCSRFCookies() {
+		/** @var Request $request */
+		$request = $this->getMockBuilder('\OC\AppFramework\Http\Request')
+			->setMethods(['getScriptName'])
+			->setConstructorArgs([
+				[
+					'post' => [
+						'requesttoken' => 'AAAHGxsTCTc3BgMQESAcNR0OAR0=:MyTotalSecretShareds',
+					],
+					'cookies' => [
+						'some_already_set_cookie' => 'true',
+					],
+				],
+				$this->requestId,
+				$this->config,
+				$this->csrfTokenManager,
+				$this->stream
+			])
+			->getMock();
+		$this->csrfTokenManager
+			->expects($this->once())
+			->method('isTokenValid')
+			->willReturn(true);
+
+		$this->assertTrue($request->passesCSRFCheck());
+	}
+
+	public function testPassesCSRFCheckWithHeaderAndWithoutCSRFCookies() {
+		/** @var Request $request */
+		$request = $this->getMockBuilder('\OC\AppFramework\Http\Request')
+			->setMethods(['getScriptName'])
+			->setConstructorArgs([
+				[
+					'server' => [
+						'HTTP_REQUESTTOKEN' => 'AAAHGxsTCTc3BgMQESAcNR0OAR0=:MyTotalSecretShareds',
+					],
+					'cookies' => [
+						'some_already_set_cookie' => 'true',
+					],
+				],
+				$this->requestId,
+				$this->config,
+				$this->csrfTokenManager,
+				$this->stream
+			])
+			->getMock();
+		$this->csrfTokenManager
+			->expects($this->once())
+			->method('isTokenValid')
+			->willReturn(true);
+
+		$this->assertTrue($request->passesCSRFCheck());
+	}
+
 	public function testFailsCSRFCheckWithHeaderAndNotAllChecksPassing() {
 		/** @var Request $request */
 		$request = $this->getMockBuilder('\OC\AppFramework\Http\Request')
