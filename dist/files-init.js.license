@@ -95,7 +95,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 5.0.1
 	- license: MIT
 - @nextcloud/upload
-	- version: 1.4.2
+	- version: 1.4.3
 	- license: AGPL-3.0-or-later
 - @nextcloud/vue
 	- version: 8.16.0
