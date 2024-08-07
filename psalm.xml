@@ -151,5 +151,12 @@
 				<referencedClass name="OCA\GlobalSiteSelector\Service\SlaveService"/>
 			</errorLevel>
 		</UndefinedDocblockClass>
+		<AmbiguousConstantInheritance>
+			<errorLevel type="suppress">
+				<!-- false positive: https://github.com/vimeo/psalm/issues/7818 -->
+				<referencedConstant name="OC\Memcache\Redis::DEFAULT_TTL" />
+				<referencedConstant name="OC\Memcache\LoggerWrapperCache::DEFAULT_TTL" />
+			</errorLevel>
+		</AmbiguousConstantInheritance>
 	</issueHandlers>
 </psalm>

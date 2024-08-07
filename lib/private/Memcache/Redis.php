@@ -29,7 +29,6 @@ class Redis extends Cache implements IMemcacheTTL {
 		],
 	];
 
-	private const DEFAULT_TTL = 24 * 60 * 60; // 1 day
 	private const MAX_TTL = 30 * 24 * 60 * 60; // 1 month
 
 	/**
