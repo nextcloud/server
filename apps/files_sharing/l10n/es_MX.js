@@ -198,7 +198,7 @@ OC.L10N.register(
     "Set expiration date" : "Establece la fecha de expiración",
     "Expiration date" : "Fecha de expiración",
     "Hide download" : "Ocultar descarga",
-    "Allow download" : "Permitir descarga",
+    "Allow Download/Sync" : "Permitir descarga/sincronización",
     "Note to recipient" : "Nota al destinatario",
     "Enter a note for the share recipient" : "Ingrese una nota para el destinatario del recurso compartido",
     "Read" : "Leer",

@@ -199,7 +199,7 @@ OC.L10N.register(
     "Set expiration date" : "Ablaufdatum setzen",
     "Expiration date" : "Ablaufdatum",
     "Hide download" : "Download verbergen",
-    "Allow download" : "Download erlauben",
+    "Allow Download/Sync" : "Download/Synchronisierung zulassen",
     "Note to recipient" : "Notiz an Empfänger",
     "Enter a note for the share recipient" : "Notiz für Empfänger der Freigabe eingeben",
     "Read" : "Lesen",

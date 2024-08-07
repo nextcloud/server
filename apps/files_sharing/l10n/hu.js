@@ -190,7 +190,7 @@ OC.L10N.register(
     "Set expiration date" : "Lejárati idő beállítása",
     "Expiration date" : "Lejárati dátum",
     "Hide download" : "Letöltés elrejtése",
-    "Allow download" : "Letöltés engedélyezése",
+    "Allow Download/Sync" : "Letöltés/Szinkronizálás engedélyezése",
     "Note to recipient" : "Jegyzet a címzettnek",
     "Enter a note for the share recipient" : "Adjon meg egy megjegyzést a megosztás címzettje számára",
     "Read" : "Olvasás",

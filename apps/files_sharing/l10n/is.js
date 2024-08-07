@@ -190,7 +190,7 @@ OC.L10N.register(
     "Set expiration date" : "Setja gildistíma",
     "Expiration date" : "Gildir til",
     "Hide download" : "Fela niðurhal",
-    "Allow download" : "Leyfa niðurhal",
+    "Allow Download/Sync" : "Leyfa niðurhal/samstillingu",
     "Note to recipient" : "Minnispunktur til viðtakanda",
     "Enter a note for the share recipient" : "Settu inn minnispunkt til viðtakanda sameignar",
     "Read" : "Lesa",

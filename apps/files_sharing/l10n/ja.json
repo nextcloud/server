@@ -197,7 +197,7 @@
     "Set expiration date" : "有効期限を設定",
     "Expiration date" : "有効期限",
     "Hide download" : "ダウンロードを隠す",
-    "Allow download" : "ダウンロードを許可",
+    "Allow Download/Sync" : "ダウンロード/同期を許可する",
     "Note to recipient" : "受取人への注意",
     "Enter a note for the share recipient" : "共有受信者へのメモを入力してください",
     "Read" : "読み込み",

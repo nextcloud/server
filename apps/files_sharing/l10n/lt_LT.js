@@ -167,7 +167,7 @@ OC.L10N.register(
     "Set expiration date" : "Nustatyti galiojimo pabaigos datą",
     "Expiration date" : "Pabaigos data",
     "Hide download" : "Slėpti atsisiuntimą",
-    "Allow download" : "Leisti atsisiųsti",
+    "Allow Download/Sync" : "Leisti atsisiųsti / sinchronizuoti",
     "Note to recipient" : "Pastaba gavėjui",
     "Enter a note for the share recipient" : "Įrašykite pranešimą bendrinimo gavėjui",
     "Read" : "Skaityti",

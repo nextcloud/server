@@ -199,7 +199,7 @@ OC.L10N.register(
     "Set expiration date" : "Nastaviť dátum expirácie",
     "Expiration date" : "Dátum vypršania",
     "Hide download" : "Skryť sťahovanie",
-    "Allow download" : "Povoliť sťahovanie",
+    "Allow Download/Sync" : "Povoliť sťahovanie/synchronizáciu",
     "Note to recipient" : "Poznámka pre príjemcu",
     "Enter a note for the share recipient" : "Zadajte poznámku pre príjemcu zdieľania",
     "Read" : "Čítať",

@@ -183,7 +183,7 @@ OC.L10N.register(
     "Set expiration date" : "Nastavi datum preteka",
     "Expiration date" : "Datum preteka",
     "Hide download" : "Skrij prejem",
-    "Allow download" : "Dovoli prejem datotek",
+    "Allow Download/Sync" : "Dovoli prenos/sinhronizacijo",
     "Note to recipient" : "Sporočilo za prejemnika",
     "Enter a note for the share recipient" : "Vpišite opombo za prejemnika",
     "Read" : "Branje",

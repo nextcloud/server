@@ -187,7 +187,7 @@ OC.L10N.register(
     "Set expiration date" : "Постави рок на траење",
     "Expiration date" : "Рок на траење",
     "Hide download" : "Сокриј преземање",
-    "Allow download" : "Дозволи преземање",
+    "Allow Download/Sync" : "Дозволи преземање/синхронизација",
     "Note to recipient" : "Белешка до примачот",
     "Enter a note for the share recipient" : "Внесете белешка до примачот на споделуваето",
     "Read" : "Читај",

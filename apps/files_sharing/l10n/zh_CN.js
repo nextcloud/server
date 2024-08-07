@@ -190,7 +190,7 @@ OC.L10N.register(
     "Set expiration date" : "设置过期日期",
     "Expiration date" : "过期日期 ",
     "Hide download" : "隐藏下载",
-    "Allow download" : "允许下载",
+    "Allow Download/Sync" : "允许下载/同步",
     "Note to recipient" : "接收人备注",
     "Enter a note for the share recipient" : "给共享接收人留备注",
     "Read" : "读取",

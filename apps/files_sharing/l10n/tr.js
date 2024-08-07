@@ -199,7 +199,7 @@ OC.L10N.register(
     "Set expiration date" : "Geçerlilik sonu tarihini ayarla",
     "Expiration date" : "Geçerlilik sonu tarihi",
     "Hide download" : "İndirme gizlensin",
-    "Allow download" : "İndirilebilsin",
+    "Allow Download/Sync" : "tillgänglig för nedladdning/synkronisering",
     "Note to recipient" : "Alıcıya not",
     "Enter a note for the share recipient" : "Paylaşım alıcısı için bir not yazın",
     "Read" : "Okuma",

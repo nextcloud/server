@@ -190,7 +190,7 @@ OC.L10N.register(
     "Set expiration date" : "Установить срок действия",
     "Expiration date" : "Срок действия",
     "Hide download" : "Скрыть загрузку",
-    "Allow download" : "Разрешить скачивать",
+    "Allow Download/Sync" : "Разрешить загрузку/синхронизацию",
     "Note to recipient" : "Примечание для получателя",
     "Enter a note for the share recipient" : "Введите примечание для получателя",
     "Read" : "Прочитать",

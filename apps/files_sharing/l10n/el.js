@@ -185,7 +185,7 @@ OC.L10N.register(
     "Set expiration date" : "Ορισμός ημερομηνίας λήξης",
     "Expiration date" : "Ημερομηνία λήξης",
     "Hide download" : "Απόκρυψη λήψης",
-    "Allow download" : "Να επιτρέπεται η λήψη",
+    "Allow Download/Sync" : "Να επιτρέπεται η λήψη/συγχρονισμός",
     "Note to recipient" : "Σημείωση προς τον παραλήπτη",
     "Enter a note for the share recipient" : "Προσθέτε σημείωση για τους παραλήπτες του κοινόχρηστου",
     "Read" : "Ανάγνωση",

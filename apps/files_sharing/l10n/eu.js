@@ -191,7 +191,7 @@ OC.L10N.register(
     "Set expiration date" : "Ezarri iraungitze-data",
     "Expiration date" : "Iraungitze-data",
     "Hide download" : "Ezkutatu deskarga",
-    "Allow download" : "Baimendu deskarga",
+    "Allow Download/Sync" : "Baimendu deskarga/sinkronizazioa",
     "Note to recipient" : "Oharra hartzailearentzat",
     "Enter a note for the share recipient" : "Sartu ohar bat partekatzearen hartzailearentzat",
     "Read" : "Irakurri",

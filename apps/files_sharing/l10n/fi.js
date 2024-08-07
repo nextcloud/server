@@ -185,7 +185,7 @@ OC.L10N.register(
     "Set expiration date" : "Aseta vanhenemispäivä",
     "Expiration date" : "Vanhenemispäivä",
     "Hide download" : "Piilota lataus",
-    "Allow download" : "Salli lataus",
+    "Allow Download/Sync" : "Salli lataus/synkronointi",
     "Note to recipient" : "Huomio vastaanottajalle",
     "Enter a note for the share recipient" : "Lisää muistiinpano jaon vastaanottajalle",
     "Read" : "Lue",

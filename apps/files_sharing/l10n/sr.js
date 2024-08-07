@@ -199,7 +199,7 @@ OC.L10N.register(
     "Set expiration date" : "Постави датум истека",
     "Expiration date" : "Датум истека",
     "Hide download" : "Сакриј преузимање",
-    "Allow download" : "Дозволи преузимање",
+    "Allow Download/Sync" : "Дозволи преузимање/синхронизацију",
     "Note to recipient" : "Белешка примаоцу",
     "Enter a note for the share recipient" : "Унесите белешку примаоцу дељења",
     "Read" : "Читање",

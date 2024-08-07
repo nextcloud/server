@@ -199,7 +199,7 @@ OC.L10N.register(
     "Set expiration date" : "Sett utløpsdato",
     "Expiration date" : "Utløpsdato",
     "Hide download" : "Gjem nedlasting",
-    "Allow download" : "Tillat nedlasting",
+    "Allow Download/Sync" : "Tillat nedlasting/synkronisering",
     "Note to recipient" : "Melding til mottaker",
     "Enter a note for the share recipient" : "Skriv inn en beskjed til mottaker av deling",
     "Read" : "Les",

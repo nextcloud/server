@@ -199,7 +199,7 @@ OC.L10N.register(
     "Set expiration date" : "تعيين تاريخ إنتهاء الصلاحية",
     "Expiration date" : "تاريخ إنتهاء صلاحية المشاركة",
     "Hide download" : "إخفاء التنزيل",
-    "Allow download" : "إسمَح بالتنزيل",
+    "Allow Download/Sync" : "السماح بالتنزيل/المزامنة",
     "Note to recipient" : "ملاحظة للمستلم",
     "Enter a note for the share recipient" : "أدخل ملاحظةً لمُستلِم المُشارَكة",
     "Read" : "إقرأ",

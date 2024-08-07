@@ -199,7 +199,7 @@ OC.L10N.register(
     "Set expiration date" : "Estableix la data de caducitat",
     "Expiration date" : "Data de caducitat",
     "Hide download" : "Amaga la baixada",
-    "Allow download" : "Permet la baixada",
+    "Allow Download/Sync" : "Permetre la descàrrega/sincronització",
     "Note to recipient" : "Nota per al destinatari",
     "Enter a note for the share recipient" : "Introduïu una nota per al destinatari de l'element compartit",
     "Read" : "Lectura",

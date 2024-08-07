@@ -190,7 +190,7 @@ OC.L10N.register(
     "Set expiration date" : "Đặt ngày hết hạn",
     "Expiration date" : "Ngày kết thúc",
     "Hide download" : "Ẩn tải xuống",
-    "Allow download" : "Cho phép tải xuống",
+    "Allow Download/Sync" : "Cho phép Tải xuống/Đồng bộ hóa",
     "Note to recipient" : "Ghi chú cho người nhận",
     "Enter a note for the share recipient" : "Nhập ghi chú cho người nhận chia sẻ",
     "Read" : "Đọc",

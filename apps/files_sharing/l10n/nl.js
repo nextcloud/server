@@ -177,7 +177,7 @@ OC.L10N.register(
     "Set expiration date" : "Stel vervaldatum in",
     "Expiration date" : "Vervaldatum",
     "Hide download" : "Verberg download",
-    "Allow download" : "Downloaden toestaan",
+    "Allow Download/Sync" : "Downloaden/synchroniseren toestaan",
     "Note to recipient" : "Notitie voor ontvanger",
     "Enter a note for the share recipient" : "Geef een notitie op voor de share-ontvanger",
     "Read" : "Lezen",

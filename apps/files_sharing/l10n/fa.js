@@ -187,7 +187,7 @@ OC.L10N.register(
     "Set expiration date" : "تنظیم تاریخ انقضا",
     "Expiration date" : "تاریخ انقضا",
     "Hide download" : "پنهان کردن بارگیری",
-    "Allow download" : "Allow download",
+    "Allow Download/Sync" : "Allow Download/Sync",
     "Note to recipient" : "یادداشت برای گیرنده",
     "Enter a note for the share recipient" : "برای دریافت کننده اشتراک یک یادداشت وارد کنید",
     "Read" : "خواندن",

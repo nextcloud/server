@@ -61,7 +61,7 @@ class ViewOnlyPlugin extends ServerPlugin {
 	}
 
 	/**
-	 * Disallow download via DAV Api in case file being received share
+	 * Disallow Download/Sync via DAV Api in case file being received share
 	 * and having special permission
 	 *
 	 * @throws Forbidden

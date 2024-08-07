@@ -186,7 +186,7 @@ OC.L10N.register(
     "Set expiration date" : "Срок на валидност",
     "Expiration date" : "Валидност",
     "Hide download" : "Скрий свалянето",
-    "Allow download" : "Позволяване на изтегляне/сваляне/",
+    "Allow Download/Sync" : "Разрешаване на изтегляне/синхронизиране",
     "Note to recipient" : "Бележка за получателя",
     "Enter a note for the share recipient" : "Въведете бележка за получателя на споделянето",
     "Read" : "Четене",
