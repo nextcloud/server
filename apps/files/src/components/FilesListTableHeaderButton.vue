@@ -61,7 +61,7 @@ export default defineComponent({
 <style scoped lang="scss">
 .files-list__column-sort-button {
 	// Compensate for cells margin
-	margin: 0 calc(var(--cell-margin) * -1);
+	margin: 0 calc(var(--button-padding, var(--cell-margin)) * -1);
 	min-width: calc(100% - 3 * var(--cell-margin))!important;
 
 	&-text {
