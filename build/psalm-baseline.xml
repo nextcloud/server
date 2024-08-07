@@ -252,7 +252,6 @@
       <code><![CDATA[$vevent->DTEND]]></code>
     </LessSpecificReturnStatement>
     <UndefinedInterfaceMethod>
-      <code><![CDATA[get]]></code>
       <code><![CDATA[getChildren]]></code>
     </UndefinedInterfaceMethod>
     <UndefinedMethod>
