@@ -18,8 +18,9 @@
 				:aria-current="app.active ? 'page' : false"
 				:href="app.href"
 				:icon="app.icon"
-				:name="app.name"
-				class="app-menu__overflow-entry" />
+				class="app-menu__overflow-entry">
+				{{ app.name }}
+			</NcActionLink>
 		</NcActions>
 	</nav>
 </template>
