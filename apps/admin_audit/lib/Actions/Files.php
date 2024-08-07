@@ -7,6 +7,7 @@ declare(strict_types=1);
  */
 namespace OCA\AdminAudit\Actions;
 
+use OC\Files\Node\NonExistingFile;
 use OCP\Files\Events\Node\BeforeNodeReadEvent;
 use OCP\Files\Events\Node\BeforeNodeRenamedEvent;
 use OCP\Files\Events\Node\BeforeNodeWrittenEvent;
@@ -35,9 +36,10 @@ class Files extends Action {
 	 */
 	public function read(BeforeNodeReadEvent $event): void {
 		try {
+			$node = $event->getNode();
 			$params = [
-				'id' => $event->getNode()->getId(),
-				'path' => mb_substr($event->getNode()->getInternalPath(), 5),
+				'id' => $node instanceof NonExistingFile ? null : $node->getId(),
+				'path' => mb_substr($node->getInternalPath(), 5),
 			];
 		} catch (InvalidPathException|NotFoundException $e) {
 			\OCP\Server::get(LoggerInterface::class)->error(
