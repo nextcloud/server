@@ -100,7 +100,7 @@ class ClientFlowLoginV2Controller extends Controller {
 	 */
 	#[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
 	#[UseSession]
-	public function landing(string $token, $user = ''): Response {
+	public function landing(string $token, string $user = '', int $direct = 0): Response {
 		if (!$this->loginFlowV2Service->startLoginFlow($token)) {
 			return $this->loginTokenForbiddenResponse();
 		}
@@ -108,7 +108,7 @@ class ClientFlowLoginV2Controller extends Controller {
 		$this->session->set(self::TOKEN_NAME, $token);
 
 		return new RedirectResponse(
-			$this->urlGenerator->linkToRouteAbsolute('core.ClientFlowLoginV2.showAuthPickerPage', ['user' => $user])
+			$this->urlGenerator->linkToRouteAbsolute('core.ClientFlowLoginV2.showAuthPickerPage', ['user' => $user, 'direct' => $direct])
 		);
 	}
 
@@ -118,7 +118,7 @@ class ClientFlowLoginV2Controller extends Controller {
 	 */
 	#[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
 	#[UseSession]
-	public function showAuthPickerPage($user = ''): StandaloneTemplateResponse {
+	public function showAuthPickerPage(string $user = '', int $direct = 0): StandaloneTemplateResponse {
 		try {
 			$flow = $this->getFlowByLoginToken();
 		} catch (LoginFlowV2NotFoundException $e) {
@@ -140,6 +140,7 @@ class ClientFlowLoginV2Controller extends Controller {
 				'urlGenerator' => $this->urlGenerator,
 				'stateToken' => $stateToken,
 				'user' => $user,
+				'direct' => $direct,
 			],
 			'guest'
 		);
@@ -152,7 +153,7 @@ class ClientFlowLoginV2Controller extends Controller {
 	 */
 	#[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
 	#[UseSession]
-	public function grantPage(?string $stateToken): StandaloneTemplateResponse {
+	public function grantPage(?string $stateToken, int $direct = 0): StandaloneTemplateResponse {
 		if ($stateToken === null) {
 			return $this->stateTokenMissingResponse();
 		}
@@ -179,6 +180,7 @@ class ClientFlowLoginV2Controller extends Controller {
 				'instanceName' => $this->defaults->getName(),
 				'urlGenerator' => $this->urlGenerator,
 				'stateToken' => $stateToken,
+				'direct' => $direct,
 			],
 			'guest'
 		);
