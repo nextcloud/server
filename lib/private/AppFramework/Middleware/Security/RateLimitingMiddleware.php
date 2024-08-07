@@ -20,6 +20,7 @@ use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Middleware;
+use OCP\IConfig;
 use OCP\IRequest;
 use OCP\ISession;
 use OCP\IUserSession;
@@ -53,6 +54,7 @@ class RateLimitingMiddleware extends Middleware {
 		protected ControllerMethodReflector $reflector,
 		protected Limiter $limiter,
 		protected ISession $session,
+		protected IConfig $config,
 	) {
 	}
 
@@ -94,7 +96,26 @@ class RateLimitingMiddleware extends Middleware {
 				$rateLimit->getPeriod(),
 				$this->request->getRemoteAddress()
 			);
+			return;
 		}
+
+		$globalLimit = $this->config->getSystemValueInt('global-rate-limit.limit', 10);
+		$globalPeriod = $this->config->getSystemValueInt('global-rate-limit.period', 1);
+
+		if ($globalLimit > 0 && $globalPeriod > 0) {
+			$this->userSession->isLoggedIn() ? $this->limiter->registerUserRequest(
+				$rateLimitIdentifier,
+				$globalLimit,
+				$globalPeriod,
+				$this->userSession->getUser()
+			) : $this->limiter->registerAnonRequest(
+				$rateLimitIdentifier,
+				$globalLimit,
+				$globalPeriod,
+				$this->request->getRemoteAddress()
+			);
+		}
+
 	}
 
 	/**
