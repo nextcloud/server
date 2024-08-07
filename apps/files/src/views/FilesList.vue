@@ -230,8 +230,6 @@ export default defineComponent({
 			promise: null as CancelablePromise<ContentsWithRoot> | Promise<ContentsWithRoot> | null,
 
 			dirContentsFiltered: [] as INode[],
-
-			unsubscribeStoreCallback: () => {},
 		}
 	},
 
@@ -466,12 +464,13 @@ export default defineComponent({
 		subscribe('files:node:updated', this.onUpdatedNode)
 
 		// reload on settings change
-		this.unsubscribeStoreCallback = this.userConfigStore.$subscribe(() => this.fetchContent(), { deep: true })
+		subscribe('files:config:updated', this.fetchContent)
 	},
 
 	unmounted() {
 		unsubscribe('files:node:deleted', this.onNodeDeleted)
 		unsubscribe('files:node:updated', this.onUpdatedNode)
+		unsubscribe('files:config:updated', this.fetchContent)
 	},
 
 	methods: {
