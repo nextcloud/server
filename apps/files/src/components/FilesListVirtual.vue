@@ -610,6 +610,7 @@ export default defineComponent({
 				// Necessary for flex grow to work
 				min-width: 0;
 				margin: 0;
+				padding: 0;
 
 				// Already added to the inner text, see rule below
 				&:focus-visible {
@@ -630,7 +631,7 @@ export default defineComponent({
 				color: var(--color-main-text);
 				// Make some space for the outline
 				padding: var(--default-grid-baseline) calc(2 * var(--default-grid-baseline));
-				margin-left: -10px;
+				padding-left: 0;
 				// Align two name and ext
 				display: inline-flex;
 			}
