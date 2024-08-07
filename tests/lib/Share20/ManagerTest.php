@@ -60,6 +60,7 @@ use OCP\Share\Events\ShareCreatedEvent;
 use OCP\Share\Events\ShareDeletedEvent;
 use OCP\Share\Events\ShareDeletedFromSelfEvent;
 use OCP\Share\Exceptions\AlreadySharedException;
+use OCP\Share\Exceptions\GenericShareException;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IManager;
 use OCP\Share\IProviderFactory;
@@ -241,7 +242,7 @@ class ManagerTest extends \Test\TestCase {
 	 */
 	public function testDelete($shareType, $sharedWith) {
 		$manager = $this->createManagerMock()
-			->setMethods(['getShareById', 'deleteChildren'])
+			->setMethods(['getShareById', 'deleteChildren', 'deleteReshare'])
 			->getMock();
 
 		$manager->method('deleteChildren')->willReturn([]);
@@ -259,6 +260,7 @@ class ManagerTest extends \Test\TestCase {
 			->setTarget('myTarget');
 
 		$manager->expects($this->once())->method('deleteChildren')->with($share);
+		$manager->expects($this->once())->method('deleteReshare')->with($share);
 
 		$this->defaultProvider
 			->expects($this->once())
@@ -283,7 +285,7 @@ class ManagerTest extends \Test\TestCase {
 
 	public function testDeleteLazyShare() {
 		$manager = $this->createManagerMock()
-			->setMethods(['getShareById', 'deleteChildren'])
+			->setMethods(['getShareById', 'deleteChildren', 'deleteReshare'])
 			->getMock();
 
 		$manager->method('deleteChildren')->willReturn([]);
@@ -302,6 +304,7 @@ class ManagerTest extends \Test\TestCase {
 		$this->rootFolder->expects($this->never())->method($this->anything());
 
 		$manager->expects($this->once())->method('deleteChildren')->with($share);
+		$manager->expects($this->once())->method('deleteReshare')->with($share);
 
 		$this->defaultProvider
 			->expects($this->once())
@@ -326,7 +329,7 @@ class ManagerTest extends \Test\TestCase {
 
 	public function testDeleteNested() {
 		$manager = $this->createManagerMock()
-			->setMethods(['getShareById'])
+			->setMethods(['getShareById', 'deleteReshare'])
 			->getMock();
 
 		$path = $this->createMock(File::class);
