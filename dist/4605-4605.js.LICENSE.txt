@@ -62,6 +62,7 @@
  * @author Gary Kim <gary@garykim.dev>
  * @author John Molakvoæ <skjnldsv@protonmail.com>
  * @author Julius Härtl <jus@bitgrid.net>
+ * @author Mikhailo Matiyenko-Kupriyanov <kupriyanov@strato.de>
  * @author Vincent Petry <vincent@nextcloud.com>
  *
  * @license AGPL-3.0-or-later
