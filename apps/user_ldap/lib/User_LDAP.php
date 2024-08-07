@@ -266,7 +266,8 @@ class User_LDAP extends BackendUtility implements IUserBackend, UserInterface, I
 	 * @throws \OC\ServerNotAvailableException
 	 */
 	public function userExistsOnLDAP($user, bool $ignoreCache = false): bool {
-		if (is_string($user)) {
+                // in case it is just an integer (is_string(int) returns false
+		if (is_string($user) || is_numeric($user)) {
 			$user = $this->access->userManager->get($user);
 		}
 		if (is_null($user)) {
@@ -605,7 +606,8 @@ class User_LDAP extends BackendUtility implements IUserBackend, UserInterface, I
 				if (is_string($dn)) {
 					// the NC user creation work flow requires a know user id up front
 					$uuid = $this->access->getUUID($dn, true);
-					if (is_string($uuid)) {
+					// not sure if UUID could ever be just a number
+					if (is_string($uuid) || is_numeric($uuid)) {
 						$this->access->mapAndAnnounceIfApplicable(
 							$this->access->getUserMapper(),
 							$dn,
