@@ -207,7 +207,7 @@ export default {
 				this.processSharedWithMe(sharedWithMe)
 				this.processShares(shares)
 			} catch (error) {
-				if (error.response.data?.ocs?.meta?.message) {
+				if (error?.response?.data?.ocs?.meta?.message) {
 					this.error = error.response.data.ocs.meta.message
 				} else {
 					this.error = t('files_sharing', 'Unable to load the shares list')
