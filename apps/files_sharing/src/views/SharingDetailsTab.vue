@@ -1082,7 +1082,7 @@ export default {
 	&__wrapper {
 		position: relative;
 		overflow: scroll;
-		flex-shrink: 1;
+		flex: 1 0 auto;
 		padding: 4px;
 		padding-inline-end: 12px;
 	}

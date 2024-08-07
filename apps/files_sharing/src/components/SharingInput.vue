@@ -5,7 +5,6 @@
 
 <template>
 	<div class="sharing-search">
-		<label for="sharing-search-input">{{ t('files_sharing', 'Search for share recipients') }}</label>
 		<NcSelect ref="select"
 			v-model="value"
 			input-id="sharing-search-input"

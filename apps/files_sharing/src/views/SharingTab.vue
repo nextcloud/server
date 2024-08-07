@@ -25,6 +25,7 @@
 				</SharingEntrySimple>
 			</ul>
 
+			<h3>Internal shares</h3>
 			<!-- add new share input -->
 			<SharingInput v-if="!loading"
 				:can-reshare="canReshare"
@@ -34,13 +35,14 @@
 				:shares="shares"
 				@open-sharing-details="toggleShareDetailsView" />
 
-			<!-- link shares list -->
-			<SharingLinkList v-if="!loading"
-				ref="linkShareList"
-				:can-reshare="canReshare"
-				:file-info="fileInfo"
-				:shares="linkShares"
-				@open-sharing-details="toggleShareDetailsView" />
+			<!-- will move _into_ the dropdown component -->
+			<div style="border-top: 1px dotted grey;"></div>
+
+			<!-- internal link copy -->
+			<SharingEntryInternal :file-info="fileInfo" />
+
+			<div style="border-top: 1px dotted grey;"></div>
+			<!-- will move _into_ the dropdown component -->
 
 			<!-- other shares list -->
 			<SharingList v-if="!loading"
@@ -52,8 +54,16 @@
 			<!-- inherited shares -->
 			<SharingInherited v-if="canReshare && !loading" :file-info="fileInfo" />
 
-			<!-- internal link copy -->
-			<SharingEntryInternal :file-info="fileInfo" />
+			<hr>
+			<h3>External shares</h3>
+
+			<!-- link shares list -->
+			<SharingLinkList v-if="!loading"
+				ref="linkShareList"
+				:can-reshare="canReshare"
+				:file-info="fileInfo"
+				:shares="linkShares"
+				@open-sharing-details="toggleShareDetailsView" />
 		</div>
 
 		<!-- additional entries, use it with cautious -->
@@ -67,9 +77,8 @@
 
 		<!-- projects (deprecated as of NC25 (replaced by related_resources) - see instance config "projects.enabled" ; ignore this / remove it / move into own section) -->
 		<div v-show="!showSharingDetailsView && projectsEnabled && fileInfo"
-			 class="sharingTab__additionalContent">
-			<CollectionList
-				:id="`${fileInfo.id}`"
+			class="sharingTab__additionalContent">
+			<CollectionList :id="`${fileInfo.id}`"
 				type="file"
 				:name="fileInfo.name" />
 		</div>
@@ -433,5 +442,9 @@ export default {
 	&__additionalContent {
 		margin: 44px 0;
 	}
+}
+
+h3 {
+	font-weight: bold;
 }
 </style>
