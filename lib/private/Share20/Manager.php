@@ -18,6 +18,7 @@ use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
 use OCP\Files\Mount\IMountManager;
 use OCP\Files\Node;
+use OCP\Files\NotFoundException;
 use OCP\HintException;
 use OCP\IConfig;
 use OCP\IDateTimeZone;
@@ -1039,6 +1040,71 @@ class Manager implements IManager {
 		return $deletedShares;
 	}
 
+	public function deleteReshare(IShare $share) {
+		// Skip if node not found
+		try {
+			$node = $share->getNode();
+		} catch (NotFoundException) {
+			return;
+		}
+
+		$userIds = [];
+
+		if  ($share->getShareType() === IShare::TYPE_USER) {
+			$userIds[] = $share->getSharedWith();
+		}
+
+		if ($share->getShareType() === IShare::TYPE_GROUP) {
+			$group = $this->groupManager->get($share->getSharedWith());
+			$users = $group->getUsers();
+
+			foreach ($users as $user) {
+				// Skip if share owner is member of shared group
+				if ($user->getUID() === $share->getShareOwner()) {
+					continue;
+				}
+				$userIds[] = $user->getUID();
+			}
+		}
+
+		$reshareRecords = [];
+		$shareTypes = [
+			IShare::TYPE_GROUP,
+			IShare::TYPE_USER,
+			IShare::TYPE_LINK,
+			IShare::TYPE_REMOTE,
+			IShare::TYPE_EMAIL
+		];
+
+		foreach ($userIds as $userId) {
+			foreach ($shareTypes as $shareType) {
+				$provider = $this->factory->getProviderForType($shareType);
+				$shares = $provider->getSharesBy($userId, $shareType, $node, false, -1, 0);
+				foreach ($shares as $child) {
+					$reshareRecords[] = $child;
+				}
+			}
+
+			if ($share->getNodeType() === 'folder') {
+				$sharesInFolder = $this->getSharesInFolder($userId, $node, true);
+
+				foreach ($sharesInFolder as $shares) {
+					foreach ($shares as $child) {
+						$reshareRecords[] = $child;
+					}
+				}
+			}
+		}
+
+		foreach ($reshareRecords as $child) {
+			try {
+				$this->generalCreateChecks($child);
+			} catch (GenericShareException $e) {
+				$this->deleteShare($child);
+			}
+		}
+	}
+
 	/**
 	 * Delete a share
 	 *
@@ -1061,6 +1127,9 @@ class Manager implements IManager {
 		// Do the actual delete
 		$provider = $this->factory->getProviderForType($share->getShareType());
 		$provider->delete($share);
+
+		// Delete shares that shared by the "share with user/group"
+		$this->deleteReshare($share);
 
 		$this->dispatcher->dispatchTyped(new ShareDeletedEvent($share));
 	}
