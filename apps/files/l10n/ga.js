@@ -305,6 +305,7 @@ OC.L10N.register(
     "Copy to {target}" : "Cóipeáil chuig {target}",
     "Move to {target}" : "Bog go {target}",
     "Move or copy operation failed" : "Theip ar an oibríocht a bhogadh nó a chóipeáil",
+    "Cancelled move or copy of \"{filename}\"." : "Cealaíodh bogadh nó cóip de \"{filename}\".",
     "Cancelled move or copy operation" : "Oibríocht aistrithe nó cóipeála curtha ar ceal",
     "Open folder {displayName}" : "Oscail fillteán {displayName}",
     "Open in Files" : "Oscail i Comhaid",

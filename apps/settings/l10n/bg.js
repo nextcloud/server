@@ -101,6 +101,7 @@ OC.L10N.register(
     "Administration" : "Административни",
     "Users" : "Потребители",
     "Additional settings" : "Допълнителни настройки",
+    "Artificial Intelligence" : "Изкуствен интелект",
     "Administration privileges" : "Административни привилегии",
     "Groupware" : "Групов софтуер",
     "Overview" : "Преглед",
