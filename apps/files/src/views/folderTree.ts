@@ -75,7 +75,6 @@ const removeFolderView = (folder: Folder) => {
 }
 
 const removeFolderViewSource = (source: string) => {
-	const Navigation = getNavigation()
 	Navigation.remove(source)
 }
 
