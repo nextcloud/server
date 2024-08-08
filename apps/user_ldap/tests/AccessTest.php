@@ -612,7 +612,8 @@ class AccessTest extends TestCase {
 
 		$this->prepareMocksForSearchTests($base, $fakeConnection, $fakeSearchResultResource, $fakeLdapEntries);
 
-		$this->connection->expects($this->exactly($fakeLdapEntries['count']))
+		// Called twice per user, for userExists and userExistsOnLdap
+		$this->connection->expects($this->exactly(2 * $fakeLdapEntries['count']))
 			->method('writeToCache')
 			->with($this->stringStartsWith('userExists'), true);
 
