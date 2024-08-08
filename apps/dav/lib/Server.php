@@ -54,6 +54,7 @@ use OCP\AppFramework\Http\Response;
 use OCP\Diagnostics\IEventLogger;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\FilesMetadata\IFilesMetadataManager;
+use OCP\IAvatarManager;
 use OCP\ICacheFactory;
 use OCP\IRequest;
 use OCP\Profiler\IProfiler;
@@ -179,9 +180,12 @@ class Server {
 			$this->server->addPlugin(new VCFExportPlugin());
 			$this->server->addPlugin(new MultiGetExportPlugin());
 			$this->server->addPlugin(new HasPhotoPlugin());
-			$this->server->addPlugin(new ImageExportPlugin(new PhotoCache(
-				\OC::$server->getAppDataDir('dav-photocache'),
-				$logger)
+			$this->server->addPlugin(
+				new ImageExportPlugin(new PhotoCache(
+					\OC::$server->getAppDataDir('dav-photocache'),
+					$logger,
+				),
+				\OC::$server->get(IAvatarManager::class),
 			));
 
 			$this->server->addPlugin(\OCP\Server::get(CardDavRateLimitingPlugin::class));
