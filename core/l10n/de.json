@@ -367,7 +367,7 @@
     "Upgrade via web on my own risk" : "Aktualisierung über die Web-Oberfläche auf eigenes Risiko",
     "Maintenance mode" : "Wartungsmodus",
     "This %s instance is currently in maintenance mode, which may take a while." : "Diese %s-Instanz befindet sich gerade im Wartungsmodus, was eine Weile dauern kann.",
-    "This page will refresh itself when the instance is available again." : "Diese Seite aktualisiert sich automatisch, sobald Nextcloud wieder verfügbar ist.",
+    "This page will refresh itself when the instance is available again." : "Diese Seite aktualisiert sich automatisch, sobald die Nextcloud-Instanz wieder verfügbar ist.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Kontaktiere den Systemadministrator, wenn diese Meldung dauerhaft oder unerwartet erscheint.",
     "The user limit of this instance is reached." : "Die Benutzergrenze dieser Instanz ist erreicht.",
     "Enter your subscription key in the support app in order to increase the user limit. This does also grant you all additional benefits that Nextcloud Enterprise offers and is highly recommended for the operation in companies." : "Gib deinen Abonnementschlüssel in der Support-App ein, um das Benutzerlimit zu erhöhen. Dies gewährt dir auch alle zusätzlichen Vorteile, die Nextcloud Enterprise bietet und für den Betrieb in Unternehmen sehr zu empfehlen ist.",
