@@ -126,8 +126,18 @@ class AppConfigController extends OCSController {
 			return new DataResponse(['data' => ['message' => $e->getMessage()]], Http::STATUS_FORBIDDEN);
 		}
 
-		/** @psalm-suppress InternalMethod */
-		$this->appConfig->setValueMixed($app, $key, $value);
+		$configDetails = $this->appConfig->getDetails($app, $key);
+		match ($configDetails['type']) {
+			/** @psalm-suppress InternalMethod */
+			IAppConfig::VALUE_BOOL => $this->appConfig->setValueBool($app, $key, (bool)$value),
+			IAppConfig::VALUE_FLOAT => $this->appConfig->setValueFloat($app, $key, (float)$value),
+			IAppConfig::VALUE_INT => $this->appConfig->setValueInt($app, $key, (int)$value),
+			IAppConfig::VALUE_STRING => $this->appConfig->setValueString($app, $key, $value),
+			IAppConfig::VALUE_ARRAY => $this->appConfig->setValueArray($app, $key, \json_decode($value, true)),
+			/** @psalm-suppress InternalMethod */
+			default => $this->appConfig->setValueMixed($app, $key, $value),
+		};
+
 		return new DataResponse();
 	}
 
