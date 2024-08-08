@@ -12,6 +12,9 @@ use OCA\OAuth2\Db\ClientMapper;
 use OCA\OAuth2\Exceptions\ClientNotFoundException;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
+use OCP\AppFramework\Http\Attribute\PublicPage;
+use OCP\AppFramework\Http\Attribute\UseSession;
 use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\IL10N;
@@ -51,10 +54,6 @@ class LoginRedirectorController extends Controller {
 	}
 
 	/**
-	 * @PublicPage
-	 * @NoCSRFRequired
-	 * @UseSession
-	 *
 	 * Authorize the user
 	 *
 	 * @param string $client_id Client ID
@@ -65,6 +64,9 @@ class LoginRedirectorController extends Controller {
 	 * 200: Client not found
 	 * 303: Redirect to login URL
 	 */
+	#[PublicPage]
+	#[NoCSRFRequired]
+	#[UseSession]
 	public function authorize($client_id,
 		$state,
 		$response_type): TemplateResponse|RedirectResponse {

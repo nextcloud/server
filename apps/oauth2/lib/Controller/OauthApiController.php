@@ -15,6 +15,9 @@ use OCA\OAuth2\Exceptions\AccessTokenNotFoundException;
 use OCA\OAuth2\Exceptions\ClientNotFoundException;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\BruteForceProtection;
+use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
+use OCP\AppFramework\Http\Attribute\PublicPage;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Authentication\Exceptions\ExpiredTokenException;
@@ -47,10 +50,6 @@ class OauthApiController extends Controller {
 	}
 
 	/**
-	 * @PublicPage
-	 * @NoCSRFRequired
-	 * @BruteForceProtection(action=oauth2GetToken)
-	 *
 	 * Get a token
 	 *
 	 * @param string $grant_type Token type that should be granted
@@ -64,6 +63,9 @@ class OauthApiController extends Controller {
 	 * 200: Token returned
 	 * 400: Getting token is not possible
 	 */
+	#[PublicPage]
+	#[NoCSRFRequired]
+	#[BruteForceProtection(action: 'oauth2GetToken')]
 	public function getToken(
 		string $grant_type, ?string $code, ?string $refresh_token,
 		?string $client_id, ?string $client_secret
