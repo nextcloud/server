@@ -52,6 +52,7 @@
   ],
   "defaultEnabled": [
     "activity",
+    "bruteforcesettings",
     "circles",
     "comments",
     "contactsinteraction",
