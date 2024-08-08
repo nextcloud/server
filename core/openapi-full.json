@@ -2851,7 +2851,9 @@
                                                     "type": "object",
                                                     "required": [
                                                         "version",
-                                                        "capabilities"
+                                                        "capabilities",
+                                                        "features",
+                                                        "apps"
                                                     ],
                                                     "properties": {
                                                         "version": {
@@ -2892,6 +2894,36 @@
                                                             "type": "object",
                                                             "additionalProperties": {
                                                                 "type": "object"
+                                                            }
+                                                        },
+                                                        "features": {
+                                                            "type": "object",
+                                                            "additionalProperties": {
+                                                                "type": "array",
+                                                                "items": {
+                                                                    "type": "string"
+                                                                }
+                                                            }
+                                                        },
+                                                        "apps": {
+                                                            "type": "object",
+                                                            "additionalProperties": {
+                                                                "type": "object",
+                                                                "required": [
+                                                                    "version",
+                                                                    "api_versions"
+                                                                ],
+                                                                "properties": {
+                                                                    "version": {
+                                                                        "type": "string"
+                                                                    },
+                                                                    "api_versions": {
+                                                                        "type": "array",
+                                                                        "items": {
+                                                                            "type": "string"
+                                                                        }
+                                                                    }
+                                                                }
                                                             }
                                                         }
                                                     }

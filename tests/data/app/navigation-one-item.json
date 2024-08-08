@@ -82,5 +82,6 @@
     "live-migration": [],
     "uninstall": []
   },
-  "two-factor-providers": []
+  "two-factor-providers": [],
+  "api-version": []
 }

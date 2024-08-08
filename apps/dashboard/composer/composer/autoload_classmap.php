@@ -7,6 +7,8 @@ $baseDir = $vendorDir;
 
 return array(
     'Composer\\InstalledVersions' => $vendorDir . '/composer/InstalledVersions.php',
+    'OCA\\Dashboard\\AppInfo\\Application' => $baseDir . '/../lib/AppInfo/Application.php',
+    'OCA\\Dashboard\\Capabilities' => $baseDir . '/../lib/Capabilities.php',
     'OCA\\Dashboard\\Controller\\DashboardApiController' => $baseDir . '/../lib/Controller/DashboardApiController.php',
     'OCA\\Dashboard\\Controller\\DashboardController' => $baseDir . '/../lib/Controller/DashboardController.php',
     'OCA\\Dashboard\\ResponseDefinitions' => $baseDir . '/../lib/ResponseDefinitions.php',

@@ -7,9 +7,11 @@
 
 namespace Test;
 
+use InvalidArgumentException;
 use OC\CapabilitiesManager;
 use OCP\AppFramework\QueryException;
 use OCP\Capabilities\ICapability;
+use OCP\Capabilities\IFeature;
 use OCP\Capabilities\IPublicCapability;
 use Psr\Log\LoggerInterface;
 
@@ -68,7 +70,7 @@ class CapabilitiesManagerTest extends TestCase {
 	 * Test that we need something that implents ICapability
 	 */
 	public function testNoICapability() {
-		$this->expectException(\InvalidArgumentException::class);
+		$this->expectException(InvalidArgumentException::class);
 		$this->expectExceptionMessage('The given Capability (Test\\NoCapability) does not implement the ICapability interface');
 
 		$this->manager->registerCapability(function () {
@@ -140,6 +142,24 @@ class CapabilitiesManagerTest extends TestCase {
 
 		$this->assertEquals([], $res);
 	}
+
+
+	public function testFeatures() {
+		$this->manager->registerCapability(fn () => new FeatureFoo());
+
+		$res = $this->manager->getFeatures();
+		$this->assertEquals(['foo' => ['123', '456']], $res);
+
+		$this->manager->registerCapability(fn () => new FeatureBar());
+
+		$res = $this->manager->getFeatures();
+		$this->assertEquals(['foo' => ['123', '456'], 'bar' => ['789']], $res);
+
+		$this->manager->registerCapability(fn () => new FeatureFooBar());
+
+		$res = $this->manager->getFeatures();
+		$this->assertEquals(['foo' => ['123', '456', '789'], 'bar' => ['789', '123', '456']], $res);
+	}
 }
 
 class SimpleCapability implements ICapability {
@@ -190,6 +210,53 @@ class DeepCapability implements ICapability {
 					'baz' => true
 				]
 			]
+		];
+	}
+}
+
+class FeatureFoo implements ICapability, IFeature {
+	public function getCapabilities() {
+		return [];
+	}
+
+	public function getFeatures(): array {
+		return [
+			'foo' => [
+				'123',
+				'456',
+			],
+		];
+	}
+}
+
+class FeatureBar implements ICapability, IFeature {
+	public function getCapabilities() {
+		return [];
+	}
+
+	public function getFeatures(): array {
+		return [
+			'bar' => [
+				'789',
+			],
+		];
+	}
+}
+
+class FeatureFooBar implements ICapability, IFeature {
+	public function getCapabilities() {
+		return [];
+	}
+
+	public function getFeatures(): array {
+		return [
+			'foo' => [
+				'789',
+			],
+			'bar' => [
+				'123',
+				'456',
+			],
 		];
 	}
 }

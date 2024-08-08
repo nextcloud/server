@@ -6,10 +6,12 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OC;
 
 use OCP\AppFramework\QueryException;
 use OCP\Capabilities\ICapability;
+use OCP\Capabilities\IFeature;
 use OCP\Capabilities\IInitialStateExcludedCapability;
 use OCP\Capabilities\IPublicCapability;
 use Psr\Log\LoggerInterface;
@@ -35,10 +37,10 @@ class CapabilitiesManager {
 	 * Get an array of al the capabilities that are registered at this manager
 	 *
 	 * @param bool $public get public capabilities only
-	 * @throws \InvalidArgumentException
 	 * @return array<string, mixed>
+	 * @throws \InvalidArgumentException
 	 */
-	public function getCapabilities(bool $public = false, bool $initialState = false) : array {
+	public function getCapabilities(bool $public = false, bool $initialState = false): array {
 		$capabilities = [];
 		foreach ($this->capabilities as $capability) {
 			try {
@@ -85,6 +87,33 @@ class CapabilitiesManager {
 		}
 
 		return $capabilities;
+	}
+
+	/**
+	 * @return array<string, list<string>>
+	 */
+	public function getFeatures(): array {
+		$features = [];
+		foreach ($this->capabilities as $capability) {
+			try {
+				$c = $capability();
+			} catch (QueryException $e) {
+				$this->logger->error('CapabilitiesManager', [
+					'exception' => $e,
+				]);
+				continue;
+			}
+
+			if ($c instanceof ICapability) {
+				if ($c instanceof IFeature) {
+					$features = array_merge_recursive($features, $c->getFeatures());
+				}
+			} else {
+				throw new \InvalidArgumentException('The given Capability (' . get_class($c) . ') does not implement the ICapability interface');
+			}
+		}
+
+		return $features;
 	}
 
 	/**
