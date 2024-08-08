@@ -8,6 +8,8 @@ namespace OCA\Files_Versions\Controller;
 use OCA\Files_Versions\Versions\IVersionManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\NoAdminRequired;
+use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\FileDisplayResponse;
 use OCP\Files\IRootFolder;
@@ -47,9 +49,6 @@ class PreviewController extends Controller {
 	}
 
 	/**
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
-	 *
 	 * Get the preview for a file version
 	 *
 	 * @param string $file Path of the file
@@ -62,6 +61,8 @@ class PreviewController extends Controller {
 	 * 400: Getting preview is not possible
 	 * 404: Preview not found
 	 */
+	#[NoAdminRequired]
+	#[NoCSRFRequired]
 	public function getPreview(
 		string $file = '',
 		int $x = 44,
