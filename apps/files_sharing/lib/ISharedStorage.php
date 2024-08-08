@@ -6,7 +6,10 @@
  */
 namespace OCA\Files_Sharing;
 
-use OCP\Files\Storage\IStorage;
+use OCP\Files\Storage\ISharedStorage as PublicISharedStorage;
 
-interface ISharedStorage extends IStorage {
+/**
+ * @deprecated 30.0.0 use `\OCP\Files\Storage\ISharedStorage` instead
+ */
+interface ISharedStorage extends PublicISharedStorage {
 }
