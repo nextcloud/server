@@ -21,6 +21,8 @@ export const useViewConfigStore = function(...args) {
 
 		getters: {
 			getConfig: (state) => (view: ViewId): ViewConfig => state.viewConfig[view] || {},
+
+			getConfigs: (state) => (): ViewConfigs => state.viewConfig,
 		},
 
 		actions: {
