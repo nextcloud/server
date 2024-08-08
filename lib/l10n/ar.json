@@ -17,6 +17,7 @@
     "%1$s, %2$s and %3$s" : "%1$s، %2$s و %3$s",
     "%1$s, %2$s, %3$s and %4$s" : "%1$s، %2$s، %3$s و %4$s",
     "%1$s, %2$s, %3$s, %4$s and %5$s" : "%1$s، %2$s، %3$s، %4$s و %5$s",
+    "Education bundle" : "الحزمة التعليمية",
     "Enterprise bundle" : "حزمة المؤسسة",
     "Groupware bundle" : "حزمة أدوات العمل الجماعي",
     "Hub bundle" : "حزمة الـ\"هَبْ\" Hub",
