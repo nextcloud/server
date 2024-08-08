@@ -261,10 +261,15 @@ class ApiController extends Controller {
 	/**
 	 * Returns the folder tree of the user
 	 *
-	 * @return JSONResponse<Http::STATUS_OK, FilesFolderTree, array{}>|JSONResponse<Http::STATUS_UNAUTHORIZED, array{message: string}, array{}>
+	 * @param string $path The path relative to the user folder
+	 * @param int $depth The depth of the tree
+	 *
+	 * @return JSONResponse<Http::STATUS_OK, FilesFolderTree, array{}>|JSONResponse<Http::STATUS_UNAUTHORIZED|Http::STATUS_BAD_REQUEST|Http::STATUS_NOT_FOUND, array{message: string}, array{}>
 	 *
 	 * 200: Folder tree returned successfully
+	 * 400: Invalid folder path
 	 * 401: Unauthorized
+	 * 404: Folder not found
 	 */
 	#[NoAdminRequired]
 	#[ApiRoute(verb: 'GET', url: '/api/v1/folder-tree')]
