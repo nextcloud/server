@@ -337,7 +337,7 @@ class TwoFactorChallengeControllerTest extends TestCase {
 		$this->assertEquals($expected, $this->controller->solveChallenge('myprovider', 'token', '/url'));
 	}
 
-	public function testSetUpProviders() {
+	public function testSetUpProviders(): void {
 		$user = $this->createMock(IUser::class);
 		$this->userSession->expects($this->once())
 			->method('getUser')
@@ -357,6 +357,7 @@ class TwoFactorChallengeControllerTest extends TestCase {
 					$provider,
 				],
 				'logout_url' => 'logoutAttribute',
+				'redirect_url' => null,
 			],
 			'guest'
 		);
@@ -392,7 +393,7 @@ class TwoFactorChallengeControllerTest extends TestCase {
 		$this->assertEquals($expected, $response);
 	}
 
-	public function testSetUpProvider() {
+	public function testSetUpProvider(): void {
 		$user = $this->createMock(IUser::class);
 		$this->userSession->expects($this->once())
 			->method('getUser')
@@ -426,6 +427,7 @@ class TwoFactorChallengeControllerTest extends TestCase {
 				'provider' => $provider,
 				'logout_url' => 'logoutAttribute',
 				'template' => 'tmpl',
+				'redirect_url' => null,
 			],
 			'guest'
 		);
@@ -435,13 +437,14 @@ class TwoFactorChallengeControllerTest extends TestCase {
 		$this->assertEquals($expected, $response);
 	}
 
-	public function testConfirmProviderSetup() {
+	public function testConfirmProviderSetup(): void {
 		$this->urlGenerator->expects($this->once())
 			->method('linkToRoute')
 			->with(
 				'core.TwoFactorChallenge.showChallenge',
 				[
 					'challengeProviderId' => 'totp',
+					'redirect_url' => null,
 				])
 			->willReturn('2fa/select/page');
 		$expected = new RedirectResponse('2fa/select/page');
