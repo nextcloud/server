@@ -5,9 +5,10 @@
 
 import type { TreeNode } from '../services/FolderTree.ts'
 
+import PQueue from 'p-queue'
 import { Folder, Node, View, getNavigation } from '@nextcloud/files'
 import { translate as t } from '@nextcloud/l10n'
-import { subscribe } from '@nextcloud/event-bus'
+import { emit, subscribe } from '@nextcloud/event-bus'
 import { isSamePath } from '@nextcloud/paths'
 import { loadState } from '@nextcloud/initial-state'
 
@@ -29,6 +30,41 @@ const isFolderTreeEnabled = loadState('files', 'config', { folder_tree: true }).
 
 const Navigation = getNavigation()
 
+const queue = new PQueue({ concurrency: 5, intervalCap: 5, interval: 200 })
+const registerQueue = new PQueue({ concurrency: 5, intervalCap: 5, interval: 200 })
+
+const registerTreeNodes = async (path: string = '/') => {
+	await queue.add(async () => {
+		const nodes = await getFolderTreeNodes(path)
+		const promises = nodes.map(node => registerQueue.add(() => registerTreeNodeView(node)))
+		await Promise.allSettled(promises)
+	})
+}
+
+const getLoadChildViews = (node: TreeNode | Folder) => {
+	return async (view: View): Promise<void> => {
+		// @ts-expect-error Custom property on View instance
+		if (view.loaded) {
+			return
+		}
+		// @ts-expect-error Custom property
+		view.loading = true
+		try {
+			await registerTreeNodes(node.path)
+		} catch (error) {
+			// Skip duplicate view registration errors
+		}
+		// @ts-expect-error Custom property
+		view.loading = false
+		// @ts-expect-error Custom property
+		view.loaded = true
+		// @ts-expect-error No payload
+		emit('files:navigation:updated')
+		// @ts-expect-error No payload
+		emit('files:folder-tree:expanded')
+	}
+}
+
 const registerTreeNodeView = (node: TreeNode) => {
 	Navigation.register(new View({
 		id: encodeSource(node.source),
@@ -40,6 +76,7 @@ const registerTreeNodeView = (node: TreeNode) => {
 		order: 0, // TODO Allow undefined order for natural sort
 
 		getContents,
+		loadChildViews: getLoadChildViews(node),
 
 		params: {
 			view: folderTreeId,
@@ -60,6 +97,7 @@ const registerFolderView = (folder: Folder) => {
 		order: 0, // TODO Allow undefined order for natural sort
 
 		getContents,
+		loadChildViews: getLoadChildViews(folder),
 
 		params: {
 			view: folderTreeId,
@@ -75,7 +113,6 @@ const removeFolderView = (folder: Folder) => {
 }
 
 const removeFolderViewSource = (source: string) => {
-	const Navigation = getNavigation()
 	Navigation.remove(source)
 }
 
@@ -134,14 +171,12 @@ const registerFolderTreeRoot = () => {
 }
 
 const registerFolderTreeChildren = async () => {
-	const nodes = await getFolderTreeNodes()
-	for (const node of nodes) {
-		registerTreeNodeView(node)
-	}
-
+	await registerTreeNodes()
 	subscribe('files:node:created', onCreateNode)
 	subscribe('files:node:deleted', onDeleteNode)
 	subscribe('files:node:moved', onMoveNode)
+	// @ts-expect-error No payload
+	emit('files:folder-tree:initialized')
 }
 
 export const registerFolderTreeView = async () => {

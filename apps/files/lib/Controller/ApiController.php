@@ -7,10 +7,7 @@
  */
 namespace OCA\Files\Controller;
 
-use OC\AppFramework\Middleware\Security\Exceptions\NotLoggedInException;
 use OC\Files\Node\Node;
-use OC\Files\Search\SearchComparison;
-use OC\Files\Search\SearchQuery;
 use OCA\Files\ResponseDefinitions;
 use OCA\Files\Service\TagService;
 use OCA\Files\Service\UserConfig;
@@ -29,12 +26,10 @@ use OCP\AppFramework\Http\FileDisplayResponse;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Http\StreamResponse;
-use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\File;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
-use OCP\Files\Search\ISearchComparison;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IPreview;
@@ -234,75 +229,78 @@ class ApiController extends Controller {
 	}
 
 	/**
-	 * @param Folder[] $folders
+	 * @param \OCP\Files\Node[] $nodes
+	 * @param int $depth The depth to traverse into the contents of each node
 	 */
-	private function getTree(array $folders): array {
-		$user = $this->userSession->getUser();
-		if (!($user instanceof IUser)) {
-			throw new NotLoggedInException();
+	private function getChildren(array $nodes, int $depth = 1, int $currentDepth = 0): array {
+		if ($currentDepth >= $depth) {
+			return [];
 		}
 
-		$userFolder = $this->rootFolder->getUserFolder($user->getUID());
-		$tree = [];
-		foreach ($folders as $folder) {
-			$path = $userFolder->getRelativePath($folder->getPath());
-			if ($path === null) {
+		$children = [];
+		foreach ($nodes as $node) {
+			if (!($node instanceof Folder)) {
 				continue;
 			}
-			$pathBasenames = explode('/', trim($path, '/'));
-			$current = &$tree;
-			foreach ($pathBasenames as $basename) {
-				if (!isset($current['children'][$basename])) {
-					$current['children'][$basename] = [
-						'id' => $folder->getId(),
-					];
-					$displayName = $folder->getName();
-					if ($displayName !== $basename) {
-						$current['children'][$basename]['displayName'] = $displayName;
-					}
-				}
-				$current = &$current['children'][$basename];
+
+			$basename = basename($node->getPath());
+			$entry = [
+				'id' => $node->getId(),
+				'basename' => $basename,
+				'children' => $this->getChildren($node->getDirectoryListing(), $depth, $currentDepth + 1),
+			];
+			$displayName = $node->getName();
+			if ($basename !== $displayName) {
+				$entry['displayName'] = $displayName;
 			}
+			$children[] = $entry;
 		}
-		return $tree['children'] ?? $tree;
+		return $children;
 	}
 
 	/**
 	 * Returns the folder tree of the user
 	 *
-	 * @return JSONResponse<Http::STATUS_OK, FilesFolderTree, array{}>|JSONResponse<Http::STATUS_UNAUTHORIZED, array{message: string}, array{}>
+	 * @param string $path The path relative to the user folder
+	 * @param int $depth The depth of the tree
+	 *
+	 * @return JSONResponse<Http::STATUS_OK, FilesFolderTree, array{}>|JSONResponse<Http::STATUS_UNAUTHORIZED|Http::STATUS_BAD_REQUEST|Http::STATUS_NOT_FOUND, array{message: string}, array{}>
 	 *
 	 * 200: Folder tree returned successfully
+	 * 400: Invalid folder path
 	 * 401: Unauthorized
+	 * 404: Folder not found
 	 */
 	#[NoAdminRequired]
 	#[ApiRoute(verb: 'GET', url: '/api/v1/folder-tree')]
-	public function getFolderTree(): JSONResponse {
+	public function getFolderTree(string $path = '/', int $depth = 1): JSONResponse {
 		$user = $this->userSession->getUser();
 		if (!($user instanceof IUser)) {
 			return new JSONResponse([
 				'message' => $this->l10n->t('Failed to authorize'),
 			], Http::STATUS_UNAUTHORIZED);
 		}
-
-		$userFolder = $this->rootFolder->getUserFolder($user->getUID());
 		try {
-			$searchQuery = new SearchQuery(
-				new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'mimetype', ICacheEntry::DIRECTORY_MIMETYPE),
-				0,
-				0,
-				[],
-				$user,
-				false,
-			);
-			/** @var Folder[] $folders */
-			$folders = $userFolder->search($searchQuery);
-			$tree = $this->getTree($folders);
+			$userFolder = $this->rootFolder->getUserFolder($user->getUID());
+			$userFolderPath = $userFolder->getPath();
+			$fullPath = implode('/', [$userFolderPath, trim($path, '/')]);
+			$node = $this->rootFolder->get($fullPath);
+			if (!($node instanceof Folder)) {
+				return new JSONResponse([
+					'message' => $this->l10n->t('Invalid folder path'),
+				], Http::STATUS_BAD_REQUEST);
+			}
+			$nodes = $node->getDirectoryListing();
+			$tree = $this->getChildren($nodes, $depth);
+		} catch (NotFoundException $e) {
+			return new JSONResponse([
+				'message' => $this->l10n->t('Folder not found'),
+			], Http::STATUS_NOT_FOUND);
 		} catch (Throwable $th) {
 			$this->logger->error($th->getMessage(), ['exception' => $th]);
 			$tree = [];
 		}
-		return new JSONResponse($tree, Http::STATUS_OK, [], JSON_FORCE_OBJECT);
+		return new JSONResponse($tree);
 	}
 
 	/**

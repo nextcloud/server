@@ -39,13 +39,12 @@ namespace OCA\Files;
  *     type: string,
  * }
  *
- * @psalm-type FilesFolderTreeNode = array{
+ * @psalm-type FilesFolderTree = list<array{
  *     id: int,
+ *     basename: string,
  *     displayName?: string,
- *     children?: array<string, array{}>,
- * }
- *
- * @psalm-type FilesFolderTree = array<string, FilesFolderTreeNode>
+ *     children: list<array{}>,
+ * }>
  *
  */
 class ResponseDefinitions {

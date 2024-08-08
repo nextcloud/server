@@ -13,23 +13,17 @@ import {
 import axios from '@nextcloud/axios'
 import { generateOcsUrl } from '@nextcloud/router'
 import { getCurrentUser } from '@nextcloud/auth'
-import { dirname, encodePath } from '@nextcloud/paths'
+import { dirname, encodePath, joinPaths } from '@nextcloud/paths'
 
 import { getContents as getFiles } from './Files.ts'
 
-export const folderTreeId = 'folders'
-export const sourceRoot = `${davRemoteURL}/files/${getCurrentUser()?.uid}`
-
-interface TreeNodeData {
+// eslint-disable-next-line no-use-before-define
+type Tree = Array<{
 	id: number,
+	basename: string,
 	displayName?: string,
-	// eslint-disable-next-line no-use-before-define
-	children?: Tree,
-}
-
-interface Tree {
-	[basename: string]: TreeNodeData,
-}
+	children: Tree,
+}>
 
 export interface TreeNode {
 	source: string,
@@ -39,27 +33,35 @@ export interface TreeNode {
 	displayName?: string,
 }
 
-const getTreeNodes = (tree: Tree, nodes: TreeNode[] = [], currentPath: string = ''): TreeNode[] => {
-	for (const basename in tree) {
-		const path = `${currentPath}/${basename}`
+export const folderTreeId = 'folders'
+
+export const sourceRoot = `${davRemoteURL}/files/${getCurrentUser()?.uid}`
+
+const getTreeNodes = (tree: Tree, currentPath: string = '/', nodes: TreeNode[] = []): TreeNode[] => {
+	for (const { id, basename, displayName, children } of tree) {
+		const path = joinPaths(currentPath, basename)
 		const node: TreeNode = {
 			source: `${sourceRoot}${path}`,
 			path,
-			fileid: tree[basename].id,
+			fileid: id,
 			basename,
-			displayName: tree[basename].displayName,
+		}
+		if (displayName) {
+			node.displayName = displayName
 		}
 		nodes.push(node)
-		if (tree[basename].children) {
-			getTreeNodes(tree[basename].children, nodes, path)
+		if (children.length > 0) {
+			getTreeNodes(children, path, nodes)
 		}
 	}
 	return nodes
 }
 
-export const getFolderTreeNodes = async (): Promise<TreeNode[]> => {
-	const { data: tree } = await axios.get<Tree>(generateOcsUrl('/apps/files/api/v1/folder-tree'))
-	const nodes = getTreeNodes(tree)
+export const getFolderTreeNodes = async (path: string = '/', depth: number = 1): Promise<TreeNode[]> => {
+	const { data: tree } = await axios.get<Tree>(generateOcsUrl('/apps/files/api/v1/folder-tree'), {
+		params: new URLSearchParams({ path, depth: String(depth) }),
+	})
+	const nodes = getTreeNodes(tree, path)
 	return nodes
 }
 
