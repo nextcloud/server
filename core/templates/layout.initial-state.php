@@ -5,7 +5,7 @@
  */
 ?>
 <div id="initial-state-container" style="display: none;">
-    <?php foreach ($_['initialStates'] as $app => $initialState) { ?>
-        <input type="hidden" id="initial-state-<?php p($app); ?>" value="<?php p(base64_encode($initialState)); ?>">
-    <?php }?>
+	<?php foreach ($_['initialStates'] as $app => $initialState) { ?>
+		<input type="hidden" id="initial-state-<?php p($app); ?>" value="<?php p(base64_encode($initialState)); ?>">
+	<?php }?>
 </div>
