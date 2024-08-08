@@ -70,7 +70,7 @@ export const entry = {
 			emit('files:node:created', folder)
 			window.OCP.Files.Router.goToRoute(
 				null, // use default route
-				{ view: 'files', fileid: folder.fileid },
+				{ view: 'files', fileid: String(folder.fileid) },
 				{ dir: context.path },
 			)
 		}

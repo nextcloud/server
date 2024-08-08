@@ -117,7 +117,7 @@ function submit() {
 }
 
 // Reset local name on props change
-watch(() => props.defaultName, () => {
+watch(() => [props.defaultName, props.otherNames], () => {
 	localDefaultName.value = getUniqueName(props.defaultName, props.otherNames)
 })
 
