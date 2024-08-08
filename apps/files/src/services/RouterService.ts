@@ -4,14 +4,47 @@
  */
 import type { Route } from 'vue-router'
 import type VueRouter from 'vue-router'
-import type { Dictionary, Location } from 'vue-router/types/router'
+import type { Dictionary, Location } from 'vue-router/types/router.d.ts'
+import { TypedEventTarget } from 'typescript-event-target'
 
-export default class RouterService {
+interface NavigationEventData {
+	name: Route['name']
+	params: Route['params']
+	query: Route['query']
+}
+
+class NavigationEvent extends CustomEvent<NavigationEventData> {
+
+	constructor({ name, params, query }: Route) {
+		super('navigation', {
+			detail: {
+				name,
+				// Do not let API users mess with internal state of our VueRouter (e.g. if they use Vue it could conflict)
+				params: structuredClone(params),
+				query: structuredClone(query),
+			},
+		})
+	}
+
+}
+
+interface RouterEventMap {
+	navigation: NavigationEvent
+}
+
+export default class RouterService extends TypedEventTarget<RouterEventMap> {
 
 	private _router: VueRouter
 
 	constructor(router: VueRouter) {
+		super()
 		this._router = router
+		this._router.beforeEach((to, from, next) => {
+			// emit event
+			this.dispatchTypedEvent('navigation', new NavigationEvent(to))
+			// continue
+			next()
+		})
 	}
 
 	get name(): string | null | undefined {
