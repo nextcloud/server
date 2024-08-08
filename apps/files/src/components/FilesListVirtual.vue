@@ -190,14 +190,23 @@ export default defineComponent({
 	},
 
 	watch: {
-		fileId(fileId) {
-			this.scrollToFile(fileId, false)
+		fileId: {
+			handler(fileId) {
+				this.scrollToFile(fileId, false)
+			},
+			immediate: true,
 		},
 
-		openFile(open: boolean) {
-			if (open) {
-				this.$nextTick(() => this.handleOpenFile(this.fileId))
-			}
+		openFile: {
+			handler(open: boolean) {
+				// wait for scrolling and updating the actions to settle
+				this.$nextTick(() => {
+					if (this.fileId && this.openFile) {
+						this.handleOpenFile(this.fileId)
+					}
+				})
+			},
+			immediate: true,
 		},
 	},
 
@@ -206,10 +215,11 @@ export default defineComponent({
 		const mainContent = window.document.querySelector('main.app-content') as HTMLElement
 		mainContent.addEventListener('dragover', this.onDragOver)
 
-		const { id } = loadState<{ id?: number }>('files', 'fileInfo', {})
-		this.scrollToFile(id ?? this.fileId)
-		this.openSidebarForFile(id ?? this.fileId)
-		this.handleOpenFile(id ?? null)
+		// If the file list is mounted with a fileId specified
+		// then we need to open the sidebar initially
+		if (this.fileId) {
+			this.openSidebarForFile(this.fileId)
+		}
 	},
 
 	beforeDestroy() {
