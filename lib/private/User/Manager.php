@@ -783,7 +783,7 @@ class Manager extends PublicEmitter implements IUserManager {
 			'.htaccess',
 			'files_external',
 			'__groupfolders',
-			'.ocdata',
+			'.ncdata',
 			'owncloud.log',
 			'nextcloud.log',
 			'updater.log',

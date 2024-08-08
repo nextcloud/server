@@ -162,7 +162,7 @@ class UtilTest extends \Test\TestCase {
 
 	public function testCheckDataDirectoryValidity() {
 		$dataDir = \OC::$server->getTempManager()->getTemporaryFolder();
-		touch($dataDir . '/.ocdata');
+		touch($dataDir . '/.ncdata');
 		$errors = \OC_Util::checkDataDirectoryValidity($dataDir);
 		$this->assertEmpty($errors);
 		\OCP\Files::rmdirr($dataDir);

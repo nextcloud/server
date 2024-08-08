@@ -687,7 +687,7 @@ class OC_Util {
 
 	/**
 	 * Check that the data directory exists and is valid by
-	 * checking the existence of the ".ocdata" file.
+	 * checking the existence of the ".ncdata" file.
 	 *
 	 * @param string $dataDirectory data directory path
 	 * @return array errors found
@@ -701,11 +701,11 @@ class OC_Util {
 				'hint' => $l->t('Check the value of "datadirectory" in your configuration.')
 			];
 		}
-		if (!file_exists($dataDirectory . '/.ocdata')) {
+
+		if (!file_exists($dataDirectory . '/.ncdata')) {
 			$errors[] = [
 				'error' => $l->t('Your data directory is invalid.'),
-				'hint' => $l->t('Ensure there is a file called ".ocdata"' .
-					' in the root of the data directory.')
+				'hint' => $l->t('Ensure there is a file called "%1$s" in the root of the data directory. It should have the content: "%2$s"', ['.ncdata', '# Nextcloud data directory']),
 			];
 		}
 		return $errors;
