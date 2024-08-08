@@ -7,7 +7,8 @@
 	<nav ref="appMenu"
 		class="app-menu"
 		:aria-label="t('core', 'Applications menu')">
-		<ul class="app-menu__list">
+		<ul :aria-label="t('core', 'Apps')"
+			class="app-menu__list">
 			<AppMenuEntry v-for="app in mainAppList"
 				:key="app.id"
 				:app="app" />
@@ -112,6 +113,8 @@ export default defineComponent({
 
 <style scoped lang="scss">
 .app-menu {
+	// The size the currently focussed entry will grow to show the full name
+	--app-menu-entry-growth: calc(var(--default-grid-baseline) * 4);
 	display: flex;
 	flex: 1 1;
 	width: 0;
@@ -119,6 +122,17 @@ export default defineComponent({
 	&__list {
 		display: flex;
 		flex-wrap: nowrap;
+		margin-inline: calc(var(--app-menu-entry-growth) / 2);
+		transition: margin-inline var(--animation-quick) ease-in-out;
+
+		// Remove padding if the first child is focussed
+		&:has(.app-menu-entry:hover:first-child, .app-menu-entry:focus-within:first-child) {
+			margin-inline: 0 calc(var(--app-menu-entry-growth) / 2);
+		}
+		// Remove padding if the last child is focussed
+		&:has(.app-menu-entry:hover:last-child, .app-menu-entry:focus-within:last-child) {
+			margin-inline: calc(var(--app-menu-entry-growth) / 2) 0;
+		}
 	}
 
 	&__overflow {

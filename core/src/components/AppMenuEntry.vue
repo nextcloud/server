@@ -37,6 +37,8 @@ defineProps<{
 	width: var(--header-height);
 	height: var(--header-height);
 	position: relative;
+	// Needed to prevent jumping when hover an entry (keep in sync with :hover styles)
+	transition: width var(--animation-quick) ease-in-out;
 
 	&__link {
 		position: relative;
@@ -95,20 +97,44 @@ defineProps<{
 			left: 50%;
 			bottom: 8px;
 			display: block;
-			transition: all 0.1s ease-in-out;
+			transition: all var(--animation-quick) ease-in-out;
 			opacity: 1;
 		}
 	}
 
 	&__icon,
 	&__label {
-		transition: all 0.1s ease-in-out;
+		transition: all var(--animation-quick) ease-in-out;
 	}
 
 	// Make the hovered entry bold to see that it is hovered
 	&:hover .app-menu-entry__label,
 	&:focus-within .app-menu-entry__label {
 		font-weight: bold;
+	}
+
+	// Adjust the width when an entry is focussed
+	// The focussed / hovered entry should grow, while both neighbors need to shrink
+	&:hover,
+	&:focus-within {
+		width: calc(var(--header-height) + var(--app-menu-entry-growth));
+
+		// The next entry needs to shrink half the growth
+		+ .app-menu-entry {
+			width: calc(var(--header-height) - (var(--app-menu-entry-growth) / 2));
+			.app-menu-entry__icon {
+				margin-inline-end: calc(var(--app-menu-entry-growth) / 2);
+			}
+		}
+	}
+
+	// The previous entry needs to shrink half the growth
+	&:has(+ .app-menu-entry:hover),
+	&:has(+ .app-menu-entry:focus-within) {
+		width: calc(var(--header-height) - (var(--app-menu-entry-growth) / 2));
+		.app-menu-entry__icon {
+			margin-inline-start: calc(var(--app-menu-entry-growth) / 2);
+		}
 	}
 }
 </style>
