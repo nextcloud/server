@@ -643,11 +643,11 @@ class Server extends ServerContainer implements IServerContainer {
 				ArrayCache::class,
 				ArrayCache::class
 			);
-			/** @var \OCP\IConfig $config */
-			$config = $c->get(\OCP\IConfig::class);
+			/** @var SystemConfig $config */
+			$config = $c->get(SystemConfig::class);
 
-			if ($config->getSystemValueBool('installed', false) && !(defined('PHPUNIT_RUN') && PHPUNIT_RUN)) {
-				if (!$config->getSystemValueBool('log_query')) {
+			if ($config->getValue('installed', false) && !(defined('PHPUNIT_RUN') && PHPUNIT_RUN)) {
+				if (!$config->getValue('log_query')) {
 					try {
 						$v = \OC_App::getAppVersions();
 					} catch (\Doctrine\DBAL\Exception $e) {
@@ -671,10 +671,10 @@ class Server extends ServerContainer implements IServerContainer {
 				return new \OC\Memcache\Factory($prefix,
 					$c->get(LoggerInterface::class),
 					$profiler,
-					$config->getSystemValue('memcache.local', null),
-					$config->getSystemValue('memcache.distributed', null),
-					$config->getSystemValue('memcache.locking', null),
-					$config->getSystemValueString('redis_log_file')
+					$config->getValue('memcache.local', null),
+					$config->getValue('memcache.distributed', null),
+					$config->getValue('memcache.locking', null),
+					$config->getValue('redis_log_file')
 				);
 			}
 			return $arrayCacheFactory;
