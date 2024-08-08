@@ -449,7 +449,10 @@ class OC {
 
 		try {
 			// set the session name to the instance id - which is unique
-			$session = new \OC\Session\Internal($sessionName);
+			$session = new \OC\Session\Internal(
+				$sessionName,
+				logger('core'),
+			);
 
 			$cryptoWrapper = Server::get(\OC\Session\CryptoWrapper::class);
 			$session = $cryptoWrapper->wrapSession($session);
