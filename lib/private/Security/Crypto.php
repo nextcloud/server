@@ -97,9 +97,25 @@ class Crypto implements ICrypto {
 			}
 			return $this->decryptWithoutSecret($authenticatedCiphertext, $password);
 		} catch (Exception $e) {
+			// If password is empty and the current secret didn't work, attempt with an empty secret as a fallback 
+			// for instances where the secret might not have been set for a time *IF* the ciphertext version 
+			// indicates an empty secret is a possibility. For example, it's pointless (and will fail hard if tried)
+			// to try the fallback with v3 versioned ciphertext since the keying material can't be empty with that version.
+			// SO: Only attempt the fallback on older versions (including non-versioned) ciphertexts
 			if ($password === '') {
-				// Retry with empty secret as a fallback for instances where the secret might not have been set by accident
-				return $this->decryptWithoutSecret($authenticatedCiphertext, '');
+				// Determine the crypto version, if any
+				$parts = explode('|', $authenticatedCiphertext);
+				$partCount = \count($parts);
+				if ($partCount < 3 || $partCount > 4) {
+					throw new Exception('Authenticated ciphertext could not be decoded (invalid format).');
+				}
+				if ($partCount === 4) { // only newer ciphertext has a version field
+					$version = $parts[3];
+				}
+				
+				if ((!empty($version) && $version <= '2') || empty($version)) { // only <3 versioned or old non-versioned ciphertext ever supported empty secrets
+					return $this->decryptWithoutSecret($authenticatedCiphertext, '');
+				}
 			}
 			throw $e;
 		}
@@ -110,9 +126,6 @@ class Crypto implements ICrypto {
 
 		$parts = explode('|', $authenticatedCiphertext);
 		$partCount = \count($parts);
-		if ($partCount < 3 || $partCount > 4) {
-			throw new Exception('Authenticated ciphertext could not be decoded.');
-		}
 
 		$ciphertext = $this->hex2bin($parts[0]);
 		$iv = $parts[1];
