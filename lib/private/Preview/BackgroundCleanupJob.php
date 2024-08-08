@@ -68,7 +68,7 @@ class BackgroundCleanupJob extends TimedJob {
 		$qb->select('a.name')
 			->from('filecache', 'a')
 			->leftJoin('a', 'filecache', 'b', $qb->expr()->eq(
-				$qb->expr()->castColumn('a.name', IQueryBuilder::PARAM_INT), 'b.fileid'
+				'a.name', $qb->expr()->castColumn('b.fileid', IQueryBuilder::PARAM_STR)
 			))
 			->where(
 				$qb->expr()->isNull('b.fileid')
@@ -78,6 +78,8 @@ class BackgroundCleanupJob extends TimedJob {
 				$qb->expr()->eq('a.parent', $qb->createNamedParameter($this->previewFolder->getId()))
 			)->andWhere(
 				$qb->expr()->like('a.name', $qb->createNamedParameter('__%'))
+			)->andWhere(
+				$qb->expr()->eq('a.mimetype', $qb->createNamedParameter($this->mimeTypeLoader->getId('httpd/unix-directory')))
 			);
 
 		if (!$this->isCLI) {
@@ -132,7 +134,7 @@ class BackgroundCleanupJob extends TimedJob {
 		$qb->select('a.name')
 			->from('filecache', 'a')
 			->leftJoin('a', 'filecache', 'b', $qb->expr()->eq(
-				$qb->expr()->castColumn('a.name', IQueryBuilder::PARAM_INT), 'b.fileid'
+				'a.name', $qb->expr()->castColumn('b.fileid', IQueryBuilder::PARAM_STR)
 			))
 			->where(
 				$qb->expr()->andX(
