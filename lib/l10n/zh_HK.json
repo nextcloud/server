@@ -17,6 +17,7 @@
     "%1$s, %2$s and %3$s" : "%1$s、%2$s 和 %3$s",
     "%1$s, %2$s, %3$s and %4$s" : "%1$s、%2$s、%3$s 和 %4$s",
     "%1$s, %2$s, %3$s, %4$s and %5$s" : "%1$s、%2$s、%3$s、%4$s 和 %5$s",
+    "Education bundle" : "教育組合包",
     "Enterprise bundle" : "企業組合包",
     "Groupware bundle" : "協作組合包",
     "Hub bundle" : "集線器束",
