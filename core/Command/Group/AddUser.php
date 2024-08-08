@@ -49,7 +49,10 @@ class AddUser extends Base {
 			$output->writeln('<error>user not found</error>');
 			return 1;
 		}
+
 		$group->addUser($user);
+		$output->writeln('<info>success</info>');
+
 		return 0;
 	}
 
