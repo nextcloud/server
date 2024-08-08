@@ -156,6 +156,13 @@ class IMipPlugin extends SabreIMipPlugin {
 			$iTipMessage->scheduleStatus = '1.0;We got the message, but it\'s not significant enough to warrant an email';
 			return;
 		}
+		//if sender name is empty sometimes in case of email client
+		if ($senderName === null || empty(trim($senderName))) {
+				$users = $this->userManager->getByEmail($sender);
+			if (count($users) === 1) {
+				$senderName = $users[0]->getDisplayName();
+			}
+		}
 
 		// we (should) have one event component left
 		// as the ITip\Broker creates one iTip message per change
