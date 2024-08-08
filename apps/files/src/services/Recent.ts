@@ -21,16 +21,26 @@
  *
  */
 import type { ContentsWithRoot, Node } from '@nextcloud/files'
-import type { FileStat, ResponseDataDetailed } from 'webdav'
+import type { FileStat, ResponseDataDetailed, SearchResult } from 'webdav'
 
 import { getCurrentUser } from '@nextcloud/auth'
 import { Folder, Permission, davGetRecentSearch, davGetClient, davResultToNode, davRootPath, davRemoteURL } from '@nextcloud/files'
+import { getBaseUrl } from '@nextcloud/router'
+import { CancelablePromise } from 'cancelable-promise'
 import { useUserConfigStore } from '../store/userconfig.ts'
 import { pinia } from '../store/index.ts'
 
 const client = davGetClient()
 
 const lastTwoWeeksTimestamp = Math.round((Date.now() / 1000) - (60 * 60 * 24 * 14))
+
+/**
+ * Helper to map a WebDAV result to a Nextcloud node
+ * The search endpoint already includes the dav remote URL so we must not include it in the source
+ *
+ * @param stat the WebDAV result
+ */
+const resultToNode = (stat: FileStat) => davResultToNode(stat, davRootPath, getBaseUrl())
 
 /**
  * Get recently changed nodes
@@ -51,28 +61,41 @@ export const getContents = async (path = '/'): Promise<ContentsWithRoot> => {
 		|| store.userConfig.show_hidden // If configured to show hidden files we can early return
 		|| !node.dirname.split('/').some((dir) => dir.startsWith('.')) // otherwise only include the file if non of the parent directories is hidden
 
-	const contentsResponse = await client.getDirectoryContents(path, {
-		details: true,
-		data: davGetRecentSearch(lastTwoWeeksTimestamp),
-		headers: {
-			// Patched in WebdavClient.ts
-			method: 'SEARCH',
-			// Somehow it's needed to get the correct response
-			'Content-Type': 'application/xml; charset=utf-8',
-		},
-		deep: true,
-	}) as ResponseDataDetailed<FileStat[]>
+	const abort = new AbortController()
 
-	const contents = contentsResponse.data
+	return new CancelablePromise(async (resolve, reject, cancel) => {
+		cancel(() => abort.abort())
 
-	return {
-		folder: new Folder({
-			id: 0,
-			source: `${davRemoteURL}${davRootPath}`,
-			root: davRootPath,
-			owner: getCurrentUser()?.uid || null,
-			permissions: Permission.READ,
-		}),
-		contents: contents.map((r) => davResultToNode(r)).filter(filterHidden),
-	}
+		let contentsResponse: ResponseDataDetailed<SearchResult>
+		try {
+			contentsResponse = await client.search('/', {
+				details: true,
+				data: davGetRecentSearch(lastTwoWeeksTimestamp),
+				signal: abort.signal,
+			}) as ResponseDataDetailed<SearchResult>
+		} catch (e) {
+			reject(e)
+			return
+		}
+	
+		if (abort.signal.aborted) {
+			reject()
+			return
+		}
+
+		const contents = contentsResponse.data.results
+			.map(resultToNode)
+			.filter(filterHidden)
+
+		resolve({
+			contents,
+			folder: new Folder({
+				id: 0,
+				source: `${davRemoteURL}${davRootPath}`,
+				root: davRootPath,
+				owner: getCurrentUser()?.uid || null,
+				permissions: Permission.READ,
+			}),
+		})
+	})
 }
