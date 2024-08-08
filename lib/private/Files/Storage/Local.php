@@ -400,8 +400,21 @@ class Local extends \OC\Files\Storage\Common {
 		return $result;
 	}
 
-	public function hash($type, $path, $raw = false) {
-		return hash_file($type, $this->getSourcePath($path), $raw);
+    /** @return string|false */
+	public function hash($type, $path, $raw = false): string|bool {
+		$sourcePath = $this->getSourcePath($path);
+		if (!file_exists($sourcePath) || !is_readable($sourcePath)) {
+			\OC::$server->get(LoggerInterface::class)->error('Source path does not exist or is not readable: ' . $sourcePath, ['app' => 'core']);
+			return false;
+		}
+	
+		$validAlgorithms = hash_algos();
+		if (!in_array($type, $validAlgorithms)) {
+			\OC::$server->get(LoggerInterface::class)->error('Invalid hash algorithm: ' . $type, ['app' => 'core']);
+			return false;
+		}
+	
+		return hash_file($type, $sourcePath, $raw);
 	}
 
 	public function free_space($path) {
