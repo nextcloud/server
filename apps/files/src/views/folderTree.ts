@@ -31,6 +31,7 @@ const isFolderTreeEnabled = loadState('files', 'config', { folder_tree: true }).
 const Navigation = getNavigation()
 
 const queue = new PQueue({ concurrency: 5, intervalCap: 5, interval: 200 })
+
 const registerQueue = new PQueue({ concurrency: 5, intervalCap: 5, interval: 200 })
 
 const registerTreeNodes = async (path: string = '/') => {
@@ -44,16 +45,12 @@ const registerTreeNodes = async (path: string = '/') => {
 const getLoadChildViews = (node: TreeNode | Folder) => {
 	return async (view: View): Promise<void> => {
 		// @ts-expect-error Custom property on View instance
-		if (view.loaded) {
+		if (view.loading || view.loaded) {
 			return
 		}
 		// @ts-expect-error Custom property
 		view.loading = true
-		try {
-			await registerTreeNodes(node.path)
-		} catch (error) {
-			// Skip duplicate view registration errors
-		}
+		await registerTreeNodes(node.path)
 		// @ts-expect-error Custom property
 		view.loading = false
 		// @ts-expect-error Custom property
