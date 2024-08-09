@@ -67,6 +67,7 @@
     "Share for file {file} with {user} expired" : "Caducou a compartición do ficheiro {file} co usuario {user} ",
     "Share for file {file} expired" : "Caducou a compartición do ficheiro {file}",
     "A file or folder shared by mail or by public link was <strong>downloaded</strong>" : "Foi <strong>descargado</strong> un ficheiro ou cartafol compartido por correo ou ligazón pública",
+    "Files have been <strong>uploaded</strong> to a folder shared by mail or by public link" : "Os ficheiros foron <strong>enviados</strong> a un cartafol compartido por correo mediante ligazón pública",
     "A file or folder was shared from <strong>another server</strong>" : "Compartiuse un ficheiro ou cartafol dende <strong>outro servidor</strong>",
     "Sharing" : "Compartindo",
     "A file or folder has been <strong>shared</strong>" : "<strong>Compartiuse</strong> un ficheiro ou cartafol",

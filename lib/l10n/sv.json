@@ -254,7 +254,6 @@
     "Your data directory must be an absolute path." : "Din datakatalog måste vara en absolut sökväg.",
     "Check the value of \"datadirectory\" in your configuration." : "Kontrollera värdet på \"datadirectory\" i din konfiguration.",
     "Your data directory is invalid." : "Din datakatalog är ogiltig.",
-    "Ensure there is a file called \".ocdata\" in the root of the data directory." : "Säkerställ att du har filen \".ocdata\" i huvudkatalogen för din data.",
     "Action \"%s\" not supported or implemented." : "Åtgärd \"%s\" stöds inte eller är inte implementerad.",
     "Authentication failed, wrong token or provider ID given" : "Autentisering misslyckades, felaktig token eller leverantörs-ID",
     "Parameters missing in order to complete the request. Missing Parameters: \"%s\"" : "Parametrar saknas för att slutföra förfrågan. Saknade parametrar: \"%s\"",
@@ -375,6 +374,7 @@
     "PostgreSQL >= 9 required." : "PostgreSQL >= 9 krävs.",
     "Please upgrade your database version." : "Uppgradera din databasversion.",
     "Your data directory is readable by other users." : "Din datakatalog kan läsas av andra användare.",
-    "Please change the permissions to 0770 so that the directory cannot be listed by other users." : "Ändra behörigheterna till 0770 så att katalogen inte kan listas av andra användare."
+    "Please change the permissions to 0770 so that the directory cannot be listed by other users." : "Ändra behörigheterna till 0770 så att katalogen inte kan listas av andra användare.",
+    "Ensure there is a file called \".ocdata\" in the root of the data directory." : "Säkerställ att du har filen \".ocdata\" i huvudkatalogen för din data."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

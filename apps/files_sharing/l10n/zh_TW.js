@@ -69,6 +69,7 @@ OC.L10N.register(
     "Share for file {file} with {user} expired" : "與 {user} 分享的檔案 {file} 已過期",
     "Share for file {file} expired" : "檔案 {file} 的分享已過期",
     "A file or folder shared by mail or by public link was <strong>downloaded</strong>" : "透過電子郵件或公開連結分享的檔案或資料夾<strong>已被下載</strong>",
+    "Files have been <strong>uploaded</strong> to a folder shared by mail or by public link" : "檔案已<strong>上傳</strong>至透過電子郵件或公開連結分享的資料夾",
     "A file or folder was shared from <strong>another server</strong>" : "檔案或資料夾是從<strong>其他伺服器</strong>分享的",
     "Sharing" : "分享",
     "A file or folder has been <strong>shared</strong>" : "檔案或資料夾已被<strong>分享</strong>",

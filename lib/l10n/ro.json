@@ -221,7 +221,6 @@
     "Your data directory must be an absolute path." : "Directorul de date trebuie să fie o cale absolută.",
     "Check the value of \"datadirectory\" in your configuration." : "Verificați valoarea \"datadirectory\" în configurație.",
     "Your data directory is invalid." : "Directorul de date este invalid.",
-    "Ensure there is a file called \".ocdata\" in the root of the data directory." : "Asigurați-vă că fișierul \".ocdata\" există în rădăcina directorului de date.",
     "Action \"%s\" not supported or implemented." : "Acțiunea \"%s\" nu este suportată sau implementată.",
     "Authentication failed, wrong token or provider ID given" : "Autentificare eșuată, token greșit sau ID provider eronat",
     "Parameters missing in order to complete the request. Missing Parameters: \"%s\"" : "Parametri lipsă pentru îndeplinirea solicitării. Parametrii lipsă: \"%s\"",
@@ -268,6 +267,7 @@
     "PostgreSQL >= 9 required." : "Este necesar PostgreSQL >= 9 .",
     "Please upgrade your database version." : "Faceți upgrade la versiunea bazei de date.",
     "Your data directory is readable by other users." : "Directorul de date este accesibil altor utilizatori.",
-    "Please change the permissions to 0770 so that the directory cannot be listed by other users." : "Setați permisiunea 0770 astfel ca directorul să nu poată fi parcurs de alți utilizatori."
+    "Please change the permissions to 0770 so that the directory cannot be listed by other users." : "Setați permisiunea 0770 astfel ca directorul să nu poată fi parcurs de alți utilizatori.",
+    "Ensure there is a file called \".ocdata\" in the root of the data directory." : "Asigurați-vă că fișierul \".ocdata\" există în rădăcina directorului de date."
 },"pluralForm" :"nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));"
 }

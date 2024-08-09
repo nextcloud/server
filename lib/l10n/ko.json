@@ -230,7 +230,6 @@
     "Your data directory must be an absolute path." : "데이터 디렉토리는 절대경로여야 합니다.",
     "Check the value of \"datadirectory\" in your configuration." : "설정에서 \"datadirectory\"의 값을 확인하십시오.",
     "Your data directory is invalid." : "데이터 디렉토리가 올바르지 않습니다.",
-    "Ensure there is a file called \".ocdata\" in the root of the data directory." : "데이터 디렉터리의 최상위 디렉터리에 \".ocdata\" 파일이 있는지 확인하십시오.",
     "Action \"%s\" not supported or implemented." : "동작 \"%s\"을(를) 지원하지 않거나 사용할 수 없습니다. ",
     "Authentication failed, wrong token or provider ID given" : "인증이 실패하였습니다. 토큰이나 프로바이더 ID가 틀렸습니다.",
     "Parameters missing in order to complete the request. Missing Parameters: \"%s\"" : "요청을 완료하기 위한 매개변수가 누락되었습니다. 누락된 매개변수: \"%s\"",
@@ -283,6 +282,7 @@
     "PostgreSQL >= 9 required." : "PostgreSQL 버전 9 이상이 필요합니다",
     "Please upgrade your database version." : "데이터베이스 버전을 업그레이드 하십시오",
     "Your data directory is readable by other users." : "현재 데이터 디렉토리를 다른 사람이 읽을 수 있습니다.",
-    "Please change the permissions to 0770 so that the directory cannot be listed by other users." : "권한을 0770으로 변경하여 다른 사용자가 읽을 수 없도록 하십시오."
+    "Please change the permissions to 0770 so that the directory cannot be listed by other users." : "권한을 0770으로 변경하여 다른 사용자가 읽을 수 없도록 하십시오.",
+    "Ensure there is a file called \".ocdata\" in the root of the data directory." : "데이터 디렉터리의 최상위 디렉터리에 \".ocdata\" 파일이 있는지 확인하십시오."
 },"pluralForm" :"nplurals=1; plural=0;"
 }

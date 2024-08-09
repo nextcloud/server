@@ -224,7 +224,6 @@
     "Your data directory must be an absolute path." : "Каталог данных должен быть указан в виде абсолютного пути.",
     "Check the value of \"datadirectory\" in your configuration." : "Проверьте в значение параметра «datadirectory» в файле конфигурации.",
     "Your data directory is invalid." : "Каталог данных задан неверно.",
-    "Ensure there is a file called \".ocdata\" in the root of the data directory." : "Убедитесь, что в корне каталога данных присутствует файл «.ocdata».",
     "Action \"%s\" not supported or implemented." : "Действие «%s» не поддерживается или не реализовано.",
     "Authentication failed, wrong token or provider ID given" : "Ошибка аутентификации, неверный токен или идентификатор провайдера",
     "Parameters missing in order to complete the request. Missing Parameters: \"%s\"" : "Отсутствуют параметры для завершения запроса. Отсутствующие параметры: \"%s\"",
@@ -275,6 +274,7 @@
     "PostgreSQL >= 9 required." : "Требуется PostgreSQL версии 9 или более новый.",
     "Please upgrade your database version." : "Обновите базу данных.",
     "Your data directory is readable by other users." : "Каталог данных доступен для чтения другим пользователям.",
-    "Please change the permissions to 0770 so that the directory cannot be listed by other users." : "Измените права доступа на 0770, чтобы другие пользователи не могли получить список файлов этого каталога."
+    "Please change the permissions to 0770 so that the directory cannot be listed by other users." : "Измените права доступа на 0770, чтобы другие пользователи не могли получить список файлов этого каталога.",
+    "Ensure there is a file called \".ocdata\" in the root of the data directory." : "Убедитесь, что в корне каталога данных присутствует файл «.ocdata»."
 },"pluralForm" :"nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);"
 }

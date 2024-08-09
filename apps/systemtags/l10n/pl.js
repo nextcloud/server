@@ -53,8 +53,6 @@ OC.L10N.register(
     "Invisible" : "Niewidoczne",
     "Failed to load tags" : "Nie udało się załadować etykiet",
     "Collaborative tags are available for all users. Restricted tags are visible to users but cannot be assigned by them. Invisible tags are for internal use, since users cannot see or assign them." : "Wspólne etykietowanie jest dostępne dla wszystkich użytkowników. Ograniczone etykiety są widoczne dla użytkowników, ale nie mogą być przez nich przypisane. Etykiety niewidoczne są natomiast przeznaczone do użytku wewnętrznego, ponieważ użytkownicy nie mogą ich zobaczyć ani przypisać.",
-    "This file has the tag {tag}" : "Ten plik posiada etykietę {tag}",
-    "This file has the tags {firstTags} and {lastTag}" : "Ten plik posiada etykiety {firstTags} i {lastTag}",
     "No tags found" : "Nie znaleziono etykiet",
     "Tag name is empty" : "Nazwa etykiety jest pusta",
     "Select tag …" : "Wybierz etykietę…",
@@ -69,6 +67,8 @@ OC.L10N.register(
     "No files in here" : "Brak plików",
     "No entries found in this folder" : "Brak wpisów w tym katalogu",
     "Size" : "Rozmiar",
-    "Modified" : "Modyfikacja"
+    "Modified" : "Modyfikacja",
+    "This file has the tag {tag}" : "Ten plik posiada etykietę {tag}",
+    "This file has the tags {firstTags} and {lastTag}" : "Ten plik posiada etykiety {firstTags} i {lastTag}"
 },
 "nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");

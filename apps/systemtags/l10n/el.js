@@ -53,8 +53,6 @@ OC.L10N.register(
     "Invisible" : "Αόρατο",
     "Failed to load tags" : "Απέτυχε η φόρτωση ετικετών",
     "Collaborative tags are available for all users. Restricted tags are visible to users but cannot be assigned by them. Invisible tags are for internal use, since users cannot see or assign them." : "Οι ετικέτες σε συνεργασία είναι διαθέσιμες για όλους τους χρήστες. Οι περιορισμένες ετικέτες είναι ορατές στους χρήστες, αλλά δεν μπορούν να τους ανατεθούν. Οι κρυφές ετικέτες είναι για εσωτερική χρήση, όμως οι χρήστες δεν μπορούν να τις δουν ή να τις αναθέσουν.",
-    "This file has the tag {tag}" : "Αυτό το αρχείο έχει την ετικέτα {tag}",
-    "This file has the tags {firstTags} and {lastTag}" : "Αυτό το αρχείο έχει τις ετικέτες {firstTags} και {lastTag}",
     "No tags found" : "Δεν βρέθηκαν ετικέτες",
     "Tag name is empty" : "Το όνομα ετικέτας είναι κενό",
     "Select tag …" : "Επιλογή ετικέτας ...",
@@ -69,6 +67,8 @@ OC.L10N.register(
     "No files in here" : "Δεν υπάρχουν αρχεία",
     "No entries found in this folder" : "Δεν βρέθηκαν καταχωρήσεις σε αυτόν το φάκελο",
     "Size" : "Μέγεθος",
-    "Modified" : "Τροποποιήθηκε"
+    "Modified" : "Τροποποιήθηκε",
+    "This file has the tag {tag}" : "Αυτό το αρχείο έχει την ετικέτα {tag}",
+    "This file has the tags {firstTags} and {lastTag}" : "Αυτό το αρχείο έχει τις ετικέτες {firstTags} και {lastTag}"
 },
 "nplurals=2; plural=(n != 1);");

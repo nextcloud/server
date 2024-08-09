@@ -225,7 +225,6 @@
     "Your data directory must be an absolute path." : "Az adatkönyvtárnak abszolút útvonalnak kell lennie",
     "Check the value of \"datadirectory\" in your configuration." : "Ellenőrizze a „datadirectory” értékét a konfigurációban.",
     "Your data directory is invalid." : "Az adatkönyvtár érvénytelen.",
-    "Ensure there is a file called \".ocdata\" in the root of the data directory." : "Győződjön meg róla, hogy az adatmappa gyökerében van-e egy „.ocdata” fájl.",
     "Action \"%s\" not supported or implemented." : "A(z) „%s” művelet nem támogatott vagy nem ismert.",
     "Authentication failed, wrong token or provider ID given" : "Hitelesítés sikertelen, hibás token vagy szolgáltatóazonosító lett megadva",
     "Parameters missing in order to complete the request. Missing Parameters: \"%s\"" : "A következő paraméterek hiányoznak, hogy végrehajtható legyen a kérés. Paraméterek: \"%s\"",
@@ -276,6 +275,7 @@
     "PostgreSQL >= 9 required." : "PostgreSQL >= 9 szükséges.",
     "Please upgrade your database version." : "Frissítse az adatbázis verzióját.",
     "Your data directory is readable by other users." : "Az adatkönyvtára más felhasználók által is olvasható.",
-    "Please change the permissions to 0770 so that the directory cannot be listed by other users." : "Módosítsa a könyvtár elérhetőségi engedélybeállítását 0770-re, hogy a tartalmát más felhasználók ne listázhassák."
+    "Please change the permissions to 0770 so that the directory cannot be listed by other users." : "Módosítsa a könyvtár elérhetőségi engedélybeállítását 0770-re, hogy a tartalmát más felhasználók ne listázhassák.",
+    "Ensure there is a file called \".ocdata\" in the root of the data directory." : "Győződjön meg róla, hogy az adatmappa gyökerében van-e egy „.ocdata” fájl."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

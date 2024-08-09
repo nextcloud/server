@@ -215,7 +215,6 @@
     "Your data directory must be an absolute path." : "Ο κατάλογος δεδομένων σας πρέπει να είναι μια απόλυτη διαδρομή.",
     "Check the value of \"datadirectory\" in your configuration." : "Ελέγξτε την τιμή του \"datadirectory\" στις ρυθμίσεις σας.",
     "Your data directory is invalid." : "Ο κατάλογος δεδομένων σας δεν είναι έγκυρος.",
-    "Ensure there is a file called \".ocdata\" in the root of the data directory." : "Εξασφαλίστε ότι υπάρχει ένα αρχείο με όνομα \".ocdata\" στον βασικό κατάλογο του καταλόγου δεδομένων.",
     "Action \"%s\" not supported or implemented." : "Η ενέργεια \"%s\" δεν υποστηρίζεται ή δεν μπορεί να υλοποιηθεί.",
     "Authentication failed, wrong token or provider ID given" : "Ο έλεγχος ταυτότητας απέτυχε, δόθηκε λανθασμένο αναγνωριστικό ή αναγνωριστικό παρόχου",
     "Parameters missing in order to complete the request. Missing Parameters: \"%s\"" : "Απουσιάζουν παράμετροι για την ολοκλήρωση του αιτήματος.  Ελλιπείς παράμετροι: \"%s\"",
@@ -252,6 +251,7 @@
     "PostgreSQL >= 9 required." : "Απαιτείται PostgreSQL >= 9.",
     "Please upgrade your database version." : "Παρακαλούμε αναβαθμίστε την έκδοση της βάσης δεδομένων σας.",
     "Your data directory is readable by other users." : "Ο κατάλογος δεδομένων σας είναι αναγνώσιμος από άλλους χρήστες.",
-    "Please change the permissions to 0770 so that the directory cannot be listed by other users." : "Παρακαλούμε αλλάξτε τις ρυθμίσεις σε 0770 έτσι ώστε ο κατάλογος να μην μπορεί να προβάλλεται από άλλους χρήστες."
+    "Please change the permissions to 0770 so that the directory cannot be listed by other users." : "Παρακαλούμε αλλάξτε τις ρυθμίσεις σε 0770 έτσι ώστε ο κατάλογος να μην μπορεί να προβάλλεται από άλλους χρήστες.",
+    "Ensure there is a file called \".ocdata\" in the root of the data directory." : "Εξασφαλίστε ότι υπάρχει ένα αρχείο με όνομα \".ocdata\" στον βασικό κατάλογο του καταλόγου δεδομένων."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

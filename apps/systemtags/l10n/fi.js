@@ -62,8 +62,6 @@ OC.L10N.register(
     "Search or create collaborative tags" : "Etsi tai luo yhteistyötunnisteita",
     "Failed to load tags" : "Tunnisteiden lataaminen epäonnistui",
     "Failed to select tag" : "Tunnisteen valitseminen epäonnistui",
-    "This file has the tag {tag}" : "Tällä tiedostolla on tunniste {tag}",
-    "This file has the tags {firstTags} and {lastTag}" : "Tällä tiedostolla on tunnisteet {firstTags} ja {lastTag}",
     "No tags found" : "Tunnisteita ei löytynyt",
     "Tags you have created will show up here." : "Luomasi tunnisteet näkyvät täällä.",
     "Missing \"Content-Location\" header" : "\"Content-Location\"-otsake puuttuu",
@@ -79,6 +77,8 @@ OC.L10N.register(
     "No files in here" : "Täällä ei ole tiedostoja",
     "No entries found in this folder" : "Ei kohteita tässä kansiossa",
     "Size" : "Koko",
-    "Modified" : "Muokattu"
+    "Modified" : "Muokattu",
+    "This file has the tag {tag}" : "Tällä tiedostolla on tunniste {tag}",
+    "This file has the tags {firstTags} and {lastTag}" : "Tällä tiedostolla on tunnisteet {firstTags} ja {lastTag}"
 },
 "nplurals=2; plural=(n != 1);");
