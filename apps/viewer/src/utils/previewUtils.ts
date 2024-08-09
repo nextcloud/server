@@ -20,10 +20,10 @@
  *
  */
 
-import { generateUrl } from '@nextcloud/router'
-import { getToken, isPublic } from './davUtils'
 import type { BasicFileInfo } from './models'
 import { encodePath } from '@nextcloud/paths'
+import { generateUrl } from '@nextcloud/router'
+import { getSharingToken, isPublicShare } from '@nextcloud/sharing/public'
 
 /**
  * @param root0
@@ -48,8 +48,8 @@ export function getPreviewIfAny({ fileid, filename, previewUrl, hasPreview, davP
 
 	if (hasPreview) {
 		// TODO: find a nicer standard way of doing this?
-		if (isPublic()) {
-			return generateUrl(`/apps/files_sharing/publicpreview/${getToken()}?file=${encodePath(filename)}&${searchParams}`)
+		if (isPublicShare()) {
+			return generateUrl(`/apps/files_sharing/publicpreview/${getSharingToken()}?file=${encodePath(filename)}&${searchParams}`)
 		}
 		return generateUrl(`/core/preview?${searchParams}`)
 	}

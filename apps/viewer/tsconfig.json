@@ -1,6 +1,6 @@
 {
 	"extends": "@vue/tsconfig/tsconfig.json",
-	"include": ["./src/**/*.ts", "*.ts"],
+	"include": ["./src/**.ts", "*.ts"],
 	"compilerOptions": {
 		"types": ["cypress", "cypress-visual-regression", "node", "dockerode", "@nextcloud/typings"],
 		"target": "ESNext",

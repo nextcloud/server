@@ -20,8 +20,8 @@
  *
  */
 
-import { getDavNameSpaces, getDavProperties } from '@nextcloud/files'
-import { getClient } from './WebdavClient'
+import { davRootPath, getDavNameSpaces, getDavProperties } from '@nextcloud/files'
+import { client } from './WebdavClient'
 import { genFileInfo, type FileInfo } from '../utils/fileUtils'
 import type { FileStat, ResponseDataDetailed } from 'webdav'
 
@@ -31,10 +31,7 @@ import type { FileStat, ResponseDataDetailed } from 'webdav'
  * @param options
  */
 export default async function(path: string, options = {}): Promise<FileInfo[]> {
-	// getDirectoryContents doesn't accept / for root
-	const fixedPath = path === '/' ? '' : path
-
-	const response = await getClient().getDirectoryContents(fixedPath, Object.assign({
+	const response = await client.getDirectoryContents(`${davRootPath}${path}`, Object.assign({
 		data: `<?xml version="1.0"?>
 			<d:propfind ${getDavNameSpaces()}>
 				<d:prop>
