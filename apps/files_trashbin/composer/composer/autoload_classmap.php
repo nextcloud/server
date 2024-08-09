@@ -14,6 +14,7 @@ return array(
     'OCA\\Files_Trashbin\\Command\\Expire' => $baseDir . '/../lib/Command/Expire.php',
     'OCA\\Files_Trashbin\\Command\\ExpireTrash' => $baseDir . '/../lib/Command/ExpireTrash.php',
     'OCA\\Files_Trashbin\\Command\\RestoreAllFiles' => $baseDir . '/../lib/Command/RestoreAllFiles.php',
+    'OCA\\Files_Trashbin\\Command\\ScanFileSystem' => $baseDir . '/../lib/Command/ScanFileSystem.php',
     'OCA\\Files_Trashbin\\Command\\Size' => $baseDir . '/../lib/Command/Size.php',
     'OCA\\Files_Trashbin\\Controller\\PreviewController' => $baseDir . '/../lib/Controller/PreviewController.php',
     'OCA\\Files_Trashbin\\Events\\BeforeNodeRestoredEvent' => $baseDir . '/../lib/Events/BeforeNodeRestoredEvent.php',
