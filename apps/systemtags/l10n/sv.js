@@ -72,8 +72,6 @@ OC.L10N.register(
     "Failed to load selected tags" : "Det gick inte att läsa in valda taggar",
     "Failed to select tag" : "Det gick inte att välja tagg",
     "Collaborative tags are available for all users. Restricted tags are visible to users but cannot be assigned by them. Invisible tags are for internal use, since users cannot see or assign them." : "Samarbetstaggar är tillgängliga för alla användare. Begränsade taggar är synliga för användarna men kan inte tilldelas av dem. Osynliga taggar är för internt bruk, eftersom användarna inte kan se eller tilldela dem.",
-    "This file has the tag {tag}" : "Den här filen har taggen {tag}",
-    "This file has the tags {firstTags} and {lastTag}" : "Den här filen har taggarna {firstTags} och {lastTag}",
     "List of tags and their associated files and folders." : "Lista över taggar och deras tillhörande filer och mappar.",
     "No tags found" : "Inga taggar hittades",
     "Tags you have created will show up here." : "Taggar du har skapat kommer att visas här.",
@@ -95,6 +93,8 @@ OC.L10N.register(
     "No files in here" : "Inga filer här inne",
     "No entries found in this folder" : "Ingenting hittades i denna mapp",
     "Size" : "Storlek",
-    "Modified" : "Modifierad"
+    "Modified" : "Modifierad",
+    "This file has the tag {tag}" : "Den här filen har taggen {tag}",
+    "This file has the tags {firstTags} and {lastTag}" : "Den här filen har taggarna {firstTags} och {lastTag}"
 },
 "nplurals=2; plural=(n != 1);");

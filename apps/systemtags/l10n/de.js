@@ -72,8 +72,6 @@ OC.L10N.register(
     "Failed to load selected tags" : "Ausgewählte Schlagworte konnten nicht geladen werden",
     "Failed to select tag" : "Schlagwort konnte nicht ausgewählt werden",
     "Collaborative tags are available for all users. Restricted tags are visible to users but cannot be assigned by them. Invisible tags are for internal use, since users cannot see or assign them." : "Öffentliche Schlagworte sind für alle Benutzer verfügbar. Eingeschränkte Schlagworte sind für alle Benutzer sichtbar, können jedoch nicht zugewiesen werden. Nicht sichtbare Schlagworte sind für interne Verwendung und können vom Benutzer nicht eingesehen und nicht zugewiesen werden.",
-    "This file has the tag {tag}" : "Diese Datei trägt das Schlagwort {tag}.",
-    "This file has the tags {firstTags} and {lastTag}" : "Diese Datei trägt die Schlagworte {firstTags} und {lastTag}.",
     "List of tags and their associated files and folders." : "Liste der Schlagworte und der zugehörigen Dateien und Ordner.",
     "No tags found" : "Keine Tags gefunden",
     "Tags you have created will show up here." : "Die von Ihnen erstellten Schlagworte werden hier angezeigt.",
@@ -95,6 +93,8 @@ OC.L10N.register(
     "No files in here" : "Keine Dateien vorhanden",
     "No entries found in this folder" : "Keine Einträge in diesem Ordner gefunden",
     "Size" : "Größe",
-    "Modified" : "Geändert"
+    "Modified" : "Geändert",
+    "This file has the tag {tag}" : "Diese Datei trägt das Schlagwort {tag}.",
+    "This file has the tags {firstTags} and {lastTag}" : "Diese Datei trägt die Schlagworte {firstTags} und {lastTag}."
 },
 "nplurals=2; plural=(n != 1);");

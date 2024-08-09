@@ -67,6 +67,7 @@
     "Share for file {file} with {user} expired" : "Share for file {file} with {user} expired",
     "Share for file {file} expired" : "Share for file {file} expired",
     "A file or folder shared by mail or by public link was <strong>downloaded</strong>" : "A file or folder shared by mail or by public link was <strong>downloaded</strong>",
+    "Files have been <strong>uploaded</strong> to a folder shared by mail or by public link" : "Files have been <strong>uploaded</strong> to a folder shared by mail or by public link",
     "A file or folder was shared from <strong>another server</strong>" : "A file or folder was shared from <strong>another server</strong>",
     "Sharing" : "Sharing",
     "A file or folder has been <strong>shared</strong>" : "A file or folder has been <strong>shared</strong>",

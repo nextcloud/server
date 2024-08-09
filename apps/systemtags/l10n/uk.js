@@ -71,8 +71,6 @@ OC.L10N.register(
     "Failed to load selected tags" : "Не вдалося завантажити вибрані мітки",
     "Failed to select tag" : "Не вдалося вибрати мітку",
     "Collaborative tags are available for all users. Restricted tags are visible to users but cannot be assigned by them. Invisible tags are for internal use, since users cannot see or assign them." : "Спільні мітки доступні для всіх користувачів. Заборонені мітки видимі для користувачів, але вони не можуть їх призначити. Невидимі мітки призначені для внутрішнього використання, оскільки користувачі не можуть бачити або призначати їх.",
-    "This file has the tag {tag}" : "Цей файл має мітку {tag}",
-    "This file has the tags {firstTags} and {lastTag}" : "Цей файл має мітку {firstTags} та {lastTag}",
     "List of tags and their associated files and folders." : "Перелік міток та файлів й каталогів, які їх мають",
     "No tags found" : "Відсутні мітки",
     "Tags you have created will show up here." : "Тут буде показано мітки, які було створено вами",
@@ -94,6 +92,8 @@ OC.L10N.register(
     "No files in here" : "Тут немає файлів",
     "No entries found in this folder" : "В цьому каталозі нічого не знайдено",
     "Size" : "Розмір",
-    "Modified" : "Змінено"
+    "Modified" : "Змінено",
+    "This file has the tag {tag}" : "Цей файл має мітку {tag}",
+    "This file has the tags {firstTags} and {lastTag}" : "Цей файл має мітку {firstTags} та {lastTag}"
 },
 "nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);");

@@ -221,7 +221,6 @@
     "Your data directory must be an absolute path." : "Вашата директория с данни трябва да е абсолютен път.",
     "Check the value of \"datadirectory\" in your configuration." : "Проверете стойността на \"datadirectory\" във вашата конфигурация.",
     "Your data directory is invalid." : "Вашата директория с данни е невалидна.",
-    "Ensure there is a file called \".ocdata\" in the root of the data directory." : "Уверете се, че има файл, наречен \".ocdata\" в корена на директорията с данни.",
     "Action \"%s\" not supported or implemented." : "Действието „%s“ не се поддържа или изпълнява.",
     "Authentication failed, wrong token or provider ID given" : "Неуспешно удостоверяване, даден е грешен токен или идентификатор на доставчика ",
     "Parameters missing in order to complete the request. Missing Parameters: \"%s\"" : "Липсват параметри, за завършване на заявката. Липсващи параметри: \"%s\"",
@@ -264,6 +263,7 @@
     "PostgreSQL >= 9 required." : "Нужно е PostgreSQL >= 9",
     "Please upgrade your database version." : "Моля, надстройте версията на вашата база данни.",
     "Your data directory is readable by other users." : "Вашата директория с данни може да се чете от други потребители.",
-    "Please change the permissions to 0770 so that the directory cannot be listed by other users." : "Моля, променете правата за достъп на 0770, за да не може директорията да бъде видяна от други потребители."
+    "Please change the permissions to 0770 so that the directory cannot be listed by other users." : "Моля, променете правата за достъп на 0770, за да не може директорията да бъде видяна от други потребители.",
+    "Ensure there is a file called \".ocdata\" in the root of the data directory." : "Уверете се, че има файл, наречен \".ocdata\" в корена на директорията с данни."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
