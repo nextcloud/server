@@ -65,7 +65,8 @@ export const entry = {
 	async handler(context: Folder, content: Node[]) {
 		const name = await newNodeName(t('files', 'New folder'), content)
 		if (name !== null) {
-			const { fileid, source } = await createNewFolder(context, name)
+			const { fileid, source } = await createNewFolder(context, name.trim())
+
 			// Create the folder in the store
 			const folder = new Folder({
 				source,
@@ -82,9 +83,12 @@ export const entry = {
 				},
 			})
 
+			// Show success
+			emit('files:node:created', folder)
 			showSuccess(t('files', 'Created new folder "{name}"', { name: basename(source) }))
 			logger.debug('Created new folder', { folder, source })
-			emit('files:node:created', folder)
+
+			// Navigate to the new folder
 			window.OCP.Files.Router.goToRoute(
 				null, // use default route
 				{ view: 'files', fileid: folder.fileid },
