@@ -20,14 +20,11 @@
  *
  */
 
-import { createClient } from 'webdav'
-import { generateRemoteUrl } from '@nextcloud/router'
-import { getCurrentUser, getRequestToken, onRequestTokenUpdate } from '@nextcloud/auth'
+import { getCurrentUser } from '@nextcloud/auth'
+import { davGetClient } from '@nextcloud/files'
 
 // init webdav client
 export const rootPath = `/trashbin/${getCurrentUser()?.uid}/trash`
-export const rootUrl = generateRemoteUrl('dav' + rootPath)
-const client = createClient(rootUrl)
 
 // set CSRF token header
 const setHeaders = (token: string | null) => {
