@@ -17,14 +17,20 @@
 		@closing="handleClosing"
 		@closed="handleClosed">
 		<template v-if="fileInfo" #subname>
-			<NcIconSvgWrapper v-if="fileInfo.isFavourited"
-				:path="mdiStar"
-				:name="t('files', 'Favorite')"
-				inline />
-			{{ size }}
-			<NcDateTime :timestamp="fileInfo.mtime" />
+			<div class="sidebar__subname">
+				<NcIconSvgWrapper v-if="fileInfo.isFavourited"
+					:path="mdiStar"
+					:name="t('files', 'Favorite')"
+					inline />
+				<span>{{ size }}</span>
+				<span class="sidebar__subname-separator">.</span>
+				<NcDateTime :timestamp="fileInfo.mtime" />
+				<span class="sidebar__subname-separator">.</span>
+				<span>{{ t('files', 'Owned by') }}</span>
+				<NcUserBubble :user="ownerId"
+					:display-name="nodeOwnerLabel" />
+			</div>
 		</template>
-
 		<!-- TODO: create a standard to allow multiple elements here? -->
 		<template v-if="fileInfo" #description>
 			<div class="sidebar__description">
@@ -96,6 +102,7 @@ import { encodePath } from '@nextcloud/paths'
 import { generateRemoteUrl, generateUrl } from '@nextcloud/router'
 import { ShareType } from '@nextcloud/sharing'
 import { mdiStar, mdiStarOutline } from '@mdi/js'
+import { fetchNode } from '../services/WebdavClient.ts'
 import axios from '@nextcloud/axios'
 import $ from 'jquery'
 
@@ -104,6 +111,7 @@ import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
 import NcDateTime from '@nextcloud/vue/dist/Components/NcDateTime.js'
 import NcEmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent.js'
 import NcIconSvgWrapper from '@nextcloud/vue/dist/Components/NcIconSvgWrapper.js'
+import NcUserBubble from '@nextcloud/vue/dist/Components/NcUserBubble.js'
 
 import FileInfo from '../services/FileInfo.js'
 import LegacyView from '../components/LegacyView.vue'
@@ -123,15 +131,12 @@ export default {
 		NcIconSvgWrapper,
 		SidebarTab,
 		SystemTags,
+		NcUserBubble,
 	},
 
 	setup() {
-		const currentUser = getCurrentUser()
-
 		// Non reactive properties
 		return {
-			currentUser,
-
 			mdiStar,
 			mdiStarOutline,
 		}
@@ -140,12 +145,14 @@ export default {
 	data() {
 		return {
 			// reactive state
+			currentUser: getCurrentUser(),
 			Sidebar: OCA.Files.Sidebar.state,
 			showTags: false,
 			showTagsDefault: true,
 			error: null,
 			loading: true,
 			fileInfo: null,
+			node: null,
 			isFullScreen: false,
 			hasLowHeight: false,
 		}
@@ -288,6 +295,25 @@ export default {
 		isSystemTagsEnabled() {
 			return getCapabilities()?.systemtags?.enabled === true
 		},
+		ownerId() {
+			return this.node?.attributes?.['owner-id'] ?? this.currentUser.uid
+		},
+		currentUserIsOwner() {
+			return this.ownerId === this.currentUser.uid
+		},
+		nodeOwnerLabel() {
+			if (this.currentUserIsOwner) {
+				return t('files', 'you')
+			}
+			const ownerDisplayName = this.node?.attributes?.['owner-display-name']
+			return ownerDisplayName
+		},
+		sharedMultipleTimes() {
+			if (Array.isArray(node.attributes?.['share-types']) && node.attributes?.['share-types'].length > 1) {
+				return t('files', 'Shared multiple times with different people')
+			}
+			return null
+		},
 	},
 	created() {
 		subscribe('files:node:deleted', this.onNodeDeleted)
@@ -299,7 +325,6 @@ export default {
 		unsubscribe('file:node:deleted', this.onNodeDeleted)
 		window.removeEventListener('resize', this.handleWindowResize)
 	},
-
 	methods: {
 		/**
 		 * Can this tab be displayed ?
@@ -461,6 +486,7 @@ export default {
 				this.fileInfo = await FileInfo(this.davPath)
 				// adding this as fallback because other apps expect it
 				this.fileInfo.dir = this.file.split('/').slice(0, -1).join('/')
+				this.node = await fetchNode({ path: (this.fileInfo.path + '/' + this.fileInfo.name).replace('//', '/') })
 
 				// DEPRECATED legacy views
 				// TODO: remove
@@ -550,6 +576,12 @@ export default {
 		handleWindowResize() {
 			this.hasLowHeight = document.documentElement.clientHeight < 1024
 		},
+		sharedMultipleTimes() {
+			// Mixed share types
+			if (Array.isArray(this.node.attributes?.['share-types']) && this.node.attributes?.['share-types'].length > 1) {
+				return t('files', 'Shared multiple times with different people')
+			}
+		},
 	},
 }
 </script>
@@ -590,10 +622,25 @@ export default {
 	}
 }
 
-.sidebar__description {
-	display: flex;
-	flex-direction: column;
-	width: 100%;
-	gap: 8px 0;
+.sidebar__subname {
+  display: flex;
+  align-items: center;
+  gap: 0 8px;
+
+  &-separator {
+    display: inline-block;
+    font-weight: bold !important;
+  }
+
+  .user-bubble__wrapper {
+	display: inline-flex;
+  }
 }
+
+.sidebar__description {
+		display: flex;
+		flex-direction: column;
+		width: 100%;
+		gap: 8px 0;
+	}
 </style>
