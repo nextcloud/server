@@ -254,7 +254,6 @@
     "Your data directory must be an absolute path." : "مسار دليل بياناتك data directory يجب أن يكون مساراً مُطلقاً absolute path.",
     "Check the value of \"datadirectory\" in your configuration." : "راجع قيمة \"datadirectory\" في تهيئتك.",
     "Your data directory is invalid." : "دليل بياناتك data directory غير صحيح.",
-    "Ensure there is a file called \".ocdata\" in the root of the data directory." : "تأكد من وجود ملفٍ باسم \".ocdata\" في جذر دليل البيانات data directory.",
     "Action \"%s\" not supported or implemented." : "الإجراء \"%s\" غيرُ مدعومٍ أو غيرً مُطبّقٍ.",
     "Authentication failed, wrong token or provider ID given" : "فشلت المصادقة بسبب خطأ في الرمز token أو في رقم المُزوّد provider ID المُعطى.",
     "Parameters missing in order to complete the request. Missing Parameters: \"%s\"" : "بارامترات لازمة لإكمال الطلب مفقودةٌ. و البارامترات هي: \"%s\"",
@@ -378,6 +377,7 @@
     "PostgreSQL >= 9 required." : "PostgreSQL >= 9 مطلوبة.",
     "Please upgrade your database version." : "رجاءً، قم بترقية إصدار قاعدة بياناتك.",
     "Your data directory is readable by other users." : "دليل بياناتك data directory يُمكن قراءته من مستخدمين آخرين.",
-    "Please change the permissions to 0770 so that the directory cannot be listed by other users." : "الرجاء تغيير الصلاحيات إلى 0770 حتى لا يتمكن المستخدمون الآخرون من عرض محتويات المجلد."
+    "Please change the permissions to 0770 so that the directory cannot be listed by other users." : "الرجاء تغيير الصلاحيات إلى 0770 حتى لا يتمكن المستخدمون الآخرون من عرض محتويات المجلد.",
+    "Ensure there is a file called \".ocdata\" in the root of the data directory." : "تأكد من وجود ملفٍ باسم \".ocdata\" في جذر دليل البيانات data directory."
 },"pluralForm" :"nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;"
 }

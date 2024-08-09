@@ -72,8 +72,6 @@ OC.L10N.register(
     "Failed to load selected tags" : "إخفاق في تحميل الوسوم المنتقاة",
     "Failed to select tag" : "إخفاق في اختيار وسم",
     "Collaborative tags are available for all users. Restricted tags are visible to users but cannot be assigned by them. Invisible tags are for internal use, since users cannot see or assign them." : "الوسوم التعاونية مُتاحة لكل المستخدمين. الوسوم المُقيّدة restricted يمكن للمستخدمين رؤيتها لكن لا يمكنهم اسنادها. الوسوم المخفية invisible للاستعمال الداخلي فقط حيث لا يستطيع المستخدمون رؤيتها و لا إسنادها.",
-    "This file has the tag {tag}" : "هذا الملف له واصفة {tag}",
-    "This file has the tags {firstTags} and {lastTag}" : "هذا الملف له واصفات {firstTags} و {lastTag}",
     "List of tags and their associated files and folders." : "قائمة بالوسوم tags و الملفات و المجلدات الموسومة بها.",
     "No tags found" : "لم يُعثَر على أي وسم",
     "Tags you have created will show up here." : "الوسوم tags التي أنشأتَها ستظهر هنا.",
@@ -95,6 +93,8 @@ OC.L10N.register(
     "No files in here" : "لا يوجد ملفات هنا ",
     "No entries found in this folder" : "لا يوجد مدخلات في هذا المجلد ",
     "Size" : "حجم",
-    "Modified" : "معدل"
+    "Modified" : "معدل",
+    "This file has the tag {tag}" : "هذا الملف له واصفة {tag}",
+    "This file has the tags {firstTags} and {lastTag}" : "هذا الملف له واصفات {firstTags} و {lastTag}"
 },
 "nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;");

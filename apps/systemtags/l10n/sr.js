@@ -72,8 +72,6 @@ OC.L10N.register(
     "Failed to load selected tags" : "Изабрана ознака није могла да се учита",
     "Failed to select tag" : "Ознака није могла да се изабере",
     "Collaborative tags are available for all users. Restricted tags are visible to users but cannot be assigned by them. Invisible tags are for internal use, since users cannot see or assign them." : "Заједниче ознаке су доступне свим корисницима. Заштићене ознаке су доступне свим корисницима, али их они не могу додељивати. Невидљиве ознаке су за интерну употребу, пошто их корисници не могу ни видети ни додељивати.",
-    "This file has the tag {tag}" : "Овај фајл има ознаку {tag}",
-    "This file has the tags {firstTags} and {lastTag}" : "Овај фајл има ознаке {firstTags} и {lastTag}",
     "List of tags and their associated files and folders." : "Листа ознака и њима придружени фајлови и директоријуми.",
     "No tags found" : "Нису нађене ознаке",
     "Tags you have created will show up here." : "Овде ће се појавити ознаке које сте креирали.",
@@ -95,6 +93,8 @@ OC.L10N.register(
     "No files in here" : "Овде нема фајлова",
     "No entries found in this folder" : "Нема ничега у овој фасцикли",
     "Size" : "Величина",
-    "Modified" : "Измењен"
+    "Modified" : "Измењен",
+    "This file has the tag {tag}" : "Овај фајл има ознаку {tag}",
+    "This file has the tags {firstTags} and {lastTag}" : "Овај фајл има ознаке {firstTags} и {lastTag}"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

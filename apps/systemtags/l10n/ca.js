@@ -72,8 +72,6 @@ OC.L10N.register(
     "Failed to load selected tags" : "No s'han pogut carregar les etiquetes seleccionades",
     "Failed to select tag" : "No s'ha pogut seleccionar l'etiqueta",
     "Collaborative tags are available for all users. Restricted tags are visible to users but cannot be assigned by them. Invisible tags are for internal use, since users cannot see or assign them." : "Les etiquetes col·laboratives estan disponibles per a tots els usuaris. Els usuaris poden veure les etiquetes restringides, però no les poden assignar. Les etiquetes invisibles són per a ús intern, perquè els usuaris no poden ni veure-les ni assignar-les.",
-    "This file has the tag {tag}" : "Aquest fitxer té l'etiqueta {tag}",
-    "This file has the tags {firstTags} and {lastTag}" : "Aquest fitxer té les etiquetes {firstTags} i {lastTag}",
     "List of tags and their associated files and folders." : "Llista d'etiquetes i els fitxers i carpetes associats.",
     "No tags found" : "No s'ha trobat cap etiqueta",
     "Tags you have created will show up here." : "Les etiquetes que heu creat es mostraran aquí.",
@@ -95,6 +93,8 @@ OC.L10N.register(
     "No files in here" : "No hi ha cap fitxer aquí",
     "No entries found in this folder" : "No s'ha trobat cap entrada en aquesta carpeta",
     "Size" : "Mida",
-    "Modified" : "Data de modificació"
+    "Modified" : "Data de modificació",
+    "This file has the tag {tag}" : "Aquest fitxer té l'etiqueta {tag}",
+    "This file has the tags {firstTags} and {lastTag}" : "Aquest fitxer té les etiquetes {firstTags} i {lastTag}"
 },
 "nplurals=2; plural=(n != 1);");

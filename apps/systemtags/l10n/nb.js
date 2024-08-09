@@ -72,8 +72,6 @@ OC.L10N.register(
     "Failed to load selected tags" : "Lasting av valgte merkelapper feilet",
     "Failed to select tag" : "Utvelging av merkelapp feilet",
     "Collaborative tags are available for all users. Restricted tags are visible to users but cannot be assigned by them. Invisible tags are for internal use, since users cannot see or assign them." : "Samarbeidsmerkelapper er tilgjengelige for alle brukere. Begrensede merkelapper er synlige for brukere, men kan ikke tildeles av dem. Usynlige merkelapper er for intern bruk, siden brukere ikke kan se eller tildele dem.",
-    "This file has the tag {tag}" : "Denne filen har merket {tag}",
-    "This file has the tags {firstTags} and {lastTag}" : "Denne filen har merkene {firstTags} og {lastTag}",
     "List of tags and their associated files and folders." : "Liste over merkelapper og deres assosierte filer og mapper.",
     "No tags found" : "Fant ingen merkelapper",
     "Tags you have created will show up here." : "Merkelapper du har opprettet, vil vises her.",
@@ -95,6 +93,8 @@ OC.L10N.register(
     "No files in here" : "Ingen filer her",
     "No entries found in this folder" : "Ingen oppføringer funnet i denne mappen",
     "Size" : "Størrelse",
-    "Modified" : "Endret"
+    "Modified" : "Endret",
+    "This file has the tag {tag}" : "Denne filen har merket {tag}",
+    "This file has the tags {firstTags} and {lastTag}" : "Denne filen har merkene {firstTags} og {lastTag}"
 },
 "nplurals=2; plural=(n != 1);");

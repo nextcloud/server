@@ -67,6 +67,7 @@
     "Share for file {file} with {user} expired" : "إنتَهَت صلاحية مشاركة الملف {file} مع {user}",
     "Share for file {file} expired" : "إنتَهَت صلاحية المشاركة للملف {file}",
     "A file or folder shared by mail or by public link was <strong>downloaded</strong>" : "تمّ <strong>تنزيل</strong> ملف أو مجلد مشترك عن طريق البريد أو الرابط العام",
+    "Files have been <strong>uploaded</strong> to a folder shared by mail or by public link" : "تمّ رفع <strong>ملفات</strong> إلى مجلد مشترك عبر الإيميل أو عبر رابط عمومي",
     "A file or folder was shared from <strong>another server</strong>" : "تمّت مشاركة ملف أو مجلد من <strong>خادومٍ آخر</strong>",
     "Sharing" : "المشاركة",
     "A file or folder has been <strong>shared</strong>" : "تمّت <strong>مشاركة </strong> ملف أو مجلد",

@@ -72,8 +72,6 @@ OC.L10N.register(
     "Failed to load selected tags" : "Fallo al cargar las etiquetas seleccionadas",
     "Failed to select tag" : "Fallo al seleccionar etiqueta",
     "Collaborative tags are available for all users. Restricted tags are visible to users but cannot be assigned by them. Invisible tags are for internal use, since users cannot see or assign them." : "Las etiquetas colaborativas están disponibles para todos los usuarios. Las etiquetas restringidas son visibles para los usuarios, pero no pueden ser asignadas por ellos. Las etiquetas invisibles son para uso interno, pues los usuarios no pueden verlas ni asignarlas.",
-    "This file has the tag {tag}" : "Este archivo tiene la etiqueta {tag}",
-    "This file has the tags {firstTags} and {lastTag}" : "Este archivo tiene las etiquetas {firstTags} y {lastTag}",
     "List of tags and their associated files and folders." : "Lista de etiquetas y sus carpetas y archivos asociados.",
     "No tags found" : "No se encontraron etiquetas",
     "Tags you have created will show up here." : "Las etiquetas que haya creado aparecerán aquí.",
@@ -95,6 +93,8 @@ OC.L10N.register(
     "No files in here" : "Aquí no hay archivos",
     "No entries found in this folder" : "No hay entradas en esta carpeta",
     "Size" : "Tamaño",
-    "Modified" : "Modificado"
+    "Modified" : "Modificado",
+    "This file has the tag {tag}" : "Este archivo tiene la etiqueta {tag}",
+    "This file has the tags {firstTags} and {lastTag}" : "Este archivo tiene las etiquetas {firstTags} y {lastTag}"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

@@ -280,6 +280,8 @@
     "Disconnect storages" : "Odpojit úložiště",
     "Delete files" : "Smazat soubory",
     "Delete folders" : "Smazat složky",
+    "_You are about to permanently delete {count} item_::_You are about to permanently delete {count} items_" : ["Chystáte se trvale smazat {count} položku","Chystáte se trvale smazat {count} položky","Chystáte se trvale smazat {count} položek","Chystáte se trvale smazat {count} položek"],
+    "_You are about to delete {count} item_::_You are about to delete {count} items_" : ["Chystáte se smazat {count} položku","Chystáte se smazat {count} položky","Chystáte se smazat {count} položek","Chystáte se smazat {count} položek"],
     "Confirm deletion" : "Potvrdit smazání",
     "Cancel" : "Storno",
     "The file should now open locally. If you don't see this happening, make sure that the desktop client is installed on your system." : "Soubor by se nyní měl otevřít místně. Pokud se to neděje, ověřte, že je v systému nainstalován klient pro počítač.",

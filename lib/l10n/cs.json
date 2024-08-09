@@ -225,7 +225,6 @@
     "Your data directory must be an absolute path." : "Je třeba, aby váš adresář data byl zadán jako úplný popis umístění.",
     "Check the value of \"datadirectory\" in your configuration." : "Zkontrolujte hodnotu „datadirectory“ ve svém nastavení.",
     "Your data directory is invalid." : "Váš adresář data není platný.",
-    "Ensure there is a file called \".ocdata\" in the root of the data directory." : "Ověřte, že v kořeni datového adresáře je soubor s názvem „.ocdata“.",
     "Action \"%s\" not supported or implemented." : "Akce „%s“ není podporována nebo implementována.",
     "Authentication failed, wrong token or provider ID given" : "Ověření se nezdařilo, předán chybný token nebo identifikátor poskytovatele",
     "Parameters missing in order to complete the request. Missing Parameters: \"%s\"" : "Pro dokončení požadavku chybí parametry. Konkrétně: „%s“",
@@ -243,9 +242,18 @@
     "Summarize" : "Stručný souhrn",
     "Summary" : "Souhrn",
     "Extract topics" : "Vyzískat témata",
+    "Topics" : "Témata",
+    "The list of extracted topics" : "Seznam extrahovaných témat",
     "Translate" : "Překládání",
+    "Translate text from one language to another" : "Přeložit text z jednoho jazyka do jiného",
+    "Origin text" : "Původní text",
+    "The text to translate" : "Text k překladu",
+    "Origin language" : "Původní jazyk",
+    "The language of the origin text" : "Jazyk původního textu",
     "Target language" : "Cílový jazyk",
+    "The desired language to translate the origin text in" : "Požadovaný jazyk do kterého přeložit původní text",
     "Result" : "Výsledek",
+    "The translated text" : "Přeložený text",
     "Free prompt" : "Prompt zdarma",
     "Runs an arbitrary prompt through the language model." : "Spouští libovolnou výzvu skrze jazykový model.",
     "Generate headline" : "Vytvořit nadpis",
@@ -277,6 +285,7 @@
     "PostgreSQL >= 9 required." : "Je vyžadováno PostgreSQL verze 9 a novější.",
     "Please upgrade your database version." : "Aktualizujte verzi vámi využívané databáze.",
     "Your data directory is readable by other users." : "Váš adresář data je čitelný ostatním uživatelům.",
-    "Please change the permissions to 0770 so that the directory cannot be listed by other users." : "Změňte práva na 0770, aby obsah adresáře nemohl být vypisován ostatními uživateli."
+    "Please change the permissions to 0770 so that the directory cannot be listed by other users." : "Změňte práva na 0770, aby obsah adresáře nemohl být vypisován ostatními uživateli.",
+    "Ensure there is a file called \".ocdata\" in the root of the data directory." : "Ověřte, že v kořeni datového adresáře je soubor s názvem „.ocdata“."
 },"pluralForm" :"nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;"
 }

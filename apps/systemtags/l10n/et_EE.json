@@ -39,8 +39,6 @@
     "Public" : "Avalik",
     "Restricted" : "Piiratud",
     "Invisible" : "Nähtamatu",
-    "This file has the tag {tag}" : "Sellel failil on silt {tag}",
-    "This file has the tags {firstTags} and {lastTag}" : "Sellel failil on sildid {firstTags} and {lastTag}",
     "No tags found" : "Silte ei leitud",
     "Select tag …" : "Vali silt ...",
     "Tagged files" : "Sildistatud failid",
@@ -51,6 +49,8 @@
     "No files in here" : "Siin ei ole faile",
     "No entries found in this folder" : "Selles kaustast ei leitud kirjeid",
     "Size" : "Suurus",
-    "Modified" : "Muudetud"
+    "Modified" : "Muudetud",
+    "This file has the tag {tag}" : "Sellel failil on silt {tag}",
+    "This file has the tags {firstTags} and {lastTag}" : "Sellel failil on sildid {firstTags} and {lastTag}"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

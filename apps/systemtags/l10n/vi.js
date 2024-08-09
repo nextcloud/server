@@ -50,8 +50,6 @@ OC.L10N.register(
     "Restricted" : "Bị giới hạn",
     "Invisible" : "Vô hình",
     "Collaborative tags are available for all users. Restricted tags are visible to users but cannot be assigned by them. Invisible tags are for internal use, since users cannot see or assign them." : "Các thẻ hợp tác là có sẵn cho tất cả người dùng. Các thẻ giới hạn có thể được người dùng nhìn thấy nhưng không thể được họ phân công. Các thẻ vô hình là dành cho việc sử dụng nội bộ, vì những người dùng không thể thấy hay phân công chúng.",
-    "This file has the tag {tag}" : "Tập tin này có nhãn {tag}",
-    "This file has the tags {firstTags} and {lastTag}" : "Tệp tin này có nhãn {firstTags} và {lastTag}",
     "No tags found" : "Không tìm thấy nhãn",
     "Tag name is empty" : "Tên thẻ đang trống",
     "Select tag …" : "Lựa chọn thẻ",
@@ -66,6 +64,8 @@ OC.L10N.register(
     "No files in here" : "Không có tệp ở đây",
     "No entries found in this folder" : "Chưa có mục nào trong thư mục",
     "Size" : "Kích cỡ",
-    "Modified" : "Thay đổi"
+    "Modified" : "Thay đổi",
+    "This file has the tag {tag}" : "Tập tin này có nhãn {tag}",
+    "This file has the tags {firstTags} and {lastTag}" : "Tệp tin này có nhãn {firstTags} và {lastTag}"
 },
 "nplurals=1; plural=0;");

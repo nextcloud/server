@@ -141,7 +141,6 @@
     "This is probably caused by a cache/accelerator such as Zend OPcache or eAccelerator." : "Esto ha sido causado probablemente por un acelerador de caché como Zend OPcache o eAccelerator.",
     "PHP modules have been installed, but they are still listed as missing?" : "¿Los módulos de PHP han sido instalados, pero se siguen enlistando como faltantes?",
     "Please ask your server administrator to restart the web server." : "Por favor solicita al administrador reiniciar el servidor web. ",
-    "Ensure there is a file called \".ocdata\" in the root of the data directory." : "Asegurate de que exista una archivo llamado \".ocdata\" en la raíz del directorio de datos. ",
     "Could not obtain lock type %d on \"%s\"." : "No fue posible obtener el tipo de bloqueo %d en \"%s\". ",
     "Storage unauthorized. %s" : "Almacenamiento no autorizado. %s",
     "Storage incomplete configuration. %s" : "Configuración incompleta del almacenamiento. %s",
@@ -166,6 +165,7 @@
     "Username contains whitespace at the beginning or at the end" : "El usuario contiene un espacio en blanco al inicio o al final",
     "Username must not consist of dots only" : "El usuario no debe consistir de solo puntos. ",
     "User disabled" : "Usuario deshabilitado",
-    "Please change the permissions to 0770 so that the directory cannot be listed by other users." : "Por favor cambia los permisos a 0770 para que el directorio no pueda ser enlistado por otros usuarios. "
+    "Please change the permissions to 0770 so that the directory cannot be listed by other users." : "Por favor cambia los permisos a 0770 para que el directorio no pueda ser enlistado por otros usuarios. ",
+    "Ensure there is a file called \".ocdata\" in the root of the data directory." : "Asegurate de que exista una archivo llamado \".ocdata\" en la raíz del directorio de datos. "
 },"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

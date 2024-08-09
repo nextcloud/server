@@ -43,8 +43,6 @@ OC.L10N.register(
     "Restricted" : "Begrænset",
     "Invisible" : "Usynlig",
     "Failed to load tags" : "Kunne ikke indlæse tags.",
-    "This file has the tag {tag}" : "Denne fil har tagget {tag}",
-    "This file has the tags {firstTags} and {lastTag}" : "Denne fil har taggene {firstTags} og {lastTag}",
     "No tags found" : "Ingen tags fundet",
     "Select tag …" : "Vælg tag...",
     "Tagged files" : "Mærkede filer",
@@ -56,6 +54,8 @@ OC.L10N.register(
     "No files in here" : "Her er ingen filer",
     "No entries found in this folder" : "Der blev ikke fundet poster i denne mappe",
     "Size" : "Størrelse",
-    "Modified" : "Ændret"
+    "Modified" : "Ændret",
+    "This file has the tag {tag}" : "Denne fil har tagget {tag}",
+    "This file has the tags {firstTags} and {lastTag}" : "Denne fil har taggene {firstTags} og {lastTag}"
 },
 "nplurals=2; plural=(n != 1);");
