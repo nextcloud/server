@@ -36,17 +36,20 @@ class PublicKeyTokenMapper extends QBMapper {
 
 	/**
 	 * @param int $olderThan
-	 * @param int $remember
+	 * @param int $type
+	 * @param int|null $remember
 	 */
-	public function invalidateOld(int $olderThan, int $remember = IToken::DO_NOT_REMEMBER) {
+	public function invalidateOld(int $olderThan, int $type = IToken::TEMPORARY_TOKEN, ?int $remember = null) {
 		/* @var $qb IQueryBuilder */
 		$qb = $this->db->getQueryBuilder();
-		$qb->delete($this->tableName)
+		$delete = $qb->delete($this->tableName)
 			->where($qb->expr()->lt('last_activity', $qb->createNamedParameter($olderThan, IQueryBuilder::PARAM_INT)))
-			->andWhere($qb->expr()->eq('type', $qb->createNamedParameter(IToken::TEMPORARY_TOKEN, IQueryBuilder::PARAM_INT)))
-			->andWhere($qb->expr()->eq('remember', $qb->createNamedParameter($remember, IQueryBuilder::PARAM_INT)))
-			->andWhere($qb->expr()->eq('version', $qb->createNamedParameter(PublicKeyToken::VERSION, IQueryBuilder::PARAM_INT)))
-			->execute();
+			->andWhere($qb->expr()->eq('type', $qb->createNamedParameter($type, IQueryBuilder::PARAM_INT)))
+			->andWhere($qb->expr()->eq('version', $qb->createNamedParameter(PublicKeyToken::VERSION, IQueryBuilder::PARAM_INT)));
+		if ($remember !== null) {
+			$delete->andWhere($qb->expr()->eq('remember', $qb->createNamedParameter($remember, IQueryBuilder::PARAM_INT)));
+		}
+		$delete->executeStatement();
 	}
 
 	public function invalidateLastUsedBefore(string $uid, int $before): int {
