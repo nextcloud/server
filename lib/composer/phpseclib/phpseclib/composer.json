@@ -1,0 +1,84 @@
+{
+    "name": "phpseclib/phpseclib",
+    "type": "library",
+    "description": "PHP Secure Communications Library - Pure-PHP implementations of RSA, AES, SSH2, SFTP, X.509 etc.",
+    "keywords": [
+        "security",
+        "crypto",
+        "cryptography",
+        "encryption",
+        "signature",
+        "signing",
+        "rsa",
+        "aes",
+        "blowfish",
+        "twofish",
+        "ssh",
+        "sftp",
+        "x509",
+        "x.509",
+        "asn1",
+        "asn.1",
+        "BigInteger"
+        ],
+    "homepage": "http://phpseclib.sourceforge.net",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Jim Wigginton",
+            "email": "terrafrost@php.net",
+            "role": "Lead Developer"
+        },
+        {
+            "name": "Patrick Monnerat",
+            "email": "pm@datasphere.ch",
+            "role": "Developer"
+        },
+        {
+            "name": "Andreas Fischer",
+            "email": "bantu@phpbb.com",
+            "role": "Developer"
+        },
+        {
+            "name": "Hans-Jürgen Petrich",
+            "email": "petrich@tronic-media.com",
+            "role": "Developer"
+        },
+        {
+            "name": "Graham Campbell",
+            "email": "graham@alt-three.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": ">=5.6.1",
+        "paragonie/constant_time_encoding": "^1|^2|^3",
+        "paragonie/random_compat": "^1.4|^2.0|^9.99.99"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "*"
+    },
+    "suggest": {
+        "ext-libsodium": "SSH2/SFTP can make use of some algorithms provided by the libsodium-php extension.",
+        "ext-openssl": "Install the OpenSSL extension in order to speed up a wide variety of cryptographic operations.",
+        "ext-mcrypt": "Install the Mcrypt extension in order to speed up a few other cryptographic operations.",
+        "ext-gmp": "Install the GMP (GNU Multiple Precision) extension in order to speed up arbitrary precision integer arithmetic operations.",
+        "ext-dom": "Install the DOM extension to load XML formatted public keys."
+    },
+    "autoload": {
+        "files": [
+            "phpseclib/bootstrap.php"
+        ],
+        "psr-4": {
+            "phpseclib3\\": "phpseclib/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "phpseclib3\\Tests\\": "tests/"
+        }
+    },
+    "config": {
+        "sort-packages": true
+    }
+}
