@@ -88,7 +88,7 @@ export function registerTemplateEntries() {
 				if (name !== null) {
 					// Create the file
 					const picker = await templatePicker
-					picker.open(name, provider)
+					picker.open(name.trim(), provider)
 				}
 			},
 		} as Entry)
