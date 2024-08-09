@@ -946,6 +946,43 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	}
 
 	/**
+	 * Returns all calendar objects with limited metadata for a calendar
+	 *
+	 * Every item contains an array with the following keys:
+	 *   * id - the table row id
+	 *   * etag - An arbitrary string
+	 *   * uri - a unique key which will be used to construct the uri. This can
+	 *     be any arbitrary string.
+	 *   * calendardata - The iCalendar-compatible calendar data
+	 *
+	 * @param mixed $calendarId
+	 * @param int $calendarType
+	 * @return array
+	 */
+	public function getLimitedCalendarObjects(int $calendarId, int $calendarType = self::CALENDAR_TYPE_CALENDAR):array {
+		$query = $this->db->getQueryBuilder();
+		$query->select(['id','uid', 'etag', 'uri', 'calendardata'])
+			->from('calendarobjects')
+			->where($query->expr()->eq('calendarid', $query->createNamedParameter($calendarId)))
+			->andWhere($query->expr()->eq('calendartype', $query->createNamedParameter($calendarType)))
+			->andWhere($query->expr()->isNull('deleted_at'));
+		$stmt = $query->executeQuery();
+
+		$result = [];
+		while (($row = $stmt->fetch()) !== false) {
+			$result[$row['uid']] = [
+				'id' => $row['id'],
+				'etag' => $row['etag'],
+				'uri' => $row['uri'],
+				'calendardata' => $row['calendardata'],
+			];
+		}
+		$stmt->closeCursor();
+
+		return $result;
+	}
+
+	/**
 	 * Delete all of an user's shares
 	 *
 	 * @param string $principaluri
@@ -3261,6 +3298,45 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 				->executeStatement();
 
 			$this->addChanges($subscriptionId, $uris, 3, self::CALENDAR_TYPE_SUBSCRIPTION);
+		}, $this->db);
+	}
+
+	/**
+	 * @param int $subscriptionId
+	 * @param array<int> $calendarObjectIds
+	 * @param array<string> $calendarObjectUris
+	 */
+	public function purgeCachedEventsForSubscription(int $subscriptionId, array $calendarObjectIds, array $calendarObjectUris): void {
+		if(empty($calendarObjectUris)) {
+			return;
+		}
+
+		$this->atomic(function () use ($subscriptionId, $calendarObjectIds, $calendarObjectUris) {
+			foreach (array_chunk($calendarObjectIds, 1000) as $chunk) {
+				$query = $this->db->getQueryBuilder();
+				$query->delete($this->dbObjectPropertiesTable)
+					->where($query->expr()->eq('calendarid', $query->createNamedParameter($subscriptionId)))
+					->andWhere($query->expr()->eq('calendartype', $query->createNamedParameter(self::CALENDAR_TYPE_SUBSCRIPTION)))
+					->andWhere($query->expr()->in('id', $query->createNamedParameter($chunk, IQueryBuilder::PARAM_INT_ARRAY), IQueryBuilder::PARAM_INT_ARRAY))
+					->executeStatement();
+
+				$query = $this->db->getQueryBuilder();
+				$query->delete('calendarobjects')
+					->where($query->expr()->eq('calendarid', $query->createNamedParameter($subscriptionId)))
+					->andWhere($query->expr()->eq('calendartype', $query->createNamedParameter(self::CALENDAR_TYPE_SUBSCRIPTION)))
+					->andWhere($query->expr()->in('id', $query->createNamedParameter($chunk, IQueryBuilder::PARAM_INT_ARRAY), IQueryBuilder::PARAM_INT_ARRAY))
+					->executeStatement();
+			}
+
+			foreach (array_chunk($calendarObjectUris, 1000) as $chunk) {
+				$query = $this->db->getQueryBuilder();
+				$query->delete('calendarchanges')
+					->where($query->expr()->eq('calendarid', $query->createNamedParameter($subscriptionId)))
+					->andWhere($query->expr()->eq('calendartype', $query->createNamedParameter(self::CALENDAR_TYPE_SUBSCRIPTION)))
+					->andWhere($query->expr()->in('uri', $query->createNamedParameter($chunk, IQueryBuilder::PARAM_STR_ARRAY), IQueryBuilder::PARAM_STR_ARRAY))
+					->executeStatement();
+			}
+			$this->addChanges($subscriptionId, $calendarObjectUris, 3, self::CALENDAR_TYPE_SUBSCRIPTION);
 		}, $this->db);
 	}
 
