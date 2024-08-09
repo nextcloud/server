@@ -193,6 +193,7 @@ class Manager implements IManager {
 
 			foreach ($r as $o) {
 				$o['calendar-key'] = $calendar->getKey();
+				$o['calendar-uri'] = $calendar->getUri();
 				$results[] = $o;
 			}
 		}

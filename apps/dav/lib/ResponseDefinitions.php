@@ -9,6 +9,8 @@ declare(strict_types=1);
 
 namespace OCA\DAV;
 
+use OCA\DAV\CalDAV\UpcomingEvent;
+
 /**
  * @psalm-type DAVOutOfOfficeDataCommon = array{
  *      userId: string,
@@ -31,6 +33,15 @@ namespace OCA\DAV;
  *     endDate: int,
  *     shortMessage: string,
  * }
+ *
+ * @see UpcomingEvent::jsonSerialize
+ * @psalm-type DAVUpcomingEvent = array{
+ *      uri: string,
+ *      calendarUri: string,
+ *      start: ?int,
+ *      summary: ?string,
+ *      location: ?string,
+ *  }
  */
 class ResponseDefinitions {
 }
