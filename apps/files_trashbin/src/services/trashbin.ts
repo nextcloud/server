@@ -50,7 +50,7 @@ export const getContents = async (path = '/'): Promise<ContentsWithRoot> => {
 	}) as ResponseDataDetailed<FileStat[]>
 
 	const contents = contentsResponse.data.map(resultToNode)
-	const [folder] = contents.splice(contents.findIndex((node) => node.dirname === path), 1)
+	const [folder] = contents.splice(contents.findIndex((node) => node.path === path), 1)
 
 	return {
 		folder: folder as Folder,
