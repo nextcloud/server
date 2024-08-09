@@ -980,4 +980,28 @@ trait Provisioning {
 			}
 		}
 	}
+
+	/**
+	 * @Then user :user verifies email :email
+	 */
+	public function userVerifiesEmail(string $userId, string $email): void {
+		$fullUrl = $this->baseUrl . "v{$this->apiVersion}.php/apps/testing/api/v1/mailverification";
+		$client = new Client();
+		$options = [];
+		if ($this->currentUser === 'admin') {
+			$options['auth'] = $this->adminUser;
+		}
+
+		$options['form_params'] = [
+			'userid' => $userId,
+			'email' => $email,
+		];
+
+		$options['headers'] = [
+			'OCS-APIREQUEST' => 'true',
+		];
+
+		$this->response = $client->post($fullUrl, $options);
+	}
 }
+
