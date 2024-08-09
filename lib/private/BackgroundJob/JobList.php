@@ -52,7 +52,7 @@ class JobList implements IJobList {
 		protected IConfig $config,
 		protected ITimeFactory $timeFactory,
 		protected LoggerInterface $logger
-    ) {
+	) {
 	}
 
 	public function add($job, $argument = null, ?int $firstCheck = null): void {
