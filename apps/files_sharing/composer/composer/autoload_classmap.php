@@ -27,6 +27,7 @@ return array(
     'OCA\\Files_Sharing\\Command\\CleanupRemoteStorages' => $baseDir . '/../lib/Command/CleanupRemoteStorages.php',
     'OCA\\Files_Sharing\\Command\\DeleteOrphanShares' => $baseDir . '/../lib/Command/DeleteOrphanShares.php',
     'OCA\\Files_Sharing\\Command\\ExiprationNotification' => $baseDir . '/../lib/Command/ExiprationNotification.php',
+    'OCA\\Files_Sharing\\Command\\FixBrokenShares' => $baseDir . '/../lib/Command/FixBrokenShares.php',
     'OCA\\Files_Sharing\\Controller\\AcceptController' => $baseDir . '/../lib/Controller/AcceptController.php',
     'OCA\\Files_Sharing\\Controller\\DeletedShareAPIController' => $baseDir . '/../lib/Controller/DeletedShareAPIController.php',
     'OCA\\Files_Sharing\\Controller\\ExternalSharesController' => $baseDir . '/../lib/Controller/ExternalSharesController.php',

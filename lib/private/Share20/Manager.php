@@ -17,6 +17,7 @@ use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
 use OCP\Files\Mount\IMountManager;
 use OCP\Files\Node;
+use OCP\Files\NotFoundException;
 use OCP\HintException;
 use OCP\IConfig;
 use OCP\IDateTimeZone;
@@ -1016,6 +1017,110 @@ class Manager implements IManager {
 		return $deletedShares;
 	}
 
+	public function deleteReshare(IShare $share) {
+		// Skip if node not found
+		try {
+			$node = $share->getNode();
+		} catch (NotFoundException) {
+			return;
+		}
+
+		// If the sharedWith user/group has another shares, we don't delete the shares by this user/group
+		if  ($share->getShareType() === IShare::TYPE_USER && $this->hasNodeAccess($share->getSharedWith(), $node)) {
+			return;
+		}
+
+		// Delete re-share records (shared by "share with user") inside folder
+		if ($share->getNodeType() === 'folder' && $share->getShareType() === IShare::TYPE_USER) {
+			$sharesInFolder = $this->getSharesInFolder($share->getSharedWith(), $node, true);
+
+			foreach ($sharesInFolder as $shares) {
+				foreach ($shares as $child) {
+					if ($this->hasNodeAccess($share->getSharedWith(), $child->getNode())) {
+						continue;
+					}
+					$this->deleteShare($child);
+				}
+			}
+		}
+
+		$shareTypes = [
+			IShare::TYPE_GROUP,
+			IShare::TYPE_USER,
+			IShare::TYPE_LINK,
+			IShare::TYPE_REMOTE,
+			IShare::TYPE_EMAIL
+		];
+
+		// Delete re-share records which shared by "share with user"
+		if ($share->getShareType() === IShare::TYPE_USER || $share->getShareType() === IShare::TYPE_USERGROUP) {
+			foreach ($shareTypes as $shareType) {
+				$provider = $this->factory->getProviderForType($shareType);
+				$shares = $provider->getSharesBy($share->getSharedWith(), $shareType, $node, false, -1, 0);
+				foreach ($shares as $child) {
+					if ($this->hasNodeAccess($share->getSharedWith(), $child->getNode())) {
+						continue;
+					}
+					$this->deleteShare($child);
+				}
+			}
+		}
+
+		// Delete re-share records which shared by users in "share with group"
+		if ($share->getShareType() === IShare::TYPE_GROUP) {
+			$group = $this->groupManager->get($share->getSharedWith());
+			$users = $group->getUsers();
+
+			foreach ($users as $user) {
+				// Skip if share owner is member of shared group
+				if ($user->getUID() === $share->getShareOwner()) {
+					continue;
+				}
+
+				// If the user has another shares, we don't delete the shares by this user
+				if ($this->hasNodeAccess($user->getUID(), $node)) {
+					continue;
+				}
+
+				if ($share->getNodeType() === 'folder') {
+					$sharesInFolder = $this->getSharesInFolder($user->getUID(), $node, true);
+
+					foreach ($sharesInFolder as $shares) {
+						foreach ($shares as $child) {
+							if ($this->hasNodeAccess($user->getUID(), $child->getNode())) {
+								continue;
+							}
+							$this->deleteShare($child);
+						}
+					}
+				}
+
+				foreach ($shareTypes as $shareType) {
+					$provider = $this->factory->getProviderForType($shareType);
+					$shares = $provider->getSharesBy($user->getUID(), $shareType, $node, false, -1, 0);
+					foreach ($shares as $child) {
+						$this->deleteShare($child);
+					}
+				}
+			}
+		}
+	}
+
+	public function hasNodeAccess($userId, Node $node) {
+		$otherShares = $this->getSharedWith($userId, IShare::TYPE_USER, $node, -1);
+
+		foreach ($otherShares as $share) {
+			try {
+				$this->generalCreateChecks($share);
+				return true;
+			} catch (GenericShareException $e) {
+				return false;
+			}
+		}
+
+		return false;
+	}
+
 	/**
 	 * Delete a share
 	 *
@@ -1038,6 +1143,9 @@ class Manager implements IManager {
 		// Do the actual delete
 		$provider = $this->factory->getProviderForType($share->getShareType());
 		$provider->delete($share);
+
+		// Delete shares that shared by the "share with user/group"
+		$this->deleteReshare($share);
 
 		$this->dispatcher->dispatchTyped(new ShareDeletedEvent($share));
 	}

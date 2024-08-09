@@ -48,6 +48,7 @@ Turning the feature off removes shared files and folders on the server for all s
 		<command>OCA\Files_Sharing\Command\CleanupRemoteStorages</command>
 		<command>OCA\Files_Sharing\Command\ExiprationNotification</command>
 		<command>OCA\Files_Sharing\Command\DeleteOrphanShares</command>
+		<command>OCA\Files_Sharing\Command\FixBrokenShares</command>
 	</commands>
 
 	<settings>

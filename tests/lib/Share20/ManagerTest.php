@@ -227,7 +227,7 @@ class ManagerTest extends \Test\TestCase {
 	 */
 	public function testDelete($shareType, $sharedWith) {
 		$manager = $this->createManagerMock()
-			->setMethods(['getShareById', 'deleteChildren'])
+			->setMethods(['getShareById', 'deleteChildren', 'deleteReshare'])
 			->getMock();
 
 		$manager->method('deleteChildren')->willReturn([]);
@@ -245,6 +245,7 @@ class ManagerTest extends \Test\TestCase {
 			->setTarget('myTarget');
 
 		$manager->expects($this->once())->method('deleteChildren')->with($share);
+		$manager->expects($this->once())->method('deleteReshare')->with($share);
 
 		$this->defaultProvider
 			->expects($this->once())
@@ -269,7 +270,7 @@ class ManagerTest extends \Test\TestCase {
 
 	public function testDeleteLazyShare() {
 		$manager = $this->createManagerMock()
-			->setMethods(['getShareById', 'deleteChildren'])
+			->setMethods(['getShareById', 'deleteChildren', 'deleteReshare'])
 			->getMock();
 
 		$manager->method('deleteChildren')->willReturn([]);
@@ -288,6 +289,7 @@ class ManagerTest extends \Test\TestCase {
 		$this->rootFolder->expects($this->never())->method($this->anything());
 
 		$manager->expects($this->once())->method('deleteChildren')->with($share);
+		$manager->expects($this->once())->method('deleteReshare')->with($share);
 
 		$this->defaultProvider
 			->expects($this->once())
@@ -312,7 +314,7 @@ class ManagerTest extends \Test\TestCase {
 
 	public function testDeleteNested() {
 		$manager = $this->createManagerMock()
-			->setMethods(['getShareById'])
+			->setMethods(['getShareById', 'deleteReshare'])
 			->getMock();
 
 		$path = $this->createMock(File::class);
@@ -467,6 +469,122 @@ class ManagerTest extends \Test\TestCase {
 
 		$result = self::invokePrivate($manager, 'deleteChildren', [$share]);
 		$this->assertSame($shares, $result);
+	}
+
+	public function testDeleteReshareWhenUserHasOneShare() {
+		$manager = $this->createManagerMock()
+			->setMethods(['deleteShare', 'getSharesInFolder', 'getSharedWith', 'hasNodeAccess'])
+			->getMock();
+		$manager->method('hasNodeAccess')->willReturn(false);
+
+		$folder = $this->createMock(Folder::class);
+		$folder->method('getParent')->willReturn(null);
+
+		$share = $this->createMock(IShare::class);
+		$share->method('getShareType')->willReturn(IShare::TYPE_USER);
+		$share->method('getNodeType')->willReturn('folder');
+		$share->method('getSharedWith')->willReturn('UserB');
+		$share->method('getNode')->willReturn($folder);
+
+		$reShare = $this->createMock(IShare::class);
+		$reShare->method('getSharedBy')->willReturn('UserB');
+		$reShare->method('getNode')->willReturn($folder);
+
+		$reShareInSubFolder = $this->createMock(IShare::class);
+		$reShareInSubFolder->method('getSharedBy')->willReturn('UserB');
+
+		$manager->method('getSharedWith')->willReturn([]);
+		$manager->method('getSharesInFolder')->willReturn([$reShareInSubFolder]);
+
+		$this->defaultProvider->method('getSharesBy')
+			->willReturn([$reShare]);
+
+		$manager->expects($this->atLeast(2))->method('deleteShare')->withConsecutive([$reShare], [$reShareInSubFolder]);
+
+		$manager->deleteReshare($share);
+	}
+
+	public function testDeleteReshareWhenUserHasAnotherShare() {
+		$manager = $this->createManagerMock()
+			->setMethods(['deleteShare', 'getSharesInFolder', 'getSharedWith', 'hasNodeAccess'])
+			->getMock();
+		$manager->method('hasNodeAccess')->willReturn(true);
+
+		$folder = $this->createMock(Folder::class);
+		$folder->method('getParent')->willReturn(null);
+
+		$share = $this->createMock(IShare::class);
+		$share->method('getShareType')->willReturn(IShare::TYPE_USER);
+		$share->method('getNodeType')->willReturn('folder');
+		$share->method('getSharedWith')->willReturn('UserB');
+		$share->method('getNode')->willReturn($folder);
+
+		$reShare = $this->createMock(IShare::class);
+		$reShare->method('getShareType')->willReturn(IShare::TYPE_USER);
+		$reShare->method('getNodeType')->willReturn('folder');
+		$reShare->method('getSharedBy')->willReturn('UserB');
+		$reShare->method('getNode')->willReturn($folder);
+
+		$manager->method('getSharedWith')
+			->with('UserB', IShare::TYPE_GROUP, $folder, -1, 0)
+			->willReturn([1]);
+
+		$manager->expects($this->never())->method('deleteShare');
+
+		$manager->deleteReshare($share);
+	}
+
+	public function testDeleteReshareOfUsersInGroupShare() {
+		$manager = $this->createManagerMock()
+			->setMethods(['deleteShare', 'getSharesInFolder', 'getSharedWith', 'hasNodeAccess'])
+			->getMock();
+		$manager->method('hasNodeAccess')->willReturn(false);
+
+		$parentFolder = $this->createMock(Folder::class);
+		$parentFolder->method('getParent')->willReturn(null);
+
+		$folder = $this->createMock(Folder::class);
+		$folder->method('getParent')->willReturn($parentFolder);
+
+		$userA = $this->createMock(IUser::class);
+		$userA->method('getUID')->willReturn('userA');
+
+		$share = $this->createMock(IShare::class);
+		$share->method('getShareType')->willReturn(IShare::TYPE_GROUP);
+		$share->method('getNodeType')->willReturn('folder');
+		$share->method('getSharedWith')->willReturn('Group');
+		$share->method('getNode')->willReturn($folder);
+		$share->method('getShareOwner')->willReturn($userA);
+
+		$reShare1 = $this->createMock(IShare::class);
+		$reShare1->method('getShareType')->willReturn(IShare::TYPE_USER);
+		$reShare1->method('getNodeType')->willReturn('folder');
+		$reShare1->method('getSharedBy')->willReturn('UserB');
+		$reShare1->method('getNode')->willReturn($folder);
+
+		$reShare2 = $this->createMock(IShare::class);
+		$reShare2->method('getShareType')->willReturn(IShare::TYPE_USER);
+		$reShare2->method('getNodeType')->willReturn('folder');
+		$reShare2->method('getSharedBy')->willReturn('UserC');
+		$reShare2->method('getNode')->willReturn($folder);
+
+		$userB = $this->createMock(IUser::class);
+		$userB->method('getUID')->willReturn('userB');
+		$userC = $this->createMock(IUser::class);
+		$userC->method('getUID')->willReturn('userC');
+		$group = $this->createMock(IGroup::class);
+		$group->method('getUsers')->willReturn([$userB, $userC]);
+		$this->groupManager->method('get')->with('Group')->willReturn($group);
+
+		$this->defaultProvider->method('getSharesBy')
+			->willReturn([]);
+
+		$manager->method('getSharedWith')->willReturn([]);
+		$manager->expects($this->exactly(2))->method('getSharesInFolder')->willReturnOnConsecutiveCalls([[$reShare1]], [[$reShare2]]);
+
+		$manager->expects($this->exactly(2))->method('deleteShare')->withConsecutive([$reShare1], [$reShare2]);
+
+		$manager->deleteReshare($share);
 	}
 
 	public function testGetShareById() {
