@@ -11,6 +11,8 @@ namespace OCA\Files_Trashbin\Controller;
 use OCA\Files_Trashbin\Trash\ITrashManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\NoAdminRequired;
+use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Files\Folder;
@@ -61,9 +63,6 @@ class PreviewController extends Controller {
 	}
 
 	/**
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
-	 *
 	 * Get the preview for a file
 	 *
 	 * @param int $fileId ID of the file
@@ -77,6 +76,8 @@ class PreviewController extends Controller {
 	 * 400: Getting preview is not possible
 	 * 404: Preview not found
 	 */
+	#[NoAdminRequired]
+	#[NoCSRFRequired]
 	public function getPreview(
 		int $fileId = -1,
 		int $x = 32,
