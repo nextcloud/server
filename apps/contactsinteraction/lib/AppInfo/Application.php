@@ -9,10 +9,13 @@ declare(strict_types=1);
 namespace OCA\ContactsInteraction\AppInfo;
 
 use OCA\ContactsInteraction\Listeners\ContactInteractionListener;
+use OCA\ContactsInteraction\Listeners\UserPreferenceListener;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
+use OCP\Config\BeforePreferenceDeletedEvent;
+use OCP\Config\BeforePreferenceSetEvent;
 use OCP\Contacts\Events\ContactInteractedWithEvent;
 
 class Application extends App implements IBootstrap {
@@ -24,6 +27,9 @@ class Application extends App implements IBootstrap {
 
 	public function register(IRegistrationContext $context): void {
 		$context->registerEventListener(ContactInteractedWithEvent::class, ContactInteractionListener::class);
+
+		$context->registerEventListener(BeforePreferenceDeletedEvent::class, UserPreferenceListener::class);
+		$context->registerEventListener(BeforePreferenceSetEvent::class, UserPreferenceListener::class);
 	}
 
 	public function boot(IBootContext $context): void {
