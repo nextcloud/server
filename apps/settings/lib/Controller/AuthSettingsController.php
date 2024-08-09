@@ -17,6 +17,8 @@ use OCA\Settings\Activity\Provider;
 use OCP\Activity\IManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\NoAdminRequired;
+use OCP\AppFramework\Http\Attribute\PasswordConfirmationRequired;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\Authentication\Exceptions\ExpiredTokenException;
 use OCP\Authentication\Exceptions\InvalidTokenException;
@@ -88,13 +90,13 @@ class AuthSettingsController extends Controller {
 	}
 
 	/**
-	 * @NoAdminRequired
 	 * @NoSubAdminRequired
-	 * @PasswordConfirmationRequired
 	 *
 	 * @param string $name
 	 * @return JSONResponse
 	 */
+	#[NoAdminRequired]
+	#[PasswordConfirmationRequired]
 	public function create($name) {
 		if ($this->checkAppToken()) {
 			return $this->getServiceNotAvailableResponse();
@@ -169,12 +171,12 @@ class AuthSettingsController extends Controller {
 	}
 
 	/**
-	 * @NoAdminRequired
 	 * @NoSubAdminRequired
 	 *
 	 * @param int $id
 	 * @return array|JSONResponse
 	 */
+	#[NoAdminRequired]
 	public function destroy($id) {
 		if ($this->checkAppToken()) {
 			return new JSONResponse([], Http::STATUS_BAD_REQUEST);
@@ -195,7 +197,6 @@ class AuthSettingsController extends Controller {
 	}
 
 	/**
-	 * @NoAdminRequired
 	 * @NoSubAdminRequired
 	 *
 	 * @param int $id
@@ -203,6 +204,7 @@ class AuthSettingsController extends Controller {
 	 * @param string $name
 	 * @return array|JSONResponse
 	 */
+	#[NoAdminRequired]
 	public function update($id, array $scope, string $name) {
 		if ($this->checkAppToken()) {
 			return new JSONResponse([], Http::STATUS_BAD_REQUEST);
@@ -276,15 +278,15 @@ class AuthSettingsController extends Controller {
 	}
 
 	/**
-	 * @NoAdminRequired
 	 * @NoSubAdminRequired
-	 * @PasswordConfirmationRequired
 	 *
 	 * @param int $id
 	 * @return JSONResponse
 	 * @throws InvalidTokenException
 	 * @throws ExpiredTokenException
 	 */
+	#[NoAdminRequired]
+	#[PasswordConfirmationRequired]
 	public function wipe(int $id): JSONResponse {
 		if ($this->checkAppToken()) {
 			return new JSONResponse([], Http::STATUS_BAD_REQUEST);

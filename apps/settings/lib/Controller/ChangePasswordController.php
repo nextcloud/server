@@ -13,6 +13,9 @@ use OC\Group\Manager as GroupManager;
 use OC\User\Session;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Controller;
+use OCP\AppFramework\Http\Attribute\BruteForceProtection;
+use OCP\AppFramework\Http\Attribute\NoAdminRequired;
+use OCP\AppFramework\Http\Attribute\PasswordConfirmationRequired;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\HintException;
 use OCP\IGroupManager;
@@ -49,10 +52,10 @@ class ChangePasswordController extends Controller {
 	}
 
 	/**
-	 * @NoAdminRequired
 	 * @NoSubAdminRequired
-	 * @BruteForceProtection(action=changePersonalPassword)
 	 */
+	#[NoAdminRequired]
+	#[BruteForceProtection(action: 'changePersonalPassword')]
 	public function changePersonalPassword(string $oldpassword = '', ?string $newpassword = null): JSONResponse {
 		$loginName = $this->userSession->getLoginName();
 		/** @var IUser $user */
@@ -97,10 +100,8 @@ class ChangePasswordController extends Controller {
 		]);
 	}
 
-	/**
-	 * @NoAdminRequired
-	 * @PasswordConfirmationRequired
-	 */
+	#[NoAdminRequired]
+	#[PasswordConfirmationRequired]
 	public function changeUserPassword(?string $username = null, ?string $password = null, ?string $recoveryPassword = null): JSONResponse {
 		if ($username === null) {
 			return new JSONResponse([

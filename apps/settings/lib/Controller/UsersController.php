@@ -27,7 +27,10 @@ use OCP\Accounts\PropertyDoesNotExistException;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\Attribute\AuthorizedAdminSetting;
+use OCP\AppFramework\Http\Attribute\NoAdminRequired;
+use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
 use OCP\AppFramework\Http\Attribute\OpenAPI;
+use OCP\AppFramework\Http\Attribute\PasswordConfirmationRequired;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\TemplateResponse;
@@ -72,25 +75,23 @@ class UsersController extends Controller {
 
 
 	/**
-	 * @NoCSRFRequired
-	 * @NoAdminRequired
-	 *
 	 * Display users list template
 	 *
 	 * @return TemplateResponse
 	 */
+	#[NoAdminRequired]
+	#[NoCSRFRequired]
 	public function usersListByGroup(): TemplateResponse {
 		return $this->usersList();
 	}
 
 	/**
-	 * @NoCSRFRequired
-	 * @NoAdminRequired
-	 *
 	 * Display users list template
 	 *
 	 * @return TemplateResponse
 	 */
+	#[NoAdminRequired]
+	#[NoCSRFRequired]
 	public function usersList(): TemplateResponse {
 		$user = $this->userSession->getUser();
 		$uid = $user->getUID();
@@ -293,9 +294,7 @@ class UsersController extends Controller {
 	}
 
 	/**
-	 * @NoAdminRequired
 	 * @NoSubAdminRequired
-	 * @PasswordConfirmationRequired
 	 *
 	 * @param string|null $avatarScope
 	 * @param string|null $displayname
@@ -317,6 +316,8 @@ class UsersController extends Controller {
 	 *
 	 * @return DataResponse
 	 */
+	#[NoAdminRequired]
+	#[PasswordConfirmationRequired]
 	public function setUserSettings(?string $avatarScope = null,
 		?string $displayname = null,
 		?string $displaynameScope = null,
@@ -475,14 +476,14 @@ class UsersController extends Controller {
 	/**
 	 * Set the mail address of a user
 	 *
-	 * @NoAdminRequired
 	 * @NoSubAdminRequired
-	 * @PasswordConfirmationRequired
 	 *
 	 * @param string $account
 	 * @param bool $onlyVerificationCode only return verification code without updating the data
 	 * @return DataResponse
 	 */
+	#[NoAdminRequired]
+	#[PasswordConfirmationRequired]
 	public function getVerificationCode(string $account, bool $onlyVerificationCode): DataResponse {
 		$user = $this->userSession->getUser();
 
