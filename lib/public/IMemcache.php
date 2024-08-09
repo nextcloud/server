@@ -67,10 +67,24 @@ interface IMemcache extends ICache {
 	/**
 	 * Compare and delete
 	 *
+	 *  Delete $key if the stored value is equal to $old
+	 *
 	 * @param string $key
 	 * @param mixed $old
 	 * @return bool
 	 * @since 8.1.0
 	 */
 	public function cad($key, $old);
+
+	/**
+	 * Negative compare and delete
+	 *
+	 * Delete $key if the stored value is not equal to $old
+	 *
+	 * @param string $key
+	 * @param mixed $old
+	 * @return bool
+	 * @since 30.0.0
+	 */
+	public function ncad(string $key, $old): bool;
 }

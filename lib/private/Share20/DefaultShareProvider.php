@@ -670,6 +670,7 @@ class DefaultShareProvider implements IShareProviderWithNotification, IShareProv
 
 		foreach ($chunks as $chunk) {
 			$qb->setParameter('chunk', $chunk, IQueryBuilder::PARAM_INT_ARRAY);
+			$a = $qb->getSQL();
 			$cursor = $qb->executeQuery();
 			while ($data = $cursor->fetch()) {
 				$shares[$data['fileid']][] = $this->createShare($data);
@@ -1200,10 +1201,14 @@ class DefaultShareProvider implements IShareProviderWithNotification, IShareProv
 
 		if (!empty($ids)) {
 			$chunks = array_chunk($ids, 100);
+
+			$qb = $this->dbConn->getQueryBuilder();
+			$qb->delete('share')
+				->where($qb->expr()->eq('share_type', $qb->createNamedParameter(IShare::TYPE_USERGROUP)))
+				->andWhere($qb->expr()->in('parent', $qb->createParameter('parents')));
+
 			foreach ($chunks as $chunk) {
-				$qb->delete('share')
-					->where($qb->expr()->eq('share_type', $qb->createNamedParameter(IShare::TYPE_USERGROUP)))
-					->andWhere($qb->expr()->in('parent', $qb->createNamedParameter($chunk, IQueryBuilder::PARAM_INT_ARRAY)));
+				$qb->setParameter('parents', $chunk, IQueryBuilder::PARAM_INT_ARRAY);
 				$qb->execute();
 			}
 		}
@@ -1243,14 +1248,18 @@ class DefaultShareProvider implements IShareProviderWithNotification, IShareProv
 
 		if (!empty($ids)) {
 			$chunks = array_chunk($ids, 100);
+
+			/*
+			 * Delete all special shares with this user for the found group shares
+			 */
+			$qb = $this->dbConn->getQueryBuilder();
+			$qb->delete('share')
+				->where($qb->expr()->eq('share_type', $qb->createNamedParameter(IShare::TYPE_USERGROUP)))
+				->andWhere($qb->expr()->eq('share_with', $qb->createNamedParameter($uid)))
+				->andWhere($qb->expr()->in('parent', $qb->createParameter('parents')));
+
 			foreach ($chunks as $chunk) {
-				/*
-				 * Delete all special shares with this users for the found group shares
-				 */
-				$qb->delete('share')
-					->where($qb->expr()->eq('share_type', $qb->createNamedParameter(IShare::TYPE_USERGROUP)))
-					->andWhere($qb->expr()->eq('share_with', $qb->createNamedParameter($uid)))
-					->andWhere($qb->expr()->in('parent', $qb->createNamedParameter($chunk, IQueryBuilder::PARAM_INT_ARRAY)));
+				$qb->setParameter('parents', $chunk, IQueryBuilder::PARAM_INT_ARRAY);
 				$qb->execute();
 			}
 		}

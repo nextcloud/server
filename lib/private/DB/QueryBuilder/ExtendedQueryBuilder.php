@@ -288,4 +288,18 @@ abstract class ExtendedQueryBuilder implements IQueryBuilder {
 	public function executeStatement(?IDBConnection $connection = null): int {
 		return $this->builder->executeStatement($connection);
 	}
+
+	public function hintShardKey(string $column, mixed $value) {
+		$this->builder->hintShardKey($column, $value);
+		return $this;
+	}
+
+	public function runAcrossAllShards() {
+		$this->builder->runAcrossAllShards();
+		return $this;
+	}
+
+	public function getOutputColumns(): array {
+		return $this->builder->getOutputColumns();
+	}
 }

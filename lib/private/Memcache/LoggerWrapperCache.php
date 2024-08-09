@@ -142,7 +142,18 @@ class LoggerWrapperCache extends Cache implements IMemcacheTTL {
 	public function cad($key, $old) {
 		file_put_contents(
 			$this->logFile,
-			$this->getNameSpace() . '::cad::' . $key . "\n",
+			$this->getNameSpace() . '::ncad::' . $key . "\n",
+			FILE_APPEND
+		);
+
+		return $this->wrappedCache->cad($key, $old);
+	}
+
+	/** @inheritDoc */
+	public function ncad(string $key, $old): bool {
+		file_put_contents(
+			$this->logFile,
+			$this->getNameSpace() . '::ncad::' . $key . "\n",
 			FILE_APPEND
 		);
 

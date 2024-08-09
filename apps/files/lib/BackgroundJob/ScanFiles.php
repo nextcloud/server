@@ -33,11 +33,11 @@ class ScanFiles extends TimedJob {
 	public const USERS_PER_SESSION = 500;
 
 	public function __construct(
-		IConfig $config,
+		IConfig          $config,
 		IEventDispatcher $dispatcher,
-		LoggerInterface $logger,
-		IDBConnection $connection,
-		ITimeFactory $time
+		LoggerInterface  $logger,
+		IDBConnection    $connection,
+		ITimeFactory     $time
 	) {
 		parent::__construct($time);
 		// Run once per 10 minutes
@@ -71,14 +71,16 @@ class ScanFiles extends TimedJob {
 	 */
 	private function getUserToScan() {
 		$query = $this->connection->getQueryBuilder();
-		$query->select('user_id')
+		$query->select('m.user_id')
 			->from('filecache', 'f')
-			->innerJoin('f', 'mounts', 'm', $query->expr()->eq('storage_id', 'storage'))
-			->where($query->expr()->lt('size', $query->createNamedParameter(0, IQueryBuilder::PARAM_INT)))
-			->andWhere($query->expr()->gt('parent', $query->createNamedParameter(-1, IQueryBuilder::PARAM_INT)))
-			->setMaxResults(1);
+			->innerJoin('f', 'mounts', 'm', $query->expr()->eq('m.storage_id', 'f.storage'))
+			->where($query->expr()->lt('f.size', $query->createNamedParameter(0, IQueryBuilder::PARAM_INT)))
+			->andWhere($query->expr()->gt('f.parent', $query->createNamedParameter(-1, IQueryBuilder::PARAM_INT)))
+			->setMaxResults(1)
+			->runAcrossAllShards();
 
-		return $query->executeQuery()->fetchOne();
+		$res = $query->executeQuery()->fetch();
+		return $res ? $res['user_id'] : false;
 	}
 
 	/**

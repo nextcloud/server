@@ -65,6 +65,7 @@ class CleanTagsTest extends \Test\TestCase {
 			->execute();
 
 		$qb->delete('filecache')
+			->runAcrossAllShards()
 			->execute();
 	}
 
@@ -176,6 +177,7 @@ class CleanTagsTest extends \Test\TestCase {
 		$fileName = $this->getUniqueID('TestRepairCleanTags', 12);
 		$qb->insert('filecache')
 			->values([
+				'storage' => $qb->createNamedParameter(1, IQueryBuilder::PARAM_INT),
 				'path' => $qb->createNamedParameter($fileName),
 				'path_hash' => $qb->createNamedParameter(md5($fileName)),
 			])
@@ -183,6 +185,7 @@ class CleanTagsTest extends \Test\TestCase {
 		$fileName = $this->getUniqueID('TestRepairCleanTags', 12);
 		$qb->insert('filecache')
 			->values([
+				'storage' => $qb->createNamedParameter(1, IQueryBuilder::PARAM_INT),
 				'path' => $qb->createNamedParameter($fileName),
 				'path_hash' => $qb->createNamedParameter(md5($fileName)),
 			])

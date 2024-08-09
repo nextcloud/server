@@ -10,6 +10,7 @@ namespace Test;
 use DOMDocument;
 use DOMNode;
 use OC\Command\QueueBus;
+use OC\DB\QueryBuilder\Sharded\ShardedQueryBuilder;
 use OC\Files\Config\MountProviderCollection;
 use OC\Files\Filesystem;
 use OC\Files\Mount\CacheMountProvider;
@@ -342,6 +343,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 	 */
 	protected static function tearDownAfterClassCleanFileCache(IQueryBuilder $queryBuilder) {
 		$queryBuilder->delete('filecache')
+			->runAcrossAllShards()
 			->execute();
 	}
 

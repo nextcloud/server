@@ -59,8 +59,8 @@ class DeleteOrphanedItems extends TimedJob {
 		$query->select('t1.' . $idCol)
 			->from($table, 't1')
 			->where($query->expr()->eq($typeCol, $query->expr()->literal('files')))
-			->andWhere($query->expr()->isNull('t2.fileid'))
 			->leftJoin('t1', 'filecache', 't2', $query->expr()->eq($query->expr()->castColumn('t1.' . $idCol, IQueryBuilder::PARAM_INT), 't2.fileid'))
+			->andWhere($query->expr()->isNull('t2.fileid'))
 			->groupBy('t1.' . $idCol)
 			->setMaxResults(self::CHUNK_SIZE);
 

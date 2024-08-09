@@ -36,6 +36,9 @@ class SchemaWrapper implements ISchemaWrapper {
 	public function performDropTableCalls() {
 		foreach ($this->tablesToDelete as $tableName => $true) {
 			$this->connection->dropTable($tableName);
+			foreach ($this->connection->getShardConnections() as $shardConnection) {
+				$shardConnection->dropTable($tableName);
+			}
 			unset($this->tablesToDelete[$tableName]);
 		}
 	}

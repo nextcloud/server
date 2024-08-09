@@ -125,7 +125,7 @@ class ShareByMailProviderTest extends TestCase {
 
 	protected function tearDown(): void {
 		$this->dbConn->getQueryBuilder()->delete('share')->execute();
-		$this->dbConn->getQueryBuilder()->delete('filecache')->execute();
+		$this->dbConn->getQueryBuilder()->delete('filecache')->runAcrossAllShards()->execute();
 		$this->dbConn->getQueryBuilder()->delete('storages')->execute();
 	}
 
