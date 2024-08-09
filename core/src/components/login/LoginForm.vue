@@ -4,95 +4,47 @@
 -->
 
 <template>
-	<form ref="loginForm"
-		class="login-form"
-		method="post"
-		name="login"
-		:action="loginActionUrl"
-		@submit="submit">
+	<form ref="loginForm" class="login-form" method="post" name="login" :action="loginActionUrl"
+		@submit.prevent="submit">
 		<fieldset class="login-form__fieldset" data-login-form>
-			<NcNoteCard v-if="apacheAuthFailed"
-				:title="t('core', 'Server side authentication failed!')"
-				type="warning">
+			<NcNoteCard v-if="apacheAuthFailed" :title="t('core', 'Server side authentication failed!')" type="warning">
 				{{ t('core', 'Please contact your administrator.') }}
 			</NcNoteCard>
-			<NcNoteCard v-if="csrfCheckFailed"
-				:heading="t('core', 'Temporary error')"
-				type="error">
+			<NcNoteCard v-if="csrfCheckFailed" :heading="t('core', 'Temporary error')" type="error">
 				{{ t('core', 'Please try again.') }}
 			</NcNoteCard>
 			<NcNoteCard v-if="messages.length > 0">
-				<div v-for="(message, index) in messages"
-					:key="index">
+				<div v-for="(message, index) in messages" :key="index">
 					{{ message }}<br>
 				</div>
 			</NcNoteCard>
-			<NcNoteCard v-if="internalException"
-				:class="t('core', 'An internal error occurred.')"
-				type="warning">
+			<NcNoteCard v-if="internalException" :class="t('core', 'An internal error occurred.')" type="warning">
 				{{ t('core', 'Please try again or contact your administrator.') }}
 			</NcNoteCard>
-			<div id="message"
-				class="hidden">
-				<img class="float-spinner"
-					alt=""
-					:src="loadingIcon">
+			<div id="message" class="hidden">
+				<img class="float-spinner" alt="" :src="loadingIcon">
 				<span id="messageText" />
 				<!-- the following div ensures that the spinner is always inside the #message div -->
 				<div style="clear: both;" />
 			</div>
-			<h2 class="login-form__headline" data-login-form-headline>
-				{{ headlineText }}
-			</h2>
-			<NcTextField id="user"
-				ref="user"
-				:label="loginText"
-				name="user"
-				:maxlength="255"
-				:value.sync="user"
-				:class="{shake: invalidPassword}"
-				autocapitalize="none"
-				:spellchecking="false"
-				:autocomplete="autoCompleteAllowed ? 'username' : 'off'"
-				required
-				:error="userNameInputLengthIs255"
-				:helper-text="userInputHelperText"
-				data-login-form-input-user
-				@change="updateUsername" />
 
-			<NcPasswordField id="password"
-				ref="password"
-				name="password"
-				:class="{shake: invalidPassword}"
-				:value.sync="password"
-				:spellchecking="false"
-				autocapitalize="none"
-				:autocomplete="autoCompleteAllowed ? 'current-password' : 'off'"
-				:label="t('core', 'Password')"
-				:helper-text="errorLabel"
-				:error="isError"
-				data-login-form-input-password
-				required />
+			<NcTextField id="user" ref="user" :label="loginText" name="user" :maxlength="255" :value.sync="user"
+				:class="{ shake: invalidPassword }" autocapitalize="none" :spellchecking="false"
+				:autocomplete="autoCompleteAllowed ? 'username' : 'off'" required :error="userNameInputLengthIs255"
+				:helper-text="userInputHelperText" data-login-form-input-user @change="updateUsername" />
+
+			<NcPasswordField id="password" ref="password" name="password" :class="{ shake: invalidPassword }"
+				:value.sync="password" :spellchecking="false" autocapitalize="none"
+				:autocomplete="autoCompleteAllowed ? 'current-password' : 'off'" :label="t('core', 'Password')"
+				:helper-text="errorLabel" :error="isError" data-login-form-input-password required />
 
 			<LoginButton data-login-form-submit :loading="loading" />
 
-			<input v-if="redirectUrl"
-				type="hidden"
-				name="redirect_url"
-				:value="redirectUrl">
-			<input type="hidden"
-				name="timezone"
-				:value="timezone">
-			<input type="hidden"
-				name="timezone_offset"
-				:value="timezoneOffset">
-			<input type="hidden"
-				name="requesttoken"
-				:value="requestToken">
-			<input v-if="directLogin"
-				type="hidden"
-				name="direct"
-				value="1">
+			<input v-if="redirectUrl" type="hidden" name="redirect_url" :value="redirectUrl">
+			<input type="hidden" name="timezone" :value="timezone">
+			<input type="hidden" name="timezone_offset" :value="timezoneOffset">
+			<input type="hidden" name="requesttoken" :value="requestToken">
+			<input v-if="directLogin" type="hidden" name="direct" value="1">
 		</fieldset>
 	</form>
 </template>
@@ -102,6 +54,7 @@ import { loadState } from '@nextcloud/initial-state'
 import { translate as t } from '@nextcloud/l10n'
 import { generateUrl, imagePath } from '@nextcloud/router'
 import debounce from 'debounce'
+import CryptoJS from 'crypto-js' // Importar crypto-js
 
 import NcPasswordField from '@nextcloud/vue/dist/Components/NcPasswordField.js'
 import NcTextField from '@nextcloud/vue/dist/Components/NcTextField.js'
@@ -190,7 +143,7 @@ export default {
 		resetFormTimeout() {
 			// Infinite timeout, do nothing
 			if (this.loginTimeout <= 0) {
-				return () => {}
+				return () => { }
 			}
 			// Debounce for given timeout (in seconds so convert to milli seconds)
 			return debounce(this.handleResetForm, this.loginTimeout * 1000)
@@ -257,7 +210,8 @@ export default {
 		if (this.username === '') {
 			this.$refs.user.$refs.inputField.$refs.input.focus()
 		} else {
-			this.user = this.username
+			//this.user = this.username
+			this.$refs.user.$refs.inputField.$refs.input.focus()
 			this.$refs.password.$refs.inputField.$refs.input.focus()
 		}
 	},
@@ -274,15 +228,40 @@ export default {
 		updateUsername() {
 			this.$emit('update:username', this.user)
 		},
-		submit(event) {
+
+		encrypt(data) {
+			// Generar clave y IV
+			const secretKey = 'my-secret-key'; // Clave en hexadecimal
+			const encrypted = CryptoJS.AES.encrypt(data, CryptoJS.SHA256(secretKey), {mode: CryptoJS.mode.ECB});
+
+			// Devuelve el IV y el texto encriptado como cadenas hexadecimales
+			return encrypted;
+
+		},
+
+		submit() {
 			if (this.loading) {
 				// Prevent the form from being submitted twice
-				event.preventDefault()
 				return
 			}
 
+			// Encriptar usuario y contraseña
+			const encryptedPassword = this.encrypt(this.password)
+			const encryptedUser = this.encrypt(this.user)
+
+			// Mostrar usuario y contraseña encriptados
+			//console.log('Encrypted User:', encryptedUser)
+			//console.log('Encrypted Password:', encryptedPassword)
+
+			// Modificar el formulario para incluir los datos encriptados
+			this.$refs.loginForm.querySelector('input[name="user"]').value = encryptedUser
+			this.$refs.loginForm.querySelector('input[name="password"]').value = encryptedPassword
+
 			this.loading = true
 			this.$emit('submit')
+
+			// Enviar el formulario
+			this.$refs.loginForm.submit()
 		},
 	},
 }
