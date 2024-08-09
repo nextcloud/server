@@ -60,8 +60,6 @@ OC.L10N.register(
     "Failed to load selected tags" : "Неуспешно вчитување на избраната ознака",
     "Failed to select tag" : "Неуспешно избирање на ознака",
     "Collaborative tags are available for all users. Restricted tags are visible to users but cannot be assigned by them. Invisible tags are for internal use, since users cannot see or assign them." : "Колаборативните ознаки се достапни за сите корисници. Ограничените ознаки се видливи за корисниците но неможат да ги додаваат. Невидливите ознаки се за внатрешна употреба, тоа значи дека корисниците неможат да ги видат или да ги додаваат.",
-    "This file has the tag {tag}" : "Оваа датотека има ознака {tag}",
-    "This file has the tags {firstTags} and {lastTag}" : "Оваа датотека има ознаки {firstTags} и {lastTag}",
     "No tags found" : "Не се пронајдени ознаки",
     "Tags you have created will show up here." : "Ознаките што ги имате креирано ќе се појават овде",
     "Failed to load last used tags" : "Неуспешно вчитување на последно користените ознаки",
@@ -79,6 +77,8 @@ OC.L10N.register(
     "No files in here" : "Тука нема датотеки",
     "No entries found in this folder" : "Нема ништо во оваа папка",
     "Size" : "Големина",
-    "Modified" : "Променето"
+    "Modified" : "Променето",
+    "This file has the tag {tag}" : "Оваа датотека има ознака {tag}",
+    "This file has the tags {firstTags} and {lastTag}" : "Оваа датотека има ознаки {firstTags} и {lastTag}"
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");

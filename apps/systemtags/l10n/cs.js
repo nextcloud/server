@@ -70,8 +70,6 @@ OC.L10N.register(
     "Failed to load selected tags" : "Vybrané štítky se nepodařilo načíst",
     "Failed to select tag" : "Štítek se nepodařilo načíst",
     "Collaborative tags are available for all users. Restricted tags are visible to users but cannot be assigned by them. Invisible tags are for internal use, since users cannot see or assign them." : "Štítky pro spolupráci jsou k dispozici všem uživatelům. Uživatelsky nepřiřaditelné štítky jsou uživatelům viditelné, ale nemohou je přiřazovat.\nNeviditelné štítky jsou pro vnitřní potřebu, protože uživatelé je nemohou vidět ani je přiřazovat.",
-    "This file has the tag {tag}" : "Tento soubor má štítek {tag}",
-    "This file has the tags {firstTags} and {lastTag}" : "Tento soubor má štítky {firstTags} a {lastTag}",
     "List of tags and their associated files and folders." : "Seznam štítků a jejich souvisejících souborů a složek.",
     "No tags found" : "Nenalezeny žádné štítky",
     "Tags you have created will show up here." : "Štítky které jste vytvořili se zobrazí zde.",
@@ -93,6 +91,8 @@ OC.L10N.register(
     "No files in here" : "Nejsou zde žádné soubory",
     "No entries found in this folder" : "V této složce nic nenalezeno",
     "Size" : "Velikost",
-    "Modified" : "Změněno"
+    "Modified" : "Změněno",
+    "This file has the tag {tag}" : "Tento soubor má štítek {tag}",
+    "This file has the tags {firstTags} and {lastTag}" : "Tento soubor má štítky {firstTags} a {lastTag}"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

@@ -71,8 +71,6 @@ OC.L10N.register(
     "Failed to load selected tags" : "Не удалось загрузить выбранный тег",
     "Failed to select tag" : "Не удалось выбрать тег",
     "Collaborative tags are available for all users. Restricted tags are visible to users but cannot be assigned by them. Invisible tags are for internal use, since users cannot see or assign them." : "Совместные теги доступны для всех пользователей. Ограниченные теги видны пользователям, но не могут быть назначены ими. Невидимые теги предназначены для внутреннего использования, поскольку пользователи не могут их видеть или назначать.",
-    "This file has the tag {tag}" : "У этого файла есть тэг: {tag}",
-    "This file has the tags {firstTags} and {lastTag}" : "У этого файла есть тэги: {firstTags} и {lastTag}",
     "List of tags and their associated files and folders." : "Список тегов и связанных с ними файлов и папок.",
     "No tags found" : "Меток не найдено",
     "Tags you have created will show up here." : "Здесь будут отображаться созданные вами теги.",
@@ -94,6 +92,8 @@ OC.L10N.register(
     "No files in here" : "Здесь нет файлов",
     "No entries found in this folder" : "В этой папке не найдено ни одной записи",
     "Size" : "Размер",
-    "Modified" : "Изменён"
+    "Modified" : "Изменён",
+    "This file has the tag {tag}" : "У этого файла есть тэг: {tag}",
+    "This file has the tags {firstTags} and {lastTag}" : "У этого файла есть тэги: {firstTags} и {lastTag}"
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

@@ -183,7 +183,6 @@
     "This is probably caused by a cache/accelerator such as Zend OPcache or eAccelerator." : "Podet èssere causadu dae una memòria temporànea/atzeleradore cales Zend Opcache o eAccelerator.",
     "PHP modules have been installed, but they are still listed as missing?" : "Is mòdulos PHP sunt istados installados, ma sunt ancora elencados comente mancantes?",
     "Please ask your server administrator to restart the web server." : "Pedi a s'amministratzione de su serbidore de torrare a aviare su serbidore ìnternet.",
-    "Ensure there is a file called \".ocdata\" in the root of the data directory." : "Assegura•ti chi in sa cartella de datos de orìgine nche siat un'archìviu cun nùmene \".ocdata\".",
     "Action \"%s\" not supported or implemented." : "S'atzione \"%s\" no est suportada o cumpletada.",
     "Authentication failed, wrong token or provider ID given" : "No at fatu a fàghere s'autenticatzione, token o ID de su frunidore isballiados",
     "Parameters missing in order to complete the request. Missing Parameters: \"%s\"" : "Mancant paràmetros pro pòdere cumpletare sa rechesta. Paràmetros mancantes: \"%s\"",
@@ -217,6 +216,7 @@
     "Username must not consist of dots only" : "Su nùmene utente no depet tènnere isceti puntos",
     "Username is invalid because files already exist for this user" : "Su nùmene utente no est bàlidu, ca is archìvios bi sunt giai pro cust'utèntzia",
     "User disabled" : "Utèntzia disativada",
-    "Please change the permissions to 0770 so that the directory cannot be listed by other users." : "Càmbia is permissos a 0770 aici sa cartella no podet èssere in is elencos de àteras utèntzias."
+    "Please change the permissions to 0770 so that the directory cannot be listed by other users." : "Càmbia is permissos a 0770 aici sa cartella no podet èssere in is elencos de àteras utèntzias.",
+    "Ensure there is a file called \".ocdata\" in the root of the data directory." : "Assegura•ti chi in sa cartella de datos de orìgine nche siat un'archìviu cun nùmene \".ocdata\"."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

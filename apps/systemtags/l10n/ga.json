@@ -70,8 +70,6 @@
     "Failed to load selected tags" : "Theip ar lódáil na gclibeanna roghnaithe",
     "Failed to select tag" : "Theip ar an gclib a roghnú",
     "Collaborative tags are available for all users. Restricted tags are visible to users but cannot be assigned by them. Invisible tags are for internal use, since users cannot see or assign them." : "Tá clibeanna comhoibríocha ar fáil do gach úsáideoir. Tá clibeanna srianta le feiceáil ag úsáideoirí ach ní féidir leo a shannadh. Tá clibeanna dofheicthe le húsáid inmheánach, toisc nach féidir le húsáideoirí iad a fheiceáil ná a shannadh.",
-    "This file has the tag {tag}" : "Tá an chlib {tag} ag an gcomhad seo",
-    "This file has the tags {firstTags} and {lastTag}" : "Tá na clibeanna {firstTags} agus {lastTag} sa chomhad seo",
     "List of tags and their associated files and folders." : "Liosta clibeanna agus na comhaid agus na fillteáin a bhaineann leo.",
     "No tags found" : "Níor aimsíodh clibeanna",
     "Tags you have created will show up here." : "Taispeánfar clibeanna atá cruthaithe agat anseo.",
@@ -93,6 +91,8 @@
     "No files in here" : "Níl aon chomhaid istigh anseo",
     "No entries found in this folder" : "Níor aimsíodh aon iontrálacha san fhillteán seo",
     "Size" : "Méid",
-    "Modified" : "Athraithe"
+    "Modified" : "Athraithe",
+    "This file has the tag {tag}" : "Tá an chlib {tag} ag an gcomhad seo",
+    "This file has the tags {firstTags} and {lastTag}" : "Tá na clibeanna {firstTags} agus {lastTag} sa chomhad seo"
 },"pluralForm" :"nplurals=5; plural=(n==1 ? 0 : n==2 ? 1 : n<7 ? 2 : n<11 ? 3 : 4);"
 }
