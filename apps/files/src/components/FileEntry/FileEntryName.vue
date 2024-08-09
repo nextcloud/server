@@ -115,6 +115,7 @@ export default Vue.extend({
 
 	setup() {
 		const { currentView } = useNavigation()
+		const { directory } = useRouteParameters()
 		const renamingStore = useRenamingStore()
 
 		return {
