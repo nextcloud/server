@@ -2,22 +2,23 @@
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import { action } from './restoreShareAction'
+import { action } from './acceptShareAction'
 import { expect } from '@jest/globals'
 import { File, Permission, View, FileAction } from '@nextcloud/files'
 import { ShareType } from '@nextcloud/sharing'
 import eventBus from '@nextcloud/event-bus'
 import axios from '@nextcloud/axios'
-import '../main'
+
+import '../main.ts'
 
 const view = {
 	id: 'files',
 	name: 'Files',
 } as View
 
-const deletedShareView = {
-	id: 'deletedshares',
-	name: 'Deleted shares',
+const pendingShareView = {
+	id: 'pendingshares',
+	name: 'Pending shares',
 } as View
 
 // Mock webroot variable
@@ -26,7 +27,7 @@ beforeAll(() => {
 	(window as any)._oc_webroot = ''
 })
 
-describe('Restore share action conditions tests', () => {
+describe('Accept share action conditions tests', () => {
 	test('Default values', () => {
 		const file = new File({
 			id: 1,
@@ -37,13 +38,13 @@ describe('Restore share action conditions tests', () => {
 		})
 
 		expect(action).toBeInstanceOf(FileAction)
-		expect(action.id).toBe('restore-share')
-		expect(action.displayName([file], deletedShareView)).toBe('Restore share')
-		expect(action.iconSvgInline([file], deletedShareView)).toBe('<svg>SvgMock</svg>')
+		expect(action.id).toBe('accept-share')
+		expect(action.displayName([file], pendingShareView)).toBe('Accept share')
+		expect(action.iconSvgInline([file], pendingShareView)).toBe('<svg>SvgMock</svg>')
 		expect(action.default).toBeUndefined()
 		expect(action.order).toBe(1)
 		expect(action.inline).toBeDefined()
-		expect(action.inline!(file, deletedShareView)).toBe(true)
+		expect(action.inline!(file, pendingShareView)).toBe(true)
 	})
 
 	test('Default values for multiple files', () => {
@@ -62,11 +63,11 @@ describe('Restore share action conditions tests', () => {
 			permissions: Permission.ALL,
 		})
 
-		expect(action.displayName([file1, file2], deletedShareView)).toBe('Restore shares')
+		expect(action.displayName([file1, file2], pendingShareView)).toBe('Accept shares')
 	})
 })
 
-describe('Restore share action enabled tests', () => {
+describe('Accept share action enabled tests', () => {
 	test('Enabled with on pending shares view', () => {
 		const file = new File({
 			id: 1,
@@ -77,7 +78,7 @@ describe('Restore share action enabled tests', () => {
 		})
 
 		expect(action.enabled).toBeDefined()
-		expect(action.enabled!([file], deletedShareView)).toBe(true)
+		expect(action.enabled!([file], pendingShareView)).toBe(true)
 	})
 
 	test('Disabled on wrong view', () => {
@@ -87,12 +88,12 @@ describe('Restore share action enabled tests', () => {
 
 	test('Disabled without nodes', () => {
 		expect(action.enabled).toBeDefined()
-		expect(action.enabled!([], deletedShareView)).toBe(false)
+		expect(action.enabled!([], pendingShareView)).toBe(false)
 	})
 })
 
-describe('Restore share action execute tests', () => {
-	test('Restore share action', async () => {
+describe('Accept share action execute tests', () => {
+	test('Accept share action', async () => {
 		jest.spyOn(axios, 'post')
 		jest.spyOn(eventBus, 'emit')
 
@@ -108,17 +109,44 @@ describe('Restore share action execute tests', () => {
 			},
 		})
 
-		const exec = await action.exec(file, deletedShareView, '/')
+		const exec = await action.exec(file, pendingShareView, '/')
 
 		expect(exec).toBe(true)
 		expect(axios.post).toBeCalledTimes(1)
-		expect(axios.post).toBeCalledWith('http://localhost/ocs/v2.php/apps/files_sharing/api/v1/deletedshares/123')
+		expect(axios.post).toBeCalledWith('http://localhost/ocs/v2.php/apps/files_sharing/api/v1/shares/pending/123')
 
 		expect(eventBus.emit).toBeCalledTimes(1)
 		expect(eventBus.emit).toBeCalledWith('files:node:deleted', file)
 	})
 
-	test('Restore share action batch', async () => {
+	test('Accept remote share action', async () => {
+		jest.spyOn(axios, 'post')
+		jest.spyOn(eventBus, 'emit')
+
+		const file = new File({
+			id: 1,
+			source: 'https://cloud.domain.com/remote.php/dav/files/admin/foobar.txt',
+			owner: 'admin',
+			mime: 'text/plain',
+			permissions: Permission.READ,
+			attributes: {
+				id: 123,
+				remote: 3,
+				share_type: ShareType.User,
+			},
+		})
+
+		const exec = await action.exec(file, pendingShareView, '/')
+
+		expect(exec).toBe(true)
+		expect(axios.post).toBeCalledTimes(1)
+		expect(axios.post).toBeCalledWith('http://localhost/ocs/v2.php/apps/files_sharing/api/v1/remote_shares/pending/123')
+
+		expect(eventBus.emit).toBeCalledTimes(1)
+		expect(eventBus.emit).toBeCalledWith('files:node:deleted', file)
+	})
+
+	test('Accept share action batch', async () => {
 		jest.spyOn(axios, 'post')
 		jest.spyOn(eventBus, 'emit')
 
@@ -146,19 +174,19 @@ describe('Restore share action execute tests', () => {
 			},
 		})
 
-		const exec = await action.execBatch!([file1, file2], deletedShareView, '/')
+		const exec = await action.execBatch!([file1, file2], pendingShareView, '/')
 
 		expect(exec).toStrictEqual([true, true])
 		expect(axios.post).toBeCalledTimes(2)
-		expect(axios.post).toHaveBeenNthCalledWith(1, 'http://localhost/ocs/v2.php/apps/files_sharing/api/v1/deletedshares/123')
-		expect(axios.post).toHaveBeenNthCalledWith(2, 'http://localhost/ocs/v2.php/apps/files_sharing/api/v1/deletedshares/456')
+		expect(axios.post).toHaveBeenNthCalledWith(1, 'http://localhost/ocs/v2.php/apps/files_sharing/api/v1/shares/pending/123')
+		expect(axios.post).toHaveBeenNthCalledWith(2, 'http://localhost/ocs/v2.php/apps/files_sharing/api/v1/shares/pending/456')
 
 		expect(eventBus.emit).toBeCalledTimes(2)
 		expect(eventBus.emit).toHaveBeenNthCalledWith(1, 'files:node:deleted', file1)
 		expect(eventBus.emit).toHaveBeenNthCalledWith(2, 'files:node:deleted', file2)
 	})
 
-	test('Restore fails', async () => {
+	test('Accept fails', async () => {
 		jest.spyOn(axios, 'post').mockImplementation(() => { throw new Error('Mock error') })
 
 		const file = new File({
@@ -173,11 +201,11 @@ describe('Restore share action execute tests', () => {
 			},
 		})
 
-		const exec = await action.exec(file, deletedShareView, '/')
+		const exec = await action.exec(file, pendingShareView, '/')
 
 		expect(exec).toBe(false)
 		expect(axios.post).toBeCalledTimes(1)
-		expect(axios.post).toBeCalledWith('http://localhost/ocs/v2.php/apps/files_sharing/api/v1/deletedshares/123')
+		expect(axios.post).toBeCalledWith('http://localhost/ocs/v2.php/apps/files_sharing/api/v1/shares/pending/123')
 
 		expect(eventBus.emit).toBeCalledTimes(0)
 	})

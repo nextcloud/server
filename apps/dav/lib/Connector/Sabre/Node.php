@@ -15,6 +15,7 @@ use OCA\DAV\Connector\Sabre\Exception\InvalidPath;
 use OCP\Files\DavUtil;
 use OCP\Files\FileInfo;
 use OCP\Files\IRootFolder;
+use OCP\Files\NotFoundException;
 use OCP\Files\StorageNotAvailableException;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IManager;
@@ -298,15 +299,14 @@ abstract class Node implements \Sabre\DAV\INode {
 	 * @return array
 	 */
 	public function getShareAttributes(): array {
-		$attributes = [];
-
 		try {
-			$storage = $this->info->getStorage();
-		} catch (StorageNotAvailableException $e) {
-			$storage = null;
+			$storage = $this->node->getStorage();
+		} catch (NotFoundException $e) {
+			return [];
 		}
 
-		if ($storage && $storage->instanceOfStorage(\OCA\Files_Sharing\SharedStorage::class)) {
+		$attributes = [];
+		if (method_exists($storage, 'getShare')) {
 			/** @var \OCA\Files_Sharing\SharedStorage $storage */
 			$attributes = $storage->getShare()->getAttributes();
 			if ($attributes === null) {
@@ -324,24 +324,24 @@ abstract class Node implements \Sabre\DAV\INode {
 	 * @return string
 	 */
 	public function getNoteFromShare($user) {
-		if ($user === null) {
-			return '';
+		try {
+			$storage = $this->node->getStorage();
+		} catch (NotFoundException $e) {
+			return [];
 		}
 
-		// Retrieve note from the share object already loaded into
-		// memory, to avoid additional database queries.
-		$storage = $this->getNode()->getStorage();
-		if (!$storage->instanceOfStorage(\OCA\Files_Sharing\SharedStorage::class)) {
+		if (!method_exists($storage, 'getShare')) {
 			return '';
 		}
 		/** @var \OCA\Files_Sharing\SharedStorage $storage */
 
 		$share = $storage->getShare();
 		$note = $share->getNote();
-		if ($share->getShareOwner() !== $user) {
-			return $note;
+		if ($user === $share->getShareOwner()) {
+			// Note is only for recipient not the owner
+			return '';
 		}
-		return '';
+		return $note;
 	}
 
 	/**

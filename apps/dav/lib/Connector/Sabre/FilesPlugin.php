@@ -347,11 +347,8 @@ class FilesPlugin extends ServerPlugin {
 
 			$propFind->handle(self::SHARE_NOTE, function () use ($node, $httpRequest): ?string {
 				$user = $this->userSession->getUser();
-				if ($user === null) {
-					return null;
-				}
 				return $node->getNoteFromShare(
-					$user->getUID()
+					$user?->getUID()
 				);
 			});
 

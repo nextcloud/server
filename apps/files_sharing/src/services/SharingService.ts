@@ -6,17 +6,16 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import type { AxiosPromise } from '@nextcloud/axios'
+import type { ContentsWithRoot } from '@nextcloud/files'
 import type { OCSResponse } from '@nextcloud/typings/ocs'
 import type { ShareAttribute } from '../sharing'
 
-import { Folder, File, type ContentsWithRoot, Permission } from '@nextcloud/files'
-import { generateOcsUrl, generateRemoteUrl } from '@nextcloud/router'
 import { getCurrentUser } from '@nextcloud/auth'
+import { Folder, File, Permission, davRemoteURL, davRootPath } from '@nextcloud/files'
+import { generateOcsUrl, generateRemoteUrl } from '@nextcloud/router'
 import axios from '@nextcloud/axios'
 
 import logger from './logger'
-
-export const rootPath = `/files/${getCurrentUser()?.uid}`
 
 const headers = {
 	'Content-Type': 'application/json',
@@ -50,7 +49,7 @@ const ocsEntryToNode = async function(ocsEntry: any): Promise<Folder | File | nu
 
 		// Generate path and strip double slashes
 		const path = ocsEntry?.path || ocsEntry.file_target || ocsEntry.name
-		const source = generateRemoteUrl(`dav/${rootPath}/${path}`.replaceAll(/\/\//gm, '/'))
+		const source = `${davRemoteURL}${davRootPath}/${path}`.replaceAll(/\/\//gm, '/')
 
 		// Prefer share time if more recent than item mtime
 		let mtime = ocsEntry?.item_mtime ? new Date((ocsEntry.item_mtime) * 1000) : undefined
@@ -66,7 +65,7 @@ const ocsEntryToNode = async function(ocsEntry: any): Promise<Folder | File | nu
 			mtime,
 			size: ocsEntry?.item_size,
 			permissions: ocsEntry?.item_permissions || ocsEntry?.permissions,
-			root: rootPath,
+			root: davRootPath,
 			attributes: {
 				...ocsEntry,
 				'has-preview': hasPreview,
@@ -210,7 +209,7 @@ export const getContents = async (sharedWithYou = true, sharedWithOthers = true,
 	return {
 		folder: new Folder({
 			id: 0,
-			source: generateRemoteUrl('dav' + rootPath),
+			source: `${davRemoteURL}${davRootPath}`,
 			owner: getCurrentUser()?.uid || null,
 		}),
 		contents,

@@ -4,10 +4,10 @@
  */
 import { expect } from '@jest/globals'
 import { File, Permission, View, DefaultType, FileAction } from '@nextcloud/files'
+import { deletedSharesViewId, pendingSharesViewId, sharedWithOthersViewId, sharedWithYouViewId, sharesViewId, sharingByLinksViewId } from '../files_views/shares'
+import { action } from './openInFilesAction'
 
 import '../main'
-import { action } from './openInFilesAction'
-import { deletedSharesViewId, pendingSharesViewId, sharedWithOthersViewId, sharedWithYouViewId, sharesViewId, sharingByLinksViewId } from '../views/shares'
 
 const view = {
 	id: 'files',
@@ -57,8 +57,15 @@ describe('Open in files action enabled tests', () => {
 describe('Open in files action execute tests', () => {
 	test('Open in files', async () => {
 		const goToRouteMock = jest.fn()
-		// @ts-expect-error We only mock what needed, we do not need Files.Router.goTo or Files.Navigation
-		window.OCP = { Files: { Router: { goToRoute: goToRouteMock } } }
+		window.OCP = {
+			Files: {
+				// @ts-expect-error We are mocking so we expect that the types are not match
+				Router: {
+					goTo: jest.fn(),
+					goToRoute: goToRouteMock,
+				},
+			},
+		}
 
 		const file = new File({
 			id: 1,

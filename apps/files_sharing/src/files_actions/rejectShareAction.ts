@@ -8,26 +8,44 @@ import { emit } from '@nextcloud/event-bus'
 import { generateOcsUrl } from '@nextcloud/router'
 import { registerFileAction, FileAction } from '@nextcloud/files'
 import { translatePlural as n } from '@nextcloud/l10n'
-import axios from '@nextcloud/axios'
-import CheckSvg from '@mdi/svg/svg/check.svg?raw'
+import { ShareType } from '@nextcloud/sharing'
+import { pendingSharesViewId } from '../files_views/shares'
 
-import { pendingSharesViewId } from '../views/shares'
+import axios from '@nextcloud/axios'
+import CloseSvg from '@mdi/svg/svg/close.svg?raw'
 
 export const action = new FileAction({
-	id: 'accept-share',
-	displayName: (nodes: Node[]) => n('files_sharing', 'Accept share', 'Accept shares', nodes.length),
-	iconSvgInline: () => CheckSvg,
+	id: 'reject-share',
+	displayName: (nodes: Node[]) => n('files_sharing', 'Reject share', 'Reject shares', nodes.length),
+	iconSvgInline: () => CloseSvg,
 
-	enabled: (nodes, view) => nodes.length > 0 && view.id === pendingSharesViewId,
+	enabled: (nodes, view) => {
+		if (view.id !== pendingSharesViewId) {
+			return false
+		}
+
+		if (nodes.length === 0) {
+			return false
+		}
+
+		// disable rejecting group shares from the pending list because they anyway
+		// land back into that same list after rejecting them
+		if (nodes.some(node => node.attributes.remote_id
+			&& node.attributes.share_type === ShareType.RemoteGroup)) {
+			return false
+		}
+
+		return true
+	},
 
 	async exec(node: Node) {
 		try {
 			const isRemote = !!node.attributes.remote
-			const url = generateOcsUrl('apps/files_sharing/api/v1/{shareBase}/pending/{id}', {
+			const url = generateOcsUrl('apps/files_sharing/api/v1/{shareBase}/{id}', {
 				shareBase: isRemote ? 'remote_shares' : 'shares',
 				id: node.attributes.id,
 			})
-			await axios.post(url)
+			await axios.delete(url)
 
 			// Remove from current view
 			emit('files:node:deleted', node)
@@ -41,7 +59,7 @@ export const action = new FileAction({
 		return Promise.all(nodes.map(node => this.exec(node, view, dir)))
 	},
 
-	order: 1,
+	order: 2,
 	inline: () => true,
 })
 

@@ -7,6 +7,8 @@ import type { ShareAttribute } from '../../../files_sharing/src/sharing'
 import { FileAction, Permission, Node, FileType, View, DefaultType } from '@nextcloud/files'
 import { t } from '@nextcloud/l10n'
 import { generateUrl } from '@nextcloud/router'
+import { getSharingToken, isPublicShare } from '@nextcloud/sharing/public'
+import { basename } from 'path'
 
 import ArrowDownSvg from '@mdi/svg/svg/arrow-down.svg?raw'
 
@@ -19,11 +21,22 @@ const triggerDownload = function(url: string) {
 
 const downloadNodes = function(dir: string, nodes: Node[]) {
 	const secret = Math.random().toString(36).substring(2)
-	const url = generateUrl('/apps/files/ajax/download.php?dir={dir}&files={files}&downloadStartSecret={secret}', {
-		dir,
-		secret,
-		files: JSON.stringify(nodes.map(node => node.basename)),
-	})
+	let url: string
+	if (isPublicShare()) {
+		url = generateUrl('/s/{token}/download/{filename}?path={dir}&files={files}&downloadStartSecret={secret}', {
+			dir,
+			secret,
+			files: JSON.stringify(nodes.map(node => node.basename)),
+			token: getSharingToken(),
+			filename: `${basename(dir)}.zip}`,
+		})
+	} else {
+		url = generateUrl('/apps/files/ajax/download.php?dir={dir}&files={files}&downloadStartSecret={secret}', {
+			dir,
+			secret,
+			files: JSON.stringify(nodes.map(node => node.basename)),
+		})
+	}
 	triggerDownload(url)
 }
 
@@ -33,11 +46,11 @@ const isDownloadable = function(node: Node) {
 	}
 
 	// If the mount type is a share, ensure it got download permissions.
-	if (node.attributes['mount-type'] === 'shared') {
-		const shareAttributes = JSON.parse(node.attributes['share-attributes'] ?? '[]') as Array<ShareAttribute>
-		const downloadAttribute = shareAttributes?.find?.((attribute: { scope: string; key: string }) => attribute.scope === 'permissions' && attribute.key === 'download')
-		if (downloadAttribute !== undefined && downloadAttribute.value === false) {
-			return false
+	if (node.attributes['share-attributes']) {
+		const shareAttributes = JSON.parse(node.attributes['share-attributes'] || '[]') as Array<ShareAttribute>
+		const downloadAttribute = shareAttributes.find(({ scope, key }: ShareAttribute) => scope === 'permissions' && key === 'download')
+		if (downloadAttribute) {
+			return downloadAttribute.value === true
 		}
 	}
 

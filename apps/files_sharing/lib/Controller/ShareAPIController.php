@@ -1221,10 +1221,13 @@ class ShareAPIController extends OCSController {
 			}
 
 			// Update hide download state
+			$attributes = $share->getAttributes() ?? $share->newAttributes();
 			if ($hideDownload === 'true') {
 				$share->setHideDownload(true);
+				$attributes->setAttribute('permissions', 'download', false);
 			} elseif ($hideDownload === 'false') {
 				$share->setHideDownload(false);
+				$attributes->setAttribute('permissions', 'download', true);
 			}
 
 			$newPermissions = null;

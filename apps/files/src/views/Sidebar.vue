@@ -91,9 +91,9 @@ import { getCurrentUser } from '@nextcloud/auth'
 import { getCapabilities } from '@nextcloud/capabilities'
 import { showError } from '@nextcloud/dialogs'
 import { emit, subscribe, unsubscribe } from '@nextcloud/event-bus'
-import { File, Folder, formatFileSize } from '@nextcloud/files'
+import { File, Folder, davRemoteURL, davRootPath, formatFileSize } from '@nextcloud/files'
 import { encodePath } from '@nextcloud/paths'
-import { generateRemoteUrl, generateUrl } from '@nextcloud/router'
+import { generateUrl } from '@nextcloud/router'
 import { ShareType } from '@nextcloud/sharing'
 import { mdiStar, mdiStarOutline } from '@mdi/js'
 import axios from '@nextcloud/axios'
@@ -187,8 +187,7 @@ export default {
 		 * @return {string}
 		 */
 		davPath() {
-			const user = this.currentUser.uid
-			return generateRemoteUrl(`dav/files/${user}${encodePath(this.file)}`)
+			return `${davRemoteURL}/${davRootPath}${encodePath(this.file)}`
 		},
 
 		/**
