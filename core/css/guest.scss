@@ -5,8 +5,6 @@
  */
 @import 'animations.scss';
 
-$guest-container-padding: 16px;
-
 /* Default and reset */
 html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, code, del, dfn, em, img, q, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, dialog, figure, footer, header, hgroup, nav, section { margin:0; padding:0; border:0; outline:0; font-weight:inherit; font-size:100%; font-family:inherit; vertical-align:baseline; cursor:default; }
 html { height:100%; }
@@ -33,6 +31,8 @@ body {
 	Fallback to default gradient (should not happened, the background is always defined anyway) */
 	background-image: var(--image-background, linear-gradient(40deg, #0082c9 0%, #30b6ff 100%));
 	background-attachment: fixed;
+	background-size: cover;
+	background-position: center;
 	min-height: 100%; /* fix sticky footer */
 	height: auto;
 	overflow: auto;
@@ -208,31 +208,13 @@ form #datadirField legend {
 	}
 }
 
-
-
-input, textarea, select, button, div[contenteditable=true] {
-	font-family: system-ui, -apple-system, "Segoe UI", Roboto, Oxygen-Sans, Cantarell, Ubuntu, "Helvetica Neue", "Noto Sans", "Liberation Sans", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-}
-input,
-input:not([type='range']),
-input:not([type='text']),
-input:not([type='password']),
-a.button {
-	font-size: 20px;
-	margin: 5px;
-	padding: 5px;
-	outline: none;
-	border-radius: 3px; /* --border-radius */
-	-webkit-appearance: none;
-}
-
 input:not([type='radio']),
 input:not([type='range']) {
-    border-width: 2px;
+	border-width: 2px;
 }
 
 input:not([type='range']):focus-visible {
-    box-shadow: none !important;
+	box-shadow: none !important;
 }
 
 input[type='submit'],
@@ -245,12 +227,12 @@ select {
 	display: inline-block;
 	width: auto;
 	min-width: 25px;
-	padding: 12px;
+	padding: calc(2 * var(--default-grid-baseline));
 	background-color: var(--color-main-background);
 	font-weight: bold;
-	color: var(--color-text);
+	color: var(--color-main-text);
 	border: none;
-	border-radius: 100px; /* --border-radius-pill */
+	border-radius: var(--border-radius-element);
 	cursor: pointer;
 }
 
@@ -300,13 +282,21 @@ input::-moz-focus-inner {
 	border: 0;
 }
 
-input.primary:not(:disabled):hover,
-input.primary:not(:disabled):focus,
-button.primary:not(:disabled):hover,
-button.primary:not(:disabled):focus,
-a.primary:not(:disabled):hover,
-a.primary:not(:disabled):focus {
+input.primary {
+	background-color: var(--color-primary-element);
 	color: var(--color-primary-element-text);
+}
+
+input,
+button,
+a {
+	&.primary:not(:disabled) {
+		&:hover,
+		&:focus {
+			background-color: var(--color-primary-element-hover);
+			color: var(--color-primary-element-text);
+		}
+	}
 }
 
 /* Checkboxes - white only for login */
@@ -682,7 +672,7 @@ p.info {
 	transform-origin: center;
 }
 .primary .loading,.primary+.loading,.primary .loading-small,.primary+.loading-small,.primary .icon-loading,.primary+.icon-loading,.primary .icon-loading-dark,.primary+.icon-loading-dark,.primary .icon-loading-small,.primary+.icon-loading-small,.primary .icon-loading-small-dark,.primary+.icon-loading-small-dark {
-    filter: var(--primary-invert-if-bright)
+	filter: var(--primary-invert-if-bright)
 }
 .loading:after, .loading-small:after, .icon-loading:after, .icon-loading-dark:after, .icon-loading-small:after, .icon-loading-small-dark:after {
 	border: 2px solid rgba(150, 150, 150, 0.5);
@@ -738,7 +728,7 @@ footer {
 	}
 
 	&.guest-box {
-		padding: 6px 24px;
+		padding: var(--default-grid-baseline) calc(3 * var(--default-grid-baseline));
 		margin-bottom: 1rem;
 
 		.info {
@@ -804,8 +794,8 @@ a.legal {
 
 	color: var(--color-main-text);
 	background-color: var(--color-main-background-blur);
-	padding: $guest-container-padding;
-	border-radius: var(--border-radius-rounded);
+	padding: calc(3 * var(--default-grid-baseline));
+	border-radius: var(--border-radius-container);
 	box-shadow: 0 0 10px var(--color-box-shadow);
 	display: inline-block;
 	-webkit-backdrop-filter: var(--filter-background-blur);
@@ -816,6 +806,7 @@ a.legal {
 	&.wide {
 		display: block;
 		text-align: left;
+		border-radius: var(--border-radius-container-large);
 	}
 
 	fieldset {
