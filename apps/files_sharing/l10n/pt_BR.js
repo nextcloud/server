@@ -69,6 +69,7 @@ OC.L10N.register(
     "Share for file {file} with {user} expired" : "Compartilhamento do arquivo {file} com {user} expirado",
     "Share for file {file} expired" : "Compartilhamento do arquivo {file} expirado",
     "A file or folder shared by mail or by public link was <strong>downloaded</strong>" : "Um arquivo ou pasta compartilhado por e-mail ou por link público foi <strong>baixado</strong>",
+    "Files have been <strong>uploaded</strong> to a folder shared by mail or by public link" : "Os arquivos foram <strong>enviados</strong> para uma pasta compartilhada por e-mail ou por link público",
     "A file or folder was shared from <strong>another server</strong>" : "Um arquivo ou pasta foi compartilhado a partir de <strong>outro servidor</strong>",
     "Sharing" : "Compartilhando",
     "A file or folder has been <strong>shared</strong>" : "Um arquivo ou pasta foi <strong>compartilhado</strong> ",

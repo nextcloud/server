@@ -72,6 +72,7 @@ OC.L10N.register(
     "Failed to load selected tags" : "Изабрана ознака није могла да се учита",
     "Failed to select tag" : "Ознака није могла да се изабере",
     "Collaborative tags are available for all users. Restricted tags are visible to users but cannot be assigned by them. Invisible tags are for internal use, since users cannot see or assign them." : "Заједниче ознаке су доступне свим корисницима. Заштићене ознаке су доступне свим корисницима, али их они не могу додељивати. Невидљиве ознаке су за интерну употребу, пошто их корисници не могу ни видети ни додељивати.",
+    "Open in Files" : "Отвори у Фајловима",
     "List of tags and their associated files and folders." : "Листа ознака и њима придружени фајлови и директоријуми.",
     "No tags found" : "Нису нађене ознаке",
     "Tags you have created will show up here." : "Овде ће се појавити ознаке које сте креирали.",

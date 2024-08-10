@@ -70,6 +70,7 @@ OC.L10N.register(
     "Failed to load selected tags" : "无法加载选中标签",
     "Failed to select tag" : "无法选中该标签",
     "Collaborative tags are available for all users. Restricted tags are visible to users but cannot be assigned by them. Invisible tags are for internal use, since users cannot see or assign them." : "协作标签可供所有用户使用。受限制的标签对用户可见，但不能由他们分配。不可见标签供内部使用，因为用户无法查看或分配它们。",
+    "Open in Files" : "在文件中打开",
     "List of tags and their associated files and folders." : "标签以及其相关文件和文件夹",
     "No tags found" : "标签未找到",
     "Tags you have created will show up here." : "您创建的标签将显示在此处。",

@@ -51,6 +51,7 @@ OC.L10N.register(
     "Invisible" : "Invisìbile",
     "Failed to load tags" : "No at fatu a carrigare is etichetas",
     "Collaborative tags are available for all users. Restricted tags are visible to users but cannot be assigned by them. Invisible tags are for internal use, since users cannot see or assign them." : "Is etichetas collaborativas sunt a disponimentu pro totu is utentes. Is etichetas limitadas podent èssere bidas dae is utentes, chi però no ddas podent assignare. Is etichetas visìbiles sunt pro un'impreu de intro, ca is utentes no ddas podent nen bìdere nen assignare.",
+    "Open in Files" : "Aberi in Archìvios",
     "No tags found" : "Peruna eticheta agatada",
     "Tag name is empty" : "Su nùmene de s'eticheta est bòidu",
     "Select tag …" : "Seletziona eticheta ...",

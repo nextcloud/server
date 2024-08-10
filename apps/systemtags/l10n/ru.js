@@ -71,6 +71,7 @@ OC.L10N.register(
     "Failed to load selected tags" : "Не удалось загрузить выбранный тег",
     "Failed to select tag" : "Не удалось выбрать тег",
     "Collaborative tags are available for all users. Restricted tags are visible to users but cannot be assigned by them. Invisible tags are for internal use, since users cannot see or assign them." : "Совместные теги доступны для всех пользователей. Ограниченные теги видны пользователям, но не могут быть назначены ими. Невидимые теги предназначены для внутреннего использования, поскольку пользователи не могут их видеть или назначать.",
+    "Open in Files" : "Открыть в приложении «Файлы»",
     "List of tags and their associated files and folders." : "Список тегов и связанных с ними файлов и папок.",
     "No tags found" : "Меток не найдено",
     "Tags you have created will show up here." : "Здесь будут отображаться созданные вами теги.",

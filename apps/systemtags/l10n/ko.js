@@ -70,6 +70,7 @@ OC.L10N.register(
     "Failed to load selected tags" : "선택 태그 불러오기 실패",
     "Failed to select tag" : "태그 선택 실패",
     "Collaborative tags are available for all users. Restricted tags are visible to users but cannot be assigned by them. Invisible tags are for internal use, since users cannot see or assign them." : "모든 사용자가 사용할 수 있는 협업 태그입니다. 제한된 태그는 사용자에게 표시되지만 할당할 수는 없습니다. 숨겨진 태그는 내부용으로 사용되며, 사용자는 보거나 할당할 수 없습니다.",
+    "Open in Files" : "파일에서 열기",
     "List of tags and their associated files and folders." : "태그 및 태그와 연결된 파일과 폴더 목록",
     "No tags found" : "태그를 찾을 수 없음",
     "Tags you have created will show up here." : "생성한 태그가 이곳에 나타납니다.",
