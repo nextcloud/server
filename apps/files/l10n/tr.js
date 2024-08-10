@@ -156,6 +156,7 @@ OC.L10N.register(
     "A file has been added to or removed from your <strong>favorites</strong>" : "<strong>Sık kullandıklarınıza</strong> bir dosya eklendi ya da silindi",
     "A file or folder has been <strong>changed</strong>" : "Bir dosya ya da klasör <strong>değiştirildiğinde</strong>",
     "A favorite file or folder has been <strong>changed</strong>" : "Sık kullanılan bir dosya ya da klasör <strong>değiştirildiğinde</strong>",
+    "Failed to authorize" : "İzin verilemedi",
     "Upload (max. %s)" : "Yükle (en büyük: %s)",
     "Accept" : "Kabul et",
     "Reject" : "Reddet",

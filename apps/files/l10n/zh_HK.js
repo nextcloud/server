@@ -157,6 +157,8 @@ OC.L10N.register(
     "A file or folder has been <strong>changed</strong>" : "檔案或資料夾有所<strong>更改</strong>",
     "A favorite file or folder has been <strong>changed</strong>" : "收藏的檔案或資料夾有所<strong>更改</strong>",
     "Failed to authorize" : "無法授權",
+    "Invalid folder path" : "無效的資料夾路徑",
+    "Folder not found" : "找不到資料夾",
     "Upload (max. %s)" : "上傳（上限 %s）",
     "Files compatibility" : "檔案兼容性",
     "Allow to restrict filenames to ensure files can be synced with all clients. By default all filenames valid on POSIX (e.g. Linux or macOS) are allowed." : "允許限製檔案名稱以確保檔案可以與所有客戶端同步。默認情況下，允許 POSIX（例如 Linux 或 macOS）上有效的所有檔案名稱。",

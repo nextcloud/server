@@ -17,6 +17,7 @@
     "Setting the password is not supported by the users backend" : "Kullanıcı arka yüzünden parola ayarlanamaz",
     "Invalid language" : "Dil geçersiz",
     "Invalid locale" : "Yerel ayar geçersiz",
+    "Invalid first day of week" : "Haftanın ilk günü geçersiz",
     "Cannot remove yourself from the admin group" : "Kendinizi yönetici grubundan çıkaramazsınız",
     "Cannot remove yourself from this group as you are a sub-admin" : "Bir alt yönetici olduğunuzdan kendinizi bu gruptan çıkaramazsınız",
     "Not viable to remove user from the last group you are sub-admin of" : "Alt yöneticisi olduğunuz son gruptan kullanıcıyı kaldıramazsınız",

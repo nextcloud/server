@@ -43,6 +43,7 @@ OC.L10N.register(
     "Restricted" : "Begrænset",
     "Invisible" : "Usynlig",
     "Failed to load tags" : "Kunne ikke indlæse tags.",
+    "Open in Files" : "Åben i Filer",
     "No tags found" : "Ingen tags fundet",
     "Select tag …" : "Vælg tag...",
     "Tagged files" : "Mærkede filer",
