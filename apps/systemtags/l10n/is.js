@@ -70,6 +70,7 @@ OC.L10N.register(
     "Failed to load selected tags" : "Mistókst að hlaða inn völdum merkjum",
     "Failed to select tag" : "Ekki tókst að velja merki",
     "Collaborative tags are available for all users. Restricted tags are visible to users but cannot be assigned by them. Invisible tags are for internal use, since users cannot see or assign them." : "Samstarfsmerkingar eru tiltækar öllum notendum. Takmörkuð merki sjá allir notendur en þeir geta ekki úthlutað þeim. Ósýnileg merki eru fyrir notkun innan kerfis, þar sem notendur munu ekki sjá þau eða getað úthlutað þeim.",
+    "Open in Files" : "Opna í skráaforritinu",
     "List of tags and their associated files and folders." : "Listi yfir merki og þeim tengdar skrár og möppur.",
     "No tags found" : "Engin merki fundust",
     "Tags you have created will show up here." : "Merki sem þú hefur útbúið munu birtast hér.",

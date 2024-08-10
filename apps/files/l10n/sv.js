@@ -157,6 +157,8 @@ OC.L10N.register(
     "A file or folder has been <strong>changed</strong>" : "En ny fil eller mapp har blivit <strong>ändrad</strong>",
     "A favorite file or folder has been <strong>changed</strong>" : "En favorit-fil eller mapp har blivit <strong>ändrad</strong>",
     "Failed to authorize" : "Det gick inte att auktorisera",
+    "Invalid folder path" : "Ogiltig mappsökväg",
+    "Folder not found" : "Mappen hittades inte",
     "Upload (max. %s)" : "Ladda upp (högst %s)",
     "Files compatibility" : "Filkompatibilitet",
     "Allow to restrict filenames to ensure files can be synced with all clients. By default all filenames valid on POSIX (e.g. Linux or macOS) are allowed." : "Tillåt att begränsa filnamn för att säkerställa att filer kan synkroniseras med alla klienter. Som standard är alla filnamn som är giltiga på POSIX (t.ex. Linux eller macOS) tillåtna.",

@@ -76,6 +76,8 @@ OC.L10N.register(
     "Disable user theming" : "Kullanıcı teması devre dışı bırakılsın",
     "Although you can select and customize your instance, users can change their background and colors. If you want to enforce your customization, you can toggle this on." : "Kopyanızı seçip özelleştirebilmenize rağmen, kullanıcılar arka planlarını ve renklerini değiştirebilir. Özelleştirmenizi dayatmak istiyorsanız, bu seçeneği etkinleştirebilirsiniz.",
     "Appearance and accessibility settings" : "Görünüm ve erişilebilirlik ayarları",
+    "Misc accessibility options" : "Çeşitli erişilebilirlik seçenekleri",
+    "Enable blur background filter (may increase GPU load)" : "Arka plan bulanıklaştırılsın (grafik işlemci yükünü artırabilir)",
     "Customization has been disabled by your administrator" : "Özelleştirme yöneticiniz tarafından devre dışı bırakılmış",
     "Set a primary color to highlight important elements. The color used for elements such as primary buttons might differ a bit as it gets adjusted to fulfill accessibility requirements." : "Önemli ögeleri vurgulamak için bir birincil renk ayarlayın. Birincil düğmeler gibi ögeler için kullanılan renk, erişilebilirlik gereksinimlerini karşılamak üzere ayarlandığında biraz farklılık gösterebilir.",
     "Background and color" : "Arka plan ve renk",

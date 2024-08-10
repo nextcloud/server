@@ -10,6 +10,7 @@ OC.L10N.register(
     "Two factor backup codes" : "İki adımlı doğrulama yedek kodları",
     "A two-factor auth backup codes provider" : "İki adımlı doğrulama için yedek kodlar sağlayıcısı",
     "Backup codes have been generated. {used} of {total} codes have been used." : "Yedek kodları oluşturuldu.  {used} / {total} kod kullanılıyor.",
+    "These are your backup codes. Please save and/or print them as you will not be able to read the codes again later." : "Yedek kodlarınızı burada görebilirsiniz. Kodları daha sonra göremeyeceğiniz için bu kodları kaydedin ya da yazdırın.",
     "Save backup codes" : "Yedek kodları kaydet",
     "Print backup codes" : "Yedek kodları yazdır",
     "Regenerate backup codes" : "Yedek kodlarını yeniden oluştur",

@@ -155,6 +155,8 @@
     "A file or folder has been <strong>changed</strong>" : "A file or folder has been <strong>changed</strong>",
     "A favorite file or folder has been <strong>changed</strong>" : "A favourite file or folder has been <strong>changed</strong>",
     "Failed to authorize" : "Failed to authorize",
+    "Invalid folder path" : "Invalid folder path",
+    "Folder not found" : "Folder not found",
     "Upload (max. %s)" : "Upload (max. %s)",
     "Files compatibility" : "Files compatibility",
     "Allow to restrict filenames to ensure files can be synced with all clients. By default all filenames valid on POSIX (e.g. Linux or macOS) are allowed." : "Allow to restrict filenames to ensure files can be synced with all clients. By default all filenames valid on POSIX (e.g. Linux or macOS) are allowed.",

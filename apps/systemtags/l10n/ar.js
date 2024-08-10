@@ -72,6 +72,8 @@ OC.L10N.register(
     "Failed to load selected tags" : "إخفاق في تحميل الوسوم المنتقاة",
     "Failed to select tag" : "إخفاق في اختيار وسم",
     "Collaborative tags are available for all users. Restricted tags are visible to users but cannot be assigned by them. Invisible tags are for internal use, since users cannot see or assign them." : "الوسوم التعاونية مُتاحة لكل المستخدمين. الوسوم المُقيّدة restricted يمكن للمستخدمين رؤيتها لكن لا يمكنهم اسنادها. الوسوم المخفية invisible للاستعمال الداخلي فقط حيث لا يستطيع المستخدمون رؤيتها و لا إسنادها.",
+    "Assigned collaborative tags" : "الوسوم التعاونية المُسندَة",
+    "Open in Files" : "إفتَح في \"الملفات\"",
     "List of tags and their associated files and folders." : "قائمة بالوسوم tags و الملفات و المجلدات الموسومة بها.",
     "No tags found" : "لم يُعثَر على أي وسم",
     "Tags you have created will show up here." : "الوسوم tags التي أنشأتَها ستظهر هنا.",

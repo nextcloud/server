@@ -72,6 +72,7 @@ OC.L10N.register(
     "Failed to load selected tags" : "Hautatutako etiketa kargatzeak huts egin du",
     "Failed to select tag" : "Etiketa hautatzeak huts egin du",
     "Collaborative tags are available for all users. Restricted tags are visible to users but cannot be assigned by them. Invisible tags are for internal use, since users cannot see or assign them." : "Lankidetzazko etiketak erabilgarri daude erabiltzaile guztientzat. Erabiltzaileek  etiketa murriztuak ikusgai dituzte baina ezin dituzte haiek esleitu. Etiketa ikusezinak barne erabilerarako dira, erabiltzaileek ezin baitituzte ikusi edo esleitu.",
+    "Open in Files" : "Ireki Fitxategiak aplikazioan",
     "List of tags and their associated files and folders." : "Etiketak eta atxikituta dituzten fitxategi eta karpetak.",
     "No tags found" : "Ez da etiketarik aurkitu",
     "Tags you have created will show up here." : "Sortu dituzun etiketak hemen agertuko dira.",

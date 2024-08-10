@@ -254,6 +254,7 @@
     "Your data directory must be an absolute path." : "Seu diretório de dados deve ser um caminho absoluto.",
     "Check the value of \"datadirectory\" in your configuration." : "Verifique o valor de \"datadirectory\" em sua configuração.",
     "Your data directory is invalid." : "Seu diretório de dados é inválido.",
+    "Ensure there is a file called \"%1$s\" in the root of the data directory. It should have the content: \"%2$s\"" : "Certifique-se de que há um arquivo chamado \"%1$s\" na raiz do diretório de dados. Ele deve ter o conteúdo: \"%2$s\"",
     "Action \"%s\" not supported or implemented." : "Ação \"%s\" não suportada ou implementada.",
     "Authentication failed, wrong token or provider ID given" : "Falha na autenticação, token ou ID do provedor errados",
     "Parameters missing in order to complete the request. Missing Parameters: \"%s\"" : "Parâmetros ausentes para concluir a solicitação: \"%s\"",
