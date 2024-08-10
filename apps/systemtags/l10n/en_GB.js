@@ -72,6 +72,8 @@ OC.L10N.register(
     "Failed to load selected tags" : "Failed to load selected tags",
     "Failed to select tag" : "Failed to select tag",
     "Collaborative tags are available for all users. Restricted tags are visible to users but cannot be assigned by them. Invisible tags are for internal use, since users cannot see or assign them." : "Collaborative tags are available for all users. Restricted tags are visible to users but cannot be assigned by them. Invisible tags are for internal use, since users cannot see or assign them.",
+    "Assigned collaborative tags" : "Assigned collaborative tags",
+    "Open in Files" : "Open in Files",
     "List of tags and their associated files and folders." : "List of tags and their associated files and folders.",
     "No tags found" : "No tags found",
     "Tags you have created will show up here." : "Tags you have created will show up here.",

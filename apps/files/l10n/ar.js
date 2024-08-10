@@ -157,6 +157,8 @@ OC.L10N.register(
     "A file or folder has been <strong>changed</strong>" : "تم  <strong> تغيير</strong> ملف أو مجلد",
     "A favorite file or folder has been <strong>changed</strong>" : "ملف في المفضلة تم <strong>تم تغييره</strong>",
     "Failed to authorize" : "فشل في التخويل",
+    "Invalid folder path" : "مسار المجلد غير صحيح",
+    "Folder not found" : "المجلد غير موجود",
     "Upload (max. %s)" : "الرفع ( حد اقصى. %s ) ",
     "Files compatibility" : "توافقية الملفات",
     "Allow to restrict filenames to ensure files can be synced with all clients. By default all filenames valid on POSIX (e.g. Linux or macOS) are allowed." : "السماح بتقييد أسماء الملفات لضمان إمكانية مزامنة الملفات مع جميع العملاء. بشكل افتراضي، يُسمح بجميع أسماء الملفات الصالحة على POSIX (مثل Linux أو macOS).",

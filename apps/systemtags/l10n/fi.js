@@ -62,6 +62,7 @@ OC.L10N.register(
     "Search or create collaborative tags" : "Etsi tai luo yhteistyötunnisteita",
     "Failed to load tags" : "Tunnisteiden lataaminen epäonnistui",
     "Failed to select tag" : "Tunnisteen valitseminen epäonnistui",
+    "Open in Files" : "Avaa tiedostosovelluksessa",
     "No tags found" : "Tunnisteita ei löytynyt",
     "Tags you have created will show up here." : "Luomasi tunnisteet näkyvät täällä.",
     "Missing \"Content-Location\" header" : "\"Content-Location\"-otsake puuttuu",

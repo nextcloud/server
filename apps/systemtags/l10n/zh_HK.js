@@ -72,6 +72,8 @@ OC.L10N.register(
     "Failed to load selected tags" : "無法加載所選的標籤",
     "Failed to select tag" : "無法選擇標籤",
     "Collaborative tags are available for all users. Restricted tags are visible to users but cannot be assigned by them. Invisible tags are for internal use, since users cannot see or assign them." : "協作標籤可以被所有用戶使用。受限標籤是可見的，但用戶無法分配它們。不可見標籤僅供內部使用，用戶既看不到也無法分配它們。",
+    "Assigned collaborative tags" : "已分配的協作標籤",
+    "Open in Files" : "在「檔案」應用程式中打開",
     "List of tags and their associated files and folders." : "標籤及其關聯檔案與資料夾的清單。",
     "No tags found" : "找不到標籤",
     "Tags you have created will show up here." : "您建立的標籤將會顯示在此處。",
