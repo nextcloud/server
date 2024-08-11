@@ -655,6 +655,7 @@ OC.L10N.register(
     "Loading categories" : "Chargement des catégories",
     "Developer documentation ↗" : "Documentation développeurs ↗",
     "Version {version}, {license}-licensed" : "Version {version}, sous licence {license}",
+    "All accounts" : "Tous les comptes",
     "Admins" : "Administrateurs",
     "Account group: {group}" : "Groupe de comptes : {group}",
     "Account management" : "Gestion de compte",
