@@ -91,7 +91,7 @@
     "Please specify a valid federated account ID" : "Bitte geben Sie eine gültige Federated-Konto-ID ein",
     "Please specify a valid federated group ID" : "Bitte geben Sie eine gültige Federated-Gruppen-ID ein",
     "You cannot share to a Team if the app is not enabled" : "Sie können nichts mit einem Team teilen, wenn die App nicht aktiviert ist",
-    "Please specify a valid team" : "Bitte geben Sie ein gültiges Team an",
+    "Please specify a valid team" : "Bitte ein gültiges Team angeben",
     "Sharing %s failed because the back end does not support room shares" : "Freigabe von %s fehlgeschlagen, da das Backend die Freigabe von Räumen nicht unterstützt",
     "Sharing %s failed because the back end does not support ScienceMesh shares" : "Freigabe von %s fehlgeschlagen, da das Backend keine ScienceMesh-Freigaben unterstützt",
     "Unknown share type" : "Unbekannter Freigabetyp",
