@@ -179,6 +179,7 @@
     "Delete slot" : "Idősáv törlése",
     "No working hours set" : "Nincs munkaidő beállítva",
     "Add slot" : "Idősáv hozzáadása",
+    "Weekdays" : "Hétköznapok",
     "Automatically set user status to \"Do not disturb\" outside of availability to mute all notifications." : "Az elérhetőségi időn túl, a felhasználói állapot automatikus beállítása „Ne zavarjanak” módba az összes értesítés némításához.",
     "Failed to load availability" : "Az elérhetőség betöltése sikertelen",
     "Saved availability" : "Elérhetőség mentve",
