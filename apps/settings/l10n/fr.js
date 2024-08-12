@@ -895,7 +895,7 @@ OC.L10N.register(
     "Creating group …" : "Création du groupe...",
     "User group: {group}" : "Groupe d'utilisateurs : {group}",
     "Nextcloud help resources" : "Ressources d'aide Nextcloud",
-    "To allow this check to run you have to make sure that your webserver can connect to itself. Therefor it must be able to resolve and connect to at least one its `trusted_domains` or the `overwrite.cli.url`." : "Pour autoriser cette vérification, pour devez vous assurer que votre serveur web peut se connecter à lui-même. Il doit donc être capable de résoudre et de se connecter à au moins un de ses `trusted_domains` ou à l'URL `overwrite.cli.url`.",
+    "To allow this check to run you have to make sure that your webserver can connect to itself. Therefore it must be able to resolve and connect to at least one its `trusted_domains` or the `overwrite.cli.url`." : "Pour autoriser cette vérification, pour devez vous assurer que votre serveur web peut se connecter à lui-même. Il doit donc être capable de résoudre et de se connecter à au moins un de ses `trusted_domains` ou à l'URL `overwrite.cli.url`.",
     "Could not check for JavaScript support via any of your `trusted_domains` nor `overwrite.cli.url`. This may be the result of a server-side DNS mismatch or outbound firewall rule. Please check manually if your webserver serves `.mjs` files using the JavaScript MIME type." : "Impossible de vérifier la prise en charge Javascript via l’un de vos `trusted_domains` ou `overwrite.cli.url`. Cela peut résulter d’une incompatibilité DNS côté serveur ou d’une règle de pare-feu sortante. Veuillez vérifier manuellement si votre serveur web sert des fichiers `.mjs` utilisant le type MIME JavaScript.",
     "Active accounts" : "Comptes actifs"
 },

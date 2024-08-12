@@ -929,7 +929,7 @@ OC.L10N.register(
     "Creating group …" : "Креира се група",
     "User group: {group}" : "Група корисника: {group}",
     "Nextcloud help resources" : "Ресурси Nextcloud помоћи",
-    "To allow this check to run you have to make sure that your webserver can connect to itself. Therefor it must be able to resolve and connect to at least one its `trusted_domains` or the `overwrite.cli.url`." : "Ако желите да се ова провера изврши, морате обезбедити да ваш веб сервер може да се повеже на самог себе. То значи да мора бити у стању да разреши и да се повеже барем на један од својих `trusted_domains` или `overwrite.cli.url`.",
+    "To allow this check to run you have to make sure that your webserver can connect to itself. Therefore it must be able to resolve and connect to at least one its `trusted_domains` or the `overwrite.cli.url`." : "Ако желите да се ова провера изврши, морате обезбедити да ваш веб сервер може да се повеже на самог себе. То значи да мора бити у стању да разреши и да се повеже барем на један од својих `trusted_domains` или `overwrite.cli.url`.",
     "Could not check for JavaScript support via any of your `trusted_domains` nor `overwrite.cli.url`. This may be the result of a server-side DNS mismatch or outbound firewall rule. Please check manually if your webserver serves `.mjs` files using the JavaScript MIME type." : "Није могла да се провери JavaScript подршка преко било ког од ваших `trusted_domains` нити преко `overwrite.cli.url`. То је можда услед DNS неслагања са стране сервера или одлазно правило заштитног зида. Молимо вас да ручно проверите да ли ваш сервер служи `.mjs` фајлове користећи JavaScript MIME тип.",
     "Active accounts" : "Активни налози"
 },

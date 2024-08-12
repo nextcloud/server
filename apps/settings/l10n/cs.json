@@ -830,7 +830,7 @@
     "Creating group …" : "Vytváření skupiny…",
     "User group: {group}" : "Skupina uživatele: {group}",
     "Nextcloud help resources" : "Prostředky nápovědy k Nextcloud",
-    "To allow this check to run you have to make sure that your webserver can connect to itself. Therefor it must be able to resolve and connect to at least one its `trusted_domains` or the `overwrite.cli.url`." : "Aby bylo možné možné povolit spuštění této kontroly je třeba zajistit, aby se webový server mohl připojit sám na sebe. Proto je třeba, aby bylo možné přeložit na IP adresu a připojit se k alespoň jedné z `trusted_domains` nebo `overwrite.cli.url`.",
+    "To allow this check to run you have to make sure that your webserver can connect to itself. Therefore it must be able to resolve and connect to at least one its `trusted_domains` or the `overwrite.cli.url`." : "Aby bylo možné možné povolit spuštění této kontroly je třeba zajistit, aby se webový server mohl připojit sám na sebe. Proto je třeba, aby bylo možné přeložit na IP adresu a připojit se k alespoň jedné z `trusted_domains` nebo `overwrite.cli.url`.",
     "Active accounts" : "Aktivní účty"
 },"pluralForm" :"nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;"
 }

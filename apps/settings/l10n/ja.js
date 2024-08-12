@@ -941,7 +941,7 @@ OC.L10N.register(
     "Creating group …" : "グループを作成 ...",
     "User group: {group}" : "ユーザーグループ: {group}",
     "Nextcloud help resources" : "Nextcloud ヘルプのリソース",
-    "To allow this check to run you have to make sure that your webserver can connect to itself. Therefor it must be able to resolve and connect to at least one its `trusted_domains` or the `overwrite.cli.url`." : "このチェックを実行させるには、ウェブサーバが自分自身に接続できることを確認する必要があります。したがって、少なくとも `trusted_domains` または `overwrite.cli.url` を解決して接続できなければなりません。",
+    "To allow this check to run you have to make sure that your webserver can connect to itself. Therefore it must be able to resolve and connect to at least one its `trusted_domains` or the `overwrite.cli.url`." : "このチェックを実行させるには、ウェブサーバが自分自身に接続できることを確認する必要があります。したがって、少なくとも `trusted_domains` または `overwrite.cli.url` を解決して接続できなければなりません。",
     "Could not check for JavaScript support via any of your `trusted_domains` nor `overwrite.cli.url`. This may be the result of a server-side DNS mismatch or outbound firewall rule. Please check manually if your webserver serves `.mjs` files using the JavaScript MIME type." : "`trusted_domains` または `overwrite.cli.url` で JavaScript のサポートを確認できませんでした。これはサーバ側の DNS の不一致か、アウトバウンドファイアウォールルールの結果である可能性があります。お使いのウェブサーバーが JavaScript MIMEタイプを使用して `.mjs` ファイルを提供しているかどうかを手動で確認してください。",
     "Active accounts" : "アクティブなアカウント"
 },

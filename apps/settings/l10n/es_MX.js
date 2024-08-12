@@ -833,7 +833,7 @@ OC.L10N.register(
     "Creating group …" : "Creando grupo …",
     "User group: {group}" : "Grupo del usuario: {group}",
     "Nextcloud help resources" : "Recursos de ayuda de Nextcloud",
-    "To allow this check to run you have to make sure that your webserver can connect to itself. Therefor it must be able to resolve and connect to at least one its `trusted_domains` or the `overwrite.cli.url`." : "Para permitir que esta verificación se lleve a cabo, debe asegurarse que su servidor web pueda conectarse a sí mismo. Por lo tanto, éste debe poder resolver y conectarse a al menos uno de sus `trusted_domains` o a `overwrite.cli.url`",
+    "To allow this check to run you have to make sure that your webserver can connect to itself. Therefore it must be able to resolve and connect to at least one its `trusted_domains` or the `overwrite.cli.url`." : "Para permitir que esta verificación se lleve a cabo, debe asegurarse que su servidor web pueda conectarse a sí mismo. Por lo tanto, éste debe poder resolver y conectarse a al menos uno de sus `trusted_domains` o a `overwrite.cli.url`",
     "Active accounts" : "Cuentas activas"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

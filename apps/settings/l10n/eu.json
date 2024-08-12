@@ -919,7 +919,7 @@
     "Creating group …" : "Taldea sortzen ...",
     "User group: {group}" : "Erabiltzailearen taldea: {group}",
     "Nextcloud help resources" : "Nextcloud laguntza baliabideak",
-    "To allow this check to run you have to make sure that your webserver can connect to itself. Therefor it must be able to resolve and connect to at least one its `trusted_domains` or the `overwrite.cli.url`." : "Egiaztapen hau exekuta dadin zure web zerbitzaria bere buruarekin konektatu daitekeela ziurtatu behar duzu. Hori dela eta, gutxienez bere `trusted_domains` edo `overwrite.cli.url` batera konektatzeko gai izan behar da.",
+    "To allow this check to run you have to make sure that your webserver can connect to itself. Therefore it must be able to resolve and connect to at least one its `trusted_domains` or the `overwrite.cli.url`." : "Egiaztapen hau exekuta dadin zure web zerbitzaria bere buruarekin konektatu daitekeela ziurtatu behar duzu. Hori dela eta, gutxienez bere `trusted_domains` edo `overwrite.cli.url` batera konektatzeko gai izan behar da.",
     "Could not check for JavaScript support via any of your `trusted_domains` nor `overwrite.cli.url`. This may be the result of a server-side DNS mismatch or outbound firewall rule. Please check manually if your webserver serves `.mjs` files using the JavaScript MIME type." : "Ezin izan da egiaztatu JavaScript onartzen baden zure `trusted_domains` edo `overwrite.cli.url` bidez. Baliteke zerbitzariaren DNS bat ez datozenen edo irteerako suebakiaren arauaren ondorioa izatea. Mesedez, egiaztatu eskuz zure web zerbitzariak `.mjs` fitxategiak hornitzen dituen JavaScript MIME mota erabiliz.",
     "Active accounts" : "Kontu gaituak"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
