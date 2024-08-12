@@ -157,6 +157,8 @@ OC.L10N.register(
     "A file or folder has been <strong>changed</strong>" : "Файл або каталог було <strong> змінено </strong>",
     "A favorite file or folder has been <strong>changed</strong>" : "Файл або каталог із зірочкою було <strong>змінено</strong>",
     "Failed to authorize" : "Не вдалося авторизуватися",
+    "Invalid folder path" : "Недійсний шлях до каталогу",
+    "Folder not found" : "Каталог не знайдено",
     "Upload (max. %s)" : "Завантаження (макс. %s)",
     "Files compatibility" : "Сумісність файлів",
     "Allow to restrict filenames to ensure files can be synced with all clients. By default all filenames valid on POSIX (e.g. Linux or macOS) are allowed." : "Дозволити обмежувати імена файлів для забезпечення сумісності з різними клієнтами. Типово всі імена файлів, які  відповідають моделі POSIX (напр. Linux, macOS) дозволені.",
