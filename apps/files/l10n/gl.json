@@ -155,6 +155,8 @@
     "A file or folder has been <strong>changed</strong>" : "<strong>Cambiouse</strong> un ficheiro ou cartafol",
     "A favorite file or folder has been <strong>changed</strong>" : "<strong>Cambiouse</strong> un ficheiro ou cartafol favorito",
     "Failed to authorize" : "Produciuse un fallo ao autorizar",
+    "Invalid folder path" : "A ruta ao cartafol non é correcta.",
+    "Folder not found" : "Non se atopou o cartafolNon se atopou o cartafol",
     "Upload (max. %s)" : "Envío (máx. %s)",
     "Files compatibility" : "Compatibilidade de ficheiros",
     "Allow to restrict filenames to ensure files can be synced with all clients. By default all filenames valid on POSIX (e.g. Linux or macOS) are allowed." : "Permitir restrinxir os nomes de ficheiros para garantir que os ficheiros se poidan sincronizar con todos os clientes. De xeito predeterminado, permítense todos os nomes de ficheiro válidos en POSIX (p. ex., Linux ou macOS).",
