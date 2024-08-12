@@ -252,14 +252,21 @@ class AbsenceServiceTest extends TestCase {
 			->method('getUserTimezone')
 			->with('user')
 			->willReturn($tz->getName());
+		$time = (new DateTimeImmutable('2023-01-07', $tz))->getTimestamp();
 		$this->timeFactory->expects(self::once())
 			->method('getTime')
-			->willReturn((new DateTimeImmutable('2023-01-07', $tz))->getTimestamp());
-		$this->jobList->expects(self::once())
+			->willReturn($time);
+		$this->jobList->expects(self::exactly(2))
 			->method('scheduleAfter')
-			->with(OutOfOfficeEventDispatcherJob::class, $endDate->getTimestamp() + 3600 * 23 + 59 * 60, [
-				'id' => '1',
-				'event' => OutOfOfficeEventDispatcherJob::EVENT_END,
+			->willReturnMap([
+				[OutOfOfficeEventDispatcherJob::class, $time, [
+					'id' => '1',
+					'event' => OutOfOfficeEventDispatcherJob::EVENT_START,
+				]],
+				[OutOfOfficeEventDispatcherJob::class, $endDate->getTimestamp() + 3600 * 23 + 59 * 60, [
+					'id' => '1',
+					'event' => OutOfOfficeEventDispatcherJob::EVENT_END,
+				]],
 			]);
 
 		$this->absenceService->createOrUpdateAbsence(
@@ -391,14 +398,21 @@ class AbsenceServiceTest extends TestCase {
 			->method('getUserTimezone')
 			->with('user')
 			->willReturn($tz->getName());
+		$time = (new DateTimeImmutable('2023-01-07', $tz))->getTimestamp();
 		$this->timeFactory->expects(self::once())
 			->method('getTime')
-			->willReturn((new DateTimeImmutable('2023-01-07', $tz))->getTimestamp());
-		$this->jobList->expects(self::once())
+			->willReturn($time);
+		$this->jobList->expects(self::exactly(2))
 			->method('scheduleAfter')
-			->with(OutOfOfficeEventDispatcherJob::class, $endDate->getTimestamp() + 23 * 3600 + 59 * 60, [
-				'id' => '1',
-				'event' => OutOfOfficeEventDispatcherJob::EVENT_END,
+			->willReturnMap([
+				[OutOfOfficeEventDispatcherJob::class, $time, [
+					'id' => '1',
+					'event' => OutOfOfficeEventDispatcherJob::EVENT_START,
+				]],
+				[OutOfOfficeEventDispatcherJob::class, $endDate->getTimestamp() + 3600 * 23 + 59 * 60, [
+					'id' => '1',
+					'event' => OutOfOfficeEventDispatcherJob::EVENT_END,
+				]],
 			]);
 
 		$this->absenceService->createOrUpdateAbsence(

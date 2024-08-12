@@ -81,26 +81,31 @@ class AbsenceService {
 		}
 
 		$now = $this->timeFactory->getTime();
-		if ($eventData->getStartDate() > $now) {
-			$this->jobList->scheduleAfter(
-				OutOfOfficeEventDispatcherJob::class,
-				$eventData->getStartDate(),
-				[
-					'id' => $absence->getId(),
-					'event' => OutOfOfficeEventDispatcherJob::EVENT_START,
-				],
-			);
+		if($eventData->getEndDate() < $now) {
+			// absence is in the past
+			return $absence;
 		}
-		if ($eventData->getEndDate() > $now) {
-			$this->jobList->scheduleAfter(
-				OutOfOfficeEventDispatcherJob::class,
-				$eventData->getEndDate(),
-				[
-					'id' => $absence->getId(),
-					'event' => OutOfOfficeEventDispatcherJob::EVENT_END,
-				],
-			);
-		}
+
+		// If the absence is for today the timestamp will be smaller than $now
+		// so run the job now if that is the case
+		$runJobAt = ($eventData->getStartDate() < $now) ? $now : $eventData->getStartDate();
+		$this->jobList->scheduleAfter(
+			OutOfOfficeEventDispatcherJob::class,
+			$runJobAt,
+			[
+				'id' => $absence->getId(),
+				'event' => OutOfOfficeEventDispatcherJob::EVENT_START,
+			],
+		);
+
+		$this->jobList->scheduleAfter(
+			OutOfOfficeEventDispatcherJob::class,
+			$eventData->getEndDate(),
+			[
+				'id' => $absence->getId(),
+				'event' => OutOfOfficeEventDispatcherJob::EVENT_END,
+			],
+		);
 
 		return $absence;
 	}
