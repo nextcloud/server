@@ -774,6 +774,7 @@ return array(
     'OCP\\TaskProcessing\\TaskTypes\\ContextWrite' => $baseDir . '/lib/public/TaskProcessing/TaskTypes/ContextWrite.php',
     'OCP\\TaskProcessing\\TaskTypes\\GenerateEmoji' => $baseDir . '/lib/public/TaskProcessing/TaskTypes/GenerateEmoji.php',
     'OCP\\TaskProcessing\\TaskTypes\\TextToImage' => $baseDir . '/lib/public/TaskProcessing/TaskTypes/TextToImage.php',
+    'OCP\\TaskProcessing\\TaskTypes\\TextToImageSingle' => $baseDir . '/lib/public/TaskProcessing/TaskTypes/TextToImageSingle.php',
     'OCP\\TaskProcessing\\TaskTypes\\TextToText' => $baseDir . '/lib/public/TaskProcessing/TaskTypes/TextToText.php',
     'OCP\\TaskProcessing\\TaskTypes\\TextToTextChat' => $baseDir . '/lib/public/TaskProcessing/TaskTypes/TextToTextChat.php',
     'OCP\\TaskProcessing\\TaskTypes\\TextToTextFormalization' => $baseDir . '/lib/public/TaskProcessing/TaskTypes/TextToTextFormalization.php',
