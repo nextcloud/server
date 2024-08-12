@@ -13,6 +13,7 @@ use OCA\DAV\Connector\Sabre\File as DavFile;
 use OCA\Files_Versions\Sabre\VersionFile;
 use OCP\Files\Folder;
 use OCP\Files\NotFoundException;
+use OCP\Files\Storage\ISharedStorage;
 use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\Server;
 use Sabre\DAV\ServerPlugin;
@@ -81,11 +82,11 @@ class ViewOnlyPlugin extends ServerPlugin {
 
 			$storage = $node->getStorage();
 
-			if (!$storage->instanceOfStorage(\OCA\Files_Sharing\SharedStorage::class)) {
+			if (!$storage->instanceOfStorage(ISharedStorage::class)) {
 				return true;
 			}
 			// Extract extra permissions
-			/** @var \OCA\Files_Sharing\SharedStorage $storage */
+			/** @var ISharedStorage $storage */
 			$share = $storage->getShare();
 
 			$attributes = $share->getAttributes();

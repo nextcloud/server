@@ -52,6 +52,14 @@ trait WebDav {
 		$this->usingOldDavPath = false;
 	}
 
+	/**
+	 * @Given /^using new public dav path$/
+	 */
+	public function usingNewPublicDavPath() {
+		$this->davPath = "public.php/dav";
+		$this->usingOldDavPath = false;
+	}
+
 	public function getDavFilesPath($user) {
 		if ($this->usingOldDavPath === true) {
 			return $this->davPath;
@@ -75,7 +83,7 @@ trait WebDav {
 		];
 		if ($user === 'admin') {
 			$options['auth'] = $this->adminUser;
-		} else {
+		} elseif ($user !== '') {
 			$options['auth'] = [$user, $this->regularUser];
 		}
 		return $client->request($method, $fullUrl, $options);
@@ -936,6 +944,23 @@ trait WebDav {
 	public function connectingToDavEndpoint() {
 		try {
 			$this->response = $this->makeDavRequest(null, 'PROPFIND', '', []);
+		} catch (\GuzzleHttp\Exception\ClientException $e) {
+			$this->response = $e->getResponse();
+		}
+	}
+
+	/**
+	 * @When Requesting share note on dav endpoint
+	 */
+	public function requestingShareNote() {
+		$propfind = '<d:propfind xmlns:d="DAV:" xmlns:nc="http://nextcloud.org/ns"><d:prop><nc:note /></d:prop></d:propfind>';
+		if (count($this->lastShareData->data->element) > 0) {
+			$token = $this->lastShareData->data[0]->token;
+		} else {
+			$token = $this->lastShareData->data->token;
+		}
+		try {
+			$this->response = $this->makeDavRequest('', 'PROPFIND', $token, [], $propfind);
 		} catch (\GuzzleHttp\Exception\ClientException $e) {
 			$this->response = $e->getResponse();
 		}

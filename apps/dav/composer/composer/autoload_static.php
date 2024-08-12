@@ -365,6 +365,7 @@ class ComposerStaticInitDAV
         'OCA\\DAV\\SetupChecks\\NeedsSystemAddressBookSync' => __DIR__ . '/..' . '/../lib/SetupChecks/NeedsSystemAddressBookSync.php',
         'OCA\\DAV\\SetupChecks\\WebdavEndpoint' => __DIR__ . '/..' . '/../lib/SetupChecks/WebdavEndpoint.php',
         'OCA\\DAV\\Storage\\PublicOwnerWrapper' => __DIR__ . '/..' . '/../lib/Storage/PublicOwnerWrapper.php',
+        'OCA\\DAV\\Storage\\PublicShareWrapper' => __DIR__ . '/..' . '/../lib/Storage/PublicShareWrapper.php',
         'OCA\\DAV\\SystemTag\\SystemTagList' => __DIR__ . '/..' . '/../lib/SystemTag/SystemTagList.php',
         'OCA\\DAV\\SystemTag\\SystemTagMappingNode' => __DIR__ . '/..' . '/../lib/SystemTag/SystemTagMappingNode.php',
         'OCA\\DAV\\SystemTag\\SystemTagNode' => __DIR__ . '/..' . '/../lib/SystemTag/SystemTagNode.php',
