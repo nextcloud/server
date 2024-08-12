@@ -41,7 +41,8 @@
 		"ext-xmlreader": "*",
 		"ext-xmlwriter": "*",
 		"ext-zip": "*",
-		"ext-zlib": "*"
+		"ext-zlib": "*",
+		"phpseclib/phpseclib": "*"
 	},
 	"require-dev": {
 		"bamarni/composer-bin-plugin": "^1.4"
