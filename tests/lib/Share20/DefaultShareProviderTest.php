@@ -72,6 +72,8 @@ class DefaultShareProviderTest extends \Test\TestCase {
 	/** @var LoggerInterface|MockObject */
 	protected $logger;
 
+	protected IShareManager&MockObject $shareManager;
+
 	protected function setUp(): void {
 		$this->dbConn = \OC::$server->getDatabaseConnection();
 		$this->userManager = $this->createMock(IUserManager::class);
@@ -84,6 +86,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
 		$this->timeFactory = $this->createMock(ITimeFactory::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
+		$this->shareManager = $this->createMock(IShareManager::class);
 
 		$this->userManager->expects($this->any())->method('userExists')->willReturn(true);
 		$this->timeFactory->expects($this->any())->method('now')->willReturn(new \DateTimeImmutable("2023-05-04 00:00 Europe/Berlin"));
@@ -101,7 +104,8 @@ class DefaultShareProviderTest extends \Test\TestCase {
 			$this->l10nFactory,
 			$this->urlGenerator,
 			$this->timeFactory,
-			$this->logger
+			$this->logger,
+			$this->shareManager,
 		);
 	}
 
@@ -464,7 +468,8 @@ class DefaultShareProviderTest extends \Test\TestCase {
 				$this->l10nFactory,
 				$this->urlGenerator,
 				$this->timeFactory,
-				$this->logger
+				$this->logger,
+				$this->shareManager,
 			])
 			->setMethods(['getShareById'])
 			->getMock();
@@ -560,7 +565,8 @@ class DefaultShareProviderTest extends \Test\TestCase {
 				$this->l10nFactory,
 				$this->urlGenerator,
 				$this->timeFactory,
-				$this->logger
+				$this->logger,
+				$this->shareManager,
 			])
 			->setMethods(['getShareById'])
 			->getMock();
@@ -2529,7 +2535,8 @@ class DefaultShareProviderTest extends \Test\TestCase {
 			$this->l10nFactory,
 			$this->urlGenerator,
 			$this->timeFactory,
-			$this->logger
+			$this->logger,
+			$this->shareManager,
 		);
 
 		$password = md5(time());
@@ -2628,7 +2635,8 @@ class DefaultShareProviderTest extends \Test\TestCase {
 			$this->l10nFactory,
 			$this->urlGenerator,
 			$this->timeFactory,
-			$this->logger
+			$this->logger,
+			$this->shareManager,
 		);
 
 		$u1 = $userManager->createUser('testShare1', 'test');
@@ -2725,7 +2733,8 @@ class DefaultShareProviderTest extends \Test\TestCase {
 			$this->l10nFactory,
 			$this->urlGenerator,
 			$this->timeFactory,
-			$this->logger
+			$this->logger,
+			$this->shareManager,
 		);
 
 		$u1 = $userManager->createUser('testShare1', 'test');
