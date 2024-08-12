@@ -82,6 +82,8 @@ class DefaultShareProviderTest extends \Test\TestCase {
 	/** @var IConfig|MockObject */
 	protected $config;
 
+	protected IShareManager&MockObject $shareManager;
+
 	protected function setUp(): void {
 		$this->dbConn = \OC::$server->getDatabaseConnection();
 		$this->userManager = $this->createMock(IUserManager::class);
