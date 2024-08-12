@@ -599,6 +599,9 @@ export default {
 		 * @param {string|null} overrideHandlerId the ID of the handler with which to view the files, if any
 		 */
 		async openFile(path, overrideHandlerId = null) {
+			if (!path.startsWith(davRootPath)) {
+				path = `${davRootPath}${path}`
+			}
 			await this.beforeOpen()
 
 			// cancel any previous request

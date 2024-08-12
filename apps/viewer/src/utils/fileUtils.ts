@@ -20,9 +20,7 @@
  *
  */
 import type { FileStat } from 'webdav'
-import { dirname, encodePath } from '@nextcloud/paths'
-import { generateUrl } from '@nextcloud/router'
-import { getSharingToken, isPublicShare } from '@nextcloud/sharing/public'
+import { encodePath } from '@nextcloud/paths'
 import camelcase from 'camelcase'
 
 import { isNumber } from './numberUtil'
@@ -120,17 +118,11 @@ const genFileInfo = function(obj: FileStat): FileInfo {
  *
  * @param fileInfo The fileInfo
  * @param fileInfo.filename the file full path
- * @param fileInfo.basename the file name
  * @param fileInfo.source the file source if any
  */
-function getDavPath({ filename, basename, source = '' }: { filename: string, basename: string, source?: string }): string|null {
+function getDavPath({ filename, source = '' }: { filename: string, source?: string }): string|null {
 	// TODO: allow proper dav access without the need of basic auth
 	// https://github.com/nextcloud/server/issues/19700
-	if (isPublicShare()) {
-		return generateUrl(`/s/${getSharingToken()}/download?path={dirname}&files={basename}`,
-			{ dirname: dirname(filename), basename })
-	}
-
 	const prefixUser = davRootPath
 
 	// If we have a source but we're not a dav resource, return null
@@ -139,8 +131,8 @@ function getDavPath({ filename, basename, source = '' }: { filename: string, bas
 	}
 
 	// Workaround for files with different root like /remote.php/dav
-	if (filename.startsWith(prefixUser)) {
-		filename = filename.slice(prefixUser.length)
+	if (!filename.startsWith(prefixUser)) {
+		filename = `${davRootPath}${filename}`
 	}
 	return davRemoteURL + encodePath(filename)
 }
