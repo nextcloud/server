@@ -649,24 +649,24 @@ class Manager implements IManager {
 		return $this->providers;
 	}
 
-	public function getPreferredProvider(string $taskType) {
+	public function getPreferredProvider(string $taskTypeId) {
 		try {
 			$preferences = json_decode($this->config->getAppValue('core', 'ai.taskprocessing_provider_preferences', 'null'), associative: true, flags: JSON_THROW_ON_ERROR);
 			$providers = $this->getProviders();
-			if (isset($preferences[$taskType])) {
-				$provider = current(array_values(array_filter($providers, fn ($provider) => $provider->getId() === $preferences[$taskType])));
+			if (isset($preferences[$taskTypeId])) {
+				$provider = current(array_values(array_filter($providers, fn ($provider) => $provider->getId() === $preferences[$taskTypeId])));
 				if ($provider !== false) {
 					return $provider;
 				}
 			}
 			// By default, use the first available provider
 			foreach ($providers as $provider) {
-				if ($provider->getTaskTypeId() === $taskType) {
+				if ($provider->getTaskTypeId() === $taskTypeId) {
 					return $provider;
 				}
 			}
 		} catch (\JsonException $e) {
-			$this->logger->warning('Failed to parse provider preferences while getting preferred provider for task type ' . $taskType, ['exception' => $e]);
+			$this->logger->warning('Failed to parse provider preferences while getting preferred provider for task type ' . $taskTypeId, ['exception' => $e]);
 		}
 		throw new \OCP\TaskProcessing\Exception\Exception('No matching provider found');
 	}
@@ -674,14 +674,14 @@ class Manager implements IManager {
 	public function getAvailableTaskTypes(): array {
 		if ($this->availableTaskTypes === null) {
 			$taskTypes = $this->_getTaskTypes();
-			$providers = $this->getProviders();
 
 			$availableTaskTypes = [];
-			foreach ($providers as $provider) {
-				if (!isset($taskTypes[$provider->getTaskTypeId()])) {
+			foreach ($taskTypes as $taskType) {
+				try {
+					$provider = $this->getPreferredProvider($taskType->getId());
+				} catch (\OCP\TaskProcessing\Exception\Exception $e) {
 					continue;
 				}
-				$taskType = $taskTypes[$provider->getTaskTypeId()];
 				try {
 					$availableTaskTypes[$provider->getTaskTypeId()] = [
 						'name' => $taskType->getName(),

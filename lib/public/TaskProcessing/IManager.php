@@ -38,12 +38,12 @@ interface IManager {
 	public function getProviders(): array;
 
 	/**
-	 * @param string $taskType
+	 * @param string $taskTypeId
 	 * @return IProvider
 	 * @throws Exception
 	 * @since 30.0.0
 	 */
-	public function getPreferredProvider(string $taskType);
+	public function getPreferredProvider(string $taskTypeId);
 
 	/**
 	 * @return array<array-key,array{name: string, description: string, inputShape: ShapeDescriptor[], inputShapeEnumValues: ShapeEnumValue[][], inputShapeDefaults: array<array-key, numeric|string>, optionalInputShape: ShapeDescriptor[], optionalInputShapeEnumValues: ShapeEnumValue[][], optionalInputShapeDefaults: array<array-key, numeric|string>, outputShape: ShapeDescriptor[], outputShapeEnumValues: ShapeEnumValue[][], optionalOutputShape: ShapeDescriptor[], optionalOutputShapeEnumValues: ShapeEnumValue[][]}>

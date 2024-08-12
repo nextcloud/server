@@ -37,6 +37,11 @@ class ComposerStaticInitTesting
         'OCA\\Testing\\Provider\\FakeTextProcessingProviderSync' => __DIR__ . '/..' . '/../lib/Provider/FakeTextProcessingProviderSync.php',
         'OCA\\Testing\\Provider\\FakeTranslationProvider' => __DIR__ . '/..' . '/../lib/Provider/FakeTranslationProvider.php',
         'OCA\\Testing\\Settings\\DeclarativeSettingsForm' => __DIR__ . '/..' . '/../lib/Settings/DeclarativeSettingsForm.php',
+        'OCA\\Testing\\TaskProcessing\\FakeContextWriteProvider' => __DIR__ . '/..' . '/../lib/TaskProcessing/FakeContextWriteProvider.php',
+        'OCA\\Testing\\TaskProcessing\\FakeTextToImageProvider' => __DIR__ . '/..' . '/../lib/TaskProcessing/FakeTextToImageProvider.php',
+        'OCA\\Testing\\TaskProcessing\\FakeTextToTextProvider' => __DIR__ . '/..' . '/../lib/TaskProcessing/FakeTextToTextProvider.php',
+        'OCA\\Testing\\TaskProcessing\\FakeTranscribeProvider' => __DIR__ . '/..' . '/../lib/TaskProcessing/FakeTranscribeProvider.php',
+        'OCA\\Testing\\TaskProcessing\\FakeTranslateProvider' => __DIR__ . '/..' . '/../lib/TaskProcessing/FakeTranslateProvider.php',
     );
 
     public static function getInitializer(ClassLoader $loader)
