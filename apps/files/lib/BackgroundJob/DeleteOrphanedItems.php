@@ -66,18 +66,15 @@ class DeleteOrphanedItems extends TimedJob {
 
 		$deleteQuery = $this->connection->getQueryBuilder();
 		$deleteQuery->delete($table)
-			->where($deleteQuery->expr()->eq($idCol, $deleteQuery->createParameter('objectid')));
+			->where($deleteQuery->expr()->in($idCol, $deleteQuery->createParameter('objectid')));
 
 		$deletedInLastChunk = self::CHUNK_SIZE;
 		while ($deletedInLastChunk === self::CHUNK_SIZE) {
-			$result = $query->execute();
-			$deletedInLastChunk = 0;
-			while ($row = $result->fetch()) {
-				$deletedInLastChunk++;
-				$deletedEntries += $deleteQuery->setParameter('objectid', (int) $row[$idCol])
-					->execute();
-			}
-			$result->closeCursor();
+			$chunk = $query->executeQuery()->fetchAll(\PDO::FETCH_COLUMN);
+			$deletedInLastChunk = count($chunk);
+
+			$deleteQuery->setParameter('objectid', $chunk, IQueryBuilder::PARAM_INT_ARRAY);
+			$deletedEntries += $deleteQuery->executeStatement();
 		}
 
 		return $deletedEntries;
