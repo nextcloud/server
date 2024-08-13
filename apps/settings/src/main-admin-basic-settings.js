@@ -4,7 +4,7 @@
  */
 
 import Vue from 'vue'
-import { getRequestToken } from '@nextcloud/auth'
+import { getCSPNonce } from '@nextcloud/auth'
 import { loadState } from '@nextcloud/initial-state'
 import { translate as t } from '@nextcloud/l10n'
 
@@ -13,7 +13,7 @@ import logger from './logger.ts'
 import ProfileSettings from './components/BasicSettings/ProfileSettings.vue'
 import BackgroundJob from './components/BasicSettings/BackgroundJob.vue'
 
-__webpack_nonce__ = btoa(getRequestToken())
+__webpack_nonce__ = getCSPNonce()
 
 const profileEnabledGlobally = loadState('settings', 'profileEnabledGlobally', true)
 
