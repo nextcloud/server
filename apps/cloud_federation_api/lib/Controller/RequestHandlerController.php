@@ -173,15 +173,18 @@ class RequestHandlerController extends Controller {
 			);
 		}
 
-		$user = $this->userManager->get($shareWith);
-		$recipientDisplayName = '';
-		if ($user) {
-			$recipientDisplayName = $user->getDisplayName();
+		$responseData = ['recipientDisplayName' => ''];
+		if ($shareType === 'user') {
+			$user = $this->userManager->get($shareWith);
+			if ($user) {
+				$responseData = [
+					'recipientDisplayName' => $user->getDisplayName(),
+					'recipientUserId' => $user->getUID(),
+				];
+			}
 		}
 
-		return new JSONResponse(
-			['recipientDisplayName' => $recipientDisplayName],
-			Http::STATUS_CREATED);
+		return new JSONResponse($responseData, Http::STATUS_CREATED);
 	}
 
 	/**
