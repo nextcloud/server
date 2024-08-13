@@ -154,7 +154,7 @@ OC.L10N.register(
     "Copy internal link to clipboard" : "Skopírovať interný odkaz do schránky",
     "Only works for people with access to this folder" : "Funguje len pre používateľov s prístupom k tomuto priečinku",
     "Only works for people with access to this file" : "Funguje len pre používateľov s prístupom k tomuto súboru",
-    "Link copied" : "Odkaz skopírovaný",
+    "Link copied" : "Odkaz bol skopírovaný",
     "Please enter the following required information before creating the share" : "Pred vytvorením zdieľania zadajte následujúce potrebné informácie",
     "Password protection (enforced)" : "Ochrana heslom (vynúttená)",
     "Password protection" : "Ochrana heslom",
