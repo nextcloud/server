@@ -16,12 +16,9 @@ import FolderSvg from '@mdi/svg/svg/folder.svg?raw'
 import FolderMultipleSvg from '@mdi/svg/svg/folder-multiple.svg?raw'
 
 import {
-	encodeSource,
 	folderTreeId,
 	getContents,
 	getFolderTreeNodes,
-	getFolderTreeParentId,
-	getFolderTreeViewId,
 	getSourceParent,
 	sourceRoot,
 } from '../services/FolderTree.ts'
@@ -39,7 +36,7 @@ const registerQueue = new PQueue({ concurrency: 5, intervalCap: 5, interval: 200
 const registerTreeChildren = async (path: string = '/') => {
 	await queue.add(async () => {
 		const nodes = await getFolderTreeNodes(path)
-		const promises = nodes.map(node => registerQueue.add(() => registerTreeNodeView(node)))
+		const promises = nodes.map(node => registerQueue.add(() => registerNodeView(node)))
 		await Promise.allSettled(promises)
 	})
 }
@@ -64,8 +61,8 @@ const getLoadChildViews = (node: TreeNode | Folder) => {
 	}
 }
 
-const registerTreeNodeView = (node: TreeNode) => {
-	const registeredView = Navigation.views.find(view => view.id === encodeSource(node.source))
+const registerNodeView = (node: TreeNode | Folder) => {
+	const registeredView = Navigation.views.find(view => view.id === node.encodedSource)
 	if (registeredView) {
 		Navigation.remove(registeredView.id)
 	}
@@ -73,10 +70,11 @@ const registerTreeNodeView = (node: TreeNode) => {
 		return
 	}
 	Navigation.register(new View({
-		id: encodeSource(node.source),
+		id: node.encodedSource,
 		parent: getSourceParent(node.source),
 
-		name: node.displayName ?? node.basename,
+		// @ts-expect-error Casing differences
+		name: node.displayName ?? node.displayname ?? node.basename,
 
 		icon: FolderSvg,
 		order: 0, // TODO Allow undefined order for natural sort
@@ -92,32 +90,8 @@ const registerTreeNodeView = (node: TreeNode) => {
 	}))
 }
 
-const registerFolderView = (folder: Folder) => {
-	if (!showHiddenFiles && folder.basename.startsWith('.')) {
-		return
-	}
-	Navigation.register(new View({
-		id: getFolderTreeViewId(folder),
-		parent: getFolderTreeParentId(folder),
-
-		name: folder.displayname,
-
-		icon: FolderSvg,
-		order: 0, // TODO Allow undefined order for natural sort
-
-		getContents,
-		loadChildViews: getLoadChildViews(folder),
-
-		params: {
-			view: folderTreeId,
-			fileid: String(folder.fileid),
-			dir: folder.path,
-		},
-	}))
-}
-
 const removeFolderView = (folder: Folder) => {
-	const viewId = getFolderTreeViewId(folder)
+	const viewId = folder.encodedSource
 	Navigation.remove(viewId)
 }
 
@@ -129,7 +103,7 @@ const onCreateNode = (node: Node) => {
 	if (!(node instanceof Folder)) {
 		return
 	}
-	registerFolderView(node)
+	registerNodeView(node)
 }
 
 const onDeleteNode = (node: Node) => {
@@ -144,7 +118,7 @@ const onMoveNode = ({ node, oldSource }) => {
 		return
 	}
 	removeFolderViewSource(oldSource)
-	registerFolderView(node)
+	registerNodeView(node)
 
 	const newPath = node.source.replace(sourceRoot, '')
 	const oldPath = oldSource.replace(sourceRoot, '')
@@ -159,7 +133,7 @@ const onMoveNode = ({ node, oldSource }) => {
 	})
 	for (const view of childViews) {
 		// @ts-expect-error FIXME Allow setting parent
-		view.parent = getFolderTreeParentId(node)
+		view.parent = getSourceParent(node.source)
 		// @ts-expect-error dir param is defined
 		view.params.dir = view.params.dir.replace(oldPath, newPath)
 	}
