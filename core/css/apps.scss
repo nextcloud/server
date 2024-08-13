@@ -982,6 +982,7 @@ $outter-margin: math.div($popoveritem-height - $popovericon-size, 2);
 
 .v-popper__inner div.open > ul {
 	> li > a > span.action-link__icon,
+	> li > a > span.action-router__icon,
 	> li > a > img {
 		filter: var(--background-invert-if-dark);
 
