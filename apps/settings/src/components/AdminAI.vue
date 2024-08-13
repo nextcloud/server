@@ -32,7 +32,8 @@
 				</NcNoteCard>
 			</template>
 		</NcSettingsSection>
-		<NcSettingsSection :name="t('settings', 'Machine translation')"
+		<NcSettingsSection v-if="hasTranslate"
+			:name="t('settings', 'Legacy Machine translation')"
 			:description="t('settings', 'Machine translation can be implemented by different apps. Here you can define the precedence of the machine translation apps you have installed at the moment.')">
 			<draggable v-model="settings['ai.translation_provider_preferences']" @change="saveChanges">
 				<div v-for="(providerClass, i) in settings['ai.translation_provider_preferences']" :key="providerClass" class="draggable__item">
@@ -50,7 +51,8 @@
 				</div>
 			</draggable>
 		</NcSettingsSection>
-		<NcSettingsSection :name="t('settings', 'Speech-To-Text')"
+		<NcSettingsSection v-if="hasStt"
+			:name="t('settings', 'Legacy Speech-To-Text')"
 			:description="t('settings', 'Speech-To-Text can be implemented by different apps. Here you can set which app should be used.')">
 			<template v-for="provider in sttProviders">
 				<NcCheckboxRadioSwitch :key="provider.class"
@@ -62,13 +64,9 @@
 					{{ provider.name }}
 				</NcCheckboxRadioSwitch>
 			</template>
-			<template v-if="!hasStt">
-				<NcNoteCard type="info">
-					{{ t('settings', 'None of your currently installed apps provide Speech-To-Text functionality') }}
-				</NcNoteCard>
-			</template>
 		</NcSettingsSection>
-		<NcSettingsSection :name="t('settings', 'Image generation')"
+		<NcSettingsSection v-if="hasText2ImageProviders"
+			:name="t('settings', 'Legacy Image generation')"
 			:description="t('settings', 'Image generation can be implemented by different apps. Here you can set which app should be used.')">
 			<template v-for="provider in text2imageProviders">
 				<NcCheckboxRadioSwitch :key="provider.id"
@@ -80,13 +78,9 @@
 					{{ provider.name }}
 				</NcCheckboxRadioSwitch>
 			</template>
-			<template v-if="!hasText2ImageProviders">
-				<NcNoteCard type="info">
-					{{ t('settings', 'None of your currently installed apps provide image generation functionality') }}
-				</NcNoteCard>
-			</template>
 		</NcSettingsSection>
-		<NcSettingsSection :name="t('settings', 'Text processing')"
+		<NcSettingsSection v-if="hasTextProcessing"
+			:name="t('settings', 'Text processing')"
 			:description="t('settings', 'Text processing tasks can be implemented by different apps. Here you can set which app should be used for which task.')">
 			<template v-for="type in tpTaskTypes">
 				<div :key="type">
@@ -107,11 +101,6 @@
 					</NcSelect>
 					<p>&nbsp;</p>
 				</div>
-			</template>
-			<template v-if="!hasTextProcessing">
-				<NcNoteCard type="info">
-					{{ t('settings', 'None of your currently installed apps provide Text processing functionality') }}
-				</NcNoteCard>
 			</template>
 		</NcSettingsSection>
 	</div>
@@ -164,6 +153,9 @@ export default {
 	computed: {
 		hasStt() {
 			return this.sttProviders.length > 0
+		},
+		hasTranslate() {
+			return this.settings['ai.translation_provider_preferences'].length > 0
 		},
 		hasTextProcessing() {
 			return Object.keys(this.settings['ai.textprocessing_provider_preferences']).length > 0 && Array.isArray(this.textProcessingTaskTypes)
