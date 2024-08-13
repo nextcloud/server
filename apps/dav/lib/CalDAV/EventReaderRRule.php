@@ -57,23 +57,23 @@ class EventReaderRRule extends \Sabre\VObject\Recur\RRuleIterator {
 	}
 
 	public function daysOfWeek(): array {
-		return $this->byDay;
+		return is_array($this->byDay) ? $this->byDay : [];
 	}
 
 	public function daysOfMonth(): array {
-		return $this->byMonthDay;
+		return is_array($this->byMonthDay) ? $this->byMonthDay : [];
 	}
 
 	public function daysOfYear(): array {
-		return $this->byYearDay;
+		return is_array($this->byYearDay) ? $this->byYearDay : [];
 	}
 
 	public function weeksOfYear(): array {
-		return $this->byWeekNo;
+		return is_array($this->byWeekNo) ? $this->byWeekNo : [];
 	}
 
 	public function monthsOfYear(): array {
-		return $this->byMonth;
+		return is_array($this->byMonth) ? $this->byMonth : [];
 	}
 
 	public function isRelative(): bool {
@@ -81,7 +81,7 @@ class EventReaderRRule extends \Sabre\VObject\Recur\RRuleIterator {
 	}
 
 	public function relativePosition(): array {
-		return $this->bySetPos;
+		return is_array($this->bySetPos) ? $this->bySetPos : [];
 	}
 
 }
