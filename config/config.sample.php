@@ -2008,8 +2008,9 @@ $CONFIG = [
 'updatedirectory' => '',
 
 /**
- * Block a specific file or files and disallow the upload of files
- * with this name. ``.htaccess`` is blocked by default.
+ * Block a specific file or files and disallow the upload of files with this name.
+ * This blocks any access to those files (read and write).
+ * ``.htaccess`` is blocked by default.
  *
  * WARNING: USE THIS ONLY IF YOU KNOW WHAT YOU ARE DOING.
  *
@@ -2021,6 +2022,7 @@ $CONFIG = [
 
 /**
  * Disallow the upload of files with specific basenames.
+ * Matching existing files can no longer be updated and in matching folders no files can be created anymore.
  *
  * The basename is the name of the file without the extension,
  * e.g. for "archive.tar.gz" the basename would be "archive".
@@ -2034,6 +2036,7 @@ $CONFIG = [
 /**
  * Block characters from being used in filenames. This is useful if you
  * have a filesystem or OS which does not support certain characters like windows.
+ * Matching existing files can no longer be updated and in matching folders no files can be created anymore.
  *
  * The '/' and '\' characters are always forbidden, as well as all characters in the ASCII range [0-31].
  *
@@ -2046,6 +2049,7 @@ $CONFIG = [
 
 /**
  * Deny extensions from being used for filenames.
+ * Matching existing files can no longer be updated and in matching folders no files can be created anymore.
  * 
  * The '.part' extension is always forbidden, as this is used internally by Nextcloud.
  * 
