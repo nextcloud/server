@@ -10,7 +10,8 @@
 			<NcAppNavigationSearch v-model="searchQuery" :label="t('files', 'Filter filenames…')" />
 		</template>
 		<template #default>
-			<NcAppNavigationList :aria-label="t('files', 'Views')">
+			<NcAppNavigationList class="files-navigation__list"
+				:aria-label="t('files', 'Views')">
 				<FilesNavigationItem :views="viewMap" />
 			</NcAppNavigationList>
 
@@ -225,6 +226,10 @@ export default defineComponent({
 }
 
 .files-navigation {
+	&__list {
+		height: 100%; // Fill all available space for sticky views
+	}
+
 	:deep(.app-navigation__content > ul.app-navigation__list) {
 		will-change: scroll-position;
 	}
