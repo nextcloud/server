@@ -8,7 +8,7 @@ import { basename } from 'path'
 import { emit } from '@nextcloud/event-bus'
 import { getCurrentUser } from '@nextcloud/auth'
 import { Permission, Folder } from '@nextcloud/files'
-import { showSuccess } from '@nextcloud/dialogs'
+import { showError, showInfo, showSuccess } from '@nextcloud/dialogs'
 import { translate as t } from '@nextcloud/l10n'
 import axios from '@nextcloud/axios'
 
@@ -47,7 +47,11 @@ export const entry = {
 	order: 0,
 	async handler(context: Folder, content: Node[]) {
 		const name = await newNodeName(t('files', 'New folder'), content)
-		if (name !== null) {
+		if (name === null) {
+			showInfo(t('files', 'Creating new folder cancelled'))
+			return
+		}
+		try {
 			const { fileid, source } = await createNewFolder(context, name.trim())
 
 			// Create the folder in the store
@@ -74,9 +78,12 @@ export const entry = {
 			// Navigate to the new folder
 			window.OCP.Files.Router.goToRoute(
 				null, // use default route
-				{ view: 'files', fileid: folder.fileid },
+				{ view: 'files', fileid: String(fileid) },
 				{ dir: context.path },
 			)
+		} catch (error) {
+			logger.error('Creating new folder failed', { error })
+			showError('Creating new folder failed')
 		}
 	},
 } as Entry
