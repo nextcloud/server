@@ -29,6 +29,7 @@ p(!empty($_['application']) ? $_['application'].' - ' : '');
 p($theme->getTitle());
 ?>
 		</title>
+		<meta name="csp-nonce" nonce="<?php p($_['cspNonce']); /* Do not pass into "content" to prevent exfiltration */ ?>">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
 		<?php if ($theme->getiTunesAppId() !== '') { ?>

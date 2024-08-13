@@ -12,7 +12,6 @@ use OC\AppFramework\Middleware\Security\CSPMiddleware;
 use OC\Security\CSP\ContentSecurityPolicy;
 use OC\Security\CSP\ContentSecurityPolicyManager;
 use OC\Security\CSP\ContentSecurityPolicyNonceManager;
-use OC\Security\CSRF\CsrfToken;
 use OC\Security\CSRF\CsrfTokenManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\EmptyContentSecurityPolicy;
@@ -20,15 +19,15 @@ use OCP\AppFramework\Http\Response;
 use PHPUnit\Framework\MockObject\MockObject;
 
 class CSPMiddlewareTest extends \Test\TestCase {
-	/** @var CSPMiddleware|MockObject */
+	/** @var CSPMiddleware&MockObject */
 	private $middleware;
-	/** @var Controller|MockObject */
+	/** @var Controller&MockObject */
 	private $controller;
-	/** @var ContentSecurityPolicyManager|MockObject */
+	/** @var ContentSecurityPolicyManager&MockObject */
 	private $contentSecurityPolicyManager;
-	/** @var CsrfTokenManager|MockObject */
+	/** @var CsrfTokenManager&MockObject */
 	private $csrfTokenManager;
-	/** @var ContentSecurityPolicyNonceManager|MockObject */
+	/** @var ContentSecurityPolicyNonceManager&MockObject */
 	private $cspNonceManager;
 
 	protected function setUp(): void {
@@ -94,14 +93,10 @@ class CSPMiddlewareTest extends \Test\TestCase {
 			->expects($this->once())
 			->method('browserSupportsCspV3')
 			->willReturn(true);
-		$token = $this->createMock(CsrfToken::class);
-		$token
+		$token = base64_encode('the-nonce');
+		$this->cspNonceManager
 			->expects($this->once())
-			->method('getEncryptedValue')
-			->willReturn('MyEncryptedToken');
-		$this->csrfTokenManager
-			->expects($this->once())
-			->method('getToken')
+			->method('getNonce')
 			->willReturn($token);
 		$response = $this->createMock(Response::class);
 		$defaultPolicy = new ContentSecurityPolicy();
