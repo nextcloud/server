@@ -42,6 +42,7 @@
     "text",
     "theming",
     "twofactor_backupcodes",
+    "twofactor_nextcloud_notification",
     "twofactor_totp",
     "updatenotification",
     "user_ldap",
