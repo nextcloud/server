@@ -125,6 +125,10 @@ function getDavPath({ filename, source = '' }: { filename: string, source?: stri
 	// https://github.com/nextcloud/server/issues/19700
 	const prefixUser = davRootPath
 
+	if (!filename || typeof filename !== 'string') {
+		return null
+	}
+
 	// If we have a source but we're not a dav resource, return null
 	if (source && !source.includes(prefixUser)) {
 		return null
