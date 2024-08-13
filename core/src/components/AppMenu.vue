@@ -123,16 +123,6 @@ export default defineComponent({
 		display: flex;
 		flex-wrap: nowrap;
 		margin-inline: calc(var(--app-menu-entry-growth) / 2);
-		transition: margin-inline var(--animation-quick) ease-in-out;
-
-		// Remove padding if the first child is focussed
-		&:has(.app-menu-entry:hover:first-child, .app-menu-entry:focus-within:first-child) {
-			margin-inline: 0 calc(var(--app-menu-entry-growth) / 2);
-		}
-		// Remove padding if the last child is focussed
-		&:has(.app-menu-entry:hover:last-child, .app-menu-entry:focus-within:last-child) {
-			margin-inline: calc(var(--app-menu-entry-growth) / 2) 0;
-		}
 	}
 
 	&__overflow {
