@@ -28,6 +28,8 @@ import {
 
 const isFolderTreeEnabled = loadState('files', 'config', { folder_tree: true }).folder_tree
 
+let showHiddenFiles = loadState('files', 'config', { show_hidden: false }).show_hidden
+
 const Navigation = getNavigation()
 
 const queue = new PQueue({ concurrency: 5, intervalCap: 5, interval: 200 })
@@ -63,6 +65,13 @@ const getLoadChildViews = (node: TreeNode | Folder) => {
 }
 
 const registerTreeNodeView = (node: TreeNode) => {
+	const registeredView = Navigation.views.find(view => view.id === encodeSource(node.source))
+	if (registeredView) {
+		Navigation.remove(registeredView.id)
+	}
+	if (!showHiddenFiles && node.basename.startsWith('.')) {
+		return
+	}
 	Navigation.register(new View({
 		id: encodeSource(node.source),
 		parent: getSourceParent(node.source),
@@ -84,6 +93,9 @@ const registerTreeNodeView = (node: TreeNode) => {
 }
 
 const registerFolderView = (folder: Folder) => {
+	if (!showHiddenFiles && folder.basename.startsWith('.')) {
+		return
+	}
 	Navigation.register(new View({
 		id: getFolderTreeViewId(folder),
 		parent: getFolderTreeParentId(folder),
@@ -153,6 +165,15 @@ const onMoveNode = ({ node, oldSource }) => {
 	}
 }
 
+const onUserConfigUpdated = async ({ key, value }) => {
+	if (key === 'show_hidden') {
+		showHiddenFiles = value
+		await registerTreeNodes()
+		// @ts-expect-error No payload
+		emit('files:folder-tree:initialized')
+	}
+}
+
 const registerFolderTreeRoot = () => {
 	Navigation.register(new View({
 		id: folderTreeId,
@@ -172,6 +193,7 @@ const registerFolderTreeChildren = async () => {
 	subscribe('files:node:created', onCreateNode)
 	subscribe('files:node:deleted', onDeleteNode)
 	subscribe('files:node:moved', onMoveNode)
+	subscribe('files:config:updated', onUserConfigUpdated)
 	// @ts-expect-error No payload
 	emit('files:folder-tree:initialized')
 }
