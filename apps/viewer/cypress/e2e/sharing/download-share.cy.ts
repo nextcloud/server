@@ -89,14 +89,14 @@ describe(`Download ${fileName} from viewer in link share`, function() {
 
 	it('See the full screen and download icons in the menu', function() {
 		cy.get('body > .v-popper__popper ul span.fullscreen-icon').should('be.visible')
-		cy.get(`body > .v-popper__popper ul a.action-link[href*='/s/${token}/download']`).should('be.visible')
+		cy.get(`body > .v-popper__popper ul a.action-link[href*='/public.php/dav/files/${token}/image1.jpg']`).should('be.visible')
 	})
 
 	it('Download the image', function() {
 		// https://github.com/cypress-io/cypress/issues/14857
 		cy.window().then((win) => { setTimeout(() => { win.location.reload() }, 5000) })
 		// download the file
-		cy.get(`body > .v-popper__popper a.action-link[href*='/s/${token}/download']`).click()
+		cy.get(`body > .v-popper__popper ul a.action-link[href*='/public.php/dav/files/${token}/image1.jpg']`).click()
 	})
 
 	it('Compare downloaded file with asset by size', function() {
