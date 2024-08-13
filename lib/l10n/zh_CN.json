@@ -237,6 +237,8 @@
     "Storage connection timeout. %s" : "存储连接超时。%s",
     "Audio input" : "音频输入",
     "Writes text in a given style based on the provided source material." : "通过给出语料的风格生成文字",
+    "Writing style" : "撰写风格",
+    "Source material" : "来源材料",
     "Generate image" : "生成图片",
     "Prompt" : "提示",
     "Generates a possible headline for a text." : "为一段文本生成一个可能的标题",
