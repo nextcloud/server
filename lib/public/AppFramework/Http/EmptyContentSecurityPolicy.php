@@ -89,7 +89,7 @@ class EmptyContentSecurityPolicy {
 	}
 
 	/**
-	 * Use the according base64 encoded JS nonce
+	 * The base64 encoded nonce to be used for script source.
 	 * This method is only for CSPMiddleware, custom values are ignored in mergePolicies of ContentSecurityPolicyManager
 	 *
 	 * @param string $nonce
