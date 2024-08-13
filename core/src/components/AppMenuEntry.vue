@@ -4,9 +4,11 @@
  -->
 
 <template>
-	<li class="app-menu-entry"
+	<li ref="containerElement"
+		class="app-menu-entry"
 		:class="{
 			'app-menu-entry--active': app.active,
+			'app-menu-entry--truncated': needsSpace,
 		}">
 		<a class="app-menu-entry__link"
 			:href="app.href"
@@ -15,7 +17,7 @@
 			:target="app.target ? '_blank' : undefined"
 			:rel="app.target ? 'noopener noreferrer' : undefined">
 			<AppMenuIcon class="app-menu-entry__icon" :app="app" />
-			<span class="app-menu-entry__label">
+			<span ref="labelElement" class="app-menu-entry__label">
 				{{ app.name }}
 			</span>
 		</a>
@@ -24,11 +26,26 @@
 
 <script setup lang="ts">
 import type { INavigationEntry } from '../types/navigation'
+import { onMounted, ref, watch } from 'vue'
 import AppMenuIcon from './AppMenuIcon.vue'
 
-defineProps<{
+const props = defineProps<{
 	app: INavigationEntry
 }>()
+
+const containerElement = ref<HTMLLIElement>()
+const labelElement = ref<HTMLSpanElement>()
+const needsSpace = ref(false)
+
+/** Update the space requirements of the app label */
+function calculateSize() {
+	const maxWidth = containerElement.value!.clientWidth
+	// Also keep the 0.5px letter spacing in mind
+	needsSpace.value = (maxWidth - props.app.name.length * 0.5) < (labelElement.value!.scrollWidth)
+}
+// Update size on mounted and when the app name changes
+onMounted(calculateSize)
+watch(() => props.app.name, calculateSize)
 </script>
 
 <style scoped lang="scss">
@@ -37,8 +54,6 @@ defineProps<{
 	width: var(--header-height);
 	height: var(--header-height);
 	position: relative;
-	// Needed to prevent jumping when hover an entry (keep in sync with :hover styles)
-	transition: width var(--animation-quick) ease-in-out;
 
 	&__link {
 		position: relative;
@@ -65,9 +80,8 @@ defineProps<{
 		left: 50%;
 		top: 50%;
 		display: block;
-		min-width: 100%;
 		transform: translateX(-50%);
-		width: 100%;
+		max-width: 100%;
 		text-overflow: ellipsis;
 		overflow: hidden;
 		letter-spacing: -0.5px;
@@ -115,25 +129,27 @@ defineProps<{
 
 	// Adjust the width when an entry is focussed
 	// The focussed / hovered entry should grow, while both neighbors need to shrink
-	&:hover,
-	&:focus-within {
-		width: calc(var(--header-height) + var(--app-menu-entry-growth));
+	&--truncated:hover,
+	&--truncated:focus-within {
+		.app-menu-entry__label {
+			max-width: calc(var(--header-height) + var(--app-menu-entry-growth));
+		}
 
 		// The next entry needs to shrink half the growth
 		+ .app-menu-entry {
-			width: calc(var(--header-height) - (var(--app-menu-entry-growth) / 2));
-			.app-menu-entry__icon {
-				margin-inline-end: calc(var(--app-menu-entry-growth) / 2);
+			.app-menu-entry__label {
+				font-weight: normal;
+				max-width: calc(var(--header-height) - var(--app-menu-entry-growth));
 			}
 		}
 	}
 
 	// The previous entry needs to shrink half the growth
-	&:has(+ .app-menu-entry:hover),
-	&:has(+ .app-menu-entry:focus-within) {
-		width: calc(var(--header-height) - (var(--app-menu-entry-growth) / 2));
-		.app-menu-entry__icon {
-			margin-inline-start: calc(var(--app-menu-entry-growth) / 2);
+	&:has(+ .app-menu-entry--truncated:hover),
+	&:has(+ .app-menu-entry--truncated:focus-within) {
+		.app-menu-entry__label {
+			font-weight: normal;
+			max-width: calc(var(--header-height) - var(--app-menu-entry-growth));
 		}
 	}
 }
