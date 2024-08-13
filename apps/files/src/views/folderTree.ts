@@ -36,7 +36,7 @@ const queue = new PQueue({ concurrency: 5, intervalCap: 5, interval: 200 })
 
 const registerQueue = new PQueue({ concurrency: 5, intervalCap: 5, interval: 200 })
 
-const registerTreeNodes = async (path: string = '/') => {
+const registerTreeChildren = async (path: string = '/') => {
 	await queue.add(async () => {
 		const nodes = await getFolderTreeNodes(path)
 		const promises = nodes.map(node => registerQueue.add(() => registerTreeNodeView(node)))
@@ -52,7 +52,7 @@ const getLoadChildViews = (node: TreeNode | Folder) => {
 		}
 		// @ts-expect-error Custom property
 		view.loading = true
-		await registerTreeNodes(node.path)
+		await registerTreeChildren(node.path)
 		// @ts-expect-error Custom property
 		view.loading = false
 		// @ts-expect-error Custom property
@@ -168,13 +168,13 @@ const onMoveNode = ({ node, oldSource }) => {
 const onUserConfigUpdated = async ({ key, value }) => {
 	if (key === 'show_hidden') {
 		showHiddenFiles = value
-		await registerTreeNodes()
+		await registerTreeChildren()
 		// @ts-expect-error No payload
 		emit('files:folder-tree:initialized')
 	}
 }
 
-const registerFolderTreeRoot = () => {
+const registerTreeRoot = () => {
 	Navigation.register(new View({
 		id: folderTreeId,
 
@@ -188,20 +188,16 @@ const registerFolderTreeRoot = () => {
 	}))
 }
 
-const registerFolderTreeChildren = async () => {
-	await registerTreeNodes()
+export const registerFolderTreeView = async () => {
+	if (!isFolderTreeEnabled) {
+		return
+	}
+	registerTreeRoot()
+	await registerTreeChildren()
 	subscribe('files:node:created', onCreateNode)
 	subscribe('files:node:deleted', onDeleteNode)
 	subscribe('files:node:moved', onMoveNode)
 	subscribe('files:config:updated', onUserConfigUpdated)
 	// @ts-expect-error No payload
 	emit('files:folder-tree:initialized')
-}
-
-export const registerFolderTreeView = async () => {
-	if (!isFolderTreeEnabled) {
-		return
-	}
-	registerFolderTreeRoot()
-	await registerFolderTreeChildren()
 }
