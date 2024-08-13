@@ -70,7 +70,6 @@ class NavigationManager implements INavigationManager {
 			$this->closureEntries[] = $entry;
 			return;
 		}
-		$this->init();
 
 		$id = $entry['id'];
 
