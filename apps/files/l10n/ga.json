@@ -155,6 +155,8 @@
     "A file or folder has been <strong>changed</strong>" : "<strong>Athraíodh</strong>comhad nó fillteán",
     "A favorite file or folder has been <strong>changed</strong>" : "<strong>Athraíodh</strong>comhad nó fillteán is fearr leat",
     "Failed to authorize" : "Theip ar údarú",
+    "Invalid folder path" : "Conair fillteáin neamhbhailí",
+    "Folder not found" : "Fillteán gan aimsiú",
     "Upload (max. %s)" : "Uaslódáil (%s ar a mhéad)",
     "Files compatibility" : "Comhoiriúnacht comhaid",
     "Allow to restrict filenames to ensure files can be synced with all clients. By default all filenames valid on POSIX (e.g. Linux or macOS) are allowed." : "Ceadaigh comhaid a shrianadh lena chinntiú gur féidir comhaid a shioncronú le gach cliant. De réir réamhshocraithe ceadaítear gach comhadainm atá bailí ar POSIX (m.sh. Linux nó macOS).",
