@@ -32,14 +32,16 @@ use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
 use OCP\User\Events\OutOfOfficeChangedEvent;
 use OCP\User\Events\OutOfOfficeClearedEvent;
+use OCP\User\Events\OutOfOfficeEndedEvent;
 use OCP\User\Events\OutOfOfficeScheduledEvent;
+use OCP\User\Events\OutOfOfficeStartedEvent;
 use OCP\UserStatus\IManager;
 use OCP\UserStatus\IUserStatus;
 
 /**
  * Class UserDeletedListener
  *
- * @template-implements IEventListener<OutOfOfficeScheduledEvent|OutOfOfficeChangedEvent|OutOfOfficeClearedEvent>
+ * @template-implements IEventListener<OutOfOfficeScheduledEvent|OutOfOfficeChangedEvent|OutOfOfficeClearedEvent|OutOfOfficeStartedEvent|OutOfOfficeEndedEvent>
  *
  */
 class OutOfOfficeStatusListener implements IEventListener {
@@ -59,7 +61,10 @@ class OutOfOfficeStatusListener implements IEventListener {
 		}
 
 		if ($event instanceof OutOfOfficeScheduledEvent
-			|| $event instanceof OutOfOfficeChangedEvent) {
+			|| $event instanceof OutOfOfficeChangedEvent
+			|| $event instanceof OutOfOfficeStartedEvent
+			|| $event instanceof OutOfOfficeEndedEvent
+		) {
 			// This might be overwritten by the office hours automation, but that is ok. This is just in case no office hours are set
 			$this->jobsList->scheduleAfter(UserStatusAutomation::class, $this->time->getTime(), ['userId' => $event->getData()->getUser()->getUID()]);
 		}
