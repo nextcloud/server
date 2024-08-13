@@ -20,6 +20,8 @@
  *
  */
 
-import { davGetClient } from '@nextcloud/files'
+import { davGetClient, davRootPath, davGetRemoteURL } from '@nextcloud/files'
 
-export const client = davGetClient()
+const davRemote = davGetRemoteURL()
+
+export const client = davGetClient(`${davRemote}${davRootPath}`)
