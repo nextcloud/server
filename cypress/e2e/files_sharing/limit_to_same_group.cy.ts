@@ -4,7 +4,7 @@
  */
 
 import { User } from "@nextcloud/cypress"
-import { createShare } from "./FilesSharingUtils.ts"
+import { createShare } from "./filesSharingUtils.ts"
 
 describe('Limit to sharing to people in the same group', () => {
 	let alice: User
