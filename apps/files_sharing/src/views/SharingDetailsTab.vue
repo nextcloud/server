@@ -158,7 +158,7 @@
 						:disabled="!canSetDownload"
 						:checked.sync="canDownload"
 						data-cy-files-sharing-share-permissions-checkbox="download">
-						{{ t('files_sharing', 'Allow download') }}
+						{{ t('files_sharing', 'Allow download and sync') }}
 					</NcCheckboxRadioSwitch>
 					<NcCheckboxRadioSwitch :checked.sync="writeNoteToRecipientIsChecked">
 						{{ t('files_sharing', 'Note to recipient') }}
