@@ -51,10 +51,13 @@ This file is generated from multiple sources. Included packages:
 	- version: 7.4.47
 	- license: Apache-2.0
 - @nextcloud/auth
-	- version: 2.3.0
+	- version: 2.4.0
 	- license: GPL-3.0-or-later
 - @nextcloud/axios
 	- version: 2.5.0
+	- license: GPL-3.0-or-later
+- @nextcloud/browser-storage
+	- version: 0.4.0
 	- license: GPL-3.0-or-later
 - @nextcloud/dialogs
 	- version: 5.3.5

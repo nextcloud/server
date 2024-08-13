@@ -4,12 +4,12 @@
  */
 
 import Vue from 'vue'
-import { getRequestToken } from '@nextcloud/auth'
+import { getCSPNonce } from '@nextcloud/auth'
 
 import PersonalSettings from './components/PersonalSettings.vue'
 
 // eslint-disable-next-line camelcase
-__webpack_nonce__ = btoa(getRequestToken())
+__webpack_nonce__ = getCSPNonce()
 
 Vue.prototype.t = t
 
