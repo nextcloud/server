@@ -5,7 +5,7 @@
 .oc-dialog {
 	background: var(--color-main-background);
 	color: var(--color-text-light);
-	border-radius: var(--border-radius-large);
+	border-radius: var(--border-radius-element);
 	box-shadow: 0 0 30px var(--color-box-shadow);
 	padding: 24px;
 	z-index: 100001;
@@ -61,7 +61,7 @@
 	padding: 25px;
 	background: var(--icon-close-dark) no-repeat center;
 	opacity: .5;
-	border-radius: var(--border-radius-pill);
+	border-radius: var(--border-radius-element);
 
 	&:hover,
 	&:focus,

@@ -357,7 +357,7 @@ export default defineComponent({
 		width: 3rem;
 		height: 3rem;
 		border: 1px solid var(--color-border);
-		border-radius: var(--border-radius-large);
+		border-radius: var(--border-radius-element);
 
 		// Useful to display no preview icon.
 		display: flex;

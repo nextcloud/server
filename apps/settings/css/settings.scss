@@ -137,7 +137,7 @@ select {
 	padding: 14px 20px;
 	background-color: var(--color-primary-element);
 	color: var(--color-primary-element-text);
-	border-radius: var(--border-radius-pill);
+	border-radius: var(--border-radius-element);
 	border: 1px solid var(--color-primary-element);
 	box-shadow: 0 2px 9px var(--color-box-shadow);
 
@@ -246,7 +246,7 @@ select {
 	&:hover,
 	&:focus {
 		background-color: var(--color-background-hover);
-		border-radius: var(--border-radius-pill);
+		border-radius: var(--border-radius-element);
 
 		.icon-federation-menu {
 			opacity: 0.8;

@@ -106,12 +106,12 @@ export default {
 	&__label:active {
 		outline: 2px solid var(--color-main-text);
 		box-shadow: 0 0 0 4px var(--color-main-background);
-		border-radius: var(--border-radius-large);
+		border-radius: var(--border-radius-element);
 	}
 
 	&__input:focus-visible + &__label {
 		outline: 2px solid var(--color-primary-element) !important;
-		border-radius: var(--border-radius-large);
+		border-radius: var(--border-radius-element);
 	}
 }
 </style>

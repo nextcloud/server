@@ -230,7 +230,7 @@ export default defineComponent({
 		max-height: 70%;
 		padding: 0 5vw;
 		border: 2px var(--color-border-dark) dashed;
-		border-radius: var(--border-radius-large);
+		border-radius: var(--border-radius-element);
 	}
 }
 

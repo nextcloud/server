@@ -452,7 +452,7 @@ form .warning input[type='checkbox']+label {
 	width: 100%;
 	padding: 10px;
 	margin: 0 0 5px 0;
-	border-radius: 100px; /* --border-radius-pill */
+	border-radius: 8px; /* --border-radius-element */
 	font-size: 20px;
 }
 .two-factor-primary {
@@ -537,7 +537,7 @@ form #selectDbType {
 	flex-direction: column;
 	text-align: left;
 	word-wrap: break-word;
-	border-radius: 10px; /* --border-radius-large */
+	border-radius: 8px; /* --border-radius-element */
 	cursor: default;
 	-moz-user-select: text;
 	-webkit-user-select: text;

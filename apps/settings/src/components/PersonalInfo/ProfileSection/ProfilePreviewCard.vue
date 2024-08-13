@@ -81,7 +81,7 @@ export default {
 	width: min(100%, 290px);
 	height: 116px;
 	margin: 14px auto;
-	border-radius: var(--border-radius-large);
+	border-radius: var(--border-radius-element);
 	background-color: var(--color-main-background);
 	font-weight: bold;
 	box-shadow: 0 2px 9px var(--color-box-shadow);
@@ -143,7 +143,7 @@ export default {
 
 	&__header {
 		height: 70px;
-		border-radius: var(--border-radius-large) var(--border-radius-large) 0 0;
+		border-radius: var(--border-radius-element) var(--border-radius-element) 0 0;
 		background-color: var(--color-primary-element);
 
 		span {

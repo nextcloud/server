@@ -303,7 +303,7 @@ input[type='button'],
 input[type='submit'],
 input[type='reset'] {
 	font-weight: bold;
-	border-radius: var(--border-radius-pill);
+	border-radius: var(--border-radius-element);
 
 	/* Get rid of the inside dotted line in Firefox */
 	&::-moz-focus-inner {
@@ -345,7 +345,7 @@ input {
 		+ .icon-confirm {
 			margin-left: -13px !important;
 			border-left-color: transparent !important;
-			border-radius: 0 var(--border-radius-large) var(--border-radius-large) 0 !important;
+			border-radius: 0 var(--border-radius-element) var(--border-radius-element) 0 !important;
 			border-width: 2px;
 			background-clip: padding-box;
 			/* Avoid background under border */
@@ -603,7 +603,7 @@ div.select2-container-multi {
 		background: var(--color-main-background);
 		color: var(--color-text-maxcontrast) !important;
 		box-sizing: content-box;
-		border-radius: var(--border-radius-large);
+		border-radius: var(--border-radius-element);
 		border: 2px solid var(--color-border-dark);
 		margin: 0;
 		padding: 6px;
@@ -654,7 +654,7 @@ div.select2-container {
 		background: var(--color-main-background);
 		color: var(--color-text-maxcontrast) !important;
 		box-sizing: content-box;
-		border-radius: var(--border-radius-large);
+		border-radius: var(--border-radius-element);
 		border: 2px solid var(--color-border-dark);
 		margin: 0;
 		padding: 6px 12px;

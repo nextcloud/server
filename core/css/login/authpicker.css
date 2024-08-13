@@ -8,7 +8,7 @@
 	margin: 20px;
 	background-color: var(--color-main-background);
 	color: var(--color-main-text);
-	border-radius: var(--border-radius-large);
+	border-radius: var(--border-radius-element);
 	box-shadow: 0 0 10px var(--color-box-shadow);
 	cursor: default;
 }

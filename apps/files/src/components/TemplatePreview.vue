@@ -162,7 +162,7 @@ export default {
 		max-height: var(--height);
 		padding: 0;
 		border: var(--border) solid var(--color-border);
-		border-radius: var(--border-radius-large);
+		border-radius: var(--border-radius-element);
 
 		input:checked + label > & {
 			border-color: var(--color-primary-element);

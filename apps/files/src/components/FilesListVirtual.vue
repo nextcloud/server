@@ -741,7 +741,7 @@ tbody.files-list__tbody.files-list__tbody--grid {
 		width: var(--row-width);
 		height: var(--row-height);
 		border: none;
-		border-radius: var(--border-radius-large);
+		border-radius: var(--border-radius-element);
 		padding: var(--item-padding);
 	}
 

@@ -75,7 +75,7 @@ $label-padding: 8px;
 		padding: $label-padding;
 		padding-left: $icon-size + $label-padding * 2;
 		border: 2px solid var(--color-main-background);
-		border-radius: var(--border-radius-large);
+		border-radius: var(--border-radius-element);
 		background-color: var(--color-background-hover);
 		background-position: $label-padding center;
 		background-size: $icon-size;

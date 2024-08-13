@@ -192,7 +192,7 @@ kbd {
 			margin: 0;
 			margin-bottom: 3px;
 			width: 100%;
-			border-radius: var(--border-radius-pill);
+			border-radius: var(--border-radius-element);
 
 			/* Pinned-to-bottom entries */
 			&.pinned {
@@ -270,7 +270,7 @@ kbd {
 					&:focus {
 						&,
 						> a {
-							border-radius: var(--border-radius-pill);
+							border-radius: var(--border-radius-element);
 							background-color: var(--color-background-hover);
 						}
 					}
@@ -278,7 +278,7 @@ kbd {
 					a.selected {
 						&,
 						> a {
-							border-radius: var(--border-radius-pill);
+							border-radius: var(--border-radius-element);
 							background-color: var(--color-primary-element-light);
 							&:first-child > img {
 								filter: var(--primary-invert-if-dark);
@@ -334,7 +334,7 @@ kbd {
 				box-sizing: border-box;
 				white-space: nowrap;
 				text-overflow: ellipsis;
-				border-radius: var(--border-radius-pill);
+				border-radius: var(--border-radius-element);
 				color: var(--color-main-text);
 				flex: 1 1 0px;
 				z-index: 100; /* above the bullet to allow click*/
@@ -682,14 +682,14 @@ kbd {
 
 @media only screen and (max-width: variables.$breakpoint-mobile) {
 	#content {
-		border-top-left-radius: var(--border-radius-large);
-		border-top-right-radius: var(--border-radius-large);
+		border-top-left-radius: var(--border-radius-element);
+		border-top-right-radius: var(--border-radius-element);
 	}
 	#app-navigation {
-		border-top-left-radius: var(--border-radius-large);
+		border-top-left-radius: var(--border-radius-element);
 	}
 	#app-sidebar {
-		border-top-right-radius: var(--border-radius-large);
+		border-top-right-radius: var(--border-radius-element);
 	}
 }
 
@@ -1000,7 +1000,7 @@ $outter-margin: math.div($popoveritem-height - $popovericon-size, 2);
 	position: absolute;
 	background-color: var(--color-main-background);
 	color: var(--color-main-text);
-	border-radius: var(--border-radius-large);
+	border-radius: var(--border-radius-element);
 	padding: 3px;
 	z-index: 110;
 	margin: 5px;
@@ -1075,7 +1075,7 @@ $outter-margin: math.div($popoveritem-height - $popovericon-size, 2);
 			cursor: pointer;
 			line-height: $popoveritem-height;
 			border: 0;
-			border-radius: var(--border-radius-large);
+			border-radius: var(--border-radius-element);
 			background-color: transparent;
 			display: flex;
 			align-items: flex-start;
@@ -1125,7 +1125,7 @@ $outter-margin: math.div($popoveritem-height - $popovericon-size, 2);
 				box-shadow: 0 0 0 2px var(--color-primary-element);
 			}
 			&.active {
-				border-radius: var(--border-radius-pill);
+				border-radius: var(--border-radius-element);
 				background-color: var(--color-primary-element-light);
 			}
 			/* prevent .action class to break the design */

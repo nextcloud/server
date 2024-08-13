@@ -111,7 +111,7 @@ $margin: 10px;
     ::v-deep a {
             border-radius: 12px;
             border: 2px solid transparent;
-            border-radius: var(--border-radius-large) !important;
+            border-radius: var(--border-radius-element) !important;
 
             &--focused {
                 background-color: var(--color-background-hover);

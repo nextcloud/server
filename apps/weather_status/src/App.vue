@@ -583,7 +583,7 @@ export default {
 	.trigger > .icon {
 		background-size: 16px;
 		border: 0;
-		border-radius: var(--border-radius-pill);
+		border-radius: var(--border-radius-element);
 		font-weight: normal;
 		padding-left: 40px;
 

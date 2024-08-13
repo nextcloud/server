@@ -155,7 +155,7 @@ export default {
 		}
 
 		&:focus-visible {
-			border-radius: var(--border-radius-pill);
+			border-radius: var(--border-radius-element);
 		}
 	}
 

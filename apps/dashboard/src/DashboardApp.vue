@@ -610,7 +610,7 @@ export default {
 	background-position: 16px center;
 	padding: 12px 16px;
 	padding-left: 36px;
-	border-radius: var(--border-radius-pill);
+	border-radius: var(--border-radius-element);
 	max-width: 200px;
 	opacity: 1;
 	text-align: center;
@@ -660,7 +660,7 @@ export default {
 			width: 140px;
 			background-color: var(--color-background-hover);
 			border: 2px solid var(--color-main-background);
-			border-radius: var(--border-radius-large);
+			border-radius: var(--border-radius-element);
 			text-align: left;
 			overflow: hidden;
 			text-overflow: ellipsis;

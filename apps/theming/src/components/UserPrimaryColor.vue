@@ -143,7 +143,7 @@ export default defineComponent({
 		hyphens: auto;
 
 		border: 2px solid var(--color-main-background);
-		border-radius: var(--border-radius-large);
+		border-radius: var(--border-radius-element);
 
 		&:active {
 			background-color: var(--color-primary-hover) !important;

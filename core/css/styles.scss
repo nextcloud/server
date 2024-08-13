@@ -172,7 +172,7 @@ body {
 
 ::-webkit-scrollbar-thumb {
 	background: var(--color-scrollbar);
-	border-radius: var(--border-radius-large);
+	border-radius: var(--border-radius-element);
 	border: 2px solid transparent;
 	background-clip: content-box;
 }

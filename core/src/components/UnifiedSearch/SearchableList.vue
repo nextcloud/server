@@ -139,7 +139,7 @@ export default {
 		padding: var(--default-grid-baseline);
 
 		:deep(.button-vue) {
-			border-radius: var(--border-radius-large) !important;
+			border-radius: var(--border-radius-element) !important;
 			span {
 				font-weight: initial;
 			}

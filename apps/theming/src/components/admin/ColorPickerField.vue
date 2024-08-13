@@ -149,7 +149,7 @@ export default {
 
 	&__color-preview {
 		width: var(--default-clickable-area);
-		border-radius: var(--border-radius-large);
+		border-radius: var(--border-radius-element);
 		background-color: v-bind('value');
 	}
 }

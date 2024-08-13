@@ -482,7 +482,7 @@ table td.selection {
 
 	&:focus-visible + label {
 		background-color: var(--color-background-hover);
-		border-radius: var(--border-radius-pill);
+		border-radius: var(--border-radius-element);
 		outline: none !important;
 		border: 2px solid var(--color-primary-element) !important;
 		padding: 14px;
@@ -673,7 +673,7 @@ a.action.action-setreminder {
 		}
 		&:focus {
 			background-color: var(--color-background-hover);
-			border-radius: var(--border-radius-pill);
+			border-radius: var(--border-radius-element);
 		}
 	}
 	.fileActionsMenu a.action, a.action.action-share.shared-style {
