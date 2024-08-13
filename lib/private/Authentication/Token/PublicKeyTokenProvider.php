@@ -281,10 +281,19 @@ class PublicKeyTokenProvider implements IProvider {
 	public function invalidateOldTokens() {
 		$olderThan = $this->time->getTime() - $this->config->getSystemValueInt('session_lifetime', 60 * 60 * 24);
 		$this->logger->debug('Invalidating session tokens older than ' . date('c', $olderThan), ['app' => 'cron']);
-		$this->mapper->invalidateOld($olderThan, OCPIToken::DO_NOT_REMEMBER);
+		$this->mapper->invalidateOld($olderThan, OCPIToken::TEMPORARY_TOKEN, OCPIToken::DO_NOT_REMEMBER);
+
 		$rememberThreshold = $this->time->getTime() - $this->config->getSystemValueInt('remember_login_cookie_lifetime', 60 * 60 * 24 * 15);
 		$this->logger->debug('Invalidating remembered session tokens older than ' . date('c', $rememberThreshold), ['app' => 'cron']);
-		$this->mapper->invalidateOld($rememberThreshold, OCPIToken::REMEMBER);
+		$this->mapper->invalidateOld($rememberThreshold, OCPIToken::TEMPORARY_TOKEN, OCPIToken::REMEMBER);
+
+		$wipeThreshold = $this->time->getTime() - $this->config->getSystemValueInt('token_auth_wipe_token_retention', 60 * 60 * 24 * 60);
+		$this->logger->debug('Invalidating auth tokens marked for remote wipe older than ' . date('c', $wipeThreshold), ['app' => 'cron']);
+		$this->mapper->invalidateOld($wipeThreshold, OCPIToken::WIPE_TOKEN);
+
+		$authTokenThreshold = $this->time->getTime() - $this->config->getSystemValueInt('token_auth_token_retention', 60 * 60 * 24 * 365);
+		$this->logger->debug('Invalidating auth tokens older than ' . date('c', $authTokenThreshold), ['app' => 'cron']);
+		$this->mapper->invalidateOld($authTokenThreshold, OCPIToken::PERMANENT_TOKEN);
 	}
 
 	public function invalidateLastUsedBefore(string $uid, int $before): void {
