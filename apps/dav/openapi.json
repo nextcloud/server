@@ -153,6 +153,37 @@
                         "nullable": true
                     }
                 }
+            },
+            "UpcomingEvent": {
+                "type": "object",
+                "required": [
+                    "uri",
+                    "calendarUri",
+                    "start",
+                    "summary",
+                    "location"
+                ],
+                "properties": {
+                    "uri": {
+                        "type": "string"
+                    },
+                    "calendarUri": {
+                        "type": "string"
+                    },
+                    "start": {
+                        "type": "integer",
+                        "format": "int64",
+                        "nullable": true
+                    },
+                    "summary": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "location": {
+                        "type": "string",
+                        "nullable": true
+                    }
+                }
             }
         }
     },
@@ -326,6 +357,125 @@
                                                     "$ref": "#/components/schemas/OCSMeta"
                                                 },
                                                 "data": {}
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/ocs/v2.php/apps/dav/api/v1/events/upcoming": {
+            "get": {
+                "operationId": "upcoming_events-get-events",
+                "summary": "Get information about upcoming events",
+                "tags": [
+                    "upcoming_events"
+                ],
+                "security": [
+                    {
+                        "bearer_auth": []
+                    },
+                    {
+                        "basic_auth": []
+                    }
+                ],
+                "requestBody": {
+                    "required": false,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "location": {
+                                        "type": "string",
+                                        "nullable": true,
+                                        "description": "location/URL to filter by"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "OCS-APIRequest",
+                        "in": "header",
+                        "description": "Required to be true for the API request to pass",
+                        "required": true,
+                        "schema": {
+                            "type": "boolean",
+                            "default": true
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Upcoming events",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "type": "object",
+                                                    "required": [
+                                                        "events"
+                                                    ],
+                                                    "properties": {
+                                                        "events": {
+                                                            "type": "array",
+                                                            "items": {
+                                                                "$ref": "#/components/schemas/UpcomingEvent"
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "When not authenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "nullable": true
+                                                }
                                             }
                                         }
                                     }
