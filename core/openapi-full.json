@@ -7567,7 +7567,11 @@
                         "required": true,
                         "schema": {
                             "type": "integer",
-                            "format": "int64"
+                            "format": "int64",
+                            "enum": [
+                                64,
+                                512
+                            ]
                         }
                     }
                 ],
@@ -7674,7 +7678,11 @@
                         "required": true,
                         "schema": {
                             "type": "integer",
-                            "format": "int64"
+                            "format": "int64",
+                            "enum": [
+                                64,
+                                512
+                            ]
                         }
                     }
                 ],
@@ -7914,7 +7922,12 @@
                         "description": "The desired avatar size, e.g. 64 for 64x64px",
                         "required": true,
                         "schema": {
-                            "type": "string"
+                            "type": "integer",
+                            "format": "int64",
+                            "enum": [
+                                64,
+                                512
+                            ]
                         }
                     }
                 ],
@@ -7995,7 +8008,12 @@
                         "description": "The desired avatar size, e.g. 64 for 64x64px",
                         "required": true,
                         "schema": {
-                            "type": "string"
+                            "type": "integer",
+                            "format": "int64",
+                            "enum": [
+                                64,
+                                512
+                            ]
                         }
                     }
                 ],
