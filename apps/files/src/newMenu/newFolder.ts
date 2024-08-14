@@ -48,7 +48,7 @@ export const entry = {
 	async handler(context: Folder, content: Node[]) {
 		const name = await newNodeName(t('files', 'New folder'), content)
 		if (name === null) {
-			showInfo(t('files', 'Creating new folder cancelled'))
+			showInfo(t('files', 'New folder creation cancelled'))
 			return
 		}
 		try {
