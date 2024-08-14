@@ -7,6 +7,7 @@ namespace OCA\CloudFederationAPI\Controller;
 
 use OCA\CloudFederationAPI\Config;
 use OCA\CloudFederationAPI\ResponseDefinitions;
+use OCA\Federation\TrustedServers;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\BruteForceProtection;
@@ -22,6 +23,7 @@ use OCP\Federation\Exceptions\ProviderDoesNotExistsException;
 use OCP\Federation\ICloudFederationFactory;
 use OCP\Federation\ICloudFederationProviderManager;
 use OCP\Federation\ICloudIdManager;
+use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\IRequest;
 use OCP\IURLGenerator;
@@ -49,8 +51,10 @@ class RequestHandlerController extends Controller {
 		private IURLGenerator $urlGenerator,
 		private ICloudFederationProviderManager $cloudFederationProviderManager,
 		private Config $config,
+		private IConfig $ocConfig,
 		private ICloudFederationFactory $factory,
-		private ICloudIdManager $cloudIdManager
+		private ICloudIdManager $cloudIdManager,
+		private TrustedServers $trustedServers
 	) {
 		parent::__construct($appName, $request);
 	}
@@ -185,6 +189,73 @@ class RequestHandlerController extends Controller {
 		}
 
 		return new JSONResponse($responseData, Http::STATUS_CREATED);
+	}
+
+	/**
+	 * Inform the sender that an invitation was accepted to start sharing
+	 *
+	 * Inform about an accepted invitation so the user on the sender provider's side
+	 * can initiate the OCM share creation. To protect the identity of the parties,
+	 * for shares created following an OCM invitation, the user id MAY be hashed,
+	 * and recipients implementing the OCM invitation workflow MAY refuse to process
+	 * shares coming from unknown parties.
+	 *
+	 * @param string $recipientProvider
+	 * @param string $token
+	 * @param string $userId
+	 * @param string $email
+	 * @param string $name
+	 * @return JSONResponse
+	 * 200: invitation accepted
+	 * 400: Invalid token
+	 * 403: Invitation token does not exist
+	 * 409: User is allready known by the OCM provider
+	 * spec link: https://cs3org.github.io/OCM-API/docs.html?branch=v1.1.0&repo=OCM-API&user=cs3org#/paths/~1invite-accepted/post
+	 */
+	#[PublicPage]
+	#[NoCSRFRequired]
+	#[BruteForceProtection(action: 'inviteAccepted')]
+	public function inviteAccepted(string $recipientProvider, string $token, string $userId, string $email, string $name): JSONResponse {
+		$this->logger->debug('Invite accepted for ' . $userId . ' with token ' . $token . ' and email ' . $email . ' and name ' . $name);
+		$found_for_this_user = false;
+		foreach ($this->ocConfig->getAppKeys($this->appName) as $key) {
+			if(str_starts_with($key, $token) ){
+				$found_for_this_user = $this->getAppValue($this->appName, $token . '_remote_id') === $userId;
+			}
+		}
+
+
+
+		if (!$found_for_this_user) {
+			$response = ['message' => 'Invalid or non existing token', 'error' => true];
+			$status = Http::STATUS_BAD_REQUEST;
+			return new JSONResponse($response,$status);
+		}
+
+		if(!$this->trustedServers->isTrustedServer($recipientProvider)) {
+			$response = ['message' => 'Remote server not trusted', 'error' => true];
+			$status = Http::STATUS_FORBIDDEN;
+			return new JSONResponse($response,$status);
+		}
+		// Note: Not implementing 404 Invitation token does not exist, instead using 400
+
+		if ($this->ocConfig->getAppValue($this->appName, $token . '_accepted') === true ) {
+			$response = ['message' => 'Invite already accepted', 'error' => true];
+			$status = Http::STATUS_CONFLICT;
+			return new JSONResponse($response,$status);
+		}
+
+
+		$localId = $this->ocConfig->getAppValue($this->appName, $token . '_local_id');
+		$response = ['usedID' => $localId, 'email' => $email, 'name' => $name];
+		$status = Http::STATUS_OK;
+		$this->ocConfig->setAppValue($this->appName, $token . '_accepted', true);
+		//  TODO: Set these values where the invitation workflow is implemented
+		//  $this->ocConfig->setAppValue($this->appName, $token . '_accepted', false);
+		//	$this->ocConfig->setAppValue($this->appName, $token . '_local_id', $localId);
+		//	$this->ocConfig->setAppValue($this->appName, $token . '_remote_id', $remoteId);
+
+		return new JSONResponse($response,$status);
 	}
 
 	/**

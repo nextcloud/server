@@ -15,7 +15,7 @@ use OCP\OCM\Exceptions\OCMArgumentException;
 use OCP\OCM\IOCMProvider;
 
 class Capabilities implements ICapability {
-	public const API_VERSION = '1.0-proposal1';
+	public const API_VERSION = '1.1.0';
 
 	public function __construct(
 		private IURLGenerator $urlGenerator,
@@ -31,12 +31,16 @@ class Capabilities implements ICapability {
 	 *         enabled: bool,
 	 *         apiVersion: string,
 	 *         endPoint: string,
+	 *         provider: string,
 	 *         resourceTypes: array{
 	 *             name: string,
 	 *             shareTypes: string[],
 	 *             protocols: array<string, string>
 	 *           }[],
-	 *       },
+	 *         },
+	 *         capabilities: array{
+	 *             string,
+	 *         }
 	 * }
 	 * @throws OCMArgumentException
 	 */
@@ -45,6 +49,7 @@ class Capabilities implements ICapability {
 
 		$this->provider->setEnabled(true);
 		$this->provider->setApiVersion(self::API_VERSION);
+		$this->provider->setCapabilities(['/invite-accepted', '/notifications', '/shares']);
 
 		$pos = strrpos($url, '/');
 		if ($pos === false) {
