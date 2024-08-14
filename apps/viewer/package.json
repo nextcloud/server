@@ -80,7 +80,7 @@
     "@nextcloud/sharing": "^0.2.3",
     "@nextcloud/stylelint-config": "^3.0.1",
     "@nextcloud/vite-config": "^1.4.0",
-    "@types/dockerode": "^3.3.29",
+    "@types/dockerode": "^3.3.31",
     "@vue/tsconfig": "^0.5.1",
     "cypress": "^13.13.3",
     "cypress-split": "^1.24.0",
