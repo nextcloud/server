@@ -119,6 +119,7 @@ return array(
     'OCA\\DAV\\CalDAV\\UpcomingEvent' => $baseDir . '/../lib/CalDAV/UpcomingEvent.php',
     'OCA\\DAV\\CalDAV\\UpcomingEventsService' => $baseDir . '/../lib/CalDAV/UpcomingEventsService.php',
     'OCA\\DAV\\CalDAV\\Validation\\CalDavValidatePlugin' => $baseDir . '/../lib/CalDAV/Validation/CalDavValidatePlugin.php',
+    'OCA\\DAV\\CalDAV\\WebcalCaching\\Connection' => $baseDir . '/../lib/CalDAV/WebcalCaching/Connection.php',
     'OCA\\DAV\\CalDAV\\WebcalCaching\\Plugin' => $baseDir . '/../lib/CalDAV/WebcalCaching/Plugin.php',
     'OCA\\DAV\\CalDAV\\WebcalCaching\\RefreshWebcalService' => $baseDir . '/../lib/CalDAV/WebcalCaching/RefreshWebcalService.php',
     'OCA\\DAV\\Capabilities' => $baseDir . '/../lib/Capabilities.php',
