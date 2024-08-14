@@ -20,6 +20,25 @@
             }
         },
         "schemas": {
+            "Capabilities": {
+                "type": "object",
+                "required": [
+                    "dashboard"
+                ],
+                "properties": {
+                    "dashboard": {
+                        "type": "object",
+                        "required": [
+                            "enabled"
+                        ],
+                        "properties": {
+                            "enabled": {
+                                "type": "boolean"
+                            }
+                        }
+                    }
+                }
+            },
             "OCSMeta": {
                 "type": "object",
                 "required": [

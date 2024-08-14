@@ -211,6 +211,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OCP\\Calendar\\Room\\IRoom' => __DIR__ . '/../../..' . '/lib/public/Calendar/Room/IRoom.php',
         'OCP\\Calendar\\Room\\IRoomMetadata' => __DIR__ . '/../../..' . '/lib/public/Calendar/Room/IRoomMetadata.php',
         'OCP\\Capabilities\\ICapability' => __DIR__ . '/../../..' . '/lib/public/Capabilities/ICapability.php',
+        'OCP\\Capabilities\\IFeature' => __DIR__ . '/../../..' . '/lib/public/Capabilities/IFeature.php',
         'OCP\\Capabilities\\IInitialStateExcludedCapability' => __DIR__ . '/../../..' . '/lib/public/Capabilities/IInitialStateExcludedCapability.php',
         'OCP\\Capabilities\\IPublicCapability' => __DIR__ . '/../../..' . '/lib/public/Capabilities/IPublicCapability.php',
         'OCP\\Collaboration\\AutoComplete\\AutoCompleteEvent' => __DIR__ . '/../../..' . '/lib/public/Collaboration/AutoComplete/AutoCompleteEvent.php',

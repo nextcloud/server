@@ -5,9 +5,6 @@
  */
 namespace OCA\User_LDAP\Controller;
 
-use OC\CapabilitiesManager;
-use OC\Core\Controller\OCSController;
-use OC\Security\IdentityProof\Manager;
 use OCA\User_LDAP\Configuration;
 use OCA\User_LDAP\ConnectionFactory;
 use OCA\User_LDAP\Helper;
@@ -18,31 +15,19 @@ use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCS\OCSBadRequestException;
 use OCP\AppFramework\OCS\OCSException;
 use OCP\AppFramework\OCS\OCSNotFoundException;
+use OCP\AppFramework\OCSController;
 use OCP\IRequest;
-use OCP\IUserManager;
-use OCP\IUserSession;
 use Psr\Log\LoggerInterface;
 
 class ConfigAPIController extends OCSController {
 	public function __construct(
 		string $appName,
 		IRequest $request,
-		CapabilitiesManager $capabilitiesManager,
-		IUserSession $userSession,
-		IUserManager $userManager,
-		Manager $keyManager,
 		private Helper $ldapHelper,
 		private LoggerInterface $logger,
 		private ConnectionFactory $connectionFactory
 	) {
-		parent::__construct(
-			$appName,
-			$request,
-			$capabilitiesManager,
-			$userSession,
-			$userManager,
-			$keyManager
-		);
+		parent::__construct($appName, $request);
 	}
 
 	/**

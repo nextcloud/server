@@ -18,6 +18,8 @@
                             maxOccurs="unbounded"/>
                 <xs:element name="version" type="semver"
                             minOccurs="1" maxOccurs="1"/>
+                <xs:element name="api-version" type="semver"
+                            minOccurs="0" maxOccurs="unbounded"/>
                 <xs:element name="licence" type="licence" minOccurs="1"
                             maxOccurs="unbounded"/>
                 <xs:element name="author" type="author" minOccurs="1"
