@@ -9,7 +9,7 @@
 	<name>Nextcloud webhook support</name>
 	<summary>Nextcloud webhook support</summary>
 	<description>Nextcloud webhook support</description>
-	<version>1.1.0-dev</version>
+	<version>1.2.0</version>
 	<licence>agpl</licence>
 	<author>Côme Chilliet</author>
 	<namespace>WebhookListeners</namespace>
@@ -24,7 +24,7 @@
 	<repository>https://github.com/nextcloud/server.git</repository>
 
 	<dependencies>
-		<nextcloud min-version="30" max-version="30"/>
+		<nextcloud min-version="31" max-version="31"/>
 	</dependencies>
 
 	<commands>

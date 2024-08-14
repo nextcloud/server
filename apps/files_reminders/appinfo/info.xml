@@ -12,7 +12,7 @@
 
 Set file reminders.
 	]]></description>
-	<version>1.3.0</version>
+	<version>1.4.0</version>
 	<licence>agpl</licence>
 	<author>Christopher Ng</author>
 	<namespace>FilesReminders</namespace>
@@ -22,7 +22,7 @@ Set file reminders.
 	<bugs>https://github.com/nextcloud/server/issues</bugs>
 
 	<dependencies>
-		<nextcloud min-version="30" max-version="30"/>
+		<nextcloud min-version="31" max-version="31"/>
 	</dependencies>
 
 	<background-jobs>

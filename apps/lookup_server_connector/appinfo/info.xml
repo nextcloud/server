@@ -9,7 +9,7 @@
 	<name>Lookup Server Connector</name>
 	<summary>Sync public account information with the lookup server</summary>
 	<description>Sync public account information with the lookup server</description>
-	<version>1.18.0</version>
+	<version>1.19.0</version>
 	<licence>agpl</licence>
 	<author>Bjoern Schiessle</author>
 	<namespace>LookupServerConnector</namespace>
@@ -20,6 +20,6 @@
 	<category>social</category>
 	<bugs>https://github.com/nextcloud/server/issues</bugs>
 	<dependencies>
-		<nextcloud min-version="30" max-version="30"/>
+		<nextcloud min-version="31" max-version="31"/>
 	</dependencies>
 </info>
