@@ -55,7 +55,7 @@ class AvatarController extends Controller {
 	 * Get the dark avatar
 	 *
 	 * @param string $userId ID of the user
-	 * @param int $size Size of the avatar
+	 * @param 64|512 $size Size of the avatar
 	 * @param bool $guestFallback Fallback to guest avatar if not found
 	 * @return FileDisplayResponse<Http::STATUS_OK|Http::STATUS_CREATED, array{Content-Type: string, X-NC-IsCustomAvatar: int}>|JSONResponse<Http::STATUS_NOT_FOUND, array<empty>, array{}>|Response<Http::STATUS_INTERNAL_SERVER_ERROR, array{}>
 	 *
@@ -89,7 +89,7 @@ class AvatarController extends Controller {
 			);
 		} catch (\Exception $e) {
 			if ($guestFallback) {
-				return $this->guestAvatarController->getAvatarDark($userId, (string)$size);
+				return $this->guestAvatarController->getAvatarDark($userId, $size);
 			}
 			return new JSONResponse([], Http::STATUS_NOT_FOUND);
 		}
@@ -106,7 +106,7 @@ class AvatarController extends Controller {
 	 * Get the avatar
 	 *
 	 * @param string $userId ID of the user
-	 * @param int $size Size of the avatar
+	 * @param 64|512 $size Size of the avatar
 	 * @param bool $guestFallback Fallback to guest avatar if not found
 	 * @return FileDisplayResponse<Http::STATUS_OK|Http::STATUS_CREATED, array{Content-Type: string, X-NC-IsCustomAvatar: int}>|JSONResponse<Http::STATUS_NOT_FOUND, array<empty>, array{}>|Response<Http::STATUS_INTERNAL_SERVER_ERROR, array{}>
 	 *
@@ -140,7 +140,7 @@ class AvatarController extends Controller {
 			);
 		} catch (\Exception $e) {
 			if ($guestFallback) {
-				return $this->guestAvatarController->getAvatar($userId, (string)$size);
+				return $this->guestAvatarController->getAvatar($userId, $size);
 			}
 			return new JSONResponse([], Http::STATUS_NOT_FOUND);
 		}
