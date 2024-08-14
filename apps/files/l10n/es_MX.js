@@ -157,6 +157,8 @@ OC.L10N.register(
     "A file or folder has been <strong>changed</strong>" : "Un archivo o carpeta ha sido <strong>cambiado</strong>",
     "A favorite file or folder has been <strong>changed</strong>" : "Un archivo o carpeta favorito ha sido <strong>cambiado</strong>",
     "Failed to authorize" : "Fallo al autorizar",
+    "Invalid folder path" : "Ruta de carpeta inválida",
+    "Folder not found" : "No se encontró la carpeta",
     "Upload (max. %s)" : "Cargar (max. %s)",
     "Files compatibility" : "Compatibilidad de archivos",
     "Allow to restrict filenames to ensure files can be synced with all clients. By default all filenames valid on POSIX (e.g. Linux or macOS) are allowed." : "Permitir restringir los nombres de archivos para asegurar que los archivos se puedan sincronizar con todos los clientes. Por defecto, se permiten todos los nombres de archivos válidos en POSIX (por ejemplo, Linux o macOS).",
