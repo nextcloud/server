@@ -70,6 +70,7 @@ OC.L10N.register(
     "Failed to load tags" : "No se pudieron cargar las etiquetas",
     "Failed to load selected tags" : "No se pudieron cargar las etiquetas seleccionadas",
     "Failed to select tag" : "No se pudieron seleccionar las etiquetas",
+    "Assigned collaborative tags" : "Etiquetas colaborativas asignadas",
     "Open in Files" : "Abrir en Archivos",
     "List of tags and their associated files and folders." : "Lista de etiquetas y sus archivos y carpetas asociados.",
     "No tags found" : "No se encontraron etiquetas",
