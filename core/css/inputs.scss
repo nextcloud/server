@@ -88,7 +88,7 @@ button:not(
 			&:focus,
 			&.active {
 				/* active class used for multiselect */
-				border-color: var(--color-primary-element);
+				border-color: var(--color-main-text);
 				outline: none;
 			}
 			&:active {
@@ -211,13 +211,20 @@ button:not(
 input[type='button'],
 input[type='submit'],
 input[type='reset'] {
-	padding: 8px 14px;
+	padding: calc((var(--default-clickable-area) - 1lh) / 2) calc(3 * var(--default-grid-baseline));
 	font-size: var(--default-font-size);
 	width: auto;
 	min-height: var(--default-clickable-area);
 	cursor: pointer;
 	box-sizing: border-box;
-	background-color: var(--color-background-dark);
+	color: var(--color-primary-element-light-text);
+	background-color: var(--color-primary-element-light);
+	border: none;
+
+	&:hover,
+	&:focus {
+		background-color: var(--color-primary-element-light-hover);
+	}
 
 	&:disabled {
 		cursor: default;
@@ -303,7 +310,7 @@ input[type='button'],
 input[type='submit'],
 input[type='reset'] {
 	font-weight: bold;
-	border-radius: var(--border-radius-pill);
+	border-radius: var(--border-radius-element);
 
 	/* Get rid of the inside dotted line in Firefox */
 	&::-moz-focus-inner {
