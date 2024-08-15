@@ -17,7 +17,6 @@ OC.L10N.register(
     "Add" : "Add",
     "Delete" : "Delete",
     "Show client secret" : "Show client secret",
-    "Hide client secret" : "Hide client secret",
-    "Secret" : "Secret"
+    "Hide client secret" : "Hide client secret"
 },
 "nplurals=2; plural=(n!=1);");

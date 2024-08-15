@@ -13,7 +13,6 @@
     "Add client" : "Kliens hozzáadása",
     "Add" : "Hozzáadás",
     "Delete" : "Törlés",
-    "Show client secret" : "Kliens titkának megjelenítése",
-    "Secret" : "Titok"
+    "Show client secret" : "Kliens titkának megjelenítése"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

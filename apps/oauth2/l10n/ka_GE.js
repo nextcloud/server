@@ -10,7 +10,6 @@ OC.L10N.register(
     "Add client" : "კლიენტის დამატება",
     "Add" : "დამატება",
     "Delete" : "წაშლა",
-    "Show client secret" : "გამოაჩინე კლიენტის საიდუმლო",
-    "Secret" : "საიდუმლო"
+    "Show client secret" : "გამოაჩინე კლიენტის საიდუმლო"
 },
 "nplurals=2; plural=(n!=1);");

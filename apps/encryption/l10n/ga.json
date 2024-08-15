@@ -59,7 +59,6 @@
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Má chumasaíonn tú an rogha seo beidh tú in ann rochtain a fháil ar do chomhaid chriptithe arís ar eagla go gcailltear pasfhocal",
     "Enabled" : "Cumasaithe",
     "Disabled" : "Faoi mhíchumas",
-    "Please login to the web interface, go to the \"Security\" section of your personal settings and update your encryption password by entering this password into the \"Old log-in password\" field and your current login-password." : "Logáil isteach ar an gcomhéadan gréasáin le do thoil, téigh go dtí an rannán \"Slándáil\" de do shocruithe pearsanta agus nuashonraigh do phasfhocal criptithe tríd an bhfocal faire seo a chur isteach sa réimse \"Sean-phasfhocal logála isteach\" agus do phasfhocal logála isteach reatha.",
     "The recovery key is an extra encryption key that is used to encrypt files. It allows recovery of a user's files if the user forgets his or her password." : "Is eochair criptithe bhreise í an eochair athshlánaithe a úsáidtear chun comhaid a chriptiú. Ceadaíonn sé comhaid úsáideora a aisghabháil má dhéanann an t-úsáideoir dearmad ar a phasfhocal."
 },"pluralForm" :"nplurals=5; plural=(n==1 ? 0 : n==2 ? 1 : n<7 ? 2 : n<11 ? 3 : 4);"
 }

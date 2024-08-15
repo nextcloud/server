@@ -42,7 +42,6 @@ OC.L10N.register(
     "1 hour" : "1 time",
     "4 hours" : "4 timer",
     "Mute all notifications" : "Demp alle varslinger",
-    "Appear offline" : "Vis som frakoblet",
-    "View profile" : "Vis profil"
+    "Appear offline" : "Vis som frakoblet"
 },
 "nplurals=2; plural=(n != 1);");

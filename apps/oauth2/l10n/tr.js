@@ -17,7 +17,6 @@ OC.L10N.register(
     "Add" : "Ekle",
     "Delete" : "Sil",
     "Show client secret" : "İstemci parolasını görüntüle",
-    "Hide client secret" : "İstemci parolasını gizle",
-    "Secret" : "Parola"
+    "Hide client secret" : "İstemci parolasını gizle"
 },
 "nplurals=2; plural=(n > 1);");

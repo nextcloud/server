@@ -42,7 +42,6 @@ OC.L10N.register(
     "1 hour" : "1 timme",
     "4 hours" : "4 timmar",
     "Mute all notifications" : "Dölj alla aviseringar",
-    "Appear offline" : "Visa som frånkopplad",
-    "View profile" : "Visa profil"
+    "Appear offline" : "Visa som frånkopplad"
 },
 "nplurals=2; plural=(n != 1);");

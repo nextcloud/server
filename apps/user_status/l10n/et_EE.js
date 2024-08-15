@@ -24,7 +24,6 @@ OC.L10N.register(
     "30 minutes" : "30 minutit",
     "1 hour" : "1 tund",
     "4 hours" : "4 tundi",
-    "Mute all notifications" : "Vaigista kõik teavituse",
-    "View profile" : "Vaata profiili"
+    "Mute all notifications" : "Vaigista kõik teavituse"
 },
 "nplurals=2; plural=(n != 1);");

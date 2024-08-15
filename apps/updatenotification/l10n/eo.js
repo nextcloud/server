@@ -31,8 +31,6 @@ OC.L10N.register(
     "Beta" : "Beta",
     "A pre-release version only for testing new features, not for production environments." : "Antaŭeldona versio nur por testi novajn trajtojn; ne taŭgas por produktada medio.",
     "Update to %1$s is available." : "Ĝisdatigo al %1$s disponeblas.",
-    "Displays update notifications for Nextcloud and provides the SSO for the updater." : "Montras sciigojn pri ĝisdatigoj pri Nextcloud kaj provizas ununuran ensaluton („SSO“ angle) por la ĝisdatigilo.",
-    "Update channel:" : "Ĝisdatiga kanalo:",
-    "Checked on {lastCheckedDate}" : "Kontrolita je {lastCheckedDate}"
+    "Displays update notifications for Nextcloud and provides the SSO for the updater." : "Montras sciigojn pri ĝisdatigoj pri Nextcloud kaj provizas ununuran ensaluton („SSO“ angle) por la ĝisdatigilo."
 },
 "nplurals=2; plural=(n != 1);");

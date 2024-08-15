@@ -27,9 +27,6 @@ OC.L10N.register(
     "This weekend" : "Dieses Wochenende",
     "Set reminder for this weekend" : "Erinnerung für kommendes Wochenende erstellen",
     "Next week" : "Nächste Woche",
-    "Set reminder for next week" : "Erinnerung für nächste Woche erstellen",
-    "Back" : "Zurück",
-    "Reminder cleared" : "Erinnerung gelöscht",
-    "Failed to load reminder" : "Fehler beim Laden der Erinnerung"
+    "Set reminder for next week" : "Erinnerung für nächste Woche erstellen"
 },
 "nplurals=2; plural=(n != 1);");

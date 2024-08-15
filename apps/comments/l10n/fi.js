@@ -27,8 +27,6 @@ OC.L10N.register(
     "An error occurred while trying to edit the comment" : "Kommenttia muokatessa tapahtui virhe",
     "Comment deleted" : "Kommentti poistettu",
     "An error occurred while trying to delete the comment" : "Kommenttia poistaessa tapahtui virhe",
-    "An error occurred while trying to create the comment" : "Kommenttia luodessa tapahtui virhe",
-    "Write a message …" : "Kirjoita viesti…",
-    "_%n unread comment_::_%n unread comments_" : ["%n lukematon kommentti","%n lukematonta kommenttia"]
+    "An error occurred while trying to create the comment" : "Kommenttia luodessa tapahtui virhe"
 },
 "nplurals=2; plural=(n != 1);");

@@ -248,7 +248,6 @@
     "Generate headline" : "Generate headline",
     "Summarizes text by reducing its length without losing key information." : "Summarizes text by reducing its length without losing key information.",
     "Extracts topics from a text and outputs them separated by commas." : "Extracts topics from a text and outputs them separated by commas.",
-    "404" : "۴۰۴",
     "Education Edition" : "نگارش آموزشی",
     "Logged in user must be an admin, a sub admin or gotten special right to access this setting" : "Logged in user must be an admin, a sub admin or gotten special right to access this setting",
     "Logged in user must be an admin or sub admin" : "ورود به سیستم کاربر باید یک مدیر یا مدیر فرعی باشد",
@@ -271,8 +270,6 @@
     "Username must not consist of dots only" : "نام کاربری نباید فقط از نقاط تشکیل شده باشد",
     "Username is invalid because files already exist for this user" : "Username is invalid because files already exist for this user",
     "User disabled" : "کاربر از کار افتاده",
-    "PostgreSQL >= 9 required." : "PostgreSQL >= 9 required.",
-    "Please upgrade your database version." : "Please upgrade your database version.",
     "Your data directory is readable by other users." : "Your data directory is readable by other users.",
     "Please change the permissions to 0770 so that the directory cannot be listed by other users." : "لطفاً مجوزها را به 0770 تغییر دهید تا فهرست توسط سایر کاربران فهرست نشود.",
     "Ensure there is a file called \".ocdata\" in the root of the data directory." : "اطمینان حاصل کنید که فایلی به نام \".ocdata\" در ریشه دایرکتوری داده وجود دارد."

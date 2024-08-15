@@ -59,7 +59,6 @@
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Om du aktiverar det här alternativet kan du återställa åtkomst till dina krypterade filer vid lösenordsförlust",
     "Enabled" : "Aktiverad",
     "Disabled" : "Inaktiverad",
-    "Please login to the web interface, go to the \"Security\" section of your personal settings and update your encryption password by entering this password into the \"Old log-in password\" field and your current login-password." : "Logga in i webbgränssnittet, gå till \"Säkerhet\" i dina personliga inställningar och uppdatera ditt krypteringslösenord genom att ange detta lösenord i fältet \"Gammalt inloggningslösenord\" samt ditt nuvarande inloggningslösenord.",
     "The recovery key is an extra encryption key that is used to encrypt files. It allows recovery of a user's files if the user forgets his or her password." : "Återställningsnyckeln är en extra krypteringsnyckel som används för att kryptera filer. Den gör det möjligt att återställa en användares filer om användaren glömmer sitt lösenord."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

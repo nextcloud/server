@@ -194,21 +194,8 @@ OC.L10N.register(
     "Text file" : "Tekstifail",
     "New text file.txt" : "Uus tekstifail.txt",
     "Copy direct link (only works for users who have access to this file/folder)" : "Kopeeri otselink (töötab ainult nende kasutajate jaoks, kelle on ligipääs sellele failile/kaustale)",
-    "You can only favorite a single file or folder at a time" : "Korraga saab lemmikuks märkida ainult ühe faili või kausta",
-    "This file has the tag {tag}" : "Sellel failil on silt {tag}",
-    "This file has the tags {firstTags} and {lastTag}" : "Sellel failil on sildid {firstTags} and {lastTag}",
     "\"remote user\"" : "\"kaugkasutaja\"",
-    "Open folder {name}" : "Ava kaust {name}",
     "Download file {name}" : "Laadi fail {name} alla",
-    "Search for an account" : "Otsi kontot",
-    "Choose" : "Vali",
-    "No files or folders have been deleted yet" : "Faile ega kaustu pole veel kustutatud",
-    "Set up templates folder" : "Seadista mallide kaust",
-    "Create new templates folder" : "Loo uus mallide kaust",
-    "Shares" : "Jagamisi",
-    "Shared with others" : "Teistega jagatud",
-    "Shared with you" : "Sinuga jagatud",
-    "Deleted shares" : "Kustutatud jagamised",
-    "Pending shares" : "Ootel jagamised"
+    "Create new templates folder" : "Loo uus mallide kaust"
 },
 "nplurals=2; plural=(n != 1);");

@@ -14,7 +14,6 @@
     "Add client" : "Přidat klienta",
     "Add" : "Přidat",
     "Delete" : "Smazat",
-    "Show client secret" : "Zobrazit klientské tajemství",
-    "Secret" : "Tajemství"
+    "Show client secret" : "Zobrazit klientské tajemství"
 },"pluralForm" :"nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;"
 }

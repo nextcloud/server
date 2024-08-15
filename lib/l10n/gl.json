@@ -352,7 +352,6 @@
     "Generate headline" : "Xerar titular",
     "Summarizes text by reducing its length without losing key information." : "Resume o texto reducindo a súa lonxitude sen perder a información clave.",
     "Extracts topics from a text and outputs them separated by commas." : "Extrae temas dun texto e amósaos separados por comas.",
-    "404" : "404",
     "Education Edition" : "Edición para educación",
     "Logged in user must be an admin, a sub admin or gotten special right to access this setting" : "O usuario que accede debe ser de administración, de subadministración ou ter dereitos especiais para acceder a este axuste",
     "Logged in user must be an admin or sub admin" : "O usuario que accede debe ser de administración ou de subadministración",
@@ -375,8 +374,6 @@
     "Username must not consist of dots only" : "O nome de usuario non debe consistir só de puntos",
     "Username is invalid because files already exist for this user" : "O nome de usuario non é válido porque xa existen ficheiros para este usuario",
     "User disabled" : "Usuario desactivado",
-    "PostgreSQL >= 9 required." : "Precísase de PostgreSQL >= 9.",
-    "Please upgrade your database version." : "Anove a versión da súa base de datos",
     "Your data directory is readable by other users." : "Outros usuarios poden ler o seu directorio de datos.",
     "Please change the permissions to 0770 so that the directory cannot be listed by other users." : "Cambie os permisos a 0770 para que o directorio non poida ser listado por outros usuarios.",
     "Ensure there is a file called \".ocdata\" in the root of the data directory." : "Asegúrese de que existe un ficheiro chamado «.ocdata» na raíz do directorio de datos."

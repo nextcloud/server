@@ -42,7 +42,6 @@ OC.L10N.register(
     "1 hour" : "1 sat",
     "4 hours" : "4 sata",
     "Mute all notifications" : "Isključi sva obaveštenja",
-    "Appear offline" : "Prikaži kao van mreže",
-    "View profile" : "Vidi profil"
+    "Appear offline" : "Prikaži kao van mreže"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");
