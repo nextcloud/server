@@ -60,7 +60,6 @@ OC.L10N.register(
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "فعال کردن این گزینه به شما اجازه خواهد داد در صورت از دست دادن رمزعبور به فایل های رمزگذاری شده خود دسترسی داشته باشید.",
     "Enabled" : "فعال شده",
     "Disabled" : "غیرفعال شده",
-    "Please login to the web interface, go to the \"Security\" section of your personal settings and update your encryption password by entering this password into the \"Old log-in password\" field and your current login-password." : "Please login to the web interface, go to the \"Security\" section of your personal settings and update your encryption password by entering this password into the \"Old log-in password\" field and your current login-password.",
     "The recovery key is an extra encryption key that is used to encrypt files. It allows recovery of a user's files if the user forgets his or her password." : "کلید بازیابی یک کلید رمزگذاری اضافی است که برای رمزگذاری پرونده ها استفاده می شود. اگر کاربر رمزعبور خود را فراموش کند ، امکان بازیابی پرونده های کاربر را فراهم می کند."
 },
 "nplurals=2; plural=(n > 1);");

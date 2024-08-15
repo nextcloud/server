@@ -33,7 +33,6 @@ OC.L10N.register(
     "1 hour" : "1 uur",
     "4 hours" : "4 uur",
     "Mute all notifications" : "Onderdruk alle meldingen",
-    "Appear offline" : "Toon afwezig",
-    "View profile" : "Bekijk profiel"
+    "Appear offline" : "Toon afwezig"
 },
 "nplurals=2; plural=(n != 1);");

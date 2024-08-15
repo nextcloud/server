@@ -32,9 +32,6 @@ OC.L10N.register(
     "Comment deleted" : "Hozzászólás törölve",
     "An error occurred while trying to delete the comment" : "Hiba történt a megjegyzés törlése közben",
     "An error occurred while trying to create the comment" : "Hiba történt a megjegyzés létrehozása közben",
-    "You were mentioned on \"{file}\", in a comment by a user that has since been deleted" : "Megemlítették ennél: „{file}”, egy már törölt felhasználó hozzászólásában",
-    "Write a message …" : "Üzenet írása…",
-    "\"@\" for mentions, \":\" for emoji, \"/\" for smart picker" : "„@” az említésekhez, „:” az emodzsikhoz, „/” az okos választához",
-    "_%n unread comment_::_%n unread comments_" : ["%n olvasatlan hozzászólás","%n olvasatlan hozzászólás"]
+    "You were mentioned on \"{file}\", in a comment by a user that has since been deleted" : "Megemlítették ennél: „{file}”, egy már törölt felhasználó hozzászólásában"
 },
 "nplurals=2; plural=(n != 1);");

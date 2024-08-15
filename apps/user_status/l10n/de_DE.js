@@ -42,7 +42,6 @@ OC.L10N.register(
     "1 hour" : "1 Stunde",
     "4 hours" : "4 Stunden",
     "Mute all notifications" : "Alle Benachrichtigungen stummschalten",
-    "Appear offline" : "Offline erscheinen",
-    "View profile" : "Profil ansehen"
+    "Appear offline" : "Offline erscheinen"
 },
 "nplurals=2; plural=(n != 1);");

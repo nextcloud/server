@@ -23,9 +23,6 @@
     "This weekend" : "이번 주말",
     "Set reminder for this weekend" : "알림을 주말로 설정",
     "Next week" : "다음주",
-    "Set reminder for next week" : "알림을 다음주로 설정",
-    "Back" : "뒤로",
-    "Reminder cleared" : "알림이 초기화됨",
-    "Failed to load reminder" : "알림을 불러올 수 없음"
+    "Set reminder for next week" : "알림을 다음주로 설정"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

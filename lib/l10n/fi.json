@@ -224,7 +224,6 @@
     "Translate" : "Käännä",
     "Target language" : "Kohdekieli",
     "Result" : "Tulos",
-    "404" : "404",
     "Logged in user must be an admin" : "Sisäänkirjautuneen käyttäjän tulee olla ylläpitäjä",
     "Help" : "Ohje",
     "Users" : "Käyttäjät",
@@ -242,8 +241,6 @@
     "Username must not consist of dots only" : "Käyttäjänimi ei voi koostua vain pisteistä",
     "Username is invalid because files already exist for this user" : "Käyttäjänimi on virheellinen koska tiedostoja on olemassa tälle käyttäjälle",
     "User disabled" : "Käyttäjä poistettu käytöstä",
-    "PostgreSQL >= 9 required." : "PostgreSQL >= 9 vaaditaan.",
-    "Please upgrade your database version." : "Päivitä tietokannan versio.",
     "Your data directory is readable by other users." : "Datahakemistosi on muiden käyttäjien luettavissa.",
     "Ensure there is a file called \".ocdata\" in the root of the data directory." : "Varmista että datahakemiston juuressa on tiedosto nimeltä \".ocdata\"."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

@@ -42,8 +42,6 @@
     "Update to %1$s is available." : "Uppfærsla fyrir %1$s er tiltæk.",
     "Displays update notifications for Nextcloud and provides the SSO for the updater." : "Birtir tilkynningar um uppfærslur fyrir Nextcloud og sér um SSO-innskráningu fyrir uppfærslustýringuna.",
     "Please note that the web updater is not recommended with more than 100 users! Please use the command line updater instead!" : "Athugaðu að ekki er mælt með því að nota vefuppfærsluna á fleiri en 100 notendur! Endilega notaðu uppfærslu af skipanalínu í staðinn!",
-    "Please use the command line updater to update." : "Endilega notaðu uppfærslu af skipanalínu.",
-    "Update channel:" : "Uppfærslurás:",
-    "Checked on {lastCheckedDate}" : "Athugað þann {lastCheckedDate}"
+    "Please use the command line updater to update." : "Endilega notaðu uppfærslu af skipanalínu."
 },"pluralForm" :"nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);"
 }

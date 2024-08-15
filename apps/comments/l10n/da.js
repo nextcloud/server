@@ -32,9 +32,6 @@ OC.L10N.register(
     "Comment deleted" : "Kommentar slettet",
     "An error occurred while trying to delete the comment" : "Der opstod en fejl under forsøget på at slette kommentaren",
     "An error occurred while trying to create the comment" : "Der opstod en fejl under forsøget på at oprette kommentaren",
-    "You were mentioned on \"{file}\", in a comment by a user that has since been deleted" : "Du blev nævnt på \"{file}\", i en kommentar af en bruger, som siden er blevet slettet",
-    "Write a message …" : "Skriv en besked…",
-    "\"@\" for mentions, \":\" for emoji, \"/\" for smart picker" : "\"@\" for at nævne, \":\" for emojis, \"/\" for Smart Vælger",
-    "_%n unread comment_::_%n unread comments_" : ["%n ulæst kommentar","%n ulæste kommentarer"]
+    "You were mentioned on \"{file}\", in a comment by a user that has since been deleted" : "Du blev nævnt på \"{file}\", i en kommentar af en bruger, som siden er blevet slettet"
 },
 "nplurals=2; plural=(n != 1);");

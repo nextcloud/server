@@ -15,7 +15,6 @@ OC.L10N.register(
     "Add" : "Lisää",
     "Delete" : "Poista",
     "Show client secret" : "Näytä asiakkaan salaisuus",
-    "Hide client secret" : "Piilota asiakkaan salaisuus",
-    "Secret" : "Salaisuus"
+    "Hide client secret" : "Piilota asiakkaan salaisuus"
 },
 "nplurals=2; plural=(n != 1);");

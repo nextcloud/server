@@ -15,7 +15,6 @@ OC.L10N.register(
     "Add client" : "Agregar cliente",
     "Add" : "Agregar",
     "Delete" : "Borrar",
-    "Show client secret" : "Mostrar el secreto del cliente",
-    "Secret" : "Secreto"
+    "Show client secret" : "Mostrar el secreto del cliente"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

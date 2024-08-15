@@ -25,7 +25,6 @@ OC.L10N.register(
     "Comment deleted" : "Komentar dihapus",
     "An error occurred while trying to delete the comment" : "Terjadi kesalahan ketika mencoba untuk menghapus komentar",
     "An error occurred while trying to create the comment" : "Terjadi kesalahan ketika mencoba untuk membuat komentar",
-    "You were mentioned on \"{file}\", in a comment by a user that has since been deleted" : "Anda disebut pada \"{file}\", dalam sebuah komentar oleh pengguna yang sejak itu telah dihapus",
-    "_%n unread comment_::_%n unread comments_" : ["%nkomentar belum dibaca"]
+    "You were mentioned on \"{file}\", in a comment by a user that has since been deleted" : "Anda disebut pada \"{file}\", dalam sebuah komentar oleh pengguna yang sejak itu telah dihapus"
 },
 "nplurals=1; plural=0;");

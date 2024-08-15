@@ -8,7 +8,6 @@ OC.L10N.register(
     "Secret key" : "Salavõti",
     "Add client" : "Lisa klient",
     "Add" : "Lisa",
-    "Delete" : "Kustuta",
-    "Secret" : "Saladus"
+    "Delete" : "Kustuta"
 },
 "nplurals=2; plural=(n != 1);");

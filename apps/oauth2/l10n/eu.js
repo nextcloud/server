@@ -17,7 +17,6 @@ OC.L10N.register(
     "Add" : "Gehitu",
     "Delete" : "Ezabatu",
     "Show client secret" : "Erakutsi bezeroaren sekretua",
-    "Hide client secret" : "Ezkutatu bezeroaren sekretua",
-    "Secret" : "Sekretua"
+    "Hide client secret" : "Ezkutatu bezeroaren sekretua"
 },
 "nplurals=2; plural=(n != 1);");

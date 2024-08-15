@@ -27,9 +27,6 @@ OC.L10N.register(
     "This weekend" : "本週末",
     "Set reminder for this weekend" : "設定本週末的提醒",
     "Next week" : "下週",
-    "Set reminder for next week" : "設定下週的提醒",
-    "Back" : "返回",
-    "Reminder cleared" : "提醒已清除",
-    "Failed to load reminder" : "載入提醒失敗"
+    "Set reminder for next week" : "設定下週的提醒"
 },
 "nplurals=1; plural=0;");

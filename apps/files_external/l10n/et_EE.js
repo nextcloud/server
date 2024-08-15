@@ -78,13 +78,7 @@ OC.L10N.register(
     "Available for" : "Saadaval",
     "Add storage" : "Lisa andmehoidla",
     "Advanced settings" : "Lisavalikud",
-    "Empty response from the server" : "Tühi vastus serverilt",
-    "Couldn't get the list of external mount points: {type}" : "Välise ühenduspunkti hankimine ebaõnnestus: {type}",
-    "There was an error with message: " : "Sõnumiga tekkis tõrge:",
-    "external-storage" : "väline-salvestuskoht",
     "Username" : "Kasutajanimi",
-    "Credentials required" : "Kasutajatunnused on nõutud",
-    "Username as share" : "Kasutajanimi kui jagamine",
-    "Name" : "Nimi"
+    "Username as share" : "Kasutajanimi kui jagamine"
 },
 "nplurals=2; plural=(n != 1);");

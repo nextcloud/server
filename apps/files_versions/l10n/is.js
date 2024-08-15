@@ -19,7 +19,6 @@ OC.L10N.register(
     "Version restored" : "Útgáfa endurheimt",
     "Could not restore version" : "Gat ekki endurheimt útgáfu",
     "Could not delete version" : "Gat ekki eytt útgáfu",
-    "${version.label} restored" : "${version.label} endurheimt",
-    "Could not set version name" : "Gat ekki sett heiti á útgáfu"
+    "${version.label} restored" : "${version.label} endurheimt"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");
