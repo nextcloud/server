@@ -108,7 +108,6 @@
     "Saved image size (width x height)" : "Kaydedilmiş görsel boyutu (genişlik x yükseklik)",
     "Note that the selected crop area is lower than the applied resize which might cause quality decrease" : "Seçilmiş kırpma alanı uygulanan yeniden boyutlandırma alanından küçük. Bu durum görsel kalitesinin düşmesine neden olabilir.",
     "Actual size (100%)" : "Gerçek boyut (%100)",
-    "Fit size" : "Boyutu sığdır",
-    "\"{fileName}\"" : "\"{fileName}\""
+    "Fit size" : "Boyutu sığdır"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

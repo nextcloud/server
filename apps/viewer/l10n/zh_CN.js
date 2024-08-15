@@ -109,7 +109,6 @@ OC.L10N.register(
     "Saved image size (width x height)" : "已保存的图像大小（宽度 x 高度）",
     "Note that the selected crop area is lower than the applied resize which might cause quality decrease" : "请注意，选择的裁剪面积低于应用的调整大小，这可能会导致质量下降",
     "Actual size (100%)" : "实际尺寸（100%）",
-    "Fit size" : "适合尺寸",
-    "\"{fileName}\"" : "\"{fileName}\""
+    "Fit size" : "适合尺寸"
 },
 "nplurals=1; plural=0;");

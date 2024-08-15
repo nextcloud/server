@@ -110,7 +110,6 @@ OC.L10N.register(
     "Saved image size (width x height)" : "保存した画像のサイズ（幅 x 高さ）",
     "Note that the selected crop area is lower than the applied resize which might cause quality decrease" : "選択されたクロップエリアは、適用されたリサイズよりも低いため、品質が低下する可能性があることに注意してください",
     "Actual size (100%)" : "実際のサイズ（100％）",
-    "Fit size" : "適合サイズ",
-    "\"{fileName}\"" : "\"{fileName}\""
+    "Fit size" : "適合サイズ"
 },
 "nplurals=1; plural=0;");

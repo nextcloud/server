@@ -108,7 +108,6 @@
     "Saved image size (width x height)" : "Veľkosť uloženého obrázka (šírka x výška)",
     "Note that the selected crop area is lower than the applied resize which might cause quality decrease" : "Upozorňujeme, že vybratá oblasť orezania je menšia ako použitá zmena veľkosti, čo môže spôsobiť zníženie kvality",
     "Actual size (100%)" : "Aktuálna veľkosť (100%)",
-    "Fit size" : "Prispôsobiť veľlkosť",
-    "\"{fileName}\"" : "\"{fileName}\""
+    "Fit size" : "Prispôsobiť veľlkosť"
 },"pluralForm" :"nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);"
 }

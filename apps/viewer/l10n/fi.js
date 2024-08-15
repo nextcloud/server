@@ -102,7 +102,6 @@ OC.L10N.register(
     "Quality" : "Laatu",
     "Saved image size (width x height)" : "Tallennetun kuvan koko (leveys x korkeus)",
     "Actual size (100%)" : "Todellinen koko (100 %)",
-    "Fit size" : "Sovita koko",
-    "\"{fileName}\"" : "\"{fileName}\""
+    "Fit size" : "Sovita koko"
 },
 "nplurals=2; plural=(n != 1);");

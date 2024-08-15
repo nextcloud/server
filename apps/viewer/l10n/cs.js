@@ -109,7 +109,6 @@ OC.L10N.register(
     "Saved image size (width x height)" : "Velikost uloženého obrázku (šířka x výška)",
     "Note that the selected crop area is lower than the applied resize which might cause quality decrease" : "Pozn.: označená oblast ořezu je menší než použitá změna rozlišení, což může způsobit snížení kvality",
     "Actual size (100%)" : "Skutečná velikost (100%)",
-    "Fit size" : "Přizpůsobit velikost",
-    "\"{fileName}\"" : "„{fileName}"
+    "Fit size" : "Přizpůsobit velikost"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

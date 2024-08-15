@@ -110,7 +110,6 @@ OC.L10N.register(
     "Saved image size (width x height)" : "Величина сачуване слике (ширина x висина)",
     "Note that the selected crop area is lower than the applied resize which might cause quality decrease" : "Приметите да је величина изабране површине опсецања мања од примењене промене величине, а то може да умањи квалитет",
     "Actual size (100%)" : "Стварна величина (100%)",
-    "Fit size" : "Уклопи величину",
-    "\"{fileName}\"" : "„{fileName}”"
+    "Fit size" : "Уклопи величину"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

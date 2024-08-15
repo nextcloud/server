@@ -110,7 +110,6 @@ OC.L10N.register(
     "Saved image size (width x height)" : "Lagret bildestørrelse (bredde x høyde)",
     "Note that the selected crop area is lower than the applied resize which might cause quality decrease" : "Vær oppmerksom på at det valgte beskjæringsområdet er lavere enn den valgte størrelsen, noe som kan føre til redusert kvalitet",
     "Actual size (100%)" : "Faktisk størrelse (100%)",
-    "Fit size" : "Tilpass størrelse",
-    "\"{fileName}\"" : "\"{fileName}\""
+    "Fit size" : "Tilpass størrelse"
 },
 "nplurals=2; plural=(n != 1);");
