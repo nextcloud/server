@@ -247,7 +247,6 @@
     "Generate headline" : "Útbúa fyrirsögn",
     "Summarizes text by reducing its length without losing key information." : "Tekur saman aðalatriði texta með því að stytta hann án þess að tapa mikilvægustu upplýsingum.",
     "Extracts topics from a text and outputs them separated by commas." : "Greinir efnisflokka úr texta og aðskilur þá með kommum.",
-    "404" : "404",
     "Education Edition" : "Kennsluútgáfa",
     "Logged in user must be an admin, a sub admin or gotten special right to access this setting" : "Innskráður notandi verður að vera kerfisstjóri eða undirstjórnandi eða hafa fengið sérstaka aðgangsheimild fyrir þessa stillingu",
     "Logged in user must be an admin or sub admin" : "Innskráður notandi verður að vera kerfisstjóri eða undirstjórnandi",
@@ -270,8 +269,6 @@
     "Username must not consist of dots only" : "Notandanafn má ekki einungis samanstanda af punktum",
     "Username is invalid because files already exist for this user" : "Notandanafnið er ógilt vegna þess að þegar eru fyrir hendi skrár sem tilheyra þessum notanda",
     "User disabled" : "Notandi óvirkur",
-    "PostgreSQL >= 9 required." : "Krefst PostgreSQL >= 9.",
-    "Please upgrade your database version." : "Uppfærðu útgáfu gagnagrunnsins.",
     "Your data directory is readable by other users." : "Gagnamappn þín er lesanleg fyrir aðra notendur.",
     "Please change the permissions to 0770 so that the directory cannot be listed by other users." : "Endilega breyttu heimildunum í 0770 svo að aðrir notendur geti ekki listað upp innihald hennar.",
     "Ensure there is a file called \".ocdata\" in the root of the data directory." : "Gakktu úr skugga um að til staðar sé skrá með heitinu \".ocdata\" í rót gagnageymslunnar."

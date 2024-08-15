@@ -57,7 +57,6 @@
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Избирането на тази опция ще ти позволи да възстановиш достъпа си до файловете в случай на изгубена парола.",
     "Enabled" : "Включено",
     "Disabled" : "Изключено",
-    "Please login to the web interface, go to the \"Security\" section of your personal settings and update your encryption password by entering this password into the \"Old log-in password\" field and your current login-password." : "Моля, влезте в уеб интерфейса, отидете в раздел „Сигурност“ на личните си настройки и актуализирайте паролата си за криптиране, като въведете тази парола в полето „Стара парола за влизане“ и текущата си парола за влизане.",
     "The recovery key is an extra encryption key that is used to encrypt files. It allows recovery of a user's files if the user forgets his or her password." : "Ключът за възстановяване е допълнителен ключ за криптиране, който се използва за криптиране на файлове. Той позволява възстановяване на файлове на потребител, ако потребителят си забрави паролата."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

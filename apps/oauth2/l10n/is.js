@@ -16,7 +16,6 @@ OC.L10N.register(
     "Add client" : "Bæta við biðlara",
     "Add" : "Bæta við",
     "Delete" : "Eyða",
-    "Show client secret" : "Sýna leynilykil biðlara",
-    "Secret" : "Leynilykill"
+    "Show client secret" : "Sýna leynilykil biðlara"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

@@ -245,8 +245,6 @@
     "Username must not consist of dots only" : "De gebruikersnaam mag niet uit alleen punten bestaan",
     "Username is invalid because files already exist for this user" : "Gebruikersnaam is ongeldig omdat er al bestanden voor deze gebruiker bestaan",
     "User disabled" : "Gebruiker uitgeschakeld",
-    "PostgreSQL >= 9 required." : "PostgreSQL >= 9 is vereist.",
-    "Please upgrade your database version." : "Werk je databaseversie bij.",
     "Your data directory is readable by other users." : "Je datamap is leesbaar voor andere gebruikers.",
     "Please change the permissions to 0770 so that the directory cannot be listed by other users." : "Wijzig de machtiging in 0770 zodat de directory niet door andere gebruikers bekeken kan worden.",
     "Ensure there is a file called \".ocdata\" in the root of the data directory." : "Zorg dat er een bestand genaamd \".ocdata\" in de hoofddirectory aanwezig is."

@@ -18,7 +18,6 @@ OC.L10N.register(
     "Version restored" : "Η έκδοση επαναφέρθηκε",
     "Could not restore version" : "Δεν ήταν δυνατή η επαναφορά της έκδοσης",
     "Could not delete version" : "Δεν ήταν δυνατή η διαγραφή της έκδοσης",
-    "${version.label} restored" : "${version.label} έχουν επαναφερθεί",
-    "Could not set version name" : "Δεν μπόρεσε να οριστεί όνομα έκδοσης"
+    "${version.label} restored" : "${version.label} έχουν επαναφερθεί"
 },
 "nplurals=2; plural=(n != 1);");

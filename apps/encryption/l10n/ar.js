@@ -61,7 +61,6 @@ OC.L10N.register(
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "تفعيل هذا الخيار يمكنك من اعادة الوصول الى ملفاتك المشفرة عند فقدان كلمة المرور",
     "Enabled" : "مفعلة",
     "Disabled" : "معطلة",
-    "Please login to the web interface, go to the \"Security\" section of your personal settings and update your encryption password by entering this password into the \"Old log-in password\" field and your current login-password." : "الرجاء تسجيل الدخول إلى واجهة الويب ثم  الانتقال إلى قسم \"الأمان\" security في إعداداتك الشخصية وتحديث كلمة مرور التشفير الخاصة بك بإدخالها في خانة \"كلمة مرور الدخول القديمة\" Old log-in password ثم إدخال كلمة مرور  الدخول الحالية.",
     "The recovery key is an extra encryption key that is used to encrypt files. It allows recovery of a user's files if the user forgets his or her password." : "مفتاح الاسترداد هو مفتاح تشفير إضافي يُستخدم لتشفير الملفات. يسمح باستعادة ملفات المستخدم إذا نسي المستخدم كلمة المرور الخاصة به."
 },
 "nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;");

@@ -340,7 +340,6 @@
     "Generate headline" : "Генериши линију наслова",
     "Summarizes text by reducing its length without losing key information." : "Резимира текст тако што га скраћује без губитка кључних информација.",
     "Extracts topics from a text and outputs them separated by commas." : "Издваја теме из текста и исписује их раздвојене запетама.",
-    "404" : "404",
     "Education Edition" : "Образовно издање",
     "Logged in user must be an admin, a sub admin or gotten special right to access this setting" : "Пријављени корисник мора бити админ, под админ или да поседује специјално право да приступи овом подешавању",
     "Logged in user must be an admin or sub admin" : "Пријављени корисник мора бити администратор или подадминистратор",
@@ -363,8 +362,6 @@
     "Username must not consist of dots only" : "Корисничко име не могу бити само тачке",
     "Username is invalid because files already exist for this user" : "Корисничко име није исправно пошто већ постоје фајлови за овог корисника",
     "User disabled" : "Корисник онемогућен",
-    "PostgreSQL >= 9 required." : "Потребан је PostgreSQL >= 9.",
-    "Please upgrade your database version." : "Молимо вас да ажурирате верзију базе података.",
     "Your data directory is readable by other users." : "Ваш директоријум са подацима могу да читају остали корисници.",
     "Please change the permissions to 0770 so that the directory cannot be listed by other users." : "Промените дозволе у 0770 како директоријуми не би могли бити излистани од стране других корисника.",
     "Ensure there is a file called \".ocdata\" in the root of the data directory." : "Уверите се да фајл \".ocdata\" постоји у корену директоријума са подацима."

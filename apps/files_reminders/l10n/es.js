@@ -27,9 +27,6 @@ OC.L10N.register(
     "This weekend" : "Este fin de semana",
     "Set reminder for this weekend" : "Configurar recordatorio para este fin de semana",
     "Next week" : "Semana siguiente",
-    "Set reminder for next week" : "Configurar recordatorio para la semana que viene",
-    "Back" : "Volver",
-    "Reminder cleared" : "Se quitó el recordatorio",
-    "Failed to load reminder" : "Fallo al cargar el recordatorio"
+    "Set reminder for next week" : "Configurar recordatorio para la semana que viene"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

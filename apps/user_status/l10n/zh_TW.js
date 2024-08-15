@@ -42,7 +42,6 @@ OC.L10N.register(
     "1 hour" : "1小時",
     "4 hours" : "4小時",
     "Mute all notifications" : "所有通知靜音",
-    "Appear offline" : "顯示為離線",
-    "View profile" : "檢視個人檔案"
+    "Appear offline" : "顯示為離線"
 },
 "nplurals=1; plural=0;");

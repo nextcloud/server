@@ -80,21 +80,14 @@
     "Failed to load tags for file" : "載入檔案的標籤失敗",
     "Failed to set tag for file" : "設定檔案的標籤失敗",
     "Failed to delete tag for file" : "刪除檔案的標籤失敗",
-    "Tag name is empty" : "標籤名稱為空",
-    "Select tag …" : "選擇標籤……",
     "Collaborative tagging functionality which shares tags among users." : "可在使用者間分享標籤的協作標籤功能。",
     "Collaborative tagging functionality which shares tags among users. Great for teams.\n\t(If you are a provider with a multi-tenancy installation, it is advised to deactivate this app as tags are shared.)" : "可在使用者間分享標籤的協作標籤功能。對團隊來說很有用。\n\t（如果您是有多租戶安裝的提供商，則建議在分享標籤時停用此應用程式。）",
-    "Tagged files" : "已標籤檔案",
-    "Select tags to filter by" : "依照選擇的標籤篩選",
-    "Please select tags to filter by" : "請選擇標籤以篩選",
-    "No files found for the selected tags" : "沒有與選擇的標籤相符的檔案",
-    "Create a new tag" : "建立新標籤",
-    "Name" : "名稱",
+    "This file has the tag {tag}" : "此檔案有標籤 {tag}",
+    "This file has the tags {firstTags} and {lastTag}" : "此檔案有標籤 {firstTags} 與 {lastTag}",
     "No files in here" : "沒有任何檔案",
     "No entries found in this folder" : "在此資料夾中沒有任何項目",
+    "Name" : "名稱",
     "Size" : "大小",
-    "Modified" : "修改時間",
-    "This file has the tag {tag}" : "此檔案有標籤 {tag}",
-    "This file has the tags {firstTags} and {lastTag}" : "此檔案有標籤 {firstTags} 與 {lastTag}"
+    "Modified" : "修改時間"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

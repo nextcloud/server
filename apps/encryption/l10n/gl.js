@@ -61,7 +61,6 @@ OC.L10N.register(
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Ao activar esta opción permitiráselle volver obter acceso aos ficheiros cifrados no caso de perda do contrasinal",
     "Enabled" : "Activado",
     "Disabled" : "Desactivado",
-    "Please login to the web interface, go to the \"Security\" section of your personal settings and update your encryption password by entering this password into the \"Old log-in password\" field and your current login-password." : "Acceda na interface web, vaia á sección «Seguranza» dos seus axustes persoais e actualice o seu contrasinal de cifrado introducindo este contrasinal no campo «Contrasinal antigo de acceso» e o seu contrasinal de acceso actual.",
     "The recovery key is an extra encryption key that is used to encrypt files. It allows recovery of a user's files if the user forgets his or her password." : "A chave de recuperación é unha chave de cifrado adicional que se utiliza para cifrar ficheiros. Permite a recuperación de ficheiros dun usuario se o usuario esquece o seu contrasinal."
 },
 "nplurals=2; plural=(n != 1);");

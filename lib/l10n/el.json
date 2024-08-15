@@ -248,8 +248,6 @@
     "Username must not consist of dots only" : "Το όνομα χρήστη δεν πρέπει να περιέχει μόνο τελείες",
     "Username is invalid because files already exist for this user" : "Το όνομα χρήστη δεν είναι έγκυρο, επειδή υπάρχουν ήδη αρχεία για αυτόν τον χρήστη",
     "User disabled" : "Ο χρήστης απενεργοποιήθηκε",
-    "PostgreSQL >= 9 required." : "Απαιτείται PostgreSQL >= 9.",
-    "Please upgrade your database version." : "Παρακαλούμε αναβαθμίστε την έκδοση της βάσης δεδομένων σας.",
     "Your data directory is readable by other users." : "Ο κατάλογος δεδομένων σας είναι αναγνώσιμος από άλλους χρήστες.",
     "Please change the permissions to 0770 so that the directory cannot be listed by other users." : "Παρακαλούμε αλλάξτε τις ρυθμίσεις σε 0770 έτσι ώστε ο κατάλογος να μην μπορεί να προβάλλεται από άλλους χρήστες.",
     "Ensure there is a file called \".ocdata\" in the root of the data directory." : "Εξασφαλίστε ότι υπάρχει ένα αρχείο με όνομα \".ocdata\" στον βασικό κατάλογο του καταλόγου δεδομένων."

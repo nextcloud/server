@@ -23,9 +23,6 @@ OC.L10N.register(
     "This weekend" : "Ezen a héten",
     "Set reminder for this weekend" : "Emlékeztető beállítása erre a hétvégére",
     "Next week" : "Következő hét",
-    "Set reminder for next week" : "Emlékeztető beállítása a következő hétre",
-    "Back" : "Vissza",
-    "Reminder cleared" : "Emlékeztető törölve",
-    "Failed to load reminder" : "Nem sikerült betölteni az emlékeztetőt"
+    "Set reminder for next week" : "Emlékeztető beállítása a következő hétre"
 },
 "nplurals=2; plural=(n != 1);");

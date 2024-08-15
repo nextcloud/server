@@ -60,7 +60,6 @@ OC.L10N.register(
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Zapnutí této volby vám umožní znovu získat přístup k vašim zašifrovaným souborům pokud ztratíte heslo",
     "Enabled" : "Povoleno",
     "Disabled" : "Zakázáno",
-    "Please login to the web interface, go to the \"Security\" section of your personal settings and update your encryption password by entering this password into the \"Old log-in password\" field and your current login-password." : "Přihlaste se do webového rozhraní, jděte do osobních nastavení, sekce „Zabezpečení“ a zaktualizujte své šifrovací heslo zadáním tohoto hesla do kolonky „Původní přihlašovací heslo“ a pak jako nové nastavte to heslo, kterým se nyní přihlašujete do Nexcloud.",
     "The recovery key is an extra encryption key that is used to encrypt files. It allows recovery of a user's files if the user forgets his or her password." : "Záchranný klíč je dodatečný šifrovací klíč použitý pro\nšifrování souborů. S jeho pomocí lze obnovit soubory uživatele při zapomenutí hesla."
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

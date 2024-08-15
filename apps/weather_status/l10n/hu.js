@@ -7,6 +7,7 @@ OC.L10N.register(
     "Error" : "Hiba",
     "Weather status" : "Időjárás állapota",
     "Weather status in your dashboard" : "Időjárás állapota az irányítópulton",
+    "Weather status integrated in the Dashboard app.\n    The geographic location can be automatically determined or manually defined. A 6 hours forecast is then displayed.\n    This status can also be integrated in other places like the Calendar app." : "Irányítópultba integrált időjárási állapot. A földrajzi helyzet meghatározható automatikusan vagy egyénileg beállítható. Ezután egy 6 órás előrejelzés lesz megjelenítve. Ez az információ máshol is megjeleníthető, például a Naptár alkalmazásban.",
     "Detect location" : "Helymeghatározás",
     "Set custom address" : "Egyéni cím beállítása",
     "Favorites" : "Kedvencek",

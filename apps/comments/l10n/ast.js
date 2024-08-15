@@ -32,9 +32,6 @@ OC.L10N.register(
     "Comment deleted" : "Desanicióse'l comentariu",
     "An error occurred while trying to delete the comment" : "Prodúxose un error mentanto se tentaba de desaniciar el comentariu",
     "An error occurred while trying to create the comment" : "Prodúxose un error mentanto se tentaba de crear el comentariu",
-    "You were mentioned on \"{file}\", in a comment by a user that has since been deleted" : "Un usuariu que ta desaniciáu mentóte nun comentariu de: {file}",
-    "Write a message …" : "Escribi un mensaxe…",
-    "\"@\" for mentions, \":\" for emoji, \"/\" for smart picker" : "«@» pa mentar, «.» p'amestar un fustaxe, «/» pa usar el selector intelixente",
-    "_%n unread comment_::_%n unread comments_" : ["%n comentariu ensin lleer","%n comentarios ensin lleer"]
+    "You were mentioned on \"{file}\", in a comment by a user that has since been deleted" : "Un usuariu que ta desaniciáu mentóte nun comentariu de: {file}"
 },
 "nplurals=2; plural=(n != 1);");

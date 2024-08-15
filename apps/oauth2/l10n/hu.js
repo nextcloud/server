@@ -15,7 +15,6 @@ OC.L10N.register(
     "Add client" : "Kliens hozzáadása",
     "Add" : "Hozzáadás",
     "Delete" : "Törlés",
-    "Show client secret" : "Kliens titkának megjelenítése",
-    "Secret" : "Titok"
+    "Show client secret" : "Kliens titkának megjelenítése"
 },
 "nplurals=2; plural=(n != 1);");

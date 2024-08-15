@@ -39,9 +39,6 @@ OC.L10N.register(
     "Update to %1$s is available." : "Update naar %1$s is beschikbaar.",
     "Displays update notifications for Nextcloud and provides the SSO for the updater." : "Toont updatemeldingen voor Nextcloud en zorgt voor SSO voor de updater.",
     "Please use the command line updater to update." : "Gebruik de commandoregel updater, om bij te werken.",
-    "You can change the update channel below which also affects the apps management page. E.g. after switching to the beta channel, beta app updates will be offered to you in the apps management page." : "Je kunt het updatekanaal hieronder wijzigen, wat ook van invloed is op de beheerpagina van apps. bijv. nadat je bent overgeschakeld naar het bètakanaal, worden bèta-app-updates aangeboden op de beheerpagina voor apps.",
-    "Update channel:" : "Bijwerkkanaal:",
-    "Note that after a new release the update only shows up after the first minor release or later. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found. Learn more about updates and release channels at {link}" : "Let op dat na een nieuwe release de update pas verschijnt na de eerste secundaire release of later. We introduceren nieuwe versies verspreid over de tijd voor onze gebruikers en slaan soms een versie over wanneer er problemen worden gevonden. Lees meer over updates en releasekanalen op {link}",
-    "Checked on {lastCheckedDate}" : "Gecontroleerd op {lastCheckedDate}"
+    "Note that after a new release the update only shows up after the first minor release or later. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found. Learn more about updates and release channels at {link}" : "Let op dat na een nieuwe release de update pas verschijnt na de eerste secundaire release of later. We introduceren nieuwe versies verspreid over de tijd voor onze gebruikers en slaan soms een versie over wanneer er problemen worden gevonden. Lees meer over updates en releasekanalen op {link}"
 },
 "nplurals=2; plural=(n != 1);");
