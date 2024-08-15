@@ -159,10 +159,11 @@ class Files extends Action {
 	 * @param BeforeNodeWrittenEvent $event
 	 */
 	public function write(BeforeNodeWrittenEvent $event): void {
+		$node = $event->getNode();
 		try {
 			$params = [
-				'id' => $event->getNode()->getId(),
-				'path' => mb_substr($event->getNode()->getInternalPath(), 5),
+				'id' => $node instanceof NonExistingFile ? null : $node->getId(),
+				'path' => mb_substr($node->getInternalPath(), 5),
 			];
 		} catch (InvalidPathException|NotFoundException $e) {
 			\OCP\Server::get(LoggerInterface::class)->error(
