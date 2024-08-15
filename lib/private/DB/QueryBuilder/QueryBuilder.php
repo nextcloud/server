@@ -1370,7 +1370,7 @@ class QueryBuilder implements IQueryBuilder {
 		return $this->connection->escapeLikeParameter($parameter);
 	}
 
-	public function hintShardKey(string $column, mixed $value) {
+	public function hintShardKey(string $column, mixed $value, bool $overwrite = false) {
 		return $this;
 	}
 

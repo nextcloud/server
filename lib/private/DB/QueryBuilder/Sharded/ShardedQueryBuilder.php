@@ -296,7 +296,11 @@ class ShardedQueryBuilder extends ExtendedQueryBuilder {
 		];
 	}
 
-	public function hintShardKey(string $column, mixed $value) {
+	public function hintShardKey(string $column, mixed $value, bool $overwrite = false) {
+		if ($overwrite) {
+			$this->primaryKeys = [];
+			$this->shardKeys = [];
+		}
 		if ($this->shardDefinition?->isKey($column)) {
 			$this->primaryKeys[] = $value;
 		}

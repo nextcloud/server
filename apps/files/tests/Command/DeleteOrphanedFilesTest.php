@@ -64,13 +64,19 @@ class DeleteOrphanedFilesTest extends TestCase {
 	}
 
 	protected function getFile($fileId) {
-		$stmt = $this->connection->executeQuery('SELECT * FROM `*PREFIX*filecache` WHERE `fileid` = ?', [$fileId]);
-		return $stmt->fetchAll();
+		$query = $this->connection->getQueryBuilder();
+		$query->select('*')
+			->from('filecache')
+			->where($query->expr()->eq('fileid', $query->createNamedParameter($fileId)));
+		return $query->executeQuery()->fetchAll();
 	}
 
 	protected function getMounts($storageId) {
-		$stmt = $this->connection->executeQuery('SELECT * FROM `*PREFIX*mounts` WHERE `storage_id` = ?', [$storageId]);
-		return $stmt->fetchAll();
+		$query = $this->connection->getQueryBuilder();
+		$query->select('*')
+			->from('mounts')
+			->where($query->expr()->eq('storage_id', $query->createNamedParameter($storageId)));
+		return $query->executeQuery()->fetchAll();
 	}
 
 	/**

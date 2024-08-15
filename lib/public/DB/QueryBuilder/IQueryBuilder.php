@@ -1036,7 +1036,7 @@ interface IQueryBuilder {
 	 * @return $this
 	 * @since 30.0.0
 	 */
-	public function hintShardKey(string $column, mixed $value);
+	public function hintShardKey(string $column, mixed $value, bool $overwrite = false);
 
 	/**
 	 * Set the query to run across all shards if sharding is enabled.

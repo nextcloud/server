@@ -146,6 +146,10 @@ class BackgroundCleanupJobTest extends \Test\TestCase {
 	}
 
 	public function testCleanupAjax() {
+		if ($this->connection->getShardDefinition('filecache')) {
+			$this->markTestSkipped("ajax cron is not supported for sharded setups");
+			return;
+		}
 		$files = $this->setup11Previews();
 		$fileIds = array_map(function (File $f) {
 			return $f->getId();
@@ -174,6 +178,10 @@ class BackgroundCleanupJobTest extends \Test\TestCase {
 	}
 
 	public function testOldPreviews() {
+		if ($this->connection->getShardDefinition('filecache')) {
+			$this->markTestSkipped("old previews are not supported for sharded setups");
+			return;
+		}
 		$appdata = \OC::$server->getAppDataDir('preview');
 
 		$f1 = $appdata->newFolder('123456781');
