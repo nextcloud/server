@@ -167,6 +167,18 @@ class ProfilerWrapperCache extends AbstractDataCollector implements IMemcacheTTL
 	}
 
 	/** @inheritDoc */
+	public function ncad(string $key, mixed $old): bool {
+		$start = microtime(true);
+		$ret = $this->wrappedCache->ncad($key, $old);
+		$this->data['queries'][] = [
+			'start' => $start,
+			'end' => microtime(true),
+			'op' => $this->getPrefix() . '::ncad::' . $key,
+		];
+		return $ret;
+	}
+
+	/** @inheritDoc */
 	public function setTTL(string $key, int $ttl) {
 		$this->wrappedCache->setTTL($key, $ttl);
 	}
