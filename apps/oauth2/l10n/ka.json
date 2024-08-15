@@ -15,7 +15,6 @@
     "Add" : "Add",
     "Delete" : "Delete",
     "Show client secret" : "Show client secret",
-    "Hide client secret" : "Hide client secret",
-    "Secret" : "Secret"
+    "Hide client secret" : "Hide client secret"
 },"pluralForm" :"nplurals=2; plural=(n!=1);"
 }

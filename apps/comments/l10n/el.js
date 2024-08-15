@@ -27,7 +27,6 @@ OC.L10N.register(
     "Comment deleted" : "Το σχόλιο διαγράφηκε",
     "An error occurred while trying to delete the comment" : "Παρουσιάστηκε σφάλμα κατά την προσπάθεια διαγραφής του σχολίου",
     "An error occurred while trying to create the comment" : "Παρουσιάστηκε σφάλμα κατά την προσπάθεια δημιουργίας του σχολίου",
-    "You were mentioned on \"{file}\", in a comment by a user that has since been deleted" : "Το όνομά σας αναφέρθηκε στο “{file}”, σε σχόλιο ενός χρήστη ο οποίος έχει πλέον διαγραφεί",
-    "_%n unread comment_::_%n unread comments_" : ["%n αδιάβαστο σχόλιο","%n αδιάβαστα σχόλια"]
+    "You were mentioned on \"{file}\", in a comment by a user that has since been deleted" : "Το όνομά σας αναφέρθηκε στο “{file}”, σε σχόλιο ενός χρήστη ο οποίος έχει πλέον διαγραφεί"
 },
 "nplurals=2; plural=(n != 1);");

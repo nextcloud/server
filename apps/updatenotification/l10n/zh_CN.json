@@ -47,9 +47,6 @@
     "Displays update notifications for Nextcloud and provides the SSO for the updater." : "显示 Nextcloud 的更新提示，并提供更新器的认证页面。",
     "Please note that the web updater is not recommended with more than 100 users! Please use the command line updater instead!" : "注意：不推荐超过100个用户的站点使用网页更新程序！请改用命令行更新！",
     "Please use the command line updater to update." : "请使用命令行更新器来更新",
-    "You can change the update channel below which also affects the apps management page. E.g. after switching to the beta channel, beta app updates will be offered to you in the apps management page." : "你可以在下面改变更新渠道，这也会影响到应用管理页面。例如：切换到测试版渠道后，测试版应用程序的更新将在应用程序管理页面提供给你。",
-    "Update channel:" : "更新通道：",
-    "Note that after a new release the update only shows up after the first minor release or later. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found. Learn more about updates and release channels at {link}" : "请注意，在新版本发布之后，更新只在第一个次要版本或更高版本之后出现。随着时间的推移，我们会向用户推出新的版本，有时会在发现问题时跳过某个版本。要了解关于更新和发布通道的更多信息，点击 {link}。",
-    "Checked on {lastCheckedDate}" : "检查时间 {lastCheckedDate}"
+    "Note that after a new release the update only shows up after the first minor release or later. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found. Learn more about updates and release channels at {link}" : "请注意，在新版本发布之后，更新只在第一个次要版本或更高版本之后出现。随着时间的推移，我们会向用户推出新的版本，有时会在发现问题时跳过某个版本。要了解关于更新和发布通道的更多信息，点击 {link}。"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

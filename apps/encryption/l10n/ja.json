@@ -59,7 +59,6 @@
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "このオプションを有効にすると、パスワードを紛失した場合も、暗号化されたファイルに再度アクセスすることができるようになります。",
     "Enabled" : "有効",
     "Disabled" : "無効",
-    "Please login to the web interface, go to the \"Security\" section of your personal settings and update your encryption password by entering this password into the \"Old log-in password\" field and your current login-password." : "Webインターフェースにログインし、個人設定の「セキュリティ」セクションに移動し、「古いログインパスワード」フィールドにこのパスワードと現在のログインパスワードを入力して、暗号化パスワードを更新してください。",
     "The recovery key is an extra encryption key that is used to encrypt files. It allows recovery of a user's files if the user forgets his or her password." : "復旧キーは、ファイルの暗号化に使う特別な暗号化キーです。ユーザーがパスワードを忘れてしまった場合には、リカバリキーを使ってユーザーのファイルを復元することができます。"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

@@ -42,7 +42,6 @@ OC.L10N.register(
     "1 hour" : "Ordu 1",
     "4 hours" : "4 ordu",
     "Mute all notifications" : "Mututu jakinarazpen guztiak",
-    "Appear offline" : "Lineaz kanpo agertu",
-    "View profile" : "Ikusi profila"
+    "Appear offline" : "Lineaz kanpo agertu"
 },
 "nplurals=2; plural=(n != 1);");

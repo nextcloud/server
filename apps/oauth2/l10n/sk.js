@@ -17,7 +17,6 @@ OC.L10N.register(
     "Add" : "Pridať",
     "Delete" : "Zmazať",
     "Show client secret" : "Zobraziť tajomstvo klienta",
-    "Hide client secret" : "Skryť klienta",
-    "Secret" : "Tajný kľúč"
+    "Hide client secret" : "Skryť klienta"
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");

@@ -50,9 +50,6 @@ OC.L10N.register(
     "Displays update notifications for Nextcloud and provides the SSO for the updater." : "Nextcloud 업데이트 알림을 표시하고 업데이터에 SSO를 지원합니다.",
     "Please note that the web updater is not recommended with more than 100 users! Please use the command line updater instead!" : "100명 이상의 사용자 수를 보유하고 있는 경우 웹 업데이터 사용을 권장하지 않습니다. 대신 명령행 업데이터를 사용하십시오. ",
     "Please use the command line updater to update." : "명령행 업데이터를 사용하십시오.",
-    "You can change the update channel below which also affects the apps management page. E.g. after switching to the beta channel, beta app updates will be offered to you in the apps management page." : "아래에서 업데이트 채널을 번경할 수 있으며, 이는 앱 관리 페이지에도 적용됩니다. 예를 들어 베타 채널로 변경할 경우, 앱 관리 페이지에서 각 앱에 대한 베타 업데이트가 제공됩니다.",
-    "Update channel:" : "업데이트 채널:",
-    "Note that after a new release the update only shows up after the first minor release or later. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found. Learn more about updates and release channels at {link}" : "메이저 업그레이드는 해당 버전의 첫 마이너 업데이트 혹은 그 후의 업데이트에 대해 제공됩니다. 새로운 버전은 단계적으로 적용되며, 문제가 발생할 경우 배포를 중단하고 다음 업데이트로 건너뛸 수 있습니다. 업데이트와 릴리즈 채널에 대한 자세한 정보는 다음의 링크를 참고하십시오. {link}",
-    "Checked on {lastCheckedDate}" : "{lastCheckedDate}에 확인함"
+    "Note that after a new release the update only shows up after the first minor release or later. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found. Learn more about updates and release channels at {link}" : "메이저 업그레이드는 해당 버전의 첫 마이너 업데이트 혹은 그 후의 업데이트에 대해 제공됩니다. 새로운 버전은 단계적으로 적용되며, 문제가 발생할 경우 배포를 중단하고 다음 업데이트로 건너뛸 수 있습니다. 업데이트와 릴리즈 채널에 대한 자세한 정보는 다음의 링크를 참고하십시오. {link}"
 },
 "nplurals=1; plural=0;");

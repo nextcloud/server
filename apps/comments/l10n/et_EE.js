@@ -26,7 +26,6 @@ OC.L10N.register(
     "Comment deleted" : "Kommentaar kustutatud",
     "An error occurred while trying to delete the comment" : "Kommentaari kustutamisel tekkis tõrge",
     "An error occurred while trying to create the comment" : "Kommentaari lisamisel tekkis tõrge",
-    "You were mentioned on \"{file}\", in a comment by a user that has since been deleted" : "Sind mainis faili \"{file}\" kommentaaris kasutaja, kes on praeguseks kustutatud.",
-    "_%n unread comment_::_%n unread comments_" : ["%n lugemata kommentaar","%n lugemata kommentaari"]
+    "You were mentioned on \"{file}\", in a comment by a user that has since been deleted" : "Sind mainis faili \"{file}\" kommentaaris kasutaja, kes on praeguseks kustutatud."
 },
 "nplurals=2; plural=(n != 1);");

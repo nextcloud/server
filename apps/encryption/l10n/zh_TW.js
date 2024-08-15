@@ -61,7 +61,6 @@ OC.L10N.register(
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "啟用此選項讓您可以在忘記密碼的情況下取回對您已加密檔案的存取權",
     "Enabled" : "已啟用",
     "Disabled" : "已停用",
-    "Please login to the web interface, go to the \"Security\" section of your personal settings and update your encryption password by entering this password into the \"Old log-in password\" field and your current login-password." : "請登入網頁界面，請到個人設定中的「安全」區塊，透過輸入此密碼至「舊登入密碼」欄位與您目前的登入密碼來更新您的加密密碼。",
     "The recovery key is an extra encryption key that is used to encrypt files. It allows recovery of a user's files if the user forgets his or her password." : "還原金鑰是用於加密檔案的另一把加密金鑰。當使用者忘記密碼時，可以用它來還原使用者的檔案。"
 },
 "nplurals=1; plural=0;");

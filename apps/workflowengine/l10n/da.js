@@ -21,6 +21,7 @@ OC.L10N.register(
     "Check #%s does not exist" : "Tjek #%s eksisterer",
     "Check %s is invalid or does not exist" : "Tjek %s er invalid eller eksisterer ikke",
     "Flow" : "Flow",
+    "Remove filter" : "Fjern filter",
     "Folder" : "Mappe",
     "Images" : "Billeder",
     "Files WebDAV" : "Fil WebDAV",

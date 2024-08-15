@@ -61,9 +61,6 @@ OC.L10N.register(
     "Displays update notifications for Nextcloud and provides the SSO for the updater." : "Nextcloudの更新通知を表示し、アップデータのSSOを提供します。",
     "Please note that the web updater is not recommended with more than 100 users! Please use the command line updater instead!" : "Webアップデーターは100人以上のユーザーがいる場合には推奨されていないことにご注意ください！代わりに、コマンドラインアップデーターをご使用ください！",
     "Please use the command line updater to update." : "コマンドラインアップデーターを使ってアップデートしてください。",
-    "You can change the update channel below which also affects the apps management page. E.g. after switching to the beta channel, beta app updates will be offered to you in the apps management page." : "以下からアップデートチャンネルを変更すると、アプリの管理ページにも影響します。例えば、ベータチャンネルに切り替えると、アプリ管理ページにて、ベータアプリの更新が通知されたりします。",
-    "Update channel:" : "アップデートチャンネル:",
-    "Note that after a new release the update only shows up after the first minor release or later. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found. Learn more about updates and release channels at {link}" : "新しいリリースの後、アップデートは最初のマイナーリリース以降にのみ表示されることに注意してください。新しいバージョンは時間の経過とともにユーザーに公開され、問題が見つかった場合はバージョンをスキップすることがあります。アップデートとリリースチャネルの詳細については、{link}をご覧ください。",
-    "Checked on {lastCheckedDate}" : "{lastCheckedDate} にチェックが入っています"
+    "Note that after a new release the update only shows up after the first minor release or later. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found. Learn more about updates and release channels at {link}" : "新しいリリースの後、アップデートは最初のマイナーリリース以降にのみ表示されることに注意してください。新しいバージョンは時間の経過とともにユーザーに公開され、問題が見つかった場合はバージョンをスキップすることがあります。アップデートとリリースチャネルの詳細については、{link}をご覧ください。"
 },
 "nplurals=1; plural=0;");

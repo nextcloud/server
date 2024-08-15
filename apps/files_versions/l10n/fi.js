@@ -18,7 +18,6 @@ OC.L10N.register(
     "Version restored" : "Versio palautettu",
     "Could not restore version" : "Versiota ei voitu palauttaa",
     "Could not delete version" : "Versiota ei voitu poistaa",
-    "${version.label} restored" : "${version.label} palautettu",
-    "Could not set version name" : "Versionimeä ei voitu asettaa"
+    "${version.label} restored" : "${version.label} palautettu"
 },
 "nplurals=2; plural=(n != 1);");

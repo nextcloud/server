@@ -42,7 +42,6 @@ OC.L10N.register(
     "1 hour" : "1 hora",
     "4 hours" : "4 hores",
     "Mute all notifications" : "Desactivar tolos avisos",
-    "Appear offline" : "Apaecer desconectáu",
-    "View profile" : "Ver el perfil"
+    "Appear offline" : "Apaecer desconectáu"
 },
 "nplurals=2; plural=(n != 1);");

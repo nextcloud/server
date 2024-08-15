@@ -26,7 +26,6 @@ OC.L10N.register(
     "Comment deleted" : " Изтрит е коментар",
     "An error occurred while trying to delete the comment" : "Възникна грешка при опит за изтриване на коментара",
     "An error occurred while trying to create the comment" : "Възникна грешка при опит за създаване на коментар",
-    "You were mentioned on \"{file}\", in a comment by a user that has since been deleted" : "Бяхте споменат/а към “{file}”, в коментар от потребител, който вече е изтрит",
-    "_%n unread comment_::_%n unread comments_" : ["%n непрочетен коментар","%n непрочетени коментари"]
+    "You were mentioned on \"{file}\", in a comment by a user that has since been deleted" : "Бяхте споменат/а към “{file}”, в коментар от потребител, който вече е изтрит"
 },
 "nplurals=2; plural=(n != 1);");

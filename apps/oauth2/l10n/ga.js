@@ -17,7 +17,6 @@ OC.L10N.register(
     "Add" : "Cuir",
     "Delete" : "Scrios",
     "Show client secret" : "Taispeáin rún an chliaint",
-    "Hide client secret" : "Folaigh rún an chliaint",
-    "Secret" : "Rúnda"
+    "Hide client secret" : "Folaigh rún an chliaint"
 },
 "nplurals=5; plural=(n==1 ? 0 : n==2 ? 1 : n<7 ? 2 : n<11 ? 3 : 4);");
