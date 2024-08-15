@@ -194,13 +194,4 @@ class CleanTagsTest extends \Test\TestCase {
 		$this->createdFile = (int) $this->getLastInsertID('filecache', 'fileid');
 		return $this->createdFile;
 	}
-
-	/**
-	 * @param $tableName
-	 * @param $idName
-	 * @return int
-	 */
-	protected function getLastInsertID($tableName, $idName) {
-		return $this->connection->lastInsertId("*PREFIX*$tableName");
-	}
 }
