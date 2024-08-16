@@ -274,6 +274,7 @@ OC.L10N.register(
     "Video verification" : "視訊驗證",
     "Set expiration date" : "設定到期日",
     "Hide download" : "隱藏下載",
+    "Allow download and sync" : "允許下載與同步",
     "Note to recipient" : "給收件者的訊息",
     "Enter a note for the share recipient" : "輸入給分享收件者的訊息",
     "Read" : "讀取",

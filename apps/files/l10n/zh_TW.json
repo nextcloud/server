@@ -323,6 +323,7 @@
     "Audio" : "音訊",
     "Pictures and images" : "照片與影像",
     "Videos" : "影片",
+    "New folder creation cancelled" : "已取消建立新資料夾",
     "Created new folder \"{name}\"" : "已建立新資料夾「{name}」",
     "Unable to initialize the templates directory" : "無法初始化範本目錄",
     "Create templates folder" : "建立範本資料夾",

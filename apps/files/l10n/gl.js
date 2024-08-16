@@ -325,6 +325,7 @@ OC.L10N.register(
     "Audio" : "Son",
     "Pictures and images" : "Fotos e imaxes",
     "Videos" : "Vídeos",
+    "New folder creation cancelled" : "Cancelouse a creación dun novo cartafol",
     "Created new folder \"{name}\"" : "Creouse un novo cartafol «{name}»",
     "Unable to initialize the templates directory" : "Non é posíbel iniciar o directorio de modelos",
     "Create templates folder" : "Crear o cartafol de modelos",
