@@ -54,6 +54,7 @@
 				:close-after-click="!isMenu(action.id)"
 				:data-cy-files-list-row-action="action.id"
 				:is-menu="isMenu(action.id)"
+				:aria-label="action.title?.([source], currentView)"
 				:title="action.title?.([source], currentView)"
 				@click="onActionClick(action)">
 				<template #icon>
