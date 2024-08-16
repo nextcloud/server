@@ -1,25 +1,7 @@
 <?php
 /**
- * @copyright Copyright (c) 2016 Robin Appelman <robin@icewind.nl>
- *
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OC\Files\ObjectStore;
 
@@ -49,7 +31,7 @@ class S3 implements IObjectStore, IObjectStoreMultiPartUpload {
 		$upload = $this->getConnection()->createMultipartUpload([
 			'Bucket' => $this->bucket,
 			'Key' => $urn,
-		]);
+		] + $this->getSSECParameters());
 		$uploadId = $upload->get('UploadId');
 		if ($uploadId === null) {
 			throw new Exception('No upload id returned');
@@ -65,7 +47,7 @@ class S3 implements IObjectStore, IObjectStoreMultiPartUpload {
 			'ContentLength' => $size,
 			'PartNumber' => $partId,
 			'UploadId' => $uploadId,
-		]);
+		] + $this->getSSECParameters());
 	}
 
 	public function getMultipartUploads(string $urn, string $uploadId): array {
@@ -80,12 +62,12 @@ class S3 implements IObjectStore, IObjectStoreMultiPartUpload {
 				'UploadId' => $uploadId,
 				'MaxParts' => 1000,
 				'PartNumberMarker' => $partNumberMarker
-			]);
+			] + $this->getSSECParameters());
 			$parts = array_merge($parts, $result->get('Parts') ?? []);
 			$isTruncated = $result->get('IsTruncated');
 			$partNumberMarker = $result->get('NextPartNumberMarker');
 		}
-		
+
 		return $parts;
 	}
 
@@ -95,11 +77,11 @@ class S3 implements IObjectStore, IObjectStoreMultiPartUpload {
 			'Key' => $urn,
 			'UploadId' => $uploadId,
 			'MultipartUpload' => ['Parts' => $result],
-		]);
+		] + $this->getSSECParameters());
 		$stat = $this->getConnection()->headObject([
 			'Bucket' => $this->bucket,
 			'Key' => $urn,
-		]);
+		] + $this->getSSECParameters());
 		return (int)$stat->get('ContentLength');
 	}
 

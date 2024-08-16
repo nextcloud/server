@@ -3,24 +3,8 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2022 Richard Steinmetz <richard@steinmetz.cloud>
- *
- * @author Richard Steinmetz <richard@steinmetz.cloud>
- *
- * @license AGPL-3.0-or-later
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace Test\Share20;
@@ -35,7 +19,6 @@ use OCP\Files\IRootFolder;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IL10N;
-use OCP\ILogger;
 use OCP\IURLGenerator;
 use OCP\IUserManager;
 use OCP\Mail\IMailer;
@@ -43,6 +26,7 @@ use OCP\Security\IHasher;
 use OCP\Security\ISecureRandom;
 use OCP\Share\IShare;
 use PHPUnit\Framework\MockObject\MockObject;
+use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 /**
@@ -79,7 +63,7 @@ class ShareByMailProviderTest extends TestCase {
 	/** @var IConfig|MockObject */
 	protected $config;
 
-	/** @var ILogger|MockObject */
+	/** @var LoggerInterface|MockObject */
 	private $logger;
 
 	/** @var IHasher|MockObject */
@@ -108,7 +92,7 @@ class ShareByMailProviderTest extends TestCase {
 		$this->l10n = $this->createMock(IL10N::class);
 		$this->defaults = $this->getMockBuilder(Defaults::class)->disableOriginalConstructor()->getMock();
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
-		$this->logger = $this->createMock(ILogger::class);
+		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->activityManager = $this->createMock(\OCP\Activity\IManager::class);
 		$this->settingsManager = $this->createMock(SettingsManager::class);
 		$this->hasher = $this->createMock(IHasher::class);
@@ -162,8 +146,8 @@ class ShareByMailProviderTest extends TestCase {
 	 * @throws \OCP\DB\Exception
 	 */
 	private function addShareToDB($shareType, $sharedWith, $sharedBy, $shareOwner,
-			$itemType, $fileSource, $fileTarget, $permissions, $token, $expiration,
-			$parent) {
+		$itemType, $fileSource, $fileTarget, $permissions, $token, $expiration,
+		$parent) {
 		$qb = $this->dbConn->getQueryBuilder();
 		$qb->insert('share');
 

@@ -1,29 +1,9 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Björn Schießle <bjoern@schiessle.org>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\FederatedFileSharing;
 
@@ -35,6 +15,7 @@ use OCP\IURLGenerator;
 use OCP\L10N\IFactory;
 use OCP\Notification\INotification;
 use OCP\Notification\INotifier;
+use OCP\Notification\UnknownNotificationException;
 
 class Notifier implements INotifier {
 	/** @var IFactory */
@@ -85,16 +66,16 @@ class Notifier implements INotifier {
 	 * @param INotification $notification
 	 * @param string $languageCode The code of the language that should be used to prepare the notification
 	 * @return INotification
-	 * @throws \InvalidArgumentException
+	 * @throws UnknownNotificationException
 	 */
 	public function prepare(INotification $notification, string $languageCode): INotification {
 		if ($notification->getApp() !== 'files_sharing' || $notification->getObjectType() !== 'remote_share') {
 			// Not my app => throw
-			throw new \InvalidArgumentException();
+			throw new UnknownNotificationException();
 		}
 
 		// Read the language from the notification
-		$l = $this->factory->get('files_sharing', $languageCode);
+		$l = $this->factory->get('federatedfilesharing', $languageCode);
 
 		switch ($notification->getSubject()) {
 			// Deal with known subjects
@@ -102,8 +83,9 @@ class Notifier implements INotifier {
 				$notification->setIcon($this->url->getAbsoluteURL($this->url->imagePath('core', 'actions/share.svg')));
 
 				$params = $notification->getSubjectParameters();
+				$displayName = (count($params) > 3) ? $params[3] : '';
 				if ($params[0] !== $params[1] && $params[1] !== null) {
-					$remoteInitiator = $this->createRemoteUser($params[0]);
+					$remoteInitiator = $this->createRemoteUser($params[0], $displayName);
 					$remoteOwner = $this->createRemoteUser($params[1]);
 					$params[3] = $remoteInitiator['name'] . '@' . $remoteInitiator['server'];
 					$params[4] = $remoteOwner['name'] . '@' . $remoteOwner['server'];
@@ -121,7 +103,7 @@ class Notifier implements INotifier {
 						]
 					);
 				} else {
-					$remoteOwner = $this->createRemoteUser($params[0]);
+					$remoteOwner = $this->createRemoteUser($params[0], $displayName);
 					$params[3] = $remoteOwner['name'] . '@' . $remoteOwner['server'];
 
 					$notification->setRichSubject(
@@ -160,25 +142,27 @@ class Notifier implements INotifier {
 
 			default:
 				// Unknown subject => Unknown notification => throw
-				throw new \InvalidArgumentException();
+				throw new UnknownNotificationException();
 		}
 	}
 
 	/**
 	 * @param string $cloudId
+	 * @param string $displayName - overwrite display name
+	 *
 	 * @return array
 	 */
-	protected function createRemoteUser($cloudId, $displayName = null) {
+	protected function createRemoteUser(string $cloudId, string $displayName = '') {
 		try {
 			$resolvedId = $this->cloudIdManager->resolveCloudId($cloudId);
-			if ($displayName === null) {
+			if ($displayName === '') {
 				$displayName = $this->getDisplayName($resolvedId);
 			}
 			$user = $resolvedId->getUser();
 			$server = $resolvedId->getRemote();
 		} catch (HintException $e) {
 			$user = $cloudId;
-			$displayName = $cloudId;
+			$displayName = ($displayName !== '') ? $displayName : $cloudId;
 			$server = '';
 		}
 
@@ -199,9 +183,9 @@ class Notifier implements INotifier {
 	protected function getDisplayName(ICloudId $cloudId): string {
 		$server = $cloudId->getRemote();
 		$user = $cloudId->getUser();
-		if (strpos($server, 'http://') === 0) {
+		if (str_starts_with($server, 'http://')) {
 			$server = substr($server, strlen('http://'));
-		} elseif (strpos($server, 'https://') === 0) {
+		} elseif (str_starts_with($server, 'https://')) {
 			$server = substr($server, strlen('https://'));
 		}
 

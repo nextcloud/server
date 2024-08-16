@@ -1,24 +1,7 @@
 <?php
 /**
- * @copyright Copyright (c) 2022 John Molakvoæ <skjnldsv@protonmail.com>
- *
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\Files\Service;
 
@@ -28,7 +11,7 @@ use OCP\IUser;
 use OCP\IUserSession;
 
 class UserConfig {
-	const ALLOWED_CONFIGS = [
+	public const ALLOWED_CONFIGS = [
 		[
 			// Whether to crop the files previews or not in the files list
 			'key' => 'crop_image_previews',
@@ -39,6 +22,30 @@ class UserConfig {
 			// Whether to show the hidden files or not in the files list
 			'key' => 'show_hidden',
 			'default' => false,
+			'allowed' => [true, false],
+		],
+		[
+			// Whether to sort favorites first in the list or not
+			'key' => 'sort_favorites_first',
+			'default' => true,
+			'allowed' => [true, false],
+		],
+		[
+			// Whether to sort folders before files in the list or not
+			'key' => 'sort_folders_first',
+			'default' => true,
+			'allowed' => [true, false],
+		],
+		[
+			// Whether to show the files list in grid view or not
+			'key' => 'grid_view',
+			'default' => false,
+			'allowed' => [true, false],
+		],
+		[
+			// Whether to show the folder tree
+			'key' => 'folder_tree',
+			'default' => true,
 			'allowed' => [true, false],
 		],
 	];
@@ -56,7 +63,7 @@ class UserConfig {
 	 * @return string[]
 	 */
 	public function getAllowedConfigKeys(): array {
-		return array_map(function($config) {
+		return array_map(function ($config) {
 			return $config['key'];
 		}, self::ALLOWED_CONFIGS);
 	}
@@ -107,7 +114,7 @@ class UserConfig {
 		if (!in_array($key, $this->getAllowedConfigKeys())) {
 			throw new \InvalidArgumentException('Unknown config key');
 		}
-	
+
 		if (!in_array($value, $this->getAllowedConfigValues($key))) {
 			throw new \InvalidArgumentException('Invalid config value');
 		}
@@ -130,10 +137,10 @@ class UserConfig {
 		}
 
 		$userId = $this->user->getUID();
-		$userConfigs = array_map(function(string $key) use ($userId) {
+		$userConfigs = array_map(function (string $key) use ($userId) {
 			$value = $this->config->getUserValue($userId, Application::APP_ID, $key, $this->getDefaultConfigValue($key));
 			// If the default is expected to be a boolean, we need to cast the value
-			if (is_bool($this->getDefaultConfigValue($key))) {
+			if (is_bool($this->getDefaultConfigValue($key)) && is_string($value)) {
 				return $value === '1';
 			}
 			return $value;

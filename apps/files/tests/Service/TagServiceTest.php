@@ -1,38 +1,18 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Daniel Kesselberg <mail@danielkesselberg.de>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Vincent Petry <vincent@nextcloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\Files\Tests\Service;
 
 use OCA\Files\Service\TagService;
 use OCP\Activity\IManager;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\ITags;
 use OCP\IUser;
 use OCP\IUserSession;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
  * Class TagServiceTest
@@ -59,7 +39,7 @@ class TagServiceTest extends \Test\TestCase {
 	 */
 	private $root;
 
-	/** @var EventDispatcherInterface|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IEventDispatcher|\PHPUnit\Framework\MockObject\MockObject */
 	private $dispatcher;
 
 	/**
@@ -90,7 +70,7 @@ class TagServiceTest extends \Test\TestCase {
 			->willReturn($user);
 
 		$this->root = \OC::$server->getUserFolder();
-		$this->dispatcher = $this->createMock(EventDispatcherInterface::class);
+		$this->dispatcher = $this->createMock(IEventDispatcher::class);
 
 		$this->tagger = \OC::$server->getTagManager()->load('files');
 		$this->tagService = $this->getTagService(['addActivity']);

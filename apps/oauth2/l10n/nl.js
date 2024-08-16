@@ -8,13 +8,13 @@ OC.L10N.register(
     "The OAuth2 app allows administrators to configure the built-in authentication workflow to also allow OAuth2 compatible authentication from other web applications." : "De OAuth2 app laat beheerders de ingebouwde inlog-workflow configureren om ook OAuth2 compatible authenticatie vanaf andere web applicaties mogelijk te maken.",
     "OAuth 2.0 clients" : "OAuth 2.0 Clients",
     "OAuth 2.0 allows external services to request access to {instanceName}." : "OAuth 2.0 staat externe services toe om toegang te vragen bij {instanceName}.",
-    "Add client" : "Voeg client toe",
     "Name" : "Naam",
     "Redirection URI" : "Omeiding URI",
-    "Add" : "Toevoegen",
     "Client Identifier" : "Client identificatie",
-    "Secret" : "Geheim",
-    "Show client secret" : "Tonen client secret",
-    "Delete" : "verwijderen"
+    "Secret key" : "Geheime sleutel",
+    "Add client" : "Voeg client toe",
+    "Add" : "Toevoegen",
+    "Delete" : "verwijderen",
+    "Show client secret" : "Tonen client secret"
 },
 "nplurals=2; plural=(n != 1);");

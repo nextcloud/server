@@ -1,28 +1,10 @@
 <?php
 
 declare(strict_types=1);
-
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OC\Files\Node;
 
@@ -30,6 +12,7 @@ use OC\Files\Filesystem;
 use OC\Files\View;
 use OCP\EventDispatcher\GenericEvent;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Exceptions\AbortedEventException;
 use OCP\Files\Events\Node\BeforeNodeCopiedEvent;
 use OCP\Files\Events\Node\BeforeNodeCreatedEvent;
 use OCP\Files\Events\Node\BeforeNodeDeletedEvent;
@@ -46,39 +29,18 @@ use OCP\Files\Events\Node\NodeWrittenEvent;
 use OCP\Files\FileInfo;
 use OCP\Files\IRootFolder;
 use OCP\Util;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Psr\Log\LoggerInterface;
 
 class HookConnector {
-	/** @var IRootFolder */
-	private $root;
-
-	/** @var View */
-	private $view;
-
 	/** @var FileInfo[] */
-	private $deleteMetaCache = [];
+	private array $deleteMetaCache = [];
 
-	/** @var EventDispatcherInterface */
-	private $legacyDispatcher;
-
-	/** @var IEventDispatcher */
-	private $dispatcher;
-
-	/**
-	 * HookConnector constructor.
-	 *
-	 * @param Root $root
-	 * @param View $view
-	 */
 	public function __construct(
-		IRootFolder $root,
-		View $view,
-		EventDispatcherInterface $legacyDispatcher,
-		IEventDispatcher $dispatcher) {
-		$this->root = $root;
-		$this->view = $view;
-		$this->legacyDispatcher = $legacyDispatcher;
-		$this->dispatcher = $dispatcher;
+		private IRootFolder $root,
+		private View $view,
+		private IEventDispatcher $dispatcher,
+		private LoggerInterface $logger
+	) {
 	}
 
 	public function viewToNode() {
@@ -106,7 +68,7 @@ class HookConnector {
 	public function write($arguments) {
 		$node = $this->getNodeForPath($arguments['path']);
 		$this->root->emit('\OC\Files', 'preWrite', [$node]);
-		$this->legacyDispatcher->dispatch('\OCP\Files::preWrite', new GenericEvent($node));
+		$this->dispatcher->dispatch('\OCP\Files::preWrite', new GenericEvent($node));
 
 		$event = new BeforeNodeWrittenEvent($node);
 		$this->dispatcher->dispatchTyped($event);
@@ -115,7 +77,7 @@ class HookConnector {
 	public function postWrite($arguments) {
 		$node = $this->getNodeForPath($arguments['path']);
 		$this->root->emit('\OC\Files', 'postWrite', [$node]);
-		$this->legacyDispatcher->dispatch('\OCP\Files::postWrite', new GenericEvent($node));
+		$this->dispatcher->dispatch('\OCP\Files::postWrite', new GenericEvent($node));
 
 		$event = new NodeWrittenEvent($node);
 		$this->dispatcher->dispatchTyped($event);
@@ -124,7 +86,7 @@ class HookConnector {
 	public function create($arguments) {
 		$node = $this->getNodeForPath($arguments['path']);
 		$this->root->emit('\OC\Files', 'preCreate', [$node]);
-		$this->legacyDispatcher->dispatch('\OCP\Files::preCreate', new GenericEvent($node));
+		$this->dispatcher->dispatch('\OCP\Files::preCreate', new GenericEvent($node));
 
 		$event = new BeforeNodeCreatedEvent($node);
 		$this->dispatcher->dispatchTyped($event);
@@ -133,7 +95,7 @@ class HookConnector {
 	public function postCreate($arguments) {
 		$node = $this->getNodeForPath($arguments['path']);
 		$this->root->emit('\OC\Files', 'postCreate', [$node]);
-		$this->legacyDispatcher->dispatch('\OCP\Files::postCreate', new GenericEvent($node));
+		$this->dispatcher->dispatch('\OCP\Files::postCreate', new GenericEvent($node));
 
 		$event = new NodeCreatedEvent($node);
 		$this->dispatcher->dispatchTyped($event);
@@ -143,17 +105,22 @@ class HookConnector {
 		$node = $this->getNodeForPath($arguments['path']);
 		$this->deleteMetaCache[$node->getPath()] = $node->getFileInfo();
 		$this->root->emit('\OC\Files', 'preDelete', [$node]);
-		$this->legacyDispatcher->dispatch('\OCP\Files::preDelete', new GenericEvent($node));
+		$this->dispatcher->dispatch('\OCP\Files::preDelete', new GenericEvent($node));
 
 		$event = new BeforeNodeDeletedEvent($node);
-		$this->dispatcher->dispatchTyped($event);
+		try {
+			$this->dispatcher->dispatchTyped($event);
+		} catch (AbortedEventException $e) {
+			$arguments['run'] = false;
+			$this->logger->warning('delete process aborted', ['exception' => $e]);
+		}
 	}
 
 	public function postDelete($arguments) {
 		$node = $this->getNodeForPath($arguments['path']);
 		unset($this->deleteMetaCache[$node->getPath()]);
 		$this->root->emit('\OC\Files', 'postDelete', [$node]);
-		$this->legacyDispatcher->dispatch('\OCP\Files::postDelete', new GenericEvent($node));
+		$this->dispatcher->dispatch('\OCP\Files::postDelete', new GenericEvent($node));
 
 		$event = new NodeDeletedEvent($node);
 		$this->dispatcher->dispatchTyped($event);
@@ -162,7 +129,7 @@ class HookConnector {
 	public function touch($arguments) {
 		$node = $this->getNodeForPath($arguments['path']);
 		$this->root->emit('\OC\Files', 'preTouch', [$node]);
-		$this->legacyDispatcher->dispatch('\OCP\Files::preTouch', new GenericEvent($node));
+		$this->dispatcher->dispatch('\OCP\Files::preTouch', new GenericEvent($node));
 
 		$event = new BeforeNodeTouchedEvent($node);
 		$this->dispatcher->dispatchTyped($event);
@@ -171,7 +138,7 @@ class HookConnector {
 	public function postTouch($arguments) {
 		$node = $this->getNodeForPath($arguments['path']);
 		$this->root->emit('\OC\Files', 'postTouch', [$node]);
-		$this->legacyDispatcher->dispatch('\OCP\Files::postTouch', new GenericEvent($node));
+		$this->dispatcher->dispatch('\OCP\Files::postTouch', new GenericEvent($node));
 
 		$event = new NodeTouchedEvent($node);
 		$this->dispatcher->dispatchTyped($event);
@@ -181,17 +148,22 @@ class HookConnector {
 		$source = $this->getNodeForPath($arguments['oldpath']);
 		$target = $this->getNodeForPath($arguments['newpath']);
 		$this->root->emit('\OC\Files', 'preRename', [$source, $target]);
-		$this->legacyDispatcher->dispatch('\OCP\Files::preRename', new GenericEvent([$source, $target]));
+		$this->dispatcher->dispatch('\OCP\Files::preRename', new GenericEvent([$source, $target]));
 
 		$event = new BeforeNodeRenamedEvent($source, $target);
-		$this->dispatcher->dispatchTyped($event);
+		try {
+			$this->dispatcher->dispatchTyped($event);
+		} catch (AbortedEventException $e) {
+			$arguments['run'] = false;
+			$this->logger->warning('rename process aborted', ['exception' => $e]);
+		}
 	}
 
 	public function postRename($arguments) {
 		$source = $this->getNodeForPath($arguments['oldpath']);
 		$target = $this->getNodeForPath($arguments['newpath']);
 		$this->root->emit('\OC\Files', 'postRename', [$source, $target]);
-		$this->legacyDispatcher->dispatch('\OCP\Files::postRename', new GenericEvent([$source, $target]));
+		$this->dispatcher->dispatch('\OCP\Files::postRename', new GenericEvent([$source, $target]));
 
 		$event = new NodeRenamedEvent($source, $target);
 		$this->dispatcher->dispatchTyped($event);
@@ -201,17 +173,22 @@ class HookConnector {
 		$source = $this->getNodeForPath($arguments['oldpath']);
 		$target = $this->getNodeForPath($arguments['newpath']);
 		$this->root->emit('\OC\Files', 'preCopy', [$source, $target]);
-		$this->legacyDispatcher->dispatch('\OCP\Files::preCopy', new GenericEvent([$source, $target]));
+		$this->dispatcher->dispatch('\OCP\Files::preCopy', new GenericEvent([$source, $target]));
 
 		$event = new BeforeNodeCopiedEvent($source, $target);
-		$this->dispatcher->dispatchTyped($event);
+		try {
+			$this->dispatcher->dispatchTyped($event);
+		} catch (AbortedEventException $e) {
+			$arguments['run'] = false;
+			$this->logger->warning('copy process aborted', ['exception' => $e]);
+		}
 	}
 
 	public function postCopy($arguments) {
 		$source = $this->getNodeForPath($arguments['oldpath']);
 		$target = $this->getNodeForPath($arguments['newpath']);
 		$this->root->emit('\OC\Files', 'postCopy', [$source, $target]);
-		$this->legacyDispatcher->dispatch('\OCP\Files::postCopy', new GenericEvent([$source, $target]));
+		$this->dispatcher->dispatch('\OCP\Files::postCopy', new GenericEvent([$source, $target]));
 
 		$event = new NodeCopiedEvent($source, $target);
 		$this->dispatcher->dispatchTyped($event);
@@ -220,7 +197,7 @@ class HookConnector {
 	public function read($arguments) {
 		$node = $this->getNodeForPath($arguments['path']);
 		$this->root->emit('\OC\Files', 'read', [$node]);
-		$this->legacyDispatcher->dispatch('\OCP\Files::read', new GenericEvent([$node]));
+		$this->dispatcher->dispatch('\OCP\Files::read', new GenericEvent([$node]));
 
 		$event = new BeforeNodeReadEvent($node);
 		$this->dispatcher->dispatchTyped($event);

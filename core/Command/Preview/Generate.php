@@ -2,31 +2,16 @@
 
 declare(strict_types=1);
 /**
- * @copyright Copyright (c) 2023 Robin Appelman <robin@icewind.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace OC\Core\Command\Preview;
 
 use OCP\Files\Config\IUserMountCache;
+use OCP\Files\File;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;
-use OCP\Files\File;
 use OCP\Files\NotFoundException;
 use OCP\IPreview;
 use Symfony\Component\Console\Command\Command;
@@ -57,13 +42,13 @@ class Generate extends Command {
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$fileInput = $input->getArgument("file");
 		$sizes = $input->getOption("size");
-		$sizes = array_map(function (string $size) use ($output, &$error) {
+		$sizes = array_map(function (string $size) use ($output) {
 			if (str_contains($size, 'x')) {
 				$sizeParts = explode('x', $size, 2);
 			} else {
 				$sizeParts = [$size, $size];
 			}
-			if (!is_numeric($sizeParts[0]) || !is_numeric($sizeParts[1])) {
+			if (!is_numeric($sizeParts[0]) || !is_numeric($sizeParts[1] ?? null)) {
 				$output->writeln("<error>Invalid size $size</error>");
 				return null;
 			}
@@ -121,11 +106,7 @@ class Generate extends Command {
 			}
 			$mount = $mounts[0];
 			$userFolder = $this->rootFolder->getUserFolder($mount->getUser()->getUID());
-			$nodes = $userFolder->getById((int)$fileInput);
-			if (!$nodes) {
-				return null;
-			}
-			return $nodes[0];
+			return $userFolder->getFirstNodeById((int)$fileInput);
 		} else {
 			try {
 				return $this->rootFolder->get($fileInput);

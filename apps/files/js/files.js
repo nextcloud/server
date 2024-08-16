@@ -1,11 +1,7 @@
-/*
- * Copyright (c) 2014
- *
- * This file is licensed under the Affero General Public License version 3
- * or later.
- *
- * See the COPYING-README file.
- *
+/**
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2012-2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 /* global getURLParameter */
@@ -25,7 +21,7 @@
 				state.call.abort();
 			}
 			state.dir = currentDir;
-			state.call = $.getJSON(OC.generateUrl('apps/files/ajax/getstoragestats?dir={dir}', {
+			state.call = $.getJSON(OC.generateUrl('apps/files/api/v1/stats?dir={dir}', {
 				dir: currentDir,
 			}), function(response) {
 				state.dir = null;
@@ -39,7 +35,7 @@
 		},
 		_updateStorageQuotas: function() {
 			var state = Files.updateStorageQuotas;
-			state.call = $.getJSON(OC.generateUrl('apps/files/ajax/getstoragestats'), function(response) {
+			state.call = $.getJSON(OC.generateUrl('apps/files/api/v1/stats'), function(response) {
 				Files.updateQuota(response);
 			});
 		},
@@ -101,8 +97,8 @@
 			 && response.data.total !== undefined
 			 && response.data.used !== undefined
 			 && response.data.usedSpacePercent !== undefined) {
-				var humanUsed = OC.Util.humanFileSize(response.data.used, true);
-				var humanTotal = OC.Util.humanFileSize(response.data.total, true);
+				var humanUsed = OC.Util.humanFileSize(response.data.used, true, false);
+				var humanTotal = OC.Util.humanFileSize(response.data.total, true, false);
 				if (response.data.quota > 0) {
 					$('#quota').attr('title', t('files', '{used}%', {used: Math.round(response.data.usedSpacePercent)}));
 					$('#quota progress').val(response.data.usedSpacePercent);
@@ -281,7 +277,7 @@
 		 * @deprecated used OCA.Files.FileList.generatePreviewUrl instead
 		 */
 		generatePreviewUrl: function(urlSpec) {
-			console.warn('DEPRECATED: please use generatePreviewUrl() from an OCA.Files.FileList instance');
+			OC.debug && console.warn('DEPRECATED: please use generatePreviewUrl() from an OCA.Files.FileList instance');
 			return OCA.Files.App.fileList.generatePreviewUrl(urlSpec);
 		},
 
@@ -290,7 +286,7 @@
 		 * @deprecated used OCA.Files.FileList.lazyLoadPreview instead
 		 */
 		lazyLoadPreview : function(path, mime, ready, width, height, etag) {
-			console.warn('DEPRECATED: please use lazyLoadPreview() from an OCA.Files.FileList instance');
+			OC.debug && console.warn('DEPRECATED: please use lazyLoadPreview() from an OCA.Files.FileList instance');
 			return FileList.lazyLoadPreview({
 				path: path,
 				mime: mime,
@@ -425,7 +421,7 @@ var createDragShadow = function(event) {
 			.attr('data-file', elem.name)
 			.attr('data-origin', elem.origin);
 		newtr.append($('<td class="filename"></td>').text(elem.name).css('background-size', 32));
-		newtr.append($('<td class="size"></td>').text(OC.Util.humanFileSize(elem.size)));
+		newtr.append($('<td class="size"></td>').text(OC.Util.humanFileSize(elem.size, false, false)));
 		tbody.append(newtr);
 		if (elem.type === 'dir') {
 			newtr.find('td.filename')

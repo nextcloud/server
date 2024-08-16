@@ -1,27 +1,9 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OC\Comments;
 
@@ -42,6 +24,7 @@ class Comment implements IComment {
 		'objectType' => '',
 		'objectId' => '',
 		'referenceId' => null,
+		'metaData' => null,
 		'creationDT' => null,
 		'latestChildDT' => null,
 		'reactions' => null,
@@ -54,7 +37,7 @@ class Comment implements IComment {
 	 * @param array $data	optional, array with keys according to column names from
 	 * 						the comments database scheme
 	 */
-	public function __construct(array $data = null) {
+	public function __construct(?array $data = null) {
 		if (is_array($data)) {
 			$this->fromArray($data);
 		}
@@ -219,7 +202,7 @@ class Comment implements IComment {
 	 *
 	 */
 	public function getMentions(): array {
-		$ok = preg_match_all("/\B(?<![^a-z0-9_\-@\.\'\s])@(\"guest\/[a-f0-9]+\"|\"group\/[a-z0-9_\-@\.\' ]+\"|\"[a-z0-9_\-@\.\' ]+\"|[a-z0-9_\-@\.\']+)/i", $this->getMessage(), $mentions);
+		$ok = preg_match_all("/\B(?<![^a-z0-9_\-@\.\'\s])@(\"guest\/[a-f0-9]+\"|\"(?:federated_)?(?:group|team|user){1}\/[a-z0-9_\-@\.\' \/:]+\"|\"[a-z0-9_\-@\.\' ]+\"|[a-z0-9_\-@\.\']+)/i", $this->getMessage(), $mentions);
 		if (!$ok || !isset($mentions[0])) {
 			return [];
 		}
@@ -229,11 +212,21 @@ class Comment implements IComment {
 		});
 		$result = [];
 		foreach ($mentionIds as $mentionId) {
+			// Cut-off the @ and remove wrapping double-quotes
 			$cleanId = trim(substr($mentionId, 1), '"');
+
 			if (str_starts_with($cleanId, 'guest/')) {
 				$result[] = ['type' => 'guest', 'id' => $cleanId];
+			} elseif (str_starts_with($cleanId, 'federated_group/')) {
+				$result[] = ['type' => 'federated_group', 'id' => substr($cleanId, 16)];
 			} elseif (str_starts_with($cleanId, 'group/')) {
 				$result[] = ['type' => 'group', 'id' => substr($cleanId, 6)];
+			} elseif (str_starts_with($cleanId, 'federated_team/')) {
+				$result[] = ['type' => 'federated_team', 'id' => substr($cleanId, 15)];
+			} elseif (str_starts_with($cleanId, 'team/')) {
+				$result[] = ['type' => 'team', 'id' => substr($cleanId, 5)];
+			} elseif (str_starts_with($cleanId, 'federated_user/')) {
+				$result[] = ['type' => 'federated_user', 'id' => substr($cleanId, 15)];
 			} else {
 				$result[] = ['type' => 'user', 'id' => $cleanId];
 			}
@@ -396,6 +389,34 @@ class Comment implements IComment {
 				throw new \InvalidArgumentException('Non empty string expected.');
 			}
 			$this->data['referenceId'] = $referenceId;
+		}
+		return $this;
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function getMetaData(): ?array {
+		if ($this->data['metaData'] === null) {
+			return null;
+		}
+
+		try {
+			$metaData = json_decode($this->data['metaData'], true, flags: JSON_THROW_ON_ERROR);
+		} catch (\JsonException $e) {
+			return null;
+		}
+		return is_array($metaData) ? $metaData : null;
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function setMetaData(?array $metaData):  IComment {
+		if ($metaData === null) {
+			$this->data['metaData'] = null;
+		} else {
+			$this->data['metaData'] = json_encode($metaData, JSON_THROW_ON_ERROR);
 		}
 		return $this;
 	}

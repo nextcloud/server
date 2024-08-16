@@ -1,50 +1,29 @@
 <?php
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Björn Schießle <bjoern@schiessle.org>
- * @author Daniel Kesselberg <mail@danielkesselberg.de>
- * @author Frédéric Fortier <frederic.fortier@oronospolytechnique.com>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Vincent Petry <vincent@nextcloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 
 namespace OCA\Files_Sharing;
 
-use OCP\Cache\CappedMemoryCache;
 use OC\Files\Filesystem;
 use OC\Files\Mount\MountPoint;
 use OC\Files\Mount\MoveableMount;
 use OC\Files\View;
+use OCP\Cache\CappedMemoryCache;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Events\InvalidateMountCacheEvent;
 use OCP\Files\Storage\IStorageFactory;
 use OCP\ICache;
 use OCP\IUser;
 use OCP\Share\Events\VerifyMountPointEvent;
+use Psr\Log\LoggerInterface;
 
 /**
  * Shared mount points can be moved by the user
  */
-class SharedMount extends MountPoint implements MoveableMount {
+class SharedMount extends MountPoint implements MoveableMount, ISharedMountPoint {
 	/**
 	 * @var \OCA\Files_Sharing\SharedStorage $storage
 	 */
@@ -198,7 +177,7 @@ class SharedMount extends MountPoint implements MoveableMount {
 
 		// it is not a file relative to data/user/files
 		if (count($split) < 3 || $split[1] !== 'files') {
-			\OC::$server->getLogger()->error('Can not strip userid and "files/" from path: ' . $path, ['app' => 'files_sharing']);
+			\OCP\Server::get(LoggerInterface::class)->error('Can not strip userid and "files/" from path: ' . $path, ['app' => 'files_sharing']);
 			throw new \OCA\Files_Sharing\Exceptions\BrokenPath('Path does not start with /user/files', 10);
 		}
 
@@ -226,7 +205,13 @@ class SharedMount extends MountPoint implements MoveableMount {
 			$this->setMountPoint($target);
 			$this->storage->setMountPoint($relTargetPath);
 		} catch (\Exception $e) {
-			\OC::$server->getLogger()->logException($e, ['app' => 'files_sharing', 'message' => 'Could not rename mount point for shared folder "' . $this->getMountPoint() . '" to "' . $target . '"']);
+			\OCP\Server::get(LoggerInterface::class)->error(
+				'Could not rename mount point for shared folder "' . $this->getMountPoint() . '" to "' . $target . '"',
+				[
+					'app' => 'files_sharing',
+					'exception' => $e,
+				]
+			);
 		}
 
 		return $result;

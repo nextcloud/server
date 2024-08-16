@@ -1,30 +1,10 @@
 <?php
 
 declare(strict_types=1);
-
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author MichaIng <micha@dietpi.com>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OC\Security;
 
@@ -42,28 +22,23 @@ use OCP\Security\IHasher;
  *
  * Usage:
  * // Hashing a message
- * $hash = \OC::$server->getHasher()->hash('MessageToHash');
+ * $hash = \OC::$server->get(\OCP\Security\IHasher::class)->hash('MessageToHash');
  * // Verifying a message - $newHash will contain the newly calculated hash
  * $newHash = null;
- * var_dump(\OC::$server->getHasher()->verify('a', '86f7e437faa5a7fce15d1ddcb9eaeaea377667b8', $newHash));
+ * var_dump(\OC::$server->get(\OCP\Security\IHasher::class)->verify('a', '86f7e437faa5a7fce15d1ddcb9eaeaea377667b8', $newHash));
  * var_dump($newHash);
  *
  * @package OC\Security
  */
 class Hasher implements IHasher {
-	/** @var IConfig */
-	private $config;
-	/** @var array Options passed to password_hash and password_needs_rehash */
-	private $options = [];
-	/** @var string Salt used for legacy passwords */
-	private $legacySalt = null;
+	/** Options passed to password_hash and password_needs_rehash */
+	private array $options = [];
+	/** Salt used for legacy passwords */
+	private ?string $legacySalt = null;
 
-	/**
-	 * @param IConfig $config
-	 */
-	public function __construct(IConfig $config) {
-		$this->config = $config;
-
+	public function __construct(
+		private IConfig $config,
+	) {
 		if (\defined('PASSWORD_ARGON2ID') || \defined('PASSWORD_ARGON2I')) {
 			// password_hash fails, when the minimum values are undershot.
 			// In this case, apply minimum.
@@ -104,9 +79,9 @@ class Hasher implements IHasher {
 	/**
 	 * Get the version and hash from a prefixedHash
 	 * @param string $prefixedHash
-	 * @return null|array Null if the hash is not prefixed, otherwise array('version' => 1, 'hash' => 'foo')
+	 * @return null|array{version: int, hash: string} Null if the hash is not prefixed, otherwise array('version' => 1, 'hash' => 'foo')
 	 */
-	protected function splitHash(string $prefixedHash) {
+	protected function splitHash(string $prefixedHash): ?array {
 		$explodedString = explode('|', $prefixedHash, 2);
 		if (\count($explodedString) === 2) {
 			if ((int)$explodedString[0] > 0) {
@@ -198,7 +173,7 @@ class Hasher implements IHasher {
 		return password_needs_rehash($hash, $algorithm, $this->options);
 	}
 
-	private function getPrefferedAlgorithm() {
+	private function getPrefferedAlgorithm(): string {
 		$default = PASSWORD_BCRYPT;
 		if (\defined('PASSWORD_ARGON2I')) {
 			$default = PASSWORD_ARGON2I;
@@ -214,5 +189,19 @@ class Hasher implements IHasher {
 		}
 
 		return $default;
+	}
+
+	public function validate(string $prefixedHash): bool {
+		$splitHash = $this->splitHash($prefixedHash);
+		if (empty($splitHash)) {
+			return false;
+		}
+		$validVersions = [3, 2, 1];
+		$version = $splitHash['version'];
+		if (!in_array($version, $validVersions, true)) {
+			return false;
+		}
+		$algoName = password_get_info($splitHash['hash'])['algoName'];
+		return $algoName !== 'unknown';
 	}
 }

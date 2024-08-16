@@ -1,9 +1,8 @@
 <?php
 /**
- * Copyright (c) 2012 Robin Appelman <icewind@owncloud.com>
- * This file is licensed under the Affero General Public License version 3 or
- * later.
- * See the COPYING-README file.
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace Test\Files\Cache;
@@ -262,14 +261,14 @@ class UpdaterLegacyTest extends \Test\TestCase {
 		$this->assertIsString($cachedData['etag']);
 		$this->assertNotSame($oldEtag, $cachedData['etag']);
 		// rename can cause mtime change - invalid assert
-//		$this->assertEquals($mtime, $cachedData['mtime']);
+		//		$this->assertEquals($mtime, $cachedData['mtime']);
 
 		$cachedData = $view->getFileInfo('folder');
 		$this->assertIsString($folderCachedData['etag']);
 		$this->assertIsString($cachedData['etag']);
 		$this->assertNotSame($oldEtag, $cachedData['etag']);
 		// rename can cause mtime change - invalid assert
-//		$this->assertEquals($mtime, $cachedData['mtime']);
+		//		$this->assertEquals($mtime, $cachedData['mtime']);
 	}
 
 	public function testTouch() {

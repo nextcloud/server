@@ -1,21 +1,7 @@
 /**
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2015 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 
 /**
@@ -42,21 +28,21 @@ OC.MimeType = {
 		var icon = mimeType.replace(new RegExp('/', 'g'), '-');
 
 		// Generate path
-		if (mimeType === 'dir' && $.inArray('folder', files) !== -1) {
+		if (mimeType === 'dir' && files.includes('folder')) {
 			return 'folder';
-		} else if (mimeType === 'dir-encrypted' && $.inArray('folder-encrypted', files) !== -1) {
+		} else if (mimeType === 'dir-encrypted' && files.includes('folder-encrypted')) {
 			return 'folder-encrypted';
-		} else if (mimeType === 'dir-shared' && $.inArray('folder-shared', files) !== -1) {
+		} else if (mimeType === 'dir-shared' && files.includes('folder-shared')) {
 			return 'folder-shared';
-		} else if (mimeType === 'dir-public' && $.inArray('folder-public', files) !== -1) {
+		} else if (mimeType === 'dir-public' && files.includes('folder-public')) {
 			return 'folder-public';
-		} else if ((mimeType === 'dir-external' || mimeType === 'dir-external-root') && $.inArray('folder-external', files) !== -1) {
+		} else if ((mimeType === 'dir-external' || mimeType === 'dir-external-root') && files.includes('folder-external')) {
 			return 'folder-external';
-		} else if ($.inArray(icon, files) !== -1) {
+		} else if (files.includes(icon)) {
 			return icon;
-		} else if ($.inArray(icon.split('-')[0], files) !== -1) {
+		} else if (files.includes(icon.split('-')[0])) {
 			return icon.split('-')[0];
-		} else if ($.inArray('file', files) !== -1) {
+		} else if (files.includes('file')) {
 			return 'file';
 		}
 
@@ -70,13 +56,14 @@ OC.MimeType = {
 	 * @return {string} Url to the icon for mimeType
 	 */
 	getIconUrl: function(mimeType) {
-		if (_.isUndefined(mimeType)) {
+		if (typeof mimeType === 'undefined') {
 			return undefined;
 		}
 
 		while (mimeType in OC.MimeTypeList.aliases) {
 			mimeType = OC.MimeTypeList.aliases[mimeType];
 		}
+
 		if (mimeType in OC.MimeType._mimeTypeIcons) {
 			return OC.MimeType._mimeTypeIcons[mimeType];
 		}
@@ -84,7 +71,7 @@ OC.MimeType = {
 		// First try to get the correct icon from the current theme
 		var gotIcon = null;
 		var path = '';
-		if (OC.theme.folder !== '' && $.isArray(OC.MimeTypeList.themes[OC.theme.folder])) {
+		if (OC.theme.folder !== '' && Array.isArray(OC.MimeTypeList.themes[OC.theme.folder])) {
 			path = OC.getRootPath() + '/themes/' + OC.theme.folder + '/core/img/filetypes/';
 			var icon = OC.MimeType._getFile(mimeType, OC.MimeTypeList.themes[OC.theme.folder]);
 

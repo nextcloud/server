@@ -1,43 +1,22 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Bjoern Schiessle <bjoern@schiessle.org>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Ko- <k.stoffelen@cs.ru.nl>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Vincent Petry <vincent@nextcloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 use Psr\Log\LoggerInterface;
 
 // no php execution timeout for webdav
-if (strpos(@ini_get('disable_functions'), 'set_time_limit') === false) {
+if (!str_contains(@ini_get('disable_functions'), 'set_time_limit')) {
 	@set_time_limit(0);
 }
 ignore_user_abort(true);
 
 // Turn off output buffering to prevent memory problems
 \OC_Util::obEnd();
+
+$dispatcher = \OC::$server->get(\OCP\EventDispatcher\IEventDispatcher::class);
 
 $serverFactory = new \OCA\DAV\Connector\Sabre\ServerFactory(
 	\OC::$server->getConfig(),
@@ -48,7 +27,7 @@ $serverFactory = new \OCA\DAV\Connector\Sabre\ServerFactory(
 	\OC::$server->getTagManager(),
 	\OC::$server->getRequest(),
 	\OC::$server->getPreviewManager(),
-	\OC::$server->getEventDispatcher(),
+	$dispatcher,
 	\OC::$server->getL10N('dav')
 );
 
@@ -76,10 +55,11 @@ $server = $serverFactory->createServer($baseuri, $requestUri, $authPlugin, funct
 	return \OC\Files\Filesystem::getView();
 });
 
-$dispatcher = \OC::$server->getEventDispatcher();
 // allow setup of additional plugins
 $event = new \OCP\SabrePluginEvent($server);
 $dispatcher->dispatch('OCA\DAV\Connector\Sabre::addPlugin', $event);
+$event = new \OCA\DAV\Events\SabrePluginAddEvent($server);
+$dispatcher->dispatchTyped($event);
 
 // And off we go!
 $server->exec();

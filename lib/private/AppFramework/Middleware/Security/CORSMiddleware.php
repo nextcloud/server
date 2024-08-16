@@ -1,35 +1,15 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Bernhard Posselt <dev@bernhard-posselt.com>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author korelstar <korelstar@users.noreply.github.com>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Stefan Weil <sw@weilnetz.de>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OC\AppFramework\Middleware\Security;
 
 use OC\AppFramework\Middleware\Security\Exceptions\SecurityException;
 use OC\AppFramework\Utility\ControllerMethodReflector;
 use OC\Authentication\Exceptions\PasswordLoginForbiddenException;
-use OC\Security\Bruteforce\Throttler;
 use OC\User\Session;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
@@ -39,6 +19,9 @@ use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Middleware;
 use OCP\IRequest;
+use OCP\ISession;
+use OCP\Security\Bruteforce\IThrottler;
+use Psr\Log\LoggerInterface;
 use ReflectionMethod;
 
 /**
@@ -54,19 +37,15 @@ class CORSMiddleware extends Middleware {
 	private $reflector;
 	/** @var Session */
 	private $session;
-	/** @var Throttler */
+	/** @var IThrottler */
 	private $throttler;
 
-	/**
-	 * @param IRequest $request
-	 * @param ControllerMethodReflector $reflector
-	 * @param Session $session
-	 * @param Throttler $throttler
-	 */
 	public function __construct(IRequest $request,
-								ControllerMethodReflector $reflector,
-								Session $session,
-								Throttler $throttler) {
+		ControllerMethodReflector $reflector,
+		Session $session,
+		IThrottler $throttler,
+		private readonly LoggerInterface $logger,
+	) {
 		$this->request = $request;
 		$this->reflector = $reflector;
 		$this->session = $session;
@@ -97,6 +76,10 @@ class CORSMiddleware extends Middleware {
 			if ($this->request->passesCSRFCheck()) {
 				return;
 			}
+			// Skip CORS check for requests with AppAPI auth.
+			if ($this->session->getSession() instanceof ISession && $this->session->getSession()->get('app_api') === true) {
+				return;
+			}
 			$this->session->logout();
 			try {
 				if ($user === null || $pass === null || !$this->session->logClientIn($user, $pass, $this->request, $this->throttler)) {
@@ -123,6 +106,7 @@ class CORSMiddleware extends Middleware {
 
 
 		if (!empty($reflectionMethod->getAttributes($attributeClass))) {
+			$this->logger->debug($reflectionMethod->getDeclaringClass()->getName() . '::' . $reflectionMethod->getName() . ' uses the @' . $annotationName . ' annotation and should use the #[' . $attributeClass . '] attribute instead');
 			return true;
 		}
 

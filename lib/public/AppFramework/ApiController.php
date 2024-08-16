@@ -1,28 +1,13 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Bernhard Posselt <dev@bernhard-posselt.com>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Morris Jobke <hey@morrisjobke.de>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCP\AppFramework;
 
+use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
 use OCP\AppFramework\Http\Attribute\PublicPage;
 use OCP\AppFramework\Http\Response;
@@ -52,10 +37,10 @@ abstract class ApiController extends Controller {
 	 * @since 7.0.0
 	 */
 	public function __construct($appName,
-								IRequest $request,
-								$corsMethods = 'PUT, POST, GET, DELETE, PATCH',
-								$corsAllowedHeaders = 'Authorization, Content-Type, Accept',
-								$corsMaxAge = 1728000) {
+		IRequest $request,
+		$corsMethods = 'PUT, POST, GET, DELETE, PATCH',
+		$corsAllowedHeaders = 'Authorization, Content-Type, Accept',
+		$corsMaxAge = 1728000) {
 		parent::__construct($appName, $request);
 		$this->corsMethods = $corsMethods;
 		$this->corsAllowedHeaders = $corsAllowedHeaders;
@@ -67,13 +52,11 @@ abstract class ApiController extends Controller {
 	 * This method implements a preflighted cors response for you that you can
 	 * link to for the options request
 	 *
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
-	 * @PublicPage
 	 * @since 7.0.0
 	 */
 	#[NoCSRFRequired]
 	#[PublicPage]
+	#[NoAdminRequired]
 	public function preflightedCors() {
 		if (isset($this->request->server['HTTP_ORIGIN'])) {
 			$origin = $this->request->server['HTTP_ORIGIN'];

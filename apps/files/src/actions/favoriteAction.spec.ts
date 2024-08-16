@@ -1,47 +1,35 @@
 /**
- * @copyright Copyright (c) 2023 John Molakvoæ <skjnldsv@protonmail.com>
- *
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- *
- * @license AGPL-3.0-or-later
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import * as favoriteAction from './favoriteAction'
 import { action } from './favoriteAction'
 import { expect } from '@jest/globals'
-import { File, Folder, Permission } from '@nextcloud/files'
-import { FileAction } from '../services/FileAction'
-import * as eventBus from '@nextcloud/event-bus'
+import { File, Permission, View, FileAction } from '@nextcloud/files'
 import axios from '@nextcloud/axios'
-import type { Navigation } from '../services/Navigation'
+import eventBus from '@nextcloud/event-bus'
+import * as favoriteAction from './favoriteAction'
 import logger from '../logger'
 
 const view = {
 	id: 'files',
 	name: 'Files',
-} as Navigation
+} as View
 
 const favoriteView = {
 	id: 'favorites',
 	name: 'Favorites',
-} as Navigation
+} as View
 
-global.window.OC = {
+window.OC = {
+	...window.OC,
 	TAG_FAVORITE: '_$!<Favorite>!$_',
 }
+
+// Mock webroot variable
+beforeAll(() => {
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	(window as any)._oc_webroot = ''
+})
 
 describe('Favorite action conditions tests', () => {
 	test('Default values', () => {
@@ -55,8 +43,8 @@ describe('Favorite action conditions tests', () => {
 		expect(action).toBeInstanceOf(FileAction)
 		expect(action.id).toBe('favorite')
 		expect(action.displayName([file], view)).toBe('Add to favorites')
-		expect(action.iconSvgInline([], view)).toBe('SvgMock')
-		expect(action.default).toBe(false)
+		expect(action.iconSvgInline([], view)).toBe('<svg>SvgMock</svg>')
+		expect(action.default).toBeUndefined()
 		expect(action.order).toBe(-50)
 	})
 
@@ -120,6 +108,7 @@ describe('Favorite action enabled tests', () => {
 			source: 'https://cloud.domain.com/remote.php/dav/files/admin/foobar.txt',
 			owner: 'admin',
 			mime: 'text/plain',
+			permissions: Permission.ALL,
 		})
 
 		expect(action.enabled).toBeDefined()

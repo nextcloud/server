@@ -1,9 +1,8 @@
 <?php
 /**
- * Copyright (c) 2014 Robin Appelman <icewind@owncloud.com>
- * This file is licensed under the Affero General Public License version 3 or
- * later.
- * See the COPYING-README file.
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace Test\BackgroundJob;
@@ -250,18 +249,64 @@ class JobListTest extends TestCase {
 
 	public function testHasReservedJobs() {
 		$this->clearJobsList();
+
+		$this->timeFactory->expects($this->atLeastOnce())
+			->method('getTime')
+			->willReturn(123456789);
+
 		$job = new TestJob($this->timeFactory, $this, function () {
-			$this->assertTrue($this->instance->hasReservedJob());
-			$this->assertTrue($this->instance->hasReservedJob(TestJob::class));
 		});
-		$this->instance->add($job);
+
+		$job2 = new TestJob($this->timeFactory, $this, function () {
+		});
+
+		$this->instance->add($job, 1);
+		$this->instance->add($job2, 2);
+
+		$this->assertCount(2, iterator_to_array($this->instance->getJobsIterator(null, 10, 0)));
 
 		$this->assertFalse($this->instance->hasReservedJob());
 		$this->assertFalse($this->instance->hasReservedJob(TestJob::class));
 
-		$job->start($this->instance);
+		$job = $this->instance->getNext();
+		$this->assertNotNull($job);
+		$this->assertTrue($this->instance->hasReservedJob());
+		$this->assertTrue($this->instance->hasReservedJob(TestJob::class));
+		$job = $this->instance->getNext();
+		$this->assertNotNull($job);
+		$this->assertTrue($this->instance->hasReservedJob());
+		$this->assertTrue($this->instance->hasReservedJob(TestJob::class));
+	}
 
-		$this->assertTrue($this->ran);
+	public function testHasReservedJobsAndParallelAwareJob() {
+		$this->clearJobsList();
+
+		$this->timeFactory->expects($this->atLeastOnce())
+			->method('getTime')
+			->willReturnCallback(function () use (&$time) {
+				return time();
+			});
+
+		$job = new TestParallelAwareJob($this->timeFactory, $this, function () {
+		});
+
+		$job2 = new TestParallelAwareJob($this->timeFactory, $this, function () {
+		});
+
+		$this->instance->add($job, 1);
+		$this->instance->add($job2, 2);
+
+		$this->assertCount(2, iterator_to_array($this->instance->getJobsIterator(null, 10, 0)));
+
+		$this->assertFalse($this->instance->hasReservedJob());
+		$this->assertFalse($this->instance->hasReservedJob(TestParallelAwareJob::class));
+
+		$job = $this->instance->getNext();
+		$this->assertNotNull($job);
+		$this->assertTrue($this->instance->hasReservedJob());
+		$this->assertTrue($this->instance->hasReservedJob(TestParallelAwareJob::class));
+		$job = $this->instance->getNext();
+		$this->assertNull($job); // Job doesn't allow parallel runs
 	}
 
 	public function markRun() {

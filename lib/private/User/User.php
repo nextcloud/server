@@ -1,36 +1,9 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Bart Visscher <bartv@thisnet.nl>
- * @author Björn Schießle <bjoern@schiessle.org>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- * @author Jörn Friedrich Dreyer <jfd@butonic.de>
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Leon Klingele <leon@struktur.de>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OC\User;
 
@@ -40,6 +13,7 @@ use OC\Avatar\AvatarManager;
 use OC\Hooks\Emitter;
 use OC_Helper;
 use OCP\Accounts\IAccountManager;
+use OCP\Comments\ICommentsManager;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Group\Events\BeforeUserRemovedEvent;
 use OCP\Group\Events\UserRemovedEvent;
@@ -49,16 +23,20 @@ use OCP\IImage;
 use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserBackend;
-use OCP\User\Events\BeforeUserDeletedEvent;
-use OCP\User\Events\UserDeletedEvent;
-use OCP\User\GetQuotaEvent;
+use OCP\Notification\IManager as INotificationManager;
+use OCP\User\Backend\IGetHomeBackend;
+use OCP\User\Backend\IPasswordHashBackend;
+use OCP\User\Backend\IProvideAvatarBackend;
+use OCP\User\Backend\IProvideEnabledStateBackend;
 use OCP\User\Backend\ISetDisplayNameBackend;
 use OCP\User\Backend\ISetPasswordBackend;
-use OCP\User\Backend\IProvideAvatarBackend;
-use OCP\User\Backend\IGetHomeBackend;
+use OCP\User\Events\BeforePasswordUpdatedEvent;
+use OCP\User\Events\BeforeUserDeletedEvent;
+use OCP\User\Events\PasswordUpdatedEvent;
+use OCP\User\Events\UserChangedEvent;
+use OCP\User\Events\UserDeletedEvent;
+use OCP\User\GetQuotaEvent;
 use OCP\UserInterface;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Symfony\Component\EventDispatcher\GenericEvent;
 use function json_decode;
 use function json_encode;
 
@@ -75,8 +53,6 @@ class User implements IUser {
 
 	/** @var UserInterface|null */
 	private $backend;
-	/** @var EventDispatcherInterface */
-	private $legacyDispatcher;
 
 	/** @var IEventDispatcher */
 	private $dispatcher;
@@ -102,10 +78,9 @@ class User implements IUser {
 	/** @var IURLGenerator */
 	private $urlGenerator;
 
-	public function __construct(string $uid, ?UserInterface $backend, EventDispatcherInterface $dispatcher, $emitter = null, IConfig $config = null, $urlGenerator = null) {
+	public function __construct(string $uid, ?UserInterface $backend, IEventDispatcher $dispatcher, $emitter = null, ?IConfig $config = null, $urlGenerator = null) {
 		$this->uid = $uid;
 		$this->backend = $backend;
-		$this->legacyDispatcher = $dispatcher;
 		$this->emitter = $emitter;
 		if (is_null($config)) {
 			$config = \OC::$server->getConfig();
@@ -115,8 +90,7 @@ class User implements IUser {
 		if (is_null($this->urlGenerator)) {
 			$this->urlGenerator = \OC::$server->getURLGenerator();
 		}
-		// TODO: inject
-		$this->dispatcher = \OC::$server->query(IEventDispatcher::class);
+		$this->dispatcher = $dispatcher;
 	}
 
 	/**
@@ -270,8 +244,6 @@ class User implements IUser {
 	 * @return bool
 	 */
 	public function delete() {
-		/** @deprecated 21.0.0 use BeforeUserDeletedEvent event with the IEventDispatcher instead */
-		$this->legacyDispatcher->dispatch(IUser::class . '::preDelete', new GenericEvent($this));
 		if ($this->emitter) {
 			/** @deprecated 21.0.0 use BeforeUserDeletedEvent event with the IEventDispatcher instead */
 			$this->emitter->emit('\OC\User', 'preDelete', [$this]);
@@ -294,23 +266,21 @@ class User implements IUser {
 			// Delete the user's keys in preferences
 			\OC::$server->getConfig()->deleteAllUserValues($this->uid);
 
-			\OC::$server->getCommentsManager()->deleteReferencesOfActor('users', $this->uid);
-			\OC::$server->getCommentsManager()->deleteReadMarksFromUser($this);
+			\OC::$server->get(ICommentsManager::class)->deleteReferencesOfActor('users', $this->uid);
+			\OC::$server->get(ICommentsManager::class)->deleteReadMarksFromUser($this);
 
 			/** @var AvatarManager $avatarManager */
-			$avatarManager = \OC::$server->query(AvatarManager::class);
+			$avatarManager = \OCP\Server::get(AvatarManager::class);
 			$avatarManager->deleteUserAvatar($this->uid);
 
-			$notification = \OC::$server->getNotificationManager()->createNotification();
+			$notification = \OC::$server->get(INotificationManager::class)->createNotification();
 			$notification->setUser($this->uid);
-			\OC::$server->getNotificationManager()->markProcessed($notification);
+			\OC::$server->get(INotificationManager::class)->markProcessed($notification);
 
 			/** @var AccountManager $accountManager */
-			$accountManager = \OC::$server->query(AccountManager::class);
+			$accountManager = \OCP\Server::get(AccountManager::class);
 			$accountManager->deleteUser($this);
 
-			/** @deprecated 21.0.0 use UserDeletedEvent event with the IEventDispatcher instead */
-			$this->legacyDispatcher->dispatch(IUser::class . '::postDelete', new GenericEvent($this));
 			if ($this->emitter) {
 				/** @deprecated 21.0.0 use UserDeletedEvent event with the IEventDispatcher instead */
 				$this->emitter->emit('\OC\User', 'postDelete', [$this]);
@@ -328,10 +298,7 @@ class User implements IUser {
 	 * @return bool
 	 */
 	public function setPassword($password, $recoveryPassword = null) {
-		$this->legacyDispatcher->dispatch(IUser::class . '::preSetPassword', new GenericEvent($this, [
-			'password' => $password,
-			'recoveryPassword' => $recoveryPassword,
-		]));
+		$this->dispatcher->dispatchTyped(new BeforePasswordUpdatedEvent($this, $password, $recoveryPassword));
 		if ($this->emitter) {
 			$this->emitter->emit('\OC\User', 'preSetPassword', [$this, $password, $recoveryPassword]);
 		}
@@ -341,10 +308,7 @@ class User implements IUser {
 			$result = $backend->setPassword($this->uid, $password);
 
 			if ($result !== false) {
-				$this->legacyDispatcher->dispatch(IUser::class . '::postSetPassword', new GenericEvent($this, [
-					'password' => $password,
-					'recoveryPassword' => $recoveryPassword,
-				]));
+				$this->dispatcher->dispatchTyped(new PasswordUpdatedEvent($this, $password, $recoveryPassword));
 				if ($this->emitter) {
 					$this->emitter->emit('\OC\User', 'postSetPassword', [$this, $password, $recoveryPassword]);
 				}
@@ -354,6 +318,20 @@ class User implements IUser {
 		} else {
 			return false;
 		}
+	}
+
+	public function getPasswordHash(): ?string {
+		if (!($this->backend instanceof IPasswordHashBackend)) {
+			return null;
+		}
+		return $this->backend->getPasswordHash($this->uid);
+	}
+
+	public function setPasswordHash(string $passwordHash): bool {
+		if (!($this->backend instanceof IPasswordHashBackend)) {
+			return false;
+		}
+		return $this->backend->setPasswordHash($this->uid, $passwordHash);
 	}
 
 	/**
@@ -432,25 +410,46 @@ class User implements IUser {
 	 * @return bool
 	 */
 	public function isEnabled() {
-		if ($this->enabled === null) {
-			$enabled = $this->config->getUserValue($this->uid, 'core', 'enabled', 'true');
-			$this->enabled = $enabled === 'true';
+		$queryDatabaseValue = function (): bool {
+			if ($this->enabled === null) {
+				$enabled = $this->config->getUserValue($this->uid, 'core', 'enabled', 'true');
+				$this->enabled = $enabled === 'true';
+			}
+			return $this->enabled;
+		};
+		if ($this->backend instanceof IProvideEnabledStateBackend) {
+			return $this->backend->isUserEnabled($this->uid, $queryDatabaseValue);
+		} else {
+			return $queryDatabaseValue();
 		}
-		return (bool) $this->enabled;
 	}
 
 	/**
 	 * set the enabled status for the user
 	 *
-	 * @param bool $enabled
+	 * @return void
 	 */
 	public function setEnabled(bool $enabled = true) {
 		$oldStatus = $this->isEnabled();
-		$this->enabled = $enabled;
-		if ($oldStatus !== $this->enabled) {
-			// TODO: First change the value, then trigger the event as done for all other properties.
-			$this->triggerChange('enabled', $enabled, $oldStatus);
+		$setDatabaseValue = function (bool $enabled): void {
 			$this->config->setUserValue($this->uid, 'core', 'enabled', $enabled ? 'true' : 'false');
+			$this->enabled = $enabled;
+		};
+		if ($this->backend instanceof IProvideEnabledStateBackend) {
+			$queryDatabaseValue = function (): bool {
+				if ($this->enabled === null) {
+					$enabled = $this->config->getUserValue($this->uid, 'core', 'enabled', 'true');
+					$this->enabled = $enabled === 'true';
+				}
+				return $this->enabled;
+			};
+			$enabled = $this->backend->setUserEnabled($this->uid, $enabled, $queryDatabaseValue, $setDatabaseValue);
+			if ($oldStatus !== $enabled) {
+				$this->triggerChange('enabled', $enabled, $oldStatus);
+			}
+		} elseif ($oldStatus !== $enabled) {
+			$setDatabaseValue($enabled);
+			$this->triggerChange('enabled', $enabled, $oldStatus);
 		}
 	}
 
@@ -567,7 +566,7 @@ class User implements IUser {
 	public function getAvatarImage($size) {
 		// delay the initialization
 		if (is_null($this->avatarManager)) {
-			$this->avatarManager = \OC::$server->getAvatarManager();
+			$this->avatarManager = \OC::$server->get(IAvatarManager::class);
 		}
 
 		$avatar = $this->avatarManager->getAvatar($this->uid);
@@ -588,7 +587,7 @@ class User implements IUser {
 	public function getCloudId() {
 		$uid = $this->getUID();
 		$server = rtrim($this->urlGenerator->getAbsoluteURL('/'), '/');
-		if (substr($server, -10) === '/index.php') {
+		if (str_ends_with($server, '/index.php')) {
 			$server = substr($server, 0, -10);
 		}
 		$server = $this->removeProtocolFromUrl($server);
@@ -604,11 +603,7 @@ class User implements IUser {
 	}
 
 	public function triggerChange($feature, $value = null, $oldValue = null) {
-		$this->legacyDispatcher->dispatch(IUser::class . '::changeUser', new GenericEvent($this, [
-			'feature' => $feature,
-			'value' => $value,
-			'oldValue' => $oldValue,
-		]));
+		$this->dispatcher->dispatchTyped(new UserChangedEvent($this, $feature, $value, $oldValue));
 		if ($this->emitter) {
 			$this->emitter->emit('\OC\User', 'changeUser', [$this, $feature, $value, $oldValue]);
 		}

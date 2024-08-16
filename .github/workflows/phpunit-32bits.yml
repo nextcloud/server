@@ -1,3 +1,5 @@
+# SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+# SPDX-License-Identifier: MIT
 name: PHPUnit 32bits
 
 on:
@@ -26,11 +28,11 @@ jobs:
 
     strategy:
       matrix:
-        php-versions: ['8.0']
+        php-versions: ['8.1','8.3']
 
     steps:
       - name: Checkout server
-        uses: actions/checkout@v3
+        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332
         with:
           submodules: true
 
@@ -40,15 +42,14 @@ jobs:
           sudo apt-get install -y ffmpeg imagemagick libmagickcore-6.q16-3-extra
 
       - name: Set up php ${{ matrix.php-versions }}
-        uses: shivammathur/setup-php@c5fc0d8281aba02c7fda07d3a70cc5371548067d #v2.25.2
+        uses: shivammathur/setup-php@c541c155eee45413f5b09a52248675b1a2575231 #v2.31.1
         with:
           php-version: ${{ matrix.php-versions }}
           extensions: ctype, curl, dom, fileinfo, gd, imagick, intl, json, mbstring, openssl, pdo_sqlite, posix, sqlite, xml, zip, apcu
-          tools: phpunit:9
           coverage: none
+          ini-file: development
           ini-values:
-            apc.enabled=on,
-            apc.enable_cli=on
+            apc.enabled=on, apc.enable_cli=on, disable_functions= # https://github.com/shivammathur/setup-php/discussions/573
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -56,10 +57,10 @@ jobs:
         env:
           DB_PORT: 4444
         run: |
+          composer install
           mkdir data
           ./occ maintenance:install --verbose --database=sqlite --database-name=nextcloud --database-host=127.0.0.1 --database-port=$DB_PORT --database-user=autotest --database-pass=rootpassword --admin-user admin --admin-pass admin
           php -f index.php
 
       - name: PHPUnit
-        working-directory: tests
-        run: phpunit --configuration phpunit-autotest.xml --exclude-group PRIMARY-azure,PRIMARY-s3,PRIMARY-swift,Memcached,Redis,RoutingWeirdness
+        run: composer run test -- --exclude-group PRIMARY-azure,PRIMARY-s3,PRIMARY-swift,Memcached,Redis,RoutingWeirdness

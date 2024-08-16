@@ -3,25 +3,8 @@
 declare(strict_types=1);
 
 /**
- * @copyright 2020 Christoph Wurst <christoph@winzerhof-wurst.at>
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OC\DB;
 
@@ -87,13 +70,13 @@ class ConnectionAdapter implements IDBConnection {
 
 	public function lastInsertId(string $table): int {
 		try {
-			return (int)$this->inner->lastInsertId($table);
+			return $this->inner->lastInsertId($table);
 		} catch (Exception $e) {
 			throw DbalException::wrap($e);
 		}
 	}
 
-	public function insertIfNotExist(string $table, array $input, array $compare = null) {
+	public function insertIfNotExist(string $table, array $input, ?array $compare = null) {
 		try {
 			return $this->inner->insertIfNotExist($table, $input, $compare);
 		} catch (Exception $e) {
@@ -241,5 +224,24 @@ class ConnectionAdapter implements IDBConnection {
 
 	public function getInner(): Connection {
 		return $this->inner;
+	}
+
+	/**
+	 * @return self::PLATFORM_MYSQL|self::PLATFORM_ORACLE|self::PLATFORM_POSTGRES|self::PLATFORM_SQLITE
+	 */
+	public function getDatabaseProvider(): string {
+		return $this->inner->getDatabaseProvider();
+	}
+
+	/**
+	 * @internal Should only be used inside the QueryBuilder, ExpressionBuilder and FunctionBuilder
+	 * All apps and API code should not need this and instead use provided functionality from the above.
+	 */
+	public function getServerVersion(): string {
+		return $this->inner->getServerVersion();
+	}
+
+	public function logDatabaseException(\Exception $exception) {
+		$this->inner->logDatabaseException($exception);
 	}
 }

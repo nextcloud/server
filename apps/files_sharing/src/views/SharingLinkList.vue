@@ -1,24 +1,7 @@
 <!--
-  - @copyright Copyright (c) 2019 John Molakvoæ <skjnldsv@protonmail.com>
-  -
-  - @author John Molakvoæ <skjnldsv@protonmail.com>
-  -
-  - @license GNU AGPL version 3 or any later version
-  -
-  - This program is free software: you can redistribute it and/or modify
-  - it under the terms of the GNU Affero General Public License as
-  - published by the Free Software Foundation, either version 3 of the
-  - License, or (at your option) any later version.
-  -
-  - This program is distributed in the hope that it will be useful,
-  - but WITHOUT ANY WARRANTY; without even the implied warranty of
-  - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  - GNU Affero General Public License for more details.
-  -
-  - You should have received a copy of the GNU Affero General Public License
-  - along with this program. If not, see <http://www.gnu.org/licenses/>.
-  -
-  -->
+  - SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 
 <template>
 	<ul v-if="canLinkShare" class="sharing-link-list">
@@ -39,16 +22,20 @@
 				:file-info="fileInfo"
 				@add:share="addShare(...arguments)"
 				@update:share="awaitForShare(...arguments)"
-				@remove:share="removeShare" />
+				@remove:share="removeShare"
+				@open-sharing-details="openSharingDetails(share)" />
 		</template>
 	</ul>
 </template>
 
 <script>
+import { getCapabilities } from '@nextcloud/capabilities'
+
 // eslint-disable-next-line no-unused-vars
 import Share from '../models/Share.js'
 import ShareTypes from '../mixins/ShareTypes.js'
 import SharingEntryLink from '../components/SharingEntryLink.vue'
+import ShareDetails from '../mixins/ShareDetails.js'
 
 export default {
 	name: 'SharingLinkList',
@@ -57,7 +44,7 @@ export default {
 		SharingEntryLink,
 	},
 
-	mixins: [ShareTypes],
+	mixins: [ShareTypes, ShareDetails],
 
 	props: {
 		fileInfo: {
@@ -78,7 +65,7 @@ export default {
 
 	data() {
 		return {
-			canLinkShare: OC.getCapabilities().files_sharing.public.enabled,
+			canLinkShare: getCapabilities().files_sharing.public.enabled,
 		}
 	},
 

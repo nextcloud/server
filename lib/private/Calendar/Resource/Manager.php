@@ -3,76 +3,51 @@
 declare(strict_types=1);
 
 /**
- * @copyright 2018, Georg Ehrke <oc.list@georgehrke.com>
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Georg Ehrke <oc.list@georgehrke.com>
- * @author Joas Schilling <coding@schilljs.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OC\Calendar\Resource;
 
 use OC\AppFramework\Bootstrap\Coordinator;
+use OC\Calendar\ResourcesRoomsUpdater;
 use OCP\Calendar\Resource\IBackend;
 use OCP\Calendar\Resource\IManager;
 use OCP\IServerContainer;
 
 class Manager implements IManager {
-	private Coordinator $bootstrapCoordinator;
-
-	private IServerContainer $server;
-
 	private bool $bootstrapBackendsLoaded = false;
 
 	/**
 	 * @var string[] holds all registered resource backends
 	 * @psalm-var class-string<IBackend>[]
 	 */
-	private $backends = [];
+	private array $backends = [];
 
 	/** @var IBackend[] holds all backends that have been initialized already */
-	private $initializedBackends = [];
+	private array $initializedBackends = [];
 
-	public function __construct(Coordinator $bootstrapCoordinator,
-								IServerContainer $server) {
-		$this->bootstrapCoordinator = $bootstrapCoordinator;
-		$this->server = $server;
+	public function __construct(
+		private Coordinator $bootstrapCoordinator,
+		private IServerContainer $server,
+		private ResourcesRoomsUpdater $updater,
+	) {
 	}
 
 	/**
 	 * Registers a resource backend
 	 *
-	 * @param string $backendClass
-	 * @return void
 	 * @since 14.0.0
 	 */
-	public function registerBackend(string $backendClass) {
+	public function registerBackend(string $backendClass): void {
 		$this->backends[$backendClass] = $backendClass;
 	}
 
 	/**
 	 * Unregisters a resource backend
 	 *
-	 * @param string $backendClass
-	 * @return void
 	 * @since 14.0.0
 	 */
-	public function unregisterBackend(string $backendClass) {
+	public function unregisterBackend(string $backendClass): void {
 		unset($this->backends[$backendClass], $this->initializedBackends[$backendClass]);
 	}
 
@@ -114,9 +89,8 @@ class Manager implements IManager {
 	/**
 	 * @param string $backendId
 	 * @throws \OCP\AppFramework\QueryException
-	 * @return IBackend|null
 	 */
-	public function getBackend($backendId) {
+	public function getBackend($backendId): ?IBackend {
 		$backends = $this->getBackends();
 		foreach ($backends as $backend) {
 			if ($backend->getBackendIdentifier() === $backendId) {
@@ -129,11 +103,15 @@ class Manager implements IManager {
 
 	/**
 	 * removes all registered backend instances
-	 * @return void
+	 *
 	 * @since 14.0.0
 	 */
-	public function clear() {
+	public function clear(): void {
 		$this->backends = [];
 		$this->initializedBackends = [];
+	}
+
+	public function update(): void {
+		$this->updater->updateResources();
 	}
 }

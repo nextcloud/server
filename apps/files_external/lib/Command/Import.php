@@ -1,26 +1,8 @@
 <?php
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2017-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\Files_External\Command;
 
@@ -30,6 +12,7 @@ use OCA\Files_External\Lib\StorageConfig;
 use OCA\Files_External\Service\BackendService;
 use OCA\Files_External\Service\GlobalStoragesService;
 use OCA\Files_External\Service\ImportLegacyStoragesService;
+use OCA\Files_External\Service\StoragesService;
 use OCA\Files_External\Service\UserStoragesService;
 use OCP\IUserManager;
 use OCP\IUserSession;
@@ -40,27 +23,15 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class Import extends Base {
-	private GlobalStoragesService $globalService;
-	private UserStoragesService $userService;
-	private IUserSession $userSession;
-	private IUserManager $userManager;
-	private ImportLegacyStoragesService $importLegacyStorageService;
-	private BackendService $backendService;
-
-	public function __construct(GlobalStoragesService $globalService,
-						 UserStoragesService $userService,
-						 IUserSession $userSession,
-						 IUserManager $userManager,
-						 ImportLegacyStoragesService $importLegacyStorageService,
-						 BackendService $backendService
+	public function __construct(
+		private GlobalStoragesService $globalService,
+		private UserStoragesService $userService,
+		private IUserSession $userSession,
+		private IUserManager $userManager,
+		private ImportLegacyStoragesService $importLegacyStorageService,
+		private BackendService $backendService,
 	) {
 		parent::__construct();
-		$this->globalService = $globalService;
-		$this->userService = $userService;
-		$this->userSession = $userSession;
-		$this->userManager = $userManager;
-		$this->importLegacyStorageService = $importLegacyStorageService;
-		$this->backendService = $backendService;
 	}
 
 	protected function configure(): void {
@@ -95,18 +66,18 @@ class Import extends Base {
 		} else {
 			if (!file_exists($path)) {
 				$output->writeln('<error>File not found: ' . $path . '</error>');
-				return 1;
+				return self::FAILURE;
 			}
 			$json = file_get_contents($path);
 		}
 		if (!is_string($json) || strlen($json) < 2) {
 			$output->writeln('<error>Error while reading json</error>');
-			return 1;
+			return self::FAILURE;
 		}
 		$data = json_decode($json, true);
 		if (!is_array($data)) {
 			$output->writeln('<error>Error while parsing json</error>');
-			return 1;
+			return self::FAILURE;
 		}
 
 		$isLegacy = isset($data['user']) || isset($data['group']);
@@ -116,7 +87,7 @@ class Import extends Base {
 			foreach ($mounts as $mount) {
 				if ($mount->getBackendOption('password') === false) {
 					$output->writeln('<error>Failed to decrypt password</error>');
-					return 1;
+					return self::FAILURE;
 				}
 			}
 		} else {
@@ -147,7 +118,7 @@ class Import extends Base {
 					$existingMount->getBackendOptions() === $mount->getBackendOptions()
 				) {
 					$output->writeln("<error>Duplicate mount (" . $mount->getMountPoint() . ")</error>");
-					return 1;
+					return self::FAILURE;
 				}
 			}
 		}
@@ -155,7 +126,7 @@ class Import extends Base {
 		if ($input->getOption('dry')) {
 			if (count($mounts) === 0) {
 				$output->writeln('<error>No mounts to be imported</error>');
-				return 1;
+				return self::FAILURE;
 			}
 			$listCommand = new ListCommand($this->globalService, $this->userService, $this->userSession, $this->userManager);
 			$listInput = new ArrayInput([], $listCommand->getDefinition());
@@ -167,7 +138,7 @@ class Import extends Base {
 				$storageService->addStorage($mount);
 			}
 		}
-		return 0;
+		return self::SUCCESS;
 	}
 
 	private function parseData(array $data): StorageConfig {
@@ -178,8 +149,8 @@ class Import extends Base {
 		$mount->setAuthMechanism($authBackend);
 		$mount->setBackendOptions($data['configuration']);
 		$mount->setMountOptions($data['options']);
-		$mount->setApplicableUsers(isset($data['applicable_users']) ? $data['applicable_users'] : []);
-		$mount->setApplicableGroups(isset($data['applicable_groups']) ? $data['applicable_groups'] : []);
+		$mount->setApplicableUsers($data['applicable_users'] ?? []);
+		$mount->setApplicableGroups($data['applicable_groups'] ?? []);
 		return $mount;
 	}
 
@@ -192,16 +163,16 @@ class Import extends Base {
 		}
 	}
 
-	protected function getStorageService($userId) {
-		if (!empty($userId)) {
-			$user = $this->userManager->get($userId);
-			if (is_null($user)) {
-				throw new NoUserException("user $userId not found");
-			}
-			$this->userSession->setUser($user);
-			return $this->userService;
-		} else {
+	protected function getStorageService(string $userId): StoragesService {
+		if (empty($userId)) {
 			return $this->globalService;
 		}
+
+		$user = $this->userManager->get($userId);
+		if (is_null($user)) {
+			throw new NoUserException("user $userId not found");
+		}
+		$this->userSession->setUser($user);
+		return $this->userService;
 	}
 }

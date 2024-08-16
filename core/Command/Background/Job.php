@@ -2,32 +2,14 @@
 
 declare(strict_types=1);
 /**
- * @copyright Copyright (c) 2021, Joas Schilling <coding@schilljs.com>
- *
- * @author Joas Schilling <coding@schilljs.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace OC\Core\Command\Background;
 
 use OCP\BackgroundJob\IJob;
 use OCP\BackgroundJob\IJobList;
-use OCP\ILogger;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -37,7 +19,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 class Job extends Command {
 	public function __construct(
 		protected IJobList $jobList,
-		protected ILogger $logger,
 	) {
 		parent::__construct();
 	}
@@ -86,14 +67,15 @@ class Job extends Command {
 			$output->writeln('<error>Something went wrong when trying to retrieve Job with ID ' . $jobId . ' from database</error>');
 			return 1;
 		}
-		$job->execute($this->jobList, $this->logger);
+		/** @psalm-suppress DeprecatedMethod Calling execute until it is removed, then will switch to start */
+		$job->execute($this->jobList);
 		$job = $this->jobList->getById($jobId);
 
 		if (($job === null) || ($lastRun !== $job->getLastRun())) {
 			$output->writeln('<info>Job executed!</info>');
 			$output->writeln('');
 
-			if ($job instanceof \OC\BackgroundJob\TimedJob || $job instanceof \OCP\BackgroundJob\TimedJob) {
+			if ($job instanceof \OCP\BackgroundJob\TimedJob) {
 				$this->printJobInfo($jobId, $job, $output);
 			}
 		} else {
@@ -104,7 +86,7 @@ class Job extends Command {
 		return 0;
 	}
 
-	protected function printJobInfo(int $jobId, IJob $job, OutputInterface$output): void {
+	protected function printJobInfo(int $jobId, IJob $job, OutputInterface $output): void {
 		$row = $this->jobList->getDetailsById($jobId);
 
 		$lastRun = new \DateTime();
@@ -117,10 +99,10 @@ class Job extends Command {
 		$output->writeln('Job class:            ' . get_class($job));
 		$output->writeln('Arguments:            ' . json_encode($job->getArgument()));
 
-		$isTimedJob = $job instanceof \OC\BackgroundJob\TimedJob || $job instanceof \OCP\BackgroundJob\TimedJob;
+		$isTimedJob = $job instanceof \OCP\BackgroundJob\TimedJob;
 		if ($isTimedJob) {
 			$output->writeln('Type:                 timed');
-		} elseif ($job instanceof \OC\BackgroundJob\QueuedJob || $job instanceof \OCP\BackgroundJob\QueuedJob) {
+		} elseif ($job instanceof \OCP\BackgroundJob\QueuedJob) {
 			$output->writeln('Type:                 queued');
 		} else {
 			$output->writeln('Type:                 job');

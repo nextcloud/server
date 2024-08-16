@@ -1,5 +1,8 @@
 #!/bin/bash
-
+#
+# SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
+# SPDX-License-Identifier: AGPL-3.0-or-later
+#
 trigger_notification() {
     which notify-send 1>/dev/null
     if [[ $? == 1 ]] ; then

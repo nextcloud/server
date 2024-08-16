@@ -3,27 +3,8 @@
 declare(strict_types=1);
 
 /**
- * @copyright 2020 Christoph Wurst <christoph@winzerhof-wurst.at>
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\Comments\Search;
 
@@ -39,19 +20,12 @@ use function array_map;
 use function pathinfo;
 
 class CommentsSearchProvider implements IProvider {
-	private IUserManager $userManager;
-	private IL10N $l10n;
-	private IURLGenerator $urlGenerator;
-	private LegacyProvider $legacyProvider;
-
-	public function __construct(IUserManager $userManager,
-								IL10N $l10n,
-								IURLGenerator $urlGenerator,
-								LegacyProvider $legacyProvider) {
-		$this->userManager = $userManager;
-		$this->l10n = $l10n;
-		$this->urlGenerator = $urlGenerator;
-		$this->legacyProvider = $legacyProvider;
+	public function __construct(
+		private IUserManager $userManager,
+		private IL10N $l10n,
+		private IURLGenerator $urlGenerator,
+		private LegacyProvider $legacyProvider,
+	) {
 	}
 
 	public function getId(): string {
@@ -84,7 +58,7 @@ class CommentsSearchProvider implements IProvider {
 					$avatarUrl,
 					$result->name,
 					$path,
-					$this->urlGenerator->linkToRouteAbsolute('files.view.index',[
+					$this->urlGenerator->linkToRouteAbsolute('files.view.index', [
 						'dir' => $pathInfo['dirname'],
 						'scrollto' => $pathInfo['basename'],
 					]),

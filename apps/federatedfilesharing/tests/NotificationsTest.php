@@ -1,27 +1,9 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Bjoern Schiessle <bjoern@schiessle.org>
- * @author Björn Schießle <bjoern@schiessle.org>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Samuel <faust64@gmail.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\FederatedFileSharing\Tests;
 
@@ -32,33 +14,33 @@ use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Federation\ICloudFederationFactory;
 use OCP\Federation\ICloudFederationProviderManager;
 use OCP\Http\Client\IClientService;
-use OCP\ILogger;
 use OCP\OCS\IDiscoveryService;
+use PHPUnit\Framework\MockObject\MockObject;
+use Psr\Log\LoggerInterface;
 
 class NotificationsTest extends \Test\TestCase {
-
-	/** @var  AddressHandler | \PHPUnit\Framework\MockObject\MockObject */
+	/** @var AddressHandler|MockObject */
 	private $addressHandler;
 
-	/** @var  IClientService | \PHPUnit\Framework\MockObject\MockObject*/
+	/** @var IClientService|MockObject*/
 	private $httpClientService;
 
-	/** @var  IDiscoveryService | \PHPUnit\Framework\MockObject\MockObject */
+	/** @var IDiscoveryService|MockObject */
 	private $discoveryService;
 
-	/** @var  IJobList | \PHPUnit\Framework\MockObject\MockObject */
+	/** @var IJobList|MockObject */
 	private $jobList;
 
-	/** @var ICloudFederationProviderManager|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var ICloudFederationProviderManager|MockObject */
 	private $cloudFederationProviderManager;
 
-	/** @var ICloudFederationFactory|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var ICloudFederationFactory|MockObject */
 	private $cloudFederationFactory;
 
-	/** @var IEventDispatcher|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IEventDispatcher|MockObject */
 	private $eventDispatcher;
 
-	/** @var ILogger|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var LoggerInterface|MockObject */
 	private $logger;
 
 	protected function setUp(): void {
@@ -69,7 +51,7 @@ class NotificationsTest extends \Test\TestCase {
 		$this->httpClientService = $this->getMockBuilder('OCP\Http\Client\IClientService')->getMock();
 		$this->addressHandler = $this->getMockBuilder('OCA\FederatedFileSharing\AddressHandler')
 			->disableOriginalConstructor()->getMock();
-		$this->logger = $this->createMock(ILogger::class);
+		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->cloudFederationProviderManager = $this->createMock(ICloudFederationProviderManager::class);
 		$this->cloudFederationFactory = $this->createMock(ICloudFederationFactory::class);
 		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
@@ -87,11 +69,11 @@ class NotificationsTest extends \Test\TestCase {
 				$this->addressHandler,
 				$this->httpClientService,
 				$this->discoveryService,
-				$this->logger,
 				$this->jobList,
 				$this->cloudFederationProviderManager,
 				$this->cloudFederationFactory,
-				$this->eventDispatcher
+				$this->eventDispatcher,
+				$this->logger,
 			);
 		} else {
 			$instance = $this->getMockBuilder('OCA\FederatedFileSharing\Notifications')
@@ -100,11 +82,11 @@ class NotificationsTest extends \Test\TestCase {
 						$this->addressHandler,
 						$this->httpClientService,
 						$this->discoveryService,
-						$this->logger,
 						$this->jobList,
 						$this->cloudFederationProviderManager,
 						$this->cloudFederationFactory,
-						$this->eventDispatcher
+						$this->eventDispatcher,
+						$this->logger,
 					]
 				)->setMethods($mockedMethods)->getMock();
 		}

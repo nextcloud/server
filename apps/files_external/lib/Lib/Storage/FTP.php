@@ -1,23 +1,7 @@
 <?php
 /**
- * @copyright Copyright (c) 2021 Robin Appelman <robin@icewind.nl>
- *
- * @author Robin Appelman <robin@icewind.nl>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\Files_External\Lib\Storage;
 
@@ -29,6 +13,7 @@ use OC\Files\Storage\PolyFill\CopyDirectory;
 use OCP\Constants;
 use OCP\Files\FileInfo;
 use OCP\Files\StorageNotAvailableException;
+use Psr\Log\LoggerInterface;
 
 class FTP extends Common {
 	use CopyDirectory;
@@ -116,7 +101,7 @@ class FTP extends Common {
 			if ($this->is_dir($path)) {
 				$list = $this->getConnection()->mlsd($this->buildPath($path));
 				if (!$list) {
-					\OC::$server->getLogger()->warning("Unable to get last modified date for ftp folder ($path), failed to list folder contents");
+					\OC::$server->get(LoggerInterface::class)->warning("Unable to get last modified date for ftp folder ($path), failed to list folder contents");
 					return time();
 				}
 				$currentDir = current(array_filter($list, function ($item) {
@@ -130,7 +115,7 @@ class FTP extends Common {
 					}
 					return $time->getTimestamp();
 				} else {
-					\OC::$server->getLogger()->warning("Unable to get last modified date for ftp folder ($path), folder contents doesn't include current folder");
+					\OC::$server->get(LoggerInterface::class)->warning("Unable to get last modified date for ftp folder ($path), folder contents doesn't include current folder");
 					return time();
 				}
 			} else {
@@ -300,7 +285,7 @@ class FTP extends Common {
 		return false;
 	}
 
-	public function writeStream(string $path, $stream, int $size = null): int {
+	public function writeStream(string $path, $stream, ?int $size = null): int {
 		if ($size === null) {
 			$stream = CountWrapper::wrap($stream, function ($writtenSize) use (&$size) {
 				$size = $writtenSize;

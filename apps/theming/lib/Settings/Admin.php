@@ -1,34 +1,14 @@
 <?php
 /**
- * @copyright Copyright (c) 2016 Arthur Schiwon <blizzz@arthur-schiwon.de>
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Bjoern Schiessle <bjoern@schiessle.org>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\Theming\Settings;
 
 use OCA\Theming\AppInfo\Application;
+use OCA\Theming\Controller\ThemingController;
 use OCA\Theming\ImageManager;
+use OCA\Theming\Service\BackgroundService;
 use OCA\Theming\ThemingDefaults;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
@@ -39,28 +19,16 @@ use OCP\Settings\IDelegatedSettings;
 use OCP\Util;
 
 class Admin implements IDelegatedSettings {
-	private string $appName;
-	private IConfig $config;
-	private IL10N $l;
-	private ThemingDefaults $themingDefaults;
-	private IInitialState $initialState;
-	private IURLGenerator $urlGenerator;
-	private ImageManager $imageManager;
 
-	public function __construct(string $appName,
-								IConfig $config,
-								IL10N $l,
-								ThemingDefaults $themingDefaults,
-								IInitialState $initialState,
-								IURLGenerator $urlGenerator,
-								ImageManager $imageManager) {
-		$this->appName = $appName;
-		$this->config = $config;
-		$this->l = $l;
-		$this->themingDefaults = $themingDefaults;
-		$this->initialState = $initialState;
-		$this->urlGenerator = $urlGenerator;
-		$this->imageManager = $imageManager;
+	public function __construct(
+		private string $appName,
+		private IConfig $config,
+		private IL10N $l,
+		private ThemingDefaults $themingDefaults,
+		private IInitialState $initialState,
+		private IURLGenerator $urlGenerator,
+		private ImageManager $imageManager,
+	) {
 	}
 
 	/**
@@ -75,14 +43,24 @@ class Admin implements IDelegatedSettings {
 			$errorMessage = $this->l->t('You are already using a custom theme. Theming app settings might be overwritten by that.');
 		}
 
+		$allowedMimeTypes = array_reduce(ThemingController::VALID_UPLOAD_KEYS, function ($carry, $key) {
+			$carry[$key] = $this->imageManager->getSupportedUploadImageFormats($key);
+			return $carry;
+		}, []);
+
 		$this->initialState->provideInitialState('adminThemingParameters', [
 			'isThemable' => $themable,
 			'notThemableErrorMessage' => $errorMessage,
 			'name' => $this->themingDefaults->getEntity(),
 			'url' => $this->themingDefaults->getBaseUrl(),
 			'slogan' => $this->themingDefaults->getSlogan(),
-			'color' => $this->themingDefaults->getDefaultColorPrimary(),
+			'primaryColor' => $this->themingDefaults->getDefaultColorPrimary(),
+			'backgroundColor' => $this->themingDefaults->getDefaultColorBackground(),
 			'logoMime' => $this->config->getAppValue(Application::APP_ID, 'logoMime', ''),
+			'allowedMimeTypes' => $allowedMimeTypes,
+			'backgroundURL' => $this->imageManager->getImageUrl('background'),
+			'defaultBackgroundURL' => $this->urlGenerator->linkTo(Application::APP_ID, 'img/background/' . BackgroundService::DEFAULT_BACKGROUND_IMAGE),
+			'defaultBackgroundColor' => BackgroundService::DEFAULT_BACKGROUND_COLOR,
 			'backgroundMime' => $this->config->getAppValue(Application::APP_ID, 'backgroundMime', ''),
 			'logoheaderMime' => $this->config->getAppValue(Application::APP_ID, 'logoheaderMime', ''),
 			'faviconMime' => $this->config->getAppValue(Application::APP_ID, 'faviconMime', ''),
@@ -92,6 +70,7 @@ class Admin implements IDelegatedSettings {
 			'docUrlIcons' => $this->urlGenerator->linkToDocs('admin-theming-icons'),
 			'canThemeIcons' => $this->imageManager->shouldReplaceIcons(),
 			'userThemingDisabled' => $this->themingDefaults->isUserThemingDisabled(),
+			'defaultApps' => array_filter(explode(',', $this->config->getSystemValueString('defaultapp', ''))),
 		]);
 
 		Util::addScript($this->appName, 'admin-theming');

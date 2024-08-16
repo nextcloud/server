@@ -1,37 +1,21 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Daniel Kesselberg <mail@danielkesselberg.de>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Vincent Petry <vincent@nextcloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\Files\Service;
 
 use OCA\Files\Activity\FavoriteProvider;
 use OCP\Activity\IManager;
+use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Files\Events\NodeAddedToFavorite;
+use OCP\Files\Events\NodeRemovedFromFavorite;
 use OCP\Files\Folder;
 use OCP\ITags;
 use OCP\IUser;
 use OCP\IUserSession;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Symfony\Component\EventDispatcher\GenericEvent;
 
 /**
  * Service class to manage tags on files.
@@ -46,7 +30,7 @@ class TagService {
 	private $tagger;
 	/** @var Folder|null */
 	private $homeFolder;
-	/** @var EventDispatcherInterface */
+	/** @var IEventDispatcher */
 	private $dispatcher;
 
 	public function __construct(
@@ -54,7 +38,7 @@ class TagService {
 		IManager $activityManager,
 		?ITags $tagger,
 		?Folder $homeFolder,
-		EventDispatcherInterface $dispatcher
+		IEventDispatcher $dispatcher,
 	) {
 		$this->userSession = $userSession;
 		$this->activityManager = $activityManager;
@@ -120,12 +104,12 @@ class TagService {
 			return;
 		}
 
-		$eventName = $addToFavorite ? 'addFavorite' : 'removeFavorite';
-		$this->dispatcher->dispatch(self::class . '::' . $eventName, new GenericEvent(null, [
-			'userId' => $user->getUID(),
-			'fileId' => $fileId,
-			'path' => $path,
-		]));
+		if ($addToFavorite) {
+			$event = new NodeAddedToFavorite($user, $fileId, $path);
+		} else {
+			$event = new NodeRemovedFromFavorite($user, $fileId, $path);
+		}
+		$this->dispatcher->dispatchTyped($event);
 
 		$event = $this->activityManager->generateEvent();
 		try {

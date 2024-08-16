@@ -1,5 +1,11 @@
-<?php /** @var \OCP\IL10N $l */ ?>
 <?php
+
+/**
+ * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+/** @var \OCP\IL10N $l */
+
 script('user_ldap', 'renewPassword');
 style('user_ldap', 'renewPassword');
 ?>
@@ -30,7 +36,7 @@ style('user_ldap', 'renewPassword');
 		<p class="grouptop">
 			<input type="password" id="oldPassword" name="oldPassword"
 				placeholder="<?php echo $l->t('Current password');?>"
-				autofocus autocomplete="off" autocapitalize="off" autocorrect="off" required/>
+				autofocus autocomplete="off" autocapitalize="off" spellcheck="false" required/>
 			<label for="oldPassword" class="infield"><?php p($l->t('Current password')); ?></label>
 		</p>
 
@@ -39,7 +45,7 @@ style('user_ldap', 'renewPassword');
 			<label id="newPassword-label" for="newPassword" class="infield"><?php p($l->t('New password')); ?></label>
 			<input type="password" id="newPassword" name="newPassword"
 				placeholder="<?php echo $l->t('New password');?>"
-				data-typetoggle="#personal-show" autofocus autocomplete="off" autocapitalize="off" autocorrect="off" required/>
+				data-typetoggle="#personal-show" autofocus autocomplete="off" autocapitalize="off" spellcheck="false" required/>
 		</p>
 
 		<input type="submit" id="submit" class="login primary icon-confirm-white" value="<?php p($l->t('Renew password')); ?>"/>

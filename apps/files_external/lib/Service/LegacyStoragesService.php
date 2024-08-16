@@ -1,33 +1,13 @@
 <?php
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Stefan Weil <sw@weilnetz.de>
- * @author szaimen <szaimen@e.mail.de>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2018-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\Files_External\Service;
 
 use OCA\Files_External\Lib\StorageConfig;
-use OCP\ILogger;
+use Psr\Log\LoggerInterface;
 
 /**
  * Read mount config from legacy mount.json
@@ -143,7 +123,7 @@ abstract class LegacyStoragesService {
 					$parts = explode('/', ltrim($rootMountPath, '/'), 3);
 					if (count($parts) < 3) {
 						// something went wrong, skip
-						\OC::$server->getLogger()->error('Could not parse mount point "' . $rootMountPath . '"', ['app' => 'files_external']);
+						\OC::$server->get(LoggerInterface::class)->error('Could not parse mount point "' . $rootMountPath . '"', ['app' => 'files_external']);
 						continue;
 					}
 					$relativeMountPath = rtrim($parts[2], '/');
@@ -191,10 +171,9 @@ abstract class LegacyStoragesService {
 						}
 					} catch (\UnexpectedValueException $e) {
 						// don't die if a storage backend doesn't exist
-						\OC::$server->getLogger()->logException($e, [
-							'message' => 'Could not load storage.',
-							'level' => ILogger::ERROR,
+						\OC::$server->get(LoggerInterface::class)->error('Could not load storage.', [
 							'app' => 'files_external',
+							'exception' => $e,
 						]);
 					}
 				}

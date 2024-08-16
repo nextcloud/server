@@ -1,29 +1,10 @@
 <?php
 
 declare(strict_types=1);
-
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Leon Klingele <git@leonklingele.de>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OC\Security\CSRF;
 
@@ -36,23 +17,19 @@ namespace OC\Security\CSRF;
  * @package OC\Security\CSRF
  */
 class CsrfToken {
-	/** @var string */
-	private $value;
-	/** @var string */
-	private $encryptedValue = '';
+	private string $encryptedValue = '';
 
 	/**
 	 * @param string $value Value of the token. Can be encrypted or not encrypted.
 	 */
-	public function __construct(string $value) {
-		$this->value = $value;
+	public function __construct(
+		private string $value,
+	) {
 	}
 
 	/**
 	 * Encrypted value of the token. This is used to mitigate BREACH alike
 	 * vulnerabilities. For display measures do use this functionality.
-	 *
-	 * @return string
 	 */
 	public function getEncryptedValue(): string {
 		if ($this->encryptedValue === '') {
@@ -66,8 +43,6 @@ class CsrfToken {
 	/**
 	 * The unencrypted value of the token. Used for decrypting an already
 	 * encrypted token.
-	 *
-	 * @return string
 	 */
 	public function getDecryptedValue(): string {
 		$token = explode(':', $this->value);

@@ -1,28 +1,9 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Citharel <nextcloud@tcit.fr>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\DAV\Tests\unit\CardDAV;
 
@@ -101,11 +82,10 @@ class AddressBookTest extends TestCase {
 	}
 
 
-	public function testPropPatch(): void {
-		$this->expectException(Forbidden::class);
-
+	public function testPropPatchShared(): void {
 		/** @var MockObject | CardDavBackend $backend */
 		$backend = $this->getMockBuilder(CardDavBackend::class)->disableOriginalConstructor()->getMock();
+		$backend->expects($this->never())->method('updateAddressBook');
 		$addressBookInfo = [
 			'{http://owncloud.org/ns}owner-principal' => 'user1',
 			'{DAV:}displayname' => 'Test address book',
@@ -116,7 +96,23 @@ class AddressBookTest extends TestCase {
 		$l10n = $this->createMock(IL10N::class);
 		$logger = $this->createMock(LoggerInterface::class);
 		$addressBook = new AddressBook($backend, $addressBookInfo, $l10n, $logger);
-		$addressBook->propPatch(new PropPatch([]));
+		$addressBook->propPatch(new PropPatch(['{DAV:}displayname' => 'Test address book']));
+	}
+
+	public function testPropPatchNotShared(): void {
+		/** @var MockObject | CardDavBackend $backend */
+		$backend = $this->getMockBuilder(CardDavBackend::class)->disableOriginalConstructor()->getMock();
+		$backend->expects($this->atLeast(1))->method('updateAddressBook');
+		$addressBookInfo = [
+			'{DAV:}displayname' => 'Test address book',
+			'principaluri' => 'user1',
+			'id' => 666,
+			'uri' => 'default',
+		];
+		$l10n = $this->createMock(IL10N::class);
+		$logger = $this->createMock(LoggerInterface::class);
+		$addressBook = new AddressBook($backend, $addressBookInfo, $l10n, $logger);
+		$addressBook->propPatch(new PropPatch(['{DAV:}displayname' => 'Test address book']));
 	}
 
 	/**
@@ -150,6 +146,10 @@ class AddressBookTest extends TestCase {
 			'protected' => true
 		], [
 			'privilege' => '{DAV:}write',
+			'principal' => $hasOwnerSet ? 'user1' : 'user2',
+			'protected' => true
+		], [
+			'privilege' => '{DAV:}write-properties',
 			'principal' => $hasOwnerSet ? 'user1' : 'user2',
 			'protected' => true
 		]];

@@ -1,45 +1,28 @@
 <?php
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Victor Dubiniuk <dubiniuk@owncloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2018-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\Files_Trashbin\AppInfo;
 
 use OCA\DAV\Connector\Sabre\Principal;
 use OCA\Files\Event\LoadAdditionalScriptsEvent;
 use OCA\Files_Trashbin\Capabilities;
+use OCA\Files_Trashbin\Events\BeforeNodeRestoredEvent;
 use OCA\Files_Trashbin\Expiration;
 use OCA\Files_Trashbin\Listeners\LoadAdditionalScripts;
+use OCA\Files_Trashbin\Listeners\SyncLivePhotosListener;
 use OCA\Files_Trashbin\Trash\ITrashManager;
 use OCA\Files_Trashbin\Trash\TrashManager;
 use OCA\Files_Trashbin\UserMigration\TrashbinMigrator;
+use OCP\App\IAppManager;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
-use OCP\App\IAppManager;
-use OCP\ILogger;
-use OCP\IServerContainer;
+use Psr\Container\ContainerInterface;
+use Psr\Log\LoggerInterface;
 
 class Application extends App implements IBootstrap {
 	public const APP_ID = 'files_trashbin';
@@ -62,6 +45,8 @@ class Application extends App implements IBootstrap {
 			LoadAdditionalScriptsEvent::class,
 			LoadAdditionalScripts::class
 		);
+
+		$context->registerEventListener(BeforeNodeRestoredEvent::class, SyncLivePhotosListener::class);
 	}
 
 	public function boot(IBootContext $context): void {
@@ -77,7 +62,7 @@ class Application extends App implements IBootstrap {
 		\OCP\Util::connectHook('OC_Filesystem', 'delete', 'OCA\Files_Trashbin\Trashbin', 'ensureFileScannedHook');
 	}
 
-	public function registerTrashBackends(IServerContainer $serverContainer, ILogger $logger, IAppManager $appManager, ITrashManager $trashManager) {
+	public function registerTrashBackends(ContainerInterface $serverContainer, LoggerInterface $logger, IAppManager $appManager, ITrashManager $trashManager): void {
 		foreach ($appManager->getInstalledApps() as $app) {
 			$appInfo = $appManager->getAppInfo($app);
 			if (isset($appInfo['trash'])) {
@@ -87,10 +72,10 @@ class Application extends App implements IBootstrap {
 					$for = $backend['@attributes']['for'];
 
 					try {
-						$backendObject = $serverContainer->query($class);
+						$backendObject = $serverContainer->get($class);
 						$trashManager->registerBackend($for, $backendObject);
 					} catch (\Exception $e) {
-						$logger->logException($e);
+						$logger->error($e->getMessage(), ['exception' => $e]);
 					}
 				}
 			}

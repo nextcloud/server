@@ -1,28 +1,7 @@
 <?php
 /**
- * @copyright Copyright (c) 2017 Georg Ehrke <oc.list@georgehrke.com>
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author François Freitag <mail@franek.fr>
- * @author Georg Ehrke <oc.list@georgehrke.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\DAV\Tests\unit\CalDAV\BirthdayCalendar;
 
@@ -31,6 +10,7 @@ use OCA\DAV\CalDAV\BirthdayService;
 use OCA\DAV\CalDAV\Calendar;
 use OCA\DAV\CalDAV\CalendarHome;
 use OCP\IConfig;
+use OCP\IUser;
 use Test\TestCase;
 
 class EnablePluginTest extends TestCase {
@@ -43,6 +23,9 @@ class EnablePluginTest extends TestCase {
 
 	/** @var BirthdayService |\PHPUnit\Framework\MockObject\MockObject */
 	protected $birthdayService;
+
+	/** @var IUser|\PHPUnit\Framework\MockObject\MockObject  */
+	protected $user;
 
 	/** @var \OCA\DAV\CalDAV\BirthdayCalendar\EnablePlugin $plugin */
 	protected $plugin;
@@ -61,8 +44,9 @@ class EnablePluginTest extends TestCase {
 
 		$this->config = $this->createMock(IConfig::class);
 		$this->birthdayService = $this->createMock(BirthdayService::class);
+		$this->user = $this->createMock(IUser::class);
 
-		$this->plugin = new EnablePlugin($this->config, $this->birthdayService);
+		$this->plugin = new EnablePlugin($this->config, $this->birthdayService, $this->user);
 		$this->plugin->initialize($this->server);
 
 		$this->request = $this->createMock(\Sabre\HTTP\RequestInterface::class);
@@ -80,7 +64,7 @@ class EnablePluginTest extends TestCase {
 	public function testInitialize(): void {
 		$server = $this->createMock(\Sabre\DAV\Server::class);
 
-		$plugin = new EnablePlugin($this->config, $this->birthdayService);
+		$plugin = new EnablePlugin($this->config, $this->birthdayService, $this->user);
 
 		$server->expects($this->once())
 			->method('on')
@@ -143,6 +127,55 @@ class EnablePluginTest extends TestCase {
 		$this->plugin->httpPost($this->request, $this->response);
 	}
 
+	public function testHttpPostNotAuthorized(): void {
+		$calendarHome = $this->createMock(CalendarHome::class);
+
+		$this->server->expects($this->once())
+			->method('getRequestUri')
+			->willReturn('/bar/foo');
+		$this->server->tree->expects($this->once())
+			->method('getNodeForPath')
+			->with('/bar/foo')
+			->willReturn($calendarHome);
+
+		$calendarHome->expects($this->once())
+			->method('getOwner')
+			->willReturn('principals/users/BlaBlub');
+
+		$this->request->expects($this->once())
+			->method('getBodyAsString')
+			->willReturn('<nc:enable-birthday-calendar xmlns:nc="http://nextcloud.com/ns"/>');
+
+		$this->request->expects($this->once())
+			->method('getUrl')
+			->willReturn('url_abc');
+
+		$this->server->xml->expects($this->once())
+			->method('parse')
+			->willReturnCallback(function ($requestBody, $url, &$documentType): void {
+				$documentType = '{http://nextcloud.com/ns}enable-birthday-calendar';
+			});
+
+		$this->user->expects(self::once())
+			->method('getUID')
+			->willReturn('admin');
+
+		$this->server->httpResponse->expects($this->once())
+			->method('setStatus')
+			->with(403);
+
+		$this->config->expects($this->never())
+			->method('setUserValue');
+
+		$this->birthdayService->expects($this->never())
+			->method('syncUser');
+
+
+		$result = $this->plugin->httpPost($this->request, $this->response);
+
+		$this->assertEquals(false, $result);
+	}
+
 	public function testHttpPost(): void {
 		$calendarHome = $this->createMock(CalendarHome::class);
 
@@ -171,6 +204,10 @@ class EnablePluginTest extends TestCase {
 			->willReturnCallback(function ($requestBody, $url, &$documentType): void {
 				$documentType = '{http://nextcloud.com/ns}enable-birthday-calendar';
 			});
+
+		$this->user->expects(self::exactly(3))
+			->method('getUID')
+			->willReturn('BlaBlub');
 
 		$this->config->expects($this->once())
 			->method('setUserValue')

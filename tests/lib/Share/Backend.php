@@ -1,25 +1,15 @@
 <?php
 /**
- * ownCloud
- *
- * @author Michael Gapczynski
- * @copyright 2012 Michael Gapczynski mtgap@owncloud.com
- *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
- * License as published by the Free Software Foundation; either
- * version 3 of the License, or any later version.
- *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU AFFERO GENERAL PUBLIC LICENSE for more details.
- *
- * You should have received a copy of the GNU Affero General Public
- * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
+ * SPDX-FileCopyrightText: 2017-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace Test\Share;
+
+use OC\Share20\Manager;
+use OCP\Server;
+use OCP\Share\IShare;
 
 class Backend implements \OCP\Share_Backend {
 	public const FORMAT_SOURCE = 0;
@@ -46,7 +36,11 @@ class Backend implements \OCP\Share_Backend {
 		}
 
 
-		$shares = \OC\Share\Share::getItemsSharedWithUser('test', $shareWith);
+		$shareManager = Server::get(Manager::class);
+		$shares = array_merge(
+			$shareManager->getSharedWith($shareWith, IShare::TYPE_USER),
+			$shareManager->getSharedWith($shareWith, IShare::TYPE_GROUP),
+		);
 
 		$knownTargets = [];
 		foreach ($shares as $share) {

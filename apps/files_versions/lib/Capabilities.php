@@ -1,26 +1,8 @@
 <?php
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Christopher Schäpers <kondou@ts.unde.re>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Tom Needham <tom@owncloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\Files_Versions;
 
@@ -43,16 +25,14 @@ class Capabilities implements ICapability {
 	/**
 	 * Return this classes capabilities
 	 *
-	 * @return array
+	 * @return array{files: array{versioning: bool, version_labeling: bool, version_deletion: bool}}
 	 */
 	public function getCapabilities() {
-		$groupFolderInstalled = $this->appManager->isInstalled('groupfolders');
-
 		return [
 			'files' => [
 				'versioning' => true,
-				'version_labeling' => !$groupFolderInstalled && $this->config->getSystemValueBool('enable_version_labeling', true),
-				'version_deletion' => !$groupFolderInstalled && $this->config->getSystemValueBool('enable_version_deletion', true),
+				'version_labeling' => $this->config->getSystemValueBool('enable_version_labeling', true),
+				'version_deletion' => $this->config->getSystemValueBool('enable_version_deletion', true),
 			]
 		];
 	}

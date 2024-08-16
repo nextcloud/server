@@ -1,31 +1,8 @@
 <?php
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Daniel Kesselberg <mail@danielkesselberg.de>
- * @author Fabrizio Steiner <fabrizio.steiner@gmail.com>
- * @author Greta Doci <gretadoci@gmail.com>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Sergej Nikolaev <kinolaev@gmail.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2019-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace Test\Settings\Controller;
 
@@ -267,7 +244,7 @@ class AuthSettingsControllerTest extends TestCase {
 
 		$token->expects($this->once())
 			->method('getScopeAsArray')
-			->willReturn(['filesystem' => true]);
+			->willReturn([IToken::SCOPE_FILESYSTEM => true]);
 
 		$token->expects($this->once())
 			->method('setName')
@@ -277,7 +254,7 @@ class AuthSettingsControllerTest extends TestCase {
 			->method('updateToken')
 			->with($this->equalTo($token));
 
-		$this->assertSame([], $this->controller->update($tokenId, ['filesystem' => true], $newName));
+		$this->assertSame([], $this->controller->update($tokenId, [IToken::SCOPE_FILESYSTEM => true], $newName));
 	}
 
 	public function dataUpdateFilesystemScope(): array {
@@ -310,17 +287,17 @@ class AuthSettingsControllerTest extends TestCase {
 
 		$token->expects($this->once())
 			->method('getScopeAsArray')
-			->willReturn(['filesystem' => $filesystem]);
+			->willReturn([IToken::SCOPE_FILESYSTEM => $filesystem]);
 
 		$token->expects($this->once())
 			->method('setScope')
-			->with($this->equalTo(['filesystem' => $newFilesystem]));
+			->with($this->equalTo([IToken::SCOPE_FILESYSTEM => $newFilesystem]));
 
 		$this->tokenProvider->expects($this->once())
 			->method('updateToken')
 			->with($this->equalTo($token));
 
-		$this->assertSame([], $this->controller->update($tokenId, ['filesystem' => $newFilesystem], 'App password'));
+		$this->assertSame([], $this->controller->update($tokenId, [IToken::SCOPE_FILESYSTEM => $newFilesystem], 'App password'));
 	}
 
 	public function testUpdateNoChange(): void {
@@ -339,7 +316,7 @@ class AuthSettingsControllerTest extends TestCase {
 
 		$token->expects($this->once())
 			->method('getScopeAsArray')
-			->willReturn(['filesystem' => true]);
+			->willReturn([IToken::SCOPE_FILESYSTEM => true]);
 
 		$token->expects($this->never())
 			->method('setName');
@@ -351,7 +328,7 @@ class AuthSettingsControllerTest extends TestCase {
 			->method('updateToken')
 			->with($this->equalTo($token));
 
-		$this->assertSame([], $this->controller->update($tokenId, ['filesystem' => true], 'App password'));
+		$this->assertSame([], $this->controller->update($tokenId, [IToken::SCOPE_FILESYSTEM => true], 'App password'));
 	}
 
 	public function testUpdateExpired() {
@@ -371,7 +348,7 @@ class AuthSettingsControllerTest extends TestCase {
 			->method('updateToken')
 			->with($this->equalTo($token));
 
-		$this->assertSame([], $this->controller->update($tokenId, ['filesystem' => true], 'App password'));
+		$this->assertSame([], $this->controller->update($tokenId, [IToken::SCOPE_FILESYSTEM => true], 'App password'));
 	}
 
 	public function testUpdateTokenWrongUser() {
@@ -389,7 +366,7 @@ class AuthSettingsControllerTest extends TestCase {
 		$this->tokenProvider->expects($this->never())
 			->method('updateToken');
 
-		$response = $this->controller->update($tokenId, ['filesystem' => true], 'App password');
+		$response = $this->controller->update($tokenId, [IToken::SCOPE_FILESYSTEM => true], 'App password');
 		$this->assertSame([], $response->getData());
 		$this->assertSame(\OCP\AppFramework\Http::STATUS_NOT_FOUND, $response->getStatus());
 	}
@@ -403,7 +380,7 @@ class AuthSettingsControllerTest extends TestCase {
 		$this->tokenProvider->expects($this->never())
 			->method('updateToken');
 
-		$response = $this->controller->update(42, ['filesystem' => true], 'App password');
+		$response = $this->controller->update(42, [IToken::SCOPE_FILESYSTEM => true], 'App password');
 		$this->assertSame([], $response->getData());
 		$this->assertSame(\OCP\AppFramework\Http::STATUS_NOT_FOUND, $response->getStatus());
 	}

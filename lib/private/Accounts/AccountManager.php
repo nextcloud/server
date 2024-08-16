@@ -1,69 +1,41 @@
 <?php
 
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- * @copyright Copyright (c) 2016, Björn Schießle
- *
- * @author Bjoern Schiessle <bjoern@schiessle.org>
- * @author Björn Schießle <bjoern@schiessle.org>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Daniel Calviño Sánchez <danxuliu@gmail.com>
- * @author Daniel Kesselberg <mail@danielkesselberg.de>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Citharel <nextcloud@tcit.fr>
- * @author Vincent Petry <vincent@nextcloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 
 namespace OC\Accounts;
 
 use Exception;
 use InvalidArgumentException;
-use libphonenumber\NumberParseException;
-use libphonenumber\PhoneNumberFormat;
-use libphonenumber\PhoneNumberUtil;
 use OC\Profile\TProfileHelper;
-use OCP\Cache\CappedMemoryCache;
 use OCA\Settings\BackgroundJobs\VerifyUserData;
 use OCP\Accounts\IAccount;
 use OCP\Accounts\IAccountManager;
 use OCP\Accounts\IAccountProperty;
 use OCP\Accounts\IAccountPropertyCollection;
 use OCP\Accounts\PropertyDoesNotExistException;
+use OCP\Accounts\UserUpdatedEvent;
 use OCP\BackgroundJob\IJobList;
+use OCP\Cache\CappedMemoryCache;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Defaults;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IL10N;
+use OCP\IPhoneNumberUtil;
 use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\L10N\IFactory;
 use OCP\Mail\IMailer;
 use OCP\Security\ICrypto;
 use OCP\Security\VerificationToken\IVerificationToken;
+use OCP\User\Backend\IGetDisplayNameBackend;
 use OCP\Util;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Symfony\Component\EventDispatcher\GenericEvent;
 use function array_flip;
 use function iterator_to_array;
 use function json_decode;
@@ -83,40 +55,9 @@ class AccountManager implements IAccountManager {
 
 	use TProfileHelper;
 
-	/** @var  IDBConnection database connection */
-	private $connection;
-
-	/** @var IConfig */
-	private $config;
-
-	/** @var string table name */
-	private $table = 'accounts';
-
-	/** @var string table name */
-	private $dataTable = 'accounts_data';
-
-	/** @var EventDispatcherInterface */
-	private $eventDispatcher;
-
-	/** @var IJobList */
-	private $jobList;
-
-	/** @var LoggerInterface */
-	private $logger;
-	/** @var IVerificationToken */
-	private $verificationToken;
-	/** @var IMailer */
-	private $mailer;
-	/** @var Defaults */
-	private $defaults;
-	/** @var IL10N */
-	private $l10n;
-	/** @var IURLGenerator */
-	private $urlGenerator;
-	/** @var ICrypto */
-	private $crypto;
-	/** @var IFactory */
-	private $l10nfactory;
+	private string $table = 'accounts';
+	private string $dataTable = 'accounts_data';
+	private ?IL10N $l10n = null;
 	private CappedMemoryCache $internalCache;
 
 	/**
@@ -135,38 +76,27 @@ class AccountManager implements IAccountManager {
 		self::PROPERTY_ROLE => self::SCOPE_LOCAL,
 		self::PROPERTY_HEADLINE => self::SCOPE_LOCAL,
 		self::PROPERTY_BIOGRAPHY => self::SCOPE_LOCAL,
+		self::PROPERTY_BIRTHDATE => self::SCOPE_LOCAL,
 	];
 
 	public function __construct(
-		IDBConnection            $connection,
-		IConfig                  $config,
-		EventDispatcherInterface $eventDispatcher,
-		IJobList                 $jobList,
-		LoggerInterface          $logger,
-		IVerificationToken       $verificationToken,
-		IMailer                  $mailer,
-		Defaults                 $defaults,
-		IFactory                 $factory,
-		IURLGenerator            $urlGenerator,
-		ICrypto                  $crypto
+		private IDBConnection $connection,
+		private IConfig $config,
+		private IEventDispatcher $dispatcher,
+		private IJobList $jobList,
+		private LoggerInterface $logger,
+		private IVerificationToken $verificationToken,
+		private IMailer $mailer,
+		private Defaults $defaults,
+		private IFactory $l10nFactory,
+		private IURLGenerator $urlGenerator,
+		private ICrypto $crypto,
+		private IPhoneNumberUtil $phoneNumberUtil,
 	) {
-		$this->connection = $connection;
-		$this->config = $config;
-		$this->eventDispatcher = $eventDispatcher;
-		$this->jobList = $jobList;
-		$this->logger = $logger;
-		$this->verificationToken = $verificationToken;
-		$this->mailer = $mailer;
-		$this->defaults = $defaults;
-		$this->urlGenerator = $urlGenerator;
-		$this->crypto = $crypto;
-		// DIing IL10N results in a dependency loop
-		$this->l10nfactory = $factory;
 		$this->internalCache = new CappedMemoryCache();
 	}
 
 	/**
-	 * @param string $input
 	 * @return string Provided phone number in E.164 format when it was a valid number
 	 * @throws InvalidArgumentException When the phone number was invalid or no default region is set and the number doesn't start with a country code
 	 */
@@ -182,22 +112,15 @@ class AccountManager implements IAccountManager {
 			$defaultRegion = 'EN';
 		}
 
-		$phoneUtil = PhoneNumberUtil::getInstance();
-		try {
-			$phoneNumber = $phoneUtil->parse($input, $defaultRegion);
-			if ($phoneUtil->isValidNumber($phoneNumber)) {
-				return $phoneUtil->format($phoneNumber, PhoneNumberFormat::E164);
-			}
-		} catch (NumberParseException $e) {
+		$phoneNumber = $this->phoneNumberUtil->convertToStandardFormat($input, $defaultRegion);
+		if ($phoneNumber !== null) {
+			return $phoneNumber;
 		}
 
 		throw new InvalidArgumentException(self::PROPERTY_PHONE);
 	}
 
 	/**
-	 *
-	 * @param string $input
-	 * @return string
 	 * @throws InvalidArgumentException When the website did not have http(s) as protocol or the host name was empty
 	 */
 	protected function parseWebsite(string $input): string {
@@ -251,7 +174,7 @@ class AccountManager implements IAccountManager {
 		}
 	}
 
-	protected function sanitizePhoneNumberValue(IAccountProperty $property, bool $throwOnData = false) {
+	protected function sanitizePhoneNumberValue(IAccountProperty $property, bool $throwOnData = false): void {
 		if ($property->getName() !== self::PROPERTY_PHONE) {
 			if ($throwOnData) {
 				throw new InvalidArgumentException(sprintf('sanitizePhoneNumberValue can only sanitize phone numbers, %s given', $property->getName()));
@@ -271,7 +194,7 @@ class AccountManager implements IAccountManager {
 		}
 	}
 
-	protected function sanitizeWebsite(IAccountProperty $property, bool $throwOnData = false) {
+	protected function sanitizeWebsite(IAccountProperty $property, bool $throwOnData = false): void {
 		if ($property->getName() !== self::PROPERTY_WEBSITE) {
 			if ($throwOnData) {
 				throw new InvalidArgumentException(sprintf('sanitizeWebsite can only sanitize web domains, %s given', $property->getName()));
@@ -302,10 +225,10 @@ class AccountManager implements IAccountManager {
 		}
 
 		if ($updated) {
-			$this->eventDispatcher->dispatch(
-				'OC\AccountManager::userUpdated',
-				new GenericEvent($user, $data)
-			);
+			$this->dispatcher->dispatchTyped(new UserUpdatedEvent(
+				$user,
+				$data,
+			));
 		}
 
 		return $data;
@@ -313,10 +236,8 @@ class AccountManager implements IAccountManager {
 
 	/**
 	 * delete user from accounts table
-	 *
-	 * @param IUser $user
 	 */
-	public function deleteUser(IUser $user) {
+	public function deleteUser(IUser $user): void {
 		$uid = $user->getUID();
 		$query = $this->connection->getQueryBuilder();
 		$query->delete($this->table)
@@ -328,8 +249,6 @@ class AccountManager implements IAccountManager {
 
 	/**
 	 * delete user from accounts table
-	 *
-	 * @param IUser $user
 	 */
 	public function deleteUserData(IUser $user): void {
 		$uid = $user->getUID();
@@ -398,12 +317,10 @@ class AccountManager implements IAccountManager {
 	}
 
 	protected function searchUsersForRelatedCollection(string $property, array $values): array {
-		switch ($property) {
-			case IAccountManager::PROPERTY_EMAIL:
-				return array_flip($this->searchUsers(IAccountManager::COLLECTION_EMAIL, $values));
-			default:
-				return [];
-		}
+		return match ($property) {
+			IAccountManager::PROPERTY_EMAIL => array_flip($this->searchUsers(IAccountManager::COLLECTION_EMAIL, $values)),
+			default => [],
+		};
 	}
 
 	/**
@@ -467,7 +384,7 @@ class AccountManager implements IAccountManager {
 		]);
 
 		if (!$this->l10n) {
-			$this->l10n = $this->l10nfactory->get('core');
+			$this->l10n = $this->l10nFactory->get('core');
 		}
 
 		$emailTemplate->setSubject($this->l10n->t('%s email verification', [$this->defaults->getName()]));
@@ -552,9 +469,6 @@ class AccountManager implements IAccountManager {
 
 	/**
 	 * add new user to accounts table
-	 *
-	 * @param IUser $user
-	 * @param array $data
 	 */
 	protected function insertNewUser(IUser $user, array $data): void {
 		$uid = $user->getUID();
@@ -756,6 +670,12 @@ class AccountManager implements IAccountManager {
 			],
 
 			[
+				'name' => self::PROPERTY_BIRTHDATE,
+				'value' => '',
+				'scope' => $scopes[self::PROPERTY_BIRTHDATE],
+			],
+
+			[
 				'name' => self::PROPERTY_PROFILE_ENABLED,
 				'value' => $this->isProfileEnabledByDefault($this->config) ? '1' : '0',
 			],
@@ -800,6 +720,10 @@ class AccountManager implements IAccountManager {
 			return $cached;
 		}
 		$account = $this->parseAccountData($user, $this->getUser($user));
+		if ($user->getBackend() instanceof IGetDisplayNameBackend) {
+			$property = $account->getProperty(self::PROPERTY_DISPLAYNAME);
+			$account->setProperty(self::PROPERTY_DISPLAYNAME, $user->getDisplayName(), $property->getScope(), $property->getVerified());
+		}
 		$this->internalCache->set($user->getUID(), $account);
 		return $account;
 	}

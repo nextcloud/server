@@ -1,26 +1,7 @@
 <?php
 /**
- * @copyright Copyright (c) 2018 Arthur Schiwon <blizzz@arthur-schiwon.de>
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Johannes Ernst <jernst@indiecomputing.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OC\Log;
 
@@ -33,57 +14,37 @@ use OCP\Log\IWriter;
 use Psr\Log\LoggerInterface;
 
 class LogFactory implements ILogFactory {
-	/** @var IServerContainer */
-	private $c;
-	/** @var SystemConfig */
-	private $systemConfig;
-
-	public function __construct(IServerContainer $c, SystemConfig $systemConfig) {
-		$this->c = $c;
-		$this->systemConfig = $systemConfig;
+	public function __construct(
+		private IServerContainer $c,
+		private SystemConfig $systemConfig,
+	) {
 	}
 
 	/**
 	 * @throws \OCP\AppFramework\QueryException
 	 */
 	public function get(string $type):IWriter {
-		switch (strtolower($type)) {
-			case 'errorlog':
-				return new Errorlog($this->systemConfig);
-			case 'syslog':
-				return $this->c->resolve(Syslog::class);
-			case 'systemd':
-				return $this->c->resolve(Systemdlog::class);
-			case 'file':
-				return $this->buildLogFile();
-
-				// Backwards compatibility for old and fallback for unknown log types
-			case 'owncloud':
-			case 'nextcloud':
-			default:
-				return $this->buildLogFile();
-		}
+		return match (strtolower($type)) {
+			'errorlog' => new Errorlog($this->systemConfig),
+			'syslog' => $this->c->resolve(Syslog::class),
+			'systemd' => $this->c->resolve(Systemdlog::class),
+			'file' => $this->buildLogFile(),
+			default => $this->buildLogFile(),
+		};
 	}
 
-	public function getCustomLogger(string $path):ILogger {
+	public function getCustomLogger(string $path): ILogger {
 		$log = $this->buildLogFile($path);
 		return new Log($log, $this->systemConfig);
 	}
 
 	protected function createNewLogger(string $type, string $tag, string $path): IWriter {
-		switch (strtolower($type)) {
-			case 'errorlog':
-				return new Errorlog($this->systemConfig, $tag);
-			case 'syslog':
-				return new Syslog($this->systemConfig, $tag);
-			case 'systemd':
-				return new Systemdlog($this->systemConfig, $tag);
-			case 'file':
-			case 'owncloud':
-			case 'nextcloud':
-			default:
-				return $this->buildLogFile($path);
-		}
+		return match (strtolower($type)) {
+			'errorlog' => new Errorlog($this->systemConfig, $tag),
+			'syslog' => new Syslog($this->systemConfig, $tag),
+			'systemd' => new Systemdlog($this->systemConfig, $tag),
+			default => $this->buildLogFile($path),
+		};
 	}
 
 	public function getCustomPsrLogger(string $path, string $type = 'file', string $tag = 'Nextcloud'): LoggerInterface {
@@ -93,7 +54,7 @@ class LogFactory implements ILogFactory {
 		);
 	}
 
-	protected function buildLogFile(string $logFile = ''):File {
+	protected function buildLogFile(string $logFile = ''): File {
 		$defaultLogFile = $this->systemConfig->getValue('datadirectory', \OC::$SERVERROOT.'/data').'/nextcloud.log';
 		if ($logFile === '') {
 			$logFile = $this->systemConfig->getValue('logfile', $defaultLogFile);

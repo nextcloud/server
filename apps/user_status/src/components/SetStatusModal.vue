@@ -1,27 +1,12 @@
 <!--
-  - @copyright Copyright (c) 2020 Georg Ehrke <oc.list@georgehrke.com>
-  - @author Georg Ehrke <oc.list@georgehrke.com>
-  -
-  - @license GNU AGPL version 3 or any later version
-  -
-  - This program is free software: you can redistribute it and/or modify
-  - it under the terms of the GNU Affero General Public License as
-  - published by the Free Software Foundation, either version 3 of the
-  - License, or (at your option) any later version.
-  -
-  - This program is distributed in the hope that it will be useful,
-  - but WITHOUT ANY WARRANTY; without even the implied warranty of
-  - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-  - GNU Affero General Public License for more details.
-  -
-  - You should have received a copy of the GNU Affero General Public License
-  - along with this program. If not, see <http://www.gnu.org/licenses/>.
-  -
-  -->
+  - SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 
 <template>
 	<NcModal size="normal"
-		:title="$t('user_status', 'Set status')"
+		:name="$t('user_status', 'Set status')"
+		:set-return-focus="setReturnFocus"
 		@close="closeModal">
 		<div class="set-status-modal">
 			<!-- Status selector -->
@@ -38,45 +23,46 @@
 					@select="changeStatus" />
 			</div>
 
-			<!-- Status message -->
-			<div class="set-status-modal__header">
-				<h2>{{ $t('user_status', 'Status message') }}</h2>
-			</div>
-			<div class="set-status-modal__custom-input">
-				<CustomMessageInput ref="customMessageInput"
-					:icon="icon"
-					:message="editedMessage"
-					@change="setMessage"
-					@submit="saveStatus"
-					@select-icon="setIcon" />
-			</div>
-			<div v-if="hasBackupStatus"
-				class="set-status-modal__automation-hint">
-				{{ $t('user_status', 'Your status was set automatically') }}
-			</div>
-			<PreviousStatus v-if="hasBackupStatus"
-				:icon="backupIcon"
-				:message="backupMessage"
-				@select="revertBackupFromServer" />
-			<PredefinedStatusesList :is-custom-status="isCustomStatus" @select-status="selectPredefinedMessage" />
-			<ClearAtSelect :clear-at="clearAt"
-				@select-clear-at="setClearAt" />
-			<div class="status-buttons">
-				<NcButton :wide="true"
-					type="tertiary"
-					:text="$t('user_status', 'Clear status message')"
-					:disabled="isSavingStatus"
-					@click="clearStatus">
-					{{ $t('user_status', 'Clear status message') }}
-				</NcButton>
-				<NcButton :wide="true"
-					type="primary"
-					:text="$t('user_status', 'Set status message')"
-					:disabled="isSavingStatus"
-					@click="saveStatus">
-					{{ $t('user_status', 'Set status message') }}
-				</NcButton>
-			</div>
+			<!-- Status message form -->
+			<form @submit.prevent="saveStatus" @reset="clearStatus">
+				<div class="set-status-modal__header">
+					<h2>{{ $t('user_status', 'Status message') }}</h2>
+				</div>
+				<div class="set-status-modal__custom-input">
+					<CustomMessageInput ref="customMessageInput"
+						:icon="icon"
+						:message="editedMessage"
+						@change="setMessage"
+						@select-icon="setIcon" />
+				</div>
+				<div v-if="hasBackupStatus"
+					class="set-status-modal__automation-hint">
+					{{ $t('user_status', 'Your status was set automatically') }}
+				</div>
+				<PreviousStatus v-if="hasBackupStatus"
+					:icon="backupIcon"
+					:message="backupMessage"
+					@select="revertBackupFromServer" />
+				<PredefinedStatusesList @select-status="selectPredefinedMessage" />
+				<ClearAtSelect :clear-at="clearAt"
+					@select-clear-at="setClearAt" />
+				<div class="status-buttons">
+					<NcButton :wide="true"
+						type="tertiary"
+						native-type="reset"
+						:aria-label="$t('user_status', 'Clear status message')"
+						:disabled="isSavingStatus">
+						{{ $t('user_status', 'Clear status message') }}
+					</NcButton>
+					<NcButton :wide="true"
+						type="primary"
+						native-type="submit"
+						:aria-label="$t('user_status', 'Set status message')"
+						:disabled="isSavingStatus">
+						{{ $t('user_status', 'Set status message') }}
+					</NcButton>
+				</div>
+			</form>
 		</div>
 	</NcModal>
 </template>
@@ -107,11 +93,23 @@ export default {
 	},
 	mixins: [OnlineStatusMixin],
 
+	props: {
+		/**
+		 * Whether the component should be rendered as a Dashboard Status or a User Menu Entries
+		 * true = Dashboard Status
+		 * false = User Menu Entries
+		 */
+		inline: {
+			type: Boolean,
+			default: false,
+		},
+	},
+
 	data() {
 		return {
 			clearAt: null,
 			editedMessage: '',
-			isCustomStatus: true,
+			predefinedMessageId: null,
 			isSavingStatus: false,
 			statuses: getAllStatusOptions(),
 		}
@@ -155,6 +153,13 @@ export default {
 
 			return this.$t('user_status', 'Reset status')
 		},
+
+		setReturnFocus() {
+			if (this.inline) {
+				return undefined
+			}
+			return document.querySelector('[aria-controls="header-menu-user-menu"]') ?? undefined
+		},
 	},
 
 	watch: {
@@ -172,6 +177,7 @@ export default {
 	mounted() {
 		this.$store.dispatch('fetchBackupFromServer')
 
+		this.predefinedMessageId = this.$store.state.userStatus.messageId
 		if (this.$store.state.userStatus.clearAt !== null) {
 			this.clearAt = {
 				type: '_time',
@@ -192,7 +198,7 @@ export default {
 		 * @param {string} icon The new icon
 		 */
 		setIcon(icon) {
-			this.isCustomStatus = true
+			this.predefinedMessageId = null
 			this.$store.dispatch('setCustomMessage', {
 				message: this.message,
 				icon,
@@ -208,7 +214,7 @@ export default {
 		 * @param {string} message The new message
 		 */
 		setMessage(message) {
-			this.isCustomStatus = true
+			this.predefinedMessageId = null
 			this.editedMessage = message
 		},
 		/**
@@ -225,7 +231,7 @@ export default {
 		 * @param {object} status The predefined status object
 		 */
 		selectPredefinedMessage(status) {
-			this.isCustomStatus = false
+			this.predefinedMessageId = status.id
 			this.clearAt = status.clearAt
 			this.$store.dispatch('setPredefinedMessage', {
 				messageId: status.id,
@@ -245,15 +251,15 @@ export default {
 			try {
 				this.isSavingStatus = true
 
-				if (this.messageId !== undefined && this.messageId !== null) {
-					await this.$store.dispatch('setPredefinedMessage', {
-						messageId: this.messageId,
-						clearAt: this.clearAt,
-					})
-				} else {
+				if (this.predefinedMessageId === null) {
 					await this.$store.dispatch('setCustomMessage', {
 						message: this.editedMessage,
 						icon: this.icon,
+						clearAt: this.clearAt,
+					})
+				} else {
+					this.$store.dispatch('setPredefinedMessage', {
+						messageId: this.predefinedMessageId,
 						clearAt: this.clearAt,
 					})
 				}
@@ -284,6 +290,7 @@ export default {
 			}
 
 			this.isSavingStatus = false
+			this.predefinedMessageId = null
 			this.closeModal()
 		},
 		/**
@@ -305,6 +312,7 @@ export default {
 			}
 
 			this.isSavingStatus = false
+			this.predefinedMessageId = this.$store.state.userStatus?.messageId
 		},
 	},
 }

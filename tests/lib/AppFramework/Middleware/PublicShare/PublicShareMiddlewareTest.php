@@ -1,41 +1,25 @@
 <?php
 /**
- * @copyright 2018, Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace Test\AppFramework\Middleware\PublicShare;
 
 use OC\AppFramework\Middleware\PublicShare\Exceptions\NeedAuthenticationException;
 use OC\AppFramework\Middleware\PublicShare\PublicShareMiddleware;
-use OC\Security\Bruteforce\Throttler;
 use OCP\AppFramework\AuthPublicShareController;
 use OCP\AppFramework\Controller;
-use OCP\AppFramework\Http\NotFoundResponse;
+use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\RedirectResponse;
+use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\PublicShareController;
 use OCP\Files\NotFoundException;
 use OCP\IConfig;
 use OCP\IRequest;
 use OCP\ISession;
 use OCP\IURLGenerator;
+use OCP\Security\Bruteforce\IThrottler;
 
 class PublicShareMiddlewareTest extends \Test\TestCase {
 	/** @var IRequest|\PHPUnit\Framework\MockObject\MockObject */
@@ -44,7 +28,7 @@ class PublicShareMiddlewareTest extends \Test\TestCase {
 	private $session;
 	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
 	private $config;
-	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IThrottler|\PHPUnit\Framework\MockObject\MockObject */
 	private $throttler;
 
 	/** @var PublicShareMiddleware */
@@ -57,7 +41,7 @@ class PublicShareMiddlewareTest extends \Test\TestCase {
 		$this->request = $this->createMock(IRequest::class);
 		$this->session = $this->createMock(ISession::class);
 		$this->config = $this->createMock(IConfig::class);
-		$this->throttler = $this->createMock(Throttler::class);
+		$this->throttler = $this->createMock(IThrottler::class);
 
 		$this->middleware = new PublicShareMiddleware(
 			$this->request,
@@ -253,7 +237,8 @@ class PublicShareMiddlewareTest extends \Test\TestCase {
 		$exception = new NotFoundException();
 
 		$result = $this->middleware->afterException($controller, 'method', $exception);
-		$this->assertInstanceOf(NotFoundResponse::class, $result);
+		$this->assertInstanceOf(TemplateResponse::class, $result);
+		$this->assertEquals($result->getStatus(), Http::STATUS_NOT_FOUND);
 	}
 
 	public function testAfterExceptionPublicShareController() {

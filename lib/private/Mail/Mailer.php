@@ -1,41 +1,15 @@
 <?php
 
 declare(strict_types=1);
-
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Arne Hamann <kontakt+github@arne.email>
- * @author Branko Kokanovic <branko@kokanovic.org>
- * @author Carsten Wiedmann <carsten_sttgt@gmx.de>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Jared Boone <jared.boone@gmail.com>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Julius Härtl <jus@bitgrid.net>
- * @author kevin147147 <kevintamool@gmail.com>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Tekhnee <info@tekhnee.org>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OC\Mail;
 
 use Egulias\EmailValidator\EmailValidator;
+use Egulias\EmailValidator\Validation\NoRFCWarningsValidation;
 use Egulias\EmailValidator\Validation\RFCValidation;
 use OCP\Defaults;
 use OCP\EventDispatcher\IEventDispatcher;
@@ -65,7 +39,7 @@ use Symfony\Component\Mime\Exception\RfcComplianceException;
  *
  * Example usage:
  *
- * 	$mailer = \OC::$server->getMailer();
+ * 	$mailer = \OC::$server->get(\OCP\Mail\IMailer::class);
  * 	$message = $mailer->createMessage();
  * 	$message->setSubject('Your Subject');
  * 	$message->setFrom(array('cloud@domain.org' => 'ownCloud Notifier'));
@@ -78,35 +52,27 @@ use Symfony\Component\Mime\Exception\RfcComplianceException;
  * @package OC\Mail
  */
 class Mailer implements IMailer {
-	private ?MailerInterface $instance = null;
-	private IConfig $config;
-	private LoggerInterface $logger;
-	private Defaults $defaults;
-	private IURLGenerator $urlGenerator;
-	private IL10N $l10n;
-	private IEventDispatcher $dispatcher;
-	private IFactory $l10nFactory;
+	// Do not move this block or change it's content without contacting the release crew
+	public const DEFAULT_DIMENSIONS = '252x120';
+	// Do not move this block or change it's content without contacting the release crew
 
-	public function __construct(IConfig $config,
-						 LoggerInterface $logger,
-						 Defaults $defaults,
-						 IURLGenerator $urlGenerator,
-						 IL10N $l10n,
-						 IEventDispatcher $dispatcher,
-						 IFactory $l10nFactory) {
-		$this->config = $config;
-		$this->logger = $logger;
-		$this->defaults = $defaults;
-		$this->urlGenerator = $urlGenerator;
-		$this->l10n = $l10n;
-		$this->dispatcher = $dispatcher;
-		$this->l10nFactory = $l10nFactory;
+	public const MAX_LOGO_SIZE = 105;
+
+	private ?MailerInterface $instance = null;
+
+	public function __construct(
+		private IConfig          $config,
+		private LoggerInterface  $logger,
+		private Defaults         $defaults,
+		private IURLGenerator    $urlGenerator,
+		private IL10N            $l10n,
+		private IEventDispatcher $dispatcher,
+		private IFactory         $l10nFactory,
+	) {
 	}
 
 	/**
 	 * Creates a new message object that can be passed to send()
-	 *
-	 * @return Message
 	 */
 	public function createMessage(): Message {
 		$plainTextOnly = $this->config->getSystemValueBool('mail_send_plaintext_only', false);
@@ -117,7 +83,6 @@ class Mailer implements IMailer {
 	 * @param string|null $data
 	 * @param string|null $filename
 	 * @param string|null $contentType
-	 * @return IAttachment
 	 * @since 13.0.0
 	 */
 	public function createAttachment($data = null, $filename = null, $contentType = null): IAttachment {
@@ -125,9 +90,7 @@ class Mailer implements IMailer {
 	}
 
 	/**
-	 * @param string $path
 	 * @param string|null $contentType
-	 * @return IAttachment
 	 * @since 13.0.0
 	 */
 	public function createAttachmentFromPath(string $path, $contentType = null): IAttachment {
@@ -137,9 +100,6 @@ class Mailer implements IMailer {
 	/**
 	 * Creates a new email template object
 	 *
-	 * @param string $emailId
-	 * @param array $data
-	 * @return IEMailTemplate
 	 * @since 12.0.0
 	 */
 	public function createEMailTemplate(string $emailId, array $data = []): IEMailTemplate {
@@ -155,10 +115,37 @@ class Mailer implements IMailer {
 			);
 		}
 
+		$logoDimensions = $this->config->getAppValue('theming', 'logoDimensions', self::DEFAULT_DIMENSIONS);
+		if (str_contains($logoDimensions, 'x')) {
+			[$width, $height] = explode('x', $logoDimensions);
+			$width = (int) $width;
+			$height = (int) $height;
+
+			if ($width > self::MAX_LOGO_SIZE || $height > self::MAX_LOGO_SIZE) {
+				if ($width === $height) {
+					$logoWidth = self::MAX_LOGO_SIZE;
+					$logoHeight = self::MAX_LOGO_SIZE;
+				} elseif ($width > $height) {
+					$logoWidth = self::MAX_LOGO_SIZE;
+					$logoHeight = (int) (($height / $width) * self::MAX_LOGO_SIZE);
+				} else {
+					$logoWidth = (int) (($width / $height) * self::MAX_LOGO_SIZE);
+					$logoHeight = self::MAX_LOGO_SIZE;
+				}
+			} else {
+				$logoWidth = $width;
+				$logoHeight = $height;
+			}
+		} else {
+			$logoWidth = $logoHeight = null;
+		}
+
 		return new EMailTemplate(
 			$this->defaults,
 			$this->urlGenerator,
 			$this->l10nFactory,
+			$logoWidth,
+			$logoHeight,
 			$emailId,
 			$data
 		);
@@ -253,8 +240,10 @@ class Mailer implements IMailer {
 			// Shortcut: empty addresses are never valid
 			return false;
 		}
+
+		$strictMailCheck = $this->config->getAppValue('core', 'enforce_strict_email_check', 'yes') === 'yes';
 		$validator = new EmailValidator();
-		$validation = new RFCValidation();
+		$validation = $strictMailCheck ? new NoRFCWarningsValidation() : new RFCValidation();
 
 		return $validator->isValid($email, $validation);
 	}
@@ -292,7 +281,7 @@ class Mailer implements IMailer {
 		// either null or true - if nothing is passed, let the symfony mailer figure out the configuration by itself
 		$mailSmtpsecure = ($this->config->getSystemValue('mail_smtpsecure', null) === 'ssl') ? true : null;
 		$transport = new EsmtpTransport(
-			$this->config->getSystemValue('mail_smtphost', '127.0.0.1'),
+			$this->config->getSystemValueString('mail_smtphost', '127.0.0.1'),
 			$this->config->getSystemValueInt('mail_smtpport', 25),
 			$mailSmtpsecure,
 			null,
@@ -301,11 +290,11 @@ class Mailer implements IMailer {
 		/** @var SocketStream $stream */
 		$stream = $transport->getStream();
 		/** @psalm-suppress InternalMethod */
-		$stream->setTimeout($this->config->getSystemValue('mail_smtptimeout', 10));
+		$stream->setTimeout($this->config->getSystemValueInt('mail_smtptimeout', 10));
 
 		if ($this->config->getSystemValueBool('mail_smtpauth', false)) {
-			$transport->setUsername($this->config->getSystemValue('mail_smtpname', ''));
-			$transport->setPassword($this->config->getSystemValue('mail_smtppassword', ''));
+			$transport->setUsername($this->config->getSystemValueString('mail_smtpname', ''));
+			$transport->setPassword($this->config->getSystemValueString('mail_smtppassword', ''));
 		}
 
 		$streamingOptions = $this->config->getSystemValue('mail_smtpstreamoptions', []);
@@ -350,14 +339,10 @@ class Mailer implements IMailer {
 				break;
 		}
 
-		switch ($this->config->getSystemValueString('mail_sendmailmode', 'smtp')) {
-			case 'pipe':
-				$binaryParam = ' -t';
-				break;
-			default:
-				$binaryParam = ' -bs';
-				break;
-		}
+		$binaryParam = match ($this->config->getSystemValueString('mail_sendmailmode', 'smtp')) {
+			'pipe' => ' -t -i',
+			default => ' -bs',
+		};
 
 		return new SendmailTransport($binaryPath . $binaryParam, null, $this->logger);
 	}

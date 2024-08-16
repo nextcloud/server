@@ -1,23 +1,6 @@
 /**
- * @copyright Copyright (c) 2020 John Molakvoæ <skjnldsv@protonmail.com>
- *
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- *
- * @license AGPL-3.0-or-later
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 import { mapState } from 'vuex'
@@ -52,6 +35,7 @@ export default {
 					return this.$t('user_status', 'Online')
 
 				case 'away':
+				case 'busy':
 					return this.$t('user_status', 'Away')
 
 				case 'dnd':
@@ -66,30 +50,6 @@ export default {
 			}
 
 			return this.$t('user_status', 'Set status')
-		},
-
-		/**
-		 * The status indicator icon
-		 *
-		 * @return {string | null}
-		 */
-		statusIcon() {
-			switch (this.statusType) {
-			case 'online':
-				return 'icon-user-status-online'
-
-			case 'away':
-				return 'icon-user-status-away'
-
-			case 'dnd':
-				return 'icon-user-status-dnd'
-
-			case 'invisible':
-			case 'offline':
-				return 'icon-user-status-invisible'
-			}
-
-			return ''
 		},
 	},
 

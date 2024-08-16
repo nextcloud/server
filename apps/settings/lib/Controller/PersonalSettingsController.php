@@ -1,40 +1,26 @@
 <?php
 /**
- * @copyright Copyright (c) 2017 Arthur Schiwon <blizzz@arthur-schiwon.de>
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Robin Appelman <robin@icewind.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\Settings\Controller;
 
 use OCP\AppFramework\Controller;
+use OCP\AppFramework\Http\Attribute\NoAdminRequired;
+use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
+use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\AppFramework\Services\IInitialState;
 use OCP\Group\ISubAdmin;
 use OCP\IGroupManager;
 use OCP\INavigationManager;
 use OCP\IRequest;
 use OCP\IUserSession;
+use OCP\Settings\IDeclarativeManager;
 use OCP\Settings\IManager as ISettingsManager;
 use OCP\Template;
 
+#[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
 class PersonalSettingsController extends Controller {
 	use CommonSettingsTrait;
 
@@ -45,7 +31,9 @@ class PersonalSettingsController extends Controller {
 		ISettingsManager $settingsManager,
 		IUserSession $userSession,
 		IGroupManager $groupManager,
-		ISubAdmin $subAdmin
+		ISubAdmin $subAdmin,
+		IDeclarativeManager $declarativeSettingsManager,
+		IInitialState $initialState,
 	) {
 		parent::__construct($appName, $request);
 		$this->navigationManager = $navigationManager;
@@ -53,13 +41,15 @@ class PersonalSettingsController extends Controller {
 		$this->userSession = $userSession;
 		$this->subAdmin = $subAdmin;
 		$this->groupManager = $groupManager;
+		$this->declarativeSettingsManager = $declarativeSettingsManager;
+		$this->initialState = $initialState;
 	}
 
 	/**
-	 * @NoCSRFRequired
-	 * @NoAdminRequired
 	 * @NoSubAdminRequired
 	 */
+	#[NoAdminRequired]
+	#[NoCSRFRequired]
 	public function index(string $section): TemplateResponse {
 		return $this->getIndexResponse('personal', $section);
 	}

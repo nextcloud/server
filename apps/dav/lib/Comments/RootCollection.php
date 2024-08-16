@@ -1,31 +1,15 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\DAV\Comments;
 
 use OCP\Comments\CommentsEntityEvent;
 use OCP\Comments\ICommentsManager;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IUserManager;
 use OCP\IUserSession;
 use Psr\Log\LoggerInterface;
@@ -33,7 +17,6 @@ use Sabre\DAV\Exception\Forbidden;
 use Sabre\DAV\Exception\NotAuthenticated;
 use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\ICollection;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class RootCollection implements ICollection {
 	/** @var EntityTypeCollection[]|null */
@@ -43,13 +26,13 @@ class RootCollection implements ICollection {
 	protected LoggerInterface $logger;
 	protected IUserManager $userManager;
 	protected IUserSession $userSession;
-	protected EventDispatcherInterface $dispatcher;
+	protected IEventDispatcher $dispatcher;
 
 	public function __construct(
 		ICommentsManager $commentsManager,
 		IUserManager $userManager,
 		IUserSession $userSession,
-		EventDispatcherInterface $dispatcher,
+		IEventDispatcher $dispatcher,
 		LoggerInterface $logger) {
 		$this->commentsManager = $commentsManager;
 		$this->logger = $logger;
@@ -74,7 +57,8 @@ class RootCollection implements ICollection {
 			throw new NotAuthenticated();
 		}
 
-		$event = new CommentsEntityEvent(CommentsEntityEvent::EVENT_ENTITY);
+		$event = new CommentsEntityEvent();
+		$this->dispatcher->dispatchTyped($event);
 		$this->dispatcher->dispatch(CommentsEntityEvent::EVENT_ENTITY, $event);
 
 		$this->entityTypeCollections = [];

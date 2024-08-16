@@ -1,23 +1,8 @@
 <?php
 /**
- * ownCloud
- *
- * @author Bernhard Posselt
- * @copyright 2012 Bernhard Posselt <dev@bernhard-posselt.com>
- *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
- * License as published by the Free Software Foundation; either
- * version 3 of the License, or any later version.
- *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU AFFERO GENERAL PUBLIC LICENSE for more details.
- *
- * You should have received a copy of the GNU Affero General Public
- * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace Test;
@@ -83,6 +68,18 @@ class TemplateFunctionsTest extends \Test\TestCase {
 		emit_script_loading_tags([
 			'jsfiles' => ['some.mjs', 'other.js'],
 			'inline_ocjs' => '// inline'
+		]);
+	}
+
+	public function testEmitScriptLoadingTagsWithVersion() {
+		// Test mjs js and inline content
+		$pattern = '/src="some\.mjs\?v=ab123cd"[^>]+type="module"[^>]*>.+\n'; // some.mjs with type = module
+		$pattern .= '<script[^>]+src="other\.js\?v=12abc34"[^>]*>.+\n'; // other.js as plain javascript
+		$pattern .= '/'; // no flags
+
+		$this->expectOutputRegex($pattern);
+		emit_script_loading_tags([
+			'jsfiles' => ['some.mjs?v=ab123cd', 'other.js?v=12abc34'],
 		]);
 	}
 

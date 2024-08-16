@@ -28,6 +28,8 @@ OC.L10N.register(
     "iOS client" : "iOS-biðlari",
     "Desktop client" : "Skjáborðsforrit",
     "Thunderbird & Outlook addons" : "Thunderbird & Outlook viðbætur",
+    "Select groups" : "Veldu hópa",
+    "Groups" : "Hópar",
     "Add new flow" : "Bæta við nýju flæði",
     "Cancel" : "Hætta við",
     "Delete" : "Eyða",
@@ -35,6 +37,7 @@ OC.L10N.register(
     "Save" : "Vista",
     "Available flows" : "Tiltæk flæði",
     "More flows" : "Fleiri flæði",
+    "Browse the App Store" : "Flakka um forritasafnið",
     "Configured flows" : "Uppsett flæði",
     "Your flows" : "Flæðin þín",
     "matches" : "samsvarar",
@@ -61,9 +64,8 @@ OC.L10N.register(
     "between" : "á milli",
     "not between" : "er ekki á milli",
     "Request user agent" : "Biðja um notandaforrit",
-    "User group membership" : "Notandi er meðlimur í hópum",
     "is member of" : "er meðlimur í ",
     "is not member of" : "er ekki meðlimur í",
-    "Predefined URLs" : "Forákvarðaðar slóðir"
+    "User group membership" : "Notandi er meðlimur í hópum"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

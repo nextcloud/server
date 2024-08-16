@@ -1,52 +1,37 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2019-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\Files\Activity;
 
 use OCP\Files\Folder;
+use OCP\Files\IRootFolder;
+use OCP\Files\Node;
 use OCP\ITagManager;
 
 class Helper {
 	/** If a user has a lot of favorites the query might get too slow and long */
 	public const FAVORITE_LIMIT = 50;
 
-	/** @var ITagManager */
-	protected $tagManager;
-
-	/**
-	 * @param ITagManager $tagManager
-	 */
-	public function __construct(ITagManager $tagManager) {
-		$this->tagManager = $tagManager;
+	public function __construct(
+		protected ITagManager $tagManager,
+		protected IRootFolder $rootFolder,
+	) {
 	}
 
 	/**
-	 * Returns an array with the favorites
+	 * Return an array with nodes marked as favorites
 	 *
-	 * @param string $user
-	 * @return array
+	 * @param string $user User ID
+	 * @param bool $foldersOnly Only return folders (default false)
+	 * @return Node[]
+	 * @psalm-return ($foldersOnly is true ? Folder[] : Node[])
 	 * @throws \RuntimeException when too many or no favorites where found
 	 */
-	public function getFavoriteFilePaths($user) {
+	public function getFavoriteNodes(string $user, bool $foldersOnly = false): array {
 		$tags = $this->tagManager->load('files', [], false, $user);
 		$favorites = $tags->getFavorites();
 
@@ -57,24 +42,42 @@ class Helper {
 		}
 
 		// Can not DI because the user is not known on instantiation
-		$rootFolder = \OC::$server->getUserFolder($user);
-		$folders = $items = [];
+		$userFolder = $this->rootFolder->getUserFolder($user);
+		$favoriteNodes = [];
 		foreach ($favorites as $favorite) {
-			$nodes = $rootFolder->getById($favorite);
-			if (!empty($nodes)) {
-				/** @var \OCP\Files\Node $node */
-				$node = array_shift($nodes);
-				$path = substr($node->getPath(), strlen($user . '/files/'));
-
-				$items[] = $path;
-				if ($node instanceof Folder) {
-					$folders[] = $path;
+			$node = $userFolder->getFirstNodeById($favorite);
+			if ($node) {
+				if (!$foldersOnly || $node instanceof Folder) {
+					$favoriteNodes[] = $node;
 				}
 			}
 		}
 
-		if (empty($items)) {
+		if (empty($favoriteNodes)) {
 			throw new \RuntimeException('No favorites', 1);
+		}
+
+		return $favoriteNodes;
+	}
+
+	/**
+	 * Returns an array with the favorites
+	 *
+	 * @param string $user
+	 * @return array
+	 * @throws \RuntimeException when too many or no favorites where found
+	 */
+	public function getFavoriteFilePaths(string $user): array {
+		$userFolder = $this->rootFolder->getUserFolder($user);
+		$nodes = $this->getFavoriteNodes($user);
+		$folders = $items = [];
+		foreach ($nodes as $node) {
+			$path = $userFolder->getRelativePath($node->getPath());
+
+			$items[] = $path;
+			if ($node instanceof Folder) {
+				$folders[] = $path;
+			}
 		}
 
 		return [

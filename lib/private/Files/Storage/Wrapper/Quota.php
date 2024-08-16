@@ -1,34 +1,9 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author J0WI <J0WI@users.noreply.github.com>
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- * @author Jörn Friedrich Dreyer <jfd@butonic.de>
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Robin McCorkell <robin@mccorkell.me.uk>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Tigran Mkrtchyan <tigran.mkrtchyan@desy.de>
- * @author Vincent Petry <vincent@nextcloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OC\Files\Storage\Wrapper;
 
@@ -45,6 +20,7 @@ class Quota extends Wrapper {
 	protected int|float|null $quota;
 	protected string $sizeRoot;
 	private SystemConfig $config;
+	private bool $quotaIncludeExternalStorage;
 
 	/**
 	 * @param array $parameters
@@ -54,7 +30,7 @@ class Quota extends Wrapper {
 		$this->quota = $parameters['quota'] ?? null;
 		$this->quotaCallback = $parameters['quotaCallback'] ?? null;
 		$this->sizeRoot = $parameters['root'] ?? '';
-		$this->config = \OC::$server->get(SystemConfig::class);
+		$this->quotaIncludeExternalStorage = $parameters['include_external_storage'] ?? false;
 	}
 
 	/**
@@ -82,7 +58,7 @@ class Quota extends Wrapper {
 	 * @return int|float
 	 */
 	protected function getSize($path, $storage = null) {
-		if ($this->config->getValue('quota_include_external_storage', false)) {
+		if ($this->quotaIncludeExternalStorage) {
 			$rootInfo = Filesystem::getFileInfo('', 'ext');
 			if ($rootInfo) {
 				return $rootInfo->getSize(true);

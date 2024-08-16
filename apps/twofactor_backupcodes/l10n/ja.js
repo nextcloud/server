@@ -10,7 +10,7 @@ OC.L10N.register(
     "Two factor backup codes" : "二要素認証バックアップコード",
     "A two-factor auth backup codes provider" : "二要素認証バックアップコードプロバイダー",
     "Backup codes have been generated. {used} of {total} codes have been used." : "バックアップコードが生成されました。 {total} 個のうち {used} 個のコードが使用されています。",
-    "These are your backup codes. Please save and/or print them as you will not be able to read the codes again later" : "以下はあなたのバックアップコードです。 後からこのコードを見ることはできないので、保存するか印刷しておいてください",
+    "These are your backup codes. Please save and/or print them as you will not be able to read the codes again later." : "これらはバックアップコードです。後でコードを再度読み取ることはできませんので、保存または印刷してください。",
     "Save backup codes" : "バックアップコードを保存",
     "Print backup codes" : "バックアップコードを印刷",
     "Regenerate backup codes" : "バックアップコードを再生成",
@@ -18,6 +18,7 @@ OC.L10N.register(
     "An error occurred while generating your backup codes" : "バックアップコードの生成中にエラーが発生しました",
     "{name} backup codes" : "{name} バックアップコード",
     "Use one of the backup codes you saved when setting up two-factor authentication." : "二要素認証を設定するときに保存したバックアップコードのいずれかを使用します。",
-    "Submit" : "了解"
+    "Submit" : "了解",
+    "These are your backup codes. Please save and/or print them as you will not be able to read the codes again later" : "以下はあなたのバックアップコードです。 後からこのコードを見ることはできないので、保存するか印刷しておいてください"
 },
 "nplurals=1; plural=0;");

@@ -1,73 +1,50 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Christopher Schäpers <kondou@ts.unde.re>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin McCorkell <robin@mccorkell.me.uk>
- * @author Roger Szabo <roger.szabo@web.de>
- * @author root <root@localhost.localdomain>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Vinicius Cubas Brand <vinicius@eita.org.br>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\User_LDAP;
 
+use OCA\User_LDAP\User\DeletedUsersIndex;
+use OCA\User_LDAP\User\OfflineUser;
 use OCA\User_LDAP\User\User;
-use OCP\IConfig;
 use OCP\IUserBackend;
-use OCP\IUserSession;
 use OCP\Notification\IManager as INotificationManager;
 use OCP\User\Backend\ICountMappedUsersBackend;
 use OCP\User\Backend\ICountUsersBackend;
+use OCP\User\Backend\IProvideEnabledStateBackend;
 use OCP\UserInterface;
+use Psr\Log\LoggerInterface;
 
-class User_Proxy extends Proxy implements IUserBackend, UserInterface, IUserLDAP, ICountUsersBackend, ICountMappedUsersBackend {
-  /** @var array<string,User_LDAP> */
-	private $backends = [];
-	/** @var ?User_LDAP */
-	private $refBackend = null;
+class User_Proxy extends Proxy implements IUserBackend, UserInterface, IUserLDAP, ICountUsersBackend, ICountMappedUsersBackend, IProvideEnabledStateBackend {
+	/** @var User_LDAP[] */
+	private array $backends = [];
+	private ?User_LDAP $refBackend = null;
 
 	private bool $isSetUp = false;
 	private Helper $helper;
-	private IConfig $ocConfig;
 	private INotificationManager $notificationManager;
-	private IUserSession $userSession;
 	private UserPluginManager $userPluginManager;
+	private LoggerInterface $logger;
+	private DeletedUsersIndex $deletedUsersIndex;
 
 	public function __construct(
 		Helper $helper,
 		ILDAPWrapper $ldap,
 		AccessFactory $accessFactory,
-		IConfig $ocConfig,
 		INotificationManager $notificationManager,
-		IUserSession $userSession,
-		UserPluginManager $userPluginManager
+		UserPluginManager $userPluginManager,
+		LoggerInterface $logger,
+		DeletedUsersIndex $deletedUsersIndex,
 	) {
 		parent::__construct($ldap, $accessFactory);
 		$this->helper = $helper;
-		$this->ocConfig = $ocConfig;
 		$this->notificationManager = $notificationManager;
-		$this->userSession = $userSession;
 		$this->userPluginManager = $userPluginManager;
+		$this->logger = $logger;
+		$this->deletedUsersIndex = $deletedUsersIndex;
 	}
 
 	protected function setup(): void {
@@ -77,11 +54,16 @@ class User_Proxy extends Proxy implements IUserBackend, UserInterface, IUserLDAP
 
 		$serverConfigPrefixes = $this->helper->getServerConfigurationPrefixes(true);
 		foreach ($serverConfigPrefixes as $configPrefix) {
-			$this->backends[$configPrefix] =
-				new User_LDAP($this->getAccess($configPrefix), $this->ocConfig, $this->notificationManager, $this->userSession, $this->userPluginManager);
+			$this->backends[$configPrefix] = new User_LDAP(
+				$this->getAccess($configPrefix),
+				$this->notificationManager,
+				$this->userPluginManager,
+				$this->logger,
+				$this->deletedUsersIndex,
+			);
 
 			if (is_null($this->refBackend)) {
-				$this->refBackend = &$this->backends[$configPrefix];
+				$this->refBackend = $this->backends[$configPrefix];
 			}
 		}
 
@@ -422,7 +404,7 @@ class User_Proxy extends Proxy implements IUserBackend, UserInterface, IUserLDAP
 	 * The connection needs to be closed manually.
 	 *
 	 * @param string $uid
-	 * @return resource|\LDAP\Connection The LDAP connection
+	 * @return \LDAP\Connection The LDAP connection
 	 */
 	public function getNewLDAPConnection($uid) {
 		return $this->handleRequest($uid, 'getNewLDAPConnection', [$uid]);
@@ -437,5 +419,38 @@ class User_Proxy extends Proxy implements IUserBackend, UserInterface, IUserLDAP
 	 */
 	public function createUser($username, $password) {
 		return $this->handleRequest($username, 'createUser', [$username, $password]);
+	}
+
+	public function isUserEnabled(string $uid, callable $queryDatabaseValue): bool {
+		return $this->handleRequest($uid, 'isUserEnabled', [$uid, $queryDatabaseValue]);
+	}
+
+	public function setUserEnabled(string $uid, bool $enabled, callable $queryDatabaseValue, callable $setDatabaseValue): bool {
+		return $this->handleRequest($uid, 'setUserEnabled', [$uid, $enabled, $queryDatabaseValue, $setDatabaseValue]);
+	}
+
+	public function getDisabledUserList(?int $limit = null, int $offset = 0, string $search = ''): array {
+		if ((int)$this->getAccess(array_key_first($this->backends) ?? '')->connection->markRemnantsAsDisabled !== 1) {
+			return [];
+		}
+		$disabledUsers = $this->deletedUsersIndex->getUsers();
+		if ($search !== '') {
+			$disabledUsers = array_filter(
+				$disabledUsers,
+				fn (OfflineUser $user): bool =>
+					mb_stripos($user->getOCName(), $search) !== false ||
+					mb_stripos($user->getUID(), $search) !== false ||
+					mb_stripos($user->getDisplayName(), $search) !== false ||
+					mb_stripos($user->getEmail(), $search) !== false,
+			);
+		}
+		return array_map(
+			fn (OfflineUser $user) => $user->getOCName(),
+			array_slice(
+				$disabledUsers,
+				$offset,
+				$limit
+			)
+		);
 	}
 }

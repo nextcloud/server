@@ -1,11 +1,7 @@
-/*
- * Copyright (c) 2014
- *
- * This file is licensed under the Affero General Public License version 3
- * or later.
- *
- * See the COPYING-README file.
- *
+/**
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2012-2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 (function() {
@@ -597,8 +593,8 @@
 				Object.values = objectValues;
 			}
 
-			var menuActions = Object.values(this.actions.all).filter(function (action) {
-				return action.type !== OCA.Files.FileActions.TYPE_INLINE;
+			var menuActions = Object.values(actions).filter(function (action) {
+				return action.type !== OCA.Files.FileActions.TYPE_INLINE && (!defaultAction || action.name !== defaultAction.name)
 			});
 			// do not render the menu if nothing is in it
 			if (menuActions.length > 0) {
@@ -710,7 +706,23 @@
 				}
 			});
 
-			if (!/Android|iPhone|iPad|iPod/i.test(navigator.userAgent)) {
+			if (Boolean(OC.appswebroots.files_reminders) && Boolean(OC.appswebroots.notifications)) {
+				this.registerAction({
+					name: 'SetReminder',
+					displayName: function(_context) {
+						return t('files', 'Set reminder');
+					},
+					mime: 'all',
+					order: -24,
+					icon: function(_filename, _context) {
+						return OC.imagePath('files_reminders', 'alarm.svg')
+					},
+					permissions: $('#isPublic').val() ? null : OC.PERMISSION_READ,
+					actionHandler: function(_filename, _context) {},
+				});
+			}
+
+			if (!/Android|iPhone|iPad|iPod/i.test(navigator.userAgent) && !!window.oc_current_user) {
 				this.registerAction({
 					name: 'EditLocally',
 					displayName: function(context) {

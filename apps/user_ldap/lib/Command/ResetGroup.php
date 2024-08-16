@@ -1,25 +1,7 @@
 <?php
 /**
- * @copyright Copyright (c) 2021 Arthur Schiwon <blizzz@arthur-schiwon.de>
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Côme Chilliet <come.chilliet@nextcloud.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\User_LDAP\Command;
 
@@ -36,18 +18,11 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\Question;
 
 class ResetGroup extends Command {
-	private IGroupManager $groupManager;
-	private GroupPluginManager $pluginManager;
-	private Group_Proxy $backend;
-
 	public function __construct(
-		IGroupManager $groupManager,
-		GroupPluginManager $pluginManager,
-		Group_Proxy $backend
+		private IGroupManager $groupManager,
+		private GroupPluginManager $pluginManager,
+		private Group_Proxy $backend,
 	) {
-		$this->groupManager = $groupManager;
-		$this->pluginManager = $pluginManager;
-		$this->backend = $backend;
 		parent::__construct();
 	}
 
@@ -96,16 +71,16 @@ class ResetGroup extends Command {
 			echo "calling delete $gid\n";
 			if ($group->delete()) {
 				$this->pluginManager->setSuppressDeletion($pluginManagerSuppressed);
-				return 0;
+				return self::SUCCESS;
 			}
 		} catch (\Throwable $e) {
 			if (isset($pluginManagerSuppressed)) {
 				$this->pluginManager->setSuppressDeletion($pluginManagerSuppressed);
 			}
 			$output->writeln('<error>' . $e->getMessage() . '</error>');
-			return 1;
+			return self::FAILURE;
 		}
 		$output->writeln('<error>Error while resetting group</error>');
-		return 2;
+		return self::INVALID;
 	}
 }

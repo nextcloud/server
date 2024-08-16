@@ -1,76 +1,54 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Alexander Bergolth <leo@strike.wu.ac.at>
- * @author Alex Weirig <alex.weirig@technolink.lu>
- * @author alexweirig <alex.weirig@technolink.lu>
- * @author Andreas Fischer <bantu@owncloud.com>
- * @author Andreas Pflug <dev@admin4.org>
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Bart Visscher <bartv@thisnet.nl>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Clement Wong <git@clement.hk>
- * @author Frédéric Fortier <frederic.fortier@oronospolytechnique.com>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Nicolas Grekas <nicolas.grekas@gmail.com>
- * @author Robin McCorkell <robin@mccorkell.me.uk>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Roland Tapken <roland@bitarbeiter.net>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Tobias Perschon <tobias@perschon.at>
- * @author Victor Dubiniuk <dubiniuk@owncloud.com>
- * @author Vinicius Cubas Brand <vinicius@eita.org.br>
- * @author Xuanwo <xuanwo@yunify.com>
- * @author Carl Schwan <carl@carlschwan.eu>
- * @author Côme Chilliet <come.chilliet@nextcloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\User_LDAP;
 
 use Exception;
 use OC\ServerNotAvailableException;
+use OCA\User_LDAP\User\OfflineUser;
 use OCP\Cache\CappedMemoryCache;
-use OCP\GroupInterface;
+use OCP\Group\Backend\ABackend;
 use OCP\Group\Backend\IDeleteGroupBackend;
 use OCP\Group\Backend\IGetDisplayNameBackend;
+use OCP\Group\Backend\IIsAdminBackend;
+use OCP\GroupInterface;
+use OCP\IConfig;
+use OCP\IUserManager;
+use OCP\Server;
 use Psr\Log\LoggerInterface;
+use function json_decode;
 
-class Group_LDAP extends BackendUtility implements GroupInterface, IGroupLDAP, IGetDisplayNameBackend, IDeleteGroupBackend {
+class Group_LDAP extends ABackend implements GroupInterface, IGroupLDAP, IGetDisplayNameBackend, IDeleteGroupBackend, IIsAdminBackend {
 	protected bool $enabled = false;
 
-	/** @var CappedMemoryCache<string[]> $cachedGroupMembers array of users with gid as key */
+	/** @var CappedMemoryCache<string[]> $cachedGroupMembers array of user DN with gid as key */
 	protected CappedMemoryCache $cachedGroupMembers;
-	/** @var CappedMemoryCache<array[]> $cachedGroupsByMember array of groups with uid as key */
+	/** @var CappedMemoryCache<array[]> $cachedGroupsByMember array of groups with user DN as key */
 	protected CappedMemoryCache $cachedGroupsByMember;
 	/** @var CappedMemoryCache<string[]> $cachedNestedGroups array of groups with gid (DN) as key */
 	protected CappedMemoryCache $cachedNestedGroups;
 	protected GroupPluginManager $groupPluginManager;
 	protected LoggerInterface $logger;
+	protected Access $access;
 
 	/**
 	 * @var string $ldapGroupMemberAssocAttr contains the LDAP setting (in lower case) with the same name
 	 */
 	protected string $ldapGroupMemberAssocAttr;
+	private IConfig $config;
+	private IUserManager $ncUserManager;
 
-	public function __construct(Access $access, GroupPluginManager $groupPluginManager) {
-		parent::__construct($access);
+	public function __construct(
+		Access $access,
+		GroupPluginManager $groupPluginManager,
+		IConfig $config,
+		IUserManager $ncUserManager
+	) {
+		$this->access = $access;
 		$filter = $this->access->connection->ldapGroupFilter;
 		$gAssoc = $this->access->connection->ldapGroupMemberAssocAttr;
 		if (!empty($filter) && !empty($gAssoc)) {
@@ -81,8 +59,10 @@ class Group_LDAP extends BackendUtility implements GroupInterface, IGroupLDAP, I
 		$this->cachedGroupsByMember = new CappedMemoryCache();
 		$this->cachedNestedGroups = new CappedMemoryCache();
 		$this->groupPluginManager = $groupPluginManager;
-		$this->logger = \OCP\Server::get(LoggerInterface::class);
+		$this->logger = Server::get(LoggerInterface::class);
 		$this->ldapGroupMemberAssocAttr = strtolower((string)$gAssoc);
+		$this->config = $config;
+		$this->ncUserManager = $ncUserManager;
 	}
 
 	/**
@@ -437,6 +417,7 @@ class Group_LDAP extends BackendUtility implements GroupInterface, IGroupLDAP, I
 	public function getUserGidNumber(string $dn) {
 		$gidNumber = false;
 		if ($this->access->connection->hasGidNumber) {
+			// FIXME: when $dn does not exist on LDAP anymore, this will be set wrongly to false :/
 			$gidNumber = $this->getEntryGidNumber($dn, $this->access->connection->ldapGidNumber);
 			if ($gidNumber === false) {
 				$this->access->connection->hasGidNumber = false;
@@ -479,7 +460,7 @@ class Group_LDAP extends BackendUtility implements GroupInterface, IGroupLDAP, I
 			$filter = $this->prepareFilterForUsersHasGidNumber($groupDN, $search);
 			$users = $this->access->fetchListOfUsers(
 				$filter,
-				[$this->access->connection->ldapUserDisplayName, 'dn'],
+				$this->access->userManager->getAttributes(true),
 				$limit,
 				$offset
 			);
@@ -603,7 +584,7 @@ class Group_LDAP extends BackendUtility implements GroupInterface, IGroupLDAP, I
 			$filter = $this->prepareFilterForUsersInPrimaryGroup($groupDN, $search);
 			$users = $this->access->fetchListOfUsers(
 				$filter,
-				[$this->access->connection->ldapUserDisplayName, 'dn'],
+				$this->access->userManager->getAttributes(true),
 				$limit,
 				$offset
 			);
@@ -651,6 +632,25 @@ class Group_LDAP extends BackendUtility implements GroupInterface, IGroupLDAP, I
 		return false;
 	}
 
+	private function isUserOnLDAP(string $uid): bool {
+		// forces a user exists check - but does not help if a positive result is cached, while group info is not
+		$ncUser = $this->ncUserManager->get($uid);
+		if ($ncUser === null) {
+			return false;
+		}
+		$backend = $ncUser->getBackend();
+		if ($backend instanceof User_Proxy) {
+			// ignoring cache as safeguard (and we are behind the group cache check anyway)
+			return $backend->userExistsOnLDAP($uid, true);
+		}
+		return false;
+	}
+
+	protected function getCachedGroupsForUserId(string $uid): array {
+		$groupStr = $this->config->getUserValue($uid, 'user_ldap', 'cached-group-memberships-' . $this->access->connection->getConfigPrefix(), '[]');
+		return json_decode($groupStr, true) ?? [];
+	}
+
 	/**
 	 * This function fetches all groups a user belongs to. It does not check
 	 * if the user exists at all.
@@ -662,15 +662,25 @@ class Group_LDAP extends BackendUtility implements GroupInterface, IGroupLDAP, I
 	 * @throws Exception
 	 * @throws ServerNotAvailableException
 	 */
-	public function getUserGroups($uid) {
+	public function getUserGroups($uid): array {
 		if (!$this->enabled) {
 			return [];
 		}
+		$ncUid = $uid;
+
 		$cacheKey = 'getUserGroups' . $uid;
 		$userGroups = $this->access->connection->getFromCache($cacheKey);
 		if (!is_null($userGroups)) {
 			return $userGroups;
 		}
+
+		$user = $this->access->userManager->get($uid);
+		if ($user instanceof OfflineUser) {
+			// We load known group memberships from configuration for remnants,
+			// because LDAP server does not contain them anymore
+			return $this->getCachedGroupsForUserId($uid);
+		}
+
 		$userDN = $this->access->username2dn($uid);
 		if (!$userDN) {
 			$this->access->connection->writeToCache($cacheKey, []);
@@ -782,8 +792,20 @@ class Group_LDAP extends BackendUtility implements GroupInterface, IGroupLDAP, I
 			$groups[] = $gidGroupName;
 		}
 
-		$groups = array_unique($groups, SORT_LOCALE_STRING);
+		if (empty($groups) && !$this->isUserOnLDAP($ncUid)) {
+			// Groups are enabled, but you user has none? Potentially suspicious:
+			// it could be that the user was deleted from LDAP, but we are not
+			// aware of it yet.
+			$groups = $this->getCachedGroupsForUserId($ncUid);
+			$this->access->connection->writeToCache($cacheKey, $groups);
+			return $groups;
+		}
+
+		$groups = array_values(array_unique($groups, SORT_LOCALE_STRING));
 		$this->access->connection->writeToCache($cacheKey, $groups);
+
+		$groupStr = \json_encode($groups);
+		$this->config->setUserValue($ncUid, 'user_ldap', 'cached-group-memberships-' . $this->access->connection->getConfigPrefix(), $groupStr);
 
 		return $groups;
 	}
@@ -1105,31 +1127,43 @@ class Group_LDAP extends BackendUtility implements GroupInterface, IGroupLDAP, I
 	 * @throws ServerNotAvailableException
 	 */
 	public function groupExists($gid) {
-		$groupExists = $this->access->connection->getFromCache('groupExists' . $gid);
-		if (!is_null($groupExists)) {
-			return (bool)$groupExists;
+		return $this->groupExistsOnLDAP($gid, false);
+	}
+
+	/**
+	 * Check if a group exists
+	 *
+	 * @throws ServerNotAvailableException
+	 */
+	public function groupExistsOnLDAP(string $gid, bool $ignoreCache = false): bool {
+		$cacheKey = 'groupExists' . $gid;
+		if (!$ignoreCache) {
+			$groupExists = $this->access->connection->getFromCache($cacheKey);
+			if (!is_null($groupExists)) {
+				return (bool)$groupExists;
+			}
 		}
 
 		//getting dn, if false the group does not exist. If dn, it may be mapped
 		//only, requires more checking.
 		$dn = $this->access->groupname2dn($gid);
 		if (!$dn) {
-			$this->access->connection->writeToCache('groupExists' . $gid, false);
+			$this->access->connection->writeToCache($cacheKey, false);
 			return false;
 		}
 
 		if (!$this->access->isDNPartOfBase($dn, $this->access->connection->ldapBaseGroups)) {
-			$this->access->connection->writeToCache('groupExists' . $gid, false);
+			$this->access->connection->writeToCache($cacheKey, false);
 			return false;
 		}
 
 		//if group really still exists, we will be able to read its objectClass
 		if (!is_array($this->access->readAttribute($dn, '', $this->access->connection->ldapGroupFilter))) {
-			$this->access->connection->writeToCache('groupExists' . $gid, false);
+			$this->access->connection->writeToCache($cacheKey, false);
 			return false;
 		}
 
-		$this->access->connection->writeToCache('groupExists' . $gid, true);
+		$this->access->connection->writeToCache($cacheKey, true);
 		return true;
 	}
 
@@ -1171,6 +1205,7 @@ class Group_LDAP extends BackendUtility implements GroupInterface, IGroupLDAP, I
 	public function implementsActions($actions): bool {
 		return (bool)((GroupInterface::COUNT_USERS |
 				GroupInterface::DELETE_GROUP |
+				GroupInterface::IS_ADMIN |
 				$this->groupPluginManager->getImplementedActions()) & $actions);
 	}
 
@@ -1302,10 +1337,10 @@ class Group_LDAP extends BackendUtility implements GroupInterface, IGroupLDAP, I
 	 * of the current access.
 	 *
 	 * @param string $gid
-	 * @return resource|\LDAP\Connection The LDAP connection
+	 * @return \LDAP\Connection The LDAP connection
 	 * @throws ServerNotAvailableException
 	 */
-	public function getNewLDAPConnection($gid) {
+	public function getNewLDAPConnection($gid): \LDAP\Connection {
 		$connection = clone $this->access->getConnection();
 		return $connection->getConnectionResource();
 	}
@@ -1335,5 +1370,57 @@ class Group_LDAP extends BackendUtility implements GroupInterface, IGroupLDAP, I
 
 		$this->access->connection->writeToCache($cacheKey, $displayName);
 		return $displayName;
+	}
+
+	/**
+	 * returns the groupname for the given LDAP DN, if available
+	 */
+	public function dn2GroupName(string $dn): string|false {
+		return $this->access->dn2groupname($dn);
+	}
+
+	public function addRelationshipToCaches(string $uid, ?string $dnUser, string $gid): void {
+		$dnGroup = $this->access->groupname2dn($gid);
+		$dnUser ??= $this->access->username2dn($uid);
+		if ($dnUser === false || $dnGroup === false) {
+			return;
+		}
+		if (isset($this->cachedGroupMembers[$gid])) {
+			$this->cachedGroupMembers[$gid] = array_merge($this->cachedGroupMembers[$gid], [$dnUser]);
+		}
+		unset($this->cachedGroupsByMember[$dnUser]);
+		unset($this->cachedNestedGroups[$gid]);
+		$cacheKey = 'inGroup' . $uid . ':' . $gid;
+		$this->access->connection->writeToCache($cacheKey, true);
+		$cacheKeyMembers = 'inGroup-members:' . $gid;
+		if (!is_null($data = $this->access->connection->getFromCache($cacheKeyMembers))) {
+			$this->access->connection->writeToCache($cacheKeyMembers, array_merge($data, [$dnUser]));
+		}
+		$cacheKey = '_groupMembers' . $dnGroup;
+		if (!is_null($data = $this->access->connection->getFromCache($cacheKey))) {
+			$this->access->connection->writeToCache($cacheKey, array_merge($data, [$dnUser]));
+		}
+		$cacheKey = 'getUserGroups' . $uid;
+		if (!is_null($data = $this->access->connection->getFromCache($cacheKey))) {
+			$this->access->connection->writeToCache($cacheKey, array_merge($data, [$gid]));
+		}
+		// These cache keys cannot be easily updated:
+		// $cacheKey = 'usersInGroup-' . $gid . '-' . $search . '-' . $limit . '-' . $offset;
+		// $cacheKey = 'usersInGroup-' . $gid . '-' . $search;
+		// $cacheKey = 'countUsersInGroup-' . $gid . '-' . $search;
+	}
+
+	/**
+	 * @throws ServerNotAvailableException
+	 */
+	public function isAdmin(string $uid): bool {
+		if (!$this->enabled) {
+			return false;
+		}
+		$ldapAdminGroup = $this->access->connection->ldapAdminGroup;
+		if ($ldapAdminGroup === '') {
+			return false;
+		}
+		return $this->inGroup($uid, $ldapAdminGroup);
 	}
 }

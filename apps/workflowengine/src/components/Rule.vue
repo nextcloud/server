@@ -1,3 +1,7 @@
+<!--
+  - SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 <template>
 	<div v-if="operation" class="section rule" :style="{ borderLeftColor: operation.color || '' }">
 		<div class="trigger">
@@ -128,7 +132,7 @@ export default {
 			this.$set(this.rule, 'operation', operation)
 			await this.updateRule()
 		},
-		validate(state) {
+		validate(/* state */) {
 			this.error = null
 			this.$store.dispatch('updateRule', this.rule)
 		},

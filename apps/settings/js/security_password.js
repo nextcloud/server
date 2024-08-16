@@ -1,13 +1,9 @@
 /* global OC */
 
 /**
- * Copyright (c) 2011, Robin Appelman <icewind1991@gmail.com>
- *               2013, Morris Jobke <morris.jobke@gmail.com>
- *               2016, Christoph Wurst <christoph@owncloud.com>
- *               2017, Arthur Schiwon <blizzz@arthur-schiwon.de>
- *               2017, Thomas Citharel <tcit@tcit.fr>
- * This file is licensed under the Affero General Public License version 3 or later.
- * See the COPYING-README file.
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2011-2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 window.addEventListener('DOMContentLoaded', function () {

@@ -1,40 +1,9 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Bart Visscher <bartv@thisnet.nl>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Daniel Kesselberg <mail@danielkesselberg.de>
- * @author Dominik Schmidt <dev@dominik-schmidt.de>
- * @author felixboehm <felix@webhippie.de>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Jörn Friedrich Dreyer <jfd@butonic.de>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Robin McCorkell <robin@mccorkell.me.uk>
- * @author Roger Szabo <roger.szabo@web.de>
- * @author root <root@localhost.localdomain>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Tom Needham <tom@owncloud.com>
- * @author Victor Dubiniuk <dubiniuk@owncloud.com>
- * @author Vinicius Cubas Brand <vinicius@eita.org.br>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\User_LDAP;
 
@@ -42,42 +11,35 @@ use OC\ServerNotAvailableException;
 use OC\User\Backend;
 use OC\User\NoUserException;
 use OCA\User_LDAP\Exceptions\NotOnLDAP;
+use OCA\User_LDAP\User\DeletedUsersIndex;
 use OCA\User_LDAP\User\OfflineUser;
 use OCA\User_LDAP\User\User;
-use OCP\IConfig;
 use OCP\IUserBackend;
-use OCP\IUserSession;
 use OCP\Notification\IManager as INotificationManager;
 use OCP\User\Backend\ICountMappedUsersBackend;
 use OCP\User\Backend\ICountUsersBackend;
+use OCP\User\Backend\IProvideEnabledStateBackend;
 use OCP\UserInterface;
 use Psr\Log\LoggerInterface;
 
-class User_LDAP extends BackendUtility implements IUserBackend, UserInterface, IUserLDAP, ICountUsersBackend, ICountMappedUsersBackend {
-	/** @var \OCP\IConfig */
-	protected $ocConfig;
+class User_LDAP extends BackendUtility implements IUserBackend, UserInterface, IUserLDAP, ICountUsersBackend, ICountMappedUsersBackend, IProvideEnabledStateBackend {
+	protected INotificationManager $notificationManager;
+	protected UserPluginManager $userPluginManager;
+	protected LoggerInterface $logger;
+	protected DeletedUsersIndex $deletedUsersIndex;
 
-	/** @var INotificationManager */
-	protected $notificationManager;
-
-	/** @var UserPluginManager */
-	protected $userPluginManager;
-
-	/** @var LoggerInterface */
-	protected $logger;
-
-	/**
-	 * @param Access $access
-	 * @param \OCP\IConfig $ocConfig
-	 * @param \OCP\Notification\IManager $notificationManager
-	 * @param IUserSession $userSession
-	 */
-	public function __construct(Access $access, IConfig $ocConfig, INotificationManager $notificationManager, IUserSession $userSession, UserPluginManager $userPluginManager) {
+	public function __construct(
+		Access $access,
+		INotificationManager $notificationManager,
+		UserPluginManager $userPluginManager,
+		LoggerInterface $logger,
+		DeletedUsersIndex $deletedUsersIndex,
+	) {
 		parent::__construct($access);
-		$this->ocConfig = $ocConfig;
 		$this->notificationManager = $notificationManager;
 		$this->userPluginManager = $userPluginManager;
-		$this->logger = \OC::$server->get(LoggerInterface::class);
+		$this->logger = $logger;
+		$this->deletedUsersIndex = $deletedUsersIndex;
 	}
 
 	/**
@@ -392,13 +354,13 @@ class User_LDAP extends BackendUtility implements IUserBackend, UserInterface, I
 			}
 		}
 
-		$marked = (int)$this->ocConfig->getUserValue($uid, 'user_ldap', 'isDeleted', 0);
-		if ($marked === 0) {
+		$marked = $this->deletedUsersIndex->isUserMarked($uid);
+		if (!$marked) {
 			try {
 				$user = $this->access->userManager->get($uid);
 				if (($user instanceof User) && !$this->userExistsOnLDAP($uid, true)) {
 					$user->markUser();
-					$marked = 1;
+					$marked = true;
 				}
 			} catch (\Exception $e) {
 				$this->logger->debug(
@@ -406,7 +368,7 @@ class User_LDAP extends BackendUtility implements IUserBackend, UserInterface, I
 					['app' => 'user_ldap', 'exception' => $e]
 				);
 			}
-			if ($marked === 0) {
+			if (!$marked) {
 				$this->logger->notice(
 					'User '.$uid . ' is not marked as deleted, not cleaning up.',
 					['app' => 'user_ldap']
@@ -623,7 +585,7 @@ class User_LDAP extends BackendUtility implements IUserBackend, UserInterface, I
 	 * The cloned connection needs to be closed manually.
 	 * of the current access.
 	 * @param string $uid
-	 * @return resource|\LDAP\Connection The LDAP connection
+	 * @return \LDAP\Connection The LDAP connection
 	 */
 	public function getNewLDAPConnection($uid) {
 		$connection = clone $this->access->getConnection();
@@ -668,5 +630,22 @@ class User_LDAP extends BackendUtility implements IUserBackend, UserInterface, I
 			return (bool) $dn;
 		}
 		return false;
+	}
+
+	public function isUserEnabled(string $uid, callable $queryDatabaseValue): bool {
+		if ($this->deletedUsersIndex->isUserMarked($uid) && ((int)$this->access->connection->markRemnantsAsDisabled === 1)) {
+			return false;
+		} else {
+			return $queryDatabaseValue();
+		}
+	}
+
+	public function setUserEnabled(string $uid, bool $enabled, callable $queryDatabaseValue, callable $setDatabaseValue): bool {
+		$setDatabaseValue($enabled);
+		return $enabled;
+	}
+
+	public function getDisabledUserList(?int $limit = null, int $offset = 0, string $search = ''): array {
+		throw new \Exception('This is implemented directly in User_Proxy');
 	}
 }

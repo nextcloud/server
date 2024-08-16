@@ -1,27 +1,8 @@
 <?php
 /**
- * @copyright Copyright (c) 2016, ownCloud GmbH.
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Daniel Calviño Sánchez <danxuliu@gmail.com>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Jörn Friedrich Dreyer <jfd@butonic.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2017-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud GmbH.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\Files_Sharing\Command;
 
@@ -113,8 +94,9 @@ class CleanupRemoteStorages extends Command {
 				$queryBuilder->createNamedParameter($numericId, IQueryBuilder::PARAM_STR),
 				IQueryBuilder::PARAM_STR)
 			);
-		$result = $queryBuilder->execute();
+		$result = $queryBuilder->executeQuery();
 		$count = $result->fetchOne();
+		$result->closeCursor();
 		$output->writeln("$count files can be deleted for storage $numericId");
 	}
 
@@ -127,7 +109,7 @@ class CleanupRemoteStorages extends Command {
 				IQueryBuilder::PARAM_STR)
 			);
 		$output->write("deleting $id [$numericId] ... ");
-		$count = $queryBuilder->execute();
+		$count = $queryBuilder->executeStatement();
 		$output->writeln("deleted $count storage");
 		$this->deleteFiles($numericId, $output);
 	}
@@ -141,7 +123,7 @@ class CleanupRemoteStorages extends Command {
 				IQueryBuilder::PARAM_STR)
 			);
 		$output->write("deleting files for storage $numericId ... ");
-		$count = $queryBuilder->execute();
+		$count = $queryBuilder->executeStatement();
 		$output->writeln("deleted $count files");
 	}
 
@@ -160,14 +142,16 @@ class CleanupRemoteStorages extends Command {
 				// but not the ones starting with a '/', they are for normal shares
 				$queryBuilder->createNamedParameter($this->connection->escapeLikeParameter('shared::/') . '%'),
 				IQueryBuilder::PARAM_STR)
-			)->orderBy('numeric_id');
-		$query = $queryBuilder->execute();
+			)
+			->orderBy('numeric_id');
+		$result = $queryBuilder->executeQuery();
 
 		$remoteStorages = [];
 
-		while ($row = $query->fetch()) {
+		while ($row = $result->fetch()) {
 			$remoteStorages[$row['id']] = $row['numeric_id'];
 		}
+		$result->closeCursor();
 
 		return $remoteStorages;
 	}
@@ -176,16 +160,17 @@ class CleanupRemoteStorages extends Command {
 		$queryBuilder = $this->connection->getQueryBuilder();
 		$queryBuilder->select(['id', 'share_token', 'owner', 'remote'])
 			->from('share_external');
-		$query = $queryBuilder->execute();
+		$result = $queryBuilder->executeQuery();
 
 		$remoteShareIds = [];
 
-		while ($row = $query->fetch()) {
+		while ($row = $result->fetch()) {
 			$cloudId = $this->cloudIdManager->getCloudId($row['owner'], $row['remote']);
 			$remote = $cloudId->getRemote();
 
 			$remoteShareIds[$row['id']] = 'shared::' . md5($row['share_token'] . '@' . $remote);
 		}
+		$result->closeCursor();
 
 		return $remoteShareIds;
 	}

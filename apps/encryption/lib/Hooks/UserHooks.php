@@ -1,29 +1,9 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Bjoern Schiessle <bjoern@schiessle.org>
- * @author Björn Schießle <bjoern@schiessle.org>
- * @author Clark Tomlinson <fallen013@gmail.com>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2017-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\Encryption\Hooks;
 
@@ -36,87 +16,29 @@ use OCA\Encryption\Session;
 use OCA\Encryption\Users\Setup;
 use OCA\Encryption\Util;
 use OCP\Encryption\Exceptions\GenericEncryptionException;
-use OCP\ILogger;
 use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\Util as OCUtil;
+use Psr\Log\LoggerInterface;
 
 class UserHooks implements IHook {
-
 	/**
 	 * list of user for which we perform a password reset
-	 * @var array
+	 * @var array<string, true>
 	 */
-	protected static $passwordResetUsers = [];
+	protected static array $passwordResetUsers = [];
 
-	/**
-	 * @var KeyManager
-	 */
-	private $keyManager;
-	/**
-	 * @var IUserManager
-	 */
-	private $userManager;
-	/**
-	 * @var ILogger
-	 */
-	private $logger;
-	/**
-	 * @var Setup
-	 */
-	private $userSetup;
-	/**
-	 * @var IUserSession
-	 */
-	private $userSession;
-	/**
-	 * @var Util
-	 */
-	private $util;
-	/**
-	 * @var Session
-	 */
-	private $session;
-	/**
-	 * @var Recovery
-	 */
-	private $recovery;
-	/**
-	 * @var Crypt
-	 */
-	private $crypt;
-
-	/**
-	 * UserHooks constructor.
-	 *
-	 * @param KeyManager $keyManager
-	 * @param IUserManager $userManager
-	 * @param ILogger $logger
-	 * @param Setup $userSetup
-	 * @param IUserSession $userSession
-	 * @param Util $util
-	 * @param Session $session
-	 * @param Crypt $crypt
-	 * @param Recovery $recovery
-	 */
-	public function __construct(KeyManager $keyManager,
-								IUserManager $userManager,
-								ILogger $logger,
-								Setup $userSetup,
-								IUserSession $userSession,
-								Util $util,
-								Session $session,
-								Crypt $crypt,
-								Recovery $recovery) {
-		$this->keyManager = $keyManager;
-		$this->userManager = $userManager;
-		$this->logger = $logger;
-		$this->userSetup = $userSetup;
-		$this->userSession = $userSession;
-		$this->util = $util;
-		$this->session = $session;
-		$this->recovery = $recovery;
-		$this->crypt = $crypt;
+	public function __construct(
+		private KeyManager $keyManager,
+		private IUserManager $userManager,
+		private LoggerInterface $logger,
+		private Setup $userSetup,
+		private IUserSession $userSession,
+		private Util $util,
+		private Session $session,
+		private Crypt $crypt,
+		private Recovery $recovery,
+	) {
 	}
 
 	/**
@@ -244,7 +166,6 @@ class UserHooks implements IHook {
 	 * @return boolean|null
 	 */
 	public function setPassphrase($params) {
-
 		// if we are in the process to resetting a user password, we have nothing
 		// to do here
 		if (isset(self::$passwordResetUsers[$params['uid']])) {
@@ -275,7 +196,7 @@ class UserHooks implements IHook {
 		} else { // admin changed the password for a different user, create new keys and re-encrypt file keys
 			$userId = $params['uid'];
 			$this->initMountPoints($userId);
-			$recoveryPassword = isset($params['recoveryPassword']) ? $params['recoveryPassword'] : null;
+			$recoveryPassword = $params['recoveryPassword'] ?? null;
 
 			$recoveryKeyId = $this->keyManager->getRecoveryKeyId();
 			$recoveryKey = $this->keyManager->getSystemPrivateKey($recoveryKeyId);
@@ -298,7 +219,6 @@ class UserHooks implements IHook {
 				|| !$this->keyManager->userHasKeys($userId)
 				|| !$this->util->userHasFiles($userId)
 			) {
-
 				// backup old keys
 				//$this->backupAllKeys('recovery');
 

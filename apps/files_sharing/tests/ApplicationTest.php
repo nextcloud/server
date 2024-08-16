@@ -1,55 +1,28 @@
 <?php
 /**
- * @copyright 2022, Vincent Petry <vincent@nextcloud.com>
- *
- * @author Vincent Petry <vincent@nextcloud.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\Files_Sharing\Tests;
 
+use OCA\Files_Sharing\AppInfo\Application;
+use OCA\Files_Sharing\Listener\BeforeDirectFileDownloadListener;
+use OCA\Files_Sharing\Listener\BeforeZipCreatedListener;
+use OCA\Files_Sharing\SharedStorage;
 use OCP\Files\Events\BeforeDirectFileDownloadEvent;
 use OCP\Files\Events\BeforeZipCreatedEvent;
-use Psr\Log\LoggerInterface;
-use OC\Share20\LegacyHooks;
-use OC\Share20\Manager;
-use OC\EventDispatcher\EventDispatcher;
-use OCA\Files_Sharing\AppInfo\Application;
-use OCA\Files_Sharing\SharedStorage;
-use OCP\Constants;
-use OCP\EventDispatcher\GenericEvent;
-use OCP\EventDispatcher\IEventDispatcher;
-use OCP\Files\Cache\ICacheEntry;
-use OCP\Files\Event\BeforeDirectGetEvent;
 use OCP\Files\File;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
 use OCP\Files\Storage\IStorage;
-use OCP\IServerContainer;
 use OCP\IUser;
 use OCP\IUserSession;
 use OCP\Share\IAttributes;
 use OCP\Share\IShare;
-use Symfony\Component\EventDispatcher\EventDispatcher as SymfonyDispatcher;
 use Test\TestCase;
 
 class ApplicationTest extends TestCase {
 	private Application $application;
-	private IEventDispatcher $eventDispatcher;
 
 	/** @var IUserSession */
 	private $userSession;
@@ -57,27 +30,14 @@ class ApplicationTest extends TestCase {
 	/** @var IRootFolder */
 	private $rootFolder;
 
-	/** @var Manager */ private $manager;
 
 	protected function setUp(): void {
 		parent::setUp();
 
 		$this->application = new Application([]);
 
-		$symfonyDispatcher = new SymfonyDispatcher();
-		$this->eventDispatcher = new EventDispatcher(
-			$symfonyDispatcher,
-			$this->createMock(IServerContainer::class),
-			$this->createMock(LoggerInterface::class)
-		);
 		$this->userSession = $this->createMock(IUserSession::class);
 		$this->rootFolder = $this->createMock(IRootFolder::class);
-
-		$this->application->registerDownloadEvents(
-			$this->eventDispatcher,
-			$this->userSession,
-			$this->rootFolder
-		);
 	}
 
 	public function providesDataForCanGet(): array {
@@ -138,7 +98,11 @@ class ApplicationTest extends TestCase {
 
 		// Simulate direct download of file
 		$event = new BeforeDirectFileDownloadEvent($path);
-		$this->eventDispatcher->dispatchTyped($event);
+		$listener = new BeforeDirectFileDownloadListener(
+			$this->userSession,
+			$this->rootFolder
+		);
+		$listener->handle($event);
 
 		$this->assertEquals($run, $event->isSuccessful());
 	}
@@ -216,7 +180,12 @@ class ApplicationTest extends TestCase {
 
 		// Simulate zip download of folder folder
 		$event = new BeforeZipCreatedEvent($dir, $files);
-		$this->eventDispatcher->dispatchTyped($event);
+		$listener = new BeforeZipCreatedListener(
+			$this->userSession,
+			$this->rootFolder
+		);
+		$listener->handle($event);
+
 
 		$this->assertEquals($run, $event->isSuccessful());
 		$this->assertEquals($run, $event->getErrorMessage() === null);
@@ -227,7 +196,11 @@ class ApplicationTest extends TestCase {
 
 		// Simulate zip download of folder folder
 		$event = new BeforeZipCreatedEvent('/test', ['test.txt']);
-		$this->eventDispatcher->dispatchTyped($event);
+		$listener = new BeforeZipCreatedListener(
+			$this->userSession,
+			$this->rootFolder
+		);
+		$listener->handle($event);
 
 		// It should run as this would restrict e.g. share links otherwise
 		$this->assertTrue($event->isSuccessful());

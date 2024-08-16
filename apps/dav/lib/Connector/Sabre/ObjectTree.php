@@ -1,30 +1,9 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Bjoern Schiessle <bjoern@schiessle.org>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Vincent Petry <vincent@nextcloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\DAV\Connector\Sabre;
 
@@ -65,35 +44,6 @@ class ObjectTree extends CachingTree {
 		$this->rootNode = $rootNode;
 		$this->fileView = $view;
 		$this->mountManager = $mountManager;
-	}
-
-	/**
-	 * If the given path is a chunked file name, converts it
-	 * to the real file name. Only applies if the OC-CHUNKED header
-	 * is present.
-	 *
-	 * @param string $path chunk file path to convert
-	 *
-	 * @return string path to real file
-	 */
-	private function resolveChunkFile($path) {
-		if (isset($_SERVER['HTTP_OC_CHUNKED'])) {
-			// resolve to real file name to find the proper node
-			[$dir, $name] = \Sabre\Uri\split($path);
-			if ($dir === '/' || $dir === '.') {
-				$dir = '';
-			}
-
-			$info = \OC_FileChunking::decodeName($name);
-			// only replace path if it was really the chunked file
-			if (isset($info['transferid'])) {
-				// getNodePath is called for multiple nodes within a chunk
-				// upload call
-				$path = $dir . '/' . $info['name'];
-				$path = ltrim($path, '/');
-			}
-		}
-		return $path;
 	}
 
 	/**
@@ -147,9 +97,6 @@ class ObjectTree extends CachingTree {
 				$info = null;
 			}
 		} else {
-			// resolve chunk file name to real name, if applicable
-			$path = $this->resolveChunkFile($path);
-
 			// read from cache
 			try {
 				$info = $this->fileView->getFileInfo($path);

@@ -1,8 +1,7 @@
 <?php
 /**
- * Copyright (c) 2016 Robin Appelman <icewind@owncloud.com>
- * This file is licensed under the Licensed under the MIT license:
- * http://opensource.org/licenses/MIT
+ * SPDX-FileCopyrightText: 2016 Robin Appelman <robin@icewind.nl>
+ * SPDX-License-Identifier: MIT
  */
 
 namespace Icewind\SMB\Exception;

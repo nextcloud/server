@@ -1,40 +1,25 @@
 /**
- * @copyright Copyright (c) 2019 John Molakvoæ <skjnldsv@protonmail.com>
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Daniel Calviño Sánchez <danxuliu@gmail.com>
- * @author Gary Kim <gary@garykim.dev>
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Vincent Petry <vincent@nextcloud.com>
- *
- * @license AGPL-3.0-or-later
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
+import { emit } from '@nextcloud/event-bus'
+import { fetchNode } from '../services/WebdavClient.ts'
 import { showError, showSuccess } from '@nextcloud/dialogs'
 import { getCurrentUser } from '@nextcloud/auth'
 // eslint-disable-next-line import/no-unresolved, n/no-missing-import
 import PQueue from 'p-queue'
 import debounce from 'debounce'
 
-import Share from '../models/Share.js'
+import Share from '../models/Share.ts'
 import SharesRequests from './ShareRequests.js'
 import ShareTypes from './ShareTypes.js'
-import Config from '../services/ConfigService.js'
+import Config from '../services/ConfigService.ts'
+import logger from '../services/logger.ts'
+
+import {
+	BUNDLED_PERMISSIONS,
+} from '../lib/SharePermissionsToolBox.js'
 
 export default {
 	mixins: [SharesRequests, ShareTypes],
@@ -42,7 +27,7 @@ export default {
 	props: {
 		fileInfo: {
 			type: Object,
-			default: () => {},
+			default: () => { },
 			required: true,
 		},
 		share: {
@@ -58,6 +43,7 @@ export default {
 	data() {
 		return {
 			config: new Config(),
+			node: null,
 
 			// errors helpers
 			errors: {},
@@ -80,7 +66,9 @@ export default {
 	},
 
 	computed: {
-
+		path() {
+			return (this.fileInfo.path + '/' + this.fileInfo.name).replace('//', '/')
+		},
 		/**
 		 * Does the current share have a note
 		 *
@@ -121,14 +109,66 @@ export default {
 				monthFormat: 'MMM',
 			}
 		},
-
+		isFolder() {
+			return this.fileInfo.type === 'dir'
+		},
+		isPublicShare() {
+			const shareType = this.share.shareType ?? this.share.type
+			return [this.SHARE_TYPES.SHARE_TYPE_LINK, this.SHARE_TYPES.SHARE_TYPE_EMAIL].includes(shareType)
+		},
+		isRemoteShare() {
+			return this.share.type === this.SHARE_TYPES.SHARE_TYPE_REMOTE_GROUP || this.share.type === this.SHARE_TYPES.SHARE_TYPE_REMOTE
+		},
 		isShareOwner() {
 			return this.share && this.share.owner === getCurrentUser().uid
 		},
-
+		isExpiryDateEnforced() {
+			if (this.isPublicShare) {
+				return this.config.isDefaultExpireDateEnforced
+			}
+			if (this.isRemoteShare) {
+			    return this.config.isDefaultRemoteExpireDateEnforced
+			}
+			return this.config.isDefaultInternalExpireDateEnforced
+		},
+		hasCustomPermissions() {
+			const bundledPermissions = [
+				BUNDLED_PERMISSIONS.ALL,
+				BUNDLED_PERMISSIONS.READ_ONLY,
+				BUNDLED_PERMISSIONS.FILE_DROP,
+			]
+			return !bundledPermissions.includes(this.share.permissions)
+		},
+		maxExpirationDateEnforced() {
+			if (this.isExpiryDateEnforced) {
+				if (this.isPublicShare) {
+					return this.config.defaultExpirationDate
+				}
+				if (this.isRemoteShare) {
+					return this.config.defaultRemoteExpirationDateString
+				}
+				// If it get's here then it must be an internal share
+				return this.config.defaultInternalExpirationDate
+			}
+			return null
+		},
 	},
 
 	methods: {
+		/**
+		 * Fetch webdav node
+		 *
+		 * @return {Node}
+		 */
+		async getNode() {
+			const node = { path: this.path }
+			try {
+				this.node = await fetchNode(node)
+				logger.info('Fetched node:', { node: this.node })
+			} catch (error) {
+				logger.error('Error:', error)
+			}
+		},
 		/**
 		 * Check if a share is valid before
 		 * firing the request
@@ -179,11 +219,9 @@ export default {
 		 *
 		 * @param {Date} date
 		 */
-		onExpirationChange(date) {
-			this.share.expireDate = this.formatDateToString(date)
-			this.queueUpdate('expireDate')
-		},
-
+		onExpirationChange: debounce(function(date) {
+			this.share.expireDate = this.formatDateToString(new Date(date))
+		}, 500),
 		/**
 		 * Uncheck expire date
 		 * We need this method because @update:checked
@@ -192,7 +230,6 @@ export default {
 		 */
 		onExpirationDisable() {
 			this.share.expireDate = ''
-			this.queueUpdate('expireDate')
 		},
 
 		/**
@@ -230,6 +267,8 @@ export default {
 					: t('files_sharing', 'Folder "{path}" has been unshared', { path: this.share.path })
 				showSuccess(message)
 				this.$emit('remove:share', this.share)
+				await this.getNode()
+				emit('files:node:updated', this.node)
 			} catch (error) {
 				// re-open menu if error
 				this.open = true
@@ -335,7 +374,6 @@ export default {
 			}
 			}
 		},
-
 		/**
 		 * Debounce queueUpdate to avoid requests spamming
 		 * more importantly for text data

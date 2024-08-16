@@ -1,27 +1,7 @@
 <?php
 /**
- * @copyright Copyright (c) 2016 Joas Schilling <coding@schilljs.com>
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\Files\Activity;
 
@@ -77,13 +57,13 @@ class Provider implements IProvider {
 	protected $fileIsEncrypted = false;
 
 	public function __construct(IFactory $languageFactory,
-								IURLGenerator $url,
-								IManager $activityManager,
-								IUserManager $userManager,
-								IRootFolder $rootFolder,
-								ICloudIdManager $cloudIdManager,
-								IContactsManager $contactsManager,
-								IEventMerger $eventMerger) {
+		IURLGenerator $url,
+		IManager $activityManager,
+		IUserManager $userManager,
+		IRootFolder $rootFolder,
+		ICloudIdManager $cloudIdManager,
+		IContactsManager $contactsManager,
+		IEventMerger $eventMerger) {
 		$this->languageFactory = $languageFactory;
 		$this->url = $url;
 		$this->activityManager = $activityManager;
@@ -102,7 +82,7 @@ class Provider implements IProvider {
 	 * @throws \InvalidArgumentException
 	 * @since 11.0.0
 	 */
-	public function parse($language, IEvent $event, IEvent $previousEvent = null) {
+	public function parse($language, IEvent $event, ?IEvent $previousEvent = null) {
 		if ($event->getApp() !== 'files') {
 			throw new \InvalidArgumentException();
 		}
@@ -136,7 +116,7 @@ class Provider implements IProvider {
 	 * @throws \InvalidArgumentException
 	 * @since 11.0.0
 	 */
-	public function parseShortVersion(IEvent $event, IEvent $previousEvent = null) {
+	public function parseShortVersion(IEvent $event, ?IEvent $previousEvent = null) {
 		$parsedParameters = $this->getParameters($event);
 
 		if ($event->getSubject() === 'created_by') {
@@ -163,7 +143,7 @@ class Provider implements IProvider {
 
 		if (!isset($parsedParameters['user'])) {
 			// External user via public link share
-			$subject = str_replace('{user}', $this->activityLang->t('"remote user"'), $subject);
+			$subject = str_replace('{user}', $this->activityLang->t('"remote account"'), $subject);
 		}
 
 		$this->setSubjects($event, $subject, $parsedParameters);
@@ -178,7 +158,7 @@ class Provider implements IProvider {
 	 * @throws \InvalidArgumentException
 	 * @since 11.0.0
 	 */
-	public function parseLongVersion(IEvent $event, IEvent $previousEvent = null) {
+	public function parseLongVersion(IEvent $event, ?IEvent $previousEvent = null) {
 		$this->fileIsEncrypted = false;
 		$parsedParameters = $this->getParameters($event);
 
@@ -281,7 +261,7 @@ class Provider implements IProvider {
 
 		if (!isset($parsedParameters['user'])) {
 			// External user via public link share
-			$subject = str_replace('{user}', $this->activityLang->t('"remote user"'), $subject);
+			$subject = str_replace('{user}', $this->activityLang->t('"remote account"'), $subject);
 		}
 
 		$this->setSubjects($event, $subject, $parsedParameters);
@@ -368,7 +348,7 @@ class Provider implements IProvider {
 	 * @return array
 	 * @throws \InvalidArgumentException
 	 */
-	protected function getFile($parameter, IEvent $event = null) {
+	protected function getFile($parameter, ?IEvent $event = null) {
 		if (is_array($parameter)) {
 			$path = reset($parameter);
 			$id = (string) key($parameter);
@@ -433,8 +413,8 @@ class Provider implements IProvider {
 		}
 
 		$userFolder = $this->rootFolder->getUserFolder($this->activityManager->getCurrentUserId());
-		$files = $userFolder->getById($fileId);
-		if (empty($files)) {
+		$file = $userFolder->getFirstNodeById($fileId);
+		if (!$file) {
 			try {
 				// Deleted, try with parent
 				$file = $this->findExistingParent($userFolder, dirname($path));
@@ -449,8 +429,6 @@ class Provider implements IProvider {
 			$this->fileEncrypted[$fileId] = $file;
 			return $file;
 		}
-
-		$file = array_shift($files);
 
 		if ($file instanceof Folder && $file->isEncrypted()) {
 			// If the folder is encrypted, it is the Container,

@@ -1,6 +1,10 @@
+<!--
+ - SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+ - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 ## Submitting issues
 
-If you have questions about how to install or use Nextcloud, please direct these to our [forum][forum]. We are also available on [IRC][irc].
+If you have questions about how to install or use Nextcloud, please direct these to our [forum][forum]. We are also available on [IRC][irc] (unofficial).
 
 ### Short version
 
@@ -21,13 +25,20 @@ Help us to maximize the effort we can spend fixing issues and adding new feature
 
 [templates]: ./ISSUE_TEMPLATE
 [forum]: https://help.nextcloud.com/
-[irc]: https://webchat.freenode.net/?channels=nextcloud
+[irc]: https://web.libera.chat/#nextcloud
 
 ## Contributing to Source Code
 
 Thanks for wanting to contribute source code to Nextcloud. That's great!
 
 Please read the [Developer Manuals][devmanual] to learn how to create your first application or how to test the Nextcloud code with PHPUnit.
+
+### Conventional Commits
+
+Please use [Conventional Commits](https://www.conventionalcommits.org) for your commit messages. This helps maintain clarity and consistency across the project, making it easier to understand changes and automate versioning.
+```
+feat(files_sharing): allow sharing with contacts
+``` 
 
 ### Tests
 
@@ -44,9 +55,9 @@ their contribution under the project's license.
 Please read [contribute/developer-certificate-of-origin][dcofile].
 If you can certify it, then just add a line to every git commit message:
 
-````
-  Signed-off-by: Random J Developer <random@developer.example.org>
-````
+```
+Signed-off-by: Random J Developer <random@developer.example.org>
+```
 
 Use your real name (sorry, no pseudonyms or anonymous contributions).
 If you set your `user.name` and `user.email` git configs, you can sign your

@@ -48,6 +48,7 @@ OC.L10N.register(
     "Nextcloud workflow engine" : "Σύστημα ροής εργασιών Nextcloud",
     "Select a filter" : "Επιλογή φίλτρου",
     "Select a comparator" : "Επιλέξτε για σύγκριση",
+    "Remove filter" : "Αφαίρεση φίλτρου",
     "Select a file type" : "Επιλέξτε τύπο αρχείου",
     "e.g. httpd/unix-directory" : "π.χ. httpd/unix-directory",
     "Folder" : "Φάκελος",
@@ -66,6 +67,8 @@ OC.L10N.register(
     "Desktop client" : "Πελάτης σταθερού υπολογιστή",
     "Thunderbird & Outlook addons" : "Πρόσθετα των Thunderbird & Outlook",
     "Custom user agent" : "Προσαρμοσμένο πρόγραμμα χρήστη",
+    "Select groups" : "Επιλέξτε ομάδες",
+    "Groups" : "Ομάδες",
     "At least one event must be selected" : "Τουλάχιστον ένα γεγονός πρέπει να επιλεγεί",
     "Add new flow" : "Προσθήκη νέας ροής",
     "When" : "Πότε",
@@ -107,10 +110,8 @@ OC.L10N.register(
     "between" : "μεταξύ",
     "not between" : "όχι μεταξύ",
     "Request user agent" : "Αιτηθείτε αντιπρόσωπο χρήστη",
-    "User group membership" : "Συμμετοχή σε ομάδα χρηστών",
     "is member of" : "είναι μέλος του",
     "is not member of" : "δεν είναι μέλος του",
-    "Predefined URLs" : "Προορισμένα URLs",
-    "Others" : "Άλλοι"
+    "User group membership" : "Συμμετοχή σε ομάδα χρηστών"
 },
 "nplurals=2; plural=(n != 1);");

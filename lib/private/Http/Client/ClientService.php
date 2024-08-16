@@ -1,34 +1,16 @@
 <?php
 
 declare(strict_types=1);
-
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Joas Schilling <coding@schilljs.com>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OC\Http\Client;
 
 use GuzzleHttp\Client as GuzzleClient;
-use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Handler\CurlHandler;
+use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Middleware;
 use OCP\Diagnostics\IEventLogger;
 use OCP\Http\Client\IClient;
@@ -37,6 +19,7 @@ use OCP\ICertificateManager;
 use OCP\IConfig;
 use OCP\Security\IRemoteHostValidator;
 use Psr\Http\Message\RequestInterface;
+use Psr\Log\LoggerInterface;
 
 /**
  * Class ClientService
@@ -59,6 +42,7 @@ class ClientService implements IClientService {
 		DnsPinMiddleware $dnsPinMiddleware,
 		IRemoteHostValidator $remoteHostValidator,
 		IEventLogger $eventLogger,
+		protected LoggerInterface $logger,
 	) {
 		$this->config = $config;
 		$this->certificateManager = $certificateManager;
@@ -73,7 +57,9 @@ class ClientService implements IClientService {
 	public function newClient(): IClient {
 		$handler = new CurlHandler();
 		$stack = HandlerStack::create($handler);
-		$stack->push($this->dnsPinMiddleware->addDnsPinning());
+		if ($this->config->getSystemValueBool('dns_pinning', true)) {
+			$stack->push($this->dnsPinMiddleware->addDnsPinning());
+		}
 		$stack->push(Middleware::tap(function (RequestInterface $request) {
 			$this->eventLogger->start('http:request', $request->getMethod() . " request to " . $request->getRequestTarget());
 		}, function () {
@@ -87,6 +73,7 @@ class ClientService implements IClientService {
 			$this->certificateManager,
 			$client,
 			$this->remoteHostValidator,
+			$this->logger,
 		);
 	}
 }

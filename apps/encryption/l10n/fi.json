@@ -34,7 +34,6 @@
     "Enabling this option encrypts all files stored on the main storage, otherwise only files on external storage will be encrypted" : "Tämän valinnan ollessa valittuna salataan kaikki päätallennustilaan tallennetut tiedostot. Muussa tapauksessa ainoastaan ulkoisessa tallennustilassa sijaitsevat tiedostot salataan.",
     "Enable recovery key" : "Ota palautusavain käyttöön",
     "Disable recovery key" : "Poista palautusavain käytöstä",
-    "The recovery key is an extra encryption key that is used to encrypt files. It allows recovery of a user's files if the user forgets his or her password." : "Palautusavain on ylimääräinen salausavain, jota käytetään tiedostojen salaamiseen. Sen avulla on mahdollista palauttaa käyttäjien tiedostot, vaikka käyttäjä unohtaisi oman salasanansa.",
     "Recovery key password" : "Palautusavaimen salasana",
     "Repeat recovery key password" : "Toista salausavaimen salasana",
     "Change recovery key password:" : "Vaihda palautusavaimen salasana:",
@@ -53,7 +52,6 @@
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Tämän valinnan käyttäminen mahdollistaa pääsyn salattuihin tiedostoihisi, jos salasana unohtuu",
     "Enabled" : "Käytössä",
     "Disabled" : "Ei käytössä",
-    "The share will expire on %s." : "Jakaminen päättyy %s.",
-    "Cheers!" : "Kiitos!"
+    "The recovery key is an extra encryption key that is used to encrypt files. It allows recovery of a user's files if the user forgets his or her password." : "Palautusavain on ylimääräinen salausavain, jota käytetään tiedostojen salaamiseen. Sen avulla on mahdollista palauttaa käyttäjien tiedostot, vaikka käyttäjä unohtaisi oman salasanansa."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

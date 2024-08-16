@@ -1,27 +1,7 @@
 <?php
 /**
- * @copyright Copyright (c) 2018, Georg Ehrke
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Georg Ehrke <oc.list@georgehrke.com>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Thomas Citharel <nextcloud@tcit.fr>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\DAV\Command;
 
@@ -35,24 +15,14 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class ListCalendars extends Command {
-
-	/** @var IUserManager */
-	protected $userManager;
-
-	/** @var CalDavBackend */
-	private $caldav;
-
-	/**
-	 * @param IUserManager $userManager
-	 * @param CalDavBackend $caldav
-	 */
-	public function __construct(IUserManager $userManager, CalDavBackend $caldav) {
+	public function __construct(
+		protected IUserManager $userManager,
+		private CalDavBackend $caldav,
+	) {
 		parent::__construct();
-		$this->userManager = $userManager;
-		$this->caldav = $caldav;
 	}
 
-	protected function configure() {
+	protected function configure(): void {
 		$this
 			->setName('dav:list-calendars')
 			->setDescription('List all calendars of a user')
@@ -100,6 +70,6 @@ class ListCalendars extends Command {
 		} else {
 			$output->writeln("<info>User <$user> has no calendars</info>");
 		}
-		return 0;
+		return self::SUCCESS;
 	}
 }

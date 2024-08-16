@@ -3,41 +3,28 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2019, Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OC\Core\Controller;
 
-use OC\Authentication\Exceptions\InvalidTokenException;
 use OC\Core\Db\LoginFlowV2;
 use OC\Core\Exception\LoginFlowV2NotFoundException;
+use OC\Core\ResponseDefinitions;
 use OC\Core\Service\LoginFlowV2Service;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\FrontpageRoute;
+use OCP\AppFramework\Http\Attribute\NoAdminRequired;
+use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
+use OCP\AppFramework\Http\Attribute\OpenAPI;
+use OCP\AppFramework\Http\Attribute\PublicPage;
 use OCP\AppFramework\Http\Attribute\UseSession;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Http\StandaloneTemplateResponse;
+use OCP\Authentication\Exceptions\InvalidTokenException;
 use OCP\Defaults;
 use OCP\IL10N;
 use OCP\IRequest;
@@ -47,6 +34,10 @@ use OCP\IUser;
 use OCP\IUserSession;
 use OCP\Security\ISecureRandom;
 
+/**
+ * @psalm-import-type CoreLoginFlowV2Credentials from ResponseDefinitions
+ * @psalm-import-type CoreLoginFlowV2 from ResponseDefinitions
+ */
 class ClientFlowLoginV2Controller extends Controller {
 	public const TOKEN_NAME = 'client.flow.v2.login.token';
 	public const STATE_NAME = 'client.flow.v2.state.token';
@@ -67,9 +58,17 @@ class ClientFlowLoginV2Controller extends Controller {
 	}
 
 	/**
-	 * @NoCSRFRequired
-	 * @PublicPage
+	 * Poll the login flow credentials
+	 *
+	 * @param string $token Token of the flow
+	 * @return JSONResponse<Http::STATUS_OK, CoreLoginFlowV2Credentials, array{}>|JSONResponse<Http::STATUS_NOT_FOUND, array<empty>, array{}>
+	 *
+	 * 200: Login flow credentials returned
+	 * 404: Login flow not found or completed
 	 */
+	#[NoCSRFRequired]
+	#[PublicPage]
+	#[FrontpageRoute(verb: 'POST', url: '/login/v2/poll')]
 	public function poll(string $token): JSONResponse {
 		try {
 			$creds = $this->loginFlowV2Service->poll($token);
@@ -77,15 +76,15 @@ class ClientFlowLoginV2Controller extends Controller {
 			return new JSONResponse([], Http::STATUS_NOT_FOUND);
 		}
 
-		return new JSONResponse($creds);
+		return new JSONResponse($creds->jsonSerialize());
 	}
 
-	/**
-	 * @NoCSRFRequired
-	 * @PublicPage
-	 */
+	#[NoCSRFRequired]
+	#[PublicPage]
+	#[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
 	#[UseSession]
-	public function landing(string $token, $user = ''): Response {
+	#[FrontpageRoute(verb: 'GET', url: '/login/v2/flow/{token}')]
+	public function landing(string $token, $user = '', int $direct = 0): Response {
 		if (!$this->loginFlowV2Service->startLoginFlow($token)) {
 			return $this->loginTokenForbiddenResponse();
 		}
@@ -93,16 +92,16 @@ class ClientFlowLoginV2Controller extends Controller {
 		$this->session->set(self::TOKEN_NAME, $token);
 
 		return new RedirectResponse(
-			$this->urlGenerator->linkToRouteAbsolute('core.ClientFlowLoginV2.showAuthPickerPage', ['user' => $user])
+			$this->urlGenerator->linkToRouteAbsolute('core.ClientFlowLoginV2.showAuthPickerPage', ['user' => $user, 'direct' => $direct])
 		);
 	}
 
-	/**
-	 * @NoCSRFRequired
-	 * @PublicPage
-	 */
+	#[NoCSRFRequired]
+	#[PublicPage]
+	#[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
 	#[UseSession]
-	public function showAuthPickerPage($user = ''): StandaloneTemplateResponse {
+	#[FrontpageRoute(verb: 'GET', url: '/login/v2/flow')]
+	public function showAuthPickerPage(string $user = '', int $direct = 0): StandaloneTemplateResponse {
 		try {
 			$flow = $this->getFlowByLoginToken();
 		} catch (LoginFlowV2NotFoundException $e) {
@@ -124,18 +123,21 @@ class ClientFlowLoginV2Controller extends Controller {
 				'urlGenerator' => $this->urlGenerator,
 				'stateToken' => $stateToken,
 				'user' => $user,
+				'direct' => $direct,
 			],
 			'guest'
 		);
 	}
 
 	/**
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
 	 * @NoSameSiteCookieRequired
 	 */
+	#[NoAdminRequired]
+	#[NoCSRFRequired]
+	#[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
 	#[UseSession]
-	public function grantPage(?string $stateToken): StandaloneTemplateResponse {
+	#[FrontpageRoute(verb: 'GET', url: '/login/v2/grant')]
+	public function grantPage(?string $stateToken, int $direct = 0): StandaloneTemplateResponse {
 		if ($stateToken === null) {
 			return $this->stateTokenMissingResponse();
 		}
@@ -162,14 +164,14 @@ class ClientFlowLoginV2Controller extends Controller {
 				'instanceName' => $this->defaults->getName(),
 				'urlGenerator' => $this->urlGenerator,
 				'stateToken' => $stateToken,
+				'direct' => $direct,
 			],
 			'guest'
 		);
 	}
 
-	/**
-	 * @PublicPage
-	 */
+	#[PublicPage]
+	#[FrontpageRoute(verb: 'POST', url: '/login/v2/apptoken')]
 	public function apptokenRedirect(?string $stateToken, string $user, string $password) {
 		if ($stateToken === null) {
 			return $this->stateTokenMissingResponse();
@@ -213,10 +215,9 @@ class ClientFlowLoginV2Controller extends Controller {
 		return $this->handleFlowDone($result);
 	}
 
-	/**
-	 * @NoAdminRequired
-	 */
+	#[NoAdminRequired]
 	#[UseSession]
+	#[FrontpageRoute(verb: 'POST', url: '/login/v2/grant')]
 	public function generateAppPassword(?string $stateToken): Response {
 		if ($stateToken === null) {
 			return $this->stateTokenMissingResponse();
@@ -265,9 +266,15 @@ class ClientFlowLoginV2Controller extends Controller {
 	}
 
 	/**
-	 * @NoCSRFRequired
-	 * @PublicPage
+	 * Init a login flow
+	 *
+	 * @return JSONResponse<Http::STATUS_OK, CoreLoginFlowV2, array{}>
+	 *
+	 * 200: Login flow init returned
 	 */
+	#[NoCSRFRequired]
+	#[PublicPage]
+	#[FrontpageRoute(verb: 'POST', url: '/login/v2')]
 	public function init(): JSONResponse {
 		// Get client user agent
 		$userAgent = $this->request->getHeader('USER_AGENT');

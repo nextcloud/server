@@ -1,31 +1,14 @@
 <?php
 
 declare(strict_types=1);
-
 /**
- * @copyright 2018
- *
- * @author Maxence Lange <maxence@artificial-owl.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OC\FullTextSearch\Model;
 
 use JsonSerializable;
+use OCP\FullTextSearch\Exceptions\FullTextSearchIndexNotAvailableException;
 use OCP\FullTextSearch\Model\IDocumentAccess;
 use OCP\FullTextSearch\Model\IIndex;
 use OCP\FullTextSearch\Model\IIndexDocument;
@@ -47,62 +30,41 @@ use OCP\FullTextSearch\Model\IIndexDocument;
  * @package OC\FullTextSearch\Model
  */
 class IndexDocument implements IIndexDocument, JsonSerializable {
-	/** @var string */
-	protected $id = '';
+	protected string $id = '';
 
-	/** @var string */
-	protected $providerId = '';
+	protected DocumentAccess $access;
 
-	/** @var DocumentAccess */
-	protected $access;
+	protected ?IIndex $index = null;
 
-	/** @var IIndex */
-	protected $index;
+	protected int $modifiedTime = 0;
 
-	/** @var int */
-	protected $modifiedTime = 0;
+	protected string $source = '';
 
-	/** @var string */
-	protected $source = '';
+	protected array $tags = [];
 
-	/** @var array */
-	protected $tags = [];
+	protected array $metaTags = [];
 
-	/** @var array */
-	protected $metaTags = [];
+	protected array $subTags = [];
 
-	/** @var array */
-	protected $subTags = [];
+	protected string $title = '';
 
-	/** @var string */
-	protected $title = '';
+	protected string $content = '';
 
-	/** @var string */
-	protected $content = '';
+	protected string $hash = '';
 
-	/** @var string */
-	protected $hash = '';
+	protected array $parts = [];
 
-	/** @var array */
-	protected $parts = [];
+	protected string $link = '';
 
-	/** @var string */
-	protected $link = '';
+	protected array $more = [];
 
-	/** @var array */
-	protected $more = [];
+	protected array $excerpts = [];
 
-	/** @var array */
-	protected $excerpts = [];
+	protected string $score = '';
 
-	/** @var string */
-	protected $score = '';
+	protected array $info = [];
 
-	/** @var array */
-	protected $info = [];
-
-	/** @var int */
-	protected $contentEncoded = 0;
+	protected int $contentEncoded = 0;
 
 
 	/**
@@ -112,12 +74,11 @@ class IndexDocument implements IIndexDocument, JsonSerializable {
 	 * and the Id of the original document.
 	 *
 	 * @since 15.0.0
-	 *
-	 * @param string $providerId
-	 * @param string $documentId
 	 */
-	public function __construct(string $providerId, string $documentId) {
-		$this->providerId = $providerId;
+	public function __construct(
+		protected string $providerId,
+		string $documentId,
+	) {
 		$this->id = $documentId;
 	}
 
@@ -126,8 +87,6 @@ class IndexDocument implements IIndexDocument, JsonSerializable {
 	 * Returns the Id of the original document.
 	 *
 	 * @since 15.0.0
-	 *
-	 * @return string
 	 */
 	final public function getId(): string {
 		return $this->id;
@@ -138,8 +97,6 @@ class IndexDocument implements IIndexDocument, JsonSerializable {
 	 * Returns the Id of the provider.
 	 *
 	 * @since 15.0.0
-	 *
-	 * @return string
 	 */
 	final public function getProviderId(): string {
 		return $this->providerId;
@@ -152,10 +109,6 @@ class IndexDocument implements IIndexDocument, JsonSerializable {
 	 * @see IIndex
 	 *
 	 * @since 15.0.0
-	 *
-	 * @param IIndex $index
-	 *
-	 * @return IIndexDocument
 	 */
 	final public function setIndex(IIndex $index): IIndexDocument {
 		$this->index = $index;
@@ -166,11 +119,14 @@ class IndexDocument implements IIndexDocument, JsonSerializable {
 	/**
 	 * Get the Index.
 	 *
+	 * @throws FullTextSearchIndexNotAvailableException
 	 * @since 15.0.0
-	 *
-	 * @return IIndex
 	 */
 	final public function getIndex(): IIndex {
+		if ($this->index === null) {
+			throw new FullTextSearchIndexNotAvailableException('No IIndex generated');
+		}
+
 		return $this->index;
 	}
 
@@ -178,22 +134,15 @@ class IndexDocument implements IIndexDocument, JsonSerializable {
 	 * return if Index is defined.
 	 *
 	 * @since 16.0.0
-	 *
-	 * @return bool
 	 */
 	final public function hasIndex(): bool {
-		return ($this->index !== null);
+		return $this->index !== null;
 	}
-
 
 	/**
 	 * Set the modified time of the original document.
 	 *
 	 * @since 15.0.0
-	 *
-	 * @param int $modifiedTime
-	 *
-	 * @return IIndexDocument
 	 */
 	final public function setModifiedTime(int $modifiedTime): IIndexDocument {
 		$this->modifiedTime = $modifiedTime;
@@ -205,8 +154,6 @@ class IndexDocument implements IIndexDocument, JsonSerializable {
 	 * Get the modified time of the original document.
 	 *
 	 * @since 15.0.0
-	 *
-	 * @return int
 	 */
 	final public function getModifiedTime(): int {
 		return $this->modifiedTime;
@@ -216,10 +163,6 @@ class IndexDocument implements IIndexDocument, JsonSerializable {
 	 * Check if the original document of the IIndexDocument is older than $time.
 	 *
 	 * @since 15.0.0
-	 *
-	 * @param int $time
-	 *
-	 * @return bool
 	 */
 	final public function isOlderThan(int $time): bool {
 		return ($this->modifiedTime < $time);
@@ -232,10 +175,6 @@ class IndexDocument implements IIndexDocument, JsonSerializable {
 	 * @see IDocumentAccess
 	 *
 	 * @since 15.0.0
-	 *
-	 * @param IDocumentAccess $access
-	 *
-	 * @return $this
 	 */
 	final public function setAccess(IDocumentAccess $access): IIndexDocument {
 		$this->access = $access;
@@ -247,8 +186,6 @@ class IndexDocument implements IIndexDocument, JsonSerializable {
 	 * Get the IDocumentAccess related to the original document.
 	 *
 	 * @since 15.0.0
-	 *
-	 * @return IDocumentAccess
 	 */
 	final public function getAccess(): IDocumentAccess {
 		return $this->access;
@@ -259,10 +196,6 @@ class IndexDocument implements IIndexDocument, JsonSerializable {
 	 * Add a tag to the list.
 	 *
 	 * @since 15.0.0
-	 *
-	 * @param string $tag
-	 *
-	 * @return IIndexDocument
 	 */
 	final public function addTag(string $tag): IIndexDocument {
 		$this->tags[] = $tag;
@@ -274,10 +207,6 @@ class IndexDocument implements IIndexDocument, JsonSerializable {
 	 * Set the list of tags assigned to the original document.
 	 *
 	 * @since 15.0.0
-	 *
-	 * @param array $tags
-	 *
-	 * @return IIndexDocument
 	 */
 	final public function setTags(array $tags): IIndexDocument {
 		$this->tags = $tags;
@@ -289,8 +218,6 @@ class IndexDocument implements IIndexDocument, JsonSerializable {
 	 * Get the list of tags assigned to the original document.
 	 *
 	 * @since 15.0.0
-	 *
-	 * @return array
 	 */
 	final public function getTags(): array {
 		return $this->tags;
@@ -301,10 +228,6 @@ class IndexDocument implements IIndexDocument, JsonSerializable {
 	 * Add a meta tag to the list.
 	 *
 	 * @since 15.0.0
-	 *
-	 * @param string $tag
-	 *
-	 * @return IIndexDocument
 	 */
 	final public function addMetaTag(string $tag): IIndexDocument {
 		$this->metaTags[] = $tag;
@@ -316,10 +239,6 @@ class IndexDocument implements IIndexDocument, JsonSerializable {
 	 * Set the list of meta tags assigned to the original document.
 	 *
 	 * @since 15.0.0
-	 *
-	 * @param array $tags
-	 *
-	 * @return IIndexDocument
 	 */
 	final public function setMetaTags(array $tags): IIndexDocument {
 		$this->metaTags = $tags;
@@ -331,8 +250,6 @@ class IndexDocument implements IIndexDocument, JsonSerializable {
 	 * Get the list of meta tags assigned to the original document.
 	 *
 	 * @since 15.0.0
-	 *
-	 * @return array
 	 */
 	final public function getMetaTags(): array {
 		return $this->metaTags;
@@ -343,11 +260,6 @@ class IndexDocument implements IIndexDocument, JsonSerializable {
 	 * Add a sub tag to the list.
 	 *
 	 * @since 15.0.0
-	 *
-	 * @param string $sub
-	 * @param string $tag
-	 *
-	 * @return IIndexDocument
 	 */
 	final public function addSubTag(string $sub, string $tag): IIndexDocument {
 		if (!array_key_exists($sub, $this->subTags)) {
@@ -364,10 +276,6 @@ class IndexDocument implements IIndexDocument, JsonSerializable {
 	 * Set the list of sub tags assigned to the original document.
 	 *
 	 * @since 15.0.0
-	 *
-	 * @param array $tags
-	 *
-	 * @return IIndexDocument
 	 */
 	final public function setSubTags(array $tags): IIndexDocument {
 		$this->subTags = $tags;
@@ -381,10 +289,6 @@ class IndexDocument implements IIndexDocument, JsonSerializable {
 	 * dimensional array.
 	 *
 	 * @since 15.0.0
-	 *
-	 * @param bool $formatted
-	 *
-	 * @return array
 	 */
 	final public function getSubTags(bool $formatted = false): array {
 		if ($formatted === false) {
@@ -408,10 +312,6 @@ class IndexDocument implements IIndexDocument, JsonSerializable {
 	 * Set the source of the original document.
 	 *
 	 * @since 15.0.0
-	 *
-	 * @param string $source
-	 *
-	 * @return IIndexDocument
 	 */
 	final public function setSource(string $source): IIndexDocument {
 		$this->source = $source;
@@ -423,8 +323,6 @@ class IndexDocument implements IIndexDocument, JsonSerializable {
 	 * Get the source of the original document.
 	 *
 	 * @since 15.0.0
-	 *
-	 * @return string
 	 */
 	final public function getSource(): string {
 		return $this->source;
@@ -435,10 +333,6 @@ class IndexDocument implements IIndexDocument, JsonSerializable {
 	 * Set the title of the original document.
 	 *
 	 * @since 15.0.0
-	 *
-	 * @param string $title
-	 *
-	 * @return IIndexDocument
 	 */
 	final public function setTitle(string $title): IIndexDocument {
 		$this->title = $title;
@@ -450,8 +344,6 @@ class IndexDocument implements IIndexDocument, JsonSerializable {
 	 * Get the title of the original document.
 	 *
 	 * @since 15.0.0
-	 *
-	 * @return string
 	 */
 	final public function getTitle(): string {
 		return $this->title;
@@ -464,11 +356,6 @@ class IndexDocument implements IIndexDocument, JsonSerializable {
 	 * encoded in base64.
 	 *
 	 * @since 15.0.0
-	 *
-	 * @param string $content
-	 * @param int $encoded
-	 *
-	 * @return IIndexDocument
 	 */
 	final public function setContent(string $content, int $encoded = 0): IIndexDocument {
 		$this->content = $content;
@@ -481,8 +368,6 @@ class IndexDocument implements IIndexDocument, JsonSerializable {
 	 * Get the content of the original document.
 	 *
 	 * @since 15.0.0
-	 *
-	 * @return string
 	 */
 	final public function getContent(): string {
 		return $this->content;
@@ -492,8 +377,6 @@ class IndexDocument implements IIndexDocument, JsonSerializable {
 	 * Returns the type of the encoding on the content.
 	 *
 	 * @since 15.0.0
-	 *
-	 * @return int
 	 */
 	final public function isContentEncoded(): int {
 		return $this->contentEncoded;
@@ -503,8 +386,6 @@ class IndexDocument implements IIndexDocument, JsonSerializable {
 	 * Return the size of the content.
 	 *
 	 * @since 15.0.0
-	 *
-	 * @return int
 	 */
 	final public function getContentSize(): int {
 		return strlen($this->getContent());
@@ -512,11 +393,9 @@ class IndexDocument implements IIndexDocument, JsonSerializable {
 
 
 	/**
-	 * Generate an hash, based on the content of the original document.
+	 * Generate a hash, based on the content of the original document.
 	 *
 	 * @since 15.0.0
-	 *
-	 * @return IIndexDocument
 	 */
 	final public function initHash(): IIndexDocument {
 		if ($this->getContent() === '' || is_null($this->getContent())) {
@@ -532,10 +411,6 @@ class IndexDocument implements IIndexDocument, JsonSerializable {
 	 * Set the hash of the original document.
 	 *
 	 * @since 15.0.0
-	 *
-	 * @param string $hash
-	 *
-	 * @return IIndexDocument
 	 */
 	final public function setHash(string $hash): IIndexDocument {
 		$this->hash = $hash;
@@ -547,8 +422,6 @@ class IndexDocument implements IIndexDocument, JsonSerializable {
 	 * Get the hash of the original document.
 	 *
 	 * @since 15.0.0
-	 *
-	 * @return string
 	 */
 	final public function getHash(): string {
 		return $this->hash;
@@ -562,11 +435,6 @@ class IndexDocument implements IIndexDocument, JsonSerializable {
 	 * $part string.
 	 *
 	 * @since 15.0.0
-	 *
-	 * @param string $part
-	 * @param string $content
-	 *
-	 * @return IIndexDocument
 	 */
 	final public function addPart(string $part, string $content): IIndexDocument {
 		$this->parts[$part] = $content;
@@ -578,10 +446,6 @@ class IndexDocument implements IIndexDocument, JsonSerializable {
 	 * Set all parts and their content.
 	 *
 	 * @since 15.0.0
-	 *
-	 * @param array $parts
-	 *
-	 * @return IIndexDocument
 	 */
 	final public function setParts(array $parts): IIndexDocument {
 		$this->parts = $parts;
@@ -593,8 +457,6 @@ class IndexDocument implements IIndexDocument, JsonSerializable {
 	 * Get all parts of the IIndexDocument.
 	 *
 	 * @since 15.0.0
-	 *
-	 * @return array
 	 */
 	final public function getParts(): array {
 		return $this->parts;
@@ -605,10 +467,6 @@ class IndexDocument implements IIndexDocument, JsonSerializable {
 	 * Add a link, usable by the frontend.
 	 *
 	 * @since 15.0.0
-	 *
-	 * @param string $link
-	 *
-	 * @return IIndexDocument
 	 */
 	final public function setLink(string $link): IIndexDocument {
 		$this->link = $link;
@@ -620,8 +478,6 @@ class IndexDocument implements IIndexDocument, JsonSerializable {
 	 * Get the link.
 	 *
 	 * @since 15.0.0
-	 *
-	 * @return string
 	 */
 	final public function getLink(): string {
 		return $this->link;
@@ -632,10 +488,6 @@ class IndexDocument implements IIndexDocument, JsonSerializable {
 	 * Set more information that couldn't be set using other method.
 	 *
 	 * @since 15.0.0
-	 *
-	 * @param array $more
-	 *
-	 * @return IIndexDocument
 	 */
 	final public function setMore(array $more): IIndexDocument {
 		$this->more = $more;
@@ -647,8 +499,6 @@ class IndexDocument implements IIndexDocument, JsonSerializable {
 	 * Get more information.
 	 *
 	 * @since 15.0.0
-	 *
-	 * @return array
 	 */
 	final public function getMore(): array {
 		return $this->more;
@@ -660,11 +510,6 @@ class IndexDocument implements IIndexDocument, JsonSerializable {
 	 * on the search request.
 	 *
 	 * @since 16.0.0
-	 *
-	 * @param string $source
-	 * @param string $excerpt
-	 *
-	 * @return IIndexDocument
 	 */
 	final public function addExcerpt(string $source, string $excerpt): IIndexDocument {
 		$this->excerpts[] =
@@ -681,10 +526,6 @@ class IndexDocument implements IIndexDocument, JsonSerializable {
 	 * Set all excerpts of the content of the original document.
 	 *
 	 * @since 16.0.0
-	 *
-	 * @param array $excerpts
-	 *
-	 * @return IIndexDocument
 	 */
 	final public function setExcerpts(array $excerpts): IIndexDocument {
 		$new = [];
@@ -704,8 +545,6 @@ class IndexDocument implements IIndexDocument, JsonSerializable {
 	 * Get all excerpts of the content of the original document.
 	 *
 	 * @since 15.0.0
-	 *
-	 * @return array
 	 */
 	final public function getExcerpts(): array {
 		return $this->excerpts;
@@ -715,9 +554,6 @@ class IndexDocument implements IIndexDocument, JsonSerializable {
 	 * Clean excerpt.
 	 *
 	 * @since 16.0.0
-	 *
-	 * @param string $excerpt
-	 * @return string
 	 */
 	private function cleanExcerpt(string $excerpt): string {
 		$excerpt = str_replace("\\n", ' ', $excerpt);
@@ -736,10 +572,6 @@ class IndexDocument implements IIndexDocument, JsonSerializable {
 	 * request.
 	 *
 	 * @since 15.0.0
-	 *
-	 * @param string $score
-	 *
-	 * @return IIndexDocument
 	 */
 	final public function setScore(string $score): IIndexDocument {
 		$this->score = $score;
@@ -751,8 +583,6 @@ class IndexDocument implements IIndexDocument, JsonSerializable {
 	 * Get the score.
 	 *
 	 * @since 15.0.0
-	 *
-	 * @return string
 	 */
 	final public function getScore(): string {
 		return $this->score;
@@ -767,11 +597,6 @@ class IndexDocument implements IIndexDocument, JsonSerializable {
 	 * indexing.
 	 *
 	 * @since 15.0.0
-	 *
-	 * @param string $info
-	 * @param string $value
-	 *
-	 * @return IIndexDocument
 	 */
 	final public function setInfo(string $info, string $value): IIndexDocument {
 		$this->info[$info] = $value;
@@ -783,11 +608,6 @@ class IndexDocument implements IIndexDocument, JsonSerializable {
 	 * Get an information about a document. (string)
 	 *
 	 * @since 15.0.0
-	 *
-	 * @param string $info
-	 * @param string $default
-	 *
-	 * @return string
 	 */
 	final public function getInfo(string $info, string $default = ''): string {
 		if (!key_exists($info, $this->info)) {
@@ -805,11 +625,6 @@ class IndexDocument implements IIndexDocument, JsonSerializable {
 	 * indexing.
 	 *
 	 * @since 15.0.0
-	 *
-	 * @param string $info
-	 * @param array $value
-	 *
-	 * @return IIndexDocument
 	 */
 	final public function setInfoArray(string $info, array $value): IIndexDocument {
 		$this->info[$info] = $value;
@@ -821,11 +636,6 @@ class IndexDocument implements IIndexDocument, JsonSerializable {
 	 * Get an information about a document. (array)
 	 *
 	 * @since 15.0.0
-	 *
-	 * @param string $info
-	 * @param array $default
-	 *
-	 * @return array
 	 */
 	final public function getInfoArray(string $info, array $default = []): array {
 		if (!key_exists($info, $this->info)) {
@@ -843,11 +653,6 @@ class IndexDocument implements IIndexDocument, JsonSerializable {
 	 * indexing.
 	 *
 	 * @since 15.0.0
-	 *
-	 * @param string $info
-	 * @param int $value
-	 *
-	 * @return IIndexDocument
 	 */
 	final public function setInfoInt(string $info, int $value): IIndexDocument {
 		$this->info[$info] = $value;
@@ -859,11 +664,6 @@ class IndexDocument implements IIndexDocument, JsonSerializable {
 	 * Get an information about a document. (int)
 	 *
 	 * @since 15.0.0
-	 *
-	 * @param string $info
-	 * @param int $default
-	 *
-	 * @return int
 	 */
 	final public function getInfoInt(string $info, int $default = 0): int {
 		if (!key_exists($info, $this->info)) {
@@ -881,11 +681,6 @@ class IndexDocument implements IIndexDocument, JsonSerializable {
 	 * indexing.
 	 *
 	 * @since 15.0.0
-	 *
-	 * @param string $info
-	 * @param bool $value
-	 *
-	 * @return IIndexDocument
 	 */
 	final public function setInfoBool(string $info, bool $value): IIndexDocument {
 		$this->info[$info] = $value;
@@ -897,11 +692,6 @@ class IndexDocument implements IIndexDocument, JsonSerializable {
 	 * Get an information about a document. (bool)
 	 *
 	 * @since 15.0.0
-	 *
-	 * @param string $info
-	 * @param bool $default
-	 *
-	 * @return bool
 	 */
 	final public function getInfoBool(string $info, bool $default = false): bool {
 		if (!key_exists($info, $this->info)) {
@@ -915,13 +705,11 @@ class IndexDocument implements IIndexDocument, JsonSerializable {
 	 * Get all info.
 	 *
 	 * @since 15.0.0
-	 *
-	 * @return array
 	 */
 	final public function getInfoAll(): array {
 		$info = [];
 		foreach ($this->info as $k => $v) {
-			if (substr($k, 0, 1) === '_') {
+			if (str_starts_with($k, '_')) {
 				continue;
 			}
 

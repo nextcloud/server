@@ -1,23 +1,8 @@
 <?php
 /**
- * ownCloud
- *
- * @author Robin Appelman
- * @copyright 2012 Robin Appelman icewind@owncloud.com
- *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
- * License as published by the Free Software Foundation; either
- * version 3 of the License, or any later version.
- *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU AFFERO GENERAL PUBLIC LICENSE for more details.
- *
- * You should have received a copy of the GNU Affero General Public
- * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace Test\User;
@@ -28,7 +13,6 @@ use OCP\EventDispatcher\IEventDispatcher;
 use OCP\HintException;
 use OCP\Security\Events\ValidatePasswordPolicyEvent;
 use PHPUnit\Framework\MockObject\MockObject;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
  * Class DatabaseTest
@@ -130,8 +114,8 @@ class DatabaseTest extends Backend {
 		$user2 = $this->getUser();
 		$this->backend->createUser($user2, 'pass1');
 
-		$user1Obj = new User($user1, $this->backend, $this->createMock(EventDispatcherInterface::class));
-		$user2Obj = new User($user2, $this->backend, $this->createMock(EventDispatcherInterface::class));
+		$user1Obj = new User($user1, $this->backend, $this->createMock(IEventDispatcher::class));
+		$user2Obj = new User($user2, $this->backend, $this->createMock(IEventDispatcher::class));
 		$emailAddr1 = "$user1@nextcloud.com";
 		$emailAddr2 = "$user2@nextcloud.com";
 

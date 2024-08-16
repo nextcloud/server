@@ -2,23 +2,8 @@
 
 declare(strict_types=1);
 /**
- * @copyright Copyright (c) 2021 Robin Appelman <robin@icewind.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace OCA\WorkflowEngine\Tests\Check;
@@ -68,7 +53,7 @@ class FileMimeTypeTest extends TestCase {
 		$this->mimeDetector->method('detectPath')
 			->willReturnCallback(function ($path) {
 				foreach ($this->extensions as $extension => $mime) {
-					if (strpos($path, $extension) !== false) {
+					if (str_contains($path, $extension)) {
 						return $mime;
 					}
 				}
@@ -78,7 +63,7 @@ class FileMimeTypeTest extends TestCase {
 			->willReturnCallback(function ($path) {
 				$body = file_get_contents($path);
 				foreach ($this->content as $match => $mime) {
-					if (strpos($body, $match) !== false) {
+					if (str_contains($body, $match)) {
 						return $mime;
 					}
 				}
@@ -127,7 +112,7 @@ class FileMimeTypeTest extends TestCase {
 		$check = new FileMimeType($this->l10n, $this->request, $this->mimeDetector);
 		$check->setFileInfo($storage, 'foo/bar.txt');
 
-		$this->assertTrue($check->executeCheck('is', 'text/plain-path-detected'));
+		$this->assertTrue($check->executeCheck('is', 'text/plain-content-detected'));
 	}
 
 	public function testFallback() {
@@ -142,7 +127,7 @@ class FileMimeTypeTest extends TestCase {
 	public function testFromCacheCached() {
 		$storage = new Temporary([]);
 		$storage->mkdir('foo');
-		$storage->file_put_contents('foo/bar.txt', 'asd');
+		$storage->file_put_contents('foo/bar.txt', 'text-content');
 		$storage->getScanner()->scan('');
 
 		$check = new FileMimeType($this->l10n, $this->request, $this->mimeDetector);
@@ -156,7 +141,7 @@ class FileMimeTypeTest extends TestCase {
 
 		$newCheck = new FileMimeType($this->l10n, $this->request, $this->mimeDetector);
 		$newCheck->setFileInfo($storage, 'foo/bar.txt');
-		$this->assertTrue($newCheck->executeCheck('is', 'text/plain-path-detected'));
+		$this->assertTrue($newCheck->executeCheck('is', 'text/plain-content-detected'));
 	}
 
 	public function testExistsCached() {

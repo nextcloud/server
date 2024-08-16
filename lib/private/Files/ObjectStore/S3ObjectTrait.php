@@ -1,32 +1,13 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2017 Robin Appelman <robin@icewind.nl>
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Florent <florent@coppint.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OC\Files\ObjectStore;
 
 use Aws\S3\Exception\S3MultipartUploadException;
+use Aws\S3\MultipartCopy;
 use Aws\S3\MultipartUploader;
 use Aws\S3\S3Client;
 use GuzzleHttp\Psr7;
@@ -35,6 +16,8 @@ use OC\Files\Stream\SeekableHttpStream;
 use Psr\Http\Message\StreamInterface;
 
 trait S3ObjectTrait {
+	use S3ConfigTrait;
+
 	/**
 	 * Returns the connection
 	 *
@@ -103,7 +86,7 @@ trait S3ObjectTrait {
 	 * @param string|null $mimetype the mimetype to set for the remove object @since 22.0.0
 	 * @throws \Exception when something goes wrong, message will be logged
 	 */
-	protected function writeSingle(string $urn, StreamInterface $stream, string $mimetype = null): void {
+	protected function writeSingle(string $urn, StreamInterface $stream, ?string $mimetype = null): void {
 		$this->getConnection()->putObject([
 			'Bucket' => $this->bucket,
 			'Key' => $urn,
@@ -123,9 +106,10 @@ trait S3ObjectTrait {
 	 * @param string|null $mimetype the mimetype to set for the remove object
 	 * @throws \Exception when something goes wrong, message will be logged
 	 */
-	protected function writeMultiPart(string $urn, StreamInterface $stream, string $mimetype = null): void {
+	protected function writeMultiPart(string $urn, StreamInterface $stream, ?string $mimetype = null): void {
 		$uploader = new MultipartUploader($this->getConnection(), $stream, [
 			'bucket' => $this->bucket,
+			'concurrency' => $this->concurrency,
 			'key' => $urn,
 			'part_size' => $this->uploadPartSize,
 			'params' => [
@@ -155,7 +139,7 @@ trait S3ObjectTrait {
 	 * @throws \Exception when something goes wrong, message will be logged
 	 * @since 7.0.0
 	 */
-	public function writeObject($urn, $stream, string $mimetype = null) {
+	public function writeObject($urn, $stream, ?string $mimetype = null) {
 		$psrStream = Utils::streamFor($stream);
 
 		// ($psrStream->isSeekable() && $psrStream->getSize() !== null) evaluates to true for a On-Seekable stream
@@ -189,9 +173,31 @@ trait S3ObjectTrait {
 		return $this->getConnection()->doesObjectExist($this->bucket, $urn, $this->getSSECParameters());
 	}
 
-	public function copyObject($from, $to) {
-		$this->getConnection()->copy($this->getBucket(), $from, $this->getBucket(), $to, 'private', [
-			'params' => $this->getSSECParameters() + $this->getSSECParameters(true)
-		]);
+	public function copyObject($from, $to, array $options = []) {
+		$sourceMetadata = $this->getConnection()->headObject([
+			'Bucket' => $this->getBucket(),
+			'Key' => $from,
+		] + $this->getSSECParameters());
+
+		$size = (int)($sourceMetadata->get('Size') ?? $sourceMetadata->get('ContentLength'));
+
+		if ($this->useMultipartCopy && $size > $this->copySizeLimit) {
+			$copy = new MultipartCopy($this->getConnection(), [
+				"source_bucket" => $this->getBucket(),
+				"source_key" => $from
+			], array_merge([
+				"bucket" => $this->getBucket(),
+				"key" => $to,
+				"acl" => "private",
+				"params" => $this->getSSECParameters() + $this->getSSECParameters(true),
+				"source_metadata" => $sourceMetadata
+			], $options));
+			$copy->copy();
+		} else {
+			$this->getConnection()->copy($this->getBucket(), $from, $this->getBucket(), $to, 'private', array_merge([
+				'params' => $this->getSSECParameters() + $this->getSSECParameters(true),
+				'mup_threshold' => PHP_INT_MAX,
+			], $options));
+		}
 	}
 }

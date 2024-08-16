@@ -1,12 +1,7 @@
-/*
- * Copyright (c) 2014
- * @copyright Copyright (c) 2016, Björn Schießle <bjoern@schiessle.org>
- *
- * This file is licensed under the Affero General Public License version 3
- * or later.
- *
- * See the COPYING-README file.
- *
+/**
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2012-2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 /* global FileActions, Files, FileList */
@@ -69,10 +64,9 @@ OCA.Sharing.PublicApp = {
 			var filesClient = new OC.Files.Client({
 				host: OC.getHost(),
 				port: OC.getPort(),
-				userName: token,
 				// note: password not be required, the endpoint
 				// will recognize previous validation from the session
-				root: OC.getRootPath() + '/public.php/webdav',
+				root: OC.getRootPath() + '/public.php/dav/files/' + token + '/',
 				useHTTPS: OC.getProtocol() === 'https'
 			});
 
@@ -167,11 +161,10 @@ OCA.Sharing.PublicApp = {
 				return;
 			}
 			// Undocumented Url to public WebDAV endpoint
-			var url = parent.location.protocol + '//' + location.host + OC.linkTo('', 'public.php/webdav');
+			var url = parent.location.protocol + '//' + location.host + OC.linkTo('', 'public.php/dav/files/'+ token);
 			$.ajax({
 				url: url,
 				headers: {
-					Authorization: 'Basic ' + btoa(token + ':'),
 					Range: 'bytes=0-10000'
 				}
 			}).then(function (data) {
@@ -247,7 +240,9 @@ OCA.Sharing.PublicApp = {
 					// also add auth in URL due to POST workaround
 					base = OC.getProtocol() + '://' + token + '@' + OC.getHost() + (OC.getPort() ? ':' + OC.getPort() : '');
 				}
-				return base + OC.getRootPath() + '/public.php/webdav' + encodedPath;
+				
+				// encodedPath starts with a leading slash
+				return base + OC.getRootPath() + '/public.php/dav/files/' + token + encodedPath;
 			};
 
 			this.fileList.getAjaxUrl = function (action, params) {

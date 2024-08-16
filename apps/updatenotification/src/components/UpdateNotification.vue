@@ -1,5 +1,9 @@
+<!--
+  - SPDX-FileCopyrightText: 2019-2024 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 <template>
-	<NcSettingsSection id="updatenotification" :title="t('updatenotification', 'Update')">
+	<NcSettingsSection id="updatenotification" :name="t('updatenotification', 'Update')">
 		<div class="update">
 			<template v-if="isNewVersionAvailable">
 				<NcNoteCard v-if="versionIsEol" type="warning">
@@ -7,13 +11,15 @@
 				</NcNoteCard>
 
 				<p>
+					<!-- eslint-disable-next-line vue/no-v-html -->
 					<span v-html="newVersionAvailableString" /><br>
 					<span v-if="!isListFetched" class="icon icon-loading-small" />
+					<!-- eslint-disable-next-line vue/no-v-html -->
 					<span v-html="statusText" />
 				</p>
 
 				<template v-if="missingAppUpdates.length">
-					<h3 @click="toggleHideMissingUpdates">
+					<h3 class="clickable" @click="toggleHideMissingUpdates">
 						{{ t('updatenotification', 'Apps missing compatible version') }}
 						<span v-if="!hideMissingUpdates" class="icon icon-triangle-n" />
 						<span v-if="hideMissingUpdates" class="icon icon-triangle-s" />
@@ -26,7 +32,7 @@
 				</template>
 
 				<template v-if="availableAppUpdates.length">
-					<h3 @click="toggleHideAvailableUpdates">
+					<h3 class="clickable" @click="toggleHideAvailableUpdates">
 						{{ t('updatenotification', 'Apps with compatible version') }}
 						<span v-if="!hideAvailableUpdates" class="icon icon-triangle-n" />
 						<span v-if="hideAvailableUpdates" class="icon icon-triangle-s" />
@@ -40,7 +46,7 @@
 
 				<template v-if="!isWebUpdaterRecommended && updaterEnabled && webUpdaterEnabled">
 					<h3 class="warning">
-						{{ t('updatenotification', 'Please note that the web updater is not recommended with more than 100 users! Please use the command line updater instead!') }}
+						{{ t('updatenotification', 'Please note that the web updater is not recommended with more than 100 accounts! Please use the command line updater instead!') }}
 					</h3>
 				</template>
 
@@ -54,16 +60,28 @@
 						class="button"
 						:class="{ hidden: !updaterEnabled }">{{ t('updatenotification', 'Download now') }}</a>
 					<span v-if="updaterEnabled && !webUpdaterEnabled">
-						{{ t('updatenotification', 'Please use the command line updater to update.') }}
+						{{ t('updatenotification', 'Web updater is disabled. Please use the command line updater or the appropriate update mechanism for your installation method (e.g. Docker pull) to update.') }}
 					</span>
-					<div v-if="whatsNew" class="whatsNew">
-						<div class="toggleWhatsNew">
-							<a v-click-outside="hideMenu" class="button" @click="toggleMenu">{{ t('updatenotification', 'What\'s new?') }}</a>
-							<div class="popovermenu" :class="{ 'menu-center': true, open: openedWhatsNew }">
-								<NcPopoverMenu :menu="whatsNew" />
-							</div>
-						</div>
-					</div>
+					<NcActions v-if="whatsNewData || changelogURL"
+						:force-menu="true"
+						:menu-name="t('updatenotification', 'What\'s new?')"
+						type="tertiary">
+						<template #icon>
+							<IconNewBox :size="20" />
+						</template>
+						<template #default>
+							<NcActionCaption v-for="changes,index in whatsNewData" :key="index" :name="changes" />
+							<NcActionLink v-if="changelogURL"
+								:href="changelogURL"
+								close-after-click
+								target="_blank">
+								{{ t('updatenotification', 'View changelog') }}
+								<template #icon>
+									<IconLink :size="20" />
+								</template>
+							</NcActionLink>
+						</template>
+					</NcActions>
 				</div>
 			</template>
 			<template v-else-if="!isUpdateChecked">
@@ -71,7 +89,11 @@
 			</template>
 			<template v-else>
 				{{ t('updatenotification', 'Your version is up to date.') }}
-				<span :title="lastCheckedOnString" :aria-label="lastCheckedOnString" class="icon-info svg" />
+				<a :title="lastCheckedOnString"
+					:aria-label="lastCheckedOnString"
+					href="https://nextcloud.com/changelog/"
+					class="icon-info details"
+					target="_blank" />
 			</template>
 
 			<template v-if="!isDefaultUpdateServerURL">
@@ -81,61 +103,87 @@
 			</template>
 		</div>
 
-		<div>
-			{{ t('updatenotification', 'You can change the update channel below which also affects the apps management page. E.g. after switching to the beta channel, beta app updates will be offered to you in the apps management page.') }}
+		<h3>{{ t('updatenotification', 'Update channel') }}</h3>
+		<p class="inlineblock">
+			{{ t('updatenotification', 'Changing the update channel also affects the apps management page. E.g. after switching to the beta channel, beta app updates will be offered to you in the apps management page.') }}
+		</p>
+		<div class="update-channel-selector">
+			<span>{{ t('updatenotification', 'Current update channel:') }}</span>
+			<NcActions :force-menu="true"
+				:menu-name="localizedChannelName"
+				type="tertiary">
+				<template #icon>
+					<IconChevronDown :size="20" />
+				</template>
+				<template #default>
+					<NcActionButton v-for="channel in channelList"
+						:key="channel.value"
+						:disabled="channel.disabled"
+						:name="channel.text"
+						:value="channel.value"
+						:model-value="currentChannel"
+						type="radio"
+						close-after-click
+						@update:modelValue="changeReleaseChannel">
+						<template #icon>
+							<component :is="channel.icon" :size="20" />
+						</template>
+						{{ channel.longtext }}
+					</NcActionButton>
+				</template>
+			</NcActions>
 		</div>
-
-		<h3 class="update-channel-selector">
-			{{ t('updatenotification', 'Update channel:') }}
-			<div v-click-outside="closeUpdateChannelMenu" class="update-menu">
-				<span class="icon-update-menu" @click="toggleUpdateChannelMenu">
-					{{ localizedChannelName }}
-					<span class="icon-triangle-s" />
-				</span>
-				<div class="popovermenu menu menu-center" :class="{ 'show-menu': openedUpdateChannelMenu}">
-					<NcPopoverMenu :menu="channelList" />
-				</div>
-			</div>
-		</h3>
-		<span id="channel_save_msg" class="msg" /><br>
 		<p>
 			<em>{{ t('updatenotification', 'You can always update to a newer version. But you can never downgrade to a more stable version.') }}</em><br>
+			<!-- eslint-disable-next-line vue/no-v-html -->
 			<em v-html="noteDelayedStableString" />
 		</p>
 
-		<p id="oca_updatenotification_groups">
-			{{ t('updatenotification', 'Notify members of the following groups about available updates:') }}
-			<NcSelect v-model="notifyGroups"
-				:options="groups"
-				:multiple="true"
-				label="displayname"
-				:loading="loadingGroups"
-				:close-on-select="false"
-				@search="searchGroup">
-				<template #no-options>
-					{{ t('updatenotification', 'No groups') }}
-				</template>
-			</NcSelect>
-			<br>
+		<NcSelect id="notify-members-settings-select-wrapper"
+			v-model="notifyGroups"
+			:input-label="t('updatenotification', 'Notify members of the following groups about available updates:')"
+			:options="groups"
+			:multiple="true"
+			label="displayname"
+			:loading="loadingGroups"
+			:close-on-select="false"
+			@search="searchGroup">
+			<template #no-options>
+				{{ t('updatenotification', 'No groups') }}
+			</template>
+		</NcSelect>
+		<p>
 			<em v-if="currentChannel === 'daily' || currentChannel === 'git'">{{ t('updatenotification', 'Only notifications for app updates are available.') }}</em>
 			<em v-if="currentChannel === 'daily'">{{ t('updatenotification', 'The selected update channel makes dedicated notifications for the server obsolete.') }}</em>
-			<em v-if="currentChannel === 'git'">{{ t('updatenotification', 'The selected update channel does not support updates of the server.') }}</em>
+			<em v-else-if="currentChannel === 'git'">{{ t('updatenotification', 'The selected update channel does not support updates of the server.') }}</em>
 		</p>
 	</NcSettingsSection>
 </template>
 
 <script>
+import { showSuccess } from '@nextcloud/dialogs'
+import { loadState } from '@nextcloud/initial-state'
+import { getLoggerBuilder } from '@nextcloud/logger'
 import { generateUrl, getRootUrl, generateOcsUrl } from '@nextcloud/router'
-import NcPopoverMenu from '@nextcloud/vue/dist/Components/NcPopoverMenu.js'
+
+import axios from '@nextcloud/axios'
+import NcActions from '@nextcloud/vue/dist/Components/NcActions.js'
+import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
+import NcActionCaption from '@nextcloud/vue/dist/Components/NcActionCaption.js'
+import NcActionLink from '@nextcloud/vue/dist/Components/NcActionLink.js'
+import NcNoteCard from '@nextcloud/vue/dist/Components/NcNoteCard.js'
 import NcSelect from '@nextcloud/vue/dist/Components/NcSelect.js'
 import NcSettingsSection from '@nextcloud/vue/dist/Components/NcSettingsSection.js'
-import NcNoteCard from '@nextcloud/vue/dist/Components/NcNoteCard.js'
-import ClickOutside from 'vue-click-outside'
-import axios from '@nextcloud/axios'
-import { loadState } from '@nextcloud/initial-state'
-import { showSuccess } from '@nextcloud/dialogs'
+import IconChevronDown from 'vue-material-design-icons/ChevronDown.vue'
+import IconCloudCheckVariant from 'vue-material-design-icons/CloudCheckVariant.vue'
+import IconLink from 'vue-material-design-icons/Link.vue'
+import IconNewBox from 'vue-material-design-icons/NewBox.vue'
+import IconPencil from 'vue-material-design-icons/Pencil.vue'
+import IconSourceBranch from 'vue-material-design-icons/SourceBranch.vue'
+import IconStar from 'vue-material-design-icons/Star.vue'
+import IconWeatherNight from 'vue-material-design-icons/WeatherNight.vue'
+import IconWrench from 'vue-material-design-icons/Wrench.vue'
 import debounce from 'debounce'
-import { getLoggerBuilder } from '@nextcloud/logger'
 
 const logger = getLoggerBuilder()
 	.setApp('updatenotification')
@@ -145,14 +193,18 @@ const logger = getLoggerBuilder()
 export default {
 	name: 'UpdateNotification',
 	components: {
-		NcSelect,
-		NcPopoverMenu,
-		NcSettingsSection,
+		IconChevronDown,
+		IconLink,
+		IconNewBox,
+		NcActions,
+		NcActionButton,
+		NcActionCaption,
+		NcActionLink,
 		NcNoteCard,
+		NcSelect,
+		NcSettingsSection,
 	},
-	directives: {
-		ClickOutside,
-	},
+
 	data() {
 		return {
 			loadingGroups: false,
@@ -196,12 +248,12 @@ export default {
 		},
 
 		noteDelayedStableString() {
-			return t('updatenotification', 'Note that after a new release the update only shows up after the first minor release or later. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found. Learn more about updates and release channels at {link}')
+			return t('updatenotification', 'Note that after a new release the update only shows up after the first minor release or later. We roll out new versions spread out over time and sometimes skip a version when issues are found. Learn more about updates and release channels at {link}')
 				.replace('{link}', '<a href="https://nextcloud.com/release-channels/">https://nextcloud.com/release-channels/</a>')
 		},
 
 		lastCheckedOnString() {
-			return t('updatenotification', 'Checked on {lastCheckedDate}', {
+			return t('updatenotification', 'Checked on {lastCheckedDate} - Open changelog', {
 				lastCheckedDate: this.lastCheckedDate,
 			})
 		},
@@ -224,67 +276,45 @@ export default {
 				: n('updatenotification', '<strong>%n</strong> app has no compatible version for this Nextcloud version available.', '<strong>%n</strong> apps have no compatible version for this Nextcloud version available.', this.missingAppUpdates.length)
 		},
 
-		whatsNew() {
-			if (this.whatsNewData.length === 0) {
-				return null
-			}
-			const whatsNew = []
-			for (const i in this.whatsNewData) {
-				whatsNew[i] = { icon: 'icon-checkmark', longtext: this.whatsNewData[i] }
-			}
-			if (this.changelogURL) {
-				whatsNew.push({
-					href: this.changelogURL,
-					text: t('updatenotification', 'View changelog'),
-					icon: 'icon-link',
-					target: '_blank',
-					action: '',
-				})
-			}
-			return whatsNew
-		},
-
 		channelList() {
 			const channelList = []
 
 			channelList.push({
 				text: t('updatenotification', 'Enterprise'),
 				longtext: t('updatenotification', 'For enterprise use. Provides always the latest patch level, but will not update to the next major release immediately. That update happens once Nextcloud GmbH has done additional hardening and testing for large-scale and mission-critical deployments. This channel is only available to customers and provides the Nextcloud Enterprise package.'),
-				icon: 'icon-star',
+				icon: IconStar,
 				active: this.currentChannel === 'enterprise',
 				disabled: !this.hasValidSubscription,
-				action: this.changeReleaseChannelToEnterprise,
+				value: 'enterprise',
 			})
 
 			channelList.push({
 				text: t('updatenotification', 'Stable'),
 				longtext: t('updatenotification', 'The most recent stable version. It is suited for regular use and will always update to the latest major version.'),
-				icon: 'icon-checkmark',
-				active: this.currentChannel === 'stable',
-				action: this.changeReleaseChannelToStable,
+				icon: IconCloudCheckVariant,
+				value: 'stable',
 			})
 
 			channelList.push({
 				text: t('updatenotification', 'Beta'),
 				longtext: t('updatenotification', 'A pre-release version only for testing new features, not for production environments.'),
-				icon: 'icon-category-customization',
-				active: this.currentChannel === 'beta',
-				action: this.changeReleaseChannelToBeta,
+				icon: IconWrench,
+				value: 'beta',
 			})
 
-			if (this.isNonDefaultChannel) {
+			if (this.isNonDefaultChannel(this.currentChannel)) {
+				const nonDefaultIcons = {
+					daily: IconWeatherNight,
+					git: IconSourceBranch,
+				}
 				channelList.push({
 					text: this.currentChannel,
-					icon: 'icon-rename',
-					active: true,
+					icon: nonDefaultIcons[this.currentChannel] || IconPencil,
+					value: this.currentChannel,
 				})
 			}
 
 			return channelList
-		},
-
-		isNonDefaultChannel() {
-			return this.currentChannel !== 'enterprise' && this.currentChannel !== 'stable' && this.currentChannel !== 'beta'
 		},
 
 		localizedChannelName() {
@@ -302,7 +332,7 @@ export default {
 	},
 
 	watch: {
-		notifyGroups(selectedOptions) {
+		notifyGroups() {
 			if (!this.enableChangeWatcher) {
 				// The first time is when loading the app
 				this.enableChangeWatcher = true
@@ -411,16 +441,16 @@ export default {
 					form.submit()
 				})
 		},
-		changeReleaseChannelToEnterprise() {
-			this.changeReleaseChannel('enterprise')
+
+		isNonDefaultChannel(channel) {
+			return !['enterprise', 'stable', 'beta'].includes(channel)
 		},
-		changeReleaseChannelToStable() {
-			this.changeReleaseChannel('stable')
-		},
-		changeReleaseChannelToBeta() {
-			this.changeReleaseChannel('beta')
-		},
+
 		changeReleaseChannel(channel) {
+			if (this.isNonDefaultChannel(channel)) {
+				return
+			}
+
 			this.currentChannel = channel
 
 			axios.post(generateUrl('/apps/updatenotification/channel'), {
@@ -431,23 +461,11 @@ export default {
 
 			this.openedUpdateChannelMenu = false
 		},
-		toggleUpdateChannelMenu() {
-			this.openedUpdateChannelMenu = !this.openedUpdateChannelMenu
-		},
 		toggleHideMissingUpdates() {
 			this.hideMissingUpdates = !this.hideMissingUpdates
 		},
 		toggleHideAvailableUpdates() {
 			this.hideAvailableUpdates = !this.hideAvailableUpdates
-		},
-		toggleMenu() {
-			this.openedWhatsNew = !this.openedWhatsNew
-		},
-		closeUpdateChannelMenu() {
-			this.openedUpdateChannelMenu = false
-		},
-		hideMenu() {
-			this.openedWhatsNew = false
 		},
 	},
 }
@@ -459,6 +477,10 @@ export default {
 			max-width: 900px;
 		}
 
+		.topMargin {
+			margin-top: 15px;
+		}
+
 		div.update,
 		p:not(.inlineblock) {
 			margin-bottom: 25px;
@@ -467,17 +489,17 @@ export default {
 			margin-top: 25px;
 		}
 		h3 {
-			cursor: pointer;
-			.icon {
+			&.clickable {
 				cursor: pointer;
+				.icon {
+					cursor: pointer;
+				}
 			}
-			&:first-of-type {
-				margin-top: 0;
-			}
-			&.update-channel-selector {
-				display: inline-block;
-				cursor: inherit;
-			}
+		}
+		.update-channel-selector {
+			display: flex;
+			align-items: center;
+			gap: 12px;
 		}
 		.icon {
 			display: inline-block;
@@ -486,64 +508,20 @@ export default {
 		.icon-triangle-s, .icon-triangle-n {
 			opacity: 0.5;
 		}
-		.whatsNew {
-			display: inline-block;
-		}
-		.toggleWhatsNew {
-			position: relative;
-		}
-		.popovermenu {
-			p {
-				margin-bottom: 0;
-				width: 100%;
-			}
-			margin-top: 5px;
-			width: 300px;
-		}
 		.applist {
 			margin-bottom: 25px;
-		}
-
-		.update-menu {
-			position: relative;
-			cursor: pointer;
-			margin-left: 3px;
-			display: inline-block;
-			.icon-update-menu {
-				cursor: inherit;
-				.icon-triangle-s {
-					display: inline-block;
-					vertical-align: middle;
-					cursor: inherit;
-					opacity: 1;
-				}
-			}
-			.popovermenu {
-				display: none;
-				top: 28px;
-				&.show-menu {
-					display: block;
-				}
-			}
 		}
 	}
 </style>
 <style lang="scss">
-	/* override needed to make menu wider */
-	#updatenotification .popovermenu {
-		p {
-			margin-top: 5px;
-			width: 100%;
+#updatenotification {
+	/* override NcSelect styling so that label can have correct width */
+	#notify-members-settings-select-wrapper {
+		width: fit-content;
+
+		.vs__dropdown-toggle {
+			min-width: 100%;
 		}
-		margin-top: 5px;
-		width: 300px;
 	}
-	/* override needed to replace yellow hover state with a dark one */
-	#updatenotification .update-menu .icon-star:hover,
-	#updatenotification .update-menu .icon-star:focus {
-		background-image: var(--icon-starred);
-	}
-	#updatenotification .topMargin {
-		margin-top: 15px;
-	}
+}
 </style>

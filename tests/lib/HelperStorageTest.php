@@ -1,15 +1,15 @@
 <?php
 /**
- * Copyright (c) 2014 Vincent Petry <pvince81@owncloud.com>
- * This file is licensed under the Affero General Public License version 3 or
- * later.
- * See the COPYING-README file.
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace Test;
 
 use OC\Files\Storage\Temporary;
 use OCP\Files\Mount\IMountManager;
+use OCP\IConfig;
 use Test\Traits\UserTrait;
 
 /**
@@ -26,12 +26,14 @@ class HelperStorageTest extends \Test\TestCase {
 	private $storageMock;
 	/** @var \OC\Files\Storage\Storage */
 	private $storage;
+	private bool $savedQuotaIncludeExternalStorage;
 
 	protected function setUp(): void {
 		parent::setUp();
 
 		$this->user = $this->getUniqueID('user_');
 		$this->createUser($this->user, $this->user);
+		$this->savedQuotaIncludeExternalStorage = $this->getIncludeExternalStorage();
 
 		\OC\Files\Filesystem::tearDown();
 		\OC_User::setUserId($this->user);
@@ -45,6 +47,7 @@ class HelperStorageTest extends \Test\TestCase {
 	}
 
 	protected function tearDown(): void {
+		$this->setIncludeExternalStorage($this->savedQuotaIncludeExternalStorage);
 		$this->user = null;
 
 		if ($this->storageMock) {
@@ -91,6 +94,19 @@ class HelperStorageTest extends \Test\TestCase {
 		$this->assertEquals(5, $storageInfo['used']);
 		$this->assertEquals(17, $storageInfo['total']);
 	}
+	private function getIncludeExternalStorage(): bool {
+		$class = new \ReflectionClass(\OC_Helper::class);
+		$prop = $class->getProperty('quotaIncludeExternalStorage');
+		$prop->setAccessible(true);
+		return $prop->getValue(null) ?? false;
+	}
+
+	private function setIncludeExternalStorage(bool $include) {
+		$class = new \ReflectionClass(\OC_Helper::class);
+		$prop = $class->getProperty('quotaIncludeExternalStorage');
+		$prop->setAccessible(true);
+		$prop->setValue(null, $include);
+	}
 
 	/**
 	 * Test getting the storage info, ignoring extra mount points
@@ -104,8 +120,7 @@ class HelperStorageTest extends \Test\TestCase {
 		$extStorage->file_put_contents('extfile.txt', 'abcdefghijklmnopq');
 		$extStorage->getScanner()->scan(''); // update root size
 
-		$config = \OC::$server->getConfig();
-		$config->setSystemValue('quota_include_external_storage', false);
+		$this->setIncludeExternalStorage(false);
 
 		\OC\Files\Filesystem::mount($extStorage, [], '/' . $this->user . '/files/ext');
 
@@ -129,10 +144,9 @@ class HelperStorageTest extends \Test\TestCase {
 
 		\OC\Files\Filesystem::mount($extStorage, [], '/' . $this->user . '/files/ext');
 
-		$config = \OC::$server->getConfig();
-		$oldConfig = $config->getSystemValue('quota_include_external_storage', false);
-		$config->setSystemValue('quota_include_external_storage', 'true');
+		$this->setIncludeExternalStorage(true);
 
+		$config = \OC::$server->get(IConfig::class);
 		$config->setUserValue($this->user, 'files', 'quota', '25');
 
 		$storageInfo = \OC_Helper::getStorageInfo('');
@@ -140,7 +154,6 @@ class HelperStorageTest extends \Test\TestCase {
 		$this->assertEquals(22, $storageInfo['used']);
 		$this->assertEquals(25, $storageInfo['total']);
 
-		$config->setSystemValue('quota_include_external_storage', $oldConfig);
 		$config->setUserValue($this->user, 'files', 'quota', 'default');
 	}
 
@@ -161,15 +174,12 @@ class HelperStorageTest extends \Test\TestCase {
 		\OC\Files\Filesystem::mount($extStorage, [], '/' . $this->user . '/files/ext');
 
 		$config = \OC::$server->getConfig();
-		$oldConfig = $config->getSystemValue('quota_include_external_storage', false);
-		$config->setSystemValue('quota_include_external_storage', 'true');
+		$this->setIncludeExternalStorage(true);
 
 		$storageInfo = \OC_Helper::getStorageInfo('');
 		$this->assertEquals(12, $storageInfo['free'], '12 bytes free in home storage');
 		$this->assertEquals(22, $storageInfo['used'], '5 bytes of home storage and 17 bytes of the temporary storage are used');
 		$this->assertEquals(34, $storageInfo['total'], '5 bytes used and 12 bytes free in home storage as well as 17 bytes used in temporary storage');
-
-		$config->setSystemValue('quota_include_external_storage', $oldConfig);
 	}
 
 

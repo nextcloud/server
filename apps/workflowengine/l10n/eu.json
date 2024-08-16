@@ -46,6 +46,7 @@
     "Nextcloud workflow engine" : "Nextcloud lan-fluxu motorra",
     "Select a filter" : "Hautatu iragazki bat",
     "Select a comparator" : "Hautatu konparatzailea",
+    "Remove filter" : "Kendu iragazkia",
     "Select a file type" : "Hautatu fitxategi mota bat",
     "e.g. httpd/unix-directory" : "adib. httpd/unix-direktorioa",
     "Folder" : "Karpeta",
@@ -64,10 +65,13 @@
     "Desktop client" : "Mahaigaineko bezeroa",
     "Thunderbird & Outlook addons" : "Thunderbird eta Outlook gehigarriak",
     "Custom user agent" : "Erabiltzaile-agente pertsonalizatua",
+    "Select groups" : "Hautatu taldeak",
+    "Groups" : "Taldeak",
     "At least one event must be selected" : "Gutxienez gertaera bat hautatu behar da",
     "Add new flow" : "Gehitu fluxu berria",
     "When" : "Noiz",
     "and" : "eta",
+    "Add a new filter" : "Gehitu iragazki berri bat",
     "Cancel" : "Utzi",
     "Delete" : "Ezabatu",
     "The configuration is invalid" : "Konfigurazioa baliogabea da",
@@ -87,7 +91,7 @@
     "is not" : "ez da",
     "File name" : "Fitxategi-izena",
     "File MIME type" : "Fitxategiaren MIME mota",
-    "File size (upload)" : "Fitxategiaren tamaina (kargatzea)",
+    "File size (upload)" : "Fitxategiaren tamaina (igoera)",
     "less" : "gutxiago",
     "less or equals" : "gutxiago edo berdin",
     "greater or equals" : "handiagoa edo berdina",
@@ -105,10 +109,8 @@
     "between" : "bitarte honetan",
     "not between" : "ez dago bitarte honetan",
     "Request user agent" : "Eskatu erabiltzaile-agentea",
-    "User group membership" : "Erabiltzailearen talde-kidetza",
     "is member of" : "hemengo kide da:",
     "is not member of" : "ez da hemengo kide:",
-    "Predefined URLs" : "Aurrez definitutako URL-ak",
-    "Others" : "Bestelakoak"
+    "User group membership" : "Erabiltzailearen talde-kidetza"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

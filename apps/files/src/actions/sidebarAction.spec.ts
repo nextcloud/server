@@ -1,43 +1,25 @@
 /**
- * @copyright Copyright (c) 2023 John Molakvoæ <skjnldsv@protonmail.com>
- *
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- *
- * @license AGPL-3.0-or-later
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import { action } from './sidebarAction'
 import { expect } from '@jest/globals'
-import { File } from '@nextcloud/files'
-import { FileAction } from '../services/FileAction'
-import type { Navigation } from '../services/Navigation'
+import { File, Permission, View, FileAction } from '@nextcloud/files'
+
+import { action } from './sidebarAction'
 import logger from '../logger'
 
 const view = {
 	id: 'files',
 	name: 'Files',
-} as Navigation
+} as View
 
 describe('Open sidebar action conditions tests', () => {
 	test('Default values', () => {
 		expect(action).toBeInstanceOf(FileAction)
 		expect(action.id).toBe('details')
-		expect(action.displayName([], view)).toBe('Details')
-		expect(action.iconSvgInline([], view)).toBe('SvgMock')
-		expect(action.default).toBe(true)
+		expect(action.displayName([], view)).toBe('Open details')
+		expect(action.iconSvgInline([], view)).toBe('<svg>SvgMock</svg>')
+		expect(action.default).toBeUndefined()
 		expect(action.order).toBe(-50)
 	})
 })
@@ -51,10 +33,27 @@ describe('Open sidebar action enabled tests', () => {
 			source: 'https://cloud.domain.com/remote.php/dav/files/admin/foobar.txt',
 			owner: 'admin',
 			mime: 'text/plain',
+			permissions: Permission.ALL,
 		})
 
 		expect(action.enabled).toBeDefined()
 		expect(action.enabled!([file], view)).toBe(true)
+	})
+
+	test('Disabled without permissions', () => {
+		window.OCA = { Files: { Sidebar: {} } }
+
+		const file = new File({
+			id: 1,
+			source: 'https://cloud.domain.com/remote.php/dav/files/admin/foobar.txt',
+			owner: 'admin',
+			mime: 'text/plain',
+			permissions: Permission.NONE,
+		})
+
+		expect(action.enabled).toBeDefined()
+		expect(action.enabled!([file], view)).toBe(false)
+
 	})
 
 	test('Disabled if more than one node', () => {
@@ -110,6 +109,9 @@ describe('Open sidebar action exec tests', () => {
 	test('Open sidebar', async () => {
 		const openMock = jest.fn()
 		window.OCA = { Files: { Sidebar: { open: openMock } } }
+		const goToRouteMock = jest.fn()
+		// @ts-expect-error We only mock what needed, we do not need Files.Router.goTo or Files.Navigation
+		window.OCP = { Files: { Router: { goToRoute: goToRouteMock } } }
 
 		const file = new File({
 			id: 1,
@@ -122,6 +124,12 @@ describe('Open sidebar action exec tests', () => {
 		// Silent action
 		expect(exec).toBe(null)
 		expect(openMock).toBeCalledWith('/foobar.txt')
+		expect(goToRouteMock).toBeCalledWith(
+			null,
+			{ view: view.id, fileid: '1' },
+			{ dir: '/' },
+			true,
+		)
 	})
 
 	test('Open sidebar fails', async () => {

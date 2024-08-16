@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
 echo "========================="
 echo "= List of changed files ="
 echo "========================="
@@ -23,5 +26,7 @@ echo "========================="
 [[ $(git diff --name-only origin/$DRONE_TARGET_BRANCH...$DRONE_COMMIT_SHA | grep -c "/tests/") -gt 0 ]] && echo "PHP test files of an app are modified" && exit 0
 
 [[ $(git diff --name-only origin/$DRONE_TARGET_BRANCH...$DRONE_COMMIT_SHA | grep -c "3rdparty") -gt 0 ]] && echo "3rdparty is modified" && exit 0
+
+[[ $(git diff --name-only origin/$DRONE_TARGET_BRANCH...$DRONE_COMMIT_SHA | grep -c "apps/theming/css") -gt 0 ]] && echo "theming css is modified" && exit 0
 
 exit 1

@@ -1,0 +1,6 @@
+{ "translations": {
+    "Lookup Server Connector" : "Conector del sirvidor de busca",
+    "Sync public account information with the lookup server" : "Sincroniza la información de la cuenta pública col sirvidor de busca",
+    "Sync public user information with the lookup server" : "Sincroniza la información pública de los usuarios col sirvidor de busca"
+},"pluralForm" :"nplurals=2; plural=(n != 1);"
+}

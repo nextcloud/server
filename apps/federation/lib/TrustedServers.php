@@ -1,29 +1,9 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Bjoern Schiessle <bjoern@schiessle.org>
- * @author Björn Schießle <bjoern@schiessle.org>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\Federation;
 
@@ -31,13 +11,13 @@ use OCA\Federation\BackgroundJob\RequestSharedSecret;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\IJobList;
+use OCP\DB\Exception;
+use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Federation\Events\TrustedServerRemovedEvent;
 use OCP\HintException;
 use OCP\Http\Client\IClientService;
 use OCP\IConfig;
 use OCP\Security\ISecureRandom;
-use OCP\DB\Exception as DBException;
-use OCP\EventDispatcher\IEventDispatcher;
-use OCP\Federation\Events\TrustedServerRemovedEvent;
 use Psr\Log\LoggerInterface;
 
 class TrustedServers {
@@ -59,6 +39,9 @@ class TrustedServers {
 	private IConfig $config;
 	private IEventDispatcher $dispatcher;
 	private ITimeFactory $timeFactory;
+
+	/** @var list<array{id: int, url: string, url_hash: string, shared_secret: ?string, status: int, sync_token: ?string}>|null */
+	private ?array $trustedServersCache = null;
 
 	public function __construct(
 		DbHandler $dbHandler,
@@ -123,14 +106,20 @@ class TrustedServers {
 		$server = $this->dbHandler->getServerById($id);
 		$this->dbHandler->removeServer($id);
 		$this->dispatcher->dispatchTyped(new TrustedServerRemovedEvent($server['url_hash']));
+
 	}
 
 	/**
 	 * Get all trusted servers
-	 * @return list<array{id: int, url: string, url_hash: string, shared_secret: string, status: int, sync_token: string}>
+	 *
+	 * @return list<array{id: int, url: string, url_hash: string, shared_secret: ?string, status: int, sync_token: ?string}>
+	 * @throws Exception
 	 */
 	public function getServers() {
-		return $this->dbHandler->getAllServer();
+		if ($this->trustedServersCache === null) {
+			$this->trustedServersCache = $this->dbHandler->getAllServer();
+		}
+		return $this->trustedServersCache;
 	}
 
 	/**

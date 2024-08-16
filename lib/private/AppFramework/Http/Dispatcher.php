@@ -1,34 +1,10 @@
 <?php
 
 declare(strict_types=1);
-
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Bernhard Posselt <dev@bernhard-posselt.com>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Thomas Tanghus <thomas@tanghus.net>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OC\AppFramework\Http;
 
@@ -38,6 +14,7 @@ use OC\AppFramework\Utility\ControllerMethodReflector;
 use OC\DB\ConnectionAdapter;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\DataResponse;
+use OCP\AppFramework\Http\ParameterOutOfRangeException;
 use OCP\AppFramework\Http\Response;
 use OCP\Diagnostics\IEventLogger;
 use OCP\IConfig;
@@ -88,14 +65,14 @@ class Dispatcher {
 	 * @param IEventLogger $eventLogger
 	 */
 	public function __construct(Http $protocol,
-								MiddlewareDispatcher $middlewareDispatcher,
-								ControllerMethodReflector $reflector,
-								IRequest $request,
-								IConfig $config,
-								ConnectionAdapter $connection,
-								LoggerInterface $logger,
-								IEventLogger $eventLogger,
-								ContainerInterface $appContainer) {
+		MiddlewareDispatcher $middlewareDispatcher,
+		ControllerMethodReflector $reflector,
+		IRequest $request,
+		IConfig $config,
+		ConnectionAdapter $connection,
+		LoggerInterface $logger,
+		IEventLogger $eventLogger,
+		ContainerInterface $appContainer) {
 		$this->protocol = $protocol;
 		$this->middlewareDispatcher = $middlewareDispatcher;
 		$this->reflector = $reflector;
@@ -197,7 +174,7 @@ class Dispatcher {
 	private function executeController(Controller $controller, string $methodName): Response {
 		$arguments = [];
 
-		// valid types that will be casted
+		// valid types that will be cast
 		$types = ['int', 'integer', 'bool', 'boolean', 'float', 'double'];
 
 		foreach ($this->reflector->getParameters() as $param => $default) {
@@ -219,6 +196,7 @@ class Dispatcher {
 				$value = false;
 			} elseif ($value !== null && \in_array($type, $types, true)) {
 				settype($value, $type);
+				$this->ensureParameterValueSatisfiesRange($param, $value);
 			} elseif ($value === null && $type !== null && $this->appContainer->has($type)) {
 				$value = $this->appContainer->get($type);
 			}
@@ -249,5 +227,23 @@ class Dispatcher {
 		}
 
 		return $response;
+	}
+
+	/**
+	 * @psalm-param mixed $value
+	 * @throws ParameterOutOfRangeException
+	 */
+	private function ensureParameterValueSatisfiesRange(string $param, $value): void {
+		$rangeInfo = $this->reflector->getRange($param);
+		if ($rangeInfo) {
+			if ($value < $rangeInfo['min'] || $value > $rangeInfo['max']) {
+				throw new ParameterOutOfRangeException(
+					$param,
+					$value,
+					$rangeInfo['min'],
+					$rangeInfo['max'],
+				);
+			}
+		}
 	}
 }

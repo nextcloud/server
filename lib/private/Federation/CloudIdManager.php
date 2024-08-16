@@ -3,30 +3,8 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2017, Robin Appelman <robin@icewind.nl>
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Guillaume Virlet <github@virlet.org>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OC\Federation;
 
@@ -106,7 +84,7 @@ class CloudIdManager implements ICloudIdManager {
 		}
 
 		// Find the first character that is not allowed in user names
-		$id = $this->fixRemoteURL($cloudId);
+		$id = $this->stripShareLinkFragments($cloudId);
 		$posSlash = strpos($id, '/');
 		$posColon = strpos($id, ':');
 
@@ -129,6 +107,7 @@ class CloudIdManager implements ICloudIdManager {
 			$this->userManager->validateUserId($user);
 
 			if (!empty($user) && !empty($remote)) {
+				$remote = $this->ensureDefaultProtocol($remote);
 				return new CloudId($id, $user, $remote, $this->getDisplayNameFromContact($id));
 			}
 		}
@@ -168,16 +147,15 @@ class CloudIdManager implements ICloudIdManager {
 	public function getCloudId(string $user, ?string $remote): ICloudId {
 		$isLocal = $remote === null;
 		if ($isLocal) {
-			$remote = rtrim($this->removeProtocolFromUrl($this->urlGenerator->getAbsoluteURL('/')), '/');
-			$fixedRemote = $this->fixRemoteURL($remote);
-			$host = $fixedRemote;
-		} else {
-			// note that for remote id's we don't strip the protocol for the remote we use to construct the CloudId
-			// this way if a user has an explicit non-https cloud id this will be preserved
-			// we do still use the version without protocol for looking up the display name
-			$fixedRemote = $this->fixRemoteURL($remote);
-			$host = $this->removeProtocolFromUrl($fixedRemote);
+			$remote = rtrim($this->urlGenerator->getAbsoluteURL('/'), '/');
 		}
+
+		// note that for remote id's we don't strip the protocol for the remote we use to construct the CloudId
+		// this way if a user has an explicit non-https cloud id this will be preserved
+		// we do still use the version without protocol for looking up the display name
+		$remote = $this->stripShareLinkFragments($remote);
+		$host = $this->removeProtocolFromUrl($remote);
+		$remote = $this->ensureDefaultProtocol($remote);
 
 		$key = $user . '@' . ($isLocal ? 'local' : $host);
 		$cached = $this->cache[$key] ?? $this->memCache->get($key);
@@ -192,31 +170,42 @@ class CloudIdManager implements ICloudIdManager {
 		} else {
 			$displayName = $this->getDisplayNameFromContact($user . '@' . $host);
 		}
-		$id = $user . '@' . $remote;
+
+		// For the visible cloudID we only strip away https
+		$id = $user . '@' . $this->removeProtocolFromUrl($remote, true);
 
 		$data = [
 			'id' => $id,
 			'user' => $user,
-			'remote' => $fixedRemote,
+			'remote' => $remote,
 			'displayName' => $displayName,
 		];
 		$this->cache[$key] = $data;
 		$this->memCache->set($key, $data, 15 * 60);
-		return new CloudId($id, $user, $fixedRemote, $displayName);
+		return new CloudId($id, $user, $remote, $displayName);
 	}
 
 	/**
 	 * @param string $url
 	 * @return string
 	 */
-	private function removeProtocolFromUrl($url) {
+	public function removeProtocolFromUrl(string $url, bool $httpsOnly = false): string {
 		if (str_starts_with($url, 'https://')) {
-			return substr($url, strlen('https://'));
-		} elseif (str_starts_with($url, 'http://')) {
-			return substr($url, strlen('http://'));
+			return substr($url, 8);
+		}
+		if (!$httpsOnly && str_starts_with($url, 'http://')) {
+			return substr($url, 7);
 		}
 
 		return $url;
+	}
+
+	protected function ensureDefaultProtocol(string $remote): string {
+		if (!str_contains($remote, '://')) {
+			$remote = 'https://' . $remote;
+		}
+
+		return $remote;
 	}
 
 	/**
@@ -231,7 +220,7 @@ class CloudIdManager implements ICloudIdManager {
 	 * @param string $remote
 	 * @return string
 	 */
-	protected function fixRemoteURL(string $remote): string {
+	protected function stripShareLinkFragments(string $remote): string {
 		$remote = str_replace('\\', '/', $remote);
 		if ($fileNamePosition = strpos($remote, '/index.php')) {
 			$remote = substr($remote, 0, $fileNamePosition);

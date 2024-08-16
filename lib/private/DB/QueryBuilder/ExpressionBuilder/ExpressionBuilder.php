@@ -1,28 +1,9 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Daniel Kesselberg <mail@danielkesselberg.de>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OC\DB\QueryBuilder\ExpressionBuilder;
 
@@ -40,6 +21,7 @@ use OCP\DB\QueryBuilder\IParameter;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\DB\QueryBuilder\IQueryFunction;
 use OCP\IDBConnection;
+use Psr\Log\LoggerInterface;
 
 class ExpressionBuilder implements IExpressionBuilder {
 	/** @var \Doctrine\DBAL\Query\Expression\ExpressionBuilder */
@@ -51,17 +33,15 @@ class ExpressionBuilder implements IExpressionBuilder {
 	/** @var IDBConnection */
 	protected $connection;
 
+	/** @var LoggerInterface */
+	protected $logger;
+
 	/** @var FunctionBuilder */
 	protected $functionBuilder;
 
-	/**
-	 * Initializes a new <tt>ExpressionBuilder</tt>.
-	 *
-	 * @param ConnectionAdapter $connection
-	 * @param IQueryBuilder $queryBuilder
-	 */
-	public function __construct(ConnectionAdapter $connection, IQueryBuilder $queryBuilder) {
+	public function __construct(ConnectionAdapter $connection, IQueryBuilder $queryBuilder, LoggerInterface $logger) {
 		$this->connection = $connection;
+		$this->logger = $logger;
 		$this->helper = new QuoteHelper();
 		$this->expressionBuilder = new DoctrineExpressionBuilder($connection->getInner());
 		$this->functionBuilder = $queryBuilder->func();
@@ -82,8 +62,10 @@ class ExpressionBuilder implements IExpressionBuilder {
 	 * @return \OCP\DB\QueryBuilder\ICompositeExpression
 	 */
 	public function andX(...$x): ICompositeExpression {
-		$compositeExpression = call_user_func_array([$this->expressionBuilder, 'andX'], $x);
-		return new CompositeExpression($compositeExpression);
+		if (empty($x)) {
+			$this->logger->debug('Calling ' . IQueryBuilder::class . '::' . __FUNCTION__ . ' without parameters is deprecated and will throw soon.', ['exception' => new \Exception('No parameters in call to ' . __METHOD__)]);
+		}
+		return new CompositeExpression(CompositeExpression::TYPE_AND, $x);
 	}
 
 	/**
@@ -101,8 +83,10 @@ class ExpressionBuilder implements IExpressionBuilder {
 	 * @return \OCP\DB\QueryBuilder\ICompositeExpression
 	 */
 	public function orX(...$x): ICompositeExpression {
-		$compositeExpression = call_user_func_array([$this->expressionBuilder, 'orX'], $x);
-		return new CompositeExpression($compositeExpression);
+		if (empty($x)) {
+			$this->logger->debug('Calling ' . IQueryBuilder::class . '::' . __FUNCTION__ . ' without parameters is deprecated and will throw soon.', ['exception' => new \Exception('No parameters in call to ' . __METHOD__)]);
+		}
+		return new CompositeExpression(CompositeExpression::TYPE_OR, $x);
 	}
 
 	/**
@@ -117,8 +101,8 @@ class ExpressionBuilder implements IExpressionBuilder {
 	 * @return string
 	 */
 	public function comparison($x, string $operator, $y, $type = null): string {
-		$x = $this->helper->quoteColumnName($x);
-		$y = $this->helper->quoteColumnName($y);
+		$x = $this->prepareColumn($x, $type);
+		$y = $this->prepareColumn($y, $type);
 		return $this->expressionBuilder->comparison($x, $operator, $y);
 	}
 
@@ -140,8 +124,8 @@ class ExpressionBuilder implements IExpressionBuilder {
 	 * @return string
 	 */
 	public function eq($x, $y, $type = null): string {
-		$x = $this->helper->quoteColumnName($x);
-		$y = $this->helper->quoteColumnName($y);
+		$x = $this->prepareColumn($x, $type);
+		$y = $this->prepareColumn($y, $type);
 		return $this->expressionBuilder->eq($x, $y);
 	}
 
@@ -162,8 +146,8 @@ class ExpressionBuilder implements IExpressionBuilder {
 	 * @return string
 	 */
 	public function neq($x, $y, $type = null): string {
-		$x = $this->helper->quoteColumnName($x);
-		$y = $this->helper->quoteColumnName($y);
+		$x = $this->prepareColumn($x, $type);
+		$y = $this->prepareColumn($y, $type);
 		return $this->expressionBuilder->neq($x, $y);
 	}
 
@@ -184,8 +168,8 @@ class ExpressionBuilder implements IExpressionBuilder {
 	 * @return string
 	 */
 	public function lt($x, $y, $type = null): string {
-		$x = $this->helper->quoteColumnName($x);
-		$y = $this->helper->quoteColumnName($y);
+		$x = $this->prepareColumn($x, $type);
+		$y = $this->prepareColumn($y, $type);
 		return $this->expressionBuilder->lt($x, $y);
 	}
 
@@ -206,8 +190,8 @@ class ExpressionBuilder implements IExpressionBuilder {
 	 * @return string
 	 */
 	public function lte($x, $y, $type = null): string {
-		$x = $this->helper->quoteColumnName($x);
-		$y = $this->helper->quoteColumnName($y);
+		$x = $this->prepareColumn($x, $type);
+		$y = $this->prepareColumn($y, $type);
 		return $this->expressionBuilder->lte($x, $y);
 	}
 
@@ -228,8 +212,8 @@ class ExpressionBuilder implements IExpressionBuilder {
 	 * @return string
 	 */
 	public function gt($x, $y, $type = null): string {
-		$x = $this->helper->quoteColumnName($x);
-		$y = $this->helper->quoteColumnName($y);
+		$x = $this->prepareColumn($x, $type);
+		$y = $this->prepareColumn($y, $type);
 		return $this->expressionBuilder->gt($x, $y);
 	}
 
@@ -250,8 +234,8 @@ class ExpressionBuilder implements IExpressionBuilder {
 	 * @return string
 	 */
 	public function gte($x, $y, $type = null): string {
-		$x = $this->helper->quoteColumnName($x);
-		$y = $this->helper->quoteColumnName($y);
+		$x = $this->prepareColumn($x, $type);
+		$y = $this->prepareColumn($y, $type);
 		return $this->expressionBuilder->gte($x, $y);
 	}
 
@@ -434,5 +418,14 @@ class ExpressionBuilder implements IExpressionBuilder {
 		return new QueryFunction(
 			$this->helper->quoteColumnName($column)
 		);
+	}
+
+	/**
+	 * @param mixed $column
+	 * @param mixed|null $type
+	 * @return array|IQueryFunction|string
+	 */
+	protected function prepareColumn($column, $type) {
+		return $this->helper->quoteColumnNames($column);
 	}
 }

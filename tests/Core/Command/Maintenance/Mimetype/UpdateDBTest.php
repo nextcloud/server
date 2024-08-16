@@ -1,22 +1,8 @@
 <?php
 /**
- * @author Robin McCorkell <rmccorkell@owncloud.com>
- *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 
 namespace Tests\Core\Command\Maintenance\Mimetype;
@@ -78,12 +64,12 @@ class UpdateDBTest extends TestCase {
 		$this->loader->expects($this->never())
 			->method('updateFilecache');
 
-		$this->consoleOutput->expects($this->at(0))
+		$this->consoleOutput->expects($this->exactly(2))
 			->method('writeln')
-			->with('Added 0 new mimetypes');
-		$this->consoleOutput->expects($this->at(1))
-			->method('writeln')
-			->with('Updated 0 filecache rows');
+			->withConsecutive(
+				['Added 0 new mimetypes'],
+				['Updated 0 filecache rows'],
+			);
 
 		self::invokePrivate($this->command, 'execute', [$this->consoleInput, $this->consoleOutput]);
 	}
@@ -117,19 +103,14 @@ class UpdateDBTest extends TestCase {
 			->with('new', 2)
 			->willReturn(3);
 
-		$this->consoleOutput->expects($this->at(0))
+		$this->consoleOutput->expects($this->exactly(4))
 			->method('writeln')
-			->with('Added mimetype "testing/newmimetype" to database');
-		$this->consoleOutput->expects($this->at(1))
-			->method('writeln')
-			->with('Updated 3 filecache rows for mimetype "testing/newmimetype"');
-
-		$this->consoleOutput->expects($this->at(2))
-			->method('writeln')
-			->with('Added 1 new mimetypes');
-		$this->consoleOutput->expects($this->at(3))
-			->method('writeln')
-			->with('Updated 3 filecache rows');
+			->withConsecutive(
+				['Added mimetype "testing/newmimetype" to database'],
+				['Updated 3 filecache rows for mimetype "testing/newmimetype"'],
+				['Added 1 new mimetypes'],
+				['Updated 3 filecache rows'],
+			);
 
 		self::invokePrivate($this->command, 'execute', [$this->consoleInput, $this->consoleOutput]);
 	}
@@ -172,16 +153,13 @@ class UpdateDBTest extends TestCase {
 			->with('ext', 1)
 			->willReturn(3);
 
-		$this->consoleOutput->expects($this->at(0))
+		$this->consoleOutput->expects($this->exactly(3))
 			->method('writeln')
-			->with('Updated 3 filecache rows for mimetype "testing/existingmimetype"');
-
-		$this->consoleOutput->expects($this->at(1))
-			->method('writeln')
-			->with('Added 0 new mimetypes');
-		$this->consoleOutput->expects($this->at(2))
-			->method('writeln')
-			->with('Updated 3 filecache rows');
+			->withConsecutive(
+				['Updated 3 filecache rows for mimetype "testing/existingmimetype"'],
+				['Added 0 new mimetypes'],
+				['Updated 3 filecache rows'],
+			);
 
 		self::invokePrivate($this->command, 'execute', [$this->consoleInput, $this->consoleOutput]);
 	}

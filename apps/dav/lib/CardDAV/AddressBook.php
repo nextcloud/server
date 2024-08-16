@@ -1,28 +1,9 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Georg Ehrke <oc.list@georgehrke.com>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Citharel <nextcloud@tcit.fr>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\DAV\CardDAV;
 
@@ -46,7 +27,6 @@ use Sabre\DAV\PropPatch;
  * @property CardDavBackend $carddavBackend
  */
 class AddressBook extends \Sabre\CardDAV\AddressBook implements IShareable, IMoveTarget {
-
 	/**
 	 * AddressBook constructor.
 	 *
@@ -116,12 +96,22 @@ class AddressBook extends \Sabre\CardDAV\AddressBook implements IShareable, IMov
 				'privilege' => '{DAV:}write',
 				'principal' => $this->getOwner(),
 				'protected' => true,
-			]
+			],
+			[
+				'privilege' => '{DAV:}write-properties',
+				'principal' => $this->getOwner(),
+				'protected' => true,
+			],
 		];
 
 		if ($this->getOwner() === 'principals/system/system') {
 			$acl[] = [
 				'privilege' => '{DAV:}read',
+				'principal' => '{DAV:}authenticated',
+				'protected' => true,
+			];
+			$acl[] = [
+				'privilege' => '{DAV:}write-properties',
 				'principal' => '{DAV:}authenticated',
 				'protected' => true,
 			];
@@ -147,7 +137,7 @@ class AddressBook extends \Sabre\CardDAV\AddressBook implements IShareable, IMov
 		}
 
 		$acl = $this->carddavBackend->applyShareAcl($this->getResourceId(), $acl);
-		$allowedPrincipals = [$this->getOwner(), parent::getOwner(), 'principals/system/system'];
+		$allowedPrincipals = [$this->getOwner(), parent::getOwner(), 'principals/system/system', '{DAV:}authenticated'];
 		return array_filter($acl, function ($rule) use ($allowedPrincipals) {
 			return \in_array($rule['principal'], $allowedPrincipals, true);
 		});
@@ -166,8 +156,7 @@ class AddressBook extends \Sabre\CardDAV\AddressBook implements IShareable, IMov
 		return new Card($this->carddavBackend, $this->addressBookInfo, $obj);
 	}
 
-	public function getChildren()
-	{
+	public function getChildren() {
 		$objs = $this->carddavBackend->getCards($this->addressBookInfo['id']);
 		$children = [];
 		foreach ($objs as $obj) {
@@ -178,8 +167,7 @@ class AddressBook extends \Sabre\CardDAV\AddressBook implements IShareable, IMov
 		return $children;
 	}
 
-	public function getMultipleChildren(array $paths)
-	{
+	public function getMultipleChildren(array $paths) {
 		$objs = $this->carddavBackend->getMultipleCards($this->addressBookInfo['id'], $paths);
 		$children = [];
 		foreach ($objs as $obj) {
@@ -221,10 +209,9 @@ class AddressBook extends \Sabre\CardDAV\AddressBook implements IShareable, IMov
 	}
 
 	public function propPatch(PropPatch $propPatch) {
-		if (isset($this->addressBookInfo['{http://owncloud.org/ns}owner-principal'])) {
-			throw new Forbidden();
+		if (!isset($this->addressBookInfo['{http://owncloud.org/ns}owner-principal'])) {
+			parent::propPatch($propPatch);
 		}
-		parent::propPatch($propPatch);
 	}
 
 	public function getContactsGroups() {

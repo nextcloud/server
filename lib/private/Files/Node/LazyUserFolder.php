@@ -2,51 +2,34 @@
 
 declare(strict_types=1);
 /**
- * @copyright Copyright (c) 2022 Robin Appelman <robin@icewind.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-
 namespace OC\Files\Node;
 
-use OCP\Files\FileInfo;
 use OCP\Constants;
+use OCP\Files\File;
+use OCP\Files\FileInfo;
+use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
 use OCP\Files\Mount\IMountManager;
 use OCP\Files\NotFoundException;
-use OCP\Files\Folder;
-use OCP\Files\File;
 use OCP\IUser;
 use Psr\Log\LoggerInterface;
 
 class LazyUserFolder extends LazyFolder {
-	private IRootFolder $root;
 	private IUser $user;
 	private string $path;
 	private IMountManager $mountManager;
 
 	public function __construct(IRootFolder $rootFolder, IUser $user, IMountManager $mountManager) {
-		$this->root = $rootFolder;
 		$this->user = $user;
 		$this->mountManager = $mountManager;
 		$this->path = '/' . $user->getUID() . '/files';
-		parent::__construct(function () use ($user): Folder {
+		parent::__construct($rootFolder, function () use ($user): Folder {
 			try {
-				$node = $this->root->get($this->path);
+				$node = $this->getRootFolder()->get($this->path);
 				if ($node instanceof File) {
 					$e = new \RuntimeException();
 					\OCP\Server::get(LoggerInterface::class)->error('User root storage is not a folder: ' . $this->path, [
@@ -56,29 +39,18 @@ class LazyUserFolder extends LazyFolder {
 				}
 				return $node;
 			} catch (NotFoundException $e) {
-				if (!$this->root->nodeExists('/' . $user->getUID())) {
-					$this->root->newFolder('/' . $user->getUID());
+				if (!$this->getRootFolder()->nodeExists('/' . $user->getUID())) {
+					$this->getRootFolder()->newFolder('/' . $user->getUID());
 				}
-				return $this->root->newFolder($this->path);
+				return $this->getRootFolder()->newFolder($this->path);
 			}
 		}, [
 			'path' => $this->path,
-			'permissions' => Constants::PERMISSION_ALL,
+			// Sharing user root folder is not allowed
+			'permissions' => Constants::PERMISSION_ALL ^ Constants::PERMISSION_SHARE,
 			'type' => FileInfo::TYPE_FOLDER,
 			'mimetype' => FileInfo::MIMETYPE_FOLDER,
 		]);
-	}
-
-	public function get($path) {
-		return $this->root->get('/' . $this->user->getUID() . '/files/' . ltrim($path, '/'));
-	}
-
-	/**
-	 * @param int $id
-	 * @return \OCP\Files\Node[]
-	 */
-	public function getById($id) {
-		return $this->root->getByIdInPath((int)$id, $this->getPath());
 	}
 
 	public function getMountPoint() {

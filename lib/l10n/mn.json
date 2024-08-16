@@ -9,16 +9,14 @@
     "last month" : "сүүлийн сар",
     "last year" : "сүүлийн жил",
     "seconds ago" : "секундийн өмнө",
+    "Dot files are not allowed" : "Dot файлууд зөвшөөрөл байхгүй байна",
     "File name is a reserved word" : "Файлын нэр нь нийцгүй  үг",
     "File name contains at least one invalid character" : "файлын нэр нь хамгийн багадаа нэг нь хүчингүй тэмдэгт агуулж байна",
     "File name is too long" : "Файлын нэр хэтэрхий урт байна",
-    "Dot files are not allowed" : "Dot файлууд зөвшөөрөл байхгүй байна",
     "__language_name__" : "хэлний нэр",
-    "Help" : "Туслах",
     "Apps" : "Аппликэйшинууд",
     "Settings" : "Тохиргоо",
     "Log out" : "гаргах",
-    "Users" : "хэрэглэгч",
     "Email" : "Цахим шуудан",
     "Phone" : "Утас",
     "Twitter" : "Твиттер",
@@ -26,7 +24,6 @@
     "Address" : "хаяг",
     "Profile picture" : "Профайл зураг",
     "About" : "Тухай",
-    "Unknown user" : "  хэрэглэгч",
     "Open »%s«" : "»%s« нээх",
     "Sunday" : "ням гариг",
     "Monday" : "даваа",
@@ -40,6 +37,10 @@
     "a safe home for all your data" : "Таны өгөгдлүүдийн аюулгүй гэр",
     "Authentication error" : "Нотолгооны алдаа",
     "Storage is temporarily not available" : "Хадгалах төхөөрөмж нь түр хугацаанд ашиглах боломжгүй байна",
-    "Full name" : "бүтэн нэр"
+    "Summary" : "Хураангуй",
+    "Translate" : "Орчуулга",
+    "Help" : "Туслах",
+    "Users" : "хэрэглэгч",
+    "Unknown user" : "Тодорхойгүй хэрэглэгч"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

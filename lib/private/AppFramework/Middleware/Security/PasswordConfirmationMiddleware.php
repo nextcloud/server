@@ -1,37 +1,26 @@
 <?php
 /**
- * @copyright 2018, Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @author Bjoern Schiessle <bjoern@schiessle.org>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OC\AppFramework\Middleware\Security;
 
 use OC\AppFramework\Middleware\Security\Exceptions\NotConfirmedException;
 use OC\AppFramework\Utility\ControllerMethodReflector;
+use OC\Authentication\Token\IProvider;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\Attribute\PasswordConfirmationRequired;
 use OCP\AppFramework\Middleware;
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\Authentication\Exceptions\ExpiredTokenException;
+use OCP\Authentication\Exceptions\InvalidTokenException;
+use OCP\Authentication\Exceptions\WipeTokenException;
+use OCP\Authentication\Token\IToken;
 use OCP\ISession;
 use OCP\IUserSession;
+use OCP\Session\Exceptions\SessionNotAvailableException;
 use OCP\User\Backend\IPasswordConfirmationBackend;
+use Psr\Log\LoggerInterface;
 use ReflectionMethod;
 
 class PasswordConfirmationMiddleware extends Middleware {
@@ -45,6 +34,7 @@ class PasswordConfirmationMiddleware extends Middleware {
 	private $timeFactory;
 	/** @var array */
 	private $excludedUserBackEnds = ['user_saml' => true, 'user_globalsiteselector' => true];
+	private IProvider $tokenProvider;
 
 	/**
 	 * PasswordConfirmationMiddleware constructor.
@@ -55,13 +45,17 @@ class PasswordConfirmationMiddleware extends Middleware {
 	 * @param ITimeFactory $timeFactory
 	 */
 	public function __construct(ControllerMethodReflector $reflector,
-								ISession $session,
-								IUserSession $userSession,
-								ITimeFactory $timeFactory) {
+		ISession $session,
+		IUserSession $userSession,
+		ITimeFactory $timeFactory,
+		IProvider $tokenProvider,
+		private readonly LoggerInterface $logger,
+	) {
 		$this->reflector = $reflector;
 		$this->session = $session;
 		$this->userSession = $userSession;
 		$this->timeFactory = $timeFactory;
+		$this->tokenProvider = $tokenProvider;
 	}
 
 	/**
@@ -86,8 +80,21 @@ class PasswordConfirmationMiddleware extends Middleware {
 				$backendClassName = $user->getBackendClassName();
 			}
 
+			try {
+				$sessionId = $this->session->getId();
+				$token = $this->tokenProvider->getToken($sessionId);
+			} catch (SessionNotAvailableException|InvalidTokenException|WipeTokenException|ExpiredTokenException) {
+				// States we do not deal with here.
+				return;
+			}
+			$scope = $token->getScopeAsArray();
+			if (isset($scope[IToken::SCOPE_SKIP_PASSWORD_VALIDATION]) && $scope[IToken::SCOPE_SKIP_PASSWORD_VALIDATION] === true) {
+				// Users logging in from SSO backends cannot confirm their password by design
+				return;
+			}
+
 			$lastConfirm = (int) $this->session->get('last-password-confirm');
-			// we can't check the password against a SAML backend, so skip password confirmation in this case
+			// TODO: confirm excludedUserBackEnds can go away and remove it
 			if (!isset($this->excludedUserBackEnds[$backendClassName]) && $lastConfirm < ($this->timeFactory->getTime() - (30 * 60 + 15))) { // allow 15 seconds delay
 				throw new NotConfirmedException();
 			}
@@ -108,6 +115,7 @@ class PasswordConfirmationMiddleware extends Middleware {
 		}
 
 		if ($this->reflector->hasAnnotation($annotationName)) {
+			$this->logger->debug($reflectionMethod->getDeclaringClass()->getName() . '::' . $reflectionMethod->getName() . ' uses the @' . $annotationName . ' annotation and should use the #[' . $attributeClass . '] attribute instead');
 			return true;
 		}
 

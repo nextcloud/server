@@ -1,22 +1,8 @@
 <?php
 /**
- * @author Robin McCorkell <rmccorkell@owncloud.com>
- *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 
 namespace Tests\Core\Command\Log;
@@ -110,15 +96,13 @@ class FileTest extends TestCase {
 				['log_rotate_size', 100 * 1024 * 1024, 5 * 1024 * 1024],
 			]);
 
-		$this->consoleOutput->expects($this->at(0))
+		$this->consoleOutput->expects($this->exactly(3))
 			->method('writeln')
-			->with('Log backend file: disabled');
-		$this->consoleOutput->expects($this->at(1))
-			->method('writeln')
-			->with('Log file: /var/log/nextcloud.log');
-		$this->consoleOutput->expects($this->at(2))
-			->method('writeln')
-			->with('Rotate at: 5 MB');
+			->withConsecutive(
+				['Log backend file: disabled'],
+				['Log file: /var/log/nextcloud.log'],
+				['Rotate at: 5 MB'],
+			);
 
 		self::invokePrivate($this->command, 'execute', [$this->consoleInput, $this->consoleOutput]);
 	}

@@ -13,8 +13,8 @@ OC.L10N.register(
     "Delete comment" : "კომენტარის გაუქმება",
     "No comments yet, start the conversation!" : "ჯერ კომენტარები არაა, დაიწყეთ საუბარი! ",
     "Retry" : "ვცადოთ ახლიდან",
-    "_%n unread comment_::_%n unread comments_" : ["%n წაუკუთხავი კომენტარი","%n წაუკუთხავი კომენტარი"],
     "Comment" : "კომენტარის დამატება",
-    "%1$s commented" : "%1$s მოხმარებელმა გააკეთა კომენტარი"
+    "%1$s commented" : "%1$s მოხმარებელმა გააკეთა კომენტარი",
+    "_%n unread comment_::_%n unread comments_" : ["%n წაუკუთხავი კომენტარი","%n წაუკუთხავი კომენტარი"]
 },
 "nplurals=2; plural=(n!=1);");

@@ -8,13 +8,13 @@ OC.L10N.register(
     "The OAuth2 app allows administrators to configure the built-in authentication workflow to also allow OAuth2 compatible authentication from other web applications." : "OAuth2 апликацијата им овозможува на администраторите да конфигурираат вграден проток за автентификација, истотака дозволува OAuth2 компатибилна автентификација од други веб апликации.",
     "OAuth 2.0 clients" : "OAuth 2.0 клиенти",
     "OAuth 2.0 allows external services to request access to {instanceName}." : "OAuth 2.0 овозможува на надворешни сервиси да побараат пристап на {instanceName}.",
-    "Add client" : "Додади клиент",
     "Name" : "Име",
     "Redirection URI" : "Пренасочено URI",
-    "Add" : "Додади",
     "Client Identifier" : "Идентификатор на клиент",
-    "Secret" : "Тајна",
-    "Show client secret" : "Прикажи тајна на клиент",
-    "Delete" : "Избриши"
+    "Secret key" : "Таен клуч",
+    "Add client" : "Додади клиент",
+    "Add" : "Додади",
+    "Delete" : "Избриши",
+    "Show client secret" : "Прикажи тајна на клиент"
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");

@@ -1,35 +1,8 @@
 <?php
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Bernhard Posselt <dev@bernhard-posselt.com>
- * @author Bjoern Schiessle <bjoern@schiessle.org>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Jörn Friedrich Dreyer <jfd@butonic.de>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin McCorkell <robin@mccorkell.me.uk>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Sebastian Wessalowski <sebastian@wessalowski.org>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Thomas Tanghus <thomas@tanghus.net>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OC\AppFramework\DependencyInjection;
 
@@ -72,6 +45,8 @@ use OCP\IServerContainer;
 use OCP\ISession;
 use OCP\IURLGenerator;
 use OCP\IUserSession;
+use OCP\Security\Bruteforce\IThrottler;
+use OCP\Security\Ip\IRemoteAddress;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 
@@ -95,7 +70,7 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 	 * @param array $urlParams
 	 * @param ServerContainer|null $server
 	 */
-	public function __construct(string $appName, array $urlParams = [], ServerContainer $server = null) {
+	public function __construct(string $appName, array $urlParams = [], ?ServerContainer $server = null) {
 		parent::__construct();
 		$this->appName = $appName;
 		$this['appName'] = $appName;
@@ -172,7 +147,7 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 		});
 
 		$this->registerService('OC_Defaults', function (ContainerInterface $c) {
-			return $c->get(IServerContainer::class)->getThemingDefaults();
+			return $c->get(IServerContainer::class)->get('ThemingDefaults');
 		});
 
 		$this->registerService('Protocol', function (ContainerInterface $c) {
@@ -233,7 +208,8 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 					$c->get(IRequest::class),
 					$c->get(IControllerMethodReflector::class),
 					$c->get(IUserSession::class),
-					$c->get(OC\Security\Bruteforce\Throttler::class)
+					$c->get(IThrottler::class),
+					$c->get(LoggerInterface::class)
 				)
 			);
 			$dispatcher->registerMiddleware(
@@ -257,7 +233,8 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 				$server->getAppManager(),
 				$server->getL10N('lib'),
 				$c->get(AuthorizedGroupMapper::class),
-				$server->get(IUserSession::class)
+				$server->get(IUserSession::class),
+				$c->get(IRemoteAddress::class),
 			);
 			$dispatcher->registerMiddleware($securityMiddleware);
 			$dispatcher->registerMiddleware(
@@ -275,7 +252,9 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 					$c->get(IControllerMethodReflector::class),
 					$c->get(ISession::class),
 					$c->get(IUserSession::class),
-					$c->get(ITimeFactory::class)
+					$c->get(ITimeFactory::class),
+					$c->get(\OC\Authentication\Token\IProvider::class),
+					$c->get(LoggerInterface::class),
 				)
 			);
 			$dispatcher->registerMiddleware(
@@ -291,7 +270,7 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 			$dispatcher->registerMiddleware(
 				new OC\AppFramework\Middleware\Security\BruteForceMiddleware(
 					$c->get(IControllerMethodReflector::class),
-					$c->get(OC\Security\Bruteforce\Throttler::class),
+					$c->get(IThrottler::class),
 					$c->get(IRequest::class),
 					$c->get(LoggerInterface::class)
 				)
@@ -301,15 +280,16 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 					$c->get(IRequest::class),
 					$c->get(IUserSession::class),
 					$c->get(IControllerMethodReflector::class),
-					$c->get(OC\Security\RateLimiting\Limiter::class)
+					$c->get(OC\Security\RateLimiting\Limiter::class),
+					$c->get(ISession::class)
 				)
 			);
 			$dispatcher->registerMiddleware(
 				new OC\AppFramework\Middleware\PublicShare\PublicShareMiddleware(
 					$c->get(IRequest::class),
 					$c->get(ISession::class),
-					$c->get(\OCP\IConfig::class),
-					$c->get(OC\Security\Bruteforce\Throttler::class)
+					$c->get(IConfig::class),
+					$c->get(IThrottler::class)
 				)
 			);
 			$dispatcher->registerMiddleware(
@@ -344,6 +324,7 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 		$this->registerService(IAppConfig::class, function (ContainerInterface $c) {
 			return new OC\AppFramework\Services\AppConfig(
 				$c->get(IConfig::class),
+				$c->get(\OCP\IAppConfig::class),
 				$c->get('AppName')
 			);
 		});
@@ -400,33 +381,6 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 
 	private function getUserId() {
 		return $this->getServer()->getSession()->get('user_id');
-	}
-
-	/**
-	 * @deprecated use the ILogger instead
-	 * @param string $message
-	 * @param string $level
-	 * @return mixed
-	 */
-	public function log($message, $level) {
-		switch ($level) {
-			case 'debug':
-				$level = ILogger::DEBUG;
-				break;
-			case 'info':
-				$level = ILogger::INFO;
-				break;
-			case 'warn':
-				$level = ILogger::WARN;
-				break;
-			case 'fatal':
-				$level = ILogger::FATAL;
-				break;
-			default:
-				$level = ILogger::ERROR;
-				break;
-		}
-		\OCP\Util::writeLog($this->getAppName(), $message, $level);
 	}
 
 	/**

@@ -1,43 +1,85 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Alexander Bergolth <leo@strike.wu.ac.at>
- * @author Alex Weirig <alex.weirig@technolink.lu>
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Jörn Friedrich Dreyer <jfd@butonic.de>
- * @author Lennart Rosam <hello@takuto.de>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Marc Hefter <marchefter@march42.net>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin McCorkell <robin@mccorkell.me.uk>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Roger Szabo <roger.szabo@web.de>
- * @author Victor Dubiniuk <dubiniuk@owncloud.com>
- * @author Xuanwo <xuanwo@yunify.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\User_LDAP;
 
+use Psr\Log\LoggerInterface;
+
 /**
- * @property int ldapPagingSize holds an integer
- * @property string ldapUserAvatarRule
+ * @property string $ldapHost
+ * @property string $ldapPort
+ * @property string $ldapBackupHost
+ * @property string $ldapBackupPort
+ * @property string $ldapBackgroundHost
+ * @property string $ldapBackgroundPort
+ * @property array|'' $ldapBase
+ * @property array|'' $ldapBaseUsers
+ * @property array|'' $ldapBaseGroups
+ * @property string $ldapAgentName
+ * @property string $ldapAgentPassword
+ * @property string $ldapTLS
+ * @property string $turnOffCertCheck
+ * @property string $ldapIgnoreNamingRules
+ * @property string $ldapUserDisplayName
+ * @property string $ldapUserDisplayName2
+ * @property string $ldapUserAvatarRule
+ * @property string $ldapGidNumber
+ * @property array|'' $ldapUserFilterObjectclass
+ * @property array|'' $ldapUserFilterGroups
+ * @property string $ldapUserFilter
+ * @property string $ldapUserFilterMode
+ * @property string $ldapGroupFilter
+ * @property string $ldapGroupFilterMode
+ * @property array|'' $ldapGroupFilterObjectclass
+ * @property array|'' $ldapGroupFilterGroups
+ * @property string $ldapGroupDisplayName
+ * @property string $ldapGroupMemberAssocAttr
+ * @property string $ldapLoginFilter
+ * @property string $ldapLoginFilterMode
+ * @property string $ldapLoginFilterEmail
+ * @property string $ldapLoginFilterUsername
+ * @property array|'' $ldapLoginFilterAttributes
+ * @property string $ldapQuotaAttribute
+ * @property string $ldapQuotaDefault
+ * @property string $ldapEmailAttribute
+ * @property string $ldapCacheTTL
+ * @property string $ldapUuidUserAttribute
+ * @property string $ldapUuidGroupAttribute
+ * @property string $ldapOverrideMainServer
+ * @property string $ldapConfigurationActive
+ * @property array|'' $ldapAttributesForUserSearch
+ * @property array|'' $ldapAttributesForGroupSearch
+ * @property string $ldapExperiencedAdmin
+ * @property string $homeFolderNamingRule
+ * @property string $hasMemberOfFilterSupport
+ * @property string $useMemberOfToDetectMembership
+ * @property string $ldapExpertUsernameAttr
+ * @property string $ldapExpertUUIDUserAttr
+ * @property string $ldapExpertUUIDGroupAttr
+ * @property string $markRemnantsAsDisabled
+ * @property string $lastJpegPhotoLookup
+ * @property string $ldapNestedGroups
+ * @property string $ldapPagingSize
+ * @property string $turnOnPasswordChange
+ * @property string $ldapDynamicGroupMemberURL
+ * @property string $ldapDefaultPPolicyDN
+ * @property string $ldapExtStorageHomeAttribute
+ * @property string $ldapMatchingRuleInChainState
+ * @property string $ldapConnectionTimeout
+ * @property string $ldapAttributePhone
+ * @property string $ldapAttributeWebsite
+ * @property string $ldapAttributeAddress
+ * @property string $ldapAttributeTwitter
+ * @property string $ldapAttributeFediverse
+ * @property string $ldapAttributeOrganisation
+ * @property string $ldapAttributeRole
+ * @property string $ldapAttributeHeadline
+ * @property string $ldapAttributeBiography
+ * @property string $ldapAdminGroup
  */
 class Configuration {
 	public const AVATAR_PREFIX_DEFAULT = 'default';
@@ -115,6 +157,7 @@ class Configuration {
 		'ldapExpertUsernameAttr' => null,
 		'ldapExpertUUIDUserAttr' => null,
 		'ldapExpertUUIDGroupAttr' => null,
+		'markRemnantsAsDisabled' => false,
 		'lastJpegPhotoLookup' => null,
 		'ldapNestedGroups' => false,
 		'ldapPagingSize' => null,
@@ -133,6 +176,9 @@ class Configuration {
 		'ldapAttributeRole' => null,
 		'ldapAttributeHeadline' => null,
 		'ldapAttributeBiography' => null,
+		'ldapAdminGroup' => '',
+		'ldapAttributeBirthDate' => null,
+		'ldapAttributeAnniversaryDate' => null,
 	];
 
 	public function __construct(string $configPrefix, bool $autoRead = true) {
@@ -173,7 +219,7 @@ class Configuration {
 	 * array
 	 * @param array &$applied optional; array where the set fields will be given to
 	 */
-	public function setConfiguration(array $config, array &$applied = null): void {
+	public function setConfiguration(array $config, ?array &$applied = null): void {
 		$cta = $this->getConfigTranslationArray();
 		foreach ($config as $inputKey => $val) {
 			if (str_contains($inputKey, '_') && array_key_exists($inputKey, $cta)) {
@@ -468,6 +514,7 @@ class Configuration {
 			'ldap_expert_uuid_group_attr' => '',
 			'has_memberof_filter_support' => 0,
 			'use_memberof_to_detect_membership' => 1,
+			'ldap_mark_remnants_as_disabled' => 0,
 			'last_jpegPhoto_lookup' => 0,
 			'ldap_nested_groups' => 0,
 			'ldap_paging_size' => 500,
@@ -488,6 +535,9 @@ class Configuration {
 			'ldap_attr_role' => '',
 			'ldap_attr_headline' => '',
 			'ldap_attr_biography' => '',
+			'ldap_admin_group' => '',
+			'ldap_attr_birthdate' => '',
+			'ldap_attr_anniversarydate' => '',
 		];
 	}
 
@@ -543,6 +593,7 @@ class Configuration {
 			'ldap_expert_uuid_group_attr' => 'ldapExpertUUIDGroupAttr',
 			'has_memberof_filter_support' => 'hasMemberOfFilterSupport',
 			'use_memberof_to_detect_membership' => 'useMemberOfToDetectMembership',
+			'ldap_mark_remnants_as_disabled' => 'markRemnantsAsDisabled',
 			'last_jpegPhoto_lookup' => 'lastJpegPhotoLookup',
 			'ldap_nested_groups' => 'ldapNestedGroups',
 			'ldap_paging_size' => 'ldapPagingSize',
@@ -563,6 +614,9 @@ class Configuration {
 			'ldap_attr_role' => 'ldapAttributeRole',
 			'ldap_attr_headline' => 'ldapAttributeHeadline',
 			'ldap_attr_biography' => 'ldapAttributeBiography',
+			'ldap_admin_group' => 'ldapAdminGroup',
+			'ldap_attr_birthdate' => 'ldapAttributeBirthDate',
+			'ldap_attr_anniversarydate' => 'ldapAttributeAnniversaryDate',
 		];
 		return $array;
 	}
@@ -592,7 +646,7 @@ class Configuration {
 			return [strtolower($attribute)];
 		}
 		if ($value !== self::AVATAR_PREFIX_DEFAULT) {
-			\OC::$server->getLogger()->warning('Invalid config value to ldapUserAvatarRule; falling back to default.');
+			\OCP\Server::get(LoggerInterface::class)->warning('Invalid config value to ldapUserAvatarRule; falling back to default.');
 		}
 		return $defaultAttributes;
 	}
@@ -601,6 +655,7 @@ class Configuration {
 	 * Returns TRUE if the ldapHost variable starts with 'ldapi://'
 	 */
 	public function usesLdapi(): bool {
-		return (substr($this->config['ldapHost'], 0, strlen('ldapi://')) === 'ldapi://');
+		$host = $this->config['ldapHost'];
+		return is_string($host) && (substr($host, 0, strlen('ldapi://')) === 'ldapi://');
 	}
 }

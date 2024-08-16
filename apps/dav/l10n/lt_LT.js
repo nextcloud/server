@@ -2,6 +2,7 @@ OC.L10N.register(
     "dav",
     {
     "Calendar" : "Kalendorius",
+    "Tasks" : "Užduotys",
     "Personal" : "Asmeniniai",
     "{actor} created calendar {calendar}" : "{actor} sukūrė kalendorių {calendar}",
     "You created calendar {calendar}" : "Jūs sukūrėte kalendorių {calendar}",
@@ -59,7 +60,6 @@ OC.L10N.register(
     "Organizer:" : "Organizatorius:",
     "Attendees:" : "Kviestiniai:",
     "Title:" : "Pavadinimas:",
-    "Time:" : "Laikas:",
     "Location:" : "Vieta:",
     "Link:" : "Nuoroda:",
     "Accept" : "Priimti",
@@ -78,11 +78,11 @@ OC.L10N.register(
     "Configures a CalDAV account" : "Konfigūruoja CalDAV paskyrą",
     "Configures a CardDAV account" : "Konfigūruoja CardDAV paskyrą",
     "Events" : "Įvykiai",
-    "Tasks" : "Užduotys",
     "Untitled task" : "Užduotis be pavadinimo",
+    "Your web server is not yet properly set up to allow file synchronization, because the WebDAV interface seems to be broken." : "Jūsų svetainės serveris nėra tinkamai sukonfiguruotas, Failų sinchronizavimas negalimas, nes neveikia WebDAV interfeisas.",
     "Contacts and groups" : "Adresatai ir grupės",
     "WebDAV" : "WebDAV",
-    "Availability" : "Pasiekiamumas",
+    "Save" : "Įrašyti",
     "Time zone:" : "Laiko juosta:",
     "to" : "iki",
     "No working hours set" : "Nenustatyta jokių darbo valandų",
@@ -93,7 +93,7 @@ OC.L10N.register(
     "Friday" : "Penktadienis",
     "Saturday" : "Šeštadienis",
     "Sunday" : "Sekmadienis",
-    "Save" : "Įrašyti",
+    "Availability" : "Pasiekiamumas",
     "Calendar server" : "Kalendoriaus serveris",
     "Send invitations to attendees" : "Siųsti pakvietimus kviestiniams",
     "Automatically generate a birthday calendar" : "Automatiškai sukurti gimtadienių kalendorių",
@@ -106,8 +106,6 @@ OC.L10N.register(
     "Please contact the organizer directly." : "Prašome susisiekti su organizatoriumi tiesiogiai.",
     "Are you accepting the invitation?" : "Ar priimate pakvietimą?",
     "Tentative" : "Preliminarus",
-    "Invitation canceled" : "Pakvietimo atsisakyta",
-    "Invitation updated" : "Pakvietimas atnaujintas",
-    "Invitation" : "Pakvietimas"
+    "Time:" : "Laikas:"
 },
 "nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);");

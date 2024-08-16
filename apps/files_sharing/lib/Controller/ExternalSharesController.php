@@ -1,34 +1,18 @@
 <?php
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Björn Schießle <bjoern@schiessle.org>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2019-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\Files_Sharing\Controller;
 
 use OCP\AppFramework\Controller;
+use OCP\AppFramework\Http\Attribute\NoAdminRequired;
+use OCP\AppFramework\Http\Attribute\PublicPage;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\Http\Client\IClientService;
+use OCP\IConfig;
 use OCP\IRequest;
 
 /**
@@ -37,56 +21,45 @@ use OCP\IRequest;
  * @package OCA\Files_Sharing\Controller
  */
 class ExternalSharesController extends Controller {
-
-	/** @var \OCA\Files_Sharing\External\Manager */
-	private $externalManager;
-	/** @var IClientService */
-	private $clientService;
-
-	/**
-	 * @param string $appName
-	 * @param IRequest $request
-	 * @param \OCA\Files_Sharing\External\Manager $externalManager
-	 * @param IClientService $clientService
-	 */
-	public function __construct($appName,
-								IRequest $request,
-								\OCA\Files_Sharing\External\Manager $externalManager,
-								IClientService $clientService) {
+	public function __construct(
+		string $appName,
+		IRequest $request,
+		private \OCA\Files_Sharing\External\Manager $externalManager,
+		private IClientService $clientService,
+		private IConfig $config,
+	) {
 		parent::__construct($appName, $request);
-		$this->externalManager = $externalManager;
-		$this->clientService = $clientService;
 	}
 
 	/**
-	 * @NoAdminRequired
 	 * @NoOutgoingFederatedSharingRequired
 	 *
 	 * @return JSONResponse
 	 */
+	#[NoAdminRequired]
 	public function index() {
 		return new JSONResponse($this->externalManager->getOpenShares());
 	}
 
 	/**
-	 * @NoAdminRequired
 	 * @NoOutgoingFederatedSharingRequired
 	 *
 	 * @param int $id
 	 * @return JSONResponse
 	 */
+	#[NoAdminRequired]
 	public function create($id) {
 		$this->externalManager->acceptShare($id);
 		return new JSONResponse();
 	}
 
 	/**
-	 * @NoAdminRequired
 	 * @NoOutgoingFederatedSharingRequired
 	 *
 	 * @param integer $id
 	 * @return JSONResponse
 	 */
+	#[NoAdminRequired]
 	public function destroy($id) {
 		$this->externalManager->declineShare($id);
 		return new JSONResponse();
@@ -107,6 +80,7 @@ class ExternalSharesController extends Controller {
 				[
 					'timeout' => 3,
 					'connect_timeout' => 3,
+					'verify' => !$this->config->getSystemValueBool('sharing.federation.allowSelfSignedCertificates', false),
 				]
 			)->getBody());
 
@@ -121,27 +95,27 @@ class ExternalSharesController extends Controller {
 	}
 
 	/**
-	 * @PublicPage
 	 * @NoOutgoingFederatedSharingRequired
 	 * @NoIncomingFederatedSharingRequired
 	 *
 	 * @param string $remote
 	 * @return DataResponse
 	 */
+	#[PublicPage]
 	public function testRemote($remote) {
 		if (str_contains($remote, '#') || str_contains($remote, '?') || str_contains($remote, ';')) {
 			return new DataResponse(false);
 		}
 
 		if (
-			$this->testUrl('https://' . $remote . '/ocs-provider/') ||
-			$this->testUrl('https://' . $remote . '/ocs-provider/index.php') ||
+			$this->testUrl('https://' . $remote . '/ocm-provider/') ||
+			$this->testUrl('https://' . $remote . '/ocm-provider/index.php') ||
 			$this->testUrl('https://' . $remote . '/status.php', true)
 		) {
 			return new DataResponse('https');
 		} elseif (
-			$this->testUrl('http://' . $remote . '/ocs-provider/') ||
-			$this->testUrl('http://' . $remote . '/ocs-provider/index.php') ||
+			$this->testUrl('http://' . $remote . '/ocm-provider/') ||
+			$this->testUrl('http://' . $remote . '/ocm-provider/index.php') ||
 			$this->testUrl('http://' . $remote . '/status.php', true)
 		) {
 			return new DataResponse('http');

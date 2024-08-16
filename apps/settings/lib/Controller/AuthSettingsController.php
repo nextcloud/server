@@ -1,50 +1,29 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Daniel Kesselberg <mail@danielkesselberg.de>
- * @author Fabrizio Steiner <fabrizio.steiner@gmail.com>
- * @author Greta Doci <gretadoci@gmail.com>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Marcel Waldvogel <marcel.waldvogel@uni-konstanz.de>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Sergej Nikolaev <kinolaev@gmail.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2019-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\Settings\Controller;
 
 use BadMethodCallException;
-use OC\Authentication\Exceptions\ExpiredTokenException;
-use OC\Authentication\Exceptions\InvalidTokenException;
+use OC\Authentication\Exceptions\InvalidTokenException as OcInvalidTokenException;
 use OC\Authentication\Exceptions\PasswordlessTokenException;
-use OC\Authentication\Exceptions\WipeTokenException;
 use OC\Authentication\Token\INamedToken;
 use OC\Authentication\Token\IProvider;
-use OC\Authentication\Token\IToken;
 use OC\Authentication\Token\RemoteWipe;
 use OCA\Settings\Activity\Provider;
 use OCP\Activity\IManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\NoAdminRequired;
+use OCP\AppFramework\Http\Attribute\PasswordConfirmationRequired;
 use OCP\AppFramework\Http\JSONResponse;
+use OCP\Authentication\Exceptions\ExpiredTokenException;
+use OCP\Authentication\Exceptions\InvalidTokenException;
+use OCP\Authentication\Exceptions\WipeTokenException;
+use OCP\Authentication\Token\IToken;
 use OCP\IRequest;
 use OCP\ISession;
 use OCP\IUserSession;
@@ -53,14 +32,13 @@ use OCP\Session\Exceptions\SessionNotAvailableException;
 use Psr\Log\LoggerInterface;
 
 class AuthSettingsController extends Controller {
-
 	/** @var IProvider */
 	private $tokenProvider;
 
 	/** @var ISession */
 	private $session;
 
-	/** IUserSession */
+	/** @var IUserSession */
 	private $userSession;
 
 	/** @var string */
@@ -91,15 +69,15 @@ class AuthSettingsController extends Controller {
 	 * @param LoggerInterface $logger
 	 */
 	public function __construct(string $appName,
-								IRequest $request,
-								IProvider $tokenProvider,
-								ISession $session,
-								ISecureRandom $random,
-								?string $userId,
-								IUserSession $userSession,
-								IManager $activityManager,
-								RemoteWipe $remoteWipe,
-								LoggerInterface $logger) {
+		IRequest $request,
+		IProvider $tokenProvider,
+		ISession $session,
+		ISecureRandom $random,
+		?string $userId,
+		IUserSession $userSession,
+		IManager $activityManager,
+		RemoteWipe $remoteWipe,
+		LoggerInterface $logger) {
 		parent::__construct($appName, $request);
 		$this->tokenProvider = $tokenProvider;
 		$this->uid = $userId;
@@ -112,13 +90,13 @@ class AuthSettingsController extends Controller {
 	}
 
 	/**
-	 * @NoAdminRequired
 	 * @NoSubAdminRequired
-	 * @PasswordConfirmationRequired
 	 *
 	 * @param string $name
 	 * @return JSONResponse
 	 */
+	#[NoAdminRequired]
+	#[PasswordConfirmationRequired]
 	public function create($name) {
 		if ($this->checkAppToken()) {
 			return $this->getServiceNotAvailableResponse();
@@ -193,12 +171,12 @@ class AuthSettingsController extends Controller {
 	}
 
 	/**
-	 * @NoAdminRequired
 	 * @NoSubAdminRequired
 	 *
 	 * @param int $id
 	 * @return array|JSONResponse
 	 */
+	#[NoAdminRequired]
 	public function destroy($id) {
 		if ($this->checkAppToken()) {
 			return new JSONResponse([], Http::STATUS_BAD_REQUEST);
@@ -219,7 +197,6 @@ class AuthSettingsController extends Controller {
 	}
 
 	/**
-	 * @NoAdminRequired
 	 * @NoSubAdminRequired
 	 *
 	 * @param int $id
@@ -227,6 +204,7 @@ class AuthSettingsController extends Controller {
 	 * @param string $name
 	 * @return array|JSONResponse
 	 */
+	#[NoAdminRequired]
 	public function update($id, array $scope, string $name) {
 		if ($this->checkAppToken()) {
 			return new JSONResponse([], Http::STATUS_BAD_REQUEST);
@@ -241,8 +219,8 @@ class AuthSettingsController extends Controller {
 		$currentName = $token->getName();
 
 		if ($scope !== $token->getScopeAsArray()) {
-			$token->setScope(['filesystem' => $scope['filesystem']]);
-			$this->publishActivity($scope['filesystem'] ? Provider::APP_TOKEN_FILESYSTEM_GRANTED : Provider::APP_TOKEN_FILESYSTEM_REVOKED, $token->getId(), ['name' => $currentName]);
+			$token->setScope([IToken::SCOPE_FILESYSTEM => $scope[IToken::SCOPE_FILESYSTEM]]);
+			$this->publishActivity($scope[IToken::SCOPE_FILESYSTEM] ? Provider::APP_TOKEN_FILESYSTEM_GRANTED : Provider::APP_TOKEN_FILESYSTEM_REVOKED, $token->getId(), ['name' => $currentName]);
 		}
 
 		if (mb_strlen($name) > 128) {
@@ -293,21 +271,22 @@ class AuthSettingsController extends Controller {
 			$token = $e->getToken();
 		}
 		if ($token->getUID() !== $this->uid) {
-			throw new InvalidTokenException('This token does not belong to you!');
+			/** @psalm-suppress DeprecatedClass We have to throw the OC version so both OC and OCP catches catch it */
+			throw new OcInvalidTokenException('This token does not belong to you!');
 		}
 		return $token;
 	}
 
 	/**
-	 * @NoAdminRequired
 	 * @NoSubAdminRequired
-	 * @PasswordConfirmationRequired
 	 *
 	 * @param int $id
 	 * @return JSONResponse
 	 * @throws InvalidTokenException
-	 * @throws \OC\Authentication\Exceptions\ExpiredTokenException
+	 * @throws ExpiredTokenException
 	 */
+	#[NoAdminRequired]
+	#[PasswordConfirmationRequired]
 	public function wipe(int $id): JSONResponse {
 		if ($this->checkAppToken()) {
 			return new JSONResponse([], Http::STATUS_BAD_REQUEST);

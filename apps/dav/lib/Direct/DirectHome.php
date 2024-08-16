@@ -3,36 +3,18 @@
 declare(strict_types=1);
 
 /**
- * @copyright 2018, Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\DAV\Direct;
 
-use OC\Security\Bruteforce\Throttler;
 use OCA\DAV\Db\DirectMapper;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\IRootFolder;
 use OCP\IRequest;
+use OCP\Security\Bruteforce\IThrottler;
 use Sabre\DAV\Exception\Forbidden;
 use Sabre\DAV\Exception\MethodNotAllowed;
 use Sabre\DAV\Exception\NotFound;
@@ -49,18 +31,20 @@ class DirectHome implements ICollection {
 	/** @var ITimeFactory */
 	private $timeFactory;
 
-	/** @var Throttler */
+	/** @var IThrottler */
 	private $throttler;
 
 	/** @var IRequest */
 	private $request;
+
+	/** @var IEventDispatcher */
 	private $eventDispatcher;
 
 	public function __construct(
 		IRootFolder $rootFolder,
 		DirectMapper $mapper,
 		ITimeFactory $timeFactory,
-		Throttler $throttler,
+		IThrottler $throttler,
 		IRequest $request,
 		IEventDispatcher $eventDispatcher
 	) {

@@ -1,22 +1,8 @@
 <?php
 /**
- * @author Joas Schilling <nickvergessen@owncloud.com>
- *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 
 namespace Test\DB\QueryBuilder;
@@ -24,6 +10,7 @@ namespace Test\DB\QueryBuilder;
 use Doctrine\DBAL\Query\Expression\ExpressionBuilder as DoctrineExpressionBuilder;
 use OC\DB\QueryBuilder\ExpressionBuilder\ExpressionBuilder;
 use OCP\DB\QueryBuilder\IQueryBuilder;
+use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 /**
@@ -46,15 +33,19 @@ class ExpressionBuilderTest extends TestCase {
 	/** @var \Doctrine\DBAL\Connection */
 	protected $internalConnection;
 
+	/** @var LoggerInterface */
+	protected $logger;
+
 	protected function setUp(): void {
 		parent::setUp();
 
 		$this->connection = \OC::$server->getDatabaseConnection();
 		$this->internalConnection = \OC::$server->get(\OC\DB\Connection::class);
+		$this->logger = $this->createMock(LoggerInterface::class);
 
 		$queryBuilder = $this->createMock(IQueryBuilder::class);
 
-		$this->expressionBuilder = new ExpressionBuilder($this->connection, $queryBuilder);
+		$this->expressionBuilder = new ExpressionBuilder($this->connection, $queryBuilder, $this->logger);
 
 		$this->doctrineExpressionBuilder = new DoctrineExpressionBuilder($this->internalConnection);
 	}

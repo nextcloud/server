@@ -94,9 +94,6 @@
     "Please contact the organizer directly." : "נא ליצור קשר עם הגוף מארגן ישירות.",
     "Are you accepting the invitation?" : "האם להיענות להזמנה?",
     "Tentative" : "טנטטיבית",
-    "Your attendance was updated successfully." : "ההשתתפות שלך עודכנה בהצלחה.",
-    "Invitation canceled" : "ההזמנה בוטלה",
-    "Invitation updated" : "ההזמנה עודכנה",
-    "Invitation" : "הזמנה"
+    "Your attendance was updated successfully." : "ההשתתפות שלך עודכנה בהצלחה."
 },"pluralForm" :"nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;"
 }

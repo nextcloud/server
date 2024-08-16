@@ -3,47 +3,29 @@
 declare(strict_types=1);
 
 /**
- * @copyright 2018, Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\Files_Sharing\BackgroundJob;
 
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\TimedJob;
 use OCP\IDBConnection;
+use OCP\OCM\Exceptions\OCMProviderException;
+use OCP\OCM\IOCMDiscoveryService;
 use OCP\OCS\IDiscoveryService;
+use Psr\Log\LoggerInterface;
 
 class FederatedSharesDiscoverJob extends TimedJob {
-	/** @var IDBConnection */
-	private $connection;
-	/** @var IDiscoveryService */
-	private $discoveryService;
 
-	public function __construct(ITimeFactory $time,
-								IDBConnection $connection,
-								IDiscoveryService $discoveryService) {
+	public function __construct(
+		ITimeFactory $time,
+		private IDBConnection $connection,
+		private IDiscoveryService $discoveryService,
+		private IOCMDiscoveryService $ocmDiscoveryService,
+		private LoggerInterface $logger,
+	) {
 		parent::__construct($time);
-		$this->connection = $connection;
-		$this->discoveryService = $discoveryService;
-
 		$this->setInterval(86400);
 	}
 
@@ -56,6 +38,11 @@ class FederatedSharesDiscoverJob extends TimedJob {
 		$result = $qb->execute();
 		while ($row = $result->fetch()) {
 			$this->discoveryService->discover($row['remote'], 'FEDERATED_SHARING', true);
+			try {
+				$this->ocmDiscoveryService->discover($row['remote'], true);
+			} catch (OCMProviderException $e) {
+				$this->logger->info('exception while running files_sharing/lib/BackgroundJob/FederatedSharesDiscoverJob', ['exception' => $e]);
+			}
 		}
 		$result->closeCursor();
 	}

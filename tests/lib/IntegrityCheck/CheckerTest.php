@@ -1,22 +1,8 @@
 <?php
 /**
- * @author Lukas Reschke <lukas@owncloud.com>
- *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 
 namespace Test\IntegrityCheck;
@@ -28,6 +14,7 @@ use OC\IntegrityCheck\Helpers\EnvironmentHelper;
 use OC\IntegrityCheck\Helpers\FileAccessHelper;
 use OC\Memcache\NullCache;
 use OCP\App\IAppManager;
+use OCP\IAppConfig;
 use OCP\ICacheFactory;
 use OCP\IConfig;
 use phpseclib\Crypt\RSA;
@@ -45,6 +32,8 @@ class CheckerTest extends TestCase {
 	private $fileAccessHelper;
 	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
 	private $config;
+	/** @var IAppConfig|\PHPUnit\Framework\MockObject\MockObject */
+	private $appConfig;
 	/** @var ICacheFactory|\PHPUnit\Framework\MockObject\MockObject */
 	private $cacheFactory;
 	/** @var IAppManager|\PHPUnit\Framework\MockObject\MockObject */
@@ -58,6 +47,7 @@ class CheckerTest extends TestCase {
 		$this->fileAccessHelper = $this->createMock(FileAccessHelper::class);
 		$this->appLocator = $this->createMock(AppLocator::class);
 		$this->config = $this->createMock(IConfig::class);
+		$this->appConfig = $this->createMock(IAppConfig::class);
 		$this->cacheFactory = $this->createMock(ICacheFactory::class);
 		$this->appManager = $this->createMock(IAppManager::class);
 		$this->mimeTypeDetector = $this->createMock(\OC\Files\Type\Detection::class);
@@ -76,6 +66,7 @@ class CheckerTest extends TestCase {
 			$this->fileAccessHelper,
 			$this->appLocator,
 			$this->config,
+			$this->appConfig,
 			$this->cacheFactory,
 			$this->appManager,
 			$this->mimeTypeDetector
@@ -1025,6 +1016,7 @@ class CheckerTest extends TestCase {
 				$this->fileAccessHelper,
 				$this->appLocator,
 				$this->config,
+				$this->appConfig,
 				$this->cacheFactory,
 				$this->appManager,
 				$this->mimeTypeDetector,
@@ -1089,9 +1081,9 @@ class CheckerTest extends TestCase {
 				true,
 				false,
 			);
-		$this->config
+		$this->appConfig
 			->expects($this->once())
-			->method('deleteAppValue')
+			->method('deleteKey')
 			->with('core', 'oc.integritycheck.checker');
 
 		$this->checker->runInstanceVerification();

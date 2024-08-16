@@ -3,18 +3,19 @@
 declare(strict_types=1);
 
 /**
- * Copyright (c) 2014 Lukas Reschke <lukas@owncloud.com>
- * This file is licensed under the Affero General Public License version 3 or
- * later.
- * See the COPYING-README file.
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace Test\Security;
 
 use OC\Files\View;
 use OC\Security\CertificateManager;
+use OCP\Files\InvalidPathException;
 use OCP\IConfig;
 use OCP\Security\ISecureRandom;
+use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -26,12 +27,9 @@ class CertificateManagerTest extends \Test\TestCase {
 	use \Test\Traits\UserTrait;
 	use \Test\Traits\MountProviderTrait;
 
-	/** @var CertificateManager */
-	private $certificateManager;
-	/** @var String */
-	private $username;
-	/** @var ISecureRandom */
-	private $random;
+	private CertificateManager $certificateManager;
+	private string $username;
+	private ISecureRandom&MockObject $random;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -118,9 +116,7 @@ class CertificateManagerTest extends \Test\TestCase {
 	 * @param string $filename
 	 */
 	public function testAddDangerousFile($filename) {
-		$this->expectException(\Exception::class);
-		$this->expectExceptionMessage('Filename is not valid');
-
+		$this->expectException(InvalidPathException::class);
 		$this->certificateManager->addCertificate(file_get_contents(__DIR__ . '/../../data/certificates/expiredCertificate.crt'), $filename);
 	}
 
@@ -146,9 +142,9 @@ class CertificateManagerTest extends \Test\TestCase {
 	 * @param bool $expected
 	 */
 	public function testNeedRebundling($CaBundleMtime,
-								$targetBundleMtime,
-								$targetBundleExists,
-								$expected
+		$targetBundleMtime,
+		$targetBundleExists,
+		$expected
 	) {
 		$view = $this->getMockBuilder(View::class)
 			->disableOriginalConstructor()->getMock();

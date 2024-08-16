@@ -1,0 +1,151 @@
+# This workflow is provided via the organization template repository
+#
+# https://github.com/nextcloud/.github
+# https://docs.github.com/en/actions/learn-github-actions/sharing-workflows-with-your-organization
+#
+# SPDX-FileCopyrightText: 2022-2024 Nextcloud GmbH and Nextcloud contributors
+# SPDX-License-Identifier: MIT
+
+name: PHPUnit OCI
+
+on:
+  pull_request:
+  schedule:
+    - cron: "5 2 * * *"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: phpunit-oci-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
+jobs:
+  changes:
+    runs-on: ubuntu-latest-low
+
+    outputs:
+      src: ${{ steps.changes.outputs.src }}
+
+    steps:
+      - uses: dorny/paths-filter@de90cc6fb38fc0963ad72b210f1f284cd68cea36 # v3.0.2
+        id: changes
+        continue-on-error: true
+        with:
+          filters: |
+            src:
+              - '.github/workflows/**'
+              - '3rdparty/**'
+              - '**/appinfo/**'
+              - '**/lib/**'
+              - '**/templates/**'
+              - '**/tests/**'
+              - 'vendor/**'
+              - 'vendor-bin/**'
+              - '.php-cs-fixer.dist.php'
+              - 'composer.json'
+              - 'composer.lock'
+              - '**.php'
+
+  phpunit-oci:
+    runs-on: ubuntu-latest
+
+    needs: changes
+    if: ${{ needs.changes.outputs.src != 'false' && github.repository_owner != 'nextcloud-gmbh' }}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - oracle-versions: '11'
+            php-versions: '8.1'
+          - oracle-versions: '18'
+            php-versions: '8.1'
+            coverage: ${{ github.event_name != 'pull_request' }}
+          - oracle-versions: '21'
+            php-versions: '8.2'
+          - oracle-versions: '23'
+            php-versions: '8.3'
+
+    name: Oracle ${{ matrix.oracle-versions }} (PHP ${{ matrix.php-versions }}) - database tests
+
+    services:
+      cache:
+        image: ghcr.io/nextcloud/continuous-integration-redis:latest
+        ports:
+          - 6379:6379/tcp
+        options: --health-cmd="redis-cli ping" --health-interval=10s --health-timeout=5s --health-retries=3
+
+      oracle:
+        image: ghcr.io/gvenzl/oracle-${{ matrix.oracle-versions < 23 && 'xe' || 'free'  }}:${{ matrix.oracle-versions }}
+
+        # Provide passwords and other environment variables to container
+        env:
+          ORACLE_PASSWORD: oracle
+
+        # Forward Oracle port
+        ports:
+          - 1521:1521
+
+        # Provide healthcheck script options for startup
+        options: >-
+          --health-cmd healthcheck.sh
+          --health-interval 20s
+          --health-timeout 10s
+          --health-retries 10
+
+    steps:
+      - name: Checkout server
+        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
+        with:
+          submodules: true
+
+      - name: Set up php ${{ matrix.php-versions }}
+        uses: shivammathur/setup-php@c541c155eee45413f5b09a52248675b1a2575231 #v2.31.1
+        with:
+          php-version: ${{ matrix.php-versions }}
+          # https://docs.nextcloud.com/server/stable/admin_manual/installation/source_installation.html#prerequisites-for-manual-installation
+          extensions: bz2, ctype, curl, dom, fileinfo, gd, iconv, intl, json, libxml, mbstring, openssl, pcntl, posix, redis, session, simplexml, xmlreader, xmlwriter, zip, zlib, oci8
+          coverage: ${{ matrix.coverage && 'xdebug' || 'none' }}
+          ini-file: development
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up dependencies
+        run: composer i
+
+      - name: Set up Nextcloud
+        run: |
+          mkdir data
+          cp tests/redis.config.php config/
+          cp tests/preseed-config.php config/config.php
+          ./occ maintenance:install --verbose --database=oci --database-name=${{ matrix.oracle-versions < 23 && 'XE' || 'FREE'  }} --database-host=127.0.0.1 --database-port=1521 --database-user=system --database-pass=oracle --admin-user admin --admin-pass admin
+          php -f tests/enable_all.php | grep -i -C9999 error && echo "Error during app setup" && exit 1 || exit 0
+
+      - name: PHPUnit
+        run: composer run test:db ${{ matrix.coverage && ' -- --coverage-clover ./clover.db.xml' || '' }}
+
+      - name: Upload db code coverage
+        if: ${{ !cancelled() && matrix.coverage }}
+        uses: codecov/codecov-action@v4.5.0
+        with:
+          files: ./clover.db.xml
+          flags: phpunit-oci
+
+      - name: Run repair steps
+        run: |
+          ./occ maintenance:repair --include-expensive
+
+  summary:
+    permissions:
+      contents: none
+    runs-on: ubuntu-latest-low
+    needs: [changes, phpunit-oci]
+
+    if: always()
+
+    name: phpunit-oci-summary
+
+    steps:
+      - name: Summary status
+        run: if ${{ needs.changes.outputs.src != 'false' && needs.phpunit-oci.result != 'success' }}; then exit 1; fi

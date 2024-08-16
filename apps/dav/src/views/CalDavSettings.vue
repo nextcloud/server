@@ -1,5 +1,9 @@
+<!--
+  - SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 <template>
-	<NcSettingsSection :title="$t('dav', 'Calendar server')"
+	<NcSettingsSection :name="$t('dav', 'Calendar server')"
 		:doc-url="userSyncCalendarsDocUrl">
 		<!-- Can use v-html as:
 			- $t passes the translated string through DOMPurify.sanitize,
@@ -124,7 +128,7 @@ export default {
 			OCP.AppConfig.setValue(
 				'dav',
 				'sendInvitations',
-				value ? 'yes' : 'no'
+				value ? 'yes' : 'no',
 			)
 		},
 		sendEventReminders(value) {
@@ -134,7 +138,7 @@ export default {
 			OCP.AppConfig.setValue(
 				'dav',
 				'sendEventRemindersToSharedUsers',
-				value ? 'yes' : 'no'
+				value ? 'yes' : 'no',
 			)
 		},
 		sendEventRemindersPush(value) {

@@ -1,28 +1,10 @@
 <?php
 
 declare(strict_types=1);
-
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Joas Schilling <coding@schilljs.com>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Vincent Petry <vincent@nextcloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCP\SystemTag;
 
@@ -38,6 +20,7 @@ interface ISystemTagManager {
 	 * Returns the tag objects matching the given tag ids.
 	 *
 	 * @param array|string $tagIds id or array of unique ids of the tag to retrieve
+	 * @param ?IUser $user optional user to run a visibility check against for each tag
 	 *
 	 * @return ISystemTag[] array of system tags with tag id as key
 	 *
@@ -45,9 +28,9 @@ interface ISystemTagManager {
 	 * @throws TagNotFoundException if at least one given tag ids did no exist
 	 * 			The message contains a json_encoded array of the ids that could not be found
 	 *
-	 * @since 9.0.0
+	 * @since 9.0.0, optional parameter $user added in 28.0.0
 	 */
-	public function getTagsByIds($tagIds): array;
+	public function getTagsByIds($tagIds, ?IUser $user = null): array;
 
 	/**
 	 * Returns the tag object matching the given attributes.

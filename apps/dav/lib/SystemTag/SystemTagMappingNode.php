@@ -1,25 +1,9 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Vincent Petry <vincent@nextcloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\DAV\SystemTag;
 
@@ -37,62 +21,15 @@ use Sabre\DAV\Exception\NotFound;
  * Mapping node for system tag to object id
  */
 class SystemTagMappingNode implements \Sabre\DAV\INode {
-	/**
-	 * @var ISystemTag
-	 */
-	protected $tag;
-
-	/**
-	 * @var string
-	 */
-	private $objectId;
-
-	/**
-	 * @var string
-	 */
-	private $objectType;
-
-	/**
-	 * User
-	 *
-	 * @var IUser
-	 */
-	protected $user;
-
-	/**
-	 * @var ISystemTagManager
-	 */
-	protected $tagManager;
-
-	/**
-	 * @var ISystemTagObjectMapper
-	 */
-	private $tagMapper;
-
-	/**
-	 * Sets up the node, expects a full path name
-	 *
-	 * @param ISystemTag $tag system tag
-	 * @param string $objectId
-	 * @param string $objectType
-	 * @param IUser $user user
-	 * @param ISystemTagManager $tagManager
-	 * @param ISystemTagObjectMapper $tagMapper
-	 */
 	public function __construct(
-		ISystemTag $tag,
-		$objectId,
-		$objectType,
-		IUser $user,
-		ISystemTagManager $tagManager,
-		ISystemTagObjectMapper $tagMapper
+		private ISystemTag $tag,
+		private string $objectId,
+		private string $objectType,
+		private IUser $user,
+		private ISystemTagManager $tagManager,
+		private ISystemTagObjectMapper $tagMapper,
+		private \Closure $childWriteAccessFunction,
 	) {
-		$this->tag = $tag;
-		$this->objectId = $objectId;
-		$this->objectType = $objectType;
-		$this->user = $user;
-		$this->tagManager = $tagManager;
-		$this->tagMapper = $tagMapper;
 	}
 
 	/**
@@ -165,6 +102,10 @@ class SystemTagMappingNode implements \Sabre\DAV\INode {
 			}
 			if (!$this->tagManager->canUserAssignTag($this->tag, $this->user)) {
 				throw new Forbidden('No permission to unassign tag ' . $this->tag->getId());
+			}
+			$writeAccessFunction = $this->childWriteAccessFunction;
+			if (!$writeAccessFunction($this->objectId)) {
+				throw new Forbidden('No permission to unassign tag to ' . $this->objectId);
 			}
 			$this->tagMapper->unassignTags($this->objectId, $this->objectType, $this->tag->getId());
 		} catch (TagNotFoundException $e) {

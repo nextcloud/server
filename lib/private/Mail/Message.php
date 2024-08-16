@@ -1,33 +1,10 @@
 <?php
 
 declare(strict_types=1);
-
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Arne Hamann <kontakt+github@arne.email>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Jared Boone <jared.boone@gmail.com>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OC\Mail;
 
@@ -46,28 +23,21 @@ use Symfony\Component\Mime\Exception\RfcComplianceException;
  * @package OC\Mail
  */
 class Message implements IMessage {
-	private Email $symfonyEmail;
-	private bool $plainTextOnly;
+	private array $to = [];
+	private array $from = [];
+	private array $replyTo = [];
+	private array $cc = [];
+	private array $bcc = [];
 
-	private array $to;
-	private array $from;
-	private array $replyTo;
-	private array $cc;
-	private array $bcc;
-
-	public function __construct(Email $symfonyEmail, bool $plainTextOnly) {
-		$this->symfonyEmail = $symfonyEmail;
-		$this->plainTextOnly = $plainTextOnly;
-		$this->to = [];
-		$this->from = [];
-		$this->replyTo = [];
-		$this->cc = [];
-		$this->bcc = [];
+	public function __construct(
+		private Email $symfonyEmail,
+		private bool $plainTextOnly,
+	) {
 	}
 
 	/**
-	 * @return $this
 	 * @since 13.0.0
+	 * @return $this
 	 */
 	public function attach(IAttachment $attachment): IMessage {
 		/** @var Attachment $attachment */
@@ -80,7 +50,7 @@ class Message implements IMessage {
 	 * {@inheritDoc}
 	 * @since 26.0.0
 	 */
-	public function attachInline(string $body, string $name, string $contentType = null): IMessage {
+	public function attachInline(string $body, string $name, ?string $contentType = null): IMessage {
 		# To be sure this works with iCalendar messages, we encode with 8bit instead of
 		# quoted-printable encoding. We save the current encoder, replace the current
 		# encoder with an 8bit encoder and after we've finished, we reset the encoder
@@ -138,7 +108,6 @@ class Message implements IMessage {
 
 	/**
 	 * Set the Reply-To address of this message
-	 *
 	 * @return $this
 	 */
 	public function setReplyTo(array $addresses): IMessage {
@@ -207,6 +176,9 @@ class Message implements IMessage {
 		return $this->bcc;
 	}
 
+	/**
+	 * @return $this
+	 */
 	public function setSubject(string $subject): IMessage {
 		$this->symfonyEmail->subject($subject);
 		return $this;
@@ -219,6 +191,9 @@ class Message implements IMessage {
 		return $this->symfonyEmail->getSubject() ?? '';
 	}
 
+	/**
+	 * @return $this
+	 */
 	public function setPlainBody(string $body): IMessage {
 		$this->symfonyEmail->text($body);
 		return $this;
@@ -233,6 +208,9 @@ class Message implements IMessage {
 		return $body;
 	}
 
+	/**
+	 * @return $this
+	 */
 	public function setHtmlBody(string $body): IMessage {
 		if (!$this->plainTextOnly) {
 			$this->symfonyEmail->html($body);
@@ -241,7 +219,7 @@ class Message implements IMessage {
 	}
 
 	/**
-	 * Set the underlying Email intance
+	 * Set the underlying Email instance
 	 */
 	public function setSymfonyEmail(Email $symfonyEmail): void {
 		$this->symfonyEmail = $symfonyEmail;
@@ -284,10 +262,9 @@ class Message implements IMessage {
 	 * we wrap the calls here. We then have the validation errors all in one place and can
 	 * throw shortly before \OC\Mail\Mailer::send
 	 *
-	 * @return void
 	 * @throws InvalidArgumentException|RfcComplianceException
 	 */
-	public function setRecipients() {
+	public function setRecipients(): void {
 		$this->symfonyEmail->to(...$this->convertAddresses($this->getTo()));
 		$this->symfonyEmail->from(...$this->convertAddresses($this->getFrom()));
 		$this->symfonyEmail->replyTo(...$this->convertAddresses($this->getReplyTo()));
@@ -335,8 +312,6 @@ class Message implements IMessage {
 	/**
 	 * Get the current value of the Auto-Submitted header. Defaults to "no"
 	 * which is equivalent to the header not existing at all
-	 *
-	 * @return string
 	 */
 	public function getAutoSubmitted(): string {
 		$headers = $this->symfonyEmail->getHeaders();

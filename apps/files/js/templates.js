@@ -419,10 +419,12 @@ templates['template_addbutton'] = template({"compiler":[8,">= 4.3.0"],"main":fun
         return undefined
     };
 
-  return "<a href=\"#\" class=\"button new\">\n	<span class=\"icon "
+  return "<a href=\"#\" class=\"button new\" aria-label=\""
+    + alias4(((helper = (helper = lookupProperty(helpers,"addLongText") || (depth0 != null ? lookupProperty(depth0,"addLongText") : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"addLongText","hash":{},"data":data,"loc":{"start":{"line":1,"column":43},"end":{"line":1,"column":58}}}) : helper)))
+    + "\">\n	<span class=\"icon "
     + alias4(((helper = (helper = lookupProperty(helpers,"iconClass") || (depth0 != null ? lookupProperty(depth0,"iconClass") : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"iconClass","hash":{},"data":data,"loc":{"start":{"line":2,"column":19},"end":{"line":2,"column":32}}}) : helper)))
-    + "\"></span>\n	<span class=\"hidden-visually\">"
-    + alias4(((helper = (helper = lookupProperty(helpers,"addText") || (depth0 != null ? lookupProperty(depth0,"addText") : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"addText","hash":{},"data":data,"loc":{"start":{"line":3,"column":31},"end":{"line":3,"column":42}}}) : helper)))
+    + "\"></span>\n	<span>"
+    + alias4(((helper = (helper = lookupProperty(helpers,"addText") || (depth0 != null ? lookupProperty(depth0,"addText") : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"addText","hash":{},"data":data,"loc":{"start":{"line":3,"column":7},"end":{"line":3,"column":18}}}) : helper)))
     + "</span>\n</a>\n";
 },"useData":true});
 })();

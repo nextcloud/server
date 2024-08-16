@@ -1,46 +1,25 @@
 <?php
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Christopher Schäpers <kondou@ts.unde.re>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Jörn Friedrich Dreyer <jfd@butonic.de>
- * @author Michael Gapczynski <GapczynskiM@gmail.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\Files_Sharing;
 
+use OC\Files\Cache\CacheDependencies;
 use OC\Files\Cache\FailedCache;
 use OC\Files\Cache\Wrapper\CacheJail;
 use OC\Files\Search\SearchBinaryOperator;
 use OC\Files\Search\SearchComparison;
 use OC\Files\Storage\Wrapper\Jail;
 use OC\User\DisplayNameCache;
+use OCP\Files\Cache\ICache;
 use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\Search\ISearchBinaryOperator;
 use OCP\Files\Search\ISearchComparison;
 use OCP\Files\Search\ISearchOperator;
 use OCP\Files\StorageNotAvailableException;
-use OCP\ICacheFactory;
-use OCP\IUserManager;
+use OCP\Share\IShare;
 
 /**
  * Metadata cache for shared files
@@ -55,19 +34,27 @@ class Cache extends CacheJail {
 	private ?string $ownerDisplayName = null;
 	private $numericId;
 	private DisplayNameCache $displayNameCache;
+	private IShare $share;
 
 	/**
 	 * @param SharedStorage $storage
 	 */
-	public function __construct($storage, ICacheEntry $sourceRootInfo, DisplayNameCache $displayNameCache) {
+	public function __construct(
+		$storage,
+		ICacheEntry $sourceRootInfo,
+		CacheDependencies $dependencies,
+		IShare $share
+	) {
 		$this->storage = $storage;
 		$this->sourceRootInfo = $sourceRootInfo;
 		$this->numericId = $sourceRootInfo->getStorageId();
-		$this->displayNameCache = $displayNameCache;
+		$this->displayNameCache = $dependencies->getDisplayNameCache();
+		$this->share = $share;
 
 		parent::__construct(
 			null,
-			''
+			'',
+			$dependencies,
 		);
 	}
 
@@ -92,7 +79,7 @@ class Cache extends CacheJail {
 		return $this->sourceRootInfo->getPath();
 	}
 
-	public function getCache() {
+	public function getCache(): ICache {
 		if (is_null($this->cache)) {
 			$sourceStorage = $this->storage->getSourceStorage();
 			if ($sourceStorage) {
@@ -150,16 +137,20 @@ class Cache extends CacheJail {
 
 		try {
 			if (isset($entry['permissions'])) {
-				$entry['permissions'] &= $this->storage->getShare()->getPermissions();
+				$entry['permissions'] &= $this->share->getPermissions();
 			} else {
 				$entry['permissions'] = $this->storage->getPermissions($entry['path']);
+			}
+
+			if ($this->share->getNodeId() === $entry['fileid']) {
+				$entry['name'] = basename($this->share->getTarget());
 			}
 		} catch (StorageNotAvailableException $e) {
 			// thrown by FailedStorage e.g. when the sharer does not exist anymore
 			// (IDE may say the exception is never thrown – false negative)
 			$sharePermissions = 0;
 		}
-		$entry['uid_owner'] = $this->storage->getOwner('');
+		$entry['uid_owner'] = $this->share->getShareOwner();
 		$entry['displayname_owner'] = $this->getOwnerDisplayName();
 		if ($path === '') {
 			$entry['is_share_mount_point'] = true;
@@ -169,7 +160,7 @@ class Cache extends CacheJail {
 
 	private function getOwnerDisplayName() {
 		if (!$this->ownerDisplayName) {
-			$uid = $this->storage->getOwner('');
+			$uid = $this->share->getShareOwner();
 			$this->ownerDisplayName = $this->displayNameCache->getDisplayName($uid) ?? $uid;
 		}
 		return $this->ownerDisplayName;

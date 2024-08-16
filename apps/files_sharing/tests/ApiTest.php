@@ -1,41 +1,13 @@
 <?php
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Bjoern Schiessle <bjoern@schiessle.org>
- * @author Björn Schießle <bjoern@schiessle.org>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Daniel Calviño Sánchez <danxuliu@gmail.com>
- * @author Georg Ehrke <oc.list@georgehrke.com>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Richard Steinmetz <richard@steinmetz.cloud>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Robin McCorkell <robin@mccorkell.me.uk>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Valdnet <47037905+Valdnet@users.noreply.github.com>
- * @author Vincent Petry <vincent@nextcloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\Files_Sharing\Tests;
 
 use OC\Files\Cache\Scanner;
+use OC\Files\Filesystem;
 use OCA\Files_Sharing\Controller\ShareAPIController;
 use OCP\App\IAppManager;
 use OCP\AppFramework\OCS\OCSBadRequestException;
@@ -43,12 +15,16 @@ use OCP\AppFramework\OCS\OCSException;
 use OCP\AppFramework\OCS\OCSForbiddenException;
 use OCP\AppFramework\OCS\OCSNotFoundException;
 use OCP\IConfig;
+use OCP\IDateTimeZone;
 use OCP\IL10N;
 use OCP\IPreview;
 use OCP\IRequest;
-use OCP\IServerContainer;
+use OCP\Mail\IMailer;
+use OCP\Share\IProviderFactory;
 use OCP\Share\IShare;
 use OCP\UserStatus\IManager as IUserStatusManager;
+use Psr\Container\ContainerInterface;
+use Psr\Log\LoggerInterface;
 
 /**
  * Class ApiTest
@@ -73,6 +49,8 @@ class ApiTest extends TestCase {
 
 		\OC::$server->getConfig()->setAppValue('core', 'shareapi_exclude_groups', 'no');
 		\OC::$server->getConfig()->setAppValue('core', 'shareapi_expire_after_n_days', '7');
+
+		Filesystem::getLoader()->removeStorageWrapper('sharing_mask');
 
 		$this->folder = self::TEST_FOLDER_NAME;
 		$this->subfolder = '/subfolder_share_api_test';
@@ -116,9 +94,14 @@ class ApiTest extends TestCase {
 			});
 		$config = $this->createMock(IConfig::class);
 		$appManager = $this->createMock(IAppManager::class);
-		$serverContainer = $this->createMock(IServerContainer::class);
+		$serverContainer = $this->createMock(ContainerInterface::class);
 		$userStatusManager = $this->createMock(IUserStatusManager::class);
 		$previewManager = $this->createMock(IPreview::class);
+		$dateTimeZone = $this->createMock(IDateTimeZone::class);
+		$logger = $this->createMock(LoggerInterface::class);
+		$providerFactory = $this->createMock(IProviderFactory::class);
+		$mailer = $this->createMock(IMailer::class);
+		$dateTimeZone->method('getTimeZone')->willReturn(new \DateTimeZone(date_default_timezone_get()));
 
 		return new ShareAPIController(
 			self::APP_NAME,
@@ -128,13 +111,17 @@ class ApiTest extends TestCase {
 			\OC::$server->getUserManager(),
 			\OC::$server->getRootFolder(),
 			\OC::$server->getURLGenerator(),
-			$userId,
 			$l,
 			$config,
 			$appManager,
 			$serverContainer,
 			$userStatusManager,
-			$previewManager
+			$previewManager,
+			$dateTimeZone,
+			$logger,
+			$providerFactory,
+			$mailer,
+			$userId,
 		);
 	}
 
@@ -959,10 +946,7 @@ class ApiTest extends TestCase {
 
 		$this->assertNotNull($share1->getAttributes());
 		$share1 = $this->shareManager->createShare($share1);
-		$this->assertNull($share1->getAttributes());
 		$this->assertEquals(19, $share1->getPermissions());
-		// attributes get cleared when empty
-		$this->assertNull($share1->getAttributes());
 
 		$share2 = $this->shareManager->newShare();
 		$share2->setNode($node1)
@@ -976,7 +960,7 @@ class ApiTest extends TestCase {
 		$ocs = $this->createOCS(self::TEST_FILES_SHARING_API_USER1);
 		$ocs->updateShare(
 			$share1->getId(), 1, null, null, null, null, null, null, null,
-			'[{"scope": "app1", "key": "attr1", "enabled": true}]'
+			'[{"scope": "app1", "key": "attr1", "value": true}]'
 		);
 		$ocs->cleanup();
 
@@ -1057,10 +1041,9 @@ class ApiTest extends TestCase {
 		$config->setAppValue('core', 'shareapi_enforce_expire_date', 'yes');
 
 		$dateWithinRange = new \DateTime();
-		$dateWithinRange->setTime(0, 0, 0);
-		$dateWithinRange->add(new \DateInterval('P5D'));
+		$dateWithinRange->add(new \DateInterval('P6D'));
+
 		$dateOutOfRange = new \DateTime();
-		$dateOutOfRange->setTime(0, 0, 0);
 		$dateOutOfRange->add(new \DateInterval('P8D'));
 
 		// update expire date to a valid value
@@ -1071,6 +1054,8 @@ class ApiTest extends TestCase {
 		$share1 = $this->shareManager->getShareById($share1->getFullId());
 
 		// date should be changed
+		$dateWithinRange->setTime(0, 0, 0);
+		$dateWithinRange->setTimezone(new \DateTimeZone(date_default_timezone_get()));
 		$this->assertEquals($dateWithinRange, $share1->getExpirationDate());
 
 		// update expire date to a value out of range
@@ -1126,7 +1111,7 @@ class ApiTest extends TestCase {
 			->setSharedBy(self::TEST_FILES_SHARING_API_USER1)
 			->setShareType(IShare::TYPE_LINK)
 			->setPermissions(1);
-		$share2 = $this->shareManager->createShare($share1);
+		$share2 = $this->shareManager->createShare($share2);
 
 		$ocs = $this->createOCS(self::TEST_FILES_SHARING_API_USER1);
 		$ocs->deleteShare($share1->getId());
@@ -1284,12 +1269,14 @@ class ApiTest extends TestCase {
 
 	public function datesProvider() {
 		$date = new \DateTime();
+		$date->setTime(0, 0);
 		$date->add(new \DateInterval('P5D'));
+		$date->setTimezone(new \DateTimeZone(date_default_timezone_get()));
 
 		return [
-			[$date->format('Y-m-d'), true],
+			[$date->format('Y-m-d H:i:s'), true],
 			['abc', false],
-			[$date->format('Y-m-d') . 'xyz', false],
+			[$date->format('Y-m-d H:i:s') . 'xyz', false],
 		];
 	}
 
@@ -1315,7 +1302,7 @@ class ApiTest extends TestCase {
 
 		$data = $result->getData();
 		$this->assertTrue(is_string($data['token']));
-		$this->assertEquals($date, substr($data['expiration'], 0, 10));
+		$this->assertEquals(substr($date, 0, 10), substr($data['expiration'], 0, 10));
 
 		// check for correct link
 		$url = \OC::$server->getURLGenerator()->getAbsoluteURL('/index.php/s/' . $data['token']);
@@ -1323,7 +1310,7 @@ class ApiTest extends TestCase {
 
 		$share = $this->shareManager->getShareById('ocinternal:'.$data['id']);
 
-		$this->assertEquals($date, $share->getExpirationDate()->format('Y-m-d'));
+		$this->assertEquals($date, $share->getExpirationDate()->format('Y-m-d H:i:s'));
 
 		$this->shareManager->deleteShare($share);
 	}
@@ -1347,7 +1334,7 @@ class ApiTest extends TestCase {
 
 		$data = $result->getData();
 		$this->assertTrue(is_string($data['token']));
-		$this->assertEquals($date->format('Y-m-d') . ' 00:00:00', $data['expiration']);
+		$this->assertEquals($date->format('Y-m-d 00:00:00'), $data['expiration']);
 
 		// check for correct link
 		$url = \OC::$server->getURLGenerator()->getAbsoluteURL('/index.php/s/' . $data['token']);

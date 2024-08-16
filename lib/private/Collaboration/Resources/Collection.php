@@ -3,27 +3,8 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2018 Joas Schilling <coding@schilljs.com>
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OC\Collaboration\Resources;
 
@@ -37,46 +18,21 @@ use OCP\IDBConnection;
 use OCP\IUser;
 
 class Collection implements ICollection {
-	/** @var Manager */
-	protected $manager;
-
-	/** @var IDBConnection */
-	protected $connection;
-
-	/** @var int */
-	protected $id;
-
-	/** @var string */
-	protected $name;
-
-	/** @var IUser|null */
-	protected $userForAccess;
-
-	/** @var bool|null */
-	protected $access;
-
 	/** @var IResource[] */
-	protected $resources;
+	protected array $resources = [];
 
 	public function __construct(
-		IManager $manager,
-		IDBConnection $connection,
-		int $id,
-		string $name,
-		?IUser $userForAccess = null,
-		?bool $access = null
+		/** @var Manager $manager */
+		protected IManager $manager,
+		protected IDBConnection $connection,
+		protected int $id,
+		protected string $name,
+		protected ?IUser $userForAccess = null,
+		protected ?bool $access = null
 	) {
-		$this->manager = $manager;
-		$this->connection = $connection;
-		$this->id = $id;
-		$this->name = $name;
-		$this->userForAccess = $userForAccess;
-		$this->access = $access;
-		$this->resources = [];
 	}
 
 	/**
-	 * @return int
 	 * @since 16.0.0
 	 */
 	public function getId(): int {
@@ -84,7 +40,6 @@ class Collection implements ICollection {
 	}
 
 	/**
-	 * @return string
 	 * @since 16.0.0
 	 */
 	public function getName(): string {
@@ -92,7 +47,6 @@ class Collection implements ICollection {
 	}
 
 	/**
-	 * @param string $name
 	 * @since 16.0.0
 	 */
 	public function setName(string $name): void {
@@ -120,7 +74,6 @@ class Collection implements ICollection {
 	/**
 	 * Adds a resource to a collection
 	 *
-	 * @param IResource $resource
 	 * @throws ResourceException when the resource is already part of the collection
 	 * @since 16.0.0
 	 */
@@ -153,7 +106,6 @@ class Collection implements ICollection {
 	/**
 	 * Removes a resource from a collection
 	 *
-	 * @param IResource $resource
 	 * @since 16.0.0
 	 */
 	public function removeResource(IResource $resource): void {
@@ -178,8 +130,6 @@ class Collection implements ICollection {
 	/**
 	 * Can a user/guest access the collection
 	 *
-	 * @param IUser|null $user
-	 * @return bool
 	 * @since 16.0.0
 	 */
 	public function canAccess(?IUser $user): bool {

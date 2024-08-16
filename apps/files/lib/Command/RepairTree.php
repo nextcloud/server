@@ -3,25 +3,8 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2021 Robin Appelman <robin@icewind.nl>
- *
- * @author Robin Appelman <robin@icewind.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\Files\Command;
 
@@ -33,17 +16,13 @@ use Symfony\Component\Console\Output\OutputInterface;
 class RepairTree extends Command {
 	public const CHUNK_SIZE = 200;
 
-	/**
-	 * @var IDBConnection
-	 */
-	protected $connection;
-
-	public function __construct(IDBConnection $connection) {
-		$this->connection = $connection;
+	public function __construct(
+		protected IDBConnection $connection,
+	) {
 		parent::__construct();
 	}
 
-	protected function configure() {
+	protected function configure(): void {
 		$this
 			->setName('files:repair-tree')
 			->setDescription('Try and repair malformed filesystem tree structures')
@@ -90,7 +69,7 @@ class RepairTree extends Command {
 			$this->connection->commit();
 		}
 
-		return 0;
+		return self::SUCCESS;
 	}
 
 	private function getFileId(int $storage, string $path) {
@@ -102,7 +81,7 @@ class RepairTree extends Command {
 		return $query->execute()->fetch(\PDO::FETCH_COLUMN);
 	}
 
-	private function deleteById(int $fileId) {
+	private function deleteById(int $fileId): void {
 		$query = $this->connection->getQueryBuilder();
 		$query->delete('filecache')
 			->where($query->expr()->eq('fileid', $query->createNamedParameter($fileId)));

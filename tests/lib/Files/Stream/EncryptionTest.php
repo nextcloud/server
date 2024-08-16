@@ -1,5 +1,9 @@
 <?php
-
+/**
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
+ */
 namespace Test\Files\Stream;
 
 use OC\Files\Cache\CacheEntry;
@@ -9,7 +13,6 @@ use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Cache\ICache;
 use OCP\ICacheFactory;
 use OCP\IConfig;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class EncryptionTest extends \Test\TestCase {
 	public const DEFAULT_WRAPPER = '\OC\Files\Stream\Encryption';
@@ -53,7 +56,6 @@ class EncryptionTest extends \Test\TestCase {
 			->setMethods(['getUidAndFilename'])
 			->setConstructorArgs([new View(), new \OC\User\Manager(
 				$config,
-				$this->createMock(EventDispatcherInterface::class),
 				$this->createMock(ICacheFactory::class),
 				$this->createMock(IEventDispatcher::class)
 			), $groupManager, $config, $arrayCache])
@@ -80,13 +82,13 @@ class EncryptionTest extends \Test\TestCase {
 	 * @dataProvider dataProviderStreamOpen()
 	 */
 	public function testStreamOpen($isMasterKeyUsed,
-								   $mode,
-								   $fullPath,
-								   $fileExists,
-								   $expectedSharePath,
-								   $expectedSize,
-								   $expectedUnencryptedSize,
-								   $expectedReadOnly) {
+		$mode,
+		$fullPath,
+		$fileExists,
+		$expectedSharePath,
+		$expectedSize,
+		$expectedUnencryptedSize,
+		$expectedReadOnly) {
 		// build mocks
 		$encryptionModuleMock = $this->getMockBuilder('\OCP\Encryption\IEncryptionModule')
 		->disableOriginalConstructor()->getMock();

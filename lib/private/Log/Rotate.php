@@ -1,30 +1,15 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Bart Visscher <bartv@thisnet.nl>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Robin Appelman <robin@icewind.nl>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OC\Log;
 
+use OCP\IConfig;
 use OCP\Log\RotationTrait;
+use Psr\Log\LoggerInterface;
 
 /**
  * This rotates the current logfile to a new name, this way the total log usage
@@ -35,15 +20,15 @@ use OCP\Log\RotationTrait;
 class Rotate extends \OCP\BackgroundJob\Job {
 	use RotationTrait;
 
-	public function run($dummy) {
-		$systemConfig = \OC::$server->getSystemConfig();
-		$this->filePath = $systemConfig->getValue('logfile', $systemConfig->getValue('datadirectory', \OC::$SERVERROOT . '/data') . '/nextcloud.log');
+	public function run($argument): void {
+		$config = \OCP\Server::get(IConfig::class);
+		$this->filePath = $config->getSystemValueString('logfile', $config->getSystemValueString('datadirectory', \OC::$SERVERROOT . '/data') . '/nextcloud.log');
 
-		$this->maxSize = \OC::$server->getConfig()->getSystemValueInt('log_rotate_size', 100 * 1024 * 1024);
+		$this->maxSize = $config->getSystemValueInt('log_rotate_size', 100 * 1024 * 1024);
 		if ($this->shouldRotateBySize()) {
 			$rotatedFile = $this->rotate();
 			$msg = 'Log file "'.$this->filePath.'" was over '.$this->maxSize.' bytes, moved to "'.$rotatedFile.'"';
-			\OC::$server->getLogger()->warning($msg, ['app' => Rotate::class]);
+			\OCP\Server::get(LoggerInterface::class)->info($msg, ['app' => Rotate::class]);
 		}
 	}
 }

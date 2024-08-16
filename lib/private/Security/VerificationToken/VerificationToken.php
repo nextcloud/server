@@ -1,29 +1,10 @@
 <?php
 
 declare(strict_types=1);
-
 /**
- * @copyright Copyright (c) 2021 Arthur Schiwon <blizzz@arthur-schiwon.de>
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <https://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-
 namespace OC\Security\VerificationToken;
 
 use OCP\AppFramework\Utility\ITimeFactory;
@@ -39,29 +20,13 @@ use function json_encode;
 class VerificationToken implements IVerificationToken {
 	protected const TOKEN_LIFETIME = 60 * 60 * 24 * 7;
 
-	/** @var IConfig */
-	private $config;
-	/** @var ICrypto */
-	private $crypto;
-	/** @var ITimeFactory */
-	private $timeFactory;
-	/** @var ISecureRandom */
-	private $secureRandom;
-	/** @var IJobList */
-	private $jobList;
-
 	public function __construct(
-		IConfig $config,
-		ICrypto $crypto,
-		ITimeFactory $timeFactory,
-		ISecureRandom $secureRandom,
-		IJobList $jobList
+		private IConfig $config,
+		private ICrypto $crypto,
+		private ITimeFactory $timeFactory,
+		private ISecureRandom $secureRandom,
+		private IJobList $jobList
 	) {
-		$this->config = $config;
-		$this->crypto = $crypto;
-		$this->timeFactory = $timeFactory;
-		$this->secureRandom = $secureRandom;
-		$this->jobList = $jobList;
 	}
 
 	/**
@@ -71,7 +36,13 @@ class VerificationToken implements IVerificationToken {
 		throw new InvalidTokenException($code);
 	}
 
-	public function check(string $token, ?IUser $user, string $subject, string $passwordPrefix = '', bool $expiresWithLogin = false): void {
+	public function check(
+		string $token,
+		?IUser $user,
+		string $subject,
+		string $passwordPrefix = '',
+		bool $expiresWithLogin = false,
+	): void {
 		if ($user === null || !$user->isEnabled()) {
 			$this->throwInvalidTokenException(InvalidTokenException::USER_UNKNOWN);
 		}
@@ -107,7 +78,11 @@ class VerificationToken implements IVerificationToken {
 		}
 	}
 
-	public function create(IUser $user, string $subject, string $passwordPrefix = ''): string {
+	public function create(
+		IUser $user,
+		string $subject,
+		string $passwordPrefix = '',
+	): string {
 		$token = $this->secureRandom->generate(
 			21,
 			ISecureRandom::CHAR_DIGITS.

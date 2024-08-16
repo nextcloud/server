@@ -1,23 +1,21 @@
 <?php
 
 /**
- * Copyright (c) 2015 Vincent Petry <pvince81@owncloud.com>
- * This file is licensed under the Affero General Public License version 3 or
- * later.
- * See the COPYING-README file.
- *
+ * SPDX-FileCopyrightText: 2017-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace Test\SystemTag;
 
 use OC\SystemTag\SystemTagManager;
 use OC\SystemTag\SystemTagObjectMapper;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IDBConnection;
 use OCP\IGroupManager;
 use OCP\IUser;
 use OCP\SystemTag\ISystemTag;
 use OCP\SystemTag\ISystemTagManager;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Test\TestCase;
 
 /**
@@ -43,7 +41,7 @@ class SystemTagManagerTest extends TestCase {
 	private $groupManager;
 
 	/**
-	 * @var EventDispatcherInterface
+	 * @var IEventDispatcher
 	 */
 	private $dispatcher;
 
@@ -52,10 +50,8 @@ class SystemTagManagerTest extends TestCase {
 
 		$this->connection = \OC::$server->getDatabaseConnection();
 
-		$this->dispatcher = $this->getMockBuilder('Symfony\Component\EventDispatcher\EventDispatcherInterface')
-			->getMock();
-
-		$this->groupManager = $this->getMockBuilder(IGroupManager::class)->getMock();
+		$this->dispatcher = $this->createMock(IEventDispatcher::class);
+		$this->groupManager = $this->createMock(IGroupManager::class);
 
 		$this->tagManager = new SystemTagManager(
 			$this->connection,

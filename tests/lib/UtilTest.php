@@ -1,9 +1,8 @@
 <?php
 /**
- * Copyright (c) 2012 Lukas Reschke <lukas@statuscode.ch>
- * This file is licensed under the Affero General Public License version 3 or
- * later.
- * See the COPYING-README file.
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace Test;
@@ -91,9 +90,25 @@ class UtilTest extends \Test\TestCase {
 		$this->assertEquals($expected, \OC_Util::fileInfoLoaded());
 	}
 
+	/**
+	 * Host is "localhost" this is a valid for emails,
+	 * but not for default strict email verification that requires a top level domain.
+	 * So we check that with strict email verification we fallback to the default
+	 */
+	public function testGetDefaultEmailAddressStrict() {
+		$email = \OCP\Util::getDefaultEmailAddress("no-reply");
+		$this->assertEquals('no-reply@localhost.localdomain', $email);
+	}
+
+	/**
+	 * If no strict email check is enabled "localhost" should validate as a valid email domain
+	 */
 	public function testGetDefaultEmailAddress() {
+		$config = \OC::$server->getConfig();
+		$config->setAppValue('core', 'enforce_strict_email_check', 'no');
 		$email = \OCP\Util::getDefaultEmailAddress("no-reply");
 		$this->assertEquals('no-reply@localhost', $email);
+		$config->deleteAppValue('core', 'enforce_strict_email_check');
 	}
 
 	public function testGetDefaultEmailAddressFromConfig() {
@@ -123,64 +138,6 @@ class UtilTest extends \Test\TestCase {
 	}
 
 	/**
-	 * @dataProvider filenameValidationProvider
-	 */
-	public function testFilenameValidation($file, $valid) {
-		// private API
-		$this->assertEquals($valid, \OC_Util::isValidFileName($file));
-		// public API
-		$this->assertEquals($valid, \OCP\Util::isValidFileName($file));
-	}
-
-	public function filenameValidationProvider() {
-		return [
-			// valid names
-			['boringname', true],
-			['something.with.extension', true],
-			['now with spaces', true],
-			['.a', true],
-			['..a', true],
-			['.dotfile', true],
-			['single\'quote', true],
-			['  spaces before', true],
-			['spaces after   ', true],
-			['allowed chars including the crazy ones $%&_-^@!,()[]{}=;#', true],
-			['汉字也能用', true],
-			['und Ümläüte sind auch willkommen', true],
-			// disallowed names
-			['', false],
-			['     ', false],
-			['.', false],
-			['..', false],
-			['back\\slash', false],
-			['sl/ash', false],
-			['lt<lt', true],
-			['gt>gt', true],
-			['col:on', true],
-			['double"quote', true],
-			['pi|pe', true],
-			['dont?ask?questions?', true],
-			['super*star', true],
-			['new\nline', false],
-
-			// better disallow these to avoid unexpected trimming to have side effects
-			[' ..', false],
-			['.. ', false],
-			['. ', false],
-			[' .', false],
-
-			// part files not allowed
-			['.part', false],
-			['notallowed.part', false],
-			['neither.filepart', false],
-
-			// part in the middle is ok
-			['super movie part one.mkv', true],
-			['super.movie.part.mkv', true],
-		];
-	}
-
-	/**
 	 * Test needUpgrade() when the core version is increased
 	 */
 	public function testNeedUpgradeCore() {
@@ -205,7 +162,7 @@ class UtilTest extends \Test\TestCase {
 
 	public function testCheckDataDirectoryValidity() {
 		$dataDir = \OC::$server->getTempManager()->getTemporaryFolder();
-		touch($dataDir . '/.ocdata');
+		touch($dataDir . '/.ncdata');
 		$errors = \OC_Util::checkDataDirectoryValidity($dataDir);
 		$this->assertEmpty($errors);
 		\OCP\Files::rmdirr($dataDir);

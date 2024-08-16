@@ -3,6 +3,8 @@ OC.L10N.register(
     {
     "Recently contacted" : "Ostatnio skontaktowano się",
     "Contacts Interaction" : "Interakcja kontaktów",
+    "Manages interaction between accounts and contacts" : "Zarządza interakcją pomiędzy kontami i kontaktami",
+    "Collect data about accounts and contacts interactions and provide an address book for the data" : "Zbieraj dane o kontach i interakcjach kontaktów oraz udostępniaj książkę adresową dla danych",
     "Manages interaction between users and contacts" : "Zarządza interakcją między użytkownikami i kontaktami",
     "Collect data about user and contacts interactions and provide an address book for the data" : "Zbieraj dane o interakcjach użytkowników i kontaktów oraz udostępniaj książkę adresową dla tych danych."
 },

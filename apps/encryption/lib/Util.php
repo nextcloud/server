@@ -1,87 +1,33 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Bjoern Schiessle <bjoern@schiessle.org>
- * @author Björn Schießle <bjoern@schiessle.org>
- * @author Clark Tomlinson <fallen013@gmail.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Phil Davis <phil.davis@inf.org>
- * @author Robin Appelman <robin@icewind.nl>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2017-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\Encryption;
 
 use OC\Files\View;
 use OCA\Encryption\Crypto\Crypt;
 use OCP\IConfig;
-use OCP\ILogger;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\PreConditionNotMetException;
 
 class Util {
-	/**
-	 * @var View
-	 */
-	private $files;
-	/**
-	 * @var Crypt
-	 */
-	private $crypt;
-	/**
-	 * @var ILogger
-	 */
-	private $logger;
-	/**
-	 * @var bool|IUser
-	 */
-	private $user;
-	/**
-	 * @var IConfig
-	 */
-	private $config;
-	/**
-	 * @var IUserManager
-	 */
-	private $userManager;
+	private IUser|false $user;
 
-	/**
-	 * Util constructor.
-	 *
-	 * @param View $files
-	 * @param Crypt $crypt
-	 * @param ILogger $logger
-	 * @param IUserSession $userSession
-	 * @param IConfig $config
-	 * @param IUserManager $userManager
-	 */
-	public function __construct(View $files,
-								Crypt $crypt,
-								ILogger $logger,
-								IUserSession $userSession,
-								IConfig $config,
-								IUserManager $userManager
+	public function __construct(
+		private View $files,
+		private Crypt $crypt,
+		IUserSession $userSession,
+		private IConfig $config,
+		private IUserManager $userManager,
 	) {
 		$this->files = $files;
 		$this->crypt = $crypt;
-		$this->logger = $logger;
-		$this->user = $userSession && $userSession->isLoggedIn() ? $userSession->getUser() : false;
+		$this->user = $userSession->isLoggedIn() ? $userSession->getUser() : false;
 		$this->config = $config;
 		$this->userManager = $userManager;
 	}
@@ -132,10 +78,8 @@ class Util {
 
 	/**
 	 * check if master key is enabled
-	 *
-	 * @return bool
 	 */
-	public function isMasterKeyEnabled() {
+	public function isMasterKeyEnabled(): bool {
 		$userMasterKey = $this->config->getAppValue('encryption', 'useMasterKey', '1');
 		return ($userMasterKey === '1');
 	}

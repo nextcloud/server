@@ -1,94 +1,62 @@
 <?php
 /**
- * @copyright 2017, Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Pauli Järvinen <pauli.jarvinen@gmail.com>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OC\Share20;
 
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\File;
 use OCP\Share;
+use OCP\Share\Events\BeforeShareCreatedEvent;
+use OCP\Share\Events\BeforeShareDeletedEvent;
+use OCP\Share\Events\ShareCreatedEvent;
+use OCP\Share\Events\ShareDeletedEvent;
+use OCP\Share\Events\ShareDeletedFromSelfEvent;
 use OCP\Share\IShare;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Symfony\Component\EventDispatcher\GenericEvent;
 
 class LegacyHooks {
-	/** @var EventDispatcherInterface */
+	/** @var IEventDispatcher */
 	private $eventDispatcher;
 
-	/**
-	 * LegacyHooks constructor.
-	 *
-	 * @param EventDispatcherInterface $eventDispatcher
-	 */
-	public function __construct(EventDispatcherInterface $eventDispatcher) {
+	public function __construct(IEventDispatcher $eventDispatcher) {
 		$this->eventDispatcher = $eventDispatcher;
 
-		$this->eventDispatcher->addListener('OCP\Share::preUnshare', [$this, 'preUnshare']);
-		$this->eventDispatcher->addListener('OCP\Share::postUnshare', [$this, 'postUnshare']);
-		$this->eventDispatcher->addListener('OCP\Share::postUnshareFromSelf', [$this, 'postUnshareFromSelf']);
-		$this->eventDispatcher->addListener('OCP\Share::preShare', [$this, 'preShare']);
-		$this->eventDispatcher->addListener('OCP\Share::postShare', [$this, 'postShare']);
+		$this->eventDispatcher->addListener(BeforeShareDeletedEvent::class, function (BeforeShareDeletedEvent $event) {
+			$this->preUnshare($event);
+		});
+		$this->eventDispatcher->addListener(ShareDeletedEvent::class, function (ShareDeletedEvent $event) {
+			$this->postUnshare($event);
+		});
+		$this->eventDispatcher->addListener(ShareDeletedFromSelfEvent::class, function (ShareDeletedFromSelfEvent $event) {
+			$this->postUnshareFromSelf($event);
+		});
+		$this->eventDispatcher->addListener(BeforeShareCreatedEvent::class, function (BeforeShareCreatedEvent $event) {
+			$this->preShare($event);
+		});
+		$this->eventDispatcher->addListener(ShareCreatedEvent::class, function (ShareCreatedEvent $event) {
+			$this->postShare($event);
+		});
 	}
 
-	/**
-	 * @param GenericEvent $e
-	 */
-	public function preUnshare(GenericEvent $e) {
-		/** @var IShare $share */
-		$share = $e->getSubject();
+	public function preUnshare(BeforeShareDeletedEvent $e) {
+		$share = $e->getShare();
 
 		$formatted = $this->formatHookParams($share);
 		\OC_Hook::emit(Share::class, 'pre_unshare', $formatted);
 	}
 
-	/**
-	 * @param GenericEvent $e
-	 */
-	public function postUnshare(GenericEvent $e) {
-		/** @var IShare $share */
-		$share = $e->getSubject();
+	public function postUnshare(ShareDeletedEvent $e) {
+		$share = $e->getShare();
 
 		$formatted = $this->formatHookParams($share);
-
-		/** @var IShare[] $deletedShares */
-		$deletedShares = $e->getArgument('deletedShares');
-
-		$formattedDeletedShares = array_map(function ($share) {
-			return $this->formatHookParams($share);
-		}, $deletedShares);
-
-		$formatted['deletedShares'] = $formattedDeletedShares;
+		$formatted['deletedShares'] = [$formatted];
 
 		\OC_Hook::emit(Share::class, 'post_unshare', $formatted);
 	}
 
-	/**
-	 * @param GenericEvent $e
-	 */
-	public function postUnshareFromSelf(GenericEvent $e) {
-		/** @var IShare $share */
-		$share = $e->getSubject();
+	public function postUnshareFromSelf(ShareDeletedFromSelfEvent $e) {
+		$share = $e->getShare();
 
 		$formatted = $this->formatHookParams($share);
 		$formatted['itemTarget'] = $formatted['fileTarget'];
@@ -121,9 +89,8 @@ class LegacyHooks {
 		return $hookParams;
 	}
 
-	public function preShare(GenericEvent $e) {
-		/** @var IShare $share */
-		$share = $e->getSubject();
+	public function preShare(BeforeShareCreatedEvent $e) {
+		$share = $e->getShare();
 
 		// Pre share hook
 		$run = true;
@@ -145,16 +112,15 @@ class LegacyHooks {
 		\OC_Hook::emit(Share::class, 'pre_shared', $preHookData);
 
 		if ($run === false) {
-			$e->setArgument('error', $error);
+			$e->setError($error);
 			$e->stopPropagation();
 		}
 
 		return $e;
 	}
 
-	public function postShare(GenericEvent $e) {
-		/** @var IShare $share */
-		$share = $e->getSubject();
+	public function postShare(ShareCreatedEvent $e) {
+		$share = $e->getShare();
 
 		$postHookData = [
 			'itemType' => $share->getNode() instanceof File ? 'file' : 'folder',

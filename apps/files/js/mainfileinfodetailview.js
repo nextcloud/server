@@ -1,11 +1,7 @@
-/*
- * Copyright (c) 2015
- *
- * This file is licensed under the Affero General Public License version 3
- * or later.
- *
- * See the COPYING-README file.
- *
+/**
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2015-2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 (function() {
@@ -69,7 +65,7 @@
 		_setupClipboard: function() {
 			var clipboard = new Clipboard('.permalink');
 			clipboard.on('success', function(e) {
-				OC.Notification.show(t('files', 'Direct link was copied (only works for users who have access to this file/folder)'), {type: 'success'});
+				OC.Notification.show(t('files', 'Direct link was copied (only works for people who have access to this file/folder)'), {type: 'success'});
 			});
 			clipboard.on('error', function(e) {
 				var $row = this.$('.permalink-field');
@@ -156,7 +152,7 @@
 					path: this.model.get('path'),
 					hasSize: this.model.has('size'),
 					sizeLabel: t('files', 'Size'),
-					size: OC.Util.humanFileSize(this.model.get('size'), true),
+					size: OC.Util.humanFileSize(this.model.get('size'), true, false),
 					altSize: n('files', '%n byte', '%n bytes', this.model.get('size')),
 					dateLabel: t('files', 'Modified'),
 					altDate: OC.Util.formatDate(this.model.get('mtime')),
@@ -166,7 +162,7 @@
 					starAltText: isFavorite ? t('files', 'Favorited') : t('files', 'Favorite'),
 					starClass: isFavorite ? 'icon-starred' : 'icon-star',
 					permalink: this._makePermalink(this.model.get('id')),
-					permalinkTitle: t('files', 'Copy direct link (only works for users who have access to this file/folder)')
+					permalinkTitle: t('files', 'Copy direct link (only works for people who have access to this file/folder)')
 				}));
 
 				// TODO: we really need OC.Previews

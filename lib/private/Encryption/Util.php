@@ -1,29 +1,9 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Bjoern Schiessle <bjoern@schiessle.org>
- * @author Björn Schießle <bjoern@schiessle.org>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Jan-Christoph Borchardt <hey@jancborchardt.net>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OC\Encryption;
 
@@ -105,7 +85,7 @@ class Util {
 	 * @return string
 	 * @throws ModuleDoesNotExistsException
 	 */
-	public function getEncryptionModuleId(array $header = null) {
+	public function getEncryptionModuleId(?array $header = null) {
 		$id = '';
 		$encryptionModuleKey = self::HEADER_ENCRYPTION_MODULE_KEY;
 
@@ -356,5 +336,54 @@ class Util {
 	 */
 	public function getKeyStorageRoot(): string {
 		return $this->config->getAppValue('core', 'encryption_key_storage_root', '');
+	}
+
+	/**
+	 * parse raw header to array
+	 *
+	 * @param string $rawHeader
+	 * @return array
+	 */
+	public function parseRawHeader(string $rawHeader) {
+		$result = [];
+		if (str_starts_with($rawHeader, Util::HEADER_START)) {
+			$header = $rawHeader;
+			$endAt = strpos($header, Util::HEADER_END);
+			if ($endAt !== false) {
+				$header = substr($header, 0, $endAt + strlen(Util::HEADER_END));
+
+				// +1 to not start with an ':' which would result in empty element at the beginning
+				$exploded = explode(':', substr($header, strlen(Util::HEADER_START) + 1));
+
+				$element = array_shift($exploded);
+				while ($element !== Util::HEADER_END && $element !== null) {
+					$result[$element] = array_shift($exploded);
+					$element = array_shift($exploded);
+				}
+			}
+		}
+
+		return $result;
+	}
+
+	/**
+	 * get path to key folder for a given file
+	 *
+	 * @param string $encryptionModuleId
+	 * @param string $path path to the file, relative to data/
+	 * @return string
+	 */
+	public function getFileKeyDir(string $encryptionModuleId, string $path): string {
+		[$owner, $filename] = $this->getUidAndFilename($path);
+		$root = $this->getKeyStorageRoot();
+
+		// in case of system-wide mount points the keys are stored directly in the data directory
+		if ($this->isSystemWideMountPoint($filename, $owner)) {
+			$keyPath = $root . '/' . '/files_encryption/keys' . $filename . '/';
+		} else {
+			$keyPath = $root . '/' . $owner . '/files_encryption/keys' . $filename . '/';
+		}
+
+		return Filesystem::normalizePath($keyPath . $encryptionModuleId . '/', false);
 	}
 }

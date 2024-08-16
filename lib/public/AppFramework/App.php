@@ -3,34 +3,9 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Bernhard Posselt <dev@bernhard-posselt.com>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Daniel Kesselberg <mail@danielkesselberg.de>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Thomas Tanghus <thomas@tanghus.net>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCP\AppFramework;
 
@@ -38,6 +13,7 @@ use OC\AppFramework\Routing\RouteConfig;
 use OC\Route\Router;
 use OC\ServerContainer;
 use OCP\Route\IRouter;
+use Psr\Log\LoggerInterface;
 
 /**
  * Class App
@@ -72,7 +48,7 @@ class App {
 	 */
 	public function __construct(string $appName, array $urlParams = []) {
 		$runIsSetupDirectly = \OC::$server->getConfig()->getSystemValueBool('debug')
-			&& (PHP_VERSION_ID < 70400 || (PHP_VERSION_ID >= 70400 && !ini_get('zend.exception_ignore_args')));
+			&& !ini_get('zend.exception_ignore_args');
 
 		if ($runIsSetupDirectly) {
 			$applicationClassName = get_class($this);
@@ -98,8 +74,9 @@ class App {
 			}
 
 			if (!$setUpViaQuery && $applicationClassName !== \OCP\AppFramework\App::class) {
-				\OC::$server->getLogger()->logException($e, [
+				\OCP\Server::get(LoggerInterface::class)->error($e->getMessage(), [
 					'app' => $appName,
+					'exception' => $e,
 				]);
 			}
 		}

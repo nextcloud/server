@@ -1,9 +1,8 @@
 <?php
 /**
- * Copyright (c) 2014 Lukas Reschke <lukas@owncloud.com>
- * This file is licensed under the Affero General Public License version 3 or
- * later.
- * See the COPYING-README file.
+ * SPDX-FileCopyrightText: 2018-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace Test\Mail;
@@ -11,13 +10,13 @@ namespace Test\Mail;
 use OC\Mail\Message;
 use OCP\Mail\Headers\AutoSubmitted;
 use OCP\Mail\IEMailTemplate;
+use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Component\Mime\Address;
 use Symfony\Component\Mime\Email;
 use Symfony\Component\Mime\Exception\RfcComplianceException;
 use Symfony\Component\Mime\Header\HeaderInterface;
 use Symfony\Component\Mime\Header\Headers;
 use Test\TestCase;
-use PHPUnit\Framework\MockObject\MockObject;
 
 class MessageTest extends TestCase {
 	/** @var Email */

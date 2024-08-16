@@ -1,28 +1,8 @@
 <?php
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Bjoern Schiessle <bjoern@schiessle.org>
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Tobias Kaminsky <tobias@kaminsky.me>
- * @author Vincent Petry <vincent@nextcloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\Files_Sharing;
 
@@ -51,7 +31,66 @@ class Capabilities implements ICapability {
 	/**
 	 * Return this classes capabilities
 	 *
-	 * @return array
+	 * @return array{
+	 *     files_sharing: array{
+	 *         api_enabled: bool,
+	 *         public: array{
+	 *             enabled: bool,
+	 *             password?: array{
+	 *                 enforced: bool,
+	 *                 askForOptionalPassword: bool
+	 *             },
+	 *     		   multiple_links?: bool,
+	 *             expire_date?: array{
+	 *                 enabled: bool,
+	 *                 days?: int,
+	 *                 enforced?: bool,
+	 *             },
+	 *             expire_date_internal?: array{
+	 *                 enabled: bool,
+	 *                 days?: int,
+	 *                 enforced?: bool,
+	 *             },
+	 *             expire_date_remote?: array{
+	 *                 enabled: bool,
+	 *                 days?: int,
+	 *                 enforced?: bool,
+	 *             },
+	 *             send_mail?: bool,
+	 *             upload?: bool,
+	 *             upload_files_drop?: bool,
+	 *         },
+	 *         user: array{
+	 *             send_mail: bool,
+	 *             expire_date?: array{
+	 *                 enabled: bool,
+	 *             },
+	 *         },
+	 *         resharing: bool,
+	 *         group_sharing?: bool,
+	 *         group?: array{
+	 *             enabled: bool,
+	 *             expire_date?: array{
+	 *                 enabled: bool,
+	 *             },
+	 *         },
+	 *         default_permissions?: int,
+	 *         federation: array{
+	 *             outgoing: bool,
+	 *             incoming: bool,
+	 *             expire_date: array{
+	 *                 enabled: bool,
+	 *             },
+	 *             expire_date_supported: array{
+	 *                 enabled: bool,
+	 *             },
+	 *         },
+	 *         sharee: array{
+	 *             query_lookup_default: bool,
+	 *             always_show_unique: bool,
+	 *         },
+	 *	   },
+	 * }
 	 */
 	public function getCapabilities() {
 		$res = [];

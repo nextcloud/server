@@ -2,27 +2,11 @@
 
 declare(strict_types=1);
 /**
- * @copyright Copyright (c) 2023 Robin Appelman <robin@icewind.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace OCA\Files\Command;
-
 
 use OC\Core\Command\Info\FileUtils;
 use OCP\Files\File;
@@ -34,12 +18,10 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class Put extends Command {
-	private FileUtils $fileUtils;
-	private IRootFolder $rootFolder;
-
-	public function __construct(FileUtils $fileUtils, IRootFolder $rootFolder) {
-		$this->fileUtils = $fileUtils;
-		$this->rootFolder = $rootFolder;
+	public function __construct(
+		private FileUtils $fileUtils,
+		private IRootFolder $rootFolder,
+	) {
 		parent::__construct();
 	}
 
@@ -58,29 +40,28 @@ class Put extends Command {
 
 		if ($node instanceof Folder) {
 			$output->writeln("<error>$fileOutput is a folder</error>");
-			return 1;
+			return self::FAILURE;
 		}
 		if (!$node and is_numeric($fileOutput)) {
 			$output->writeln("<error>$fileOutput not found</error>");
-			return 1;
+			return self::FAILURE;
 		}
 
 		$source = ($inputName === null || $inputName === '-') ? STDIN : fopen($inputName, 'r');
 		if (!$source) {
 			$output->writeln("<error>Failed to open $inputName</error>");
-			return 1;
+			return self::FAILURE;
 		}
 		if ($node instanceof File) {
 			$target = $node->fopen('w');
 			if (!$target) {
 				$output->writeln("<error>Failed to open $fileOutput</error>");
-				return 1;
+				return self::FAILURE;
 			}
 			stream_copy_to_stream($source, $target);
 		} else {
 			$this->rootFolder->newFile($fileOutput, $source);
 		}
-		return 0;
+		return self::SUCCESS;
 	}
-
 }

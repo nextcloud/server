@@ -1,11 +1,7 @@
-/*
- * Copyright (c) 2014
- *
- * This file is licensed under the Affero General Public License version 3
- * or later.
- *
- * See the COPYING-README file.
- *
+/**
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2012-2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 (function() {
@@ -666,7 +662,7 @@
 		 * @param {string} [tabId] optional tab id to select
 		 */
 		showDetailsView: function(fileName, tabId) {
-			console.warn('showDetailsView is deprecated! Use OCA.Files.Sidebar.activeTab. It will be removed in nextcloud 20.');
+			OC.debug && console.warn('showDetailsView is deprecated! Use OCA.Files.Sidebar.activeTab. It will be removed in nextcloud 20.');
 			this._updateDetailsView(fileName);
 			if (tabId) {
 				OCA.Files.Sidebar.setActiveTab(tabId);
@@ -707,8 +703,10 @@
 			tr.addClass('highlighted');
 			this._currentFileModel = model;
 
+			const secondaryActionsOpen = Boolean(tr.find('.actions-secondary-vue').length)
+
 			// open sidebar and set file
-			if (typeof show === 'undefined' || !!show || (OCA.Files.Sidebar.file !== '')) {
+			if (!secondaryActionsOpen && (typeof show === 'undefined' || !!show || (OCA.Files.Sidebar.file !== ''))) {
 				OCA.Files.Sidebar.open(path.replace('//', '/'))
 			}
 		},
@@ -1796,7 +1794,7 @@
 
 			// size column
 			if (typeof(fileData.size) !== 'undefined' && fileData.size >= 0) {
-				simpleSize = OC.Util.humanFileSize(parseInt(fileData.size, 10), true);
+				simpleSize = OC.Util.humanFileSize(parseInt(fileData.size, 10), true, false);
 				// rgb(118, 118, 118) / #767676
 				// min. color contrast for normal text on white background according to WCAG AA
 				sizeColor = Math.round(118-Math.pow((fileData.size/(1024*1024)), 2));
@@ -2607,7 +2605,7 @@
 							var oldSize = oldFile.data('size');
 							var newSize = oldSize + newFile.data('size');
 							oldFile.data('size', newSize);
-							oldFile.find('td.filesize').text(OC.Util.humanFileSize(newSize));
+							oldFile.find('td.filesize').text(OC.Util.humanFileSize(newSize, false, false));
 
 							self.remove(fileName);
 						}
@@ -2750,7 +2748,7 @@
 							var oldSize = oldFile.data('size');
 							var newSize = oldSize + newFile.data('size');
 							oldFile.data('size', newSize);
-							oldFile.find('td.filesize').text(OC.Util.humanFileSize(newSize));
+							oldFile.find('td.filesize').text(OC.Util.humanFileSize(newSize, false, false));
 						}
 						self.reload();
 					})
@@ -3461,7 +3459,7 @@
 			}
 			else {
 				this.$el.find('.selectedActions').removeClass('hidden');
-				this.$el.find('.column-size a>span:first').text(OC.Util.humanFileSize(summary.totalSize));
+				this.$el.find('.column-size a>span:first').text(OC.Util.humanFileSize(summary.totalSize, false, false));
 
 				var directoryInfo = n('files', '%n folder', '%n folders', summary.totalDirs);
 				var fileInfo = n('files', '%n file', '%n files', summary.totalFiles);
@@ -3844,7 +3842,8 @@
 				return;
 			}
 			var $newButton = $(OCA.Files.Templates['template_addbutton']({
-				addText: t('files', 'New file/folder menu'),
+				addText: t('files', 'New'),
+				addLongText: t('files', 'New file/folder menu'),
 				iconClass: 'icon-add',
 			}));
 
@@ -3879,7 +3878,7 @@
 		 * Register a tab view to be added to all views
 		 */
 		registerTabView: function(tabView) {
-			console.warn('registerTabView is deprecated! It will be removed in nextcloud 20.');
+			OC.debug && console.warn('registerTabView is deprecated! It will be removed in nextcloud 20.');
 			const enabled = tabView.canDisplay || undefined
 			if (tabView.id) {
 				OCA.Files.Sidebar.registerTab(new OCA.Files.Sidebar.Tab({
@@ -3905,7 +3904,7 @@
 		 * Register a detail view to be added to all views
 		 */
 		registerDetailView: function(detailView) {
-			console.warn('registerDetailView is deprecated! It will be removed in nextcloud 20.');
+			OC.debug && console.warn('registerDetailView is deprecated! It will be removed in nextcloud 20.');
 			if (detailView.el) {
 				OCA.Files.Sidebar.registerSecondaryView(detailView)
 			}

@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+# SPDX-FileCopyrightText: 2011-2016 ownCloud contributors
+# SPDX-FileCopyrightText: 2010 ownCloud contributors
+# SPDX-License-Identifier: AGPL-3.0-only
 # the default generated dir + db file
 /data
 /config/config.php
@@ -24,6 +28,7 @@
 !/apps/sharebymail
 !/apps/encryption
 !/apps/files_external
+!/apps/files_reminders
 !/apps/files_sharing
 !/apps/files_trashbin
 !/apps/files_versions
@@ -40,6 +45,7 @@
 !/apps/twofactor_backupcodes
 !/apps/user_status
 !/apps/weather_status
+!/apps/webhook_listeners
 !/apps/workflowengine
 /apps/files_external/3rdparty/irodsphp/PHPUnitTest
 /apps/files_external/3rdparty/irodsphp/web
@@ -56,6 +62,9 @@
 /themes/*
 !/themes/example
 !/themes/README
+
+# Love to people that develop the updater
+/updater
 
 # just sane ignores
 .*.sw[po]
@@ -128,6 +137,8 @@ nbproject
 /build/bin
 /build/lib/
 /build/jsdocs/
+/build/integration/output/
+/build/integration/phpserver.log
 /npm-debug.log
 /PhantomJS_*
 
@@ -161,11 +172,13 @@ tests/acceptance/vendor/
 
 composer.phar
 /lib/composer/bin
+/lib/composer/bamarni
 /vendor-bin/**/vendor
 
 ./.htaccess
 core/js/mimetypelist.js
 
 # Tests - cypress
+cypress/downloads
 cypress/snapshots
 cypress/videos

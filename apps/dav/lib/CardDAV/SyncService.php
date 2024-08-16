@@ -1,46 +1,23 @@
 <?php
 
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Bjoern Schiessle <bjoern@schiessle.org>
- * @author Björn Schießle <bjoern@schiessle.org>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Thomas Citharel <nextcloud@tcit.fr>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Anna Larch <anna.larch@gmx.net>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\DAV\CardDAV;
 
-use OC\Accounts\AccountManager;
 use OCP\AppFramework\Db\TTransactional;
 use OCP\AppFramework\Http;
+use OCP\Http\Client\IClientService;
 use OCP\IDBConnection;
 use OCP\IUser;
 use OCP\IUserManager;
+use Psr\Http\Client\ClientExceptionInterface;
 use Psr\Log\LoggerInterface;
-use Sabre\DAV\Client;
 use Sabre\DAV\Xml\Response\MultiStatus;
 use Sabre\DAV\Xml\Service;
-use Sabre\HTTP\ClientHttpException;
 use Sabre\VObject\Reader;
 use function is_null;
 
@@ -55,18 +32,21 @@ class SyncService {
 	private ?array $localSystemAddressBook = null;
 	private Converter $converter;
 	protected string $certPath;
+	private IClientService $clientService;
 
 	public function __construct(CardDavBackend $backend,
-								IUserManager $userManager,
-								IDBConnection $dbConnection,
-								LoggerInterface $logger,
-								Converter $converter) {
+		IUserManager $userManager,
+		IDBConnection $dbConnection,
+		LoggerInterface $logger,
+		Converter $converter,
+		IClientService $clientService) {
 		$this->backend = $backend;
 		$this->userManager = $userManager;
 		$this->logger = $logger;
 		$this->converter = $converter;
 		$this->certPath = '';
 		$this->dbConnection = $dbConnection;
+		$this->clientService = $clientService;
 	}
 
 	/**
@@ -80,7 +60,7 @@ class SyncService {
 		// 2. query changes
 		try {
 			$response = $this->requestSyncReport($url, $userName, $addressBookUrl, $sharedSecret, $syncToken);
-		} catch (ClientHttpException $ex) {
+		} catch (ClientExceptionInterface $ex) {
 			if ($ex->getCode() === Http::STATUS_UNAUTHORIZED) {
 				// remote server revoked access to the address book, remove it
 				$this->backend->deleteAddressBook($addressBookId);
@@ -97,12 +77,12 @@ class SyncService {
 			$cardUri = basename($resource);
 			if (isset($status[200])) {
 				$vCard = $this->download($url, $userName, $sharedSecret, $resource);
-				$this->atomic(function() use ($addressBookId, $cardUri, $vCard) {
+				$this->atomic(function () use ($addressBookId, $cardUri, $vCard) {
 					$existingCard = $this->backend->getCard($addressBookId, $cardUri);
 					if ($existingCard === false) {
-						$this->backend->createCard($addressBookId, $cardUri, $vCard['body']);
+						$this->backend->createCard($addressBookId, $cardUri, $vCard);
 					} else {
-						$this->backend->updateCard($addressBookId, $cardUri, $vCard['body']);
+						$this->backend->updateCard($addressBookId, $cardUri, $vCard);
 					}
 				}, $this->dbConnection);
 			} else {
@@ -117,7 +97,7 @@ class SyncService {
 	 * @throws \Sabre\DAV\Exception\BadRequest
 	 */
 	public function ensureSystemAddressBookExists(string $principal, string $uri, array $properties): ?array {
-		return $this->atomic(function() use ($principal, $uri, $properties) {
+		return $this->atomic(function () use ($principal, $uri, $properties) {
 			$book = $this->backend->getAddressBooksByUri($principal, $uri);
 			if (!is_null($book)) {
 				return $book;
@@ -129,63 +109,57 @@ class SyncService {
 	}
 
 	/**
-	 * Check if there is a valid certPath we should use
+	 * @throws ClientExceptionInterface
 	 */
-	protected function getCertPath(): string {
-
-		// we already have a valid certPath
-		if ($this->certPath !== '') {
-			return $this->certPath;
-		}
-
-		$certManager = \OC::$server->getCertificateManager();
-		$certPath = $certManager->getAbsoluteBundlePath();
-		if (file_exists($certPath)) {
-			$this->certPath = $certPath;
-		}
-
-		return $this->certPath;
-	}
-
-	protected function getClient(string $url, string $userName, string $sharedSecret): Client {
-		$settings = [
-			'baseUri' => $url . '/',
-			'userName' => $userName,
-			'password' => $sharedSecret,
-		];
-		$client = new Client($settings);
-		$certPath = $this->getCertPath();
-		$client->setThrowExceptions(true);
-
-		if ($certPath !== '' && strpos($url, 'http://') !== 0) {
-			$client->addCurlSetting(CURLOPT_CAINFO, $this->certPath);
-		}
-
-		return $client;
-	}
-
 	protected function requestSyncReport(string $url, string $userName, string $addressBookUrl, string $sharedSecret, ?string $syncToken): array {
-		$client = $this->getClient($url, $userName, $sharedSecret);
+		$client = $this->clientService->newClient();
 
-		$body = $this->buildSyncCollectionRequestBody($syncToken);
+		// the trailing slash is important for merging base_uri and uri
+		$url = rtrim($url, '/') . '/';
 
-		$response = $client->request('REPORT', $addressBookUrl, $body, [
-			'Content-Type' => 'application/xml'
-		]);
+		$options = [
+			'auth' => [$userName, $sharedSecret],
+			'base_uri' => $url,
+			'body' => $this->buildSyncCollectionRequestBody($syncToken),
+			'headers' => ['Content-Type' => 'application/xml']
+		];
 
-		return $this->parseMultiStatus($response['body']);
+		$response = $client->request(
+			'REPORT',
+			$addressBookUrl,
+			$options
+		);
+
+		$body = $response->getBody();
+		assert(is_string($body));
+
+		return $this->parseMultiStatus($body);
 	}
 
-	protected function download(string $url, string $userName, string $sharedSecret, string $resourcePath): array {
-		$client = $this->getClient($url, $userName, $sharedSecret);
-		return $client->request('GET', $resourcePath);
+	protected function download(string $url, string $userName, string $sharedSecret, string $resourcePath): string {
+		$client = $this->clientService->newClient();
+
+		// the trailing slash is important for merging base_uri and uri
+		$url = rtrim($url, '/') . '/';
+
+		$options = [
+			'auth' => [$userName, $sharedSecret],
+			'base_uri' => $url,
+		];
+
+		$response = $client->get(
+			$resourcePath,
+			$options
+		);
+
+		return (string)$response->getBody();
 	}
 
 	private function buildSyncCollectionRequestBody(?string $syncToken): string {
 		$dom = new \DOMDocument('1.0', 'UTF-8');
 		$dom->formatOutput = true;
 		$root = $dom->createElementNS('DAV:', 'd:sync-collection');
-		$sync = $dom->createElement('d:sync-token', $syncToken);
+		$sync = $dom->createElement('d:sync-token', $syncToken ?? '');
 		$prop = $dom->createElement('d:prop');
 		$cont = $dom->createElement('d:getcontenttype');
 		$etag = $dom->createElement('d:getetag');
@@ -226,7 +200,7 @@ class SyncService {
 
 		$cardId = self::getCardUri($user);
 		if ($user->isEnabled()) {
-			$this->atomic(function() use ($addressBookId, $cardId, $user) {
+			$this->atomic(function () use ($addressBookId, $cardId, $user) {
 				$card = $this->backend->getCard($addressBookId, $cardId);
 				if ($card === false) {
 					$vCard = $this->converter->createCardFromUser($user);
@@ -272,7 +246,10 @@ class SyncService {
 		return $this->localSystemAddressBook;
 	}
 
-	public function syncInstance(\Closure $progressCallback = null) {
+	/**
+	 * @return void
+	 */
+	public function syncInstance(?\Closure $progressCallback = null) {
 		$systemAddressBook = $this->getLocalSystemAddressBook();
 		$this->userManager->callForAllUsers(function ($user) use ($systemAddressBook, $progressCallback) {
 			$this->updateUser($user);

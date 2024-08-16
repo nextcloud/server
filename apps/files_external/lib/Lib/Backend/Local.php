@@ -1,33 +1,18 @@
 <?php
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin McCorkell <robin@mccorkell.me.uk>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2018-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\Files_External\Lib\Backend;
 
 use OCA\Files_External\Lib\Auth\AuthMechanism;
 use OCA\Files_External\Lib\Auth\NullMechanism;
 use OCA\Files_External\Lib\DefinitionParameter;
+use OCA\Files_External\Lib\StorageConfig;
 use OCA\Files_External\Service\BackendService;
 use OCP\IL10N;
+use OCP\IUser;
 
 class Local extends Backend {
 	public function __construct(IL10N $l, NullMechanism $legacyAuth) {
@@ -44,5 +29,9 @@ class Local extends Backend {
 			->addAuthScheme(AuthMechanism::SCHEME_NULL)
 			->setLegacyAuthMechanism($legacyAuth)
 		;
+	}
+
+	public function manipulateStorageConfig(StorageConfig &$storage, ?IUser $user = null): void {
+		$storage->setBackendOption('isExternal', true);
 	}
 }

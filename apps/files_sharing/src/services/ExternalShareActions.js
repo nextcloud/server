@@ -1,23 +1,6 @@
 /**
- * @copyright Copyright (c) 2019 John Molakvoæ <skjnldsv@protonmail.com>
- *
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- *
- * @license AGPL-3.0-or-later
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 export default class ExternalShareActions {
@@ -45,12 +28,18 @@ export default class ExternalShareActions {
 	}
 
 	/**
+	 * @typedef ExternalShareActionData
+	 * @property {import('vue').Component} is Vue component to render, for advanced actions the `async onSave` method of the component will be called when saved
+	 */
+
+	/**
 	 * Register a new option/entry for the a given share type
 	 *
 	 * @param {object} action new action component to register
 	 * @param {string} action.id unique action id
-	 * @param {Function} action.data data to bind the component to
+	 * @param {(data: any) => ExternalShareActionData & Record<string, unknown>} action.data data to bind the component to
 	 * @param {Array} action.shareType list of \@nextcloud/sharing.Types.SHARE_XXX to be mounted on
+	 * @param {boolean} action.advanced `true` if the action entry should be rendered within advanced settings
 	 * @param {object} action.handlers list of listeners
 	 * @return {boolean}
 	 */

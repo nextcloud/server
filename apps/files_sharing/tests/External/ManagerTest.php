@@ -1,38 +1,16 @@
 <?php
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Bjoern Schiessle <bjoern@schiessle.org>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Daniel Kesselberg <mail@danielkesselberg.de>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\Files_Sharing\Tests\External;
 
 use OC\Federation\CloudIdManager;
+use OC\Files\Mount\MountPoint;
 use OC\Files\SetupManagerFactory;
 use OC\Files\Storage\StorageFactory;
+use OC\Files\Storage\Temporary;
 use OCA\Files_Sharing\External\Manager;
 use OCA\Files_Sharing\External\MountProvider;
 use OCA\Files_Sharing\Tests\TestCase;
@@ -191,11 +169,16 @@ class ManagerTest extends TestCase {
 	}
 
 	private function setupMounts() {
-		$this->mountManager->clear();
+		$this->clearMounts();
 		$mounts = $this->testMountProvider->getMountsForUser($this->user, new StorageFactory());
 		foreach ($mounts as $mount) {
 			$this->mountManager->addMount($mount);
 		}
+	}
+
+	private function clearMounts() {
+		$this->mountManager->clear();
+		$this->mountManager->addMount(new MountPoint(Temporary::class, '', []));
 	}
 
 	public function testAddUserShare() {
@@ -235,7 +218,7 @@ class ManagerTest extends TestCase {
 		if ($isGroup) {
 			$this->manager->expects($this->never())->method('tryOCMEndPoint');
 		} else {
-			$this->manager->expects($this->any())->method('tryOCMEndPoint')
+			$this->manager->method('tryOCMEndPoint')
 				->withConsecutive(
 					['http://localhost', 'token1', '2342', 'accept'],
 					['http://localhost', 'token3', '2342', 'decline'],
@@ -415,7 +398,7 @@ class ManagerTest extends TestCase {
 
 		$this->assertEmpty(self::invokePrivate($this->manager, 'getShares', [null]), 'Asserting all shares for the user have been deleted');
 
-		$this->mountManager->clear();
+		$this->clearMounts();
 		self::invokePrivate($this->manager, 'setupMounts');
 		$this->assertNotMount($shareData1['name']);
 		$this->assertNotMount('{{TemporaryMountPointName#' . $shareData1['name'] . '}}');

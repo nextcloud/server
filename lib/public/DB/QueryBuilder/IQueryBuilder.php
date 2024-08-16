@@ -1,35 +1,18 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Daniel Kesselberg <mail@danielkesselberg.de>
- * @author J0WI <J0WI@users.noreply.github.com>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCP\DB\QueryBuilder;
 
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\ParameterType;
 use OCP\DB\Exception;
 use OCP\DB\IResult;
+use OCP\IDBConnection;
 
 /**
  * This class provides a wrapper around Doctrine's QueryBuilder
@@ -41,23 +24,23 @@ interface IQueryBuilder {
 	/**
 	 * @since 9.0.0
 	 */
-	public const PARAM_NULL = \PDO::PARAM_NULL;
+	public const PARAM_NULL = ParameterType::NULL;
 	/**
 	 * @since 9.0.0
 	 */
-	public const PARAM_BOOL = \PDO::PARAM_BOOL;
+	public const PARAM_BOOL = ParameterType::BOOLEAN;
 	/**
 	 * @since 9.0.0
 	 */
-	public const PARAM_INT = \PDO::PARAM_INT;
+	public const PARAM_INT = ParameterType::INTEGER;
 	/**
 	 * @since 9.0.0
 	 */
-	public const PARAM_STR = \PDO::PARAM_STR;
+	public const PARAM_STR = ParameterType::STRING;
 	/**
 	 * @since 9.0.0
 	 */
-	public const PARAM_LOB = \PDO::PARAM_LOB;
+	public const PARAM_LOB = ParameterType::LARGE_OBJECT;
 	/**
 	 * @since 9.0.0
 	 */
@@ -71,11 +54,11 @@ interface IQueryBuilder {
 	/**
 	 * @since 9.0.0
 	 */
-	public const PARAM_INT_ARRAY = Connection::PARAM_INT_ARRAY;
+	public const PARAM_INT_ARRAY = ArrayParameterType::INTEGER;
 	/**
 	 * @since 9.0.0
 	 */
-	public const PARAM_STR_ARRAY = Connection::PARAM_STR_ARRAY;
+	public const PARAM_STR_ARRAY = ArrayParameterType::STRING;
 
 	/**
 	 * @since 24.0.0 Indicates how many rows can be deleted at once with MySQL
@@ -151,6 +134,8 @@ interface IQueryBuilder {
 	 *
 	 * @return integer Either QueryBuilder::STATE_DIRTY or QueryBuilder::STATE_CLEAN.
 	 * @since 8.2.0
+	 * @deprecated 30.0.0 This function is going to be removed with the next Doctrine/DBAL update
+	 *    and we can not fix this in our wrapper.
 	 */
 	public function getState();
 
@@ -164,34 +149,37 @@ interface IQueryBuilder {
 	 *          that interface changed in a breaking way the adapter \OCP\DB\QueryBuilder\IStatement is returned
 	 *          to bridge old code to the new API
 	 *
+	 * @param ?IDBConnection $connection (optional) the connection to run the query against. since 30.0
 	 * @return IResult|int
 	 * @throws Exception since 21.0.0
 	 * @since 8.2.0
 	 * @deprecated 22.0.0 Use executeQuery or executeStatement
 	 */
-	public function execute();
+	public function execute(?IDBConnection $connection = null);
 
 	/**
 	 * Execute for select statements
 	 *
+	 * @param ?IDBConnection $connection (optional) the connection to run the query against. since 30.0
 	 * @return IResult
 	 * @since 22.0.0
 	 *
 	 * @throws Exception
 	 * @throws \RuntimeException in case of usage with non select query
 	 */
-	public function executeQuery(): IResult;
+	public function executeQuery(?IDBConnection $connection = null): IResult;
 
 	/**
 	 * Execute insert, update and delete statements
 	 *
+	 * @param ?IDBConnection $connection (optional) the connection to run the query against. since 30.0
 	 * @return int the number of affected rows
 	 * @since 22.0.0
 	 *
 	 * @throws Exception
 	 * @throws \RuntimeException in case of usage with select query
 	 */
-	public function executeStatement(): int;
+	public function executeStatement(?IDBConnection $connection = null): int;
 
 	/**
 	 * Gets the complete SQL string formed by the current specifications of this QueryBuilder.
@@ -409,8 +397,8 @@ interface IQueryBuilder {
 	 *
 	 * <code>
 	 *     $qb = $conn->getQueryBuilder()
-	 *         ->delete('users', 'u')
-	 *         ->where('u.id = :user_id');
+	 *         ->delete('users')
+	 *         ->where('id = :user_id');
 	 *         ->setParameter(':user_id', 1);
 	 * </code>
 	 *
@@ -419,6 +407,7 @@ interface IQueryBuilder {
 	 *
 	 * @return $this This QueryBuilder instance.
 	 * @since 8.2.0
+	 * @since 30.0.0 Alias is deprecated and will no longer be used with the next Doctrine/DBAL update
 	 *
 	 * @psalm-taint-sink sql $delete
 	 */
@@ -430,9 +419,10 @@ interface IQueryBuilder {
 	 *
 	 * <code>
 	 *     $qb = $conn->getQueryBuilder()
-	 *         ->update('users', 'u')
-	 *         ->set('u.password', md5('password'))
-	 *         ->where('u.id = ?');
+	 *         ->update('users')
+	 *         ->set('email', ':email')
+	 *         ->where('id = :user_id');
+	 *         ->setParameter(':user_id', 1);
 	 * </code>
 	 *
 	 * @param string $update The table whose rows are subject to the update.
@@ -440,6 +430,7 @@ interface IQueryBuilder {
 	 *
 	 * @return $this This QueryBuilder instance.
 	 * @since 8.2.0
+	 * @since 30.0.0 Alias is deprecated and will no longer be used with the next Doctrine/DBAL update
 	 *
 	 * @psalm-taint-sink sql $update
 	 */
@@ -623,9 +614,10 @@ interface IQueryBuilder {
 	 *     // You can optionally programmatically build and/or expressions
 	 *     $qb = $conn->getQueryBuilder();
 	 *
-	 *     $or = $qb->expr()->orx();
-	 *     $or->add($qb->expr()->eq('u.id', 1));
-	 *     $or->add($qb->expr()->eq('u.id', 2));
+	 *     $or = $qb->expr()->orx(
+	 *         $qb->expr()->eq('u.id', 1),
+	 *         $qb->expr()->eq('u.id', 2),
+	 *     );
 	 *
 	 *     $qb->update('users', 'u')
 	 *         ->set('u.password', md5('password'))
@@ -851,6 +843,8 @@ interface IQueryBuilder {
 	 *
 	 * @return mixed
 	 * @since 8.2.0
+	 * @deprecated 30.0.0 This function is going to be removed with the next Doctrine/DBAL update
+	 *  and we can not fix this in our wrapper. Please track the details you need, outside the object.
 	 */
 	public function getQueryPart($queryPartName);
 
@@ -859,6 +853,8 @@ interface IQueryBuilder {
 	 *
 	 * @return array
 	 * @since 8.2.0
+	 * @deprecated 30.0.0 This function is going to be removed with the next Doctrine/DBAL update
+	 *  and we can not fix this in our wrapper. Please track the details you need, outside the object.
 	 */
 	public function getQueryParts();
 
@@ -869,6 +865,8 @@ interface IQueryBuilder {
 	 *
 	 * @return $this This QueryBuilder instance.
 	 * @since 8.2.0
+	 * @deprecated 30.0.0 This function is going to be removed with the next Doctrine/DBAL update
+	 * and we can not fix this in our wrapper. Please create a new IQueryBuilder instead.
 	 */
 	public function resetQueryParts($queryPartNames = null);
 
@@ -879,6 +877,8 @@ interface IQueryBuilder {
 	 *
 	 * @return $this This QueryBuilder instance.
 	 * @since 8.2.0
+	 * @deprecated 30.0.0 This function is going to be removed with the next Doctrine/DBAL update
+	 *  and we can not fix this in our wrapper. Please create a new IQueryBuilder instead.
 	 */
 	public function resetQueryPart($queryPartName);
 
@@ -906,7 +906,7 @@ interface IQueryBuilder {
 	 * @link http://www.zetacomponents.org
 	 *
 	 * @param mixed $value
-	 * @param mixed $type
+	 * @param self::PARAM_* $type
 	 * @param string $placeHolder The name to bind with. The string must start with a colon ':'.
 	 *
 	 * @return IParameter
@@ -934,7 +934,7 @@ interface IQueryBuilder {
 	 * </code>
 	 *
 	 * @param mixed $value
-	 * @param integer $type
+	 * @param self::PARAM_* $type
 	 *
 	 * @return IParameter
 	 * @since 8.2.0
@@ -988,7 +988,7 @@ interface IQueryBuilder {
 	 * @return IQueryFunction
 	 * @since 8.2.0
 	 *
-	 * @psalm-taint-sink sql
+	 * @psalm-taint-sink sql $call
 	 */
 	public function createFunction($call);
 

@@ -1,32 +1,9 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Bjoern Schiessle <bjoern@schiessle.org>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Citharel <nextcloud@tcit.fr>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\DAV\Tests\unit\DAV;
 
@@ -39,19 +16,14 @@ use OCP\IL10N;
 use OCP\IUser;
 use OCP\IUserManager;
 use PHPUnit\Framework\MockObject\MockObject;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Test\TestCase;
 
 class HookManagerTest extends TestCase {
 	/** @var IL10N */
 	private $l10n;
 
-	/** @var  EventDispatcherInterface | MockObject  */
-	private $eventDispatcher;
-
 	protected function setUp(): void {
 		parent::setUp();
-		$this->eventDispatcher = $this->createMock(EventDispatcherInterface::class);
 		$this->l10n = $this->createMock(IL10N::class);
 		$this->l10n
 			->expects($this->any())
@@ -106,7 +78,7 @@ class HookManagerTest extends TestCase {
 			'principals/users/newUser',
 			'contacts', ['{DAV:}displayname' => 'Contacts']);
 
-		$hm = new HookManager($userManager, $syncService, $cal, $card, $defaults, $this->eventDispatcher);
+		$hm = new HookManager($userManager, $syncService, $cal, $card, $defaults);
 		$hm->firstLogin($user);
 	}
 
@@ -145,7 +117,7 @@ class HookManagerTest extends TestCase {
 		$card->expects($this->once())->method('getAddressBooksForUserCount')->willReturn(1);
 		$card->expects($this->never())->method('createAddressBook');
 
-		$hm = new HookManager($userManager, $syncService, $cal, $card, $defaults, $this->eventDispatcher);
+		$hm = new HookManager($userManager, $syncService, $cal, $card, $defaults);
 		$hm->firstLogin($user);
 	}
 
@@ -193,7 +165,7 @@ class HookManagerTest extends TestCase {
 			'principals/users/newUser',
 			'contacts', ['{DAV:}displayname' => 'Contacts']);
 
-		$hm = new HookManager($userManager, $syncService, $cal, $card, $defaults, $this->eventDispatcher);
+		$hm = new HookManager($userManager, $syncService, $cal, $card, $defaults);
 		$hm->firstLogin($user);
 	}
 
@@ -243,7 +215,7 @@ class HookManagerTest extends TestCase {
 		]);
 		$card->expects($this->once())->method('deleteAddressBook');
 
-		$hm = new HookManager($userManager, $syncService, $cal, $card, $defaults, $this->eventDispatcher);
+		$hm = new HookManager($userManager, $syncService, $cal, $card, $defaults);
 		$hm->preDeleteUser(['uid' => 'newUser']);
 		$hm->postDeleteUser(['uid' => 'newUser']);
 	}

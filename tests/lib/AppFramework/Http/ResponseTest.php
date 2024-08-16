@@ -1,24 +1,9 @@
 <?php
 
 /**
- * ownCloud - App Framework
- *
- * @author Bernhard Posselt
- * @copyright 2012 Bernhard Posselt <dev@bernhard-posselt.com>
- *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
- * License as published by the Free Software Foundation; either
- * version 3 of the License, or any later version.
- *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU AFFERO GENERAL PUBLIC LICENSE for more details.
- *
- * You should have received a copy of the GNU Affero General Public
- * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace Test\AppFramework\Http;
@@ -52,12 +37,15 @@ class ResponseTest extends \Test\TestCase {
 			'ETag' => 3,
 			'Something-Else' => 'hi',
 			'X-Robots-Tag' => 'noindex, nofollow',
+			'Cache-Control' => 'no-cache, no-store, must-revalidate',
 		];
 
 		$this->childResponse->setHeaders($expected);
-		$headers = $this->childResponse->getHeaders();
 		$expected['Content-Security-Policy'] = "default-src 'none';base-uri 'none';manifest-src 'self';frame-ancestors 'none'";
 		$expected['Feature-Policy'] = "autoplay 'none';camera 'none';fullscreen 'none';geolocation 'none';microphone 'none';payment 'none'";
+
+		$headers = $this->childResponse->getHeaders();
+		unset($headers['X-Request-Id']);
 
 		$this->assertEquals($expected, $headers);
 	}
@@ -226,7 +214,6 @@ class ResponseTest extends \Test\TestCase {
 
 		$headers = $this->childResponse->getHeaders();
 		$this->assertEquals('no-cache, no-store, must-revalidate', $headers['Cache-Control']);
-		$this->assertFalse(isset($headers['Pragma']));
 		$this->assertFalse(isset($headers['Expires']));
 	}
 
@@ -242,7 +229,6 @@ class ResponseTest extends \Test\TestCase {
 
 		$headers = $this->childResponse->getHeaders();
 		$this->assertEquals('private, max-age=33, must-revalidate', $headers['Cache-Control']);
-		$this->assertEquals('private', $headers['Pragma']);
 		$this->assertEquals('Thu, 15 Jan 1970 06:56:40 +0000', $headers['Expires']);
 	}
 

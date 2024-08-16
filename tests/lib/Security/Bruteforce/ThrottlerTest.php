@@ -3,29 +3,15 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2016 Lukas Reschke <lukas@statuscode.ch>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace Test\Security\Bruteforce;
 
-use OC\AppFramework\Utility\TimeFactory;
+use OC\Security\Bruteforce\Backend\DatabaseBackend;
 use OC\Security\Bruteforce\Throttler;
+use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use Psr\Log\LoggerInterface;
@@ -42,6 +28,8 @@ class ThrottlerTest extends TestCase {
 	private $throttler;
 	/** @var IDBConnection */
 	private $dbConnection;
+	/** @var ITimeFactory */
+	private $timeFactory;
 	/** @var LoggerInterface */
 	private $logger;
 	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
@@ -49,35 +37,17 @@ class ThrottlerTest extends TestCase {
 
 	protected function setUp(): void {
 		$this->dbConnection = $this->createMock(IDBConnection::class);
+		$this->timeFactory = $this->createMock(ITimeFactory::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->config = $this->createMock(IConfig::class);
 
 		$this->throttler = new Throttler(
-			$this->dbConnection,
-			new TimeFactory(),
+			$this->timeFactory,
 			$this->logger,
-			$this->config
+			$this->config,
+			new DatabaseBackend($this->dbConnection)
 		);
 		parent::setUp();
-	}
-
-	public function testCutoff() {
-		// precisely 31 second shy of 12 hours
-		$cutoff = self::invokePrivate($this->throttler, 'getCutoff', [43169]);
-		$this->assertSame(0, $cutoff->y);
-		$this->assertSame(0, $cutoff->m);
-		$this->assertSame(0, $cutoff->d);
-		$this->assertSame(11, $cutoff->h);
-		$this->assertSame(59, $cutoff->i);
-		$this->assertSame(29, $cutoff->s);
-		$cutoff = self::invokePrivate($this->throttler, 'getCutoff', [86401]);
-		$this->assertSame(0, $cutoff->y);
-		$this->assertSame(0, $cutoff->m);
-		$this->assertSame(1, $cutoff->d);
-		$this->assertSame(0, $cutoff->h);
-		$this->assertSame(0, $cutoff->i);
-		// Leap second tolerance:
-		$this->assertLessThan(2, $cutoff->s);
 	}
 
 	public function dataIsIPWhitelisted() {
@@ -175,9 +145,9 @@ class ThrottlerTest extends TestCase {
 	 * @param bool $enabled
 	 */
 	private function isIpWhiteListedHelper($ip,
-										 $whitelists,
-										 $isWhiteListed,
-										 $enabled) {
+		$whitelists,
+		$isWhiteListed,
+		$enabled) {
 		$this->config->method('getAppKeys')
 			->with($this->equalTo('bruteForce'))
 			->willReturn(array_keys($whitelists));
@@ -200,7 +170,7 @@ class ThrottlerTest extends TestCase {
 
 		$this->assertSame(
 			($enabled === false) ? true : $isWhiteListed,
-			self::invokePrivate($this->throttler, 'isIPWhitelisted', [$ip])
+			self::invokePrivate($this->throttler, 'isBypassListed', [$ip])
 		);
 	}
 
@@ -212,8 +182,8 @@ class ThrottlerTest extends TestCase {
 	 * @param bool $isWhiteListed
 	 */
 	public function testIsIpWhiteListedWithEnabledProtection($ip,
-															 $whitelists,
-															 $isWhiteListed) {
+		$whitelists,
+		$isWhiteListed) {
 		$this->isIpWhiteListedHelper(
 			$ip,
 			$whitelists,
@@ -230,8 +200,8 @@ class ThrottlerTest extends TestCase {
 	 * @param bool $isWhiteListed
 	 */
 	public function testIsIpWhiteListedWithDisabledProtection($ip,
-															 $whitelists,
-															 $isWhiteListed) {
+		$whitelists,
+		$isWhiteListed) {
 		$this->isIpWhiteListedHelper(
 			$ip,
 			$whitelists,

@@ -1,88 +1,38 @@
 <?php
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Maxence Lange <maxence@nextcloud.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Vincent Petry <vincent@nextcloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\Files_Sharing;
 
-use OCP\Cache\CappedMemoryCache;
 use OC\Files\View;
 use OCA\Files_Sharing\Event\ShareMountedEvent;
+use OCP\Cache\CappedMemoryCache;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Config\IMountProvider;
 use OCP\Files\Storage\IStorageFactory;
 use OCP\ICacheFactory;
 use OCP\IConfig;
-use OCP\ILogger;
 use OCP\IUser;
-use OCP\Share\IAttributes;
 use OCP\Share\IManager;
 use OCP\Share\IShare;
+use Psr\Log\LoggerInterface;
 
 class MountProvider implements IMountProvider {
 	/**
-	 * @var \OCP\IConfig
-	 */
-	protected $config;
-
-	/**
-	 * @var IManager
-	 */
-	protected $shareManager;
-
-	/**
-	 * @var ILogger
-	 */
-	protected $logger;
-
-	/** @var IEventDispatcher */
-	protected $eventDispatcher;
-
-	/** @var ICacheFactory */
-	protected $cacheFactory;
-
-	/**
 	 * @param \OCP\IConfig $config
 	 * @param IManager $shareManager
-	 * @param ILogger $logger
+	 * @param LoggerInterface $logger
 	 */
 	public function __construct(
-		IConfig $config,
-		IManager $shareManager,
-		ILogger $logger,
-		IEventDispatcher $eventDispatcher,
-		ICacheFactory $cacheFactory
+		protected IConfig $config,
+		protected IManager $shareManager,
+		protected LoggerInterface $logger,
+		protected IEventDispatcher $eventDispatcher,
+		protected ICacheFactory $cacheFactory
 	) {
-		$this->config = $config;
-		$this->shareManager = $shareManager;
-		$this->logger = $logger;
-		$this->eventDispatcher = $eventDispatcher;
-		$this->cacheFactory = $cacheFactory;
 	}
-
 
 	/**
 	 * Get all mountpoints applicable for the user and check for shares where we need to update the etags
@@ -157,8 +107,13 @@ class MountProvider implements IMountProvider {
 					$mounts[$additionalMount->getMountPoint()] = $additionalMount;
 				}
 			} catch (\Exception $e) {
-				$this->logger->logException($e);
-				$this->logger->error('Error while trying to create shared mount');
+				$this->logger->error(
+					'Error while trying to create shared mount',
+					[
+						'app' => 'files_sharing',
+						'exception' => $e,
+					],
+				);
 			}
 		}
 
@@ -234,7 +189,9 @@ class MountProvider implements IMountProvider {
 			// Since these are readly available here, storing them
 			// enables the DAV FilesPlugin to avoid executing many
 			// DB queries to retrieve the same information.
-			$allNotes = implode("\n", array_map(function ($sh) { return $sh->getNote(); }, $shares));
+			$allNotes = implode("\n", array_map(function ($sh) {
+				return $sh->getNote();
+			}, $shares));
 			$superShare->setNote($allNotes);
 
 			// use most permissive permissions
@@ -258,7 +215,7 @@ class MountProvider implements IMountProvider {
 							continue;
 						}
 						// update supershare attributes with subshare attribute
-						$superAttributes->setAttribute($attribute['scope'], $attribute['key'], $attribute['enabled']);
+						$superAttributes->setAttribute($attribute['scope'], $attribute['key'], $attribute['value']);
 					}
 				}
 

@@ -1,28 +1,7 @@
 <?php
 /**
- * @copyright Copyright (c) 2016 Joas Schilling <coding@schilljs.com>
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\WorkflowEngine\Check;
 
@@ -107,13 +86,7 @@ class FileMimeType extends AbstractStringCheck implements IFileCheck {
 	 * @return bool
 	 */
 	public function executeCheck($operator, $value) {
-		$actualValue = $this->getActualValue();
-		$plainMimetypeResult = $this->executeStringCheck($operator, $value, $actualValue);
-		if ($actualValue === 'httpd/unix-directory') {
-			return $plainMimetypeResult;
-		}
-		$detectMimetypeBasedOnFilenameResult = $this->executeStringCheck($operator, $value, $this->mimeTypeDetector->detectPath($this->path));
-		return $plainMimetypeResult || $detectMimetypeBasedOnFilenameResult;
+		return $this->executeStringCheck($operator, $value, $this->getActualValue());
 	}
 
 	/**
@@ -157,11 +130,11 @@ class FileMimeType extends AbstractStringCheck implements IFileCheck {
 	protected function isWebDAVRequest() {
 		return substr($this->request->getScriptName(), 0 - strlen('/remote.php')) === '/remote.php' && (
 			$this->request->getPathInfo() === '/webdav' ||
-			strpos($this->request->getPathInfo(), '/webdav/') === 0 ||
+			str_starts_with($this->request->getPathInfo() ?? '', '/webdav/') ||
 			$this->request->getPathInfo() === '/dav/files' ||
-			strpos($this->request->getPathInfo(), '/dav/files/') === 0 ||
+			str_starts_with($this->request->getPathInfo() ?? '', '/dav/files/') ||
 			$this->request->getPathInfo() === '/dav/uploads' ||
-			strpos($this->request->getPathInfo(), '/dav/uploads/') === 0
+			str_starts_with($this->request->getPathInfo() ?? '', '/dav/uploads/')
 		);
 	}
 
@@ -171,7 +144,7 @@ class FileMimeType extends AbstractStringCheck implements IFileCheck {
 	protected function isPublicWebDAVRequest() {
 		return substr($this->request->getScriptName(), 0 - strlen('/public.php')) === '/public.php' && (
 			$this->request->getPathInfo() === '/webdav' ||
-			strpos($this->request->getPathInfo(), '/webdav/') === 0
+			str_starts_with($this->request->getPathInfo() ?? '', '/webdav/')
 		);
 	}
 

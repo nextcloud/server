@@ -2,33 +2,16 @@
 
 declare(strict_types=1);
 /**
- * @copyright Copyright (c) 2018 Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace Test\Authentication\Token;
 
 use OC;
-use OC\Authentication\Token\IToken;
 use OC\Authentication\Token\PublicKeyToken;
 use OC\Authentication\Token\PublicKeyTokenMapper;
+use OCP\Authentication\Token\IToken;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 use OCP\IUser;
@@ -113,6 +96,20 @@ class PublicKeyTokenMapperTest extends TestCase {
 			'version' => $qb->createNamedParameter(2),
 			'password_invalid' => $qb->createNamedParameter(1),
 		])->execute();
+		$qb->insert('authtoken')->values([
+			'uid' => $qb->createNamedParameter('user3'),
+			'login_name' => $qb->createNamedParameter('User3'),
+			'password' => $qb->createNamedParameter('063de945d6f6b26862d9b6f40652f2d5|DZ/z520tfdXPtd0T|395f6b89be8d9d605e409e20b9d9abe477fde1be38a3223f9e508f979bf906e50d9eaa4dca983ca4fb22a241eb696c3f98654e7775f78c4caf13108f98642b53'),
+			'name' => $qb->createNamedParameter('Iceweasel on Linux'),
+			'token' => $qb->createNamedParameter('84c5808c6445b6d65b8aa5b03840f09b27de603f0fb970906fb14ea4b115b7bf5ec53fada5c093fe46afdcd7bbc9617253a4d105f7dfb32719f9973d72412f31'),
+			'type' => $qb->createNamedParameter(IToken::PERMANENT_TOKEN),
+			'last_activity' => $qb->createNamedParameter($this->time - 60 * 3, IQueryBuilder::PARAM_INT), // Three minutes ago
+			'last_check' => $this->time - 60 * 10, // 10mins ago
+			'public_key' => $qb->createNamedParameter('public key'),
+			'private_key' => $qb->createNamedParameter('private key'),
+			'version' => $qb->createNamedParameter(2),
+			'password_invalid' => $qb->createNamedParameter(1),
+		])->execute();
 	}
 
 	private function getNumberOfTokens() {
@@ -129,7 +126,7 @@ class PublicKeyTokenMapperTest extends TestCase {
 
 		$this->mapper->invalidate($token);
 
-		$this->assertSame(3, $this->getNumberOfTokens());
+		$this->assertSame(4, $this->getNumberOfTokens());
 	}
 
 	public function testInvalidateInvalid() {
@@ -137,7 +134,7 @@ class PublicKeyTokenMapperTest extends TestCase {
 
 		$this->mapper->invalidate($token);
 
-		$this->assertSame(4, $this->getNumberOfTokens());
+		$this->assertSame(5, $this->getNumberOfTokens());
 	}
 
 	public function testInvalidateOld() {
@@ -145,7 +142,15 @@ class PublicKeyTokenMapperTest extends TestCase {
 
 		$this->mapper->invalidateOld($olderThan);
 
-		$this->assertSame(3, $this->getNumberOfTokens());
+		$this->assertSame(4, $this->getNumberOfTokens());
+	}
+
+	public function testInvalidateLastUsedBefore() {
+		$before = $this->time - 60 * 2; // Two minutes
+
+		$this->mapper->invalidateLastUsedBefore('user3', $before);
+
+		$this->assertSame(4, $this->getNumberOfTokens());
 	}
 
 	public function testGetToken() {
@@ -227,7 +232,7 @@ class PublicKeyTokenMapperTest extends TestCase {
 		$this->assertCount(0, $this->mapper->getTokenByUser('user1000'));
 	}
 
-	public function testDeleteById() {
+	public function testGetById() {
 		/** @var IUser|\PHPUnit\Framework\MockObject\MockObject $user */
 		$user = $this->createMock(IUser::class);
 		$qb = $this->dbConnection->getQueryBuilder();
@@ -237,17 +242,8 @@ class PublicKeyTokenMapperTest extends TestCase {
 		$result = $qb->execute();
 		$id = $result->fetch()['id'];
 
-		$this->mapper->deleteById('user1', (int)$id);
-		$this->assertEquals(3, $this->getNumberOfTokens());
-	}
-
-	public function testDeleteByIdWrongUser() {
-		/** @var IUser|\PHPUnit\Framework\MockObject\MockObject $user */
-		$user = $this->createMock(IUser::class);
-		$id = 33;
-
-		$this->mapper->deleteById('user1000', $id);
-		$this->assertEquals(4, $this->getNumberOfTokens());
+		$token = $this->mapper->getTokenById((int)$id);
+		$this->assertEquals('user1', $token->getUID());
 	}
 
 	public function testDeleteByName() {
@@ -258,7 +254,7 @@ class PublicKeyTokenMapperTest extends TestCase {
 		$result = $qb->execute();
 		$name = $result->fetch()['name'];
 		$this->mapper->deleteByName($name);
-		$this->assertEquals(3, $this->getNumberOfTokens());
+		$this->assertEquals(4, $this->getNumberOfTokens());
 	}
 
 	public function testHasExpiredTokens() {

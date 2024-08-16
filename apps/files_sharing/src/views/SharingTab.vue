@@ -1,27 +1,10 @@
 <!--
-  - @copyright Copyright (c) 2019 John Molakvoæ <skjnldsv@protonmail.com>
-  -
-  - @author John Molakvoæ <skjnldsv@protonmail.com>
-  -
-  - @license GNU AGPL version 3 or any later version
-  -
-  - This program is free software: you can redistribute it and/or modify
-  - it under the terms of the GNU Affero General Public License as
-  - published by the Free Software Foundation, either version 3 of the
-  - License, or (at your option) any later version.
-  -
-  - This program is distributed in the hope that it will be useful,
-  - but WITHOUT ANY WARRANTY; without even the implied warranty of
-  - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  - GNU Affero General Public License for more details.
-  -
-  - You should have received a copy of the GNU Affero General Public License
-  - along with this program. If not, see <http://www.gnu.org/licenses/>.
-  -
-  -->
+  - SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 
 <template>
-	<div :class="{ 'icon-loading': loading }">
+	<div class="sharingTab" :class="{ 'icon-loading': loading }">
 		<!-- error message -->
 		<div v-if="error" class="emptycontent" :class="{ emptyContentWithSections: sections.length > 0 }">
 			<div class="icon icon-error" />
@@ -29,15 +12,18 @@
 		</div>
 
 		<!-- shares content -->
-		<div v-else class="sharingTab__content">
+		<div v-show="!showSharingDetailsView"
+			class="sharingTab__content">
 			<!-- shared with me information -->
-			<SharingEntrySimple v-if="isSharedWithMe" v-bind="sharedWithMe" class="sharing-entry__reshare">
-				<template #avatar>
-					<NcAvatar :user="sharedWithMe.user"
-						:display-name="sharedWithMe.displayName"
-						class="sharing-entry__avatar" />
-				</template>
-			</SharingEntrySimple>
+			<ul>
+				<SharingEntrySimple v-if="isSharedWithMe" v-bind="sharedWithMe" class="sharing-entry__reshare">
+					<template #avatar>
+						<NcAvatar :user="sharedWithMe.user"
+							:display-name="sharedWithMe.displayName"
+							class="sharing-entry__avatar" />
+					</template>
+				</SharingEntrySimple>
+			</ul>
 
 			<!-- add new share input -->
 			<SharingInput v-if="!loading"
@@ -46,20 +32,22 @@
 				:link-shares="linkShares"
 				:reshare="reshare"
 				:shares="shares"
-				@add:share="addShare" />
+				@open-sharing-details="toggleShareDetailsView" />
 
 			<!-- link shares list -->
 			<SharingLinkList v-if="!loading"
 				ref="linkShareList"
 				:can-reshare="canReshare"
 				:file-info="fileInfo"
-				:shares="linkShares" />
+				:shares="linkShares"
+				@open-sharing-details="toggleShareDetailsView" />
 
 			<!-- other shares list -->
 			<SharingList v-if="!loading"
 				ref="shareList"
 				:shares="shares"
-				:file-info="fileInfo" />
+				:file-info="fileInfo"
+				@open-sharing-details="toggleShareDetailsView" />
 
 			<!-- inherited shares -->
 			<SharingInherited v-if="canReshare && !loading" :file-info="fileInfo" />
@@ -76,11 +64,20 @@
 
 		<!-- additional entries, use it with cautious -->
 		<div v-for="(section, index) in sections"
+			v-show="!showSharingDetailsView"
 			:ref="'section-' + index"
 			:key="index"
 			class="sharingTab__additionalContent">
 			<component :is="section($refs['section-'+index], fileInfo)" :file-info="fileInfo" />
 		</div>
+
+		<!-- share details -->
+		<SharingDetailsTab v-if="showSharingDetailsView"
+			:file-info="shareDetailsData.fileInfo"
+			:share="shareDetailsData.share"
+			@close-sharing-details="toggleShareDetailsView"
+			@add:share="addShare"
+			@remove:share="removeShare" />
 	</div>
 </template>
 
@@ -91,9 +88,9 @@ import NcAvatar from '@nextcloud/vue/dist/Components/NcAvatar.js'
 import axios from '@nextcloud/axios'
 import { loadState } from '@nextcloud/initial-state'
 
-import Config from '../services/ConfigService.js'
+import Config from '../services/ConfigService.ts'
 import { shareWithTitle } from '../utils/SharedWithMe.js'
-import Share from '../models/Share.js'
+import Share from '../models/Share.ts'
 import ShareTypes from '../mixins/ShareTypes.js'
 import SharingEntryInternal from '../components/SharingEntryInternal.vue'
 import SharingEntrySimple from '../components/SharingEntrySimple.vue'
@@ -102,6 +99,7 @@ import SharingInput from '../components/SharingInput.vue'
 import SharingInherited from './SharingInherited.vue'
 import SharingLinkList from './SharingLinkList.vue'
 import SharingList from './SharingList.vue'
+import SharingDetailsTab from './SharingDetailsTab.vue'
 
 export default {
 	name: 'SharingTab',
@@ -115,6 +113,7 @@ export default {
 		SharingInput,
 		SharingLinkList,
 		SharingList,
+		SharingDetailsTab,
 	},
 
 	mixins: [ShareTypes],
@@ -122,7 +121,7 @@ export default {
 	data() {
 		return {
 			config: new Config(),
-
+			deleteEvent: null,
 			error: '',
 			expirationInterval: null,
 			loading: true,
@@ -137,6 +136,9 @@ export default {
 
 			sections: OCA.Sharing.ShareTabSections.getSections(),
 			projectsEnabled: loadState('core', 'projects_enabled', false),
+			showSharingDetailsView: false,
+			shareDetailsData: {},
+			returnFocusElement: null,
 		}
 	},
 
@@ -205,7 +207,7 @@ export default {
 				this.processSharedWithMe(sharedWithMe)
 				this.processShares(shares)
 			} catch (error) {
-				if (error.response.data?.ocs?.meta?.message) {
+				if (error?.response?.data?.ocs?.meta?.message) {
 					this.error = error.response.data.ocs.meta.message
 				} else {
 					this.error = t('files_sharing', 'Unable to load the shares list')
@@ -225,6 +227,8 @@ export default {
 			this.sharedWithMe = {}
 			this.shares = []
 			this.linkShares = []
+			this.showSharingDetailsView = false
+			this.shareDetailsData = {}
 		},
 
 		/**
@@ -256,11 +260,16 @@ export default {
 		 */
 		processShares({ data }) {
 			if (data.ocs && data.ocs.data && data.ocs.data.length > 0) {
-				// create Share objects and sort by newest
+				// create Share objects and sort by title in alphabetical order and then by creation time
 				const shares = data.ocs.data
 					.map(share => new Share(share))
-					.sort((a, b) => b.createdTime - a.createdTime)
-
+					.sort((a, b) => {
+						const localCompare = a.title.localeCompare(b.title)
+						if (localCompare !== 0) {
+							return localCompare
+						}
+						return b.createdTime - a.createdTime
+					})
 				this.linkShares = shares.filter(share => share.type === this.SHARE_TYPES.SHARE_TYPE_LINK || share.type === this.SHARE_TYPES.SHARE_TYPE_EMAIL)
 				this.shares = shares.filter(share => share.type !== this.SHARE_TYPES.SHARE_TYPE_LINK && share.type !== this.SHARE_TYPES.SHARE_TYPE_EMAIL)
 
@@ -307,7 +316,7 @@ export default {
 						'Shared with you by {owner}',
 						{ owner: this.fileInfo.shareOwner },
 						undefined,
-						{ escape: false }
+						{ escape: false },
 					),
 					user: this.fileInfo.shareOwnerId,
 				}
@@ -321,7 +330,7 @@ export default {
 		 * @param {Share} share the share to add to the array
 		 * @param {Function} [resolve] a function to run after the share is added and its component initialized
 		 */
-		addShare(share, resolve = () => {}) {
+		addShare(share, resolve = () => { }) {
 			// only catching share type MAIL as link shares are added differently
 			// meaning: not from the ShareInput
 			if (share.type === this.SHARE_TYPES.SHARE_TYPE_EMAIL) {
@@ -331,7 +340,23 @@ export default {
 			}
 			this.awaitForShare(share, resolve)
 		},
-
+		/**
+		 * Remove a share from the shares list
+		 *
+		 * @param {Share} share the share to remove
+		 */
+		removeShare(share) {
+			// Get reference for this.linkShares or this.shares
+			const shareList
+				= share.type === this.SHARE_TYPES.SHARE_TYPE_EMAIL
+					|| share.type === this.SHARE_TYPES.SHARE_TYPE_LINK
+					? this.linkShares
+					: this.shares
+			const index = shareList.findIndex(item => item.id === share.id)
+			if (index !== -1) {
+				shareList.splice(index, 1)
+			}
+		},
 		/**
 		 * Await for next tick and render after the list updated
 		 * Then resolve with the matched vue component of the
@@ -341,19 +366,44 @@ export default {
 		 * @param {Function} resolve a function to execute after
 		 */
 		awaitForShare(share, resolve) {
-			let listComponent = this.$refs.shareList
-			// Only mail shares comes from the input, link shares
-			// are managed internally in the SharingLinkList component
-			if (share.type === this.SHARE_TYPES.SHARE_TYPE_EMAIL) {
-				listComponent = this.$refs.linkShareList
-			}
-
 			this.$nextTick(() => {
+				let listComponent = this.$refs.shareList
+				// Only mail shares comes from the input, link shares
+				// are managed internally in the SharingLinkList component
+				if (share.type === this.SHARE_TYPES.SHARE_TYPE_EMAIL) {
+					listComponent = this.$refs.linkShareList
+				}
 				const newShare = listComponent.$children.find(component => component.share === share)
 				if (newShare) {
 					resolve(newShare)
 				}
 			})
+		},
+
+		toggleShareDetailsView(eventData) {
+			if (!this.showSharingDetailsView) {
+				const isAction = Array.from(document.activeElement.classList)
+					.some(className => className.startsWith('action-'))
+				if (isAction) {
+					const menuId = document.activeElement.closest('[role="menu"]')?.id
+					this.returnFocusElement = document.querySelector(`[aria-controls="${menuId}"]`)
+				} else {
+					this.returnFocusElement = document.activeElement
+				}
+			}
+
+			if (eventData) {
+				this.shareDetailsData = eventData
+			}
+
+			this.showSharingDetailsView = !this.showSharingDetailsView
+
+			if (!this.showSharingDetailsView) {
+				this.$nextTick(() => { // Wait for next tick as the element must be visible to be focused
+					this.returnFocusElement?.focus()
+					this.returnFocusElement = null
+				})
+			}
 		},
 	},
 }
@@ -365,9 +415,13 @@ export default {
 }
 
 .sharingTab {
+	position: relative;
+	height: 100%;
+
 	&__content {
 		padding: 0 6px;
 	}
+
 	&__additionalContent {
 		margin: 44px 0;
 	}

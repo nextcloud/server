@@ -1,44 +1,18 @@
 <?php
 
 declare(strict_types=1);
-
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Andreas Fischer <bantu@owncloud.com>
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Georg Ehrke <oc.list@georgehrke.com>
- * @author J0WI <J0WI@users.noreply.github.com>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Markus Goetz <markus@woboq.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Robin McCorkell <robin@mccorkell.me.uk>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Vincent Petry <vincent@nextcloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2013-2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OC;
 
-use \OCP\AutoloadNotAllowedException;
-use OCP\ILogger;
+use OCP\App\AppPathNotFoundException;
+use OCP\App\IAppManager;
+use OCP\AutoloadNotAllowedException;
 use OCP\ICache;
+use Psr\Log\LoggerInterface;
 
 class Autoloader {
 	/** @var bool */
@@ -105,7 +79,7 @@ class Autoloader {
 			 * Remove "apps/" from inclusion path for smooth migration to multi app dir
 			 */
 			if (strpos(\OC::$CLASSPATH[$class], 'apps/') === 0) {
-				\OCP\Util::writeLog('core', 'include path for class "' . $class . '" starts with "apps/"', ILogger::DEBUG);
+				\OCP\Server::get(LoggerInterface::class)->debug('include path for class "' . $class . '" starts with "apps/"', ['app' => 'core']);
 				$paths[] = str_replace('apps/', '', \OC::$CLASSPATH[$class]);
 			}
 		} elseif (strpos($class, 'OC_') === 0) {
@@ -113,11 +87,15 @@ class Autoloader {
 		} elseif (strpos($class, 'OCA\\') === 0) {
 			[, $app, $rest] = explode('\\', $class, 3);
 			$app = strtolower($app);
-			$appPath = \OC_App::getAppPath($app);
-			if ($appPath && stream_resolve_include_path($appPath)) {
-				$paths[] = $appPath . '/' . strtolower(str_replace('\\', '/', $rest) . '.php');
-				// If not found in the root of the app directory, insert '/lib' after app id and try again.
-				$paths[] = $appPath . '/lib/' . strtolower(str_replace('\\', '/', $rest) . '.php');
+			try {
+				$appPath = \OCP\Server::get(IAppManager::class)->getAppPath($app);
+				if (stream_resolve_include_path($appPath)) {
+					$paths[] = $appPath . '/' . strtolower(str_replace('\\', '/', $rest) . '.php');
+					// If not found in the root of the app directory, insert '/lib' after app id and try again.
+					$paths[] = $appPath . '/lib/' . strtolower(str_replace('\\', '/', $rest) . '.php');
+				}
+			} catch (AppPathNotFoundException) {
+				// App not found, ignore
 			}
 		} elseif ($class === 'Test\\TestCase') {
 			// This File is considered public API, so we make sure that the class
@@ -185,7 +163,7 @@ class Autoloader {
 	 *
 	 * @param ICache $memoryCache Instance of memory cache.
 	 */
-	public function setMemoryCache(ICache $memoryCache = null): void {
+	public function setMemoryCache(?ICache $memoryCache = null): void {
 		$this->memoryCache = $memoryCache;
 	}
 }

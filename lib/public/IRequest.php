@@ -1,37 +1,13 @@
 <?php
 
 declare(strict_types=1);
-
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Bart Visscher <bartv@thisnet.nl>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Jörn Friedrich Dreyer <jfd@butonic.de>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Thomas Tanghus <thomas@tanghus.net>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 // use OCP namespace for all classes that are considered public.
-// This means that they should be used by apps instead of the internal ownCloud classes
+// This means that they should be used by apps instead of the internal Nextcloud classes
 
 namespace OCP;
 
@@ -64,43 +40,51 @@ namespace OCP;
 interface IRequest {
 	/**
 	 * @since 9.1.0
+	 * @since 28.0.0 The regex has a group matching the version number
 	 */
-	public const USER_AGENT_CLIENT_ANDROID = '/^Mozilla\/5\.0 \(Android\) (ownCloud|Nextcloud)\-android.*$/';
+	public const USER_AGENT_CLIENT_ANDROID = '/^Mozilla\/5\.0 \(Android\) (?:ownCloud|Nextcloud)\-android\/([^ ]*).*$/';
 
 	/**
 	 * @since 13.0.0
+	 * @since 28.0.0 The regex has a group matching the version number
 	 */
-	public const USER_AGENT_TALK_ANDROID = '/^Mozilla\/5\.0 \(Android\) Nextcloud\-Talk v.*$/';
+	public const USER_AGENT_TALK_ANDROID = '/^Mozilla\/5\.0 \(Android\) Nextcloud\-Talk v([^ ]*).*$/';
 
 	/**
 	 * @since 9.1.0
+	 * @since 28.0.0 The regex has a group matching the version number
 	 */
-	public const USER_AGENT_CLIENT_DESKTOP = '/^Mozilla\/5\.0 \([A-Za-z ]+\) (mirall|csyncoC)\/.*$/';
+	public const USER_AGENT_CLIENT_DESKTOP = '/^Mozilla\/5\.0 \([A-Za-z ]+\) (?:mirall|csyncoC)\/([^ ]*).*$/';
 
 	/**
 	 * @since 26.0.0
+	 * @since 28.0.0 The regex has a group matching the version number
 	 */
-	public const USER_AGENT_TALK_DESKTOP = '/^Mozilla\/5\.0 \((?!Android|iOS)[A-Za-z ]+\) Nextcloud\-Talk v.*$/';
+	public const USER_AGENT_TALK_DESKTOP = '/^Mozilla\/5\.0 \((?!Android|iOS)[A-Za-z ]+\) Nextcloud\-Talk v([^ ]*).*$/';
 
 	/**
 	 * @since 9.1.0
+	 * @since 28.0.0 The regex has a group matching the version number
 	 */
-	public const USER_AGENT_CLIENT_IOS = '/^Mozilla\/5\.0 \(iOS\) (ownCloud|Nextcloud)\-iOS.*$/';
+	public const USER_AGENT_CLIENT_IOS = '/^Mozilla\/5\.0 \(iOS\) (?:ownCloud|Nextcloud)\-iOS\/([^ ]*).*$/';
 
 	/**
 	 * @since 13.0.0
+	 * @since 28.0.0 The regex has a group matching the version number
 	 */
-	public const USER_AGENT_TALK_IOS = '/^Mozilla\/5\.0 \(iOS\) Nextcloud\-Talk v.*$/';
+	public const USER_AGENT_TALK_IOS = '/^Mozilla\/5\.0 \(iOS\) Nextcloud\-Talk v([^ ]*).*$/';
 
 	/**
 	 * @since 13.0.1
+	 * @since 28.0.0 The regex has a group matching the version number
 	 */
-	public const USER_AGENT_OUTLOOK_ADDON = '/^Mozilla\/5\.0 \([A-Za-z ]+\) Nextcloud\-Outlook v.*$/';
+	public const USER_AGENT_OUTLOOK_ADDON = '/^Mozilla\/5\.0 \([A-Za-z ]+\) Nextcloud\-Outlook v([^ ]*).*$/';
 
 	/**
 	 * @since 13.0.1
+	 * @since 28.0.0 The regex has a group matching the version number
 	 */
-	public const USER_AGENT_THUNDERBIRD_ADDON = '/^Mozilla\/5\.0 \([A-Za-z ]+\) Nextcloud\-Thunderbird v.*$/';
+	public const USER_AGENT_THUNDERBIRD_ADDON = '/^Mozilla\/5\.0 \([A-Za-z ]+\) Nextcloud\-Thunderbird v([^ ]*).*$/';
 
 	/**
 	 * @since 26.0.0

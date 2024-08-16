@@ -1,31 +1,15 @@
 <?php
 /**
- * @copyright 2017, Georg Ehrke <oc.list@georgehrke.com>
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Georg Ehrke <oc.list@georgehrke.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\DAV\Controller;
 
 use OCA\DAV\BackgroundJob\GenerateBirthdayCalendarBackgroundJob;
 use OCA\DAV\CalDAV\CalDavBackend;
+use OCA\DAV\Settings\CalDAVSettings;
 use OCP\AppFramework\Controller;
+use OCP\AppFramework\Http\Attribute\AuthorizedAdminSetting;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\Response;
 use OCP\BackgroundJob\IJobList;
@@ -74,10 +58,10 @@ class BirthdayCalendarController extends Controller {
 	 * @param CalDavBackend $calDavBackend
 	 */
 	public function __construct($appName, IRequest $request,
-								IDBConnection $db, IConfig $config,
-								IJobList $jobList,
-								IUserManager $userManager,
-								CalDavBackend $calDavBackend) {
+		IDBConnection $db, IConfig $config,
+		IJobList $jobList,
+		IUserManager $userManager,
+		CalDavBackend $calDavBackend) {
 		parent::__construct($appName, $request);
 		$this->db = $db;
 		$this->config = $config;
@@ -88,8 +72,8 @@ class BirthdayCalendarController extends Controller {
 
 	/**
 	 * @return Response
-	 * @AuthorizedAdminSetting(settings=OCA\DAV\Settings\CalDAVSettings)
 	 */
+	#[AuthorizedAdminSetting(settings: CalDAVSettings::class)]
 	public function enable() {
 		$this->config->setAppValue($this->appName, 'generateBirthdayCalendar', 'yes');
 
@@ -105,8 +89,8 @@ class BirthdayCalendarController extends Controller {
 
 	/**
 	 * @return Response
-	 * @AuthorizedAdminSetting(settings=OCA\DAV\Settings\CalDAVSettings)
 	 */
+	#[AuthorizedAdminSetting(settings: CalDAVSettings::class)]
 	public function disable() {
 		$this->config->setAppValue($this->appName, 'generateBirthdayCalendar', 'no');
 

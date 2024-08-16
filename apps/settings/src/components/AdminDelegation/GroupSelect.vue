@@ -1,6 +1,10 @@
+<!--
+  - SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 <template>
-	<NcSelect :input-id="setting.id"
-		v-model="selected"
+	<NcSelect v-model="selected"
+		:input-id="setting.id"
 		class="group-select"
 		:placeholder="t('settings', 'None')"
 		label="displayName"
@@ -14,7 +18,7 @@ import NcSelect from '@nextcloud/vue/dist/Components/NcSelect.js'
 import { generateUrl } from '@nextcloud/router'
 import axios from '@nextcloud/axios'
 import { showError } from '@nextcloud/dialogs'
-import logger from '../../logger.js'
+import logger from '../../logger.ts'
 
 export default {
 	name: 'GroupSelect',

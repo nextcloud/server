@@ -1,26 +1,7 @@
 <?php
 /**
- * @copyright Copyright (c) 2016 Joas Schilling <coding@schilljs.com>
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Robin Appelman <robin@icewind.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\Files_Sharing\Activity\Providers;
 
@@ -40,12 +21,12 @@ class RemoteShares extends Base {
 	public const SUBJECT_REMOTE_SHARE_UNSHARED = 'remote_share_unshared';
 
 	public function __construct(IFactory $languageFactory,
-								IURLGenerator $url,
-								IManager $activityManager,
-								IUserManager $userManager,
-								ICloudIdManager $cloudIdManager,
-								IContactsManager $contactsManager,
-								IEventMerger $eventMerger) {
+		IURLGenerator $url,
+		IManager $activityManager,
+		IUserManager $userManager,
+		ICloudIdManager $cloudIdManager,
+		IContactsManager $contactsManager,
+		IEventMerger $eventMerger) {
 		parent::__construct($languageFactory, $url, $activityManager, $userManager, $cloudIdManager, $contactsManager, $eventMerger);
 	}
 
@@ -83,7 +64,7 @@ class RemoteShares extends Base {
 	 * @throws \InvalidArgumentException
 	 * @since 11.0.0
 	 */
-	public function parseLongVersion(IEvent $event, IEvent $previousEvent = null) {
+	public function parseLongVersion(IEvent $event, ?IEvent $previousEvent = null) {
 		$parsedParameters = $this->getParsedParameters($event);
 
 		if ($event->getSubject() === self::SUBJECT_REMOTE_SHARE_RECEIVED) {
@@ -115,13 +96,14 @@ class RemoteShares extends Base {
 		switch ($subject) {
 			case self::SUBJECT_REMOTE_SHARE_RECEIVED:
 			case self::SUBJECT_REMOTE_SHARE_UNSHARED:
+				$displayName = (count($parameters) > 2) ? $parameters[2] : '';
 				return [
 					'file' => [
 						'type' => 'pending-federated-share',
 						'id' => $parameters[1],
 						'name' => $parameters[1],
 					],
-					'user' => $this->getUser($parameters[0]),
+					'user' => $this->getUser($parameters[0], $displayName)
 				];
 			case self::SUBJECT_REMOTE_SHARE_ACCEPTED:
 			case self::SUBJECT_REMOTE_SHARE_DECLINED:

@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
 function get_swift_token() {
     KEYSTONE_OUT=$(curl -s 'http://dockswift:5000/v2.0/tokens' -H 'Content-Type: application/json' -d '{"auth":{"passwordCredentials":{"username":"swift","password":"swift"},"tenantName":"service"}}')
     if (echo "$KEYSTONE_OUT" | grep -q 'object-store')

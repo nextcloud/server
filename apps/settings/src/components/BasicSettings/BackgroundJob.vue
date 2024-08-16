@@ -1,27 +1,10 @@
 <!--
-	- @copyright 2022 Carl Schwan <carl@carlschwan.eu>
-	-
-	- @author Carl Schwan <carl@carlschwan.eu>
-	-
-	- @license GNU AGPL version 3 or any later version
-	-
-	- This program is free software: you can redistribute it and/or modify
-	- it under the terms of the GNU Affero General Public License as
-	- published by the Free Software Foundation, either version 3 of the
-	- License, or (at your option) any later version.
-	-
-	- This program is distributed in the hope that it will be useful,
-	- but WITHOUT ANY WARRANTY; without even the implied warranty of
-	- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-	- GNU Affero General Public License for more details.
-	-
-	- You should have received a copy of the GNU Affero General Public License
-	- along with this program. If not, see <http://www.gnu.org/licenses/>.
-	-
+  - SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
 <template>
-	<NcSettingsSection :title="t('settings', 'Background jobs')"
+	<NcSettingsSection :name="t('settings', 'Background jobs')"
 		:description="t('settings', 'For the server to work properly, it\'s important to configure background jobs correctly. Cron is the recommended setting. Please see the documentation for more information.')"
 		:doc-url="backgroundJobsDocUrl">
 		<template v-if="lastCron !== 0">
@@ -54,7 +37,7 @@
 			@update:checked="onBackgroundJobModeChanged">
 			{{ t('settings', 'AJAX') }}
 		</NcCheckboxRadioSwitch>
-		<em>{{ t('settings', 'Execute one task with each page loaded. Use case: Single user instance.') }}</em>
+		<em>{{ t('settings', 'Execute one task with each page loaded. Use case: Single account instance.') }}</em>
 
 		<NcCheckboxRadioSwitch type="radio"
 			:checked.sync="backgroundJobsMode"
@@ -63,36 +46,32 @@
 			@update:checked="onBackgroundJobModeChanged">
 			{{ t('settings', 'Webcron') }}
 		</NcCheckboxRadioSwitch>
-		<em>{{ t('settings', 'cron.php is registered at a webcron service to call cron.php every 5 minutes over HTTP. Use case: Very small instance (1–5 users depending on the usage).') }}</em>
+		<em>{{ t('settings', 'cron.php is registered at a webcron service to call cron.php every 5 minutes over HTTP. Use case: Very small instance (1–5 accounts depending on the usage).') }}</em>
 
-		<NcCheckboxRadioSwitch v-if="cliBasedCronPossible"
-			type="radio"
+		<NcCheckboxRadioSwitch type="radio"
+			:disabled="!cliBasedCronPossible"
 			:checked.sync="backgroundJobsMode"
 			value="cron"
 			name="backgroundJobsMode"
 			@update:checked="onBackgroundJobModeChanged">
 			{{ t('settings', 'Cron (Recommended)') }}
 		</NcCheckboxRadioSwitch>
-		<em v-if="cliBasedCronPossible">{{ cronLabel }}</em>
-		<em v-else>
-			{{ t('settings', 'To run this you need the PHP POSIX extension. See {linkstart}PHP documentation{linkend} for more details.', {
-				linkstart: '<a href="https://www.php.net/manual/en/book.posix.php">',
-				linkend: '</a>',
-			}) }}
-		</em>
+		<em v-html="cronLabel" />
 	</NcSettingsSection>
 </template>
 
 <script>
 import { loadState } from '@nextcloud/initial-state'
 import { showError } from '@nextcloud/dialogs'
+import { generateOcsUrl } from '@nextcloud/router'
+import { confirmPassword } from '@nextcloud/password-confirmation'
+import axios from '@nextcloud/axios'
+import moment from '@nextcloud/moment'
+
 import NcCheckboxRadioSwitch from '@nextcloud/vue/dist/Components/NcCheckboxRadioSwitch.js'
 import NcSettingsSection from '@nextcloud/vue/dist/Components/NcSettingsSection.js'
 import NcNoteCard from '@nextcloud/vue/dist/Components/NcNoteCard.js'
-import moment from '@nextcloud/moment'
-import axios from '@nextcloud/axios'
-import { generateOcsUrl } from '@nextcloud/router'
-import { confirmPassword } from '@nextcloud/password-confirmation'
+
 import '@nextcloud/password-confirmation/dist/style.css'
 
 const lastCron = loadState('settings', 'lastCron')
@@ -125,9 +104,14 @@ export default {
 	},
 	computed: {
 		cronLabel() {
-			let desc = t('settings', 'Use system cron service to call the cron.php file every 5 minutes. Recommended for all instances.')
+			let desc = t('settings', 'Use system cron service to call the cron.php file every 5 minutes.')
 			if (this.cliBasedCronPossible) {
-				desc += ' ' + t('settings', 'The cron.php needs to be executed by the system user "{user}".', { user: this.cliBasedCronUser })
+				desc += '<br>' + t('settings', 'The cron.php needs to be executed by the system account "{user}".', { user: this.cliBasedCronUser })
+			} else {
+				desc += '<br>' + t('settings', 'The PHP POSIX extension is required. See {linkstart}PHP documentation{linkend} for more details.', {
+					linkstart: '<a target="_blank" rel="noreferrer nofollow" class="external" href="https://www.php.net/manual/en/book.posix.php">',
+					linkend: '</a>',
+				}, undefined, { escape: false, sanitize: false })
 			}
 			return desc
 		},

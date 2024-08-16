@@ -1,28 +1,7 @@
 /**
- * @copyright Copyright (c) 2019 John Molakvoæ <skjnldsv@protonmail.com>
- *
- * @author Greta Doci <gretadoci@gmail.com>
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license AGPL-3.0-or-later
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-
-import { generateUrl } from '@nextcloud/router'
 
 export default {
 	props: {
@@ -46,10 +25,6 @@ export default {
 			type: Array,
 			default: () => [],
 		},
-		showConfig: {
-			type: Object,
-			default: () => ({}),
-		},
 		languages: {
 			type: Array,
 			required: true,
@@ -60,6 +35,10 @@ export default {
 		},
 	},
 	computed: {
+		showConfig() {
+			return this.$store.getters.getShowConfig
+		},
+
 		/* GROUPS MANAGEMENT */
 		userGroups() {
 			const userGroups = this.groups.filter(group => this.user.groups.includes(group.id))
@@ -151,34 +130,6 @@ export default {
 				return OC.Util.relativeModifiedDate(this.user.lastLogin)
 			}
 			return t('settings', 'Never')
-		},
-	},
-	methods: {
-		/**
-		 * Generate avatar url
-		 *
-		 * @param {string} user The user name
-		 * @param {bool} isDarkTheme Whether the avatar should be the dark version
-		 * @return {string}
-		 */
-		generateAvatar(user, isDarkTheme) {
-			if (isDarkTheme) {
-				return generateUrl(
-					'/avatar/{user}/64/dark?v={version}',
-					{
-						user,
-						version: oc_userconfig.avatar.version,
-					}
-				)
-			} else {
-				return generateUrl(
-					'/avatar/{user}/64?v={version}',
-					{
-						user,
-						version: oc_userconfig.avatar.version,
-					}
-				)
-			}
 		},
 	},
 }

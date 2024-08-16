@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="utf-8" ?>
+<!--
+  - SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+  - SPDX-License-Identifier: AGPL-3.0-only
+-->
 <CS:share xmlns:D="DAV:" xmlns:CS="http://owncloud.org/ns">
     <CS:set>
         <D:href>principal:principals/users/user02</D:href>

@@ -3,26 +3,8 @@
 declare(strict_types=1);
 
 /**
- * @copyright 2020 Christoph Wurst <christoph@winzerhof-wurst.at>
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\Files_Sharing\Listener;
 
@@ -30,12 +12,13 @@ use OCP\Contacts\Events\ContactInteractedWithEvent;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\EventDispatcher\IEventListener;
-use OCP\ILogger;
 use OCP\IUserManager;
 use OCP\Share\Events\ShareCreatedEvent;
 use OCP\Share\IShare;
+use Psr\Log\LoggerInterface;
 use function in_array;
 
+/** @template-implements IEventListener<ShareCreatedEvent> */
 class ShareInteractionListener implements IEventListener {
 	private const SUPPORTED_SHARE_TYPES = [
 		IShare::TYPE_USER,
@@ -43,21 +26,11 @@ class ShareInteractionListener implements IEventListener {
 		IShare::TYPE_REMOTE,
 	];
 
-	/** @var IEventDispatcher */
-	private $dispatcher;
-
-	/** @var IUserManager */
-	private $userManager;
-
-	/** @var ILogger */
-	private $logger;
-
-	public function __construct(IEventDispatcher $dispatcher,
-								IUserManager $userManager,
-								ILogger $logger) {
-		$this->dispatcher = $dispatcher;
-		$this->userManager = $userManager;
-		$this->logger = $logger;
+	public function __construct(
+		private IEventDispatcher $dispatcher,
+		private IUserManager $userManager,
+		private LoggerInterface $logger,
+	) {
 	}
 
 	public function handle(Event $event): void {

@@ -1,4 +1,10 @@
 <?php
+
+/**
+ * SPDX-FileCopyrightText: 2018 Robin Appelman <robin@icewind.nl>
+ * SPDX-License-Identifier: MIT
+ */
+
 $finder = PhpCsFixer\Finder::create()
 	->exclude('vendor')
 	->in(__DIR__)

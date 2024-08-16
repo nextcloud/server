@@ -1,62 +1,25 @@
 <?php
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Bjoern Schiessle <bjoern@schiessle.org>
- * @author Björn Schießle <bjoern@schiessle.org>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Daniel Calviño Sánchez <danxuliu@gmail.com>
- * @author Georg Ehrke <oc.list@georgehrke.com>
- * @author j3l11234 <297259024@qq.com>
- * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- * @author Jonas Sulzer <jonas@violoncello.ch>
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author MartB <mart.b@outlook.de>
- * @author Maxence Lange <maxence@pontapreta.net>
- * @author Michael Weimann <mail@michael-weimann.eu>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Piotr Filiciak <piotr@filiciak.pl>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Sascha Sambale <mastixmc@gmail.com>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Vincent Petry <vincent@nextcloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\Files_Sharing\Controller;
 
 use OC\Security\CSP\ContentSecurityPolicy;
 use OC_Files;
 use OC_Util;
+use OCA\DAV\Connector\Sabre\PublicAuth;
 use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCA\Files_Sharing\Activity\Providers\Downloads;
 use OCA\Files_Sharing\Event\BeforeTemplateRenderedEvent;
 use OCA\Files_Sharing\Event\ShareLinkAccessedEvent;
-use OCA\Viewer\Event\LoadViewer;
 use OCP\Accounts\IAccountManager;
 use OCP\AppFramework\AuthPublicShareController;
+use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
+use OCP\AppFramework\Http\Attribute\OpenAPI;
+use OCP\AppFramework\Http\Attribute\PublicPage;
 use OCP\AppFramework\Http\NotFoundResponse;
-use OCP\AppFramework\Http\Template\ExternalShareMenuAction;
-use OCP\AppFramework\Http\Template\LinkMenuAction;
-use OCP\AppFramework\Http\Template\PublicTemplateResponse;
-use OCP\AppFramework\Http\Template\SimpleMenuAction;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\Defaults;
 use OCP\EventDispatcher\IEventDispatcher;
@@ -65,92 +28,58 @@ use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
 use OCP\IConfig;
 use OCP\IL10N;
-use OCP\ILogger;
 use OCP\IPreview;
 use OCP\IRequest;
 use OCP\ISession;
 use OCP\IURLGenerator;
-use OCP\IUser;
 use OCP\IUserManager;
 use OCP\Security\ISecureRandom;
 use OCP\Share;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IManager as ShareManager;
-use OCP\Share\IShare;
 use OCP\Share\IPublicShareTemplateFactory;
+use OCP\Share\IShare;
 use OCP\Template;
 
 /**
- * Class ShareController
- *
  * @package OCA\Files_Sharing\Controllers
  */
+#[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
 class ShareController extends AuthPublicShareController {
-	protected IConfig $config;
-	protected IUserManager $userManager;
-	protected ILogger $logger;
-	protected \OCP\Activity\IManager $activityManager;
-	protected IPreview $previewManager;
-	protected IRootFolder $rootFolder;
-	protected FederatedShareProvider $federatedShareProvider;
-	protected IAccountManager $accountManager;
-	protected IEventDispatcher $eventDispatcher;
-	protected IL10N $l10n;
-	protected Defaults $defaults;
-	protected ShareManager $shareManager;
-	protected ISecureRandom $secureRandom;
 	protected ?Share\IShare $share = null;
-	private IPublicShareTemplateFactory $publicShareTemplateFactory;
-
-	public function __construct(
-		string $appName,
-		IRequest $request,
-		IConfig $config,
-		IURLGenerator $urlGenerator,
-		IUserManager $userManager,
-		ILogger $logger,
-		\OCP\Activity\IManager $activityManager,
-		ShareManager $shareManager,
-		ISession $session,
-		IPreview $previewManager,
-		IRootFolder $rootFolder,
-		FederatedShareProvider $federatedShareProvider,
-		IAccountManager $accountManager,
-		IEventDispatcher $eventDispatcher,
-		IL10N $l10n,
-		ISecureRandom $secureRandom,
-		Defaults $defaults,
-		IPublicShareTemplateFactory $publicShareTemplateFactory
-	) {
-		parent::__construct($appName, $request, $session, $urlGenerator);
-
-		$this->config = $config;
-		$this->userManager = $userManager;
-		$this->logger = $logger;
-		$this->activityManager = $activityManager;
-		$this->previewManager = $previewManager;
-		$this->rootFolder = $rootFolder;
-		$this->federatedShareProvider = $federatedShareProvider;
-		$this->accountManager = $accountManager;
-		$this->eventDispatcher = $eventDispatcher;
-		$this->l10n = $l10n;
-		$this->secureRandom = $secureRandom;
-		$this->defaults = $defaults;
-		$this->shareManager = $shareManager;
-		$this->publicShareTemplateFactory = $publicShareTemplateFactory;
-	}
 
 	public const SHARE_ACCESS = 'access';
 	public const SHARE_AUTH = 'auth';
 	public const SHARE_DOWNLOAD = 'download';
 
+	public function __construct(
+		string $appName,
+		IRequest $request,
+		protected IConfig $config,
+		IURLGenerator $urlGenerator,
+		protected IUserManager $userManager,
+		protected \OCP\Activity\IManager $activityManager,
+		protected ShareManager $shareManager,
+		ISession $session,
+		protected IPreview $previewManager,
+		protected IRootFolder $rootFolder,
+		protected FederatedShareProvider $federatedShareProvider,
+		protected IAccountManager $accountManager,
+		protected IEventDispatcher $eventDispatcher,
+		protected IL10N $l10n,
+		protected ISecureRandom $secureRandom,
+		protected Defaults $defaults,
+		private IPublicShareTemplateFactory $publicShareTemplateFactory,
+	) {
+		parent::__construct($appName, $request, $session, $urlGenerator);
+	}
+
 	/**
-	 * @PublicPage
-	 * @NoCSRFRequired
-	 *
 	 * Show the authentication page
 	 * The form has to submit to the authenticate method route
 	 */
+	#[PublicPage]
+	#[NoCSRFRequired]
 	public function showAuthenticate(): TemplateResponse {
 		$templateParameters = ['share' => $this->share];
 
@@ -212,7 +141,6 @@ class ShareController extends AuthPublicShareController {
 	 * @return bool
 	 */
 	protected function validateIdentity(?string $identityToken = null): bool {
-
 		if ($this->share->getShareType() !== IShare::TYPE_EMAIL) {
 			return false;
 		}
@@ -240,7 +168,7 @@ class ShareController extends AuthPublicShareController {
 		return $this->shareManager->checkPassword($this->share, $password);
 	}
 
-	protected function getPasswordHash(): string {
+	protected function getPasswordHash(): ?string {
 		return $this->share->getPassword();
 	}
 
@@ -259,8 +187,12 @@ class ShareController extends AuthPublicShareController {
 	}
 
 	protected function authSucceeded() {
+		if ($this->share === null) {
+			throw new NotFoundException();
+		}
+
 		// For share this was always set so it is still used in other apps
-		$this->session->set('public_link_authenticated', (string)$this->share->getId());
+		$this->session->set(PublicAuth::DAV_AUTHENTICATED, $this->share->getId());
 	}
 
 	protected function authFailed() {
@@ -346,15 +278,13 @@ class ShareController extends AuthPublicShareController {
 	}
 
 	/**
-	 * @PublicPage
-	 * @NoCSRFRequired
-	 *
-	 *
 	 * @param string $path
 	 * @return TemplateResponse
 	 * @throws NotFoundException
 	 * @throws \Exception
 	 */
+	#[PublicPage]
+	#[NoCSRFRequired]
 	public function showShare($path = ''): TemplateResponse {
 		\OC_User::setIncognitoMode(true);
 
@@ -364,11 +294,11 @@ class ShareController extends AuthPublicShareController {
 		} catch (ShareNotFound $e) {
 			// The share does not exists, we do not emit an ShareLinkAccessedEvent
 			$this->emitAccessShareHook($this->getToken(), 404, 'Share not found');
-			throw new NotFoundException();
+			throw new NotFoundException($this->l10n->t('This share does not exist or is no longer available'));
 		}
 
 		if (!$this->validateShare($share)) {
-			throw new NotFoundException();
+			throw new NotFoundException($this->l10n->t('This share does not exist or is no longer available'));
 		}
 
 		$shareNode = $share->getNode();
@@ -379,7 +309,7 @@ class ShareController extends AuthPublicShareController {
 		} catch (NotFoundException $e) {
 			$this->emitAccessShareHook($share, 404, 'Share not found');
 			$this->emitShareAccessEvent($share, ShareController::SHARE_ACCESS, 404, 'Share not found');
-			throw new NotFoundException();
+			throw new NotFoundException($this->l10n->t('This share does not exist or is no longer available'));
 		}
 
 		// We can't get the path of a file share
@@ -387,7 +317,7 @@ class ShareController extends AuthPublicShareController {
 			if ($shareNode instanceof \OCP\Files\File && $path !== '') {
 				$this->emitAccessShareHook($share, 404, 'Share not found');
 				$this->emitShareAccessEvent($share, self::SHARE_ACCESS, 404, 'Share not found');
-				throw new NotFoundException();
+				throw new NotFoundException($this->l10n->t('This share does not exist or is no longer available'));
 			}
 		} catch (\Exception $e) {
 			$this->emitAccessShareHook($share, 404, 'Share not found');
@@ -403,8 +333,6 @@ class ShareController extends AuthPublicShareController {
 	}
 
 	/**
-	 * @PublicPage
-	 * @NoCSRFRequired
 	 * @NoSameSiteCookieRequired
 	 *
 	 * @param string $token
@@ -414,6 +342,8 @@ class ShareController extends AuthPublicShareController {
 	 * @return void|\OCP\AppFramework\Http\Response
 	 * @throws NotFoundException
 	 */
+	#[PublicPage]
+	#[NoCSRFRequired]
 	public function downloadShare($token, $files = null, $path = '', $downloadStartSecret = '') {
 		\OC_User::setIncognitoMode(true);
 
@@ -496,7 +426,6 @@ class ShareController extends AuthPublicShareController {
 		if (!empty($downloadStartSecret)
 			&& !isset($downloadStartSecret[32])
 			&& preg_match('!^[a-zA-Z0-9]+$!', $downloadStartSecret) === 1) {
-
 			// FIXME: set on the response once we use an actual app framework response
 			setcookie('ocDownloadStarted', $downloadStartSecret, time() + 20, '/');
 		}
@@ -560,8 +489,7 @@ class ShareController extends AuthPublicShareController {
 		$fileId = $node->getId();
 
 		$userFolder = $this->rootFolder->getUserFolder($share->getSharedBy());
-		$userNodeList = $userFolder->getById($fileId);
-		$userNode = $userNodeList[0];
+		$userNode = $userFolder->getFirstNodeById($fileId);
 		$ownerFolder = $this->rootFolder->getUserFolder($share->getShareOwner());
 		$userPath = $userFolder->getRelativePath($userNode->getPath());
 		$ownerPath = $ownerFolder->getRelativePath($node->getPath());
@@ -607,10 +535,10 @@ class ShareController extends AuthPublicShareController {
 	 * @param string $filePath
 	 */
 	protected function publishActivity($subject,
-										array $parameters,
-										$affectedUser,
-										$fileId,
-										$filePath) {
+		array $parameters,
+		$affectedUser,
+		$fileId,
+		$filePath) {
 		$event = $this->activityManager->generateEvent();
 		$event->setApp('files_sharing')
 			->setType('public_links')

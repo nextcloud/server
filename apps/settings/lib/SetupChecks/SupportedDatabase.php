@@ -3,111 +3,114 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2021 Morris Jobke <hey@morrisjobke.de>
- *
- * @author Claas Augner <github@caugner.de>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Vincent Petry <vincent@nextcloud.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\Settings\SetupChecks;
 
-use Doctrine\DBAL\Platforms\MariaDb1027Platform;
-use Doctrine\DBAL\Platforms\MySQL57Platform;
-use Doctrine\DBAL\Platforms\MySQL80Platform;
 use Doctrine\DBAL\Platforms\MySQLPlatform;
 use Doctrine\DBAL\Platforms\OraclePlatform;
-use Doctrine\DBAL\Platforms\PostgreSQL100Platform;
-use Doctrine\DBAL\Platforms\PostgreSQL94Platform;
+use Doctrine\DBAL\Platforms\PostgreSQLPlatform;
 use Doctrine\DBAL\Platforms\SqlitePlatform;
 use OCP\IDBConnection;
 use OCP\IL10N;
+use OCP\IURLGenerator;
+use OCP\SetupCheck\ISetupCheck;
+use OCP\SetupCheck\SetupResult;
 
-class SupportedDatabase {
-	/** @var IL10N */
-	private $l10n;
-	/** @var IDBConnection */
-	private $connection;
+class SupportedDatabase implements ISetupCheck {
 
-	private $checked = false;
-	private $description = '';
+	private const MIN_MARIADB = '10.6';
+	private const MAX_MARIADB = '11.4';
+	private const MIN_MYSQL = '8.0';
+	private const MAX_MYSQL = '8.4';
 
-	public function __construct(IL10N $l10n, IDBConnection $connection) {
-		$this->l10n = $l10n;
-		$this->connection = $connection;
+	public function __construct(
+		private IL10N $l10n,
+		private IURLGenerator $urlGenerator,
+		private IDBConnection $connection,
+	) {
 	}
 
-	public function check() {
-		if ($this->checked === true) {
-			return;
-		}
-		$this->checked = true;
+	public function getCategory(): string {
+		return 'database';
+	}
 
-		switch (get_class($this->connection->getDatabasePlatform())) {
-			case MySQL80Platform::class: # extends MySQL57Platform
-			case MySQL57Platform::class: # extends MySQLPlatform
-			case MariaDb1027Platform::class: # extends MySQLPlatform
-			case MySQLPlatform::class:
-				$result = $this->connection->prepare("SHOW VARIABLES LIKE 'version';");
-				$result->execute();
-				$row = $result->fetch();
-				$version = strtolower($row['Value']);
+	public function getName(): string {
+		return $this->l10n->t('Database version');
+	}
 
-				if (strpos($version, 'mariadb') !== false) {
-					if (version_compare($version, '10.2', '<')) {
-						$this->description = $this->l10n->t('MariaDB version "%s" is used. Nextcloud 21 and higher do not support this version and require MariaDB 10.2 or higher.', $row['Value']);
-						return;
-					}
-				} else {
-					if (version_compare($version, '8', '<')) {
-						$this->description = $this->l10n->t('MySQL version "%s" is used. Nextcloud 21 and higher do not support this version and require MySQL 8.0 or MariaDB 10.2 or higher.', $row['Value']);
-						return;
-					}
+	public function run(): SetupResult {
+		$version = null;
+		$databasePlatform = $this->connection->getDatabasePlatform();
+		if ($databasePlatform instanceof MySQLPlatform) {
+			$statement = $this->connection->prepare("SHOW VARIABLES LIKE 'version';");
+			$result = $statement->execute();
+			$row = $result->fetch();
+			$version = $row['Value'];
+			$versionlc = strtolower($version);
+			// we only care about X.Y not X.Y.Z differences
+			[$major, $minor, ] = explode('.', $versionlc);
+			$versionConcern = $major . '.' . $minor;
+			if (str_contains($versionlc, 'mariadb')) {
+				if (version_compare($versionConcern, '10.3', '=')) {
+					return SetupResult::info(
+						$this->l10n->t(
+							'MariaDB version 10.3 detected, this version is end-of-life and only supported as part of Ubuntu 20.04. MariaDB >=%1$s and <=%2$s is suggested for best performance, stability and functionality with this version of Nextcloud.',
+							[
+								self::MIN_MARIADB,
+								self::MAX_MARIADB,
+							]
+						),
+					);
+				} elseif (version_compare($versionConcern, self::MIN_MARIADB, '<') || version_compare($versionConcern, self::MAX_MARIADB, '>')) {
+					return SetupResult::warning(
+						$this->l10n->t(
+							'MariaDB version "%1$s" detected. MariaDB >=%2$s and <=%3$s is suggested for best performance, stability and functionality with this version of Nextcloud.',
+							[
+								$version,
+								self::MIN_MARIADB,
+								self::MAX_MARIADB,
+							],
+						),
+					);
 				}
-				break;
-			case SqlitePlatform::class:
-				break;
-			case PostgreSQL100Platform::class: # extends PostgreSQL94Platform
-			case PostgreSQL94Platform::class:
-				$result = $this->connection->prepare('SHOW server_version;');
-				$result->execute();
-				$row = $result->fetch();
-				if (version_compare($row['server_version'], '9.6', '<')) {
-					$this->description = $this->l10n->t('PostgreSQL version "%s" is used. Nextcloud 21 and higher do not support this version and require PostgreSQL 9.6 or higher.', $row['server_version']);
-					return;
+			} else {
+				if (version_compare($versionConcern, self::MIN_MYSQL, '<') || version_compare($versionConcern, self::MAX_MYSQL, '>')) {
+					return SetupResult::warning(
+						$this->l10n->t(
+							'MySQL version "%1$s" detected. MySQL >=%2$s and <=%3$s is suggested for best performance, stability and functionality with this version of Nextcloud.',
+							[
+								$version,
+								self::MIN_MYSQL,
+								self::MAX_MYSQL,
+							],
+						),
+					);
 				}
-				break;
-			case OraclePlatform::class:
-				break;
+			}
+		} elseif ($databasePlatform instanceof PostgreSQLPlatform) {
+			$statement = $this->connection->prepare('SHOW server_version;');
+			$result = $statement->execute();
+			$row = $result->fetch();
+			$version = $row['server_version'];
+			$versionlc = strtolower($version);
+			// we only care about X not X.Y or X.Y.Z differences
+			[$major, ] = explode('.', $versionlc);
+			$versionConcern = $major;
+			if (version_compare($versionConcern, '12', '<') || version_compare($versionConcern, '16', '>')) {
+				return SetupResult::warning($this->l10n->t('PostgreSQL version "%s" detected. PostgreSQL >=12 and <=16 is suggested for best performance, stability and functionality with this version of Nextcloud.', $version));
+			}
+		} elseif ($databasePlatform instanceof OraclePlatform) {
+			$version = 'Oracle';
+		} elseif ($databasePlatform instanceof SqlitePlatform) {
+			return SetupResult::warning(
+				$this->l10n->t('SQLite is currently being used as the backend database. For larger installations we recommend that you switch to a different database backend. This is particularly recommended when using the desktop client for file synchronisation. To migrate to another database use the command line tool: "occ db:convert-type".'),
+				$this->urlGenerator->linkToDocs('admin-db-conversion')
+			);
+		} else {
+			return SetupResult::error($this->l10n->t('Unknown database platform'));
 		}
-	}
-
-	public function description(): string {
-		$this->check();
-		return $this->description;
-	}
-
-	public function severity(): string {
-		return 'info';
-	}
-
-	public function run(): bool {
-		$this->check();
-		return $this->description === '';
+		return SetupResult::success($version);
 	}
 }

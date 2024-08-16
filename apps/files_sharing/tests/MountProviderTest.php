@@ -1,31 +1,8 @@
 <?php
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Daniel Calviño Sánchez <danxuliu@gmail.com>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Maxence Lange <maxence@nextcloud.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Vincent Petry <vincent@nextcloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\Files_Sharing\Tests;
 
@@ -36,34 +13,33 @@ use OCP\Files\IRootFolder;
 use OCP\Files\Storage\IStorageFactory;
 use OCP\ICacheFactory;
 use OCP\IConfig;
-use OCP\ILogger;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\Share\IAttributes as IShareAttributes;
 use OCP\Share\IManager;
 use OCP\Share\IShare;
+use Psr\Log\LoggerInterface;
 
 /**
  * @group DB
  */
 class MountProviderTest extends \Test\TestCase {
-
 	/** @var MountProvider */
 	private $provider;
 
-	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IConfig|MockObject */
 	private $config;
 
-	/** @var IUser|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IUser|MockObject */
 	private $user;
 
-	/** @var IStorageFactory|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IStorageFactory|MockObject */
 	private $loader;
 
-	/** @var IManager|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IManager|MockObject */
 	private $shareManager;
 
-	/** @var ILogger | \PHPUnit\Framework\MockObject\MockObject */
+	/** @var LoggerInterface|MockObject */
 	private $logger;
 
 	protected function setUp(): void {
@@ -73,7 +49,7 @@ class MountProviderTest extends \Test\TestCase {
 		$this->user = $this->getMockBuilder(IUser::class)->getMock();
 		$this->loader = $this->getMockBuilder('OCP\Files\Storage\IStorageFactory')->getMock();
 		$this->shareManager = $this->getMockBuilder(IManager::class)->getMock();
-		$this->logger = $this->getMockBuilder(ILogger::class)->getMock();
+		$this->logger = $this->getMockBuilder(LoggerInterface::class)->getMock();
 		$eventDispatcher = $this->createMock(IEventDispatcher::class);
 		$cacheFactory = $this->createMock(ICacheFactory::class);
 		$cacheFactory->method('createLocal')
@@ -94,7 +70,7 @@ class MountProviderTest extends \Test\TestCase {
 				$result = null;
 				foreach ($attrs as $attr) {
 					if ($attr['key'] === $key && $attr['scope'] === $scope) {
-						$result = $attr['enabled'];
+						$result = $attr['value'];
 					}
 				}
 				return $result;
@@ -141,7 +117,7 @@ class MountProviderTest extends \Test\TestCase {
 		$rootFolder = $this->createMock(IRootFolder::class);
 		$userManager = $this->createMock(IUserManager::class);
 		$attr1 = [];
-		$attr2 = [['scope' => 'permission', 'key' => 'download', 'enabled' => true]];
+		$attr2 = [['scope' => 'permission', 'key' => 'download', 'value' => true]];
 		$userShares = [
 			$this->makeMockShare(1, 100, 'user2', '/share2', 0, $attr1),
 			$this->makeMockShare(2, 100, 'user2', '/share2', 31, $attr2),
@@ -245,14 +221,14 @@ class MountProviderTest extends \Test\TestCase {
 			// #1: share as outsider with "group1" and "user1" with different permissions
 			[
 				[
-					[1, 100, 'user2', '/share', 31, [['scope' => 'permission', 'key' => 'download', 'enabled' => true], ['scope' => 'app', 'key' => 'attribute1', 'enabled' => true]]],
+					[1, 100, 'user2', '/share', 31, [['scope' => 'permission', 'key' => 'download', 'value' => true], ['scope' => 'app', 'key' => 'attribute1', 'value' => true]]],
 				],
 				[
-					[2, 100, 'user2', '/share', 15, [['scope' => 'permission', 'key' => 'download', 'enabled' => false], ['scope' => 'app', 'key' => 'attribute2', 'enabled' => false]]],
+					[2, 100, 'user2', '/share', 15, [['scope' => 'permission', 'key' => 'download', 'value' => false], ['scope' => 'app', 'key' => 'attribute2', 'value' => false]]],
 				],
 				[
 					// use highest permissions
-					['1', 100, 'user2', '/share', 31, [['scope' => 'permission', 'key' => 'download', 'enabled' => true], ['scope' => 'app', 'key' => 'attribute1', 'enabled' => true], ['scope' => 'app', 'key' => 'attribute2', 'enabled' => false]]],
+					['1', 100, 'user2', '/share', 31, [['scope' => 'permission', 'key' => 'download', 'value' => true], ['scope' => 'app', 'key' => 'attribute1', 'value' => true], ['scope' => 'app', 'key' => 'attribute2', 'value' => false]]],
 				],
 			],
 			// #2: share as outsider with "group1" and "group2" with same permissions
@@ -273,12 +249,12 @@ class MountProviderTest extends \Test\TestCase {
 				[
 				],
 				[
-					[1, 100, 'user2', '/share', 31, [['scope' => 'permission', 'key' => 'download', 'enabled' => false]]],
-					[2, 100, 'user2', '/share', 15, [['scope' => 'permission', 'key' => 'download', 'enabled' => true]]],
+					[1, 100, 'user2', '/share', 31, [['scope' => 'permission', 'key' => 'download', 'value' => false]]],
+					[2, 100, 'user2', '/share', 15, [['scope' => 'permission', 'key' => 'download', 'value' => true]]],
 				],
 				[
 					// use higher permissions (most permissive)
-					['1', 100, 'user2', '/share', 31, [['scope' => 'permission', 'key' => 'download', 'enabled' => true]]],
+					['1', 100, 'user2', '/share', 31, [['scope' => 'permission', 'key' => 'download', 'value' => true]]],
 				],
 			],
 			// #4: share as insider with "group1"
@@ -297,8 +273,8 @@ class MountProviderTest extends \Test\TestCase {
 				[
 				],
 				[
-					[1, 100, 'user1', '/share', 31, [['scope' => 'permission', 'key' => 'download', 'enabled' => true]]],
-					[2, 100, 'user1', '/share', 15, [['scope' => 'permission', 'key' => 'download', 'enabled' => false]]],
+					[1, 100, 'user1', '/share', 31, [['scope' => 'permission', 'key' => 'download', 'value' => true]]],
+					[2, 100, 'user1', '/share', 15, [['scope' => 'permission', 'key' => 'download', 'value' => false]]],
 				],
 				[
 					// no received share since "user1" is the sharer/owner

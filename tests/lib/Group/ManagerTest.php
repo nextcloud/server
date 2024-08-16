@@ -1,38 +1,24 @@
 <?php
 
 /**
- * @author Robin Appelman <icewind@owncloud.com>
- * @author Vincent Petry <pvince81@owncloud.com>
- *
- * @copyright Copyright (c) 2016, ownCloud GmbH.
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 
 namespace Test\Group;
 
 use OC\Group\Database;
-use OC\User\User;
 use OC\User\Manager;
-use OCP\GroupInterface;
+use OC\User\User;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Group\Backend\ISearchableGroupBackend;
+use OCP\GroupInterface;
 use OCP\ICacheFactory;
 use OCP\IUser;
+use OCP\Security\Ip\IRemoteAddress;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Test\TestCase;
 
 interface ISearchableGroupInterface extends ISearchableGroupBackend, GroupInterface {
@@ -41,20 +27,25 @@ interface ISearchableGroupInterface extends ISearchableGroupBackend, GroupInterf
 class ManagerTest extends TestCase {
 	/** @var Manager|MockObject */
 	protected $userManager;
-	/** @var EventDispatcherInterface|MockObject */
+	/** @var IEventDispatcher|MockObject */
 	protected $dispatcher;
 	/** @var LoggerInterface|MockObject */
 	protected $logger;
 	/** @var ICacheFactory|MockObject */
 	private $cache;
+	/** @var IRemoteAddress|MockObject */
+	private $remoteIpAddress;
 
 	protected function setUp(): void {
 		parent::setUp();
 
 		$this->userManager = $this->createMock(Manager::class);
-		$this->dispatcher = $this->createMock(EventDispatcherInterface::class);
+		$this->dispatcher = $this->createMock(IEventDispatcher::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->cache = $this->createMock(ICacheFactory::class);
+
+		$this->remoteIpAddress = $this->createMock(IRemoteAddress::class);
+		$this->remoteIpAddress->method('allowsAdminActions')->willReturn(true);
 	}
 
 	private function getTestUser($userId) {
@@ -92,6 +83,7 @@ class ManagerTest extends TestCase {
 				'inGroup',
 				'getGroups',
 				'groupExists',
+				'groupsExists',
 				'usersInGroup',
 				'createGroup',
 				'addToGroup',
@@ -117,7 +109,7 @@ class ManagerTest extends TestCase {
 			->with('group1')
 			->willReturn(true);
 
-		$manager = new \OC\Group\Manager($this->userManager, $this->dispatcher, $this->logger, $this->cache);
+		$manager = new \OC\Group\Manager($this->userManager, $this->dispatcher, $this->logger, $this->cache, $this->remoteIpAddress);
 		$manager->addBackend($backend);
 
 		$group = $manager->get('group1');
@@ -126,7 +118,7 @@ class ManagerTest extends TestCase {
 	}
 
 	public function testGetNoBackend() {
-		$manager = new \OC\Group\Manager($this->userManager, $this->dispatcher, $this->logger, $this->cache);
+		$manager = new \OC\Group\Manager($this->userManager, $this->dispatcher, $this->logger, $this->cache, $this->remoteIpAddress);
 
 		$this->assertNull($manager->get('group1'));
 	}
@@ -141,7 +133,7 @@ class ManagerTest extends TestCase {
 			->with('group1')
 			->willReturn(false);
 
-		$manager = new \OC\Group\Manager($this->userManager, $this->dispatcher, $this->logger, $this->cache);
+		$manager = new \OC\Group\Manager($this->userManager, $this->dispatcher, $this->logger, $this->cache, $this->remoteIpAddress);
 		$manager->addBackend($backend);
 
 		$this->assertNull($manager->get('group1'));
@@ -151,7 +143,7 @@ class ManagerTest extends TestCase {
 		$backend = new \Test\Util\Group\Dummy();
 		$backend->createGroup('group1');
 
-		$manager = new \OC\Group\Manager($this->userManager, $this->dispatcher, $this->logger, $this->cache);
+		$manager = new \OC\Group\Manager($this->userManager, $this->dispatcher, $this->logger, $this->cache, $this->remoteIpAddress);
 		$manager->addBackend($backend);
 
 		$group = $manager->get('group1');
@@ -178,7 +170,7 @@ class ManagerTest extends TestCase {
 			->with('group1')
 			->willReturn(true);
 
-		$manager = new \OC\Group\Manager($this->userManager, $this->dispatcher, $this->logger, $this->cache);
+		$manager = new \OC\Group\Manager($this->userManager, $this->dispatcher, $this->logger, $this->cache, $this->remoteIpAddress);
 		$manager->addBackend($backend1);
 		$manager->addBackend($backend2);
 
@@ -204,7 +196,7 @@ class ManagerTest extends TestCase {
 				return true;
 			});
 
-		$manager = new \OC\Group\Manager($this->userManager, $this->dispatcher, $this->logger, $this->cache);
+		$manager = new \OC\Group\Manager($this->userManager, $this->dispatcher, $this->logger, $this->cache, $this->remoteIpAddress);
 		$manager->addBackend($backend);
 
 		$group = $manager->createGroup('group1');
@@ -233,11 +225,35 @@ class ManagerTest extends TestCase {
 			->method('getGroupDetails')
 			->willReturn([]);
 
-		$manager = new \OC\Group\Manager($this->userManager, $this->dispatcher, $this->logger, $this->cache);
+		$manager = new \OC\Group\Manager($this->userManager, $this->dispatcher, $this->logger, $this->cache, $this->remoteIpAddress);
 		$manager->addBackend($backend);
 
 		$group = $manager->createGroup('group1');
 		$this->assertEquals(null, $group);
+	}
+
+	public function testCreateTooLong() {
+		/**@var \PHPUnit\Framework\MockObject\MockObject|\OC\Group\Backend $backend */
+		$backendGroupCreated = false;
+		$backend = $this->getTestBackend(
+			GroupInterface::ADD_TO_GROUP |
+			GroupInterface::REMOVE_FROM_GOUP |
+			GroupInterface::COUNT_USERS |
+			GroupInterface::CREATE_GROUP |
+			GroupInterface::DELETE_GROUP |
+			GroupInterface::GROUP_DETAILS
+		);
+		$groupName = str_repeat('x', 256);
+		$backend->expects($this->any())
+			->method('groupExists')
+			->with($groupName)
+			->willReturn(false);
+
+		$manager = new \OC\Group\Manager($this->userManager, $this->dispatcher, $this->logger, $this->cache, $this->remoteIpAddress);
+		$manager->addBackend($backend);
+
+		$this->expectException(\Exception::class);
+		$group = $manager->createGroup($groupName);
 	}
 
 	public function testCreateExists() {
@@ -250,7 +266,7 @@ class ManagerTest extends TestCase {
 		$backend->expects($this->never())
 			->method('createGroup');
 
-		$manager = new \OC\Group\Manager($this->userManager, $this->dispatcher, $this->logger, $this->cache);
+		$manager = new \OC\Group\Manager($this->userManager, $this->dispatcher, $this->logger, $this->cache, $this->remoteIpAddress);
 		$manager->addBackend($backend);
 
 		$group = $manager->createGroup('group1');
@@ -271,7 +287,7 @@ class ManagerTest extends TestCase {
 			->with('group1')
 			->willReturn(true);
 
-		$manager = new \OC\Group\Manager($this->userManager, $this->dispatcher, $this->logger, $this->cache);
+		$manager = new \OC\Group\Manager($this->userManager, $this->dispatcher, $this->logger, $this->cache, $this->remoteIpAddress);
 		$manager->addBackend($backend);
 
 		$groups = $manager->search('1');
@@ -305,7 +321,7 @@ class ManagerTest extends TestCase {
 			->method('groupExists')
 			->willReturn(true);
 
-		$manager = new \OC\Group\Manager($this->userManager, $this->dispatcher, $this->logger, $this->cache);
+		$manager = new \OC\Group\Manager($this->userManager, $this->dispatcher, $this->logger, $this->cache, $this->remoteIpAddress);
 		$manager->addBackend($backend1);
 		$manager->addBackend($backend2);
 
@@ -342,7 +358,7 @@ class ManagerTest extends TestCase {
 			->method('groupExists')
 			->willReturn(true);
 
-		$manager = new \OC\Group\Manager($this->userManager, $this->dispatcher, $this->logger, $this->cache);
+		$manager = new \OC\Group\Manager($this->userManager, $this->dispatcher, $this->logger, $this->cache, $this->remoteIpAddress);
 		$manager->addBackend($backend1);
 		$manager->addBackend($backend2);
 
@@ -361,15 +377,17 @@ class ManagerTest extends TestCase {
 			->method('getGroups')
 			->with('1')
 			->willReturn(['group1']);
+		$backend->expects($this->never())
+			->method('groupExists');
 		$backend->expects($this->once())
-			->method('groupExists')
-			->with('group1')
-			->willReturn(false);
+			->method('getGroupsDetails')
+			->with(['group1'])
+			->willReturn([]);
 
 		/** @var \OC\User\Manager $userManager */
 		$userManager = $this->createMock(Manager::class);
 
-		$manager = new \OC\Group\Manager($userManager, $this->dispatcher, $this->logger, $this->cache);
+		$manager = new \OC\Group\Manager($userManager, $this->dispatcher, $this->logger, $this->cache, $this->remoteIpAddress);
 		$manager->addBackend($backend);
 
 		$groups = $manager->search('1');
@@ -390,7 +408,7 @@ class ManagerTest extends TestCase {
 			->with('group1')
 			->willReturn(true);
 
-		$manager = new \OC\Group\Manager($this->userManager, $this->dispatcher, $this->logger, $this->cache);
+		$manager = new \OC\Group\Manager($this->userManager, $this->dispatcher, $this->logger, $this->cache, $this->remoteIpAddress);
 		$manager->addBackend($backend);
 
 		$groups = $manager->getUserGroups($this->getTestUser('user1'));
@@ -408,7 +426,7 @@ class ManagerTest extends TestCase {
 			->with('myUID')
 			->willReturn(['123', 'abc']);
 
-		$manager = new \OC\Group\Manager($this->userManager, $this->dispatcher, $this->logger, $this->cache);
+		$manager = new \OC\Group\Manager($this->userManager, $this->dispatcher, $this->logger, $this->cache, $this->remoteIpAddress);
 		$manager->addBackend($backend);
 
 		/** @var \OC\User\User|\PHPUnit\Framework\MockObject\MockObject $user */
@@ -438,7 +456,7 @@ class ManagerTest extends TestCase {
 			->with('group1')
 			->willReturn(false);
 
-		$manager = new \OC\Group\Manager($this->userManager, $this->dispatcher, $this->logger, $this->cache);
+		$manager = new \OC\Group\Manager($this->userManager, $this->dispatcher, $this->logger, $this->cache, $this->remoteIpAddress);
 		$manager->addBackend($backend);
 
 		/** @var \OC\User\User|\PHPUnit\Framework\MockObject\MockObject $user */
@@ -464,7 +482,7 @@ class ManagerTest extends TestCase {
 			->method('groupExists')
 			->willReturn(true);
 
-		$manager = new \OC\Group\Manager($this->userManager, $this->dispatcher, $this->logger, $this->cache);
+		$manager = new \OC\Group\Manager($this->userManager, $this->dispatcher, $this->logger, $this->cache, $this->remoteIpAddress);
 		$manager->addBackend($backend);
 
 		$this->assertTrue($manager->isInGroup('user1', 'group1'));
@@ -483,7 +501,7 @@ class ManagerTest extends TestCase {
 			->method('groupExists')
 			->willReturn(true);
 
-		$manager = new \OC\Group\Manager($this->userManager, $this->dispatcher, $this->logger, $this->cache);
+		$manager = new \OC\Group\Manager($this->userManager, $this->dispatcher, $this->logger, $this->cache, $this->remoteIpAddress);
 		$manager->addBackend($backend);
 
 		$this->assertTrue($manager->isAdmin('user1'));
@@ -502,7 +520,7 @@ class ManagerTest extends TestCase {
 			->method('groupExists')
 			->willReturn(true);
 
-		$manager = new \OC\Group\Manager($this->userManager, $this->dispatcher, $this->logger, $this->cache);
+		$manager = new \OC\Group\Manager($this->userManager, $this->dispatcher, $this->logger, $this->cache, $this->remoteIpAddress);
 		$manager->addBackend($backend);
 
 		$this->assertFalse($manager->isAdmin('user1'));
@@ -533,7 +551,7 @@ class ManagerTest extends TestCase {
 			->method('groupExists')
 			->willReturn(true);
 
-		$manager = new \OC\Group\Manager($this->userManager, $this->dispatcher, $this->logger, $this->cache);
+		$manager = new \OC\Group\Manager($this->userManager, $this->dispatcher, $this->logger, $this->cache, $this->remoteIpAddress);
 		$manager->addBackend($backend1);
 		$manager->addBackend($backend2);
 
@@ -592,7 +610,7 @@ class ManagerTest extends TestCase {
 				}
 			});
 
-		$manager = new \OC\Group\Manager($this->userManager, $this->dispatcher, $this->logger, $this->cache);
+		$manager = new \OC\Group\Manager($this->userManager, $this->dispatcher, $this->logger, $this->cache, $this->remoteIpAddress);
 		$manager->addBackend($backend);
 
 		$users = $manager->displayNamesInGroup('testgroup', 'user3');
@@ -652,7 +670,7 @@ class ManagerTest extends TestCase {
 				}
 			});
 
-		$manager = new \OC\Group\Manager($this->userManager, $this->dispatcher, $this->logger, $this->cache);
+		$manager = new \OC\Group\Manager($this->userManager, $this->dispatcher, $this->logger, $this->cache, $this->remoteIpAddress);
 		$manager->addBackend($backend);
 
 		$users = $manager->displayNamesInGroup('testgroup', 'user3', 1);
@@ -716,7 +734,7 @@ class ManagerTest extends TestCase {
 				}
 			});
 
-		$manager = new \OC\Group\Manager($this->userManager, $this->dispatcher, $this->logger, $this->cache);
+		$manager = new \OC\Group\Manager($this->userManager, $this->dispatcher, $this->logger, $this->cache, $this->remoteIpAddress);
 		$manager->addBackend($backend);
 
 		$users = $manager->displayNamesInGroup('testgroup', 'user3', 1, 1);
@@ -745,7 +763,7 @@ class ManagerTest extends TestCase {
 
 		$this->userManager->expects($this->never())->method('get');
 
-		$manager = new \OC\Group\Manager($this->userManager, $this->dispatcher, $this->logger, $this->cache);
+		$manager = new \OC\Group\Manager($this->userManager, $this->dispatcher, $this->logger, $this->cache, $this->remoteIpAddress);
 		$manager->addBackend($backend);
 
 		$users = $manager->displayNamesInGroup('testgroup', '');
@@ -773,7 +791,7 @@ class ManagerTest extends TestCase {
 
 		$this->userManager->expects($this->never())->method('get');
 
-		$manager = new \OC\Group\Manager($this->userManager, $this->dispatcher, $this->logger, $this->cache);
+		$manager = new \OC\Group\Manager($this->userManager, $this->dispatcher, $this->logger, $this->cache, $this->remoteIpAddress);
 		$manager->addBackend($backend);
 
 		$users = $manager->displayNamesInGroup('testgroup', '', 1);
@@ -801,7 +819,7 @@ class ManagerTest extends TestCase {
 
 		$this->userManager->expects($this->never())->method('get');
 
-		$manager = new \OC\Group\Manager($this->userManager, $this->dispatcher, $this->logger, $this->cache);
+		$manager = new \OC\Group\Manager($this->userManager, $this->dispatcher, $this->logger, $this->cache, $this->remoteIpAddress);
 		$manager->addBackend($backend);
 
 		$users = $manager->displayNamesInGroup('testgroup', '', 1, 1);
@@ -829,7 +847,7 @@ class ManagerTest extends TestCase {
 			->with('group1')
 			->willReturn(true);
 
-		$manager = new \OC\Group\Manager($this->userManager, $this->dispatcher, $this->logger, $this->cache);
+		$manager = new \OC\Group\Manager($this->userManager, $this->dispatcher, $this->logger, $this->cache, $this->remoteIpAddress);
 		$manager->addBackend($backend);
 
 		// prime cache
@@ -872,7 +890,7 @@ class ManagerTest extends TestCase {
 			->method('removeFromGroup')
 			->willReturn(true);
 
-		$manager = new \OC\Group\Manager($this->userManager, $this->dispatcher, $this->logger, $this->cache);
+		$manager = new \OC\Group\Manager($this->userManager, $this->dispatcher, $this->logger, $this->cache, $this->remoteIpAddress);
 		$manager->addBackend($backend);
 
 		// prime cache
@@ -902,7 +920,7 @@ class ManagerTest extends TestCase {
 			->with('user1')
 			->willReturn(null);
 
-		$manager = new \OC\Group\Manager($this->userManager, $this->dispatcher, $this->logger, $this->cache);
+		$manager = new \OC\Group\Manager($this->userManager, $this->dispatcher, $this->logger, $this->cache, $this->remoteIpAddress);
 		$manager->addBackend($backend);
 
 		$groups = $manager->getUserIdGroups('user1');
@@ -927,8 +945,7 @@ class ManagerTest extends TestCase {
 				['group1', ['gid' => 'group1', 'displayName' => 'Group One']],
 				['group2', ['gid' => 'group2']],
 			]);
-
-		$manager = new \OC\Group\Manager($this->userManager, $this->dispatcher, $this->logger, $this->cache);
+		$manager = new \OC\Group\Manager($this->userManager, $this->dispatcher, $this->logger, $this->cache, $this->remoteIpAddress);
 		$manager->addBackend($backend);
 
 		// group with display name

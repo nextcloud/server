@@ -1,45 +1,27 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Georg Ehrke <oc.list@georgehrke.com>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Jörn Friedrich Dreyer <jfd@butonic.de>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Noveen Sachdeva <noveen.sachdeva@research.iiit.ac.in>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Robin McCorkell <robin@mccorkell.me.uk>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OC\BackgroundJob;
 
-use Doctrine\DBAL\Platforms\MySQLPlatform;
 use OCP\AppFramework\QueryException;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\AutoloadNotAllowedException;
 use OCP\BackgroundJob\IJob;
 use OCP\BackgroundJob\IJobList;
+use OCP\BackgroundJob\IParallelAwareJob;
 use OCP\DB\Exception;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use Psr\Log\LoggerInterface;
+use function get_class;
+use function json_encode;
+use function md5;
+use function strlen;
 
 class JobList implements IJobList {
 	protected IDBConnection $connection;
@@ -54,11 +36,10 @@ class JobList implements IJobList {
 		$this->logger = $logger;
 	}
 
-	/**
-	 * @param IJob|class-string<IJob> $job
-	 * @param mixed $argument
-	 */
-	public function add($job, $argument = null): void {
+	public function add($job, $argument = null, ?int $firstCheck = null): void {
+		if ($firstCheck === null) {
+			$firstCheck = $this->timeFactory->getTime();
+		}
 		if ($job instanceof IJob) {
 			$class = get_class($job);
 		} else {
@@ -78,16 +59,21 @@ class JobList implements IJobList {
 					'argument' => $query->createNamedParameter($argumentJson),
 					'argument_hash' => $query->createNamedParameter(md5($argumentJson)),
 					'last_run' => $query->createNamedParameter(0, IQueryBuilder::PARAM_INT),
-					'last_checked' => $query->createNamedParameter($this->timeFactory->getTime(), IQueryBuilder::PARAM_INT),
+					'last_checked' => $query->createNamedParameter($firstCheck, IQueryBuilder::PARAM_INT),
 				]);
 		} else {
 			$query->update('jobs')
 				->set('reserved_at', $query->expr()->literal(0, IQueryBuilder::PARAM_INT))
-				->set('last_checked', $query->createNamedParameter($this->timeFactory->getTime(), IQueryBuilder::PARAM_INT))
+				->set('last_checked', $query->createNamedParameter($firstCheck, IQueryBuilder::PARAM_INT))
+				->set('last_run', $query->createNamedParameter(0, IQueryBuilder::PARAM_INT))
 				->where($query->expr()->eq('class', $query->createNamedParameter($class)))
 				->andWhere($query->expr()->eq('argument_hash', $query->createNamedParameter(md5($argumentJson))));
 		}
 		$query->executeStatement();
+	}
+
+	public function scheduleAfter(string $job, int $runAfter, $argument = null): void {
+		$this->add($job, $argument, $runAfter);
 	}
 
 	/**
@@ -111,7 +97,7 @@ class JobList implements IJobList {
 
 		// Add galera safe delete chunking if using mysql
 		// Stops us hitting wsrep_max_ws_rows when large row counts are deleted
-		if ($this->connection->getDatabasePlatform() instanceof MySQLPlatform) {
+		if ($this->connection->getDatabaseProvider() === IDBConnection::PLATFORM_MYSQL) {
 			// Then use chunked delete
 			$max = IQueryBuilder::MAX_ROW_DELETION;
 
@@ -126,7 +112,7 @@ class JobList implements IJobList {
 		}
 	}
 
-	protected function removeById(int $id): void {
+	public function removeById(int $id): void {
 		$query = $this->connection->getQueryBuilder();
 		$query->delete('jobs')
 			->where($query->expr()->eq('id', $query->createNamedParameter($id, IQueryBuilder::PARAM_INT)));
@@ -202,10 +188,9 @@ class JobList implements IJobList {
 	}
 
 	/**
-	 * Get the next job in the list
-	 * @return ?IJob the next job to run. Beware that this object may be a singleton and may be modified by the next call to buildJob.
+	 * @inheritDoc
 	 */
-	public function getNext(bool $onlyTimeSensitive = false): ?IJob {
+	public function getNext(bool $onlyTimeSensitive = false, ?array $jobClasses = null): ?IJob {
 		$query = $this->connection->getQueryBuilder();
 		$query->select('*')
 			->from('jobs')
@@ -218,19 +203,41 @@ class JobList implements IJobList {
 			$query->andWhere($query->expr()->eq('time_sensitive', $query->createNamedParameter(IJob::TIME_SENSITIVE, IQueryBuilder::PARAM_INT)));
 		}
 
-		$update = $this->connection->getQueryBuilder();
-		$update->update('jobs')
-			->set('reserved_at', $update->createNamedParameter($this->timeFactory->getTime()))
-			->set('last_checked', $update->createNamedParameter($this->timeFactory->getTime()))
-			->where($update->expr()->eq('id', $update->createParameter('jobid')))
-			->andWhere($update->expr()->eq('reserved_at', $update->createParameter('reserved_at')))
-			->andWhere($update->expr()->eq('last_checked', $update->createParameter('last_checked')));
+		if (!empty($jobClasses)) {
+			$orClasses = [];
+			foreach ($jobClasses as $jobClass) {
+				$orClasses[] = $query->expr()->eq('class', $query->createNamedParameter($jobClass, IQueryBuilder::PARAM_STR));
+			}
+			$query->andWhere($query->expr()->orX(...$orClasses));
+		}
 
 		$result = $query->executeQuery();
 		$row = $result->fetch();
 		$result->closeCursor();
 
 		if ($row) {
+			$job = $this->buildJob($row);
+
+			if ($job instanceof IParallelAwareJob && !$job->getAllowParallelRuns() && $this->hasReservedJob(get_class($job))) {
+				$this->logger->info('Skipping ' . get_class($job) . ' job with ID ' . $job->getId() . ' because another job with the same class is already running', ['app' => 'cron']);
+
+				$update = $this->connection->getQueryBuilder();
+				$update->update('jobs')
+					->set('last_checked', $update->createNamedParameter($this->timeFactory->getTime() + 1))
+					->where($update->expr()->eq('id', $update->createParameter('jobid')));
+				$update->setParameter('jobid', $row['id']);
+				$update->executeStatement();
+
+				return $this->getNext($onlyTimeSensitive);
+			}
+
+			$update = $this->connection->getQueryBuilder();
+			$update->update('jobs')
+				->set('reserved_at', $update->createNamedParameter($this->timeFactory->getTime()))
+				->set('last_checked', $update->createNamedParameter($this->timeFactory->getTime()))
+				->where($update->expr()->eq('id', $update->createParameter('jobid')))
+				->andWhere($update->expr()->eq('reserved_at', $update->createParameter('reserved_at')))
+				->andWhere($update->expr()->eq('last_checked', $update->createParameter('last_checked')));
 			$update->setParameter('jobid', $row['id']);
 			$update->setParameter('reserved_at', $row['reserved_at']);
 			$update->setParameter('last_checked', $row['last_checked']);
@@ -238,9 +245,8 @@ class JobList implements IJobList {
 
 			if ($count === 0) {
 				// Background job already executed elsewhere, try again.
-				return $this->getNext($onlyTimeSensitive);
+				return $this->getNext($onlyTimeSensitive, $jobClasses);
 			}
-			$job = $this->buildJob($row);
 
 			if ($job === null) {
 				// set the last_checked to 12h in the future to not check failing jobs all over again
@@ -252,7 +258,7 @@ class JobList implements IJobList {
 				$reset->executeStatement();
 
 				// Background job from disabled app, try again.
-				return $this->getNext($onlyTimeSensitive);
+				return $this->getNext($onlyTimeSensitive, $jobClasses);
 			}
 
 			return $job;
@@ -370,6 +376,7 @@ class JobList implements IJobList {
 		$query = $this->connection->getQueryBuilder();
 		$query->update('jobs')
 			->set('execution_duration', $query->createNamedParameter($timeTaken, IQueryBuilder::PARAM_INT))
+			->set('reserved_at', $query->createNamedParameter(0, IQueryBuilder::PARAM_INT))
 			->where($query->expr()->eq('id', $query->createNamedParameter($job->getId(), IQueryBuilder::PARAM_INT)));
 		$query->executeStatement();
 	}
@@ -392,7 +399,7 @@ class JobList implements IJobList {
 		$query = $this->connection->getQueryBuilder();
 		$query->select('*')
 			->from('jobs')
-			->where($query->expr()->neq('reserved_at', $query->createNamedParameter(0, IQueryBuilder::PARAM_INT)))
+			->where($query->expr()->gt('reserved_at', $query->createNamedParameter($this->timeFactory->getTime() - 6 * 3600, IQueryBuilder::PARAM_INT)))
 			->setMaxResults(1);
 
 		if ($className !== null) {
@@ -408,5 +415,27 @@ class JobList implements IJobList {
 			$this->logger->debug('Querying reserved jobs failed', ['exception' => $e]);
 			return false;
 		}
+	}
+
+	public function countByClass(): array {
+		$query = $this->connection->getQueryBuilder();
+		$query->select('class')
+			->selectAlias($query->func()->count('id'), 'count')
+			->from('jobs')
+			->orderBy('count')
+			->groupBy('class');
+
+		$result = $query->executeQuery();
+
+		$jobs = [];
+
+		while (($row = $result->fetch()) !== false) {
+			/**
+			 * @var array{count:int, class:class-string} $row
+			 */
+			$jobs[] = $row;
+		}
+
+		return $jobs;
 	}
 }

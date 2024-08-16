@@ -1,0 +1,28 @@
+OC.L10N.register(
+    "dashboard",
+    {
+    "Dashboard" : "Panel",
+    "Dashboard app" : "L'aplicación Panel",
+    "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an overview of your upcoming appointments, urgent emails, chat messages, incoming tickets, latest tweets and much more! People can add the widgets they like and change the background to their liking." : "Comienza'l día con tola información anovada\n\nEl Panel de Nextcloud ye'l llugar principal que t'ufre una vista xeneral d'eventos próximos, mensaxes urxentes y muncha información más. Los usuarios puen amestar los widgets que-yos presten y camudar el fondu al so gustu.",
+    "\"{title} icon\"" : "«Iconu de: {title}»",
+    "Customize" : "Personalizar",
+    "Edit widgets" : "Editar los widgets",
+    "Get more widgets from the App Store" : "Consigui más widgets de l'App Store",
+    "Weather service" : "Serviciu del clima",
+    "For your privacy, the weather data is requested by your Nextcloud server on your behalf so the weather service receives no personal information." : "Pa la to privacidá, los datos del clima solicítense dende esta instancia de Nextcloud y, polo tanto, el serviciu del clima no recibe nenguna información personal.",
+    "Weather data from Met.no" : "datos del clima de Met.no",
+    "geocoding with Nominatim" : "xeocodificación con Nominatim",
+    "elevation data from OpenTopoData" : "datos d'elevaciones d'OpenTopoData",
+    "Weather" : "Clima",
+    "Status" : "Estáu",
+    "Good morning" : "Bonos díes",
+    "Good morning, {name}" : "Bonos díes, {name}",
+    "Good afternoon" : "Bones tardes",
+    "Good afternoon, {name}" : "Bones tardes, {name}",
+    "Good evening" : "Bones nueches",
+    "Good evening, {name}" : "Bones nueches, {name}",
+    "Hello" : "Hola",
+    "Hello, {name}" : "Hola, {name}",
+    "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an overview of your upcoming appointments, urgent emails, chat messages, incoming tickets, latest tweets and much more! Users can add the widgets they like and change the background to their liking." : "Comienza'l día con tola información anovada\n\nEl Panel de Nextcloud ye'l llugar principal que t'ufre una vista xeneral d'eventos próximos, mensaxes urxentes y muncha información más. Los usuarios puen amestar los widgets que-yos presten y camudar el fondu al so gustu."
+},
+"nplurals=2; plural=(n != 1);");

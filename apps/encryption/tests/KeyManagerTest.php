@@ -1,33 +1,9 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Bjoern Schiessle <bjoern@schiessle.org>
- * @author Björn Schießle <bjoern@schiessle.org>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Clark Tomlinson <fallen013@gmail.com>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Vincent Petry <vincent@nextcloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\Encryption\Tests;
 
@@ -41,11 +17,11 @@ use OCP\Encryption\Keys\IStorage;
 use OCP\Files\Cache\ICache;
 use OCP\Files\Storage;
 use OCP\IConfig;
-use OCP\ILogger;
 use OCP\IUserSession;
 use OCP\Lock\ILockingProvider;
 use OCP\Lock\LockedException;
 use PHPUnit\Framework\MockObject\MockObject;
+use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 class KeyManagerTest extends TestCase {
@@ -73,7 +49,7 @@ class KeyManagerTest extends TestCase {
 	/** @var \OCA\Encryption\Session|\PHPUnit\Framework\MockObject\MockObject */
 	private $sessionMock;
 
-	/** @var \OCP\ILogger|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var LoggerInterface|\PHPUnit\Framework\MockObject\MockObject */
 	private $logMock;
 
 	/** @var \OCA\Encryption\Util|\PHPUnit\Framework\MockObject\MockObject */
@@ -101,7 +77,7 @@ class KeyManagerTest extends TestCase {
 		$this->sessionMock = $this->getMockBuilder(Session::class)
 			->disableOriginalConstructor()
 			->getMock();
-		$this->logMock = $this->createMock(ILogger::class);
+		$this->logMock = $this->createMock(LoggerInterface::class);
 		$this->utilMock = $this->getMockBuilder(Util::class)
 			->disableOriginalConstructor()
 			->getMock();
@@ -600,6 +576,9 @@ class KeyManagerTest extends TestCase {
 			)->setMethods(['getPublicMasterKey', 'setSystemPrivateKey', 'getMasterKeyPassword'])
 			->getMock();
 
+		$this->utilMock->expects($this->once())->method('isMasterKeyEnabled')
+			->willReturn(true);
+
 		$instance->expects($this->once())->method('getPublicMasterKey')
 			->willReturn($masterKey);
 
@@ -644,6 +623,9 @@ class KeyManagerTest extends TestCase {
 				]
 			)->setMethods(['getPublicMasterKey', 'getPrivateMasterKey', 'setSystemPrivateKey', 'getMasterKeyPassword'])
 			->getMock();
+
+		$this->utilMock->expects($this->once())->method('isMasterKeyEnabled')
+			->willReturn(true);
 
 		$instance->expects($this->once())->method('getPublicMasterKey')
 			->willReturn('');

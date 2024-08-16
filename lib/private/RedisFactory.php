@@ -1,35 +1,16 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Alejandro Varela <epma01@gmail.com>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Jörn Friedrich Dreyer <jfd@butonic.de>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Robin McCorkell <robin@mccorkell.me.uk>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OC;
 
 use OCP\Diagnostics\IEventLogger;
 
 class RedisFactory {
-	public const REDIS_MINIMAL_VERSION = '3.1.3';
+	public const REDIS_MINIMAL_VERSION = '4.0.0';
 	public const REDIS_EXTRA_PARAMETERS_MINIMAL_VERSION = '5.3.0';
 
 	/** @var  \Redis|\RedisCluster */
@@ -59,17 +40,8 @@ class RedisFactory {
 			throw new \Exception('Redis Cluster support is not available');
 		}
 
-		if (isset($config['timeout'])) {
-			$timeout = $config['timeout'];
-		} else {
-			$timeout = 0.0;
-		}
-
-		if (isset($config['read_timeout'])) {
-			$readTimeout = $config['read_timeout'];
-		} else {
-			$readTimeout = 0.0;
-		}
+		$timeout = $config['timeout'] ?? 0.0;
+		$readTimeout = $config['read_timeout'] ?? 0.0;
 
 		$auth = null;
 		if (isset($config['password']) && (string)$config['password'] !== '') {
@@ -83,6 +55,7 @@ class RedisFactory {
 		// # TLS support
 		// # https://github.com/phpredis/phpredis/issues/1600
 		$connectionParameters = $this->getSslContext($config);
+		$persistent = $this->config->getValue('redis.persistent', true);
 
 		// cluster config
 		if ($isCluster) {
@@ -92,9 +65,9 @@ class RedisFactory {
 
 			// Support for older phpredis versions not supporting connectionParameters
 			if ($connectionParameters !== null) {
-				$this->instance = new \RedisCluster(null, $config['seeds'], $timeout, $readTimeout, true, $auth, $connectionParameters);
+				$this->instance = new \RedisCluster(null, $config['seeds'], $timeout, $readTimeout, $persistent, $auth, $connectionParameters);
 			} else {
-				$this->instance = new \RedisCluster(null, $config['seeds'], $timeout, $readTimeout, true, $auth);
+				$this->instance = new \RedisCluster(null, $config['seeds'], $timeout, $readTimeout, $persistent, $auth);
 			}
 
 			if (isset($config['failover_mode'])) {
@@ -103,19 +76,8 @@ class RedisFactory {
 		} else {
 			$this->instance = new \Redis();
 
-			if (isset($config['host'])) {
-				$host = $config['host'];
-			} else {
-				$host = '127.0.0.1';
-			}
-
-			if (isset($config['port'])) {
-				$port = $config['port'];
-			} elseif ($host[0] !== '/') {
-				$port = 6379;
-			} else {
-				$port = null;
-			}
+			$host = $config['host'] ?? '127.0.0.1';
+			$port = $config['port'] ?? ($host[0] !== '/' ? 6379 : null);
 
 			$this->eventLogger->start('connect:redis', 'Connect to redis and send AUTH, SELECT');
 			// Support for older phpredis versions not supporting connectionParameters
@@ -124,17 +86,25 @@ class RedisFactory {
 				$connectionParameters = [
 					'stream' => $this->getSslContext($config)
 				];
-				/**
-				 * even though the stubs and documentation don't want you to know this,
-				 * pconnect does have the same $connectionParameters argument connect has
-				 *
-				 * https://github.com/phpredis/phpredis/blob/0264de1824b03fb2d0ad515b4d4ec019cd2dae70/redis.c#L710-L730
-				 *
-				 * @psalm-suppress TooManyArguments
-				 */
-				$this->instance->pconnect($host, $port, $timeout, null, 0, $readTimeout, $connectionParameters);
+				if ($persistent) {
+					/**
+					 * even though the stubs and documentation don't want you to know this,
+					 * pconnect does have the same $connectionParameters argument connect has
+					 *
+					 * https://github.com/phpredis/phpredis/blob/0264de1824b03fb2d0ad515b4d4ec019cd2dae70/redis.c#L710-L730
+					 *
+					 * @psalm-suppress TooManyArguments
+					 */
+					$this->instance->pconnect($host, $port, $timeout, null, 0, $readTimeout, $connectionParameters);
+				} else {
+					$this->instance->connect($host, $port, $timeout, null, 0, $readTimeout, $connectionParameters);
+				}
 			} else {
-				$this->instance->pconnect($host, $port, $timeout, null, 0, $readTimeout);
+				if ($persistent) {
+					$this->instance->pconnect($host, $port, $timeout, null, 0, $readTimeout);
+				} else {
+					$this->instance->connect($host, $port, $timeout, null, 0, $readTimeout);
+				}
 			}
 
 

@@ -1,30 +1,16 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Bjoern Schiessle <bjoern@schiessle.org>
- * @author Björn Schießle <bjoern@schiessle.org>
- * @author Morris Jobke <hey@morrisjobke.de>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\Federation\Controller;
 
+use OCA\Federation\Settings\Admin;
 use OCA\Federation\TrustedServers;
 use OCP\AppFramework\Controller;
+use OCP\AppFramework\Http\Attribute\AuthorizedAdminSetting;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\HintException;
 use OCP\IL10N;
@@ -35,9 +21,9 @@ class SettingsController extends Controller {
 	private TrustedServers $trustedServers;
 
 	public function __construct(string $AppName,
-								IRequest $request,
-								IL10N $l10n,
-								TrustedServers $trustedServers
+		IRequest $request,
+		IL10N $l10n,
+		TrustedServers $trustedServers
 	) {
 		parent::__construct($AppName, $request);
 		$this->l = $l10n;
@@ -48,9 +34,9 @@ class SettingsController extends Controller {
 	/**
 	 * Add server to the list of trusted Nextclouds.
 	 *
-	 * @AuthorizedAdminSetting(settings=OCA\Federation\Settings\Admin)
 	 * @throws HintException
 	 */
+	#[AuthorizedAdminSetting(settings: Admin::class)]
 	public function addServer(string $url): DataResponse {
 		$this->checkServer($url);
 		$id = $this->trustedServers->addServer($url);
@@ -64,9 +50,8 @@ class SettingsController extends Controller {
 
 	/**
 	 * Add server to the list of trusted Nextclouds.
-	 *
-	 * @AuthorizedAdminSetting(settings=OCA\Federation\Settings\Admin)
 	 */
+	#[AuthorizedAdminSetting(settings: Admin::class)]
 	public function removeServer(int $id): DataResponse {
 		$this->trustedServers->removeServer($id);
 		return new DataResponse();
@@ -75,9 +60,9 @@ class SettingsController extends Controller {
 	/**
 	 * Check if the server should be added to the list of trusted servers or not.
 	 *
-	 * @AuthorizedAdminSetting(settings=OCA\Federation\Settings\Admin)
 	 * @throws HintException
 	 */
+	#[AuthorizedAdminSetting(settings: Admin::class)]
 	protected function checkServer(string $url): bool {
 		if ($this->trustedServers->isTrustedServer($url) === true) {
 			$message = 'Server is already in the list of trusted servers.';

@@ -1,28 +1,7 @@
 <?php
 /**
- * @copyright Copyright (c) 2016 Joas Schilling <coding@schilljs.com>
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Thomas Citharel <nextcloud@tcit.fr>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\DAV\CalDAV\Activity\Provider;
 
@@ -81,7 +60,7 @@ class Event extends Base {
 	 * @param array $eventData
 	 * @return array
 	 */
-	protected function generateObjectParameter(array $eventData) {
+	protected function generateObjectParameter(array $eventData, string $affectedUser): array {
 		if (!isset($eventData['id']) || !isset($eventData['name'])) {
 			throw new \InvalidArgumentException();
 		}
@@ -97,7 +76,16 @@ class Event extends Base {
 				// The calendar app needs to be manually loaded for the routes to be loaded
 				OC_App::loadApp('calendar');
 				$linkData = $eventData['link'];
-				$objectId = base64_encode('/remote.php/dav/calendars/' . $linkData['owner'] . '/' . $linkData['calendar_uri'] . '/' . $linkData['object_uri']);
+				$calendarUri = $this->urlencodeLowerHex($linkData['calendar_uri']);
+				if ($affectedUser === $linkData['owner']) {
+					$objectId = base64_encode($this->url->getWebroot() . '/remote.php/dav/calendars/' . $linkData['owner'] . '/' . $calendarUri . '/' . $linkData['object_uri']);
+				} else {
+					// Can't use the "real" owner and calendar names here because we create a custom
+					// calendar for incoming shares with the name "<calendar>_shared_by_<sharer>".
+					// Hack: Fix the link by generating it for the incoming shared calendar instead,
+					//       as seen from the affected user.
+					$objectId = base64_encode($this->url->getWebroot() . '/remote.php/dav/calendars/' . $affectedUser . '/' . $calendarUri . '_shared_by_' . $linkData['owner'] . '/' . $linkData['object_uri']);
+				}
 				$link = [
 					'view' => 'dayGridMonth',
 					'timeRange' => 'now',
@@ -121,7 +109,7 @@ class Event extends Base {
 	 * @throws \InvalidArgumentException
 	 * @since 11.0.0
 	 */
-	public function parse($language, IEvent $event, IEvent $previousEvent = null) {
+	public function parse($language, IEvent $event, ?IEvent $previousEvent = null) {
 		if ($event->getApp() !== 'dav' || $event->getType() !== 'calendar_event') {
 			throw new \InvalidArgumentException();
 		}
@@ -189,7 +177,7 @@ class Event extends Base {
 					return [
 						'actor' => $this->generateUserParameter($parameters['actor']),
 						'calendar' => $this->generateCalendarParameter($parameters['calendar'], $this->l),
-						'event' => $this->generateClassifiedObjectParameter($parameters['object']),
+						'event' => $this->generateClassifiedObjectParameter($parameters['object'], $event->getAffectedUser()),
 					];
 				case self::SUBJECT_OBJECT_ADD . '_event_self':
 				case self::SUBJECT_OBJECT_DELETE . '_event_self':
@@ -198,7 +186,7 @@ class Event extends Base {
 				case self::SUBJECT_OBJECT_RESTORE . '_event_self':
 					return [
 						'calendar' => $this->generateCalendarParameter($parameters['calendar'], $this->l),
-						'event' => $this->generateClassifiedObjectParameter($parameters['object']),
+						'event' => $this->generateClassifiedObjectParameter($parameters['object'], $event->getAffectedUser()),
 					];
 			}
 		}
@@ -210,13 +198,13 @@ class Event extends Base {
 						'actor' => $this->generateUserParameter($parameters['actor']),
 						'sourceCalendar' => $this->generateCalendarParameter($parameters['sourceCalendar'], $this->l),
 						'targetCalendar' => $this->generateCalendarParameter($parameters['targetCalendar'], $this->l),
-						'event' => $this->generateClassifiedObjectParameter($parameters['object']),
+						'event' => $this->generateClassifiedObjectParameter($parameters['object'], $event->getAffectedUser()),
 					];
 				case self::SUBJECT_OBJECT_MOVE . '_event_self':
 					return [
 						'sourceCalendar' => $this->generateCalendarParameter($parameters['sourceCalendar'], $this->l),
 						'targetCalendar' => $this->generateCalendarParameter($parameters['targetCalendar'], $this->l),
-						'event' => $this->generateClassifiedObjectParameter($parameters['object']),
+						'event' => $this->generateClassifiedObjectParameter($parameters['object'], $event->getAffectedUser()),
 					];
 			}
 		}
@@ -233,25 +221,37 @@ class Event extends Base {
 				return [
 					'actor' => $this->generateUserParameter($parameters[0]),
 					'calendar' => $this->generateLegacyCalendarParameter($event->getObjectId(), $parameters[1]),
-					'event' => $this->generateObjectParameter($parameters[2]),
+					'event' => $this->generateObjectParameter($parameters[2], $event->getAffectedUser()),
 				];
 			case self::SUBJECT_OBJECT_ADD . '_event_self':
 			case self::SUBJECT_OBJECT_DELETE . '_event_self':
 			case self::SUBJECT_OBJECT_UPDATE . '_event_self':
 				return [
 					'calendar' => $this->generateLegacyCalendarParameter($event->getObjectId(), $parameters[1]),
-					'event' => $this->generateObjectParameter($parameters[2]),
+					'event' => $this->generateObjectParameter($parameters[2], $event->getAffectedUser()),
 				];
 		}
 
 		throw new \InvalidArgumentException();
 	}
 
-	private function generateClassifiedObjectParameter(array $eventData) {
-		$parameter = $this->generateObjectParameter($eventData);
+	private function generateClassifiedObjectParameter(array $eventData, string $affectedUser): array {
+		$parameter = $this->generateObjectParameter($eventData, $affectedUser);
 		if (!empty($eventData['classified'])) {
 			$parameter['name'] = $this->l->t('Busy');
 		}
 		return $parameter;
+	}
+
+	/**
+	 * Return urlencoded string but with lower cased hex sequences.
+	 * The remaining casing will be untouched.
+	 */
+	private function urlencodeLowerHex(string $raw): string {
+		return preg_replace_callback(
+			'/%[0-9A-F]{2}/',
+			static fn (array $matches) => strtolower($matches[0]),
+			urlencode($raw),
+		);
 	}
 }

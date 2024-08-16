@@ -1,28 +1,17 @@
 <?php
 /**
- * @copyright Copyright (c) 2017 Robin Appelman <robin@icewind.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace Test\DB\QueryBuilder;
 
+use Doctrine\DBAL\Schema\SchemaException;
+use Doctrine\DBAL\Types\Types;
 use OC\DB\QueryBuilder\Literal;
 use OCP\DB\QueryBuilder\IQueryBuilder;
+use OCP\IConfig;
+use OCP\Server;
 use Test\TestCase;
 
 /**
@@ -31,11 +20,13 @@ use Test\TestCase;
 class ExpressionBuilderDBTest extends TestCase {
 	/** @var \Doctrine\DBAL\Connection|\OCP\IDBConnection */
 	protected $connection;
+	protected $schemaSetup = false;
 
 	protected function setUp(): void {
 		parent::setUp();
 
 		$this->connection = \OC::$server->getDatabaseConnection();
+		$this->prepareTestingTable();
 	}
 
 	public function likeProvider() {
@@ -150,6 +141,59 @@ class ExpressionBuilderDBTest extends TestCase {
 		self::assertEquals('myvalue', $entries[0]['configvalue']);
 	}
 
+	public function testDateTimeEquals() {
+		$dateTime = new \DateTime('2023-01-01');
+		$insert = $this->connection->getQueryBuilder();
+		$insert->insert('testing')
+			->values(['datetime' => $insert->createNamedParameter($dateTime, IQueryBuilder::PARAM_DATE)])
+			->executeStatement();
+
+		$query = $this->connection->getQueryBuilder();
+		$result = $query->select('*')
+			->from('testing')
+			->where($query->expr()->eq('datetime', $query->createNamedParameter($dateTime, IQueryBuilder::PARAM_DATE)))
+			->executeQuery();
+		$entries = $result->fetchAll();
+		$result->closeCursor();
+		self::assertCount(1, $entries);
+	}
+
+	public function testDateTimeLess() {
+		$dateTime = new \DateTime('2022-01-01');
+		$dateTimeCompare = new \DateTime('2022-01-02');
+		$insert = $this->connection->getQueryBuilder();
+		$insert->insert('testing')
+			->values(['datetime' => $insert->createNamedParameter($dateTime, IQueryBuilder::PARAM_DATE)])
+			->executeStatement();
+
+		$query = $this->connection->getQueryBuilder();
+		$result = $query->select('*')
+			->from('testing')
+			->where($query->expr()->lt('datetime', $query->createNamedParameter($dateTimeCompare, IQueryBuilder::PARAM_DATE)))
+			->executeQuery();
+		$entries = $result->fetchAll();
+		$result->closeCursor();
+		self::assertCount(1, $entries);
+	}
+
+	public function testDateTimeGreater() {
+		$dateTime = new \DateTime('2023-01-02');
+		$dateTimeCompare = new \DateTime('2023-01-01');
+		$insert = $this->connection->getQueryBuilder();
+		$insert->insert('testing')
+			->values(['datetime' => $insert->createNamedParameter($dateTime, IQueryBuilder::PARAM_DATE)])
+			->executeStatement();
+
+		$query = $this->connection->getQueryBuilder();
+		$result = $query->select('*')
+			->from('testing')
+			->where($query->expr()->gt('datetime', $query->createNamedParameter($dateTimeCompare, IQueryBuilder::PARAM_DATE)))
+			->executeQuery();
+		$entries = $result->fetchAll();
+		$result->closeCursor();
+		self::assertCount(1, $entries);
+	}
+
 	protected function createConfig($appId, $key, $value) {
 		$query = $this->connection->getQueryBuilder();
 		$query->insert('appconfig')
@@ -159,5 +203,32 @@ class ExpressionBuilderDBTest extends TestCase {
 				'configvalue' => $query->createNamedParameter((string) $value),
 			])
 			->execute();
+	}
+
+	protected function prepareTestingTable(): void {
+		if ($this->schemaSetup) {
+			$this->connection->getQueryBuilder()->delete('testing')->executeStatement();
+		}
+
+		$prefix = Server::get(IConfig::class)->getSystemValueString('dbtableprefix', 'oc_');
+		$schema = $this->connection->createSchema();
+		try {
+			$schema->getTable($prefix . 'testing');
+			$this->connection->getQueryBuilder()->delete('testing')->executeStatement();
+		} catch (SchemaException $e) {
+			$this->schemaSetup = true;
+			$table = $schema->createTable($prefix . 'testing');
+			$table->addColumn('id', Types::BIGINT, [
+				'autoincrement' => true,
+				'notnull' => true,
+			]);
+
+			$table->addColumn('datetime', Types::DATETIME_MUTABLE, [
+				'notnull' => false,
+			]);
+
+			$table->setPrimaryKey(['id']);
+			$this->connection->migrateToSchema($schema);
+		}
 	}
 }

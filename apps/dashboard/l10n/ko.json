@@ -11,12 +11,12 @@
     "Weather" : "날씨",
     "Status" : "상태",
     "Good morning" : "좋은 아침입니다.",
-    "Good morning, {name}" : "{name} 님, 좋은 아침입니다.",
-    "Good afternoon" : "안녕하세요",
-    "Good afternoon, {name}" : "{name} 님, 안녕하세요",
-    "Good evening" : "안녕하세요",
-    "Good evening, {name}" : "{name} 님, 안녕하세요",
-    "Hello" : "안녕하세요",
-    "Hello, {name}" : "{name} 님, 안녕하세요"
+    "Good morning, {name}" : "{name}님, 좋은 아침입니다.",
+    "Good afternoon" : "안녕하세요.",
+    "Good afternoon, {name}" : "안녕하세요, {name}님.",
+    "Good evening" : "안녕하세요.",
+    "Good evening, {name}" : "안녕하세요, {name}님.",
+    "Hello" : "안녕하세요.",
+    "Hello, {name}" : "안녕하세요, {name}님."
 },"pluralForm" :"nplurals=1; plural=0;"
 }

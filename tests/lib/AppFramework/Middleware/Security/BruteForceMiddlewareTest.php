@@ -1,34 +1,18 @@
 <?php
 /**
- * @copyright Copyright (c) 2023 Joas Schilling <coding@schilljs.com>
- * @copyright Copyright (c) 2017 Lukas Reschke <lukas@statuscode.ch>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace Test\AppFramework\Middleware\Security;
 
 use OC\AppFramework\Middleware\Security\BruteForceMiddleware;
 use OC\AppFramework\Utility\ControllerMethodReflector;
-use OC\Security\Bruteforce\Throttler;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\Attribute\BruteForceProtection;
 use OCP\AppFramework\Http\Response;
 use OCP\IRequest;
+use OCP\Security\Bruteforce\IThrottler;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
@@ -55,7 +39,7 @@ class TestController extends Controller {
 class BruteForceMiddlewareTest extends TestCase {
 	/** @var ControllerMethodReflector */
 	private $reflector;
-	/** @var Throttler|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IThrottler|\PHPUnit\Framework\MockObject\MockObject */
 	private $throttler;
 	/** @var IRequest|\PHPUnit\Framework\MockObject\MockObject */
 	private $request;
@@ -67,7 +51,7 @@ class BruteForceMiddlewareTest extends TestCase {
 		parent::setUp();
 
 		$this->reflector = new ControllerMethodReflector();
-		$this->throttler = $this->createMock(Throttler::class);
+		$this->throttler = $this->createMock(IThrottler::class);
 		$this->request = $this->createMock(IRequest::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
 

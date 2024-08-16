@@ -1,304 +1,328 @@
 <!--
-  - @copyright Copyright (c) 2018 John Molakvoæ <skjnldsv@protonmail.com>
-  - @copyright Copyright (c) 2019 Gary Kim <gary@garykim.dev>
-  -
-  - @author John Molakvoæ <skjnldsv@protonmail.com>
-  - @author Gary Kim <gary@garykim.dev>
-  -
-  - @license GNU AGPL version 3 or any later version
-  -
-  - This program is free software: you can redistribute it and/or modify
-  - it under the terms of the GNU Affero General Public License as
-  - published by the Free Software Foundation, either version 3 of the
-  - License, or (at your option) any later version.
-  -
-  - This program is distributed in the hope that it will be useful,
-  - but WITHOUT ANY WARRANTY; without even the implied warranty of
-  - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  - GNU Affero General Public License for more details.
-  -
-  - You should have received a copy of the GNU Affero General Public License
-  - along with this program. If not, see <http://www.gnu.org/licenses/>.
-  -
-  -->
+  - SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 
 <template>
-	<!-- Obfuscated user: Logged in user does not have permissions to see all of the data -->
-	<div v-if="Object.keys(user).length ===1" :data-id="user.id" class="row">
-		<div :class="{'icon-loading-small': loading.delete || loading.disable || loading.wipe}"
-			class="avatar">
-			<img v-if="!loading.delete && !loading.disable && !loading.wipe"
-				:src="generateAvatar(user.id, isDarkTheme)"
-				alt=""
-				height="32"
-				width="32">
-		</div>
-		<div class="name">
-			{{ user.id }}
-		</div>
-		<div class="obfuscated">
-			{{ t('settings','You do not have permissions to see the details of this user') }}
-		</div>
-	</div>
+	<tr class="user-list__row"
+		:data-cy-user-row="user.id">
+		<td class="row__cell row__cell--avatar" data-cy-user-list-cell-avatar>
+			<NcLoadingIcon v-if="isLoadingUser"
+				:name="t('settings', 'Loading account …')"
+				:size="32" />
+			<NcAvatar v-else-if="visible"
+				disable-menu
+				:show-user-status="false"
+				:user="user.id" />
+		</td>
 
-	<!-- User full data -->
-	<UserRowSimple v-else-if="!editing"
-		:editing.sync="editing"
-		:feedback-message="feedbackMessage"
-		:groups="groups"
-		:languages="languages"
-		:loading="loading"
-		:opened-menu.sync="openedMenu"
-		:settings="settings"
-		:show-config="showConfig"
-		:sub-admins-groups="subAdminsGroups"
-		:user-actions="userActions"
-		:user="user"
-		:is-dark-theme="isDarkTheme"
-		:class="{'row--menu-opened': openedMenu}" />
-	<div v-else
-		:class="{
-			'disabled': loading.delete || loading.disable,
-			'row--menu-opened': openedMenu
-		}"
-		:data-id="user.id"
-		class="row row--editable">
-		<div :class="{'icon-loading-small': loading.delete || loading.disable || loading.wipe}"
-			class="avatar">
-			<img v-if="!loading.delete && !loading.disable && !loading.wipe"
-				:src="generateAvatar(user.id, isDarkTheme)"
-				alt=""
-				height="32"
-				width="32">
-		</div>
-		<!-- dirty hack to ellipsis on two lines -->
-		<div v-if="user.backendCapabilities.setDisplayName" class="displayName">
-			<form :class="{'icon-loading-small': loading.displayName}"
-				class="displayName"
-				@submit.prevent="updateDisplayName">
-				<label class="hidden-visually" :for="'displayName'+user.id+rand">{{ t('settings', 'Edit display name') }}</label>
-				<input :id="'displayName'+user.id+rand"
-					ref="displayName"
-					:disabled="loading.displayName||loading.all"
-					:value="user.displayname"
+		<td class="row__cell row__cell--displayname" data-cy-user-list-cell-displayname>
+			<template v-if="editing && user.backendCapabilities.setDisplayName">
+				<NcTextField ref="displayNameField"
+					class="user-row-text-field"
+					data-cy-user-list-input-displayname
+					:data-loading="loading.displayName || undefined"
+					:trailing-button-label="t('settings', 'Submit')"
+					:class="{ 'icon-loading-small': loading.displayName }"
+					:show-trailing-button="true"
+					:disabled="loading.displayName || isLoadingField"
+					:label="t('settings', 'Change display name')"
+					trailing-button-icon="arrowRight"
+					:value.sync="editedDisplayName"
 					autocapitalize="off"
 					autocomplete="off"
-					autocorrect="off"
 					spellcheck="false"
-					type="text">
-				<input class="icon-confirm"
-					type="submit"
-					value="">
-			</form>
-		</div>
-		<div v-else class="name">
-			{{ user.id }}
-			<div class="displayName subtitle">
-				<div :title="user.displayname.length > 20 ? user.displayname : ''" class="cellText">
-					{{ user.displayname }}
-				</div>
-			</div>
-		</div>
-		<form v-if="settings.canChangePassword && user.backendCapabilities.setPassword"
-			:class="{'icon-loading-small': loading.password}"
-			class="password"
-			@submit.prevent="updatePassword">
-			<label class="hidden-visually" :for="'password'+user.id+rand">{{ t('settings', 'Add new password') }}</label>
-			<input :id="'password'+user.id+rand"
-				ref="password"
-				:disabled="loading.password || loading.all"
-				:minlength="minPasswordLength"
-				maxlength="469"
-				:placeholder="t('settings', 'Add new password')"
-				autocapitalize="off"
-				autocomplete="new-password"
-				autocorrect="off"
-				required
-				spellcheck="false"
-				type="password"
-				value="">
-			<input class="icon-confirm" type="submit" value="">
-		</form>
-		<div v-else />
-		<form :class="{'icon-loading-small': loading.mailAddress}"
-			class="mailAddress"
-			@submit.prevent="updateEmail">
-			<label class="hidden-visually" :for="'mailAddress'+user.id+rand">{{ t('settings', 'Add new email address') }}</label>
-			<input :id="'mailAddress'+user.id+rand"
-				ref="mailAddress"
-				:disabled="loading.mailAddress||loading.all"
-				:placeholder="t('settings', 'Add new email address')"
-				:value="user.email"
-				autocapitalize="off"
-				autocomplete="new-password"
-				autocorrect="off"
-				spellcheck="false"
-				type="email">
-			<input class="icon-confirm" type="submit" value="">
-		</form>
-		<div :class="{'icon-loading-small': loading.groups}" class="groups">
-			<label class="hidden-visually" :for="'groups'+user.id+rand">{{ t('settings', 'Add user to group') }}</label>
-			<NcMultiselect :id="'groups'+user.id+rand"
-				:close-on-select="false"
-				:disabled="loading.groups||loading.all"
-				:limit="2"
-				:multiple="true"
-				:options="availableGroups"
-				:placeholder="t('settings', 'Add user to group')"
-				:tag-width="60"
-				:taggable="settings.isAdmin"
-				:value="userGroups"
-				class="multiselect-vue"
-				label="name"
-				tag-placeholder="create"
-				track-by="id"
-				@remove="removeUserGroup"
-				@select="addUserGroup"
-				@tag="createGroup">
-				<span slot="noResult">{{ t('settings', 'No results') }}</span>
-			</NcMultiselect>
-		</div>
-		<div v-if="subAdminsGroups.length>0 && settings.isAdmin"
-			:class="{'icon-loading-small': loading.subadmins}"
-			class="subadmins">
-			<label class="hidden-visually" :for="'subadmins'+user.id+rand">{{ t('settings', 'Set user as admin for') }}</label>
-			<NcMultiselect :id="'subadmins'+user.id+rand"
-				:close-on-select="false"
-				:disabled="loading.subadmins||loading.all"
-				:limit="2"
-				:multiple="true"
-				:options="subAdminsGroups"
-				:placeholder="t('settings', 'Set user as admin for')"
-				:tag-width="60"
-				:value="userSubAdminsGroups"
-				class="multiselect-vue"
-				label="name"
-				track-by="id"
-				@remove="removeUserSubAdmin"
-				@select="addUserSubAdmin">
-				<span slot="noResult">{{ t('settings', 'No results') }}</span>
-			</NcMultiselect>
-		</div>
-		<div :title="usedSpace"
-			:class="{'icon-loading-small': loading.quota}"
-			class="quota">
-			<label class="hidden-visually" :for="'quota'+user.id+rand">{{ t('settings', 'Select user quota') }}</label>
-			<NcMultiselect :id="'quota'+user.id+rand"
-				:allow-empty="false"
-				:disabled="loading.quota||loading.all"
-				:options="quotaOptions"
-				:placeholder="t('settings', 'Select user quota')"
-				:taggable="true"
-				:value="userQuota"
-				class="multiselect-vue"
-				label="label"
-				tag-placeholder="create"
-				track-by="id"
-				@input="setUserQuota"
-				@tag="validateQuota" />
-		</div>
-		<div v-if="showConfig.showLanguages"
-			:class="{'icon-loading-small': loading.languages}"
-			class="languages">
-			<label class="hidden-visually" :for="'language'+user.id+rand">{{ t('settings', 'Set the language') }}</label>
-			<NcMultiselect :id="'language'+user.id+rand"
-				:allow-empty="false"
-				:disabled="loading.languages||loading.all"
-				:options="languages"
-				:placeholder="t('settings', 'No language set')"
-				:value="userLanguage"
-				class="multiselect-vue"
-				group-label="label"
-				group-values="languages"
-				label="name"
-				track-by="code"
-				@input="setUserLanguage" />
-		</div>
-		<div :class="{'icon-loading-small': loading.manager}" class="managers">
-			<NcMultiselect ref="manager"
-				v-model="currentManager"
-				:close-on-select="true"
-				:user-select="true"
-				:options="possibleManagers"
-				:placeholder="t('settings', 'Select manager')"
-				class="multiselect-vue"
-				label="displayname"
-				track-by="id"
-				@search-change="searchUserManager"
-				@remove="updateUserManager"
-				@select="updateUserManager">
-				<span slot="noResult">{{ t('settings', 'No results') }}</span>
-			</NcMultiselect>
-		</div>
+					@trailing-button-click="updateDisplayName" />
+			</template>
+			<strong v-else-if="!isObfuscated"
+				:title="user.displayname?.length > 20 ? user.displayname : null">
+				{{ user.displayname }}
+			</strong>
+		</td>
 
-		<!-- don't show this on edit mode -->
-		<div v-if="showConfig.showStoragePath || showConfig.showUserBackend"
-			class="storageLocation" />
-		<div v-if="showConfig.showLastLogin" />
+		<td class="row__cell row__cell--username" data-cy-user-list-cell-username>
+			<span class="row__subtitle">{{ user.id }}</span>
+		</td>
 
-		<div class="userActions">
-			<div v-if="!loading.all"
-				class="toggleUserActions">
-				<NcActions>
-					<NcActionButton icon="icon-checkmark"
-						:title="t('settings', 'Done')"
-						:aria-label="t('settings', 'Done')"
-						@click="editing = false" />
-				</NcActions>
-				<div v-click-outside="hideMenu" class="userPopoverMenuWrapper">
-					<button class="icon-more"
-						:aria-expanded="openedMenu"
-						:aria-label="t('settings', 'Toggle user actions menu')"
-						@click.prevent="toggleMenu" />
-					<div :class="{ 'open': openedMenu }" class="popovermenu">
-						<NcPopoverMenu :menu="userActions" />
-					</div>
-				</div>
-			</div>
-			<div :style="{opacity: feedbackMessage !== '' ? 1 : 0}"
-				class="feedback">
-				<div class="icon-checkmark" />
-				{{ feedbackMessage }}
-			</div>
-		</div>
-	</div>
+		<td data-cy-user-list-cell-password
+			class="row__cell"
+			:class="{ 'row__cell--obfuscated': hasObfuscated }">
+			<template v-if="editing && settings.canChangePassword && user.backendCapabilities.setPassword">
+				<NcTextField class="user-row-text-field"
+					data-cy-user-list-input-password
+					:data-loading="loading.password || undefined"
+					:trailing-button-label="t('settings', 'Submit')"
+					:class="{'icon-loading-small': loading.password}"
+					:show-trailing-button="true"
+					:disabled="loading.password || isLoadingField"
+					:minlength="minPasswordLength"
+					maxlength="469"
+					:label="t('settings', 'Set new password')"
+					trailing-button-icon="arrowRight"
+					:value.sync="editedPassword"
+					autocapitalize="off"
+					autocomplete="new-password"
+					required
+					spellcheck="false"
+					type="password"
+					@trailing-button-click="updatePassword" />
+			</template>
+			<span v-else-if="isObfuscated">
+				{{ t('settings', 'You do not have permissions to see the details of this account') }}
+			</span>
+		</td>
+
+		<td class="row__cell" data-cy-user-list-cell-email>
+			<template v-if="editing">
+				<NcTextField class="user-row-text-field"
+					:class="{'icon-loading-small': loading.mailAddress}"
+					data-cy-user-list-input-email
+					:data-loading="loading.mailAddress || undefined"
+					:show-trailing-button="true"
+					:trailing-button-label="t('settings', 'Submit')"
+					:label="t('settings', 'Set new email address')"
+					:disabled="loading.mailAddress || isLoadingField"
+					trailing-button-icon="arrowRight"
+					:value.sync="editedMail"
+					autocapitalize="off"
+					autocomplete="email"
+					spellcheck="false"
+					type="email"
+					@trailing-button-click="updateEmail" />
+			</template>
+			<span v-else-if="!isObfuscated"
+				:title="user.email?.length > 20 ? user.email : null">
+				{{ user.email }}
+			</span>
+		</td>
+
+		<td class="row__cell row__cell--large row__cell--multiline" data-cy-user-list-cell-groups>
+			<template v-if="editing">
+				<label class="hidden-visually"
+					:for="'groups' + uniqueId">
+					{{ t('settings', 'Add account to group') }}
+				</label>
+				<NcSelect data-cy-user-list-input-groups
+					:data-loading="loading.groups || undefined"
+					:input-id="'groups' + uniqueId"
+					:close-on-select="false"
+					:disabled="isLoadingField"
+					:loading="loading.groups"
+					:multiple="true"
+					:append-to-body="false"
+					:options="availableGroups"
+					:placeholder="t('settings', 'Add account to group')"
+					:taggable="settings.isAdmin || settings.isDelegatedAdmin"
+					:value="userGroups"
+					label="name"
+					:no-wrap="true"
+					:create-option="(value) => ({ name: value, isCreating: true })"
+					@option:created="createGroup"
+					@option:selected="options => addUserGroup(options.at(-1))"
+					@option:deselected="removeUserGroup" />
+			</template>
+			<span v-else-if="!isObfuscated"
+				:title="userGroupsLabels?.length > 40 ? userGroupsLabels : null">
+				{{ userGroupsLabels }}
+			</span>
+		</td>
+
+		<td v-if="subAdminsGroups.length > 0 && (settings.isAdmin || settings.isDelegatedAdmin)"
+			data-cy-user-list-cell-subadmins
+			class="row__cell row__cell--large row__cell--multiline">
+			<template v-if="editing && (settings.isAdmin || settings.isDelegatedAdmin) && subAdminsGroups.length > 0">
+				<label class="hidden-visually"
+					:for="'subadmins' + uniqueId">
+					{{ t('settings', 'Set account as admin for') }}
+				</label>
+				<NcSelect data-cy-user-list-input-subadmins
+					:data-loading="loading.subadmins || undefined"
+					:input-id="'subadmins' + uniqueId"
+					:close-on-select="false"
+					:disabled="isLoadingField"
+					:loading="loading.subadmins"
+					label="name"
+					:append-to-body="false"
+					:multiple="true"
+					:no-wrap="true"
+					:options="subAdminsGroups"
+					:placeholder="t('settings', 'Set account as admin for')"
+					:value="userSubAdminsGroups"
+					@option:deselected="removeUserSubAdmin"
+					@option:selected="options => addUserSubAdmin(options.at(-1))" />
+			</template>
+			<span v-else-if="!isObfuscated"
+				:title="userSubAdminsGroupsLabels?.length > 40 ? userSubAdminsGroupsLabels : null">
+				{{ userSubAdminsGroupsLabels }}
+			</span>
+		</td>
+
+		<td class="row__cell" data-cy-user-list-cell-quota>
+			<template v-if="editing">
+				<label class="hidden-visually"
+					:for="'quota' + uniqueId">
+					{{ t('settings', 'Select account quota') }}
+				</label>
+				<NcSelect v-model="editedUserQuota"
+					:close-on-select="true"
+					:create-option="validateQuota"
+					data-cy-user-list-input-quota
+					:data-loading="loading.quota || undefined"
+					:disabled="isLoadingField"
+					:loading="loading.quota"
+					:append-to-body="false"
+					:clearable="false"
+					:input-id="'quota' + uniqueId"
+					:options="quotaOptions"
+					:placeholder="t('settings', 'Select account quota')"
+					:taggable="true"
+					@option:selected="setUserQuota" />
+			</template>
+			<template v-else-if="!isObfuscated">
+				<span :id="'quota-progress' + uniqueId">{{ userQuota }} ({{ usedSpace }})</span>
+				<NcProgressBar :aria-labelledby="'quota-progress' + uniqueId"
+					class="row__progress"
+					:class="{
+						'row__progress--warn': usedQuota > 80,
+					}"
+					:value="usedQuota" />
+			</template>
+		</td>
+
+		<td v-if="showConfig.showLanguages"
+			class="row__cell row__cell--large"
+			data-cy-user-list-cell-language>
+			<template v-if="editing">
+				<label class="hidden-visually"
+					:for="'language' + uniqueId">
+					{{ t('settings', 'Set the language') }}
+				</label>
+				<NcSelect :id="'language' + uniqueId"
+					data-cy-user-list-input-language
+					:data-loading="loading.languages || undefined"
+					:allow-empty="false"
+					:disabled="isLoadingField"
+					:loading="loading.languages"
+					:clearable="false"
+					:append-to-body="false"
+					:options="availableLanguages"
+					:placeholder="t('settings', 'No language set')"
+					:value="userLanguage"
+					label="name"
+					@input="setUserLanguage" />
+			</template>
+			<span v-else-if="!isObfuscated">
+				{{ userLanguage.name }}
+			</span>
+		</td>
+
+		<td v-if="showConfig.showUserBackend || showConfig.showStoragePath"
+			data-cy-user-list-cell-storage-location
+			class="row__cell row__cell--large">
+			<template v-if="!isObfuscated">
+				<span v-if="showConfig.showUserBackend">{{ user.backend }}</span>
+				<span v-if="showConfig.showStoragePath"
+					:title="user.storageLocation"
+					class="row__subtitle">
+					{{ user.storageLocation }}
+				</span>
+			</template>
+		</td>
+
+		<td v-if="showConfig.showLastLogin"
+			:title="userLastLoginTooltip"
+			class="row__cell"
+			data-cy-user-list-cell-last-login>
+			<span v-if="!isObfuscated">{{ userLastLogin }}</span>
+		</td>
+
+		<td class="row__cell row__cell--large row__cell--fill" data-cy-user-list-cell-manager>
+			<template v-if="editing">
+				<label class="hidden-visually"
+					:for="'manager' + uniqueId">
+					{{ managerLabel }}
+				</label>
+				<NcSelect v-model="currentManager"
+					class="select--fill"
+					data-cy-user-list-input-manager
+					:data-loading="loading.manager || undefined"
+					:input-id="'manager' + uniqueId"
+					:close-on-select="true"
+					:disabled="isLoadingField"
+					:append-to-body="false"
+					:loading="loadingPossibleManagers || loading.manager"
+					label="displayname"
+					:options="possibleManagers"
+					:placeholder="managerLabel"
+					@open="searchInitialUserManager"
+					@search="searchUserManager"
+					@option:selected="updateUserManager" />
+			</template>
+			<span v-else-if="!isObfuscated">
+				{{ user.manager }}
+			</span>
+		</td>
+
+		<td class="row__cell row__cell--actions" data-cy-user-list-cell-actions>
+			<UserRowActions v-if="visible && !isObfuscated && canEdit && !loading.all"
+				:actions="userActions"
+				:disabled="isLoadingField"
+				:edit="editing"
+				:user="user"
+				@update:edit="toggleEdit" />
+		</td>
+	</tr>
 </template>
 
 <script>
-import ClickOutside from 'vue-click-outside'
+import { formatFileSize, parseFileSize } from '@nextcloud/files'
+import { getCurrentUser } from '@nextcloud/auth'
+import { showSuccess, showError } from '@nextcloud/dialogs'
+import { confirmPassword } from '@nextcloud/password-confirmation'
 
-import NcPopoverMenu from '@nextcloud/vue/dist/Components/NcPopoverMenu.js'
-import NcMultiselect from '@nextcloud/vue/dist/Components/NcMultiselect.js'
-import NcActions from '@nextcloud/vue/dist/Components/NcActions.js'
-import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
-import UserRowSimple from './UserRowSimple.vue'
+import NcAvatar from '@nextcloud/vue/dist/Components/NcAvatar.js'
+import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
+import NcProgressBar from '@nextcloud/vue/dist/Components/NcProgressBar.js'
+import NcSelect from '@nextcloud/vue/dist/Components/NcSelect.js'
+import NcTextField from '@nextcloud/vue/dist/Components/NcTextField.js'
+
+import UserRowActions from './UserRowActions.vue'
+
 import UserRowMixin from '../../mixins/UserRowMixin.js'
+import { isObfuscated, unlimitedQuota } from '../../utils/userUtils.ts'
 
 export default {
 	name: 'UserRow',
+
 	components: {
-		UserRowSimple,
-		NcPopoverMenu,
-		NcActions,
-		NcActionButton,
-		NcMultiselect,
+		NcAvatar,
+		NcLoadingIcon,
+		NcProgressBar,
+		NcSelect,
+		NcTextField,
+		UserRowActions,
 	},
-	directives: {
-		ClickOutside,
-	},
-	mixins: [UserRowMixin],
+
+	mixins: [
+		UserRowMixin,
+	],
+
 	props: {
-		users: {
-			type: Array,
-			required: true,
-		},
 		user: {
 			type: Object,
 			required: true,
 		},
-		settings: {
-			type: Object,
-			default: () => ({}),
+		visible: {
+			type: Boolean,
+			required: true,
+		},
+		users: {
+			type: Array,
+			required: true,
+		},
+		hasObfuscated: {
+			type: Boolean,
+			required: true,
 		},
 		groups: {
 			type: Array,
@@ -306,34 +330,31 @@ export default {
 		},
 		subAdminsGroups: {
 			type: Array,
-			default: () => [],
+			required: true,
 		},
 		quotaOptions: {
 			type: Array,
-			default: () => [],
-		},
-		showConfig: {
-			type: Object,
-			default: () => ({}),
+			required: true,
 		},
 		languages: {
 			type: Array,
+			required: true,
+		},
+		settings: {
+			type: Object,
 			required: true,
 		},
 		externalActions: {
 			type: Array,
 			default: () => [],
 		},
-		isDarkTheme: {
-			type: Boolean,
-			required: true,
-		},
 	},
+
 	data() {
 		return {
-			rand: parseInt(Math.random() * 1000),
-			openedMenu: false,
-			feedbackMessage: '',
+			selectedQuota: false,
+			rand: Math.random().toString(36).substring(2),
+			loadingPossibleManagers: false,
 			possibleManagers: [],
 			currentManager: '',
 			editing: false,
@@ -351,26 +372,96 @@ export default {
 				wipe: false,
 				manager: false,
 			},
+			editedDisplayName: this.user.displayname,
+			editedPassword: '',
+			editedMail: this.user.email ?? '',
 		}
 	},
-	computed: {
 
-		/* USER POPOVERMENU ACTIONS */
+	computed: {
+		managerLabel() {
+			// TRANSLATORS This string describes a person's manager in the context of an organization
+			return t('settings', 'Set line manager')
+		},
+
+		isObfuscated() {
+			return isObfuscated(this.user)
+		},
+
+		showConfig() {
+			return this.$store.getters.getShowConfig
+		},
+
+		isLoadingUser() {
+			return this.loading.delete || this.loading.disable || this.loading.wipe
+		},
+
+		isLoadingField() {
+			return this.loading.delete || this.loading.disable || this.loading.all
+		},
+
+		uniqueId() {
+			return encodeURIComponent(this.user.id + this.rand)
+		},
+
+		userGroupsLabels() {
+			return this.userGroups
+				.map(group => group.name)
+				.join(', ')
+		},
+
+		userSubAdminsGroupsLabels() {
+			return this.userSubAdminsGroups
+				.map(group => group.name)
+				.join(', ')
+		},
+
+		usedSpace() {
+			if (this.user.quota?.used) {
+				return t('settings', '{size} used', { size: formatFileSize(this.user.quota?.used) })
+			}
+			return t('settings', '{size} used', { size: formatFileSize(0) })
+		},
+
+		canEdit() {
+			return getCurrentUser().uid !== this.user.id || this.settings.isAdmin || this.settings.isDelegatedAdmin
+		},
+
+		userQuota() {
+			let quota = this.user.quota?.quota
+
+			if (quota === 'default') {
+				quota = this.settings.defaultQuota
+				if (quota !== 'none') {
+					// convert to numeric value to match what the server would usually return
+					quota = parseFileSize(quota, true)
+				}
+			}
+
+			// when the default quota is unlimited, the server returns -3 here, map it to "none"
+			if (quota === 'none' || quota === -3) {
+				return t('settings', 'Unlimited')
+			} else if (quota >= 0) {
+				return formatFileSize(quota)
+			}
+			return formatFileSize(0)
+		},
+
 		userActions() {
 			const actions = [
 				{
 					icon: 'icon-delete',
-					text: t('settings', 'Delete user'),
+					text: t('settings', 'Delete account'),
 					action: this.deleteUser,
 				},
 				{
 					icon: 'icon-delete',
-					text: t('settings', 'Wipe all devices'),
+					text: t('settings', 'Disconnect all devices and delete local data'),
 					action: this.wipeUserDevices,
 				},
 				{
 					icon: this.user.enabled ? 'icon-close' : 'icon-add',
-					text: this.user.enabled ? t('settings', 'Disable user') : t('settings', 'Enable user'),
+					text: this.user.enabled ? t('settings', 'Disable account') : t('settings', 'Enable account'),
 					action: this.enableDisableUser,
 				},
 			]
@@ -383,25 +474,39 @@ export default {
 			}
 			return actions.concat(this.externalActions)
 		},
+
+		// mapping saved values to objects
+		editedUserQuota: {
+			get() {
+				if (this.selectedQuota !== false) {
+					return this.selectedQuota
+				}
+				if (this.settings.defaultQuota !== unlimitedQuota.id && parseFileSize(this.settings.defaultQuota, true) >= 0) {
+					// if value is valid, let's map the quotaOptions or return custom quota
+					return { id: this.settings.defaultQuota, label: this.settings.defaultQuota }
+				}
+				return unlimitedQuota // unlimited
+			},
+			set(quota) {
+				this.selectedQuota = quota
+			},
+		},
+
+		availableLanguages() {
+			return this.languages[0].languages.concat(this.languages[1].languages)
+		},
 	},
+
 	async beforeMount() {
-		await this.searchUserManager()
 		if (this.user.manager) {
 			await this.initManager(this.user.manager)
 		}
 	},
 
 	methods: {
-		/* MENU HANDLING */
-		toggleMenu() {
-			this.openedMenu = !this.openedMenu
-		},
-		hideMenu() {
-			this.openedMenu = false
-		},
-
-		wipeUserDevices() {
+		async wipeUserDevices() {
 			const userid = this.user.id
+			await confirmPassword()
 			OC.dialogs.confirmDestructive(
 				t('settings', 'In case of lost device or exiting the organization, this can remotely wipe the Nextcloud data from all devices associated with {userid}. Only works if the devices are connected to the internet.', { userid }),
 				t('settings', 'Remote wipe of devices'),
@@ -416,24 +521,33 @@ export default {
 						this.loading.wipe = true
 						this.loading.all = true
 						this.$store.dispatch('wipeUserDevices', userid)
-							.then(() => {
+							.then(() => showSuccess(t('settings', 'Wiped {userid}\'s devices', { userid })), { timeout: 2000 })
+							.finally(() => {
 								this.loading.wipe = false
 								this.loading.all = false
 							})
 					}
 				},
-				true
+				true,
 			)
 		},
 
 		filterManagers(managers) {
 			return managers.filter((manager) => manager.id !== this.user.id)
 		},
+
 		async initManager(userId) {
 			await this.$store.dispatch('getUser', userId).then(response => {
 				this.currentManager = response?.data.ocs.data
 			})
 		},
+
+		async searchInitialUserManager() {
+			this.loadingPossibleManagers = true
+			await this.searchUserManager()
+			this.loadingPossibleManagers = false
+		},
+
 		async searchUserManager(query) {
 			await this.$store.dispatch('searchUsers', { offset: 0, limit: 10, search: query }).then(response => {
 				const users = response?.data ? this.filterManagers(Object.values(response?.data.ocs.data.users)) : []
@@ -443,19 +557,29 @@ export default {
 			})
 		},
 
-		updateUserManager(manager) {
+		async updateUserManager(manager) {
+			if (manager === null) {
+				this.currentManager = ''
+			}
 			this.loading.manager = true
-			this.$store.dispatch('setUserData', {
-				userid: this.user.id,
-				key: 'manager',
-				value: this.currentManager ? this.currentManager.id : '',
-			}).then(() => {
+			try {
+				await this.$store.dispatch('setUserData', {
+					userid: this.user.id,
+					key: 'manager',
+					value: this.currentManager ? this.currentManager.id : '',
+				})
+			} catch (error) {
+				// TRANSLATORS This string describes a line manager in the context of an organization
+				showError(t('setting', 'Failed to update line manager'))
+				console.error(error)
+			} finally {
 				this.loading.manager = false
-			})
+			}
 		},
 
-		deleteUser() {
+		async deleteUser() {
 			const userid = this.user.id
+			await confirmPassword()
 			OC.dialogs.confirmDestructive(
 				t('settings', 'Fully delete {userid}\'s account including all their personal files, app data, etc.', { userid }),
 				t('settings', 'Account deletion'),
@@ -476,7 +600,7 @@ export default {
 							})
 					}
 				},
-				true
+				true,
 			)
 		},
 
@@ -500,17 +624,21 @@ export default {
 		 *
 		 * @param {string} displayName The display name
 		 */
-		updateDisplayName() {
-			const displayName = this.$refs.displayName.value
+		async updateDisplayName() {
 			this.loading.displayName = true
-			this.$store.dispatch('setUserData', {
-				userid: this.user.id,
-				key: 'displayname',
-				value: displayName,
-			}).then(() => {
+			try {
+				await this.$store.dispatch('setUserData', {
+					userid: this.user.id,
+					key: 'displayname',
+					value: this.editedDisplayName,
+				})
+
+				if (this.editedDisplayName === this.user.displayname) {
+					showSuccess(t('setting', 'Display name was successfully changed'))
+				}
+			} finally {
 				this.loading.displayName = false
-				this.$refs.displayName.value = displayName
-			})
+			}
 		},
 
 		/**
@@ -518,17 +646,24 @@ export default {
 		 *
 		 * @param {string} password The email address
 		 */
-		updatePassword() {
-			const password = this.$refs.password.value
+		async updatePassword() {
 			this.loading.password = true
-			this.$store.dispatch('setUserData', {
-				userid: this.user.id,
-				key: 'password',
-				value: password,
-			}).then(() => {
+			if (this.editedPassword.length === 0) {
+				showError(t('setting', "Password can't be empty"))
 				this.loading.password = false
-				this.$refs.password.value = '' // empty & show placeholder
-			})
+			} else {
+				try {
+					await this.$store.dispatch('setUserData', {
+						userid: this.user.id,
+						key: 'password',
+						value: this.editedPassword,
+					})
+					this.editedPassword = ''
+					showSuccess(t('setting', 'Password was successfully changed'))
+				} finally {
+					this.loading.password = false
+				}
+			}
 		},
 
 		/**
@@ -536,17 +671,27 @@ export default {
 		 *
 		 * @param {string} mailAddress The email address
 		 */
-		updateEmail() {
-			const mailAddress = this.$refs.mailAddress.value
+		async updateEmail() {
 			this.loading.mailAddress = true
-			this.$store.dispatch('setUserData', {
-				userid: this.user.id,
-				key: 'email',
-				value: mailAddress,
-			}).then(() => {
+			if (this.editedMail === '') {
+				showError(t('setting', "Email can't be empty"))
 				this.loading.mailAddress = false
-				this.$refs.mailAddress.value = mailAddress
-			})
+				this.editedMail = this.user.email
+			} else {
+				try {
+					await this.$store.dispatch('setUserData', {
+						userid: this.user.id,
+						key: 'email',
+						value: this.editedMail,
+					})
+
+					if (this.editedMail === this.user.email) {
+						showSuccess(t('setting', 'Email was successfully changed'))
+					}
+				} finally {
+					this.loading.mailAddress = false
+				}
+			}
 		},
 
 		/**
@@ -554,7 +699,7 @@ export default {
 		 *
 		 * @param {string} gid Group id
 		 */
-		async createGroup(gid) {
+		async createGroup({ name: gid }) {
 			this.loading = { groups: true, subadmins: true }
 			try {
 				await this.$store.dispatch('addGroup', gid)
@@ -574,12 +719,17 @@ export default {
 		 * @param {object} group Group object
 		 */
 		async addUserGroup(group) {
-			if (group.canAdd === false) {
-				return false
+			if (group.isCreating) {
+				// This is NcSelect's internal value for a new inputted group name
+				// Ignore
+				return
 			}
 			this.loading.groups = true
 			const userid = this.user.id
 			const gid = group.id
+			if (group.canAdd === false) {
+				return false
+			}
 			try {
 				await this.$store.dispatch('addUserGroup', { userid, gid })
 			} catch (error) {
@@ -598,11 +748,9 @@ export default {
 			if (group.canRemove === false) {
 				return false
 			}
-
 			this.loading.groups = true
 			const userid = this.user.id
 			const gid = group.id
-
 			try {
 				await this.$store.dispatch('removeUserGroup', {
 					userid,
@@ -627,7 +775,6 @@ export default {
 			this.loading.subadmins = true
 			const userid = this.user.id
 			const gid = group.id
-
 			try {
 				await this.$store.dispatch('addUserSubAdmin', {
 					userid,
@@ -668,15 +815,23 @@ export default {
 		 * @return {string}
 		 */
 		async setUserQuota(quota = 'none') {
+			// Make sure correct label is set for unlimited quota
+			if (quota === 'none') {
+				quota = unlimitedQuota
+			}
 			this.loading.quota = true
+
 			// ensure we only send the preset id
 			quota = quota.id ? quota.id : quota
 
 			try {
+				// If human readable format, convert to raw float format
+				// Else just send the raw string
+				const value = (parseFileSize(quota, true) || quota).toString()
 				await this.$store.dispatch('setUserData', {
 					userid: this.user.id,
 					key: 'quota',
-					value: quota,
+					value,
 				})
 			} catch (error) {
 				console.error(error)
@@ -689,18 +844,22 @@ export default {
 		/**
 		 * Validate quota string to make sure it's a valid human file size
 		 *
-		 * @param {string} quota Quota in readable format '5 GB'
-		 * @return {Promise|boolean}
+		 * @param {string | object} quota Quota in readable format '5 GB' or Object {id: '5 GB', label: '5GB'}
+		 * @return {object} The validated quota object or unlimited quota if input is invalid
 		 */
 		validateQuota(quota) {
-			// only used for new presets sent through @Tag
-			const validQuota = OC.Util.computerFileSize(quota)
-			if (validQuota !== null && validQuota >= 0) {
-				// unify format output
-				return this.setUserQuota(OC.Util.humanFileSize(OC.Util.computerFileSize(quota)))
+			if (typeof quota === 'object') {
+				quota = quota?.id || quota.label
 			}
-			// if no valid do not change
-			return false
+			// only used for new presets sent through @Tag
+			const validQuota = parseFileSize(quota, true)
+			if (validQuota === null) {
+				return unlimitedQuota
+			} else {
+				// unify format output
+				quota = formatFileSize(parseFileSize(quota, true))
+				return { id: quota, label: quota }
+			}
 		},
 
 		/**
@@ -718,10 +877,9 @@ export default {
 					key: 'language',
 					value: lang.code,
 				})
+				this.loading.languages = false
 			} catch (error) {
 				console.error(error)
-			} finally {
-				this.loading.languages = false
 			}
 			return lang
 		},
@@ -732,27 +890,72 @@ export default {
 		sendWelcomeMail() {
 			this.loading.all = true
 			this.$store.dispatch('sendWelcomeMail', this.user.id)
-				.then(success => {
-					if (success) {
-						// Show feedback to indicate the success
-						this.feedbackMessage = t('setting', 'Welcome mail sent!')
-						setTimeout(() => {
-							this.feedbackMessage = ''
-						}, 2000)
-					}
+				.then(() => showSuccess(t('setting', 'Welcome mail sent!'), { timeout: 2000 }))
+				.finally(() => {
 					this.loading.all = false
 				})
 		},
 
+		async toggleEdit() {
+			this.editing = !this.editing
+			if (this.editing) {
+				await this.$nextTick()
+				this.$refs.displayNameField?.$refs?.inputField?.$refs?.input?.focus()
+			}
+			if (this.editedDisplayName !== this.user.displayname) {
+				this.editedDisplayName = this.user.displayname
+			} else if (this.editedMail !== this.user.email) {
+				this.editedMail = this.user.email ?? ''
+			}
+		},
 	},
 }
 </script>
-<style scoped lang="scss">
-	// Force menu to be above other rows
-	.row--menu-opened {
-		z-index: 1 !important;
+
+<style lang="scss" scoped>
+@import './shared/styles.scss';
+
+.user-list__row {
+	@include row;
+
+	&:hover {
+		background-color: var(--color-background-hover);
+
+		.row__cell:not(.row__cell--actions) {
+			background-color: var(--color-background-hover);
+		}
 	}
-	.row::v-deep .multiselect__single {
-		z-index: auto !important;
+
+	// Limit width of select in fill cell
+	.select--fill {
+		max-width: calc(var(--cell-width-large) - (2 * var(--cell-padding)));
 	}
+}
+
+.row {
+	@include cell;
+
+	&__cell {
+		border-bottom: 1px solid var(--color-border);
+
+		:deep {
+			.v-select.select {
+				min-width: var(--cell-min-width);
+			}
+		}
+	}
+
+	&__progress {
+		margin-top: 4px;
+
+		&--warn {
+			&::-moz-progress-bar {
+				background: var(--color-warning) !important;
+			}
+			&::-webkit-progress-value {
+				background: var(--color-warning) !important;
+			}
+		}
+	}
+}
 </style>

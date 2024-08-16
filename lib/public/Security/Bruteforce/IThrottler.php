@@ -2,23 +2,8 @@
 
 declare(strict_types=1);
 /**
- * @copyright Copyright (c) 2022 Joas Schilling <coding@schilljs.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace OCP\Security\Bruteforce;
@@ -40,16 +25,19 @@ namespace OCP\Security\Bruteforce;
 interface IThrottler {
 	/**
 	 * @since 25.0.0
+	 * @deprecated 28.0.0
 	 */
 	public const MAX_DELAY = 25;
 
 	/**
 	 * @since 25.0.0
+	 * @deprecated 28.0.0
 	 */
 	public const MAX_DELAY_MS = 25000; // in milliseconds
 
 	/**
 	 * @since 25.0.0
+	 * @deprecated 28.0.0
 	 */
 	public const MAX_ATTEMPTS = 10;
 
@@ -58,10 +46,20 @@ interface IThrottler {
 	 *
 	 * @param string $action
 	 * @param string $ip
-	 * @param array $metadata Optional metadata logged to the database
+	 * @param array $metadata Optional metadata logged with the attempt
 	 * @since 25.0.0
 	 */
 	public function registerAttempt(string $action, string $ip, array $metadata = []): void;
+
+
+	/**
+	 * Check if the IP is allowed to bypass the brute force protection
+	 *
+	 * @param string $ip
+	 * @return bool
+	 * @since 28.0.0
+	 */
+	public function isBypassListed(string $ip): bool;
 
 	/**
 	 * Get the throttling delay (in milliseconds)
@@ -71,8 +69,19 @@ interface IThrottler {
 	 * @param float $maxAgeHours
 	 * @return int
 	 * @since 25.0.0
+	 * @deprecated 28.0.0 This method is considered internal as of Nextcloud 28. Use {@see showBruteforceWarning()} to decide whether a warning should be shown.
 	 */
 	public function getAttempts(string $ip, string $action = '', float $maxAgeHours = 12): int;
+
+	/**
+	 * Whether a warning should be shown about the throttle
+	 *
+	 * @param string $ip
+	 * @param string $action optionally filter by action
+	 * @return bool
+	 * @since 28.0.0
+	 */
+	public function showBruteforceWarning(string $ip, string $action = ''): bool;
 
 	/**
 	 * Get the throttling delay (in milliseconds)
@@ -81,6 +90,7 @@ interface IThrottler {
 	 * @param string $action optionally filter by action
 	 * @return int
 	 * @since 25.0.0
+	 * @deprecated 28.0.0 This method is considered internal as of Nextcloud 28. Use {@see showBruteforceWarning()} to decide whether a warning should be shown.
 	 */
 	public function getDelay(string $ip, string $action = ''): int;
 
@@ -99,6 +109,7 @@ interface IThrottler {
 	 *
 	 * @param string $ip
 	 * @since 25.0.0
+	 * @deprecated 28.0.0 This method is considered internal as of Nextcloud 28. Use {@see resetDelay()} and only reset the entries of your action and metadata
 	 */
 	public function resetDelayForIP(string $ip): void;
 
@@ -109,6 +120,7 @@ interface IThrottler {
 	 * @param string $action optionally filter by action
 	 * @return int the time spent sleeping
 	 * @since 25.0.0
+	 * @deprecated 28.0.0 Use {@see sleepDelayOrThrowOnMax()} instead and abort handling the request when it throws
 	 */
 	public function sleepDelay(string $ip, string $action = ''): int;
 

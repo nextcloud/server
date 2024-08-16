@@ -3,24 +3,8 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2023 Julius Härtl <jus@bitgrid.net>
- *
- * @author Julius Härtl <jus@bitgrid.net>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 
@@ -28,12 +12,16 @@ namespace OC\Translation;
 
 use InvalidArgumentException;
 use OC\AppFramework\Bootstrap\Coordinator;
+use OCP\IConfig;
 use OCP\IServerContainer;
+use OCP\IUserSession;
 use OCP\PreConditionNotMetException;
 use OCP\Translation\CouldNotTranslateException;
 use OCP\Translation\IDetectLanguageProvider;
 use OCP\Translation\ITranslationManager;
 use OCP\Translation\ITranslationProvider;
+use OCP\Translation\ITranslationProviderWithId;
+use OCP\Translation\ITranslationProviderWithUserId;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use Psr\Log\LoggerInterface;
@@ -48,6 +36,8 @@ class TranslationManager implements ITranslationManager {
 		private IServerContainer $serverContainer,
 		private Coordinator $coordinator,
 		private LoggerInterface $logger,
+		private IConfig $config,
+		private IUserSession $userSession,
 	) {
 	}
 
@@ -64,9 +54,33 @@ class TranslationManager implements ITranslationManager {
 			throw new PreConditionNotMetException('No translation providers available');
 		}
 
+		$providers = $this->getProviders();
+		$json = $this->config->getAppValue('core', 'ai.translation_provider_preferences', '');
+
+		if ($json !== '') {
+			$precedence = json_decode($json, true);
+			$newProviders = [];
+			foreach ($precedence as $className) {
+				$provider = current(array_filter($providers, function ($provider) use ($className) {
+					return $provider instanceof ITranslationProviderWithId ? $provider->getId() === $className : $provider::class === $className;
+				}));
+				if ($provider !== false) {
+					$newProviders[] = $provider;
+				}
+			}
+			// Add all providers that haven't been added so far
+			$newProviders += array_udiff($providers, $newProviders, function ($a, $b) {
+				return ($a instanceof ITranslationProviderWithId ? $a->getId() : $a::class) <=> ($b instanceof ITranslationProviderWithId ? $b->getId() : $b::class);
+			});
+			$providers = $newProviders;
+		}
+
 		if ($fromLanguage === null) {
-			foreach ($this->getProviders() as $provider) {
+			foreach ($providers as $provider) {
 				if ($provider instanceof IDetectLanguageProvider) {
+					if ($provider instanceof  ITranslationProviderWithUserId) {
+						$provider->setUserId($this->userSession->getUser()?->getUID());
+					}
 					$fromLanguage = $provider->detectLanguage($text);
 				}
 
@@ -84,11 +98,14 @@ class TranslationManager implements ITranslationManager {
 			return $text;
 		}
 
-		foreach ($this->getProviders() as $provider) {
+		foreach ($providers as $provider) {
 			try {
+				if ($provider instanceof ITranslationProviderWithUserId) {
+					$provider->setUserId($this->userSession->getUser()?->getUID());
+				}
 				return $provider->translate($fromLanguage, $toLanguage, $text);
 			} catch (RuntimeException $e) {
-				$this->logger->warning("Failed to translate from {$fromLanguage} to {$toLanguage}", ['exception' => $e]);
+				$this->logger->warning("Failed to translate from {$fromLanguage} to {$toLanguage} using provider {$provider->getName()}", ['exception' => $e]);
 			}
 		}
 

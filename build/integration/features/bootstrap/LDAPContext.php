@@ -1,27 +1,7 @@
 <?php
 /**
- * @copyright Copyright (c) 2017 Arthur Schiwon <blizzz@arthur-schiwon.de>
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- * @author Robin Appelman <robin@icewind.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 use Behat\Behat\Context\Context;
 use Behat\Gherkin\Node\TableNode;
@@ -104,7 +84,7 @@ class LDAPContext implements Context {
 		$this->asAn('admin');
 		$this->creatingAnLDAPConfigurationAt('/apps/user_ldap/api/v1/config');
 		$data = new TableNode([
-			['configData[ldapHost]', 'openldap'],
+			['configData[ldapHost]', getenv('LDAP_HOST') ?: 'openldap'],
 			['configData[ldapPort]', '389'],
 			['configData[ldapBase]', 'dc=nextcloud,dc=ci'],
 			['configData[ldapAgentName]', 'cn=admin,dc=nextcloud,dc=ci'],
@@ -141,6 +121,9 @@ class LDAPContext implements Context {
 		$this->asAn('admin');
 		$configData = $table->getRows();
 		foreach ($configData as &$row) {
+			if (str_contains($row[0], 'Host') && getenv('LDAP_HOST')) {
+				$row[1] = str_replace('openldap', getenv('LDAP_HOST'), $row[1]);
+			}
 			$row[0] = 'configData[' . $row[0] . ']';
 		}
 		$this->settingTheLDAPConfigurationTo(new TableNode($configData));

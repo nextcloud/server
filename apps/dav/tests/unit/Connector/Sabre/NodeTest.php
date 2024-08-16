@@ -1,41 +1,28 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Björn Schießle <bjoern@schiessle.org>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 namespace OCA\DAV\Tests\unit\Connector\Sabre;
 
 use OC\Files\FileInfo;
+use OC\Files\Mount\MountPoint;
+use OC\Files\Node\Folder;
 use OC\Files\View;
 use OC\Share20\ShareAttributes;
+use OCA\Files_Sharing\SharedMount;
 use OCA\Files_Sharing\SharedStorage;
+use OCP\Constants;
+use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\Mount\IMountPoint;
 use OCP\Files\Storage;
-use OCP\Share\IAttributes;
+use OCP\ICache;
 use OCP\Share\IManager;
 use OCP\Share\IShare;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Class NodeTest
@@ -46,40 +33,66 @@ use OCP\Share\IShare;
 class NodeTest extends \Test\TestCase {
 	public function davPermissionsProvider() {
 		return [
-			[\OCP\Constants::PERMISSION_ALL, 'file', false, false, 'RGDNVW'],
-			[\OCP\Constants::PERMISSION_ALL, 'dir', false, false, 'RGDNVCK'],
-			[\OCP\Constants::PERMISSION_ALL, 'file', true, false, 'SRGDNVW'],
-			[\OCP\Constants::PERMISSION_ALL, 'file', true, true, 'SRMGDNVW'],
-			[\OCP\Constants::PERMISSION_ALL - \OCP\Constants::PERMISSION_SHARE, 'file', true, false, 'SGDNVW'],
-			[\OCP\Constants::PERMISSION_ALL - \OCP\Constants::PERMISSION_UPDATE, 'file', false, false, 'RGD'],
-			[\OCP\Constants::PERMISSION_ALL - \OCP\Constants::PERMISSION_DELETE, 'file', false, false, 'RGNVW'],
-			[\OCP\Constants::PERMISSION_ALL - \OCP\Constants::PERMISSION_CREATE, 'file', false, false, 'RGDNVW'],
-			[\OCP\Constants::PERMISSION_ALL - \OCP\Constants::PERMISSION_READ, 'file', false, false, 'RDNVW'],
-			[\OCP\Constants::PERMISSION_ALL - \OCP\Constants::PERMISSION_CREATE, 'dir', false, false, 'RGDNV'],
-			[\OCP\Constants::PERMISSION_ALL - \OCP\Constants::PERMISSION_READ, 'dir', false, false, 'RDNVCK'],
+			[Constants::PERMISSION_ALL, 'file', false, Constants::PERMISSION_ALL, false, 'test', 'RGDNVW'],
+			[Constants::PERMISSION_ALL, 'dir', false, Constants::PERMISSION_ALL, false, 'test', 'RGDNVCK'],
+			[Constants::PERMISSION_ALL, 'file', true, Constants::PERMISSION_ALL, false, 'test', 'SRGDNVW'],
+			[Constants::PERMISSION_ALL, 'file', true, Constants::PERMISSION_ALL, true, 'test', 'SRMGDNVW'],
+			[Constants::PERMISSION_ALL, 'file', true, Constants::PERMISSION_ALL, true, '' , 'SRMGDNVW'],
+			[Constants::PERMISSION_ALL, 'file', true, Constants::PERMISSION_ALL - Constants::PERMISSION_UPDATE, true, '' , 'SRMGDNV'],
+			[Constants::PERMISSION_ALL - Constants::PERMISSION_SHARE, 'file', true, Constants::PERMISSION_ALL, false, 'test', 'SGDNVW'],
+			[Constants::PERMISSION_ALL - Constants::PERMISSION_UPDATE, 'file', false, Constants::PERMISSION_ALL, false, 'test', 'RGD'],
+			[Constants::PERMISSION_ALL - Constants::PERMISSION_DELETE, 'file', false, Constants::PERMISSION_ALL, false, 'test', 'RGNVW'],
+			[Constants::PERMISSION_ALL - Constants::PERMISSION_CREATE, 'file', false, Constants::PERMISSION_ALL, false, 'test', 'RGDNVW'],
+			[Constants::PERMISSION_ALL - Constants::PERMISSION_READ, 'file', false, Constants::PERMISSION_ALL, false, 'test', 'RDNVW'],
+			[Constants::PERMISSION_ALL - Constants::PERMISSION_CREATE, 'dir', false, Constants::PERMISSION_ALL, false, 'test', 'RGDNV'],
+			[Constants::PERMISSION_ALL - Constants::PERMISSION_READ, 'dir', false, Constants::PERMISSION_ALL, false, 'test', 'RDNVCK'],
 		];
 	}
 
 	/**
 	 * @dataProvider davPermissionsProvider
 	 */
-	public function testDavPermissions($permissions, $type, $shared, $mounted, $expected): void {
+	public function testDavPermissions($permissions, $type, $shared, $shareRootPermissions, $mounted, $internalPath, $expected): void {
 		$info = $this->getMockBuilder(FileInfo::class)
 			->disableOriginalConstructor()
-			->setMethods(['getPermissions', 'isShared', 'isMounted', 'getType'])
+			->onlyMethods(['getPermissions', 'isShared', 'isMounted', 'getType', 'getInternalPath', 'getStorage', 'getMountPoint'])
 			->getMock();
-		$info->expects($this->any())
-			->method('getPermissions')
+		$info->method('getPermissions')
 			->willReturn($permissions);
-		$info->expects($this->any())
-			->method('isShared')
+		$info->method('isShared')
 			->willReturn($shared);
-		$info->expects($this->any())
-			->method('isMounted')
+		$info->method('isMounted')
 			->willReturn($mounted);
-		$info->expects($this->any())
-			->method('getType')
+		$info->method('getType')
 			->willReturn($type);
+		$info->method('getInternalPath')
+			->willReturn($internalPath);
+		$info->method('getMountPoint')
+			->willReturnCallback(function () use ($shared) {
+				if ($shared) {
+					return $this->createMock(SharedMount::class);
+				} else {
+					return $this->createMock(MountPoint::class);
+				}
+			});
+		$storage = $this->createMock(Storage\IStorage::class);
+		if ($shared) {
+			$storage->method('instanceOfStorage')
+				->willReturn(true);
+			$cache = $this->createMock(ICache::class);
+			$storage->method('getCache')
+				->willReturn($cache);
+			$shareRootEntry = $this->createMock(ICacheEntry::class);
+			$cache->method('get')
+				->willReturn($shareRootEntry);
+			$shareRootEntry->method('getPermissions')
+				->willReturn($shareRootPermissions);
+		} else {
+			$storage->method('instanceOfStorage')
+				->willReturn(false);
+		}
+		$info->method('getStorage')
+			->willReturn($storage);
 		$view = $this->getMockBuilder(View::class)
 			->disableOriginalConstructor()
 			->getMock();
@@ -190,14 +203,16 @@ class NodeTest extends \Test\TestCase {
 
 		$share->expects($this->once())->method('getAttributes')->willReturn($attributes);
 
-		$info = $this->getMockBuilder(FileInfo::class)
+		/** @var Folder&MockObject $info */
+		$info = $this->getMockBuilder(Folder::class)
 			->disableOriginalConstructor()
-			->setMethods(['getStorage', 'getType'])
+			->onlyMethods(['getStorage', 'getType'])
 			->getMock();
 
 		$info->method('getStorage')->willReturn($storage);
 		$info->method('getType')->willReturn(FileInfo::TYPE_FOLDER);
 
+		/** @var View&MockObject $view */
 		$view = $this->getMockBuilder(View::class)
 			->disableOriginalConstructor()
 			->getMock();
@@ -214,14 +229,16 @@ class NodeTest extends \Test\TestCase {
 
 		$shareManager = $this->getMockBuilder(IManager::class)->disableOriginalConstructor()->getMock();
 
-		$info = $this->getMockBuilder(FileInfo::class)
+		/** @var Folder&MockObject */
+		$info = $this->getMockBuilder(Folder::class)
 			->disableOriginalConstructor()
-			->setMethods(['getStorage', 'getType'])
+			->onlyMethods(['getStorage', 'getType'])
 			->getMock();
 
 		$info->method('getStorage')->willReturn($storage);
 		$info->method('getType')->willReturn(FileInfo::TYPE_FOLDER);
 
+		/** @var View&MockObject */
 		$view = $this->getMockBuilder(View::class)
 			->disableOriginalConstructor()
 			->getMock();
@@ -256,7 +273,7 @@ class NodeTest extends \Test\TestCase {
 
 	public function invalidSanitizeMtimeProvider() {
 		return [
-			[-1337], [0], ['abcdef'], ['-1337'], ['0'], [12321], [24 * 60 * 60 - 1]
+			[-1337], [0], ['abcdef'], ['-1337'], ['0'], [12321], [24 * 60 * 60 - 1],
 		];
 	}
 

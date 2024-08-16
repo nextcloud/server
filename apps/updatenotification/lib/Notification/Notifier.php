@@ -3,26 +3,8 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Joas Schilling <coding@schilljs.com>
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\UpdateNotification\Notification;
 
@@ -37,6 +19,7 @@ use OCP\Notification\AlreadyProcessedException;
 use OCP\Notification\IManager;
 use OCP\Notification\INotification;
 use OCP\Notification\INotifier;
+use OCP\Notification\UnknownNotificationException;
 use OCP\Util;
 
 class Notifier implements INotifier {
@@ -105,31 +88,34 @@ class Notifier implements INotifier {
 	 * @param INotification $notification
 	 * @param string $languageCode The code of the language that should be used to prepare the notification
 	 * @return INotification
-	 * @throws \InvalidArgumentException When the notification was not prepared by a notifier
+	 * @throws UnknownNotificationException When the notification was not prepared by a notifier
 	 * @throws AlreadyProcessedException When the notification is not needed anymore and should be deleted
 	 * @since 9.0.0
 	 */
 	public function prepare(INotification $notification, string $languageCode): INotification {
 		if ($notification->getApp() !== 'updatenotification') {
-			throw new \InvalidArgumentException('Unknown app id');
+			throw new UnknownNotificationException('Unknown app id');
+		}
+
+		if ($notification->getSubject() !== 'update_available' && $notification->getSubject() !== 'connection_error') {
+			throw new UnknownNotificationException('Unknown subject');
 		}
 
 		$l = $this->l10NFactory->get('updatenotification', $languageCode);
 		if ($notification->getSubject() === 'connection_error') {
 			$errors = (int) $this->config->getAppValue('updatenotification', 'update_check_errors', '0');
 			if ($errors === 0) {
-				$this->notificationManager->markProcessed($notification);
-				throw new \InvalidArgumentException('Update checked worked again');
+				throw new AlreadyProcessedException();
 			}
 
 			$notification->setParsedSubject($l->t('The update server could not be reached since %d days to check for new updates.', [$errors]))
 				->setParsedMessage($l->t('Please check the Nextcloud and server log files for errors.'));
-		} elseif ($notification->getObjectType() === 'core') {
-			$this->updateAlreadyInstalledCheck($notification, $this->getCoreVersions());
+		} else {
+			if ($notification->getObjectType() === 'core') {
+				$this->updateAlreadyInstalledCheck($notification, $this->getCoreVersions());
 
-			$parameters = $notification->getSubjectParameters();
-			$notification->setParsedSubject($l->t('Update to %1$s is available.', [$parameters['version']]))
-				->setRichSubject($l->t('Update to {serverAndVersion} is available.'), [
+				$parameters = $notification->getSubjectParameters();
+				$notification->setRichSubject($l->t('Update to {serverAndVersion} is available.'), [
 					'serverAndVersion' => [
 						'type' => 'highlight',
 						'id' => $notification->getObjectType(),
@@ -137,27 +123,28 @@ class Notifier implements INotifier {
 					]
 				]);
 
-			if ($this->isAdmin()) {
-				$notification->setLink($this->url->linkToRouteAbsolute('settings.AdminSettings.index', ['section' => 'overview']) . '#version');
-			}
-		} else {
-			$appInfo = $this->getAppInfo($notification->getObjectType(), $languageCode);
-			$appName = ($appInfo === null) ? $notification->getObjectType() : $appInfo['name'];
+				if ($this->isAdmin()) {
+					$notification->setLink($this->url->linkToRouteAbsolute('settings.AdminSettings.index', ['section' => 'overview']) . '#version');
+				}
+			} else {
+				$appInfo = $this->getAppInfo($notification->getObjectType(), $languageCode);
+				$appName = ($appInfo === null) ? $notification->getObjectType() : $appInfo['name'];
 
-			if (isset($this->appVersions[$notification->getObjectType()])) {
-				$this->updateAlreadyInstalledCheck($notification, $this->appVersions[$notification->getObjectType()]);
-			}
+				if (isset($this->appVersions[$notification->getObjectType()])) {
+					$this->updateAlreadyInstalledCheck($notification, $this->appVersions[$notification->getObjectType()]);
+				}
 
-			$notification->setRichSubject($l->t('Update for {app} to version %s is available.', [$notification->getObjectId()]), [
-				'app' => [
-					'type' => 'app',
-					'id' => $notification->getObjectType(),
-					'name' => $appName,
-				]
-			]);
+				$notification->setRichSubject($l->t('Update for {app} to version %s is available.', [$notification->getObjectId()]), [
+					'app' => [
+						'type' => 'app',
+						'id' => $notification->getObjectType(),
+						'name' => $appName,
+					]
+				]);
 
-			if ($this->isAdmin()) {
-				$notification->setLink($this->url->linkToRouteAbsolute('settings.AppSettings.viewApps', ['category' => 'updates']) . '#app-' . $notification->getObjectType());
+				if ($this->isAdmin()) {
+					$notification->setLink($this->url->linkToRouteAbsolute('settings.AppSettings.viewApps', ['category' => 'updates']) . '#app-' . $notification->getObjectType());
+				}
 			}
 		}
 

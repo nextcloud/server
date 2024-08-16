@@ -1,26 +1,7 @@
 <?php
 /**
- * @copyright Copyright (c) 2017 Arthur Schiwon <blizzz@arthur-schiwon.de>
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\Files_Sharing\Tests\Collaboration;
 
@@ -77,9 +58,9 @@ class ShareRecipientSorterTest extends TestCase {
 
 		if ($data['context']['itemType'] === 'files') {
 			$folder->expects($this->once())
-				->method('getById')
+				->method('getFirstNodeById')
 				->with($data['context']['itemId'])
-				->willReturn([$node]);
+				->willReturn($node);
 
 			$this->shareManager->expects($this->once())
 				->method('getAccessList')
@@ -87,7 +68,7 @@ class ShareRecipientSorterTest extends TestCase {
 				->willReturn($data['accessList']);
 		} else {
 			$folder->expects($this->never())
-				->method('getById');
+				->method('getFirstNodeById');
 			$this->shareManager->expects($this->never())
 				->method('getAccessList');
 		}
@@ -106,8 +87,8 @@ class ShareRecipientSorterTest extends TestCase {
 			->willReturn($folder);
 
 		$folder->expects($this->once())
-			->method('getById')
-			->willReturn([]);
+			->method('getFirstNodeById')
+			->willReturn(null);
 
 		$user = $this->createMock(IUser::class);
 		$user->expects($this->any())

@@ -1,30 +1,8 @@
 <?php
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- * @copyright Copyright (c) 2016, Björn Schießle <bjoern@schiessle.org>
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Bjoern Schiessle <bjoern@schiessle.org>
- * @author Björn Schießle <bjoern@schiessle.org>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\FederatedFileSharing\Tests\Controller;
 
@@ -48,48 +26,50 @@ use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\Share\IManager;
 use OCP\Share\IShare;
+use PHPUnit\Framework\MockObject\MockObject;
+use Psr\Log\LoggerInterface;
 
 class MountPublicLinkControllerTest extends \Test\TestCase {
-	/** @var IContactsManager|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IContactsManager|MockObject */
 	protected $contactsManager;
 
-	/** @var  MountPublicLinkController */
+	/** @var MountPublicLinkController */
 	private $controller;
 
-	/** @var  \OCP\IRequest | \PHPUnit\Framework\MockObject\MockObject */
+	/** @var IRequest|MockObject */
 	private $request;
 
-	/** @var  FederatedShareProvider | \PHPUnit\Framework\MockObject\MockObject */
+	/** @var FederatedShareProvider|MockObject */
 	private $federatedShareProvider;
 
-	/** @var  IManager | \PHPUnit\Framework\MockObject\MockObject */
+	/** @var IManager|MockObject */
 	private $shareManager;
 
-	/** @var  AddressHandler | \PHPUnit\Framework\MockObject\MockObject */
+	/** @var AddressHandler|MockObject */
 	private $addressHandler;
 
-	/** @var  IRootFolder | \PHPUnit\Framework\MockObject\MockObject */
+	/** @var IRootFolder|MockObject */
 	private $rootFolder;
 
-	/** @var  IUserManager | \PHPUnit\Framework\MockObject\MockObject */
+	/** @var IUserManager|MockObject */
 	private $userManager;
 
-	/** @var  ISession | \PHPUnit\Framework\MockObject\MockObject */
+	/** @var ISession|MockObject */
 	private $session;
 
-	/** @var  IL10N | \PHPUnit\Framework\MockObject\MockObject */
+	/** @var IL10N|MockObject */
 	private $l10n;
 
-	/** @var  IUserSession | \PHPUnit\Framework\MockObject\MockObject */
+	/** @var IUserSession|MockObject */
 	private $userSession;
 
-	/** @var  IClientService | \PHPUnit\Framework\MockObject\MockObject */
+	/** @var IClientService|MockObject */
 	private $clientService;
 
-	/** @var  IShare */
+	/** @var IShare */
 	private $share;
 
-	/** @var  ICloudIdManager */
+	/** @var ICloudIdManager */
 	private $cloudIdManager;
 
 	protected function setUp(): void {
@@ -126,7 +106,8 @@ class MountPublicLinkControllerTest extends \Test\TestCase {
 			$this->l10n,
 			$this->userSession,
 			$this->clientService,
-			$this->cloudIdManager
+			$this->cloudIdManager,
+			$this->createMock(LoggerInterface::class),
 		);
 	}
 
@@ -142,13 +123,13 @@ class MountPublicLinkControllerTest extends \Test\TestCase {
 	 * @param string $expectedReturnData
 	 */
 	public function testCreateFederatedShare($shareWith,
-											 $outgoingSharesAllowed,
-											 $validShareWith,
-											 $token,
-											 $validToken,
-											 $createSuccessful,
-											 $expectedReturnData,
-											 $permissions
+		$outgoingSharesAllowed,
+		$validShareWith,
+		$token,
+		$validToken,
+		$createSuccessful,
+		$expectedReturnData,
+		$permissions
 	) {
 		$this->federatedShareProvider->expects($this->any())
 			->method('isOutgoingServer2serverShareEnabled')

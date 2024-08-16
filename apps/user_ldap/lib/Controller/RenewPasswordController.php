@@ -1,29 +1,15 @@
 <?php
 /**
- * @copyright Copyright (c) 2017 Roger Szabo <roger.szabo@web.de>
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Roger Szabo <roger.szabo@web.de>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\User_LDAP\Controller;
 
 use OCP\AppFramework\Controller;
+use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
+use OCP\AppFramework\Http\Attribute\OpenAPI;
+use OCP\AppFramework\Http\Attribute\PublicPage;
+use OCP\AppFramework\Http\Attribute\UseSession;
 use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\HintException;
@@ -35,6 +21,7 @@ use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserManager;
 
+#[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
 class RenewPasswordController extends Controller {
 	/** @var IUserManager */
 	private $userManager;
@@ -65,24 +52,22 @@ class RenewPasswordController extends Controller {
 	}
 
 	/**
-	 * @PublicPage
-	 * @NoCSRFRequired
-	 *
 	 * @return RedirectResponse
 	 */
+	#[PublicPage]
+	#[NoCSRFRequired]
 	public function cancel() {
 		return new RedirectResponse($this->urlGenerator->linkToRouteAbsolute('core.login.showLoginForm'));
 	}
 
 	/**
-	 * @PublicPage
-	 * @NoCSRFRequired
-	 * @UseSession
-	 *
 	 * @param string $user
 	 *
 	 * @return TemplateResponse|RedirectResponse
 	 */
+	#[PublicPage]
+	#[NoCSRFRequired]
+	#[UseSession]
 	public function showRenewPasswordForm($user) {
 		if ($this->config->getUserValue($user, 'user_ldap', 'needsPasswordReset') !== 'true') {
 			return new RedirectResponse($this->urlGenerator->linkToRouteAbsolute('core.login.showLoginForm'));
@@ -118,15 +103,14 @@ class RenewPasswordController extends Controller {
 	}
 
 	/**
-	 * @PublicPage
-	 * @UseSession
-	 *
 	 * @param string $user
 	 * @param string $oldPassword
 	 * @param string $newPassword
 	 *
 	 * @return RedirectResponse
 	 */
+	#[PublicPage]
+	#[UseSession]
 	public function tryRenewPassword($user, $oldPassword, $newPassword) {
 		if ($this->config->getUserValue($user, 'user_ldap', 'needsPasswordReset') !== 'true') {
 			return new RedirectResponse($this->urlGenerator->linkToRouteAbsolute('core.login.showLoginForm'));
@@ -162,12 +146,11 @@ class RenewPasswordController extends Controller {
 	}
 
 	/**
-	 * @PublicPage
-	 * @NoCSRFRequired
-	 * @UseSession
-	 *
 	 * @return RedirectResponse
 	 */
+	#[PublicPage]
+	#[NoCSRFRequired]
+	#[UseSession]
 	public function showLoginFormInvalidPassword($user) {
 		$args = !is_null($user) ? ['user' => $user] : [];
 		$this->session->set('loginMessages', [

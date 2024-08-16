@@ -1,37 +1,19 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Georg Ehrke <oc.list@georgehrke.com>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\DAV\Tests\unit\Connector\Sabre\RequestTest;
 
 use OC\Files\View;
 use OCA\DAV\Connector\Sabre\Server;
 use OCA\DAV\Connector\Sabre\ServerFactory;
+use OCP\EventDispatcher\IEventDispatcher;
+use OCP\IConfig;
 use OCP\IRequest;
+use OCP\IRequestId;
 use Psr\Log\LoggerInterface;
 use Sabre\HTTP\Request;
 use Test\TestCase;
@@ -57,8 +39,6 @@ abstract class RequestTestCase extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		unset($_SERVER['HTTP_OC_CHUNKED']);
-
 		$this->serverFactory = new ServerFactory(
 			\OC::$server->getConfig(),
 			\OC::$server->get(LoggerInterface::class),
@@ -70,7 +50,7 @@ abstract class RequestTestCase extends TestCase {
 				->disableOriginalConstructor()
 				->getMock(),
 			\OC::$server->getPreviewManager(),
-			\OC::$server->getEventDispatcher(),
+			\OC::$server->get(IEventDispatcher::class),
 			\OC::$server->getL10N('dav')
 		);
 	}
@@ -105,20 +85,25 @@ abstract class RequestTestCase extends TestCase {
 
 		// since sabre catches all exceptions we need to save them and throw them from outside the sabre server
 
-		$originalServer = $_SERVER;
-
+		$serverParams = [];
 		if (is_array($headers)) {
 			foreach ($headers as $header => $value) {
-				$_SERVER['HTTP_' . strtoupper(str_replace('-', '_', $header))] = $value;
+				$serverParams['HTTP_' . strtoupper(str_replace('-', '_', $header))] = $value;
 			}
 		}
+		$ncRequest = new \OC\AppFramework\Http\Request([
+			'server' => $serverParams
+		], $this->createMock(IRequestId::class), $this->createMock(IConfig::class), null);
+
+		$this->overwriteService(IRequest::class, $ncRequest);
 
 		$result = $this->makeRequest($server, $request);
+
+		$this->restoreService(IRequest::class);
 
 		foreach ($exceptionPlugin->getExceptions() as $exception) {
 			throw $exception;
 		}
-		$_SERVER = $originalServer;
 		return $result;
 	}
 

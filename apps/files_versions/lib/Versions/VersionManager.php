@@ -3,25 +3,8 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2018 Robin Appelman <robin@icewind.nl>
- *
- * @author Robin Appelman <robin@icewind.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\Files_Versions\Versions;
 
@@ -31,11 +14,12 @@ use OCP\Files\IRootFolder;
 use OCP\Files\Lock\ILock;
 use OCP\Files\Lock\ILockManager;
 use OCP\Files\Lock\LockContext;
+use OCP\Files\Node;
 use OCP\Files\Storage\IStorage;
 use OCP\IUser;
 use OCP\Lock\ManuallyLockedException;
 
-class VersionManager implements IVersionManager, INameableVersionBackend, IDeletableVersionBackend {
+class VersionManager implements IVersionManager, IDeletableVersionBackend, INeedSyncVersionBackend, IMetadataVersionBackend {
 	/** @var (IVersionBackend[])[] */
 	private $backends = [];
 
@@ -99,7 +83,7 @@ class VersionManager implements IVersionManager, INameableVersionBackend, IDelet
 
 	public function rollback(IVersion $version) {
 		$backend = $version->getBackend();
-		$result = self::handleAppLocks(fn(): ?bool => $backend->rollback($version));
+		$result = self::handleAppLocks(fn (): ?bool => $backend->rollback($version));
 		// rollback doesn't have a return type yet and some implementations don't return anything
 		if ($result === null || $result === true) {
 			\OC_Hook::emit('\OCP\Versions', 'rollback', [
@@ -125,17 +109,38 @@ class VersionManager implements IVersionManager, INameableVersionBackend, IDelet
 		return false;
 	}
 
-	public function setVersionLabel(IVersion $version, string $label): void {
-		$backend = $this->getBackendForStorage($version->getSourceFile()->getStorage());
-		if ($backend instanceof INameableVersionBackend) {
-			$backend->setVersionLabel($version, $label);
+	public function deleteVersion(IVersion $version): void {
+		$backend = $version->getBackend();
+		if ($backend instanceof IDeletableVersionBackend) {
+			$backend->deleteVersion($version);
 		}
 	}
 
-	public function deleteVersion(IVersion $version): void {
-		$backend = $this->getBackendForStorage($version->getSourceFile()->getStorage());
-		if ($backend instanceof IDeletableVersionBackend) {
-			$backend->deleteVersion($version);
+	public function createVersionEntity(File $file): void {
+		$backend = $this->getBackendForStorage($file->getStorage());
+		if ($backend instanceof INeedSyncVersionBackend) {
+			$backend->createVersionEntity($file);
+		}
+	}
+
+	public function updateVersionEntity(File $sourceFile, int $revision, array $properties): void {
+		$backend = $this->getBackendForStorage($sourceFile->getStorage());
+		if ($backend instanceof INeedSyncVersionBackend) {
+			$backend->updateVersionEntity($sourceFile, $revision, $properties);
+		}
+	}
+
+	public function deleteVersionsEntity(File $file): void {
+		$backend = $this->getBackendForStorage($file->getStorage());
+		if ($backend instanceof INeedSyncVersionBackend) {
+			$backend->deleteVersionsEntity($file);
+		}
+	}
+
+	public function setMetadataValue(Node $node, int $revision, string $key, string $value): void {
+		$backend = $this->getBackendForStorage($node->getStorage());
+		if ($backend instanceof IMetadataVersionBackend) {
+			$backend->setMetadataValue($node, $revision, $key, $value);
 		}
 	}
 
@@ -163,7 +168,7 @@ class VersionManager implements IVersionManager, INameableVersionBackend, IDelet
 			return $callback();
 		} catch (ManuallyLockedException $e) {
 			$owner = (string) $e->getOwner();
-			$appsThatHandleUpdates = array("text", "richdocuments");
+			$appsThatHandleUpdates = ["text", "richdocuments"];
 			if (!in_array($owner, $appsThatHandleUpdates)) {
 				throw $e;
 			}
@@ -175,11 +180,10 @@ class VersionManager implements IVersionManager, INameableVersionBackend, IDelet
 			$lockContext = new LockContext($root, ILock::TYPE_APP, $owner);
 			$lockManager = \OC::$server->get(ILockManager::class);
 			$result = null;
-			$lockManager->runInScope($lockContext, function() use ($callback, &$result) {
+			$lockManager->runInScope($lockContext, function () use ($callback, &$result) {
 				$result = $callback();
 			});
 			return $result;
 		}
 	}
-
 }

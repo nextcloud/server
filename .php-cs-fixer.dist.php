@@ -1,13 +1,18 @@
 <?php
 
 declare(strict_types=1);
-
+/**
+ * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
 require_once './vendor-bin/cs-fixer/vendor/autoload.php';
 
 use Nextcloud\CodingStandard\Config;
+use PhpCsFixer\Runner\Parallel\ParallelConfigFactory;
 
 $config = new Config();
 $config
+	->setParallelConfig(ParallelConfigFactory::detect())
 	->getFinder()
 	->ignoreVCSIgnored(true)
 	->exclude('config')
@@ -20,5 +25,19 @@ $config
 	->notPath('composer')
 	->notPath('node_modules')
 	->notPath('vendor')
+	->in('apps')
 	->in(__DIR__);
+
+// Ignore additional app directories
+$rootDir = new \DirectoryIterator(__DIR__);
+foreach ($rootDir as $node) {
+	if (str_starts_with($node->getFilename(), 'apps')) {
+		$return = shell_exec('git check-ignore ' . escapeshellarg($node->getFilename() . '/'));
+
+		if ($return !== null) {
+			$config->getFinder()->exclude($node->getFilename());
+		}
+	}
+}
+
 return $config;

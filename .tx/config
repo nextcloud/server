@@ -74,6 +74,12 @@ source_file = translationfiles/templates/files_external.pot
 source_lang = en
 type        = PO
 
+[o:nextcloud:p:nextcloud:r:files_reminders]
+file_filter = translationfiles/<lang>/files_reminders.po
+source_file = translationfiles/templates/files_reminders.pot
+source_lang = en
+type        = PO
+
 [o:nextcloud:p:nextcloud:r:files_sharing]
 file_filter = translationfiles/<lang>/files_sharing.po
 source_file = translationfiles/templates/files_sharing.pot
@@ -175,4 +181,3 @@ file_filter = translationfiles/<lang>/workflowengine.po
 source_file = translationfiles/templates/workflowengine.pot
 source_lang = en
 type        = PO
-

@@ -1,81 +1,44 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Jörn Friedrich Dreyer <jfd@butonic.de>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Michael Weimann <mail@michael-weimann.eu>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Victor Dubiniuk <dubiniuk@owncloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OC\Console;
 
 use OC\MemoryInfo;
 use OC\NeedsUpdateException;
-use OC_App;
-use OCP\AppFramework\QueryException;
+use OCP\App\AppPathNotFoundException;
 use OCP\App\IAppManager;
 use OCP\Console\ConsoleEvent;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
 use OCP\IRequest;
+use Psr\Container\ContainerExceptionInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Application as SymfonyApplication;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\ConsoleOutputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class Application {
-	/** @var IConfig */
-	private $config;
 	private SymfonyApplication $application;
-	/** @var EventDispatcherInterface */
-	private $dispatcher;
-	/** @var IRequest */
-	private $request;
-	/** @var LoggerInterface */
-	private $logger;
-	/** @var MemoryInfo */
-	private $memoryInfo;
 
-	public function __construct(IConfig $config,
-								EventDispatcherInterface $dispatcher,
-								IRequest $request,
-								LoggerInterface $logger,
-								MemoryInfo $memoryInfo) {
-		$defaults = \OC::$server->getThemingDefaults();
-		$this->config = $config;
+	public function __construct(
+		private IConfig $config,
+		private IEventDispatcher $dispatcher,
+		private IRequest $request,
+		private LoggerInterface $logger,
+		private MemoryInfo $memoryInfo,
+		private IAppManager $appManager,
+	) {
+		$defaults = \OC::$server->get('ThemingDefaults');
 		$this->application = new SymfonyApplication($defaults->getName(), \OC_Util::getVersionString());
-		$this->dispatcher = $dispatcher;
-		$this->request = $request;
-		$this->logger = $logger;
-		$this->memoryInfo = $memoryInfo;
 	}
 
 	/**
-	 * @param InputInterface $input
-	 * @param ConsoleOutputInterface $output
 	 * @throws \Exception
 	 */
 	public function loadCommands(
@@ -118,17 +81,24 @@ class Application {
 				} elseif ($this->config->getSystemValueBool('maintenance')) {
 					$this->writeMaintenanceModeInfo($input, $output);
 				} else {
-					OC_App::loadApps();
-					$appManager = \OCP\Server::get(IAppManager::class);
-					foreach ($appManager->getInstalledApps() as $app) {
-						$appPath = \OC_App::getAppPath($app);
-						if ($appPath === false) {
+					$this->appManager->loadApps();
+					foreach ($this->appManager->getInstalledApps() as $app) {
+						try {
+							$appPath = $this->appManager->getAppPath($app);
+						} catch (AppPathNotFoundException) {
 							continue;
 						}
 						// load commands using info.xml
-						$info = $appManager->getAppInfo($app);
+						$info = $this->appManager->getAppInfo($app);
 						if (isset($info['commands'])) {
-							$this->loadCommandsFromInfoXml($info['commands']);
+							try {
+								$this->loadCommandsFromInfoXml($info['commands']);
+							} catch (\Throwable $e) {
+								$output->writeln("<error>" . $e->getMessage() . "</error>");
+								$this->logger->error($e->getMessage(), [
+									'exception' => $e,
+								]);
+							}
 						}
 						// load from register_command.php
 						\OC_App::registerAutoloading($app, $appPath);
@@ -203,19 +173,21 @@ class Application {
 	 * @return int
 	 * @throws \Exception
 	 */
-	public function run(InputInterface $input = null, OutputInterface $output = null) {
-		$this->dispatcher->dispatch(ConsoleEvent::EVENT_RUN, new ConsoleEvent(
+	public function run(?InputInterface $input = null, ?OutputInterface $output = null) {
+		$event = new ConsoleEvent(
 			ConsoleEvent::EVENT_RUN,
 			$this->request->server['argv']
-		));
+		);
+		$this->dispatcher->dispatchTyped($event);
+		$this->dispatcher->dispatch(ConsoleEvent::EVENT_RUN, $event);
 		return $this->application->run($input, $output);
 	}
 
 	private function loadCommandsFromInfoXml($commands) {
 		foreach ($commands as $command) {
 			try {
-				$c = \OC::$server->query($command);
-			} catch (QueryException $e) {
+				$c = \OCP\Server::get($command);
+			} catch (ContainerExceptionInterface $e) {
 				if (class_exists($command)) {
 					try {
 						$c = new $command();

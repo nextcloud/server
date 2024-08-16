@@ -1,36 +1,21 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Bernhard Posselt <dev@bernhard-posselt.com>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Thomas Tanghus <thomas@tanghus.net>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCP\AppFramework\Http;
+
+use OCP\AppFramework\Http;
 
 /**
  * Response for a normal template
  * @since 6.0.0
+ *
+ * @template S of int
+ * @template H of array<string, mixed>
+ * @template-extends Response<int, array<string, mixed>>
  */
 class TemplateResponse extends Response {
 	/**
@@ -57,15 +42,6 @@ class TemplateResponse extends Response {
 	 * @since 20.0.0
 	 */
 	public const RENDER_AS_PUBLIC = 'public';
-
-	/**
-	 * @deprecated 20.0.0 use OCP\AppFramework\Http\Events\BeforeTemplateRenderedEvent
-	 */
-	public const EVENT_LOAD_ADDITIONAL_SCRIPTS = self::class . '::loadAdditionalScripts';
-	/**
-	 * @deprecated 20.0.0 use OCP\AppFramework\Http\Events\BeforeTemplateRenderedEvent
-	 */
-	public const EVENT_LOAD_ADDITIONAL_SCRIPTS_LOGGEDIN = self::class . '::loadAdditionalScriptsLoggedIn';
 
 	/**
 	 * name of the template
@@ -98,11 +74,12 @@ class TemplateResponse extends Response {
 	 * @param array $params an array of parameters which should be passed to the
 	 * template
 	 * @param string $renderAs how the page should be rendered, defaults to user
+	 * @param S $status
+	 * @param H $headers
 	 * @since 6.0.0 - parameters $params and $renderAs were added in 7.0.0
 	 */
-	public function __construct($appName, $templateName, array $params = [],
-								$renderAs = self::RENDER_AS_USER) {
-		parent::__construct();
+	public function __construct(string $appName, string $templateName, array $params = [], string $renderAs = self::RENDER_AS_USER, int $status = Http::STATUS_OK, array $headers = []) {
+		parent::__construct($status, $headers);
 
 		$this->templateName = $templateName;
 		$this->appName = $appName;

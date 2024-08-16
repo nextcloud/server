@@ -1,3 +1,7 @@
+/*!
+ * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
 @use 'variables';
 
 @media only screen and (width < variables.$breakpoint-mobile) {
@@ -122,21 +126,6 @@
 	}
 	#body-settings .files-controls {
 		min-width: variables.$breakpoint-mobile !important;
-	}
-
-	/* do not show dates in filepicker */
-	#oc-dialog-filepicker-content .filelist .column-size,
-	#oc-dialog-filepicker-content .filelist .column-mtime,
-	#oc-dialog-filepicker-content .filelist .filesize,
-	#oc-dialog-filepicker-content .filelist .date {
-		display: none;
-	}
-	#oc-dialog-filepicker-content .filelist .filename {
-		max-width: 100%;
-	}
-
-	.snapjs-left table.multiselect thead {
-		top: 44px;
 	}
 
 	/* end of media query */

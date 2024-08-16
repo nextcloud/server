@@ -1,30 +1,8 @@
 <?php
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Bjoern Schiessle <bjoern@schiessle.org>
- * @author Björn Schießle <bjoern@schiessle.org>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Vincent Petry <vincent@nextcloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\Files_Trashbin;
 
@@ -33,52 +11,39 @@ use OC\Files\Storage\Wrapper\Wrapper;
 use OCA\Files_Trashbin\Events\MoveToTrashEvent;
 use OCA\Files_Trashbin\Trash\ITrashManager;
 use OCP\Encryption\Exceptions\GenericEncryptionException;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\IRootFolder;
-use OCP\Files\Mount\IMountPoint;
 use OCP\Files\Node;
 use OCP\Files\Storage\IStorage;
-use OCP\ILogger;
 use OCP\IUserManager;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Psr\Log\LoggerInterface;
 
 class Storage extends Wrapper {
-	/** @var IMountPoint */
-	private $mountPoint;
-
-	/** @var  IUserManager */
-	private $userManager;
-
-	/** @var ILogger */
-	private $logger;
-
-	/** @var EventDispatcherInterface */
-	private $eventDispatcher;
-
-	/** @var IRootFolder */
-	private $rootFolder;
-
-	/** @var ITrashManager */
-	private $trashManager;
-
-	private $trashEnabled = true;
+	private string $mountPoint;
+	private IUserManager$userManager;
+	private LoggerInterface $logger;
+	private IEventDispatcher $eventDispatcher;
+	private IRootFolder $rootFolder;
+	private ITrashManager $trashManager;
+	private bool $trashEnabled = true;
 
 	/**
 	 * Storage constructor.
 	 *
 	 * @param array $parameters
-	 * @param ITrashManager $trashManager
+	 * @param ITrashManager|null $trashManager
 	 * @param IUserManager|null $userManager
-	 * @param ILogger|null $logger
-	 * @param EventDispatcherInterface|null $eventDispatcher
+	 * @param LoggerInterface|null $logger
+	 * @param IEventDispatcher|null $eventDispatcher
 	 * @param IRootFolder|null $rootFolder
 	 */
 	public function __construct(
 		$parameters,
-		ITrashManager $trashManager = null,
-		IUserManager $userManager = null,
-		ILogger $logger = null,
-		EventDispatcherInterface $eventDispatcher = null,
-		IRootFolder $rootFolder = null
+		?ITrashManager $trashManager = null,
+		?IUserManager $userManager = null,
+		?LoggerInterface $logger = null,
+		?IEventDispatcher $eventDispatcher = null,
+		?IRootFolder $rootFolder = null
 	) {
 		$this->mountPoint = $parameters['mountPoint'];
 		$this->trashManager = $trashManager;
@@ -153,6 +118,7 @@ class Storage extends Wrapper {
 
 		foreach ($nodes as $node) {
 			$event = $this->createMoveToTrashEvent($node);
+			$this->eventDispatcher->dispatchTyped($event);
 			$this->eventDispatcher->dispatch('OCA\Files_Trashbin::moveToTrash', $event);
 			if ($event->shouldMoveToTrashBin() === false) {
 				return false;
@@ -208,19 +174,27 @@ class Storage extends Wrapper {
 	}
 
 	/**
-	 * Setup the storate wrapper callback
+	 * Setup the storage wrapper callback
 	 */
 	public static function setupStorage() {
-		\OC\Files\Filesystem::addStorageWrapper('oc_trashbin', function ($mountPoint, $storage) {
-			return new \OCA\Files_Trashbin\Storage(
-				['storage' => $storage, 'mountPoint' => $mountPoint],
-				\OC::$server->query(ITrashManager::class),
-				\OC::$server->getUserManager(),
-				\OC::$server->getLogger(),
-				\OC::$server->getEventDispatcher(),
-				\OC::$server->getLazyRootFolder()
-			);
-		}, 1);
+		$trashManager = \OC::$server->get(ITrashManager::class);
+		$userManager = \OC::$server->get(IUserManager::class);
+		$logger = \OC::$server->get(LoggerInterface::class);
+		$eventDispatcher = \OC::$server->get(IEventDispatcher::class);
+		$rootFolder = \OC::$server->get(IRootFolder::class);
+		Filesystem::addStorageWrapper(
+			'oc_trashbin',
+			function (string $mountPoint, IStorage $storage) use ($trashManager, $userManager, $logger, $eventDispatcher, $rootFolder) {
+				return new Storage(
+					['storage' => $storage, 'mountPoint' => $mountPoint],
+					$trashManager,
+					$userManager,
+					$logger,
+					$eventDispatcher,
+					$rootFolder,
+				);
+			},
+			1);
 	}
 
 	public function getMountPoint() {
