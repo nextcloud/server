@@ -133,25 +133,28 @@ select {
 
 .link-button {
 	display: inline-block;
-	margin: 16px;
-	padding: 14px 20px;
+	margin: calc(2 * var(--default-grid-baseline));
+	padding: calc(2 * var(--default-grid-baseline)) calc(4 * var(--default-grid-baseline));
 	background-color: var(--color-primary-element);
 	color: var(--color-primary-element-text);
-	border-radius: var(--border-radius-pill);
+	border-radius: var(--border-radius-element);
 	border: 1px solid var(--color-primary-element);
 	box-shadow: 0 2px 9px var(--color-box-shadow);
 
-	&:active,
 	&:hover,
-	&:focus,
+	&:focus {
+		background-color: var(--color-primary-element-hover);
+	}
+
+	&:active,
 	&:focus-visible {
 		box-shadow: 0 0 0 4px var(--color-main-background) !important;
 		outline: 2px solid var(--color-main-text) !important;
 	}
 
 	&.icon-file {
-		padding-left: 48px;
-		background-position: 24px;
+		padding-left: calc(var(--default-grid-baseline) + var(--default-clickable-area));
+		background-position: calc(2 * var(--default-grid-baseline));
 	}
 }
 
@@ -236,9 +239,9 @@ select {
 .federation-menu {
 	position: relative;
 	cursor: pointer;
-	width: 44px;
-	height: 44px;
-	padding: 10px;
+	width: var(--default-clickable-area);
+	height: var(--default-clickable-area);
+	padding: calc(2 * var(--default-grid-baseline));
 	margin: 0;
 	background: none;
 	border: none;
@@ -246,7 +249,7 @@ select {
 	&:hover,
 	&:focus {
 		background-color: var(--color-background-hover);
-		border-radius: var(--border-radius-pill);
+		border-radius: var(--border-radius-element);
 
 		.icon-federation-menu {
 			opacity: 0.8;
@@ -268,7 +271,7 @@ select {
 	}
 
 	.federationScopeMenu {
-		top: 44px;
+		top: var(--default-clickable-area);
 
 		&.popovermenu {
 			.menuitem {

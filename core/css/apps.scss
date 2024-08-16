@@ -112,8 +112,6 @@ kbd {
 /* APP-NAVIGATION ------------------------------------------------------------ */
 /* Navigation: folder like structure */
 #app-navigation:not(.vue) {
-	// We use fixed variable for the pill style as we have larger containers around nested list entries
-	--border-radius-pill: calc(var(--default-clickable-area) / 2);
 	// Ensure the maxcontrast color is set for the background
 	--color-text-maxcontrast: var(--color-text-maxcontrast-background-blur, var(--color-main-text));
 
@@ -136,8 +134,8 @@ kbd {
 
 	.app-navigation-caption {
 		font-weight: bold;
-		line-height: 44px;
-		padding: 10px 44px 0 44px;
+		line-height: var(--default-clickable-area);
+		padding: 10px var(--default-clickable-area) 0 var(--default-clickable-area);
 		white-space: nowrap;
 		text-overflow: ellipsis;
 		box-shadow: none !important;
@@ -192,7 +190,7 @@ kbd {
 			margin: 0;
 			margin-bottom: 3px;
 			width: 100%;
-			border-radius: var(--border-radius-pill);
+			border-radius: var(--border-radius-element);
 
 			/* Pinned-to-bottom entries */
 			&.pinned {
@@ -204,13 +202,13 @@ kbd {
 
 			> .app-navigation-entry-deleted {
 				/* Ugly hack for overriding the main entry link */
-				padding-left: 44px !important;
+				padding-left: var(--default-clickable-area) !important;
 			}
 			> .app-navigation-entry-edit {
 				/* Ugly hack for overriding the main entry link */
 				/* align the input correctly with the link text
 				   44px-6px padding for the input */
-				padding-left: 38px !important;
+				padding-left: calc(var(--default-clickable-area) - 6px) !important;
 			}
 
 			a:hover,
@@ -262,7 +260,7 @@ kbd {
 				> li {
 					display: inline-flex;
 					flex-wrap: wrap;
-					padding-left: 44px;
+					padding-left: var(--default-clickable-area);
 					width: 100%;
 					margin-bottom: 3px;
 
@@ -270,7 +268,7 @@ kbd {
 					&:focus {
 						&,
 						> a {
-							border-radius: var(--border-radius-pill);
+							border-radius: var(--border-radius-element);
 							background-color: var(--color-background-hover);
 						}
 					}
@@ -278,7 +276,7 @@ kbd {
 					a.selected {
 						&,
 						> a {
-							border-radius: var(--border-radius-pill);
+							border-radius: var(--border-radius-element);
 							background-color: var(--color-primary-element-light);
 							&:first-child > img {
 								filter: var(--primary-invert-if-dark);
@@ -288,7 +286,7 @@ kbd {
 
 					/* align loader */
 					&.icon-loading-small:after {
-						left: 22px; /* 44px / 2 */
+						left: calc(var(--default-clickable-area) / 2);
 					}
 
 					> .app-navigation-entry-deleted {
@@ -302,7 +300,7 @@ kbd {
 						margin-left: 4px;
 						/* align the input correctly with the link text
 						44px+44px-4px-6px padding for the input */
-						padding-left: 78px !important;
+						padding-left: calc(2 * var(--default-clickable-area) - 10px) !important;
 					}
 				}
 			}
@@ -327,27 +325,28 @@ kbd {
 				background-repeat: no-repeat;
 				display: block;
 				justify-content: space-between;
-				line-height: 44px;
-				min-height: 44px;
-				padding: 0 12px 0 14px;
+				line-height: var(--default-clickable-area);
+				min-height: var(--default-clickable-area);
+				padding-block: 0;
+				padding-inline: calc(2 * var(--default-grid-baseline));
 				overflow: hidden;
 				box-sizing: border-box;
 				white-space: nowrap;
 				text-overflow: ellipsis;
-				border-radius: var(--border-radius-pill);
+				border-radius: var(--border-radius-element);
 				color: var(--color-main-text);
 				flex: 1 1 0px;
 				z-index: 100; /* above the bullet to allow click*/
 				/* TODO: forbid using img as icon in menu? */
 
 				&.svg {
-					padding: 0 12px 0 44px;
+					padding: 0 12px 0 var(--default-clickable-area);
 					:focus-visible {
-						padding: 0 8px 0 42px;
+						padding: 0 8px 0 calc(var(--default-clickable-area) - 2px);
 					}
 				}
 				&:first-child img {
-					margin-right: 11px!important;
+					margin-right: calc(2 * var(--default-grid-baseline)) !important;
 					width: 16px;
 					height: 16px;
 					// Legacy invert if bright background
@@ -383,7 +382,7 @@ kbd {
 
 			/* popover fix the flex positionning of the li parent */
 			> .app-navigation-entry-menu {
-				top: 44px;
+				top: var(--default-clickable-area);
 			}
 
 			/* show edit/undo field if editing/deleted */
@@ -427,8 +426,8 @@ kbd {
 		.collapse {
 			opacity: 0;
 			position: absolute;
-			width: 44px;
-			height: 44px;
+			width: var(--default-clickable-area);
+			height: var(--default-clickable-area);
 			margin: 0;
 			z-index: 110;
 
@@ -445,8 +444,8 @@ kbd {
 		}
 		&:before {
 			position: absolute;
-			height: 44px;
-			width: 44px;
+			height: var(--default-clickable-area);
+			width: var(--default-clickable-area);
 			margin: 0;
 			padding: 0;
 			background: none;
@@ -472,7 +471,7 @@ kbd {
 
 		/* force padding on link no matter if 'a' has an icon class */
 		> a:first-child {
-			padding-left: 44px;
+			padding-left: var(--default-clickable-area);
 		}
 		&:hover,
 		&:focus {
@@ -506,8 +505,8 @@ kbd {
 			justify-content: flex-end;
 		}
 		li {
-			width: 44px !important;
-			height: 44px;
+			width: var(--default-clickable-area) !important;
+			height: var(--default-clickable-area);
 		}
 		button {
 			height: 100%;
@@ -530,7 +529,7 @@ kbd {
 			overflow: hidden;
 			text-align: right;
 			font-size: 9pt;
-			line-height: 44px;
+			line-height: var(--default-clickable-area);
 			padding: 0 12px; /* Same padding as all li > a in the app-navigation */
 
 			&.highlighted {
@@ -605,7 +604,7 @@ kbd {
 	 */
 	.app-navigation-entry-deleted {
 		display: inline-flex;
-		padding-left: 44px;
+		padding-left: var(--default-clickable-area);
 		transform: translateX(#{variables.$navigation-width});
 		.app-navigation-entry-deleted-description {
 			position: relative;
@@ -613,13 +612,13 @@ kbd {
 			text-overflow: ellipsis;
 			overflow: hidden;
 			flex: 1 1 0px;
-			line-height: 44px;
+			line-height: var(--default-clickable-area);
 		}
 		.app-navigation-entry-deleted-button {
 			margin: 0;
-			height: 44px;
-			width: 44px;
-			line-height: 44px;
+			height: var(--default-clickable-area);
+			width: var(--default-clickable-area);
+			line-height: var(--default-clickable-area);
 			&:hover,
 			&:focus {
 				opacity: 1;
@@ -827,7 +826,7 @@ $min-content-width: variables.$breakpoint-mobile - variables.$navigation-width -
 	.settings-button {
 		display: flex;
 		align-items: center;
-		height: 44px;
+		height: var(--default-clickable-area);
 		width: 100%;
 		padding: 0;
 		margin: 0;
@@ -858,8 +857,8 @@ $min-content-width: variables.$breakpoint-mobile - variables.$navigation-width -
 			background-position: 14px center;
 			background-repeat: no-repeat;
 			content: '';
-			width: 44px;
-			height: 44px;
+			width: var(--default-clickable-area);
+			height: var(--default-clickable-area);
 			top: 0;
 			left: 0;
 			display: block;
@@ -976,7 +975,7 @@ $min-content-width: variables.$breakpoint-mobile - variables.$navigation-width -
 }
 
 /* POPOVER MENU ------------------------------------------------------------ */
-$popoveritem-height: 44px;
+$popoveritem-height: 34px;
 $popovericon-size: 16px;
 $outter-margin: math.div($popoveritem-height - $popovericon-size, 2);
 
@@ -1125,7 +1124,7 @@ $outter-margin: math.div($popoveritem-height - $popovericon-size, 2);
 				box-shadow: 0 0 0 2px var(--color-primary-element);
 			}
 			&.active {
-				border-radius: var(--border-radius-pill);
+				border-radius: var(--border-radius-element);
 				background-color: var(--color-primary-element-light);
 			}
 			/* prevent .action class to break the design */
@@ -1405,7 +1404,7 @@ $outter-margin: math.div($popoveritem-height - $popovericon-size, 2);
 			opacity: .5;
 			order: 3;
 			flex: 1 0;
-			flex-basis: calc(100% - 44px);
+			flex-basis: calc(100% - var(--default-clickable-area));
 		}
 
 		.app-content-list-item-details {
