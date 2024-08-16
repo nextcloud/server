@@ -86,7 +86,8 @@ abstract class Fetcher {
 			$response = $client->get($this->getEndpoint(), $options);
 		} catch (ConnectException $e) {
 			$this->config->setAppValue('settings', 'appstore-fetcher-lastFailure', (string)time());
-			throw $e;
+			$this->logger->error('Failed to connect to the app store', ['exception' => $e]);
+			return [];
 		}
 
 		$responseJson = [];
