@@ -118,7 +118,7 @@ async function updateAvailableAccounts(path: string = '/') {
 	const { contents } = await currentView.value.getContents(path)
 	const available = new Map<string, IUserSelectData>()
 	for (const node of contents) {
-		const owner = node.owner ?? node.attributes['owner-id']
+		const owner = node.owner
 		if (owner && !available.has(owner)) {
 			available.set(owner, {
 				id: owner,
