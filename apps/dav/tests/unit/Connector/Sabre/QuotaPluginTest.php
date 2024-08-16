@@ -12,6 +12,11 @@ use OCA\DAV\Connector\Sabre\QuotaPlugin;
 use OCP\Files\FileInfo;
 use Test\TestCase;
 
+/**
+ * Class QuotaPluginTest
+ *
+ * @group DB
+ */
 class QuotaPluginTest extends TestCase {
 	/** @var \Sabre\DAV\Server | \PHPUnit\Framework\MockObject\MockObject */
 	private $server;

@@ -190,8 +190,22 @@ class QuotaPlugin extends \Sabre\DAV\ServerPlugin {
 			// Strip any duplicate slashes
 			$path = str_replace('//', '/', $path);
 
+			// TODO: I suspect the below existence check more properly belongs in
+			//       beforeCreateFile(), similar to what already exists in
+			//       beforeCopy and beforeMove()
+			// NOTE: && or || here is equivalent in terms of outcome (but && our intention)
+			//       because only other times the full path SHOULD get to us here is when
+			//       existence has already been confirmed - see beforeCopy() & beforeMove())
+			if (($req->getHeader('Destination') === null || $req->getHeader('Destination') === '') && !$this->server->tree->nodeExists($path)) {
+				$path = dirname($path);
+			}
+
+			$targetOwner = $this->view->getOwner($path);
 			$freeSpace = $this->getFreeSpace($path);
 			if ($freeSpace >= 0 && $length > $freeSpace) {
+				if ($targetOwner !== \OC_User::getUser()) {
+					throw new InsufficientStorage("Quota exceeded in $path (owner: $targetOwner), $length required, $freeSpace available");
+				}
 				throw new InsufficientStorage("Insufficient space in $path, $length required, $freeSpace available");
 			}
 		}
