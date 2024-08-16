@@ -325,6 +325,7 @@ OC.L10N.register(
     "Audio" : "Ljud",
     "Pictures and images" : "Foton och bilder",
     "Videos" : "Videor",
+    "New folder creation cancelled" : "Skapandet av ny mapp avbröts",
     "Created new folder \"{name}\"" : "Skapat ny mapp \"{name}\"",
     "Unable to initialize the templates directory" : "Kunde inte initialisera mall-mappen",
     "Create templates folder" : "Skapa mallmapp",

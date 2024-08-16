@@ -325,6 +325,7 @@ OC.L10N.register(
     "Audio" : "音頻",
     "Pictures and images" : "圖片與圖像",
     "Videos" : "影片",
+    "New folder creation cancelled" : "已取消建立新資料夾",
     "Created new folder \"{name}\"" : "創建了新資料夾 \"{name}\"",
     "Unable to initialize the templates directory" : "無法初始化模板目錄",
     "Create templates folder" : "創建模板資料夾",

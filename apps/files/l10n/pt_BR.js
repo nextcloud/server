@@ -325,6 +325,7 @@ OC.L10N.register(
     "Audio" : "Áudio",
     "Pictures and images" : "Fotos e imagens",
     "Videos" : "Vídeos",
+    "New folder creation cancelled" : "Criação de nova pasta cancelada",
     "Created new folder \"{name}\"" : "Nova pasta criada \"{name}\"",
     "Unable to initialize the templates directory" : "Não foi possível inicializar o diretório de modelos",
     "Create templates folder" : "Criar pasta de modelos",

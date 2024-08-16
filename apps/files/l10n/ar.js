@@ -325,6 +325,7 @@ OC.L10N.register(
     "Audio" : "صوت",
     "Pictures and images" : "الصِّوَر ",
     "Videos" : "فيديوهات",
+    "New folder creation cancelled" : "تمّ إلغاء عملية إنشاء مجلد جديد",
     "Created new folder \"{name}\"" : "تمّ إنشاء مجلد جديد باسم \"{name}\"",
     "Unable to initialize the templates directory" : "تعذر تهيئة دليل القوالب",
     "Create templates folder" : "إنشاء مجلد للقوالب",
