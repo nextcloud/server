@@ -179,6 +179,7 @@ OC.L10N.register(
     "Guest" : "مهمان",
     "Group" : "گروه",
     "Email" : "رایانامه",
+    "Team" : "تیم",
     "Talk conversation" : "Talk conversation",
     "Deck board" : "تخته deck",
     "ScienceMesh" : "ScienceMesh",

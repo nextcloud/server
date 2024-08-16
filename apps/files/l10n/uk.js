@@ -325,6 +325,7 @@ OC.L10N.register(
     "Audio" : "Аудіо",
     "Pictures and images" : "Зображення",
     "Videos" : "Відео",
+    "New folder creation cancelled" : "Створення нового каталогу скасовано",
     "Created new folder \"{name}\"" : "Створив(-ла) новий каталог \"{name}\"",
     "Unable to initialize the templates directory" : "Неможливо встановити каталог з шаблонами",
     "Create templates folder" : "Створити каталог для шаблонів",
