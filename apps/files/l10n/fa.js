@@ -38,6 +38,7 @@ OC.L10N.register(
     "Edit locally" : "ویرایش محلی",
     "Open" : "باز کردن",
     "Delete file" : "حذف پرونده",
+    "Delete folder" : "حذف پوشه",
     "Disconnect storage" : "فضای ذخیره را جدا کنید",
     "Leave this share" : "ترک این اشتراک",
     "Could not load info for file \"{file}\"" : "بارگیری اطلاعات برای پرونده امکان پذیر نیست \"{file}\"",

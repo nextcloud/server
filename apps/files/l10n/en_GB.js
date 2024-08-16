@@ -325,6 +325,7 @@ OC.L10N.register(
     "Audio" : "Audio",
     "Pictures and images" : "Pictures and images",
     "Videos" : "Videos",
+    "New folder creation cancelled" : "New folder creation cancelled",
     "Created new folder \"{name}\"" : "Created new folder \"{name}\"",
     "Unable to initialize the templates directory" : "Unable to initialize the templates directory",
     "Create templates folder" : "Create templates folder",
