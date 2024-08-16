@@ -149,6 +149,10 @@ class User_LDAPTest extends TestCase {
 			   ->with($this->equalTo('dnOfRoland,dc=test'))
 			   ->willReturn($retVal);
 		$this->access->expects($this->any())
+			   ->method('username2dn')
+			   ->with($this->equalTo('gunslinger'))
+			   ->willReturn('dnOfRoland,dc=test');
+		$this->access->expects($this->any())
 			   ->method('stringResemblesDN')
 			   ->with($this->equalTo('dnOfRoland,dc=test'))
 			   ->willReturn(true);
