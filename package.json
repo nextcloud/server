@@ -62,7 +62,7 @@
     "@simplewebauthn/browser": "^10.0.0",
     "@skjnldsv/sanitize-svg": "^1.0.2",
     "@vueuse/components": "^10.11.0",
-    "@vueuse/core": "^10.11.0",
+    "@vueuse/core": "^11.0.0",
     "@vueuse/integrations": "^10.11.0",
     "backbone": "^1.4.1",
     "blueimp-md5": "^2.19.0",
