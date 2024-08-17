@@ -184,6 +184,7 @@ OC.L10N.register(
     "Guest" : "Vendég",
     "Group" : "Csoport",
     "Email" : "E-mail",
+    "Team" : "Csapat",
     "Talk conversation" : "Beszélgetés",
     "Deck board" : "Kártyatábla",
     "ScienceMesh" : "ScienceMesh",

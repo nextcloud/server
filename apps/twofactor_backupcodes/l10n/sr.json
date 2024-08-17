@@ -8,6 +8,7 @@
     "Two factor backup codes" : "Двофакторски резервни кодови",
     "A two-factor auth backup codes provider" : "Провајдер резервних кодова за двофакторску ауторизацију",
     "Backup codes have been generated. {used} of {total} codes have been used." : "Резервни кодови су изгенерисани. {used} од {total} кодова је искоришћено.",
+    "These are your backup codes. Please save and/or print them as you will not be able to read the codes again later." : "Ово су ваши резервни кодови. Сачувајте их и/или их одштампајте пошто више нећете моћи поново да их прочитате.",
     "Save backup codes" : "Сачувај резервне кодове",
     "Print backup codes" : "Одштампај резервне кодове",
     "Regenerate backup codes" : "Поново генериши резервне кодове",
