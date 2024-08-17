@@ -325,6 +325,7 @@ OC.L10N.register(
     "Audio" : "オーディオ",
     "Pictures and images" : "写真と画像",
     "Videos" : "動画",
+    "New folder creation cancelled" : "新しいフォルダーの作成がキャンセルされました",
     "Created new folder \"{name}\"" : "新規フォルダ \"{name}\" を作成しました",
     "Unable to initialize the templates directory" : "テンプレートディレクトリを初期化できませんでした",
     "Create templates folder" : "テンプレートフォルダーの作成",

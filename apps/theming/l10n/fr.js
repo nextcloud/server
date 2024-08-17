@@ -76,6 +76,8 @@ OC.L10N.register(
     "Disable user theming" : "Désactiver la gestion du thème par l'utilisateur",
     "Although you can select and customize your instance, users can change their background and colors. If you want to enforce your customization, you can toggle this on." : "Bien que vous puissiez sélectionner et personnaliser votre instance, les utilisateurs peuvent modifier leur arrière-plan et leurs couleurs. Si vous voulez imposer votre personnalisation, vous pouvez activer cette option.",
     "Appearance and accessibility settings" : "Paramètres d’apparence et d’accessibilité",
+    "Misc accessibility options" : "Diverses options d'accessibilité",
+    "Enable blur background filter (may increase GPU load)" : "Activer le filtre flou de l'arrière-plan (peut augmenter la charge du GPU)",
     "Customization has been disabled by your administrator" : "La personnalisation a été désactivée par votre administrateur",
     "Set a primary color to highlight important elements. The color used for elements such as primary buttons might differ a bit as it gets adjusted to fulfill accessibility requirements." : "Définissez une couleur principale pour mettre en évidence les éléments importants. La couleur utilisée pour les éléments tels que les boutons primaires peut varier légèrement en fonction des exigences d'accessibilité.",
     "Background and color" : "Image d’arrière-plan et couleur",
