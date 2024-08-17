@@ -88,15 +88,18 @@ This file is generated from multiple sources. Included packages:
 - @nextcloud/sharing
 	- version: 0.2.3
 	- license: GPL-3.0-or-later
+- @vueuse/components
+	- version: 10.11.1
+	- license: MIT
 - @vueuse/core
+	- version: 10.11.1
+	- license: MIT
+- @vueuse/shared
 	- version: 10.11.1
 	- license: MIT
 - @nextcloud/vue
 	- version: 8.16.0
 	- license: AGPL-3.0-or-later
-- @vueuse/components
-	- version: 10.11.0
-	- license: MIT
 - assert
 	- version: 2.1.0
 	- license: MIT
