@@ -7,17 +7,13 @@
  */
 namespace OCA\DAV\CalDAV;
 
-use OCA\DAV\CalDAV\Calendar;
-use OCA\DAV\CalDAV\CalendarObject;
-use Sabre\DAV\INode;
 use Sabre\DAV\Server;
 use Sabre\HTTP\RequestInterface;
 use Sabre\HTTP\ResponseInterface;
-use Sabre\VObject\Reader;
 use Sabre\VObject\Component\VCalendar;
 use Sabre\VObject\Component\VEvent;
-use Sabre\VObject\ElementList;
 use Sabre\VObject\Property;
+use Sabre\VObject\Reader;
 
 class Plugin extends \Sabre\CalDAV\Plugin {
 	public const SYSTEM_CALENDAR_ROOT = 'system-calendars';
@@ -76,8 +72,8 @@ class Plugin extends \Sabre\CalDAV\Plugin {
 		if (!$alteredObject->VEVENT) {
 			return;
 		}
-		// determine if altered calendar event is a new
-		// if calendar event is new sanitize and exit
+		// determine if altered calendar event is a new event
+		// if calendar event is new sanitize and return
 		if ($isNew) {
 			$this->sanitizeCreatedInstance($alteredObject->VEVENT, $modified);
 			return;
@@ -90,7 +86,7 @@ class Plugin extends \Sabre\CalDAV\Plugin {
 		$currentObject = Reader::read($currentNode->get());
 		// find what has changed (base, recurrence, both) between altered and current calendar event
 		$delta = $this->findEventInstanceDelta($alteredObject->VEVENT, $currentObject->VEVENT);
-		// 
+		//
 		foreach ($delta as $entry) {
 			// determine if this instance was created or updated
 			if ($entry['current'] !== null) {
@@ -166,7 +162,7 @@ class Plugin extends \Sabre\CalDAV\Plugin {
 					// remove entry from list if instance has not changed
 					unset($list[$id]);
 				} else {
-					// update entry in list with current instance 
+					// update entry in list with current instance
 					$list[$id]['current'] = $event;
 				}
 			} else {
@@ -194,7 +190,7 @@ class Plugin extends \Sabre\CalDAV\Plugin {
 					// remove entry from list if instance has not changed
 					unset($list[$property->name]);
 				} else {
-					// update entry in list with current instance 
+					// update entry in list with current instance
 					$list[$property->name]['current'] = $property->getValue();
 				}
 			} else {
