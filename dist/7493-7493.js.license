@@ -133,6 +133,9 @@ This file is generated from multiple sources. Included packages:
 - @nextcloud/vue-select
 	- version: 3.25.1
 	- license: MIT
+- @vueuse/core
+	- version: 10.11.1
+	- license: MIT
 - @nextcloud/vue
 	- version: 8.16.0
 	- license: AGPL-3.0-or-later
@@ -140,9 +143,6 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.2.0
 	- license: ISC
 - @vueuse/components
-	- version: 10.11.0
-	- license: MIT
-- @vueuse/core
 	- version: 10.11.0
 	- license: MIT
 - @vueuse/shared
