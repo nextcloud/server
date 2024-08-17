@@ -26,10 +26,9 @@ export const action = new FileAction({
 	displayName(nodes: Node[]) {
 		const node = nodes[0]
 		const shareTypes = Object.values(node?.attributes?.['share-types'] || {}).flat() as number[]
-		const ownerId = node?.attributes?.['owner-id']
 
 		if (shareTypes.length > 0
-			|| (ownerId !== getCurrentUser()?.uid || isExternal(node))) {
+			|| (node.owner !== getCurrentUser()?.uid || isExternal(node))) {
 			return t('files_sharing', 'Shared')
 		}
 
@@ -38,19 +37,32 @@ export const action = new FileAction({
 
 	title(nodes: Node[]) {
 		const node = nodes[0]
-		const ownerId = node?.attributes?.['owner-id']
-		const ownerDisplayName = node?.attributes?.['owner-display-name']
 
-		// Mixed share types
-		if (Array.isArray(node.attributes?.['share-types']) && node.attributes?.['share-types'].length > 1) {
-			return t('files_sharing', 'Shared multiple times with different people')
-		}
-
-		if (ownerId && (ownerId !== getCurrentUser()?.uid || isExternal(node))) {
+		if (node.owner && (node.owner !== getCurrentUser()?.uid || isExternal(node))) {
+			const ownerDisplayName = node?.attributes?.['owner-display-name']
 			return t('files_sharing', 'Shared by {ownerDisplayName}', { ownerDisplayName })
 		}
 
-		return t('files_sharing', 'Show sharing options')
+		const shareTypes = Object.values(node?.attributes?.['share-types'] || {}).flat() as number[]
+		if (shareTypes.length > 1) {
+			return t('files_sharing', 'Shared multiple times with different people')
+		}
+
+		const sharees = node.attributes.sharees?.sharee as { id: string, 'display-name': string, type: ShareType }[] | undefined
+		if (!sharees) {
+			// No sharees so just show the default message to create a new share
+			return t('files_sharing', 'Show sharing options')
+		}
+
+		const sharee = [sharees].flat()[0] // the property is sometimes weirdly normalized, so we need to compensate
+		switch (sharee.type) {
+		case ShareType.User:
+			return t('files_sharing', 'Shared with {user}', { user: sharee['display-name'] })
+		case ShareType.Group:
+			return t('files_sharing', 'Shared with group {group}', { group: sharee['display-name'] ?? sharee.id })
+		default:
+			return t('files_sharing', 'Shared with others')
+		}
 	},
 
 	iconSvgInline(nodes: Node[]) {
@@ -69,7 +81,7 @@ export const action = new FileAction({
 		}
 
 		// Group shares
-		if (shareTypes.includes(ShareType.Grup)
+		if (shareTypes.includes(ShareType.Group)
 			|| shareTypes.includes(ShareType.RemoteGroup)) {
 			return AccountGroupSvg
 		}
@@ -79,9 +91,8 @@ export const action = new FileAction({
 			return CircleSvg
 		}
 
-		const ownerId = node?.attributes?.['owner-id']
-		if (ownerId && (ownerId !== getCurrentUser()?.uid || isExternal(node))) {
-			return generateAvatarSvg(ownerId, isExternal(node))
+		if (node.owner && (node.owner !== getCurrentUser()?.uid || isExternal(node))) {
+			return generateAvatarSvg(node.owner, isExternal(node))
 		}
 
 		return AccountPlusSvg
@@ -93,7 +104,6 @@ export const action = new FileAction({
 		}
 
 		const node = nodes[0]
-		const ownerId = node?.attributes?.['owner-id']
 		const shareTypes = node.attributes?.['share-types']
 		const isMixed = Array.isArray(shareTypes) && shareTypes.length > 0
 
@@ -104,7 +114,7 @@ export const action = new FileAction({
 		}
 
 		// If the node is shared by someone else
-		if (ownerId && (ownerId !== getCurrentUser()?.uid || isExternal(node))) {
+		if (node.owner !== getCurrentUser()?.uid || isExternal(node)) {
 			return true
 		}
 
