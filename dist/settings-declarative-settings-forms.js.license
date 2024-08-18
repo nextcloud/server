@@ -91,9 +91,6 @@ This file is generated from multiple sources. Included packages:
 - @vueuse/components
 	- version: 10.11.0
 	- license: MIT
-- @vueuse/shared
-	- version: 10.11.0
-	- license: MIT
 - assert
 	- version: 2.1.0
 	- license: MIT
