@@ -171,6 +171,7 @@
     "Type" : "Type",
     "Active filters" : "Actieve filters",
     "Remove filter" : "Verwijder filter",
+    "\"{displayName}\" batch action executed successfully" : "\"{displayName}\" batchactie succesvol uitgevoerd",
     "File not found" : "Bestand niet gevonden",
     "{usedQuotaByte} used" : "{usedQuotaByte} gebruikt",
     "{relative}% used" : "{relative}% gebruikt",
