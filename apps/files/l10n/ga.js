@@ -325,6 +325,7 @@ OC.L10N.register(
     "Audio" : "Fuaime",
     "Pictures and images" : "Pictiúir agus íomhánna",
     "Videos" : "Físeáin",
+    "New folder creation cancelled" : "Cruthú fillteán nua curtha ar ceal",
     "Created new folder \"{name}\"" : "Cruthaíodh fillteán nua \"{name}\"",
     "Unable to initialize the templates directory" : "Ní féidir eolaire na dteimpléad a thúsú",
     "Create templates folder" : "Cruthaigh fillteán teimpléid",
