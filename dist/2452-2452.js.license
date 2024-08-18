@@ -55,6 +55,9 @@ This file is generated from multiple sources. Included packages:
 - @vueuse/core
 	- version: 10.11.1
 	- license: MIT
+- @vueuse/shared
+	- version: 10.11.1
+	- license: MIT
 - @nextcloud/vue
 	- version: 8.16.0
 	- license: AGPL-3.0-or-later
