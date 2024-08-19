@@ -17,14 +17,11 @@ use OCP\Support\CrashReport\IRegistry;
 use PHPUnit\Framework\MockObject\MockObject;
 
 class LoggerTest extends TestCase implements IWriter {
-	/** @var SystemConfig|MockObject */
-	private $config;
+	private SystemConfig&MockObject $config;
 
-	/** @var IRegistry|MockObject */
-	private $registry;
+	private IRegistry&MockObject $registry;
 
-	/** @var ILogger */
-	private $logger;
+	private Log $logger;
 
 	/** @var array */
 	private array $logs = [];
@@ -35,7 +32,7 @@ class LoggerTest extends TestCase implements IWriter {
 		$this->logs = [];
 		$this->config = $this->createMock(SystemConfig::class);
 		$this->registry = $this->createMock(IRegistry::class);
-		$this->logger = new Log($this, $this->config, null, $this->registry);
+		$this->logger = new Log($this, $this->config, crashReporters: $this->registry);
 	}
 
 	private function mockDefaultLogLevel(): void {
@@ -165,6 +162,7 @@ class LoggerTest extends TestCase implements IWriter {
 
 	public function testLoggingWithDataArray(): void {
 		$this->mockDefaultLogLevel();
+		/** @var IWriter&MockObject */
 		$writerMock = $this->createMock(IWriter::class);
 		$logFile = new Log($writerMock, $this->config);
 		$writerMock->expects($this->once())->method('write')->with('no app in context', ['something' => 'extra', 'message' => 'Testing logging with john']);

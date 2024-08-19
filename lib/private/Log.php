@@ -41,13 +41,9 @@ class Log implements ILogger, IDataLogger {
 	public function __construct(
 		private IWriter $logger,
 		private SystemConfig $config,
-		private ?Normalizer $normalizer = null,
+		private Normalizer $normalizer = new Normalizer(),
 		private ?IRegistry $crashReporters = null
 	) {
-		// FIXME: php8.1 allows "private Normalizer $normalizer = new Normalizer()," in initializer
-		if ($normalizer === null) {
-			$this->normalizer = new Normalizer();
-		}
 	}
 
 	public function setEventDispatcher(IEventDispatcher $eventDispatcher): void {
