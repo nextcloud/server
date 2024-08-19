@@ -303,7 +303,7 @@ class FederatedShareProvider implements IShareProvider {
 			->setValue('uid_owner', $qb->createNamedParameter($uidOwner))
 			->setValue('uid_initiator', $qb->createNamedParameter($sharedBy))
 			->setValue('permissions', $qb->createNamedParameter($permissions))
-			->setValue('expiration', $qb->createNamedParameter($expirationDate, IQueryBuilder::PARAM_DATE))
+			->setValue('expiration', $qb->createNamedParameter($expirationDate, IQueryBuilder::PARAM_DATETIME))
 			->setValue('token', $qb->createNamedParameter($token))
 			->setValue('stime', $qb->createNamedParameter(time()));
 
@@ -333,7 +333,7 @@ class FederatedShareProvider implements IShareProvider {
 			->set('permissions', $qb->createNamedParameter($share->getPermissions()))
 			->set('uid_owner', $qb->createNamedParameter($share->getShareOwner()))
 			->set('uid_initiator', $qb->createNamedParameter($share->getSharedBy()))
-			->set('expiration', $qb->createNamedParameter($share->getExpirationDate(), IQueryBuilder::PARAM_DATE))
+			->set('expiration', $qb->createNamedParameter($share->getExpirationDate(), IQueryBuilder::PARAM_DATETIME))
 			->executeStatement();
 
 		// send the updated permission to the owner/initiator, if they are not the same

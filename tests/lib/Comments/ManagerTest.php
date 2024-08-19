@@ -14,6 +14,7 @@ use OCP\Comments\IComment;
 use OCP\Comments\ICommentsEventHandler;
 use OCP\Comments\ICommentsManager;
 use OCP\Comments\NotFoundException;
+use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
@@ -70,11 +71,11 @@ class ManagerTest extends TestCase {
 				'actor_id' => $qb->createNamedParameter('alice'),
 				'message' => $qb->createNamedParameter('nice one'),
 				'verb' => $qb->createNamedParameter('comment'),
-				'creation_timestamp' => $qb->createNamedParameter($creationDT, 'datetime'),
-				'latest_child_timestamp' => $qb->createNamedParameter($latestChildDT, 'datetime'),
+				'creation_timestamp' => $qb->createNamedParameter($creationDT, IQueryBuilder::PARAM_DATETIME),
+				'latest_child_timestamp' => $qb->createNamedParameter($latestChildDT, IQueryBuilder::PARAM_DATETIME),
 				'object_type' => $qb->createNamedParameter('files'),
 				'object_id' => $qb->createNamedParameter($objectId),
-				'expire_date' => $qb->createNamedParameter($expireDate, 'datetime'),
+				'expire_date' => $qb->createNamedParameter($expireDate, IQueryBuilder::PARAM_DATETIME),
 				'reference_id' => $qb->createNamedParameter('referenceId'),
 				'meta_data' => $qb->createNamedParameter(json_encode(['last_edit_actor_id' => 'admin'])),
 			])

@@ -42,10 +42,54 @@ interface IQueryBuilder {
 	 * @since 9.0.0
 	 */
 	public const PARAM_LOB = ParameterType::LARGE_OBJECT;
+
 	/**
+	 * For passing a \DateTime instance when only interested in the time part (without timezone support)
+	 * @since 31.0.0
+	 */
+	public const PARAM_TIME = Types::TIME_MUTABLE;
+
+	/**
+	 * For passing a \DateTime instance when only interested in the date part (without timezone support)
 	 * @since 9.0.0
 	 */
-	public const PARAM_DATE = 'datetime';
+	public const PARAM_DATE = Types::DATE_MUTABLE;
+
+	/**
+	 * For passing a \DateTime instance (without timezone support)
+	 * @since 31.0.0
+	 */
+	public const PARAM_DATETIME = Types::DATETIME_MUTABLE;
+
+	/**
+	 * For passing a \DateTime instance with timezone support
+	 * @since 31.0.0
+	 */
+	public const PARAM_DATETIME_TZ = Types::DATETIMETZ_MUTABLE;
+
+	/**
+	 * For passing a \DateTimeImmutable instance when only interested in the time part (without timezone support)
+	 * @since 31.0.0
+	 */
+	public const PARAM_TIME_IMMUTABLE = Types::TIME_MUTABLE;
+
+	/**
+	 * For passing a \DateTime instance when only interested in the date part (without timezone support)
+	 * @since 9.0.0
+	 */
+	public const PARAM_DATE_IMMUTABLE = Types::DATE_IMMUTABLE;
+
+	/**
+	 * For passing a \DateTime instance (without timezone support)
+	 * @since 31.0.0
+	 */
+	public const PARAM_DATETIME_IMMUTABLE = Types::DATETIME_IMMUTABLE;
+
+	/**
+	 * For passing a \DateTime instance with timezone support
+	 * @since 31.0.0
+	 */
+	public const PARAM_DATETIME_TZ_IMMUTABLE = Types::DATETIMETZ_IMMUTABLE;
 
 	/**
 	 * @since 24.0.0

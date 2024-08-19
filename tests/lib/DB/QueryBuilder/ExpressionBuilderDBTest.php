@@ -7,9 +7,9 @@
 namespace Test\DB\QueryBuilder;
 
 use Doctrine\DBAL\Schema\SchemaException;
-use Doctrine\DBAL\Types\Types;
 use OC\DB\QueryBuilder\Literal;
 use OCP\DB\QueryBuilder\IQueryBuilder;
+use OCP\DB\Types;
 use OCP\IConfig;
 use OCP\Server;
 use Test\TestCase;
@@ -223,7 +223,7 @@ class ExpressionBuilderDBTest extends TestCase {
 				'notnull' => true,
 			]);
 
-			$table->addColumn('datetime', Types::DATETIME_MUTABLE, [
+			$table->addColumn('datetime', Types::DATETIME, [
 				'notnull' => false,
 			]);
 
