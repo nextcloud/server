@@ -559,6 +559,7 @@ return array(
     'OCP\\Lock\\LockedException' => $baseDir . '/lib/public/Lock/LockedException.php',
     'OCP\\Lock\\ManuallyLockedException' => $baseDir . '/lib/public/Lock/ManuallyLockedException.php',
     'OCP\\Lockdown\\ILockdownManager' => $baseDir . '/lib/public/Lockdown/ILockdownManager.php',
+    'OCP\\LogLevel' => $baseDir . '/lib/public/LogLevel.php',
     'OCP\\Log\\Audit\\CriticalActionPerformedEvent' => $baseDir . '/lib/public/Log/Audit/CriticalActionPerformedEvent.php',
     'OCP\\Log\\BeforeMessageLoggedEvent' => $baseDir . '/lib/public/Log/BeforeMessageLoggedEvent.php',
     'OCP\\Log\\IDataLogger' => $baseDir . '/lib/public/Log/IDataLogger.php',

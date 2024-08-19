@@ -19,27 +19,27 @@ namespace OCP;
 interface ILogger {
 	/**
 	 * @since 14.0.0
-	 * @deprecated 20.0.0
+	 * @deprecated 20.0.0 - use \OCP\LogLevel::DEBUG
 	 */
 	public const DEBUG = 0;
 	/**
 	 * @since 14.0.0
-	 * @deprecated 20.0.0
+	 * @deprecated 20.0.0 - use \OCP\LogLevel::INFO
 	 */
 	public const INFO = 1;
 	/**
 	 * @since 14.0.0
-	 * @deprecated 20.0.0
+	 * @deprecated 20.0.0 - use \OCP\LogLevel::WARN
 	 */
 	public const WARN = 2;
 	/**
 	 * @since 14.0.0
-	 * @deprecated 20.0.0
+	 * @deprecated 20.0.0 - use \OCP\LogLevel::ERROR
 	 */
 	public const ERROR = 3;
 	/**
 	 * @since 14.0.0
-	 * @deprecated 20.0.0
+	 * @deprecated 20.0.0 - use \OCP\LogLevel::FATAL
 	 */
 	public const FATAL = 4;
 
@@ -135,14 +135,14 @@ interface ILogger {
 	/**
 	 * Logs with an arbitrary level.
 	 *
-	 * @param int $level
+	 * @param int|LogLevel $level
 	 * @param string $message
 	 * @param array $context
 	 * @return mixed
 	 * @since 7.0.0
 	 * @deprecated 20.0.0 use \Psr\Log\LoggerInterface::log
 	 */
-	public function log(int $level, string $message, array $context = []);
+	public function log(int|LogLevel $level, string $message, array $context = []);
 
 	/**
 	 * Logs an exception very detailed

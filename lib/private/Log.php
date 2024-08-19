@@ -20,6 +20,7 @@ use OCP\Log\BeforeMessageLoggedEvent;
 use OCP\Log\IDataLogger;
 use OCP\Log\IFileBased;
 use OCP\Log\IWriter;
+use OCP\LogLevel;
 use OCP\Support\CrashReport\IRegistry;
 use Throwable;
 use function array_merge;
@@ -61,7 +62,7 @@ class Log implements ILogger, IDataLogger {
 	 * @param array $context
 	 */
 	public function emergency(string $message, array $context = []): void {
-		$this->log(ILogger::FATAL, $message, $context);
+		$this->log(LogLevel::EMERGENCY, $message, $context);
 	}
 
 	/**
@@ -74,7 +75,7 @@ class Log implements ILogger, IDataLogger {
 	 * @param array $context
 	 */
 	public function alert(string $message, array $context = []): void {
-		$this->log(ILogger::ERROR, $message, $context);
+		$this->log(LogLevel::ALERT, $message, $context);
 	}
 
 	/**
@@ -86,7 +87,7 @@ class Log implements ILogger, IDataLogger {
 	 * @param array $context
 	 */
 	public function critical(string $message, array $context = []): void {
-		$this->log(ILogger::ERROR, $message, $context);
+		$this->log(LogLevel::CRITICAL, $message, $context);
 	}
 
 	/**
@@ -97,7 +98,7 @@ class Log implements ILogger, IDataLogger {
 	 * @param array $context
 	 */
 	public function error(string $message, array $context = []): void {
-		$this->log(ILogger::ERROR, $message, $context);
+		$this->log(LogLevel::ERROR, $message, $context);
 	}
 
 	/**
@@ -110,7 +111,7 @@ class Log implements ILogger, IDataLogger {
 	 * @param array $context
 	 */
 	public function warning(string $message, array $context = []): void {
-		$this->log(ILogger::WARN, $message, $context);
+		$this->log(LogLevel::WARNING, $message, $context);
 	}
 
 	/**
@@ -120,7 +121,7 @@ class Log implements ILogger, IDataLogger {
 	 * @param array $context
 	 */
 	public function notice(string $message, array $context = []): void {
-		$this->log(ILogger::INFO, $message, $context);
+		$this->log(LogLevel::NOTICE, $message, $context);
 	}
 
 	/**
@@ -132,7 +133,7 @@ class Log implements ILogger, IDataLogger {
 	 * @param array $context
 	 */
 	public function info(string $message, array $context = []): void {
-		$this->log(ILogger::INFO, $message, $context);
+		$this->log(LogLevel::INFO, $message, $context);
 	}
 
 	/**
@@ -142,18 +143,18 @@ class Log implements ILogger, IDataLogger {
 	 * @param array $context
 	 */
 	public function debug(string $message, array $context = []): void {
-		$this->log(ILogger::DEBUG, $message, $context);
+		$this->log(LogLevel::DEBUG, $message, $context);
 	}
-
 
 	/**
 	 * Logs with an arbitrary level.
 	 *
-	 * @param int $level
+	 * @param int|LogLevel $level
 	 * @param string $message
 	 * @param array $context
 	 */
-	public function log(int $level, string $message, array $context = []): void {
+	public function log(int|LogLevel $level, string $message, array $context = []): void {
+		$level = $this->sanitizeLogLevel($level);
 		$minLevel = $this->getLogLevel($context, $message);
 		if ($level < $minLevel
 			&& (($this->crashReporters?->hasReporters() ?? false) === false)
@@ -317,7 +318,7 @@ class Log implements ILogger, IDataLogger {
 	 */
 	public function logException(Throwable $exception, array $context = []): void {
 		$app = $context['app'] ?? 'no app in context';
-		$level = $context['level'] ?? ILogger::ERROR;
+		$level = $this->sanitizeLogLevel($context['level'] ?? LogLevel::ERROR);
 
 		$minLevel = $this->getLogLevel($context, $context['message'] ?? $exception->getMessage());
 		if ($level < $minLevel
@@ -356,13 +357,13 @@ class Log implements ILogger, IDataLogger {
 				$this->crashReporters->delegateReport($exception, $context);
 			}
 		} catch (Throwable $e) {
-			// make sure we dont hard crash if logging fails
+			// make sure we do not hard crash if logging fails
 		}
 	}
 
 	public function logData(string $message, array $data, array $context = []): void {
 		$app = $context['app'] ?? 'no app in context';
-		$level = $context['level'] ?? ILogger::ERROR;
+		$level = $this->sanitizeLogLevel($context['level'] ?? LogLevel::ERROR);
 
 		$minLevel = $this->getLogLevel($context, $message);
 
@@ -440,5 +441,28 @@ class Log implements ILogger, IDataLogger {
 			// ignore app-defined sensitive methods in this case - they weren't loaded anyway
 		}
 		return $serializer;
+	}
+
+	/**
+	 * Helper needed to convert IETF / PSR-3 logging levels to internal logging level.
+	 * This is required as we currently only support 5 levels from 8 levels specified in the RFC.
+	 */
+	protected function sanitizeLogLevel(int|LogLevel $level): int {
+		if ($level < ILogger::DEBUG || $level > ILogger::FATAL) {
+			$level = LogLevel::tryFrom($level);
+		}
+		if ($level instanceof LogLevel) {
+			return match ($level) {
+				LogLevel::DEBUG => ILogger::DEBUG,
+				LogLevel::INFO => ILogger::INFO,
+				LogLevel::NOTICE => ILogger::INFO,
+				LogLevel::WARNING => ILogger::WARN,
+				LogLevel::ERROR => ILogger::ERROR,
+				LogLevel::ALERT => ILogger::ERROR,
+				LogLevel::CRITICAL => ILogger::ERROR,
+				LogLevel::EMERGENCY => ILogger::FATAL,
+			};
+		}
+		return $level ?? ILogger::WARN;
 	}
 }

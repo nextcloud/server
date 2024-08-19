@@ -10,8 +10,8 @@ namespace OC\Log;
 
 use OC\Log;
 use OCP\EventDispatcher\IEventDispatcher;
-use OCP\ILogger;
 use OCP\Log\IDataLogger;
+use OCP\LogLevel;
 use Psr\Log\InvalidArgumentException;
 use Psr\Log\LoggerInterface;
 use Throwable;
@@ -41,11 +41,11 @@ final class PsrLoggerAdapter implements LoggerInterface, IDataLogger {
 	public function emergency($message, array $context = []): void {
 		if ($this->containsThrowable($context)) {
 			$this->logger->logException($context['exception'], array_merge(
+				$context,
 				[
 					'message' => (string)$message,
-					'level' => ILogger::FATAL,
+					'level' => LogLevel::EMERGENCY,
 				],
-				$context
 			));
 		} else {
 			$this->logger->emergency((string)$message, $context);
@@ -64,11 +64,11 @@ final class PsrLoggerAdapter implements LoggerInterface, IDataLogger {
 	public function alert($message, array $context = []): void {
 		if ($this->containsThrowable($context)) {
 			$this->logger->logException($context['exception'], array_merge(
+				$context,
 				[
 					'message' => (string)$message,
-					'level' => ILogger::ERROR,
+					'level' => LogLevel::ALERT,
 				],
-				$context
 			));
 		} else {
 			$this->logger->alert((string)$message, $context);
@@ -86,11 +86,11 @@ final class PsrLoggerAdapter implements LoggerInterface, IDataLogger {
 	public function critical($message, array $context = []): void {
 		if ($this->containsThrowable($context)) {
 			$this->logger->logException($context['exception'], array_merge(
+				$context,
 				[
 					'message' => (string)$message,
-					'level' => ILogger::ERROR,
+					'level' => LogLevel::CRITICAL,
 				],
-				$context
 			));
 		} else {
 			$this->logger->critical((string)$message, $context);
@@ -107,11 +107,11 @@ final class PsrLoggerAdapter implements LoggerInterface, IDataLogger {
 	public function error($message, array $context = []): void {
 		if ($this->containsThrowable($context)) {
 			$this->logger->logException($context['exception'], array_merge(
+				$context,
 				[
 					'message' => (string)$message,
-					'level' => ILogger::ERROR,
+					'level' => LogLevel::ERROR,
 				],
-				$context
 			));
 		} else {
 			$this->logger->error((string)$message, $context);
@@ -130,11 +130,11 @@ final class PsrLoggerAdapter implements LoggerInterface, IDataLogger {
 	public function warning($message, array $context = []): void {
 		if ($this->containsThrowable($context)) {
 			$this->logger->logException($context['exception'], array_merge(
+				$context,
 				[
 					'message' => (string)$message,
-					'level' => ILogger::WARN,
+					'level' => LogLevel::WARNING,
 				],
-				$context
 			));
 		} else {
 			$this->logger->warning((string)$message, $context);
@@ -150,11 +150,11 @@ final class PsrLoggerAdapter implements LoggerInterface, IDataLogger {
 	public function notice($message, array $context = []): void {
 		if ($this->containsThrowable($context)) {
 			$this->logger->logException($context['exception'], array_merge(
+				$context,
 				[
 					'message' => (string)$message,
-					'level' => ILogger::INFO,
+					'level' => LogLevel::NOTICE,
 				],
-				$context
 			));
 		} else {
 			$this->logger->notice((string)$message, $context);
@@ -172,11 +172,11 @@ final class PsrLoggerAdapter implements LoggerInterface, IDataLogger {
 	public function info($message, array $context = []): void {
 		if ($this->containsThrowable($context)) {
 			$this->logger->logException($context['exception'], array_merge(
+				$context,
 				[
 					'message' => (string)$message,
-					'level' => ILogger::INFO,
+					'level' => LogLevel::INFO,
 				],
-				$context
 			));
 		} else {
 			$this->logger->info((string)$message, $context);
@@ -192,11 +192,11 @@ final class PsrLoggerAdapter implements LoggerInterface, IDataLogger {
 	public function debug($message, array $context = []): void {
 		if ($this->containsThrowable($context)) {
 			$this->logger->logException($context['exception'], array_merge(
+				$context,
 				[
 					'message' => (string)$message,
-					'level' => ILogger::DEBUG,
+					'level' => LogLevel::DEBUG,
 				],
-				$context
 			));
 		} else {
 			$this->logger->debug((string)$message, $context);
@@ -213,16 +213,22 @@ final class PsrLoggerAdapter implements LoggerInterface, IDataLogger {
 	 * @throws InvalidArgumentException
 	 */
 	public function log($level, $message, array $context = []): void {
-		if (!is_int($level) || $level < ILogger::DEBUG || $level > ILogger::FATAL) {
-			throw new InvalidArgumentException('Nextcloud allows only integer log levels');
+		if (is_int($level)) {
+			$level = LogLevel::tryFrom($level);
+		} elseif (is_string($level)) {
+			$level = LogLevel::fromPsrLogLevel($level);
 		}
+		if (!($level instanceof LogLevel)) {
+			throw new InvalidArgumentException('Nextcloud allows only PSR-3 and integer log levels');
+		}
+
 		if ($this->containsThrowable($context)) {
 			$this->logger->logException($context['exception'], array_merge(
+				$context,
 				[
 					'message' => (string)$message,
 					'level' => $level,
 				],
-				$context
 			));
 		} else {
 			$this->logger->log($level, (string)$message, $context);
