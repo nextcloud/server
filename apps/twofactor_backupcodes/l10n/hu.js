@@ -10,6 +10,7 @@ OC.L10N.register(
     "Two factor backup codes" : "Kétlépcsős biztonsági mentési kódok",
     "A two-factor auth backup codes provider" : "Kétlépcsős hitelesítés biztonsági kódjainak szolgáltatója",
     "Backup codes have been generated. {used} of {total} codes have been used." : "Létrejöttek a biztonsági kódok. {total} kódból {used} lett felhasználva.",
+    "These are your backup codes. Please save and/or print them as you will not be able to read the codes again later." : "Ezek a biztonsági kódjai. Mentse el vagy nyomtassa ki őket úgy, hogy később is meglegyenek.",
     "Save backup codes" : "Biztonsági kódok mentése",
     "Print backup codes" : "Biztonsági kódok nyomtatása",
     "Regenerate backup codes" : "Biztonsági kódok újbóli előállítása",
