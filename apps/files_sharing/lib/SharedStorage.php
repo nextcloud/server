@@ -171,18 +171,30 @@ class SharedStorage extends \OC\Files\Storage\Wrapper\Jail implements ISharedSto
 			$rootFolder = \OC::$server->get(IRootFolder::class);
 			$this->ownerUserFolder = $rootFolder->getUserFolder($this->superShare->getShareOwner());
 			$sourceId = $this->superShare->getNodeId();
-			$ownerNode = $this->ownerUserFolder->getFirstNodeById($sourceId);
-			if (!$ownerNode) {
+			$ownerNodes = $this->ownerUserFolder->getById($sourceId);
+
+			if (count($ownerNodes) === 0) {
 				$this->storage = new FailedStorage(['exception' => new NotFoundException("File by id $sourceId not found")]);
 				$this->cache = new FailedCache();
 				$this->rootPath = '';
 			} else {
-				$this->nonMaskedStorage = $ownerNode->getStorage();
-				if ($this->nonMaskedStorage instanceof Wrapper && $this->nonMaskedStorage->isWrapperOf($this)) {
+				foreach ($ownerNodes as $ownerNode) {
+					$nonMaskedStorage = $ownerNode->getStorage();
+
+					// check if potential source node would lead to a recursive share setup
+					if ($nonMaskedStorage instanceof Wrapper && $nonMaskedStorage->isWrapperOf($this)) {
+						continue;
+					}
+					$this->nonMaskedStorage = $nonMaskedStorage;
+					$this->sourcePath = $ownerNode->getPath();
+					$this->rootPath = $ownerNode->getInternalPath();
+					$this->cache = null;
+					break;
+				}
+				if (!$this->nonMaskedStorage) {
+					// all potential source nodes would have been recursive
 					throw new \Exception('recursive share detected');
 				}
-				$this->sourcePath = $ownerNode->getPath();
-				$this->rootPath = $ownerNode->getInternalPath();
 				$this->storage = new PermissionsMask([
 					'storage' => $this->nonMaskedStorage,
 					'mask' => $this->superShare->getPermissions(),
