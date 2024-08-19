@@ -191,8 +191,8 @@ class Application extends App {
 
 			$event->addMissingIndex(
 				'jobs',
-				'job_lastcheck_reserved',
-				['last_checked', 'reserved_at']
+				'job_last_reserved_sensitive',
+				['last_checked', 'reserved_at', 'time_sensitive']
 			);
 
 			$event->addMissingIndex(
