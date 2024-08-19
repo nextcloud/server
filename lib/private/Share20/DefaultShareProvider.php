@@ -1344,7 +1344,6 @@ class DefaultShareProvider implements IShareProvider {
 				return;
 			}
 			$userGroups = $this->groupManager->getUserGroupIds($user);
-			$userGroups = array_diff($userGroups, $this->shareManager->shareWithGroupMembersOnlyExcludeGroupsList());
 
 			// Delete user shares received by the user from users in the group.
 			$userReceivedShares = $this->shareManager->getSharedWith($uid, IShare::TYPE_USER, null, -1);
