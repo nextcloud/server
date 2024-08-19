@@ -39,6 +39,7 @@ use OCP\IUser;
 use OCP\IUserManager;
 use OCP\L10N\IFactory;
 use OCP\Mail\IMailer;
+use OCP\Share\IManager as IShareManager;
 use OCP\Share\IShare;
 use PHPUnit\Framework\MockObject\MockObject;
 
