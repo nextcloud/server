@@ -29,7 +29,7 @@ interface ILogger {
 	public const INFO = 1;
 	/**
 	 * @since 14.0.0
-	 * @deprecated 20.0.0 - use \OCP\LogLevel::WARN
+	 * @deprecated 20.0.0 - use \OCP\LogLevel::WARNING
 	 */
 	public const WARN = 2;
 	/**
