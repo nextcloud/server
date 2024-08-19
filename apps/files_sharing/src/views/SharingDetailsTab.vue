@@ -879,6 +879,9 @@ export default {
 				this.queueUpdate(...permissionsAndAttributes)
 			}
 
+			await this.getNode()
+			emit('files:node:updated', this.node)
+
 			this.$emit('close-sharing-details')
 		},
 		/**
