@@ -114,24 +114,16 @@
                         "basic_auth": []
                     }
                 ],
-                "requestBody": {
-                    "required": false,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "type": "object",
-                                "properties": {
-                                    "uri": {
-                                        "type": "string",
-                                        "nullable": true,
-                                        "description": "The callback URI to filter by"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                },
                 "parameters": [
+                    {
+                        "name": "uri",
+                        "in": "query",
+                        "description": "The callback URI to filter by",
+                        "schema": {
+                            "type": "string",
+                            "nullable": true
+                        }
+                    },
                     {
                         "name": "OCS-APIRequest",
                         "in": "header",
