@@ -106,7 +106,6 @@ class ProviderFactory implements IProviderFactory {
 				$this->serverContainer->getL10NFactory(),
 				$this->serverContainer->getURLGenerator(),
 				$this->serverContainer->query(ITimeFactory::class),
-				$this->serverContainer->get(IManager::class),
 			);
 		}
 
