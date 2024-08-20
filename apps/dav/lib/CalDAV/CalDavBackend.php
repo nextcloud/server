@@ -3214,7 +3214,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 
 						$query->setParameter('name', $property->name);
 						$query->setParameter('parameter', null);
-						$query->setParameter('value', $value);
+						$query->setParameter('value', mb_strcut($value, 0, 254));
 						$query->executeStatement();
 					}
 
