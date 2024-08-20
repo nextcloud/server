@@ -53,6 +53,7 @@ enum LogLevel: int {
 
 	/**
 	 * Convert this log level to a PSR-3 `\Psr\Log\LogLevel`
+	 * @since 31.0.0
 	 */
 	public function toPsrLogLevel(): string {
 		return match($this) {
