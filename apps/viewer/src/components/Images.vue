@@ -233,7 +233,7 @@ export default {
 		 */
 		async getBase64FromImage() {
 			const file = await axios.get(this.src)
-			return `data:${this.mime};base64,${btoa(file.data)}`
+			return `data:${this.mime};base64,${btoa(unescape(encodeURIComponent(file.data)))}`
 		},
 
 		/**
