@@ -42,7 +42,7 @@ class DatabaseBackend implements IBackend {
 		$qb = $this->dbConnection->getQueryBuilder();
 		$qb->delete(self::TABLE_NAME)
 			->where(
-				$qb->expr()->lte('delete_after', $qb->createNamedParameter($currentTime, IQueryBuilder::PARAM_DATE))
+				$qb->expr()->lte('delete_after', $qb->createNamedParameter($currentTime, IQueryBuilder::PARAM_DATETIME))
 			)
 			->executeStatement();
 
@@ -87,7 +87,7 @@ class DatabaseBackend implements IBackend {
 		$qb->insert(self::TABLE_NAME)
 			->values([
 				'hash' => $qb->createNamedParameter($identifier, IQueryBuilder::PARAM_STR),
-				'delete_after' => $qb->createNamedParameter($deleteAfter, IQueryBuilder::PARAM_DATE),
+				'delete_after' => $qb->createNamedParameter($deleteAfter, IQueryBuilder::PARAM_DATETIME),
 			]);
 
 		if (!$this->config->getSystemValueBool('ratelimit.protection.enabled', true)) {

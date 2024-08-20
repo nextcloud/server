@@ -8,8 +8,6 @@ declare(strict_types=1);
  */
 namespace OCP\Migration\Attributes;
 
-use OCP\DB\Types;
-
 /**
  * enum ColumnType based on OCP\DB\Types
  *
@@ -18,45 +16,45 @@ use OCP\DB\Types;
  */
 enum ColumnType : string {
 	/** @since 30.0.0 */
-	case BIGINT = Types::BIGINT;
+	case BIGINT = 'bigint';
 	/** @since 30.0.0 */
-	case BINARY = Types::BINARY;
+	case BINARY = 'binary';
 	/** @since 30.0.0 */
-	case BLOB = Types::BLOB;
+	case BLOB = 'blob';
 	/** @since 30.0.0 */
-	case BOOLEAN = Types::BOOLEAN;
+	case BOOLEAN = 'boolean';
 	/**
 	 * A column created with `DATE` can be used for both `DATE` and `DATE_IMMUTABLE`
 	 * on the `\OCP\AppFramework\Db\Entity`.
 	 * @since 30.0.0
 	 */
-	case DATE = Types::DATE;
+	case DATE = 'date';
 	/**
 	 * A column created with `DATETIME` can be used for both `DATETIME` and `DATETIME_IMMUTABLE`
 	 * on the `\OCP\AppFramework\Db\Entity`.
 	 * @since 30.0.0
 	 */
-	case DATETIME = Types::DATETIME;
+	case DATETIME = 'datetime';
 	/**
 	 * A column created with `DATETIME_TZ` can be used for both `DATETIME_TZ` and `DATETIME_TZ_IMMUTABLE`
 	 * on the `\OCP\AppFramework\Db\Entity`.
 	 * @since 31.0.0
 	 */
-	case DATETIME_TZ = Types::DATETIME_TZ;
+	case DATETIME_TZ = 'datetimetz';
 	/** @since 30.0.0 */
-	case DECIMAL = Types::DECIMAL;
+	case DECIMAL = 'decimal';
 	/** @since 30.0.0 */
-	case FLOAT = Types::FLOAT;
+	case FLOAT = 'float';
 	/** @since 30.0.0 */
-	case INTEGER = Types::INTEGER;
+	case INTEGER = 'integer';
 	/** @since 30.0.0 */
-	case SMALLINT = Types::SMALLINT;
+	case SMALLINT = 'smallint';
 	/** @since 30.0.0 */
-	case STRING = Types::STRING;
+	case STRING = 'string';
 	/** @since 30.0.0 */
-	case TEXT = Types::TEXT;
+	case TEXT = 'text';
 	/** @since 30.0.0 */
-	case TIME = Types::TIME;
+	case TIME = 'time';
 	/** @since 30.0.0 */
-	case JSON = Types::JSON;
+	case JSON = 'json';
 }
