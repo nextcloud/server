@@ -54,20 +54,22 @@
 </template>
 
 <script lang="ts">
-import type { Node } from '@nextcloud/files'
+import type { FileAction, Node } from '@nextcloud/files'
 import type { PropType } from 'vue'
 
-import { emit } from '@nextcloud/event-bus'
-import { FileType, NodeStatus, Permission } from '@nextcloud/files'
-import { loadState } from '@nextcloud/initial-state'
-import { showError, showSuccess } from '@nextcloud/dialogs'
-import { translate as t } from '@nextcloud/l10n'
 import axios from '@nextcloud/axios'
-import Vue from 'vue'
+import { showError, showSuccess } from '@nextcloud/dialogs'
+import { emit } from '@nextcloud/event-bus'
+import { FileType, NodeStatus } from '@nextcloud/files'
+import { loadState } from '@nextcloud/initial-state'
+import { translate as t } from '@nextcloud/l10n'
+import { isAxiosError} from 'axios'
+import Vue, { inject } from 'vue'
 
 import NcTextField from '@nextcloud/vue/dist/Components/NcTextField.js'
 
 import { useNavigation } from '../../composables/useNavigation'
+import { useRouteParameters } from '../../composables/useRouteParameters.ts'
 import { useRenamingStore } from '../../store/renaming.ts'
 import logger from '../../logger.js'
 
@@ -115,10 +117,15 @@ export default Vue.extend({
 
 	setup() {
 		const { currentView } = useNavigation()
+		const { directory } = useRouteParameters()
 		const renamingStore = useRenamingStore()
+
+		const defaultFileAction = inject<FileAction | undefined>('defaultFileAction')
 
 		return {
 			currentView,
+			defaultFileAction,
+			directory,
 
 			renamingStore,
 		}
@@ -158,32 +165,20 @@ export default Vue.extend({
 				}
 			}
 
-			const enabledDefaultActions = this.$parent?.$refs?.actions?.enabledDefaultActions
-			if (enabledDefaultActions?.length > 0) {
-				const action = enabledDefaultActions[0]
-				const displayName = action.displayName([this.source], this.currentView)
+			if (this.defaultFileAction && this.currentView) {
+				const displayName = this.defaultFileAction.displayName([this.source], this.currentView)
 				return {
-					is: 'a',
+					is: 'button',
 					params: {
+						'aria-label': displayName,
 						title: displayName,
-						role: 'button',
 						tabindex: '0',
 					},
 				}
 			}
 
-			if (this.source?.permissions & Permission.READ) {
-				return {
-					is: 'a',
-					params: {
-						download: this.source.basename,
-						href: this.source.source,
-						title: t('files', 'Download file {name}', { name: `${this.basename}${this.extension}` }),
-						tabindex: '0',
-					},
-				}
-			}
-
+			// nothing interactive here, there is no default action
+			// so if not even the download action works we only can show the list entry
 			return {
 				is: 'span',
 			}
@@ -324,20 +319,25 @@ export default Vue.extend({
 				// Reset the renaming store
 				this.stopRenaming()
 				this.$nextTick(() => {
-					this.$refs.basename.focus()
+					const nameContainter = this.$refs.basename as HTMLElement | undefined
+					nameContainter?.focus()
 				})
 			} catch (error) {
 				logger.error('Error while renaming file', { error })
+				// Rename back as it failed
 				this.source.rename(oldName)
-				this.$refs.renameInput.focus()
+				// And ensure we reset to the renaming state
+				this.startRenaming()
 
-				// TODO: 409 means current folder does not exist, redirect ?
-				if (error?.response?.status === 404) {
-					showError(t('files', 'Could not rename "{oldName}", it does not exist any more', { oldName }))
-					return
-				} else if (error?.response?.status === 412) {
-					showError(t('files', 'The name "{newName}" is already used in the folder "{dir}". Please choose a different name.', { newName, dir: this.currentDir }))
-					return
+				if (isAxiosError(error)) {
+					// TODO: 409 means current folder does not exist, redirect ?
+					if (error?.response?.status === 404) {
+						showError(t('files', 'Could not rename "{oldName}", it does not exist any more', { oldName }))
+						return
+					} else if (error?.response?.status === 412) {
+						showError(t('files', 'The name "{newName}" is already used in the folder "{dir}". Please choose a different name.', { newName, dir: this.directory }))
+						return
+					}
 				}
 
 				// Unknown error
@@ -352,3 +352,16 @@ export default Vue.extend({
 	},
 })
 </script>
+
+<style scoped lang="scss">
+button.files-list__row-name-link {
+	background-color: unset;
+	border: none;
+	font-weight: normal;
+
+	&:active {
+		// No active styles - handled by the row entry
+		background-color: unset !important;
+	}
+}
+</style>
