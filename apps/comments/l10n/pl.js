@@ -7,7 +7,7 @@ OC.L10N.register(
     "You commented on %1$s" : "Skomentowałeś w %1$s",
     "You commented on {file}" : "Skomentowałeś w {file}",
     "%1$s commented on %2$s" : "%1$s skomentował %2$s",
-    "{author} commented on {file}" : "{author} skomentował w {file}‭",
+    "{author} commented on {file}" : "{author} skomentował w {file}",
     "<strong>Comments</strong> for files" : "<strong>Komentarze</strong> dla plików",
     "Files" : "Pliki",
     "You were mentioned on \"{file}\", in a comment by an account that has since been deleted" : "Wspomniano o Tobie w „{file}” w komentarzu konta, które zostało już usunięte",
