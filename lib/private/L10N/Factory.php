@@ -58,10 +58,17 @@ class Factory implements IFactory {
 		'pt_BR', 'pt_PT', 'da', 'fi_FI', 'nb_NO', 'sv', 'tr', 'zh_CN', 'ko'
 	];
 
+	/**
+	 * Keep in sync with `build/translation-checker.php`
+	 */
 	public const RTL_LANGUAGES = [
-		'ae', 'ar', 'arc', 'arz', 'bcc', 'bqi', 'ckb', 'dv', 'fa', 'glk',
-		'ha', 'he', 'khw', 'ks', 'ku', 'mzn', 'nqo', 'pnb', 'ps', 'sd', 'ug',
-		'ur', 'uzs', 'yi',
+		'ar', // Arabic
+		'fa', // Persian
+		'he', // Hebrew
+		'ps', // Pashto,
+		'ug', // 'Uyghurche / Uyghur
+		'ur_PK', // Urdu
+		'uz', // Uzbek Afghan
 	];
 
 	private ICache $cache;
@@ -371,8 +378,7 @@ class Factory implements IFactory {
 	}
 
 
-	public function getLanguageDirectionFromLocale(string $locale): string
-	{
+	public function getLanguageDirectionFromLocale(string $locale): string {
 		if (in_array($locale, self::RTL_LANGUAGES)) {
 			return 'rtl';
 		}
