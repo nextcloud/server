@@ -10,17 +10,30 @@ $directories = [
 
 $isDebug = in_array('--debug', $argv, true) || in_array('-d', $argv, true);
 
+$txConfig = file_get_contents(__DIR__ . '/../.tx/config');
+
+$untranslatedApps = [
+	'testing',
+];
+
+$valid = 0;
+$errors = [];
 $apps = new \DirectoryIterator(__DIR__ . '/../apps');
 foreach ($apps as $app) {
+	if ($app->isDot() || in_array($app->getBasename(), $untranslatedApps, true)) {
+		continue;
+	}
+
 	if (!file_exists($app->getPathname() . '/l10n')) {
+		if (!str_contains($txConfig, '[o:nextcloud:p:nextcloud:r:' . $app->getBasename() . ']')) {
+			$errors[] = $app->getBasename() . "\n" . '  App is not translation synced via transifex and also not marked as untranslated' . "\n";
+		}
 		continue;
 	}
 
 	$directories[] = $app->getPathname() . '/l10n';
 }
 
-$errors = [];
-$valid = 0;
 foreach ($directories as $dir) {
 	if (!file_exists($dir)) {
 		continue;
@@ -59,10 +72,10 @@ foreach ($directories as $dir) {
 }
 
 if (count($errors) > 0) {
-	echo sprintf('ERROR: There were %d errors:', count($errors)) . "\n\n";
+	echo "\033[0;31m" . sprintf('ERROR: There were %d errors:', count($errors)) . "\033[0m\n\n";
 	echo implode("\n", $errors);
 	exit(1);
 }
 
-echo 'OK: ' . $valid . ' files parse' . "\n";
+echo "\033[0;32m" . 'OK: ' . $valid . ' files parse' . "\033[0m\n";
 exit(0);
