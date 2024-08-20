@@ -110,7 +110,7 @@ class FactoryTest extends \Test\TestCase {
 		$expectedLocalCache, $expectedDistributedCache, $expectedLockingCache) {
 		$logger = $this->getMockBuilder(LoggerInterface::class)->getMock();
 		$profiler = $this->getMockBuilder(IProfiler::class)->getMock();
-		$factory = new \OC\Memcache\Factory('abc', $logger, $profiler, $localCache, $distributedCache, $lockingCache);
+		$factory = new \OC\Memcache\Factory(fn () => 'abc', $logger, $profiler, $localCache, $distributedCache, $lockingCache);
 		$this->assertTrue(is_a($factory->createLocal(), $expectedLocalCache));
 		$this->assertTrue(is_a($factory->createDistributed(), $expectedDistributedCache));
 		$this->assertTrue(is_a($factory->createLocking(), $expectedLockingCache));
@@ -124,13 +124,13 @@ class FactoryTest extends \Test\TestCase {
 
 		$logger = $this->getMockBuilder(LoggerInterface::class)->getMock();
 		$profiler = $this->getMockBuilder(IProfiler::class)->getMock();
-		new \OC\Memcache\Factory('abc', $logger, $profiler, $localCache, $distributedCache);
+		new \OC\Memcache\Factory(fn () => 'abc', $logger, $profiler, $localCache, $distributedCache);
 	}
 
 	public function testCreateInMemory(): void {
 		$logger = $this->getMockBuilder(LoggerInterface::class)->getMock();
 		$profiler = $this->getMockBuilder(IProfiler::class)->getMock();
-		$factory = new \OC\Memcache\Factory('abc', $logger, $profiler, null, null, null);
+		$factory = new \OC\Memcache\Factory(fn () => 'abc', $logger, $profiler, null, null, null);
 
 		$cache = $factory->createInMemory();
 		$cache->set('test', 48);
