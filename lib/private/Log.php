@@ -465,6 +465,7 @@ class Log implements ILogger, IDataLogger {
 				LogLevel::EMERGENCY => ILogger::FATAL,
 			};
 		}
+		// If the log level is not a valid internal log level the `tryFrom` has returned `null` so we fall back to the default log level (which is `warning`).
 		return $level ?? ILogger::WARN;
 	}
 }
