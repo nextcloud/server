@@ -49,6 +49,7 @@
     "user_status",
     "viewer",
     "weather_status",
+    "webhook_listeners",
     "workflowengine"
   ],
   "defaultEnabled": [
