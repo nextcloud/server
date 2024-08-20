@@ -43,6 +43,7 @@ OC.L10N.register(
     "Task not found" : "Ez da eginkizuna aurkitu",
     "Internal error" : "Barne errorea",
     "Not found" : "Ez da aurkitu",
+    "Bad request" : "Eskaera txarra",
     "Requested task type does not exist" : "Eskatutako eginkizun mota ez da existitzen",
     "Necessary language model provider is not available" : "Beharrezko lengoaia-modelo hornitzailea ez dago eskuragarri",
     "No text to image provider is available" : "Ez dago testutik irudirako hornitzailerik erabilgarri",
