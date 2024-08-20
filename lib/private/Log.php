@@ -448,9 +448,11 @@ class Log implements ILogger, IDataLogger {
 	 * This is required as we currently only support 5 levels from 8 levels specified in the RFC.
 	 */
 	protected function sanitizeLogLevel(int|LogLevel $level): int {
+		// If the log level is an integer and outside of the internal supported range, try if it is just the value of the `LogLevel` enum
 		if (is_int($level) && ($level < ILogger::DEBUG || $level > ILogger::FATAL)) {
 			$level = LogLevel::tryFrom($level);
 		}
+		// If the level is a case of the `LogLevel` enum convert to the supported internal log level (map 0-7 to 0-4)
 		if ($level instanceof LogLevel) {
 			return match ($level) {
 				LogLevel::DEBUG => ILogger::DEBUG,
