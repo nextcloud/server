@@ -311,9 +311,8 @@ $content-max-width: 640px;
 		align-self: flex-start;
 		padding-top: 20px;
 		min-width: 220px;
-		margin: 0;
-		margin-top: -150px;
-		margin-inline-end: 20px;
+		margin-block: -150px 0;
+		margin-inline: 0 20px;
 
 		// Specificity hack is needed to override Avatar component styles
 		:deep(.avatar.avatardiv) {
