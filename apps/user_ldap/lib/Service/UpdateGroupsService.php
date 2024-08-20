@@ -107,7 +107,24 @@ class UpdateGroupsService {
 				continue;
 			}
 			foreach (array_diff($knownUsers, $actualUsers) as $removedUser) {
-				$this->groupMembershipMapper->delete($groupMemberships[$removedUser]);
+				try {
+					$this->groupMembershipMapper->delete($groupMemberships[$removedUser]);
+				} catch (Exception $e) {
+					if ($e->getReason() !== Exception::REASON_DATABASE_OBJECT_NOT_FOUND) {
+						/* If reason is not found something else removed the membership, that’s fine */
+						$this->logger->error(
+							__CLASS__ . ' – group {group} membership failed to be removed (user {user})',
+							[
+								'app' => 'user_ldap',
+								'user' => $removedUser,
+								'group' => $group,
+								'exception' => $e,
+							]
+						);
+					}
+					/* We failed to delete the groupmembership so we do not want to advertise it */
+					continue;
+				}
 				$userObject = $this->userManager->get($removedUser);
 				if ($userObject instanceof IUser) {
 					$this->dispatcher->dispatchTyped(new UserRemovedEvent($groupObject, $userObject));
@@ -121,7 +138,24 @@ class UpdateGroupsService {
 				);
 			}
 			foreach (array_diff($actualUsers, $knownUsers) as $addedUser) {
-				$this->groupMembershipMapper->insert(GroupMembership::fromParams(['groupid' => $group,'userid' => $addedUser]));
+				try {
+					$this->groupMembershipMapper->insert(GroupMembership::fromParams(['groupid' => $group,'userid' => $addedUser]));
+				} catch (Exception $e) {
+					if ($e->getReason() !== Exception::REASON_UNIQUE_CONSTRAINT_VIOLATION) {
+						/* If reason is unique constraint something else added the membership, that’s fine */
+						$this->logger->error(
+							__CLASS__ . ' – group {group} membership failed to be added (user {user})',
+							[
+								'app' => 'user_ldap',
+								'user' => $addedUser,
+								'group' => $group,
+								'exception' => $e,
+							]
+						);
+					}
+					/* We failed to insert the groupmembership so we do not want to advertise it */
+					continue;
+				}
 				$userObject = $this->userManager->get($addedUser);
 				if ($userObject instanceof IUser) {
 					$this->dispatcher->dispatchTyped(new UserAddedEvent($groupObject, $userObject));
@@ -151,7 +185,23 @@ class UpdateGroupsService {
 			$users = $this->groupBackend->usersInGroup($createdGroup);
 			$groupObject = $this->groupManager->get($createdGroup);
 			foreach ($users as $user) {
-				$this->groupMembershipMapper->insert(GroupMembership::fromParams(['groupid' => $createdGroup,'userid' => $user]));
+				try {
+					$this->groupMembershipMapper->insert(GroupMembership::fromParams(['groupid' => $createdGroup,'userid' => $user]));
+				} catch (Exception $e) {
+					if ($e->getReason() !== Exception::REASON_UNIQUE_CONSTRAINT_VIOLATION) {
+						$this->logger->error(
+							__CLASS__ . ' – group {group} membership failed to be added (user {user})',
+							[
+								'app' => 'user_ldap',
+								'user' => $user,
+								'group' => $createdGroup,
+								'exception' => $e,
+							]
+						);
+					}
+					/* We failed to insert the groupmembership so we do not want to advertise it */
+					continue;
+				}
 				if ($groupObject instanceof IGroup) {
 					$userObject = $this->userManager->get($user);
 					if ($userObject instanceof IUser) {
