@@ -122,8 +122,9 @@ class SetupManager {
 		$prevLogging = Filesystem::logWarningWhenAddingStorageWrapper(false);
 
 		Filesystem::addStorageWrapper('mount_options', function ($mountPoint, IStorage $storage, IMountPoint $mount) {
-			if ($mount->getOptions() && $storage->instanceOfStorage(Common::class)) {
-				$storage->setMountOptions($mount->getOptions());
+			if ($storage->instanceOfStorage(Common::class)) {
+				$options = array_merge($mount->getOptions(), ['mount_point' => $mountPoint]);
+				$storage->setMountOptions($options);
 			}
 			return $storage;
 		});
