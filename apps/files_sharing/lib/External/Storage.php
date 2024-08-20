@@ -259,19 +259,12 @@ class Storage extends DAV implements ISharedStorage, IDisableEncryptionStorage, 
 
 		$client = $this->httpClient->newClient();
 		try {
-			$result = $client->get($url, [
-				'timeout' => 10,
-				'connect_timeout' => 10,
-				'verify' => !$this->config->getSystemValueBool('sharing.federation.allowSelfSignedCertificates', false),
-			])->getBody();
+			$result = $client->get($url, $this->getDefaultRequestOptions())->getBody();
 			$data = json_decode($result);
 			$returnValue = (is_object($data) && !empty($data->version));
-		} catch (ConnectException $e) {
+		} catch (ConnectException|ClientException|RequestException $e) {
 			$returnValue = false;
-		} catch (ClientException $e) {
-			$returnValue = false;
-		} catch (RequestException $e) {
-			$returnValue = false;
+			$this->logger->warning('Failed to test remote URL', ['exception' => $e]);
 		}
 
 		$cache->set($url, $returnValue, 60 * 60 * 24);
@@ -319,12 +312,11 @@ class Storage extends DAV implements ISharedStorage, IDisableEncryptionStorage, 
 		// TODO: DI
 		$client = \OC::$server->getHTTPClientService()->newClient();
 		try {
-			$response = $client->post($url, [
+			$response = $client->post($url, array_merge($this->getDefaultRequestOptions(), [
 				'body' => ['password' => $password, 'depth' => $depth],
-				'timeout' => 10,
-				'connect_timeout' => 10,
-			]);
+			]));
 		} catch (\GuzzleHttp\Exception\RequestException $e) {
+			$this->logger->warning('Failed to fetch share info', ['exception' => $e]);
 			if ($e->getCode() === Http::STATUS_UNAUTHORIZED || $e->getCode() === Http::STATUS_FORBIDDEN) {
 				throw new ForbiddenException();
 			}
@@ -421,5 +413,16 @@ class Storage extends DAV implements ISharedStorage, IDisableEncryptionStorage, 
 
 	public function free_space($path) {
 		return parent::free_space('');
+	}
+
+	private function getDefaultRequestOptions(): array {
+		$options = [
+			'timeout' => 10,
+			'connect_timeout' => 10,
+		];
+		if ($this->config->getSystemValueBool('sharing.federation.allowSelfSignedCertificates')) {
+			$options['verify'] = false;
+		}
+		return $options;
 	}
 }
