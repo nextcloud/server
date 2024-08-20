@@ -255,7 +255,7 @@ p {
 	}
 
 	.checkbox-radio-switch {
-		margin-left: auto;
+		margin-inline-start: auto;
 		padding: 0 2px;
 	}
 }

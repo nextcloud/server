@@ -202,12 +202,12 @@ export default {
 }
 
 .to-text {
-	padding-right: 12px;
+	padding-inline-end: 12px;
 }
 
 .empty-content {
 	color: var(--color-text-lighter);
-	margin-top: 4px;
+	margin-block-start: var(--default-grid-baseline);
 	align-self: center;
 }
 </style>

@@ -585,7 +585,7 @@ export default {
 		border: 0;
 		border-radius: var(--border-radius-pill);
 		font-weight: normal;
-		padding-left: 40px;
+		padding-inline-start: 40px;
 
 		&.icon-loading-small {
 			&::after {

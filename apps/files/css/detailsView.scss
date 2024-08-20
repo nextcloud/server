@@ -34,8 +34,7 @@
 }
 
 .app-sidebar .thumbnailContainer.large {
-	margin-inline-start: -15px;
-	margin-inline-end: -35px; /* 15 + 20 for the close button */
+	margin-inline: -15px -35px; /* 15 + 20 for the close button */
 	margin-top: -15px;
 }
 

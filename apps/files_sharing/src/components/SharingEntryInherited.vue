@@ -85,7 +85,7 @@ export default {
 		flex-direction: column;
 		justify-content: space-between;
 		padding: 8px;
-		padding-left: 10px;
+		padding-inline-start: 10px;
 		line-height: 1.2em;
 		p {
 			color: var(--color-text-maxcontrast);

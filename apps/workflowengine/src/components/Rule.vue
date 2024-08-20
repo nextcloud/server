@@ -215,7 +215,7 @@ export default {
 	.rule {
 		display: flex;
 		flex-wrap: wrap;
-		border-left: 5px solid var(--color-primary-element);
+		border-inline-start: 5px solid var(--color-primary-element);
 
 		.trigger,
 		.action {
@@ -229,7 +229,7 @@ export default {
 		}
 		.icon-confirm {
 			background-position: right 27px;
-			padding-right: 20px;
+			padding-inline-end: 20px;
 			margin-inline-end: 20px;
 		}
 	}
@@ -241,7 +241,7 @@ export default {
 			min-width: 50px;
 			text-align: end;
 			color: var(--color-text-maxcontrast);
-			padding-right: 10px;
+			padding-inline-end: 10px;
 			padding-top: 6px;
 		}
 		.multiselect {
@@ -259,7 +259,7 @@ export default {
 	.check--add {
 		background-position: 7px center;
 		background-color: transparent;
-		padding-left: 6px;
+		padding-inline-start: 6px;
 		margin: 0;
 		width: 180px;
 		border-radius: var(--border-radius);

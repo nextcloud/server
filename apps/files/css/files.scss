@@ -648,8 +648,7 @@ a.action.action-setreminder {
 		&.action-menu {
 			padding-top: 17px;
 			padding-bottom: 17px;
-			padding-inline-start: 14px;
-			padding-inline-end: 14px;
+			padding-inline: 14px;
 		}
 		&.no-permission {
 			&:hover, &:focus {
@@ -763,8 +762,7 @@ table.dragshadow {
 	z-index: 2000;
 }
 table.dragshadow td.filename {
-	padding-inline-start: 60px;
-	padding-inline-end: 16px;
+	padding-inline: 60px 16px;
 	height: 36px;
 
 	/* Override "max-width: 0" to prevent file name and size from overlapping */
@@ -912,8 +910,7 @@ table.dragshadow td.size {
 }
 
 .notCreatable {
-	margin-inline-start: 12px;
-	margin-inline-end: 44px;
+	margin-inline: 12px 44px;
 	margin-top: 12px;
 	color: var(--color-main-text);
 	overflow: auto;

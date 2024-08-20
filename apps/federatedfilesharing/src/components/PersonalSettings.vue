@@ -125,7 +125,7 @@ export default {
 			return window.location.protocol + '//' + window.location.host + this.logoPath
 		},
 		backgroundStyle() {
-			return `padding:10px;background-color:${this.color};color:${this.textColor};border-radius:3px;padding-left:4px;`
+			return `padding:10px;background-color:${this.color};color:${this.textColor};border-radius:3px;padding-inline-start:4px;`
 		},
 		linkStyle() {
 			return `background-image:url(${this.logoPathAbsolute});width:50px;height:30px;position:relative;top:8px;background-size:contain;display:inline-block;background-repeat:no-repeat; background-position: center center;`

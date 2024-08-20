@@ -7,10 +7,9 @@
 	flex-wrap: wrap;
 	flex-direction: column;
 	flex-grow: 1;
-	margin-inline-start: -1px;
 	padding: 10px;
 	border-radius: var(--border-radius-large);
-	margin-inline-end: 20px;
+	margin-inline: -1px 20px;
 	margin-bottom: 20px;
 }
 .actions__item .icon {

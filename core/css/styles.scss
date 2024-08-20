@@ -243,18 +243,18 @@ body {
 }
 
 /* Show password toggle */
-
-#show, #dbpassword {
+#show,
+#dbpassword {
 	position: absolute;
 	inset-inline-end: 1em;
 	top: .8em;
-}
-
-/* Cannot use inline-start and :dir to support Samsung Internet */ 
-body[dir='ltr'] #show, #dbpassword {
+	/* Cannot use inline-start and :dir to support Samsung Internet */ 
 	float: right;
 }
-body[dir='ltr'] #show, #dbpassword {
+
+body[dir='rtl'] #show,
+body[dir='rtl'] #dbpassword {
+	/* Cannot use inline-start and :dir to support Samsung Internet */ 
 	float: left;
 }
 
@@ -543,7 +543,8 @@ body[dir='ltr'] .ui-widget.ui-datepicker .ui-widget-header .ui-icon {
 		background: url("../img/actions/arrow-left.svg");
 	}
 }
-body[dir='ltr'] .ui-widget.ui-datepicker .ui-widget-header .ui-icon {
+
+body[dir='rtl'] .ui-widget.ui-datepicker .ui-widget-header .ui-icon {
 	&.ui-icon-circle-triangle-e {
 		background: url("../img/actions/arrow-left.svg");
 	}

@@ -433,7 +433,7 @@ kbd {
 
 			/* Needed for IE11; otherwise the button appears to the right of the
 			 * link. */
-			left: 0;
+			inset-inline-start: 0;
 
 			&:focus-visible {
 				opacity: 1;
@@ -549,8 +549,7 @@ kbd {
 	 * Editable entries
 	 */
 	.app-navigation-entry-edit {
-		padding-inline-start: 5px;
-		padding-inline-end: 5px;
+		padding-inline: 5px;
 		display: block;
 		width: calc(100% - 1px); /* Avoid border overlapping */
 		transition: opacity 250ms ease-in-out;
@@ -1061,7 +1060,7 @@ $outter-margin: math.div($popoveritem-height - $popovericon-size, 2);
 	z-index: 110;
 	margin: 5px;
 	margin-top: -5px;
-	right: 0;
+	inset-inline-end: 0;
 	filter: drop-shadow(0 1px 3px var(--color-box-shadow));
 	display: none;
 	will-change: filter;
@@ -1086,21 +1085,19 @@ $outter-margin: math.div($popoveritem-height - $popovericon-size, 2);
 	/* Center the popover */
 	&.menu-center {
 		transform: translateX(50%);
-		right: 50%;
+		inset-inline-end: 50%;
 		margin-inline-end: 0;
 		&:after {
-			right: 50%;
+			inset-inline-end: 50%;
 			transform: translateX(50%);
 		}
 	}
 	/* Align the popover to the left */
 	&.menu-left {
-		right: auto;
-		left: 0;
+		inset-inline: 0 auto;
 		margin-inline-end: 0;
 		&:after {
-			left: 6px;
-			right: auto;
+			inset-inline: 6px auto;
 		}
 	}
 
@@ -1447,13 +1444,12 @@ $outter-margin: math.div($popoveritem-height - $popovericon-size, 2);
 		.app-content-list-item-line-one,
 		.app-content-list-item-line-two {
 			display: block;
-			padding-inline-start: 50px;
+			padding-inline: 50px 10px;
 			white-space: nowrap;
 			overflow: hidden;
 			text-overflow: ellipsis;
 			order: 1;
 			flex: 1 1 0px;
-			padding-inline-end: 10px;
 			cursor: pointer;
 		}
 

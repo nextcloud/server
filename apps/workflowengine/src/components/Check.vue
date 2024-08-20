@@ -165,7 +165,7 @@ export default {
 		flex-wrap: wrap;
 		align-items: flex-start; // to not stretch components vertically
 		width: 100%;
-		padding-right: 20px;
+		padding-inline-end: 20px;
 
 		& > *:not(.close) {
 			width: 180px;

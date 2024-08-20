@@ -255,8 +255,7 @@ input[type='email'] {
 	cursor: text;
 	font-family: inherit;
 	font-weight: normal;
-	margin-inline-start: 0;
-	margin-inline-end: 0;
+	margin-inline: 0;
 }
 input[type='password'].password-with-toggle, input[type='text'].password-with-toggle {
 	width: 238px;
@@ -587,8 +586,7 @@ p.info {
 	.appList {
 		list-style: disc;
 		text-align: start;
-		margin-inline-start: 25px;
-		margin-inline-end: 25px;
+		margin-inline: 25px;
 	}
 
 	a.update-show-detailed {

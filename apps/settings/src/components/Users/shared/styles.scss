@@ -50,7 +50,7 @@
 		}
 
 		&--username {
-			padding-left: calc(var(--default-grid-baseline) * 3);
+			padding-inline-start: calc(var(--default-grid-baseline) * 3);
 		}
 
 		&--avatar {

@@ -329,7 +329,7 @@ $content-max-width: 640px;
 			}
 
 			.avatardiv__user-status {
-				right: 14px;
+				inset-inline-end: 14px;
 				bottom: 14px;
 				width: 34px;
 				height: 34px;

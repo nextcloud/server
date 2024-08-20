@@ -326,14 +326,14 @@ $toolbar-height: 44px + $toolbar-padding * 2;
 	}
 
 	#app-list-update-all {
-		margin-left: 10px;
+		margin-inline-start: 10px;
 	}
 
 	&__toolbar {
 		height: $toolbar-height;
 		padding: $toolbar-padding;
 		// Leave room for app-navigation-toggle
-		padding-left: $toolbar-height;
+		padding-inline-start: $toolbar-height;
 		width: 100%;
 		background-color: var(--color-main-background);
 		position: sticky;

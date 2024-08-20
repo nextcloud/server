@@ -370,7 +370,7 @@ export default {
 	.status-buttons {
 		display: flex;
 		padding: 3px;
-		padding-left:0;
+		padding-inline-start:0;
 		gap: 3px;
 	}
 }

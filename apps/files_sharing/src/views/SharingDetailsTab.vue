@@ -1049,7 +1049,7 @@ export default {
 
 			h1 {
 				font-size: 15px;
-				padding-left: 0.3em;
+				padding-inline-start: 0.3em;
 			}
 
 		}
@@ -1060,7 +1060,7 @@ export default {
 		overflow: scroll;
 		flex-shrink: 1;
 		padding: 4px;
-		padding-right: 12px;
+		padding-inline-end: 12px;
 	}
 
 	&__quick-permissions {
@@ -1117,7 +1117,7 @@ export default {
 		width: 100%;
 		margin-bottom: 0.5em;
 		text-align: start;
-		padding-left: 0;
+		padding-inline-start: 0;
 
 		section {
 
@@ -1142,14 +1142,14 @@ export default {
             */
 			span {
 				::v-deep label {
-					padding-left: 0 !important;
+					padding-inline-start: 0 !important;
 					background-color: initial !important;
 					border: none !important;
 				}
 			}
 
 			section.custom-permissions-group {
-				padding-left: 1.5em;
+				padding-inline-start: 1.5em;
 			}
 		}
 	}

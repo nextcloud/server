@@ -100,9 +100,6 @@ export default {
 		}
 	}
 
-	&__avatar-wrapper {
-	}
-
 	&__avatar {
 		display: inherit;
 	}
@@ -167,7 +164,7 @@ export default {
 	}
 
 	.popovermenu::after {
-		right: 2px;
+		inset-inline-end: 2px;
 	}
 }
 </style>

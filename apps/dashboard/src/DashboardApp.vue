@@ -569,11 +569,10 @@ export default {
 				background-size: 32px;
 				width: 32px;
 				height: 32px;
-				margin-inline-end: 16px;
 				background-position: center;
 				float: left;
 				margin-top: -6px;
-				margin-left: 6px;
+				margin-inline: 6px 16px;
 			}
 
 			img {

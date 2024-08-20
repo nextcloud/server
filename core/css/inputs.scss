@@ -610,7 +610,8 @@ div.select2-drop {
 body[dir='ltr'] div.select2-drop .select2-search input {
 	background-position: right center !important;
 }
-body[dir='ltr'] div.select2-drop .select2-search input {
+
+body[dir='rtl'] div.select2-drop .select2-search input {
 	background-position: left center !important;
 }
 
