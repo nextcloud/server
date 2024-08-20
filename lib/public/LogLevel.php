@@ -36,6 +36,7 @@ enum LogLevel: int {
 	 * Create new `\OCP\LogLevel` from a given PSR-3 LogLevel
 	 * @param string $level the PSR-3 log level to convert
 	 * @throws InvalidArgumentException If the `$level` is not a PSR log level
+	 * @since 31.0.0
 	 */
 	public static function fromPsrLogLevel(string $level): self {
 		return match($level) {
