@@ -14,6 +14,7 @@ use OC\Files\Cache\CacheEntry;
 use OC\Files\Filesystem;
 use OC\Files\Mount\Manager;
 use OC\Files\ObjectStore\ObjectStoreStorage;
+use OC\Files\Storage\Common;
 use OC\Files\Storage\LocalTempFileTrait;
 use OC\Memcache\ArrayCache;
 use OCP\Cache\CappedMemoryCache;
@@ -776,9 +777,8 @@ class Encryption extends Wrapper {
 
 		// first copy the keys that we reuse the existing file key on the target location
 		// and don't create a new one which would break versions for example.
-		$mount = $this->mountManager->findByStorageId($sourceStorage->getId());
-		if (count($mount) >= 1) {
-			$mountPoint = $mount[0]->getMountPoint();
+		if ($sourceStorage->instanceOfStorage(Common::class) && $sourceStorage->getMountOption('mount_point')) {
+			$mountPoint = $sourceStorage->getMountOption('mount_point');
 			$source = $mountPoint . '/' . $sourceInternalPath;
 			$target = $this->getFullPath($targetInternalPath);
 			$this->copyKeys($source, $target);
