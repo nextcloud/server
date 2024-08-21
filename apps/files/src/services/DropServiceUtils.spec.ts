@@ -6,6 +6,8 @@ import { Directory, traverseTree } from './DropServiceUtils'
 import { dataTransferToFileTree } from './DropService'
 import logger from '../logger'
 
+jest.mock('@nextcloud/upload', () => ({ openConflictPicker: jest.fn() }))
+
 const dataTree = {
 	'file0.txt': ['Hello, world!', 1234567890],
 	dir1: {
