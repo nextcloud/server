@@ -1327,9 +1327,6 @@ MountConfigListView.prototype = _.extend({
 		}
 		if (typeof message === 'string') {
 			$statusSpan.attr('title', message);
-			$statusSpan.tooltip();
-		} else {
-			$statusSpan.tooltip('dispose');
 		}
 	},
 
