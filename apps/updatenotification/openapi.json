@@ -220,23 +220,6 @@
                         "basic_auth": []
                     }
                 ],
-                "requestBody": {
-                    "required": false,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "type": "object",
-                                "properties": {
-                                    "version": {
-                                        "type": "string",
-                                        "nullable": true,
-                                        "description": "The version to search the changelog entry for (defaults to the latest installed)"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                },
                 "parameters": [
                     {
                         "name": "apiVersion",
@@ -257,6 +240,15 @@
                         "required": true,
                         "schema": {
                             "type": "string"
+                        }
+                    },
+                    {
+                        "name": "version",
+                        "in": "query",
+                        "description": "The version to search the changelog entry for (defaults to the latest installed)",
+                        "schema": {
+                            "type": "string",
+                            "nullable": true
                         }
                     },
                     {
