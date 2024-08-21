@@ -424,7 +424,7 @@ class RepairMimeTypes implements IRepairStep {
 			$out->info('Fixed ReStructured Text mime type');
 		}
 
-		if (version_compare($mimeTypeVersion, '30.0.0.0', '<') && $this->introduceExcalidrawType()) {
+		if (version_compare($mimeTypeVersion, '29.0.5.0', '<') && $this->introduceExcalidrawType()) {
 			$out->info('Fixed Excalidraw mime type');
 		}
 
