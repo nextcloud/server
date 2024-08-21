@@ -54,6 +54,7 @@ SPDX-FileCopyrightText: Austin Andrews
 SPDX-FileCopyrightText: Arnout Kazemier
 SPDX-FileCopyrightText: Antoni Andre <antoniandre.web@gmail.com>
 SPDX-FileCopyrightText: Anthony Fu <https://github.com/antfu>
+SPDX-FileCopyrightText: Anthony Fu <anthonyfu117@hotmail.com>
 SPDX-FileCopyrightText: Andris Reinman
 SPDX-FileCopyrightText: Alkemics
 SPDX-FileCopyrightText: @nextcloud/dialogs developers
@@ -118,16 +119,25 @@ This file is generated from multiple sources. Included packages:
 	- version: 5.0.1
 	- license: MIT
 - @nextcloud/upload
-	- version: 1.4.3
+	- version: 1.5.0
 	- license: AGPL-3.0-or-later
+- @vueuse/components
+	- version: 11.0.1
+	- license: MIT
+- @vueuse/core
+	- version: 11.0.1
+	- license: MIT
+- @vueuse/shared
+	- version: 11.0.1
+	- license: MIT
 - @nextcloud/vue
-	- version: 8.16.0
+	- version: 8.17.0
 	- license: AGPL-3.0-or-later
 - @vue/devtools-api
 	- version: 6.6.3
 	- license: MIT
-- @vueuse/components
-	- version: 10.11.0
+- vue-demi
+	- version: 0.14.10
 	- license: MIT
 - @vueuse/core
 	- version: 10.11.0
