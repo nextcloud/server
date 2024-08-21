@@ -65,6 +65,17 @@ declare global {
 			 * Run an occ command in the docker container.
 			 */
 			runOccCommand(command: string, options?: Partial<Cypress.ExecOptions>): Cypress.Chainable<Cypress.Exec>,
+
+			/**
+			 * Create a snapshot of the current database
+			 */
+			backupDB(): Cypress.Chainable<string>,
+
+			/**
+			 * Restore a snapshot of the database
+			 * Default is the post-setup state
+			 */
+			restoreDB(snapshot?: string): Cypress.Chainable,
 		}
 	}
 }
@@ -275,4 +286,16 @@ Cypress.Commands.add('resetUserTheming', (user?: User) => {
 Cypress.Commands.add('runOccCommand', (command: string, options?: Partial<Cypress.ExecOptions>) => {
 	const env = Object.entries(options?.env ?? {}).map(([name, value]) => `-e '${name}=${value}'`).join(' ')
 	return cy.exec(`docker exec --user www-data ${env} nextcloud-cypress-tests-server php ./occ ${command}`, options)
+})
+
+Cypress.Commands.add('backupDB', (): Cypress.Chainable<string> => {
+	const randomString = Math.random().toString(36).substring(7)
+	cy.exec(`docker exec nextcloud-cypress-tests-server cp /var/www/html/data/owncloud.db /var/www/html/data/owncloud.db-${randomString}`)
+	cy.log(`Created snapshot ${randomString}`)
+	return cy.wrap(randomString)
+})
+
+Cypress.Commands.add('restoreDB', (snapshot: string = 'init') => {
+	cy.exec(`docker exec nextcloud-cypress-tests-server cp /var/www/html/data/owncloud.db-${snapshot} /var/www/html/data/owncloud.db`)
+	cy.log(`Restored snapshot ${snapshot}`)
 })
