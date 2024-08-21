@@ -394,7 +394,7 @@ class RepairMimeTypes implements IRepairStep {
 			$out->info('Fixed eml and msg mime type');
 		}
 
-		if (version_compare($mimeTypeVersion, '30.0.0.0', '<') && $this->introduceExcalidrawType()) {
+		if (version_compare($mimeTypeVersion, '28.0.9.0', '<') && $this->introduceExcalidrawType()) {
 			$out->info('Fixed Excalidraw mime type');
 		}
 
