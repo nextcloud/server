@@ -134,6 +134,7 @@ export const configureNextcloud = async function() {
 	await runExec(container, ['php', 'occ', 'background:cron'], true)
 
 	// Setup APCu
+	await runExec(container, ['sh', '-c', 'echo apc.enable_cli=1 >> /etc/php/8.1/cli/php.ini'])
 	await runExec(container, ['php', 'occ', 'config:system:set', 'memcache.local', '--value', '\\OC\\Memcache\\APCu'], true)
 
 	// Saving DB state
