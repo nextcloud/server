@@ -28,11 +28,10 @@
 			</template>
 			<NcLoadingIcon v-if="loading" slot="loader" class="files-list-viewer__loader" />
 		</VirtualScrolling>
-		<NcModal v-if="showVersionLabelForm"
-			:title="t('files_versions', 'Name this version')"
-			@close="showVersionLabelForm = false">
-			<VersionLabelForm :version-label="editedVersion.label" @label-update="handleLabelUpdate" />
-		</NcModal>
+		<VersionLabelDialog v-if="editedVersion"
+			:open.sync="showVersionLabelForm"
+			:version-label="editedVersion.label"
+			@label-update="handleLabelUpdate" />
 	</div>
 </template>
 
@@ -40,25 +39,23 @@
 import path from 'path'
 
 import { showError, showSuccess } from '@nextcloud/dialogs'
-import isMobile from '@nextcloud/vue/dist/Mixins/isMobile.js'
 import { emit, subscribe, unsubscribe } from '@nextcloud/event-bus'
 import { getCurrentUser } from '@nextcloud/auth'
 import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
-import NcModal from '@nextcloud/vue/dist/Components/NcModal.js'
+import isMobile from '@nextcloud/vue/dist/Mixins/isMobile.js'
 
 import { fetchVersions, deleteVersion, restoreVersion, setVersionLabel } from '../utils/versions.ts'
 import Version from '../components/Version.vue'
 import VirtualScrolling from '../components/VirtualScrolling.vue'
-import VersionLabelForm from '../components/VersionLabelForm.vue'
+import VersionLabelDialog from '../components/VersionLabelDialog.vue'
 
 export default {
 	name: 'VersionTab',
 	components: {
 		Version,
 		VirtualScrolling,
-		VersionLabelForm,
+		VersionLabelDialog,
 		NcLoadingIcon,
-		NcModal,
 	},
 	mixins: [
 		isMobile,
@@ -71,6 +68,7 @@ export default {
 			versions: [],
 			loading: false,
 			showVersionLabelForm: false,
+			editedVersion: null,
 		}
 	},
 	computed: {
