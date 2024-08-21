@@ -273,7 +273,6 @@
     "Copy direct link (only works for users who have access to this file/folder)" : "Còpia ligòngiu deretu (faghet isceti pro utentes chi tenent atzessu a custu archìviu/cartella)",
     "\"remote user\"" : "\"utèntzia remota\"",
     "File name" : "Nùmene de archìviu",
-    "Download file {name}" : "Iscàrriga s'archìviu {name}",
     "\"{char}\" is not allowed inside a file name." : "\"{char}\" no est permìtidu in unu nùmene de archìviu.",
     "\"{name}\" is not an allowed filetype." : "{name} no est unu tipu de archìviu permìtidu.",
     "{newName} already exists." : "{newName} esistit giai.",

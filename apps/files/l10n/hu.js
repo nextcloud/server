@@ -374,7 +374,6 @@ OC.L10N.register(
     "Copy direct link (only works for users who have access to this file/folder)" : "Közvetlen hivatkozás másolása (csak azoknál a felhasználóknál működik, akiknek hozzáférése van a fájlhoz/mappához)",
     "\"remote user\"" : "„távoli felhasználó”",
     "File name" : "Fájlnév",
-    "Download file {name}" : "A(z) {name} fájl letöltése",
     "\"{char}\" is not allowed inside a file name." : "„{char}” nem szerepelhet fájlnévben.",
     "\"{name}\" is not an allowed filetype." : "A(z) „{name}” nem engedélyezett fájltípus.",
     "{newName} already exists." : "A(z) {newName} már létezik.",

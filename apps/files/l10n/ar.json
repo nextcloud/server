@@ -377,7 +377,6 @@
     "Copy direct link (only works for users who have access to this file/folder)" : "نسخ الرابط المباشر (يعمل فقط للمستخدمين الذين يمكنهم الوصول الى هذا الملف/المجلد)",
     "\"remote user\"" : "\"مستخدم عن بعد\"",
     "File name" : "اسم الملف",
-    "Download file {name}" : " تنزيل الملف {name}",
     "\"{char}\" is not allowed inside a file name." : "\"{char}\" حرفٌ غير مسموح به في اسم الملف.",
     "\"{name}\" is not an allowed filetype." : "\"{name}\" ليس نوع ملف مسموحًا به.",
     "{newName} already exists." : "{newName} موجود بالفعل.",

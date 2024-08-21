@@ -377,7 +377,6 @@
     "Copy direct link (only works for users who have access to this file/folder)" : "Doğrudan bağlantıyı kopyala (yalnızca bu dosya ya da klasöre erişim izni olan kullanıcılar için)",
     "\"remote user\"" : "\"uzak kullanıcı\"",
     "File name" : "Dosya adı",
-    "Download file {name}" : "{name} dosyasını indir",
     "\"{char}\" is not allowed inside a file name." : "Dosya adlarında \"{char}\" karakteri kullanılamaz.",
     "\"{name}\" is not an allowed filetype." : "\"{name}\" dosya türüne izin verilmiyor.",
     "{newName} already exists." : "{newName} zaten var.",

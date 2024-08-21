@@ -344,7 +344,6 @@ OC.L10N.register(
     "Copy direct link (only works for users who have access to this file/folder)" : "Kopiatu esteka zuzena (fitxategi/karpeta honetara sarbidea duten erabiltzaileentzat bakarrik balio du)",
     "\"remote user\"" : "\"urruneko erabiltzailea\"",
     "File name" : "Fitxategi izena",
-    "Download file {name}" : "Deskargatu {name} fitxategia ",
     "\"{char}\" is not allowed inside a file name." : "\"{char}\" ez da onartze fitxategi-izenen barnean.",
     "\"{name}\" is not an allowed filetype." : "\"{name}\" fitxategi-mota ez da onartzen.",
     "{newName} already exists." : "{newName} badago aurretik.",

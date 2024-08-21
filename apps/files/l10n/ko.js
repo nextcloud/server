@@ -341,7 +341,6 @@ OC.L10N.register(
     "Copy direct link (only works for users who have access to this file/folder)" : "직접 링크 복사(이 파일/폴더에 접근 권한이 있는 사람만)",
     "\"remote user\"" : "\"원격 사용자\"",
     "File name" : "파일 이름",
-    "Download file {name}" : "{name} 파일 다운로드",
     "\"{char}\" is not allowed inside a file name." : "파일 이름에 \"{char}\"(을)를 넣을 수 없습니다.",
     "\"{name}\" is not an allowed filetype." : "\"{name}\"은(는) 허용된 파일 형식이 아님.",
     "{newName} already exists." : "{newName}이(가) 이미 존재함.",

@@ -379,7 +379,6 @@ OC.L10N.register(
     "Copy direct link (only works for users who have access to this file/folder)" : "Копирај директну везу (ради само за кориснике који имају приступ овом фајлу/фасциклу)",
     "\"remote user\"" : "„удаљени корисник“",
     "File name" : "Име фајла",
-    "Download file {name}" : "Преузми фајл {name}",
     "\"{char}\" is not allowed inside a file name." : "„{char}“ није дозвољен карактер у имену фајла.",
     "\"{name}\" is not an allowed filetype." : "„{name}” није дозвољени тип фајла.",
     "{newName} already exists." : "{newName} већ постоји.",

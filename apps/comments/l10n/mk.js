@@ -15,6 +15,8 @@ OC.L10N.register(
     "Edit comment" : "Измени го коментарот",
     "Delete comment" : "Избриши коментар",
     "Cancel edit" : "Откажи ажурирање",
+    "New comment" : "Нов коментар",
+    "Write a comment …" : "Напиши коментар ...",
     "Post comment" : "Објави коментар",
     "No comments yet, start the conversation!" : "Сеуште нема коментари, започнете разговор!",
     "No more messages" : "Нема повеќе пораки",

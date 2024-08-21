@@ -379,7 +379,6 @@ OC.L10N.register(
     "Copy direct link (only works for users who have access to this file/folder)" : "Cóipeáil nasc díreach (ní oibríonn sé ach d'úsáideoirí a bhfuil rochtain acu ar an gcomhad/fillteán seo)",
     "\"remote user\"" : "\"cianúsáideoir\"",
     "File name" : "Ainm comhaid",
-    "Download file {name}" : "Íoslódáil an comhad {name}",
     "\"{char}\" is not allowed inside a file name." : "Ní cheadaítear \"{char}\" taobh istigh d'ainm comhaid.",
     "\"{name}\" is not an allowed filetype." : "Ní cineál comhaid ceadaithe é \"{name}\".",
     "{newName} already exists." : "Tá {newName} ann cheana.",

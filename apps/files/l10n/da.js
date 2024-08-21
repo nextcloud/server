@@ -378,7 +378,6 @@ OC.L10N.register(
     "Copy direct link (only works for users who have access to this file/folder)" : "Kopier direkte link (virker kun for brugere der har adgang til denne fil/mappe)",
     "\"remote user\"" : "\"ekstern bruger\"",
     "File name" : "Filnavn",
-    "Download file {name}" : "Download fil {name}",
     "\"{char}\" is not allowed inside a file name." : "\"{char}\" er ikke tilladt i filnavnet",
     "\"{name}\" is not an allowed filetype." : "\"{name}\" er ikke en tilladt filtype.",
     "{newName} already exists." : "{newName} findes allerede.",
