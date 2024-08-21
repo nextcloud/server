@@ -48,6 +48,9 @@
 				</template>
 			</BreadCrumbs>
 
+			<!-- Secondary loading indicator -->
+			<NcLoadingIcon v-if="isRefreshing" class="files-list__refresh-icon" />
+
 			<NcButton v-if="filesListWidth >= 512 && enableGridView"
 				:aria-label="gridViewButtonLabel"
 				:title="gridViewButtonLabel"
@@ -59,9 +62,6 @@
 					<ViewGridIcon v-else />
 				</template>
 			</NcButton>
-
-			<!-- Secondary loading indicator -->
-			<NcLoadingIcon v-if="isRefreshing" class="files-list__refresh-icon" />
 		</div>
 
 		<!-- Drag and drop notice -->
@@ -703,9 +703,9 @@ export default defineComponent({
 	}
 
 	&__refresh-icon {
-		flex: 0 0 44px;
-		width: 44px;
-		height: 44px;
+		flex: 0 0 var(--default-clickable-area);
+		width: var(--default-clickable-area);
+		height: var(--default-clickable-area);
 	}
 
 	&__loading-icon {
