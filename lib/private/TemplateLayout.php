@@ -8,6 +8,7 @@
 namespace OC;
 
 use bantu\IniGetWrapper\IniGetWrapper;
+use OC\AppFramework\Http\Request;
 use OC\Authentication\Token\IProvider;
 use OC\Files\FilenameValidator;
 use OC\Search\SearchQuery;
@@ -20,6 +21,7 @@ use OCP\Defaults;
 use OCP\IConfig;
 use OCP\IInitialStateService;
 use OCP\INavigationManager;
+use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\IUserSession;
 use OCP\L10N\IFactory;
@@ -284,6 +286,13 @@ class TemplateLayout extends \OC_Template {
 					$this->append('cssfiles', $web.'/'.$file . '-' . substr($suffix, 3));
 				}
 			}
+		}
+
+		$request = \OCP\Server::get(IRequest::class);
+		if ($request->isUserAgent([Request::USER_AGENT_CLIENT_IOS, Request::USER_AGENT_SAFARI, Request::USER_AGENT_SAFARI_MOBILE])) {
+			// Prevent auto zoom with iOS but still allow user zoom
+			// On chrome (and others) this does not work (will also disable user zoom)
+			$this->assign('viewport_maximum_scale', '1.0');
 		}
 
 		$this->assign('initialStates', $this->initialState->getInitialStates());
