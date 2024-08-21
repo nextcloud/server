@@ -133,12 +133,8 @@ export const configureNextcloud = async function() {
 	// Speed up test and make them less flaky. If a cron execution is needed, it can be triggered manually.
 	await runExec(container, ['php', 'occ', 'background:cron'], true)
 
-	// Setup redis
-	await runExec(container, ['service', 'redis-server', 'start'], true, 'root')
-	await runExec(container, ['php', 'occ', 'config:system:set', 'memcache.distributed', '--value', '\\OC\\Memcache\\Redis'], true)
-	await runExec(container, ['php', 'occ', 'config:system:set', 'memcache.locking', '--value', '\\OC\\Memcache\\Redis'], true)
-	await runExec(container, ['php', 'occ', 'config:system:set', 'redis', 'host', '--value', 'localhost'], true)
-	await runExec(container, ['php', 'occ', 'config:system:set', 'redis', 'port', '--value', '6379', '--type', 'integer'], true)
+	// Setup APCu
+	await runExec(container, ['php', 'occ', 'config:system:set', 'memcache.local', '--value', '\\OC\\Memcache\\APCu'], true)
 
 	// Saving DB state
 	console.log('├─ Creating init DB snapshot...')
