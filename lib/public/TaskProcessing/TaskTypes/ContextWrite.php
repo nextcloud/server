@@ -43,7 +43,7 @@ class ContextWrite implements ITaskType {
 	 * @since 30.0.0
 	 */
 	public function getName(): string {
-		return $this->l->t('ContextWrite');
+		return $this->l->t('Context write');
 	}
 
 	/**
