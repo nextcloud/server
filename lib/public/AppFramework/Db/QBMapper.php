@@ -230,11 +230,11 @@ abstract class QBMapper {
 			case Types::BLOB:
 				return IQueryBuilder::PARAM_LOB;
 			case Types::DATE:
-				return IQueryBuilder::PARAM_DATE;
+				return IQueryBuilder::PARAM_DATETIME_MUTABLE;
 			case Types::DATETIME:
-				return IQueryBuilder::PARAM_DATETIME;
+				return IQueryBuilder::PARAM_DATETIME_MUTABLE;
 			case Types::DATETIME_TZ:
-				return IQueryBuilder::PARAM_DATETIME_TZ;
+				return IQueryBuilder::PARAM_DATETIME_TZ_MUTABLE;
 			case Types::DATE_IMMUTABLE:
 				return IQueryBuilder::PARAM_DATE_IMMUTABLE;
 			case Types::DATETIME_IMMUTABLE:
@@ -242,7 +242,7 @@ abstract class QBMapper {
 			case Types::DATETIME_TZ_IMMUTABLE:
 				return IQueryBuilder::PARAM_DATETIME_TZ_IMMUTABLE;
 			case Types::TIME:
-				return IQueryBuilder::PARAM_TIME;
+				return IQueryBuilder::PARAM_TIME_MUTABLE;
 			case Types::TIME_IMMUTABLE:
 				return IQueryBuilder::PARAM_TIME_IMMUTABLE;
 			case Types::JSON:

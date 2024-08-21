@@ -44,28 +44,34 @@ interface IQueryBuilder {
 	public const PARAM_LOB = ParameterType::LARGE_OBJECT;
 
 	/**
+	 * @since 9.0.0
+	 * @deprecated 31.0.0 - use PARAM_DATETIME_MUTABLE instead
+	 */
+	public const PARAM_DATE = Types::DATETIME_MUTABLE;
+
+	/**
 	 * For passing a \DateTime instance when only interested in the time part (without timezone support)
 	 * @since 31.0.0
 	 */
-	public const PARAM_TIME = Types::TIME_MUTABLE;
+	public const PARAM_TIME_MUTABLE = Types::TIME_MUTABLE;
 
 	/**
 	 * For passing a \DateTime instance when only interested in the date part (without timezone support)
-	 * @since 9.0.0
+	 * @since 31.0.0
 	 */
-	public const PARAM_DATE = Types::DATE_MUTABLE;
+	public const PARAM_DATE_MUTABLE = Types::DATE_MUTABLE;
 
 	/**
 	 * For passing a \DateTime instance (without timezone support)
 	 * @since 31.0.0
 	 */
-	public const PARAM_DATETIME = Types::DATETIME_MUTABLE;
+	public const PARAM_DATETIME_MUTABLE = Types::DATETIME_MUTABLE;
 
 	/**
 	 * For passing a \DateTime instance with timezone support
 	 * @since 31.0.0
 	 */
-	public const PARAM_DATETIME_TZ = Types::DATETIMETZ_MUTABLE;
+	public const PARAM_DATETIME_TZ_MUTABLE = Types::DATETIMETZ_MUTABLE;
 
 	/**
 	 * For passing a \DateTimeImmutable instance when only interested in the time part (without timezone support)

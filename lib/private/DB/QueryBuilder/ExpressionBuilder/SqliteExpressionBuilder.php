@@ -49,17 +49,17 @@ class SqliteExpressionBuilder extends ExpressionBuilder {
 	 */
 	public function castColumn($column, $type): IQueryFunction {
 		switch ($type) {
-			case IQueryBuilder::PARAM_DATE:
+			case IQueryBuilder::PARAM_DATE_MUTABLE:
 			case IQueryBuilder::PARAM_DATE_IMMUTABLE:
 				$column = $this->helper->quoteColumnName($column);
 				return new QueryFunction('DATE(' . $column . ')');
-			case IQueryBuilder::PARAM_DATETIME:
-			case IQueryBuilder::PARAM_DATETIME_TZ:
+			case IQueryBuilder::PARAM_DATETIME_MUTABLE:
 			case IQueryBuilder::PARAM_DATETIME_IMMUTABLE:
+			case IQueryBuilder::PARAM_DATETIME_TZ_MUTABLE:
 			case IQueryBuilder::PARAM_DATETIME_TZ_IMMUTABLE:
 				$column = $this->helper->quoteColumnName($column);
 				return new QueryFunction('DATETIME(' . $column . ')');
-			case IQueryBuilder::PARAM_TIME:
+			case IQueryBuilder::PARAM_TIME_MUTABLE:
 			case IQueryBuilder::PARAM_TIME_IMMUTABLE:
 				$column = $this->helper->quoteColumnName($column);
 				return new QueryFunction('TIME(' . $column . ')');

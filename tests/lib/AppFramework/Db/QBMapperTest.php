@@ -151,7 +151,7 @@ class QBMapperTest extends \Test\TestCase {
 		$entity->setStringProp('string');
 		$entity->setIntegerProp(456);
 		$entity->setBooleanProp(false);
-		$entity->setJsonProp(["hello" => "world"]);
+		$entity->setJsonProp(['hello' => 'world']);
 		$entity->setDatetimeProp($datetime);
 
 		$idParam = $this->qb->createNamedParameter('id', IQueryBuilder::PARAM_INT);
@@ -171,7 +171,7 @@ class QBMapperTest extends \Test\TestCase {
 				[$this->equalTo('string'), $this->equalTo(IQueryBuilder::PARAM_STR)],
 				[$this->equalTo(456), $this->equalTo(IQueryBuilder::PARAM_INT)],
 				[$this->equalTo(false), $this->equalTo(IQueryBuilder::PARAM_BOOL)],
-				[$this->equalTo(["hello" => "world"]), $this->equalTo(IQueryBuilder::PARAM_JSON)],
+				[$this->equalTo(['hello' => 'world']), $this->equalTo(IQueryBuilder::PARAM_JSON)],
 				[$this->equalTo($datetime), $this->equalTo(IQueryBuilder::PARAM_DATETIME_IMMUTABLE)],
 				[$this->equalTo(789), $this->equalTo(IQueryBuilder::PARAM_INT)],
 			);

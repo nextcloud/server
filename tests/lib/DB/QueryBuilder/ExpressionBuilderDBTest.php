@@ -145,13 +145,13 @@ class ExpressionBuilderDBTest extends TestCase {
 		$dateTime = new \DateTime('2023-01-01');
 		$insert = $this->connection->getQueryBuilder();
 		$insert->insert('testing')
-			->values(['datetime' => $insert->createNamedParameter($dateTime, IQueryBuilder::PARAM_DATE)])
+			->values(['datetime' => $insert->createNamedParameter($dateTime, IQueryBuilder::PARAM_DATETIME_MUTABLE)])
 			->executeStatement();
 
 		$query = $this->connection->getQueryBuilder();
 		$result = $query->select('*')
 			->from('testing')
-			->where($query->expr()->eq('datetime', $query->createNamedParameter($dateTime, IQueryBuilder::PARAM_DATE)))
+			->where($query->expr()->eq('datetime', $query->createNamedParameter($dateTime, IQueryBuilder::PARAM_DATETIME_MUTABLE)))
 			->executeQuery();
 		$entries = $result->fetchAll();
 		$result->closeCursor();
@@ -163,13 +163,13 @@ class ExpressionBuilderDBTest extends TestCase {
 		$dateTimeCompare = new \DateTime('2022-01-02');
 		$insert = $this->connection->getQueryBuilder();
 		$insert->insert('testing')
-			->values(['datetime' => $insert->createNamedParameter($dateTime, IQueryBuilder::PARAM_DATE)])
+			->values(['datetime' => $insert->createNamedParameter($dateTime, IQueryBuilder::PARAM_DATETIME_MUTABLE)])
 			->executeStatement();
 
 		$query = $this->connection->getQueryBuilder();
 		$result = $query->select('*')
 			->from('testing')
-			->where($query->expr()->lt('datetime', $query->createNamedParameter($dateTimeCompare, IQueryBuilder::PARAM_DATE)))
+			->where($query->expr()->lt('datetime', $query->createNamedParameter($dateTimeCompare, IQueryBuilder::PARAM_DATETIME_MUTABLE)))
 			->executeQuery();
 		$entries = $result->fetchAll();
 		$result->closeCursor();
@@ -181,13 +181,13 @@ class ExpressionBuilderDBTest extends TestCase {
 		$dateTimeCompare = new \DateTime('2023-01-01');
 		$insert = $this->connection->getQueryBuilder();
 		$insert->insert('testing')
-			->values(['datetime' => $insert->createNamedParameter($dateTime, IQueryBuilder::PARAM_DATE)])
+			->values(['datetime' => $insert->createNamedParameter($dateTime, IQueryBuilder::PARAM_DATETIME_MUTABLE)])
 			->executeStatement();
 
 		$query = $this->connection->getQueryBuilder();
 		$result = $query->select('*')
 			->from('testing')
-			->where($query->expr()->gt('datetime', $query->createNamedParameter($dateTimeCompare, IQueryBuilder::PARAM_DATE)))
+			->where($query->expr()->gt('datetime', $query->createNamedParameter($dateTimeCompare, IQueryBuilder::PARAM_DATETIME_MUTABLE)))
 			->executeQuery();
 		$entries = $result->fetchAll();
 		$result->closeCursor();

@@ -179,7 +179,7 @@ class ShareByMailProviderTest extends TestCase {
 			$qb->setValue('token', $qb->expr()->literal($token));
 		}
 		if ($expiration) {
-			$qb->setValue('expiration', $qb->createNamedParameter($expiration, IQueryBuilder::PARAM_DATE));
+			$qb->setValue('expiration', $qb->createNamedParameter($expiration, IQueryBuilder::PARAM_DATETIME_MUTABLE));
 		}
 		if ($parent) {
 			$qb->setValue('parent', $qb->expr()->literal($parent));
