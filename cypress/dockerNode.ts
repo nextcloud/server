@@ -117,10 +117,38 @@ export const configureNextcloud = async function() {
 	await runExec(container, ['php', 'occ', 'config:system:set', 'default_locale', '--value', 'en_US'], true)
 	await runExec(container, ['php', 'occ', 'config:system:set', 'force_locale', '--value', 'en_US'], true)
 	await runExec(container, ['php', 'occ', 'config:system:set', 'enforce_theme', '--value', 'light'], true)
+
 	// Speed up test and make them less flaky. If a cron execution is needed, it can be triggered manually.
 	await runExec(container, ['php', 'occ', 'background:cron'], true)
 
+	// Setup redis
+	await runExec(container, ['service', 'redis-server', 'start'], true, 'root')
+	await runExec(container, ['php', 'occ', 'config:system:set', 'memcache.distributed', '--value', '\\OC\\Memcache\\Redis'], true)
+	await runExec(container, ['php', 'occ', 'config:system:set', 'memcache.locking', '--value', '\\OC\\Memcache\\Redis'], true)
+	await runExec(container, ['php', 'occ', 'config:system:set', 'redis', 'host', '--value', 'localhost'], true)
+	await runExec(container, ['php', 'occ', 'config:system:set', 'redis', 'port', '--value', '6379', '--type', 'integer'], true)
+
+	// Saving DB state
+	console.log('├─ Creating init DB snapshot...')
+	await runExec(container, ['cp', '/var/www/html/data/owncloud.db', '/var/www/html/data/owncloud.db-init'], true)
+
 	console.log('└─ Nextcloud is now ready to use 🎉')
+}
+
+export const createSnapshot = async function(): Promise<string> {
+	console.log('\nSaving Nextcloud DB...')
+	const randomString = Math.random().toString(36).substring(7)
+	const container = docker.getContainer(CONTAINER_NAME)
+	await runExec(container, ['cp', '/var/www/html/data/owncloud.db', '/var/www/html/data/owncloud.db-' + randomString], true)
+	console.log('└─ Done')
+	return randomString
+}
+
+export const restoreSnapshot = async function(snapshot: string) {
+	console.log('\nRestoring Nextcloud DB...')
+	const container = docker.getContainer(CONTAINER_NAME)
+	await runExec(container, ['cp', '/var/www/html/data/owncloud.db-' + snapshot, '/var/www/html/data/owncloud.db'], true)
+	console.log('└─ Done')
 }
 
 /**
