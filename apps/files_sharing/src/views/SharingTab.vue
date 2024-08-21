@@ -82,11 +82,12 @@
 </template>
 
 <script>
-import { CollectionList } from 'nextcloud-vue-collections'
-import { generateOcsUrl } from '@nextcloud/router'
-import NcAvatar from '@nextcloud/vue/dist/Components/NcAvatar.js'
 import axios from '@nextcloud/axios'
+import { orderBy } from '@nextcloud/files'
 import { loadState } from '@nextcloud/initial-state'
+import { generateOcsUrl } from '@nextcloud/router'
+import { CollectionList } from 'nextcloud-vue-collections'
+import NcAvatar from '@nextcloud/vue/dist/Components/NcAvatar.js'
 
 import Config from '../services/ConfigService.ts'
 import { shareWithTitle } from '../utils/SharedWithMe.js'
@@ -260,16 +261,18 @@ export default {
 		 */
 		processShares({ data }) {
 			if (data.ocs && data.ocs.data && data.ocs.data.length > 0) {
-				// create Share objects and sort by title in alphabetical order and then by creation time
-				const shares = data.ocs.data
-					.map(share => new Share(share))
-					.sort((a, b) => {
-						const localCompare = a.title.localeCompare(b.title)
-						if (localCompare !== 0) {
-							return localCompare
-						}
-						return b.createdTime - a.createdTime
-					})
+				const shares = orderBy(
+					data.ocs.data.map(share => new Share(share)),
+					[
+						// First order by the "share with" label
+						(share) => share.shareWithDisplayName,
+						// Then by the label
+						(share) => share.label,
+						// And last resort order by createdTime
+						(share) => share.createdTime,
+					],
+				)
+
 				this.linkShares = shares.filter(share => share.type === this.SHARE_TYPES.SHARE_TYPE_LINK || share.type === this.SHARE_TYPES.SHARE_TYPE_EMAIL)
 				this.shares = shares.filter(share => share.type !== this.SHARE_TYPES.SHARE_TYPE_LINK && share.type !== this.SHARE_TYPES.SHARE_TYPE_EMAIL)
 
