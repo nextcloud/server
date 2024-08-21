@@ -21,6 +21,7 @@ use OCP\Files\GenericFileException;
 use OCP\Files\IFilenameValidator;
 use OCP\Files\InvalidPathException;
 use OCP\Files\Storage\ILockingStorage;
+use OCP\Files\Storage\IMtimePreserving;
 use OCP\Files\Storage\IStorage;
 use OCP\Files\Storage\IWriteStreamStorage;
 use OCP\Files\StorageNotAvailableException;
@@ -40,7 +41,7 @@ use Psr\Log\LoggerInterface;
  * Some \OC\Files\Storage\Common methods call functions which are first defined
  * in classes which extend it, e.g. $this->stat() .
  */
-abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
+abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage, IMtimePreserving {
 	use LocalTempFileTrait;
 
 	protected $cache;
@@ -183,23 +184,27 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 		$this->remove($target);
 
 		$this->removeCachedFile($source);
-		return $this->copy($source, $target) and $this->remove($source);
+		return $this->copy($source, $target, true) && $this->remove($source);
 	}
 
-	public function copy($source, $target) {
+	public function copy($source, $target, bool $preserveMtime = false): bool {
 		if ($this->is_dir($source)) {
 			$this->remove($target);
 			$dir = $this->opendir($source);
 			$this->mkdir($target);
 			while (($file = readdir($dir)) !== false) {
 				if (!Filesystem::isIgnoredDir($file)) {
-					if (!$this->copy($source . '/' . $file, $target . '/' . $file)) {
+					if (!$this->copy($source . '/' . $file, $target . '/' . $file, $preserveMtime)) {
 						closedir($dir);
 						return false;
 					}
 				}
 			}
 			closedir($dir);
+			if ($preserveMtime) {
+				$mtime = $this->filemtime($source);
+				$this->touch($target, is_int($mtime) ? $mtime : null);
+			}
 			return true;
 		} else {
 			$sourceStream = $this->fopen($source, 'r');
@@ -207,6 +212,9 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 			[, $result] = \OC_Helper::streamCopy($sourceStream, $targetStream);
 			if (!$result) {
 				\OCP\Server::get(LoggerInterface::class)->warning("Failed to write data while copying $source to $target");
+			} elseif ($preserveMtime) {
+				$mtime = $this->filemtime($source);
+				$this->touch($target, is_int($mtime) ? $mtime : null);
 			}
 			$this->removeCachedFile($target);
 			return $result;
@@ -531,20 +539,27 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 	 * @param bool $preserveMtime
 	 * @return bool
 	 */
-	public function copyFromStorage(IStorage $sourceStorage, $sourceInternalPath, $targetInternalPath, $preserveMtime = false) {
+	public function copyFromStorage(IStorage $sourceStorage, $sourceInternalPath, $targetInternalPath, bool $preserveMtime = false): bool {
 		if ($sourceStorage === $this) {
-			return $this->copy($sourceInternalPath, $targetInternalPath);
+			return $this->copy($sourceInternalPath, $targetInternalPath, $preserveMtime);
 		}
 
 		if ($sourceStorage->is_dir($sourceInternalPath)) {
 			$dh = $sourceStorage->opendir($sourceInternalPath);
-			$result = $this->mkdir($targetInternalPath);
 			if (is_resource($dh)) {
-				$result = true;
-				while ($result and ($file = readdir($dh)) !== false) {
+				if (!$this->is_dir($targetInternalPath)) {
+					$result = $this->mkdir($targetInternalPath);
+				} else {
+					$result = true;
+				}
+				while ($result && ($file = readdir($dh)) !== false) {
 					if (!Filesystem::isIgnoredDir($file)) {
-						$result &= $this->copyFromStorage($sourceStorage, $sourceInternalPath . '/' . $file, $targetInternalPath . '/' . $file);
+						$result = $this->copyFromStorage($sourceStorage, $sourceInternalPath . '/' . $file, $targetInternalPath . '/' . $file, $preserveMtime);
 					}
+				}
+				if ($result && $preserveMtime) {
+					$mtime = $sourceStorage->filemtime($sourceInternalPath);
+					$this->touch($targetInternalPath, is_int($mtime) ? $mtime : null);
 				}
 			}
 		} else {
@@ -571,7 +586,7 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 				$this->getCache()->remove($targetInternalPath);
 			}
 		}
-		return (bool)$result;
+		return $result;
 	}
 
 	/**

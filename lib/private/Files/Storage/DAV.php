@@ -532,7 +532,7 @@ class DAV extends Common {
 	}
 
 	/** {@inheritdoc} */
-	public function copy($source, $target) {
+	public function copy($source, $target, bool $preserveMtime = false): bool {
 		$this->init();
 		$source = $this->cleanPath($source);
 		$target = $this->cleanPath($target);

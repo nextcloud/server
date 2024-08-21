@@ -430,6 +430,7 @@ return array(
     'OCP\\Files\\Storage\\IChunkedFileWrite' => $baseDir . '/lib/public/Files/Storage/IChunkedFileWrite.php',
     'OCP\\Files\\Storage\\IDisableEncryptionStorage' => $baseDir . '/lib/public/Files/Storage/IDisableEncryptionStorage.php',
     'OCP\\Files\\Storage\\ILockingStorage' => $baseDir . '/lib/public/Files/Storage/ILockingStorage.php',
+    'OCP\\Files\\Storage\\IMtimePreserving' => $baseDir . '/lib/public/Files/Storage/IMtimePreserving.php',
     'OCP\\Files\\Storage\\INotifyStorage' => $baseDir . '/lib/public/Files/Storage/INotifyStorage.php',
     'OCP\\Files\\Storage\\IReliableEtagStorage' => $baseDir . '/lib/public/Files/Storage/IReliableEtagStorage.php',
     'OCP\\Files\\Storage\\ISharedStorage' => $baseDir . '/lib/public/Files/Storage/ISharedStorage.php',

@@ -367,20 +367,26 @@ class Local extends \OC\Files\Storage\Common {
 		return $this->copy($source, $target) && $this->unlink($source);
 	}
 
-	public function copy($source, $target) {
+	public function copy($source, $target, bool $preserveMtime = false): bool {
 		if ($this->is_dir($source)) {
-			return parent::copy($source, $target);
+			return parent::copy($source, $target, $preserveMtime);
 		} else {
 			$oldMask = umask($this->defUMask);
 			if ($this->unlinkOnTruncate) {
 				$this->unlink($target);
 			}
-			$result = copy($this->getSourcePath($source), $this->getSourcePath($target));
+			$sourceInternalPath = $this->getSourcePath($source);
+			$targetInternalPath = $this->getSourcePath($target);
+			$result = copy($sourceInternalPath, $targetInternalPath);
 			umask($oldMask);
 			if ($this->caseInsensitive) {
 				if (mb_strtolower($target) === mb_strtolower($source) && !$this->file_exists($target)) {
 					return false;
 				}
+			}
+			if ($result && $preserveMtime) {
+				$mtime = $this->filemtime($sourceInternalPath);
+				$this->touch($targetInternalPath, is_int($mtime) ? $mtime : null);
 			}
 			return $result;
 		}
@@ -563,13 +569,10 @@ class Local extends \OC\Files\Storage\Common {
 	}
 
 	/**
-	 * @param IStorage $sourceStorage
 	 * @param string $sourceInternalPath
 	 * @param string $targetInternalPath
-	 * @param bool $preserveMtime
-	 * @return bool
 	 */
-	public function copyFromStorage(IStorage $sourceStorage, $sourceInternalPath, $targetInternalPath, $preserveMtime = false) {
+	public function copyFromStorage(IStorage $sourceStorage, $sourceInternalPath, $targetInternalPath, bool $preserveMtime = false): bool {
 		if ($this->canDoCrossStorageMove($sourceStorage)) {
 			if ($sourceStorage->instanceOfStorage(Jail::class)) {
 				/**
@@ -581,9 +584,9 @@ class Local extends \OC\Files\Storage\Common {
 			 * @var \OC\Files\Storage\Local $sourceStorage
 			 */
 			$rootStorage = new Local(['datadir' => '/']);
-			return $rootStorage->copy($sourceStorage->getSourcePath($sourceInternalPath), $this->getSourcePath($targetInternalPath));
+			return $rootStorage->copy($sourceStorage->getSourcePath($sourceInternalPath), $this->getSourcePath($targetInternalPath), $preserveMtime);
 		} else {
-			return parent::copyFromStorage($sourceStorage, $sourceInternalPath, $targetInternalPath);
+			return parent::copyFromStorage($sourceStorage, $sourceInternalPath, $targetInternalPath, $preserveMtime);
 		}
 	}
 
