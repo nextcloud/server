@@ -340,7 +340,6 @@ OC.L10N.register(
     "Copy direct link (only works for users who have access to this file/folder)" : "Skopiuj bezpośredni link (działa tylko dla użytkowników, którzy mają dostęp do tego pliku/katalogu)",
     "\"remote user\"" : "\"użytkownik zdalny\"",
     "File name" : "Nazwa pliku",
-    "Download file {name}" : "Pobierz plik {name}",
     "\"{char}\" is not allowed inside a file name." : "\"{char}\" jest niedozwolone w nazwie pliku.",
     "\"{name}\" is not an allowed filetype." : "\"{name}\" nie jest dozwolonym typem pliku.",
     "{newName} already exists." : "{newName} już istnieje.",

@@ -377,7 +377,6 @@
     "Copy direct link (only works for users who have access to this file/folder)" : "Kopier direktelenke (fungerer bare for brukere som har tilgang til denne filen/mappen)",
     "\"remote user\"" : "\"ekstern bruker\"",
     "File name" : "Filnavn",
-    "Download file {name}" : "Last ned fil {name}",
     "\"{char}\" is not allowed inside a file name." : "\"{char}\" er ikke tillatt som en del av et filnavn.",
     "\"{name}\" is not an allowed filetype." : "\"{name}\" er ikke en tillatt filtype.",
     "{newName} already exists." : "{newName} finnes allerede.",

@@ -377,7 +377,6 @@
     "Copy direct link (only works for users who have access to this file/folder)" : "ダイレクトリンクをコピー (このファイル/フォルダーにアクセスできるユーザーのみ)",
     "\"remote user\"" : "\"リモートユーザー\"",
     "File name" : "ファイル名",
-    "Download file {name}" : "ファイル {name} をダウンロード",
     "\"{char}\" is not allowed inside a file name." : "\"{char}\"はファイル名には使用できません。",
     "\"{name}\" is not an allowed filetype." : "\"{name}\" は許可されたファイルタイプではありません。",
     "{newName} already exists." : "{newName} すでに存在しています。",

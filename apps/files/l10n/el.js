@@ -347,7 +347,6 @@ OC.L10N.register(
     "Copy direct link (only works for users who have access to this file/folder)" : "Αντιγραφή άμεσου συνδέσμου (λειτουργεί μόνο για χρήστες που έχουν πρόσβαση στο αρχείο/φάκελο)",
     "\"remote user\"" : "\"απομακρυσμένος χρήστης\"",
     "File name" : "Όνομα αρχείου",
-    "Download file {name}" : "Λήψη αρχείου {name}",
     "\"{char}\" is not allowed inside a file name." : "\"{char}\" δεν επιτρέπεται μέσα σε όνομα αρχείου.",
     "\"{name}\" is not an allowed filetype." : "Το \"{name}\" δεν είναι ένας επιτρεπόμενος τύπος αρχείου.",
     "{newName} already exists." : "Το {newName} υπάρχει ήδη.",

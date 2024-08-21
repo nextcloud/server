@@ -377,7 +377,6 @@
     "Copy direct link (only works for users who have access to this file/folder)" : "Zkopírovat přímý odkaz (funguje pouze pro uživatele, kteří mají přístup k tomuto souboru/složce)",
     "\"remote user\"" : "„federovaný uživatel“",
     "File name" : "Název souboru",
-    "Download file {name}" : "Stáhnout soubor {name}",
     "\"{char}\" is not allowed inside a file name." : "„{char}“ není povolený znak v názvu souboru.",
     "\"{name}\" is not an allowed filetype." : "„{name}“ není dovoleným typem souboru.",
     "{newName} already exists." : "{newName} už existuje.",
