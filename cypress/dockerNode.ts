@@ -135,22 +135,6 @@ export const configureNextcloud = async function() {
 	console.log('└─ Nextcloud is now ready to use 🎉')
 }
 
-export const createSnapshot = async function(): Promise<string> {
-	console.log('\nSaving Nextcloud DB...')
-	const randomString = Math.random().toString(36).substring(7)
-	const container = docker.getContainer(CONTAINER_NAME)
-	await runExec(container, ['cp', '/var/www/html/data/owncloud.db', '/var/www/html/data/owncloud.db-' + randomString], true)
-	console.log('└─ Done')
-	return randomString
-}
-
-export const restoreSnapshot = async function(snapshot: string) {
-	console.log('\nRestoring Nextcloud DB...')
-	const container = docker.getContainer(CONTAINER_NAME)
-	await runExec(container, ['cp', '/var/www/html/data/owncloud.db-' + snapshot, '/var/www/html/data/owncloud.db'], true)
-	console.log('└─ Done')
-}
-
 /**
  * Applying local changes to the container
  * Only triggered if we're not in CI. Otherwise the
