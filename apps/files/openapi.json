@@ -152,6 +152,25 @@
                     }
                 }
             },
+            "TemplateField": {
+                "type": "object",
+                "required": [
+                    "index",
+                    "content",
+                    "type"
+                ],
+                "properties": {
+                    "index": {
+                        "type": "string"
+                    },
+                    "content": {
+                        "type": "string"
+                    },
+                    "type": {
+                        "type": "string"
+                    }
+                }
+            },
             "TemplateFile": {
                 "type": "object",
                 "required": [
@@ -1973,30 +1992,26 @@
                         "basic_auth": []
                     }
                 ],
-                "requestBody": {
-                    "required": false,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "type": "object",
-                                "properties": {
-                                    "path": {
-                                        "type": "string",
-                                        "default": "/",
-                                        "description": "The path relative to the user folder"
-                                    },
-                                    "depth": {
-                                        "type": "integer",
-                                        "format": "int64",
-                                        "default": 1,
-                                        "description": "The depth of the tree"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                },
                 "parameters": [
+                    {
+                        "name": "path",
+                        "in": "query",
+                        "description": "The path relative to the user folder",
+                        "schema": {
+                            "type": "string",
+                            "default": "/"
+                        }
+                    },
+                    {
+                        "name": "depth",
+                        "in": "query",
+                        "description": "The depth of the tree",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "default": 1
+                        }
+                    },
                     {
                         "name": "OCS-APIRequest",
                         "in": "header",

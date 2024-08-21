@@ -187,43 +187,39 @@
                         "basic_auth": []
                     }
                 ],
-                "requestBody": {
-                    "required": false,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "type": "object",
-                                "properties": {
-                                    "sinceIds": {
-                                        "type": "object",
-                                        "default": [],
-                                        "description": "Array indexed by widget Ids, contains date/id from which we want the new items",
-                                        "additionalProperties": {
-                                            "type": "string"
-                                        }
-                                    },
-                                    "limit": {
-                                        "type": "integer",
-                                        "format": "int64",
-                                        "default": 7,
-                                        "description": "Limit number of result items per widget",
-                                        "minimum": 1,
-                                        "maximum": 30
-                                    },
-                                    "widgets": {
-                                        "type": "array",
-                                        "default": [],
-                                        "description": "Limit results to specific widgets",
-                                        "items": {
-                                            "type": "string"
-                                        }
-                                    }
-                                }
+                "parameters": [
+                    {
+                        "name": "sinceIds",
+                        "in": "query",
+                        "description": "Array indexed by widget Ids, contains date/id from which we want the new items",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "Limit number of result items per widget",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "default": 7,
+                            "minimum": 1,
+                            "maximum": 30
+                        }
+                    },
+                    {
+                        "name": "widgets[]",
+                        "in": "query",
+                        "description": "Limit results to specific widgets",
+                        "schema": {
+                            "type": "array",
+                            "default": [],
+                            "items": {
+                                "type": "string"
                             }
                         }
-                    }
-                },
-                "parameters": [
+                    },
                     {
                         "name": "OCS-APIRequest",
                         "in": "header",
@@ -290,43 +286,39 @@
                         "basic_auth": []
                     }
                 ],
-                "requestBody": {
-                    "required": false,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "type": "object",
-                                "properties": {
-                                    "sinceIds": {
-                                        "type": "object",
-                                        "default": [],
-                                        "description": "Array indexed by widget Ids, contains date/id from which we want the new items",
-                                        "additionalProperties": {
-                                            "type": "string"
-                                        }
-                                    },
-                                    "limit": {
-                                        "type": "integer",
-                                        "format": "int64",
-                                        "default": 7,
-                                        "description": "Limit number of result items per widget, not more than 30 are allowed",
-                                        "minimum": 1,
-                                        "maximum": 30
-                                    },
-                                    "widgets": {
-                                        "type": "array",
-                                        "default": [],
-                                        "description": "Limit results to specific widgets",
-                                        "items": {
-                                            "type": "string"
-                                        }
-                                    }
-                                }
+                "parameters": [
+                    {
+                        "name": "sinceIds",
+                        "in": "query",
+                        "description": "Array indexed by widget Ids, contains date/id from which we want the new items",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "Limit number of result items per widget, not more than 30 are allowed",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "default": 7,
+                            "minimum": 1,
+                            "maximum": 30
+                        }
+                    },
+                    {
+                        "name": "widgets[]",
+                        "in": "query",
+                        "description": "Limit results to specific widgets",
+                        "schema": {
+                            "type": "array",
+                            "default": [],
+                            "items": {
+                                "type": "string"
                             }
                         }
-                    }
-                },
-                "parameters": [
+                    },
                     {
                         "name": "OCS-APIRequest",
                         "in": "header",

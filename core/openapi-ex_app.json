@@ -907,37 +907,31 @@
                         "basic_auth": []
                     }
                 ],
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "type": "object",
-                                "required": [
-                                    "providerIds",
-                                    "taskTypeIds"
-                                ],
-                                "properties": {
-                                    "providerIds": {
-                                        "type": "array",
-                                        "description": "The ids of the providers",
-                                        "items": {
-                                            "type": "string"
-                                        }
-                                    },
-                                    "taskTypeIds": {
-                                        "type": "array",
-                                        "description": "The ids of the task types",
-                                        "items": {
-                                            "type": "string"
-                                        }
-                                    }
-                                }
+                "parameters": [
+                    {
+                        "name": "providerIds[]",
+                        "in": "query",
+                        "description": "The ids of the providers",
+                        "required": true,
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
                             }
                         }
-                    }
-                },
-                "parameters": [
+                    },
+                    {
+                        "name": "taskTypeIds[]",
+                        "in": "query",
+                        "description": "The ids of the task types",
+                        "required": true,
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        }
+                    },
                     {
                         "name": "OCS-APIRequest",
                         "in": "header",
