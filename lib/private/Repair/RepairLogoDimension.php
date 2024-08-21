@@ -9,6 +9,8 @@ declare(strict_types=1);
 namespace OC\Repair;
 
 use OCA\Theming\ImageManager;
+use OCP\Files\NotFoundException;
+use OCP\Files\NotPermittedException;
 use OCP\IConfig;
 use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
@@ -44,9 +46,18 @@ class RepairLogoDimension implements IRepairStep {
 			return;
 		}
 
-		$simpleFile = $imageManager->getImage('logo', false);
-
-		$image = @imagecreatefromstring($simpleFile->getContent());
+		try {
+			try {
+				$simpleFile = $imageManager->getImage('logo', false);
+				$image = @imagecreatefromstring($simpleFile->getContent());
+			} catch (NotFoundException|NotPermittedException) {
+				$simpleFile = $imageManager->getImage('logo');
+				$image = false;
+			}
+		} catch (NotFoundException|NotPermittedException) {
+			$output->info('Theming is not used to provide a logo');
+			return;
+		}
 
 		$dimensions = '';
 		if ($image !== false) {
