@@ -33,13 +33,14 @@ use OCP\IRequest;
 use OCP\ISession;
 use OCP\IURLGenerator;
 use OCP\IUserManager;
+use OCP\Security\Events\GenerateSecurePasswordEvent;
 use OCP\Security\ISecureRandom;
+use OCP\Security\PasswordContext;
 use OCP\Share;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IManager as ShareManager;
 use OCP\Share\IPublicShareTemplateFactory;
 use OCP\Share\IShare;
-use OCP\Template;
 
 /**
  * @package OCA\Files_Sharing\Controllers
@@ -156,7 +157,7 @@ class ShareController extends AuthPublicShareController {
 	 * Generates a password for the share, respecting any password policy defined
 	 */
 	protected function generatePassword(): void {
-		$event = new \OCP\Security\Events\GenerateSecurePasswordEvent();
+		$event = new GenerateSecurePasswordEvent(PasswordContext::SHARING);
 		$this->eventDispatcher->dispatchTyped($event);
 		$password = $event->getPassword() ?? $this->secureRandom->generate(20);
 
