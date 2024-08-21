@@ -82,13 +82,25 @@ export const startNextcloud = async function(branch: string = getCurrentGitBranc
 			Image: SERVER_IMAGE,
 			name: CONTAINER_NAME,
 			HostConfig: {
-				Binds: [],
+				Mounts: [{
+					Target: '/var/www/html/data',
+					Source: '',
+					Type: 'tmpfs',
+					ReadOnly: false,
+				}],
 			},
 			Env: [
 				`BRANCH=${branch}`,
 			],
 		})
 		await container.start()
+
+		// Set proper permissions for the data folder
+		await runExec(container, ['chown', '-R', 'www-data:www-data', '/var/www/html/data'], false, 'root')
+		await runExec(container, ['chmod', '0770', '/var/www/html/data'], false, 'root')
+
+		// Init Nextcloud
+		await runExec(container, ['initnc.sh'], true)
 
 		// Get container's IP
 		const ip = await getContainerIP(container)
