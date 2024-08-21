@@ -377,7 +377,6 @@
     "Copy direct link (only works for users who have access to this file/folder)" : "Direkten Link kopieren (funktioniert nur für Benutzer, die Zugriff auf diese(n) Datei/Ordner haben)",
     "\"remote user\"" : "„Externer Benutzer“",
     "File name" : "Dateiname",
-    "Download file {name}" : "Datei {name} herunterladen",
     "\"{char}\" is not allowed inside a file name." : "\"{char}“ ist innerhalb eines Dateinamens nicht zulässig.",
     "\"{name}\" is not an allowed filetype." : "\"{name}\" ist kein zulässiger Dateityp.",
     "{newName} already exists." : "{newName} existiert bereits.",

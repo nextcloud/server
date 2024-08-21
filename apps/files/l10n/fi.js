@@ -340,7 +340,6 @@ OC.L10N.register(
     "Copy direct link (only works for users who have access to this file/folder)" : "Kopioi suora linkki (toimii vain käyttäjillä, joilla on pääsyoikeus tähän tiedostoon/kansioon)",
     "\"remote user\"" : "\"etäkäyttäjä\"",
     "File name" : "Tiedostonimi",
-    "Download file {name}" : "Lataa tiedosto {name}",
     "\"{char}\" is not allowed inside a file name." : "Merkki \"{char}\" ei ole sallittu tiedostonimessä.",
     "\"{name}\" is not an allowed filetype." : "\"{name}\" ei ole sallittu tiedostotyyppi.",
     "{newName} already exists." : "{newName} on jo olemassa.",

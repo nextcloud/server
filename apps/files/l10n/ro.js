@@ -280,7 +280,6 @@ OC.L10N.register(
     "Copy direct link (only works for users who have access to this file/folder)" : "Copiază link direct (funcționeză numai pentru utilizatorii care au acces la acest fișier/director)",
     "\"remote user\"" : "\"utilizator la distanță\"",
     "File name" : "Nume fișier",
-    "Download file {name}" : "Descarcă fișierul {name}",
     "\"{char}\" is not allowed inside a file name." : "\"{char}\" nu este permis în numele de fișiere.",
     "\"{name}\" is not an allowed filetype." : "\"{name}\" nu este permis ca tip de fișier.",
     "{newName} already exists." : "{newName} există deja.",

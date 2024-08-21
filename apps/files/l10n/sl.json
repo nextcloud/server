@@ -315,7 +315,6 @@
     "Copy direct link (only works for users who have access to this file/folder)" : "Kopiraj neposredno povezavo (za uporabnike, ki imajo dostop do datoteke ali mape)",
     "\"remote user\"" : "»Oddaljen uporabnik«",
     "File name" : "Ime datoteke",
-    "Download file {name}" : "Prejmi datoteko {name}",
     "\"{char}\" is not allowed inside a file name." : "Znak »{char}« v imenu datoteke ni dovoljen.",
     "\"{name}\" is not an allowed filetype." : "Ime »{name}« ni dovoljena vrsta datoteke.",
     "{newName} already exists." : "Ime {newName} že obstaja.",

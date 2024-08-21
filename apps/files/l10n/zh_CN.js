@@ -369,7 +369,6 @@ OC.L10N.register(
     "Copy direct link (only works for users who have access to this file/folder)" : "复制直接链接(仅适用于有权访问此文件/文件夹的用户)",
     "\"remote user\"" : "“远程用户”",
     "File name" : "文件名",
-    "Download file {name}" : "下载文件 {name}",
     "\"{char}\" is not allowed inside a file name." : "不允许文件名中包含 “{char}”",
     "\"{name}\" is not an allowed filetype." : "“{name}”不是允许的文件类型",
     "{newName} already exists." : "{newName}已经存在。",

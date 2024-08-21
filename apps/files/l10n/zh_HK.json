@@ -377,7 +377,6 @@
     "Copy direct link (only works for users who have access to this file/folder)" : "複製直接連結（只對能存取的用戶有用）",
     "\"remote user\"" : "「遠端用戶」",
     "File name" : "檔案名稱",
-    "Download file {name}" : "下載檔案 {name}",
     "\"{char}\" is not allowed inside a file name." : "不允許檔案名稱中出現 \"{char}\"。",
     "\"{name}\" is not an allowed filetype." : "「{name}」是不允許的檔案類型。",
     "{newName} already exists." : "{newName} 已經存在。",

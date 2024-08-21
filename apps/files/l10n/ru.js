@@ -347,7 +347,6 @@ OC.L10N.register(
     "Copy direct link (only works for users who have access to this file/folder)" : "Копировать прямую ссылку (работает только для пользователей с правами доступа к этому файлу или каталогу)",
     "\"remote user\"" : "«пользователь с другого сервера»",
     "File name" : "Имя файла",
-    "Download file {name}" : "Скачать файл {name}",
     "\"{char}\" is not allowed inside a file name." : "Символ «{char}» не допускается внутри имени файла.",
     "\"{name}\" is not an allowed filetype." : "«{name}» не является допустимым типом файла.",
     "{newName} already exists." : "«{newName}» уже существует.",

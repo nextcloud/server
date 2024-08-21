@@ -341,7 +341,6 @@
     "Copy direct link (only works for users who have access to this file/folder)" : "Copia collegamento diretto (funziona solo per utenti che hanno accesso a questo file/cartella)",
     "\"remote user\"" : "\"utente remoto\"",
     "File name" : "Nome file",
-    "Download file {name}" : "Scarica il file {name}",
     "\"{char}\" is not allowed inside a file name." : "\"{char}\" non è consentito in un nome di file.",
     "\"{name}\" is not an allowed filetype." : "\"{name}\" non è un tipo di file consentito.",
     "{newName} already exists." : "{newName} esiste già.",
