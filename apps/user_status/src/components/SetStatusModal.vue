@@ -125,6 +125,7 @@ export default {
 		return {
 			clearAt: null,
 			editedMessage: '',
+			predefinedMessageId: null,
 			isSavingStatus: false,
 			statuses: getAllStatusOptions(),
 		}
@@ -192,6 +193,7 @@ export default {
 	mounted() {
 		this.$store.dispatch('fetchBackupFromServer')
 
+		this.predefinedMessageId = this.$store.state.userStatus.messageId
 		if (this.$store.state.userStatus.clearAt !== null) {
 			this.clearAt = {
 				type: '_time',
@@ -212,6 +214,7 @@ export default {
 		 * @param {string} icon The new icon
 		 */
 		setIcon(icon) {
+			this.predefinedMessageId = null
 			this.$store.dispatch('setCustomMessage', {
 				message: this.message,
 				icon,
@@ -227,6 +230,7 @@ export default {
 		 * @param {string} message The new message
 		 */
 		setMessage(message) {
+			this.predefinedMessageId = null
 			this.editedMessage = message
 		},
 		/**
@@ -243,6 +247,7 @@ export default {
 		 * @param {object} status The predefined status object
 		 */
 		selectPredefinedMessage(status) {
+			this.predefinedMessageId = status.id
 			this.clearAt = status.clearAt
 			this.$store.dispatch('setPredefinedMessage', {
 				messageId: status.id,
@@ -262,11 +267,18 @@ export default {
 			try {
 				this.isSavingStatus = true
 
-				await this.$store.dispatch('setCustomMessage', {
-					message: this.editedMessage,
-					icon: this.icon,
-					clearAt: this.clearAt,
-				})
+				if (this.predefinedMessageId === null) {
+					await this.$store.dispatch('setCustomMessage', {
+						message: this.editedMessage,
+						icon: this.icon,
+						clearAt: this.clearAt,
+					})
+				} else {
+					this.$store.dispatch('setPredefinedMessage', {
+						messageId: this.predefinedMessageId,
+						clearAt: this.clearAt,
+					})
+				}
 			} catch (err) {
 				showError(this.$t('user_status', 'There was an error saving the status'))
 				console.debug(err)
@@ -294,6 +306,7 @@ export default {
 			}
 
 			this.isSavingStatus = false
+			this.predefinedMessageId = null
 			this.closeModal()
 		},
 		/**
@@ -315,6 +328,7 @@ export default {
 			}
 
 			this.isSavingStatus = false
+			this.predefinedMessageId = this.$store.state.userStatus?.messageId
 		},
 	},
 }
