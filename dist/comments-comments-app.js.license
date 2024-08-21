@@ -97,26 +97,14 @@ This file is generated from multiple sources. Included packages:
 - @nextcloud/router
 	- version: 3.0.1
 	- license: GPL-3.0-or-later
-- @vueuse/components
-	- version: 10.11.1
-	- license: MIT
-- @vueuse/core
-	- version: 10.11.1
-	- license: MIT
-- @vueuse/shared
-	- version: 10.11.1
-	- license: MIT
 - @nextcloud/vue
-	- version: 8.16.0
+	- version: 8.17.0
 	- license: AGPL-3.0-or-later
 - @vue/devtools-api
 	- version: 6.6.3
 	- license: MIT
-- @vueuse/shared
+- @vueuse/components
 	- version: 11.0.0
-	- license: MIT
-- vue-demi
-	- version: 0.14.10
 	- license: MIT
 - @vueuse/shared
 	- version: 11.0.0
