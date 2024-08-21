@@ -29,6 +29,8 @@ jobs:
       npmVersion: ${{ steps.versions.outputs.npmVersion }}
 
     env:
+      # We'll install cypress in the cypress job
+      CYPRESS_INSTALL_BINARY: 0
       PUPPETEER_SKIP_DOWNLOAD: true
 
     steps:
