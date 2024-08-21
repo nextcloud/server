@@ -290,12 +290,12 @@ Cypress.Commands.add('runOccCommand', (command: string, options?: Partial<Cypres
 
 Cypress.Commands.add('backupDB', (): Cypress.Chainable<string> => {
 	const randomString = Math.random().toString(36).substring(7)
-	cy.exec(`docker exec nextcloud-cypress-tests-server cp /var/www/html/data/owncloud.db /var/www/html/data/owncloud.db-${randomString}`)
+	cy.exec(`docker exec --user www-data nextcloud-cypress-tests-server cp /var/www/html/data/owncloud.db /var/www/html/data/owncloud.db-${randomString}`)
 	cy.log(`Created snapshot ${randomString}`)
 	return cy.wrap(randomString)
 })
 
 Cypress.Commands.add('restoreDB', (snapshot: string = 'init') => {
-	cy.exec(`docker exec nextcloud-cypress-tests-server cp /var/www/html/data/owncloud.db-${snapshot} /var/www/html/data/owncloud.db`)
+	cy.exec(`docker exec --user www-data nextcloud-cypress-tests-server cp /var/www/html/data/owncloud.db-${snapshot} /var/www/html/data/owncloud.db`)
 	cy.log(`Restored snapshot ${snapshot}`)
 })
