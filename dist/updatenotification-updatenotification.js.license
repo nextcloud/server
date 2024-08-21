@@ -39,6 +39,7 @@ SPDX-FileCopyrightText: Dr.-Ing. Mario Heiderich, Cure53 <mario@cure53.de> (http
 SPDX-FileCopyrightText: David Clark
 SPDX-FileCopyrightText: Christoph Wurst
 SPDX-FileCopyrightText: Anthony Fu <https://github.com/antfu>
+SPDX-FileCopyrightText: Anthony Fu <anthonyfu117@hotmail.com>
 SPDX-FileCopyrightText: Andris Reinman
 SPDX-FileCopyrightText: @nextcloud/dialogs developers
 
@@ -86,18 +87,21 @@ This file is generated from multiple sources. Included packages:
 - @nextcloud/vue-select
 	- version: 3.25.1
 	- license: MIT
+- @nextcloud/vue
+	- version: 8.17.0
+	- license: AGPL-3.0-or-later
 - @vueuse/components
-	- version: 10.11.1
-	- license: MIT
-- @vueuse/core
-	- version: 10.11.1
+	- version: 11.0.0
 	- license: MIT
 - @vueuse/shared
-	- version: 10.11.1
+	- version: 11.0.0
 	- license: MIT
-- @nextcloud/vue
-	- version: 8.16.0
-	- license: AGPL-3.0-or-later
+- vue-demi
+	- version: 0.14.10
+	- license: MIT
+- @vueuse/core
+	- version: 11.0.0
+	- license: MIT
 - assert
 	- version: 2.1.0
 	- license: MIT
