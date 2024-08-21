@@ -376,7 +376,6 @@ OC.L10N.register(
     "Copy direct link (only works for users who have access to this file/folder)" : "Kopírovať priamy odkaz (funguje iba pre používateľov, ktorí majú prístup k tomuto súboru/priečinku)",
     "\"remote user\"" : "\"vzdialený používateľ\"",
     "File name" : "Názov súboru",
-    "Download file {name}" : "Stiahnuť súbor {name}",
     "\"{char}\" is not allowed inside a file name." : "Znak \"{char}\" nie je povolený v názve súboru.",
     "\"{name}\" is not an allowed filetype." : "\"{name}\" nie je povolený typ súboru",
     "{newName} already exists." : "{newName} už existuje.",

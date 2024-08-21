@@ -379,7 +379,6 @@ OC.L10N.register(
     "Copy direct link (only works for users who have access to this file/folder)" : "Копіювати пряме посилання (користувачі мають мати доступ до цього файлу чи каталогу)",
     "\"remote user\"" : "\"віддалений користувач\"",
     "File name" : "Ім'я файлу",
-    "Download file {name}" : "Відкрити файл {name}",
     "\"{char}\" is not allowed inside a file name." : "Неприпустимий \"{char}\" у назві файлу.",
     "\"{name}\" is not an allowed filetype." : "\"{name}\" є недозволеним типом файлу.",
     "{newName} already exists." : "{newName} вже присутній.",

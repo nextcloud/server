@@ -281,7 +281,6 @@ OC.L10N.register(
     "Copy direct link (only works for users who have access to this file/folder)" : "Sao chép liên kết trực tiếp (chỉ hoạt động đối với những người dùng có quyền truy cập vào tệp / thư mục này)",
     "\"remote user\"" : "\"người dùng từ xa\"",
     "File name" : "Tên tệp tin",
-    "Download file {name}" : "Tải xuống tệp tin {name}",
     "\"{char}\" is not allowed inside a file name." : "\"{char}\" không được phép bên trong tên tệp.",
     "\"{name}\" is not an allowed filetype." : "\"{name}\" không phải là định dạng được cho phép",
     "{newName} already exists." : "{newName} đã tồn tại.",

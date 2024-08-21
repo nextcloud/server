@@ -341,7 +341,6 @@
     "Copy direct link (only works for users who have access to this file/folder)" : "Copia l'enllaç directe (només funciona per als usuaris que tinguin accés a aquest fitxer o carpeta)",
     "\"remote user\"" : "«usuari remot»",
     "File name" : "Nom del fitxer",
-    "Download file {name}" : "Baixa el fitxer {name}",
     "\"{char}\" is not allowed inside a file name." : "El caràcter «{char}» no es pot utilitzar en el nom dels fitxers.",
     "\"{name}\" is not an allowed filetype." : "«{name}» no és un tipus de fitxer permès.",
     "{newName} already exists." : "{newName} ja existeix.",

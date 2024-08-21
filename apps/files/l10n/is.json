@@ -288,7 +288,6 @@
     "Copy direct link (only works for users who have access to this file/folder)" : "Afrita beinan tengil (virkar bara fyrir notendur sem eiga aðgang að þessari skrá/möppu)",
     "\"remote user\"" : "\"fjartengdur notandi\"",
     "File name" : "Skráarheiti",
-    "Download file {name}" : "Sækja skrá {name}",
     "\"{char}\" is not allowed inside a file name." : "\"{char}\" er er ekki leyfilegt innan í skráarheiti.",
     "\"{name}\" is not an allowed filetype." : "\"{name}\" er óleyfileg skráartegund.",
     "{newName} already exists." : "{newName} er þegar til.",
