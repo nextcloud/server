@@ -264,7 +264,7 @@ export default {
 				const shares = data.ocs.data
 					.map(share => new Share(share))
 					.sort((a, b) => {
-						const localCompare = a.title.localeCompare(b.title)
+						const localCompare = a.shareWithDisplayName.localeCompare(b.shareWithDisplayName)
 						if (localCompare !== 0) {
 							return localCompare
 						}
