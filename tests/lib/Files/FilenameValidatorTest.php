@@ -24,12 +24,16 @@ use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
+/**
+ * @group DB
+ */
 class FilenameValidatorTest extends TestCase {
 
 	protected IFactory&MockObject $l10n;
 	protected IConfig&MockObject $config;
 	protected IDBConnection&MockObject $database;
 	protected LoggerInterface&MockObject $logger;
+	protected bool $dbSupportsUtf8 = true;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -45,7 +49,13 @@ class FilenameValidatorTest extends TestCase {
 		$this->config = $this->createMock(IConfig::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->database = $this->createMock(IDBConnection::class);
-		$this->database->method('supports4ByteText')->willReturn(true);
+		$this->database->method('supports4ByteText')->willReturnCallback(fn () => $this->dbSupportsUtf8);
+		$this->overwriteService(IDBConnection::class, $this->database);
+	}
+
+	protected function tearDown(): void {
+		$this->restoreAllServices();
+		parent::tearDown();
 	}
 
 	/**
@@ -67,7 +77,7 @@ class FilenameValidatorTest extends TestCase {
 				'getForbiddenExtensions',
 				'getForbiddenFilenames',
 			])
-			->setConstructorArgs([$this->l10n, $this->database, $this->config, $this->logger])
+			->setConstructorArgs([$this->l10n, $this->config, $this->logger])
 			->getMock();
 
 		$validator->method('getForbiddenBasenames')
@@ -106,7 +116,7 @@ class FilenameValidatorTest extends TestCase {
 				'getForbiddenFilenames',
 				'getForbiddenCharacters',
 			])
-			->setConstructorArgs([$this->l10n, $this->database, $this->config, $this->logger])
+			->setConstructorArgs([$this->l10n, $this->config, $this->logger])
 			->getMock();
 
 		$validator->method('getForbiddenBasenames')
@@ -186,12 +196,10 @@ class FilenameValidatorTest extends TestCase {
 	 * @dataProvider data4ByteUnicode
 	 */
 	public function testDatabaseDoesNotSupport4ByteText($filename): void {
-		$database = $this->createMock(IDBConnection::class);
-		$database->expects($this->once())
-			->method('supports4ByteText')
-			->willReturn(false);
+		$this->dbSupportsUtf8 = false;
+
 		$this->expectException(InvalidCharacterInPathException::class);
-		$validator = new FilenameValidator($this->l10n, $database, $this->config, $this->logger);
+		$validator = new FilenameValidator($this->l10n, $this->config, $this->logger);
 		$validator->validateFilename($filename);
 	}
 
@@ -199,7 +207,6 @@ class FilenameValidatorTest extends TestCase {
 		return [
 			['plane 1 𐪅'],
 			['emoji 😶‍🌫️'],
-
 		];
 	}
 
@@ -208,7 +215,7 @@ class FilenameValidatorTest extends TestCase {
 	 */
 	public function testInvalidAsciiCharactersAreAlwaysForbidden(string $filename): void {
 		$this->expectException(InvalidPathException::class);
-		$validator = new FilenameValidator($this->l10n, $this->database, $this->config, $this->logger);
+		$validator = new FilenameValidator($this->l10n, $this->config, $this->logger);
 		$validator->validateFilename($filename);
 	}
 
@@ -256,7 +263,7 @@ class FilenameValidatorTest extends TestCase {
 		/** @var FilenameValidator&MockObject */
 		$validator = $this->getMockBuilder(FilenameValidator::class)
 			->onlyMethods(['getForbiddenFilenames'])
-			->setConstructorArgs([$this->l10n, $this->database, $this->config, $this->logger])
+			->setConstructorArgs([$this->l10n, $this->config, $this->logger])
 			->getMock();
 
 		$validator->method('getForbiddenFilenames')

@@ -27,6 +27,8 @@ class FilenameValidator implements IFilenameValidator {
 
 	private IL10N $l10n;
 
+	private ?IDBConnection $database;
+
 	/**
 	 * @var list<string>
 	 */
@@ -48,7 +50,6 @@ class FilenameValidator implements IFilenameValidator {
 
 	public function __construct(
 		IFactory $l10nFactory,
-		private IDBConnection $database,
 		private IConfig $config,
 		private LoggerInterface $logger,
 	) {
@@ -185,6 +186,11 @@ class FilenameValidator implements IFilenameValidator {
 		// oc_filecache has a 250 char length limit for the filename
 		if (isset($filename[250])) {
 			throw new FileNameTooLongException();
+		}
+
+		// We need to lazy load the database as otherwise there is a cyclic dependency
+		if (!isset($this->database)) {
+			$this->database = \OCP\Server::get(IDBConnection::class);
 		}
 
 		if (!$this->database->supports4ByteText()) {

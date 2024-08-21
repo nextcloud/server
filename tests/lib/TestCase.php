@@ -508,11 +508,6 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 	}
 
 	protected function IsDatabaseAccessAllowed() {
-		// on travis-ci.org we allow database access in any case - otherwise
-		// this will break all apps right away
-		if (getenv('TRAVIS') == true) {
-			return true;
-		}
 		$annotations = $this->getGroupAnnotations();
 		if (isset($annotations)) {
 			if (in_array('DB', $annotations) || in_array('SLOWDB', $annotations)) {
@@ -548,7 +543,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 				return vsprintf($text, $parameters);
 			});
 
-		$t = new Base($template, $requestToken, $l10n, $theme);
+		$t = new Base($template, $requestToken, $l10n, $theme, base64_encode('csp-nonce'));
 		$buf = $t->fetchPage($vars);
 		$this->assertHtmlStringEqualsHtmlString($expectedHtml, $buf);
 	}
