@@ -113,6 +113,7 @@ class CalendarTest extends TestCase {
 			'principaluri' => 'principals/users/user1',
 			'id' => 666,
 			'uri' => 'contact_birthdays',
+			'{DAV:}displayname' => 'Test',
 		];
 
 		$c = new Calendar($backend, $calendarInfo, $this->l10n, $this->config, $this->logger);
@@ -182,6 +183,7 @@ class CalendarTest extends TestCase {
 			'id' => 666,
 			'uri' => $uri
 		];
+		$calendarInfo['{DAV:}displayname'] = 'Test';
 		if (!is_null($readOnlyValue)) {
 			$calendarInfo['{http://owncloud.org/ns}read-only'] = $readOnlyValue;
 		}
