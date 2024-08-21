@@ -304,8 +304,11 @@ export default defineComponent({
 	watch: {
 		open() {
 			// Load results when opened with already filled query
-			if (this.open && this.searchQuery) {
-				this.find(this.searchQuery)
+			if (this.open) {
+				this.focusInput()
+				if (this.searchQuery) {
+					this.find(this.searchQuery)
+				}
 			}
 		},
 
@@ -351,7 +354,11 @@ export default defineComponent({
 			this.$emit('update:query', this.searchQuery)
 			this.$emit('update:open', false)
 		},
-
+		focusInput() {
+			this.$nextTick(() => {
+				this.$refs.searchInput?.focus()
+			})
+		},
 		find(query: string) {
 			if (query.length === 0) {
 				this.results = []
