@@ -289,7 +289,7 @@ class TemplateLayout extends \OC_Template {
 		}
 
 		$request = \OCP\Server::get(IRequest::class);
-		if ($request->isUserAgent([Request::USER_AGENT_CLIENT_IOS, Request::USER_AGENT_SAFARI])) {
+		if ($request->isUserAgent([Request::USER_AGENT_CLIENT_IOS, Request::USER_AGENT_SAFARI, Request::USER_AGENT_SAFARI_MOBILE])) {
 			// Prevent auto zoom with iOS but still allow user zoom
 			// On chrome (and others) this does not work (will also disable user zoom)
 			$this->assign('viewport_maximum_scale', '1.0');
