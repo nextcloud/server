@@ -1164,31 +1164,32 @@ class Manager implements IManager {
 		return $deletedShares;
 	}
 
-	public function deleteReshare(IShare $share) {
-		// Skip if node not found
+	protected function deleteReshares(IShare $share): void {
 		try {
 			$node = $share->getNode();
 		} catch (NotFoundException) {
+			/* Skip if node not found */
 			return;
 		}
 
 		$userIds = [];
 
-		if  ($share->getShareType() === IShare::TYPE_USER) {
+		if ($share->getShareType() === IShare::TYPE_USER) {
 			$userIds[] = $share->getSharedWith();
-		}
-
-		if ($share->getShareType() === IShare::TYPE_GROUP) {
+		} elseif ($share->getShareType() === IShare::TYPE_GROUP) {
 			$group = $this->groupManager->get($share->getSharedWith());
-			$users = $group->getUsers();
+			$users = $group?->getUsers() ?? [];
 
 			foreach ($users as $user) {
-				// Skip if share owner is member of shared group
+				/* Skip share owner */
 				if ($user->getUID() === $share->getShareOwner()) {
 					continue;
 				}
 				$userIds[] = $user->getUID();
 			}
+		} else {
+			/* We only support user and group shares */
+			return;
 		}
 
 		$reshareRecords = [];
@@ -1197,7 +1198,7 @@ class Manager implements IManager {
 			IShare::TYPE_USER,
 			IShare::TYPE_LINK,
 			IShare::TYPE_REMOTE,
-			IShare::TYPE_EMAIL
+			IShare::TYPE_EMAIL,
 		];
 
 		foreach ($userIds as $userId) {
@@ -1209,8 +1210,8 @@ class Manager implements IManager {
 				}
 			}
 
-			if ($share->getNodeType() === 'folder') {
-				$sharesInFolder = $this->getSharesInFolder($userId, $node, true);
+			if ($node instanceof Folder) {
+				$sharesInFolder = $this->getSharesInFolder($userId, $node, false);
 
 				foreach ($sharesInFolder as $shares) {
 					foreach ($shares as $child) {
@@ -1224,6 +1225,7 @@ class Manager implements IManager {
 			try {
 				$this->generalCreateChecks($child);
 			} catch (GenericShareException $e) {
+				$this->logger->debug('Delete reshare because of exception '.$e->getMessage(), ['exception' => $e]);
 				$this->deleteShare($child);
 			}
 		}
@@ -1252,10 +1254,10 @@ class Manager implements IManager {
 		$provider = $this->factory->getProviderForType($share->getShareType());
 		$provider->delete($share);
 
-		// Delete shares that shared by the "share with user/group"
-		$this->deleteReshare($share);
-
 		$this->dispatcher->dispatchTyped(new ShareDeletedEvent($share));
+
+		// Delete reshares of the deleted share
+		$this->deleteReshares($share);
 	}
 
 
