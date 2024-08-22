@@ -35,7 +35,7 @@ class Version19000Date20200211083441 extends SimpleMigrationStep {
 			]);
 			$table->addColumn('public_key_credential_id', 'string', [
 				'notnull' => true,
-				'length' => 255
+				'length' => 512
 			]);
 			$table->addColumn('data', 'text', [
 				'notnull' => true,
