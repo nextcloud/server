@@ -32,6 +32,7 @@
 			ref="content"
 			:active="true"
 			:can-swipe="false"
+			:can-zoom="false"
 			v-bind="currentFile"
 			:file-list="[currentFile]"
 			:is-full-screen="false"
@@ -155,7 +156,7 @@
 					v-bind="currentFile"
 					:active="true"
 					:can-swipe.sync="canSwipe"
-					:can-zoom="canZoom"
+					:can-zoom="true"
 					:editing.sync="editing"
 					:file-list="fileList"
 					:is-full-screen="isFullscreen"
@@ -332,9 +333,6 @@ export default {
 		canLoop() {
 			return this.Viewer.canLoop
 		},
-		canZoom() {
-			return !this.Viewer.el
-		},
 		isStartOfList() {
 			return this.currentIndex === 0
 		},
@@ -505,7 +503,7 @@ export default {
 
 		// user reached the end of list
 		async isEndOfList(isEndOfList) {
-			if (!isEndOfList) {
+			if (!isEndOfList || this.el) {
 				return
 			}
 

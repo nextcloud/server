@@ -77,6 +77,10 @@ export default {
 			type: Boolean,
 			default: true,
 		},
+		canZoom: {
+			type: Boolean,
+			default: false,
+		},
 		// is the content loaded?
 		// synced with parent
 		loaded: {
@@ -197,6 +201,9 @@ export default {
 					this.height = this.naturalHeight
 					this.width = this.naturalWidth
 				}
+			} else {
+				this.height = this.naturalHeight
+				this.width = this.naturalWidth
 			}
 		},
 
