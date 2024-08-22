@@ -29,6 +29,8 @@ jobs:
       npmVersion: ${{ steps.versions.outputs.npmVersion }}
 
     env:
+      # We'll install cypress in the cypress job
+      CYPRESS_INSTALL_BINARY: 0
       PUPPETEER_SKIP_DOWNLOAD: true
 
     steps:
@@ -115,9 +117,14 @@ jobs:
       - name: Set up npm ${{ needs.init.outputs.npmVersion }}
         run: npm i -g 'npm@${{ needs.init.outputs.npmVersion }}'
 
+      - name: Install cypress
+        run: ./node_modules/cypress/bin/cypress install
+
       - name: Run ${{ matrix.containers == 'component' && 'component' || 'E2E' }} cypress tests
         uses: cypress-io/github-action@df7484c5ba85def7eef30db301afa688187bc378 # v6.7.2
         with:
+          # We already installed the dependencies in the init job
+          install: false
           component: ${{ matrix.containers == 'component' }}
           group: ${{ matrix.use-cypress-cloud && matrix.containers == 'component' && 'Run component' || matrix.use-cypress-cloud && 'Run E2E' || '' }}
           # cypress env
