@@ -80,8 +80,6 @@
     "Empty file" : "Leere Datei",
     "Module with ID: %s does not exist. Please enable it in your apps settings or contact your administrator." : "Das Modul mit der ID: %s existiert nicht. Bitte die App in den App-Einstellungen aktivieren oder den Administrator kontaktieren.",
     "Dot files are not allowed" : "Dateinamen mit einem Punkt am Anfang sind nicht erlaubt",
-    "Invalid character \"%1$s\" in filename" : "Unzulässiges Zeichen \"%1$s\" im Dateinamen",
-    "Invalid filename extension \"%1$s\"" : "Ungültige Dateinamenerweiterung \"%1$s\"",
     "File already exists" : "Datei bereits vorhanden",
     "Invalid path" : "Ungültiger Pfad",
     "Failed to create file from template" : "Fehler beim Erstellen der Datei aus Vorlage",
@@ -272,7 +270,7 @@
     "The audio to transcribe" : "Die Audio-Datei zum Transkribieren",
     "Transcription" : "Transkription",
     "The transcribed text" : "Der transkribierte Text",
-    "ContextWrite" : "ContextWrite",
+    "Context write" : "Kontext schreiben",
     "Writes text in a given style based on the provided source material." : "Schreibt Text in einem vorgegebenen Stil auf Basis des bereitgestellten Quellmaterials.",
     "Writing style" : "Schreibstil",
     "Demonstrate a writing style that you would like to immitate" : "Zeigen Sie einen Schreibstil, den Sie gerne nachahmen würden",
@@ -376,6 +374,8 @@
     "User disabled" : "Benutzer deaktiviert",
     "Your data directory is readable by other users." : "Dein Datenverzeichnis kann von anderen Benutzern gelesen werden",
     "Please change the permissions to 0770 so that the directory cannot be listed by other users." : "Bitte ändere die Berechtigungen auf 0770, sodass das Verzeichnis nicht von anderen Benutzern angezeigt werden kann.",
-    "Ensure there is a file called \".ocdata\" in the root of the data directory." : "Stelle sicher, dass eine Datei \".ocdata\" im Wurzelverzeichnis des data-Verzeichnisses existiert."
+    "Ensure there is a file called \".ocdata\" in the root of the data directory." : "Stelle sicher, dass eine Datei \".ocdata\" im Wurzelverzeichnis des data-Verzeichnisses existiert.",
+    "Invalid character \"%1$s\" in filename" : "Unzulässiges Zeichen \"%1$s\" im Dateinamen",
+    "Invalid filename extension \"%1$s\"" : "Ungültige Dateinamenerweiterung \"%1$s\""
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -325,6 +325,7 @@ OC.L10N.register(
     "Audio" : "Audio",
     "Pictures and images" : "Photos et images",
     "Videos" : "Vidéos",
+    "New folder creation cancelled" : "La création du nouveau dossier est annulée",
     "Created new folder \"{name}\"" : "Nouveau dossier \"{name}\" créé",
     "Unable to initialize the templates directory" : "Impossible d'initialiser le dossier des modèles",
     "Create templates folder" : "Créer le dossier des modèles",
