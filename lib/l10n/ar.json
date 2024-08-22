@@ -80,8 +80,6 @@
     "Empty file" : "ملفٌ فارغٌ",
     "Module with ID: %s does not exist. Please enable it in your apps settings or contact your administrator." : "الوحدة module ذات الرقم ID ـ : %s غير موجودة. رجاءً، فعّلها في إعدادات التطبيقات لديك، أو اتصل بمشرف نظامك.",
     "Dot files are not allowed" : "الملفات النقطية (ملفات ذات أسماء تبدأ بنقطة) غير مسموح بها",
-    "Invalid character \"%1$s\" in filename" : "حرف غير مقبول \"%1$s\" في اسم الملف",
-    "Invalid filename extension \"%1$s\"" : "إمتداد الملف غير صحيح \"%1$s\"",
     "File already exists" : "الملف موجود مسبقاً",
     "Invalid path" : "مسار غير صالح !",
     "Failed to create file from template" : "تعذّر إنشاء ملفٍ من قالبٍ",
@@ -272,7 +270,7 @@
     "The audio to transcribe" : "الكلام المطلوب تحويله إلى نص",
     "Transcription" : "تحويل الكلام لنص",
     "The transcribed text" : "النص المُولّد من الكلام",
-    "ContextWrite" : "ContextWrite",
+    "Context write" : "كتابة السياق",
     "Writes text in a given style based on the provided source material." : "يكتُب النص أسلوب معين بناءً على المادة المصدرية المتوفرة",
     "Writing style" : "أسلُوب الكتابة",
     "Demonstrate a writing style that you would like to immitate" : "قدّم نموذجاً لأسلوب الكتابة الذي ترغب في محاكاته",
@@ -376,6 +374,8 @@
     "User disabled" : "تم تعطيل المستخدم",
     "Your data directory is readable by other users." : "دليل بياناتك data directory يُمكن قراءته من مستخدمين آخرين.",
     "Please change the permissions to 0770 so that the directory cannot be listed by other users." : "الرجاء تغيير الصلاحيات إلى 0770 حتى لا يتمكن المستخدمون الآخرون من عرض محتويات المجلد.",
-    "Ensure there is a file called \".ocdata\" in the root of the data directory." : "تأكد من وجود ملفٍ باسم \".ocdata\" في جذر دليل البيانات data directory."
+    "Ensure there is a file called \".ocdata\" in the root of the data directory." : "تأكد من وجود ملفٍ باسم \".ocdata\" في جذر دليل البيانات data directory.",
+    "Invalid character \"%1$s\" in filename" : "حرف غير مقبول \"%1$s\" في اسم الملف",
+    "Invalid filename extension \"%1$s\"" : "إمتداد الملف غير صحيح \"%1$s\""
 },"pluralForm" :"nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;"
 }

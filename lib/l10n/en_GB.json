@@ -80,8 +80,6 @@
     "Empty file" : "Empty file",
     "Module with ID: %s does not exist. Please enable it in your apps settings or contact your administrator." : "Module with ID: %s does not exist. Please enable it in your apps settings or contact your administrator.",
     "Dot files are not allowed" : "Dot files are not allowed",
-    "Invalid character \"%1$s\" in filename" : "Invalid character \"%1$s\" in filename",
-    "Invalid filename extension \"%1$s\"" : "Invalid filename extension \"%1$s\"",
     "File already exists" : "File already exists",
     "Invalid path" : "Invalid path",
     "Failed to create file from template" : "Failed to create file from template",
@@ -272,7 +270,7 @@
     "The audio to transcribe" : "The audio to transcribe",
     "Transcription" : "Transcription",
     "The transcribed text" : "The transcribed text",
-    "ContextWrite" : "ContextWrite",
+    "Context write" : "Context write",
     "Writes text in a given style based on the provided source material." : "Writes text in a given style based on the provided source material.",
     "Writing style" : "Writing style",
     "Demonstrate a writing style that you would like to immitate" : "Demonstrate a writing style that you would like to immitate",
@@ -376,6 +374,8 @@
     "User disabled" : "User disabled",
     "Your data directory is readable by other users." : "Your data directory is readable by other users.",
     "Please change the permissions to 0770 so that the directory cannot be listed by other users." : "Please change the permissions to 0770 so that the directory cannot be listed by other users.",
-    "Ensure there is a file called \".ocdata\" in the root of the data directory." : "Ensure there is a file called \".ocdata\" in the root of the data directory."
+    "Ensure there is a file called \".ocdata\" in the root of the data directory." : "Ensure there is a file called \".ocdata\" in the root of the data directory.",
+    "Invalid character \"%1$s\" in filename" : "Invalid character \"%1$s\" in filename",
+    "Invalid filename extension \"%1$s\"" : "Invalid filename extension \"%1$s\""
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

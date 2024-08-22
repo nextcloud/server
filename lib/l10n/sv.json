@@ -80,8 +80,6 @@
     "Empty file" : "Tom fil",
     "Module with ID: %s does not exist. Please enable it in your apps settings or contact your administrator." : "Modulen med ID: %s finns inte. Aktivera den i appinställningar eller kontakta din administratör.",
     "Dot files are not allowed" : "Dot-filer är inte tillåtna",
-    "Invalid character \"%1$s\" in filename" : "Ogiltigt tecken \"%1$s\" i filnamnet",
-    "Invalid filename extension \"%1$s\"" : "Ogiltigt filnamnstillägg \"%1$s\"",
     "File already exists" : "Filen existerar redan",
     "Invalid path" : "Ogiltig sökväg",
     "Failed to create file from template" : "Kunde skapa fil från mall",
@@ -296,7 +294,7 @@
     "Describe a task that you want the assistant to do or ask a question" : "Beskriv en uppgift som du vill att assistenten ska göra eller ställ en fråga",
     "Generated reply" : "Genererat svar",
     "The generated text from the assistant" : "Den genererade texten från assistenten",
-    "Chat" : "Chat",
+    "Chat" : "Chatt",
     "Chat with the assistant" : "Chatta med assistenten",
     "System prompt" : "Systemuppmaning",
     "Define rules and assumptions that the assistant should follow during the conversation." : "Definiera regler och antaganden som assistenten ska följa under samtalet.",
@@ -373,6 +371,8 @@
     "User disabled" : "Användare inaktiverad",
     "Your data directory is readable by other users." : "Din datakatalog kan läsas av andra användare.",
     "Please change the permissions to 0770 so that the directory cannot be listed by other users." : "Ändra behörigheterna till 0770 så att katalogen inte kan listas av andra användare.",
-    "Ensure there is a file called \".ocdata\" in the root of the data directory." : "Säkerställ att du har filen \".ocdata\" i huvudkatalogen för din data."
+    "Ensure there is a file called \".ocdata\" in the root of the data directory." : "Säkerställ att du har filen \".ocdata\" i huvudkatalogen för din data.",
+    "Invalid character \"%1$s\" in filename" : "Ogiltigt tecken \"%1$s\" i filnamnet",
+    "Invalid filename extension \"%1$s\"" : "Ogiltigt filnamnstillägg \"%1$s\""
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

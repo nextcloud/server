@@ -187,6 +187,8 @@ OC.L10N.register(
     "No favorites yet" : "Lemmikuid veel pole",
     "Files and folders you mark as favorite will show up here" : "Siin kuvatakse faile ja kaustasid, mille oled märkinud lemmikuteks",
     "All files" : "Kõik failid",
+    "Personal Files" : "Isiklikud Failid",
+    "No personal files found" : "Isiklikke faile ei leitud",
     "No entries found in this folder" : "Selles kaustast ei leitud kirjeid",
     "Select all" : "Vali kõik",
     "Upload too large" : "Üleslaadimine on liiga suur",
@@ -195,7 +197,6 @@ OC.L10N.register(
     "New text file.txt" : "Uus tekstifail.txt",
     "Copy direct link (only works for users who have access to this file/folder)" : "Kopeeri otselink (töötab ainult nende kasutajate jaoks, kelle on ligipääs sellele failile/kaustale)",
     "\"remote user\"" : "\"kaugkasutaja\"",
-    "Download file {name}" : "Laadi fail {name} alla",
     "Create new templates folder" : "Loo uus mallide kaust"
 },
 "nplurals=2; plural=(n != 1);");
