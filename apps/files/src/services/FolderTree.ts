@@ -6,10 +6,7 @@
 import type { ContentsWithRoot } from '@nextcloud/files'
 
 import { CancelablePromise } from 'cancelable-promise'
-import {
-	davRemoteURL,
-	Folder,
-} from '@nextcloud/files'
+import { davRemoteURL } from '@nextcloud/files'
 import axios from '@nextcloud/axios'
 import { generateOcsUrl } from '@nextcloud/router'
 import { getCurrentUser } from '@nextcloud/auth'
@@ -27,6 +24,7 @@ type Tree = Array<{
 
 export interface TreeNode {
 	source: string,
+	encodedSource: string,
 	path: string,
 	fileid: number,
 	basename: string,
@@ -40,8 +38,10 @@ export const sourceRoot = `${davRemoteURL}/files/${getCurrentUser()?.uid}`
 const getTreeNodes = (tree: Tree, currentPath: string = '/', nodes: TreeNode[] = []): TreeNode[] => {
 	for (const { id, basename, displayName, children } of tree) {
 		const path = joinPaths(currentPath, basename)
+		const source = `${sourceRoot}${path}`
 		const node: TreeNode = {
-			source: `${sourceRoot}${path}`,
+			source,
+			encodedSource: encodeSource(source),
 			path,
 			fileid: id,
 			basename,
@@ -78,15 +78,4 @@ export const getSourceParent = (source: string): string => {
 		return folderTreeId
 	}
 	return encodeSource(parent)
-}
-
-export const getFolderTreeViewId = (folder: Folder): string => {
-	return folder.encodedSource
-}
-
-export const getFolderTreeParentId = (folder: Folder): string => {
-	if (folder.dirname === '/') {
-		return folderTreeId
-	}
-	return dirname(folder.encodedSource)
 }
