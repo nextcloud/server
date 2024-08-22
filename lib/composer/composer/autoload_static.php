@@ -711,6 +711,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OCP\\Security\\Ip\\IFactory' => __DIR__ . '/../../..' . '/lib/public/Security/Ip/IFactory.php',
         'OCP\\Security\\Ip\\IRange' => __DIR__ . '/../../..' . '/lib/public/Security/Ip/IRange.php',
         'OCP\\Security\\Ip\\IRemoteAddress' => __DIR__ . '/../../..' . '/lib/public/Security/Ip/IRemoteAddress.php',
+        'OCP\\Security\\PasswordContext' => __DIR__ . '/../../..' . '/lib/public/Security/PasswordContext.php',
         'OCP\\Security\\RateLimiting\\ILimiter' => __DIR__ . '/../../..' . '/lib/public/Security/RateLimiting/ILimiter.php',
         'OCP\\Security\\RateLimiting\\IRateLimitExceededException' => __DIR__ . '/../../..' . '/lib/public/Security/RateLimiting/IRateLimitExceededException.php',
         'OCP\\Security\\VerificationToken\\IVerificationToken' => __DIR__ . '/../../..' . '/lib/public/Security/VerificationToken/IVerificationToken.php',

@@ -678,6 +678,7 @@ return array(
     'OCP\\Security\\Ip\\IFactory' => $baseDir . '/lib/public/Security/Ip/IFactory.php',
     'OCP\\Security\\Ip\\IRange' => $baseDir . '/lib/public/Security/Ip/IRange.php',
     'OCP\\Security\\Ip\\IRemoteAddress' => $baseDir . '/lib/public/Security/Ip/IRemoteAddress.php',
+    'OCP\\Security\\PasswordContext' => $baseDir . '/lib/public/Security/PasswordContext.php',
     'OCP\\Security\\RateLimiting\\ILimiter' => $baseDir . '/lib/public/Security/RateLimiting/ILimiter.php',
     'OCP\\Security\\RateLimiting\\IRateLimitExceededException' => $baseDir . '/lib/public/Security/RateLimiting/IRateLimitExceededException.php',
     'OCP\\Security\\VerificationToken\\IVerificationToken' => $baseDir . '/lib/public/Security/VerificationToken/IVerificationToken.php',
