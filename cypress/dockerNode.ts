@@ -136,8 +136,8 @@ export const configureNextcloud = async function() {
 	const hashing = await runExec(container, ['php', 'occ', 'config:system:get', 'hashing_default_password'])
 
 	console.log('├─ Checking APCu configuration... 👀')
-	if (!distributed.trim().includes('\\OC\\Memcache\\APCu')
-		|| !local.trim().includes('\\OC\\Memcache\\APCu')
+	if (!distributed.trim().includes('Memcache\\APCu')
+		|| !local.trim().includes('Memcache\\APCu')
 		|| !hashing.trim().includes('true')) {
 		console.log('└─ APCu is not properly configured 🛑')
 		throw new Error('APCu is not properly configured')
@@ -294,9 +294,14 @@ const runExec = async function(
 			if (stream) {
 				stream.setEncoding('utf-8')
 				stream.on('data', str => {
+					str = str.trim()
+						// Remove non printable characters
+						.replace(/[^\x20-\x7E]+/g, '')
+						// Remove non alphanumeric leading characters
+						.replace(/^[^a-z]/gi, '')
 					output += str
-					if (verbose && str.trim() !== '') {
-						console.log(`├─ ${str.trim().replace(/\n/gi, '\n├─ ')}`)
+					if (verbose && str !== '') {
+						console.log(`├─ ${str.replace(/\n/gi, '\n├─ ')}`)
 					}
 				})
 				stream.on('end', () => resolve(output))
