@@ -9,6 +9,7 @@ use OC\AppConfig;
 use OCA\Provisioning_API\Controller\AppConfigController;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
+use OCP\Exceptions\AppConfigUnknownKeyException;
 use OCP\IAppConfig;
 use OCP\IGroupManager;
 use OCP\IL10N;
@@ -192,6 +193,7 @@ class AppConfigControllerTest extends TestCase {
 			['app2', 'key', '42', null, null, Http::STATUS_OK, IAppConfig::VALUE_STRING],
 			['app2', 'key', 'secret', null, null, Http::STATUS_OK, IAppConfig::VALUE_STRING | IAppConfig::VALUE_SENSITIVE],
 			['app2', 'key', json_encode([4, 2]), null, null, Http::STATUS_OK, IAppConfig::VALUE_ARRAY],
+			['app2', 'key', json_encode([4, 2]), null, null, Http::STATUS_OK, new AppConfigUnknownKeyException()],
 		];
 	}
 
@@ -202,9 +204,9 @@ class AppConfigControllerTest extends TestCase {
 	 * @param string|null $value
 	 * @param \Exception|null $appThrows
 	 * @param \Exception|null $keyThrows
-	 * @param int $status
+	 * @param int|\Throwable $status
 	 */
-	public function testSetValue($app, $key, $value, $appThrows, $keyThrows, $status, int $type = IAppConfig::VALUE_MIXED) {
+	public function testSetValue($app, $key, $value, $appThrows, $keyThrows, $status, int|\Throwable $type = IAppConfig::VALUE_MIXED) {
 		$adminUser = $this->createMock(IUser::class);
 		$adminUser->expects($this->once())
 			->method('getUid')
@@ -247,18 +249,25 @@ class AppConfigControllerTest extends TestCase {
 				->method('verifyConfigKey')
 				->with($app, $key);
 
-			$this->appConfig->expects($this->once())
-				->method('getDetails')
-				->with($app, $key)
-				->willReturn([
-					'app' => $app,
-					'key' => $key,
-					'value' => '', // 🤷
-					'type' => $type,
-					'lazy' => false,
-					'typeString' => (string)$type, // this is not accurate, but acceptable
-					'sensitive' => ($type & IAppConfig::VALUE_SENSITIVE) !== 0,
-				]);
+			if ($type instanceof \Throwable) {
+				$this->appConfig->expects($this->once())
+					->method('getDetails')
+					->with($app, $key)
+					->willThrowException($type);
+			} else {
+				$this->appConfig->expects($this->once())
+					->method('getDetails')
+					->with($app, $key)
+					->willReturn([
+						'app' => $app,
+						'key' => $key,
+						'value' => '', // 🤷
+						'type' => $type,
+						'lazy' => false,
+						'typeString' => (string)$type, // this is not accurate, but acceptable
+						'sensitive' => ($type & IAppConfig::VALUE_SENSITIVE) !== 0,
+					]);
+			}
 
 			$configValueSetter = match ($type) {
 				IAppConfig::VALUE_BOOL => 'setValueBool',
