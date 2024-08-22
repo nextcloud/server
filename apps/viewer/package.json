@@ -84,7 +84,7 @@
     "@vue/tsconfig": "^0.5.1",
     "cypress": "^13.13.3",
     "cypress-split": "^1.24.0",
-    "cypress-visual-regression": "^5.0.4",
+    "cypress-visual-regression": "^5.1.0",
     "dockerode": "^4.0.2",
     "eslint-plugin-cypress": "^3.5.0",
     "ts-node": "^10.9.2",
