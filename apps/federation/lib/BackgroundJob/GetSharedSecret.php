@@ -90,6 +90,7 @@ class GetSharedSecret extends Job {
 		// kill job after 30 days of trying
 		$deadline = $currentTime - $this->maxLifespan;
 		if ($created < $deadline) {
+			$this->logger->warning("The job to get the shared secret job is too old and gets stopped now without retention. Setting server status of '{$target}' to failure.");
 			$this->retainJob = false;
 			$this->trustedServers->setServerStatus($target, TrustedServers::STATUS_FAILURE);
 			return;
