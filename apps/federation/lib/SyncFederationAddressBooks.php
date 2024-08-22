@@ -60,6 +60,10 @@ class SyncFederationAddressBooks {
 					$this->dbHandler->setServerStatus($url, TrustedServers::STATUS_OK, $newToken);
 				} else {
 					$this->logger->debug("Sync Token for $url unchanged from previous sync");
+					// The server status might have been changed to a failure status in previous runs.
+					if ($this->dbHandler->getServerStatus($url) !== TrustedServers::STATUS_OK) {
+						$this->dbHandler->setServerStatus($url, TrustedServers::STATUS_OK);
+					}
 				}
 			} catch (\Exception $ex) {
 				if ($ex->getCode() === Http::STATUS_UNAUTHORIZED) {
