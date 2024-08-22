@@ -30,6 +30,7 @@ import { basename } from 'path'
 import '@testing-library/cypress/add-commands'
 import 'cypress-if'
 import 'cypress-wait-until'
+
 addCommands()
 
 // Register this file's custom commands types
