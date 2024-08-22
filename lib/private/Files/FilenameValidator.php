@@ -198,9 +198,7 @@ class FilenameValidator implements IFilenameValidator {
 			}
 		}
 
-		if ($this->isForbidden($filename)) {
-			throw new ReservedWordException();
-		}
+		$this->checkForbiddenName($filename);
 
 		$this->checkForbiddenExtension($filename);
 
@@ -227,17 +225,24 @@ class FilenameValidator implements IFilenameValidator {
 			return true;
 		}
 
+		// Filename is not forbidden
+		return false;
+	}
+
+	protected function checkForbiddenName($filename): void {
+		if ($this->isForbidden($filename)) {
+			throw new ReservedWordException($this->l10n->t('"%1$s" is a forbidden file or folder name.', [$filename]));
+		}
+
 		// Check for forbidden basenames - basenames are the part of the file until the first dot
 		// (except if the dot is the first character as this is then part of the basename "hidden files")
 		$basename = substr($filename, 0, strpos($filename, '.', 1) ?: null);
 		$forbiddenNames = $this->getForbiddenBasenames();
 		if (in_array($basename, $forbiddenNames)) {
-			return true;
+			throw new ReservedWordException($this->l10n->t('"%1$s" is a forbidden prefix for file or folder names.', [$filename]));
 		}
-
-		// Filename is not forbidden
-		return false;
 	}
+
 
 	/**
 	 * Check if a filename contains any of the forbidden characters
@@ -252,7 +257,7 @@ class FilenameValidator implements IFilenameValidator {
 
 		foreach ($this->getForbiddenCharacters() as $char) {
 			if (str_contains($filename, $char)) {
-				throw new InvalidCharacterInPathException($this->l10n->t('Invalid character "%1$s" in filename', [$char]));
+				throw new InvalidCharacterInPathException($this->l10n->t('"%1$s" is not allowed inside a file or folder name.', [$char]));
 			}
 		}
 	}
@@ -268,7 +273,11 @@ class FilenameValidator implements IFilenameValidator {
 		$forbiddenExtensions = $this->getForbiddenExtensions();
 		foreach ($forbiddenExtensions as $extension) {
 			if (str_ends_with($filename, $extension)) {
-				throw new InvalidPathException($this->l10n->t('Invalid filename extension "%1$s"', [$extension]));
+				if (str_starts_with($extension, '.')) {
+					throw new InvalidPathException($this->l10n->t('"%1$s" is a forbidden file type.', [$extension]));
+				} else {
+					throw new InvalidPathException($this->l10n->t('Filenames must not end with "%1$s".', [$extension]));
+				}
 			}
 		}
 	}
