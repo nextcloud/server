@@ -20,6 +20,7 @@ export const generateAvatarSvg = (userId: string, isGuest = false) => {
 
 	const url = `${basePath}/32${darkModePath}${guestFallback}`
 	const avatarUrl = generateUrl(url, { userId })
+
 	return `<svg width="32" height="32" viewBox="0 0 32 32"
 		xmlns="http://www.w3.org/2000/svg" class="sharing-status__avatar">
 		<image href="${avatarUrl}" height="32" width="32" />
