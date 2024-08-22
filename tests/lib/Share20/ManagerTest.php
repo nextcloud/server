@@ -242,7 +242,7 @@ class ManagerTest extends \Test\TestCase {
 	 */
 	public function testDelete($shareType, $sharedWith) {
 		$manager = $this->createManagerMock()
-			->setMethods(['getShareById', 'deleteChildren', 'deleteReshare'])
+			->setMethods(['getShareById', 'deleteChildren', 'deleteReshares'])
 			->getMock();
 
 		$manager->method('deleteChildren')->willReturn([]);
@@ -260,7 +260,7 @@ class ManagerTest extends \Test\TestCase {
 			->setTarget('myTarget');
 
 		$manager->expects($this->once())->method('deleteChildren')->with($share);
-		$manager->expects($this->once())->method('deleteReshare')->with($share);
+		$manager->expects($this->once())->method('deleteReshares')->with($share);
 
 		$this->defaultProvider
 			->expects($this->once())
@@ -285,7 +285,7 @@ class ManagerTest extends \Test\TestCase {
 
 	public function testDeleteLazyShare() {
 		$manager = $this->createManagerMock()
-			->setMethods(['getShareById', 'deleteChildren', 'deleteReshare'])
+			->setMethods(['getShareById', 'deleteChildren', 'deleteReshares'])
 			->getMock();
 
 		$manager->method('deleteChildren')->willReturn([]);
@@ -304,7 +304,7 @@ class ManagerTest extends \Test\TestCase {
 		$this->rootFolder->expects($this->never())->method($this->anything());
 
 		$manager->expects($this->once())->method('deleteChildren')->with($share);
-		$manager->expects($this->once())->method('deleteReshare')->with($share);
+		$manager->expects($this->once())->method('deleteReshares')->with($share);
 
 		$this->defaultProvider
 			->expects($this->once())
@@ -329,7 +329,7 @@ class ManagerTest extends \Test\TestCase {
 
 	public function testDeleteNested() {
 		$manager = $this->createManagerMock()
-			->setMethods(['getShareById', 'deleteReshare'])
+			->setMethods(['getShareById', 'deleteReshares'])
 			->getMock();
 
 		$path = $this->createMock(File::class);
