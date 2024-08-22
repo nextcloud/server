@@ -2742,4 +2742,35 @@ class ViewTest extends \Test\TestCase {
 
 		$this->assertFalse($cache->inCache('foo.txt'));
 	}
+
+	public function testMountpointParentsCreated() {
+		$storage1 = $this->getTestStorage();
+		Filesystem::mount($storage1, [], '/');
+
+		$storage2 = $this->getTestStorage();
+		Filesystem::mount($storage2, [], '/A/B/C');
+
+		$rootView = new View('');
+
+		$folderData = $rootView->getDirectoryContent('/');
+		$this->assertCount(4, $folderData);
+		$this->assertEquals('folder', $folderData[0]['name']);
+		$this->assertEquals('foo.png', $folderData[1]['name']);
+		$this->assertEquals('foo.txt', $folderData[2]['name']);
+		$this->assertEquals('A', $folderData[3]['name']);
+
+		$folderData = $rootView->getDirectoryContent('/A');
+		$this->assertCount(1, $folderData);
+		$this->assertEquals('B', $folderData[0]['name']);
+
+		$folderData = $rootView->getDirectoryContent('/A/B');
+		$this->assertCount(1, $folderData);
+		$this->assertEquals('C', $folderData[0]['name']);
+
+		$folderData = $rootView->getDirectoryContent('/A/B/C');
+		$this->assertCount(3, $folderData);
+		$this->assertEquals('folder', $folderData[0]['name']);
+		$this->assertEquals('foo.png', $folderData[1]['name']);
+		$this->assertEquals('foo.txt', $folderData[2]['name']);
+	}
 }
