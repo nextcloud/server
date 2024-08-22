@@ -236,6 +236,7 @@
     "Storage is temporarily not available" : "存储暂时不可用",
     "Storage connection timeout. %s" : "存储连接超时。%s",
     "Audio input" : "音频输入",
+    "Context write" : "文本撰写",
     "Writes text in a given style based on the provided source material." : "通过给出语料的风格生成文字",
     "Writing style" : "撰写风格",
     "Source material" : "来源材料",

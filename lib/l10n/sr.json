@@ -80,8 +80,6 @@
     "Empty file" : "Празан фајл",
     "Module with ID: %s does not exist. Please enable it in your apps settings or contact your administrator." : "Модул са идентификацијом: %s не постоји. Омогућите га у подешавањима апликација или контактирајте администратора.",
     "Dot files are not allowed" : "Фајлови са почетном тачком нису дозвољени",
-    "Invalid character \"%1$s\" in filename" : "Неисправан карактер у имену фајла „%1$s“",
-    "Invalid filename extension \"%1$s\"" : "Неисправна екстензија имена фајла „%1$s”",
     "File already exists" : "Фајл већ постоји",
     "Invalid path" : "Неисправна путања",
     "Failed to create file from template" : "Није успело креирање фајла из шаблона",
@@ -272,7 +270,7 @@
     "The audio to transcribe" : "Звук који треба да се транскрибује",
     "Transcription" : "Транскрипција",
     "The transcribed text" : "Транскрибовани текст",
-    "ContextWrite" : "ContextWrite",
+    "Context write" : "Писање контекста",
     "Writes text in a given style based on the provided source material." : "Пише текст у датом стилу заснован на наведеном изворном материјалу.",
     "Writing style" : "Стил писања",
     "Demonstrate a writing style that you would like to immitate" : "Демонстрирајте стил писања који желите да се имитира",
@@ -376,6 +374,8 @@
     "User disabled" : "Корисник онемогућен",
     "Your data directory is readable by other users." : "Ваш директоријум са подацима могу да читају остали корисници.",
     "Please change the permissions to 0770 so that the directory cannot be listed by other users." : "Промените дозволе у 0770 како директоријуми не би могли бити излистани од стране других корисника.",
-    "Ensure there is a file called \".ocdata\" in the root of the data directory." : "Уверите се да фајл \".ocdata\" постоји у корену директоријума са подацима."
+    "Ensure there is a file called \".ocdata\" in the root of the data directory." : "Уверите се да фајл \".ocdata\" постоји у корену директоријума са подацима.",
+    "Invalid character \"%1$s\" in filename" : "Неисправан карактер у имену фајла „%1$s“",
+    "Invalid filename extension \"%1$s\"" : "Неисправна екстензија имена фајла „%1$s”"
 },"pluralForm" :"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);"
 }
