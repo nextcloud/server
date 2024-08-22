@@ -1,27 +1,10 @@
 <!--
-  - @copyright Copyright (c) 2020 John Molakvoæ <skjnldsv@protonmail.com>
-  -
-  - @author John Molakvoæ <skjnldsv@protonmail.com>
-  -
-  - @license GNU AGPL version 3 or any later version
-  -
-  - This program is free software: you can redistribute it and/or modify
-  - it under the terms of the GNU Affero General Public License as
-  - published by the Free Software Foundation, either version 3 of the
-  - License, or (at your option) any later version.
-  -
-  - This program is distributed in the hope that it will be useful,
-  - but WITHOUT ANY WARRANTY; without even the implied warranty of
-  - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  - GNU Affero General Public License for more details.
-  -
-  - You should have received a copy of the GNU Affero General Public License
-  - along with this program. If not, see <http://www.gnu.org/licenses/>.
-  -
-  -->
+  - SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 <template>
 	<component :is="tag"
-		v-show="!deleted"
+		v-show="!deleted && !isLimbo"
 		:class="{'comment--loading': loading}"
 		class="comment">
 		<!-- Comment header toolbar -->
@@ -69,7 +52,10 @@
 				<div v-if="id && loading" class="comment_loading icon-loading-small" />
 
 				<!-- Relative time to the comment creation -->
-				<Moment v-else-if="creationDateTime" class="comment__timestamp" :timestamp="timestamp" />
+				<NcDateTime v-else-if="creationDateTime"
+					class="comment__timestamp"
+					:timestamp="timestamp"
+					:ignore-seconds="true" />
 			</div>
 
 			<!-- Message editor -->
@@ -119,13 +105,14 @@
 <script>
 import { getCurrentUser } from '@nextcloud/auth'
 import { translate as t } from '@nextcloud/l10n'
-import moment from '@nextcloud/moment'
 
 import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
 import NcActions from '@nextcloud/vue/dist/Components/NcActions.js'
 import NcActionSeparator from '@nextcloud/vue/dist/Components/NcActionSeparator.js'
 import NcAvatar from '@nextcloud/vue/dist/Components/NcAvatar.js'
 import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
+import NcDateTime from '@nextcloud/vue/dist/Components/NcDateTime.js'
+import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
 import RichEditorMixin from '@nextcloud/vue/dist/Mixins/richEditor.js'
 
 import IconArrowRight from 'vue-material-design-icons/ArrowRight.vue'
@@ -133,8 +120,9 @@ import IconClose from 'vue-material-design-icons/Close.vue'
 import IconDelete from 'vue-material-design-icons/Delete.vue'
 import IconEdit from 'vue-material-design-icons/Pencil.vue'
 
-import Moment from './Moment.vue'
 import CommentMixin from '../mixins/CommentMixin.js'
+import { mapStores } from 'pinia'
+import { useDeletedCommentLimbo } from '../store/deletedCommentLimbo.js'
 
 // Dynamic loading
 const NcRichContenteditable = () => import('@nextcloud/vue/dist/Components/NcRichContenteditable.js')
@@ -147,15 +135,15 @@ export default {
 		IconClose,
 		IconDelete,
 		IconEdit,
-		Moment,
 		NcActionButton,
 		NcActions,
 		NcActionSeparator,
 		NcAvatar,
 		NcButton,
+		NcDateTime,
+		NcLoadingIcon,
 		NcRichContenteditable,
 	},
-
 	mixins: [RichEditorMixin, CommentMixin],
 
 	inheritAttrs: false,
@@ -207,6 +195,7 @@ export default {
 	},
 
 	computed: {
+		...mapStores(useDeletedCommentLimbo),
 
 		/**
 		 * Is the current user the author of this comment
@@ -233,9 +222,15 @@ export default {
 			return !this.localMessage || this.localMessage.trim() === ''
 		},
 
+		/**
+		 * Timestamp of the creation time (in ms UNIX time)
+		 */
 		timestamp() {
-			// seconds, not milliseconds
-			return parseInt(moment(this.creationDateTime).format('x'), 10) / 1000
+			return Date.parse(this.creationDateTime)
+		},
+
+		isLimbo() {
+			return this.deletedCommentLimboStore.checkForId(this.id)
 		},
 	},
 
@@ -350,7 +345,7 @@ $comment-padding: 10px;
 
 	&__submit {
 		position: absolute !important;
-		bottom: 0;
+		bottom: 5px;
 		right: 0;
 	}
 
