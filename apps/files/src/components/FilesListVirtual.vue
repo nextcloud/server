@@ -427,11 +427,6 @@ export default defineComponent({
 			top: var(--fixed-top-position);
 		}
 
-		// Table footer
-		.files-list__tfoot {
-			min-height: 300px;
-		}
-
 		tr {
 			position: relative;
 			display: flex;
