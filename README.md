@@ -74,6 +74,10 @@ Otherwise, git checkouts can be handled the same as release archives, by using t
 
 - Comment on a pull request with `/update-3rdparty` to update the 3rd party submodule. It will update to the last commit of the 3rd party branch named like the PR target.
 
+#### Ignore code style updates in git blame
+
+`git config blame.ignoreRevsFile .git-blame-ignore-revs`
+
 ## Contribution guidelines 📜
 
 All contributions to this repository from June 16, 2016, and onward are considered to be
