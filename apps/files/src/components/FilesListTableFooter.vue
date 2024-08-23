@@ -64,6 +64,7 @@ import Vue from 'vue'
 
 import { useFilesStore } from '../store/files.ts'
 import { usePathsStore } from '../store/paths.ts'
+import { useRouteParameters } from '../composables/useRouteParameters.ts'
 
 export default Vue.extend({
 	name: 'FilesListTableFooter',
@@ -97,9 +98,12 @@ export default Vue.extend({
 	setup() {
 		const pathsStore = usePathsStore()
 		const filesStore = useFilesStore()
+		const { directory } = useRouteParameters()
+
 		return {
 			filesStore,
 			pathsStore,
+			directory,
 		}
 	},
 
@@ -108,20 +112,15 @@ export default Vue.extend({
 			return this.$navigation.active
 		},
 
-		dir() {
-			// Remove any trailing slash but leave root slash
-			return (this.$route?.query?.dir || '/').replace(/^(.+)\/$/, '$1')
-		},
-
 		currentFolder() {
 			if (!this.currentView?.id) {
 				return
 			}
 
-			if (this.dir === '/') {
+			if (this.directory === '/') {
 				return this.filesStore.getRoot(this.currentView.id)
 			}
-			const fileId = this.pathsStore.getPath(this.currentView.id, this.dir)
+			const fileId = this.pathsStore.getPath(this.currentView.id, this.directory)
 			return this.filesStore.getNode(fileId)
 		},
 
@@ -160,7 +159,7 @@ export default Vue.extend({
 <style scoped lang="scss">
 // Scoped row
 tr {
-	margin-bottom: 300px;
+	margin-bottom: max(25vh, var(--body-container-margin));
 	border-top: 1px solid var(--color-border);
 	// Prevent hover effect on the whole row
 	background-color: transparent !important;
