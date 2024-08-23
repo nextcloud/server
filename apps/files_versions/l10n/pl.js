@@ -13,6 +13,7 @@ OC.L10N.register(
     "Initial version" : "Początkowa wersja",
     "Version name" : "Nazwa wersji",
     "Named versions are persisted, and excluded from automatic cleanups when your storage quota is full." : "Nazwane wersje są utrwalane i wykluczane z automatycznego czyszczenia, gdy limit przechowywania zostanie przekroczony.",
+    "Cancel" : "Anuluj",
     "Remove version name" : "Usuń nazwę wersji",
     "Save version name" : "Zapis nazwę wersji",
     "Initial version restored" : "Przywrócono wersję początkową",

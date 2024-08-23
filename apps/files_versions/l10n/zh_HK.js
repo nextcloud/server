@@ -14,6 +14,7 @@ OC.L10N.register(
     "Initial version" : "初始版本",
     "Version name" : "版本名稱",
     "Named versions are persisted, and excluded from automatic cleanups when your storage quota is full." : "命名版本會保留，並在儲存配額已滿時從自動清理中排除。",
+    "Cancel" : "取消",
     "Remove version name" : "移除版本名稱",
     "Save version name" : "儲存版本名稱",
     "Initial version restored" : "初始版本已還原",

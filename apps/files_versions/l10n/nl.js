@@ -14,6 +14,7 @@ OC.L10N.register(
     "Initial version" : "Initiële versie",
     "Version name" : "Versie naam",
     "Named versions are persisted, and excluded from automatic cleanups when your storage quota is full." : "Versies met naam worden bewaard en uitgesloten van automatische opschoning wanneer je opslagquota vol is.",
+    "Cancel" : "Annuleren",
     "Remove version name" : "Verwijder versie naam",
     "Save version name" : "Sla versie naam op",
     "Initial version restored" : "Initiële versie hersteld",

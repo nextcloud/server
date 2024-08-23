@@ -379,8 +379,6 @@
     "User disabled" : "Kullanıcı devre dışı",
     "Your data directory is readable by other users." : "Veri klasörünüz diğer kullanıcılar tarafından okunabilir.",
     "Please change the permissions to 0770 so that the directory cannot be listed by other users." : "Lütfen izinleri 0770 olarak ayarlayarak diğer kullanıcıların klasörü görebilmesini sağlayın.",
-    "Ensure there is a file called \".ocdata\" in the root of the data directory." : "Veri klasörü kökünde \".ocdata\" adında bir dosya bulunduğundan emin olun.",
-    "Invalid character \"%1$s\" in filename" : "Dosya adında geçersiz \"%1$s\" karakteri var",
-    "Invalid filename extension \"%1$s\"" : "\"%1$s\" dosya uzantısı geçersiz"
+    "Ensure there is a file called \".ocdata\" in the root of the data directory." : "Veri klasörü kökünde \".ocdata\" adında bir dosya bulunduğundan emin olun."
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

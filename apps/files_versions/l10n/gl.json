@@ -12,6 +12,7 @@
     "Initial version" : "Versión inicial",
     "Version name" : "Nome da versión",
     "Named versions are persisted, and excluded from automatic cleanups when your storage quota is full." : "As versións con nome mantéñense e exclúense das limpezas automáticas cando a súa cota de almacenamento estea completa.",
+    "Cancel" : "Cancelar",
     "Remove version name" : "Retirar o nome da versión",
     "Save version name" : "Gardar o nome da versión",
     "Initial version restored" : "A versión inicial foi restaurada",
