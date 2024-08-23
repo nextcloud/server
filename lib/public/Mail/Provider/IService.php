@@ -30,7 +30,7 @@ interface IService {
 	/**
 	 * checks if a service is able of performing an specific action
 	 *
-	 * @since 4.0.0
+	 * @since 30.0.0
 	 *
 	 * @param string $value					required ability e.g. 'MessageSend'
 	 *
@@ -41,7 +41,7 @@ interface IService {
 	/**
 	 * retrieves a collection of what actions a service can perfrom
 	 *
-	 * @since 4.0.0
+	 * @since 30.0.0
 	 *
 	 * @return array						collection of abilities otherwise empty collection
 	 */
