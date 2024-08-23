@@ -12,6 +12,7 @@
     "Initial version" : "Почетна верзија",
     "Version name" : "Назив верзије",
     "Named versions are persisted, and excluded from automatic cleanups when your storage quota is full." : "Именоване верзије су постојане и изузете су из аутоматског чишћења када се испуни ваша диск квота.",
+    "Cancel" : "Откажи",
     "Remove version name" : "Уклони назив верзије",
     "Save version name" : "Сачувај назив верзије",
     "Initial version restored" : "Рестаурирана је почетна верзија",

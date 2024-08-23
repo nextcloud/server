@@ -14,6 +14,7 @@ OC.L10N.register(
     "Initial version" : "النسخة الأساسية",
     "Version name" : "اسم النسخة",
     "Named versions are persisted, and excluded from automatic cleanups when your storage quota is full." : "النُّسخ المُسمّاة محفوظة و مُستثناة من التنظيف التلقائي عند تضاؤل المٌتاح من الحصة التخزينية.",
+    "Cancel" : "إلغاء",
     "Remove version name" : "إلغ اسم النسخة",
     "Save version name" : "إحفظ اسم النسخة",
     "Initial version restored" : "استعادة النسخة الأساسية",

@@ -13,6 +13,7 @@ OC.L10N.register(
     "Initial version" : "Počáteční verze",
     "Version name" : "Název verze",
     "Named versions are persisted, and excluded from automatic cleanups when your storage quota is full." : "Výslovně verze jsou trvalé a vynechány z automatického čištění při vyčerpání vaší kvóty na úložišti.",
+    "Cancel" : "Storno",
     "Remove version name" : "Odebrat název verze",
     "Save version name" : "Uložit název verze",
     "Initial version restored" : "Počáteční verze obnovena",

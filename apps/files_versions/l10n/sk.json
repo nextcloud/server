@@ -12,6 +12,7 @@
     "Initial version" : "Úvodná verzia",
     "Version name" : "Názov verzie",
     "Named versions are persisted, and excluded from automatic cleanups when your storage quota is full." : "Pomenované verzie sa zachovajú a po naplnení kvóty úložiska budú vylúčené z automatického čistenia.",
+    "Cancel" : "Zrušiť",
     "Remove version name" : "Odstrániť názov verzie",
     "Save version name" : "Uložiť názov verzie",
     "Initial version restored" : "Úvodná verzia bola obnovená",

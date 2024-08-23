@@ -374,8 +374,6 @@
     "User disabled" : "Usuário desativado",
     "Your data directory is readable by other users." : "Seu diretório de dados pode ser lido por outros usuários.",
     "Please change the permissions to 0770 so that the directory cannot be listed by other users." : "Por favor altere as permissões para 0770 para que o diretório não possa ser lido por outros usuários.",
-    "Ensure there is a file called \".ocdata\" in the root of the data directory." : "Assegure-se que exista um arquivo chamado \".ocdata\" na raiz do diretório \"data\".",
-    "Invalid character \"%1$s\" in filename" : "Caractere inválido \"%1$s\" no nome do arquivo",
-    "Invalid filename extension \"%1$s\"" : "Extensão de arquivo inválida \"%1$s\""
+    "Ensure there is a file called \".ocdata\" in the root of the data directory." : "Assegure-se que exista um arquivo chamado \".ocdata\" na raiz do diretório \"data\"."
 },"pluralForm" :"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

@@ -374,8 +374,6 @@
     "User disabled" : "Корисник онемогућен",
     "Your data directory is readable by other users." : "Ваш директоријум са подацима могу да читају остали корисници.",
     "Please change the permissions to 0770 so that the directory cannot be listed by other users." : "Промените дозволе у 0770 како директоријуми не би могли бити излистани од стране других корисника.",
-    "Ensure there is a file called \".ocdata\" in the root of the data directory." : "Уверите се да фајл \".ocdata\" постоји у корену директоријума са подацима.",
-    "Invalid character \"%1$s\" in filename" : "Неисправан карактер у имену фајла „%1$s“",
-    "Invalid filename extension \"%1$s\"" : "Неисправна екстензија имена фајла „%1$s”"
+    "Ensure there is a file called \".ocdata\" in the root of the data directory." : "Уверите се да фајл \".ocdata\" постоји у корену директоријума са подацима."
 },"pluralForm" :"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);"
 }
