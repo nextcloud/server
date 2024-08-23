@@ -12,6 +12,7 @@ OC.L10N.register(
     "Current version" : "Τρέχουσα έκδοση",
     "Initial version" : "Αρχική έκδοση",
     "Version name" : "Όνομα έκδοσης",
+    "Cancel" : "Ακύρωση",
     "Remove version name" : "Αφαίρεση ονόματος έκδοσης",
     "Save version name" : "Αποθήκευση ονόματος έκδοσης",
     "Initial version restored" : "Η αρχική έκδοση επαναφέρθηκε",

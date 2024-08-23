@@ -374,8 +374,6 @@
     "User disabled" : "用戶已停用",
     "Your data directory is readable by other users." : "您的資料目錄可以被其他用戶讀取。",
     "Please change the permissions to 0770 so that the directory cannot be listed by other users." : "請將該目錄權限設定為 0770 ，以免其他用戶讀取目錄列表",
-    "Ensure there is a file called \".ocdata\" in the root of the data directory." : "請確保資料目錄最上層有一個 \"。ocdata\" 檔案",
-    "Invalid character \"%1$s\" in filename" : "檔案名稱中有無效的字元「%1$s」",
-    "Invalid filename extension \"%1$s\"" : "無效的副檔名「%1$s」"
+    "Ensure there is a file called \".ocdata\" in the root of the data directory." : "請確保資料目錄最上層有一個 \"。ocdata\" 檔案"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

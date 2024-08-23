@@ -80,6 +80,11 @@
     "Empty file" : "Leere Datei",
     "Module with ID: %s does not exist. Please enable it in your apps settings or contact your administrator." : "Das Modul mit der ID:  %s existiert nicht. Bitte aktivieren Sie es in Ihren Einstellungen oder kontaktieren Sie Ihren Administrator.",
     "Dot files are not allowed" : "Dateinamen mit einem Punkt am Anfang sind nicht erlaubt",
+    "\"%1$s\" is a forbidden file or folder name." : "\"%1$s\" ist ein verbotener Datei- oder Ordnername.",
+    "\"%1$s\" is a forbidden prefix for file or folder names." : "\"%1$s\" ist ein verbotenes Präfix für Datei- oder Ordnernamen.",
+    "\"%1$s\" is not allowed inside a file or folder name." : "\"%1$s\" ist in einem Datei- oder Ordnernamen unzulässig.",
+    "\"%1$s\" is a forbidden file type." : "\"%1$s\" ist ein unzulässiger Dateityp.",
+    "Filenames must not end with \"%1$s\"." : "Dateinamen dürfen nicht mit \"%1$s\" enden.",
     "File already exists" : "Datei bereits vorhanden",
     "Invalid path" : "Ungültiger Pfad",
     "Failed to create file from template" : "Fehler beim Erstellen der Datei aus Vorlage",
@@ -374,8 +379,6 @@
     "User disabled" : "Benutzer deaktiviert",
     "Your data directory is readable by other users." : "Ihr Datenverzeichnis kann von anderen Benutzern gelesen werden.",
     "Please change the permissions to 0770 so that the directory cannot be listed by other users." : "Bitte ändern Sie die Berechtigungen auf 0770, so dass das Verzeichnis nicht von anderen Benutzern angezeigt werden kann.",
-    "Ensure there is a file called \".ocdata\" in the root of the data directory." : "Stellen Sie sicher, dass eine Datei \".ocdata\" im Wurzelverzeichnis des Datenverzeichnisses existiert.",
-    "Invalid character \"%1$s\" in filename" : "Unzulässiges Zeichen \"%1$s\" im Dateinamen",
-    "Invalid filename extension \"%1$s\"" : "Ungültige Dateinamenerweiterung \"%1$s\""
+    "Ensure there is a file called \".ocdata\" in the root of the data directory." : "Stellen Sie sicher, dass eine Datei \".ocdata\" im Wurzelverzeichnis des Datenverzeichnisses existiert."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

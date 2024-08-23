@@ -201,6 +201,7 @@ OC.L10N.register(
     "Shared" : "Gedeeld",
     "Switch to list view" : "Omschakelen naar lijstoverzicht",
     "Switch to grid view" : "Omschakelen naar roosterweergave",
+    "Upload was cancelled by user" : "Upload was geannuleerd door de gebruiker",
     "Views" : "Bekeken",
     "Files settings" : "Instellingen voor bestanden",
     "Show hidden files" : "Toon verborgen bestanden",
