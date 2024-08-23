@@ -28,6 +28,6 @@ interface IMessageSend {
 	 *
 	 * @throws \OCP\Mail\Provider\Exception\SendException on failure, check message for reason
 	 */
-	public function sendMessage(IMessage $message, array $option = []): void;
+	public function sendMessage(IMessage $message, array $options = []): void;
 
 }

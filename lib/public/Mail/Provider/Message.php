@@ -63,7 +63,7 @@ class Message implements \OCP\Mail\Provider\IMessage {
 	 *
 	 * @since 30.0.0
 	 *
-	 * @param IAddress|null                 	sender's mail address object
+	 * @return IAddress|null                 	sender's mail address object
 	 */
 	public function getFrom(): IAddress | null {
 		// evaluate if data store field exists and return value(s) or null otherwise
@@ -91,7 +91,7 @@ class Message implements \OCP\Mail\Provider\IMessage {
 	 *
 	 * @since 30.0.0
 	 *
-	 * @param IAddress|null                     sender's reply to mail address object
+	 * @return IAddress|null                     sender's reply to mail address object
 	 */
 	public function getReplyTo(): IAddress | null {
 		// evaluate if data store field exists and return value(s) or null otherwise
@@ -119,7 +119,7 @@ class Message implements \OCP\Mail\Provider\IMessage {
 	 *
 	 * @since 30.0.0
 	 *
-	 * @param array<int,IAddress>				collection of all recipient mail address objects
+	 * @return array<int,IAddress>				collection of all recipient mail address objects
 	 */
 	public function getTo(): array {
 		// evaluate if data store field exists and return value(s) or empty collection
@@ -147,7 +147,7 @@ class Message implements \OCP\Mail\Provider\IMessage {
 	 *
 	 * @since 30.0.0
 	 *
-	 * @param array<int,IAddress>	          collection of all copied recipient mail address objects
+	 * @return array<int,IAddress>	          collection of all copied recipient mail address objects
 	 */
 	public function getCc(): array {
 		// evaluate if data store field exists and return value(s) or empty collection
@@ -175,7 +175,7 @@ class Message implements \OCP\Mail\Provider\IMessage {
 	 *
 	 * @since 30.0.0
 	 *
-	 * @param array<int,IAddress>	           collection of all blind copied recipient mail address objects
+	 * @return array<int,IAddress>	           collection of all blind copied recipient mail address objects
 	 */
 	public function getBcc(): array {
 		// evaluate if data store field exists and return value(s) or empty collection
@@ -203,7 +203,7 @@ class Message implements \OCP\Mail\Provider\IMessage {
 	 *
 	 * @since 30.0.0
 	 *
-	 * @param string|null                       subject of message or null if one is not set
+	 * @return string|null                       subject of message or null if one is not set
 	 */
 	public function getSubject(): string | null {
 		// evaluate if data store field exists and return value(s) or null otherwise
@@ -238,7 +238,7 @@ class Message implements \OCP\Mail\Provider\IMessage {
 	 *
 	 * @since 30.0.0
 	 *
-	 * @param string|null                       html/plain body of this message or null if one is not set
+	 * @return string|null                       html/plain body of this message or null if one is not set
 	 */
 	public function getBody(): string | null {
 		// evaluate if data store field(s) exists and return value
@@ -272,7 +272,7 @@ class Message implements \OCP\Mail\Provider\IMessage {
 	 *
 	 * @since 30.0.0
 	 *
-	 * @param string|null                       html body of this message or null if one is not set
+	 * @return string|null                       html body of this message or null if one is not set
 	 */
 	public function getBodyHtml(): string | null {
 		// evaluate if data store field exists and return value(s) or null otherwise
@@ -300,7 +300,7 @@ class Message implements \OCP\Mail\Provider\IMessage {
 	 *
 	 * @since 30.0.0
 	 *
-	 * @param string|null						plain text body of this message or null if one is not set
+	 * @return string|null						plain text body of this message or null if one is not set
 	 */
 	public function getBodyPlain(): string | null {
 		// evaluate if data store field exists and return value(s) or null otherwise
