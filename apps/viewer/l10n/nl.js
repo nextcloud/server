@@ -7,6 +7,7 @@ OC.L10N.register(
     "Error loading {name}" : "Fout bij laden van {name}",
     "Image saved" : "Afbeelding opgeslagen",
     "Unsaved changes" : "Niet opgeslagen veranderingen",
+    "LIVE" : "LIVE",
     "Your browser does not support videos." : "Je browser ondersteunt geen videos.",
     "Edit" : "Bewerk",
     "Open sidebar" : "Open zijbalk",
