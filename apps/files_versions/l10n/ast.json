@@ -12,6 +12,7 @@
     "Initial version" : "Versión inicial",
     "Version name" : "Nome de la versión",
     "Named versions are persisted, and excluded from automatic cleanups when your storage quota is full." : "Les versiones con nome caltiénense y esclúinse de los borraos automáticos cuando la cuota del discu ta completa.",
+    "Cancel" : "Encaboxar",
     "Remove version name" : "Quitar el nome de la versión",
     "Save version name" : "Guardar el nome de la versiones",
     "Initial version restored" : "Restauróse la versión inicial",

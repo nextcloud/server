@@ -12,6 +12,7 @@
     "Initial version" : "Leagan tosaigh",
     "Version name" : "Ainm an leagain",
     "Named versions are persisted, and excluded from automatic cleanups when your storage quota is full." : "Leantar de leaganacha ainmnithe, agus fágtar iad as an áireamh ó ghlanadh uathoibríoch nuair a bhíonn do chuóta stórála lán.",
+    "Cancel" : "Cealaigh",
     "Remove version name" : "Bain ainm an leagain",
     "Save version name" : "Sábháil ainm an leagain",
     "Initial version restored" : "Athchóiríodh an leagan tosaigh",

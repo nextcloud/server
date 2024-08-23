@@ -13,6 +13,7 @@ OC.L10N.register(
     "Initial version" : "Первоначальная версия",
     "Version name" : "Название версии",
     "Named versions are persisted, and excluded from automatic cleanups when your storage quota is full." : "Именованные версии исключены из автоматического удаления старых версий файлов при исчерпании квоты дискового пространства.",
+    "Cancel" : "Отмена",
     "Remove version name" : "Удалить название версии",
     "Save version name" : "Сохранить название версии",
     "Initial version restored" : "Восстановлена первоначальная версия",

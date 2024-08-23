@@ -13,6 +13,7 @@ OC.L10N.register(
     "Initial version" : "Првична верзија",
     "Version name" : "Име на верзијата",
     "Named versions are persisted, and excluded from automatic cleanups when your storage quota is full." : "Именуваните верзии опстојуваат и се исклучени од автоматско чистење кога вашата квота за складирање е полна.",
+    "Cancel" : "Откажи",
     "Remove version name" : "Избриши име на верзијата",
     "Save version name" : "Зачувај име на верзија",
     "Initial version restored" : "Почетната верзијата е вратена",

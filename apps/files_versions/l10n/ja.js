@@ -14,6 +14,7 @@ OC.L10N.register(
     "Initial version" : "最初のバージョン",
     "Version name" : "名前付きバージョン",
     "Named versions are persisted, and excluded from automatic cleanups when your storage quota is full." : "名前付きバージョンは永続化され、ストレージクォータがいっぱいになっていても自動クリーンアップから除外されます。",
+    "Cancel" : "キャンセル",
     "Remove version name" : "バージョン名を削除",
     "Save version name" : "バージョン名を保存",
     "Initial version restored" : "初期バージョンを復旧",
