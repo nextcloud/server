@@ -94,7 +94,7 @@ class LostController extends Controller {
 			) {
 				$response = new TemplateResponse(
 					'core', 'error', [
-						"errors" => [["error" => $e->getMessage()]]
+						'errors' => [['error' => $e->getMessage()]]
 					],
 					TemplateResponse::RENDER_AS_GUEST
 				);

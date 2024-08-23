@@ -79,7 +79,7 @@ interface IImage {
 
 	/**
 	 * @return string Returns the mimetype of the data. Returns null
-	 * if the data is not valid.
+	 *                if the data is not valid.
 	 * @since 13.0.0
 	 */
 	public function dataMimeType(): ?string;

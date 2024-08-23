@@ -160,11 +160,11 @@ class FakeLockerPluginTest extends TestCase {
 			->getMock();
 
 		$response->expects($this->once())
-				->method('setStatus')
-				->with('204');
+			->method('setStatus')
+			->with('204');
 		$response->expects($this->once())
-				->method('setHeader')
-				->with('Content-Length', '0');
+			->method('setHeader')
+			->with('Content-Length', '0');
 
 		$this->assertSame(false, $this->fakeLockerPlugin->fakeUnlockProvider($request, $response));
 	}

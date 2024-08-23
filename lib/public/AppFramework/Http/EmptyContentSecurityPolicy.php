@@ -26,7 +26,7 @@ class EmptyContentSecurityPolicy {
 	protected $strictDynamicAllowedOnScripts = null;
 	/**
 	 * @var bool Whether eval in JS scripts is allowed
-	 * TODO: Disallow per default
+	 *           TODO: Disallow per default
 	 * @link https://github.com/owncloud/core/issues/11925
 	 */
 	protected $evalScriptAllowed = null;
@@ -36,7 +36,7 @@ class EmptyContentSecurityPolicy {
 	protected $allowedScriptDomains = null;
 	/**
 	 * @var bool Whether inline CSS is allowed
-	 * TODO: Disallow per default
+	 *           TODO: Disallow per default
 	 * @link https://github.com/owncloud/core/issues/13458
 	 */
 	protected $inlineStyleAllowed = null;

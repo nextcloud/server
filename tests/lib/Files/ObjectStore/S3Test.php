@@ -104,7 +104,7 @@ class S3Test extends ObjectStoreTest {
 	public function testEmptyUpload() {
 		$s3 = $this->getInstance();
 
-		$emptyStream = fopen("php://memory", "r");
+		$emptyStream = fopen('php://memory', 'r');
 		fwrite($emptyStream, '');
 
 		$s3->writeObject('emptystream', $emptyStream);

@@ -70,8 +70,8 @@ class ControllerTest extends \Test\TestCase {
 			->setConstructorArgs(['test'])
 			->getMock();
 		$this->app->expects($this->any())
-				->method('getAppName')
-				->willReturn('apptemplate_advanced');
+			->method('getAppName')
+			->willReturn('apptemplate_advanced');
 
 		$this->controller = new ChildController($this->app, $request);
 		$this->overwriteService(IRequest::class, $request);

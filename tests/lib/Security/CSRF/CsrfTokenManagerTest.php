@@ -131,14 +131,14 @@ class CsrfTokenManagerTest extends \Test\TestCase {
 		$xorB64 = 'BQcF';
 		$tokenVal = sprintf('%s:%s', $xorB64, base64_encode($a));
 		$this->storageInterface
-				->expects($this->once())
-				->method('hasToken')
-				->willReturn(true);
+			->expects($this->once())
+			->method('hasToken')
+			->willReturn(true);
 		$token = new \OC\Security\CSRF\CsrfToken($tokenVal);
 		$this->storageInterface
-				->expects($this->once())
-				->method('getToken')
-				->willReturn($b);
+			->expects($this->once())
+			->method('getToken')
+			->willReturn($b);
 
 		$this->assertSame(true, $this->csrfTokenManager->isTokenValid($token));
 	}

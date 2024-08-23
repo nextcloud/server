@@ -93,7 +93,7 @@ class PasswordConfirmationMiddleware extends Middleware {
 				return;
 			}
 
-			$lastConfirm = (int) $this->session->get('last-password-confirm');
+			$lastConfirm = (int)$this->session->get('last-password-confirm');
 			// TODO: confirm excludedUserBackEnds can go away and remove it
 			if (!isset($this->excludedUserBackEnds[$backendClassName]) && $lastConfirm < ($this->timeFactory->getTime() - (30 * 60 + 15))) { // allow 15 seconds delay
 				throw new NotConfirmedException();

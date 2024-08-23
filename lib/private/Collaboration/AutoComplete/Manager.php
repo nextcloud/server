@@ -13,7 +13,7 @@ class Manager implements IManager {
 	/** @var string[] */
 	protected array $sorters = [];
 
-	/** @var ISorter[]  */
+	/** @var ISorter[] */
 	protected array $sorterInstances = [];
 
 	public function __construct(

@@ -21,28 +21,28 @@ use OCA\User_LDAP\LDAP;
  *
  */
 class ExceptionOnLostConnection {
-	/** @var  string */
+	/** @var string */
 	private $toxiProxyHost;
 
-	/** @var  string */
+	/** @var string */
 	private $toxiProxyName;
 
-	/** @var  string */
+	/** @var string */
 	private $ldapBase;
 
-	/** @var string|null  */
+	/** @var string|null */
 	private $ldapBindDN;
 
-	/** @var string|null  */
+	/** @var string|null */
 	private $ldapBindPwd;
 
-	/** @var  string */
+	/** @var string */
 	private $ldapHost;
 
-	/** @var  \OCA\User_LDAP\LDAP */
+	/** @var \OCA\User_LDAP\LDAP */
 	private $ldap;
 
-	/** @var  bool */
+	/** @var bool */
 	private $originalProxyState;
 
 	/**
@@ -117,10 +117,10 @@ class ExceptionOnLostConnection {
 		try {
 			$this->ldap->search($cr, $this->ldapBase, 'objectClass=*', ['dn'], true, 5);
 		} catch (ServerNotAvailableException $e) {
-			print("Test PASSED" . PHP_EOL);
+			print('Test PASSED' . PHP_EOL);
 			exit(0);
 		}
-		print("Test FAILED" . PHP_EOL);
+		print('Test FAILED' . PHP_EOL);
 		exit(1);
 	}
 

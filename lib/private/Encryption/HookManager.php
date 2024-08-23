@@ -42,7 +42,7 @@ class HookManager {
 				$user = \OC::$server->getUserManager()->get($owner);
 			}
 			if (!$user) {
-				throw new \Exception("Inconsistent data, File unshared, but owner not found. Should not happen");
+				throw new \Exception('Inconsistent data, File unshared, but owner not found. Should not happen');
 			}
 
 			$uid = '';

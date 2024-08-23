@@ -112,7 +112,7 @@ class Connection extends LDAPUtility {
 	 */
 	protected $cache = null;
 
-	/** @var Configuration settings handler **/
+	/** @var Configuration settings handler * */
 	protected $configuration;
 
 	/**
@@ -313,7 +313,7 @@ class Connection extends LDAPUtility {
 	/**
 	 * Caches the general LDAP configuration.
 	 * @param bool $force optional. true, if the re-read should be forced. defaults
-	 * to false.
+	 *                    to false.
 	 */
 	private function readConfiguration(bool $force = false): void {
 		if ((!$this->configured || $force) && !is_null($this->configID)) {

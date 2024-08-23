@@ -32,7 +32,7 @@ class App {
 	 * some_app_id -> OCA\SomeAppId
 	 * @param string $appId the app id
 	 * @param string $topNamespace the namespace which should be prepended to
-	 * the transformed app id, defaults to OCA\
+	 *                             the transformed app id, defaults to OCA\
 	 * @return string the starting namespace for the app
 	 * @since 8.0.0
 	 */

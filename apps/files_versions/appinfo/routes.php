@@ -18,7 +18,7 @@ $application->registerRoutes($this, [
 	],
 ]);
 
-/** @var $this \OCP\Route\IRouter */
+/** @var \OCP\Route\IRouter $this */
 $this->create('files_versions_download', 'apps/files_versions/download.php')
 	->actionInclude('files_versions/download.php');
 $this->create('files_versions_ajax_getVersions', 'apps/files_versions/ajax/getVersions.php')

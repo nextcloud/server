@@ -251,7 +251,7 @@ class ContactsMigrator implements IMigrator, ISizeEstimationMigrator {
 				$vCard->serialize(),
 			);
 		} catch (Throwable $e) {
-			$output->writeln("Error creating contact \"" . ($vCard->FN ?? 'null') . "\" from \"$filename\", skipping…");
+			$output->writeln('Error creating contact "' . ($vCard->FN ?? 'null') . "\" from \"$filename\", skipping…");
 		}
 	}
 

@@ -21,11 +21,11 @@ class VersionCheckTest extends \Test\TestCase {
 	private $config;
 	/** @var IAppConfig| \PHPUnit\Framework\MockObject\MockObject */
 	private $appConfig;
-	/** @var VersionCheck | \PHPUnit\Framework\MockObject\MockObject*/
+	/** @var VersionCheck | \PHPUnit\Framework\MockObject\MockObject */
 	private $updater;
-	/** @var IRegistry | \PHPUnit\Framework\Mo2ckObject\MockObject*/
+	/** @var IRegistry | \PHPUnit\Framework\Mo2ckObject\MockObject */
 	private $registry;
-	/** @var LoggerInterface | \PHPUnit\Framework\Mo2ckObject\MockObject*/
+	/** @var LoggerInterface | \PHPUnit\Framework\Mo2ckObject\MockObject */
 	private $logger;
 
 	protected function setUp(): void {

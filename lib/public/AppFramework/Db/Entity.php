@@ -28,7 +28,7 @@ abstract class Entity {
 	/**
 	 * Simple alternative constructor for building entities from a request
 	 * @param array $params the array which was obtained via $this->params('key')
-	 * in the controller
+	 *                      in the controller
 	 * @since 7.0.0
 	 */
 	public static function fromParams(array $params): static {

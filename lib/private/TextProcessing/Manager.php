@@ -169,7 +169,7 @@ class Manager implements IManager {
 			throw new PreConditionNotMetException('No LanguageModel provider is installed that can handle this task');
 		}
 		[$provider,] = $this->getPreferredProviders($task);
-		$maxExecutionTime = (int) ini_get('max_execution_time');
+		$maxExecutionTime = (int)ini_get('max_execution_time');
 		// Offload the task to a background job if the expected runtime of the likely provider is longer than 80% of our max execution time
 		// or if the provider doesn't provide a getExpectedRuntime() method
 		if (!$provider instanceof IProviderWithExpectedRuntime || $provider->getExpectedRuntime() > $maxExecutionTime * 0.8) {

@@ -47,7 +47,7 @@ class Broker implements IBroker {
 		$context = $this->coordinator->getRegistrationContext();
 		if ($context === null) {
 			// Backend requested too soon, e.g. from the bootstrap `register` method of an app
-			throw new RuntimeException("Not all apps have been registered yet");
+			throw new RuntimeException('Not all apps have been registered yet');
 		}
 		$backendRegistration = $context->getTalkBackendRegistration();
 		if ($backendRegistration === null) {
@@ -63,7 +63,7 @@ class Broker implements IBroker {
 			// Remember and return
 			return $this->hasBackend = true;
 		} catch (Throwable $e) {
-			$this->logger->error("Talk backend {class} could not be loaded: " . $e->getMessage(), [
+			$this->logger->error('Talk backend {class} could not be loaded: ' . $e->getMessage(), [
 				'class' => $backendRegistration->getService(),
 				'exception' => $e,
 			]);
@@ -81,7 +81,7 @@ class Broker implements IBroker {
 		array $moderators,
 		?IConversationOptions $options = null): IConversation {
 		if (!$this->hasBackend()) {
-			throw new NoBackendException("The Talk broker has no registered backend");
+			throw new NoBackendException('The Talk broker has no registered backend');
 		}
 
 		return $this->backend->createConversation(
@@ -93,7 +93,7 @@ class Broker implements IBroker {
 
 	public function deleteConversation(string $id): void {
 		if (!$this->hasBackend()) {
-			throw new NoBackendException("The Talk broker has no registered backend");
+			throw new NoBackendException('The Talk broker has no registered backend');
 		}
 
 		$this->backend->deleteConversation($id);

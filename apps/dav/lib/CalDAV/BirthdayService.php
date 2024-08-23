@@ -87,7 +87,7 @@ class BirthdayService {
 				return;
 			}
 			foreach ($datesToSync as $type) {
-				$this->updateCalendar($cardUri, $cardData, $book, (int) $calendar['id'], $type, $reminderOffset);
+				$this->updateCalendar($cardUri, $cardData, $book, (int)$calendar['id'], $type, $reminderOffset);
 			}
 		}
 	}
@@ -247,7 +247,7 @@ class BirthdayService {
 		$vEvent->{'X-NEXTCLOUD-BC-FIELD-TYPE'} = $dateField;
 		$vEvent->{'X-NEXTCLOUD-BC-UNKNOWN-YEAR'} = $dateParts['year'] === null ? '1' : '0';
 		if ($originalYear !== null) {
-			$vEvent->{'X-NEXTCLOUD-BC-YEAR'} = (string) $originalYear;
+			$vEvent->{'X-NEXTCLOUD-BC-YEAR'} = (string)$originalYear;
 		}
 		if ($reminderOffset) {
 			$alarm = $vCal->createComponent('VALARM');
@@ -287,7 +287,7 @@ class BirthdayService {
 		foreach ($books as $book) {
 			$cards = $this->cardDavBackEnd->getCards($book['id']);
 			foreach ($cards as $card) {
-				$this->onCardChanged((int) $book['id'], $card['uri'], $card['carddata']);
+				$this->onCardChanged((int)$book['id'], $card['uri'], $card['carddata']);
 			}
 		}
 	}

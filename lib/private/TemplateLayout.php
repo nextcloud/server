@@ -309,7 +309,7 @@ class TemplateLayout extends \OC_Template {
 	protected function getVersionHashSuffix($path = false, $file = false) {
 		if ($this->config->getSystemValueBool('debug', false)) {
 			// allows chrome workspace mapping in debug mode
-			return "";
+			return '';
 		}
 		$themingSuffix = '';
 		$v = [];

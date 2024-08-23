@@ -80,13 +80,13 @@ class FixEncryptedVersion extends Command {
 		$pathOption = \trim(($input->getOption('path') ?? ''), '/');
 
 		if (!$user && !$all) {
-			$output->writeln("Either a user id or --all needs to be provided");
+			$output->writeln('Either a user id or --all needs to be provided');
 			return self::FAILURE;
 		}
 
 		if ($user) {
 			if ($all) {
-				$output->writeln("Specifying a user id and --all are mutually exclusive");
+				$output->writeln('Specifying a user id and --all are mutually exclusive');
 				return self::FAILURE;
 			}
 
@@ -100,7 +100,7 @@ class FixEncryptedVersion extends Command {
 
 		$result = 0;
 		$this->userManager->callForSeenUsers(function (IUser $user) use ($pathOption, $output, &$result) {
-			$output->writeln("Processing files for " . $user->getUID());
+			$output->writeln('Processing files for ' . $user->getUID());
 			$result = $this->runForUser($user->getUID(), $pathOption, $output);
 			return $result === 0;
 		});
@@ -109,7 +109,7 @@ class FixEncryptedVersion extends Command {
 
 	private function runForUser(string $user, string $pathOption, OutputInterface $output): int {
 		$pathToWalk = "/$user/files";
-		if ($pathOption !== "") {
+		if ($pathOption !== '') {
 			$pathToWalk = "$pathToWalk/$pathOption";
 		}
 		return $this->walkPathOfUser($user, $pathToWalk, $output);
@@ -205,7 +205,7 @@ class FixEncryptedVersion extends Command {
 			}
 			return false;
 		} catch (HintException $e) {
-			$this->logger->warning("Issue: " . $e->getMessage());
+			$this->logger->warning('Issue: ' . $e->getMessage());
 			// If allowOnce is set to false, this becomes recursive.
 			if ($ignoreCorrectEncVersionCall === true) {
 				// Lets rectify the file by correcting encrypted version
@@ -254,7 +254,7 @@ class FixEncryptedVersion extends Command {
 				// try with zero first
 				$cacheInfo = ['encryptedVersion' => 0, 'encrypted' => 0];
 				$cache->put($fileCache->getPath(), $cacheInfo);
-				$output->writeln("<info>Set the encrypted version to 0 (unencrypted)</info>");
+				$output->writeln('<info>Set the encrypted version to 0 (unencrypted)</info>');
 				if ($this->verifyFileContent($path, $output, false) === true) {
 					$output->writeln("<info>Fixed the file: \"$path\" with version 0 (unencrypted)</info>");
 					return true;
@@ -268,7 +268,7 @@ class FixEncryptedVersion extends Command {
 				$cache->put($fileCache->getPath(), $cacheInfo);
 				$output->writeln("<info>Decrement the encrypted version to $encryptedVersion</info>");
 				if ($this->verifyFileContent($path, $output, false) === true) {
-					$output->writeln("<info>Fixed the file: \"$path\" with version " . $encryptedVersion . "</info>");
+					$output->writeln("<info>Fixed the file: \"$path\" with version " . $encryptedVersion . '</info>');
 					return true;
 				}
 				$encryptedVersion--;
@@ -291,7 +291,7 @@ class FixEncryptedVersion extends Command {
 				$cache->put($fileCache->getPath(), $cacheInfo);
 				$output->writeln("<info>Increment the encrypted version to $newEncryptedVersion</info>");
 				if ($this->verifyFileContent($path, $output, false) === true) {
-					$output->writeln("<info>Fixed the file: \"$path\" with version " . $newEncryptedVersion . "</info>");
+					$output->writeln("<info>Fixed the file: \"$path\" with version " . $newEncryptedVersion . '</info>');
 					return true;
 				}
 				$increment++;

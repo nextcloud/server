@@ -516,7 +516,7 @@ class ShareAPIController extends OCSController {
 	 * @param string $password Password for the share
 	 * @param string|null $sendPasswordByTalk Send the password for the share over Talk
 	 * @param ?string $expireDate The expiry date of the share in the user's timezone at 00:00.
-	 *                If $expireDate is not supplied or set to `null`, the system default will be used.
+	 *                            If $expireDate is not supplied or set to `null`, the system default will be used.
 	 * @param string $note Note for the share
 	 * @param string $label Label for the share (only used in link and email)
 	 * @param string|null $attributes Additional attributes for the share
@@ -1005,7 +1005,7 @@ class ShareAPIController extends OCSController {
 				if (!$resharingRight && $this->shareProviderResharingRights($this->currentUser, $share, $node)) {
 					$resharingRight = true;
 				}
-			} catch (InvalidPathException | NotFoundException $e) {
+			} catch (InvalidPathException|NotFoundException $e) {
 			}
 		}
 
@@ -1060,7 +1060,7 @@ class ShareAPIController extends OCSController {
 
 		// initiate real owner.
 		$owner = $node->getOwner()
-					  ->getUID();
+			->getUID();
 		if (!$this->userManager->userExists($owner)) {
 			return new DataResponse([]);
 		}
@@ -1069,7 +1069,7 @@ class ShareAPIController extends OCSController {
 		$userFolder = $this->rootFolder->getUserFolder($owner);
 		if ($node->getId() !== $userFolder->getId() && !$userFolder->isSubNode($node)) {
 			$owner = $node->getOwner()
-						  ->getUID();
+				->getUID();
 			$userFolder = $this->rootFolder->getUserFolder($owner);
 			$node = $userFolder->getFirstNodeById($node->getId());
 		}
@@ -1133,8 +1133,8 @@ class ShareAPIController extends OCSController {
 	 * @param string|null $hideDownload New condition if the download should be hidden
 	 * @param string|null $attributes New additional attributes
 	 * @param string|null $sendMail if the share should be send by mail.
-	 *                    Considering the share already exists, no mail will be send after the share is updated.
-	 *  				  You will have to use the sendMail action to send the mail.
+	 *                              Considering the share already exists, no mail will be send after the share is updated.
+	 *                              You will have to use the sendMail action to send the mail.
 	 * @param string|null $shareWith New recipient for email shares
 	 * @return DataResponse<Http::STATUS_OK, Files_SharingShare, array{}>
 	 * @throws OCSBadRequestException Share could not be updated because the requested changes are invalid
@@ -1289,7 +1289,7 @@ class ShareAPIController extends OCSController {
 
 			if ($label !== null) {
 				if (strlen($label) > 255) {
-					throw new OCSBadRequestException("Maximum label length is 255");
+					throw new OCSBadRequestException('Maximum label length is 255');
 				}
 				$share->setLabel($label);
 			}
@@ -1633,7 +1633,7 @@ class ShareAPIController extends OCSController {
 	 */
 	private function parseDate(string $expireDate): \DateTime {
 		try {
-			$date = new \DateTime(trim($expireDate, "\""), $this->dateTimeZone->getTimeZone());
+			$date = new \DateTime(trim($expireDate, '"'), $this->dateTimeZone->getTimeZone());
 			// Make sure it expires at midnight in owner timezone
 			$date->setTime(0, 0, 0);
 		} catch (\Exception $e) {
@@ -1865,7 +1865,7 @@ class ShareAPIController extends OCSController {
 					if ($this->shareProviderResharingRights($viewer, $share, $node)) {
 						return true;
 					}
-				} catch (InvalidPathException | NotFoundException $e) {
+				} catch (InvalidPathException|NotFoundException $e) {
 				}
 			}
 		}
@@ -2062,6 +2062,7 @@ class ShareAPIController extends OCSController {
 	 * @throws OCSBadRequestException Invalid request or wrong password
 	 * @throws OCSException Error while sending mail notification
 	 * @return DataResponse<Http::STATUS_OK, array<empty>, array{}>
+	 *
 	 * 200: The email notification was sent successfully
 	 */
 	#[NoAdminRequired]

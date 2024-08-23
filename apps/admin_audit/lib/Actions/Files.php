@@ -43,7 +43,7 @@ class Files extends Action {
 			];
 		} catch (InvalidPathException|NotFoundException $e) {
 			\OCP\Server::get(LoggerInterface::class)->error(
-				"Exception thrown in file read: ".$e->getMessage(), ['app' => 'admin_audit', 'exception' => $e]
+				'Exception thrown in file read: '.$e->getMessage(), ['app' => 'admin_audit', 'exception' => $e]
 			);
 			return;
 		}
@@ -65,7 +65,7 @@ class Files extends Action {
 			$this->renamedNodes[$source->getId()] = $source;
 		} catch (InvalidPathException|NotFoundException $e) {
 			\OCP\Server::get(LoggerInterface::class)->error(
-				"Exception thrown in file rename: ".$e->getMessage(), ['app' => 'admin_audit', 'exception' => $e]
+				'Exception thrown in file rename: '.$e->getMessage(), ['app' => 'admin_audit', 'exception' => $e]
 			);
 			return;
 		}
@@ -87,7 +87,7 @@ class Files extends Action {
 			];
 		} catch (InvalidPathException|NotFoundException $e) {
 			\OCP\Server::get(LoggerInterface::class)->error(
-				"Exception thrown in file rename: ".$e->getMessage(), ['app' => 'admin_audit', 'exception' => $e]
+				'Exception thrown in file rename: '.$e->getMessage(), ['app' => 'admin_audit', 'exception' => $e]
 			);
 			return;
 		}
@@ -113,7 +113,7 @@ class Files extends Action {
 			];
 		} catch (InvalidPathException|NotFoundException $e) {
 			\OCP\Server::get(LoggerInterface::class)->error(
-				"Exception thrown in file create: ".$e->getMessage(), ['app' => 'admin_audit', 'exception' => $e]
+				'Exception thrown in file create: '.$e->getMessage(), ['app' => 'admin_audit', 'exception' => $e]
 			);
 			return;
 		}
@@ -142,7 +142,7 @@ class Files extends Action {
 			];
 		} catch (InvalidPathException|NotFoundException $e) {
 			\OCP\Server::get(LoggerInterface::class)->error(
-				"Exception thrown in file copy: ".$e->getMessage(), ['app' => 'admin_audit', 'exception' => $e]
+				'Exception thrown in file copy: '.$e->getMessage(), ['app' => 'admin_audit', 'exception' => $e]
 			);
 			return;
 		}
@@ -167,7 +167,7 @@ class Files extends Action {
 			];
 		} catch (InvalidPathException|NotFoundException $e) {
 			\OCP\Server::get(LoggerInterface::class)->error(
-				"Exception thrown in file write: ".$e->getMessage(), ['app' => 'admin_audit', 'exception' => $e]
+				'Exception thrown in file write: '.$e->getMessage(), ['app' => 'admin_audit', 'exception' => $e]
 			);
 			return;
 		}
@@ -195,7 +195,7 @@ class Files extends Action {
 			];
 		} catch (InvalidPathException|NotFoundException $e) {
 			\OCP\Server::get(LoggerInterface::class)->error(
-				"Exception thrown in file update: ".$e->getMessage(), ['app' => 'admin_audit', 'exception' => $e]
+				'Exception thrown in file update: '.$e->getMessage(), ['app' => 'admin_audit', 'exception' => $e]
 			);
 			return;
 		}
@@ -219,7 +219,7 @@ class Files extends Action {
 			];
 		} catch (InvalidPathException|NotFoundException $e) {
 			\OCP\Server::get(LoggerInterface::class)->error(
-				"Exception thrown in file delete: ".$e->getMessage(), ['app' => 'admin_audit', 'exception' => $e]
+				'Exception thrown in file delete: '.$e->getMessage(), ['app' => 'admin_audit', 'exception' => $e]
 			);
 			return;
 		}
@@ -248,7 +248,7 @@ class Files extends Action {
 			];
 		} catch (InvalidPathException|NotFoundException $e) {
 			\OCP\Server::get(LoggerInterface::class)->error(
-				"Exception thrown in file preview: ".$e->getMessage(), ['app' => 'admin_audit', 'exception' => $e]
+				'Exception thrown in file preview: '.$e->getMessage(), ['app' => 'admin_audit', 'exception' => $e]
 			);
 			return;
 		}

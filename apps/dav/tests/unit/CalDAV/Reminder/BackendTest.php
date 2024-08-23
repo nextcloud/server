@@ -95,7 +95,7 @@ class BackendTest extends TestCase {
 
 		$this->assertCount(4, $rows);
 
-		$this->reminderBackend->removeReminder((int) $rows[3]['id']);
+		$this->reminderBackend->removeReminder((int)$rows[3]['id']);
 
 		$query = self::$realDatabase->getQueryBuilder();
 		$rows = $query->select('*')
@@ -240,7 +240,7 @@ class BackendTest extends TestCase {
 
 		$this->assertEquals($rows[3]['notification_date'], 123600);
 
-		$reminderId = (int)  $rows[3]['id'];
+		$reminderId = (int)$rows[3]['id'];
 		$newNotificationDate = 123700;
 
 		$this->reminderBackend->updateReminder($reminderId, $newNotificationDate);
@@ -252,7 +252,7 @@ class BackendTest extends TestCase {
 			->execute()
 			->fetch();
 
-		$this->assertEquals((int) $row['notification_date'], 123700);
+		$this->assertEquals((int)$row['notification_date'], 123700);
 	}
 
 

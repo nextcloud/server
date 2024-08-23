@@ -50,8 +50,8 @@ class L10nTest extends TestCase {
 		$transFile = \OC::$SERVERROOT.'/tests/data/l10n/de.json';
 		$l = new L10N($this->getFactory(), 'test', 'de', 'de_AT', [$transFile]);
 
-		$this->assertEquals('1 Datei', (string) $l->n('%n file', '%n files', 1));
-		$this->assertEquals('2 Dateien', (string) $l->n('%n file', '%n files', 2));
+		$this->assertEquals('1 Datei', (string)$l->n('%n file', '%n files', 1));
+		$this->assertEquals('2 Dateien', (string)$l->n('%n file', '%n files', 2));
 	}
 
 	public function testRussianPluralTranslations() {
@@ -91,9 +91,9 @@ class L10nTest extends TestCase {
 		$transFile = \OC::$SERVERROOT.'/tests/data/l10n/de.json';
 		$l = new L10N($this->getFactory(), 'test', 'de', 'cs_CZ', [$transFile]);
 
-		$this->assertEquals('1 Datei', (string) $l->n('%n file', '%n files', 1));
-		$this->assertEquals('2 Dateien', (string) $l->n('%n file', '%n files', 2));
-		$this->assertEquals('5 Dateien', (string) $l->n('%n file', '%n files', 5));
+		$this->assertEquals('1 Datei', (string)$l->n('%n file', '%n files', 1));
+		$this->assertEquals('2 Dateien', (string)$l->n('%n file', '%n files', 2));
+		$this->assertEquals('5 Dateien', (string)$l->n('%n file', '%n files', 5));
 	}
 
 	public function dataPlaceholders(): array {

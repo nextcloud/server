@@ -65,7 +65,7 @@ class Encryption extends Wrapper {
 	/** @var array remember for which path we execute the repair step to avoid recursions */
 	private $fixUnencryptedSizeOf = [];
 
-	/** @var  ArrayCache */
+	/** @var ArrayCache */
 	private $arrayCache;
 
 	/** @var CappedMemoryCache<bool> */
@@ -204,7 +204,7 @@ class Encryption extends Wrapper {
 		$encryptionModule = $this->getEncryptionModule($path);
 
 		if ($encryptionModule) {
-			$handle = $this->fopen($path, "r");
+			$handle = $this->fopen($path, 'r');
 			if (!$handle) {
 				return false;
 			}

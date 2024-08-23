@@ -61,7 +61,7 @@ class Notifier implements INotifier {
 			// Deal with known subjects
 			case 'pwd_exp_warn_days':
 				$params = $notification->getSubjectParameters();
-				$days = (int) $params[0];
+				$days = (int)$params[0];
 				if ($days === 2) {
 					$notification->setParsedSubject($l->t('Your password will expire tomorrow.'));
 				} elseif ($days === 1) {

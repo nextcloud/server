@@ -17,7 +17,7 @@ use Test\TestCase;
 
 class AddServerMiddlewareTest extends TestCase {
 
-	/** @var  \PHPUnit\Framework\MockObject\MockObject | LoggerInterface */
+	/** @var \PHPUnit\Framework\MockObject\MockObject | LoggerInterface */
 	private $logger;
 
 	/** @var \PHPUnit\Framework\MockObject\MockObject | \OCP\IL10N */
@@ -25,7 +25,7 @@ class AddServerMiddlewareTest extends TestCase {
 
 	private AddServerMiddleware $middleware;
 
-	/** @var  \PHPUnit\Framework\MockObject\MockObject | SettingsController */
+	/** @var \PHPUnit\Framework\MockObject\MockObject | SettingsController */
 	private $controller;
 
 	protected function setUp(): void {

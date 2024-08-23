@@ -151,7 +151,7 @@ class Manager implements IManager {
 		while ($row = $result->fetch()) {
 			$scope = new ScopeContext($row['type'], $row['value']);
 
-			if (!$operation->isAvailableForScope((int) $row['type'])) {
+			if (!$operation->isAvailableForScope((int)$row['type'])) {
 				continue;
 			}
 
@@ -191,7 +191,7 @@ class Manager implements IManager {
 				continue;
 			}
 
-			if (!$operation->isAvailableForScope((int) $row['scope_type'])) {
+			if (!$operation->isAvailableForScope((int)$row['scope_type'])) {
 				continue;
 			}
 
@@ -540,8 +540,8 @@ class Manager implements IManager {
 		$result = $query->execute();
 
 		while ($row = $result->fetch()) {
-			$this->checks[(int) $row['id']] = $row;
-			$checks[(int) $row['id']] = $row;
+			$this->checks[(int)$row['id']] = $row;
+			$checks[(int)$row['id']] = $row;
 		}
 		$result->closeCursor();
 
@@ -572,7 +572,7 @@ class Manager implements IManager {
 
 		if ($row = $result->fetch()) {
 			$result->closeCursor();
-			return (int) $row['id'];
+			return (int)$row['id'];
 		}
 
 		$query = $this->connection->getQueryBuilder();

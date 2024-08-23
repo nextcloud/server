@@ -134,7 +134,7 @@ class FileInfo implements \OCP\Files\FileInfo, \ArrayAccess {
 	 * @return int|null
 	 */
 	public function getId() {
-		return isset($this->data['fileid']) ? (int)  $this->data['fileid'] : null;
+		return isset($this->data['fileid']) ? (int)$this->data['fileid'] : null;
 	}
 
 	/**
@@ -196,7 +196,7 @@ class FileInfo implements \OCP\Files\FileInfo, \ArrayAccess {
 	 */
 	public function getMTime() {
 		$this->updateEntryfromSubMounts();
-		return (int) $this->data['mtime'];
+		return (int)$this->data['mtime'];
 	}
 
 	/**
@@ -210,14 +210,14 @@ class FileInfo implements \OCP\Files\FileInfo, \ArrayAccess {
 	 * Return the current version used for the HMAC in the encryption app
 	 */
 	public function getEncryptedVersion(): int {
-		return isset($this->data['encryptedVersion']) ? (int) $this->data['encryptedVersion'] : 1;
+		return isset($this->data['encryptedVersion']) ? (int)$this->data['encryptedVersion'] : 1;
 	}
 
 	/**
 	 * @return int
 	 */
 	public function getPermissions() {
-		return (int) $this->data['permissions'];
+		return (int)$this->data['permissions'];
 	}
 
 	/**
@@ -379,11 +379,11 @@ class FileInfo implements \OCP\Files\FileInfo, \ArrayAccess {
 	}
 
 	public function getCreationTime(): int {
-		return (int) $this->data['creation_time'];
+		return (int)$this->data['creation_time'];
 	}
 
 	public function getUploadTime(): int {
-		return (int) $this->data['upload_time'];
+		return (int)$this->data['upload_time'];
 	}
 
 	public function getParentId(): int {

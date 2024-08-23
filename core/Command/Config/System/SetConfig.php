@@ -94,8 +94,8 @@ class SetConfig extends Base {
 					throw new \InvalidArgumentException('Non-numeric value specified');
 				}
 				return [
-					'value' => (int) $value,
-					'readable-value' => 'integer ' . (int) $value,
+					'value' => (int)$value,
+					'readable-value' => 'integer ' . (int)$value,
 				];
 
 			case 'double':
@@ -104,8 +104,8 @@ class SetConfig extends Base {
 					throw new \InvalidArgumentException('Non-numeric value specified');
 				}
 				return [
-					'value' => (double) $value,
-					'readable-value' => 'double ' . (double) $value,
+					'value' => (float)$value,
+					'readable-value' => 'double ' . (float)$value,
 				];
 
 			case 'boolean':
@@ -136,7 +136,7 @@ class SetConfig extends Base {
 				];
 
 			case 'string':
-				$value = (string) $value;
+				$value = (string)$value;
 				return [
 					'value' => $value,
 					'readable-value' => ($value === '') ? 'empty string' : 'string ' . $value,

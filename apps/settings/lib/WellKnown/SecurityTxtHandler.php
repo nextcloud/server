@@ -21,13 +21,13 @@ class SecurityTxtHandler implements IHandler {
 			return $previousResponse;
 		}
 
-		$response = "Contact: https://hackerone.com/nextcloud
+		$response = 'Contact: https://hackerone.com/nextcloud
 Expires: 2025-02-28T23:00:00.000Z
 Acknowledgments: https://hackerone.com/nextcloud/thanks
 Acknowledgments: https://github.com/nextcloud/security-advisories/security/advisories
 Policy: https://hackerone.com/nextcloud
 Preferred-Languages: en
-";
+';
 
 		return new GenericResponse(new TextPlainResponse($response, 200));
 	}

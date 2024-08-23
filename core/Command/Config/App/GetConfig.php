@@ -56,7 +56,7 @@ class GetConfig extends Base {
 	/**
 	 * Executes the current command.
 	 *
-	 * @param InputInterface  $input  An InputInterface instance
+	 * @param InputInterface $input An InputInterface instance
 	 * @param OutputInterface $output An OutputInterface instance
 	 * @return int 0 if everything went fine, or an error code
 	 */

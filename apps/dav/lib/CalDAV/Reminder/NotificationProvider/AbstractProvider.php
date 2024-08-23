@@ -113,7 +113,7 @@ abstract class AbstractProvider implements INotificationProvider {
 	 */
 	private function getStatusOfEvent(VEvent $vevent):string {
 		if ($vevent->STATUS) {
-			return (string) $vevent->STATUS;
+			return (string)$vevent->STATUS;
 		}
 
 		// Doesn't say so in the standard,

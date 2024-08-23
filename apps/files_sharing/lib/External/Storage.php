@@ -214,20 +214,20 @@ class Storage extends DAV implements ISharedStorage, IDisableEncryptionStorage, 
 				// we remove the invalid storage
 				$this->manager->removeShare($this->mountPoint);
 				$this->manager->getMountManager()->removeMount($this->mountPoint);
-				throw new StorageInvalidException("Remote share not found", 0, $e);
+				throw new StorageInvalidException('Remote share not found', 0, $e);
 			} else {
 				// Nextcloud instance is gone, likely to be a temporary server configuration error
-				throw new StorageNotAvailableException("No nextcloud instance found at remote", 0, $e);
+				throw new StorageNotAvailableException('No nextcloud instance found at remote', 0, $e);
 			}
 		} catch (ForbiddenException $e) {
 			// auth error, remove share for now (provide a dialog in the future)
 			$this->manager->removeShare($this->mountPoint);
 			$this->manager->getMountManager()->removeMount($this->mountPoint);
-			throw new StorageInvalidException("Auth error when getting remote share");
+			throw new StorageInvalidException('Auth error when getting remote share');
 		} catch (\GuzzleHttp\Exception\ConnectException $e) {
-			throw new StorageNotAvailableException("Failed to connect to remote instance", 0, $e);
+			throw new StorageNotAvailableException('Failed to connect to remote instance', 0, $e);
 		} catch (\GuzzleHttp\Exception\RequestException $e) {
-			throw new StorageNotAvailableException("Error while sending request to remote instance", 0, $e);
+			throw new StorageNotAvailableException('Error while sending request to remote instance', 0, $e);
 		}
 	}
 
@@ -424,6 +424,6 @@ class Storage extends DAV implements ISharedStorage, IDisableEncryptionStorage, 
 	}
 
 	public function free_space($path) {
-		return parent::free_space("");
+		return parent::free_space('');
 	}
 }

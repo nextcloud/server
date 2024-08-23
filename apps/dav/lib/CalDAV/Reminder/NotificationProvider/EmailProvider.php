@@ -149,11 +149,11 @@ class EmailProvider extends AbstractProvider {
 			$this->getAbsoluteImagePath('places/calendar.png'));
 
 		if (isset($vevent->LOCATION)) {
-			$template->addBodyListItem((string) $vevent->LOCATION, $l10n->t('Where:'),
+			$template->addBodyListItem((string)$vevent->LOCATION, $l10n->t('Where:'),
 				$this->getAbsoluteImagePath('actions/address.png'));
 		}
 		if (isset($vevent->DESCRIPTION)) {
-			$template->addBodyListItem((string) $vevent->DESCRIPTION, $l10n->t('Description:'),
+			$template->addBodyListItem((string)$vevent->DESCRIPTION, $l10n->t('Description:'),
 				$this->getAbsoluteImagePath('actions/more.png'));
 		}
 	}

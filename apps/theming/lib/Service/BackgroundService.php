@@ -280,7 +280,7 @@ class BackgroundService {
 		if ($background === self::BACKGROUND_CUSTOM) {
 			try {
 				return $this->getAppDataFolder()->getFile('background.jpg');
-			} catch (NotFoundException | NotPermittedException $e) {
+			} catch (NotFoundException|NotPermittedException $e) {
 				return null;
 			}
 		}

@@ -212,10 +212,10 @@ class Redis extends Cache implements IMemcacheTTL {
 	}
 
 	protected static function encodeValue(mixed $value): string {
-		return is_int($value) ? (string) $value : json_encode($value);
+		return is_int($value) ? (string)$value : json_encode($value);
 	}
 
 	protected static function decodeValue(string $value): mixed {
-		return is_numeric($value) ? (int) $value : json_decode($value, true);
+		return is_numeric($value) ? (int)$value : json_decode($value, true);
 	}
 }

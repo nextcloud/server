@@ -68,7 +68,7 @@ class Manager implements IManager {
 	public const LEGACY_PREFIX_TEXTTOIMAGE = 'legacy:TextToImage:';
 	public const LEGACY_PREFIX_SPEECHTOTEXT = 'legacy:SpeechToText:';
 
-	/** @var list<IProvider>|null  */
+	/** @var list<IProvider>|null */
 	private ?array $providers = null;
 
 	/**
@@ -1189,9 +1189,9 @@ class Manager implements IManager {
 			];
 			try {
 				$client->request($httpMethod, $uri, $options);
-			} catch (ClientException | ServerException $e) {
+			} catch (ClientException|ServerException $e) {
 				$this->logger->warning('Task processing HTTP webhook failed for task ' . $task->getId() . '. Request failed', ['exception' => $e]);
-			} catch (\Exception | \Throwable $e) {
+			} catch (\Exception|\Throwable $e) {
 				$this->logger->warning('Task processing HTTP webhook failed for task ' . $task->getId() . '. Unknown error', ['exception' => $e]);
 			}
 		} elseif (str_starts_with($method, 'AppAPI:') && str_starts_with($uri, '/')) {

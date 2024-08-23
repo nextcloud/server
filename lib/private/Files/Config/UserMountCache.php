@@ -477,7 +477,7 @@ class UserMountCache implements IUserMountCache {
 			}
 		}
 
-		throw new NotFoundException("No cached mount for path " . $path);
+		throw new NotFoundException('No cached mount for path ' . $path);
 	}
 
 	public function getMountsInPath(IUser $user, string $path): array {

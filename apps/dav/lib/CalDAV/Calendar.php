@@ -376,7 +376,7 @@ class Calendar extends \Sabre\CalDAV\Calendar implements IRestorable, IShareable
 	 * @inheritDoc
 	 */
 	public function restore(): void {
-		$this->caldavBackend->restoreCalendar((int) $this->calendarInfo['id']);
+		$this->caldavBackend->restoreCalendar((int)$this->calendarInfo['id']);
 	}
 
 	public function disableTrashbin(): void {

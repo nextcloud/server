@@ -34,9 +34,9 @@ class CapabilitiesContext implements Context, SnippetAcceptingContext {
 			}
 			$answeredValue = (string)$answeredValue;
 			Assert::assertEquals(
-				$row['value'] === "EMPTY" ? '' : $row['value'],
+				$row['value'] === 'EMPTY' ? '' : $row['value'],
 				$answeredValue,
-				"Failed field " . $row['capability'] . " " . $row['path_to_element']
+				'Failed field ' . $row['capability'] . ' ' . $row['path_to_element']
 			);
 		}
 	}

@@ -111,10 +111,10 @@ class ViewControllerTest extends TestCase {
 				$this->viewConfig,
 				$filenameValidator,
 			])
-		->onlyMethods([
-			'getStorageInfo',
-		])
-		->getMock();
+			->onlyMethods([
+				'getStorageInfo',
+			])
+			->getMock();
 	}
 
 	public function testIndexWithRegularBrowser() {

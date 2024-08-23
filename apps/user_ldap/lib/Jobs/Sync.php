@@ -24,23 +24,23 @@ use Psr\Log\LoggerInterface;
 class Sync extends TimedJob {
 	public const MAX_INTERVAL = 12 * 60 * 60; // 12h
 	public const MIN_INTERVAL = 30 * 60; // 30min
-	/** @var  Helper */
+	/** @var Helper */
 	protected $ldapHelper;
-	/** @var  LDAP */
+	/** @var LDAP */
 	protected $ldap;
 	/** @var UserMapping */
 	protected $mapper;
-	/** @var  IConfig */
+	/** @var IConfig */
 	protected $config;
-	/** @var  IAvatarManager */
+	/** @var IAvatarManager */
 	protected $avatarManager;
-	/** @var  IDBConnection */
+	/** @var IDBConnection */
 	protected $dbc;
-	/** @var  IUserManager */
+	/** @var IUserManager */
 	protected $ncUserManager;
-	/** @var  LoggerInterface */
+	/** @var LoggerInterface */
 	protected $logger;
-	/** @var  IManager */
+	/** @var IManager */
 	protected $notificationManager;
 	/** @var ConnectionFactory */
 	protected $connectionFactory;
@@ -101,7 +101,7 @@ class Sync extends TimedJob {
 		$this->setArgument($argument);
 
 		$isBackgroundJobModeAjax = $this->config
-				->getAppValue('core', 'backgroundjobs_mode', 'ajax') === 'ajax';
+			->getAppValue('core', 'backgroundjobs_mode', 'ajax') === 'ajax';
 		if ($isBackgroundJobModeAjax) {
 			return;
 		}

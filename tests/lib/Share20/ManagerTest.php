@@ -74,9 +74,9 @@ class ManagerTest extends \Test\TestCase {
 	protected $hasher;
 	/** @var IShareProvider|MockObject */
 	protected $defaultProvider;
-	/** @var  IMountManager|MockObject */
+	/** @var IMountManager|MockObject */
 	protected $mountManager;
-	/** @var  IGroupManager|MockObject */
+	/** @var IGroupManager|MockObject */
 	protected $groupManager;
 	/** @var IL10N|MockObject */
 	protected $l;
@@ -90,20 +90,20 @@ class ManagerTest extends \Test\TestCase {
 	protected $rootFolder;
 	/** @var IEventDispatcher|MockObject */
 	protected $dispatcher;
-	/** @var  IMailer|MockObject */
+	/** @var IMailer|MockObject */
 	protected $mailer;
-	/** @var  IURLGenerator|MockObject */
+	/** @var IURLGenerator|MockObject */
 	protected $urlGenerator;
-	/** @var  \OC_Defaults|MockObject */
+	/** @var \OC_Defaults|MockObject */
 	protected $defaults;
-	/** @var IUserSession|MockObject  */
+	/** @var IUserSession|MockObject */
 	protected $userSession;
-	/** @var KnownUserService|MockObject  */
+	/** @var KnownUserService|MockObject */
 	protected $knownUserService;
-	/** @var ShareDisableChecker|MockObject  */
+	/** @var ShareDisableChecker|MockObject */
 	protected $shareDisabledChecker;
 	private DateTimeZone $timezone;
-	/** @var IDateTimeZone|MockObject  */
+	/** @var IDateTimeZone|MockObject */
 	protected $dateTimeZone;
 
 	protected function setUp(): void {
@@ -4586,7 +4586,7 @@ class ManagerTest extends \Test\TestCase {
 				'limitEnumerationToPhone',
 				'limitEnumerationToGroups',
 			])
-		->getMock();
+			->getMock();
 
 		$manager->method('allowEnumerationFullMatch')
 			->willReturn($allowEnumerationFullMatch);

@@ -90,7 +90,7 @@ class SchemaEncoder {
 				if ($platform instanceof PostgreSqlPlatform) {
 					$name = $table->getName() . '_pkey';
 				} elseif ($platform instanceof AbstractMySQLPlatform) {
-					$name = "PRIMARY";
+					$name = 'PRIMARY';
 				} else {
 					$name = $index->getName();
 				}

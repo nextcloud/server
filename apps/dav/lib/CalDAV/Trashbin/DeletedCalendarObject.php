@@ -83,7 +83,7 @@ class DeletedCalendarObject implements IACL, ICalendarObject, IRestorable {
 	}
 
 	public function getSize() {
-		return (int) $this->objectData['size'];
+		return (int)$this->objectData['size'];
 	}
 
 	public function restore(): void {
@@ -91,7 +91,7 @@ class DeletedCalendarObject implements IACL, ICalendarObject, IRestorable {
 	}
 
 	public function getDeletedAt(): ?int {
-		return $this->objectData['deleted_at'] ? (int) $this->objectData['deleted_at'] : null;
+		return $this->objectData['deleted_at'] ? (int)$this->objectData['deleted_at'] : null;
 	}
 
 	public function getCalendarUri(): string {

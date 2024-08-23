@@ -18,10 +18,10 @@ class SyncFederationAddressbooksTest extends \Test\TestCase {
 	/** @var array */
 	private $callBacks = [];
 
-	/** @var  MockObject | DiscoveryService */
+	/** @var MockObject | DiscoveryService */
 	private $discoveryService;
 
-	/** @var MockObject|LoggerInterface  */
+	/** @var MockObject|LoggerInterface */
 	private $logger;
 
 	protected function setUp(): void {

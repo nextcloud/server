@@ -13,7 +13,7 @@ use OCP\Comments\IComment;
 use Test\TestCase;
 
 class EventHandlerTest extends TestCase {
-	/** @var  CommentsEventListener */
+	/** @var CommentsEventListener */
 	protected $eventHandler;
 
 	/** @var ActivityListener|\PHPUnit\Framework\MockObject\MockObject */

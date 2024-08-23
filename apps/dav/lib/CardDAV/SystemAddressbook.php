@@ -254,7 +254,7 @@ class SystemAddressbook extends AddressBook {
 			try {
 				$this->getChild($uri);
 				$added[] = $uri;
-			} catch (NotFound | Forbidden $e) {
+			} catch (NotFound|Forbidden $e) {
 				$deleted[] = $uri;
 			}
 		}
@@ -262,7 +262,7 @@ class SystemAddressbook extends AddressBook {
 			try {
 				$this->getChild($uri);
 				$modified[] = $uri;
-			} catch (NotFound | Forbidden $e) {
+			} catch (NotFound|Forbidden $e) {
 				$deleted[] = $uri;
 			}
 		}

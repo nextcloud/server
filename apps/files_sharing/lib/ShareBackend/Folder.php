@@ -22,7 +22,7 @@ class Folder extends File implements \OCP\Share_Backend_Collection {
 		$result->closeCursor();
 
 		if ($row = $result->fetchRow()) {
-			$mimetype = (int) $row['id'];
+			$mimetype = (int)$row['id'];
 		} else {
 			$mimetype = -1;
 		}
@@ -45,7 +45,7 @@ class Folder extends File implements \OCP\Share_Backend_Collection {
 			while ($file = $result->fetch()) {
 				$children[] = ['source' => $file['fileid'], 'file_path' => $file['name']];
 				// If a child folder is found look inside it
-				if ((int) $file['mimetype'] === $mimetype) {
+				if ((int)$file['mimetype'] === $mimetype) {
 					$parents[] = $file['fileid'];
 				}
 			}

@@ -51,7 +51,7 @@ class AccessTest extends TestCase {
 	private $userManager;
 	/** @var Helper|\PHPUnit\Framework\MockObject\MockObject */
 	private $helper;
-	/** @var  IConfig|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
 	private $config;
 	/** @var IUserManager|\PHPUnit\Framework\MockObject\MockObject */
 	private $ncUserManager;

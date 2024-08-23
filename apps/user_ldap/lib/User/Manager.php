@@ -119,7 +119,7 @@ class Manager {
 	 * email, displayname, or others.
 	 *
 	 * @param bool $minimal - optional, set to true to skip attributes with big
-	 * payload
+	 *                      payload
 	 * @return string[]
 	 */
 	public function getAttributes($minimal = false) {

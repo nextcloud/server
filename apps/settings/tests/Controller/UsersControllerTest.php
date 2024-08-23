@@ -58,19 +58,19 @@ class UsersControllerTest extends \Test\TestCase {
 	private $l;
 	/** @var AccountManager|\PHPUnit\Framework\MockObject\MockObject */
 	private $accountManager;
-	/** @var  IJobList | \PHPUnit\Framework\MockObject\MockObject */
+	/** @var IJobList | \PHPUnit\Framework\MockObject\MockObject */
 	private $jobList;
-	/** @var \OC\Security\IdentityProof\Manager|\PHPUnit\Framework\MockObject\MockObject  */
+	/** @var \OC\Security\IdentityProof\Manager|\PHPUnit\Framework\MockObject\MockObject */
 	private $securityManager;
-	/** @var  IManager|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IManager|\PHPUnit\Framework\MockObject\MockObject */
 	private $encryptionManager;
 	/** @var KnownUserService|\PHPUnit\Framework\MockObject\MockObject */
 	private $knownUserService;
-	/** @var  IEncryptionModule|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IEncryptionModule|\PHPUnit\Framework\MockObject\MockObject */
 	private $encryptionModule;
 	/** @var IEventDispatcher|\PHPUnit\Framework\MockObject\MockObject */
 	private $dispatcher;
-	/** @var IInitialState|\PHPUnit\Framework\MockObject\MockObject*/
+	/** @var IInitialState|\PHPUnit\Framework\MockObject\MockObject */
 	private $initialState;
 
 	protected function setUp(): void {
@@ -563,7 +563,7 @@ class UsersControllerTest extends \Test\TestCase {
 
 		if (!empty($email)) {
 			$this->mailer->expects($this->once())->method('validateMailAddress')
-			->willReturn(true);
+				->willReturn(true);
 		}
 
 		$controller->expects($this->once())

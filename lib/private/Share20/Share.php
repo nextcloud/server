@@ -191,7 +191,7 @@ class Share implements IShare {
 		}
 
 		if ($this->fileId === null) {
-			throw new NotFoundException("Share source not found");
+			throw new NotFoundException('Share source not found');
 		} else {
 			return $this->fileId;
 		}

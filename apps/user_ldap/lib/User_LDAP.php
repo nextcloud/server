@@ -259,7 +259,7 @@ class User_LDAP extends BackendUtility implements IUserBackend, UserInterface, I
 	 * checks whether a user is still available on LDAP
 	 *
 	 * @param string|\OCA\User_LDAP\User\User $user either the Nextcloud user
-	 * name or an instance of that user
+	 *                                              name or an instance of that user
 	 * @throws \Exception
 	 * @throws \OC\ServerNotAvailableException
 	 */
@@ -464,7 +464,7 @@ class User_LDAP extends BackendUtility implements IUserBackend, UserInterface, I
 				$this->access->connection->writeToCache($cacheKey, $displayName);
 			}
 			if ($user instanceof OfflineUser) {
-				/** @var OfflineUser $user*/
+				/** @var OfflineUser $user */
 				$displayName = $user->getDisplayName();
 			}
 			return $displayName;
@@ -622,10 +622,10 @@ class User_LDAP extends BackendUtility implements IUserBackend, UserInterface, I
 						);
 					}
 				} else {
-					throw new \UnexpectedValueException("LDAP Plugin: Method createUser changed to return the user DN instead of boolean.");
+					throw new \UnexpectedValueException('LDAP Plugin: Method createUser changed to return the user DN instead of boolean.');
 				}
 			}
-			return (bool) $dn;
+			return (bool)$dn;
 		}
 		return false;
 	}

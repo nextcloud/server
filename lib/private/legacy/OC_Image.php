@@ -334,18 +334,18 @@ class OC_Image implements \OCP\IImage {
 		}
 		ob_start();
 		switch ($this->mimeType) {
-			case "image/png":
+			case 'image/png':
 				$res = imagepng($this->resource);
 				break;
-			case "image/jpeg":
+			case 'image/jpeg':
 				imageinterlace($this->resource, true);
 				$quality = $this->getJpegQuality();
 				$res = imagejpeg($this->resource, null, $quality);
 				break;
-			case "image/gif":
+			case 'image/gif':
 				$res = imagegif($this->resource);
 				break;
-			case "image/webp":
+			case 'image/webp':
 				$res = imagewebp($this->resource, null, $this->getWebpQuality());
 				break;
 			default:
@@ -370,24 +370,24 @@ class OC_Image implements \OCP\IImage {
 	 * @return int
 	 */
 	protected function getJpegQuality(): int {
-		$quality = $this->config->getAppValue('preview', 'jpeg_quality', (string) self::DEFAULT_JPEG_QUALITY);
+		$quality = $this->config->getAppValue('preview', 'jpeg_quality', (string)self::DEFAULT_JPEG_QUALITY);
 		// TODO: remove when getAppValue is type safe
 		if ($quality === null) {
 			$quality = self::DEFAULT_JPEG_QUALITY;
 		}
-		return min(100, max(10, (int) $quality));
+		return min(100, max(10, (int)$quality));
 	}
 
 	/**
 	 * @return int
 	 */
 	protected function getWebpQuality(): int {
-		$quality = $this->config->getAppValue('preview', 'webp_quality', (string) self::DEFAULT_WEBP_QUALITY);
+		$quality = $this->config->getAppValue('preview', 'webp_quality', (string)self::DEFAULT_WEBP_QUALITY);
 		// TODO: remove when getAppValue is type safe
 		if ($quality === null) {
 			$quality = self::DEFAULT_WEBP_QUALITY;
 		}
-		return min(100, max(10, (int) $quality));
+		return min(100, max(10, (int)$quality));
 	}
 
 	/**
@@ -954,10 +954,10 @@ class OC_Image implements \OCP\IImage {
 		$width = $height = min($widthOrig, $heightOrig);
 
 		if ($ratioOrig > 1) {
-			$x = (int) (($widthOrig / 2) - ($width / 2));
+			$x = (int)(($widthOrig / 2) - ($width / 2));
 			$y = 0;
 		} else {
-			$y = (int) (($heightOrig / 2) - ($height / 2));
+			$y = (int)(($heightOrig / 2) - ($height / 2));
 			$x = 0;
 		}
 		if ($size > 0) {

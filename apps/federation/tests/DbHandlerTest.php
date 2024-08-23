@@ -18,16 +18,16 @@ use Test\TestCase;
  */
 class DbHandlerTest extends TestCase {
 
-	/** @var  DbHandler */
+	/** @var DbHandler */
 	private $dbHandler;
 
 	/** @var IL10N | \PHPUnit\Framework\MockObject\MockObject */
 	private $il10n;
 
-	/** @var  IDBConnection */
+	/** @var IDBConnection */
 	private $connection;
 
-	/** @var string  */
+	/** @var string */
 	private $dbTable = 'trusted_servers';
 
 	protected function setUp(): void {

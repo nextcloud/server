@@ -50,7 +50,7 @@ class SyncFederationAddressBooks {
 				continue;
 			}
 			$targetBookId = $trustedServer['url_hash'];
-			$targetPrincipal = "principals/system/system";
+			$targetPrincipal = 'principals/system/system';
 			$targetBookProperties = [
 				'{DAV:}displayname' => $url
 			];

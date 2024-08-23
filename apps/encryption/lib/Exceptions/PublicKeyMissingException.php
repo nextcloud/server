@@ -16,7 +16,7 @@ class PublicKeyMissingException extends GenericEncryptionException {
 	 */
 	public function __construct($userId) {
 		if (empty($userId)) {
-			$userId = "<no-user-id-given>";
+			$userId = '<no-user-id-given>';
 		}
 		parent::__construct("Public Key missing for user: $userId");
 	}

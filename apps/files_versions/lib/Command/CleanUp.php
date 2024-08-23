@@ -49,7 +49,7 @@ class CleanUp extends Command {
 		$path = $input->getOption('path');
 		if ($path) {
 			if (!preg_match('#^/([^/]+)/files(/.*)?$#', $path, $pathMatches)) {
-				$output->writeln("<error>Invalid path given</error>");
+				$output->writeln('<error>Invalid path given</error>');
 				return self::FAILURE;
 			}
 

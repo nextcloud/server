@@ -167,7 +167,7 @@ class FilesPlugin extends ServerPlugin {
 			}
 
 			if (!$sourceNodeFileInfo->isDeletable()) {
-				throw new Forbidden($source . " cannot be deleted");
+				throw new Forbidden($source . ' cannot be deleted');
 			}
 		}
 	}
@@ -507,7 +507,7 @@ class FilesPlugin extends ServerPlugin {
 			if (empty($time)) {
 				return false;
 			}
-			$node->setCreationTime((int) $time);
+			$node->setCreationTime((int)$time);
 			return true;
 		});
 

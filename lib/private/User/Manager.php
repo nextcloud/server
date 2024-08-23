@@ -455,7 +455,7 @@ class Manager extends PublicEmitter implements IUserManager {
 	 * returns how many users per backend exist (if supported by backend)
 	 *
 	 * @param boolean $hasLoggedIn when true only users that have a lastLogin
-	 *                entry in the preferences table will be affected
+	 *                             entry in the preferences table will be affected
 	 * @return array<string, int> an array of backend class as key and count number as value
 	 */
 	public function countUsers() {
@@ -486,7 +486,7 @@ class Manager extends PublicEmitter implements IUserManager {
 	 *
 	 * @param IGroup[] $groups an array of gid to search in
 	 * @return array|int an array of backend class as key and count number as value
-	 *                if $hasLoggedIn is true only an int is returned
+	 *                   if $hasLoggedIn is true only an int is returned
 	 */
 	public function countUsersOfGroups(array $groups) {
 		$users = [];
@@ -506,7 +506,7 @@ class Manager extends PublicEmitter implements IUserManager {
 	 * @psalm-param \Closure(\OCP\IUser):?bool $callback
 	 * @param string $search
 	 * @param boolean $onlySeen when true only users that have a lastLogin entry
-	 *                in the preferences table will be affected
+	 *                          in the preferences table will be affected
 	 * @since 9.0.0
 	 */
 	public function callForAllUsers(\Closure $callback, $search = '', $onlySeen = false) {

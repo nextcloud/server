@@ -35,7 +35,7 @@ class QuoteHelper {
 	 */
 	public function quoteColumnName($string) {
 		if ($string instanceof IParameter || $string instanceof ILiteral || $string instanceof IQueryFunction) {
-			return (string) $string;
+			return (string)$string;
 		}
 
 		if ($string === null || $string === 'null' || $string === '*') {

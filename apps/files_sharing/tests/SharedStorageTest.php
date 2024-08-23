@@ -32,8 +32,8 @@ class SharedStorageTest extends TestCase {
 		$this->view->mkdir($this->folder);
 
 		// save file with content
-		$this->view->file_put_contents($this->filename, "root file");
-		$this->view->file_put_contents($this->folder . $this->filename, "file in subfolder");
+		$this->view->file_put_contents($this->filename, 'root file');
+		$this->view->file_put_contents($this->folder . $this->filename, 'file in subfolder');
 	}
 
 	protected function tearDown(): void {

@@ -127,7 +127,7 @@ trait S3ObjectTrait {
 			if ($e->getState()->isInitiated() && (array_key_exists('UploadId', $uploadInfo))) {
 				$this->getConnection()->abortMultipartUpload($uploadInfo);
 			}
-			throw new \OCA\DAV\Connector\Sabre\Exception\BadGateway("Error while uploading to S3 bucket", 0, $e);
+			throw new \OCA\DAV\Connector\Sabre\Exception\BadGateway('Error while uploading to S3 bucket', 0, $e);
 		}
 	}
 
@@ -144,7 +144,7 @@ trait S3ObjectTrait {
 
 		// ($psrStream->isSeekable() && $psrStream->getSize() !== null) evaluates to true for a On-Seekable stream
 		// so the optimisation does not apply
-		$buffer = new Psr7\Stream(fopen("php://memory", 'rwb+'));
+		$buffer = new Psr7\Stream(fopen('php://memory', 'rwb+'));
 		Utils::copyToStream($psrStream, $buffer, $this->putSizeLimit);
 		$buffer->seek(0);
 		if ($buffer->getSize() < $this->putSizeLimit) {
@@ -183,14 +183,14 @@ trait S3ObjectTrait {
 
 		if ($this->useMultipartCopy && $size > $this->copySizeLimit) {
 			$copy = new MultipartCopy($this->getConnection(), [
-				"source_bucket" => $this->getBucket(),
-				"source_key" => $from
+				'source_bucket' => $this->getBucket(),
+				'source_key' => $from
 			], array_merge([
-				"bucket" => $this->getBucket(),
-				"key" => $to,
-				"acl" => "private",
-				"params" => $this->getSSECParameters() + $this->getSSECParameters(true),
-				"source_metadata" => $sourceMetadata
+				'bucket' => $this->getBucket(),
+				'key' => $to,
+				'acl' => 'private',
+				'params' => $this->getSSECParameters() + $this->getSSECParameters(true),
+				'source_metadata' => $sourceMetadata
 			], $options));
 			$copy->copy();
 		} else {

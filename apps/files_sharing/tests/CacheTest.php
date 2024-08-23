@@ -561,7 +561,7 @@ class CacheTest extends TestCase {
 		/** @var SharedStorage $sharedStorage */
 		[$sharedStorage] = \OC\Files\Filesystem::resolvePath('/' . self::TEST_FILES_SHARING_API_USER2 . '/files/sub');
 
-		$results = $sharedStorage->getCache()->search("foo.txt");
+		$results = $sharedStorage->getCache()->search('foo.txt');
 		$this->assertCount(1, $results);
 	}
 }

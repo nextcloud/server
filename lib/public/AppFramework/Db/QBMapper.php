@@ -34,7 +34,7 @@ abstract class QBMapper {
 	 * @param IDBConnection $db Instance of the Db abstraction layer
 	 * @param string $tableName the name of the table. set this to allow entity
 	 * @param class-string<T>|null $entityClass the name of the entity that the sql should be
-	 * mapped to queries without using sql
+	 *                                          mapped to queries without using sql
 	 * @since 14.0.0
 	 */
 	public function __construct(IDBConnection $db, string $tableName, ?string $entityClass = null) {
@@ -203,7 +203,7 @@ abstract class QBMapper {
 	 * Returns the type parameter for the QueryBuilder for a specific property
 	 * of the $entity
 	 *
-	 * @param Entity $entity   The entity to get the types from
+	 * @param Entity $entity The entity to get the types from
 	 * @psalm-param T $entity
 	 * @param string $property The property of $entity to get the type for
 	 * @return int|string

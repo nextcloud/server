@@ -37,7 +37,7 @@ class AddMissingColumns extends Command {
 		$this
 			->setName('db:add-missing-columns')
 			->setDescription('Add missing optional columns to the database tables')
-			->addOption('dry-run', null, InputOption::VALUE_NONE, "Output the SQL queries instead of running them.");
+			->addOption('dry-run', null, InputOption::VALUE_NONE, 'Output the SQL queries instead of running them.');
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output): int {

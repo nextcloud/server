@@ -457,7 +457,7 @@ class Crypt {
 			if ($enforceSignature) {
 				throw new GenericEncryptionException('Bad Signature', $this->l->t('Bad Signature'));
 			} else {
-				$this->logger->info("Signature check skipped", ['app' => 'encryption']);
+				$this->logger->info('Signature check skipped', ['app' => 'encryption']);
 			}
 		}
 	}
@@ -751,7 +751,7 @@ class Crypt {
 		$result = false;
 
 		// check if RC4 is used
-		if (strcasecmp($cipher_algo, "rc4") === 0) {
+		if (strcasecmp($cipher_algo, 'rc4') === 0) {
 			// decrypt the intermediate key with RSA
 			if (openssl_private_decrypt($encrypted_key, $intermediate, $private_key, OPENSSL_PKCS1_PADDING)) {
 				// decrypt the file key with the intermediate key
@@ -776,7 +776,7 @@ class Crypt {
 		$result = false;
 
 		// check if RC4 is used
-		if (strcasecmp($cipher_algo, "rc4") === 0) {
+		if (strcasecmp($cipher_algo, 'rc4') === 0) {
 			// make sure that there is at least one public key to use
 			if (count($public_key) >= 1) {
 				// generate the intermediate key

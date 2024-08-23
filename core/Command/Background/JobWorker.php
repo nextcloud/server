@@ -160,16 +160,16 @@ class JobWorker extends JobBase {
 
 	private function parseStopAfter(string $value): ?int {
 		if (is_numeric($value)) {
-			return (int) $value;
+			return (int)$value;
 		}
 		if (preg_match("/^(\d+)s$/i", $value, $matches)) {
-			return (int) $matches[0];
+			return (int)$matches[0];
 		}
 		if (preg_match("/^(\d+)m$/i", $value, $matches)) {
-			return 60 * ((int) $matches[0]);
+			return 60 * ((int)$matches[0]);
 		}
 		if (preg_match("/^(\d+)h$/i", $value, $matches)) {
-			return 60 * 60 * ((int) $matches[0]);
+			return 60 * 60 * ((int)$matches[0]);
 		}
 		return null;
 	}

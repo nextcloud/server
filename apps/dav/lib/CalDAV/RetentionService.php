@@ -36,10 +36,10 @@ class RetentionService {
 
 	public function getDuration(): int {
 		return max(
-			(int) $this->config->getAppValue(
+			(int)$this->config->getAppValue(
 				Application::APP_ID,
 				self::RETENTION_CONFIG_KEY,
-				(string) self::DEFAULT_RETENTION_SECONDS
+				(string)self::DEFAULT_RETENTION_SECONDS
 			),
 			0 // Just making sure we don't delete things in the future when a negative number is passed
 		);

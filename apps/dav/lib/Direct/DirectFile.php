@@ -96,7 +96,7 @@ class DirectFile implements IFile {
 				throw new NotFound();
 			}
 			if (!$file instanceof File) {
-				throw new Forbidden("direct download not allowed on directories");
+				throw new Forbidden('direct download not allowed on directories');
 			}
 
 			$this->file = $file;

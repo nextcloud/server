@@ -16,17 +16,17 @@ use Test\TestCase;
 
 class EventReaderTest extends TestCase {
 
-	/** @var VCalendar*/
+	/** @var VCalendar */
 	private $vCalendar1a;
-	/** @var VCalendar*/
+	/** @var VCalendar */
 	private $vCalendar1b;
-	/** @var VCalendar*/
+	/** @var VCalendar */
 	private $vCalendar1c;
-	/** @var VCalendar*/
+	/** @var VCalendar */
 	private $vCalendar1d;
-	/** @var VCalendar*/
+	/** @var VCalendar */
 	private $vCalendar2;
-	/** @var VCalendar*/
+	/** @var VCalendar */
 	private $vCalendar3;
 	
 	protected function setUp(): void {

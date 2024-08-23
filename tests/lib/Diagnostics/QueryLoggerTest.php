@@ -22,14 +22,14 @@ class QueryLoggerTest extends TestCase {
 
 	public function testQueryLogger() {
 		// Module is not activated and this should not be logged
-		$this->logger->startQuery("SELECT", ["testuser", "count"], ["string", "int"]);
+		$this->logger->startQuery('SELECT', ['testuser', 'count'], ['string', 'int']);
 		$this->logger->stopQuery();
 		$queries = $this->logger->getQueries();
 		$this->assertSame(0, sizeof($queries));
 
 		// Activate module and log some query
 		$this->logger->activate();
-		$this->logger->startQuery("SELECT", ["testuser", "count"], ["string", "int"]);
+		$this->logger->startQuery('SELECT', ['testuser', 'count'], ['string', 'int']);
 		$this->logger->stopQuery();
 
 		$queries = $this->logger->getQueries();

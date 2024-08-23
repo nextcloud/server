@@ -234,7 +234,7 @@ class SystemTagObjectMapper implements ISystemTagObjectMapper {
 			return ((int)$row[0] === \count($objIds));
 		}
 
-		return (bool) $row;
+		return (bool)$row;
 	}
 
 	/**

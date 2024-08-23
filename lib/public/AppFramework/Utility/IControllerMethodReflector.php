@@ -31,9 +31,9 @@ interface IControllerMethodReflector {
 	 * Inspects the PHPDoc parameters for types
 	 *
 	 * @param string $parameter the parameter whose type comments should be
-	 * parsed
+	 *                          parsed
 	 * @return string|null type in the type parameters (@param int $something)
-	 * would return int or null if not existing
+	 *                     would return int or null if not existing
 	 * @since 8.0.0
 	 * @deprecated 22.0.0 this method is only used internally
 	 */

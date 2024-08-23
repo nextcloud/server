@@ -107,7 +107,7 @@ class AllConfig implements IConfig {
 	 * @since 16.0.0
 	 */
 	public function getSystemValueBool(string $key, bool $default = false): bool {
-		return (bool) $this->getSystemValue($key, $default);
+		return (bool)$this->getSystemValue($key, $default);
 	}
 
 	/**
@@ -121,7 +121,7 @@ class AllConfig implements IConfig {
 	 * @since 16.0.0
 	 */
 	public function getSystemValueInt(string $key, int $default = 0): int {
-		return (int) $this->getSystemValue($key, $default);
+		return (int)$this->getSystemValue($key, $default);
 	}
 
 	/**
@@ -135,7 +135,7 @@ class AllConfig implements IConfig {
 	 * @since 16.0.0
 	 */
 	public function getSystemValueString(string $key, string $default = ''): string {
-		return (string) $this->getSystemValue($key, $default);
+		return (string)$this->getSystemValue($key, $default);
 	}
 
 	/**
@@ -236,7 +236,7 @@ class AllConfig implements IConfig {
 		$this->fixDIInit();
 
 		if ($appName === 'settings' && $key === 'email') {
-			$value = strtolower((string) $value);
+			$value = strtolower((string)$value);
 		}
 
 		$prevValue = $this->getUserValue($userId, $appName, $key, null);
@@ -382,9 +382,9 @@ class AllConfig implements IConfig {
 	 * @param ?string $userId the user ID to get the app configs from
 	 * @psalm-return array<string, array<string, string>>
 	 * @return array[] - 2 dimensional array with the following structure:
-	 *     [ $appId =>
-	 *         [ $key => $value ]
-	 *     ]
+	 *                 [ $appId =>
+	 *                 [ $key => $value ]
+	 *                 ]
 	 */
 	public function getAllUserValues(?string $userId): array {
 		if (isset($this->userCache[$userId])) {

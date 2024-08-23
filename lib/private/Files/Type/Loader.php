@@ -115,7 +115,7 @@ class Loader implements IMimeTypeLoader {
 				throw new \Exception("Database threw an unique constraint on inserting a new mimetype, but couldn't return the ID for this very mimetype");
 			}
 
-			$mimetypeId = (int) $id;
+			$mimetypeId = (int)$id;
 		}
 
 		$this->mimetypes[$mimetypeId] = $mimetype;
@@ -136,8 +136,8 @@ class Loader implements IMimeTypeLoader {
 		$result->closeCursor();
 
 		foreach ($results as $row) {
-			$this->mimetypes[(int) $row['id']] = $row['mimetype'];
-			$this->mimetypeIds[$row['mimetype']] = (int) $row['id'];
+			$this->mimetypes[(int)$row['id']] = $row['mimetype'];
+			$this->mimetypeIds[$row['mimetype']] = (int)$row['id'];
 		}
 	}
 

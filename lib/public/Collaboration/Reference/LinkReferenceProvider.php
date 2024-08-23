@@ -121,7 +121,7 @@ class LinkReferenceProvider implements IReferenceProvider, IPublicReferenceProvi
 		}
 
 		$linkContentLength = $headResponse->getHeader('Content-Length');
-		if (is_numeric($linkContentLength) && (int) $linkContentLength > self::MAX_CONTENT_LENGTH) {
+		if (is_numeric($linkContentLength) && (int)$linkContentLength > self::MAX_CONTENT_LENGTH) {
 			$this->logger->debug('Skip resolving links pointing to content length > 5 MiB');
 			return;
 		}

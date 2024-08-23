@@ -178,7 +178,7 @@ class LoggerTest extends TestCase implements IWriter {
 		if (is_array($message)) {
 			$textMessage = $message['message'];
 		}
-		$this->logs[] = $level . " " . $textMessage;
+		$this->logs[] = $level . ' ' . $textMessage;
 	}
 
 	public function userAndPasswordData(): array {

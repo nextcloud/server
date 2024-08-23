@@ -256,7 +256,7 @@ class IMipService {
 	public function generateWhenStringRecurringDaily(EventReader $er): string {
 		
 		// initialize
-		$interval = (int) $er->recurringInterval();
+		$interval = (int)$er->recurringInterval();
 		$startTime = '';
 		$endTime = '';
 		$conclusion = '';
@@ -308,7 +308,7 @@ class IMipService {
 	public function generateWhenStringRecurringWeekly(EventReader $er): string {
 		
 		// initialize
-		$interval = (int) $er->recurringInterval();
+		$interval = (int)$er->recurringInterval();
 		$startTime = '';
 		$endTime = '';
 		$conclusion = '';
@@ -362,7 +362,7 @@ class IMipService {
 	public function generateWhenStringRecurringMonthly(EventReader $er): string {
 		
 		// initialize
-		$interval = (int) $er->recurringInterval();
+		$interval = (int)$er->recurringInterval();
 		$startTime = '';
 		$endTime = '';
 		$conclusion = '';
@@ -428,7 +428,7 @@ class IMipService {
 	public function generateWhenStringRecurringYearly(EventReader $er): string {
 		
 		// initialize
-		$interval = (int) $er->recurringInterval();
+		$interval = (int)$er->recurringInterval();
 		$startTime = '';
 		$endTime = '';
 		$conclusion = '';

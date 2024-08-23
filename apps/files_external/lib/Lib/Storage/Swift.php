@@ -88,7 +88,7 @@ class Swift extends \OC\Files\Storage\Common {
 	 *
 	 * @param string $path
 	 * @return StorageObject|bool object
-	 * or false if the object did not exist
+	 *                            or false if the object did not exist
 	 * @throws \OCP\Files\StorageAuthException
 	 * @throws \OCP\Files\StorageNotAvailableException
 	 */
@@ -134,7 +134,7 @@ class Swift extends \OC\Files\Storage\Common {
 			or (empty($params['user']) && empty($params['userid'])) or empty($params['bucket'])
 			or empty($params['region'])
 		) {
-			throw new StorageBadConfigException("API Key or password, Login, Bucket and Region have to be configured.");
+			throw new StorageBadConfigException('API Key or password, Login, Bucket and Region have to be configured.');
 		}
 
 		$user = $params['user'];

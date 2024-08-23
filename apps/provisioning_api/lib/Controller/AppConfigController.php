@@ -113,7 +113,7 @@ class AppConfigController extends OCSController {
 	public function setValue(string $app, string $key, string $value): DataResponse {
 		$user = $this->userSession->getUser();
 		if ($user === null) {
-			throw new \Exception("User is not logged in."); // Should not happen, since method is guarded by middleware
+			throw new \Exception('User is not logged in.'); // Should not happen, since method is guarded by middleware
 		}
 
 		if (!$this->isAllowedToChangedKey($user, $app, $key)) {

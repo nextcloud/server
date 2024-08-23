@@ -81,7 +81,7 @@ class FunctionBuilderTest extends TestCase {
 				}],
 			'5 columns: string param with special chars used in the function' =>
 				[function ($q) {
-					return [false, [$q->createNamedParameter("b"), $q->createNamedParameter("'"), $q->createNamedParameter('||'), $q->createNamedParameter(','), $q->createNamedParameter('a')], "b'||,a"];
+					return [false, [$q->createNamedParameter('b'), $q->createNamedParameter("'"), $q->createNamedParameter('||'), $q->createNamedParameter(','), $q->createNamedParameter('a')], "b'||,a"];
 				}],
 		];
 	}

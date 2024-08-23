@@ -45,7 +45,7 @@ class ManagerTest extends TestCase {
 	/** @var IManager|\PHPUnit\Framework\MockObject\MockObject */
 	protected $contactsManager;
 
-	/** @var Manager|\PHPUnit\Framework\MockObject\MockObject **/
+	/** @var Manager|\PHPUnit\Framework\MockObject\MockObject * */
 	private $manager;
 
 	/** @var \OC\Files\Mount\Manager */
@@ -720,7 +720,7 @@ class ManagerTest extends TestCase {
 		$this->assertEquals($expected['token'], $actual['share_token'], 'Asserting token of a share #' . $share);
 		$this->assertEquals($expected['name'], $actual['name'], 'Asserting name of a share #' . $share);
 		$this->assertEquals($expected['owner'], $actual['owner'], 'Asserting owner of a share #' . $share);
-		$this->assertEquals($expected['accepted'], (int) $actual['accepted'], 'Asserting accept of a share #' . $share);
+		$this->assertEquals($expected['accepted'], (int)$actual['accepted'], 'Asserting accept of a share #' . $share);
 		$this->assertEquals($targetEntity, $actual['user'], 'Asserting user of a share #' . $share);
 		$this->assertEquals($mountPoint, $actual['mountpoint'], 'Asserting mountpoint of a share #' . $share);
 	}

@@ -25,12 +25,12 @@ use Test\Traits\MountProviderTrait;
 abstract class TestCase extends \Test\TestCase {
 	use MountProviderTrait;
 
-	public const TEST_FILES_SHARING_API_USER1 = "test-share-user1";
-	public const TEST_FILES_SHARING_API_USER2 = "test-share-user2";
-	public const TEST_FILES_SHARING_API_USER3 = "test-share-user3";
-	public const TEST_FILES_SHARING_API_USER4 = "test-share-user4";
+	public const TEST_FILES_SHARING_API_USER1 = 'test-share-user1';
+	public const TEST_FILES_SHARING_API_USER2 = 'test-share-user2';
+	public const TEST_FILES_SHARING_API_USER3 = 'test-share-user3';
+	public const TEST_FILES_SHARING_API_USER4 = 'test-share-user4';
 
-	public const TEST_FILES_SHARING_API_GROUP1 = "test-share-group1";
+	public const TEST_FILES_SHARING_API_GROUP1 = 'test-share-group1';
 
 	public $filename;
 	public $data;

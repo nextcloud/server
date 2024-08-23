@@ -60,12 +60,12 @@ trait CheckServerResponseTrait {
 	 * @param string $method The HTTP method to use
 	 * @param string $url The relative URL to check
 	 * @param array{ignoreSSL?: bool, httpErrors?: bool, options?: array} $options Additional options, like
-	 *                                                 [
-	 *                                                  // Ignore invalid SSL certificates (e.g. self signed)
-	 *                                                  'ignoreSSL' => true,
-	 *                                                  // Ignore requests with HTTP errors (will not yield if request has a 4xx or 5xx response)
-	 *                                                  'httpErrors' => true,
-	 *                                                 ]
+	 *                                                                             [
+	 *                                                                             // Ignore invalid SSL certificates (e.g. self signed)
+	 *                                                                             'ignoreSSL' => true,
+	 *                                                                             // Ignore requests with HTTP errors (will not yield if request has a 4xx or 5xx response)
+	 *                                                                             'httpErrors' => true,
+	 *                                                                             ]
 	 *
 	 * @return Generator<int, IResponse>
 	 */

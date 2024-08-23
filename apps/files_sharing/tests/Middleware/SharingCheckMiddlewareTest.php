@@ -35,9 +35,9 @@ class SharingCheckMiddlewareTest extends \Test\TestCase {
 	private $controllerMock;
 	/** @var IControllerMethodReflector|\PHPUnit\Framework\MockObject\MockObject */
 	private $reflector;
-	/** @var  IManager | \PHPUnit\Framework\MockObject\MockObject */
+	/** @var IManager | \PHPUnit\Framework\MockObject\MockObject */
 	private $shareManager;
-	/** @var  IRequest | \PHPUnit\Framework\MockObject\MockObject */
+	/** @var IRequest | \PHPUnit\Framework\MockObject\MockObject */
 	private $request;
 
 	protected function setUp(): void {

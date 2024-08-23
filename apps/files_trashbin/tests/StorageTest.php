@@ -673,14 +673,14 @@ class StorageTest extends \Test\TestCase {
 
 	public function testMoveFromStoragePreserveFileId() {
 		if (!$this->userView->getMount('')->getStorage()->instanceOfStorage(Local::class)) {
-			$this->markTestSkipped("Skipping on non-local users storage");
+			$this->markTestSkipped('Skipping on non-local users storage');
 		}
 		$this->userView->file_put_contents('test.txt', 'foo');
 		$fileId = $this->userView->getFileInfo('test.txt')->getId();
 
 		$externalStorage = new TemporaryNoCross([]);
 		$externalStorage->getScanner()->scan('');
-		Filesystem::mount($externalStorage, [], "/" . $this->user . "/files/storage");
+		Filesystem::mount($externalStorage, [], '/' . $this->user . '/files/storage');
 
 		$this->assertTrue($this->userView->rename('test.txt', 'storage/test.txt'));
 		$this->assertTrue($externalStorage->file_exists('test.txt'));

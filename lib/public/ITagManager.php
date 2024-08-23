@@ -30,7 +30,7 @@ interface ITagManager {
 	 * @param array $defaultTags An array of default tags to be used if none are stored.
 	 * @param boolean $includeShared Whether to include tags for items shared with this user by others. - always false since 20.0.0
 	 * @param string $userId user for which to retrieve the tags, defaults to the currently
-	 * logged in user
+	 *                       logged in user
 	 * @return \OCP\ITags
 	 * @since 6.0.0 - parameter $includeShared and $userId were added in 8.0.0 - $includeShared is always false since 20.0.0
 	 */

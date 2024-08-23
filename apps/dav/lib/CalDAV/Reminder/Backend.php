@@ -188,15 +188,15 @@ class Backend {
 	 * @return array
 	 */
 	private function fixRowTyping(array $row): array {
-		$row['id'] = (int) $row['id'];
-		$row['calendar_id'] = (int) $row['calendar_id'];
-		$row['object_id'] = (int) $row['object_id'];
-		$row['is_recurring'] = (bool) $row['is_recurring'];
-		$row['recurrence_id'] = (int) $row['recurrence_id'];
-		$row['is_recurrence_exception'] = (bool) $row['is_recurrence_exception'];
-		$row['is_relative'] = (bool) $row['is_relative'];
-		$row['notification_date'] = (int) $row['notification_date'];
-		$row['is_repeat_based'] = (bool) $row['is_repeat_based'];
+		$row['id'] = (int)$row['id'];
+		$row['calendar_id'] = (int)$row['calendar_id'];
+		$row['object_id'] = (int)$row['object_id'];
+		$row['is_recurring'] = (bool)$row['is_recurring'];
+		$row['recurrence_id'] = (int)$row['recurrence_id'];
+		$row['is_recurrence_exception'] = (bool)$row['is_recurrence_exception'];
+		$row['is_relative'] = (bool)$row['is_relative'];
+		$row['notification_date'] = (int)$row['notification_date'];
+		$row['is_repeat_based'] = (bool)$row['is_repeat_based'];
 
 		return $row;
 	}

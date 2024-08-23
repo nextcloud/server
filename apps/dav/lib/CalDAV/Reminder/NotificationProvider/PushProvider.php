@@ -65,7 +65,7 @@ class PushProvider extends AbstractProvider {
 		}
 
 		$eventDetails = $this->extractEventDetails($vevent);
-		$eventUUID = (string) $vevent->UID;
+		$eventUUID = (string)$vevent->UID;
 		if (!$eventUUID) {
 			return;
 		};
@@ -100,13 +100,13 @@ class PushProvider extends AbstractProvider {
 
 		return [
 			'title' => isset($vevent->SUMMARY)
-				? ((string) $vevent->SUMMARY)
+				? ((string)$vevent->SUMMARY)
 				: null,
 			'description' => isset($vevent->DESCRIPTION)
-				? ((string) $vevent->DESCRIPTION)
+				? ((string)$vevent->DESCRIPTION)
 				: null,
 			'location' => isset($vevent->LOCATION)
-				? ((string) $vevent->LOCATION)
+				? ((string)$vevent->LOCATION)
 				: null,
 			'all_day' => $start instanceof Property\ICalendar\Date,
 			'start_atom' => $start->getDateTime()->format(\DateTimeInterface::ATOM),

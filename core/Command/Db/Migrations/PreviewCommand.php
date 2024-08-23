@@ -100,7 +100,7 @@ class PreviewCommand extends Command {
 				$attributesStr[] = '<comment>(metadata not set)</comment>';
 			}
 			foreach($attributes as $attribute) {
-				$definition = '<info>' . $attribute->definition() . "</info>";
+				$definition = '<info>' . $attribute->definition() . '</info>';
 				$definition .= empty($attribute->getDescription()) ? '' : "\n  " . $attribute->getDescription();
 				$definition .= empty($attribute->getNotes()) ? '' : "\n  <comment>" . implode("</comment>\n  <comment>", $attribute->getNotes()) . '</comment>';
 				$attributesStr[] = $definition;

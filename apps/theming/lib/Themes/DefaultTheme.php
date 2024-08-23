@@ -152,7 +152,7 @@ class DefaultTheme implements ITheme {
 			'--color-loading-dark' => '#444444',
 
 			'--color-box-shadow-rgb' => $colorBoxShadowRGB,
-			'--color-box-shadow' => "rgba(var(--color-box-shadow-rgb), 0.5)",
+			'--color-box-shadow' => 'rgba(var(--color-box-shadow-rgb), 0.5)',
 
 			'--color-border' => $this->util->darken($colorMainBackground, 7),
 			'--color-border-dark' => $this->util->darken($colorMainBackground, 14),

@@ -117,7 +117,7 @@ class TagsPlugin extends \Sabre\DAV\ServerPlugin {
 	 *
 	 * @param integer $fileId file id
 	 * @return array list($tags, $favorite) with $tags as tag array
-	 * and $favorite is a boolean whether the file was favorited
+	 *               and $favorite is a boolean whether the file was favorited
 	 */
 	private function getTagsAndFav($fileId) {
 		$isFav = false;

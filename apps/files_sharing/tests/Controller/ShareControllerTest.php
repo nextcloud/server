@@ -67,11 +67,11 @@ class ShareControllerTest extends \Test\TestCase {
 	private $previewManager;
 	/** @var \OCP\IConfig|MockObject */
 	private $config;
-	/** @var  \OC\Share20\Manager|MockObject */
+	/** @var \OC\Share20\Manager|MockObject */
 	private $shareManager;
 	/** @var IUserManager|MockObject */
 	private $userManager;
-	/** @var  FederatedShareProvider|MockObject */
+	/** @var FederatedShareProvider|MockObject */
 	private $federatedShareProvider;
 	/** @var IAccountManager|MockObject */
 	private $accountManager;

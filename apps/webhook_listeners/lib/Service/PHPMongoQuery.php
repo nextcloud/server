@@ -19,12 +19,12 @@ abstract class PHPMongoQuery {
 	/**
 	 * Execute a mongo query on a set of documents and return the documents that pass the query
 	 *
-	 * @param array $query		A boolean value or an array defining a query
-	 * @param array $documents	The document to query
-	 * @param array $options	Any options:
-	 *	'debug' - boolean - debug mode, verbose logging
-	 *	'logger' - \Psr\LoggerInterface - A logger instance that implements {@link https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-3-logger-interface.md#3-psrlogloggerinterface PSR-3}
-	 *	'unknownOperatorCallback' - a callback to be called if an operator can't be found.  The function definition is function($operator, $operatorValue, $field, $document). return true or false.
+	 * @param array $query A boolean value or an array defining a query
+	 * @param array $documents The document to query
+	 * @param array $options Any options:
+	 *                       'debug' - boolean - debug mode, verbose logging
+	 *                       'logger' - \Psr\LoggerInterface - A logger instance that implements {@link https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-3-logger-interface.md#3-psrlogloggerinterface PSR-3}
+	 *                       'unknownOperatorCallback' - a callback to be called if an operator can't be found.  The function definition is function($operator, $operatorValue, $field, $document). return true or false.
 	 * @throws Exception
 	 */
 	public static function find(array $query, array $documents, array $options = []): array {
@@ -45,12 +45,12 @@ abstract class PHPMongoQuery {
 	/**
 	 * Execute a Mongo query on a document
 	 *
-	 * @param mixed $query		A boolean value or an array defining a query
-	 * @param array $document	The document to query
-	 * @param array $options	Any options:
-	 *	'debug' - boolean - debug mode, verbose logging
-	 *	'logger' - \Psr\LoggerInterface - A logger instance that implements {@link https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-3-logger-interface.md#3-psrlogloggerinterface PSR-3}
-	 *	'unknownOperatorCallback' - a callback to be called if an operator can't be found.  The function definition is function($operator, $operatorValue, $field, $document). return true or false.
+	 * @param mixed $query A boolean value or an array defining a query
+	 * @param array $document The document to query
+	 * @param array $options Any options:
+	 *                       'debug' - boolean - debug mode, verbose logging
+	 *                       'logger' - \Psr\LoggerInterface - A logger instance that implements {@link https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-3-logger-interface.md#3-psrlogloggerinterface PSR-3}
+	 *                       'unknownOperatorCallback' - a callback to be called if an operator can't be found.  The function definition is function($operator, $operatorValue, $field, $document). return true or false.
 	 * @throws Exception
 	 */
 	public static function executeQuery($query, array &$document, array $options = []): bool {
@@ -188,12 +188,12 @@ abstract class PHPMongoQuery {
 	/**
 	 * Execute a Mongo Operator on an element
 	 *
-	 * @param string $operator		The operator to perform
-	 * @param mixed $operatorValue	The value to provide the operator
-	 * @param string $element		The target element.  Can be an object path eg price.shoes
-	 * @param array $document		The document in which to find the element
-	 * @param array $options		Options
-	 * @throws Exception			Exceptions on invalid operators, invalid unknown operator callback, and invalid operator values
+	 * @param string $operator The operator to perform
+	 * @param mixed $operatorValue The value to provide the operator
+	 * @param string $element The target element.  Can be an object path eg price.shoes
+	 * @param array $document The document in which to find the element
+	 * @param array $options Options
+	 * @throws Exception Exceptions on invalid operators, invalid unknown operator callback, and invalid operator values
 	 */
 	private static function _executeOperatorOnElement(string $operator, $operatorValue, string $element, array &$document, array $options = []): bool {
 		if($options['_debug'] && $options['_shouldLog']) {
@@ -322,7 +322,7 @@ abstract class PHPMongoQuery {
 	 * Get the fields this query depends on
 	 *
 	 * @param array query	The query to analyse
-	 * @return array		An array of fields this query depends on
+	 * @return array An array of fields this query depends on
 	 */
 	public static function getDependentFields(array $query) {
 		$fields = [];

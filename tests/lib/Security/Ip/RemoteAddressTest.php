@@ -32,9 +32,9 @@ class RemoteAddressTest extends \Test\TestCase {
 			->method('getRemoteAddress')
 			->willReturn($remoteIp);
 		$this->config
-		   ->method('getSystemValue')
-		   ->with('allowed_admin_ranges', false)
-		   ->willReturn($allowedRanges);
+			->method('getSystemValue')
+			->with('allowed_admin_ranges', false)
+			->willReturn($allowedRanges);
 
 		$remoteAddress = new RemoteAddress($this->config, $this->request);
 

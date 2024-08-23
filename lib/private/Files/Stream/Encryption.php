@@ -55,7 +55,7 @@ class Encryption extends Wrapper {
 	/** @var string */
 	protected $fullPath;
 
-	/** @var  bool */
+	/** @var bool */
 	protected $signed;
 
 	/**

@@ -66,6 +66,6 @@ class RemoteAddress implements IRemoteAddress, IAddress {
 	}
 
 	public function __toString(): string {
-		return (string) $this->ip;
+		return (string)$this->ip;
 	}
 }

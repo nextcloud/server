@@ -37,12 +37,12 @@ class Field implements \JsonSerializable {
 	 */
 	public function jsonSerialize(): array {
 		return [
-			"index" => $this->index,
-			"content" => $this->content,
-			"type" => $this->type->value,
-			"alias" => $this->alias,
-			"id" => $this->id,
-			"tag" => $this->tag,
+			'index' => $this->index,
+			'content' => $this->content,
+			'type' => $this->type->value,
+			'alias' => $this->alias,
+			'id' => $this->id,
+			'tag' => $this->tag,
 		];
 	}
 }

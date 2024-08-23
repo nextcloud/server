@@ -138,7 +138,7 @@ class JSResourceLocatorTest extends \Test\TestCase {
 
 		// Run the tests
 		$locator = $this->jsResourceLocator();
-		$locator->find(["core/l10n/en.js"]);
+		$locator->find(['core/l10n/en.js']);
 
 		$resources = $locator->getResources();
 		$this->assertCount(0, $resources);

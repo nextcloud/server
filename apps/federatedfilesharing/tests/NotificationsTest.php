@@ -22,7 +22,7 @@ class NotificationsTest extends \Test\TestCase {
 	/** @var AddressHandler|MockObject */
 	private $addressHandler;
 
-	/** @var IClientService|MockObject*/
+	/** @var IClientService|MockObject */
 	private $httpClientService;
 
 	/** @var IDiscoveryService|MockObject */

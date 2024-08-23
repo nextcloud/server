@@ -16,7 +16,7 @@ use Test\TestCase;
  * @group DB
  */
 class PropagatorTest extends TestCase {
-	/** @var  IStorage */
+	/** @var IStorage */
 	private $storage;
 
 	protected function setUp(): void {
