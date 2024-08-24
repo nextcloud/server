@@ -354,7 +354,7 @@ OC.L10N.register(
     "Filename must not be empty." : "Dosya adı boş olamaz.",
     "\"{char}\" is not allowed inside a filename." : "Dosya adlarında \"{char}\" kullanılamaz.",
     "\"{segment}\" is a reserved name and not allowed for filenames." : "\"{segment}\" ayrılmış bir ad olduğundan dosya adlarında kullanılamaz.",
-    "\"{extension}\" is not an allowed filetype." : "\"{extension}\" dosya türüne izin verilmiyor.",
+    "\"{extension}\" is not an allowed filetype." : "\"{extension}\" dosya uzantısına izin verilmiyor.",
     "Filenames must not end with \"{extension}\"." : "Dosya adları \"{extension}\" ile bitemez.",
     "List of favorites files and folders." : "Sık kullanılan dosya ve klasör listesi.",
     "No favorites yet" : "Henüz sık kullanılan bir öge yok",
