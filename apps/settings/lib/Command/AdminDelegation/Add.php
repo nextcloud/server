@@ -40,14 +40,22 @@ class Add extends Base {
 		$io = new SymfonyStyle($input, $output);
 		$settingClass = $input->getArgument('settingClass');
 		if (!in_array(IDelegatedSettings::class, (array) class_implements($settingClass), true)) {
-			$io->error('The specified class isn’t a valid delegated setting.');
+			$io->error('The specified class is not a valid delegated setting.');
 			return 2;
 		}
 
 		$groupId = $input->getArgument('groupId');
 		if (!$this->groupManager->groupExists($groupId)) {
-			$io->error('The specified group didn’t exist.');
+			$io->error('The specified group does not exist.');
 			return 3;
+		}
+
+		$groups = $this->authorizedGroupService->findExistingGroupsForClass($settingClass);
+		foreach ($groups as $group) {
+			if ($group->getGroupId() === $groupId) {
+				$io->error('The specified group has already been delegated to.');
+				return 4;
+			}
 		}
 
 		$this->authorizedGroupService->create($groupId, $settingClass);
