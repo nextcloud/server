@@ -17,6 +17,7 @@
     "Setting the password is not supported by the users backend" : "Erabiltzailearen atzeko aldeak ez du onartzen pasahitza ezartzea",
     "Invalid language" : "Hizkuntza baliogabea",
     "Invalid locale" : "Eskualde ezarpen baliogabea",
+    "Invalid first day of week" : "Asteko lehen egun baliogabea",
     "Cannot remove yourself from the admin group" : "Ezin duzu zeure burua kendu admin taldetik",
     "Cannot remove yourself from this group as you are a sub-admin" : "Ezin duzu zeure burua talde honetatik kendu, azpi-administratzailea zarelako",
     "Not viable to remove user from the last group you are sub-admin of" : "Ez dago modurik azpi-administratzaile zaren talde horretatik erabiltzailea kentzeko",
