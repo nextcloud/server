@@ -185,7 +185,7 @@
     "Leave empty for user's default quota. Otherwise, specify an LDAP/AD attribute." : "Kullanıcının varsayılan kotasının kullanılması için boş bırakın ya da bir LDAP/AD özniteliği belirtin.",
     "Quota Default" : "Varsayılan Kota",
     "Override default quota for LDAP users who do not have a quota set in the Quota Field." : "Kota Alanına bir kota değeri yazılmamış olan LDAP kullanıcıları için kullanılacak varsayılan kota değerini yazın.",
-    "Email Field" : "E-posta Alanı",
+    "Email Field" : "E-posta alanı",
     "Set the user's email from their LDAP attribute. Leave it empty for default behaviour." : "Kullanıcı varsayılan e-posta adresinin kullanılması için boş bırakın ya da bir LDAP/AD özniteliği belirtin.",
     "User Home Folder Naming Rule" : "Kullanıcı Ana Klasörünü Adlandırma Kuralı",
     "Leave empty for username (default). Otherwise, specify an LDAP/AD attribute." : "Kullanıcı adının kullanılması için boş bırakın (varsayılan) ya da bir LDAP/AD özniteliği belirtin.",
