@@ -73,7 +73,7 @@
     "Open in Files" : "Ouvrir dans Fichiers",
     "List of tags and their associated files and folders." : "Liste des étiquettes et leurs fichiers et dossiers associés.",
     "No tags found" : "Aucune étiquette trouvée",
-    "Tags you have created will show up here." : "Les étiquettes que vous avez créées s'afficheront ici",
+    "Tags you have created will show up here." : "Les étiquettes que vous avez créées apparaîtront ici.",
     "Failed to load last used tags" : "Impossible de charger les dernières étiquettes utilisées",
     "Missing \"Content-Location\" header" : "Entête \"Contenu-Localisation\" manquant",
     "Failed to load tags for file" : "Impossible de charger les étiquettes du fichier",
