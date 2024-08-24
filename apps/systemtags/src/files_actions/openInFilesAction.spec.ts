@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 import { action } from './openInFilesAction'
-import { expect } from '@jest/globals'
+import { describe, expect, test, vi } from 'vitest'
 import { File, Folder, Permission, View, DefaultType, FileAction } from '@nextcloud/files'
 
 const view = {
@@ -79,7 +79,7 @@ describe('Open in files action enabled tests', () => {
 
 describe('Open in files action execute tests', () => {
 	test('Open in files', async () => {
-		const goToRouteMock = jest.fn()
+		const goToRouteMock = vi.fn()
 		// @ts-expect-error We only mock what needed, we do not need Files.Router.goTo or Files.Navigation
 		window.OCP = { Files: { Router: { goToRoute: goToRouteMock } } }
 
@@ -101,7 +101,7 @@ describe('Open in files action execute tests', () => {
 	})
 
 	test('Open in files with folder', async () => {
-		const goToRouteMock = jest.fn()
+		const goToRouteMock = vi.fn()
 		// @ts-expect-error We only mock what needed, we do not need Files.Router.goTo or Files.Navigation
 		window.OCP = { Files: { Router: { goToRoute: goToRouteMock } } }
 

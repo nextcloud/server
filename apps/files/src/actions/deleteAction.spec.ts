@@ -2,14 +2,19 @@
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import { action } from './deleteAction'
-import { expect } from '@jest/globals'
 import { File, Folder, Permission, View, FileAction } from '@nextcloud/files'
+import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
+
 import axios from '@nextcloud/axios'
 import * as capabilities from '@nextcloud/capabilities'
-import eventBus from '@nextcloud/event-bus'
+import * as eventBus from '@nextcloud/event-bus'
 
+import { action } from './deleteAction'
 import logger from '../logger'
+
+vi.mock('@nextcloud/auth')
+vi.mock('@nextcloud/axios')
+vi.mock('@nextcloud/capabilities')
 
 const view = {
 	id: 'files',
@@ -22,8 +27,8 @@ const trashbinView = {
 } as View
 
 describe('Delete action conditions tests', () => {
-	afterEach(() => {
-		jest.restoreAllMocks()
+	beforeEach(() => {
+		vi.restoreAllMocks()
 	})
 
 	const file = new File({
@@ -82,7 +87,7 @@ describe('Delete action conditions tests', () => {
 		expect(action).toBeInstanceOf(FileAction)
 		expect(action.id).toBe('delete')
 		expect(action.displayName([file], view)).toBe('Delete file')
-		expect(action.iconSvgInline([], view)).toBe('<svg>SvgMock</svg>')
+		expect(action.iconSvgInline([], view)).toMatch(/<svg.+<\/svg>/)
 		expect(action.default).toBeUndefined()
 		expect(action.order).toBe(100)
 	})
@@ -96,7 +101,7 @@ describe('Delete action conditions tests', () => {
 	})
 
 	test('Trashbin disabled displayName', () => {
-		jest.spyOn(capabilities, 'getCapabilities').mockImplementation(() => {
+		vi.spyOn(capabilities, 'getCapabilities').mockImplementation(() => {
 			return {
 				files: {},
 			}
@@ -176,11 +181,11 @@ describe('Delete action enabled tests', () => {
 
 describe('Delete action execute tests', () => {
 	afterEach(() => {
-		jest.restoreAllMocks()
+		vi.restoreAllMocks()
 	})
 	test('Delete action', async () => {
-		jest.spyOn(axios, 'delete')
-		jest.spyOn(eventBus, 'emit')
+		vi.spyOn(axios, 'delete')
+		vi.spyOn(eventBus, 'emit')
 
 		const file = new File({
 			id: 1,
@@ -201,10 +206,10 @@ describe('Delete action execute tests', () => {
 	})
 
 	test('Delete action batch', async () => {
-		jest.spyOn(axios, 'delete')
-		jest.spyOn(eventBus, 'emit')
+		vi.spyOn(axios, 'delete')
+		vi.spyOn(eventBus, 'emit')
 
-		const confirmMock = jest.fn()
+		const confirmMock = vi.fn()
 		// @ts-expect-error We only mock what needed
 		window.OC = { dialogs: { confirmDestructive: confirmMock } }
 
@@ -240,11 +245,11 @@ describe('Delete action execute tests', () => {
 	})
 
 	test('Delete action batch large set', async () => {
-		jest.spyOn(axios, 'delete')
-		jest.spyOn(eventBus, 'emit')
+		vi.spyOn(axios, 'delete')
+		vi.spyOn(eventBus, 'emit')
 
 		// Emulate the confirmation dialog to always confirm
-		const confirmMock = jest.fn().mockImplementation((a, b, c, resolve) => resolve(true))
+		const confirmMock = vi.fn().mockImplementation((a, b, c, resolve) => resolve(true))
 		// @ts-expect-error We only mock what needed
 		window.OC = { dialogs: { confirmDestructive: confirmMock } }
 
@@ -310,16 +315,16 @@ describe('Delete action execute tests', () => {
 	})
 
 	test('Delete action batch trashbin disabled', async () => {
-		jest.spyOn(axios, 'delete')
-		jest.spyOn(eventBus, 'emit')
-		jest.spyOn(capabilities, 'getCapabilities').mockImplementation(() => {
+		vi.spyOn(axios, 'delete')
+		vi.spyOn(eventBus, 'emit')
+		vi.spyOn(capabilities, 'getCapabilities').mockImplementation(() => {
 			return {
 				files: {},
 			}
 		})
 
 		// Emulate the confirmation dialog to always confirm
-		const confirmMock = jest.fn().mockImplementation((a, b, c, resolve) => resolve(true))
+		const confirmMock = vi.fn().mockImplementation((a, b, c, resolve) => resolve(true))
 		// @ts-expect-error We only mock what needed
 		window.OC = { dialogs: { confirmDestructive: confirmMock } }
 
@@ -355,9 +360,9 @@ describe('Delete action execute tests', () => {
 	})
 
 	test('Delete fails', async () => {
-		jest.spyOn(axios, 'delete').mockImplementation(() => { throw new Error('Mock error') })
-		jest.spyOn(logger, 'error').mockImplementation(() => jest.fn())
-		jest.spyOn(eventBus, 'emit')
+		vi.spyOn(axios, 'delete').mockImplementation(() => { throw new Error('Mock error') })
+		vi.spyOn(logger, 'error').mockImplementation(() => vi.fn())
+		vi.spyOn(eventBus, 'emit')
 
 		const file = new File({
 			id: 1,
@@ -378,16 +383,16 @@ describe('Delete action execute tests', () => {
 	})
 
 	test('Delete is cancelled', async () => {
-		jest.spyOn(axios, 'delete')
-		jest.spyOn(eventBus, 'emit')
-		jest.spyOn(capabilities, 'getCapabilities').mockImplementation(() => {
+		vi.spyOn(axios, 'delete')
+		vi.spyOn(eventBus, 'emit')
+		vi.spyOn(capabilities, 'getCapabilities').mockImplementation(() => {
 			return {
 				files: {},
 			}
 		})
 
 		// Emulate the confirmation dialog to always confirm
-		const confirmMock = jest.fn().mockImplementation((a, b, c, resolve) => resolve(false))
+		const confirmMock = vi.fn().mockImplementation((a, b, c, resolve) => resolve(false))
 		// @ts-expect-error We only mock what needed
 		window.OC = { dialogs: { confirmDestructive: confirmMock } }
 

@@ -2,13 +2,16 @@
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+import { beforeAll, beforeEach, describe, expect, test, vi } from 'vitest'
+
 import { action } from './acceptShareAction'
-import { expect } from '@jest/globals'
 import { File, Permission, View, FileAction } from '@nextcloud/files'
 import { ShareType } from '@nextcloud/sharing'
-import eventBus from '@nextcloud/event-bus'
+import * as eventBus from '@nextcloud/event-bus'
 import axios from '@nextcloud/axios'
 import '../main'
+
+vi.mock('@nextcloud/axios')
 
 const view = {
 	id: 'files',
@@ -39,7 +42,7 @@ describe('Accept share action conditions tests', () => {
 		expect(action).toBeInstanceOf(FileAction)
 		expect(action.id).toBe('accept-share')
 		expect(action.displayName([file], pendingShareView)).toBe('Accept share')
-		expect(action.iconSvgInline([file], pendingShareView)).toBe('<svg>SvgMock</svg>')
+		expect(action.iconSvgInline([file], pendingShareView)).toMatch(/<svg.+<\/svg>/)
 		expect(action.default).toBeUndefined()
 		expect(action.order).toBe(1)
 		expect(action.inline).toBeDefined()
@@ -92,9 +95,11 @@ describe('Accept share action enabled tests', () => {
 })
 
 describe('Accept share action execute tests', () => {
+	beforeEach(() => { vi.resetAllMocks() })
+
 	test('Accept share action', async () => {
-		jest.spyOn(axios, 'post')
-		jest.spyOn(eventBus, 'emit')
+		vi.spyOn(axios, 'post')
+		vi.spyOn(eventBus, 'emit')
 
 		const file = new File({
 			id: 1,
@@ -112,15 +117,15 @@ describe('Accept share action execute tests', () => {
 
 		expect(exec).toBe(true)
 		expect(axios.post).toBeCalledTimes(1)
-		expect(axios.post).toBeCalledWith('http://localhost/ocs/v2.php/apps/files_sharing/api/v1/shares/pending/123')
+		expect(axios.post).toBeCalledWith('http://nextcloud.local/ocs/v2.php/apps/files_sharing/api/v1/shares/pending/123')
 
 		expect(eventBus.emit).toBeCalledTimes(1)
 		expect(eventBus.emit).toBeCalledWith('files:node:deleted', file)
 	})
 
 	test('Accept remote share action', async () => {
-		jest.spyOn(axios, 'post')
-		jest.spyOn(eventBus, 'emit')
+		vi.spyOn(axios, 'post')
+		vi.spyOn(eventBus, 'emit')
 
 		const file = new File({
 			id: 1,
@@ -139,15 +144,15 @@ describe('Accept share action execute tests', () => {
 
 		expect(exec).toBe(true)
 		expect(axios.post).toBeCalledTimes(1)
-		expect(axios.post).toBeCalledWith('http://localhost/ocs/v2.php/apps/files_sharing/api/v1/remote_shares/pending/123')
+		expect(axios.post).toBeCalledWith('http://nextcloud.local/ocs/v2.php/apps/files_sharing/api/v1/remote_shares/pending/123')
 
 		expect(eventBus.emit).toBeCalledTimes(1)
 		expect(eventBus.emit).toBeCalledWith('files:node:deleted', file)
 	})
 
 	test('Accept share action batch', async () => {
-		jest.spyOn(axios, 'post')
-		jest.spyOn(eventBus, 'emit')
+		vi.spyOn(axios, 'post')
+		vi.spyOn(eventBus, 'emit')
 
 		const file1 = new File({
 			id: 1,
@@ -177,8 +182,8 @@ describe('Accept share action execute tests', () => {
 
 		expect(exec).toStrictEqual([true, true])
 		expect(axios.post).toBeCalledTimes(2)
-		expect(axios.post).toHaveBeenNthCalledWith(1, 'http://localhost/ocs/v2.php/apps/files_sharing/api/v1/shares/pending/123')
-		expect(axios.post).toHaveBeenNthCalledWith(2, 'http://localhost/ocs/v2.php/apps/files_sharing/api/v1/shares/pending/456')
+		expect(axios.post).toHaveBeenNthCalledWith(1, 'http://nextcloud.local/ocs/v2.php/apps/files_sharing/api/v1/shares/pending/123')
+		expect(axios.post).toHaveBeenNthCalledWith(2, 'http://nextcloud.local/ocs/v2.php/apps/files_sharing/api/v1/shares/pending/456')
 
 		expect(eventBus.emit).toBeCalledTimes(2)
 		expect(eventBus.emit).toHaveBeenNthCalledWith(1, 'files:node:deleted', file1)
@@ -186,7 +191,7 @@ describe('Accept share action execute tests', () => {
 	})
 
 	test('Accept fails', async () => {
-		jest.spyOn(axios, 'post').mockImplementation(() => { throw new Error('Mock error') })
+		vi.spyOn(axios, 'post').mockImplementation(() => { throw new Error('Mock error') })
 
 		const file = new File({
 			id: 1,
@@ -204,7 +209,7 @@ describe('Accept share action execute tests', () => {
 
 		expect(exec).toBe(false)
 		expect(axios.post).toBeCalledTimes(1)
-		expect(axios.post).toBeCalledWith('http://localhost/ocs/v2.php/apps/files_sharing/api/v1/shares/pending/123')
+		expect(axios.post).toBeCalledWith('http://nextcloud.local/ocs/v2.php/apps/files_sharing/api/v1/shares/pending/123')
 
 		expect(eventBus.emit).toBeCalledTimes(0)
 	})

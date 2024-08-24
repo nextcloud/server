@@ -3,9 +3,9 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 import { action } from './renameAction'
-import { expect } from '@jest/globals'
 import { File, Permission, View, FileAction } from '@nextcloud/files'
-import eventBus from '@nextcloud/event-bus'
+import * as eventBus from '@nextcloud/event-bus'
+import { describe, expect, test, vi } from 'vitest'
 
 const view = {
 	id: 'files',
@@ -17,7 +17,7 @@ describe('Rename action conditions tests', () => {
 		expect(action).toBeInstanceOf(FileAction)
 		expect(action.id).toBe('rename')
 		expect(action.displayName([], view)).toBe('Rename')
-		expect(action.iconSvgInline([], view)).toBe('<svg>SvgMock</svg>')
+		expect(action.iconSvgInline([], view)).toMatch(/<svg.+<\/svg>/)
 		expect(action.default).toBeUndefined()
 		expect(action.order).toBe(10)
 	})
@@ -73,7 +73,7 @@ describe('Rename action enabled tests', () => {
 
 describe('Rename action exec tests', () => {
 	test('Rename', async () => {
-		jest.spyOn(eventBus, 'emit')
+		vi.spyOn(eventBus, 'emit')
 
 		const file = new File({
 			id: 1,
