@@ -62,7 +62,6 @@ SPDX-FileCopyrightText: Ben Drucker
 SPDX-FileCopyrightText: Austin Andrews
 SPDX-FileCopyrightText: Arnout Kazemier
 SPDX-FileCopyrightText: Anthony Fu <https://github.com/antfu>
-SPDX-FileCopyrightText: Anthony Fu <anthonyfu117@hotmail.com>
 SPDX-FileCopyrightText: Andris Reinman
 SPDX-FileCopyrightText: Amit Gupta (https://solothought.com)
 SPDX-FileCopyrightText: Amit Gupta (https://amitkumargupta.work/)
@@ -137,14 +136,11 @@ This file is generated from multiple sources. Included packages:
 - @vueuse/components
 	- version: 11.0.0
 	- license: MIT
-- @vueuse/shared
-	- version: 11.0.0
-	- license: MIT
-- vue-demi
-	- version: 0.14.10
-	- license: MIT
 - @vueuse/core
-	- version: 11.0.0
+	- version: 11.0.1
+	- license: MIT
+- @vueuse/shared
+	- version: 11.0.1
 	- license: MIT
 - assert
 	- version: 2.1.0
