@@ -422,7 +422,7 @@ class Folder extends Node implements \OCP\Files\Folder {
 		$filterNonRecentFiles = new SearchComparison(
 			ISearchComparison::COMPARE_GREATER_THAN,
 			'mtime',
-			strtotime("-2 week")
+			strtotime('-2 week')
 		);
 		if ($offset === 0 && $limit <= 100) {
 			$query = new SearchQuery(

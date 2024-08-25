@@ -65,7 +65,7 @@ class LegacyVersionsBackend implements IVersionBackend, IDeletableVersionBackend
 			$file = $userFolder->getFirstNodeById($fileId);
 
 			if (!$file) {
-				throw new NotFoundException("version file not found for share owner");
+				throw new NotFoundException('version file not found for share owner');
 			}
 		} else {
 			$userFolder = $this->rootFolder->getUserFolder($user->getUID());
@@ -276,7 +276,7 @@ class LegacyVersionsBackend implements IVersionBackend, IDeletableVersionBackend
 		$currentUserId = $this->userSession->getUser()?->getUID();
 
 		if ($currentUserId === null) {
-			throw new NotFoundException("No user logged in");
+			throw new NotFoundException('No user logged in');
 		}
 
 		if ($sourceFile->getOwner()?->getUID() === $currentUserId) {
@@ -286,7 +286,7 @@ class LegacyVersionsBackend implements IVersionBackend, IDeletableVersionBackend
 		$nodes = $this->rootFolder->getUserFolder($currentUserId)->getById($sourceFile->getId());
 
 		if (count($nodes) === 0) {
-			throw new NotFoundException("Version file not accessible by current user");
+			throw new NotFoundException('Version file not accessible by current user');
 		}
 
 		foreach ($nodes as $node) {
@@ -366,7 +366,7 @@ class LegacyVersionsBackend implements IVersionBackend, IDeletableVersionBackend
 
 		$relativePath = $userFolder->getRelativePath($source->getPath());
 		if ($relativePath === null) {
-			throw new Exception("Relative path not found for node with path: " . $source->getPath());
+			throw new Exception('Relative path not found for node with path: ' . $source->getPath());
 		}
 
 		$versions = Storage::getVersions($user->getUID(), $relativePath);

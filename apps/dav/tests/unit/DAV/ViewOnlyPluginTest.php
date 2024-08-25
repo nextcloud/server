@@ -132,9 +132,9 @@ class ViewOnlyPluginTest extends TestCase {
 		$this->request->expects($this->once())->method('getPath')->willReturn($davPath);
 
 		$this->tree->expects($this->once())
-			 ->method('getNodeForPath')
-			 ->with($davPath)
-			 ->willReturn($davNode);
+			->method('getNodeForPath')
+			->with($davPath)
+			->willReturn($davNode);
 
 		$storage = $this->createMock(SharedStorage::class);
 		$share = $this->createMock(IShare::class);
@@ -147,9 +147,9 @@ class ViewOnlyPluginTest extends TestCase {
 		$extAttr = $this->createMock(IAttributes::class);
 		$share->method('getAttributes')->willReturn($extAttr);
 		$extAttr->expects($this->once())
-		  ->method('getAttribute')
-		  ->with('permissions', 'download')
-		  ->willReturn($attrEnabled);
+			->method('getAttribute')
+			->with('permissions', 'download')
+			->willReturn($attrEnabled);
 
 		if (!$expectCanDownloadFile) {
 			$this->expectException(Forbidden::class);

@@ -49,19 +49,19 @@ class FilesReportPluginTest extends \Test\TestCase {
 
 	private ITagManager|MockObject $privateTagManager;
 
-	/** @var  \OCP\IUserSession */
+	/** @var \OCP\IUserSession */
 	private $userSession;
 
 	/** @var FilesReportPluginImplementation */
 	private $plugin;
 
-	/** @var View|MockObject **/
+	/** @var View|MockObject * */
 	private $view;
 
-	/** @var IGroupManager|MockObject **/
+	/** @var IGroupManager|MockObject * */
 	private $groupManager;
 
-	/** @var Folder|MockObject **/
+	/** @var Folder|MockObject * */
 	private $userFolder;
 
 	/** @var IPreview|MockObject * */

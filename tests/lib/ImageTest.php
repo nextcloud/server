@@ -50,7 +50,7 @@ class ImageTest extends \Test\TestCase {
 		$img->loadFromFile(OC::$SERVERROOT.'/tests/data/testimage.png');
 		$this->assertTrue($img->valid());
 
-		$text = base64_encode("Lorem ipsum dolor sir amet …");
+		$text = base64_encode('Lorem ipsum dolor sir amet …');
 		$img = new \OC_Image();
 		$img->loadFromBase64($text);
 		$this->assertFalse($img->valid());

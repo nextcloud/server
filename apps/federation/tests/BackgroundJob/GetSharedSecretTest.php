@@ -33,7 +33,7 @@ class GetSharedSecretTest extends TestCase {
 	/** @var \PHPUnit\Framework\MockObject\MockObject|IClient */
 	private $httpClient;
 
-	/** @var  \PHPUnit\Framework\MockObject\MockObject|IClientService */
+	/** @var \PHPUnit\Framework\MockObject\MockObject|IClientService */
 	private $httpClientService;
 
 	/** @var \PHPUnit\Framework\MockObject\MockObject|IJobList */
@@ -42,7 +42,7 @@ class GetSharedSecretTest extends TestCase {
 	/** @var \PHPUnit\Framework\MockObject\MockObject|IURLGenerator */
 	private $urlGenerator;
 
-	/** @var \PHPUnit\Framework\MockObject\MockObject|TrustedServers  */
+	/** @var \PHPUnit\Framework\MockObject\MockObject|TrustedServers */
 	private $trustedServers;
 
 	/** @var \PHPUnit\Framework\MockObject\MockObject|LoggerInterface */

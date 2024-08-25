@@ -32,7 +32,7 @@ class Streamer {
 	 * @param IRequest $request
 	 * @param int|float $size The size of the files in bytes
 	 * @param int $numberOfFiles The number of files (and directories) that will
-	 *        be included in the streamed file
+	 *                           be included in the streamed file
 	 */
 	public function __construct(IRequest $request, int|float $size, int $numberOfFiles) {
 		/**

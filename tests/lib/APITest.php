@@ -34,7 +34,7 @@ class APITest extends \Test\TestCase {
 		// Check response is of correct type
 		$this->assertInstanceOf(\OC\OCS\Result::class, $result);
 		// Check if it succeeded
-		/** @var $result \OC\OCS\Result */
+		/** @var \OC\OCS\Result $result */
 		$this->assertEquals($success, $result->succeeded());
 	}
 

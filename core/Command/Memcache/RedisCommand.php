@@ -34,7 +34,7 @@ class RedisCommand extends Base {
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$command = $input->getArgument('redis-command');
 		if (!$this->redisFactory->isAvailable()) {
-			$output->writeln("<error>No redis server configured</error>");
+			$output->writeln('<error>No redis server configured</error>');
 			return 1;
 		}
 		try {
@@ -47,7 +47,7 @@ class RedisCommand extends Base {
 		$redis->setOption(\Redis::OPT_REPLY_LITERAL, true);
 		$result = $redis->rawCommand(...$command);
 		if ($result === false) {
-			$output->writeln("<error>Redis command failed</error>");
+			$output->writeln('<error>Redis command failed</error>');
 			return 1;
 		}
 		$output->writeln($result);

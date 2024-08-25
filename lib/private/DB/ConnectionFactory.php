@@ -124,7 +124,7 @@ class ConnectionFactory {
 				if ($host === '') {
 					$connectionParams['dbname'] = $dbName; // use dbname as easy connect name
 				} else {
-					$connectionParams['dbname'] = '//' . $host . (!empty($port) ? ":{$port}" : "") . '/' . $dbName;
+					$connectionParams['dbname'] = '//' . $host . (!empty($port) ? ":{$port}" : '') . '/' . $dbName;
 				}
 				unset($connectionParams['host']);
 				break;
@@ -180,7 +180,7 @@ class ConnectionFactory {
 		$name = $this->config->getValue($configPrefix . 'dbname', $this->config->getValue('dbname', self::DEFAULT_DBNAME));
 
 		if ($this->normalizeType($type) === 'sqlite3') {
-			$dataDir = $this->config->getValue("datadirectory", \OC::$SERVERROOT . '/data');
+			$dataDir = $this->config->getValue('datadirectory', \OC::$SERVERROOT . '/data');
 			$connectionParams['path'] = $dataDir . '/' . $name . '.db';
 		} else {
 			$host = $this->config->getValue($configPrefix . 'dbhost', $this->config->getValue('dbhost', ''));
@@ -237,7 +237,7 @@ class ConnectionFactory {
 			// Host variable carries a port or socket.
 			$params['host'] = $matches[1];
 			if (is_numeric($matches[2])) {
-				$params['port'] = (int) $matches[2];
+				$params['port'] = (int)$matches[2];
 			} else {
 				$params['unix_socket'] = $matches[2];
 			}

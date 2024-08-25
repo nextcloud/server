@@ -748,11 +748,11 @@ class AppConfig implements IAppConfig {
 			try {
 				$insert = $this->connection->getQueryBuilder();
 				$insert->insert('appconfig')
-					   ->setValue('appid', $insert->createNamedParameter($app))
-					   ->setValue('lazy', $insert->createNamedParameter(($lazy) ? 1 : 0, IQueryBuilder::PARAM_INT))
-					   ->setValue('type', $insert->createNamedParameter($type, IQueryBuilder::PARAM_INT))
-					   ->setValue('configkey', $insert->createNamedParameter($key))
-					   ->setValue('configvalue', $insert->createNamedParameter($value));
+					->setValue('appid', $insert->createNamedParameter($app))
+					->setValue('lazy', $insert->createNamedParameter(($lazy) ? 1 : 0, IQueryBuilder::PARAM_INT))
+					->setValue('type', $insert->createNamedParameter($type, IQueryBuilder::PARAM_INT))
+					->setValue('configkey', $insert->createNamedParameter($key))
+					->setValue('configvalue', $insert->createNamedParameter($value));
 				$insert->executeStatement();
 				$inserted = true;
 			} catch (DBException $e) {
@@ -807,11 +807,11 @@ class AppConfig implements IAppConfig {
 
 			$update = $this->connection->getQueryBuilder();
 			$update->update('appconfig')
-				   ->set('configvalue', $update->createNamedParameter($value))
-				   ->set('lazy', $update->createNamedParameter(($lazy) ? 1 : 0, IQueryBuilder::PARAM_INT))
-				   ->set('type', $update->createNamedParameter($type, IQueryBuilder::PARAM_INT))
-				   ->where($update->expr()->eq('appid', $update->createNamedParameter($app)))
-				   ->andWhere($update->expr()->eq('configkey', $update->createNamedParameter($key)));
+				->set('configvalue', $update->createNamedParameter($value))
+				->set('lazy', $update->createNamedParameter(($lazy) ? 1 : 0, IQueryBuilder::PARAM_INT))
+				->set('type', $update->createNamedParameter($type, IQueryBuilder::PARAM_INT))
+				->where($update->expr()->eq('appid', $update->createNamedParameter($app)))
+				->andWhere($update->expr()->eq('configkey', $update->createNamedParameter($key)));
 
 			$update->executeStatement();
 		}
@@ -869,9 +869,9 @@ class AppConfig implements IAppConfig {
 
 		$update = $this->connection->getQueryBuilder();
 		$update->update('appconfig')
-			   ->set('type', $update->createNamedParameter($type, IQueryBuilder::PARAM_INT))
-			   ->where($update->expr()->eq('appid', $update->createNamedParameter($app)))
-			   ->andWhere($update->expr()->eq('configkey', $update->createNamedParameter($key)));
+			->set('type', $update->createNamedParameter($type, IQueryBuilder::PARAM_INT))
+			->where($update->expr()->eq('appid', $update->createNamedParameter($app)))
+			->andWhere($update->expr()->eq('configkey', $update->createNamedParameter($key)));
 		$update->executeStatement();
 		$this->valueTypes[$app][$key] = $type;
 
@@ -927,10 +927,10 @@ class AppConfig implements IAppConfig {
 
 		$update = $this->connection->getQueryBuilder();
 		$update->update('appconfig')
-			   ->set('type', $update->createNamedParameter($type, IQueryBuilder::PARAM_INT))
-			   ->set('configvalue', $update->createNamedParameter($value))
-			   ->where($update->expr()->eq('appid', $update->createNamedParameter($app)))
-			   ->andWhere($update->expr()->eq('configkey', $update->createNamedParameter($key)));
+			->set('type', $update->createNamedParameter($type, IQueryBuilder::PARAM_INT))
+			->set('configvalue', $update->createNamedParameter($value))
+			->where($update->expr()->eq('appid', $update->createNamedParameter($app)))
+			->andWhere($update->expr()->eq('configkey', $update->createNamedParameter($key)));
 		$update->executeStatement();
 
 		$this->valueTypes[$app][$key] = $type;
@@ -962,9 +962,9 @@ class AppConfig implements IAppConfig {
 
 		$update = $this->connection->getQueryBuilder();
 		$update->update('appconfig')
-			   ->set('lazy', $update->createNamedParameter($lazy ? 1 : 0, IQueryBuilder::PARAM_INT))
-			   ->where($update->expr()->eq('appid', $update->createNamedParameter($app)))
-			   ->andWhere($update->expr()->eq('configkey', $update->createNamedParameter($key)));
+			->set('lazy', $update->createNamedParameter($lazy ? 1 : 0, IQueryBuilder::PARAM_INT))
+			->where($update->expr()->eq('appid', $update->createNamedParameter($app)))
+			->andWhere($update->expr()->eq('configkey', $update->createNamedParameter($key)));
 		$update->executeStatement();
 
 		// At this point, it is a lot safer to clean cache
@@ -1075,8 +1075,8 @@ class AppConfig implements IAppConfig {
 		$this->assertParams($app, $key);
 		$qb = $this->connection->getQueryBuilder();
 		$qb->delete('appconfig')
-		   ->where($qb->expr()->eq('appid', $qb->createNamedParameter($app)))
-		   ->andWhere($qb->expr()->eq('configkey', $qb->createNamedParameter($key)));
+			->where($qb->expr()->eq('appid', $qb->createNamedParameter($app)))
+			->andWhere($qb->expr()->eq('configkey', $qb->createNamedParameter($key)));
 		$qb->executeStatement();
 
 		unset($this->lazyCache[$app][$key]);
@@ -1094,7 +1094,7 @@ class AppConfig implements IAppConfig {
 		$this->assertParams($app);
 		$qb = $this->connection->getQueryBuilder();
 		$qb->delete('appconfig')
-		   ->where($qb->expr()->eq('appid', $qb->createNamedParameter($app)));
+			->where($qb->expr()->eq('appid', $qb->createNamedParameter($app)));
 		$qb->executeStatement();
 
 		$this->clearCache();

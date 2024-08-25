@@ -15,13 +15,13 @@ use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class AutoCompleteControllerTest extends TestCase {
-	/** @var  ISearch|MockObject */
+	/** @var ISearch|MockObject */
 	protected $collaboratorSearch;
-	/** @var  IManager|MockObject */
+	/** @var IManager|MockObject */
 	protected $autoCompleteManager;
-	/** @var  IEventDispatcher|MockObject */
+	/** @var IEventDispatcher|MockObject */
 	protected $dispatcher;
-	/** @var  AutoCompleteController */
+	/** @var AutoCompleteController */
 	protected $controller;
 
 	protected function setUp(): void {

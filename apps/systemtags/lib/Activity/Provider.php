@@ -262,19 +262,19 @@ class Provider implements IProvider {
 			case self::CREATE_TAG:
 			case self::DELETE_TAG:
 				return [
-					'actor' => $this->getUserParameter((string) $parameters[0]),
+					'actor' => $this->getUserParameter((string)$parameters[0]),
 					'systemtag' => $this->getSystemTagParameter($parameters[1]),
 				];
 			case self::UPDATE_TAG:
 				return [
-					'actor' => $this->getUserParameter((string) $parameters[0]),
+					'actor' => $this->getUserParameter((string)$parameters[0]),
 					'newsystemtag' => $this->getSystemTagParameter($parameters[1]),
 					'oldsystemtag' => $this->getSystemTagParameter($parameters[2]),
 				];
 			case self::ASSIGN_TAG:
 			case self::UNASSIGN_TAG:
 				return [
-					'actor' => $this->getUserParameter((string) $parameters[0]),
+					'actor' => $this->getUserParameter((string)$parameters[0]),
 					'file' => $this->getFileParameter($event->getObjectId(), $parameters[1]),
 					'systemtag' => $this->getSystemTagParameter($parameters[2]),
 				];
@@ -305,7 +305,7 @@ class Provider implements IProvider {
 
 		return [
 			'type' => 'systemtag',
-			'id' => (int) $tagData['id'],
+			'id' => (int)$tagData['id'],
 			'name' => $tagData['name'],
 			'assignable' => $tagData['assignable'] ? '1' : '0',
 			'visibility' => $tagData['visible'] ? '1' : '0',

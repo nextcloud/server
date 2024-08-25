@@ -41,7 +41,7 @@ class CacheTest extends TestCase {
 	 */
 	private $remoteUser;
 
-	/** @var  ICloudIdManager */
+	/** @var ICloudIdManager */
 	private $cloudIdManager;
 
 	protected function setUp(): void {

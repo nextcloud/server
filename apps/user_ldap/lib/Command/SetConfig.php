@@ -44,7 +44,7 @@ class SetConfig extends Command {
 		$availableConfigs = $helper->getServerConfigurationPrefixes();
 		$configID = $input->getArgument('configID');
 		if (!in_array($configID, $availableConfigs)) {
-			$output->writeln("Invalid configID");
+			$output->writeln('Invalid configID');
 			return self::FAILURE;
 		}
 

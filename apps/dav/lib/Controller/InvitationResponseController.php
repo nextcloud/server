@@ -156,7 +156,7 @@ class InvitationResponseController extends Controller {
 		}
 
 		$currentTime = $this->timeFactory->getTime();
-		if (((int) $row['expiration']) < $currentTime) {
+		if (((int)$row['expiration']) < $currentTime) {
 			return null;
 		}
 

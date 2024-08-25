@@ -118,8 +118,8 @@ class Mailer implements IMailer {
 		$logoDimensions = $this->config->getAppValue('theming', 'logoDimensions', self::DEFAULT_DIMENSIONS);
 		if (str_contains($logoDimensions, 'x')) {
 			[$width, $height] = explode('x', $logoDimensions);
-			$width = (int) $width;
-			$height = (int) $height;
+			$width = (int)$width;
+			$height = (int)$height;
 
 			if ($width > self::MAX_LOGO_SIZE || $height > self::MAX_LOGO_SIZE) {
 				if ($width === $height) {
@@ -127,9 +127,9 @@ class Mailer implements IMailer {
 					$logoHeight = self::MAX_LOGO_SIZE;
 				} elseif ($width > $height) {
 					$logoWidth = self::MAX_LOGO_SIZE;
-					$logoHeight = (int) (($height / $width) * self::MAX_LOGO_SIZE);
+					$logoHeight = (int)(($height / $width) * self::MAX_LOGO_SIZE);
 				} else {
-					$logoWidth = (int) (($width / $height) * self::MAX_LOGO_SIZE);
+					$logoWidth = (int)(($width / $height) * self::MAX_LOGO_SIZE);
 					$logoHeight = self::MAX_LOGO_SIZE;
 				}
 			} else {

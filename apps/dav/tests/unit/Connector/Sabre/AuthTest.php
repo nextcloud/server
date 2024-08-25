@@ -221,11 +221,11 @@ class AuthTest extends TestCase {
 
 	public function testAuthenticateAlreadyLoggedInWithoutCsrfTokenForNonGet(): void {
 		$request = $this->getMockBuilder(RequestInterface::class)
-				->disableOriginalConstructor()
-				->getMock();
+			->disableOriginalConstructor()
+			->getMock();
 		$response = $this->getMockBuilder(ResponseInterface::class)
-				->disableOriginalConstructor()
-				->getMock();
+			->disableOriginalConstructor()
+			->getMock();
 		$this->userSession
 			->expects($this->any())
 			->method('isLoggedIn')

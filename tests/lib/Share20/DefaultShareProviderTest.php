@@ -89,7 +89,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$this->shareManager = $this->createMock(IShareManager::class);
 
 		$this->userManager->expects($this->any())->method('userExists')->willReturn(true);
-		$this->timeFactory->expects($this->any())->method('now')->willReturn(new \DateTimeImmutable("2023-05-04 00:00 Europe/Berlin"));
+		$this->timeFactory->expects($this->any())->method('now')->willReturn(new \DateTimeImmutable('2023-05-04 00:00 Europe/Berlin'));
 
 		//Empty share table
 		$this->dbConn->getQueryBuilder()->delete('share')->execute();
@@ -331,10 +331,10 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$shareOwnerFolder->method('getFirstNodeById')->with(42)->willReturn($ownerPath);
 
 		$this->rootFolder
-				->method('getUserFolder')
-				->willReturnMap([
-					['shareOwner', $shareOwnerFolder],
-				]);
+			->method('getUserFolder')
+			->willReturnMap([
+				['shareOwner', $shareOwnerFolder],
+			]);
 
 		$share = $this->provider->getShareById($id);
 
@@ -416,10 +416,10 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$shareOwnerFolder->method('getFirstNodeById')->with(42)->willReturn($ownerPath);
 
 		$this->rootFolder
-				->method('getUserFolder')
-				->willReturnMap([
-					['shareOwner', $shareOwnerFolder],
-				]);
+			->method('getUserFolder')
+			->willReturnMap([
+				['shareOwner', $shareOwnerFolder],
+			]);
 
 		$share = $this->provider->getShareById($id);
 
@@ -827,18 +827,18 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$ownerFolder = $this->createMock(Folder::class);
 		$userFolder = $this->createMock(Folder::class);
 		$this->rootFolder
-				->method('getUserFolder')
-				->willReturnMap([
-					['sharedBy', $userFolder],
-					['shareOwner', $ownerFolder],
-				]);
+			->method('getUserFolder')
+			->willReturnMap([
+				['sharedBy', $userFolder],
+				['shareOwner', $ownerFolder],
+			]);
 
 		$userFolder->method('getFirstNodeById')
-				->with(100)
-				->willReturn($path);
+			->with(100)
+			->willReturn($path);
 		$ownerFolder->method('getFirstNodeById')
-				->with(100)
-				->willReturn($path);
+			->with(100)
+			->willReturn($path);
 
 		$share->setShareType(IShare::TYPE_LINK);
 		$share->setSharedBy('sharedBy');

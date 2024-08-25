@@ -58,9 +58,9 @@ class ListCommand extends Base {
 
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		if ($input->getOption('disabled')) {
-			$users = $this->userManager->getDisabledUsers((int) $input->getOption('limit'), (int) $input->getOption('offset'));
+			$users = $this->userManager->getDisabledUsers((int)$input->getOption('limit'), (int)$input->getOption('offset'));
 		} else {
-			$users = $this->userManager->searchDisplayName('', (int) $input->getOption('limit'), (int) $input->getOption('offset'));
+			$users = $this->userManager->searchDisplayName('', (int)$input->getOption('limit'), (int)$input->getOption('offset'));
 		}
 
 		$this->writeArrayInOutputFormat($input, $output, $this->formatUsers($users, (bool)$input->getOption('info')));

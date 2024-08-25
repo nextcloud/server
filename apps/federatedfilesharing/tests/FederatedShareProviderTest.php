@@ -50,11 +50,11 @@ class FederatedShareProviderTest extends \Test\TestCase {
 	protected $logger;
 	/** @var IRootFolder|MockObject */
 	protected $rootFolder;
-	/** @var  IConfig|MockObject */
+	/** @var IConfig|MockObject */
 	protected $config;
-	/** @var  IUserManager|MockObject */
+	/** @var IUserManager|MockObject */
 	protected $userManager;
-	/** @var  \OCP\GlobalScale\IConfig|MockObject */
+	/** @var \OCP\GlobalScale\IConfig|MockObject */
 	protected $gsConfig;
 
 	/** @var IManager */
@@ -64,7 +64,7 @@ class FederatedShareProviderTest extends \Test\TestCase {
 	/** @var IContactsManager|MockObject */
 	protected $contactsManager;
 
-	/** @var  ICloudIdManager */
+	/** @var ICloudIdManager */
 	private $cloudIdManager;
 
 	/** @var MockObject|ICloudFederationProviderManager */

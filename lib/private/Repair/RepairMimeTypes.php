@@ -226,10 +226,10 @@ class RepairMimeTypes implements IRepairStep {
 	 */
 	private function introduceFlatOpenDocumentType(): IResult|int|null {
 		$updatedMimetypes = [
-			"fodt" => "application/vnd.oasis.opendocument.text-flat-xml",
-			"fods" => "application/vnd.oasis.opendocument.spreadsheet-flat-xml",
-			"fodg" => "application/vnd.oasis.opendocument.graphics-flat-xml",
-			"fodp" => "application/vnd.oasis.opendocument.presentation-flat-xml",
+			'fodt' => 'application/vnd.oasis.opendocument.text-flat-xml',
+			'fods' => 'application/vnd.oasis.opendocument.spreadsheet-flat-xml',
+			'fodg' => 'application/vnd.oasis.opendocument.graphics-flat-xml',
+			'fodp' => 'application/vnd.oasis.opendocument.presentation-flat-xml',
 		];
 
 		return $this->updateMimetypes($updatedMimetypes);
@@ -251,8 +251,8 @@ class RepairMimeTypes implements IRepairStep {
 	 */
 	private function introduceOnlyofficeFormType(): IResult|int|null {
 		$updatedMimetypes = [
-			"oform" => "application/vnd.openxmlformats-officedocument.wordprocessingml.document.oform",
-			"docxf" => "application/vnd.openxmlformats-officedocument.wordprocessingml.document.docxf",
+			'oform' => 'application/vnd.openxmlformats-officedocument.wordprocessingml.document.oform',
+			'docxf' => 'application/vnd.openxmlformats-officedocument.wordprocessingml.document.docxf',
 		];
 
 		return $this->updateMimetypes($updatedMimetypes);

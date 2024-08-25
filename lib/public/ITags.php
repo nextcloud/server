@@ -78,7 +78,7 @@ interface ITags {
 	 *
 	 * @param array $objIds item ids
 	 * @return array|false with object id as key and an array
-	 * of tag names as value or false if an error occurred
+	 *                     of tag names as value or false if an error occurred
 	 * @since 8.0.0
 	 */
 	public function getTagsForObjects(array $objIds);
@@ -136,7 +136,7 @@ interface ITags {
 	 * Add a list of new tags.
 	 *
 	 * @param string|string[] $names A string with a name or an array of strings containing
-	 * the name(s) of the to add.
+	 *                               the name(s) of the to add.
 	 * @param bool $sync When true, save the tags
 	 * @param int|null $id int Optional object id to add to this|these tag(s)
 	 * @return bool Returns false on error.

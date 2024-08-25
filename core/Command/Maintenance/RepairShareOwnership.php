@@ -33,7 +33,7 @@ class RepairShareOwnership extends Command {
 			->setName('maintenance:repair-share-owner')
 			->setDescription('repair invalid share-owner entries in the database')
 			->addOption('no-confirm', 'y', InputOption::VALUE_NONE, "Don't ask for confirmation before repairing the shares")
-			->addArgument('user', InputArgument::OPTIONAL, "User to fix incoming shares for, if omitted all users will be fixed");
+			->addArgument('user', InputArgument::OPTIONAL, 'User to fix incoming shares for, if omitted all users will be fixed');
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output): int {
@@ -51,13 +51,13 @@ class RepairShareOwnership extends Command {
 		}
 
 		if ($shares) {
-			$output->writeln("");
-			$output->writeln("Found " . count($shares) . " shares with invalid share owner");
+			$output->writeln('');
+			$output->writeln('Found ' . count($shares) . ' shares with invalid share owner');
 			foreach ($shares as $share) {
 				/** @var array{shareId: int, fileTarget: string, initiator: string, receiver: string, owner: string, mountOwner: string} $share */
 				$output->writeln(" - share {$share['shareId']} from \"{$share['initiator']}\" to \"{$share['receiver']}\" at \"{$share['fileTarget']}\", owned by \"{$share['owner']}\", that should be owned by \"{$share['mountOwner']}\"");
 			}
-			$output->writeln("");
+			$output->writeln('');
 
 			if (!$noConfirm) {
 				$helper = $this->getHelper('question');
@@ -67,10 +67,10 @@ class RepairShareOwnership extends Command {
 					return 0;
 				}
 			}
-			$output->writeln("Repairing " . count($shares) . " shares");
+			$output->writeln('Repairing ' . count($shares) . ' shares');
 			$this->repairShares($shares);
 		} else {
-			$output->writeln("Found no shares with invalid share owner");
+			$output->writeln('Found no shares with invalid share owner');
 		}
 
 		return 0;
@@ -96,7 +96,7 @@ class RepairShareOwnership extends Command {
 
 		foreach ($brokenShares as $share) {
 			$found[] = [
-				'shareId' => (int) $share['id'],
+				'shareId' => (int)$share['id'],
 				'fileTarget' => $share['file_target'],
 				'initiator' => $share['uid_initiator'],
 				'receiver' => $share['share_with'],
@@ -130,7 +130,7 @@ class RepairShareOwnership extends Command {
 
 		foreach ($brokenShares as $share) {
 			$found[] = [
-				'shareId' => (int) $share['id'],
+				'shareId' => (int)$share['id'],
 				'fileTarget' => $share['file_target'],
 				'initiator' => $share['uid_initiator'],
 				'receiver' => $share['share_with'],

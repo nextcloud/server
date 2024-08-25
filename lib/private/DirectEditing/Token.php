@@ -42,7 +42,7 @@ class Token implements IToken {
 	}
 
 	public function hasBeenAccessed(): bool {
-		return (bool) $this->data['accessed'];
+		return (bool)$this->data['accessed'];
 	}
 
 	public function getEditor(): string {

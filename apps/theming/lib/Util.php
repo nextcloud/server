@@ -232,7 +232,7 @@ class Util {
 	public function getAppImage($app, $image) {
 		$app = str_replace(['\0', '/', '\\', '..'], '', $app);
 		$image = str_replace(['\0', '\\', '..'], '', $image);
-		if ($app === "core") {
+		if ($app === 'core') {
 			$icon = \OC::$SERVERROOT . '/core/img/' . $image;
 			if (file_exists($icon)) {
 				return $icon;

@@ -23,7 +23,7 @@ use Test\TestCase;
  */
 class CleanupTest extends TestCase {
 
-	/** @var  CleanUp */
+	/** @var CleanUp */
 	protected $cleanup;
 
 	/** @var \PHPUnit\Framework\MockObject\MockObject | Manager */
@@ -164,8 +164,8 @@ class CleanupTest extends TestCase {
 			->disableOriginalConstructor()->getMock();
 
 		$this->userManager->expects($this->once())
-				->method('getBackends')
-				->willReturn([$backend]);
+			->method('getBackends')
+			->willReturn([$backend]);
 
 		$this->invokePrivate($instance, 'execute', [$inputInterface, $outputInterface]);
 	}

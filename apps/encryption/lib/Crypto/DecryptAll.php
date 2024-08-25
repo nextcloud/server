@@ -18,19 +18,19 @@ use Symfony\Component\Console\Question\Question;
 
 class DecryptAll {
 
-	/** @var Util  */
+	/** @var Util */
 	protected $util;
 
-	/** @var QuestionHelper  */
+	/** @var QuestionHelper */
 	protected $questionHelper;
 
-	/** @var  Crypt */
+	/** @var Crypt */
 	protected $crypt;
 
-	/** @var  KeyManager */
+	/** @var KeyManager */
 	protected $keyManager;
 
-	/** @var Session  */
+	/** @var Session */
 	protected $session;
 
 	/**

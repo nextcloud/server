@@ -51,7 +51,7 @@ class RequestHandlerController extends OCSController {
 	/** @var AddressHandler */
 	private $addressHandler;
 
-	/** @var  IUserManager */
+	/** @var IUserManager */
 	private $userManager;
 
 	/** @var string */
@@ -441,7 +441,7 @@ class RequestHandlerController extends OCSController {
 			throw new OCSException('Server does not support federated cloud sharing', 503);
 		}
 
-		$newRemoteId = (string) ($remote_id ?? $id);
+		$newRemoteId = (string)($remote_id ?? $id);
 		$cloudId = $this->cloudIdManager->resolveCloudId($remote);
 
 		$qb = $this->connection->getQueryBuilder();

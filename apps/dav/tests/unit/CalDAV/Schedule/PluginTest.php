@@ -41,7 +41,7 @@ class PluginTest extends TestCase {
 	/** @var Server|MockObject */
 	private $server;
 
-	/** @var IConfig|MockObject  */
+	/** @var IConfig|MockObject */
 	private $config;
 
 	/** @var LoggerInterface&MockObject */
@@ -347,10 +347,10 @@ class PluginTest extends TestCase {
 		if (!$exists || $deleted) {
 			if (!$hasExistingCalendars) {
 				$calendarBackend->expects($this->once())
-				->method('createCalendar')
-				->with($principalUri, $calendarUri, [
-					'{DAV:}displayname' => $displayName,
-				]);
+					->method('createCalendar')
+					->with($principalUri, $calendarUri, [
+						'{DAV:}displayname' => $displayName,
+					]);
 
 				$calendarHomeObject->expects($this->once())
 					->method('getCalDAVBackend')

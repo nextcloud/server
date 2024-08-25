@@ -25,7 +25,7 @@ use Test\TestCase;
  */
 class CleanUpTest extends TestCase {
 
-	/** @var  CleanUp */
+	/** @var CleanUp */
 	protected $cleanup;
 
 	/** @var \PHPUnit\Framework\MockObject\MockObject | Manager */
@@ -37,10 +37,10 @@ class CleanUpTest extends TestCase {
 	/** @var IDBConnection */
 	protected $dbConnection;
 
-	/** @var  string */
+	/** @var string */
 	protected $trashTable = 'files_trash';
 
-	/** @var string  */
+	/** @var string */
 	protected $user0 = 'user0';
 
 	protected function setUp(): void {

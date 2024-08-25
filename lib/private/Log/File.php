@@ -73,7 +73,7 @@ class File extends LogDetails implements IWriter, IFileBased {
 	 * get entries from the log in reverse chronological order
 	 */
 	public function getEntries(int $limit = 50, int $offset = 0): array {
-		$minLevel = $this->config->getValue("loglevel", ILogger::WARN);
+		$minLevel = $this->config->getValue('loglevel', ILogger::WARN);
 		$entries = [];
 		$handle = @fopen($this->logFile, 'rb');
 		if ($handle) {

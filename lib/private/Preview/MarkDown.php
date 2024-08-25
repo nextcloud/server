@@ -52,7 +52,7 @@ class MarkDown extends TXT {
 		$lines = preg_split("/\r\n|\n|\r/", $content);
 
 		// Define text size of text file preview
-		$fontSize = $maxX ? (int) ((1 / ($maxX >= 512 ? 60 : 40) * $maxX)) : 10;
+		$fontSize = $maxX ? (int)((1 / ($maxX >= 512 ? 60 : 40) * $maxX)) : 10;
 
 		$image = imagecreate($maxX, $maxY);
 		imagecolorallocate($image, 255, 255, 255);

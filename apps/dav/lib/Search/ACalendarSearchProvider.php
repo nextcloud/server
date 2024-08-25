@@ -64,7 +64,7 @@ abstract class ACalendarSearchProvider implements IProvider {
 		$calendars = $this->backend->getCalendarsForUser($principalUri);
 		$calendarsById = [];
 		foreach ($calendars as $calendar) {
-			$calendarsById[(int) $calendar['id']] = $calendar;
+			$calendarsById[(int)$calendar['id']] = $calendar;
 		}
 
 		return $calendarsById;
@@ -81,7 +81,7 @@ abstract class ACalendarSearchProvider implements IProvider {
 		$subscriptions = $this->backend->getSubscriptionsForUser($principalUri);
 		$subscriptionsById = [];
 		foreach ($subscriptions as $subscription) {
-			$subscriptionsById[(int) $subscription['id']] = $subscription;
+			$subscriptionsById[(int)$subscription['id']] = $subscription;
 		}
 
 		return $subscriptionsById;

@@ -372,8 +372,8 @@ class ManagerTest extends TestCase {
 
 		$manager = $this->getManager();
 
-		$manager->setReadMark('files', (string) $fileIds[0], (new \DateTime())->modify('-1 days'), $user);
-		$manager->setReadMark('files', (string) $fileIds[2], (new \DateTime()), $user);
+		$manager->setReadMark('files', (string)$fileIds[0], (new \DateTime())->modify('-1 days'), $user);
+		$manager->setReadMark('files', (string)$fileIds[2], (new \DateTime()), $user);
 
 		$amount = $manager->getNumberOfUnreadCommentsForFolder($folder->getId(), $user);
 		$this->assertEquals([
@@ -408,7 +408,7 @@ class ManagerTest extends TestCase {
 		}
 
 		$this->assertSame($expected, array_map(function (IComment $c) {
-			return (int) $c->getId();
+			return (int)$c->getId();
 		}, $comments));
 	}
 
@@ -764,7 +764,7 @@ class ManagerTest extends TestCase {
 		);
 
 		// just to make sure they are really set, with correct actor data
-		$comment = $manager->get((string) $ids[1]);
+		$comment = $manager->get((string)$ids[1]);
 		$this->assertSame($comment->getObjectType(), 'files');
 		$this->assertSame($comment->getObjectId(), 'file64');
 
@@ -775,7 +775,7 @@ class ManagerTest extends TestCase {
 		$exists = 0;
 		foreach ($ids as $id) {
 			try {
-				$manager->get((string) $id);
+				$manager->get((string)$id);
 				$exists++;
 			} catch (NotFoundException $e) {
 				$deleted++;
@@ -817,7 +817,7 @@ class ManagerTest extends TestCase {
 		$exists = 0;
 		foreach ($ids as $id) {
 			try {
-				$manager->get((string) $id);
+				$manager->get((string)$id);
 				$exists++;
 			} catch (NotFoundException $e) {
 				$deleted++;
@@ -1104,7 +1104,7 @@ class ManagerTest extends TestCase {
 			[$message, $actorId, $verb, $parentText] = $comment;
 			$parentId = null;
 			if ($parentText) {
-				$parentId = (string) $comments[$parentText]->getId();
+				$parentId = (string)$comments[$parentText]->getId();
 			}
 			$id = '';
 			if ($verb === 'reaction_deleted') {

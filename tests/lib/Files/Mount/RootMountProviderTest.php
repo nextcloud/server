@@ -61,17 +61,17 @@ class RootMountProviderTest extends TestCase {
 	public function testObjectStore() {
 		$provider = $this->getProvider([
 			'objectstore' => [
-				"class" => "OC\Files\ObjectStore\S3",
-				"arguments" => [
-					"bucket" => "nextcloud",
-					"autocreate" => true,
-					"key" => "minio",
-					"secret" => "minio123",
-					"hostname" => "localhost",
-					"port" => 9000,
-					"use_ssl" => false,
-					"use_path_style" => true,
-					"uploadPartSize" => 52428800,
+				'class' => "OC\Files\ObjectStore\S3",
+				'arguments' => [
+					'bucket' => 'nextcloud',
+					'autocreate' => true,
+					'key' => 'minio',
+					'secret' => 'minio123',
+					'hostname' => 'localhost',
+					'port' => 9000,
+					'use_ssl' => false,
+					'use_path_style' => true,
+					'uploadPartSize' => 52428800,
 				],
 			],
 		]);
@@ -94,17 +94,17 @@ class RootMountProviderTest extends TestCase {
 	public function testObjectStoreMultiBucket() {
 		$provider = $this->getProvider([
 			'objectstore_multibucket' => [
-				"class" => "OC\Files\ObjectStore\S3",
-				"arguments" => [
-					"bucket" => "nextcloud",
-					"autocreate" => true,
-					"key" => "minio",
-					"secret" => "minio123",
-					"hostname" => "localhost",
-					"port" => 9000,
-					"use_ssl" => false,
-					"use_path_style" => true,
-					"uploadPartSize" => 52428800,
+				'class' => "OC\Files\ObjectStore\S3",
+				'arguments' => [
+					'bucket' => 'nextcloud',
+					'autocreate' => true,
+					'key' => 'minio',
+					'secret' => 'minio123',
+					'hostname' => 'localhost',
+					'port' => 9000,
+					'use_ssl' => false,
+					'use_path_style' => true,
+					'uploadPartSize' => 52428800,
 				],
 			],
 		]);

@@ -68,11 +68,11 @@ class QueryBuilder implements IQueryBuilder {
 	 * Enable/disable automatic prefixing of table names with the oc_ prefix
 	 *
 	 * @param bool $enabled If set to true table names will be prefixed with the
-	 * owncloud database prefix automatically.
+	 *                      owncloud database prefix automatically.
 	 * @since 8.2.0
 	 */
 	public function automaticTablePrefix($enabled) {
-		$this->automaticTablePrefix = (bool) $enabled;
+		$this->automaticTablePrefix = (bool)$enabled;
 	}
 
 	/**
@@ -405,7 +405,7 @@ class QueryBuilder implements IQueryBuilder {
 	 * @return $this This QueryBuilder instance.
 	 */
 	public function setFirstResult($firstResult) {
-		$this->queryBuilder->setFirstResult((int) $firstResult);
+		$this->queryBuilder->setFirstResult((int)$firstResult);
 
 		return $this;
 	}
@@ -435,7 +435,7 @@ class QueryBuilder implements IQueryBuilder {
 		if ($maxResults === null) {
 			$this->queryBuilder->setMaxResults($maxResults);
 		} else {
-			$this->queryBuilder->setMaxResults((int) $maxResults);
+			$this->queryBuilder->setMaxResults((int)$maxResults);
 		}
 
 		return $this;
@@ -978,7 +978,7 @@ class QueryBuilder implements IQueryBuilder {
 	public function setValue($column, $value) {
 		$this->queryBuilder->setValue(
 			$this->helper->quoteColumnName($column),
-			(string) $value
+			(string)$value
 		);
 
 		return $this;
@@ -1287,7 +1287,7 @@ class QueryBuilder implements IQueryBuilder {
 	 */
 	public function getTableName($table) {
 		if ($table instanceof IQueryFunction) {
-			return (string) $table;
+			return (string)$table;
 		}
 
 		$table = $this->prefixTableName($table);

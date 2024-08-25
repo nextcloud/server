@@ -69,7 +69,7 @@ class Storage extends Wrapper {
 				// in case of a encryption exception we delete the file right away
 				$this->logger->info(
 					"Can't move file " . $path .
-					" to the trash bin, therefore it was deleted right away");
+					' to the trash bin, therefore it was deleted right away');
 
 				return $this->storage->unlink($path);
 			}

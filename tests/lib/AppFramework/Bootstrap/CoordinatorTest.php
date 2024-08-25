@@ -77,7 +77,7 @@ class CoordinatorTest extends TestCase {
 		$this->serverContainer->expects($this->once())
 			->method('query')
 			->with(\OCA\Settings\AppInfo\Application::class)
-			->willThrowException(new QueryException(""));
+			->willThrowException(new QueryException(''));
 		$this->logger->expects($this->once())
 			->method('error');
 

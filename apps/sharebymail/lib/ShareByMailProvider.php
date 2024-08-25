@@ -128,7 +128,7 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 
 		if ($initiatorEMailAddress === null && !$allowPasswordByMail) {
 			throw new \Exception(
-				$this->l->t("We cannot send you the auto-generated password. Please set a valid email address in your personal settings and try again.")
+				$this->l->t('We cannot send you the auto-generated password. Please set a valid email address in your personal settings and try again.')
 			);
 		}
 
@@ -154,7 +154,7 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 			[$userFolder->getRelativePath($share->getNode()->getPath()), $share->getSharedWith()],
 			$share->getSharedBy(),
 			$share->getNode()->getId(),
-			(string) $userFolder->getRelativePath($share->getNode()->getPath())
+			(string)$userFolder->getRelativePath($share->getNode()->getPath())
 		);
 
 		if ($share->getShareOwner() !== $share->getSharedBy()) {
@@ -167,7 +167,7 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 				[$ownerFolder->getRelativePath($ownerPath), $share->getSharedWith(), $share->getSharedBy()],
 				$share->getShareOwner(),
 				$fileId,
-				(string) $ownerFolder->getRelativePath($ownerPath)
+				(string)$ownerFolder->getRelativePath($ownerPath)
 			);
 		}
 	}
@@ -184,7 +184,7 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 				[$userFolder->getRelativePath($share->getNode()->getPath())],
 				$share->getSharedBy(),
 				$share->getNode()->getId(),
-				(string) $userFolder->getRelativePath($share->getNode()->getPath())
+				(string)$userFolder->getRelativePath($share->getNode()->getPath())
 			);
 		} else {
 			$this->publishActivity(
@@ -192,7 +192,7 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 				[$userFolder->getRelativePath($share->getNode()->getPath()), $sharedWith],
 				$share->getSharedBy(),
 				$share->getNode()->getId(),
-				(string) $userFolder->getRelativePath($share->getNode()->getPath())
+				(string)$userFolder->getRelativePath($share->getNode()->getPath())
 			);
 		}
 	}
@@ -576,7 +576,7 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 
 		if ($initiatorEMailAddress === null) {
 			throw new \Exception(
-				$this->l->t("We cannot send you the auto-generated password. Please set a valid email address in your personal settings and try again.")
+				$this->l->t('We cannot send you the auto-generated password. Please set a valid email address in your personal settings and try again.')
 			);
 		}
 

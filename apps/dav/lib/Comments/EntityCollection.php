@@ -27,7 +27,7 @@ use Sabre\DAV\PropPatch;
 class EntityCollection extends RootCollection implements IProperties {
 	public const PROPERTY_NAME_READ_MARKER = '{http://owncloud.org/ns}readMarker';
 
-	/** @var  string */
+	/** @var string */
 	protected $id;
 
 	protected LoggerInterface $logger;

@@ -169,8 +169,8 @@ class EditTest extends TestCase {
 			});
 
 		$this->systemTagManager->method('getTagsByIds')
-		->with($tagId)
-		->willReturn([]);
+			->with($tagId)
+			->willReturn([]);
 
 		$this->output->expects($this->once())
 			->method('writeln')

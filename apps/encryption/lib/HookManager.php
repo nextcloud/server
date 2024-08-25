@@ -15,7 +15,7 @@ class HookManager {
 
 	/**
 	 * @param array|IHook $instances
-	 *        - This accepts either a single instance of IHook or an array of instances of IHook
+	 *                               - This accepts either a single instance of IHook or an array of instances of IHook
 	 * @return bool
 	 */
 	public function registerHook($instances) {

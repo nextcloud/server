@@ -32,7 +32,7 @@ class AppConfigTest extends TestCase {
 
 	/**
 	 * @var array<string, array<array<string, string, int, bool, bool>>>
-	 *     [appId => [configKey, configValue, valueType, lazy, sensitive]]
+	 *                                                                   [appId => [configKey, configValue, valueType, lazy, sensitive]]
 	 */
 	private array $baseStruct =
 		[
@@ -168,7 +168,7 @@ class AppConfigTest extends TestCase {
 
 	/**
 	 * @param bool $preLoading TRUE will preload the 'fast' cache, which is the normal behavior of usual
-	 *     IAppConfig
+	 *                         IAppConfig
 	 *
 	 * @return IAppConfig
 	 */
@@ -1367,7 +1367,7 @@ class AppConfigTest extends TestCase {
 		$key = self::getUniqueID('secret');
 
 		$appConfig = $this->generateAppConfig();
-		$secret = md5((string) time());
+		$secret = md5((string)time());
 		$appConfig->setValueString('testapp', $key, $secret, sensitive: true);
 
 		$this->assertConfigValueNotEquals('testapp', $key, $secret);
@@ -1385,7 +1385,7 @@ class AppConfigTest extends TestCase {
 	public function testMigratingNonSensitiveValueToSensitiveWithSetValue(): void {
 		$key = self::getUniqueID('secret');
 		$appConfig = $this->generateAppConfig();
-		$secret = sha1((string) time());
+		$secret = sha1((string)time());
 
 		// Unencrypted
 		$appConfig->setValueString('testapp', $key, $secret);
@@ -1413,7 +1413,7 @@ class AppConfigTest extends TestCase {
 	public function testUpdateSensitiveValueToNonSensitiveWithUpdateSensitive(): void {
 		$key = self::getUniqueID('secret');
 		$appConfig = $this->generateAppConfig();
-		$secret = sha1((string) time());
+		$secret = sha1((string)time());
 
 		// Encrypted
 		$appConfig->setValueString('testapp', $key, $secret, sensitive: true);
@@ -1427,7 +1427,7 @@ class AppConfigTest extends TestCase {
 	public function testUpdateNonSensitiveValueToSensitiveWithUpdateSensitive(): void {
 		$key = self::getUniqueID('secret');
 		$appConfig = $this->generateAppConfig();
-		$secret = sha1((string) time());
+		$secret = sha1((string)time());
 
 		// Unencrypted
 		$appConfig->setValueString('testapp', $key, $secret);

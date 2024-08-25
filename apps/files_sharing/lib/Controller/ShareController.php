@@ -205,7 +205,7 @@ class ShareController extends AuthPublicShareController {
 	 * throws hooks when a share is attempted to be accessed
 	 *
 	 * @param \OCP\Share\IShare|string $share the Share instance if available,
-	 * otherwise token
+	 *                                        otherwise token
 	 * @param int $errorCode
 	 * @param string $errorMessage
 	 *

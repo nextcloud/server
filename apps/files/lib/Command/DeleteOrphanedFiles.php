@@ -53,7 +53,7 @@ class DeleteOrphanedFiles extends Command {
 			$result = $query->execute();
 			while ($row = $result->fetch()) {
 				$deletedInLastChunk++;
-				$deletedEntries += $deleteQuery->setParameter('objectid', (int) $row['fileid'])
+				$deletedEntries += $deleteQuery->setParameter('objectid', (int)$row['fileid'])
 					->execute();
 			}
 			$result->closeCursor();
@@ -120,7 +120,7 @@ class DeleteOrphanedFiles extends Command {
 			$result = $query->execute();
 			while ($row = $result->fetch()) {
 				$deletedInLastChunk++;
-				$deletedEntries += $deleteQuery->setParameter('storageid', (int) $row['storage_id'])
+				$deletedEntries += $deleteQuery->setParameter('storageid', (int)$row['storage_id'])
 					->execute();
 			}
 			$result->closeCursor();

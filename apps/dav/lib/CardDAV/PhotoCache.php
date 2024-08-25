@@ -19,7 +19,7 @@ use Sabre\VObject\Reader;
 
 class PhotoCache {
 
-	/** @var array  */
+	/** @var array */
 	public const ALLOWED_CONTENT_TYPES = [
 		'image/png' => 'png',
 		'image/jpeg' => 'jpg',
@@ -119,7 +119,7 @@ class PhotoCache {
 				$ratio = 1 / $ratio;
 			}
 
-			$size = (int) ($size * $ratio);
+			$size = (int)($size * $ratio);
 			if ($size !== -1) {
 				$photo->resize($size);
 			}
@@ -240,7 +240,7 @@ class PhotoCache {
 		if (isset($params['TYPE']) || isset($params['MEDIATYPE'])) {
 			/** @var Parameter $typeParam */
 			$typeParam = isset($params['TYPE']) ? $params['TYPE'] : $params['MEDIATYPE'];
-			$type = (string) $typeParam->getValue();
+			$type = (string)$typeParam->getValue();
 
 			if (str_starts_with($type, 'image/')) {
 				return $type;

@@ -312,8 +312,8 @@ class LDAP implements ILDAPWrapper {
 				if ($this->isResource($item)) {
 					return '(resource)';
 				}
-				if (isset($item[0]['value']['cookie']) && $item[0]['value']['cookie'] !== "") {
-					$item[0]['value']['cookie'] = "*opaque cookie*";
+				if (isset($item[0]['value']['cookie']) && $item[0]['value']['cookie'] !== '') {
+					$item[0]['value']['cookie'] = '*opaque cookie*';
 				}
 				return $item;
 			}, $this->curArgs);

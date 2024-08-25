@@ -609,7 +609,7 @@ class DefaultShareProvider implements IShareProviderWithNotification, IShareProv
 
 	public function getSharesInFolder($userId, Folder $node, $reshares, $shallow = true) {
 		if (!$shallow) {
-			throw new \Exception("non-shallow getSharesInFolder is no longer supported");
+			throw new \Exception('non-shallow getSharesInFolder is no longer supported');
 		}
 
 		$qb = $this->dbConn->getQueryBuilder();
@@ -773,7 +773,7 @@ class DefaultShareProvider implements IShareProviderWithNotification, IShareProv
 
 		// If the recipient is set for a group share resolve to that user
 		if ($recipientId !== null && $share->getShareType() === IShare::TYPE_GROUP) {
-			$share = $this->resolveGroupShares([(int) $share->getId() => $share], $recipientId)[0];
+			$share = $this->resolveGroupShares([(int)$share->getId() => $share], $recipientId)[0];
 		}
 
 		return $share;
@@ -882,9 +882,9 @@ class DefaultShareProvider implements IShareProviderWithNotification, IShareProv
 
 			while ($data = $cursor->fetch()) {
 				if ($data['fileid'] && $data['path'] === null) {
-					$data['path'] = (string) $data['path'];
-					$data['name'] = (string) $data['name'];
-					$data['checksum'] = (string) $data['checksum'];
+					$data['path'] = (string)$data['path'];
+					$data['name'] = (string)$data['name'];
+					$data['checksum'] = (string)$data['checksum'];
 				}
 				if ($this->isAccessibleResult($data)) {
 					$shares[] = $this->createShare($data);
@@ -1381,8 +1381,8 @@ class DefaultShareProvider implements IShareProviderWithNotification, IShareProv
 	protected function filterSharesOfUser(array $shares) {
 		// Group shares when the user has a share exception
 		foreach ($shares as $id => $share) {
-			$type = (int) $share['share_type'];
-			$permissions = (int) $share['permissions'];
+			$type = (int)$share['share_type'];
+			$permissions = (int)$share['permissions'];
 
 			if ($type === IShare::TYPE_USERGROUP) {
 				unset($shares[$share['parent']]);

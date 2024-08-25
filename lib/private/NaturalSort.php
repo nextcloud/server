@@ -82,7 +82,7 @@ class NaturalSort {
 	 * @param string $a first string to compare
 	 * @param string $b second string to compare
 	 * @return int -1 if $b comes before $a, 1 if $a comes before $b
-	 * or 0 if the strings are identical
+	 *             or 0 if the strings are identical
 	 */
 	public function compare($a, $b) {
 		// Needed because PHP doesn't sort correctly when numbers are enclosed in

@@ -62,7 +62,7 @@ class CommentPropertiesPlugin extends ServerPlugin {
 			$ids[] = (string)$id;
 		}
 
-		$ids[] = (string) $directory->getId();
+		$ids[] = (string)$directory->getId();
 		$unread = $this->commentsManager->getNumberOfUnreadCommentsForObjects('files', $ids, $this->userSession->getUser());
 
 		foreach ($unread as $id => $count) {

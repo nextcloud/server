@@ -423,7 +423,7 @@ class UsersController extends Controller {
 				],
 				Http::STATUS_OK
 			);
-		} catch (ForbiddenException | InvalidArgumentException | PropertyDoesNotExistException $e) {
+		} catch (ForbiddenException|InvalidArgumentException|PropertyDoesNotExistException $e) {
 			return new DataResponse([
 				'status' => 'error',
 				'data' => [

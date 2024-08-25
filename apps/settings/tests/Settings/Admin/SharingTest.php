@@ -22,13 +22,13 @@ class SharingTest extends TestCase {
 	private $admin;
 	/** @var IConfig */
 	private $config;
-	/** @var  IL10N|MockObject */
+	/** @var IL10N|MockObject */
 	private $l10n;
-	/** @var  IManager|MockObject */
+	/** @var IManager|MockObject */
 	private $shareManager;
 	/** @var IAppManager|MockObject */
 	private $appManager;
-	/** @var  IURLGenerator|MockObject */
+	/** @var IURLGenerator|MockObject */
 	private $urlGenerator;
 	/** @var IInitialState|MockObject */
 	private $initialState;
@@ -56,7 +56,7 @@ class SharingTest extends TestCase {
 			$this->appManager,
 			$this->urlGenerator,
 			$this->initialState,
-			"settings",
+			'settings',
 		);
 	}
 

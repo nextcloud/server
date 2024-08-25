@@ -199,7 +199,7 @@ class UpdateTest extends TestCase {
 	/**
 	 * create mock of the update method
 	 *
-	 * @param array$methods methods which should be set
+	 * @param array $methods methods which should be set
 	 * @return \OC\Encryption\Update | \PHPUnit\Framework\MockObject\MockObject
 	 */
 	protected function getUpdateMock($methods) {

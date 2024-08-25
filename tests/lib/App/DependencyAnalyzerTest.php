@@ -46,7 +46,7 @@ class DependencyAnalyzerTest extends TestCase {
 			->method('getLibraryVersion')
 			->willReturnCallback(function ($lib) {
 				if ($lib === 'curl') {
-					return "2.3.4";
+					return '2.3.4';
 				}
 				return null;
 			});

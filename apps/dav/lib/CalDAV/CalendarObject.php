@@ -62,7 +62,7 @@ class CalendarObject extends \Sabre\CalDAV\CalendarObject {
 	}
 
 	public function getId(): int {
-		return (int) $this->objectData['id'];
+		return (int)$this->objectData['id'];
 	}
 
 	protected function isShared() {

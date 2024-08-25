@@ -38,7 +38,7 @@ class GroupsControllerTest extends \Test\TestCase {
 	protected $l10nFactory;
 	/** @var LoggerInterface|\PHPUnit\Framework\MockObject\MockObject */
 	protected $logger;
-	/** @var  SubAdmin|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var SubAdmin|\PHPUnit\Framework\MockObject\MockObject */
 	protected $subAdminManager;
 
 	/** @var GroupsController|\PHPUnit\Framework\MockObject\MockObject */
@@ -60,8 +60,8 @@ class GroupsControllerTest extends \Test\TestCase {
 		$this->subAdminManager = $this->createMock(SubAdmin::class);
 
 		$this->groupManager
-				->method('getSubAdmin')
-				->willReturn($this->subAdminManager);
+			->method('getSubAdmin')
+			->willReturn($this->subAdminManager);
 
 		$this->api = $this->getMockBuilder(GroupsController::class)
 			->setConstructorArgs([

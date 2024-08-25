@@ -121,10 +121,10 @@ class Access extends LDAPUtility {
 	 *
 	 * @param string $dn the record in question
 	 * @param string $attr the attribute that shall be retrieved
-	 *        if empty, just check the record's existence
+	 *                     if empty, just check the record's existence
 	 * @param string $filter
 	 * @return array|false an array of values on success or an empty
-	 *          array if $attr is empty, false otherwise
+	 *                     array if $attr is empty, false otherwise
 	 * @throws ServerNotAvailableException
 	 */
 	public function readAttribute(string $dn, string $attr, string $filter = 'objectClass=*') {
@@ -729,7 +729,7 @@ class Access extends LDAPUtility {
 	 * "Developers"
 	 */
 	private function _createAltInternalOwnCloudNameForGroups(string $name) {
-		$usedNames = $this->getGroupMapper()->getNamesBySearch($name, "", '_%');
+		$usedNames = $this->getGroupMapper()->getNamesBySearch($name, '', '_%');
 		if (count($usedNames) === 0) {
 			$lastNo = 1; //will become name_2
 		} else {
@@ -1035,7 +1035,7 @@ class Access extends LDAPUtility {
 	 * @param int|null $limit optional, maximum results to be counted
 	 * @param int|null $offset optional, a starting point
 	 * @return array|false array with the search result as first value and pagedSearchOK as
-	 * second | false if not successful
+	 *                     second | false if not successful
 	 * @throws ServerNotAvailableException
 	 */
 	private function executeSearch(
@@ -1074,7 +1074,7 @@ class Access extends LDAPUtility {
 	 * @param int $limit maximum results to be counted
 	 * @param bool $pagedSearchOK whether a paged search has been executed
 	 * @param bool $skipHandling required for paged search when cookies to
-	 * prior results need to be gained
+	 *                           prior results need to be gained
 	 * @return bool cookie validity, true if we have more pages, false otherwise.
 	 * @throws ServerNotAvailableException
 	 */
@@ -1124,11 +1124,11 @@ class Access extends LDAPUtility {
 	 * @param string $filter the LDAP filter for the search
 	 * @param array $bases an array containing the LDAP subtree(s) that shall be searched
 	 * @param ?string[] $attr optional, array, one or more attributes that shall be
-	 * retrieved. Results will according to the order in the array.
+	 *                        retrieved. Results will according to the order in the array.
 	 * @param int $limit maximum results to be counted, 0 means no limit
 	 * @param int $offset a starting point, defaults to 0
 	 * @param bool $skipHandling indicates whether the pages search operation is
-	 * completed
+	 *                           completed
 	 * @return int|false Integer or false if the search could not be initialized
 	 * @throws ServerNotAvailableException
 	 */
@@ -1374,7 +1374,7 @@ class Access extends LDAPUtility {
 	 *
 	 * @param string[] $filters the filters to connect
 	 * @return string the combined filter
-	 * Combines Filter arguments with OR
+	 *                Combines Filter arguments with OR
 	 */
 	public function combineFilterWithOr($filters) {
 		return $this->combineFilter($filters, '|');
@@ -1429,7 +1429,7 @@ class Access extends LDAPUtility {
 	 *
 	 * @param string $search the search term
 	 * @param string[]|null|'' $searchAttributes needs to have at least two attributes,
-	 * otherwise it does not make sense :)
+	 *                                           otherwise it does not make sense :)
 	 * @return string the final filter part to use in LDAP searches
 	 * @throws DomainException
 	 */
@@ -1457,7 +1457,7 @@ class Access extends LDAPUtility {
 	 * @param string $search the search term
 	 * @param string[]|null|'' $searchAttributes
 	 * @param string $fallbackAttribute a fallback attribute in case the user
-	 * did not define search attributes. Typically the display name attribute.
+	 *                                  did not define search attributes. Typically the display name attribute.
 	 * @return string the final filter part to use in LDAP searches
 	 */
 	private function getFilterPartForSearch(string $search, $searchAttributes, string $fallbackAttribute): string {

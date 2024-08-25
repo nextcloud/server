@@ -17,7 +17,7 @@ use OCP\IConfig;
 class EncryptionTest extends \Test\TestCase {
 	public const DEFAULT_WRAPPER = '\OC\Files\Stream\Encryption';
 
-	/** @var  \OCP\Encryption\IEncryptionModule | \PHPUnit\Framework\MockObject\MockObject  */
+	/** @var \OCP\Encryption\IEncryptionModule | \PHPUnit\Framework\MockObject\MockObject */
 	private $encryptionModule;
 
 	/**
@@ -91,7 +91,7 @@ class EncryptionTest extends \Test\TestCase {
 		$expectedReadOnly) {
 		// build mocks
 		$encryptionModuleMock = $this->getMockBuilder('\OCP\Encryption\IEncryptionModule')
-		->disableOriginalConstructor()->getMock();
+			->disableOriginalConstructor()->getMock();
 		$encryptionModuleMock->expects($this->any())->method('needDetailedAccessList')->willReturn(!$isMasterKeyUsed);
 		$encryptionModuleMock->expects($this->once())
 			->method('getUnencryptedBlockSize')->willReturn(99);
@@ -190,7 +190,7 @@ class EncryptionTest extends \Test\TestCase {
 	}
 
 	public function testWriteRead() {
-		$fileName = tempnam("/tmp", "FOO");
+		$fileName = tempnam('/tmp', 'FOO');
 		$stream = $this->getStream($fileName, 'w+', 0, self::DEFAULT_WRAPPER, 6);
 		$this->assertEquals(6, fwrite($stream, 'foobar'));
 		fclose($stream);
@@ -211,7 +211,7 @@ class EncryptionTest extends \Test\TestCase {
 	}
 
 	public function testRewind() {
-		$fileName = tempnam("/tmp", "FOO");
+		$fileName = tempnam('/tmp', 'FOO');
 		$stream = $this->getStream($fileName, 'w+', 0, self::DEFAULT_WRAPPER, 6);
 		$this->assertEquals(6, fwrite($stream, 'foobar'));
 		$this->assertEquals(true, rewind($stream));
@@ -228,7 +228,7 @@ class EncryptionTest extends \Test\TestCase {
 	}
 
 	public function testSeek() {
-		$fileName = tempnam("/tmp", "FOO");
+		$fileName = tempnam('/tmp', 'FOO');
 
 		$stream = $this->getStream($fileName, 'w+', 0, self::DEFAULT_WRAPPER, 9);
 		$this->assertEquals(6, fwrite($stream, 'foobar'));
@@ -263,7 +263,7 @@ class EncryptionTest extends \Test\TestCase {
 	public function testWriteReadBigFile($testFile) {
 		$expectedData = file_get_contents(\OC::$SERVERROOT . '/tests/data/' . $testFile);
 		// write it
-		$fileName = tempnam("/tmp", "FOO");
+		$fileName = tempnam('/tmp', 'FOO');
 		$stream = $this->getStream($fileName, 'w+', 0, self::DEFAULT_WRAPPER, strlen($expectedData));
 		// while writing the file from the beginning to the end we should never try
 		// to read parts of the file. This should only happen for write operations
@@ -304,7 +304,7 @@ class EncryptionTest extends \Test\TestCase {
 
 		$expectedData = file_get_contents(\OC::$SERVERROOT . '/tests/data/' . $testFile);
 		// write it
-		$fileName = tempnam("/tmp", "FOO");
+		$fileName = tempnam('/tmp', 'FOO');
 		$stream = $this->getStream($fileName, 'w+', 0, '\Test\Files\Stream\DummyEncryptionWrapper', strlen($expectedData));
 		// while writing the file from the beginning to the end we should never try
 		// to read parts of the file. This should only happen for write operations

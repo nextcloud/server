@@ -41,7 +41,7 @@ class WellKnownController extends Controller {
 		);
 
 		if ($response === null) {
-			$httpResponse = new JSONResponse(["message" => "$service not supported"], Http::STATUS_NOT_FOUND);
+			$httpResponse = new JSONResponse(['message' => "$service not supported"], Http::STATUS_NOT_FOUND);
 		} else {
 			$httpResponse = $response->toHttpResponse();
 		}

@@ -81,7 +81,7 @@ class DatabaseHasMissingIndices implements ISetupCheck {
 				$processed++;
 				$list .= "\n " . $this->l10n->t('"%s" in table "%s"', [$missingIndex['indexName'], $missingIndex['tableName']]);
 				if (count($missingIndices) > $processed) {
-					$list .= ", ";
+					$list .= ', ';
 				}
 			}
 			return SetupResult::warning(

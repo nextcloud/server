@@ -21,7 +21,7 @@ class TrashRoot implements ICollection {
 	/** @var IUser */
 	private $user;
 
-	/** @var ITrashManager  */
+	/** @var ITrashManager */
 	private $trashManager;
 
 	public function __construct(IUser $user, ITrashManager $trashManager) {

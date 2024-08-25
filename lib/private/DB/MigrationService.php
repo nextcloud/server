@@ -220,7 +220,7 @@ class MigrationService {
 
 		foreach ($files as $file) {
 			$className = basename($file, '.php');
-			$version = (string) substr($className, 7);
+			$version = (string)substr($className, 7);
 			if ($version === '0') {
 				throw new \InvalidArgumentException(
 					"Cannot load a migrations with the name '$version' because it is a reserved number"

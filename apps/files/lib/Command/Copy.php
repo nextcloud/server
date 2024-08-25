@@ -30,10 +30,10 @@ class Copy extends Command {
 		$this
 			->setName('files:copy')
 			->setDescription('Copy a file or folder')
-			->addArgument('source', InputArgument::REQUIRED, "Source file id or path")
-			->addArgument('target', InputArgument::REQUIRED, "Target path")
+			->addArgument('source', InputArgument::REQUIRED, 'Source file id or path')
+			->addArgument('target', InputArgument::REQUIRED, 'Target path')
 			->addOption('force', 'f', InputOption::VALUE_NONE, "Don't ask for confirmation and don't output any warnings")
-			->addOption('no-target-directory', 'T', InputOption::VALUE_NONE, "When target path is folder, overwrite the folder instead of copying into the folder");
+			->addOption('no-target-directory', 'T', InputOption::VALUE_NONE, 'When target path is folder, overwrite the folder instead of copying into the folder');
 	}
 
 	public function execute(InputInterface $input, OutputInterface $output): int {
@@ -98,7 +98,7 @@ class Copy extends Command {
 				/** @var QuestionHelper $helper */
 				$helper = $this->getHelper('question');
 
-				$question = new ConfirmationQuestion("<info>" . $targetInput . "</info> already exists, overwrite? [y/N] ", false);
+				$question = new ConfirmationQuestion('<info>' . $targetInput . '</info> already exists, overwrite? [y/N] ', false);
 				if (!$helper->ask($input, $output, $question)) {
 					return 1;
 				}

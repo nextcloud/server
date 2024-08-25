@@ -106,9 +106,9 @@ class GetConfigTest extends TestCase {
 
 		if (!$configExists) {
 			$this->config->expects($this->once())
-						 ->method('getDetails')
-						 ->with('app-name', $configName)
-						 ->willThrowException(new AppConfigUnknownKeyException());
+				->method('getDetails')
+				->with('app-name', $configName)
+				->willThrowException(new AppConfigUnknownKeyException());
 		}
 
 		$this->consoleInput->expects($this->exactly(2))

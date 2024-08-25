@@ -543,11 +543,11 @@ class SystemTagPluginTest extends \Test\TestCase {
 			->willReturn($node);
 
 		$request = $this->getMockBuilder(RequestInterface::class)
-				->disableOriginalConstructor()
-				->getMock();
+			->disableOriginalConstructor()
+			->getMock();
 		$response = $this->getMockBuilder(ResponseInterface::class)
-				->disableOriginalConstructor()
-				->getMock();
+			->disableOriginalConstructor()
+			->getMock();
 
 		$request->expects($this->once())
 			->method('getPath')
@@ -617,11 +617,11 @@ class SystemTagPluginTest extends \Test\TestCase {
 			->with(1);
 
 		$request = $this->getMockBuilder(RequestInterface::class)
-				->disableOriginalConstructor()
-				->getMock();
+			->disableOriginalConstructor()
+			->getMock();
 		$response = $this->getMockBuilder(ResponseInterface::class)
-				->disableOriginalConstructor()
-				->getMock();
+			->disableOriginalConstructor()
+			->getMock();
 
 		$request->expects($this->once())
 			->method('getPath')
@@ -666,11 +666,11 @@ class SystemTagPluginTest extends \Test\TestCase {
 			->method('createFile');
 
 		$request = $this->getMockBuilder(RequestInterface::class)
-				->disableOriginalConstructor()
-				->getMock();
+			->disableOriginalConstructor()
+			->getMock();
 		$response = $this->getMockBuilder(ResponseInterface::class)
-				->disableOriginalConstructor()
-				->getMock();
+			->disableOriginalConstructor()
+			->getMock();
 
 		$request->expects($this->once())
 			->method('getPath')
@@ -714,11 +714,11 @@ class SystemTagPluginTest extends \Test\TestCase {
 			->willReturn($node);
 
 		$request = $this->getMockBuilder(RequestInterface::class)
-				->disableOriginalConstructor()
-				->getMock();
+			->disableOriginalConstructor()
+			->getMock();
 		$response = $this->getMockBuilder(ResponseInterface::class)
-				->disableOriginalConstructor()
-				->getMock();
+			->disableOriginalConstructor()
+			->getMock();
 
 		$request->expects($this->once())
 			->method('getPath')

@@ -43,7 +43,7 @@ class OC_Files {
 		OC_Response::setContentDispositionHeader($name, 'attachment');
 		header('Content-Transfer-Encoding: binary', true);
 		header('Expires: 0');
-		header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
+		header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
 		$fileSize = \OC\Files\Filesystem::filesize($filename);
 		$type = \OC::$server->getMimeTypeDetector()->getSecureMimeType(\OC\Files\Filesystem::getMimeType($filename));
 		if ($fileSize > -1) {
@@ -334,8 +334,8 @@ class OC_Files {
 
 					foreach ($rangeArray as $range) {
 						echo "\r\n--".self::getBoundary()."\r\n".
-						 "Content-type: ".$type."\r\n".
-						 "Content-range: bytes ".$range['from']."-".$range['to']."/".$range['size']."\r\n\r\n";
+						 'Content-type: '.$type."\r\n".
+						 'Content-range: bytes '.$range['from'].'-'.$range['to'].'/'.$range['size']."\r\n\r\n";
 						$view->readfilePart($filename, $range['from'], $range['to']);
 					}
 					echo "\r\n--".self::getBoundary()."--\r\n";

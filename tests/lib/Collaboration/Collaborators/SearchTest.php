@@ -16,9 +16,9 @@ use OCP\Share\IShare;
 use Test\TestCase;
 
 class SearchTest extends TestCase {
-	/** @var  IContainer|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IContainer|\PHPUnit\Framework\MockObject\MockObject */
 	protected $container;
-	/** @var  ISearch */
+	/** @var ISearch */
 	protected $search;
 
 	protected function setUp(): void {

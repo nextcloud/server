@@ -47,9 +47,9 @@ class ShareAttributes implements IAttributes {
 		foreach ($this->attributes as $scope => $keys) {
 			foreach ($keys as $key => $value) {
 				$result[] = [
-					"scope" => $scope,
-					"key" => $key,
-					"value" => $value,
+					'scope' => $scope,
+					'key' => $key,
+					'value' => $value,
 				];
 			}
 		}

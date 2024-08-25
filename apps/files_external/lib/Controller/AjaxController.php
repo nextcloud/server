@@ -18,7 +18,7 @@ use OCP\IUserSession;
 class AjaxController extends Controller {
 	/** @var RSA */
 	private $rsaMechanism;
-	/** @var GlobalAuth  */
+	/** @var GlobalAuth */
 	private $globalAuth;
 	/** @var IUserSession */
 	private $userSession;

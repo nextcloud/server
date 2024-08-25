@@ -153,7 +153,7 @@ class LargeFileHelper {
 			// For file sizes between 2 GiB and 4 GiB, filesize() will return a
 			// negative int, as the PHP data type int is signed. Interpret the
 			// returned int as an unsigned integer and put it into a float.
-			return (float) sprintf('%u', $result);
+			return (float)sprintf('%u', $result);
 		}
 		return $result;
 	}

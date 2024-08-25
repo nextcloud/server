@@ -932,7 +932,7 @@ class Manager implements IManager {
 	 *
 	 * @param IShare $share the share to update its password.
 	 * @param IShare $originalShare the original share to compare its
-	 *        password with.
+	 *                              password with.
 	 * @return boolean whether the password was updated or not.
 	 */
 	private function updateSharePasswordIfNeeded(IShare $share, IShare $originalShare) {
@@ -1102,7 +1102,7 @@ class Manager implements IManager {
 	public function getSharesInFolder($userId, Folder $node, $reshares = false, $shallow = true) {
 		$providers = $this->factory->getAllProviders();
 		if (!$shallow) {
-			throw new \Exception("non-shallow getSharesInFolder is no longer supported");
+			throw new \Exception('non-shallow getSharesInFolder is no longer supported');
 		}
 
 		return array_reduce($providers, function ($shares, IShareProvider $provider) use ($userId, $node, $reshares) {

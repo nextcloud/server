@@ -326,7 +326,7 @@ class Log implements ILogger, IDataLogger {
 		try {
 			$serializer = $this->getSerializer();
 		} catch (Throwable $e) {
-			$this->error("Failed to load ExceptionSerializer serializer while trying to log " . $exception->getMessage());
+			$this->error('Failed to load ExceptionSerializer serializer while trying to log ' . $exception->getMessage());
 			return;
 		}
 		$data = $context;

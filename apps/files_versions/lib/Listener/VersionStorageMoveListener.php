@@ -64,7 +64,7 @@ class VersionStorageMoveListener implements IEventListener {
 		$user = $this->userSession->getUser() ?? $source->getOwner();
 
 		if ($user === null) {
-			throw new Exception("Cannot move versions across storages without a user.");
+			throw new Exception('Cannot move versions across storages without a user.');
 		}
 
 		if ($event instanceof BeforeNodeRenamedEvent) {

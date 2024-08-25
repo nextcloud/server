@@ -73,7 +73,7 @@ class ObjectTreeTest extends \Test\TestCase {
 			->with($this->identicalTo($sourcePath))
 			->willReturn(false);
 
-		/** @var $objectTree \OCA\DAV\Connector\Sabre\ObjectTree */
+		/** @var \OCA\DAV\Connector\Sabre\ObjectTree $objectTree */
 		$mountManager = Filesystem::getMountManager();
 		$objectTree->init($rootDir, $view, $mountManager);
 		$objectTree->copy($sourcePath, $targetPath);
@@ -114,7 +114,7 @@ class ObjectTreeTest extends \Test\TestCase {
 		$objectTree->expects($this->never())
 			->method('getNodeForPath');
 
-		/** @var $objectTree \OCA\DAV\Connector\Sabre\ObjectTree */
+		/** @var \OCA\DAV\Connector\Sabre\ObjectTree $objectTree */
 		$mountManager = Filesystem::getMountManager();
 		$objectTree->init($rootDir, $view, $mountManager);
 		$objectTree->copy($sourcePath, $targetPath);

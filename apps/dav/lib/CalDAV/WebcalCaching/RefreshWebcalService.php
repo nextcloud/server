@@ -60,7 +60,7 @@ class RefreshWebcalService {
 			return;
 		}
 
-		$localData = $this->calDavBackend->getLimitedCalendarObjects((int) $subscription['id'], CalDavBackend::CALENDAR_TYPE_SUBSCRIPTION);
+		$localData = $this->calDavBackend->getLimitedCalendarObjects((int)$subscription['id'], CalDavBackend::CALENDAR_TYPE_SUBSCRIPTION);
 
 		$stripTodos = ($subscription[self::STRIP_TODOS] ?? 1) === 1;
 		$stripAlarms = ($subscription[self::STRIP_ALARMS] ?? 1) === 1;
@@ -124,13 +124,13 @@ class RefreshWebcalService {
 				try {
 					$objectUri = $this->getRandomCalendarObjectUri();
 					$this->calDavBackend->createCalendarObject($subscription['id'], $objectUri, $vObject->serialize(), CalDavBackend::CALENDAR_TYPE_SUBSCRIPTION);
-				} catch (NoInstancesException | BadRequest $ex) {
+				} catch (NoInstancesException|BadRequest $ex) {
 					$this->logger->error('Unable to create calendar object from subscription {subscriptionId}', ['exception' => $ex, 'subscriptionId' => $subscription['id'], 'source' => $subscription['source']]);
 				}
 			}
 
 			$ids = array_map(static function ($dataSet): int {
-				return (int) $dataSet['id'];
+				return (int)$dataSet['id'];
 			}, $localData);
 			$uris = array_map(static function ($dataSet): string {
 				return $dataSet['uri'];
@@ -150,7 +150,7 @@ class RefreshWebcalService {
 
 			$this->updateSubscription($subscription, $mutations);
 		} catch (ParseException $ex) {
-			$this->logger->error("Subscription {subscriptionId} could not be refreshed due to a parsing error", ['exception' => $ex, 'subscriptionId' => $subscription['id']]);
+			$this->logger->error('Subscription {subscriptionId} could not be refreshed due to a parsing error', ['exception' => $ex, 'subscriptionId' => $subscription['id']]);
 		}
 	}
 

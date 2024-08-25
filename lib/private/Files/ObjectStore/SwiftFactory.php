@@ -170,7 +170,7 @@ class SwiftFactory {
 				try {
 					/** @var \OpenStack\Identity\v2\Models\Token $token */
 					$token = $authService->model(\OpenStack\Identity\v2\Models\Token::class, $cachedToken['token']);
-					$now = new \DateTimeImmutable("now");
+					$now = new \DateTimeImmutable('now');
 					if ($token->expires > $now) {
 						$hasValidCachedToken = true;
 						$this->params['v2cachedToken'] = $token;

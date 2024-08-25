@@ -288,7 +288,7 @@ class TwoFactorChallengeControllerTest extends TestCase {
 	public function testSolveChallengeTwoFactorException() {
 		$user = $this->createMock(IUser::class);
 		$provider = $this->createMock(IProvider::class);
-		$exception = new TwoFactorException("2FA failed");
+		$exception = new TwoFactorException('2FA failed');
 
 		$this->userSession->expects($this->once())
 			->method('getUser')

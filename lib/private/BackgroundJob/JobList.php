@@ -144,7 +144,7 @@ class JobList implements IJobList {
 		$row = $result->fetch();
 		$result->closeCursor();
 
-		return (bool) $row;
+		return (bool)$row;
 	}
 
 	public function getJobs($job, ?int $limit, int $offset): array {
@@ -323,8 +323,8 @@ class JobList implements IJobList {
 				// This most likely means an invalid job was enqueued. We can ignore it.
 				return null;
 			}
-			$job->setId((int) $row['id']);
-			$job->setLastRun((int) $row['last_run']);
+			$job->setId((int)$row['id']);
+			$job->setLastRun((int)$row['last_run']);
 			$job->setArgument(json_decode($row['argument'], true));
 			return $job;
 		} catch (AutoloadNotAllowedException $e) {

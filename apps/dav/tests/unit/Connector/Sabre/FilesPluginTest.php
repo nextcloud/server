@@ -99,8 +99,8 @@ class FilesPluginTest extends TestCase {
 		);
 
 		$response = $this->getMockBuilder(ResponseInterface::class)
-				->disableOriginalConstructor()
-				->getMock();
+			->disableOriginalConstructor()
+			->getMock();
 		$this->server->httpResponse = $response;
 		$this->server->xml = new Service();
 
@@ -536,8 +536,8 @@ class FilesPluginTest extends TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 		$response = $this->getMockBuilder(ResponseInterface::class)
-				->disableOriginalConstructor()
-				->getMock();
+			->disableOriginalConstructor()
+			->getMock();
 
 		$request
 			->expects($this->once())
@@ -595,6 +595,6 @@ class FilesPluginTest extends TestCase {
 			$node
 		);
 
-		$this->assertEquals("false", $propFind->get(self::HAS_PREVIEW_PROPERTYNAME));
+		$this->assertEquals('false', $propFind->get(self::HAS_PREVIEW_PROPERTYNAME));
 	}
 }

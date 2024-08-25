@@ -22,7 +22,7 @@ use Psr\Log\LoggerInterface;
 require_once __DIR__ . '/../../Bootstrap.php';
 
 class IntegrationTestUserAvatar extends AbstractIntegrationTest {
-	/** @var  UserMapping */
+	/** @var UserMapping */
 	protected $mapping;
 
 	/**

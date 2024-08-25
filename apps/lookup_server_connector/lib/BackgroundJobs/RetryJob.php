@@ -66,7 +66,7 @@ class RetryJob extends Job {
 			return;
 		}
 
-		$this->retries = (int) $this->config->getUserValue($this->argument['userId'], 'lookup_server_connector', 'update_retries', '0');
+		$this->retries = (int)$this->config->getUserValue($this->argument['userId'], 'lookup_server_connector', 'update_retries', '0');
 
 		if ($this->shouldRemoveBackgroundJob()) {
 			$jobList->remove($this, $this->argument);

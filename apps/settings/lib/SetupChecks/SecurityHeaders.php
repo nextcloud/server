@@ -131,7 +131,7 @@ class SecurityHeaders implements ISetupCheck {
 			// Otherwise if we fail we can abort here
 			if ($works === false) {
 				return SetupResult::warning(
-					$this->l10n->t("Could not check that your web server serves security headers correctly, unable to query `%s`", [$url]),
+					$this->l10n->t('Could not check that your web server serves security headers correctly, unable to query `%s`', [$url]),
 					$this->urlGenerator->linkToDocs('admin-security'),
 				);
 			}

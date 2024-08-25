@@ -34,13 +34,13 @@ class CommentsPlugin extends ServerPlugin {
 	public const REPORT_PARAM_OFFSET = '{http://owncloud.org/ns}offset';
 	public const REPORT_PARAM_TIMESTAMP = '{http://owncloud.org/ns}datetime';
 
-	/** @var ICommentsManager  */
+	/** @var ICommentsManager */
 	protected $commentsManager;
 
 	/** @var \Sabre\DAV\Server $server */
 	private $server;
 
-	/** @var  \OCP\IUserSession */
+	/** @var \OCP\IUserSession */
 	protected $userSession;
 
 	/**

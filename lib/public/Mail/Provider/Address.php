@@ -23,8 +23,8 @@ class Address implements \OCP\Mail\Provider\IAddress {
 	 *
 	 * @since 30.0.0
 	 *
-	 * @param string|null $address    mail address (e.g test@example.com)
-	 * @param string|null $label      mail address label/name
+	 * @param string|null $address mail address (e.g test@example.com)
+	 * @param string|null $label mail address label/name
 	 */
 	public function __construct(
 		protected ?string $address = null,
@@ -37,9 +37,9 @@ class Address implements \OCP\Mail\Provider\IAddress {
 	 *
 	 * @since 30.0.0
 	 *
-	 * @param string $value     mail address (e.g. test@example.com)
+	 * @param string $value mail address (e.g. test@example.com)
 	 *
-	 * @return self             return this object for command chaining
+	 * @return self return this object for command chaining
 	 */
 	public function setAddress(string $value): self {
 		$this->address = $value;
@@ -51,9 +51,9 @@ class Address implements \OCP\Mail\Provider\IAddress {
 	 *
 	 * @since 30.0.0
 	 *
-	 * @return string|null	    returns the mail address or null if one is not set
+	 * @return string|null returns the mail address or null if one is not set
 	 */
-	public function getAddress(): string | null {
+	public function getAddress(): string|null {
 		return $this->address;
 	}
 
@@ -62,9 +62,9 @@ class Address implements \OCP\Mail\Provider\IAddress {
 	 *
 	 * @since 30.0.0
 	 *
-	 * @param string $value     mail address label/name
+	 * @param string $value mail address label/name
 	 *
-	 * @return self             return this object for command chaining
+	 * @return self return this object for command chaining
 	 */
 	public function setLabel(string $value): self {
 		$this->label = $value;
@@ -76,9 +76,9 @@ class Address implements \OCP\Mail\Provider\IAddress {
 	 *
 	 * @since 30.0.0
 	 *
-	 * @return string|null      returns the mail address label/name or null if one is not set
+	 * @return string|null returns the mail address label/name or null if one is not set
 	 */
-	public function getLabel(): string | null {
+	public function getLabel(): string|null {
 		return $this->label;
 	}
 

@@ -232,10 +232,10 @@ class LostControllerTest extends TestCase {
 
 	public function testEmailSuccessful() {
 		$this->userManager
-				->expects($this->any())
-				->method('get')
-				->with('ExistingUser')
-				->willReturn($this->existingUser);
+			->expects($this->any())
+			->method('get')
+			->with('ExistingUser')
+			->willReturn($this->existingUser);
 		$this->verificationToken->expects($this->once())
 			->method('create')
 			->willReturn('ThisIsMaybeANotSoSecretToken!');
@@ -289,15 +289,15 @@ class LostControllerTest extends TestCase {
 
 	public function testEmailWithMailSuccessful() {
 		$this->userManager
-				->expects($this->any())
-				->method('get')
-				->with('test@example.com')
-				->willReturn(null);
+			->expects($this->any())
+			->method('get')
+			->with('test@example.com')
+			->willReturn(null);
 		$this->userManager
-				->expects($this->any())
-				->method('getByEmail')
-				->with('test@example.com')
-				->willReturn([$this->existingUser]);
+			->expects($this->any())
+			->method('getByEmail')
+			->with('test@example.com')
+			->willReturn([$this->existingUser]);
 		$this->verificationToken->expects($this->once())
 			->method('create')
 			->willReturn('ThisIsMaybeANotSoSecretToken!');
@@ -351,10 +351,10 @@ class LostControllerTest extends TestCase {
 
 	public function testEmailCantSendException() {
 		$this->userManager
-				->expects($this->any())
-				->method('get')
-				->with('ExistingUser')
-				->willReturn($this->existingUser);
+			->expects($this->any())
+			->method('get')
+			->with('ExistingUser')
+			->willReturn($this->existingUser);
 		$this->verificationToken->expects($this->once())
 			->method('create')
 			->willReturn('ThisIsMaybeANotSoSecretToken!');
@@ -709,10 +709,10 @@ class LostControllerTest extends TestCase {
 
 	public function testTrimEmailInput() {
 		$this->userManager
-				->expects($this->once())
-				->method('getByEmail')
-				->with('test@example.com')
-				->willReturn([$this->existingUser]);
+			->expects($this->once())
+			->method('getByEmail')
+			->with('test@example.com')
+			->willReturn([$this->existingUser]);
 
 		$this->mailer
 			->expects($this->once())
@@ -726,10 +726,10 @@ class LostControllerTest extends TestCase {
 
 	public function testUsernameInput() {
 		$this->userManager
-				->expects($this->once())
-				->method('get')
-				->with('ExistingUser')
-				->willReturn($this->existingUser);
+			->expects($this->once())
+			->method('get')
+			->with('ExistingUser')
+			->willReturn($this->existingUser);
 
 		$this->mailer
 			->expects($this->once())

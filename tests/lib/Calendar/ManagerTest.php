@@ -38,7 +38,7 @@ class ManagerTest extends TestCase {
 	/** @var Manager */
 	private $manager;
 
-	/** @var ITimeFactory|ITimeFactory&MockObject|MockObject  */
+	/** @var ITimeFactory|ITimeFactory&MockObject|MockObject */
 	private $time;
 
 	protected function setUp(): void {

@@ -57,9 +57,9 @@ class OldGroupMembershipShares implements IRepairStep {
 			->from('share', 's1')
 			->where($query->expr()->isNotNull('s1.parent'))
 				// \OC\Share\Constant::$shareTypeGroupUserUnique === 2
-				->andWhere($query->expr()->eq('s1.share_type', $query->expr()->literal(2)))
-				->andWhere($query->expr()->isNotNull('s2.id'))
-				->andWhere($query->expr()->eq('s2.share_type', $query->expr()->literal(IShare::TYPE_GROUP)))
+			->andWhere($query->expr()->eq('s1.share_type', $query->expr()->literal(2)))
+			->andWhere($query->expr()->isNotNull('s2.id'))
+			->andWhere($query->expr()->eq('s2.share_type', $query->expr()->literal(IShare::TYPE_GROUP)))
 			->leftJoin('s1', 'share', 's2', $query->expr()->eq('s1.parent', 's2.id'));
 
 		$deleteQuery = $this->connection->getQueryBuilder();
@@ -69,7 +69,7 @@ class OldGroupMembershipShares implements IRepairStep {
 		$result = $query->execute();
 		while ($row = $result->fetch()) {
 			if (!$this->isMember($row['group'], $row['user'])) {
-				$deletedEntries += $deleteQuery->setParameter('share', (int) $row['id'])
+				$deletedEntries += $deleteQuery->setParameter('share', (int)$row['id'])
 					->execute();
 			}
 		}

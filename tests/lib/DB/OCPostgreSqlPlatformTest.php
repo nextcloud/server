@@ -48,7 +48,7 @@ class OCPostgreSqlPlatformTest extends \Test\TestCase {
 	}
 
 	protected function createTableAndColumn($schema, $type) {
-		$table = $schema->createTable("poor_yorick");
+		$table = $schema->createTable('poor_yorick');
 		$table->addColumn('id', $type, [
 			'autoincrement' => true,
 			'unsigned' => true,
