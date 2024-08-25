@@ -273,6 +273,7 @@ OC.L10N.register(
     "Video verification" : "Відеоперевірка",
     "Set expiration date" : "Встановити термін дії",
     "Hide download" : "Приховати звантаження",
+    "Allow download and sync" : "Дозволити звантаження та синхронізацію",
     "Note to recipient" : "Примітка для одержувача",
     "Enter a note for the share recipient" : "Додайте нотатку для одержувача доступу до спільного ресурсу",
     "Read" : "Читати",
