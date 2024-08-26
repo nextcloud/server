@@ -85,6 +85,7 @@ class FilesPlugin extends ServerPlugin {
 		private IRequest $request,
 		private IPreview $previewManager,
 		private IUserSession $userSession,
+		private IFilenameValidator $validator,
 		private bool $isPublic = false,
 		private bool $downloadAttachment = true,
 	) {
@@ -163,8 +164,7 @@ class FilesPlugin extends ServerPlugin {
 		// Ensure the target name is valid
 		try {
 			[, $targetName] = \Sabre\Uri\split($destination);
-			$validator = \OCP\Server::get(IFilenameValidator::class);
-			$validator->validateFilename($targetName);
+			$this->validator->validateFilename($targetName);
 		} catch (InvalidPathException $e) {
 			throw new InvalidPath($e->getMessage(), false);
 		}
