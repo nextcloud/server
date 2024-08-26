@@ -1,29 +1,14 @@
 /**
- * @copyright Copyright (c) 2020 John Molakvoæ <skjnldsv@protonmail.com>
- *
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- *
- * @license AGPL-3.0-or-later
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 import { showError, showUndo, TOAST_UNDO_TIMEOUT } from '@nextcloud/dialogs'
 import NewComment from '../services/NewComment.js'
 import DeleteComment from '../services/DeleteComment.js'
 import EditComment from '../services/EditComment.js'
+import { mapStores } from 'pinia'
+import { useDeletedCommentLimbo } from '../store/deletedCommentLimbo.js'
 import logger from '../logger.js'
 
 export default {
@@ -54,6 +39,10 @@ export default {
 		}
 	},
 
+	computed: {
+		...mapStores(useDeletedCommentLimbo),
+	},
+
 	methods: {
 		// EDITION
 		onEdit() {
@@ -81,11 +70,14 @@ export default {
 
 		// DELETION
 		onDeleteWithUndo() {
+			this.$emit('delete')
 			this.deleted = true
+			this.deletedCommentLimboStore.addId(this.id)
 			const timeOutDelete = setTimeout(this.onDelete, TOAST_UNDO_TIMEOUT)
 			showUndo(t('comments', 'Comment deleted'), () => {
 				clearTimeout(timeOutDelete)
 				this.deleted = false
+				this.deletedCommentLimboStore.removeId(this.id)
 			})
 		},
 		async onDelete() {
@@ -97,6 +89,7 @@ export default {
 				showError(t('comments', 'An error occurred while trying to delete the comment'))
 				console.error(error)
 				this.deleted = false
+				this.deletedCommentLimboStore.removeId(this.id)
 			}
 		},
 
