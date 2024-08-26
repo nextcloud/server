@@ -138,6 +138,36 @@ class FilesPlugin extends ServerPlugin {
 			}
 		});
 		$this->server->on('beforeMove', [$this, 'checkMove']);
+		$this->server->on('beforeCopy', [$this, 'checkCopy']);
+	}
+
+	/**
+	 * Plugin that checks if a copy can actually be performed.
+	 *
+	 * @param string $source source path
+	 * @param string $destination destination path
+	 * @throws NotFound If the source does not exist
+	 * @throws InvalidPath If the destination is invalid
+	 */
+	public function checkCopy($source, $destination) {
+		$sourceNode = $this->tree->getNodeForPath($source);
+		if (!$sourceNode instanceof Node) {
+			return;
+		}
+
+		// Ensure source exists
+		$sourceNodeFileInfo = $sourceNode->getFileInfo();
+		if ($sourceNodeFileInfo === null) {
+			throw new NotFound($source . ' does not exist');
+		}
+		// Ensure the target name is valid
+		try {
+			[, $targetName] = \Sabre\Uri\split($destination);
+			$validator = \OCP\Server::get(IFilenameValidator::class);
+			$validator->validateFilename($targetName);
+		} catch (InvalidPathException $e) {
+			throw new InvalidPath($e->getMessage(), false);
+		}
 	}
 
 	/**
@@ -145,33 +175,23 @@ class FilesPlugin extends ServerPlugin {
 	 *
 	 * @param string $source source path
 	 * @param string $destination destination path
-	 * @throws Forbidden
-	 * @throws NotFound
+	 * @throws Forbidden If the source is not deletable
+	 * @throws NotFound If the source does not exist
+	 * @throws InvalidPath If the destination name is invalid
 	 */
 	public function checkMove($source, $destination) {
 		$sourceNode = $this->tree->getNodeForPath($source);
 		if (!$sourceNode instanceof Node) {
 			return;
 		}
-		[$sourceDir,] = \Sabre\Uri\split($source);
-		[$destinationDir, $destinationName] = \Sabre\Uri\split($destination);
 
-		if ($sourceDir !== $destinationDir) {
-			$sourceNodeFileInfo = $sourceNode->getFileInfo();
-			if ($sourceNodeFileInfo === null) {
-				throw new NotFound($source . ' does not exist');
-			}
+		// First check copyable (move only needs additional delete permission)
+		$this->checkCopy($source, $destination);
 
-			if (!$sourceNodeFileInfo->isDeletable()) {
-				throw new Forbidden($source . ' cannot be deleted');
-			}
-
-			$validator = \OCP\Server::get(IFilenameValidator::class);
-			try {
-				$validator->validateFilename($destinationName);
-			} catch (InvalidPathException $e) {
-				throw new InvalidPath($e->getMessage(), false);
-			}
+		// The source needs to be deletable for moving
+		$sourceNodeFileInfo = $sourceNode->getFileInfo();
+		if (!$sourceNodeFileInfo->isDeletable()) {
+			throw new Forbidden($source . ' cannot be deleted');
 		}
 	}
 
