@@ -2,10 +2,11 @@
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import { action } from './openInFilesAction'
-import { expect } from '@jest/globals'
 import { Folder, Permission, View, DefaultType, FileAction } from '@nextcloud/files'
+import { describe, expect, test, vi } from 'vitest'
+
 import type { StorageConfig } from '../services/externalStorage'
+import { action } from './openInFilesAction'
 import { STORAGE_STATUS } from '../utils/credentialsUtils'
 
 const view = {
@@ -73,7 +74,7 @@ describe('Open in files action enabled tests', () => {
 
 describe('Open in files action execute tests', () => {
 	test('Open in files', async () => {
-		const goToRouteMock = jest.fn()
+		const goToRouteMock = vi.fn()
 		// @ts-expect-error We only mock what needed, we do not need Files.Router.goTo or Files.Navigation
 		window.OCP = { Files: { Router: { goToRoute: goToRouteMock } } }
 
@@ -98,7 +99,7 @@ describe('Open in files action execute tests', () => {
 	})
 
 	test('Open in files broken storage', async () => {
-		const confirmMock = jest.fn()
+		const confirmMock = vi.fn()
 		// @ts-expect-error We only mock what is needed
 		window.OC = { dialogs: { confirm: confirmMock } }
 

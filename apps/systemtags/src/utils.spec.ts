@@ -5,8 +5,8 @@
 
 import type { DAVResultResponseProps } from 'webdav'
 import type { ServerTag, Tag } from './types.js'
+import { describe, expect, it } from 'vitest'
 
-import { describe, it, expect } from '@jest/globals'
 import { formatTag, parseIdFromLocation, parseTags } from './utils'
 
 describe('systemtags - utils', () => {

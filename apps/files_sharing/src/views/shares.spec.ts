@@ -4,8 +4,8 @@
  */
 /* eslint-disable n/no-extraneous-import */
 import type { OCSResponse } from '@nextcloud/typings/ocs'
-import { expect } from '@jest/globals'
 import { Folder, Navigation, View, getNavigation } from '@nextcloud/files'
+import { beforeEach, describe, expect, test, vi } from 'vitest'
 import axios from '@nextcloud/axios'
 
 import '../main'
@@ -20,16 +20,13 @@ declare global {
 describe('Sharing views definition', () => {
 	let Navigation
 	beforeEach(() => {
+		delete window._nc_navigation
 		Navigation = getNavigation()
 		expect(window._nc_navigation).toBeDefined()
 	})
 
-	afterAll(() => {
-		delete window._nc_navigation
-	})
-
 	test('Default values', () => {
-		jest.spyOn(Navigation, 'register')
+		vi.spyOn(Navigation, 'register')
 
 		expect(Navigation.views.length).toBe(0)
 
@@ -47,7 +44,7 @@ describe('Sharing views definition', () => {
 		expect(shareOverviewView?.id).toBe('shareoverview')
 		expect(shareOverviewView?.name).toBe('Shares')
 		expect(shareOverviewView?.caption).toBe('Overview of shared files.')
-		expect(shareOverviewView?.icon).toBe('<svg>SvgMock</svg>')
+		expect(shareOverviewView?.icon).toMatch(/<svg.+<\/svg>/i)
 		expect(shareOverviewView?.order).toBe(20)
 		expect(shareOverviewView?.columns).toStrictEqual([])
 		expect(shareOverviewView?.getContents).toBeDefined()
@@ -68,7 +65,7 @@ describe('Sharing views definition', () => {
 			expect(view?.caption).toBeDefined()
 			expect(view?.emptyTitle).toBeDefined()
 			expect(view?.emptyCaption).toBeDefined()
-			expect(view?.icon).toBe('<svg>SvgMock</svg>')
+			expect(view?.icon).match(/<svg.+<\/svg>/)
 			expect(view?.order).toBe(index + 1)
 			expect(view?.columns).toStrictEqual([])
 			expect(view?.getContents).toBeDefined()
@@ -79,16 +76,13 @@ describe('Sharing views definition', () => {
 describe('Sharing views contents', () => {
 	let Navigation
 	beforeEach(() => {
+		delete window._nc_navigation
 		Navigation = getNavigation()
 		expect(window._nc_navigation).toBeDefined()
 	})
 
-	afterAll(() => {
-		delete window._nc_navigation
-	})
-
 	test('Sharing overview get contents', async () => {
-		jest.spyOn(axios, 'get').mockImplementation(async (): Promise<any> => {
+		vi.spyOn(axios, 'get').mockImplementation(async (): Promise<any> => {
 			return {
 				data: {
 					ocs: {

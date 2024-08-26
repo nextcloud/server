@@ -2,13 +2,16 @@
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import { action } from './rejectShareAction'
-import { expect } from '@jest/globals'
 import { File, Folder, Permission, View, FileAction } from '@nextcloud/files'
+import { beforeAll, beforeEach, describe, expect, test, vi } from 'vitest'
 import { ShareType } from '@nextcloud/sharing'
-import eventBus from '@nextcloud/event-bus'
+import * as eventBus from '@nextcloud/event-bus'
 import axios from '@nextcloud/axios'
+
+import { action } from './rejectShareAction'
 import '../main'
+
+vi.mock('@nextcloud/axios')
 
 const view = {
 	id: 'files',
@@ -39,7 +42,7 @@ describe('Reject share action conditions tests', () => {
 		expect(action).toBeInstanceOf(FileAction)
 		expect(action.id).toBe('reject-share')
 		expect(action.displayName([file], pendingShareView)).toBe('Reject share')
-		expect(action.iconSvgInline([file], pendingShareView)).toBe('<svg>SvgMock</svg>')
+		expect(action.iconSvgInline([file], pendingShareView)).toMatch(/<svg.+<\/svg>/)
 		expect(action.default).toBeUndefined()
 		expect(action.order).toBe(2)
 		expect(action.inline).toBeDefined()
@@ -119,9 +122,11 @@ describe('Reject share action enabled tests', () => {
 })
 
 describe('Reject share action execute tests', () => {
+	beforeEach(() => { vi.resetAllMocks() })
+
 	test('Reject share action', async () => {
-		jest.spyOn(axios, 'delete')
-		jest.spyOn(eventBus, 'emit')
+		vi.spyOn(axios, 'delete')
+		vi.spyOn(eventBus, 'emit')
 
 		const file = new File({
 			id: 1,
@@ -139,15 +144,15 @@ describe('Reject share action execute tests', () => {
 
 		expect(exec).toBe(true)
 		expect(axios.delete).toBeCalledTimes(1)
-		expect(axios.delete).toBeCalledWith('http://localhost/ocs/v2.php/apps/files_sharing/api/v1/shares/123')
+		expect(axios.delete).toBeCalledWith('http://nextcloud.local/ocs/v2.php/apps/files_sharing/api/v1/shares/123')
 
 		expect(eventBus.emit).toBeCalledTimes(1)
 		expect(eventBus.emit).toBeCalledWith('files:node:deleted', file)
 	})
 
 	test('Reject remote share action', async () => {
-		jest.spyOn(axios, 'delete')
-		jest.spyOn(eventBus, 'emit')
+		vi.spyOn(axios, 'delete')
+		vi.spyOn(eventBus, 'emit')
 
 		const file = new File({
 			id: 1,
@@ -166,15 +171,15 @@ describe('Reject share action execute tests', () => {
 
 		expect(exec).toBe(true)
 		expect(axios.delete).toBeCalledTimes(1)
-		expect(axios.delete).toBeCalledWith('http://localhost/ocs/v2.php/apps/files_sharing/api/v1/remote_shares/123')
+		expect(axios.delete).toBeCalledWith('http://nextcloud.local/ocs/v2.php/apps/files_sharing/api/v1/remote_shares/123')
 
 		expect(eventBus.emit).toBeCalledTimes(1)
 		expect(eventBus.emit).toBeCalledWith('files:node:deleted', file)
 	})
 
 	test('Reject share action batch', async () => {
-		jest.spyOn(axios, 'delete')
-		jest.spyOn(eventBus, 'emit')
+		vi.spyOn(axios, 'delete')
+		vi.spyOn(eventBus, 'emit')
 
 		const file1 = new File({
 			id: 1,
@@ -204,8 +209,8 @@ describe('Reject share action execute tests', () => {
 
 		expect(exec).toStrictEqual([true, true])
 		expect(axios.delete).toBeCalledTimes(2)
-		expect(axios.delete).toHaveBeenNthCalledWith(1, 'http://localhost/ocs/v2.php/apps/files_sharing/api/v1/shares/123')
-		expect(axios.delete).toHaveBeenNthCalledWith(2, 'http://localhost/ocs/v2.php/apps/files_sharing/api/v1/shares/456')
+		expect(axios.delete).toHaveBeenNthCalledWith(1, 'http://nextcloud.local/ocs/v2.php/apps/files_sharing/api/v1/shares/123')
+		expect(axios.delete).toHaveBeenNthCalledWith(2, 'http://nextcloud.local/ocs/v2.php/apps/files_sharing/api/v1/shares/456')
 
 		expect(eventBus.emit).toBeCalledTimes(2)
 		expect(eventBus.emit).toHaveBeenNthCalledWith(1, 'files:node:deleted', file1)
@@ -213,7 +218,7 @@ describe('Reject share action execute tests', () => {
 	})
 
 	test('Reject fails', async () => {
-		jest.spyOn(axios, 'delete').mockImplementation(() => { throw new Error('Mock error') })
+		vi.spyOn(axios, 'delete').mockImplementation(() => { throw new Error('Mock error') })
 
 		const file = new File({
 			id: 1,
@@ -231,7 +236,7 @@ describe('Reject share action execute tests', () => {
 
 		expect(exec).toBe(false)
 		expect(axios.delete).toBeCalledTimes(1)
-		expect(axios.delete).toBeCalledWith('http://localhost/ocs/v2.php/apps/files_sharing/api/v1/shares/123')
+		expect(axios.delete).toBeCalledWith('http://nextcloud.local/ocs/v2.php/apps/files_sharing/api/v1/shares/123')
 
 		expect(eventBus.emit).toBeCalledTimes(0)
 	})
