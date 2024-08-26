@@ -22,6 +22,7 @@ use OCP\IConfig;
 use OCP\IPreview;
 use OCP\IRequest;
 use OCP\IUserSession;
+use OCP\L10N\IFactory;
 use Sabre\DAV\Exception\Forbidden;
 use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\IFile;
@@ -163,11 +164,22 @@ class FilesPlugin extends ServerPlugin {
 		}
 		// Ensure the target name is valid
 		try {
-			[, $targetName] = \Sabre\Uri\split($destination);
+			[$targetPath, $targetName] = \Sabre\Uri\split($destination);
 			$this->validator->validateFilename($targetName);
 		} catch (InvalidPathException $e) {
 			throw new InvalidPath($e->getMessage(), false);
 		}
+		// Ensure the target path is valid
+		try {
+			$segments = array_slice(explode('/', $targetPath), 2);
+			foreach ($segments as $segment) {
+				$this->validator->validateFilename($segment);
+			}
+		} catch (InvalidPathException) {
+			$l = \OCP\Server::get(IFactory::class)->get('dav');
+			throw new InvalidPath($l->t('Invalid target path'));
+		}
+
 	}
 
 	/**
