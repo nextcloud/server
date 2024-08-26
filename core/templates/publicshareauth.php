@@ -22,7 +22,7 @@
 			<?php endif; ?>
 			<p>
 				<label for="password" class="infield"><?php p($l->t('Password')); ?></label>
-				<input type="hidden" name="requesttoken" value="<?php p($_['requesttoken']) ?>" />
+				<input type="hidden" id="requesttoken" name="requesttoken" value="<?php p($_['requesttoken']) ?>" />
 				<input type="password" name="password" id="password"
 					placeholder="<?php p($l->t('Password')); ?>" value=""
 					autocomplete="new-password" autocapitalize="off" spellcheck="false"
@@ -34,7 +34,7 @@
 			</p>
 		</fieldset>
 	</form>
-	
+
 	<!-- email prompt form. It should initially be hidden -->
 	<?php if (isset($_['identityOk'])): ?>
 		<form method="post" id="email-input-form">
@@ -46,7 +46,7 @@
 			 <p>
 				<input type="email" id="email" name="identityToken" placeholder="<?php p($l->t('Email address')); ?>" />
 				<input type="submit" id="password-request" name="passwordRequest" class="svg icon-confirm input-button-inline" value="" disabled="disabled"/>
-				<input type="hidden" name="requesttoken" value="<?php p($_['requesttoken']) ?>" />
+				<input type="hidden" id="requesttoken" name="requesttoken" value="<?php p($_['requesttoken']) ?>" />
 				<input type="hidden" name="sharingToken" value="<?php p($_['share']->getToken()) ?>" id="sharingToken">
 				<input type="hidden" name="sharingType" value="<?php p($_['share']->getShareType()) ?>" id="sharingType">
 			</p>
@@ -59,12 +59,12 @@
 			<?php endif; ?>
 		</fieldset>
 	</form>
-	
+
 	<!-- request password button -->
 	<?php if (!isset($_['identityOk']) && $_['share']->getShareType() === $_['share']::TYPE_EMAIL && !$_['share']->getSendPasswordByTalk()): ?>
 		<a id="request-password-button-not-talk"><?php p($l->t('Forgot password?')); ?></a>
 	<?php endif; ?>
-	
+
 	<!-- back to showShare button -->
 	<form method="get">
 		<fieldset>
