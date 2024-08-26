@@ -1365,7 +1365,9 @@ class View {
 			}
 			// Ensure that parent path is valid (so it is writable)
 			try {
-				$this->verifyPath(dirname($path), basename($path));
+				if ($path && $path !== '/') {
+					$this->verifyPath(dirname($path), basename($path));
+				}
 			} catch (InvalidPathException) {
 				// Not a valid parent path so remove update and create permissions
 				$data['permissions'] &= ~(\OCP\Constants::PERMISSION_CREATE | \OCP\Constants::PERMISSION_UPDATE);
