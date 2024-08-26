@@ -41,6 +41,10 @@ abstract class SharingService {
 		return $this->mapper->getSharesForId($resourceId, $this->getResourceType());
 	}
 
+	public function getUnshares(int $resourceId): array {
+		return $this->mapper->getUnsharesForId($resourceId, $this->getResourceType());
+	}
+
 	public function getSharesForIds(array $resourceIds): array {
 		return $this->mapper->getSharesForIds($resourceIds, $this->getResourceType());
 	}
