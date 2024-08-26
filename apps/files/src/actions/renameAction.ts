@@ -17,7 +17,7 @@ export const action = new FileAction({
 	enabled: (nodes: Node[]) => {
 		return nodes.length > 0 && nodes
 			.map(node => node.permissions)
-			.every(permission => (permission & Permission.UPDATE) !== 0)
+			.every(permission => Boolean(permission & Permission.DELETE))
 	},
 
 	async exec(node: Node) {
