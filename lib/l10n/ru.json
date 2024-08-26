@@ -143,6 +143,7 @@
     "The requested share comes from a disabled user" : "Запрос на общий доступ поступает от отключенного пользователя",
     "The user was not created because the user limit has been reached. Check your notifications to learn more." : "Пользователь не был создан, достигнуто ограничение количества пользователей. Для получения дополнительных сведений проверьте уведомления.",
     "Could not find category \"%s\"" : "Категория «%s»  не найдена",
+    "Input text" : "Введите текст",
     "Sunday" : "Воскресенье",
     "Monday" : "Понедельник",
     "Tuesday" : "Вторник",
