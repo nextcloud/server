@@ -57,6 +57,7 @@ class View {
 	private bool $lockingEnabled;
 	private bool $updaterEnabled = true;
 	private UserManager $userManager;
+	private FilenameValidator $filenameValidator;
 	private LoggerInterface $logger;
 
 	/**
@@ -71,6 +72,7 @@ class View {
 		$this->lockingProvider = \OC::$server->get(ILockingProvider::class);
 		$this->lockingEnabled = !($this->lockingProvider instanceof \OC\Lock\NoopLockingProvider);
 		$this->userManager = \OC::$server->getUserManager();
+		$this->filenameValidator = \OCP\Server::get(FilenameValidator::class);
 		$this->logger = \OC::$server->get(LoggerInterface::class);
 	}
 
@@ -1097,7 +1099,7 @@ class View {
 	 * @throws LockedException
 	 *
 	 * This method takes requests for basic filesystem functions (e.g. reading & writing
-	 * files), processes hooks and proxies, sanitises paths, and finally passes them on to
+	 * files), processes hooks and proxies, sanitizes paths, and finally passes them on to
 	 * \OC\Files\Storage\Storage for delegation to a storage backend for execution
 	 */
 	private function basicOperation(string $operation, string $path, array $hooks = [], $extraParam = null) {
@@ -1355,11 +1357,18 @@ class View {
 				return false;
 			}
 
+			if ($internalPath === '' && $data['name']) {
+				$data['name'] = basename($path);
+			}
 			if ($mount instanceof MoveableMount && $internalPath === '') {
 				$data['permissions'] |= \OCP\Constants::PERMISSION_DELETE;
 			}
-			if ($internalPath === '' && $data['name']) {
-				$data['name'] = basename($path);
+			// Ensure that parent path is valid (so it is writable)
+			try {
+				$this->verifyPath(dirname($path), basename($path));
+			} catch (InvalidPathException) {
+				// Not a valid parent path so remove update and create permissions
+				$data['permissions'] &= ~(\OCP\Constants::PERMISSION_CREATE | \OCP\Constants::PERMISSION_UPDATE);
 			}
 
 			$ownerId = $storage->getOwner($internalPath);
@@ -1439,6 +1448,12 @@ class View {
 		$contents = $cache->getFolderContentsById($folderId); //TODO: mimetype_filter
 
 		$sharingDisabled = \OCP\Util::isSharingDisabledForUser();
+		$folderIsReadonly = false;
+		try {
+			$this->verifyPath(dirname($directory), basename($directory));
+		} catch (InvalidPathException) {
+			$folderIsReadonly = true;
+		}
 
 		$fileNames = array_map(function (ICacheEntry $content) {
 			return $content->getName();
@@ -1446,9 +1461,12 @@ class View {
 		/**
 		 * @var \OC\Files\FileInfo[] $fileInfos
 		 */
-		$fileInfos = array_map(function (ICacheEntry $content) use ($path, $storage, $mount, $sharingDisabled) {
+		$fileInfos = array_map(function (ICacheEntry $content) use ($path, $storage, $mount, $sharingDisabled, $folderIsReadonly) {
 			if ($sharingDisabled) {
 				$content['permissions'] = $content['permissions'] & ~\OCP\Constants::PERMISSION_SHARE;
+			}
+			if ($folderIsReadonly) {
+				$content['permissions'] = $content['permissions'] & ~(\OCP\Constants::PERMISSION_CREATE | \OCP\Constants::PERMISSION_UPDATE);
 			}
 			$owner = $this->getUserObjectForOwner($storage->getOwner($content['path']));
 			return new FileInfo($path . '/' . $content['name'], $storage, $content['path'], $content, $mount, $owner);
@@ -1516,6 +1534,9 @@ class View {
 						// if sharing was disabled for the user we remove the share permissions
 						if ($sharingDisabled) {
 							$rootEntry['permissions'] = $rootEntry['permissions'] & ~\OCP\Constants::PERMISSION_SHARE;
+						}
+						if ($folderIsReadonly) {
+							$rootEntry['permissions'] = $rootEntry['permissions'] & ~(\OCP\Constants::PERMISSION_CREATE | \OCP\Constants::PERMISSION_UPDATE);
 						}
 
 						$owner = $this->getUserObjectForOwner($subStorage->getOwner(''));
@@ -1826,13 +1847,24 @@ class View {
 	/**
 	 * @param string $path
 	 * @param string $fileName
+	 * @param bool $readonly If the path should be verified for read-only operations
 	 * @throws InvalidPathException
 	 */
-	public function verifyPath($path, $fileName): void {
+	public function verifyPath($path, $fileName, bool $readonly = false): void {
 		// All of the view's functions disallow '..' in the path so we can short cut if the path is invalid
 		if (!Filesystem::isValidPath($path ?: '/')) {
 			$l = \OCP\Util::getL10N('lib');
 			throw new InvalidPathException($l->t('Path contains invalid segments'));
+		}
+
+		// Handle filename validation for read-only operations, as we still allow to rename invalid files.
+		if ($readonly) {
+			// There is one exception: Forbidden files like `.htaccess` must not be accessible
+			if ($this->filenameValidator->isForbidden($fileName)) {
+				$l = \OCP\Util::getL10N('lib');
+				throw new InvalidPathException($l->t('Filename is a reserved word'));
+			}
+			return;
 		}
 
 		try {
@@ -1841,13 +1873,13 @@ class View {
 			$storage->verifyPath($internalPath, $fileName);
 		} catch (ReservedWordException $ex) {
 			$l = \OCP\Util::getL10N('lib');
-			throw new InvalidPathException($l->t('File name is a reserved word'));
+			throw new InvalidPathException($ex->getMessage() ?: $l->t('Filename is a reserved word'));
 		} catch (InvalidCharacterInPathException $ex) {
 			$l = \OCP\Util::getL10N('lib');
-			throw new InvalidPathException($l->t('File name contains at least one invalid character'));
+			throw new InvalidPathException($ex->getMessage() ?: $l->t('Filename contains at least one invalid character'));
 		} catch (FileNameTooLongException $ex) {
 			$l = \OCP\Util::getL10N('lib');
-			throw new InvalidPathException($l->t('File name is too long'));
+			throw new InvalidPathException($l->t('Filename is too long'));
 		} catch (InvalidDirectoryException $ex) {
 			$l = \OCP\Util::getL10N('lib');
 			throw new InvalidPathException($l->t('Dot files are not allowed'));
