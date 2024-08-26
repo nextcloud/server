@@ -25,7 +25,7 @@
 		</NcSelect>
 		<input v-if="!isPredefined"
 			type="text"
-			:value="currentValue.pattern"
+			:value="currentValue.id"
 			@input="updateCustom">
 	</div>
 </template>
