@@ -630,7 +630,9 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 	 * @inheritdoc
 	 */
 	public function getMetaData($path) {
-		if (Filesystem::isFileBlacklisted($path)) {
+		/** @var \OC\Files\FilenameValidator */
+		$validator = $this->getFilenameValidator();
+		if ($validator->isForbidden($path)) {
 			throw new ForbiddenException('Invalid path: ' . $path, false);
 		}
 

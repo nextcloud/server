@@ -29,9 +29,6 @@ class Filesystem {
 
 	private static ?CappedMemoryCache $normalizedPathCache = null;
 
-	/** @var string[]|null */
-	private static ?array $blacklist = null;
-
 	/**
 	 * classname which used for hooks handling
 	 * used as signalclass in OC_Hooks::emit()
@@ -426,21 +423,6 @@ class Filesystem {
 			return false;
 		}
 		return true;
-	}
-
-	/**
-	 * @param string $filename
-	 * @return bool
-	 */
-	public static function isFileBlacklisted($filename) {
-		$filename = self::normalizePath($filename);
-
-		if (self::$blacklist === null) {
-			self::$blacklist = \OC::$server->getConfig()->getSystemValue('blacklisted_files', ['.htaccess']);
-		}
-
-		$filename = strtolower(basename($filename));
-		return in_array($filename, self::$blacklist);
 	}
 
 	/**

@@ -318,9 +318,11 @@ class Local extends \OC\Files\Storage\Common {
 
 	private function checkTreeForForbiddenItems(string $path) {
 		$iterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($path));
+		/** @var \OC\Files\FilenameValidator */
+		$validator = $this->getFilenameValidator();
 		foreach ($iterator as $file) {
 			/** @var \SplFileInfo $file */
-			if (Filesystem::isFileBlacklisted($file->getBasename())) {
+			if ($validator->isForbidden($file->getBasename())) {
 				throw new ForbiddenException('Invalid path: ' . $file->getPathname(), false);
 			}
 		}
@@ -475,7 +477,9 @@ class Local extends \OC\Files\Storage\Common {
 	 * @throws ForbiddenException
 	 */
 	public function getSourcePath($path) {
-		if (Filesystem::isFileBlacklisted($path)) {
+		/** @var \OC\Files\FilenameValidator */
+		$validator = $this->getFilenameValidator();
+		if ($validator->isForbidden($path)) {
 			throw new ForbiddenException('Invalid path: ' . $path, false);
 		}
 
