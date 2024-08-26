@@ -176,16 +176,6 @@ class OwnershipTransferService {
 			$output
 		);
 
-		$destinationPath = $finalTarget . '/' . $path;
-		// restore the shares
-		$this->restoreShares(
-			$sourceUid,
-			$destinationUid,
-			$destinationPath,
-			$shares,
-			$output
-		);
-
 		// transfer the incoming shares
 		if ($transferIncomingShares === true) {
 			$sourceShares = $this->collectIncomingShares(
@@ -210,6 +200,16 @@ class OwnershipTransferService {
 				$move
 			);
 		}
+
+		$destinationPath = $finalTarget . '/' . $path;
+		// restore the shares
+		$this->restoreShares(
+			$sourceUid,
+			$destinationUid,
+			$destinationPath,
+			$shares,
+			$output
+		);
 	}
 
 	private function walkFiles(View $view, $path, Closure $callBack) {
@@ -488,9 +488,6 @@ class OwnershipTransferService {
 				}
 			} catch (\OCP\Files\NotFoundException $e) {
 				$output->writeln('<error>Share with id ' . $share->getId() . ' points at deleted file, skipping</error>');
-			} catch (\OCP\Share\Exceptions\GenericShareException $e) {
-				$output->writeln('<error>Share with id ' . $share->getId() . ' is broken, deleting</error>');
-				$this->shareManager->deleteShare($share);
 			} catch (\Throwable $e) {
 				$output->writeln('<error>Could not restore share with id ' . $share->getId() . ':' . $e->getMessage() . ' : ' . $e->getTraceAsString() . '</error>');
 			}
