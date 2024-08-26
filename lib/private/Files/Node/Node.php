@@ -463,7 +463,7 @@ class Node implements INode {
 			$this->path = $targetPath;
 			return $targetNode;
 		} else {
-			throw new NotPermittedException('No permission to move to path ' . $targetPath . ($parent instanceof Folder ? 'true':'faöse'). ($this->isValidPath($targetPath) ? 'true':'false'));
+			throw new NotPermittedException('No permission to move to path ' . $targetPath);
 		}
 	}
 
