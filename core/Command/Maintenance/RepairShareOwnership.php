@@ -85,7 +85,7 @@ class RepairShareOwnership extends Command {
 		$brokenShares = $qb
 			->select('s.id', 'm.user_id', 's.uid_owner', 's.uid_initiator', 's.share_with', 's.file_target')
 			->from('share', 's')
-			->join('s', 'filecache', 'f', $qb->expr()->eq('s.item_source', $qb->expr()->castColumn('f.fileid', IQueryBuilder::PARAM_STR)))
+			->join('s', 'filecache', 'f', $qb->expr()->eq($qb->expr()->castColumn('s.item_source', IQueryBuilder::PARAM_INT), 'f.fileid'))
 			->join('s', 'mounts', 'm', $qb->expr()->eq('f.storage', 'm.storage_id'))
 			->where($qb->expr()->neq('m.user_id', 's.uid_owner'))
 			->andWhere($qb->expr()->eq($qb->func()->concat($qb->expr()->literal('/'), 'm.user_id', $qb->expr()->literal('/')), 'm.mount_point'))
