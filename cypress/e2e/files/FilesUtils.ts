@@ -136,3 +136,19 @@ export const createFolder = (folderName: string) => {
 
 	getRowForFile(folderName).should('be.visible')
 }
+
+/**
+ * Check validity of an input element
+ * @param validity The expected validity message (empty string means it is valid)
+ * @example
+ * ```js
+ * cy.findByRole('textbox')
+ *     .should(haveValidity(/must not be empty/i))
+ * ```
+ */
+export const haveValidity = (validity: string | RegExp) => {
+	if (typeof validity === 'string') {
+		return (el: JQuery<HTMLElement>) => expect((el.get(0) as HTMLInputElement).validationMessage).to.equal(validity)
+	}
+	return (el: JQuery<HTMLElement>) => expect((el.get(0) as HTMLInputElement).validationMessage).to.match(validity)
+}
