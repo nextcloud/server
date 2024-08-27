@@ -13,6 +13,7 @@ use Exception;
 use OCP\IRequest;
 use OCP\Security\ICrypto;
 use OCP\Security\ISecureRandom;
+use Psr\Log\LoggerInterface;
 use SessionHandler;
 use function explode;
 use function implode;
@@ -20,11 +21,13 @@ use function json_decode;
 use function OCP\Log\logger;
 use function session_decode;
 use function session_encode;
+use function strlen;
 
 class CryptoSessionHandler extends SessionHandler {
 
 	public function __construct(private ISecureRandom $secureRandom,
 		private ICrypto $crypto,
+		private LoggerInterface $logger,
 		private IRequest $request) {
 	}
 
@@ -44,16 +47,20 @@ class CryptoSessionHandler extends SessionHandler {
 	public function read(string $id): false|string {
 		[$sessionId, $passphrase] = self::parseId($id);
 		if ($passphrase === null) {
-			return parent::read($sessionId);
+			$passphrase = $this->request->getCookie(CryptoWrapper::COOKIE_NAME);
+			if ($passphrase === null) {
+				$this->logger->debug('Reading unencrypted session data', [
+					'sessionId' => $id,
+				]);
+				return parent::read($sessionId);
+			}
 		}
 
 		$encryptedData = parent::read($sessionId);
 		if ($encryptedData === '') {
 			return '';
 		}
-		$data = $this->crypto->decrypt($encryptedData, $passphrase);
-
-		return $data;
+		return $this->crypto->decrypt($encryptedData, $passphrase);
 	}
 
 	/**
@@ -70,6 +77,10 @@ class CryptoSessionHandler extends SessionHandler {
 		if ($passphrase === null) {
 			$passphrase = $this->request->getCookie(CryptoWrapper::COOKIE_NAME);
 			if ($passphrase === null) {
+				$this->logger->warning('Can not write session because there is no passphrase', [
+					'sessionId' => $id,
+					'dataLength' => strlen($data),
+				]);
 				return false;
 			}
 		}
@@ -89,8 +100,8 @@ class CryptoSessionHandler extends SessionHandler {
 	 * @return array{0: string, 1: ?string}
 	 */
 	public static function parseId(string $id): array {
-		$parts = explode('|', $id);
-		return [$parts[0], $parts[1]];
+		$parts = explode('|', $id, 2);
+		return [$parts[0], $parts[1] ?? null];
 	}
 
 }
