@@ -247,6 +247,8 @@ interface IAppManager {
 	 *
 	 * @since 25.0.6
 	 * @since 28.0.0 Added optional $withFallbacks parameter
+	 * @deprecated 31.0.0
+	 * Use @see \OCP\INavigationManager::getDefaultEntryIdForUser() instead
 	 */
 	public function getDefaultAppForUser(?IUser $user = null, bool $withFallbacks = true): string;
 
@@ -255,6 +257,8 @@ interface IAppManager {
 	 *
 	 * @return string[] The default applications
 	 * @since 28.0.0
+	 * @deprecated 31.0.0
+	 * Use @see \OCP\INavigationManager::getDefaultEntryIds() instead
 	 */
 	public function getDefaultApps(): array;
 
@@ -264,6 +268,8 @@ interface IAppManager {
 	 * @param string[] $appId
 	 * @throws \InvalidArgumentException If any of the apps is not installed
 	 * @since 28.0.0
+	 * @deprecated 31.0.0
+	 * Use @see \OCP\INavigationManager::setDefaultEntryIds() instead
 	 */
 	public function setDefaultApps(array $defaultApps): void;
 
