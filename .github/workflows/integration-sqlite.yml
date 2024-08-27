@@ -69,7 +69,7 @@ jobs:
           - 'sharing_features'
           - 'videoverification_features'
 
-        php-versions: ['8.2']
+        php-versions: ['8.1']
         spreed-versions: ['stable30']
 
     services:
