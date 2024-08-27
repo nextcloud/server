@@ -153,7 +153,8 @@ class Internal extends Session {
 		if ($id === '') {
 			throw new SessionNotAvailableException();
 		}
-		return $id;
+		// Only return the ID part, not the passphrase
+		return CryptoSessionHandler::parseId($id)[0];
 	}
 
 	/**

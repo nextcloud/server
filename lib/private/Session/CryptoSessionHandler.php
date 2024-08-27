@@ -28,16 +28,6 @@ class CryptoSessionHandler extends SessionHandler {
 		private IRequest $request) {
 	}
 
-	/**
-	 * @param string $id
-	 *
-	 * @return array{0: string, 1: ?string}
-	 */
-	private function parseId(string $id): array {
-		$parts = explode('|', $id);
-		return [$parts[0], $parts[1]];
-	}
-
 	public function create_sid(): string {
 		$id = parent::create_sid();
 		$passphrase = $this->secureRandom->generate(128);
@@ -47,75 +37,23 @@ class CryptoSessionHandler extends SessionHandler {
 	/**
 	 * Read and decrypt session data
 	 *
-	 * The decryption passphrase is encoded in the id since Nextcloud 31. For
-	 * backwards compatibility after upgrade we also read the pass phrase from
-	 * the old cookie and try to restore session from the legacy format.
-	 *
 	 * @param string $id
 	 *
 	 * @return false|string
 	 */
 	public function read(string $id): false|string {
-		[$sessionId, $passphrase] = $this->parseId($id);
-
-		/**
-		 * Legacy handling
-		 *
-		 * @TODO remove in Nextcloud 32
-		 */
+		[$sessionId, $passphrase] = self::parseId($id);
 		if ($passphrase === null) {
-			if (($passphrase = $this->request->getCookie(CryptoWrapper::COOKIE_NAME)) === false) {
-				// No passphrase in the ID or an old cookie. Time to give up.
-				return false;
-			}
-
-			// Read the encrypted and encoded data
-			$serializedData = parent::read($sessionId);
-			if ($serializedData === '') {
-				// Nothing to decode or decrypt
-				return '';
-			}
-			// Back up the superglobal before we decode/restore the legacy session data
-			// This is necessary because session_decode populates the superglobals
-			// We restore the old state end the end (the final block, also run in
-			// case of an error)
-			$globalBackup = $_SESSION;
-			try {
-				if (!session_decode($serializedData)) {
-					// Bail if we can't decode the data
-					return false;
-				}
-				$encryptedData = $_SESSION['encrypted_session_data'];
-				try {
-					$sessionValues = json_decode(
-						$this->crypto->decrypt($encryptedData, $passphrase),
-						true,
-						512,
-						JSON_THROW_ON_ERROR,
-					);
-					foreach ($sessionValues as $key => $value) {
-						$_SESSION[$key] = $value;
-					}
-				} catch (Exception $e) {
-					logger('core')->critical('Could not decrypt or decode encrypted legacy session data', [
-						'exception' => $e,
-						'sessionId' => $sessionId,
-					]);
-				}
-				return session_encode();
-			} finally {
-				foreach (array_keys($_SESSION) as $key) {
-					unset($_SESSION[$key]);
-				}
-				foreach ($globalBackup as $key => $value) {
-					$_SESSION[$key] = $value;
-				}
-				$_SESSION = $globalBackup;
-			}
+			return parent::read($sessionId);
 		}
 
-		$read = parent::read($sessionId);
-		return $read;
+		$encryptedData = parent::read($sessionId);
+		if ($encryptedData === '') {
+			return '';
+		}
+		$data = $this->crypto->decrypt($encryptedData, $passphrase);
+
+		return $data;
 	}
 
 	/**
@@ -127,18 +65,32 @@ class CryptoSessionHandler extends SessionHandler {
 	 * @return bool
 	 */
 	public function write(string $id, string $data): bool {
-		[$sessionId, $passphrase] = $this->parseId($id);
+		[$sessionId, $passphrase] = self::parseId($id);
 
 		if ($passphrase === null) {
 			$passphrase = $this->request->getCookie(CryptoWrapper::COOKIE_NAME);
-			// return false;
+			if ($passphrase === null) {
+				return false;
+			}
 		}
 
-		return parent::write($sessionId, $data);
+		$encryptedData = $this->crypto->encrypt($data, $passphrase);
+
+		return parent::write($sessionId, $encryptedData);
 	}
 
 	public function close(): bool {
-		parent::close();
+		return parent::close();
+	}
+
+	/**
+	 * @param string $id
+	 *
+	 * @return array{0: string, 1: ?string}
+	 */
+	public static function parseId(string $id): array {
+		$parts = explode('|', $id);
+		return [$parts[0], $parts[1]];
 	}
 
 }

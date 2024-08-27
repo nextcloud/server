@@ -77,7 +77,7 @@ class LegacyCryptoSessionData implements \ArrayAccess, ISession {
 			}
 			$this->session->remove(self::encryptedSessionName);
 		} catch (\Exception $e) {
-			logger('core')->critical('Could not decrypt or decode encrypted session data', [
+			logger('core')->critical('Could not decrypt or decode encrypted legacy session data', [
 				'exception' => $e,
 			]);
 			$this->regenerateId(true, false);
