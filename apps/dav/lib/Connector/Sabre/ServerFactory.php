@@ -13,6 +13,7 @@ use OCA\DAV\DAV\ViewOnlyPlugin;
 use OCA\DAV\Files\BrowserErrorPagePlugin;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Folder;
+use OCP\Files\IFilenameValidator;
 use OCP\Files\Mount\IMountManager;
 use OCP\IConfig;
 use OCP\IDBConnection;
@@ -129,6 +130,7 @@ class ServerFactory {
 					$this->request,
 					$this->previewManager,
 					$this->userSession,
+					\OCP\Server::get(IFilenameValidator::class),
 					false,
 					!$this->config->getSystemValue('debug', false)
 				)
