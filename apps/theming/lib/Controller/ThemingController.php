@@ -26,6 +26,7 @@ use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
 use OCP\IConfig;
 use OCP\IL10N;
+use OCP\INavigationManager;
 use OCP\IRequest;
 use OCP\IURLGenerator;
 use ScssPhp\ScssPhp\Compiler;
@@ -47,6 +48,7 @@ class ThemingController extends Controller {
 	private IAppManager $appManager;
 	private ImageManager $imageManager;
 	private ThemesService $themesService;
+	private INavigationManager $navigationManager;
 
 	public function __construct(
 		$appName,
@@ -57,7 +59,8 @@ class ThemingController extends Controller {
 		IURLGenerator $urlGenerator,
 		IAppManager $appManager,
 		ImageManager $imageManager,
-		ThemesService $themesService
+		ThemesService $themesService,
+		INavigationManager $navigationManager,
 	) {
 		parent::__construct($appName, $request);
 
@@ -68,6 +71,7 @@ class ThemingController extends Controller {
 		$this->appManager = $appManager;
 		$this->imageManager = $imageManager;
 		$this->themesService = $themesService;
+		$this->navigationManager = $navigationManager;
 	}
 
 	/**
@@ -163,7 +167,7 @@ class ThemingController extends Controller {
 			case 'defaultApps':
 				if (is_array($value)) {
 					try {
-						$this->appManager->setDefaultApps($value);
+						$this->navigationManager->setDefaultEntryIds($value);
 					} catch (InvalidArgumentException $e) {
 						$error = $this->l10n->t('Invalid app given');
 					}
@@ -310,7 +314,7 @@ class ThemingController extends Controller {
 	#[AuthorizedAdminSetting(settings: Admin::class)]
 	public function undoAll(): DataResponse {
 		$this->themingDefaults->undoAll();
-		$this->appManager->setDefaultApps([]);
+		$this->navigationManager->setDefaultEntryIds([]);
 
 		return new DataResponse(
 			[
