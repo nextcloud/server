@@ -184,13 +184,7 @@ class SharesReminderJobTest extends \Test\TestCase {
 			->with([$email ?: $this->userManager->get($this->user2)->getSystemEMailAddress()]);
 		$this->assertSame(false, $share->getReminderSent());
 		$this->job->run([]);
-		$qb = $this->db->getQueryBuilder();
-		$reminderSent = $qb
-			->select('reminder_sent')
-			->from('share')
-			->where($qb->expr()->eq('id', $qb->createNamedParameter($share->getId())))
-			->executeQuery()
-			->fetch()["reminder_sent"];
-		$this->assertEquals($shouldBeReminded, $reminderSent);
+		$share = $this->shareManager->getShareById($share->getFullId());
+		$this->assertEquals($shouldBeReminded, $share->getReminderSent());
 	}
 }

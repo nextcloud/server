@@ -72,8 +72,7 @@ class Share implements IShare {
 	private $nodeCacheEntry;
 	/** @var bool */
 	private $hideDownload = false;
-	/** @var bool */
-	private $reminderSent = false;
+	private bool $reminderSent = false;
 
 	private bool $noExpirationDate = false;
 
