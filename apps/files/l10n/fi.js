@@ -290,7 +290,6 @@ OC.L10N.register(
     "PDFs" : "PDF-tiedostot",
     "Folders" : "Kansiot",
     "Audio" : "Ääni",
-    "Pictures and images" : "Kuvat ja valokuvat",
     "Videos" : "Videot",
     "Created new folder \"{name}\"" : "Luotu uusi kansio \"{name}\"",
     "Unable to initialize the templates directory" : "Mallipohjien kansiota ei voitu alustaa",
@@ -351,6 +350,7 @@ OC.L10N.register(
     "Open the files app settings" : "Avaa tiedostosovelluksen asetukset",
     "You might not have have permissions to view it, ask the sender to share it" : "Oikeutesi eivät kenties riitä sen katseluun, pyydä lähettäjää jakamaan se",
     "The files is locked" : "Tiedosto on lukittu",
-    "Create new templates folder" : "Luo uusi mallipohjien kansio"
+    "Create new templates folder" : "Luo uusi mallipohjien kansio",
+    "Pictures and images" : "Kuvat ja valokuvat"
 },
 "nplurals=2; plural=(n != 1);");

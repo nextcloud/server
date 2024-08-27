@@ -323,7 +323,6 @@ OC.L10N.register(
     "PDFs" : "PDF",
     "Folders" : "資料夾",
     "Audio" : "音頻",
-    "Pictures and images" : "圖片與圖像",
     "Videos" : "影片",
     "New folder creation cancelled" : "已取消建立新資料夾",
     "Created new folder \"{name}\"" : "創建了新資料夾 \"{name}\"",
@@ -391,6 +390,7 @@ OC.L10N.register(
     "You might not have have permissions to view it, ask the sender to share it" : "您可能沒有權限檢視它，請要求寄件者分享它",
     "The files is locked" : "檔案已被上鎖",
     "Create new templates folder" : "創建新範本資料夾",
-    "Toggle %1$s sublist" : "切換 %1$s 子列表"
+    "Toggle %1$s sublist" : "切換 %1$s 子列表",
+    "Pictures and images" : "圖片與圖像"
 },
 "nplurals=1; plural=0;");

@@ -323,7 +323,6 @@ OC.L10N.register(
     "PDFs" : "PDF-filer",
     "Folders" : "Mappar",
     "Audio" : "Ljud",
-    "Pictures and images" : "Foton och bilder",
     "Videos" : "Videor",
     "New folder creation cancelled" : "Skapandet av ny mapp avbröts",
     "Created new folder \"{name}\"" : "Skapat ny mapp \"{name}\"",
@@ -391,6 +390,7 @@ OC.L10N.register(
     "You might not have have permissions to view it, ask the sender to share it" : "Du kanske inte har behörighet att se den, be avsändaren att dela den",
     "The files is locked" : "Filerna är låsta",
     "Create new templates folder" : "Skapa ny mallmapp",
-    "Toggle %1$s sublist" : "Växla %1$s sublista"
+    "Toggle %1$s sublist" : "Växla %1$s sublista",
+    "Pictures and images" : "Foton och bilder"
 },
 "nplurals=2; plural=(n != 1);");

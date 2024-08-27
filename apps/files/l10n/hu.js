@@ -323,7 +323,6 @@ OC.L10N.register(
     "PDFs" : "PDF-ek",
     "Folders" : "Mappák",
     "Audio" : "Hangok",
-    "Pictures and images" : "Képek",
     "Videos" : "Videók",
     "New folder creation cancelled" : "Az új mappa létrehozása megszakítva",
     "Created new folder \"{name}\"" : "Új „{name}” mappa létrehozva",
@@ -391,6 +390,7 @@ OC.L10N.register(
     "You might not have have permissions to view it, ask the sender to share it" : "Lehet, hogy nincs jogosultsága, hogy megtekintse, kérje meg a küldőt, hogy ossza meg",
     "The files is locked" : "Ez a fájl zárolva van",
     "Create new templates folder" : "Új sablonmappa létrehozása",
-    "Toggle %1$s sublist" : "%1$s allista be/ki"
+    "Toggle %1$s sublist" : "%1$s allista be/ki",
+    "Pictures and images" : "Képek"
 },
 "nplurals=2; plural=(n != 1);");

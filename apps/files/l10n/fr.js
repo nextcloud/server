@@ -323,7 +323,6 @@ OC.L10N.register(
     "PDFs" : "PDFs",
     "Folders" : "Dossiers",
     "Audio" : "Audio",
-    "Pictures and images" : "Photos et images",
     "Videos" : "Vidéos",
     "New folder creation cancelled" : "La création du nouveau dossier est annulée",
     "Created new folder \"{name}\"" : "Nouveau dossier \"{name}\" créé",
@@ -391,6 +390,7 @@ OC.L10N.register(
     "You might not have have permissions to view it, ask the sender to share it" : "Vous n’avez peut-être pas les autorisations pour le voir, demandez à l’expéditeur de le partager",
     "The files is locked" : "Le fichier est verrouillé",
     "Create new templates folder" : "Créer un nouveau dossier de modèles",
-    "Toggle %1$s sublist" : "Basculer %1$s sous-liste"
+    "Toggle %1$s sublist" : "Basculer %1$s sous-liste",
+    "Pictures and images" : "Photos et images"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

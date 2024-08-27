@@ -323,7 +323,6 @@ OC.L10N.register(
     "PDFs" : "PDF dokumenty",
     "Folders" : "Složky",
     "Audio" : "Zvuk",
-    "Pictures and images" : "Fotky a obrázky",
     "Videos" : "Videa",
     "New folder creation cancelled" : "Vytváření nové složky zrušeno",
     "Created new folder \"{name}\"" : "Vytvořena nová složka „{name}“",
@@ -391,6 +390,7 @@ OC.L10N.register(
     "You might not have have permissions to view it, ask the sender to share it" : "Může být, že nemáte oprávnění pro jeho zobrazení – požádejte odesilatele aby vám ho nasdílel",
     "The files is locked" : "Soubory jsou uzamčené",
     "Create new templates folder" : "Vytvořit novou složku šablon",
-    "Toggle %1$s sublist" : "Přepnout %1$s podseznam"
+    "Toggle %1$s sublist" : "Přepnout %1$s podseznam",
+    "Pictures and images" : "Fotky a obrázky"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");
