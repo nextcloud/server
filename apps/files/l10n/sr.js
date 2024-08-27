@@ -323,7 +323,6 @@ OC.L10N.register(
     "PDFs" : "PDF фајлови",
     "Folders" : "Фолдери",
     "Audio" : "Звук",
-    "Pictures and images" : "Слике и цртежи",
     "Videos" : "Видео снимци",
     "New folder creation cancelled" : "Отказане је креирање новог фолдера",
     "Created new folder \"{name}\"" : "Креиран је нови фолдер „{name}”",
@@ -391,6 +390,7 @@ OC.L10N.register(
     "You might not have have permissions to view it, ask the sender to share it" : "Можда немате дозволе да га погледате, затражите од пошиљаоца да га подели са вама",
     "The files is locked" : "Фајл је закључан",
     "Create new templates folder" : "Креирај нови фолдер шаблона",
-    "Toggle %1$s sublist" : "Укљ./искљ. %1$s подлисте"
+    "Toggle %1$s sublist" : "Укљ./искљ. %1$s подлисте",
+    "Pictures and images" : "Слике и цртежи"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

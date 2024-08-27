@@ -323,7 +323,6 @@ OC.L10N.register(
     "PDFs" : "PDFs",
     "Folders" : "Fillteáin",
     "Audio" : "Fuaime",
-    "Pictures and images" : "Pictiúir agus íomhánna",
     "Videos" : "Físeáin",
     "New folder creation cancelled" : "Cruthú fillteán nua curtha ar ceal",
     "Created new folder \"{name}\"" : "Cruthaíodh fillteán nua \"{name}\"",
@@ -391,6 +390,7 @@ OC.L10N.register(
     "You might not have have permissions to view it, ask the sender to share it" : "Seans nach bhfuil cead agat é a fheiceáil, iarr ar an seoltóir é a roinnt",
     "The files is locked" : "Tá na comhaid faoi ghlas",
     "Create new templates folder" : "Cruthaigh fillteán teimpléid nua",
-    "Toggle %1$s sublist" : "Scoránaigh %1$s fo-liosta"
+    "Toggle %1$s sublist" : "Scoránaigh %1$s fo-liosta",
+    "Pictures and images" : "Pictiúir agus íomhánna"
 },
 "nplurals=5; plural=(n==1 ? 0 : n==2 ? 1 : n<7 ? 2 : n<11 ? 3 : 4);");
