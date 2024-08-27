@@ -117,8 +117,9 @@ abstract class Node implements \Sabre\DAV\INode {
 	 * @throws \Sabre\DAV\Exception\Forbidden
 	 */
 	public function setName($name) {
-		// rename is only allowed if the update privilege is granted
-		if (!($this->info->isUpdateable() || ($this->info->getMountPoint() instanceof MoveableMount && $this->info->getInternalPath() === ''))) {
+		// rename is only allowed if the delete privilege is granted
+		// (basically rename is a copy with delete of the original node)
+		if (!($this->info->isDeletable() || ($this->info->getMountPoint() instanceof MoveableMount && $this->info->getInternalPath() === ''))) {
 			throw new \Sabre\DAV\Exception\Forbidden();
 		}
 
@@ -128,7 +129,6 @@ abstract class Node implements \Sabre\DAV\INode {
 
 		// verify path of the target
 		$this->verifyPath($newPath);
-
 
 		if (!$this->fileView->rename($this->path, $newPath)) {
 			throw new \Sabre\DAV\Exception('Failed to rename '. $this->path . ' to ' . $newPath);
