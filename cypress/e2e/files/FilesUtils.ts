@@ -28,9 +28,12 @@ export const getActionButtonForFile = (filename: string) => getActionsForFile(fi
 
 export const triggerActionForFile = (filename: string, actionId: string) => {
 	getActionButtonForFile(filename).click({ force: true })
-	cy.get(`[data-cy-files-list-row-action="${CSS.escape(actionId)}"] > button`).should('exist')
-	cy.get(`[data-cy-files-list-row-action="${CSS.escape(actionId)}"] > button`).scrollIntoView()
-	cy.get(`[data-cy-files-list-row-action="${CSS.escape(actionId)}"] > button`).click({ force: true })
+	cy.get(`[data-cy-files-list-row-action="${CSS.escape(actionId)}"] > button`)
+		.should('exist')
+		.scrollIntoView()
+	cy.get(`[data-cy-files-list-row-action="${CSS.escape(actionId)}"] > button`)
+		.should('be.visible')
+		.click({ force: true })
 }
 
 export const moveFile = (fileName: string, dirPath: string) => {
