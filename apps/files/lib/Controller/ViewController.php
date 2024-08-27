@@ -8,7 +8,6 @@
 namespace OCA\Files\Controller;
 
 use OC\Files\FilenameValidator;
-use OCA\Files\Activity\Helper;
 use OCA\Files\AppInfo\Application;
 use OCA\Files\Event\LoadAdditionalScriptsEvent;
 use OCA\Files\Event\LoadSearchPlugins;
@@ -54,7 +53,6 @@ class ViewController extends Controller {
 		private IUserSession $userSession,
 		private IAppManager $appManager,
 		private IRootFolder $rootFolder,
-		private Helper $activityHelper,
 		private IInitialState $initialState,
 		private ITemplateManager $templateManager,
 		private UserConfig $userConfig,
@@ -146,18 +144,6 @@ class ViewController extends Controller {
 
 		$userId = $this->userSession->getUser()->getUID();
 
-		// Get all the user favorites to create a submenu
-		try {
-			$userFolder = $this->rootFolder->getUserFolder($userId);
-			$favElements = $this->activityHelper->getFavoriteNodes($userId, true);
-			$favElements = array_map(fn (Folder $node) => [
-				'fileid' => $node->getId(),
-				'path' => $userFolder->getRelativePath($node->getPath()),
-			], $favElements);
-		} catch (\RuntimeException $e) {
-			$favElements = [];
-		}
-
 		// If the file doesn't exists in the folder and
 		// exists in only one occurrence, redirect to that file
 		// in the correct folder
@@ -187,7 +173,6 @@ class ViewController extends Controller {
 		$this->initialState->provideInitialState('storageStats', $storageInfo);
 		$this->initialState->provideInitialState('config', $this->userConfig->getConfigs());
 		$this->initialState->provideInitialState('viewConfigs', $this->viewConfig->getConfigs());
-		$this->initialState->provideInitialState('favoriteFolders', $favElements);
 
 		// File sorting user config
 		$filesSortingConfig = json_decode($this->config->getUserValue($userId, 'files', 'files_sorting_configs', '{}'), true);
