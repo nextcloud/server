@@ -122,10 +122,10 @@ class Access extends LDAPUtility {
 	 *
 	 * @param string $dn the record in question
 	 * @param array $attrs the attributes that shall be retrieved
-	 *        if empty, just check the record's existence
+	 *                     if empty, just check the record's existence
 	 * @param string $filter
 	 * @return array|false an array of values on success or an empty
-	 *          array if $attr is empty, false otherwise
+	 *                     array if $attr is empty, false otherwise
 	 * @throws ServerNotAvailableException
 	 */
 	public function readAttributes(string $dn, array $attrs, string $filter = 'objectClass=*'): array|false {
