@@ -53,9 +53,13 @@ use OCA\DAV\Upload\ChunkingV2Plugin;
 use OCP\AppFramework\Http\Response;
 use OCP\Diagnostics\IEventLogger;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Files\IFilenameValidator;
 use OCP\FilesMetadata\IFilesMetadataManager;
 use OCP\ICacheFactory;
+use OCP\IConfig;
+use OCP\IPreview;
 use OCP\IRequest;
+use OCP\IUserSession;
 use OCP\Profiler\IProfiler;
 use OCP\SabrePluginEvent;
 use Psr\Log\LoggerInterface;
@@ -236,15 +240,17 @@ class Server {
 			$user = $userSession->getUser();
 			if ($user !== null) {
 				$view = \OC\Files\Filesystem::getView();
+				$config = \OCP\Server::get(IConfig::class);
 				$this->server->addPlugin(
 					new FilesPlugin(
 						$this->server->tree,
-						\OC::$server->getConfig(),
+						$config,
 						$this->request,
-						\OC::$server->getPreviewManager(),
-						\OC::$server->getUserSession(),
+						\OCP\Server::get(IPreview::class),
+						\OCP\Server::get(IUserSession::class),
+						\OCP\Server::get(IFilenameValidator::class),
 						false,
-						!\OC::$server->getConfig()->getSystemValue('debug', false)
+						$config->getSystemValueBool('debug', false) === false,
 					)
 				);
 				$this->server->addPlugin(new ChecksumUpdatePlugin());
