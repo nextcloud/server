@@ -28,7 +28,7 @@ namespace OCA\Files_Sharing;
  *     item_size: float|int,
  *     item_source: int,
  *     item_type: 'file'|'folder',
- *     label: string,
+ *     label: ?string,
  *     mail_send: 0|1,
  *     mimetype: string,
  *     note: string,
