@@ -323,7 +323,6 @@ OC.L10N.register(
     "PDFs" : "PDFs",
     "Folders" : "Ordner",
     "Audio" : "Audio",
-    "Pictures and images" : "Bilder und Abbildungen",
     "Videos" : "Videos",
     "New folder creation cancelled" : "Erstellung des neuen Ordners fehlgeschlagen",
     "Created new folder \"{name}\"" : "Neuer Ordner \"{name}\" wurde erstellt",
@@ -391,6 +390,7 @@ OC.L10N.register(
     "You might not have have permissions to view it, ask the sender to share it" : "Möglicherweise haben Sie nicht die Berechtigung zur Anzeige. Bitten Sie den Absender, die Datei freizugeben.",
     "The files is locked" : "Die Datei ist gesperrt",
     "Create new templates folder" : "Neuen Vorlagenordner erstellen",
-    "Toggle %1$s sublist" : "Unterliste %1$s umschalten"
+    "Toggle %1$s sublist" : "Unterliste %1$s umschalten",
+    "Pictures and images" : "Bilder und Abbildungen"
 },
 "nplurals=2; plural=(n != 1);");

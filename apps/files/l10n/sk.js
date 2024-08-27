@@ -321,7 +321,6 @@ OC.L10N.register(
     "PDFs" : "PDFká",
     "Folders" : "Priečinky",
     "Audio" : "Zvuk",
-    "Pictures and images" : "Obrázky a snímky",
     "Videos" : "Videá",
     "Created new folder \"{name}\"" : "Vytvorený nový priečinok \"{name}\"",
     "Unable to initialize the templates directory" : "Nemôžem inicializovať priečinok so šablónami",
@@ -388,6 +387,7 @@ OC.L10N.register(
     "You might not have have permissions to view it, ask the sender to share it" : "Pravdopodobne nemáte prístup, požiadajte oň odosielateľa ",
     "The files is locked" : "Súbory sú uzamknuté",
     "Create new templates folder" : "Vytvoriť nový vzorový priečinok",
-    "Toggle %1$s sublist" : "Prepnúť %1$s podzoznam"
+    "Toggle %1$s sublist" : "Prepnúť %1$s podzoznam",
+    "Pictures and images" : "Obrázky a snímky"
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");
