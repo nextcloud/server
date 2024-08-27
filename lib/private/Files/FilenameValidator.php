@@ -25,6 +25,8 @@ use Psr\Log\LoggerInterface;
  */
 class FilenameValidator implements IFilenameValidator {
 
+	public const INVALID_FILE_TYPE = 100;
+
 	private IL10N $l10n;
 
 	/**
@@ -269,12 +271,12 @@ class FilenameValidator implements IFilenameValidator {
 	 */
 	protected function checkForbiddenExtension(string $filename): void {
 		$filename = mb_strtolower($filename);
-		// Check for forbidden filename exten<sions
+		// Check for forbidden filename extensions
 		$forbiddenExtensions = $this->getForbiddenExtensions();
 		foreach ($forbiddenExtensions as $extension) {
 			if (str_ends_with($filename, $extension)) {
 				if (str_starts_with($extension, '.')) {
-					throw new InvalidPathException($this->l10n->t('"%1$s" is a forbidden file type.', [$extension]));
+					throw new InvalidPathException($this->l10n->t('"%1$s" is a forbidden file type.', [$extension]), self::INVALID_FILE_TYPE);
 				} else {
 					throw new InvalidPathException($this->l10n->t('Filenames must not end with "%1$s".', [$extension]));
 				}
