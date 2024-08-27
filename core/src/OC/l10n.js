@@ -40,7 +40,7 @@ const L10n = {
 	 * @deprecated 26.0.0 use `register` from https://www.npmjs.com/package/@nextcloud/l10
 	 *
 	 * @param {string} appName name of the app
-	 * @param {Object<string, string>} bundle bundle
+	 * @param {Record<string, string>} bundle bundle
 	 */
 	register,
 
