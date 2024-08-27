@@ -11,7 +11,11 @@ declare(strict_types=1);
 namespace OC;
 
 use finfo;
+use GdImage;
+use OCP\IConfig;
 use OCP\IImage;
+use OCP\Server;
+use Psr\Log\LoggerInterface;
 
 /**
  * Class for basic image manipulation
@@ -26,52 +30,30 @@ class Image implements IImage {
 	// Default quality for webp images
 	protected const DEFAULT_WEBP_QUALITY = 80;
 
-	/** @var false|\GdImage */
-	protected $resource = false; // tmp resource.
-	/** @var int */
-	protected $imageType = IMAGETYPE_PNG; // Default to png if file type isn't evident.
-	/** @var null|string */
-	protected $mimeType = 'image/png'; // Default to png
-	/** @var null|string */
-	protected $filePath = null;
-	/** @var ?finfo */
-	private $fileInfo = null;
-	/** @var \OCP\ILogger */
-	private $logger;
-	/** @var \OCP\IConfig */
-	private $config;
-	/** @var ?array */
-	private $exif = null;
+	// tmp resource.
+	protected GdImage|false $resource = false;
+	// Default to png if file type isn't evident.
+	protected int $imageType = IMAGETYPE_PNG;
+	// Default to png
+	protected ?string $mimeType = 'image/png';
+	protected ?string $filePath = null;
+	private ?finfo $fileInfo = null;
+	private LoggerInterface $logger;
+	private IConfig $config;
+	private ?array $exif = null;
 
 	/**
-	 * Constructor.
-	 *
-	 * @param mixed $imageRef Deprecated, should be null
-	 * @psalm-assert null $imageRef
-	 * @param \OCP\ILogger $logger
-	 * @param \OCP\IConfig $config
 	 * @throws \InvalidArgumentException in case the $imageRef parameter is not null
 	 */
 	public function __construct(
-		$imageRef = null,
-		?\OCP\ILogger $logger = null,
-		?\OCP\IConfig $config = null
+		?LoggerInterface $logger = null,
+		?IConfig $config = null,
 	) {
-		$this->logger = $logger;
-		if ($logger === null) {
-			$this->logger = \OC::$server->getLogger();
-		}
-		$this->config = $config;
-		if ($config === null) {
-			$this->config = \OC::$server->getConfig();
-		}
+		$this->logger = $logger ?? Server::get(LoggerInterface::class);
+		$this->config = $config ?? Server::get(IConfig::class);
 
 		if (\OC_Util::fileInfoLoaded()) {
 			$this->fileInfo = new finfo(FILEINFO_MIME_TYPE);
-		}
-
-		if ($imageRef !== null) {
-			throw new \InvalidArgumentException('The first parameter in the constructor is not supported anymore. Please use any of the load* methods of the image object to load an image.');
 		}
 	}
 
@@ -180,7 +162,7 @@ class Image implements IImage {
 		if ($mimeType === null) {
 			$mimeType = $this->mimeType();
 		}
-		header('Content-Type: ' . $mimeType);
+		header('Content-Type: ' . ($mimeType ?? ''));
 		return $this->_output(null, $mimeType);
 	}
 
@@ -210,13 +192,10 @@ class Image implements IImage {
 	/**
 	 * Outputs/saves the image.
 	 *
-	 * @param string $filePath
-	 * @param string $mimeType
-	 * @return bool
-	 * @throws Exception
+	 * @throws \Exception
 	 */
 	private function _output(?string $filePath = null, ?string $mimeType = null): bool {
-		if ($filePath) {
+		if ($filePath !== null && $filePath !== '') {
 			if (!file_exists(dirname($filePath))) {
 				mkdir(dirname($filePath), 0777, true);
 			}
@@ -372,7 +351,12 @@ class Image implements IImage {
 	 * @return string - base64 encoded, which is suitable for embedding in a VCard.
 	 */
 	public function __toString(): string {
-		return base64_encode($this->data());
+		$data = $this->data();
+		if ($data === null) {
+			return '';
+		} else {
+			return base64_encode($data);
+		}
 	}
 
 	/**
@@ -439,14 +423,14 @@ class Image implements IImage {
 			return -1;
 		}
 		$exif = @exif_read_data($this->filePath, 'IFD0');
-		if (!$exif || !$this->isValidExifData($exif)) {
+		if ($exif === false || !$this->isValidExifData($exif)) {
 			return -1;
 		}
 		$this->exif = $exif;
 		return (int)$exif['Orientation'];
 	}
 
-	public function readExif($data): void {
+	public function readExif(string $data): void {
 		if (!is_callable('exif_read_data')) {
 			$this->logger->debug('Image->fixOrientation() Exif module not enabled.', ['app' => 'core']);
 			return;
@@ -457,7 +441,7 @@ class Image implements IImage {
 		}
 
 		$exif = @exif_read_data('data://image/jpeg;base64,' . base64_encode($data));
-		if (!$exif || !$this->isValidExifData($exif)) {
+		if ($exif === false || !$this->isValidExifData($exif)) {
 			return;
 		}
 		$this->exif = $exif;
@@ -717,7 +701,7 @@ class Image implements IImage {
 						return false;
 					}
 					$data = fread($fp, 90);
-					if (!$data) {
+					if ($data === false) {
 						return false;
 					}
 					fclose($fp);
@@ -731,7 +715,7 @@ class Image implements IImage {
 
 					$header = unpack($headerFormat, $data);
 					unset($data, $headerFormat);
-					if (!$header) {
+					if ($header === false) {
 						return false;
 					}
 
@@ -806,9 +790,8 @@ class Image implements IImage {
 	 * Loads an image from a string of data.
 	 *
 	 * @param string $str A string of image data as read from a file.
-	 * @return bool|\GdImage An image resource or false on error
 	 */
-	public function loadFromData(string $str) {
+	public function loadFromData(string $str): GdImage|false {
 		if (!$this->checkImageDataSize($str)) {
 			return false;
 		}
@@ -871,11 +854,7 @@ class Image implements IImage {
 		return $this->valid();
 	}
 
-	/**
-	 * @param $maxSize
-	 * @return bool|\GdImage
-	 */
-	private function resizeNew(int $maxSize) {
+	private function resizeNew(int $maxSize): \GdImage|false {
 		if (!$this->valid()) {
 			$this->logger->debug(__METHOD__ . '(): No image loaded', ['app' => 'core']);
 			return false;
@@ -911,12 +890,7 @@ class Image implements IImage {
 		return $this->valid();
 	}
 
-	/**
-	 * @param int $width
-	 * @param int $height
-	 * @return bool|\GdImage
-	 */
-	public function preciseResizeNew(int $width, int $height) {
+	public function preciseResizeNew(int $width, int $height): \GdImage|false {
 		if (!($width > 0) || !($height > 0)) {
 			$this->logger->info(__METHOD__ . '(): Requested image size not bigger than 0', ['app' => 'core']);
 			return false;
@@ -935,7 +909,11 @@ class Image implements IImage {
 
 		// preserve transparency
 		if ($this->imageType == IMAGETYPE_GIF or $this->imageType == IMAGETYPE_PNG) {
-			imagecolortransparent($process, imagecolorallocatealpha($process, 0, 0, 0, 127));
+			$alpha = imagecolorallocatealpha($process, 0, 0, 0, 127);
+			if ($alpha === false) {
+				$alpha = null;
+			}
+			imagecolortransparent($process, $alpha);
 			imagealphablending($process, false);
 			imagesavealpha($process, true);
 		}
@@ -990,7 +968,11 @@ class Image implements IImage {
 
 		// preserve transparency
 		if ($this->imageType == IMAGETYPE_GIF or $this->imageType == IMAGETYPE_PNG) {
-			imagecolortransparent($process, imagecolorallocatealpha($process, 0, 0, 0, 127) ?: null);
+			$alpha = imagecolorallocatealpha($process, 0, 0, 0, 127);
+			if ($alpha === false) {
+				$alpha = null;
+			}
+			imagecolortransparent($process, $alpha);
 			imagealphablending($process, false);
 			imagesavealpha($process, true);
 		}
@@ -1047,7 +1029,11 @@ class Image implements IImage {
 
 		// preserve transparency
 		if ($this->imageType == IMAGETYPE_GIF or $this->imageType == IMAGETYPE_PNG) {
-			imagecolortransparent($process, imagecolorallocatealpha($process, 0, 0, 0, 127) ?: null);
+			$alpha = imagecolorallocatealpha($process, 0, 0, 0, 127);
+			if ($alpha === false) {
+				$alpha = null;
+			}
+			imagecolortransparent($process, $alpha);
 			imagealphablending($process, false);
 			imagesavealpha($process, true);
 		}
@@ -1108,11 +1094,19 @@ class Image implements IImage {
 	}
 
 	public function copy(): IImage {
-		$image = new self(null, $this->logger, $this->config);
+		$image = new self($this->logger, $this->config);
+		if (!$this->valid()) {
+			/* image is invalid, return an empty one */
+			return $image;
+		}
 		$image->resource = imagecreatetruecolor($this->width(), $this->height());
+		if (!$image->valid()) {
+			/* image creation failed, cannot copy in it */
+			return $image;
+		}
 		imagecopy(
-			$image->resource(),
-			$this->resource(),
+			$image->resource,
+			$this->resource,
 			0,
 			0,
 			0,
@@ -1125,7 +1119,7 @@ class Image implements IImage {
 	}
 
 	public function cropCopy(int $x, int $y, int $w, int $h): IImage {
-		$image = new self(null, $this->logger, $this->config);
+		$image = new self($this->logger, $this->config);
 		$image->imageType = $this->imageType;
 		$image->mimeType = $this->mimeType;
 		$image->resource = $this->cropNew($x, $y, $w, $h);
@@ -1134,7 +1128,7 @@ class Image implements IImage {
 	}
 
 	public function preciseResizeCopy(int $width, int $height): IImage {
-		$image = new self(null, $this->logger, $this->config);
+		$image = new self($this->logger, $this->config);
 		$image->imageType = $this->imageType;
 		$image->mimeType = $this->mimeType;
 		$image->resource = $this->preciseResizeNew($width, $height);
@@ -1143,7 +1137,7 @@ class Image implements IImage {
 	}
 
 	public function resizeCopy(int $maxSize): IImage {
-		$image = new self(null, $this->logger, $this->config);
+		$image = new self($this->logger, $this->config);
 		$image->imageType = $this->imageType;
 		$image->mimeType = $this->mimeType;
 		$image->resource = $this->resizeNew($maxSize);
