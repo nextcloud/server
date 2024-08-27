@@ -817,8 +817,17 @@ class OC {
 		$eventLogger->log('init', 'OC::init', $loaderStart, microtime(true));
 		$eventLogger->start('runtime', 'Runtime');
 		$eventLogger->start('request', 'Full request after boot');
-		register_shutdown_function(function () use ($eventLogger) {
+
+		$logger = \OCP\Server::get(\Psr\Log\LoggerInterface::class);
+		register_shutdown_function(function () use ($eventLogger, $request, $logger) {
 			$eventLogger->end('request');
+			$memoryInMiB = memory_get_peak_usage(true) / 1024 / 1024;
+			if ($memoryInMiB > 150) {
+				$logger->warning('This request peaked in {memory} MiB memory usage', [
+					'memory' => $memoryInMiB,
+					'parameters' => $request->getParams(),
+				]);
+			}
 		});
 	}
 
