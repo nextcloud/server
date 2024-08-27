@@ -8,8 +8,11 @@
 namespace OCA\DAV\Connector\Sabre;
 
 use OC\AppFramework\Http\Request;
+use OCA\DAV\Connector\Sabre\Exception\InvalidPath;
 use OCP\Constants;
 use OCP\Files\ForbiddenException;
+use OCP\Files\IFilenameValidator;
+use OCP\Files\InvalidPathException;
 use OCP\Files\StorageNotAvailableException;
 use OCP\FilesMetadata\Exceptions\FilesMetadataException;
 use OCP\FilesMetadata\Exceptions\FilesMetadataNotFoundException;
@@ -19,6 +22,7 @@ use OCP\IConfig;
 use OCP\IPreview;
 use OCP\IRequest;
 use OCP\IUserSession;
+use OCP\L10N\IFactory;
 use Sabre\DAV\Exception\Forbidden;
 use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\IFile;
@@ -64,33 +68,27 @@ class FilesPlugin extends ServerPlugin {
 
 	/** Reference to main server object */
 	private ?Server $server = null;
-	private Tree $tree;
-	private IUserSession $userSession;
 
 	/**
-	 * Whether this is public webdav.
-	 * If true, some returned information will be stripped off.
+	 * @param Tree $tree
+	 * @param IConfig $config
+	 * @param IRequest $request
+	 * @param IPreview $previewManager
+	 * @param IUserSession $userSession
+	 * @param bool $isPublic Whether this is public WebDAV. If true, some returned information will be stripped off.
+	 * @param bool $downloadAttachment
+	 * @return void
 	 */
-	private bool $isPublic;
-	private bool $downloadAttachment;
-	private IConfig $config;
-	private IRequest $request;
-	private IPreview $previewManager;
-
-	public function __construct(Tree $tree,
-		IConfig $config,
-		IRequest $request,
-		IPreview $previewManager,
-		IUserSession $userSession,
-		bool $isPublic = false,
-		bool $downloadAttachment = true) {
-		$this->tree = $tree;
-		$this->config = $config;
-		$this->request = $request;
-		$this->userSession = $userSession;
-		$this->isPublic = $isPublic;
-		$this->downloadAttachment = $downloadAttachment;
-		$this->previewManager = $previewManager;
+	public function __construct(
+		private Tree $tree,
+		private IConfig $config,
+		private IRequest $request,
+		private IPreview $previewManager,
+		private IUserSession $userSession,
+		private IFilenameValidator $validator,
+		private bool $isPublic = false,
+		private bool $downloadAttachment = true,
+	) {
 	}
 
 	/**
@@ -140,33 +138,67 @@ class FilesPlugin extends ServerPlugin {
 			}
 		});
 		$this->server->on('beforeMove', [$this, 'checkMove']);
+		$this->server->on('beforeCopy', [$this, 'checkCopy']);
+	}
+
+	/**
+	 * Plugin that checks if a copy can actually be performed.
+	 *
+	 * @param string $source source path
+	 * @param string $target target path
+	 * @throws NotFound If the source does not exist
+	 * @throws InvalidPath If the target is invalid
+	 */
+	public function checkCopy($source, $target): void {
+		$sourceNode = $this->tree->getNodeForPath($source);
+		if (!$sourceNode instanceof Node) {
+			return;
+		}
+
+		// Ensure source exists
+		$sourceNodeFileInfo = $sourceNode->getFileInfo();
+		if ($sourceNodeFileInfo === null) {
+			throw new NotFound($source . ' does not exist');
+		}
+		// Ensure the target name is valid
+		try {
+			[$targetPath, $targetName] = \Sabre\Uri\split($target);
+			$this->validator->validateFilename($targetName);
+		} catch (InvalidPathException $e) {
+			throw new InvalidPath($e->getMessage(), false);
+		}
+		// Ensure the target path is valid
+		$segments = array_slice(explode('/', $targetPath), 2);
+		foreach ($segments as $segment) {
+			if ($this->validator->isFilenameValid($segment) === false) {
+				$l = \OCP\Server::get(IFactory::class)->get('dav');
+				throw new InvalidPath($l->t('Invalid target path'));
+			}
+		}
 	}
 
 	/**
 	 * Plugin that checks if a move can actually be performed.
 	 *
 	 * @param string $source source path
-	 * @param string $destination destination path
-	 * @throws Forbidden
-	 * @throws NotFound
+	 * @param string $target target path
+	 * @throws Forbidden If the source is not deletable
+	 * @throws NotFound If the source does not exist
+	 * @throws InvalidPath If the target name is invalid
 	 */
-	public function checkMove($source, $destination) {
+	public function checkMove(string $source, string $target): void {
 		$sourceNode = $this->tree->getNodeForPath($source);
 		if (!$sourceNode instanceof Node) {
 			return;
 		}
-		[$sourceDir,] = \Sabre\Uri\split($source);
-		[$destinationDir,] = \Sabre\Uri\split($destination);
 
-		if ($sourceDir !== $destinationDir) {
-			$sourceNodeFileInfo = $sourceNode->getFileInfo();
-			if ($sourceNodeFileInfo === null) {
-				throw new NotFound($source . ' does not exist');
-			}
+		// First check copyable (move only needs additional delete permission)
+		$this->checkCopy($source, $target);
 
-			if (!$sourceNodeFileInfo->isDeletable()) {
-				throw new Forbidden($source . ' cannot be deleted');
-			}
+		// The source needs to be deletable for moving
+		$sourceNodeFileInfo = $sourceNode->getFileInfo();
+		if (!$sourceNodeFileInfo->isDeletable()) {
+			throw new Forbidden($source . ' cannot be deleted');
 		}
 	}
 
