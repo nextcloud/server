@@ -12,6 +12,7 @@ namespace OC;
 
 use finfo;
 use GdImage;
+use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IImage;
 use OCP\Server;
@@ -39,6 +40,7 @@ class Image implements IImage {
 	protected ?string $filePath = null;
 	private ?finfo $fileInfo = null;
 	private LoggerInterface $logger;
+	private IAppConfig $appConfig;
 	private IConfig $config;
 	private ?array $exif = null;
 
@@ -47,9 +49,11 @@ class Image implements IImage {
 	 */
 	public function __construct(
 		?LoggerInterface $logger = null,
+		?IAppConfig $appConfig = null,
 		?IConfig $config = null,
 	) {
 		$this->logger = $logger ?? Server::get(LoggerInterface::class);
+		$this->appConfig = $appConfig ?? Server::get(IAppConfig::class);
 		$this->config = $config ?? Server::get(IConfig::class);
 
 		if (\OC_Util::fileInfoLoaded()) {
@@ -359,28 +363,14 @@ class Image implements IImage {
 		}
 	}
 
-	/**
-	 * @return int
-	 */
 	protected function getJpegQuality(): int {
-		$quality = $this->config->getAppValue('preview', 'jpeg_quality', (string)self::DEFAULT_JPEG_QUALITY);
-		// TODO: remove when getAppValue is type safe
-		if ($quality === null) {
-			$quality = self::DEFAULT_JPEG_QUALITY;
-		}
-		return min(100, max(10, (int)$quality));
+		$quality = $this->appConfig->getValueInt('preview', 'jpeg_quality', self::DEFAULT_JPEG_QUALITY);
+		return min(100, max(10, $quality));
 	}
 
-	/**
-	 * @return int
-	 */
 	protected function getWebpQuality(): int {
-		$quality = $this->config->getAppValue('preview', 'webp_quality', (string)self::DEFAULT_WEBP_QUALITY);
-		// TODO: remove when getAppValue is type safe
-		if ($quality === null) {
-			$quality = self::DEFAULT_WEBP_QUALITY;
-		}
-		return min(100, max(10, (int)$quality));
+		$quality = $this->appConfig->getValueInt('preview', 'webp_quality', self::DEFAULT_WEBP_QUALITY);
+		return min(100, max(10, $quality));
 	}
 
 	private function isValidExifData(array $exif): bool {
@@ -1094,7 +1084,7 @@ class Image implements IImage {
 	}
 
 	public function copy(): IImage {
-		$image = new self($this->logger, $this->config);
+		$image = new self($this->logger, $this->appConfig, $this->config);
 		if (!$this->valid()) {
 			/* image is invalid, return an empty one */
 			return $image;
@@ -1119,7 +1109,7 @@ class Image implements IImage {
 	}
 
 	public function cropCopy(int $x, int $y, int $w, int $h): IImage {
-		$image = new self($this->logger, $this->config);
+		$image = new self($this->logger, $this->appConfig, $this->config);
 		$image->imageType = $this->imageType;
 		$image->mimeType = $this->mimeType;
 		$image->resource = $this->cropNew($x, $y, $w, $h);
@@ -1128,7 +1118,7 @@ class Image implements IImage {
 	}
 
 	public function preciseResizeCopy(int $width, int $height): IImage {
-		$image = new self($this->logger, $this->config);
+		$image = new self($this->logger, $this->appConfig, $this->config);
 		$image->imageType = $this->imageType;
 		$image->mimeType = $this->mimeType;
 		$image->resource = $this->preciseResizeNew($width, $height);
@@ -1137,7 +1127,7 @@ class Image implements IImage {
 	}
 
 	public function resizeCopy(int $maxSize): IImage {
-		$image = new self($this->logger, $this->config);
+		$image = new self($this->logger, $this->appConfig, $this->config);
 		$image->imageType = $this->imageType;
 		$image->mimeType = $this->mimeType;
 		$image->resource = $this->resizeNew($maxSize);
