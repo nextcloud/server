@@ -50,6 +50,7 @@ use OCA\Settings\SetupChecks\MimeTypeMigrationAvailable;
 use OCA\Settings\SetupChecks\MysqlUnicodeSupport;
 use OCA\Settings\SetupChecks\OcxProviders;
 use OCA\Settings\SetupChecks\OverwriteCliUrl;
+use OCA\Settings\SetupChecks\PhpApcuConfig;
 use OCA\Settings\SetupChecks\PhpDefaultCharset;
 use OCA\Settings\SetupChecks\PhpDisabledFunctions;
 use OCA\Settings\SetupChecks\PhpFreetypeSupport;
@@ -186,6 +187,7 @@ class Application extends App implements IBootstrap {
 		$context->registerSetupCheck(PhpDefaultCharset::class);
 		$context->registerSetupCheck(PhpDisabledFunctions::class);
 		$context->registerSetupCheck(PhpFreetypeSupport::class);
+		$context->registerSetupCheck(PhpApcuConfig::class);
 		$context->registerSetupCheck(PhpGetEnv::class);
 		$context->registerSetupCheck(PhpMemoryLimit::class);
 		$context->registerSetupCheck(PhpModules::class);

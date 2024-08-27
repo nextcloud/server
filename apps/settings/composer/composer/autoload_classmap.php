@@ -108,6 +108,7 @@ return array(
     'OCA\\Settings\\SetupChecks\\MysqlUnicodeSupport' => $baseDir . '/../lib/SetupChecks/MysqlUnicodeSupport.php',
     'OCA\\Settings\\SetupChecks\\OcxProviders' => $baseDir . '/../lib/SetupChecks/OcxProviders.php',
     'OCA\\Settings\\SetupChecks\\OverwriteCliUrl' => $baseDir . '/../lib/SetupChecks/OverwriteCliUrl.php',
+    'OCA\\Settings\\SetupChecks\\PhpApcuConfig' => $baseDir . '/../lib/SetupChecks/PhpApcuConfig.php',
     'OCA\\Settings\\SetupChecks\\PhpDefaultCharset' => $baseDir . '/../lib/SetupChecks/PhpDefaultCharset.php',
     'OCA\\Settings\\SetupChecks\\PhpDisabledFunctions' => $baseDir . '/../lib/SetupChecks/PhpDisabledFunctions.php',
     'OCA\\Settings\\SetupChecks\\PhpFreetypeSupport' => $baseDir . '/../lib/SetupChecks/PhpFreetypeSupport.php',
