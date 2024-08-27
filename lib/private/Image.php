@@ -1,17 +1,21 @@
 <?php
 
 declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
+namespace OC;
+
 use OCP\IImage;
 
 /**
  * Class for basic image manipulation
  */
-class OC_Image implements \OCP\IImage {
+class Image implements IImage {
 	// Default memory limit for images to load (256 MBytes).
 	protected const DEFAULT_MEMORY_LIMIT = 256;
 
@@ -1099,7 +1103,7 @@ class OC_Image implements \OCP\IImage {
 	}
 
 	public function copy(): IImage {
-		$image = new OC_Image(null, $this->logger, $this->config);
+		$image = new self(null, $this->logger, $this->config);
 		$image->resource = imagecreatetruecolor($this->width(), $this->height());
 		imagecopy(
 			$image->resource(),
@@ -1116,7 +1120,7 @@ class OC_Image implements \OCP\IImage {
 	}
 
 	public function cropCopy(int $x, int $y, int $w, int $h): IImage {
-		$image = new OC_Image(null, $this->logger, $this->config);
+		$image = new self(null, $this->logger, $this->config);
 		$image->imageType = $this->imageType;
 		$image->mimeType = $this->mimeType;
 		$image->resource = $this->cropNew($x, $y, $w, $h);
@@ -1125,7 +1129,7 @@ class OC_Image implements \OCP\IImage {
 	}
 
 	public function preciseResizeCopy(int $width, int $height): IImage {
-		$image = new OC_Image(null, $this->logger, $this->config);
+		$image = new self(null, $this->logger, $this->config);
 		$image->imageType = $this->imageType;
 		$image->mimeType = $this->mimeType;
 		$image->resource = $this->preciseResizeNew($width, $height);
@@ -1134,7 +1138,7 @@ class OC_Image implements \OCP\IImage {
 	}
 
 	public function resizeCopy(int $maxSize): IImage {
-		$image = new OC_Image(null, $this->logger, $this->config);
+		$image = new self(null, $this->logger, $this->config);
 		$image->imageType = $this->imageType;
 		$image->mimeType = $this->mimeType;
 		$image->resource = $this->resizeNew($maxSize);
