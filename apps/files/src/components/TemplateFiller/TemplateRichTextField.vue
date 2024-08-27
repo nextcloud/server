@@ -10,12 +10,12 @@
 		</label>
 
 		<NcTextField :id="fieldId"
-			type="text"
-			:value.sync="value"
-			:label="fieldLabel"
-			:label-outside="true"
-			:placeholder="field.content"
-			@input="$emit('input', [value, field.index])" />
+					 type="text"
+					 :value.sync="value"
+					 :label="fieldLabel"
+					 :label-outside="true"
+					 :placeholder="field.content"
+					 @input="input" />
 	</div>
 </template>
 
@@ -24,7 +24,7 @@ import { defineComponent } from 'vue'
 import { NcTextField } from '@nextcloud/vue'
 
 export default defineComponent({
-	name: 'TemplateTextField',
+	name: 'TemplateRichTextField',
 
 	components: {
 		NcTextField,
@@ -51,6 +51,16 @@ export default defineComponent({
 		},
 		fieldId() {
 			return 'text-field' + this.field.index
+		},
+	},
+
+	methods: {
+		input() {
+			this.$emit('input', {
+				index: this.field.index,
+				property: 'content',
+				value: this.value,
+			})
 		},
 	},
 })
