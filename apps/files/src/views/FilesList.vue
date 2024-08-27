@@ -243,7 +243,7 @@ export default defineComponent({
 				// as the path is allowed to be undefined we need to normalize the path ('//' to '/')
 				const normalizedPath = normalize(`${this.currentFolder?.path ?? ''}/${path ?? ''}`)
 				// Try cache first
-				const nodes = this.filesStore.getNodesByPath(view.id, path)
+				const nodes = this.filesStore.getNodesByPath(view.id, normalizedPath)
 				if (nodes.length > 0) {
 					return nodes
 				}

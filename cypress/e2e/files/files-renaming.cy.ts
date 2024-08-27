@@ -4,14 +4,7 @@
  */
 
 import type { User } from '@nextcloud/cypress'
-import { getRowForFile, triggerActionForFile } from './FilesUtils'
-
-const haveValidity = (validity: string | RegExp) => {
-	if (typeof validity === 'string') {
-		return (el: JQuery<HTMLElement>) => expect((el.get(0) as HTMLInputElement).validationMessage).to.equal(validity)
-	}
-	return (el: JQuery<HTMLElement>) => expect((el.get(0) as HTMLInputElement).validationMessage).to.match(validity)
-}
+import { getRowForFile, haveValidity, triggerActionForFile } from './FilesUtils'
 
 describe('files: Rename nodes', { testIsolation: true }, () => {
 	let user: User
