@@ -9,14 +9,8 @@ namespace OC\TaskProcessing;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\IJobList;
 use OCP\BackgroundJob\QueuedJob;
-use OCP\Files\GenericFileException;
-use OCP\Files\NotPermittedException;
-use OCP\Lock\LockedException;
 use OCP\TaskProcessing\Exception\Exception;
 use OCP\TaskProcessing\Exception\NotFoundException;
-use OCP\TaskProcessing\Exception\ProcessingException;
-use OCP\TaskProcessing\Exception\UnauthorizedException;
-use OCP\TaskProcessing\Exception\ValidationException;
 use OCP\TaskProcessing\IManager;
 use OCP\TaskProcessing\ISynchronousProvider;
 use OCP\TaskProcessing\Task;
@@ -63,12 +57,21 @@ class SynchronousBackgroundJob extends QueuedJob {
 			}
 		}
 
+		// check if this job needs to be scheduled again:
+		// if there is at least one preferred synchronous provider that has a scheduled task
 		$synchronousProviders = array_filter($providers, fn ($provider) =>
 			$provider instanceof ISynchronousProvider);
-		$taskTypes = array_values(array_map(fn ($provider) =>
-			$provider->getTaskTypeId(),
-			$synchronousProviders
-		));
+		$synchronousPreferredProviders = array_filter($synchronousProviders, function ($provider) {
+			$taskTypeId = $provider->getTaskTypeId();
+			$preferredProvider = $this->taskProcessingManager->getPreferredProvider($taskTypeId);
+			return $provider->getId() === $preferredProvider->getId();
+		});
+		$taskTypes = array_values(
+			array_map(
+				fn ($provider) => $provider->getTaskTypeId(),
+				$synchronousPreferredProviders
+			)
+		);
 		$taskTypesWithTasks = array_filter($taskTypes, function ($taskType) {
 			try {
 				$this->taskProcessingManager->getNextScheduledTask([$taskType]);
