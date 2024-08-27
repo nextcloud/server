@@ -62,6 +62,33 @@ interface IManager {
 	public function scheduleTask(Task $task): void;
 
 	/**
+	 * Run the task and return the finished task
+	 *
+	 * @param Task $task The task to run
+	 * @return Task The result task
+	 * @throws PreConditionNotMetException If no or not the requested provider was registered but this method was still called
+	 * @throws ValidationException the given task input didn't pass validation against the task type's input shape and/or the providers optional input shape specs
+	 * @throws Exception storing the task in the database failed
+	 * @throws UnauthorizedException the user scheduling the task does not have access to the files used in the input
+	 * @since 30.0.0
+	 */
+	public function runTask(Task $task): Task;
+
+	/**
+	 * Process task with a synchronous provider
+	 *
+	 * Prepare task input data and run the process method of the provider
+	 * This should only be used by OC\TaskProcessing\SynchronousBackgroundJob::run() and OCP\TaskProcessing\IManager::runTask()
+	 *
+	 * @param Task $task
+	 * @param ISynchronousProvider $provider
+	 * @return bool True if the task has run successfully
+	 * @throws Exception
+	 * @since 30.0.0
+	 */
+	public function processTask(Task $task, ISynchronousProvider $provider): bool;
+
+	/**
 	 * Delete a task that has been scheduled before
 	 *
 	 * @param Task $task The task to delete
