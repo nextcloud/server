@@ -39,6 +39,7 @@ use OCP\IUser;
 use OCP\IUserManager;
 use OCP\L10N\IFactory;
 use OCP\Mail\IMailer;
+use OCP\Share\IManager as IShareManager;
 use OCP\Share\IShare;
 use PHPUnit\Framework\MockObject\MockObject;
 
@@ -82,6 +83,9 @@ class DefaultShareProviderTest extends \Test\TestCase {
 	/** @var IConfig|MockObject */
 	protected $config;
 
+	/** @var IShareManager&MockObject */
+	protected $shareManager;
+
 	protected function setUp(): void {
 		$this->dbConn = \OC::$server->getDatabaseConnection();
 		$this->userManager = $this->createMock(IUserManager::class);
@@ -93,6 +97,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$this->defaults = $this->getMockBuilder(Defaults::class)->disableOriginalConstructor()->getMock();
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
 		$this->config = $this->createMock(IConfig::class);
+		$this->shareManager = $this->createMock(IShareManager::class);
 
 		$this->userManager->expects($this->any())->method('userExists')->willReturn(true);
 
@@ -108,7 +113,8 @@ class DefaultShareProviderTest extends \Test\TestCase {
 			$this->defaults,
 			$this->l10nFactory,
 			$this->urlGenerator,
-			$this->config
+			$this->config,
+			$this->shareManager,
 		);
 	}
 
@@ -132,8 +138,8 @@ class DefaultShareProviderTest extends \Test\TestCase {
 	 * @return int
 	 */
 	private function addShareToDB($shareType, $sharedWith, $sharedBy, $shareOwner,
-			$itemType, $fileSource, $fileTarget, $permissions, $token, $expiration,
-			$parent = null) {
+		$itemType, $fileSource, $fileTarget, $permissions, $token, $expiration,
+		$parent = null) {
 		$qb = $this->dbConn->getQueryBuilder();
 		$qb->insert('share');
 
@@ -469,7 +475,8 @@ class DefaultShareProviderTest extends \Test\TestCase {
 				$this->defaults,
 				$this->l10nFactory,
 				$this->urlGenerator,
-				$this->config
+				$this->config,
+				$this->shareManager,
 			])
 			->setMethods(['getShareById'])
 			->getMock();
@@ -564,7 +571,8 @@ class DefaultShareProviderTest extends \Test\TestCase {
 				$this->defaults,
 				$this->l10nFactory,
 				$this->urlGenerator,
-				$this->config
+				$this->config,
+				$this->shareManager,
 			])
 			->setMethods(['getShareById'])
 			->getMock();
@@ -2524,7 +2532,8 @@ class DefaultShareProviderTest extends \Test\TestCase {
 			$this->defaults,
 			$this->l10nFactory,
 			$this->urlGenerator,
-			$this->config
+			$this->config,
+			$this->shareManager,
 		);
 
 		$password = md5(time());
@@ -2622,7 +2631,8 @@ class DefaultShareProviderTest extends \Test\TestCase {
 			$this->defaults,
 			$this->l10nFactory,
 			$this->urlGenerator,
-			$this->config
+			$this->config,
+			$this->shareManager,
 		);
 
 		$u1 = $userManager->createUser('testShare1', 'test');
@@ -2718,7 +2728,8 @@ class DefaultShareProviderTest extends \Test\TestCase {
 			$this->defaults,
 			$this->l10nFactory,
 			$this->urlGenerator,
-			$this->config
+			$this->config,
+			$this->shareManager,
 		);
 
 		$u1 = $userManager->createUser('testShare1', 'test');

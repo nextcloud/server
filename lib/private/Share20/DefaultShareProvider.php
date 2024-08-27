@@ -53,6 +53,7 @@ use OCP\L10N\IFactory;
 use OCP\Mail\IMailer;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IAttributes;
+use OCP\Share\IManager;
 use OCP\Share\IShare;
 use OCP\Share\IShareProvider;
 use function str_starts_with;
@@ -94,15 +95,17 @@ class DefaultShareProvider implements IShareProvider {
 	private $config;
 
 	public function __construct(
-			IDBConnection $connection,
-			IUserManager $userManager,
-			IGroupManager $groupManager,
-			IRootFolder $rootFolder,
-			IMailer $mailer,
-			Defaults $defaults,
-			IFactory $l10nFactory,
-			IURLGenerator $urlGenerator,
-			IConfig $config) {
+		IDBConnection $connection,
+		IUserManager $userManager,
+		IGroupManager $groupManager,
+		IRootFolder $rootFolder,
+		IMailer $mailer,
+		Defaults $defaults,
+		IFactory $l10nFactory,
+		IURLGenerator $urlGenerator,
+		IConfig $config,
+		private IManager $shareManager,
+	) {
 		$this->dbConn = $connection;
 		$this->userManager = $userManager;
 		$this->groupManager = $groupManager;
@@ -1302,6 +1305,7 @@ class DefaultShareProvider implements IShareProvider {
 	 *
 	 * @param string $uid
 	 * @param string $gid
+	 * @return void
 	 */
 	public function userDeletedFromGroup($uid, $gid) {
 		/*
@@ -1313,7 +1317,7 @@ class DefaultShareProvider implements IShareProvider {
 			->where($qb->expr()->eq('share_type', $qb->createNamedParameter(IShare::TYPE_GROUP)))
 			->andWhere($qb->expr()->eq('share_with', $qb->createNamedParameter($gid)));
 
-		$cursor = $qb->execute();
+		$cursor = $qb->executeQuery();
 		$ids = [];
 		while ($row = $cursor->fetch()) {
 			$ids[] = (int)$row['id'];
@@ -1330,7 +1334,45 @@ class DefaultShareProvider implements IShareProvider {
 					->where($qb->expr()->eq('share_type', $qb->createNamedParameter(IShare::TYPE_USERGROUP)))
 					->andWhere($qb->expr()->eq('share_with', $qb->createNamedParameter($uid)))
 					->andWhere($qb->expr()->in('parent', $qb->createNamedParameter($chunk, IQueryBuilder::PARAM_INT_ARRAY)));
-				$qb->execute();
+				$qb->executeStatement();
+			}
+		}
+
+		if ($this->shareManager->shareWithGroupMembersOnly()) {
+			$user = $this->userManager->get($uid);
+			if ($user === null) {
+				return;
+			}
+			$userGroups = $this->groupManager->getUserGroupIds($user);
+
+			// Delete user shares received by the user from users in the group.
+			$userReceivedShares = $this->shareManager->getSharedWith($uid, IShare::TYPE_USER, null, -1);
+			foreach ($userReceivedShares as $share) {
+				$owner = $this->userManager->get($share->getSharedBy());
+				if ($owner === null) {
+					continue;
+				}
+				$ownerGroups = $this->groupManager->getUserGroupIds($owner);
+				$mutualGroups = array_intersect($userGroups, $ownerGroups);
+
+				if (count($mutualGroups) === 0) {
+					$this->shareManager->deleteShare($share);
+				}
+			}
+
+			// Delete user shares from the user to users in the group.
+			$userEmittedShares = $this->shareManager->getSharesBy($uid, IShare::TYPE_USER, null, true, -1);
+			foreach ($userEmittedShares as $share) {
+				$recipient = $this->userManager->get($share->getSharedWith());
+				if ($recipient === null) {
+					continue;
+				}
+				$recipientGroups = $this->groupManager->getUserGroupIds($recipient);
+				$mutualGroups = array_intersect($userGroups, $recipientGroups);
+
+				if (count($mutualGroups) === 0) {
+					$this->shareManager->deleteShare($share);
+				}
 			}
 		}
 	}
