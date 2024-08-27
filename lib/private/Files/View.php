@@ -1841,13 +1841,13 @@ class View {
 			$storage->verifyPath($internalPath, $fileName);
 		} catch (ReservedWordException $ex) {
 			$l = \OCP\Util::getL10N('lib');
-			throw new InvalidPathException($l->t('File name is a reserved word'));
+			throw new InvalidPathException($ex->getMessage() ?: $l->t('Filename is a reserved word'));
 		} catch (InvalidCharacterInPathException $ex) {
 			$l = \OCP\Util::getL10N('lib');
-			throw new InvalidPathException($l->t('File name contains at least one invalid character'));
+			throw new InvalidPathException($ex->getMessage() ?: $l->t('Filename contains at least one invalid character'));
 		} catch (FileNameTooLongException $ex) {
 			$l = \OCP\Util::getL10N('lib');
-			throw new InvalidPathException($l->t('File name is too long'));
+			throw new InvalidPathException($l->t('Filename is too long'));
 		} catch (InvalidDirectoryException $ex) {
 			$l = \OCP\Util::getL10N('lib');
 			throw new InvalidPathException($l->t('Dot files are not allowed'));
