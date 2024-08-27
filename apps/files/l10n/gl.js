@@ -323,7 +323,6 @@ OC.L10N.register(
     "PDFs" : "PDF",
     "Folders" : "Cartafoles",
     "Audio" : "Son",
-    "Pictures and images" : "Fotos e imaxes",
     "Videos" : "Vídeos",
     "New folder creation cancelled" : "Cancelouse a creación dun novo cartafol",
     "Created new folder \"{name}\"" : "Creouse un novo cartafol «{name}»",
@@ -391,6 +390,7 @@ OC.L10N.register(
     "You might not have have permissions to view it, ask the sender to share it" : "É posíbel que non teña permisos para velo, pídalle ao remitente que o comparta",
     "The files is locked" : "Os ficheiros están bloqueados",
     "Create new templates folder" : "Crear un novo cartafol de modelos",
-    "Toggle %1$s sublist" : "Alternar %1$s sublista"
+    "Toggle %1$s sublist" : "Alternar %1$s sublista",
+    "Pictures and images" : "Fotos e imaxes"
 },
 "nplurals=2; plural=(n != 1);");

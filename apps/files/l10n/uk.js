@@ -323,7 +323,6 @@ OC.L10N.register(
     "PDFs" : "Файли PDF",
     "Folders" : "Каталоги",
     "Audio" : "Аудіо",
-    "Pictures and images" : "Зображення",
     "Videos" : "Відео",
     "New folder creation cancelled" : "Створення нового каталогу скасовано",
     "Created new folder \"{name}\"" : "Створив(-ла) новий каталог \"{name}\"",
@@ -391,6 +390,7 @@ OC.L10N.register(
     "You might not have have permissions to view it, ask the sender to share it" : "Ймовірно у вас відсутні права на перегляд. Попросіть відправника поділитися доступом.",
     "The files is locked" : "Файл заблоковано",
     "Create new templates folder" : "Створіть новий каталог для шаблонів",
-    "Toggle %1$s sublist" : "Перемкнути вкладений список %1$s"
+    "Toggle %1$s sublist" : "Перемкнути вкладений список %1$s",
+    "Pictures and images" : "Зображення"
 },
 "nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);");

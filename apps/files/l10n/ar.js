@@ -323,7 +323,6 @@ OC.L10N.register(
     "PDFs" : "ملفات بي دي إف",
     "Folders" : "المجلدات",
     "Audio" : "صوت",
-    "Pictures and images" : "الصِّوَر ",
     "Videos" : "فيديوهات",
     "New folder creation cancelled" : "تمّ إلغاء عملية إنشاء مجلد جديد",
     "Created new folder \"{name}\"" : "تمّ إنشاء مجلد جديد باسم \"{name}\"",
@@ -391,6 +390,7 @@ OC.L10N.register(
     "You might not have have permissions to view it, ask the sender to share it" : "يمكن ألاّ تكون لديك صلاحية لعرضه، أطلب من المُرسل إن يشاركه معك",
     "The files is locked" : "الملفات مقفله",
     "Create new templates folder" : "إنشيْ مجلد جديد للقوالب",
-    "Toggle %1$s sublist" : "تبديل %1$s قائمة فرعية"
+    "Toggle %1$s sublist" : "تبديل %1$s قائمة فرعية",
+    "Pictures and images" : "الصِّوَر "
 },
 "nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;");
