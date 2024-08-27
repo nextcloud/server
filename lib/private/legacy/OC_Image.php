@@ -447,6 +447,18 @@ class OC_Image implements \OCP\IImage {
 		return min(100, max(10, (int) $quality));
 	}
 
+	private function isValidExifData(array $exif): bool {
+		if (!isset($exif['Orientation'])) {
+			return false;
+		}
+
+		if (!is_numeric($exif['Orientation'])) {
+			return false;
+		}
+
+		return true;
+	}
+
 	/**
 	 * (I'm open for suggestions on better method name ;)
 	 * Get the orientation based on EXIF data.
@@ -475,14 +487,11 @@ class OC_Image implements \OCP\IImage {
 			return -1;
 		}
 		$exif = @exif_read_data($this->filePath, 'IFD0');
-		if (!$exif) {
-			return -1;
-		}
-		if (!isset($exif['Orientation'])) {
+		if (!$exif || !$this->isValidExifData($exif)) {
 			return -1;
 		}
 		$this->exif = $exif;
-		return $exif['Orientation'];
+		return (int)$exif['Orientation'];
 	}
 
 	public function readExif($data): void {
@@ -496,10 +505,7 @@ class OC_Image implements \OCP\IImage {
 		}
 
 		$exif = @exif_read_data('data://image/jpeg;base64,' . base64_encode($data));
-		if (!$exif) {
-			return;
-		}
-		if (!isset($exif['Orientation'])) {
+		if (!$exif || !$this->isValidExifData($exif)) {
 			return;
 		}
 		$this->exif = $exif;
