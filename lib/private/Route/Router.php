@@ -140,9 +140,14 @@ class Router implements IRouter {
 		if ($this->loaded) {
 			return;
 		}
+		$this->eventLogger->start('route:load:' . $requestedApp, 'Loading Routes for ' . $requestedApp);
 		if (is_null($app)) {
 			$this->loaded = true;
 			$routingFiles = $this->getRoutingFiles();
+
+			foreach (\OC_App::getEnabledApps() as $enabledApp) {
+				$this->loadAttributeRoutes($enabledApp);
+			}
 		} else {
 			if (isset($this->loadedApps[$app])) {
 				return;
@@ -154,21 +159,9 @@ class Router implements IRouter {
 			} else {
 				$routingFiles = [];
 			}
-		}
-		$this->eventLogger->start('route:load:' . $requestedApp, 'Loading Routes for ' . $requestedApp);
 
-		if ($requestedApp !== null && in_array($requestedApp, \OC_App::getEnabledApps())) {
-			$routes = $this->getAttributeRoutes($requestedApp);
-			if (count($routes) > 0) {
-				$this->useCollection($requestedApp);
-				$this->setupRoutes($routes, $requestedApp);
-				$collection = $this->getCollection($requestedApp);
-				$this->root->addCollection($collection);
-
-				// Also add the OCS collection
-				$collection = $this->getCollection($requestedApp . '.ocs');
-				$collection->addPrefix('/ocsapp');
-				$this->root->addCollection($collection);
+			if (in_array($app, \OC_App::getEnabledApps())) {
+				$this->loadAttributeRoutes($app);
 			}
 		}
 
@@ -440,6 +433,23 @@ class Router implements IRouter {
 			return 'cloud_federation_api.requesthandler.receivenotification';
 		}
 		return $routeName;
+	}
+
+	private function loadAttributeRoutes(string $app): void {
+		$routes = $this->getAttributeRoutes($app);
+		if (count($routes) === 0) {
+			return;
+		}
+
+		$this->useCollection($app);
+		$this->setupRoutes($routes, $app);
+		$collection = $this->getCollection($app);
+		$this->root->addCollection($collection);
+
+		// Also add the OCS collection
+		$collection = $this->getCollection($app . '.ocs');
+		$collection->addPrefix('/ocsapp');
+		$this->root->addCollection($collection);
 	}
 
 	/**
