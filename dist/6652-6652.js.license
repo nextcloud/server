@@ -255,7 +255,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 2.7.16
 	- license: MIT
 - webdav
-	- version: 5.7.0
+	- version: 5.7.1
 	- license: MIT
 - which-typed-array
 	- version: 1.1.15

@@ -545,6 +545,9 @@ This file is generated from multiple sources. Included packages:
 - micromark
 	- version: 4.0.0
 	- license: MIT
+- minimatch
+	- version: 9.0.5
+	- license: ISC
 - moment
 	- version: 2.30.1
 	- license: MIT
@@ -755,11 +758,8 @@ This file is generated from multiple sources. Included packages:
 - web-namespaces
 	- version: 2.0.1
 	- license: MIT
-- minimatch
-	- version: 10.0.1
-	- license: ISC
 - webdav
-	- version: 5.7.0
+	- version: 5.7.1
 	- license: MIT
 - which-typed-array
 	- version: 1.1.15
