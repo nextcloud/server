@@ -133,7 +133,9 @@ interface FileInfo {
 	public function getId();
 
 	/**
-	 * Check whether the file is encrypted
+	 * Check whether the node is encrypted.
+	 * If it is a file, then it is server side encrypted.
+	 * If it is a folder, then it is end-to-end encrypted.
 	 *
 	 * @return bool
 	 * @since 7.0.0
