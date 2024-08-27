@@ -14,6 +14,7 @@ use OCP\Files\NotFoundException;
 use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\IConfig;
 use OCP\IL10N;
+use OCP\Image;
 use Psr\Log\LoggerInterface;
 
 class UserAvatarTest extends \Test\TestCase {
@@ -92,7 +93,7 @@ class UserAvatarTest extends \Test\TestCase {
 				['generated', false],
 			]);
 
-		$expected = new \OC_Image();
+		$expected = new Image();
 		$expected->loadFromFile(\OC::$SERVERROOT . '/tests/data/testavatar.png');
 
 		$file = $this->createMock(ISimpleFile::class);
@@ -109,7 +110,7 @@ class UserAvatarTest extends \Test\TestCase {
 				['generated', false],
 			]);
 
-		$expected = new \OC_Image();
+		$expected = new Image();
 		$expected->loadFromFile(\OC::$SERVERROOT . '/tests/data/testavatar.png');
 
 		$file = $this->createMock(ISimpleFile::class);
@@ -128,9 +129,9 @@ class UserAvatarTest extends \Test\TestCase {
 				['generated', false],
 			]);
 
-		$expected = new \OC_Image();
+		$expected = new Image();
 		$expected->loadFromFile(\OC::$SERVERROOT . '/tests/data/testavatar.png');
-		$expected2 = new \OC_Image();
+		$expected2 = new Image();
 		$expected2->loadFromFile(\OC::$SERVERROOT . '/tests/data/testavatar.png');
 		$expected2->resize(32);
 
@@ -215,7 +216,7 @@ class UserAvatarTest extends \Test\TestCase {
 			->with('avatar.png')
 			->willReturn($newFile);
 
-		$image = new \OC_Image();
+		$image = new Image();
 		$image->loadFromFile(\OC::$SERVERROOT . '/tests/data/testavatar.png');
 		$newFile->expects($this->once())
 			->method('putContent')

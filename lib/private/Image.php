@@ -10,6 +10,7 @@ declare(strict_types=1);
 
 namespace OC;
 
+use finfo;
 use OCP\IImage;
 
 /**
@@ -51,7 +52,11 @@ class Image implements IImage {
 	 * @param \OCP\IConfig $config
 	 * @throws \InvalidArgumentException in case the $imageRef parameter is not null
 	 */
-	public function __construct($imageRef = null, ?\OCP\ILogger $logger = null, ?\OCP\IConfig $config = null) {
+	public function __construct(
+		$imageRef = null,
+		?\OCP\ILogger $logger = null,
+		?\OCP\IConfig $config = null
+	) {
 		$this->logger = $logger;
 		if ($logger === null) {
 			$this->logger = \OC::$server->getLogger();
@@ -124,7 +129,7 @@ class Image implements IImage {
 	 */
 	public function widthTopLeft(): int {
 		$o = $this->getOrientation();
-		$this->logger->debug('OC_Image->widthTopLeft() Orientation: ' . $o, ['app' => 'core']);
+		$this->logger->debug('Image->widthTopLeft() Orientation: ' . $o, ['app' => 'core']);
 		switch ($o) {
 			case -1:
 			case 1:
@@ -148,7 +153,7 @@ class Image implements IImage {
 	 */
 	public function heightTopLeft(): int {
 		$o = $this->getOrientation();
-		$this->logger->debug('OC_Image->heightTopLeft() Orientation: ' . $o, ['app' => 'core']);
+		$this->logger->debug('Image->heightTopLeft() Orientation: ' . $o, ['app' => 'core']);
 		switch ($o) {
 			case -1:
 			case 1:
@@ -251,7 +256,7 @@ class Image implements IImage {
 					$imageType = IMAGETYPE_WEBP;
 					break;
 				default:
-					throw new Exception('\OC_Image::_output(): "' . $mimeType . '" is not supported when forcing a specific output format');
+					throw new \Exception('Image::_output(): "' . $mimeType . '" is not supported when forcing a specific output format');
 			}
 		}
 
@@ -270,7 +275,7 @@ class Image implements IImage {
 				if (function_exists('imagexbm')) {
 					$retVal = imagexbm($this->resource, $filePath);
 				} else {
-					throw new Exception('\OC_Image::_output(): imagexbm() is not supported.');
+					throw new \Exception('Image::_output(): imagexbm() is not supported.');
 				}
 
 				break;
@@ -354,11 +359,11 @@ class Image implements IImage {
 				break;
 			default:
 				$res = imagepng($this->resource);
-				$this->logger->info('OC_Image->data. Could not guess mime-type, defaulting to png', ['app' => 'core']);
+				$this->logger->info('Image->data. Could not guess mime-type, defaulting to png', ['app' => 'core']);
 				break;
 		}
 		if (!$res) {
-			$this->logger->error('OC_Image->data. Error getting image data.', ['app' => 'core']);
+			$this->logger->error('Image->data. Error getting image data.', ['app' => 'core']);
 		}
 		return ob_get_clean();
 	}
@@ -418,19 +423,19 @@ class Image implements IImage {
 		}
 
 		if ($this->imageType !== IMAGETYPE_JPEG) {
-			$this->logger->debug('OC_Image->fixOrientation() Image is not a JPEG.', ['app' => 'core']);
+			$this->logger->debug('Image->fixOrientation() Image is not a JPEG.', ['app' => 'core']);
 			return -1;
 		}
 		if (!is_callable('exif_read_data')) {
-			$this->logger->debug('OC_Image->fixOrientation() Exif module not enabled.', ['app' => 'core']);
+			$this->logger->debug('Image->fixOrientation() Exif module not enabled.', ['app' => 'core']);
 			return -1;
 		}
 		if (!$this->valid()) {
-			$this->logger->debug('OC_Image->fixOrientation() No image loaded.', ['app' => 'core']);
+			$this->logger->debug('Image->fixOrientation() No image loaded.', ['app' => 'core']);
 			return -1;
 		}
 		if (is_null($this->filePath) || !is_readable($this->filePath)) {
-			$this->logger->debug('OC_Image->fixOrientation() No readable file path set.', ['app' => 'core']);
+			$this->logger->debug('Image->fixOrientation() No readable file path set.', ['app' => 'core']);
 			return -1;
 		}
 		$exif = @exif_read_data($this->filePath, 'IFD0');
@@ -443,11 +448,11 @@ class Image implements IImage {
 
 	public function readExif($data): void {
 		if (!is_callable('exif_read_data')) {
-			$this->logger->debug('OC_Image->fixOrientation() Exif module not enabled.', ['app' => 'core']);
+			$this->logger->debug('Image->fixOrientation() Exif module not enabled.', ['app' => 'core']);
 			return;
 		}
 		if (!$this->valid()) {
-			$this->logger->debug('OC_Image->fixOrientation() No image loaded.', ['app' => 'core']);
+			$this->logger->debug('Image->fixOrientation() No image loaded.', ['app' => 'core']);
 			return;
 		}
 
@@ -470,7 +475,7 @@ class Image implements IImage {
 			return false;
 		}
 		$o = $this->getOrientation();
-		$this->logger->debug('OC_Image->fixOrientation() Orientation: ' . $o, ['app' => 'core']);
+		$this->logger->debug('Image->fixOrientation() Orientation: ' . $o, ['app' => 'core']);
 		$rotate = 0;
 		$flip = false;
 		switch ($o) {
@@ -517,15 +522,15 @@ class Image implements IImage {
 						$this->resource = $res;
 						return true;
 					} else {
-						$this->logger->debug('OC_Image->fixOrientation() Error during alpha-saving', ['app' => 'core']);
+						$this->logger->debug('Image->fixOrientation() Error during alpha-saving', ['app' => 'core']);
 						return false;
 					}
 				} else {
-					$this->logger->debug('OC_Image->fixOrientation() Error during alpha-blending', ['app' => 'core']);
+					$this->logger->debug('Image->fixOrientation() Error during alpha-blending', ['app' => 'core']);
 					return false;
 				}
 			} else {
-				$this->logger->debug('OC_Image->fixOrientation() Error during orientation fixing', ['app' => 'core']);
+				$this->logger->debug('Image->fixOrientation() Error during orientation fixing', ['app' => 'core']);
 				return false;
 			}
 		}
@@ -636,10 +641,10 @@ class Image implements IImage {
 						imagealphablending($this->resource, true);
 						imagesavealpha($this->resource, true);
 					} else {
-						$this->logger->debug('OC_Image->loadFromFile, GIF image not valid: ' . $imagePath, ['app' => 'core']);
+						$this->logger->debug('Image->loadFromFile, GIF image not valid: ' . $imagePath, ['app' => 'core']);
 					}
 				} else {
-					$this->logger->debug('OC_Image->loadFromFile, GIF images not supported: ' . $imagePath, ['app' => 'core']);
+					$this->logger->debug('Image->loadFromFile, GIF images not supported: ' . $imagePath, ['app' => 'core']);
 				}
 				break;
 			case IMAGETYPE_JPEG:
@@ -650,10 +655,10 @@ class Image implements IImage {
 					if (@getimagesize($imagePath) !== false) {
 						$this->resource = @imagecreatefromjpeg($imagePath);
 					} else {
-						$this->logger->debug('OC_Image->loadFromFile, JPG image not valid: ' . $imagePath, ['app' => 'core']);
+						$this->logger->debug('Image->loadFromFile, JPG image not valid: ' . $imagePath, ['app' => 'core']);
 					}
 				} else {
-					$this->logger->debug('OC_Image->loadFromFile, JPG images not supported: ' . $imagePath, ['app' => 'core']);
+					$this->logger->debug('Image->loadFromFile, JPG images not supported: ' . $imagePath, ['app' => 'core']);
 				}
 				break;
 			case IMAGETYPE_PNG:
@@ -667,10 +672,10 @@ class Image implements IImage {
 						imagealphablending($this->resource, true);
 						imagesavealpha($this->resource, true);
 					} else {
-						$this->logger->debug('OC_Image->loadFromFile, PNG image not valid: ' . $imagePath, ['app' => 'core']);
+						$this->logger->debug('Image->loadFromFile, PNG image not valid: ' . $imagePath, ['app' => 'core']);
 					}
 				} else {
-					$this->logger->debug('OC_Image->loadFromFile, PNG images not supported: ' . $imagePath, ['app' => 'core']);
+					$this->logger->debug('Image->loadFromFile, PNG images not supported: ' . $imagePath, ['app' => 'core']);
 				}
 				break;
 			case IMAGETYPE_XBM:
@@ -680,7 +685,7 @@ class Image implements IImage {
 					}
 					$this->resource = @imagecreatefromxbm($imagePath);
 				} else {
-					$this->logger->debug('OC_Image->loadFromFile, XBM/XPM images not supported: ' . $imagePath, ['app' => 'core']);
+					$this->logger->debug('Image->loadFromFile, XBM/XPM images not supported: ' . $imagePath, ['app' => 'core']);
 				}
 				break;
 			case IMAGETYPE_WBMP:
@@ -690,7 +695,7 @@ class Image implements IImage {
 					}
 					$this->resource = @imagecreatefromwbmp($imagePath);
 				} else {
-					$this->logger->debug('OC_Image->loadFromFile, WBMP images not supported: ' . $imagePath, ['app' => 'core']);
+					$this->logger->debug('Image->loadFromFile, WBMP images not supported: ' . $imagePath, ['app' => 'core']);
 				}
 				break;
 			case IMAGETYPE_BMP:
@@ -744,13 +749,13 @@ class Image implements IImage {
 					// Check for animation indicators
 					if (strpos(strtoupper($header['Chunk']), 'ANIM') !== false || strpos(strtoupper($header['Chunk']), 'ANMF') !== false) {
 						// Animated so don't let it reach libgd
-						$this->logger->debug('OC_Image->loadFromFile, animated WEBP images not supported: ' . $imagePath, ['app' => 'core']);
+						$this->logger->debug('Image->loadFromFile, animated WEBP images not supported: ' . $imagePath, ['app' => 'core']);
 					} else {
 						// We're safe so give it to libgd
 						$this->resource = @imagecreatefromwebp($imagePath);
 					}
 				} else {
-					$this->logger->debug('OC_Image->loadFromFile, WEBP images not supported: ' . $imagePath, ['app' => 'core']);
+					$this->logger->debug('Image->loadFromFile, WEBP images not supported: ' . $imagePath, ['app' => 'core']);
 				}
 				break;
 				/*
@@ -786,7 +791,7 @@ class Image implements IImage {
 				}
 				$this->resource = @imagecreatefromstring($data);
 				$iType = IMAGETYPE_PNG;
-				$this->logger->debug('OC_Image->loadFromFile, Default', ['app' => 'core']);
+				$this->logger->debug('Image->loadFromFile, Default', ['app' => 'core']);
 				break;
 		}
 		if ($this->valid()) {
@@ -817,7 +822,7 @@ class Image implements IImage {
 		}
 
 		if (!$this->resource) {
-			$this->logger->debug('OC_Image->loadFromFile, could not load', ['app' => 'core']);
+			$this->logger->debug('Image->loadFromFile, could not load', ['app' => 'core']);
 			return false;
 		}
 		return $this->resource;
@@ -840,7 +845,7 @@ class Image implements IImage {
 				$this->mimeType = $this->fileInfo->buffer($data);
 			}
 			if (!$this->resource) {
-				$this->logger->debug('OC_Image->loadFromBase64, could not load', ['app' => 'core']);
+				$this->logger->debug('Image->loadFromBase64, could not load', ['app' => 'core']);
 				return false;
 			}
 			return $this->resource;
@@ -952,7 +957,7 @@ class Image implements IImage {
 	 */
 	public function centerCrop(int $size = 0): bool {
 		if (!$this->valid()) {
-			$this->logger->debug('OC_Image->centerCrop, No image loaded', ['app' => 'core']);
+			$this->logger->debug('Image->centerCrop, No image loaded', ['app' => 'core']);
 			return false;
 		}
 		$widthOrig = imagesx($this->resource);
@@ -979,7 +984,7 @@ class Image implements IImage {
 		}
 		$process = imagecreatetruecolor($targetWidth, $targetHeight);
 		if ($process === false) {
-			$this->logger->debug('OC_Image->centerCrop, Error creating true color image', ['app' => 'core']);
+			$this->logger->debug('Image->centerCrop, Error creating true color image', ['app' => 'core']);
 			return false;
 		}
 
@@ -992,7 +997,7 @@ class Image implements IImage {
 
 		$result = imagecopyresampled($process, $this->resource, 0, 0, $x, $y, $targetWidth, $targetHeight, $width, $height);
 		if ($result === false) {
-			$this->logger->debug('OC_Image->centerCrop, Error re-sampling process image ' . $width . 'x' . $height, ['app' => 'core']);
+			$this->logger->debug('Image->centerCrop, Error re-sampling process image ' . $width . 'x' . $height, ['app' => 'core']);
 			return false;
 		}
 		imagedestroy($this->resource);
