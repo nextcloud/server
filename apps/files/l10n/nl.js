@@ -248,7 +248,6 @@ OC.L10N.register(
     "New text file.txt" : "Nieuw tekstbestand.txt",
     "Copy direct link (only works for users who have access to this file/folder)" : "Kopieer de link direct (werkt alleen voor gebruikers met toegang tot map/bestand)",
     "\"remote user\"" : "\"externe gebruiker\"",
-    "File name" : "Bestandsnaam",
     "Name cannot be empty" : "Naam mag niet leeg zijn",
     "Create new templates folder" : "Nieuwe sjablonenmap",
     "Toggle %1$s sublist" : "Omschakelen%1$s sublijsten"

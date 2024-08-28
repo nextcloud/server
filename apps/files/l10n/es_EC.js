@@ -253,8 +253,6 @@ OC.L10N.register(
     "Direct link was copied (only works for users who have access to this file/folder)" : "Se ha copiado el enlace directo (solo funciona para usuarios que tienen acceso a este archivo/carpeta).",
     "Copy direct link (only works for users who have access to this file/folder)" : "Copiar liga directa (sólo funciona para usuarios que tienen acceso a este archivo/carpeta)",
     "\"remote user\"" : "\"usuario remoto\"",
-    "File name" : "Nombre de archivo.",
-    "\"{name}\" is not an allowed filetype." : "\"{name}\" no es un tipo de archivo permitido.",
     "{newName} already exists." : "{newName} ya existe.",
     "Name cannot be empty" : "El nombre no puede estar en blanco",
     "Another entry with the same name already exists" : "Ya existe otra entrada con el mismo nombre.",
