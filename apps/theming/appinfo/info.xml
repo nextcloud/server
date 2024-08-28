@@ -34,6 +34,7 @@
 	<repair-steps>
 		<post-migration>
 			<step>OCA\Theming\Migration\InitBackgroundImagesMigration</step>
+			<step>OCA\Theming\Migration\SeparatePrimaryColorAndBackground</step>
 		</post-migration>
 	</repair-steps>
 
