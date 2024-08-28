@@ -142,7 +142,7 @@ class CleanTagsTest extends \Test\TestCase {
 			])
 			->execute();
 
-		return (int) $this->getLastInsertID('vcategory', 'id');
+		return $qb->getLastInsertId();
 	}
 
 	/**
@@ -191,7 +191,7 @@ class CleanTagsTest extends \Test\TestCase {
 			])
 			->execute();
 
-		$this->createdFile = (int) $this->getLastInsertID('filecache', 'fileid');
+		$this->createdFile = $qb->getLastInsertId();
 		return $this->createdFile;
 	}
 }

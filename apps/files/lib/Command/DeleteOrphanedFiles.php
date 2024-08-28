@@ -48,16 +48,10 @@ class DeleteOrphanedFiles extends Command {
 		$deleteQuery->delete('filecache')
 			->where($deleteQuery->expr()->in('storage', $deleteQuery->createParameter('storage_ids')));
 
-		$deletedInLastChunk = self::CHUNK_SIZE;
-		while ($deletedInLastChunk === self::CHUNK_SIZE) {
-			$deletedInLastChunk = 0;
-			$result = $query->execute();
-			while ($row = $result->fetch()) {
-				$deletedInLastChunk++;
-				$deletedEntries += $deleteQuery->setParameter('objectid', (int) $row['fileid'])
-					->execute();
-			}
-			$result->closeCursor();
+		$deletedStorageChunks = array_chunk($deletedStorages, self::CHUNK_SIZE);
+		foreach ($deletedStorageChunks as $deletedStorageChunk) {
+			$deleteQuery->setParameter('storage_ids', $deletedStorageChunk, IQueryBuilder::PARAM_INT_ARRAY);
+			$deletedEntries += $deleteQuery->executeStatement();
 		}
 
 		$output->writeln("$deletedEntries orphaned file cache entries deleted");
