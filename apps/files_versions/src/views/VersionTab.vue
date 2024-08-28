@@ -1,54 +1,61 @@
 <!--
- - @copyright 2022 Carl Schwan <carl@carlschwan.eu>
- - @license AGPL-3.0-or-later
- -
- - This program is free software: you can redistribute it and/or modify
- - it under the terms of the GNU Affero General Public License as
- - published by the Free Software Foundation, either version 3 of the
- - License, or (at your option) any later version.
- -
- - This program is distributed in the hope that it will be useful,
- - but WITHOUT ANY WARRANTY; without even the implied warranty of
- - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- - GNU Affero General Public License for more details.
- -
- - You should have received a copy of the GNU Affero General Public License
- - along with this program. If not, see <http://www.gnu.org/licenses/>.
- -->
+  - SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 <template>
-	<ul data-files-versions-versions-list>
-		<Version v-for="version in orderedVersions"
-			:key="version.mtime"
-			:can-view="canView"
-			:can-compare="canCompare"
-			:load-preview="isActive"
-			:version="version"
-			:file-info="fileInfo"
-			:is-current="version.mtime === fileInfo.mtime"
-			:is-first-version="version.mtime === initialVersionMtime"
-			@click="openVersion"
-			@compare="compareVersion"
-			@restore="handleRestore"
-			@label-update="handleLabelUpdate"
-			@delete="handleDelete" />
-	</ul>
+	<div class="versions-tab__container">
+		<VirtualScrolling :sections="sections"
+			:header-height="0">
+			<template slot-scope="{visibleSections}">
+				<ul data-files-versions-versions-list>
+					<template v-if="visibleSections.length === 1">
+						<Version v-for="(row) of visibleSections[0].rows"
+							:key="row.items[0].mtime"
+							:can-view="canView"
+							:can-compare="canCompare"
+							:load-preview="isActive"
+							:version="row.items[0]"
+							:file-info="fileInfo"
+							:is-current="row.items[0].mtime === fileInfo.mtime"
+							:is-first-version="row.items[0].mtime === initialVersionMtime"
+							@click="openVersion"
+							@compare="compareVersion"
+							@restore="handleRestore"
+							@label-update-request="handleLabelUpdateRequest(row.items[0])"
+							@delete="handleDelete" />
+					</template>
+				</ul>
+			</template>
+			<NcLoadingIcon v-if="loading" slot="loader" class="files-list-viewer__loader" />
+		</VirtualScrolling>
+		<VersionLabelDialog v-if="editedVersion"
+			:open.sync="showVersionLabelForm"
+			:version-label="editedVersion.label"
+			@label-update="handleLabelUpdate" />
+	</div>
 </template>
 
 <script>
 import path from 'path'
 
 import { showError, showSuccess } from '@nextcloud/dialogs'
-import isMobile from '@nextcloud/vue/dist/Mixins/isMobile.js'
 import { emit, subscribe, unsubscribe } from '@nextcloud/event-bus'
 import { getCurrentUser } from '@nextcloud/auth'
+import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
+import isMobile from '@nextcloud/vue/dist/Mixins/isMobile.js'
 
-import { fetchVersions, deleteVersion, restoreVersion, setVersionLabel } from '../utils/versions.js'
+import { fetchVersions, deleteVersion, restoreVersion, setVersionLabel } from '../utils/versions.ts'
 import Version from '../components/Version.vue'
+import VirtualScrolling from '../components/VirtualScrolling.vue'
+import VersionLabelDialog from '../components/VersionLabelDialog.vue'
 
 export default {
 	name: 'VersionTab',
 	components: {
 		Version,
+		VirtualScrolling,
+		VersionLabelDialog,
+		NcLoadingIcon,
 	},
 	mixins: [
 		isMobile,
@@ -57,23 +64,24 @@ export default {
 		return {
 			fileInfo: null,
 			isActive: false,
-			/** @type {import('../utils/versions.js').Version[]} */
+			/** @type {import('../utils/versions.ts').Version[]} */
 			versions: [],
 			loading: false,
+			showVersionLabelForm: false,
+			editedVersion: null,
 		}
 	},
-	mounted() {
-		subscribe('files_versions:restore:restored', this.fetchVersions)
-	},
-	beforeUnmount() {
-		unsubscribe('files_versions:restore:restored', this.fetchVersions)
-	},
 	computed: {
+		sections() {
+			const rows = this.orderedVersions.map(version => ({ key: version.mtime, height: 68, sectionKey: 'versions', items: [version] }))
+			return [{ key: 'versions', rows, height: 68 * this.orderedVersions.length }]
+		},
+
 		/**
 		 * Order versions by mtime.
 		 * Put the current version at the top.
 		 *
-		 * @return {import('../utils/versions.js').Version[]}
+		 * @return {import('../utils/versions.ts').Version[]}
 		 */
 		orderedVersions() {
 			return [...this.versions].sort((a, b) => {
@@ -129,6 +137,12 @@ export default {
 			return !this.isMobile
 		},
 	},
+	mounted() {
+		subscribe('files_versions:restore:restored', this.fetchVersions)
+	},
+	beforeUnmount() {
+		unsubscribe('files_versions:restore:restored', this.fetchVersions)
+	},
 	methods: {
 		/**
 		 * Update current fileInfo and fetch new data
@@ -163,7 +177,7 @@ export default {
 		/**
 		 * Handle restored event from Version.vue
 		 *
-		 * @param {import('../utils/versions.js').Version} version
+		 * @param {import('../utils/versions.ts').Version} version
 		 */
 		async handleRestore(version) {
 			// Update local copy of fileInfo as rendering depends on it.
@@ -203,26 +217,36 @@ export default {
 
 		/**
 		 * Handle label-updated event from Version.vue
-		 *
-		 * @param {import('../utils/versions.js').Version} version
-		 * @param {string} newName
+		 * @param {import('../utils/versions.ts').Version} version
 		 */
-		async handleLabelUpdate(version, newName) {
-			const oldLabel = version.label
-			version.label = newName
+		handleLabelUpdateRequest(version) {
+			this.showVersionLabelForm = true
+			this.editedVersion = version
+		},
+
+		/**
+		 * Handle label-updated event from Version.vue
+		 * @param {string} newLabel
+		 */
+		async handleLabelUpdate(newLabel) {
+			const oldLabel = this.editedVersion.label
+			this.editedVersion.label = newLabel
+			this.showVersionLabelForm = false
 
 			try {
-				await setVersionLabel(version, newName)
+				await setVersionLabel(this.editedVersion, newLabel)
+				this.editedVersion = null
 			} catch (exception) {
-				version.label = oldLabel
-				showError(t('files_versions', 'Could not set version name'))
+				this.editedVersion.label = oldLabel
+				showError(this.t('files_versions', 'Could not set version label'))
+				logger.error('Could not set version label', { exception })
 			}
 		},
 
 		/**
 		 * Handle deleted event from Version.vue
 		 *
-		 * @param {import('../utils/versions.js').Version} version
+		 * @param {import('../utils/versions.ts').Version} version
 		 * @param {string} newName
 		 */
 		async handleDelete(version) {
@@ -275,3 +299,8 @@ export default {
 	},
 }
 </script>
+<style lang="scss">
+.versions-tab__container {
+	height: 100%;
+}
+</style>

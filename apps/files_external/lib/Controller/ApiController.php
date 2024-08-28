@@ -3,29 +3,9 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Jesús Macias <jmacias@solidgear.es>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Vincent Petry <vincent@nextcloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2017-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\Files_External\Controller;
 
@@ -34,13 +14,14 @@ use OCA\Files_External\ResponseDefinitions;
 use OCA\Files_External\Service\UserGlobalStoragesService;
 use OCA\Files_External\Service\UserStoragesService;
 use OCP\AppFramework\Http;
-use OCP\AppFramework\Http\Attribute\IgnoreOpenAPI;
+use OCP\AppFramework\Http\Attribute\NoAdminRequired;
+use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCSController;
 use OCP\IRequest;
 
 /**
- * @psalm-import-type FilesExternalMount from ResponseDefinitions
+ * @psalm-import-type Files_ExternalMount from ResponseDefinitions
  */
 class ApiController extends OCSController {
 
@@ -64,7 +45,7 @@ class ApiController extends OCSController {
 	 * @param string $mountPoint mount point name, relative to the data dir
 	 * @param StorageConfig $mountConfig mount config to format
 	 *
-	 * @return FilesExternalMount
+	 * @return Files_ExternalMount
 	 */
 	private function formatMount(string $mountPoint, StorageConfig $mountConfig): array {
 		// split path from mount point
@@ -96,14 +77,13 @@ class ApiController extends OCSController {
 	}
 
 	/**
-	 * @NoAdminRequired
-	 *
 	 * Get the mount points visible for this user
 	 *
-	 * @return DataResponse<Http::STATUS_OK, FilesExternalMount[], array{}>
+	 * @return DataResponse<Http::STATUS_OK, Files_ExternalMount[], array{}>
 	 *
 	 * 200: User mounts returned
 	 */
+	#[NoAdminRequired]
 	public function getUserMounts(): DataResponse {
 		$entries = [];
 		$mountPoints = [];
@@ -125,12 +105,11 @@ class ApiController extends OCSController {
 	}
 
 	/**
-	 * @NoAdminRequired
-	 *
 	 * Ask for credentials using a browser's native basic auth prompt
 	 * Then returns it if provided
 	 */
-	#[IgnoreOpenAPI]
+	#[NoAdminRequired]
+	#[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
 	public function askNativeAuth(): DataResponse {
 		if (!isset($_SERVER['PHP_AUTH_USER']) || !isset($_SERVER['PHP_AUTH_PW'])) {
 			$response = new DataResponse([], Http::STATUS_UNAUTHORIZED);

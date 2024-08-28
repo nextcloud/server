@@ -1,27 +1,9 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCP\Comments;
 
@@ -33,6 +15,9 @@ namespace OCP\Comments;
  * @since 9.0.0
  */
 interface IComment {
+	/**
+	 * @since 9.0.0
+	 */
 	public const MAX_MESSAGE_LENGTH = 1000;
 
 	/**
@@ -278,6 +263,25 @@ interface IComment {
 	 * @since 19.0.0
 	 */
 	public function setReferenceId(?string $referenceId): IComment;
+
+	/**
+	 * Returns the metadata of the comment
+	 *
+	 * @return array|null
+	 * @since 29.0.0
+	 */
+	public function getMetaData(): ?array;
+
+	/**
+	 * Sets (overwrites) the metadata of the comment
+	 * Data as a json encoded array
+	 *
+	 * @param array|null $metaData
+	 * @return IComment
+	 * @throws \JsonException When the metadata can not be converted to a json encoded string
+	 * @since 29.0.0
+	 */
+	public function setMetaData(?array $metaData): IComment;
 
 	/**
 	 * Returns the reactions array if exists

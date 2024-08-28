@@ -1,36 +1,21 @@
 <?php
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Joas Schilling <coding@schilljs.com>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2019-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\Files_Sharing\Tests\Controllers;
 
 use OCA\Files_Sharing\Controller\ExternalSharesController;
+use OCA\Files_Sharing\External\Manager;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\JSONResponse;
-use OCP\Http\Client\IClientService;
-use OCP\IRequest;
-use OCP\Http\Client\IResponse;
 use OCP\Http\Client\IClient;
-use OCA\Files_Sharing\External\Manager;
+use OCP\Http\Client\IClientService;
+use OCP\Http\Client\IResponse;
+use OCP\IConfig;
+use OCP\IRequest;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Class ExternalShareControllerTest
@@ -42,6 +27,8 @@ class ExternalShareControllerTest extends \Test\TestCase {
 	private $request;
 	/** @var \OCA\Files_Sharing\External\Manager */
 	private $externalManager;
+	/** @var IConfig|MockObject */
+	private $config;
 	/** @var IClientService */
 	private $clientService;
 
@@ -50,6 +37,7 @@ class ExternalShareControllerTest extends \Test\TestCase {
 		$this->request = $this->createMock(IRequest::class);
 		$this->externalManager = $this->createMock(Manager::class);
 		$this->clientService = $this->createMock(IClientService::class);
+		$this->config = $this->createMock(IConfig::class);
 	}
 
 	/**
@@ -60,7 +48,8 @@ class ExternalShareControllerTest extends \Test\TestCase {
 			'files_sharing',
 			$this->request,
 			$this->externalManager,
-			$this->clientService
+			$this->clientService,
+			$this->config,
 		);
 	}
 

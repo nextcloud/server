@@ -1,29 +1,7 @@
 <?php
 /**
- * @copyright Copyright (c) 2016 Julius Härtl <jus@bitgrid.net>
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Jan-Christoph Borchardt <hey@jancborchardt.net>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Julius Haertl <jus@bitgrid.net>
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\Theming\Tests;
 
@@ -106,7 +84,7 @@ class IconBuilderTest extends TestCase {
 			->with('global/images')
 			->willThrowException(new NotFoundException());
 
-		$expectedIcon = new \Imagick(realpath(dirname(__FILE__)). "/data/" . $file);
+		$expectedIcon = new \Imagick(realpath(dirname(__FILE__)). '/data/' . $file);
 		$icon = $this->iconBuilder->renderAppIcon($app, 512);
 
 		$this->assertEquals(true, $icon->valid());
@@ -135,7 +113,7 @@ class IconBuilderTest extends TestCase {
 			->with('global/images')
 			->willThrowException(new NotFoundException());
 
-		$expectedIcon = new \Imagick(realpath(dirname(__FILE__)). "/data/" . $file);
+		$expectedIcon = new \Imagick(realpath(dirname(__FILE__)). '/data/' . $file);
 		$icon = new \Imagick();
 		$icon->readImageBlob($this->iconBuilder->getTouchIcon($app));
 
@@ -168,7 +146,7 @@ class IconBuilderTest extends TestCase {
 			->with('global/images')
 			->willThrowException(new NotFoundException());
 
-		$expectedIcon = new \Imagick(realpath(dirname(__FILE__)). "/data/" . $file);
+		$expectedIcon = new \Imagick(realpath(dirname(__FILE__)). '/data/' . $file);
 		$actualIcon = $this->iconBuilder->getFavicon($app);
 
 		$icon = new \Imagick();
@@ -217,6 +195,6 @@ class IconBuilderTest extends TestCase {
 		$util->expects($this->once())
 			->method('getAppImage')
 			->willReturn('notexistingfile');
-		$this->assertFalse($iconBuilder->colorSvg('noapp','noimage'));
+		$this->assertFalse($iconBuilder->colorSvg('noapp', 'noimage'));
 	}
 }

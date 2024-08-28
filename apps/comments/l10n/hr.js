@@ -9,6 +9,7 @@ OC.L10N.register(
     "%1$s commented on %2$s" : "%1$s je komentirao %2$s",
     "{author} commented on {file}" : "{author} je komentirao {file}",
     "<strong>Comments</strong> for files" : "<strong>Komentari</strong> za datoteke",
+    "Files" : "Datoteke",
     "Files app plugin to add comments to files" : "Dodatak za aplikaciju Datoteke za dodavanje komentara na datoteke",
     "Edit comment" : "Uredi komentar",
     "Delete comment" : "Izbriši komentar",
@@ -23,8 +24,6 @@ OC.L10N.register(
     "An error occurred while trying to edit the comment" : "Došlo je do pogreške prilikom uređivanja komentara",
     "Comment deleted" : "Komentar izbrisan",
     "An error occurred while trying to delete the comment" : "Došlo je do pogreške prilikom brisanja komentara",
-    "An error occurred while trying to create the comment" : "Došlo je do pogreške prilikom stvaranja komentara",
-    "%1$s commented" : "Komentirao je %1$s",
-    "_%n unread comment_::_%n unread comments_" : ["%n nepročitani komentar","%n nepročitanih komentara","%n nepročitanih komentara"]
+    "An error occurred while trying to create the comment" : "Došlo je do pogreške prilikom stvaranja komentara"
 },
 "nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;");

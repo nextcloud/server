@@ -1,53 +1,16 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Ardinis <Ardinis@users.noreply.github.com>
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Bart Visscher <bartv@thisnet.nl>
- * @author Björn Schießle <bjoern@schiessle.org>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Daniel Kesselberg <mail@danielkesselberg.de>
- * @author Felix Moeller <mail@felixmoeller.de>
- * @author J0WI <J0WI@users.noreply.github.com>
- * @author Jakob Sack <mail@jakobsack.de>
- * @author Jan-Christoph Borchardt <hey@jancborchardt.net>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Jörn Friedrich Dreyer <jfd@butonic.de>
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Olivier Paroz <github@oparoz.com>
- * @author Pellaeon Lin <nfsmwlin@gmail.com>
- * @author RealRancor <fisch.666@gmx.de>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Robin McCorkell <robin@mccorkell.me.uk>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Simon Könnecke <simonkoennecke@gmail.com>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Thomas Tanghus <thomas@tanghus.net>
- * @author Vincent Petry <vincent@nextcloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 use bantu\IniGetWrapper\IniGetWrapper;
+use OC\Files\FilenameValidator;
 use OC\Files\Filesystem;
 use OCP\Files\Mount\IMountPoint;
-use OCP\ICacheFactory;
 use OCP\IBinaryFinder;
+use OCP\ICacheFactory;
 use OCP\IUser;
 use OCP\Util;
 use Psr\Log\LoggerInterface;
@@ -81,7 +44,7 @@ class OC_Helper {
 	 */
 	public static function humanFileSize(int|float $bytes): string {
 		if ($bytes < 0) {
-			return "?";
+			return '?';
 		}
 		if ($bytes < 1024) {
 			return "$bytes B";
@@ -138,7 +101,7 @@ class OC_Helper {
 
 		$bytes = (float)$str;
 
-		if (preg_match('#([kmgtp]?b?)$#si', $str, $matches) && !empty($bytes_array[$matches[1]])) {
+		if (preg_match('#([kmgtp]?b?)$#si', $str, $matches) && isset($bytes_array[$matches[1]])) {
 			$bytes *= $bytes_array[$matches[1]];
 		} else {
 			return false;
@@ -154,18 +117,25 @@ class OC_Helper {
 	 * @return void
 	 */
 	public static function copyr($src, $dest) {
+		if (!file_exists($src)) {
+			return;
+		}
+
 		if (is_dir($src)) {
 			if (!is_dir($dest)) {
 				mkdir($dest);
 			}
 			$files = scandir($src);
 			foreach ($files as $file) {
-				if ($file != "." && $file != "..") {
+				if ($file != '.' && $file != '..') {
 					self::copyr("$src/$file", "$dest/$file");
 				}
 			}
-		} elseif (file_exists($src) && !\OC\Files\Filesystem::isFileBlacklisted($src)) {
-			copy($src, $dest);
+		} else {
+			$validator = \OCP\Server::get(FilenameValidator::class);
+			if (!$validator->isForbidden($src)) {
+				copy($src, $dest);
+			}
 		}
 	}
 
@@ -225,21 +195,21 @@ class OC_Helper {
 	 * @param bool $path
 	 * @internal param string $program name
 	 * @internal param string $optional search path, defaults to $PATH
-	 * @return bool    true if executable program found in path
+	 * @return bool true if executable program found in path
 	 */
 	public static function canExecute($name, $path = false) {
 		// path defaults to PATH from environment if not set
 		if ($path === false) {
-			$path = getenv("PATH");
+			$path = getenv('PATH');
 		}
 		// we look for an executable file of that name
-		$exts = [""];
-		$check_fn = "is_executable";
+		$exts = [''];
+		$check_fn = 'is_executable';
 		// Default check will be done with $path directories :
 		$dirs = explode(PATH_SEPARATOR, $path);
 		// WARNING : We have to check if open_basedir is enabled :
 		$obd = OC::$server->get(IniGetWrapper::class)->getString('open_basedir');
-		if ($obd != "none") {
+		if ($obd != 'none') {
 			$obd_values = explode(PATH_SEPARATOR, $obd);
 			if (count($obd_values) > 0 and $obd_values[0]) {
 				// open_basedir is in effect !
@@ -546,13 +516,13 @@ class OC_Helper {
 				$free = 0.0;
 			}
 		} catch (\Exception $e) {
-			if ($path === "") {
+			if ($path === '') {
 				throw $e;
 			}
 			/** @var LoggerInterface $logger */
 			$logger = \OC::$server->get(LoggerInterface::class);
-			$logger->warning("Error while getting quota info, using root quota", ['exception' => $e]);
-			$rootInfo = self::getStorageInfo("");
+			$logger->warning('Error while getting quota info, using root quota', ['exception' => $e]);
+			$rootInfo = self::getStorageInfo('');
 			$memcache->set($cacheKey, $rootInfo, 5 * 60);
 			return $rootInfo;
 		}
@@ -595,6 +565,11 @@ class OC_Helper {
 			'mountType' => $mount->getMountType(),
 			'mountPoint' => trim($mountPoint, '/'),
 		];
+
+		if ($ownerId && $path === '/') {
+			// If path is root, store this as last known quota usage for this user
+			\OCP\Server::get(\OCP\IConfig::class)->setUserValue($ownerId, 'files', 'lastSeenQuotaUsage', (string)$relative);
+		}
 
 		$memcache->set($cacheKey, $info, 5 * 60);
 

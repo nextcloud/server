@@ -10,10 +10,6 @@ OC.L10N.register(
     "No entries found in this folder" : "Geen inskrwyings in hierdie vouer gevind",
     "Select all" : "Kies alle",
     "Name" : "Naam",
-    "Actions" : "Aksies",
-    "Delete permanently" : "Skrap permanent",
-    "This operation is forbidden" : "Hierdie operasie is verbode",
-    "This directory is unavailable, please check the logs or contact the administrator" : "Hierdie gids is onbeskikbaar, gaan die logs na of kontak die administrateur",
-    "Delete" : "Skrap"
+    "Actions" : "Aksies"
 },
 "nplurals=2; plural=(n != 1);");

@@ -1,0 +1,30 @@
+Trademark policy
+
+1) Collabora, Collabora Productivity, Collabora Office, Collabora Online, Collabora Online Development Edition (CODE), Collabora CloudSuite, Collabora GovOffice and the Collabora Productivity logo are the property of either Collabora Productivity Ltd or Collabora Ltd. Collectively they will be referred to as the “Marks” in this policy document.
+
+2) We acknowledge and support your right to make “fair use” of the Marks and do not mean to suggest with these guidelines that our permission is required in such cases. We cannot, however, tell you categorically what will or will not qualify as “fair use”.
+
+3) Your use of the Marks must be non-disparaging and you must avoid any attempt to unfairly or confusingly capitalise on the goodwill of the Marks. Use of the Marks must in no way indicate a greater degree of association between you and Collabora/Collabora Productivity than actually exists.
+
+4) You should not include any of the Marks in the name of your application, product or service without our written permission, regardless of whether it’s commercial or non-commercial in nature. This includes online services, such as e-commerce, community, blog, informational, promotional, and personal home page sites as well as client apps or third party apps which interact with Collabora Productivity software.
+
+4.1) If you are producing new software that is intended to provide integration with a product using a Mark, you may use the Mark in a way which indicates the intent of your product. For example, if you are developing a plugin tool to integrate Collabora Online with another system, acceptable project titles might be “Collabora Online plugin for …” or “Collabora Online integration for …” However, you may not use the Marks in a way which implies an endorsement where that doesn’t exist,
+or which attempts to unfairly or confusingly capitalize on the goodwill or brand of the project.
+
+5) Domain Names: If you want to include all or any of the Marks in a domain name, you should seek our permission (see Contact Information below to request permission). People naturally associate domain names with organizations whose names sound similar. Almost any use of the Marks in a domain name is likely to confuse someone, thus running afoul the overarching requirement that any use of a the Marks must not be confusing. By “domain name” we mean to refer to top-level domains and second-level domains, but not sub-domains.
+
+6) Distributing unmodified Collabora Productivity binaries: You can use the Marks to identify Collabora Productivity binary downloads separately or as part of a Virtual Machine, docker image, installer, or in another form as long as you have not made any modifications to the Collabora Productivity binaries themselves
+
+7) Distributing modified Collabora Productivity binaries: In making such a distribution you must remove all trademark uses of the Marks from the version of the Collabora Productivity software you are modifying.
+
+8) Although we love to encourage authors, if you want to include all or any of the Marks in the name of a publication such as a book or magazine, you need our permission (see Contact Information below to request permission). But you can use any or all of the Marks in a title of review inside a magazine, for example, as long as you use the Marks to refer to the official Collabora Productivity software or products.
+
+9) Collabora Productivity reserves the sole right to determine compliance with, modify or grant exceptions to this policy.
+
+10) Contact Information:
+
+Please contact us if you need assistance regarding these Guidelines, e.g. for discussing your case or requesting permission, by sending an Email to trademark@collaboraoffice.com.
+
+11) Licence for these Guidelines
+
+These Guidelines are published under Version 3 of the Creative Commons Attribution Share-Alike License (https://creativecommons.org/licenses/by-sa/3.0/), and are derived in part from the ownCloud Trademark Guidelines (March 1st 2016) which in turn is derived in part from the openSUSE Trademark Guidelines (April 20, 2015), which in turn is derived in part from the OpenSolaris Trademark Policy 1.0 (May 5, 2008), the Ubuntu and Mozilla Trademark guidelines.

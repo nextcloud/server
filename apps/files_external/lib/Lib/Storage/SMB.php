@@ -1,38 +1,8 @@
 <?php
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Jesús Macias <jmacias@solidgear.es>
- * @author Jörn Friedrich Dreyer <jfd@butonic.de>
- * @author Juan Pablo Villafañez <jvillafanez@solidgear.es>
- * @author Juan Pablo Villafáñez <jvillafanez@solidgear.es>
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Michael Gapczynski <GapczynskiM@gmail.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Philipp Kapfer <philipp.kapfer@gmx.at>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Robin McCorkell <robin@mccorkell.me.uk>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Roland Tapken <roland@bitarbeiter.net>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Vincent Petry <vincent@nextcloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\Files_External\Lib\Storage;
 
@@ -93,6 +63,8 @@ class SMB extends Common implements INotifyStorage {
 	/** @var bool */
 	protected $showHidden;
 
+	private bool $caseSensitive;
+
 	/** @var bool */
 	protected $checkAcl;
 
@@ -139,6 +111,7 @@ class SMB extends Common implements INotifyStorage {
 		$this->root = rtrim($this->root, '/') . '/';
 
 		$this->showHidden = isset($params['show_hidden']) && $params['show_hidden'];
+		$this->caseSensitive = (bool)($params['case_sensitive'] ?? true);
 		$this->checkAcl = isset($params['check_acl']) && $params['check_acl'];
 
 		$this->statCache = new CappedMemoryCache();
@@ -323,6 +296,12 @@ class SMB extends Common implements INotifyStorage {
 	 */
 	public function rename($source, $target, $retry = true): bool {
 		if ($this->isRootDir($source) || $this->isRootDir($target)) {
+			return false;
+		}
+		if ($this->caseSensitive === false
+			&& mb_strtolower($target) === mb_strtolower($source)
+		) {
+			// Forbid changing case only on case-insensitive file system
 			return false;
 		}
 
@@ -523,7 +502,7 @@ class SMB extends Common implements INotifyStorage {
 		} catch (ForbiddenException $e) {
 			return false;
 		} catch (OutOfSpaceException $e) {
-			throw new EntityTooLargeException("not enough available space to create file", 0, $e);
+			throw new EntityTooLargeException('not enough available space to create file', 0, $e);
 		} catch (ConnectException $e) {
 			$this->logger->error('Error while opening file', ['exception' => $e]);
 			throw new StorageNotAvailableException($e->getMessage(), (int)$e->getCode(), $e);
@@ -566,7 +545,7 @@ class SMB extends Common implements INotifyStorage {
 			}
 			return false;
 		} catch (OutOfSpaceException $e) {
-			throw new EntityTooLargeException("not enough available space to create file", 0, $e);
+			throw new EntityTooLargeException('not enough available space to create file', 0, $e);
 		} catch (ConnectException $e) {
 			$this->logger->error('Error while creating file', ['exception' => $e]);
 			throw new StorageNotAvailableException($e->getMessage(), (int)$e->getCode(), $e);
@@ -674,6 +653,17 @@ class SMB extends Common implements INotifyStorage {
 
 	public function file_exists($path) {
 		try {
+			// Case sensitive filesystem doesn't matter for root directory
+			if ($this->caseSensitive === false && $path !== '') {
+				$filename = basename($path);
+				$siblings = $this->getDirectoryContent(dirname($this->buildPath($path)));
+				foreach ($siblings as $sibling) {
+					if ($sibling['name'] === $filename) {
+						return true;
+					}
+				}
+				return false;
+			}
 			$this->getFileInfo($path);
 			return true;
 		} catch (\OCP\Files\NotFoundException $e) {

@@ -1,9 +1,8 @@
 <?php
 /**
- * Copyright (c) 2012 Lukas Reschke <lukas@statuscode.ch>
- * This file is licensed under the Affero General Public License version 3 or
- * later.
- * See the COPYING-README file.
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace Test;
@@ -71,7 +70,7 @@ class UtilTest extends \Test\TestCase {
 	public function testEncodePath() {
 		$component = '/§#@test%&^ä/-child';
 		$result = OC_Util::encodePath($component);
-		$this->assertEquals("/%C2%A7%23%40test%25%26%5E%C3%A4/-child", $result);
+		$this->assertEquals('/%C2%A7%23%40test%25%26%5E%C3%A4/-child', $result);
 	}
 
 	public function testIsNonUTF8Locale() {
@@ -91,15 +90,31 @@ class UtilTest extends \Test\TestCase {
 		$this->assertEquals($expected, \OC_Util::fileInfoLoaded());
 	}
 
+	/**
+	 * Host is "localhost" this is a valid for emails,
+	 * but not for default strict email verification that requires a top level domain.
+	 * So we check that with strict email verification we fallback to the default
+	 */
+	public function testGetDefaultEmailAddressStrict() {
+		$email = \OCP\Util::getDefaultEmailAddress('no-reply');
+		$this->assertEquals('no-reply@localhost.localdomain', $email);
+	}
+
+	/**
+	 * If no strict email check is enabled "localhost" should validate as a valid email domain
+	 */
 	public function testGetDefaultEmailAddress() {
-		$email = \OCP\Util::getDefaultEmailAddress("no-reply");
+		$config = \OC::$server->getConfig();
+		$config->setAppValue('core', 'enforce_strict_email_check', 'no');
+		$email = \OCP\Util::getDefaultEmailAddress('no-reply');
 		$this->assertEquals('no-reply@localhost', $email);
+		$config->deleteAppValue('core', 'enforce_strict_email_check');
 	}
 
 	public function testGetDefaultEmailAddressFromConfig() {
 		$config = \OC::$server->getConfig();
 		$config->setSystemValue('mail_domain', 'example.com');
-		$email = \OCP\Util::getDefaultEmailAddress("no-reply");
+		$email = \OCP\Util::getDefaultEmailAddress('no-reply');
 		$this->assertEquals('no-reply@example.com', $email);
 		$config->deleteSystemValue('mail_domain');
 	}
@@ -108,7 +123,7 @@ class UtilTest extends \Test\TestCase {
 		$config = \OC::$server->getConfig();
 		$config->setSystemValue('mail_domain', 'example.com');
 		$config->setSystemValue('mail_from_address', 'owncloud');
-		$email = \OCP\Util::getDefaultEmailAddress("no-reply");
+		$email = \OCP\Util::getDefaultEmailAddress('no-reply');
 		$this->assertEquals('owncloud@example.com', $email);
 		$config->deleteSystemValue('mail_domain');
 		$config->deleteSystemValue('mail_from_address');
@@ -120,64 +135,6 @@ class UtilTest extends \Test\TestCase {
 		$this->assertStringStartsWith('oc', $instanceId);
 		$matchesRegex = preg_match('/^[a-z0-9]+$/', $instanceId);
 		$this->assertSame(1, $matchesRegex);
-	}
-
-	/**
-	 * @dataProvider filenameValidationProvider
-	 */
-	public function testFilenameValidation($file, $valid) {
-		// private API
-		$this->assertEquals($valid, \OC_Util::isValidFileName($file));
-		// public API
-		$this->assertEquals($valid, \OCP\Util::isValidFileName($file));
-	}
-
-	public function filenameValidationProvider() {
-		return [
-			// valid names
-			['boringname', true],
-			['something.with.extension', true],
-			['now with spaces', true],
-			['.a', true],
-			['..a', true],
-			['.dotfile', true],
-			['single\'quote', true],
-			['  spaces before', true],
-			['spaces after   ', true],
-			['allowed chars including the crazy ones $%&_-^@!,()[]{}=;#', true],
-			['汉字也能用', true],
-			['und Ümläüte sind auch willkommen', true],
-			// disallowed names
-			['', false],
-			['     ', false],
-			['.', false],
-			['..', false],
-			['back\\slash', false],
-			['sl/ash', false],
-			['lt<lt', true],
-			['gt>gt', true],
-			['col:on', true],
-			['double"quote', true],
-			['pi|pe', true],
-			['dont?ask?questions?', true],
-			['super*star', true],
-			['new\nline', false],
-
-			// better disallow these to avoid unexpected trimming to have side effects
-			[' ..', false],
-			['.. ', false],
-			['. ', false],
-			[' .', false],
-
-			// part files not allowed
-			['.part', false],
-			['notallowed.part', false],
-			['neither.filepart', false],
-
-			// part in the middle is ok
-			['super movie part one.mkv', true],
-			['super.movie.part.mkv', true],
-		];
 	}
 
 	/**
@@ -205,7 +162,7 @@ class UtilTest extends \Test\TestCase {
 
 	public function testCheckDataDirectoryValidity() {
 		$dataDir = \OC::$server->getTempManager()->getTemporaryFolder();
-		touch($dataDir . '/.ocdata');
+		touch($dataDir . '/.ncdata');
 		$errors = \OC_Util::checkDataDirectoryValidity($dataDir);
 		$this->assertEmpty($errors);
 		\OCP\Files::rmdirr($dataDir);
@@ -305,25 +262,25 @@ class UtilTest extends \Test\TestCase {
 
 		// All scripts still there
 		$scripts = [
-			"core/js/common",
-			"core/js/main",
-			"core/js/myFancyJSFile1",
-			"core/js/myFancyJSFile4",
-			"core/js/myFancyJSFile5",
-			"first/l10n/en",
-			"first/js/myFirstJSFile",
-			"files/l10n/en",
-			"files/js/myFancyJSFile2",
-			"myApp/l10n/en",
-			"myApp/js/myFancyJSFile3",
-			"myApp2/l10n/en",
-			"myApp2/js/myApp2JSFile",
-			"myApp5/l10n/en",
-			"myApp5/js/myApp5JSFile",
-			"myApp3/l10n/en",
-			"myApp3/js/myApp3JSFile",
-			"myApp4/l10n/en",
-			"myApp4/js/myApp4JSFile",
+			'core/js/common',
+			'core/js/main',
+			'core/js/myFancyJSFile1',
+			'core/js/myFancyJSFile4',
+			'core/js/myFancyJSFile5',
+			'first/l10n/en',
+			'first/js/myFirstJSFile',
+			'files/l10n/en',
+			'files/js/myFancyJSFile2',
+			'myApp/l10n/en',
+			'myApp/js/myFancyJSFile3',
+			'myApp2/l10n/en',
+			'myApp2/js/myApp2JSFile',
+			'myApp5/l10n/en',
+			'myApp5/js/myApp5JSFile',
+			'myApp3/l10n/en',
+			'myApp3/js/myApp3JSFile',
+			'myApp4/l10n/en',
+			'myApp4/js/myApp4JSFile',
 		];
 		foreach ($scripts as $script) {
 			$this->assertContains($script, $scripts);

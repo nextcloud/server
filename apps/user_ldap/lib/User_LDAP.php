@@ -1,40 +1,9 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Bart Visscher <bartv@thisnet.nl>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Daniel Kesselberg <mail@danielkesselberg.de>
- * @author Dominik Schmidt <dev@dominik-schmidt.de>
- * @author felixboehm <felix@webhippie.de>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Jörn Friedrich Dreyer <jfd@butonic.de>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Robin McCorkell <robin@mccorkell.me.uk>
- * @author Roger Szabo <roger.szabo@web.de>
- * @author root <root@localhost.localdomain>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Tom Needham <tom@owncloud.com>
- * @author Victor Dubiniuk <dubiniuk@owncloud.com>
- * @author Vinicius Cubas Brand <vinicius@eita.org.br>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\User_LDAP;
 
@@ -45,9 +14,7 @@ use OCA\User_LDAP\Exceptions\NotOnLDAP;
 use OCA\User_LDAP\User\DeletedUsersIndex;
 use OCA\User_LDAP\User\OfflineUser;
 use OCA\User_LDAP\User\User;
-use OCP\IConfig;
 use OCP\IUserBackend;
-use OCP\IUserSession;
 use OCP\Notification\IManager as INotificationManager;
 use OCP\User\Backend\ICountMappedUsersBackend;
 use OCP\User\Backend\ICountUsersBackend;
@@ -56,7 +23,6 @@ use OCP\UserInterface;
 use Psr\Log\LoggerInterface;
 
 class User_LDAP extends BackendUtility implements IUserBackend, UserInterface, IUserLDAP, ICountUsersBackend, ICountMappedUsersBackend, IProvideEnabledStateBackend {
-	protected IConfig $ocConfig;
 	protected INotificationManager $notificationManager;
 	protected UserPluginManager $userPluginManager;
 	protected LoggerInterface $logger;
@@ -64,15 +30,12 @@ class User_LDAP extends BackendUtility implements IUserBackend, UserInterface, I
 
 	public function __construct(
 		Access $access,
-		IConfig $ocConfig,
 		INotificationManager $notificationManager,
-		IUserSession $userSession,
 		UserPluginManager $userPluginManager,
 		LoggerInterface $logger,
 		DeletedUsersIndex $deletedUsersIndex,
 	) {
 		parent::__construct($access);
-		$this->ocConfig = $ocConfig;
 		$this->notificationManager = $notificationManager;
 		$this->userPluginManager = $userPluginManager;
 		$this->logger = $logger;
@@ -113,11 +76,12 @@ class User_LDAP extends BackendUtility implements IUserBackend, UserInterface, I
 	 * @return string|false
 	 * @throws \Exception
 	 */
-	public function loginName2UserName($loginName) {
+	public function loginName2UserName($loginName, bool $forceLdapRefetch = false) {
 		$cacheKey = 'loginName2UserName-' . $loginName;
 		$username = $this->access->connection->getFromCache($cacheKey);
 
-		if ($username !== null) {
+		$ignoreCache = ($username === false && $forceLdapRefetch);
+		if ($username !== null && !$ignoreCache) {
 			return $username;
 		}
 
@@ -132,6 +96,9 @@ class User_LDAP extends BackendUtility implements IUserBackend, UserInterface, I
 			}
 			$username = $user->getUsername();
 			$this->access->connection->writeToCache($cacheKey, $username);
+			if ($forceLdapRefetch) {
+				$user->processAttributes($ldapRecord);
+			}
 			return $username;
 		} catch (NotOnLDAP $e) {
 			$this->access->connection->writeToCache($cacheKey, false);
@@ -175,16 +142,11 @@ class User_LDAP extends BackendUtility implements IUserBackend, UserInterface, I
 	 * @return false|string
 	 */
 	public function checkPassword($uid, $password) {
-		try {
-			$ldapRecord = $this->getLDAPUserByLoginName($uid);
-		} catch (NotOnLDAP $e) {
-			$this->logger->debug(
-				$e->getMessage(),
-				['app' => 'user_ldap', 'exception' => $e]
-			);
+		$username = $this->loginName2UserName($uid, true);
+		if ($username === false) {
 			return false;
 		}
-		$dn = $ldapRecord['dn'][0];
+		$dn = $this->access->username2dn($username);
 		$user = $this->access->userManager->get($dn);
 
 		if (!$user instanceof User) {
@@ -202,7 +164,6 @@ class User_LDAP extends BackendUtility implements IUserBackend, UserInterface, I
 			}
 
 			$this->access->cacheUserExists($user->getUsername());
-			$user->processAttributes($ldapRecord);
 			$user->markLogin();
 
 			return $user->getUsername();
@@ -298,7 +259,7 @@ class User_LDAP extends BackendUtility implements IUserBackend, UserInterface, I
 	 * checks whether a user is still available on LDAP
 	 *
 	 * @param string|\OCA\User_LDAP\User\User $user either the Nextcloud user
-	 * name or an instance of that user
+	 *                                              name or an instance of that user
 	 * @throws \Exception
 	 * @throws \OC\ServerNotAvailableException
 	 */
@@ -503,7 +464,7 @@ class User_LDAP extends BackendUtility implements IUserBackend, UserInterface, I
 				$this->access->connection->writeToCache($cacheKey, $displayName);
 			}
 			if ($user instanceof OfflineUser) {
-				/** @var OfflineUser $user*/
+				/** @var OfflineUser $user */
 				$displayName = $user->getDisplayName();
 			}
 			return $displayName;
@@ -622,7 +583,7 @@ class User_LDAP extends BackendUtility implements IUserBackend, UserInterface, I
 	 * The cloned connection needs to be closed manually.
 	 * of the current access.
 	 * @param string $uid
-	 * @return resource|\LDAP\Connection The LDAP connection
+	 * @return \LDAP\Connection The LDAP connection
 	 */
 	public function getNewLDAPConnection($uid) {
 		$connection = clone $this->access->getConnection();
@@ -661,10 +622,10 @@ class User_LDAP extends BackendUtility implements IUserBackend, UserInterface, I
 						);
 					}
 				} else {
-					throw new \UnexpectedValueException("LDAP Plugin: Method createUser changed to return the user DN instead of boolean.");
+					throw new \UnexpectedValueException('LDAP Plugin: Method createUser changed to return the user DN instead of boolean.');
 				}
 			}
-			return (bool) $dn;
+			return (bool)$dn;
 		}
 		return false;
 	}
@@ -682,7 +643,7 @@ class User_LDAP extends BackendUtility implements IUserBackend, UserInterface, I
 		return $enabled;
 	}
 
-	public function getDisabledUserList(int $offset = 0, ?int $limit = null): array {
+	public function getDisabledUserList(?int $limit = null, int $offset = 0, string $search = ''): array {
 		throw new \Exception('This is implemented directly in User_Proxy');
 	}
 }

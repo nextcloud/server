@@ -1,96 +1,81 @@
 <!--
-  - @copyright Copyright (c) 2023 John Molakvoæ <skjnldsv@protonmail.com>
-  -
-  - @author John Molakvoæ <skjnldsv@protonmail.com>
-  -
-  - @license GNU AGPL version 3 or any later version
-  -
-  - This program is free software: you can redistribute it and/or modify
-  - it under the terms of the GNU Affero General Public License as
-  - published by the Free Software Foundation, either version 3 of the
-  - License, or (at your option) any later version.
-  -
-  - This program is distributed in the hope that it will be useful,
-  - but WITHOUT ANY WARRANTY; without even the implied warranty of
-  - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  - GNU Affero General Public License for more details.
-  -
-  - You should have received a copy of the GNU Affero General Public License
-  - along with this program. If not, see <http://www.gnu.org/licenses/>.
-  -
-  -->
+  - SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 <template>
 	<tr class="files-list__row-head">
-		<th class="files-list__column files-list__row-checkbox">
+		<th class="files-list__column files-list__row-checkbox"
+			@keyup.esc.exact="resetSelection">
 			<NcCheckboxRadioSwitch v-bind="selectAllBind" @update:checked="onToggleAll" />
 		</th>
 
-		<!-- Actions multiple if some are selected -->
-		<FilesListTableHeaderActions v-if="!isNoneSelected"
-			:current-view="currentView"
-			:selected-nodes="selectedNodes" />
-
 		<!-- Columns display -->
-		<template v-else>
-			<!-- Link to file -->
-			<th class="files-list__column files-list__row-name files-list__column--sortable"
-				@click.stop.prevent="toggleSortBy('basename')">
-				<!-- Icon or preview -->
-				<span class="files-list__row-icon" />
 
-				<!-- Name -->
-				<FilesListTableHeaderButton :name="t('files', 'Name')" mode="basename" />
-			</th>
+		<!-- Link to file -->
+		<th class="files-list__column files-list__row-name files-list__column--sortable"
+			:aria-sort="ariaSortForMode('basename')">
+			<!-- Icon or preview -->
+			<span class="files-list__row-icon" />
 
-			<!-- Actions -->
-			<th class="files-list__row-actions" />
+			<!-- Name -->
+			<FilesListTableHeaderButton :name="t('files', 'Name')" mode="basename" />
+		</th>
 
-			<!-- Size -->
-			<th v-if="isSizeAvailable"
-				:class="{'files-list__column--sortable': isSizeAvailable}"
-				class="files-list__column files-list__row-size">
-				<FilesListTableHeaderButton :name="t('files', 'Size')" mode="size" />
-			</th>
+		<!-- Actions -->
+		<th class="files-list__row-actions" />
 
-			<!-- Mtime -->
-			<th v-if="isMtimeAvailable"
-				:class="{'files-list__column--sortable': isMtimeAvailable}"
-				class="files-list__column files-list__row-mtime">
-				<FilesListTableHeaderButton :name="t('files', 'Modified')" mode="mtime" />
-			</th>
+		<!-- Size -->
+		<th v-if="isSizeAvailable"
+			class="files-list__column files-list__row-size"
+			:class="{ 'files-list__column--sortable': isSizeAvailable }"
+			:aria-sort="ariaSortForMode('size')">
+			<FilesListTableHeaderButton :name="t('files', 'Size')" mode="size" />
+		</th>
 
-			<!-- Custom views columns -->
-			<th v-for="column in columns"
-				:key="column.id"
-				:class="classForColumn(column)">
-				<FilesListTableHeaderButton v-if="!!column.sort" :name="column.title" :mode="column.id" />
-				<span v-else>
-					{{ column.title }}
-				</span>
-			</th>
-		</template>
+		<!-- Mtime -->
+		<th v-if="isMtimeAvailable"
+			class="files-list__column files-list__row-mtime"
+			:class="{ 'files-list__column--sortable': isMtimeAvailable }"
+			:aria-sort="ariaSortForMode('mtime')">
+			<FilesListTableHeaderButton :name="t('files', 'Modified')" mode="mtime" />
+		</th>
+
+		<!-- Custom views columns -->
+		<th v-for="column in columns"
+			:key="column.id"
+			:class="classForColumn(column)"
+			:aria-sort="ariaSortForMode(column.id)">
+			<FilesListTableHeaderButton v-if="!!column.sort" :name="column.title" :mode="column.id" />
+			<span v-else>
+				{{ column.title }}
+			</span>
+		</th>
 	</tr>
 </template>
 
 <script lang="ts">
-import { translate } from '@nextcloud/l10n'
-import NcCheckboxRadioSwitch from '@nextcloud/vue/dist/Components/NcCheckboxRadioSwitch.js'
-import Vue from 'vue'
+import type { Node } from '@nextcloud/files'
+import type { PropType } from 'vue'
+import type { FileSource } from '../types.ts'
 
+import { translate as t } from '@nextcloud/l10n'
+import { defineComponent } from 'vue'
+
+import NcCheckboxRadioSwitch from '@nextcloud/vue/dist/Components/NcCheckboxRadioSwitch.js'
+import FilesListTableHeaderButton from './FilesListTableHeaderButton.vue'
+
+import { useNavigation } from '../composables/useNavigation'
 import { useFilesStore } from '../store/files.ts'
 import { useSelectionStore } from '../store/selection.ts'
-import FilesListTableHeaderActions from './FilesListTableHeaderActions.vue'
-import FilesListTableHeaderButton from './FilesListTableHeaderButton.vue'
 import filesSortingMixin from '../mixins/filesSorting.ts'
-import logger from '../logger.js'
+import logger from '../logger.ts'
 
-export default Vue.extend({
+export default defineComponent({
 	name: 'FilesListTableHeader',
 
 	components: {
 		FilesListTableHeaderButton,
 		NcCheckboxRadioSwitch,
-		FilesListTableHeaderActions,
 	},
 
 	mixins: [
@@ -107,7 +92,7 @@ export default Vue.extend({
 			default: false,
 		},
 		nodes: {
-			type: Array,
+			type: Array as PropType<Node[]>,
 			required: true,
 		},
 		filesListWidth: {
@@ -119,17 +104,17 @@ export default Vue.extend({
 	setup() {
 		const filesStore = useFilesStore()
 		const selectionStore = useSelectionStore()
+		const { currentView } = useNavigation()
+
 		return {
 			filesStore,
 			selectionStore,
+
+			currentView,
 		}
 	},
 
 	computed: {
-		currentView() {
-			return this.$navigation.active
-		},
-
 		columns() {
 			// Hide columns if the list is too small
 			if (this.filesListWidth < 512) {
@@ -144,9 +129,7 @@ export default Vue.extend({
 		},
 
 		selectAllBind() {
-			const label = this.isNoneSelected || this.isSomeSelected
-				? this.t('files', 'Select all')
-				: this.t('files', 'Unselect all')
+			const label = t('files', 'Toggle selection for all files and folders')
 			return {
 				'aria-label': label,
 				checked: this.isAllSelected,
@@ -173,18 +156,25 @@ export default Vue.extend({
 	},
 
 	methods: {
+		ariaSortForMode(mode: string): ARIAMixin['ariaSort'] {
+			if (this.sortingMode === mode) {
+				return this.isAscSorting ? 'ascending' : 'descending'
+			}
+			return null
+		},
+
 		classForColumn(column) {
 			return {
 				'files-list__column': true,
 				'files-list__column--sortable': !!column.sort,
 				'files-list__row-column-custom': true,
-				[`files-list__row-${this.currentView.id}-${column.id}`]: true,
+				[`files-list__row-${this.currentView?.id}-${column.id}`]: true,
 			}
 		},
 
 		onToggleAll(selected) {
 			if (selected) {
-				const selection = this.nodes.map(node => node.fileid.toString())
+				const selection = this.nodes.map(node => node.source).filter(Boolean) as FileSource[]
 				logger.debug('Added all nodes to selection', { selection })
 				this.selectionStore.setLastIndex(null)
 				this.selectionStore.set(selection)
@@ -194,7 +184,11 @@ export default Vue.extend({
 			}
 		},
 
-		t: translate,
+		resetSelection() {
+			this.selectionStore.reset()
+		},
+
+		t,
 	},
 })
 </script>

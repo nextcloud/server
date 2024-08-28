@@ -3,25 +3,8 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2021 Joas Schilling <coding@schilljs.com>
- *
- * @author Joas Schilling <coding@schilljs.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\DAV\CardDAV\Activity;
 
@@ -55,10 +38,10 @@ class Backend {
 	protected $userManager;
 
 	public function __construct(IActivityManager $activityManager,
-								IGroupManager $groupManager,
-								IUserSession $userSession,
-								IAppManager $appManager,
-								IUserManager $userManager) {
+		IGroupManager $groupManager,
+		IUserSession $userSession,
+		IAppManager $appManager,
+		IUserManager $userManager) {
 		$this->activityManager = $activityManager;
 		$this->groupManager = $groupManager;
 		$this->userSession = $userSession;
@@ -128,7 +111,7 @@ class Backend {
 
 		$event = $this->activityManager->generateEvent();
 		$event->setApp('dav')
-			->setObject('addressbook', (int) $addressbookData['id'])
+			->setObject('addressbook', (int)$addressbookData['id'])
 			->setType('contacts')
 			->setAuthor($currentUser);
 
@@ -156,7 +139,7 @@ class Backend {
 					[
 						'actor' => $currentUser,
 						'addressbook' => [
-							'id' => (int) $addressbookData['id'],
+							'id' => (int)$addressbookData['id'],
 							'uri' => $addressbookData['uri'],
 							'name' => $addressbookData['{DAV:}displayname'],
 						],
@@ -187,7 +170,7 @@ class Backend {
 
 		$event = $this->activityManager->generateEvent();
 		$event->setApp('dav')
-			->setObject('addressbook', (int) $addressbookData['id'])
+			->setObject('addressbook', (int)$addressbookData['id'])
 			->setType('contacts')
 			->setAuthor($currentUser);
 
@@ -212,7 +195,7 @@ class Backend {
 					$parameters = [
 						'actor' => $event->getAuthor(),
 						'addressbook' => [
-							'id' => (int) $addressbookData['id'],
+							'id' => (int)$addressbookData['id'],
 							'uri' => $addressbookData['uri'],
 							'name' => $addressbookData['{DAV:}displayname'],
 						],
@@ -241,7 +224,7 @@ class Backend {
 				$parameters = [
 					'actor' => $event->getAuthor(),
 					'addressbook' => [
-						'id' => (int) $addressbookData['id'],
+						'id' => (int)$addressbookData['id'],
 						'uri' => $addressbookData['uri'],
 						'name' => $addressbookData['{DAV:}displayname'],
 					],
@@ -283,7 +266,7 @@ class Backend {
 					$parameters = [
 						'actor' => $event->getAuthor(),
 						'addressbook' => [
-							'id' => (int) $addressbookData['id'],
+							'id' => (int)$addressbookData['id'],
 							'uri' => $addressbookData['uri'],
 							'name' => $addressbookData['{DAV:}displayname'],
 						],
@@ -310,7 +293,7 @@ class Backend {
 				$parameters = [
 					'actor' => $event->getAuthor(),
 					'addressbook' => [
-						'id' => (int) $addressbookData['id'],
+						'id' => (int)$addressbookData['id'],
 						'uri' => $addressbookData['uri'],
 						'name' => $addressbookData['{DAV:}displayname'],
 					],
@@ -388,7 +371,7 @@ class Backend {
 				[
 					'actor' => $event->getAuthor(),
 					'addressbook' => [
-						'id' => (int) $properties['id'],
+						'id' => (int)$properties['id'],
 						'uri' => $properties['uri'],
 						'name' => $properties['{DAV:}displayname'],
 					],
@@ -432,7 +415,7 @@ class Backend {
 
 		$event = $this->activityManager->generateEvent();
 		$event->setApp('dav')
-			->setObject('addressbook', (int) $addressbookData['id'])
+			->setObject('addressbook', (int)$addressbookData['id'])
 			->setType('contacts')
 			->setAuthor($currentUser);
 
@@ -444,7 +427,7 @@ class Backend {
 			$params = [
 				'actor' => $event->getAuthor(),
 				'addressbook' => [
-					'id' => (int) $addressbookData['id'],
+					'id' => (int)$addressbookData['id'],
 					'uri' => $addressbookData['uri'],
 					'name' => $addressbookData['{DAV:}displayname'],
 				],
@@ -471,7 +454,7 @@ class Backend {
 	 */
 	protected function getCardNameAndId(array $cardData): array {
 		$vObject = Reader::read($cardData['carddata']);
-		return ['id' => (string) $vObject->UID, 'name' => (string) ($vObject->FN ?? '')];
+		return ['id' => (string)$vObject->UID, 'name' => (string)($vObject->FN ?? '')];
 	}
 
 	/**

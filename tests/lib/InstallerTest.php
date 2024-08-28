@@ -1,9 +1,8 @@
 <?php
 /**
- * Copyright (c) 2014 Georg Ehrke <georg@owncloud.com>
- * This file is licensed under the Affero General Public License version 3 or
- * later.
- * See the COPYING-README file.
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace Test;
@@ -51,8 +50,8 @@ class InstallerTest extends TestCase {
 		$this->appstore = $config->setSystemValue('appstoreenabled', true);
 		$config->setSystemValue('appstoreenabled', true);
 		$installer = new Installer(
-			\OC::$server->getAppFetcher(),
-			\OC::$server->getHTTPClientService(),
+			\OC::$server->get(AppFetcher::class),
+			\OC::$server->get(IClientService::class),
 			\OC::$server->getTempManager(),
 			\OC::$server->get(LoggerInterface::class),
 			$config,
@@ -74,8 +73,8 @@ class InstallerTest extends TestCase {
 
 	protected function tearDown(): void {
 		$installer = new Installer(
-			\OC::$server->getAppFetcher(),
-			\OC::$server->getHTTPClientService(),
+			\OC::$server->get(AppFetcher::class),
+			\OC::$server->get(IClientService::class),
 			\OC::$server->getTempManager(),
 			\OC::$server->get(LoggerInterface::class),
 			\OC::$server->getConfig(),
@@ -98,8 +97,8 @@ class InstallerTest extends TestCase {
 
 		// Install app
 		$installer = new Installer(
-			\OC::$server->getAppFetcher(),
-			\OC::$server->getHTTPClientService(),
+			\OC::$server->get(AppFetcher::class),
+			\OC::$server->get(IClientService::class),
 			\OC::$server->getTempManager(),
 			\OC::$server->get(LoggerInterface::class),
 			\OC::$server->getConfig(),

@@ -3,45 +3,19 @@
 declare(strict_types=1);
 
 /**
- * @copyright 2020 Christoph Wurst <christoph@winzerhof-wurst.at>
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Marcel Klehr <mklehr@gmx.net>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\SystemTags\Search;
 
-use OC\Files\Search\SearchBinaryOperator;
 use OC\Files\Search\SearchComparison;
 use OC\Files\Search\SearchOrder;
 use OC\Files\Search\SearchQuery;
-use OCP\SystemTag\ISystemTag;
-use OCP\SystemTag\ISystemTagManager;
-use OCP\SystemTag\ISystemTagObjectMapper;
 use OCP\Files\FileInfo;
 use OCP\Files\IMimeTypeDetector;
 use OCP\Files\IRootFolder;
-use OCP\Files\Search\ISearchComparison;
 use OCP\Files\Node;
+use OCP\Files\Search\ISearchComparison;
 use OCP\Files\Search\ISearchOrder;
 use OCP\IL10N;
 use OCP\IURLGenerator;
@@ -50,6 +24,9 @@ use OCP\Search\IProvider;
 use OCP\Search\ISearchQuery;
 use OCP\Search\SearchResult;
 use OCP\Search\SearchResultEntry;
+use OCP\SystemTag\ISystemTag;
+use OCP\SystemTag\ISystemTagManager;
+use OCP\SystemTag\ISystemTagObjectMapper;
 use RecursiveArrayIterator;
 use RecursiveIteratorIterator;
 
@@ -131,17 +108,17 @@ class TagSearchProvider implements IProvider {
 
 		// do search
 		$searchResults = $userFolder->search($fileQuery);
-		$resultIds = array_map(function(Node $node) {
+		$resultIds = array_map(function (Node $node) {
 			return $node->getId();
 		}, $searchResults);
 		$matchedTags = $this->objectMapper->getTagIdsForObjects($resultIds, 'files');
 
 		// prepare direct tag results
-		$tagResults = array_map(function(ISystemTag $tag) {
+		$tagResults = array_map(function (ISystemTag $tag) {
 			$thumbnailUrl = '';
-			$link = $this->urlGenerator->linkToRoute(
-				'files.view.index'
-			) . '?view=systemtagsfilter&tags='.$tag->getId();
+			$link = $this->urlGenerator->linkToRoute('files.view.indexView', [
+				'view' => 'tags',
+			]) . '?dir='.$tag->getId();
 			$searchResultEntry = new SearchResultEntry(
 				$thumbnailUrl,
 				$this->l10n->t('All tagged %s …', [$tag->getName()]),
@@ -195,14 +172,14 @@ class TagSearchProvider implements IProvider {
 		 * @var ISystemTag[]
 		 */
 		$tags = $this->tagManager->getTagsByIds($tagInfo);
-		$tagNames = array_map(function($tag) {
+		$tagNames = array_map(function ($tag) {
 			return $tag->getName();
-		}, array_filter($tags, function($tag) {
+		}, array_filter($tags, function ($tag) {
 			return $tag->isUserVisible();
 		}));
 
 		// show the tag that you have searched for first
-		usort($tagNames, function($tagName) use($query) {
+		usort($tagNames, function ($tagName) use ($query) {
 			return strpos($tagName, $query->getTerm()) !== false? -1 :  1;
 		});
 

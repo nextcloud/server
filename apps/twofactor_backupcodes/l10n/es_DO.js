@@ -7,12 +7,12 @@ OC.L10N.register(
     "Backup code" : "Código de respaldo",
     "Use backup code" : "Usa el código de respaldo",
     "Two factor backup codes" : "Códigos de respaldo de dos factores",
-    "These are your backup codes. Please save and/or print them as you will not be able to read the codes again later" : "Estos son tus códigos de respaldo. Por favor resguárdalos y/o imprímelos ya que no podrás leerlos otra vez después.",
     "Save backup codes" : "Guardar códigos de respaldo",
     "Print backup codes" : "Imprimir códigos de respaldo",
     "Regenerate backup codes" : "Regenerar códigos de respaldo",
     "If you regenerate backup codes, you automatically invalidate old codes." : "Si regeneras los códigos de respaldo, automáticamente invalidarás los anteriores. ",
     "An error occurred while generating your backup codes" : "Se presentó un error al generar tus códigos de respaldo. ",
-    "Submit" : "Enviar"
+    "Submit" : "Enviar",
+    "These are your backup codes. Please save and/or print them as you will not be able to read the codes again later" : "Estos son tus códigos de respaldo. Por favor resguárdalos y/o imprímelos ya que no podrás leerlos otra vez después."
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

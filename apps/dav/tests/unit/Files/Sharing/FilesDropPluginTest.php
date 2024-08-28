@@ -1,32 +1,14 @@
 <?php
 /**
- * @copyright Copyright (c) 2016, Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Georg Ehrke <oc.list@georgehrke.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\DAV\Tests\Files\Sharing;
 
 use OC\Files\View;
 use OCA\DAV\Files\Sharing\FilesDropPlugin;
+use OCP\Share\IAttributes;
+use OCP\Share\IShare;
 use Sabre\DAV\Exception\MethodNotAllowed;
 use Sabre\DAV\Server;
 use Sabre\HTTP\RequestInterface;
@@ -37,6 +19,9 @@ class FilesDropPluginTest extends TestCase {
 
 	/** @var View|\PHPUnit\Framework\MockObject\MockObject */
 	private $view;
+
+	/** @var IShare|\PHPUnit\Framework\MockObject\MockObject */
+	private $share;
 
 	/** @var Server|\PHPUnit\Framework\MockObject\MockObject */
 	private $server;
@@ -54,6 +39,7 @@ class FilesDropPluginTest extends TestCase {
 		parent::setUp();
 
 		$this->view = $this->createMock(View::class);
+		$this->share = $this->createMock(IShare::class);
 		$this->server = $this->createMock(Server::class);
 		$this->plugin = new FilesDropPlugin();
 
@@ -62,6 +48,11 @@ class FilesDropPluginTest extends TestCase {
 
 		$this->response->expects($this->never())
 			->method($this->anything());
+
+		$attributes = $this->createMock(IAttributes::class);
+		$this->share->expects($this->any())
+			->method('getAttributes')
+			->willReturn($attributes);
 	}
 
 	public function testInitialize(): void {
@@ -89,6 +80,7 @@ class FilesDropPluginTest extends TestCase {
 	public function testValid(): void {
 		$this->plugin->enable();
 		$this->plugin->setView($this->view);
+		$this->plugin->setShare($this->share);
 
 		$this->request->method('getMethod')
 			->willReturn('PUT');
@@ -113,6 +105,7 @@ class FilesDropPluginTest extends TestCase {
 	public function testFileAlreadyExistsValid(): void {
 		$this->plugin->enable();
 		$this->plugin->setView($this->view);
+		$this->plugin->setShare($this->share);
 
 		$this->request->method('getMethod')
 			->willReturn('PUT');
@@ -142,6 +135,7 @@ class FilesDropPluginTest extends TestCase {
 	public function testNoMKCOL(): void {
 		$this->plugin->enable();
 		$this->plugin->setView($this->view);
+		$this->plugin->setShare($this->share);
 
 		$this->request->method('getMethod')
 			->willReturn('MKCOL');
@@ -154,6 +148,7 @@ class FilesDropPluginTest extends TestCase {
 	public function testNoSubdirPut(): void {
 		$this->plugin->enable();
 		$this->plugin->setView($this->view);
+		$this->plugin->setShare($this->share);
 
 		$this->request->method('getMethod')
 			->willReturn('PUT');

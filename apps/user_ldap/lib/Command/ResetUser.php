@@ -1,24 +1,7 @@
 <?php
 /**
- * @copyright Copyright (c) 2021 Arthur Schiwon <blizzz@arthur-schiwon.de>
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\User_LDAP\Command;
 
@@ -36,25 +19,15 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\Question;
 
 class ResetUser extends Command {
-	/** @var DeletedUsersIndex */
-	protected $dui;
-	/** @var IUserManager */
-	private $userManager;
-	/** @var UserPluginManager */
-	private $pluginManager;
-
 	public function __construct(
-		DeletedUsersIndex $dui,
-		IUserManager $userManager,
-		UserPluginManager $pluginManager
+		protected DeletedUsersIndex $dui,
+		private IUserManager $userManager,
+		private UserPluginManager $pluginManager,
 	) {
-		$this->dui = $dui;
-		$this->userManager = $userManager;
-		$this->pluginManager = $pluginManager;
 		parent::__construct();
 	}
 
-	protected function configure() {
+	protected function configure(): void {
 		$this
 			->setName('ldap:reset-user')
 			->setDescription('deletes an LDAP user independent of the user state')
@@ -96,16 +69,16 @@ class ResetUser extends Command {
 			$pluginManagerSuppressed = $this->pluginManager->setSuppressDeletion(true);
 			if ($user->delete()) {
 				$this->pluginManager->setSuppressDeletion($pluginManagerSuppressed);
-				return 0;
+				return self::SUCCESS;
 			}
 		} catch (\Throwable $e) {
 			if (isset($pluginManagerSuppressed)) {
 				$this->pluginManager->setSuppressDeletion($pluginManagerSuppressed);
 			}
 			$output->writeln('<error>' . $e->getMessage() . '</error>');
-			return 1;
+			return self::FAILURE;
 		}
 		$output->writeln('<error>Error while resetting user</error>');
-		return 2;
+		return self::INVALID;
 	}
 }

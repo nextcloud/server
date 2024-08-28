@@ -3,50 +3,42 @@
 declare(strict_types=1);
 
 /**
- * @copyright 2023, Maxence Lange <maxence@artificial-owl.com>
- *
- * @author Maxence Lange <maxence@artificial-owl.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace OC\OCM\Model;
 
-use JsonSerializable;
+use OCP\EventDispatcher\IEventDispatcher;
+use OCP\OCM\Events\ResourceTypeRegisterEvent;
 use OCP\OCM\Exceptions\OCMArgumentException;
 use OCP\OCM\Exceptions\OCMProviderException;
 use OCP\OCM\IOCMProvider;
+use OCP\OCM\IOCMResource;
 
 /**
  * @since 28.0.0
  */
-class OCMProvider implements IOCMProvider, JsonSerializable {
+class OCMProvider implements IOCMProvider {
 	private bool $enabled = false;
 	private string $apiVersion = '';
 	private string $endPoint = '';
-	/** @var OCMResource[] */
+	/** @var IOCMResource[] */
 	private array $resourceTypes = [];
+
+	private bool $emittedEvent = false;
+
+	public function __construct(
+		protected IEventDispatcher $dispatcher,
+	) {
+	}
 
 	/**
 	 * @param bool $enabled
 	 *
-	 * @return OCMProvider
+	 * @return $this
 	 */
-	public function setEnabled(bool $enabled): self {
+	public function setEnabled(bool $enabled): static {
 		$this->enabled = $enabled;
 
 		return $this;
@@ -62,9 +54,9 @@ class OCMProvider implements IOCMProvider, JsonSerializable {
 	/**
 	 * @param string $apiVersion
 	 *
-	 * @return OCMProvider
+	 * @return $this
 	 */
-	public function setApiVersion(string $apiVersion): self {
+	public function setApiVersion(string $apiVersion): static {
 		$this->apiVersion = $apiVersion;
 
 		return $this;
@@ -80,9 +72,9 @@ class OCMProvider implements IOCMProvider, JsonSerializable {
 	/**
 	 * @param string $endPoint
 	 *
-	 * @return OCMProvider
+	 * @return $this
 	 */
-	public function setEndPoint(string $endPoint): self {
+	public function setEndPoint(string $endPoint): static {
 		$this->endPoint = $endPoint;
 
 		return $this;
@@ -96,31 +88,45 @@ class OCMProvider implements IOCMProvider, JsonSerializable {
 	}
 
 	/**
-	 * @param OCMResource $resource
+	 * create a new resource to later add it with {@see IOCMProvider::addResourceType()}
+	 * @return IOCMResource
+	 */
+	public function createNewResourceType(): IOCMResource {
+		return new OCMResource();
+	}
+
+	/**
+	 * @param IOCMResource $resource
 	 *
 	 * @return $this
 	 */
-	public function addResourceType(OCMResource $resource): self {
+	public function addResourceType(IOCMResource $resource): static {
 		$this->resourceTypes[] = $resource;
 
 		return $this;
 	}
 
 	/**
-	 * @param OCMResource[] $resourceTypes
+	 * @param IOCMResource[] $resourceTypes
 	 *
-	 * @return OCMProvider
+	 * @return $this
 	 */
-	public function setResourceTypes(array $resourceTypes): self {
+	public function setResourceTypes(array $resourceTypes): static {
 		$this->resourceTypes = $resourceTypes;
 
 		return $this;
 	}
 
 	/**
-	 * @return OCMResource[]
+	 * @return IOCMResource[]
 	 */
 	public function getResourceTypes(): array {
+		if (!$this->emittedEvent) {
+			$this->emittedEvent = true;
+			$event = new ResourceTypeRegisterEvent($this);
+			$this->dispatcher->dispatchTyped($event);
+		}
+
 		return $this->resourceTypes;
 	}
 
@@ -151,14 +157,14 @@ class OCMProvider implements IOCMProvider, JsonSerializable {
 	 *
 	 * @param array $data
 	 *
-	 * @return self
+	 * @return $this
 	 * @throws OCMProviderException in case a descent provider cannot be generated from data
 	 * @see self::jsonSerialize()
 	 */
-	public function import(array $data): self {
+	public function import(array $data): static {
 		$this->setEnabled(is_bool($data['enabled'] ?? '') ? $data['enabled'] : false)
-			 ->setApiVersion((string)($data['apiVersion'] ?? ''))
-			 ->setEndPoint($data['endPoint'] ?? '');
+			->setApiVersion((string)($data['apiVersion'] ?? ''))
+			->setEndPoint($data['endPoint'] ?? '');
 
 		$resources = [];
 		foreach (($data['resourceTypes'] ?? []) as $resourceData) {

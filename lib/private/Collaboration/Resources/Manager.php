@@ -3,27 +3,8 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2018 Joas Schilling <coding@schilljs.com>
- *
- * @author Daniel Kesselberg <mail@danielkesselberg.de>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Julius Härtl <jus@bitgrid.net>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OC\Collaboration\Resources;
 
@@ -72,7 +53,7 @@ class Manager implements IManager {
 			throw new CollectionException('Collection not found');
 		}
 
-		return new Collection($this, $this->connection, (int) $row['id'], (string) $row['name']);
+		return new Collection($this, $this->connection, (int)$row['id'], (string)$row['name']);
 	}
 
 	/**
@@ -101,12 +82,12 @@ class Manager implements IManager {
 			throw new CollectionException('Collection not found');
 		}
 
-		$access = $row['access'] === null ? null : (bool) $row['access'];
+		$access = $row['access'] === null ? null : (bool)$row['access'];
 		if ($user instanceof IUser) {
-			return new Collection($this, $this->connection, (int) $row['id'], (string) $row['name'], $user, $access);
+			return new Collection($this, $this->connection, (int)$row['id'], (string)$row['name'], $user, $access);
 		}
 
-		return new Collection($this, $this->connection, (int) $row['id'], (string) $row['name'], $user, $access);
+		return new Collection($this, $this->connection, (int)$row['id'], (string)$row['name'], $user, $access);
 	}
 
 	/**
@@ -141,7 +122,7 @@ class Manager implements IManager {
 		$foundResults = 0;
 		while ($row = $result->fetch()) {
 			$foundResults++;
-			$access = $row['access'] === null ? null : (bool) $row['access'];
+			$access = $row['access'] === null ? null : (bool)$row['access'];
 			$collection = new Collection($this, $this->connection, (int)$row['id'], (string)$row['name'], $user, $access);
 			if ($collection->canAccess($user)) {
 				$collections[] = $collection;
@@ -205,7 +186,7 @@ class Manager implements IManager {
 			throw new ResourceException('Resource not found');
 		}
 
-		$access = $row['access'] === null ? null : (bool) $row['access'];
+		$access = $row['access'] === null ? null : (bool)$row['access'];
 		if ($user instanceof IUser) {
 			return new Resource($this, $this->connection, $type, $id, $user, $access);
 		}
@@ -236,7 +217,7 @@ class Manager implements IManager {
 		$resources = [];
 		$result = $query->execute();
 		while ($row = $result->fetch()) {
-			$access = $row['access'] === null ? null : (bool) $row['access'];
+			$access = $row['access'] === null ? null : (bool)$row['access'];
 			$resources[] = new Resource($this, $this->connection, $row['resource_type'], $row['resource_id'], $user, $access);
 		}
 		$result->closeCursor();
@@ -330,7 +311,7 @@ class Manager implements IManager {
 		$hasAccess = null;
 		$result = $query->execute();
 		if ($row = $result->fetch()) {
-			$hasAccess = (bool) $row['access'];
+			$hasAccess = (bool)$row['access'];
 		}
 		$result->closeCursor();
 
@@ -350,7 +331,7 @@ class Manager implements IManager {
 		$hasAccess = null;
 		$result = $query->execute();
 		if ($row = $result->fetch()) {
-			$hasAccess = (bool) $row['access'];
+			$hasAccess = (bool)$row['access'];
 		}
 		$result->closeCursor();
 

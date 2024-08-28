@@ -1,24 +1,7 @@
 <?php
 /**
- * @author Lukas Reschke <lukas@owncloud.com>
- * @author Joshua Trees <me@jtrees.io>
- *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
- * @copyright Copyright (c) 2023, Joshua Trees <me@jtrees.io>
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 
 namespace Tests\Core\Controller;
@@ -249,10 +232,10 @@ class LostControllerTest extends TestCase {
 
 	public function testEmailSuccessful() {
 		$this->userManager
-				->expects($this->any())
-				->method('get')
-				->with('ExistingUser')
-				->willReturn($this->existingUser);
+			->expects($this->any())
+			->method('get')
+			->with('ExistingUser')
+			->willReturn($this->existingUser);
 		$this->verificationToken->expects($this->once())
 			->method('create')
 			->willReturn('ThisIsMaybeANotSoSecretToken!');
@@ -306,15 +289,15 @@ class LostControllerTest extends TestCase {
 
 	public function testEmailWithMailSuccessful() {
 		$this->userManager
-				->expects($this->any())
-				->method('get')
-				->with('test@example.com')
-				->willReturn(null);
+			->expects($this->any())
+			->method('get')
+			->with('test@example.com')
+			->willReturn(null);
 		$this->userManager
-				->expects($this->any())
-				->method('getByEmail')
-				->with('test@example.com')
-				->willReturn([$this->existingUser]);
+			->expects($this->any())
+			->method('getByEmail')
+			->with('test@example.com')
+			->willReturn([$this->existingUser]);
 		$this->verificationToken->expects($this->once())
 			->method('create')
 			->willReturn('ThisIsMaybeANotSoSecretToken!');
@@ -368,10 +351,10 @@ class LostControllerTest extends TestCase {
 
 	public function testEmailCantSendException() {
 		$this->userManager
-				->expects($this->any())
-				->method('get')
-				->with('ExistingUser')
-				->willReturn($this->existingUser);
+			->expects($this->any())
+			->method('get')
+			->with('ExistingUser')
+			->willReturn($this->existingUser);
 		$this->verificationToken->expects($this->once())
 			->method('create')
 			->willReturn('ThisIsMaybeANotSoSecretToken!');
@@ -726,10 +709,10 @@ class LostControllerTest extends TestCase {
 
 	public function testTrimEmailInput() {
 		$this->userManager
-				->expects($this->once())
-				->method('getByEmail')
-				->with('test@example.com')
-				->willReturn([$this->existingUser]);
+			->expects($this->once())
+			->method('getByEmail')
+			->with('test@example.com')
+			->willReturn([$this->existingUser]);
 
 		$this->mailer
 			->expects($this->once())
@@ -743,10 +726,10 @@ class LostControllerTest extends TestCase {
 
 	public function testUsernameInput() {
 		$this->userManager
-				->expects($this->once())
-				->method('get')
-				->with('ExistingUser')
-				->willReturn($this->existingUser);
+			->expects($this->once())
+			->method('get')
+			->with('ExistingUser')
+			->willReturn($this->existingUser);
 
 		$this->mailer
 			->expects($this->once())

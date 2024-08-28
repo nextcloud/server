@@ -1,35 +1,16 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Björn Schießle <bjoern@schiessle.org>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 
 namespace OCA\DAV\Tests\unit\Connector\Sabre;
 
 use OC\Files\FileInfo;
 use OC\Files\Mount\MountPoint;
+use OC\Files\Node\Folder;
 use OC\Files\View;
 use OC\Share20\ShareAttributes;
 use OCA\Files_Sharing\SharedMount;
@@ -39,9 +20,9 @@ use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\Mount\IMountPoint;
 use OCP\Files\Storage;
 use OCP\ICache;
-use OCP\Share\IAttributes;
 use OCP\Share\IManager;
 use OCP\Share\IShare;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Class NodeTest
@@ -87,7 +68,7 @@ class NodeTest extends \Test\TestCase {
 		$info->method('getInternalPath')
 			->willReturn($internalPath);
 		$info->method('getMountPoint')
-			->willReturnCallback(function() use ($shared) {
+			->willReturnCallback(function () use ($shared) {
 				if ($shared) {
 					return $this->createMock(SharedMount::class);
 				} else {
@@ -222,14 +203,16 @@ class NodeTest extends \Test\TestCase {
 
 		$share->expects($this->once())->method('getAttributes')->willReturn($attributes);
 
-		$info = $this->getMockBuilder(FileInfo::class)
+		/** @var Folder&MockObject $info */
+		$info = $this->getMockBuilder(Folder::class)
 			->disableOriginalConstructor()
-			->setMethods(['getStorage', 'getType'])
+			->onlyMethods(['getStorage', 'getType'])
 			->getMock();
 
 		$info->method('getStorage')->willReturn($storage);
 		$info->method('getType')->willReturn(FileInfo::TYPE_FOLDER);
 
+		/** @var View&MockObject $view */
 		$view = $this->getMockBuilder(View::class)
 			->disableOriginalConstructor()
 			->getMock();
@@ -246,14 +229,16 @@ class NodeTest extends \Test\TestCase {
 
 		$shareManager = $this->getMockBuilder(IManager::class)->disableOriginalConstructor()->getMock();
 
-		$info = $this->getMockBuilder(FileInfo::class)
+		/** @var Folder&MockObject */
+		$info = $this->getMockBuilder(Folder::class)
 			->disableOriginalConstructor()
-			->setMethods(['getStorage', 'getType'])
+			->onlyMethods(['getStorage', 'getType'])
 			->getMock();
 
 		$info->method('getStorage')->willReturn($storage);
 		$info->method('getType')->willReturn(FileInfo::TYPE_FOLDER);
 
+		/** @var View&MockObject */
 		$view = $this->getMockBuilder(View::class)
 			->disableOriginalConstructor()
 			->getMock();

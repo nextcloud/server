@@ -1,24 +1,10 @@
 <?php
 
 declare(strict_types=1);
+
 /**
- * @copyright Copyright (c) 2020 Robin Appelman <robin@icewind.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace OCA\Files_External\Lib\Storage;
@@ -27,8 +13,7 @@ namespace OCA\Files_External\Lib\Storage;
  * Low level wrapper around the ftp functions that smooths over some difference between servers
  */
 class FtpConnection {
-	/** @var resource|\FTP\Connection */
-	private $connection;
+	private \FTP\Connection $connection;
 
 	public function __construct(bool $secure, string $hostname, int $port, string $username, string $password) {
 		if ($secure) {
@@ -38,11 +23,11 @@ class FtpConnection {
 		}
 
 		if ($connection === false) {
-			throw new \Exception("Failed to connect to ftp");
+			throw new \Exception('Failed to connect to ftp');
 		}
 
 		if (ftp_login($connection, $username, $password) === false) {
-			throw new \Exception("Failed to connect to login to ftp");
+			throw new \Exception('Failed to connect to login to ftp');
 		}
 
 		ftp_pasv($connection, true);
@@ -50,14 +35,11 @@ class FtpConnection {
 	}
 
 	public function __destruct() {
-		if ($this->connection) {
-			ftp_close($this->connection);
-		}
-		$this->connection = null;
+		ftp_close($this->connection);
 	}
 
 	public function setUtf8Mode(): bool {
-		$response = ftp_raw($this->connection, "OPTS UTF8 ON");
+		$response = ftp_raw($this->connection, 'OPTS UTF8 ON');
 		return substr($response[0], 0, 3) === '200';
 	}
 
@@ -93,8 +75,8 @@ class FtpConnection {
 		$result = @ftp_mdtm($this->connection, $path);
 
 		// filezilla doesn't like empty path with mdtm
-		if ($result === -1 && $path === "") {
-			$result = @ftp_mdtm($this->connection, "/");
+		if ($result === -1 && $path === '') {
+			$result = @ftp_mdtm($this->connection, '/');
 		}
 		return $result;
 	}
@@ -168,13 +150,13 @@ class FtpConnection {
 
 		$parsedDate = (new \DateTime())
 			->setTimestamp(strtotime("$month $day $time"));
-		$tomorrow = (new \DateTime())->add(new \DateInterval("P1D"));
+		$tomorrow = (new \DateTime())->add(new \DateInterval('P1D'));
 
 		// since the provided date doesn't include the year, we either set it to the correct year
 		// or when the date would otherwise be in the future (by more then 1 day to account for timezone errors)
 		// we use last year
 		if ($parsedDate > $tomorrow) {
-			$parsedDate = $parsedDate->sub(new \DateInterval("P1Y"));
+			$parsedDate = $parsedDate->sub(new \DateInterval('P1Y'));
 		}
 
 		$formattedDate = $parsedDate

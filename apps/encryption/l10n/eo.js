@@ -35,7 +35,6 @@ OC.L10N.register(
     "Enabling this option encrypts all files stored on the main storage, otherwise only files on external storage will be encrypted" : "Ebligi tiun opcion ĉifras ĉiujn dosierojn de la ĉefkonservejo, alie nur dosieroj en ekstera konservejo ĉifriĝos.",
     "Enable recovery key" : "Ŝalti restaŭroŝlosilon",
     "Disable recovery key" : "Malŝalti restaŭroŝlosilon",
-    "The recovery key is an extra encryption key that is used to encrypt files. It allows recovery of a user's files if the user forgets his or her password." : "La restaŭroŝlosilo estas kroma ĉifroŝlosilo, kiu uziĝas por ĉifri dosierojn. Ĝi ebligas restaŭron el dosieroj de uzanto, se la uzanto forgesas sian pasvorton.",
     "Recovery key password" : "Pasvorto de restaŭroŝlosilo",
     "Repeat recovery key password" : "Ripetu la pasvorton de restaŭroŝlosilo",
     "Change recovery key password:" : "Ŝanĝi la pasvorton de la restaŭroŝlosilo:",
@@ -54,8 +53,6 @@ OC.L10N.register(
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Ŝalti tiun opcion ebligas al vi rehavi aliron al viaj ĉifritaj dosierojn okaze de pasvorta perdo.",
     "Enabled" : "Ŝaltita",
     "Disabled" : "Malŝaltita",
-    "In order to use this encryption module you need to enable server-side\n\t\tencryption in the admin settings. Once enabled this module will encrypt\n\t\tall your files transparently. The encryption is based on AES 256 keys.\n\t\tThe module won't touch existing files, only new files will be encrypted\n\t\tafter server-side encryption was enabled. It is also not possible to\n\t\tdisable the encryption again and switch back to a unencrypted system.\n\t\tPlease read the documentation to know all implications before you decide\n\t\tto enable server-side encryption." : "Por uzi tiun ĉifran modulon, vi bezonas ŝalti ĉeservilan ĉifradon en la administraj agordoj. Tiu modulo ĉifros ĉiujn viajn dosierojn netrudiĝeme. La ĉifrado baziĝas sur AES-ŝlosiloj de 256 bitoj.\nLa modulo ne ĉifros ekzistantajn dosierojn, nur la venontajn, post kiam la ĉeservila ĉifrado estis ŝaltita. Ankaŭ ne eblas malŝalti la ĉifradon kaj reiri al neĉifrita sistemo.\nBv. legi la dokumentaron por scii ĉiujn konsekvencojn, antaŭ ol decidi, ĉu vi uzos ĉeservilan ĉifradon.",
-    "The share will expire on %s." : "La kunhavo senvalidiĝos je %s.",
-    "Cheers!" : "Ĝis!"
+    "The recovery key is an extra encryption key that is used to encrypt files. It allows recovery of a user's files if the user forgets his or her password." : "La restaŭroŝlosilo estas kroma ĉifroŝlosilo, kiu uziĝas por ĉifri dosierojn. Ĝi ebligas restaŭron el dosieroj de uzanto, se la uzanto forgesas sian pasvorton."
 },
 "nplurals=2; plural=(n != 1);");

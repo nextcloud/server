@@ -1,24 +1,7 @@
 <!--
-  - @copyright Copyright (c) 2018 Roeland Jago Douma <roeland@famdouma.nl>
-  -
-  - @author Roeland Jago Douma <roeland@famdouma.nl>
-  -
-  - @license GNU AGPL version 3 or any later version
-  -
-  - This program is free software: you can redistribute it and/or modify
-  - it under the terms of the GNU Affero General Public License as
-  - published by the Free Software Foundation, either version 3 of the
-  - License, or (at your option) any later version.
-  -
-  - This program is distributed in the hope that it will be useful,
-  - but WITHOUT ANY WARRANTY; without even the implied warranty of
-  - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  - GNU Affero General Public License for more details.
-  -
-  - You should have received a copy of the GNU Affero General Public License
-  - along with this program. If not, see <http://www.gnu.org/licenses/>.
-  -
-  -->
+  - SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 <template>
 	<NcSettingsSection :name="t('oauth2', 'OAuth 2.0 clients')"
 		:description="t('oauth2', 'OAuth 2.0 allows external services to request access to {instanceName}.', { instanceName })"
@@ -26,9 +9,20 @@
 		<table v-if="clients.length > 0" class="grid">
 			<thead>
 				<tr>
-					<th id="headerContent" />
-					<th id="headerRemove">
-&nbsp;
+					<th>
+						{{ t('oauth2', 'Name') }}
+					</th>
+					<th>
+						{{ t('oauth2', 'Redirection URI') }}
+					</th>
+					<th>
+						{{ t('oauth2', 'Client Identifier') }}
+					</th>
+					<th>
+						{{ t('oauth2', 'Secret key') }}
+					</th>
+					<th>
+						{{ t('oauth2', 'Delete client') }}
 					</th>
 				</tr>
 			</thead>
@@ -108,7 +102,7 @@ export default {
 	methods: {
 		deleteClient(id) {
 			axios.delete(generateUrl('apps/oauth2/clients/{id}', { id }))
-				.then((response) => {
+				.then(() => {
 					// eslint-disable-next-line vue/no-mutating-props
 					this.clients = this.clients.filter(client => client.id !== id)
 				})
@@ -121,7 +115,7 @@ export default {
 				{
 					name: this.newClient.name,
 					redirectUri: this.newClient.redirectUri,
-				}
+				},
 			).then(response => {
 				// eslint-disable-next-line vue/no-mutating-props
 				this.clients.push(response.data)

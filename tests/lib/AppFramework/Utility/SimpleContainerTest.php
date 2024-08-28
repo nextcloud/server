@@ -3,24 +3,9 @@
 declare(strict_types=1);
 
 /**
- * ownCloud - App Framework
- *
- * @author Bernhard Posselt
- * @copyright 2014 Bernhard Posselt <dev@bernhard-posselt.com>
- *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
- * License as published by the Free Software Foundation; either
- * version 3 of the License, or any later version.
- *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU AFFERO GENERAL PUBLIC LICENSE for more details.
- *
- * You should have received a copy of the GNU Affero General Public
- * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace Test\AppFramework\Utility;
@@ -47,6 +32,17 @@ class ClassComplexConstructor {
 	public function __construct(ClassSimpleConstructor $class, $test) {
 		$this->class = $class;
 		$this->test = $test;
+	}
+}
+
+class ClassNullableUntypedConstructorArg {
+	public function __construct($class) {
+	}
+}
+class ClassNullableTypedConstructorArg {
+	public $class;
+	public function __construct(?\Some\Class $class) {
+		$this->class = $class;
 	}
 }
 
@@ -242,5 +238,18 @@ class SimpleContainerTest extends \Test\TestCase {
 			$this->container->query('test1'), $this->container->query('test1'));
 		$this->assertNotSame(
 			$this->container->query('test'), $this->container->query('test1'));
+	}
+
+	public function testQueryUntypedNullable(): void {
+		$this->expectException(\OCP\AppFramework\QueryException::class);
+
+		$this->container->query(ClassNullableUntypedConstructorArg::class);
+	}
+
+	public function testQueryTypedNullable(): void {
+		/** @var ClassNullableTypedConstructorArg $service */
+		$service = $this->container->query(ClassNullableTypedConstructorArg::class);
+
+		self::assertNull($service->class);
 	}
 }

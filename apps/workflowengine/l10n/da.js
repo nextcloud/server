@@ -21,6 +21,7 @@ OC.L10N.register(
     "Check #%s does not exist" : "Tjek #%s eksisterer",
     "Check %s is invalid or does not exist" : "Tjek %s er invalid eller eksisterer ikke",
     "Flow" : "Flow",
+    "Remove filter" : "Fjern filter",
     "Folder" : "Mappe",
     "Images" : "Billeder",
     "Files WebDAV" : "Fil WebDAV",
@@ -28,6 +29,8 @@ OC.L10N.register(
     "iOS client" : "iOS klient",
     "Desktop client" : "Dekstop klient",
     "Thunderbird & Outlook addons" : "Thunderbird & Outlook tilføjelser",
+    "Select groups" : "Vælg grupper",
+    "Groups" : "Grupper",
     "and" : "og",
     "Cancel" : "Annullér",
     "Delete" : "Slet",
@@ -57,10 +60,8 @@ OC.L10N.register(
     "between" : "mellem",
     "not between" : "ikke mellem",
     "Request user agent" : "Bruger \"user agent\"",
-    "User group membership" : "Brugers gruppemedlemsskab",
     "is member of" : "er medlem af",
     "is not member of" : "er ikke medlem af",
-    "Predefined URLs" : "Foruddefineret URLer",
-    "Others" : "Andre"
+    "User group membership" : "Brugers gruppemedlemsskab"
 },
 "nplurals=2; plural=(n != 1);");

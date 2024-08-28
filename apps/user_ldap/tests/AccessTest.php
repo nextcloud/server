@@ -1,34 +1,8 @@
 <?php
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- * @copyright Copyright (c) 2016, Lukas Reschke <lukas@statuscode.ch>
- *
- * @author Andreas Fischer <bantu@owncloud.com>
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Jörn Friedrich Dreyer <jfd@butonic.de>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Roger Szabo <roger.szabo@web.de>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Victor Dubiniuk <dubiniuk@owncloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\User_LDAP\Tests;
 
@@ -44,12 +18,14 @@ use OCA\User_LDAP\Mapping\UserMapping;
 use OCA\User_LDAP\User\Manager;
 use OCA\User_LDAP\User\OfflineUser;
 use OCA\User_LDAP\User\User;
+use OCP\IAppConfig;
 use OCP\IAvatarManager;
 use OCP\IConfig;
 use OCP\Image;
 use OCP\IUserManager;
 use OCP\Notification\IManager as INotificationManager;
 use OCP\Share\IManager;
+use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
@@ -75,14 +51,16 @@ class AccessTest extends TestCase {
 	private $userManager;
 	/** @var Helper|\PHPUnit\Framework\MockObject\MockObject */
 	private $helper;
-	/** @var  IConfig|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
 	private $config;
 	/** @var IUserManager|\PHPUnit\Framework\MockObject\MockObject */
 	private $ncUserManager;
-	/** @var LoggerInterface|MockObject */
-	private $logger;
-	/** @var Access */
-	private $access;
+
+	private LoggerInterface&MockObject $logger;
+
+	private IAppConfig&MockObject $appConfig;
+
+	private Access $access;
 
 	protected function setUp(): void {
 		$this->connection = $this->createMock(Connection::class);
@@ -95,25 +73,33 @@ class AccessTest extends TestCase {
 		$this->ncUserManager = $this->createMock(IUserManager::class);
 		$this->shareManager = $this->createMock(IManager::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
+		$this->appConfig = $this->createMock(IAppConfig::class);
 
 		$this->access = new Access(
-			$this->connection,
 			$this->ldap,
+			$this->connection,
 			$this->userManager,
 			$this->helper,
 			$this->config,
 			$this->ncUserManager,
-			$this->logger
+			$this->logger,
+			$this->appConfig,
 		);
 		$this->access->setUserMapper($this->userMapper);
 		$this->access->setGroupMapper($this->groupMapper);
 	}
 
 	private function getConnectorAndLdapMock() {
+		/** @var ILDAPWrapper&MockObject */
 		$lw = $this->createMock(ILDAPWrapper::class);
+		/** @var Connection&MockObject */
 		$connector = $this->getMockBuilder(Connection::class)
 			->setConstructorArgs([$lw, '', null])
 			->getMock();
+		$connector->expects($this->any())
+			->method('getConnectionResource')
+			->willReturn(ldap_connect('ldap://example.com'));
+		/** @var Manager&MockObject */
 		$um = $this->getMockBuilder(Manager::class)
 			->setConstructorArgs([
 				$this->createMock(IConfig::class),
@@ -243,7 +229,7 @@ class AccessTest extends TestCase {
 		[$lw, $con, $um, $helper] = $this->getConnectorAndLdapMock();
 		/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject $config */
 		$config = $this->createMock(IConfig::class);
-		$access = new Access($con, $lw, $um, $helper, $config, $this->ncUserManager, $this->logger);
+		$access = new Access($lw, $con, $um, $helper, $config, $this->ncUserManager, $this->logger, $this->appConfig);
 
 		$lw->expects($this->exactly(1))
 			->method('explodeDN')
@@ -266,7 +252,7 @@ class AccessTest extends TestCase {
 		/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject $config */
 		$config = $this->createMock(IConfig::class);
 		$lw = new LDAP();
-		$access = new Access($con, $lw, $um, $helper, $config, $this->ncUserManager, $this->logger);
+		$access = new Access($lw, $con, $um, $helper, $config, $this->ncUserManager, $this->logger, $this->appConfig);
 
 		if (!function_exists('ldap_explode_dn')) {
 			$this->markTestSkipped('LDAP Module not available');
@@ -286,6 +272,11 @@ class AccessTest extends TestCase {
 		$this->ldap->expects($this->any())
 			->method('isResource')
 			->willReturn(true);
+
+		$this->connection
+			->expects($this->any())
+			->method('getConnectionResource')
+			->willReturn(ldap_connect('ldap://example.com'));
 
 		$this->ldap->expects($this->any())
 			->method('getAttributes')
@@ -447,7 +438,7 @@ class AccessTest extends TestCase {
 				$attribute => ['count' => 1, $dnFromServer]
 			]);
 
-		$access = new Access($con, $lw, $um, $helper, $config, $this->ncUserManager, $this->logger);
+		$access = new Access($lw, $con, $um, $helper, $config, $this->ncUserManager, $this->logger, $this->appConfig);
 		$values = $access->readAttribute('uid=whoever,dc=example,dc=org', $attribute);
 		$this->assertSame($values[0], strtolower($dnFromServer));
 	}
@@ -469,19 +460,18 @@ class AccessTest extends TestCase {
 		$this->connection
 			->method('__get')
 			->willReturn(true);
-		$connection = $this->createMock(LDAP::class);
+		$connection = ldap_connect('ldap://example.com');
 		$this->connection
 			->expects($this->once())
 			->method('getConnectionResource')
-			->willReturn($connection);
+			->willThrowException(new \OC\ServerNotAvailableException('Connection to LDAP server could not be established'));
 		$this->ldap
-			->expects($this->once())
-			->method('isResource')
-			->with($connection)
-			->willReturn(false);
+			->expects($this->never())
+			->method('isResource');
 
-		/** @noinspection PhpUnhandledExceptionInspection */
-		$this->assertFalse($this->access->setPassword('CN=foo', 'MyPassword'));
+		$this->expectException(\OC\ServerNotAvailableException::class);
+		$this->expectExceptionMessage('Connection to LDAP server could not be established');
+		$this->access->setPassword('CN=foo', 'MyPassword');
 	}
 
 
@@ -492,16 +482,11 @@ class AccessTest extends TestCase {
 		$this->connection
 			->method('__get')
 			->willReturn(true);
-		$connection = $this->createMock(LDAP::class);
+		$connection = ldap_connect('ldap://example.com');
 		$this->connection
 			->expects($this->any())
 			->method('getConnectionResource')
 			->willReturn($connection);
-		$this->ldap
-			->expects($this->once())
-			->method('isResource')
-			->with($connection)
-			->willReturn(true);
 		$this->ldap
 			->expects($this->once())
 			->method('modReplace')
@@ -516,16 +501,11 @@ class AccessTest extends TestCase {
 		$this->connection
 			->method('__get')
 			->willReturn(true);
-		$connection = $this->createMock(LDAP::class);
+		$connection = ldap_connect('ldap://example.com');
 		$this->connection
 			->expects($this->any())
 			->method('getConnectionResource')
 			->willReturn($connection);
-		$this->ldap
-			->expects($this->once())
-			->method('isResource')
-			->with($connection)
-			->willReturn(true);
 		$this->ldap
 			->expects($this->once())
 			->method('modReplace')
@@ -559,7 +539,7 @@ class AccessTest extends TestCase {
 			->expects($this->any())
 			->method('isResource')
 			->willReturnCallback(function ($resource) {
-				return is_resource($resource) || is_object($resource);
+				return is_object($resource);
 			});
 		$this->ldap
 			->expects($this->any())

@@ -1,24 +1,7 @@
 <?php
 /**
- * @copyright 2018, Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace Test\AppFramework\Middleware\Security;
@@ -26,11 +9,14 @@ namespace Test\AppFramework\Middleware\Security;
 use OC\AppFramework\Middleware\Security\Exceptions\NotConfirmedException;
 use OC\AppFramework\Middleware\Security\PasswordConfirmationMiddleware;
 use OC\AppFramework\Utility\ControllerMethodReflector;
+use OC\Authentication\Token\IProvider;
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\Authentication\Token\IToken;
 use OCP\IRequest;
 use OCP\ISession;
 use OCP\IUser;
 use OCP\IUserSession;
+use Psr\Log\LoggerInterface;
 use Test\AppFramework\Middleware\Security\Mock\PasswordConfirmationMiddlewareController;
 use Test\TestCase;
 
@@ -49,6 +35,8 @@ class PasswordConfirmationMiddlewareTest extends TestCase {
 	private $controller;
 	/** @var ITimeFactory|\PHPUnit\Framework\MockObject\MockObject */
 	private $timeFactory;
+	private IProvider|\PHPUnit\Framework\MockObject\MockObject $tokenProvider;
+	private LoggerInterface $logger;
 
 	protected function setUp(): void {
 		$this->reflector = new ControllerMethodReflector();
@@ -56,6 +44,8 @@ class PasswordConfirmationMiddlewareTest extends TestCase {
 		$this->userSession = $this->createMock(IUserSession::class);
 		$this->user = $this->createMock(IUser::class);
 		$this->timeFactory = $this->createMock(ITimeFactory::class);
+		$this->tokenProvider = $this->createMock(IProvider::class);
+		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->controller = new PasswordConfirmationMiddlewareController(
 			'test',
 			$this->createMock(IRequest::class)
@@ -65,7 +55,9 @@ class PasswordConfirmationMiddlewareTest extends TestCase {
 			$this->reflector,
 			$this->session,
 			$this->userSession,
-			$this->timeFactory
+			$this->timeFactory,
+			$this->tokenProvider,
+			$this->logger,
 		);
 	}
 
@@ -107,6 +99,13 @@ class PasswordConfirmationMiddlewareTest extends TestCase {
 		$this->timeFactory->method('getTime')
 			->willReturn($currentTime);
 
+		$token = $this->createMock(IToken::class);
+		$token->method('getScopeAsArray')
+			->willReturn([]);
+		$this->tokenProvider->expects($this->once())
+			->method('getToken')
+			->willReturn($token);
+
 		$thrown = false;
 		try {
 			$this->middleware->beforeController($this->controller, __FUNCTION__);
@@ -135,6 +134,13 @@ class PasswordConfirmationMiddlewareTest extends TestCase {
 		$this->timeFactory->method('getTime')
 			->willReturn($currentTime);
 
+		$token = $this->createMock(IToken::class);
+		$token->method('getScopeAsArray')
+			->willReturn([]);
+		$this->tokenProvider->expects($this->once())
+			->method('getToken')
+			->willReturn($token);
+
 		$thrown = false;
 		try {
 			$this->middleware->beforeController($this->controller, __FUNCTION__);
@@ -145,6 +151,8 @@ class PasswordConfirmationMiddlewareTest extends TestCase {
 		$this->assertSame($exception, $thrown);
 	}
 
+
+
 	public function dataProvider() {
 		return [
 			['foo', 2000, 4000, true],
@@ -154,5 +162,42 @@ class PasswordConfirmationMiddlewareTest extends TestCase {
 			['foo', 2000, 3815, false],
 			['foo', 2000, 3816, true],
 		];
+	}
+
+	public function testSSO() {
+		static $sessionId = 'mySession1d';
+
+		$this->reflector->reflect($this->controller, __FUNCTION__);
+
+		$this->user->method('getBackendClassName')
+			->willReturn('fictional_backend');
+		$this->userSession->method('getUser')
+			->willReturn($this->user);
+
+		$this->session->method('get')
+			->with('last-password-confirm')
+			->willReturn(0);
+		$this->session->method('getId')
+			->willReturn($sessionId);
+
+		$this->timeFactory->method('getTime')
+			->willReturn(9876);
+
+		$token = $this->createMock(IToken::class);
+		$token->method('getScopeAsArray')
+			->willReturn([IToken::SCOPE_SKIP_PASSWORD_VALIDATION => true]);
+		$this->tokenProvider->expects($this->once())
+			->method('getToken')
+			->with($sessionId)
+			->willReturn($token);
+
+		$thrown = false;
+		try {
+			$this->middleware->beforeController($this->controller, __FUNCTION__);
+		} catch (NotConfirmedException) {
+			$thrown = true;
+		}
+
+		$this->assertSame(false, $thrown);
 	}
 }

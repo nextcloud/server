@@ -1,28 +1,7 @@
 <?php
 /**
- * @copyright Copyright (c) 2018 Bjoern Schiessle <bjoern@schiessle.org>
- *
- * @author Bjoern Schiessle <bjoern@schiessle.org>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Maxence Lange <maxence@artificial-owl.com>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Kate Döen <kate.doeen@nextcloud.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\CloudFederationAPI\Controller;
 
@@ -30,6 +9,10 @@ use OCA\CloudFederationAPI\Config;
 use OCA\CloudFederationAPI\ResponseDefinitions;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\BruteForceProtection;
+use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
+use OCP\AppFramework\Http\Attribute\OpenAPI;
+use OCP\AppFramework\Http\Attribute\PublicPage;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\Federation\Exceptions\ActionNotSupportedException;
 use OCP\Federation\Exceptions\AuthenticationFailedException;
@@ -51,10 +34,11 @@ use Psr\Log\LoggerInterface;
  *
  * @package OCA\CloudFederationAPI\Controller
  *
- * @psalm-import-type CloudFederationApiAddShare from ResponseDefinitions
- * @psalm-import-type CloudFederationApiValidationError from ResponseDefinitions
- * @psalm-import-type CloudFederationApiError from ResponseDefinitions
+ * @psalm-import-type CloudFederationAPIAddShare from ResponseDefinitions
+ * @psalm-import-type CloudFederationAPIValidationError from ResponseDefinitions
+ * @psalm-import-type CloudFederationAPIError from ResponseDefinitions
  */
+#[OpenAPI(scope: OpenAPI::SCOPE_FEDERATION)]
 class RequestHandlerController extends Controller {
 	public function __construct(
 		string $appName,
@@ -74,10 +58,6 @@ class RequestHandlerController extends Controller {
 	/**
 	 * Add share
 	 *
-	 * @NoCSRFRequired
-	 * @PublicPage
-	 * @BruteForceProtection(action=receiveFederatedShare)
-	 *
 	 * @param string $shareWith The user who the share will be shared with
 	 * @param string $name The resource name (e.g. document.odt)
 	 * @param string|null $description Share description
@@ -90,11 +70,15 @@ class RequestHandlerController extends Controller {
 	 * @param string $shareType 'group' or 'user' share
 	 * @param string $resourceType 'file', 'calendar',...
 	 *
-	 * @return JSONResponse<Http::STATUS_CREATED, CloudFederationApiAddShare, array{}>|JSONResponse<Http::STATUS_BAD_REQUEST, CloudFederationApiValidationError, array{}>|JSONResponse<Http::STATUS_NOT_IMPLEMENTED, CloudFederationApiError, array{}>
+	 * @return JSONResponse<Http::STATUS_CREATED, CloudFederationAPIAddShare, array{}>|JSONResponse<Http::STATUS_BAD_REQUEST, CloudFederationAPIValidationError, array{}>|JSONResponse<Http::STATUS_NOT_IMPLEMENTED, CloudFederationAPIError, array{}>
+	 *
 	 * 201: The notification was successfully received. The display name of the recipient might be returned in the body
 	 * 400: Bad request due to invalid parameters, e.g. when `shareWith` is not found or required properties are missing
 	 * 501: Share type or the resource type is not supported
 	 */
+	#[PublicPage]
+	#[NoCSRFRequired]
+	#[BruteForceProtection(action: 'receiveFederatedShare')]
 	public function addShare($shareWith, $name, $description, $providerId, $owner, $ownerDisplayName, $sharedBy, $sharedByDisplayName, $protocol, $shareType, $resourceType) {
 		// check if all required parameters are set
 		if ($shareWith === null ||
@@ -190,35 +174,38 @@ class RequestHandlerController extends Controller {
 			);
 		}
 
-		$user = $this->userManager->get($shareWith);
-		$recipientDisplayName = '';
-		if ($user) {
-			$recipientDisplayName = $user->getDisplayName();
+		$responseData = ['recipientDisplayName' => ''];
+		if ($shareType === 'user') {
+			$user = $this->userManager->get($shareWith);
+			if ($user) {
+				$responseData = [
+					'recipientDisplayName' => $user->getDisplayName(),
+					'recipientUserId' => $user->getUID(),
+				];
+			}
 		}
 
-		return new JSONResponse(
-			['recipientDisplayName' => $recipientDisplayName],
-			Http::STATUS_CREATED);
+		return new JSONResponse($responseData, Http::STATUS_CREATED);
 	}
 
 	/**
 	 * Send a notification about an existing share
-	 *
-	 * @NoCSRFRequired
-	 * @PublicPage
-	 * @BruteForceProtection(action=receiveFederatedShareNotification)
 	 *
 	 * @param string $notificationType Notification type, e.g. SHARE_ACCEPTED
 	 * @param string $resourceType calendar, file, contact,...
 	 * @param string|null $providerId ID of the share
 	 * @param array<string, mixed>|null $notification The actual payload of the notification
 	 *
-	 * @return JSONResponse<Http::STATUS_CREATED, array<string, mixed>, array{}>|JSONResponse<Http::STATUS_BAD_REQUEST, CloudFederationApiValidationError, array{}>|JSONResponse<Http::STATUS_FORBIDDEN|Http::STATUS_NOT_IMPLEMENTED, CloudFederationApiError, array{}>
+	 * @return JSONResponse<Http::STATUS_CREATED, array<string, mixed>, array{}>|JSONResponse<Http::STATUS_BAD_REQUEST, CloudFederationAPIValidationError, array{}>|JSONResponse<Http::STATUS_FORBIDDEN|Http::STATUS_NOT_IMPLEMENTED, CloudFederationAPIError, array{}>
+	 *
 	 * 201: The notification was successfully received
 	 * 400: Bad request due to invalid parameters, e.g. when `type` is invalid or missing
 	 * 403: Getting resource is not allowed
 	 * 501: The resource type is not supported
 	 */
+	#[NoCSRFRequired]
+	#[PublicPage]
+	#[BruteForceProtection(action: 'receiveFederatedShareNotification')]
 	public function receiveNotification($notificationType, $resourceType, $providerId, ?array $notification) {
 		// check if all required parameters are set
 		if ($notificationType === null ||

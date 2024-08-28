@@ -1,37 +1,17 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Olivier Paroz <github@oparoz.com>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Robin McCorkell <robin@mccorkell.me.uk>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Tor Lillqvist <tml@collabora.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OC\Preview;
 
 use OCP\Files\File;
 use OCP\Files\FileInfo;
 use OCP\IImage;
-use Psr\Log\LoggerInterface;
+use OCP\ITempManager;
+use OCP\Server;
 
 abstract class Office extends ProviderV2 {
 	/**
@@ -49,15 +29,41 @@ abstract class Office extends ProviderV2 {
 			return null;
 		}
 
+		$tempManager = Server::get(ITempManager::class);
+
+		// The file to generate the preview for.
 		$absPath = $this->getLocalFile($file);
 
-		$tmpDir = \OC::$server->getTempManager()->getTempBaseDir();
+		// The destination for the LibreOffice user profile.
+		// LibreOffice can rune once per user profile and therefore instance id and file id are included.
+		$profile = $tempManager->getTemporaryFolder(
+			'nextcloud-office-profile-' . \OC_Util::getInstanceId() . '-' . $file->getId()
+		);
 
-		$defaultParameters = ' -env:UserInstallation=file://' . escapeshellarg($tmpDir . '/owncloud-' . \OC_Util::getInstanceId() . '/') . ' --headless --nologo --nofirststartwizard --invisible --norestore --convert-to png --outdir ';
-		$clParameters = \OC::$server->getConfig()->getSystemValue('preview_office_cl_parameters', $defaultParameters);
+		// The destination for the LibreOffice convert result.
+		$outdir = $tempManager->getTemporaryFolder(
+			'nextcloud-office-preview-' . \OC_Util::getInstanceId() . '-' . $file->getId()
+		);
 
-		$cmd = $this->options['officeBinary'] . $clParameters . escapeshellarg($tmpDir) . ' ' . escapeshellarg($absPath);
+		if ($profile === false || $outdir === false) {
+			$this->cleanTmpFiles();
+			return null;
+		}
 
+		$parameters = [
+			$this->options['officeBinary'],
+			'-env:UserInstallation=file://' . escapeshellarg($profile),
+			'--headless',
+			'--nologo',
+			'--nofirststartwizard',
+			'--invisible',
+			'--norestore',
+			'--convert-to png',
+			'--outdir ' . escapeshellarg($outdir),
+			escapeshellarg($absPath),
+		];
+
+		$cmd = implode(' ', $parameters);
 		exec($cmd, $output, $returnCode);
 
 		if ($returnCode !== 0) {
@@ -65,35 +71,18 @@ abstract class Office extends ProviderV2 {
 			return null;
 		}
 
-		//create imagick object from png
-		$pngPreview = null;
-		try {
-			[$dirname, , , $filename] = array_values(pathinfo($absPath));
-			$pngPreview = $tmpDir . '/' . $filename . '.png';
-
-			$png = new \Imagick($pngPreview . '[0]');
-			$png->setImageFormat('jpg');
-		} catch (\Exception $e) {
-			$this->cleanTmpFiles();
-			unlink($pngPreview);
-			\OC::$server->get(LoggerInterface::class)->error($e->getMessage(), [
-				'exception' => $e,
-				'app' => 'core',
-			]);
-			return null;
-		}
+		$preview = $outdir . pathinfo($absPath, PATHINFO_FILENAME) . '.png';
 
 		$image = new \OCP\Image();
-		$image->loadFromData((string) $png);
+		$image->loadFromFile($preview);
 
 		$this->cleanTmpFiles();
-		unlink($pngPreview);
 
 		if ($image->valid()) {
 			$image->scaleDownToFit($maxX, $maxY);
-
 			return $image;
 		}
+
 		return null;
 	}
 }

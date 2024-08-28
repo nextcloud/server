@@ -1,10 +1,9 @@
 <?php
 
 /**
- * Copyright (c) 2013 Robin Appelman <icewind@owncloud.com>
- * This file is licensed under the Affero General Public License version 3 or
- * later.
- * See the COPYING-README file.
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace Test\Memcache;
@@ -110,6 +109,10 @@ abstract class Cache extends \Test\Cache\TestCache {
 		$this->assertEquals('bar1', $this->instance->get('foo'));
 	}
 
+	public function testCasNotSet() {
+		$this->assertFalse($this->instance->cas('foo', 'bar', 'asd'));
+	}
+
 	public function testCadNotChanged() {
 		$this->instance->set('foo', 'bar');
 		$this->assertTrue($this->instance->cad('foo', 'bar'));
@@ -122,6 +125,25 @@ abstract class Cache extends \Test\Cache\TestCache {
 		$this->assertTrue($this->instance->hasKey('foo'));
 	}
 
+	public function testCadNotSet() {
+		$this->assertFalse($this->instance->cad('foo', 'bar'));
+	}
+
+	public function testNcadNotChanged() {
+		$this->instance->set('foo', 'bar');
+		$this->assertFalse($this->instance->ncad('foo', 'bar'));
+		$this->assertTrue($this->instance->hasKey('foo'));
+	}
+
+	public function testNcadChanged() {
+		$this->instance->set('foo', 'bar1');
+		$this->assertTrue($this->instance->ncad('foo', 'bar'));
+		$this->assertFalse($this->instance->hasKey('foo'));
+	}
+
+	public function testNcadNotSet() {
+		$this->assertFalse($this->instance->ncad('foo', 'bar'));
+	}
 
 	protected function tearDown(): void {
 		if ($this->instance) {

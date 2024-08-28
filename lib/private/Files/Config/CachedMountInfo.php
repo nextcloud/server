@@ -1,24 +1,9 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Robin Appelman <robin@icewind.nl>
- * @author Semih Serhat Karakaya <karakayasemi@itu.edu.tr>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OC\Files\Config;
 
@@ -35,6 +20,7 @@ class CachedMountInfo implements ICachedMountInfo {
 	protected ?int $mountId;
 	protected string $rootInternalPath;
 	protected string $mountProvider;
+	protected string $key;
 
 	/**
 	 * CachedMountInfo constructor.
@@ -52,7 +38,7 @@ class CachedMountInfo implements ICachedMountInfo {
 		int $rootId,
 		string $mountPoint,
 		string $mountProvider,
-		int $mountId = null,
+		?int $mountId = null,
 		string $rootInternalPath = ''
 	) {
 		$this->user = $user;
@@ -65,6 +51,7 @@ class CachedMountInfo implements ICachedMountInfo {
 			throw new \Exception("Mount provider $mountProvider name exceeds the limit of 128 characters");
 		}
 		$this->mountProvider = $mountProvider;
+		$this->key = $rootId . '::' . $mountPoint;
 	}
 
 	/**
@@ -95,12 +82,7 @@ class CachedMountInfo implements ICachedMountInfo {
 		// TODO injection etc
 		Filesystem::initMountPoints($this->getUser()->getUID());
 		$userNode = \OC::$server->getUserFolder($this->getUser()->getUID());
-		$nodes = $userNode->getParent()->getById($this->getRootId());
-		if (count($nodes) > 0) {
-			return $nodes[0];
-		} else {
-			return null;
-		}
+		return $userNode->getParent()->getFirstNodeById($this->getRootId());
 	}
 
 	/**
@@ -131,5 +113,9 @@ class CachedMountInfo implements ICachedMountInfo {
 
 	public function getMountProvider(): string {
 		return $this->mountProvider;
+	}
+
+	public function getKey(): string {
+		return $this->key;
 	}
 }

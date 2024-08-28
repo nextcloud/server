@@ -1,45 +1,11 @@
 <?php
 
-/**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Bjoern Schiessle <bjoern@schiessle.org>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Daniel Calviño Sánchez <danxuliu@gmail.com>
- * @author Daniel Kesselberg <mail@danielkesselberg.de>
- * @author Georg Ehrke <oc.list@georgehrke.com>
- * @author GretaD <gretadoci@gmail.com>
- * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author michag86 <micha_g@arcor.de>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Sujith Haridasan <sujith.h@gmail.com>
- * @author Thomas Citharel <nextcloud@tcit.fr>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Tom Needham <tom@owncloud.com>
- * @author Vincent Petry <vincent@nextcloud.com>
- * @author zulan <git@zulan.net>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
- */
 
+/**
+ * SPDX-FileCopyrightText: 2017-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
+ */
 namespace OCA\Provisioning_API\Tests\Controller;
 
 use Exception;
@@ -129,6 +95,10 @@ class UsersControllerTest extends TestCase {
 		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
 		$this->phoneNumberUtil = new PhoneNumberUtil();
 
+		$l10n = $this->createMock(IL10N::class);
+		$l10n->method('t')->willReturnCallback(fn (string $txt, array $replacement = []) => sprintf($txt, ...$replacement));
+		$this->l10nFactory->method('get')->with('provisioning_api')->willReturn($l10n);
+
 		$this->api = $this->getMockBuilder(UsersController::class)
 			->setConstructorArgs([
 				'provisioning_api',
@@ -138,9 +108,9 @@ class UsersControllerTest extends TestCase {
 				$this->groupManager,
 				$this->userSession,
 				$this->accountManager,
+				$this->l10nFactory,
 				$this->urlGenerator,
 				$this->logger,
-				$this->l10nFactory,
 				$this->newUserMailHelper,
 				$this->secureRandom,
 				$this->remoteWipe,
@@ -262,7 +232,7 @@ class UsersControllerTest extends TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 		$loggedInUser
-			->expects($this->once())
+			->expects($this->exactly(2))
 			->method('getUID')
 			->willReturn('adminUser');
 		$this->userSession
@@ -274,12 +244,6 @@ class UsersControllerTest extends TestCase {
 			->method('isAdmin')
 			->with('adminUser')
 			->willReturn(true);
-		$l10n = $this->createMock(IL10N::class);
-		$this->l10nFactory
-			->expects($this->once())
-			->method('get')
-			->with('provisioning_api')
-			->willReturn($l10n);
 
 		$this->api->addUser('AlreadyExistingUser', 'password', '', '', []);
 	}
@@ -287,7 +251,7 @@ class UsersControllerTest extends TestCase {
 
 	public function testAddUserNonExistingGroup() {
 		$this->expectException(\OCP\AppFramework\OCS\OCSException::class);
-		$this->expectExceptionMessage('group NonExistingGroup does not exist');
+		$this->expectExceptionMessage('Group NonExistingGroup does not exist');
 		$this->expectExceptionCode(104);
 
 		$this->userManager
@@ -299,7 +263,7 @@ class UsersControllerTest extends TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 		$loggedInUser
-			->expects($this->once())
+			->expects($this->exactly(2))
 			->method('getUID')
 			->willReturn('adminUser');
 		$this->userSession
@@ -323,7 +287,7 @@ class UsersControllerTest extends TestCase {
 
 	public function testAddUserExistingGroupNonExistingGroup() {
 		$this->expectException(\OCP\AppFramework\OCS\OCSException::class);
-		$this->expectExceptionMessage('group NonExistingGroup does not exist');
+		$this->expectExceptionMessage('Group NonExistingGroup does not exist');
 		$this->expectExceptionCode(104);
 
 		$this->userManager
@@ -335,7 +299,7 @@ class UsersControllerTest extends TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 		$loggedInUser
-			->expects($this->once())
+			->expects($this->exactly(2))
 			->method('getUID')
 			->willReturn('adminUser');
 		$this->userSession
@@ -380,7 +344,7 @@ class UsersControllerTest extends TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 		$loggedInUser
-			->expects($this->once())
+			->expects($this->exactly(2))
 			->method('getUID')
 			->willReturn('adminUser');
 		$this->userSession
@@ -400,6 +364,9 @@ class UsersControllerTest extends TestCase {
 	}
 
 	public function testAddUserSuccessfulWithDisplayName() {
+		/**
+		 * @var UserController
+		 */
 		$api = $this->getMockBuilder(UsersController::class)
 			->setConstructorArgs([
 				'provisioning_api',
@@ -409,9 +376,9 @@ class UsersControllerTest extends TestCase {
 				$this->groupManager,
 				$this->userSession,
 				$this->accountManager,
+				$this->l10nFactory,
 				$this->urlGenerator,
 				$this->logger,
-				$this->l10nFactory,
 				$this->newUserMailHelper,
 				$this->secureRandom,
 				$this->remoteWipe,
@@ -489,7 +456,7 @@ class UsersControllerTest extends TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 		$loggedInUser
-			->expects($this->once())
+			->expects($this->exactly(2))
 			->method('getUID')
 			->willReturn('adminUser');
 		$this->userSession
@@ -535,7 +502,7 @@ class UsersControllerTest extends TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 		$loggedInUser
-			->expects($this->once())
+			->expects($this->exactly(2))
 			->method('getUID')
 			->willReturn('adminUser');
 		$this->userSession
@@ -561,7 +528,7 @@ class UsersControllerTest extends TestCase {
 
 	public function testAddUserFailedToGenerateUserID() {
 		$this->expectException(\OCP\AppFramework\OCS\OCSException::class);
-		$this->expectExceptionMessage('Could not create non-existing user id');
+		$this->expectExceptionMessage('Could not create non-existing user ID');
 		$this->expectExceptionCode(111);
 
 		$this->config
@@ -585,7 +552,7 @@ class UsersControllerTest extends TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 		$loggedInUser
-			->expects($this->once())
+			->expects($this->exactly(2))
 			->method('getUID')
 			->willReturn('adminUser');
 		$this->userSession
@@ -628,7 +595,7 @@ class UsersControllerTest extends TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 		$loggedInUser
-			->expects($this->once())
+			->expects($this->exactly(2))
 			->method('getUID')
 			->willReturn('adminUser');
 		$this->userSession
@@ -657,7 +624,7 @@ class UsersControllerTest extends TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 		$loggedInUser
-			->expects($this->once())
+			->expects($this->exactly(2))
 			->method('getUID')
 			->willReturn('adminUser');
 		$this->userSession
@@ -739,7 +706,7 @@ class UsersControllerTest extends TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 		$loggedInUser
-			->expects($this->once())
+			->expects($this->exactly(2))
 			->method('getUID')
 			->willReturn('adminUser');
 		$this->userSession
@@ -758,14 +725,14 @@ class UsersControllerTest extends TestCase {
 
 	public function testAddUserAsSubAdminNoGroup() {
 		$this->expectException(\OCP\AppFramework\OCS\OCSException::class);
-		$this->expectExceptionMessage('no group specified (required for subadmins)');
+		$this->expectExceptionMessage('No group specified (required for sub-admins)');
 		$this->expectExceptionCode(106);
 
 		$loggedInUser = $this->getMockBuilder(IUser::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$loggedInUser
-			->expects($this->once())
+			->expects($this->exactly(2))
 			->method('getUID')
 			->willReturn('regularUser');
 		$this->userSession
@@ -791,14 +758,14 @@ class UsersControllerTest extends TestCase {
 
 	public function testAddUserAsSubAdminValidGroupNotSubAdmin() {
 		$this->expectException(\OCP\AppFramework\OCS\OCSException::class);
-		$this->expectExceptionMessage('insufficient privileges for group ExistingGroup');
+		$this->expectExceptionMessage('Insufficient privileges for group ExistingGroup');
 		$this->expectExceptionCode(105);
 
 		$loggedInUser = $this->getMockBuilder(IUser::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$loggedInUser
-			->expects($this->once())
+			->expects($this->exactly(2))
 			->method('getUID')
 			->willReturn('regularUser');
 		$this->userSession
@@ -847,7 +814,7 @@ class UsersControllerTest extends TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 		$loggedInUser
-			->expects($this->once())
+			->expects($this->exactly(2))
 			->method('getUID')
 			->willReturn('subAdminUser');
 		$this->userSession
@@ -964,7 +931,7 @@ class UsersControllerTest extends TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 		$loggedInUser
-			->expects($this->once())
+			->expects($this->exactly(2))
 			->method('getUID')
 			->willReturn('admin');
 		$targetUser = $this->getMockBuilder(IUser::class)
@@ -1110,7 +1077,7 @@ class UsersControllerTest extends TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 		$loggedInUser
-			->expects($this->once())
+			->expects($this->exactly(2))
 			->method('getUID')
 			->willReturn('subadmin');
 		$targetUser = $this->getMockBuilder(IUser::class)
@@ -1256,7 +1223,7 @@ class UsersControllerTest extends TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 		$loggedInUser
-			->expects($this->exactly(3))
+			->expects($this->exactly(4))
 			->method('getUID')
 			->willReturn('subadmin');
 		$targetUser = $this->getMockBuilder(IUser::class)
@@ -1296,7 +1263,7 @@ class UsersControllerTest extends TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 		$loggedInUser
-			->expects($this->exactly(2))
+			->expects($this->exactly(3))
 			->method('getUID')
 			->willReturn('UID');
 		$targetUser = $this->getMockBuilder(IUser::class)
@@ -2033,7 +2000,7 @@ class UsersControllerTest extends TestCase {
 
 	public function testEditUserAdminUserSelfEditChangeInvalidQuota() {
 		$this->expectException(\OCP\AppFramework\OCS\OCSException::class);
-		$this->expectExceptionMessage('Invalid quota value ABC');
+		$this->expectExceptionMessage('Invalid quota value: ABC');
 		$this->expectExceptionCode(102);
 
 		$loggedInUser = $this->getMockBuilder(IUser::class)->disableOriginalConstructor()->getMock();
@@ -2707,7 +2674,7 @@ class UsersControllerTest extends TestCase {
 	public function testGetUsersGroupsSelfTargetted() {
 		$loggedInUser = $this->getMockBuilder(IUser::class)->disableOriginalConstructor()->getMock();
 		$loggedInUser
-			->expects($this->once())
+			->expects($this->exactly(3))
 			->method('getUID')
 			->willReturn('UserToLookup');
 		$targetUser = $this->getMockBuilder(IUser::class)->disableOriginalConstructor()->getMock();
@@ -2736,7 +2703,7 @@ class UsersControllerTest extends TestCase {
 	public function testGetUsersGroupsForAdminUser() {
 		$loggedInUser = $this->getMockBuilder(IUser::class)->disableOriginalConstructor()->getMock();
 		$loggedInUser
-			->expects($this->exactly(2))
+			->expects($this->exactly(3))
 			->method('getUID')
 			->willReturn('admin');
 		$targetUser = $this->getMockBuilder(IUser::class)->disableOriginalConstructor()->getMock();
@@ -2770,7 +2737,7 @@ class UsersControllerTest extends TestCase {
 	public function testGetUsersGroupsForSubAdminUserAndUserIsAccessible() {
 		$loggedInUser = $this->getMockBuilder(IUser::class)->disableOriginalConstructor()->getMock();
 		$loggedInUser
-			->expects($this->exactly(2))
+			->expects($this->exactly(3))
 			->method('getUID')
 			->willReturn('subadmin');
 		$targetUser = $this->getMockBuilder(IUser::class)->disableOriginalConstructor()->getMock();
@@ -2834,7 +2801,7 @@ class UsersControllerTest extends TestCase {
 
 		$loggedInUser = $this->getMockBuilder(IUser::class)->disableOriginalConstructor()->getMock();
 		$loggedInUser
-			->expects($this->exactly(2))
+			->expects($this->exactly(3))
 			->method('getUID')
 			->willReturn('subadmin');
 		$targetUser = $this->getMockBuilder(IUser::class)->disableOriginalConstructor()->getMock();
@@ -2918,7 +2885,7 @@ class UsersControllerTest extends TestCase {
 
 		$targetUser = $this->createMock(IUser::class);
 		$loggedInUser = $this->createMock(IUser::class);
-		$loggedInUser->expects($this->once())
+		$loggedInUser->expects($this->exactly(2))
 			->method('getUID')
 			->willReturn('subadmin');
 
@@ -2962,7 +2929,7 @@ class UsersControllerTest extends TestCase {
 	public function testAddToGroupSuccessAsSubadmin() {
 		$targetUser = $this->createMock(IUser::class);
 		$loggedInUser = $this->createMock(IUser::class);
-		$loggedInUser->expects($this->once())
+		$loggedInUser->expects($this->exactly(2))
 			->method('getUID')
 			->willReturn('subadmin');
 
@@ -3006,7 +2973,7 @@ class UsersControllerTest extends TestCase {
 	public function testAddToGroupSuccessAsAdmin() {
 		$targetUser = $this->createMock(IUser::class);
 		$loggedInUser = $this->createMock(IUser::class);
-		$loggedInUser->expects($this->once())
+		$loggedInUser->expects($this->exactly(2))
 			->method('getUID')
 			->willReturn('admin');
 
@@ -3124,7 +3091,7 @@ class UsersControllerTest extends TestCase {
 
 		$loggedInUser = $this->getMockBuilder(IUser::class)->disableOriginalConstructor()->getMock();
 		$loggedInUser
-			->expects($this->once())
+			->expects($this->exactly(2))
 			->method('getUID')
 			->willReturn('unauthorizedUser');
 		$targetUser = $this->getMockBuilder(IUser::class)->disableOriginalConstructor()->getMock();
@@ -3211,7 +3178,7 @@ class UsersControllerTest extends TestCase {
 
 	public function testRemoveFromGroupAsSubAdminFromSubAdmin() {
 		$this->expectException(\OCP\AppFramework\OCS\OCSException::class);
-		$this->expectExceptionMessage('Cannot remove yourself from this group as you are a SubAdmin');
+		$this->expectExceptionMessage('Cannot remove yourself from this group as you are a sub-admin');
 		$this->expectExceptionCode(105);
 
 		$loggedInUser = $this->getMockBuilder(IUser::class)->disableOriginalConstructor()->getMock();
@@ -3266,7 +3233,7 @@ class UsersControllerTest extends TestCase {
 
 	public function testRemoveFromGroupAsSubAdminFromLastSubAdminGroup() {
 		$this->expectException(\OCP\AppFramework\OCS\OCSException::class);
-		$this->expectExceptionMessage('Not viable to remove user from the last group you are SubAdmin of');
+		$this->expectExceptionMessage('Not viable to remove user from the last group you are sub-admin of');
 		$this->expectExceptionCode(105);
 
 		$loggedInUser = $this->getMockBuilder(IUser::class)->disableOriginalConstructor()->getMock();
@@ -3406,7 +3373,7 @@ class UsersControllerTest extends TestCase {
 
 	public function testAddSubAdminToAdminGroup() {
 		$this->expectException(\OCP\AppFramework\OCS\OCSException::class);
-		$this->expectExceptionMessage('Cannot create subadmins for admin group');
+		$this->expectExceptionMessage('Cannot create sub-admins for admin group');
 		$this->expectExceptionCode(103);
 
 		$targetUser = $this->getMockBuilder(IUser::class)->disableOriginalConstructor()->getMock();
@@ -3529,7 +3496,7 @@ class UsersControllerTest extends TestCase {
 
 	public function testRemoveSubAdminFromNotASubadmin() {
 		$this->expectException(\OCP\AppFramework\OCS\OCSException::class);
-		$this->expectExceptionMessage('User is not a subadmin of this group');
+		$this->expectExceptionMessage('User is not a sub-admin of this group');
 		$this->expectExceptionCode(102);
 
 		$targetUser = $this->getMockBuilder(IUser::class)->disableOriginalConstructor()->getMock();
@@ -3645,7 +3612,7 @@ class UsersControllerTest extends TestCase {
 			->willReturn($targetUser);
 		$loggedInUser = $this->getMockBuilder(IUser::class)->disableOriginalConstructor()->getMock();
 		$loggedInUser
-			->expects($this->exactly(2))
+			->expects($this->exactly(3))
 			->method('getUID')
 			->willReturn('admin');
 		$this->userSession
@@ -3672,7 +3639,7 @@ class UsersControllerTest extends TestCase {
 			->willReturn($targetUser);
 		$loggedInUser = $this->getMockBuilder(IUser::class)->disableOriginalConstructor()->getMock();
 		$loggedInUser
-			->expects($this->exactly(2))
+			->expects($this->exactly(3))
 			->method('getUID')
 			->willReturn('admin');
 		$this->userSession
@@ -3704,9 +3671,9 @@ class UsersControllerTest extends TestCase {
 				$this->groupManager,
 				$this->userSession,
 				$this->accountManager,
+				$this->l10nFactory,
 				$this->urlGenerator,
 				$this->logger,
-				$this->l10nFactory,
 				$this->newUserMailHelper,
 				$this->secureRandom,
 				$this->remoteWipe,
@@ -3791,9 +3758,9 @@ class UsersControllerTest extends TestCase {
 				$this->groupManager,
 				$this->userSession,
 				$this->accountManager,
+				$this->l10nFactory,
 				$this->urlGenerator,
 				$this->logger,
-				$this->l10nFactory,
 				$this->newUserMailHelper,
 				$this->secureRandom,
 				$this->remoteWipe,
@@ -3859,7 +3826,7 @@ class UsersControllerTest extends TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 		$loggedInUser
-			->expects($this->exactly(1))
+			->expects($this->exactly(2))
 			->method('getUID')
 			->willReturn('subadmin');
 		$targetUser = $this->getMockBuilder(IUser::class)
@@ -3928,6 +3895,10 @@ class UsersControllerTest extends TestCase {
 			->expects($this->once())
 			->method('getSubAdmin')
 			->willReturn($subAdminManager);
+		$loggedInUser
+			->expects($this->exactly(2))
+			->method('getUID')
+			->willReturn('logged-user-id');
 		$targetUser
 			->expects($this->once())
 			->method('getEmailAddress')
@@ -3969,6 +3940,10 @@ class UsersControllerTest extends TestCase {
 			->expects($this->once())
 			->method('getSubAdmin')
 			->willReturn($subAdminManager);
+		$loggedInUser
+			->expects($this->exactly(2))
+			->method('getUID')
+			->willReturn('logged-user-id');
 		$targetUser
 			->expects($this->once())
 			->method('getEmailAddress')
@@ -3984,6 +3959,9 @@ class UsersControllerTest extends TestCase {
 		$targetUser = $this->getMockBuilder(IUser::class)
 			->disableOriginalConstructor()
 			->getMock();
+		$loggedInUser
+			->method('getUID')
+			->willReturn('logged-user-id');
 		$targetUser
 			->method('getUID')
 			->willReturn('user-id');
@@ -4032,6 +4010,9 @@ class UsersControllerTest extends TestCase {
 		$targetUser = $this->getMockBuilder(IUser::class)
 			->disableOriginalConstructor()
 			->getMock();
+		$loggedInUser
+			->method('getUID')
+			->willReturn('logged-user-id');
 		$targetUser
 			->method('getUID')
 			->willReturn('user-id');
@@ -4060,9 +4041,6 @@ class UsersControllerTest extends TestCase {
 			->expects($this->once())
 			->method('getEmailAddress')
 			->willReturn('abc@example.org');
-		$l10n = $this->getMockBuilder(IL10N::class)
-			->disableOriginalConstructor()
-			->getMock();
 		$emailTemplate = $this->createMock(IEMailTemplate::class);
 		$this->newUserMailHelper
 			->expects($this->once())
@@ -4088,6 +4066,10 @@ class UsersControllerTest extends TestCase {
 		$targetUser = $this->getMockBuilder(IUser::class)
 			->disableOriginalConstructor()
 			->getMock();
+		$loggedInUser
+			->expects($this->exactly(2))
+			->method('getUID')
+			->willReturn('logged-user-id');
 		$targetUser
 			->method('getUID')
 			->willReturn('user-id');

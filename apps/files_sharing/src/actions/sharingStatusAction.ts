@@ -1,45 +1,24 @@
 /**
- * @copyright Copyright (c) 2023 John Molakvoæ <skjnldsv@protonmail.com>
- *
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- *
- * @license AGPL-3.0-or-later
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 import { Node, View, registerFileAction, FileAction, Permission } from '@nextcloud/files'
 import { translate as t } from '@nextcloud/l10n'
-import { Type } from '@nextcloud/sharing'
+import { ShareType } from '@nextcloud/sharing'
 
 import AccountGroupSvg from '@mdi/svg/svg/account-group.svg?raw'
 import AccountPlusSvg from '@mdi/svg/svg/account-plus.svg?raw'
 import LinkSvg from '@mdi/svg/svg/link.svg?raw'
 import CircleSvg from '../../../../core/img/apps/circles.svg?raw'
 
-import { action as sidebarAction } from '../../../files/src/actions/sidebarAction'
-import { generateUrl } from '@nextcloud/router'
 import { getCurrentUser } from '@nextcloud/auth'
+import { action as sidebarAction } from '../../../files/src/actions/sidebarAction'
+import { generateAvatarSvg } from '../utils/AccountIcon'
 
 import './sharingStatusAction.scss'
 
-const generateAvatarSvg = (userId: string) => {
-	const avatarUrl = generateUrl('/avatar/{userId}/32', { userId })
-	return `<svg width="32" height="32" viewBox="0 0 32 32"
-		xmlns="http://www.w3.org/2000/svg" class="sharing-status__avatar">
-		<image href="${avatarUrl}" height="32" width="32" />
-	</svg>`
+const isExternal = (node: Node) => {
+	return node.attributes.remote_id !== undefined
 }
 
 export const action = new FileAction({
@@ -47,10 +26,9 @@ export const action = new FileAction({
 	displayName(nodes: Node[]) {
 		const node = nodes[0]
 		const shareTypes = Object.values(node?.attributes?.['share-types'] || {}).flat() as number[]
-		const ownerId = node?.attributes?.['owner-id']
 
 		if (shareTypes.length > 0
-			|| (ownerId && ownerId !== getCurrentUser()?.uid)) {
+			|| (node.owner !== getCurrentUser()?.uid || isExternal(node))) {
 			return t('files_sharing', 'Shared')
 		}
 
@@ -59,40 +37,62 @@ export const action = new FileAction({
 
 	title(nodes: Node[]) {
 		const node = nodes[0]
-		const ownerId = node?.attributes?.['owner-id']
-		const ownerDisplayName = node?.attributes?.['owner-display-name']
 
-		if (ownerId && ownerId !== getCurrentUser()?.uid) {
+		if (node.owner && (node.owner !== getCurrentUser()?.uid || isExternal(node))) {
+			const ownerDisplayName = node?.attributes?.['owner-display-name']
 			return t('files_sharing', 'Shared by {ownerDisplayName}', { ownerDisplayName })
 		}
 
-		return ''
+		const shareTypes = Object.values(node?.attributes?.['share-types'] || {}).flat() as number[]
+		if (shareTypes.length > 1) {
+			return t('files_sharing', 'Shared multiple times with different people')
+		}
+
+		const sharees = node.attributes.sharees?.sharee as { id: string, 'display-name': string, type: ShareType }[] | undefined
+		if (!sharees) {
+			// No sharees so just show the default message to create a new share
+			return t('files_sharing', 'Show sharing options')
+		}
+
+		const sharee = [sharees].flat()[0] // the property is sometimes weirdly normalized, so we need to compensate
+		switch (sharee.type) {
+		case ShareType.User:
+			return t('files_sharing', 'Shared with {user}', { user: sharee['display-name'] })
+		case ShareType.Group:
+			return t('files_sharing', 'Shared with group {group}', { group: sharee['display-name'] ?? sharee.id })
+		default:
+			return t('files_sharing', 'Shared with others')
+		}
 	},
 
 	iconSvgInline(nodes: Node[]) {
 		const node = nodes[0]
 		const shareTypes = Object.values(node?.attributes?.['share-types'] || {}).flat() as number[]
 
+		// Mixed share types
+		if (Array.isArray(node.attributes?.['share-types']) && node.attributes?.['share-types'].length > 1) {
+			return AccountPlusSvg
+		}
+
 		// Link shares
-		if (shareTypes.includes(Type.SHARE_TYPE_LINK)
-			|| shareTypes.includes(Type.SHARE_TYPE_EMAIL)) {
+		if (shareTypes.includes(ShareType.Link)
+			|| shareTypes.includes(ShareType.Email)) {
 			return LinkSvg
 		}
 
 		// Group shares
-		if (shareTypes.includes(Type.SHARE_TYPE_GROUP)
-			|| shareTypes.includes(Type.SHARE_TYPE_REMOTE_GROUP)) {
+		if (shareTypes.includes(ShareType.Group)
+			|| shareTypes.includes(ShareType.RemoteGroup)) {
 			return AccountGroupSvg
 		}
 
 		// Circle shares
-		if (shareTypes.includes(Type.SHARE_TYPE_CIRCLE)) {
+		if (shareTypes.includes(ShareType.Team)) {
 			return CircleSvg
 		}
 
-		const ownerId = node?.attributes?.['owner-id']
-		if (ownerId && ownerId !== getCurrentUser()?.uid) {
-			return generateAvatarSvg(ownerId)
+		if (node.owner && (node.owner !== getCurrentUser()?.uid || isExternal(node))) {
+			return generateAvatarSvg(node.owner, isExternal(node))
 		}
 
 		return AccountPlusSvg
@@ -104,8 +104,17 @@ export const action = new FileAction({
 		}
 
 		const node = nodes[0]
-		const ownerId = node?.attributes?.['owner-id']
-		if (ownerId && ownerId !== getCurrentUser()?.uid) {
+		const shareTypes = node.attributes?.['share-types']
+		const isMixed = Array.isArray(shareTypes) && shareTypes.length > 0
+
+		// If the node is shared multiple times with
+		// different share types to the current user
+		if (isMixed) {
+			return true
+		}
+
+		// If the node is shared by someone else
+		if (node.owner !== getCurrentUser()?.uid || isExternal(node)) {
 			return true
 		}
 

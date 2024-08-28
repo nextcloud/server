@@ -7,10 +7,10 @@ OC.L10N.register(
     "Commuting" : "Woon-werk",
     "Out sick" : "Ziek",
     "Vacationing" : "Op vakantie",
+    "Out of office" : "Niet op kantoor",
     "Working remotely" : "Thuiswerken",
     "In a call" : "In gesprek",
     "User status" : "Gebruikersstatus",
-    "View profile" : "Bekijk profiel",
     "Clear status after" : "Maak de status leeg na",
     "What is your status?" : "Wat is jouw status?",
     "Set status" : "Status instellen",
@@ -33,7 +33,6 @@ OC.L10N.register(
     "1 hour" : "1 uur",
     "4 hours" : "4 uur",
     "Mute all notifications" : "Onderdruk alle meldingen",
-    "Appear offline" : "Toon afwezig",
-    "{status}, {timestamp}" : "{status}, {timestamp}"
+    "Appear offline" : "Toon afwezig"
 },
 "nplurals=2; plural=(n != 1);");

@@ -1,29 +1,23 @@
 <?php
 
 /**
- * Copyright (c) 2014 Robin Appelman <icewind@owncloud.com>
- * This file is licensed under the Affero General Public License version 3 or
- * later.
- * See the COPYING-README file.
+ * SPDX-FileCopyrightText: 2017-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace Test\DB;
 
 use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\ParameterType;
-use Doctrine\DBAL\Platforms\MySQLPlatform;
-use Doctrine\DBAL\Platforms\OraclePlatform;
-use Doctrine\DBAL\Platforms\PostgreSQL94Platform;
-use Doctrine\DBAL\Platforms\SqlitePlatform;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\DBAL\Schema\SchemaConfig;
 use OC\DB\Migrator;
-use OC\DB\MySQLMigrator;
 use OC\DB\OracleMigrator;
-use OC\DB\PostgreSqlMigrator;
 use OC\DB\SQLiteMigrator;
 use OCP\DB\Types;
 use OCP\IConfig;
+use OCP\IDBConnection;
 
 /**
  * Class MigratorTest
@@ -60,17 +54,11 @@ class MigratorTest extends \Test\TestCase {
 	}
 
 	private function getMigrator(): Migrator {
-		$platform = $this->connection->getDatabasePlatform();
-		$random = \OC::$server->getSecureRandom();
 		$dispatcher = \OC::$server->get(\OCP\EventDispatcher\IEventDispatcher::class);
-		if ($platform instanceof SqlitePlatform) {
+		if ($this->connection->getDatabaseProvider() === IDBConnection::PLATFORM_SQLITE) {
 			return new SQLiteMigrator($this->connection, $this->config, $dispatcher);
-		} elseif ($platform instanceof OraclePlatform) {
+		} elseif ($this->connection->getDatabaseProvider() === IDBConnection::PLATFORM_ORACLE) {
 			return new OracleMigrator($this->connection, $this->config, $dispatcher);
-		} elseif ($platform instanceof MySQLPlatform) {
-			return new MySQLMigrator($this->connection, $this->config, $dispatcher);
-		} elseif ($platform instanceof PostgreSQL94Platform) {
-			return new PostgreSqlMigrator($this->connection, $this->config, $dispatcher);
 		}
 		return new Migrator($this->connection, $this->config, $dispatcher);
 	}
@@ -136,14 +124,6 @@ class MigratorTest extends \Test\TestCase {
 		$config = new SchemaConfig();
 		$config->setName($this->connection->getDatabase());
 		return $config;
-	}
-
-	private function isSQLite() {
-		return $this->connection->getDatabasePlatform() instanceof SqlitePlatform;
-	}
-
-	private function isMySQL() {
-		return $this->connection->getDatabasePlatform() instanceof MySQLPlatform;
 	}
 
 	public function testUpgrade() {
@@ -268,7 +248,7 @@ class MigratorTest extends \Test\TestCase {
 		$table->addColumn('name', 'string');
 		$table->setPrimaryKey(['id']);
 
-		$fkName = "fkc";
+		$fkName = 'fkc';
 		$tableFk = $startSchema->createTable($this->tableNameTmp);
 		$tableFk->addColumn('fk_id', 'integer');
 		$tableFk->addColumn('name', 'string');
@@ -316,7 +296,7 @@ class MigratorTest extends \Test\TestCase {
 		$migrator = $this->getMigrator();
 		$migrator->migrate($startSchema);
 
-		if ($oracleThrows && $this->connection->getDatabasePlatform() instanceof OraclePlatform) {
+		if ($oracleThrows && $this->connection->getDatabaseProvider() === IDBConnection::PLATFORM_ORACLE) {
 			// Oracle can not store false|empty string in notnull columns
 			$this->expectException(\Doctrine\DBAL\Exception\NotNullConstraintViolationException::class);
 		}

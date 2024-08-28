@@ -1,32 +1,17 @@
 <?php
 /**
- * @copyright Copyright (c) 2021, Louis Chemineau <louis@chmn.me>
- *
- * @author Louis Chemineau <louis@chmn.me>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 
 namespace OCA\DAV\BulkUpload;
 
-use Sabre\HTTP\RequestInterface;
+use OCP\AppFramework\Http;
+use Psr\Log\LoggerInterface;
 use Sabre\DAV\Exception;
 use Sabre\DAV\Exception\BadRequest;
 use Sabre\DAV\Exception\LengthRequired;
-use OCP\AppFramework\Http;
+use Sabre\HTTP\RequestInterface;
 
 class MultipartRequestParser {
 
@@ -34,15 +19,18 @@ class MultipartRequestParser {
 	private $stream;
 
 	/** @var string */
-	private $boundary = "";
+	private $boundary = '';
 
 	/** @var string */
-	private $lastBoundary = "";
+	private $lastBoundary = '';
 
 	/**
 	 * @throws BadRequest
 	 */
-	public function __construct(RequestInterface $request) {
+	public function __construct(
+		RequestInterface $request,
+		protected LoggerInterface $logger,
+	) {
 		$stream = $request->getBody();
 		$contentType = $request->getHeader('Content-Type');
 
@@ -51,7 +39,7 @@ class MultipartRequestParser {
 		}
 
 		if ($contentType === null) {
-			throw new BadRequest("Content-Type can not be null");
+			throw new BadRequest('Content-Type can not be null');
 		}
 
 		$this->stream = $stream;
@@ -72,13 +60,13 @@ class MultipartRequestParser {
 			[$mimeType, $boundary] = explode(';', $contentType);
 			[$boundaryKey, $boundaryValue] = explode('=', $boundary);
 		} catch (\Exception $e) {
-			throw new BadRequest("Error while parsing boundary in Content-Type header.", Http::STATUS_BAD_REQUEST, $e);
+			throw new BadRequest('Error while parsing boundary in Content-Type header.', Http::STATUS_BAD_REQUEST, $e);
 		}
 
 		$boundaryValue = trim($boundaryValue);
 
 		// Remove potential quotes around boundary value.
-		if (substr($boundaryValue, 0, 1) == '"' && substr($boundaryValue, -1) == '"') {
+		if (str_starts_with($boundaryValue, '"') && str_ends_with($boundaryValue, '"')) {
 			$boundaryValue = substr($boundaryValue, 1, -1);
 		}
 
@@ -108,7 +96,7 @@ class MultipartRequestParser {
 
 		$seekBackResult = fseek($this->stream, -$expectedContentLength, SEEK_CUR);
 		if ($seekBackResult === -1) {
-			throw new Exception("Unknown error while seeking content", Http::STATUS_INTERNAL_SERVER_ERROR);
+			throw new Exception('Unknown error while seeking content', Http::STATUS_INTERNAL_SERVER_ERROR);
 		}
 
 		return $expectedContent === $content;
@@ -146,7 +134,7 @@ class MultipartRequestParser {
 
 		$headers = $this->readPartHeaders();
 
-		$content = $this->readPartContent($headers["content-length"], $headers["x-file-md5"]);
+		$content = $this->readPartContent($headers['content-length'], $headers['x-file-md5']);
 
 		return [$headers, $content];
 	}
@@ -158,7 +146,7 @@ class MultipartRequestParser {
 	 */
 	private function readBoundary(): string {
 		if (!$this->isAtBoundary()) {
-			throw new BadRequest("Boundary not found where it should be.");
+			throw new BadRequest('Boundary not found where it should be.');
 		}
 
 		return fread($this->stream, strlen($this->boundary));
@@ -179,6 +167,11 @@ class MultipartRequestParser {
 				throw new Exception('An error occurred while reading headers of a part');
 			}
 
+			if (!str_contains($line, ':')) {
+				$this->logger->error('Header missing ":" on bulk request: ' . json_encode($line));
+				throw new Exception('An error occurred while reading headers of a part', Http::STATUS_BAD_REQUEST);
+			}
+
 			try {
 				[$key, $value] = explode(':', $line, 2);
 				$headers[strtolower(trim($key))] = trim($value);
@@ -187,12 +180,12 @@ class MultipartRequestParser {
 			}
 		}
 
-		if (!isset($headers["content-length"])) {
-			throw new LengthRequired("The Content-Length header must not be null.");
+		if (!isset($headers['content-length'])) {
+			throw new LengthRequired('The Content-Length header must not be null.');
 		}
 
-		if (!isset($headers["x-file-md5"])) {
-			throw new BadRequest("The X-File-MD5 header must not be null.");
+		if (!isset($headers['x-file-md5'])) {
+			throw new BadRequest('The X-File-MD5 header must not be null.');
 		}
 
 		return $headers;
@@ -208,7 +201,7 @@ class MultipartRequestParser {
 		$computedMd5 = $this->computeMd5Hash($length);
 
 		if ($md5 !== $computedMd5) {
-			throw new BadRequest("Computed md5 hash is incorrect.");
+			throw new BadRequest('Computed md5 hash is incorrect.');
 		}
 
 		if ($length === 0) {
@@ -222,7 +215,7 @@ class MultipartRequestParser {
 		}
 
 		if ($length !== 0 && feof($this->stream)) {
-			throw new Exception("Unexpected EOF while reading stream.");
+			throw new Exception('Unexpected EOF while reading stream.');
 		}
 
 		// Read '\r\n'.

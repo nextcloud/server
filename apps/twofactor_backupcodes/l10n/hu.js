@@ -10,7 +10,7 @@ OC.L10N.register(
     "Two factor backup codes" : "Kétlépcsős biztonsági mentési kódok",
     "A two-factor auth backup codes provider" : "Kétlépcsős hitelesítés biztonsági kódjainak szolgáltatója",
     "Backup codes have been generated. {used} of {total} codes have been used." : "Létrejöttek a biztonsági kódok. {total} kódból {used} lett felhasználva.",
-    "These are your backup codes. Please save and/or print them as you will not be able to read the codes again later" : "Ezek a biztonsági kódjai. Mentse el vagy nyomtassa ki őket úgy, hogy később is meglegyenek.",
+    "These are your backup codes. Please save and/or print them as you will not be able to read the codes again later." : "Ezek a biztonsági kódjai. Mentse el vagy nyomtassa ki őket úgy, hogy később is meglegyenek.",
     "Save backup codes" : "Biztonsági kódok mentése",
     "Print backup codes" : "Biztonsági kódok nyomtatása",
     "Regenerate backup codes" : "Biztonsági kódok újbóli előállítása",
@@ -18,6 +18,7 @@ OC.L10N.register(
     "An error occurred while generating your backup codes" : "Hiba történt a biztonsági kódok előállítása során",
     "{name} backup codes" : "{name} biztonsági kódjai",
     "Use one of the backup codes you saved when setting up two-factor authentication." : "Használjon egy biztonsági kódot, amikor beállítja a kétlépcsős hitelesítést.",
-    "Submit" : "Küldés"
+    "Submit" : "Küldés",
+    "These are your backup codes. Please save and/or print them as you will not be able to read the codes again later" : "Ezek a biztonsági kódjai. Mentse el vagy nyomtassa ki őket úgy, hogy később is meglegyenek."
 },
 "nplurals=2; plural=(n != 1);");

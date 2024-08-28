@@ -1,35 +1,16 @@
 <?php
 
 declare(strict_types=1);
-
 /**
- * @copyright Copyright (c) 2020 Robin Appelman <robin@icewind.nl>
- *
- * @author Robin Appelman <robin@icewind.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-
 namespace OC\Files\Node;
 
 use OC\Files\Filesystem;
 use OC\Files\Utils\PathHelper;
-use OCP\Files\Folder;
 use OCP\Constants;
+use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
 use OCP\Files\Mount\IMountPoint;
 use OCP\Files\NotPermittedException;
@@ -100,7 +81,7 @@ class LazyFolder implements Folder {
 	/**
 	 * @inheritDoc
 	 */
-	public function removeListener($scope = null, $method = null, callable $callback = null) {
+	public function removeListener($scope = null, $method = null, ?callable $callback = null) {
 		$this->__call(__FUNCTION__, func_get_args());
 	}
 
@@ -491,7 +472,11 @@ class LazyFolder implements Folder {
 	 * @inheritDoc
 	 */
 	public function getById($id) {
-		return $this->__call(__FUNCTION__, func_get_args());
+		return $this->getRootFolder()->getByIdInPath((int)$id, $this->getPath());
+	}
+
+	public function getFirstNodeById(int $id): ?\OCP\Files\Node {
+		return $this->getRootFolder()->getFirstNodeByIdInPath($id, $this->getPath());
 	}
 
 	/**
@@ -573,5 +558,13 @@ class LazyFolder implements Folder {
 			return $this->data['parent'];
 		}
 		return $this->__call(__FUNCTION__, func_get_args());
+	}
+
+	/**
+	 * @inheritDoc
+	 * @return array<string, int|string|bool|float|string[]|int[]>
+	 */
+	public function getMetadata(): array {
+		return $this->data['metadata'] ?? $this->__call(__FUNCTION__, func_get_args());
 	}
 }

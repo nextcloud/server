@@ -1,27 +1,11 @@
 <!--
-  - @copyright Copyright (c) 2023 John Molakvoæ <skjnldsv@protonmail.com>
-  -
-  - @author John Molakvoæ <skjnldsv@protonmail.com>
-  -
-  - @license GNU AGPL version 3 or any later version
-  -
-  - This program is free software: you can redistribute it and/or modify
-  - it under the terms of the GNU Affero General Public License as
-  - published by the Free Software Foundation, either version 3 of the
-  - License, or (at your option) any later version.
-  -
-  - This program is distributed in the hope that it will be useful,
-  - but WITHOUT ANY WARRANTY; without even the implied warranty of
-  - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  - GNU Affero General Public License for more details.
-  -
-  - You should have received a copy of the GNU Affero General Public License
-  - along with this program. If not, see <http://www.gnu.org/licenses/>.
-  -
-  -->
+  - SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 <template>
 	<tr>
 		<th class="files-list__row-checkbox">
+			<!-- TRANSLATORS Label for a table footer which summarizes the columns of the table -->
 			<span class="hidden-visually">{{ t('files', 'Total rows summary') }}</span>
 		</th>
 
@@ -57,20 +41,25 @@
 </template>
 
 <script lang="ts">
-import { formatFileSize } from '@nextcloud/files'
+import type { Node } from '@nextcloud/files'
+import type { PropType } from 'vue'
+
+import { View, formatFileSize } from '@nextcloud/files'
 import { translate } from '@nextcloud/l10n'
-import Vue from 'vue'
+import { defineComponent } from 'vue'
 
 import { useFilesStore } from '../store/files.ts'
 import { usePathsStore } from '../store/paths.ts'
+import { useRouteParameters } from '../composables/useRouteParameters.ts'
 
-export default Vue.extend({
+export default defineComponent({
 	name: 'FilesListTableFooter',
 
-	components: {
-	},
-
 	props: {
+		currentView: {
+			type: View,
+			required: true,
+		},
 		isMtimeAvailable: {
 			type: Boolean,
 			default: false,
@@ -80,7 +69,7 @@ export default Vue.extend({
 			default: false,
 		},
 		nodes: {
-			type: Array,
+			type: Array as PropType<Node[]>,
 			required: true,
 		},
 		summary: {
@@ -96,31 +85,24 @@ export default Vue.extend({
 	setup() {
 		const pathsStore = usePathsStore()
 		const filesStore = useFilesStore()
+		const { directory } = useRouteParameters()
 		return {
 			filesStore,
 			pathsStore,
+			directory,
 		}
 	},
 
 	computed: {
-		currentView() {
-			return this.$navigation.active
-		},
-
-		dir() {
-			// Remove any trailing slash but leave root slash
-			return (this.$route?.query?.dir || '/').replace(/^(.+)\/$/, '$1')
-		},
-
 		currentFolder() {
 			if (!this.currentView?.id) {
 				return
 			}
 
-			if (this.dir === '/') {
+			if (this.directory === '/') {
 				return this.filesStore.getRoot(this.currentView.id)
 			}
-			const fileId = this.pathsStore.getPath(this.currentView.id, this.dir)
+			const fileId = this.pathsStore.getPath(this.currentView.id, this.directory)!
 			return this.filesStore.getNode(fileId)
 		},
 
@@ -139,7 +121,7 @@ export default Vue.extend({
 			}
 
 			// Otherwise let's compute it
-			return formatFileSize(this.nodes.reduce((total, node) => total + node.size || 0, 0), true)
+			return formatFileSize(this.nodes.reduce((total, node) => total + (node.size ?? 0), 0), true)
 		},
 	},
 
@@ -159,17 +141,16 @@ export default Vue.extend({
 <style scoped lang="scss">
 // Scoped row
 tr {
-	padding-bottom: 300px;
+	margin-bottom: max(25vh, var(--body-container-margin));
 	border-top: 1px solid var(--color-border);
 	// Prevent hover effect on the whole row
 	background-color: transparent !important;
 	border-bottom: none !important;
-}
 
-td {
-	user-select: none;
-	// Make sure the cell colors don't apply to column headers
-	color: var(--color-text-maxcontrast) !important;
+	td {
+		user-select: none;
+		// Make sure the cell colors don't apply to column headers
+		color: var(--color-text-maxcontrast) !important;
+	}
 }
-
 </style>

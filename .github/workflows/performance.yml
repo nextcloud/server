@@ -1,6 +1,12 @@
+# SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
+# SPDX-License-Identifier: MIT
 name: Performance testing
 on:
   pull_request:
+
+concurrency:
+  group: performance-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
 
 jobs:
   performance-testing:
@@ -11,19 +17,25 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php-versions: ['8.0']
+        php-versions: ['8.1']
 
     name: performance-${{ matrix.php-versions }}
 
     steps:
+      - name: Disabled on forks
+        if: ${{ github.event.pull_request.head.repo.full_name != github.repository }}
+        run: |
+          echo 'Can not run performance tests on forks'
+          exit 1
+
       - name: Checkout server before PR
-        uses: actions/checkout@3df4ab11eba7bda6032a0b82a6bb43b11571feac
+        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332
         with:
           submodules: true
           ref: ${{ github.event.pull_request.base.ref }}
 
       - name: Set up php ${{ matrix.php-versions }}
-        uses: shivammathur/setup-php@c5fc0d8281aba02c7fda07d3a70cc5371548067d #v2.25.2
+        uses: shivammathur/setup-php@c541c155eee45413f5b09a52248675b1a2575231 #v2.31.1
         with:
           php-version: ${{ matrix.php-versions }}
           extensions: mbstring, fileinfo, intl, sqlite, pdo_sqlite, zip, gd
@@ -41,8 +53,9 @@ jobs:
         with:
           blueprint: tests/blueprints/basic.toml
           ref: ${{ github.event.pull_request.head.ref }}
+
       - name: Run before measurements
-        uses: nextcloud/profiler@1e66a9de5f76a01e9d1db4f0153bcc1cbf989b3d
+        uses: nextcloud/profiler@6801ee10fc80f10b444388fb6ca9b36ad8a2ea83
         with:
           run: |
             curl -s -X PROPFIND -u test:test http://localhost:8080/remote.php/dav/files/test
@@ -55,16 +68,16 @@ jobs:
 
       - name: Apply PR
         run: |
-          git remote add pr ${{ github.event.pull_request.head.repo.clone_url }}
-          git fetch pr ${{ github.event.pull_request.head.ref }}
-          git checkout -b pr/${{ github.event.pull_request.head.ref }}
+          git remote add pr '${{ github.event.pull_request.head.repo.clone_url }}'
+          git fetch pr '${{ github.event.pull_request.head.ref }}'
+          git checkout -b 'pr/${{ github.event.pull_request.head.ref }}'
           git submodule update
 
           ./occ upgrade
 
       - name: Run after measurements
         id: compare
-        uses: nextcloud/profiler@1e66a9de5f76a01e9d1db4f0153bcc1cbf989b3d
+        uses: nextcloud/profiler@6801ee10fc80f10b444388fb6ca9b36ad8a2ea83
         with:
           run: |
             curl -s -X PROPFIND -u test:test http://localhost:8080/remote.php/dav/files/test
@@ -78,14 +91,14 @@ jobs:
 
       - name: Upload profiles
         if: always()
-        uses: actions/upload-artifact@a8a3f3ad30e3422c9c7b888a15615d19a852ae32
+        uses: actions/upload-artifact@0b2256b8c012f0828dc542b3febcab082c67f72b
         with:
           name: profiles
           path: |
             before.json
             after.json
 
-      - uses: actions/github-script@v6
+      - uses: actions/github-script@v7
         if: failure() && steps.compare.outcome == 'failure'
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}

@@ -1,3 +1,5 @@
+# SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
+# SPDX-License-Identifier: AGPL-3.0-or-later
 Feature: maintenance-mode
 
   Background:
@@ -36,6 +38,12 @@ Feature: maintenance-mode
 
   Scenario: Accessing /public.php/webdav with maintenance mode enabled
     When requesting "/public.php/webdav" with "GET"
+    Then the HTTP status code should be "503"
+    Then Maintenance mode is disabled
+    And the command was successful
+
+  Scenario: Accessing /public.php/dav with maintenance mode enabled
+    When requesting "/public.php/dav" with "GET"
     Then the HTTP status code should be "503"
     Then Maintenance mode is disabled
     And the command was successful

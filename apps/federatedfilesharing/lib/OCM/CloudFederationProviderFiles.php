@@ -1,30 +1,7 @@
 <?php
 /**
- * @copyright Copyright (c) 2018 Bjoern Schiessle <bjoern@schiessle.org>
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Bjoern Schiessle <bjoern@schiessle.org>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Maxence Lange <maxence@artificial-owl.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\FederatedFileSharing\OCM;
 
@@ -46,6 +23,7 @@ use OCP\Federation\ICloudFederationProvider;
 use OCP\Federation\ICloudFederationProviderManager;
 use OCP\Federation\ICloudFederationShare;
 use OCP\Federation\ICloudIdManager;
+use OCP\Files\IFilenameValidator;
 use OCP\Files\NotFoundException;
 use OCP\HintException;
 use OCP\IConfig;
@@ -82,6 +60,7 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 		private IConfig $config,
 		private Manager $externalShareManager,
 		private LoggerInterface $logger,
+		private IFilenameValidator $filenameValidator,
 	) {
 	}
 
@@ -138,7 +117,7 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 		}
 
 		if ($remote && $token && $name && $owner && $remoteId && $shareWith) {
-			if (!Util::isValidFileName($name)) {
+			if (!$this->filenameValidator->isFilenameValid($name)) {
 				throw new ProviderCouldNotAddShareException('The mountpoint name contains invalid characters.', '', Http::STATUS_BAD_REQUEST);
 			}
 
@@ -452,7 +431,7 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 	 */
 	private function unshare($id, array $notification) {
 		if (!$this->isS2SEnabled(true)) {
-			throw new ActionNotSupportedException("incoming shares disabled!");
+			throw new ActionNotSupportedException('incoming shares disabled!');
 		}
 
 		if (!isset($notification['sharedSecret'])) {

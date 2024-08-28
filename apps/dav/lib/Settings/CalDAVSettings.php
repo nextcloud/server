@@ -1,34 +1,15 @@
 <?php
 /**
- * @copyright 2017, Georg Ehrke <oc.list@georgehrke.com>
- *
- * @author Georg Ehrke <oc.list@georgehrke.com>
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Thomas Citharel <nextcloud@tcit.fr>
- * @author François Freitag <mail@franek.fr>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\DAV\Settings;
 
 use OCA\DAV\AppInfo\Application;
+use OCP\App\IAppManager;
 use OCP\AppFramework\Http\TemplateResponse;
-use OCP\IConfig;
 use OCP\AppFramework\Services\IInitialState;
+use OCP\IConfig;
 use OCP\IURLGenerator;
 use OCP\Settings\IDelegatedSettings;
 
@@ -41,6 +22,7 @@ class CalDAVSettings implements IDelegatedSettings {
 	private $initialState;
 
 	private IURLGenerator $urlGenerator;
+	private IAppManager $appManager;
 
 	private const defaults = [
 		'sendInvitations' => 'yes',
@@ -56,10 +38,11 @@ class CalDAVSettings implements IDelegatedSettings {
 	 * @param IConfig $config
 	 * @param IInitialState $initialState
 	 */
-	public function __construct(IConfig $config, IInitialState $initialState, IURLGenerator $urlGenerator) {
+	public function __construct(IConfig $config, IInitialState $initialState, IURLGenerator $urlGenerator, IAppManager $appManager) {
 		$this->config = $config;
 		$this->initialState = $initialState;
 		$this->urlGenerator = $urlGenerator;
+		$this->appManager = $appManager;
 	}
 
 	public function getForm(): TemplateResponse {
@@ -71,10 +54,11 @@ class CalDAVSettings implements IDelegatedSettings {
 		return new TemplateResponse(Application::APP_ID, 'settings-admin-caldav');
 	}
 
-	/**
-	 * @return string
-	 */
-	public function getSection() {
+	public function getSection(): ?string {
+		if (!$this->appManager->isBackendRequired(IAppManager::BACKEND_CALDAV)) {
+			return null;
+		}
+
 		return 'groupware';
 	}
 

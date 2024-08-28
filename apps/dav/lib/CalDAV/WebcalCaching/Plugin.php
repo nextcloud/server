@@ -3,30 +3,12 @@
 declare(strict_types=1);
 
 /**
- * @copyright 2018 Georg Ehrke <oc.list@georgehrke.com>
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Georg Ehrke <oc.list@georgehrke.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\DAV\CalDAV\WebcalCaching;
 
-use OCA\DAV\CalDAV\CalendarHome;
+use OCA\DAV\CalDAV\CalendarRoot;
 use OCP\IRequest;
 use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\Server;
@@ -41,10 +23,14 @@ class Plugin extends ServerPlugin {
 	 * that do not support subscriptions on their own
 	 *
 	 * /^MSFT-WIN-3/ - Windows 10 Calendar
+	 * /Evolution/ - Gnome Calendar/Evolution
+	 * /KIO/ - KDE PIM/Akonadi
 	 * @var string[]
 	 */
 	public const ENABLE_FOR_CLIENTS = [
-		"/^MSFT-WIN-3/"
+		'/^MSFT-WIN-3/',
+		'/Evolution/',
+		'/KIO/'
 	];
 
 	/**
@@ -71,6 +57,11 @@ class Plugin extends ServerPlugin {
 		if ($magicHeader === 'On') {
 			$this->enabled = true;
 		}
+
+		$isExportRequest = $request->getMethod() === 'GET' && array_key_exists('export', $request->getParams());
+		if ($isExportRequest) {
+			$this->enabled = true;
+		}
 	}
 
 	/**
@@ -85,7 +76,7 @@ class Plugin extends ServerPlugin {
 	 */
 	public function initialize(Server $server) {
 		$this->server = $server;
-		$server->on('beforeMethod:*', [$this, 'beforeMethod']);
+		$server->on('beforeMethod:*', [$this, 'beforeMethod'], 15);
 	}
 
 	/**
@@ -98,21 +89,20 @@ class Plugin extends ServerPlugin {
 		}
 
 		$path = $request->getPath();
+		if (!str_starts_with($path, 'calendars/')) {
+			return;
+		}
+
 		$pathParts = explode('/', ltrim($path, '/'));
 		if (\count($pathParts) < 2) {
 			return;
 		}
 
-		// $calendarHomePath will look like: calendars/username
-		$calendarHomePath = $pathParts[0] . '/' . $pathParts[1];
 		try {
-			$calendarHome = $this->server->tree->getNodeForPath($calendarHomePath);
-			if (!($calendarHome instanceof CalendarHome)) {
-				//how did we end up here?
-				return;
+			$calendarRoot = $this->server->tree->getNodeForPath($pathParts[0]);
+			if ($calendarRoot instanceof CalendarRoot) {
+				$calendarRoot->enableReturnCachedSubscriptions($pathParts[1]);
 			}
-
-			$calendarHome->enableCachedSubscriptionsForThisRequest();
 		} catch (NotFound $ex) {
 			return;
 		}

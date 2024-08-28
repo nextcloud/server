@@ -1,32 +1,14 @@
 <?php
 /**
- * @copyright Copyright (c) 2018, Daniel Calviño Sánchez (danxuliu@gmail.com)
- *
- * @author Daniel Calviño Sánchez <danxuliu@gmail.com>
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 use PHPUnit\Framework\Assert;
 
 require __DIR__ . '/../../vendor/autoload.php';
 
 trait Download {
-	/** @var string **/
+	/** @var string * */
 	private $downloadedFile;
 
 	/** @AfterScenario **/
@@ -39,7 +21,7 @@ trait Download {
 	 */
 	public function userDownloadsZipFileForEntriesInFolder($user, $entries, $folder) {
 		$this->asAn($user);
-		$this->sendingToDirectUrl('GET', "/index.php/apps/files/ajax/download.php?dir=" . $folder . "&files=[" . $entries . "]");
+		$this->sendingToDirectUrl('GET', '/index.php/apps/files/ajax/download.php?dir=' . $folder . '&files=[' . $entries . ']');
 		$this->theHTTPStatusCodeShouldBe('200');
 
 		$this->getDownloadedFile();
@@ -63,7 +45,7 @@ trait Download {
 		// printed in case of error.
 		Assert::assertTrue(
 			strpos($this->downloadedFile, "\x50\x4B\x06\x06") === false,
-			"File contains the zip64 end of central dir signature"
+			'File contains the zip64 end of central dir signature'
 		);
 	}
 
@@ -75,7 +57,7 @@ trait Download {
 		// printed in case of error.
 		Assert::assertTrue(
 			strpos($this->downloadedFile, "\x50\x4B\x06\x06") !== false,
-			"File does not contain the zip64 end of central dir signature"
+			'File does not contain the zip64 end of central dir signature'
 		);
 	}
 
@@ -95,7 +77,7 @@ trait Download {
 		// in case of error and to be able to get the extra field length.
 		Assert::assertEquals(
 			1, preg_match($fileHeaderRegExp, $this->downloadedFile, $matches),
-			"Local header for file did not appear once in zip file"
+			'Local header for file did not appear once in zip file'
 		);
 
 		$extraFieldLength = unpack('vextraFieldLength', $matches[1])['extraFieldLength'];
@@ -115,7 +97,7 @@ trait Download {
 		// in case of error.
 		Assert::assertEquals(
 			1, preg_match($fileHeaderAndContentRegExp, $this->downloadedFile),
-			"Local header and contents for file did not appear once in zip file"
+			'Local header and contents for file did not appear once in zip file'
 		);
 	}
 
@@ -135,7 +117,7 @@ trait Download {
 		// in case of error.
 		Assert::assertEquals(
 			1, preg_match($folderHeaderRegExp, $this->downloadedFile),
-			"Local header for folder did not appear once in zip file"
+			'Local header for folder did not appear once in zip file'
 		);
 	}
 }

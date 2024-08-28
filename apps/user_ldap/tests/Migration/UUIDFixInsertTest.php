@@ -1,26 +1,7 @@
 <?php
 /**
- * @copyright Copyright (c) 2017 Arthur Schiwon <blizzz@arthur-schiwon.de>
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\User_LDAP\Tests\Migration;
 
@@ -33,19 +14,19 @@ use OCP\Migration\IOutput;
 use Test\TestCase;
 
 class UUIDFixInsertTest extends TestCase {
-	/** @var  IConfig|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
 	protected $config;
 
-	/** @var  UserMapping|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var UserMapping|\PHPUnit\Framework\MockObject\MockObject */
 	protected $userMapper;
 
-	/** @var  GroupMapping|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var GroupMapping|\PHPUnit\Framework\MockObject\MockObject */
 	protected $groupMapper;
 
-	/** @var  IJobList|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IJobList|\PHPUnit\Framework\MockObject\MockObject */
 	protected $jobList;
 
-	/** @var  UUIDFixInsert */
+	/** @var UUIDFixInsert */
 	protected $job;
 
 	protected function setUp(): void {
@@ -78,7 +59,7 @@ class UUIDFixInsertTest extends TestCase {
 		$userBatches = [
 			0 => array_fill(0, 50, $record),
 			1 => array_fill(0, 50, $record),
-			2 => array_fill(0,  13, $record),
+			2 => array_fill(0, 13, $record),
 		];
 
 		$groupBatches = [
@@ -152,7 +133,7 @@ class UUIDFixInsertTest extends TestCase {
 		$this->userMapper->expects($this->exactly(5))
 			->method('getList')
 			->withConsecutive([0, 50], [0, 40], [0, 32], [32, 32], [64, 32])
-			->willReturnOnConsecutiveCalls($userBatches[0], $userBatches[1], $userBatches[2],  $userBatches[3],  $userBatches[4]);
+			->willReturnOnConsecutiveCalls($userBatches[0], $userBatches[1], $userBatches[2], $userBatches[3], $userBatches[4]);
 
 		$this->groupMapper->expects($this->once())
 			->method('getList')

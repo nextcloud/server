@@ -1,10 +1,9 @@
 /* global OC */
 
 /**
- * Copyright (c) 2016, Christoph Wurst <christoph@owncloud.com>
- *
- * This file is licensed under the Affero General Public License version 3 or later.
- * See the COPYING-README file.
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 (function() {

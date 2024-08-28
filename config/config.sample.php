@@ -1,6 +1,12 @@
 <?php
 
 /**
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
+ */
+
+/**
  * This configuration file is only provided to document the different
  * configuration options and their usage.
  *
@@ -112,9 +118,9 @@ $CONFIG = [
 
 /**
  * Your host server name, for example ``localhost``, ``hostname``,
- * ``hostname.example.com``, or the IP address. To specify a port use
- * ``hostname:####``; to specify a Unix socket use
- * ``/path/to/directory/containing/socket`` e.g. ``/run/postgresql/``.
+ * ``hostname.example.com``, or the IP address.
+ * To specify a port use ``hostname:####``, for IPv6 addresses use the URI notation ``[ip]:port``.
+ * To specify a Unix socket use ``/path/to/directory/containing/socket``, e.g. ``/run/postgresql/``.
  */
 'dbhost' => '',
 
@@ -150,6 +156,21 @@ $CONFIG = [
  * uses the PDO::ATTR_PERSISTENT option from the pdo driver.
  */
 'dbpersistent' => '',
+
+/**
+ * Specify read only replicas to be used by Nextcloud when querying the database
+ */
+'dbreplica' => [
+	['user' => 'nextcloud', 'password' => 'password1', 'host' => 'replica1', 'dbname' => ''],
+	['user' => 'nextcloud', 'password' => 'password2', 'host' => 'replica2', 'dbname' => ''],
+],
+
+/**
+ * Add request id to the database query in a comment.
+ *
+ * This can be enabled to assist in mapping database logs to Nextcloud logs.
+ */
+'db.log_request_id' => false,
 
 /**
  * Indicates whether the Nextcloud instance was installed successfully; ``true``
@@ -208,6 +229,15 @@ $CONFIG = [
 'default_locale' => 'en_US',
 
 /**
+ * With this setting is possible to reduce the languages available in the
+ * language chooser. The languages have to be set as array values using ISO_639-1
+ * language codes such as ``en`` for English, ``de`` for German etc.
+ *
+ * For example: Set to ['de', 'fr'] to only allow German and French languages.
+ */
+'reduce_to_languages' => [],
+
+/**
  * This sets the default region for phone numbers on your Nextcloud server,
  * using ISO 3166-1 country codes such as ``DE`` for Germany, ``FR`` for France, …
  * It is required to allow inserting phone numbers in the user profiles starting
@@ -229,10 +259,26 @@ $CONFIG = [
 'force_locale' => 'en_US',
 
 /**
+ * This sets the default timezone on your Nextcloud server, using IANA
+ * identifiers like ``Europe/Berlin`` or ``Pacific/Auckland``. The default
+ * timezone parameter is only used when the timezone of the user can't be
+ * determined.
+ *
+ * Defaults to ``UTC``
+ */
+'default_timezone' => 'Europe/Berlin',
+
+/**
  * ``true`` enables the Help menu item in the user menu (top right of the
  * Nextcloud Web interface). ``false`` removes the Help item.
  */
 'knowledgebaseenabled' => true,
+
+/**
+ * ``true`` embeds the documentation in an iframe inside Nextcloud.
+ * ``false`` only shows buttons to the online documentation.
+ */
+'knowledgebase.embedded' => false,
 
 /**
  * ``true`` allows users to change their display names (on their Personal
@@ -345,12 +391,12 @@ $CONFIG = [
  * Tokens are still checked every 5 minutes for validity
  * max value: 300
  *
- * Defaults to ``300``
+ * Defaults to ``60``
  */
 'token_auth_activity_update' => 60,
 
 /**
- * Whether the bruteforce protection shipped with Nextcloud should be enabled or not.
+ * Whether the brute force protection shipped with Nextcloud should be enabled or not.
  *
  * Disabling this is discouraged for security reasons.
  *
@@ -359,9 +405,9 @@ $CONFIG = [
 'auth.bruteforce.protection.enabled' => true,
 
 /**
- * Whether the bruteforce protection shipped with Nextcloud should be set to testing mode.
+ * Whether the brute force protection shipped with Nextcloud should be set to testing mode.
  *
- * In testing mode bruteforce attempts are still recorded, but the requests do
+ * In testing mode brute force attempts are still recorded, but the requests do
  * not sleep/wait for the specified time. They will still abort with
  * "429 Too Many Requests" when the maximum delay is reached.
  * Enabling this is discouraged for security reasons
@@ -453,6 +499,8 @@ $CONFIG = [
 
 /**
  * Enable SMTP class debugging.
+ * NOTE: ``loglevel`` will likely need to be adjusted too. See docs: 
+ *   https://docs.nextcloud.com/server/latest/admin_manual/configuration_server/email_configuration.html#enabling-debug-mode
  *
  * Defaults to ``false``
  */
@@ -977,6 +1025,15 @@ $CONFIG = [
 'loglevel_frontend' => 2,
 
 /**
+ * Loglevel used by the dirty database query detection. Useful to identify
+ * potential database bugs in production. Set this to loglevel or higher to
+ * see dirty queries in the logs.
+ *
+ * Defaults to ``0`` (debug)
+ */
+'loglevel_dirty_database_queries' => 0,
+
+/**
  * If you maintain different instances and aggregate the logs, you may want
  * to distinguish between them. ``syslog_tag`` can be set per instance
  * with a unique id. Only available if ``log_type`` is set to ``syslog`` or
@@ -1008,6 +1065,9 @@ $CONFIG = [
  *                this condition is met
  *  - ``apps``:   if the log message is invoked by one of the specified apps,
  *                this condition is met
+ *  - ``matches``: if all the conditions inside a group match,
+ *                this condition is met. This allows to log only entries to an app
+ *                by a few users.
  *
  * Defaults to an empty array.
  */
@@ -1015,6 +1075,15 @@ $CONFIG = [
 	'shared_secret' => '57b58edb6637fe3059b3595cf9c41b9',
 	'users' => ['sample-user'],
 	'apps' => ['files'],
+	'matches' => [
+		[
+			'shared_secret' => '57b58edb6637fe3059b3595cf9c41b9',
+			'users' => ['sample-user'],
+			'apps' => ['files'],
+			'loglevel' => 1,
+			'message' => 'contains substring'
+		],
+	],
 ],
 
 /**
@@ -1085,6 +1154,7 @@ $CONFIG = [
  * - Android client: ``https://play.google.com/store/apps/details?id=com.nextcloud.client``
  * - iOS client: ``https://itunes.apple.com/us/app/nextcloud/id1125420102?mt=8``
  * - iOS client app id: ``1125420102``
+ * - F-Droid client: ``https://f-droid.org/packages/com.nextcloud.client/``
  */
 'customclient_desktop' =>
 	'https://nextcloud.com/install/#install-clients',
@@ -1094,6 +1164,8 @@ $CONFIG = [
 	'https://itunes.apple.com/us/app/nextcloud/id1125420102?mt=8',
 'customclient_ios_appid' =>
 		'1125420102',
+'customclient_fdroid' =>
+	'https://f-droid.org/packages/com.nextcloud.client/',
 /**
  * Apps
  *
@@ -1237,25 +1309,23 @@ $CONFIG = [
  * Defaults to ``''`` (empty string)
  */
 'preview_libreoffice_path' => '/usr/bin/libreoffice',
-/**
- * Use this if LibreOffice/OpenOffice requires additional arguments.
- *
- * Defaults to ``''`` (empty string)
- */
-'preview_office_cl_parameters' =>
-	' --headless --nologo --nofirststartwizard --invisible --norestore '.
-	'--convert-to png --outdir ',
 
 /**
  * custom path for ffmpeg binary
  *
- * Defaults to ``null`` and falls back to searching ``avconv`` and ``ffmpeg`` in the configured ``PATH`` environment
+ * Defaults to ``null`` and falls back to searching ``avconv`` and ``ffmpeg`` 
+ * in the configured ``PATH`` environment
  */
 'preview_ffmpeg_path' => '/usr/bin/ffmpeg',
 
 /**
  * Set the URL of the Imaginary service to send image previews to.
- * Also requires the ``OC\Preview\Imaginary`` provider to be enabled.
+ * Also requires the ``OC\Preview\Imaginary`` provider to be enabled in the 
+ * ``enabledPreviewProviders`` array, to create previews for these mimetypes: bmp, 
+ * x-bitmap, png, jpeg, gif, heic, heif, svg+xml, tiff, webp and illustrator.
+ *
+ * If you want Imaginary to also create preview images from PDF Documents, you 
+ * have to add the ``OC\Preview\ImaginaryPDF`` provider as well.
  *
  * See https://github.com/h2non/imaginary
  */
@@ -1285,6 +1355,7 @@ $CONFIG = [
  *  - ``OC\Preview\StarOffice``
  *  - ``OC\Preview\SVG``
  *  - ``OC\Preview\TIFF``
+ *  - ``OC\Preview\EMF``
  *
  *
  * Defaults to the following providers:
@@ -1314,6 +1385,15 @@ $CONFIG = [
 ],
 
 /**
+ * Maximum file size for metadata generation.
+ * If a file exceeds this size, metadata generation will be skipped.
+ * Note: memory equivalent to this size will be used for metadata generation.
+ *
+ * Default: 256 megabytes.
+ */
+'metadata_max_filesize' => 256,
+
+/**
  * LDAP
  *
  * Global settings used by LDAP User and Group Backend
@@ -1333,6 +1413,7 @@ $CONFIG = [
  * Sort groups in the user settings by name instead of the user count
  *
  * By enabling this the user count beside the group name is disabled as well.
+ * @deprecated since Nextcloud 29 - Use the frontend instead or set the app config value `group.sortBy` for `core` to `2`
  */
 'sort_groups_by_name' => false,
 
@@ -1926,29 +2007,61 @@ $CONFIG = [
  * where the default `datadirectory` is on network disk like NFS, or is otherwise
  * restricted. Defaults to the value of `datadirectory` if unset.
  *
- * The Web server user must have write access to this directory.
+ * If set, the value MUST be located _outside_ of the installation directory of Nextcloud and
+ * writable by the Web server user.
+ *
  */
 'updatedirectory' => '',
 
 /**
- * Blacklist a specific file or files and disallow the upload of files
- * with this name. ``.htaccess`` is blocked by default.
+ * Block a specific file or files and disallow the upload of files with this name.
+ * This blocks any access to those files (read and write).
+ * ``.htaccess`` is blocked by default.
+ *
  * WARNING: USE THIS ONLY IF YOU KNOW WHAT YOU ARE DOING.
+ *
+ * Note that this list is case-insensitive.
  *
  * Defaults to ``array('.htaccess')``
  */
-'blacklisted_files' => ['.htaccess'],
+'forbidden_filenames' => ['.htaccess'],
 
 /**
- * Blacklist characters from being used in filenames. This is useful if you
- * have a filesystem or OS which does not support certain characters like windows.
+ * Disallow the upload of files with specific basenames.
+ * Matching existing files can no longer be updated and in matching folders no files can be created anymore.
  *
- * Example for windows systems: ``array('?', '<', '>', ':', '*', '|', '"', chr(0), "\n", "\r")``
- * see https://en.wikipedia.org/wiki/Comparison_of_file_systems#Limits
- * 
+ * The basename is the name of the file without the extension,
+ * e.g. for "archive.tar.gz" the basename would be "archive".
+ *
+ * Note that this list is case-insensitive.
+ *
  * Defaults to ``array()``
  */
-'forbidden_chars' => [],
+'forbidden_filename_basenames' => [],
+
+/**
+ * Block characters from being used in filenames. This is useful if you
+ * have a filesystem or OS which does not support certain characters like windows.
+ * Matching existing files can no longer be updated and in matching folders no files can be created anymore.
+ *
+ * The '/' and '\' characters are always forbidden, as well as all characters in the ASCII range [0-31].
+ *
+ * Example for windows systems: ``array('?', '<', '>', ':', '*', '|', '"')``
+ * see https://en.wikipedia.org/wiki/Comparison_of_file_systems#Limits
+ *
+ * Defaults to ``array()``
+ */
+'forbidden_filename_characters' => [],
+
+/**
+ * Deny extensions from being used for filenames.
+ * Matching existing files can no longer be updated and in matching folders no files can be created anymore.
+ * 
+ * The '.part' extension is always forbidden, as this is used internally by Nextcloud.
+ * 
+ * Defaults to ``array('.filepart', '.part')``
+ */
+'forbidden_filename_extensions' => ['.part', '.filepart'],
 
 /**
  * If you are applying a theme to Nextcloud, enter the name of the theme here.
@@ -1961,7 +2074,7 @@ $CONFIG = [
 /**
  * Enforce the user theme. This will disable the user theming settings
  * This must be a valid ITheme ID.
- * E.g. light, dark, highcontrast, dark-highcontrast...
+ * E.g. dark, dark-highcontrast, default, light, light-highcontrast, opendyslexic
  */
 'enforce_theme' => '',
 
@@ -2137,6 +2250,16 @@ $CONFIG = [
 'forwarded_for_headers' => ['HTTP_X_FORWARDED', 'HTTP_FORWARDED_FOR'],
 
 /**
+ * List of trusted IP ranges for admin actions
+ *
+ * If this list is non-empty, all admin actions must be triggered from
+ * IP addresses inside theses ranges.
+ *
+ * Defaults to an empty array.
+ */
+'allowed_admin_ranges' => ['192.0.2.42/32', '233.252.0.0/24', '2001:db8::13:37/64'],
+
+/**
  * max file size for animating gifs on public-sharing-site.
  * If the gif is bigger, it'll show a static preview
  *
@@ -2202,6 +2325,11 @@ $CONFIG = [
  * Allows to modify the cli-upgrade link in order to link to a different documentation
  */
 'upgrade.cli-upgrade-link' => '',
+
+/**
+ * Allows to modify the exception server logs documentation link in order to link to a different documentation
+ */
+'documentation_url.server_logs' => '',
 
 /**
  * Set this Nextcloud instance to debugging mode
@@ -2284,6 +2412,14 @@ $CONFIG = [
 'login_form_autocomplete' => true,
 
 /**
+ * Timeout for the login form, after this time the login form is reset.
+ * This prevents password leaks on public devices if the user forgots to clear the form.
+ *
+ * Default is 5 minutes (300 seconds), a value of 0 means no timeout.
+ */
+'login_form_timeout' => 300,
+
+/**
  * If your user is using an outdated or unsupported browser, a warning will be shown
  * to offer some guidance to upgrade or switch and ensure a proper Nextcloud experience.
  * They can still bypass it after they have read the warning.
@@ -2346,17 +2482,6 @@ $CONFIG = [
 'profile.enabled' => true,
 
 /**
- * Enable file metadata collection
- *
- * This is helpful for the mobile clients and will enable few optimizations in
- * the future for the preview generation.
- *
- * Note that when enabled, this data will be stored in the database and might increase
- * the database storage.
- */
-'enable_file_metadata' => true,
-
-/**
  * Allows to override the default scopes for Account data.
  * The list of overridable properties and valid values for scopes are in
  * ``OCP\Accounts\IAccountManager``. Values added here are merged with
@@ -2395,4 +2520,18 @@ $CONFIG = [
  * Defaults to ``true``
  */
 'reference_opengraph' => true,
+
+/**
+ * Enable use of old unified search
+ *
+ * Defaults to ``false``
+ */
+'unified_search.enabled' => false,
+
+/**
+ * Enable features that are do respect accessibility standards yet.
+ *
+ * Defaults to ``true``
+ */
+'enable_non-accessible_features' => true,
 ];

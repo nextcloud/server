@@ -1,13 +1,8 @@
 <?php
 /**
- * ownCloud
- *
- * @author Joas Schilling
- * @copyright 2015 Joas Schilling nickvergessen@owncloud.com
- *
- * This file is licensed under the Affero General Public License version 3 or
- * later.
- * See the COPYING-README file.
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace Test;
@@ -95,7 +90,7 @@ class NavigationManagerTest extends TestCase {
 					//'icon'	=> 'optional',
 					'href' => 'url',
 					'active' => true,
-					'unread' => 0
+					'unread' => 0,
 				],
 				'entry id2' => [
 					'id' => 'entry id',
@@ -106,7 +101,8 @@ class NavigationManagerTest extends TestCase {
 					'active' => false,
 					'type' => 'link',
 					'classes' => '',
-					'unread' => 0
+					'unread' => 0,
+					'default' => true,
 				]
 			]
 		];
@@ -220,22 +216,22 @@ class NavigationManagerTest extends TestCase {
 			->willReturnArgument(3);
 
 		$this->appManager->expects($this->any())
-		   ->method('isEnabledForUser')
-		   ->with('theming')
-		   ->willReturn(true);
-		$this->appManager->expects($this->once())->method('getAppInfo')->with('test')->willReturn($navigation);
-		/*
+			->method('isEnabledForUser')
+			->with('theming')
+			->willReturn(true);
+		$this->appManager->expects($this->once())
+			->method('getAppInfo')
+			->with('test')
+			->willReturn($navigation);
+		$this->urlGenerator->expects($this->any())
+			->method('imagePath')
+			->willReturnCallback(function ($appName, $file) {
+				return "/apps/$appName/img/$file";
+			});
 		$this->appManager->expects($this->any())
-				   ->method('getAppInfo')
-				   ->will($this->returnValueMap([
-					   ['test', null, null, $navigation],
-					   ['theming', null, null, null],
-					]));
-		 */
+			->method('getAppIcon')
+			->willReturnCallback(fn (string $appName) => "/apps/$appName/img/app.svg");
 		$this->l10nFac->expects($this->any())->method('get')->willReturn($l);
-		$this->urlGenerator->expects($this->any())->method('imagePath')->willReturnCallback(function ($appName, $file) {
-			return "/apps/$appName/img/$file";
-		});
 		$this->urlGenerator->expects($this->any())->method('linkToRoute')->willReturnCallback(function ($route) {
 			if ($route === 'core.login.logout') {
 				return 'https://example.com/logout';
@@ -247,9 +243,9 @@ class NavigationManagerTest extends TestCase {
 		$this->userSession->expects($this->any())->method('getUser')->willReturn($user);
 		$this->userSession->expects($this->any())->method('isLoggedIn')->willReturn(true);
 		$this->appManager->expects($this->any())
-			 ->method('getEnabledAppsForUser')
-			 ->with($user)
-			 ->willReturn(['test']);
+			->method('getEnabledAppsForUser')
+			->with($user)
+			->willReturn(['test']);
 		$this->groupManager->expects($this->any())->method('isAdmin')->willReturn($isAdmin);
 		$subadmin = $this->createMock(SubAdmin::class);
 		$subadmin->expects($this->any())->method('isSubAdmin')->with($user)->willReturn(false);
@@ -275,6 +271,17 @@ class NavigationManagerTest extends TestCase {
 			]
 		];
 		$defaults = [
+			'profile' => [
+				'type' => 'settings',
+				'id' => 'profile',
+				'order' => 1,
+				'href' => '/apps/test/',
+				'name' => 'View profile',
+				'icon' => '',
+				'active' => false,
+				'classes' => '',
+				'unread' => 0,
+			],
 			'accessibility_settings' => [
 				'type' => 'settings',
 				'id' => 'accessibility_settings',
@@ -338,6 +345,7 @@ class NavigationManagerTest extends TestCase {
 		return [
 			'minimalistic' => [
 				array_merge(
+					['profile' => $defaults['profile']],
 					['accessibility_settings' => $defaults['accessibility_settings']],
 					['settings' => $defaults['settings']],
 					['test' => [
@@ -349,7 +357,9 @@ class NavigationManagerTest extends TestCase {
 						'active' => false,
 						'type' => 'link',
 						'classes' => '',
-						'unread' => 0
+						'unread' => 0,
+						'default' => true,
+						'app' => 'test',
 					]],
 					['logout' => $defaults['logout']]
 				),
@@ -361,6 +371,7 @@ class NavigationManagerTest extends TestCase {
 			],
 			'minimalistic-settings' => [
 				array_merge(
+					['profile' => $defaults['profile']],
 					['accessibility_settings' => $defaults['accessibility_settings']],
 					['settings' => $defaults['settings']],
 					['test' => [
@@ -372,7 +383,7 @@ class NavigationManagerTest extends TestCase {
 						'active' => false,
 						'type' => 'settings',
 						'classes' => '',
-						'unread' => 0
+						'unread' => 0,
 					]],
 					['logout' => $defaults['logout']]
 				),
@@ -382,8 +393,49 @@ class NavigationManagerTest extends TestCase {
 					],
 				]]
 			],
+			'with-multiple' => [
+				array_merge(
+					['profile' => $defaults['profile']],
+					['accessibility_settings' => $defaults['accessibility_settings']],
+					['settings' => $defaults['settings']],
+					['test' => [
+						'id' => 'test',
+						'order' => 100,
+						'href' => '/apps/test/',
+						'icon' => '/apps/test/img/app.svg',
+						'name' => 'Test',
+						'active' => false,
+						'type' => 'link',
+						'classes' => '',
+						'unread' => 0,
+						'default' => false,
+						'app' => 'test',
+					],
+						'test1' => [
+							'id' => 'test1',
+							'order' => 50,
+							'href' => '/apps/test/',
+							'icon' => '/apps/test/img/app.svg',
+							'name' => 'Other test',
+							'active' => false,
+							'type' => 'link',
+							'classes' => '',
+							'unread' => 0,
+							'default' => true, // because of order
+							'app' => 'test',
+						]],
+					['logout' => $defaults['logout']]
+				),
+				['navigations' => [
+					'navigation' => [
+						['route' => 'test.page.index', 'name' => 'Test'],
+						['route' => 'test.page.index', 'name' => 'Other test', 'order' => 50],
+					]
+				]]
+			],
 			'admin' => [
 				array_merge(
+					['profile' => $defaults['profile']],
 					$adminSettings,
 					$apps,
 					['test' => [
@@ -395,7 +447,9 @@ class NavigationManagerTest extends TestCase {
 						'active' => false,
 						'type' => 'link',
 						'classes' => '',
-						'unread' => 0
+						'unread' => 0,
+						'default' => true,
+						'app' => 'test',
 					]],
 					['logout' => $defaults['logout']]
 				),
@@ -408,6 +462,7 @@ class NavigationManagerTest extends TestCase {
 			],
 			'no name' => [
 				array_merge(
+					['profile' => $defaults['profile']],
 					$adminSettings,
 					$apps,
 					['logout' => $defaults['logout']]
@@ -448,6 +503,8 @@ class NavigationManagerTest extends TestCase {
 				'active' => false,
 				'classes' => '',
 				'unread' => 0,
+				'default' => true,
+				'app' => 'test',
 			],
 		];
 		$navigation = ['navigations' => [
@@ -461,17 +518,18 @@ class NavigationManagerTest extends TestCase {
 				function (string $userId, string $appName, string $key, mixed $default = '') use ($testOrder) {
 					$this->assertEquals('user001', $userId);
 					if ($key === 'apporder') {
-						return json_encode(['test' => [$testOrder]]);
+						return json_encode(['test' => ['app' => 'test', 'order' => $testOrder]]);
 					}
 					return $default;
 				}
 			);
 
 		$this->appManager->expects($this->any())
-		   ->method('isEnabledForUser')
-		   ->with('theming')
-		   ->willReturn(true);
+			->method('isEnabledForUser')
+			->with('theming')
+			->willReturn(true);
 		$this->appManager->expects($this->once())->method('getAppInfo')->with('test')->willReturn($navigation);
+		$this->appManager->expects($this->once())->method('getAppIcon')->with('test')->willReturn('/apps/test/img/app.svg');
 		$this->l10nFac->expects($this->any())->method('get')->willReturn($l);
 		$this->urlGenerator->expects($this->any())->method('imagePath')->willReturnCallback(function ($appName, $file) {
 			return "/apps/$appName/img/$file";
@@ -487,9 +545,9 @@ class NavigationManagerTest extends TestCase {
 		$this->userSession->expects($this->any())->method('getUser')->willReturn($user);
 		$this->userSession->expects($this->any())->method('isLoggedIn')->willReturn(true);
 		$this->appManager->expects($this->any())
-			 ->method('getEnabledAppsForUser')
-			 ->with($user)
-			 ->willReturn(['test']);
+			->method('getEnabledAppsForUser')
+			->with($user)
+			->willReturn(['test']);
 		$this->groupManager->expects($this->any())->method('isAdmin')->willReturn(false);
 		$subadmin = $this->createMock(SubAdmin::class);
 		$subadmin->expects($this->any())->method('isSubAdmin')->with($user)->willReturn(false);

@@ -1,37 +1,10 @@
 <?php
 
 declare(strict_types=1);
-
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Bjoern Schiessle <bjoern@schiessle.org>
- * @author Björn Schießle <bjoern@schiessle.org>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Daniel Kesselberg <mail@danielkesselberg.de>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Maxence Lange <maxence@artificial-owl.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Vincent Petry <vincent@nextcloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\Files_Sharing\External;
 
@@ -53,6 +26,7 @@ use OCP\Files\StorageNotAvailableException;
 use OCP\Http\Client\IClientService;
 use OCP\Http\Client\LocalServerException;
 use OCP\ICacheFactory;
+use OCP\IConfig;
 use OCP\OCM\Exceptions\OCMArgumentException;
 use OCP\OCM\Exceptions\OCMProviderException;
 use OCP\OCM\IOCMDiscoveryService;
@@ -67,6 +41,7 @@ class Storage extends DAV implements ISharedStorage, IDisableEncryptionStorage, 
 	private IClientService $httpClient;
 	private bool $updateChecked = false;
 	private ExternalShareManager $manager;
+	private IConfig $config;
 
 	/**
 	 * @param array{HttpClientService: IClientService, manager: ExternalShareManager, cloudId: ICloudId, mountpoint: string, token: string, password: ?string}|array $options
@@ -78,6 +53,7 @@ class Storage extends DAV implements ISharedStorage, IDisableEncryptionStorage, 
 		$this->cloudId = $options['cloudId'];
 		$this->logger = Server::get(LoggerInterface::class);
 		$discoveryService = Server::get(IOCMDiscoveryService::class);
+		$this->config = Server::get(IConfig::class);
 
 		// use default path to webdav if not found on discovery
 		try {
@@ -92,7 +68,7 @@ class Storage extends DAV implements ISharedStorage, IDisableEncryptionStorage, 
 
 		$host = parse_url($remote, PHP_URL_HOST);
 		$port = parse_url($remote, PHP_URL_PORT);
-		$host .= (null === $port) ? '' : ':' . $port; // we add port if available
+		$host .= ($port === null) ? '' : ':' . $port; // we add port if available
 
 		// in case remote NC is on a sub folder and using deprecated ocm provider
 		$tmpPath = rtrim(parse_url($this->cloudId->getRemote(), PHP_URL_PATH) ?? '', '/');
@@ -238,20 +214,20 @@ class Storage extends DAV implements ISharedStorage, IDisableEncryptionStorage, 
 				// we remove the invalid storage
 				$this->manager->removeShare($this->mountPoint);
 				$this->manager->getMountManager()->removeMount($this->mountPoint);
-				throw new StorageInvalidException("Remote share not found", 0, $e);
+				throw new StorageInvalidException('Remote share not found', 0, $e);
 			} else {
 				// Nextcloud instance is gone, likely to be a temporary server configuration error
-				throw new StorageNotAvailableException("No nextcloud instance found at remote", 0, $e);
+				throw new StorageNotAvailableException('No nextcloud instance found at remote', 0, $e);
 			}
 		} catch (ForbiddenException $e) {
 			// auth error, remove share for now (provide a dialog in the future)
 			$this->manager->removeShare($this->mountPoint);
 			$this->manager->getMountManager()->removeMount($this->mountPoint);
-			throw new StorageInvalidException("Auth error when getting remote share");
+			throw new StorageInvalidException('Auth error when getting remote share');
 		} catch (\GuzzleHttp\Exception\ConnectException $e) {
-			throw new StorageNotAvailableException("Failed to connect to remote instance", 0, $e);
+			throw new StorageNotAvailableException('Failed to connect to remote instance', 0, $e);
 		} catch (\GuzzleHttp\Exception\RequestException $e) {
-			throw new StorageNotAvailableException("Error while sending request to remote instance", 0, $e);
+			throw new StorageNotAvailableException('Error while sending request to remote instance', 0, $e);
 		}
 	}
 
@@ -290,6 +266,7 @@ class Storage extends DAV implements ISharedStorage, IDisableEncryptionStorage, 
 			$result = $client->get($url, [
 				'timeout' => 10,
 				'connect_timeout' => 10,
+				'verify' => !$this->config->getSystemValueBool('sharing.federation.allowSelfSignedCertificates', false),
 			])->getBody();
 			$data = json_decode($result);
 			$returnValue = (is_object($data) && !empty($data->version));
@@ -447,6 +424,6 @@ class Storage extends DAV implements ISharedStorage, IDisableEncryptionStorage, 
 	}
 
 	public function free_space($path) {
-		return parent::free_space("");
+		return parent::free_space('');
 	}
 }

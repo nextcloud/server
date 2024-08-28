@@ -1,6 +1,8 @@
 <?php
-// SPDX-FileCopyrightText: 2018 Georg Ehrke <oc.list@georgehrke.com>
-// SPDX-License-Identifier: AGPL-3.0-or-later
+/**
+ * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
 \OCP\Util::addStyle('dav', 'schedule-response');
 ?>
 

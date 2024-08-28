@@ -1,45 +1,9 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author aler9 <46489434+aler9@users.noreply.github.com>
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Bart Visscher <bartv@thisnet.nl>
- * @author Boris Rybalkin <ribalkin@gmail.com>
- * @author Brice Maron <brice@bmaron.net>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author J0WI <J0WI@users.noreply.github.com>
- * @author Jakob Sack <mail@jakobsack.de>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Johannes Leuker <j.leuker@hosting.de>
- * @author Jörn Friedrich Dreyer <jfd@butonic.de>
- * @author Klaas Freitag <freitag@owncloud.com>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Martin Brugnara <martin@0x6d62.eu>
- * @author Michael Gapczynski <GapczynskiM@gmail.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Sjors van der Pluijm <sjors@desjors.nl>
- * @author Stefan Weil <sw@weilnetz.de>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Tigran Mkrtchyan <tigran.mkrtchyan@desy.de>
- * @author Vincent Petry <vincent@nextcloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OC\Files\Storage;
 
@@ -74,6 +38,8 @@ class Local extends \OC\Files\Storage\Common {
 
 	protected bool $unlinkOnTruncate;
 
+	protected bool $caseInsensitive = false;
+
 	public function __construct($arguments) {
 		if (!isset($arguments['datadir']) || !is_string($arguments['datadir'])) {
 			throw new \InvalidArgumentException('No data directory set for local storage');
@@ -93,6 +59,7 @@ class Local extends \OC\Files\Storage\Common {
 		$this->config = \OC::$server->get(IConfig::class);
 		$this->mimeTypeDetector = \OC::$server->get(IMimeTypeDetector::class);
 		$this->defUMask = $this->config->getSystemValue('localstorage.umask', 0022);
+		$this->caseInsensitive = $this->config->getSystemValueBool('localstorage.case_insensitive', false);
 
 		// support Write-Once-Read-Many file systems
 		$this->unlinkOnTruncate = $this->config->getSystemValueBool('localstorage.unlink_on_truncate', false);
@@ -150,6 +117,7 @@ class Local extends \OC\Files\Storage\Common {
 				}
 				$it->next();
 			}
+			unset($it);  // Release iterator and thereby its potential directory lock (e.g. in case of VirtualBox shared folders)
 			clearstatcache(true, $this->getSourcePath($path));
 			return rmdir($this->getSourcePath($path));
 		} catch (\UnexpectedValueException $e) {
@@ -162,6 +130,9 @@ class Local extends \OC\Files\Storage\Common {
 	}
 
 	public function is_dir($path) {
+		if ($this->caseInsensitive && !$this->file_exists($path)) {
+			return false;
+		}
 		if (str_ends_with($path, '/')) {
 			$path = substr($path, 0, -1);
 		}
@@ -169,6 +140,9 @@ class Local extends \OC\Files\Storage\Common {
 	}
 
 	public function is_file($path) {
+		if ($this->caseInsensitive && !$this->file_exists($path)) {
+			return false;
+		}
 		return is_file($this->getSourcePath($path));
 	}
 
@@ -271,7 +245,17 @@ class Local extends \OC\Files\Storage\Common {
 	}
 
 	public function file_exists($path) {
-		return file_exists($this->getSourcePath($path));
+		if ($this->caseInsensitive) {
+			$fullPath = $this->getSourcePath($path);
+			$parentPath = dirname($fullPath);
+			if (!is_dir($parentPath)) {
+				return false;
+			}
+			$content = scandir($parentPath, SCANDIR_SORT_NONE);
+			return is_array($content) && array_search(basename($fullPath), $content) !== false;
+		} else {
+			return file_exists($this->getSourcePath($path));
+		}
 	}
 
 	public function filemtime($path) {
@@ -372,6 +356,11 @@ class Local extends \OC\Files\Storage\Common {
 		}
 
 		if (@rename($this->getSourcePath($source), $this->getSourcePath($target))) {
+			if ($this->caseInsensitive) {
+				if (mb_strtolower($target) === mb_strtolower($source) && !$this->file_exists($target)) {
+					return false;
+				}
+			}
 			return true;
 		}
 
@@ -388,6 +377,11 @@ class Local extends \OC\Files\Storage\Common {
 			}
 			$result = copy($this->getSourcePath($source), $this->getSourcePath($target));
 			umask($oldMask);
+			if ($this->caseInsensitive) {
+				if (mb_strtolower($target) === mb_strtolower($source) && !$this->file_exists($target)) {
+					return false;
+				}
+			}
 			return $result;
 		}
 	}
@@ -495,6 +489,7 @@ class Local extends \OC\Files\Storage\Common {
 		$realPath = realpath($pathToResolve);
 		while ($realPath === false) { // for non existing files check the parent directory
 			$currentPath = dirname($currentPath);
+			/** @psalm-suppress TypeDoesNotContainType Let's be extra cautious and still check for empty string */
 			if ($currentPath === '' || $currentPath === '.') {
 				return $fullPath;
 			}
@@ -555,11 +550,14 @@ class Local extends \OC\Files\Storage\Common {
 	}
 
 	private function canDoCrossStorageMove(IStorage $sourceStorage) {
+		/** @psalm-suppress UndefinedClass */
 		return $sourceStorage->instanceOfStorage(Local::class)
 			// Don't treat ACLStorageWrapper like local storage where copy can be done directly.
 			// Instead, use the slower recursive copying in php from Common::copyFromStorage with
 			// more permissions checks.
 			&& !$sourceStorage->instanceOfStorage('OCA\GroupFolders\ACL\ACLStorageWrapper')
+			// Same for access control
+			&& !$sourceStorage->instanceOfStorage(\OCA\FilesAccessControl\StorageWrapper::class)
 			// when moving encrypted files we have to handle keys and the target might not be encrypted
 			&& !$sourceStorage->instanceOfStorage(Encryption::class);
 	}
@@ -613,7 +611,7 @@ class Local extends \OC\Files\Storage\Common {
 		}
 	}
 
-	public function writeStream(string $path, $stream, int $size = null): int {
+	public function writeStream(string $path, $stream, ?int $size = null): int {
 		/** @var int|false $result We consider here that returned size will never be a float because we write less than 4GB */
 		$result = $this->file_put_contents($path, $stream);
 		if (is_resource($stream)) {

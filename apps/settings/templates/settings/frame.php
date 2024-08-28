@@ -1,24 +1,7 @@
 <?php
 /**
- * @copyright Copyright (c) 2016 Arthur Schiwon <blizzz@arthur-schiwon.de>
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 style('settings', 'settings');
@@ -34,7 +17,7 @@ script('files', 'jquery.fileupload');
 		<div id="app-navigation-caption-personal" class="app-navigation-caption"><?php p($l->t('Personal')); ?></div>
 	<?php endif; ?>
 	<nav class="app-navigation-personal" aria-labelledby="app-navigation-caption-personal">
-		<ul tabindex="0">
+		<ul>
 			<?php foreach ($_['forms']['personal'] as $form) {
 				if (isset($form['anchor'])) {
 					$anchor = \OC::$server->getURLGenerator()->linkToRoute('settings.PersonalSettings.index', ['section' => $form['anchor']]);
@@ -53,7 +36,7 @@ script('files', 'jquery.fileupload');
 					<?php
 				}
 			}
-			?>
+?>
 		</ul>
 	</nav>
 
@@ -61,7 +44,7 @@ script('files', 'jquery.fileupload');
 		<div id="app-navigation-caption-administration" class="app-navigation-caption"><?php p($l->t('Administration')); ?></div>
 	<?php endif; ?>
 	<nav class="app-navigation-administration" aria-labelledby="app-navigation-caption-administration">
-		<ul tabindex="0">
+		<ul>
 			<?php foreach ($_['forms']['admin'] as $form) {
 				if (isset($form['anchor'])) {
 					$anchor = \OC::$server->getURLGenerator()->linkToRoute('settings.AdminSettings.index', ['section' => $form['anchor']]);
@@ -80,10 +63,10 @@ script('files', 'jquery.fileupload');
 					<?php
 				}
 			}
-			?>
+?>
 		</ul>
 	</nav>
 </div>
-<div id="app-content" tabindex="0" data-active-section-id="<?php print_unescaped($_['activeSectionId']) ?>">
+<div id="app-content" <?php if (!empty($_['activeSectionId'])) { ?> data-active-section-id="<?php print_unescaped($_['activeSectionId']) ?>" <?php } if (!empty($_['activeSectionType'])) { ?> data-active-section-type="<?php print_unescaped($_['activeSectionType']) ?>" <?php } ?>>
 	<?php print_unescaped($_['content']); ?>
 </div>

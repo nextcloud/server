@@ -19,6 +19,8 @@ return array(
     'OCA\\Files_External\\Command\\ListCommand' => $baseDir . '/../lib/Command/ListCommand.php',
     'OCA\\Files_External\\Command\\Notify' => $baseDir . '/../lib/Command/Notify.php',
     'OCA\\Files_External\\Command\\Option' => $baseDir . '/../lib/Command/Option.php',
+    'OCA\\Files_External\\Command\\Scan' => $baseDir . '/../lib/Command/Scan.php',
+    'OCA\\Files_External\\Command\\StorageAuthBase' => $baseDir . '/../lib/Command/StorageAuthBase.php',
     'OCA\\Files_External\\Command\\Verify' => $baseDir . '/../lib/Command/Verify.php',
     'OCA\\Files_External\\Config\\ConfigAdapter' => $baseDir . '/../lib/Config/ConfigAdapter.php',
     'OCA\\Files_External\\Config\\ExternalMountPoint' => $baseDir . '/../lib/Config/ExternalMountPoint.php',

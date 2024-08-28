@@ -1,5 +1,9 @@
 <?php
-
+/**
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
+ */
 namespace Test\Files\Storage\Wrapper;
 
 use OC\Encryption\Exceptions\ModuleDoesNotExistsException;
@@ -101,11 +105,11 @@ class EncryptionTest extends Storage {
 	 */
 	private $config;
 
-	/** @var  \OC\Memcache\ArrayCache | \PHPUnit\Framework\MockObject\MockObject */
+	/** @var \OC\Memcache\ArrayCache | \PHPUnit\Framework\MockObject\MockObject */
 	private $arrayCache;
 
 
-	/** @var  integer dummy unencrypted size */
+	/** @var integer dummy unencrypted size */
 	private $dummySize = -1;
 
 	protected function setUp(): void {
@@ -422,9 +426,9 @@ class EncryptionTest extends Storage {
 	 * @param boolean $renameKeysReturn
 	 */
 	public function testRename($source,
-							   $target,
-							   $encryptionEnabled,
-							   $renameKeysReturn) {
+		$target,
+		$encryptionEnabled,
+		$renameKeysReturn) {
 		if ($encryptionEnabled) {
 			$this->keyStore
 				->expects($this->once())
@@ -790,10 +794,10 @@ class EncryptionTest extends Storage {
 			->method('isEnabled')
 			->willReturn($encryptionEnabled);
 		// FIXME can not overwrite the return after definition
-//		$this->mount->expects($this->at(0))
-//			->method('getOption')
-//			->with('encrypt', true)
-//			->willReturn($mountPointEncryptionEnabled);
+		//		$this->mount->expects($this->at(0))
+		//			->method('getOption')
+		//			->with('encrypt', true)
+		//			->willReturn($mountPointEncryptionEnabled);
 		global $mockedMountPointEncryptionEnabled;
 		$mockedMountPointEncryptionEnabled = $mountPointEncryptionEnabled;
 

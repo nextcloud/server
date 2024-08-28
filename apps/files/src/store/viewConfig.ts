@@ -1,23 +1,6 @@
 /**
- * @copyright Copyright (c) 2023 John Molakvoæ <skjnldsv@protonmail.com>
- *
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- *
- * @license AGPL-3.0-or-later
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 import { defineStore } from 'pinia'
 import { emit, subscribe } from '@nextcloud/event-bus'
@@ -38,11 +21,16 @@ export const useViewConfigStore = function(...args) {
 
 		getters: {
 			getConfig: (state) => (view: ViewId): ViewConfig => state.viewConfig[view] || {},
+
+			getConfigs: (state) => (): ViewConfigs => state.viewConfig,
 		},
 
 		actions: {
 			/**
 			 * Update the view config local store
+			 * @param view
+			 * @param key
+			 * @param value
 			 */
 			onUpdate(view: ViewId, key: string, value: string | number | boolean) {
 				if (!this.viewConfig[view]) {
@@ -53,10 +41,15 @@ export const useViewConfigStore = function(...args) {
 
 			/**
 			 * Update the view config local store AND on server side
+			 * @param view
+			 * @param key
+			 * @param value
 			 */
 			async update(view: ViewId, key: string, value: string | number | boolean) {
-				axios.put(generateUrl(`/apps/files/api/v1/views/${view}/${key}`), {
+				axios.put(generateUrl('/apps/files/api/v1/views'), {
 					value,
+					view,
+					key,
 				})
 
 				emit('files:viewconfig:updated', { view, key, value })
@@ -66,6 +59,8 @@ export const useViewConfigStore = function(...args) {
 			 * Set the sorting key AND sort by ASC
 			 * The key param must be a valid key of a File object
 			 * If not found, will be searched within the File attributes
+			 * @param key
+			 * @param view
 			 */
 			setSortingBy(key = 'basename', view = 'files') {
 				// Save new config
@@ -75,6 +70,7 @@ export const useViewConfigStore = function(...args) {
 
 			/**
 			 * Toggle the sorting direction
+			 * @param view
 			 */
 			toggleSortingDirection(view = 'files') {
 				const config = this.getConfig(view) || { sorting_direction: 'asc' }

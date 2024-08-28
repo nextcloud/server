@@ -8,7 +8,7 @@
     "Two factor backup codes" : "Двофакторски резервни кодови",
     "A two-factor auth backup codes provider" : "Провајдер резервних кодова за двофакторску ауторизацију",
     "Backup codes have been generated. {used} of {total} codes have been used." : "Резервни кодови су изгенерисани. {used} од {total} кодова је искоришћено.",
-    "These are your backup codes. Please save and/or print them as you will not be able to read the codes again later" : "Ово су Ваши резервни кодови. Сачувајте их и/или их одштампајте пошто више нећете моћи да их прочитате.",
+    "These are your backup codes. Please save and/or print them as you will not be able to read the codes again later." : "Ово су ваши резервни кодови. Сачувајте их и/или их одштампајте пошто више нећете моћи поново да их прочитате.",
     "Save backup codes" : "Сачувај резервне кодове",
     "Print backup codes" : "Одштампај резервне кодове",
     "Regenerate backup codes" : "Поново генериши резервне кодове",
@@ -16,6 +16,7 @@
     "An error occurred while generating your backup codes" : "Десила се грешка приликом генерисања резервних кодова",
     "{name} backup codes" : "{name} резервни кодови",
     "Use one of the backup codes you saved when setting up two-factor authentication." : "Искористите један од резервних кодова које сте сачували када се подешавали двофакторску проверу идентитета.",
-    "Submit" : "Пошаљи"
+    "Submit" : "Пошаљи",
+    "These are your backup codes. Please save and/or print them as you will not be able to read the codes again later" : "Ово су Ваши резервни кодови. Сачувајте их и/или их одштампајте пошто више нећете моћи да их прочитате."
 },"pluralForm" :"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);"
 }

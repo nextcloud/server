@@ -1,24 +1,7 @@
 <?php
 /**
- * @copyright 2019, Marius David Wieschollek <git.public@mdns.eu>
- *
- * @author Marius David Wieschollek <git.public@mdns.eu>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace Test\AppFramework\Db;
@@ -170,7 +153,7 @@ class QBMapperTest extends \Test\TestCase {
 		$entity->setStringProp('string');
 		$entity->setIntegerProp(456);
 		$entity->setBooleanProp(false);
-		$entity->setJsonProp(["hello" => "world"]);
+		$entity->setJsonProp(['hello' => 'world']);
 
 		$idParam = $this->qb->createNamedParameter('id', IQueryBuilder::PARAM_INT);
 		$intParam = $this->qb->createNamedParameter('int_prop', IQueryBuilder::PARAM_INT);
@@ -188,7 +171,7 @@ class QBMapperTest extends \Test\TestCase {
 				[$this->equalTo('string'), $this->equalTo(IQueryBuilder::PARAM_STR)],
 				[$this->equalTo(456), $this->equalTo(IQueryBuilder::PARAM_INT)],
 				[$this->equalTo(false), $this->equalTo(IQueryBuilder::PARAM_BOOL)],
-				[$this->equalTo(["hello" => "world"]), $this->equalTo(IQueryBuilder::PARAM_JSON)],
+				[$this->equalTo(['hello' => 'world']), $this->equalTo(IQueryBuilder::PARAM_JSON)],
 				[$this->equalTo(789), $this->equalTo(IQueryBuilder::PARAM_INT)],
 			);
 

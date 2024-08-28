@@ -1,32 +1,7 @@
 <?php
 /**
- * @copyright Copyright (c) 2016 Lukas Reschke <lukas@statuscode.ch>
- *
- * @author Daniel Kesselberg <mail@danielkesselberg.de>
- * @author Georg Ehrke <oc.list@georgehrke.com>
- * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Steffen Lindner <mail@steffen-lindner.de>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OC\App\AppStore\Fetcher;
 
@@ -44,19 +19,10 @@ use Psr\Log\LoggerInterface;
 abstract class Fetcher {
 	public const INVALIDATE_AFTER_SECONDS = 3600;
 	public const RETRY_AFTER_FAILURE_SECONDS = 300;
+	public const APP_STORE_URL = 'https://apps.nextcloud.com/api/v1';
 
 	/** @var IAppData */
 	protected $appData;
-	/** @var IClientService */
-	protected $clientService;
-	/** @var ITimeFactory */
-	protected $timeFactory;
-	/** @var IConfig */
-	protected $config;
-	/** @var LoggerInterface */
-	protected $logger;
-	/** @var IRegistry */
-	protected $registry;
 
 	/** @var string */
 	protected $fileName;
@@ -67,18 +33,15 @@ abstract class Fetcher {
 	/** @var ?string */
 	protected $channel = null;
 
-	public function __construct(Factory $appDataFactory,
-								IClientService $clientService,
-								ITimeFactory $timeFactory,
-								IConfig $config,
-								LoggerInterface $logger,
-								IRegistry $registry) {
+	public function __construct(
+		Factory $appDataFactory,
+		protected IClientService $clientService,
+		protected ITimeFactory $timeFactory,
+		protected IConfig $config,
+		protected LoggerInterface $logger,
+		protected IRegistry $registry,
+	) {
 		$this->appData = $appDataFactory->get('appstore');
-		$this->clientService = $clientService;
-		$this->timeFactory = $timeFactory;
-		$this->config = $config;
-		$this->logger = $logger;
-		$this->registry = $registry;
 	}
 
 	/**
@@ -109,10 +72,13 @@ abstract class Fetcher {
 			];
 		}
 
-		// If we have a valid subscription key, send it to the appstore
-		$subscriptionKey = $this->config->getAppValue('support', 'subscription_key');
-		if ($this->registry->delegateHasValidSubscription() && $subscriptionKey) {
-			$options['headers']['X-NC-Subscription-Key'] = $subscriptionKey;
+		if ($this->config->getSystemValueString('appstoreurl', self::APP_STORE_URL) === self::APP_STORE_URL) {
+			// If we have a valid subscription key, send it to the appstore
+			$subscriptionKey = $this->config->getAppValue('support', 'subscription_key');
+			if ($this->registry->delegateHasValidSubscription() && $subscriptionKey) {
+				$options['headers'] ??= [];
+				$options['headers']['X-NC-Subscription-Key'] = $subscriptionKey;
+			}
 		}
 
 		$client = $this->clientService->newClient();
@@ -142,7 +108,7 @@ abstract class Fetcher {
 	}
 
 	/**
-	 * Returns the array with the categories on the appstore server
+	 * Returns the array with the entries on the appstore server
 	 *
 	 * @param bool [$allowUnstable] Allow unstable releases
 	 * @return array
@@ -150,8 +116,9 @@ abstract class Fetcher {
 	public function get($allowUnstable = false) {
 		$appstoreenabled = $this->config->getSystemValueBool('appstoreenabled', true);
 		$internetavailable = $this->config->getSystemValueBool('has_internet_connection', true);
+		$isDefaultAppStore = $this->config->getSystemValueString('appstoreurl', self::APP_STORE_URL) === self::APP_STORE_URL;
 
-		if (!$appstoreenabled || !$internetavailable) {
+		if (!$appstoreenabled || (!$internetavailable && $isDefaultAppStore)) {
 			return [];
 		}
 
@@ -189,7 +156,7 @@ abstract class Fetcher {
 		try {
 			$responseJson = $this->fetch($ETag, $content, $allowUnstable);
 
-			if (empty($responseJson)) {
+			if (empty($responseJson) || empty($responseJson['data'])) {
 				return [];
 			}
 

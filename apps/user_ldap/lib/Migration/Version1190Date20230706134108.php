@@ -3,25 +3,8 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2023 Your name <your@email.com>
- *
- * @author Your name <your@email.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace OCA\User_LDAP\Migration;
@@ -99,13 +82,25 @@ class Version1190Date20230706134108 extends SimpleMigrationStep {
 		$result = $query->executeQuery();
 		while ($row = $result->fetch()) {
 			$knownUsers = unserialize($row['owncloudusers']);
+			if (!is_array($knownUsers)) {
+				/* Unserialize failed or data was incorrect in database, ignore */
+				continue;
+			}
+			$knownUsers = array_unique($knownUsers);
 			foreach ($knownUsers as $knownUser) {
-				$insert
-					->setParameter('groupid', $row['owncloudname'])
-					->setParameter('userid', $knownUser)
-				;
+				try {
+					$insert
+						->setParameter('groupid', $row['owncloudname'])
+						->setParameter('userid', $knownUser)
+					;
 
-				$insert->executeStatement();
+					$insert->executeStatement();
+				} catch (\OCP\DB\Exception $e) {
+					/*
+					 * If it fails on unique constaint violation it may just be left over value from previous half-migration
+					 * If it fails on something else, ignore as well, data will be filled by background job later anyway
+					 */
+				}
 			}
 		}
 		$result->closeCursor();

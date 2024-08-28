@@ -1,34 +1,27 @@
 <!--
-  - @copyright Copyright (c) 2023 Julius Härtl <jus@bitgrid.net>
-  -
-  - @author Julius Härtl <jus@bitgrid.net>
-  -
-  - @license GNU AGPL version 3 or any later version
-  -
-  - This program is free software: you can redistribute it and/or modify
-  - it under the terms of the GNU Affero General Public License as
-  - published by the Free Software Foundation, either version 3 of the
-  - License, or (at your option) any later version.
-  -
-  - This program is distributed in the hope that it will be useful,
-  - but WITHOUT ANY WARRANTY; without even the implied warranty of
-  - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-  - GNU Affero General Public License for more details.
-  -
-  - You should have received a copy of the GNU Affero General Public License
-  - along with this program. If not, see <http://www.gnu.org/licenses/>.
-  -->
+  - SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 
 <template>
-	<div ref="picker" class="reference-file-picker" />
+	<div :id="containerId">
+		<FilePicker v-bind="filepickerOptions" @close="onClose" />
+	</div>
 </template>
 
-<script>
-import { FilePickerType } from '@nextcloud/dialogs'
+<script lang="ts">
+import type { Node as NcNode } from '@nextcloud/files'
+import type { IFilePickerButton } from '@nextcloud/dialogs'
+
+import { FilePickerVue as FilePicker } from '@nextcloud/dialogs/filepicker.js'
+import { translate as t } from '@nextcloud/l10n'
 import { generateUrl } from '@nextcloud/router'
-export default {
+import { defineComponent } from 'vue'
+
+export default defineComponent({
 	name: 'FileReferencePickerElement',
 	components: {
+		FilePicker,
 	},
 	props: {
 		providerId: {
@@ -40,74 +33,55 @@ export default {
 			default: false,
 		},
 	},
-	mounted() {
-		this.openFilePicker()
-		window.addEventListener('click', this.onWindowClick)
-	},
-	beforeDestroy() {
-		window.removeEventListener('click', this.onWindowClick)
-	},
-	methods: {
-		onWindowClick(e) {
-			if (e.target.tagName === 'A' && e.target.classList.contains('oc-dialog-close')) {
-				this.$emit('cancel')
+	computed: {
+		containerId() {
+			return `filepicker-${Math.random().toString(36).slice(7)}`
+		},
+		filepickerOptions() {
+			return {
+				allowPickDirectory: false,
+				buttons: this.buttonFactory,
+				container: `#${this.containerId}`,
+				multiselect: false,
+				name: t('files', 'Select file or folder to link to'),
 			}
 		},
-		async openFilePicker() {
-			OC.dialogs.filepicker(
-				t('files', 'Select file or folder to link to'),
-				(file) => {
-					const client = OC.Files.getClient()
-					client.getFileInfo(file).then((_status, fileInfo) => {
-						this.submit(fileInfo.id)
-					})
-				},
-				false, // multiselect
-				[], // mime filter
-				false, // modal
-				FilePickerType.Choose, // type
-				'',
-				{
-					target: this.$refs.picker,
-				},
-			)
+	},
+	methods: {
+		t,
+
+		buttonFactory(selected: NcNode[]): IFilePickerButton[] {
+			const buttons = [] as IFilePickerButton[]
+			if (selected.length === 0) {
+				buttons.push({
+					label: t('files', 'Choose file'),
+					type: 'tertiary' as never,
+					callback: this.onClose,
+				})
+			} else {
+				buttons.push({
+					label: t('files', 'Choose {file}', { file: selected[0].basename }),
+					type: 'primary',
+					callback: this.onClose,
+				})
+			}
+			return buttons
 		},
-		submit(fileId) {
-			const fileLink = window.location.protocol + '//' + window.location.host
-				+ generateUrl('/f/{fileId}', { fileId })
-			this.$emit('submit', fileLink)
+
+		onClose(nodes?: NcNode[]) {
+			if (nodes === undefined || nodes.length === 0) {
+				this.$emit('cancel')
+			} else {
+				this.onSubmit(nodes[0])
+			}
+		},
+
+		onSubmit(node: NcNode) {
+			const url = new URL(window.location.href)
+			url.pathname = generateUrl('/f/{fileId}', { fileId: node.fileid! })
+			url.search = ''
+			this.$emit('submit', url.href)
 		},
 	},
-}
+})
 </script>
-
-<style scoped lang="scss">
-.reference-file-picker {
-	flex-grow: 1;
-	padding: 12px 16px 16px 16px;
-
-	&:deep(.oc-dialog) {
-		transform: none !important;
-		box-shadow: none !important;
-		flex-grow: 1 !important;
-		position: static !important;
-		width: 100% !important;
-		height: auto !important;
-		padding: 0 !important;
-		max-width: initial;
-
-		.oc-dialog-close {
-			display: none;
-		}
-
-		.oc-dialog-buttonrow.onebutton.aside {
-			position: absolute;
-			padding: 12px 32px;
-		}
-
-		.oc-dialog-content {
-			max-width: 100% !important;
-		}
-	}
-}
-</style>

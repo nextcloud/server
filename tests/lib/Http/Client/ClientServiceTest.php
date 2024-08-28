@@ -3,10 +3,9 @@
 declare(strict_types=1);
 
 /**
- * Copyright (c) 2015 Lukas Reschke <lukas@owncloud.com>
- * This file is licensed under the Affero General Public License version 3 or
- * later.
- * See the COPYING-README file.
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace Test\Http\Client;
@@ -60,7 +59,7 @@ class ClientServiceTest extends \Test\TestCase {
 		$stack = HandlerStack::create($handler);
 		$stack->push($dnsPinMiddleware->addDnsPinning());
 		$stack->push(Middleware::tap(function (RequestInterface $request) use ($eventLogger) {
-			$eventLogger->start('http:request', $request->getMethod() . " request to " . $request->getRequestTarget());
+			$eventLogger->start('http:request', $request->getMethod() . ' request to ' . $request->getRequestTarget());
 		}, function () use ($eventLogger) {
 			$eventLogger->end('http:request');
 		}), 'event logger');
@@ -108,7 +107,7 @@ class ClientServiceTest extends \Test\TestCase {
 		$handler = new CurlHandler();
 		$stack = HandlerStack::create($handler);
 		$stack->push(Middleware::tap(function (RequestInterface $request) use ($eventLogger) {
-			$eventLogger->start('http:request', $request->getMethod() . " request to " . $request->getRequestTarget());
+			$eventLogger->start('http:request', $request->getMethod() . ' request to ' . $request->getRequestTarget());
 		}, function () use ($eventLogger) {
 			$eventLogger->end('http:request');
 		}), 'event logger');

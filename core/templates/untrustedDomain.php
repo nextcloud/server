@@ -1,4 +1,11 @@
-<?php /** @var array $_ */ ?>
+<?php
+/**
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2014-2015 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
+ */
+/** @var array $_ */
+?>
 
 <div class="guest-box">
 	<h2><?php p($l->t('Access through untrusted domain')); ?></h2>

@@ -3,26 +3,8 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2021 Arthur Schiwon <blizzz@arthur-schiwon.de>
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Côme Chilliet <come.chilliet@nextcloud.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <https://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace OCA\User_LDAP\Command;
@@ -42,52 +24,36 @@ use Symfony\Component\Console\Output\OutputInterface;
 use function sprintf;
 
 class UuidUpdateReport {
-	const UNCHANGED = 0;
-	const UNKNOWN = 1;
-	const UNREADABLE = 2;
-	const UPDATED = 3;
-	const UNWRITABLE = 4;
-	const UNMAPPED = 5;
+	public const UNCHANGED = 0;
+	public const UNKNOWN = 1;
+	public const UNREADABLE = 2;
+	public const UPDATED = 3;
+	public const UNWRITABLE = 4;
+	public const UNMAPPED = 5;
 
-	public $id = '';
-	public $dn = '';
-	public $isUser = true;
-	public $state = self::UNCHANGED;
-	public $oldUuid = '';
-	public $newUuid = '';
-
-	public function __construct(string $id, string $dn, bool $isUser, int $state, string $oldUuid = '', string $newUuid = '') {
-		$this->id = $id;
-		$this->dn = $dn;
-		$this->isUser = $isUser;
-		$this->state = $state;
-		$this->oldUuid = $oldUuid;
-		$this->newUuid = $newUuid;
+	public function __construct(
+		public string $id,
+		public string $dn,
+		public bool $isUser,
+		public int $state,
+		public string $oldUuid = '',
+		public string $newUuid = '',
+	) {
 	}
 }
 
 class UpdateUUID extends Command {
-	/** @var UserMapping */
-	private $userMapping;
-	/** @var GroupMapping */
-	private $groupMapping;
-	/** @var User_Proxy */
-	private $userProxy;
-	/** @var Group_Proxy */
-	private $groupProxy;
 	/** @var array<UuidUpdateReport[]> */
-	protected $reports = [];
-	/** @var LoggerInterface */
-	private $logger;
-	/** @var bool */
-	private $dryRun = false;
+	protected array $reports = [];
+	private bool $dryRun = false;
 
-	public function __construct(UserMapping $userMapping, GroupMapping $groupMapping, User_Proxy $userProxy, Group_Proxy $groupProxy, LoggerInterface $logger) {
-		$this->userMapping = $userMapping;
-		$this->groupMapping = $groupMapping;
-		$this->userProxy = $userProxy;
-		$this->groupProxy = $groupProxy;
-		$this->logger = $logger;
+	public function __construct(
+		private UserMapping $userMapping,
+		private GroupMapping $groupMapping,
+		private User_Proxy $userProxy,
+		private Group_Proxy $groupProxy,
+		private LoggerInterface $logger,
+	) {
 		$this->reports = [
 			UuidUpdateReport::UPDATED => [],
 			UuidUpdateReport::UNKNOWN => [],
@@ -140,7 +106,7 @@ class UpdateUUID extends Command {
 		$entriesToUpdate = $this->estimateNumberOfUpdates($input);
 		$progress = new ProgressBar($output);
 		$progress->start($entriesToUpdate);
-		foreach($this->handleUpdates($input) as $_) {
+		foreach ($this->handleUpdates($input) as $_) {
 			$progress->advance();
 		}
 		$progress->finish();
@@ -149,8 +115,8 @@ class UpdateUUID extends Command {
 		return count($this->reports[UuidUpdateReport::UNMAPPED]) === 0
 			&& count($this->reports[UuidUpdateReport::UNREADABLE]) === 0
 			&& count($this->reports[UuidUpdateReport::UNWRITABLE]) === 0
-			? 0
-			: 1;
+			? self::SUCCESS
+			: self::FAILURE;
 	}
 
 	protected function printReport(OutputInterface $output): void {
@@ -178,7 +144,7 @@ class UpdateUUID extends Command {
 				if (!empty($report->id)) {
 					$output->writeln(sprintf('  %s: %s',
 						$report->isUser ? 'User' : 'Group', $report->id));
-				} else if (!empty($report->dn)) {
+				} elseif (!empty($report->dn)) {
 					$output->writeln(sprintf('  DN: %s', $report->dn));
 				}
 			}
@@ -190,7 +156,7 @@ class UpdateUUID extends Command {
 			if ($output->isVerbose()) {
 				/** @var UuidUpdateReport $report */
 				foreach ($this->reports[UuidUpdateReport::UNKNOWN] as $report) {
-					$output->writeln(sprintf('  %s: %s',$report->isUser ? 'User' : 'Group', $report->id));
+					$output->writeln(sprintf('  %s: %s', $report->isUser ? 'User' : 'Group', $report->id));
 				}
 				$output->writeln(PHP_EOL . 'Old users can be removed along with their data per occ user:delete.' . PHP_EOL);
 			}
@@ -201,7 +167,7 @@ class UpdateUUID extends Command {
 			if ($output->isVerbose()) {
 				/** @var UuidUpdateReport $report */
 				foreach ($this->reports[UuidUpdateReport::UNREADABLE] as $report) {
-					$output->writeln(sprintf('  %s: %s',$report->isUser ? 'User' : 'Group', $report->id));
+					$output->writeln(sprintf('  %s: %s', $report->isUser ? 'User' : 'Group', $report->id));
 				}
 			}
 		}
@@ -211,7 +177,7 @@ class UpdateUUID extends Command {
 			if ($output->isVerbose()) {
 				/** @var UuidUpdateReport $report */
 				foreach ($this->reports[UuidUpdateReport::UNWRITABLE] as $report) {
-					$output->writeln(sprintf('  %s: %s',$report->isUser ? 'User' : 'Group', $report->id));
+					$output->writeln(sprintf('  %s: %s', $report->isUser ? 'User' : 'Group', $report->id));
 				}
 			}
 		}
@@ -219,37 +185,37 @@ class UpdateUUID extends Command {
 
 	protected function handleUpdates(InputInterface $input): \Generator {
 		if ($input->getOption('all')) {
-			foreach($this->handleMappingBasedUpdates(false) as $_) {
+			foreach ($this->handleMappingBasedUpdates(false) as $_) {
 				yield;
 			}
-		} else if ($input->getOption('userId')
+		} elseif ($input->getOption('userId')
 			|| $input->getOption('groupId')
 			|| $input->getOption('dn')
 		) {
-			foreach($this->handleUpdatesByUserId($input->getOption('userId')) as $_) {
+			foreach ($this->handleUpdatesByUserId($input->getOption('userId')) as $_) {
 				yield;
 			}
-			foreach($this->handleUpdatesByGroupId($input->getOption('groupId')) as $_) {
+			foreach ($this->handleUpdatesByGroupId($input->getOption('groupId')) as $_) {
 				yield;
 			}
-			foreach($this->handleUpdatesByDN($input->getOption('dn')) as $_) {
+			foreach ($this->handleUpdatesByDN($input->getOption('dn')) as $_) {
 				yield;
 			}
 		} else {
-			foreach($this->handleMappingBasedUpdates(true) as $_) {
+			foreach ($this->handleMappingBasedUpdates(true) as $_) {
 				yield;
 			}
 		}
 	}
 
 	protected function handleUpdatesByUserId(array $userIds): \Generator {
-		foreach($this->handleUpdatesByEntryId($userIds, $this->userMapping) as $_) {
+		foreach ($this->handleUpdatesByEntryId($userIds, $this->userMapping) as $_) {
 			yield;
 		}
 	}
 
 	protected function handleUpdatesByGroupId(array $groupIds): \Generator {
-		foreach($this->handleUpdatesByEntryId($groupIds, $this->groupMapping) as $_) {
+		foreach ($this->handleUpdatesByEntryId($groupIds, $this->groupMapping) as $_) {
 			yield;
 		}
 	}
@@ -272,10 +238,10 @@ class UpdateUUID extends Command {
 			$this->reports[UuidUpdateReport::UNMAPPED][] = new UuidUpdateReport('', $dn, true, UuidUpdateReport::UNMAPPED);
 			yield;
 		}
-		foreach($this->handleUpdatesByList($this->userMapping, $userList) as $_) {
+		foreach ($this->handleUpdatesByList($this->userMapping, $userList) as $_) {
 			yield;
 		}
-		foreach($this->handleUpdatesByList($this->groupMapping, $groupList) as $_) {
+		foreach ($this->handleUpdatesByList($this->groupMapping, $groupList) as $_) {
 			yield;
 		}
 	}
@@ -284,7 +250,7 @@ class UpdateUUID extends Command {
 		$isUser = $mapping instanceof UserMapping;
 		$list = [];
 		while ($id = array_pop($ids)) {
-			if(!$dn = $mapping->getDNByName($id)) {
+			if (!$dn = $mapping->getDNByName($id)) {
 				$this->reports[UuidUpdateReport::UNMAPPED][] = new UuidUpdateReport($id, '', $isUser, UuidUpdateReport::UNMAPPED);
 				yield;
 				continue;
@@ -293,21 +259,21 @@ class UpdateUUID extends Command {
 			$uuid = $mapping->getUUIDByDN($dn);
 			$list[] = ['name' => $id, 'uuid' => $uuid];
 		}
-		foreach($this->handleUpdatesByList($mapping, $list) as $_) {
+		foreach ($this->handleUpdatesByList($mapping, $list) as $_) {
 			yield;
 		}
 	}
 
 	protected function handleMappingBasedUpdates(bool $invalidatedOnly): \Generator {
 		$limit = 1000;
-		/** @var AbstractMapping $mapping*/
-		foreach([$this->userMapping, $this->groupMapping] as $mapping) {
+		/** @var AbstractMapping $mapping */
+		foreach ([$this->userMapping, $this->groupMapping] as $mapping) {
 			$offset = 0;
 			do {
 				$list = $mapping->getList($offset, $limit, $invalidatedOnly);
 				$offset += $limit;
 
-				foreach($this->handleUpdatesByList($mapping, $list) as $tick) {
+				foreach ($this->handleUpdatesByList($mapping, $list) as $tick) {
 					yield; // null, for it only advances progress counter
 				}
 			} while (count($list) === $limit);
@@ -326,8 +292,7 @@ class UpdateUUID extends Command {
 		foreach ($list as $row) {
 			$access = $backendProxy->getLDAPAccess($row['name']);
 			if ($access instanceof Access
-				&& $dn = $mapping->getDNByName($row['name']))
-			{
+				&& $dn = $mapping->getDNByName($row['name'])) {
 				if ($uuid = $access->getUUID($dn, $isUser)) {
 					if ($uuid !== $row['uuid']) {
 						if ($this->dryRun || $mapping->setUUIDbyDN($uuid, $dn)) {
@@ -359,7 +324,7 @@ class UpdateUUID extends Command {
 	protected function estimateNumberOfUpdates(InputInterface $input): int {
 		if ($input->getOption('all')) {
 			return $this->userMapping->count() + $this->groupMapping->count();
-		} else if ($input->getOption('userId')
+		} elseif ($input->getOption('userId')
 			|| $input->getOption('groupId')
 			|| $input->getOption('dn')
 		) {
@@ -370,5 +335,4 @@ class UpdateUUID extends Command {
 			return $this->userMapping->countInvalidated() + $this->groupMapping->countInvalidated();
 		}
 	}
-
 }

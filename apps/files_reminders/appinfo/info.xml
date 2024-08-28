@@ -1,4 +1,8 @@
 <?xml version="1.0"?>
+<!--
+ - SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ - SPDX-License-Identifier: AGPL-3.0-or-later
+ -->
 <info xmlns:xsi= "http://www.w3.org/2001/XMLSchema-instance"
 	  xsi:noNamespaceSchemaLocation="https://apps.nextcloud.com/schema/apps/info.xsd">
 	<id>files_reminders</id>
@@ -8,7 +12,7 @@
 
 Set file reminders.
 	]]></description>
-	<version>1.0.0</version>
+	<version>1.4.0</version>
 	<licence>agpl</licence>
 	<author>Christopher Ng</author>
 	<namespace>FilesReminders</namespace>
@@ -18,7 +22,7 @@ Set file reminders.
 	<bugs>https://github.com/nextcloud/server/issues</bugs>
 
 	<dependencies>
-		<nextcloud min-version="27" max-version="28" />
+		<nextcloud min-version="31" max-version="31"/>
 	</dependencies>
 
 	<background-jobs>

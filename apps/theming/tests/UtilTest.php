@@ -1,29 +1,7 @@
 <?php
 /**
- * @copyright Copyright (c) 2016 Julius Härtl <jus@bitgrid.net>
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Julius Haertl <jus@bitgrid.net>
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Michael Weimann <mail@michael-weimann.eu>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\Theming\Tests;
 
@@ -35,19 +13,20 @@ use OCP\Files\NotFoundException;
 use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\Files\SimpleFS\ISimpleFolder;
 use OCP\IConfig;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class UtilTest extends TestCase {
 
 	/** @var Util */
 	protected $util;
-	/** @var IConfig */
+	/** @var IConfig|MockObject */
 	protected $config;
-	/** @var IAppData */
+	/** @var IAppData|MockObject */
 	protected $appData;
-	/** @var IAppManager */
+	/** @var IAppManager|MockObject */
 	protected $appManager;
-	/** @var ImageManager */
+	/** @var ImageManager|MockObject */
 	protected $imageManager;
 
 	protected function setUp(): void {
@@ -59,11 +38,29 @@ class UtilTest extends TestCase {
 		$this->util = new Util($this->config, $this->appManager, $this->appData, $this->imageManager);
 	}
 
+	public function dataColorContrast() {
+		return [
+			['#ffffff', '#FFFFFF', 1],
+			['#000000', '#000000', 1],
+			['#ffffff', '#000000', 21],
+			['#000000', '#FFFFFF', 21],
+			['#9E9E9E', '#353535', 4.578],
+			['#353535', '#9E9E9E', 4.578],
+		];
+	}
+
+	/**
+	 * @dataProvider dataColorContrast
+	 */
+	public function testColorContrast(string $color1, string $color2, $contrast) {
+		$this->assertEqualsWithDelta($contrast, $this->util->colorContrast($color1, $color2), .001);
+	}
+
 	public function dataInvertTextColor() {
 		return [
 			['#ffffff', true],
 			['#000000', false],
-			['#0082C9', false],
+			['#00679e', false],
 			['#ffff00', true],
 		];
 	}
@@ -106,22 +103,22 @@ class UtilTest extends TestCase {
 	}
 
 	public function testElementColorDefaultBlack() {
-		$elementColor = $this->util->elementColor("#000000");
+		$elementColor = $this->util->elementColor('#000000');
 		$this->assertEquals('#4d4d4d', $elementColor);
 	}
 
 	public function testElementColorDefaultWhite() {
-		$elementColor = $this->util->elementColor("#ffffff");
+		$elementColor = $this->util->elementColor('#ffffff');
 		$this->assertEquals('#b3b3b3', $elementColor);
 	}
 
 	public function testElementColorBlackOnDarkBackground() {
-		$elementColor = $this->util->elementColor("#000000", false);
+		$elementColor = $this->util->elementColor('#000000', false);
 		$this->assertEquals('#4d4d4d', $elementColor);
 	}
 
 	public function testElementColorBlackOnBrightBackground() {
-		$elementColor = $this->util->elementColor("#000000", true);
+		$elementColor = $this->util->elementColor('#000000', true);
 		$this->assertEquals('#000000', $elementColor);
 	}
 
@@ -209,8 +206,8 @@ class UtilTest extends TestCase {
 	}
 
 	public function testColorizeSvg() {
-		$input = "#0082c9 #0082C9 #000000 #FFFFFF";
-		$expected = "#AAAAAA #AAAAAA #000000 #FFFFFF";
+		$input = '#0082c9 #0082C9 #000000 #FFFFFF';
+		$expected = '#AAAAAA #AAAAAA #000000 #FFFFFF';
 		$result = $this->util->colorizeSvg($input, '#AAAAAA');
 		$this->assertEquals($expected, $result);
 	}

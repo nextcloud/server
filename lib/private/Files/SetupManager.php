@@ -2,30 +2,15 @@
 
 declare(strict_types=1);
 /**
- * @copyright Copyright (c) 2022 Robin Appelman <robin@icewind.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace OC\Files;
 
 use OC\Files\Config\MountProviderCollection;
+use OC\Files\Mount\HomeMountPoint;
 use OC\Files\Mount\MountPoint;
-use OC\Files\ObjectStore\HomeObjectStoreStorage;
 use OC\Files\Storage\Common;
 use OC\Files\Storage\Home;
 use OC\Files\Storage\Storage;
@@ -39,7 +24,10 @@ use OC\Share20\ShareDisableChecker;
 use OC_App;
 use OC_Hook;
 use OC_Util;
-use OCA\Files_Sharing\ISharedStorage;
+use OCA\Files_External\Config\ConfigAdapter;
+use OCA\Files_Sharing\External\Mount;
+use OCA\Files_Sharing\ISharedMountPoint;
+use OCA\Files_Sharing\SharedMount;
 use OCP\Constants;
 use OCP\Diagnostics\IEventLogger;
 use OCP\EventDispatcher\IEventDispatcher;
@@ -77,6 +65,7 @@ class SetupManager {
 	private bool $listeningForProviders;
 	private array $fullSetupRequired = [];
 	private bool $setupBuiltinWrappersDone = false;
+	private bool $forceFullSetup = false;
 
 	public function __construct(
 		private IEventLogger $eventLogger,
@@ -94,6 +83,7 @@ class SetupManager {
 	) {
 		$this->cache = $cacheFactory->createDistributed('setupmanager::');
 		$this->listeningForProviders = false;
+		$this->forceFullSetup = $this->config->getSystemValueBool('debug.force-full-fs-setup');
 
 		$this->setupListeners();
 	}
@@ -118,7 +108,8 @@ class SetupManager {
 
 		Filesystem::addStorageWrapper('mount_options', function ($mountPoint, IStorage $storage, IMountPoint $mount) {
 			if ($storage->instanceOfStorage(Common::class)) {
-				$storage->setMountOptions($mount->getOptions());
+				$options = array_merge($mount->getOptions(), ['mount_point' => $mountPoint]);
+				$storage->setMountOptions($options);
 			}
 			return $storage;
 		});
@@ -130,7 +121,7 @@ class SetupManager {
 			'sharing_mask',
 			function ($mountPoint, IStorage $storage, IMountPoint $mount) use ($reSharingEnabled, $sharingEnabledForUser) {
 				$sharingEnabledForMount = $mount->getOption('enable_sharing', true);
-				$isShared = $storage->instanceOfStorage(ISharedStorage::class);
+				$isShared = $mount instanceof ISharedMountPoint;
 				if (!$sharingEnabledForMount || !$sharingEnabledForUser || (!$reSharingEnabled && $isShared)) {
 					return new PermissionsMask([
 						'storage' => $storage,
@@ -142,35 +133,30 @@ class SetupManager {
 		);
 
 		// install storage availability wrapper, before most other wrappers
-		Filesystem::addStorageWrapper('oc_availability', function ($mountPoint, IStorage $storage) {
-			if (!$storage->instanceOfStorage('\OCA\Files_Sharing\SharedStorage') && !$storage->isLocal()) {
+		Filesystem::addStorageWrapper('oc_availability', function ($mountPoint, IStorage $storage, IMountPoint $mount) {
+			$externalMount = $mount instanceof ConfigAdapter || $mount instanceof Mount;
+			if ($externalMount && !$storage->isLocal()) {
 				return new Availability(['storage' => $storage]);
 			}
 			return $storage;
 		});
 
 		Filesystem::addStorageWrapper('oc_encoding', function ($mountPoint, IStorage $storage, IMountPoint $mount) {
-			if ($mount->getOption('encoding_compatibility', false) && !$storage->instanceOfStorage('\OCA\Files_Sharing\SharedStorage')) {
+			if ($mount->getOption('encoding_compatibility', false) && !$mount instanceof SharedMount) {
 				return new Encoding(['storage' => $storage]);
 			}
 			return $storage;
 		});
 
 		$quotaIncludeExternal = $this->config->getSystemValue('quota_include_external_storage', false);
-		Filesystem::addStorageWrapper('oc_quota', function ($mountPoint, $storage) use ($quotaIncludeExternal) {
+		Filesystem::addStorageWrapper('oc_quota', function ($mountPoint, $storage, IMountPoint $mount) use ($quotaIncludeExternal) {
 			// set up quota for home storages, even for other users
 			// which can happen when using sharing
-
-			/**
-			 * @var Storage $storage
-			 */
-			if ($storage->instanceOfStorage(HomeObjectStoreStorage::class) || $storage->instanceOfStorage(Home::class)) {
-				if (is_object($storage->getUser())) {
-					$user = $storage->getUser();
-					return new Quota(['storage' => $storage, 'quotaCallback' => function () use ($user) {
-						return OC_Util::getUserQuota($user);
-					}, 'root' => 'files', 'include_external_storage' => $quotaIncludeExternal]);
-				}
+			if ($mount instanceof HomeMountPoint) {
+				$user = $mount->getUser();
+				return new Quota(['storage' => $storage, 'quotaCallback' => function () use ($user) {
+					return OC_Util::getUserQuota($user);
+				}, 'root' => 'files', 'include_external_storage' => $quotaIncludeExternal]);
 			}
 
 			return $storage;
@@ -337,11 +323,12 @@ class SetupManager {
 		if ($this->rootSetup) {
 			return;
 		}
+
+		$this->setupBuiltinWrappers();
+
 		$this->rootSetup = true;
 
 		$this->eventLogger->start('fs:setup:root', 'Setup root filesystem');
-
-		$this->setupBuiltinWrappers();
 
 		$rootMounts = $this->mountProviderCollection->getRootMounts();
 		foreach ($rootMounts as $rootMountProvider) {
@@ -395,7 +382,7 @@ class SetupManager {
 		}
 
 		// for the user's home folder, and includes children we need everything always
-		if (rtrim($path) === "/" . $user->getUID() . "/files" && $includeChildren) {
+		if (rtrim($path) === '/' . $user->getUID() . '/files' && $includeChildren) {
 			$this->setupForUser($user);
 			return;
 		}
@@ -425,7 +412,7 @@ class SetupManager {
 				$setupProviders[] = $cachedMount->getMountProvider();
 				$mounts = $this->mountProviderCollection->getUserMountsForProviderClasses($user, [$cachedMount->getMountProvider()]);
 			} else {
-				$this->logger->debug("mount at " . $cachedMount->getMountPoint() . " has no provider set, performing full setup");
+				$this->logger->debug('mount at ' . $cachedMount->getMountPoint() . ' has no provider set, performing full setup');
 				$this->eventLogger->end('fs:setup:user:path:find');
 				$this->setupForUser($user);
 				$this->eventLogger->end('fs:setup:user:path');
@@ -442,7 +429,7 @@ class SetupManager {
 			}, false);
 
 			if ($needsFullSetup) {
-				$this->logger->debug("mount has no provider set, performing full setup");
+				$this->logger->debug('mount has no provider set, performing full setup');
 				$this->setupForUser($user);
 				$this->eventLogger->end('fs:setup:user:path');
 				return;
@@ -471,6 +458,10 @@ class SetupManager {
 	}
 
 	private function fullSetupRequired(IUser $user): bool {
+		if ($this->forceFullSetup) {
+			return true;
+		}
+
 		// we perform a "cached" setup only after having done the full setup recently
 		// this is also used to trigger a full setup after handling events that are likely
 		// to change the available mounts
@@ -500,7 +491,7 @@ class SetupManager {
 			return;
 		}
 
-		$this->eventLogger->start('fs:setup:user:providers', "Setup filesystem for " . implode(', ', $providers));
+		$this->eventLogger->start('fs:setup:user:providers', 'Setup filesystem for ' . implode(', ', $providers));
 
 		$this->oneTimeUserSetup($user);
 

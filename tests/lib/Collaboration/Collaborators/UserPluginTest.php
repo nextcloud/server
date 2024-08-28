@@ -1,28 +1,14 @@
 <?php
 /**
- * @copyright Copyright (c) 2017 Arthur Schiwon <blizzz@arthur-schiwon.de>
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace Test\Collaboration\Collaborators;
 
+use OC\Collaboration\Collaborators\SearchResult;
+use OC\Collaboration\Collaborators\UserPlugin;
+use OC\KnownUser\KnownUserService;
 use OCP\Collaboration\Collaborators\ISearchResult;
 use OCP\IConfig;
 use OCP\IGroup;
@@ -32,42 +18,39 @@ use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\Share\IShare;
 use OCP\UserStatus\IManager as IUserStatusManager;
-use OC\Collaboration\Collaborators\SearchResult;
-use OC\Collaboration\Collaborators\UserPlugin;
-use OC\KnownUser\KnownUserService;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class UserPluginTest extends TestCase {
-	/** @var  IConfig|MockObject */
+	/** @var IConfig|MockObject */
 	protected $config;
 
-	/** @var  IUserManager|MockObject */
+	/** @var IUserManager|MockObject */
 	protected $userManager;
 
-	/** @var  IGroupManager|MockObject */
+	/** @var IGroupManager|MockObject */
 	protected $groupManager;
 
-	/** @var  IUserSession|MockObject */
+	/** @var IUserSession|MockObject */
 	protected $session;
 
-	/** @var  KnownUserService|MockObject */
+	/** @var KnownUserService|MockObject */
 	protected $knownUserService;
 
 	/** @var IUserStatusManager|MockObject */
 	protected $userStatusManager;
 
-	/** @var  UserPlugin */
+	/** @var UserPlugin */
 	protected $plugin;
 
-	/** @var  ISearchResult */
+	/** @var ISearchResult */
 	protected $searchResult;
 
 	protected int $limit = 2;
 
 	protected int $offset = 0;
 
-	/** @var  IUser|MockObject */
+	/** @var IUser|MockObject */
 	protected $user;
 
 	protected function setUp(): void {
@@ -460,7 +443,7 @@ class UserPluginTest extends TestCase {
 		array $users = [],
 		$shareeEnumerationPhone = false
 	) {
-		$this->mockConfig(["core" => [
+		$this->mockConfig(['core' => [
 			'shareapi_only_share_with_group_members' => $shareWithGroupOnly ? 'yes' : 'no',
 			'shareapi_allow_share_dialog_user_enumeration' => $shareeEnumeration? 'yes' : 'no',
 			'shareapi_restrict_user_enumeration_to_group' => false ? 'yes' : 'no',
@@ -779,16 +762,16 @@ class UserPluginTest extends TestCase {
 				return null;
 			});
 		$this->userManager
-		->method('searchDisplayName')
-		->willReturnCallback(function ($search) use ($matchingUsers) {
-			$users = array_filter(
-				$matchingUsers,
-				fn ($user) => str_contains(strtolower($user['displayName']), strtolower($search))
-			);
-			return array_map(
-				fn ($user) => $this->getUserMock($user['uid'], $user['displayName']),
-				$users);
-		});
+			->method('searchDisplayName')
+			->willReturnCallback(function ($search) use ($matchingUsers) {
+				$users = array_filter(
+					$matchingUsers,
+					fn ($user) => str_contains(strtolower($user['displayName']), strtolower($search))
+				);
+				return array_map(
+					fn ($user) => $this->getUserMock($user['uid'], $user['displayName']),
+					$users);
+			});
 
 		$this->groupManager->method('displayNamesInGroup')
 			->willReturn($userResults);

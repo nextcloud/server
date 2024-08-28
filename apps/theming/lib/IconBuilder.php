@@ -1,28 +1,7 @@
 <?php
 /**
- * @copyright Copyright (c) 2016 Julius Härtl <jus@bitgrid.net>
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Jan-Christoph Borchardt <hey@jancborchardt.net>
- * @author Julius Haertl <jus@bitgrid.net>
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Morris Jobke <hey@morrisjobke.de>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\Theming;
 
@@ -65,27 +44,27 @@ class IconBuilder {
 		}
 		try {
 			$favicon = new Imagick();
-			$favicon->setFormat("ico");
+			$favicon->setFormat('ico');
 			$icon = $this->renderAppIcon($app, 128);
 			if ($icon === false) {
 				return false;
 			}
-			$icon->setImageFormat("png32");
+			$icon->setImageFormat('png32');
 
 			$clone = clone $icon;
-			$clone->scaleImage(16,0);
+			$clone->scaleImage(16, 0);
 			$favicon->addImage($clone);
 
 			$clone = clone $icon;
-			$clone->scaleImage(32,0);
+			$clone->scaleImage(32, 0);
 			$favicon->addImage($clone);
 
 			$clone = clone $icon;
-			$clone->scaleImage(64,0);
+			$clone->scaleImage(64, 0);
 			$favicon->addImage($clone);
 
 			$clone = clone $icon;
-			$clone->scaleImage(128,0);
+			$clone->scaleImage(128, 0);
 			$favicon->addImage($clone);
 
 			$data = $favicon->getImagesBlob();
@@ -108,7 +87,7 @@ class IconBuilder {
 			if ($icon === false) {
 				return false;
 			}
-			$icon->setImageFormat("png32");
+			$icon->setImageFormat('png32');
 			$data = $icon->getImageBlob();
 			$icon->destroy();
 			return $data;
@@ -138,7 +117,7 @@ class IconBuilder {
 			$mime = mime_content_type($appIcon);
 		}
 
-		if ($appIconContent === false || $appIconContent === "") {
+		if ($appIconContent === false || $appIconContent === '') {
 			return false;
 		}
 
@@ -150,9 +129,9 @@ class IconBuilder {
 			'<rect x="0" y="0" rx="100" ry="100" width="512" height="512" style="fill:' . $color . ';" />' .
 			'</svg>';
 		// resize svg magic as this seems broken in Imagemagick
-		if ($mime === "image/svg+xml" || substr($appIconContent, 0, 4) === "<svg") {
-			if (substr($appIconContent, 0, 5) !== "<?xml") {
-				$svg = "<?xml version=\"1.0\"?>".$appIconContent;
+		if ($mime === 'image/svg+xml' || substr($appIconContent, 0, 4) === '<svg') {
+			if (substr($appIconContent, 0, 5) !== '<?xml') {
+				$svg = '<?xml version="1.0"?>'.$appIconContent;
 			} else {
 				$svg = $appIconContent;
 			}
@@ -181,9 +160,9 @@ class IconBuilder {
 			 * invert app icons for bright primary colors
 			 * the default nextcloud logo will not be inverted to black
 			 */
-			if ($this->util->invertTextColor($color)
+			if ($this->util->isBrightColor($color)
 				&& !$appIcon instanceof ISimpleFile
-				&& $app !== "core"
+				&& $app !== 'core'
 			) {
 				$appIconFile->negateImage(false);
 			}
@@ -208,10 +187,10 @@ class IconBuilder {
 		$finalIconFile->setBackgroundColor(new ImagickPixel('transparent'));
 		$finalIconFile->readImageBlob($background);
 		$finalIconFile->setImageVirtualPixelMethod(Imagick::VIRTUALPIXELMETHOD_TRANSPARENT);
-		$finalIconFile->setImageArtifact('compose:args', "1,0,-0.5,0.5");
+		$finalIconFile->setImageArtifact('compose:args', '1,0,-0.5,0.5');
 		$finalIconFile->compositeImage($appIconFile, Imagick::COMPOSITE_ATOP, $offset_w, $offset_h);
 		$finalIconFile->setImageFormat('png24');
-		if (defined("Imagick::INTERPOLATE_BICUBIC") === true) {
+		if (defined('Imagick::INTERPOLATE_BICUBIC') === true) {
 			$filter = Imagick::INTERPOLATE_BICUBIC;
 		} else {
 			$filter = Imagick::FILTER_LANCZOS;
@@ -229,11 +208,11 @@ class IconBuilder {
 	 */
 	public function colorSvg($app, $image) {
 		$imageFile = $this->util->getAppImage($app, $image);
-		if ($imageFile === false || $imageFile === "") {
+		if ($imageFile === false || $imageFile === '') {
 			return false;
 		}
 		$svg = file_get_contents($imageFile);
-		if ($svg !== false && $svg !== "") {
+		if ($svg !== false && $svg !== '') {
 			$color = $this->util->elementColor($this->themingDefaults->getColorPrimary());
 			$svg = $this->util->colorizeSvg($svg, $color);
 			return $svg;

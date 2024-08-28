@@ -3,32 +3,8 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2018 John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Georg Ehrke <oc.list@georgehrke.com>
- * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Vincent Petry <vincent@nextcloud.com>
- * @author Kate Döen <kate.doeen@nextcloud.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\Provisioning_API\Controller;
 
@@ -54,8 +30,8 @@ use OCP\User\Backend\ISetDisplayNameBackend;
 use OCP\User\Backend\ISetPasswordBackend;
 
 /**
- * @psalm-import-type ProvisioningApiUserDetails from ResponseDefinitions
- * @psalm-import-type ProvisioningApiUserDetailsQuota from ResponseDefinitions
+ * @psalm-import-type Provisioning_APIUserDetails from ResponseDefinitions
+ * @psalm-import-type Provisioning_APIUserDetailsQuota from ResponseDefinitions
  */
 abstract class AUserData extends OCSController {
 	public const SCOPE_SUFFIX = 'Scope';
@@ -63,6 +39,7 @@ abstract class AUserData extends OCSController {
 	public const USER_FIELD_DISPLAYNAME = 'display';
 	public const USER_FIELD_LANGUAGE = 'language';
 	public const USER_FIELD_LOCALE = 'locale';
+	public const USER_FIELD_FIRST_DAY_OF_WEEK = 'first_day_of_week';
 	public const USER_FIELD_PASSWORD = 'password';
 	public const USER_FIELD_QUOTA = 'quota';
 	public const USER_FIELD_MANAGER = 'manager';
@@ -82,13 +59,13 @@ abstract class AUserData extends OCSController {
 	protected $l10nFactory;
 
 	public function __construct(string $appName,
-								IRequest $request,
-								IUserManager $userManager,
-								IConfig $config,
-								IGroupManager $groupManager,
-								IUserSession $userSession,
-								IAccountManager $accountManager,
-								IFactory $l10nFactory) {
+		IRequest $request,
+		IUserManager $userManager,
+		IConfig $config,
+		IGroupManager $groupManager,
+		IUserSession $userSession,
+		IAccountManager $accountManager,
+		IFactory $l10nFactory) {
 		parent::__construct($appName, $request);
 
 		$this->userManager = $userManager;
@@ -104,7 +81,7 @@ abstract class AUserData extends OCSController {
 	 *
 	 * @param string $userId
 	 * @param bool $includeScopes
-	 * @return ProvisioningApiUserDetails|null
+	 * @return Provisioning_APIUserDetails|null
 	 * @throws NotFoundException
 	 * @throws OCSException
 	 * @throws OCSNotFoundException
@@ -122,7 +99,9 @@ abstract class AUserData extends OCSController {
 		}
 
 		$isAdmin = $this->groupManager->isAdmin($currentLoggedInUser->getUID());
+		$isDelegatedAdmin = $this->groupManager->isDelegatedAdmin($currentLoggedInUser->getUID());
 		if ($isAdmin
+			|| $isDelegatedAdmin
 			|| $this->groupManager->getSubAdmin()->isUserAccessible($currentLoggedInUser, $targetUserObject)) {
 			$data['enabled'] = $this->config->getUserValue($targetUserObject->getUID(), 'core', 'enabled', 'true') === 'true';
 		} else {
@@ -140,7 +119,7 @@ abstract class AUserData extends OCSController {
 			$gids[] = $group->getGID();
 		}
 
-		if ($isAdmin) {
+		if ($isAdmin || $isDelegatedAdmin) {
 			try {
 				# might be thrown by LDAP due to handling of users disappears
 				# from the external source (reasons unknown to us)
@@ -252,7 +231,7 @@ abstract class AUserData extends OCSController {
 
 	/**
 	 * @param string $userId
-	 * @return ProvisioningApiUserDetailsQuota
+	 * @return Provisioning_APIUserDetailsQuota
 	 * @throws OCSException
 	 */
 	protected function fillStorageInfo(string $userId): array {
@@ -283,7 +262,7 @@ abstract class AUserData extends OCSController {
 			];
 		} catch (\Exception $e) {
 			\OC::$server->get(\Psr\Log\LoggerInterface::class)->error(
-				"Could not load storage info for {user}",
+				'Could not load storage info for {user}',
 				[
 					'app' => 'provisioning_api',
 					'user' => $userId,

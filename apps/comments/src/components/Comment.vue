@@ -1,27 +1,10 @@
 <!--
-  - @copyright Copyright (c) 2020 John Molakvoæ <skjnldsv@protonmail.com>
-  -
-  - @author John Molakvoæ <skjnldsv@protonmail.com>
-  -
-  - @license GNU AGPL version 3 or any later version
-  -
-  - This program is free software: you can redistribute it and/or modify
-  - it under the terms of the GNU Affero General Public License as
-  - published by the Free Software Foundation, either version 3 of the
-  - License, or (at your option) any later version.
-  -
-  - This program is distributed in the hope that it will be useful,
-  - but WITHOUT ANY WARRANTY; without even the implied warranty of
-  - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  - GNU Affero General Public License for more details.
-  -
-  - You should have received a copy of the GNU Affero General Public License
-  - along with this program. If not, see <http://www.gnu.org/licenses/>.
-  -
-  -->
+  - SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 <template>
 	<component :is="tag"
-		v-show="!deleted"
+		v-show="!deleted && !isLimbo"
 		:class="{'comment--loading': loading}"
 		class="comment">
 		<!-- Comment header toolbar -->
@@ -40,22 +23,27 @@
 					show if we have a message id and current user is author -->
 				<NcActions v-if="isOwnComment && id && !loading" class="comment__actions">
 					<template v-if="!editing">
-						<NcActionButton :close-after-click="true"
-							icon="icon-rename"
+						<NcActionButton close-after-click
 							@click="onEdit">
+							<template #icon>
+								<IconEdit :size="20" />
+							</template>
 							{{ t('comments', 'Edit comment') }}
 						</NcActionButton>
 						<NcActionSeparator />
-						<NcActionButton :close-after-click="true"
-							icon="icon-delete"
+						<NcActionButton close-after-click
 							@click="onDeleteWithUndo">
+							<template #icon>
+								<IconDelete :size="20" />
+							</template>
 							{{ t('comments', 'Delete comment') }}
 						</NcActionButton>
 					</template>
 
-					<NcActionButton v-else
-						icon="icon-close"
-						@click="onEditCancel">
+					<NcActionButton v-else @click="onEditCancel">
+						<template #icon>
+							<IconClose :size="20" />
+						</template>
 						{{ t('comments', 'Cancel edit') }}
 					</NcActionButton>
 				</NcActions>
@@ -64,30 +52,42 @@
 				<div v-if="id && loading" class="comment_loading icon-loading-small" />
 
 				<!-- Relative time to the comment creation -->
-				<Moment v-else-if="creationDateTime" class="comment__timestamp" :timestamp="timestamp" />
+				<NcDateTime v-else-if="creationDateTime"
+					class="comment__timestamp"
+					:timestamp="timestamp"
+					:ignore-seconds="true" />
 			</div>
 
 			<!-- Message editor -->
-			<div v-if="editor || editing" class="comment__editor ">
-				<NcRichContenteditable ref="editor"
-					:auto-complete="autoComplete"
-					:contenteditable="!loading"
-					:value="localMessage"
-					:user-data="userData"
-					@update:value="updateLocalMessage"
-					@submit="onSubmit" />
-				<NcButton class="comment__submit"
-					type="tertiary-no-background"
-					native-type="submit"
-					:aria-label="t('comments', 'Post comment')"
-					:disabled="isEmptyMessage"
-					@click="onSubmit">
-					<template #icon>
-						<span v-if="loading" class="icon-loading-small" />
-						<ArrowRight v-else :size="20" />
-					</template>
-				</NcButton>
-			</div>
+			<form v-if="editor || editing" class="comment__editor" @submit.prevent>
+				<div class="comment__editor-group">
+					<NcRichContenteditable ref="editor"
+						:auto-complete="autoComplete"
+						:contenteditable="!loading"
+						:label="editor ? t('comments', 'New comment') : t('comments', 'Edit comment')"
+						:placeholder="t('comments', 'Write a comment …')"
+						:value="localMessage"
+						:user-data="userData"
+						aria-describedby="tab-comments__editor-description"
+						@update:value="updateLocalMessage"
+						@submit="onSubmit" />
+					<div class="comment__submit">
+						<NcButton type="tertiary-no-background"
+							native-type="submit"
+							:aria-label="t('comments', 'Post comment')"
+							:disabled="isEmptyMessage"
+							@click="onSubmit">
+							<template #icon>
+								<NcLoadingIcon v-if="loading" />
+								<IconArrowRight v-else :size="20" />
+							</template>
+						</NcButton>
+					</div>
+				</div>
+				<div id="tab-comments__editor-description" class="comment__editor-description">
+					{{ t('comments', '@ for mentions, : for emoji, / for smart picker') }}
+				</div>
+			</form>
 
 			<!-- Message content -->
 			<!-- The html is escaped and sanitized before rendering -->
@@ -104,18 +104,25 @@
 
 <script>
 import { getCurrentUser } from '@nextcloud/auth'
-import moment from '@nextcloud/moment'
+import { translate as t } from '@nextcloud/l10n'
 
 import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
 import NcActions from '@nextcloud/vue/dist/Components/NcActions.js'
 import NcActionSeparator from '@nextcloud/vue/dist/Components/NcActionSeparator.js'
 import NcAvatar from '@nextcloud/vue/dist/Components/NcAvatar.js'
 import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
+import NcDateTime from '@nextcloud/vue/dist/Components/NcDateTime.js'
+import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
 import RichEditorMixin from '@nextcloud/vue/dist/Mixins/richEditor.js'
-import ArrowRight from 'vue-material-design-icons/ArrowRight.vue'
 
-import Moment from './Moment.vue'
+import IconArrowRight from 'vue-material-design-icons/ArrowRight.vue'
+import IconClose from 'vue-material-design-icons/Close.vue'
+import IconDelete from 'vue-material-design-icons/Delete.vue'
+import IconEdit from 'vue-material-design-icons/Pencil.vue'
+
 import CommentMixin from '../mixins/CommentMixin.js'
+import { mapStores } from 'pinia'
+import { useDeletedCommentLimbo } from '../store/deletedCommentLimbo.js'
 
 // Dynamic loading
 const NcRichContenteditable = () => import('@nextcloud/vue/dist/Components/NcRichContenteditable.js')
@@ -124,13 +131,17 @@ export default {
 	name: 'Comment',
 
 	components: {
+		IconArrowRight,
+		IconClose,
+		IconDelete,
+		IconEdit,
 		NcActionButton,
 		NcActions,
 		NcActionSeparator,
-		ArrowRight,
 		NcAvatar,
 		NcButton,
-		Moment,
+		NcDateTime,
+		NcLoadingIcon,
 		NcRichContenteditable,
 	},
 	mixins: [RichEditorMixin, CommentMixin],
@@ -179,10 +190,12 @@ export default {
 			// Only change data locally and update the original
 			// parent data when the request is sent and resolved
 			localMessage: '',
+			submitted: false,
 		}
 	},
 
 	computed: {
+		...mapStores(useDeletedCommentLimbo),
 
 		/**
 		 * Is the current user the author of this comment
@@ -209,9 +222,15 @@ export default {
 			return !this.localMessage || this.localMessage.trim() === ''
 		},
 
+		/**
+		 * Timestamp of the creation time (in ms UNIX time)
+		 */
 		timestamp() {
-			// seconds, not milliseconds
-			return parseInt(moment(this.creationDateTime).format('x'), 10) / 1000
+			return Date.parse(this.creationDateTime)
+		},
+
+		isLimbo() {
+			return this.deletedCommentLimboStore.checkForId(this.id)
 		},
 	},
 
@@ -228,6 +247,8 @@ export default {
 	},
 
 	methods: {
+		t,
+
 		/**
 		 * Update local Message on outer change
 		 *
@@ -235,6 +256,7 @@ export default {
 		 */
 		updateLocalMessage(message) {
 			this.localMessage = message.toString()
+			this.submitted = false
 		},
 
 		/**
@@ -272,14 +294,13 @@ $comment-padding: 10px;
 
 .comment {
 	display: flex;
-	gap: 16px;
-	position: relative;
+	gap: 8px;
 	padding: 5px $comment-padding;
 
 	&__side {
 		display: flex;
 		align-items: flex-start;
-		padding-top: 16px;
+		padding-top: 6px;
 	}
 
 	&__body {
@@ -313,12 +334,19 @@ $comment-padding: 10px;
 		color: var(--color-text-maxcontrast);
 	}
 
+	&__editor-group {
+		position: relative;
+	}
+
+	&__editor-description {
+		color: var(--color-text-maxcontrast);
+		padding-block: var(--default-grid-baseline);
+	}
+
 	&__submit {
 		position: absolute !important;
+		bottom: 5px;
 		right: 0;
-		bottom: 0;
-		// Align with input border
-		margin: 1px;
 	}
 
 	&__message {

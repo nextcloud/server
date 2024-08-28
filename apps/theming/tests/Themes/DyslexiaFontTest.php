@@ -1,28 +1,10 @@
 <?php
 /**
- * @copyright Copyright (c) 2022 John Molakvoæ <skjnldsv@protonmail.com>
- *
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\Theming\Tests\Service;
 
-use OC\App\AppManager;
 use OC\Route\Router;
 use OCA\Theming\ImageManager;
 use OCA\Theming\ITheme;
@@ -95,6 +77,16 @@ class DyslexiaFontTest extends TestCase {
 			->method('getDefaultColorPrimary')
 			->willReturn('#0082c9');
 
+		$this->themingDefaults
+			->expects($this->any())
+			->method('getColorBackground')
+			->willReturn('#0082c9');
+
+		$this->themingDefaults
+			->expects($this->any())
+			->method('getDefaultColorBackground')
+			->willReturn('#0082c9');
+
 		$this->l10n
 			->expects($this->any())
 			->method('t')
@@ -111,6 +103,7 @@ class DyslexiaFontTest extends TestCase {
 			$this->config,
 			$this->l10n,
 			$this->appManager,
+			null,
 		);
 
 		parent::setUp();

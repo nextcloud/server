@@ -3,25 +3,8 @@
 declare(strict_types=1);
 
 /**
- * @copyright 2021 Christoph Wurst <christoph@winzerhof-wurst.at>
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\DAV\CalDAV;
 
@@ -44,8 +27,8 @@ class RetentionService {
 	private $calDavBackend;
 
 	public function __construct(IConfig $config,
-								ITimeFactory $time,
-								CalDavBackend $calDavBackend) {
+		ITimeFactory $time,
+		CalDavBackend $calDavBackend) {
 		$this->config = $config;
 		$this->time = $time;
 		$this->calDavBackend = $calDavBackend;
@@ -53,10 +36,10 @@ class RetentionService {
 
 	public function getDuration(): int {
 		return max(
-			(int) $this->config->getAppValue(
+			(int)$this->config->getAppValue(
 				Application::APP_ID,
 				self::RETENTION_CONFIG_KEY,
-				(string) self::DEFAULT_RETENTION_SECONDS
+				(string)self::DEFAULT_RETENTION_SECONDS
 			),
 			0 // Just making sure we don't delete things in the future when a negative number is passed
 		);

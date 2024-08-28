@@ -3,26 +3,8 @@
 declare(strict_types=1);
 
 /**
- * @copyright 2017 Christoph Wurst <christoph@winzerhof-wurst.at>
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace OC\Contacts\ContactsMenu;
@@ -33,6 +15,7 @@ use OC\Contacts\ContactsMenu\Providers\EMailProvider;
 use OC\Contacts\ContactsMenu\Providers\LocalTimeProvider;
 use OC\Contacts\ContactsMenu\Providers\ProfileProvider;
 use OCP\AppFramework\QueryException;
+use OCP\Contacts\ContactsMenu\IBulkProvider;
 use OCP\Contacts\ContactsMenu\IProvider;
 use OCP\IServerContainer;
 use OCP\IUser;
@@ -47,18 +30,26 @@ class ActionProviderStore {
 	}
 
 	/**
-	 * @return IProvider[]
+	 * @return list<IProvider|IBulkProvider>
 	 * @throws Exception
 	 */
 	public function getProviders(IUser $user): array {
 		$appClasses = $this->getAppProviderClasses($user);
 		$providerClasses = $this->getServerProviderClasses();
 		$allClasses = array_merge($providerClasses, $appClasses);
+		/** @var list<IProvider|IBulkProvider> $providers */
 		$providers = [];
 
 		foreach ($allClasses as $class) {
 			try {
-				$providers[] = $this->serverContainer->get($class);
+				$provider = $this->serverContainer->get($class);
+				if ($provider instanceof IProvider || $provider instanceof IBulkProvider) {
+					$providers[] = $provider;
+				} else {
+					$this->logger->warning('Ignoring invalid contacts menu provider', [
+						'class' => $class,
+					]);
+				}
 			} catch (QueryException $ex) {
 				$this->logger->error(
 					'Could not load contacts menu action provider ' . $class,

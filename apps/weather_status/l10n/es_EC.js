@@ -7,7 +7,6 @@ OC.L10N.register(
     "Error" : "Error",
     "Weather status" : "Estado del clima",
     "Weather status in your dashboard" : "Estado del clima en tu tablero",
-    "Weather status integrated in the Dashboard app.\n    User's position can be automatically determined or manually defined. A 6 hours forecast is then displayed.\n    This status can also be integrated in other places like the Calendar app." : "Estado del clima integrado en la aplicación Tablero.\n          La posición del usuario puede determinarse automáticamente o definirse manualmente. Luego se muestra un pronóstico de 6 horas.\n          Este estado también puede integrarse en otros lugares, como la aplicación Calendario.",
     "Detect location" : "Detectar ubicación",
     "Set custom address" : "Establecer dirección personalizada",
     "Favorites" : "Favoritos",
@@ -45,6 +44,7 @@ OC.L10N.register(
     "There was an error setting the location." : "Hubo un error al establecer la ubicación.",
     "There was an error saving the mode." : "Hubo un error al guardar el modo.",
     "There was an error using personal address." : "Hubo un error al usar la dirección personal.",
-    "Set location for weather" : "Establecer ubicación para el clima"
+    "Set location for weather" : "Establecer ubicación para el clima",
+    "Weather status integrated in the Dashboard app.\n    User's position can be automatically determined or manually defined. A 6 hours forecast is then displayed.\n    This status can also be integrated in other places like the Calendar app." : "Estado del clima integrado en la aplicación Tablero.\n          La posición del usuario puede determinarse automáticamente o definirse manualmente. Luego se muestra un pronóstico de 6 horas.\n          Este estado también puede integrarse en otros lugares, como la aplicación Calendario."
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

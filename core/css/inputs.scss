@@ -1,15 +1,7 @@
-/**
- * @copyright Copyright (c) 2016, John Molakvoæ <skjnldsv@protonmail.com>
- * @copyright Copyright (c) 2016, Morris Jobke <hey@morrisjobke.de>
- * @copyright Copyright (c) 2016, Joas Schilling <coding@schilljs.com>
- * @copyright Copyright (c) 2016, Julius Haertl <jus@bitgrid.net>
- * @copyright Copyright (c) 2016, jowi <sjw@gmx.ch>
- * @copyright Copyright (c) 2015, Joas Schilling <nickvergessen@owncloud.com>
- * @copyright Copyright (c) 2015, Hendrik Leppelsack <hendrik@leppelsack.de>
- * @copyright Copyright (c) 2014-2017, Jan-Christoph Borchardt <hey@jancborchardt.net>
- *
- * @license GNU AGPL version 3 or any later version
- *
+/*!
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 @use 'variables';
 @import 'functions';
@@ -22,10 +14,10 @@ input, textarea, select, button, div[contenteditable=true], div[contenteditable=
 	font-family: var(--font-face) !important;
 }
 .select2-container.select2-drop-above .select2-choice {
-    background-image: unset !important;
+	background-image: unset !important;
 }
 
-$default-height: 36px;
+$opacity-disabled: .7;
 
 /* Simple selector to allow easy overriding */
 select,
@@ -39,18 +31,29 @@ textarea,
 div[contenteditable=true],
 div[contenteditable=false] {
 	width: 130px;
-	min-height: $default-height;
+	min-height: var(--default-clickable-area);
 	box-sizing: border-box;
 }
 
 /**
- * color-text-lighter		normal state
- * color-text-lighter		active state
- * color-text-maxcontrast 	disabled state
+ * color-main-text			normal state
+ * color-main-text			active state
+ * color-text-maxcontrast	disabled state
  */
 
+button:not(.button-vue),
+input:not([type='range']),
+textarea {
+	&:disabled {
+		cursor: default;
+		color: var(--color-text-maxcontrast);
+		border-color: var(--color-border-dark);
+		opacity: $opacity-disabled;
+	}
+}
+
 input:not([type="range"]) {
-    outline: none;
+	outline: none;
 }
 
 /* Default global values */
@@ -85,13 +88,13 @@ button:not(
 			&:focus,
 			&.active {
 				/* active class used for multiselect */
-				border-color: var(--color-primary-element);
+				border-color: var(--color-main-text);
 				outline: none;
 			}
 			&:active {
 				outline: none;
 				background-color: var(--color-main-background);
-				color: var(--color-text-light);
+				color: var(--color-main-text);
 			}
 		}
 		&:focus-visible {
@@ -153,13 +156,13 @@ div[contenteditable=false] {
 	padding: 7px 6px;
 	font-size: 13px;
 	background-color: var(--color-main-background);
-	color: var(--color-text-lighter);
+	color: var(--color-text-maxcontrast);
 	border: 1px solid var(--color-background-darker);
 	outline: none;
 	border-radius: var(--border-radius);
 
 	background-color: var(--color-background-dark);
-	color: var(--color-text-lighter);
+	color: var(--color-text-maxcontrast);
 	cursor: default;
 	opacity: 0.5;
 }
@@ -169,8 +172,9 @@ input {
 	&:not([type='radio']):not([type='checkbox']):not([type='range']):not([type='submit']):not([type='button']):not([type='reset']):not([type='color']):not([type='file']):not([type='image']) {
 		-webkit-appearance: textfield;
 		-moz-appearance: textfield;
+		appearance: textfield;
 		// force height for inline elements like inputs (not textarea, contenteditable...)
-		height: $default-height;
+		height: var(--default-clickable-area);
 	}
 	&[type='radio'],
 	&[type='checkbox'],
@@ -207,13 +211,20 @@ button:not(
 input[type='button'],
 input[type='submit'],
 input[type='reset'] {
-	padding: 8px 14px;
+	padding: calc((var(--default-clickable-area) - 1lh) / 2) calc(3 * var(--default-grid-baseline));
 	font-size: var(--default-font-size);
 	width: auto;
-	min-height: $default-height;
+	min-height: var(--default-clickable-area);
 	cursor: pointer;
 	box-sizing: border-box;
-	background-color: var(--color-background-dark);
+	color: var(--color-primary-element-light-text);
+	background-color: var(--color-primary-element-light);
+	border: none;
+
+	&:hover,
+	&:focus {
+		background-color: var(--color-primary-element-light-hover);
+	}
 
 	&:disabled {
 		cursor: default;
@@ -246,7 +257,8 @@ textarea {
 	text-overflow: ellipsis;
 	cursor: pointer;
 	&:not(:disabled):hover, &:not(:disabled):focus, &:not(:disabled):active {
-		border-color: var(--color-primary-element);
+		border-color: 2px solid var(--color-main-text);
+		box-shadow: 0 0 0 2px var(--color-main-background);
 	}
 	&:not(:disabled):focus {
 		cursor: text;
@@ -298,7 +310,7 @@ input[type='button'],
 input[type='submit'],
 input[type='reset'] {
 	font-weight: bold;
-	border-radius: var(--border-radius-pill);
+	border-radius: var(--border-radius-element);
 
 	/* Get rid of the inside dotted line in Firefox */
 	&::-moz-focus-inner {
@@ -309,6 +321,10 @@ input[type='reset'] {
 		background-color: var(--color-error) !important;
 		border-color: var(--color-error) !important;
 		color: #fff !important;
+		&:hover{
+			background-color: var(--color-error-hover) !important;
+			border-color: var(--color-main-text) !important;
+		}
 	}
 }
 button:not(
@@ -342,8 +358,8 @@ input {
 			/* Avoid background under border */
 			background-color: var(--color-main-background) !important;
 			opacity: 1;
-			height: $default-height;
-			width: $default-height;
+			height: var(--default-clickable-area);
+			width: var(--default-clickable-area);
 			padding: 7px 6px;
 			cursor: pointer;
 			margin-right: 0;
@@ -426,7 +442,7 @@ input {
 				vertical-align: middle;
 				border-radius: 50%;
 				margin: 0 6px 3px 3px;
-				border: 1px solid var(--color-text-lighter);
+				border: 1px solid var(--color-text-maxcontrast);
 			}
 			&:not(:disabled):not(:checked) + label:hover:before,
 			&:focus + label:before {
@@ -447,7 +463,7 @@ input {
 				border-color: var(--color-primary-element);
 			}
 			&:disabled + label:before {
-				border: 1px solid var(--color-text-lighter);
+				border: 1px solid var(--color-text-maxcontrast);
 				background-color: var(--color-text-maxcontrast) !important; /* override other status */
 			}
 			&:checked:disabled + label:before {
@@ -565,7 +581,7 @@ div.select2-drop {
 			padding: 12px;
 			background-color: transparent;
 			cursor: pointer;
-			color: var(--color-text-lighter);
+			color: var(--color-text-maxcontrast);
 		}
 		.select2-result {
 			&.select2-selected {
@@ -592,7 +608,7 @@ div.select2-container-multi {
 		white-space: nowrap;
 		text-overflow: ellipsis;
 		background: var(--color-main-background);
-		color: var(--color-text-lighter) !important;
+		color: var(--color-text-maxcontrast) !important;
 		box-sizing: content-box;
 		border-radius: var(--border-radius-large);
 		border: 2px solid var(--color-border-dark);
@@ -611,7 +627,7 @@ div.select2-container-multi {
 			& {
 				background-image: none;
 				background-color: var(--color-main-background);
-				color: var(--color-text-lighter);
+				color: var(--color-text-maxcontrast);
 				border: 1px solid var(--color-border-dark);
 			}
 			.select2-search-choice-close {
@@ -643,7 +659,7 @@ div.select2-container {
 		white-space: nowrap;
 		text-overflow: ellipsis;
 		background: var(--color-main-background);
-		color: var(--color-text-lighter) !important;
+		color: var(--color-text-maxcontrast) !important;
 		box-sizing: content-box;
 		border-radius: var(--border-radius-large);
 		border: 2px solid var(--color-border-dark);
@@ -700,7 +716,7 @@ div.select2-container {
 			padding-left: 5px;
 			background-image: none;
 			background-color: var(--color-main-background);
-			color: var(--color-text-lighter);
+			color: var(--color-text-maxcontrast);
 			border: 1px solid var(--color-border-dark);
 			display: inline-flex;
 			align-items: center;
@@ -717,7 +733,7 @@ div.select2-container {
 			display: list-item;
 			background-color: transparent;
 			cursor: pointer;
-			color: var(--color-text-lighter);
+			color: var(--color-text-maxcontrast);
 			a {
 				white-space: nowrap;
 				overflow: hidden;

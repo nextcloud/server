@@ -1,47 +1,20 @@
 /**
- * @copyright Copyright (c) 2018 John Molakvoæ <skjnldsv@protonmail.com>
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Daniel Calviño Sánchez <danxuliu@gmail.com>
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Vincent Petry <vincent@nextcloud.com>
- *
- * @license AGPL-3.0-or-later
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import api from './api.js'
+import { getBuilder } from '@nextcloud/browser-storage'
+import { getCapabilities } from '@nextcloud/capabilities'
+import { parseFileSize } from '@nextcloud/files'
+import { showError } from '@nextcloud/dialogs'
+import { generateOcsUrl, generateUrl } from '@nextcloud/router'
 import axios from '@nextcloud/axios'
-import { generateOcsUrl } from '@nextcloud/router'
-import logger from '../logger.js'
 
-const orderGroups = function(groups, orderBy) {
-	/* const SORT_USERCOUNT = 1;
-	 * const SORT_GROUPNAME = 2;
-	 * https://github.com/nextcloud/server/blob/208e38e84e1a07a49699aa90dc5b7272d24489f0/lib/private/Group/MetaData.php#L34
-	 */
-	if (orderBy === 1) {
-		return groups.sort((a, b) => a.usercount - a.disabled < b.usercount - b.disabled)
-	} else {
-		return groups.sort((a, b) => a.name.localeCompare(b.name))
-	}
-}
+import { GroupSorting } from '../constants/GroupManagement.ts'
+import api from './api.js'
+import logger from '../logger.ts'
+
+const localStorage = getBuilder('settings').persist(true).build()
 
 const defaults = {
 	group: {
@@ -57,17 +30,19 @@ const defaults = {
 const state = {
 	users: [],
 	groups: [],
-	orderBy: 1,
+	orderBy: GroupSorting.UserCount,
 	minPasswordLength: 0,
 	usersOffset: 0,
 	usersLimit: 25,
+	disabledUsersOffset: 0,
+	disabledUsersLimit: 25,
 	userCount: 0,
 	showConfig: {
-		showStoragePath: false,
-		showUserBackend: false,
-		showLastLogin: false,
-		showNewUserForm: false,
-		showLanguages: false,
+		showStoragePath: localStorage.getItem('account_settings__showStoragePath') === 'true',
+		showUserBackend: localStorage.getItem('account_settings__showUserBackend') === 'true',
+		showLastLogin: localStorage.getItem('account_settings__showLastLogin') === 'true',
+		showNewUserForm: localStorage.getItem('account_settings__showNewUserForm') === 'true',
+		showLanguages: localStorage.getItem('account_settings__showLanguages') === 'true',
 	},
 }
 
@@ -81,6 +56,9 @@ const mutations = {
 		state.usersOffset += state.usersLimit
 		state.users = users
 	},
+	updateDisabledUsers(state, _usersObj) {
+		state.disabledUsersOffset += state.disabledUsersLimit
+	},
 	setPasswordPolicyMinLength(state, length) {
 		state.minPasswordLength = length !== '' ? length : 0
 	},
@@ -88,8 +66,6 @@ const mutations = {
 		state.groups = groups.map(group => Object.assign({}, defaults.group, group))
 		state.orderBy = orderBy
 		state.userCount = userCount
-		state.groups = orderGroups(state.groups, state.orderBy)
-
 	},
 	addGroup(state, { gid, displayName }) {
 		try {
@@ -101,8 +77,7 @@ const mutations = {
 				id: gid,
 				name: displayName,
 			})
-			state.groups.push(group)
-			state.groups = orderGroups(state.groups, state.orderBy)
+			state.groups.unshift(group)
 		} catch (e) {
 			console.error('Can\'t create group', e)
 		}
@@ -113,7 +88,6 @@ const mutations = {
 			const updatedGroup = state.groups[groupIndex]
 			updatedGroup.name = displayName
 			state.groups.splice(groupIndex, 1, updatedGroup)
-			state.groups = orderGroups(state.groups, state.orderBy)
 		}
 	},
 	removeGroup(state, gid) {
@@ -131,7 +105,6 @@ const mutations = {
 		}
 		const groups = user.groups
 		groups.push(gid)
-		state.groups = orderGroups(state.groups, state.orderBy)
 	},
 	removeUserGroup(state, { userid, gid }) {
 		const group = state.groups.find(groupSearch => groupSearch.id === gid)
@@ -142,7 +115,6 @@ const mutations = {
 		}
 		const groups = user.groups
 		groups.splice(groups.indexOf(gid), 1)
-		state.groups = orderGroups(state.groups, state.orderBy)
 	},
 	addUserSubAdmin(state, { userid, gid }) {
 		const groups = state.users.find(user => user.id === userid).subadmin
@@ -174,11 +146,13 @@ const mutations = {
 			return
 		}
 
+		const recentGroup = state.groups.find(group => group.id === '__nc_internal_recent')
 		const disabledGroup = state.groups.find(group => group.id === 'disabled')
 		switch (actionType) {
 		case 'enable':
 		case 'disable':
 			disabledGroup.usercount += user.enabled ? -1 : 1 // update Disabled Users count
+			recentGroup.usercount += user.enabled ? 1 : -1
 			state.userCount += user.enabled ? 1 : -1 // update Active Users count
 			user.groups.forEach(userGroup => {
 				const group = state.groups.find(groupSearch => groupSearch.id === userGroup)
@@ -186,6 +160,7 @@ const mutations = {
 			})
 			break
 		case 'create':
+			recentGroup.usercount++
 			state.userCount++ // increment Active Users count
 
 			user.groups.forEach(userGroup => {
@@ -196,6 +171,7 @@ const mutations = {
 			break
 		case 'remove':
 			if (user.enabled) {
+				recentGroup.usercount--
 				state.userCount-- // decrement Active Users count
 				user.groups.forEach(userGroup => {
 					const group = state.groups.find(groupSearch => groupSearch.id === userGroup)
@@ -220,7 +196,7 @@ const mutations = {
 	},
 	setUserData(state, { userid, key, value }) {
 		if (key === 'quota') {
-			const humanValue = OC.Util.computerFileSize(value)
+			const humanValue = parseFileSize(value, true)
 			state.users.find(user => user.id === userid)[key][key] = humanValue !== null ? humanValue : value
 		} else {
 			state.users.find(user => user.id === userid)[key] = value
@@ -235,10 +211,29 @@ const mutations = {
 	resetUsers(state) {
 		state.users = []
 		state.usersOffset = 0
+		state.disabledUsersOffset = 0
 	},
 
 	setShowConfig(state, { key, value }) {
+		localStorage.setItem(`account_settings__${key}`, JSON.stringify(value))
 		state.showConfig[key] = value
+	},
+
+	setGroupSorting(state, sorting) {
+		const oldValue = state.orderBy
+		state.orderBy = sorting
+
+		// Persist the value on the server
+		axios.post(
+			generateUrl('/settings/users/preferences/group.sortBy'),
+			{
+				value: String(sorting),
+			},
+		).catch((error) => {
+			state.orderBy = oldValue
+			showError(t('settings', 'Could not set group sorting'))
+			logger.error(error)
+		})
 	},
 }
 
@@ -250,8 +245,23 @@ const getters = {
 		return state.groups
 	},
 	getSubadminGroups(state) {
-		// Can't be subadmin of admin or disabled
-		return state.groups.filter(group => group.id !== 'admin' && group.id !== 'disabled')
+		// Can't be subadmin of admin, recent, or disabled
+		return state.groups.filter(group => group.id !== 'admin' && group.id !== '__nc_internal_recent' && group.id !== 'disabled')
+	},
+	getSortedGroups(state) {
+		const groups = [...state.groups]
+		if (state.orderBy === GroupSorting.UserCount) {
+			return groups.sort((a, b) => {
+				const numA = a.usercount - a.disabled
+				const numB = b.usercount - b.disabled
+				return (numA < numB) ? 1 : (numB < numA ? -1 : a.name.localeCompare(b.name))
+			})
+		} else {
+			return groups.sort((a, b) => a.name.localeCompare(b.name))
+		}
+	},
+	getGroupSorting(state) {
+		return state.orderBy
 	},
 	getPasswordPolicyMinLength(state) {
 		return state.minPasswordLength
@@ -261,6 +271,12 @@ const getters = {
 	},
 	getUsersLimit(state) {
 		return state.usersLimit
+	},
+	getDisabledUsersOffset(state) {
+		return state.disabledUsersOffset
+	},
+	getDisabledUsersLimit(state) {
+		return state.disabledUsersLimit
 	},
 	getUserCount(state) {
 		return state.userCount
@@ -327,6 +343,14 @@ const actions = {
 		}
 		searchRequestCancelSource = CancelToken.source()
 		search = typeof search === 'string' ? search : ''
+
+		/**
+		 * Adding filters in the search bar such as in:files, in:users, etc.
+		 * collides with this particular search, so we need to remove them
+		 * here and leave only the original search query
+		 */
+		search = search.replace(/in:[^\s]+/g, '').trim()
+
 		group = typeof group === 'string' ? group : ''
 		if (group !== '') {
 			return api.get(generateOcsUrl('cloud/groups/{group}/users/details?offset={offset}&limit={limit}&search={search}', { group: encodeURIComponent(group), offset, limit, search }), {
@@ -361,6 +385,55 @@ const actions = {
 					context.commit('API_FAILURE', error)
 				}
 			})
+	},
+
+	/**
+	 * Get recent users with full details
+	 *
+	 * @param {object} context store context
+	 * @param {object} options destructuring object
+	 * @param {number} options.offset List offset to request
+	 * @param {number} options.limit List number to return from offset
+	 * @param {string} options.search Search query
+	 * @return {Promise<number>}
+	 */
+	async getRecentUsers(context, { offset, limit, search }) {
+		const url = generateOcsUrl('cloud/users/recent?offset={offset}&limit={limit}&search={search}', { offset, limit, search })
+		try {
+			const response = await api.get(url)
+			const usersCount = Object.keys(response.data.ocs.data.users).length
+			if (usersCount > 0) {
+				context.commit('appendUsers', response.data.ocs.data.users)
+			}
+			return usersCount
+		} catch (error) {
+			context.commit('API_FAILURE', error)
+		}
+	},
+
+	/**
+	 * Get disabled users with full details
+	 *
+	 * @param {object} context store context
+	 * @param {object} options destructuring object
+	 * @param {number} options.offset List offset to request
+	 * @param {number} options.limit List number to return from offset
+	 * @param options.search
+	 * @return {Promise<number>}
+	 */
+	async getDisabledUsers(context, { offset, limit, search }) {
+		const url = generateOcsUrl('cloud/users/disabled?offset={offset}&limit={limit}&search={search}', { offset, limit, search })
+		try {
+			const response = await api.get(url)
+			const usersCount = Object.keys(response.data.ocs.data.users).length
+			if (usersCount > 0) {
+				context.commit('appendUsers', response.data.ocs.data.users)
+				context.commit('updateDisabledUsers', response.data.ocs.data.users)
+			}
+			return usersCount
+		} catch (error) {
+			context.commit('API_FAILURE', error)
+		}
 	},
 
 	getGroups(context, { offset, limit, search }) {
@@ -419,9 +492,9 @@ const actions = {
 	},
 
 	getPasswordPolicyMinLength(context) {
-		if (OC.getCapabilities().password_policy && OC.getCapabilities().password_policy.minLength) {
-			context.commit('setPasswordPolicyMinLength', OC.getCapabilities().password_policy.minLength)
-			return OC.getCapabilities().password_policy.minLength
+		if (getCapabilities().password_policy && getCapabilities().password_policy.minLength) {
+			context.commit('setPasswordPolicyMinLength', getCapabilities().password_policy.minLength)
+			return getCapabilities().password_policy.minLength
 		}
 		return false
 	},
@@ -568,11 +641,14 @@ const actions = {
 	 * @param {string} userid User id
 	 * @return {Promise}
 	 */
-	wipeUserDevices(context, userid) {
-		return api.requireAdmin().then((response) => {
-			return api.post(generateOcsUrl('cloud/users/{userid}/wipe', { userid }))
-				.catch((error) => { throw error })
-		}).catch((error) => context.commit('API_FAILURE', { userid, error }))
+	async wipeUserDevices(context, userid) {
+		try {
+			await api.requireAdmin()
+			return await api.post(generateOcsUrl('cloud/users/{userid}/wipe', { userid }))
+		} catch (error) {
+			context.commit('API_FAILURE', { userid, error })
+			return Promise.reject(new Error('Failed to wipe user devices'))
+		}
 	},
 
 	/**
@@ -662,7 +738,7 @@ const actions = {
 	 * @param {string} options.value Value of the change
 	 * @return {Promise}
 	 */
-	setUserData(context, { userid, key, value }) {
+	async setUserData(context, { userid, key, value }) {
 		const allowedEmpty = ['email', 'displayname', 'manager']
 		if (['email', 'language', 'quota', 'displayname', 'password', 'manager'].indexOf(key) !== -1) {
 			// We allow empty email or displayname
@@ -672,11 +748,13 @@ const actions = {
 					|| allowedEmpty.indexOf(key) !== -1
 				)
 			) {
-				return api.requireAdmin().then((response) => {
-					return api.put(generateOcsUrl('cloud/users/{userid}', { userid }), { key, value })
-						.then((response) => context.commit('setUserData', { userid, key, value }))
-						.catch((error) => { throw error })
-				}).catch((error) => context.commit('API_FAILURE', { userid, error }))
+				try {
+					await api.requireAdmin()
+					await api.put(generateOcsUrl('cloud/users/{userid}', { userid }), { key, value })
+					return context.commit('setUserData', { userid, key, value })
+				} catch (error) {
+					context.commit('API_FAILURE', { userid, error })
+				}
 			}
 		}
 		return Promise.reject(new Error('Invalid request data'))

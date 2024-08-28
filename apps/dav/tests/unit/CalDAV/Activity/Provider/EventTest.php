@@ -1,24 +1,7 @@
 <?php
 /**
- * @copyright Copyright (c) 2020 Thomas Citharel <nextcloud@tcit.fr>
- *
- * @author Thomas Citharel <nextcloud@tcit.fr>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\DAV\Tests\unit\CalDAV\Activity\Provider;
 
@@ -108,7 +91,9 @@ class EventTest extends TestCase {
 	 * @param bool $calendarAppEnabled
 	 */
 	public function testGenerateObjectParameter(int $id, string $name, ?array $link, bool $calendarAppEnabled = true): void {
+		$affectedUser = 'otheruser';
 		if ($link) {
+			$affectedUser = $link['owner'];
 			$generatedLink = [
 				'view' => 'dayGridMonth',
 				'timeRange' => 'now',
@@ -141,7 +126,81 @@ class EventTest extends TestCase {
 		if ($link && $calendarAppEnabled) {
 			$result['link'] = 'fullLink';
 		}
-		$this->assertEquals($result, $this->invokePrivate($this->provider, 'generateObjectParameter', [$objectParameter]));
+		$this->assertEquals($result, $this->invokePrivate($this->provider, 'generateObjectParameter', [$objectParameter, $affectedUser]));
+	}
+
+	public static function generateObjectParameterLinkEncodingDataProvider(): array {
+		return [
+			[ // Shared calendar
+				[
+					'object_uri' => 'someuuid.ics',
+					'calendar_uri' => 'personal',
+					'owner' => 'sharer'
+				],
+				base64_encode('/remote.php/dav/calendars/sharee/personal_shared_by_sharer/someuuid.ics'),
+			],
+			[ // Shared calendar with umlauts
+				[
+					'object_uri' => 'someuuid.ics',
+					'calendar_uri' => 'umlaut_äüöß',
+					'owner' => 'sharer'
+				],
+				base64_encode('/remote.php/dav/calendars/sharee/umlaut_%c3%a4%c3%bc%c3%b6%c3%9f_shared_by_sharer/someuuid.ics'),
+			],
+			[ // Shared calendar with umlauts and mixed casing
+				[
+					'object_uri' => 'someuuid.ics',
+					'calendar_uri' => 'Umlaut_äüöß',
+					'owner' => 'sharer'
+				],
+				base64_encode('/remote.php/dav/calendars/sharee/Umlaut_%c3%a4%c3%bc%c3%b6%c3%9f_shared_by_sharer/someuuid.ics'),
+			],
+			[ // Owned calendar with umlauts
+				[
+					'object_uri' => 'someuuid.ics',
+					'calendar_uri' => 'umlaut_äüöß',
+					'owner' => 'sharee'
+				],
+				base64_encode('/remote.php/dav/calendars/sharee/umlaut_%c3%a4%c3%bc%c3%b6%c3%9f/someuuid.ics'),
+			],
+			[ // Owned calendar with umlauts and mixed casing
+				[
+					'object_uri' => 'someuuid.ics',
+					'calendar_uri' => 'Umlaut_äüöß',
+					'owner' => 'sharee'
+				],
+				base64_encode('/remote.php/dav/calendars/sharee/Umlaut_%c3%a4%c3%bc%c3%b6%c3%9f/someuuid.ics'),
+			],
+		];
+	}
+
+	/** @dataProvider generateObjectParameterLinkEncodingDataProvider */
+	public function testGenerateObjectParameterLinkEncoding(array $link, string $objectId): void {
+		$generatedLink = [
+			'view' => 'dayGridMonth',
+			'timeRange' => 'now',
+			'mode' => 'sidebar',
+			'objectId' => $objectId,
+			'recurrenceId' => 'next'
+		];
+		$this->appManager->expects($this->once())
+			->method('isEnabledForUser')
+			->with('calendar')
+			->willReturn(true);
+		$this->url->expects($this->once())
+			->method('getWebroot');
+		$this->url->expects($this->once())
+			->method('linkToRouteAbsolute')
+			->with('calendar.view.indexview.timerange.edit', $generatedLink)
+			->willReturn('fullLink');
+		$objectParameter = ['id' => 42, 'name' => 'calendar', 'link' => $link];
+		$result = [
+			'type' => 'calendar-event',
+			'id' => 42,
+			'name' => 'calendar',
+			'link' => 'fullLink',
+		];
+		$this->assertEquals($result, $this->invokePrivate($this->provider, 'generateObjectParameter', [$objectParameter, 'sharee']));
 	}
 
 	public function dataGenerateObjectParameterThrows() {
@@ -160,6 +219,6 @@ class EventTest extends TestCase {
 	public function testGenerateObjectParameterThrows($eventData, string $exception = InvalidArgumentException::class): void {
 		$this->expectException($exception);
 
-		$this->invokePrivate($this->provider, 'generateObjectParameter', [$eventData]);
+		$this->invokePrivate($this->provider, 'generateObjectParameter', [$eventData, 'no_user']);
 	}
 }

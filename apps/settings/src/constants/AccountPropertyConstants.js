@@ -1,29 +1,13 @@
 /**
- * @copyright 2021, Christopher Ng <chrng8@gmail.com>
- *
- * @author Christopher Ng <chrng8@gmail.com>
- *
- * @license AGPL-3.0-or-later
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 /*
  * SYNC to be kept in sync with `lib/public/Accounts/IAccountManager.php`
  */
 
+import { mdiAccountGroup, mdiCellphone, mdiLock, mdiWeb } from '@mdi/js'
 import { translate as t } from '@nextcloud/l10n'
 
 /** Enum of account properties */
@@ -43,6 +27,7 @@ export const ACCOUNT_PROPERTY_ENUM = Object.freeze({
 	ROLE: 'role',
 	TWITTER: 'twitter',
 	WEBSITE: 'website',
+	BIRTHDATE: 'birthdate',
 })
 
 /** Enum of account properties to human readable account property names */
@@ -58,9 +43,10 @@ export const ACCOUNT_PROPERTY_READABLE_ENUM = Object.freeze({
 	PHONE: t('settings', 'Phone number'),
 	PROFILE_ENABLED: t('settings', 'Profile'),
 	ROLE: t('settings', 'Role'),
-	TWITTER: t('settings', 'Twitter'),
+	TWITTER: t('settings', 'X (formerly Twitter)'),
 	FEDIVERSE: t('settings', 'Fediverse (e.g. Mastodon)'),
 	WEBSITE: t('settings', 'Website'),
+	BIRTHDATE: t('settings', 'Date of birth'),
 })
 
 export const NAME_READABLE_ENUM = Object.freeze({
@@ -78,6 +64,7 @@ export const NAME_READABLE_ENUM = Object.freeze({
 	[ACCOUNT_PROPERTY_ENUM.TWITTER]: ACCOUNT_PROPERTY_READABLE_ENUM.TWITTER,
 	[ACCOUNT_PROPERTY_ENUM.FEDIVERSE]: ACCOUNT_PROPERTY_READABLE_ENUM.FEDIVERSE,
 	[ACCOUNT_PROPERTY_ENUM.WEBSITE]: ACCOUNT_PROPERTY_READABLE_ENUM.WEBSITE,
+	[ACCOUNT_PROPERTY_ENUM.BIRTHDATE]: ACCOUNT_PROPERTY_READABLE_ENUM.BIRTHDATE,
 })
 
 /** Enum of profile specific sections to human readable names */
@@ -101,6 +88,7 @@ export const PROPERTY_READABLE_KEYS_ENUM = Object.freeze({
 	[ACCOUNT_PROPERTY_READABLE_ENUM.TWITTER]: ACCOUNT_PROPERTY_ENUM.TWITTER,
 	[ACCOUNT_PROPERTY_READABLE_ENUM.FEDIVERSE]: ACCOUNT_PROPERTY_ENUM.FEDIVERSE,
 	[ACCOUNT_PROPERTY_READABLE_ENUM.WEBSITE]: ACCOUNT_PROPERTY_ENUM.WEBSITE,
+	[ACCOUNT_PROPERTY_READABLE_ENUM.BIRTHDATE]: ACCOUNT_PROPERTY_ENUM.BIRTHDATE,
 })
 
 /**
@@ -111,12 +99,14 @@ export const PROPERTY_READABLE_KEYS_ENUM = Object.freeze({
 export const ACCOUNT_SETTING_PROPERTY_ENUM = Object.freeze({
 	LANGUAGE: 'language',
 	LOCALE: 'locale',
+	FIRST_DAY_OF_WEEK: 'first_day_of_week',
 })
 
 /** Enum of account setting properties to human readable setting properties */
 export const ACCOUNT_SETTING_PROPERTY_READABLE_ENUM = Object.freeze({
 	LANGUAGE: t('settings', 'Language'),
 	LOCALE: t('settings', 'Locale'),
+	FIRST_DAY_OF_WEEK: t('settings', 'First day of week'),
 })
 
 /** Enum of scopes */
@@ -143,6 +133,7 @@ export const PROPERTY_READABLE_SUPPORTED_SCOPES_ENUM = Object.freeze({
 	[ACCOUNT_PROPERTY_READABLE_ENUM.TWITTER]: [SCOPE_ENUM.LOCAL, SCOPE_ENUM.PRIVATE],
 	[ACCOUNT_PROPERTY_READABLE_ENUM.FEDIVERSE]: [SCOPE_ENUM.LOCAL, SCOPE_ENUM.PRIVATE],
 	[ACCOUNT_PROPERTY_READABLE_ENUM.WEBSITE]: [SCOPE_ENUM.LOCAL, SCOPE_ENUM.PRIVATE],
+	[ACCOUNT_PROPERTY_READABLE_ENUM.BIRTHDATE]: [SCOPE_ENUM.LOCAL, SCOPE_ENUM.PRIVATE],
 })
 
 /** List of readable account properties which aren't published to the lookup server */
@@ -151,6 +142,7 @@ export const UNPUBLISHED_READABLE_PROPERTIES = Object.freeze([
 	ACCOUNT_PROPERTY_READABLE_ENUM.HEADLINE,
 	ACCOUNT_PROPERTY_READABLE_ENUM.ORGANISATION,
 	ACCOUNT_PROPERTY_READABLE_ENUM.ROLE,
+	ACCOUNT_PROPERTY_READABLE_ENUM.BIRTHDATE,
 ])
 
 /** Scope suffix */
@@ -167,28 +159,28 @@ export const SCOPE_PROPERTY_ENUM = Object.freeze({
 		displayName: t('settings', 'Private'),
 		tooltip: t('settings', 'Only visible to people matched via phone number integration through Talk on mobile'),
 		tooltipDisabled: t('settings', 'Not available as this property is required for core functionality including file sharing and calendar invitations'),
-		iconClass: 'icon-phone',
+		icon: mdiCellphone,
 	},
 	[SCOPE_ENUM.LOCAL]: {
 		name: SCOPE_ENUM.LOCAL,
 		displayName: t('settings', 'Local'),
 		tooltip: t('settings', 'Only visible to people on this instance and guests'),
 		// tooltipDisabled is not required here as this scope is supported by all account properties
-		iconClass: 'icon-password',
+		icon: mdiLock,
 	},
 	[SCOPE_ENUM.FEDERATED]: {
 		name: SCOPE_ENUM.FEDERATED,
 		displayName: t('settings', 'Federated'),
 		tooltip: t('settings', 'Only synchronize to trusted servers'),
-		tooltipDisabled: t('settings', 'Not available as federation has been disabled for your account, contact your system administrator if you have any questions'),
-		iconClass: 'icon-contacts-dark',
+		tooltipDisabled: t('settings', 'Not available as federation has been disabled for your account, contact your system administration if you have any questions'),
+		icon: mdiAccountGroup,
 	},
 	[SCOPE_ENUM.PUBLISHED]: {
 		name: SCOPE_ENUM.PUBLISHED,
 		displayName: t('settings', 'Published'),
 		tooltip: t('settings', 'Synchronize to trusted servers and the global and public address book'),
-		tooltipDisabled: t('settings', 'Not available as publishing user specific data to the lookup server is not allowed, contact your system administrator if you have any questions'),
-		iconClass: 'icon-link',
+		tooltipDisabled: t('settings', 'Not available as publishing account specific data to the lookup server is not allowed, contact your system administration if you have any questions'),
+		icon: mdiWeb,
 	},
 })
 

@@ -1,38 +1,13 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Daniel Kesselberg <mail@danielkesselberg.de>
- * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Michael Weimann <mail@michael-weimann.eu>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Nina Pypchenko <22447785+nina-py@users.noreply.github.com>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Vincent Petry <vincent@nextcloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\Files\Tests\Controller;
 
-use OCA\Files\Activity\Helper;
+use OC\Files\FilenameValidator;
 use OCA\Files\Controller\ViewController;
 use OCA\Files\Service\UserConfig;
 use OCA\Files\Service\ViewConfig;
@@ -50,7 +25,7 @@ use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserSession;
-use OCP\Share\IManager;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 /**
@@ -59,38 +34,21 @@ use Test\TestCase;
  * @package OCA\Files\Tests\Controller
  */
 class ViewControllerTest extends TestCase {
-	/** @var IRequest|\PHPUnit\Framework\MockObject\MockObject */
-	private $request;
-	/** @var IURLGenerator|\PHPUnit\Framework\MockObject\MockObject */
-	private $urlGenerator;
-	/** @var IL10N */
-	private $l10n;
-	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
-	private $config;
-	/** @var IEventDispatcher */
-	private $eventDispatcher;
-	/** @var ViewController|\PHPUnit\Framework\MockObject\MockObject */
-	private $viewController;
-	/** @var IUser */
-	private $user;
-	/** @var IUserSession */
-	private $userSession;
-	/** @var IAppManager|\PHPUnit\Framework\MockObject\MockObject */
-	private $appManager;
-	/** @var IRootFolder|\PHPUnit\Framework\MockObject\MockObject */
-	private $rootFolder;
-	/** @var Helper|\PHPUnit\Framework\MockObject\MockObject */
-	private $activityHelper;
-	/** @var IInitialState|\PHPUnit\Framework\MockObject\MockObject */
-	private $initialState;
-	/** @var ITemplateManager|\PHPUnit\Framework\MockObject\MockObject */
-	private $templateManager;
-	/** @var IManager|\PHPUnit\Framework\MockObject\MockObject */
-	private $shareManager;
-	/** @var UserConfig|\PHPUnit\Framework\MockObject\MockObject */
-	private $userConfig;
-	/** @var ViewConfig|\PHPUnit\Framework\MockObject\MockObject */
-	private $viewConfig;
+	private IRequest&MockObject $request;
+	private IURLGenerator&MockObject $urlGenerator;
+	private IL10N&MockObject $l10n;
+	private IConfig&MockObject $config;
+	private IEventDispatcher $eventDispatcher;
+	private IUser&MockObject $user;
+	private IUserSession&MockObject $userSession;
+	private IAppManager&MockObject $appManager;
+	private IRootFolder&MockObject $rootFolder;
+	private IInitialState&MockObject $initialState;
+	private ITemplateManager&MockObject $templateManager;
+	private UserConfig&MockObject $userConfig;
+	private ViewConfig&MockObject $viewConfig;
+
+	private ViewController&MockObject $viewController;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -109,13 +67,14 @@ class ViewControllerTest extends TestCase {
 			->method('getUser')
 			->willReturn($this->user);
 		$this->rootFolder = $this->getMockBuilder('\OCP\Files\IRootFolder')->getMock();
-		$this->activityHelper = $this->createMock(Helper::class);
 		$this->initialState = $this->createMock(IInitialState::class);
 		$this->templateManager = $this->createMock(ITemplateManager::class);
-		$this->shareManager = $this->createMock(IManager::class);
 		$this->userConfig = $this->createMock(UserConfig::class);
 		$this->viewConfig = $this->createMock(ViewConfig::class);
-		$this->viewController = $this->getMockBuilder('\OCA\Files\Controller\ViewController')
+
+		$filenameValidator = $this->createMock(FilenameValidator::class);
+
+		$this->viewController = $this->getMockBuilder(ViewController::class)
 			->setConstructorArgs([
 				'files',
 				$this->request,
@@ -126,18 +85,16 @@ class ViewControllerTest extends TestCase {
 				$this->userSession,
 				$this->appManager,
 				$this->rootFolder,
-				$this->activityHelper,
 				$this->initialState,
 				$this->templateManager,
-				$this->shareManager,
 				$this->userConfig,
 				$this->viewConfig,
+				$filenameValidator,
 			])
-		->setMethods([
-			'getStorageInfo',
-			'renderScript'
-		])
-		->getMock();
+			->onlyMethods([
+				'getStorageInfo',
+			])
+			->getMock();
 	}
 
 	public function testIndexWithRegularBrowser() {
@@ -154,11 +111,6 @@ class ViewControllerTest extends TestCase {
 			]);
 
 		$this->config
-		->expects($this->any())
-			->method('getSystemValue')
-			->with('forbidden_chars', [])
-			->willReturn([]);
-		$this->config
 			->method('getUserValue')
 			->willReturnMap([
 				[$this->user->getUID(), 'files', 'file_sorting', 'name', 'name'],
@@ -168,7 +120,7 @@ class ViewControllerTest extends TestCase {
 				[$this->user->getUID(), 'files', 'crop_image_previews', true, true],
 				[$this->user->getUID(), 'files', 'show_grid', true],
 			]);
-		
+
 		$baseFolderFiles = $this->getMockBuilder(Folder::class)->getMock();
 
 		$this->rootFolder->expects($this->any())
@@ -184,26 +136,11 @@ class ViewControllerTest extends TestCase {
 		$expected = new Http\TemplateResponse(
 			'files',
 			'index',
-			[
-				'fileNotFound' => 0,
-			]
 		);
 		$policy = new Http\ContentSecurityPolicy();
 		$policy->addAllowedWorkerSrcDomain('\'self\'');
 		$policy->addAllowedFrameDomain('\'self\'');
 		$expected->setContentSecurityPolicy($policy);
-
-		$this->activityHelper->method('getFavoriteFilePaths')
-			->with($this->user->getUID())
-			->willReturn([
-				'item' => [],
-				'folders' => [
-					'/test1',
-					'/test2/',
-					'/test3/sub4',
-					'/test5/sub6/',
-				],
-			]);
 
 		$this->assertEquals($expected, $this->viewController->index('MyDir', 'MyView'));
 	}
@@ -232,9 +169,9 @@ class ViewControllerTest extends TestCase {
 			->willReturn($baseFolderTrash);
 
 		$baseFolderFiles->expects($this->any())
-			->method('getById')
+			->method('getFirstNodeById')
 			->with(123)
-			->willReturn([]);
+			->willReturn(null);
 
 		$node = $this->getMockBuilder(File::class)->getMock();
 		$node->expects($this->once())
@@ -242,9 +179,9 @@ class ViewControllerTest extends TestCase {
 			->willReturn($parentNode);
 
 		$baseFolderTrash->expects($this->once())
-			->method('getById')
+			->method('getFirstNodeById')
 			->with(123)
-			->willReturn([$node]);
+			->willReturn($node);
 		$baseFolderTrash->expects($this->once())
 			->method('getRelativePath')
 			->with('testuser1/files_trashbin/files/test.d1462861890/sub')

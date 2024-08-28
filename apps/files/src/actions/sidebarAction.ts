@@ -1,29 +1,12 @@
 /**
- * @copyright Copyright (c) 2023 John Molakvoæ <skjnldsv@protonmail.com>
- *
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- *
- * @license AGPL-3.0-or-later
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import { Permission, type Node, View, FileAction, FileType } from '@nextcloud/files'
+import { Permission, type Node, View, FileAction } from '@nextcloud/files'
 import { translate as t } from '@nextcloud/l10n'
 import InformationSvg from '@mdi/svg/svg/information-variant.svg?raw'
 
-import logger from '../logger.js'
+import logger from '../logger.ts'
 
 export const ACTION_DETAILS = 'details'
 
@@ -59,8 +42,8 @@ export const action = new FileAction({
 			// Silently update current fileid
 			window.OCP.Files.Router.goToRoute(
 				null,
-				{ view: view.id, fileid: node.fileid },
-				{ dir },
+				{ view: view.id, fileid: String(node.fileid) },
+				{ ...window.OCP.Files.Router.query, dir },
 				true,
 			)
 

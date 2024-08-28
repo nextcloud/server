@@ -1,27 +1,9 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Vincent Petry <vincent@nextcloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\DAV\Tests\unit\SystemTag;
 
@@ -33,21 +15,9 @@ use OCP\SystemTag\ISystemTagObjectMapper;
 use OCP\SystemTag\TagNotFoundException;
 
 class SystemTagMappingNodeTest extends \Test\TestCase {
-
-	/**
-	 * @var \OCP\SystemTag\ISystemTagManager
-	 */
-	private $tagManager;
-
-	/**
-	 * @var \OCP\SystemTag\ISystemTagObjectMapper
-	 */
-	private $tagMapper;
-
-	/**
-	 * @var \OCP\IUser
-	 */
-	private $user;
+	private ISystemTagManager $tagManager;
+	private ISystemTagObjectMapper $tagMapper;
+	private IUser $user;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -60,7 +30,7 @@ class SystemTagMappingNodeTest extends \Test\TestCase {
 			->getMock();
 	}
 
-	public function getMappingNode($tag = null) {
+	public function getMappingNode($tag = null, array $writableNodeIds = []) {
 		if ($tag === null) {
 			$tag = new SystemTag(1, 'Test', true, true);
 		}
@@ -70,7 +40,8 @@ class SystemTagMappingNodeTest extends \Test\TestCase {
 			'files',
 			$this->user,
 			$this->tagManager,
-			$this->tagMapper
+			$this->tagMapper,
+			fn ($id): bool => in_array($id, $writableNodeIds),
 		);
 	}
 
@@ -84,7 +55,7 @@ class SystemTagMappingNodeTest extends \Test\TestCase {
 	}
 
 	public function testDeleteTag(): void {
-		$node = $this->getMappingNode();
+		$node = $this->getMappingNode(null, [123]);
 		$this->tagManager->expects($this->once())
 			->method('canUserSeeTag')
 			->with($node->getSystemTag())
@@ -99,6 +70,25 @@ class SystemTagMappingNodeTest extends \Test\TestCase {
 			->method('unassignTags')
 			->with(123, 'files', 1);
 
+		$node->delete();
+	}
+
+	public function testDeleteTagForbidden(): void {
+		$node = $this->getMappingNode();
+		$this->tagManager->expects($this->once())
+			->method('canUserSeeTag')
+			->with($node->getSystemTag())
+			->willReturn(true);
+		$this->tagManager->expects($this->once())
+			->method('canUserAssignTag')
+			->with($node->getSystemTag())
+			->willReturn(true);
+		$this->tagManager->expects($this->never())
+			->method('deleteTags');
+		$this->tagMapper->expects($this->never())
+			->method('unassignTags');
+
+		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
 		$node->delete();
 	}
 
@@ -144,7 +134,7 @@ class SystemTagMappingNodeTest extends \Test\TestCase {
 		$this->assertInstanceOf($expectedException, $thrown);
 	}
 
-	
+
 	public function testDeleteTagNotFound(): void {
 		$this->expectException(\Sabre\DAV\Exception\NotFound::class);
 
@@ -164,6 +154,6 @@ class SystemTagMappingNodeTest extends \Test\TestCase {
 			->with(123, 'files', 1)
 			->will($this->throwException(new TagNotFoundException()));
 
-		$this->getMappingNode($tag)->delete();
+		$this->getMappingNode($tag, [123])->delete();
 	}
 }

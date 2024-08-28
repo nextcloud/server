@@ -1,21 +1,8 @@
 <?php
 /**
- * @author Jörn Friedrich Dreyer
- * @copyright (c) 2014 Jörn Friedrich Dreyer <jfd@owncloud.com>
- *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
- * License as published by the Free Software Foundation; either
- * version 3 of the License, or any later version.
- *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU AFFERO GENERAL PUBLIC LICENSE for more details.
- *
- * You should have received a copy of the GNU Affero General Public
- * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace Test\Files\ObjectStore;
@@ -236,5 +223,43 @@ class ObjectStoreStorageTest extends Storage {
 		$this->assertEquals('1', $this->instance->file_get_contents('b/target/1.txt'));
 		$this->assertEquals('2', $this->instance->file_get_contents('b/target/sub/2.txt'));
 		$this->assertEquals('3', $this->instance->file_get_contents('b/target/sub/3.txt'));
+	}
+
+	public function testCopyPreservesPermissions() {
+		$cache = $this->instance->getCache();
+
+		$this->instance->file_put_contents('test.txt', 'foo');
+		$this->assertTrue($cache->inCache('test.txt'));
+
+		$cache->update($cache->getId('test.txt'), ['permissions' => \OCP\Constants::PERMISSION_READ]);
+		$this->assertEquals(\OCP\Constants::PERMISSION_READ, $this->instance->getPermissions('test.txt'));
+
+		$this->assertTrue($this->instance->copy('test.txt', 'new.txt'));
+
+		$this->assertTrue($cache->inCache('new.txt'));
+		$this->assertEquals(\OCP\Constants::PERMISSION_READ, $this->instance->getPermissions('new.txt'));
+	}
+
+	/**
+	 * Test that copying files will drop permissions like local storage does
+	 * TODO: Drop this and fix local storage
+	 */
+	public function testCopyGrantsPermissions() {
+		$config['objectstore'] = $this->objectStorage;
+		$config['handleCopiesAsOwned'] = true;
+		$instance = new ObjectStoreStorageOverwrite($config);
+
+		$cache = $instance->getCache();
+
+		$instance->file_put_contents('test.txt', 'foo');
+		$this->assertTrue($cache->inCache('test.txt'));
+
+		$cache->update($cache->getId('test.txt'), ['permissions' => \OCP\Constants::PERMISSION_READ]);
+		$this->assertEquals(\OCP\Constants::PERMISSION_READ, $instance->getPermissions('test.txt'));
+
+		$this->assertTrue($instance->copy('test.txt', 'new.txt'));
+
+		$this->assertTrue($cache->inCache('new.txt'));
+		$this->assertEquals(\OCP\Constants::PERMISSION_ALL, $instance->getPermissions('new.txt'));
 	}
 }

@@ -1,3 +1,7 @@
+<!--
+ - SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
+ - SPDX-License-Identifier: AGPL-3.0-or-later
+ -->
 <template>
 	<div id="app-dashboard">
 		<h2>{{ greeting.text }}</h2>
@@ -20,7 +24,12 @@
 					class="panel">
 					<div class="panel--header">
 						<h2>
-							<div :aria-labelledby="`panel-${panels[panelId].id}--header--icon--description`"
+							<img v-if="apiWidgets[panels[panelId].id].icon_url"
+								:alt="apiWidgets[panels[panelId].id].title + ' icon'"
+								:src="apiWidgets[panels[panelId].id].icon_url"
+								aria-hidden="true">
+							<span v-else
+								:aria-labelledby="`panel-${panels[panelId].id}--header--icon--description`"
 								aria-hidden="true"
 								:class="apiWidgets[panels[panelId].id].icon_class"
 								role="img" />
@@ -39,7 +48,7 @@
 				<div v-else :key="panels[panelId].id" class="panel">
 					<div class="panel--header">
 						<h2>
-							<div :aria-labelledby="`panel-${panels[panelId].id}--header--icon--description`"
+							<span :aria-labelledby="`panel-${panels[panelId].id}--header--icon--description`"
 								aria-hidden="true"
 								:class="panels[panelId].iconClass"
 								role="img" />
@@ -65,7 +74,7 @@
 
 		<NcModal v-if="modal" size="large" @close="closeModal">
 			<div class="modal__content">
-				<h3>{{ t('dashboard', 'Edit widgets') }}</h3>
+				<h2>{{ t('dashboard', 'Edit widgets') }}</h2>
 				<ol class="panels">
 					<li v-for="status in sortedAllStatuses" :key="status" :class="'panel-' + status">
 						<input :id="'status-checkbox-' + status"
@@ -74,7 +83,8 @@
 							:checked="isStatusActive(status)"
 							@input="updateStatusCheckbox(status, $event.target.checked)">
 						<label :for="'status-checkbox-' + status">
-							<div :class="statusInfo[status].icon" aria-hidden="true" role="img" />
+							<NcUserStatusIcon v-if="status === 'status'" status="online" aria-hidden="true" />
+							<span v-else :class="statusInfo[status].icon" aria-hidden="true" />
 							{{ statusInfo[status].text }}
 						</label>
 					</li>
@@ -92,16 +102,20 @@
 							:checked="isActive(panel)"
 							@input="updateCheckbox(panel, $event.target.checked)">
 						<label :for="'panel-checkbox-' + panel.id" :class="{ draggable: isActive(panel) }">
-							<div :class="panel.iconClass" aria-hidden="true" role="img" />
+							<img v-if="panel.iconUrl"
+								:alt="panel.title + ' icon'"
+								:src="panel.iconUrl"
+								aria-hidden="true">
+							<span v-else :class="panel.iconClass" aria-hidden="true" />
 							{{ panel.title }}
 						</label>
 					</li>
 				</Draggable>
 
-				<a v-if="isAdmin" :href="appStoreUrl" class="button">{{ t('dashboard', 'Get more widgets from the App Store') }}</a>
+				<a v-if="isAdmin && appStoreEnabled" :href="appStoreUrl" class="button">{{ t('dashboard', 'Get more widgets from the App Store') }}</a>
 
 				<div v-if="statuses.weather && isStatusActive('weather')">
-					<h3>{{ t('dashboard', 'Weather service') }}</h3>
+					<h2>{{ t('dashboard', 'Weather service') }}</h2>
 					<p>
 						{{ t('dashboard', 'For your privacy, the weather data is requested by your Nextcloud server on your behalf so the weather service receives no personal information.') }}
 					</p>
@@ -124,6 +138,7 @@ import axios from '@nextcloud/axios'
 import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 import Draggable from 'vuedraggable'
 import NcModal from '@nextcloud/vue/dist/Components/NcModal.js'
+import NcUserStatusIcon from '@nextcloud/vue/dist/Components/NcUserStatusIcon.js'
 import Pencil from 'vue-material-design-icons/Pencil.vue'
 import Vue from 'vue'
 
@@ -140,7 +155,6 @@ const statusInfo = {
 	},
 	status: {
 		text: t('dashboard', 'Status'),
-		icon: 'icon-user-status-online',
 	},
 }
 
@@ -152,6 +166,7 @@ export default {
 		Draggable,
 		NcModal,
 		Pencil,
+		NcUserStatusIcon,
 	},
 	mixins: [
 		isMobile,
@@ -174,6 +189,7 @@ export default {
 			layout: loadState('dashboard', 'layout').filter((panelId) => panels[panelId]),
 			modal: false,
 			appStoreUrl: generateUrl('/settings/apps/dashboard'),
+			appStoreEnabled: loadState('dashboard', 'appStoreEnabled', true),
 			statuses: {},
 			apiWidgets: [],
 			apiWidgetItems: {},
@@ -226,7 +242,7 @@ export default {
 			return (panel) => this.layout.indexOf(panel.id) > -1
 		},
 		isStatusActive() {
-			return (status) => !(status in this.enabledStatuses) || this.enabledStatuses[status]
+			return (status) => this.enabledStatuses.findIndex((s) => s === status) !== -1
 		},
 
 		sortedAllStatuses() {
@@ -346,13 +362,13 @@ export default {
 			}
 		},
 		saveLayout() {
-			axios.post(generateUrl('/apps/dashboard/layout'), {
-				layout: this.layout.join(','),
+			axios.post(generateOcsUrl('/apps/dashboard/api/v3/layout'), {
+				layout: this.layout,
 			})
 		},
 		saveStatuses() {
-			axios.post(generateUrl('/apps/dashboard/statuses'), {
-				statuses: JSON.stringify(this.enabledStatuses),
+			axios.post(generateOcsUrl('/apps/dashboard/api/v3/statuses'), {
+				statuses: this.enabledStatuses,
 			})
 		},
 		showModal() {
@@ -392,15 +408,18 @@ export default {
 			}
 		},
 		enableStatus(app) {
-			this.enabledStatuses[app] = true
+			this.enabledStatuses.push(app)
 			this.registerStatus(app, this.allCallbacksStatus[app])
 			this.saveStatuses()
 		},
 		disableStatus(app) {
-			this.enabledStatuses[app] = false
-			const i = this.registeredStatus.findIndex((s) => s === app)
+			const i = this.enabledStatuses.findIndex((s) => s === app)
 			if (i !== -1) {
-				this.registeredStatus.splice(i, 1)
+				this.enabledStatuses.splice(i, 1)
+			}
+			const j = this.registeredStatus.findIndex((s) => s === app)
+			if (j !== -1) {
+				this.registeredStatus.splice(j, 1)
 				Vue.set(this.statuses, app, { mounted: false })
 				this.$nextTick(() => {
 					Vue.delete(this.callbacksStatus, app)
@@ -465,7 +484,8 @@ export default {
 	background-attachment: fixed;
 
 	> h2 {
-		color: var(--color-primary-element-text);
+		// this is shown directly on the background image / color
+		color: var(--color-background-plain-text);
 		text-align: center;
 		font-size: 32px;
 		line-height: 130%;
@@ -485,6 +505,9 @@ export default {
 }
 
 .panel, .panels > div {
+	// Ensure the maxcontrast color is set for the background
+	--color-text-maxcontrast: var(--color-text-maxcontrast-background-blur, var(--color-main-text));
+
 	width: 320px;
 	max-width: 100%;
 	margin: 16px;
@@ -492,7 +515,7 @@ export default {
 	background-color: var(--color-main-background-blur);
 	-webkit-backdrop-filter: var(--filter-background-blur);
 	backdrop-filter: var(--filter-background-blur);
-	border-radius: var(--border-radius-rounded);
+	border-radius: var(--border-radius-container-large);
 
 	#body-user.theme--highcontrast & {
 		border: 2px solid var(--color-border);
@@ -540,7 +563,9 @@ export default {
 			overflow: hidden;
 			text-overflow: ellipsis;
 			cursor: grab;
-			div {
+
+			img,
+			span {
 				background-size: 32px;
 				width: 32px;
 				height: 32px;
@@ -548,6 +573,11 @@ export default {
 				background-position: center;
 				float: left;
 				margin-top: -6px;
+				margin-left: 6px;
+			}
+
+			img {
+				filter: var(--background-invert-if-dark);
 			}
 		}
 	}
@@ -591,6 +621,9 @@ export default {
 .edit-panels,
 .statuses ::v-deep .action-item .action-item__menutoggle,
 .statuses ::v-deep .action-item.action-item--open .action-item__menutoggle {
+	// Ensure the maxcontrast color is set for the background
+	--color-text-maxcontrast: var(--color-text-maxcontrast-background-blur, var(--color-main-text));
+
 	background-color: var(--color-main-background-blur);
 	-webkit-backdrop-filter: var(--filter-background-blur);
 	backdrop-filter: var(--filter-background-blur);
@@ -633,12 +666,17 @@ export default {
 			text-overflow: ellipsis;
 			white-space: nowrap;
 
-			div {
+			img,
+			span {
 				position: absolute;
 				top: 16px;
 				width: 24px;
 				height: 24px;
 				background-size: 24px;
+			}
+
+			img {
+				filter: var(--background-invert-if-dark);
 			}
 
 			&:hover {
@@ -647,7 +685,7 @@ export default {
 		}
 
 		// Do not invert status icons
-		&:not(.panel-status) label div {
+		&:not(.panel-status) label span {
 			filter: var(--background-invert-if-dark);
 		}
 
@@ -662,12 +700,9 @@ export default {
 		}
 	}
 
-	h3 {
+	h2 {
 		font-weight: bold;
-
-		&:not(:first-of-type) {
-			margin-top: 64px;
-		}
+		margin-top: 12px;
 	}
 
 	// Adjust design of 'Get more widgets' button

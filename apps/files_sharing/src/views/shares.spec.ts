@@ -1,31 +1,14 @@
 /**
- * @copyright Copyright (c) 2023 John Molakvoæ <skjnldsv@protonmail.com>
- *
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- *
- * @license AGPL-3.0-or-later
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 /* eslint-disable n/no-extraneous-import */
-import { expect } from '@jest/globals'
+import type { OCSResponse } from '@nextcloud/typings/ocs'
 import { Folder, Navigation, View, getNavigation } from '@nextcloud/files'
+import { beforeEach, describe, expect, test, vi } from 'vitest'
 import axios from '@nextcloud/axios'
 
 import '../main'
-import { type OCSResponse } from '../services/SharingService'
 import registerSharingViews from './shares'
 
 declare global {
@@ -37,16 +20,13 @@ declare global {
 describe('Sharing views definition', () => {
 	let Navigation
 	beforeEach(() => {
+		delete window._nc_navigation
 		Navigation = getNavigation()
 		expect(window._nc_navigation).toBeDefined()
 	})
 
-	afterAll(() => {
-		delete window._nc_navigation
-	})
-
 	test('Default values', () => {
-		jest.spyOn(Navigation, 'register')
+		vi.spyOn(Navigation, 'register')
 
 		expect(Navigation.views.length).toBe(0)
 
@@ -54,17 +34,17 @@ describe('Sharing views definition', () => {
 		const shareOverviewView = Navigation.views.find(view => view.id === 'shareoverview') as View
 		const sharesChildViews = Navigation.views.filter(view => view.parent === 'shareoverview') as View[]
 
-		expect(Navigation.register).toHaveBeenCalledTimes(6)
+		expect(Navigation.register).toHaveBeenCalledTimes(7)
 
 		// one main view and no children
-		expect(Navigation.views.length).toBe(6)
+		expect(Navigation.views.length).toBe(7)
 		expect(shareOverviewView).toBeDefined()
-		expect(sharesChildViews.length).toBe(5)
+		expect(sharesChildViews.length).toBe(6)
 
 		expect(shareOverviewView?.id).toBe('shareoverview')
 		expect(shareOverviewView?.name).toBe('Shares')
 		expect(shareOverviewView?.caption).toBe('Overview of shared files.')
-		expect(shareOverviewView?.icon).toBe('<svg>SvgMock</svg>')
+		expect(shareOverviewView?.icon).toMatch(/<svg.+<\/svg>/i)
 		expect(shareOverviewView?.order).toBe(20)
 		expect(shareOverviewView?.columns).toStrictEqual([])
 		expect(shareOverviewView?.getContents).toBeDefined()
@@ -73,6 +53,7 @@ describe('Sharing views definition', () => {
 			{ id: 'sharingin', name: 'Shared with you' },
 			{ id: 'sharingout', name: 'Shared with others' },
 			{ id: 'sharinglinks', name: 'Shared by link' },
+			{ id: 'filerequest', name: 'File requests' },
 			{ id: 'deletedshares', name: 'Deleted shares' },
 			{ id: 'pendingshares', name: 'Pending shares' },
 		]
@@ -84,7 +65,7 @@ describe('Sharing views definition', () => {
 			expect(view?.caption).toBeDefined()
 			expect(view?.emptyTitle).toBeDefined()
 			expect(view?.emptyCaption).toBeDefined()
-			expect(view?.icon).toBe('<svg>SvgMock</svg>')
+			expect(view?.icon).match(/<svg.+<\/svg>/)
 			expect(view?.order).toBe(index + 1)
 			expect(view?.columns).toStrictEqual([])
 			expect(view?.getContents).toBeDefined()
@@ -95,16 +76,13 @@ describe('Sharing views definition', () => {
 describe('Sharing views contents', () => {
 	let Navigation
 	beforeEach(() => {
+		delete window._nc_navigation
 		Navigation = getNavigation()
 		expect(window._nc_navigation).toBeDefined()
 	})
 
-	afterAll(() => {
-		delete window._nc_navigation
-	})
-
 	test('Sharing overview get contents', async () => {
-		jest.spyOn(axios, 'get').mockImplementation(async (): Promise<any> => {
+		vi.spyOn(axios, 'get').mockImplementation(async (): Promise<any> => {
 			return {
 				data: {
 					ocs: {
@@ -120,7 +98,7 @@ describe('Sharing views contents', () => {
 		})
 
 		registerSharingViews()
-		expect(Navigation.views.length).toBe(6)
+		expect(Navigation.views.length).toBe(7)
 		Navigation.views.forEach(async (view: View) => {
 			const content = await view.getContents('/')
 			expect(content.contents).toStrictEqual([])

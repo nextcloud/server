@@ -1,33 +1,18 @@
 <?php
 /**
- * @copyright Copyright (c) 2017 Morris Jobke <hey@morrisjobke.de>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 $expectedFiles = [
 	'.',
 	'..',
 	'.devcontainer',
-	'.drone.yml',
 	'.editorconfig',
 	'.eslintignore',
 	'.eslintrc.js',
 	'.git',
+	'.git-blame-ignore-revs',
 	'.gitattributes',
 	'.github',
 	'.gitignore',
@@ -39,6 +24,7 @@ $expectedFiles = [
 	'.npmignore',
 	'.php-cs-fixer.dist.php',
 	'.pre-commit-config.yaml',
+	'.reuse',
 	'.scrutinizer.yml',
 	'.tag',
 	'.tx',
@@ -76,8 +62,8 @@ $expectedFiles = [
 	'dist',
 	'index.html',
 	'index.php',
-	'jest.config.ts',
 	'lib',
+	'LICENSES',
 	'occ',
 	'ocs',
 	'ocs-provider',
@@ -95,6 +81,7 @@ $expectedFiles = [
 	'tsconfig.json',
 	'vendor-bin',
 	'version.php',
+	'vitest.config.ts',
 	'webpack.common.js',
 	'webpack.config.js',
 	'webpack.modules.js',

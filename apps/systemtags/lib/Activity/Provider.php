@@ -1,25 +1,7 @@
 <?php
 /**
- * @copyright Copyright (c) 2016 Joas Schilling <coding@schilljs.com>
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\SystemTags\Activity;
 
@@ -75,7 +57,7 @@ class Provider implements IProvider {
 	 * @throws \InvalidArgumentException
 	 * @since 11.0.0
 	 */
-	public function parse($language, IEvent $event, IEvent $previousEvent = null) {
+	public function parse($language, IEvent $event, ?IEvent $previousEvent = null) {
 		if ($event->getApp() !== 'systemtags') {
 			throw new \InvalidArgumentException();
 		}
@@ -280,19 +262,19 @@ class Provider implements IProvider {
 			case self::CREATE_TAG:
 			case self::DELETE_TAG:
 				return [
-					'actor' => $this->getUserParameter((string) $parameters[0]),
+					'actor' => $this->getUserParameter((string)$parameters[0]),
 					'systemtag' => $this->getSystemTagParameter($parameters[1]),
 				];
 			case self::UPDATE_TAG:
 				return [
-					'actor' => $this->getUserParameter((string) $parameters[0]),
+					'actor' => $this->getUserParameter((string)$parameters[0]),
 					'newsystemtag' => $this->getSystemTagParameter($parameters[1]),
 					'oldsystemtag' => $this->getSystemTagParameter($parameters[2]),
 				];
 			case self::ASSIGN_TAG:
 			case self::UNASSIGN_TAG:
 				return [
-					'actor' => $this->getUserParameter((string) $parameters[0]),
+					'actor' => $this->getUserParameter((string)$parameters[0]),
 					'file' => $this->getFileParameter($event->getObjectId(), $parameters[1]),
 					'systemtag' => $this->getSystemTagParameter($parameters[2]),
 				];
@@ -323,7 +305,7 @@ class Provider implements IProvider {
 
 		return [
 			'type' => 'systemtag',
-			'id' => (int) $tagData['id'],
+			'id' => (int)$tagData['id'],
 			'name' => $tagData['name'],
 			'assignable' => $tagData['assignable'] ? '1' : '0',
 			'visibility' => $tagData['visible'] ? '1' : '0',

@@ -1,31 +1,11 @@
 <!--
-	- @copyright 2022 Christopher Ng <chrng8@gmail.com>
-	-
-	- @author Christopher Ng <chrng8@gmail.com>
-	-
-	- @license AGPL-3.0-or-later
-	-
-	- This program is free software: you can redistribute it and/or modify
-	- it under the terms of the GNU Affero General Public License as
-	- published by the Free Software Foundation, either version 3 of the
-	- License, or (at your option) any later version.
-	-
-	- This program is distributed in the hope that it will be useful,
-	- but WITHOUT ANY WARRANTY; without even the implied warranty of
-	- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-	- GNU Affero General Public License for more details.
-	-
-	- You should have received a copy of the GNU Affero General Public License
-	- along with this program. If not, see <http://www.gnu.org/licenses/>.
-	-
+  - SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
 <template>
 	<section id="vue-avatar-section">
-		<h3 class="hidden-visually">
-			{{ t('settings', 'Your profile information') }}
-		</h3>
-		<HeaderBar :input-id="avatarChangeSupported ? inputId : null"
+		<HeaderBar :is-heading="true"
 			:readable="avatar.readable"
 			:scope.sync="avatar.scope" />
 
@@ -35,8 +15,7 @@
 					:key="version"
 					:user="userId"
 					:aria-label="t('settings', 'Your profile picture')"
-					:disabled-menu="true"
-					:disabled-tooltip="true"
+					:disable-tooltip="true"
 					:show-user-status="false"
 					:size="180" />
 				<div v-else class="icon-loading" />
@@ -64,8 +43,7 @@
 					</NcButton>
 				</div>
 				<span>{{ t('settings', 'The file must be a PNG or JPG') }}</span>
-				<input :id="inputId"
-					ref="input"
+				<input ref="input"
 					type="file"
 					:accept="validMimeTypes.join(',')"
 					@change="onChange">
@@ -162,12 +140,6 @@ export default {
 				minContainerHeight: 300,
 			},
 		}
-	},
-
-	computed: {
-		inputId() {
-			return `account-property-${this.avatar.name}`
-		},
 	},
 
 	created() {
@@ -283,6 +255,7 @@ export default {
 <style lang="scss" scoped>
 section {
 	grid-row: 1/3;
+	padding: 10px 10px;
 }
 .avatar {
 	&__container {
@@ -292,7 +265,7 @@ section {
 		justify-content: center;
 		align-items: center;
 		gap: 16px 0;
-		width: 300px;
+		width: min(100%, 300px);
 
 		span {
 			color: var(--color-text-lighter);

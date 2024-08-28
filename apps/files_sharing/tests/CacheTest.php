@@ -1,31 +1,8 @@
 <?php
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Björn Schießle <bjoern@schiessle.org>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Jörn Friedrich Dreyer <jfd@butonic.de>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Vincent Petry <vincent@nextcloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2017-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\Files_Sharing\Tests;
 
@@ -88,6 +65,7 @@ class CacheTest extends TestCase {
 		$this->view->file_put_contents('container/shareddir/subdir/another.txt', $textData);
 		$this->view->file_put_contents('container/shareddir/subdir/another too.txt', $textData);
 		$this->view->file_put_contents('container/shareddir/subdir/not a text file.xml', '<xml></xml>');
+		$this->view->file_put_contents('simplefile.txt', $textData);
 
 		[$this->ownerStorage,] = $this->view->resolvePath('');
 		$this->ownerCache = $this->ownerStorage->getCache();
@@ -243,7 +221,7 @@ class CacheTest extends TestCase {
 
 	public function testGetFolderContentsInRoot() {
 		$results = $this->user2View->getDirectoryContent('/');
-		$results = (array_filter($results, function($file) {
+		$results = (array_filter($results, function ($file) {
 			return $file->getName() !== 'welcome.txt';
 		}));
 
@@ -300,6 +278,42 @@ class CacheTest extends TestCase {
 			],
 			$results
 		);
+	}
+
+	/**
+	 * This covers a bug where the share owners name was propagated
+	 * to the recipient in the recent files API response where the
+	 * share recipient has a different target set
+	 *
+	 * https://github.com/nextcloud/server/issues/39879
+	 */
+	public function testShareRenameOriginalFileInRecentResults() {
+		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
+
+		$rootFolder = \OC::$server->getUserFolder(self::TEST_FILES_SHARING_API_USER1);
+		$node = $rootFolder->get('simplefile.txt');
+		$share = $this->shareManager->newShare();
+		$share->setNode($node)
+			->setShareType(IShare::TYPE_USER)
+			->setSharedWith(self::TEST_FILES_SHARING_API_USER3)
+			->setSharedBy(self::TEST_FILES_SHARING_API_USER1)
+			->setPermissions(\OCP\Constants::PERMISSION_READ);
+		$share = $this->shareManager->createShare($share);
+		$share->setStatus(IShare::STATUS_ACCEPTED);
+		$this->shareManager->updateShare($share);
+
+		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
+		$node->move(self::TEST_FILES_SHARING_API_USER1 . '/files/simplefile2.txt');
+
+		self::loginHelper(self::TEST_FILES_SHARING_API_USER3);
+		$rootFolder = \OC::$server->getUserFolder(self::TEST_FILES_SHARING_API_USER3);
+		$recents = $rootFolder->getRecent(10);
+		self::assertEquals([
+			'welcome.txt',
+			'simplefile.txt'
+		], array_map(function ($node) {
+			return $node->getFileInfo()['name'];
+		}, $recents));
 	}
 
 	public function testGetFolderContentsWhenSubSubdirShared() {
@@ -547,7 +561,7 @@ class CacheTest extends TestCase {
 		/** @var SharedStorage $sharedStorage */
 		[$sharedStorage] = \OC\Files\Filesystem::resolvePath('/' . self::TEST_FILES_SHARING_API_USER2 . '/files/sub');
 
-		$results = $sharedStorage->getCache()->search("foo.txt");
+		$results = $sharedStorage->getCache()->search('foo.txt');
 		$this->assertCount(1, $results);
 	}
 }

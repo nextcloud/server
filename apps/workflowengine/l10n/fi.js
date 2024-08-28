@@ -40,6 +40,7 @@ OC.L10N.register(
     "Check %s is invalid or does not exist" : "Tarkistus %s on virheellinen tai sitä ei ole olemassa",
     "Flow" : "Kulku",
     "Nextcloud workflow engine" : "Nextcloudin työnkulkumoottori",
+    "Remove filter" : "Poista suodatin",
     "Select a file type" : "Valitse tiedostotyyppi",
     "Folder" : "Kansio",
     "Images" : "Kuvat",
@@ -51,6 +52,8 @@ OC.L10N.register(
     "iOS client" : "iOS-sovellus",
     "Desktop client" : "Työpöytäsovellus",
     "Thunderbird & Outlook addons" : "Thunderbird- & Outlook-lisäosat",
+    "Select groups" : "Valitse ryhmät",
+    "Groups" : "Ryhmät",
     "and" : "ja",
     "Cancel" : "Peruuta",
     "Delete" : "Poista",
@@ -83,10 +86,8 @@ OC.L10N.register(
     "between" : "välillä",
     "not between" : "ei välillä",
     "Request user agent" : "Pyynnön user agent",
-    "User group membership" : "Käyttäjäryhmäjäsenyys",
     "is member of" : "on jäsen",
     "is not member of" : "ei ole jäsen",
-    "Predefined URLs" : "Ennalta määritellyt URL-osoitteet",
-    "Others" : "Muut"
+    "User group membership" : "Käyttäjäryhmäjäsenyys"
 },
 "nplurals=2; plural=(n != 1);");

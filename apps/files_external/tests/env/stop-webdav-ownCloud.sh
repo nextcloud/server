@@ -1,12 +1,7 @@
 #!/usr/bin/env bash
 #
-# ownCloud
-#
-# This script stops the docker container the files_external tests were run
-# against. It will also revert the config changes done in start step.
-#
-# @author Morris Jobke
-# @copyright 2014 Morris Jobke <hey@morrisjobke.de>
+# SPDX-FileCopyrightText: 2014-2016 ownCloud, Inc.
+# SPDX-License-Identifier: AGPL-3.0-only
 #
 
 if ! command -v docker >/dev/null 2>&1; then

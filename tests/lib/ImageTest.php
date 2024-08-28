@@ -1,9 +1,8 @@
 <?php
 /**
- * Copyright (c) 2013 Christopher Schäpers <christopher@schaepers.it>
- * This file is licensed under the Affero General Public License version 3 or
- * later.
- * See the COPYING-README file.
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace Test;
@@ -51,7 +50,7 @@ class ImageTest extends \Test\TestCase {
 		$img->loadFromFile(OC::$SERVERROOT.'/tests/data/testimage.png');
 		$this->assertTrue($img->valid());
 
-		$text = base64_encode("Lorem ipsum dolor sir amet …");
+		$text = base64_encode('Lorem ipsum dolor sir amet …');
 		$img = new \OC_Image();
 		$img->loadFromBase64($text);
 		$this->assertFalse($img->valid());
@@ -149,8 +148,7 @@ class ImageTest extends \Test\TestCase {
 		$img = new \OC_Image(null, null, $config);
 		$img->loadFromFile(OC::$SERVERROOT.'/tests/data/testimage.jpg');
 		$raw = imagecreatefromstring(file_get_contents(OC::$SERVERROOT.'/tests/data/testimage.jpg'));
-		/** @psalm-suppress InvalidScalarArgument */
-		imageinterlace($raw, (PHP_VERSION_ID >= 80000 ? true : 1));
+		imageinterlace($raw, true);
 		ob_start();
 		imagejpeg($raw, null, 80);
 		$expected = ob_get_clean();

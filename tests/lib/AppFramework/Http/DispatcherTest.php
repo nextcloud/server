@@ -1,24 +1,9 @@
 <?php
 
 /**
- * ownCloud - App Framework
- *
- * @author Bernhard Posselt
- * @copyright 2012 Bernhard Posselt <dev@bernhard-posselt.com>
- *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
- * License as published by the Free Software Foundation; either
- * version 3 of the License, or any later version.
- *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU AFFERO GENERAL PUBLIC LICENSE for more details.
- *
- * You should have received a copy of the GNU Affero General Public
- * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace Test\AppFramework\Http;
@@ -31,14 +16,15 @@ use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\JSONResponse;
+use OCP\AppFramework\Http\ParameterOutOfRangeException;
 use OCP\AppFramework\Http\Response;
 use OCP\Diagnostics\IEventLogger;
 use OCP\IConfig;
 use OCP\IRequest;
+use OCP\IRequestId;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
-use OCP\IRequestId;
 
 class TestController extends Controller {
 	/**
@@ -91,19 +77,19 @@ class DispatcherTest extends \Test\TestCase {
 	/** @var Dispatcher */
 	private $dispatcher;
 	private $controllerMethod;
-	/** @var Controller|MockObject  */
+	/** @var Controller|MockObject */
 	private $controller;
 	private $response;
-	/** @var IRequest|MockObject  */
+	/** @var IRequest|MockObject */
 	private $request;
 	private $lastModified;
 	private $etag;
-	/** @var Http|MockObject  */
+	/** @var Http|MockObject */
 	private $http;
 	private $reflector;
-	/** @var IConfig|MockObject  */
+	/** @var IConfig|MockObject */
 	private $config;
-	/** @var LoggerInterface|MockObject  */
+	/** @var LoggerInterface|MockObject */
 	private $logger;
 	/** @var IEventLogger|MockObject */
 	private $eventLogger;
@@ -300,7 +286,7 @@ class DispatcherTest extends \Test\TestCase {
 
 	private function dispatcherPassthrough() {
 		$this->middlewareDispatcher->expects($this->once())
-				->method('beforeController');
+			->method('beforeController');
 		$this->middlewareDispatcher->expects($this->once())
 			->method('afterController')
 			->willReturnCallback(function ($a, $b, $in) {
@@ -521,5 +507,52 @@ class DispatcherTest extends \Test\TestCase {
 		$response = $this->dispatcher->dispatch($controller, 'exec');
 
 		$this->assertEquals('{"text":[3,true,4,1]}', $response[3]);
+	}
+
+
+	public function rangeDataProvider(): array {
+		return [
+			[PHP_INT_MIN, PHP_INT_MAX, 42, false],
+			[0, 12, -5, true],
+			[-12, 0, 5, true],
+			[7, 14, 5, true],
+			[7, 14, 10, false],
+			[-14, -7, -10, false],
+		];
+	}
+
+	/**
+	 * @dataProvider rangeDataProvider
+	 */
+	public function testEnsureParameterValueSatisfiesRange(int $min, int $max, int $input, bool $throw): void {
+		$this->reflector = $this->createMock(ControllerMethodReflector::class);
+		$this->reflector->expects($this->any())
+			->method('getRange')
+			->willReturn([
+				'min' => $min,
+				'max' => $max,
+			]);
+
+		$this->dispatcher = new Dispatcher(
+			$this->http,
+			$this->middlewareDispatcher,
+			$this->reflector,
+			$this->request,
+			$this->config,
+			\OC::$server->getDatabaseConnection(),
+			$this->logger,
+			$this->eventLogger,
+			$this->container,
+		);
+
+		if ($throw) {
+			$this->expectException(ParameterOutOfRangeException::class);
+		}
+
+		$this->invokePrivate($this->dispatcher, 'ensureParameterValueSatisfiesRange', ['myArgument', $input]);
+		if (!$throw) {
+			// do not mark this test risky
+			$this->assertTrue(true);
+		}
 	}
 }

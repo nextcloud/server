@@ -1,33 +1,17 @@
 <!--
-	- @copyright 2023 Christopher Ng <chrng8@gmail.com>
-	-
-	- @author Christopher Ng <chrng8@gmail.com>
-	-
-	- @license AGPL-3.0-or-later
-	-
-	- This program is free software: you can redistribute it and/or modify
-	- it under the terms of the GNU Affero General Public License as
-	- published by the Free Software Foundation, either version 3 of the
-	- License, or (at your option) any later version.
-	-
-	- This program is distributed in the hope that it will be useful,
-	- but WITHOUT ANY WARRANTY; without even the implied warranty of
-	- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-	- GNU Affero General Public License for more details.
-	-
-	- You should have received a copy of the GNU Affero General Public License
-	- along with this program. If not, see <http://www.gnu.org/licenses/>.
-	-
+  - SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
 <template>
 	<tr class="footer">
 		<th scope="row">
+			<!-- TRANSLATORS Label for a table footer which summarizes the columns of the table -->
 			<span class="hidden-visually">{{ t('settings', 'Total rows summary') }}</span>
 		</th>
 		<td class="footer__cell footer__cell--loading">
 			<NcLoadingIcon v-if="loading"
-				:title="t('settings', 'Loading users …')"
+				:title="t('settings', 'Loading accounts …')"
 				:size="32" />
 		</td>
 		<td class="footer__cell footer__cell--count footer__cell--multiline">
@@ -72,8 +56,8 @@ export default Vue.extend({
 			if (this.loading) {
 				return this.n(
 					'settings',
-					'{userCount} user …',
-					'{userCount} users …',
+					'{userCount} account …',
+					'{userCount} accounts …',
 					this.filteredUsers.length,
 					{
 						userCount: this.filteredUsers.length,
@@ -82,8 +66,8 @@ export default Vue.extend({
 			}
 			return this.n(
 				'settings',
-				'{userCount} user',
-				'{userCount} users',
+				'{userCount} account',
+				'{userCount} accounts',
 				 this.filteredUsers.length,
 				{
 					userCount: this.filteredUsers.length,

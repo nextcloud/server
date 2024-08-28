@@ -1,9 +1,8 @@
 <?php
 /**
- * Copyright (c) 2014 Vincent Petry <pvince81@owncloud.com>
- * This file is licensed under the Affero General Public License version 3 or
- * later.
- * See the COPYING-README file.
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace Test;
@@ -40,13 +39,13 @@ class UtilCheckServerTest extends \Test\TestCase {
 
 		$this->datadir = \OC::$server->getTempManager()->getTemporaryFolder();
 
-		file_put_contents($this->datadir . '/.ocdata', '');
+		file_put_contents($this->datadir . '/.ncdata', '# Nextcloud data directory');
 		\OC::$server->getSession()->set('checkServer_succeeded', false);
 	}
 
 	protected function tearDown(): void {
 		// clean up
-		@unlink($this->datadir . '/.ocdata');
+		@unlink($this->datadir . '/.ncdata');
 		parent::tearDown();
 	}
 
@@ -67,9 +66,9 @@ class UtilCheckServerTest extends \Test\TestCase {
 	 */
 	public function testCheckServerSkipDataDirValidityOnSetup() {
 		// simulate old version that didn't have it
-		unlink($this->datadir . '/.ocdata');
+		unlink($this->datadir . '/.ncdata');
 
-		// even though ".ocdata" is missing, the error isn't
+		// even though ".ncdata" is missing, the error isn't
 		// triggered to allow setup to run
 		$result = \OC_Util::checkServer($this->getConfig([
 			'installed' => false
@@ -84,7 +83,7 @@ class UtilCheckServerTest extends \Test\TestCase {
 	 */
 	public function testCheckServerSkipDataDirValidityOnUpgrade() {
 		// simulate old version that didn't have it
-		unlink($this->datadir . '/.ocdata');
+		unlink($this->datadir . '/.ncdata');
 
 		$session = \OC::$server->getSession();
 		$oldCurrentVersion = $session->get('OC_Version');
@@ -92,7 +91,7 @@ class UtilCheckServerTest extends \Test\TestCase {
 		// upgrade condition to simulate needUpgrade() === true
 		$session->set('OC_Version', [6, 0, 0, 2]);
 
-		// even though ".ocdata" is missing, the error isn't
+		// even though ".ncdata" is missing, the error isn't
 		// triggered to allow for upgrade
 		$result = \OC_Util::checkServer($this->getConfig([
 			'installed' => true,
@@ -106,7 +105,7 @@ class UtilCheckServerTest extends \Test\TestCase {
 
 	/**
 	 * Test that checkDataDirectoryValidity returns no error
-	 * when ".ocdata" is present.
+	 * when ".ncdata" is present.
 	 */
 	public function testCheckDataDirValidity() {
 		$result = \OC_Util::checkDataDirectoryValidity($this->datadir);
@@ -115,10 +114,10 @@ class UtilCheckServerTest extends \Test\TestCase {
 
 	/**
 	 * Test that checkDataDirectoryValidity and checkServer
-	 * both return an error when ".ocdata" is missing.
+	 * both return an error when ".ncdata" is missing.
 	 */
 	public function testCheckDataDirValidityWhenFileMissing() {
-		unlink($this->datadir . '/.ocdata');
+		unlink($this->datadir . '/.ncdata');
 		$result = \OC_Util::checkDataDirectoryValidity($this->datadir);
 		$this->assertEquals(1, count($result));
 

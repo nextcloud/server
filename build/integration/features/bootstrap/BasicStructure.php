@@ -1,35 +1,8 @@
 <?php
 /**
- * @copyright Copyright (c) 2016 Sergio Bertolin <sbertolin@solidgear.es>
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Daniel Calviño Sánchez <danxuliu@gmail.com>
- * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Sergio Bertolin <sbertolin@solidgear.es>
- * @author Sergio Bertolín <sbertolin@solidgear.es>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 use Behat\Gherkin\Node\TableNode;
 use GuzzleHttp\Client;
@@ -442,14 +415,14 @@ trait BasicStructure {
 	}
 
 	public function createFileSpecificSize($name, $size) {
-		$file = fopen("work/" . "$name", 'w');
+		$file = fopen('work/' . "$name", 'w');
 		fseek($file, $size - 1, SEEK_CUR);
 		fwrite($file, 'a'); // write a dummy char at SIZE position
 		fclose($file);
 	}
 
 	public function createFileWithText($name, $text) {
-		$file = fopen("work/" . "$name", 'w');
+		$file = fopen('work/' . "$name", 'w');
 		fwrite($file, $text);
 		fclose($file);
 	}
@@ -485,19 +458,19 @@ trait BasicStructure {
 	 */
 	public static function addFilesToSkeleton() {
 		for ($i = 0; $i < 5; $i++) {
-			file_put_contents("../../core/skeleton/" . "textfile" . "$i" . ".txt", "Nextcloud test text file\n");
+			file_put_contents('../../core/skeleton/' . 'textfile' . "$i" . '.txt', "Nextcloud test text file\n");
 		}
-		if (!file_exists("../../core/skeleton/FOLDER")) {
-			mkdir("../../core/skeleton/FOLDER", 0777, true);
+		if (!file_exists('../../core/skeleton/FOLDER')) {
+			mkdir('../../core/skeleton/FOLDER', 0777, true);
 		}
-		if (!file_exists("../../core/skeleton/PARENT")) {
-			mkdir("../../core/skeleton/PARENT", 0777, true);
+		if (!file_exists('../../core/skeleton/PARENT')) {
+			mkdir('../../core/skeleton/PARENT', 0777, true);
 		}
-		file_put_contents("../../core/skeleton/PARENT/" . "parent.txt", "Nextcloud test text file\n");
-		if (!file_exists("../../core/skeleton/PARENT/CHILD")) {
-			mkdir("../../core/skeleton/PARENT/CHILD", 0777, true);
+		file_put_contents('../../core/skeleton/PARENT/' . 'parent.txt', "Nextcloud test text file\n");
+		if (!file_exists('../../core/skeleton/PARENT/CHILD')) {
+			mkdir('../../core/skeleton/PARENT/CHILD', 0777, true);
 		}
-		file_put_contents("../../core/skeleton/PARENT/CHILD/" . "child.txt", "Nextcloud test text file\n");
+		file_put_contents('../../core/skeleton/PARENT/CHILD/' . 'child.txt', "Nextcloud test text file\n");
 	}
 
 	/**
@@ -505,18 +478,18 @@ trait BasicStructure {
 	 */
 	public static function removeFilesFromSkeleton() {
 		for ($i = 0; $i < 5; $i++) {
-			self::removeFile("../../core/skeleton/", "textfile" . "$i" . ".txt");
+			self::removeFile('../../core/skeleton/', 'textfile' . "$i" . '.txt');
 		}
-		if (is_dir("../../core/skeleton/FOLDER")) {
-			rmdir("../../core/skeleton/FOLDER");
+		if (is_dir('../../core/skeleton/FOLDER')) {
+			rmdir('../../core/skeleton/FOLDER');
 		}
-		self::removeFile("../../core/skeleton/PARENT/CHILD/", "child.txt");
-		if (is_dir("../../core/skeleton/PARENT/CHILD")) {
-			rmdir("../../core/skeleton/PARENT/CHILD");
+		self::removeFile('../../core/skeleton/PARENT/CHILD/', 'child.txt');
+		if (is_dir('../../core/skeleton/PARENT/CHILD')) {
+			rmdir('../../core/skeleton/PARENT/CHILD');
 		}
-		self::removeFile("../../core/skeleton/PARENT/", "parent.txt");
-		if (is_dir("../../core/skeleton/PARENT")) {
-			rmdir("../../core/skeleton/PARENT");
+		self::removeFile('../../core/skeleton/PARENT/', 'parent.txt');
+		if (is_dir('../../core/skeleton/PARENT')) {
+			rmdir('../../core/skeleton/PARENT');
 		}
 	}
 
@@ -524,7 +497,7 @@ trait BasicStructure {
 	 * @BeforeScenario @local_storage
 	 */
 	public static function removeFilesFromLocalStorageBefore() {
-		$dir = "./work/local_storage/";
+		$dir = './work/local_storage/';
 		$di = new RecursiveDirectoryIterator($dir, FilesystemIterator::SKIP_DOTS);
 		$ri = new RecursiveIteratorIterator($di, RecursiveIteratorIterator::CHILD_FIRST);
 		foreach ($ri as $file) {
@@ -536,7 +509,7 @@ trait BasicStructure {
 	 * @AfterScenario @local_storage
 	 */
 	public static function removeFilesFromLocalStorageAfter() {
-		$dir = "./work/local_storage/";
+		$dir = './work/local_storage/';
 		$di = new RecursiveDirectoryIterator($dir, FilesystemIterator::SKIP_DOTS);
 		$ri = new RecursiveIteratorIterator($di, RecursiveIteratorIterator::CHILD_FIRST);
 		foreach ($ri as $file) {

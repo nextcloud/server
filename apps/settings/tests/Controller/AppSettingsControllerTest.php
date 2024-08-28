@@ -1,34 +1,13 @@
 <?php
 /**
- * @copyright Copyright (c) 2016, Lukas Reschke <lukas@statuscode.ch>
- * @copyright Copyright (c) 2015, ownCloud, Inc.
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2015 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\Settings\Tests\Controller;
 
 use OC\App\AppStore\Bundles\BundleFetcher;
+use OC\App\AppStore\Fetcher\AppDiscoverFetcher;
 use OC\App\AppStore\Fetcher\AppFetcher;
 use OC\App\AppStore\Fetcher\CategoryFetcher;
 use OC\Installer;
@@ -37,6 +16,9 @@ use OCP\App\IAppManager;
 use OCP\AppFramework\Http\ContentSecurityPolicy;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\AppFramework\Services\IInitialState;
+use OCP\Files\AppData\IAppDataFactory;
+use OCP\Http\Client\IClientService;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\INavigationManager;
@@ -81,11 +63,20 @@ class AppSettingsControllerTest extends TestCase {
 	private $urlGenerator;
 	/** @var LoggerInterface|MockObject */
 	private $logger;
+	/** @var IInitialState|MockObject */
+	private $initialState;
+	/** @var IAppDataFactory|MockObject */
+	private $appDataFactory;
+	/** @var AppDiscoverFetcher|MockObject */
+	private $discoverFetcher;
+	/** @var IClientService|MockObject */
+	private $clientService;
 
 	protected function setUp(): void {
 		parent::setUp();
 
 		$this->request = $this->createMock(IRequest::class);
+		$this->appDataFactory = $this->createMock(IAppDataFactory::class);
 		$this->l10n = $this->createMock(IL10N::class);
 		$this->l10n->expects($this->any())
 			->method('t')
@@ -100,10 +91,14 @@ class AppSettingsControllerTest extends TestCase {
 		$this->installer = $this->createMock(Installer::class);
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
+		$this->initialState = $this->createMock(IInitialState::class);
+		$this->discoverFetcher = $this->createMock(AppDiscoverFetcher::class);
+		$this->clientService = $this->createMock(IClientService::class);
 
 		$this->appSettingsController = new AppSettingsController(
 			'settings',
 			$this->request,
+			$this->appDataFactory,
 			$this->l10n,
 			$this->config,
 			$this->navigationManager,
@@ -114,7 +109,10 @@ class AppSettingsControllerTest extends TestCase {
 			$this->bundleFetcher,
 			$this->installer,
 			$this->urlGenerator,
-			$this->logger
+			$this->logger,
+			$this->initialState,
+			$this->discoverFetcher,
+			$this->clientService,
 		);
 	}
 
@@ -125,52 +123,42 @@ class AppSettingsControllerTest extends TestCase {
 		$expected = new JSONResponse([
 			[
 				'id' => 'auth',
-				'ident' => 'auth',
 				'displayName' => 'Authentication & authorization',
 			],
 			[
 				'id' => 'customization',
-				'ident' => 'customization',
 				'displayName' => 'Customization',
 			],
 			[
 				'id' => 'files',
-				'ident' => 'files',
 				'displayName' => 'Files',
 			],
 			[
 				'id' => 'integration',
-				'ident' => 'integration',
 				'displayName' => 'Integration',
 			],
 			[
 				'id' => 'monitoring',
-				'ident' => 'monitoring',
 				'displayName' => 'Monitoring',
 			],
 			[
 				'id' => 'multimedia',
-				'ident' => 'multimedia',
 				'displayName' => 'Multimedia',
 			],
 			[
 				'id' => 'office',
-				'ident' => 'office',
 				'displayName' => 'Office & text',
 			],
 			[
 				'id' => 'organization',
-				'ident' => 'organization',
 				'displayName' => 'Organization',
 			],
 			[
 				'id' => 'social',
-				'ident' => 'social',
 				'displayName' => 'Social & communication',
 			],
 			[
 				'id' => 'tools',
-				'ident' => 'tools',
 				'displayName' => 'Tools',
 			],
 		]);
@@ -198,19 +186,17 @@ class AppSettingsControllerTest extends TestCase {
 			->method('setActiveEntry')
 			->with('core_apps');
 
+		$this->initialState
+			->expects($this->exactly(4))
+			->method('provideInitialState');
+
 		$policy = new ContentSecurityPolicy();
 		$policy->addAllowedImageDomain('https://usercontent.apps.nextcloud.com');
 
 		$expected = new TemplateResponse('settings',
-			'settings-vue',
+			'settings/empty',
 			[
-				'serverData' => [
-					'updateCount' => 0,
-					'appstoreEnabled' => true,
-					'bundles' => [],
-					'developerDocumentation' => ''
-				],
-				'pageTitle' => 'Apps'
+				'pageTitle' => 'Settings'
 			],
 			'user');
 		$expected->setContentSecurityPolicy($policy);
@@ -233,19 +219,17 @@ class AppSettingsControllerTest extends TestCase {
 			->method('setActiveEntry')
 			->with('core_apps');
 
+		$this->initialState
+			->expects($this->exactly(4))
+			->method('provideInitialState');
+
 		$policy = new ContentSecurityPolicy();
 		$policy->addAllowedImageDomain('https://usercontent.apps.nextcloud.com');
 
 		$expected = new TemplateResponse('settings',
-			'settings-vue',
+			'settings/empty',
 			[
-				'serverData' => [
-					'updateCount' => 0,
-					'appstoreEnabled' => false,
-					'bundles' => [],
-					'developerDocumentation' => ''
-				],
-				'pageTitle' => 'Apps'
+				'pageTitle' => 'Settings'
 			],
 			'user');
 		$expected->setContentSecurityPolicy($policy);

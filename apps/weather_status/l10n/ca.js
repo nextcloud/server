@@ -7,7 +7,7 @@ OC.L10N.register(
     "Error" : "Error",
     "Weather status" : "Estat del temps",
     "Weather status in your dashboard" : "Estat del temps en el tauler",
-    "Weather status integrated in the Dashboard app.\n    User's position can be automatically determined or manually defined. A 6 hours forecast is then displayed.\n    This status can also be integrated in other places like the Calendar app." : "Estat del temps integrat en l'aplicació Tauler.\n    La posició de l'usuari es pot determinar automàticament o definir manualment. A continuació, es mostra una previsió de 6 hores.\n    Aquest estat també es pot integrar en altres llocs, com ara l'aplicació Calendari.",
+    "Weather status integrated in the Dashboard app.\n    The geographic location can be automatically determined or manually defined. A 6 hours forecast is then displayed.\n    This status can also be integrated in other places like the Calendar app." : "Estat del temps integrat en l'aplicació Tauler.\n    La ubicació geogràfica es pot determinar automàticament o definir manualment. A continuació, es mostra una previsió de 6 hores.\n    Aquest estat també es pot integrar en altres llocs, com ara l'aplicació Calendari.",
     "Detect location" : "Detecta la ubicació",
     "Set custom address" : "Defineix una adreça personalitzada",
     "Favorites" : "Preferits",
@@ -45,6 +45,7 @@ OC.L10N.register(
     "There was an error setting the location." : "S'ha produït un error en definir la ubicació.",
     "There was an error saving the mode." : "S'ha produït un error en desar el mode.",
     "There was an error using personal address." : "S'ha produït un error en utilitzar l'adreça personal.",
-    "Set location for weather" : "Definiu la ubicació per al temps"
+    "Set location for weather" : "Definiu la ubicació per al temps",
+    "Weather status integrated in the Dashboard app.\n    User's position can be automatically determined or manually defined. A 6 hours forecast is then displayed.\n    This status can also be integrated in other places like the Calendar app." : "Estat del temps integrat en l'aplicació Tauler.\n    La posició de l'usuari es pot determinar automàticament o definir manualment. A continuació, es mostra una previsió de 6 hores.\n    Aquest estat també es pot integrar en altres llocs, com ara l'aplicació Calendari."
 },
 "nplurals=2; plural=(n != 1);");

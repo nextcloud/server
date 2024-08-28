@@ -2,25 +2,8 @@
 
 declare(strict_types = 1);
 /**
- * @copyright 2022 Carl Schwan <carl@carlschwan.eu>
- *
- * @author Carl Schwan <carl@carlschwan.eu>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace OC\Memcache;
@@ -75,7 +58,7 @@ class LoggerWrapperCache extends Cache implements IMemcacheTTL {
 			FILE_APPEND
 		);
 
-		return $this->wrappedCache->set($key, $value, $$ttl);
+		return $this->wrappedCache->set($key, $value, $ttl);
 	}
 
 	/** @inheritDoc */
@@ -167,8 +150,27 @@ class LoggerWrapperCache extends Cache implements IMemcacheTTL {
 	}
 
 	/** @inheritDoc */
-	public function setTTL($key, $ttl) {
+	public function ncad(string $key, mixed $old): bool {
+		file_put_contents(
+			$this->logFile,
+			$this->getNameSpace() . '::ncad::' . $key . "\n",
+			FILE_APPEND
+		);
+
+		return $this->wrappedCache->cad($key, $old);
+	}
+
+	/** @inheritDoc */
+	public function setTTL(string $key, int $ttl) {
 		$this->wrappedCache->setTTL($key, $ttl);
+	}
+
+	public function getTTL(string $key): int|false {
+		return $this->wrappedCache->getTTL($key);
+	}
+
+	public function compareSetTTL(string $key, mixed $value, int $ttl): bool {
+		return $this->wrappedCache->compareSetTTL($key, $value, $ttl);
 	}
 
 	public static function isAvailable(): bool {

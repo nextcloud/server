@@ -1,23 +1,7 @@
 <?php
 /**
- * @copyright Copyright (c) 2021 Robin Appelman <robin@icewind.nl>
- *
- * @author Robin Appelman <robin@icewind.nl>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\Files_External\Lib\Storage;
 
@@ -82,11 +66,11 @@ class FTP extends Common {
 					$this->password
 				);
 			} catch (\Exception $e) {
-				throw new StorageNotAvailableException("Failed to create ftp connection", 0, $e);
+				throw new StorageNotAvailableException('Failed to create ftp connection', 0, $e);
 			}
 			if ($this->utf8Mode) {
 				if (!$this->connection->setUtf8Mode()) {
-					throw new StorageNotAvailableException("Could not set UTF-8 mode");
+					throw new StorageNotAvailableException('Could not set UTF-8 mode');
 				}
 			}
 		}
@@ -235,7 +219,7 @@ class FTP extends Common {
 	}
 
 	public function is_dir($path) {
-		if ($path === "") {
+		if ($path === '') {
 			return true;
 		}
 		if ($this->getConnection()->chdir($this->buildPath($path)) === true) {
@@ -301,7 +285,7 @@ class FTP extends Common {
 		return false;
 	}
 
-	public function writeStream(string $path, $stream, int $size = null): int {
+	public function writeStream(string $path, $stream, ?int $size = null): int {
 		if ($size === null) {
 			$stream = CountWrapper::wrap($stream, function ($writtenSize) use (&$size) {
 				$size = $writtenSize;

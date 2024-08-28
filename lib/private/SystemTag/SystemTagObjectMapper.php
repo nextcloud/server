@@ -3,27 +3,9 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Vincent Petry <vincent@nextcloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OC\SystemTag;
 
@@ -81,7 +63,6 @@ class SystemTagObjectMapper implements ISystemTagObjectMapper {
 			$result->closeCursor();
 		}
 
-
 		return $mapping;
 	}
 
@@ -128,12 +109,33 @@ class SystemTagObjectMapper implements ISystemTagObjectMapper {
 	/**
 	 * {@inheritdoc}
 	 */
-	public function assignTags(string $objId, string $objectType, $tagIds) {
+	public function assignTags(string $objId, string $objectType, $tagIds): void {
 		if (!\is_array($tagIds)) {
 			$tagIds = [$tagIds];
 		}
 
 		$this->assertTagsExist($tagIds);
+		$this->connection->beginTransaction();
+
+		$query = $this->connection->getQueryBuilder();
+		$query->select('systemtagid')
+			->from(self::RELATION_TABLE)
+			->where($query->expr()->in('systemtagid', $query->createNamedParameter($tagIds, IQueryBuilder::PARAM_INT_ARRAY)))
+			->andWhere($query->expr()->eq('objecttype', $query->createNamedParameter($objectType)))
+			->andWhere($query->expr()->eq('objectid', $query->createNamedParameter($objId)));
+		$result = $query->executeQuery();
+		$rows = $result->fetchAll();
+		$existingTags = [];
+		foreach ($rows as $row) {
+			$existingTags[] = $row['systemtagid'];
+		}
+		//filter only tags that do not exist in db
+		$tagIds = array_diff($tagIds, $existingTags);
+		if (empty($tagIds)) {
+			// no tags to insert so return here
+			$this->connection->commit();
+			return;
+		}
 
 		$query = $this->connection->getQueryBuilder();
 		$query->insert(self::RELATION_TABLE)
@@ -154,6 +156,7 @@ class SystemTagObjectMapper implements ISystemTagObjectMapper {
 			}
 		}
 
+		$this->connection->commit();
 		if (empty($tagsAssigned)) {
 			return;
 		}
@@ -169,7 +172,7 @@ class SystemTagObjectMapper implements ISystemTagObjectMapper {
 	/**
 	 * {@inheritdoc}
 	 */
-	public function unassignTags(string $objId, string $objectType, $tagIds) {
+	public function unassignTags(string $objId, string $objectType, $tagIds): void {
 		if (!\is_array($tagIds)) {
 			$tagIds = [$tagIds];
 		}
@@ -231,7 +234,7 @@ class SystemTagObjectMapper implements ISystemTagObjectMapper {
 			return ((int)$row[0] === \count($objIds));
 		}
 
-		return (bool) $row;
+		return (bool)$row;
 	}
 
 	/**
@@ -241,7 +244,7 @@ class SystemTagObjectMapper implements ISystemTagObjectMapper {
 	 *
 	 * @throws \OCP\SystemTag\TagNotFoundException if at least one tag did not exist
 	 */
-	private function assertTagsExist($tagIds) {
+	private function assertTagsExist(array $tagIds): void {
 		$tags = $this->tagManager->getTagsByIds($tagIds);
 		if (\count($tags) !== \count($tagIds)) {
 			// at least one tag missing, bail out

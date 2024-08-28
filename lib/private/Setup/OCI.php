@@ -1,31 +1,9 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Andreas Fischer <bantu@owncloud.com>
- * @author Bart Visscher <bartv@thisnet.nl>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Jörn Friedrich Dreyer <jfd@butonic.de>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Victor Dubiniuk <dubiniuk@owncloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OC\Setup;
 
@@ -53,11 +31,11 @@ class OCI extends AbstractDatabase {
 	public function validate($config) {
 		$errors = [];
 		if (empty($config['dbuser']) && empty($config['dbname'])) {
-			$errors[] = $this->trans->t("Enter the database username and name for %s", [$this->dbprettyname]);
+			$errors[] = $this->trans->t('Enter the database Login and name for %s', [$this->dbprettyname]);
 		} elseif (empty($config['dbuser'])) {
-			$errors[] = $this->trans->t("Enter the database username for %s", [$this->dbprettyname]);
+			$errors[] = $this->trans->t('Enter the database Login for %s', [$this->dbprettyname]);
 		} elseif (empty($config['dbname'])) {
-			$errors[] = $this->trans->t("Enter the database name for %s", [$this->dbprettyname]);
+			$errors[] = $this->trans->t('Enter the database name for %s', [$this->dbprettyname]);
 		}
 		return $errors;
 	}
@@ -75,7 +53,7 @@ class OCI extends AbstractDatabase {
 					. ' NLS_LANG=' . getenv('NLS_LANG')
 					. ' tnsnames.ora is ' . (is_readable(getenv('ORACLE_HOME') . '/network/admin/tnsnames.ora') ? '' : 'not ') . 'readable', 0, $e);
 			}
-			throw new \OC\DatabaseSetupException($this->trans->t('Oracle username and/or password not valid'),
+			throw new \OC\DatabaseSetupException($this->trans->t('Oracle Login and/or password not valid'),
 				'Check environment: ORACLE_HOME=' . getenv('ORACLE_HOME')
 				. ' ORACLE_SID=' . getenv('ORACLE_SID')
 				. ' LD_LIBRARY_PATH=' . getenv('LD_LIBRARY_PATH')

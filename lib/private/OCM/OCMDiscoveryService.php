@@ -3,31 +3,13 @@
 declare(strict_types=1);
 
 /**
- * @copyright 2023, Maxence Lange <maxence@artificial-owl.com>
- *
- * @author Maxence Lange <maxence@artificial-owl.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace OC\OCM;
 
 use JsonException;
-use OC\OCM\Model\OCMProvider;
 use OCP\AppFramework\Http;
 use OCP\Http\Client\IClientService;
 use OCP\ICache;
@@ -54,7 +36,8 @@ class OCMDiscoveryService implements IOCMDiscoveryService {
 		ICacheFactory $cacheFactory,
 		private IClientService $clientService,
 		private IConfig $config,
-		private LoggerInterface $logger
+		private IOCMProvider $provider,
+		private LoggerInterface $logger,
 	) {
 		$this->cache = $cacheFactory->createDistributed('ocm-discovery');
 	}
@@ -69,13 +52,12 @@ class OCMDiscoveryService implements IOCMDiscoveryService {
 	 */
 	public function discover(string $remote, bool $skipCache = false): IOCMProvider {
 		$remote = rtrim($remote, '/');
-		$provider = new OCMProvider();
 
 		if (!$skipCache) {
 			try {
-				$provider->import(json_decode($this->cache->get($remote) ?? '', true, 8, JSON_THROW_ON_ERROR) ?? []);
-				if ($this->supportedAPIVersion($provider->getApiVersion())) {
-					return $provider; // if cache looks valid, we use it
+				$this->provider->import(json_decode($this->cache->get($remote) ?? '', true, 8, JSON_THROW_ON_ERROR) ?? []);
+				if ($this->supportedAPIVersion($this->provider->getApiVersion())) {
+					return $this->provider; // if cache looks valid, we use it
 				}
 			} catch (JsonException|OCMProviderException $e) {
 				// we ignore cache on issues
@@ -96,7 +78,7 @@ class OCMDiscoveryService implements IOCMDiscoveryService {
 			if ($response->getStatusCode() === Http::STATUS_OK) {
 				$body = $response->getBody();
 				// update provider with data returned by the request
-				$provider->import(json_decode($body, true, 8, JSON_THROW_ON_ERROR) ?? []);
+				$this->provider->import(json_decode($body, true, 8, JSON_THROW_ON_ERROR) ?? []);
 				$this->cache->set($remote, $body, 60 * 60 * 24);
 			}
 		} catch (JsonException|OCMProviderException $e) {
@@ -109,11 +91,11 @@ class OCMDiscoveryService implements IOCMDiscoveryService {
 			throw new OCMProviderException('error while requesting remote ocm provider');
 		}
 
-		if (!$this->supportedAPIVersion($provider->getApiVersion())) {
+		if (!$this->supportedAPIVersion($this->provider->getApiVersion())) {
 			throw new OCMProviderException('API version not supported');
 		}
 
-		return $provider;
+		return $this->provider;
 	}
 
 	/**

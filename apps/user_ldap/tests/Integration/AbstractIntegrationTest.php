@@ -1,29 +1,9 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author root <root@localhost.localdomain>
- * @author Vinicius Cubas Brand <vinicius@eita.org.br>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\User_LDAP\Tests\Integration;
 
@@ -35,14 +15,15 @@ use OCA\User_LDAP\Helper;
 use OCA\User_LDAP\LDAP;
 use OCA\User_LDAP\User\Manager;
 use OCA\User_LDAP\UserPluginManager;
+use OCP\IAvatarManager;
 use OCP\Share\IManager;
 use Psr\Log\LoggerInterface;
 
 abstract class AbstractIntegrationTest {
-	/** @var  LDAP */
+	/** @var LDAP */
 	protected $ldap;
 
-	/** @var  Connection */
+	/** @var Connection */
 	protected $connection;
 
 	/** @var Access */
@@ -54,7 +35,7 @@ abstract class AbstractIntegrationTest {
 	/** @var Helper */
 	protected $helper;
 
-	/** @var  string */
+	/** @var string */
 	protected $base;
 
 	/** @var string[] */
@@ -124,7 +105,7 @@ abstract class AbstractIntegrationTest {
 			\OC::$server->getConfig(),
 			new FilesystemHelper(),
 			\OC::$server->get(LoggerInterface::class),
-			\OC::$server->getAvatarManager(),
+			\OC::$server->get(IAvatarManager::class),
 			new \OCP\Image(),
 			\OC::$server->getUserManager(),
 			\OC::$server->getNotificationManager(),
@@ -143,7 +124,7 @@ abstract class AbstractIntegrationTest {
 	 * initializes the Access test instance
 	 */
 	protected function initAccess() {
-		$this->access = new Access($this->connection, $this->ldap, $this->userManager, $this->helper, \OC::$server->getConfig(), \OC::$server->getLogger());
+		$this->access = new Access($this->connection, $this->ldap, $this->userManager, $this->helper, \OC::$server->getConfig(), \OCP\Server::get(LoggerInterface::class));
 	}
 
 	/**

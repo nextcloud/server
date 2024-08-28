@@ -1,23 +1,8 @@
 <?php
 /**
- * ownCloud
- *
- * @author Joas Schilling
- * @copyright 2014 Joas Schilling nickvergessen@owncloud.com
- *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
- * License as published by the Free Software Foundation; either
- * version 3 of the License, or any later version.
- *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU AFFERO GENERAL PUBLIC LICENSE for more details.
- *
- * You should have received a copy of the GNU Affero General Public
- * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace Test;
@@ -38,6 +23,7 @@ use OCP\Defaults;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IL10N;
+use OCP\Lock\ILockingProvider;
 use OCP\Security\ISecureRandom;
 use Psr\Log\LoggerInterface;
 
@@ -197,7 +183,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 		// further cleanup
 		$hookExceptions = \OC_Hook::$thrownExceptions;
 		\OC_Hook::$thrownExceptions = [];
-		\OC::$server->getLockingProvider()->releaseAll();
+		\OC::$server->get(ILockingProvider::class)->releaseAll();
 		if (!empty($hookExceptions)) {
 			throw $hookExceptions[0];
 		}
@@ -206,7 +192,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 		$errors = libxml_get_errors();
 		libxml_clear_errors();
 		if (!empty($errors)) {
-			self::assertEquals([], $errors, "There have been xml parsing errors");
+			self::assertEquals([], $errors, 'There have been xml parsing errors');
 		}
 
 		if ($this->IsDatabaseAccessAllowed()) {
@@ -263,6 +249,8 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 			}
 
 			return $property->getValue();
+		} elseif ($reflection->hasConstant($methodName)) {
+			return $reflection->getConstant($methodName);
 		}
 
 		return false;
@@ -276,7 +264,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 	 * @return string
 	 */
 	protected static function getUniqueID($prefix = '', $length = 13) {
-		return $prefix . \OC::$server->getSecureRandom()->generate(
+		return $prefix . \OC::$server->get(ISecureRandom::class)->generate(
 			$length,
 			// Do not use dots and slashes as we use the value for file names
 			ISecureRandom::CHAR_DIGITS . ISecureRandom::CHAR_LOWER . ISecureRandom::CHAR_UPPER
@@ -354,6 +342,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 	 */
 	protected static function tearDownAfterClassCleanFileCache(IQueryBuilder $queryBuilder) {
 		$queryBuilder->delete('filecache')
+			->runAcrossAllShards()
 			->execute();
 	}
 
@@ -416,7 +405,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 	 * Clean up the list of locks
 	 */
 	protected static function tearDownAfterClassCleanStrayLocks() {
-		\OC::$server->getLockingProvider()->releaseAll();
+		\OC::$server->get(ILockingProvider::class)->releaseAll();
 	}
 
 	/**
@@ -477,10 +466,10 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 	 * @param string $path path to check
 	 * @param int $type lock type
 	 * @param bool $onMountPoint true to check the mount point instead of the
-	 * mounted storage
+	 *                           mounted storage
 	 *
 	 * @return boolean true if the file is locked with the
-	 * given type, false otherwise
+	 *                 given type, false otherwise
 	 */
 	protected function isFileLocked($view, $path, $type, $onMountPoint = false) {
 		// Note: this seems convoluted but is necessary because
@@ -522,7 +511,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 	protected function IsDatabaseAccessAllowed() {
 		// on travis-ci.org we allow database access in any case - otherwise
 		// this will break all apps right away
-		if (true == getenv('TRAVIS')) {
+		if (getenv('TRAVIS') == true) {
 			return true;
 		}
 		$annotations = $this->getGroupAnnotations();

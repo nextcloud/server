@@ -1,35 +1,13 @@
 <?php
 
 declare(strict_types=1);
-
 /**
- * @copyright 2018, Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @author Anna Larch <anna@nextcloud.com>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Daniel Kesselberg <mail@danielkesselberg.de>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Marius David Wieschollek <git.public@mdns.eu>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCP\AppFramework\Db;
 
+use Generator;
 use OCP\DB\Exception;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
@@ -56,10 +34,10 @@ abstract class QBMapper {
 	 * @param IDBConnection $db Instance of the Db abstraction layer
 	 * @param string $tableName the name of the table. set this to allow entity
 	 * @param class-string<T>|null $entityClass the name of the entity that the sql should be
-	 * mapped to queries without using sql
+	 *                                          mapped to queries without using sql
 	 * @since 14.0.0
 	 */
-	public function __construct(IDBConnection $db, string $tableName, string $entityClass = null) {
+	public function __construct(IDBConnection $db, string $tableName, ?string $entityClass = null) {
 		$this->db = $db;
 		$this->tableName = $tableName;
 
@@ -225,7 +203,7 @@ abstract class QBMapper {
 	 * Returns the type parameter for the QueryBuilder for a specific property
 	 * of the $entity
 	 *
-	 * @param Entity $entity   The entity to get the types from
+	 * @param Entity $entity The entity to get the types from
 	 * @psalm-param T $entity
 	 * @param string $property The property of $entity to get the type for
 	 * @return int|string
@@ -339,6 +317,26 @@ abstract class QBMapper {
 				$entities[] = $this->mapRowToEntity($row);
 			}
 			return $entities;
+		} finally {
+			$result->closeCursor();
+		}
+	}
+
+	/**
+	 * Runs a sql query and yields each resulting entity to obtain database entries in a memory-efficient way
+	 *
+	 * @param IQueryBuilder $query
+	 * @return Generator Generator of fetched entities
+	 * @psalm-return Generator<T> Generator of fetched entities
+	 * @throws Exception
+	 * @since 30.0.0
+	 */
+	protected function yieldEntities(IQueryBuilder $query): Generator {
+		$result = $query->executeQuery();
+		try {
+			while ($row = $result->fetch()) {
+				yield $this->mapRowToEntity($row);
+			}
 		} finally {
 			$result->closeCursor();
 		}

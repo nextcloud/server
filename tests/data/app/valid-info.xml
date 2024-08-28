@@ -1,4 +1,9 @@
 <?xml version="1.0"?>
+<!--
+ - SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
+ - SPDX-FileCopyrightText: 2014 ownCloud, Inc.
+ - SPDX-License-Identifier: AGPL-3.0-only
+-->
 <info>
 	<id>files_encryption</id>
 	<name>Server-side Encryption</name>
@@ -29,5 +34,6 @@
 		<lib>curl</lib>
 		<os>Linux</os>
 		<owncloud min-version="7.0.1" max-version="8" />
+		<backend>caldav</backend>
 	</dependencies>
 </info>

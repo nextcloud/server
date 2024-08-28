@@ -1,28 +1,9 @@
 <?php
 
 declare(strict_types=1);
-
 /**
- * @copyright 2018
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Maxence Lange <maxence@artificial-owl.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCP\FullTextSearch\Model;
 
@@ -38,16 +19,59 @@ namespace OCP\FullTextSearch\Model;
  *
  */
 interface ISearchRequestSimpleQuery {
+	/**
+	 * @since 17.0.0
+	 */
 	public const COMPARE_TYPE_TEXT = 1;
+
+	/**
+	 * @since 17.0.0
+	 */
 	public const COMPARE_TYPE_KEYWORD = 2;
+
+	/**
+	 * @since 17.0.0
+	 */
 	public const COMPARE_TYPE_INT_EQ = 3;
+
+	/**
+	 * @since 17.0.0
+	 */
 	public const COMPARE_TYPE_INT_GTE = 4;
+
+	/**
+	 * @since 17.0.0
+	 */
 	public const COMPARE_TYPE_INT_GT = 5;
+
+	/**
+	 * @since 17.0.0
+	 */
 	public const COMPARE_TYPE_INT_LTE = 6;
+
+	/**
+	 * @since 17.0.0
+	 */
 	public const COMPARE_TYPE_INT_LT = 7;
+
+	/**
+	 * @since 17.0.0
+	 */
 	public const COMPARE_TYPE_BOOL = 8;
+
+	/**
+	 * @since 17.0.0
+	 */
 	public const COMPARE_TYPE_ARRAY = 9;
+
+	/**
+	 * @since 17.0.0
+	 */
 	public const COMPARE_TYPE_REGEX = 10;
+
+	/**
+	 * @since 17.0.0
+	 */
 	public const COMPARE_TYPE_WILDCARD = 11;
 
 

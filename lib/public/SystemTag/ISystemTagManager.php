@@ -1,28 +1,10 @@
 <?php
 
 declare(strict_types=1);
-
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Joas Schilling <coding@schilljs.com>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Vincent Petry <vincent@nextcloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCP\SystemTag;
 
@@ -44,7 +26,7 @@ interface ISystemTagManager {
 	 *
 	 * @throws \InvalidArgumentException if at least one given tag ids is invalid (string instead of integer, etc.)
 	 * @throws TagNotFoundException if at least one given tag ids did no exist
-	 * 			The message contains a json_encoded array of the ids that could not be found
+	 *                              The message contains a json_encoded array of the ids that could not be found
 	 *
 	 * @since 9.0.0, optional parameter $user added in 28.0.0
 	 */
@@ -102,7 +84,7 @@ interface ISystemTagManager {
 	 *
 	 * @throws TagNotFoundException if tag with the given id does not exist
 	 * @throws TagAlreadyExistsException if there is already another tag
-	 * with the same attributes
+	 *                                   with the same attributes
 	 *
 	 * @since 9.0.0
 	 */

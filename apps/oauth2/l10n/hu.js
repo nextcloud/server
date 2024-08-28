@@ -8,13 +8,13 @@ OC.L10N.register(
     "The OAuth2 app allows administrators to configure the built-in authentication workflow to also allow OAuth2 compatible authentication from other web applications." : "Az OAuth2 alkalmazás lehetővé teszi a rendszergazdák számára, hogy beállíthassák a beépített azonosítási munkafolyamat számára az OAuth2 kompatibilis hitelesítést más webalkalmazásokból.",
     "OAuth 2.0 clients" : "OAuth 2.0 kliensek",
     "OAuth 2.0 allows external services to request access to {instanceName}." : "Az OAuth 2.0 engedélyezi, hogy külső szolgáltatások hozzáférést kérjenek a következőhöz: {instanceName}.",
-    "Add client" : "Kliens hozzáadása",
     "Name" : "Név",
     "Redirection URI" : "Átirányítési URI",
-    "Add" : "Hozzáadás",
     "Client Identifier" : "Ügyfélazonosító",
-    "Secret" : "Titok",
-    "Show client secret" : "Kliens titkának megjelenítése",
-    "Delete" : "Törlés"
+    "Secret key" : "Titkos kulcs",
+    "Add client" : "Kliens hozzáadása",
+    "Add" : "Hozzáadás",
+    "Delete" : "Törlés",
+    "Show client secret" : "Kliens titkának megjelenítése"
 },
 "nplurals=2; plural=(n != 1);");

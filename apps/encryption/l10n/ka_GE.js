@@ -34,7 +34,6 @@ OC.L10N.register(
     "Enabling this option encrypts all files stored on the main storage, otherwise only files on external storage will be encrypted" : "ამ არჩევნის ამოქმედება დაშიფრავს ყველა ფაილს, რომელიც განთავსებულია მთავარ საცავში, სხვა შემთხვევაში დაიშიფრება მოხოლოდ ექსტერნალურ საცავში არსებული ფაილები",
     "Enable recovery key" : "აამოქმედეთ აღდგენის გასაღები",
     "Disable recovery key" : "დაასრულეთ აღდგენის გასაღების მოქდემება",
-    "The recovery key is an extra encryption key that is used to encrypt files. It allows recovery of a user's files if the user forgets his or her password." : "აღდგენის გასაღები დამატებითი შიფრაციის გასაღებია, რომელიც გამოიყენებიან ფაილების დასაშიფრად. ეს იძლევა მომხმარებლის ფაილის აღდგენის უფლებას, იმ შემთხვევაში თუ მას დაავიწყდება პაროლი.",
     "Recovery key password" : "აღდგენის გასაღების პაროლი",
     "Repeat recovery key password" : "გაიმეორეთ აღდგენის გასაღების პაროლი",
     "Change recovery key password:" : "შეცვალეთ აღდგენის გასაღების პაროლი:",
@@ -53,7 +52,6 @@ OC.L10N.register(
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "ამ არჩევნის ამოქმედება, პაროლის დაკარგვის შემთხვევაში, საშუალებას მოგცემთ ახლიდან მოიპოვოთ წვდომა თქვენს დაშიფრულ ფაილებზე",
     "Enabled" : "მოქმედია",
     "Disabled" : "არაა მოქმედი",
-    "The share will expire on %s." : "გაზიარება გაუქმდება %s-ზე.",
-    "Cheers!" : "წარმატებები!"
+    "The recovery key is an extra encryption key that is used to encrypt files. It allows recovery of a user's files if the user forgets his or her password." : "აღდგენის გასაღები დამატებითი შიფრაციის გასაღებია, რომელიც გამოიყენებიან ფაილების დასაშიფრად. ეს იძლევა მომხმარებლის ფაილის აღდგენის უფლებას, იმ შემთხვევაში თუ მას დაავიწყდება პაროლი."
 },
 "nplurals=2; plural=(n!=1);");

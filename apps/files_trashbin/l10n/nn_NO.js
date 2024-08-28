@@ -4,14 +4,13 @@ OC.L10N.register(
     "restored" : "gjenoppretta",
     "Deleted files" : "Sletta filer",
     "Restore" : "Gjenopprett",
+    "Unknown" : "Ukjend",
+    "All files" : "Alle filer",
     "No deleted files" : "Ingen sletta filer",
     "Deleted" : "Sletta",
     "No entries found in this folder" : "Ingen oppføringar funne i denne mappa",
     "Select all" : "Merk alt",
     "Name" : "Namn",
-    "Actions" : "Handlingar",
-    "Delete permanently" : "Slett for godt",
-    "This operation is forbidden" : "Operasjonen er forbydd",
-    "Delete" : "Slett"
+    "Actions" : "Handlingar"
 },
 "nplurals=2; plural=(n != 1);");

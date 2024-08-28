@@ -1,33 +1,17 @@
 <?php
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Björn Schießle <bjoern@schiessle.org>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2017-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\Files_Versions\Tests\Command;
 
 use OC\User\Manager;
 use OCA\Files_Versions\Command\CleanUp;
+use OCP\Files\Cache\ICache;
+use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
+use OCP\Files\Storage\IStorage;
 use Test\TestCase;
 
 /**
@@ -39,7 +23,7 @@ use Test\TestCase;
  */
 class CleanupTest extends TestCase {
 
-	/** @var  CleanUp */
+	/** @var CleanUp */
 	protected $cleanup;
 
 	/** @var \PHPUnit\Framework\MockObject\MockObject | Manager */
@@ -48,6 +32,9 @@ class CleanupTest extends TestCase {
 	/** @var \PHPUnit\Framework\MockObject\MockObject | IRootFolder */
 	protected $rootFolder;
 
+	/** @var \PHPUnit\Framework\MockObject\MockObject | VersionsMapper */
+	protected $versionMapper;
+
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -55,9 +42,10 @@ class CleanupTest extends TestCase {
 			->disableOriginalConstructor()->getMock();
 		$this->userManager = $this->getMockBuilder('OC\User\Manager')
 			->disableOriginalConstructor()->getMock();
+		$this->versionMapper = $this->getMockBuilder('OCA\Files_Versions\Db\VersionsMapper')
+			->disableOriginalConstructor()->getMock();
 
-
-		$this->cleanup = new CleanUp($this->rootFolder, $this->userManager);
+		$this->cleanup = new CleanUp($this->rootFolder, $this->userManager, $this->versionMapper);
 	}
 
 	/**
@@ -70,6 +58,21 @@ class CleanupTest extends TestCase {
 			->with('/testUser/files_versions')
 			->willReturn($nodeExists);
 
+		$userFolder = $this->createMock(Folder::class);
+		$userHomeStorage = $this->createMock(IStorage::class);
+		$userHomeStorageCache = $this->createMock(ICache::class);
+		$this->rootFolder->expects($this->once())
+			->method('getUserFolder')
+			->willReturn($userFolder);
+		$userFolder->expects($this->once())
+			->method('getStorage')
+			->willReturn($userHomeStorage);
+		$userHomeStorage->expects($this->once())
+			->method('getCache')
+			->willReturn($userHomeStorageCache);
+		$userHomeStorageCache->expects($this->once())
+			->method('getNumericStorageId')
+			->willReturn(1);
 
 		if ($nodeExists) {
 			$this->rootFolder->expects($this->once())
@@ -104,7 +107,7 @@ class CleanupTest extends TestCase {
 
 		$instance = $this->getMockBuilder('OCA\Files_Versions\Command\CleanUp')
 			->setMethods(['deleteVersions'])
-			->setConstructorArgs([$this->rootFolder, $this->userManager])
+			->setConstructorArgs([$this->rootFolder, $this->userManager, $this->versionMapper])
 			->getMock();
 		$instance->expects($this->exactly(count($userIds)))
 			->method('deleteVersions')
@@ -136,7 +139,7 @@ class CleanupTest extends TestCase {
 
 		$instance = $this->getMockBuilder('OCA\Files_Versions\Command\CleanUp')
 			->setMethods(['deleteVersions'])
-			->setConstructorArgs([$this->rootFolder, $this->userManager])
+			->setConstructorArgs([$this->rootFolder, $this->userManager, $this->versionMapper])
 			->getMock();
 
 		$backend = $this->getMockBuilder(\OCP\UserInterface::class)
@@ -161,8 +164,8 @@ class CleanupTest extends TestCase {
 			->disableOriginalConstructor()->getMock();
 
 		$this->userManager->expects($this->once())
-				->method('getBackends')
-				->willReturn([$backend]);
+			->method('getBackends')
+			->willReturn([$backend]);
 
 		$this->invokePrivate($instance, 'execute', [$inputInterface, $outputInterface]);
 	}

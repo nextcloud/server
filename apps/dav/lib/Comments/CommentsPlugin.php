@@ -1,27 +1,9 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Vincent Petry <vincent@nextcloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\DAV\Comments;
 
@@ -52,13 +34,13 @@ class CommentsPlugin extends ServerPlugin {
 	public const REPORT_PARAM_OFFSET = '{http://owncloud.org/ns}offset';
 	public const REPORT_PARAM_TIMESTAMP = '{http://owncloud.org/ns}datetime';
 
-	/** @var ICommentsManager  */
+	/** @var ICommentsManager */
 	protected $commentsManager;
 
 	/** @var \Sabre\DAV\Server $server */
 	private $server;
 
-	/** @var  \OCP\IUserSession */
+	/** @var \OCP\IUserSession */
 	protected $userSession;
 
 	/**
@@ -247,7 +229,7 @@ class CommentsPlugin extends ServerPlugin {
 			throw new BadRequest('Invalid input values', 0, $e);
 		} catch (\OCP\Comments\MessageTooLongException $e) {
 			$msg = 'Message exceeds allowed character limit of ';
-			throw new BadRequest($msg . \OCP\Comments\IComment::MAX_MESSAGE_LENGTH, 0,	$e);
+			throw new BadRequest($msg . \OCP\Comments\IComment::MAX_MESSAGE_LENGTH, 0, $e);
 		}
 	}
 }

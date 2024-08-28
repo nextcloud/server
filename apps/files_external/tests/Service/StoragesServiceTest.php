@@ -1,29 +1,8 @@
 <?php
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Robin McCorkell <robin@mccorkell.me.uk>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Vincent Petry <vincent@nextcloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2019-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\Files_External\Tests\Service;
 
@@ -44,7 +23,9 @@ use OCP\Files\Cache\ICache;
 use OCP\Files\Config\IUserMountCache;
 use OCP\Files\Mount\IMountPoint;
 use OCP\Files\Storage\IStorage;
+use OCP\IDBConnection;
 use OCP\IUser;
+use OCP\Server;
 
 class CleaningDBConfig extends DBConfigService {
 	private $mountIds = [];
@@ -66,7 +47,6 @@ class CleaningDBConfig extends DBConfigService {
  * @group DB
  */
 abstract class StoragesServiceTest extends \Test\TestCase {
-
 	/**
 	 * @var StoragesService
 	 */
@@ -82,7 +62,7 @@ abstract class StoragesServiceTest extends \Test\TestCase {
 	 */
 	protected $dataDir;
 
-	/** @var  CleaningDBConfig */
+	/** @var CleaningDBConfig */
 	protected $dbConfig;
 
 	/**
@@ -315,7 +295,7 @@ abstract class StoragesServiceTest extends \Test\TestCase {
 
 		// manually trigger storage entry because normally it happens on first
 		// access, which isn't possible within this test
-		$storageCache = new \OC\Files\Cache\Storage($rustyStorageId);
+		$storageCache = new \OC\Files\Cache\Storage($rustyStorageId, true, Server::get(IDBConnection::class));
 
 		/** @var IUserMountCache $mountCache */
 		$mountCache = \OC::$server->get(IUserMountCache::class);
@@ -365,7 +345,7 @@ abstract class StoragesServiceTest extends \Test\TestCase {
 		$result = $storageCheckQuery->execute();
 		$storages = $result->fetchAll();
 		$result->closeCursor();
-		$this->assertCount(0, $storages, "expected 0 storages, got " . json_encode($storages));
+		$this->assertCount(0, $storages, 'expected 0 storages, got ' . json_encode($storages));
 	}
 
 	protected function actualDeletedUnexistingStorageTest() {

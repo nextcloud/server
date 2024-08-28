@@ -5,7 +5,7 @@
     "Error" : "Erreur",
     "Weather status" : "Statut météo",
     "Weather status in your dashboard" : "Statut météo sur votre tableau de bord",
-    "Weather status integrated in the Dashboard app.\n    User's position can be automatically determined or manually defined. A 6 hours forecast is then displayed.\n    This status can also be integrated in other places like the Calendar app." : "Statut météo intégré dans l'application Dashboard.\nLa position de l'utilisateur peut être déterminée automatiquement ou définie manuellement. Une prévision de 6 heures est alors affichée.\nCe statut peut également être intégré à d'autres endroits comme l'application Calendrier.",
+    "Weather status integrated in the Dashboard app.\n    The geographic location can be automatically determined or manually defined. A 6 hours forecast is then displayed.\n    This status can also be integrated in other places like the Calendar app." : "Conditions météo intégrées à l’app Tableau de bord.\nLa position géographique peut être déterminée automatiquement ou définie manuellement. Une prévision à 6 heures est ensuite affichée.\nLa météo peut également être intégrée à d’autres emplacements comme l’app Calendrier.",
     "Detect location" : "Détecter la position",
     "Set custom address" : "Définir une adresse personnalisée",
     "Favorites" : "Favoris",
@@ -43,6 +43,7 @@
     "There was an error setting the location." : "Une erreur s'est produite lors de la définition de l'emplacement.",
     "There was an error saving the mode." : "Une erreur s'est produite lors de l'enregistrement du mode.",
     "There was an error using personal address." : "Une erreur s'est produite lors de l'utilisation de l'adresse personnelle.",
-    "Set location for weather" : "Définir l'emplacement pour la météo"
+    "Set location for weather" : "Définir l'emplacement pour la météo",
+    "Weather status integrated in the Dashboard app.\n    User's position can be automatically determined or manually defined. A 6 hours forecast is then displayed.\n    This status can also be integrated in other places like the Calendar app." : "Statut météo intégré dans l'application Dashboard.\nLa position de l'utilisateur peut être déterminée automatiquement ou définie manuellement. Une prévision de 6 heures est alors affichée.\nCe statut peut également être intégré à d'autres endroits comme l'application Calendrier."
 },"pluralForm" :"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

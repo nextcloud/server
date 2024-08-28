@@ -7,10 +7,10 @@ OC.L10N.register(
     "Commuting" : "İşe gidiyor/geliyor",
     "Out sick" : "Hasta",
     "Vacationing" : "Tatilde",
+    "Out of office" : "İş yeri dışında",
     "Working remotely" : "Uzaktan çalışıyor",
     "In a call" : "Bir çağrıda",
     "User status" : "Kullanıcı durumu",
-    "View profile" : "Profili görüntüle",
     "Clear status after" : "Durum şu kadar sonra kaldırılsın",
     "Emoji for your status message" : "Durum iletiniz için emoji",
     "What is your status?" : "Durumunuz nedir?",
@@ -42,7 +42,6 @@ OC.L10N.register(
     "1 hour" : "1 saat",
     "4 hours" : "4 saat",
     "Mute all notifications" : "Tüm bildirimleri kapat",
-    "Appear offline" : "Çevrim dışı görün",
-    "{status}, {timestamp}" : "{status}, {timestamp}"
+    "Appear offline" : "Çevrim dışı görün"
 },
 "nplurals=2; plural=(n > 1);");

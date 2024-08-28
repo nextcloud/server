@@ -3,25 +3,8 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2022 Julius Härtl <jus@bitgrid.net>
- *
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Kate Döen <kate.doeen@nextcloud.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 
@@ -29,6 +12,10 @@ namespace OC\Core\Controller;
 
 use InvalidArgumentException;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\AnonRateLimit;
+use OCP\AppFramework\Http\Attribute\ApiRoute;
+use OCP\AppFramework\Http\Attribute\PublicPage;
+use OCP\AppFramework\Http\Attribute\UserRateLimit;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\IL10N;
 use OCP\IRequest;
@@ -47,14 +34,14 @@ class TranslationApiController extends \OCP\AppFramework\OCSController {
 	}
 
 	/**
-	 * @PublicPage
-	 *
 	 * Get the list of supported languages
 	 *
 	 * @return DataResponse<Http::STATUS_OK, array{languages: array{from: string, fromLabel: string, to: string, toLabel: string}[], languageDetection: bool}, array{}>
 	 *
 	 * 200: Supported languages returned
 	 */
+	#[PublicPage]
+	#[ApiRoute(verb: 'GET', url: '/languages', root: '/translation')]
 	public function languages(): DataResponse {
 		return new DataResponse([
 			'languages' => array_map(fn ($lang) => $lang->jsonSerialize(), $this->translationManager->getLanguages()),
@@ -63,10 +50,6 @@ class TranslationApiController extends \OCP\AppFramework\OCSController {
 	}
 
 	/**
-	 * @PublicPage
-	 * @UserRateThrottle(limit=25, period=120)
-	 * @AnonRateThrottle(limit=10, period=120)
-	 *
 	 * Translate a text
 	 *
 	 * @param string $text Text to be translated
@@ -78,6 +61,10 @@ class TranslationApiController extends \OCP\AppFramework\OCSController {
 	 * 400: Language not detected or unable to translate
 	 * 412: Translating is not possible
 	 */
+	#[PublicPage]
+	#[UserRateLimit(limit: 25, period: 120)]
+	#[AnonRateLimit(limit: 10, period: 120)]
+	#[ApiRoute(verb: 'POST', url: '/translate', root: '/translation')]
 	public function translate(string $text, ?string $fromLanguage, string $toLanguage): DataResponse {
 		try {
 			$translation = $this->translationManager->translate($text, $fromLanguage, $toLanguage);

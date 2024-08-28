@@ -1,24 +1,7 @@
 <?php
 /**
- * @copyright Copyright (c) 2017 Arthur Schiwon <blizzz@arthur-schiwon.de>
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace Test\Collaboration\Collaborators;
@@ -38,33 +21,33 @@ use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
-use OCP\Share\IShare;
 use OCP\Mail\IMailer;
+use OCP\Share\IShare;
 use Test\TestCase;
 
 class MailPluginTest extends TestCase {
-	/** @var  IConfig|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
 	protected $config;
 
-	/** @var  IManager|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IManager|\PHPUnit\Framework\MockObject\MockObject */
 	protected $contactsManager;
 
-	/** @var  ICloudIdManager|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var ICloudIdManager|\PHPUnit\Framework\MockObject\MockObject */
 	protected $cloudIdManager;
 
-	/** @var  MailPlugin */
+	/** @var MailPlugin */
 	protected $plugin;
 
-	/** @var  SearchResult */
+	/** @var SearchResult */
 	protected $searchResult;
 
-	/** @var  IGroupManager|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IGroupManager|\PHPUnit\Framework\MockObject\MockObject */
 	protected $groupManager;
 
-	/** @var  KnownUserService|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var KnownUserService|\PHPUnit\Framework\MockObject\MockObject */
 	protected $knownUserService;
 
-	/** @var  IUserSession|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IUserSession|\PHPUnit\Framework\MockObject\MockObject */
 	protected $userSession;
 
 	/** @var IMailer|\PHPUnit\Framework\MockObject\MockObject */
@@ -671,8 +654,8 @@ class MailPluginTest extends TestCase {
 				false,
 				false,
 				[
-					"currentUser" => ["group1"],
-					"User" => ["group1"]
+					'currentUser' => ['group1'],
+					'User' => ['group1']
 				],
 				false,
 			],
@@ -692,8 +675,8 @@ class MailPluginTest extends TestCase {
 				false,
 				false,
 				[
-					"currentUser" => ["group1"],
-					"User" => ["group2"]
+					'currentUser' => ['group1'],
+					'User' => ['group2']
 				],
 				false,
 			],
@@ -713,8 +696,8 @@ class MailPluginTest extends TestCase {
 				false,
 				false,
 				[
-					"currentUser" => ["group1"],
-					"User" => ["group2"]
+					'currentUser' => ['group1'],
+					'User' => ['group2']
 				],
 				true,
 			]

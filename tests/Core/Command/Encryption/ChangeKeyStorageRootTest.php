@@ -1,22 +1,8 @@
 <?php
 /**
- * @author Björn Schießle <schiessle@owncloud.com>
- *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 
 namespace Tests\Core\Command\Encryption;
@@ -46,7 +32,7 @@ class ChangeKeyStorageRootTest extends TestCase {
 	/** @var IConfig | \PHPUnit\Framework\MockObject\MockObject */
 	protected $config;
 
-	/**  @var Util | \PHPUnit\Framework\MockObject\MockObject */
+	/** @var Util | \PHPUnit\Framework\MockObject\MockObject */
 	protected $util;
 
 	/** @var QuestionHelper | \PHPUnit\Framework\MockObject\MockObject */
@@ -227,7 +213,7 @@ class ChangeKeyStorageRootTest extends TestCase {
 
 		if ($executeRename) {
 			$this->view->expects($this->once())->method('rename')
-			->with('oldRoot/files_encryption', 'newRoot/files_encryption');
+				->with('oldRoot/files_encryption', 'newRoot/files_encryption');
 		} else {
 			$this->view->expects($this->never())->method('rename');
 		}

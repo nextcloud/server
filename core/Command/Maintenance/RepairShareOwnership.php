@@ -3,34 +3,17 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2020 Arthur Schiwon <blizzz@arthur-schiwon.de>
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace OC\Core\Command\Maintenance;
 
-use Symfony\Component\Console\Command\Command;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 use OCP\IUser;
 use OCP\IUserManager;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -50,7 +33,7 @@ class RepairShareOwnership extends Command {
 			->setName('maintenance:repair-share-owner')
 			->setDescription('repair invalid share-owner entries in the database')
 			->addOption('no-confirm', 'y', InputOption::VALUE_NONE, "Don't ask for confirmation before repairing the shares")
-			->addArgument('user', InputArgument::OPTIONAL, "User to fix incoming shares for, if omitted all users will be fixed");
+			->addArgument('user', InputArgument::OPTIONAL, 'User to fix incoming shares for, if omitted all users will be fixed');
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output): int {
@@ -68,13 +51,13 @@ class RepairShareOwnership extends Command {
 		}
 
 		if ($shares) {
-			$output->writeln("");
-			$output->writeln("Found " . count($shares) . " shares with invalid share owner");
+			$output->writeln('');
+			$output->writeln('Found ' . count($shares) . ' shares with invalid share owner');
 			foreach ($shares as $share) {
 				/** @var array{shareId: int, fileTarget: string, initiator: string, receiver: string, owner: string, mountOwner: string} $share */
 				$output->writeln(" - share {$share['shareId']} from \"{$share['initiator']}\" to \"{$share['receiver']}\" at \"{$share['fileTarget']}\", owned by \"{$share['owner']}\", that should be owned by \"{$share['mountOwner']}\"");
 			}
-			$output->writeln("");
+			$output->writeln('');
 
 			if (!$noConfirm) {
 				$helper = $this->getHelper('question');
@@ -84,10 +67,10 @@ class RepairShareOwnership extends Command {
 					return 0;
 				}
 			}
-			$output->writeln("Repairing " . count($shares) . " shares");
+			$output->writeln('Repairing ' . count($shares) . ' shares');
 			$this->repairShares($shares);
 		} else {
-			$output->writeln("Found no shares with invalid share owner");
+			$output->writeln('Found no shares with invalid share owner');
 		}
 
 		return 0;
@@ -113,7 +96,7 @@ class RepairShareOwnership extends Command {
 
 		foreach ($brokenShares as $share) {
 			$found[] = [
-				'shareId' => (int) $share['id'],
+				'shareId' => (int)$share['id'],
 				'fileTarget' => $share['file_target'],
 				'initiator' => $share['uid_initiator'],
 				'receiver' => $share['share_with'],
@@ -147,7 +130,7 @@ class RepairShareOwnership extends Command {
 
 		foreach ($brokenShares as $share) {
 			$found[] = [
-				'shareId' => (int) $share['id'],
+				'shareId' => (int)$share['id'],
 				'fileTarget' => $share['file_target'],
 				'initiator' => $share['uid_initiator'],
 				'receiver' => $share['share_with'],

@@ -1,25 +1,9 @@
 <?php
 
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Björn Schießle <schiessle@owncloud.com>
- * @author Thomas Citharel <nextcloud@tcit.fr>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 
 namespace Test\Accounts;
@@ -72,7 +56,7 @@ class AccountManagerTest extends TestCase {
 	/** @var IConfig|MockObject */
 	private $config;
 
-	/** @var  IEventDispatcher|MockObject */
+	/** @var IEventDispatcher|MockObject */
 	private $eventDispatcher;
 
 	/** @var IJobList|MockObject */
@@ -125,7 +109,7 @@ class AccountManagerTest extends TestCase {
 		$query->delete($this->table)->executeStatement();
 	}
 
-	protected function makeUser(string $uid, string $name, string $email = null): IUser {
+	protected function makeUser(string $uid, string $name, ?string $email = null): IUser {
 		$user = $this->createMock(IUser::class);
 		$user->expects($this->any())
 			->method('getUid')
@@ -633,6 +617,12 @@ class AccountManagerTest extends TestCase {
 			],
 
 			[
+				'name' => IAccountManager::PROPERTY_BIRTHDATE,
+				'value' => '',
+				'scope' => IAccountManager::SCOPE_LOCAL,
+			],
+
+			[
 				'name' => IAccountManager::PROPERTY_PROFILE_ENABLED,
 				'value' => '1',
 			],
@@ -889,7 +879,7 @@ class AccountManagerTest extends TestCase {
 		$result = $this->invokePrivate($this->accountManager, 'buildDefaultUserRecord', [$user]);
 		$resultProperties = array_column($result, 'name');
 
-		$this->assertEmpty(array_diff($resultProperties, IAccountManager::ALLOWED_PROPERTIES), "Building default user record returned non-allowed properties");
+		$this->assertEmpty(array_diff($resultProperties, IAccountManager::ALLOWED_PROPERTIES), 'Building default user record returned non-allowed properties');
 		foreach ($expectedResultScopes as $expectedResultScopeKey => $expectedResultScopeValue) {
 			$resultScope = $result[array_search($expectedResultScopeKey, $resultProperties)]['scope'];
 			$this->assertEquals($expectedResultScopeValue, $resultScope, "The result scope doesn't follow the value set into the config or defaults correctly.");

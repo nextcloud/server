@@ -1,14 +1,12 @@
 <?php
 /**
- * Copyright (c) 2012 Robin Appelman <icewind@owncloud.com>
- * This file is licensed under the Affero General Public License version 3 or
- * later.
- * See the COPYING-README file. */
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
 
 namespace Test\Files;
 
-use OC\Share20\ShareDisableChecker;
-use OCP\Cache\CappedMemoryCache;
 use OC\Files\Cache\Watcher;
 use OC\Files\Filesystem;
 use OC\Files\Mount\MountPoint;
@@ -17,6 +15,8 @@ use OC\Files\Storage\Common;
 use OC\Files\Storage\Storage;
 use OC\Files\Storage\Temporary;
 use OC\Files\View;
+use OC\Share20\ShareDisableChecker;
+use OCP\Cache\CappedMemoryCache;
 use OCP\Constants;
 use OCP\Files\Config\IMountProvider;
 use OCP\Files\FileInfo;
@@ -26,6 +26,7 @@ use OCP\Files\Storage\IStorage;
 use OCP\IDBConnection;
 use OCP\Lock\ILockingProvider;
 use OCP\Lock\LockedException;
+use OCP\Share\IManager as IShareManager;
 use OCP\Share\IShare;
 use OCP\Util;
 use Test\HookHelper;
@@ -1178,7 +1179,7 @@ class ViewTest extends \Test\TestCase {
 			->getMock();
 
 		$storage2->method('writeStream')
-			->willThrowException(new GenericFileException("Failed to copy stream"));
+			->willThrowException(new GenericFileException('Failed to copy stream'));
 
 		$storage1->mkdir('sub');
 		$storage1->file_put_contents('foo.txt', '0123456789ABCDEFGH');
@@ -1388,7 +1389,7 @@ class ViewTest extends \Test\TestCase {
 	 * Test that locks are on mount point paths instead of mount root
 	 */
 	public function testLockLocalMountPointPathInsteadOfStorageRoot() {
-		$lockingProvider = \OC::$server->getLockingProvider();
+		$lockingProvider = \OC::$server->get(ILockingProvider::class);
 		$view = new View('/testuser/files/');
 		$storage = new Temporary([]);
 		Filesystem::mount($storage, [], '/');
@@ -1418,7 +1419,7 @@ class ViewTest extends \Test\TestCase {
 	 * Test that locks are on mount point paths and also mount root when requested
 	 */
 	public function testLockStorageRootButNotLocalMountPoint() {
-		$lockingProvider = \OC::$server->getLockingProvider();
+		$lockingProvider = \OC::$server->get(ILockingProvider::class);
 		$view = new View('/testuser/files/');
 		$storage = new Temporary([]);
 		Filesystem::mount($storage, [], '/');
@@ -1448,7 +1449,7 @@ class ViewTest extends \Test\TestCase {
 	 * Test that locks are on mount point paths and also mount root when requested
 	 */
 	public function testLockMountPointPathFailReleasesBoth() {
-		$lockingProvider = \OC::$server->getLockingProvider();
+		$lockingProvider = \OC::$server->get(ILockingProvider::class);
 		$view = new View('/testuser/files/');
 		$storage = new Temporary([]);
 		Filesystem::mount($storage, [], '/');
@@ -1684,7 +1685,7 @@ class ViewTest extends \Test\TestCase {
 
 		$userFolder = \OC::$server->getUserFolder($this->user);
 		$shareDir = $userFolder->get('shareddir');
-		$shareManager = \OC::$server->getShareManager();
+		$shareManager = \OC::$server->get(IShareManager::class);
 		$share = $shareManager->newShare();
 		$share->setSharedWith('test2')
 			->setSharedBy($this->user)
@@ -1835,7 +1836,7 @@ class ViewTest extends \Test\TestCase {
 	 * @param int $expectedLockDuring expected lock during operation
 	 * @param int $expectedLockAfter expected lock during post hooks
 	 * @param int $expectedStrayLock expected lock after returning, should
-	 * be null (unlock) for most operations
+	 *                               be null (unlock) for most operations
 	 */
 	public function testLockBasicOperation(
 		$operation,
@@ -1990,7 +1991,7 @@ class ViewTest extends \Test\TestCase {
 		$path
 	) {
 		if ($operation === 'touch') {
-			$this->markTestSkipped("touch handles storage exceptions internally");
+			$this->markTestSkipped('touch handles storage exceptions internally');
 		}
 		$view = new View('/' . $this->user . '/files/');
 
@@ -2110,7 +2111,7 @@ class ViewTest extends \Test\TestCase {
 	 *
 	 * @param string $operation operation to be done on the view
 	 * @param int $expectedLockTypeSourceDuring expected lock type on source file during
-	 * the operation
+	 *                                          the operation
 	 */
 	public function testLockFileRename($operation, $expectedLockTypeSourceDuring) {
 		$view = new View('/' . $this->user . '/files/');
@@ -2295,7 +2296,7 @@ class ViewTest extends \Test\TestCase {
 	 * @param string $viewOperation operation to be done on the view
 	 * @param string $storageOperation operation to be mocked on the storage
 	 * @param int $expectedLockTypeSourceDuring expected lock type on source file during
-	 * the operation
+	 *                                          the operation
 	 */
 	public function testLockFileRenameCrossStorage($viewOperation, $storageOperation, $expectedLockTypeSourceDuring) {
 		$view = new View('/' . $this->user . '/files/');
@@ -2433,7 +2434,7 @@ class ViewTest extends \Test\TestCase {
 	 * @param int $lockTypePre variable to receive lock type that was active in the pre-hook
 	 * @param int $lockTypePost variable to receive lock type that was active in the post-hook
 	 * @param bool $onMountPoint true to check the mount point instead of the
-	 * mounted storage
+	 *                           mounted storage
 	 */
 	private function connectMockHooks($hookType, $view, $path, &$lockTypePre, &$lockTypePost, $onMountPoint = false) {
 		if ($hookType === null) {
@@ -2481,7 +2482,7 @@ class ViewTest extends \Test\TestCase {
 	 * @param View $view view
 	 * @param string $path path
 	 * @param bool $onMountPoint true to check the mount point instead of the
-	 * mounted storage
+	 *                           mounted storage
 	 *
 	 * @return int lock type or null if file was not locked
 	 */

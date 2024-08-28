@@ -1,14 +1,12 @@
 <?php
 /**
- * Copyright (c) 2014 Thomas Müller <deepdiver@owncloud.com>
- * This file is licensed under the Affero General Public License version 3 or
- * later.
- * See the COPYING-README file.
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace Test\Repair;
 
-use Doctrine\DBAL\Platforms\MySqlPlatform;
 use OC\Repair\Collation;
 use OCP\IDBConnection;
 use OCP\Migration\IOutput;
@@ -62,19 +60,19 @@ class RepairCollationTest extends TestCase {
 		$this->connection = \OC::$server->get(IDBConnection::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->config = \OC::$server->getConfig();
-		if (!$this->connection->getDatabasePlatform() instanceof MySqlPlatform) {
-			$this->markTestSkipped("Test only relevant on MySql");
+		if ($this->connection->getDatabaseProvider() !== IDBConnection::PLATFORM_MYSQL) {
+			$this->markTestSkipped('Test only relevant on MySql');
 		}
 
-		$dbPrefix = $this->config->getSystemValueString("dbtableprefix");
-		$this->tableName = $this->getUniqueID($dbPrefix . "_collation_test");
+		$dbPrefix = $this->config->getSystemValueString('dbtableprefix');
+		$this->tableName = $this->getUniqueID($dbPrefix . '_collation_test');
 		$this->connection->prepare("CREATE TABLE $this->tableName(text VARCHAR(16)) COLLATE utf8_unicode_ci")->execute();
 
 		$this->repair = new TestCollationRepair($this->config, $this->logger, $this->connection, false);
 	}
 
 	protected function tearDown(): void {
-		$this->connection->getInner()->getSchemaManager()->dropTable($this->tableName);
+		$this->connection->getInner()->createSchemaManager()->dropTable($this->tableName);
 		parent::tearDown();
 	}
 

@@ -1,24 +1,9 @@
 <?php
 
 /**
- * ownCloud - App Framework
- *
- * @author Bernhard Posselt
- * @copyright 2012 Bernhard Posselt <dev@bernhard-posselt.com>
- *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
- * License as published by the Free Software Foundation; either
- * version 3 of the License, or any later version.
- *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU AFFERO GENERAL PUBLIC LICENSE for more details.
- *
- * You should have received a copy of the GNU Affero General Public
- * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace Test\AppFramework\Middleware;
@@ -150,14 +135,14 @@ class MiddlewareDispatcherTest extends \Test\TestCase {
 			->setMethods(['afterException', 'beforeController'])
 			->getMock();
 		$m1->expects($this->never())
-				->method('afterException');
+			->method('afterException');
 
 		$m2 = $this->getMockBuilder('OCP\AppFramework\Middleware')
 			->setMethods(['afterException', 'beforeController'])
 			->getMock();
 		$m2->expects($this->once())
-				->method('afterException')
-				->willReturn($response);
+			->method('afterException')
+			->willReturn($response);
 
 		$this->dispatcher->registerMiddleware($m1);
 		$this->dispatcher->registerMiddleware($m2);
@@ -275,11 +260,11 @@ class MiddlewareDispatcherTest extends \Test\TestCase {
 		$m2 = $this->getMiddleware(true);
 		$m3 = $this->createMock(Middleware::class);
 		$m3->expects($this->never())
-				->method('afterException');
+			->method('afterException');
 		$m3->expects($this->never())
-				->method('beforeController');
+			->method('beforeController');
 		$m3->expects($this->never())
-				->method('afterController');
+			->method('afterController');
 		$m3->method('beforeOutput')
 			->willReturnArgument(2);
 

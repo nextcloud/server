@@ -1,60 +1,25 @@
 <?php
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author André Gaul <gaul@web-yard.de>
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Christian Berendt <berendt@b1-systems.de>
- * @author Christopher T. Johnson <ctjctj@gmail.com>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Daniel Kesselberg <mail@danielkesselberg.de>
- * @author enoch <lanxenet@hotmail.com>
- * @author Johan Björk <johanimon@gmail.com>
- * @author Jörn Friedrich Dreyer <jfd@butonic.de>
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Martin Mattel <martin.mattel@diemattels.at>
- * @author Michael Gapczynski <GapczynskiM@gmail.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Philipp Kapfer <philipp.kapfer@gmx.at>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Robin McCorkell <robin@mccorkell.me.uk>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Vincent Petry <vincent@nextcloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\Files_External\Lib\Storage;
 
-use Aws\Result;
 use Aws\S3\Exception\S3Exception;
-use Aws\S3\S3Client;
 use Icewind\Streams\CallbackWrapper;
+use Icewind\Streams\CountWrapper;
 use Icewind\Streams\IteratorDirectory;
-use OCP\Cache\CappedMemoryCache;
 use OC\Files\Cache\CacheEntry;
 use OC\Files\ObjectStore\S3ConnectionTrait;
 use OC\Files\ObjectStore\S3ObjectTrait;
+use OCP\Cache\CappedMemoryCache;
 use OCP\Constants;
 use OCP\Files\FileInfo;
 use OCP\Files\IMimeTypeDetector;
-use OCP\ICacheFactory;
-use OCP\IMemcache;
-use OCP\Server;
 use OCP\ICache;
+use OCP\ICacheFactory;
+use OCP\Server;
 use Psr\Log\LoggerInterface;
 
 class AmazonS3 extends \OC\Files\Storage\Common {
@@ -163,9 +128,9 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 			}
 		}
 
-		if (is_array($this->objectCache[$key]) && !isset($this->objectCache[$key]["Key"])) {
+		if (is_array($this->objectCache[$key]) && !isset($this->objectCache[$key]['Key'])) {
 			/** @psalm-suppress InvalidArgument Psalm doesn't understand nested arrays well */
-			$this->objectCache[$key]["Key"] = $key;
+			$this->objectCache[$key]['Key'] = $key;
 		}
 		return $this->objectCache[$key];
 	}
@@ -550,18 +515,20 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 		];
 
 		try {
-			if (!$this->file_exists($path)) {
-				$mimeType = $this->mimeDetector->detectPath($path);
-				$this->getConnection()->putObject([
-					'Bucket' => $this->bucket,
-					'Key' => $this->cleanKey($path),
-					'Metadata' => $metadata,
-					'Body' => '',
-					'ContentType' => $mimeType,
-					'MetadataDirective' => 'REPLACE',
-				]);
-				$this->testTimeout();
+			if ($this->file_exists($path)) {
+				return false;
 			}
+
+			$mimeType = $this->mimeDetector->detectPath($path);
+			$this->getConnection()->putObject([
+				'Bucket' => $this->bucket,
+				'Key' => $this->cleanKey($path),
+				'Metadata' => $metadata,
+				'Body' => '',
+				'ContentType' => $mimeType,
+				'MetadataDirective' => 'REPLACE',
+			]);
+			$this->testTimeout();
 		} catch (S3Exception $e) {
 			$this->logger->error($e->getMessage(), [
 				'app' => 'files_external',
@@ -787,5 +754,25 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 			// and have the scanner figure out if anything has actually changed
 			return true;
 		}
+	}
+
+	public function writeStream(string $path, $stream, ?int $size = null): int {
+		if ($size === null) {
+			$size = 0;
+			// track the number of bytes read from the input stream to return as the number of written bytes.
+			$stream = CountWrapper::wrap($stream, function (int $writtenSize) use (&$size) {
+				$size = $writtenSize;
+			});
+		}
+
+		if (!is_resource($stream)) {
+			throw new \InvalidArgumentException('Invalid stream provided');
+		}
+
+		$path = $this->normalizePath($path);
+		$this->writeObject($path, $stream, $this->mimeDetector->detectPath($path));
+		$this->invalidateCache($path);
+
+		return $size;
 	}
 }

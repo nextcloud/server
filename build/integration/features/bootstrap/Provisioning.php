@@ -1,35 +1,8 @@
 <?php
 /**
- * @copyright Copyright (c) 2016 Sergio Bertolin <sbertolin@solidgear.es>
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Daniel Calviño Sánchez <danxuliu@gmail.com>
- * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Sergio Bertolin <sbertolin@solidgear.es>
- * @author Sergio Bertolín <sbertolin@solidgear.es>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Vincent Petry <vincent@nextcloud.com>
- * @author Jonas Meurer <jonas@freesources.org>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 use GuzzleHttp\Client;
 use GuzzleHttp\Message\ResponseInterface;
@@ -61,7 +34,7 @@ trait Provisioning {
 			$this->userExists($user);
 		} catch (\GuzzleHttp\Exception\ClientException $ex) {
 			$previous_user = $this->currentUser;
-			$this->currentUser = "admin";
+			$this->currentUser = 'admin';
 			$this->creatingTheUser($user);
 			$this->currentUser = $previous_user;
 		}
@@ -78,7 +51,7 @@ trait Provisioning {
 			$this->userExists($user);
 		} catch (\GuzzleHttp\Exception\ClientException $ex) {
 			$previous_user = $this->currentUser;
-			$this->currentUser = "admin";
+			$this->currentUser = 'admin';
 			$this->creatingTheUser($user, $displayname);
 			$this->currentUser = $previous_user;
 		}
@@ -99,7 +72,7 @@ trait Provisioning {
 			return;
 		}
 		$previous_user = $this->currentUser;
-		$this->currentUser = "admin";
+		$this->currentUser = 'admin';
 		$this->deletingTheUser($user);
 		$this->currentUser = $previous_user;
 		try {
@@ -277,7 +250,7 @@ trait Provisioning {
 
 	public function createUser($user) {
 		$previous_user = $this->currentUser;
-		$this->currentUser = "admin";
+		$this->currentUser = 'admin';
 		$this->creatingTheUser($user);
 		$this->userExists($user);
 		$this->currentUser = $previous_user;
@@ -285,7 +258,7 @@ trait Provisioning {
 
 	public function deleteUser($user) {
 		$previous_user = $this->currentUser;
-		$this->currentUser = "admin";
+		$this->currentUser = 'admin';
 		$this->deletingTheUser($user);
 		$this->userDoesNotExist($user);
 		$this->currentUser = $previous_user;
@@ -293,7 +266,7 @@ trait Provisioning {
 
 	public function createGroup($group) {
 		$previous_user = $this->currentUser;
-		$this->currentUser = "admin";
+		$this->currentUser = 'admin';
 		$this->creatingTheGroup($group);
 		$this->groupExists($group);
 		$this->currentUser = $previous_user;
@@ -301,7 +274,7 @@ trait Provisioning {
 
 	public function deleteGroup($group) {
 		$previous_user = $this->currentUser;
-		$this->currentUser = "admin";
+		$this->currentUser = 'admin';
 		$this->deletingTheGroup($group);
 		$this->groupDoesNotExist($group);
 		$this->currentUser = $previous_user;
@@ -370,7 +343,7 @@ trait Provisioning {
 	 */
 	public function assureUserBelongsToGroup($user, $group) {
 		$previous_user = $this->currentUser;
-		$this->currentUser = "admin";
+		$this->currentUser = 'admin';
 
 		if (!$this->userBelongsToGroup($user, $group)) {
 			$this->addingUserToGroup($user, $group);
@@ -549,7 +522,7 @@ trait Provisioning {
 			$this->groupExists($group);
 		} catch (\GuzzleHttp\Exception\ClientException $ex) {
 			$previous_user = $this->currentUser;
-			$this->currentUser = "admin";
+			$this->currentUser = 'admin';
 			$this->creatingTheGroup($group);
 			$this->currentUser = $previous_user;
 		}
@@ -570,7 +543,7 @@ trait Provisioning {
 			return;
 		}
 		$previous_user = $this->currentUser;
-		$this->currentUser = "admin";
+		$this->currentUser = 'admin';
 		$this->deletingTheGroup($group);
 		$this->currentUser = $previous_user;
 		try {
@@ -802,7 +775,7 @@ trait Provisioning {
 	 * @param string $app
 	 */
 	public function appIsDisabled($app) {
-		$fullUrl = $this->baseUrl . "v2.php/cloud/apps?filter=disabled";
+		$fullUrl = $this->baseUrl . 'v2.php/cloud/apps?filter=disabled';
 		$client = new Client();
 		$options = [];
 		if ($this->currentUser === 'admin') {
@@ -823,7 +796,7 @@ trait Provisioning {
 	 * @param string $app
 	 */
 	public function appIsEnabled($app) {
-		$fullUrl = $this->baseUrl . "v2.php/cloud/apps?filter=enabled";
+		$fullUrl = $this->baseUrl . 'v2.php/cloud/apps?filter=enabled';
 		$client = new Client();
 		$options = [];
 		if ($this->currentUser === 'admin') {
@@ -847,7 +820,7 @@ trait Provisioning {
 	 * @param string $app
 	 */
 	public function appIsNotEnabled($app) {
-		$fullUrl = $this->baseUrl . "v2.php/cloud/apps?filter=enabled";
+		$fullUrl = $this->baseUrl . 'v2.php/cloud/apps?filter=enabled';
 		$client = new Client();
 		$options = [];
 		if ($this->currentUser === 'admin') {
@@ -900,7 +873,7 @@ trait Provisioning {
 
 		$this->response = $client->get($fullUrl, $options);
 		// boolean to string is integer
-		Assert::assertEquals("1", simplexml_load_string($this->response->getBody())->data[0]->enabled);
+		Assert::assertEquals('1', simplexml_load_string($this->response->getBody())->data[0]->enabled);
 	}
 
 	/**
@@ -915,7 +888,7 @@ trait Provisioning {
 		]);
 
 		// method used from BasicStructure trait
-		$this->sendingToWith("PUT", "/cloud/users/" . $user, $body);
+		$this->sendingToWith('PUT', '/cloud/users/' . $user, $body);
 	}
 
 	/**

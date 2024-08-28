@@ -1,21 +1,7 @@
 <?php
 /**
- * @author Robin Appelman <robin@icewind.nl>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 
 namespace Test\DB\QueryBuilder;
@@ -50,6 +36,7 @@ class FunctionBuilderTest extends TestCase {
 		if ($real) {
 			$this->addDummyData();
 			$query->where($query->expr()->eq('appid', $query->createNamedParameter('group_concat')));
+			$query->orderBy('configkey', 'asc');
 		}
 
 		$query->select($query->func()->concat(...$arguments));
@@ -94,7 +81,7 @@ class FunctionBuilderTest extends TestCase {
 				}],
 			'5 columns: string param with special chars used in the function' =>
 				[function ($q) {
-					return [false, [$q->createNamedParameter("b"), $q->createNamedParameter("'"), $q->createNamedParameter('||'), $q->createNamedParameter(','), $q->createNamedParameter('a')], "b'||,a"];
+					return [false, [$q->createNamedParameter('b'), $q->createNamedParameter("'"), $q->createNamedParameter('||'), $q->createNamedParameter(','), $q->createNamedParameter('a')], "b'||,a"];
 				}],
 		];
 	}

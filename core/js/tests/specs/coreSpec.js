@@ -1,23 +1,8 @@
 /**
-* ownCloud
-*
-* @author Vincent Petry
-* @copyright 2014 Vincent Petry <pvince81@owncloud.com>
-*
-* This library is free software; you can redistribute it and/or
-* modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
-* License as published by the Free Software Foundation; either
-* version 3 of the License, or any later version.
-*
-* This library is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-* GNU AFFERO GENERAL PUBLIC LICENSE for more details.
-*
-* You should have received a copy of the GNU Affero General Public
-* License along with this library.  If not, see <http://www.gnu.org/licenses/>.
-*
-*/
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2014 ownCloud Inc.
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
 
 describe('Core base tests', function() {
 	var debounceStub
@@ -42,16 +27,16 @@ describe('Core base tests', function() {
 	describe('Base values', function() {
 		it('Sets webroots', function() {
 			expect(OC.getRootPath()).toBeDefined();
-			expect(OC.appswebroots).toBeDefined();
+			expect(window._oc_appswebroots).toBeDefined();
 		});
 	});
 	describe('filePath', function() {
 		beforeEach(function() {
-			OC.webroot = 'http://localhost';
-			OC.appswebroots.files = OC.getRootPath() + '/apps3/files';
+			window._oc_webroot = 'http://localhost';
+			window._oc_appswebroots.files = OC.getRootPath() + '/apps3/files';
 		});
 		afterEach(function() {
-			delete OC.appswebroots.files;
+			delete window._oc_appswebroots.files;
 		});
 
 		it('Uses a direct link for css and images,' , function() {
@@ -70,11 +55,11 @@ describe('Core base tests', function() {
 		var TESTAPP_ROOT = OC.getRootPath() + '/appsx/testapp';
 
 		beforeEach(function() {
-			OC.appswebroots[TESTAPP] = TESTAPP_ROOT;
+			window._oc_appswebroots[TESTAPP] = TESTAPP_ROOT;
 		});
 		afterEach(function() {
 			// restore original array
-			delete OC.appswebroots[TESTAPP];
+			delete window._oc_appswebroots[TESTAPP];
 		});
 		it('Generates correct links for core apps', function() {
 			expect(OC.linkTo('core', 'somefile.php')).toEqual(OC.getRootPath() + '/core/somefile.php');
@@ -1293,67 +1278,6 @@ describe('Core base tests', function() {
 			expect(snapperStub.enable.called).toBe(false);
 			expect(snapperStub.disable.calledTwice).toBe(true);
 			expect(snapperStub.close.calledTwice).toBe(true);
-		});
-	});
-	describe('Requires password confirmation', function () {
-		var stubMomentNow;
-		var stubJsPageLoadTime;
-
-		afterEach(function () {
-			delete window.nc_pageLoad;
-			delete window.nc_lastLogin;
-			delete window.backendAllowsPasswordConfirmation;
-
-			stubMomentNow.restore();
-			stubJsPageLoadTime.restore();
-		});
-
-		it('should not show the password confirmation dialog when server time is earlier than local time', function () {
-			// add server variables
-			window.nc_pageLoad = parseInt(new Date(2018, 0, 3, 1, 15, 0).getTime() / 1000);
-			window.nc_lastLogin = parseInt(new Date(2018, 0, 3, 1, 0, 0).getTime() / 1000);
-			window.backendAllowsPasswordConfirmation = true;
-
-			stubJsPageLoadTime = sinon.stub(OC.PasswordConfirmation, 'pageLoadTime').value(new Date(2018, 0, 3, 12, 15, 0).getTime());
-			stubMomentNow = sinon.stub(moment, 'now').returns(new Date(2018, 0, 3, 12, 20, 0).getTime());
-
-			expect(OC.PasswordConfirmation.requiresPasswordConfirmation()).toBeFalsy();
-		});
-
-		it('should show the password confirmation dialog when server time is earlier than local time', function () {
-			// add server variables
-			window.nc_pageLoad = parseInt(new Date(2018, 0, 3, 1, 15, 0).getTime() / 1000);
-			window.nc_lastLogin = parseInt(new Date(2018, 0, 3, 1, 0, 0).getTime() / 1000);
-			window.backendAllowsPasswordConfirmation = true;
-
-			stubJsPageLoadTime = sinon.stub(OC.PasswordConfirmation, 'pageLoadTime').value(new Date(2018, 0, 3, 12, 15, 0).getTime());
-			stubMomentNow = sinon.stub(moment, 'now').returns(new Date(2018, 0, 3, 12, 31, 0).getTime());
-
-			expect(OC.PasswordConfirmation.requiresPasswordConfirmation()).toBeTruthy();
-		});
-
-		it('should not show the password confirmation dialog when server time is later than local time', function () {
-			// add server variables
-			window.nc_pageLoad = parseInt(new Date(2018, 0, 3, 23, 15, 0).getTime() / 1000);
-			window.nc_lastLogin = parseInt(new Date(2018, 0, 3, 23, 0, 0).getTime() / 1000);
-			window.backendAllowsPasswordConfirmation = true;
-
-			stubJsPageLoadTime = sinon.stub(OC.PasswordConfirmation, 'pageLoadTime').value(new Date(2018, 0, 3, 12, 15, 0).getTime());
-			stubMomentNow = sinon.stub(moment, 'now').returns(new Date(2018, 0, 3, 12, 20, 0).getTime());
-
-			expect(OC.PasswordConfirmation.requiresPasswordConfirmation()).toBeFalsy();
-		});
-
-		it('should show the password confirmation dialog when server time is later than local time', function () {
-			// add server variables
-			window.nc_pageLoad = parseInt(new Date(2018, 0, 3, 23, 15, 0).getTime() / 1000);
-			window.nc_lastLogin = parseInt(new Date(2018, 0, 3, 23, 0, 0).getTime() / 1000);
-			window.backendAllowsPasswordConfirmation = true;
-
-			stubJsPageLoadTime = sinon.stub(OC.PasswordConfirmation, 'pageLoadTime').value(new Date(2018, 0, 3, 12, 15, 0).getTime());
-			stubMomentNow = sinon.stub(moment, 'now').returns(new Date(2018, 0, 3, 12, 31, 0).getTime());
-
-			expect(OC.PasswordConfirmation.requiresPasswordConfirmation()).toBeTruthy();
 		});
 	});
 });

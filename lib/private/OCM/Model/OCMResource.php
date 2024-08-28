@@ -3,36 +3,18 @@
 declare(strict_types=1);
 
 /**
- * @copyright 2023, Maxence Lange <maxence@artificial-owl.com>
- *
- * @author Maxence Lange <maxence@artificial-owl.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace OC\OCM\Model;
 
-use JsonSerializable;
 use OCP\OCM\IOCMResource;
 
 /**
  * @since 28.0.0
  */
-class OCMResource implements IOCMResource, JsonSerializable {
+class OCMResource implements IOCMResource {
 	private string $name = '';
 	/** @var string[] */
 	private array $shareTypes = [];
@@ -42,9 +24,9 @@ class OCMResource implements IOCMResource, JsonSerializable {
 	/**
 	 * @param string $name
 	 *
-	 * @return OCMResource
+	 * @return $this
 	 */
-	public function setName(string $name): self {
+	public function setName(string $name): static {
 		$this->name = $name;
 
 		return $this;
@@ -60,9 +42,9 @@ class OCMResource implements IOCMResource, JsonSerializable {
 	/**
 	 * @param string[] $shareTypes
 	 *
-	 * @return OCMResource
+	 * @return $this
 	 */
-	public function setShareTypes(array $shareTypes): self {
+	public function setShareTypes(array $shareTypes): static {
 		$this->shareTypes = $shareTypes;
 
 		return $this;
@@ -80,7 +62,7 @@ class OCMResource implements IOCMResource, JsonSerializable {
 	 *
 	 * @return $this
 	 */
-	public function setProtocols(array $protocols): self {
+	public function setProtocols(array $protocols): static {
 		$this->protocols = $protocols;
 
 		return $this;
@@ -98,17 +80,16 @@ class OCMResource implements IOCMResource, JsonSerializable {
 	 *
 	 * @param array $data
 	 *
-	 * @return self
+	 * @return $this
 	 * @see self::jsonSerialize()
 	 */
-	public function import(array $data): self {
+	public function import(array $data): static {
 		return $this->setName((string)($data['name'] ?? ''))
-					->setShareTypes($data['shareTypes'] ?? [])
-					->setProtocols($data['protocols'] ?? []);
+			->setShareTypes($data['shareTypes'] ?? [])
+			->setProtocols($data['protocols'] ?? []);
 	}
 
 	/**
-	 *
 	 * @return array{
 	 *     name: string,
 	 *     shareTypes: string[],

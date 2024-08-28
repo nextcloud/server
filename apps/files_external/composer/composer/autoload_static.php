@@ -34,6 +34,8 @@ class ComposerStaticInitFiles_External
         'OCA\\Files_External\\Command\\ListCommand' => __DIR__ . '/..' . '/../lib/Command/ListCommand.php',
         'OCA\\Files_External\\Command\\Notify' => __DIR__ . '/..' . '/../lib/Command/Notify.php',
         'OCA\\Files_External\\Command\\Option' => __DIR__ . '/..' . '/../lib/Command/Option.php',
+        'OCA\\Files_External\\Command\\Scan' => __DIR__ . '/..' . '/../lib/Command/Scan.php',
+        'OCA\\Files_External\\Command\\StorageAuthBase' => __DIR__ . '/..' . '/../lib/Command/StorageAuthBase.php',
         'OCA\\Files_External\\Command\\Verify' => __DIR__ . '/..' . '/../lib/Command/Verify.php',
         'OCA\\Files_External\\Config\\ConfigAdapter' => __DIR__ . '/..' . '/../lib/Config/ConfigAdapter.php',
         'OCA\\Files_External\\Config\\ExternalMountPoint' => __DIR__ . '/..' . '/../lib/Config/ExternalMountPoint.php',

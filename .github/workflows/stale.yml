@@ -1,3 +1,5 @@
+# SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+# SPDX-License-Identifier: MIT
 name: Close stale issues
 
 on:
@@ -15,7 +17,7 @@ jobs:
       issues: write
 
     steps:
-    - uses: actions/stale@v8
+    - uses: actions/stale@v9
       with:
         repo-token: ${{ secrets.COMMAND_BOT_PAT }}
         stale-issue-message: >

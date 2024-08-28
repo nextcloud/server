@@ -1,55 +1,33 @@
 <?php
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Bjoern Schiessle <bjoern@schiessle.org>
- * @author Björn Schießle <bjoern@schiessle.org>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Daniel Calviño Sánchez <danxuliu@gmail.com>
- * @author Georg Ehrke <oc.list@georgehrke.com>
- * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- * @author Julius Härtl <jus@bitgrid.net>
- * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Michael Weimann <mail@michael-weimann.eu>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <robin@icewind.nl>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Vincent Petry <vincent@nextcloud.com>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2017-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\Files_Sharing\Tests\Controllers;
 
 use OC\Files\Filesystem;
 use OC\Files\Node\Folder;
+use OC\Share20\Manager;
 use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCA\Files_Sharing\Controller\ShareController;
+use OCA\Files_Sharing\DefaultPublicShareTemplateProvider;
+use OCA\Files_Sharing\Event\BeforeTemplateRenderedEvent;
 use OCP\Accounts\IAccount;
 use OCP\Accounts\IAccountManager;
 use OCP\Accounts\IAccountProperty;
+use OCP\Activity\IManager;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\Template\ExternalShareMenuAction;
 use OCP\AppFramework\Http\Template\LinkMenuAction;
 use OCP\AppFramework\Http\Template\PublicTemplateResponse;
 use OCP\AppFramework\Http\Template\SimpleMenuAction;
+use OCP\AppFramework\Services\IInitialState;
 use OCP\Constants;
+use OCP\Defaults;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\File;
+use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
 use OCP\Files\Storage;
 use OCP\IConfig;
@@ -62,14 +40,9 @@ use OCP\IUser;
 use OCP\IUserManager;
 use OCP\Security\ISecureRandom;
 use OCP\Share\Exceptions\ShareNotFound;
+use OCP\Share\IPublicShareTemplateFactory;
 use OCP\Share\IShare;
 use PHPUnit\Framework\MockObject\MockObject;
-use OCP\Activity\IManager;
-use OCP\Files\IRootFolder;
-use OCP\Defaults;
-use OC\Share20\Manager;
-use OCA\Files_Sharing\DefaultPublicShareTemplateProvider;
-use OCP\Share\IPublicShareTemplateFactory;
 
 /**
  * @group DB
@@ -94,11 +67,11 @@ class ShareControllerTest extends \Test\TestCase {
 	private $previewManager;
 	/** @var \OCP\IConfig|MockObject */
 	private $config;
-	/** @var  \OC\Share20\Manager|MockObject */
+	/** @var \OC\Share20\Manager|MockObject */
 	private $shareManager;
 	/** @var IUserManager|MockObject */
 	private $userManager;
-	/** @var  FederatedShareProvider|MockObject */
+	/** @var FederatedShareProvider|MockObject */
 	private $federatedShareProvider;
 	/** @var IAccountManager|MockObject */
 	private $accountManager;
@@ -149,6 +122,7 @@ class ShareControllerTest extends \Test\TestCase {
 					$this->defaults,
 					$this->config,
 					$this->createMock(IRequest::class),
+					$this->createMock(IInitialState::class)
 				)
 			);
 
@@ -258,6 +232,7 @@ class ShareControllerTest extends \Test\TestCase {
 		$file->method('getSize')->willReturn(33);
 		$file->method('isReadable')->willReturn(true);
 		$file->method('isShareable')->willReturn(true);
+		$file->method('getId')->willReturn(111);
 
 		$accountName = $this->createMock(IAccountProperty::class);
 		$accountName->method('getScope')
@@ -330,13 +305,15 @@ class ShareControllerTest extends \Test\TestCase {
 			return null;
 		});
 
-		$this->eventDispatcher->expects($this->exactly(2))
-			->method('dispatchTyped')
-			->with(
-				$this->callback(function ($event) use ($share) {
+		$this->eventDispatcher->method('dispatchTyped')->with(
+			$this->callback(function ($event) use ($share) {
+				if ($event instanceof BeforeTemplateRenderedEvent) {
 					return $event->getShare() === $share;
-				})
-			);
+				} else {
+					return true;
+				}
+			})
+		);
 
 		$this->l10n->expects($this->any())
 			->method('t')
@@ -375,7 +352,8 @@ class ShareControllerTest extends \Test\TestCase {
 			'previewURL' => 'downloadURL',
 			'note' => $note,
 			'hideDownload' => false,
-			'showgridview' => false
+			'showgridview' => false,
+			'label' => ''
 		];
 
 		$csp = new \OCP\AppFramework\Http\ContentSecurityPolicy();
@@ -416,6 +394,7 @@ class ShareControllerTest extends \Test\TestCase {
 		$file->method('getSize')->willReturn(33);
 		$file->method('isReadable')->willReturn(true);
 		$file->method('isShareable')->willReturn(true);
+		$file->method('getId')->willReturn(111);
 
 		$accountName = $this->createMock(IAccountProperty::class);
 		$accountName->method('getScope')
@@ -488,13 +467,15 @@ class ShareControllerTest extends \Test\TestCase {
 			return null;
 		});
 
-		$this->eventDispatcher->expects($this->exactly(2))
-			->method('dispatchTyped')
-			->with(
-				$this->callback(function ($event) use ($share) {
+		$this->eventDispatcher->method('dispatchTyped')->with(
+			$this->callback(function ($event) use ($share) {
+				if ($event instanceof BeforeTemplateRenderedEvent) {
 					return $event->getShare() === $share;
-				})
-			);
+				} else {
+					return true;
+				}
+			})
+		);
 
 		$this->l10n->expects($this->any())
 			->method('t')
@@ -533,7 +514,8 @@ class ShareControllerTest extends \Test\TestCase {
 			'previewURL' => 'downloadURL',
 			'note' => $note,
 			'hideDownload' => false,
-			'showgridview' => false
+			'showgridview' => false,
+			'label' => ''
 		];
 
 		$csp = new \OCP\AppFramework\Http\ContentSecurityPolicy();
@@ -574,6 +556,7 @@ class ShareControllerTest extends \Test\TestCase {
 		$file->method('getSize')->willReturn(33);
 		$file->method('isReadable')->willReturn(true);
 		$file->method('isShareable')->willReturn(true);
+		$file->method('getId')->willReturn(111);
 
 		$accountName = $this->createMock(IAccountProperty::class);
 		$accountName->method('getScope')
@@ -650,13 +633,15 @@ class ShareControllerTest extends \Test\TestCase {
 			return null;
 		});
 
-		$this->eventDispatcher->expects($this->exactly(2))
-			->method('dispatchTyped')
-			->with(
-				$this->callback(function ($event) use ($share) {
+		$this->eventDispatcher->method('dispatchTyped')->with(
+			$this->callback(function ($event) use ($share) {
+				if ($event instanceof BeforeTemplateRenderedEvent) {
 					return $event->getShare() === $share;
-				})
-			);
+				} else {
+					return true;
+				}
+			})
+		);
 
 		$this->l10n->expects($this->any())
 			->method('t')
@@ -691,7 +676,8 @@ class ShareControllerTest extends \Test\TestCase {
 			'previewURL' => 'downloadURL',
 			'note' => $note,
 			'hideDownload' => true,
-			'showgridview' => false
+			'showgridview' => false,
+			'label' => ''
 		];
 
 		$csp = new \OCP\AppFramework\Http\ContentSecurityPolicy();
@@ -741,6 +727,7 @@ class ShareControllerTest extends \Test\TestCase {
 		$folder->method('getStorage')->willReturn($storage);
 		$folder->method('get')->with('')->willReturn($folder);
 		$folder->method('getSize')->willReturn(1337);
+		$folder->method('getId')->willReturn(111);
 
 		$accountName = $this->createMock(IAccountProperty::class);
 		$accountName->method('getScope')
@@ -816,7 +803,8 @@ class ShareControllerTest extends \Test\TestCase {
 			'previewURL' => '',
 			'note' => '',
 			'hideDownload' => false,
-			'showgridview' => false
+			'showgridview' => false,
+			'label' => ''
 		];
 
 		$csp = new \OCP\AppFramework\Http\ContentSecurityPolicy();

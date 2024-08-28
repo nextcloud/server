@@ -1,27 +1,7 @@
 <?php
 /**
- * @copyright Copyright (c) 2017 Arthur Schiwon <blizzz@arthur-schiwon.de>
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCA\User_LDAP\Tests\Jobs;
 
@@ -43,27 +23,27 @@ use OCP\Notification\IManager;
 use Test\TestCase;
 
 class SyncTest extends TestCase {
-	/** @var  array */
+	/** @var array */
 	protected $arguments;
-	/** @var  Helper|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var Helper|\PHPUnit\Framework\MockObject\MockObject */
 	protected $helper;
-	/** @var  LDAP|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var LDAP|\PHPUnit\Framework\MockObject\MockObject */
 	protected $ldapWrapper;
-	/** @var  Manager|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var Manager|\PHPUnit\Framework\MockObject\MockObject */
 	protected $userManager;
-	/** @var  UserMapping|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var UserMapping|\PHPUnit\Framework\MockObject\MockObject */
 	protected $mapper;
-	/** @var  Sync */
+	/** @var Sync */
 	protected $sync;
-	/** @var  IConfig|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
 	protected $config;
-	/** @var  IAvatarManager|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IAvatarManager|\PHPUnit\Framework\MockObject\MockObject */
 	protected $avatarManager;
-	/** @var  IDBConnection|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IDBConnection|\PHPUnit\Framework\MockObject\MockObject */
 	protected $dbc;
-	/** @var  IUserManager|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IUserManager|\PHPUnit\Framework\MockObject\MockObject */
 	protected $ncUserManager;
-	/** @var  IManager|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IManager|\PHPUnit\Framework\MockObject\MockObject */
 	protected $notificationManager;
 	/** @var ConnectionFactory|\PHPUnit\Framework\MockObject\MockObject */
 	protected $connectionFactory;

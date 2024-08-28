@@ -1,28 +1,9 @@
 <?php
+
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Juan Pablo Villafáñez <jvillafanez@solidgear.es>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OCA\User_LDAP\Command;
 
@@ -39,59 +20,52 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class Search extends Command {
-	/** @var \OCP\IConfig */
-	protected $ocConfig;
-	/** @var User_Proxy */
-	private $userProxy;
-	/** @var Group_Proxy */
-	private $groupProxy;
-
-	public function __construct(IConfig $ocConfig, User_Proxy $userProxy, Group_Proxy $groupProxy) {
+	public function __construct(
+		protected IConfig $ocConfig,
+		private User_Proxy $userProxy,
+		private Group_Proxy $groupProxy,
+	) {
 		parent::__construct();
-		$this->ocConfig = $ocConfig;
-		$this->userProxy = $userProxy;
-		$this->groupProxy = $groupProxy;
 	}
 
-	protected function configure() {
+	protected function configure(): void {
 		$this
 			->setName('ldap:search')
 			->setDescription('executes a user or group search')
 			->addArgument(
-					'search',
-					InputArgument::REQUIRED,
-					'the search string (can be empty)'
-					 )
+				'search',
+				InputArgument::REQUIRED,
+				'the search string (can be empty)'
+			)
 			->addOption(
-					'group',
-					null,
-					InputOption::VALUE_NONE,
-					'searches groups instead of users'
-					 )
+				'group',
+				null,
+				InputOption::VALUE_NONE,
+				'searches groups instead of users'
+			)
 			->addOption(
-					'offset',
-					null,
-					InputOption::VALUE_REQUIRED,
-					'The offset of the result set. Needs to be a multiple of limit. defaults to 0.',
-					'0'
-					 )
+				'offset',
+				null,
+				InputOption::VALUE_REQUIRED,
+				'The offset of the result set. Needs to be a multiple of limit. defaults to 0.',
+				'0'
+			)
 			->addOption(
-					'limit',
-					null,
-					InputOption::VALUE_REQUIRED,
-					'limit the results. 0 means no limit, defaults to 15',
-					'15'
-					 )
+				'limit',
+				null,
+				InputOption::VALUE_REQUIRED,
+				'limit the results. 0 means no limit, defaults to 15',
+				'15'
+			)
 		;
 	}
 
 	/**
 	 * Tests whether the offset and limit options are valid
-	 * @param int $offset
-	 * @param int $limit
+	 *
 	 * @throws \InvalidArgumentException
 	 */
-	protected function validateOffsetAndLimit($offset, $limit) {
+	protected function validateOffsetAndLimit(int $offset, int $limit): void {
 		if ($limit < 0) {
 			throw new \InvalidArgumentException('limit must be  0 or greater');
 		}
@@ -135,6 +109,6 @@ class Search extends Command {
 			$line = $name . ($printID ? ' ('.$id.')' : '');
 			$output->writeln($line);
 		}
-		return 0;
+		return self::SUCCESS;
 	}
 }

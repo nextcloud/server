@@ -1,0 +1,27 @@
+OC.L10N.register(
+    "dashboard",
+    {
+    "Dashboard" : "Stjórnborð",
+    "Dashboard app" : "Stjórnborðsforrit",
+    "\"{title} icon\"" : "\"{title} táknmynd\"",
+    "Customize" : "Sérsníða",
+    "Edit widgets" : "Breyta viðmótshlutum",
+    "Get more widgets from the App Store" : "Náðu í fleiri viðmótshluta í forritasafninu",
+    "Weather service" : "Veðurþjónusta",
+    "For your privacy, the weather data is requested by your Nextcloud server on your behalf so the weather service receives no personal information." : "Til að vernda friðhelgi þína, eru veðurgögn sótt af Nextcloud-þjóninum fyrir þína hönd, þannig að veðurþjónustan fær engin persónuleg gögn.",
+    "Weather data from Met.no" : "Veðurgögn frá Met.no",
+    "geocoding with Nominatim" : "staðsetningarkóðun með Nominatim",
+    "elevation data from OpenTopoData" : "hæðargögn frá OpenTopoData",
+    "Weather" : "Veður",
+    "Status" : "Staða",
+    "Good morning" : "Góðan morgunn",
+    "Good morning, {name}" : "Góðan morgunn, {name}",
+    "Good afternoon" : "Góðan dag",
+    "Good afternoon, {name}" : "Góðan daginn, {name}",
+    "Good evening" : "Gott kvöld",
+    "Good evening, {name}" : "Góða kvöldið, {name}",
+    "Hello" : "Halló",
+    "Hello, {name}" : "Halló, {name}",
+    "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an overview of your upcoming appointments, urgent emails, chat messages, incoming tickets, latest tweets and much more! Users can add the widgets they like and change the background to their liking." : "Byrjaðu daginn vel upplýst/ur\n\nNextcloud-stjórnborðið er útgangspunkturinn á deginum, sem gefur þér yfirlit um væntanleg stefnumót, áríðandi tölvupósta, spjallskilaboð, innlagðar verkbeiðnir, nýjustu tíst og margt fleira! Notendur geta bætt við þeim viðmótshlutum sem þeim sýnist og skipt um bakgrunn eftir sínum smekk."
+},
+"nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

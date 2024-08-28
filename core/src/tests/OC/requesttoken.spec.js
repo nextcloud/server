@@ -1,30 +1,13 @@
 /**
- * @copyright 2020 Christoph Wurst <christoph@winzerhof-wurst.at>
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- * @author François Freitag <mail@franek.fr>
- *
- * @license AGPL-3.0-or-later
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { subscribe, unsubscribe } from '@nextcloud/event-bus'
-
+import { beforeEach, describe, expect, test, vi } from 'vitest'
 import { manageToken, setToken } from '../../OC/requesttoken.js'
+
+const eventbus = vi.hoisted(() => ({ emit: vi.fn() }))
+vi.mock('@nextcloud/event-bus', () => eventbus)
 
 describe('request token', () => {
 
@@ -33,7 +16,7 @@ describe('request token', () => {
 	const token = 'abc123'
 
 	beforeEach(() => {
-		emit = jest.fn()
+		emit = vi.fn()
 		const head = window.document.getElementsByTagName('head')[0]
 		head.setAttribute('data-requesttoken', token)
 
@@ -51,22 +34,10 @@ describe('request token', () => {
 	})
 
 	describe('@nextcloud/auth integration', () => {
-		let listener
-
-		beforeEach(() => {
-			listener = jest.fn()
-
-			subscribe('csrf-token-update', listener)
-		})
-
-		afterEach(() => {
-			unsubscribe('csrf-token-update', listener)
-		})
-
 		test('fires off an event for @nextcloud/auth', () => {
 			setToken('123')
 
-			expect(listener).toHaveBeenCalledWith({ token: '123' })
+			expect(eventbus.emit).toHaveBeenCalledWith('csrf-token-update', { token: '123' })
 		})
 	})
 

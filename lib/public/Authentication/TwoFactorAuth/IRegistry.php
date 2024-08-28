@@ -3,26 +3,8 @@
 declare(strict_types=1);
 
 /**
- * @copyright 2018 Christoph Wurst <christoph@winzerhof-wurst.at>
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OCP\Authentication\TwoFactorAuth;
 
@@ -39,11 +21,13 @@ use OCP\IUser;
  */
 interface IRegistry {
 	/**
+	 * @since 15.0.0
 	 * @deprecated 22.0.0
 	 */
 	public const EVENT_PROVIDER_ENABLED = self::class . '::enable';
 
 	/**
+	 * @since 15.0.0
 	 * @deprecated 22.0.0
 	 */
 	public const EVENT_PROVIDER_DISABLED = self::class . '::disable';
@@ -54,7 +38,7 @@ interface IRegistry {
 	 *
 	 * @since 14.0.0
 	 * @return array<string, bool> where the array key is the provider ID (string) and the
-	 *                  value is the enabled state (bool)
+	 *                             value is the enabled state (bool)
 	 */
 	public function getProviderStates(IUser $user): array;
 

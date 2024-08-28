@@ -1,9 +1,8 @@
 <?php
 /**
- * Copyright (c) 2015 Joas Schilling <nickvergessen@owncloud.com>
- * This file is licensed under the Affero General Public License version 3 or
- * later.
- * See the COPYING-README file.
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace Test\Repair;
@@ -66,6 +65,7 @@ class CleanTagsTest extends \Test\TestCase {
 			->execute();
 
 		$qb->delete('filecache')
+			->runAcrossAllShards()
 			->execute();
 	}
 
@@ -142,7 +142,7 @@ class CleanTagsTest extends \Test\TestCase {
 			])
 			->execute();
 
-		return (int) $this->getLastInsertID('vcategory', 'id');
+		return $qb->getLastInsertId();
 	}
 
 	/**
@@ -177,6 +177,7 @@ class CleanTagsTest extends \Test\TestCase {
 		$fileName = $this->getUniqueID('TestRepairCleanTags', 12);
 		$qb->insert('filecache')
 			->values([
+				'storage' => $qb->createNamedParameter(1, IQueryBuilder::PARAM_INT),
 				'path' => $qb->createNamedParameter($fileName),
 				'path_hash' => $qb->createNamedParameter(md5($fileName)),
 			])
@@ -184,21 +185,13 @@ class CleanTagsTest extends \Test\TestCase {
 		$fileName = $this->getUniqueID('TestRepairCleanTags', 12);
 		$qb->insert('filecache')
 			->values([
+				'storage' => $qb->createNamedParameter(1, IQueryBuilder::PARAM_INT),
 				'path' => $qb->createNamedParameter($fileName),
 				'path_hash' => $qb->createNamedParameter(md5($fileName)),
 			])
 			->execute();
 
-		$this->createdFile = (int) $this->getLastInsertID('filecache', 'fileid');
+		$this->createdFile = $qb->getLastInsertId();
 		return $this->createdFile;
-	}
-
-	/**
-	 * @param $tableName
-	 * @param $idName
-	 * @return int
-	 */
-	protected function getLastInsertID($tableName, $idName) {
-		return $this->connection->lastInsertId("*PREFIX*$tableName");
 	}
 }

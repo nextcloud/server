@@ -1,29 +1,11 @@
 /**
- * @copyright Copyright (c) 2019 John Molakvoæ <skjnldsv@protonmail.com>
- *
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- * @author Julius Härtl <jus@bitgrid.net>
- *
- * @license AGPL-3.0-or-later
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 import Vue from 'vue'
-import { translate as t, translatePlural as n } from '@nextcloud/l10n'
-import { getRequestToken } from '@nextcloud/auth'
+import { getCSPNonce } from '@nextcloud/auth'
+import { t, n } from '@nextcloud/l10n'
 
 import ShareSearch from './services/ShareSearch.js'
 import ExternalLinkActions from './services/ExternalLinkActions.js'
@@ -34,7 +16,7 @@ import TabSections from './services/TabSections.js'
 import ShareVariant from '@mdi/svg/svg/share-variant.svg?raw'
 
 // eslint-disable-next-line camelcase
-__webpack_nonce__ = btoa(getRequestToken())
+__webpack_nonce__ = getCSPNonce()
 
 // Init Sharing Tab Service
 if (!window.OCA.Sharing) {
@@ -73,12 +55,16 @@ window.addEventListener('DOMContentLoaded', function() {
 				await TabInstance.update(fileInfo)
 				TabInstance.$mount(el)
 			},
+
 			update(fileInfo) {
 				TabInstance.update(fileInfo)
 			},
+
 			destroy() {
-				TabInstance.$destroy()
-				TabInstance = null
+				if (TabInstance) {
+					TabInstance.$destroy()
+					TabInstance = null
+				}
 			},
 		}))
 	}

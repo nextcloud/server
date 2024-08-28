@@ -1,26 +1,8 @@
 <?php
 /**
- * @copyright Copyright (c) 2017 Joas Schilling <coding@schilljs.com>
- * @copyright Copyright (c) 2017, ownCloud GmbH
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program. If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2017 ownCloud GmbH
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 namespace OC\Core\Command\Db\Migrations;
 
@@ -45,25 +27,8 @@ class GenerateCommand extends Command implements CompletionAwareInterface {
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) {{year}} Your name <your@email.com>
- *
- * @author Your name <your@email.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: {{year}} Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 namespace {{namespace}};
@@ -74,7 +39,7 @@ use OCP\Migration\IOutput;
 use OCP\Migration\SimpleMigrationStep;
 
 /**
- * Auto-generated migration step: Please modify to your needs!
+ * FIXME Auto-generated migration step: Please modify to your needs!
  */
 class {{classname}} extends SimpleMigrationStep {
 
@@ -147,7 +112,7 @@ class {{classname}} extends SimpleMigrationStep {
 
 		if ($fullVersion) {
 			[$major, $minor] = explode('.', $fullVersion);
-			$shouldVersion = (string) ((int)$major * 1000 + (int)$minor);
+			$shouldVersion = (string)((int)$major * 1000 + (int)$minor);
 			if ($version !== $shouldVersion) {
 				$output->writeln('<comment>Unexpected migration version for current version: ' . $fullVersion . '</comment>');
 				$output->writeln('<comment> - Pattern:  XYYY </comment>');
@@ -235,7 +200,7 @@ class {{classname}} extends SimpleMigrationStep {
 		$path = $dir . '/' . $className . '.php';
 
 		if (file_put_contents($path, $code) === false) {
-			throw new RuntimeException('Failed to generate new migration step.');
+			throw new RuntimeException('Failed to generate new migration step. Could not write to ' . $path);
 		}
 
 		return $path;

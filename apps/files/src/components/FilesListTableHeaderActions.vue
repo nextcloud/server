@@ -1,27 +1,11 @@
 <!--
-  - @copyright Copyright (c) 2023 John Molakvoæ <skjnldsv@protonmail.com>
-  -
-  - @author John Molakvoæ <skjnldsv@protonmail.com>
-  -
-  - @license GNU AGPL version 3 or any later version
-  -
-  - This program is free software: you can redistribute it and/or modify
-  - it under the terms of the GNU Affero General Public License as
-  - published by the Free Software Foundation, either version 3 of the
-  - License, or (at your option) any later version.
-  -
-  - This program is distributed in the hope that it will be useful,
-  - but WITHOUT ANY WARRANTY; without even the implied warranty of
-  - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  - GNU Affero General Public License for more details.
-  -
-  - You should have received a copy of the GNU Affero General Public License
-  - along with this program. If not, see <http://www.gnu.org/licenses/>.
-  -
-  -->
+  - SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 <template>
-	<th class="files-list__column files-list__row-actions-batch" colspan="2">
+	<div class="files-list__column files-list__row-actions-batch">
 		<NcActions ref="actionsMenu"
+			container="#app-content-vue"
 			:disabled="!!loading || areSomeNodesLoading"
 			:force-name="true"
 			:inline="inlineActions"
@@ -38,29 +22,34 @@
 				{{ action.displayName(nodes, currentView) }}
 			</NcActionButton>
 		</NcActions>
-	</th>
+	</div>
 </template>
 
 <script lang="ts">
+import type { Node, View } from '@nextcloud/files'
+import type { PropType } from 'vue'
+import type { FileSource } from '../types'
+
 import { NodeStatus, getFileActions } from '@nextcloud/files'
 import { showError, showSuccess } from '@nextcloud/dialogs'
 import { translate } from '@nextcloud/l10n'
+import { defineComponent } from 'vue'
+
 import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
 import NcActions from '@nextcloud/vue/dist/Components/NcActions.js'
 import NcIconSvgWrapper from '@nextcloud/vue/dist/Components/NcIconSvgWrapper.js'
 import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
-import Vue from 'vue'
 
 import { useActionsMenuStore } from '../store/actionsmenu.ts'
 import { useFilesStore } from '../store/files.ts'
 import { useSelectionStore } from '../store/selection.ts'
 import filesListWidthMixin from '../mixins/filesListWidth.ts'
-import logger from '../logger.js'
+import logger from '../logger.ts'
 
 // The registered actions list
 const actions = getFileActions()
 
-export default Vue.extend({
+export default defineComponent({
 	name: 'FilesListTableHeaderActions',
 
 	components: {
@@ -76,11 +65,11 @@ export default Vue.extend({
 
 	props: {
 		currentView: {
-			type: Object,
+			type: Object as PropType<View>,
 			required: true,
 		},
 		selectedNodes: {
-			type: Array,
+			type: Array as PropType<FileSource[]>,
 			default: () => ([]),
 		},
 	},
@@ -116,8 +105,8 @@ export default Vue.extend({
 
 		nodes() {
 			return this.selectedNodes
-				.map(fileid => this.getNode(fileid))
-				.filter(node => node)
+				.map(source => this.getNode(source))
+				.filter(Boolean) as Node[]
 		},
 
 		areSomeNodesLoading() {
@@ -151,21 +140,20 @@ export default Vue.extend({
 		/**
 		 * Get a cached note from the store
 		 *
-		 * @param {number} fileId the file id to get
-		 * @return {Folder|File}
+		 * @param source The source of the node to get
 		 */
-		getNode(fileId) {
-			return this.filesStore.getNode(fileId)
+		getNode(source: string): Node|undefined {
+			return this.filesStore.getNode(source)
 		},
 
 		async onActionClick(action) {
 			const displayName = action.displayName(this.nodes, this.currentView)
-			const selectionIds = this.selectedNodes
+			const selectionSources = this.selectedNodes
 			try {
 				// Set loading markers
 				this.loading = action.id
 				this.nodes.forEach(node => {
-					Vue.set(node, 'status', NodeStatus.LOADING)
+					this.$set(node, 'status', NodeStatus.LOADING)
 				})
 
 				// Dispatch action execution
@@ -181,9 +169,15 @@ export default Vue.extend({
 				// Handle potential failures
 				if (results.some(result => result === false)) {
 					// Remove the failed ids from the selection
-					const failedIds = selectionIds
-						.filter((fileid, index) => results[index] === false)
-					this.selectionStore.set(failedIds)
+					const failedSources = selectionSources
+						.filter((source, index) => results[index] === false)
+					this.selectionStore.set(failedSources)
+
+					if (results.some(result => result === null)) {
+						// If some actions returned null, we assume that the dev
+						// is handling the error messages and we stay silent
+						return
+					}
 
 					showError(this.t('files', '"{displayName}" failed on some elements ', { displayName }))
 					return
@@ -199,7 +193,7 @@ export default Vue.extend({
 				// Remove loading markers
 				this.loading = null
 				this.nodes.forEach(node => {
-					Vue.set(node, 'status', undefined)
+					this.$set(node, 'status', undefined)
 				})
 			}
 		},
@@ -212,15 +206,6 @@ export default Vue.extend({
 <style scoped lang="scss">
 .files-list__row-actions-batch {
 	flex: 1 1 100% !important;
-
-	// Remove when https://github.com/nextcloud/nextcloud-vue/pull/3936 is merged
-	::v-deep .button-vue__wrapper {
-		width: 100%;
-		span.button-vue__text {
-			overflow: hidden;
-			text-overflow: ellipsis;
-			white-space: nowrap;
-		}
-	}
+	max-width: 100%;
 }
 </style>

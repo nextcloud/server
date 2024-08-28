@@ -1,22 +1,8 @@
 <?php
 /**
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
- * @license AGPL-3.0
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
+ * SPDX-License-Identifier: AGPL-3.0-only
  */
 
 namespace OC\Core\Controller;
@@ -33,6 +19,7 @@ namespace Tests\Core\Controller;
 
 use OC\AppFramework\Utility\TimeFactory;
 use OC\Core\Controller\AvatarController;
+use OC\Core\Controller\GuestAvatarController;
 use OCP\AppFramework\Http;
 use OCP\Files\File;
 use OCP\Files\IRootFolder;
@@ -56,13 +43,15 @@ use Psr\Log\LoggerInterface;
 class AvatarControllerTest extends \Test\TestCase {
 	/** @var AvatarController */
 	private $avatarController;
+	/** @var GuestAvatarController */
+	private $guestAvatarController;
+
 	/** @var IAvatar|\PHPUnit\Framework\MockObject\MockObject */
 	private $avatarMock;
 	/** @var IUser|\PHPUnit\Framework\MockObject\MockObject */
 	private $userMock;
 	/** @var ISimpleFile|\PHPUnit\Framework\MockObject\MockObject */
 	private $avatarFile;
-
 	/** @var IAvatarManager|\PHPUnit\Framework\MockObject\MockObject */
 	private $avatarManager;
 	/** @var ICache|\PHPUnit\Framework\MockObject\MockObject */
@@ -97,6 +86,13 @@ class AvatarControllerTest extends \Test\TestCase {
 		$this->avatarMock = $this->getMockBuilder('OCP\IAvatar')->getMock();
 		$this->userMock = $this->getMockBuilder(IUser::class)->getMock();
 
+		$this->guestAvatarController = new GuestAvatarController(
+			'core',
+			$this->request,
+			$this->avatarManager,
+			$this->logger
+		);
+
 		$this->avatarController = new AvatarController(
 			'core',
 			$this->request,
@@ -107,7 +103,8 @@ class AvatarControllerTest extends \Test\TestCase {
 			$this->rootFolder,
 			$this->logger,
 			'userid',
-			$this->timeFactory
+			$this->timeFactory,
+			$this->guestAvatarController,
 		);
 
 		// Configure userMock
@@ -290,12 +287,12 @@ class AvatarControllerTest extends \Test\TestCase {
 	 * Test what happens if the removing of the avatar fails
 	 */
 	public function testDeleteAvatarException() {
-		$this->avatarMock->method('remove')->will($this->throwException(new \Exception("foo")));
+		$this->avatarMock->method('remove')->will($this->throwException(new \Exception('foo')));
 		$this->avatarManager->method('getAvatar')->willReturn($this->avatarMock);
 
 		$this->logger->expects($this->once())
 			->method('error')
-			->with('foo', ['exception' => new \Exception("foo"), 'app' => 'core']);
+			->with('foo', ['exception' => new \Exception('foo'), 'app' => 'core']);
 		$expectedResponse = new Http\JSONResponse(['data' => ['message' => 'An error occurred. Please contact your admin.']], Http::STATUS_BAD_REQUEST);
 		$this->assertEquals($expectedResponse, $this->avatarController->deleteAvatar());
 	}
@@ -333,7 +330,7 @@ class AvatarControllerTest extends \Test\TestCase {
 	 */
 	public function testPostAvatarFile() {
 		//Create temp file
-		$fileName = tempnam('', "avatarTest");
+		$fileName = tempnam('', 'avatarTest');
 		$copyRes = copy(\OC::$SERVERROOT.'/tests/data/testimage.jpg', $fileName);
 		$this->assertTrue($copyRes);
 
@@ -371,7 +368,7 @@ class AvatarControllerTest extends \Test\TestCase {
 	 */
 	public function testPostAvatarFileGif() {
 		//Create temp file
-		$fileName = tempnam('', "avatarTest");
+		$fileName = tempnam('', 'avatarTest');
 		$copyRes = copy(\OC::$SERVERROOT.'/tests/data/testimage.gif', $fileName);
 		$this->assertTrue($copyRes);
 
@@ -472,7 +469,7 @@ class AvatarControllerTest extends \Test\TestCase {
 	public function testPostAvatarException() {
 		$this->cache->expects($this->once())
 			->method('set')
-			->will($this->throwException(new \Exception("foo")));
+			->will($this->throwException(new \Exception('foo')));
 		$file = $this->getMockBuilder('OCP\Files\File')
 			->disableOriginalConstructor()->getMock();
 		$file->expects($this->once())
@@ -487,7 +484,7 @@ class AvatarControllerTest extends \Test\TestCase {
 
 		$this->logger->expects($this->once())
 			->method('error')
-			->with('foo', ['exception' => new \Exception("foo"), 'app' => 'core']);
+			->with('foo', ['exception' => new \Exception('foo'), 'app' => 'core']);
 		$expectedResponse = new Http\JSONResponse(['data' => ['message' => 'An error occurred. Please contact your admin.']], Http::STATUS_OK);
 		$this->assertEquals($expectedResponse, $this->avatarController->postAvatar('avatar.jpg'));
 	}
@@ -547,7 +544,7 @@ class AvatarControllerTest extends \Test\TestCase {
 
 		$this->logger->expects($this->once())
 			->method('error')
-			->with('foo', ['exception' => new \Exception("foo"), 'app' => 'core']);
+			->with('foo', ['exception' => new \Exception('foo'), 'app' => 'core']);
 		$expectedResponse = new Http\JSONResponse(['data' => ['message' => 'An error occurred. Please contact your admin.']], Http::STATUS_BAD_REQUEST);
 		$this->assertEquals($expectedResponse, $this->avatarController->postCroppedAvatar(['x' => 0, 'y' => 0, 'w' => 10, 'h' => 11]));
 	}

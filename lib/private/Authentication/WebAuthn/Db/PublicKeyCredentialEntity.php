@@ -3,26 +3,8 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2020, Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 namespace OC\Authentication\WebAuthn\Db;
 
@@ -41,6 +23,10 @@ use Webauthn\PublicKeyCredentialSource;
  * @method void setPublicKeyCredentialId(string $id);
  * @method string getData();
  * @method void setData(string $data);
+ *
+ * @since 30.0.0 Add userVerification attribute
+ * @method bool|null getUserVerification();
+ * @method void setUserVerification(bool $userVerification);
  */
 class PublicKeyCredentialEntity extends Entity implements JsonSerializable {
 	/** @var string */
@@ -55,20 +41,25 @@ class PublicKeyCredentialEntity extends Entity implements JsonSerializable {
 	/** @var string */
 	protected $data;
 
+	/** @var bool|null */
+	protected $userVerification;
+
 	public function __construct() {
 		$this->addType('name', 'string');
 		$this->addType('uid', 'string');
 		$this->addType('publicKeyCredentialId', 'string');
 		$this->addType('data', 'string');
+		$this->addType('userVerification', 'boolean');
 	}
 
-	public static function fromPublicKeyCrendentialSource(string $name, PublicKeyCredentialSource $publicKeyCredentialSource): PublicKeyCredentialEntity {
+	public static function fromPublicKeyCrendentialSource(string $name, PublicKeyCredentialSource $publicKeyCredentialSource, bool $userVerification): PublicKeyCredentialEntity {
 		$publicKeyCredentialEntity = new self();
 
 		$publicKeyCredentialEntity->setName($name);
 		$publicKeyCredentialEntity->setUid($publicKeyCredentialSource->getUserHandle());
 		$publicKeyCredentialEntity->setPublicKeyCredentialId(base64_encode($publicKeyCredentialSource->getPublicKeyCredentialId()));
 		$publicKeyCredentialEntity->setData(json_encode($publicKeyCredentialSource));
+		$publicKeyCredentialEntity->setUserVerification($userVerification);
 
 		return $publicKeyCredentialEntity;
 	}
