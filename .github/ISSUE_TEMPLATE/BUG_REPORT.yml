@@ -70,6 +70,7 @@ body:
         Select installation method you've used.
         _Describe the method in the "Additional info" section if you chose "Other"._
       options:
+        - "Official All-in-One appliance"
         - "Community Web installer on a VPS or web space"
         - "Community Manual installation with Archive"
         - "Community Docker image"
@@ -77,7 +78,6 @@ body:
         - "Community SNAP package"
         - "Community VM appliance"
         - "Other Community project"
-        - "Official All-in-One appliance"
   - type: dropdown
     id: nextcloud-version
     attributes:
@@ -110,10 +110,10 @@ body:
         Select PHP engine version serving Nextcloud Server.
         _Describe in the "Additional info" section if you chose "Other"._
       options:
-        - "PHP 8.0"
-        - "PHP 8.1"
-        - "PHP 8.2"
         - "PHP 8.3"
+        - "PHP 8.2"
+        - "PHP 8.1"
+        - "PHP 8.0"
         - "Other"
   - type: dropdown
     id: webserver
