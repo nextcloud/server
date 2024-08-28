@@ -13,6 +13,7 @@ use OC\Files\Cache\Propagator;
 use OC\Files\Cache\Scanner;
 use OC\Files\Cache\Updater;
 use OC\Files\Cache\Watcher;
+use OC\Files\FilenameValidator;
 use OC\Files\Filesystem;
 use OC\Files\Storage\Wrapper\Jail;
 use OC\Files\Storage\Wrapper\Wrapper;
@@ -494,7 +495,18 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 		$this->getFilenameValidator()
 			->validateFilename($fileName);
 
-		// NOTE: $path will remain unverified for now
+		// verify also the path is valid
+		if ($path && $path !== '/' && $path !== '.') {
+			try {
+				$this->verifyPath(dirname($path), basename($path));
+			} catch (InvalidPathException $e) {
+				// Ignore invalid file type exceptions on directories
+				if ($e->getCode() !== FilenameValidator::INVALID_FILE_TYPE) {
+					$l = \OCP\Util::getL10N('lib');
+					throw new InvalidPathException($l->t('Invalid parent path'), previous: $e);
+				}
+			}
+		}
 	}
 
 	/**

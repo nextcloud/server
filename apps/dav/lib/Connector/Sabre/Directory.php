@@ -173,7 +173,7 @@ class Directory extends \OCA\DAV\Connector\Sabre\Node implements \Sabre\DAV\ICol
 		$path = $this->path . '/' . $name;
 		if (is_null($info)) {
 			try {
-				$this->fileView->verifyPath($this->path, $name);
+				$this->fileView->verifyPath($this->path, $name, true);
 				$info = $this->fileView->getFileInfo($path);
 			} catch (\OCP\Files\StorageNotAvailableException $e) {
 				throw new \Sabre\DAV\Exception\ServiceUnavailable($e->getMessage(), 0, $e);
