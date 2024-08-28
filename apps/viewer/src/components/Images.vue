@@ -163,6 +163,10 @@ export default {
 			}
 		},
 		livePhoto() {
+			if (this.metadataFilesLivePhoto === undefined) {
+				return undefined
+			}
+
 			return findLivePhotoPeerFromFileId(this.metadataFilesLivePhoto, this.fileList)
 		},
 		livePhotoSrc() {
