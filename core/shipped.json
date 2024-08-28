@@ -91,7 +91,8 @@
     "updatenotification",
     "user_status",
     "viewer",
-    "weather_status"
+    "weather_status",
+    "webhook_listeners"
   ],
   "alwaysEnabled": [
     "files",
