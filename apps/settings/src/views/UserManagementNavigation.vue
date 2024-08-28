@@ -26,7 +26,7 @@
 				</template>
 			</NcAppNavigationItem>
 
-			<NcAppNavigationItem v-if="isAdmin"
+			<NcAppNavigationItem v-if="settings.isAdmin"
 				id="admin"
 				:exact="true"
 				:name="t('settings', 'Admins')"
@@ -65,11 +65,11 @@
 			force-menu
 			is-heading
 			:open.sync="isAddGroupOpen">
-			<template #actionsTriggerIcon>
+			<template v-if="isAdminOrDelegatedAdmin" #actionsTriggerIcon>
 				<NcLoadingIcon v-if="loadingAddGroup" />
 				<NcIconSvgWrapper v-else :path="mdiPlus" />
 			</template>
-			<template #actions>
+			<template v-if="isAdminOrDelegatedAdmin" #actions>
 				<NcActionText>
 					<template #icon>
 						<AccountGroup :size="20" />
@@ -152,8 +152,10 @@ const userCount = computed(() => store.getters.getUserCount)
 const groups = computed(() => store.getters.getSortedGroups)
 const { adminGroup, disabledGroup, userGroups } = useFormatGroups(groups)
 
-/** True if the current user is an administrator */
-const isAdmin = computed(() => store.getters.getServerData.isAdmin)
+/** Server settings for current user */
+const settings = computed(() => store.getters.getServerData)
+/** True if the current user is a (delegated) admin */
+const isAdminOrDelegatedAdmin = computed(() => settings.value.isAdmin || settings.value.isDelegatedAdmin)
 
 /** True if the 'add-group' dialog is open - needed to be able to close it when the group is created */
 const isAddGroupOpen = ref(false)
