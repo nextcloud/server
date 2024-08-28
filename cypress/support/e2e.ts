@@ -6,6 +6,7 @@ import 'cypress-axe'
 import './commands.ts'
 
 // Remove with Node 22
+// Ensure that we can use `Promise.withResolvers` - works in browser but on Node we need Node 22+
 import 'core-js/actual/promise/with-resolvers.js'
 
 // Fix ResizeObserver loop limit exceeded happening in Cypress only
