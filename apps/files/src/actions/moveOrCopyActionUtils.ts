@@ -38,7 +38,7 @@ export type MoveCopyResult = {
 
 export const canMove = (nodes: Node[]) => {
 	const minPermission = nodes.reduce((min, node) => Math.min(min, node.permissions), Permission.ALL)
-	return (minPermission & Permission.UPDATE) !== 0
+	return Boolean(minPermission & Permission.DELETE)
 }
 
 export const canDownload = (nodes: Node[]) => {

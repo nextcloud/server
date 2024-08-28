@@ -30,14 +30,14 @@ describe('Rename action enabled tests', () => {
 			source: 'https://cloud.domain.com/remote.php/dav/files/admin/foobar.txt',
 			owner: 'admin',
 			mime: 'text/plain',
-			permissions: Permission.UPDATE,
+			permissions: Permission.UPDATE | Permission.DELETE,
 		})
 
 		expect(action.enabled).toBeDefined()
 		expect(action.enabled!([file], view)).toBe(true)
 	})
 
-	test('Disabled for node without UPDATE permission', () => {
+	test('Disabled for node without DELETE permission', () => {
 		const file = new File({
 			id: 1,
 			source: 'https://cloud.domain.com/remote.php/dav/files/admin/foobar.txt',

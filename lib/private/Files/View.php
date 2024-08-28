@@ -1826,13 +1826,24 @@ class View {
 	/**
 	 * @param string $path
 	 * @param string $fileName
+	 * @param bool $readonly Check only if the path is allowed for read-only access
 	 * @throws InvalidPathException
 	 */
-	public function verifyPath($path, $fileName): void {
+	public function verifyPath($path, $fileName, $readonly = false): void {
 		// All of the view's functions disallow '..' in the path so we can short cut if the path is invalid
 		if (!Filesystem::isValidPath($path ?: '/')) {
 			$l = \OCP\Util::getL10N('lib');
 			throw new InvalidPathException($l->t('Path contains invalid segments'));
+		}
+
+		// Short cut for read-only validation
+		if ($readonly) {
+			$validator = \OCP\Server::get(FilenameValidator::class);
+			if ($validator->isForbidden($fileName)) {
+				$l = \OCP\Util::getL10N('lib');
+				throw new InvalidPathException($l->t('Filename is a reserved word'));
+			}
+			return;
 		}
 
 		try {
