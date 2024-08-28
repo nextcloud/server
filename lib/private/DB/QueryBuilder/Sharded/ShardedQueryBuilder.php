@@ -36,7 +36,7 @@ class ShardedQueryBuilder extends ExtendedQueryBuilder {
 	private ?int $updateShardKey = null;
 	private ?int $limit = null;
 	private ?int $offset = null;
-	/** @var array{column: string, order: string}[]  */
+	/** @var array{column: string, order: string}[] */
 	private array $sortList = [];
 	private string $mainTable = '';
 
@@ -276,13 +276,13 @@ class ShardedQueryBuilder extends ExtendedQueryBuilder {
 	}
 
 	public function addOrderBy($sort, $order = null) {
-		$this->registerOrder((string) $sort, (string)$order ?? "ASC");
+		$this->registerOrder((string)$sort, (string)$order ?? 'ASC');
 		return parent::orderBy($sort, $order);
 	}
 
 	public function orderBy($sort, $order = null) {
 		$this->sortList = [];
-		$this->registerOrder((string) $sort, (string)$order ?? "ASC");
+		$this->registerOrder((string)$sort, (string)$order ?? 'ASC');
 		return parent::orderBy($sort, $order);
 	}
 
@@ -329,7 +329,7 @@ class ShardedQueryBuilder extends ExtendedQueryBuilder {
 		}
 		if ($this->shardDefinition && !$this->allShards) {
 			if (empty($this->getShardKeys()) && empty($this->getPrimaryKeys())) {
-				throw new InvalidShardedQueryException("No shard key or primary key set for query");
+				throw new InvalidShardedQueryException('No shard key or primary key set for query');
 			}
 		}
 		if ($this->shardDefinition && $this->updateShardKey) {
@@ -347,7 +347,7 @@ class ShardedQueryBuilder extends ExtendedQueryBuilder {
 			}, $oldShardKeys)));
 			$newShard = $this->shardDefinition->getShardForKey((int)$newShardKey);
 			if ($oldShards === [$newShard]) {
-				throw new InvalidShardedQueryException("Update statement would move rows to a different shard");
+				throw new InvalidShardedQueryException('Update statement would move rows to a different shard');
 			}
 		}
 	}

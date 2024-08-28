@@ -135,7 +135,7 @@ class ShardQueryRunner {
 					if ($cmp === 0) {
 						continue;
 					}
-					if ($sort['order'] === "DESC") {
+					if ($sort['order'] === 'DESC') {
 						$cmp = -$cmp;
 					}
 					return $cmp;
@@ -166,7 +166,7 @@ class ShardQueryRunner {
 	 */
 	public function executeStatement(IQueryBuilder $query, bool $allShards, array $shardKeys, array $primaryKeys): int {
 		if ($query->getType() === \Doctrine\DBAL\Query\QueryBuilder::INSERT) {
-			throw new \Exception("insert queries need special handling");
+			throw new \Exception('insert queries need special handling');
 		}
 
 		$shards = $this->getShards($allShards, $shardKeys);

@@ -91,7 +91,7 @@ class SharedQueryBuilderTest extends TestCase {
 
 		$this->expectException(InvalidShardedQueryException::class);
 		$query->validate();
-		$this->fail("exception expected");
+		$this->fail('exception expected');
 	}
 
 	public function testValidateNonSharedTable() {
@@ -114,7 +114,7 @@ class SharedQueryBuilderTest extends TestCase {
 					$query->expr()->eq('storage', $query->createNamedParameter(10, IQueryBuilder::PARAM_INT)),
 					$query->expr()->andX(
 						$query->expr()->eq('storage', $query->createNamedParameter(11, IQueryBuilder::PARAM_INT)),
-						$query->expr()->like('path', $query->createNamedParameter("foo/%"))
+						$query->expr()->like('path', $query->createNamedParameter('foo/%'))
 					)
 				)
 			));

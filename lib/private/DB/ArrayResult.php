@@ -37,7 +37,7 @@ class ArrayResult implements IResult {
 			PDO::FETCH_ASSOC => $row,
 			PDO::FETCH_NUM => array_values($row),
 			PDO::FETCH_COLUMN => current($row),
-			default => throw new \InvalidArgumentException("Fetch mode not supported for array result"),
+			default => throw new \InvalidArgumentException('Fetch mode not supported for array result'),
 		};
 
 	}
@@ -51,7 +51,7 @@ class ArrayResult implements IResult {
 			PDO::FETCH_COLUMN => array_map(function ($row) {
 				return current($row);
 			}, $this->rows),
-			default => throw new \InvalidArgumentException("Fetch mode not supported for array result"),
+			default => throw new \InvalidArgumentException('Fetch mode not supported for array result'),
 		};
 	}
 

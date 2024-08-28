@@ -37,8 +37,8 @@ class JoinCondition {
 	 * @return JoinCondition
 	 */
 	public static function merge(array $conditions): JoinCondition {
-		$fromColumn = "";
-		$toColumn = "";
+		$fromColumn = '';
+		$toColumn = '';
 		$fromAlias = null;
 		$toAlias = null;
 		$fromConditions = [];
@@ -99,9 +99,9 @@ class JoinCondition {
 		$isSubCondition = self::isExtraCondition($condition);
 		if ($isSubCondition) {
 			if (self::mentionsAlias($condition, $fromAlias)) {
-				return new JoinCondition("", null, "", null, [$condition], []);
+				return new JoinCondition('', null, '', null, [$condition], []);
 			} else {
-				return new JoinCondition("", null, "", null, [], [$condition]);
+				return new JoinCondition('', null, '', null, [], [$condition]);
 			}
 		}
 

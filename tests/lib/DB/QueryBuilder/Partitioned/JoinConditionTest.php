@@ -47,7 +47,7 @@ class JoinConditionTest extends TestCase {
 	public function testParseCondition(string $platform): void {
 		$query = $this->getBuilder($platform);
 		$param1 = $query->createNamedParameter('files');
-		$param2 = $query->createNamedParameter("test");
+		$param2 = $query->createNamedParameter('test');
 		$condition = $query->expr()->andX(
 			$query->expr()->eq('tagmap.categoryid', 'tag.id'),
 			$query->expr()->eq('tag.type', $param1),

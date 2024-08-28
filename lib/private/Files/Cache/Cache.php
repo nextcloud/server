@@ -1220,9 +1220,9 @@ class Cache implements ICache {
 		$sourceConnection = $helper->getConnection($shardDefinition, $sourceCache->getNumericStorageId());
 		$targetConnection = $helper->getConnection($shardDefinition, $this->getNumericStorageId());
 
-		$cacheItems = $helper->loadItems($sourceConnection, "filecache", "fileid", $fileIds);
-		$extendedItems = $helper->loadItems($sourceConnection, "filecache_extended", "fileid", $fileIds);
-		$metadataItems = $helper->loadItems($sourceConnection, "files_metadata", "file_id", $fileIds);
+		$cacheItems = $helper->loadItems($sourceConnection, 'filecache', 'fileid', $fileIds);
+		$extendedItems = $helper->loadItems($sourceConnection, 'filecache_extended', 'fileid', $fileIds);
+		$metadataItems = $helper->loadItems($sourceConnection, 'files_metadata', 'file_id', $fileIds);
 
 		// when moving from an encrypted storage to a non-encrypted storage remove the `encrypted` mark
 		$removeEncryptedFlag = ($sourceCache instanceof Cache && $sourceCache->hasEncryptionWrapper()) && !$this->hasEncryptionWrapper();
@@ -1246,9 +1246,9 @@ class Cache implements ICache {
 		$targetConnection->beginTransaction();
 
 		try {
-			$helper->saveItems($targetConnection, "filecache", $cacheItems);
-			$helper->saveItems($targetConnection, "filecache_extended", $extendedItems);
-			$helper->saveItems($targetConnection, "files_metadata", $metadataItems);
+			$helper->saveItems($targetConnection, 'filecache', $cacheItems);
+			$helper->saveItems($targetConnection, 'filecache_extended', $extendedItems);
+			$helper->saveItems($targetConnection, 'files_metadata', $metadataItems);
 		} catch (\Exception $e) {
 			$targetConnection->rollback();
 			throw $e;
@@ -1257,9 +1257,9 @@ class Cache implements ICache {
 		$sourceConnection->beginTransaction();
 
 		try {
-			$helper->deleteItems($sourceConnection, "filecache", "fileid", $fileIds);
-			$helper->deleteItems($sourceConnection, "filecache_extended", "fileid", $fileIds);
-			$helper->deleteItems($sourceConnection, "files_metadata", "file_id", $fileIds);
+			$helper->deleteItems($sourceConnection, 'filecache', 'fileid', $fileIds);
+			$helper->deleteItems($sourceConnection, 'filecache_extended', 'fileid', $fileIds);
+			$helper->deleteItems($sourceConnection, 'files_metadata', 'file_id', $fileIds);
 		} catch (\Exception $e) {
 			$targetConnection->rollback();
 			$sourceConnection->rollBack();

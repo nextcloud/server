@@ -487,17 +487,17 @@ class CacheTest extends \Test\TestCase {
 		$data = ['size' => 100, 'mtime' => 50, 'mimetype' => 'foo/bar'];
 		$folderData = ['size' => 100, 'mtime' => 50, 'mimetype' => 'httpd/unix-directory'];
 
-		$this->cache2->put("folder", $folderData);
-		$this->cache2->put("folder/sub", $data);
+		$this->cache2->put('folder', $folderData);
+		$this->cache2->put('folder/sub', $data);
 
 
-		$this->cache->moveFromCache($this->cache2, "folder", "targetfolder");
+		$this->cache->moveFromCache($this->cache2, 'folder', 'targetfolder');
 
-		$this->assertFalse($this->cache2->inCache("folder"));
-		$this->assertFalse($this->cache2->inCache("folder/sub"));
+		$this->assertFalse($this->cache2->inCache('folder'));
+		$this->assertFalse($this->cache2->inCache('folder/sub'));
 
-		$this->assertTrue($this->cache->inCache("targetfolder"));
-		$this->assertTrue($this->cache->inCache("targetfolder/sub"));
+		$this->assertTrue($this->cache->inCache('targetfolder'));
+		$this->assertTrue($this->cache->inCache('targetfolder/sub'));
 	}
 
 	public function testGetIncomplete() {
