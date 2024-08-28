@@ -208,7 +208,6 @@
     "New text file.txt" : "Nova tekstna datoteka.txt",
     "Copy direct link (only works for users who have access to this file/folder)" : "Kopiraj izravnu poveznicu (samo za korisnike koji smiju pristupiti ovoj datoteci/mapi)",
     "\"remote user\"" : "„udaljeni korisnik”",
-    "File name" : "Naziv datoteke",
     "Name cannot be empty" : "Naziv ne može biti prazan",
     "Toggle %1$s sublist" : "Uključivanje/isključivanje potpopisa %1$s"
 },"pluralForm" :"nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;"

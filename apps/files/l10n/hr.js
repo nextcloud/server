@@ -210,7 +210,6 @@ OC.L10N.register(
     "New text file.txt" : "Nova tekstna datoteka.txt",
     "Copy direct link (only works for users who have access to this file/folder)" : "Kopiraj izravnu poveznicu (samo za korisnike koji smiju pristupiti ovoj datoteci/mapi)",
     "\"remote user\"" : "„udaljeni korisnik”",
-    "File name" : "Naziv datoteke",
     "Name cannot be empty" : "Naziv ne može biti prazan",
     "Toggle %1$s sublist" : "Uključivanje/isključivanje potpopisa %1$s"
 },
