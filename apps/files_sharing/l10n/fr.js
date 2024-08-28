@@ -274,6 +274,7 @@ OC.L10N.register(
     "Video verification" : "Vérification vidéo",
     "Set expiration date" : "Définir une date d'expiration",
     "Hide download" : "Masquer le téléchargement",
+    "Allow download and sync" : "Autoriser le téléchargement et la synchronisation",
     "Note to recipient" : "Note au destinataire",
     "Enter a note for the share recipient" : "Saisissez une note pour le destinataire du partage",
     "Read" : "Lire",

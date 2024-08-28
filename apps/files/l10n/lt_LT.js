@@ -226,7 +226,6 @@ OC.L10N.register(
     "Direct link was copied (only works for users who have access to this file/folder)" : "Tiesioginė nuoroda buvo nukopijuota (veikia tik naudotojams, turintiems prieigą prie šio failo/aplanko)",
     "Copy direct link (only works for users who have access to this file/folder)" : "Kopijuoti tiesioginę nuorodą (veiks tik naudotojams, turintiems prieigą prie šio failo/aplanko)",
     "\"remote user\"" : "„nuotolinis naudotojas“",
-    "File name" : "Failo pavadinimas",
     "{newName} already exists." : "{newName} jau yra.",
     "Name cannot be empty" : "Pavadinimas negali būti tuščias",
     "Storage informations" : "Informacija apie saugyklą"

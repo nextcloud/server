@@ -246,7 +246,6 @@ OC.L10N.register(
     "Direct link was copied (only works for users who have access to this file/folder)" : "Беше копирана директна връзка (ще работи само за потребители с достъп до този файл/папка)",
     "Copy direct link (only works for users who have access to this file/folder)" : "Копирай директната връзка (ще работи само за потребители с достъп до файла/папката)",
     "\"remote user\"" : "\"отдалечен потребител\"",
-    "File name" : "Име на файл",
     "Name cannot be empty" : "Името не може да бъде празно",
     "Storage informations" : "Хранилище на  информация",
     "Open the files app settings" : "Отваряне на настройките на приложението за файлове",
