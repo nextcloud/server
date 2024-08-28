@@ -9,7 +9,6 @@ declare(strict_types=1);
 
 namespace OC\Session;
 
-use Exception;
 use OCP\IRequest;
 use OCP\Security\ICrypto;
 use OCP\Security\ISecureRandom;
@@ -17,10 +16,6 @@ use Psr\Log\LoggerInterface;
 use SessionHandler;
 use function explode;
 use function implode;
-use function json_decode;
-use function OCP\Log\logger;
-use function session_decode;
-use function session_encode;
 use function strlen;
 
 class CryptoSessionHandler extends SessionHandler {
@@ -43,6 +38,8 @@ class CryptoSessionHandler extends SessionHandler {
 	 * @param string $id
 	 *
 	 * @return false|string
+	 *
+	 * @codeCoverageIgnore
 	 */
 	public function read(string $id): false|string {
 		[$sessionId, $passphrase] = self::parseId($id);
@@ -70,6 +67,8 @@ class CryptoSessionHandler extends SessionHandler {
 	 * @param string $data
 	 *
 	 * @return bool
+	 *
+	 * @codeCoverageIgnore
 	 */
 	public function write(string $id, string $data): bool {
 		[$sessionId, $passphrase] = self::parseId($id);
@@ -90,6 +89,11 @@ class CryptoSessionHandler extends SessionHandler {
 		return parent::write($sessionId, $encryptedData);
 	}
 
+	/**
+	 * @return bool
+	 *
+	 * @codeCoverageIgnore
+	 */
 	public function close(): bool {
 		return parent::close();
 	}

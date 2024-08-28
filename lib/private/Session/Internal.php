@@ -11,6 +11,7 @@ namespace OC\Session;
 
 use OC\Authentication\Token\IProvider;
 use OCP\Authentication\Exceptions\InvalidTokenException;
+use OCP\IConfig;
 use OCP\ILogger;
 use OCP\Session\Exceptions\SessionNotAvailableException;
 use Psr\Log\LoggerInterface;
