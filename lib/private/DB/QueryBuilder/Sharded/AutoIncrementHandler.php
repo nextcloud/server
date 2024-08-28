@@ -29,13 +29,13 @@ class AutoIncrementHandler {
 		private ShardConnectionManager $shardConnectionManager,
 	) {
 		if (PHP_INT_SIZE < 8) {
-			throw new \Exception("sharding is only supported with 64bit php");
+			throw new \Exception('sharding is only supported with 64bit php');
 		}
 	}
 
 	private function getCache(): IMemcache {
 		if(is_null($this->cache)) {
-			$cache = $this->cacheFactory->createDistributed("shared_autoincrement");
+			$cache = $this->cacheFactory->createDistributed('shared_autoincrement');
 			if ($cache instanceof IMemcache) {
 				$this->cache = $cache;
 			} else {
@@ -61,7 +61,7 @@ class AutoIncrementHandler {
 			$next = $this->getNextInner($shardDefinition);
 			if ($next !== null) {
 				if ($next > ShardDefinition::MAX_PRIMARY_KEY) {
-					throw new \Exception("Max primary key of " . ShardDefinition::MAX_PRIMARY_KEY . " exceeded");
+					throw new \Exception('Max primary key of ' . ShardDefinition::MAX_PRIMARY_KEY . ' exceeded');
 				}
 				// we encode the shard the primary key was originally inserted into to allow guessing the shard by primary key later on
 				return ($next << 8) | $shard;
@@ -69,7 +69,7 @@ class AutoIncrementHandler {
 				$retries++;
 			}
 		}
-		throw new \Exception("Failed to get next primary key");
+		throw new \Exception('Failed to get next primary key');
 	}
 
 	/**
@@ -88,7 +88,7 @@ class AutoIncrementHandler {
 		// if that is not the case we find the highest used id in the database increment it, and save it in the cache
 
 		// prevent inc from returning `1` if the key doesn't exist by setting it to a non-numeric value
-		$cache->add($shardDefinition->table, "empty-placeholder", self::TTL);
+		$cache->add($shardDefinition->table, 'empty-placeholder', self::TTL);
 		$next = $cache->inc($shardDefinition->table);
 
 		if ($cache instanceof IMemcacheTTL) {
@@ -101,7 +101,7 @@ class AutoIncrementHandler {
 			return $next;
 		} elseif (is_int($next)) {
 			// we hit the edge case, so invalidate the cached value
-			if (!$cache->cas($shardDefinition->table, $next, "empty-placeholder")) {
+			if (!$cache->cas($shardDefinition->table, $next, 'empty-placeholder')) {
 				// someone else is changing the value concurrently, give up and retry
 				return null;
 			}
@@ -110,7 +110,7 @@ class AutoIncrementHandler {
 		// discard the encoded initial shard
 		$current = $this->getMaxFromDb($shardDefinition) >> 8;
 		$next = max($current, self::MIN_VALID_KEY) + 1;
-		if ($cache->cas($shardDefinition->table, "empty-placeholder", $next)) {
+		if ($cache->cas($shardDefinition->table, 'empty-placeholder', $next)) {
 			return $next;
 		}
 
@@ -120,11 +120,11 @@ class AutoIncrementHandler {
 			return $next;
 		} elseif(is_int($next)) {
 			// key got cleared, invalidate and retry
-			$cache->cas($shardDefinition->table, $next, "empty-placeholder");
+			$cache->cas($shardDefinition->table, $next, 'empty-placeholder');
 			return null;
 		} else {
 			// cleanup any non-numeric value other than the placeholder if that got stored somehow
-			$cache->ncad($shardDefinition->table, "empty-placeholder");
+			$cache->ncad($shardDefinition->table, 'empty-placeholder');
 			// retry
 			return null;
 		}
@@ -140,7 +140,7 @@ class AutoIncrementHandler {
 			$query = $connection->getQueryBuilder();
 			$query->select($shardDefinition->primaryKey)
 				->from($shardDefinition->table)
-				->orderBy($shardDefinition->primaryKey, "DESC")
+				->orderBy($shardDefinition->primaryKey, 'DESC')
 				->setMaxResults(1);
 			$result = $query->executeQuery()->fetchOne();
 			if ($result) {

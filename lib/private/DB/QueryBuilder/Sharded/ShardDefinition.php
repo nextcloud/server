@@ -41,7 +41,7 @@ class ShardDefinition {
 		public array $shards = [],
 	) {
 		if (count($this->shards) >= self::MAX_SHARDS) {
-			throw new \Exception("Only allowed maximum of " . self::MAX_SHARDS . " shards allowed");
+			throw new \Exception('Only allowed maximum of ' . self::MAX_SHARDS . ' shards allowed');
 		}
 	}
 

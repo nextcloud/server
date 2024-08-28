@@ -120,7 +120,7 @@ class DeleteOrphanedSharesJob extends TimedJob {
 			$this->atomic(function () use ($deletedFiles, $deleteQb) {
 				$deleteQb->setParameter('ids', $deletedFiles, IQueryBuilder::PARAM_INT_ARRAY);
 				$deleted = $deleteQb->executeStatement();
-				$this->logger->debug("{deleted} orphaned share(s) deleted", [
+				$this->logger->debug('{deleted} orphaned share(s) deleted', [
 					'app' => 'DeleteOrphanedSharesJob',
 					'deleted' => $deleted,
 				]);

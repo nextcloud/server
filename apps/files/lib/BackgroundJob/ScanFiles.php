@@ -70,7 +70,7 @@ class ScanFiles extends TimedJob {
 	 * @return string|false
 	 */
 	private function getUserToScan() {
-		if ($this->connection->getShardDefinition("filecache")) {
+		if ($this->connection->getShardDefinition('filecache')) {
 			// for sharded filecache, the "LIMIT" from the normal query doesn't work
 
 			// first we try it with a "LEFT JOIN" on mounts, this is fast, but might return a storage that isn't mounted.
@@ -82,7 +82,7 @@ class ScanFiles extends TimedJob {
 				->where($query->expr()->lt('f.size', $query->createNamedParameter(0, IQueryBuilder::PARAM_INT)))
 				->andWhere($query->expr()->gt('f.parent', $query->createNamedParameter(-1, IQueryBuilder::PARAM_INT)))
 				->setMaxResults(10)
-				->groupBy("f.storage")
+				->groupBy('f.storage')
 				->runAcrossAllShards();
 
 			$result = $query->executeQuery();

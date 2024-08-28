@@ -83,13 +83,13 @@ class CrossShardMoveHelper {
 		$query = $connection->getQueryBuilder();
 		$query->select('*')
 			->from($table)
-			->where($query->expr()->in($primaryColumn, $query->createParameter("keys")));
+			->where($query->expr()->in($primaryColumn, $query->createParameter('keys')));
 
 		$chunks = array_chunk($primaryKeys, 1000);
 
 		$results = [];
 		foreach ($chunks as $chunk) {
-			$query->setParameter("keys", $chunk, IQueryBuilder::PARAM_INT_ARRAY);
+			$query->setParameter('keys', $chunk, IQueryBuilder::PARAM_INT_ARRAY);
 			$results = array_merge($results, $query->execute()->fetchAll());
 		}
 
@@ -151,11 +151,11 @@ class CrossShardMoveHelper {
 	public function deleteItems(IDBConnection $connection, string $table, string $primaryColumn, array $primaryKeys): void {
 		$query = $connection->getQueryBuilder();
 		$query->delete($table)
-			->where($query->expr()->in($primaryColumn, $query->createParameter("keys")));
+			->where($query->expr()->in($primaryColumn, $query->createParameter('keys')));
 		$chunks = array_chunk($primaryKeys, 1000);
 
 		foreach ($chunks as $chunk) {
-			$query->setParameter("keys", $chunk, IQueryBuilder::PARAM_INT_ARRAY);
+			$query->setParameter('keys', $chunk, IQueryBuilder::PARAM_INT_ARRAY);
 			$query->executeStatement();
 		}
 	}

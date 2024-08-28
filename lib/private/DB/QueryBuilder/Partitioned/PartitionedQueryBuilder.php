@@ -391,10 +391,10 @@ class PartitionedQueryBuilder extends ShardedQueryBuilder {
 			}, false);
 			if ($hasNonLeftJoins) {
 				if (is_int($this->limit)) {
-					throw new InvalidPartitionedQueryException("Limit is not allowed in partitioned queries");
+					throw new InvalidPartitionedQueryException('Limit is not allowed in partitioned queries');
 				}
 				if (is_int($this->offset)) {
-					throw new InvalidPartitionedQueryException("Offset is not allowed in partitioned queries");
+					throw new InvalidPartitionedQueryException('Offset is not allowed in partitioned queries');
 				}
 			}
 		}
