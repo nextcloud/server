@@ -637,44 +637,51 @@ class Server extends ServerContainer implements IServerContainer {
 
 		$this->registerService(Factory::class, function (Server $c) {
 			$profiler = $c->get(IProfiler::class);
-			$arrayCacheFactory = new \OC\Memcache\Factory('', $c->get(LoggerInterface::class),
+			$arrayCacheFactory = new \OC\Memcache\Factory(fn () => '', $c->get(LoggerInterface::class),
 				$profiler,
 				ArrayCache::class,
 				ArrayCache::class,
 				ArrayCache::class
 			);
-			/** @var \OCP\IConfig $config */
-			$config = $c->get(\OCP\IConfig::class);
+			/** @var SystemConfig $config */
+			$config = $c->get(SystemConfig::class);
 
-			if ($config->getSystemValueBool('installed', false) && !(defined('PHPUNIT_RUN') && PHPUNIT_RUN)) {
-				if (!$config->getSystemValueBool('log_query')) {
-					try {
-						$v = \OC_App::getAppVersions();
-					} catch (\Doctrine\DBAL\Exception $e) {
-						// Database service probably unavailable
-						// Probably related to https://github.com/nextcloud/server/issues/37424
-						return $arrayCacheFactory;
+			if ($config->getValue('installed', false) && !(defined('PHPUNIT_RUN') && PHPUNIT_RUN)) {
+				$logQuery = $config->getValue('log_query');
+				$prefixClosure = function () use ($logQuery) {
+					if (!$logQuery) {
+						try {
+							$v = \OC_App::getAppVersions();
+						} catch (\Doctrine\DBAL\Exception $e) {
+							// Database service probably unavailable
+							// Probably related to https://github.com/nextcloud/server/issues/37424
+							return null;
+						}
+					} else {
+						// If the log_query is enabled, we can not get the app versions
+						// as that does a query, which will be logged and the logging
+						// depends on redis and here we are back again in the same function.
+						$v = [
+							'log_query' => 'enabled',
+						];
 					}
-				} else {
-					// If the log_query is enabled, we can not get the app versions
-					// as that does a query, which will be logged and the logging
-					// depends on redis and here we are back again in the same function.
-					$v = [
-						'log_query' => 'enabled',
-					];
-				}
-				$v['core'] = implode(',', \OC_Util::getVersion());
-				$version = implode(',', $v);
-				$instanceId = \OC_Util::getInstanceId();
-				$path = \OC::$SERVERROOT;
-				$prefix = md5($instanceId . '-' . $version . '-' . $path);
-				return new \OC\Memcache\Factory($prefix,
+					$v['core'] = implode(',', \OC_Util::getVersion());
+					$version = implode(',', $v);
+					$instanceId = \OC_Util::getInstanceId();
+					$path = \OC::$SERVERROOT;
+					return md5($instanceId . '-' . $version . '-' . $path);
+				};
+				return new \OC\Memcache\Factory($prefixClosure,
 					$c->get(LoggerInterface::class),
 					$profiler,
-					$config->getSystemValue('memcache.local', null),
-					$config->getSystemValue('memcache.distributed', null),
-					$config->getSystemValue('memcache.locking', null),
-					$config->getSystemValueString('redis_log_file')
+					/** @psalm-taint-escape callable */
+					$config->getValue('memcache.local', null),
+					/** @psalm-taint-escape callable */
+					$config->getValue('memcache.distributed', null),
+					/** @psalm-taint-escape callable */
+					$config->getValue('memcache.locking', null),
+					/** @psalm-taint-escape callable */
+					$config->getValue('redis_log_file')
 				);
 			}
 			return $arrayCacheFactory;
@@ -804,7 +811,7 @@ class Server extends ServerContainer implements IServerContainer {
 		$this->registerAlias(IDBConnection::class, ConnectionAdapter::class);
 		$this->registerService(Connection::class, function (Server $c) {
 			$systemConfig = $c->get(SystemConfig::class);
-			$factory = new \OC\DB\ConnectionFactory($systemConfig);
+			$factory = new \OC\DB\ConnectionFactory($systemConfig, $c->get(ICacheFactory::class));
 			$type = $systemConfig->getValue('dbtype', 'sqlite');
 			if (!$factory->isValidType($type)) {
 				throw new \OC\DatabaseException('Invalid database type');

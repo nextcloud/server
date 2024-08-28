@@ -118,7 +118,7 @@ abstract class TestCase extends \Test\TestCase {
 		$qb->execute();
 
 		$qb = \OC::$server->getDatabaseConnection()->getQueryBuilder();
-		$qb->delete('filecache');
+		$qb->delete('filecache')->runAcrossAllShards();
 		$qb->execute();
 
 		parent::tearDown();
