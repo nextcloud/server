@@ -5,8 +5,6 @@
  */
 namespace OCP\AppFramework\Http\Template;
 
-use OCP\Util;
-
 /**
  * Class LinkMenuAction
  *
@@ -37,22 +35,5 @@ class ExternalShareMenuAction extends SimpleMenuAction {
 		$this->owner = $owner;
 		$this->displayname = $displayname;
 		$this->shareName = $shareName;
-	}
-
-	/**
-	 * @since 14.0.0
-	 */
-	public function render(): string {
-		return '<li>' .
-			'    <button id="save-external-share" class="icon ' . Util::sanitizeHTML($this->getIcon()) . '" data-protected="false" data-owner-display-name="' . Util::sanitizeHTML($this->displayname) . '" data-owner="' . Util::sanitizeHTML($this->owner) . '" data-name="' . Util::sanitizeHTML($this->shareName) . '">' . Util::sanitizeHTML($this->getLabel()) . '</button>' .
-			'</li>' .
-			'<li id="external-share-menu-item" class="hidden">' .
-			'    <span class="menuitem">' .
-			'        <form class="save-form" action="#">' .
-			'            <input type="text" id="remote_address" placeholder="user@yourNextcloud.org">' .
-			'            <input type="submit" value=" " id="save-button-confirm" class="icon-confirm" disabled="disabled"></button>' .
-			'        </form>' .
-			'    </span>' .
-			'</li>';
 	}
 }

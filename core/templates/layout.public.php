@@ -73,44 +73,18 @@ p($theme->getTitle());
 		</div>
 
 		<div class="header-end">
-		<?php
-/** @var \OCP\AppFramework\Http\Template\PublicTemplateResponse $template */
-if (isset($template) && $template->getActionCount() !== 0) {
-	$primary = $template->getPrimaryAction();
-	$others = $template->getOtherActions(); ?>
-			<span id="header-primary-action" class="<?php if ($template->getActionCount() === 1) {
-				p($primary->getIcon());
-			} ?>">
-				<a href="<?php p($primary->getLink()); ?>" class="primary button">
-					<span><?php p($primary->getLabel()) ?></span>
-				</a>
-			</span>
-			<?php if ($template->getActionCount() > 1) { ?>
-			<div id="header-secondary-action">
-				<button id="header-actions-toggle" class="menutoggle icon-more-white"></button>
-				<div id="header-actions-menu" class="popovermenu menu">
-					<ul>
-						<?php
-							/** @var \OCP\AppFramework\Http\Template\IMenuAction $action */
-							foreach ($others as $action) {
-								print_unescaped($action->render());
-							}
-				?>
-					</ul>
-				</div>
-			</div>
-			<?php } ?>
-		<?php
-} ?>
+			<div id="public-page-menu"></div>
 		</div>
 	</header>
+
 	<main id="content" class="app-<?php p($_['appid']) ?>">
 		<h1 class="hidden-visually">
-			<?php if (isset($template) && $template->getHeaderTitle() !== '') { ?>
-				<?php p($template->getHeaderTitle()); ?>
-			<?php } else { ?>
-				<?php	p($theme->getName()); ?>
-			<?php } ?>
+			<?php
+			if (isset($template) && $template->getHeaderTitle() !== '') {
+				p($template->getHeaderTitle());
+			} else {
+				p($theme->getName());
+			} ?>
 		</h1>
 		<?php print_unescaped($_['content']); ?>
 	</main>

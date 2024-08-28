@@ -363,8 +363,7 @@ class ShareControllerTest extends \Test\TestCase {
 		$expectedResponse->setHeaderTitle($sharedTmplParams['filename']);
 		$expectedResponse->setHeaderDetails('shared by ' . $sharedTmplParams['shareOwner']);
 		$expectedResponse->setHeaderActions([
-			new SimpleMenuAction('download', $this->l10n->t('Download'), 'icon-download-white', $sharedTmplParams['downloadURL'], 0),
-			new SimpleMenuAction('download', $this->l10n->t('Download'), 'icon-download', $sharedTmplParams['downloadURL'], 10, $sharedTmplParams['fileSize']),
+			new SimpleMenuAction('download', $this->l10n->t('Download'), 'icon-download', $sharedTmplParams['downloadURL'], 0, $sharedTmplParams['fileSize']),
 			new LinkMenuAction($this->l10n->t('Direct link'), 'icon-public', $sharedTmplParams['previewURL']),
 			new ExternalShareMenuAction($this->l10n->t('Add to your Nextcloud'), 'icon-external', $sharedTmplParams['owner'], $sharedTmplParams['shareOwner'], $sharedTmplParams['filename']),
 		]);
@@ -525,8 +524,7 @@ class ShareControllerTest extends \Test\TestCase {
 		$expectedResponse->setHeaderTitle($sharedTmplParams['filename']);
 		$expectedResponse->setHeaderDetails('');
 		$expectedResponse->setHeaderActions([
-			new SimpleMenuAction('download', $this->l10n->t('Download'), 'icon-download-white', $sharedTmplParams['downloadURL'], 0),
-			new SimpleMenuAction('download', $this->l10n->t('Download'), 'icon-download', $sharedTmplParams['downloadURL'], 10, $sharedTmplParams['fileSize']),
+			new SimpleMenuAction('download', $this->l10n->t('Download'), 'icon-download', $sharedTmplParams['downloadURL'], 0, $sharedTmplParams['fileSize']),
 			new LinkMenuAction($this->l10n->t('Direct link'), 'icon-public', $sharedTmplParams['previewURL']),
 			new ExternalShareMenuAction($this->l10n->t('Add to your Nextcloud'), 'icon-external', $sharedTmplParams['owner'], $sharedTmplParams['shareOwner'], $sharedTmplParams['filename']),
 		]);
