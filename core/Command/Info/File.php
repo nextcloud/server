@@ -11,6 +11,7 @@ use OC\Files\ObjectStore\ObjectStoreStorage;
 use OC\Files\View;
 use OCA\Files_External\Config\ExternalMountPoint;
 use OCA\GroupFolders\Mount\GroupMountPoint;
+use OCP\Files\File as OCPFile;
 use OCP\Files\Folder;
 use OCP\Files\IHomeStorage;
 use OCP\Files\Mount\IMountPoint;
@@ -61,8 +62,9 @@ class File extends Command {
 		$output->writeln('  fileid: ' . $node->getId());
 		$output->writeln('  mimetype: ' . $node->getMimetype());
 		$output->writeln('  modified: ' . (string)$this->l10n->l('datetime', $node->getMTime()));
-		$output->writeln('  ' . ($node->isEncrypted() ? 'encrypted' : 'not encrypted'));
-		if ($node->isEncrypted()) {
+
+		if ($node instanceof OCPFile && $node->isEncrypted()) {
+			$output->writeln('  ' . 'server-side encrypted: yes');
 			$keyPath = $this->encryptionUtil->getFileKeyDir('', $node->getPath());
 			if ($this->rootView->file_exists($keyPath)) {
 				$output->writeln('    encryption key at: ' . $keyPath);
@@ -70,6 +72,11 @@ class File extends Command {
 				$output->writeln('    <error>encryption key not found</error> should be located at: ' . $keyPath);
 			}
 		}
+
+		if ($node instanceof Folder && $node->isEncrypted() || $node instanceof OCPFile && $node->getParent()->isEncrypted()) {
+			$output->writeln('  ' . 'end-to-end encrypted: yes');
+		}
+
 		$output->writeln('  size: ' . Util::humanFileSize($node->getSize()));
 		$output->writeln('  etag: ' . $node->getEtag());
 		if ($node instanceof Folder) {
