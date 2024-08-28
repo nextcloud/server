@@ -115,6 +115,24 @@ class SystemConfig {
 	}
 
 	/**
+	 * Since system config is admin controlled, we can tell psalm to ignore any taint
+	 *
+	 * @psalm-taint-escape sql
+	 * @psalm-taint-escape html
+	 * @psalm-taint-escape ldap
+	 * @psalm-taint-escape callable
+	 * @psalm-taint-escape file
+	 * @psalm-taint-escape ssrf
+	 * @psalm-taint-escape cookie
+	 * @psalm-taint-escape header
+	 * @psalm-taint-escape has_quotes
+	 * @psalm-pure
+	 */
+	public static function trustSystemConfig(mixed $value): mixed {
+		return $value;
+	}
+
+	/**
 	 * Lists all available config keys
 	 * @return array an array of key names
 	 */
@@ -150,7 +168,7 @@ class SystemConfig {
 	 * @return mixed the value or $default
 	 */
 	public function getValue($key, $default = '') {
-		return $this->config->getValue($key, $default);
+		return $this->trustSystemConfig($this->config->getValue($key, $default));
 	}
 
 	/**

@@ -107,7 +107,7 @@ class CleanTags implements IRepairStep {
 			$output,
 			'%d tags for delete files have been removed.',
 			'vcategory_to_object', 'objid',
-			'filecache', 'fileid', 'path_hash'
+			'filecache', 'fileid', 'fileid'
 		);
 	}
 
@@ -169,16 +169,17 @@ class CleanTags implements IRepairStep {
 			$orphanItems[] = (int) $row[$deleteId];
 		}
 
+		$deleteQuery = $this->connection->getQueryBuilder();
+		$deleteQuery->delete($deleteTable)
+			->where(
+				$deleteQuery->expr()->eq('type', $deleteQuery->expr()->literal('files'))
+			)
+			->andWhere($deleteQuery->expr()->in($deleteId, $deleteQuery->createParameter('ids')));
 		if (!empty($orphanItems)) {
 			$orphanItemsBatch = array_chunk($orphanItems, 200);
 			foreach ($orphanItemsBatch as $items) {
-				$qb->delete($deleteTable)
-					->where(
-						$qb->expr()->eq('type', $qb->expr()->literal('files'))
-					)
-					->andWhere($qb->expr()->in($deleteId, $qb->createParameter('ids')));
-				$qb->setParameter('ids', $items, IQueryBuilder::PARAM_INT_ARRAY);
-				$qb->execute();
+				$deleteQuery->setParameter('ids', $items, IQueryBuilder::PARAM_INT_ARRAY);
+				$deleteQuery->executeStatement();
 			}
 		}
 

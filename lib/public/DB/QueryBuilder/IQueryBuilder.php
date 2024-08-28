@@ -1010,6 +1010,15 @@ interface IQueryBuilder {
 	public function getTableName($table);
 
 	/**
+	 * Returns the table name with database prefix as needed by the implementation
+	 *
+	 * @param string $table
+	 * @return string
+	 * @since 30.0.0
+	 */
+	public function prefixTableName(string $table): string;
+
+	/**
 	 * Returns the column name quoted and with table alias prefix as needed by the implementation
 	 *
 	 * @param string $column
@@ -1018,4 +1027,30 @@ interface IQueryBuilder {
 	 * @since 9.0.0
 	 */
 	public function getColumnName($column, $tableAlias = '');
+
+	/**
+	 * Provide a hint for the shard key for queries where this can't be detected otherwise
+	 *
+	 * @param string $column
+	 * @param mixed $value
+	 * @return $this
+	 * @since 30.0.0
+	 */
+	public function hintShardKey(string $column, mixed $value, bool $overwrite = false);
+
+	/**
+	 * Set the query to run across all shards if sharding is enabled.
+	 *
+	 * @return $this
+	 * @since 30.0.0
+	 */
+	public function runAcrossAllShards();
+
+	/**
+	 * Get a list of column names that are expected in the query output
+	 *
+	 * @return array
+	 * @since 30.0.0
+	 */
+	public function getOutputColumns(): array;
 }
