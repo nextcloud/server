@@ -137,10 +137,13 @@ class Manager implements IManager {
 				$this->logger->debug('Running a TextProcessing (' . $taskTypeClass . ') task with TaskProcessing');
 				$taskProcessingResultTask = $this->taskProcessingManager->runTask($taskProcessingTask);
 				if ($taskProcessingResultTask->getStatus() === \OCP\TaskProcessing\Task::STATUS_SUCCESSFUL) {
-					$task->setOutput($taskProcessingResultTask->getOutput()['output'] ?? '');
-					$task->setStatus(OCPTask::STATUS_SUCCESSFUL);
-					$this->taskMapper->update(DbTask::fromPublicTask($task));
-					return $task->getOutput();
+					$output = $taskProcessingResultTask->getOutput();
+					if (isset($output['output']) && is_string($output['output'])) {
+						$task->setOutput($output['output']);
+						$task->setStatus(OCPTask::STATUS_SUCCESSFUL);
+						$this->taskMapper->update(DbTask::fromPublicTask($task));
+						return $output['output'];
+					}
 				}
 			} catch (\Throwable $e) {
 				$this->logger->error('TextProcessing to TaskProcessing failed', ['exception' => $e]);

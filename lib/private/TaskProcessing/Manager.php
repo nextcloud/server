@@ -88,7 +88,6 @@ class Manager implements IManager {
 		IAppDataFactory $appDataFactory,
 		private IRootFolder $rootFolder,
 		private \OCP\TextToImage\IManager $textToImageManager,
-		private \OCP\SpeechToText\ISpeechToTextManager $speechToTextManager,
 		private IUserMountCache $userMountCache,
 		private IClientService $clientService,
 		private IAppManager $appManager,
@@ -369,12 +368,35 @@ class Manager implements IManager {
 		return $newProviders;
 	}
 
+	/**
+	 * This is almost a copy of SpeechToTextManager->getProviders
+	 * to avoid a dependency cycle between SpeechToTextManager and TaskProcessingManager
+	 */
+	private function _getRawSpeechToTextProviders(): array {
+		$context = $this->coordinator->getRegistrationContext();
+		if ($context === null) {
+			return [];
+		}
+		$providers = [];
+		foreach ($context->getSpeechToTextProviders() as $providerServiceRegistration) {
+			$class = $providerServiceRegistration->getService();
+			try {
+				$providers[$class] = $this->serverContainer->get($class);
+			} catch (NotFoundExceptionInterface|ContainerExceptionInterface|\Throwable $e) {
+				$this->logger->error('Failed to load SpeechToText provider ' . $class, [
+					'exception' => $e,
+				]);
+			}
+		}
+
+		return $providers;
+	}
 
 	/**
 	 * @return IProvider[]
 	 */
 	private function _getSpeechToTextProviders(): array {
-		$oldProviders = $this->speechToTextManager->getProviders();
+		$oldProviders = $this->_getRawSpeechToTextProviders();
 		$newProviders = [];
 		foreach ($oldProviders as $oldProvider) {
 			$newProvider = new class($oldProvider, $this->rootFolder, $this->appData) implements IProvider, ISynchronousProvider {
