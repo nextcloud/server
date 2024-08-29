@@ -21,7 +21,7 @@
     "Could not reload comments" : "Non foi posíbel volver cargar os comentarios",
     "No comments yet, start the conversation!" : "Aínda non hai comentarios, comeza a conversa!",
     "No more messages" : "Non hai máis mensaxes",
-    "Retry" : "Tentar de novo",
+    "Retry" : "Volver tentar",
     "Failed to mark comments as read" : "Produciuse un fallo ao marcar os comentarios como lidos",
     "Unable to load the comments list" : "Non é posíbel cargar a lista de comentarios",
     "_1 new comment_::_{unread} new comments_" : ["1 comentario novo","{unread} comentarios novos"],

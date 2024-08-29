@@ -655,7 +655,6 @@ OC.L10N.register(
     "Show to logged in users only" : "Csak a bejelentkezett felhasználók számára látható",
     "Nextcloud help resources" : "Nextcloud súgóerőforrások",
     "SMTP Username" : "SMTP felhasználónév",
-    "Active accounts" : "Aktív fiókok",
-    "Set account manager" : "Felhasználókezelő beállítása"
+    "Active accounts" : "Aktív fiókok"
 },
 "nplurals=2; plural=(n != 1);");

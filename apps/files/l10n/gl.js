@@ -352,7 +352,7 @@ OC.L10N.register(
     "_{fileCount} file and 1 folder_::_{fileCount} files and 1 folder_" : ["{fileCount} ficheiro e 1 cartafol","{fileCount} ficheiros e 1 cartafol"],
     "{fileCount} files and {folderCount} folders" : "{fileCount} ficheiros e {folderCount} cartafoles",
     "Filename must not be empty." : "O nome de ficheiro non debe estar baleiro",
-    "\"{char}\" is not allowed inside a filename." : "«{char}» non está permitido un nome de ficheiro.",
+    "\"{char}\" is not allowed inside a filename." : "«{char}» non está permitido nun nome de ficheiro.",
     "\"{segment}\" is a reserved name and not allowed for filenames." : "«{segment}» é un nome reservado e non está permitido para os nomes de ficheiro.",
     "\"{extension}\" is not an allowed filetype." : "«{extension}» non é un tipo de ficheiro permitido.",
     "Filenames must not end with \"{extension}\"." : "Os nomes de ficheiros non deben rematar con «{extension}».",
@@ -379,6 +379,10 @@ OC.L10N.register(
     "Copy direct link (only works for users who have access to this file/folder)" : "Copiar a ligazón directa (só funciona para usuarios con acceso a este ficheiro/cartafol)",
     "\"remote user\"" : "«usuario remoto»",
     "{newName} already exists." : "Xa existe {newName}",
+    "\"{segment}\" is not allowed inside a filename." : "«{segment}» non está permitido nun nome de ficheiro.",
+    "\"{segment}\" is a forbidden file or folder name." : "«{segment}» é un nome de ficheiro ou cartafol prohibido.",
+    "\"{segment}\" is not an allowed filetype." : "«{segment}» non é un tipo de ficheiro permitido.",
+    "Filenames must not end with \"{segment}\"." : "Os nomes de ficheiros non deben rematar con «{segment}».",
     "Name cannot be empty" : "O nome non pode estar baleiro",
     "Another entry with the same name already exists" : "Xa existe outra entrada co mesmo nome",
     "Storage informations" : "Información de almacenamento",
@@ -386,7 +390,6 @@ OC.L10N.register(
     "You might not have have permissions to view it, ask the sender to share it" : "É posíbel que non teña permisos para velo, pídalle ao remitente que o comparta",
     "The files is locked" : "Os ficheiros están bloqueados",
     "Create new templates folder" : "Crear un novo cartafol de modelos",
-    "Toggle %1$s sublist" : "Alternar %1$s sublista",
-    "Pictures and images" : "Fotos e imaxes"
+    "Toggle %1$s sublist" : "Alternar %1$s sublista"
 },
 "nplurals=2; plural=(n != 1);");
