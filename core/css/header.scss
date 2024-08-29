@@ -11,24 +11,25 @@
 	-webkit-user-select: none;
 	-moz-user-select: none;
 	-ms-user-select: none;
-	a:not(.button):focus-visible, button:not(.button-vue):focus-visible, div[role="button"]:focus-visible {
+	user-select: none;
+
+	#nextcloud:focus-visible,
+	.app-menu-entry a:focus-visible,
+	.header-menu button:first-of-type:focus-visible {
 		outline: none;
-	}
 
-	a:not(.button):focus-visible::after, .button-vue:focus-visible::after, div[role=button]:focus-visible::after {
-		content: " ";
-		position: absolute;
-		transform: translateX(-50%);
-		width: 12px;
-		height: 2px;
-		border-radius: 3px;
-		background-color: var(--color-background-plain-text);
-		inset-inline-start: 50%;
-		opacity: 1;
-	}
-
-	a:not(.button):focus-visible::after, .button-vue:focus-visible::after {
-		bottom: 2px;
+		&::after {
+			content: " ";
+			position: absolute;
+			inset-block-end: 2px;
+			transform: translateX(-50%);
+			width: 12px;
+			height: 2px;
+			border-radius: 3px;
+			background-color: var(--color-background-plain-text);
+			inset-inline-start: 50%;
+			opacity: 1;
+		}
 	}
 
 	.header-end {
