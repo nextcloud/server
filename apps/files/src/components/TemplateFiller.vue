@@ -9,11 +9,8 @@
 			<form>
 				<h3>{{ t('files', 'Fill template fields') }}</h3>
 
-				<!-- We will support more than just text fields in the future -->
 				<div v-for="field in fields" :key="field.index">
-					<TemplateTextField v-if="field.type == 'rich-text'"
-						:field="field"
-						@input="trackInput" />
+					<component :is="getFieldComponent(field.type)" :field="field" @input="trackInput" />
 				</div>
 			</form>
 		</div>
@@ -29,11 +26,12 @@
 	</NcModal>
 </template>
 
-<script lang="ts">
+<script>
 import { defineComponent } from 'vue'
 import { NcModal, NcButton, NcLoadingIcon } from '@nextcloud/vue'
 import { translate as t } from '@nextcloud/l10n'
-import TemplateTextField from './TemplateFiller/TemplateTextField.vue'
+import TemplateRichTextField from './TemplateFiller/TemplateRichTextField.vue'
+import TemplateCheckboxField from './TemplateFiller/TemplateCheckboxField.vue'
 
 export default defineComponent({
 	name: 'TemplateFiller',
@@ -42,7 +40,8 @@ export default defineComponent({
 		NcModal,
 		NcButton,
 		NcLoadingIcon,
-		TemplateTextField,
+		TemplateRichTextField,
+		TemplateCheckboxField,
 	},
 
 	props: {
@@ -65,10 +64,21 @@ export default defineComponent({
 
 	methods: {
 		t,
-		trackInput([value, index]) {
-			this.localFields[index] = {
-				content: value,
+		trackInput({ index, property, value }) {
+			if (!this.localFields[index]) {
+				this.localFields[index] = {}
 			}
+
+			this.localFields[index][property] = value
+		},
+		getFieldComponent(fieldType) {
+			const fieldComponentType = fieldType.split('-')
+				.map((str) => {
+					return str.charAt(0).toUpperCase() + str.slice(1)
+				})
+				.join('')
+
+			return `Template${fieldComponentType}Field`
 		},
 		async submit() {
 			this.loading = true
