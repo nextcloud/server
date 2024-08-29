@@ -42,6 +42,7 @@ class JSResourceLocator extends ResourceLocator {
 				// Handle symlinks
 				$appRoot = realpath($appRoot);
 			}
+			$appDirName = basename($appRoot);
 			// Get the app webroot
 			$appWebRoot = dirname($this->appManager->getAppWebPath($app));
 		} catch (AppPathNotFoundException $e) {
@@ -57,7 +58,7 @@ class JSResourceLocator extends ResourceLocator {
 			$found += $this->appendScriptIfExist($this->serverroot, $script);
 			$found += $this->appendScriptIfExist($this->serverroot, $theme_dir.$script);
 			$found += $this->appendScriptIfExist($appRoot, $script, $appWebRoot);
-			$found += $this->appendScriptIfExist($this->serverroot, $theme_dir.'apps/'.$script);
+			$found += $this->appendScriptIfExist($this->serverroot, $theme_dir.$appDirName.'/'.$script);
 
 			if ($found) {
 				return;
