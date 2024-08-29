@@ -29,7 +29,7 @@ import * as initialState from '@nextcloud/initial-state'
 
 import { action } from '../actions/favoriteAction'
 import * as favoritesService from '../services/Favorites'
-import registerFavoritesView from './favorites'
+import { registerFavoritesView } from './favorites'
 
 jest.mock('webdav/dist/node/request.js', () => ({
 	request: jest.fn(),
