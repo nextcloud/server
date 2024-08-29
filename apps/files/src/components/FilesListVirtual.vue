@@ -736,8 +736,6 @@ tbody.files-list__tbody.files-list__tbody--grid {
 	align-items: center;
 	justify-content: space-around;
 	justify-items: center;
-	margin: 16px;
-	width: calc(100% - 32px);
 
 	tr {
 		display: flex;
