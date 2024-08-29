@@ -14,16 +14,22 @@
 			</template>
 		</template>
 
-		<!-- Decorative image, should not be aria documented -->
-		<img v-else-if="previewUrl && backgroundFailed !== true"
-			ref="previewImg"
-			alt=""
-			class="files-list__row-icon-preview"
-			:class="{'files-list__row-icon-preview--loaded': backgroundFailed === false}"
-			loading="lazy"
-			:src="previewUrl"
-			@error="onBackgroundError"
-			@load="backgroundFailed = false">
+		<!-- Decorative images, should not be aria documented -->
+		<span v-else-if="previewUrl" class="files-list__row-icon-preview-container">
+			<canvas v-if="hasBlurhash && (backgroundFailed === true || !backgroundLoaded)"
+				ref="canvas"
+				class="files-list__row-icon-blurhash"
+				aria-hidden="true" />
+			<img v-if="backgroundFailed !== true"
+				ref="previewImg"
+				alt=""
+				class="files-list__row-icon-preview"
+				:class="{'files-list__row-icon-preview--loaded': backgroundFailed === false}"
+				loading="lazy"
+				:src="previewUrl"
+				@error="onBackgroundError"
+				@load="onBackgroundLoad">
+		</span>
 
 		<FileIcon v-else v-once />
 
@@ -58,6 +64,7 @@ import LinkIcon from 'vue-material-design-icons/Link.vue'
 import NetworkIcon from 'vue-material-design-icons/Network.vue'
 import TagIcon from 'vue-material-design-icons/Tag.vue'
 import PlayCircleIcon from 'vue-material-design-icons/PlayCircle.vue'
+import { decode } from 'blurhash'
 
 import CollectivesIcon from './CollectivesIcon.vue'
 import FavoriteIcon from './FavoriteIcon.vue'
@@ -107,6 +114,7 @@ export default Vue.extend({
 	data() {
 		return {
 			backgroundFailed: undefined as boolean | undefined,
+			backgroundLoaded: false,
 		}
 	},
 
@@ -206,6 +214,16 @@ export default Vue.extend({
 
 			return null
 		},
+
+		hasBlurhash() {
+			return this.source.attributes['metadata-blurhash'] !== undefined
+		},
+	},
+
+	mounted() {
+		if (this.hasBlurhash && this.$refs.canvas) {
+			this.drawBlurhash()
+		}
 	},
 
 	methods: {
@@ -213,9 +231,15 @@ export default Vue.extend({
 		reset() {
 			// Reset background state to cancel any ongoing requests
 			this.backgroundFailed = undefined
+			this.backgroundLoaded = false
 			if (this.$refs.previewImg) {
 				this.$refs.previewImg.src = ''
 			}
+		},
+
+		onBackgroundLoad() {
+			this.backgroundFailed = false
+			this.backgroundLoaded = true
 		},
 
 		onBackgroundError(event) {
@@ -224,6 +248,26 @@ export default Vue.extend({
 				return
 			}
 			this.backgroundFailed = true
+			this.backgroundLoaded = false
+		},
+
+		drawBlurhash() {
+			const canvas = this.$refs.canvas as HTMLCanvasElement
+
+			const width = canvas.width
+			const height = canvas.height
+
+			const pixels = decode(this.source.attributes['metadata-blurhash'], width, height)
+
+			const ctx = canvas.getContext('2d')
+			if (ctx === null) {
+				logger.error('Cannot create context for blurhash canvas')
+				return
+			}
+
+			const imageData = ctx.createImageData(width, height)
+			imageData.data.set(pixels)
+			ctx.putImageData(imageData, 0, 0)
 		},
 
 		t,
