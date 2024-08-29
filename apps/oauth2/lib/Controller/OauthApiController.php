@@ -138,7 +138,8 @@ class OauthApiController extends Controller {
 		}
 
 		try {
-			$storedClientSecret = $this->crypto->decrypt($client->getSecret());
+			$storedClientSecretHash = $client->getSecret();
+			$clientSecretHash = bin2hex($this->crypto->calculateHMAC($client_secret));
 		} catch (\Exception $e) {
 			$this->logger->error('OAuth client secret decryption error', ['exception' => $e]);
 			// we don't throttle here because it might not be a bruteforce attack
@@ -147,7 +148,7 @@ class OauthApiController extends Controller {
 			], Http::STATUS_BAD_REQUEST);
 		}
 		// The client id and secret must match. Else we don't provide an access token!
-		if ($client->getClientIdentifier() !== $client_id || $storedClientSecret !== $client_secret) {
+		if ($client->getClientIdentifier() !== $client_id || $storedClientSecretHash !== $clientSecretHash) {
 			$response = new JSONResponse([
 				'error' => 'invalid_client',
 			], Http::STATUS_BAD_REQUEST);
