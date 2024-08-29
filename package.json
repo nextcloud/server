@@ -68,6 +68,7 @@
     "@vueuse/integrations": "^11.0.1",
     "backbone": "^1.4.1",
     "blueimp-md5": "^2.19.0",
+    "blurhash": "^2.0.5",
     "browserslist-useragent-regexp": "^4.1.1",
     "camelcase": "^8.0.0",
     "cancelable-promise": "^4.3.1",

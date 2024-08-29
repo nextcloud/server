@@ -556,11 +556,24 @@ export default defineComponent({
 				}
 			}
 
-			&-preview {
+			&-preview-container {
+				position: relative; // Needed for the blurshash to be positioned correctly
 				overflow: hidden;
 				width: var(--icon-preview-size);
 				height: var(--icon-preview-size);
 				border-radius: var(--border-radius);
+			}
+
+			&-blurhash {
+				position: absolute;
+				top: 0;
+				left: 0;
+				height: 100%;
+				width: 100%;
+				object-fit: cover;
+			}
+
+			&-preview {
 				// Center and contain the preview
 				object-fit: contain;
 				object-position: center;
