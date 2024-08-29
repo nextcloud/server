@@ -34,7 +34,6 @@ namespace OCA\Files\Tests\Controller;
 
 use OC\Route\Router;
 use OC\URLGenerator;
-use OCA\Files\Activity\Helper;
 use OCA\Files\Controller\ViewController;
 use OCA\Files\Service\UserConfig;
 use OCA\Files\Service\ViewConfig;
@@ -51,12 +50,10 @@ use OCP\Files\IRootFolder;
 use OCP\Files\Template\ITemplateManager;
 use OCP\ICacheFactory;
 use OCP\IConfig;
-use OCP\IL10N;
 use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserSession;
-use OCP\Share\IManager;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
@@ -73,8 +70,6 @@ class ViewControllerTest extends TestCase {
 	private $request;
 	/** @var IURLGenerator */
 	private $urlGenerator;
-	/** @var IL10N */
-	private $l10n;
 	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
 	private $config;
 	/** @var IEventDispatcher */
@@ -89,14 +84,10 @@ class ViewControllerTest extends TestCase {
 	private $appManager;
 	/** @var IRootFolder|\PHPUnit\Framework\MockObject\MockObject */
 	private $rootFolder;
-	/** @var Helper|\PHPUnit\Framework\MockObject\MockObject */
-	private $activityHelper;
 	/** @var IInitialState|\PHPUnit\Framework\MockObject\MockObject */
 	private $initialState;
 	/** @var ITemplateManager|\PHPUnit\Framework\MockObject\MockObject */
 	private $templateManager;
-	/** @var IManager|\PHPUnit\Framework\MockObject\MockObject */
-	private $shareManager;
 	/** @var UserConfig|\PHPUnit\Framework\MockObject\MockObject */
 	private $userConfig;
 	/** @var ViewConfig|\PHPUnit\Framework\MockObject\MockObject */
@@ -120,15 +111,12 @@ class ViewControllerTest extends TestCase {
 		$this->config = $this->createMock(IConfig::class);
 		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
 		$this->initialState = $this->createMock(IInitialState::class);
-		$this->l10n = $this->createMock(IL10N::class);
 		$this->request = $this->createMock(IRequest::class);
 		$this->rootFolder = $this->createMock(IRootFolder::class);
 		$this->templateManager = $this->createMock(ITemplateManager::class);
 		$this->userConfig = $this->createMock(UserConfig::class);
 		$this->userSession = $this->createMock(IUserSession::class);
 		$this->viewConfig = $this->createMock(ViewConfig::class);
-		$this->activityHelper = $this->createMock(Helper::class);
-		$this->shareManager = $this->createMock(IManager::class);
 
 		$this->user = $this->getMockBuilder(IUser::class)->getMock();
 		$this->user->expects($this->any())
@@ -169,16 +157,13 @@ class ViewControllerTest extends TestCase {
 				'files',
 				$this->request,
 				$this->urlGenerator,
-				$this->l10n,
 				$this->config,
 				$this->eventDispatcher,
 				$this->userSession,
 				$this->appManager,
 				$this->rootFolder,
-				$this->activityHelper,
 				$this->initialState,
 				$this->templateManager,
-				$this->shareManager,
 				$this->userConfig,
 				$this->viewConfig,
 			])

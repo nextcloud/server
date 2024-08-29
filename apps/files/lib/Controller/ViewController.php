@@ -35,7 +35,6 @@
  */
 namespace OCA\Files\Controller;
 
-use OCA\Files\Activity\Helper;
 use OCA\Files\AppInfo\Application;
 use OCA\Files\Event\LoadAdditionalScriptsEvent;
 use OCA\Files\Event\LoadSearchPlugins;
@@ -59,11 +58,9 @@ use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
 use OCP\Files\Template\ITemplateManager;
 use OCP\IConfig;
-use OCP\IL10N;
 use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\IUserSession;
-use OCP\Share\IManager;
 
 /**
  * @package OCA\Files\Controller
@@ -71,47 +68,38 @@ use OCP\Share\IManager;
 #[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
 class ViewController extends Controller {
 	private IURLGenerator $urlGenerator;
-	private IL10N $l10n;
 	private IConfig $config;
 	private IEventDispatcher $eventDispatcher;
 	private IUserSession $userSession;
 	private IAppManager $appManager;
 	private IRootFolder $rootFolder;
-	private Helper $activityHelper;
 	private IInitialState $initialState;
 	private ITemplateManager $templateManager;
-	private IManager $shareManager;
 	private UserConfig $userConfig;
 	private ViewConfig $viewConfig;
 
 	public function __construct(string $appName,
 		IRequest $request,
 		IURLGenerator $urlGenerator,
-		IL10N $l10n,
 		IConfig $config,
 		IEventDispatcher $eventDispatcher,
 		IUserSession $userSession,
 		IAppManager $appManager,
 		IRootFolder $rootFolder,
-		Helper $activityHelper,
 		IInitialState $initialState,
 		ITemplateManager $templateManager,
-		IManager $shareManager,
 		UserConfig $userConfig,
-		ViewConfig $viewConfig
+		ViewConfig $viewConfig,
 	) {
 		parent::__construct($appName, $request);
 		$this->urlGenerator = $urlGenerator;
-		$this->l10n = $l10n;
 		$this->config = $config;
 		$this->eventDispatcher = $eventDispatcher;
 		$this->userSession = $userSession;
 		$this->appManager = $appManager;
 		$this->rootFolder = $rootFolder;
-		$this->activityHelper = $activityHelper;
 		$this->initialState = $initialState;
 		$this->templateManager = $templateManager;
-		$this->shareManager = $shareManager;
 		$this->userConfig = $userConfig;
 		$this->viewConfig = $viewConfig;
 	}
@@ -201,18 +189,6 @@ class ViewController extends Controller {
 
 		$userId = $this->userSession->getUser()->getUID();
 
-		// Get all the user favorites to create a submenu
-		try {
-			$userFolder = $this->rootFolder->getUserFolder($userId);
-			$favElements = $this->activityHelper->getFavoriteNodes($userId, true);
-			$favElements = array_map(fn (Folder $node) => [
-				'fileid' => $node->getId(),
-				'path' => $userFolder->getRelativePath($node->getPath()),
-			], $favElements);
-		} catch (\RuntimeException $e) {
-			$favElements = [];
-		}
-
 		// If the file doesn't exists in the folder and
 		// exists in only one occurrence, redirect to that file
 		// in the correct folder
@@ -240,7 +216,6 @@ class ViewController extends Controller {
 		$this->initialState->provideInitialState('storageStats', $storageInfo);
 		$this->initialState->provideInitialState('config', $this->userConfig->getConfigs());
 		$this->initialState->provideInitialState('viewConfigs', $this->viewConfig->getConfigs());
-		$this->initialState->provideInitialState('favoriteFolders', $favElements);
 
 		// File sorting user config
 		$filesSortingConfig = json_decode($this->config->getUserValue($userId, 'files', 'files_sorting_configs', '{}'), true);
