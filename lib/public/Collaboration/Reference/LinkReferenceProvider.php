@@ -122,7 +122,7 @@ class LinkReferenceProvider implements IReferenceProvider, IPublicReferenceProvi
 
 		$linkContentLength = $headResponse->getHeader('Content-Length');
 		if (is_numeric($linkContentLength) && (int)$linkContentLength > self::MAX_CONTENT_LENGTH) {
-			$this->logger->debug('Skip resolving links pointing to content length > 5 MiB');
+			$this->logger->debug('[Head] Skip resolving links pointing to content length > 5 MiB');
 			return;
 		}
 
@@ -136,18 +136,28 @@ class LinkReferenceProvider implements IReferenceProvider, IPublicReferenceProvi
 		}
 
 		try {
-			$response = $client->get($reference->getId(), [ 'timeout' => 10 ]);
+			$response = $client->get($reference->getId(), [ 'timeout' => 10, 'stream' => true ]);
 		} catch (\Exception $e) {
 			$this->logger->debug('Failed to fetch link for obtaining open graph data', ['exception' => $e]);
 			return;
 		}
 
-		$responseBody = (string)$response->getBody();
+		$body = $response->getBody();
+		if (is_resource($body)) {
+			$responseContent = fread($body, self::MAX_CONTENT_LENGTH);
+			if (!feof($body)) {
+				$this->logger->debug('[Get] Skip resolving links pointing to content length > 5 MiB');
+				return;
+			}
+		} else {
+			$this->logger->error('[Get] Impossible to check content length');
+			return;
+		}
 
 		// OpenGraph handling
 		$consumer = new Consumer();
 		$consumer->useFallbackMode = true;
-		$object = $consumer->loadHtml($responseBody);
+		$object = $consumer->loadHtml($responseContent);
 
 		$reference->setUrl($reference->getId());
 
