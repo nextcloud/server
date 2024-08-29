@@ -321,6 +321,7 @@
     "PDFs" : "ملفات بي دي إف",
     "Folders" : "المجلدات",
     "Audio" : "صوت",
+    "Photos and images" : "الصور ",
     "Videos" : "فيديوهات",
     "New folder creation cancelled" : "تمّ إلغاء عملية إنشاء مجلد جديد",
     "Created new folder \"{name}\"" : "تمّ إنشاء مجلد جديد باسم \"{name}\"",
@@ -376,6 +377,10 @@
     "Copy direct link (only works for users who have access to this file/folder)" : "نسخ الرابط المباشر (يعمل فقط للمستخدمين الذين يمكنهم الوصول الى هذا الملف/المجلد)",
     "\"remote user\"" : "\"مستخدم عن بعد\"",
     "{newName} already exists." : "{newName} موجود بالفعل.",
+    "\"{segment}\" is not allowed inside a filename." : "\"{segment}\" غير مقبولة في اسم الملف.",
+    "\"{segment}\" is a forbidden file or folder name." : "\"{segment}\" محظور استعماله كاسم لملف أو مجلد.",
+    "\"{segment}\" is not an allowed filetype." : "\"{segment}\" غير مقبول كنوع لملف.",
+    "Filenames must not end with \"{segment}\"." : "أسماء الملفات يجب ألّا تنتهي بـ \"{segment}\".",
     "Name cannot be empty" : "لا يمكن أن يكون الاسم فارغاً",
     "Another entry with the same name already exists" : "إدخال آخر بنفس الاسم موجود بالفعل",
     "Storage informations" : "معلومات التخزين",
@@ -383,7 +388,6 @@
     "You might not have have permissions to view it, ask the sender to share it" : "يمكن ألاّ تكون لديك صلاحية لعرضه، أطلب من المُرسل إن يشاركه معك",
     "The files is locked" : "الملفات مقفله",
     "Create new templates folder" : "إنشيْ مجلد جديد للقوالب",
-    "Toggle %1$s sublist" : "تبديل %1$s قائمة فرعية",
-    "Pictures and images" : "الصِّوَر "
+    "Toggle %1$s sublist" : "تبديل %1$s قائمة فرعية"
 },"pluralForm" :"nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;"
 }

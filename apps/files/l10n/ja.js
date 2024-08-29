@@ -385,7 +385,6 @@ OC.L10N.register(
     "You might not have have permissions to view it, ask the sender to share it" : "閲覧権限がない可能性があるため、送信者に共有を依頼してください",
     "The files is locked" : "ファイルはロックされています",
     "Create new templates folder" : "新しいテンプレートフォルダーを作成",
-    "Toggle %1$s sublist" : "サブリスト %1$s を切り替え",
-    "Pictures and images" : "写真と画像"
+    "Toggle %1$s sublist" : "サブリスト %1$s を切り替え"
 },
 "nplurals=1; plural=0;");

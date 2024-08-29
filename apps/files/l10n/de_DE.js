@@ -379,6 +379,10 @@ OC.L10N.register(
     "Copy direct link (only works for users who have access to this file/folder)" : "Direkten Link kopieren (funktioniert nur für Benutzer, die Zugriff auf diese(n) Datei/Ordner haben)",
     "\"remote user\"" : "„Externer Benutzer“",
     "{newName} already exists." : "{newName} existiert bereits.",
+    "\"{segment}\" is not allowed inside a filename." : "\"{segment}\" ist in einem Dateinamen nicht zulässig.",
+    "\"{segment}\" is a forbidden file or folder name." : "\"{segment}\" ist ein verbotener Datei- oder Ordnername.",
+    "\"{segment}\" is not an allowed filetype." : "\"{segment}\" ist kein zulässiger Dateityp.",
+    "Filenames must not end with \"{segment}\"." : "Dateinamen dürfen nicht mit \"{segment}\" enden.",
     "Name cannot be empty" : "Der Name darf nicht leer sein",
     "Another entry with the same name already exists" : "Ein anderer Eintrag mit diesem Namen existiert bereits",
     "Storage informations" : "Speicherinformationen",
@@ -386,7 +390,6 @@ OC.L10N.register(
     "You might not have have permissions to view it, ask the sender to share it" : "Möglicherweise haben Sie nicht die Berechtigung zur Anzeige. Bitten Sie den Absender, die Datei freizugeben.",
     "The files is locked" : "Die Datei ist gesperrt",
     "Create new templates folder" : "Neuen Vorlagenordner erstellen",
-    "Toggle %1$s sublist" : "Unterliste %1$s umschalten",
-    "Pictures and images" : "Bilder und Abbildungen"
+    "Toggle %1$s sublist" : "Unterliste %1$s umschalten"
 },
 "nplurals=2; plural=(n != 1);");

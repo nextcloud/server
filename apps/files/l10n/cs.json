@@ -383,7 +383,6 @@
     "You might not have have permissions to view it, ask the sender to share it" : "Může být, že nemáte oprávnění pro jeho zobrazení – požádejte odesilatele aby vám ho nasdílel",
     "The files is locked" : "Soubory jsou uzamčené",
     "Create new templates folder" : "Vytvořit novou složku šablon",
-    "Toggle %1$s sublist" : "Přepnout %1$s podseznam",
-    "Pictures and images" : "Fotky a obrázky"
+    "Toggle %1$s sublist" : "Přepnout %1$s podseznam"
 },"pluralForm" :"nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;"
 }

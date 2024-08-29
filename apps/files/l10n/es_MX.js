@@ -384,7 +384,6 @@ OC.L10N.register(
     "You might not have have permissions to view it, ask the sender to share it" : "Puede que no tenga permisos para verlo, solicite al remitente que lo comparta",
     "The files is locked" : "El archivo está bloqueado",
     "Create new templates folder" : "Crear nueva carpeta de plantillas",
-    "Toggle %1$s sublist" : "Alternar %1$s sublista",
-    "Pictures and images" : "Fotos e imágenes"
+    "Toggle %1$s sublist" : "Alternar %1$s sublista"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");
