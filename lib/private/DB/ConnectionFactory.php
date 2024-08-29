@@ -225,11 +225,16 @@ class ConnectionFactory {
 		}
 
 		$connectionParams['sharding'] = $this->config->getValue('dbsharding', []);
-		$connectionParams['shard_connection_manager'] = $this->shardConnectionManager;
-		$connectionParams['auto_increment_handler'] = new AutoIncrementHandler(
-			$this->cacheFactory,
-			$this->shardConnectionManager,
-		);
+		if (!empty($connectionParams['sharding'])) {
+			$connectionParams['shard_connection_manager'] = $this->shardConnectionManager;
+			$connectionParams['auto_increment_handler'] = new AutoIncrementHandler(
+				$this->cacheFactory,
+				$this->shardConnectionManager,
+			);
+		} else {
+			// just in case only the presence could lead to funny behaviour
+			unset($connectionParams['sharding']);
+		}
 
 		$connectionParams = array_merge($connectionParams, $additionalConnectionParams);
 
