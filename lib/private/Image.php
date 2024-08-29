@@ -166,7 +166,9 @@ class Image implements IImage {
 		if ($mimeType === null) {
 			$mimeType = $this->mimeType();
 		}
-		header('Content-Type: ' . ($mimeType ?? ''));
+		if ($mimeType !== null) {
+			header('Content-Type: ' . $mimeType);
+		}
 		return $this->_output(null, $mimeType);
 	}
 
