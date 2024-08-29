@@ -294,6 +294,7 @@
     "Describe the image you want to generate" : "Beskriv bilden du vill skapa",
     "Number of images" : "Antal bilder",
     "How many images to generate" : "Hur många bilder som ska genereras",
+    "Output images" : "Skapade bilder",
     "The generated images" : "De genererade bilderna",
     "Free text to text prompt" : "Fritext till text prompt",
     "Runs an arbitrary prompt through a language model that returns a reply" : "Kör en godtycklig prompt genom en språkmodell som returnerar ett svar",

@@ -221,6 +221,9 @@ OC.L10N.register(
     "The \"overwrite.cli.url\" option in your config.php is correctly set to \"%s\"." : "您 config.php 中的「overwrite.cli.url」選項正確設定為「%s」。",
     "The \"overwrite.cli.url\" option in your config.php is set to \"%s\" which is a correct URL. Suggested URL is \"%s\"." : "您 config.php 中的「overwrite.cli.url」選項設定為「%s」，這是正確的 URL。建議的 URL 為「%s」。",
     "Please make sure to set the \"overwrite.cli.url\" option in your config.php file to the URL that your users mainly use to access this Nextcloud. Suggestion: \"%s\". Otherwise there might be problems with the URL generation via cron. (It is possible though that the suggested URL is not the URL that your users mainly use to access this Nextcloud. Best is to double check this in any case.)" : "請確定將 config.php 檔案中的「overwrite.cli.url」選項設定為您的用戶主要用於存取此 Nextcloud 的 URL。建議：「%s」。否則，透過 cron 產生的 URL 可能會出現問題。（不過，建議的 URL 可能不是您的使用者主要用於存取此 Nextcloud 的 URL。最好是仔細檢查以防萬一。）",
+    "PHP APCu configuration" : "PHP APCu 配置",
+    "Your APCu cache has been running full, consider increasing the apc.shm_size php setting." : "您的 APCu 快取已滿，請考慮增加 apc.shm_size php 設定。",
+    "Your APCu cache is almost full at %s%%, consider increasing the apc.shm_size php setting." : "您的 APCu 快取快滿了 (%s%%)，請考慮增加 apc.shm_size php 設定。",
     "PHP default charset" : "PHP 默認字元集",
     "PHP configuration option \"default_charset\" should be UTF-8" : "PHP 配置選項 \"default_charset\" 應為 UTF-8",
     "PHP set_time_limit" : "PHP set_time_limit",
@@ -881,7 +884,6 @@ OC.L10N.register(
     "SMTP Username" : "SMTP 用戶名稱",
     "To allow this check to run you have to make sure that your webserver can connect to itself. Therefor it must be able to resolve and connect to at least one its `trusted_domains` or the `overwrite.cli.url`." : "要執行此檢查，您必須確保您的網路伺服器可以連線到其自身。因此，其必須至少能解析並連線至 `trusted_domains` 或 `overwrite.cli.url` 其中一個。",
     "Could not check for JavaScript support via any of your `trusted_domains` nor `overwrite.cli.url`. This may be the result of a server-side DNS mismatch or outbound firewall rule. Please check manually if your webserver serves `.mjs` files using the JavaScript MIME type." : "無法透過您的任何「trusted_domains」或「overwrite.cli.url」檢查 JavaScript 支援。這可能是伺服器端 DNS 不符或連出防火牆規則造成的。請手動檢查您的網頁伺服器是否使用 JavaScript MIME 類型提供「.mjs」檔案。",
-    "Active accounts" : "活躍帳戶",
-    "Set account manager" : "設置帳戶經理"
+    "Active accounts" : "活躍帳戶"
 },
 "nplurals=1; plural=0;");

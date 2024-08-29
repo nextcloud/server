@@ -379,6 +379,10 @@ OC.L10N.register(
     "Copy direct link (only works for users who have access to this file/folder)" : "複製直接連結（只對能存取的用戶有用）",
     "\"remote user\"" : "「遠端用戶」",
     "{newName} already exists." : "{newName} 已經存在。",
+    "\"{segment}\" is not allowed inside a filename." : "檔案名稱中不允許出現「{segment}」",
+    "\"{segment}\" is a forbidden file or folder name." : "「{segment}」是禁止使用的檔案或資料夾名稱。",
+    "\"{segment}\" is not an allowed filetype." : "「{segment}」是不允許的檔案類型。",
+    "Filenames must not end with \"{segment}\"." : "檔案名稱不能以「{extension}」結尾。",
     "Name cannot be empty" : "名稱不能空白",
     "Another entry with the same name already exists" : "另一個同名的條目已經存在",
     "Storage informations" : "儲存資訊",
@@ -386,7 +390,6 @@ OC.L10N.register(
     "You might not have have permissions to view it, ask the sender to share it" : "您可能沒有權限檢視它，請要求寄件者分享它",
     "The files is locked" : "檔案已被上鎖",
     "Create new templates folder" : "創建新範本資料夾",
-    "Toggle %1$s sublist" : "切換 %1$s 子列表",
-    "Pictures and images" : "圖片與圖像"
+    "Toggle %1$s sublist" : "切換 %1$s 子列表"
 },
 "nplurals=1; plural=0;");

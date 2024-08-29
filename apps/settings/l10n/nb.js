@@ -881,7 +881,6 @@ OC.L10N.register(
     "SMTP Username" : "SMTP-brukernavn",
     "To allow this check to run you have to make sure that your webserver can connect to itself. Therefor it must be able to resolve and connect to at least one its `trusted_domains` or the `overwrite.cli.url`." : "For å la denne kontrollen kjøre, må du sørge for at webserveren din kan koble til seg selv. Derfor må den kunne løse og koble til minst en sin 'trusted_domains' eller 'overwrite.cli.url'.",
     "Could not check for JavaScript support via any of your `trusted_domains` nor `overwrite.cli.url`. This may be the result of a server-side DNS mismatch or outbound firewall rule. Please check manually if your webserver serves `.mjs` files using the JavaScript MIME type." : "Kunne ikke se etter JavaScript-støtte via noen av dine 'trusted_domains' eller 'overwrite.cli.url'. Dette kan være et resultat av DNS-avvik på serversiden eller en regel for utgående brannmur. Kontroller manuelt om webserveren din tjener .mjs-filer ved hjelp av JavaScript MIME-typen.",
-    "Active accounts" : "Aktive kontoer",
-    "Set account manager" : "Angi kontoleder"
+    "Active accounts" : "Aktive kontoer"
 },
 "nplurals=2; plural=(n != 1);");

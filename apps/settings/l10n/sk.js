@@ -879,7 +879,6 @@ OC.L10N.register(
     "SMTP Username" : "SMTP používateľské meno",
     "To allow this check to run you have to make sure that your webserver can connect to itself. Therefor it must be able to resolve and connect to at least one its `trusted_domains` or the `overwrite.cli.url`." : "Pre povolenie tejto kontroly musíte zabezpečiť, aby sa váš webový server mohol pripojiť sám k sebe. Preto musí byť schopný rozpoznať a pripojiť sa aspoň k jednému z jeho \"trusted_domains\" alebo \"overwrite.cli.url\".",
     "Could not check for JavaScript support via any of your `trusted_domains` nor `overwrite.cli.url`. This may be the result of a server-side DNS mismatch or outbound firewall rule. Please check manually if your webserver serves `.mjs` files using the JavaScript MIME type." : "Nepodarilo sa skontrolovať podporu JavaScriptu prostredníctvom žiadnej z vašich domén `trusted_domains` ani `overwrite.cli.url`. Môže to byť výsledkom nesúladu DNS na strane servera alebo pravidla brány firewall pre výstup. Skontrolujte prosím manuálne, či váš webový server poskytuje súbory `.mjs` pomocou typu JavaScript MIME.",
-    "Active accounts" : "Aktívne účty",
-    "Set account manager" : "Nastaviť manažéra účtu"
+    "Active accounts" : "Aktívne účty"
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");

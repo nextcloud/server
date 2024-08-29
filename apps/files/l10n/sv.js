@@ -379,6 +379,10 @@ OC.L10N.register(
     "Copy direct link (only works for users who have access to this file/folder)" : "Kopiera direktlänk (fungerar endast för användare som har åtkomst till denna fil eller mapp)",
     "\"remote user\"" : "\"extern användare\"",
     "{newName} already exists." : "{newName} finns redan.",
+    "\"{segment}\" is not allowed inside a filename." : "\"{segment}\" är inte tillåtet i ett filnamn.",
+    "\"{segment}\" is a forbidden file or folder name." : "\"{segment}\" är ett förbjudet fil- eller mappnamn.",
+    "\"{segment}\" is not an allowed filetype." : "\"{segment}\" är inte en tillåten filtyp.",
+    "Filenames must not end with \"{segment}\"." : "Filnamn får inte sluta med \"{segment}\".",
     "Name cannot be empty" : "Namn kan inte vara tom",
     "Another entry with the same name already exists" : "En annan post med samma namn finns redan",
     "Storage informations" : "Lagringsinformation",
@@ -386,7 +390,6 @@ OC.L10N.register(
     "You might not have have permissions to view it, ask the sender to share it" : "Du kanske inte har behörighet att se den, be avsändaren att dela den",
     "The files is locked" : "Filerna är låsta",
     "Create new templates folder" : "Skapa ny mallmapp",
-    "Toggle %1$s sublist" : "Växla %1$s sublista",
-    "Pictures and images" : "Foton och bilder"
+    "Toggle %1$s sublist" : "Växla %1$s sublista"
 },
 "nplurals=2; plural=(n != 1);");

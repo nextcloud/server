@@ -219,6 +219,9 @@
     "The \"overwrite.cli.url\" option in your config.php is correctly set to \"%s\"." : "خيار \"overwrite.cli.url\" في ملفك config.php تمّ تعيينه بشكل صحيح إلى  \"%s\".",
     "The \"overwrite.cli.url\" option in your config.php is set to \"%s\" which is a correct URL. Suggested URL is \"%s\"." : "خيار \"overwrite.cli.url\" في ملفك config.php تمّ تعيينه إلى  \"%s\" و الذي هو عنوان URL صحيح. عنوان URL المقترح هو \"%s\".",
     "Please make sure to set the \"overwrite.cli.url\" option in your config.php file to the URL that your users mainly use to access this Nextcloud. Suggestion: \"%s\". Otherwise there might be problems with the URL generation via cron. (It is possible though that the suggested URL is not the URL that your users mainly use to access this Nextcloud. Best is to double check this in any case.)" : "يرجى التأكد من تعيين خيار \"overwrite.cli.url\" في ملف config.php الخاص بك على عنوان URL الذي يستعمله مستخدمو نكست كلاود عندك. مُقتَرح: \"%s\". وإلّا فقد تكون هناك مشاكل في إنشاء عنوان URL عبر cron .(من الممكن أن يكون عنوان URL المقترح ليس هو عنوان URL الذي يستعمله مستخدمو نكست كلاود عندك. من الأفضل إعادة التحقق من ذلك على أي حال.).",
+    "PHP APCu configuration" : "تهيئة PHP APCu ",
+    "Your APCu cache has been running full, consider increasing the apc.shm_size php setting." : "ذاكرة التخزين المؤقت لـ APCu لديك ممتلئة. فكر في زيادة apc.shm_size في إعداد php.",
+    "Your APCu cache is almost full at %s%%, consider increasing the apc.shm_size php setting." : "ذاكرة التخزين المؤقت لـ APCu لديك ممتلئة %s%%, فكر في زيادة apc.shm_size في إعداد php.",
     "PHP default charset" : "مجموعة الأحرف الافتراضية charset لـ PHP",
     "PHP configuration option \"default_charset\" should be UTF-8" : "خيار إعداد الـ PHP ـ \"default_charset\" يجب أن يكون UTF-8",
     "PHP set_time_limit" : "PHP set_time_limit",
@@ -879,7 +882,6 @@
     "SMTP Username" : "اسم مستخدم الـ SMTP",
     "To allow this check to run you have to make sure that your webserver can connect to itself. Therefor it must be able to resolve and connect to at least one its `trusted_domains` or the `overwrite.cli.url`." : "للسماح بتشغيل هذا الفحص، عليك التأكد من أن خادوم الويب عندك يمكنه الاتصال بنفسه. ولذلك، يجب أن يكون قادراً على حل المشكلة والاتصال بنطاق واحد على الأقل من \"النطاقات_الموثوقة\" أو 'overwrite.cli.url'.",
     "Could not check for JavaScript support via any of your `trusted_domains` nor `overwrite.cli.url`. This may be the result of a server-side DNS mismatch or outbound firewall rule. Please check manually if your webserver serves `.mjs` files using the JavaScript MIME type." : "تعذر التحقُّق من دعم JavaScript عبر أيٍّ من \"النطاقات_الموثوقة\" أو \"overwrite.cli.url\". قد يكون هذا نتيجة عدم تطابق DNS من جانب الخادوم أو بسبب إحدى سياسات إدارة الحركة الصادرة في جدار الحماية. يرجى التحقق يدويًا مما إذا كان خادوم الويب عندك يقدم ملفات `.mjs` باستخدام نوع JavaScript MIME.",
-    "Active accounts" : "حسابات نشطة",
-    "Set account manager" : "تعيين مدير الحساب"
+    "Active accounts" : "حسابات نشطة"
 },"pluralForm" :"nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;"
 }

@@ -261,7 +261,7 @@
     "Show hidden files" : "Montrer les fichiers masqués",
     "Crop image previews" : "Afficher en miniatures carrées",
     "Enable the grid view" : "Activer la vue mosaïque",
-    "Enable folder tree" : "Activer l'arborescence des répertoires",
+    "Enable folder tree" : "Activer l'arborescence des dossiers",
     "Additional settings" : "Paramètres supplémentaires",
     "WebDAV" : "WebDAV",
     "WebDAV URL" : "URL WebDAV",
@@ -377,6 +377,10 @@
     "Copy direct link (only works for users who have access to this file/folder)" : "Copier le Lien direct (fonctionne uniquement pour les utilisateurs autorisés à accéder à ce fichier ou à ce dossier)",
     "\"remote user\"" : "\"utilisateur distant\"",
     "{newName} already exists." : "{newName} existe déjà.",
+    "\"{segment}\" is not allowed inside a filename." : "\"{segment}\" n'est pas autorisé à l'intérieur d'un nom de fichier.",
+    "\"{segment}\" is a forbidden file or folder name." : "\"{segment}\" est un nom de fichier ou de dossier interdit.",
+    "\"{segment}\" is not an allowed filetype." : "\"{segment}\" n'est pas un type de fichier autorisé.",
+    "Filenames must not end with \"{segment}\"." : "Les noms de fichiers ne doivent pas se terminer par \"{segment}\".",
     "Name cannot be empty" : "Le nom ne peut pas être vide",
     "Another entry with the same name already exists" : "Une autre entrée avec le même nom existe déjà",
     "Storage informations" : "Informations sur le stockage",
@@ -384,7 +388,6 @@
     "You might not have have permissions to view it, ask the sender to share it" : "Vous n’avez peut-être pas les autorisations pour le voir, demandez à l’expéditeur de le partager",
     "The files is locked" : "Le fichier est verrouillé",
     "Create new templates folder" : "Créer un nouveau dossier de modèles",
-    "Toggle %1$s sublist" : "Basculer %1$s sous-liste",
-    "Pictures and images" : "Photos et images"
+    "Toggle %1$s sublist" : "Basculer %1$s sous-liste"
 },"pluralForm" :"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

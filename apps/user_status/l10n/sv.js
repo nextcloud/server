@@ -20,6 +20,8 @@ OC.L10N.register(
     "Set status" : "Sätt status",
     "Online status" : "Online-status",
     "Status message" : "Statusmeddelande",
+    "Set absence period" : "Ställ in frånvaroperiod",
+    "Set absence period and replacement" : "Ställ in frånvaroperiod och ersättare",
     "Your status was set automatically" : "Din status ställdes in automatiskt",
     "Clear status message" : "Rensa statusmeddelande",
     "Set status message" : "Sätt statusmeddelande",

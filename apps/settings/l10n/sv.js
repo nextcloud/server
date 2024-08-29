@@ -759,7 +759,6 @@ OC.L10N.register(
     "Show to logged in users only" : "Visa endast för inloggade användare",
     "Nextcloud help resources" : "Nextcloud hjälpresurser",
     "SMTP Username" : "SMTP-användarnamn",
-    "Active accounts" : "Aktiva konton",
-    "Set account manager" : "Ställ in kontohanterare"
+    "Active accounts" : "Aktiva konton"
 },
 "nplurals=2; plural=(n != 1);");
