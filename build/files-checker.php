@@ -76,6 +76,7 @@ $expectedFiles = [
 	'resources',
 	'robots.txt',
 	'status.php',
+	'stylelint.config.js',
 	'tests',
 	'themes',
 	'tsconfig.json',

@@ -178,7 +178,7 @@ $spacing: 30px;
 		margin-top: 2 * $spacing;
 		margin-bottom: $spacing;
 		li {
-			text-align: left;
+			text-align: start;
 		}
 	}
 }

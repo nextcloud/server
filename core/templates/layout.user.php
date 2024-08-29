@@ -63,17 +63,17 @@ p($theme->getTitle());
 		</div>
 
 		<header id="header">
-			<div class="header-left">
+			<div class="header-start">
 				<a href="<?php print_unescaped($_['logoUrl'] ?: link_to('', 'index.php')); ?>"
 					aria-label="<?php p($l->t('Go to %s', [$_['logoUrl'] ?: $_['defaultAppName']])); ?>"
 					id="nextcloud">
 					<div class="logo logo-icon"></div>
 				</a>
 
-				<nav id="header-left__appmenu"></nav>
+				<nav id="header-start__appmenu"></nav>
 			</div>
 
-			<div class="header-right">
+			<div class="header-end">
 				<div id="unified-search"></div>
 				<div id="notifications"></div>
 				<div id="contactsmenu"></div>

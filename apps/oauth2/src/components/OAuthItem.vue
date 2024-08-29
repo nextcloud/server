@@ -104,6 +104,6 @@ export default {
 	.action-column {
 		display: flex;
 		justify-content: flex-end;
-		padding-right: 0;
+		padding-inline-end: 0;
 	}
 </style>

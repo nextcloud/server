@@ -168,7 +168,7 @@ export default {
 	color: var(--color-text-light);
 	background-color: var(--note-background);
 	border: 1px solid var(--color-border);
-	border-left: 4px solid var(--note-theme);
+	border-inline-start: 4px solid var(--note-theme);
 	border-radius: var(--border-radius);
 	box-shadow: rgba(43, 42, 51, 0.05) 0px 1px 2px 0px;
 	margin: 1rem 0;
@@ -178,7 +178,7 @@ export default {
 
 li {
 	list-style-type: initial;
-	margin-left: 1rem;
+	margin-inline-start: 1rem;
 	padding: 0.25rem 0;
 }
 

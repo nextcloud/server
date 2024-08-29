@@ -77,7 +77,7 @@ watch(() => props.app.name, calculateSize)
 		color: var(--color-background-plain-text);
 		text-align: center;
 		bottom: 0;
-		left: 50%;
+		inset-inline-start: 50%;
 		top: 50%;
 		display: block;
 		transform: translateX(-50%);
@@ -108,7 +108,7 @@ watch(() => props.app.name, calculateSize)
 			height: 5px;
 			border-radius: 3px;
 			background-color: var(--color-background-plain-text);
-			left: 50%;
+			inset-inline-start: 50%;
 			bottom: 8px;
 			display: block;
 			transition: all var(--animation-quick) ease-in-out;

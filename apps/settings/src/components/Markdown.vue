@@ -160,8 +160,8 @@ export default {
 	}
 
 	ul, ol {
-		padding-left: 10px;
-		margin-left: 10px;
+		padding-inline-start: 10px;
+		margin-inline-start: 10px;
 	}
 
 	ul li {
@@ -177,11 +177,10 @@ export default {
 	}
 
 	blockquote {
-		padding-left: 1em;
-		border-left: 4px solid var(--color-primary-element);
+		padding-inline-start: 1em;
+		border-inline-start: 4px solid var(--color-primary-element);
 		color: var(--color-text-maxcontrast);
-		margin-left: 0;
-		margin-right: 0;
+		margin-inline: 0;
 	}
 
 	}

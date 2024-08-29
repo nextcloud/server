@@ -5,7 +5,7 @@
 
 window.addEventListener('DOMContentLoaded', function () {
 
-	$('#body-public').find('.header-right .menutoggle').click(function() {
+	$('#body-public').find('.header-end .menutoggle').click(function() {
 		$(this).next('.popovermenu').toggleClass('open');
 	});
 
@@ -15,7 +15,7 @@ window.addEventListener('DOMContentLoaded', function () {
 	});
 
 	$(document).mouseup(function(e) {
-		var toggle = $('#body-public').find('.header-right .menutoggle');
+		var toggle = $('#body-public').find('.header-end .menutoggle');
 		var container = toggle.next('.popovermenu');
 
 		// if the target of the click isn't the menu toggle, nor a descendant of the

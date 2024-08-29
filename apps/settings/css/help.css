@@ -16,7 +16,7 @@
 }
 
 .help-list__text {
-	margin-left: 20px;
+	margin-inline-start: 20px;
 }
 
 .help-iframe {
