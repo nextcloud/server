@@ -374,7 +374,6 @@
     "You might not have have permissions to view it, ask the sender to share it" : "您可能没有权限浏览它，请要求发送者分享它",
     "The files is locked" : "文件已锁定",
     "Create new templates folder" : "新建模板文件夹",
-    "Toggle %1$s sublist" : "切换 %1$s 子列表",
-    "Pictures and images" : "图片以及影像"
+    "Toggle %1$s sublist" : "切换 %1$s 子列表"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

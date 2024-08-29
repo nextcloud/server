@@ -18,6 +18,8 @@
     "Set status" : "Définir le statut",
     "Online status" : "Statut en ligne",
     "Status message" : "Message d'état",
+    "Set absence period" : "Définir une période d'absence",
+    "Set absence period and replacement" : "Définir une période d'absence et un remplaçant",
     "Your status was set automatically" : "Votre état a été automatiquement défini",
     "Clear status message" : "Effacer le message d'état",
     "Set status message" : "Enregistrer le message d'état",

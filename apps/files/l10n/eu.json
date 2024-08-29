@@ -383,7 +383,6 @@
     "You might not have have permissions to view it, ask the sender to share it" : "Baliteke hura ikusteko baimenik ez izatea; eskatu igorleari partekatzeko",
     "The files is locked" : "Fixategiak blokeatuta dago",
     "Create new templates folder" : "Sortu txantiloi karpeta berria",
-    "Toggle %1$s sublist" : "Txandakatu %1$sazpizerrenda",
-    "Pictures and images" : "Argazkiak eta irudiak"
+    "Toggle %1$s sublist" : "Txandakatu %1$sazpizerrenda"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

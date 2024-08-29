@@ -385,7 +385,6 @@ OC.L10N.register(
     "You might not have have permissions to view it, ask the sender to share it" : "Dosyayı görüntüleme izniniz olmayabilir. Gönderenden paylaşmasını isteyin",
     "The files is locked" : "Dosyalar kilitli",
     "Create new templates folder" : "Yeni kalıp klasörü oluştur",
-    "Toggle %1$s sublist" : "%1$s alt listesini aç/kapat",
-    "Pictures and images" : "Fotoğraflar ve görseller"
+    "Toggle %1$s sublist" : "%1$s alt listesini aç/kapat"
 },
 "nplurals=2; plural=(n > 1);");

@@ -219,6 +219,9 @@
     "The \"overwrite.cli.url\" option in your config.php is correctly set to \"%s\"." : "A opción «overwrite.cli.url» está definida correctamente no seu config.php como «%s».",
     "The \"overwrite.cli.url\" option in your config.php is set to \"%s\" which is a correct URL. Suggested URL is \"%s\"." : "A opción «overwrite.cli.url» está definida no seu config.php como «%s», que é un URL correcto. O URL suxerido é «%s».",
     "Please make sure to set the \"overwrite.cli.url\" option in your config.php file to the URL that your users mainly use to access this Nextcloud. Suggestion: \"%s\". Otherwise there might be problems with the URL generation via cron. (It is possible though that the suggested URL is not the URL that your users mainly use to access this Nextcloud. Best is to double check this in any case.)" : "Asegúrese de definir a opción «overwrite.cli.url» no seu ficheiro config.php co URL que usan principalmente os seus usuarios para acceder a este Nextcloud. Suxestión: «%s». Se non, pode haber problemas coa xeración de URL a través de cron. (Non obstante, é posíbel que o URL suxerido non sexa o URL que usan principalmente os seus usuarios para acceder a este Nextcloud. O mellor é volver comprobar isto en calquera caso).",
+    "PHP APCu configuration" : "Configuración da APCu de PHP",
+    "Your APCu cache has been running full, consider increasing the apc.shm_size php setting." : "A caché APCu estivo enchendose, considere aumentar o axuste apc.shm_size de PHP.",
+    "Your APCu cache is almost full at %s%%, consider increasing the apc.shm_size php setting." : "A caché APCu está case chea ao %s%%, considere aumentar o axuste apc.shm_size de PHP.",
     "PHP default charset" : "Conxunto de caracteres predeterminado de PHP",
     "PHP configuration option \"default_charset\" should be UTF-8" : "A opción de configuración de PHP «default_charset» debería ser UTF-8",
     "PHP set_time_limit" : "PHP set_time_limit",
@@ -879,7 +882,6 @@
     "SMTP Username" : "Nome de usuario SMTP",
     "To allow this check to run you have to make sure that your webserver can connect to itself. Therefor it must be able to resolve and connect to at least one its `trusted_domains` or the `overwrite.cli.url`." : "Para permitir que esta comprobación se execute, debe asegurarse de que o seu servidor web poida conectarse a si mesmo. Polo tanto, debe ser quen de resolver e conectarse a polo menos un dos seus «trusted_domains» ou ao «overwrite.cli.url».",
     "Could not check for JavaScript support via any of your `trusted_domains` nor `overwrite.cli.url`. This may be the result of a server-side DNS mismatch or outbound firewall rule. Please check manually if your webserver serves `.mjs` files using the JavaScript MIME type." : "Non foi posíbel comprobar a compatibilidade de JavaScript a través de ningún dos seus «trusted_domains» nin «overwrite.cli.url». Isto pode ser o resultado dunha falta de coincidencia de DNS do servidor ou dunha regra da devasa de saída. Comprobe manualmente se o seu servidor web serve ficheiros «.mjs» usando o tipo MIME JavaScript.",
-    "Active accounts" : "Contas activas",
-    "Set account manager" : "Definir o xestor de contas"
+    "Active accounts" : "Contas activas"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

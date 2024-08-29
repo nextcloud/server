@@ -385,7 +385,6 @@ OC.L10N.register(
     "You might not have have permissions to view it, ask the sender to share it" : "Du har kanskje ikke tillatelse til å se den, be avsenderen om å dele den",
     "The files is locked" : "Filene er låst",
     "Create new templates folder" : "Opprett ny malermappe",
-    "Toggle %1$s sublist" : "Veksle %1$s underliste",
-    "Pictures and images" : "Fotoer og bilder"
+    "Toggle %1$s sublist" : "Veksle %1$s underliste"
 },
 "nplurals=2; plural=(n != 1);");

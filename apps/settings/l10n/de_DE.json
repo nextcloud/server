@@ -219,6 +219,9 @@
     "The \"overwrite.cli.url\" option in your config.php is correctly set to \"%s\"." : "Die Option \"overwrite.cli.url\" in Ihrer config.php ist korrekt auf \"%s\" festgelegt.",
     "The \"overwrite.cli.url\" option in your config.php is set to \"%s\" which is a correct URL. Suggested URL is \"%s\"." : "Die Option \"overwrite.cli.url\" in Ihrer config.php ist auf \"%s\" festgelegt. Dies ist eine gültige URL. Die vorgeschlagene URL lautet \"%s\".",
     "Please make sure to set the \"overwrite.cli.url\" option in your config.php file to the URL that your users mainly use to access this Nextcloud. Suggestion: \"%s\". Otherwise there might be problems with the URL generation via cron. (It is possible though that the suggested URL is not the URL that your users mainly use to access this Nextcloud. Best is to double check this in any case.)" : "Bitte stellen Sie sicher, dass Sie die Option \"overwrite.cli.url\" in Ihrer config.php-Datei auf die URL setzen, die Ihre Benutzer hauptsächlich verwenden, um auf diese Nextcloud zuzugreifen. Vorschlag: \"%s\". Andernfalls kann es Probleme bei der URL-Generierung über Cron geben. (Es ist jedoch möglich, dass die vorgeschlagene URL nicht die URL ist, die Ihre Benutzer hauptsächlich verwenden, um auf diese Nextcloud zuzugreifen. Am besten überprüfen Sie dies in jedem Fall.)",
+    "PHP APCu configuration" : "PHP APCu-Konfiguration",
+    "Your APCu cache has been running full, consider increasing the apc.shm_size php setting." : "Ihr APCu-Cache ist voll. Erwägen Sie, die PHP-Einstellung apc.shm_size zu erhöhen.",
+    "Your APCu cache is almost full at %s%%, consider increasing the apc.shm_size php setting." : " Ihr APCu-Cache ist bei %s%% fast voll. Erwägen Sie, die PHP-Einstellung apc.shm_size zu erhöhen.",
     "PHP default charset" : "PHP-Standardzeichensatz",
     "PHP configuration option \"default_charset\" should be UTF-8" : "Die PHP-Konfigurationsoption \"default_charset\" sollte UTF-8 sein",
     "PHP set_time_limit" : "PHP set_time_limit",
@@ -879,7 +882,6 @@
     "SMTP Username" : "SMTP-Kontenname",
     "To allow this check to run you have to make sure that your webserver can connect to itself. Therefor it must be able to resolve and connect to at least one its `trusted_domains` or the `overwrite.cli.url`." : "Um diese Prüfung auszuführen, müssen Sie sicherstellen, dass Ihr Webserver eine Verbindung zu sich selbst herstellen kann. Dafür muss er in der Lage sein, sich mit mindestens einer seiner \"trusted_domains\" oder der \"overwrite.cli.url\" zu verbinden und diese aufzulösen.",
     "Could not check for JavaScript support via any of your `trusted_domains` nor `overwrite.cli.url`. This may be the result of a server-side DNS mismatch or outbound firewall rule. Please check manually if your webserver serves `.mjs` files using the JavaScript MIME type." : "Es konnte weder über Ihre `trusted_domains` noch über `overwrite.cli.url` nach JavaScript-Unterstützung gesucht werden. Dies kann auf eine serverseitige DNS-Nichtübereinstimmung oder eine ausgehende Firewall-Regel zurückzuführen sein. Bitte überprüfen Sie manuell, ob Ihr Webserver `.mjs`-Dateien mit dem JavaScript-MIME-Typ bereitstellt.",
-    "Active accounts" : "Aktive Konten",
-    "Set account manager" : "Kontomanager festlegen"
+    "Active accounts" : "Aktive Konten"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
