@@ -91,6 +91,7 @@ class Connection extends PrimaryReadReplicaConnection {
 	protected array $shards = [];
 	protected ShardConnectionManager $shardConnectionManager;
 	protected AutoIncrementHandler $autoIncrementHandler;
+	protected bool $isShardingEnabled;
 
 	public const SHARD_PRESETS = [
 		'filecache' => [
@@ -130,14 +131,17 @@ class Connection extends PrimaryReadReplicaConnection {
 		parent::__construct($params, $driver, $config, $eventManager);
 		$this->adapter = new $params['adapter']($this);
 		$this->tablePrefix = $params['tablePrefix'];
+		$this->isShardingEnabled = isset($this->params['sharding']) && !empty($this->params['sharding']);
 
-		/** @psalm-suppress InvalidArrayOffset */
-		$this->shardConnectionManager = $this->params['shard_connection_manager'] ?? Server::get(ShardConnectionManager::class);
-		/** @psalm-suppress InvalidArrayOffset */
-		$this->autoIncrementHandler = $this->params['auto_increment_handler'] ?? new AutoIncrementHandler(
-			Server::get(ICacheFactory::class),
-			$this->shardConnectionManager,
-		);
+		if ($this->isShardingEnabled) {
+			/** @psalm-suppress InvalidArrayOffset */
+			$this->shardConnectionManager = $this->params['shard_connection_manager'] ?? Server::get(ShardConnectionManager::class);
+			/** @psalm-suppress InvalidArrayOffset */
+			$this->autoIncrementHandler = $this->params['auto_increment_handler'] ?? new AutoIncrementHandler(
+				Server::get(ICacheFactory::class),
+				$this->shardConnectionManager,
+			);
+		}
 		$this->systemConfig = \OC::$server->getSystemConfig();
 		$this->clock = Server::get(ClockInterface::class);
 		$this->logger = Server::get(LoggerInterface::class);
@@ -192,10 +196,12 @@ class Connection extends PrimaryReadReplicaConnection {
 	 */
 	public function getShardConnections(): array {
 		$connections = [];
-		foreach ($this->shards as $shardDefinition) {
-			foreach ($shardDefinition->getAllShards() as $shard) {
-				/** @var ConnectionAdapter $connection */
-				$connections[] = $this->shardConnectionManager->getConnection($shardDefinition, $shard);
+		if ($this->isShardingEnabled) {
+			foreach ($this->shards as $shardDefinition) {
+				foreach ($shardDefinition->getAllShards() as $shard) {
+					/** @var ConnectionAdapter $connection */
+					$connections[] = $this->shardConnectionManager->getConnection($shardDefinition, $shard);
+				}
 			}
 		}
 		return $connections;
@@ -255,7 +261,7 @@ class Connection extends PrimaryReadReplicaConnection {
 			$this->systemConfig,
 			$this->logger
 		);
-		if (count($this->partitions) > 0) {
+		if ($this->isShardingEnabled && count($this->partitions) > 0) {
 			$builder = new PartitionedQueryBuilder(
 				$builder,
 				$this->shards,

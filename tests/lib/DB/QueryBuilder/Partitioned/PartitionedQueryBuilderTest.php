@@ -26,6 +26,9 @@ class PartitionedQueryBuilderTest extends TestCase {
 	private AutoIncrementHandler $autoIncrementHandler;
 
 	protected function setUp(): void {
+		if (PHP_INT_SIZE < 8) {
+			$this->markTestSkipped('Test requires 64bit');
+		}
 		$this->connection = Server::get(IDBConnection::class);
 		$this->shardConnectionManager = Server::get(ShardConnectionManager::class);
 		$this->autoIncrementHandler = Server::get(AutoIncrementHandler::class);
