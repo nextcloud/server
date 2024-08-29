@@ -184,7 +184,7 @@ class Config {
 
 			// Invalidate opcache (only if the timestamp changed)
 			if (function_exists('opcache_invalidate')) {
-				opcache_invalidate($file, false);
+				@opcache_invalidate($file, false);
 			}
 
 			$filePointer = @fopen($file, 'r');
