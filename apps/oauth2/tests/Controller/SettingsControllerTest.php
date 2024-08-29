@@ -81,13 +81,13 @@ class SettingsControllerTest extends TestCase {
 
 		$this->crypto
 			->expects($this->once())
-			->method('encrypt')
-			->willReturn('MyEncryptedSecret');
+			->method('calculateHMAC')
+			->willReturn('MyHashedSecret');
 
 		$client = new Client();
 		$client->setName('My Client Name');
 		$client->setRedirectUri('https://example.com/');
-		$client->setSecret('MySecret');
+		$client->setSecret('MyHashedSecret');
 		$client->setClientIdentifier('MyClientIdentifier');
 
 		$this->clientMapper
@@ -96,7 +96,7 @@ class SettingsControllerTest extends TestCase {
 			->with($this->callback(function (Client $c) {
 				return $c->getName() === 'My Client Name' &&
 					$c->getRedirectUri() === 'https://example.com/' &&
-					$c->getSecret() === 'MyEncryptedSecret' &&
+					$c->getSecret() === 'MyHashedSecret' &&
 					$c->getClientIdentifier() === 'MyClientIdentifier';
 			}))->willReturnCallback(function (Client $c) {
 				$c->setId(42);
@@ -139,7 +139,7 @@ class SettingsControllerTest extends TestCase {
 		$client->setId(123);
 		$client->setName('My Client Name');
 		$client->setRedirectUri('https://example.com/');
-		$client->setSecret('MySecret');
+		$client->setSecret('MyHashedSecret');
 		$client->setClientIdentifier('MyClientIdentifier');
 
 		$this->clientMapper

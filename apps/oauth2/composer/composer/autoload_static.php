@@ -38,6 +38,7 @@ class ComposerStaticInitOAuth2
         'OCA\\OAuth2\\Migration\\Version011601Date20230522143227' => __DIR__ . '/..' . '/../lib/Migration/Version011601Date20230522143227.php',
         'OCA\\OAuth2\\Migration\\Version011602Date20230613160650' => __DIR__ . '/..' . '/../lib/Migration/Version011602Date20230613160650.php',
         'OCA\\OAuth2\\Migration\\Version011603Date20230620111039' => __DIR__ . '/..' . '/../lib/Migration/Version011603Date20230620111039.php',
+        'OCA\\OAuth2\\Migration\\Version011901Date20240829164356' => __DIR__ . '/..' . '/../lib/Migration/Version011901Date20240829164356.php',
         'OCA\\OAuth2\\Settings\\Admin' => __DIR__ . '/..' . '/../lib/Settings/Admin.php',
     );
 
