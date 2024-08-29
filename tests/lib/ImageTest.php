@@ -9,6 +9,7 @@ namespace Test;
 
 use OC;
 use OC\Image;
+use OCP\IAppConfig;
 use OCP\IConfig;
 
 class ImageTest extends \Test\TestCase {
@@ -137,16 +138,17 @@ class ImageTest extends \Test\TestCase {
 		$expected = ob_get_clean();
 		$this->assertEquals($expected, $img->data());
 
+		$appConfig = $this->createMock(IAppConfig::class);
+		$appConfig->expects($this->once())
+			->method('getValueInt')
+			->with('preview', 'jpeg_quality', 80)
+			->willReturn(80);
 		$config = $this->createMock(IConfig::class);
-		$config->expects($this->once())
-			->method('getAppValue')
-			->with('preview', 'jpeg_quality', '80')
-			->willReturn(null);
 		$config->expects($this->once())
 			->method('getSystemValueInt')
 			->with('preview_max_memory', 256)
 			->willReturn(256);
-		$img = new Image(null, null, $config);
+		$img = new Image(null, $appConfig, $config);
 		$img->loadFromFile(OC::$SERVERROOT.'/tests/data/testimage.jpg');
 		$raw = imagecreatefromstring(file_get_contents(OC::$SERVERROOT.'/tests/data/testimage.jpg'));
 		imageinterlace($raw, true);
