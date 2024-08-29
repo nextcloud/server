@@ -51,9 +51,10 @@ import type { UserConfig } from '../../types.ts'
 import { Node, FileType } from '@nextcloud/files'
 import { generateUrl } from '@nextcloud/router'
 import { translate as t } from '@nextcloud/l10n'
-import { Type as ShareType } from '@nextcloud/sharing'
+import { ShareType } from '@nextcloud/sharing'
+import { decode } from 'blurhash'
+import { defineComponent } from 'vue'
 
-import Vue from 'vue'
 import AccountGroupIcon from 'vue-material-design-icons/AccountGroup.vue'
 import AccountPlusIcon from 'vue-material-design-icons/AccountPlus.vue'
 import FileIcon from 'vue-material-design-icons/File.vue'
@@ -64,15 +65,15 @@ import LinkIcon from 'vue-material-design-icons/Link.vue'
 import NetworkIcon from 'vue-material-design-icons/Network.vue'
 import TagIcon from 'vue-material-design-icons/Tag.vue'
 import PlayCircleIcon from 'vue-material-design-icons/PlayCircle.vue'
-import { decode } from 'blurhash'
 
 import CollectivesIcon from './CollectivesIcon.vue'
 import FavoriteIcon from './FavoriteIcon.vue'
 
 import { isLivePhoto } from '../../services/LivePhotos'
 import { useUserConfigStore } from '../../store/userconfig.ts'
+import logger from '../../logger.ts'
 
-export default Vue.extend({
+export default defineComponent({
 	name: 'FileEntryPreview',
 
 	components: {
@@ -191,7 +192,7 @@ export default Vue.extend({
 
 			// Link and mail shared folders
 			const shareTypes = Object.values(this.source?.attributes?.['share-types'] || {}).flat() as number[]
-			if (shareTypes.some(type => type === ShareType.SHARE_TYPE_LINK || type === ShareType.SHARE_TYPE_EMAIL)) {
+			if (shareTypes.some(type => type === ShareType.Link || type === ShareType.Email)) {
 				return LinkIcon
 			}
 
@@ -232,8 +233,9 @@ export default Vue.extend({
 			// Reset background state to cancel any ongoing requests
 			this.backgroundFailed = undefined
 			this.backgroundLoaded = false
-			if (this.$refs.previewImg) {
-				this.$refs.previewImg.src = ''
+			const previewImg = this.$refs.previewImg as HTMLImageElement | undefined
+			if (previewImg) {
+				previewImg.src = ''
 			}
 		},
 
