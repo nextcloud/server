@@ -18,42 +18,23 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  changes:
-    runs-on: ubuntu-latest-low
-
-    outputs:
-      src: ${{ steps.changes.outputs.src}}
-
-    steps:
-      - uses: dorny/paths-filter@de90cc6fb38fc0963ad72b210f1f284cd68cea36 # v3.0.2
-        id: changes
-        continue-on-error: true
-        with:
-          filters: |
-            src:
-              - '.github/workflows/**'
-              - '3rdparty/**'
-              - '**/lib/**'
-              - '**/tests/**'
-              - '**/vendor-bin/**'
-              - '.php-cs-fixer.dist.php'
-              - 'composer.json'
-              - 'composer.lock'
-              - '**.php'
-
   lint:
     runs-on: ubuntu-latest
 
-    name: PHP CS fixer lint
+    name: php-cs
 
     steps:
       - name: Checkout
         uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
 
-      - name: Set up php8.1
-        uses: shivammathur/setup-php@c541c155eee45413f5b09a52248675b1a2575231 #v2.31.1
+      - name: Get php version
+        id: versions
+        uses: icewind1991/nextcloud-version-matrix@58becf3b4bb6dc6cef677b15e2fd8e7d48c0908f # v1.3.1
+
+      - name: Set up php${{ steps.versions.outputs.php-available }}
+        uses: shivammathur/setup-php@c541c155eee45413f5b09a52248675b1a2575231 # v2.31.1
         with:
-          php-version: 8.1
+          php-version: ${{ steps.versions.outputs.php-available }}
           extensions: bz2, ctype, curl, dom, fileinfo, gd, iconv, intl, json, libxml, mbstring, openssl, pcntl, posix, session, simplexml, xmlreader, xmlwriter, zip, zlib, sqlite, pdo_sqlite
           coverage: none
           ini-file: development
@@ -65,18 +46,3 @@ jobs:
 
       - name: Lint
         run: composer run cs:check || ( echo 'Please run `composer run cs:fix` to format your code' && exit 1 )
-
-  summary:
-    permissions:
-      contents: none
-    runs-on: ubuntu-latest-low
-    needs: [changes, lint]
-
-    if: always()
-
-    # This is the summary, we just avoid to rename it so that branch protection rules still match
-    name: php-cs
-
-    steps:
-      - name: Summary status
-        run: if ${{ needs.changes.outputs.src != 'false' && needs.lint.result != 'success' }}; then exit 1; fi

@@ -86,7 +86,7 @@ jobs:
           token: ${{ secrets.COMMAND_BOT_PAT }}
           repository: ${{ github.event.repository.full_name }}
           comment-id: ${{ github.event.comment.id }}
-          reactions: "-1"
+          reactions: '-1'
 
   process:
     runs-on: ubuntu-latest
@@ -119,14 +119,14 @@ jobs:
           fallbackNpm: '^10'
 
       - name: Set up node ${{ steps.package-engines-versions.outputs.nodeVersion }}
-        uses: actions/setup-node@1e60f620b9541d16bece96c5465dc8ee9832be0b # v3
+        uses: actions/setup-node@1e60f620b9541d16bece96c5465dc8ee9832be0b # v4.0.3
         with:
           node-version: ${{ steps.package-engines-versions.outputs.nodeVersion }}
           cache: npm
 
       - name: Set up npm ${{ steps.package-engines-versions.outputs.npmVersion }}
         run: npm i -g 'npm@${{ steps.package-engines-versions.outputs.npmVersion }}'
-
+      
       - name: Rebase to ${{ needs.init.outputs.base_ref }}
         if: ${{ contains(needs.init.outputs.arg1, 'rebase') }}
         run: |
@@ -146,7 +146,7 @@ jobs:
         run: |
           git add '${{ github.workspace }}${{ needs.init.outputs.git_path }}'
           git commit --signoff -m 'chore(assets): Recompile assets'
-
+ 
       - name: Commit fixup
         if: ${{ contains(needs.init.outputs.arg1, 'fixup') }}
         run: |
@@ -176,4 +176,4 @@ jobs:
           token: ${{ secrets.COMMAND_BOT_PAT }}
           repository: ${{ github.event.repository.full_name }}
           comment-id: ${{ github.event.comment.id }}
-          reactions: "-1"
+          reactions: '-1'
