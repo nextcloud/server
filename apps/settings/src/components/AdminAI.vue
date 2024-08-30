@@ -50,24 +50,6 @@
 				</div>
 			</draggable>
 		</NcSettingsSection>
-		<NcSettingsSection :name="t('settings', 'Speech-To-Text')"
-			:description="t('settings', 'Speech-To-Text can be implemented by different apps. Here you can set which app should be used.')">
-			<template v-for="provider in sttProviders">
-				<NcCheckboxRadioSwitch :key="provider.class"
-					:checked.sync="settings['ai.stt_provider']"
-					:value="provider.class"
-					name="stt_provider"
-					type="radio"
-					@update:checked="saveChanges">
-					{{ provider.name }}
-				</NcCheckboxRadioSwitch>
-			</template>
-			<template v-if="!hasStt">
-				<NcNoteCard type="info">
-					{{ t('settings', 'None of your currently installed apps provide Speech-To-Text functionality') }}
-				</NcNoteCard>
-			</template>
-		</NcSettingsSection>
 		<NcSettingsSection :name="t('settings', 'Image generation')"
 			:description="t('settings', 'Image generation can be implemented by different apps. Here you can set which app should be used.')">
 			<template v-for="provider in text2imageProviders">
@@ -162,14 +144,19 @@ export default {
 		}
 	},
 	computed: {
-		hasStt() {
-			return this.sttProviders.length > 0
-		},
 		hasTextProcessing() {
 			return Object.keys(this.settings['ai.textprocessing_provider_preferences']).length > 0 && Array.isArray(this.textProcessingTaskTypes)
 		},
 		tpTaskTypes() {
-			return Object.keys(this.settings['ai.textprocessing_provider_preferences']).filter(type => !!this.getTextProcessingTaskType(type))
+			const builtinTextProcessingTypes = [
+				'\\OCP\\TextProcessing\\FreePromptTaskType',
+				'\\OCP\\TextProcessing\\HeadlineTaskType',
+				'\\OCP\\TextProcessing\\SummaryTaskType',
+				'\\OCP\\TextProcessing\\TopicsTaskType',
+			]
+			return Object.keys(this.settings['ai.textprocessing_provider_preferences'])
+				.filter(type => !!this.getTextProcessingTaskType(type))
+				.filter(type => !builtinTextProcessingTypes.includes(type))
 		},
 		hasText2ImageProviders() {
 		  return this.text2imageProviders.length > 0
