@@ -36,7 +36,6 @@ use OCP\IL10N;
 use OCP\IServerContainer;
 use OCP\L10N\IFactory;
 use OCP\Lock\LockedException;
-use OCP\SpeechToText\ISpeechToTextManager;
 use OCP\SpeechToText\ISpeechToTextProvider;
 use OCP\SpeechToText\ISpeechToTextProviderWithId;
 use OCP\TaskProcessing\EShapeType;
@@ -96,9 +95,31 @@ class Manager implements IManager {
 		$this->appData = $appDataFactory->get('core');
 	}
 
+
+	/**
+	 * This is almost a copy of textProcessingManager->getProviders
+	 * to avoid a dependency cycle between TextProcessingManager and TaskProcessingManager
+	 */
 	private function _getRawTextProcessingProviders(): array {
-		$textProcessingManager = \OCP\Server::get(\OCP\TextProcessing\IManager::class);
-		return $textProcessingManager->getProviders();
+		$context = $this->coordinator->getRegistrationContext();
+		if ($context === null) {
+			return [];
+		}
+
+		$providers = [];
+
+		foreach ($context->getTextProcessingProviders() as $providerServiceRegistration) {
+			$class = $providerServiceRegistration->getService();
+			try {
+				$providers[$class] = $this->serverContainer->get($class);
+			} catch (\Throwable $e) {
+				$this->logger->error('Failed to load Text processing provider ' . $class, [
+					'exception' => $e,
+				]);
+			}
+		}
+
+		return $providers;
 	}
 
 	private function _getTextProcessingProviders(): array {
@@ -347,9 +368,28 @@ class Manager implements IManager {
 		return $newProviders;
 	}
 
+	/**
+	 * This is almost a copy of SpeechToTextManager->getProviders
+	 * to avoid a dependency cycle between SpeechToTextManager and TaskProcessingManager
+	 */
 	private function _getRawSpeechToTextProviders(): array {
-		$speechToTextManager = \OCP\Server::get(ISpeechToTextManager::class);
-		return $speechToTextManager->getProviders();
+		$context = $this->coordinator->getRegistrationContext();
+		if ($context === null) {
+			return [];
+		}
+		$providers = [];
+		foreach ($context->getSpeechToTextProviders() as $providerServiceRegistration) {
+			$class = $providerServiceRegistration->getService();
+			try {
+				$providers[$class] = $this->serverContainer->get($class);
+			} catch (NotFoundExceptionInterface|ContainerExceptionInterface|\Throwable $e) {
+				$this->logger->error('Failed to load SpeechToText provider ' . $class, [
+					'exception' => $e,
+				]);
+			}
+		}
+
+		return $providers;
 	}
 
 	/**
