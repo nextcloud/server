@@ -423,13 +423,22 @@ export default {
 		 */
 		canDownload: {
 			get() {
-				return this.share.attributes.find(attr => attr.key === 'download')?.value || false
+				return this.share.attributes?.find(attr => attr.key === 'download')?.value ?? true
 			},
 			set(checked) {
 				// Find the 'download' attribute and update its value
-				const downloadAttr = this.share.attributes.find(attr => attr.key === 'download')
+				const downloadAttr = this.share.attributes?.find(attr => attr.key === 'download')
 				if (downloadAttr) {
 					downloadAttr.value = checked
+				} else {
+					if (this.share.attributes === null) {
+						this.$set(this.share, 'attributes', [])
+					}
+					this.share.attributes.push({
+						scope: 'permissions',
+						key: 'download',
+						value: checked,
+					})
 				}
 			},
 		},
