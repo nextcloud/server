@@ -312,6 +312,8 @@ OC.L10N.register(
     "Today" : "Сегодня",
     "Last 7 days" : "Последние 7 дней",
     "Last 30 days" : "Последние 30 дней",
+    "This year ({year})" : "Этот год ({year})",
+    "Last year ({year})" : "Последний год ({year})",
     "Documents" : "Документы",
     "Spreadsheets" : "Таблицы",
     "Presentations" : "Презентации",

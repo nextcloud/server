@@ -6,7 +6,7 @@
     "The file was uploaded" : "文件已上传 ",
     "The uploaded file exceeds the upload_max_filesize directive in php.ini" : "上传的文件超过了 php.ini 中的 upload_max_filesize 指令",
     "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" : "上传的文件超过了 HTML 表单中指定的 MAX_FILE_SIZE 指令",
-    "The file was only partially uploaded" : "文件只有部分被上传 ",
+    "The file was only partially uploaded" : "文件仅部分上传 ",
     "No file was uploaded" : "没有文件被上传 ",
     "Missing a temporary folder" : "缺少临时文件夹 ",
     "Could not write file to disk" : "无法将文件写入磁盘",

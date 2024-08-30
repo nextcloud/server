@@ -212,6 +212,7 @@ OC.L10N.register(
     "Failed to unlink: %1$s" : "解除連結失敗：%1$s",
     "Failed to write file contents: %1$s" : "寫入檔案內容失敗：%1$s",
     "File not found: %1$s" : "找不到檔案：%1$s",
+    "Invalid target path" : "無效的目標路徑",
     "System is in maintenance mode." : "系統處於維護模式。",
     "Upgrade needed" : "需要升級",
     "Your %s needs to be configured to use HTTPS in order to use CalDAV and CardDAV with iOS/macOS." : "您的 %s 必須要設定 HTTPS ，才能在 iOS/macOS 上使用 CalDAV 和 CardDAV",

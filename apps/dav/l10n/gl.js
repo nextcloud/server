@@ -212,6 +212,7 @@ OC.L10N.register(
     "Failed to unlink: %1$s" : "Produciuse un erro ao desligar: %1$s",
     "Failed to write file contents: %1$s" : "Produciuse un erro ao escribir o contido do ficheiro: %1$s",
     "File not found: %1$s" : "Non se atopou o ficheiro: %1$s",
+    "Invalid target path" : "A ruta de destino non é correcta",
     "System is in maintenance mode." : "O sistema está en modo de mantemento.",
     "Upgrade needed" : "É necesario anovar",
     "Your %s needs to be configured to use HTTPS in order to use CalDAV and CardDAV with iOS/macOS." : "É preciso configurar o seu %s para que empregue HTTPS para poder usar CalDAV e CardDAV con iOS / macOS.",

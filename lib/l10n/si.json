@@ -14,7 +14,6 @@
     "seconds ago" : "තත්පර කිහිපයකට පෙර",
     "Empty file" : "හිස් ගොනුවකි",
     "File already exists" : "ගොනුව දැනටමත් පවතී",
-    "File name is too long" : "ගොනුවේ නම දිග වැඩිය",
     "__language_name__" : "සිංහල",
     "This is an automatically sent email, please do not reply." : "මෙය ස්වයංක්‍රීයව යවන ලද විද්‍යුත් තැපෑලකි, කරුණාකර පිළිතුරු නොදෙන්න.",
     "Apps" : "යෙදුම්",
@@ -63,6 +62,7 @@
     "December" : "දෙසැම්බර්",
     "Summary" : "සාරාංශය",
     "Translate" : "පරිවර්තනය",
+    "File name is too long" : "ගොනුවේ නම දිග වැඩිය",
     "Help" : "උපකාර",
     "Users" : "පරිශීලකයින්",
     "Unknown user" : "නොදන්නා පරිශීලකයෙකි"
