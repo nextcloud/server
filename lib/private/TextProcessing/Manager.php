@@ -116,7 +116,7 @@ class Manager implements IManager {
 			SummaryTaskType::class => TextToTextSummary::ID,
 			TopicsTaskType::class => TextToTextTopics::ID,
 		];
-		if (isset($taskProcessingCompatibleTaskTypes[$taskTypeClass])) {
+		if (isset($taskProcessingCompatibleTaskTypes[$taskTypeClass]) && isset($this->taskProcessingManager->getAvailableTaskTypes()[$taskProcessingCompatibleTaskTypes[$taskTypeClass]])) {
 			try {
 				$taskProcessingTaskTypeId = $taskProcessingCompatibleTaskTypes[$taskTypeClass];
 				$taskProcessingTask = new \OCP\TaskProcessing\Task(
