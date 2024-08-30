@@ -120,22 +120,24 @@ class SpeechToTextManager implements ISpeechToTextManager {
 		// try to run a TaskProcessing core:audio2text task
 		// this covers scheduling as well because OC\SpeechToText\TranscriptionJob calls this method
 		try {
-			$taskProcessingTask = new Task(
-				AudioToText::ID,
-				['input' => $file->getId()],
-				$appId,
-				$userId,
-				'from-SpeechToTextManager||' . $file->getId() . '||' . ($userId ?? '') . '||' . $appId,
-			);
-			$resultTask = $this->taskProcessingManager->runTask($taskProcessingTask);
-			if ($resultTask->getStatus() === Task::STATUS_SUCCESSFUL) {
-				$output = $resultTask->getOutput();
-				if (isset($output['output']) && is_string($output['output'])) {
-					return $output['output'];
+			if (isset($this->taskProcessingManager->getAvailableTaskTypes()['core:audio2text'])) {
+				$taskProcessingTask = new Task(
+					AudioToText::ID,
+					['input' => $file->getId()],
+					$appId,
+					$userId,
+					'from-SpeechToTextManager||' . $file->getId() . '||' . ($userId ?? '') . '||' . $appId,
+				);
+				$resultTask = $this->taskProcessingManager->runTask($taskProcessingTask);
+				if ($resultTask->getStatus() === Task::STATUS_SUCCESSFUL) {
+					$output = $resultTask->getOutput();
+					if (isset($output['output']) && is_string($output['output'])) {
+						return $output['output'];
+					}
 				}
 			}
 		} catch (Throwable $e) {
-			$this->logger->debug('Failed to run a Speech-to-text job from STTManager with TaskProcessing for file ' . $file->getId(), ['exception' => $e]);
+			throw new RuntimeException('Failed to run a Speech-to-text job from STTManager with TaskProcessing for file ' . $file->getId(), 0, $e);
 		}
 
 		if (!$this->hasProviders()) {
