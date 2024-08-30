@@ -44,6 +44,7 @@ OC.L10N.register(
     "tagged %s" : "помеченные %s",
     "Collaborative tags" : "Метки совместной работы",
     "Collaborative tagging functionality which shares tags among people." : "Функционал совместных меток, который публикует метки среди пользователей.",
+    "Collaborative tagging functionality which shares tags among people. Great for teams.\n\t(If you are a provider with a multi-tenancy installation, it is advised to deactivate this app as tags are shared.)" : "Функция совместного использования тегов, которая позволяет пользователям обмениваться тегами. Отлично подходит для команд.\n\t(Если вы являетесь поставщиком услуг с несколькими арендаторами, рекомендуется отключить это приложение, поскольку теги являются общими.)",
     "Create or edit tags" : "Создание или изменение меток",
     "Search for a tag to edit" : "Поиск метки для изменения",
     "Collaborative tags …" : "Совместные теги ...",
