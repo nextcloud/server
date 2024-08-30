@@ -262,7 +262,7 @@ class OauthApiControllerTest extends TestCase {
 
 		$client = new Client();
 		$client->setClientIdentifier('clientId');
-		$client->setSecret('hashedClientSecret');
+		$client->setSecret(bin2hex('hashedClientSecret'));
 		$this->clientMapper->method('getByUid')
 			->with(42)
 			->willReturn($client);
@@ -287,7 +287,7 @@ class OauthApiControllerTest extends TestCase {
 
 		$client = new Client();
 		$client->setClientIdentifier('clientId');
-		$client->setSecret('hashedClientSecret');
+		$client->setSecret(bin2hex('hashedClientSecret'));
 		$this->clientMapper->method('getByUid')
 			->with(42)
 			->willReturn($client);
@@ -325,7 +325,7 @@ class OauthApiControllerTest extends TestCase {
 
 		$client = new Client();
 		$client->setClientIdentifier('clientId');
-		$client->setSecret('hashedClientSecret');
+		$client->setSecret(bin2hex('hashedClientSecret'));
 		$this->clientMapper->method('getByUid')
 			->with(42)
 			->willReturn($client);
@@ -421,7 +421,7 @@ class OauthApiControllerTest extends TestCase {
 
 		$client = new Client();
 		$client->setClientIdentifier('clientId');
-		$client->setSecret('hashedClientSecret');
+		$client->setSecret(bin2hex('hashedClientSecret'));
 		$this->clientMapper->method('getByUid')
 			->with(42)
 			->willReturn($client);
@@ -520,7 +520,7 @@ class OauthApiControllerTest extends TestCase {
 
 		$client = new Client();
 		$client->setClientIdentifier('clientId');
-		$client->setSecret('hashedClientSecret');
+		$client->setSecret(bin2hex('hashedClientSecret'));
 		$this->clientMapper->method('getByUid')
 			->with(42)
 			->willReturn($client);

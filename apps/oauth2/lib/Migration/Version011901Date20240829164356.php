@@ -23,7 +23,7 @@ class Version011901Date20240829164356 extends SimpleMigrationStep {
 	) {
 	}
 
-	public function postSchemaChange(IOutput $output, Closure $schemaClosure, array $options) {
+	public function postSchemaChange(IOutput $output, Closure $schemaClosure, array $options): void {
 		$qbUpdate = $this->connection->getQueryBuilder();
 		$qbUpdate->update('oauth2_clients')
 			->set('secret', $qbUpdate->createParameter('updateSecret'))
