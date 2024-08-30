@@ -45,6 +45,7 @@
 
 <script lang="ts">
 import type { Folder } from '@nextcloud/files'
+import type { RawLocation } from 'vue-router'
 
 import { Permission } from '@nextcloud/files'
 import { showError } from '@nextcloud/dialogs'
