@@ -242,7 +242,6 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 				new OC\AppFramework\Middleware\Security\CSPMiddleware(
 					$server->query(OC\Security\CSP\ContentSecurityPolicyManager::class),
 					$server->query(OC\Security\CSP\ContentSecurityPolicyNonceManager::class),
-					$server->query(OC\Security\CSRF\CsrfTokenManager::class)
 				)
 			);
 			$dispatcher->registerMiddleware(
