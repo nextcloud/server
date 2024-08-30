@@ -3,7 +3,7 @@
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-namespace Test\TextProcessing;
+namespace Test\TaskProcessing;
 
 use OC\AppFramework\Bootstrap\Coordinator;
 use OC\AppFramework\Bootstrap\RegistrationContext;
