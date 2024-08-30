@@ -20,11 +20,26 @@ const routes: RouteConfig[] = [
 			default: UserManagement,
 			navigation: UserManagementNavigation,
 		},
-		props: true,
+		props: {
+			default: true,
+			navigation: true,
+		},
 		children: [
 			{
-				path: ':selectedGroup',
+				path: 'group/:group',
 				name: 'group',
+				props: {
+					default: true,
+					navigation: true,
+				},
+			},
+			{
+				path: ':sectionGroup',
+				name: 'section',
+				props: {
+					default: true,
+					navigation: true,
+				},
 			},
 		],
 	},

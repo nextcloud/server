@@ -6,6 +6,7 @@
 <template>
 	<NcAppContent :page-heading="pageHeading">
 		<UserList :selected-group="selectedGroupDecoded"
+			:selected-section="selectedSection"
 			:external-actions="externalActions" />
 	</NcAppContent>
 </template>
@@ -24,6 +25,17 @@ export default defineComponent({
 	components: {
 		NcAppContent,
 		UserList,
+	},
+
+	props: {
+		group: {
+			type: String,
+			default: null,
+		},
+		sectionGroup: {
+			type: String,
+			default: null,
+		},
 	},
 
 	data() {
@@ -46,15 +58,28 @@ export default defineComponent({
 		},
 
 		selectedGroup() {
-			return this.$route.params.selectedGroup
+			if (this.sectionGroup === 'admin') {
+				return this.sectionGroup
+			}
+			return this.group
 		},
 
 		selectedGroupDecoded() {
 			return this.selectedGroup ? decodeURIComponent(this.selectedGroup) : null
 		},
+
+		selectedSection() {
+			if (this.sectionGroup === 'admin') {
+				return null
+			}
+			return this.sectionGroup
+		},
 	},
 
 	beforeMount() {
+		this.$store.commit('initSectionGroups', {
+			sectionGroups: this.$store.getters.getServerData.sectionGroups,
+		})
 		this.$store.commit('initGroups', {
 			groups: this.$store.getters.getServerData.groups,
 			orderBy: this.$store.getters.getServerData.sortGroups,
