@@ -148,7 +148,15 @@ export default {
 			return Object.keys(this.settings['ai.textprocessing_provider_preferences']).length > 0 && Array.isArray(this.textProcessingTaskTypes)
 		},
 		tpTaskTypes() {
-			return Object.keys(this.settings['ai.textprocessing_provider_preferences']).filter(type => !!this.getTextProcessingTaskType(type))
+			const builtinTextProcessingTypes = [
+				'\\OCP\\TextProcessing\\FreePromptTaskType',
+				'\\OCP\\TextProcessing\\HeadlineTaskType',
+				'\\OCP\\TextProcessing\\SummaryTaskType',
+				'\\OCP\\TextProcessing\\TopicsTaskType',
+			]
+			return Object.keys(this.settings['ai.textprocessing_provider_preferences'])
+				.filter(type => !!this.getTextProcessingTaskType(type))
+				.filter(type => !builtinTextProcessingTypes.includes(type))
 		},
 		hasText2ImageProviders() {
 		  return this.text2imageProviders.length > 0
