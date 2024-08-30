@@ -653,7 +653,8 @@ export default {
 	&__no-content {
 		display: flex;
 		align-items: center;
-		height: 100%;
+		margin-top: 0.5em;
+		height: 70%;
 	}
 
 	&__results {
