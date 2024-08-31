@@ -168,7 +168,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 0.12.5
 	- license: MIT
 - webdav
-	- version: 5.7.0
+	- version: 5.7.1
 	- license: MIT
 - webpack
 	- version: 5.94.0
