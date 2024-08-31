@@ -31,7 +31,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 3.0.1
 	- license: GPL-3.0-or-later
 - @nextcloud/vue
-	- version: 8.17.0
+	- version: 8.17.1
 	- license: AGPL-3.0-or-later
 - assert
 	- version: 2.1.0
