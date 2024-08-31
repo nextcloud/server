@@ -53,9 +53,6 @@ This file is generated from multiple sources. Included packages:
 - @nextcloud/capabilities
 	- version: 1.2.0
 	- license: GPL-3.0-or-later
-- @nextcloud/dialogs
-	- version: 5.3.5
-	- license: AGPL-3.0-or-later
 - semver
 	- version: 7.6.3
 	- license: ISC
@@ -83,6 +80,9 @@ This file is generated from multiple sources. Included packages:
 - @nextcloud/sharing
 	- version: 0.2.3
 	- license: GPL-3.0-or-later
+- @nextcloud/dialogs
+	- version: 5.3.7
+	- license: AGPL-3.0-or-later
 - eventemitter3
 	- version: 5.0.1
 	- license: MIT
@@ -255,7 +255,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 2.7.16
 	- license: MIT
 - webdav
-	- version: 5.7.0
+	- version: 5.7.1
 	- license: MIT
 - which-typed-array
 	- version: 1.1.15

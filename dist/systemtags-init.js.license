@@ -223,6 +223,9 @@ This file is generated from multiple sources. Included packages:
 - md5
 	- version: 2.3.0
 	- license: BSD-3-Clause
+- minimatch
+	- version: 9.0.5
+	- license: ISC
 - nested-property
 	- version: 4.0.0
 	- license: MIT
@@ -319,11 +322,8 @@ This file is generated from multiple sources. Included packages:
 - util
 	- version: 0.12.5
 	- license: MIT
-- minimatch
-	- version: 10.0.1
-	- license: ISC
 - webdav
-	- version: 5.7.0
+	- version: 5.7.1
 	- license: MIT
 - webpack
 	- version: 5.94.0
