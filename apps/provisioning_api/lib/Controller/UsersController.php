@@ -215,6 +215,13 @@ class UsersController extends AUserData {
 		$usersDetails = [];
 		foreach ($users as $userId) {
 			$userId = (string) $userId;
+			\OC::$server->get(\Psr\Log\LoggerInterface::class)->error(
+				'Start of getUsersDetails for {user}',
+				[
+					'user' => $userId,
+					'ticket' => '66440',
+				]
+			);
 			try {
 				$userData = $this->getUserData($userId);
 			} catch (OCSNotFoundException $e) {
@@ -231,6 +238,13 @@ class UsersController extends AUserData {
 				// only showing its id
 				$usersDetails[$userId] = ['id' => $userId];
 			}
+			\OC::$server->get(\Psr\Log\LoggerInterface::class)->error(
+				'End of getUsersDetails for {user}',
+				[
+					'user' => $userId,
+					'ticket' => '66440',
+				]
+			);
 		}
 
 		return new DataResponse([
