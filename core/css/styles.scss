@@ -154,28 +154,6 @@ body {
 	}
 }
 
-/* SCROLLING */
-
-::-webkit-scrollbar {
-	width: 12px;
-	height: 12px
-}
-
-::-webkit-scrollbar-corner {
-	background-color: transparent;
-}
-
-::-webkit-scrollbar-track-piece {
-	background-color: transparent;
-}
-
-::-webkit-scrollbar-thumb {
-	background: var(--color-scrollbar);
-	border-radius: var(--border-radius-large);
-	border: 2px solid transparent;
-	background-clip: content-box;
-}
-
 
 /* SELECTION */
 
