@@ -5,6 +5,9 @@
 import 'cypress-axe'
 import './commands.ts'
 
+// Remove with Node 22
+import 'core-js/actual/promise/with-resolvers.js'
+
 // Fix ResizeObserver loop limit exceeded happening in Cypress only
 // @see https://github.com/cypress-io/cypress/issues/20341
 Cypress.on('uncaught:exception', err => !err.message.includes('ResizeObserver loop limit exceeded'))
