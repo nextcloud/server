@@ -90,9 +90,9 @@
 					<p>&nbsp;</p>
 				</div>
 			</template>
-			<template v-if="!hasTextProcessing">
+			<template v-if="tpTaskTypes.length === 0">
 				<NcNoteCard type="info">
-					{{ t('settings', 'None of your currently installed apps provide Text processing functionality') }}
+					{{ t('settings', 'None of your currently installed apps provide custom Text processing functionality.') }}
 				</NcNoteCard>
 			</template>
 		</NcSettingsSection>
@@ -149,10 +149,10 @@ export default {
 		},
 		tpTaskTypes() {
 			const builtinTextProcessingTypes = [
-				'\\OCP\\TextProcessing\\FreePromptTaskType',
-				'\\OCP\\TextProcessing\\HeadlineTaskType',
-				'\\OCP\\TextProcessing\\SummaryTaskType',
-				'\\OCP\\TextProcessing\\TopicsTaskType',
+				'OCP\\TextProcessing\\FreePromptTaskType',
+				'OCP\\TextProcessing\\HeadlineTaskType',
+				'OCP\\TextProcessing\\SummaryTaskType',
+				'OCP\\TextProcessing\\TopicsTaskType',
 			]
 			return Object.keys(this.settings['ai.textprocessing_provider_preferences'])
 				.filter(type => !!this.getTextProcessingTaskType(type))
