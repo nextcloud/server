@@ -72,23 +72,23 @@ exports[`CalDavSettings > interactions 1`] = `
     >
       <span
         class="checkbox-radio-switch checkbox-radio-switch-switch checkbox-radio-switch--checked"
+        data-v-00597cce=""
         data-v-0974f50a=""
         data-v-6b8d4c30=""
-        data-v-feaabebe=""
         style="--icon-size: 36px; --icon-height: 16px;"
       >
         <input
           aria-labelledby="caldavSendInvitations-label"
           class="checkbox-radio-switch__input"
-          data-v-feaabebe=""
+          data-v-00597cce=""
           id="caldavSendInvitations"
           type="checkbox"
           value=""
         />
         <span
           class="checkbox-content checkbox-radio-switch__content checkbox-content-switch checkbox-content--has-text"
+          data-v-00597cce=""
           data-v-e75842d8=""
-          data-v-feaabebe=""
           id="caldavSendInvitations-label"
         >
           <span
@@ -145,23 +145,23 @@ exports[`CalDavSettings > interactions 1`] = `
     >
       <span
         class="checkbox-radio-switch checkbox checkbox-radio-switch-switch checkbox-radio-switch--checked"
+        data-v-00597cce=""
         data-v-0974f50a=""
         data-v-6b8d4c30=""
-        data-v-feaabebe=""
         style="--icon-size: 36px; --icon-height: 16px;"
       >
         <input
           aria-labelledby="caldavGenerateBirthdayCalendar-label"
           class="checkbox-radio-switch__input"
-          data-v-feaabebe=""
+          data-v-00597cce=""
           id="caldavGenerateBirthdayCalendar"
           type="checkbox"
           value=""
         />
         <span
           class="checkbox-content checkbox-radio-switch__content checkbox-content-switch checkbox-content--has-text"
+          data-v-00597cce=""
           data-v-e75842d8=""
-          data-v-feaabebe=""
           id="caldavGenerateBirthdayCalendar-label"
         >
           <span
@@ -222,23 +222,23 @@ exports[`CalDavSettings > interactions 1`] = `
     >
       <span
         class="checkbox-radio-switch checkbox-radio-switch-switch checkbox-radio-switch--checked"
+        data-v-00597cce=""
         data-v-0974f50a=""
         data-v-6b8d4c30=""
-        data-v-feaabebe=""
         style="--icon-size: 36px; --icon-height: 16px;"
       >
         <input
           aria-labelledby="caldavSendEventReminders-label"
           class="checkbox-radio-switch__input"
-          data-v-feaabebe=""
+          data-v-00597cce=""
           id="caldavSendEventReminders"
           type="checkbox"
           value=""
         />
         <span
           class="checkbox-content checkbox-radio-switch__content checkbox-content-switch checkbox-content--has-text"
+          data-v-00597cce=""
           data-v-e75842d8=""
-          data-v-feaabebe=""
           id="caldavSendEventReminders-label"
         >
           <span
@@ -306,23 +306,23 @@ exports[`CalDavSettings > interactions 1`] = `
     >
       <span
         class="checkbox-radio-switch checkbox-radio-switch-switch checkbox-radio-switch--checked"
+        data-v-00597cce=""
         data-v-0974f50a=""
         data-v-6b8d4c30=""
-        data-v-feaabebe=""
         style="--icon-size: 36px; --icon-height: 16px;"
       >
         <input
           aria-labelledby="caldavSendEventRemindersToSharedGroupMembers-label"
           class="checkbox-radio-switch__input"
-          data-v-feaabebe=""
+          data-v-00597cce=""
           id="caldavSendEventRemindersToSharedGroupMembers"
           type="checkbox"
           value=""
         />
         <span
           class="checkbox-content checkbox-radio-switch__content checkbox-content-switch checkbox-content--has-text"
+          data-v-00597cce=""
           data-v-e75842d8=""
-          data-v-feaabebe=""
           id="caldavSendEventRemindersToSharedGroupMembers-label"
         >
           <span
@@ -374,23 +374,23 @@ exports[`CalDavSettings > interactions 1`] = `
     >
       <span
         class="checkbox-radio-switch checkbox-radio-switch-switch checkbox-radio-switch--checked"
+        data-v-00597cce=""
         data-v-0974f50a=""
         data-v-6b8d4c30=""
-        data-v-feaabebe=""
         style="--icon-size: 36px; --icon-height: 16px;"
       >
         <input
           aria-labelledby="caldavSendEventRemindersPush-label"
           class="checkbox-radio-switch__input"
-          data-v-feaabebe=""
+          data-v-00597cce=""
           id="caldavSendEventRemindersPush"
           type="checkbox"
           value=""
         />
         <span
           class="checkbox-content checkbox-radio-switch__content checkbox-content-switch checkbox-content--has-text"
+          data-v-00597cce=""
           data-v-e75842d8=""
-          data-v-feaabebe=""
           id="caldavSendEventRemindersPush-label"
         >
           <span
@@ -425,450 +425,6 @@ exports[`CalDavSettings > interactions 1`] = `
             data-v-e75842d8=""
           >
              Enable notifications for events via push 
-          </span>
-        </span>
-      </span>
-    </p>
-  </div>
-</div>
-`;
-
-exports[`CalDavSettings interactions 1`] = `
-<div>
-  <div
-    class="settings-section settings-section--limit-width"
-    data-v-0974f50a=""
-  >
-    <h2
-      class="settings-section__name"
-      data-v-0974f50a=""
-    >
-       Calendar server 
-      <a
-        aria-label="External documentation for Calendar server"
-        class="settings-section__info"
-        data-v-0974f50a=""
-        href="https://docs.nextcloud.com/server/23/go.php?to=user-sync-calendars"
-        rel="noreferrer nofollow"
-        target="_blank"
-        title="External documentation for Calendar server"
-      >
-        <span
-          aria-hidden="true"
-          class="material-design-icon help-circle-icon"
-          data-v-0974f50a=""
-          role="img"
-        >
-          <svg
-            class="material-design-icon__svg"
-            fill="currentColor"
-            height="20"
-            viewBox="0 0 24 24"
-            width="20"
-          >
-            <path
-              d="M15.07,11.25L14.17,12.17C13.45,12.89 13,13.5 13,15H11V14.5C11,13.39 11.45,12.39 12.17,11.67L13.41,10.41C13.78,10.05 14,9.55 14,9C14,7.89 13.1,7 12,7A2,2 0 0,0 10,9H8A4,4 0 0,1 12,5A4,4 0 0,1 16,9C16,9.88 15.64,10.67 15.07,11.25M13,19H11V17H13M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12C22,6.47 17.5,2 12,2Z"
-            >
-              <!---->
-            </path>
-          </svg>
-        </span>
-      </a>
-    </h2>
-    <!---->
-    <p
-      class="settings-hint"
-      data-v-0974f50a=""
-    >
-      Also install the 
-      <a
-        href="../apps/office/calendar"
-        target="_blank"
-      >
-        Calendar app
-      </a>
-      , or 
-      <a
-        href="https://docs.nextcloud.com/server/23/go.php?to=user-sync-calendars"
-        rel="noreferrer noopener"
-        target="_blank"
-      >
-        connect your desktop & mobile for syncing ↗
-      </a>
-      .
-    </p>
-     
-    <p
-      data-v-0974f50a=""
-    >
-      <span
-        class="checkbox-radio-switch checkbox-radio-switch-switch checkbox-radio-switch--checked"
-        data-v-0974f50a=""
-        data-v-feaabebe=""
-        style="--icon-size: 36px; --icon-height: 16px;"
-      >
-        <input
-          aria-labelledby="caldavSendInvitations-label"
-          class="checkbox-radio-switch__input"
-          data-v-feaabebe=""
-          id="caldavSendInvitations"
-          type="checkbox"
-          value=""
-        />
-        <span
-          class="checkbox-content checkbox-radio-switch__content checkbox-content-switch checkbox-content--has-text"
-          data-v-e75842d8=""
-          data-v-feaabebe=""
-          id="caldavSendInvitations-label"
-        >
-          <span
-            aria-hidden="true"
-            class="checkbox-content__icon checkbox-content__icon--checked checkbox-radio-switch__icon"
-            data-v-e75842d8=""
-            inert="inert"
-          >
-            <span
-              aria-hidden="true"
-              class="material-design-icon toggle-switch-icon"
-              data-v-e75842d8=""
-              role="img"
-            >
-              <svg
-                class="material-design-icon__svg"
-                fill="currentColor"
-                height="36"
-                viewBox="0 0 24 24"
-                width="36"
-              >
-                <path
-                  d="M17,7H7A5,5 0 0,0 2,12A5,5 0 0,0 7,17H17A5,5 0 0,0 22,12A5,5 0 0,0 17,7M17,15A3,3 0 0,1 14,12A3,3 0 0,1 17,9A3,3 0 0,1 20,12A3,3 0 0,1 17,15Z"
-                >
-                  <!---->
-                </path>
-              </svg>
-            </span>
-          </span>
-          <span
-            class="checkbox-content__text checkbox-radio-switch__text"
-            data-v-e75842d8=""
-          >
-            
-			Send invitations to attendees
-		
-          </span>
-        </span>
-      </span>
-       
-      <em
-        data-v-0974f50a=""
-      >
-        Please make sure to properly set up 
-        <a
-          href="../admin#mail_general_settings"
-        >
-          the email server
-        </a>
-        .
-      </em>
-    </p>
-     
-    <p
-      data-v-0974f50a=""
-    >
-      <span
-        class="checkbox-radio-switch checkbox checkbox-radio-switch-switch checkbox-radio-switch--checked"
-        data-v-0974f50a=""
-        data-v-feaabebe=""
-        style="--icon-size: 36px; --icon-height: 16px;"
-      >
-        <input
-          aria-labelledby="caldavGenerateBirthdayCalendar-label"
-          class="checkbox-radio-switch__input"
-          data-v-feaabebe=""
-          id="caldavGenerateBirthdayCalendar"
-          type="checkbox"
-          value=""
-        />
-        <span
-          class="checkbox-content checkbox-radio-switch__content checkbox-content-switch checkbox-content--has-text"
-          data-v-e75842d8=""
-          data-v-feaabebe=""
-          id="caldavGenerateBirthdayCalendar-label"
-        >
-          <span
-            aria-hidden="true"
-            class="checkbox-content__icon checkbox-content__icon--checked checkbox-radio-switch__icon"
-            data-v-e75842d8=""
-            inert="inert"
-          >
-            <span
-              aria-hidden="true"
-              class="material-design-icon toggle-switch-icon"
-              data-v-e75842d8=""
-              role="img"
-            >
-              <svg
-                class="material-design-icon__svg"
-                fill="currentColor"
-                height="36"
-                viewBox="0 0 24 24"
-                width="36"
-              >
-                <path
-                  d="M17,7H7A5,5 0 0,0 2,12A5,5 0 0,0 7,17H17A5,5 0 0,0 22,12A5,5 0 0,0 17,7M17,15A3,3 0 0,1 14,12A3,3 0 0,1 17,9A3,3 0 0,1 20,12A3,3 0 0,1 17,15Z"
-                >
-                  <!---->
-                </path>
-              </svg>
-            </span>
-          </span>
-          <span
-            class="checkbox-content__text checkbox-radio-switch__text"
-            data-v-e75842d8=""
-          >
-            
-			Automatically generate a birthday calendar
-		
-          </span>
-        </span>
-      </span>
-       
-      <em
-        data-v-0974f50a=""
-      >
-        
-			Birthday calendars will be generated by a background job.
-		
-      </em>
-       
-      <br
-        data-v-0974f50a=""
-      />
-       
-      <em
-        data-v-0974f50a=""
-      >
-        
-			Hence they will not be available immediately after enabling but will show up after some time.
-		
-      </em>
-    </p>
-     
-    <p
-      data-v-0974f50a=""
-    >
-      <span
-        class="checkbox-radio-switch checkbox-radio-switch-switch checkbox-radio-switch--checked"
-        data-v-0974f50a=""
-        data-v-feaabebe=""
-        style="--icon-size: 36px; --icon-height: 16px;"
-      >
-        <input
-          aria-labelledby="caldavSendEventReminders-label"
-          class="checkbox-radio-switch__input"
-          data-v-feaabebe=""
-          id="caldavSendEventReminders"
-          type="checkbox"
-          value=""
-        />
-        <span
-          class="checkbox-content checkbox-radio-switch__content checkbox-content-switch checkbox-content--has-text"
-          data-v-e75842d8=""
-          data-v-feaabebe=""
-          id="caldavSendEventReminders-label"
-        >
-          <span
-            aria-hidden="true"
-            class="checkbox-content__icon checkbox-content__icon--checked checkbox-radio-switch__icon"
-            data-v-e75842d8=""
-            inert="inert"
-          >
-            <span
-              aria-hidden="true"
-              class="material-design-icon toggle-switch-icon"
-              data-v-e75842d8=""
-              role="img"
-            >
-              <svg
-                class="material-design-icon__svg"
-                fill="currentColor"
-                height="36"
-                viewBox="0 0 24 24"
-                width="36"
-              >
-                <path
-                  d="M17,7H7A5,5 0 0,0 2,12A5,5 0 0,0 7,17H17A5,5 0 0,0 22,12A5,5 0 0,0 17,7M17,15A3,3 0 0,1 14,12A3,3 0 0,1 17,9A3,3 0 0,1 20,12A3,3 0 0,1 17,15Z"
-                >
-                  <!---->
-                </path>
-              </svg>
-            </span>
-          </span>
-          <span
-            class="checkbox-content__text checkbox-radio-switch__text"
-            data-v-e75842d8=""
-          >
-            
-			Send notifications for events
-		
-          </span>
-        </span>
-      </span>
-       
-      <em
-        data-v-0974f50a=""
-      >
-        Please make sure to properly set up 
-        <a
-          href="../admin#mail_general_settings"
-        >
-          the email server
-        </a>
-        .
-      </em>
-       
-      <br
-        data-v-0974f50a=""
-      />
-       
-      <em
-        data-v-0974f50a=""
-      >
-        
-			Notifications are sent via background jobs, so these must occur often enough.
-		
-      </em>
-    </p>
-     
-    <p
-      class="indented"
-      data-v-0974f50a=""
-    >
-      <span
-        class="checkbox-radio-switch checkbox-radio-switch-switch checkbox-radio-switch--checked"
-        data-v-0974f50a=""
-        data-v-feaabebe=""
-        style="--icon-size: 36px; --icon-height: 16px;"
-      >
-        <input
-          aria-labelledby="caldavSendEventRemindersToSharedGroupMembers-label"
-          class="checkbox-radio-switch__input"
-          data-v-feaabebe=""
-          id="caldavSendEventRemindersToSharedGroupMembers"
-          type="checkbox"
-          value=""
-        />
-        <span
-          class="checkbox-content checkbox-radio-switch__content checkbox-content-switch checkbox-content--has-text"
-          data-v-e75842d8=""
-          data-v-feaabebe=""
-          id="caldavSendEventRemindersToSharedGroupMembers-label"
-        >
-          <span
-            aria-hidden="true"
-            class="checkbox-content__icon checkbox-content__icon--checked checkbox-radio-switch__icon"
-            data-v-e75842d8=""
-            inert="inert"
-          >
-            <span
-              aria-hidden="true"
-              class="material-design-icon toggle-switch-icon"
-              data-v-e75842d8=""
-              role="img"
-            >
-              <svg
-                class="material-design-icon__svg"
-                fill="currentColor"
-                height="36"
-                viewBox="0 0 24 24"
-                width="36"
-              >
-                <path
-                  d="M17,7H7A5,5 0 0,0 2,12A5,5 0 0,0 7,17H17A5,5 0 0,0 22,12A5,5 0 0,0 17,7M17,15A3,3 0 0,1 14,12A3,3 0 0,1 17,9A3,3 0 0,1 20,12A3,3 0 0,1 17,15Z"
-                >
-                  <!---->
-                </path>
-              </svg>
-            </span>
-          </span>
-          <span
-            class="checkbox-content__text checkbox-radio-switch__text"
-            data-v-e75842d8=""
-          >
-            
-			Send reminder notifications to calendar sharees as well
-		
-          </span>
-        </span>
-      </span>
-       
-      <em
-        data-v-0974f50a=""
-      >
-        
-			Reminders are always sent to organizers and attendees.
-		
-      </em>
-    </p>
-     
-    <p
-      class="indented"
-      data-v-0974f50a=""
-    >
-      <span
-        class="checkbox-radio-switch checkbox-radio-switch-switch checkbox-radio-switch--checked"
-        data-v-0974f50a=""
-        data-v-feaabebe=""
-        style="--icon-size: 36px; --icon-height: 16px;"
-      >
-        <input
-          aria-labelledby="caldavSendEventRemindersPush-label"
-          class="checkbox-radio-switch__input"
-          data-v-feaabebe=""
-          id="caldavSendEventRemindersPush"
-          type="checkbox"
-          value=""
-        />
-        <span
-          class="checkbox-content checkbox-radio-switch__content checkbox-content-switch checkbox-content--has-text"
-          data-v-e75842d8=""
-          data-v-feaabebe=""
-          id="caldavSendEventRemindersPush-label"
-        >
-          <span
-            aria-hidden="true"
-            class="checkbox-content__icon checkbox-content__icon--checked checkbox-radio-switch__icon"
-            data-v-e75842d8=""
-            inert="inert"
-          >
-            <span
-              aria-hidden="true"
-              class="material-design-icon toggle-switch-icon"
-              data-v-e75842d8=""
-              role="img"
-            >
-              <svg
-                class="material-design-icon__svg"
-                fill="currentColor"
-                height="36"
-                viewBox="0 0 24 24"
-                width="36"
-              >
-                <path
-                  d="M17,7H7A5,5 0 0,0 2,12A5,5 0 0,0 7,17H17A5,5 0 0,0 22,12A5,5 0 0,0 17,7M17,15A3,3 0 0,1 14,12A3,3 0 0,1 17,9A3,3 0 0,1 20,12A3,3 0 0,1 17,15Z"
-                >
-                  <!---->
-                </path>
-              </svg>
-            </span>
-          </span>
-          <span
-            class="checkbox-content__text checkbox-radio-switch__text"
-            data-v-e75842d8=""
-          >
-            
-			Enable notifications for events via push
-		
           </span>
         </span>
       </span>
