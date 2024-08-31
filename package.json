@@ -66,7 +66,7 @@
     "@skjnldsv/sanitize-svg": "^1.0.2",
     "@vueuse/components": "^11.0.0",
     "@vueuse/core": "^11.0.1",
-    "@vueuse/integrations": "^11.0.1",
+    "@vueuse/integrations": "^11.0.3",
     "backbone": "^1.4.1",
     "blueimp-md5": "^2.19.0",
     "blurhash": "^2.0.5",
