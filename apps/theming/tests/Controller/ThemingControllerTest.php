@@ -13,6 +13,7 @@ use OCA\Theming\ThemingDefaults;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
+use OCP\AppFramework\Services\IAppConfig;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Files\NotFoundException;
 use OCP\Files\SimpleFS\ISimpleFile;
@@ -24,28 +25,23 @@ use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class ThemingControllerTest extends TestCase {
-	/** @var IRequest|MockObject */
-	private $request;
-	/** @var IConfig|MockObject */
-	private $config;
-	/** @var ThemingDefaults|MockObject */
-	private $themingDefaults;
-	/** @var IL10N|MockObject */
-	private $l10n;
-	/** @var ThemingController */
-	private $themingController;
-	/** @var IAppManager|MockObject */
-	private $appManager;
-	/** @var ImageManager|MockObject */
-	private $imageManager;
-	/** @var IURLGenerator|MockObject */
-	private $urlGenerator;
-	/** @var ThemesService|MockObject */
-	private $themesService;
+
+	private IRequest&MockObject $request;
+	private IConfig&MockObject $config;
+	private IAppConfig&MockObject $appConfig;
+	private ThemingDefaults&MockObject $themingDefaults;
+	private IL10N&MockObject $l10n;
+	private IAppManager&MockObject $appManager;
+	private ImageManager&MockObject $imageManager;
+	private IURLGenerator&MockObject $urlGenerator;
+	private ThemesService&MockObject $themesService;
+
+	private ThemingController $themingController;
 
 	protected function setUp(): void {
 		$this->request = $this->createMock(IRequest::class);
 		$this->config = $this->createMock(IConfig::class);
+		$this->appConfig = $this->createMock(IAppConfig::class);
 		$this->themingDefaults = $this->createMock(ThemingDefaults::class);
 		$this->l10n = $this->createMock(L10N::class);
 		$this->appManager = $this->createMock(IAppManager::class);
@@ -64,6 +60,7 @@ class ThemingControllerTest extends TestCase {
 			'theming',
 			$this->request,
 			$this->config,
+			$this->appConfig,
 			$this->themingDefaults,
 			$this->l10n,
 			$this->urlGenerator,
