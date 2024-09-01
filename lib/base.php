@@ -509,7 +509,7 @@ class OC {
 			return;
 		}
 
-		if (count($_COOKIE) > 0) {
+		if (count($_COOKIE) > 0 && (isset($_COOKIE['nc_sameSiteCookielax']) || isset($_COOKIE['nc_sameSiteCookiestrict']))) {
 			$requestUri = $request->getScriptName();
 			$processingScript = explode('/', $requestUri);
 			$processingScript = $processingScript[count($processingScript) - 1];
