@@ -10,14 +10,14 @@ declare(strict_types=1);
 namespace OCA\Theming\Migration;
 
 use OCA\Theming\AppInfo\Application;
-use OCP\IConfig;
+use OCP\IAppConfig;
 use OCP\IDBConnection;
 use OCP\Migration\IOutput;
 
 class SeparatePrimaryColorAndBackground implements \OCP\Migration\IRepairStep {
 
 	public function __construct(
-		private IConfig $config,
+		private IAppConfig $appConfig,
 		private IDBConnection $connection,
 	) {
 	}
@@ -27,25 +27,24 @@ class SeparatePrimaryColorAndBackground implements \OCP\Migration\IRepairStep {
 	}
 
 	public function run(IOutput $output) {
-		$defaultColor = $this->config->getAppValue(Application::APP_ID, 'color', '');
+		$defaultColor = $this->appConfig->getValueString(Application::APP_ID, 'color', '');
 		if ($defaultColor !== '') {
 			// Restore legacy value into new field
-			$this->config->setAppValue(Application::APP_ID, 'background_color', $defaultColor);
-			$this->config->setAppValue(Application::APP_ID, 'primary_color', $defaultColor);
+			$this->appConfig->setValueString(Application::APP_ID, 'background_color', $defaultColor);
+			$this->appConfig->setValueString(Application::APP_ID, 'primary_color', $defaultColor);
 			// Delete legacy field
-			$this->config->deleteAppValue(Application::APP_ID, 'color');
+			$this->appConfig->deleteKey(Application::APP_ID, 'color');
 			// give some feedback
 			$output->info('Global primary color restored');
 		}
 
 		// This can only be executed once because `background_color` is again used with Nextcloud 30,
 		// so this part only works when updating -> Nextcloud 29 -> 30
-		$migrated = $this->config->getAppValue('theming', 'nextcloud_30_migration', 'false') === 'true';
-		if ($migrated) {
+		if ($this->appConfig->getValueBool('theming', 'nextcloud_30_migration')) {
 			return;
 		}
 
-		$userThemingEnabled = $this->config->getAppValue('theming', 'disable-user-theming', 'no') !== 'yes';
+		$userThemingEnabled = $this->appConfig->getValueBool('theming', 'disable-user-theming');
 		if ($userThemingEnabled) {
 			$output->info('Restoring user primary color');
 			// For performance let the DB handle this
@@ -59,6 +58,6 @@ class SeparatePrimaryColorAndBackground implements \OCP\Migration\IRepairStep {
 			$qb->executeStatement();
 			$output->info('Primary color of users restored');
 		}
-		$this->config->setAppValue('theming', 'nextcloud_30_migration', 'true');
+		$this->appConfig->setValueBool('theming', 'nextcloud_30_migration', true);
 	}
 }
