@@ -93,6 +93,7 @@
     "Path contains invalid segments" : "Tá míreanna neamhbhailí sa chonair",
     "Filename is a reserved word" : "Focal forchoimeádta is ea ainm comhaid",
     "Filename contains at least one invalid character" : "Tá carachtar neamhbhailí amháin ar a laghad san ainm comhaid",
+    "Filename is too long" : "Tá an t-ainm comhaid ró-fhada",
     "Empty filename is not allowed" : "Ní cheadaítear ainm comhaid folamh",
     "App \"%s\" cannot be installed because appinfo file cannot be read." : "Ní féidir aip \"%s\" a shuiteáil toisc nach féidir an comhad appinfo a léamh.",
     "App \"%s\" cannot be installed because it is not compatible with this version of the server." : "Ní féidir aip \"%s\" a shuiteáil toisc nach bhfuil sé comhoiriúnach leis an leagan seo den fhreastalaí.",
