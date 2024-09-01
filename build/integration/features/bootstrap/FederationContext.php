@@ -7,6 +7,10 @@
 use Behat\Behat\Context\Context;
 use Behat\Behat\Context\SnippetAcceptingContext;
 use Behat\Gherkin\Node\TableNode;
+use GuzzleHttp\Client;
+use GuzzleHttp\Exception\ClientException;
+use GuzzleHttp\Exception\ConnectException;
+use PHPUnit\Framework\Assert;
 
 require __DIR__ . '/../../vendor/autoload.php';
 
@@ -44,7 +48,7 @@ class FederationContext implements Context, SnippetAcceptingContext {
 	/**
 	 * @BeforeScenario
 	 */
-	public function cleanupRemoteStorages() {
+	public function cleanupRemoteStoragesAndShares() {
 		// Ensure that dangling remote storages from previous tests will not
 		// interfere with the current scenario.
 		// The storages must be cleaned before each scenario; they can not be
@@ -52,6 +56,22 @@ class FederationContext implements Context, SnippetAcceptingContext {
 		// that removes the users, so the shares would be still valid and thus
 		// the storages would not be dangling yet.
 		$this->runOcc(['sharing:cleanup-remote-storages']);
+
+		// Even if the groups are removed after each scenario there might be
+		// dangling remote group shares that could interfere with the current
+		// scenario, so the remote shares need to be explicitly cleared.
+		$this->runOcc(['app:enable', 'testing']);
+
+		$user = $this->currentUser;
+		$this->currentUser = 'admin';
+
+		$this->sendingTo('DELETE', "/apps/testing/api/v1/remote_shares");
+		$this->theHTTPStatusCodeShouldBe('200');
+		if ($this->apiVersion === 1) {
+			$this->theOCSStatusCodeShouldBe('100');
+		}
+
+		$this->currentUser = $user;
 	}
 
 	/**
@@ -153,6 +173,74 @@ class FederationContext implements Context, SnippetAcceptingContext {
 	public function deleteLastAcceptedRemoteShare($user) {
 		$this->asAn($user);
 		$this->sendingToWith('DELETE', '/apps/files_sharing/api/v1/remote_shares/' . $this->lastAcceptedRemoteShareId, null);
+	}
+
+	/**
+	 * @When /^user "([^"]*)" deletes last accepted remote group share$/
+	 * @param string $user
+	 */
+	public function deleteLastAcceptedRemoteGroupShare($user) {
+		$this->asAn($user);
+
+		// Accepting the group share creates an additional share exclusive for
+		// the user which needs to be got from the list of remote shares.
+		$this->sendingToWith('DELETE', "/apps/files_sharing/api/v1/remote_shares/" . $this->getRemoteShareWithParentId($this->lastAcceptedRemoteShareId), null);
+	}
+
+	private function getRemoteShareWithParentId($parentId) {
+		// Ensure that the id is a string rather than a SimpleXMLElement.
+		$parentId = (string)$parentId;
+
+		$this->sendingToWith('GET', "/apps/files_sharing/api/v1/remote_shares", null);
+
+		$returnedShare = $this->getXmlResponse()->data[0];
+		if ($returnedShare->element) {
+			for ($i = 0; $i < count($returnedShare->element); $i++) {
+				if (((string)$returnedShare->element[$i]->parent) === $parentId) {
+					return (string)$returnedShare->element[$i]->id;
+				}
+			}
+		} elseif (((string)$returnedShare->parent) === $parentId) {
+			return (string)$returnedShare->id;
+		}
+
+		Assert::fail("No remote share found with parent id $parentId");
+	}
+
+	/**
+	 * @When /^remote server is started$/
+	 */
+	public function remoteServerIsStarted() {
+		$this->startFederatedServer();
+
+		$retryCount = 10;
+
+		while (!$this->isRemoteServerReady()) {
+			if ($retryCount > 0) {
+				sleep(1);
+
+				$retryCount--;
+			} else {
+				Assert::fail("Remote server not ready yet after 10 seconds");
+			}
+		}
+	}
+
+	private function isRemoteServerReady() {
+		$port = getenv('PORT_FED');
+		$remoteServerUrl = 'http://localhost:' . $port;
+
+		$client = new Client();
+
+		try {
+			$client->request('GET', $remoteServerUrl);
+		} catch (ClientException $exception) {
+			return false;
+		} catch (ConnectException $exception) {
+			return false;
+		}
+
+		return true;
 	}
 
 	/**
