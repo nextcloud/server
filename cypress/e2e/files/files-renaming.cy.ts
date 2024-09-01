@@ -78,7 +78,10 @@ describe('files: Rename nodes', { testIsolation: true }, () => {
 		cy.intercept(
 			'MOVE',
 			/\/remote.php\/dav\/files\//,
-			async () => { await promise },
+			(request) => {
+				// we need to wait in the onResponse handler as the intercept handler times out otherwise
+				request.on('response', async () => { await promise })
+			},
 		).as('moveFile')
 
 		// Start the renaming
