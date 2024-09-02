@@ -162,9 +162,9 @@ class SharingTest extends TestCase {
 						'remoteExpireAfterNDays' => '7',
 						'enforceRemoteExpireDate' => false,
 						'allowLinksExcludeGroups' => [],
-						'passwordExcludedGroups' => [],
-						'passwordExcludedGroupsFeatureEnabled' => false,
 						'onlyShareWithGroupMembersExcludeGroupList' => [],
+						'enforceLinksPasswordExcludedGroups' => [],
+						'enforceLinksPasswordExcludedGroupsEnabled' => false,
 					]
 				],
 			);
@@ -255,9 +255,9 @@ class SharingTest extends TestCase {
 						'remoteExpireAfterNDays' => '7',
 						'enforceRemoteExpireDate' => false,
 						'allowLinksExcludeGroups' => [],
-						'passwordExcludedGroups' => [],
-						'passwordExcludedGroupsFeatureEnabled' => false,
 						'onlyShareWithGroupMembersExcludeGroupList' => [],
+						'enforceLinksPasswordExcludedGroups' => [],
+						'enforceLinksPasswordExcludedGroupsEnabled' => false,
 					]
 				],
 			);
