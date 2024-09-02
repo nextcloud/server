@@ -158,7 +158,7 @@ class SharesReminderJobTest extends \Test\TestCase {
 		$testFolder = $user1Folder->newFolder('test');
 
 		if (!$isEmpty) {
-			$testFolder->newFile("some_file.txt");
+			$testFolder->newFile('some_file.txt');
 		}
 
 		$share = $this->shareManager->newShare();

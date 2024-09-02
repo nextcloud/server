@@ -756,7 +756,7 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 			->set('hide_download', $qb->createNamedParameter((int)$share->getHideDownload(), IQueryBuilder::PARAM_INT))
 			->set('attributes', $qb->createNamedParameter($shareAttributes))
 			->set('mail_send', $qb->createNamedParameter((int)$share->getMailSend(), IQueryBuilder::PARAM_INT))
-			->set('reminder_sent', $qb->createNamedParameter((int)$share->getReminderSent(), IQueryBuilder::PARAM_INT))
+			->set('reminder_sent', $qb->createNamedParameter($share->getReminderSent(), IQueryBuilder::PARAM_BOOL))
 			->executeStatement();
 
 		if ($originalShare->getNote() !== $share->getNote() && $share->getNote() !== '') {

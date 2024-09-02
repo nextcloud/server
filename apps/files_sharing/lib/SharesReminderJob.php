@@ -59,7 +59,9 @@ class SharesReminderJob extends TimedJob {
 	public function run(mixed $argument): void {
 		foreach ($this->getShares() as $share) {
 			$reminderInfo = $this->prepareReminder($share);
-			$this->sendReminder($reminderInfo);
+			if ($reminderInfo !== null) {
+				$this->sendReminder($reminderInfo);
+			}
 		}
 	}
 
