@@ -6,9 +6,8 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-namespace OC\AppFramework\OCS;
+namespace OC\OCS;
 
-use OC\OCS\Result;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\OCSController;
 use OCP\IRequest;

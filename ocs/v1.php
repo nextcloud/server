@@ -7,7 +7,7 @@
 require_once __DIR__ . '/../lib/versioncheck.php';
 require_once __DIR__ . '/../lib/base.php';
 
-use OC\AppFramework\OCS\ApiHelper;
+use OC\OCS\ApiHelper;
 
 if (\OCP\Util::needUpgrade()
 	|| \OC::$server->getConfig()->getSystemValueBool('maintenance')) {
