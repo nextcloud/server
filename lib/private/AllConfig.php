@@ -462,7 +462,7 @@ class AllConfig implements IConfig {
 	 * @param string $appName the app to get the user for
 	 * @param string $key the key to get the user for
 	 * @param string $value the value to get the user for
-	 * @return array of user IDs
+	 * @return list<string> of user IDs
 	 */
 	public function getUsersForUserValue($appName, $key, $value) {
 		// TODO - FIXME
@@ -496,7 +496,7 @@ class AllConfig implements IConfig {
 	 * @param string $appName the app to get the user for
 	 * @param string $key the key to get the user for
 	 * @param string $value the value to get the user for
-	 * @return array of user IDs
+	 * @return list<string> of user IDs
 	 */
 	public function getUsersForUserValueCaseInsensitive($appName, $key, $value) {
 		// TODO - FIXME
