@@ -20,8 +20,7 @@ html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pr
 	font-family: inherit;
 	vertical-align: baseline;
 	cursor: default;
-	scrollbar-color: var(--color-border-dark) transparent;
-	scrollbar-width: thin;
+	scrollbar-color: var(--color-scrollbar);
 }
 
 .js-focus-visible :focus:not(.focus-visible) {
@@ -248,13 +247,13 @@ body {
 	position: absolute;
 	inset-inline-end: 1em;
 	top: .8em;
-	/* Cannot use inline-start and :dir to support Samsung Internet */ 
+	/* Cannot use inline-start and :dir to support Samsung Internet */
 	float: right;
 }
 
 body[dir='rtl'] #show,
 body[dir='rtl'] #dbpassword {
-	/* Cannot use inline-start and :dir to support Samsung Internet */ 
+	/* Cannot use inline-start and :dir to support Samsung Internet */
 	float: left;
 }
 
