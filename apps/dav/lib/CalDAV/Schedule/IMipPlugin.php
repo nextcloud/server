@@ -221,6 +221,15 @@ class IMipPlugin extends SabreIMipPlugin {
 
 		$sender = substr($iTipMessage->sender, 7);
 
+		/* if $senderName still NULL, see if userManager has a match
+		 * for the sender email now it's been extracted ... */
+		if ($senderName === null) {
+			$iumatches = $this->userManager->getByEmail($sender);
+			if ($iumatches) {
+				$senderName = $iumatches[0]->getDisplayName();
+			}
+		}
+
 		$replyingAttendee = null;
 		switch (strtolower($iTipMessage->method)) {
 			case self::METHOD_REPLY:
