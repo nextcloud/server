@@ -132,6 +132,9 @@ class SharesReminderJob extends TimedJob {
 		$reminderInfo = [];
 		if ($share->getShareType() == IShare::TYPE_USER) {
 			$user = $this->userManager->get($sharedWith);
+			if ($user === null) {
+				return null;
+			}
 			$reminderInfo['email'] = $user->getEMailAddress();
 			$reminderInfo['userLang'] = $this->l10nFactory->getUserLanguage($user);
 			$reminderInfo['folderLink'] = $this->urlGenerator->linkToRouteAbsolute('files.view.index', [
