@@ -190,6 +190,12 @@ class UsersController extends AUserData {
 	 * 200: Users details returned
 	 */
 	public function getUsersDetails(string $search = '', int $limit = null, int $offset = 0): DataResponse {
+		\OC::$server->get(\Psr\Log\LoggerInterface::class)->error(
+			'Start of getUsersDetails',
+			[
+				'ticket' => '66440',
+			]
+		);
 		$currentUser = $this->userSession->getUser();
 		$users = [];
 
@@ -246,7 +252,12 @@ class UsersController extends AUserData {
 				]
 			);
 		}
-
+		\OC::$server->get(\Psr\Log\LoggerInterface::class)->error(
+			'End of getUsersDetails',
+			[
+				'ticket' => '66440',
+			]
+		);
 		return new DataResponse([
 			'users' => $usersDetails
 		]);
