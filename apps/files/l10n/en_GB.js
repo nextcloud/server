@@ -189,6 +189,8 @@ OC.L10N.register(
     "\"{displayName}\" action failed" : "\"{displayName}\" action failed",
     "Toggle selection for file \"{displayName}\"" : "Toggle selection for file \"{displayName}\"",
     "Toggle selection for folder \"{displayName}\"" : "Toggle selection for folder \"{displayName}\"",
+    "File is loading" : "File is loading",
+    "Folder is loading" : "Folder is loading",
     "Rename file" : "Rename file",
     "Filename" : "Filename",
     "Folder name" : "Folder name",
