@@ -112,6 +112,7 @@ OC.L10N.register(
     "Accept" : "پذیرفتن",
     "Decline" : "کاهش می یابد",
     "People" : "مردم",
+    "Filter accounts" : "پالایش حساب‌ها",
     "Expiration date" : "تاریخ انقضا",
     "Set a password" : "رمزعبور تنظیم کنید",
     "Password" : "گذرواژه",
