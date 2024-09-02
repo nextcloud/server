@@ -189,6 +189,8 @@ OC.L10N.register(
     "\"{displayName}\" action failed" : "Не вдалося виконати \"{displayName}\"",
     "Toggle selection for file \"{displayName}\"" : "Перемкнути вибір для файлу \"{displayName}\"",
     "Toggle selection for folder \"{displayName}\"" : "Перемкнути вибір для каталогу \"{displayName}\"",
+    "File is loading" : "Завантаження файлу",
+    "Folder is loading" : "Завантаження каталогу",
     "Rename file" : "Перейменувати файл",
     "Filename" : "Ім'я файлу",
     "Folder name" : "Назва каталогу",
