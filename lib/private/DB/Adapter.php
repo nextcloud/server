@@ -49,7 +49,7 @@ class Adapter {
 	 * @throws Exception
 	 * @since 9.1.0
 	 */
-	public function lockTable(string $tableName): void {
+	public function lockTable(string $tableName) {
 		$this->conn->beginTransaction();
 		$this->conn->executeUpdate('LOCK TABLE `' .$tableName . '` IN EXCLUSIVE MODE');
 	}
@@ -60,7 +60,7 @@ class Adapter {
 	 * @throws Exception
 	 * @since 9.1.0
 	 */
-	public function unlockTable(): void {
+	public function unlockTable() {
 		$this->conn->commit();
 	}
 
