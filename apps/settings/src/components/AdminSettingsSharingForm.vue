@@ -45,9 +45,9 @@
 				<NcCheckboxRadioSwitch :checked.sync="settings.enforceLinksPassword" :disabled="!settings.enableLinkPasswordByDefault">
 					{{ t('settings', 'Enforce password protection') }}
 				</NcCheckboxRadioSwitch>
-				<label v-if="settings.passwordExcludedGroupsFeatureEnabled" class="sharing__labeled-entry sharing__input">
+				<label v-if="settings.enforceLinksPasswordExcludedGroupsEnabled" class="sharing__labeled-entry sharing__input">
 					<span>{{ t('settings', 'Exclude groups from password requirements') }}</span>
-					<NcSettingsSelectGroup v-model="settings.passwordExcludedGroups"
+					<NcSettingsSelectGroup v-model="settings.enforceLinksPasswordExcludedGroups"
 						style="width: 100%"
 						:disabled="!settings.enforceLinksPassword || !settings.enableLinkPasswordByDefault" />
 				</label>
@@ -222,8 +222,8 @@ interface IShareSettings {
 	restrictUserEnumerationFullMatchEmail: boolean
 	restrictUserEnumerationFullMatchIgnoreSecondDN: boolean
 	enforceLinksPassword: boolean
-	passwordExcludedGroups: string[]
-	passwordExcludedGroupsFeatureEnabled: boolean
+	enforceLinksPasswordExcludedGroups: string[]
+	enforceLinksPasswordExcludedGroupsEnabled: boolean
 	onlyShareWithGroupMembers: boolean
 	onlyShareWithGroupMembersExcludeGroupList: string[]
 	defaultExpireDate: boolean
