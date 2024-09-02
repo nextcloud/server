@@ -121,7 +121,7 @@ jobs:
         run: ./node_modules/cypress/bin/cypress install
 
       - name: Run ${{ matrix.containers == 'component' && 'component' || 'E2E' }} cypress tests
-        uses: cypress-io/github-action@df7484c5ba85def7eef30db301afa688187bc378 # v6.7.2
+        uses: cypress-io/github-action@496e7dc0edc421a9de8a36a31c793340e00c61bf # v6.7.5
         with:
           # We already installed the dependencies in the init job
           install: false
@@ -143,7 +143,7 @@ jobs:
           SPLIT_INDEX: ${{ matrix.containers == 'component' && 0 || matrix.containers }}
 
       - name: Upload snapshots
-        uses: actions/upload-artifact@834a144ee995460fba8ed112a2fc961b36a5ec5a # v4.3.6
+        uses: actions/upload-artifact@50769540e7f4bd5e21e526ee35c689e35e0d6874 # v4.4.0
         if: always()
         with:
           name: snapshots_${{ matrix.containers }}
@@ -154,7 +154,7 @@ jobs:
         run: docker logs nextcloud-cypress-tests-${{ env.APP_NAME }} > nextcloud.log
 
       - name: Upload NC logs
-        uses: actions/upload-artifact@834a144ee995460fba8ed112a2fc961b36a5ec5a # v4.3.6
+        uses: actions/upload-artifact@50769540e7f4bd5e21e526ee35c689e35e0d6874 # v4.4.0
         if: failure() && matrix.containers != 'component'
         with:
           name: nc_logs_${{ matrix.containers }}
@@ -165,7 +165,7 @@ jobs:
         run: docker exec nextcloud-cypress-tests-server tar -cvjf - data > data.tar
 
       - name: Upload data dir archive
-        uses: actions/upload-artifact@834a144ee995460fba8ed112a2fc961b36a5ec5a # v4.3.6
+        uses: actions/upload-artifact@50769540e7f4bd5e21e526ee35c689e35e0d6874 # v4.4.0
         if: failure() && matrix.containers != 'component'
         with:
           name: nc_data_${{ matrix.containers }}
