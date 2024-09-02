@@ -187,6 +187,8 @@
     "\"{displayName}\" action failed" : "\"{displayName}\"-åtgärden misslyckades",
     "Toggle selection for file \"{displayName}\"" : "Växla markering för filen \"{displayName}\"",
     "Toggle selection for folder \"{displayName}\"" : "Växla markering för mappen \"{displayName}\"",
+    "File is loading" : "Filen laddas",
+    "Folder is loading" : "Mappen laddas",
     "Rename file" : "Byt namn på fil",
     "Filename" : "Filnamn",
     "Folder name" : "Mappnamn",
