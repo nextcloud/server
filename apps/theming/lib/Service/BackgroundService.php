@@ -205,10 +205,15 @@ class BackgroundService {
 	) {
 	}
 
-	public function setDefaultBackground(): void {
-		$this->config->deleteUserValue($this->userId, Application::APP_ID, 'background_image');
-		$this->config->deleteUserValue($this->userId, Application::APP_ID, 'background_color');
-		$this->config->deleteUserValue($this->userId, Application::APP_ID, 'primary_color');
+	public function setDefaultBackground(?string $userId = null): void {
+		$userId = $userId ?? $this->userId;
+		if ($this->userId === null) {
+			throw new RuntimeException('No currently logged-in user');
+		}
+
+		$this->config->deleteUserValue($userId, Application::APP_ID, 'background_image');
+		$this->config->deleteUserValue($userId, Application::APP_ID, 'background_color');
+		$this->config->deleteUserValue($userId, Application::APP_ID, 'primary_color');
 	}
 
 	/**
@@ -227,9 +232,21 @@ class BackgroundService {
 
 		/** @var File $file */
 		$file = $userFolder->get($path);
+		$handle = $file->fopen('r');
+		if ($handle === false) {
+			throw new InvalidArgumentException('Invalid image file');
+		}
+		$this->getAppDataFolder()->newFile('background.jpg', $file->fopen('r'));
+
+		$this->recalculateMeanColor();
+	}
+
+	public function recalculateMeanColor(?string $userId = null): void {
+		$userId = $userId ?? $this->userId;
 		$image = new \OCP\Image();
 
-		if ($image->loadFromFileHandle($file->fopen('r')) === false) {
+		$handle = $this->getAppDataFolder($userId)->getFile('background.jpg')->read();
+		if ($handle === false || $image->loadFromFileHandle($handle) === false) {
 			throw new InvalidArgumentException('Invalid image file');
 		}
 
@@ -237,21 +254,27 @@ class BackgroundService {
 		if ($meanColor !== false) {
 			$this->setColorBackground($meanColor);
 		}
-
-		$this->getAppDataFolder()->newFile('background.jpg', $file->fopen('r'));
-		$this->config->setUserValue($this->userId, Application::APP_ID, 'background_image', self::BACKGROUND_CUSTOM);
+		$this->config->setUserValue($userId, Application::APP_ID, 'background_image', self::BACKGROUND_CUSTOM);
 	}
 
-	public function setShippedBackground($fileName): void {
-		if ($this->userId === null) {
+	/**
+	 * Set background of user to a shipped background identified by the filename
+	 * @param string $filename The shipped background filename
+	 * @param null|string $userId The user to set - defaults to currently logged in user
+	 * @throws RuntimeException If neither $userId is specified nor a user is logged in
+	 * @throws InvalidArgumentException If the specified filename does not match any shipped background
+	 */
+	public function setShippedBackground(string $filename, ?string $userId = null): void {
+		$userId = $userId ?? $this->userId;
+		if ($userId === null) {
 			throw new RuntimeException('No currently logged-in user');
 		}
-		if (!array_key_exists($fileName, self::SHIPPED_BACKGROUNDS)) {
+		if (!array_key_exists($filename, self::SHIPPED_BACKGROUNDS)) {
 			throw new InvalidArgumentException('The given file name is invalid');
 		}
-		$this->setColorBackground(self::SHIPPED_BACKGROUNDS[$fileName]['background_color']);
-		$this->config->setUserValue($this->userId, Application::APP_ID, 'background_image', $fileName);
-		$this->config->setUserValue($this->userId, Application::APP_ID, 'primary_color', self::SHIPPED_BACKGROUNDS[$fileName]['primary_color']);
+		$this->setColorBackground(self::SHIPPED_BACKGROUNDS[$filename]['background_color']);
+		$this->config->setUserValue($userId, Application::APP_ID, 'background_image', $filename);
+		$this->config->setUserValue($userId, Application::APP_ID, 'primary_color', self::SHIPPED_BACKGROUNDS[$filename]['primary_color']);
 	}
 
 	/**
@@ -366,19 +389,19 @@ class BackgroundService {
 	/**
 	 * Storing the data in appdata/theming/users/USERID
 	 *
-	 * @return ISimpleFolder
+	 * @param string|null $userId The user to get the folder - default to current user
 	 * @throws NotPermittedException
 	 */
-	private function getAppDataFolder(): ISimpleFolder {
+	private function getAppDataFolder(?string $userId = null): ISimpleFolder {
 		try {
 			$rootFolder = $this->appData->getFolder('users');
 		} catch (NotFoundException $e) {
 			$rootFolder = $this->appData->newFolder('users');
 		}
 		try {
-			return $rootFolder->getFolder($this->userId);
+			return $rootFolder->getFolder($userId);
 		} catch (NotFoundException $e) {
-			return $rootFolder->newFolder($this->userId);
+			return $rootFolder->newFolder($userId);
 		}
 	}
 }
