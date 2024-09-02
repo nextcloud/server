@@ -779,9 +779,7 @@ class Image implements IImage {
 	}
 
 	/**
-	 * Loads an image from a string of data.
-	 *
-	 * @param string $str A string of image data as read from a file.
+	 * @inheritDoc
 	 */
 	public function loadFromData(string $str): GdImage|false {
 		if (!$this->checkImageDataSize($str)) {
