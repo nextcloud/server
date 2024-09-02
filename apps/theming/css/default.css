@@ -22,7 +22,7 @@
   --color-text-light: var(--color-main-text);
   /** @deprecated use `--color-text-maxcontrast` instead */
   --color-text-lighter: var(--color-text-maxcontrast);
-  --color-scrollbar: rgba(34,34,34, .15);
+  --color-scrollbar: var(--color-border-maxcontrast) transparent;
   --color-error: #DB0606;
   --color-error-rgb: 219,6,6;
   --color-error-hover: #df2525;
