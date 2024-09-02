@@ -7,6 +7,8 @@
 require_once __DIR__ . '/../lib/versioncheck.php';
 require_once __DIR__ . '/../lib/base.php';
 
+use OC\AppFramework\OCS\ApiHelper;
+
 if (\OCP\Util::needUpgrade()
 	|| \OC::$server->getConfig()->getSystemValueBool('maintenance')) {
 	// since the behavior of apps or remotes are unpredictable during
@@ -14,7 +16,7 @@ if (\OCP\Util::needUpgrade()
 	http_response_code(503);
 	header('X-Nextcloud-Maintenance-Mode: 1');
 	$response = new \OC\OCS\Result(null, 503, 'Service unavailable');
-	OC_API::respond($response, OC_API::requestedFormat());
+	ApiHelper::respond($response, ApiHelper::requestedFormat());
 	exit;
 }
 
@@ -43,24 +45,24 @@ try {
 	OC::$server->get(\OC\Route\Router::class)->match('/ocsapp'.\OC::$server->getRequest()->getRawPathInfo());
 } catch (MaxDelayReached $ex) {
 	$format = \OC::$server->getRequest()->getParam('format', 'xml');
-	OC_API::respond(new \OC\OCS\Result(null, OCP\AppFramework\Http::STATUS_TOO_MANY_REQUESTS, $ex->getMessage()), $format);
+	ApiHelper::respond(new \OC\OCS\Result(null, OCP\AppFramework\Http::STATUS_TOO_MANY_REQUESTS, $ex->getMessage()), $format);
 } catch (ResourceNotFoundException $e) {
-	OC_API::setContentType();
+	ApiHelper::setContentType();
 
 	$format = \OC::$server->getRequest()->getParam('format', 'xml');
 	$txt = 'Invalid query, please check the syntax. API specifications are here:'
 		.' http://www.freedesktop.org/wiki/Specifications/open-collaboration-services.'."\n";
-	OC_API::respond(new \OC\OCS\Result(null, \OCP\AppFramework\OCSController::RESPOND_NOT_FOUND, $txt), $format);
+	ApiHelper::respond(new \OC\OCS\Result(null, \OCP\AppFramework\OCSController::RESPOND_NOT_FOUND, $txt), $format);
 } catch (MethodNotAllowedException $e) {
-	OC_API::setContentType();
+	ApiHelper::setContentType();
 	http_response_code(405);
 } catch (\OC\OCS\Exception $ex) {
-	OC_API::respond($ex->getResult(), OC_API::requestedFormat());
+	ApiHelper::respond($ex->getResult(), ApiHelper::requestedFormat());
 } catch (\OC\User\LoginException $e) {
-	OC_API::respond(new \OC\OCS\Result(null, \OCP\AppFramework\OCSController::RESPOND_UNAUTHORISED, 'Unauthorised'));
+	ApiHelper::respond(new \OC\OCS\Result(null, \OCP\AppFramework\OCSController::RESPOND_UNAUTHORISED, 'Unauthorised'));
 } catch (\Exception $e) {
 	\OCP\Server::get(LoggerInterface::class)->error($e->getMessage(), ['exception' => $e]);
-	OC_API::setContentType();
+	ApiHelper::setContentType();
 
 	$format = \OC::$server->getRequest()->getParam('format', 'xml');
 	$txt = 'Internal Server Error'."\n";
@@ -71,5 +73,5 @@ try {
 	} catch (\Throwable $e) {
 		// Just to be save
 	}
-	OC_API::respond(new \OC\OCS\Result(null, \OCP\AppFramework\OCSController::RESPOND_SERVER_ERROR, $txt), $format);
+	ApiHelper::respond(new \OC\OCS\Result(null, \OCP\AppFramework\OCSController::RESPOND_SERVER_ERROR, $txt), $format);
 }

@@ -5,10 +5,13 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
+namespace OC\AppFramework\OCS;
+
 use OCP\API;
 use OCP\AppFramework\Http;
 
-class OC_API {
+class ApiHelper {
 	/**
 	 * api actions
 	 */
