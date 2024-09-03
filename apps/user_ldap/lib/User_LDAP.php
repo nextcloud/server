@@ -322,10 +322,9 @@ class User_LDAP extends BackendUtility implements IUserBackend, UserInterface, I
 		if (!is_null($userExists)) {
 			return (bool)$userExists;
 		}
-		//getting dn, if false the user does not exist. If dn, he may be mapped only, requires more checking.
-		$user = $this->access->userManager->get($uid);
+		$userExists = $this->access->userManager->exists($uid);
 
-		if (is_null($user)) {
+		if (!$userExists) {
 			$this->logger->debug(
 				'No DN found for '.$uid.' on '.$this->access->connection->ldapHost,
 				['app' => 'user_ldap']
@@ -464,7 +463,6 @@ class User_LDAP extends BackendUtility implements IUserBackend, UserInterface, I
 				$this->access->connection->writeToCache($cacheKey, $displayName);
 			}
 			if ($user instanceof OfflineUser) {
-				/** @var OfflineUser $user */
 				$displayName = $user->getDisplayName();
 			}
 			return $displayName;
@@ -611,7 +609,6 @@ class User_LDAP extends BackendUtility implements IUserBackend, UserInterface, I
 							$uuid,
 							true
 						);
-						$this->access->cacheUserExists($username);
 					} else {
 						$this->logger->warning(
 							'Failed to map created LDAP user with userid {userid}, because UUID could not be determined',
