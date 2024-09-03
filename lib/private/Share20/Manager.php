@@ -164,7 +164,7 @@ class Manager implements IManager {
 		} elseif ($share->getShareType() === IShare::TYPE_SCIENCEMESH) {
 		} else {
 			// We cannot handle other types yet
-			throw new \InvalidArgumentException($this->l->t('unknown share type'));
+			throw new \InvalidArgumentException($this->l->t('Unknown share type'));
 		}
 
 		// Verify the initiator of the share is set
@@ -1095,7 +1095,7 @@ class Manager implements IManager {
 	public function getSharesInFolder($userId, Folder $node, $reshares = false, $shallow = true) {
 		$providers = $this->factory->getAllProviders();
 		if (!$shallow) {
-			throw new \Exception($this->l->t('non-shallow getSharesInFolder is no longer supported'));
+			throw new \Exception('non-shallow getSharesInFolder is no longer supported');
 		}
 
 		return array_reduce($providers, function ($shares, IShareProvider $provider) use ($userId, $node, $reshares) {
