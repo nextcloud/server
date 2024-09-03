@@ -19,8 +19,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-/* eslint-disable camelcase, n/no-extraneous-import */
-import type { AxiosPromise } from 'axios'
+import type { AxiosPromise } from '@nextcloud/axios'
 import type { OCSResponse } from '@nextcloud/typings/ocs'
 
 import { Folder, File, type ContentsWithRoot, Permission } from '@nextcloud/files'
@@ -40,10 +39,16 @@ const ocsEntryToNode = async function(ocsEntry: any): Promise<Folder | File | nu
 	try {
 		// Federated share handling
 		if (ocsEntry?.remote_id !== undefined) {
-			const mime = (await import('mime')).default
-			// This won't catch files without an extension, but this is the best we can do
-			ocsEntry.mimetype = mime.getType(ocsEntry.name)
-			ocsEntry.item_type = ocsEntry.mimetype ? 'file' : 'folder'
+			if (!ocsEntry.mimetype) {
+				const mime = (await import('mime')).default
+				// This won't catch files without an extension, but this is the best we can do
+				ocsEntry.mimetype = mime.getType(ocsEntry.name)
+			}
+			ocsEntry.item_type = ocsEntry.type || (ocsEntry.mimetype ? 'file' : 'folder')
+
+			// different naming for remote shares
+			ocsEntry.item_mtime = ocsEntry.mtime
+			ocsEntry.file_target = ocsEntry.file_target || ocsEntry.mountpoint
 
 			// Need to set permissions to NONE for federated shares
 			ocsEntry.item_permissions = Permission.NONE
@@ -60,14 +65,15 @@ const ocsEntryToNode = async function(ocsEntry: any): Promise<Folder | File | nu
 
 		// If this is an external share that is not yet accepted,
 		// we don't have an id. We can fallback to the row id temporarily
-		const fileid = ocsEntry.file_source || ocsEntry.id
+		// local shares (this server) use `file_source`, but remote shares (federated) use `file_id`
+		const fileid = ocsEntry.file_source || ocsEntry.file_id || ocsEntry.id
 
 		// Generate path and strip double slashes
-		const path = ocsEntry?.path || ocsEntry.file_target || ocsEntry.name
+		const path = ocsEntry.path || ocsEntry.file_target || ocsEntry.name
 		const source = generateRemoteUrl(`dav/${rootPath}/${path}`.replaceAll(/\/\//gm, '/'))
 
+		let mtime = ocsEntry.item_mtime ? new Date((ocsEntry.item_mtime) * 1000) : undefined
 		// Prefer share time if more recent than item mtime
-		let mtime = ocsEntry?.item_mtime ? new Date((ocsEntry.item_mtime) * 1000) : undefined
 		if (ocsEntry?.stime > (ocsEntry?.item_mtime || 0)) {
 			mtime = new Date((ocsEntry.stime) * 1000)
 		}
@@ -88,7 +94,8 @@ const ocsEntryToNode = async function(ocsEntry: any): Promise<Folder | File | nu
 				'owner-id': ocsEntry?.uid_owner,
 				'owner-display-name': ocsEntry?.displayname_owner,
 				'share-types': ocsEntry?.share_type,
-				favorite: ocsEntry?.tags?.includes(window.OC.TAG_FAVORITE) ? 1 : 0,
+				'share-attributes': ocsEntry?.attributes || '[]',
+				favorite: ocsEntry?.tags?.includes((window.OC as Nextcloud.v29.OC & { TAG_FAVORITE: string }).TAG_FAVORITE) ? 1 : 0,
 			},
 		})
 	} catch (error) {
@@ -159,6 +166,8 @@ const getDeletedShares = function(): AxiosPromise<OCSResponse<any>> {
 /**
  * Group an array of objects (here Nodes) by a key
  * and return an array of arrays of them.
+ * @param nodes Nodes to group
+ * @param key The attribute to group by
  */
 const groupBy = function(nodes: (Folder | File)[], key: string) {
 	return Object.values(nodes.reduce(function(acc, curr) {
@@ -168,7 +177,7 @@ const groupBy = function(nodes: (Folder | File)[], key: string) {
 }
 
 export const getContents = async (sharedWithYou = true, sharedWithOthers = true, pendingShares = false, deletedshares = false, filterTypes: number[] = []): Promise<ContentsWithRoot> => {
-	const promises = [] as AxiosPromise<OCSResponse<any>>[]
+	const promises = [] as AxiosPromise<OCSResponse<unknown>>[]
 
 	if (sharedWithYou) {
 		promises.push(getSharedWithYou(), getRemoteShares())
