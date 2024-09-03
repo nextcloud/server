@@ -189,6 +189,8 @@ OC.L10N.register(
     "\"{displayName}\" action failed" : "\"{dispalyName}\" الأمر أخفق عند التنفيذ",
     "Toggle selection for file \"{displayName}\"" : "تبديل الاختيار للملف \"{displayName}\"",
     "Toggle selection for folder \"{displayName}\"" : "تبديل الاختيار للمجلد \"{displayName}\"",
+    "File is loading" : "الملف قيد التحميل ...",
+    "Folder is loading" : "المجلد قيد التحميل ...",
     "Rename file" : "إعادة تسمية الملف",
     "Filename" : "اسم الملف",
     "Folder name" : "اسم المجلد",
