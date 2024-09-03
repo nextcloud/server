@@ -50,6 +50,10 @@
 					@delete="deleteClient" />
 			</tbody>
 		</table>
+		<NcNoteCard v-if="showSecretWarning"
+			type="warning">
+			{{ t('oauth2', 'Make sure you store the secret key, it cannot be recovered.') }}
+		</NcNoteCard>
 
 		<br>
 		<h3>{{ t('oauth2', 'Add client') }}</h3>
@@ -83,6 +87,7 @@ import { generateUrl } from '@nextcloud/router'
 import { getCapabilities } from '@nextcloud/capabilities'
 import NcSettingsSection from '@nextcloud/vue/dist/Components/NcSettingsSection.js'
 import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
+import NcNoteCard from '@nextcloud/vue/dist/Components/NcNoteCard.js'
 import { loadState } from '@nextcloud/initial-state'
 import NcTextField from '@nextcloud/vue/dist/Components/NcTextField.js'
 
@@ -93,6 +98,7 @@ export default {
 		NcSettingsSection,
 		NcButton,
 		NcTextField,
+		NcNoteCard,
 	},
 	props: {
 		clients: {
@@ -109,6 +115,7 @@ export default {
 				error: false,
 			},
 			oauthDocLink: loadState('oauth2', 'oauth2-doc-link'),
+			showSecretWarning: false,
 		}
 	},
 	computed: {
@@ -136,6 +143,7 @@ export default {
 			).then(response => {
 				// eslint-disable-next-line vue/no-mutating-props
 				this.clients.push(response.data)
+				this.showSecretWarning = true
 
 				this.newClient.name = ''
 				this.newClient.redirectUri = ''

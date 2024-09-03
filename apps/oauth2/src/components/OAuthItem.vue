@@ -27,7 +27,8 @@
 		<td>
 			<div class="action-secret">
 				<code>{{ renderedSecret }}</code>
-				<NcButton type="tertiary-no-background"
+				<NcButton v-if="clientSecret !== ''"
+					type="tertiary-no-background"
 					:aria-label="toggleAriaLabel"
 					@click="toggleSecret">
 					<template #icon>
