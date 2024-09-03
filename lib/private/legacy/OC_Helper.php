@@ -40,7 +40,7 @@ class OC_Helper {
 	 * @param int|float $bytes file size in bytes
 	 * @return string a human readable file size
 	 *
-	 * Makes 2048 to 2 kB.
+	 * Makes 2048 to 2 KiB.
 	 */
 	public static function humanFileSize(int|float $bytes): string {
 		if ($bytes < 0) {
@@ -51,23 +51,23 @@ class OC_Helper {
 		}
 		$bytes = round($bytes / 1024, 0);
 		if ($bytes < 1024) {
-			return "$bytes KB";
+			return "$bytes KiB";
 		}
 		$bytes = round($bytes / 1024, 1);
 		if ($bytes < 1024) {
-			return "$bytes MB";
+			return "$bytes MiB";
 		}
 		$bytes = round($bytes / 1024, 1);
 		if ($bytes < 1024) {
-			return "$bytes GB";
+			return "$bytes GiB";
 		}
 		$bytes = round($bytes / 1024, 1);
 		if ($bytes < 1024) {
-			return "$bytes TB";
+			return "$bytes TiB";
 		}
 
 		$bytes = round($bytes / 1024, 1);
-		return "$bytes PB";
+		return "$bytes PiB";
 	}
 
 	/**
