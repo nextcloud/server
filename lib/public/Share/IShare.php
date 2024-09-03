@@ -617,4 +617,20 @@ interface IShare {
 	 * @since 15.0.0
 	 */
 	public function getHideDownload(): bool;
+
+	/**
+	 * Sets a flag that stores whether a reminder via email has been sent
+	 *
+	 * @return self The modified object
+	 * @since 31.0.0
+	 */
+	public function setReminderSent(bool $reminderSent): IShare;
+
+	/**
+	 * Gets a flag that stores whether a reminder via email has been sent
+	 *
+	 * @return bool
+	 * @since 31.0.0
+	 */
+	public function getReminderSent(): bool;
 }

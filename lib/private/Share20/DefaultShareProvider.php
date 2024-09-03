@@ -97,6 +97,8 @@ class DefaultShareProvider implements IShareProviderWithNotification, IShareProv
 			if ($expirationDate !== null) {
 				$qb->setValue('expiration', $qb->createNamedParameter($expirationDate, 'datetime'));
 			}
+
+			$qb->setValue('reminder_sent', $qb->createNamedParameter($share->getReminderSent(), IQueryBuilder::PARAM_BOOL));
 		} elseif ($share->getShareType() === IShare::TYPE_GROUP) {
 			//Set the GID of the group we share with
 			$qb->setValue('share_with', $qb->createNamedParameter($share->getSharedWith()));
@@ -223,6 +225,7 @@ class DefaultShareProvider implements IShareProviderWithNotification, IShareProv
 				->set('expiration', $qb->createNamedParameter($expirationDate, IQueryBuilder::PARAM_DATE))
 				->set('note', $qb->createNamedParameter($share->getNote()))
 				->set('accepted', $qb->createNamedParameter($share->getStatus()))
+				->set('reminder_sent', $qb->createNamedParameter($share->getReminderSent(), IQueryBuilder::PARAM_BOOL))
 				->execute();
 		} elseif ($share->getShareType() === IShare::TYPE_GROUP) {
 			$qb = $this->dbConn->getQueryBuilder();
@@ -1006,7 +1009,7 @@ class DefaultShareProvider implements IShareProviderWithNotification, IShareProv
 	}
 
 	/**
-	 * Create a share object from an database row
+	 * Create a share object from a database row
 	 *
 	 * @param mixed[] $data
 	 * @return \OCP\Share\IShare
@@ -1068,6 +1071,7 @@ class DefaultShareProvider implements IShareProviderWithNotification, IShareProv
 
 		$share->setProviderId($this->identifier());
 		$share->setHideDownload((int)$data['hide_download'] === 1);
+		$share->setReminderSent((bool)$data['reminder_sent']);
 
 		return $share;
 	}
