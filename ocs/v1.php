@@ -1,29 +1,33 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
 require_once __DIR__ . '/../lib/versioncheck.php';
 require_once __DIR__ . '/../lib/base.php';
 
 use OC\OCS\ApiHelper;
-
-if (\OCP\Util::needUpgrade()
-	|| \OC::$server->getConfig()->getSystemValueBool('maintenance')) {
-	// since the behavior of apps or remotes are unpredictable during
-	// an upgrade, return a 503 directly
-	http_response_code(503);
-	header('X-Nextcloud-Maintenance-Mode: 1');
-	$response = new \OC\OCS\Result(null, 503, 'Service unavailable');
-	ApiHelper::respond($response, ApiHelper::requestedFormat());
-	exit;
-}
-
+use OCP\AppFramework\Http;
+use OCP\AppFramework\OCSController;
 use OCP\Security\Bruteforce\MaxDelayReached;
+use OCP\Util;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Routing\Exception\MethodNotAllowedException;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
+
+if (Util::needUpgrade()
+	|| \OC::$server->getConfig()->getSystemValueBool('maintenance')) {
+	// since the behavior of apps or remotes are unpredictable during
+	// an upgrade, return a 503 directly
+	ApiHelper::respond(503, 'Service unavailable', ['X-Nextcloud-Maintenance-Mode' => '1']);
+	exit;
+}
+
 
 /*
  * Try the appframework routes
@@ -44,27 +48,19 @@ try {
 
 	OC::$server->get(\OC\Route\Router::class)->match('/ocsapp'.\OC::$server->getRequest()->getRawPathInfo());
 } catch (MaxDelayReached $ex) {
-	$format = \OC::$server->getRequest()->getParam('format', 'xml');
-	ApiHelper::respond(new \OC\OCS\Result(null, OCP\AppFramework\Http::STATUS_TOO_MANY_REQUESTS, $ex->getMessage()), $format);
+	ApiHelper::respond(Http::STATUS_TOO_MANY_REQUESTS, $ex->getMessage());
 } catch (ResourceNotFoundException $e) {
-	ApiHelper::setContentType();
-
-	$format = \OC::$server->getRequest()->getParam('format', 'xml');
 	$txt = 'Invalid query, please check the syntax. API specifications are here:'
 		.' http://www.freedesktop.org/wiki/Specifications/open-collaboration-services.'."\n";
-	ApiHelper::respond(new \OC\OCS\Result(null, \OCP\AppFramework\OCSController::RESPOND_NOT_FOUND, $txt), $format);
+	ApiHelper::respond(OCSController::RESPOND_NOT_FOUND, $txt);
 } catch (MethodNotAllowedException $e) {
 	ApiHelper::setContentType();
 	http_response_code(405);
-} catch (\OC\OCS\Exception $ex) {
-	ApiHelper::respond($ex->getResult(), ApiHelper::requestedFormat());
 } catch (\OC\User\LoginException $e) {
-	ApiHelper::respond(new \OC\OCS\Result(null, \OCP\AppFramework\OCSController::RESPOND_UNAUTHORISED, 'Unauthorised'));
+	ApiHelper::respond(OCSController::RESPOND_UNAUTHORISED, 'Unauthorised');
 } catch (\Exception $e) {
 	\OCP\Server::get(LoggerInterface::class)->error($e->getMessage(), ['exception' => $e]);
-	ApiHelper::setContentType();
 
-	$format = \OC::$server->getRequest()->getParam('format', 'xml');
 	$txt = 'Internal Server Error'."\n";
 	try {
 		if (\OC::$server->getSystemConfig()->getValue('debug', false)) {
@@ -73,5 +69,5 @@ try {
 	} catch (\Throwable $e) {
 		// Just to be save
 	}
-	ApiHelper::respond(new \OC\OCS\Result(null, \OCP\AppFramework\OCSController::RESPOND_SERVER_ERROR, $txt), $format);
+	ApiHelper::respond(OCSController::RESPOND_SERVER_ERROR, $txt);
 }
