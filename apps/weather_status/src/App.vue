@@ -98,6 +98,20 @@ const weatherOptions = {
 			? t('weather_status', '{temperature} {unit} cloudy later today', { temperature, unit })
 			: t('weather_status', '{temperature} {unit} cloudy', { temperature, unit }),
 	},
+// Added snowfall weather conditions for both day and night on line 101
+	snowfall_day: {
+        icon: 'icon-snowfall-day',
+        text: (temperature, unit, later = false) => later
+            ? t('weather_status', '{temperature} {unit} snowfall later today', { temperature, unit })
+            : t('weather_status', '{temperature} {unit} snowfall', { temperature, unit }),
+    },
+    snowfall_night: {
+        icon: 'icon-snowfall-night',
+        text: (temperature, unit, later = false) => later
+            ? t('weather_status', '{temperature} {unit} snowfall later today', { temperature, unit })
+            : t('weather_status', '{temperature} {unit} snowfall', { temperature, unit }),
+    },
+
 	fair_day: {
 		icon: 'icon-fair-day',
 		text: (temperature, unit, later = false) => later
