@@ -57,6 +57,12 @@ jobs:
           PUPPETEER_SKIP_DOWNLOAD: true
         run: make -f IONOS/Makefile build_dep_simplesettings_app
 
+      - name: Install dependencies & build viewer app
+        env:
+          CYPRESS_INSTALL_BINARY: 0
+          PUPPETEER_SKIP_DOWNLOAD: true
+        run: make -f IONOS/Makefile build_dep_viewer_app
+
       - name: Install dependencies & build user_oidc app
         env:
           CYPRESS_INSTALL_BINARY: 0
