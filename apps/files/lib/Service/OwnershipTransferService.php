@@ -245,21 +245,21 @@ class OwnershipTransferService {
 								return false;
 							}
 							if ($fileInfo->isEncrypted()) {
-								/* Encrypted folder means e2ee encrypted */
+								/* Encrypted folder means e2ee encrypted, we cannot transfer it */
 								$encryptedFiles[] = $fileInfo;
 							}
 							return true;
 						}
 						$progress->advance();
 						if ($fileInfo->isEncrypted() && !$masterKeyEnabled) {
-							/* Encrypted file means SSE, we only care if we are using user keys */
+							/* Encrypted file means SSE, we can only transfer it if master key is enabled */
 							$encryptedFiles[] = $fileInfo;
 						}
 						return true;
 					});
 			}
 		} elseif ($sourceFileInfo->isEncrypted() && !$masterKeyEnabled) {
-			/* Encrypted file means SSE, we only care if we are using user keys */
+			/* Encrypted file means SSE, we can only transfer it if master key is enabled */
 			$encryptedFiles[] = $sourceFileInfo;
 		}
 		$progress->finish();
