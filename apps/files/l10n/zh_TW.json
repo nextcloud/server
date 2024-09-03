@@ -187,6 +187,8 @@
     "\"{displayName}\" action failed" : "「{displayName}」操作失敗",
     "Toggle selection for file \"{displayName}\"" : "切換檔案「{displayName}」的選取",
     "Toggle selection for folder \"{displayName}\"" : "切換資料夾「{displayName}」的選取",
+    "File is loading" : "正在載入檔案",
+    "Folder is loading" : "正在載入資料夾",
     "Rename file" : "重新命名檔案",
     "Filename" : "檔案名稱",
     "Folder name" : "資料夾名稱",
