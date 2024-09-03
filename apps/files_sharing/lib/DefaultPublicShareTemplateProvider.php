@@ -240,10 +240,8 @@ class DefaultPublicShareTemplateProvider implements IPublicShareTemplateProvider
 		if ($isNoneFileDropFolder && !$share->getHideDownload()) {
 			Util::addScript('files_sharing', 'public_note');
 
-			$downloadWhite = new SimpleMenuAction('download', $this->l10n->t('Download'), 'icon-download-white', $shareTmpl['downloadURL'], 0);
-			$downloadAllWhite = new SimpleMenuAction('download', $this->l10n->t('Download all files'), 'icon-download-white', $shareTmpl['downloadURL'], 0);
-			$download = new SimpleMenuAction('download', $this->l10n->t('Download'), 'icon-download', $shareTmpl['downloadURL'], 10, $shareTmpl['fileSize']);
-			$downloadAll = new SimpleMenuAction('download', $this->l10n->t('Download all files'), 'icon-download', $shareTmpl['downloadURL'], 10, $shareTmpl['fileSize']);
+			$download = new SimpleMenuAction('download', $this->l10n->t('Download'), 'icon-download', $shareTmpl['downloadURL'], 0, $shareTmpl['fileSize']);
+			$downloadAll = new SimpleMenuAction('download', $this->l10n->t('Download all files'), 'icon-download', $shareTmpl['downloadURL'], 0, $shareTmpl['fileSize']);
 			$directLink = new LinkMenuAction($this->l10n->t('Direct link'), 'icon-public', $shareTmpl['previewURL']);
 			// TRANSLATORS The placeholder refers to the software product name as in 'Add to your Nextcloud'
 			$externalShare = new ExternalShareMenuAction($this->l10n->t('Add to your %s', [$this->defaults->getProductName()]), 'icon-external', $shareTmpl['owner'], $shareTmpl['shareOwner'], $shareTmpl['filename']);
@@ -251,10 +249,8 @@ class DefaultPublicShareTemplateProvider implements IPublicShareTemplateProvider
 			$responseComposer = [];
 
 			if ($shareIsFolder) {
-				$responseComposer[] = $downloadAllWhite;
 				$responseComposer[] = $downloadAll;
 			} else {
-				$responseComposer[] = $downloadWhite;
 				$responseComposer[] = $download;
 			}
 			$responseComposer[] = $directLink;

@@ -305,31 +305,6 @@ OCA.Sharing.PublicApp = {
 			}
 		}
 
-		$(document).on('click', '#directLink', function () {
-			$(this).focus();
-			$(this).select();
-		});
-
-		$('.save-form').submit(function (event) {
-			event.preventDefault();
-
-			var remote = $(this).find('#remote_address').val();
-			var token = $('#sharingToken').val();
-			var owner = $('#save-external-share').data('owner');
-			var ownerDisplayName = $('#save-external-share').data('owner-display-name');
-			var name = $('#save-external-share').data('name');
-			var isProtected = $('#save-external-share').data('protected') ? 1 : 0;
-			OCA.Sharing.PublicApp._createFederatedShare(remote, token, owner, ownerDisplayName, name, isProtected);
-		});
-
-		$('#remote_address').on("keyup paste", function() {
-			if ($(this).val() === '' || $('#save-external-share > .icon.icon-loading-small').length > 0) {
-				$('#save-button-confirm').prop('disabled', true);
-			} else {
-				$('#save-button-confirm').prop('disabled', false);
-			}
-		});
-
 		self._bindShowTermsAction();
 
 		// legacy
@@ -393,101 +368,6 @@ OCA.Sharing.PublicApp = {
 	_onUrlChanged: function (params) {
 		this.fileList.changeDirectory(params.path || params.dir, false, true);
 	},
-
-
-	/**
-	 * fall back to old behaviour where we redirect the user to his server to mount
-	 * the public link instead of creating a dedicated federated share
-	 *
-	 * @param {any} remote -
-	 * @param {any} token -
-	 * @param {any} owner -
-	 * @param {any} ownerDisplayName -
-	 * @param {any} name -
-	 * @param {any} isProtected -
-	 * @private
-	 */
-	_legacyCreateFederatedShare: function (remote, token, owner, ownerDisplayName, name, isProtected) {
-
-		var self = this;
-		var location = window.location.protocol + '//' + window.location.host + OC.getRootPath();
-
-		if(remote.substr(-1) !== '/') {
-			remote += '/'
-		}
-
-		var url = remote + 'index.php/apps/files#' + 'remote=' + encodeURIComponent(location) // our location is the remote for the other server
-			+ "&token=" + encodeURIComponent(token) + "&owner=" + encodeURIComponent(owner) +"&ownerDisplayName=" + encodeURIComponent(ownerDisplayName) + "&name=" + encodeURIComponent(name) + "&protected=" + isProtected;
-
-
-		if (remote.indexOf('://') > 0) {
-			OC.redirect(url);
-		} else {
-			// if no protocol is specified, we automatically detect it by testing https and http
-			// this check needs to happen on the server due to the Content Security Policy directive
-			$.get(OC.generateUrl('apps/files_sharing/testremote'), {remote: remote}).then(function (protocol) {
-				if (protocol !== 'http' && protocol !== 'https') {
-					self._toggleLoading();
-					OC.dialogs.alert(t('files_sharing', 'No compatible server found at {remote}', {remote: remote}),
-						t('files_sharing', 'Invalid server URL'));
-				} else {
-					OC.redirect(protocol + '://' + url);
-				}
-			});
-		}
-	},
-
-	_toggleLoading: function() {
-		var loading = $('#save-external-share > .icon.icon-loading-small').length === 0;
-		if (loading) {
-			$('#save-external-share > .icon-external')
-				.removeClass("icon-external")
-				.addClass("icon-loading-small");
-			$('#save-external-share #save-button-confirm').prop("disabled", true);
-
-		} else {
-			$('#save-external-share > .icon-loading-small')
-				.addClass("icon-external")
-				.removeClass("icon-loading-small");
-			$('#save-external-share #save-button-confirm').prop("disabled", false);
-
-		}
-	},
-
-	_createFederatedShare: function (remote, token, owner, ownerDisplayName, name, isProtected) {
-		var self = this;
-
-		this._toggleLoading();
-
-		if (remote.indexOf('@') === -1) {
-			this._legacyCreateFederatedShare(remote, token, owner, ownerDisplayName, name, isProtected);
-			return;
-		}
-
-		$.post(
-			OC.generateUrl('/apps/federatedfilesharing/createFederatedShare'),
-			{
-				'shareWith': remote,
-				'token': token
-			}
-		).done(
-			function (data) {
-				var url = data.remoteUrl;
-
-				if (url.indexOf('://') > 0) {
-					OC.redirect(url);
-				} else {
-					OC.redirect('http://' + url);
-				}
-			}
-		).fail(
-			function (jqXHR) {
-				OC.dialogs.alert(JSON.parse(jqXHR.responseText).message,
-					t('files_sharing', 'Failed to add the public link to your Nextcloud'));
-				self._toggleLoading();
-			}
-		);
-	}
 };
 
 window.addEventListener('DOMContentLoaded', function () {

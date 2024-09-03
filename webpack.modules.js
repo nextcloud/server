@@ -19,6 +19,7 @@ module.exports = {
 		main: path.join(__dirname, 'core/src', 'main.js'),
 		maintenance: path.join(__dirname, 'core/src', 'maintenance.js'),
 		profile: path.join(__dirname, 'core/src', 'profile.ts'),
+		'public-page-menu': path.resolve(__dirname, 'core/src', 'public-page-menu.ts'),
 		recommendedapps: path.join(__dirname, 'core/src', 'recommendedapps.js'),
 		systemtags: path.resolve(__dirname, 'core/src', 'systemtags/merged-systemtags.js'),
 		'unified-search': path.join(__dirname, 'core/src', 'unified-search.ts'),
