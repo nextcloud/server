@@ -249,9 +249,20 @@ class OauthApiControllerTest extends TestCase {
 			->with('validrefresh')
 			->willReturn($accessToken);
 
+		$this->crypto
+			->method('calculateHMAC')
+			->with($this->callback(function (string $text) {
+				return $text === 'clientSecret' || $text === 'invalidClientSecret';
+			}))
+			->willReturnCallback(function (string $text) {
+				return $text === 'clientSecret'
+					? 'hashedClientSecret'
+					: 'hashedInvalidClientSecret';
+			});
+
 		$client = new Client();
 		$client->setClientIdentifier('clientId');
-		$client->setSecret('clientSecret');
+		$client->setSecret(bin2hex('hashedClientSecret'));
 		$this->clientMapper->method('getByUid')
 			->with(42)
 			->willReturn($client);
@@ -276,21 +287,20 @@ class OauthApiControllerTest extends TestCase {
 
 		$client = new Client();
 		$client->setClientIdentifier('clientId');
-		$client->setSecret('encryptedClientSecret');
+		$client->setSecret(bin2hex('hashedClientSecret'));
 		$this->clientMapper->method('getByUid')
 			->with(42)
 			->willReturn($client);
 
 		$this->crypto
 			->method('decrypt')
-			->with($this->callback(function (string $text) {
-				return $text === 'encryptedClientSecret' || $text === 'encryptedToken';
-			}))
-			->willReturnCallback(function (string $text) {
-				return $text === 'encryptedClientSecret'
-					? 'clientSecret'
-					: ($text === 'encryptedToken' ? 'decryptedToken' : '');
-			});
+			->with('encryptedToken')
+			->willReturn('decryptedToken');
+
+		$this->crypto
+			->method('calculateHMAC')
+			->with('clientSecret')
+			->willReturn('hashedClientSecret');
 
 		$this->tokenProvider->method('getTokenById')
 			->with(1337)
@@ -315,21 +325,20 @@ class OauthApiControllerTest extends TestCase {
 
 		$client = new Client();
 		$client->setClientIdentifier('clientId');
-		$client->setSecret('encryptedClientSecret');
+		$client->setSecret(bin2hex('hashedClientSecret'));
 		$this->clientMapper->method('getByUid')
 			->with(42)
 			->willReturn($client);
 
 		$this->crypto
 			->method('decrypt')
-			->with($this->callback(function (string $text) {
-				return $text === 'encryptedClientSecret' || $text === 'encryptedToken';
-			}))
-			->willReturnCallback(function (string $text) {
-				return $text === 'encryptedClientSecret'
-					? 'clientSecret'
-					: ($text === 'encryptedToken' ? 'decryptedToken' : '');
-			});
+			->with('encryptedToken')
+			->willReturn('decryptedToken');
+
+		$this->crypto
+			->method('calculateHMAC')
+			->with('clientSecret')
+			->willReturn('hashedClientSecret');
 
 		$appToken = new PublicKeyToken();
 		$appToken->setUid('userId');
@@ -412,21 +421,20 @@ class OauthApiControllerTest extends TestCase {
 
 		$client = new Client();
 		$client->setClientIdentifier('clientId');
-		$client->setSecret('encryptedClientSecret');
+		$client->setSecret(bin2hex('hashedClientSecret'));
 		$this->clientMapper->method('getByUid')
 			->with(42)
 			->willReturn($client);
 
 		$this->crypto
 			->method('decrypt')
-			->with($this->callback(function (string $text) {
-				return $text === 'encryptedClientSecret' || $text === 'encryptedToken';
-			}))
-			->willReturnCallback(function (string $text) {
-				return $text === 'encryptedClientSecret'
-					? 'clientSecret'
-					: ($text === 'encryptedToken' ? 'decryptedToken' : '');
-			});
+			->with('encryptedToken')
+			->willReturn('decryptedToken');
+
+		$this->crypto
+			->method('calculateHMAC')
+			->with('clientSecret')
+			->willReturn('hashedClientSecret');
 
 		$appToken = new PublicKeyToken();
 		$appToken->setUid('userId');
@@ -512,21 +520,20 @@ class OauthApiControllerTest extends TestCase {
 
 		$client = new Client();
 		$client->setClientIdentifier('clientId');
-		$client->setSecret('encryptedClientSecret');
+		$client->setSecret(bin2hex('hashedClientSecret'));
 		$this->clientMapper->method('getByUid')
 			->with(42)
 			->willReturn($client);
 
 		$this->crypto
 			->method('decrypt')
-			->with($this->callback(function (string $text) {
-				return $text === 'encryptedClientSecret' || $text === 'encryptedToken';
-			}))
-			->willReturnCallback(function (string $text) {
-				return $text === 'encryptedClientSecret'
-					? 'clientSecret'
-					: ($text === 'encryptedToken' ? 'decryptedToken' : '');
-			});
+			->with('encryptedToken')
+			->willReturn('decryptedToken');
+
+		$this->crypto
+			->method('calculateHMAC')
+			->with('clientSecret')
+			->willReturn('hashedClientSecret');
 
 		$appToken = new PublicKeyToken();
 		$appToken->setUid('userId');

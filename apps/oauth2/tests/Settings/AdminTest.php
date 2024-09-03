@@ -10,7 +10,6 @@ use OCA\OAuth2\Settings\Admin;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
 use OCP\IURLGenerator;
-use OCP\Security\ICrypto;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
@@ -20,7 +19,7 @@ class AdminTest extends TestCase {
 	/** @var Admin|MockObject */
 	private $admin;
 
-	/** @var IInitialStateService|MockObject */
+	/** @var IInitialState|MockObject */
 	private $initialState;
 
 	/** @var ClientMapper|MockObject */
@@ -36,7 +35,6 @@ class AdminTest extends TestCase {
 			$this->initialState,
 			$this->clientMapper,
 			$this->createMock(IURLGenerator::class),
-			$this->createMock(ICrypto::class),
 			$this->createMock(LoggerInterface::class)
 		);
 	}
