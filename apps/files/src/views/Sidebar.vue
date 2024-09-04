@@ -476,7 +476,7 @@ export default {
 
 				await this.$nextTick()
 
-				if (focusTabAfterLoad) {
+				if (focusTabAfterLoad && this.$refs.sidebar) {
 					this.$refs.sidebar.focusActiveTabContent()
 				}
 			} catch (error) {
