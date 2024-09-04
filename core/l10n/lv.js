@@ -78,6 +78,7 @@ OC.L10N.register(
     "More apps" : "Vairāk lietotņu",
     "No" : "Nē",
     "Yes" : "Jā",
+    "Failed to add the public link to your Nextcloud" : "Neizdevās pievienot publisku saiti jūsu Nextcloud",
     "Search in date range" : "Meklēt laika posmā",
     "Unified search" : "Apvienotā meklēšana",
     "Places" : "Vietas",

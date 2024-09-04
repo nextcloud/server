@@ -13,6 +13,7 @@ OC.L10N.register(
     "Client Identifier" : "用戶識別",
     "Secret key" : "私密密鑰",
     "Delete client" : "刪除客戶端",
+    "Make sure you store the secret key, it cannot be recovered." : "請確保妥善保存密鑰，因為它無法復得。",
     "Add client" : "新增第三方應用程式",
     "Add" : "新增",
     "Delete" : "刪除",

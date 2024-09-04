@@ -138,6 +138,7 @@ OC.L10N.register(
     "Back" : "Retorn",
     "Login form is disabled." : "Lo formulari de connexion es desactivat.",
     "Edit Profile" : "Modificar perfil",
+    "More actions" : "Mai d’accions",
     "This browser is not supported" : "Aqueste navigador es pas pres en carga",
     "Supported versions" : "Versions presas en carga",
     "{name} version {version} and above" : "{name} version {version} e ulterior",

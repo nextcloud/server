@@ -187,6 +187,8 @@
     "\"{displayName}\" action failed" : "Действие «{displayName}» завершилось неудачно",
     "Toggle selection for file \"{displayName}\"" : "Установить или снять выделение файла «{displayName}»",
     "Toggle selection for folder \"{displayName}\"" : "Установить или снять выделение папки «{displayName}»",
+    "File is loading" : "Файл загружается",
+    "Folder is loading" : "Папка загружается",
     "Rename file" : "Переименовать файл",
     "Filename" : "Имя файла",
     "Folder name" : "Имя папки",

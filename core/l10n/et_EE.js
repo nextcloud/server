@@ -71,6 +71,7 @@ OC.L10N.register(
     "_{count} notification_::_{count} notifications_" : ["{count} teavitus","{count} teavitust"],
     "No" : "Ei",
     "Yes" : "Jah",
+    "Failed to add the public link to your Nextcloud" : "Avaliku lingi lisamine sinu Nextcloudi ebaõnnestus",
     "Places" : "Kohad",
     "Date" : "Kuupäev",
     "Today" : "Täna",
