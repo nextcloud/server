@@ -212,6 +212,7 @@ OC.L10N.register(
     "Failed to unlink: %1$s" : "Kunne ikke fjerne tilknytningen: %1$s",
     "Failed to write file contents: %1$s" : "Kunne ikke skrive filinnhold: %1$s",
     "File not found: %1$s" : "Filen ble ikke funnet: %1$s",
+    "Invalid target path" : "Ugyldig målbane",
     "System is in maintenance mode." : "System i vedlikeholdsmodus.",
     "Upgrade needed" : "Oppgradering er nødvendig",
     "Your %s needs to be configured to use HTTPS in order to use CalDAV and CardDAV with iOS/macOS." : "Din %s må konfigureres til å bruke HTTPS for å kunne bruke CalDAV og CardDAV med iOS/macOS.",
