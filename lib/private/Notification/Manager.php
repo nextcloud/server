@@ -26,6 +26,8 @@ use OCP\RichObjectStrings\IValidator;
 use OCP\Support\Subscription\IRegistry;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Log\LoggerInterface;
+use OCP\Server;
+use OCP\App\IAppManager;
 
 class Manager implements IManager {
 	/** @var ICache */
@@ -72,7 +74,18 @@ class Manager implements IManager {
 	 * @since 17.0.0
 	 */
 	public function registerApp(string $appClass): void {
-		$this->appClasses[] = $appClass;
+    // ensure Nextcloud Notification app is always added at the front of the array so it gets processed first
+    // for new notifications and last for marking processed or sending deletes.
+    // this is because it sets the unique id and adds the notification to the data store that other apps might need
+    // access to in order to be compatible
+    $appManager = Server::get(IAppManager::class);
+    if (($appManager !== null) &&
+        ($appManager->isInstalled("notifications") === true) &&
+        ($appClass === "OCA\Notifications\App")) {
+      array_unshift($this->appClasses, $appClass);
+    }
+    else
+		  $this->appClasses[] = $appClass;
 	}
 
 	/**
@@ -306,6 +319,28 @@ class Manager implements IManager {
 		}
 	}
 
+  public function notifyDelete(string $user, ?int $id, ?INotification $notification): void
+  {
+		if ($notification && !$notification->isValid()) {
+			throw new IncompleteNotificationException('The given notification is invalid');
+		}
+
+		$apps = array_reverse($this->getApps());
+
+		foreach ($apps as $app) {
+			try {
+				$app->notifyDelete($user, $id, $notification);
+			} catch (IncompleteNotificationException) {
+			} catch (\InvalidArgumentException $e) {
+				// todo 33.0.0 Log as warning
+				// todo 39.0.0 Log as error
+				$this->logger->debug(get_class($app) . '::notify() threw \InvalidArgumentException which is deprecated. Throw \OCP\Notification\IncompleteNotificationException when the notification is incomplete for your app and otherwise handle all \InvalidArgumentException yourself.');
+			}
+		}
+
+  }
+
+
 	/**
 	 * Identifier of the notifier, only use [a-z0-9_]
 	 *
@@ -382,7 +417,7 @@ class Manager implements IManager {
 	 * @param INotification $notification
 	 */
 	public function markProcessed(INotification $notification): void {
-		$apps = $this->getApps();
+		$apps = array_reverse($this->getApps());
 
 		foreach ($apps as $app) {
 			$app->markProcessed($notification);

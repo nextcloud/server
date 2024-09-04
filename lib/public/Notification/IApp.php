@@ -23,6 +23,16 @@ interface IApp {
 	public function notify(INotification $notification): void;
 
 	/**
+	 * @param string $user   user
+	 * @param ?int $id   id as used by notification app
+	 * @param INotification $notification
+	 * @throws IncompleteNotificationException When the notification does not have all required fields set
+	 * @since 9.0.0
+	 * @since 30.0.0 throws {@see IncompleteNotificationException} instead of \InvalidArgumentException
+	 */
+	public function notifyDelete(string $user, ?int $id, ?INotification $notification): void;
+
+	/**
 	 * @param INotification $notification
 	 * @since 9.0.0
 	 */
