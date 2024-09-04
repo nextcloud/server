@@ -42,6 +42,7 @@ OC.L10N.register(
     "Enabling this option encrypts all files stored on the main storage, otherwise only files on external storage will be encrypted" : "При включении данного параметра будут зашифрованы все файлы, хранящиеся в основном хранилище. В противном случае шифруются только файлы на внешних хранилищах.",
     "Enable recovery key" : "Включить ключ восстановления",
     "Disable recovery key" : "Отключить ключ восстановления",
+    "The recovery key is an additional encryption key used to encrypt files. It is used to recover files from an account if the password is forgotten." : "Ключ восстановления - это дополнительный ключ шифрования, используемый для шифрования файлов. Он используется для восстановления файлов из учетной записи, если пароль забыт.",
     "Recovery key password" : "Пароль ключа восстановления",
     "Repeat recovery key password" : "Повторите пароль ключа восстановления",
     "Change recovery key password:" : "Смена пароля ключа восстановления:",

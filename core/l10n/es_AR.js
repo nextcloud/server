@@ -95,6 +95,7 @@ OC.L10N.register(
     "More apps" : "Más aplicaciones",
     "No" : "No",
     "Yes" : "Sí",
+    "Failed to add the public link to your Nextcloud" : "Se presentó una falla al agregar el link público a su Nextcloud",
     "Date" : "Fecha",
     "Today" : "Hoy",
     "Load more results" : "Cargar más resultados",
