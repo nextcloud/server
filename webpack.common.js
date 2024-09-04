@@ -9,7 +9,7 @@ const WorkboxPlugin = require('workbox-webpack-plugin')
 const modules = require('./webpack.modules.js')
 const { readFileSync } = require('fs')
 
-const appVersion = readFileSync('./version.php').toString().match(/OC_VersionString[^']+'([^']+)/)?.[1] ?? 'unknown'
+const appVersion = readFileSync('./version.php').toString().match(/OC_Version.+\[([0-9]{2})/)?.[1] ?? 'unknown'
 
 const formatOutputFromModules = (modules) => {
 	// merge all configs into one object, and use AppID to generate the fileNames
