@@ -24,27 +24,20 @@ use function md5;
 use function strlen;
 
 class JobList implements IJobList {
-	protected IDBConnection $connection;
-	protected IConfig $config;
-	protected ITimeFactory $timeFactory;
-	protected LoggerInterface $logger;
-
-	public function __construct(IDBConnection $connection, IConfig $config, ITimeFactory $timeFactory, LoggerInterface $logger) {
-		$this->connection = $connection;
-		$this->config = $config;
-		$this->timeFactory = $timeFactory;
-		$this->logger = $logger;
+	public function __construct(
+		protected IDBConnection $connection,
+		protected IConfig $config,
+		protected ITimeFactory $timeFactory,
+		protected LoggerInterface $logger
+	) {
 	}
 
 	public function add($job, $argument = null, ?int $firstCheck = null): void {
 		if ($firstCheck === null) {
 			$firstCheck = $this->timeFactory->getTime();
 		}
-		if ($job instanceof IJob) {
-			$class = get_class($job);
-		} else {
-			$class = $job;
-		}
+
+		$class = ($job instanceof IJob) ? get_class($job) : $job;
 
 		$argumentJson = json_encode($argument);
 		if (strlen($argumentJson) > 4000) {
@@ -81,11 +74,7 @@ class JobList implements IJobList {
 	 * @param mixed $argument
 	 */
 	public function remove($job, $argument = null): void {
-		if ($job instanceof IJob) {
-			$class = get_class($job);
-		} else {
-			$class = $job;
-		}
+		$class = ($job instanceof IJob) ? get_class($job) : $job;
 
 		$query = $this->connection->getQueryBuilder();
 		$query->delete('jobs')
@@ -104,11 +93,11 @@ class JobList implements IJobList {
 			$query->setMaxResults($max);
 
 			do {
-				$deleted = $query->execute();
+				$deleted = $query->executeStatement();
 			} while ($deleted === $max);
 		} else {
 			// Dont use chunked delete - let the DB handle the large row count natively
-			$query->execute();
+			$query->executeStatement();
 		}
 	}
 
@@ -126,11 +115,7 @@ class JobList implements IJobList {
 	 * @param mixed $argument
 	 */
 	public function has($job, $argument): bool {
-		if ($job instanceof IJob) {
-			$class = get_class($job);
-		} else {
-			$class = $job;
-		}
+		$class = ($job instanceof IJob) ? get_class($job) : $job;
 		$argument = json_encode($argument);
 
 		$query = $this->connection->getQueryBuilder();
@@ -149,11 +134,9 @@ class JobList implements IJobList {
 
 	public function getJobs($job, ?int $limit, int $offset): array {
 		$iterable = $this->getJobsIterator($job, $limit, $offset);
-		if (is_array($iterable)) {
-			return $iterable;
-		} else {
-			return iterator_to_array($iterable);
-		}
+		return (is_array($iterable))
+			? $iterable
+			: iterator_to_array($iterable);
 	}
 
 	/**
@@ -168,11 +151,7 @@ class JobList implements IJobList {
 			->setFirstResult($offset);
 
 		if ($job !== null) {
-			if ($job instanceof IJob) {
-				$class = get_class($job);
-			} else {
-				$class = $job;
-			}
+			$class = ($job instanceof IJob) ? get_class($job) : $job;
 			$query->where($query->expr()->eq('class', $query->createNamedParameter($class)));
 		}
 
