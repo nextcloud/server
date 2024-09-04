@@ -11,6 +11,7 @@
     "Client Identifier" : "Klientidentifierare",
     "Secret key" : "Hemlig nyckel",
     "Delete client" : "Ta bort klient",
+    "Make sure you store the secret key, it cannot be recovered." : "Se till att du lagrar den hemliga nyckeln, den kan inte återställas.",
     "Add client" : "Lägg till klient",
     "Add" : "Lägg till",
     "Delete" : "Ta bort",
