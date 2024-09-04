@@ -146,7 +146,7 @@ function writeParameterInput($parameter, $options, $classes = []) {
 			<?php endif; ?>
 			>
 				<td class="status">
-					<span data-placement="right" title="<?php p($l->t('Click to recheck the configuration')); ?>"></span>
+					<span data-placement="right" title="<?php p($l->t('Click to recheck the configuration')); ?>" style="display: none;"></span>
 				</td>
 				<td class="mountPoint"><input type="text" name="mountPoint" value=""
 					placeholder="<?php p($l->t('Folder name')); ?>">

@@ -28,6 +28,8 @@
 	/* overwrite conflicting core styles */
 	display: table-cell;
 	vertical-align: middle;
+	/* ensure width does not change even if internal span is not displayed */
+	width: 43px;
 }
 
 #externalStorage td.status > span {

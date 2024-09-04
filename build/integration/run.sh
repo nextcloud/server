@@ -41,7 +41,7 @@ echo $PORT
 
 echo "" > phpserver.log
 
-php -S localhost:$PORT -t ../.. &> phpserver.log &
+PHP_CLI_SERVER_WORKERS=2 php -S localhost:$PORT -t ../.. &> phpserver.log &
 PHPPID=$!
 echo $PHPPID
 
