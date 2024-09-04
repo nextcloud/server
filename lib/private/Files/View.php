@@ -1794,7 +1794,8 @@ class View {
 		}, $providers));
 
 		foreach ($shares as $share) {
-			if (str_starts_with($targetPath, $share->getNode()->getPath())) {
+			$sharedPath = $share->getNode()->getPath();
+			if ($targetPath === $sharedPath || str_starts_with($targetPath, $sharedPath . '/')) {
 				$this->logger->debug(
 					'It is not allowed to move one mount point into a shared folder',
 					['app' => 'files']);

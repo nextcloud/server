@@ -1668,17 +1668,24 @@ class ViewTest extends \Test\TestCase {
 	public function testMoveMountPointIntoSharedFolder() {
 		self::loginAsUser($this->user);
 
-		[$mount1] = $this->createTestMovableMountPoints([
+		[$mount1, $mount2] = $this->createTestMovableMountPoints([
 			$this->user . '/files/mount1',
+			$this->user . '/files/mount2',
 		]);
 
 		$mount1->expects($this->never())
 			->method('moveMount');
 
+		$mount2->expects($this->once())
+			->method('moveMount')
+			->willReturn(true);
+
 		$view = new View('/' . $this->user . '/files/');
 		$view->mkdir('shareddir');
 		$view->mkdir('shareddir/sub');
 		$view->mkdir('shareddir/sub2');
+		// Create a similar named but non-shared folder
+		$view->mkdir('shareddir notshared');
 
 		$fileId = $view->getFileInfo('shareddir')->getId();
 		$userObject = \OC::$server->getUserManager()->createUser('test2', 'IHateNonMockableStaticClasses');
@@ -1697,6 +1704,7 @@ class ViewTest extends \Test\TestCase {
 		$this->assertFalse($view->rename('mount1', 'shareddir'), 'Cannot overwrite shared folder');
 		$this->assertFalse($view->rename('mount1', 'shareddir/sub'), 'Cannot move mount point into shared folder');
 		$this->assertFalse($view->rename('mount1', 'shareddir/sub/sub2'), 'Cannot move mount point into shared subfolder');
+		$this->assertTrue($view->rename('mount2', 'shareddir notshared/sub'), 'Can move mount point into a similarly named but non-shared folder');
 
 		$shareManager->deleteShare($share);
 		$userObject->delete();
