@@ -20,6 +20,7 @@ import { getDragAndDropPreview } from '../utils/dragUtils.ts'
 import { hashCode } from '../utils/hashUtils.ts'
 import { dataTransferToFileTree, onDropExternalFiles, onDropInternalFiles } from '../services/DropService.ts'
 import logger from '../logger.ts'
+import { isDownloadable } from '../utils/permissions.ts'
 
 Vue.directive('onClickOutside', vOnClickOutside)
 
@@ -270,29 +271,31 @@ export default defineComponent({
 			event.stopPropagation()
 		},
 
-		execDefaultAction(event) {
+		execDefaultAction(event: MouseEvent) {
 			// Ignore click if we are renaming
 			if (this.isRenaming) {
 				return
 			}
 
-			// Ignore right click.
-			if (event.button > 1) {
+			// Ignore right click (button & 2) and any auxillary button expect mouse-wheel (button & 4)
+			if (Boolean(event.button & 2) || event.button > 4) {
 				return
 			}
 
-			// if ctrl+click or middle mouse button, open in new tab
+			// if ctrl+click / cmd+click (MacOS uses the meta key) or middle mouse button (button & 4), open in new tab
 			// also if there is no default action use this as a fallback
-			const metaKeyPressed = event.ctrlKey || event.metaKey || event.button === 1
+			const metaKeyPressed = event.ctrlKey || event.metaKey || Boolean(event.button & 4)
 			if (metaKeyPressed || !this.defaultFileAction) {
+				// If no download permission, then we can not allow to download (direct link) the files
+				if (isPublicShare() && !isDownloadable(this.source)) {
+					return
+				}
+
+				const url = isPublicShare()
+					? this.source.encodedSource
+					: generateUrl('/f/{fileId}', { fileId: this.fileid })
 				event.preventDefault()
 				event.stopPropagation()
-				let url: string
-				if (isPublicShare()) {
-					url = this.source.encodedSource
-				} else {
-					url = generateUrl('/f/{fileId}', { fileId: this.fileid })
-				}
 				window.open(url, metaKeyPressed ? '_self' : undefined)
 				return
 			}
