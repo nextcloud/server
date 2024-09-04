@@ -37,7 +37,13 @@
 				</tr>
 				<tr>
 					<td>{{ t('oauth2', 'Secret') }}</td>
-					<td><code>{{ renderedSecret }}</code><a class="icon-toggle has-tooltip" :title="t('oauth2', 'Show client secret')" @click="toggleSecret" /></td>
+					<td>
+						<code>{{ renderedSecret }}</code>
+						<a v-if="clientSecret !== ''"
+							class="icon-toggle has-tooltip"
+							:title="t('oauth2', 'Show client secret')"
+							@click="toggleSecret" />
+					</td>
 				</tr>
 			</table>
 		</td>
