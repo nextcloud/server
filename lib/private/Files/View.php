@@ -1496,6 +1496,15 @@ class View {
 					if ($pos = strpos($relativePath, '/')) {
 						//mountpoint inside subfolder add size to the correct folder
 						$entryName = substr($relativePath, 0, $pos);
+
+						// Create parent folders if the mountpoint is inside a subfolder that doesn't exist yet
+						if (!isset($files[$entryName]) && $this->mkdir($path . '/' . $entryName) !== false) {
+							$info = $this->getFileInfo($path . '/' . $entryName);
+							if ($info !== false) {
+								$files[$entryName] = $info;
+							}
+						}
+
 						if (isset($files[$entryName])) {
 							$files[$entryName]->addSubEntry($rootEntry, $mountPoint);
 						}
