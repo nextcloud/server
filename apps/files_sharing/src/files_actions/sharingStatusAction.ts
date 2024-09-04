@@ -2,16 +2,17 @@
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+import { getCurrentUser } from '@nextcloud/auth'
 import { Node, View, registerFileAction, FileAction, Permission } from '@nextcloud/files'
 import { translate as t } from '@nextcloud/l10n'
 import { ShareType } from '@nextcloud/sharing'
+import { isPublicShare } from '@nextcloud/sharing/public'
 
 import AccountGroupSvg from '@mdi/svg/svg/account-group.svg?raw'
 import AccountPlusSvg from '@mdi/svg/svg/account-plus.svg?raw'
 import LinkSvg from '@mdi/svg/svg/link.svg?raw'
 import CircleSvg from '../../../../core/img/apps/circles.svg?raw'
 
-import { getCurrentUser } from '@nextcloud/auth'
 import { action as sidebarAction } from '../../../files/src/actions/sidebarAction'
 import { generateAvatarSvg } from '../utils/AccountIcon'
 
@@ -100,6 +101,11 @@ export const action = new FileAction({
 
 	enabled(nodes: Node[]) {
 		if (nodes.length !== 1) {
+			return false
+		}
+
+		// Do not leak information about users to public shares
+		if (isPublicShare()) {
 			return false
 		}
 
