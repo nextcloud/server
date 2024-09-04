@@ -44,8 +44,6 @@ class NavigationManager implements INavigationManager {
 	private $groupManager;
 	/** @var IConfig */
 	private $config;
-	/** The default entry for the current user (cached for the `add` function) */
-	private ?string $defaultEntry;
 	/** User defined app order (cached for the `add` function) */
 	private array $customAppOrder;
 	private LoggerInterface $logger;
@@ -66,8 +64,6 @@ class NavigationManager implements INavigationManager {
 		$this->groupManager = $groupManager;
 		$this->config = $config;
 		$this->logger = $logger;
-
-		$this->defaultEntry = null;
 	}
 
 	/**
@@ -100,13 +96,22 @@ class NavigationManager implements INavigationManager {
 				$entry['app'] = $id;
 			}
 
-			// This is the default app that will always be shown first
-			$entry['default'] = ($entry['id'] ?? false) === $this->defaultEntry;
 			// Set order from user defined app order
 			$entry['order'] = (int)($this->customAppOrder[$id]['order'] ?? $entry['order'] ?? 100);
 		}
 
 		$this->entries[$id] = $entry;
+
+		// Needs to be done after adding the new entry to account for the default entries containing this new entry.
+		$this->updateDefaultEntries();
+	}
+
+	private function updateDefaultEntries() {
+		foreach ($this->entries as $id => $entry) {
+			if ($entry['type'] === 'link') {
+				$this->entries[$id]['default'] = $id === $this->getDefaultEntryIdForUser($this->userSession->getUser(), false);
+			}
+		}
 	}
 
 	/**
@@ -220,8 +225,6 @@ class NavigationManager implements INavigationManager {
 				'icon' => $this->urlGenerator->imagePath('settings', 'help.svg'),
 			]);
 		}
-
-		$this->defaultEntry = $this->getDefaultEntryIdForUser($this->userSession->getUser(), false);
 
 		if ($this->userSession->isLoggedIn()) {
 			// Profile
@@ -422,8 +425,8 @@ class NavigationManager implements INavigationManager {
 
 	public function getDefaultEntryIdForUser(?IUser $user = null, bool $withFallbacks = true): string {
 		$this->init();
-		$defaultEntryIds = explode(',', $this->config->getSystemValueString('defaultapp', ''));
-		$defaultEntryIds = array_filter($defaultEntryIds);
+		// Disable fallbacks here, as we need to override them with the user defaults if none are configured.
+		$defaultEntryIds = $this->getDefaultEntryIds(false);
 
 		$user ??= $this->userSession->getUser();
 
@@ -461,8 +464,18 @@ class NavigationManager implements INavigationManager {
 		return $withFallbacks ? 'files' : '';
 	}
 
-	public function getDefaultEntryIds(): array {
-		return explode(',', $this->config->getSystemValueString('defaultapp', 'dashboard,files'));
+	public function getDefaultEntryIds(bool $withFallbacks = true): array {
+		$this->init();
+		$storedIds = explode(',', $this->config->getSystemValueString('defaultapp', $withFallbacks ? 'dashboard,files' : ''));
+		$ids = [];
+		$entryIds = array_keys($this->entries);
+		foreach ($storedIds as $id) {
+			if (in_array($id, $entryIds, true)) {
+				$ids[] = $id;
+				break;
+			}
+		}
+		return array_filter($ids);
 	}
 
 	public function setDefaultEntryIds(array $ids): void {

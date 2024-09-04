@@ -724,4 +724,61 @@ class NavigationManagerTest extends TestCase {
 
 		$this->assertEquals($expectedApp, $this->navigationManager->getDefaultEntryIdForUser(null, $withFallbacks));
 	}
+
+	public function testDefaultEntryUpdated() {
+		$this->appManager->method('getInstalledApps')->willReturn([]);
+
+		$user = $this->createMock(IUser::class);
+		$user->method('getUID')->willReturn('user1');
+
+		$this->userSession
+			->method('getUser')
+			->willReturn($user);
+
+		$this->config
+			->method('getSystemValueString')
+			->with('defaultapp', $this->anything())
+			->willReturn('app4,app3,app2,app1');
+
+		$this->config
+			->method('getUserValue')
+			->willReturnMap([
+				['user1', 'core', 'defaultapp', '', ''],
+				['user1', 'core', 'apporder', '[]', ''],
+			]);
+
+		$this->navigationManager->add([
+			'id' => 'app1',
+		]);
+
+		$this->assertEquals('app1', $this->navigationManager->getDefaultEntryIdForUser(null, false));
+		$this->assertEquals(true, $this->navigationManager->get('app1')['default']);
+
+		$this->navigationManager->add([
+			'id' => 'app3',
+		]);
+
+		$this->assertEquals('app3', $this->navigationManager->getDefaultEntryIdForUser(null, false));
+		$this->assertEquals(false, $this->navigationManager->get('app1')['default']);
+		$this->assertEquals(true, $this->navigationManager->get('app3')['default']);
+
+		$this->navigationManager->add([
+			'id' => 'app2',
+		]);
+
+		$this->assertEquals('app3', $this->navigationManager->getDefaultEntryIdForUser(null, false));
+		$this->assertEquals(false, $this->navigationManager->get('app1')['default']);
+		$this->assertEquals(false, $this->navigationManager->get('app2')['default']);
+		$this->assertEquals(true, $this->navigationManager->get('app3')['default']);
+
+		$this->navigationManager->add([
+			'id' => 'app4',
+		]);
+
+		$this->assertEquals('app4', $this->navigationManager->getDefaultEntryIdForUser(null, false));
+		$this->assertEquals(false, $this->navigationManager->get('app1')['default']);
+		$this->assertEquals(false, $this->navigationManager->get('app2')['default']);
+		$this->assertEquals(false, $this->navigationManager->get('app3')['default']);
+		$this->assertEquals(true, $this->navigationManager->get('app4')['default']);
+	}
 }
