@@ -223,7 +223,7 @@ class OwnershipTransferService {
 	/**
 	 * @param OutputInterface $output
 	 *
-	 * @throws \Exception
+	 * @throws TransferOwnershipException
 	 */
 	protected function analyse(string $sourceUid,
 		string $destinationUid,
@@ -231,33 +231,56 @@ class OwnershipTransferService {
 		View $view,
 		OutputInterface $output): void {
 		$output->writeln('Validating quota');
-		$size = $view->getFileInfo($sourcePath, false)->getSize(false);
+		$sourceFileInfo = $view->getFileInfo($sourcePath, false);
+		if ($sourceFileInfo === false) {
+			throw new TransferOwnershipException("Unknown path provided: $sourcePath", 1);
+		}
+		$size = $sourceFileInfo->getSize(false);
 		$freeSpace = $view->free_space($destinationUid . '/files/');
 		if ($size > $freeSpace && $freeSpace !== FileInfo::SPACE_UNKNOWN) {
-			$output->writeln('<error>Target user does not have enough free space available.</error>');
-			throw new \Exception('Execution terminated.');
+			throw new TransferOwnershipException('Target user does not have enough free space available.', 1);
 		}
 
 		$output->writeln("Analysing files of $sourceUid ...");
 		$progress = new ProgressBar($output);
 		$progress->start();
 
+		if ($this->encryptionManager->isEnabled()) {
+			$masterKeyEnabled = \OCP\Server::get(\OCA\Encryption\Util::class)->isMasterKeyEnabled();
+		} else {
+			$masterKeyEnabled = false;
+		}
 		$encryptedFiles = [];
-		$this->walkFiles($view, $sourcePath,
-			function (FileInfo $fileInfo) use ($progress, &$encryptedFiles) {
-				if ($fileInfo->getType() === FileInfo::TYPE_FOLDER) {
-					// only analyze into folders from main storage,
-					if (!$fileInfo->getStorage()->instanceOfStorage(IHomeStorage::class)) {
-						return false;
-					}
-					return true;
-				}
-				$progress->advance();
-				if ($fileInfo->isEncrypted()) {
-					$encryptedFiles[] = $fileInfo;
-				}
-				return true;
-			});
+		if ($sourceFileInfo->getType() === FileInfo::TYPE_FOLDER) {
+			if ($sourceFileInfo->isEncrypted()) {
+				/* Encrypted folder means e2ee encrypted */
+				$encryptedFiles[] = $sourceFileInfo;
+			} else {
+				$this->walkFiles($view, $sourcePath,
+					function (FileInfo $fileInfo) use ($progress, $masterKeyEnabled, &$encryptedFiles) {
+						if ($fileInfo->getType() === FileInfo::TYPE_FOLDER) {
+							// only analyze into folders from main storage,
+							if (!$fileInfo->getStorage()->instanceOfStorage(IHomeStorage::class)) {
+								return false;
+							}
+							if ($fileInfo->isEncrypted()) {
+								/* Encrypted folder means e2ee encrypted, we cannot transfer it */
+								$encryptedFiles[] = $fileInfo;
+							}
+							return true;
+						}
+						$progress->advance();
+						if ($fileInfo->isEncrypted() && !$masterKeyEnabled) {
+							/* Encrypted file means SSE, we can only transfer it if master key is enabled */
+							$encryptedFiles[] = $fileInfo;
+						}
+						return true;
+					});
+			}
+		} elseif ($sourceFileInfo->isEncrypted() && !$masterKeyEnabled) {
+			/* Encrypted file means SSE, we can only transfer it if master key is enabled */
+			$encryptedFiles[] = $sourceFileInfo;
+		}
 		$progress->finish();
 		$output->writeln('');
 
@@ -268,7 +291,7 @@ class OwnershipTransferService {
 				/** @var FileInfo $encryptedFile */
 				$output->writeln("  " . $encryptedFile->getPath());
 			}
-			throw new \Exception('Execution terminated.');
+			throw new TransferOwnershipException('Some files are encrypted - please decrypt them first.', 1);
 		}
 	}
 
