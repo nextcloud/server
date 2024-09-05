@@ -153,6 +153,7 @@
     "%1$s shared »%2$s« with you and wants to add:" : "%1$s 與您分享了 %2$s ，且想要加入：",
     "%1$s shared »%2$s« with you and wants to add" : "%1$s 與您分享了 %2$s ，且想要加入",
     "»%s« added a note to a file shared with you" : "%s 在與您分享的檔案中加入了註解",
+    "Unknown share type" : "未知的分享類型",
     "You are not allowed to share %s" : "你不被允許分享 %s",
     "Cannot increase permissions of %s" : "無法增加 %s 的權限",
     "Files cannot be shared with delete permissions" : "無法分享具有刪除權限的檔案",

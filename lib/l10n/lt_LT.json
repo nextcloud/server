@@ -97,6 +97,7 @@
     "%1$s shared »%2$s« with you and wants to add:" : "%1$s pasidalino „%2$s“ su jumis ir parašė pastabą:",
     "%1$s shared »%2$s« with you and wants to add" : "%1$s pasidalino „%2$s“ su jumis ir parašė pastabą",
     "»%s« added a note to a file shared with you" : "„%s“ parašė pastabą su jumis pasidalintam failui",
+    "Unknown share type" : "Nežinomas viešinio tipas",
     "You are not allowed to share %s" : "Jums neleidžiama bendrinti %s",
     "Cannot increase permissions of %s" : "Negalima pridėti papildomų %s leidimų",
     "Expiration date is in the past" : "Bendrinimo pabaigos data yra praėjęs laikas",

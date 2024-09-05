@@ -153,6 +153,7 @@
     "%1$s shared »%2$s« with you and wants to add:" : "%1$s delte »%2$s« med deg og vil legge til:",
     "%1$s shared »%2$s« with you and wants to add" : "%1$s delte »%2$s« med deg og vil legge til",
     "»%s« added a note to a file shared with you" : "»%s« la til en melding til en fil delt med deg",
+    "Unknown share type" : "Ukjent ressurstype",
     "You are not allowed to share %s" : "Du har ikke lov til å dele %s",
     "Cannot increase permissions of %s" : "Kan ikke øke tillatelser for %s",
     "Files cannot be shared with delete permissions" : "Filer kan ikke deles med slett-rettigheter",

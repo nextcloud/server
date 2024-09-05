@@ -329,6 +329,7 @@
     "None of your currently installed apps provide image generation functionality" : "您目前安裝的應用程式均不提供產生影像功能",
     "Text processing" : "文字處理",
     "Text processing tasks can be implemented by different apps. Here you can set which app should be used for which task." : "文字處理任務可以透過不同的應用程式實作。您可以在此處設定要使用哪個應用程式。",
+    "None of your currently installed apps provide custom Text processing functionality." : "您目前安裝的應用程式均不提供自訂文字處理功能。",
     "Here you can decide which group can access certain sections of the administration settings." : "您可以在此決定哪些群組可以存取哪些管理設定。",
     "None" : "無",
     "Unable to modify setting" : "無法修改設定",

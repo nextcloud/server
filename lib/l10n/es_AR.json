@@ -63,6 +63,7 @@
     "Sharing backend for %s not found" : "No fue encontrado el Backend que comparte para %s",
     "Click the button below to open it." : "Haga click en el botón de abajo para abrirlo.",
     "Open »%s«" : "Abrir »%s«",
+    "Unknown share type" : "Tipo de elemento compartido desconocido",
     "You are not allowed to share %s" : "No tiene permitido compartir %s",
     "Cannot increase permissions of %s" : "No se pueden incrementar los permisos de %s",
     "Expiration date is in the past" : "La fecha de expiración ya ha pasado",
