@@ -1013,6 +1013,7 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 		$share->setLabel($data['label']);
 		$share->setSendPasswordByTalk((bool)$data['password_by_talk']);
 		$share->setHideDownload((bool)$data['hide_download']);
+		var_dump($data['reminder_sent']);
 		$share->setReminderSent((bool)$data['reminder_sent']);
 
 		if ($data['uid_initiator'] !== null) {
