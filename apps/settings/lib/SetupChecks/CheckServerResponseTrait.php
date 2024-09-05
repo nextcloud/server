@@ -35,36 +35,49 @@ trait CheckServerResponseTrait {
 
 	/**
 	 * Get all possible URLs that need to be checked for a local request test.
+	 * This takes all `trusted_domains` and the CLI overwrite URL into account.
 	 *
-	 * @param string $url The relative URL to test
+	 * @param string $url The relative URL to test starting with a /
 	 * @return string[] List of possible absolute URLs
 	 */
 	protected function getTestUrls(string $url, bool $removeWebroot): array {
 		$testUrls = [];
 
-		$webroot = $this->urlGenerator->getWebroot();
+		$webroot = rtrim($this->urlGenerator->getWebroot(), '/');
 
+		/* Try overwrite.cli.url first, it’s supposed to be how the server contacts itself */
+		$cliUrl = $this->config->getSystemValueString('overwrite.cli.url', '');
+
+		if ($cliUrl !== '') {
+			$cliUrl = $this->normalizeUrl(
+				$cliUrl,
+				$webroot,
+				$removeWebroot
+			);
+
+			$testUrls[] = $cliUrl . $url;
+		}
+
+		/* Try URL generator second */
 		$baseUrl = $this->normalizeUrl(
 			$this->urlGenerator->getBaseUrl(),
 			$webroot,
 			$removeWebroot
 		);
 
-		$testUrls[] = $baseUrl . $url;
-
-		$cliUrl = $this->config->getSystemValueString('overwrite.cli.url', '');
-		if ($cliUrl === '') {
-			return $testUrls;
+		if ($baseUrl !== $cliUrl) {
+			$testUrls[] = $baseUrl . $url;
 		}
 
-		$cliUrl = $this->normalizeUrl(
-			$cliUrl,
-			$webroot,
-			$removeWebroot
-		);
-
-		if ($cliUrl !== $baseUrl) {
-			$testUrls[] = $cliUrl . $url;
+		/* Last resort: trusted domains */
+		$hosts = $this->config->getSystemValue('trusted_domains', []);
+		foreach ($hosts as $host) {
+			if (str_contains($host, '*')) {
+				/* Ignore domains with a wildcard */
+				continue;
+			}
+			$hosts[] = 'https://' . $host . $url;
+			$hosts[] = 'http://' . $host . $url;
 		}
 
 		return $testUrls;
@@ -74,7 +87,8 @@ trait CheckServerResponseTrait {
 	 * Strip a trailing slash and remove the webroot if requested.
 	 */
 	protected function normalizeUrl(string $url, string $webroot, bool $removeWebroot): string {
-		if ($removeWebroot && str_contains($url, $webroot)) {
+		$url = rtrim($url, '/');
+		if ($removeWebroot && str_ends_with($url, $webroot)) {
 			$url = substr($url, -strlen($webroot));
 		}
 		return rtrim($url, '/');
