@@ -212,6 +212,7 @@ OC.L10N.register(
     "Failed to unlink: %1$s" : "Bağlantı kaldırılamadı: %1$s",
     "Failed to write file contents: %1$s" : "Dosya içerikleri yazılamadı: %1$s",
     "File not found: %1$s" : "Dosya bulunamadı: %1$s",
+    "Invalid target path" : "Hedef yol geçersiz",
     "System is in maintenance mode." : "Sistem bakım kipinde.",
     "Upgrade needed" : "Yükseltme gerekiyor",
     "Your %s needs to be configured to use HTTPS in order to use CalDAV and CardDAV with iOS/macOS." : "iOS/macOS üzerinde CalDAV ve CardDAV kullanabilmek için %s HTTPS kullanacak şekilde yapılandırılmalıdır.",

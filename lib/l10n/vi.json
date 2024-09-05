@@ -54,6 +54,7 @@
     "Click the button below to open it." : "Bấm vào nút bên dưới để mở nó.",
     "Open »%s«" : "Mở »%s«",
     "%1$s via %2$s" : "%1$s thông qua %2$s",
+    "Unknown share type" : "Loại chia sẻ không xác định",
     "Could not find category \"%s\"" : "không thể tìm thấy mục \"%s\"",
     "Sunday" : "Chủ nhật",
     "Monday" : "Thứ 2",

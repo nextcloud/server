@@ -116,6 +116,7 @@
     "%1$s shared »%2$s« with you and wants to add:" : "%1$s jakoi kohteen »%2$s« kanssasi ja haluaa lisätä:",
     "%1$s shared »%2$s« with you and wants to add" : "%1$s jakoi kohteen »%2$s« kanssasi ja haluaa lisätä",
     "»%s« added a note to a file shared with you" : "»%s« lisäsi huomion jakamaasi tiedostoon",
+    "Unknown share type" : "Tuntematon jaon tyyppi",
     "You are not allowed to share %s" : "Oikeutesi eivät riitä kohteen %s jakamiseen.",
     "Cannot increase permissions of %s" : "Kohteen %s käyttöoikeuksien lisääminen ei onnistu",
     "Files cannot be shared with delete permissions" : "Tiedostoja ei voi jakaa poistamisoikeuksilla",

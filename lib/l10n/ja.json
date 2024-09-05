@@ -152,6 +152,7 @@
     "%1$s shared »%2$s« with you and wants to add:" : "%1$s さんが »%2$s« にノートを追加しました。",
     "%1$s shared »%2$s« with you and wants to add" : "%1$s shared »%2$s« with you and wants to add",
     "»%s« added a note to a file shared with you" : "»%s« があなたと共有しているファイルにノートを追加しました。 ",
+    "Unknown share type" : "不明な共有タイプ",
     "You are not allowed to share %s" : "%s を共有することを許可されていません。",
     "Cannot increase permissions of %s" : "%sの権限を追加できません ",
     "Files cannot be shared with delete permissions" : "削除権限付きでファイルを共有できません",

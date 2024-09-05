@@ -43,7 +43,7 @@ OC.L10N.register(
     "30 minutes" : "30 minutos",
     "1 hour" : "1 hora",
     "4 hours" : "4 horas",
-    "Mute all notifications" : "Silenciar todas as notificacións",
+    "Mute all notifications" : "Enmudecer todas as notificacións",
     "Appear offline" : "Aparece coma sen conexión"
 },
 "nplurals=2; plural=(n != 1);");

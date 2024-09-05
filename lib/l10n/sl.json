@@ -128,6 +128,7 @@
     "%1$s shared »%2$s« with you and wants to add:" : "%1$s vam omogoča souporabo »%2$s« in želi dodati:",
     "%1$s shared »%2$s« with you and wants to add" : "%1$s vam omogoča souporabo »%2$s« in želi dodati",
     "»%s« added a note to a file shared with you" : "»%s« doda opombo k datoteki v souporabi",
+    "Unknown share type" : "Neznana vrsta mesta souporabe",
     "You are not allowed to share %s" : "Omogočanje souporabe %s brez ustreznih dovoljenj ni mogoče.",
     "Cannot increase permissions of %s" : "Ni mogoče povečati dovoljen %s",
     "Files cannot be shared with delete permissions" : "Souporaba datotek z nastavljenim dovoljenjem za brisanje ni mogoča",

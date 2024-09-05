@@ -142,6 +142,7 @@
     "%1$s shared »%2$s« with you and wants to add:" : "%1$s vám sprístupnil »%2$s« s poznámkou:",
     "%1$s shared »%2$s« with you and wants to add" : "%1$s vám sprístupnil »%2$s« s poznámkou",
     "»%s« added a note to a file shared with you" : "»%s« pridal poznámku k súboru ktorý s Vami zdieľa",
+    "Unknown share type" : "Neplatný typ sprístupnenia",
     "You are not allowed to share %s" : "Nemôžete sprístupniť %s",
     "Cannot increase permissions of %s" : "Nie je možné navýšiť oprávnenia pre %s",
     "Files cannot be shared with delete permissions" : "Súbory nie je možné sprístupňovať s oprávneniami na odstránenie",
