@@ -142,7 +142,7 @@ class DeleteCalendarTest extends TestCase {
 		$calendar = [
 			'id' => $id,
 			'principaluri' => 'principals/users/' . self::USER,
-			'uri' => self::NAME
+			'uri' => self::NAME,
 		];
 
 		$this->userManager->expects($this->once())
@@ -203,7 +203,8 @@ class DeleteCalendarTest extends TestCase {
 		$calendar = [
 			'id' => $id,
 			'principaluri' => 'principals/users/' . self::USER,
-			'uri' => BirthdayService::BIRTHDAY_CALENDAR_URI
+			'uri' => BirthdayService::BIRTHDAY_CALENDAR_URI,
+			'{DAV:}displayname' => 'Test',
 		];
 
 		$this->userManager->expects($this->once())
@@ -232,7 +233,8 @@ class DeleteCalendarTest extends TestCase {
 		$calendar = [
 			'id' => 1234,
 			'principaluri' => 'principals/users/' . self::USER,
-			'uri' => BirthdayService::BIRTHDAY_CALENDAR_URI
+			'uri' => BirthdayService::BIRTHDAY_CALENDAR_URI,
+			'{DAV:}displayname' => 'Test',
 		];
 		$this->userManager->expects($this->once())
 			->method('userExists')
