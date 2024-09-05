@@ -43,7 +43,6 @@ use OCP\IDBConnection;
 use Psr\Log\LoggerInterface;
 use function get_class;
 use function json_encode;
-use function md5;
 use function strlen;
 
 class JobList implements IJobList {
@@ -80,7 +79,7 @@ class JobList implements IJobList {
 				->values([
 					'class' => $query->createNamedParameter($class),
 					'argument' => $query->createNamedParameter($argumentJson),
-					'argument_hash' => $query->createNamedParameter(md5($argumentJson)),
+					'argument_hash' => $query->createNamedParameter(hash('sha256', $argumentJson)),
 					'last_run' => $query->createNamedParameter(0, IQueryBuilder::PARAM_INT),
 					'last_checked' => $query->createNamedParameter($firstCheck, IQueryBuilder::PARAM_INT),
 				]);
@@ -90,7 +89,7 @@ class JobList implements IJobList {
 				->set('last_checked', $query->createNamedParameter($firstCheck, IQueryBuilder::PARAM_INT))
 				->set('last_run', $query->createNamedParameter(0, IQueryBuilder::PARAM_INT))
 				->where($query->expr()->eq('class', $query->createNamedParameter($class)))
-				->andWhere($query->expr()->eq('argument_hash', $query->createNamedParameter(md5($argumentJson))));
+				->andWhere($query->expr()->eq('argument_hash', $query->createNamedParameter(hash('sha256', $argumentJson))));
 		}
 		$query->executeStatement();
 	}
@@ -115,7 +114,7 @@ class JobList implements IJobList {
 			->where($query->expr()->eq('class', $query->createNamedParameter($class)));
 		if (!is_null($argument)) {
 			$argumentJson = json_encode($argument);
-			$query->andWhere($query->expr()->eq('argument_hash', $query->createNamedParameter(md5($argumentJson))));
+			$query->andWhere($query->expr()->eq('argument_hash', $query->createNamedParameter(hash('sha256', $argumentJson))));
 		}
 
 		// Add galera safe delete chunking if using mysql
@@ -160,7 +159,7 @@ class JobList implements IJobList {
 		$query->select('id')
 			->from('jobs')
 			->where($query->expr()->eq('class', $query->createNamedParameter($class)))
-			->andWhere($query->expr()->eq('argument_hash', $query->createNamedParameter(md5($argument))))
+			->andWhere($query->expr()->eq('argument_hash', $query->createNamedParameter(hash('sha256', $argument))))
 			->setMaxResults(1);
 
 		$result = $query->executeQuery();
