@@ -34,7 +34,7 @@ if [ -z "$EXECUTOR_NUMBER" ]; then
 fi
 PORT=$((8080 + $EXECUTOR_NUMBER))
 echo $PORT
-php -S localhost:$PORT -t ../.. &
+PHP_CLI_SERVER_WORKERS=2 php -S localhost:$PORT -t ../.. &
 PHPPID=$!
 echo $PHPPID
 
