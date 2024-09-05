@@ -159,4 +159,16 @@ class PublicTemplateResponse extends TemplateResponse {
 	public function getFooterVisible(): bool {
 		return $this->footerVisible;
 	}
+
+	/**
+	 * @return string
+	 * @since 14.0.0
+	 */
+	public function render(): string {
+		$params = array_merge($this->getParams(), [
+			'template' => $this,
+		]);
+		$this->setParams($params);
+		return parent::render();
+	}
 }
