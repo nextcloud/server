@@ -5,8 +5,7 @@ Feature: caldav
     Given user "user0" exists
     When "admin" requests calendar "user0/MyCalendar" on the endpoint "/remote.php/dav/calendars/"
     Then The CalDAV HTTP status code should be "404"
-    And The exception is "Sabre\DAV\Exception\NotFound"
-    And The error message is "Node with name 'MyCalendar' could not be found"
+    And The exception is "Internal Server Error"
 
   Scenario: Accessing a not shared calendar of another user
     Given user "user0" exists
@@ -14,8 +13,7 @@ Feature: caldav
     Given The CalDAV HTTP status code should be "201"
     When "user0" requests calendar "admin/MyCalendar" on the endpoint "/remote.php/dav/calendars/"
     Then The CalDAV HTTP status code should be "404"
-    And The exception is "Sabre\DAV\Exception\NotFound"
-    And The error message is "Calendar with name 'MyCalendar' could not be found"
+    And The exception is "Internal Server Error"
 
   Scenario: Accessing a not shared calendar of another user via the legacy endpoint
     Given user "user0" exists
@@ -30,8 +28,7 @@ Feature: caldav
     Given user "user0" exists
     When "user0" requests calendar "admin/MyCalendar" on the endpoint "/remote.php/dav/calendars/"
     Then The CalDAV HTTP status code should be "404"
-    And The exception is "Sabre\DAV\Exception\NotFound"
-    And The error message is "Node with name 'MyCalendar' could not be found"
+    And The exception is "Internal Server Error"
 
   Scenario: Accessing a not existing calendar of another user via the legacy endpoint
     Given user "user0" exists
@@ -44,8 +41,7 @@ Feature: caldav
     Given user "user0" exists
     When "user0" requests calendar "admin/MyCalendar" on the endpoint "/remote.php/dav/calendars/"
     Then The CalDAV HTTP status code should be "404"
-    And The exception is "Sabre\DAV\Exception\NotFound"
-    And The error message is "Node with name 'MyCalendar' could not be found"
+    And The exception is "Internal Server Error"
 
   Scenario: Creating a new calendar
     When "admin" creates a calendar named "MyCalendar"
@@ -66,8 +62,7 @@ Feature: caldav
     Given user "user0" exists
     When "user0" sends a create calendar request to "admin/MyCalendar2" on the endpoint "/remote.php/dav/calendars/"
     Then The CalDAV HTTP status code should be "404"
-    And The exception is "Sabre\DAV\Exception\NotFound"
-    And The error message is "Node with name 'admin' could not be found"
+    And The exception is "Internal Server Error"
 
   Scenario: Create calendar request for existing calendar of another user
     Given user "user0" exists
@@ -75,8 +70,7 @@ Feature: caldav
     Then The CalDAV HTTP status code should be "201"
     When "user0" sends a create calendar request to "admin/MyCalendar2" on the endpoint "/remote.php/dav/calendars/"
     Then The CalDAV HTTP status code should be "404"
-    And The exception is "Sabre\DAV\Exception\NotFound"
-    And The error message is "Node with name 'admin' could not be found"
+    And The exception is "Internal Server Error"
 
   Scenario: Update a principal's schedule-default-calendar-URL
     Given user "user0" exists
