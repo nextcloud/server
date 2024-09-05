@@ -23,11 +23,11 @@
  */
 namespace OCA\DAV\Tests\unit\DAV;
 
-use OCA\DAV\Files\BrowserErrorPagePlugin;
+use OCA\DAV\Files\ErrorPagePlugin;
 use Sabre\DAV\Exception\NotFound;
 use Sabre\HTTP\Response;
 
-class BrowserErrorPagePluginTest extends \Test\TestCase {
+class ErrorPagePluginTest extends \Test\TestCase {
 
 	/**
 	 * @dataProvider providesExceptions
@@ -35,8 +35,8 @@ class BrowserErrorPagePluginTest extends \Test\TestCase {
 	 * @param $exception
 	 */
 	public function test($expectedCode, $exception) {
-		/** @var BrowserErrorPagePlugin | \PHPUnit\Framework\MockObject\MockObject $plugin */
-		$plugin = $this->getMockBuilder(BrowserErrorPagePlugin::class)->setMethods(['sendResponse', 'generateBody'])->getMock();
+		/** @var ErrorPagePlugin | \PHPUnit\Framework\MockObject\MockObject $plugin */
+		$plugin = $this->getMockBuilder(ErrorPagePlugin::class)->setMethods(['sendResponse', 'generateBody'])->getMock();
 		$plugin->expects($this->once())->method('generateBody')->willReturn(':boom:');
 		$plugin->expects($this->once())->method('sendResponse');
 		/** @var \Sabre\DAV\Server | \PHPUnit\Framework\MockObject\MockObject $server */
