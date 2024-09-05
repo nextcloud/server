@@ -4,7 +4,7 @@
 -->
 <template>
 	<VirtualList ref="table"
-		:data-component="userConfig.grid_view ? FileEntryGrid : FileEntry"
+		:data-component="fileEntryComponent"
 		:data-key="'source'"
 		:data-sources="nodes"
 		:grid-mode="userConfig.grid_view"
@@ -131,8 +131,6 @@ export default defineComponent({
 
 	data() {
 		return {
-			FileEntry,
-			FileEntryGrid,
 			headers: getFileListHeaders(),
 			scrollToIndex: 0,
 			openFileId: null as number|null,
@@ -140,6 +138,13 @@ export default defineComponent({
 	},
 
 	computed: {
+		/**
+		 * The Vue component to use for file list entries
+		 */
+		fileEntryComponent() {
+			return this.userConfig.grid_view ? FileEntryGrid : FileEntry
+		},
+
 		userConfig(): UserConfig {
 			return this.userConfigStore.userConfig
 		},
@@ -227,6 +232,11 @@ export default defineComponent({
 	},
 
 	methods: {
+		reset() {
+			this.scrollToIndex = 0
+			this.openFileId = null
+		},
+
 		// Open the file sidebar if we have the room for it
 		// but don't open the sidebar for the current folder
 		openSidebarForFile(fileId) {
@@ -245,6 +255,10 @@ export default defineComponent({
 			if (fileId) {
 				const index = this.nodes.findIndex(node => node.fileid === fileId)
 				if (warn && index === -1 && fileId !== this.currentFolder.fileid) {
+					logger.error('File to scroll to not found', {
+						folder: this.currentFolder,
+						fileId,
+					})
 					showError(this.t('files', 'File not found'))
 				}
 				this.scrollToIndex = Math.max(0, index)

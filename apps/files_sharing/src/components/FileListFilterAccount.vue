@@ -40,9 +40,7 @@ import type { IAccountData } from '../filters/AccountFilter.ts'
 
 import { translate as t } from '@nextcloud/l10n'
 import { mdiAccountMultiple } from '@mdi/js'
-import { useBrowserLocation } from '@vueuse/core'
-import { computed, ref, watch } from 'vue'
-import { useNavigation } from '../../../files/src/composables/useNavigation.ts'
+import { computed, onMounted, ref, watch } from 'vue'
 
 import FileListFilter from '../../../files/src/components/FileListFilter/FileListFilter.vue'
 import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
@@ -50,6 +48,7 @@ import NcActionInput from '@nextcloud/vue/dist/Components/NcActionInput.js'
 import NcAvatar from '@nextcloud/vue/dist/Components/NcAvatar.js'
 import NcIconSvgWrapper from '@nextcloud/vue/dist/Components/NcIconSvgWrapper.js'
 import { ShareType } from '@nextcloud/sharing'
+import { getNavigation, View } from '@nextcloud/files'
 
 interface IUserSelectData {
 	id: string
@@ -61,11 +60,11 @@ const emit = defineEmits<{
 	(event: 'update:accounts', value: IAccountData[]): void
 }>()
 
-const { currentView } = useNavigation()
-const currentLocation = useBrowserLocation()
 const accountFilter = ref('')
 const availableAccounts = ref<IUserSelectData[]>([])
 const selectedAccounts = ref<IUserSelectData[]>([])
+
+const currentView = ref<View | null>(null)
 
 /**
  * Currently shown accounts (filtered)
@@ -107,11 +106,18 @@ watch(selectedAccounts, () => {
 
 /**
  * Update the accounts owning nodes or have nodes shared to them
- * @param path The path inside the current view to load for accounts
  */
-async function updateAvailableAccounts(path: string = '/') {
+async function updateAvailableAccounts() {
 	availableAccounts.value = []
+	// Skip while loading
 	if (!currentView.value) {
+		return
+	}
+
+	const path: string = [window.OCP.Files.Router.query.dir].flat()[0] || '/'
+
+	// Skip for tags as they do not have an owner
+	if (currentView.value.id === 'tags' && path === '/') {
 		return
 	}
 
@@ -152,6 +158,16 @@ async function updateAvailableAccounts(path: string = '/') {
 	availableAccounts.value = [...available.values()]
 }
 
+(window.OCP.Files.Router as unknown as EventTarget).addEventListener('navigation', () => {
+	currentView.value = getNavigation().active
+	updateAvailableAccounts()
+})
+
+onMounted(() => {
+	currentView.value = getNavigation().active
+	updateAvailableAccounts()
+})
+
 /**
  * Reset this filter
  */
@@ -160,17 +176,6 @@ function resetFilter() {
 	accountFilter.value = ''
 }
 defineExpose({ resetFilter, toggleAccount })
-
-// When the current view changes or the current directory,
-// then we need to rebuild the available accounts
-watch([currentView, currentLocation], () => {
-	if (currentView.value) {
-		// we have no access to the files router here...
-		const path = (currentLocation.value.search ?? '?dir=/').match(/(?<=&|\?)dir=([^&#]+)/)?.[1]
-		resetFilter()
-		updateAvailableAccounts(decodeURIComponent(path ?? '/'))
-	}
-}, { immediate: true })
 </script>
 
 <style scoped lang="scss">

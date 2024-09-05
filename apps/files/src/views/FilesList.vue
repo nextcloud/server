@@ -403,7 +403,7 @@ export default defineComponent({
 
 		showCustomEmptyView() {
 			return !this.loading && this.isEmptyDir && this.currentView?.emptyView !== undefined
-		}
+		},
 	},
 
 	watch: {
@@ -653,7 +653,7 @@ export default defineComponent({
 		filterDirContent() {
 			let nodes = this.dirContents
 			for (const filter of this.filtersStore.sortedFilters) {
-				nodes = filter.filter(nodes)
+				nodes = filter.filter(nodes) as Node[]
 			}
 			this.dirContentsFiltered = nodes
 		},
