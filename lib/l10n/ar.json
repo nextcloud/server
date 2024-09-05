@@ -153,6 +153,7 @@
     "%1$s shared »%2$s« with you and wants to add:" : "%1$s شارك »%2$s« معك و يرغب في إضافة:",
     "%1$s shared »%2$s« with you and wants to add" : "%1$s شارك »%2$s« معك و يرغب في إضافة",
     "»%s« added a note to a file shared with you" : "»%s« أضاف ملاحظة لملفٍ سلفت مشاركته معك",
+    "Unknown share type" : "نوع مشاركة غير معروف",
     "You are not allowed to share %s" : "أنت غير مسموح لك أن تشارك %s",
     "Cannot increase permissions of %s" : "لا يمكن زيادة أذونات %s",
     "Files cannot be shared with delete permissions" : "لا يمكن مشاركة ملفات بأذونات حذفٍ",

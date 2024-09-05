@@ -138,6 +138,7 @@
     "%1$s shared »%2$s« with you and wants to add:" : "%1$s предоставил(а) вам доступ к «%2$s» и хочет добавить:",
     "%1$s shared »%2$s« with you and wants to add" : "%1$s предоставил(а) вам доступ к «%2$s» и хочет добавить",
     "»%s« added a note to a file shared with you" : "%s добавил(а) примечание к файлу, к которому вам открыт доступ",
+    "Unknown share type" : "Общий доступ неизвестного типа",
     "You are not allowed to share %s" : "Вам не разрешено делиться %s",
     "Cannot increase permissions of %s" : "Не удалось повысить права доступа %s",
     "Files cannot be shared with delete permissions" : "Права на удаление файлов не позволяют открывать общий доступ к ним",

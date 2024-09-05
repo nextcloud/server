@@ -145,6 +145,7 @@
     "%1$s shared »%2$s« with you and wants to add:" : "%1$s је поделио „%2$s“ са Вама и жели да дода:",
     "%1$s shared »%2$s« with you and wants to add" : "%1$s је поделио „%2$s“ са Вама и жели да дода",
     "»%s« added a note to a file shared with you" : "\"%s\" је додао белешку на фајл који дели са Вама",
+    "Unknown share type" : "Непознат тип дељења",
     "You are not allowed to share %s" : "Није вам дозвољено да делите %s",
     "Cannot increase permissions of %s" : "Не могу да повећам привилегије за %s",
     "Files cannot be shared with delete permissions" : "Фајлови не могу да се деле са дозволама за брисање",

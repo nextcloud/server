@@ -13,6 +13,7 @@ OC.L10N.register(
     "Client Identifier" : "İstemci belirteci",
     "Secret key" : "Gizli anahtar",
     "Delete client" : "İstemciyi sil",
+    "Make sure you store the secret key, it cannot be recovered." : "Yeniden öğrenilemeyeceği için gizli anahtarı kaydettiğinizden emin olun.",
     "Add client" : "İstemci ekle",
     "Add" : "Ekle",
     "Delete" : "Sil",

@@ -131,6 +131,7 @@
     "%1$s shared »%2$s« with you and wants to add:" : "%1$s megosztotta Önnel: „%2$s”, és hozzá akarja adni:",
     "%1$s shared »%2$s« with you and wants to add" : "%1$s megosztotta Önnel: „%2$s”, és hozzá akarja adni",
     "»%s« added a note to a file shared with you" : "„%s” megjegyzést fűzött az Önnel megosztott fájlhoz",
+    "Unknown share type" : "Ismeretlen megosztástípus",
     "You are not allowed to share %s" : "Nincs jogosultsága a(z) %s megosztásához",
     "Cannot increase permissions of %s" : "A(z) %s engedélyei nem bővíthetők",
     "Files cannot be shared with delete permissions" : "A fájlok nem oszthatók meg törlési jogosultsággal",

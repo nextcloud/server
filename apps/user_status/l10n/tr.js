@@ -20,6 +20,8 @@ OC.L10N.register(
     "Set status" : "Durumu ayarla",
     "Online status" : "Çevrim içi durumu",
     "Status message" : "Durum iletisi",
+    "Set absence period" : "Bulunmama aralığını ayarla",
+    "Set absence period and replacement" : "Bulunmama aralığını ve yedek kişiyi ayarla",
     "Your status was set automatically" : "Durumunuz otomatik olarak ayarlanmış",
     "Clear status message" : "Durum iletisini temizle",
     "Set status message" : "Durum iletisini ayarla",

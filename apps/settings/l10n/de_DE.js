@@ -331,6 +331,7 @@ OC.L10N.register(
     "None of your currently installed apps provide image generation functionality" : "Keine Ihrer derzeit installierten Apps bietet Funktionen zur Bilderstellung",
     "Text processing" : "Textverarbeitung",
     "Text processing tasks can be implemented by different apps. Here you can set which app should be used for which task." : "Textverarbeitungsaufgaben können mittels verschiedener Apps umgesetzt werden. Hier können Sie einstellen, welche App für welche Aufgabe verwendet werden soll.",
+    "None of your currently installed apps provide custom Text processing functionality." : "Keine Ihrer aktuell installierten Apps bietet benutzerdefinierte Textverarbeitungsfunktionen.",
     "Here you can decide which group can access certain sections of the administration settings." : "Hier können Sie festlegen, welche Gruppe auf bestimmte Bereiche der Administrationseinstellungen zugreifen kann.",
     "None" : "Keine",
     "Unable to modify setting" : "Einstellung konnte nicht geändert werden",
