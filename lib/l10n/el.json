@@ -124,6 +124,7 @@
     "%1$s shared »%2$s« with you and wants to add:" : "Ο %1$s διαμοιράστηκε το »%2$s« με εσάς και θέλει να προσθέσει:",
     "%1$s shared »%2$s« with you and wants to add" : "Ο %1$s διαμοιράστηκε το »%2$s« με εσάς και θέλει να προσθέσει",
     "»%s« added a note to a file shared with you" : "Ο »%s« πρόσθεσε μια σημείωση στο κοινόχρηστο αρχείο",
+    "Unknown share type" : "Άγνωστος τύπος διαμοιρασμού",
     "You are not allowed to share %s" : "Δεν σας επιτρέπεται ο διαμοιρασμός %s",
     "Cannot increase permissions of %s" : "Αδυναμία αύξησης των δικαιωμάτων του/της %s",
     "Files cannot be shared with delete permissions" : "Δεν είναι δυνατή η κοινή χρήση αρχείων με δικαιώματα διαγραφής",

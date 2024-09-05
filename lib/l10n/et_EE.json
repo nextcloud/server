@@ -67,6 +67,7 @@
     "Sharing backend for %s not found" : "Jagamise tagarakendit %s jaoks ei leitud",
     "Click the button below to open it." : "Vajuta allolevat nuppu, et see avada.",
     "Open »%s«" : "Ava »%s«",
+    "Unknown share type" : "Tundmatu jagamise tüüp",
     "You are not allowed to share %s" : "Sul pole lubatud %s jagada",
     "Cannot increase permissions of %s" : "Ei saa %s õigusi suurendada",
     "Expiration date is in the past" : "Aegumise kuupäev on minevikus",

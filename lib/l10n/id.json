@@ -56,6 +56,7 @@
     "Sharing backend %s not found" : "Backend berbagi %s tidak ditemukan",
     "Sharing backend for %s not found" : "Backend berbagi untuk %s tidak ditemukan",
     "Open »%s«" : "Buka »%s«",
+    "Unknown share type" : "Tipe berbagi tidak diketahui",
     "You are not allowed to share %s" : "Anda tidak diizinkan untuk membagikan %s",
     "Cannot increase permissions of %s" : "Tidak dapat menambah izin %s",
     "Expiration date is in the past" : "Tanggal kedaluwarsa sudah lewat",

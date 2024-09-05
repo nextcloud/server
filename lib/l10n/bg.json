@@ -128,6 +128,7 @@
     "%1$s shared »%2$s« with you and wants to add:" : "%1$s сподели »%2$s« с вас и иска да добави:",
     "%1$s shared »%2$s« with you and wants to add" : "%1$s сподели »%2$s« с вас и иска да добави",
     "»%s« added a note to a file shared with you" : "»%s« добави бележка към файл, споделен с вас ",
+    "Unknown share type" : "Неизвестен тип споделяне",
     "You are not allowed to share %s" : "Не ти е разрешено да споделяш %s.",
     "Cannot increase permissions of %s" : "Не могат да се увеличат права на %s",
     "Files cannot be shared with delete permissions" : "Файловете не могат да се споделят с права за изтриване",

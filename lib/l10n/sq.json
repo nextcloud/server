@@ -65,6 +65,7 @@
     "Sharing backend for %s not found" : "S’u gjet mekanizmi i shërbimit për ndarje për %s",
     "Click the button below to open it." : "Kliko butonin më poshtë për të hapur atë.",
     "Open »%s«" : "Hap»1 %s«",
+    "Unknown share type" : "Lloj i panjohur ndarjesh",
     "You are not allowed to share %s" : "Nuk ju lejohet ta ndani %s me të tjerët",
     "Cannot increase permissions of %s" : "S’mund të shtohen lejet për %s",
     "Expiration date is in the past" : "Data e skadimit bie në të kaluarën",
