@@ -281,7 +281,7 @@ class JSConfigHelper {
 		$result = '';
 
 		// Echo it
-		foreach ($array as  $setting => $value) {
+		foreach ($array as $setting => $value) {
 			$result .= 'var '. $setting . '='. $value . ';' . PHP_EOL;
 		}
 

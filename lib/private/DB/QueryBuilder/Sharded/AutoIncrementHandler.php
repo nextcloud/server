@@ -34,7 +34,7 @@ class AutoIncrementHandler {
 	}
 
 	private function getCache(): IMemcache {
-		if(is_null($this->cache)) {
+		if (is_null($this->cache)) {
 			$cache = $this->cacheFactory->createDistributed('shared_autoincrement');
 			if ($cache instanceof IMemcache) {
 				$this->cache = $cache;
@@ -118,7 +118,7 @@ class AutoIncrementHandler {
 		$next = $cache->inc($shardDefinition->table);
 		if (is_int($next) && $next >= self::MIN_VALID_KEY) {
 			return $next;
-		} elseif(is_int($next)) {
+		} elseif (is_int($next)) {
 			// key got cleared, invalidate and retry
 			$cache->cas($shardDefinition->table, $next, 'empty-placeholder');
 			return null;

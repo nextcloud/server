@@ -150,7 +150,7 @@ class TextToImageApiController extends \OCP\AppFramework\OCSController {
 			$task = $this->textToImageManager->getUserTask($id, $this->userId);
 			try {
 				$folder = $this->appData->getFolder('text2image');
-			} catch(NotFoundException) {
+			} catch (NotFoundException) {
 				$res = new DataResponse(['message' => $this->l->t('Image not found')], Http::STATUS_NOT_FOUND);
 				$res->throttle(['action' => 'text2image']);
 				return $res;

@@ -75,7 +75,7 @@ class SmbTest extends \Test\Files\Storage\Storage {
 
 	public function testNotifyGetChanges() {
 		$lastError = null;
-		for($i = 0; $i < 5; $i++) {
+		for ($i = 0; $i < 5; $i++) {
 			try {
 				$this->tryTestNotifyGetChanges();
 				return;

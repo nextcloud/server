@@ -70,7 +70,7 @@ class Delete extends Command {
 				$output->writeln('');
 				foreach ($filesByUsers as $user => $filesByUser) {
 					$output->writeln($user . ':');
-					foreach($filesByUser as $file) {
+					foreach ($filesByUser as $file) {
 						$output->writeln('  - ' . $file->getPath());
 					}
 				}

@@ -132,7 +132,7 @@ class Manager implements ICommentsManager {
 
 		try {
 			$comment->getCreationDateTime();
-		} catch(\LogicException $e) {
+		} catch (\LogicException $e) {
 			$comment->setCreationDateTime(new \DateTime());
 		}
 

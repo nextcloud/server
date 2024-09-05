@@ -751,7 +751,7 @@ class Manager extends PublicEmitter implements IUserManager {
 				$queryBuilder->expr()->eq('p.appid', $queryBuilder->expr()->literal('login')),
 				$queryBuilder->expr()->eq('p.configkey', $queryBuilder->expr()->literal('lastLogin')))
 			);
-		if($search !== '') {
+		if ($search !== '') {
 			$queryBuilder->leftJoin('u', 'preferences', 'p1', $queryBuilder->expr()->andX(
 				$queryBuilder->expr()->eq('p1.userid', 'uid'),
 				$queryBuilder->expr()->eq('p1.appid', $queryBuilder->expr()->literal('settings')),

@@ -37,7 +37,7 @@ class OutOfOfficeStatusListener implements IEventListener {
 	 * @inheritDoc
 	 */
 	public function handle(Event $event): void {
-		if($event instanceof OutOfOfficeClearedEvent) {
+		if ($event instanceof OutOfOfficeClearedEvent) {
 			$this->manager->revertUserStatus($event->getData()->getUser()->getUID(), IUserStatus::MESSAGE_OUT_OF_OFFICE, IUserStatus::DND);
 			$this->jobsList->scheduleAfter(UserStatusAutomation::class, $this->time->getTime(), ['userId' => $event->getData()->getUser()->getUID()]);
 			return;

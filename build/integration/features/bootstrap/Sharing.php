@@ -303,7 +303,7 @@ trait Sharing {
 	public function isFieldInResponse($field, $contentExpected) {
 		$data = simplexml_load_string($this->response->getBody())->data[0];
 		if ((string)$field == 'expiration') {
-			if(!empty($contentExpected)) {
+			if (!empty($contentExpected)) {
 				$contentExpected = date('Y-m-d', strtotime($contentExpected)) . ' 00:00:00';
 			}
 		}

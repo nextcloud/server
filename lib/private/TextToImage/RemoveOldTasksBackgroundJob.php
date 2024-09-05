@@ -55,7 +55,7 @@ class RemoveOldTasksBackgroundJob extends TimedJob {
 			}
 		} catch (Exception $e) {
 			$this->logger->warning('Failed to delete stale text to image tasks', ['exception' => $e]);
-		} catch(NotFoundException) {
+		} catch (NotFoundException) {
 			// noop
 		}
 	}

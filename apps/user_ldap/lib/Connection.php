@@ -397,8 +397,7 @@ class Connection extends LDAPUtility {
 		}
 
 		foreach (['ldapExpertUUIDUserAttr' => 'ldapUuidUserAttribute',
-			'ldapExpertUUIDGroupAttr' => 'ldapUuidGroupAttribute']
-				as $expertSetting => $effectiveSetting) {
+			'ldapExpertUUIDGroupAttr' => 'ldapUuidGroupAttribute'] as $expertSetting => $effectiveSetting) {
 			$uuidOverride = $this->configuration->$expertSetting;
 			if (!empty($uuidOverride)) {
 				$this->configuration->$effectiveSetting = $uuidOverride;

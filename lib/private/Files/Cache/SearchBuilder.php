@@ -290,7 +290,7 @@ class SearchBuilder {
 		$value = $operator->getValue();
 		$type = $operator->getType();
 
-		switch($operator->getExtra()) {
+		switch ($operator->getExtra()) {
 			case IMetadataQuery::EXTRA:
 				$metadataQuery->joinIndex($field); // join index table if not joined yet
 				$field = $metadataQuery->getMetadataValueField($field);
