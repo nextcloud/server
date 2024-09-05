@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace OC\Notification;
 
 use OC\AppFramework\Bootstrap\Coordinator;
+use OCP\App\IAppManager;
 use OCP\ICache;
 use OCP\ICacheFactory;
 use OCP\IUserManager;
@@ -23,11 +24,10 @@ use OCP\Notification\INotification;
 use OCP\Notification\INotifier;
 use OCP\Notification\UnknownNotificationException;
 use OCP\RichObjectStrings\IValidator;
+use OCP\Server;
 use OCP\Support\Subscription\IRegistry;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Log\LoggerInterface;
-use OCP\Server;
-use OCP\App\IAppManager;
 
 class Manager implements IManager {
 	/** @var ICache */
@@ -74,18 +74,18 @@ class Manager implements IManager {
 	 * @since 17.0.0
 	 */
 	public function registerApp(string $appClass): void {
-    // ensure Nextcloud Notification app is always added at the front of the array so it gets processed first
-    // for new notifications and last for marking processed or sending deletes.
-    // this is because it sets the unique id and adds the notification to the data store that other apps might need
-    // access to in order to be compatible
-    $appManager = Server::get(IAppManager::class);
-    if (($appManager !== null) &&
-        ($appManager->isInstalled("notifications") === true) &&
-        ($appClass === "OCA\Notifications\App")) {
-      array_unshift($this->appClasses, $appClass);
-    }
-    else
-		  $this->appClasses[] = $appClass;
+		// ensure Nextcloud Notification app is always added at the front of the array so it gets processed first
+		// for new notifications and last for marking processed or sending deletes.
+		// this is because it sets the unique id and adds the notification to the data store that other apps might need
+		// access to in order to be compatible
+		$appManager = Server::get(IAppManager::class);
+		if (($appManager !== null) &&
+			($appManager->isInstalled('notifications') === true) &&
+			($appClass === 'OCA\Notifications\App')) {
+			array_unshift($this->appClasses, $appClass);
+		} else {
+			$this->appClasses[] = $appClass;
+		}
 	}
 
 	/**
@@ -319,8 +319,7 @@ class Manager implements IManager {
 		}
 	}
 
-  public function notifyDelete(string $user, ?int $id, ?INotification $notification): void
-  {
+	public function notifyDelete(string $user, ?int $id, ?INotification $notification): void {
 		if ($notification && !$notification->isValid()) {
 			throw new IncompleteNotificationException('The given notification is invalid');
 		}
@@ -337,8 +336,7 @@ class Manager implements IManager {
 				$this->logger->debug(get_class($app) . '::notify() threw \InvalidArgumentException which is deprecated. Throw \OCP\Notification\IncompleteNotificationException when the notification is incomplete for your app and otherwise handle all \InvalidArgumentException yourself.');
 			}
 		}
-
-  }
+	}
 
 
 	/**

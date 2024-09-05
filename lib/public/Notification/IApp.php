@@ -23,8 +23,8 @@ interface IApp {
 	public function notify(INotification $notification): void;
 
 	/**
-	 * @param string $user   user
-	 * @param ?int $id   id as used by notification app
+	 * @param string $user user
+	 * @param ?int $id id as used by notification app
 	 * @param INotification $notification
 	 * @throws IncompleteNotificationException When the notification does not have all required fields set
 	 * @since 9.0.0
