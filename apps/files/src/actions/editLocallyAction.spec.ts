@@ -120,6 +120,7 @@ describe('Edit locally action execute tests', () => {
 			data: { ocs: { data: { token: 'foobar' } } },
 		}))
 		const showError = vi.spyOn(nextcloudDialogs, 'showError')
+		const windowOpenSpy = vi.spyOn(window, 'open').mockImplementation(() => null)
 
 		const file = new File({
 			id: 1,
@@ -138,7 +139,7 @@ describe('Edit locally action execute tests', () => {
 		expect(axios.post).toBeCalledTimes(1)
 		expect(axios.post).toBeCalledWith('http://nextcloud.local/ocs/v2.php/apps/files/api/v1/openlocaleditor?format=json', { path: '/foobar.txt' })
 		expect(showError).toBeCalledTimes(0)
-		expect(window.location.href).toBe('nc://open/test@nextcloud.local/foobar.txt?token=foobar')
+		expect(windowOpenSpy).toBeCalledWith('nc://open/test@nextcloud.local/foobar.txt?token=foobar', '_self')
 	})
 
 	test('Edit locally fails and shows error', async () => {

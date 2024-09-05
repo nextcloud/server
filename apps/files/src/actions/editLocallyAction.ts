@@ -73,7 +73,7 @@ const openLocalClient = async function(path: string) {
 		let url = `nc://open/${uid}@` + window.location.host + encodePath(path)
 		url += '?token=' + result.data.ocs.data.token
 
-		window.location.href = url
+		window.open(url, '_self')
 	} catch (error) {
 		showError(t('files', 'Failed to redirect to client'))
 	}
