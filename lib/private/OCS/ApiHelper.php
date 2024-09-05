@@ -21,8 +21,9 @@ class ApiHelper {
 	/**
 	 * Respond to a call
 	 * @psalm-taint-escape html
+	 * @param int $httpStatusCode force the HTTP status code, only used for the special case of maintenance mode which return 503 even for v1
 	 */
-	public static function respond(int $statusCode, string $statusMessage, array $headers = []): void {
+	public static function respond(int $statusCode, string $statusMessage, array $headers = [], ?int $httpStatusCode = null): void {
 		$request = Server::get(IRequest::class);
 		$format = $request->getParam('format', 'xml');
 		if (self::isV2($request)) {
@@ -46,7 +47,7 @@ class ApiHelper {
 			header($name . ': ' . $value);
 		}
 
-		http_response_code($response->getStatus());
+		http_response_code($httpStatusCode ?? $response->getStatus());
 
 		self::setContentType($format);
 		$body = $response->render();

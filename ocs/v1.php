@@ -24,7 +24,7 @@ if (Util::needUpgrade()
 	|| \OC::$server->getConfig()->getSystemValueBool('maintenance')) {
 	// since the behavior of apps or remotes are unpredictable during
 	// an upgrade, return a 503 directly
-	ApiHelper::respond(503, 'Service unavailable', ['X-Nextcloud-Maintenance-Mode' => '1']);
+	ApiHelper::respond(503, 'Service unavailable', ['X-Nextcloud-Maintenance-Mode' => '1'], 503);
 	exit;
 }
 
