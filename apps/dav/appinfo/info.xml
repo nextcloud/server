@@ -53,6 +53,7 @@
 
 	<commands>
 		<command>OCA\DAV\Command\CreateAddressBook</command>
+		<command>OCA\DAV\Command\ListAddressbooks</command>
 		<command>OCA\DAV\Command\CreateCalendar</command>
 		<command>OCA\DAV\Command\CreateSubscription</command>
 		<command>OCA\DAV\Command\DeleteCalendar</command>

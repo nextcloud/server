@@ -63,7 +63,7 @@ class ListCalendars extends Command {
 
 		if (count($calendarTableData) > 0) {
 			$table = new Table($output);
-			$table->setHeaders(['uri', 'displayname', 'owner\'s userid', 'owner\'s displayname', 'writable'])
+			$table->setHeaders(['URI', 'Displayname', 'Owner principal', 'Owner displayname', 'Writable'])
 				->setRows($calendarTableData);
 
 			$table->render();
