@@ -1274,6 +1274,7 @@ return array(
     'OC\\Core\\Migrations\\Version28000Date20231004103301' => $baseDir . '/core/Migrations/Version28000Date20231004103301.php',
     'OC\\Core\\Migrations\\Version28000Date20231103104802' => $baseDir . '/core/Migrations/Version28000Date20231103104802.php',
     'OC\\Core\\Migrations\\Version28000Date20231126110901' => $baseDir . '/core/Migrations/Version28000Date20231126110901.php',
+    'OC\\Core\\Migrations\\Version28000Date20240828142927' => $baseDir . '/core/Migrations/Version28000Date20240828142927.php',
     'OC\\Core\\Migrations\\Version29000Date20231126110901' => $baseDir . '/core/Migrations/Version29000Date20231126110901.php',
     'OC\\Core\\Migrations\\Version29000Date20231213104850' => $baseDir . '/core/Migrations/Version29000Date20231213104850.php',
     'OC\\Core\\Migrations\\Version29000Date20240124132201' => $baseDir . '/core/Migrations/Version29000Date20240124132201.php',
