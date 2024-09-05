@@ -13,6 +13,7 @@ SPDX-FileCopyrightText: Yehuda Katz
 SPDX-FileCopyrightText: Varun A P
 SPDX-FileCopyrightText: Tobias Koppers @sokra
 SPDX-FileCopyrightText: T. Jameson Little <t.jameson.little@gmail.com>
+SPDX-FileCopyrightText: Sindre Sorhus
 SPDX-FileCopyrightText: Roman Shtylman <shtylman@gmail.com>
 SPDX-FileCopyrightText: Roeland Jago Douma
 SPDX-FileCopyrightText: Rob Cresswell <robcresswell@pm.me>
@@ -112,7 +113,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.0.7
 	- license: MIT
 - axios
-	- version: 1.7.4
+	- version: 1.7.7
 	- license: MIT
 - backbone
 	- version: 1.6.0
@@ -155,6 +156,9 @@ This file is generated from multiple sources. Included packages:
 	- license: MIT
 - escape-html
 	- version: 1.0.3
+	- license: MIT
+- filter-obj
+	- version: 5.1.0
 	- license: MIT
 - floating-vue
 	- version: 1.0.0-beta.19
@@ -252,8 +256,14 @@ This file is generated from multiple sources. Included packages:
 - process
 	- version: 0.11.10
 	- license: MIT
+- query-string
+	- version: 9.1.0
+	- license: MIT
 - set-function-length
 	- version: 1.2.2
+	- license: MIT
+- split-on-first
+	- version: 3.0.0
 	- license: MIT
 - style-loader
 	- version: 3.3.4
