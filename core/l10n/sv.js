@@ -106,6 +106,8 @@ OC.L10N.register(
     "Federated user" : "Federerad användare",
     "Create share" : "Skapa delning",
     "Failed to add the public link to your Nextcloud" : "Misslyckades skapa den offentliga delningslänken till ditt moln",
+    "Direct link copied to clipboard" : "Direktlänk kopierad till urklipp",
+    "Please copy the link manually:" : "Kopiera länken manuellt:",
     "Custom date range" : "Anpassat datumintervall",
     "Pick start date" : "Välj startdatum",
     "Pick end date" : "Välj slutdatum",

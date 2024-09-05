@@ -57,6 +57,7 @@
     "Oracle connection could not be established" : "Nevar izveidot savienojumu ar Oracle",
     "Set an admin password." : "Iestatiet administratora paroli.",
     "Open »%s«" : "Atvērt »%s«",
+    "Unknown share type" : "Nezināms kopīgošanas veids",
     "You are not allowed to share %s" : "Tev nav ļauts dalīties ar %s",
     "Could not find category \"%s\"" : "Nevarēja atrast kategoriju “%s”",
     "Sunday" : "Svētdiena",

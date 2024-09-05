@@ -131,6 +131,7 @@
     "%1$s shared »%2$s« with you and wants to add:" : "%1$s ha condiviso «%2$s» con te e vuole aggiungere:",
     "%1$s shared »%2$s« with you and wants to add" : "%1$s ha condiviso «%2$s» con te e vuole aggiungere",
     "»%s« added a note to a file shared with you" : "«%s» ha aggiunto una nota a un file condiviso con te",
+    "Unknown share type" : "Tipo di condivisione sconosciuto",
     "You are not allowed to share %s" : "Non ti è consentito condividere %s",
     "Cannot increase permissions of %s" : "Impossibile aumentare i permessi di %s",
     "Files cannot be shared with delete permissions" : "I file non possono essere condivisi con permessi di eliminazione",
