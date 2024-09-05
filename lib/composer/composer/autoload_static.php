@@ -1394,6 +1394,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\Core\\Migrations\\Version28000Date20231004103301' => __DIR__ . '/../../..' . '/core/Migrations/Version28000Date20231004103301.php',
         'OC\\Core\\Migrations\\Version28000Date20231103104802' => __DIR__ . '/../../..' . '/core/Migrations/Version28000Date20231103104802.php',
         'OC\\Core\\Migrations\\Version28000Date20231126110901' => __DIR__ . '/../../..' . '/core/Migrations/Version28000Date20231126110901.php',
+        'OC\\Core\\Migrations\\Version28000Date20240828142927' => __DIR__ . '/../../..' . '/core/Migrations/Version28000Date20240828142927.php',
         'OC\\Core\\Migrations\\Version29000Date20231126110901' => __DIR__ . '/../../..' . '/core/Migrations/Version29000Date20231126110901.php',
         'OC\\Core\\Migrations\\Version29000Date20231213104850' => __DIR__ . '/../../..' . '/core/Migrations/Version29000Date20231213104850.php',
         'OC\\Core\\Migrations\\Version29000Date20240124132201' => __DIR__ . '/../../..' . '/core/Migrations/Version29000Date20240124132201.php',
