@@ -13,6 +13,8 @@ use Closure;
 use OCP\DB\ISchemaWrapper;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
+use OCP\Migration\IOutput;
+use OCP\Migration\SimpleMigrationStep;
 
 /**
  * Migrate the argument_hash column of oc_jobs to use sha256 instead of md5.
