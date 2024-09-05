@@ -54,22 +54,61 @@ trait CheckServerResponseTrait {
 	 * Get all possible URLs that need to be checked for a local request test.
 	 * This takes all `trusted_domains` and the CLI overwrite URL into account.
 	 *
-	 * @param string $url The relative URL to test
+	 * @param string $url The relative URL to test starting with a /
 	 * @return string[] List of possible absolute URLs
 	 */
-	protected function getTestUrls(string $url): array {
-		$hosts = $this->config->getSystemValue('trusted_domains', []);
-		$cliUrl = $this->config->getSystemValue('overwrite.cli.url', '');
+	protected function getTestUrls(string $url, bool $removeWebroot): array {
+		$testUrls = [];
+
+		$webroot = rtrim($this->urlGenerator->getWebroot(), '/');
+
+		/* Try overwrite.cli.url first, it’s supposed to be how the server contacts itself */
+		$cliUrl = $this->config->getSystemValueString('overwrite.cli.url', '');
+
 		if ($cliUrl !== '') {
-			$hosts[] = $cliUrl;
+			$cliUrl = $this->normalizeUrl(
+				$cliUrl,
+				$webroot,
+				$removeWebroot
+			);
+
+			$testUrls[] = $cliUrl . $url;
 		}
 
-		$testUrls = array_merge(
-			[$this->urlGenerator->getAbsoluteURL($url)],
-			array_map(fn (string $host): string => $host . $url, $hosts),
+		/* Try URL generator second */
+		$baseUrl = $this->normalizeUrl(
+			$this->urlGenerator->getBaseUrl(),
+			$webroot,
+			$removeWebroot
 		);
 
+		if ($baseUrl !== $cliUrl) {
+			$testUrls[] = $baseUrl . $url;
+		}
+
+		/* Last resort: trusted domains */
+		$hosts = $this->config->getSystemValue('trusted_domains', []);
+		foreach ($hosts as $host) {
+			if (str_contains($host, '*')) {
+				/* Ignore domains with a wildcard */
+				continue;
+			}
+			$hosts[] = 'https://' . $host . $url;
+			$hosts[] = 'http://' . $host . $url;
+		}
+
 		return $testUrls;
+	}
+
+	/**
+	 * Strip a trailing slash and remove the webroot if requested.
+	 */
+	protected function normalizeUrl(string $url, string $webroot, bool $removeWebroot): string {
+		$url = rtrim($url, '/');
+		if ($removeWebroot && str_ends_with($url, $webroot)) {
+			$url = substr($url, -strlen($webroot));
+		}
+		return rtrim($url, '/');
 	}
 
 	/**
@@ -86,14 +125,14 @@ trait CheckServerResponseTrait {
 	 *
 	 * @return Generator<int, IResponse>
 	 */
-	protected function runRequest(string $method, string $url, array $options = []): Generator {
+	protected function runRequest(string $method, string $url, array $options = [], bool $removeWebroot = false): Generator {
 		$options = array_merge(['ignoreSSL' => true, 'httpErrors' => true], $options);
 
 		$client = $this->clientService->newClient();
 		$requestOptions = $this->getRequestOptions($options['ignoreSSL'], $options['httpErrors']);
 		$requestOptions = array_merge($requestOptions, $options['options'] ?? []);
 
-		foreach ($this->getTestUrls($url) as $testURL) {
+		foreach ($this->getTestUrls($url, $removeWebroot) as $testURL) {
 			try {
 				yield $client->request($method, $testURL, $requestOptions);
 			} catch (\Throwable $e) {
