@@ -66,7 +66,7 @@ jobs:
       - name: Install node dependencies & build app
         run: |
           npm ci
-          TESTING=true npm run build --if-present
+          npm run build --if-present
 
       - name: Save context
         uses: buildjet/cache/save@e376f15c6ec6dc595375c78633174c7e5f92dc0e # v3
@@ -119,7 +119,6 @@ jobs:
           # https://github.com/cypress-io/github-action/issues/124
           COMMIT_INFO_MESSAGE: ${{ github.event.pull_request.title }}
           # Needed for some specific code workarounds
-          TESTING: true
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SPLIT: ${{ matrix.total-containers }}
           SPLIT_INDEX: ${{ matrix.containers == 'component' && 0 || matrix.containers }}

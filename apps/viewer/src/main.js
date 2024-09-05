@@ -19,20 +19,17 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
+import { translate as t } from '@nextcloud/l10n'
 import Vue from 'vue'
+
 import ViewerComponent from './views/Viewer.vue'
 import ViewerService from './services/Viewer.js'
-import { translate as t } from '@nextcloud/l10n'
 
 Vue.mixin({
 	methods: {
 		t,
 	},
 })
-
-// Inject proper font for cypress visual regression testing
-// eslint-disable-next-line no-unused-expressions
-INJECT_CYPRESS_FONT
 
 Vue.prototype.OC = window.OC
 Vue.prototype.OCA = window.OCA

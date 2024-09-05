@@ -588,6 +588,13 @@ export default {
 				OCA.Files.Sidebar.setFullScreenMode(true)
 			}
 			this.sortingConfig = await getSortingConfig()
+
+			// Load Roboto font for visual regression tests
+			if (window.loadRoboto) {
+				logger.debug('⚠️ Loading roboto font for visual regression tests')
+				import('@fontsource/roboto/index.css')
+				delete window.loadRoboto
+			}
 		},
 
 		/**
