@@ -43,7 +43,7 @@ class MetadataManager {
 		$ms = new MigrationService($appId, $this->connection);
 
 		$metadata = [];
-		foreach($ms->getAvailableVersions() as $version) {
+		foreach ($ms->getAvailableVersions() as $version) {
 			$metadata[$version] = [];
 			$class = new ReflectionClass($ms->createInstance($version));
 			$attributes = $class->getAttributes();

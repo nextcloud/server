@@ -166,7 +166,7 @@ class ViewController extends Controller {
 		try {
 			// If view is files, we use the directory, otherwise we use the root storage
 			$storageInfo = $this->getStorageInfo(($view === 'files' && $dir) ? $dir : '/');
-		} catch(\Exception $e) {
+		} catch (\Exception $e) {
 			$storageInfo = $this->getStorageInfo();
 		}
 

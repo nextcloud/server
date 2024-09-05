@@ -2108,7 +2108,7 @@ class ShareAPIController extends OCSController {
 
 				$provider->sendMailNotification($share);
 				return new DataResponse();
-			} catch(OCSBadRequestException $e) {
+			} catch (OCSBadRequestException $e) {
 				throw $e;
 			} catch (Exception $e) {
 				throw new OCSException($this->l->t('Error while sending mail notification'));

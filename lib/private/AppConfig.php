@@ -1378,7 +1378,7 @@ class AppConfig implements IAppConfig {
 	 * @return array<string, string|int|float|bool|array>
 	 */
 	private function formatAppValues(string $app, array $values, ?bool $lazy = null): array {
-		foreach($values as $key => $value) {
+		foreach ($values as $key => $value) {
 			try {
 				$type = $this->getValueType($app, $key, $lazy);
 			} catch (AppConfigUnknownKeyException $e) {

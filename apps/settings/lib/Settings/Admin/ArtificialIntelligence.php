@@ -141,7 +141,7 @@ class ArtificialIntelligence implements IDelegatedSettings {
 			$json = $this->config->getAppValue('core', $key, '');
 			if ($json !== '') {
 				$value = json_decode($json, true);
-				switch($key) {
+				switch ($key) {
 					case 'ai.taskprocessing_provider_preferences':
 					case 'ai.textprocessing_provider_preferences':
 						// fill $value with $defaultValue values

@@ -149,9 +149,9 @@ class CalendarHome extends \Sabre\CalDAV\CalendarHome {
 
 		// Calendar - this covers all "regular" calendars, but not shared
 		// only check if the method is available
-		if($this->caldavBackend instanceof CalDavBackend) {
+		if ($this->caldavBackend instanceof CalDavBackend) {
 			$calendar = $this->caldavBackend->getCalendarByUri($this->principalInfo['uri'], $name);
-			if(!empty($calendar)) {
+			if (!empty($calendar)) {
 				return new Calendar($this->caldavBackend, $calendar, $this->l10n, $this->config, $this->logger);
 			}
 		}

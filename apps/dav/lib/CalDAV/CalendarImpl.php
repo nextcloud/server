@@ -84,7 +84,7 @@ class CalendarImpl implements ICreateFromString, IHandleImipMessage {
 		/** @var VCalendar $vobj */
 		$vobj = Reader::read($timezoneProp);
 		$components = $vobj->getComponents();
-		if(empty($components)) {
+		if (empty($components)) {
 			return null;
 		}
 		/** @var VTimeZone $vtimezone */

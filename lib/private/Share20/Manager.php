@@ -275,7 +275,7 @@ class Manager implements IManager {
 
 		// If $expirationDate is falsy, noExpirationDate is true and expiration not enforced
 		// Then skip expiration date validation as null is accepted
-		if(!$share->getNoExpirationDate() || $isEnforced) {
+		if (!$share->getNoExpirationDate() || $isEnforced) {
 			if ($expirationDate !== null) {
 				$expirationDate->setTimezone($this->dateTimeZone->getTimeZone());
 				$expirationDate->setTime(0, 0, 0);
@@ -353,7 +353,7 @@ class Manager implements IManager {
 
 		// If $expirationDate is falsy, noExpirationDate is true and expiration not enforced
 		// Then skip expiration date validation as null is accepted
-		if(!($share->getNoExpirationDate() && !$isEnforced)) {
+		if (!($share->getNoExpirationDate() && !$isEnforced)) {
 			if ($expirationDate !== null) {
 				$expirationDate->setTimezone($this->dateTimeZone->getTimeZone());
 				$expirationDate->setTime(0, 0, 0);

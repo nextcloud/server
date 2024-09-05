@@ -173,7 +173,7 @@ class RestoreAllFiles extends Base {
 		$prepMsg = $dryRun ? 'Would restore' : 'Preparing to restore';
 		$output->writeln("$prepMsg <info>$trashCount</info> files...");
 		$count = 0;
-		foreach($userTrashItems as $trashItem) {
+		foreach ($userTrashItems as $trashItem) {
 			$filename = $trashItem->getName();
 			$humanTime = $this->l10n->l('datetime', $trashItem->getDeletedTime());
 			// We use getTitle() here instead of getOriginalLocation() because

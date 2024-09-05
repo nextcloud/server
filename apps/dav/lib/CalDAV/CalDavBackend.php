@@ -2815,7 +2815,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 			->setMaxResults($limit);
 		$result = $query->executeQuery();
 		$count = $result->rowCount();
-		if($count === 0) {
+		if ($count === 0) {
 			return;
 		}
 		$ids = array_map(static function (array $id) {
@@ -2827,12 +2827,12 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 		$deleteQuery = $this->db->getQueryBuilder();
 		$deleteQuery->delete('schedulingobjects')
 			->where($deleteQuery->expr()->in('id', $deleteQuery->createParameter('ids'), IQueryBuilder::PARAM_INT_ARRAY));
-		foreach(array_chunk($ids, 1000) as $chunk) {
+		foreach (array_chunk($ids, 1000) as $chunk) {
 			$deleteQuery->setParameter('ids', $chunk, IQueryBuilder::PARAM_INT_ARRAY);
 			$numDeleted += $deleteQuery->executeStatement();
 		}
 
-		if($numDeleted === $limit) {
+		if ($numDeleted === $limit) {
 			$this->logger->info("Deleted $limit scheduling objects, continuing with next batch");
 			$this->deleteOutdatedSchedulingObjects($modifiedBefore, $limit);
 		}
@@ -3307,7 +3307,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	 * @param array<string> $calendarObjectUris
 	 */
 	public function purgeCachedEventsForSubscription(int $subscriptionId, array $calendarObjectIds, array $calendarObjectUris): void {
-		if(empty($calendarObjectUris)) {
+		if (empty($calendarObjectUris)) {
 			return;
 		}
 
