@@ -65,27 +65,26 @@
 			</NcActionText>
 
 			<!-- password -->
-			<NcActionText v-if="pendingEnforcedPassword" icon="icon-password">
-				{{ t('files_sharing', 'Password protection (enforced)') }}
-			</NcActionText>
-			<NcActionCheckbox v-else-if="pendingPassword"
+			<NcActionCheckbox v-if="pendingPassword"
 				:checked.sync="isPasswordProtected"
 				:disabled="config.enforcePasswordForPublicLink || saving"
 				class="share-link-password-checkbox"
 				@uncheck="onPasswordDisable">
-				{{ t('files_sharing', 'Password protection') }}
+				{{ config.enforcePasswordForPublicLink ? t('files_sharing', 'Password protection (enforced)') : t('files_sharing', 'Password protection') }}
 			</NcActionCheckbox>
 
 			<NcActionInput v-if="pendingEnforcedPassword || share.password"
 				class="share-link-password"
+				:label="t('files_sharing', 'Enter a password')"
 				:value.sync="share.password"
 				:disabled="saving"
 				:required="config.enableLinkPasswordByDefault || config.enforcePasswordForPublicLink"
 				:minlength="isPasswordPolicyEnabled && config.passwordPolicy.minLength"
-				icon=""
 				autocomplete="new-password"
 				@submit="onNewLinkShare">
-				{{ t('files_sharing', 'Enter a password') }}
+				<template #icon>
+					<LockIcon :size="20" />
+				</template>
 			</NcActionInput>
 
 			<NcActionCheckbox v-if="hasDefaultExpirationDate"
@@ -97,11 +96,9 @@
 			</NcActionCheckbox>
 
 			<!-- expiration date -->
-			<NcActionText v-if="pendingExpirationDate" icon="icon-calendar-dark">
-				{{ t('files_sharing', 'Expiration date (enforced)') }}
-			</NcActionText>
 			<NcActionInput v-if="pendingExpirationDate"
 				class="share-link-expire-date"
+				:label="t('files_sharing', 'Expiration date (enforced)')"
 				:disabled="saving"
 				:is-native-picker="true"
 				:hide-label="true"
@@ -109,10 +106,10 @@
 				type="date"
 				:min="dateTomorrow"
 				:max="maxExpirationDateEnforced"
-				@input="onExpirationChange">
-				<!-- let's not submit when picked, the user
-					might want to still edit or copy the password -->
-				{{ t('files_sharing', 'Enter a date') }}
+				@input="onExpirationChange /* let's not submit when picked, the user might want to still edit or copy the password */">
+				<template #icon>
+					<IconCalendarBlank :size="20" />
+				</template>
 			</NcActionInput>
 
 			<NcActionButton icon="icon-checkmark" @click.prevent.stop="onNewLinkShare">
@@ -207,6 +204,7 @@ import NcActions from '@nextcloud/vue/dist/Components/NcActions.js'
 import NcAvatar from '@nextcloud/vue/dist/Components/NcAvatar.js'
 
 import Tune from 'vue-material-design-icons/Tune.vue'
+import IconCalendarBlank from 'vue-material-design-icons/CalendarBlank.vue'
 
 import SharingEntryQuickShareSelect from './SharingEntryQuickShareSelect.vue'
 
@@ -231,6 +229,7 @@ export default {
 		NcActionSeparator,
 		NcAvatar,
 		Tune,
+		IconCalendarBlank,
 		SharingEntryQuickShareSelect,
 	},
 
