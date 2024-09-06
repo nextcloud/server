@@ -1112,14 +1112,6 @@ class Manager implements IManager {
 		return $newOutput;
 	}
 
-	/**
-	 * @param Task $task
-	 * @return array<array-key, list<numeric|string|File>|numeric|string|File>
-	 * @throws GenericFileException
-	 * @throws LockedException
-	 * @throws NotPermittedException
-	 * @throws ValidationException|UnauthorizedException
-	 */
 	public function prepareInputData(Task $task): array {
 		$taskTypes = $this->getAvailableTaskTypes();
 		$inputShape = $taskTypes[$task->getTaskTypeId()]['inputShape'];
@@ -1139,10 +1131,6 @@ class Manager implements IManager {
 		return true;
 	}
 
-	/**
-	 * @throws \JsonException
-	 * @throws Exception
-	 */
 	public function setTaskStatus(Task $task, int $status): void {
 		$currentTaskStatus = $task->getStatus();
 		if ($currentTaskStatus === Task::STATUS_SCHEDULED && $status === Task::STATUS_RUNNING) {

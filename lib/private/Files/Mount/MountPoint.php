@@ -112,20 +112,10 @@ class MountPoint implements IMountPoint {
 		$this->mountProvider = $mountProvider ?? '';
 	}
 
-	/**
-	 * get complete path to the mount point, relative to data/
-	 *
-	 * @return string
-	 */
 	public function getMountPoint() {
 		return $this->mountPoint;
 	}
 
-	/**
-	 * Sets the mount point path, relative to data/
-	 *
-	 * @param string $mountPoint new mount point
-	 */
 	public function setMountPoint($mountPoint) {
 		$this->mountPoint = $this->formatPath($mountPoint);
 	}
@@ -162,9 +152,6 @@ class MountPoint implements IMountPoint {
 		}
 	}
 
-	/**
-	 * @return \OC\Files\Storage\Storage|null
-	 */
 	public function getStorage() {
 		if (is_null($this->storage)) {
 			$this->createStorage();
@@ -172,9 +159,6 @@ class MountPoint implements IMountPoint {
 		return $this->storage;
 	}
 
-	/**
-	 * @return string|null
-	 */
 	public function getStorageId() {
 		if (!$this->storageId) {
 			$storage = $this->getStorage();
@@ -189,9 +173,6 @@ class MountPoint implements IMountPoint {
 		return $this->storageId;
 	}
 
-	/**
-	 * @return int
-	 */
 	public function getNumericStorageId() {
 		if (is_null($this->numericStorageId)) {
 			$storage = $this->getStorage();
@@ -203,10 +184,6 @@ class MountPoint implements IMountPoint {
 		return $this->numericStorageId;
 	}
 
-	/**
-	 * @param string $path
-	 * @return string
-	 */
 	public function getInternalPath($path) {
 		$path = Filesystem::normalizePath($path, true, false, true);
 		if ($this->mountPoint === $path or $this->mountPoint . '/' === $path) {
@@ -230,9 +207,6 @@ class MountPoint implements IMountPoint {
 		return $path;
 	}
 
-	/**
-	 * @param callable $wrapper
-	 */
 	public function wrapStorage($wrapper) {
 		$storage = $this->getStorage();
 		// storage can be null if it couldn't be initialized
@@ -241,31 +215,14 @@ class MountPoint implements IMountPoint {
 		}
 	}
 
-	/**
-	 * Get a mount option
-	 *
-	 * @param string $name Name of the mount option to get
-	 * @param mixed $default Default value for the mount option
-	 * @return mixed
-	 */
 	public function getOption($name, $default) {
 		return $this->mountOptions[$name] ?? $default;
 	}
 
-	/**
-	 * Get all options for the mount
-	 *
-	 * @return array
-	 */
 	public function getOptions() {
 		return $this->mountOptions;
 	}
 
-	/**
-	 * Get the file id of the root of the storage
-	 *
-	 * @return int
-	 */
 	public function getStorageRootId() {
 		if (is_null($this->rootId) || $this->rootId === -1) {
 			$storage = $this->getStorage();

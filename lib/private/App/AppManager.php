@@ -138,21 +138,10 @@ class AppManager implements IAppManager {
 		return $this->installedAppsCache;
 	}
 
-	/**
-	 * List all installed apps
-	 *
-	 * @return string[]
-	 */
 	public function getInstalledApps() {
 		return array_keys($this->getInstalledAppsValues());
 	}
 
-	/**
-	 * List all apps enabled for a user
-	 *
-	 * @param \OCP\IUser $user
-	 * @return string[]
-	 */
 	public function getEnabledAppsForUser(IUser $user) {
 		$apps = $this->getInstalledAppsValues();
 		$appsForUser = array_filter($apps, function ($enabled) use ($user) {
@@ -161,10 +150,6 @@ class AppManager implements IAppManager {
 		return array_keys($appsForUser);
 	}
 
-	/**
-	 * @param IGroup $group
-	 * @return array
-	 */
 	public function getEnabledAppsForGroup(IGroup $group): array {
 		$apps = $this->getInstalledAppsValues();
 		$appsForGroups = array_filter($apps, function ($enabled) use ($group) {
@@ -173,18 +158,6 @@ class AppManager implements IAppManager {
 		return array_keys($appsForGroups);
 	}
 
-	/**
-	 * Loads all apps
-	 *
-	 * @param string[] $types
-	 * @return bool
-	 *
-	 * This function walks through the Nextcloud directory and loads all apps
-	 * it can find. A directory contains an app if the file /appinfo/info.xml
-	 * exists.
-	 *
-	 * if $types is set to non-empty array, only apps of those types will be loaded
-	 */
 	public function loadApps(array $types = []): bool {
 		if ($this->config->getSystemValueBool('maintenance', false)) {
 			return false;
@@ -222,13 +195,6 @@ class AppManager implements IAppManager {
 		return true;
 	}
 
-	/**
-	 * check if an app is of a specific type
-	 *
-	 * @param string $app
-	 * @param array $types
-	 * @return bool
-	 */
 	public function isType(string $app, array $types): bool {
 		$appTypes = $this->getAppTypes($app);
 		foreach ($types as $type) {
@@ -265,10 +231,6 @@ class AppManager implements IAppManager {
 		return $this->autoDisabledApps;
 	}
 
-	/**
-	 * @param string $appId
-	 * @return array
-	 */
 	public function getAppRestriction(string $appId): array {
 		$values = $this->getInstalledAppsValues();
 
@@ -283,13 +245,6 @@ class AppManager implements IAppManager {
 	}
 
 
-	/**
-	 * Check if an app is enabled for user
-	 *
-	 * @param string $appId
-	 * @param \OCP\IUser|null $user (optional) if not defined, the currently logged in user will be used
-	 * @return bool
-	 */
 	public function isEnabledForUser($appId, $user = null) {
 		if ($this->isAlwaysEnabled($appId)) {
 			return true;
@@ -357,15 +312,6 @@ class AppManager implements IAppManager {
 		}
 	}
 
-	/**
-	 * Check if an app is enabled in the instance
-	 *
-	 * Notice: This actually checks if the app is enabled and not only if it is installed.
-	 *
-	 * @param string $appId
-	 * @param IGroup[]|String[] $groups
-	 * @return bool
-	 */
 	public function isInstalled($appId) {
 		$installedApps = $this->getInstalledAppsValues();
 		return isset($installedApps[$appId]);
@@ -502,11 +448,6 @@ class AppManager implements IAppManager {
 
 		$eventLogger->end("bootstrap:load_app:$app");
 	}
-	/**
-	 * Check if an app is loaded
-	 * @param string $app app id
-	 * @since 26.0.0
-	 */
 	public function isAppLoaded(string $app): bool {
 		return isset($this->loadedApps[$app]);
 	}
@@ -522,13 +463,6 @@ class AppManager implements IAppManager {
 		require_once $app . '/appinfo/app.php';
 	}
 
-	/**
-	 * Enable an app for every user
-	 *
-	 * @param string $appId
-	 * @param bool $forceEnable
-	 * @throws AppPathNotFoundException
-	 */
 	public function enableApp(string $appId, bool $forceEnable = false): void {
 		// Check if app exists
 		$this->getAppPath($appId);
@@ -546,12 +480,6 @@ class AppManager implements IAppManager {
 		$this->clearAppsCache();
 	}
 
-	/**
-	 * Whether a list of types contains a protected app type
-	 *
-	 * @param string[] $types
-	 * @return bool
-	 */
 	public function hasProtectedAppType($types) {
 		if (empty($types)) {
 			return false;
@@ -561,15 +489,6 @@ class AppManager implements IAppManager {
 		return !empty($protectedTypes);
 	}
 
-	/**
-	 * Enable an app only for specific groups
-	 *
-	 * @param string $appId
-	 * @param IGroup[] $groups
-	 * @param bool $forceEnable
-	 * @throws \InvalidArgumentException if app can't be enabled for groups
-	 * @throws AppPathNotFoundException
-	 */
 	public function enableAppForGroups(string $appId, array $groups, bool $forceEnable = false): void {
 		// Check if app exists
 		$this->getAppPath($appId);
@@ -600,13 +519,6 @@ class AppManager implements IAppManager {
 		$this->clearAppsCache();
 	}
 
-	/**
-	 * Disable an app for every user
-	 *
-	 * @param string $appId
-	 * @param bool $automaticDisabled
-	 * @throws \Exception if app can't be disabled
-	 */
 	public function disableApp($appId, $automaticDisabled = false) {
 		if ($this->isAlwaysEnabled($appId)) {
 			throw new \Exception("$appId can't be disabled.");
@@ -636,13 +548,6 @@ class AppManager implements IAppManager {
 		$this->clearAppsCache();
 	}
 
-	/**
-	 * Get the directory for the given app.
-	 *
-	 * @param string $appId
-	 * @return string
-	 * @throws AppPathNotFoundException if app folder can't be found
-	 */
 	public function getAppPath($appId) {
 		$appPath = \OC_App::getAppPath($appId);
 		if ($appPath === false) {
@@ -651,13 +556,6 @@ class AppManager implements IAppManager {
 		return $appPath;
 	}
 
-	/**
-	 * Get the web path for the given app.
-	 *
-	 * @param string $appId
-	 * @return string
-	 * @throws AppPathNotFoundException if app path can't be found
-	 */
 	public function getAppWebPath(string $appId): string {
 		$appWebPath = \OC_App::getAppWebPath($appId);
 		if ($appWebPath === false) {
@@ -666,9 +564,6 @@ class AppManager implements IAppManager {
 		return $appWebPath;
 	}
 
-	/**
-	 * Clear the cached list of apps when enabling/disabling an app
-	 */
 	public function clearAppsCache() {
 		$this->appInfos = [];
 	}
@@ -699,12 +594,6 @@ class AppManager implements IAppManager {
 		return $appsToUpgrade;
 	}
 
-	/**
-	 * Returns the app information from "appinfo/info.xml".
-	 *
-	 * @param string|null $lang
-	 * @return array|null app info
-	 */
 	public function getAppInfo(string $appId, bool $path = false, $lang = null) {
 		if ($path) {
 			$file = $appId;
@@ -765,10 +654,6 @@ class AppManager implements IAppManager {
 		return $incompatibleApps;
 	}
 
-	/**
-	 * @inheritdoc
-	 * In case you change this method, also change \OC\App\CodeChecker\InfoChecker::isShipped()
-	 */
 	public function isShipped($appId) {
 		$this->loadShippedJson();
 		return in_array($appId, $this->shippedApps, true);
@@ -796,24 +681,15 @@ class AppManager implements IAppManager {
 		}
 	}
 
-	/**
-	 * @inheritdoc
-	 */
 	public function getAlwaysEnabledApps() {
 		$this->loadShippedJson();
 		return $this->alwaysEnabled;
 	}
 
-	/**
-	 * @inheritdoc
-	 */
 	public function isDefaultEnabled(string $appId): bool {
 		return (in_array($appId, $this->getDefaultEnabledApps()));
 	}
 
-	/**
-	 * @inheritdoc
-	 */
 	public function getDefaultEnabledApps(): array {
 		$this->loadShippedJson();
 

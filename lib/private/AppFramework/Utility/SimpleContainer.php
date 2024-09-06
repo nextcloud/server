@@ -30,14 +30,6 @@ class SimpleContainer implements ArrayAccess, ContainerInterface, IContainer {
 		$this->container = new Container();
 	}
 
-	/**
-	 * @template T
-	 * @param class-string<T>|string $id
-	 * @return T|mixed
-	 * @psalm-template S as class-string<T>|string
-	 * @psalm-param S $id
-	 * @psalm-return (S is class-string<T> ? T : mixed)
-	 */
 	public function get(string $id): mixed {
 		return $this->query($id);
 	}
@@ -131,23 +123,10 @@ class SimpleContainer implements ArrayAccess, ContainerInterface, IContainer {
 		throw new QueryNotFoundException('Could not resolve ' . $name . '!');
 	}
 
-	/**
-	 * @param string $name
-	 * @param mixed $value
-	 */
 	public function registerParameter($name, $value) {
 		$this[$name] = $value;
 	}
 
-	/**
-	 * The given closure is call the first time the given service is queried.
-	 * The closure has to return the instance for the given service.
-	 * Created instance will be cached in case $shared is true.
-	 *
-	 * @param string $name name of the service to register another backend for
-	 * @param Closure $closure the closure to be called on service creation
-	 * @param bool $shared
-	 */
 	public function registerService($name, Closure $closure, $shared = true) {
 		$wrapped = function () use ($closure) {
 			return $closure($this);
@@ -163,13 +142,6 @@ class SimpleContainer implements ArrayAccess, ContainerInterface, IContainer {
 		}
 	}
 
-	/**
-	 * Shortcut for returning a service from a service under a different key,
-	 * e.g. to tell the container to return a class when queried for an
-	 * interface
-	 * @param string $alias the alias that should be registered
-	 * @param string $target the target that should be resolved instead
-	 */
 	public function registerAlias($alias, $target) {
 		$this->registerService($alias, function (ContainerInterface $container) use ($target) {
 			return $container->get($target);

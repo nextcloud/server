@@ -32,23 +32,14 @@ class Collection implements ICollection {
 	) {
 	}
 
-	/**
-	 * @since 16.0.0
-	 */
 	public function getId(): int {
 		return $this->id;
 	}
 
-	/**
-	 * @since 16.0.0
-	 */
 	public function getName(): string {
 		return $this->name;
 	}
 
-	/**
-	 * @since 16.0.0
-	 */
 	public function setName(string $name): void {
 		$query = $this->connection->getQueryBuilder();
 		$query->update(Manager::TABLE_COLLECTIONS)
@@ -59,10 +50,6 @@ class Collection implements ICollection {
 		$this->name = $name;
 	}
 
-	/**
-	 * @return IResource[]
-	 * @since 16.0.0
-	 */
 	public function getResources(): array {
 		if (empty($this->resources)) {
 			$this->resources = $this->manager->getResourcesByCollectionForUser($this, $this->userForAccess);
@@ -71,12 +58,6 @@ class Collection implements ICollection {
 		return $this->resources;
 	}
 
-	/**
-	 * Adds a resource to a collection
-	 *
-	 * @throws ResourceException when the resource is already part of the collection
-	 * @since 16.0.0
-	 */
 	public function addResource(IResource $resource): void {
 		array_map(function (IResource $r) use ($resource) {
 			if ($this->isSameResource($r, $resource)) {
@@ -103,11 +84,6 @@ class Collection implements ICollection {
 		$this->manager->invalidateAccessCacheForCollection($this);
 	}
 
-	/**
-	 * Removes a resource from a collection
-	 *
-	 * @since 16.0.0
-	 */
 	public function removeResource(IResource $resource): void {
 		$this->resources = array_filter($this->getResources(), function (IResource $r) use ($resource) {
 			return !$this->isSameResource($r, $resource);
@@ -127,11 +103,6 @@ class Collection implements ICollection {
 		}
 	}
 
-	/**
-	 * Can a user/guest access the collection
-	 *
-	 * @since 16.0.0
-	 */
 	public function canAccess(?IUser $user): bool {
 		if ($user instanceof IUser) {
 			return $this->canUserAccess($user);

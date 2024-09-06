@@ -89,9 +89,6 @@ class Manager implements IManager {
 		return count($context->getTextProcessingProviders()) > 0;
 	}
 
-	/**
-	 * @inheritDoc
-	 */
 	public function getAvailableTaskTypes(): array {
 		$tasks = [];
 		foreach ($this->getProviders() as $provider) {
@@ -104,9 +101,6 @@ class Manager implements IManager {
 		return in_array($task->getType(), $this->getAvailableTaskTypes());
 	}
 
-	/**
-	 * @inheritDoc
-	 */
 	public function runTask(OCPTask $task): string {
 		// try to run a task processing task if possible
 		$taskTypeClass = $task->getType();
@@ -194,9 +188,6 @@ class Manager implements IManager {
 		throw new TaskFailureException('Could not run task');
 	}
 
-	/**
-	 * @inheritDoc
-	 */
 	public function scheduleTask(OCPTask $task): void {
 		if (!$this->canHandleTask($task)) {
 			throw new PreConditionNotMetException('No LanguageModel provider is installed that can handle this task');
@@ -220,9 +211,6 @@ class Manager implements IManager {
 		]);
 	}
 
-	/**
-	 * @inheritDoc
-	 */
 	public function runOrScheduleTask(OCPTask $task): bool {
 		if (!$this->canHandleTask($task)) {
 			throw new PreConditionNotMetException('No LanguageModel provider is installed that can handle this task');
@@ -239,9 +227,6 @@ class Manager implements IManager {
 		return true;
 	}
 
-	/**
-	 * @inheritDoc
-	 */
 	public function deleteTask(Task $task): void {
 		$taskEntity = DbTask::fromPublicTask($task);
 		$this->taskMapper->delete($taskEntity);
@@ -250,14 +235,6 @@ class Manager implements IManager {
 		]);
 	}
 
-	/**
-	 * Get a task from its id
-	 *
-	 * @param int $id The id of the task
-	 * @return OCPTask
-	 * @throws RuntimeException If the query failed
-	 * @throws NotFoundException If the task could not be found
-	 */
 	public function getTask(int $id): OCPTask {
 		try {
 			$taskEntity = $this->taskMapper->find($id);
@@ -271,16 +248,6 @@ class Manager implements IManager {
 		}
 	}
 
-	/**
-	 * Get a task from its user id and task id
-	 * If userId is null, this can only get a task that was scheduled anonymously
-	 *
-	 * @param int $id The id of the task
-	 * @param string|null $userId The user id that scheduled the task
-	 * @return OCPTask
-	 * @throws RuntimeException If the query failed
-	 * @throws NotFoundException If the task could not be found
-	 */
 	public function getUserTask(int $id, ?string $userId): OCPTask {
 		try {
 			$taskEntity = $this->taskMapper->findByIdAndUser($id, $userId);
@@ -294,16 +261,6 @@ class Manager implements IManager {
 		}
 	}
 
-	/**
-	 * Get a list of tasks scheduled by a specific user for a specific app
-	 * and optionally with a specific identifier.
-	 * This cannot be used to get anonymously scheduled tasks
-	 *
-	 * @param string $userId
-	 * @param string $appId
-	 * @param string|null $identifier
-	 * @return array
-	 */
 	public function getUserTasksByApp(string $userId, string $appId, ?string $identifier = null): array {
 		try {
 			$taskEntities = $this->taskMapper->findUserTasksByApp($userId, $appId, $identifier);

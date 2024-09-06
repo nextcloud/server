@@ -21,11 +21,6 @@ abstract class AsyncBus implements IBus {
 	 */
 	private $syncTraits = [];
 
-	/**
-	 * Schedule a command to be fired
-	 *
-	 * @param \OCP\Command\ICommand | callable $command
-	 */
 	public function push($command) {
 		if ($this->canRunAsync($command)) {
 			$this->queueCommand($command);
@@ -41,11 +36,6 @@ abstract class AsyncBus implements IBus {
 	 */
 	abstract protected function queueCommand($command);
 
-	/**
-	 * Require all commands using a trait to be run synchronous
-	 *
-	 * @param string $trait
-	 */
 	public function requireSync($trait) {
 		$this->syncTraits[] = trim($trait, '\\');
 	}

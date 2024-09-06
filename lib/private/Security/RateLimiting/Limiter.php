@@ -38,12 +38,6 @@ class Limiter implements ILimiter {
 		$this->backend->registerAttempt($methodIdentifier, $userIdentifier, $period);
 	}
 
-	/**
-	 * Registers attempt for an anonymous request
-	 *
-	 * @param int $anonPeriod in seconds
-	 * @throws RateLimitExceededException
-	 */
 	public function registerAnonRequest(
 		string $identifier,
 		int $anonLimit,
@@ -56,12 +50,6 @@ class Limiter implements ILimiter {
 		$this->register($identifier, $anonHashIdentifier, $anonPeriod, $anonLimit);
 	}
 
-	/**
-	 * Registers attempt for an authenticated request
-	 *
-	 * @param int $userPeriod in seconds
-	 * @throws RateLimitExceededException
-	 */
 	public function registerUserRequest(
 		string $identifier,
 		int $userLimit,

@@ -29,9 +29,6 @@ class MoveAvatars implements IRepairStep {
 		$this->config = $config;
 	}
 
-	/**
-	 * @return string
-	 */
 	public function getName() {
 		return 'Add move avatar background job';
 	}

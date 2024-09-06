@@ -40,16 +40,6 @@ class AvatarManager implements IAvatarManager {
 	) {
 	}
 
-	/**
-	 * return a user specific instance of \OCP\IAvatar
-	 *
-	 * If the user is disabled a guest avatar will be returned
-	 *
-	 * @see \OCP\IAvatar
-	 * @param string $userId the ownCloud user id
-	 * @throws \Exception In case the username is potentially dangerous
-	 * @throws NotFoundException In case there is no user folder yet
-	 */
 	public function getAvatar(string $userId): IAvatar {
 		$user = $this->userManager->get($userId);
 		if ($user === null) {
@@ -123,11 +113,6 @@ class AvatarManager implements IAvatarManager {
 		$this->config->deleteUserValue($userId, 'avatar', 'generated');
 	}
 
-	/**
-	 * Returns a GuestAvatar.
-	 *
-	 * @param string $name The guest name, e.g. "Albert".
-	 */
 	public function getGuestAvatar(string $name): IAvatar {
 		return new GuestAvatar($name, $this->logger);
 	}

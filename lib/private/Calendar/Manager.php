@@ -14,7 +14,6 @@ use OCP\Calendar\Exceptions\CalendarException;
 use OCP\Calendar\ICalendar;
 use OCP\Calendar\ICalendarProvider;
 use OCP\Calendar\ICalendarQuery;
-use OCP\Calendar\ICreateFromString;
 use OCP\Calendar\IHandleImipMessage;
 use OCP\Calendar\IManager;
 use Psr\Container\ContainerInterface;
@@ -46,19 +45,6 @@ class Manager implements IManager {
 	) {
 	}
 
-	/**
-	 * This function is used to search and find objects within the user's calendars.
-	 * In case $pattern is empty all events/journals/todos will be returned.
-	 *
-	 * @param string $pattern which should match within the $searchProperties
-	 * @param array $searchProperties defines the properties within the query pattern should match
-	 * @param array $options - optional parameters:
-	 *                       ['timerange' => ['start' => new DateTime(...), 'end' => new DateTime(...)]]
-	 * @param integer|null $limit - limit number of search results
-	 * @param integer|null $offset - offset for paging of search results
-	 * @return array an array of events/journals/todos which are arrays of arrays of key-value-pairs
-	 * @since 13.0.0
-	 */
 	public function search(
 		$pattern,
 		array $searchProperties = [],
@@ -79,60 +65,28 @@ class Manager implements IManager {
 		return $result;
 	}
 
-	/**
-	 * Check if calendars are available
-	 *
-	 * @return bool true if enabled, false if not
-	 * @since 13.0.0
-	 */
 	public function isEnabled(): bool {
 		return !empty($this->calendars) || !empty($this->calendarLoaders);
 	}
 
-	/**
-	 * Registers a calendar
-	 *
-	 * @since 13.0.0
-	 */
 	public function registerCalendar(ICalendar $calendar): void {
 		$this->calendars[$calendar->getKey()] = $calendar;
 	}
 
-	/**
-	 * Unregisters a calendar
-	 *
-	 * @since 13.0.0
-	 */
 	public function unregisterCalendar(ICalendar $calendar): void {
 		unset($this->calendars[$calendar->getKey()]);
 	}
 
-	/**
-	 * In order to improve lazy loading a closure can be registered which will be called in case
-	 * calendars are actually requested
-	 *
-	 * @since 13.0.0
-	 */
 	public function register(\Closure $callable): void {
 		$this->calendarLoaders[] = $callable;
 	}
 
-	/**
-	 * @return ICalendar[]
-	 *
-	 * @since 13.0.0
-	 */
 	public function getCalendars(): array {
 		$this->loadCalendars();
 
 		return array_values($this->calendars);
 	}
 
-	/**
-	 * removes all registered calendar instances
-	 *
-	 * @since 13.0.0
-	 */
 	public function clear(): void {
 		$this->calendars = [];
 		$this->calendarLoaders = [];
@@ -148,9 +102,6 @@ class Manager implements IManager {
 		$this->calendarLoaders = [];
 	}
 
-	/**
-	 * @return ICreateFromString[]
-	 */
 	public function getCalendarsForPrincipal(string $principalUri, array $calendarUris = []): array {
 		$context = $this->coordinator->getRegistrationContext();
 		if ($context === null) {
@@ -204,9 +155,6 @@ class Manager implements IManager {
 		return new CalendarQuery($principalUri);
 	}
 
-	/**
-	 * @throws \OCP\DB\Exception
-	 */
 	public function handleIMipReply(
 		string $principalUri,
 		string $sender,
@@ -286,10 +234,6 @@ class Manager implements IManager {
 		return true;
 	}
 
-	/**
-	 * @since 25.0.0
-	 * @throws \OCP\DB\Exception
-	 */
 	public function handleIMipCancel(
 		string $principalUri,
 		string $sender,

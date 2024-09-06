@@ -47,11 +47,6 @@ class MetadataQuery implements IMetadataQuery {
 		}
 	}
 
-	/**
-	 * @inheritDoc
-	 * @see self::extractMetadata()
-	 * @since 28.0.0
-	 */
 	public function retrieveMetadata(): void {
 		$this->queryBuilder->selectAlias($this->alias . '.json', 'meta_json');
 		$this->queryBuilder->selectAlias($this->alias . '.sync_token', 'meta_sync_token');
@@ -61,14 +56,6 @@ class MetadataQuery implements IMetadataQuery {
 		);
 	}
 
-	/**
-	 * @param array $row result row
-	 *
-	 * @inheritDoc
-	 * @return IFilesMetadata metadata
-	 * @see self::retrieveMetadata()
-	 * @since 28.0.0
-	 */
 	public function extractMetadata(array $row): IFilesMetadata {
 		$fileId = (array_key_exists($this->fileIdField, $row)) ? $row[$this->fileIdField] : 0;
 		$metadata = new FilesMetadata((int)$fileId);
@@ -81,13 +68,6 @@ class MetadataQuery implements IMetadataQuery {
 		return $metadata;
 	}
 
-	/**
-	 * @param string $metadataKey metadata key
-	 * @param bool $enforce limit the request only to existing metadata
-	 *
-	 * @inheritDoc
-	 * @since 28.0.0
-	 */
 	public function joinIndex(string $metadataKey, bool $enforce = false): string {
 		if (array_key_exists($metadataKey, $this->knownJoinedIndex)) {
 			return $this->knownJoinedIndex[$metadataKey];
@@ -130,29 +110,10 @@ class MetadataQuery implements IMetadataQuery {
 		return $this->knownJoinedIndex[$metadataKey];
 	}
 
-	/**
-	 * @inheritDoc
-	 *
-	 * @param string $metadataKey metadata key
-	 *
-	 * @return string table field
-	 * @throws FilesMetadataNotFoundException
-	 * @since 28.0.0
-	 */
 	public function getMetadataKeyField(string $metadataKey): string {
 		return $this->joinedTableAlias($metadataKey) . '.meta_key';
 	}
 
-	/**
-	 * @inheritDoc
-	 *
-	 * @param string $metadataKey metadata key
-	 *
-	 * @return string table field
-	 * @throws FilesMetadataNotFoundException if metadataKey is not known
-	 * @throws FilesMetadataTypeException is metadataKey is not set as indexed
-	 * @since 28.0.0
-	 */
 	public function getMetadataValueField(string $metadataKey): string {
 		if ($this->manager instanceof IFilesMetadataManager) {
 			/**

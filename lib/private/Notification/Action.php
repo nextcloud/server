@@ -18,9 +18,6 @@ class Action implements IAction {
 	protected string $requestType = '';
 	protected bool $primary = false;
 
-	/**
-	 * {@inheritDoc}
-	 */
 	public function setLabel(string $label): IAction {
 		if ($label === '' || isset($label[32])) {
 			throw new InvalidValueException('label');
@@ -29,16 +26,10 @@ class Action implements IAction {
 		return $this;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	public function getLabel(): string {
 		return $this->label;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	public function setParsedLabel(string $label): IAction {
 		if ($label === '') {
 			throw new InvalidValueException('parsedLabel');
@@ -47,31 +38,19 @@ class Action implements IAction {
 		return $this;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	public function getParsedLabel(): string {
 		return $this->labelParsed;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	public function setPrimary(bool $primary): IAction {
 		$this->primary = $primary;
 		return $this;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	public function isPrimary(): bool {
 		return $this->primary;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	public function setLink(string $link, string $requestType): IAction {
 		if ($link === '' || isset($link[256])) {
 			throw new InvalidValueException('link');
@@ -90,30 +69,18 @@ class Action implements IAction {
 		return $this;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	public function getLink(): string {
 		return $this->link;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	public function getRequestType(): string {
 		return $this->requestType;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	public function isValid(): bool {
 		return $this->label !== '' && $this->link !== '';
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	public function isValidParsed(): bool {
 		return $this->labelParsed !== '' && $this->link !== '';
 	}

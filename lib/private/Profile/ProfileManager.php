@@ -82,9 +82,6 @@ class ProfileManager implements IProfileManager {
 		$this->configCache = new CappedMemoryCache();
 	}
 
-	/**
-	 * If no user is passed as an argument return whether profile is enabled globally in `config.php`
-	 */
 	public function isProfileEnabled(?IUser $user = null): bool {
 		$profileEnabledGlobally = $this->config->getSystemValueBool('profile.enabled', true);
 
@@ -173,10 +170,6 @@ class ProfileManager implements IProfileManager {
 		return $this->sortedActions;
 	}
 
-	/**
-	 * Return whether the profile parameter of the target user
-	 * is visible to the visiting user
-	 */
 	public function isProfileFieldVisible(string $profileField, IUser $targetUser, ?IUser $visitingUser): bool {
 		try {
 			$account = $this->accountManager->getAccount($targetUser);
@@ -219,11 +212,6 @@ class ProfileManager implements IProfileManager {
 		return false;
 	}
 
-	/**
-	 * Return the profile parameters of the target user that are visible to the visiting user
-	 * in an associative array
-	 * @return array{userId: string, address?: string|null, biography?: string|null, displayname?: string|null, headline?: string|null, isUserAvatarVisible?: bool, organisation?: string|null, role?: string|null, actions: list<array{id: string, icon: string, title: string, target: ?string}>}
-	 */
 	public function getProfileFields(IUser $targetUser, ?IUser $visitingUser): array {
 		$account = $this->accountManager->getAccount($targetUser);
 

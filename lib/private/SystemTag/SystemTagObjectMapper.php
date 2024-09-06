@@ -29,9 +29,6 @@ class SystemTagObjectMapper implements ISystemTagObjectMapper {
 	) {
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
 	public function getTagIdsForObjects($objIds, string $objectType): array {
 		if (!\is_array($objIds)) {
 			$objIds = [$objIds];
@@ -66,9 +63,6 @@ class SystemTagObjectMapper implements ISystemTagObjectMapper {
 		return $mapping;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
 	public function getObjectIdsForTags($tagIds, string $objectType, int $limit = 0, string $offset = ''): array {
 		if (!\is_array($tagIds)) {
 			$tagIds = [$tagIds];
@@ -106,9 +100,6 @@ class SystemTagObjectMapper implements ISystemTagObjectMapper {
 		return $objectIds;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
 	public function assignTags(string $objId, string $objectType, $tagIds): void {
 		if (!\is_array($tagIds)) {
 			$tagIds = [$tagIds];
@@ -169,9 +160,6 @@ class SystemTagObjectMapper implements ISystemTagObjectMapper {
 		));
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
 	public function unassignTags(string $objId, string $objectType, $tagIds): void {
 		if (!\is_array($tagIds)) {
 			$tagIds = [$tagIds];
@@ -197,9 +185,6 @@ class SystemTagObjectMapper implements ISystemTagObjectMapper {
 		));
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
 	public function haveTag($objIds, string $objectType, string $tagId, bool $all = true): bool {
 		$this->assertTagsExist([$tagId]);
 

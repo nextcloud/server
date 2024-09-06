@@ -66,23 +66,10 @@ class Manager implements IManager {
 		$this->deferPushing = false;
 		$this->parsedRegistrationContext = false;
 	}
-	/**
-	 * @param string $appClass The service must implement IApp, otherwise a
-	 *                         \InvalidArgumentException is thrown later
-	 * @since 17.0.0
-	 */
 	public function registerApp(string $appClass): void {
 		$this->appClasses[] = $appClass;
 	}
 
-	/**
-	 * @param \Closure $service The service must implement INotifier, otherwise a
-	 *                          \InvalidArgumentException is thrown later
-	 * @param \Closure $info An array with the keys 'id' and 'name' containing
-	 *                       the app id and the app name
-	 * @deprecated 17.0.0 use registerNotifierService instead.
-	 * @since 8.2.0 - Parameter $info was added in 9.0.0
-	 */
 	public function registerNotifier(\Closure $service, \Closure $info): void {
 		$infoData = $info();
 		$exception = new \InvalidArgumentException(
@@ -91,11 +78,6 @@ class Manager implements IManager {
 		$this->logger->error($exception->getMessage(), ['exception' => $exception]);
 	}
 
-	/**
-	 * @param string $notifierService The service must implement INotifier, otherwise a
-	 *                                \InvalidArgumentException is thrown later
-	 * @since 17.0.0
-	 */
 	public function registerNotifierService(string $notifierService): void {
 		$this->notifierClasses[] = $notifierService;
 	}
@@ -134,9 +116,6 @@ class Manager implements IManager {
 		return $this->apps;
 	}
 
-	/**
-	 * @return INotifier[]
-	 */
 	public function getNotifiers(): array {
 		if (!$this->parsedRegistrationContext) {
 			$notifierServices = $this->coordinator->getRegistrationContext()->getNotifierServices();
@@ -194,43 +173,22 @@ class Manager implements IManager {
 		return $this->notifiers;
 	}
 
-	/**
-	 * @return INotification
-	 * @since 8.2.0
-	 */
 	public function createNotification(): INotification {
 		return new Notification($this->validator);
 	}
 
-	/**
-	 * @return bool
-	 * @since 8.2.0
-	 */
 	public function hasNotifiers(): bool {
 		return !empty($this->notifiers) || !empty($this->notifierClasses);
 	}
 
-	/**
-	 * @param bool $preparingPushNotification
-	 * @since 14.0.0
-	 */
 	public function setPreparingPushNotification(bool $preparingPushNotification): void {
 		$this->preparingPushNotification = $preparingPushNotification;
 	}
 
-	/**
-	 * @return bool
-	 * @since 14.0.0
-	 */
 	public function isPreparingPushNotification(): bool {
 		return $this->preparingPushNotification;
 	}
 
-	/**
-	 * The calling app should only "flush" when it got returned true on the defer call
-	 * @return bool
-	 * @since 20.0.0
-	 */
 	public function defer(): bool {
 		$alreadyDeferring = $this->deferPushing;
 		$this->deferPushing = true;
@@ -246,9 +204,6 @@ class Manager implements IManager {
 		return !$alreadyDeferring;
 	}
 
-	/**
-	 * @since 20.0.0
-	 */
 	public function flush(): void {
 		$apps = $this->getApps();
 
@@ -266,9 +221,6 @@ class Manager implements IManager {
 		$this->deferPushing = false;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	public function isFairUseOfFreePushService(): bool {
 		$pushAllowed = $this->cache->get('push_fair_use');
 		if ($pushAllowed === null) {
@@ -284,9 +236,6 @@ class Manager implements IManager {
 		return $pushAllowed === 'yes';
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	public function notify(INotification $notification): void {
 		if (!$notification->isValid()) {
 			throw new IncompleteNotificationException('The given notification is invalid');
@@ -306,29 +255,14 @@ class Manager implements IManager {
 		}
 	}
 
-	/**
-	 * Identifier of the notifier, only use [a-z0-9_]
-	 *
-	 * @return string
-	 * @since 17.0.0
-	 */
 	public function getID(): string {
 		return 'core';
 	}
 
-	/**
-	 * Human readable name describing the notifier
-	 *
-	 * @return string
-	 * @since 17.0.0
-	 */
 	public function getName(): string {
 		return 'core';
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	public function prepare(INotification $notification, string $languageCode): INotification {
 		$notifiers = $this->getNotifiers();
 
@@ -378,9 +312,6 @@ class Manager implements IManager {
 		return $notification;
 	}
 
-	/**
-	 * @param INotification $notification
-	 */
 	public function markProcessed(INotification $notification): void {
 		$apps = $this->getApps();
 
@@ -389,10 +320,6 @@ class Manager implements IManager {
 		}
 	}
 
-	/**
-	 * @param INotification $notification
-	 * @return int
-	 */
 	public function getCount(INotification $notification): int {
 		$apps = $this->getApps();
 
@@ -404,9 +331,6 @@ class Manager implements IManager {
 		return $count;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	public function dismissNotification(INotification $notification): void {
 		$notifiers = $this->getNotifiers();
 

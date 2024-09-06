@@ -250,14 +250,6 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 		throw new \RuntimeException('You cannot change the contents of the request object');
 	}
 
-	/**
-	 * Returns the value for a specific http header.
-	 *
-	 * This method returns an empty string if the header did not exist.
-	 *
-	 * @param string $name
-	 * @return string
-	 */
 	public function getHeader(string $name): string {
 		$name = strtoupper(str_replace('-', '_', $name));
 		if (isset($this->server['HTTP_' . $name])) {
@@ -279,65 +271,28 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 		return '';
 	}
 
-	/**
-	 * Lets you access post and get parameters by the index
-	 * In case of json requests the encoded json body is accessed
-	 *
-	 * @param string $key the key which you want to access in the URL Parameter
-	 *                    placeholder, $_POST or $_GET array.
-	 *                    The priority how they're returned is the following:
-	 *                    1. URL parameters
-	 *                    2. POST parameters
-	 *                    3. GET parameters
-	 * @param mixed $default If the key is not found, this value will be returned
-	 * @return mixed the content of the array
-	 */
 	public function getParam(string $key, $default = null) {
 		return isset($this->parameters[$key])
 			? $this->parameters[$key]
 			: $default;
 	}
 
-	/**
-	 * Returns all params that were received, be it from the request
-	 * (as GET or POST) or through the URL by the route
-	 * @return array the array with all parameters
-	 */
 	public function getParams(): array {
 		return is_array($this->parameters) ? $this->parameters : [];
 	}
 
-	/**
-	 * Returns the method of the request
-	 * @return string the method of the request (POST, GET, etc)
-	 */
 	public function getMethod(): string {
 		return $this->method;
 	}
 
-	/**
-	 * Shortcut for accessing an uploaded file through the $_FILES array
-	 * @param string $key the key that will be taken from the $_FILES array
-	 * @return array the file in the $_FILES element
-	 */
 	public function getUploadedFile(string $key) {
 		return isset($this->files[$key]) ? $this->files[$key] : null;
 	}
 
-	/**
-	 * Shortcut for getting env variables
-	 * @param string $key the key that will be taken from the $_ENV array
-	 * @return array the value in the $_ENV element
-	 */
 	public function getEnv(string $key) {
 		return isset($this->env[$key]) ? $this->env[$key] : null;
 	}
 
-	/**
-	 * Shortcut for getting cookie variables
-	 * @param string $key the key that will be taken from the $_COOKIE array
-	 * @return string the value in the $_COOKIE element
-	 */
 	public function getCookie(string $key) {
 		return isset($this->cookies[$key]) ? $this->cookies[$key] : null;
 	}
@@ -414,10 +369,6 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	}
 
 
-	/**
-	 * Checks if the CSRF check was correct
-	 * @return bool true if CSRF check passed
-	 */
 	public function passesCSRFCheck(): bool {
 		if ($this->csrfTokenManager === null) {
 			return false;
@@ -487,13 +438,6 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 		return $prefix.$name;
 	}
 
-	/**
-	 * Checks if the strict cookie has been sent with the request if the request
-	 * is including any cookies.
-	 *
-	 * @return bool
-	 * @since 9.1.0
-	 */
 	public function passesStrictCookieCheck(): bool {
 		if (!$this->cookieCheckRequired()) {
 			return true;
@@ -507,13 +451,6 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 		return false;
 	}
 
-	/**
-	 * Checks if the lax cookie has been sent with the request if the request
-	 * is including any cookies.
-	 *
-	 * @return bool
-	 * @since 9.1.0
-	 */
 	public function passesLaxCookieCheck(): bool {
 		if (!$this->cookieCheckRequired()) {
 			return true;
@@ -527,11 +464,6 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	}
 
 
-	/**
-	 * Returns an ID for the request, value is not guaranteed to be unique and is mostly meant for logging
-	 * If `mod_unique_id` is installed this value will be taken.
-	 * @return string
-	 */
 	public function getId(): string {
 		return $this->requestId->getId();
 	}
@@ -552,13 +484,6 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 		}
 	}
 
-	/**
-	 * Returns the remote address, if the connection came from a trusted proxy
-	 * and `forwarded_for_headers` has been configured then the IP address
-	 * specified in this header will be returned instead.
-	 * Do always use this instead of $_SERVER['REMOTE_ADDR']
-	 * @return string IP address
-	 */
 	public function getRemoteAddress(): string {
 		$remoteAddress = isset($this->server['REMOTE_ADDR']) ? $this->server['REMOTE_ADDR'] : '';
 		$trustedProxies = $this->config->getSystemValue('trusted_proxies', []);
@@ -611,11 +536,6 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 		return $regex === '//' || preg_match($regex, $remoteAddr) === 1;
 	}
 
-	/**
-	 * Returns the server protocol. It respects one or more reverse proxies servers
-	 * and load balancers
-	 * @return string Server protocol (http or https)
-	 */
 	public function getServerProtocol(): string {
 		if ($this->config->getSystemValueString('overwriteprotocol') !== ''
 			&& $this->isOverwriteCondition()) {
@@ -645,11 +565,6 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 		return 'http';
 	}
 
-	/**
-	 * Returns the used HTTP protocol.
-	 *
-	 * @return string HTTP protocol. HTTP/2, HTTP/1.1 or HTTP/1.0.
-	 */
 	public function getHttpProtocol(): string {
 		$claimedProtocol = $this->server['SERVER_PROTOCOL'];
 
@@ -670,11 +585,6 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 		return 'HTTP/1.1';
 	}
 
-	/**
-	 * Returns the request uri, even if the website uses one or more
-	 * reverse proxies
-	 * @return string
-	 */
 	public function getRequestUri(): string {
 		$uri = isset($this->server['REQUEST_URI']) ? $this->server['REQUEST_URI'] : '';
 		if ($this->config->getSystemValueString('overwritewebroot') !== '' && $this->isOverwriteCondition()) {
@@ -683,11 +593,6 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 		return $uri;
 	}
 
-	/**
-	 * Get raw PathInfo from request (not urldecoded)
-	 * @throws \Exception
-	 * @return string Path info
-	 */
 	public function getRawPathInfo(): string {
 		$requestUri = isset($this->server['REQUEST_URI']) ? $this->server['REQUEST_URI'] : '';
 		// remove too many slashes - can be caused by reverse proxy configuration
@@ -728,21 +633,11 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 		}
 	}
 
-	/**
-	 * Get PathInfo from request
-	 * @throws \Exception
-	 * @return string|false Path info or false when not found
-	 */
 	public function getPathInfo() {
 		$pathInfo = $this->getRawPathInfo();
 		return \Sabre\HTTP\decodePath($pathInfo);
 	}
 
-	/**
-	 * Returns the script name, even if the website uses one or more
-	 * reverse proxies
-	 * @return string the script name
-	 */
 	public function getScriptName(): string {
 		$name = $this->server['SCRIPT_NAME'];
 		$overwriteWebRoot = $this->config->getSystemValueString('overwritewebroot');
@@ -755,11 +650,6 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 		return $name;
 	}
 
-	/**
-	 * Checks whether the user agent matches a given regex
-	 * @param array $agent array of agent names
-	 * @return bool true if at least one of the given agent matches, false otherwise
-	 */
 	public function isUserAgent(array $agent): bool {
 		if (!isset($this->server['HTTP_USER_AGENT'])) {
 			return false;
@@ -772,11 +662,6 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 		return false;
 	}
 
-	/**
-	 * Returns the unverified server host from the headers without checking
-	 * whether it is a trusted domain
-	 * @return string Server host
-	 */
 	public function getInsecureServerHost(): string {
 		if ($this->fromTrustedProxy() && $this->getOverwriteHost() !== null) {
 			return $this->getOverwriteHost();
@@ -802,11 +687,6 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	}
 
 
-	/**
-	 * Returns the server host from the headers, or the first configured
-	 * trusted domain if the host isn't in the trusted list
-	 * @return string Server host
-	 */
 	public function getServerHost(): string {
 		// overwritehost is always trusted
 		$host = $this->getOverwriteHost();

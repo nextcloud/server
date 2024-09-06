@@ -105,14 +105,6 @@ class Manager implements IProvider, OCPIProvider {
 		return $this->publicKeyTokenProvider->getTokenByUser($uid);
 	}
 
-	/**
-	 * Get a token by token
-	 *
-	 * @param string $tokenId
-	 * @throws InvalidTokenException
-	 * @throws \RuntimeException when OpenSSL reports a problem
-	 * @return OCPIToken
-	 */
 	public function getToken(string $tokenId): OCPIToken {
 		try {
 			return $this->publicKeyTokenProvider->getToken($tokenId);

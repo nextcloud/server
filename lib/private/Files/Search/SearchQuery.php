@@ -49,37 +49,22 @@ class SearchQuery implements ISearchQuery {
 		$this->limitToHome = $limitToHome;
 	}
 
-	/**
-	 * @return ISearchOperator
-	 */
 	public function getSearchOperation() {
 		return $this->searchOperation;
 	}
 
-	/**
-	 * @return int
-	 */
 	public function getLimit() {
 		return $this->limit;
 	}
 
-	/**
-	 * @return int
-	 */
 	public function getOffset() {
 		return $this->offset;
 	}
 
-	/**
-	 * @return ISearchOrder[]
-	 */
 	public function getOrder() {
 		return $this->order;
 	}
 
-	/**
-	 * @return ?IUser
-	 */
 	public function getUser() {
 		return $this->user;
 	}

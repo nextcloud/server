@@ -60,46 +60,18 @@ abstract class Backend implements UserInterface {
 		return $actions;
 	}
 
-	/**
-	 * Check if backend implements actions
-	 * @param int $actions bitwise-or'ed actions
-	 * @return boolean
-	 *
-	 * Returns the supported actions as int to be
-	 * compared with self::CREATE_USER etc.
-	 */
 	public function implementsActions($actions) {
 		return (bool)($this->getSupportedActions() & $actions);
 	}
 
-	/**
-	 * delete a user
-	 * @param string $uid The username of the user to delete
-	 * @return bool
-	 *
-	 * Deletes a user
-	 */
 	public function deleteUser($uid) {
 		return false;
 	}
 
-	/**
-	 * Get a list of all users
-	 *
-	 * @param string $search
-	 * @param null|int $limit
-	 * @param null|int $offset
-	 * @return string[] an array of all uids
-	 */
 	public function getUsers($search = '', $limit = null, $offset = null) {
 		return [];
 	}
 
-	/**
-	 * check if a user exists
-	 * @param string $uid the username
-	 * @return boolean
-	 */
 	public function userExists($uid) {
 		return false;
 	}
@@ -113,23 +85,10 @@ abstract class Backend implements UserInterface {
 		return false;
 	}
 
-	/**
-	 * get display name of the user
-	 * @param string $uid user ID of the user
-	 * @return string display name
-	 */
 	public function getDisplayName($uid) {
 		return $uid;
 	}
 
-	/**
-	 * Get a list of all display names and user ids.
-	 *
-	 * @param string $search
-	 * @param int|null $limit
-	 * @param int|null $offset
-	 * @return array an array of all displayNames (value) and the corresponding uids (key)
-	 */
 	public function getDisplayNames($search = '', $limit = null, $offset = null) {
 		$displayNames = [];
 		$users = $this->getUsers($search, $limit, $offset);
@@ -139,10 +98,6 @@ abstract class Backend implements UserInterface {
 		return $displayNames;
 	}
 
-	/**
-	 * Check if a user list is available or not
-	 * @return boolean if users can be listed or not
-	 */
 	public function hasUserListings() {
 		return false;
 	}

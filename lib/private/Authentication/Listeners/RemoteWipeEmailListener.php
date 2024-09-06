@@ -48,9 +48,6 @@ class RemoteWipeEmailListener implements IEventListener {
 		$this->logger = $logger;
 	}
 
-	/**
-	 * @param Event $event
-	 */
 	public function handle(Event $event): void {
 		if ($event instanceof RemoteWipeStarted) {
 			$uid = $event->getToken()->getUID();

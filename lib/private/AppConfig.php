@@ -73,12 +73,6 @@ class AppConfig implements IAppConfig {
 	) {
 	}
 
-	/**
-	 * @inheritDoc
-	 *
-	 * @return string[] list of app ids
-	 * @since 7.0.0
-	 */
 	public function getApps(): array {
 		$this->loadConfigAll();
 		$apps = array_merge(array_keys($this->fastCache), array_keys($this->lazyCache));
@@ -87,14 +81,6 @@ class AppConfig implements IAppConfig {
 		return array_values(array_unique($apps));
 	}
 
-	/**
-	 * @inheritDoc
-	 *
-	 * @param string $app id of the app
-	 *
-	 * @return string[] list of stored config keys
-	 * @since 29.0.0
-	 */
 	public function getKeys(string $app): array {
 		$this->assertParams($app);
 		$this->loadConfigAll();
@@ -104,17 +90,6 @@ class AppConfig implements IAppConfig {
 		return array_values(array_unique($keys));
 	}
 
-	/**
-	 * @inheritDoc
-	 *
-	 * @param string $app id of the app
-	 * @param string $key config key
-	 * @param bool|null $lazy TRUE to search within lazy loaded config, NULL to search within all config
-	 *
-	 * @return bool TRUE if key exists
-	 * @since 7.0.0
-	 * @since 29.0.0 Added the $lazy argument
-	 */
 	public function hasKey(string $app, string $key, ?bool $lazy = false): bool {
 		$this->assertParams($app, $key);
 		$this->loadConfig($lazy);
@@ -131,15 +106,6 @@ class AppConfig implements IAppConfig {
 		return isset($this->fastCache[$app][$key]);
 	}
 
-	/**
-	 * @param string $app id of the app
-	 * @param string $key config key
-	 * @param bool|null $lazy TRUE to search within lazy loaded config, NULL to search within all config
-	 *
-	 * @return bool
-	 * @throws AppConfigUnknownKeyException if config key is not known
-	 * @since 29.0.0
-	 */
 	public function isSensitive(string $app, string $key, ?bool $lazy = false): bool {
 		$this->assertParams($app, $key);
 		$this->loadConfig($lazy);
@@ -151,17 +117,6 @@ class AppConfig implements IAppConfig {
 		return $this->isTyped(self::VALUE_SENSITIVE, $this->valueTypes[$app][$key]);
 	}
 
-	/**
-	 * @inheritDoc
-	 *
-	 * @param string $app if of the app
-	 * @param string $key config key
-	 *
-	 * @return bool TRUE if config is lazy loaded
-	 * @throws AppConfigUnknownKeyException if config key is not known
-	 * @see IAppConfig for details about lazy loading
-	 * @since 29.0.0
-	 */
 	public function isLazy(string $app, string $key): bool {
 		// there is a huge probability the non-lazy config are already loaded
 		if ($this->hasKey($app, $key, false)) {
@@ -177,16 +132,6 @@ class AppConfig implements IAppConfig {
 	}
 
 
-	/**
-	 * @inheritDoc
-	 *
-	 * @param string $app id of the app
-	 * @param string $prefix config keys prefix to search
-	 * @param bool $filtered TRUE to hide sensitive config values. Value are replaced by {@see IConfig::SENSITIVE_VALUE}
-	 *
-	 * @return array<string, string|int|float|bool|array> [configKey => configValue]
-	 * @since 29.0.0
-	 */
 	public function getAllValues(string $app, string $prefix = '', bool $filtered = false): array {
 		$this->assertParams($app, $prefix);
 		// if we want to filter values, we need to get sensitivity
@@ -222,16 +167,6 @@ class AppConfig implements IAppConfig {
 		return $result;
 	}
 
-	/**
-	 * @inheritDoc
-	 *
-	 * @param string $key config key
-	 * @param bool $lazy search within lazy loaded config
-	 * @param int|null $typedAs enforce type for the returned values ({@see self::VALUE_STRING} and others)
-	 *
-	 * @return array<string, string|int|float|bool|array> [appId => configValue]
-	 * @since 29.0.0
-	 */
 	public function searchValues(string $key, bool $lazy = false, ?int $typedAs = null): array {
 		$this->assertParams('', $key, true);
 		$this->loadConfig($lazy);
@@ -298,20 +233,6 @@ class AppConfig implements IAppConfig {
 		);
 	}
 
-	/**
-	 * @inheritDoc
-	 *
-	 * @param string $app id of the app
-	 * @param string $key config key
-	 * @param string $default default value
-	 * @param bool $lazy search within lazy loaded config
-	 *
-	 * @return string stored config value or $default if not set in database
-	 * @throws InvalidArgumentException if one of the argument format is invalid
-	 * @throws AppConfigTypeConflictException in case of conflict with the value type set in database
-	 * @since 29.0.0
-	 * @see IAppConfig for explanation about lazy loading
-	 */
 	public function getValueString(
 		string $app,
 		string $key,
@@ -321,20 +242,6 @@ class AppConfig implements IAppConfig {
 		return $this->getTypedValue($app, $key, $default, $lazy, self::VALUE_STRING);
 	}
 
-	/**
-	 * @inheritDoc
-	 *
-	 * @param string $app id of the app
-	 * @param string $key config key
-	 * @param int $default default value
-	 * @param bool $lazy search within lazy loaded config
-	 *
-	 * @return int stored config value or $default if not set in database
-	 * @throws InvalidArgumentException if one of the argument format is invalid
-	 * @throws AppConfigTypeConflictException in case of conflict with the value type set in database
-	 * @since 29.0.0
-	 * @see IAppConfig for explanation about lazy loading
-	 */
 	public function getValueInt(
 		string $app,
 		string $key,
@@ -344,57 +251,15 @@ class AppConfig implements IAppConfig {
 		return (int)$this->getTypedValue($app, $key, (string)$default, $lazy, self::VALUE_INT);
 	}
 
-	/**
-	 * @inheritDoc
-	 *
-	 * @param string $app id of the app
-	 * @param string $key config key
-	 * @param float $default default value
-	 * @param bool $lazy search within lazy loaded config
-	 *
-	 * @return float stored config value or $default if not set in database
-	 * @throws InvalidArgumentException if one of the argument format is invalid
-	 * @throws AppConfigTypeConflictException in case of conflict with the value type set in database
-	 * @since 29.0.0
-	 * @see IAppConfig for explanation about lazy loading
-	 */
 	public function getValueFloat(string $app, string $key, float $default = 0, bool $lazy = false): float {
 		return (float)$this->getTypedValue($app, $key, (string)$default, $lazy, self::VALUE_FLOAT);
 	}
 
-	/**
-	 * @inheritDoc
-	 *
-	 * @param string $app id of the app
-	 * @param string $key config key
-	 * @param bool $default default value
-	 * @param bool $lazy search within lazy loaded config
-	 *
-	 * @return bool stored config value or $default if not set in database
-	 * @throws InvalidArgumentException if one of the argument format is invalid
-	 * @throws AppConfigTypeConflictException in case of conflict with the value type set in database
-	 * @since 29.0.0
-	 * @see IAppConfig for explanation about lazy loading
-	 */
 	public function getValueBool(string $app, string $key, bool $default = false, bool $lazy = false): bool {
 		$b = strtolower($this->getTypedValue($app, $key, $default ? 'true' : 'false', $lazy, self::VALUE_BOOL));
 		return in_array($b, ['1', 'true', 'yes', 'on']);
 	}
 
-	/**
-	 * @inheritDoc
-	 *
-	 * @param string $app id of the app
-	 * @param string $key config key
-	 * @param array $default default value
-	 * @param bool $lazy search within lazy loaded config
-	 *
-	 * @return array stored config value or $default if not set in database
-	 * @throws InvalidArgumentException if one of the argument format is invalid
-	 * @throws AppConfigTypeConflictException in case of conflict with the value type set in database
-	 * @since 29.0.0
-	 * @see IAppConfig for explanation about lazy loading
-	 */
 	public function getValueArray(
 		string $app,
 		string $key,
@@ -470,21 +335,6 @@ class AppConfig implements IAppConfig {
 		return $value;
 	}
 
-	/**
-	 * @inheritDoc
-	 *
-	 * @param string $app id of the app
-	 * @param string $key config key
-	 *
-	 * @return int type of the value
-	 * @throws AppConfigUnknownKeyException if config key is not known
-	 * @since 29.0.0
-	 * @see VALUE_STRING
-	 * @see VALUE_INT
-	 * @see VALUE_FLOAT
-	 * @see VALUE_BOOL
-	 * @see VALUE_ARRAY
-	 */
 	public function getValueType(string $app, string $key, ?bool $lazy = null): int {
 		$this->assertParams($app, $key);
 		$this->loadConfig($lazy);
@@ -538,20 +388,6 @@ class AppConfig implements IAppConfig {
 	}
 
 
-	/**
-	 * @inheritDoc
-	 *
-	 * @param string $app id of the app
-	 * @param string $key config key
-	 * @param string $value config value
-	 * @param bool $lazy set config as lazy loaded
-	 * @param bool $sensitive if TRUE value will be hidden when listing config values.
-	 *
-	 * @return bool TRUE if value was different, therefor updated in database
-	 * @throws AppConfigTypeConflictException if type from database is not VALUE_MIXED and different from the requested one
-	 * @since 29.0.0
-	 * @see IAppConfig for explanation about lazy loading
-	 */
 	public function setValueString(
 		string $app,
 		string $key,
@@ -568,20 +404,6 @@ class AppConfig implements IAppConfig {
 		);
 	}
 
-	/**
-	 * @inheritDoc
-	 *
-	 * @param string $app id of the app
-	 * @param string $key config key
-	 * @param int $value config value
-	 * @param bool $lazy set config as lazy loaded
-	 * @param bool $sensitive if TRUE value will be hidden when listing config values.
-	 *
-	 * @return bool TRUE if value was different, therefor updated in database
-	 * @throws AppConfigTypeConflictException if type from database is not VALUE_MIXED and different from the requested one
-	 * @since 29.0.0
-	 * @see IAppConfig for explanation about lazy loading
-	 */
 	public function setValueInt(
 		string $app,
 		string $key,
@@ -602,20 +424,6 @@ class AppConfig implements IAppConfig {
 		);
 	}
 
-	/**
-	 * @inheritDoc
-	 *
-	 * @param string $app id of the app
-	 * @param string $key config key
-	 * @param float $value config value
-	 * @param bool $lazy set config as lazy loaded
-	 * @param bool $sensitive if TRUE value will be hidden when listing config values.
-	 *
-	 * @return bool TRUE if value was different, therefor updated in database
-	 * @throws AppConfigTypeConflictException if type from database is not VALUE_MIXED and different from the requested one
-	 * @since 29.0.0
-	 * @see IAppConfig for explanation about lazy loading
-	 */
 	public function setValueFloat(
 		string $app,
 		string $key,
@@ -632,19 +440,6 @@ class AppConfig implements IAppConfig {
 		);
 	}
 
-	/**
-	 * @inheritDoc
-	 *
-	 * @param string $app id of the app
-	 * @param string $key config key
-	 * @param bool $value config value
-	 * @param bool $lazy set config as lazy loaded
-	 *
-	 * @return bool TRUE if value was different, therefor updated in database
-	 * @throws AppConfigTypeConflictException if type from database is not VALUE_MIXED and different from the requested one
-	 * @since 29.0.0
-	 * @see IAppConfig for explanation about lazy loading
-	 */
 	public function setValueBool(
 		string $app,
 		string $key,
@@ -660,21 +455,6 @@ class AppConfig implements IAppConfig {
 		);
 	}
 
-	/**
-	 * @inheritDoc
-	 *
-	 * @param string $app id of the app
-	 * @param string $key config key
-	 * @param array $value config value
-	 * @param bool $lazy set config as lazy loaded
-	 * @param bool $sensitive if TRUE value will be hidden when listing config values.
-	 *
-	 * @return bool TRUE if value was different, therefor updated in database
-	 * @throws AppConfigTypeConflictException if type from database is not VALUE_MIXED and different from the requested one
-	 * @throws JsonException
-	 * @since 29.0.0
-	 * @see IAppConfig for explanation about lazy loading
-	 */
 	public function setValueArray(
 		string $app,
 		string $key,
@@ -879,16 +659,6 @@ class AppConfig implements IAppConfig {
 	}
 
 
-	/**
-	 * @inheritDoc
-	 *
-	 * @param string $app id of the app
-	 * @param string $key config key
-	 * @param bool $sensitive TRUE to set as sensitive, FALSE to unset
-	 *
-	 * @return bool TRUE if entry was found in database and an update was necessary
-	 * @since 29.0.0
-	 */
 	public function updateSensitive(string $app, string $key, bool $sensitive): bool {
 		$this->assertParams($app, $key);
 		$this->loadConfigAll();
@@ -938,16 +708,6 @@ class AppConfig implements IAppConfig {
 		return true;
 	}
 
-	/**
-	 * @inheritDoc
-	 *
-	 * @param string $app id of the app
-	 * @param string $key config key
-	 * @param bool $lazy TRUE to set as lazy loaded, FALSE to unset
-	 *
-	 * @return bool TRUE if entry was found in database and an update was necessary
-	 * @since 29.0.0
-	 */
 	public function updateLazy(string $app, string $key, bool $lazy): bool {
 		$this->assertParams($app, $key);
 		$this->loadConfigAll();
@@ -973,16 +733,6 @@ class AppConfig implements IAppConfig {
 		return true;
 	}
 
-	/**
-	 * @inheritDoc
-	 *
-	 * @param string $app id of the app
-	 * @param string $key config key
-	 *
-	 * @return array
-	 * @throws AppConfigUnknownKeyException if config key is not known in database
-	 * @since 29.0.0
-	 */
 	public function getDetails(string $app, string $key): array {
 		$this->assertParams($app, $key);
 		$this->loadConfigAll();
@@ -1023,13 +773,6 @@ class AppConfig implements IAppConfig {
 		];
 	}
 
-	/**
-	 * @param string $type
-	 *
-	 * @return int
-	 * @throws AppConfigIncorrectTypeException
-	 * @since 29.0.0
-	 */
 	public function convertTypeToInt(string $type): int {
 		return match (strtolower($type)) {
 			'mixed' => IAppConfig::VALUE_MIXED,
@@ -1042,13 +785,6 @@ class AppConfig implements IAppConfig {
 		};
 	}
 
-	/**
-	 * @param int $type
-	 *
-	 * @return string
-	 * @throws AppConfigIncorrectTypeException
-	 * @since 29.0.0
-	 */
 	public function convertTypeToString(int $type): string {
 		$type &= ~self::VALUE_SENSITIVE;
 
@@ -1063,14 +799,6 @@ class AppConfig implements IAppConfig {
 		};
 	}
 
-	/**
-	 * @inheritDoc
-	 *
-	 * @param string $app id of the app
-	 * @param string $key config key
-	 *
-	 * @since 29.0.0
-	 */
 	public function deleteKey(string $app, string $key): void {
 		$this->assertParams($app, $key);
 		$qb = $this->connection->getQueryBuilder();
@@ -1083,13 +811,6 @@ class AppConfig implements IAppConfig {
 		unset($this->fastCache[$app][$key]);
 	}
 
-	/**
-	 * @inheritDoc
-	 *
-	 * @param string $app id of the app
-	 *
-	 * @since 29.0.0
-	 */
 	public function deleteApp(string $app): void {
 		$this->assertParams($app);
 		$qb = $this->connection->getQueryBuilder();
@@ -1100,13 +821,6 @@ class AppConfig implements IAppConfig {
 		$this->clearCache();
 	}
 
-	/**
-	 * @inheritDoc
-	 *
-	 * @param bool $reload set to TRUE to refill cache instantly after clearing it
-	 *
-	 * @since 29.0.0
-	 */
 	public function clearCache(bool $reload = false): void {
 		$this->lazyLoaded = $this->fastLoaded = false;
 		$this->lazyCache = $this->fastCache = $this->valueTypes = [];
@@ -1332,15 +1046,6 @@ class AppConfig implements IAppConfig {
 	}
 
 
-	/**
-	 * get multiple values, either the app or key can be used as wildcard by setting it to false
-	 *
-	 * @param string|false $app
-	 * @param string|false $key
-	 *
-	 * @return array|false
-	 * @deprecated 29.0.0 use {@see getAllValues()}
-	 */
 	public function getValues($app, $key) {
 		if (($app !== false) === ($key !== false)) {
 			return false;
@@ -1354,14 +1059,6 @@ class AppConfig implements IAppConfig {
 		}
 	}
 
-	/**
-	 * get all values of the app or and filters out sensitive data
-	 *
-	 * @param string $app
-	 *
-	 * @return array
-	 * @deprecated 29.0.0 use {@see getAllValues()}
-	 */
 	public function getFilteredValues($app) {
 		return $this->getAllValues($app, filtered: true);
 	}

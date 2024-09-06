@@ -66,15 +66,6 @@ class Registry implements IRegistry {
 		return $this->subscription;
 	}
 
-	/**
-	 * Register a subscription instance. In case it is called multiple times the
-	 * first one is used.
-	 *
-	 * @param ISubscription $subscription
-	 * @throws AlreadyRegisteredException
-	 *
-	 * @since 17.0.0
-	 */
 	public function register(ISubscription $subscription): void {
 		if ($this->subscription !== null || $this->subscriptionService !== null) {
 			throw new AlreadyRegisteredException();
@@ -91,11 +82,6 @@ class Registry implements IRegistry {
 	}
 
 
-	/**
-	 * Fetches the list of app IDs that are supported by the subscription
-	 *
-	 * @since 17.0.0
-	 */
 	public function delegateGetSupportedApps(): array {
 		if ($this->getSubscription() instanceof ISupportedApps) {
 			return $this->getSubscription()->getSupportedApps();
@@ -103,11 +89,6 @@ class Registry implements IRegistry {
 		return [];
 	}
 
-	/**
-	 * Indicates if a valid subscription is available
-	 *
-	 * @since 17.0.0
-	 */
 	public function delegateHasValidSubscription(): bool {
 		// Allow overwriting this manually for environments where the subscription information cannot be fetched
 		if ($this->config->getSystemValueBool('has_valid_subscription')) {
@@ -120,11 +101,6 @@ class Registry implements IRegistry {
 		return false;
 	}
 
-	/**
-	 * Indicates if the subscription has extended support
-	 *
-	 * @since 17.0.0
-	 */
 	public function delegateHasExtendedSupport(): bool {
 		if ($this->getSubscription() instanceof ISubscription) {
 			return $this->getSubscription()->hasExtendedSupport();
@@ -133,12 +109,6 @@ class Registry implements IRegistry {
 	}
 
 
-	/**
-	 * Indicates if a hard user limit is reached and no new users should be created
-	 *
-	 * @param IManager|null $notificationManager
-	 * @since 21.0.0
-	 */
 	public function delegateIsHardUserLimitReached(?IManager $notificationManager = null): bool {
 		$subscription = $this->getSubscription();
 		if ($subscription instanceof ISubscription &&

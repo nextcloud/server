@@ -15,13 +15,6 @@ use OCP\IUser;
  * Mount provider for regular posix home folders
  */
 class LocalHomeMountProvider implements IHomeMountProvider {
-	/**
-	 * Get the cache mount for a user
-	 *
-	 * @param IUser $user
-	 * @param IStorageFactory $loader
-	 * @return \OCP\Files\Mount\IMountPoint|null
-	 */
 	public function getHomeMountForUser(IUser $user, IStorageFactory $loader) {
 		$arguments = ['user' => $user];
 		return new HomeMountPoint($user, '\OC\Files\Storage\Home', '/' . $user->getUID(), $arguments, $loader, null, null, self::class);

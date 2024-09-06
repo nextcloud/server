@@ -52,10 +52,6 @@ class Systemdlog extends LogDetails implements IWriter {
 		$this->syslogId = $tag;
 	}
 
-	/**
-	 * Write a message to the log.
-	 * @param string|array $message
-	 */
 	public function write(string $app, $message, int $level): void {
 		$journal_level = $this->levels[$level];
 		sd_journal_send('PRIORITY='.$journal_level,

@@ -138,13 +138,6 @@ class MountProviderCollection implements IMountProviderCollection, Emitter {
 		return array_merge($lateMounts, $firstMounts);
 	}
 
-	/**
-	 * Get the configured home mount for this user
-	 *
-	 * @param \OCP\IUser $user
-	 * @return \OCP\Files\Mount\IMountPoint
-	 * @since 9.1.0
-	 */
 	public function getHomeMountForUser(IUser $user) {
 		/** @var \OCP\Files\Config\IHomeMountProvider[] $providers */
 		$providers = array_reverse($this->homeProviders); // call the latest registered provider first to give apps an opportunity to overwrite builtin
@@ -157,11 +150,6 @@ class MountProviderCollection implements IMountProviderCollection, Emitter {
 		throw new \Exception('No home storage configured for user ' . $user);
 	}
 
-	/**
-	 * Add a provider for mount points
-	 *
-	 * @param \OCP\Files\Config\IMountProvider $provider
-	 */
 	public function registerProvider(IMountProvider $provider) {
 		$this->providers[] = $provider;
 
@@ -183,22 +171,11 @@ class MountProviderCollection implements IMountProviderCollection, Emitter {
 		});
 	}
 
-	/**
-	 * Add a provider for home mount points
-	 *
-	 * @param \OCP\Files\Config\IHomeMountProvider $provider
-	 * @since 9.1.0
-	 */
 	public function registerHomeProvider(IHomeMountProvider $provider) {
 		$this->homeProviders[] = $provider;
 		$this->emit('\OC\Files\Config', 'registerHomeMountProvider', [$provider]);
 	}
 
-	/**
-	 * Get the mount cache which can be used to search for mounts without setting up the filesystem
-	 *
-	 * @return IUserMountCache
-	 */
 	public function getMountCache() {
 		return $this->mountCache;
 	}
@@ -207,12 +184,6 @@ class MountProviderCollection implements IMountProviderCollection, Emitter {
 		$this->rootProviders[] = $provider;
 	}
 
-	/**
-	 * Get all root mountpoints
-	 *
-	 * @return \OCP\Files\Mount\IMountPoint[]
-	 * @since 20.0.0
-	 */
 	public function getRootMounts(): array {
 		$loader = $this->loader;
 		$mounts = array_map(function (IRootMountProvider $provider) use ($loader) {

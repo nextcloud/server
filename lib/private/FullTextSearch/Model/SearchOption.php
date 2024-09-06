@@ -84,112 +84,55 @@ final class SearchOption implements ISearchOption, JsonSerializable {
 	}
 
 
-	/**
-	 * Set the name/key of the option.
-	 * The string should only contain alphanumerical chars and underscore.
-	 * The key can be retrieved when using ISearchRequest::getOption
-	 *
-	 * @see ISearchRequest::getOption
-	 *
-	 * @since 15.0.0
-	 */
 	public function setName(string $name): ISearchOption {
 		$this->name = $name;
 
 		return $this;
 	}
 
-	/**
-	 * Get the name/key of the option.
-	 *
-	 * @since 15.0.0
-	 */
 	public function getName(): string {
 		return $this->name;
 	}
 
 
-	/**
-	 * Set the title/display name of the option.
-	 *
-	 * @since 15.0.0
-	 */
 	public function setTitle(string $title): ISearchOption {
 		$this->title = $title;
 
 		return $this;
 	}
 
-	/**
-	 * Get the title of the option.
-	 *
-	 * @since 15.0.0
-	 */
 	public function getTitle(): string {
 		return $this->title;
 	}
 
 
-	/**
-	 * Set the type of the option.
-	 * $type can be ISearchOption::CHECKBOX or ISearchOption::INPUT
-	 *
-	 * @since 15.0.0
-	 */
 	public function setType(string $type): ISearchOption {
 		$this->type = $type;
 
 		return $this;
 	}
 
-	/**
-	 * Get the type of the option.
-	 *
-	 * @since 15.0.0
-	 */
 	public function getType(): string {
 		return $this->type;
 	}
 
 
-	/**
-	 * In case of Type is INPUT, set the size of the input field.
-	 * Value can be ISearchOption::INPUT_SMALL or not defined.
-	 *
-	 * @since 15.0.0
-	 */
 	public function setSize(string $size): ISearchOption {
 		$this->size = $size;
 
 		return $this;
 	}
 
-	/**
-	 * Get the size of the INPUT.
-	 *
-	 * @since 15.0.0
-	 */
 	public function getSize(): string {
 		return $this->size;
 	}
 
-	/**
-	 * In case of Type is , set the placeholder to be displayed in the input
-	 * field.
-	 *
-	 * @since 15.0.0
-	 */
 	public function setPlaceholder(string $placeholder): ISearchOption {
 		$this->placeholder = $placeholder;
 
 		return $this;
 	}
 
-	/**
-	 * Get the placeholder.
-	 *
-	 * @since 15.0.0
-	 */
 	public function getPlaceholder(): string {
 		return $this->placeholder;
 	}

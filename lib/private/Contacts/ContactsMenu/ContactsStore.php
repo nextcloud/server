@@ -41,9 +41,6 @@ class ContactsStore implements IContactsStore {
 	) {
 	}
 
-	/**
-	 * @return IEntry[]
-	 */
 	public function getContacts(IUser $user, ?string $filter, ?int $limit = null, ?int $offset = null): array {
 		$options = [
 			'enumeration' => $this->config->getAppValue('core', 'shareapi_allow_share_dialog_user_enumeration', 'yes') === 'yes',

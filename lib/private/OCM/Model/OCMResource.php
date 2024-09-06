@@ -21,81 +21,42 @@ class OCMResource implements IOCMResource {
 	/** @var array<string, string> */
 	private array $protocols = [];
 
-	/**
-	 * @param string $name
-	 *
-	 * @return $this
-	 */
 	public function setName(string $name): static {
 		$this->name = $name;
 
 		return $this;
 	}
 
-	/**
-	 * @return string
-	 */
 	public function getName(): string {
 		return $this->name;
 	}
 
-	/**
-	 * @param string[] $shareTypes
-	 *
-	 * @return $this
-	 */
 	public function setShareTypes(array $shareTypes): static {
 		$this->shareTypes = $shareTypes;
 
 		return $this;
 	}
 
-	/**
-	 * @return string[]
-	 */
 	public function getShareTypes(): array {
 		return $this->shareTypes;
 	}
 
-	/**
-	 * @param array<string, string> $protocols
-	 *
-	 * @return $this
-	 */
 	public function setProtocols(array $protocols): static {
 		$this->protocols = $protocols;
 
 		return $this;
 	}
 
-	/**
-	 * @return array<string, string>
-	 */
 	public function getProtocols(): array {
 		return $this->protocols;
 	}
 
-	/**
-	 * import data from an array
-	 *
-	 * @param array $data
-	 *
-	 * @return $this
-	 * @see self::jsonSerialize()
-	 */
 	public function import(array $data): static {
 		return $this->setName((string)($data['name'] ?? ''))
 			->setShareTypes($data['shareTypes'] ?? [])
 			->setProtocols($data['protocols'] ?? []);
 	}
 
-	/**
-	 * @return array{
-	 *     name: string,
-	 *     shareTypes: string[],
-	 *     protocols: array<string, string>
-	 * }
-	 */
 	public function jsonSerialize(): array {
 		return [
 			'name' => $this->getName(),

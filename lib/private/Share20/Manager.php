@@ -601,15 +601,6 @@ class Manager implements IManager {
 		}
 	}
 
-	/**
-	 * Share a path
-	 *
-	 * @param IShare $share
-	 * @return IShare The share object
-	 * @throws \Exception
-	 *
-	 * TODO: handle link share permissions or check them
-	 */
 	public function createShare(IShare $share) {
 		$this->canShare($share);
 
@@ -747,13 +738,6 @@ class Manager implements IManager {
 		return $share;
 	}
 
-	/**
-	 * Update a share
-	 *
-	 * @param IShare $share
-	 * @return IShare The share object
-	 * @throws \InvalidArgumentException
-	 */
 	public function updateShare(IShare $share) {
 		$expirationDateUpdated = false;
 
@@ -894,15 +878,6 @@ class Manager implements IManager {
 		return $share;
 	}
 
-	/**
-	 * Accept a share.
-	 *
-	 * @param IShare $share
-	 * @param string $recipientId
-	 * @return IShare The share object
-	 * @throws \InvalidArgumentException Thrown if the provider does not implement `IShareProviderSupportsAccept`
-	 * @since 9.0.0
-	 */
 	public function acceptShare(IShare $share, string $recipientId): IShare {
 		[$providerId,] = $this->splitFullId($share->getFullId());
 		$provider = $this->factory->getProvider($providerId);
@@ -1010,13 +985,6 @@ class Manager implements IManager {
 		return $deletedShares;
 	}
 
-	/**
-	 * Delete a share
-	 *
-	 * @param IShare $share
-	 * @throws ShareNotFound
-	 * @throws \InvalidArgumentException
-	 */
 	public function deleteShare(IShare $share) {
 		try {
 			$share->getFullId();
@@ -1037,15 +1005,6 @@ class Manager implements IManager {
 	}
 
 
-	/**
-	 * Unshare a file as the recipient.
-	 * This can be different from a regular delete for example when one of
-	 * the users in a groups deletes that share. But the provider should
-	 * handle this.
-	 *
-	 * @param IShare $share
-	 * @param string $recipientId
-	 */
 	public function deleteFromSelf(IShare $share, $recipientId) {
 		[$providerId,] = $this->splitFullId($share->getFullId());
 		$provider = $this->factory->getProvider($providerId);
@@ -1062,9 +1021,6 @@ class Manager implements IManager {
 		return $provider->restore($share, $recipientId);
 	}
 
-	/**
-	 * @inheritdoc
-	 */
 	public function moveShare(IShare $share, $recipientId) {
 		if ($share->getShareType() === IShare::TYPE_LINK
 			|| $share->getShareType() === IShare::TYPE_EMAIL) {
@@ -1111,9 +1067,6 @@ class Manager implements IManager {
 		}, []);
 	}
 
-	/**
-	 * @inheritdoc
-	 */
 	public function getSharesBy($userId, $shareType, $path = null, $reshares = false, $limit = 50, $offset = 0) {
 		if ($path !== null &&
 			!($path instanceof \OCP\Files\File) &&
@@ -1184,9 +1137,6 @@ class Manager implements IManager {
 		return $shares;
 	}
 
-	/**
-	 * @inheritdoc
-	 */
 	public function getSharedWith($userId, $shareType, $node = null, $limit = 50, $offset = 0) {
 		try {
 			$provider = $this->factory->getProviderForType($shareType);
@@ -1208,9 +1158,6 @@ class Manager implements IManager {
 		return $shares;
 	}
 
-	/**
-	 * @inheritdoc
-	 */
 	public function getDeletedSharedWith($userId, $shareType, $node = null, $limit = 50, $offset = 0) {
 		$shares = $this->getSharedWith($userId, $shareType, $node, $limit, $offset);
 
@@ -1227,9 +1174,6 @@ class Manager implements IManager {
 		return $shares;
 	}
 
-	/**
-	 * @inheritdoc
-	 */
 	public function getShareById($id, $recipient = null) {
 		if ($id === null) {
 			throw new ShareNotFound();
@@ -1263,14 +1207,6 @@ class Manager implements IManager {
 		return [];
 	}
 
-	/**
-	 * Get the share by token possible with password
-	 *
-	 * @param string $token
-	 * @return IShare
-	 *
-	 * @throws ShareNotFound
-	 */
 	public function getShareByToken($token) {
 		// tokens cannot be valid local user names
 		if ($this->userManager->userExists($token)) {
@@ -1363,13 +1299,6 @@ class Manager implements IManager {
 		}
 	}
 
-	/**
-	 * Verify the password of a public share
-	 *
-	 * @param IShare $share
-	 * @param ?string $password
-	 * @return bool
-	 */
 	public function checkPassword(IShare $share, $password) {
 
 		// if there is no password on the share object / passsword is null, there is nothing to check
@@ -1397,9 +1326,6 @@ class Manager implements IManager {
 		return true;
 	}
 
-	/**
-	 * @inheritdoc
-	 */
 	public function userDeleted($uid) {
 		$types = [IShare::TYPE_USER, IShare::TYPE_GROUP, IShare::TYPE_LINK, IShare::TYPE_REMOTE, IShare::TYPE_EMAIL];
 
@@ -1413,9 +1339,6 @@ class Manager implements IManager {
 		}
 	}
 
-	/**
-	 * @inheritdoc
-	 */
 	public function groupDeleted($gid) {
 		$provider = $this->factory->getProviderForType(IShare::TYPE_GROUP);
 		$provider->groupDeleted($gid);
@@ -1434,62 +1357,11 @@ class Manager implements IManager {
 		$this->config->setAppValue('core', 'shareapi_exclude_groups_list', json_encode($excludedGroups));
 	}
 
-	/**
-	 * @inheritdoc
-	 */
 	public function userDeletedFromGroup($uid, $gid) {
 		$provider = $this->factory->getProviderForType(IShare::TYPE_GROUP);
 		$provider->userDeletedFromGroup($uid, $gid);
 	}
 
-	/**
-	 * Get access list to a path. This means
-	 * all the users that can access a given path.
-	 *
-	 * Consider:
-	 * -root
-	 * |-folder1 (23)
-	 *  |-folder2 (32)
-	 *   |-fileA (42)
-	 *
-	 * fileA is shared with user1 and user1@server1 and email1@maildomain1
-	 * folder2 is shared with group2 (user4 is a member of group2)
-	 * folder1 is shared with user2 (renamed to "folder (1)") and user2@server2
-	 *                        and email2@maildomain2
-	 *
-	 * Then the access list to '/folder1/folder2/fileA' with $currentAccess is:
-	 * [
-	 *  users  => [
-	 *      'user1' => ['node_id' => 42, 'node_path' => '/fileA'],
-	 *      'user4' => ['node_id' => 32, 'node_path' => '/folder2'],
-	 *      'user2' => ['node_id' => 23, 'node_path' => '/folder (1)'],
-	 *  ],
-	 *  remote => [
-	 *      'user1@server1' => ['node_id' => 42, 'token' => 'SeCr3t'],
-	 *      'user2@server2' => ['node_id' => 23, 'token' => 'FooBaR'],
-	 *  ],
-	 *  public => bool
-	 *  mail => [
-	 *      'email1@maildomain1' => ['node_id' => 42, 'token' => 'aBcDeFg'],
-	 *      'email2@maildomain2' => ['node_id' => 23, 'token' => 'hIjKlMn'],
-	 *  ]
-	 * ]
-	 *
-	 * The access list to '/folder1/folder2/fileA' **without** $currentAccess is:
-	 * [
-	 *  users  => ['user1', 'user2', 'user4'],
-	 *  remote => bool,
-	 *  public => bool
-	 *  mail => ['email1@maildomain1', 'email2@maildomain2']
-	 * ]
-	 *
-	 * This is required for encryption/activity
-	 *
-	 * @param \OCP\Files\Node $path
-	 * @param bool $recursive Should we check all parent folders as well
-	 * @param bool $currentAccess Ensure the recipient has access to the file (e.g. did not unshare it)
-	 * @return array
-	 */
 	public function getAccessList(\OCP\Files\Node $path, $recursive = true, $currentAccess = false) {
 		$owner = $path->getOwner();
 
@@ -1574,29 +1446,14 @@ class Manager implements IManager {
 		return $al;
 	}
 
-	/**
-	 * Create a new share
-	 *
-	 * @return IShare
-	 */
 	public function newShare() {
 		return new \OC\Share20\Share($this->rootFolder, $this->userManager);
 	}
 
-	/**
-	 * Is the share API enabled
-	 *
-	 * @return bool
-	 */
 	public function shareApiEnabled() {
 		return $this->config->getAppValue('core', 'shareapi_enabled', 'yes') === 'yes';
 	}
 
-	/**
-	 * Is public link sharing enabled
-	 *
-	 * @return bool
-	 */
 	public function shareApiAllowLinks() {
 		if ($this->config->getAppValue('core', 'shareapi_allow_links', 'yes') !== 'yes') {
 			return false;
@@ -1614,12 +1471,6 @@ class Manager implements IManager {
 		return true;
 	}
 
-	/**
-	 * Is password on public link requires
-	 *
-	 * @param bool Check group membership exclusion
-	 * @return bool
-	 */
 	public function shareApiLinkEnforcePassword(bool $checkGroupMembership = true) {
 		$excludedGroups = $this->config->getAppValue('core', 'shareapi_enforce_links_password_excluded_groups', '');
 		if ($excludedGroups !== '' && $checkGroupMembership) {
@@ -1635,117 +1486,54 @@ class Manager implements IManager {
 		return $this->config->getAppValue('core', 'shareapi_enforce_links_password', 'no') === 'yes';
 	}
 
-	/**
-	 * Is default link expire date enabled
-	 *
-	 * @return bool
-	 */
 	public function shareApiLinkDefaultExpireDate() {
 		return $this->config->getAppValue('core', 'shareapi_default_expire_date', 'no') === 'yes';
 	}
 
-	/**
-	 * Is default link expire date enforced
-	 *`
-	 *
-	 * @return bool
-	 */
 	public function shareApiLinkDefaultExpireDateEnforced() {
 		return $this->shareApiLinkDefaultExpireDate() &&
 			$this->config->getAppValue('core', 'shareapi_enforce_expire_date', 'no') === 'yes';
 	}
 
 
-	/**
-	 * Number of default link expire days
-	 *
-	 * @return int
-	 */
 	public function shareApiLinkDefaultExpireDays() {
 		return (int)$this->config->getAppValue('core', 'shareapi_expire_after_n_days', '7');
 	}
 
-	/**
-	 * Is default internal expire date enabled
-	 *
-	 * @return bool
-	 */
 	public function shareApiInternalDefaultExpireDate(): bool {
 		return $this->config->getAppValue('core', 'shareapi_default_internal_expire_date', 'no') === 'yes';
 	}
 
-	/**
-	 * Is default remote expire date enabled
-	 *
-	 * @return bool
-	 */
 	public function shareApiRemoteDefaultExpireDate(): bool {
 		return $this->config->getAppValue('core', 'shareapi_default_remote_expire_date', 'no') === 'yes';
 	}
 
-	/**
-	 * Is default expire date enforced
-	 *
-	 * @return bool
-	 */
 	public function shareApiInternalDefaultExpireDateEnforced(): bool {
 		return $this->shareApiInternalDefaultExpireDate() &&
 			$this->config->getAppValue('core', 'shareapi_enforce_internal_expire_date', 'no') === 'yes';
 	}
 
-	/**
-	 * Is default expire date enforced for remote shares
-	 *
-	 * @return bool
-	 */
 	public function shareApiRemoteDefaultExpireDateEnforced(): bool {
 		return $this->shareApiRemoteDefaultExpireDate() &&
 			$this->config->getAppValue('core', 'shareapi_enforce_remote_expire_date', 'no') === 'yes';
 	}
 
-	/**
-	 * Number of default expire days
-	 *
-	 * @return int
-	 */
 	public function shareApiInternalDefaultExpireDays(): int {
 		return (int)$this->config->getAppValue('core', 'shareapi_internal_expire_after_n_days', '7');
 	}
 
-	/**
-	 * Number of default expire days for remote shares
-	 *
-	 * @return int
-	 */
 	public function shareApiRemoteDefaultExpireDays(): int {
 		return (int)$this->config->getAppValue('core', 'shareapi_remote_expire_after_n_days', '7');
 	}
 
-	/**
-	 * Allow public upload on link shares
-	 *
-	 * @return bool
-	 */
 	public function shareApiLinkAllowPublicUpload() {
 		return $this->config->getAppValue('core', 'shareapi_allow_public_upload', 'yes') === 'yes';
 	}
 
-	/**
-	 * check if user can only share with group members
-	 *
-	 * @return bool
-	 */
 	public function shareWithGroupMembersOnly() {
 		return $this->config->getAppValue('core', 'shareapi_only_share_with_group_members', 'no') === 'yes';
 	}
 
-	/**
-	 * If shareWithGroupMembersOnly is enabled, return an optional
-	 * list of groups that must be excluded from the principle of
-	 * belonging to the same group.
-	 *
-	 * @return array
-	 */
 	public function shareWithGroupMembersOnlyExcludeGroupsList() {
 		if (!$this->shareWithGroupMembersOnly()) {
 			return [];
@@ -1754,11 +1542,6 @@ class Manager implements IManager {
 		return json_decode($excludeGroups, true) ?? [];
 	}
 
-	/**
-	 * Check if users can share with groups
-	 *
-	 * @return bool
-	 */
 	public function allowGroupSharing() {
 		return $this->config->getAppValue('core', 'shareapi_allow_group_sharing', 'yes') === 'yes';
 	}
@@ -1825,35 +1608,18 @@ class Manager implements IManager {
 		return false;
 	}
 
-	/**
-	 * Copied from \OC_Util::isSharingDisabledForUser
-	 *
-	 * TODO: Deprecate function from OC_Util
-	 *
-	 * @param string $userId
-	 * @return bool
-	 */
 	public function sharingDisabledForUser($userId) {
 		return $this->shareDisableChecker->sharingDisabledForUser($userId);
 	}
 
-	/**
-	 * @inheritdoc
-	 */
 	public function outgoingServer2ServerSharesAllowed() {
 		return $this->config->getAppValue('files_sharing', 'outgoing_server2server_share_enabled', 'yes') === 'yes';
 	}
 
-	/**
-	 * @inheritdoc
-	 */
 	public function outgoingServer2ServerGroupSharesAllowed() {
 		return $this->config->getAppValue('files_sharing', 'outgoing_server2server_group_share_enabled', 'no') === 'yes';
 	}
 
-	/**
-	 * @inheritdoc
-	 */
 	public function shareProviderExists($shareType) {
 		try {
 			$this->factory->getProviderForType($shareType);

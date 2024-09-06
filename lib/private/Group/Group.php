@@ -96,11 +96,6 @@ class Group implements IGroup {
 		return false;
 	}
 
-	/**
-	 * get all users in the group
-	 *
-	 * @return \OC\User\User[]
-	 */
 	public function getUsers(): array {
 		if ($this->usersLoaded) {
 			return $this->users;
@@ -122,12 +117,6 @@ class Group implements IGroup {
 		return $this->users;
 	}
 
-	/**
-	 * check if a user is in the group
-	 *
-	 * @param IUser $user
-	 * @return bool
-	 */
 	public function inGroup(IUser $user): bool {
 		if (isset($this->users[$user->getUID()])) {
 			return true;
@@ -141,11 +130,6 @@ class Group implements IGroup {
 		return false;
 	}
 
-	/**
-	 * add a user to the group
-	 *
-	 * @param IUser $user
-	 */
 	public function addUser(IUser $user): void {
 		if ($this->inGroup($user)) {
 			return;
@@ -171,9 +155,6 @@ class Group implements IGroup {
 		}
 	}
 
-	/**
-	 * remove a user from the group
-	 */
 	public function removeUser(IUser $user): void {
 		$result = false;
 		$this->dispatcher->dispatchTyped(new BeforeUserRemovedEvent($this, $user));
@@ -202,10 +183,6 @@ class Group implements IGroup {
 		}
 	}
 
-	/**
-	 * Search for users in the group by userid or display name
-	 * @return IUser[]
-	 */
 	public function searchUsers(string $search, ?int $limit = null, ?int $offset = null): array {
 		$users = [];
 		foreach ($this->backends as $backend) {
@@ -227,12 +204,6 @@ class Group implements IGroup {
 		return $users;
 	}
 
-	/**
-	 * returns the number of users matching the search string
-	 *
-	 * @param string $search
-	 * @return int|bool
-	 */
 	public function count($search = ''): int|bool {
 		$users = false;
 		foreach ($this->backends as $backend) {
@@ -248,11 +219,6 @@ class Group implements IGroup {
 		return $users;
 	}
 
-	/**
-	 * returns the number of disabled users
-	 *
-	 * @return int|bool
-	 */
 	public function countDisabled(): int|bool {
 		$users = false;
 		foreach ($this->backends as $backend) {
@@ -268,24 +234,10 @@ class Group implements IGroup {
 		return $users;
 	}
 
-	/**
-	 * search for users in the group by displayname
-	 *
-	 * @param string $search
-	 * @param int $limit
-	 * @param int $offset
-	 * @return IUser[]
-	 * @deprecated 27.0.0 Use searchUsers instead (same implementation)
-	 */
 	public function searchDisplayName(string $search, ?int $limit = null, ?int $offset = null): array {
 		return $this->searchUsers($search, $limit, $offset);
 	}
 
-	/**
-	 * Get the names of the backend classes the group is connected to
-	 *
-	 * @return string[]
-	 */
 	public function getBackendNames(): array {
 		$backends = [];
 		foreach ($this->backends as $backend) {
@@ -299,11 +251,6 @@ class Group implements IGroup {
 		return $backends;
 	}
 
-	/**
-	 * Delete the group
-	 *
-	 * @return bool
-	 */
 	public function delete(): bool {
 		// Prevent users from deleting group admin
 		if ($this->getGID() === 'admin') {
@@ -345,10 +292,6 @@ class Group implements IGroup {
 		return $users;
 	}
 
-	/**
-	 * @return bool
-	 * @since 14.0.0
-	 */
 	public function canRemoveUser(): bool {
 		foreach ($this->backends as $backend) {
 			if ($backend->implementsActions(GroupInterface::REMOVE_FROM_GOUP)) {
@@ -358,10 +301,6 @@ class Group implements IGroup {
 		return false;
 	}
 
-	/**
-	 * @return bool
-	 * @since 14.0.0
-	 */
 	public function canAddUser(): bool {
 		foreach ($this->backends as $backend) {
 			if ($backend->implementsActions(GroupInterface::ADD_TO_GROUP)) {
@@ -371,10 +310,6 @@ class Group implements IGroup {
 		return false;
 	}
 
-	/**
-	 * @return bool
-	 * @since 16.0.0
-	 */
 	public function hideFromCollaboration(): bool {
 		return array_reduce($this->backends, function (bool $hide, GroupInterface $backend) {
 			return $hide | ($backend instanceof IHideFromCollaborationBackend && $backend->hideGroup($this->gid));

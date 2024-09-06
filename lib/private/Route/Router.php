@@ -207,15 +207,6 @@ class Router implements IRouter {
 	}
 
 
-	/**
-	 * Create a \OC\Route\Route.
-	 *
-	 * @param string $name Name of the route to create.
-	 * @param string $pattern The pattern to match
-	 * @param array $defaults An array of default parameter values
-	 * @param array $requirements An array of requirements for parameters (regexes)
-	 * @return \OC\Route\Route
-	 */
 	public function create($name,
 		$pattern,
 		array $defaults = [],

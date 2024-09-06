@@ -34,11 +34,6 @@ class CloudId implements ICloudId {
 		$this->displayName = $displayName;
 	}
 
-	/**
-	 * The full remote cloud id
-	 *
-	 * @return string
-	 */
 	public function getId(): string {
 		return $this->id;
 	}
@@ -52,20 +47,10 @@ class CloudId implements ICloudId {
 		return str_replace('https://', '', str_replace('http://', '', $this->getId()));
 	}
 
-	/**
-	 * The username on the remote server
-	 *
-	 * @return string
-	 */
 	public function getUser(): string {
 		return $this->user;
 	}
 
-	/**
-	 * The base address of the remote server
-	 *
-	 * @return string
-	 */
 	public function getRemote(): string {
 		return $this->remote;
 	}

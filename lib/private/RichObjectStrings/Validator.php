@@ -31,12 +31,6 @@ class Validator implements IValidator {
 		$this->definitions = $definitions;
 	}
 
-	/**
-	 * @param string $subject
-	 * @param array[] $parameters
-	 * @throws InvalidObjectExeption
-	 * @since 11.0.0
-	 */
 	public function validate($subject, array $parameters) {
 		$matches = [];
 		$result = preg_match_all('/\{([a-z0-9]+)\}/i', $subject, $matches);

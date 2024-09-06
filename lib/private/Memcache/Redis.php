@@ -95,14 +95,6 @@ class Redis extends Cache implements IMemcacheTTL {
 		return (is_array($keys) && (count($keys) === $deleted));
 	}
 
-	/**
-	 * Set a value in the cache if it's not already stored
-	 *
-	 * @param string $key
-	 * @param mixed $value
-	 * @param int $ttl Time To Live in seconds. Defaults to 60*60*24
-	 * @return bool
-	 */
 	public function add($key, $value, $ttl = 0) {
 		$value = self::encodeValue($value);
 		if ($ttl === 0) {
@@ -117,37 +109,15 @@ class Redis extends Cache implements IMemcacheTTL {
 		return $this->getCache()->set($this->getPrefix() . $key, $value, $args);
 	}
 
-	/**
-	 * Increase a stored number
-	 *
-	 * @param string $key
-	 * @param int $step
-	 * @return int | bool
-	 */
 	public function inc($key, $step = 1) {
 		return $this->getCache()->incrBy($this->getPrefix() . $key, $step);
 	}
 
-	/**
-	 * Decrease a stored number
-	 *
-	 * @param string $key
-	 * @param int $step
-	 * @return int | bool
-	 */
 	public function dec($key, $step = 1) {
 		$res = $this->evalLua('dec', [$key], [$step]);
 		return ($res === 'NEX') ? false : $res;
 	}
 
-	/**
-	 * Compare and set
-	 *
-	 * @param string $key
-	 * @param mixed $old
-	 * @param mixed $new
-	 * @return bool
-	 */
 	public function cas($key, $old, $new) {
 		$old = self::encodeValue($old);
 		$new = self::encodeValue($new);
@@ -155,13 +125,6 @@ class Redis extends Cache implements IMemcacheTTL {
 		return $this->evalLua('cas', [$key], [$old, $new]) > 0;
 	}
 
-	/**
-	 * Compare and delete
-	 *
-	 * @param string $key
-	 * @param mixed $old
-	 * @return bool
-	 */
 	public function cad($key, $old) {
 		$old = self::encodeValue($old);
 

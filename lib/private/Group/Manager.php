@@ -77,12 +77,6 @@ class Manager extends PublicEmitter implements IGroupManager {
 		});
 	}
 
-	/**
-	 * Checks whether a given backend is used
-	 *
-	 * @param string $backendClass Full classname including complete namespace
-	 * @return bool
-	 */
 	public function isBackendUsed($backendClass) {
 		$backendClass = strtolower(ltrim($backendClass, '\\'));
 
@@ -95,9 +89,6 @@ class Manager extends PublicEmitter implements IGroupManager {
 		return false;
 	}
 
-	/**
-	 * @param \OCP\GroupInterface $backend
-	 */
 	public function addBackend($backend) {
 		$this->backends[] = $backend;
 		$this->clearCaches();
@@ -108,11 +99,6 @@ class Manager extends PublicEmitter implements IGroupManager {
 		$this->clearCaches();
 	}
 
-	/**
-	 * Get the active backends
-	 *
-	 * @return \OCP\GroupInterface[]
-	 */
 	public function getBackends() {
 		return $this->backends;
 	}
@@ -123,10 +109,6 @@ class Manager extends PublicEmitter implements IGroupManager {
 		$this->cachedUserGroups = [];
 	}
 
-	/**
-	 * @param string $gid
-	 * @return IGroup|null
-	 */
 	public function get($gid) {
 		if (isset($this->cachedGroups[$gid])) {
 			return $this->cachedGroups[$gid];
@@ -220,18 +202,10 @@ class Manager extends PublicEmitter implements IGroupManager {
 		return $groups;
 	}
 
-	/**
-	 * @param string $gid
-	 * @return bool
-	 */
 	public function groupExists($gid) {
 		return $this->get($gid) instanceof IGroup;
 	}
 
-	/**
-	 * @param string $gid
-	 * @return IGroup|null
-	 */
 	public function createGroup($gid) {
 		if ($gid === '' || $gid === null) {
 			return null;
@@ -264,12 +238,6 @@ class Manager extends PublicEmitter implements IGroupManager {
 		}
 	}
 
-	/**
-	 * @param string $search
-	 * @param ?int $limit
-	 * @param ?int $offset
-	 * @return \OC\Group\Group[]
-	 */
 	public function search(string $search, ?int $limit = null, ?int $offset = 0) {
 		$groups = [];
 		foreach ($this->backends as $backend) {
@@ -285,10 +253,6 @@ class Manager extends PublicEmitter implements IGroupManager {
 		return array_values($groups);
 	}
 
-	/**
-	 * @param IUser|null $user
-	 * @return \OC\Group\Group[]
-	 */
 	public function getUserGroups(?IUser $user = null) {
 		if (!$user instanceof IUser) {
 			return [];
@@ -315,12 +279,6 @@ class Manager extends PublicEmitter implements IGroupManager {
 		return $groups;
 	}
 
-	/**
-	 * Checks if a userId is in the admin group
-	 *
-	 * @param string $userId
-	 * @return bool if admin
-	 */
 	public function isAdmin($userId) {
 		if (!$this->remoteAddress->allowsAdminActions()) {
 			return false;
@@ -346,23 +304,10 @@ class Manager extends PublicEmitter implements IGroupManager {
 		return in_array(\OCA\Settings\Settings\Admin\Users::class, $authorizedClasses, true);
 	}
 
-	/**
-	 * Checks if a userId is in a group
-	 *
-	 * @param string $userId
-	 * @param string $group
-	 * @return bool if in group
-	 */
 	public function isInGroup($userId, $group) {
 		return in_array($group, $this->getUserIdGroupIds($userId));
 	}
 
-	/**
-	 * get a list of group ids for a user
-	 *
-	 * @param IUser $user
-	 * @return string[] with group ids
-	 */
 	public function getUserGroupIds(IUser $user): array {
 		return $this->getUserIdGroupIds($user->getUID());
 	}
@@ -385,10 +330,6 @@ class Manager extends PublicEmitter implements IGroupManager {
 		return $this->cachedUserGroups[$uid];
 	}
 
-	/**
-	 * @param string $groupId
-	 * @return ?string
-	 */
 	public function getDisplayName(string $groupId): ?string {
 		return $this->displayNameCache->getDisplayName($groupId);
 	}
@@ -405,15 +346,6 @@ class Manager extends PublicEmitter implements IGroupManager {
 		}, $this->getUserGroups($user));
 	}
 
-	/**
-	 * get a list of all display names in a group
-	 *
-	 * @param string $gid
-	 * @param string $search
-	 * @param int $limit
-	 * @param int $offset
-	 * @return array an array of display names (value) and user ids (key)
-	 */
 	public function displayNamesInGroup($gid, $search = '', $limit = -1, $offset = 0) {
 		$group = $this->get($gid);
 		if (is_null($group)) {

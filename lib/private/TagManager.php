@@ -35,19 +35,6 @@ class TagManager implements ITagManager, IEventListener {
 		$this->logger = $logger;
 	}
 
-	/**
-	 * Create a new \OCP\ITags instance and load tags from db.
-	 *
-	 * @see \OCP\ITags
-	 * @param string $type The type identifier e.g. 'contact' or 'event'.
-	 * @param array $defaultTags An array of default tags to be used if none are stored.
-	 * @param boolean $includeShared Whether to include tags for items shared with this user by others.
-	 * @param string $userId user for which to retrieve the tags, defaults to the currently
-	 *                       logged in user
-	 * @return \OCP\ITags
-	 *
-	 * since 20.0.0 $includeShared isn't used anymore
-	 */
 	public function load($type, $defaultTags = [], $includeShared = false, $userId = null) {
 		if (is_null($userId)) {
 			$user = $this->userSession->getUser();

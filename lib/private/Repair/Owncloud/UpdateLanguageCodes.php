@@ -28,16 +28,10 @@ class UpdateLanguageCodes implements IRepairStep {
 		$this->config = $config;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
 	public function getName() {
 		return 'Repair language codes';
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
 	public function run(IOutput $output) {
 		$versionFromBeforeUpdate = $this->config->getSystemValueString('version', '0.0.0');
 

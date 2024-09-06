@@ -74,9 +74,6 @@ class Profiler implements IProfiler {
 		return $profile;
 	}
 
-	/**
-	 * @return array[]
-	 */
 	public function find(?string $url, ?int $limit, ?string $method, ?int $start, ?int $end,
 		?string $statusCode = null): array {
 		if ($this->storage) {

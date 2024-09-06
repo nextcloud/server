@@ -7,7 +7,6 @@
  */
 namespace OC\Files\Cache;
 
-use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\Cache\IWatcher;
 
 /**
@@ -42,27 +41,14 @@ class Watcher implements IWatcher {
 		$this->scanner = $storage->getScanner();
 	}
 
-	/**
-	 * @param int $policy either \OC\Files\Cache\Watcher::CHECK_NEVER, \OC\Files\Cache\Watcher::CHECK_ONCE, \OC\Files\Cache\Watcher::CHECK_ALWAYS
-	 */
 	public function setPolicy($policy) {
 		$this->watchPolicy = $policy;
 	}
 
-	/**
-	 * @return int either \OC\Files\Cache\Watcher::CHECK_NEVER, \OC\Files\Cache\Watcher::CHECK_ONCE, \OC\Files\Cache\Watcher::CHECK_ALWAYS
-	 */
 	public function getPolicy() {
 		return $this->watchPolicy;
 	}
 
-	/**
-	 * check $path for updates and update if needed
-	 *
-	 * @param string $path
-	 * @param ICacheEntry|null $cachedEntry
-	 * @return boolean true if path was updated
-	 */
 	public function checkUpdate($path, $cachedEntry = null) {
 		if (is_null($cachedEntry)) {
 			$cachedEntry = $this->cache->get($path);
@@ -82,12 +68,6 @@ class Watcher implements IWatcher {
 		}
 	}
 
-	/**
-	 * Update the cache for changes to $path
-	 *
-	 * @param string $path
-	 * @param ICacheEntry $cachedData
-	 */
 	public function update($path, $cachedData) {
 		if ($this->storage->is_dir($path)) {
 			$this->scanner->scan($path, Scanner::SCAN_SHALLOW);
@@ -102,13 +82,6 @@ class Watcher implements IWatcher {
 		}
 	}
 
-	/**
-	 * Check if the cache for $path needs to be updated
-	 *
-	 * @param string $path
-	 * @param ICacheEntry $cachedData
-	 * @return bool
-	 */
 	public function needsUpdate($path, $cachedData) {
 		if ($this->watchPolicy === self::CHECK_ALWAYS or ($this->watchPolicy === self::CHECK_ONCE and !in_array($path, $this->checkedPaths))) {
 			$this->checkedPaths[] = $path;
@@ -117,11 +90,6 @@ class Watcher implements IWatcher {
 		return false;
 	}
 
-	/**
-	 * remove deleted files in $path from the cache
-	 *
-	 * @param string $path
-	 */
 	public function cleanFolder($path) {
 		$cachedContent = $this->cache->getFolderContents($path);
 		foreach ($cachedContent as $entry) {

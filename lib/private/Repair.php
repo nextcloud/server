@@ -229,42 +229,26 @@ class Repair implements IOutput {
 	public function debug(string $message): void {
 	}
 
-	/**
-	 * @param string $message
-	 */
 	public function info($message) {
 		// for now just emit as we did in the past
 		$this->dispatcher->dispatchTyped(new RepairInfoEvent($message));
 	}
 
-	/**
-	 * @param string $message
-	 */
 	public function warning($message) {
 		// for now just emit as we did in the past
 		$this->dispatcher->dispatchTyped(new RepairWarningEvent($message));
 	}
 
-	/**
-	 * @param int $max
-	 */
 	public function startProgress($max = 0) {
 		// for now just emit as we did in the past
 		$this->dispatcher->dispatchTyped(new RepairStartEvent($max, $this->currentStep));
 	}
 
-	/**
-	 * @param int $step number of step to advance
-	 * @param string $description
-	 */
 	public function advance($step = 1, $description = '') {
 		// for now just emit as we did in the past
 		$this->dispatcher->dispatchTyped(new RepairAdvanceEvent($step, $description));
 	}
 
-	/**
-	 * @param int $max
-	 */
 	public function finishProgress() {
 		// for now just emit as we did in the past
 		$this->dispatcher->dispatchTyped(new RepairFinishEvent());

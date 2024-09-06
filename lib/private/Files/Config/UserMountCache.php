@@ -11,7 +11,6 @@ use OC\User\LazyUser;
 use OCP\Cache\CappedMemoryCache;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Diagnostics\IEventLogger;
-use OCP\Files\Config\ICachedMountFileInfo;
 use OCP\Files\Config\ICachedMountInfo;
 use OCP\Files\Config\IUserMountCache;
 use OCP\Files\NotFoundException;
@@ -224,10 +223,6 @@ class UserMountCache implements IUserMountCache {
 		}
 	}
 
-	/**
-	 * @param IUser $user
-	 * @return ICachedMountInfo[]
-	 */
 	public function getMountsForUser(IUser $user) {
 		$userUID = $user->getUID();
 		if (!$this->userManager->userExists($userUID)) {
@@ -268,11 +263,6 @@ class UserMountCache implements IUserMountCache {
 		return $query->executeQuery()->fetchOne() ?: '';
 	}
 
-	/**
-	 * @param int $numericStorageId
-	 * @param string|null $user limit the results to a single user
-	 * @return CachedMountInfo[]
-	 */
 	public function getMountsForStorageId($numericStorageId, $user = null) {
 		$builder = $this->connection->getQueryBuilder();
 		$query = $builder->select('storage_id', 'root_id', 'user_id', 'mount_point', 'mount_id', 'f.path', 'mount_provider_class')
@@ -291,10 +281,6 @@ class UserMountCache implements IUserMountCache {
 		return array_filter(array_map([$this, 'dbRowToMountInfo'], $rows));
 	}
 
-	/**
-	 * @param int $rootFileId
-	 * @return CachedMountInfo[]
-	 */
 	public function getMountsForRootId($rootFileId) {
 		$builder = $this->connection->getQueryBuilder();
 		$query = $builder->select('storage_id', 'root_id', 'user_id', 'mount_point', 'mount_id', 'f.path', 'mount_provider_class')
@@ -338,12 +324,6 @@ class UserMountCache implements IUserMountCache {
 		return $this->cacheInfoCache[$fileId];
 	}
 
-	/**
-	 * @param int $fileId
-	 * @param string|null $user optionally restrict the results to a single user
-	 * @return ICachedMountFileInfo[]
-	 * @since 9.0.0
-	 */
 	public function getMountsForFileId($fileId, $user = null) {
 		try {
 			[$storageId, $internalPath] = $this->getCacheInfoFromFileId($fileId);
@@ -380,11 +360,6 @@ class UserMountCache implements IUserMountCache {
 		}, $filteredMounts);
 	}
 
-	/**
-	 * Remove all cached mounts for a user
-	 *
-	 * @param IUser $user
-	 */
 	public function removeUserMounts(IUser $user) {
 		$builder = $this->connection->getQueryBuilder();
 
@@ -410,10 +385,6 @@ class UserMountCache implements IUserMountCache {
 		$query->execute();
 	}
 
-	/**
-	 * @param array $users
-	 * @return array
-	 */
 	public function getUsedSpaceForUsers(array $users) {
 		$builder = $this->connection->getQueryBuilder();
 

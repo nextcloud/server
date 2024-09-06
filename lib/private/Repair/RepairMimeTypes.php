@@ -324,11 +324,6 @@ class RepairMimeTypes implements IRepairStep {
 		return $serverVersion;
 	}
 
-	/**
-	 * Fix mime types
-	 *
-	 * @throws Exception
-	 */
 	public function run(IOutput $out): void {
 		$serverVersion = $this->config->getSystemValueString('version', '0.0.0');
 		$mimeTypeVersion = $this->getMimeTypeVersion();

@@ -58,9 +58,6 @@ abstract class Avatar implements IAvatar {
 		return implode('', $firstTwoLetters);
 	}
 
-	/**
-	 * @inheritdoc
-	 */
 	public function get(int $size = 64, bool $darkTheme = false) {
 		try {
 			$file = $this->getFile($size, $darkTheme);
@@ -227,9 +224,6 @@ abstract class Avatar implements IAvatar {
 		return intval($final % $maximum);
 	}
 
-	/**
-	 * @return Color Object containing r g b int in the range [0, 255]
-	 */
 	public function avatarBackgroundColor(string $hash): Color {
 		// Normalize hash
 		$hash = strtolower($hash);

@@ -36,10 +36,6 @@ class Manager implements IManager {
 	) {
 	}
 
-	/**
-	 * @throws CollectionException when the collection could not be found
-	 * @since 16.0.0
-	 */
 	public function getCollection(int $id): ICollection {
 		$query = $this->connection->getQueryBuilder();
 		$query->select('*')
@@ -56,10 +52,6 @@ class Manager implements IManager {
 		return new Collection($this, $this->connection, (int)$row['id'], (string)$row['name']);
 	}
 
-	/**
-	 * @throws CollectionException when the collection could not be found
-	 * @since 16.0.0
-	 */
 	public function getCollectionForUser(int $id, ?IUser $user): ICollection {
 		$query = $this->connection->getQueryBuilder();
 		$userId = $user instanceof IUser ? $user->getUID() : '';
@@ -137,9 +129,6 @@ class Manager implements IManager {
 		return $collections;
 	}
 
-	/**
-	 * @since 16.0.0
-	 */
 	public function newCollection(string $name): ICollection {
 		$query = $this->connection->getQueryBuilder();
 		$query->insert(self::TABLE_COLLECTIONS)
@@ -151,17 +140,10 @@ class Manager implements IManager {
 		return new Collection($this, $this->connection, $query->getLastInsertId(), $name);
 	}
 
-	/**
-	 * @since 16.0.0
-	 */
 	public function createResource(string $type, string $id): IResource {
 		return new Resource($this, $this->connection, $type, $id);
 	}
 
-	/**
-	 * @throws ResourceException
-	 * @since 16.0.0
-	 */
 	public function getResourceForUser(string $type, string $id, ?IUser $user): IResource {
 		$query = $this->connection->getQueryBuilder();
 		$userId = $user instanceof IUser ? $user->getUID() : '';
@@ -225,11 +207,6 @@ class Manager implements IManager {
 		return $resources;
 	}
 
-	/**
-	 * Get the rich object data of a resource
-	 *
-	 * @since 16.0.0
-	 */
 	public function getResourceRichObject(IResource $resource): array {
 		foreach ($this->providerManager->getResourceProviders() as $provider) {
 			if ($provider->getType() === $resource->getType()) {
@@ -243,11 +220,6 @@ class Manager implements IManager {
 		return [];
 	}
 
-	/**
-	 * Can a user/guest access the collection
-	 *
-	 * @since 16.0.0
-	 */
 	public function canAccessResource(IResource $resource, ?IUser $user): bool {
 		$access = $this->checkAccessCacheForUserByResource($resource, $user);
 		if (\is_bool($access)) {
@@ -271,11 +243,6 @@ class Manager implements IManager {
 		return $access;
 	}
 
-	/**
-	 * Can a user/guest access the collection
-	 *
-	 * @since 16.0.0
-	 */
 	public function canAccessCollection(ICollection $collection, ?IUser $user): bool {
 		$access = $this->checkAccessCacheForUserByCollection($collection, $user);
 		if (\is_bool($access)) {
@@ -456,11 +423,6 @@ class Manager implements IManager {
 		$this->providerManager->registerResourceProvider($provider);
 	}
 
-	/**
-	 * Get the resource type of the provider
-	 *
-	 * @since 16.0.0
-	 */
 	public function getType(): string {
 		return '';
 	}

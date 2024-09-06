@@ -26,16 +26,10 @@ class SearchBinaryOperator implements ISearchBinaryOperator {
 		$this->arguments = $arguments;
 	}
 
-	/**
-	 * @return string
-	 */
 	public function getType() {
 		return $this->type;
 	}
 
-	/**
-	 * @return ISearchOperator[]
-	 */
 	public function getArguments() {
 		return $this->arguments;
 	}

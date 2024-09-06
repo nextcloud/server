@@ -10,9 +10,6 @@ use OCP\Contacts\ContactsMenu\IActionFactory;
 use OCP\Contacts\ContactsMenu\ILinkAction;
 
 class ActionFactory implements IActionFactory {
-	/**
-	 * {@inheritDoc}
-	 */
 	public function newLinkAction(string $icon, string $name, string $href, string $appId = ''): ILinkAction {
 		$action = new LinkAction();
 		$action->setName($name);
@@ -22,9 +19,6 @@ class ActionFactory implements IActionFactory {
 		return $action;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	public function newEMailAction(string $icon, string $name, string $email, string $appId = ''): ILinkAction {
 		return $this->newLinkAction($icon, $name, 'mailto:' . $email, $appId);
 	}

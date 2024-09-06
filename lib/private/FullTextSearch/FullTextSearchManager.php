@@ -11,7 +11,6 @@ namespace OC\FullTextSearch;
 use OCP\FullTextSearch\Exceptions\FullTextSearchAppNotAvailableException;
 use OCP\FullTextSearch\IFullTextSearchManager;
 use OCP\FullTextSearch\Model\IIndex;
-use OCP\FullTextSearch\Model\ISearchResult;
 use OCP\FullTextSearch\Service\IIndexService;
 use OCP\FullTextSearch\Service\IProviderService;
 use OCP\FullTextSearch\Service\ISearchService;
@@ -28,30 +27,18 @@ class FullTextSearchManager implements IFullTextSearchManager {
 
 	private ?ISearchService $searchService = null;
 
-	/**
-	 * @since 15.0.0
-	 */
 	public function registerProviderService(IProviderService $providerService): void {
 		$this->providerService = $providerService;
 	}
 
-	/**
-	 * @since 15.0.0
-	 */
 	public function registerIndexService(IIndexService $indexService): void {
 		$this->indexService = $indexService;
 	}
 
-	/**
-	 * @since 15.0.0
-	 */
 	public function registerSearchService(ISearchService $searchService): void {
 		$this->searchService = $searchService;
 	}
 
-	/**
-	 * @since 16.0.0
-	 */
 	public function isAvailable(): bool {
 		if ($this->indexService === null ||
 			$this->providerService === null ||
@@ -99,34 +86,20 @@ class FullTextSearchManager implements IFullTextSearchManager {
 	}
 
 
-	/**
-	 * @throws FullTextSearchAppNotAvailableException
-	 */
 	public function addJavascriptAPI(): void {
 		$this->getProviderService()->addJavascriptAPI();
 	}
 
 
-	/**
-	 * @throws FullTextSearchAppNotAvailableException
-	 */
 	public function isProviderIndexed(string $providerId): bool {
 		return $this->getProviderService()->isProviderIndexed($providerId);
 	}
 
 
-	/**
-	 * @throws FullTextSearchAppNotAvailableException
-	 */
 	public function getIndex(string $providerId, string $documentId): IIndex {
 		return $this->getIndexService()->getIndex($providerId, $documentId);
 	}
 
-	/**
-	 * @see IIndex for available value for $status.
-	 *
-	 * @throws FullTextSearchAppNotAvailableException
-	 */
 	public function createIndex(
 		string $providerId,
 		string $documentId,
@@ -137,11 +110,6 @@ class FullTextSearchManager implements IFullTextSearchManager {
 	}
 
 
-	/**
-	 * @see IIndex for available value for $status.
-	 *
-	 * @throws FullTextSearchAppNotAvailableException
-	 */
 	public function updateIndexStatus(
 		string $providerId,
 		string $documentId,
@@ -151,11 +119,6 @@ class FullTextSearchManager implements IFullTextSearchManager {
 		$this->getIndexService()->updateIndexStatus($providerId, $documentId, $status, $reset);
 	}
 
-	/**
-	 * @see IIndex for available value for $status.
-	 *
-	 * @throws FullTextSearchAppNotAvailableException
-	 */
 	public function updateIndexesStatus(
 		string $providerId,
 		array $documentIds,
@@ -166,20 +129,11 @@ class FullTextSearchManager implements IFullTextSearchManager {
 	}
 
 
-	/**
-	 * @param IIndex[] $indexes
-	 *
-	 * @throws FullTextSearchAppNotAvailableException
-	 */
 	public function updateIndexes(array $indexes): void {
 		$this->getIndexService()->updateIndexes($indexes);
 	}
 
 
-	/**
-	 * @return ISearchResult[]
-	 * @throws FullTextSearchAppNotAvailableException
-	 */
 	public function search(array $request, string $userId = ''): array {
 		$searchRequest = $this->getSearchService()->generateSearchRequest($request);
 

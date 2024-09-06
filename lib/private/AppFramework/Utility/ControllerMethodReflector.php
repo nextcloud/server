@@ -19,10 +19,6 @@ class ControllerMethodReflector implements IControllerMethodReflector {
 	private $parameters = [];
 	private array $ranges = [];
 
-	/**
-	 * @param object $object an object or classname
-	 * @param string $method the method which we want to inspect
-	 */
 	public function reflect($object, string $method) {
 		$reflection = new \ReflectionMethod($object, $method);
 		$docs = $reflection->getDocComment();
@@ -79,13 +75,6 @@ class ControllerMethodReflector implements IControllerMethodReflector {
 		}
 	}
 
-	/**
-	 * Inspects the PHPDoc parameters for types
-	 * @param string $parameter the parameter whose type comments should be
-	 *                          parsed
-	 * @return string|null type in the type parameters (@param int $something)
-	 *                     would return int or null if not existing
-	 */
 	public function getType(string $parameter) {
 		if (array_key_exists($parameter, $this->types)) {
 			return $this->types[$parameter];
@@ -102,18 +91,10 @@ class ControllerMethodReflector implements IControllerMethodReflector {
 		return null;
 	}
 
-	/**
-	 * @return array the arguments of the method with key => default value
-	 */
 	public function getParameters(): array {
 		return $this->parameters;
 	}
 
-	/**
-	 * Check if a method contains an annotation
-	 * @param string $name the name of the annotation
-	 * @return bool true if the annotation is found
-	 */
 	public function hasAnnotation(string $name): bool {
 		$name = strtolower($name);
 		return array_key_exists($name, $this->annotations);

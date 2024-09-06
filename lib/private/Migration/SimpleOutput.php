@@ -28,40 +28,20 @@ class SimpleOutput implements IOutput {
 		$this->logger->debug($message, ['app' => $this->appName]);
 	}
 
-	/**
-	 * @param string $message
-	 * @since 9.1.0
-	 */
 	public function info($message): void {
 		$this->logger->info($message, ['app' => $this->appName]);
 	}
 
-	/**
-	 * @param string $message
-	 * @since 9.1.0
-	 */
 	public function warning($message): void {
 		$this->logger->warning($message, ['app' => $this->appName]);
 	}
 
-	/**
-	 * @param int $max
-	 * @since 9.1.0
-	 */
 	public function startProgress($max = 0): void {
 	}
 
-	/**
-	 * @param int $step
-	 * @param string $description
-	 * @since 9.1.0
-	 */
 	public function advance($step = 1, $description = ''): void {
 	}
 
-	/**
-	 * @since 9.1.0
-	 */
 	public function finishProgress(): void {
 	}
 }

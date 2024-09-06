@@ -20,9 +20,6 @@ class LogFactory implements ILogFactory {
 	) {
 	}
 
-	/**
-	 * @throws \OCP\AppFramework\QueryException
-	 */
 	public function get(string $type):IWriter {
 		return match (strtolower($type)) {
 			'errorlog' => new Errorlog($this->systemConfig),

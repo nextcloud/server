@@ -76,16 +76,6 @@ class Database extends ABackend implements
 		}
 	}
 
-	/**
-	 * Create a new user
-	 *
-	 * @param string $uid The username of the user to create
-	 * @param string $password The password of the new user
-	 * @return bool
-	 *
-	 * Creates a new user. Basic checking of username is done in OC_User
-	 * itself, not in its subclasses.
-	 */
 	public function createUser(string $uid, string $password): bool {
 		$this->fixDI();
 
@@ -149,15 +139,6 @@ class Database extends ABackend implements
 		return $result ? true : false;
 	}
 
-	/**
-	 * Set password
-	 *
-	 * @param string $uid The username
-	 * @param string $password The new password
-	 * @return bool
-	 *
-	 * Change the password of a user
-	 */
 	public function setPassword(string $uid, string $password): bool {
 		$this->fixDI();
 
@@ -213,17 +194,6 @@ class Database extends ABackend implements
 		return true;
 	}
 
-	/**
-	 * Set display name
-	 *
-	 * @param string $uid The username
-	 * @param string $displayName The new display name
-	 * @return bool
-	 *
-	 * @throws \InvalidArgumentException
-	 *
-	 * Change the display name of a user
-	 */
 	public function setDisplayName(string $uid, string $displayName): bool {
 		if (mb_strlen($displayName) > 64) {
 			throw new \InvalidArgumentException('Invalid displayname');
@@ -246,12 +216,6 @@ class Database extends ABackend implements
 		return false;
 	}
 
-	/**
-	 * get display name of the user
-	 *
-	 * @param string $uid user ID of the user
-	 * @return string display name
-	 */
 	public function getDisplayName($uid): string {
 		$uid = (string)$uid;
 		$this->loadUser($uid);
@@ -298,14 +262,6 @@ class Database extends ABackend implements
 		return $displayNames;
 	}
 
-	/**
-	 * @param string $searcher
-	 * @param string $pattern
-	 * @param int|null $limit
-	 * @param int|null $offset
-	 * @return array
-	 * @since 21.0.1
-	 */
 	public function searchKnownUsersByDisplayName(string $searcher, string $pattern, ?int $limit = null, ?int $offset = null): array {
 		$limit = $this->fixLimit($limit);
 
@@ -338,16 +294,6 @@ class Database extends ABackend implements
 		return $displayNames;
 	}
 
-	/**
-	 * Check if the password is correct
-	 *
-	 * @param string $loginName The loginname
-	 * @param string $password The password
-	 * @return string
-	 *
-	 * Check if the password is correct without logging in the user
-	 * returns the user id or false
-	 */
 	public function checkPassword(string $loginName, string $password) {
 		$found = $this->loadUser($loginName);
 
@@ -440,12 +386,6 @@ class Database extends ABackend implements
 		return $this->cache[$uid] !== false;
 	}
 
-	/**
-	 * get the user's home directory
-	 *
-	 * @param string $uid the username
-	 * @return string|false
-	 */
 	public function getHome(string $uid) {
 		if ($this->userExists($uid)) {
 			return \OC::$server->getConfig()->getSystemValueString('datadirectory', \OC::$SERVERROOT . '/data') . '/' . $uid;
@@ -461,11 +401,6 @@ class Database extends ABackend implements
 		return true;
 	}
 
-	/**
-	 * counts the users in the database
-	 *
-	 * @return int|false
-	 */
 	public function countUsers() {
 		$this->fixDI();
 

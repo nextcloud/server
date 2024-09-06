@@ -50,9 +50,6 @@ class Manager implements IManager {
 		$this->appData = $appDataFactory->get('core');
 	}
 
-	/**
-	 * @inheritDoc
-	 */
 	public function getProviders(): array {
 		$context = $this->coordinator->getRegistrationContext();
 		if ($context === null) {
@@ -81,9 +78,6 @@ class Manager implements IManager {
 		return $this->providers;
 	}
 
-	/**
-	 * @inheritDoc
-	 */
 	public function hasProviders(): bool {
 		$context = $this->coordinator->getRegistrationContext();
 		if ($context === null) {
@@ -92,9 +86,6 @@ class Manager implements IManager {
 		return count($context->getTextToImageProviders()) > 0;
 	}
 
-	/**
-	 * @inheritDoc
-	 */
 	public function runTask(Task $task): void {
 		$this->logger->debug('Running TextToImage Task');
 		if (!$this->hasProviders()) {
@@ -188,9 +179,6 @@ class Manager implements IManager {
 		throw new TaskFailureException('Could not run task');
 	}
 
-	/**
-	 * @inheritDoc
-	 */
 	public function scheduleTask(Task $task): void {
 		if (!$this->hasProviders()) {
 			throw new PreConditionNotMetException('No text to image provider is installed that can handle this task');
@@ -208,9 +196,6 @@ class Manager implements IManager {
 		]);
 	}
 
-	/**
-	 * @inheritDoc
-	 */
 	public function runOrScheduleTask(Task $task) : void {
 		if (!$this->hasProviders()) {
 			throw new PreConditionNotMetException('No text to image provider is installed that can handle this task');
@@ -225,9 +210,6 @@ class Manager implements IManager {
 		$this->runTask($task);
 	}
 
-	/**
-	 * @inheritDoc
-	 */
 	public function deleteTask(Task $task): void {
 		$taskEntity = DbTask::fromPublicTask($task);
 		$this->taskMapper->delete($taskEntity);
@@ -236,14 +218,6 @@ class Manager implements IManager {
 		]);
 	}
 
-	/**
-	 * Get a task from its id
-	 *
-	 * @param int $id The id of the task
-	 * @return Task
-	 * @throws RuntimeException If the query failed
-	 * @throws TaskNotFoundException If the task could not be found
-	 */
 	public function getTask(int $id): Task {
 		try {
 			$taskEntity = $this->taskMapper->find($id);
@@ -257,16 +231,6 @@ class Manager implements IManager {
 		}
 	}
 
-	/**
-	 * Get a task from its user id and task id
-	 * If userId is null, this can only get a task that was scheduled anonymously
-	 *
-	 * @param int $id The id of the task
-	 * @param string|null $userId The user id that scheduled the task
-	 * @return Task
-	 * @throws RuntimeException If the query failed
-	 * @throws TaskNotFoundException If the task could not be found
-	 */
 	public function getUserTask(int $id, ?string $userId): Task {
 		try {
 			$taskEntity = $this->taskMapper->findByIdAndUser($id, $userId);
@@ -280,17 +244,6 @@ class Manager implements IManager {
 		}
 	}
 
-	/**
-	 * Get a list of tasks scheduled by a specific user for a specific app
-	 * and optionally with a specific identifier.
-	 * This cannot be used to get anonymously scheduled tasks
-	 *
-	 * @param string $userId
-	 * @param string $appId
-	 * @param string|null $identifier
-	 * @return Task[]
-	 * @throws RuntimeException
-	 */
 	public function getUserTasksByApp(?string $userId, string $appId, ?string $identifier = null): array {
 		try {
 			$taskEntities = $this->taskMapper->findUserTasksByApp($userId, $appId, $identifier);

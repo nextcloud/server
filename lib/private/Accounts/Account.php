@@ -105,7 +105,6 @@ class Account implements IAccount {
 		return $result;
 	}
 
-	/** @return array<string, IAccountProperty|array<int, IAccountProperty>> */
 	public function jsonSerialize(): array {
 		$properties = $this->properties;
 		foreach ($properties as $propertyName => $propertyObject) {

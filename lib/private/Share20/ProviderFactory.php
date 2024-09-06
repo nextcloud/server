@@ -258,9 +258,6 @@ class ProviderFactory implements IProviderFactory {
 		return $this->roomShareProvider;
 	}
 
-	/**
-	 * @inheritdoc
-	 */
 	public function getProvider($id) {
 		$provider = null;
 		if (isset($this->shareProviders[$id])) {
@@ -303,9 +300,6 @@ class ProviderFactory implements IProviderFactory {
 		return $provider;
 	}
 
-	/**
-	 * @inheritdoc
-	 */
 	public function getProviderForType($shareType) {
 		$provider = null;
 

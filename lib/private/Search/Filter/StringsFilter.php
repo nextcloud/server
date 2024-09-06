@@ -25,9 +25,6 @@ class StringsFilter implements IFilter {
 		}
 	}
 
-	/**
-	 * @return string[]
-	 */
 	public function get(): array {
 		return $this->values;
 	}

@@ -24,18 +24,10 @@ class LanguageIterator implements ILanguageIterator {
 		$this->user = $user;
 	}
 
-	/**
-	 * Rewind the Iterator to the first element
-	 */
 	public function rewind(): void {
 		$this->i = 0;
 	}
 
-	/**
-	 * Return the current element
-	 *
-	 * @since 14.0.0
-	 */
 	public function current(): string {
 		switch ($this->i) {
 			/** @noinspection PhpMissingBreakStatementInspection */
@@ -89,29 +81,14 @@ class LanguageIterator implements ILanguageIterator {
 		}
 	}
 
-	/**
-	 * Move forward to next element
-	 *
-	 * @since 14.0.0
-	 */
 	public function next(): void {
 		++$this->i;
 	}
 
-	/**
-	 * Return the key of the current element
-	 *
-	 * @since 14.0.0
-	 */
 	public function key(): int {
 		return $this->i;
 	}
 
-	/**
-	 * Checks if current position is valid
-	 *
-	 * @since 14.0.0
-	 */
 	public function valid(): bool {
 		return $this->i <= 6;
 	}

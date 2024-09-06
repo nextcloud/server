@@ -20,11 +20,6 @@ class RequestId implements IRequestId {
 		$this->secureRandom = $secureRandom;
 	}
 
-	/**
-	 * Returns an ID for the request, value is not guaranteed to be unique and is mostly meant for logging
-	 * If `mod_unique_id` is installed this value will be taken.
-	 * @return string
-	 */
 	public function getId(): string {
 		if (empty($this->requestId)) {
 			$validChars = ISecureRandom::CHAR_ALPHANUMERIC;

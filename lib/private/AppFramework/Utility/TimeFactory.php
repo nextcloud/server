@@ -24,22 +24,10 @@ class TimeFactory implements ITimeFactory {
 		$this->timezone = new \DateTimeZone('UTC');
 	}
 
-	/**
-	 * @return int the result of a call to time()
-	 * @since 8.0.0
-	 * @deprecated 26.0.0 {@see ITimeFactory::now()}
-	 */
 	public function getTime(): int {
 		return time();
 	}
 
-	/**
-	 * @param string $time
-	 * @param \DateTimeZone $timezone
-	 * @return \DateTime
-	 * @since 15.0.0
-	 * @deprecated 26.0.0 {@see ITimeFactory::now()}
-	 */
 	public function getDateTime(string $time = 'now', ?\DateTimeZone $timezone = null): \DateTime {
 		return new \DateTime($time, $timezone);
 	}

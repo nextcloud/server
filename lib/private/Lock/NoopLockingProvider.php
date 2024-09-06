@@ -16,37 +16,22 @@ use OCP\Lock\ILockingProvider;
  * To be used when locking is disabled.
  */
 class NoopLockingProvider implements ILockingProvider {
-	/**
-	 * {@inheritdoc}
-	 */
 	public function isLocked(string $path, int $type): bool {
 		return false;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
 	public function acquireLock(string $path, int $type, ?string $readablePath = null): void {
 		// do nothing
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
 	public function releaseLock(string $path, int $type): void {
 		// do nothing
 	}
 
-	/**1
-	 * {@inheritdoc}
-	 */
 	public function releaseAll(): void {
 		// do nothing
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
 	public function changeLock(string $path, int $targetType): void {
 		// do nothing
 	}

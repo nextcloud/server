@@ -90,14 +90,10 @@ class Profile implements \JsonSerializable, IProfile {
 		return $this->parent ? $this->parent->getToken() : null;
 	}
 
-	/** @return IProfile[] */
 	public function getChildren(): array {
 		return $this->children;
 	}
 
-	/**
-	 * @param IProfile[] $children
-	 */
 	public function setChildren(array $children): void {
 		$this->children = [];
 		foreach ($children as $child) {
@@ -110,16 +106,10 @@ class Profile implements \JsonSerializable, IProfile {
 		$profile->setParent($this);
 	}
 
-	/**
-	 * @return IDataCollector[]
-	 */
 	public function getCollectors(): array {
 		return $this->collectors;
 	}
 
-	/**
-	 * @param IDataCollector[] $collectors
-	 */
 	public function setCollectors(array $collectors): void {
 		$this->collectors = $collectors;
 	}

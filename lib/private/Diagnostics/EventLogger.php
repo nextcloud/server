@@ -52,9 +52,6 @@ class EventLogger implements IEventLogger {
 		return $systemValue && $isDebugLevel;
 	}
 
-	/**
-	 * @inheritdoc
-	 */
 	public function start($id, $description = '') {
 		if ($this->activated) {
 			$this->events[$id] = new Event($id, $description, microtime(true));
@@ -62,9 +59,6 @@ class EventLogger implements IEventLogger {
 		}
 	}
 
-	/**
-	 * @inheritdoc
-	 */
 	public function end($id) {
 		if ($this->activated && isset($this->events[$id])) {
 			$timing = $this->events[$id];
@@ -73,9 +67,6 @@ class EventLogger implements IEventLogger {
 		}
 	}
 
-	/**
-	 * @inheritdoc
-	 */
 	public function log($id, $description, $start, $end) {
 		if ($this->activated) {
 			$this->events[$id] = new Event($id, $description, $start);
@@ -84,16 +75,10 @@ class EventLogger implements IEventLogger {
 		}
 	}
 
-	/**
-	 * @inheritdoc
-	 */
 	public function getEvents() {
 		return $this->events;
 	}
 
-	/**
-	 * @inheritdoc
-	 */
 	public function activate() {
 		$this->activated = true;
 	}

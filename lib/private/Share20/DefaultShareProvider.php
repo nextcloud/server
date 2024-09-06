@@ -59,23 +59,10 @@ class DefaultShareProvider implements IShareProviderWithNotification, IShareProv
 	) {
 	}
 
-	/**
-	 * Return the identifier of this provider.
-	 *
-	 * @return string Containing only [a-zA-Z0-9]
-	 */
 	public function identifier() {
 		return 'ocinternal';
 	}
 
-	/**
-	 * Share a path
-	 *
-	 * @param \OCP\Share\IShare $share
-	 * @return \OCP\Share\IShare The share object
-	 * @throws ShareNotFound
-	 * @throws \Exception
-	 */
 	public function create(\OCP\Share\IShare $share) {
 		$qb = $this->dbConn->getQueryBuilder();
 
@@ -188,15 +175,6 @@ class DefaultShareProvider implements IShareProviderWithNotification, IShareProv
 		return $share;
 	}
 
-	/**
-	 * Update a share
-	 *
-	 * @param \OCP\Share\IShare $share
-	 * @return \OCP\Share\IShare The share object
-	 * @throws ShareNotFound
-	 * @throws \OCP\Files\InvalidPathException
-	 * @throws \OCP\Files\NotFoundException
-	 */
 	public function update(\OCP\Share\IShare $share) {
 		$originalShare = $this->getShareById($share->getId());
 
@@ -294,14 +272,6 @@ class DefaultShareProvider implements IShareProviderWithNotification, IShareProv
 		return $share;
 	}
 
-	/**
-	 * Accept a share.
-	 *
-	 * @param IShare $share
-	 * @param string $recipient
-	 * @return IShare The share object
-	 * @since 9.0.0
-	 */
 	public function acceptShare(IShare $share, string $recipient): IShare {
 		if ($share->getShareType() === IShare::TYPE_GROUP) {
 			$group = $this->groupManager->get($share->getSharedWith());
@@ -398,11 +368,6 @@ class DefaultShareProvider implements IShareProviderWithNotification, IShareProv
 		return $children;
 	}
 
-	/**
-	 * Delete a share
-	 *
-	 * @param \OCP\Share\IShare $share
-	 */
 	public function delete(\OCP\Share\IShare $share) {
 		$qb = $this->dbConn->getQueryBuilder();
 		$qb->delete('share')
@@ -419,15 +384,6 @@ class DefaultShareProvider implements IShareProviderWithNotification, IShareProv
 		$qb->execute();
 	}
 
-	/**
-	 * Unshare a share from the recipient. If this is a group share
-	 * this means we need a special entry in the share db.
-	 *
-	 * @param IShare $share
-	 * @param string $recipient UserId of recipient
-	 * @throws BackendError
-	 * @throws ProviderException
-	 */
 	public function deleteFromSelf(IShare $share, $recipient) {
 		if ($share->getShareType() === IShare::TYPE_GROUP) {
 			$group = $this->groupManager->get($share->getSharedWith());
@@ -511,12 +467,6 @@ class DefaultShareProvider implements IShareProviderWithNotification, IShareProv
 		return $qb->getLastInsertId();
 	}
 
-	/**
-	 * @inheritdoc
-	 *
-	 * For now this only works for group shares
-	 * If this gets implemented for normal shares we have to extend it
-	 */
 	public function restore(IShare $share, string $recipient): IShare {
 		$qb = $this->dbConn->getQueryBuilder();
 		$qb->select('permissions')
@@ -546,9 +496,6 @@ class DefaultShareProvider implements IShareProviderWithNotification, IShareProv
 		return $this->getShareById($share->getId(), $recipient);
 	}
 
-	/**
-	 * @inheritdoc
-	 */
 	public function move(\OCP\Share\IShare $share, $recipient) {
 		if ($share->getShareType() === IShare::TYPE_USER) {
 			// Just update the target
@@ -686,9 +633,6 @@ class DefaultShareProvider implements IShareProviderWithNotification, IShareProv
 		return $shares;
 	}
 
-	/**
-	 * @inheritdoc
-	 */
 	public function getSharesBy($userId, $shareType, $node, $reshares, $limit, $offset) {
 		$qb = $this->dbConn->getQueryBuilder();
 		$qb->select('*')
@@ -737,9 +681,6 @@ class DefaultShareProvider implements IShareProviderWithNotification, IShareProv
 		return $shares;
 	}
 
-	/**
-	 * @inheritdoc
-	 */
 	public function getShareById($id, $recipientId = null) {
 		$qb = $this->dbConn->getQueryBuilder();
 
@@ -783,12 +724,6 @@ class DefaultShareProvider implements IShareProviderWithNotification, IShareProv
 		return $share;
 	}
 
-	/**
-	 * Get shares for a given path
-	 *
-	 * @param \OCP\Files\Node $path
-	 * @return \OCP\Share\IShare[]
-	 */
 	public function getSharesByPath(Node $path) {
 		$qb = $this->dbConn->getQueryBuilder();
 
@@ -841,9 +776,6 @@ class DefaultShareProvider implements IShareProviderWithNotification, IShareProv
 		return true;
 	}
 
-	/**
-	 * @inheritdoc
-	 */
 	public function getSharedWith($userId, $shareType, $node, $limit, $offset) {
 		/** @var Share[] $shares */
 		$shares = [];
@@ -973,13 +905,6 @@ class DefaultShareProvider implements IShareProviderWithNotification, IShareProv
 		return $shares;
 	}
 
-	/**
-	 * Get a share by token
-	 *
-	 * @param string $token
-	 * @return \OCP\Share\IShare
-	 * @throws ShareNotFound
-	 */
 	public function getShareByToken($token) {
 		$qb = $this->dbConn->getQueryBuilder();
 
@@ -1113,13 +1038,6 @@ class DefaultShareProvider implements IShareProviderWithNotification, IShareProv
 		return array_values($shareMap);
 	}
 
-	/**
-	 * A user is deleted from the system
-	 * So clean up the relevant shares.
-	 *
-	 * @param string $uid
-	 * @param int $shareType
-	 */
 	public function userDeleted($uid, $shareType) {
 		$qb = $this->dbConn->getQueryBuilder();
 
@@ -1182,12 +1100,6 @@ class DefaultShareProvider implements IShareProviderWithNotification, IShareProv
 		$qb->execute();
 	}
 
-	/**
-	 * Delete all shares received by this group. As well as any custom group
-	 * shares for group members.
-	 *
-	 * @param string $gid
-	 */
 	public function groupDeleted($gid) {
 		/*
 		 * First delete all custom group shares for group members
@@ -1229,13 +1141,6 @@ class DefaultShareProvider implements IShareProviderWithNotification, IShareProv
 		$qb->execute();
 	}
 
-	/**
-	 * Delete custom group shares to this group for this user
-	 *
-	 * @param string $uid
-	 * @param string $gid
-	 * @return void
-	 */
 	public function userDeletedFromGroup($uid, $gid) {
 		/*
 		 * Get all group shares
@@ -1311,9 +1216,6 @@ class DefaultShareProvider implements IShareProviderWithNotification, IShareProv
 		}
 	}
 
-	/**
-	 * @inheritdoc
-	 */
 	public function getAccessList($nodes, $currentAccess) {
 		$ids = [];
 		foreach ($nodes as $node) {

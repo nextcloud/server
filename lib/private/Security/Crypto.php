@@ -34,11 +34,6 @@ class Crypto implements ICrypto {
 		$this->cipher = new AES();
 	}
 
-	/**
-	 * @param string $message The message to authenticate
-	 * @param string $password Password to use (defaults to `secret` in config.php)
-	 * @return string Calculated HMAC
-	 */
 	public function calculateHMAC(string $message, string $password = ''): string {
 		if ($password === '') {
 			$password = $this->config->getSystemValueString('secret');
@@ -52,14 +47,6 @@ class Crypto implements ICrypto {
 		return $hash->hash($message);
 	}
 
-	/**
-	 * Encrypts a value and adds an HMAC (Encrypt-Then-MAC)
-	 *
-	 * @param string $password Password to encrypt, if not specified the secret from config.php will be taken
-	 * @return string Authenticated ciphertext
-	 * @throws Exception if it was not possible to gather sufficient entropy
-	 * @throws Exception if encrypting the data failed
-	 */
 	public function encrypt(string $plaintext, string $password = ''): string {
 		if ($password === '') {
 			$password = $this->config->getSystemValueString('secret');
@@ -83,12 +70,6 @@ class Crypto implements ICrypto {
 		return $ciphertext.'|'.$iv.'|'.$hmac.'|3';
 	}
 
-	/**
-	 * Decrypts a value and verifies the HMAC (Encrypt-Then-Mac)
-	 * @param string $password Password to encrypt, if not specified the secret from config.php will be taken
-	 * @throws Exception If the HMAC does not match
-	 * @throws Exception If the decryption failed
-	 */
 	public function decrypt(string $authenticatedCiphertext, string $password = ''): string {
 		$secret = $this->config->getSystemValue('secret');
 		try {

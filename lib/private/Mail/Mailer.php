@@ -71,37 +71,19 @@ class Mailer implements IMailer {
 	) {
 	}
 
-	/**
-	 * Creates a new message object that can be passed to send()
-	 */
 	public function createMessage(): Message {
 		$plainTextOnly = $this->config->getSystemValueBool('mail_send_plaintext_only', false);
 		return new Message(new Email(), $plainTextOnly);
 	}
 
-	/**
-	 * @param string|null $data
-	 * @param string|null $filename
-	 * @param string|null $contentType
-	 * @since 13.0.0
-	 */
 	public function createAttachment($data = null, $filename = null, $contentType = null): IAttachment {
 		return new Attachment($data, $filename, $contentType);
 	}
 
-	/**
-	 * @param string|null $contentType
-	 * @since 13.0.0
-	 */
 	public function createAttachmentFromPath(string $path, $contentType = null): IAttachment {
 		return new Attachment(null, null, $contentType, $path);
 	}
 
-	/**
-	 * Creates a new email template object
-	 *
-	 * @since 12.0.0
-	 */
 	public function createEMailTemplate(string $emailId, array $data = []): IEMailTemplate {
 		$logoDimensions = $this->config->getAppValue('theming', 'logoDimensions', self::DEFAULT_DIMENSIONS);
 		if (str_contains($logoDimensions, 'x')) {
@@ -153,16 +135,6 @@ class Mailer implements IMailer {
 		);
 	}
 
-	/**
-	 * Send the specified message. Also sets the from address to the value defined in config.php
-	 * if no-one has been passed.
-	 *
-	 * If sending failed, the recipients that failed will be returned (to, cc and bcc).
-	 * Will output additional debug info if 'mail_smtpdebug' => 'true' is set in config.php
-	 *
-	 * @param IMessage $message Message to send
-	 * @return string[] $failedRecipients
-	 */
 	public function send(IMessage $message): array {
 		$debugMode = $this->config->getSystemValueBool('mail_smtpdebug', false);
 
@@ -230,13 +202,6 @@ class Mailer implements IMailer {
 		return [];
 	}
 
-	/**
-	 * @deprecated 26.0.0 Implicit validation is done in \OC\Mail\Message::setRecipients
-	 *                    via \Symfony\Component\Mime\Address::__construct
-	 *
-	 * @param string $email Email address to be validated
-	 * @return bool True if the mail address is valid, false otherwise
-	 */
 	public function validateMailAddress(string $email): bool {
 		if ($email === '') {
 			// Shortcut: empty addresses are never valid

@@ -71,11 +71,6 @@ class CloudIdManager implements ICloudIdManager {
 		}
 	}
 
-	/**
-	 * @param string $cloudId
-	 * @return ICloudId
-	 * @throws \InvalidArgumentException
-	 */
 	public function resolveCloudId(string $cloudId): ICloudId {
 		// TODO magic here to get the url and user instead of just splitting on @
 
@@ -139,11 +134,6 @@ class CloudIdManager implements ICloudIdManager {
 		return null;
 	}
 
-	/**
-	 * @param string $user
-	 * @param string|null $remote
-	 * @return CloudId
-	 */
 	public function getCloudId(string $user, ?string $remote): ICloudId {
 		$isLocal = $remote === null;
 		if ($isLocal) {
@@ -185,10 +175,6 @@ class CloudIdManager implements ICloudIdManager {
 		return new CloudId($id, $user, $remote, $displayName);
 	}
 
-	/**
-	 * @param string $url
-	 * @return string
-	 */
 	public function removeProtocolFromUrl(string $url, bool $httpsOnly = false): string {
 		if (str_starts_with($url, 'https://')) {
 			return substr($url, 8);
@@ -230,10 +216,6 @@ class CloudIdManager implements ICloudIdManager {
 		return $remote;
 	}
 
-	/**
-	 * @param string $cloudId
-	 * @return bool
-	 */
 	public function isValidCloudId(string $cloudId): bool {
 		return str_contains($cloudId, '@');
 	}

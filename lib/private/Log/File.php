@@ -44,10 +44,6 @@ class File extends LogDetails implements IWriter, IFileBased {
 		$this->logFileMode = $config->getValue('logfilemode', 0640);
 	}
 
-	/**
-	 * write a message in the log
-	 * @param string|array $message
-	 */
 	public function write(string $app, $message, int $level): void {
 		$entry = $this->logDetailsAsJSON($app, $message, $level);
 		$handle = @fopen($this->logFile, 'a');
@@ -69,9 +65,6 @@ class File extends LogDetails implements IWriter, IFileBased {
 		}
 	}
 
-	/**
-	 * get entries from the log in reverse chronological order
-	 */
 	public function getEntries(int $limit = 50, int $offset = 0): array {
 		$minLevel = $this->config->getValue('loglevel', ILogger::WARN);
 		$entries = [];

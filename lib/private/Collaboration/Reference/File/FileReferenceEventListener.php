@@ -31,9 +31,6 @@ class FileReferenceEventListener implements IEventListener {
 		$eventDispatcher->addServiceListener(ShareCreatedEvent::class, FileReferenceEventListener::class);
 	}
 
-	/**
-	 * @inheritDoc
-	 */
 	public function handle(Event $event): void {
 		if ($event instanceof NodeDeletedEvent) {
 			if ($event->getNode() instanceof NonExistingFolder || $event->getNode() instanceof NonExistingFile) {

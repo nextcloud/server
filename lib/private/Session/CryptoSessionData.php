@@ -82,12 +82,6 @@ class CryptoSessionData implements \ArrayAccess, ISession {
 		}
 	}
 
-	/**
-	 * Set a value in the session
-	 *
-	 * @param string $key
-	 * @param mixed $value
-	 */
 	public function set(string $key, $value) {
 		if ($this->get($key) === $value) {
 			// Do not write the session if the value hasn't changed to avoid reopening
@@ -102,12 +96,6 @@ class CryptoSessionData implements \ArrayAccess, ISession {
 		}
 	}
 
-	/**
-	 * Get a value from the session
-	 *
-	 * @param string $key
-	 * @return string|null Either the value or null
-	 */
 	public function get(string $key) {
 		if (isset($this->sessionValues[$key])) {
 			return $this->sessionValues[$key];
@@ -116,21 +104,10 @@ class CryptoSessionData implements \ArrayAccess, ISession {
 		return null;
 	}
 
-	/**
-	 * Check if a named key exists in the session
-	 *
-	 * @param string $key
-	 * @return bool
-	 */
 	public function exists(string $key): bool {
 		return isset($this->sessionValues[$key]);
 	}
 
-	/**
-	 * Remove a $key/$value pair from the session
-	 *
-	 * @param string $key
-	 */
 	public function remove(string $key) {
 		$reopened = $this->reopen();
 		$this->isModified = true;
@@ -140,9 +117,6 @@ class CryptoSessionData implements \ArrayAccess, ISession {
 		}
 	}
 
-	/**
-	 * Reset and recreate the session
-	 */
 	public function clear() {
 		$reopened = $this->reopen();
 		$requesttoken = $this->get('requesttoken');
@@ -165,31 +139,14 @@ class CryptoSessionData implements \ArrayAccess, ISession {
 		return $reopened;
 	}
 
-	/**
-	 * Wrapper around session_regenerate_id
-	 *
-	 * @param bool $deleteOldSession Whether to delete the old associated session file or not.
-	 * @param bool $updateToken Wheater to update the associated auth token
-	 * @return void
-	 */
 	public function regenerateId(bool $deleteOldSession = true, bool $updateToken = false) {
 		$this->session->regenerateId($deleteOldSession, $updateToken);
 	}
 
-	/**
-	 * Wrapper around session_id
-	 *
-	 * @return string
-	 * @throws SessionNotAvailableException
-	 * @since 9.1.0
-	 */
 	public function getId(): string {
 		return $this->session->getId();
 	}
 
-	/**
-	 * Close the session and release the lock, also writes all changed data in batch
-	 */
 	public function close() {
 		if ($this->isModified) {
 			$encryptedValue = $this->crypto->encrypt(json_encode($this->sessionValues), $this->passphrase);

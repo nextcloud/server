@@ -30,12 +30,6 @@ class DateTimeZone implements IDateTimeZone {
 		$this->session = $session;
 	}
 
-	/**
-	 * Get the timezone of the current user, based on his session information and config data
-	 *
-	 * @param bool|int $timestamp
-	 * @return \DateTimeZone
-	 */
 	public function getTimeZone($timestamp = false) {
 		$timeZone = $this->config->getUserValue($this->session->get('user_id'), 'core', 'timezone', null);
 		if ($timeZone === null) {

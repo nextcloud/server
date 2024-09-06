@@ -113,26 +113,11 @@ class Memcached extends Cache implements IMemcache {
 		return true;
 	}
 
-	/**
-	 * Set a value in the cache if it's not already stored
-	 *
-	 * @param string $key
-	 * @param mixed $value
-	 * @param int $ttl Time To Live in seconds. Defaults to 60*60*24
-	 * @return bool
-	 */
 	public function add($key, $value, $ttl = 0) {
 		$result = self::$cache->add($this->getPrefix() . $key, $value, $ttl);
 		return $result || $this->isSuccess();
 	}
 
-	/**
-	 * Increase a stored number
-	 *
-	 * @param string $key
-	 * @param int $step
-	 * @return int | bool
-	 */
 	public function inc($key, $step = 1) {
 		$this->add($key, 0);
 		$result = self::$cache->increment($this->getPrefix() . $key, $step);
@@ -144,13 +129,6 @@ class Memcached extends Cache implements IMemcache {
 		return $result;
 	}
 
-	/**
-	 * Decrease a stored number
-	 *
-	 * @param string $key
-	 * @param int $step
-	 * @return int | bool
-	 */
 	public function dec($key, $step = 1) {
 		$result = self::$cache->decrement($this->getPrefix() . $key, $step);
 

@@ -44,9 +44,6 @@ class Notification implements INotification {
 		$this->dateTime->setTimestamp(0);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	public function setApp(string $app): INotification {
 		if ($app === '' || isset($app[32])) {
 			throw new InvalidValueException('app');
@@ -55,16 +52,10 @@ class Notification implements INotification {
 		return $this;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	public function getApp(): string {
 		return $this->app;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	public function setUser(string $user): INotification {
 		if ($user === '' || isset($user[64])) {
 			throw new InvalidValueException('user');
@@ -73,16 +64,10 @@ class Notification implements INotification {
 		return $this;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	public function getUser(): string {
 		return $this->user;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	public function setDateTime(\DateTime $dateTime): INotification {
 		if ($dateTime->getTimestamp() === 0) {
 			throw new InvalidValueException('dateTime');
@@ -91,16 +76,10 @@ class Notification implements INotification {
 		return $this;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	public function getDateTime(): \DateTime {
 		return $this->dateTime;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	public function setObject(string $type, string $id): INotification {
 		if ($type === '' || isset($type[64])) {
 			throw new InvalidValueException('objectType');
@@ -114,23 +93,14 @@ class Notification implements INotification {
 		return $this;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	public function getObjectType(): string {
 		return $this->objectType;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	public function getObjectId(): string {
 		return $this->objectId;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	public function setSubject(string $subject, array $parameters = []): INotification {
 		if ($subject === '' || isset($subject[64])) {
 			throw new InvalidValueException('subject');
@@ -142,23 +112,14 @@ class Notification implements INotification {
 		return $this;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	public function getSubject(): string {
 		return $this->subject;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	public function getSubjectParameters(): array {
 		return $this->subjectParameters;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	public function setParsedSubject(string $subject): INotification {
 		if ($subject === '') {
 			throw new InvalidValueException('parsedSubject');
@@ -167,16 +128,10 @@ class Notification implements INotification {
 		return $this;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	public function getParsedSubject(): string {
 		return $this->subjectParsed;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	public function setRichSubject(string $subject, array $parameters = []): INotification {
 		if ($subject === '') {
 			throw new InvalidValueException('richSubject');
@@ -220,23 +175,14 @@ class Notification implements INotification {
 		return str_replace($placeholders, $replacements, $message);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	public function getRichSubject(): string {
 		return $this->subjectRich;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	public function getRichSubjectParameters(): array {
 		return $this->subjectRichParameters;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	public function setMessage(string $message, array $parameters = []): INotification {
 		if ($message === '' || isset($message[64])) {
 			throw new InvalidValueException('message');
@@ -248,23 +194,14 @@ class Notification implements INotification {
 		return $this;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	public function getMessage(): string {
 		return $this->message;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	public function getMessageParameters(): array {
 		return $this->messageParameters;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	public function setParsedMessage(string $message): INotification {
 		if ($message === '') {
 			throw new InvalidValueException('parsedMessage');
@@ -273,16 +210,10 @@ class Notification implements INotification {
 		return $this;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	public function getParsedMessage(): string {
 		return $this->messageParsed;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	public function setRichMessage(string $message, array $parameters = []): INotification {
 		if ($message === '') {
 			throw new InvalidValueException('richMessage');
@@ -302,23 +233,14 @@ class Notification implements INotification {
 		return $this;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	public function getRichMessage(): string {
 		return $this->messageRich;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	public function getRichMessageParameters(): array {
 		return $this->messageRichParameters;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	public function setLink(string $link): INotification {
 		if ($link === '' || isset($link[4000])) {
 			throw new InvalidValueException('link');
@@ -327,16 +249,10 @@ class Notification implements INotification {
 		return $this;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	public function getLink(): string {
 		return $this->link;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	public function setIcon(string $icon): INotification {
 		if ($icon === '' || isset($icon[4000])) {
 			throw new InvalidValueException('icon');
@@ -345,23 +261,14 @@ class Notification implements INotification {
 		return $this;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	public function getIcon(): string {
 		return $this->icon;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	public function createAction(): IAction {
 		return new Action();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	public function addAction(IAction $action): INotification {
 		if (!$action->isValid()) {
 			throw new InvalidValueException('action');
@@ -379,16 +286,10 @@ class Notification implements INotification {
 		return $this;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	public function getActions(): array {
 		return $this->actions;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	public function addParsedAction(IAction $action): INotification {
 		if (!$action->isValidParsed()) {
 			throw new InvalidValueException('action');
@@ -410,16 +311,10 @@ class Notification implements INotification {
 		return $this;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	public function getParsedActions(): array {
 		return $this->actionsParsed;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	public function isValid(): bool {
 		return
 			$this->isValidCommon()
@@ -428,9 +323,6 @@ class Notification implements INotification {
 		;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	public function isValidParsed(): bool {
 		if ($this->getRichSubject() !== '' || !empty($this->getRichSubjectParameters())) {
 			try {

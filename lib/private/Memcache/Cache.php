@@ -29,36 +29,14 @@ abstract class Cache implements \ArrayAccess, \OCP\ICache {
 		return $this->prefix;
 	}
 
-	/**
-	 * @param string $key
-	 * @return mixed
-	 */
 	abstract public function get($key);
 
-	/**
-	 * @param string $key
-	 * @param mixed $value
-	 * @param int $ttl
-	 * @return mixed
-	 */
 	abstract public function set($key, $value, $ttl = 0);
 
-	/**
-	 * @param string $key
-	 * @return mixed
-	 */
 	abstract public function hasKey($key);
 
-	/**
-	 * @param string $key
-	 * @return mixed
-	 */
 	abstract public function remove($key);
 
-	/**
-	 * @param string $prefix
-	 * @return mixed
-	 */
 	abstract public function clear($prefix = '');
 
 	//implement the ArrayAccess interface

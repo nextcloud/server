@@ -174,9 +174,6 @@ class ConnectionAdapter implements IDBConnection {
 		return $this->inner->quote($input, $type);
 	}
 
-	/**
-	 * @todo we are leaking a 3rdparty type here
-	 */
 	public function getDatabasePlatform(): AbstractPlatform {
 		return $this->inner->getDatabasePlatform();
 	}
@@ -205,9 +202,6 @@ class ConnectionAdapter implements IDBConnection {
 		return $this->inner->supports4ByteText();
 	}
 
-	/**
-	 * @todo leaks a 3rdparty type
-	 */
 	public function createSchema(): Schema {
 		try {
 			return $this->inner->createSchema();
@@ -228,9 +222,6 @@ class ConnectionAdapter implements IDBConnection {
 		return $this->inner;
 	}
 
-	/**
-	 * @return self::PLATFORM_MYSQL|self::PLATFORM_ORACLE|self::PLATFORM_POSTGRES|self::PLATFORM_SQLITE
-	 */
 	public function getDatabaseProvider(): string {
 		return $this->inner->getDatabaseProvider();
 	}

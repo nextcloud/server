@@ -68,10 +68,6 @@ class FileAccess implements IFileAccess {
 		return $result;
 	}
 
-	/**
-	 * @param int[] $fileIds
-	 * @return array<int, CacheEntry>
-	 */
 	public function getByFileIds(array $fileIds): array {
 		$query = $this->getQuery()->selectFileCache();
 		$query->andWhere($query->expr()->in('filecache.fileid', $query->createNamedParameter($fileIds, IQueryBuilder::PARAM_INT_ARRAY)));
@@ -80,11 +76,6 @@ class FileAccess implements IFileAccess {
 		return $this->rowsToEntries($rows);
 	}
 
-	/**
-	 * @param int[] $fileIds
-	 * @param int $storageId
-	 * @return array<int, CacheEntry>
-	 */
 	public function getByFileIdsInStorage(array $fileIds, int $storageId): array {
 		$fileIds = array_values($fileIds);
 		$query = $this->getQuery()->selectFileCache();

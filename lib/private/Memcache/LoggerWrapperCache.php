@@ -40,7 +40,6 @@ class LoggerWrapperCache extends Cache implements IMemcacheTTL {
 		return $this->prefix;
 	}
 
-	/** @inheritDoc */
 	public function get($key) {
 		file_put_contents(
 			$this->logFile,
@@ -50,7 +49,6 @@ class LoggerWrapperCache extends Cache implements IMemcacheTTL {
 		return $this->wrappedCache->get($key);
 	}
 
-	/** @inheritDoc */
 	public function set($key, $value, $ttl = 0) {
 		file_put_contents(
 			$this->logFile,
@@ -61,7 +59,6 @@ class LoggerWrapperCache extends Cache implements IMemcacheTTL {
 		return $this->wrappedCache->set($key, $value, $ttl);
 	}
 
-	/** @inheritDoc */
 	public function hasKey($key) {
 		file_put_contents(
 			$this->logFile,
@@ -72,7 +69,6 @@ class LoggerWrapperCache extends Cache implements IMemcacheTTL {
 		return $this->wrappedCache->hasKey($key);
 	}
 
-	/** @inheritDoc */
 	public function remove($key) {
 		file_put_contents(
 			$this->logFile,
@@ -83,7 +79,6 @@ class LoggerWrapperCache extends Cache implements IMemcacheTTL {
 		return $this->wrappedCache->remove($key);
 	}
 
-	/** @inheritDoc */
 	public function clear($prefix = '') {
 		file_put_contents(
 			$this->logFile,
@@ -94,7 +89,6 @@ class LoggerWrapperCache extends Cache implements IMemcacheTTL {
 		return $this->wrappedCache->clear($prefix);
 	}
 
-	/** @inheritDoc */
 	public function add($key, $value, $ttl = 0) {
 		file_put_contents(
 			$this->logFile,
@@ -105,7 +99,6 @@ class LoggerWrapperCache extends Cache implements IMemcacheTTL {
 		return $this->wrappedCache->add($key, $value, $ttl);
 	}
 
-	/** @inheritDoc */
 	public function inc($key, $step = 1) {
 		file_put_contents(
 			$this->logFile,
@@ -116,7 +109,6 @@ class LoggerWrapperCache extends Cache implements IMemcacheTTL {
 		return $this->wrappedCache->inc($key, $step);
 	}
 
-	/** @inheritDoc */
 	public function dec($key, $step = 1) {
 		file_put_contents(
 			$this->logFile,
@@ -127,7 +119,6 @@ class LoggerWrapperCache extends Cache implements IMemcacheTTL {
 		return $this->wrappedCache->dec($key, $step);
 	}
 
-	/** @inheritDoc */
 	public function cas($key, $old, $new) {
 		file_put_contents(
 			$this->logFile,
@@ -138,7 +129,6 @@ class LoggerWrapperCache extends Cache implements IMemcacheTTL {
 		return $this->wrappedCache->cas($key, $old, $new);
 	}
 
-	/** @inheritDoc */
 	public function cad($key, $old) {
 		file_put_contents(
 			$this->logFile,
@@ -149,7 +139,6 @@ class LoggerWrapperCache extends Cache implements IMemcacheTTL {
 		return $this->wrappedCache->cad($key, $old);
 	}
 
-	/** @inheritDoc */
 	public function ncad(string $key, mixed $old): bool {
 		file_put_contents(
 			$this->logFile,
@@ -160,7 +149,6 @@ class LoggerWrapperCache extends Cache implements IMemcacheTTL {
 		return $this->wrappedCache->cad($key, $old);
 	}
 
-	/** @inheritDoc */
 	public function setTTL(string $key, int $ttl) {
 		$this->wrappedCache->setTTL($key, $ttl);
 	}

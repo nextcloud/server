@@ -65,168 +65,59 @@ class AllConfig implements IConfig {
 		}
 	}
 
-	/**
-	 * Sets and deletes system wide values
-	 *
-	 * @param array $configs Associative array with `key => value` pairs
-	 *                       If value is null, the config key will be deleted
-	 */
 	public function setSystemValues(array $configs) {
 		$this->systemConfig->setValues($configs);
 	}
 
-	/**
-	 * Sets a new system wide value
-	 *
-	 * @param string $key the key of the value, under which will be saved
-	 * @param mixed $value the value that should be stored
-	 */
 	public function setSystemValue($key, $value) {
 		$this->systemConfig->setValue($key, $value);
 	}
 
-	/**
-	 * Looks up a system wide defined value
-	 *
-	 * @param string $key the key of the value, under which it was saved
-	 * @param mixed $default the default value to be returned if the value isn't set
-	 * @return mixed the value or $default
-	 */
 	public function getSystemValue($key, $default = '') {
 		return $this->systemConfig->getValue($key, $default);
 	}
 
-	/**
-	 * Looks up a boolean system wide defined value
-	 *
-	 * @param string $key the key of the value, under which it was saved
-	 * @param bool $default the default value to be returned if the value isn't set
-	 *
-	 * @return bool
-	 *
-	 * @since 16.0.0
-	 */
 	public function getSystemValueBool(string $key, bool $default = false): bool {
 		return (bool)$this->getSystemValue($key, $default);
 	}
 
-	/**
-	 * Looks up an integer system wide defined value
-	 *
-	 * @param string $key the key of the value, under which it was saved
-	 * @param int $default the default value to be returned if the value isn't set
-	 *
-	 * @return int
-	 *
-	 * @since 16.0.0
-	 */
 	public function getSystemValueInt(string $key, int $default = 0): int {
 		return (int)$this->getSystemValue($key, $default);
 	}
 
-	/**
-	 * Looks up a string system wide defined value
-	 *
-	 * @param string $key the key of the value, under which it was saved
-	 * @param string $default the default value to be returned if the value isn't set
-	 *
-	 * @return string
-	 *
-	 * @since 16.0.0
-	 */
 	public function getSystemValueString(string $key, string $default = ''): string {
 		return (string)$this->getSystemValue($key, $default);
 	}
 
-	/**
-	 * Looks up a system wide defined value and filters out sensitive data
-	 *
-	 * @param string $key the key of the value, under which it was saved
-	 * @param mixed $default the default value to be returned if the value isn't set
-	 * @return mixed the value or $default
-	 */
 	public function getFilteredSystemValue($key, $default = '') {
 		return $this->systemConfig->getFilteredValue($key, $default);
 	}
 
-	/**
-	 * Delete a system wide defined value
-	 *
-	 * @param string $key the key of the value, under which it was saved
-	 */
 	public function deleteSystemValue($key) {
 		$this->systemConfig->deleteValue($key);
 	}
 
-	/**
-	 * Get all keys stored for an app
-	 *
-	 * @param string $appName the appName that we stored the value under
-	 * @return string[] the keys stored for the app
-	 * @deprecated 29.0.0 Use {@see IAppConfig} directly
-	 */
 	public function getAppKeys($appName) {
 		return \OC::$server->get(AppConfig::class)->getKeys($appName);
 	}
 
-	/**
-	 * Writes a new app wide value
-	 *
-	 * @param string $appName the appName that we want to store the value under
-	 * @param string $key the key of the value, under which will be saved
-	 * @param string|float|int $value the value that should be stored
-	 * @deprecated 29.0.0 Use {@see IAppConfig} directly
-	 */
 	public function setAppValue($appName, $key, $value) {
 		\OC::$server->get(AppConfig::class)->setValue($appName, $key, $value);
 	}
 
-	/**
-	 * Looks up an app wide defined value
-	 *
-	 * @param string $appName the appName that we stored the value under
-	 * @param string $key the key of the value, under which it was saved
-	 * @param string $default the default value to be returned if the value isn't set
-	 * @return string the saved value
-	 * @deprecated 29.0.0 Use {@see IAppConfig} directly
-	 */
 	public function getAppValue($appName, $key, $default = '') {
 		return \OC::$server->get(AppConfig::class)->getValue($appName, $key, $default);
 	}
 
-	/**
-	 * Delete an app wide defined value
-	 *
-	 * @param string $appName the appName that we stored the value under
-	 * @param string $key the key of the value, under which it was saved
-	 * @deprecated 29.0.0 Use {@see IAppConfig} directly
-	 */
 	public function deleteAppValue($appName, $key) {
 		\OC::$server->get(AppConfig::class)->deleteKey($appName, $key);
 	}
 
-	/**
-	 * Removes all keys in appconfig belonging to the app
-	 *
-	 * @param string $appName the appName the configs are stored under
-	 * @deprecated 29.0.0 Use {@see IAppConfig} directly
-	 */
 	public function deleteAppValues($appName) {
 		\OC::$server->get(AppConfig::class)->deleteApp($appName);
 	}
 
 
-	/**
-	 * Set a user defined value
-	 *
-	 * @param string $userId the userId of the user that we want to store the value under
-	 * @param string $appName the appName that we want to store the value under
-	 * @param string $key the key under which the value is being stored
-	 * @param string|float|int $value the value that you want to store
-	 * @param string $preCondition only update if the config value was previously the value passed as $preCondition
-	 * @throws \OCP\PreConditionNotMetException if a precondition is specified and is not met
-	 * @throws \UnexpectedValueException when trying to store an unexpected value
-	 */
 	public function setUserValue($userId, $appName, $key, $value, $preCondition = null) {
 		if (!is_int($value) && !is_float($value) && !is_string($value)) {
 			throw new \UnexpectedValueException('Only integers, floats and strings are allowed as value');
@@ -284,15 +175,6 @@ class AllConfig implements IConfig {
 		}
 	}
 
-	/**
-	 * Getting a user defined value
-	 *
-	 * @param ?string $userId the userId of the user that we want to store the value under
-	 * @param string $appName the appName that we stored the value under
-	 * @param string $key the key under which the value is being stored
-	 * @param mixed $default the default value to be returned if the value isn't set
-	 * @return string
-	 */
 	public function getUserValue($userId, $appName, $key, $default = '') {
 		$data = $this->getAllUserValues($userId);
 		if (isset($data[$appName][$key])) {
@@ -302,13 +184,6 @@ class AllConfig implements IConfig {
 		}
 	}
 
-	/**
-	 * Get the keys of all stored by an app for the user
-	 *
-	 * @param string $userId the userId of the user that we want to store the value under
-	 * @param string $appName the appName that we stored the value under
-	 * @return string[]
-	 */
 	public function getUserKeys($userId, $appName) {
 		$data = $this->getAllUserValues($userId);
 		if (isset($data[$appName])) {
@@ -318,13 +193,6 @@ class AllConfig implements IConfig {
 		}
 	}
 
-	/**
-	 * Delete a user value
-	 *
-	 * @param string $userId the userId of the user that we want to store the value under
-	 * @param string $appName the appName that we stored the value under
-	 * @param string $key the key under which the value is being stored
-	 */
 	public function deleteUserValue($userId, $appName, $key) {
 		// TODO - FIXME
 		$this->fixDIInit();
@@ -341,11 +209,6 @@ class AllConfig implements IConfig {
 		}
 	}
 
-	/**
-	 * Delete all user values
-	 *
-	 * @param string $userId the userId of the user that we want to remove all values from
-	 */
 	public function deleteAllUserValues($userId) {
 		// TODO - FIXME
 		$this->fixDIInit();
@@ -357,11 +220,6 @@ class AllConfig implements IConfig {
 		unset($this->userCache[$userId]);
 	}
 
-	/**
-	 * Delete all user related values of one app
-	 *
-	 * @param string $appName the appName of the app that we want to remove all values from
-	 */
 	public function deleteAppFromAllUsers($appName) {
 		// TODO - FIXME
 		$this->fixDIInit();
@@ -376,16 +234,6 @@ class AllConfig implements IConfig {
 		}
 	}
 
-	/**
-	 * Returns all user configs sorted by app of one user
-	 *
-	 * @param ?string $userId the user ID to get the app configs from
-	 * @psalm-return array<string, array<string, string>>
-	 * @return array[] - 2 dimensional array with the following structure:
-	 *                 [ $appId =>
-	 *                 [ $key => $value ]
-	 *                 ]
-	 */
 	public function getAllUserValues(?string $userId): array {
 		if (isset($this->userCache[$userId])) {
 			return $this->userCache[$userId];
@@ -416,14 +264,6 @@ class AllConfig implements IConfig {
 		return $data;
 	}
 
-	/**
-	 * Fetches a mapped list of userId -> value, for a specified app and key and a list of user IDs.
-	 *
-	 * @param string $appName app to get the value for
-	 * @param string $key the key to get the value for
-	 * @param array $userIds the user IDs to fetch the values for
-	 * @return array Mapped values: userId => value
-	 */
 	public function getUserValueForUsers($appName, $key, $userIds) {
 		// TODO - FIXME
 		$this->fixDIInit();
@@ -456,14 +296,6 @@ class AllConfig implements IConfig {
 		return $userValues;
 	}
 
-	/**
-	 * Determines the users that have the given value set for a specific app-key-pair
-	 *
-	 * @param string $appName the app to get the user for
-	 * @param string $key the key to get the user for
-	 * @param string $value the value to get the user for
-	 * @return list<string> of user IDs
-	 */
 	public function getUsersForUserValue($appName, $key, $value) {
 		// TODO - FIXME
 		$this->fixDIInit();

@@ -7,7 +7,6 @@ namespace OC\Files\SimpleFS;
 
 use OCP\Files\File;
 use OCP\Files\NotFoundException;
-use OCP\Files\NotPermittedException;
 use OCP\Files\SimpleFS\ISimpleFile;
 
 class SimpleFile implements ISimpleFile {
@@ -17,40 +16,22 @@ class SimpleFile implements ISimpleFile {
 		$this->file = $file;
 	}
 
-	/**
-	 * Get the name
-	 */
 	public function getName(): string {
 		return $this->file->getName();
 	}
 
-	/**
-	 * Get the size in bytes
-	 */
 	public function getSize(): int|float {
 		return $this->file->getSize();
 	}
 
-	/**
-	 * Get the ETag
-	 */
 	public function getETag(): string {
 		return $this->file->getEtag();
 	}
 
-	/**
-	 * Get the last modification time
-	 */
 	public function getMTime(): int {
 		return $this->file->getMTime();
 	}
 
-	/**
-	 * Get the content
-	 *
-	 * @throws NotPermittedException
-	 * @throws NotFoundException
-	 */
 	public function getContent(): string {
 		$result = $this->file->getContent();
 
@@ -61,13 +42,6 @@ class SimpleFile implements ISimpleFile {
 		return $result;
 	}
 
-	/**
-	 * Overwrite the file
-	 *
-	 * @param string|resource $data
-	 * @throws NotPermittedException
-	 * @throws NotFoundException
-	 */
 	public function putContent($data): void {
 		try {
 			$this->file->putContent($data);
@@ -105,47 +79,22 @@ class SimpleFile implements ISimpleFile {
 	}
 
 
-	/**
-	 * Delete the file
-	 *
-	 * @throws NotPermittedException
-	 */
 	public function delete(): void {
 		$this->file->delete();
 	}
 
-	/**
-	 * Get the MimeType
-	 */
 	public function getMimeType(): string {
 		return $this->file->getMimeType();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	public function getExtension(): string {
 		return $this->file->getExtension();
 	}
 
-	/**
-	 * Open the file as stream for reading, resulting resource can be operated as stream like the result from php's own fopen
-	 *
-	 * @return resource|false
-	 * @throws \OCP\Files\NotPermittedException
-	 * @since 14.0.0
-	 */
 	public function read() {
 		return $this->file->fopen('r');
 	}
 
-	/**
-	 * Open the file as stream for writing, resulting resource can be operated as stream like the result from php's own fopen
-	 *
-	 * @return resource|false
-	 * @throws \OCP\Files\NotPermittedException
-	 * @since 14.0.0
-	 */
 	public function write() {
 		return $this->file->fopen('w');
 	}

@@ -28,9 +28,6 @@ class RenderReferenceEventListener implements IEventListener {
 		$eventDispatcher->addServiceListener(RenderReferenceEvent::class, RenderReferenceEventListener::class);
 	}
 
-	/**
-	 * @inheritDoc
-	 */
 	public function handle(Event $event): void {
 		if (!($event instanceof RenderReferenceEvent)) {
 			return;

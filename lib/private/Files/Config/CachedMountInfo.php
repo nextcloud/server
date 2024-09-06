@@ -54,30 +54,18 @@ class CachedMountInfo implements ICachedMountInfo {
 		$this->key = $rootId . '::' . $mountPoint;
 	}
 
-	/**
-	 * @return IUser
-	 */
 	public function getUser(): IUser {
 		return $this->user;
 	}
 
-	/**
-	 * @return int the numeric storage id of the mount
-	 */
 	public function getStorageId(): int {
 		return $this->storageId;
 	}
 
-	/**
-	 * @return int the fileid of the root of the mount
-	 */
 	public function getRootId(): int {
 		return $this->rootId;
 	}
 
-	/**
-	 * @return Node|null the root node of the mount
-	 */
 	public function getMountPointNode(): ?Node {
 		// TODO injection etc
 		Filesystem::initMountPoints($this->getUser()->getUID());
@@ -85,28 +73,14 @@ class CachedMountInfo implements ICachedMountInfo {
 		return $userNode->getParent()->getFirstNodeById($this->getRootId());
 	}
 
-	/**
-	 * @return string the mount point of the mount for the user
-	 */
 	public function getMountPoint(): string {
 		return $this->mountPoint;
 	}
 
-	/**
-	 * Get the id of the configured mount
-	 *
-	 * @return int|null mount id or null if not applicable
-	 * @since 9.1.0
-	 */
 	public function getMountId(): ?int {
 		return $this->mountId;
 	}
 
-	/**
-	 * Get the internal path (within the storage) of the root of the mount
-	 *
-	 * @return string
-	 */
 	public function getRootInternalPath(): string {
 		return $this->rootInternalPath;
 	}

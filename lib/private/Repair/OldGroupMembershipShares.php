@@ -34,21 +34,10 @@ class OldGroupMembershipShares implements IRepairStep {
 		$this->groupManager = $groupManager;
 	}
 
-	/**
-	 * Returns the step's name
-	 *
-	 * @return string
-	 */
 	public function getName() {
 		return 'Remove shares of old group memberships';
 	}
 
-	/**
-	 * Run repair step.
-	 * Must throw exception on error.
-	 *
-	 * @throws \Exception in case of failure
-	 */
 	public function run(IOutput $output) {
 		$deletedEntries = 0;
 

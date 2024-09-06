@@ -24,22 +24,10 @@ class CoreNotifier implements INotifier {
 	) {
 	}
 
-	/**
-	 * Identifier of the notifier, only use [a-z0-9_]
-	 *
-	 * @return string
-	 * @since 17.0.0
-	 */
 	public function getID(): string {
 		return 'core';
 	}
 
-	/**
-	 * Human readable name describing the notifier
-	 *
-	 * @return string
-	 * @since 17.0.0
-	 */
 	public function getName(): string {
 		return $this->factory->get('core')->t('Nextcloud Server');
 	}

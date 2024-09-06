@@ -54,14 +54,6 @@ class Hasher implements IHasher {
 		}
 	}
 
-	/**
-	 * Hashes a message using PHP's `password_hash` functionality.
-	 * Please note that the size of the returned string is not guaranteed
-	 * and can be up to 255 characters.
-	 *
-	 * @param string $message Message to generate hash from
-	 * @return string Hash of the message with appended version parameter
-	 */
 	public function hash(string $message): string {
 		$alg = $this->getPrefferedAlgorithm();
 
@@ -144,12 +136,6 @@ class Hasher implements IHasher {
 		return false;
 	}
 
-	/**
-	 * @param string $message Message to verify
-	 * @param string $hash Assumed hash of the message
-	 * @param null|string &$newHash Reference will contain the updated hash if necessary. Update the existing hash with this one.
-	 * @return bool Whether $hash is a valid hash of $message
-	 */
 	public function verify(string $message, string $hash, &$newHash = null): bool {
 		$splittedHash = $this->splitHash($hash);
 

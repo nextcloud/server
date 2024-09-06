@@ -58,27 +58,10 @@ class URLGenerator implements IURLGenerator {
 		return $this->appManager;
 	}
 
-	/**
-	 * Creates an url using a defined route
-	 *
-	 * @param string $routeName
-	 * @param array $arguments args with param=>value, will be appended to the returned url
-	 * @return string the url
-	 *
-	 * Returns a url to the given route.
-	 */
 	public function linkToRoute(string $routeName, array $arguments = []): string {
 		return $this->router->generate($routeName, $arguments);
 	}
 
-	/**
-	 * Creates an absolute url using a defined route
-	 * @param string $routeName
-	 * @param array $arguments args with param=>value, will be appended to the returned url
-	 * @return string the url
-	 *
-	 * Returns an absolute url to the given route.
-	 */
 	public function linkToRouteAbsolute(string $routeName, array $arguments = []): string {
 		return $this->getAbsoluteURL($this->linkToRoute($routeName, $arguments));
 	}
@@ -106,17 +89,6 @@ class URLGenerator implements IURLGenerator {
 		return $this->getAbsoluteURL($route);
 	}
 
-	/**
-	 * Creates an url
-	 *
-	 * @param string $appName app
-	 * @param string $file file
-	 * @param array $args array with param=>value, will be appended to the returned url
-	 *                    The value of $args will be urlencoded
-	 * @return string the url
-	 *
-	 * Returns a url to the given app and file.
-	 */
 	public function linkTo(string $appName, string $file, array $args = []): string {
 		$frontControllerActive = ($this->config->getSystemValueBool('htaccess.IgnoreFrontController', false) || getenv('front_controller_active') === 'true');
 
@@ -155,16 +127,6 @@ class URLGenerator implements IURLGenerator {
 		return $urlLinkTo;
 	}
 
-	/**
-	 * Creates path to an image
-	 *
-	 * @param string $appName app
-	 * @param string $file image name
-	 * @throws \RuntimeException If the image does not exist
-	 * @return string the url
-	 *
-	 * Returns the path to the image.
-	 */
 	public function imagePath(string $appName, string $file): string {
 		$cache = $this->cacheFactory->createDistributed('imagePath-'.md5($this->getBaseUrl()).'-');
 		$cacheKey = $appName.'-'.$file;
@@ -243,11 +205,6 @@ class URLGenerator implements IURLGenerator {
 	}
 
 
-	/**
-	 * Makes an URL absolute
-	 * @param string $url the url in the ownCloud host
-	 * @return string the absolute version of the url
-	 */
 	public function getAbsoluteURL(string $url): string {
 		$separator = str_starts_with($url, '/') ? '' : '/';
 
@@ -262,20 +219,11 @@ class URLGenerator implements IURLGenerator {
 		return $this->getBaseUrl() . $separator . $url;
 	}
 
-	/**
-	 * @param string $key
-	 * @return string url to the online documentation
-	 */
 	public function linkToDocs(string $key): string {
 		$theme = \OC::$server->get('ThemingDefaults');
 		return $theme->buildDocLinkToKey($key);
 	}
 
-	/**
-	 * Returns the URL of the default page based on the system configuration
-	 * and the apps visible for the current user
-	 * @return string
-	 */
 	public function linkToDefaultPageUrl(): string {
 		// Deny the redirect if the URL contains a @
 		// This prevents unvalidated redirects like ?redirect_url=:user@domain.com
@@ -298,9 +246,6 @@ class URLGenerator implements IURLGenerator {
 		return $this->getAbsoluteURL('/index.php/apps/' . $appId . '/');
 	}
 
-	/**
-	 * @return string base url of the current request
-	 */
 	public function getBaseUrl(): string {
 		// BaseUrl can be equal to 'http(s)://' during the first steps of the initial setup.
 		if ($this->baseUrl === null || $this->baseUrl === 'http://' || $this->baseUrl === 'https://') {
@@ -309,9 +254,6 @@ class URLGenerator implements IURLGenerator {
 		return $this->baseUrl;
 	}
 
-	/**
-	 * @return string webroot part of the base url
-	 */
 	public function getWebroot(): string {
 		return \OC::$WEBROOT;
 	}

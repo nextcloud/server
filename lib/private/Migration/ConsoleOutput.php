@@ -30,23 +30,14 @@ class ConsoleOutput implements IOutput {
 		$this->output->writeln($message, OutputInterface::VERBOSITY_VERBOSE);
 	}
 
-	/**
-	 * @param string $message
-	 */
 	public function info($message): void {
 		$this->output->writeln("<info>$message</info>");
 	}
 
-	/**
-	 * @param string $message
-	 */
 	public function warning($message): void {
 		$this->output->writeln("<comment>$message</comment>");
 	}
 
-	/**
-	 * @param int $max
-	 */
 	public function startProgress($max = 0): void {
 		if (!is_null($this->progressBar)) {
 			$this->progressBar->finish();
@@ -55,10 +46,6 @@ class ConsoleOutput implements IOutput {
 		$this->progressBar->start($max);
 	}
 
-	/**
-	 * @param int $step
-	 * @param string $description
-	 */
 	public function advance($step = 1, $description = ''): void {
 		if (is_null($this->progressBar)) {
 			$this->progressBar = new ProgressBar($this->output);

@@ -29,30 +29,12 @@ abstract class ProviderV2 implements IProviderV2 {
 		$this->options = $options;
 	}
 
-	/**
-	 * @return string Regex with the mimetypes that are supported by this provider
-	 */
 	abstract public function getMimeType(): string ;
 
-	/**
-	 * Check if a preview can be generated for $path
-	 *
-	 * @param FileInfo $file
-	 * @return bool
-	 */
 	public function isAvailable(FileInfo $file): bool {
 		return true;
 	}
 
-	/**
-	 * get thumbnail for file at path $path
-	 *
-	 * @param File $file
-	 * @param int $maxX The maximum X size of the thumbnail. It can be smaller depending on the shape of the image
-	 * @param int $maxY The maximum Y size of the thumbnail. It can be smaller depending on the shape of the image
-	 * @return null|\OCP\IImage false if no preview was generated
-	 * @since 17.0.0
-	 */
 	abstract public function getThumbnail(File $file, int $maxX, int $maxY): ?IImage;
 
 	protected function useTempFile(File $file): bool {

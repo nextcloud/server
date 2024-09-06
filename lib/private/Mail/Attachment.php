@@ -26,28 +26,16 @@ class Attachment implements IAttachment {
 	) {
 	}
 
-	/**
-	 * @return $this
-	 * @since 13.0.0
-	 */
 	public function setFilename(string $filename): IAttachment {
 		$this->name = $filename;
 		return $this;
 	}
 
-	/**
-	 * @return $this
-	 * @since 13.0.0
-	 */
 	public function setContentType(string $contentType): IAttachment {
 		$this->contentType = $contentType;
 		return $this;
 	}
 
-	/**
-	 * @return $this
-	 * @since 13.0.0
-	 */
 	public function setBody(string $body): IAttachment {
 		$this->body = $body;
 		return $this;

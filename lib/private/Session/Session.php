@@ -51,9 +51,6 @@ abstract class Session implements \ArrayAccess, ISession {
 		$this->remove($offset);
 	}
 
-	/**
-	 * Close the session and release the lock
-	 */
 	public function close() {
 		$this->sessionClosed = true;
 	}

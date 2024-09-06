@@ -36,30 +36,18 @@ class Query implements IQuery {
 		$this->end = $time;
 	}
 
-	/**
-	 * @return array
-	 */
 	public function getParams() {
 		return $this->params;
 	}
 
-	/**
-	 * @return string
-	 */
 	public function getSql() {
 		return $this->sql;
 	}
 
-	/**
-	 * @return float
-	 */
 	public function getStart() {
 		return $this->start;
 	}
 	
-	/**
-	 * @return float
-	 */
 	public function getDuration() {
 		return $this->end - $this->start;
 	}

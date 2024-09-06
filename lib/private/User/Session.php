@@ -138,11 +138,6 @@ class Session implements IUserSession, Emitter {
 		$this->activeUser = null;
 	}
 
-	/**
-	 * set the currently active user
-	 *
-	 * @param IUser|null $user
-	 */
 	public function setUser($user) {
 		if (is_null($user)) {
 			$this->session->remove('user_id');
@@ -152,20 +147,10 @@ class Session implements IUserSession, Emitter {
 		$this->activeUser = $user;
 	}
 
-	/**
-	 * Temporarily set the currently active user without persisting in the session
-	 *
-	 * @param IUser|null $user
-	 */
 	public function setVolatileActiveUser(?IUser $user): void {
 		$this->activeUser = $user;
 	}
 
-	/**
-	 * get the current active user
-	 *
-	 * @return IUser|null Current user, otherwise null
-	 */
 	public function getUser() {
 		// FIXME: This is a quick'n dirty work-around for the incognito mode as
 		// described at https://github.com/owncloud/core/pull/12912#issuecomment-67391155
@@ -212,11 +197,6 @@ class Session implements IUserSession, Emitter {
 		}
 	}
 
-	/**
-	 * Checks whether the user is logged in
-	 *
-	 * @return bool if logged in
-	 */
 	public function isLoggedIn() {
 		$user = $this->getUser();
 		if (is_null($user)) {
@@ -258,9 +238,6 @@ class Session implements IUserSession, Emitter {
 		return null;
 	}
 
-	/**
-	 * @return null|string
-	 */
 	public function getImpersonatingUserID(): ?string {
 		return $this->session->get('oldUserId');
 	}
@@ -291,14 +268,6 @@ class Session implements IUserSession, Emitter {
 		}
 	}
 
-	/**
-	 * try to log in with the provided credentials
-	 *
-	 * @param string $uid
-	 * @param string $password
-	 * @return boolean|null
-	 * @throws LoginException
-	 */
 	public function login($uid, $password) {
 		$this->session->regenerateId();
 		if ($this->validateToken($password, $uid)) {
@@ -928,9 +897,6 @@ class Session implements IUserSession, Emitter {
 		$this->setMagicInCookie($user->getUID(), $token);
 	}
 
-	/**
-	 * logout the user from the session
-	 */
 	public function logout() {
 		$user = $this->getUser();
 		$this->manager->emit('\OC\User', 'logout', [$user]);

@@ -47,9 +47,6 @@ class DeclarativeManager implements IDeclarativeManager {
 	 */
 	private array $appSchemas = [];
 
-	/**
-	 * @inheritdoc
-	 */
 	public function registerSchema(string $app, array $schema): void {
 		$this->appSchemas[$app] ??= [];
 
@@ -73,9 +70,6 @@ class DeclarativeManager implements IDeclarativeManager {
 		$this->appSchemas[$app][] = $schema;
 	}
 
-	/**
-	 * @inheritdoc
-	 */
 	public function loadSchemas(): void {
 		$declarativeSettings = $this->coordinator->getRegistrationContext()->getDeclarativeSettings();
 		foreach ($declarativeSettings as $declarativeSetting) {
@@ -87,9 +81,6 @@ class DeclarativeManager implements IDeclarativeManager {
 		$this->eventDispatcher->dispatchTyped(new DeclarativeSettingsRegisterFormEvent($this));
 	}
 
-	/**
-	 * @inheritdoc
-	 */
 	public function getFormIDs(IUser $user, string $type, string $section): array {
 		$isAdmin = $this->groupManager->isAdmin($user->getUID());
 		/** @var array<string, list<string>> $formIds */
@@ -115,10 +106,6 @@ class DeclarativeManager implements IDeclarativeManager {
 		return $formIds;
 	}
 
-	/**
-	 * @inheritdoc
-	 * @throws Exception
-	 */
 	public function getFormsWithValues(IUser $user, ?string $type, ?string $section): array {
 		$isAdmin = $this->groupManager->isAdmin($user->getUID());
 		$forms = [];
@@ -234,9 +221,6 @@ class DeclarativeManager implements IDeclarativeManager {
 		}
 	}
 
-	/**
-	 * @inheritdoc
-	 */
 	public function setValue(IUser $user, string $app, string $formId, string $fieldId, mixed $value): void {
 		$sectionType = $this->getSectionType($app, $fieldId);
 		$this->assertAuthorized($user, $sectionType);

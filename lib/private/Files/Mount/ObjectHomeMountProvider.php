@@ -31,13 +31,6 @@ class ObjectHomeMountProvider implements IHomeMountProvider {
 		$this->config = $config;
 	}
 
-	/**
-	 * Get the cache mount for a user
-	 *
-	 * @param IUser $user
-	 * @param IStorageFactory $loader
-	 * @return \OCP\Files\Mount\IMountPoint
-	 */
 	public function getHomeMountForUser(IUser $user, IStorageFactory $loader) {
 		$config = $this->getMultiBucketObjectStoreConfig($user);
 		if ($config === null) {

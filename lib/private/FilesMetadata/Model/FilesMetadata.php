@@ -33,58 +33,26 @@ class FilesMetadata implements IFilesMetadata {
 	) {
 	}
 
-	/**
-	 * @inheritDoc
-	 * @return int related file id
-	 * @since 28.0.0
-	 */
 	public function getFileId(): int {
 		return $this->fileId;
 	}
 
-	/**
-	 * @inheritDoc
-	 * @return int timestamp
-	 * @since 28.0.0
-	 */
 	public function lastUpdateTimestamp(): int {
 		return $this->lastUpdate;
 	}
 
-	/**
-	 * @inheritDoc
-	 * @return string token
-	 * @since 28.0.0
-	 */
 	public function getSyncToken(): string {
 		return $this->syncToken;
 	}
 
-	/**
-	 * @inheritDoc
-	 * @return string[] list of keys
-	 * @since 28.0.0
-	 */
 	public function getKeys(): array {
 		return array_keys($this->metadata);
 	}
 
-	/**
-	 * @param string $needle metadata key to search
-	 *
-	 * @inheritDoc
-	 * @return bool TRUE if key exist
-	 * @since 28.0.0
-	 */
 	public function hasKey(string $needle): bool {
 		return (in_array($needle, $this->getKeys()));
 	}
 
-	/**
-	 * @inheritDoc
-	 * @return string[] list of indexes
-	 * @since 28.0.0
-	 */
 	public function getIndexes(): array {
 		$indexes = [];
 		foreach ($this->getKeys() as $key) {
@@ -96,25 +64,10 @@ class FilesMetadata implements IFilesMetadata {
 		return $indexes;
 	}
 
-	/**
-	 * @param string $key metadata key
-	 *
-	 * @inheritDoc
-	 * @return bool TRUE if key exists and is set as indexed
-	 * @since 28.0.0
-	 */
 	public function isIndex(string $key): bool {
 		return $this->metadata[$key]?->isIndexed() ?? false;
 	}
 
-	/**
-	 * @param string $key metadata key
-	 *
-	 * @inheritDoc
-	 * @return int edit permission
-	 * @throws FilesMetadataNotFoundException
-	 * @since 28.0.0
-	 */
 	public function getEditPermission(string $key): int {
 		if (!array_key_exists($key, $this->metadata)) {
 			throw new FilesMetadataNotFoundException();
@@ -123,14 +76,6 @@ class FilesMetadata implements IFilesMetadata {
 		return $this->metadata[$key]->getEditPermission();
 	}
 
-	/**
-	 * @param string $key metadata key
-	 * @param int $permission edit permission
-	 *
-	 * @inheritDoc
-	 * @throws FilesMetadataNotFoundException
-	 * @since 28.0.0
-	 */
 	public function setEditPermission(string $key, int $permission): void {
 		if (!array_key_exists($key, $this->metadata)) {
 			throw new FilesMetadataNotFoundException();
@@ -156,15 +101,6 @@ class FilesMetadata implements IFilesMetadata {
 		$this->metadata[$key]->setEtag($etag);
 	}
 
-	/**
-	 * @param string $key metadata key
-	 *
-	 * @inheritDoc
-	 * @return string metadata value
-	 * @throws FilesMetadataNotFoundException
-	 * @throws FilesMetadataTypeException
-	 * @since 28.0.0
-	 */
 	public function getString(string $key): string {
 		if (!array_key_exists($key, $this->metadata)) {
 			throw new FilesMetadataNotFoundException();
@@ -173,15 +109,6 @@ class FilesMetadata implements IFilesMetadata {
 		return $this->metadata[$key]->getValueString();
 	}
 
-	/**
-	 * @param string $key metadata key
-	 *
-	 * @inheritDoc
-	 * @return int metadata value
-	 * @throws FilesMetadataNotFoundException
-	 * @throws FilesMetadataTypeException
-	 * @since 28.0.0
-	 */
 	public function getInt(string $key): int {
 		if (!array_key_exists($key, $this->metadata)) {
 			throw new FilesMetadataNotFoundException();
@@ -190,15 +117,6 @@ class FilesMetadata implements IFilesMetadata {
 		return $this->metadata[$key]->getValueInt();
 	}
 
-	/**
-	 * @param string $key metadata key
-	 *
-	 * @inheritDoc
-	 * @return float metadata value
-	 * @throws FilesMetadataNotFoundException
-	 * @throws FilesMetadataTypeException
-	 * @since 28.0.0
-	 */
 	public function getFloat(string $key): float {
 		if (!array_key_exists($key, $this->metadata)) {
 			throw new FilesMetadataNotFoundException();
@@ -207,15 +125,6 @@ class FilesMetadata implements IFilesMetadata {
 		return $this->metadata[$key]->getValueFloat();
 	}
 
-	/**
-	 * @param string $key metadata key
-	 *
-	 * @inheritDoc
-	 * @return bool metadata value
-	 * @throws FilesMetadataNotFoundException
-	 * @throws FilesMetadataTypeException
-	 * @since 28.0.0
-	 */
 	public function getBool(string $key): bool {
 		if (!array_key_exists($key, $this->metadata)) {
 			throw new FilesMetadataNotFoundException();
@@ -224,15 +133,6 @@ class FilesMetadata implements IFilesMetadata {
 		return $this->metadata[$key]->getValueBool();
 	}
 
-	/**
-	 * @param string $key metadata key
-	 *
-	 * @inheritDoc
-	 * @return array metadata value
-	 * @throws FilesMetadataNotFoundException
-	 * @throws FilesMetadataTypeException
-	 * @since 28.0.0
-	 */
 	public function getArray(string $key): array {
 		if (!array_key_exists($key, $this->metadata)) {
 			throw new FilesMetadataNotFoundException();
@@ -241,15 +141,6 @@ class FilesMetadata implements IFilesMetadata {
 		return $this->metadata[$key]->getValueArray();
 	}
 
-	/**
-	 * @param string $key metadata key
-	 *
-	 * @inheritDoc
-	 * @return string[] metadata value
-	 * @throws FilesMetadataNotFoundException
-	 * @throws FilesMetadataTypeException
-	 * @since 28.0.0
-	 */
 	public function getStringList(string $key): array {
 		if (!array_key_exists($key, $this->metadata)) {
 			throw new FilesMetadataNotFoundException();
@@ -258,15 +149,6 @@ class FilesMetadata implements IFilesMetadata {
 		return $this->metadata[$key]->getValueStringList();
 	}
 
-	/**
-	 * @param string $key metadata key
-	 *
-	 * @inheritDoc
-	 * @return int[] metadata value
-	 * @throws FilesMetadataNotFoundException
-	 * @throws FilesMetadataTypeException
-	 * @since 28.0.0
-	 */
 	public function getIntList(string $key): array {
 		if (!array_key_exists($key, $this->metadata)) {
 			throw new FilesMetadataNotFoundException();
@@ -275,21 +157,6 @@ class FilesMetadata implements IFilesMetadata {
 		return $this->metadata[$key]->getValueIntList();
 	}
 
-	/**
-	 * @param string $key metadata key
-	 *
-	 * @inheritDoc
-	 * @return string value type
-	 * @throws FilesMetadataNotFoundException
-	 * @see IMetadataValueWrapper::TYPE_STRING
-	 * @see IMetadataValueWrapper::TYPE_INT
-	 * @see IMetadataValueWrapper::TYPE_FLOAT
-	 * @see IMetadataValueWrapper::TYPE_BOOL
-	 * @see IMetadataValueWrapper::TYPE_ARRAY
-	 * @see IMetadataValueWrapper::TYPE_STRING_LIST
-	 * @see IMetadataValueWrapper::TYPE_INT_LIST
-	 * @since 28.0.0
-	 */
 	public function getType(string $key): string {
 		if (!array_key_exists($key, $this->metadata)) {
 			throw new FilesMetadataNotFoundException();
@@ -298,16 +165,6 @@ class FilesMetadata implements IFilesMetadata {
 		return $this->metadata[$key]->getType();
 	}
 
-	/**
-	 * @param string $key metadata key
-	 * @param string $value metadata value
-	 * @param bool $index set TRUE if value must be indexed
-	 *
-	 * @inheritDoc
-	 * @return self
-	 * @throws FilesMetadataKeyFormatException
-	 * @since 28.0.0
-	 */
 	public function setString(string $key, string $value, bool $index = false): IFilesMetadata {
 		$this->confirmKeyFormat($key);
 		try {
@@ -325,16 +182,6 @@ class FilesMetadata implements IFilesMetadata {
 		return $this;
 	}
 
-	/**
-	 * @param string $key metadata key
-	 * @param int $value metadata value
-	 * @param bool $index set TRUE if value must be indexed
-	 *
-	 * @inheritDoc
-	 * @return self
-	 * @throws FilesMetadataKeyFormatException
-	 * @since 28.0.0
-	 */
 	public function setInt(string $key, int $value, bool $index = false): IFilesMetadata {
 		$this->confirmKeyFormat($key);
 		try {
@@ -352,15 +199,6 @@ class FilesMetadata implements IFilesMetadata {
 		return $this;
 	}
 
-	/**
-	 * @param string $key metadata key
-	 * @param float $value metadata value
-	 *
-	 * @inheritDoc
-	 * @return self
-	 * @throws FilesMetadataKeyFormatException
-	 * @since 28.0.0
-	 */
 	public function setFloat(string $key, float $value, bool $index = false): IFilesMetadata {
 		$this->confirmKeyFormat($key);
 		try {
@@ -379,16 +217,6 @@ class FilesMetadata implements IFilesMetadata {
 	}
 
 
-	/**
-	 * @param string $key metadata key
-	 * @param bool $value metadata value
-	 * @param bool $index set TRUE if value must be indexed
-	 *
-	 * @inheritDoc
-	 * @return self
-	 * @throws FilesMetadataKeyFormatException
-	 * @since 28.0.0
-	 */
 	public function setBool(string $key, bool $value, bool $index = false): IFilesMetadata {
 		$this->confirmKeyFormat($key);
 		try {
@@ -407,15 +235,6 @@ class FilesMetadata implements IFilesMetadata {
 	}
 
 
-	/**
-	 * @param string $key metadata key
-	 * @param array $value metadata value
-	 *
-	 * @inheritDoc
-	 * @return self
-	 * @throws FilesMetadataKeyFormatException
-	 * @since 28.0.0
-	 */
 	public function setArray(string $key, array $value): IFilesMetadata {
 		$this->confirmKeyFormat($key);
 		try {
@@ -433,16 +252,6 @@ class FilesMetadata implements IFilesMetadata {
 		return $this;
 	}
 
-	/**
-	 * @param string $key metadata key
-	 * @param string[] $value metadata value
-	 * @param bool $index set TRUE if each values from the list must be indexed
-	 *
-	 * @inheritDoc
-	 * @return self
-	 * @throws FilesMetadataKeyFormatException
-	 * @since 28.0.0
-	 */
 	public function setStringList(string $key, array $value, bool $index = false): IFilesMetadata {
 		$this->confirmKeyFormat($key);
 		try {
@@ -460,16 +269,6 @@ class FilesMetadata implements IFilesMetadata {
 		return $this;
 	}
 
-	/**
-	 * @param string $key metadata key
-	 * @param int[] $value metadata value
-	 * @param bool $index set TRUE if each values from the list must be indexed
-	 *
-	 * @inheritDoc
-	 * @return self
-	 * @throws FilesMetadataKeyFormatException
-	 * @since 28.0.0
-	 */
 	public function setIntList(string $key, array $value, bool $index = false): IFilesMetadata {
 		$this->confirmKeyFormat($key);
 		try {
@@ -487,13 +286,6 @@ class FilesMetadata implements IFilesMetadata {
 		return $this;
 	}
 
-	/**
-	 * @param string $key metadata key
-	 *
-	 * @inheritDoc
-	 * @return self
-	 * @since 28.0.0
-	 */
 	public function unset(string $key): IFilesMetadata {
 		if (!array_key_exists($key, $this->metadata)) {
 			return $this;
@@ -505,13 +297,6 @@ class FilesMetadata implements IFilesMetadata {
 		return $this;
 	}
 
-	/**
-	 * @param string $keyPrefix metadata key prefix
-	 *
-	 * @inheritDoc
-	 * @return self
-	 * @since 28.0.0
-	 */
 	public function removeStartsWith(string $keyPrefix): IFilesMetadata {
 		if ($keyPrefix === '') {
 			return $this;
@@ -541,11 +326,6 @@ class FilesMetadata implements IFilesMetadata {
 		throw new FilesMetadataKeyFormatException('key can only contains alphanumerical characters, and dash (-, _)');
 	}
 
-	/**
-	 * @inheritDoc
-	 * @return bool TRUE if metadata have been modified
-	 * @since 28.0.0
-	 */
 	public function updated(): bool {
 		return $this->updated;
 	}
@@ -559,9 +339,6 @@ class FilesMetadata implements IFilesMetadata {
 		return $data;
 	}
 
-	/**
-	 * @return array<string, string|int|bool|float|string[]|int[]>
-	 */
 	public function asArray(): array {
 		$data = [];
 		foreach ($this->metadata as $metaKey => $metaValueWrapper) {
@@ -575,13 +352,6 @@ class FilesMetadata implements IFilesMetadata {
 		return $data;
 	}
 
-	/**
-	 * @param array $data
-	 *
-	 * @inheritDoc
-	 * @return IFilesMetadata
-	 * @since 28.0.0
-	 */
 	public function import(array $data): IFilesMetadata {
 		foreach ($data as $k => $v) {
 			$valueWrapper = new MetadataValueWrapper();

@@ -34,9 +34,6 @@ class CacheEntry implements ICacheEntry {
 		unset($this->data[$offset]);
 	}
 
-	/**
-	 * @return mixed
-	 */
 	#[\ReturnTypeWillChange]
 	public function offsetGet($offset) {
 		if (isset($this->data[$offset])) {

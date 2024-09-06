@@ -9,12 +9,9 @@ declare(strict_types=1);
 
 namespace OC\Http\Client;
 
-use Exception;
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Promise\PromiseInterface;
-use LogicException;
 use OCP\Http\Client\IPromise;
-use OCP\Http\Client\IResponse;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Log\LoggerInterface;
 
@@ -31,16 +28,6 @@ class GuzzlePromiseAdapter implements IPromise {
 	) {
 	}
 
-	/**
-	 * Appends fulfillment and rejection handlers to the promise, and returns
-	 * a new promise resolving to the return value of the called handler.
-	 *
-	 * @param ?callable(IResponse): void $onFulfilled Invoked when the promise fulfills. Gets an \OCP\Http\Client\IResponse passed in as argument
-	 * @param ?callable(Exception): void $onRejected Invoked when the promise is rejected. Gets an \Exception passed in as argument
-	 *
-	 * @return IPromise
-	 * @since 28.0.0
-	 */
 	public function then(
 		?callable $onFulfilled = null,
 		?callable $onRejected = null,
@@ -65,15 +52,6 @@ class GuzzlePromiseAdapter implements IPromise {
 		return $this;
 	}
 
-	/**
-	 * Get the state of the promise ("pending", "rejected", or "fulfilled").
-	 *
-	 * The three states can be checked against the constants defined:
-	 * STATE_PENDING, STATE_FULFILLED, and STATE_REJECTED.
-	 *
-	 * @return IPromise::STATE_*
-	 * @since 28.0.0
-	 */
 	public function getState(): string {
 		$state = $this->promise->getState();
 		if ($state === PromiseInterface::FULFILLED) {
@@ -92,32 +70,10 @@ class GuzzlePromiseAdapter implements IPromise {
 		return self::STATE_PENDING;
 	}
 
-	/**
-	 * Cancels the promise if possible.
-	 *
-	 * @link https://github.com/promises-aplus/cancellation-spec/issues/7
-	 * @since 28.0.0
-	 */
 	public function cancel(): void {
 		$this->promise->cancel();
 	}
 
-	/**
-	 * Waits until the promise completes if possible.
-	 *
-	 * Pass $unwrap as true to unwrap the result of the promise, either
-	 * returning the resolved value or throwing the rejected exception.
-	 *
-	 * If the promise cannot be waited on, then the promise will be rejected.
-	 *
-	 * @param bool $unwrap
-	 *
-	 * @return mixed
-	 *
-	 * @throws LogicException if the promise has no wait function or if the
-	 *                        promise does not settle after waiting.
-	 * @since 28.0.0
-	 */
 	public function wait(bool $unwrap = true): mixed {
 		return $this->promise->wait($unwrap);
 	}

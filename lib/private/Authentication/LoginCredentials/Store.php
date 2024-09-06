@@ -57,12 +57,6 @@ class Store implements IStore {
 		$this->session = $session;
 	}
 
-	/**
-	 * @since 12
-	 *
-	 * @return ICredentials the login credentials of the current user
-	 * @throws CredentialsUnavailableException
-	 */
 	public function getLoginCredentials(): ICredentials {
 		if ($this->tokenProvider === null) {
 			throw new CredentialsUnavailableException();

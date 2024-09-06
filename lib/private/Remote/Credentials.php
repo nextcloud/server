@@ -22,16 +22,10 @@ class Credentials implements ICredentials {
 		$this->password = $password;
 	}
 
-	/**
-	 * @return string
-	 */
 	public function getUsername() {
 		return $this->user;
 	}
 
-	/**
-	 * @return string
-	 */
 	public function getPassword() {
 		return $this->password;
 	}

@@ -45,9 +45,6 @@ class SystemTagManager implements ISystemTagManager {
 			->andWhere($query->expr()->eq('editable', $query->createParameter('editable')));
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
 	public function getTagsByIds($tagIds, ?IUser $user = null): array {
 		if (!\is_array($tagIds)) {
 			$tagIds = [$tagIds];
@@ -92,9 +89,6 @@ class SystemTagManager implements ISystemTagManager {
 		return $tags;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
 	public function getAllTags($visibilityFilter = null, $nameSearchPattern = null): array {
 		$tags = [];
 
@@ -130,9 +124,6 @@ class SystemTagManager implements ISystemTagManager {
 		return $tags;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
 	public function getTag(string $tagName, bool $userVisible, bool $userAssignable): ISystemTag {
 		// Length of name column is 64
 		$truncatedTagName = substr($tagName, 0, 64);
@@ -153,9 +144,6 @@ class SystemTagManager implements ISystemTagManager {
 		return $this->createSystemTagFromRow($row);
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
 	public function createTag(string $tagName, bool $userVisible, bool $userAssignable): ISystemTag {
 		// Length of name column is 64
 		$truncatedTagName = substr($tagName, 0, 64);
@@ -193,9 +181,6 @@ class SystemTagManager implements ISystemTagManager {
 		return $tag;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
 	public function updateTag(
 		string $tagId,
 		string $newName,
@@ -250,9 +235,6 @@ class SystemTagManager implements ISystemTagManager {
 		));
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
 	public function deleteTags($tagIds): void {
 		if (!\is_array($tagIds)) {
 			$tagIds = [$tagIds];
@@ -302,9 +284,6 @@ class SystemTagManager implements ISystemTagManager {
 		}
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
 	public function canUserAssignTag(ISystemTag $tag, IUser $user): bool {
 		// early check to avoid unneeded group lookups
 		if ($tag->isUserAssignable() && $tag->isUserVisible()) {
@@ -330,9 +309,6 @@ class SystemTagManager implements ISystemTagManager {
 		return false;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
 	public function canUserSeeTag(ISystemTag $tag, IUser $user): bool {
 		if ($tag->isUserVisible()) {
 			return true;
@@ -349,9 +325,6 @@ class SystemTagManager implements ISystemTagManager {
 		return new SystemTag((string)$row['id'], $row['name'], (bool)$row['visibility'], (bool)$row['editable']);
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
 	public function setTagGroups(ISystemTag $tag, array $groupIds): void {
 		// delete relationships first
 		$this->connection->beginTransaction();
@@ -383,9 +356,6 @@ class SystemTagManager implements ISystemTagManager {
 		}
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
 	public function getTagGroups(ISystemTag $tag): array {
 		$groupIds = [];
 		$query = $this->connection->getQueryBuilder();
