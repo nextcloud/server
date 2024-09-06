@@ -23,6 +23,7 @@ use OCP\Files\StorageNotAvailableException;
 use OCP\Http\Client\IClientService;
 use OCP\ICertificateManager;
 use OCP\IConfig;
+use OCP\Server;
 use OCP\Util;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Log\LoggerInterface;
@@ -86,7 +87,7 @@ class DAV extends Common {
 	 */
 	public function __construct($params) {
 		$this->statCache = new ArrayCache();
-		$this->httpClientService = \OC::$server->get(IClientService::class);
+		$this->httpClientService = Server::get(IClientService::class);
 		if (isset($params['host']) && isset($params['user']) && isset($params['password'])) {
 			$host = $params['host'];
 			//remove leading http[s], will be generated in createBaseUri()
@@ -120,10 +121,10 @@ class DAV extends Common {
 		} else {
 			throw new \Exception('Invalid webdav storage configuration');
 		}
-		$this->logger = \OC::$server->get(LoggerInterface::class);
-		$this->eventLogger = \OC::$server->get(IEventLogger::class);
+		$this->logger = Server::get(LoggerInterface::class);
+		$this->eventLogger = Server::get(IEventLogger::class);
 		// This timeout value will be used for the download and upload of files
-		$this->timeout = \OC::$server->get(IConfig::class)->getSystemValueInt('davstorage.request_timeout', 30);
+		$this->timeout = Server::get(IConfig::class)->getSystemValueInt('davstorage.request_timeout', 30);
 		$this->mimeTypeDetector = \OC::$server->getMimeTypeDetector();
 	}
 
@@ -142,7 +143,7 @@ class DAV extends Common {
 			$settings['authType'] = $this->authType;
 		}
 
-		$proxy = \OC::$server->getConfig()->getSystemValueString('proxy', '');
+		$proxy = Server::get(IConfig::class)->getSystemValueString('proxy', '');
 		if ($proxy !== '') {
 			$settings['proxy'] = $proxy;
 		}
@@ -287,7 +288,7 @@ class DAV extends Common {
 				/** @var ResourceType[] $response */
 				$responseType = $response['{DAV:}resourcetype']->getValue();
 			}
-			return (count($responseType) > 0 and $responseType[0] == '{DAV:}collection') ? 'dir' : 'file';
+			return (count($responseType) > 0 && $responseType[0] == '{DAV:}collection') ? 'dir' : 'file';
 		} catch (\Exception $e) {
 			$this->convertException($e, $path);
 		}
@@ -352,7 +353,7 @@ class DAV extends Common {
 					if ($response->getStatusCode() === Http::STATUS_LOCKED) {
 						throw new \OCP\Lock\LockedException($path);
 					} else {
-						\OC::$server->get(LoggerInterface::class)->error('Guzzle get returned status code ' . $response->getStatusCode(), ['app' => 'webdav client']);
+						Server::get(LoggerInterface::class)->error('Guzzle get returned status code ' . $response->getStatusCode(), ['app' => 'webdav client']);
 					}
 				}
 
@@ -380,7 +381,7 @@ class DAV extends Common {
 					if (!$this->isUpdatable($path)) {
 						return false;
 					}
-					if ($mode === 'w' or $mode === 'w+') {
+					if ($mode === 'w' || $mode === 'w+') {
 						$tmpFile = $tempManager->getTemporaryFile($ext);
 					} else {
 						$tmpFile = $this->getCachedFile($path);
@@ -586,7 +587,7 @@ class DAV extends Common {
 			/** @var ResourceType[] $response */
 			$responseType = $response['{DAV:}resourcetype']->getValue();
 		}
-		$type = (count($responseType) > 0 and $responseType[0] == '{DAV:}collection') ? 'dir' : 'file';
+		$type = (count($responseType) > 0 && $responseType[0] == '{DAV:}collection') ? 'dir' : 'file';
 		if ($type === 'dir') {
 			$mimeType = 'httpd/unix-directory';
 		} elseif (isset($response['{DAV:}getcontenttype'])) {
@@ -625,21 +626,14 @@ class DAV extends Common {
 	/** {@inheritdoc} */
 	public function stat($path) {
 		$meta = $this->getMetaData($path);
-		if (!$meta) {
-			return false;
-		} else {
-			return $meta;
-		}
+		return $meta ?: false;
+
 	}
 
 	/** {@inheritdoc} */
 	public function getMimeType($path) {
 		$meta = $this->getMetaData($path);
-		if ($meta) {
-			return $meta['mimetype'];
-		} else {
-			return false;
-		}
+		return $meta ? $meta['mimetype'] : false;
 	}
 
 	/**
@@ -724,21 +718,13 @@ class DAV extends Common {
 	/** {@inheritdoc} */
 	public function getPermissions($path) {
 		$stat = $this->getMetaData($path);
-		if ($stat) {
-			return $stat['permissions'];
-		} else {
-			return 0;
-		}
+		return $stat ? $stat['permissions'] : 0;
 	}
 
 	/** {@inheritdoc} */
 	public function getETag($path) {
 		$meta = $this->getMetaData($path);
-		if ($meta) {
-			return $meta['etag'];
-		} else {
-			return null;
-		}
+		return $meta ? $meta['etag'] : null;
 	}
 
 	/**
@@ -838,7 +824,7 @@ class DAV extends Common {
 	 * @throws ForbiddenException if the action is not allowed
 	 */
 	protected function convertException(Exception $e, $path = '') {
-		\OC::$server->get(LoggerInterface::class)->debug($e->getMessage(), ['app' => 'files_external', 'exception' => $e]);
+		Server::get(LoggerInterface::class)->debug($e->getMessage(), ['app' => 'files_external', 'exception' => $e]);
 		if ($e instanceof ClientHttpException) {
 			if ($e->getHttpStatus() === Http::STATUS_LOCKED) {
 				throw new \OCP\Lock\LockedException($path);
