@@ -15,8 +15,8 @@ function print_exception(Throwable $e, \OCP\IL10N $l): void {
 	}
 }
 
+print_unescaped('<?xml version="1.0" encoding="utf-8"?>' . "\n");
 ?>
-<?xml version="1.0" encoding="utf-8"?>
 <d:error xmlns:d="DAV:" xmlns:s="http://sabredav.org/ns">
 	<s:exception><?php p($l->t('Internal Server Error')) ?></s:exception>
 	<s:message>
