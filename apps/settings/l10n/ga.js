@@ -331,6 +331,7 @@ OC.L10N.register(
     "None of your currently installed apps provide image generation functionality" : "Ní sholáthraíonn aon cheann de na haipeanna atá suiteáilte agat faoi láthair feidhmiúlacht giniúna íomhá",
     "Text processing" : "Próiseáil téacs",
     "Text processing tasks can be implemented by different apps. Here you can set which app should be used for which task." : "Is féidir le feidhmchláir éagsúla tascanna próiseála téacs a chur i bhfeidhm. Anseo is féidir leat a shocrú cén aip ba chóir a úsáid le haghaidh an tasc.",
+    "None of your currently installed apps provide custom Text processing functionality." : "Ní sholáthraíonn aon cheann de na haipeanna atá suiteáilte agat faoi láthair feidhmiúlacht próiseála Téacs saincheaptha.",
     "Here you can decide which group can access certain sections of the administration settings." : "Anseo is féidir leat cinneadh a dhéanamh maidir le cén grúpa a fhéadfaidh rochtain a fháil ar ranna áirithe de na socruithe riaracháin.",
     "None" : "aon cheann",
     "Unable to modify setting" : "Ní féidir an socrú a mhodhnú",
