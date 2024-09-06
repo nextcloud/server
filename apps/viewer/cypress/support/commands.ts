@@ -28,7 +28,7 @@ import { addCompareSnapshotCommand } from 'cypress-visual-regression/dist/comman
 addCommands()
 addCompareSnapshotCommand()
 
-const url = Cypress.config('baseUrl').replace(/\/index.php\/?$/g, '')
+const url = Cypress.config('baseUrl')!.replace(/\/index.php\/?$/g, '')
 Cypress.env('baseUrl', url)
 
 /**
@@ -97,8 +97,10 @@ Cypress.Commands.add('openFile', fileName => {
 	cy.wait(250)
 })
 
-Cypress.Commands.add('openFileInShare', fileName => {
-	cy.get(`.files-fileList tr[data-file="${CSS.escape(fileName)}"] a.name`).click()
+Cypress.Commands.add('openFileInSingleShare', () => {
+	cy.get('tr[data-cy-files-list-row-name]')
+		.should('have.length', 1)
+		.click()
 	// eslint-disable-next-line
 	cy.wait(250)
 })

@@ -69,7 +69,7 @@ describe('See shared folder with link share', function() {
 	})
 
 	it('Open the viewer on file click', function() {
-		cy.openFileInShare('image1.jpg')
+		cy.openFile('image1.jpg')
 		cy.get('body > .viewer').should('be.visible')
 	})
 
