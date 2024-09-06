@@ -220,6 +220,7 @@ import Vue from 'vue'
 import VueQrcode from '@chenfengyuan/vue-qrcode'
 
 import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
+import NcActionCheckbox from '@nextcloud/vue/dist/Components/NcActionCheckbox.js'
 import NcActionInput from '@nextcloud/vue/dist/Components/NcActionInput.js'
 import NcActionLink from '@nextcloud/vue/dist/Components/NcActionLink.js'
 import NcActionText from '@nextcloud/vue/dist/Components/NcActionText.js'
@@ -253,6 +254,7 @@ export default {
 		ExternalShareAction,
 		NcActions,
 		NcActionButton,
+		NcActionCheckbox,
 		NcActionInput,
 		NcActionLink,
 		NcActionText,
