@@ -566,8 +566,8 @@ export default defineComponent({
 
 			&-blurhash {
 				position: absolute;
-				top: 0;
-				left: 0;
+				inset-block-start: 0;
+				inset-inline-start: 0;
 				height: 100%;
 				width: 100%;
 				object-fit: cover;
@@ -577,6 +577,9 @@ export default defineComponent({
 				// Center and contain the preview
 				object-fit: contain;
 				object-position: center;
+
+				height: 100%;
+				width: 100%;
 
 				/* Preview not loaded animation effect */
 				&:not(.files-list__row-icon-preview--loaded) {
