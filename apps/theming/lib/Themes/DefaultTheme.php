@@ -162,7 +162,7 @@ class DefaultTheme implements ITheme {
 			'--default-font-size' => '15px',
 			'--font-size-small' => '13px',
 			// 1.5 * font-size for accessibility
-			'--default-line-height' => '1.5',
+			'--default-line-height' => 'calc(1.5 * var(--default-font-size))',
 
 			// TODO: support "(prefers-reduced-motion)"
 			'--animation-quick' => '100ms',
