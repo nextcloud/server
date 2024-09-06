@@ -136,7 +136,7 @@ export default {
 	beforeDestroy() {
 		// Force stop any ongoing request
 		logger.debug('Closing video stream', { filename: this.filename })
-		this.$refs.video.pause()
+		this.$refs.video?.pause?.()
 		this.player.stop()
 		this.player.destroy()
 	},

@@ -2,7 +2,6 @@
 	"globals": {
 		"appName": true,
 		"appVersion": true,
-		"INJECT_CYPRESS_FONT": true,
 		"PLYR_ICONS": true,
 		"oc_defaults": true,
 		"__dirname": true

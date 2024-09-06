@@ -20,7 +20,7 @@
  *
  */
 
-describe('Visual regression tests ', function() {
+describe('Visual regression tests', function() {
 	let randUser
 
 	before(function() {
@@ -36,10 +36,15 @@ describe('Visual regression tests ', function() {
 			cy.login(user)
 			cy.visit('/apps/files')
 		})
+
+		cy.window().then((win) => {
+			// Load roboto font for visual regression consistency
+			win.loadRoboto = true
+			win.document.body.style.fontFamily = 'Roboto'
+		})
 	})
 
 	it('See files in the list', function() {
-		// TODO: Do we care about the file name being split by a ' ' in the text property?
 		cy.getFile('test-card.mp4', { timeout: 10000 })
 			.should('contain', 'test-card .mp4')
 		cy.getFile('test-card.png', { timeout: 10000 })
@@ -47,7 +52,12 @@ describe('Visual regression tests ', function() {
 	})
 
 	it('Open the viewer on file click', function() {
+		cy.intercept('GET', '**/core/preview*').as('image1')
+		cy.intercept('GET', '/remote.php/dav/files/*/test-card.mp4').as('video')
 		cy.openFile('test-card.mp4')
+		cy.wait('@video')
+		// We preload images, so we can check its loading here and not when clicking next
+		cy.wait('@image1')
 		cy.get('body > .viewer').should('be.visible')
 	})
 
@@ -73,7 +83,7 @@ describe('Visual regression tests ', function() {
 			.and('not.have.class', 'icon-loading')
 	})
 
-	it('Take test-card.mp4 screenshot', function() {
+	it('Take test-card.mp4 screenshot', { retries: 0 }, function() {
 		cy.get('body > .viewer .modal-container .viewer__file.viewer__file--active video').then(video => {
 			video.get(0).pause()
 			video.get(0).currentTime = 1
@@ -99,14 +109,17 @@ describe('Visual regression tests ', function() {
 			.and('not.have.class', 'icon-loading')
 	})
 
-	it('Take test-card.png screenshot', function() {
+	it('Take test-card.png screenshot', { retries: 0 }, function() {
 		cy.compareSnapshot('image')
 	})
 
 	it('Close and open image again', function() {
 		cy.get('body > .viewer button.header-close').click()
 		cy.get('body > .viewer').should('not.exist')
+
+		// No need to intercept the request again, it's cached
 		cy.openFile('test-card.png')
+
 		cy.get('body > .viewer').should('be.visible')
 		cy.get('body > .viewer .modal-header__name').should('contain', 'test-card.png')
 		cy.get('body > .viewer .modal-container img').should('have.length', 1)
@@ -122,7 +135,7 @@ describe('Visual regression tests ', function() {
 			.and('not.have.class', 'icon-loading')
 	})
 
-	it('Take test-card.png screenshot 2', function() {
+	it('Take test-card.png screenshot 2', { retries: 0 }, function() {
 		cy.compareSnapshot('image2')
 	})
 
@@ -136,13 +149,14 @@ describe('Visual regression tests ', function() {
 			hasPreview: false,
 			fileid: 123,
 		}
-
+		cy.intercept('GET', '/core/img/favicon.png').as('favicon')
 		cy.window().then((win) => {
 			win.OCA.Viewer.open({
 				fileInfo,
 				list: [fileInfo],
 			})
 		})
+		cy.wait('@favicon')
 
 		cy.get('body > .viewer .modal-container img').should('have.length', 1)
 		cy.get('body > .viewer .modal-container img').should('have.attr', 'src')
@@ -157,7 +171,7 @@ describe('Visual regression tests ', function() {
 			.and('not.have.class', 'icon-loading')
 	})
 
-	it('Take non-dav logo.png screenshot', function() {
+	it('Take non-dav logo.png screenshot', { retries: 0 }, function() {
 		cy.compareSnapshot('non-dav')
 	})
 })
