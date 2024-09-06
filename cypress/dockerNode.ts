@@ -147,6 +147,8 @@ export const configureNextcloud = async function() {
 	// Saving DB state
 	console.log('├─ Creating init DB snapshot...')
 	await runExec(container, ['cp', '/var/www/html/data/owncloud.db', '/var/www/html/data/owncloud.db-init'], true)
+	console.log('├─ Creating init data backup...')
+	await runExec(container, ['tar', 'cf', 'data-init.tar', 'admin'], true, undefined, '/var/www/html/data')
 
 	console.log('└─ Nextcloud is now ready to use 🎉')
 }
@@ -277,9 +279,11 @@ const runExec = async function(
 	command: string[],
 	verbose = false,
 	user = 'www-data',
+	workdir?: string,
 ): Promise<string> {
 	const exec = await container.exec({
 		Cmd: command,
+		WorkingDir: workdir,
 		AttachStdout: true,
 		AttachStderr: true,
 		User: user,
@@ -296,7 +300,7 @@ const runExec = async function(
 				stream.on('data', str => {
 					str = str.trim()
 						// Remove non printable characters
-						.replace(/[^\x20-\x7E]+/g, '')
+						.replace(/[^\x0A\x0D\x20-\x7E]+/g, '')
 						// Remove non alphanumeric leading characters
 						.replace(/^[^a-z]/gi, '')
 					output += str

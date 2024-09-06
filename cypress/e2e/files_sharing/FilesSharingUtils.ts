@@ -170,14 +170,3 @@ export const createFileRequest = (path: string, options: FileRequestOptions = {}
 	// Close
 	cy.get('[data-cy-file-request-dialog-controls="finish"]').click()
 }
-
-export const enterGuestName = (name: string) => {
-	cy.get('[data-cy-public-auth-prompt-dialog]').should('be.visible')
-	cy.get('[data-cy-public-auth-prompt-dialog-name]').should('be.visible')
-	cy.get('[data-cy-public-auth-prompt-dialog-submit]').should('be.visible')
-
-	cy.get('[data-cy-public-auth-prompt-dialog-name]').type(`{selectall}${name}`)
-	cy.get('[data-cy-public-auth-prompt-dialog-submit]').click()
-
-	cy.get('[data-cy-public-auth-prompt-dialog]').should('not.exist')
-}

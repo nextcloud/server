@@ -10,6 +10,11 @@ export default defineConfig({
 	test: {
 		include: ['{apps,core}/**/*.{test,spec}.?(c|m)[jt]s?(x)'],
 		environment: 'jsdom',
+		environmentOptions: {
+			jsdom: {
+				url: 'http://nextcloud.local',
+			},
+		},
 		coverage: {
 			include: ['apps/*/src/**', 'core/src/**'],
 			exclude: ['**.spec.*', '**.test.*', '**.cy.*', 'core/src/tests/**'],

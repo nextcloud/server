@@ -17,9 +17,9 @@ export function zipFileContains(expectedFiles: string[]) {
 		const blob = new Blob([buffer])
 		const zip = new ZipReader(blob.stream())
 		// check the real file names
-		const entries = (await zip.getEntries()).map((e) => e.filename)
+		const entries = (await zip.getEntries()).map((e) => e.filename).sort()
 		console.info('Zip contains entries:', entries)
-		expect(entries).to.deep.equal(expectedFiles)
+		expect(entries).to.deep.equal(expectedFiles.sort())
 	}
 }
 

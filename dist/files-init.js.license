@@ -14,6 +14,7 @@ SPDX-FileCopyrightText: Tobias Koppers @sokra
 SPDX-FileCopyrightText: T. Jameson Little <t.jameson.little@gmail.com>
 SPDX-FileCopyrightText: Stefan-Gabriel Muscalu <stefan.gabriel.muscalu@gmail.com>
 SPDX-FileCopyrightText: Sindre Sorhus
+SPDX-FileCopyrightText: Rubén Norte <ruben.norte@softonic.com>
 SPDX-FileCopyrightText: Roman Shtylman <shtylman@gmail.com>
 SPDX-FileCopyrightText: Roeland Jago Douma
 SPDX-FileCopyrightText: Raynos <raynos2@gmail.com>
@@ -100,8 +101,11 @@ This file is generated from multiple sources. Included packages:
 - eventemitter3
 	- version: 5.0.1
 	- license: MIT
+- p-queue
+	- version: 8.0.1
+	- license: MIT
 - @nextcloud/upload
-	- version: 1.5.0
+	- version: 1.6.0
 	- license: AGPL-3.0-or-later
 - @nextcloud/vue
 	- version: 8.17.1
@@ -121,8 +125,11 @@ This file is generated from multiple sources. Included packages:
 - available-typed-arrays
 	- version: 1.0.7
 	- license: MIT
+- axios-retry
+	- version: 4.5.0
+	- license: Apache-2.0
 - axios
-	- version: 1.7.4
+	- version: 1.7.7
 	- license: MIT
 - base64-js
 	- version: 1.5.1
@@ -231,6 +238,9 @@ This file is generated from multiple sources. Included packages:
 	- license: MIT
 - object.assign
 	- version: 4.1.5
+	- license: MIT
+- p-cancelable
+	- version: 4.0.1
 	- license: MIT
 - eventemitter3
 	- version: 5.0.1

@@ -1,0 +1,20 @@
+/**
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+ // Only when rendered inline, when not enough space, this is put in the menu
+.action-items > .files-list__row-action-sharing-status {
+	// put icon at the end of the button
+	direction: rtl;
+	// align icons with text-less inline actions
+	padding-inline-end: 0 !important;
+}
+
+svg.sharing-status__avatar {
+	height: 32px !important;
+	width: 32px !important;
+	max-height: 32px !important;
+	max-width: 32px !important;
+	border-radius: 32px;
+	overflow: hidden;
+}

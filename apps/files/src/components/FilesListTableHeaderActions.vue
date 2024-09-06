@@ -13,6 +13,7 @@
 			:open.sync="openedMenu">
 			<NcActionButton v-for="action in enabledActions"
 				:key="action.id"
+				:aria-label="action.displayName(nodes, currentView) + ' ' + t('files', '(selected)') /** TRANSLATORS: Selected like 'selected files and folders' */"
 				:class="'files-list__row-actions-batch-' + action.id"
 				@click="onActionClick(action)">
 				<template #icon>
@@ -40,6 +41,7 @@ import NcActions from '@nextcloud/vue/dist/Components/NcActions.js'
 import NcIconSvgWrapper from '@nextcloud/vue/dist/Components/NcIconSvgWrapper.js'
 import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
 
+import { useRouteParameters } from '../composables/useRouteParameters.ts'
 import { useActionsMenuStore } from '../store/actionsmenu.ts'
 import { useFilesStore } from '../store/files.ts'
 import { useSelectionStore } from '../store/selection.ts'
@@ -78,7 +80,11 @@ export default defineComponent({
 		const actionsMenuStore = useActionsMenuStore()
 		const filesStore = useFilesStore()
 		const selectionStore = useSelectionStore()
+		const { directory } = useRouteParameters()
+
 		return {
+			directory,
+
 			actionsMenuStore,
 			filesStore,
 			selectionStore,
@@ -92,10 +98,6 @@ export default defineComponent({
 	},
 
 	computed: {
-		dir() {
-			// Remove any trailing slash but leave root slash
-			return (this.$route?.query?.dir || '/').replace(/^(.+)\/$/, '$1')
-		},
 		enabledActions() {
 			return actions
 				.filter(action => action.execBatch)
@@ -157,7 +159,7 @@ export default defineComponent({
 				})
 
 				// Dispatch action execution
-				const results = await action.execBatch(this.nodes, this.currentView, this.dir)
+				const results = await action.execBatch(this.nodes, this.currentView, this.directory)
 
 				// Check if all actions returned null
 				if (!results.some(result => result !== null)) {

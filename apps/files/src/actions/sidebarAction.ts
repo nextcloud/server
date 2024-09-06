@@ -2,8 +2,12 @@
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import { Permission, type Node, View, FileAction } from '@nextcloud/files'
+import type { Node, View } from '@nextcloud/files'
+
+import { Permission, FileAction } from '@nextcloud/files'
 import { translate as t } from '@nextcloud/l10n'
+import { isPublicShare } from '@nextcloud/sharing/public'
+
 import InformationSvg from '@mdi/svg/svg/information-variant.svg?raw'
 
 import logger from '../logger.ts'
@@ -17,6 +21,10 @@ export const action = new FileAction({
 
 	// Sidebar currently supports user folder only, /files/USER
 	enabled: (nodes: Node[]) => {
+		if (isPublicShare()) {
+			return false
+		}
+
 		// Only works on single node
 		if (nodes.length !== 1) {
 			return false

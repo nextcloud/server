@@ -17,6 +17,7 @@ SPDX-FileCopyrightText: Thorsten Lünborg
 SPDX-FileCopyrightText: T. Jameson Little <t.jameson.little@gmail.com>
 SPDX-FileCopyrightText: Stefan-Gabriel Muscalu <stefan.gabriel.muscalu@gmail.com>
 SPDX-FileCopyrightText: Sindre Sorhus
+SPDX-FileCopyrightText: Rubén Norte <ruben.norte@softonic.com>
 SPDX-FileCopyrightText: Roman Shtylman <shtylman@gmail.com>
 SPDX-FileCopyrightText: Roeland Jago Douma
 SPDX-FileCopyrightText: Rob Cresswell <robcresswell@pm.me>
@@ -120,8 +121,11 @@ This file is generated from multiple sources. Included packages:
 - eventemitter3
 	- version: 5.0.1
 	- license: MIT
+- p-queue
+	- version: 8.0.1
+	- license: MIT
 - @nextcloud/upload
-	- version: 1.5.0
+	- version: 1.6.0
 	- license: AGPL-3.0-or-later
 - @nextcloud/vue
 	- version: 8.17.1
@@ -144,8 +148,11 @@ This file is generated from multiple sources. Included packages:
 - available-typed-arrays
 	- version: 1.0.7
 	- license: MIT
+- axios-retry
+	- version: 4.5.0
+	- license: Apache-2.0
 - axios
-	- version: 1.7.4
+	- version: 1.7.7
 	- license: MIT
 - base64-js
 	- version: 1.5.1
@@ -191,6 +198,9 @@ This file is generated from multiple sources. Included packages:
 	- license: MIT
 - escape-html
 	- version: 1.0.3
+	- license: MIT
+- filter-obj
+	- version: 5.1.0
 	- license: MIT
 - floating-vue
 	- version: 1.0.0-beta.19
@@ -279,6 +289,9 @@ This file is generated from multiple sources. Included packages:
 - object.assign
 	- version: 4.1.5
 	- license: MIT
+- p-cancelable
+	- version: 4.0.1
+	- license: MIT
 - eventemitter3
 	- version: 5.0.1
 	- license: MIT
@@ -303,11 +316,17 @@ This file is generated from multiple sources. Included packages:
 - process
 	- version: 0.11.10
 	- license: MIT
+- query-string
+	- version: 9.1.0
+	- license: MIT
 - set-function-length
 	- version: 1.2.2
 	- license: MIT
 - simple-eta
 	- version: 3.0.2
+	- license: MIT
+- split-on-first
+	- version: 3.0.0
 	- license: MIT
 - splitpanes
 	- version: 2.4.1
