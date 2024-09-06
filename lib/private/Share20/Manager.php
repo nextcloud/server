@@ -762,7 +762,7 @@ class Manager implements IManager {
 		try {
 			$originalShare = $this->getShareById($share->getFullId());
 		} catch (\UnexpectedValueException $e) {
-			throw new \InvalidArgumentException($this->l->t('Share does not have a full id'));
+			throw new \InvalidArgumentException($this->l->t('Share does not have a full ID'));
 		}
 
 		// We cannot change the share type!
@@ -1021,7 +1021,7 @@ class Manager implements IManager {
 		try {
 			$share->getFullId();
 		} catch (\UnexpectedValueException $e) {
-			throw new \InvalidArgumentException($this->l->t('Share does not have a full id'));
+			throw new \InvalidArgumentException($this->l->t('Share does not have a full ID'));
 		}
 
 		$this->dispatcher->dispatchTyped(new BeforeShareDeletedEvent($share));
