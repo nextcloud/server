@@ -189,6 +189,8 @@ OC.L10N.register(
     "\"{displayName}\" action failed" : "Theip ar an ngníomh \"{displayName}\".",
     "Toggle selection for file \"{displayName}\"" : "Scoránaigh an roghnúchán don chomhad \"{displayName}\"",
     "Toggle selection for folder \"{displayName}\"" : "Scoránaigh an roghnúchán don fhillteán \"{displayName}\"",
+    "File is loading" : "Comhad á luchtú",
+    "Folder is loading" : "Tá an fillteán á luchtú",
     "Rename file" : "Athainmnigh an comhad",
     "Filename" : "Ainm comhaid",
     "Folder name" : "Ainm fillteáin",

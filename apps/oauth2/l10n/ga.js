@@ -13,6 +13,7 @@ OC.L10N.register(
     "Client Identifier" : "Aitheantóir Cliant",
     "Secret key" : "Eochair rúnda",
     "Delete client" : "Scrios cliant",
+    "Make sure you store the secret key, it cannot be recovered." : "Déan cinnte go stórálann tú an eochair rúnda, ní féidir í a aisghabháil.",
     "Add client" : "Cuir cliant leis",
     "Add" : "Cuir",
     "Delete" : "Scrios",

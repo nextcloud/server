@@ -18,6 +18,7 @@ OC.L10N.register(
     "Once every direct access" : "Uair amháin gach rochtain dhíreach",
     "Read only" : "Léamh amháin",
     "Disconnect" : "Dícheangail",
+    "Unknown backend: {backendName}" : "Inneall anaithnid: {backendName}",
     "Admin defined" : "Riarachán sainithe",
     "Automatic status checking is disabled due to the large number of configured storages, click to check status" : "Tá seiceáil stádais uathoibríoch díchumasaithe mar gheall ar an líon mór stórais cumraithe, cliceáil chun stádas a sheiceáil",
     "Are you sure you want to disconnect this external storage? It will make the storage unavailable in Nextcloud and will lead to a deletion of these files and folders on any sync client that is currently connected but will not delete any files and folders on the external storage itself." : "An bhfuil tú cinnte gur mhaith leat an stóras seachtrach seo a dhínascadh? Fágfaidh sé nach mbeidh an stóráil ar fáil in Nextcloud agus scriosfar na comhaid agus na fillteáin seo ar aon chliant sioncronaithe atá ceangailte faoi láthair ach ní scriosfaidh sé aon chomhaid agus fillteáin ar an stóráil sheachtrach féin.",
