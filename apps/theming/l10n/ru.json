@@ -72,6 +72,8 @@
     "Enable blur background filter (may increase GPU load)" : "Включить фильтр размытия фона (может увеличить нагрузку на графический процессор)",
     "Customization has been disabled by your administrator" : "Настройка тем была отключена вашим администратором",
     "Set a primary color to highlight important elements. The color used for elements such as primary buttons might differ a bit as it gets adjusted to fulfill accessibility requirements." : "Выберите основной цвет, чтобы выделить важные элементы. Цвет, используемый для таких элементов, как основные кнопки, может немного отличаться при настройке в соответствии с требованиями к доступности.",
+    "Background and color" : "Фон и цвет",
+    "The background can be set to an image from the default set, a custom uploaded image, or a plain color." : "В качестве фона можно выбрать изображение из набора по умолчанию, пользовательское загруженное изображение или обычный цвет.",
     "Keyboard shortcuts" : "Сочетания клавиш",
     "In some cases keyboard shortcuts can interfere with accessibility tools. In order to allow focusing on your tool correctly you can disable all keyboard shortcuts here. This will also disable all available shortcuts in apps." : "В некоторых случаях сочетания клавиш могут мешать работе инструментов специальных возможностей. Чтобы правильно сфокусироваться на вашем инструменте, вы можете отключить здесь все сочетания клавиш. Это также отключит все доступные ярлыки в приложениях.",
     "Disable all keyboard shortcuts" : "Отключить все сочетания клавиш",

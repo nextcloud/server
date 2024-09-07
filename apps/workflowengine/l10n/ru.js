@@ -82,6 +82,8 @@ OC.L10N.register(
     "Save" : "Сохранить",
     "Available flows" : "Доступные обработки",
     "For details on how to write your own flow, check out the development documentation." : "За дополнительными сведениями о написании собственных обработок, обратитесь к документации.",
+    "No flows installed" : "Потоки не установлены",
+    "Ask your administrator to install new flows." : "Попросите своего администратора установить новые потоки.",
     "More flows" : "Дополнительные обработки",
     "Browse the App Store" : "Просмотреть магазин приложений",
     "Show less" : "Показывать меньше",
