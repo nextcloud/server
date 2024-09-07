@@ -1,17 +1,15 @@
 {
 	"extends": "@vue/tsconfig/tsconfig.json",
-	"include": ["./src/**.ts", "*.ts"],
+	"include": ["./src"],
 	"compilerOptions": {
-		"types": ["cypress", "cypress-visual-regression", "node", "dockerode", "@nextcloud/typings"],
-		"target": "ESNext",
-		"module": "esnext",
-		"moduleResolution": "Bundler",
-		// Allow ts to import js files
-		"allowJs": true,
-		"allowSyntheticDefaultImports": true,
-		"declaration": false,
+		"lib": [
+			"DOM",
+			"ES2015"
+		],
+		"rootDir": "src",
 		"noImplicitAny": false,
-		"resolveJsonModule": true,
-		"strict": true,
 	},
+	"vueCompilerOptions": {
+		"target": 2.7
+	}
 }

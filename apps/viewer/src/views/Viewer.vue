@@ -195,20 +195,19 @@ import Vue from 'vue'
 import axios from '@nextcloud/axios'
 import { showError } from '@nextcloud/dialogs'
 import { emit, subscribe, unsubscribe } from '@nextcloud/event-bus'
-import { registerFileAction, FileAction, Permission, DefaultType, Node, davRemoteURL, davRootPath } from '@nextcloud/files'
+import { Node, davRemoteURL, davRootPath } from '@nextcloud/files'
 import { loadState } from '@nextcloud/initial-state'
-import getSortingConfig from '../services/FileSortingConfig.ts'
 
 import isFullscreen from '@nextcloud/vue/dist/Mixins/isFullscreen.js'
 import isMobile from '@nextcloud/vue/dist/Mixins/isMobile.js'
 
 import { extractFilePaths, sortCompare } from '../utils/fileUtils.ts'
+import { registerViewerAction } from '../files_actions/viewerAction.ts'
+import getSortingConfig from '../services/FileSortingConfig.ts'
 import canDownload from '../utils/canDownload.js'
 import cancelableRequest from '../utils/CancelableRequest.js'
 import Error from '../components/Error.vue'
 import File from '../models/file.js'
-import filesActionHandler from '../services/FilesActionHandler.js'
-import legacyFilesActionHandler from '../services/LegacyFilesActionHandler.js'
 import getFileInfo from '../services/FileInfo.ts'
 import getFileList from '../services/FileList.ts'
 import Mime from '../mixins/Mime.js'
@@ -216,7 +215,6 @@ import logger from '../services/logger.js'
 
 import Delete from 'vue-material-design-icons/Delete.vue'
 import Download from 'vue-material-design-icons/Download.vue'
-import EyeSvg from '@mdi/svg/svg/eye.svg?raw'
 import Fullscreen from 'vue-material-design-icons/Fullscreen.vue'
 import FullscreenExit from 'vue-material-design-icons/FullscreenExit.vue'
 import Pencil from 'vue-material-design-icons/Pencil.vue'
@@ -727,7 +725,7 @@ export default {
 			}
 
 			// get saved fileInfo
-			fileInfo = this.fileList[this.currentIndex]
+			fileInfo = this.fileList[this.currentIndex] ?? fileInfo
 
 			// show file
 			this.currentFile = new File(fileInfo, mime, handler.component)
@@ -798,12 +796,12 @@ export default {
 		},
 
 		/**
-		 * Registering possible new handers
+		 * Registering possible new handlers
 		 *
 		 * @param {object} handler the handler to register
 		 * @param {string} handler.id unique handler identifier
 		 * @param {Array} handler.mimes list of valid mimes compatible with the handler
-		 * @param {object} handler.component a vuejs component to render when a file matching the mime list is opened
+		 * @param {object} handler.component a VueJs component to render when a file matching the mime list is opened
 		 * @param {string} [handler.group] a group name to be associated with for the slideshow
 		 */
 		registerHandler(handler) {
@@ -848,8 +846,6 @@ export default {
 						return
 					}
 
-					// register file action and groups
-					this.registerLegacyAction({ mime, group: handler.group })
 					// register groups
 					this.registerGroups({ mime, group: handler.group })
 
@@ -887,8 +883,6 @@ export default {
 						return
 					}
 
-					// register file action and groups if the request alias had a group
-					this.registerLegacyAction({ mime, group: this.mimeGroups[alias] })
 					// register groups if the request alias had a group
 					this.registerGroups({ mime, group: this.mimeGroups[alias] })
 
@@ -898,31 +892,6 @@ export default {
 					// set the handler as registered
 					this.registeredHandlers[mime] = handler
 				})
-			}
-		},
-
-		registerLegacyAction({ mime, group }) {
-			if (!this.isStandalone && OCA?.Files?.fileActions) {
-				// unregistered handler, let's go!
-				OCA.Files.fileActions.registerAction({
-					name: 'view',
-					displayName: t('viewer', 'View'),
-					mime,
-					permissions: OC.PERMISSION_READ,
-					actionHandler: legacyFilesActionHandler,
-				})
-				OCA.Files.fileActions.setDefault(mime, 'view')
-				logger.debug('Legacy file action registered for mime ' + mime, { mime, group })
-			}
-
-			// register groups
-			if (group) {
-				this.mimeGroups[mime] = group
-				// init if undefined
-				if (!this.mimeGroups[group]) {
-					this.mimeGroups[group] = []
-				}
-				this.mimeGroups[group].push(mime)
 			}
 		},
 
@@ -939,26 +908,7 @@ export default {
 
 		registerFileActions() {
 			if (!this.isStandalone) {
-				registerFileAction(new FileAction({
-					id: 'view',
-					displayName() {
-						return t('viewer', 'View')
-					},
-					iconSvgInline: () => EyeSvg,
-					default: DefaultType.DEFAULT,
-					enabled: (nodes) => {
-						// Disable if not located in user root
-						if (nodes.some(node => !(node.isDavRessource && node.root?.startsWith('/files')))) {
-							return false
-						}
-						// Faster to check if at least one node doesn't match the requirements
-						return !nodes.some(node => (
-							(node.permissions & Permission.READ) === 0
-							|| !this.Viewer.mimetypes.includes(node.mime)
-						))
-					},
-					exec: filesActionHandler,
-				}))
+				registerViewerAction()
 			}
 		},
 

@@ -1,4 +1,12 @@
 {
 	"extends": "../tsconfig.json",
-	"include": ["./**/*.ts"],
+	"include": ["../*.ts", "."],
+	"compilerOptions": {
+		"rootDir": "..",
+		"types": [
+			"cypress",
+			"dockerode",
+			"node"
+		]
+	}
 }
