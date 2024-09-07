@@ -397,7 +397,7 @@ OC.L10N.register(
     "Currently open" : "Aberto actualmente",
     "Wrong username or password." : "Nome de usuario ou contrasinal erróneo",
     "User disabled" : "Usuario desactivado",
-    "Login with username or email" : "Acceder co nome de usuario ou co corre-e",
+    "Login with username or email" : "Acceder co nome de usuario ou co correo-e",
     "Login with username" : "Acceder co nome de usuario",
     "Username or email" : "Nome de usuario ou correo",
     "If this account exists, a password reset message has been sent to its email address. If you do not receive it, verify your email address and/or account name, check your spam/junk folders or ask your local administration for help." : "Se existe esta conta, enviouse unha mensaxe de restabelecemento do contrasinal ao seu enderezo de correo. Se non o recibe, verifique o seu enderezo de correo e/ou o nome da conta, consulte os seus cartafoles de correo lixo ou non desexado, ou pídalle axuda á súa administración local.",
