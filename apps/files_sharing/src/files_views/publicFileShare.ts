@@ -3,12 +3,11 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 import type { FileStat, ResponseDataDetailed } from 'webdav'
-import { Folder, Permission, View, davGetDefaultPropfind, davRemoteURL, davRootPath, getNavigation } from '@nextcloud/files'
+import { Folder, Permission, View, davGetDefaultPropfind, davRemoteURL, davResultToNode, davRootPath, getNavigation } from '@nextcloud/files'
 import { translate as t } from '@nextcloud/l10n'
 import { CancelablePromise } from 'cancelable-promise'
 import LinkSvg from '@mdi/svg/svg/link.svg?raw'
 
-import { resultToNode } from '../../../files/src/services/Files'
 import { client } from '../../../files/src/services/WebdavClient'
 import logger from '../services/logger'
 
@@ -40,7 +39,7 @@ export default () => {
 
 					resolve({
 						// We only have one file as the content
-						contents: [resultToNode(node.data)],
+						contents: [davResultToNode(node.data)],
 						// Fake a readonly folder as root
 						folder: new Folder({
 							id: 0,
