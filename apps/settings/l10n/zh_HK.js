@@ -331,6 +331,7 @@ OC.L10N.register(
     "None of your currently installed apps provide image generation functionality" : "您當前安裝的應用程式均不提供圖像產生功能",
     "Text processing" : "正在處理文字",
     "Text processing tasks can be implemented by different apps. Here you can set which app should be used for which task." : "文字處理任務可以由不同的應用程式來實現。 您可以在此處設置哪個應用程式應用於哪個任務。",
+    "None of your currently installed apps provide custom Text processing functionality." : "您目前安裝的應用程式均不提供自訂文字處理功能。",
     "Here you can decide which group can access certain sections of the administration settings." : "您可以在此決定哪個群組可以存取哪些管理設定。",
     "None" : "無",
     "Unable to modify setting" : "無法修改設定",
