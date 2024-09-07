@@ -487,7 +487,7 @@ OC.L10N.register(
     "Supported apps" : "Aplicaciones compatibles",
     "Show to everyone" : "Amosar a tol mundu",
     "Show to logged in accounts only" : "Amosar namás a les cuentes cola sesión aniciada",
-    "Hide" : "ANubrir",
+    "Hide" : "Esconder",
     "Download and enable" : "Baxar y activar",
     "Allow untested app" : "Permitir l'aplicación ensin probar",
     "Never" : "Enxamás",

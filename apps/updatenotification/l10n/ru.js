@@ -23,6 +23,7 @@ OC.L10N.register(
     "Apps with compatible version" : "Приложения с совместимой версией",
     "Open updater" : "Открыть окно обновления",
     "Download now" : "Скачать сейчас",
+    "Web updater is disabled. Please use the command line updater or the appropriate update mechanism for your installation method (e.g. Docker pull) to update." : "Веб-программа обновления отключена. Пожалуйста, используйте программу обновления из командной строки или соответствующий вашему методу установки механизм обновления (например, Docker pull) для обновления.",
     "What's new?" : "Что нового?",
     "View changelog" : "Просмотреть изменения",
     "The update check is not yet finished. Please refresh the page." : "Проверка обновлений ещё не закончена. Пожалуйста обновите страницу.",
