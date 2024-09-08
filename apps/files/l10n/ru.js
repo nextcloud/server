@@ -214,6 +214,7 @@ OC.L10N.register(
     "Disconnect storages" : "Отключить хранилища",
     "Delete files" : "Удалить файлы",
     "Delete folders" : "Удалить папки",
+    "_You are about to delete {count} item_::_You are about to delete {count} items_" : ["Подтвердите удаление {count} объекта.","Подтвердите удаление {count} объектов","Подтвердите удаление {count} объектов","Подтвердите удаление {count} объектов"],
     "Confirm deletion" : "Подтвердить удаление",
     "Cancel" : "Отменить",
     "Edit file locally" : "Редактировать файл локально",
