@@ -29,6 +29,8 @@ import camelcase from 'camelcase'
 import { isNumber } from './numberUtil'
 
 export interface FileInfo {
+	/** ID of the file (not unique if shared, use source instead) */
+	fileid?: number
 	/** Filename (name with path) */
 	filename: string
 	/** Basename of the file */
@@ -47,6 +49,21 @@ export interface FileInfo {
 	isFavorite?: boolean
 	/** File type */
 	type: 'directory'|'file'
+	/** Attributes for file shares */
+	shareAttributes?: string
+
+	// custom attributes not fetch from API
+
+	/** Does the file has an existing preview */
+	hasPreview?: boolean
+	/** URL of the preview image */
+	previewUrl?: string
+	/** The id of the peer live photo */
+	metadataFilesLivePhoto?: number
+	/** The absolute dav path */
+	davPath?: string
+	/** filename without extension */
+	name?: string
 }
 
 /**

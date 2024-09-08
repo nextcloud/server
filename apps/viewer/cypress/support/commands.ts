@@ -20,10 +20,11 @@
  *
  */
 
-import { addCommands, User } from '@nextcloud/cypress'
-import { basename } from 'path'
-import axios from '@nextcloud/axios'
+import { addCommands } from '@nextcloud/cypress'
+import { Permission } from '@nextcloud/files'
+import { ShareType } from '@nextcloud/sharing'
 import { addCompareSnapshotCommand } from 'cypress-visual-regression/dist/command'
+import { basename } from 'path'
 
 addCommands()
 addCompareSnapshotCommand()
@@ -126,6 +127,40 @@ Cypress.Commands.add(
 	},
 )
 
+interface ShareOptions {
+	shareType: number
+	shareWith?: string
+	permissions: number
+	attributes?: { value: boolean, key: string, scope: string}[]
+}
+
+Cypress.Commands.add('createShare', (path: string, shareOptions?: ShareOptions) => {
+	return cy.request('/csrftoken').then(({ body }) => {
+		const requesttoken = body.token
+
+		return cy.request({
+			method: 'POST',
+			url: '../ocs/v2.php/apps/files_sharing/api/v1/shares?format=json',
+			headers: {
+				requesttoken,
+			},
+			body: {
+				path,
+				permissions: Permission.READ,
+				...shareOptions,
+				attributes: shareOptions?.attributes && JSON.stringify(shareOptions.attributes),
+			},
+		}).then(({ body }) => {
+			const shareToken = body.ocs?.data?.token
+			if (shareToken === undefined) {
+				throw new Error('Invalid OCS response')
+			}
+			cy.log('Share link created', shareToken)
+			return cy.wrap(shareToken)
+		})
+	})
+})
+
 /**
  * Create a share link and return the share url
  *
@@ -133,25 +168,7 @@ Cypress.Commands.add(
  * @return {string} the share link url
  */
 Cypress.Commands.add('createLinkShare', path => {
-	return cy.window().then(async window => {
-		try {
-			const request = await axios.post(`${Cypress.env('baseUrl')}/ocs/v2.php/apps/files_sharing/api/v1/shares`, {
-				path,
-				shareType: window.OC.Share.SHARE_TYPE_LINK,
-			}, {
-				headers: {
-					requesttoken: window.OC.requestToken,
-				},
-			})
-			if (!('ocs' in request.data) || !('token' in request.data.ocs.data && request.data.ocs.data.token.length > 0)) {
-				throw request
-			}
-			cy.log('Share link created', request.data.ocs.data.token)
-			return cy.wrap(request.data.ocs.data.token)
-		} catch (error) {
-			console.error(error)
-		}
-	}).should('have.length', 15)
+	return cy.createShare(path, { shareType: ShareType.Link })
 })
 
 Cypress.Commands.overwrite('compareSnapshot', (originalFn, subject, name, options) => {
