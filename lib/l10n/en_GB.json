@@ -185,7 +185,6 @@
     "Sharing is disabled" : "Sharing is disabled",
     "Sharing is disabled for you" : "Sharing is disabled for you",
     "Cannot share with the share owner" : "Cannot share with the share owner",
-    "Share does not have a full id" : "Share does not have a full id",
     "Cannot change share type" : "Cannot change share type",
     "Can only update recipient on user shares" : "Can only update recipient on user shares",
     "Cannot enable sending the password by Talk with an empty password" : "Cannot enable sending the password by Talk with an empty password",
