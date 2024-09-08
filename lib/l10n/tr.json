@@ -185,7 +185,6 @@
     "Sharing is disabled" : "Paylaşım devre dışı bırakılmış",
     "Sharing is disabled for you" : "Paylaşım sizin için devre dışı bırakılmış",
     "Cannot share with the share owner" : "Paylaşımı sahibi ile paylaşamazsınız",
-    "Share does not have a full id" : "Paylaşımın tam kimliği yok",
     "Cannot change share type" : "Paylaşım türü değiştirilemez",
     "Can only update recipient on user shares" : "Yalnızca kullanıcı paylaşımlarındaki alıcıyı güncelleyebilir",
     "Cannot enable sending the password by Talk with an empty password" : "Boş bir parola ile Sohbet uygulaması ile parola gönderme etkinleştirilemez",

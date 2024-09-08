@@ -179,7 +179,6 @@
     "Sharing is disabled" : "Delning är inaktiverat",
     "Sharing is disabled for you" : "Delning är inaktiverat för dig",
     "Cannot share with the share owner" : "Kan inte dela med ägaren",
-    "Share does not have a full id" : "Delningen har inte ett fullständigt id",
     "Cannot change share type" : "Kan inte ändra delningstyp",
     "Can only update recipient on user shares" : "Kan bara uppdatera mottagare på användardelningar",
     "Cannot enable sending the password by Talk with an empty password" : "Kan inte aktivera sändning av lösenordet via Talk med ett tomt lösenord",
