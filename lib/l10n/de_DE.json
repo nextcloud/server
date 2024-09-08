@@ -185,7 +185,6 @@
     "Sharing is disabled" : "Teilen ist deaktiviert",
     "Sharing is disabled for you" : "Teilen ist für Sie deaktiviert",
     "Cannot share with the share owner" : "Teilen mit dem Freigabeeigentümer nicht möglich",
-    "Share does not have a full id" : "Die Freigabe hat keine vollständige ID",
     "Cannot change share type" : "Der Freigabetyp kann nicht geändert werden",
     "Can only update recipient on user shares" : "Empfänger können nur bei Benutzerfreigaben aktualisiert werden",
     "Cannot enable sending the password by Talk with an empty password" : "Das Senden des Passworts über Talk kann mit einem leeren Passwort nicht aktiviert werden",

@@ -207,6 +207,7 @@ OC.L10N.register(
     "Remove filter" : "Remove filter",
     "Total rows summary" : "Total rows summary",
     "Toggle selection for all files and folders" : "Toggle selection for all files and folders",
+    "(selected)" : "(selected)",
     "Deletion cancelled" : "Deletion cancelled",
     "Delete permanently" : "Delete permanently",
     "Delete and unshare" : "Delete and unshare",
