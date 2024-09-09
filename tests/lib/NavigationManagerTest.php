@@ -18,6 +18,7 @@ use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserSession;
 use OCP\L10N\IFactory;
+use Psr\Log\LoggerInterface;
 
 class NavigationManagerTest extends TestCase {
 	/** @var AppManager|\PHPUnit\Framework\MockObject\MockObject */
@@ -35,6 +36,7 @@ class NavigationManagerTest extends TestCase {
 
 	/** @var \OC\NavigationManager */
 	protected $navigationManager;
+	protected LoggerInterface $logger;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -45,13 +47,15 @@ class NavigationManagerTest extends TestCase {
 		$this->userSession = $this->createMock(IUserSession::class);
 		$this->groupManager = $this->createMock(Manager::class);
 		$this->config = $this->createMock(IConfig::class);
+		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->navigationManager = new NavigationManager(
 			$this->appManager,
 			$this->urlGenerator,
 			$this->l10nFac,
 			$this->userSession,
 			$this->groupManager,
-			$this->config
+			$this->config,
+			$this->logger,
 		);
 
 		$this->navigationManager->clear(false);
@@ -556,5 +560,225 @@ class NavigationManagerTest extends TestCase {
 		$this->navigationManager->clear();
 		$entries = $this->navigationManager->getAll();
 		$this->assertEquals($expected, $entries);
+	}
+
+	public static function provideDefaultEntries(): array {
+		return [
+			// none specified, default to files
+			[
+				'',
+				'',
+				'{}',
+				true,
+				'files',
+			],
+			// none specified, without fallback
+			[
+				'',
+				'',
+				'{}',
+				false,
+				'',
+			],
+			// unexisting or inaccessible app specified, default to files
+			[
+				'unexist',
+				'',
+				'{}',
+				true,
+				'files',
+			],
+			// unexisting or inaccessible app specified, without fallbacks
+			[
+				'unexist',
+				'',
+				'{}',
+				false,
+				'',
+			],
+			// non-standard app
+			[
+				'settings',
+				'',
+				'{}',
+				true,
+				'settings',
+			],
+			// non-standard app, without fallback
+			[
+				'settings',
+				'',
+				'{}',
+				false,
+				'settings',
+			],
+			// non-standard app with fallback
+			[
+				'unexist,settings',
+				'',
+				'{}',
+				true,
+				'settings',
+			],
+			// system default app and user apporder
+			[
+				// system default is settings
+				'unexist,settings',
+				'',
+				// apporder says default app is files (order is lower)
+				'{"files_id":{"app":"files","order":1},"settings_id":{"app":"settings","order":2}}',
+				true,
+				// system default should override apporder
+				'settings'
+			],
+			// user-customized defaultapp
+			[
+				'',
+				'files',
+				'',
+				true,
+				'files',
+			],
+			// user-customized defaultapp with systemwide
+			[
+				'unexist,settings',
+				'files',
+				'',
+				true,
+				'files',
+			],
+			// user-customized defaultapp with system wide and apporder
+			[
+				'unexist,settings',
+				'files',
+				'{"settings_id":{"app":"settings","order":1},"files_id":{"app":"files","order":2}}',
+				true,
+				'files',
+			],
+			// user-customized apporder fallback
+			[
+				'',
+				'',
+				'{"settings_id":{"app":"settings","order":1},"files":{"app":"files","order":2}}',
+				true,
+				'settings',
+			],
+			// user-customized apporder fallback with missing app key (entries added by closures does not always have an app key set (Nextcloud 27 spreed app for example))
+			[
+				'',
+				'',
+				'{"spreed":{"order":1},"files":{"app":"files","order":2}}',
+				true,
+				'files',
+			],
+			// user-customized apporder, but called without fallback
+			[
+				'',
+				'',
+				'{"settings":{"app":"settings","order":1},"files":{"app":"files","order":2}}',
+				false,
+				'',
+			],
+			// user-customized apporder with an app that has multiple routes
+			[
+				'',
+				'',
+				'{"settings_id":{"app":"settings","order":1},"settings_id_2":{"app":"settings","order":3},"id_files":{"app":"files","order":2}}',
+				true,
+				'settings',
+			],
+		];
+	}
+
+	/**
+	 * @dataProvider provideDefaultEntries
+	 */
+	public function testGetDefaultEntryIdForUser($defaultApps, $userDefaultApps, $userApporder, $withFallbacks, $expectedApp) {
+		$this->navigationManager->add([
+			'id' => 'files',
+		]);
+		$this->navigationManager->add([
+			'id' => 'settings',
+		]);
+
+		$this->appManager->method('getInstalledApps')->willReturn([]);
+
+		$user = $this->createMock(IUser::class);
+		$user->method('getUID')->willReturn('user1');
+
+		$this->userSession->expects($this->once())
+			->method('getUser')
+			->willReturn($user);
+
+		$this->config->expects($this->once())
+			->method('getSystemValueString')
+			->with('defaultapp', $this->anything())
+			->willReturn($defaultApps);
+
+		$this->config->expects($this->atLeastOnce())
+			->method('getUserValue')
+			->willReturnMap([
+				['user1', 'core', 'defaultapp', '', $userDefaultApps],
+				['user1', 'core', 'apporder', '[]', $userApporder],
+			]);
+
+		$this->assertEquals($expectedApp, $this->navigationManager->getDefaultEntryIdForUser(null, $withFallbacks));
+	}
+
+	public function testDefaultEntryUpdated() {
+		$this->appManager->method('getInstalledApps')->willReturn([]);
+
+		$user = $this->createMock(IUser::class);
+		$user->method('getUID')->willReturn('user1');
+
+		$this->userSession
+			->method('getUser')
+			->willReturn($user);
+
+		$this->config
+			->method('getSystemValueString')
+			->with('defaultapp', $this->anything())
+			->willReturn('app4,app3,app2,app1');
+
+		$this->config
+			->method('getUserValue')
+			->willReturnMap([
+				['user1', 'core', 'defaultapp', '', ''],
+				['user1', 'core', 'apporder', '[]', ''],
+			]);
+
+		$this->navigationManager->add([
+			'id' => 'app1',
+		]);
+
+		$this->assertEquals('app1', $this->navigationManager->getDefaultEntryIdForUser(null, false));
+		$this->assertEquals(true, $this->navigationManager->get('app1')['default']);
+
+		$this->navigationManager->add([
+			'id' => 'app3',
+		]);
+
+		$this->assertEquals('app3', $this->navigationManager->getDefaultEntryIdForUser(null, false));
+		$this->assertEquals(false, $this->navigationManager->get('app1')['default']);
+		$this->assertEquals(true, $this->navigationManager->get('app3')['default']);
+
+		$this->navigationManager->add([
+			'id' => 'app2',
+		]);
+
+		$this->assertEquals('app3', $this->navigationManager->getDefaultEntryIdForUser(null, false));
+		$this->assertEquals(false, $this->navigationManager->get('app1')['default']);
+		$this->assertEquals(false, $this->navigationManager->get('app2')['default']);
+		$this->assertEquals(true, $this->navigationManager->get('app3')['default']);
+
+		$this->navigationManager->add([
+			'id' => 'app4',
+		]);
+
+		$this->assertEquals('app4', $this->navigationManager->getDefaultEntryIdForUser(null, false));
+		$this->assertEquals(false, $this->navigationManager->get('app1')['default']);
+		$this->assertEquals(false, $this->navigationManager->get('app2')['default']);
+		$this->assertEquals(false, $this->navigationManager->get('app3')['default']);
+		$this->assertEquals(true, $this->navigationManager->get('app4')['default']);
 	}
 }

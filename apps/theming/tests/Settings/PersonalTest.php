@@ -24,6 +24,7 @@ use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
 use OCP\IConfig;
 use OCP\IL10N;
+use OCP\INavigationManager;
 use OCP\IURLGenerator;
 use OCP\IUserSession;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -34,7 +35,7 @@ class PersonalTest extends TestCase {
 	private ThemesService&MockObject $themesService;
 	private IInitialState&MockObject $initialStateService;
 	private ThemingDefaults&MockObject $themingDefaults;
-	private IAppManager&MockObject $appManager;
+	private INavigationManager&MockObject $navigationManager;
 	private Personal $admin;
 
 	/** @var ITheme[] */
@@ -46,7 +47,7 @@ class PersonalTest extends TestCase {
 		$this->themesService = $this->createMock(ThemesService::class);
 		$this->initialStateService = $this->createMock(IInitialState::class);
 		$this->themingDefaults = $this->createMock(ThemingDefaults::class);
-		$this->appManager = $this->createMock(IAppManager::class);
+		$this->navigationManager = $this->createMock(INavigationManager::class);
 
 		$this->initThemes();
 
@@ -62,7 +63,7 @@ class PersonalTest extends TestCase {
 			$this->themesService,
 			$this->initialStateService,
 			$this->themingDefaults,
-			$this->appManager,
+			$this->navigationManager,
 		);
 	}
 
@@ -103,9 +104,9 @@ class PersonalTest extends TestCase {
 				['admin', 'theming', 'background_image', BackgroundService::BACKGROUND_DEFAULT],
 			]);
 
-		$this->appManager->expects($this->once())
-			->method('getDefaultAppForUser')
-			->willReturn('forcedapp');
+		$this->navigationManager->expects($this->once())
+			->method('getDefaultEntryIdForUser')
+			->willReturn('forced_id');
 
 		$this->initialStateService->expects($this->exactly(8))
 			->method('provideInitialState')
@@ -117,7 +118,7 @@ class PersonalTest extends TestCase {
 				['themes', $themesState],
 				['enforceTheme', $enforcedTheme],
 				['isUserThemingDisabled', false],
-				['navigationBar', ['userAppOrder' => [], 'enforcedDefaultApp' => 'forcedapp']],
+				['navigationBar', ['userAppOrder' => [], 'enforcedDefaultApp' => 'forced_id']],
 			]);
 
 		$expected = new TemplateResponse('theming', 'settings-personal');

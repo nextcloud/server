@@ -99,11 +99,10 @@ class TemplateLayout extends \OC_Template {
 			$logoUrl = $this->config->getSystemValueString('logo_url', '');
 			$this->assign('logoUrl', $logoUrl);
 
-			// Set default app name
-			$defaultApp = \OC::$server->getAppManager()->getDefaultAppForUser();
-			$defaultAppInfo = \OC::$server->getAppManager()->getAppInfo($defaultApp);
-			$l10n = \OC::$server->get(IFactory::class)->get($defaultApp);
-			$this->assign('defaultAppName', $l10n->t($defaultAppInfo['name']));
+			// Set default entry name
+			$defaultEntryId = \OCP\Server::get(INavigationManager::class)->getDefaultEntryIdForUser();
+			$defaultEntry = \OCP\Server::get(INavigationManager::class)->get($defaultEntryId);
+			$this->assign('defaultAppName', $defaultEntry['name']);
 
 			// Add navigation entry
 			$this->assign('application', '');

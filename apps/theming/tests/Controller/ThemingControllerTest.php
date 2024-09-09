@@ -18,6 +18,7 @@ use OCP\Files\NotFoundException;
 use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\IConfig;
 use OCP\IL10N;
+use OCP\INavigationManager;
 use OCP\IRequest;
 use OCP\IURLGenerator;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -42,6 +43,8 @@ class ThemingControllerTest extends TestCase {
 	private $urlGenerator;
 	/** @var ThemesService|MockObject */
 	private $themesService;
+	/** @var INavigationManager|MockObject */
+	private $navigationManager;
 
 	protected function setUp(): void {
 		$this->request = $this->createMock(IRequest::class);
@@ -52,6 +55,7 @@ class ThemingControllerTest extends TestCase {
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
 		$this->imageManager = $this->createMock(ImageManager::class);
 		$this->themesService = $this->createMock(ThemesService::class);
+		$this->navigationManager = $this->createMock(INavigationManager::class);
 
 		$timeFactory = $this->createMock(ITimeFactory::class);
 		$timeFactory->expects($this->any())
@@ -70,6 +74,7 @@ class ThemingControllerTest extends TestCase {
 			$this->appManager,
 			$this->imageManager,
 			$this->themesService,
+			$this->navigationManager,
 		);
 
 		parent::setUp();

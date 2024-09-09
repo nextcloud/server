@@ -493,7 +493,7 @@ $CONFIG = [
 
 /**
  * Enable SMTP class debugging.
- * NOTE: ``loglevel`` will likely need to be adjusted too. See docs: 
+ * NOTE: ``loglevel`` will likely need to be adjusted too. See docs:
  *   https://docs.nextcloud.com/server/latest/admin_manual/configuration_server/email_configuration.html#enabling-debug-mode
  *
  * Defaults to ``false``
@@ -1167,9 +1167,9 @@ $CONFIG = [
  */
 
 /**
- * Set the default app to open on login. Use the app names as they appear in the
- * URL after clicking them in the Apps menu, such as documents, calendar, and
- * gallery. You can use a comma-separated list of app names, so if the first
+ * Set the default app to open on login. The entry IDs can be retrieved from
+ * the Navigations OCS API endpoint: https://docs.nextcloud.com/server/latest/develper_manual/_static/openapi.html#/operations/core-navigation-get-apps-navigation.
+ * You can use a comma-separated list of app names, so if the first
  * app is not enabled for a user then Nextcloud will try the second one, and so
  * on. If no enabled apps are found it defaults to the dashboard app.
  *
@@ -1307,18 +1307,18 @@ $CONFIG = [
 /**
  * custom path for ffmpeg binary
  *
- * Defaults to ``null`` and falls back to searching ``avconv`` and ``ffmpeg`` 
+ * Defaults to ``null`` and falls back to searching ``avconv`` and ``ffmpeg``
  * in the configured ``PATH`` environment
  */
 'preview_ffmpeg_path' => '/usr/bin/ffmpeg',
 
 /**
  * Set the URL of the Imaginary service to send image previews to.
- * Also requires the ``OC\Preview\Imaginary`` provider to be enabled in the 
- * ``enabledPreviewProviders`` array, to create previews for these mimetypes: bmp, 
+ * Also requires the ``OC\Preview\Imaginary`` provider to be enabled in the
+ * ``enabledPreviewProviders`` array, to create previews for these mimetypes: bmp,
  * x-bitmap, png, jpeg, gif, heic, heif, svg+xml, tiff, webp and illustrator.
  *
- * If you want Imaginary to also create preview images from PDF Documents, you 
+ * If you want Imaginary to also create preview images from PDF Documents, you
  * have to add the ``OC\Preview\ImaginaryPDF`` provider as well.
  *
  * See https://github.com/h2non/imaginary
@@ -2050,9 +2050,9 @@ $CONFIG = [
 /**
  * Deny extensions from being used for filenames.
  * Matching existing files can no longer be updated and in matching folders no files can be created anymore.
- * 
+ *
  * The '.part' extension is always forbidden, as this is used internally by Nextcloud.
- * 
+ *
  * Defaults to ``array('.filepart', '.part')``
  */
 'forbidden_filename_extensions' => ['.part', '.filepart'],

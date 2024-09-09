@@ -81,7 +81,7 @@ export default defineComponent({
 		 */
 		 const initialAppOrder = loadState<INavigationEntry[]>('core', 'apps')
 			.filter(({ type }) => type === 'link')
-			.map((app) => ({ ...app, label: app.name, default: app.default && app.app === enforcedDefaultApp }))
+			.map((app) => ({ ...app, label: app.name, default: app.default && app.id === enforcedDefaultApp }))
 
 		/**
 		 * Check if a custom app order is used or the default is shown
