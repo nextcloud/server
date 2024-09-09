@@ -45,6 +45,7 @@ class SetupResult implements \JsonSerializable {
 	/**
 	 * @brief Private constructor, use success()/info()/warning()/error() instead
 	 * @param self::SUCCESS|self::INFO|self::WARNING|self::ERROR $severity
+	 * @param array<string, array<string, string>> $descriptionParameters
 	 * @throws \OCP\RichObjectStrings\InvalidObjectExeption
 	 * @since 28.0.0
 	 * @since 28.0.2 Optional parameter ?array $descriptionParameters
