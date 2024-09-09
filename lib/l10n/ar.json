@@ -185,6 +185,7 @@
     "Sharing is disabled" : "المشاركة معطلة",
     "Sharing is disabled for you" : "المشاركة معطلة بالنسبة لك",
     "Cannot share with the share owner" : "لا يمكنك المشاركة مع مالك المشاركة",
+    "Share does not have a full ID" : "المشاركة ليس لها مُعرِّف ID كامل",
     "Cannot change share type" : "لا يمكن تغيير نوع المشاركة",
     "Can only update recipient on user shares" : "يمكن فقط تحديث المستلم على مشاركات المستخدم",
     "Cannot enable sending the password by Talk with an empty password" : "لا يمكن تمكين إرسال كلمة المرور عن طريق برنامج \"المحادثة\" Talk بكلمة مرور فارغة",

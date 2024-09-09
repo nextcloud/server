@@ -207,6 +207,7 @@ OC.L10N.register(
     "Remove filter" : "Bain an scagaire",
     "Total rows summary" : "Achoimre ar na sraitheanna iomlána",
     "Toggle selection for all files and folders" : "Scoránaigh an roghnúchán do gach comhad agus fillteán",
+    "(selected)" : "(roghnaithe)",
     "Deletion cancelled" : "Scriosadh cealaithe",
     "Delete permanently" : "Scrios go buan",
     "Delete and unshare" : "Scrios agus díroinnte",

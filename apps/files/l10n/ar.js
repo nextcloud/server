@@ -207,6 +207,7 @@ OC.L10N.register(
     "Remove filter" : "إزالة الفلتر",
     "Total rows summary" : "ملخص مجموع الأسطر",
     "Toggle selection for all files and folders" : "تبديل الاختيار لكل الملفات و المجلدات",
+    "(selected)" : "(تم اختياره)",
     "Deletion cancelled" : "تمّ إلغاء الحذف",
     "Delete permanently" : "حذف بشكل دائم",
     "Delete and unshare" : "إحذِف و الغٍ المشاركات ",
