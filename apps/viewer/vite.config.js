@@ -13,4 +13,10 @@ export default createAppConfig({
 		PLYR_ICONS: JSON.stringify(plyrIcons),
 	},
 	minify: isProduction,
+	// ensure that every JS entry point has a matching CSS file
+	createEmptyCSSEntryPoints: true,
+	// Make sure we also clear the CSS directory
+	emptyOutputDirectory: {
+		additionalDirectories: ['css'],
+	},
 })
