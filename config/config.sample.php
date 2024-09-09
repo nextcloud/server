@@ -2535,6 +2535,15 @@ $CONFIG = [
 'unified_search.enabled' => false,
 
 /**
+ * List of search providers that are allowed to be used in the unified search
+ *
+ * Defaults to ``[]`` (all providers allowed)
+ *
+ * For example: Set to ['files', 'settings'] to only allow file and settings search.
+ */
+'unified_search_providers_allowed' => [],
+
+/**
  * Enable features that are do respect accessibility standards yet.
  *
  * Defaults to ``true``
