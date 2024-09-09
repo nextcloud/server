@@ -8,13 +8,18 @@ declare(strict_types=1);
 
 namespace Test\Route;
 
+use OC\App\AppManager;
 use OC\Route\Router;
-use OCP\App\IAppManager;
 use OCP\Diagnostics\IEventLogger;
+use OCP\EventDispatcher\IEventDispatcher;
+use OCP\ICacheFactory;
 use OCP\IConfig;
+use OCP\IGroupManager;
 use OCP\IRequest;
+use OCP\IUserSession;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
+use Psr\Log\NullLogger;
 use Test\TestCase;
 
 /**
@@ -36,20 +41,42 @@ class RouterTest extends TestCase {
 					$this->fail('Unexpected info log: '.(string)($data['exception'] ?? $message));
 				}
 			);
+
+		/**
+		 * The router needs to resolve an app id to an app path.
+		 * A non-mocked AppManager instance is required.
+		 */
+		$appManager = new AppManager(
+			$this->createMock(IUserSession::class),
+			$this->createMock(IConfig::class),
+			$this->createMock(IGroupManager::class),
+			$this->createMock(ICacheFactory::class),
+			$this->createMock(IEventDispatcher::class),
+			new NullLogger(),
+		);
+
 		$this->router = new Router(
 			$logger,
 			$this->createMock(IRequest::class),
 			$this->createMock(IConfig::class),
 			$this->createMock(IEventLogger::class),
 			$this->createMock(ContainerInterface::class),
-			$this->createMock(IAppManager::class),
+			$appManager,
 		);
 	}
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function testHeartbeat(): void {
 		$this->assertEquals('/index.php/heartbeat', $this->router->generate('heartbeat'));
 	}
 
+	/**
+	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
+	 */
 	public function testGenerateConsecutively(): void {
 
 		$this->assertEquals('/index.php/apps/files/', $this->router->generate('files.view.index'));
