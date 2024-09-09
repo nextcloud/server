@@ -27,7 +27,7 @@ Do you want to learn more about how you can use Nextcloud to access, share, and 
 ## Get your Nextcloud 🚚
 
 - ☑️ [**Simply sign up**](https://nextcloud.com/signup/) at one of our providers either through our website or through the apps directly.
-- 🖥 [**Install** a server by yourself](https://nextcloud.com/install/#instructions-server) on your hardware or by using one of our ready-to-use **appliances**
+- 🖥 [**Install** a server by yourself](https://nextcloud.com/install/#instructions-server) on your hardware or by using one of our ready-to-use **appliances** or deploy it as one-click option on **[Elestio](https://elest.io/open-source/nextcloud)**.
 - 📦 Buy one of the [awesome **devices** coming with a preinstalled Nextcloud](https://nextcloud.com/devices/)
 - 🏢 Find a [service **provider**](https://nextcloud.com/providers/) who hosts Nextcloud for you or your company
 
