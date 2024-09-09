@@ -513,17 +513,11 @@ class Local extends \OC\Files\Storage\Common {
 		return true;
 	}
 
-	/**
-	 * get the ETag for a file or folder
-	 *
-	 * @param string $path
-	 * @return string
-	 */
 	public function getETag($path) {
 		return $this->calculateEtag($path, $this->stat($path));
 	}
 
-	private function calculateEtag(string $path, array $stat): string {
+	private function calculateEtag(string $path, array $stat): string|false {
 		if ($stat['mode'] & 0x4000 && !($stat['mode'] & 0x8000)) { // is_dir & not socket
 			return parent::getETag($path);
 		} else {

@@ -721,10 +721,9 @@ class DAV extends Common {
 		return $stat ? $stat['permissions'] : 0;
 	}
 
-	/** {@inheritdoc} */
 	public function getETag($path) {
 		$meta = $this->getMetaData($path);
-		return $meta ? $meta['etag'] : null;
+		return $meta ? $meta['etag'] : false;
 	}
 
 	/**
