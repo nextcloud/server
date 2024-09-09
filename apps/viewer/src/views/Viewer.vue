@@ -202,7 +202,6 @@ import isFullscreen from '@nextcloud/vue/dist/Mixins/isFullscreen.js'
 import isMobile from '@nextcloud/vue/dist/Mixins/isMobile.js'
 
 import { extractFilePaths, sortCompare } from '../utils/fileUtils.ts'
-import { registerViewerAction } from '../files_actions/viewerAction.ts'
 import getSortingConfig from '../services/FileSortingConfig.ts'
 import canDownload from '../utils/canDownload.js'
 import cancelableRequest from '../utils/CancelableRequest.js'
@@ -285,8 +284,7 @@ export default {
 			isSidebarShown: false,
 			isFullscreenMode: false,
 			canSwipe: true,
-			// TODO: remove OCA?.Files?.fileActions when public Files is Vue
-			isStandalone: OCP?.Files === undefined && OCA?.Files?.fileActions === undefined,
+			isStandalone: false,
 			theme: null,
 			root: davRemoteURL,
 			handlerId: '',
@@ -519,6 +517,11 @@ export default {
 	},
 
 	beforeMount() {
+		this.isStandalone = window.OCP?.Files === undefined
+		if (this.isStandalone) {
+			logger.info('No OCP.Files app found, viewer is now in standalone mode')
+		}
+
 		// register on load
 		document.addEventListener('DOMContentLoaded', () => {
 			// register all primary components mimes
@@ -538,16 +541,10 @@ export default {
 				this.Sidebar = OCA.Files.Sidebar.state
 			}
 
-			this.registerFileActions()
-
 			logger.info(`${this.handlers.length} viewer handlers registered`, { handlers: this.handlers })
 		})
 
 		window.addEventListener('resize', this.onResize)
-
-		if (this.isStandalone) {
-			logger.info('No OCP.Files app found, viewer is now in standalone mode')
-		}
 	},
 
 	mounted() {
@@ -903,12 +900,6 @@ export default {
 					this.mimeGroups[group] = []
 				}
 				this.mimeGroups[group].push(mime)
-			}
-		},
-
-		registerFileActions() {
-			if (!this.isStandalone) {
-				registerViewerAction()
 			}
 		},
 

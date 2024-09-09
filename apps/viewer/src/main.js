@@ -23,7 +23,6 @@ import { translate as t } from '@nextcloud/l10n'
 import Vue from 'vue'
 
 import ViewerComponent from './views/Viewer.vue'
-import ViewerService from './services/Viewer.js'
 
 Vue.mixin({
 	methods: {
@@ -33,12 +32,6 @@ Vue.mixin({
 
 Vue.prototype.OC = window.OC
 Vue.prototype.OCA = window.OCA
-
-// Init Viewer Service
-if (window.OCA) {
-	Object.assign(window.OCA, { Viewer: new ViewerService() })
-	window.OCA.Viewer.version = appVersion
-}
 
 // Create document root
 const ViewerRoot = document.createElement('div')

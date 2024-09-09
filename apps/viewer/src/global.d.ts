@@ -13,6 +13,8 @@ declare global {
 		}
 		OCP: Nextcloud.v29.OCP
 	}
+
+	const appVersion: string
 }
 
 export {}
