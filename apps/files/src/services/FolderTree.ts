@@ -11,16 +11,19 @@ import axios from '@nextcloud/axios'
 import { generateOcsUrl } from '@nextcloud/router'
 import { getCurrentUser } from '@nextcloud/auth'
 import { dirname, encodePath, joinPaths } from '@nextcloud/paths'
+import { getCanonicalLocale, getLanguage } from '@nextcloud/l10n'
 
 import { getContents as getFiles } from './Files.ts'
 
 // eslint-disable-next-line no-use-before-define
-type Tree = Array<{
+type Tree = TreeNodeData[]
+
+interface TreeNodeData {
 	id: number,
 	basename: string,
 	displayName?: string,
 	children: Tree,
-}>
+}
 
 export interface TreeNode {
 	source: string,
@@ -35,8 +38,19 @@ export const folderTreeId = 'folders'
 
 export const sourceRoot = `${davRemoteURL}/files/${getCurrentUser()?.uid}`
 
+const collator = Intl.Collator(
+	[getLanguage(), getCanonicalLocale()],
+	{
+		numeric: true,
+		usage: 'sort',
+	},
+)
+
+const compareNodes = (a: TreeNodeData, b: TreeNodeData) => collator.compare(a.displayName ?? a.basename, b.displayName ?? b.basename)
+
 const getTreeNodes = (tree: Tree, currentPath: string = '/', nodes: TreeNode[] = []): TreeNode[] => {
-	for (const { id, basename, displayName, children } of tree) {
+	const sortedTree = tree.toSorted(compareNodes)
+	for (const { id, basename, displayName, children } of sortedTree) {
 		const path = joinPaths(currentPath, basename)
 		const source = `${sourceRoot}${path}`
 		const node: TreeNode = {
