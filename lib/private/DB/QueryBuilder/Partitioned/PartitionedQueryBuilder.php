@@ -185,7 +185,7 @@ class PartitionedQueryBuilder extends ShardedQueryBuilder {
 	}
 
 	public function leftJoin($fromAlias, $join, $alias, $condition = null): self {
-		return $this->join($fromAlias, $join, $alias, $condition, PartitionQuery::JOIN_MODE_LEFT);
+		return $this->join($fromAlias, (string)$join, $alias, $condition, PartitionQuery::JOIN_MODE_LEFT);
 	}
 
 	public function join($fromAlias, $join, $alias, $condition = null, $joinMode = PartitionQuery::JOIN_MODE_INNER): self {
