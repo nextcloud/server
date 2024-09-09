@@ -10,6 +10,7 @@ namespace OC\Search;
 
 use InvalidArgumentException;
 use OC\AppFramework\Bootstrap\Coordinator;
+use OCP\IAppConfig;
 use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\Search\FilterDefinition;
@@ -23,7 +24,10 @@ use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 use RuntimeException;
+use function array_filter;
 use function array_map;
+use function array_values;
+use function in_array;
 
 /**
  * Queries individual \OCP\Search\IProvider implementations and composes a
@@ -59,7 +63,8 @@ class SearchComposer {
 		private Coordinator $bootstrapCoordinator,
 		private ContainerInterface $container,
 		private IURLGenerator $urlGenerator,
-		private LoggerInterface $logger
+		private LoggerInterface $logger,
+		private IAppConfig $appConfig,
 	) {
 		$this->commonFilters = [
 			IFilter::BUILTIN_TERM => new FilterDefinition(IFilter::BUILTIN_TERM, FilterDefinition::TYPE_STRING),
@@ -197,7 +202,24 @@ class SearchComposer {
 			return $provider1['order'] <=> $provider2['order'];
 		});
 
-		return $providers;
+		return $this->reduceProviders($providers);
+	}
+
+	/**
+	 * reduce providers based on 'unified_search.providers_allowed' core app config array
+	 * @param array $providers
+	 * @return array
+	 */
+	private function reduceProviders(array $providers): array {
+		$allowedProviders = $this->appConfig->getValueArray('core', 'unified_search.providers_allowed');
+
+		if (empty($allowedProviders)) {
+			return $providers;
+		}
+
+		return array_values(array_filter($providers, function ($p) use ($allowedProviders) {
+			return in_array($p['id'], $allowedProviders);
+		}));
 	}
 
 	private function fetchIcon(string $appId, string $providerId): string {
