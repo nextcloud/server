@@ -7,6 +7,7 @@ const plyrIcons = readFileSync(join(__dirname, 'node_modules', 'plyr', 'dist', '
 
 export default createAppConfig({
 	main: 'src/main.js',
+	init: 'src/init.ts',
 }, {
 	replace: {
 		PLYR_ICONS: JSON.stringify(plyrIcons),
