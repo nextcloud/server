@@ -77,6 +77,7 @@ class DefaultPublicShareTemplateProvider implements IPublicShareTemplateProvider
 		$view = 'public-share';
 		if ($shareNode instanceof File) {
 			$view = 'public-file-share';
+			$this->initialState->provideInitialState('fileId', $shareNode->getId());
 		} elseif (($share->getPermissions() & \OCP\Constants::PERMISSION_CREATE)
 			&& !($share->getPermissions() & \OCP\Constants::PERMISSION_READ)
 		) {

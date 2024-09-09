@@ -22,3 +22,14 @@ navigation.setActive(navigation.views.find(({ id }) => id === view) ?? null)
 // Force our own router
 window.OCP.Files = window.OCP.Files ?? {}
 window.OCP.Files.Router = new RouterService(router)
+
+// If this is a single file share, so set the fileid as active in the URL
+const fileId = loadState<number|null>('files_sharing', 'fileId', null)
+const token = loadState<string>('files_sharing', 'sharingToken')
+if (fileId !== null) {
+	window.OCP.Files.Router.goToRoute(
+		'filelist',
+		{ ...window.OCP.Files.Router.params, token, fileid: String(fileId) },
+		{ ...window.OCP.Files.Router.query, openfile: 'true' },
+	)
+}
