@@ -247,7 +247,7 @@ class WebhooksController extends OCSController {
 	 *
 	 * @return DataResponse<Http::STATUS_OK, bool, array{}>
 	 *
-	 * 200: Boolean returned whether something was deleted FIXME
+	 * 200: Boolean returned whether something was deleted
 	 *
 	 * @throws OCSBadRequestException Bad request
 	 * @throws OCSForbiddenException Insufficient permissions
@@ -266,6 +266,36 @@ class WebhooksController extends OCSController {
 			throw new OCSForbiddenException($e->getMessage(), $e);
 		} catch (\Exception $e) {
 			$this->logger->error('Error when deleting flow with id ' . $id, ['exception' => $e]);
+			throw new OCSException('An internal error occurred', Http::STATUS_INTERNAL_SERVER_ERROR, $e);
+		}
+	}
+
+	/**
+	 * Remove all existing webhook registration mapped to an AppAPI app id
+	 *
+	 * @param string $appid id of the app, as in the EX-APP-ID for creation
+	 *
+	 * @return DataResponse<Http::STATUS_OK, int, array{}>
+	 *
+	 * 200: Integer number of registrations deleted
+	 *
+	 * @throws OCSBadRequestException Bad request
+	 * @throws OCSForbiddenException Insufficient permissions
+	 * @throws OCSException Other error
+	 */
+	#[ApiRoute(verb: 'DELETE', url: '/api/v1/webhooks/byappid/{appid}')]
+	#[AuthorizedAdminSetting(settings:Admin::class)]
+	#[AppApiAdminAccessWithoutUser]
+	public function deleteByAppId(string $appid): DataResponse {
+		try {
+			$deletedCount = $this->mapper->deleteByAppId($appid);
+			return new DataResponse($deletedCount);
+		} catch (\UnexpectedValueException $e) {
+			throw new OCSBadRequestException($e->getMessage(), $e);
+		} catch (\DomainException $e) {
+			throw new OCSForbiddenException($e->getMessage(), $e);
+		} catch (\Exception $e) {
+			$this->logger->error('Error when deleting flows for app id ' . $appid, ['exception' => $e]);
 			throw new OCSException('An internal error occurred', Http::STATUS_INTERNAL_SERVER_ERROR, $e);
 		}
 	}
