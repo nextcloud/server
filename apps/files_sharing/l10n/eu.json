@@ -246,6 +246,7 @@
     "Terms of service" : "Erabilera baldintzak",
     "{ownerDisplayName} shared a folder with you." : "{ownerDisplayName}-k zurekin karpeta bat partekatu du.",
     "To upload files, you need to provide your name first." : "Fitxategiak igotzeko, zure izena eman behar duzu lehenik.",
+    "Nickname" : "Ezizena",
     "Upload files to {folder}" : "Igo fitxateigak {folder}-ra",
     "Submit name" : "Sartu izena",
     "Allow upload and editing" : "Onartu igotzea eta editatzea",

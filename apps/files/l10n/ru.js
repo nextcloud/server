@@ -207,6 +207,7 @@ OC.L10N.register(
     "Remove filter" : "Удалить фильтр",
     "Total rows summary" : "Количество строк в общем",
     "Toggle selection for all files and folders" : "Установить или снять выделение всех файлов и папок",
+    "(selected)" : "(выбранный)",
     "Deletion cancelled" : "Удаление отменено",
     "Delete permanently" : "Удалить навсегда",
     "Delete and unshare" : "Удалить и закрыть общий доступ",

@@ -97,6 +97,7 @@
     "_{count} notification_::_{count} notifications_" : ["{count} ειδοποίηση","{count} ειδοποιήσεις"],
     "No" : "Όχι",
     "Yes" : "Ναι",
+    "user@your-nextcloud.org" : "user@your-nextcloud.org",
     "Create share" : "Δημιουργήστε κοινή χρήση",
     "Failed to add the public link to your Nextcloud" : "Αποτυχία στην πρόσθεση του κοινού συνδέσμου στο Nextcloud σας",
     "Custom date range" : "Προσαρμοσμένο διάστημα ημερομηνιών",
