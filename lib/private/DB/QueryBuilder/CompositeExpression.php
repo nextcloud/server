@@ -20,13 +20,6 @@ class CompositeExpression implements ICompositeExpression, \Countable {
 	) {
 	}
 
-	/**
-	 * Adds multiple parts to composite expression.
-	 *
-	 * @param array $parts
-	 *
-	 * @return \OCP\DB\QueryBuilder\ICompositeExpression
-	 */
 	public function addMultiple(array $parts = []): ICompositeExpression {
 		foreach ($parts as $part) {
 			$this->add($part);
@@ -35,13 +28,6 @@ class CompositeExpression implements ICompositeExpression, \Countable {
 		return $this;
 	}
 
-	/**
-	 * Adds an expression to composite expression.
-	 *
-	 * @param mixed $part
-	 *
-	 * @return \OCP\DB\QueryBuilder\ICompositeExpression
-	 */
 	public function add($part): ICompositeExpression {
 		if ($part === null) {
 			return $this;
@@ -56,20 +42,10 @@ class CompositeExpression implements ICompositeExpression, \Countable {
 		return $this;
 	}
 
-	/**
-	 * Retrieves the amount of expressions on composite expression.
-	 *
-	 * @return integer
-	 */
 	public function count(): int {
 		return count($this->parts);
 	}
 
-	/**
-	 * Returns the type of this composite expression (AND/OR).
-	 *
-	 * @return string
-	 */
 	public function getType(): string {
 		return $this->type;
 	}

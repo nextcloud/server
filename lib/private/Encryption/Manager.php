@@ -34,11 +34,6 @@ class Manager implements IManager {
 		$this->encryptionModules = [];
 	}
 
-	/**
-	 * Check if encryption is enabled
-	 *
-	 * @return bool true if enabled, false if not
-	 */
 	public function isEnabled() {
 		$installed = $this->config->getSystemValueBool('installed', false);
 		if (!$installed) {
@@ -82,14 +77,6 @@ class Manager implements IManager {
 		return true;
 	}
 
-	/**
-	 * Registers an callback function which must return an encryption module instance
-	 *
-	 * @param string $id
-	 * @param string $displayName
-	 * @param callable $callback
-	 * @throws Exceptions\ModuleAlreadyExistsException
-	 */
 	public function registerEncryptionModule($id, $displayName, callable $callback) {
 		if (isset($this->encryptionModules[$id])) {
 			throw new Exceptions\ModuleAlreadyExistsException($id, $displayName);
@@ -108,31 +95,14 @@ class Manager implements IManager {
 		}
 	}
 
-	/**
-	 * Unregisters an encryption module
-	 *
-	 * @param string $moduleId
-	 */
 	public function unregisterEncryptionModule($moduleId) {
 		unset($this->encryptionModules[$moduleId]);
 	}
 
-	/**
-	 * get a list of all encryption modules
-	 *
-	 * @return array [id => ['id' => $id, 'displayName' => $displayName, 'callback' => callback]]
-	 */
 	public function getEncryptionModules() {
 		return $this->encryptionModules;
 	}
 
-	/**
-	 * get a specific encryption module
-	 *
-	 * @param string $moduleId
-	 * @return IEncryptionModule
-	 * @throws Exceptions\ModuleDoesNotExistsException
-	 */
 	public function getEncryptionModule($moduleId = '') {
 		if (empty($moduleId)) {
 			return $this->getDefaultEncryptionModule();
@@ -164,12 +134,6 @@ class Manager implements IManager {
 		throw new Exceptions\ModuleDoesNotExistsException($message);
 	}
 
-	/**
-	 * set default encryption module Id
-	 *
-	 * @param string $moduleId
-	 * @return bool
-	 */
 	public function setDefaultEncryptionModule($moduleId) {
 		try {
 			$this->getEncryptionModule($moduleId);
@@ -181,11 +145,6 @@ class Manager implements IManager {
 		return true;
 	}
 
-	/**
-	 * get default encryption module Id
-	 *
-	 * @return string
-	 */
 	public function getDefaultEncryptionModuleId() {
 		return $this->config->getAppValue('core', 'default_encryption_module');
 	}

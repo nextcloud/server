@@ -30,9 +30,6 @@ class MetadataUpdate implements IEventListener {
 	) {
 	}
 
-	/**
-	 * @param Event $event
-	 */
 	public function handle(Event $event): void {
 		if (!($event instanceof NodeWrittenEvent)) {
 			return;

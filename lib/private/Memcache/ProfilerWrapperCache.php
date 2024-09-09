@@ -40,7 +40,6 @@ class ProfilerWrapperCache extends AbstractDataCollector implements IMemcacheTTL
 		return $this->prefix;
 	}
 
-	/** @inheritDoc */
 	public function get($key) {
 		$start = microtime(true);
 		$ret = $this->wrappedCache->get($key);
@@ -58,7 +57,6 @@ class ProfilerWrapperCache extends AbstractDataCollector implements IMemcacheTTL
 		return $ret;
 	}
 
-	/** @inheritDoc */
 	public function set($key, $value, $ttl = 0) {
 		$start = microtime(true);
 		$ret = $this->wrappedCache->set($key, $value, $ttl);
@@ -70,7 +68,6 @@ class ProfilerWrapperCache extends AbstractDataCollector implements IMemcacheTTL
 		return $ret;
 	}
 
-	/** @inheritDoc */
 	public function hasKey($key) {
 		$start = microtime(true);
 		$ret = $this->wrappedCache->hasKey($key);
@@ -82,7 +79,6 @@ class ProfilerWrapperCache extends AbstractDataCollector implements IMemcacheTTL
 		return $ret;
 	}
 
-	/** @inheritDoc */
 	public function remove($key) {
 		$start = microtime(true);
 		$ret = $this->wrappedCache->remove($key);
@@ -94,7 +90,6 @@ class ProfilerWrapperCache extends AbstractDataCollector implements IMemcacheTTL
 		return $ret;
 	}
 
-	/** @inheritDoc */
 	public function clear($prefix = '') {
 		$start = microtime(true);
 		$ret = $this->wrappedCache->clear($prefix);
@@ -106,7 +101,6 @@ class ProfilerWrapperCache extends AbstractDataCollector implements IMemcacheTTL
 		return $ret;
 	}
 
-	/** @inheritDoc */
 	public function add($key, $value, $ttl = 0) {
 		$start = microtime(true);
 		$ret = $this->wrappedCache->add($key, $value, $ttl);
@@ -118,7 +112,6 @@ class ProfilerWrapperCache extends AbstractDataCollector implements IMemcacheTTL
 		return $ret;
 	}
 
-	/** @inheritDoc */
 	public function inc($key, $step = 1) {
 		$start = microtime(true);
 		$ret = $this->wrappedCache->inc($key, $step);
@@ -130,7 +123,6 @@ class ProfilerWrapperCache extends AbstractDataCollector implements IMemcacheTTL
 		return $ret;
 	}
 
-	/** @inheritDoc */
 	public function dec($key, $step = 1) {
 		$start = microtime(true);
 		$ret = $this->wrappedCache->dec($key, $step);
@@ -142,7 +134,6 @@ class ProfilerWrapperCache extends AbstractDataCollector implements IMemcacheTTL
 		return $ret;
 	}
 
-	/** @inheritDoc */
 	public function cas($key, $old, $new) {
 		$start = microtime(true);
 		$ret = $this->wrappedCache->cas($key, $old, $new);
@@ -154,7 +145,6 @@ class ProfilerWrapperCache extends AbstractDataCollector implements IMemcacheTTL
 		return $ret;
 	}
 
-	/** @inheritDoc */
 	public function cad($key, $old) {
 		$start = microtime(true);
 		$ret = $this->wrappedCache->cad($key, $old);
@@ -166,7 +156,6 @@ class ProfilerWrapperCache extends AbstractDataCollector implements IMemcacheTTL
 		return $ret;
 	}
 
-	/** @inheritDoc */
 	public function ncad(string $key, mixed $old): bool {
 		$start = microtime(true);
 		$ret = $this->wrappedCache->ncad($key, $old);
@@ -178,7 +167,6 @@ class ProfilerWrapperCache extends AbstractDataCollector implements IMemcacheTTL
 		return $ret;
 	}
 
-	/** @inheritDoc */
 	public function setTTL(string $key, int $ttl) {
 		$this->wrappedCache->setTTL($key, $ttl);
 	}

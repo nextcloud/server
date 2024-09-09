@@ -8,7 +8,6 @@ declare(strict_types=1);
  */
 namespace OC;
 
-use Exception;
 use Nextcloud\LogNormalizer\Normalizer;
 use OC\AppFramework\Bootstrap\Coordinator;
 use OC\Log\ExceptionSerializer;
@@ -50,105 +49,39 @@ class Log implements ILogger, IDataLogger {
 		$this->eventDispatcher = $eventDispatcher;
 	}
 
-	/**
-	 * System is unusable.
-	 *
-	 * @param string $message
-	 * @param array $context
-	 */
 	public function emergency(string $message, array $context = []): void {
 		$this->log(ILogger::FATAL, $message, $context);
 	}
 
-	/**
-	 * Action must be taken immediately.
-	 *
-	 * Example: Entire website down, database unavailable, etc. This should
-	 * trigger the SMS alerts and wake you up.
-	 *
-	 * @param string $message
-	 * @param array $context
-	 */
 	public function alert(string $message, array $context = []): void {
 		$this->log(ILogger::ERROR, $message, $context);
 	}
 
-	/**
-	 * Critical conditions.
-	 *
-	 * Example: Application component unavailable, unexpected exception.
-	 *
-	 * @param string $message
-	 * @param array $context
-	 */
 	public function critical(string $message, array $context = []): void {
 		$this->log(ILogger::ERROR, $message, $context);
 	}
 
-	/**
-	 * Runtime errors that do not require immediate action but should typically
-	 * be logged and monitored.
-	 *
-	 * @param string $message
-	 * @param array $context
-	 */
 	public function error(string $message, array $context = []): void {
 		$this->log(ILogger::ERROR, $message, $context);
 	}
 
-	/**
-	 * Exceptional occurrences that are not errors.
-	 *
-	 * Example: Use of deprecated APIs, poor use of an API, undesirable things
-	 * that are not necessarily wrong.
-	 *
-	 * @param string $message
-	 * @param array $context
-	 */
 	public function warning(string $message, array $context = []): void {
 		$this->log(ILogger::WARN, $message, $context);
 	}
 
-	/**
-	 * Normal but significant events.
-	 *
-	 * @param string $message
-	 * @param array $context
-	 */
 	public function notice(string $message, array $context = []): void {
 		$this->log(ILogger::INFO, $message, $context);
 	}
 
-	/**
-	 * Interesting events.
-	 *
-	 * Example: User logs in, SQL logs.
-	 *
-	 * @param string $message
-	 * @param array $context
-	 */
 	public function info(string $message, array $context = []): void {
 		$this->log(ILogger::INFO, $message, $context);
 	}
 
-	/**
-	 * Detailed debug information.
-	 *
-	 * @param string $message
-	 * @param array $context
-	 */
 	public function debug(string $message, array $context = []): void {
 		$this->log(ILogger::DEBUG, $message, $context);
 	}
 
 
-	/**
-	 * Logs with an arbitrary level.
-	 *
-	 * @param int $level
-	 * @param string $message
-	 * @param array $context
-	 */
 	public function log(int $level, string $message, array $context = []): void {
 		$minLevel = $this->getLogLevel($context, $message);
 		if ($level < $minLevel
@@ -303,14 +236,6 @@ class Log implements ILogger, IDataLogger {
 		return hash_equals($conditionSecret, $request->getParam('log_secret', ''));
 	}
 
-	/**
-	 * Logs an exception very detailed
-	 *
-	 * @param Exception|Throwable $exception
-	 * @param array $context
-	 * @return void
-	 * @since 8.2.0
-	 */
 	public function logException(Throwable $exception, array $context = []): void {
 		$app = $context['app'] ?? 'no app in context';
 		$level = $context['level'] ?? ILogger::ERROR;

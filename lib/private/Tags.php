@@ -76,22 +76,10 @@ class Tags implements ITags {
 		}
 	}
 
-	/**
-	 * Check if any tags are saved for this type and user.
-	 *
-	 * @return boolean
-	 */
 	public function isEmpty(): bool {
 		return count($this->tags) === 0;
 	}
 
-	/**
-	 * Returns an array mapping a given tag's properties to its values:
-	 * ['id' => 0, 'name' = 'Tag', 'owner' = 'User', 'type' => 'tagtype']
-	 *
-	 * @param string $id The ID of the tag that is going to be mapped
-	 * @return array|false
-	 */
 	public function getTag(string $id) {
 		$key = $this->getTagById($id);
 		if ($key !== false) {
@@ -100,17 +88,6 @@ class Tags implements ITags {
 		return false;
 	}
 
-	/**
-	 * Get the tags for a specific user.
-	 *
-	 * This returns an array with maps containing each tag's properties:
-	 * [
-	 * 	['id' => 0, 'name' = 'First tag', 'owner' = 'User', 'type' => 'tagtype'],
-	 * 	['id' => 1, 'name' = 'Shared tag', 'owner' = 'Other user', 'type' => 'tagtype'],
-	 * ]
-	 *
-	 * @return array<array-key, array{id: int, name: string}>
-	 */
 	public function getTags(): array {
 		if (!count($this->tags)) {
 			return [];
@@ -144,13 +121,6 @@ class Tags implements ITags {
 		);
 	}
 
-	/**
-	 * Get the list of tags for the given ids.
-	 *
-	 * @param array $objIds array of object ids
-	 * @return array|false of tags id as key to array of tag names
-	 *                     or false if an error occurred
-	 */
 	public function getTagsForObjects(array $objIds) {
 		$entries = [];
 
@@ -188,15 +158,6 @@ class Tags implements ITags {
 		return $entries;
 	}
 
-	/**
-	 * Get the a list if items tagged with $tag.
-	 *
-	 * Throws an exception if the tag could not be found.
-	 *
-	 * @param string $tag Tag id or name.
-	 * @return int[]|false An array of object ids or false on error.
-	 * @throws \Exception
-	 */
 	public function getIdsForTag($tag) {
 		$tagId = false;
 		if (is_numeric($tag)) {
@@ -240,33 +201,15 @@ class Tags implements ITags {
 		return $ids;
 	}
 
-	/**
-	 * Checks whether a tag is saved for the given user,
-	 * disregarding the ones shared with him or her.
-	 *
-	 * @param string $name The tag name to check for.
-	 * @param string $user The user whose tags are to be checked.
-	 */
 	public function userHasTag(string $name, string $user): bool {
 		$key = $this->array_searchi($name, $this->getTagsForUser($user));
 		return ($key !== false) ? $this->tags[$key]->getId() : false;
 	}
 
-	/**
-	 * Checks whether a tag is saved for or shared with the current user.
-	 *
-	 * @param string $name The tag name to check for.
-	 */
 	public function hasTag(string $name): bool {
 		return $this->getTagId($name) !== false;
 	}
 
-	/**
-	 * Add a new tag.
-	 *
-	 * @param string $name A string with a name of the tag
-	 * @return false|int the id of the added tag or false on error.
-	 */
 	public function add(string $name) {
 		$name = trim($name);
 
@@ -294,13 +237,6 @@ class Tags implements ITags {
 		return $tag->getId();
 	}
 
-	/**
-	 * Rename tag.
-	 *
-	 * @param string|integer $from The name or ID of the existing tag
-	 * @param string $to The new name of the tag.
-	 * @return bool
-	 */
 	public function rename($from, string $to): bool {
 		$from = trim($from);
 		$to = trim($to);
@@ -339,15 +275,6 @@ class Tags implements ITags {
 		return true;
 	}
 
-	/**
-	 * Add a list of new tags.
-	 *
-	 * @param string|string[] $names A string with a name or an array of strings containing
-	 *                               the name(s) of the tag(s) to add.
-	 * @param bool $sync When true, save the tags
-	 * @param int|null $id int Optional object id to add to this|these tag(s)
-	 * @return bool Returns false on error.
-	 */
 	public function addMultiple($names, bool $sync = false, ?int $id = null): bool {
 		if (!is_array($names)) {
 			$names = [$names];
@@ -422,12 +349,6 @@ class Tags implements ITags {
 		self::$relations = []; // reset
 	}
 
-	/**
-	 * Delete tag/object relations from the db
-	 *
-	 * @param array $ids The ids of the objects
-	 * @return boolean Returns false on error.
-	 */
 	public function purgeObjects(array $ids): bool {
 		if (count($ids) === 0) {
 			// job done ;)
@@ -449,11 +370,6 @@ class Tags implements ITags {
 		return true;
 	}
 
-	/**
-	 * Get favorites for an object type
-	 *
-	 * @return array|false An array of object ids.
-	 */
 	public function getFavorites() {
 		if (!$this->userHasTag(ITags::TAG_FAVORITE, $this->user)) {
 			return [];
@@ -473,12 +389,6 @@ class Tags implements ITags {
 		}
 	}
 
-	/**
-	 * Add an object to favorites
-	 *
-	 * @param int $objid The id of the object
-	 * @return boolean
-	 */
 	public function addToFavorites($objid) {
 		if (!$this->userHasTag(ITags::TAG_FAVORITE, $this->user)) {
 			$this->add(ITags::TAG_FAVORITE);
@@ -486,23 +396,10 @@ class Tags implements ITags {
 		return $this->tagAs($objid, ITags::TAG_FAVORITE);
 	}
 
-	/**
-	 * Remove an object from favorites
-	 *
-	 * @param int $objid The id of the object
-	 * @return boolean
-	 */
 	public function removeFromFavorites($objid) {
 		return $this->unTag($objid, ITags::TAG_FAVORITE);
 	}
 
-	/**
-	 * Creates a tag/object relation.
-	 *
-	 * @param int $objid The id of the object
-	 * @param string $tag The id or name of the tag
-	 * @return boolean Returns false on error.
-	 */
 	public function tagAs($objid, $tag) {
 		if (is_string($tag) && !is_numeric($tag)) {
 			$tag = trim($tag);
@@ -536,13 +433,6 @@ class Tags implements ITags {
 		return true;
 	}
 
-	/**
-	 * Delete single tag/object relation from the db
-	 *
-	 * @param int $objid The id of the object
-	 * @param string $tag The id or name of the tag
-	 * @return boolean
-	 */
 	public function unTag($objid, $tag) {
 		if (is_string($tag) && !is_numeric($tag)) {
 			$tag = trim($tag);
@@ -573,12 +463,6 @@ class Tags implements ITags {
 		return true;
 	}
 
-	/**
-	 * Delete tags from the database.
-	 *
-	 * @param string[]|integer[] $names An array of tags (names or IDs) to delete
-	 * @return bool Returns false on error
-	 */
 	public function delete($names) {
 		if (!is_array($names)) {
 			$names = [$names];

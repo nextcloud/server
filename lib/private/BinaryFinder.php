@@ -23,11 +23,6 @@ class BinaryFinder implements IBinaryFinder {
 		$this->cache = $cacheFactory->createLocal('findBinaryPath');
 	}
 
-	/**
-	 * Try to find a program
-	 *
-	 * @return false|string
-	 */
 	public function findBinaryPath(string $program) {
 		$result = $this->cache->get($program);
 		if ($result !== null) {

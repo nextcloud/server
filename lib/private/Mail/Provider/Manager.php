@@ -27,13 +27,6 @@ class Manager implements IManager {
 	) {
 	}
 
-	/**
-	 * Determine if any mail providers are registered
-	 *
-	 * @since 30.0.0
-	 *
-	 * @return bool
-	 */
 	public function has(): bool {
 
 		// return true if collection has any providers
@@ -41,13 +34,6 @@ class Manager implements IManager {
 
 	}
 
-	/**
-	 * Retrieve a count of how many mail providers are registered
-	 *
-	 * @since 30.0.0
-	 *
-	 * @return int
-	 */
 	public function count(): int {
 
 		// return count of providers in collection
@@ -55,13 +41,6 @@ class Manager implements IManager {
 
 	}
 
-	/**
-	 * Retrieve which mail providers are registered
-	 *
-	 * @since 30.0.0
-	 *
-	 * @return array<string,string> collection of provider id and label ['jmap' => 'JMap Connector']
-	 */
 	public function types(): array {
 		
 		// construct types collection
@@ -75,13 +54,6 @@ class Manager implements IManager {
 		
 	}
 
-	/**
-	 * Retrieve all registered mail providers
-	 *
-	 * @since 30.0.0
-	 *
-	 * @return array<string,IProvider> collection of provider id and object ['jmap' => IProviderObject]
-	 */
 	public function providers(): array {
 
 		// evaluate if we already have a cached collection of providers and return the collection if we do
@@ -116,15 +88,6 @@ class Manager implements IManager {
 
 	}
 
-	/**
-	 * Retrieve a provider with a specific id
-	 *
-	 * @since 30.0.0
-	 *
-	 * @param string $providerId provider id
-	 *
-	 * @return IProvider|null
-	 */
 	public function findProviderById(string $providerId): IProvider|null {
 
 		// evaluate if we already have a cached collection of providers
@@ -140,15 +103,6 @@ class Manager implements IManager {
 
 	}
 
-	/**
-	 * Retrieve all services for all registered mail providers
-	 *
-	 * @since 30.0.0
-	 *
-	 * @param string $userId user id
-	 *
-	 * @return array<string,array<string,IService>> collection of provider id, service id and object ['jmap' => ['Service1' => IServiceObject]]
-	 */
 	public function services(string $userId): array {
 		
 		// initilize collection
@@ -167,17 +121,6 @@ class Manager implements IManager {
 		
 	}
 
-	/**
-	 * Retrieve a service with a specific id
-	 *
-	 * @since 30.0.0
-	 *
-	 * @param string $userId user id
-	 * @param string $serviceId service id
-	 * @param string $providerId provider id
-	 *
-	 * @return IService|null returns service object or null if none found
-	 */
 	public function findServiceById(string $userId, string $serviceId, ?string $providerId = null): IService|null {
 		
 		// evaluate if provider id was specified
@@ -210,18 +153,6 @@ class Manager implements IManager {
 
 	}
 
-	/**
-	 * Retrieve a service for a specific mail address
-	 * returns first service with specific primary address
-	 *
-	 * @since 30.0.0
-	 *
-	 * @param string $userId user id
-	 * @param string $address mail address (e.g. test@example.com)
-	 * @param string $providerId provider id
-	 *
-	 * @return IService|null returns service object or null if none found
-	 */
 	public function findServiceByAddress(string $userId, string $address, ?string $providerId = null): IService|null {
 		
 		// evaluate if provider id was specified

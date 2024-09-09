@@ -23,18 +23,10 @@ class Output implements IOutput {
 		$this->webRoot = $webRoot;
 	}
 
-	/**
-	 * @param string $out
-	 */
 	public function setOutput($out) {
 		print($out);
 	}
 
-	/**
-	 * @param string|resource $path or file handle
-	 *
-	 * @return bool false if an error occurred
-	 */
 	public function setReadfile($path) {
 		if (is_resource($path)) {
 			$output = fopen('php://output', 'w');
@@ -44,36 +36,18 @@ class Output implements IOutput {
 		}
 	}
 
-	/**
-	 * @param string $header
-	 */
 	public function setHeader($header) {
 		header($header);
 	}
 
-	/**
-	 * @param int $code sets the http status code
-	 */
 	public function setHttpResponseCode($code) {
 		http_response_code($code);
 	}
 
-	/**
-	 * @return int returns the current http response code
-	 */
 	public function getHttpResponseCode() {
 		return http_response_code();
 	}
 
-	/**
-	 * @param string $name
-	 * @param string $value
-	 * @param int $expire
-	 * @param string $path
-	 * @param string $domain
-	 * @param bool $secure
-	 * @param bool $httpOnly
-	 */
 	public function setCookie($name, $value, $expire, $path, $domain, $secure, $httpOnly, $sameSite = 'Lax') {
 		$path = $this->webRoot ? : '/';
 

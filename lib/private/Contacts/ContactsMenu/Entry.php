@@ -56,9 +56,6 @@ class Entry implements IEntry {
 		$this->emailAddresses[] = $address;
 	}
 
-	/**
-	 * @return string[]
-	 */
 	public function getEMailAddresses(): array {
 		return $this->emailAddresses;
 	}
@@ -145,9 +142,6 @@ class Entry implements IEntry {
 		return $this->properties[$key];
 	}
 
-	/**
-	 * @return array{id: int|string|null, fullName: string, avatar: string|null, topAction: mixed, actions: array, lastMessage: '', emailAddresses: string[], profileTitle: string|null, profileUrl: string|null, status: string|null, statusMessage: null|string, statusMessageTimestamp: null|int, statusIcon: null|string, isUser: bool, uid: mixed}
-	 */
 	public function jsonSerialize(): array {
 		$topAction = !empty($this->actions) ? $this->actions[0]->jsonSerialize() : null;
 		$otherActions = array_map(function (IAction $action) {

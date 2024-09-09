@@ -47,37 +47,22 @@ class Event implements IEvent {
 		$this->end = $time;
 	}
 
-	/**
-	 * @return float
-	 */
 	public function getStart() {
 		return $this->start;
 	}
 
-	/**
-	 * @return string
-	 */
 	public function getId() {
 		return $this->id;
 	}
 
-	/**
-	 * @return string
-	 */
 	public function getDescription() {
 		return $this->description;
 	}
 
-	/**
-	 * @return float
-	 */
 	public function getEnd() {
 		return $this->end;
 	}
 
-	/**
-	 * @return float
-	 */
 	public function getDuration() {
 		if (!$this->end) {
 			$this->end = microtime(true);

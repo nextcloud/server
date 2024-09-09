@@ -21,19 +21,11 @@ use OCP\SystemTag\ISystemTagObjectMapper;
  * @since 9.0.0
  */
 class ManagerFactory implements ISystemTagManagerFactory {
-	/**
-	 * Constructor for the system tag manager factory
-	 */
 	public function __construct(
 		private IServerContainer $serverContainer,
 	) {
 	}
 
-	/**
-	 * Creates and returns an instance of the system tag manager
-	 *
-	 * @since 9.0.0
-	 */
 	public function getManager(): ISystemTagManager {
 		return new SystemTagManager(
 			$this->serverContainer->getDatabaseConnection(),
@@ -42,12 +34,6 @@ class ManagerFactory implements ISystemTagManagerFactory {
 		);
 	}
 
-	/**
-	 * Creates and returns an instance of the system tag object
-	 * mapper
-	 *
-	 * @since 9.0.0
-	 */
 	public function getObjectMapper(): ISystemTagObjectMapper {
 		return new SystemTagObjectMapper(
 			$this->serverContainer->getDatabaseConnection(),

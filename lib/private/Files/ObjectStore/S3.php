@@ -19,10 +19,6 @@ class S3 implements IObjectStore, IObjectStoreMultiPartUpload {
 		$this->parseParams($parameters);
 	}
 
-	/**
-	 * @return string the container or bucket name where objects are stored
-	 * @since 7.0.0
-	 */
 	public function getStorageId() {
 		return $this->id;
 	}

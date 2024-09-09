@@ -32,11 +32,6 @@ class GenerateBlurhashMetadata implements IEventListener {
 	private const COMPONENTS_X = 4;
 	private const COMPONENTS_Y = 3;
 
-	/**
-	 * @throws NotPermittedException
-	 * @throws GenericFileException
-	 * @throws LockedException
-	 */
 	public function handle(Event $event): void {
 		if (!($event instanceof MetadataLiveEvent)
 			&& !($event instanceof MetadataBackgroundEvent)) {

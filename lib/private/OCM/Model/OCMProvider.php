@@ -33,93 +33,52 @@ class OCMProvider implements IOCMProvider {
 	) {
 	}
 
-	/**
-	 * @param bool $enabled
-	 *
-	 * @return $this
-	 */
 	public function setEnabled(bool $enabled): static {
 		$this->enabled = $enabled;
 
 		return $this;
 	}
 
-	/**
-	 * @return bool
-	 */
 	public function isEnabled(): bool {
 		return $this->enabled;
 	}
 
-	/**
-	 * @param string $apiVersion
-	 *
-	 * @return $this
-	 */
 	public function setApiVersion(string $apiVersion): static {
 		$this->apiVersion = $apiVersion;
 
 		return $this;
 	}
 
-	/**
-	 * @return string
-	 */
 	public function getApiVersion(): string {
 		return $this->apiVersion;
 	}
 
-	/**
-	 * @param string $endPoint
-	 *
-	 * @return $this
-	 */
 	public function setEndPoint(string $endPoint): static {
 		$this->endPoint = $endPoint;
 
 		return $this;
 	}
 
-	/**
-	 * @return string
-	 */
 	public function getEndPoint(): string {
 		return $this->endPoint;
 	}
 
-	/**
-	 * create a new resource to later add it with {@see IOCMProvider::addResourceType()}
-	 * @return IOCMResource
-	 */
 	public function createNewResourceType(): IOCMResource {
 		return new OCMResource();
 	}
 
-	/**
-	 * @param IOCMResource $resource
-	 *
-	 * @return $this
-	 */
 	public function addResourceType(IOCMResource $resource): static {
 		$this->resourceTypes[] = $resource;
 
 		return $this;
 	}
 
-	/**
-	 * @param IOCMResource[] $resourceTypes
-	 *
-	 * @return $this
-	 */
 	public function setResourceTypes(array $resourceTypes): static {
 		$this->resourceTypes = $resourceTypes;
 
 		return $this;
 	}
 
-	/**
-	 * @return IOCMResource[]
-	 */
 	public function getResourceTypes(): array {
 		if (!$this->emittedEvent) {
 			$this->emittedEvent = true;
@@ -130,13 +89,6 @@ class OCMProvider implements IOCMProvider {
 		return $this->resourceTypes;
 	}
 
-	/**
-	 * @param string $resourceName
-	 * @param string $protocol
-	 *
-	 * @return string
-	 * @throws OCMArgumentException
-	 */
 	public function extractProtocolEntry(string $resourceName, string $protocol): string {
 		foreach ($this->getResourceTypes() as $resource) {
 			if ($resource->getName() === $resourceName) {
@@ -152,15 +104,6 @@ class OCMProvider implements IOCMProvider {
 		throw new OCMArgumentException('resource not found');
 	}
 
-	/**
-	 * import data from an array
-	 *
-	 * @param array $data
-	 *
-	 * @return $this
-	 * @throws OCMProviderException in case a descent provider cannot be generated from data
-	 * @see self::jsonSerialize()
-	 */
 	public function import(array $data): static {
 		$this->setEnabled(is_bool($data['enabled'] ?? '') ? $data['enabled'] : false)
 			->setApiVersion((string)($data['apiVersion'] ?? ''))
@@ -189,18 +132,6 @@ class OCMProvider implements IOCMProvider {
 	}
 
 
-	/**
-	 * @return array{
-	 *     enabled: bool,
-	 *     apiVersion: string,
-	 *     endPoint: string,
-	 *     resourceTypes: array{
-	 *              name: string,
-	 *              shareTypes: string[],
-	 *              protocols: array<string, string>
-	 *            }[]
-	 *   }
-	 */
 	public function jsonSerialize(): array {
 		$resourceTypes = [];
 		foreach ($this->getResourceTypes() as $res) {

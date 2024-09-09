@@ -19,7 +19,6 @@ use OCP\Group\Events\BeforeUserRemovedEvent;
 use OCP\Group\Events\UserRemovedEvent;
 use OCP\IAvatarManager;
 use OCP\IConfig;
-use OCP\IImage;
 use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserBackend;
@@ -93,20 +92,10 @@ class User implements IUser {
 		$this->dispatcher = $dispatcher;
 	}
 
-	/**
-	 * get the user id
-	 *
-	 * @return string
-	 */
 	public function getUID() {
 		return $this->uid;
 	}
 
-	/**
-	 * get the display name for the user, if no specific display name is set it will fallback to the user id
-	 *
-	 * @return string
-	 */
 	public function getDisplayName() {
 		if ($this->displayName === null) {
 			$displayName = '';
@@ -127,15 +116,6 @@ class User implements IUser {
 		return $this->displayName;
 	}
 
-	/**
-	 * set the displayname for the user
-	 *
-	 * @param string $displayName
-	 * @return bool
-	 *
-	 * @since 25.0.0 Throw InvalidArgumentException
-	 * @throws \InvalidArgumentException
-	 */
 	public function setDisplayName($displayName) {
 		$displayName = trim($displayName);
 		$oldDisplayName = $this->getDisplayName();
@@ -152,16 +132,10 @@ class User implements IUser {
 		return false;
 	}
 
-	/**
-	 * @inheritDoc
-	 */
 	public function setEMailAddress($mailAddress) {
 		$this->setSystemEMailAddress($mailAddress);
 	}
 
-	/**
-	 * @inheritDoc
-	 */
 	public function setSystemEMailAddress(string $mailAddress): void {
 		$oldMailAddress = $this->getSystemEMailAddress();
 
@@ -182,9 +156,6 @@ class User implements IUser {
 		}
 	}
 
-	/**
-	 * @inheritDoc
-	 */
 	public function setPrimaryEMailAddress(string $mailAddress): void {
 		if ($mailAddress === '') {
 			$this->config->deleteUserValue($this->uid, 'settings', 'primary_email');
@@ -208,12 +179,6 @@ class User implements IUser {
 		}
 	}
 
-	/**
-	 * returns the timestamp of the user's last login or 0 if the user did never
-	 * login
-	 *
-	 * @return int
-	 */
 	public function getLastLogin() {
 		if ($this->lastLogin === null) {
 			$this->lastLogin = (int)$this->config->getUserValue($this->uid, 'login', 'lastLogin', 0);
@@ -221,9 +186,6 @@ class User implements IUser {
 		return (int)$this->lastLogin;
 	}
 
-	/**
-	 * updates the timestamp of the most recent login of this user
-	 */
 	public function updateLastLoginTimestamp() {
 		$previousLogin = $this->getLastLogin();
 		$now = time();
@@ -238,11 +200,6 @@ class User implements IUser {
 		return $firstTimeLogin;
 	}
 
-	/**
-	 * Delete the user
-	 *
-	 * @return bool
-	 */
 	public function delete() {
 		if ($this->emitter) {
 			/** @deprecated 21.0.0 use BeforeUserDeletedEvent event with the IEventDispatcher instead */
@@ -290,13 +247,6 @@ class User implements IUser {
 		return !($result === false);
 	}
 
-	/**
-	 * Set the password of the user
-	 *
-	 * @param string $password
-	 * @param string $recoveryPassword for the encryption app to reset encryption keys
-	 * @return bool
-	 */
 	public function setPassword($password, $recoveryPassword = null) {
 		$this->dispatcher->dispatchTyped(new BeforePasswordUpdatedEvent($this, $password, $recoveryPassword));
 		if ($this->emitter) {
@@ -334,11 +284,6 @@ class User implements IUser {
 		return $this->backend->setPasswordHash($this->uid, $passwordHash);
 	}
 
-	/**
-	 * get the users home folder to mount
-	 *
-	 * @return string
-	 */
 	public function getHome() {
 		if (!$this->home) {
 			/** @psalm-suppress UndefinedInterfaceMethod Once we get rid of the legacy implementsActions, psalm won't complain anymore */
@@ -353,11 +298,6 @@ class User implements IUser {
 		return $this->home;
 	}
 
-	/**
-	 * Get the name of the backend class the user is connected with
-	 *
-	 * @return string
-	 */
 	public function getBackendClassName() {
 		if ($this->backend instanceof IUserBackend) {
 			return $this->backend->getBackendName();
@@ -369,11 +309,6 @@ class User implements IUser {
 		return $this->backend;
 	}
 
-	/**
-	 * Check if the backend allows the user to change his avatar on Personal page
-	 *
-	 * @return bool
-	 */
 	public function canChangeAvatar() {
 		if ($this->backend instanceof IProvideAvatarBackend || $this->backend->implementsActions(Backend::PROVIDE_AVATAR)) {
 			/** @var IProvideAvatarBackend $backend */
@@ -383,20 +318,10 @@ class User implements IUser {
 		return true;
 	}
 
-	/**
-	 * check if the backend supports changing passwords
-	 *
-	 * @return bool
-	 */
 	public function canChangePassword() {
 		return $this->backend->implementsActions(Backend::SET_PASSWORD);
 	}
 
-	/**
-	 * check if the backend supports changing display names
-	 *
-	 * @return bool
-	 */
 	public function canChangeDisplayName() {
 		if (!$this->config->getSystemValueBool('allow_user_to_change_display_name', true)) {
 			return false;
@@ -404,11 +329,6 @@ class User implements IUser {
 		return $this->backend->implementsActions(Backend::SET_DISPLAYNAME);
 	}
 
-	/**
-	 * check if the user is enabled
-	 *
-	 * @return bool
-	 */
 	public function isEnabled() {
 		$queryDatabaseValue = function (): bool {
 			if ($this->enabled === null) {
@@ -424,11 +344,6 @@ class User implements IUser {
 		}
 	}
 
-	/**
-	 * set the enabled status for the user
-	 *
-	 * @return void
-	 */
 	public function setEnabled(bool $enabled = true) {
 		$oldStatus = $this->isEnabled();
 		$setDatabaseValue = function (bool $enabled): void {
@@ -453,36 +368,18 @@ class User implements IUser {
 		}
 	}
 
-	/**
-	 * get the users email address
-	 *
-	 * @return string|null
-	 * @since 9.0.0
-	 */
 	public function getEMailAddress() {
 		return $this->getPrimaryEMailAddress() ?? $this->getSystemEMailAddress();
 	}
 
-	/**
-	 * @inheritDoc
-	 */
 	public function getSystemEMailAddress(): ?string {
 		return $this->config->getUserValue($this->uid, 'settings', 'email', null);
 	}
 
-	/**
-	 * @inheritDoc
-	 */
 	public function getPrimaryEMailAddress(): ?string {
 		return $this->config->getUserValue($this->uid, 'settings', 'primary_email', null);
 	}
 
-	/**
-	 * get the users' quota
-	 *
-	 * @return string
-	 * @since 9.0.0
-	 */
 	public function getQuota() {
 		// allow apps to modify the user quota by hooking into the event
 		$event = new GetQuotaEvent($this);
@@ -511,14 +408,6 @@ class User implements IUser {
 		return $quota;
 	}
 
-	/**
-	 * set the users' quota
-	 *
-	 * @param string $quota
-	 * @return void
-	 * @throws InvalidArgumentException
-	 * @since 9.0.0
-	 */
 	public function setQuota($quota) {
 		$oldQuota = $this->config->getUserValue($this->uid, 'files', 'quota', '');
 		if ($quota !== 'none' and $quota !== 'default') {
@@ -556,13 +445,6 @@ class User implements IUser {
 		$this->triggerChange('managers', $uids, $oldUids);
 	}
 
-	/**
-	 * get the avatar image if it exists
-	 *
-	 * @param int $size
-	 * @return IImage|null
-	 * @since 9.0.0
-	 */
 	public function getAvatarImage($size) {
 		// delay the initialization
 		if (is_null($this->avatarManager)) {
@@ -578,12 +460,6 @@ class User implements IUser {
 		return null;
 	}
 
-	/**
-	 * get the federation cloud id
-	 *
-	 * @return string
-	 * @since 9.0.0
-	 */
 	public function getCloudId() {
 		$uid = $this->getUID();
 		$server = rtrim($this->urlGenerator->getAbsoluteURL('/'), '/');

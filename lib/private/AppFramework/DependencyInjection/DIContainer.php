@@ -336,17 +336,10 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 		});
 	}
 
-	/**
-	 * @return \OCP\IServerContainer
-	 */
 	public function getServer() {
 		return $this->server;
 	}
 
-	/**
-	 * @param string $middleWare
-	 * @return boolean|null
-	 */
 	public function registerMiddleWare($middleWare) {
 		if (in_array($middleWare, $this->middleWares, true) !== false) {
 			return false;
@@ -354,10 +347,6 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 		$this->middleWares[] = $middleWare;
 	}
 
-	/**
-	 * used to return the appname of the set application
-	 * @return string the name of your application
-	 */
 	public function getAppName() {
 		return $this->query('AppName');
 	}
@@ -383,11 +372,6 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 		return $this->getServer()->getSession()->get('user_id');
 	}
 
-	/**
-	 * Register a capability
-	 *
-	 * @param string $serviceName e.g. 'OCA\Files\Capabilities'
-	 */
 	public function registerCapability($serviceName) {
 		$this->query('OC\CapabilitiesManager')->registerCapability(function () use ($serviceName) {
 			return $this->query($serviceName);

@@ -156,9 +156,6 @@ class FilenameValidator implements IFilenameValidator {
 		return $this->forbiddenCharacters;
 	}
 
-	/**
-	 * @inheritdoc
-	 */
 	public function isFilenameValid(string $filename): bool {
 		try {
 			$this->validateFilename($filename);
@@ -168,9 +165,6 @@ class FilenameValidator implements IFilenameValidator {
 		return true;
 	}
 
-	/**
-	 * @inheritdoc
-	 */
 	public function validateFilename(string $filename): void {
 		$trimmed = trim($filename);
 		if ($trimmed === '') {

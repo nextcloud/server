@@ -24,12 +24,6 @@ class Home extends Local implements \OCP\Files\IHomeStorage {
 	 */
 	protected $user;
 
-	/**
-	 * Construct a Home storage instance
-	 *
-	 * @param array $arguments array with "user" containing the
-	 *                         storage owner
-	 */
 	public function __construct($arguments) {
 		$this->user = $arguments['user'];
 		$datadir = $this->user->getHome();
@@ -42,9 +36,6 @@ class Home extends Local implements \OCP\Files\IHomeStorage {
 		return $this->id;
 	}
 
-	/**
-	 * @return \OC\Files\Cache\HomeCache
-	 */
 	public function getCache($path = '', $storage = null) {
 		if (!$storage) {
 			$storage = $this;
@@ -55,12 +46,6 @@ class Home extends Local implements \OCP\Files\IHomeStorage {
 		return $this->cache;
 	}
 
-	/**
-	 * get a propagator instance for the cache
-	 *
-	 * @param \OC\Files\Storage\Storage (optional) the storage to pass to the watcher
-	 * @return \OC\Files\Cache\Propagator
-	 */
 	public function getPropagator($storage = null) {
 		if (!$storage) {
 			$storage = $this;
@@ -72,21 +57,10 @@ class Home extends Local implements \OCP\Files\IHomeStorage {
 	}
 
 
-	/**
-	 * Returns the owner of this home storage
-	 *
-	 * @return \OC\User\User owner of this home storage
-	 */
 	public function getUser(): IUser {
 		return $this->user;
 	}
 
-	/**
-	 * get the owner of a path
-	 *
-	 * @param string $path The path to get the owner
-	 * @return string uid or false
-	 */
 	public function getOwner($path) {
 		return $this->user->getUID();
 	}

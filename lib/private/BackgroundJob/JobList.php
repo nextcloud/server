@@ -68,10 +68,6 @@ class JobList implements IJobList {
 		$this->add($job, $argument, $runAfter);
 	}
 
-	/**
-	 * @param IJob|string $job
-	 * @param mixed $argument
-	 */
 	public function remove($job, $argument = null): void {
 		$class = ($job instanceof IJob) ? get_class($job) : $job;
 
@@ -107,12 +103,6 @@ class JobList implements IJobList {
 		$query->executeStatement();
 	}
 
-	/**
-	 * check if a job is in the list
-	 *
-	 * @param IJob|class-string<IJob> $job
-	 * @param mixed $argument
-	 */
 	public function has($job, $argument): bool {
 		$class = ($job instanceof IJob) ? get_class($job) : $job;
 		$argument = json_encode($argument);
@@ -138,10 +128,6 @@ class JobList implements IJobList {
 			: iterator_to_array($iterable);
 	}
 
-	/**
-	 * @param IJob|class-string<IJob>|null $job
-	 * @return iterable<IJob> Avoid to store these objects as they may share a Singleton instance. You should instead use these IJobs instances while looping on the iterable.
-	 */
 	public function getJobsIterator($job, ?int $limit, int $offset): iterable {
 		$query = $this->connection->getQueryBuilder();
 		$query->select('*')
@@ -165,9 +151,6 @@ class JobList implements IJobList {
 		$result->closeCursor();
 	}
 
-	/**
-	 * @inheritDoc
-	 */
 	public function getNext(bool $onlyTimeSensitive = false, ?array $jobClasses = null): ?IJob {
 		$query = $this->connection->getQueryBuilder();
 		$query->select('*')
@@ -245,9 +228,6 @@ class JobList implements IJobList {
 		}
 	}
 
-	/**
-	 * @return ?IJob The job matching the id. Beware that this object may be a singleton and may be modified by the next call to buildJob.
-	 */
 	public function getById(int $id): ?IJob {
 		$row = $this->getDetailsById($id);
 
@@ -311,17 +291,11 @@ class JobList implements IJobList {
 		}
 	}
 
-	/**
-	 * set the job that was last ran
-	 */
 	public function setLastJob(IJob $job): void {
 		$this->unlockJob($job);
 		$this->config->setAppValue('backgroundjob', 'lastjob', (string)$job->getId());
 	}
 
-	/**
-	 * Remove the reservation for a job
-	 */
 	public function unlockJob(IJob $job): void {
 		$query = $this->connection->getQueryBuilder();
 		$query->update('jobs')
@@ -330,9 +304,6 @@ class JobList implements IJobList {
 		$query->executeStatement();
 	}
 
-	/**
-	 * set the lastRun of $job to now
-	 */
 	public function setLastRun(IJob $job): void {
 		$query = $this->connection->getQueryBuilder();
 		$query->update('jobs')
@@ -347,9 +318,6 @@ class JobList implements IJobList {
 		$query->executeStatement();
 	}
 
-	/**
-	 * @param int $timeTaken
-	 */
 	public function setExecutionTime(IJob $job, $timeTaken): void {
 		$query = $this->connection->getQueryBuilder();
 		$query->update('jobs')
@@ -359,11 +327,6 @@ class JobList implements IJobList {
 		$query->executeStatement();
 	}
 
-	/**
-	 * Reset the $job so it executes on the next trigger
-	 *
-	 * @since 23.0.0
-	 */
 	public function resetBackgroundJob(IJob $job): void {
 		$query = $this->connection->getQueryBuilder();
 		$query->update('jobs')

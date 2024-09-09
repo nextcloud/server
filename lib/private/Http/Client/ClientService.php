@@ -51,9 +51,6 @@ class ClientService implements IClientService {
 		$this->eventLogger = $eventLogger;
 	}
 
-	/**
-	 * @return Client
-	 */
 	public function newClient(): IClient {
 		$handler = new CurlHandler();
 		$stack = HandlerStack::create($handler);

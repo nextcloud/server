@@ -106,9 +106,6 @@ class FileInfo implements \OCP\Files\FileInfo, \ArrayAccess {
 		};
 	}
 
-	/**
-	 * @return string
-	 */
 	public function getPath() {
 		return $this->path;
 	}
@@ -117,48 +114,28 @@ class FileInfo implements \OCP\Files\FileInfo, \ArrayAccess {
 		return $this->storage;
 	}
 
-	/**
-	 * @return string
-	 */
 	public function getInternalPath() {
 		return $this->internalPath;
 	}
 
-	/**
-	 * Get FileInfo ID or null in case of part file
-	 *
-	 * @return int|null
-	 */
 	public function getId() {
 		return isset($this->data['fileid']) ? (int)$this->data['fileid'] : null;
 	}
 
-	/**
-	 * @return string
-	 */
 	public function getMimetype() {
 		return $this->data['mimetype'];
 	}
 
-	/**
-	 * @return string
-	 */
 	public function getMimePart() {
 		return $this->data['mimepart'];
 	}
 
-	/**
-	 * @return string
-	 */
 	public function getName() {
 		return empty($this->data['name'])
 			? basename($this->getPath())
 			: $this->data['name'];
 	}
 
-	/**
-	 * @return string
-	 */
 	public function getEtag() {
 		$this->updateEntryFromSubMounts();
 		if (count($this->childEtags) > 0) {
@@ -169,10 +146,6 @@ class FileInfo implements \OCP\Files\FileInfo, \ArrayAccess {
 		}
 	}
 
-	/**
-	 * @param bool $includeMounts
-	 * @return int|float
-	 */
 	public function getSize($includeMounts = true) {
 		if ($includeMounts) {
 			$this->updateEntryFromSubMounts();
@@ -187,17 +160,11 @@ class FileInfo implements \OCP\Files\FileInfo, \ArrayAccess {
 		}
 	}
 
-	/**
-	 * @return int
-	 */
 	public function getMTime() {
 		$this->updateEntryFromSubMounts();
 		return (int)$this->data['mtime'];
 	}
 
-	/**
-	 * @return bool
-	 */
 	public function isEncrypted() {
 		return $this->data['encrypted'] ?? false;
 	}
@@ -209,16 +176,10 @@ class FileInfo implements \OCP\Files\FileInfo, \ArrayAccess {
 		return isset($this->data['encryptedVersion']) ? (int)$this->data['encryptedVersion'] : 1;
 	}
 
-	/**
-	 * @return int
-	 */
 	public function getPermissions() {
 		return (int)$this->data['permissions'];
 	}
 
-	/**
-	 * @return string \OCP\Files\FileInfo::TYPE_FILE|\OCP\Files\FileInfo::TYPE_FOLDER
-	 */
 	public function getType() {
 		if (!isset($this->data['type'])) {
 			$this->data['type'] = ($this->getMimetype() === self::MIMETYPE_FOLDER) ? self::TYPE_FOLDER : self::TYPE_FILE;
@@ -238,48 +199,26 @@ class FileInfo implements \OCP\Files\FileInfo, \ArrayAccess {
 		return ($this->getPermissions() & $permissions) === $permissions;
 	}
 
-	/**
-	 * @return bool
-	 */
 	public function isReadable() {
 		return $this->checkPermissions(\OCP\Constants::PERMISSION_READ);
 	}
 
-	/**
-	 * @return bool
-	 */
 	public function isUpdateable() {
 		return $this->checkPermissions(\OCP\Constants::PERMISSION_UPDATE);
 	}
 
-	/**
-	 * Check whether new files or folders can be created inside this folder
-	 *
-	 * @return bool
-	 */
 	public function isCreatable() {
 		return $this->checkPermissions(\OCP\Constants::PERMISSION_CREATE);
 	}
 
-	/**
-	 * @return bool
-	 */
 	public function isDeletable() {
 		return $this->checkPermissions(\OCP\Constants::PERMISSION_DELETE);
 	}
 
-	/**
-	 * @return bool
-	 */
 	public function isShareable() {
 		return $this->checkPermissions(\OCP\Constants::PERMISSION_SHARE);
 	}
 
-	/**
-	 * Check if a file or folder is shared
-	 *
-	 * @return bool
-	 */
 	public function isShared() {
 		return $this->mount instanceof ISharedMountPoint;
 	}
@@ -289,20 +228,10 @@ class FileInfo implements \OCP\Files\FileInfo, \ArrayAccess {
 		return !$isHome && !$this->isShared();
 	}
 
-	/**
-	 * Get the mountpoint the file belongs to
-	 *
-	 * @return \OCP\Files\Mount\IMountPoint
-	 */
 	public function getMountPoint() {
 		return $this->mount;
 	}
 
-	/**
-	 * Get the owner of the file
-	 *
-	 * @return ?IUser
-	 */
 	public function getOwner() {
 		return $this->owner;
 	}
@@ -363,9 +292,6 @@ class FileInfo implements \OCP\Files\FileInfo, \ArrayAccess {
 		}
 	}
 
-	/**
-	 * @inheritdoc
-	 */
 	public function getChecksum() {
 		return $this->data['checksum'];
 	}
@@ -386,10 +312,6 @@ class FileInfo implements \OCP\Files\FileInfo, \ArrayAccess {
 		return $this->data['parent'] ?? -1;
 	}
 
-	/**
-	 * @inheritDoc
-	 * @return array<string, int|string|bool|float|string[]|int[]>
-	 */
 	public function getMetadata(): array {
 		return $this->data['metadata'] ?? [];
 	}

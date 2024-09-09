@@ -38,41 +38,24 @@ class Instance implements IInstance {
 		$this->clientService = $clientService;
 	}
 
-	/**
-	 * @return string The url of the remote server without protocol
-	 */
 	public function getUrl() {
 		return $this->url;
 	}
 
-	/**
-	 * @return string The of the remote server with protocol
-	 */
 	public function getFullUrl() {
 		return $this->getProtocol() . '://' . $this->getUrl();
 	}
 
-	/**
-	 * @return string The full version string in '13.1.2.3' format
-	 */
 	public function getVersion() {
 		$status = $this->getStatus();
 		return $status['version'];
 	}
 
-	/**
-	 * @return string 'http' or 'https'
-	 */
 	public function getProtocol() {
 		$status = $this->getStatus();
 		return $status['protocol'];
 	}
 
-	/**
-	 * Check that the remote server is installed and not in maintenance mode
-	 *
-	 * @return bool
-	 */
 	public function isActive() {
 		$status = $this->getStatus();
 		return $status['installed'] && !$status['maintenance'];

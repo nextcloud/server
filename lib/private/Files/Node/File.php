@@ -9,7 +9,6 @@ namespace OC\Files\Node;
 
 use OCP\Files\GenericFileException;
 use OCP\Files\NotPermittedException;
-use OCP\Lock\LockedException;
 
 class File extends Node implements \OCP\Files\File {
 	/**
@@ -22,12 +21,6 @@ class File extends Node implements \OCP\Files\File {
 		return new NonExistingFile($this->root, $this->view, $path);
 	}
 
-	/**
-	 * @return string
-	 * @throws NotPermittedException
-	 * @throws GenericFileException
-	 * @throws LockedException
-	 */
 	public function getContent() {
 		if ($this->checkPermissions(\OCP\Constants::PERMISSION_READ)) {
 			$content = $this->view->file_get_contents($this->path);
@@ -40,12 +33,6 @@ class File extends Node implements \OCP\Files\File {
 		}
 	}
 
-	/**
-	 * @param string|resource $data
-	 * @throws NotPermittedException
-	 * @throws GenericFileException
-	 * @throws LockedException
-	 */
 	public function putContent($data) {
 		if ($this->checkPermissions(\OCP\Constants::PERMISSION_UPDATE)) {
 			$this->sendHooks(['preWrite']);
@@ -59,12 +46,6 @@ class File extends Node implements \OCP\Files\File {
 		}
 	}
 
-	/**
-	 * @param string $mode
-	 * @return resource|false
-	 * @throws NotPermittedException
-	 * @throws LockedException
-	 */
 	public function fopen($mode) {
 		$preHooks = [];
 		$postHooks = [];
@@ -100,11 +81,6 @@ class File extends Node implements \OCP\Files\File {
 		}
 	}
 
-	/**
-	 * @throws NotPermittedException
-	 * @throws \OCP\Files\InvalidPathException
-	 * @throws \OCP\Files\NotFoundException
-	 */
 	public function delete() {
 		if ($this->checkPermissions(\OCP\Constants::PERMISSION_DELETE)) {
 			$this->sendHooks(['preDelete']);
@@ -118,18 +94,10 @@ class File extends Node implements \OCP\Files\File {
 		}
 	}
 
-	/**
-	 * @param string $type
-	 * @param bool $raw
-	 * @return string
-	 */
 	public function hash($type, $raw = false) {
 		return $this->view->hash($type, $this->path, $raw);
 	}
 
-	/**
-	 * @inheritdoc
-	 */
 	public function getChecksum() {
 		return $this->getFileInfo()->getChecksum();
 	}

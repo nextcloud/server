@@ -101,18 +101,6 @@ class Scanner extends BasicEmitter implements IScanner {
 		return $data;
 	}
 
-	/**
-	 * scan a single file and store it in the cache
-	 *
-	 * @param string $file
-	 * @param int $reuseExisting
-	 * @param int $parentId
-	 * @param array|null|false $cacheData existing data in the cache for the file to be scanned
-	 * @param bool $lock set to false to disable getting an additional read lock during scanning
-	 * @param null $data the metadata for the file, as returned by the storage
-	 * @return array|null an array of metadata of the scanned file
-	 * @throws \OCP\Lock\LockedException
-	 */
 	public function scanFile($file, $reuseExisting = 0, $parentId = -1, $cacheData = null, $lock = true, $data = null) {
 		if ($file !== '') {
 			try {
@@ -305,15 +293,6 @@ class Scanner extends BasicEmitter implements IScanner {
 		}
 	}
 
-	/**
-	 * scan a folder and all it's children
-	 *
-	 * @param string $path
-	 * @param bool $recursive
-	 * @param int $reuse
-	 * @param bool $lock set to false to disable getting an additional read lock during scanning
-	 * @return array|null an array of the meta data of the scanned file or folder
-	 */
 	public function scan($path, $recursive = self::SCAN_RECURSIVE, $reuse = -1, $lock = true) {
 		if ($reuse === -1) {
 			$reuse = ($recursive === self::SCAN_SHALLOW) ? self::REUSE_ETAG | self::REUSE_SIZE : self::REUSE_ETAG;
@@ -553,14 +532,6 @@ class Scanner extends BasicEmitter implements IScanner {
 		return $childQueue;
 	}
 
-	/**
-	 * check if the file should be ignored when scanning
-	 * NOTE: files with a '.part' extension are ignored as well!
-	 *       prevents unfinished put requests to be scanned
-	 *
-	 * @param string $file
-	 * @return boolean
-	 */
 	public static function isPartialFile($file) {
 		if (pathinfo($file, PATHINFO_EXTENSION) === 'part') {
 			return true;
@@ -572,9 +543,6 @@ class Scanner extends BasicEmitter implements IScanner {
 		return false;
 	}
 
-	/**
-	 * walk over any folders that are not fully scanned yet and scan them
-	 */
 	public function backgroundScan() {
 		if ($this->storage->instanceOfStorage(Jail::class)) {
 			// for jail storage wrappers (shares, groupfolders) we run the background scan on the source storage

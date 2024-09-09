@@ -22,9 +22,7 @@ use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Cache\CacheEntryRemovedEvent;
 use OCP\Files\Events\Node\NodeWrittenEvent;
-use OCP\Files\InvalidPathException;
 use OCP\Files\Node;
-use OCP\Files\NotFoundException;
 use OCP\FilesMetadata\Event\MetadataBackgroundEvent;
 use OCP\FilesMetadata\Event\MetadataLiveEvent;
 use OCP\FilesMetadata\Event\MetadataNamedEvent;
@@ -58,20 +56,6 @@ class FilesMetadataManager implements IFilesMetadataManager {
 	) {
 	}
 
-	/**
-	 * @inheritDoc
-	 *
-	 * @param Node $node related node
-	 * @param int $process type of process
-	 *
-	 * @return IFilesMetadata
-	 * @throws FilesMetadataException if metadata are invalid
-	 * @throws InvalidPathException if path to file is not valid
-	 * @throws NotFoundException if file cannot be found
-	 * @see self::PROCESS_BACKGROUND
-	 * @see self::PROCESS_LIVE
-	 * @since 28.0.0
-	 */
 	public function refreshMetadata(
 		Node $node,
 		int $process = self::PROCESS_LIVE,
@@ -110,15 +94,6 @@ class FilesMetadataManager implements IFilesMetadataManager {
 		return $metadata;
 	}
 
-	/**
-	 * @param int $fileId file id
-	 * @param boolean $generate Generate if metadata does not exists
-	 *
-	 * @inheritDoc
-	 * @return IFilesMetadata
-	 * @throws FilesMetadataNotFoundException if not found
-	 * @since 28.0.0
-	 */
 	public function getMetadata(int $fileId, bool $generate = false): IFilesMetadata {
 		try {
 			return $this->metadataRequestService->getMetadataFromFileId($fileId);
@@ -131,26 +106,10 @@ class FilesMetadataManager implements IFilesMetadataManager {
 		}
 	}
 
-	/**
-	 * returns metadata of multiple file ids
-	 *
-	 * @param int[] $fileIds file ids
-	 *
-	 * @return array File ID is the array key, files without metadata are not returned in the array
-	 * @psalm-return array<int, IFilesMetadata>
-	 * @since 28.0.0
-	 */
 	public function getMetadataForFiles(array $fileIds): array {
 		return $this->metadataRequestService->getMetadataFromFileIds($fileIds);
 	}
 
-	/**
-	 * @param IFilesMetadata $filesMetadata metadata
-	 *
-	 * @inheritDoc
-	 * @throws FilesMetadataException if metadata seems malformed
-	 * @since 28.0.0
-	 */
 	public function saveMetadata(IFilesMetadata $filesMetadata): void {
 		if ($filesMetadata->getFileId() === 0 || !$filesMetadata->updated()) {
 			return;
@@ -191,12 +150,6 @@ class FilesMetadataManager implements IFilesMetadataManager {
 		$this->appConfig->setValueArray('core', self::CONFIG_KEY, $current->jsonSerialize(), lazy: true);
 	}
 
-	/**
-	 * @param int $fileId file id
-	 *
-	 * @inheritDoc
-	 * @since 28.0.0
-	 */
 	public function deleteMetadata(int $fileId): void {
 		try {
 			$this->metadataRequestService->dropMetadata($fileId);
@@ -211,16 +164,6 @@ class FilesMetadataManager implements IFilesMetadataManager {
 		}
 	}
 
-	/**
-	 * @param IQueryBuilder $qb
-	 * @param string $fileTableAlias alias of the table that contains data about files
-	 * @param string $fileIdField alias of the field that contains file ids
-	 *
-	 * @inheritDoc
-	 * @return IMetadataQuery
-	 * @see IMetadataQuery
-	 * @since 28.0.0
-	 */
 	public function getMetadataQuery(
 		IQueryBuilder $qb,
 		string $fileTableAlias,
@@ -229,11 +172,6 @@ class FilesMetadataManager implements IFilesMetadataManager {
 		return new MetadataQuery($qb, $this, $fileTableAlias, $fileIdField);
 	}
 
-	/**
-	 * @inheritDoc
-	 * @return IFilesMetadata
-	 * @since 28.0.0
-	 */
 	public function getKnownMetadata(): IFilesMetadata {
 		if ($this->all !== null) {
 			return $this->all;
@@ -249,26 +187,6 @@ class FilesMetadataManager implements IFilesMetadataManager {
 		return $this->all;
 	}
 
-	/**
-	 * @param string $key metadata key
-	 * @param string $type metadata type
-	 * @param bool $indexed TRUE if metadata can be search
-	 * @param int $editPermission remote edit permission via Webdav PROPPATCH
-	 *
-	 * @inheritDoc
-	 * @since 28.0.0
-	 * @see IMetadataValueWrapper::TYPE_INT
-	 * @see IMetadataValueWrapper::TYPE_FLOAT
-	 * @see IMetadataValueWrapper::TYPE_BOOL
-	 * @see IMetadataValueWrapper::TYPE_ARRAY
-	 * @see IMetadataValueWrapper::TYPE_STRING_LIST
-	 * @see IMetadataValueWrapper::TYPE_INT_LIST
-	 * @see IMetadataValueWrapper::TYPE_STRING
-	 * @see IMetadataValueWrapper::EDIT_FORBIDDEN
-	 * @see IMetadataValueWrapper::EDIT_REQ_OWNERSHIP
-	 * @see IMetadataValueWrapper::EDIT_REQ_WRITE_PERMISSION
-	 * @see IMetadataValueWrapper::EDIT_REQ_READ_PERMISSION
-	 */
 	public function initMetadata(
 		string $key,
 		string $type,

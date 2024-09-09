@@ -16,24 +16,14 @@ class SearchOrder implements ISearchOrder {
 	) {
 	}
 
-	/**
-	 * @return string
-	 */
 	public function getDirection(): string {
 		return $this->direction;
 	}
 
-	/**
-	 * @return string
-	 */
 	public function getField(): string {
 		return $this->field;
 	}
 
-	/**
-	 * @return string
-	 * @since 28.0.0
-	 */
 	public function getExtra(): string {
 		return $this->extra;
 	}

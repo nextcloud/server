@@ -99,12 +99,6 @@ class Factory implements ICacheFactory {
 		return $this->globalPrefix;
 	}
 
-	/**
-	 * create a cache instance for storing locks
-	 *
-	 * @param string $prefix
-	 * @return IMemcache
-	 */
 	public function createLocking(string $prefix = ''): IMemcache {
 		$globalPrefix = $this->getGlobalPrefix();
 		if (is_null($globalPrefix)) {
@@ -126,12 +120,6 @@ class Factory implements ICacheFactory {
 		return $cache;
 	}
 
-	/**
-	 * create a distributed cache instance
-	 *
-	 * @param string $prefix
-	 * @return ICache
-	 */
 	public function createDistributed(string $prefix = ''): ICache {
 		$globalPrefix = $this->getGlobalPrefix();
 		if (is_null($globalPrefix)) {
@@ -153,12 +141,6 @@ class Factory implements ICacheFactory {
 		return $cache;
 	}
 
-	/**
-	 * create a local cache instance
-	 *
-	 * @param string $prefix
-	 * @return ICache
-	 */
 	public function createLocal(string $prefix = ''): ICache {
 		$globalPrefix = $this->getGlobalPrefix();
 		if (is_null($globalPrefix)) {
@@ -180,11 +162,6 @@ class Factory implements ICacheFactory {
 		return $cache;
 	}
 
-	/**
-	 * check memcache availability
-	 *
-	 * @return bool
-	 */
 	public function isAvailable(): bool {
 		return $this->distributedCacheClass !== self::NULL_CACHE;
 	}
@@ -193,11 +170,6 @@ class Factory implements ICacheFactory {
 		return new CappedMemoryCache($capacity);
 	}
 
-	/**
-	 * Check if a local memory cache backend is available
-	 *
-	 * @return bool
-	 */
 	public function isLocalCacheAvailable(): bool {
 		return $this->localCacheClass !== self::NULL_CACHE;
 	}

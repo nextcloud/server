@@ -30,13 +30,6 @@ class CacheMountProvider implements IMountProvider {
 		$this->config = $config;
 	}
 
-	/**
-	 * Get the cache mount for a user
-	 *
-	 * @param IUser $user
-	 * @param IStorageFactory $loader
-	 * @return \OCP\Files\Mount\IMountPoint[]
-	 */
 	public function getMountsForUser(IUser $user, IStorageFactory $loader) {
 		$cacheBaseDir = $this->config->getSystemValueString('cache_path', '');
 		if ($cacheBaseDir !== '') {

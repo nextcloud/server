@@ -104,9 +104,6 @@ class Detection implements IMimeTypeDetector {
 		$this->mimeTypeAlias = $this->loadCustomDefinitions(self::CUSTOM_MIMETYPEALIASES, $this->mimeTypeAlias);
 	}
 
-	/**
-	 * @return array<string,string>
-	 */
 	public function getAllAliases(): array {
 		$this->loadAliases();
 		return $this->mimeTypeAlias;
@@ -140,12 +137,6 @@ class Detection implements IMimeTypeDetector {
 		return $this->mimetypes;
 	}
 
-	/**
-	 * detect mimetype only based on filename, content of file is not used
-	 *
-	 * @param string $path
-	 * @return string
-	 */
 	public function detectPath($path): string {
 		$this->loadMappings();
 
@@ -171,12 +162,6 @@ class Detection implements IMimeTypeDetector {
 		return 'application/octet-stream';
 	}
 
-	/**
-	 * detect mimetype only based on the content of file
-	 * @param string $path
-	 * @return string
-	 * @since 18.0.0
-	 */
 	public function detectContent(string $path): string {
 		$this->loadMappings();
 
@@ -236,12 +221,6 @@ class Detection implements IMimeTypeDetector {
 		return 'application/octet-stream';
 	}
 
-	/**
-	 * detect mimetype based on both filename and content
-	 *
-	 * @param string $path
-	 * @return string
-	 */
 	public function detect($path): string {
 		$mimeType = $this->detectPath($path);
 
@@ -252,12 +231,6 @@ class Detection implements IMimeTypeDetector {
 		return $this->detectContent($path);
 	}
 
-	/**
-	 * detect mimetype based on the content of a string
-	 *
-	 * @param string $data
-	 * @return string
-	 */
 	public function detectString($data): string {
 		if (function_exists('finfo_open') && function_exists('finfo_file')) {
 			$finfo = finfo_open(FILEINFO_MIME);
@@ -274,23 +247,12 @@ class Detection implements IMimeTypeDetector {
 		return $mime;
 	}
 
-	/**
-	 * Get a secure mimetype that won't expose potential XSS.
-	 *
-	 * @param string $mimeType
-	 * @return string
-	 */
 	public function getSecureMimeType($mimeType): string {
 		$this->loadMappings();
 
 		return $this->secureMimeTypes[$mimeType] ?? 'application/octet-stream';
 	}
 
-	/**
-	 * Get path to the icon of a file type
-	 * @param string $mimetype the MIME type
-	 * @return string the url
-	 */
 	public function mimeTypeIcon($mimetype): string {
 		$this->loadAliases();
 

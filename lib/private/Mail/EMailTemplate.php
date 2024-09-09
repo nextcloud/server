@@ -316,16 +316,10 @@ EOF;
 		$this->htmlBody .= $this->head;
 	}
 
-	/**
-	 * Sets the subject of the email
-	 */
 	public function setSubject(string $subject): void {
 		$this->subject = $subject;
 	}
 
-	/**
-	 * Adds a header to the email
-	 */
 	public function addHeader(): void {
 		if ($this->headerAdded) {
 			return;
@@ -342,12 +336,6 @@ EOF;
 		$this->htmlBody .= vsprintf($this->header, [$this->themingDefaults->getDefaultColorPrimary(), $logoUrl, $this->themingDefaults->getName(), $logoSizeDimensions]);
 	}
 
-	/**
-	 * Adds a heading to the email
-	 *
-	 * @param string|bool $plainTitle Title that is used in the plain text email
-	 *                                if empty the $title is used, if false none will be used
-	 */
 	public function addHeading(string $title, $plainTitle = ''): void {
 		if ($this->footerAdded) {
 			return;
@@ -374,13 +362,6 @@ EOF;
 		$this->bodyOpened = true;
 	}
 
-	/**
-	 * Adds a paragraph to the body of the email
-	 *
-	 * @param string $text Note: When $plainText falls back to this, HTML is automatically escaped in the HTML email
-	 * @param string|bool $plainText Text that is used in the plain text email
-	 *                               if empty the $text is used, if false none will be used
-	 */
 	public function addBodyText(string $text, $plainText = ''): void {
 		if ($this->footerAdded) {
 			return;
@@ -399,19 +380,6 @@ EOF;
 		}
 	}
 
-	/**
-	 * Adds a list item to the body of the email
-	 *
-	 * @param string $text Note: When $plainText falls back to this, HTML is automatically escaped in the HTML email
-	 * @param string $metaInfo Note: When $plainMetaInfo falls back to this, HTML is automatically escaped in the HTML email
-	 * @param string $icon Absolute path, must be 16*16 pixels
-	 * @param string|bool $plainText Text that is used in the plain text email
-	 *                               if empty or true the $text is used, if false none will be used
-	 * @param string|bool $plainMetaInfo Meta info that is used in the plain text email
-	 *                                   if empty or true the $metaInfo is used, if false none will be used
-	 * @param integer $plainIndent plainIndent If > 0, Indent plainText by this amount.
-	 * @since 12.0.0
-	 */
 	public function addBodyListItem(
 		string $text,
 		string $metaInfo = '',
@@ -488,16 +456,6 @@ EOF;
 		$this->htmlBody .= $this->listEnd;
 	}
 
-	/**
-	 * Adds a button group of two buttons to the body of the email
-	 *
-	 * @param string $textLeft Text of left button; Note: When $plainTextLeft falls back to this, HTML is automatically escaped in the HTML email
-	 * @param string $urlLeft URL of left button
-	 * @param string $textRight Text of right button; Note: When $plainTextRight falls back to this, HTML is automatically escaped in the HTML email
-	 * @param string $urlRight URL of right button
-	 * @param string $plainTextLeft Text of left button that is used in the plain text version - if unset the $textLeft is used
-	 * @param string $plainTextRight Text of right button that is used in the plain text version - if unset the $textRight is used
-	 */
 	public function addBodyButtonGroup(
 		string $textLeft,
 		string $urlLeft,
@@ -530,16 +488,6 @@ EOF;
 		$this->plainBody .= $plainTextRight . ': ' . $urlRight . PHP_EOL . PHP_EOL;
 	}
 
-	/**
-	 * Adds a button to the body of the email
-	 *
-	 * @param string $text Text of button; Note: When $plainText falls back to this, HTML is automatically escaped in the HTML email
-	 * @param string $url URL of button
-	 * @param string|false $plainText Text of button in plain text version
-	 *                                if empty the $text is used, if false none will be used
-	 *
-	 * @since 12.0.0
-	 */
 	public function addBodyButton(string $text, string $url, $plainText = ''): void {
 		if ($this->footerAdded) {
 			return;
@@ -578,11 +526,6 @@ EOF;
 		$this->bodyOpened = false;
 	}
 
-	/**
-	 * Adds a logo and a text to the footer. <br> in the text will be replaced by new lines in the plain text email
-	 *
-	 * @param string $text If the text is empty the default "Name - Slogan<br>This is an automatically sent email" will be used
-	 */
 	public function addFooter(string $text = '', ?string $lang = null): void {
 		if ($text === '') {
 			$l10n = $this->l10nFactory->get('lib', $lang);
@@ -606,16 +549,10 @@ EOF;
 		$this->plainBody .= str_replace('<br>', PHP_EOL, $text);
 	}
 
-	/**
-	 * Returns the rendered email subject as string
-	 */
 	public function renderSubject(): string {
 		return $this->subject;
 	}
 
-	/**
-	 * Returns the rendered HTML email as string
-	 */
 	public function renderHtml(): string {
 		if (!$this->footerAdded) {
 			$this->footerAdded = true;
@@ -625,9 +562,6 @@ EOF;
 		return $this->htmlBody;
 	}
 
-	/**
-	 * Returns the rendered plain text email as string
-	 */
 	public function renderText(): string {
 		if (!$this->footerAdded) {
 			$this->footerAdded = true;

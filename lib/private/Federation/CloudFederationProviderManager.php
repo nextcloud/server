@@ -12,7 +12,6 @@ use OC\AppFramework\Http;
 use OCP\App\IAppManager;
 use OCP\Federation\Exceptions\ProviderDoesNotExistsException;
 use OCP\Federation\ICloudFederationNotification;
-use OCP\Federation\ICloudFederationProvider;
 use OCP\Federation\ICloudFederationProviderManager;
 use OCP\Federation\ICloudFederationShare;
 use OCP\Federation\ICloudIdManager;
@@ -45,13 +44,6 @@ class CloudFederationProviderManager implements ICloudFederationProviderManager 
 	}
 
 
-	/**
-	 * Registers an callback function which must return an cloud federation provider
-	 *
-	 * @param string $resourceType which resource type does the provider handles
-	 * @param string $displayName user facing name of the federated share provider
-	 * @param callable $callback
-	 */
 	public function addCloudFederationProvider($resourceType, $displayName, callable $callback) {
 		$this->cloudFederationProvider[$resourceType] = [
 			'resourceType' => $resourceType,
@@ -60,31 +52,14 @@ class CloudFederationProviderManager implements ICloudFederationProviderManager 
 		];
 	}
 
-	/**
-	 * remove cloud federation provider
-	 *
-	 * @param string $providerId
-	 */
 	public function removeCloudFederationProvider($providerId) {
 		unset($this->cloudFederationProvider[$providerId]);
 	}
 
-	/**
-	 * get a list of all cloudFederationProviders
-	 *
-	 * @return array [resourceType => ['resourceType' => $resourceType, 'displayName' => $displayName, 'callback' => callback]]
-	 */
 	public function getAllCloudFederationProviders() {
 		return $this->cloudFederationProvider;
 	}
 
-	/**
-	 * get a specific cloud federation provider
-	 *
-	 * @param string $resourceType
-	 * @return ICloudFederationProvider
-	 * @throws ProviderDoesNotExistsException
-	 */
 	public function getCloudFederationProvider($resourceType) {
 		if (isset($this->cloudFederationProvider[$resourceType])) {
 			return call_user_func($this->cloudFederationProvider[$resourceType]['callback']);
@@ -93,9 +68,6 @@ class CloudFederationProviderManager implements ICloudFederationProviderManager 
 		}
 	}
 
-	/**
-	 * @deprecated 29.0.0 - Use {@see sendCloudShare()} instead and handle errors manually
-	 */
 	public function sendShare(ICloudFederationShare $share) {
 		$cloudID = $this->cloudIdManager->resolveCloudId($share->getShareWith());
 		try {
@@ -132,11 +104,6 @@ class CloudFederationProviderManager implements ICloudFederationProviderManager 
 		return false;
 	}
 
-	/**
-	 * @param ICloudFederationShare $share
-	 * @return IResponse
-	 * @throws OCMProviderException
-	 */
 	public function sendCloudShare(ICloudFederationShare $share): IResponse {
 		$cloudID = $this->cloudIdManager->resolveCloudId($share->getShareWith());
 		$ocmProvider = $this->discoveryService->discover($cloudID->getRemote());
@@ -160,12 +127,6 @@ class CloudFederationProviderManager implements ICloudFederationProviderManager 
 		}
 	}
 
-	/**
-	 * @param string $url
-	 * @param ICloudFederationNotification $notification
-	 * @return array|false
-	 * @deprecated 29.0.0 - Use {@see sendCloudNotification()} instead and handle errors manually
-	 */
 	public function sendNotification($url, ICloudFederationNotification $notification) {
 		try {
 			$ocmProvider = $this->discoveryService->discover($url);
@@ -194,12 +155,6 @@ class CloudFederationProviderManager implements ICloudFederationProviderManager 
 		return false;
 	}
 
-	/**
-	 * @param string $url
-	 * @param ICloudFederationNotification $notification
-	 * @return IResponse
-	 * @throws OCMProviderException
-	 */
 	public function sendCloudNotification(string $url, ICloudFederationNotification $notification): IResponse {
 		$ocmProvider = $this->discoveryService->discover($url);
 
@@ -222,11 +177,6 @@ class CloudFederationProviderManager implements ICloudFederationProviderManager 
 		}
 	}
 
-	/**
-	 * check if the new cloud federation API is ready to be used
-	 *
-	 * @return bool
-	 */
 	public function isReady() {
 		return $this->appManager->isEnabledForUser('cloud_federation_api');
 	}

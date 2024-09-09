@@ -36,16 +36,10 @@ class SaveAccountsTableData implements IRepairStep {
 		$this->config = $config;
 	}
 
-	/**
-	 * @return string
-	 */
 	public function getName() {
 		return 'Copy data from accounts table when migrating from ownCloud';
 	}
 
-	/**
-	 * @param IOutput $output
-	 */
 	public function run(IOutput $output) {
 		if (!$this->shouldRun()) {
 			return;

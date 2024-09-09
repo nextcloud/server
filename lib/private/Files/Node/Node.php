@@ -18,7 +18,6 @@ use OCP\Files\IRootFolder;
 use OCP\Files\Node as INode;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
-use OCP\Lock\LockedException;
 use OCP\PreConditionNotMetException;
 
 // FIXME: this class really should be abstract (+1)
@@ -133,12 +132,6 @@ class Node implements INode {
 	public function delete() {
 	}
 
-	/**
-	 * @param int $mtime
-	 * @throws InvalidPathException
-	 * @throws NotFoundException
-	 * @throws NotPermittedException
-	 */
 	public function touch($mtime = null) {
 		if ($this->checkPermissions(\OCP\Constants::PERMISSION_UPDATE)) {
 			$this->sendHooks(['preTouch']);
@@ -163,114 +156,54 @@ class Node implements INode {
 		return $storage;
 	}
 
-	/**
-	 * @return string
-	 */
 	public function getPath() {
 		return $this->path;
 	}
 
-	/**
-	 * @return string
-	 */
 	public function getInternalPath() {
 		return $this->getFileInfo(false)->getInternalPath();
 	}
 
-	/**
-	 * @return int
-	 * @throws InvalidPathException
-	 * @throws NotFoundException
-	 */
 	public function getId() {
 		return $this->getFileInfo(false)->getId() ?? -1;
 	}
 
-	/**
-	 * @return array
-	 */
 	public function stat() {
 		return $this->view->stat($this->path);
 	}
 
-	/**
-	 * @return int
-	 * @throws InvalidPathException
-	 * @throws NotFoundException
-	 */
 	public function getMTime() {
 		return $this->getFileInfo()->getMTime();
 	}
 
-	/**
-	 * @param bool $includeMounts
-	 * @return int|float
-	 * @throws InvalidPathException
-	 * @throws NotFoundException
-	 */
 	public function getSize($includeMounts = true): int|float {
 		return $this->getFileInfo()->getSize($includeMounts);
 	}
 
-	/**
-	 * @return string
-	 * @throws InvalidPathException
-	 * @throws NotFoundException
-	 */
 	public function getEtag() {
 		return $this->getFileInfo()->getEtag();
 	}
 
-	/**
-	 * @return int
-	 * @throws InvalidPathException
-	 * @throws NotFoundException
-	 */
 	public function getPermissions() {
 		return $this->getFileInfo(false)->getPermissions();
 	}
 
-	/**
-	 * @return bool
-	 * @throws InvalidPathException
-	 * @throws NotFoundException
-	 */
 	public function isReadable() {
 		return $this->getFileInfo(false)->isReadable();
 	}
 
-	/**
-	 * @return bool
-	 * @throws InvalidPathException
-	 * @throws NotFoundException
-	 */
 	public function isUpdateable() {
 		return $this->getFileInfo(false)->isUpdateable();
 	}
 
-	/**
-	 * @return bool
-	 * @throws InvalidPathException
-	 * @throws NotFoundException
-	 */
 	public function isDeletable() {
 		return $this->getFileInfo(false)->isDeletable();
 	}
 
-	/**
-	 * @return bool
-	 * @throws InvalidPathException
-	 * @throws NotFoundException
-	 */
 	public function isShareable() {
 		return $this->getFileInfo(false)->isShareable();
 	}
 
-	/**
-	 * @return bool
-	 * @throws InvalidPathException
-	 * @throws NotFoundException
-	 */
 	public function isCreatable() {
 		return $this->getFileInfo(false)->isCreatable();
 	}
@@ -306,9 +239,6 @@ class Node implements INode {
 		return $this->parent;
 	}
 
-	/**
-	 * @return string
-	 */
 	public function getName() {
 		return basename($this->path);
 	}
@@ -370,37 +300,18 @@ class Node implements INode {
 		return $this->getFileInfo(false)->getExtension();
 	}
 
-	/**
-	 * @param int $type \OCP\Lock\ILockingProvider::LOCK_SHARED or \OCP\Lock\ILockingProvider::LOCK_EXCLUSIVE
-	 * @throws LockedException
-	 */
 	public function lock($type) {
 		$this->view->lockFile($this->path, $type);
 	}
 
-	/**
-	 * @param int $type \OCP\Lock\ILockingProvider::LOCK_SHARED or \OCP\Lock\ILockingProvider::LOCK_EXCLUSIVE
-	 * @throws LockedException
-	 */
 	public function changeLock($type) {
 		$this->view->changeLock($this->path, $type);
 	}
 
-	/**
-	 * @param int $type \OCP\Lock\ILockingProvider::LOCK_SHARED or \OCP\Lock\ILockingProvider::LOCK_EXCLUSIVE
-	 * @throws LockedException
-	 */
 	public function unlock($type) {
 		$this->view->unlockFile($this->path, $type);
 	}
 
-	/**
-	 * @param string $targetPath
-	 * @return INode
-	 * @throws InvalidPathException
-	 * @throws NotFoundException
-	 * @throws NotPermittedException if copy not allowed or failed
-	 */
 	public function copy($targetPath) {
 		$targetPath = $this->normalizePath($targetPath);
 		$parent = $this->root->get(dirname($targetPath));
@@ -420,14 +331,6 @@ class Node implements INode {
 		}
 	}
 
-	/**
-	 * @param string $targetPath
-	 * @return INode
-	 * @throws InvalidPathException
-	 * @throws NotFoundException
-	 * @throws NotPermittedException if move not allowed or failed
-	 * @throws LockedException
-	 */
 	public function move($targetPath) {
 		$targetPath = $this->normalizePath($targetPath);
 		$parent = $this->root->get(dirname($targetPath));
@@ -479,10 +382,6 @@ class Node implements INode {
 		return $this->fileInfo->getParentId();
 	}
 
-	/**
-	 * @inheritDoc
-	 * @return array<string, int|string|bool|float|string[]|int[]>
-	 */
 	public function getMetadata(): array {
 		return $this->fileInfo->getMetadata();
 	}

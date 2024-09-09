@@ -20,13 +20,6 @@ class Search implements ISearch {
 	) {
 	}
 
-	/**
-	 * @param string $search
-	 * @param bool $lookup
-	 * @param int|null $limit
-	 * @param int|null $offset
-	 * @throws \OCP\AppFramework\QueryException
-	 */
 	public function search($search, array $shareTypes, $lookup, $limit, $offset): array {
 		$hasMoreResults = false;
 

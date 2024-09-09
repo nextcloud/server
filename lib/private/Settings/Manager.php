@@ -70,9 +70,6 @@ class Manager implements IManager {
 	/** @var array<self::SETTINGS_*, array<string, IIconSection>> */
 	protected $sections = [];
 
-	/**
-	 * @inheritdoc
-	 */
 	public function registerSection(string $type, string $section) {
 		if (!isset($this->sectionClasses[$type])) {
 			$this->sectionClasses[$type] = [];
@@ -120,9 +117,6 @@ class Manager implements IManager {
 		return $this->sections[$type];
 	}
 
-	/**
-	 * @inheritdoc
-	 */
 	public function getSection(string $type, string $sectionId): ?IIconSection {
 		if (isset($this->sections[$type]) && isset($this->sections[$type][$sectionId])) {
 			return $this->sections[$type][$sectionId];
@@ -143,9 +137,6 @@ class Manager implements IManager {
 	/** @var array<self::SETTINGS_*, array<string, list<ISettings>>> */
 	protected $settings = [];
 
-	/**
-	 * @inheritdoc
-	 */
 	public function registerSetting(string $type, string $setting) {
 		$this->settingClasses[$setting] = $type;
 	}
@@ -202,9 +193,6 @@ class Manager implements IManager {
 		return $this->settings[$type][$section];
 	}
 
-	/**
-	 * @inheritdoc
-	 */
 	public function getAdminSections(): array {
 		// built-in sections
 		$sections = [];
@@ -225,9 +213,6 @@ class Manager implements IManager {
 		return $sections;
 	}
 
-	/**
-	 * @inheritdoc
-	 */
 	public function getAdminSettings(string $section, bool $subAdminOnly = false): array {
 		if ($subAdminOnly) {
 			$subAdminSettingsFilter = function (ISettings $settings) {
@@ -250,9 +235,6 @@ class Manager implements IManager {
 		return $settings;
 	}
 
-	/**
-	 * @inheritdoc
-	 */
 	public function getPersonalSections(): array {
 		if ($this->l === null) {
 			$this->l = $this->l10nFactory->get('lib');
@@ -296,9 +278,6 @@ class Manager implements IManager {
 		return false;
 	}
 
-	/**
-	 * @inheritdoc
-	 */
 	public function getPersonalSettings(string $section): array {
 		$settings = [];
 		$appSettings = $this->getSettings('personal', $section);
@@ -314,9 +293,6 @@ class Manager implements IManager {
 		return $settings;
 	}
 
-	/**
-	 * @inheritdoc
-	 */
 	public function getAllowedAdminSettings(string $section, IUser $user): array {
 		$isAdmin = $this->groupManager->isAdmin($user->getUID());
 		if ($isAdmin) {
@@ -348,9 +324,6 @@ class Manager implements IManager {
 		return $settings;
 	}
 
-	/**
-	 * @inheritdoc
-	 */
 	public function getAllAllowedAdminSettings(IUser $user): array {
 		$this->getSettings('admin', ''); // Make sure all the settings are loaded
 		$settings = [];

@@ -39,21 +39,11 @@ class AccountProperty implements IAccountProperty {
 		];
 	}
 
-	/**
-	 * Set the value of a property
-	 *
-	 * @since 15.0.0
-	 */
 	public function setValue(string $value): IAccountProperty {
 		$this->value = $value;
 		return $this;
 	}
 
-	/**
-	 * Set the scope of a property
-	 *
-	 * @since 15.0.0
-	 */
 	public function setScope(string $scope): IAccountProperty {
 		$newScope = $this->mapScopeToV2($scope);
 		if (!in_array($newScope, [
@@ -68,39 +58,19 @@ class AccountProperty implements IAccountProperty {
 		return $this;
 	}
 
-	/**
-	 * Set the verification status of a property
-	 *
-	 * @since 15.0.0
-	 */
 	public function setVerified(string $verified): IAccountProperty {
 		$this->verified = $verified;
 		return $this;
 	}
 
-	/**
-	 * Get the name of a property
-	 *
-	 * @since 15.0.0
-	 */
 	public function getName(): string {
 		return $this->name;
 	}
 
-	/**
-	 * Get the value of a property
-	 *
-	 * @since 15.0.0
-	 */
 	public function getValue(): string {
 		return $this->value;
 	}
 
-	/**
-	 * Get the scope of a property
-	 *
-	 * @since 15.0.0
-	 */
 	public function getScope(): string {
 		return $this->scope;
 	}
@@ -118,11 +88,6 @@ class AccountProperty implements IAccountProperty {
 		};
 	}
 
-	/**
-	 * Get the verification status of a property
-	 *
-	 * @since 15.0.0
-	 */
 	public function getVerified(): string {
 		return $this->verified;
 	}

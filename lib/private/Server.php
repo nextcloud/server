@@ -178,7 +178,6 @@ use OCP\IDBConnection;
 use OCP\IEventSourceFactory;
 use OCP\IGroupManager;
 use OCP\IInitialStateService;
-use OCP\IL10N;
 use OCP\ILogger;
 use OCP\INavigationManager;
 use OCP\IPhoneNumberUtil;
@@ -209,7 +208,6 @@ use OCP\Remote\IInstanceFactory;
 use OCP\RichObjectStrings\IValidator;
 use OCP\Route\IRouter;
 use OCP\Security\Bruteforce\IThrottler;
-use OCP\Security\IContentSecurityPolicyManager;
 use OCP\Security\ICredentialsManager;
 use OCP\Security\ICrypto;
 use OCP\Security\IHasher;
@@ -1424,26 +1422,14 @@ class Server extends ServerContainer implements IServerContainer {
 		$hookConnector->viewToNode();
 	}
 
-	/**
-	 * @return \OCP\Calendar\IManager
-	 * @deprecated 20.0.0
-	 */
 	public function getCalendarManager() {
 		return $this->get(\OC\Calendar\Manager::class);
 	}
 
-	/**
-	 * @return \OCP\Calendar\Resource\IManager
-	 * @deprecated 20.0.0
-	 */
 	public function getCalendarResourceBackendManager() {
 		return $this->get(\OC\Calendar\Resource\Manager::class);
 	}
 
-	/**
-	 * @return \OCP\Calendar\Room\IManager
-	 * @deprecated 20.0.0
-	 */
 	public function getCalendarRoomBackendManager() {
 		return $this->get(\OC\Calendar\Room\Manager::class);
 	}
@@ -1460,111 +1446,46 @@ class Server extends ServerContainer implements IServerContainer {
 		GenerateBlurhashMetadata::loadListeners($eventDispatcher);
 	}
 
-	/**
-	 * @return \OCP\Contacts\IManager
-	 * @deprecated 20.0.0
-	 */
 	public function getContactsManager() {
 		return $this->get(\OCP\Contacts\IManager::class);
 	}
 
-	/**
-	 * @return \OC\Encryption\Manager
-	 * @deprecated 20.0.0
-	 */
 	public function getEncryptionManager() {
 		return $this->get(\OCP\Encryption\IManager::class);
 	}
 
-	/**
-	 * @return \OC\Encryption\File
-	 * @deprecated 20.0.0
-	 */
 	public function getEncryptionFilesHelper() {
 		return $this->get(IFile::class);
 	}
 
-	/**
-	 * @return \OCP\Encryption\Keys\IStorage
-	 * @deprecated 20.0.0
-	 */
 	public function getEncryptionKeyStorage() {
 		return $this->get(IStorage::class);
 	}
 
-	/**
-	 * The current request object holding all information about the request
-	 * currently being processed is returned from this method.
-	 * In case the current execution was not initiated by a web request null is returned
-	 *
-	 * @return \OCP\IRequest
-	 * @deprecated 20.0.0
-	 */
 	public function getRequest() {
 		return $this->get(IRequest::class);
 	}
 
-	/**
-	 * Returns the preview manager which can create preview images for a given file
-	 *
-	 * @return IPreview
-	 * @deprecated 20.0.0
-	 */
 	public function getPreviewManager() {
 		return $this->get(IPreview::class);
 	}
 
-	/**
-	 * Returns the tag manager which can get and set tags for different object types
-	 *
-	 * @see \OCP\ITagManager::load()
-	 * @return ITagManager
-	 * @deprecated 20.0.0
-	 */
 	public function getTagManager() {
 		return $this->get(ITagManager::class);
 	}
 
-	/**
-	 * Returns the system-tag manager
-	 *
-	 * @return ISystemTagManager
-	 *
-	 * @since 9.0.0
-	 * @deprecated 20.0.0
-	 */
 	public function getSystemTagManager() {
 		return $this->get(ISystemTagManager::class);
 	}
 
-	/**
-	 * Returns the system-tag object mapper
-	 *
-	 * @return ISystemTagObjectMapper
-	 *
-	 * @since 9.0.0
-	 * @deprecated 20.0.0
-	 */
 	public function getSystemTagObjectMapper() {
 		return $this->get(ISystemTagObjectMapper::class);
 	}
 
-	/**
-	 * Returns the avatar manager, used for avatar functionality
-	 *
-	 * @return IAvatarManager
-	 * @deprecated 20.0.0
-	 */
 	public function getAvatarManager() {
 		return $this->get(IAvatarManager::class);
 	}
 
-	/**
-	 * Returns the root folder of ownCloud's data directory
-	 *
-	 * @return IRootFolder
-	 * @deprecated 20.0.0
-	 */
 	public function getRootFolder() {
 		return $this->get(IRootFolder::class);
 	}
@@ -1581,13 +1502,6 @@ class Server extends ServerContainer implements IServerContainer {
 		return $this->get(IRootFolder::class);
 	}
 
-	/**
-	 * Returns a view to ownCloud's files folder
-	 *
-	 * @param string $userId user ID
-	 * @return \OCP\Files\Folder|null
-	 * @deprecated 20.0.0
-	 */
 	public function getUserFolder($userId = null) {
 		if ($userId === null) {
 			$user = $this->get(IUserSession::class)->getUser();
@@ -1600,34 +1514,18 @@ class Server extends ServerContainer implements IServerContainer {
 		return $root->getUserFolder($userId);
 	}
 
-	/**
-	 * @return \OC\User\Manager
-	 * @deprecated 20.0.0
-	 */
 	public function getUserManager() {
 		return $this->get(IUserManager::class);
 	}
 
-	/**
-	 * @return \OC\Group\Manager
-	 * @deprecated 20.0.0
-	 */
 	public function getGroupManager() {
 		return $this->get(IGroupManager::class);
 	}
 
-	/**
-	 * @return \OC\User\Session
-	 * @deprecated 20.0.0
-	 */
 	public function getUserSession() {
 		return $this->get(IUserSession::class);
 	}
 
-	/**
-	 * @return \OCP\ISession
-	 * @deprecated 20.0.0
-	 */
 	public function getSession() {
 		return $this->get(Session::class)->getSession();
 	}
@@ -1650,18 +1548,10 @@ class Server extends ServerContainer implements IServerContainer {
 		return $this->get(\OC\Authentication\TwoFactorAuth\Manager::class);
 	}
 
-	/**
-	 * @return \OC\NavigationManager
-	 * @deprecated 20.0.0
-	 */
 	public function getNavigationManager() {
 		return $this->get(INavigationManager::class);
 	}
 
-	/**
-	 * @return \OCP\IConfig
-	 * @deprecated 20.0.0
-	 */
 	public function getConfig() {
 		return $this->get(AllConfig::class);
 	}
@@ -1674,40 +1564,18 @@ class Server extends ServerContainer implements IServerContainer {
 		return $this->get(SystemConfig::class);
 	}
 
-	/**
-	 * Returns the app config manager
-	 *
-	 * @return IAppConfig
-	 * @deprecated 20.0.0
-	 */
 	public function getAppConfig() {
 		return $this->get(IAppConfig::class);
 	}
 
-	/**
-	 * @return IFactory
-	 * @deprecated 20.0.0
-	 */
 	public function getL10NFactory() {
 		return $this->get(IFactory::class);
 	}
 
-	/**
-	 * get an L10N instance
-	 *
-	 * @param string $app appid
-	 * @param string $lang
-	 * @return IL10N
-	 * @deprecated 20.0.0 use DI of {@see IL10N} or {@see IFactory} instead, or {@see \OCP\Util::getL10N()} as a last resort
-	 */
 	public function getL10N($app, $lang = null) {
 		return $this->get(IFactory::class)->get($app, $lang);
 	}
 
-	/**
-	 * @return IURLGenerator
-	 * @deprecated 20.0.0
-	 */
 	public function getURLGenerator() {
 		return $this->get(IURLGenerator::class);
 	}
@@ -1720,23 +1588,10 @@ class Server extends ServerContainer implements IServerContainer {
 		return $this->get(AppFetcher::class);
 	}
 
-	/**
-	 * Returns an ICache instance. Since 8.1.0 it returns a fake cache. Use
-	 * getMemCacheFactory() instead.
-	 *
-	 * @return ICache
-	 * @deprecated 8.1.0 use getMemCacheFactory to obtain a proper cache
-	 */
 	public function getCache() {
 		return $this->get(ICache::class);
 	}
 
-	/**
-	 * Returns an \OCP\CacheFactory instance
-	 *
-	 * @return \OCP\ICacheFactory
-	 * @deprecated 20.0.0
-	 */
 	public function getMemCacheFactory() {
 		return $this->get(ICacheFactory::class);
 	}
@@ -1752,184 +1607,74 @@ class Server extends ServerContainer implements IServerContainer {
 	}
 
 
-	/**
-	 * Returns the current session
-	 *
-	 * @return \OCP\IDBConnection
-	 * @deprecated 20.0.0
-	 */
 	public function getDatabaseConnection() {
 		return $this->get(IDBConnection::class);
 	}
 
-	/**
-	 * Returns the activity manager
-	 *
-	 * @return \OCP\Activity\IManager
-	 * @deprecated 20.0.0
-	 */
 	public function getActivityManager() {
 		return $this->get(\OCP\Activity\IManager::class);
 	}
 
-	/**
-	 * Returns an job list for controlling background jobs
-	 *
-	 * @return IJobList
-	 * @deprecated 20.0.0
-	 */
 	public function getJobList() {
 		return $this->get(IJobList::class);
 	}
 
-	/**
-	 * Returns a logger instance
-	 *
-	 * @return ILogger
-	 * @deprecated 20.0.0
-	 */
 	public function getLogger() {
 		return $this->get(ILogger::class);
 	}
 
-	/**
-	 * @return ILogFactory
-	 * @throws \OCP\AppFramework\QueryException
-	 * @deprecated 20.0.0
-	 */
 	public function getLogFactory() {
 		return $this->get(ILogFactory::class);
 	}
 
-	/**
-	 * Returns a router for generating and matching urls
-	 *
-	 * @return IRouter
-	 * @deprecated 20.0.0
-	 */
 	public function getRouter() {
 		return $this->get(IRouter::class);
 	}
 
-	/**
-	 * Returns a SecureRandom instance
-	 *
-	 * @return \OCP\Security\ISecureRandom
-	 * @deprecated 20.0.0
-	 */
 	public function getSecureRandom() {
 		return $this->get(ISecureRandom::class);
 	}
 
-	/**
-	 * Returns a Crypto instance
-	 *
-	 * @return ICrypto
-	 * @deprecated 20.0.0
-	 */
 	public function getCrypto() {
 		return $this->get(ICrypto::class);
 	}
 
-	/**
-	 * Returns a Hasher instance
-	 *
-	 * @return IHasher
-	 * @deprecated 20.0.0
-	 */
 	public function getHasher() {
 		return $this->get(IHasher::class);
 	}
 
-	/**
-	 * Returns a CredentialsManager instance
-	 *
-	 * @return ICredentialsManager
-	 * @deprecated 20.0.0
-	 */
 	public function getCredentialsManager() {
 		return $this->get(ICredentialsManager::class);
 	}
 
-	/**
-	 * Get the certificate manager
-	 *
-	 * @return \OCP\ICertificateManager
-	 */
 	public function getCertificateManager() {
 		return $this->get(ICertificateManager::class);
 	}
 
-	/**
-	 * Returns an instance of the HTTP client service
-	 *
-	 * @return IClientService
-	 * @deprecated 20.0.0
-	 */
 	public function getHTTPClientService() {
 		return $this->get(IClientService::class);
 	}
 
-	/**
-	 * Get the active event logger
-	 *
-	 * The returned logger only logs data when debug mode is enabled
-	 *
-	 * @return IEventLogger
-	 * @deprecated 20.0.0
-	 */
 	public function getEventLogger() {
 		return $this->get(IEventLogger::class);
 	}
 
-	/**
-	 * Get the active query logger
-	 *
-	 * The returned logger only logs data when debug mode is enabled
-	 *
-	 * @return IQueryLogger
-	 * @deprecated 20.0.0
-	 */
 	public function getQueryLogger() {
 		return $this->get(IQueryLogger::class);
 	}
 
-	/**
-	 * Get the manager for temporary files and folders
-	 *
-	 * @return \OCP\ITempManager
-	 * @deprecated 20.0.0
-	 */
 	public function getTempManager() {
 		return $this->get(ITempManager::class);
 	}
 
-	/**
-	 * Get the app manager
-	 *
-	 * @return \OCP\App\IAppManager
-	 * @deprecated 20.0.0
-	 */
 	public function getAppManager() {
 		return $this->get(IAppManager::class);
 	}
 
-	/**
-	 * Creates a new mailer
-	 *
-	 * @return IMailer
-	 * @deprecated 20.0.0
-	 */
 	public function getMailer() {
 		return $this->get(IMailer::class);
 	}
 
-	/**
-	 * Get the webroot
-	 *
-	 * @return string
-	 * @deprecated 20.0.0
-	 */
 	public function getWebRoot() {
 		return $this->webRoot;
 	}
@@ -1942,44 +1687,22 @@ class Server extends ServerContainer implements IServerContainer {
 		return $this->get('OcsClient');
 	}
 
-	/**
-	 * @return IDateTimeZone
-	 * @deprecated 20.0.0
-	 */
 	public function getDateTimeZone() {
 		return $this->get(IDateTimeZone::class);
 	}
 
-	/**
-	 * @return IDateTimeFormatter
-	 * @deprecated 20.0.0
-	 */
 	public function getDateTimeFormatter() {
 		return $this->get(IDateTimeFormatter::class);
 	}
 
-	/**
-	 * @return IMountProviderCollection
-	 * @deprecated 20.0.0
-	 */
 	public function getMountProviderCollection() {
 		return $this->get(IMountProviderCollection::class);
 	}
 
-	/**
-	 * Get the IniWrapper
-	 *
-	 * @return IniGetWrapper
-	 * @deprecated 20.0.0
-	 */
 	public function getIniWrapper() {
 		return $this->get(IniGetWrapper::class);
 	}
 
-	/**
-	 * @return \OCP\Command\IBus
-	 * @deprecated 20.0.0
-	 */
 	public function getCommandBus() {
 		return $this->get(IBus::class);
 	}
@@ -1994,21 +1717,10 @@ class Server extends ServerContainer implements IServerContainer {
 		return $this->get(TrustedDomainHelper::class);
 	}
 
-	/**
-	 * Get the locking provider
-	 *
-	 * @return ILockingProvider
-	 * @since 8.1.0
-	 * @deprecated 20.0.0
-	 */
 	public function getLockingProvider() {
 		return $this->get(ILockingProvider::class);
 	}
 
-	/**
-	 * @return IMountManager
-	 * @deprecated 20.0.0
-	 **/
 	public function getMountManager() {
 		return $this->get(IMountManager::class);
 	}
@@ -2021,22 +1733,10 @@ class Server extends ServerContainer implements IServerContainer {
 		return $this->get(IUserMountCache::class);
 	}
 
-	/**
-	 * Get the MimeTypeDetector
-	 *
-	 * @return IMimeTypeDetector
-	 * @deprecated 20.0.0
-	 */
 	public function getMimeTypeDetector() {
 		return $this->get(IMimeTypeDetector::class);
 	}
 
-	/**
-	 * Get the MimeTypeLoader
-	 *
-	 * @return IMimeTypeLoader
-	 * @deprecated 20.0.0
-	 */
 	public function getMimeTypeLoader() {
 		return $this->get(IMimeTypeLoader::class);
 	}
@@ -2051,21 +1751,10 @@ class Server extends ServerContainer implements IServerContainer {
 		return $this->get(CapabilitiesManager::class);
 	}
 
-	/**
-	 * Get the Notification Manager
-	 *
-	 * @return \OCP\Notification\IManager
-	 * @since 8.2.0
-	 * @deprecated 20.0.0
-	 */
 	public function getNotificationManager() {
 		return $this->get(\OCP\Notification\IManager::class);
 	}
 
-	/**
-	 * @return ICommentsManager
-	 * @deprecated 20.0.0
-	 */
 	public function getCommentsManager() {
 		return $this->get(ICommentsManager::class);
 	}
@@ -2110,10 +1799,6 @@ class Server extends ServerContainer implements IServerContainer {
 		return $this->get(Throttler::class);
 	}
 
-	/**
-	 * @return IContentSecurityPolicyManager
-	 * @deprecated 20.0.0
-	 */
 	public function getContentSecurityPolicyManager() {
 		return $this->get(ContentSecurityPolicyManager::class);
 	}
@@ -2166,10 +1851,6 @@ class Server extends ServerContainer implements IServerContainer {
 		return $this->get(UserStoragesService::class);
 	}
 
-	/**
-	 * @return \OCP\Share\IManager
-	 * @deprecated 20.0.0
-	 */
 	public function getShareManager() {
 		return $this->get(\OCP\Share\IManager::class);
 	}
@@ -2226,58 +1907,30 @@ class Server extends ServerContainer implements IServerContainer {
 		return $this->get('LockdownManager');
 	}
 
-	/**
-	 * @return \OCP\Federation\ICloudIdManager
-	 * @deprecated 20.0.0
-	 */
 	public function getCloudIdManager() {
 		return $this->get(ICloudIdManager::class);
 	}
 
-	/**
-	 * @return \OCP\GlobalScale\IConfig
-	 * @deprecated 20.0.0
-	 */
 	public function getGlobalScaleConfig() {
 		return $this->get(IConfig::class);
 	}
 
-	/**
-	 * @return \OCP\Federation\ICloudFederationProviderManager
-	 * @deprecated 20.0.0
-	 */
 	public function getCloudFederationProviderManager() {
 		return $this->get(ICloudFederationProviderManager::class);
 	}
 
-	/**
-	 * @return \OCP\Remote\Api\IApiFactory
-	 * @deprecated 20.0.0
-	 */
 	public function getRemoteApiFactory() {
 		return $this->get(IApiFactory::class);
 	}
 
-	/**
-	 * @return \OCP\Federation\ICloudFederationFactory
-	 * @deprecated 20.0.0
-	 */
 	public function getCloudFederationFactory() {
 		return $this->get(ICloudFederationFactory::class);
 	}
 
-	/**
-	 * @return \OCP\Remote\IInstanceFactory
-	 * @deprecated 20.0.0
-	 */
 	public function getRemoteInstanceFactory() {
 		return $this->get(IInstanceFactory::class);
 	}
 
-	/**
-	 * @return IStorageFactory
-	 * @deprecated 20.0.0
-	 */
 	public function getStorageFactory() {
 		return $this->get(IStorageFactory::class);
 	}

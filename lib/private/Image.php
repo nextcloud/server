@@ -61,12 +61,6 @@ class Image implements IImage {
 		}
 	}
 
-	/**
-	 * Determine whether the object contains an image resource.
-	 *
-	 * @psalm-assert-if-true \GdImage $this->resource
-	 * @return bool
-	 */
 	public function valid(): bool {
 		if (is_object($this->resource) && get_class($this->resource) === \GdImage::class) {
 			return true;
@@ -75,20 +69,10 @@ class Image implements IImage {
 		return false;
 	}
 
-	/**
-	 * Returns the MIME type of the image or null if no image is loaded.
-	 *
-	 * @return string
-	 */
 	public function mimeType(): ?string {
 		return $this->valid() ? $this->mimeType : null;
 	}
 
-	/**
-	 * Returns the width of the image or -1 if no image is loaded.
-	 *
-	 * @return int
-	 */
 	public function width(): int {
 		if ($this->valid()) {
 			return imagesx($this->resource);
@@ -96,11 +80,6 @@ class Image implements IImage {
 		return -1;
 	}
 
-	/**
-	 * Returns the height of the image or -1 if no image is loaded.
-	 *
-	 * @return int
-	 */
 	public function height(): int {
 		if ($this->valid()) {
 			return imagesy($this->resource);
@@ -108,11 +87,6 @@ class Image implements IImage {
 		return -1;
 	}
 
-	/**
-	 * Returns the width when the image orientation is top-left.
-	 *
-	 * @return int
-	 */
 	public function widthTopLeft(): int {
 		$o = $this->getOrientation();
 		$this->logger->debug('Image->widthTopLeft() Orientation: ' . $o, ['app' => 'core']);
@@ -132,11 +106,6 @@ class Image implements IImage {
 		return $this->width();
 	}
 
-	/**
-	 * Returns the height when the image orientation is top-left.
-	 *
-	 * @return int
-	 */
 	public function heightTopLeft(): int {
 		$o = $this->getOrientation();
 		$this->logger->debug('Image->heightTopLeft() Orientation: ' . $o, ['app' => 'core']);
@@ -156,12 +125,6 @@ class Image implements IImage {
 		return $this->height();
 	}
 
-	/**
-	 * Outputs the image.
-	 *
-	 * @param string $mimeType
-	 * @return bool
-	 */
 	public function show(?string $mimeType = null): bool {
 		if ($mimeType === null) {
 			$mimeType = $this->mimeType();
@@ -171,14 +134,6 @@ class Image implements IImage {
 		}
 		return $this->_output(null, $mimeType);
 	}
-
-	/**
-	 * Saves the image.
-	 *
-	 * @param string $filePath
-	 * @param string $mimeType
-	 * @return bool
-	 */
 
 	public function save(?string $filePath = null, ?string $mimeType = null): bool {
 		if ($mimeType === null) {
@@ -293,16 +248,10 @@ class Image implements IImage {
 		$this->resource = $resource;
 	}
 
-	/**
-	 * @return false|\GdImage Returns the image resource if any
-	 */
 	public function resource() {
 		return $this->resource;
 	}
 
-	/**
-	 * @return string Returns the mimetype of the data. Returns null if the data is not valid.
-	 */
 	public function dataMimeType(): ?string {
 		if (!$this->valid()) {
 			return null;
@@ -319,9 +268,6 @@ class Image implements IImage {
 		}
 	}
 
-	/**
-	 * @return null|string Returns the raw image data.
-	 */
 	public function data(): ?string {
 		if (!$this->valid()) {
 			return null;
@@ -387,12 +333,6 @@ class Image implements IImage {
 		return true;
 	}
 
-	/**
-	 * (I'm open for suggestions on better method name ;)
-	 * Get the orientation based on EXIF data.
-	 *
-	 * @return int The orientation or -1 if no EXIF data is available.
-	 */
 	public function getOrientation(): int {
 		if ($this->exif !== null) {
 			return $this->exif['Orientation'];
@@ -439,12 +379,6 @@ class Image implements IImage {
 		$this->exif = $exif;
 	}
 
-	/**
-	 * (I'm open for suggestions on better method name ;)
-	 * Fixes orientation based on EXIF data.
-	 *
-	 * @return bool
-	 */
 	public function fixOrientation(): bool {
 		if (!$this->valid()) {
 			$this->logger->debug(__METHOD__ . '(): No image loaded', ['app' => 'core']);
@@ -778,9 +712,6 @@ class Image implements IImage {
 		return $this->resource;
 	}
 
-	/**
-	 * @inheritDoc
-	 */
 	public function loadFromData(string $str): GdImage|false {
 		if (!$this->checkImageDataSize($str)) {
 			return false;
@@ -827,12 +758,6 @@ class Image implements IImage {
 		}
 	}
 
-	/**
-	 * Resizes the image preserving ratio.
-	 *
-	 * @param int $maxSize The maximum size of either the width or height.
-	 * @return bool
-	 */
 	public function resize(int $maxSize): bool {
 		if (!$this->valid()) {
 			$this->logger->debug(__METHOD__ . '(): No image loaded', ['app' => 'core']);
@@ -864,11 +789,6 @@ class Image implements IImage {
 		return $this->preciseResizeNew((int)round($newWidth), (int)round($newHeight));
 	}
 
-	/**
-	 * @param int $width
-	 * @param int $height
-	 * @return bool
-	 */
 	public function preciseResize(int $width, int $height): bool {
 		if (!$this->valid()) {
 			$this->logger->debug(__METHOD__ . '(): No image loaded', ['app' => 'core']);
@@ -917,12 +837,6 @@ class Image implements IImage {
 		return $process;
 	}
 
-	/**
-	 * Crops the image to the middle square. If the image is already square it just returns.
-	 *
-	 * @param int $size maximum size for the result (optional)
-	 * @return bool for success or failure
-	 */
 	public function centerCrop(int $size = 0): bool {
 		if (!$this->valid()) {
 			$this->logger->debug('Image->centerCrop, No image loaded', ['app' => 'core']);
@@ -977,15 +891,6 @@ class Image implements IImage {
 		return true;
 	}
 
-	/**
-	 * Crops the image from point $x$y with dimension $wx$h.
-	 *
-	 * @param int $x Horizontal position
-	 * @param int $y Vertical position
-	 * @param int $w Width
-	 * @param int $h Height
-	 * @return bool for success or failure
-	 */
 	public function crop(int $x, int $y, int $w, int $h): bool {
 		if (!$this->valid()) {
 			$this->logger->debug(__METHOD__ . '(): No image loaded', ['app' => 'core']);
@@ -1036,15 +941,6 @@ class Image implements IImage {
 		return $process;
 	}
 
-	/**
-	 * Resizes the image to fit within a boundary while preserving ratio.
-	 *
-	 * Warning: Images smaller than $maxWidth x $maxHeight will end up being scaled up
-	 *
-	 * @param int $maxWidth
-	 * @param int $maxHeight
-	 * @return bool
-	 */
 	public function fitIn(int $maxWidth, int $maxHeight): bool {
 		if (!$this->valid()) {
 			$this->logger->debug(__METHOD__ . '(): No image loaded', ['app' => 'core']);
@@ -1061,13 +957,6 @@ class Image implements IImage {
 		return true;
 	}
 
-	/**
-	 * Shrinks larger images to fit within specified boundaries while preserving ratio.
-	 *
-	 * @param int $maxWidth
-	 * @param int $maxHeight
-	 * @return bool
-	 */
 	public function scaleDownToFit(int $maxWidth, int $maxHeight): bool {
 		if (!$this->valid()) {
 			$this->logger->debug(__METHOD__ . '(): No image loaded', ['app' => 'core']);

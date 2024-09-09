@@ -12,24 +12,6 @@ use OCP\Contacts\IManager;
 use OCP\IAddressBook;
 
 class ContactsManager implements IManager {
-	/**
-	 * This function is used to search and find contacts within the users address books.
-	 * In case $pattern is empty all contacts will be returned.
-	 *
-	 * @param string $pattern which should match within the $searchProperties
-	 * @param array $searchProperties defines the properties within the query pattern should match
-	 * @param array $options = array() to define the search behavior
-	 *                       - 'types' boolean (since 15.0.0) If set to true, fields that come with a TYPE property will be an array
-	 *                       example: ['id' => 5, 'FN' => 'Thomas Tanghus', 'EMAIL' => ['type => 'HOME', 'value' => 'g@h.i']]
-	 *                       - 'escape_like_param' - If set to false wildcards _ and % are not escaped
-	 *                       - 'limit' - Set a numeric limit for the search results
-	 *                       - 'offset' - Set the offset for the limited search results
-	 *                       - 'enumeration' - (since 23.0.0) Whether user enumeration on system address book is allowed
-	 *                       - 'fullmatch' - (since 23.0.0) Whether matching on full detail in system address book is allowed
-	 *                       - 'strict_search' - (since 23.0.0) Whether the search pattern is full string or partial search
-	 * @psalm-param array{types?: bool, escape_like_param?: bool, limit?: int, offset?: int, enumeration?: bool, fullmatch?: bool, strict_search?: bool} $options
-	 * @return array an array of contacts which are arrays of key-value-pairs
-	 */
 	public function search($pattern, $searchProperties = [], $options = []) {
 		$this->loadAddressBooks();
 		$result = [];
@@ -67,13 +49,6 @@ class ContactsManager implements IManager {
 		return $result;
 	}
 
-	/**
-	 * This function can be used to delete the contact identified by the given id
-	 *
-	 * @param int $id the unique identifier to a contact
-	 * @param string $addressBookKey identifier of the address book in which the contact shall be deleted
-	 * @return bool successful or not
-	 */
 	public function delete($id, $addressBookKey) {
 		$addressBook = $this->getAddressBook($addressBookKey);
 		if (!$addressBook) {
@@ -87,14 +62,6 @@ class ContactsManager implements IManager {
 		return false;
 	}
 
-	/**
-	 * This function is used to create a new contact if 'id' is not given or not present.
-	 * Otherwise the contact will be updated by replacing the entire data set.
-	 *
-	 * @param array $properties this array if key-value-pairs defines a contact
-	 * @param string $addressBookKey identifier of the address book in which the contact shall be created or updated
-	 * @return ?array representing the contact just created or updated
-	 */
 	public function createOrUpdate($properties, $addressBookKey) {
 		$addressBook = $this->getAddressBook($addressBookKey);
 		if (!$addressBook) {
@@ -108,43 +75,23 @@ class ContactsManager implements IManager {
 		return null;
 	}
 
-	/**
-	 * Check if contacts are available (e.g. contacts app enabled)
-	 *
-	 * @return bool true if enabled, false if not
-	 */
 	public function isEnabled(): bool {
 		return !empty($this->addressBooks) || !empty($this->addressBookLoaders);
 	}
 
-	/**
-	 * @param IAddressBook $addressBook
-	 */
 	public function registerAddressBook(IAddressBook $addressBook) {
 		$this->addressBooks[$addressBook->getKey()] = $addressBook;
 	}
 
-	/**
-	 * @param IAddressBook $addressBook
-	 */
 	public function unregisterAddressBook(IAddressBook $addressBook) {
 		unset($this->addressBooks[$addressBook->getKey()]);
 	}
 
-	/**
-	 * Return a list of the user's addressbooks
-	 *
-	 * @return IAddressBook[]
-	 * @since 16.0.0
-	 */
 	public function getUserAddressBooks(): array {
 		$this->loadAddressBooks();
 		return $this->addressBooks;
 	}
 
-	/**
-	 * removes all registered address book instances
-	 */
 	public function clear() {
 		$this->addressBooks = [];
 		$this->addressBookLoaders = [];
@@ -160,12 +107,6 @@ class ContactsManager implements IManager {
 	 */
 	private $addressBookLoaders = [];
 
-	/**
-	 * In order to improve lazy loading a closure can be registered which will be called in case
-	 * address books are actually requested
-	 *
-	 * @param \Closure $callable
-	 */
 	public function register(\Closure $callable) {
 		$this->addressBookLoaders[] = $callable;
 	}

@@ -50,14 +50,6 @@ class APCu extends Cache implements IMemcache {
 		return apcu_delete($iter);
 	}
 
-	/**
-	 * Set a value in the cache if it's not already stored
-	 *
-	 * @param string $key
-	 * @param mixed $value
-	 * @param int $ttl Time To Live in seconds. Defaults to 60*60*24
-	 * @return bool
-	 */
 	public function add($key, $value, $ttl = 0) {
 		if ($ttl === 0) {
 			$ttl = self::DEFAULT_TTL;
@@ -65,39 +57,17 @@ class APCu extends Cache implements IMemcache {
 		return apcu_add($this->getPrefix() . $key, $value, $ttl);
 	}
 
-	/**
-	 * Increase a stored number
-	 *
-	 * @param string $key
-	 * @param int $step
-	 * @return int | bool
-	 */
 	public function inc($key, $step = 1) {
 		$success = null;
 		return apcu_inc($this->getPrefix() . $key, $step, $success, self::DEFAULT_TTL);
 	}
 
-	/**
-	 * Decrease a stored number
-	 *
-	 * @param string $key
-	 * @param int $step
-	 * @return int | bool
-	 */
 	public function dec($key, $step = 1) {
 		return apcu_exists($this->getPrefix() . $key)
 			? apcu_dec($this->getPrefix() . $key, $step)
 			: false;
 	}
 
-	/**
-	 * Compare and set
-	 *
-	 * @param string $key
-	 * @param mixed $old
-	 * @param mixed $new
-	 * @return bool
-	 */
 	public function cas($key, $old, $new) {
 		// apc only does cas for ints
 		if (is_int($old) and is_int($new)) {

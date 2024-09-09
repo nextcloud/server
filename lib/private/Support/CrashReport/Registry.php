@@ -8,7 +8,6 @@ declare(strict_types=1);
  */
 namespace OC\Support\CrashReport;
 
-use Exception;
 use OCP\AppFramework\QueryException;
 use OCP\IServerContainer;
 use OCP\Support\CrashReport\ICollectBreadcrumbs;
@@ -33,11 +32,6 @@ class Registry implements IRegistry {
 		$this->serverContainer = $serverContainer;
 	}
 
-	/**
-	 * Register a reporter instance
-	 *
-	 * @param IReporter $reporter
-	 */
 	public function register(IReporter $reporter): void {
 		$this->reporters[] = $reporter;
 	}
@@ -46,15 +40,6 @@ class Registry implements IRegistry {
 		$this->lazyReporters[] = $class;
 	}
 
-	/**
-	 * Delegate breadcrumb collection to all registered reporters
-	 *
-	 * @param string $message
-	 * @param string $category
-	 * @param array $context
-	 *
-	 * @since 15.0.0
-	 */
 	public function delegateBreadcrumb(string $message, string $category, array $context = []): void {
 		$this->loadLazyProviders();
 
@@ -65,12 +50,6 @@ class Registry implements IRegistry {
 		}
 	}
 
-	/**
-	 * Delegate crash reporting to all registered reporters
-	 *
-	 * @param Exception|Throwable $exception
-	 * @param array $context
-	 */
 	public function delegateReport($exception, array $context = []): void {
 		$this->loadLazyProviders();
 
@@ -79,14 +58,6 @@ class Registry implements IRegistry {
 		}
 	}
 
-	/**
-	 * Delegate a message to all reporters that implement IMessageReporter
-	 *
-	 * @param string $message
-	 * @param array $context
-	 *
-	 * @return void
-	 */
 	public function delegateMessage(string $message, array $context = []): void {
 		$this->loadLazyProviders();
 

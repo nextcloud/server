@@ -43,9 +43,6 @@ class Throttler implements IThrottler {
 	) {
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	public function registerAttempt(string $action,
 		string $ip,
 		array $metadata = []): void {
@@ -79,9 +76,6 @@ class Throttler implements IThrottler {
 		);
 	}
 
-	/**
-	 * Check if the IP is whitelisted
-	 */
 	public function isBypassListed(string $ip): bool {
 		if (isset($this->ipIsWhitelisted[$ip])) {
 			return $this->ipIsWhitelisted[$ip];
@@ -149,18 +143,12 @@ class Throttler implements IThrottler {
 		return false;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	public function showBruteforceWarning(string $ip, string $action = ''): bool {
 		$attempts = $this->getAttempts($ip, $action);
 		// 4 failed attempts is the last delay below 5 seconds
 		return $attempts >= 4;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	public function getAttempts(string $ip, string $action = '', float $maxAgeHours = 12): int {
 		if ($maxAgeHours > 48) {
 			$this->logger->error('Bruteforce has to use less than 48 hours');
@@ -185,9 +173,6 @@ class Throttler implements IThrottler {
 		);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	public function getDelay(string $ip, string $action = ''): int {
 		$attempts = $this->getAttempts($ip, $action);
 		if ($attempts === 0) {
@@ -207,9 +192,6 @@ class Throttler implements IThrottler {
 		return (int)\ceil($delay * 1000);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	public function resetDelay(string $ip, string $action, array $metadata): void {
 		// No need to log if the bruteforce protection is disabled
 		if (!$this->config->getSystemValueBool('auth.bruteforce.protection.enabled', true)) {
@@ -230,9 +212,6 @@ class Throttler implements IThrottler {
 		$this->hasAttemptsDeleted[$action] = true;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	public function resetDelayForIP(string $ip): void {
 		// No need to log if the bruteforce protection is disabled
 		if (!$this->config->getSystemValueBool('auth.bruteforce.protection.enabled', true)) {
@@ -247,9 +226,6 @@ class Throttler implements IThrottler {
 		$this->backend->resetAttempts($ipAddress->getSubnet());
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	public function sleepDelay(string $ip, string $action = ''): int {
 		$delay = $this->getDelay($ip, $action);
 		if (!$this->config->getSystemValueBool('auth.bruteforce.protection.testing')) {
@@ -258,9 +234,6 @@ class Throttler implements IThrottler {
 		return $delay;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	public function sleepDelayOrThrowOnMax(string $ip, string $action = ''): int {
 		$delay = $this->getDelay($ip, $action);
 		if (($delay === self::MAX_DELAY_MS) && $this->getAttempts($ip, $action, 0.5) > self::MAX_ATTEMPTS) {

@@ -36,16 +36,10 @@ class CleanTags implements IRepairStep {
 		$this->userManager = $userManager;
 	}
 
-	/**
-	 * @return string
-	 */
 	public function getName() {
 		return 'Clean tags and favorites';
 	}
 
-	/**
-	 * Updates the configuration after running an update
-	 */
 	public function run(IOutput $output) {
 		$this->deleteOrphanTags($output);
 		$this->deleteOrphanFileEntries($output);

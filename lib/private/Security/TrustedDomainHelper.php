@@ -33,9 +33,6 @@ class TrustedDomainHelper implements ITrustedDomainHelper {
 		return $host;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	public function isTrustedUrl(string $url): bool {
 		$parsedUrl = parse_url($url);
 		if (empty($parsedUrl['host'])) {
@@ -49,9 +46,6 @@ class TrustedDomainHelper implements ITrustedDomainHelper {
 		return $this->isTrustedDomain($parsedUrl['host']);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	public function isTrustedDomain(string $domainWithPort): bool {
 		// overwritehost is always trusted
 		if ($this->config->getSystemValue('overwritehost') !== '') {

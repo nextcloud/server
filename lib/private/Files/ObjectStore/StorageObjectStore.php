@@ -23,20 +23,10 @@ class StorageObjectStore implements IObjectStore {
 		$this->storage = $storage;
 	}
 
-	/**
-	 * @return string the container or bucket name where objects are stored
-	 * @since 7.0.0
-	 */
 	public function getStorageId() {
 		$this->storage->getId();
 	}
 
-	/**
-	 * @param string $urn the unified resource name used to identify the object
-	 * @return resource stream with the read data
-	 * @throws \Exception when something goes wrong, message will be logged
-	 * @since 7.0.0
-	 */
 	public function readObject($urn) {
 		$handle = $this->storage->fopen($urn, 'r');
 		if (is_resource($handle)) {
@@ -56,12 +46,6 @@ class StorageObjectStore implements IObjectStore {
 		}
 	}
 
-	/**
-	 * @param string $urn the unified resource name used to identify the object
-	 * @return void
-	 * @throws \Exception when something goes wrong, message will be logged
-	 * @since 7.0.0
-	 */
 	public function deleteObject($urn) {
 		$this->storage->unlink($urn);
 	}

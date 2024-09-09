@@ -33,20 +33,10 @@ class Manager implements IManager {
 	) {
 	}
 
-	/**
-	 * Registers a resource backend
-	 *
-	 * @since 14.0.0
-	 */
 	public function registerBackend(string $backendClass): void {
 		$this->backends[$backendClass] = $backendClass;
 	}
 
-	/**
-	 * Unregisters a resource backend
-	 *
-	 * @since 14.0.0
-	 */
 	public function unregisterBackend(string $backendClass): void {
 		unset($this->backends[$backendClass], $this->initializedBackends[$backendClass]);
 	}
@@ -67,11 +57,6 @@ class Manager implements IManager {
 		}
 	}
 
-	/**
-	 * @return IBackend[]
-	 * @throws \OCP\AppFramework\QueryException
-	 * @since 14.0.0
-	 */
 	public function getBackends():array {
 		$this->fetchBootstrapBackends();
 
@@ -86,10 +71,6 @@ class Manager implements IManager {
 		return array_values($this->initializedBackends);
 	}
 
-	/**
-	 * @param string $backendId
-	 * @throws \OCP\AppFramework\QueryException
-	 */
 	public function getBackend($backendId): ?IBackend {
 		$backends = $this->getBackends();
 		foreach ($backends as $backend) {
@@ -101,11 +82,6 @@ class Manager implements IManager {
 		return null;
 	}
 
-	/**
-	 * removes all registered backend instances
-	 *
-	 * @since 14.0.0
-	 */
 	public function clear(): void {
 		$this->backends = [];
 		$this->initializedBackends = [];

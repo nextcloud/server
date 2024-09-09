@@ -125,13 +125,6 @@ class TemplateManager implements ITemplateManager {
 		}, $this->listCreators());
 	}
 
-	/**
-	 * @param string $filePath
-	 * @param string $templateId
-	 * @param array $templateFields
-	 * @return array
-	 * @throws GenericFileException
-	 */
 	public function createFromTemplate(string $filePath, string $templateId = '', string $templateType = 'user', array $templateFields = []): array {
 		$userFolder = $this->rootFolder->getUserFolder($this->userId);
 		try {

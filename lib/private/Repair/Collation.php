@@ -45,9 +45,6 @@ class Collation implements IRepairStep {
 		return 'Repair MySQL collation';
 	}
 
-	/**
-	 * Fix mime types
-	 */
 	public function run(IOutput $output) {
 		if ($this->connection->getDatabaseProvider() !== IDBConnection::PLATFORM_MYSQL) {
 			$output->info('Not a mysql database -> nothing to do');

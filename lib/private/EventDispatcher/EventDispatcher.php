@@ -59,9 +59,6 @@ class EventDispatcher implements IEventDispatcher {
 		return $this->dispatcher->hasListeners($eventName);
 	}
 
-	/**
-	 * @deprecated
-	 */
 	public function dispatch(string $eventName,
 		Event $event): void {
 		$this->dispatcher->dispatch($event, $eventName);

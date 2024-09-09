@@ -29,10 +29,6 @@ class ObjectStorePreviewCacheMountProvider implements IRootMountProvider {
 		$this->config = $config;
 	}
 
-	/**
-	 * @return MountPoint[]
-	 * @throws \Exception
-	 */
 	public function getRootMounts(IStorageFactory $loader): array {
 		if (!is_array($this->config->getSystemValue('objectstore_multibucket'))) {
 			return [];

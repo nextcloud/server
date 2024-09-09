@@ -23,11 +23,6 @@ class RenameChange extends Change implements IRenameChange {
 		$this->targetPath = $targetPath;
 	}
 
-	/**
-	 * Get the new path of the renamed file relative to the storage root
-	 *
-	 * @return string
-	 */
 	public function getTargetPath() {
 		return $this->targetPath;
 	}

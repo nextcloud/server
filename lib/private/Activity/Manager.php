@@ -91,25 +91,10 @@ class Manager implements IManager {
 		return $this->consumers;
 	}
 
-	/**
-	 * Generates a new IEvent object
-	 *
-	 * Make sure to call at least the following methods before sending it to the
-	 * app with via the publish() method:
-	 *  - setApp()
-	 *  - setType()
-	 *  - setAffectedUser()
-	 *  - setSubject()
-	 *
-	 * @return IEvent
-	 */
 	public function generateEvent(): IEvent {
 		return new Event($this->validator);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	public function publish(IEvent $event): void {
 		if ($event->getAuthor() === '') {
 			if ($this->session->getUser() instanceof IUser) {
@@ -130,14 +115,6 @@ class Manager implements IManager {
 		}
 	}
 
-	/**
-	 * In order to improve lazy loading a closure can be registered which will be called in case
-	 * activity consumers are actually requested
-	 *
-	 * $callable has to return an instance of OCA\Activity\IConsumer
-	 *
-	 * @param \Closure $callable
-	 */
 	public function registerConsumer(\Closure $callable): void {
 		$this->consumersClosures[] = $callable;
 		$this->consumers = [];
@@ -149,18 +126,10 @@ class Manager implements IManager {
 	/** @var IFilter[] */
 	protected $filters = [];
 
-	/**
-	 * @param string $filter Class must implement OCA\Activity\IFilter
-	 * @return void
-	 */
 	public function registerFilter(string $filter): void {
 		$this->filterClasses[$filter] = false;
 	}
 
-	/**
-	 * @return IFilter[]
-	 * @throws \InvalidArgumentException
-	 */
 	public function getFilters(): array {
 		foreach ($this->filterClasses as $class => $false) {
 			/** @var IFilter $filter */
@@ -177,9 +146,6 @@ class Manager implements IManager {
 		return $this->filters;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	public function getFilterById(string $id): IFilter {
 		$filters = $this->getFilters();
 
@@ -196,18 +162,10 @@ class Manager implements IManager {
 	/** @var IProvider[] */
 	protected $providers = [];
 
-	/**
-	 * @param string $provider Class must implement OCA\Activity\IProvider
-	 * @return void
-	 */
 	public function registerProvider(string $provider): void {
 		$this->providerClasses[$provider] = false;
 	}
 
-	/**
-	 * @return IProvider[]
-	 * @throws \InvalidArgumentException
-	 */
 	public function getProviders(): array {
 		foreach ($this->providerClasses as $class => $false) {
 			/** @var IProvider $provider */
@@ -230,18 +188,10 @@ class Manager implements IManager {
 	/** @var ISetting[] */
 	protected $settings = [];
 
-	/**
-	 * @param string $setting Class must implement OCA\Activity\ISetting
-	 * @return void
-	 */
 	public function registerSetting(string $setting): void {
 		$this->settingsClasses[$setting] = false;
 	}
 
-	/**
-	 * @return ActivitySettings[]
-	 * @throws \InvalidArgumentException
-	 */
 	public function getSettings(): array {
 		foreach ($this->settingsClasses as $class => $false) {
 			/** @var ISetting $setting */
@@ -262,9 +212,6 @@ class Manager implements IManager {
 		return $this->settings;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	public function getSettingById(string $id): ActivitySettings {
 		$settings = $this->getSettings();
 
@@ -276,55 +223,29 @@ class Manager implements IManager {
 	}
 
 
-	/**
-	 * @param string $type
-	 * @param int $id
-	 */
 	public function setFormattingObject(string $type, int $id): void {
 		$this->formattingObjectType = $type;
 		$this->formattingObjectId = $id;
 	}
 
-	/**
-	 * @return bool
-	 */
 	public function isFormattingFilteredObject(): bool {
 		return $this->formattingObjectType !== null && $this->formattingObjectId !== null
 			&& $this->formattingObjectType === $this->request->getParam('object_type')
 			&& $this->formattingObjectId === (int)$this->request->getParam('object_id');
 	}
 
-	/**
-	 * @param bool $status Set to true, when parsing events should not use SVG icons
-	 */
 	public function setRequirePNG(bool $status): void {
 		$this->requirePNG = $status;
 	}
 
-	/**
-	 * @return bool
-	 */
 	public function getRequirePNG(): bool {
 		return $this->requirePNG;
 	}
 
-	/**
-	 * Set the user we need to use
-	 *
-	 * @param string|null $currentUserId
-	 */
 	public function setCurrentUserId(?string $currentUserId = null): void {
 		$this->currentUserId = $currentUserId;
 	}
 
-	/**
-	 * Get the user we need to use
-	 *
-	 * Either the user is logged in, or we try to get it from the token
-	 *
-	 * @return string
-	 * @throws \UnexpectedValueException If the token is invalid, does not exist or is not unique
-	 */
 	public function getCurrentUserId(): string {
 		if ($this->currentUserId !== null) {
 			return $this->currentUserId;

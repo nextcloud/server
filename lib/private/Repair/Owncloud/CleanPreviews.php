@@ -37,9 +37,6 @@ class CleanPreviews implements IRepairStep {
 		$this->config = $config;
 	}
 
-	/**
-	 * @return string
-	 */
 	public function getName() {
 		return 'Add preview cleanup background jobs';
 	}

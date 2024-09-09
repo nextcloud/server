@@ -26,12 +26,6 @@ class CredentialsManager implements ICredentialsManager {
 	) {
 	}
 
-	/**
-	 * Store a set of credentials
-	 *
-	 * @param string $userId empty string for system-wide credentials
-	 * @param mixed $credentials
-	 */
 	public function store(string $userId, string $identifier, $credentials): void {
 		$value = $this->crypto->encrypt(json_encode($credentials));
 
@@ -43,11 +37,6 @@ class CredentialsManager implements ICredentialsManager {
 		]);
 	}
 
-	/**
-	 * Retrieve a set of credentials
-	 *
-	 * @param string $userId empty string for system-wide credentials
-	 */
 	public function retrieve(string $userId, string $identifier): mixed {
 		$qb = $this->dbConnection->getQueryBuilder();
 		$qb->select('credentials')
@@ -72,12 +61,6 @@ class CredentialsManager implements ICredentialsManager {
 		return json_decode($this->crypto->decrypt($value), true);
 	}
 
-	/**
-	 * Delete a set of credentials
-	 *
-	 * @param string $userId empty string for system-wide credentials
-	 * @return int rows removed
-	 */
 	public function delete(string $userId, string $identifier): int {
 		$qb = $this->dbConnection->getQueryBuilder();
 		$qb->delete(self::DB_TABLE)
@@ -92,11 +75,6 @@ class CredentialsManager implements ICredentialsManager {
 		return $qb->execute();
 	}
 
-	/**
-	 * Erase all credentials stored for a user
-	 *
-	 * @return int rows removed
-	 */
 	public function erase(string $userId): int {
 		$qb = $this->dbConnection->getQueryBuilder();
 		$qb->delete(self::DB_TABLE)

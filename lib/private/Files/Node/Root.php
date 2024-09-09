@@ -98,20 +98,10 @@ class Root extends Folder implements IRootFolder {
 		return $this->user;
 	}
 
-	/**
-	 * @param string $scope
-	 * @param string $method
-	 * @param callable $callback
-	 */
 	public function listen($scope, $method, callable $callback) {
 		$this->emitter->listen($scope, $method, $callback);
 	}
 
-	/**
-	 * @param string $scope optional
-	 * @param string $method optional
-	 * @param callable $callback optional
-	 */
 	public function removeListener($scope = null, $method = null, ?callable $callback = null) {
 		$this->emitter->removeListener($scope, $method, $callback);
 	}
@@ -139,10 +129,6 @@ class Root extends Folder implements IRootFolder {
 		return $this->mountManager->find($mountPoint);
 	}
 
-	/**
-	 * @param string $mountPoint
-	 * @return \OC\Files\Mount\MountPoint[]
-	 */
 	public function getMountsIn(string $mountPoint): array {
 		return $this->mountManager->findIn($mountPoint);
 	}
@@ -170,12 +156,6 @@ class Root extends Folder implements IRootFolder {
 		$this->mountManager->remove($mount);
 	}
 
-	/**
-	 * @param string $path
-	 * @return Node
-	 * @throws \OCP\Files\NotPermittedException
-	 * @throws \OCP\Files\NotFoundException
-	 */
 	public function get($path) {
 		$path = $this->normalizePath($path);
 		if ($this->isValidPath($path)) {
@@ -206,138 +186,74 @@ class Root extends Folder implements IRootFolder {
 		throw new NotPermittedException();
 	}
 
-	/**
-	 * @param string $targetPath
-	 * @return Node
-	 * @throws \OCP\Files\NotPermittedException
-	 */
 	public function copy($targetPath) {
 		throw new NotPermittedException();
 	}
 
-	/**
-	 * @param int $mtime
-	 * @throws \OCP\Files\NotPermittedException
-	 */
 	public function touch($mtime = null) {
 		throw new NotPermittedException();
 	}
 
-	/**
-	 * @return \OC\Files\Storage\Storage
-	 * @throws \OCP\Files\NotFoundException
-	 */
 	public function getStorage() {
 		throw new NotFoundException();
 	}
 
-	/**
-	 * @return string
-	 */
 	public function getPath() {
 		return '/';
 	}
 
-	/**
-	 * @return string
-	 */
 	public function getInternalPath() {
 		return '';
 	}
 
-	/**
-	 * @return int
-	 */
 	public function getId() {
 		return 0;
 	}
 
-	/**
-	 * @return array
-	 */
 	public function stat() {
 		return [];
 	}
 
-	/**
-	 * @return int
-	 */
 	public function getMTime() {
 		return 0;
 	}
 
-	/**
-	 * @param bool $includeMounts
-	 * @return int|float
-	 */
 	public function getSize($includeMounts = true): int|float {
 		return 0;
 	}
 
-	/**
-	 * @return string
-	 */
 	public function getEtag() {
 		return '';
 	}
 
-	/**
-	 * @return int
-	 */
 	public function getPermissions() {
 		return \OCP\Constants::PERMISSION_CREATE;
 	}
 
-	/**
-	 * @return bool
-	 */
 	public function isReadable() {
 		return false;
 	}
 
-	/**
-	 * @return bool
-	 */
 	public function isUpdateable() {
 		return false;
 	}
 
-	/**
-	 * @return bool
-	 */
 	public function isDeletable() {
 		return false;
 	}
 
-	/**
-	 * @return bool
-	 */
 	public function isShareable() {
 		return false;
 	}
 
-	/**
-	 * @throws \OCP\Files\NotFoundException
-	 */
 	public function getParent(): INode|IRootFolder {
 		throw new NotFoundException();
 	}
 
-	/**
-	 * @return string
-	 */
 	public function getName() {
 		return '';
 	}
 
-	/**
-	 * Returns a view to user's files folder
-	 *
-	 * @param string $userId user ID
-	 * @return \OCP\Files\Folder
-	 * @throws NoUserException
-	 * @throws NotPermittedException
-	 */
 	public function getUserFolder($userId) {
 		$userObject = $this->userManager->get($userId);
 
@@ -410,10 +326,6 @@ class Root extends Folder implements IRootFolder {
 		return $node;
 	}
 
-	/**
-	 * @param int $id
-	 * @return Node[]
-	 */
 	public function getByIdInPath(int $id, string $path): array {
 		$mountCache = $this->getUserMountCache();
 		if (strpos($path, '/', 1) > 0) {

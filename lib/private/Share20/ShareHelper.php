@@ -20,10 +20,6 @@ class ShareHelper implements IShareHelper {
 		$this->shareManager = $shareManager;
 	}
 
-	/**
-	 * @param Node $node
-	 * @return array [ users => [Mapping $uid => $pathForUser], remotes => [Mapping $cloudId => $pathToMountRoot]]
-	 */
 	public function getPathsForAccessList(Node $node) {
 		$result = [
 			'users' => [],

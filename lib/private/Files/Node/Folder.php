@@ -40,11 +40,6 @@ class Folder extends Node implements \OCP\Files\Folder {
 		return new NonExistingFolder($this->root, $this->view, $path);
 	}
 
-	/**
-	 * @param string $path path relative to the folder
-	 * @return string
-	 * @throws \OCP\Files\NotPermittedException
-	 */
 	public function getFullPath($path) {
 		$path = $this->normalizePath($path);
 		if (!$this->isValidPath($path)) {
@@ -53,30 +48,14 @@ class Folder extends Node implements \OCP\Files\Folder {
 		return $this->path . $path;
 	}
 
-	/**
-	 * @param string $path
-	 * @return string|null
-	 */
 	public function getRelativePath($path) {
 		return PathHelper::getRelativePath($this->getPath(), $path);
 	}
 
-	/**
-	 * check if a node is a (grand-)child of the folder
-	 *
-	 * @param \OC\Files\Node\Node $node
-	 * @return bool
-	 */
 	public function isSubNode($node) {
 		return str_starts_with($node->getPath(), $this->path . '/');
 	}
 
-	/**
-	 * get the content of this directory
-	 *
-	 * @return Node[]
-	 * @throws \OCP\Files\NotFoundException
-	 */
 	public function getDirectoryListing() {
 		$folderContent = $this->view->getDirectoryContent($this->path, '', $this->getFileInfo(false));
 
@@ -103,21 +82,10 @@ class Folder extends Node implements \OCP\Files\Folder {
 		}
 	}
 
-	/**
-	 * Get the node at $path
-	 *
-	 * @param string $path
-	 * @return \OC\Files\Node\Node
-	 * @throws \OCP\Files\NotFoundException
-	 */
 	public function get($path) {
 		return $this->root->get($this->getFullPath($path));
 	}
 
-	/**
-	 * @param string $path
-	 * @return bool
-	 */
 	public function nodeExists($path) {
 		try {
 			$this->get($path);
@@ -127,11 +95,6 @@ class Folder extends Node implements \OCP\Files\Folder {
 		}
 	}
 
-	/**
-	 * @param string $path
-	 * @return \OC\Files\Node\Folder
-	 * @throws \OCP\Files\NotPermittedException
-	 */
 	public function newFolder($path) {
 		if ($this->checkPermissions(\OCP\Constants::PERMISSION_CREATE)) {
 			$fullPath = $this->getFullPath($path);
@@ -149,12 +112,6 @@ class Folder extends Node implements \OCP\Files\Folder {
 		}
 	}
 
-	/**
-	 * @param string $path
-	 * @param string | resource | null $content
-	 * @return \OC\Files\Node\File
-	 * @throws \OCP\Files\NotPermittedException
-	 */
 	public function newFile($path, $content = null) {
 		if ($path === '') {
 			throw new NotPermittedException('Could not create as provided path is empty');
@@ -189,12 +146,6 @@ class Folder extends Node implements \OCP\Files\Folder {
 		return new SearchQuery($operator, $limit, $offset, [], $user);
 	}
 
-	/**
-	 * search for files with the name matching $query
-	 *
-	 * @param string|ISearchQuery $query
-	 * @return \OC\Files\Node\Node[]
-	 */
 	public function search($query) {
 		if (is_string($query)) {
 			$query = $this->queryFromOperator(new SearchComparison(ISearchComparison::COMPARE_LIKE, 'name', '%' . $query . '%'));
@@ -271,12 +222,6 @@ class Folder extends Node implements \OCP\Files\Folder {
 		);
 	}
 
-	/**
-	 * search for files by mimetype
-	 *
-	 * @param string $mimetype
-	 * @return Node[]
-	 */
 	public function searchByMime($mimetype) {
 		if (!str_contains($mimetype, '/')) {
 			$query = $this->queryFromOperator(new SearchComparison(ISearchComparison::COMPARE_LIKE, 'mimetype', $mimetype . '/%'));
@@ -286,13 +231,6 @@ class Folder extends Node implements \OCP\Files\Folder {
 		return $this->search($query);
 	}
 
-	/**
-	 * search for files by tag
-	 *
-	 * @param string|int $tag name or tag id
-	 * @param string $userId owner of the tags
-	 * @return Node[]
-	 */
 	public function searchByTag($tag, $userId) {
 		$query = $this->queryFromOperator(new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'tagname', $tag), $userId);
 		return $this->search($query);
@@ -303,10 +241,6 @@ class Folder extends Node implements \OCP\Files\Folder {
 		return $this->search($query);
 	}
 
-	/**
-	 * @param int $id
-	 * @return \OCP\Files\Node[]
-	 */
 	public function getById($id) {
 		return $this->root->getByIdInPath((int)$id, $this->getPath());
 	}
@@ -379,23 +313,11 @@ class Folder extends Node implements \OCP\Files\Folder {
 		}
 	}
 
-	/**
-	 * Add a suffix to the name in case the file exists
-	 *
-	 * @param string $name
-	 * @return string
-	 * @throws NotPermittedException
-	 */
 	public function getNonExistingName($name) {
 		$uniqueName = \OC_Helper::buildNotExistingFileNameForView($this->getPath(), $name, $this->view);
 		return trim($this->getRelativePath($uniqueName), '/');
 	}
 
-	/**
-	 * @param int $limit
-	 * @param int $offset
-	 * @return INode[]
-	 */
 	public function getRecent($limit, $offset = 0) {
 		$filterOutNonEmptyFolder = new SearchBinaryOperator(
 			// filter out non empty folders

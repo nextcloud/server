@@ -20,16 +20,10 @@ class DropAccountTermsTable implements IRepairStep {
 		$this->db = $db;
 	}
 
-	/**
-	 * @return string
-	 */
 	public function getName() {
 		return 'Drop account terms table when migrating from ownCloud';
 	}
 
-	/**
-	 * @param IOutput $output
-	 */
 	public function run(IOutput $output) {
 		if (!$this->db->tableExists('account_terms')) {
 			return;

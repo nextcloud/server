@@ -29,11 +29,6 @@ class CertificateManager implements ICertificateManager {
 	) {
 	}
 
-	/**
-	 * Returns all certificates trusted by the user
-	 *
-	 * @return \OCP\ICertificate[]
-	 */
 	public function listCertificates(): array {
 		if (!$this->config->getSystemValueBool('installed', false)) {
 			return [];
@@ -141,13 +136,6 @@ class CertificateManager implements ICertificateManager {
 		$this->view->rename($tmpPath, $certPath);
 	}
 
-	/**
-	 * Save the certificate and re-generate the certificate bundle
-	 *
-	 * @param string $certificate the certificate data
-	 * @param string $name the filename for the certificate
-	 * @throws \Exception If the certificate could not get added
-	 */
 	public function addCertificate(string $certificate, string $name): ICertificate {
 		$path = $this->getPathToCertificates() . 'uploads/' . $name;
 		$directory = dirname($path);
@@ -169,9 +157,6 @@ class CertificateManager implements ICertificateManager {
 		}
 	}
 
-	/**
-	 * Remove the certificate and re-generate the certificate bundle
-	 */
 	public function removeCertificate(string $name): bool {
 		$path = $this->getPathToCertificates() . 'uploads/' . $name;
 
@@ -189,17 +174,10 @@ class CertificateManager implements ICertificateManager {
 		return true;
 	}
 
-	/**
-	 * Get the path to the certificate bundle
-	 */
 	public function getCertificateBundle(): string {
 		return $this->getPathToCertificates() . 'rootcerts.crt';
 	}
 
-	/**
-	 * Get the full local path to the certificate bundle
-	 * @throws \Exception when getting bundle path fails
-	 */
 	public function getAbsoluteBundlePath(): string {
 		try {
 			if ($this->bundlePath === null) {

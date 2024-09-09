@@ -35,21 +35,12 @@ class Message implements IMessage {
 	) {
 	}
 
-	/**
-	 * @since 13.0.0
-	 * @return $this
-	 */
 	public function attach(IAttachment $attachment): IMessage {
 		/** @var Attachment $attachment */
 		$attachment->attach($this->symfonyEmail);
 		return $this;
 	}
 
-	/**
-	 * Can be used to "attach content inline" as message parts with specific MIME type and encoding.
-	 * {@inheritDoc}
-	 * @since 26.0.0
-	 */
 	public function attachInline(string $body, string $name, ?string $contentType = null): IMessage {
 		# To be sure this works with iCalendar messages, we encode with 8bit instead of
 		# quoted-printable encoding. We save the current encoder, replace the current
@@ -86,14 +77,6 @@ class Message implements IMessage {
 		return $convertedAddresses;
 	}
 
-	/**
-	 * Set the from address of this message.
-	 *
-	 * If no "From" address is used \OC\Mail\Mailer will use mail_from_address and mail_domain from config.php
-	 *
-	 * @param array $addresses Example: array('sender@domain.org', 'other@domain.org' => 'A name')
-	 * @return $this
-	 */
 	public function setFrom(array $addresses): IMessage {
 		$this->from = $addresses;
 		return $this;
@@ -106,10 +89,6 @@ class Message implements IMessage {
 		return $this->from;
 	}
 
-	/**
-	 * Set the Reply-To address of this message
-	 * @return $this
-	 */
 	public function setReplyTo(array $addresses): IMessage {
 		$this->replyTo = $addresses;
 		return $this;
@@ -122,12 +101,6 @@ class Message implements IMessage {
 		return $this->replyTo;
 	}
 
-	/**
-	 * Set the to addresses of this message.
-	 *
-	 * @param array $recipients Example: array('recipient@domain.org', 'other@domain.org' => 'A name')
-	 * @return $this
-	 */
 	public function setTo(array $recipients): IMessage {
 		$this->to = $recipients;
 		return $this;
@@ -140,12 +113,6 @@ class Message implements IMessage {
 		return $this->to;
 	}
 
-	/**
-	 * Set the CC recipients of this message.
-	 *
-	 * @param array $recipients Example: array('recipient@domain.org', 'other@domain.org' => 'A name')
-	 * @return $this
-	 */
 	public function setCc(array $recipients): IMessage {
 		$this->cc = $recipients;
 		return $this;
@@ -158,12 +125,6 @@ class Message implements IMessage {
 		return $this->cc;
 	}
 
-	/**
-	 * Set the BCC recipients of this message.
-	 *
-	 * @param array $recipients Example: array('recipient@domain.org', 'other@domain.org' => 'A name')
-	 * @return $this
-	 */
 	public function setBcc(array $recipients): IMessage {
 		$this->bcc = $recipients;
 		return $this;
@@ -176,9 +137,6 @@ class Message implements IMessage {
 		return $this->bcc;
 	}
 
-	/**
-	 * @return $this
-	 */
 	public function setSubject(string $subject): IMessage {
 		$this->symfonyEmail->subject($subject);
 		return $this;
@@ -191,9 +149,6 @@ class Message implements IMessage {
 		return $this->symfonyEmail->getSubject() ?? '';
 	}
 
-	/**
-	 * @return $this
-	 */
 	public function setPlainBody(string $body): IMessage {
 		$this->symfonyEmail->text($body);
 		return $this;
@@ -208,9 +163,6 @@ class Message implements IMessage {
 		return $body;
 	}
 
-	/**
-	 * @return $this
-	 */
 	public function setHtmlBody(string $body): IMessage {
 		if (!$this->plainTextOnly) {
 			$this->symfonyEmail->html($body);
@@ -272,9 +224,6 @@ class Message implements IMessage {
 		$this->symfonyEmail->bcc(...$this->convertAddresses($this->getBcc()));
 	}
 
-	/**
-	 * @return $this
-	 */
 	public function useTemplate(IEMailTemplate $emailTemplate): IMessage {
 		$this->setSubject($emailTemplate->renderSubject());
 		$this->setPlainBody($emailTemplate->renderText());
@@ -284,13 +233,6 @@ class Message implements IMessage {
 		return $this;
 	}
 
-	/**
-	 * Add the Auto-Submitted header to the email, preventing most automated
-	 * responses to automated messages.
-	 *
-	 * @param AutoSubmitted::VALUE_* $value (one of AutoSubmitted::VALUE_NO, AutoSubmitted::VALUE_AUTO_GENERATED, AutoSubmitted::VALUE_AUTO_REPLIED)
-	 * @return $this
-	 */
 	public function setAutoSubmitted(string $value): IMessage {
 		$headers = $this->symfonyEmail->getHeaders();
 

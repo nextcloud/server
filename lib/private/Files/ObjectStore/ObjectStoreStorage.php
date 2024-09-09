@@ -38,10 +38,6 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 	private bool $handleCopiesAsOwned;
 	protected bool $validateWrites = true;
 
-	/**
-	 * @param array $params
-	 * @throws \Exception
-	 */
 	public function __construct($params) {
 		if (isset($params['objectstore']) && $params['objectstore'] instanceof IObjectStore) {
 			$this->objectStore = $params['objectstore'];
@@ -126,14 +122,6 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 		return $path;
 	}
 
-	/**
-	 * Object Stores use a NoopScanner because metadata is directly stored in
-	 * the file cache and cannot really scan the filesystem. The storage passed in is not used anywhere.
-	 *
-	 * @param string $path
-	 * @param \OC\Files\Storage\Storage (optional) the storage to pass to the scanner
-	 * @return \OC\Files\ObjectStore\ObjectStoreScanner
-	 */
 	public function getScanner($path = '', $storage = null) {
 		if (!$storage) {
 			$storage = $this;
@@ -446,13 +434,6 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 		$this->writeStream($path, fopen($tmpFile, 'r'), $size);
 	}
 
-	/**
-	 * external changes are not supported, exclusive access to the object storage is assumed
-	 *
-	 * @param string $path
-	 * @param int $time
-	 * @return false
-	 */
 	public function hasUpdated($path, $time) {
 		return false;
 	}
@@ -686,10 +667,6 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 		return $this->objectStore->initiateMultipartUpload($urn);
 	}
 
-	/**
-	 *
-	 * @throws GenericFileException
-	 */
 	public function putChunkedWritePart(
 		string $targetPath,
 		string $writeToken,

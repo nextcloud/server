@@ -52,12 +52,6 @@ class TempManager implements ITempManager {
 		return $absolutePath . $postFix;
 	}
 
-	/**
-	 * Create a temporary file and return the path
-	 *
-	 * @param string $postFix Postfix appended to the temporary file name
-	 * @return string
-	 */
 	public function getTemporaryFile($postFix = '') {
 		if (is_writable($this->tmpBaseDir)) {
 			// To create an unique file and prevent the risk of race conditions
@@ -89,12 +83,6 @@ class TempManager implements ITempManager {
 		}
 	}
 
-	/**
-	 * Create a temporary folder and return the path
-	 *
-	 * @param string $postFix Postfix appended to the temporary folder name
-	 * @return string
-	 */
 	public function getTemporaryFolder($postFix = '') {
 		if (is_writable($this->tmpBaseDir)) {
 			// To create an unique directory and prevent the risk of race conditions
@@ -121,9 +109,6 @@ class TempManager implements ITempManager {
 		}
 	}
 
-	/**
-	 * Remove the temporary files and folders generated during this request
-	 */
 	public function clean() {
 		$this->cleanFiles($this->current);
 	}
@@ -149,9 +134,6 @@ class TempManager implements ITempManager {
 		}
 	}
 
-	/**
-	 * Remove old temporary files and folders that were failed to be cleaned
-	 */
 	public function cleanOld() {
 		$this->cleanFiles($this->getOldFiles());
 	}
@@ -179,12 +161,6 @@ class TempManager implements ITempManager {
 		return $files;
 	}
 
-	/**
-	 * Get the temporary base directory configured on the server
-	 *
-	 * @return string Path to the temporary directory or null
-	 * @throws \UnexpectedValueException
-	 */
 	public function getTempBaseDir() {
 		if ($this->tmpBaseDir) {
 			return $this->tmpBaseDir;

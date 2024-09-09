@@ -8,7 +8,6 @@ declare(strict_types=1);
  */
 namespace OC\Collaboration\Resources;
 
-use OCP\Collaboration\Resources\ICollection;
 use OCP\Collaboration\Resources\IManager;
 use OCP\Collaboration\Resources\IResource;
 use OCP\IDBConnection;
@@ -27,23 +26,14 @@ class Resource implements IResource {
 	) {
 	}
 
-	/**
-	 * @since 16.0.0
-	 */
 	public function getType(): string {
 		return $this->type;
 	}
 
-	/**
-	 * @since 16.0.0
-	 */
 	public function getId(): string {
 		return $this->id;
 	}
 
-	/**
-	 * @since 16.0.0
-	 */
 	public function getRichObject(): array {
 		if ($this->data === null) {
 			$this->data = $this->manager->getResourceRichObject($this);
@@ -52,11 +42,6 @@ class Resource implements IResource {
 		return $this->data;
 	}
 
-	/**
-	 * Can a user/guest access the resource
-	 *
-	 * @since 16.0.0
-	 */
 	public function canAccess(?IUser $user): bool {
 		if ($user instanceof IUser) {
 			return $this->canUserAccess($user);
@@ -88,10 +73,6 @@ class Resource implements IResource {
 		return $access;
 	}
 
-	/**
-	 * @return ICollection[]
-	 * @since 16.0.0
-	 */
 	public function getCollections(): array {
 		$collections = [];
 

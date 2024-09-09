@@ -62,9 +62,6 @@ class NavigationManager implements INavigationManager {
 		$this->defaultApp = null;
 	}
 
-	/**
-	 * @inheritDoc
-	 */
 	public function add($entry) {
 		if ($entry instanceof \Closure) {
 			$this->closureEntries[] = $entry;
@@ -101,9 +98,6 @@ class NavigationManager implements INavigationManager {
 		$this->entries[$id] = $entry;
 	}
 
-	/**
-	 * @inheritDoc
-	 */
 	public function getAll(string $type = 'link'): array {
 		$this->init();
 		foreach ($this->closureEntries as $c) {
@@ -181,16 +175,10 @@ class NavigationManager implements INavigationManager {
 		$this->init = !$loadDefaultLinks;
 	}
 
-	/**
-	 * @inheritDoc
-	 */
 	public function setActiveEntry($appId) {
 		$this->activeEntry = $appId;
 	}
 
-	/**
-	 * @inheritDoc
-	 */
 	public function getActiveEntry() {
 		return $this->activeEntry;
 	}

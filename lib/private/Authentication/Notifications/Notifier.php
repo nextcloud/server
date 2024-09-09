@@ -21,9 +21,6 @@ class Notifier implements INotifier {
 		$this->factory = $l10nFactory;
 	}
 
-	/**
-	 * @inheritDoc
-	 */
 	public function prepare(INotification $notification, string $languageCode): INotification {
 		if ($notification->getApp() !== 'auth') {
 			// Not my app => throw
@@ -56,22 +53,10 @@ class Notifier implements INotifier {
 		}
 	}
 
-	/**
-	 * Identifier of the notifier, only use [a-z0-9_]
-	 *
-	 * @return string
-	 * @since 17.0.0
-	 */
 	public function getID(): string {
 		return 'auth';
 	}
 
-	/**
-	 * Human readable name describing the notifier
-	 *
-	 * @return string
-	 * @since 17.0.0
-	 */
 	public function getName(): string {
 		return $this->factory->get('lib')->t('Authentication');
 	}

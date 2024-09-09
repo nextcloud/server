@@ -34,26 +34,16 @@ class Response implements IResponse {
 		$this->stream = $stream;
 	}
 
-	/**
-	 * @return string|resource
-	 */
 	public function getBody() {
 		return $this->stream ?
 			$this->response->getBody()->detach():
 			$this->response->getBody()->getContents();
 	}
 
-	/**
-	 * @return int
-	 */
 	public function getStatusCode(): int {
 		return $this->response->getStatusCode();
 	}
 
-	/**
-	 * @param string $key
-	 * @return string
-	 */
 	public function getHeader(string $key): string {
 		$headers = $this->response->getHeader($key);
 
@@ -64,9 +54,6 @@ class Response implements IResponse {
 		return $headers[0];
 	}
 
-	/**
-	 * @return array
-	 */
 	public function getHeaders(): array {
 		return $this->response->getHeaders();
 	}

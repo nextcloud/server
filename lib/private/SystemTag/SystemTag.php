@@ -19,37 +19,22 @@ class SystemTag implements ISystemTag {
 	) {
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
 	public function getId(): string {
 		return $this->id;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
 	public function getName(): string {
 		return $this->name;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
 	public function isUserVisible(): bool {
 		return $this->userVisible;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
 	public function isUserAssignable(): bool {
 		return $this->userAssignable;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
 	public function getAccessLevel(): int {
 		if (!$this->userVisible) {
 			return self::ACCESS_LEVEL_INVISIBLE;

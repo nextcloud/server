@@ -45,9 +45,6 @@ class Swift implements IObjectStore {
 		return $this->swiftFactory->getContainer();
 	}
 
-	/**
-	 * @return string the container name where objects are stored
-	 */
 	public function getStorageId() {
 		if (isset($this->params['bucket'])) {
 			return $this->params['bucket'];
@@ -77,12 +74,6 @@ class Swift implements IObjectStore {
 		}
 	}
 
-	/**
-	 * @param string $urn the unified resource name used to identify the object
-	 * @return resource stream with the read data
-	 * @throws \Exception from openstack or GuzzleHttp libs when something goes wrong
-	 * @throws NotFoundException if file does not exist
-	 */
 	public function readObject($urn) {
 		try {
 			$publicUri = $this->getContainer()->getObject($urn)->getPublicUri();
@@ -108,11 +99,6 @@ class Swift implements IObjectStore {
 		return RetryWrapper::wrap($response->getBody()->detach());
 	}
 
-	/**
-	 * @param string $urn Unified Resource Name
-	 * @return void
-	 * @throws \Exception from openstack lib when something goes wrong
-	 */
 	public function deleteObject($urn) {
 		$this->getContainer()->getObject($urn)->delete();
 	}

@@ -46,9 +46,6 @@ class RepairDavShares implements IRepairStep {
 		$this->logger = $logger;
 	}
 
-	/**
-	 * @inheritDoc
-	 */
 	public function getName() {
 		return 'Repair DAV shares';
 	}
@@ -104,9 +101,6 @@ class RepairDavShares implements IRepairStep {
 		return true;
 	}
 
-	/**
-	 * @inheritDoc
-	 */
 	public function run(IOutput $output) {
 		$versionFromBeforeUpdate = $this->config->getSystemValueString('version', '0.0.0');
 		if (version_compare($versionFromBeforeUpdate, '20.0.8', '<')

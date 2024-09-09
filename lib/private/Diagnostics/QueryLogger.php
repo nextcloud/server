@@ -29,9 +29,6 @@ class QueryLogger implements IQueryLogger {
 	 */
 	private $activated = false;
 
-	/**
-	 * @inheritdoc
-	 */
 	public function startQuery($sql, ?array $params = null, ?array $types = null) {
 		if ($this->activated) {
 			$this->activeQuery = new Query($sql, $params, microtime(true), $this->getStack());
@@ -46,9 +43,6 @@ class QueryLogger implements IQueryLogger {
 		return $stack;
 	}
 
-	/**
-	 * @inheritdoc
-	 */
 	public function stopQuery() {
 		if ($this->activated && $this->activeQuery) {
 			$this->activeQuery->end(microtime(true));
@@ -58,16 +52,10 @@ class QueryLogger implements IQueryLogger {
 		}
 	}
 
-	/**
-	 * @inheritdoc
-	 */
 	public function getQueries() {
 		return $this->queries->getData();
 	}
 
-	/**
-	 * @inheritdoc
-	 */
 	public function activate() {
 		$this->activated = true;
 	}

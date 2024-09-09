@@ -72,9 +72,6 @@ class OCS extends ApiBase implements ICapabilitiesApi, IUserApi {
 		return new User($result);
 	}
 
-	/**
-	 * @return array The capabilities in the form of [$appId => [$capability => $value]]
-	 */
 	public function getCapabilities() {
 		$result = $this->request('get', 'cloud/capabilities');
 		return $result['capabilities'];

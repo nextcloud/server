@@ -66,18 +66,10 @@ class Azure implements IObjectStore {
 		return $this->blobClient;
 	}
 
-	/**
-	 * @return string the container or bucket name where objects are stored
-	 */
 	public function getStorageId() {
 		return 'azure::blob::' . $this->containerName;
 	}
 
-	/**
-	 * @param string $urn the unified resource name used to identify the object
-	 * @return resource stream with the read data
-	 * @throws \Exception when something goes wrong, message will be logged
-	 */
 	public function readObject($urn) {
 		$blob = $this->getBlobClient()->getBlob($this->containerName, $urn);
 		return $blob->getContentStream();
@@ -91,11 +83,6 @@ class Azure implements IObjectStore {
 		$this->getBlobClient()->createBlockBlob($this->containerName, $urn, $stream, $options);
 	}
 
-	/**
-	 * @param string $urn the unified resource name used to identify the object
-	 * @return void
-	 * @throws \Exception when something goes wrong, message will be logged
-	 */
 	public function deleteObject($urn) {
 		$this->getBlobClient()->deleteBlob($this->containerName, $urn);
 	}

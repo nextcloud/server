@@ -171,35 +171,6 @@ class Client implements IClient {
 		}
 	}
 
-	/**
-	 * Sends a GET request
-	 *
-	 * @param string $uri
-	 * @param array $options Array such as
-	 *                       'query' => [
-	 *                       'field' => 'abc',
-	 *                       'other_field' => '123',
-	 *                       'file_name' => fopen('/path/to/file', 'r'),
-	 *                       ],
-	 *                       'headers' => [
-	 *                       'foo' => 'bar',
-	 *                       ],
-	 *                       'cookies' => [
-	 *                       'foo' => 'bar',
-	 *                       ],
-	 *                       'allow_redirects' => [
-	 *                       'max'       => 10,  // allow at most 10 redirects.
-	 *                       'strict'    => true,     // use "strict" RFC compliant redirects.
-	 *                       'referer'   => true,     // add a Referer header
-	 *                       'protocols' => ['https'] // only allow https URLs
-	 *                       ],
-	 *                       'sink' => '/path/to/file', // save to a file or a stream
-	 *                       'verify' => true, // bool or string to CA file
-	 *                       'debug' => true,
-	 *                       'timeout' => 5,
-	 * @return IResponse
-	 * @throws \Exception If the request could not get completed
-	 */
 	public function get(string $uri, array $options = []): IResponse {
 		$this->preventLocalAddress($uri, $options);
 		$response = $this->client->request('get', $uri, $this->buildRequestOptions($options));
@@ -207,65 +178,12 @@ class Client implements IClient {
 		return new Response($response, $isStream);
 	}
 
-	/**
-	 * Sends a HEAD request
-	 *
-	 * @param string $uri
-	 * @param array $options Array such as
-	 *                       'headers' => [
-	 *                       'foo' => 'bar',
-	 *                       ],
-	 *                       'cookies' => [
-	 *                       'foo' => 'bar',
-	 *                       ],
-	 *                       'allow_redirects' => [
-	 *                       'max'       => 10,  // allow at most 10 redirects.
-	 *                       'strict'    => true,     // use "strict" RFC compliant redirects.
-	 *                       'referer'   => true,     // add a Referer header
-	 *                       'protocols' => ['https'] // only allow https URLs
-	 *                       ],
-	 *                       'sink' => '/path/to/file', // save to a file or a stream
-	 *                       'verify' => true, // bool or string to CA file
-	 *                       'debug' => true,
-	 *                       'timeout' => 5,
-	 * @return IResponse
-	 * @throws \Exception If the request could not get completed
-	 */
 	public function head(string $uri, array $options = []): IResponse {
 		$this->preventLocalAddress($uri, $options);
 		$response = $this->client->request('head', $uri, $this->buildRequestOptions($options));
 		return new Response($response);
 	}
 
-	/**
-	 * Sends a POST request
-	 *
-	 * @param string $uri
-	 * @param array $options Array such as
-	 *                       'body' => [
-	 *                       'field' => 'abc',
-	 *                       'other_field' => '123',
-	 *                       'file_name' => fopen('/path/to/file', 'r'),
-	 *                       ],
-	 *                       'headers' => [
-	 *                       'foo' => 'bar',
-	 *                       ],
-	 *                       'cookies' => [
-	 *                       'foo' => 'bar',
-	 *                       ],
-	 *                       'allow_redirects' => [
-	 *                       'max'       => 10,  // allow at most 10 redirects.
-	 *                       'strict'    => true,     // use "strict" RFC compliant redirects.
-	 *                       'referer'   => true,     // add a Referer header
-	 *                       'protocols' => ['https'] // only allow https URLs
-	 *                       ],
-	 *                       'sink' => '/path/to/file', // save to a file or a stream
-	 *                       'verify' => true, // bool or string to CA file
-	 *                       'debug' => true,
-	 *                       'timeout' => 5,
-	 * @return IResponse
-	 * @throws \Exception If the request could not get completed
-	 */
 	public function post(string $uri, array $options = []): IResponse {
 		$this->preventLocalAddress($uri, $options);
 
@@ -278,154 +196,30 @@ class Client implements IClient {
 		return new Response($response, $isStream);
 	}
 
-	/**
-	 * Sends a PUT request
-	 *
-	 * @param string $uri
-	 * @param array $options Array such as
-	 *                       'body' => [
-	 *                       'field' => 'abc',
-	 *                       'other_field' => '123',
-	 *                       'file_name' => fopen('/path/to/file', 'r'),
-	 *                       ],
-	 *                       'headers' => [
-	 *                       'foo' => 'bar',
-	 *                       ],
-	 *                       'cookies' => [
-	 *                       'foo' => 'bar',
-	 *                       ],
-	 *                       'allow_redirects' => [
-	 *                       'max'       => 10,  // allow at most 10 redirects.
-	 *                       'strict'    => true,     // use "strict" RFC compliant redirects.
-	 *                       'referer'   => true,     // add a Referer header
-	 *                       'protocols' => ['https'] // only allow https URLs
-	 *                       ],
-	 *                       'sink' => '/path/to/file', // save to a file or a stream
-	 *                       'verify' => true, // bool or string to CA file
-	 *                       'debug' => true,
-	 *                       'timeout' => 5,
-	 * @return IResponse
-	 * @throws \Exception If the request could not get completed
-	 */
 	public function put(string $uri, array $options = []): IResponse {
 		$this->preventLocalAddress($uri, $options);
 		$response = $this->client->request('put', $uri, $this->buildRequestOptions($options));
 		return new Response($response);
 	}
 
-	/**
-	 * Sends a PATCH request
-	 *
-	 * @param string $uri
-	 * @param array $options Array such as
-	 *                       'body' => [
-	 *                       'field' => 'abc',
-	 *                       'other_field' => '123',
-	 *                       'file_name' => fopen('/path/to/file', 'r'),
-	 *                       ],
-	 *                       'headers' => [
-	 *                       'foo' => 'bar',
-	 *                       ],
-	 *                       'cookies' => [
-	 *                       'foo' => 'bar',
-	 *                       ],
-	 *                       'allow_redirects' => [
-	 *                       'max'       => 10,  // allow at most 10 redirects.
-	 *                       'strict'    => true,     // use "strict" RFC compliant redirects.
-	 *                       'referer'   => true,     // add a Referer header
-	 *                       'protocols' => ['https'] // only allow https URLs
-	 *                       ],
-	 *                       'sink' => '/path/to/file', // save to a file or a stream
-	 *                       'verify' => true, // bool or string to CA file
-	 *                       'debug' => true,
-	 *                       'timeout' => 5,
-	 * @return IResponse
-	 * @throws \Exception If the request could not get completed
-	 */
 	public function patch(string $uri, array $options = []): IResponse {
 		$this->preventLocalAddress($uri, $options);
 		$response = $this->client->request('patch', $uri, $this->buildRequestOptions($options));
 		return new Response($response);
 	}
 
-	/**
-	 * Sends a DELETE request
-	 *
-	 * @param string $uri
-	 * @param array $options Array such as
-	 *                       'body' => [
-	 *                       'field' => 'abc',
-	 *                       'other_field' => '123',
-	 *                       'file_name' => fopen('/path/to/file', 'r'),
-	 *                       ],
-	 *                       'headers' => [
-	 *                       'foo' => 'bar',
-	 *                       ],
-	 *                       'cookies' => [
-	 *                       'foo' => 'bar',
-	 *                       ],
-	 *                       'allow_redirects' => [
-	 *                       'max'       => 10,  // allow at most 10 redirects.
-	 *                       'strict'    => true,     // use "strict" RFC compliant redirects.
-	 *                       'referer'   => true,     // add a Referer header
-	 *                       'protocols' => ['https'] // only allow https URLs
-	 *                       ],
-	 *                       'sink' => '/path/to/file', // save to a file or a stream
-	 *                       'verify' => true, // bool or string to CA file
-	 *                       'debug' => true,
-	 *                       'timeout' => 5,
-	 * @return IResponse
-	 * @throws \Exception If the request could not get completed
-	 */
 	public function delete(string $uri, array $options = []): IResponse {
 		$this->preventLocalAddress($uri, $options);
 		$response = $this->client->request('delete', $uri, $this->buildRequestOptions($options));
 		return new Response($response);
 	}
 
-	/**
-	 * Sends an OPTIONS request
-	 *
-	 * @param string $uri
-	 * @param array $options Array such as
-	 *                       'body' => [
-	 *                       'field' => 'abc',
-	 *                       'other_field' => '123',
-	 *                       'file_name' => fopen('/path/to/file', 'r'),
-	 *                       ],
-	 *                       'headers' => [
-	 *                       'foo' => 'bar',
-	 *                       ],
-	 *                       'cookies' => [
-	 *                       'foo' => 'bar',
-	 *                       ],
-	 *                       'allow_redirects' => [
-	 *                       'max'       => 10,  // allow at most 10 redirects.
-	 *                       'strict'    => true,     // use "strict" RFC compliant redirects.
-	 *                       'referer'   => true,     // add a Referer header
-	 *                       'protocols' => ['https'] // only allow https URLs
-	 *                       ],
-	 *                       'sink' => '/path/to/file', // save to a file or a stream
-	 *                       'verify' => true, // bool or string to CA file
-	 *                       'debug' => true,
-	 *                       'timeout' => 5,
-	 * @return IResponse
-	 * @throws \Exception If the request could not get completed
-	 */
 	public function options(string $uri, array $options = []): IResponse {
 		$this->preventLocalAddress($uri, $options);
 		$response = $this->client->request('options', $uri, $this->buildRequestOptions($options));
 		return new Response($response);
 	}
 
-	/**
-	 * Get the response of a Throwable thrown by the request methods when possible
-	 *
-	 * @param \Throwable $e
-	 * @return IResponse
-	 * @throws \Throwable When $e did not have a response
-	 * @since 29.0.0
-	 */
 	public function getResponseFromThrowable(\Throwable $e): IResponse {
 		if (method_exists($e, 'hasResponse') && method_exists($e, 'getResponse') && $e->hasResponse()) {
 			return new Response($e->getResponse());
@@ -434,36 +228,6 @@ class Client implements IClient {
 		throw $e;
 	}
 
-	/**
-	 * Sends a HTTP request
-	 *
-	 * @param string $method The HTTP method to use
-	 * @param string $uri
-	 * @param array $options Array such as
-	 *                       'query' => [
-	 *                       'field' => 'abc',
-	 *                       'other_field' => '123',
-	 *                       'file_name' => fopen('/path/to/file', 'r'),
-	 *                       ],
-	 *                       'headers' => [
-	 *                       'foo' => 'bar',
-	 *                       ],
-	 *                       'cookies' => [
-	 *                       'foo' => 'bar',
-	 *                       ],
-	 *                       'allow_redirects' => [
-	 *                       'max'       => 10,  // allow at most 10 redirects.
-	 *                       'strict'    => true,     // use "strict" RFC compliant redirects.
-	 *                       'referer'   => true,     // add a Referer header
-	 *                       'protocols' => ['https'] // only allow https URLs
-	 *                       ],
-	 *                       'sink' => '/path/to/file', // save to a file or a stream
-	 *                       'verify' => true, // bool or string to CA file
-	 *                       'debug' => true,
-	 *                       'timeout' => 5,
-	 * @return IResponse
-	 * @throws \Exception If the request could not get completed
-	 */
 	public function request(string $method, string $uri, array $options = []): IResponse {
 		$this->preventLocalAddress($uri, $options);
 		$response = $this->client->request($method, $uri, $this->buildRequestOptions($options));
@@ -478,97 +242,18 @@ class Client implements IClient {
 		);
 	}
 
-	/**
-	 * Sends an asynchronous GET request
-	 *
-	 * @param string $uri
-	 * @param array $options Array such as
-	 *                       'query' => [
-	 *                       'field' => 'abc',
-	 *                       'other_field' => '123',
-	 *                       'file_name' => fopen('/path/to/file', 'r'),
-	 *                       ],
-	 *                       'headers' => [
-	 *                       'foo' => 'bar',
-	 *                       ],
-	 *                       'cookies' => [
-	 *                       'foo' => 'bar',
-	 *                       ],
-	 *                       'allow_redirects' => [
-	 *                       'max'       => 10,  // allow at most 10 redirects.
-	 *                       'strict'    => true,     // use "strict" RFC compliant redirects.
-	 *                       'referer'   => true,     // add a Referer header
-	 *                       'protocols' => ['https'] // only allow https URLs
-	 *                       ],
-	 *                       'sink' => '/path/to/file', // save to a file or a stream
-	 *                       'verify' => true, // bool or string to CA file
-	 *                       'debug' => true,
-	 *                       'timeout' => 5,
-	 * @return IPromise
-	 */
 	public function getAsync(string $uri, array $options = []): IPromise {
 		$this->preventLocalAddress($uri, $options);
 		$response = $this->client->requestAsync('get', $uri, $this->buildRequestOptions($options));
 		return $this->wrapGuzzlePromise($response);
 	}
 
-	/**
-	 * Sends an asynchronous HEAD request
-	 *
-	 * @param string $uri
-	 * @param array $options Array such as
-	 *                       'headers' => [
-	 *                       'foo' => 'bar',
-	 *                       ],
-	 *                       'cookies' => [
-	 *                       'foo' => 'bar',
-	 *                       ],
-	 *                       'allow_redirects' => [
-	 *                       'max'       => 10,  // allow at most 10 redirects.
-	 *                       'strict'    => true,     // use "strict" RFC compliant redirects.
-	 *                       'referer'   => true,     // add a Referer header
-	 *                       'protocols' => ['https'] // only allow https URLs
-	 *                       ],
-	 *                       'sink' => '/path/to/file', // save to a file or a stream
-	 *                       'verify' => true, // bool or string to CA file
-	 *                       'debug' => true,
-	 *                       'timeout' => 5,
-	 * @return IPromise
-	 */
 	public function headAsync(string $uri, array $options = []): IPromise {
 		$this->preventLocalAddress($uri, $options);
 		$response = $this->client->requestAsync('head', $uri, $this->buildRequestOptions($options));
 		return $this->wrapGuzzlePromise($response);
 	}
 
-	/**
-	 * Sends an asynchronous POST request
-	 *
-	 * @param string $uri
-	 * @param array $options Array such as
-	 *                       'body' => [
-	 *                       'field' => 'abc',
-	 *                       'other_field' => '123',
-	 *                       'file_name' => fopen('/path/to/file', 'r'),
-	 *                       ],
-	 *                       'headers' => [
-	 *                       'foo' => 'bar',
-	 *                       ],
-	 *                       'cookies' => [
-	 *                       'foo' => 'bar',
-	 *                       ],
-	 *                       'allow_redirects' => [
-	 *                       'max'       => 10,  // allow at most 10 redirects.
-	 *                       'strict'    => true,     // use "strict" RFC compliant redirects.
-	 *                       'referer'   => true,     // add a Referer header
-	 *                       'protocols' => ['https'] // only allow https URLs
-	 *                       ],
-	 *                       'sink' => '/path/to/file', // save to a file or a stream
-	 *                       'verify' => true, // bool or string to CA file
-	 *                       'debug' => true,
-	 *                       'timeout' => 5,
-	 * @return IPromise
-	 */
 	public function postAsync(string $uri, array $options = []): IPromise {
 		$this->preventLocalAddress($uri, $options);
 
@@ -580,102 +265,18 @@ class Client implements IClient {
 		return $this->wrapGuzzlePromise($this->client->requestAsync('post', $uri, $this->buildRequestOptions($options)));
 	}
 
-	/**
-	 * Sends an asynchronous PUT request
-	 *
-	 * @param string $uri
-	 * @param array $options Array such as
-	 *                       'body' => [
-	 *                       'field' => 'abc',
-	 *                       'other_field' => '123',
-	 *                       'file_name' => fopen('/path/to/file', 'r'),
-	 *                       ],
-	 *                       'headers' => [
-	 *                       'foo' => 'bar',
-	 *                       ],
-	 *                       'cookies' => [
-	 *                       'foo' => 'bar',
-	 *                       ],
-	 *                       'allow_redirects' => [
-	 *                       'max'       => 10,  // allow at most 10 redirects.
-	 *                       'strict'    => true,     // use "strict" RFC compliant redirects.
-	 *                       'referer'   => true,     // add a Referer header
-	 *                       'protocols' => ['https'] // only allow https URLs
-	 *                       ],
-	 *                       'sink' => '/path/to/file', // save to a file or a stream
-	 *                       'verify' => true, // bool or string to CA file
-	 *                       'debug' => true,
-	 *                       'timeout' => 5,
-	 * @return IPromise
-	 */
 	public function putAsync(string $uri, array $options = []): IPromise {
 		$this->preventLocalAddress($uri, $options);
 		$response = $this->client->requestAsync('put', $uri, $this->buildRequestOptions($options));
 		return $this->wrapGuzzlePromise($response);
 	}
 
-	/**
-	 * Sends an asynchronous DELETE request
-	 *
-	 * @param string $uri
-	 * @param array $options Array such as
-	 *                       'body' => [
-	 *                       'field' => 'abc',
-	 *                       'other_field' => '123',
-	 *                       'file_name' => fopen('/path/to/file', 'r'),
-	 *                       ],
-	 *                       'headers' => [
-	 *                       'foo' => 'bar',
-	 *                       ],
-	 *                       'cookies' => [
-	 *                       'foo' => 'bar',
-	 *                       ],
-	 *                       'allow_redirects' => [
-	 *                       'max'       => 10,  // allow at most 10 redirects.
-	 *                       'strict'    => true,     // use "strict" RFC compliant redirects.
-	 *                       'referer'   => true,     // add a Referer header
-	 *                       'protocols' => ['https'] // only allow https URLs
-	 *                       ],
-	 *                       'sink' => '/path/to/file', // save to a file or a stream
-	 *                       'verify' => true, // bool or string to CA file
-	 *                       'debug' => true,
-	 *                       'timeout' => 5,
-	 * @return IPromise
-	 */
 	public function deleteAsync(string $uri, array $options = []): IPromise {
 		$this->preventLocalAddress($uri, $options);
 		$response = $this->client->requestAsync('delete', $uri, $this->buildRequestOptions($options));
 		return $this->wrapGuzzlePromise($response);
 	}
 
-	/**
-	 * Sends an asynchronous OPTIONS request
-	 *
-	 * @param string $uri
-	 * @param array $options Array such as
-	 *                       'body' => [
-	 *                       'field' => 'abc',
-	 *                       'other_field' => '123',
-	 *                       'file_name' => fopen('/path/to/file', 'r'),
-	 *                       ],
-	 *                       'headers' => [
-	 *                       'foo' => 'bar',
-	 *                       ],
-	 *                       'cookies' => [
-	 *                       'foo' => 'bar',
-	 *                       ],
-	 *                       'allow_redirects' => [
-	 *                       'max'       => 10,  // allow at most 10 redirects.
-	 *                       'strict'    => true,     // use "strict" RFC compliant redirects.
-	 *                       'referer'   => true,     // add a Referer header
-	 *                       'protocols' => ['https'] // only allow https URLs
-	 *                       ],
-	 *                       'sink' => '/path/to/file', // save to a file or a stream
-	 *                       'verify' => true, // bool or string to CA file
-	 *                       'debug' => true,
-	 *                       'timeout' => 5,
-	 * @return IPromise
-	 */
 	public function optionsAsync(string $uri, array $options = []): IPromise {
 		$this->preventLocalAddress($uri, $options);
 		$response = $this->client->requestAsync('options', $uri, $this->buildRequestOptions($options));

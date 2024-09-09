@@ -39,9 +39,6 @@ class Manager implements IManager {
 		$this->logger = $logger;
 	}
 
-	/**
-	 * @inheritDoc
-	 */
 	public function getUserStatuses(array $userIds): array {
 		$this->setupProvider();
 		if (!$this->provider) {

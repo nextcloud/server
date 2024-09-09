@@ -38,22 +38,18 @@ class StreamImage implements IStreamImage {
 		$this->height = $height;
 	}
 
-	/** @inheritDoc */
 	public function valid(): bool {
 		return is_resource($this->stream);
 	}
 
-	/** @inheritDoc */
 	public function mimeType(): ?string {
 		return $this->mimeType;
 	}
 
-	/** @inheritDoc */
 	public function width(): int {
 		return $this->width;
 	}
 
-	/** @inheritDoc */
 	public function height(): int {
 		return $this->height;
 	}

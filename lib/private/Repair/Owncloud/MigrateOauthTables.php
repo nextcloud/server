@@ -22,9 +22,6 @@ class MigrateOauthTables implements IRepairStep {
 		$this->db = $db;
 	}
 
-	/**
-	 * @return string
-	 */
 	public function getName() {
 		return 'Migrate oauth2_clients table to nextcloud schema';
 	}

@@ -51,33 +51,14 @@ class L10N implements IL10N {
 		}
 	}
 
-	/**
-	 * The code (en, de, ...) of the language that is used for this instance
-	 *
-	 * @return string language
-	 */
 	public function getLanguageCode(): string {
 		return $this->lang;
 	}
 
-	/**
-	 * The code (en_US, fr_CA, ...) of the locale that is used for this instance
-	 *
-	 * @return string locale
-	 */
 	public function getLocaleCode(): string {
 		return $this->locale;
 	}
 
-	/**
-	 * Translating
-	 * @param string $text The text we need a translation for
-	 * @param array|string $parameters default:array() Parameters for sprintf
-	 * @return string Translation or the same text
-	 *
-	 * Returns the translation. If no translation is found, $text will be
-	 * returned.
-	 */
 	public function t(string $text, $parameters = []): string {
 		if (!\is_array($parameters)) {
 			$parameters = [$parameters];
@@ -86,21 +67,6 @@ class L10N implements IL10N {
 		return (string)new L10NString($this, $text, $parameters);
 	}
 
-	/**
-	 * Translating
-	 * @param string $text_singular the string to translate for exactly one object
-	 * @param string $text_plural the string to translate for n objects
-	 * @param integer $count Number of objects
-	 * @param array $parameters default:array() Parameters for sprintf
-	 * @return string Translation or the same text
-	 *
-	 * Returns the translation. If no translation is found, $text will be
-	 * returned. %n will be replaced with the number of objects.
-	 *
-	 * The correct plural is determined by the plural_forms-function
-	 * provided by the po file.
-	 *
-	 */
 	public function n(string $text_singular, string $text_plural, int $count, array $parameters = []): string {
 		$identifier = "_{$text_singular}_::_{$text_plural}_";
 		if (isset($this->translations[$identifier])) {
@@ -114,28 +80,6 @@ class L10N implements IL10N {
 		return (string)new L10NString($this, $text_plural, $parameters, $count);
 	}
 
-	/**
-	 * Localization
-	 * @param string $type Type of localization
-	 * @param \DateTime|int|string $data parameters for this localization
-	 * @param array $options
-	 * @return string|int|false
-	 *
-	 * Returns the localized data.
-	 *
-	 * Implemented types:
-	 *  - date
-	 *    - Creates a date
-	 *    - params: timestamp (int/string)
-	 *  - datetime
-	 *    - Creates date and time
-	 *    - params: timestamp (int/string)
-	 *  - time
-	 *    - Creates a time
-	 *    - params: timestamp (int/string)
-	 *  - firstday: Returns the first day of the week (0 sunday - 6 saturday)
-	 *  - jsdate: Returns the short JS date format
-	 */
 	public function l(string $type, $data = null, array $options = []) {
 		if ($this->locale === null) {
 			// Use the language of the instance

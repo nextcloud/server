@@ -88,13 +88,6 @@ class Database extends ABackend implements
 		return $gid;
 	}
 
-	/**
-	 * delete a group
-	 * @param string $gid gid of the group to delete
-	 * @return bool
-	 *
-	 * Deletes a group and removes it from the group_user-table
-	 */
 	public function deleteGroup(string $gid): bool {
 		$this->fixDI();
 
@@ -147,14 +140,6 @@ class Database extends ABackend implements
 		return $result ? true : false;
 	}
 
-	/**
-	 * Add a user to a group
-	 * @param string $uid Name of the user to add to group
-	 * @param string $gid Name of the group in which add the user
-	 * @return bool
-	 *
-	 * Adds a user to a group.
-	 */
 	public function addToGroup(string $uid, string $gid): bool {
 		$this->fixDI();
 
@@ -171,14 +156,6 @@ class Database extends ABackend implements
 		}
 	}
 
-	/**
-	 * Removes a user from a group
-	 * @param string $uid Name of the user to remove from group
-	 * @param string $gid Name of the group from which remove the user
-	 * @return bool
-	 *
-	 * removes the user from a group.
-	 */
 	public function removeFromGroup(string $uid, string $gid): bool {
 		$this->fixDI();
 
@@ -306,9 +283,6 @@ class Database extends ABackend implements
 		return false;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
 	public function groupsExists(array $gids): array {
 		$notFoundGids = [];
 		$existingGroups = [];
@@ -403,12 +377,6 @@ class Database extends ABackend implements
 		return $users;
 	}
 
-	/**
-	 * get the number of all users matching the search string in a group
-	 * @param string $gid
-	 * @param string $search
-	 * @return int
-	 */
 	public function countUsersInGroup(string $gid, string $search = ''): int {
 		$this->fixDI();
 
@@ -436,13 +404,6 @@ class Database extends ABackend implements
 		return $count;
 	}
 
-	/**
-	 * get the number of disabled users in a group
-	 *
-	 * @param string $search
-	 *
-	 * @return int
-	 */
 	public function countDisabledInGroup(string $gid): int {
 		$this->fixDI();
 
@@ -500,9 +461,6 @@ class Database extends ABackend implements
 		return [];
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
 	public function getGroupsDetails(array $gids): array {
 		$notFoundGids = [];
 		$details = [];
@@ -560,11 +518,6 @@ class Database extends ABackend implements
 		return true;
 	}
 
-	/**
-	 * Backend name to be shown in group management
-	 * @return string the name of the backend to be shown
-	 * @since 21.0.0
-	 */
 	public function getBackendName(): string {
 		return 'Database';
 	}

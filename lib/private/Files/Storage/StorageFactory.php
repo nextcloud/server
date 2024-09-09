@@ -16,18 +16,6 @@ class StorageFactory implements IStorageFactory {
 	 */
 	private $storageWrappers = [];
 
-	/**
-	 * allow modifier storage behaviour by adding wrappers around storages
-	 *
-	 * $callback should be a function of type (string $mountPoint, Storage $storage) => Storage
-	 *
-	 * @param string $wrapperName name of the wrapper
-	 * @param callable $callback callback
-	 * @param int $priority wrappers with the lower priority are applied last (meaning they get called first)
-	 * @param \OCP\Files\Mount\IMountPoint[] $existingMounts existing mount points to apply the wrapper to
-	 * @return bool true if the wrapper was added, false if there was already a wrapper with this
-	 *              name registered
-	 */
 	public function addStorageWrapper($wrapperName, $callback, $priority = 50, $existingMounts = []) {
 		if (isset($this->storageWrappers[$wrapperName])) {
 			return false;
@@ -53,14 +41,6 @@ class StorageFactory implements IStorageFactory {
 		unset($this->storageWrappers[$wrapperName]);
 	}
 
-	/**
-	 * Create an instance of a storage and apply the registered storage wrappers
-	 *
-	 * @param \OCP\Files\Mount\IMountPoint $mountPoint
-	 * @param string $class
-	 * @param array $arguments
-	 * @return \OCP\Files\Storage
-	 */
 	public function getInstance(IMountPoint $mountPoint, $class, $arguments) {
 		return $this->wrap($mountPoint, new $class($arguments));
 	}

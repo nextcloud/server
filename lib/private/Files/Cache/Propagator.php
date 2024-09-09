@@ -46,11 +46,6 @@ class Propagator implements IPropagator {
 	}
 
 
-	/**
-	 * @param string $internalPath
-	 * @param int $time
-	 * @param int $sizeDifference number of bytes the file has grown
-	 */
 	public function propagateChange($internalPath, $time, $sizeDifference = 0) {
 		// Do not propagate changes in ignored paths
 		foreach ($this->ignore as $ignore) {
@@ -142,14 +137,6 @@ class Propagator implements IPropagator {
 		return $parents;
 	}
 
-	/**
-	 * Mark the beginning of a propagation batch
-	 *
-	 * Note that not all cache setups support propagation in which case this will be a noop
-	 *
-	 * Batching for cache setups that do support it has to be explicit since the cache state is not fully consistent
-	 * before the batch is committed.
-	 */
 	public function beginBatch() {
 		$this->inBatch = true;
 	}
@@ -169,9 +156,6 @@ class Propagator implements IPropagator {
 		}
 	}
 
-	/**
-	 * Commit the active propagation batch
-	 */
 	public function commitBatch() {
 		if (!$this->inBatch) {
 			throw new \BadMethodCallException('Not in batch');

@@ -121,9 +121,6 @@ class Manager implements IManager {
 		$this->lazyWidgets = [];
 	}
 
-	/**
-	 * @return array<string, IWidget>
-	 */
 	public function getWidgets(): array {
 		$this->loadLazyPanels();
 		return $this->widgets;

@@ -38,9 +38,6 @@ class Loader implements IMimeTypeLoader {
 		$this->mimetypeIds = [];
 	}
 
-	/**
-	 * Get a mimetype from its ID
-	 */
 	public function getMimetypeById(int $id): ?string {
 		if (!$this->mimetypes) {
 			$this->loadMimetypes();
@@ -51,9 +48,6 @@ class Loader implements IMimeTypeLoader {
 		return null;
 	}
 
-	/**
-	 * Get a mimetype ID, adding the mimetype to the DB if it does not exist
-	 */
 	public function getId(string $mimetype): int {
 		if (!$this->mimetypeIds) {
 			$this->loadMimetypes();
@@ -64,9 +58,6 @@ class Loader implements IMimeTypeLoader {
 		return $this->store($mimetype);
 	}
 
-	/**
-	 * Test if a mimetype exists in the database
-	 */
 	public function exists(string $mimetype): bool {
 		if (!$this->mimetypeIds) {
 			$this->loadMimetypes();
@@ -74,9 +65,6 @@ class Loader implements IMimeTypeLoader {
 		return isset($this->mimetypeIds[$mimetype]);
 	}
 
-	/**
-	 * Clear all loaded mimetypes, allow for re-loading
-	 */
 	public function reset(): void {
 		$this->mimetypes = [];
 		$this->mimetypeIds = [];

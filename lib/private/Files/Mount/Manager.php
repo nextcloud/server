@@ -32,18 +32,12 @@ class Manager implements IMountManager {
 		$this->setupManager = $setupManagerFactory->create($this);
 	}
 
-	/**
-	 * @param IMountPoint $mount
-	 */
 	public function addMount(IMountPoint $mount) {
 		$this->mounts[$mount->getMountPoint()] = $mount;
 		$this->pathCache->clear();
 		$this->inPathCache->clear();
 	}
 
-	/**
-	 * @param string $mountPoint
-	 */
 	public function removeMount(string $mountPoint) {
 		$mountPoint = Filesystem::normalizePath($mountPoint);
 		if (\strlen($mountPoint) > 1) {
@@ -54,10 +48,6 @@ class Manager implements IMountManager {
 		$this->inPathCache->clear();
 	}
 
-	/**
-	 * @param string $mountPoint
-	 * @param string $target
-	 */
 	public function moveMount(string $mountPoint, string $target) {
 		$this->mounts[$target] = $this->mounts[$mountPoint];
 		unset($this->mounts[$mountPoint]);
@@ -65,12 +55,6 @@ class Manager implements IMountManager {
 		$this->inPathCache->clear();
 	}
 
-	/**
-	 * Find the mount for $path
-	 *
-	 * @param string $path
-	 * @return IMountPoint
-	 */
 	public function find(string $path): IMountPoint {
 		$this->setupManager->setupForPath($path);
 		$path = Filesystem::normalizePath($path);
@@ -107,12 +91,6 @@ class Manager implements IMountManager {
 		throw new NotFoundException('No mount for path ' . $path . ' existing mounts (' . count($this->mounts) .'): ' . implode(',', array_keys($this->mounts)));
 	}
 
-	/**
-	 * Find all mounts in $path
-	 *
-	 * @param string $path
-	 * @return IMountPoint[]
-	 */
 	public function findIn(string $path): array {
 		$this->setupManager->setupForPath($path, true);
 		$path = $this->formatPath($path);
@@ -140,12 +118,6 @@ class Manager implements IMountManager {
 		$this->inPathCache->clear();
 	}
 
-	/**
-	 * Find mounts by storage id
-	 *
-	 * @param string $id
-	 * @return IMountPoint[]
-	 */
 	public function findByStorageId(string $id): array {
 		if (\strlen($id) > 64) {
 			$id = md5($id);
@@ -159,19 +131,10 @@ class Manager implements IMountManager {
 		return $result;
 	}
 
-	/**
-	 * @return IMountPoint[]
-	 */
 	public function getAll(): array {
 		return $this->mounts;
 	}
 
-	/**
-	 * Find mounts by numeric storage id
-	 *
-	 * @param int $id
-	 * @return IMountPoint[]
-	 */
 	public function findByNumericId(int $id): array {
 		$result = [];
 		foreach ($this->mounts as $mount) {
@@ -216,13 +179,6 @@ class Manager implements IMountManager {
 		}
 	}
 
-	/**
-	 * Return the mount matching a cached mount info (or mount file info)
-	 *
-	 * @param ICachedMountInfo $info
-	 *
-	 * @return IMountPoint|null
-	 */
 	public function getMountFromMountInfo(ICachedMountInfo $info): ?IMountPoint {
 		$this->setupManager->setupForPath($info->getMountPoint());
 		foreach ($this->mounts as $mount) {

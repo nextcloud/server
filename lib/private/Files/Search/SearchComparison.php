@@ -24,16 +24,10 @@ class SearchComparison implements ISearchComparison {
 	) {
 	}
 
-	/**
-	 * @return string
-	 */
 	public function getType(): string {
 		return $this->type;
 	}
 
-	/**
-	 * @return string
-	 */
 	public function getField(): string {
 		return $this->field;
 	}
@@ -42,10 +36,6 @@ class SearchComparison implements ISearchComparison {
 		return $this->value;
 	}
 
-	/**
-	 * @return string
-	 * @since 28.0.0
-	 */
 	public function getExtra(): string {
 		return $this->extra;
 	}

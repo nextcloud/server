@@ -12,7 +12,6 @@ use Icewind\Streams\CallbackWrapper;
 use OCP\Files\File;
 use OCP\Files\Folder;
 use OCP\Files\NotFoundException;
-use OCP\Files\NotPermittedException;
 use OCP\Files\SimpleFS\ISimpleFile;
 
 class NewSimpleFile implements ISimpleFile {
@@ -28,16 +27,10 @@ class NewSimpleFile implements ISimpleFile {
 		$this->name = $name;
 	}
 
-	/**
-	 * Get the name
-	 */
 	public function getName(): string {
 		return $this->name;
 	}
 
-	/**
-	 * Get the size in bytes
-	 */
 	public function getSize(): int|float {
 		if ($this->file) {
 			return $this->file->getSize();
@@ -46,9 +39,6 @@ class NewSimpleFile implements ISimpleFile {
 		}
 	}
 
-	/**
-	 * Get the ETag
-	 */
 	public function getETag(): string {
 		if ($this->file) {
 			return $this->file->getEtag();
@@ -57,9 +47,6 @@ class NewSimpleFile implements ISimpleFile {
 		}
 	}
 
-	/**
-	 * Get the last modification time
-	 */
 	public function getMTime(): int {
 		if ($this->file) {
 			return $this->file->getMTime();
@@ -68,12 +55,6 @@ class NewSimpleFile implements ISimpleFile {
 		}
 	}
 
-	/**
-	 * Get the content
-	 *
-	 * @throws NotFoundException
-	 * @throws NotPermittedException
-	 */
 	public function getContent(): string {
 		if ($this->file) {
 			$result = $this->file->getContent();
@@ -88,13 +69,6 @@ class NewSimpleFile implements ISimpleFile {
 		}
 	}
 
-	/**
-	 * Overwrite the file
-	 *
-	 * @param string|resource $data
-	 * @throws NotPermittedException
-	 * @throws NotFoundException
-	 */
 	public function putContent($data): void {
 		try {
 			if ($this->file) {
@@ -140,22 +114,12 @@ class NewSimpleFile implements ISimpleFile {
 	}
 
 
-	/**
-	 * Delete the file
-	 *
-	 * @throws NotPermittedException
-	 */
 	public function delete(): void {
 		if ($this->file) {
 			$this->file->delete();
 		}
 	}
 
-	/**
-	 * Get the MimeType
-	 *
-	 * @return string
-	 */
 	public function getMimeType(): string {
 		if ($this->file) {
 			return $this->file->getMimeType();
@@ -164,9 +128,6 @@ class NewSimpleFile implements ISimpleFile {
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	public function getExtension(): string {
 		if ($this->file) {
 			return $this->file->getExtension();
@@ -175,13 +136,6 @@ class NewSimpleFile implements ISimpleFile {
 		}
 	}
 
-	/**
-	 * Open the file as stream for reading, resulting resource can be operated as stream like the result from php's own fopen
-	 *
-	 * @return resource|false
-	 * @throws \OCP\Files\NotPermittedException
-	 * @since 14.0.0
-	 */
 	public function read() {
 		if ($this->file) {
 			return $this->file->fopen('r');
@@ -190,13 +144,6 @@ class NewSimpleFile implements ISimpleFile {
 		}
 	}
 
-	/**
-	 * Open the file as stream for writing, resulting resource can be operated as stream like the result from php's own fopen
-	 *
-	 * @return resource|bool
-	 * @throws \OCP\Files\NotPermittedException
-	 * @since 14.0.0
-	 */
 	public function write() {
 		if ($this->file) {
 			return $this->file->fopen('w');

@@ -35,10 +35,6 @@ class Syslog extends LogDetails implements IWriter {
 		closelog();
 	}
 
-	/**
-	 * write a message in the log
-	 * @param string|array $message
-	 */
 	public function write(string $app, $message, int $level): void {
 		$syslog_level = $this->levels[$level];
 		syslog($syslog_level, $this->logDetailsAsJSON($app, $message, $level));

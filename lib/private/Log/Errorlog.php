@@ -20,11 +20,6 @@ class Errorlog extends LogDetails implements IWriter {
 		parent::__construct($config);
 	}
 
-	/**
-	 * Write a message in the log
-	 *
-	 * @param string|array $message
-	 */
 	public function write(string $app, $message, int $level): void {
 		error_log('[' . $this->tag . ']['.$app.']['.$level.'] '.$this->logDetailsAsJSON($app, $message, $level));
 	}

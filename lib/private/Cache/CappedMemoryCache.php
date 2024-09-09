@@ -29,19 +29,10 @@ class CappedMemoryCache implements ICache, \ArrayAccess {
 		return isset($this->cache[$key]);
 	}
 
-	/**
-	 * @return ?T
-	 */
 	public function get($key) {
 		return $this->cache[$key] ?? null;
 	}
 
-	/**
-	 * @param string $key
-	 * @param T $value
-	 * @param int $ttl
-	 * @return bool
-	 */
 	public function set($key, $value, $ttl = 0): bool {
 		if (is_null($key)) {
 			$this->cache[] = $value;

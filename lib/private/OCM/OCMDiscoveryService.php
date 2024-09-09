@@ -43,13 +43,6 @@ class OCMDiscoveryService implements IOCMDiscoveryService {
 	}
 
 
-	/**
-	 * @param string $remote
-	 * @param bool $skipCache
-	 *
-	 * @return IOCMProvider
-	 * @throws OCMProviderException
-	 */
 	public function discover(string $remote, bool $skipCache = false): IOCMProvider {
 		$remote = rtrim($remote, '/');
 
