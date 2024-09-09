@@ -203,6 +203,7 @@
     "Remove filter" : "Kendu iragazkia",
     "Total rows summary" : "Errenkaden guztirako laburpena",
     "Toggle selection for all files and folders" : "Ordeztu hautatutako fitxategi eta karpeta guztiak",
+    "(selected)" : "(hautatuta)",
     "Deletion cancelled" : "Ezabatzea bertan behera utzi da",
     "Delete permanently" : "Ezabatu betirako",
     "Delete and unshare" : "Ezabatu eta kendu partekatzea",
