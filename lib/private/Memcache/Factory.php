@@ -6,6 +6,7 @@
  */
 namespace OC\Memcache;
 
+use Closure;
 use OCP\Cache\CappedMemoryCache;
 use OCP\ICache;
 use OCP\ICacheFactory;
@@ -40,7 +41,7 @@ class Factory implements ICacheFactory {
 	private IProfiler $profiler;
 
 	/**
-	 * @param callable $globalPrefixClosure
+	 * @param Closure $globalPrefixClosure
 	 * @param LoggerInterface $logger
 	 * @param ?class-string<ICache> $localCacheClass
 	 * @param ?class-string<ICache> $distributedCacheClass
@@ -48,7 +49,7 @@ class Factory implements ICacheFactory {
 	 * @param string $logFile
 	 */
 	public function __construct(
-		private $globalPrefixClosure,
+		private Closure $globalPrefixClosure,
 		LoggerInterface $logger,
 		IProfiler $profiler,
 		?string $localCacheClass = null,
