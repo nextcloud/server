@@ -77,7 +77,6 @@ const registerNodeView = (node: TreeNode | Folder) => {
 		name: node.displayName ?? node.displayname ?? node.basename,
 
 		icon: FolderSvg,
-		order: 0, // TODO Allow undefined order for natural sort
 
 		getContents,
 		loadChildViews: getLoadChildViews(node),

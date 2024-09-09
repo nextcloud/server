@@ -122,7 +122,6 @@ export default defineComponent({
 			return this.views
 				.reduce((map, view) => {
 					map[view.parent!] = [...(map[view.parent!] || []), view]
-					// TODO Allow undefined order for natural sort
 					map[view.parent!].sort((a, b) => {
 						if (typeof a.order === 'number' || typeof b.order === 'number') {
 							return (a.order ?? 0) - (b.order ?? 0)
