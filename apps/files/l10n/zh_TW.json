@@ -205,6 +205,7 @@
     "Remove filter" : "移除過濾條件",
     "Total rows summary" : "總列摘要",
     "Toggle selection for all files and folders" : "切換所有檔案和資料夾的選取",
+    "(selected)" : "（已選取）",
     "Deletion cancelled" : "刪除已取消",
     "Delete permanently" : "永久刪除",
     "Delete and unshare" : "刪除並取消分享",

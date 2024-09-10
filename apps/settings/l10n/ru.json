@@ -302,6 +302,7 @@
     "Profile information" : "Сведения о профиле",
     "Profile picture, full name, email, phone number, address, website, Twitter, organisation, role, headline, biography, and whether your profile is enabled" : "Изображение профиля, полное имя, адрес электронной почты, номер телефона, адрес, веб-сайт, Twitter, организация, роль, заголовок, биография и сведения том, активен ли профиль",
     "Nextcloud settings" : "Параметры Nextcloud",
+    "Unified task processing" : "Единая обработка задач",
     "AI tasks can be implemented by different apps. Here you can set which app should be used for which task." : "Задачи искусственного интеллекта могут быть реализованы различными приложениями. Здесь вы можете указать, какое приложение следует использовать для выполнения какой задачи.",
     "Task:" : "Задача:",
     "None of your currently installed apps provide Task processing functionality" : "Ни одно из установленных на данный момент приложений не предоставляет функции обработки задач",
@@ -312,7 +313,6 @@
     "None of your currently installed apps provide image generation functionality" : "Ни одно из установленных вами в данный момент приложений не предоставляет функцию создания изображения",
     "Text processing" : "Обработка текста",
     "Text processing tasks can be implemented by different apps. Here you can set which app should be used for which task." : "Задачи обработки текста могут быть реализованы различными приложениями. Здесь вы можете указать, какое приложение следует использовать для выполнения какой задачи.",
-    "None of your currently installed apps provide custom Text processing functionality." : "Ни одно из установленных на данный момент приложений не предоставляет пользовательских функций обработки текста.",
     "Here you can decide which group can access certain sections of the administration settings." : "Здесь вы можете решить, какая группа может получить доступ к определенным разделам настроек администрирования.",
     "None" : "Отсутствует",
     "Unable to modify setting" : "Не удалось изменить параметры",
@@ -634,6 +634,7 @@
     "Remote wipe of devices" : "Удаление данных с устройств",
     "Wipe {userid}'s devices" : "Удалить данные с устройств пользователя {userid}",
     "Wiped {userid}'s devices" : "Удалить данные с устройств пользователя {userid}",
+    "Failed to update line manager" : "Не удалось обновить линейного менеджера",
     "Fully delete {userid}'s account including all their personal files, app data, etc." : "Полностью удалить все данные пользователя {userid}, в том числе учётную запись, личные файлы и данные приложений.",
     "Account deletion" : "Удаление учётной записи",
     "Delete {userid}'s account" : "Удалить учётную запись пользователя {userid}",
@@ -651,6 +652,7 @@
     "Show storage path" : "Путь хранилища",
     "Show last login" : "Время последнего входа в систему",
     "Sorting" : "Сортировка",
+    "The system config enforces sorting the groups by name. This also disables showing the member count." : "Системная конфигурация обеспечивает сортировку групп по названию. Это также отключает отображение количества участников.",
     "Group list sorting" : "Сортировка списка групп",
     "By member count" : "По количеству участников",
     "By name" : "По имени",
@@ -863,6 +865,7 @@
     "SMTP Username" : "Пользователь SMTP",
     "To allow this check to run you have to make sure that your webserver can connect to itself. Therefor it must be able to resolve and connect to at least one its `trusted_domains` or the `overwrite.cli.url`." : "Чтобы разрешить выполнение этой проверки, вы должны убедиться, что ваш веб-сервер может подключаться к самому себе. Для этого он должен иметь возможность разрешать и подключаться по крайней мере к одному из своих `trusted_domains\" или \"overwrite.cli.url\".",
     "Could not check for JavaScript support via any of your `trusted_domains` nor `overwrite.cli.url`. This may be the result of a server-side DNS mismatch or outbound firewall rule. Please check manually if your webserver serves `.mjs` files using the JavaScript MIME type." : "Не удалось проверить поддержку JavaScript ни в одном из ваших `trusted_domains`, ни в `overwrite.cli.url`. Это может быть результатом несоответствия DNS на стороне сервера или правила исходящего брандмауэра. Пожалуйста, проверьте вручную, обслуживает ли ваш веб-сервер файлы `.mjs`, используя MIME-тип JavaScript.",
-    "Active accounts" : "Активные учётные записи"
+    "Active accounts" : "Активные учётные записи",
+    "None of your currently installed apps provide custom Text processing functionality." : "Ни одно из установленных на данный момент приложений не предоставляет пользовательских функций обработки текста."
 },"pluralForm" :"nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);"
 }
