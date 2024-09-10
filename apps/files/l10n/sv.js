@@ -207,6 +207,7 @@ OC.L10N.register(
     "Remove filter" : "Ta bort filter",
     "Total rows summary" : "Sammanfattning antal rader",
     "Toggle selection for all files and folders" : "Växla markering för alla filer och mappar",
+    "(selected)" : "(vald)",
     "Deletion cancelled" : "Radering avbruten",
     "Delete permanently" : "Ta bort permanent",
     "Delete and unshare" : "Radera och sluta dela",

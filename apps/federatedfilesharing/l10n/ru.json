@@ -7,6 +7,7 @@
     "Couldn't establish a federated share, it looks like the server to federate with is too old (Nextcloud <= 9)." : "Не удалось установить межсерверный общий доступ, на другом сервере установлена устаревшая версия Nextcloud (версия 9.x или более ранняя).",
     "It is not allowed to send federated group shares from this server." : "Не допускается предоставление межсерверного общего доступа группам пользователей.",
     "Sharing %1$s failed, because this item is already shared with the account %2$s" : "Не удалось предоставить доступ к %1$s, так как этот ресурс уже доступен пользователю %2$s",
+    "Not allowed to create a federated share to the same account" : "Запрещено создавать федеративный общий доступ к одной и той же учетной записи",
     "Federated shares require read permissions" : "Для федеративных ресурсов требуются разрешения на чтение",
     "File is already shared with %s" : "Доступ к файлу уже предоставлен %s",
     "Sharing %1$s failed, could not find %2$s, maybe the server is currently unreachable or uses a self-signed certificate." : "Не удалось предоставить доступ к «%1$s», не удалось найти %2$s. Возможно, сервер недоступен или использует самоподписанный сертификат.",
