@@ -22,3 +22,6 @@
 [submodule "themes/nc-ionos-theme"]
 	path = themes/nc-ionos-theme
 	url = git@github.com:IONOS-Productivity/nc-ionos-theme.git
+[submodule "apps-custom/nc-vue-material-design-icons"]
+	path = apps-custom/nc-vue-material-design-icons
+	url = git@github.com:IONOS-Productivity/nc-vue-material-design-icons.git
