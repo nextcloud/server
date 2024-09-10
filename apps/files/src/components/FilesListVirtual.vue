@@ -537,16 +537,6 @@ export default defineComponent({
 					width: var(--icon-preview-size);
 					height: var(--icon-preview-size);
 				}
-
-				// Slightly increase the size of the folder icon
-				&.folder-icon,
-				&.folder-open-icon {
-					margin: -3px;
-					svg {
-						width: calc(var(--icon-preview-size) + 6px);
-						height: calc(var(--icon-preview-size) + 6px);
-					}
-				}
 			}
 
 			&-preview {
