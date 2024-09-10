@@ -155,7 +155,7 @@ class AppFetcher extends Fetcher {
 		$internetAvailable = $this->config->getSystemValueBool('has_internet_connection', true);
 
 		if (!$appStoreEnabled || !$internetAvailable) {
-			$this->logger->debug('AppStore is disabled or this instance has no Internet connection', ['app' => 'appstoreFetcher']);
+			$this->logger->info('AppStore is disabled or this instance has no Internet connection', ['app' => 'appstoreFetcher']);
 			return [];
 		}
 
