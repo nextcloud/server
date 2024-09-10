@@ -2154,9 +2154,6 @@
     <InvalidReturnType>
       <code><![CDATA[fopen]]></code>
     </InvalidReturnType>
-    <NullableReturnStatement>
-      <code><![CDATA[null]]></code>
-    </NullableReturnStatement>
   </file>
   <file src="lib/private/Files/Storage/FailedStorage.php">
     <InvalidReturnStatement>
