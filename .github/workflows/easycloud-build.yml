@@ -75,6 +75,11 @@ jobs:
           PUPPETEER_SKIP_DOWNLOAD: true
         run: make -f IONOS/Makefile build_dep_ionos_theme
 
+      - name: Build nc-server frontend
+        env:
+          FONTAWESOME_PACKAGE_TOKEN: ${{ secrets.FONTAWESOME_PACKAGE_TOKEN }}
+        run: make -f IONOS/Makefile build_nc_server_frontend
+
       - name: Add config partials
         run: make -f IONOS/Makefile add_config_partials
 
