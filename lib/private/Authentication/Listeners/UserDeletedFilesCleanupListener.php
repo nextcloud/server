@@ -33,26 +33,30 @@ use OCP\Files\Config\IMountProviderCollection;
 use OCP\Files\Storage\IStorage;
 use OCP\User\Events\BeforeUserDeletedEvent;
 use OCP\User\Events\UserDeletedEvent;
+use Psr\Log\LoggerInterface;
 
 class UserDeletedFilesCleanupListener implements IEventListener {
 	/** @var array<string,IStorage> */
 	private $homeStorageCache = [];
 
-	/** @var IMountProviderCollection */
-	private $mountProviderCollection;
-
-	public function __construct(IMountProviderCollection $mountProviderCollection) {
-		$this->mountProviderCollection = $mountProviderCollection;
+	public function __construct(
+		private IMountProviderCollection $mountProviderCollection,
+		private LoggerInterface $logger,
+	) {
 	}
 
 	public function handle(Event $event): void {
+		$user = $event->getUser();
+
 		// since we can't reliably get the user home storage after the user is deleted
 		// but the user deletion might get canceled during the before event
 		// we only cache the user home storage during the before event and then do the
 		// action deletion during the after event
 
 		if ($event instanceof BeforeUserDeletedEvent) {
-			$userHome = $this->mountProviderCollection->getHomeMountForUser($event->getUser());
+			$this->logger->debug('Prepare deleting storage for user {userId}', ['userId' => $user->getUID()]);
+
+			$userHome = $this->mountProviderCollection->getHomeMountForUser($user);
 			$storage = $userHome->getStorage();
 			if (!$storage) {
 				throw new \Exception("User has no home storage");
@@ -67,12 +71,14 @@ class UserDeletedFilesCleanupListener implements IEventListener {
 			$this->homeStorageCache[$event->getUser()->getUID()] = $storage;
 		}
 		if ($event instanceof UserDeletedEvent) {
-			if (!isset($this->homeStorageCache[$event->getUser()->getUID()])) {
-				throw new \Exception("UserDeletedEvent fired without matching BeforeUserDeletedEvent");
+			if (!isset($this->homeStorageCache[$user->getUID()])) {
+				throw new \Exception('UserDeletedEvent fired without matching BeforeUserDeletedEvent');
 			}
-			$storage = $this->homeStorageCache[$event->getUser()->getUID()];
+			$storage = $this->homeStorageCache[$user->getUID()];
 			$cache = $storage->getCache();
 			$storage->rmdir('');
+			$this->logger->debug('Deleted storage for user {userId}', ['userId' => $user->getUID()]);
+
 			if ($cache instanceof Cache) {
 				$cache->clear();
 			} else {
