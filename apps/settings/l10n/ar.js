@@ -331,7 +331,6 @@ OC.L10N.register(
     "None of your currently installed apps provide image generation functionality" : "لا أحد من تطبيقاتك المثبتة يوفر وظيفة توليد الصور.",
     "Text processing" : "معالجة النصوص",
     "Text processing tasks can be implemented by different apps. Here you can set which app should be used for which task." : "يمكن تنفيذ مهام معالجة النصوص بواسطة تطبيقات مختلفة. هنا يمكنك تعيين التطبيق الذي يجب استخدامه لأي مهمة",
-    "None of your currently installed apps provide custom Text processing functionality." : "لا أحد من تطبيقاتك المثبتة حاليّاً يوفر وظيفة مخصصة لمعالجة النصوص.",
     "Here you can decide which group can access certain sections of the administration settings." : "هنا يمكنك تحديد المجموعة التي يمكنها الوصول إلى أقسام معينة من إعدادات الإدارة.",
     "None" : "لا شيء",
     "Unable to modify setting" : "تعذّر تعديل الإعداد",
@@ -885,6 +884,7 @@ OC.L10N.register(
     "SMTP Username" : "اسم مستخدم الـ SMTP",
     "To allow this check to run you have to make sure that your webserver can connect to itself. Therefor it must be able to resolve and connect to at least one its `trusted_domains` or the `overwrite.cli.url`." : "للسماح بتشغيل هذا الفحص، عليك التأكد من أن خادوم الويب عندك يمكنه الاتصال بنفسه. ولذلك، يجب أن يكون قادراً على حل المشكلة والاتصال بنطاق واحد على الأقل من \"النطاقات_الموثوقة\" أو 'overwrite.cli.url'.",
     "Could not check for JavaScript support via any of your `trusted_domains` nor `overwrite.cli.url`. This may be the result of a server-side DNS mismatch or outbound firewall rule. Please check manually if your webserver serves `.mjs` files using the JavaScript MIME type." : "تعذر التحقُّق من دعم JavaScript عبر أيٍّ من \"النطاقات_الموثوقة\" أو \"overwrite.cli.url\". قد يكون هذا نتيجة عدم تطابق DNS من جانب الخادوم أو بسبب إحدى سياسات إدارة الحركة الصادرة في جدار الحماية. يرجى التحقق يدويًا مما إذا كان خادوم الويب عندك يقدم ملفات `.mjs` باستخدام نوع JavaScript MIME.",
-    "Active accounts" : "حسابات نشطة"
+    "Active accounts" : "حسابات نشطة",
+    "None of your currently installed apps provide custom Text processing functionality." : "لا أحد من تطبيقاتك المثبتة حاليّاً يوفر وظيفة مخصصة لمعالجة النصوص."
 },
 "nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;");

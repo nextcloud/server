@@ -329,7 +329,6 @@
     "None of your currently installed apps provide image generation functionality" : "None of your currently installed apps provide image generation functionality",
     "Text processing" : "Text processing",
     "Text processing tasks can be implemented by different apps. Here you can set which app should be used for which task." : "Text processing tasks can be implemented by different apps. Here you can set which app should be used for which task.",
-    "None of your currently installed apps provide custom Text processing functionality." : "None of your currently installed apps provide custom Text processing functionality.",
     "Here you can decide which group can access certain sections of the administration settings." : "Here you can decide which group can access certain sections of the administration settings.",
     "None" : "None",
     "Unable to modify setting" : "Unable to modify setting",
@@ -883,6 +882,7 @@
     "SMTP Username" : "SMTP Username",
     "To allow this check to run you have to make sure that your webserver can connect to itself. Therefor it must be able to resolve and connect to at least one its `trusted_domains` or the `overwrite.cli.url`." : "To allow this check to run you have to make sure that your webserver can connect to itself. Therefor it must be able to resolve and connect to at least one its `trusted_domains` or the `overwrite.cli.url`.",
     "Could not check for JavaScript support via any of your `trusted_domains` nor `overwrite.cli.url`. This may be the result of a server-side DNS mismatch or outbound firewall rule. Please check manually if your webserver serves `.mjs` files using the JavaScript MIME type." : "Could not check for JavaScript support via any of your `trusted_domains` nor `overwrite.cli.url`. This may be the result of a server-side DNS mismatch or outbound firewall rule. Please check manually if your webserver serves `.mjs` files using the JavaScript MIME type.",
-    "Active accounts" : "Active accounts"
+    "Active accounts" : "Active accounts",
+    "None of your currently installed apps provide custom Text processing functionality." : "None of your currently installed apps provide custom Text processing functionality."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -331,7 +331,6 @@ OC.L10N.register(
     "None of your currently installed apps provide image generation functionality" : "現在インストールされているどのアプリも、画像生成機能を提供していません。",
     "Text processing" : "テキスト処理",
     "Text processing tasks can be implemented by different apps. Here you can set which app should be used for which task." : "テキスト処理タスクは、異なるアプリで実装することができます。ここでは、どのタスクにどのアプリを使うかを設定できます。",
-    "None of your currently installed apps provide custom Text processing functionality." : "現在インストールされているアプリは、カスタムテキスト処理機能を提供していません。",
     "Here you can decide which group can access certain sections of the administration settings." : "ここではどのグループが、どの管理設定項目にアクセスできるか決めることができます。",
     "None" : "なし",
     "Unable to modify setting" : "設定を変更できません",
@@ -885,6 +884,7 @@ OC.L10N.register(
     "SMTP Username" : "SMTPユーザー名",
     "To allow this check to run you have to make sure that your webserver can connect to itself. Therefor it must be able to resolve and connect to at least one its `trusted_domains` or the `overwrite.cli.url`." : "このチェックを実行させるには、ウェブサーバが自分自身に接続できることを確認する必要があります。したがって、少なくとも `trusted_domains` または `overwrite.cli.url` を解決して接続できなければなりません。",
     "Could not check for JavaScript support via any of your `trusted_domains` nor `overwrite.cli.url`. This may be the result of a server-side DNS mismatch or outbound firewall rule. Please check manually if your webserver serves `.mjs` files using the JavaScript MIME type." : "`trusted_domains` または `overwrite.cli.url` で JavaScript のサポートを確認できませんでした。これはサーバ側の DNS の不一致か、アウトバウンドファイアウォールルールの結果である可能性があります。お使いのウェブサーバーが JavaScript MIMEタイプを使用して `.mjs` ファイルを提供しているかどうかを手動で確認してください。",
-    "Active accounts" : "アクティブなアカウント"
+    "Active accounts" : "アクティブなアカウント",
+    "None of your currently installed apps provide custom Text processing functionality." : "現在インストールされているアプリは、カスタムテキスト処理機能を提供していません。"
 },
 "nplurals=1; plural=0;");

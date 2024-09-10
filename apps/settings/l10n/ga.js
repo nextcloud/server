@@ -331,7 +331,6 @@ OC.L10N.register(
     "None of your currently installed apps provide image generation functionality" : "Ní sholáthraíonn aon cheann de na haipeanna atá suiteáilte agat faoi láthair feidhmiúlacht giniúna íomhá",
     "Text processing" : "Próiseáil téacs",
     "Text processing tasks can be implemented by different apps. Here you can set which app should be used for which task." : "Is féidir le feidhmchláir éagsúla tascanna próiseála téacs a chur i bhfeidhm. Anseo is féidir leat a shocrú cén aip ba chóir a úsáid le haghaidh an tasc.",
-    "None of your currently installed apps provide custom Text processing functionality." : "Ní sholáthraíonn aon cheann de na haipeanna atá suiteáilte agat faoi láthair feidhmiúlacht próiseála Téacs saincheaptha.",
     "Here you can decide which group can access certain sections of the administration settings." : "Anseo is féidir leat cinneadh a dhéanamh maidir le cén grúpa a fhéadfaidh rochtain a fháil ar ranna áirithe de na socruithe riaracháin.",
     "None" : "aon cheann",
     "Unable to modify setting" : "Ní féidir an socrú a mhodhnú",
@@ -885,6 +884,7 @@ OC.L10N.register(
     "SMTP Username" : "Ainm Úsáideora SMTP",
     "To allow this check to run you have to make sure that your webserver can connect to itself. Therefor it must be able to resolve and connect to at least one its `trusted_domains` or the `overwrite.cli.url`." : "Le gur féidir an tseiceáil seo a rith caithfidh tú a chinntiú gur féidir le do fhreastalaí gréasáin nascadh leis féin. Mar sin caithfidh sé a bheith in ann réiteach agus ceangal a dhéanamh le ceann amháin ar a laghad dá `fearainn_iontaofa` nó don `overwrite.cli.url`.",
     "Could not check for JavaScript support via any of your `trusted_domains` nor `overwrite.cli.url`. This may be the result of a server-side DNS mismatch or outbound firewall rule. Please check manually if your webserver serves `.mjs` files using the JavaScript MIME type." : "Níorbh fhéidir tacaíocht JavaScript a fháil trí aon cheann de na `fearainn_ iontaofa` ná `overwrite.cli.url`. D'fhéadfadh sé seo a bheith mar thoradh ar mhímheaitseáil DNS ar thaobh an fhreastalaí nó riail balla dóiteáin amach. Seiceáil le do thoil de láimh an bhfreastalaíonn do fhreastalaí gréasáin ar chomhaid `.mjs` ag baint úsáide as an gcineál JavaScript MIME.",
-    "Active accounts" : "Cuntais ghníomhacha"
+    "Active accounts" : "Cuntais ghníomhacha",
+    "None of your currently installed apps provide custom Text processing functionality." : "Ní sholáthraíonn aon cheann de na haipeanna atá suiteáilte agat faoi láthair feidhmiúlacht próiseála Téacs saincheaptha."
 },
 "nplurals=5; plural=(n==1 ? 0 : n==2 ? 1 : n<7 ? 2 : n<11 ? 3 : 4);");

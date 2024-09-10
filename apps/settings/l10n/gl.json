@@ -329,7 +329,6 @@
     "None of your currently installed apps provide image generation functionality" : "Ningunha das aplicacións instaladas neste momento ofrece funcións de xeración de imaxes",
     "Text processing" : "Procesamento de texto",
     "Text processing tasks can be implemented by different apps. Here you can set which app should be used for which task." : "As tarefas de procesamento de texto poden ser realizadas por diferentes aplicacións. Aquí pode definir que aplicación debe usarse para que tarefa.",
-    "None of your currently installed apps provide custom Text processing functionality." : "Ningunha das aplicacións instaladas neste momento ofrece funcións de procesamento de texto personalizadas.",
     "Here you can decide which group can access certain sections of the administration settings." : "Aquí pode decidir que grupo pode acceder a determinadas seccións dos axustes de administración.",
     "None" : "Ningún",
     "Unable to modify setting" : "Non é posíbel modificar a configuración",
@@ -883,6 +882,7 @@
     "SMTP Username" : "Nome de usuario SMTP",
     "To allow this check to run you have to make sure that your webserver can connect to itself. Therefor it must be able to resolve and connect to at least one its `trusted_domains` or the `overwrite.cli.url`." : "Para permitir que esta comprobación se execute, debe asegurarse de que o seu servidor web poida conectarse a si mesmo. Por tanto, debe ser quen de resolver e conectarse a polo menos un dos seus «trusted_domains» ou ao «overwrite.cli.url».",
     "Could not check for JavaScript support via any of your `trusted_domains` nor `overwrite.cli.url`. This may be the result of a server-side DNS mismatch or outbound firewall rule. Please check manually if your webserver serves `.mjs` files using the JavaScript MIME type." : "Non foi posíbel comprobar a compatibilidade de JavaScript a través de ningún dos seus «trusted_domains» nin «overwrite.cli.url». Isto pode ser o resultado dunha falta de coincidencia de DNS do servidor ou dunha regra da devasa de saída. Comprobe manualmente se o seu servidor web serve ficheiros «.mjs» usando o tipo MIME JavaScript.",
-    "Active accounts" : "Contas activas"
+    "Active accounts" : "Contas activas",
+    "None of your currently installed apps provide custom Text processing functionality." : "Ningunha das aplicacións instaladas neste momento ofrece funcións de procesamento de texto personalizadas."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
