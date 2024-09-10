@@ -55,49 +55,49 @@ trait CheckServerResponseTrait {
 	 * This takes all `trusted_domains` and the CLI overwrite URL into account.
 	 *
 	 * @param string $url The relative URL to test starting with a /
-	 * @return string[] List of possible absolute URLs
+	 * @return list<string> List of possible absolute URLs
 	 */
 	protected function getTestUrls(string $url, bool $removeWebroot): array {
-		$testUrls = [];
+		$url = '/' . ltrim($url, '/');
 
 		$webroot = rtrim($this->urlGenerator->getWebroot(), '/');
+		// Similar to `getAbsoluteURL` of URLGenerator:
+		// The Nextcloud web root could already be prepended.
+		if ($webroot !== '' && str_starts_with($url, $webroot)) {
+			$url = substr($url, strlen($webroot));
+		}
+
+		$hosts = [];
 
 		/* Try overwrite.cli.url first, it’s supposed to be how the server contacts itself */
 		$cliUrl = $this->config->getSystemValueString('overwrite.cli.url', '');
-
 		if ($cliUrl !== '') {
-			$cliUrl = $this->normalizeUrl(
+			$hosts[] = $this->normalizeUrl(
 				$cliUrl,
 				$webroot,
 				$removeWebroot
 			);
-
-			$testUrls[] = $cliUrl . $url;
 		}
 
 		/* Try URL generator second */
-		$baseUrl = $this->normalizeUrl(
+		$hosts[] = $this->normalizeUrl(
 			$this->urlGenerator->getBaseUrl(),
 			$webroot,
 			$removeWebroot
 		);
 
-		if ($baseUrl !== $cliUrl) {
-			$testUrls[] = $baseUrl . $url;
-		}
-
 		/* Last resort: trusted domains */
-		$hosts = $this->config->getSystemValue('trusted_domains', []);
-		foreach ($hosts as $host) {
+		$trustedDomains = $this->config->getSystemValue('trusted_domains', []);
+		foreach ($trustedDomains as $host) {
 			if (str_contains($host, '*')) {
 				/* Ignore domains with a wildcard */
 				continue;
 			}
-			$hosts[] = 'https://' . $host . $url;
-			$hosts[] = 'http://' . $host . $url;
+			$hosts[] = $this->normalizeUrl("https://$host$webroot", $webroot, $removeWebroot);
+			$hosts[] = $this->normalizeUrl("http://$host$webroot", $webroot, $removeWebroot);
 		}
 
-		return $testUrls;
+		return array_map(fn (string $host) => $host . $url, array_values(array_unique($hosts)));
 	}
 
 	/**
@@ -105,8 +105,8 @@ trait CheckServerResponseTrait {
 	 */
 	protected function normalizeUrl(string $url, string $webroot, bool $removeWebroot): string {
 		$url = rtrim($url, '/');
-		if ($removeWebroot && str_ends_with($url, $webroot)) {
-			$url = substr($url, -strlen($webroot));
+		if ($removeWebroot && $webroot !== '' && str_ends_with($url, $webroot)) {
+			$url = substr($url, 0, -strlen($webroot));
 		}
 		return rtrim($url, '/');
 	}
@@ -114,7 +114,8 @@ trait CheckServerResponseTrait {
 	/**
 	 * Run a HTTP request to check header
 	 * @param string $method The HTTP method to use
-	 * @param string $url The relative URL to check
+	 * @param string $url The relative URL to check (e.g. output of IURLGenerator)
+	 * @param bool $removeWebroot Remove the webroot from the URL (handle URL as relative to domain root)
 	 * @param array{ignoreSSL?: bool, httpErrors?: bool, options?: array} $options Additional options, like
 	 *                                                 [
 	 *                                                  // Ignore invalid SSL certificates (e.g. self signed)
@@ -143,13 +144,14 @@ trait CheckServerResponseTrait {
 
 	/**
 	 * Run a HEAD request to check header
-	 * @param string $url The relative URL to check
+	 * @param string $url The relative URL to check (e.g. output of IURLGenerator)
 	 * @param bool $ignoreSSL Ignore SSL certificates
 	 * @param bool $httpErrors Ignore requests with HTTP errors (will not yield if request has a 4xx or 5xx response)
+	 * @param bool $removeWebroot Remove the webroot from the URL (handle URL as relative to domain root)
 	 * @return Generator<int, IResponse>
 	 */
-	protected function runHEAD(string $url, bool $ignoreSSL = true, bool $httpErrors = true): Generator {
-		return $this->runRequest('HEAD', $url, ['ignoreSSL' => $ignoreSSL, 'httpErrors' => $httpErrors]);
+	protected function runHEAD(string $url, bool $ignoreSSL = true, bool $httpErrors = true, bool $removeWebroot = false): Generator {
+		return $this->runRequest('HEAD', $url, ['ignoreSSL' => $ignoreSSL, 'httpErrors' => $httpErrors], $removeWebroot);
 	}
 
 	protected function getRequestOptions(bool $ignoreSSL, bool $httpErrors): array {
