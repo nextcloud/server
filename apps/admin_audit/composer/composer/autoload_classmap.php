@@ -12,7 +12,6 @@ return array(
     'OCA\\AdminAudit\\Actions\\Sharing' => $baseDir . '/../lib/Actions/Sharing.php',
     'OCA\\AdminAudit\\Actions\\TagManagement' => $baseDir . '/../lib/Actions/TagManagement.php',
     'OCA\\AdminAudit\\Actions\\Trashbin' => $baseDir . '/../lib/Actions/Trashbin.php',
-    'OCA\\AdminAudit\\Actions\\UserManagement' => $baseDir . '/../lib/Actions/UserManagement.php',
     'OCA\\AdminAudit\\Actions\\Versions' => $baseDir . '/../lib/Actions/Versions.php',
     'OCA\\AdminAudit\\AppInfo\\Application' => $baseDir . '/../lib/AppInfo/Application.php',
     'OCA\\AdminAudit\\AuditLogger' => $baseDir . '/../lib/AuditLogger.php',

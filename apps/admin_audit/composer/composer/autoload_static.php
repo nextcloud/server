@@ -27,7 +27,6 @@ class ComposerStaticInitAdminAudit
         'OCA\\AdminAudit\\Actions\\Sharing' => __DIR__ . '/..' . '/../lib/Actions/Sharing.php',
         'OCA\\AdminAudit\\Actions\\TagManagement' => __DIR__ . '/..' . '/../lib/Actions/TagManagement.php',
         'OCA\\AdminAudit\\Actions\\Trashbin' => __DIR__ . '/..' . '/../lib/Actions/Trashbin.php',
-        'OCA\\AdminAudit\\Actions\\UserManagement' => __DIR__ . '/..' . '/../lib/Actions/UserManagement.php',
         'OCA\\AdminAudit\\Actions\\Versions' => __DIR__ . '/..' . '/../lib/Actions/Versions.php',
         'OCA\\AdminAudit\\AppInfo\\Application' => __DIR__ . '/..' . '/../lib/AppInfo/Application.php',
         'OCA\\AdminAudit\\AuditLogger' => __DIR__ . '/..' . '/../lib/AuditLogger.php',
