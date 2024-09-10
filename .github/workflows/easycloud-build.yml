@@ -9,6 +9,7 @@ on:
     paths:
       - '.github/workflows/**'
       - 'src/**'
+      - 'custom-npms/**'
       - 'apps/**'
       - 'apps/**/appinfo/info.xml'
       - 'apps-custom/**'
@@ -54,7 +55,7 @@ jobs:
           node-version-file: "package.json"
 
       - name: Build Nextcloud
-        run: make -f IONOS/Makefile build_nextcloud
+        run: make -f IONOS/Makefile build_nextcloud FONTAWESOME_PACKAGE_TOKEN=${{ secrets.FONTAWESOME_PACKAGE_TOKEN }}
 
       - name: Install dependencies & build simplesettings app
         env:
