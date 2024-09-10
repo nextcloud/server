@@ -28,3 +28,6 @@
 [submodule "apps-custom/nc_theming"]
 	path = apps-custom/nc_theming
 	url = git@github.com:IONOS-Productivity/nc-theming.git
+[submodule "custom-npms/nc-vue-material-design-icons"]
+	path = custom-npms/nc-vue-material-design-icons
+	url = git@github.com:IONOS-Productivity/nc-vue-material-design-icons.git
