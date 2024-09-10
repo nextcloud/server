@@ -92,7 +92,7 @@
 			<template v-if="isAdminOrDelegatedAdmin" #actions>
 				<NcActionText>
 					<template #icon>
-						<AccountGroup :size="20" />
+						<NcIconSvgWrapper :path="mdiAccountGroup" />
 					</template>
 					{{ t('settings', 'Create group') }}
 				</NcActionText>
@@ -131,7 +131,7 @@
 </template>
 
 <script setup lang="ts">
-import { mdiAccount, mdiAccountOff, mdiCog, mdiPlus, mdiShieldAccount, mdiHistory } from '@mdi/js'
+import { mdiAccount, mdiAccountGroup, mdiAccountOff, mdiCog, mdiPlus, mdiShieldAccount, mdiHistory } from '@mdi/js'
 import { showError } from '@nextcloud/dialogs'
 import { translate as t } from '@nextcloud/l10n'
 import { computed, ref } from 'vue'
