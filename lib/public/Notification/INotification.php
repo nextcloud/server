@@ -137,7 +137,7 @@ interface INotification {
 	 * See https://github.com/nextcloud/server/issues/1706 for more information.
 	 *
 	 * @param string $subject
-	 * @param array $parameters
+	 * @param array<string, array<string, string>> $parameters
 	 * @return $this
 	 * @throws InvalidValueException if the subject or parameters are invalid
 	 * @since 11.0.0
@@ -213,7 +213,7 @@ interface INotification {
 	 * See https://github.com/nextcloud/server/issues/1706 for more information.
 	 *
 	 * @param string $message
-	 * @param array $parameters
+	 * @param array<string, array<string, string>> $parameters
 	 * @return $this
 	 * @throws InvalidValueException if the message or parameters are invalid
 	 * @since 11.0.0
