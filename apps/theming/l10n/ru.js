@@ -48,6 +48,8 @@ OC.L10N.register(
     "Privacy policy" : "Политика конфиденциальности",
     "Adjust the Nextcloud theme" : "Скорректируйте тему Nextcloud'а",
     "Theming makes it possible to easily customize the look and feel of your instance and supported clients. This will be visible for all users." : "Этот модуль позволяют настроить внешний вид сервера и поддерживаемых клиентов. Настройки, определённые в этом модуле, распространяются на всех пользователей.",
+    "Instead of a background image you can also configure a plain background color. If you use a background image changing this color will influence the color of the app menu icons." : "Вместо фонового изображения вы также можете настроить простой цвет фона. Если вы используете фоновое изображение, изменение этого цвета повлияет на цвет иконок меню приложения.",
+    "Background color" : "Цвет фона",
     "Upload new logo" : "Загрузить новый логотип",
     "Logo" : "Логотип",
     "Upload new background and login image" : "Загрузите новое фоновое изображение и изображение для входа в систему",
