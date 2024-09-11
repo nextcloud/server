@@ -201,7 +201,6 @@ OC.L10N.register(
     "No results for {query}" : "{query} sorgusundan bir sonuç alınamadı",
     "Press Enter to start searching" : "Aramayı başlatmak için Enter tuşuna basın",
     "An error occurred while searching for {type}" : "{type} aranırken bir sorun çıktı",
-    "_Please enter {minSearchLength} character or more to search_::_Please enter {minSearchLength} characters or more to search_" : ["Lütfen aramak için en az {minSearchLength} karakter yazın","Lütfen aramak için en az {minSearchLength} karakter yazın"],
     "Forgot password?" : "Parolamı unuttum",
     "Back to login form" : "Oturum açma formuna dön",
     "Back" : "Geri",

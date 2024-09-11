@@ -69,6 +69,7 @@ OC.L10N.register(
     "Custom user agent" : "Пользовательский user agent",
     "Select groups" : "Выберите группы",
     "Groups" : "Группы",
+    "Type to search for group …" : "Введите для поиска группу…",
     "Select a trigger" : "Выберите триггер",
     "At least one event must be selected" : "Необходимо выбрать как минимум одно событие",
     "Add new flow" : "Добавить обработку",

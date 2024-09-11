@@ -201,7 +201,6 @@ OC.L10N.register(
     "No results for {query}" : "没有 '{query}' 的相关结果",
     "Press Enter to start searching" : "按下Enter开始搜索",
     "An error occurred while searching for {type}" : "搜索 {type} 时出错",
-    "_Please enter {minSearchLength} character or more to search_::_Please enter {minSearchLength} characters or more to search_" : ["请输入 {minSearchLength} 个字符或更多字符以进行搜索"],
     "Forgot password?" : "忘记密码？",
     "Back to login form" : "回到登录表格",
     "Back" : "返回",
