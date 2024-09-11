@@ -68,25 +68,19 @@ class ListCommand extends Base {
 
 	/**
 	 * @param IGroup[] $groups
-	 * @return array
 	 */
-	private function formatGroups(array $groups, bool $addInfo = false) {
-		$keys = array_map(function (IGroup $group) {
-			return $group->getGID();
-		}, $groups);
-
-		if ($addInfo) {
-			$values = array_map(function (IGroup $group) {
-				return [
+	private function formatGroups(array $groups, bool $addInfo = false): \Generator {
+		foreach ($groups as $group) {
+			if ($addInfo) {
+				$value = [
+					'displayName' => $group->getDisplayName(),
 					'backends' => $group->getBackendNames(),
 					'users' => $this->usersForGroup($group),
 				];
-			}, $groups);
-		} else {
-			$values = array_map(function (IGroup $group) {
-				return $this->usersForGroup($group);
-			}, $groups);
+			} else {
+				$value = $this->usersForGroup($group);
+			}
+			yield $group->getGID() => $value;
 		}
-		return array_combine($keys, $values);
 	}
 }

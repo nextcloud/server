@@ -248,7 +248,7 @@ class MigratorTest extends \Test\TestCase {
 		$table->addColumn('name', 'string');
 		$table->setPrimaryKey(['id']);
 
-		$fkName = "fkc";
+		$fkName = 'fkc';
 		$tableFk = $startSchema->createTable($this->tableNameTmp);
 		$tableFk->addColumn('fk_id', 'integer');
 		$tableFk->addColumn('name', 'string');

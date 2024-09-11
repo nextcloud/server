@@ -108,7 +108,7 @@ class Database extends ABackend implements
 				// Repopulate the cache
 				$this->loadUser($uid);
 
-				return (bool) $result;
+				return (bool)$result;
 			}, $this->dbConn);
 		}
 

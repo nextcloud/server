@@ -23,9 +23,6 @@ OC.L10N.register(
     "This weekend" : "Эта неделя",
     "Set reminder for this weekend" : "Установить напоминание на эти выходные",
     "Next week" : "Следующая неделя",
-    "Set reminder for next week" : "Установить напоминание на следующую неделю",
-    "Back" : "Назад",
-    "Reminder cleared" : "Напоминание удалено",
-    "Failed to load reminder" : "Не удалось загрузить напоминание"
+    "Set reminder for next week" : "Установить напоминание на следующую неделю"
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

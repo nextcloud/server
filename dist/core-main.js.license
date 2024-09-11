@@ -66,7 +66,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 7.4.47
 	- license: Apache-2.0
 - @nextcloud/auth
-	- version: 2.3.0
+	- version: 2.4.0
 	- license: GPL-3.0-or-later
 - @nextcloud/axios
 	- version: 2.5.0
@@ -78,7 +78,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.2.0
 	- license: GPL-3.0-or-later
 - @nextcloud/dialogs
-	- version: 5.3.5
+	- version: 6.0.0
 	- license: AGPL-3.0-or-later
 - semver
 	- version: 7.6.3
@@ -87,7 +87,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 3.3.1
 	- license: GPL-3.0-or-later
 - @nextcloud/files
-	- version: 3.7.0
+	- version: 3.9.0
 	- license: AGPL-3.0-or-later
 - @nextcloud/initial-state
 	- version: 2.2.0
@@ -111,16 +111,16 @@ This file is generated from multiple sources. Included packages:
 	- version: 0.2.3
 	- license: GPL-3.0-or-later
 - @nextcloud/vue
-	- version: 8.16.0
+	- version: 8.17.1
 	- license: AGPL-3.0-or-later
 - @vueuse/components
-	- version: 10.11.0
+	- version: 11.0.3
 	- license: MIT
 - @vueuse/core
-	- version: 10.11.0
+	- version: 11.0.3
 	- license: MIT
 - @vueuse/shared
-	- version: 10.11.0
+	- version: 11.0.3
 	- license: MIT
 - assert
 	- version: 2.1.0
@@ -129,7 +129,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.0.7
 	- license: MIT
 - axios
-	- version: 1.7.3
+	- version: 1.7.7
 	- license: MIT
 - backbone
 	- version: 1.6.0
@@ -156,7 +156,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.2.0
 	- license: MIT
 - core-js
-	- version: 3.37.1
+	- version: 3.38.1
 	- license: MIT
 - crypt
 	- version: 0.0.2
@@ -327,7 +327,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.1.1
 	- license: MIT
 - underscore
-	- version: 1.13.6
+	- version: 1.13.7
 	- license: MIT
 - unist-builder
 	- version: 4.0.0
@@ -354,10 +354,10 @@ This file is generated from multiple sources. Included packages:
 	- version: 2.7.16
 	- license: MIT
 - webdav
-	- version: 5.7.0
+	- version: 5.7.1
 	- license: MIT
 - webpack
-	- version: 5.93.0
+	- version: 5.94.0
 	- license: MIT
 - which-typed-array
 	- version: 1.1.15

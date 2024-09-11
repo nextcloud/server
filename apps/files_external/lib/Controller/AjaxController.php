@@ -9,6 +9,7 @@ namespace OCA\Files_External\Controller;
 use OCA\Files_External\Lib\Auth\Password\GlobalAuth;
 use OCA\Files_External\Lib\Auth\PublicKey\RSA;
 use OCP\AppFramework\Controller;
+use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\IGroupManager;
 use OCP\IRequest;
@@ -17,7 +18,7 @@ use OCP\IUserSession;
 class AjaxController extends Controller {
 	/** @var RSA */
 	private $rsaMechanism;
-	/** @var GlobalAuth  */
+	/** @var GlobalAuth */
 	private $globalAuth;
 	/** @var IUserSession */
 	private $userSession;
@@ -60,9 +61,9 @@ class AjaxController extends Controller {
 	/**
 	 * Generates an SSH public/private key pair.
 	 *
-	 * @NoAdminRequired
 	 * @param int $keyLength
 	 */
+	#[NoAdminRequired]
 	public function getSshKeys($keyLength = 1024) {
 		$key = $this->generateSshKeys($keyLength);
 		return new JSONResponse(
@@ -75,13 +76,12 @@ class AjaxController extends Controller {
 	}
 
 	/**
-	 * @NoAdminRequired
-	 *
 	 * @param string $uid
 	 * @param string $user
 	 * @param string $password
 	 * @return bool
 	 */
+	#[NoAdminRequired]
 	public function saveGlobalCredentials($uid, $user, $password) {
 		$currentUser = $this->userSession->getUser();
 		if ($currentUser === null) {

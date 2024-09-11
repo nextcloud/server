@@ -179,6 +179,7 @@ OC.L10N.register(
     "WebDAV" : "WebDAV",
     "First day" : "Första dagen",
     "Last day (inclusive)" : "Sista dagen (inklusive)",
+    "Name of the replacement" : "Namn på ersättaren",
     "No results." : "Inga resultat.",
     "Start typing." : "Börja skriva.",
     "Short absence status" : "Meddelande om kort frånvaro",

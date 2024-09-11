@@ -56,12 +56,6 @@ class PublicKeyTokenProviderTest extends TestCase {
 		$this->hasher = \OC::$server->get(IHasher::class);
 		$this->crypto = \OC::$server->getCrypto();
 		$this->config = $this->createMock(IConfig::class);
-		$this->config->method('getSystemValueInt')
-			->willReturnMap([
-				['session_lifetime', 60 * 60 * 24, 150],
-				['remember_login_cookie_lifetime', 60 * 60 * 24 * 15, 300],
-				['token_auth_activity_update', 60, 60],
-			]);
 		$this->config->method('getSystemValue')
 			->willReturnMap([
 				['openssl', [], []],
@@ -330,20 +324,25 @@ class PublicKeyTokenProviderTest extends TestCase {
 		$this->tokenProvider->invalidateTokenById('uid', $id);
 	}
 
-	public function testInvalidateOldTokens() {
+	public function testInvalidateOldTokens(): void {
 		$defaultSessionLifetime = 60 * 60 * 24;
 		$defaultRememberMeLifetime = 60 * 60 * 24 * 15;
-		$this->config->expects($this->exactly(2))
+		$wipeTokenLifetime = 60 * 60 * 24 * 60;
+		$this->config->expects($this->exactly(4))
 			->method('getSystemValueInt')
 			->willReturnMap([
 				['session_lifetime', $defaultSessionLifetime, 150],
 				['remember_login_cookie_lifetime', $defaultRememberMeLifetime, 300],
+				['token_auth_wipe_token_retention', $wipeTokenLifetime, 500],
+				['token_auth_token_retention', 60 * 60 * 24 * 365, 800],
 			]);
-		$this->mapper->expects($this->exactly(2))
+		$this->mapper->expects($this->exactly(4))
 			->method('invalidateOld')
 			->withConsecutive(
-				[$this->time - 150],
-				[$this->time - 300]
+				[$this->time - 150, IToken::TEMPORARY_TOKEN, IToken::DO_NOT_REMEMBER],
+				[$this->time - 300, IToken::TEMPORARY_TOKEN, IToken::REMEMBER],
+				[$this->time - 500, IToken::WIPE_TOKEN, null],
+				[$this->time - 800, IToken::PERMANENT_TOKEN, null],
 			);
 
 		$this->tokenProvider->invalidateOldTokens();

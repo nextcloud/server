@@ -70,7 +70,7 @@ interface IQueryBuilder {
 	 * Enable/disable automatic prefixing of table names with the oc_ prefix
 	 *
 	 * @param bool $enabled If set to true table names will be prefixed with the
-	 * owncloud database prefix automatically.
+	 *                      owncloud database prefix automatically.
 	 * @since 8.2.0
 	 */
 	public function automaticTablePrefix($enabled);
@@ -541,12 +541,13 @@ interface IQueryBuilder {
 	 * </code>
 	 *
 	 * @param string $fromAlias The alias that points to a from clause.
-	 * @param string $join The table name to join.
+	 * @param string|IQueryFunction $join The table name to join.
 	 * @param string $alias The alias of the join table.
 	 * @param string|ICompositeExpression|null $condition The condition for the join.
 	 *
 	 * @return $this This QueryBuilder instance.
 	 * @since 8.2.0
+	 * @since 30.0.0 Allow passing IQueryFunction as parameter for `$join` to allow join with a sub-query.
 	 *
 	 * @psalm-taint-sink sql $fromAlias
 	 * @psalm-taint-sink sql $join
@@ -1001,13 +1002,25 @@ interface IQueryBuilder {
 	public function getLastInsertId(): int;
 
 	/**
-	 * Returns the table name quoted and with database prefix as needed by the implementation
+	 * Returns the table name quoted and with database prefix as needed by the implementation.
+	 * If a query function is passed the function is casted to string,
+	 * this allows passing functions as sub-queries for join expression.
 	 *
 	 * @param string|IQueryFunction $table
 	 * @return string
 	 * @since 9.0.0
+	 * @since 24.0.0 accepts IQueryFunction as parameter
 	 */
 	public function getTableName($table);
+
+	/**
+	 * Returns the table name with database prefix as needed by the implementation
+	 *
+	 * @param string $table
+	 * @return string
+	 * @since 30.0.0
+	 */
+	public function prefixTableName(string $table): string;
 
 	/**
 	 * Returns the column name quoted and with table alias prefix as needed by the implementation
@@ -1018,4 +1031,30 @@ interface IQueryBuilder {
 	 * @since 9.0.0
 	 */
 	public function getColumnName($column, $tableAlias = '');
+
+	/**
+	 * Provide a hint for the shard key for queries where this can't be detected otherwise
+	 *
+	 * @param string $column
+	 * @param mixed $value
+	 * @return $this
+	 * @since 30.0.0
+	 */
+	public function hintShardKey(string $column, mixed $value, bool $overwrite = false);
+
+	/**
+	 * Set the query to run across all shards if sharding is enabled.
+	 *
+	 * @return $this
+	 * @since 30.0.0
+	 */
+	public function runAcrossAllShards();
+
+	/**
+	 * Get a list of column names that are expected in the query output
+	 *
+	 * @return array
+	 * @since 30.0.0
+	 */
+	public function getOutputColumns(): array;
 }

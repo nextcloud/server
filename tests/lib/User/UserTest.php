@@ -222,7 +222,7 @@ class UserTest extends TestCase {
 		$user->method('getUID')
 			->willReturn('foo');
 		if ($homeProvider->getHomeMountForUser($user, $this->createMock(IStorageFactory::class)) !== null) {
-			$this->markTestSkipped("Skipping test for non local home storage");
+			$this->markTestSkipped('Skipping test for non local home storage');
 		}
 
 		/**

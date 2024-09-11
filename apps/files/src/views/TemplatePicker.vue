@@ -17,6 +17,7 @@
 			<!-- Templates list -->
 			<ul class="templates-picker__list">
 				<TemplatePreview v-bind="emptyTemplate"
+					ref="emptyTemplatePreview"
 					:checked="checked === emptyTemplate.fileid"
 					@check="onCheck" />
 
@@ -179,6 +180,11 @@ export default defineComponent({
 
 			// Else, open the picker
 			this.opened = true
+
+			// Set initial focus to the empty template preview
+			this.$nextTick(() => {
+				this.$refs.emptyTemplatePreview?.focus()
+			})
 		},
 
 		/**
@@ -322,7 +328,7 @@ export default defineComponent({
 	&__loading {
 		position: absolute;
 		top: 0;
-		left: 0;
+		inset-inline-start: 0;
 		justify-content: center;
 		width: 100%;
 		height: 100%;

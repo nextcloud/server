@@ -167,7 +167,7 @@ class UsersController extends AUserData {
 
 		$usersDetails = [];
 		foreach ($users as $userId) {
-			$userId = (string) $userId;
+			$userId = (string)$userId;
 			try {
 				$userData = $this->getUserData($userId);
 			} catch (OCSNotFoundException $e) {
@@ -360,7 +360,7 @@ class UsersController extends AUserData {
 			foreach ($phoneNumbers as $phone) {
 				$normalizedNumber = $this->phoneNumberUtil->convertToStandardFormat($phone, $location);
 				if ($normalizedNumber !== null) {
-					$normalizedNumberToKey[$normalizedNumber] = (string) $key;
+					$normalizedNumberToKey[$normalizedNumber] = (string)$key;
 				}
 
 				if ($defaultPhoneRegion !== '' && $defaultPhoneRegion !== $location && str_starts_with($phone, '0')) {
@@ -369,7 +369,7 @@ class UsersController extends AUserData {
 					// when it's different to the user's given region.
 					$normalizedNumber = $this->phoneNumberUtil->convertToStandardFormat($phone, $defaultPhoneRegion);
 					if ($normalizedNumber !== null) {
-						$normalizedNumberToKey[$normalizedNumber] = (string) $key;
+						$normalizedNumberToKey[$normalizedNumber] = (string)$key;
 					}
 				}
 			}
@@ -1023,7 +1023,7 @@ class UsersController extends AUserData {
 				$quota = $value;
 				if ($quota !== 'none' && $quota !== 'default') {
 					if (is_numeric($quota)) {
-						$quota = (float) $quota;
+						$quota = (float)$quota;
 					} else {
 						$quota = \OCP\Util::computerFileSize($quota);
 					}
@@ -1033,7 +1033,7 @@ class UsersController extends AUserData {
 					if ($quota === -1) {
 						$quota = 'none';
 					} else {
-						$maxQuota = (int) $this->config->getAppValue('files', 'max_quota', '-1');
+						$maxQuota = (int)$this->config->getAppValue('files', 'max_quota', '-1');
 						if ($maxQuota !== -1 && $quota > $maxQuota) {
 							throw new OCSException($this->l10n->t('Invalid quota value. %1$s is exceeding the maximum quota', [$value]), 102);
 						}

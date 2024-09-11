@@ -100,7 +100,7 @@ class MigrationAttribute implements JsonSerializable {
 	 */
 	public function import(array $data): self {
 		return $this->setDescription($data['description'] ?? '')
-					->setNotes($data['notes'] ?? []);
+			->setNotes($data['notes'] ?? []);
 	}
 
 	/**

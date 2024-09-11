@@ -2,25 +2,15 @@
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import { action } from './editLocallyAction'
-import { expect } from '@jest/globals'
 import { File, Permission, View, FileAction } from '@nextcloud/files'
-import { DialogBuilder, showError } from '@nextcloud/dialogs'
+import { beforeAll, beforeEach, describe, expect, test, vi } from 'vitest'
+
 import axios from '@nextcloud/axios'
+import * as nextcloudDialogs from '@nextcloud/dialogs'
+import { action } from './editLocallyAction'
 
-const dialogBuilder = {
-	setName: jest.fn().mockReturnThis(),
-	setText: jest.fn().mockReturnThis(),
-	setButtons: jest.fn().mockReturnThis(),
-	build: jest.fn().mockReturnValue({
-		show: jest.fn().mockResolvedValue(true),
-	}),
-} as unknown as DialogBuilder
-
-jest.mock('@nextcloud/dialogs', () => ({
-	DialogBuilder: jest.fn(() => dialogBuilder),
-	showError: jest.fn(),
-}))
+vi.mock('@nextcloud/auth')
+vi.mock('@nextcloud/axios')
 
 const view = {
 	id: 'files',
@@ -31,7 +21,7 @@ const view = {
 beforeAll(() => {
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	(window as any)._oc_webroot = '';
-	(window as any).OCA = { Viewer: { open: jest.fn() } }
+	(window as any).OCA = { Viewer: { open: vi.fn() } }
 })
 
 describe('Edit locally action conditions tests', () => {
@@ -39,7 +29,7 @@ describe('Edit locally action conditions tests', () => {
 		expect(action).toBeInstanceOf(FileAction)
 		expect(action.id).toBe('edit-locally')
 		expect(action.displayName([], view)).toBe('Edit locally')
-		expect(action.iconSvgInline([], view)).toBe('<svg>SvgMock</svg>')
+		expect(action.iconSvgInline([], view)).toMatch(/<svg.+<\/svg>/)
 		expect(action.default).toBeUndefined()
 		expect(action.order).toBe(25)
 	})
@@ -118,16 +108,23 @@ describe('Edit locally action enabled tests', () => {
 })
 
 describe('Edit locally action execute tests', () => {
+	let spyShowDialog
+	beforeEach(() => {
+		vi.resetAllMocks()
+		spyShowDialog = vi.spyOn(nextcloudDialogs.Dialog.prototype, 'show')
+			.mockImplementation(() => Promise.resolve())
+	})
+
 	test('Edit locally opens proper URL', async () => {
-		jest.spyOn(axios, 'post').mockImplementation(async () => ({
-			data: { ocs: { data: { token: 'foobar' } } }
+		vi.spyOn(axios, 'post').mockImplementation(async () => ({
+			data: { ocs: { data: { token: 'foobar' } } },
 		}))
-		const mockedShowError = jest.mocked(showError)
-		const spyDialogBuilder = jest.spyOn(dialogBuilder, 'build')
+		const showError = vi.spyOn(nextcloudDialogs, 'showError')
+		const windowOpenSpy = vi.spyOn(window, 'open').mockImplementation(() => null)
 
 		const file = new File({
 			id: 1,
-			source: 'http://localhost/remote.php/dav/files/admin/foobar.txt',
+			source: 'http://nextcloud.local/remote.php/dav/files/admin/foobar.txt',
 			owner: 'admin',
 			mime: 'text/plain',
 			permissions: Permission.UPDATE,
@@ -135,24 +132,23 @@ describe('Edit locally action execute tests', () => {
 
 		const exec = await action.exec(file, view, '/')
 
-		expect(spyDialogBuilder).toBeCalled()
+		expect(spyShowDialog).toBeCalled()
 
 		// Silent action
 		expect(exec).toBe(null)
 		expect(axios.post).toBeCalledTimes(1)
-		expect(axios.post).toBeCalledWith('http://localhost/ocs/v2.php/apps/files/api/v1/openlocaleditor?format=json', { path: '/foobar.txt' })
-		expect(mockedShowError).toBeCalledTimes(0)
-		expect(window.location.href).toBe('nc://open/test@localhost/foobar.txt?token=foobar')
+		expect(axios.post).toBeCalledWith('http://nextcloud.local/ocs/v2.php/apps/files/api/v1/openlocaleditor?format=json', { path: '/foobar.txt' })
+		expect(showError).toBeCalledTimes(0)
+		expect(windowOpenSpy).toBeCalledWith('nc://open/test@nextcloud.local/foobar.txt?token=foobar', '_self')
 	})
 
 	test('Edit locally fails and shows error', async () => {
-		jest.spyOn(axios, 'post').mockImplementation(async () => ({}))
-		const mockedShowError = jest.mocked(showError)
-		const spyDialogBuilder = jest.spyOn(dialogBuilder, 'build')
+		vi.spyOn(axios, 'post').mockImplementation(async () => ({}))
+		const showError = vi.spyOn(nextcloudDialogs, 'showError')
 
 		const file = new File({
 			id: 1,
-			source: 'http://localhost/remote.php/dav/files/admin/foobar.txt',
+			source: 'http://nextcloud.local/remote.php/dav/files/admin/foobar.txt',
 			owner: 'admin',
 			mime: 'text/plain',
 			permissions: Permission.UPDATE,
@@ -160,14 +156,14 @@ describe('Edit locally action execute tests', () => {
 
 		const exec = await action.exec(file, view, '/')
 
-		expect(spyDialogBuilder).toBeCalled()
+		expect(spyShowDialog).toBeCalled()
 
 		// Silent action
 		expect(exec).toBe(null)
 		expect(axios.post).toBeCalledTimes(1)
-		expect(axios.post).toBeCalledWith('http://localhost/ocs/v2.php/apps/files/api/v1/openlocaleditor?format=json', { path: '/foobar.txt' })
-		expect(mockedShowError).toBeCalledTimes(1)
-		expect(mockedShowError).toBeCalledWith('Failed to redirect to client')
-		expect(window.location.href).toBe('http://localhost/')
+		expect(axios.post).toBeCalledWith('http://nextcloud.local/ocs/v2.php/apps/files/api/v1/openlocaleditor?format=json', { path: '/foobar.txt' })
+		expect(showError).toBeCalledTimes(1)
+		expect(showError).toBeCalledWith('Failed to redirect to client')
+		expect(window.location.href).toBe('http://nextcloud.local/')
 	})
 })

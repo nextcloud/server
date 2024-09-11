@@ -3,16 +3,16 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { translate as t, translatePlural as n } from '@nextcloud/l10n'
-import { getRequestToken } from '@nextcloud/auth'
-import Vue from 'vue'
+import { getCSPNonce } from '@nextcloud/auth'
+import { t, n } from '@nextcloud/l10n'
 import { PiniaVuePlugin, createPinia } from 'pinia'
+import Vue from 'vue'
 import CommentsApp from '../views/Comments.vue'
 import logger from '../logger.js'
 
 Vue.use(PiniaVuePlugin)
 // eslint-disable-next-line camelcase
-__webpack_nonce__ = btoa(getRequestToken())
+__webpack_nonce__ = getCSPNonce()
 
 // Add translates functions
 Vue.mixin({

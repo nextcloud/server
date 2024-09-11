@@ -43,6 +43,11 @@ class NullCache extends Cache implements \OCP\IMemcache {
 		return true;
 	}
 
+	public function ncad(string $key, mixed $old): bool {
+		return true;
+	}
+
+
 	public function clear($prefix = '') {
 		return true;
 	}

@@ -26,7 +26,7 @@ interface ISystemTagManager {
 	 *
 	 * @throws \InvalidArgumentException if at least one given tag ids is invalid (string instead of integer, etc.)
 	 * @throws TagNotFoundException if at least one given tag ids did no exist
-	 * 			The message contains a json_encoded array of the ids that could not be found
+	 *                              The message contains a json_encoded array of the ids that could not be found
 	 *
 	 * @since 9.0.0, optional parameter $user added in 28.0.0
 	 */
@@ -84,7 +84,7 @@ interface ISystemTagManager {
 	 *
 	 * @throws TagNotFoundException if tag with the given id does not exist
 	 * @throws TagAlreadyExistsException if there is already another tag
-	 * with the same attributes
+	 *                                   with the same attributes
 	 *
 	 * @since 9.0.0
 	 */

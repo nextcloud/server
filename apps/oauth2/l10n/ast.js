@@ -17,7 +17,6 @@ OC.L10N.register(
     "Add" : "Amestar",
     "Delete" : "Desaniciar",
     "Show client secret" : "Amosar el secretu del veceru",
-    "Hide client secret" : "Anubrir el secretu del veceru",
-    "Secret" : "Secretu"
+    "Hide client secret" : "Anubrir el secretu del veceru"
 },
 "nplurals=2; plural=(n != 1);");

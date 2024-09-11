@@ -5,13 +5,16 @@
  */
 namespace OCA\ShareByMail\Tests;
 
+use DateTime;
 use OC\Mail\Message;
 use OCA\ShareByMail\Settings\SettingsManager;
 use OCA\ShareByMail\ShareByMailProvider;
+use OCP\Activity\IManager as IActivityManager;
 use OCP\Defaults;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\File;
 use OCP\Files\IRootFolder;
+use OCP\Files\Node;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IL10N;
@@ -24,9 +27,11 @@ use OCP\Mail\IMessage;
 use OCP\Security\Events\GenerateSecurePasswordEvent;
 use OCP\Security\IHasher;
 use OCP\Security\ISecureRandom;
+use OCP\Security\PasswordContext;
 use OCP\Share\IAttributes;
 use OCP\Share\IManager;
 use OCP\Share\IShare;
+use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
@@ -37,65 +42,36 @@ use Test\TestCase;
  * @group DB
  */
 class ShareByMailProviderTest extends TestCase {
-	/** @var IConfig */
-	private $config;
+	
+	private IDBConnection $connection;
 
-	/** @var  IDBConnection */
-	private $connection;
-
-	/** @var  IManager | \PHPUnit\Framework\MockObject\MockObject */
-	private $shareManager;
-
-	/** @var  IL10N | \PHPUnit\Framework\MockObject\MockObject */
-	private $l;
-
-	/** @var  LoggerInterface | \PHPUnit\Framework\MockObject\MockObject */
-	private $logger;
-
-	/** @var  IRootFolder | \PHPUnit\Framework\MockObject\MockObject */
-	private $rootFolder;
-
-	/** @var  IUserManager | \PHPUnit\Framework\MockObject\MockObject */
-	private $userManager;
-
-	/** @var  ISecureRandom | \PHPUnit\Framework\MockObject\MockObject */
-	private $secureRandom;
-
-	/** @var  IMailer | \PHPUnit\Framework\MockObject\MockObject */
-	private $mailer;
-
-	/** @var  IURLGenerator | \PHPUnit\Framework\MockObject\MockObject */
-	private $urlGenerator;
-
-	/** @var  IShare | \PHPUnit\Framework\MockObject\MockObject */
-	private $share;
-
-	/** @var  \OCP\Activity\IManager | \PHPUnit\Framework\MockObject\MockObject */
-	private $activityManager;
-
-	/** @var  SettingsManager | \PHPUnit\Framework\MockObject\MockObject */
-	private $settingsManager;
-
-	/** @var Defaults|\PHPUnit\Framework\MockObject\MockObject */
-	private $defaults;
-
-	/** @var  IHasher | \PHPUnit\Framework\MockObject\MockObject */
-	private $hasher;
-
-	/** @var IEventDispatcher */
-	private $eventDispatcher;
+	private IL10N&MockObject $l;
+	private IShare&MockObject $share;
+	private IConfig&MockObject $config;
+	private IMailer&MockObject $mailer;
+	private IHasher&MockObject $hasher;
+	private Defaults&MockObject $defaults;
+	private IManager&MockObject $shareManager;
+	private LoggerInterface&MockObject $logger;
+	private IRootFolder&MockObject $rootFolder;
+	private IUserManager&MockObject $userManager;
+	private ISecureRandom&MockObject $secureRandom;
+	private IURLGenerator&MockObject $urlGenerator;
+	private SettingsManager&MockObject $settingsManager;
+	private IActivityManager&MockObject $activityManager;
+	private IEventDispatcher&MockObject $eventDispatcher;
 
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->config = $this->getMockBuilder(IConfig::class)->getMock();
-		$this->connection = \OC::$server->getDatabaseConnection();
+		$this->connection = \OCP\Server::get(IDBConnection::class);
 
 		$this->l = $this->getMockBuilder(IL10N::class)->getMock();
 		$this->l->method('t')
 			->willReturnCallback(function ($text, $parameters = []) {
 				return vsprintf($text, $parameters);
 			});
+		$this->config = $this->getMockBuilder(IConfig::class)->getMock();
 		$this->logger = $this->getMockBuilder(LoggerInterface::class)->getMock();
 		$this->rootFolder = $this->getMockBuilder('OCP\Files\IRootFolder')->getMock();
 		$this->userManager = $this->getMockBuilder(IUserManager::class)->getMock();
@@ -164,7 +140,10 @@ class ShareByMailProviderTest extends TestCase {
 	}
 
 	protected function tearDown(): void {
-		$this->connection->getQueryBuilder()->delete('share')->execute();
+		$this->connection
+			->getQueryBuilder()
+			->delete('share')
+			->executeStatement();
 
 		parent::tearDown();
 	}
@@ -304,7 +283,11 @@ class ShareByMailProviderTest extends TestCase {
 		// Assume the mail address is valid.
 		$this->mailer->expects($this->any())->method('validateMailAddress')->willReturn(true);
 
-		$instance = $this->getInstance(['getSharedWith', 'createMailShare', 'getRawShare', 'createShareObject', 'createShareActivity', 'autoGeneratePassword', 'createPasswordSendActivity', 'sendEmail', 'sendPassword', 'sendPasswordToOwner']);
+		$instance = $this->getInstance([
+			'getSharedWith', 'createMailShare', 'getRawShare', 'createShareObject',
+			'createShareActivity', 'autoGeneratePassword', 'createPasswordSendActivity',
+			'sendEmail', 'sendPassword', 'sendPasswordToOwner',
+		]);
 
 		$instance->expects($this->once())->method('getSharedWith')->willReturn([]);
 		$instance->expects($this->once())->method('createMailShare')->with($share)->willReturn(42);
@@ -360,7 +343,7 @@ class ShareByMailProviderTest extends TestCase {
 			->willReturn('autogeneratedPassword');
 		$this->eventDispatcher->expects($this->once())
 			->method('dispatchTyped')
-			->with(new GenerateSecurePasswordEvent());
+			->with(new GenerateSecurePasswordEvent(PasswordContext::SHARING));
 
 		// Assume the mail address is valid.
 		$this->mailer->expects($this->any())->method('validateMailAddress')->willReturn(true);
@@ -821,7 +804,7 @@ class ShareByMailProviderTest extends TestCase {
 	 * @param bool sendMail
 	 */
 	public function testUpdateSendPassword($plainTextPassword, string $originalPassword, string $newPassword, $originalSendPasswordByTalk, $newSendPasswordByTalk, bool $sendMail) {
-		$node = $this->getMockBuilder(File::class)->getMock();
+		$node = $this->createMock(File::class);
 		$node->expects($this->any())->method('getName')->willReturn('filename');
 
 		$this->settingsManager->method('sendPasswordByMail')->willReturn(true);
@@ -880,7 +863,7 @@ class ShareByMailProviderTest extends TestCase {
 		$permissions = 1;
 		$token = 'token';
 
-		$this->createDummyShare($itemType, $itemSource, $shareWith, "user1wrong", "user2wrong", $permissions, $token);
+		$this->createDummyShare($itemType, $itemSource, $shareWith, 'user1wrong', 'user2wrong', $permissions, $token);
 		$id2 = $this->createDummyShare($itemType, $itemSource, $shareWith, $sharedBy, $uidOwner, $permissions, $token);
 
 		$instance->expects($this->once())->method('createShareObject')
@@ -926,7 +909,7 @@ class ShareByMailProviderTest extends TestCase {
 		$permissions = 1;
 		$token = 'token';
 
-		$node = $this->getMockBuilder('OCP\Files\Node')->getMock();
+		$node = $this->createMock(Node::class);
 		$node->expects($this->once())->method('getId')->willReturn($itemSource);
 
 
@@ -997,7 +980,7 @@ class ShareByMailProviderTest extends TestCase {
 		$instance = $this->getInstance(['createShareObject']);
 
 		$idMail = $this->createDummyShare($itemType, $itemSource, $shareWith, $sharedBy, $uidOwner, $permissions, $token);
-		$idPublic = $this->createDummyShare($itemType, $itemSource, $shareWith, $sharedBy, $uidOwner, $permissions, "token2", '', IShare::TYPE_LINK);
+		$idPublic = $this->createDummyShare($itemType, $itemSource, $shareWith, $sharedBy, $uidOwner, $permissions, 'token2', '', IShare::TYPE_LINK);
 
 		$this->assertTrue($idMail !== $idPublic);
 
@@ -1298,19 +1281,19 @@ class ShareByMailProviderTest extends TestCase {
 		$template
 			->expects($this->once())
 			->method('addHeading')
-			->with('Mrs. Owner User shared »file.txt« with you');
+			->with('Mrs. Owner User shared file.txt with you');
 		$template
 			->expects($this->once())
 			->method('addBodyText')
 			->with(
-				'Mrs. Owner User shared »file.txt« with you. Click the button below to open it.',
-				'Mrs. Owner User shared »file.txt« with you.'
+				'Mrs. Owner User shared file.txt with you. Click the button below to open it.',
+				'Mrs. Owner User shared file.txt with you.'
 			);
 		$template
 			->expects($this->once())
 			->method('addBodyButton')
 			->with(
-				'Open »file.txt«',
+				'Open file.txt',
 				'https://example.com/file.txt'
 			);
 		$message
@@ -1346,7 +1329,7 @@ class ShareByMailProviderTest extends TestCase {
 		$template
 			->expects($this->once())
 			->method('setSubject')
-			->with('Mrs. Owner User shared »file.txt« with you');
+			->with('Mrs. Owner User shared file.txt with you');
 		$message
 			->expects($this->once())
 			->method('useTemplate')
@@ -1411,19 +1394,32 @@ class ShareByMailProviderTest extends TestCase {
 		$template
 			->expects($this->once())
 			->method('addHeading')
-			->with('Mrs. Owner User shared »file.txt« with you');
+			->with('Mrs. Owner User shared file.txt with you');
 		$template
-			->expects($this->exactly(2))
+			->expects($this->once())
 			->method('addBodyText')
-			->withConsecutive(
-				['This is a note to the recipient', 'This is a note to the recipient'],
-				['Mrs. Owner User shared »file.txt« with you. Click the button below to open it.', 'Mrs. Owner User shared »file.txt« with you.'],
+			->with('Mrs. Owner User shared file.txt with you. Click the button below to open it.', 'Mrs. Owner User shared file.txt with you.');
+
+		$this->urlGenerator->expects($this->once())->method('imagePath')
+			->with('core', 'caldav/description.png')
+			->willReturn('core/img/caldav/description.png');
+		$this->urlGenerator->expects($this->once())->method('getAbsoluteURL')
+			->with('core/img/caldav/description.png')
+			->willReturn('https://example.com/core/img/caldav/description.png');
+		$template
+			->expects($this->once())
+			->method('addBodyListItem')
+			->with(
+				'This is a note to the recipient',
+				'Note:',
+				'https://example.com/core/img/caldav/description.png',
+				'This is a note to the recipient'
 			);
 		$template
 			->expects($this->once())
 			->method('addBodyButton')
 			->with(
-				'Open »file.txt«',
+				'Open file.txt',
 				'https://example.com/file.txt'
 			);
 		$message
@@ -1459,7 +1455,7 @@ class ShareByMailProviderTest extends TestCase {
 		$template
 			->expects($this->once())
 			->method('setSubject')
-			->with('Mrs. Owner User shared »file.txt« with you');
+			->with('Mrs. Owner User shared file.txt with you');
 		$message
 			->expects($this->once())
 			->method('useTemplate')
@@ -1486,6 +1482,138 @@ class ShareByMailProviderTest extends TestCase {
 		$share->expects($this->any())->method('getNode')->willReturn($node);
 		$share->expects($this->any())->method('getId')->willReturn(42);
 		$share->expects($this->any())->method('getNote')->willReturn('This is a note to the recipient');
+		$share->expects($this->any())->method('getToken')->willReturn('token');
+		
+		self::invokePrivate(
+			$provider,
+			'sendMailNotification',
+			[$share]
+		);
+	}
+
+	public function testSendMailNotificationWithSameUserAndUserEmailAndExpiration() {
+		$provider = $this->getInstance();
+		$user = $this->createMock(IUser::class);
+		$this->settingsManager->expects($this->any())->method('replyToInitiator')->willReturn(true);
+		$this->userManager
+			->expects($this->once())
+			->method('get')
+			->with('OwnerUser')
+			->willReturn($user);
+		$user
+			->expects($this->once())
+			->method('getDisplayName')
+			->willReturn('Mrs. Owner User');
+		$message = $this->createMock(Message::class);
+		$this->mailer
+			->expects($this->once())
+			->method('createMessage')
+			->willReturn($message);
+		$template = $this->createMock(IEMailTemplate::class);
+		$this->mailer
+			->expects($this->once())
+			->method('createEMailTemplate')
+			->willReturn($template);
+		$template
+			->expects($this->once())
+			->method('addHeader');
+		$template
+			->expects($this->once())
+			->method('addHeading')
+			->with('Mrs. Owner User shared file.txt with you');
+		$template
+			->expects($this->once())
+			->method('addBodyText')
+			->with('Mrs. Owner User shared file.txt with you. Click the button below to open it.', 'Mrs. Owner User shared file.txt with you.');
+
+		$expiration = new DateTime('2001-01-01');
+		$this->l->expects($this->once())
+			->method('l')
+			->with('date', $expiration, ['width' => 'medium'])
+			->willReturn('2001-01-01');
+		$this->urlGenerator->expects($this->once())->method('imagePath')
+			->with('core', 'caldav/time.png')
+			->willReturn('core/img/caldav/time.png');
+		$this->urlGenerator->expects($this->once())->method('getAbsoluteURL')
+			->with('core/img/caldav/time.png')
+			->willReturn('https://example.com/core/img/caldav/time.png');
+		$template
+			->expects($this->once())
+			->method('addBodyListItem')
+			->with(
+				'This share is valid until 2001-01-01 at midnight',
+				'Expiration:',
+				'https://example.com/core/img/caldav/time.png',
+			);
+
+		$template
+			->expects($this->once())
+			->method('addBodyButton')
+			->with(
+				'Open file.txt',
+				'https://example.com/file.txt'
+			);
+		$message
+			->expects($this->once())
+			->method('setTo')
+			->with(['john@doe.com']);
+		$this->defaults
+			->expects($this->once())
+			->method('getName')
+			->willReturn('UnitTestCloud');
+		$message
+			->expects($this->once())
+			->method('setFrom')
+			->with([
+				\OCP\Util::getDefaultEmailAddress('UnitTestCloud') => 'Mrs. Owner User via UnitTestCloud'
+			]);
+		$user
+			->expects($this->once())
+			->method('getEMailAddress')
+			->willReturn('owner@example.com');
+		$message
+			->expects($this->once())
+			->method('setReplyTo')
+			->with(['owner@example.com' => 'Mrs. Owner User']);
+		$this->defaults
+			->expects($this->exactly(2))
+			->method('getSlogan')
+			->willReturn('Testing like 1990');
+		$template
+			->expects($this->once())
+			->method('addFooter')
+			->with('UnitTestCloud - Testing like 1990');
+		$template
+			->expects($this->once())
+			->method('setSubject')
+			->with('Mrs. Owner User shared file.txt with you');
+		$message
+			->expects($this->once())
+			->method('useTemplate')
+			->with($template);
+
+		$this->mailer->expects($this->once())
+			->method('validateMailAddress')
+			->willReturn(true);
+		$this->mailer
+			->expects($this->once())
+			->method('send')
+			->with($message);
+
+		$this->urlGenerator->expects($this->once())->method('linkToRouteAbsolute')
+			->with('files_sharing.sharecontroller.showShare', ['token' => 'token'])
+			->willReturn('https://example.com/file.txt');
+
+		$node = $this->getMockBuilder(File::class)->getMock();
+		$node->expects($this->any())->method('getName')->willReturn('file.txt');
+
+		$share = $this->getMockBuilder(IShare::class)->getMock();
+		$share->expects($this->any())->method('getSharedBy')->willReturn('OwnerUser');
+		$share->expects($this->any())->method('getSharedWith')->willReturn('john@doe.com');
+		$share->expects($this->any())->method('getNode')->willReturn($node);
+		$share->expects($this->any())->method('getId')->willReturn(42);
+		$share->expects($this->any())->method('getNote')->willReturn('');
+		$share->expects($this->any())->method('getExpirationDate')->willReturn($expiration);
 		$share->expects($this->any())->method('getToken')->willReturn('token');
 		
 		self::invokePrivate(
@@ -1524,19 +1652,19 @@ class ShareByMailProviderTest extends TestCase {
 		$template
 			->expects($this->once())
 			->method('addHeading')
-			->with('Mr. Initiator User shared »file.txt« with you');
+			->with('Mr. Initiator User shared file.txt with you');
 		$template
 			->expects($this->once())
 			->method('addBodyText')
 			->with(
-				'Mr. Initiator User shared »file.txt« with you. Click the button below to open it.',
-				'Mr. Initiator User shared »file.txt« with you.'
+				'Mr. Initiator User shared file.txt with you. Click the button below to open it.',
+				'Mr. Initiator User shared file.txt with you.'
 			);
 		$template
 			->expects($this->once())
 			->method('addBodyButton')
 			->with(
-				'Open »file.txt«',
+				'Open file.txt',
 				'https://example.com/file.txt'
 			);
 		$message
@@ -1563,7 +1691,7 @@ class ShareByMailProviderTest extends TestCase {
 		$template
 			->expects($this->once())
 			->method('setSubject')
-			->with('Mr. Initiator User shared »file.txt« with you');
+			->with('Mr. Initiator User shared file.txt with you');
 		$message
 			->expects($this->once())
 			->method('useTemplate')
@@ -1628,19 +1756,19 @@ class ShareByMailProviderTest extends TestCase {
 		$template
 			->expects($this->once())
 			->method('addHeading')
-			->with('Mrs. Owner User shared »file.txt« with you');
+			->with('Mrs. Owner User shared file.txt with you');
 		$template
 			->expects($this->once())
 			->method('addBodyText')
 			->with(
-				'Mrs. Owner User shared »file.txt« with you. Click the button below to open it.',
-				'Mrs. Owner User shared »file.txt« with you.'
+				'Mrs. Owner User shared file.txt with you. Click the button below to open it.',
+				'Mrs. Owner User shared file.txt with you.'
 			);
 		$template
 			->expects($this->once())
 			->method('addBodyButton')
 			->with(
-				'Open »file.txt«',
+				'Open file.txt',
 				'https://example.com/file.txt'
 			);
 		$message
@@ -1671,7 +1799,7 @@ class ShareByMailProviderTest extends TestCase {
 		$template
 			->expects($this->once())
 			->method('setSubject')
-			->with('Mrs. Owner User shared »file.txt« with you');
+			->with('Mrs. Owner User shared file.txt with you');
 		$message
 			->expects($this->once())
 			->method('useTemplate')
@@ -1736,19 +1864,19 @@ class ShareByMailProviderTest extends TestCase {
 		$template
 			->expects($this->once())
 			->method('addHeading')
-			->with('Mr. Initiator User shared »file.txt« with you');
+			->with('Mr. Initiator User shared file.txt with you');
 		$template
 			->expects($this->once())
 			->method('addBodyText')
 			->with(
-				'Mr. Initiator User shared »file.txt« with you. Click the button below to open it.',
-				'Mr. Initiator User shared »file.txt« with you.'
+				'Mr. Initiator User shared file.txt with you. Click the button below to open it.',
+				'Mr. Initiator User shared file.txt with you.'
 			);
 		$template
 			->expects($this->once())
 			->method('addBodyButton')
 			->with(
-				'Open »file.txt«',
+				'Open file.txt',
 				'https://example.com/file.txt'
 			);
 		$message
@@ -1775,7 +1903,7 @@ class ShareByMailProviderTest extends TestCase {
 		$template
 			->expects($this->once())
 			->method('setSubject')
-			->with('Mr. Initiator User shared »file.txt« with you');
+			->with('Mr. Initiator User shared file.txt with you');
 		$message
 			->expects($this->once())
 			->method('useTemplate')

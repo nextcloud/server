@@ -10,8 +10,8 @@ use OCA\Theming\Service\BackgroundService;
 use OCA\Theming\ThemingDefaults;
 use OCA\Theming\Util;
 use OCP\App\IAppManager;
-use OCP\Files\IAppData;
 use OCP\Files\NotFoundException;
+use OCP\IAppConfig;
 use OCP\ICache;
 use OCP\ICacheFactory;
 use OCP\IConfig;
@@ -20,21 +20,20 @@ use OCP\INavigationManager;
 use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserSession;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class ThemingDefaultsTest extends TestCase {
-	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
-	private $config;
+	private IAppConfig&MockObject $appConfig;
+	private IConfig&MockObject $config;
+	private \OC_Defaults $defaults;
+
 	/** @var IL10N|\PHPUnit\Framework\MockObject\MockObject */
 	private $l10n;
 	/** @var IUserSession|\PHPUnit\Framework\MockObject\MockObject */
 	private $userSession;
 	/** @var IURLGenerator|\PHPUnit\Framework\MockObject\MockObject */
 	private $urlGenerator;
-	/** @var \OC_Defaults|\PHPUnit\Framework\MockObject\MockObject */
-	private $defaults;
-	/** @var IAppData|\PHPUnit\Framework\MockObject\MockObject */
-	private $appData;
 	/** @var ICacheFactory|\PHPUnit\Framework\MockObject\MockObject */
 	private $cacheFactory;
 	/** @var ThemingDefaults */
@@ -54,6 +53,7 @@ class ThemingDefaultsTest extends TestCase {
 
 	protected function setUp(): void {
 		parent::setUp();
+		$this->appConfig = $this->createMock(IAppConfig::class);
 		$this->config = $this->createMock(IConfig::class);
 		$this->l10n = $this->createMock(IL10N::class);
 		$this->userSession = $this->createMock(IUserSession::class);
@@ -72,6 +72,7 @@ class ThemingDefaultsTest extends TestCase {
 			->willReturn('');
 		$this->template = new ThemingDefaults(
 			$this->config,
+			$this->appConfig,
 			$this->l10n,
 			$this->userSession,
 			$this->urlGenerator,
@@ -398,25 +399,31 @@ class ThemingDefaultsTest extends TestCase {
 	}
 
 	public function testGetColorPrimaryWithDefault() {
-		$this->config
-			->expects($this->exactly(2))
-			->method('getAppValue')
-			->willReturnMap([
-				['theming', 'disable-user-theming', 'no', 'no'],
-				['theming', 'primary_color', '', $this->defaults->getColorPrimary()],
-			]);
+		$this->appConfig
+			->expects(self::once())
+			->method('getValueBool')
+			->with('theming', 'disable-user-theming')
+			->willReturn(false);
+		$this->appConfig
+			->expects(self::once())
+			->method('getValueString')
+			->with('theming', 'primary_color', '')
+			->willReturn($this->defaults->getColorPrimary());
 
 		$this->assertEquals($this->defaults->getColorPrimary(), $this->template->getColorPrimary());
 	}
 
 	public function testGetColorPrimaryWithCustom() {
-		$this->config
-			->expects($this->exactly(2))
-			->method('getAppValue')
-			->willReturnMap([
-				['theming', 'disable-user-theming', 'no', 'no'],
-				['theming', 'primary_color', '', '#fff'],
-			]);
+		$this->appConfig
+			->expects(self::once())
+			->method('getValueBool')
+			->with('theming', 'disable-user-theming')
+			->willReturn(false);
+		$this->appConfig
+			->expects(self::once())
+			->method('getValueString')
+			->with('theming', 'primary_color', '')
+			->willReturn('#fff');
 
 		$this->assertEquals('#fff', $this->template->getColorPrimary());
 	}
@@ -424,37 +431,37 @@ class ThemingDefaultsTest extends TestCase {
 	public function dataGetColorPrimary() {
 		return [
 			'with fallback default' => [
-				'disableTheming' => 'no',
+				'disableTheming' => false,
 				'primaryColor' => '',
 				'userPrimaryColor' => '',
 				'expected' => BackgroundService::DEFAULT_COLOR,
 			],
 			'with custom admin primary' => [
-				'disableTheming' => 'no',
+				'disableTheming' => false,
 				'primaryColor' => '#aaa',
 				'userPrimaryColor' => '',
 				'expected' => '#aaa',
 			],
 			'with custom invalid admin primary' => [
-				'disableTheming' => 'no',
+				'disableTheming' => false,
 				'primaryColor' => 'invalid',
 				'userPrimaryColor' => '',
 				'expected' => BackgroundService::DEFAULT_COLOR,
 			],
 			'with custom invalid user primary' => [
-				'disableTheming' => 'no',
+				'disableTheming' => false,
 				'primaryColor' => '',
 				'userPrimaryColor' => 'invalid-name',
 				'expected' => BackgroundService::DEFAULT_COLOR,
 			],
 			'with custom user primary' => [
-				'disableTheming' => 'no',
+				'disableTheming' => false,
 				'primaryColor' => '',
 				'userPrimaryColor' => '#bbb',
 				'expected' => '#bbb',
 			],
 			'with disabled user theming primary' => [
-				'disableTheming' => 'yes',
+				'disableTheming' => true,
 				'primaryColor' => '#aaa',
 				'userPrimaryColor' => '#bbb',
 				'expected' => '#aaa',
@@ -465,7 +472,7 @@ class ThemingDefaultsTest extends TestCase {
 	/**
 	 * @dataProvider dataGetColorPrimary
 	 */
-	public function testGetColorPrimary(string $disableTheming, string $primaryColor, string $userPrimaryColor, string $expected) {
+	public function testGetColorPrimary(bool $disableTheming, string $primaryColor, string $userPrimaryColor, string $expected) {
 		$user = $this->createMock(IUser::class);
 		$this->userSession->expects($this->any())
 			->method('getUser')
@@ -473,13 +480,16 @@ class ThemingDefaultsTest extends TestCase {
 		$user->expects($this->any())
 			->method('getUID')
 			->willReturn('user');
-		$this->config
-			->expects($this->any())
-			->method('getAppValue')
-			->willReturnMap([
-				['theming', 'disable-user-theming', 'no', $disableTheming],
-				['theming', 'primary_color', '', $primaryColor],
-			]);
+		$this->appConfig
+			->expects(self::any())
+			->method('getValueBool')
+			->with('theming', 'disable-user-theming')
+			->willReturn($disableTheming);
+		$this->appConfig
+			->expects(self::any())
+			->method('getValueString')
+			->with('theming', 'primary_color', '')
+			->willReturn($primaryColor);
 		$this->config
 			->expects($this->any())
 			->method('getUserValue')
@@ -699,8 +709,14 @@ class ThemingDefaultsTest extends TestCase {
 				['theming', 'backgroundMime', '', 'jpeg'],
 				['theming', 'logoheaderMime', '', 'jpeg'],
 				['theming', 'faviconMime', '', 'jpeg'],
-				['theming', 'primary_color', '', $this->defaults->getColorPrimary()],
-				['theming', 'primary_color', $this->defaults->getColorPrimary(), $this->defaults->getColorPrimary()],
+			]);
+		
+		$this->appConfig
+			->expects(self::atLeastOnce())
+			->method('getValueString')
+			->willReturnMap([
+				['theming', 'primary_color', '', false, $this->defaults->getColorPrimary()],
+				['theming', 'primary_color', $this->defaults->getColorPrimary(), false, $this->defaults->getColorPrimary()],
 			]);
 
 		$this->util->expects($this->any())->method('invertTextColor')->with($this->defaults->getColorPrimary())->willReturn(false);

@@ -17,6 +17,7 @@
     "Setting the password is not supported by the users backend" : "Позадински механизам за кориснике не подржава постављање лозинке",
     "Invalid language" : "Неисправни језик",
     "Invalid locale" : "Неисправни локалитет",
+    "Invalid first day of week" : "Неисправан први дан недеље",
     "Cannot remove yourself from the admin group" : "Не можете да уклоните себе из админ групе",
     "Cannot remove yourself from this group as you are a sub-admin" : "Не можете да уклоните себе из ове групе јер сте под-админ",
     "Not viable to remove user from the last group you are sub-admin of" : "Није одрживо да се уклони корисник иза последње групе којој сте под-админ",

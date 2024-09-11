@@ -43,7 +43,6 @@ export const useUserConfigStore = function(...args) {
 				await axios.put(generateUrl('/apps/files/api/v1/config/' + key), {
 					value,
 				})
-
 				emit('files:config:updated', { key, value })
 			},
 		},

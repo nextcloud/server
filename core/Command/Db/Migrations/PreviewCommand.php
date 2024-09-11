@@ -62,6 +62,12 @@ class PreviewCommand extends Command {
 		}
 		$table->render();
 
+		$unsupportedApps = $this->metadataManager->getUnsupportedApps($metadata['migrations']);
+		if (!empty($unsupportedApps)) {
+			$output->writeln('');
+			$output->writeln('Those apps are not supporting metadata yet and might initiate migrations on upgrade: <info>' . implode(', ', $unsupportedApps) . '</info>');
+		}
+
 		return 0;
 	}
 
@@ -88,10 +94,13 @@ class PreviewCommand extends Command {
 		)->addRow(new TableSeparator());
 
 		/** @var MigrationAttribute[] $attributes */
-		foreach($data as $migration => $attributes) {
+		foreach ($data as $migration => $attributes) {
 			$attributesStr = [];
-			foreach($attributes as $attribute) {
-				$definition = '<info>' . $attribute->definition() . "</info>";
+			if (empty($attributes)) {
+				$attributesStr[] = '<comment>(metadata not set)</comment>';
+			}
+			foreach ($attributes as $attribute) {
+				$definition = '<info>' . $attribute->definition() . '</info>';
 				$definition .= empty($attribute->getDescription()) ? '' : "\n  " . $attribute->getDescription();
 				$definition .= empty($attribute->getNotes()) ? '' : "\n  <comment>" . implode("</comment>\n  <comment>", $attribute->getNotes()) . '</comment>';
 				$attributesStr[] = $definition;

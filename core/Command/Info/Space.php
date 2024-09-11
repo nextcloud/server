@@ -27,9 +27,9 @@ class Space extends Command {
 		$this
 			->setName('info:file:space')
 			->setDescription('Summarize space usage of specified folder')
-			->addArgument('file', InputArgument::REQUIRED, "File id or path")
-			->addOption('count', 'c', InputOption::VALUE_REQUIRED, "Number of items to display", 25)
-			->addOption('all', 'a', InputOption::VALUE_NONE, "Display all items");
+			->addArgument('file', InputArgument::REQUIRED, 'File id or path')
+			->addOption('count', 'c', InputOption::VALUE_REQUIRED, 'Number of items to display', 25)
+			->addOption('all', 'a', InputOption::VALUE_NONE, 'Display all items');
 	}
 
 	public function execute(InputInterface $input, OutputInterface $output): int {
@@ -41,7 +41,7 @@ class Space extends Command {
 			$output->writeln("<error>file $fileInput not found</error>");
 			return 1;
 		}
-		$output->writeln($node->getName() . ": <info>" . Util::humanFileSize($node->getSize()) . "</info>");
+		$output->writeln($node->getName() . ': <info>' . Util::humanFileSize($node->getSize()) . '</info>');
 		if ($node instanceof Folder) {
 			$limits = $all ? [] : array_fill(0, $count - 1, 0);
 			$this->fileUtils->outputLargeFilesTree($output, $node, '', $limits, $all);

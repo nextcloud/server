@@ -12,6 +12,7 @@ namespace OCA\CloudFederationAPI;
 /**
  * @psalm-type CloudFederationAPIAddShare = array{
  *     recipientDisplayName: string,
+ *     recipientUserId?: string,
  * }
  *
  * @psalm-type CloudFederationAPIError = array{

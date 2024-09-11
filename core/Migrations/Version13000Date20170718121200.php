@@ -123,10 +123,12 @@ class Version13000Date20170718121200 extends SimpleMigrationStep {
 			$table->addIndex(['user_id', 'root_id', 'mount_point'], 'mounts_user_root_path_index', [], ['lengths' => [null, null, 128]]);
 		} else {
 			$table = $schema->getTable('mounts');
-			$table->addColumn('mount_id', Types::BIGINT, [
-				'notnull' => false,
-				'length' => 20,
-			]);
+			if (!$table->hasColumn('mount_id')) {
+				$table->addColumn('mount_id', Types::BIGINT, [
+					'notnull' => false,
+					'length' => 20,
+				]);
+			}
 			if (!$table->hasIndex('mounts_mount_id_index')) {
 				$table->addIndex(['mount_id'], 'mounts_mount_id_index');
 			}
@@ -1011,9 +1013,9 @@ class Version13000Date20170718121200 extends SimpleMigrationStep {
 		$result = $query->execute();
 		while ($row = $result->fetch()) {
 			preg_match('/(calendar)\/([A-z0-9-@_]+)\//', $row['propertypath'], $match);
-			$insert->setParameter('propertypath', (string) $row['propertypath'])
-				->setParameter('propertyname', (string) $row['propertyname'])
-				->setParameter('propertyvalue', (string) $row['propertyvalue'])
+			$insert->setParameter('propertypath', (string)$row['propertypath'])
+				->setParameter('propertyname', (string)$row['propertyname'])
+				->setParameter('propertyvalue', (string)$row['propertyvalue'])
 				->setParameter('userid', ($match[2] ?? ''));
 			$insert->execute();
 		}

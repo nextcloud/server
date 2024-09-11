@@ -147,7 +147,7 @@ class RepairTest extends TestCase {
 			->willReturn($directories);
 		$this->rootFolder->expects($this->once())
 			->method('get')
-			->with("appdata_/preview")
+			->with('appdata_/preview')
 			->willReturn($previewFolder);
 
 		$this->repair->run($this->input, $this->output);

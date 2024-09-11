@@ -12,13 +12,13 @@ OC.L10N.register(
     "Current version" : "Nykyinen versio",
     "Initial version" : "Ensimmäinen versio",
     "Version name" : "Version nimi",
+    "Cancel" : "Peruuta",
     "Remove version name" : "Poista version nimi",
     "Save version name" : "Tallenna version nimi",
     "Initial version restored" : "Ensimmäinen versio palautettu",
     "Version restored" : "Versio palautettu",
     "Could not restore version" : "Versiota ei voitu palauttaa",
     "Could not delete version" : "Versiota ei voitu poistaa",
-    "${version.label} restored" : "${version.label} palautettu",
-    "Could not set version name" : "Versionimeä ei voitu asettaa"
+    "${version.label} restored" : "${version.label} palautettu"
 },
 "nplurals=2; plural=(n != 1);");

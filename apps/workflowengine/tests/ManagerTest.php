@@ -58,7 +58,7 @@ class ManagerTest extends TestCase {
 	protected $dispatcher;
 	/** @var MockObject|IConfig */
 	protected $config;
-	/** @var MockObject|ICacheFactory  */
+	/** @var MockObject|ICacheFactory */
 	protected $cacheFactory;
 
 	protected function setUp(): void {

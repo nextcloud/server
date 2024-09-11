@@ -70,7 +70,7 @@ class Card implements ICard, IACL {
 	 * @inheritDoc
 	 */
 	public function getETag(): ?string {
-		return '"' . md5((string) $this->getLastModified()) . '"';
+		return '"' . md5((string)$this->getLastModified()) . '"';
 	}
 
 	/**
@@ -91,7 +91,7 @@ class Card implements ICard, IACL {
 	 * @inheritDoc
 	 */
 	public function getName(): string {
-		return (string) $this->contact->getId();
+		return (string)$this->contact->getId();
 	}
 
 	/**

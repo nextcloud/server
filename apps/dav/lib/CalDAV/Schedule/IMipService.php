@@ -88,7 +88,7 @@ class IMipService {
 			return $default;
 		}
 		$newstring = $vevent->$property->getValue();
-		if(isset($oldVEvent->$property) && $oldVEvent->$property->getValue() !== $newstring) {
+		if (isset($oldVEvent->$property) && $oldVEvent->$property->getValue() !== $newstring) {
 			$oldstring = $oldVEvent->$property->getValue();
 			return sprintf($strikethrough, $oldstring, $newstring);
 		}
@@ -143,7 +143,7 @@ class IMipService {
 		$data = [];
 		$data['meeting_when'] = $this->generateWhenString($eventReaderCurrent);
 
-		foreach(self::STRING_DIFF as $key => $property) {
+		foreach (self::STRING_DIFF as $key => $property) {
 			$data[$key] = self::readPropertyWithDefault($vEvent, $property, $defaultVal);
 		}
 
@@ -153,7 +153,7 @@ class IMipService {
 			$data['meeting_location_html'] = $locationHtml;
 		}
 
-		if(!empty($oldVEvent)) {
+		if (!empty($oldVEvent)) {
 			$oldMeetingWhen = $this->generateWhenString($eventReaderPrevious);
 			$data['meeting_title_html'] = $this->generateDiffString($vEvent, $oldVEvent, 'SUMMARY', $data['meeting_title']);
 			$data['meeting_description_html'] = $this->generateDiffString($vEvent, $oldVEvent, 'DESCRIPTION', $data['meeting_description']);
@@ -256,7 +256,7 @@ class IMipService {
 	public function generateWhenStringRecurringDaily(EventReader $er): string {
 		
 		// initialize
-		$interval = (int) $er->recurringInterval();
+		$interval = (int)$er->recurringInterval();
 		$startTime = '';
 		$endTime = '';
 		$conclusion = '';
@@ -308,7 +308,7 @@ class IMipService {
 	public function generateWhenStringRecurringWeekly(EventReader $er): string {
 		
 		// initialize
-		$interval = (int) $er->recurringInterval();
+		$interval = (int)$er->recurringInterval();
 		$startTime = '';
 		$endTime = '';
 		$conclusion = '';
@@ -362,7 +362,7 @@ class IMipService {
 	public function generateWhenStringRecurringMonthly(EventReader $er): string {
 		
 		// initialize
-		$interval = (int) $er->recurringInterval();
+		$interval = (int)$er->recurringInterval();
 		$startTime = '';
 		$endTime = '';
 		$conclusion = '';
@@ -428,7 +428,7 @@ class IMipService {
 	public function generateWhenStringRecurringYearly(EventReader $er): string {
 		
 		// initialize
-		$interval = (int) $er->recurringInterval();
+		$interval = (int)$er->recurringInterval();
 		$startTime = '';
 		$endTime = '';
 		$conclusion = '';
@@ -638,7 +638,7 @@ class IMipService {
 			return $dtEnd->getDateTime()->getTimeStamp();
 		}
 
-		if(isset($component->DURATION)) {
+		if (isset($component->DURATION)) {
 			/** @var \DateTime $endDate */
 			$endDate = clone $dtStart->getDateTime();
 			// $component->DTEND->getDateTime() returns DateTimeImmutable
@@ -646,7 +646,7 @@ class IMipService {
 			return $endDate->getTimestamp();
 		}
 
-		if(!$dtStart->hasTime()) {
+		if (!$dtStart->hasTime()) {
 			/** @var \DateTime $endDate */
 			// $component->DTSTART->getDateTime() returns DateTimeImmutable
 			$endDate = clone $dtStart->getDateTime();
@@ -662,7 +662,7 @@ class IMipService {
 	 * @param Property|null $attendee
 	 */
 	public function setL10n(?Property $attendee = null) {
-		if($attendee === null) {
+		if ($attendee === null) {
 			return;
 		}
 
@@ -678,7 +678,7 @@ class IMipService {
 	 * @return bool
 	 */
 	public function getAttendeeRsvpOrReqForParticipant(?Property $attendee = null) {
-		if($attendee === null) {
+		if ($attendee === null) {
 			return false;
 		}
 
@@ -786,10 +786,10 @@ class IMipService {
 				htmlspecialchars($organizer->getNormalizedValue()),
 				htmlspecialchars($organizerName ?: $organizerEmail));
 			$organizerText = sprintf('%s <%s>', $organizerName, $organizerEmail);
-			if(isset($organizer['PARTSTAT'])) {
+			if (isset($organizer['PARTSTAT'])) {
 				/** @var Parameter $partstat */
 				$partstat = $organizer['PARTSTAT'];
-				if(strcasecmp($partstat->getValue(), 'ACCEPTED') === 0) {
+				if (strcasecmp($partstat->getValue(), 'ACCEPTED') === 0) {
 					$organizerHTML .= ' ✔︎';
 					$organizerText .= ' ✔︎';
 				}
@@ -961,7 +961,7 @@ class IMipService {
 
 	public function isRoomOrResource(Property $attendee): bool {
 		$cuType = $attendee->offsetGet('CUTYPE');
-		if(!$cuType instanceof Parameter) {
+		if (!$cuType instanceof Parameter) {
 			return false;
 		}
 		$type = $cuType->getValue() ?? 'INDIVIDUAL';

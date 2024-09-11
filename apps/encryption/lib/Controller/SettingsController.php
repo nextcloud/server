@@ -42,10 +42,10 @@ class SettingsController extends Controller {
 	/** @var Session */
 	private $session;
 
-	/** @var ISession  */
+	/** @var ISession */
 	private $ocSession;
 
-	/** @var  Util */
+	/** @var Util */
 	private $util;
 
 	/**

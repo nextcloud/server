@@ -18,6 +18,6 @@ class QueryFunction implements IQueryFunction {
 	}
 
 	public function __toString(): string {
-		return (string) $this->function;
+		return (string)$this->function;
 	}
 }

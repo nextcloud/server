@@ -29,7 +29,7 @@ class Helper {
 	 * returns prefixes for each saved LDAP/AD server configuration.
 	 *
 	 * @param bool $activeConfigurations optional, whether only active configuration shall be
-	 * retrieved, defaults to false
+	 *                                   retrieved, defaults to false
 	 * @return array with a list of the available prefixes
 	 *
 	 * Configuration prefixes are used to set up configurations for n LDAP or

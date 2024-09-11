@@ -182,7 +182,7 @@ class Listener {
 		$activity->setApp('systemtags')
 			->setType('systemtags')
 			->setAuthor($actor)
-			->setObject($event->getObjectType(), (int) $event->getObjectId());
+			->setObject($event->getObjectType(), (int)$event->getObjectId());
 
 		foreach ($users as $user => $path) {
 			$user = (string)$user; // numerical ids could be ints which are not accepted everywhere

@@ -85,8 +85,8 @@ class OCMResource implements IOCMResource {
 	 */
 	public function import(array $data): static {
 		return $this->setName((string)($data['name'] ?? ''))
-					->setShareTypes($data['shareTypes'] ?? [])
-					->setProtocols($data['protocols'] ?? []);
+			->setShareTypes($data['shareTypes'] ?? [])
+			->setProtocols($data['protocols'] ?? []);
 	}
 
 	/**

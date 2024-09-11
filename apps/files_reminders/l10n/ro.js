@@ -25,9 +25,6 @@ OC.L10N.register(
     "This weekend" : "În acest weekend",
     "Set reminder for this weekend" : "Setează memo pentru acest weekend",
     "Next week" : "Saptămâna următoare",
-    "Set reminder for next week" : "Setează memo pentru săptămâna viitoare",
-    "Back" : "Înapoi",
-    "Reminder cleared" : "Mementoul a fost șters",
-    "Failed to load reminder" : "Eroare la încărcarea mementoului"
+    "Set reminder for next week" : "Setează memo pentru săptămâna viitoare"
 },
 "nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));");

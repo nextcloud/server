@@ -158,6 +158,27 @@ class ShareAPIController extends OCSController {
 		if ($isOwnShare) {
 			$result['item_permissions'] = $node->getPermissions();
 		}
+		
+		// If we're on the recipient side, the node permissions
+		// are bound to the share permissions. So we need to
+		// adjust the permissions to the share permissions if necessary.
+		if (!$isOwnShare) {
+			$result['item_permissions'] = $share->getPermissions();
+
+			// For some reason, single files share are forbidden to have the delete permission
+			// since we have custom methods to check those, let's adjust straight away.
+			// DAV permissions does not have that issue though.
+			if ($this->canDeleteShare($share) || $this->canDeleteShareFromSelf($share)) {
+				$result['item_permissions'] |= Constants::PERMISSION_DELETE;
+			}
+			if ($this->canEditShare($share)) {
+				$result['item_permissions'] |= Constants::PERMISSION_UPDATE;
+			}
+		}
+
+		// See MOUNT_ROOT_PROPERTYNAME dav property
+		$result['is-mount-root'] = $node->getInternalPath() === '';
+		$result['mount-type'] = $node->getMountPoint()->getMountType();
 
 		$result['mimetype'] = $node->getMimetype();
 		$result['has_preview'] = $this->previewManager->isAvailable($node);
@@ -230,7 +251,7 @@ class ShareAPIController extends OCSController {
 			$result['token'] = $share->getToken();
 		} elseif ($share->getShareType() === IShare::TYPE_CIRCLE) {
 			// getSharedWith() returns either "name (type, owner)" or
-			// "name (type, owner) [id]", depending on the Circles app version.
+			// "name (type, owner) [id]", depending on the Teams app version.
 			$hasCircleId = (substr($share->getSharedWith(), -1) === ']');
 
 			$result['share_with_displayname'] = $share->getSharedWithDisplayName();
@@ -516,7 +537,7 @@ class ShareAPIController extends OCSController {
 	 * @param string $password Password for the share
 	 * @param string|null $sendPasswordByTalk Send the password for the share over Talk
 	 * @param ?string $expireDate The expiry date of the share in the user's timezone at 00:00.
-	 *                If $expireDate is not supplied or set to `null`, the system default will be used.
+	 *                            If $expireDate is not supplied or set to `null`, the system default will be used.
 	 * @param string $note Note for the share
 	 * @param string $label Label for the share (only used in link and email)
 	 * @param string|null $attributes Additional attributes for the share
@@ -742,14 +763,14 @@ class ShareAPIController extends OCSController {
 			$share->setPermissions($permissions);
 		} elseif ($shareType === IShare::TYPE_CIRCLE) {
 			if (!\OC::$server->getAppManager()->isEnabledForUser('circles') || !class_exists('\OCA\Circles\ShareByCircleProvider')) {
-				throw new OCSNotFoundException($this->l->t('You cannot share to a Circle if the app is not enabled'));
+				throw new OCSNotFoundException($this->l->t('You cannot share to a Team if the app is not enabled'));
 			}
 
 			$circle = \OCA\Circles\Api\v1\Circles::detailsCircle($shareWith);
 
-			// Valid circle is required to share
+			// Valid team is required to share
 			if ($circle === null) {
-				throw new OCSNotFoundException($this->l->t('Please specify a valid circle'));
+				throw new OCSNotFoundException($this->l->t('Please specify a valid team'));
 			}
 			$share->setSharedWith($shareWith);
 			$share->setPermissions($permissions);
@@ -1005,7 +1026,7 @@ class ShareAPIController extends OCSController {
 				if (!$resharingRight && $this->shareProviderResharingRights($this->currentUser, $share, $node)) {
 					$resharingRight = true;
 				}
-			} catch (InvalidPathException | NotFoundException $e) {
+			} catch (InvalidPathException|NotFoundException $e) {
 			}
 		}
 
@@ -1060,7 +1081,7 @@ class ShareAPIController extends OCSController {
 
 		// initiate real owner.
 		$owner = $node->getOwner()
-					  ->getUID();
+			->getUID();
 		if (!$this->userManager->userExists($owner)) {
 			return new DataResponse([]);
 		}
@@ -1069,7 +1090,7 @@ class ShareAPIController extends OCSController {
 		$userFolder = $this->rootFolder->getUserFolder($owner);
 		if ($node->getId() !== $userFolder->getId() && !$userFolder->isSubNode($node)) {
 			$owner = $node->getOwner()
-						  ->getUID();
+				->getUID();
 			$userFolder = $this->rootFolder->getUserFolder($owner);
 			$node = $userFolder->getFirstNodeById($node->getId());
 		}
@@ -1078,8 +1099,11 @@ class ShareAPIController extends OCSController {
 		// generate node list for each parent folders
 		/** @var Node[] $nodes */
 		$nodes = [];
-		while ($node->getPath() !== $basePath) {
+		while (true) {
 			$node = $node->getParent();
+			if ($node->getPath() === $basePath) {
+				break;
+			}
 			$nodes[] = $node;
 		}
 
@@ -1130,8 +1154,8 @@ class ShareAPIController extends OCSController {
 	 * @param string|null $hideDownload New condition if the download should be hidden
 	 * @param string|null $attributes New additional attributes
 	 * @param string|null $sendMail if the share should be send by mail.
-	 *                    Considering the share already exists, no mail will be send after the share is updated.
-	 *  				  You will have to use the sendMail action to send the mail.
+	 *                              Considering the share already exists, no mail will be send after the share is updated.
+	 *                              You will have to use the sendMail action to send the mail.
 	 * @param string|null $shareWith New recipient for email shares
 	 * @return DataResponse<Http::STATUS_OK, Files_SharingShare, array{}>
 	 * @throws OCSBadRequestException Share could not be updated because the requested changes are invalid
@@ -1218,11 +1242,16 @@ class ShareAPIController extends OCSController {
 			}
 
 			// Update hide download state
+			$attributes = $share->getAttributes() ?? $share->newAttributes();
 			if ($hideDownload === 'true') {
 				$share->setHideDownload(true);
+				$attributes->setAttribute('permissions', 'download', false);
 			} elseif ($hideDownload === 'false') {
 				$share->setHideDownload(false);
+				$attributes->setAttribute('permissions', 'download', true);
 			}
+			$share->setAttributes($attributes);
+
 
 			$newPermissions = null;
 			if ($publicUpload === 'true') {
@@ -1286,7 +1315,7 @@ class ShareAPIController extends OCSController {
 
 			if ($label !== null) {
 				if (strlen($label) > 255) {
-					throw new OCSBadRequestException("Maximum label length is 255");
+					throw new OCSBadRequestException('Maximum label length is 255');
 				}
 				$share->setLabel($label);
 			}
@@ -1630,7 +1659,7 @@ class ShareAPIController extends OCSController {
 	 */
 	private function parseDate(string $expireDate): \DateTime {
 		try {
-			$date = new \DateTime(trim($expireDate, "\""), $this->dateTimeZone->getTimeZone());
+			$date = new \DateTime(trim($expireDate, '"'), $this->dateTimeZone->getTimeZone());
 			// Make sure it expires at midnight in owner timezone
 			$date->setTime(0, 0, 0);
 		} catch (\Exception $e) {
@@ -1862,7 +1891,7 @@ class ShareAPIController extends OCSController {
 					if ($this->shareProviderResharingRights($viewer, $share, $node)) {
 						return true;
 					}
-				} catch (InvalidPathException | NotFoundException $e) {
+				} catch (InvalidPathException|NotFoundException $e) {
 				}
 			}
 		}
@@ -1946,7 +1975,7 @@ class ShareAPIController extends OCSController {
 		// EMAIL SHARES
 		$mailShares = $this->shareManager->getSharesBy($this->currentUser, IShare::TYPE_EMAIL, $path, $reshares, -1, 0);
 
-		// CIRCLE SHARES
+		// TEAM SHARES
 		$circleShares = $this->shareManager->getSharesBy($this->currentUser, IShare::TYPE_CIRCLE, $path, $reshares, -1, 0);
 
 		// TALK SHARES
@@ -2059,6 +2088,7 @@ class ShareAPIController extends OCSController {
 	 * @throws OCSBadRequestException Invalid request or wrong password
 	 * @throws OCSException Error while sending mail notification
 	 * @return DataResponse<Http::STATUS_OK, array<empty>, array{}>
+	 *
 	 * 200: The email notification was sent successfully
 	 */
 	#[NoAdminRequired]
@@ -2104,7 +2134,7 @@ class ShareAPIController extends OCSController {
 
 				$provider->sendMailNotification($share);
 				return new DataResponse();
-			} catch(OCSBadRequestException $e) {
+			} catch (OCSBadRequestException $e) {
 				throw $e;
 			} catch (Exception $e) {
 				throw new OCSException($this->l->t('Error while sending mail notification'));

@@ -175,7 +175,7 @@ export default {
 			// TRANSLATORS This string describes a manager in the context of an organization
 			managerInputLabel: t('settings', 'Manager'),
 			// TRANSLATORS This string describes a manager in the context of an organization
-			managerLabel: t('settings', 'Set account manager'),
+			managerLabel: t('settings', 'Set line manager'),
 		}
 	},
 

@@ -53,8 +53,8 @@ class Sharing implements IDelegatedSettings {
 			'restrictUserEnumerationFullMatchEmail' => $this->getHumanBooleanConfig('core', 'shareapi_restrict_user_enumeration_full_match_email', true),
 			'restrictUserEnumerationFullMatchIgnoreSecondDN' => $this->getHumanBooleanConfig('core', 'shareapi_restrict_user_enumeration_full_match_ignore_second_dn'),
 			'enforceLinksPassword' => Util::isPublicLinkPasswordRequired(false),
-			'passwordExcludedGroups' => json_decode($excludedPasswordGroups) ?? [],
-			'passwordExcludedGroupsFeatureEnabled' => $this->config->getSystemValueBool('sharing.allow_disabled_password_enforcement_groups', false),
+			'enforceLinksPasswordExcludedGroups' => json_decode($excludedPasswordGroups) ?? [],
+			'enforceLinksPasswordExcludedGroupsEnabled' => $this->config->getSystemValueBool('sharing.allow_disabled_password_enforcement_groups', false),
 			'onlyShareWithGroupMembers' => $this->shareManager->shareWithGroupMembersOnly(),
 			'onlyShareWithGroupMembersExcludeGroupList' => json_decode($onlyShareWithGroupMembersExcludeGroupList) ?? [],
 			'defaultExpireDate' => $this->getHumanBooleanConfig('core', 'shareapi_default_expire_date'),
@@ -97,8 +97,8 @@ class Sharing implements IDelegatedSettings {
 
 	/**
 	 * @return int whether the form should be rather on the top or bottom of
-	 * the admin section. The forms are arranged in ascending order of the
-	 * priority values. It is required to return a value between 0 and 100.
+	 *             the admin section. The forms are arranged in ascending order of the
+	 *             priority values. It is required to return a value between 0 and 100.
 	 *
 	 * E.g.: 70
 	 */

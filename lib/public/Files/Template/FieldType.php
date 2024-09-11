@@ -11,9 +11,9 @@ namespace OCP\Files\Template;
  * @since 30.0.0
  */
 enum FieldType: string {
-	case RichText = "rich-text";
-	case CheckBox = "checkbox";
-	case DropDownList = "drop-down-list";
-	case Picture = "picture";
-	case Date = "date";
+	case RichText = 'rich-text';
+	case CheckBox = 'checkbox';
+	case DropDownList = 'drop-down-list';
+	case Picture = 'picture';
+	case Date = 'date';
 }

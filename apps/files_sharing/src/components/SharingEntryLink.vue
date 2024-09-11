@@ -59,38 +59,32 @@
 			</NcActionText>
 
 			<!-- password -->
-			<NcActionText v-if="pendingEnforcedPassword">
-				<template #icon>
-					<LockIcon :size="20" />
-				</template>
-				{{ t('files_sharing', 'Password protection (enforced)') }}
-			</NcActionText>
-			<NcActionCheckbox v-else-if="pendingPassword"
+			<NcActionCheckbox v-if="pendingPassword"
 				:checked.sync="isPasswordProtected"
 				:disabled="config.enforcePasswordForPublicLink || saving"
 				class="share-link-password-checkbox"
 				@uncheck="onPasswordDisable">
-				{{ t('files_sharing', 'Password protection') }}
+				{{ config.enforcePasswordForPublicLink ? t('files_sharing', 'Password protection (enforced)') : t('files_sharing', 'Password protection') }}
 			</NcActionCheckbox>
 
 			<NcActionInput v-if="pendingEnforcedPassword || share.password"
 				class="share-link-password"
+				:label="t('files_sharing', 'Enter a password')"
 				:value.sync="share.password"
 				:disabled="saving"
 				:required="config.enableLinkPasswordByDefault || config.enforcePasswordForPublicLink"
 				:minlength="isPasswordPolicyEnabled && config.passwordPolicy.minLength"
-				icon=""
 				autocomplete="new-password"
 				@submit="onNewLinkShare">
-				{{ t('files_sharing', 'Enter a password') }}
+				<template #icon>
+					<LockIcon :size="20" />
+				</template>
 			</NcActionInput>
 
 			<!-- expiration date -->
-			<NcActionText v-if="pendingExpirationDate" icon="icon-calendar-dark">
-				{{ t('files_sharing', 'Expiration date (enforced)') }}
-			</NcActionText>
 			<NcActionInput v-if="pendingExpirationDate"
 				class="share-link-expire-date"
+				:label="t('files_sharing', 'Expiration date (enforced)')"
 				:disabled="saving"
 				:is-native-picker="true"
 				:hide-label="true"
@@ -98,10 +92,10 @@
 				type="date"
 				:min="dateTomorrow"
 				:max="maxExpirationDateEnforced"
-				@input="onExpirationChange">
-				<!-- let's not submit when picked, the user
-					might want to still edit or copy the password -->
-				{{ t('files_sharing', 'Enter a date') }}
+				@input="onExpirationChange /* let's not submit when picked, the user might want to still edit or copy the password */">
+				<template #icon>
+					<IconCalendarBlank :size="20" />
+				</template>
 			</NcActionInput>
 
 			<NcActionButton @click.prevent.stop="onNewLinkShare">
@@ -220,6 +214,7 @@ import Vue from 'vue'
 import VueQrcode from '@chenfengyuan/vue-qrcode'
 
 import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
+import NcActionCheckbox from '@nextcloud/vue/dist/Components/NcActionCheckbox.js'
 import NcActionInput from '@nextcloud/vue/dist/Components/NcActionInput.js'
 import NcActionLink from '@nextcloud/vue/dist/Components/NcActionLink.js'
 import NcActionText from '@nextcloud/vue/dist/Components/NcActionText.js'
@@ -229,6 +224,7 @@ import NcAvatar from '@nextcloud/vue/dist/Components/NcAvatar.js'
 import NcDialog from '@nextcloud/vue/dist/Components/NcDialog.js'
 
 import Tune from 'vue-material-design-icons/Tune.vue'
+import IconCalendarBlank from 'vue-material-design-icons/CalendarBlank.vue'
 import IconQr from 'vue-material-design-icons/Qrcode.vue'
 import ErrorIcon from 'vue-material-design-icons/Exclamation.vue'
 import LockIcon from 'vue-material-design-icons/Lock.vue'
@@ -253,6 +249,7 @@ export default {
 		ExternalShareAction,
 		NcActions,
 		NcActionButton,
+		NcActionCheckbox,
 		NcActionInput,
 		NcActionLink,
 		NcActionText,
@@ -261,6 +258,7 @@ export default {
 		NcDialog,
 		VueQrcode,
 		Tune,
+		IconCalendarBlank,
 		IconQr,
 		ErrorIcon,
 		LockIcon,
@@ -854,7 +852,7 @@ export default {
 
 	&__summary {
 		padding: 8px;
-		padding-left: 10px;
+		padding-inline-start: 10px;
 		display: flex;
 		justify-content: space-between;
 		flex: 1 0;
@@ -896,7 +894,7 @@ export default {
 		height: 44px;
 		margin: 0;
 		padding: 14px;
-		margin-left: auto;
+		margin-inline-start: auto;
 	}
 
 	// put menus to the left
@@ -905,7 +903,7 @@ export default {
 
 		~.action-item,
 		~.sharing-entry__loading {
-			margin-left: 0;
+			margin-inline-start: 0;
 		}
 	}
 

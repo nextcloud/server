@@ -20,6 +20,8 @@ OC.L10N.register(
     "Set status" : "ステータスを設定",
     "Online status" : "オンラインステータス",
     "Status message" : "状態メッセージ",
+    "Set absence period" : "不在設定をセットする",
+    "Set absence period and replacement" : "不在期間と交代要員をセットする",
     "Your status was set automatically" : "あなたのステータスは自動的に設定されました",
     "Clear status message" : "ステータスメッセージを消去",
     "Set status message" : "ステータスメッセージを設定",
@@ -42,7 +44,6 @@ OC.L10N.register(
     "1 hour" : "1時間",
     "4 hours" : "4時間",
     "Mute all notifications" : "全ての通知をミュート",
-    "Appear offline" : "オフライン",
-    "View profile" : "プロフィールを表示"
+    "Appear offline" : "オフライン"
 },
 "nplurals=1; plural=0;");

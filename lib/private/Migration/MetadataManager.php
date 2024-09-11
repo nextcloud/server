@@ -43,7 +43,7 @@ class MetadataManager {
 		$ms = new MigrationService($appId, $this->connection);
 
 		$metadata = [];
-		foreach($ms->getAvailableVersions() as $version) {
+		foreach ($ms->getAvailableVersions() as $version) {
 			$metadata[$version] = [];
 			$class = new ReflectionClass($ms->createInstance($version));
 			$attributes = $class->getAttributes();
@@ -86,6 +86,18 @@ class MetadataManager {
 			'core' => $this->parseMigrations($metadata['core'] ?? [], $done),
 			'apps' => $appsAttributes
 		];
+	}
+
+	/**
+	 * returns list of installed apps that does not support migrations metadata (yet)
+	 *
+	 * @param array<array-key, array<array-key, array>> $metadata
+	 *
+	 * @return string[]
+	 * @since 30.0.0
+	 */
+	public function getUnsupportedApps(array $metadata): array {
+		return array_values(array_diff($this->appManager->getInstalledApps(), array_keys($metadata['apps'])));
 	}
 
 	/**

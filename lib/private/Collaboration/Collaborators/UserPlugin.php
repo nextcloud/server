@@ -73,7 +73,7 @@ class UserPlugin implements ISearchPlugin {
 			foreach ($currentUserGroups as $userGroupId) {
 				$usersInGroup = $this->groupManager->displayNamesInGroup($userGroupId, $search, $limit, $offset);
 				foreach ($usersInGroup as $userId => $displayName) {
-					$userId = (string) $userId;
+					$userId = (string)$userId;
 					$user = $this->userManager->get($userId);
 					if (!$user->isEnabled()) {
 						// Ignore disabled users
@@ -130,7 +130,7 @@ class UserPlugin implements ISearchPlugin {
 		foreach ($users as $uid => $user) {
 			$userDisplayName = $user->getDisplayName();
 			$userEmail = $user->getSystemEMailAddress();
-			$uid = (string) $uid;
+			$uid = (string)$uid;
 
 			$status = [];
 			if (array_key_exists($uid, $userStatuses)) {

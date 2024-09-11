@@ -165,7 +165,7 @@ export default {
 		flex-wrap: wrap;
 		align-items: flex-start; // to not stretch components vertically
 		width: 100%;
-		padding-right: 20px;
+		padding-inline-end: 20px;
 
 		& > *:not(.close) {
 			width: 180px;
@@ -186,7 +186,7 @@ export default {
 		& > .v-select,
 		& > .button-vue,
 		& > input[type=text] {
-			margin-right: 5px;
+			margin-inline-end: 5px;
 			margin-bottom: 5px;
 		}
 	}

@@ -158,7 +158,7 @@
 						:disabled="!canSetDownload"
 						:checked.sync="canDownload"
 						data-cy-files-sharing-share-permissions-checkbox="download">
-						{{ t('files_sharing', 'Allow download') }}
+						{{ t('files_sharing', 'Allow download and sync') }}
 					</NcCheckboxRadioSwitch>
 					<NcCheckboxRadioSwitch :checked.sync="writeNoteToRecipientIsChecked">
 						{{ t('files_sharing', 'Note to recipient') }}
@@ -423,13 +423,22 @@ export default {
 		 */
 		canDownload: {
 			get() {
-				return this.share.attributes.find(attr => attr.key === 'download')?.value || false
+				return this.share.attributes?.find(attr => attr.key === 'download')?.value ?? true
 			},
 			set(checked) {
 				// Find the 'download' attribute and update its value
-				const downloadAttr = this.share.attributes.find(attr => attr.key === 'download')
+				const downloadAttr = this.share.attributes?.find(attr => attr.key === 'download')
 				if (downloadAttr) {
 					downloadAttr.value = checked
+				} else {
+					if (this.share.attributes === null) {
+						this.$set(this.share, 'attributes', [])
+					}
+					this.share.attributes.push({
+						scope: 'permissions',
+						key: 'download',
+						value: checked,
+					})
 				}
 			},
 		},
@@ -1049,7 +1058,7 @@ export default {
 
 			h1 {
 				font-size: 15px;
-				padding-left: 0.3em;
+				padding-inline-start: 0.3em;
 			}
 
 		}
@@ -1060,7 +1069,7 @@ export default {
 		overflow: scroll;
 		flex-shrink: 1;
 		padding: 4px;
-		padding-right: 12px;
+		padding-inline-end: 12px;
 	}
 
 	&__quick-permissions {
@@ -1116,8 +1125,8 @@ export default {
 	&__advanced {
 		width: 100%;
 		margin-bottom: 0.5em;
-		text-align: left;
-		padding-left: 0;
+		text-align: start;
+		padding-inline-start: 0;
 
 		section {
 
@@ -1142,14 +1151,14 @@ export default {
             */
 			span {
 				::v-deep label {
-					padding-left: 0 !important;
+					padding-inline-start: 0 !important;
 					background-color: initial !important;
 					border: none !important;
 				}
 			}
 
 			section.custom-permissions-group {
-				padding-left: 1.5em;
+				padding-inline-start: 1.5em;
 			}
 		}
 	}
@@ -1177,10 +1186,10 @@ export default {
 			margin-top: 16px;
 
 			button {
-				margin-left: 16px;
+				margin-inline-start: 16px;
 
 				&:first-child {
-					margin-left: 0;
+					margin-inline-start: 0;
 				}
 			}
 		}

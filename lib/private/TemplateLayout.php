@@ -8,6 +8,7 @@
 namespace OC;
 
 use bantu\IniGetWrapper\IniGetWrapper;
+use OC\AppFramework\Http\Request;
 use OC\Authentication\Token\IProvider;
 use OC\Files\FilenameValidator;
 use OC\Search\SearchQuery;
@@ -20,6 +21,7 @@ use OCP\Defaults;
 use OCP\IConfig;
 use OCP\IInitialStateService;
 use OCP\INavigationManager;
+use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\IUserSession;
 use OCP\L10N\IFactory;
@@ -97,11 +99,10 @@ class TemplateLayout extends \OC_Template {
 			$logoUrl = $this->config->getSystemValueString('logo_url', '');
 			$this->assign('logoUrl', $logoUrl);
 
-			// Set default app name
-			$defaultApp = \OC::$server->getAppManager()->getDefaultAppForUser();
-			$defaultAppInfo = \OC::$server->getAppManager()->getAppInfo($defaultApp);
-			$l10n = \OC::$server->get(IFactory::class)->get($defaultApp);
-			$this->assign('defaultAppName', $l10n->t($defaultAppInfo['name']));
+			// Set default entry name
+			$defaultEntryId = \OCP\Server::get(INavigationManager::class)->getDefaultEntryIdForUser();
+			$defaultEntry = \OCP\Server::get(INavigationManager::class)->get($defaultEntryId);
+			$this->assign('defaultAppName', $defaultEntry['name']);
 
 			// Add navigation entry
 			$this->assign('application', '');
@@ -286,6 +287,13 @@ class TemplateLayout extends \OC_Template {
 			}
 		}
 
+		$request = \OCP\Server::get(IRequest::class);
+		if ($request->isUserAgent([Request::USER_AGENT_CLIENT_IOS, Request::USER_AGENT_SAFARI, Request::USER_AGENT_SAFARI_MOBILE])) {
+			// Prevent auto zoom with iOS but still allow user zoom
+			// On chrome (and others) this does not work (will also disable user zoom)
+			$this->assign('viewport_maximum_scale', '1.0');
+		}
+
 		$this->assign('initialStates', $this->initialState->getInitialStates());
 
 		$this->assign('id-app-content', $renderAs === TemplateResponse::RENDER_AS_USER ? '#app-content' : '#content');
@@ -300,7 +308,7 @@ class TemplateLayout extends \OC_Template {
 	protected function getVersionHashSuffix($path = false, $file = false) {
 		if ($this->config->getSystemValueBool('debug', false)) {
 			// allows chrome workspace mapping in debug mode
-			return "";
+			return '';
 		}
 		$themingSuffix = '';
 		$v = [];

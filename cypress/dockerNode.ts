@@ -41,10 +41,6 @@ export const startNextcloud = async function(branch: string = getCurrentGitBranc
 				// https://github.com/apocas/dockerode/issues/357
 				docker.modem.followProgress(stream, onFinished)
 
-				/**
-				 *
-				 * @param err
-				 */
 				function onFinished(err) {
 					if (!err) {
 						resolve(true)
@@ -82,13 +78,26 @@ export const startNextcloud = async function(branch: string = getCurrentGitBranc
 			Image: SERVER_IMAGE,
 			name: CONTAINER_NAME,
 			HostConfig: {
-				Binds: [],
+				Mounts: [{
+					Target: '/var/www/html/data',
+					Source: '',
+					Type: 'tmpfs',
+					ReadOnly: false,
+				}],
 			},
 			Env: [
 				`BRANCH=${branch}`,
+				'APCU=1',
 			],
 		})
 		await container.start()
+
+		// Set proper permissions for the data folder
+		await runExec(container, ['chown', '-R', 'www-data:www-data', '/var/www/html/data'], false, 'root')
+		await runExec(container, ['chmod', '0770', '/var/www/html/data'], false, 'root')
+
+		// Init Nextcloud
+		// await runExec(container, ['initnc.sh'], true, 'root')
 
 		// Get container's IP
 		const ip = await getContainerIP(container)
@@ -117,8 +126,29 @@ export const configureNextcloud = async function() {
 	await runExec(container, ['php', 'occ', 'config:system:set', 'default_locale', '--value', 'en_US'], true)
 	await runExec(container, ['php', 'occ', 'config:system:set', 'force_locale', '--value', 'en_US'], true)
 	await runExec(container, ['php', 'occ', 'config:system:set', 'enforce_theme', '--value', 'light'], true)
+
 	// Speed up test and make them less flaky. If a cron execution is needed, it can be triggered manually.
 	await runExec(container, ['php', 'occ', 'background:cron'], true)
+
+	// Checking apcu
+	const distributed = await runExec(container, ['php', 'occ', 'config:system:get', 'memcache.distributed'])
+	const local = await runExec(container, ['php', 'occ', 'config:system:get', 'memcache.local'])
+	const hashing = await runExec(container, ['php', 'occ', 'config:system:get', 'hashing_default_password'])
+
+	console.log('├─ Checking APCu configuration... 👀')
+	if (!distributed.trim().includes('Memcache\\APCu')
+		|| !local.trim().includes('Memcache\\APCu')
+		|| !hashing.trim().includes('true')) {
+		console.log('└─ APCu is not properly configured 🛑')
+		throw new Error('APCu is not properly configured')
+	}
+	console.log('│  └─ OK !')
+
+	// Saving DB state
+	console.log('├─ Creating init DB snapshot...')
+	await runExec(container, ['cp', '/var/www/html/data/owncloud.db', '/var/www/html/data/owncloud.db-init'], true)
+	console.log('├─ Creating init data backup...')
+	await runExec(container, ['tar', 'cf', 'data-init.tar', 'admin'], true, undefined, '/var/www/html/data')
 
 	console.log('└─ Nextcloud is now ready to use 🎉')
 }
@@ -249,15 +279,18 @@ const runExec = async function(
 	command: string[],
 	verbose = false,
 	user = 'www-data',
-) {
+	workdir?: string,
+): Promise<string> {
 	const exec = await container.exec({
 		Cmd: command,
+		WorkingDir: workdir,
 		AttachStdout: true,
 		AttachStderr: true,
 		User: user,
 	})
 
 	return new Promise((resolve, reject) => {
+		let output = ''
 		exec.start({}, (err, stream) => {
 			if (err) {
 				reject(err)
@@ -265,11 +298,17 @@ const runExec = async function(
 			if (stream) {
 				stream.setEncoding('utf-8')
 				stream.on('data', str => {
-					if (verbose && str.trim() !== '') {
-						console.log(`├─ ${str.trim().replace(/\n/gi, '\n├─ ')}`)
+					str = str.trim()
+						// Remove non printable characters
+						.replace(/[^\x0A\x0D\x20-\x7E]+/g, '')
+						// Remove non alphanumeric leading characters
+						.replace(/^[^a-z]/gi, '')
+					output += str
+					if (verbose && str !== '') {
+						console.log(`├─ ${str.replace(/\n/gi, '\n├─ ')}`)
 					}
 				})
-				stream.on('end', resolve)
+				stream.on('end', () => resolve(output))
 			}
 		})
 	})

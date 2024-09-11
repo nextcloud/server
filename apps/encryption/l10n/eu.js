@@ -60,7 +60,6 @@ OC.L10N.register(
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Aukera hau gaituz, zure zifratutako fitxategiak berreskuratu ahal izango dituzu pasahitza galtzekotan",
     "Enabled" : "Gaitua",
     "Disabled" : "Ez-gaitua",
-    "Please login to the web interface, go to the \"Security\" section of your personal settings and update your encryption password by entering this password into the \"Old log-in password\" field and your current login-password." : "Hasi saioa web-interfazean, joan zure ezarpen pertsonaletako \"Segurtasuna\" atalera eta eguneratu zure zifratze pasahitza pasahitz hau \"Saio-hasteko pasahitz zaharra\" eremuan eta zure uneko saio-hasierako pasahitza sartuz.",
     "The recovery key is an extra encryption key that is used to encrypt files. It allows recovery of a user's files if the user forgets his or her password." : "Berreskuratze gakoa fitxategiak zifratzeko gako gehigarri bat da. Erabiltzailearen fitxategiak berreskuratzea baimentzen du bere pasahitza galduz gero."
 },
 "nplurals=2; plural=(n != 1);");

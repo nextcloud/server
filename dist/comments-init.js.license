@@ -24,7 +24,10 @@ SPDX-FileCopyrightText: Alkemics
 
 This file is generated from multiple sources. Included packages:
 - @nextcloud/auth
-	- version: 2.3.0
+	- version: 2.4.0
+	- license: GPL-3.0-or-later
+- @nextcloud/browser-storage
+	- version: 0.4.0
 	- license: GPL-3.0-or-later
 - @nextcloud/capabilities
 	- version: 1.2.0
@@ -165,10 +168,10 @@ This file is generated from multiple sources. Included packages:
 	- version: 0.12.5
 	- license: MIT
 - webdav
-	- version: 5.7.0
+	- version: 5.7.1
 	- license: MIT
 - webpack
-	- version: 5.93.0
+	- version: 5.94.0
 	- license: MIT
 - which-typed-array
 	- version: 1.1.15

@@ -66,11 +66,11 @@ class FTP extends Common {
 					$this->password
 				);
 			} catch (\Exception $e) {
-				throw new StorageNotAvailableException("Failed to create ftp connection", 0, $e);
+				throw new StorageNotAvailableException('Failed to create ftp connection', 0, $e);
 			}
 			if ($this->utf8Mode) {
 				if (!$this->connection->setUtf8Mode()) {
-					throw new StorageNotAvailableException("Could not set UTF-8 mode");
+					throw new StorageNotAvailableException('Could not set UTF-8 mode');
 				}
 			}
 		}
@@ -219,7 +219,7 @@ class FTP extends Common {
 	}
 
 	public function is_dir($path) {
-		if ($path === "") {
+		if ($path === '') {
 			return true;
 		}
 		if ($this->getConnection()->chdir($this->buildPath($path)) === true) {

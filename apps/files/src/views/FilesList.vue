@@ -4,7 +4,7 @@
 -->
 <template>
 	<NcAppContent :page-heading="pageHeading" data-cy-files-content>
-		<div class="files-list__header">
+		<div class="files-list__header" :class="{ 'files-list__header--public': isPublic }">
 			<!-- Current folder breadcrumbs -->
 			<BreadCrumbs :path="directory" @reload="fetchContent">
 				<template #actions>
@@ -48,6 +48,9 @@
 				</template>
 			</BreadCrumbs>
 
+			<!-- Secondary loading indicator -->
+			<NcLoadingIcon v-if="isRefreshing" class="files-list__refresh-icon" />
+
 			<NcButton v-if="filesListWidth >= 512 && enableGridView"
 				:aria-label="gridViewButtonLabel"
 				:title="gridViewButtonLabel"
@@ -59,9 +62,6 @@
 					<ViewGridIcon v-else />
 				</template>
 			</NcButton>
-
-			<!-- Secondary loading indicator -->
-			<NcLoadingIcon v-if="isRefreshing" class="files-list__refresh-icon" />
 		</div>
 
 		<!-- Drag and drop notice -->
@@ -189,6 +189,13 @@ export default defineComponent({
 		filesSortingMixin,
 	],
 
+	props: {
+		isPublic: {
+			type: Boolean,
+			default: false,
+		},
+	},
+
 	setup() {
 		const filesStore = useFilesStore()
 		const filtersStore = useFiltersStore()
@@ -230,8 +237,6 @@ export default defineComponent({
 			promise: null as CancelablePromise<ContentsWithRoot> | Promise<ContentsWithRoot> | null,
 
 			dirContentsFiltered: [] as INode[],
-
-			unsubscribeStoreCallback: () => {},
 		}
 	},
 
@@ -244,6 +249,12 @@ export default defineComponent({
 			return async (path?: string) => {
 				// as the path is allowed to be undefined we need to normalize the path ('//' to '/')
 				const normalizedPath = normalize(`${this.currentFolder?.path ?? ''}/${path ?? ''}`)
+				// Try cache first
+				const nodes = this.filesStore.getNodesByPath(view.id, normalizedPath)
+				if (nodes.length > 0) {
+					return nodes
+				}
+				// If not found in the files store (cache)
 				// use the current view to fetch the content for the requested path
 				return (await view.getContents(normalizedPath)).contents
 			}
@@ -279,7 +290,7 @@ export default defineComponent({
 
 		dirContents(): Node[] {
 			return (this.currentFolder?._children || [])
-				.map(this.getNode)
+				.map(this.filesStore.getNode)
 				.filter((node: Node) => !!node)
 		},
 
@@ -389,7 +400,7 @@ export default defineComponent({
 		 * Check if current folder has share permissions
 		 */
 		canShare() {
-			return isSharingEnabled
+			return isSharingEnabled && !this.isPublic
 				&& this.currentFolder && (this.currentFolder.permissions & Permission.SHARE) !== 0
 		},
 
@@ -466,12 +477,13 @@ export default defineComponent({
 		subscribe('files:node:updated', this.onUpdatedNode)
 
 		// reload on settings change
-		this.unsubscribeStoreCallback = this.userConfigStore.$subscribe(() => this.fetchContent(), { deep: true })
+		subscribe('files:config:updated', this.fetchContent)
 	},
 
 	unmounted() {
 		unsubscribe('files:node:deleted', this.onNodeDeleted)
 		unsubscribe('files:node:updated', this.onUpdatedNode)
+		unsubscribe('files:config:updated', this.fetchContent)
 	},
 
 	methods: {
@@ -529,16 +541,6 @@ export default defineComponent({
 				this.loading = false
 			}
 
-		},
-
-		/**
-		 * Get a cached note from the store
-		 *
-		 * @param {number} fileId the file id to get
-		 * @return {Folder|File}
-		 */
-		getNode(fileId) {
-			return this.filesStore.getNode(fileId)
 		},
 
 		/**
@@ -687,6 +689,11 @@ export default defineComponent({
 		margin-block: var(--app-navigation-padding, 4px);
 		margin-inline: calc(var(--default-clickable-area, 44px) + 2 * var(--app-navigation-padding, 4px)) var(--app-navigation-padding, 4px);
 
+		&--public {
+			// There is no navigation toggle on public shares
+			margin-inline: 0 var(--app-navigation-padding, 4px);
+		}
+
 		>* {
 			// Do not grow or shrink (horizontally)
 			// Only the breadcrumbs shrinks
@@ -708,9 +715,9 @@ export default defineComponent({
 	}
 
 	&__refresh-icon {
-		flex: 0 0 44px;
-		width: 44px;
-		height: 44px;
+		flex: 0 0 var(--default-clickable-area);
+		width: var(--default-clickable-area);
+		height: var(--default-clickable-area);
 	}
 
 	&__loading-icon {

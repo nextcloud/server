@@ -47,6 +47,11 @@ class UserProvided extends AuthMechanism implements IUserProvided {
 	}
 
 	public function saveBackendOptions(IUser $user, $mountId, array $options) {
+		if ($options['password'] === DefinitionParameter::UNMODIFIED_PLACEHOLDER) {
+			$oldCredentials = $this->credentialsManager->retrieve($user->getUID(), $this->getCredentialsIdentifier($mountId));
+			$options['password'] = $oldCredentials['password'];
+		}
+
 		$this->credentialsManager->store($user->getUID(), $this->getCredentialsIdentifier($mountId), [
 			'user' => $options['user'], // explicitly copy the fields we want instead of just passing the entire $options array
 			'password' => $options['password'] // this way we prevent users from being able to modify any other field

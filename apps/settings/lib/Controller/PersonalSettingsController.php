@@ -6,6 +6,8 @@
 namespace OCA\Settings\Controller;
 
 use OCP\AppFramework\Controller;
+use OCP\AppFramework\Http\Attribute\NoAdminRequired;
+use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
 use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
@@ -44,10 +46,10 @@ class PersonalSettingsController extends Controller {
 	}
 
 	/**
-	 * @NoCSRFRequired
-	 * @NoAdminRequired
 	 * @NoSubAdminRequired
 	 */
+	#[NoAdminRequired]
+	#[NoCSRFRequired]
 	public function index(string $section): TemplateResponse {
 		return $this->getIndexResponse('personal', $section);
 	}

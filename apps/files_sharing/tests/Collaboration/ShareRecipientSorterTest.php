@@ -15,13 +15,13 @@ use OCP\Share\IManager;
 use Test\TestCase;
 
 class ShareRecipientSorterTest extends TestCase {
-	/** @var  IManager|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IManager|\PHPUnit\Framework\MockObject\MockObject */
 	protected $shareManager;
-	/** @var  IRootFolder|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IRootFolder|\PHPUnit\Framework\MockObject\MockObject */
 	protected $rootFolder;
-	/** @var  IUserSession|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IUserSession|\PHPUnit\Framework\MockObject\MockObject */
 	protected $userSession;
-	/** @var  ShareRecipientSorter */
+	/** @var ShareRecipientSorter */
 	protected $sorter;
 
 	protected function setUp(): void {

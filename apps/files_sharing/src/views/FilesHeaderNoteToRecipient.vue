@@ -29,7 +29,7 @@ import NcUserBubble from '@nextcloud/vue/dist/Components/NcUserBubble.js'
 const folder = ref<Folder>()
 const note = computed<string>(() => folder.value?.attributes.note ?? '')
 const user = computed(() => {
-	const id = folder.value?.attributes?.['owner-id']
+	const id = folder.value?.owner
 	const displayName = folder.value?.attributes?.['owner-display-name']
 	if (id !== getCurrentUser()?.uid) {
 		return {

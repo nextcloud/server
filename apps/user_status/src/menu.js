@@ -3,16 +3,15 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import Vue from 'vue'
-import { getRequestToken } from '@nextcloud/auth'
+import { getCSPNonce } from '@nextcloud/auth'
 import { subscribe } from '@nextcloud/event-bus'
+import Vue from 'vue'
 
 import UserStatus from './UserStatus.vue'
-
 import store from './store/index.js'
 
 // eslint-disable-next-line camelcase
-__webpack_nonce__ = btoa(getRequestToken())
+__webpack_nonce__ = getCSPNonce()
 
 Vue.prototype.t = t
 Vue.prototype.$t = t

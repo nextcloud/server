@@ -515,7 +515,7 @@ export default {
 	background-color: var(--color-main-background-blur);
 	-webkit-backdrop-filter: var(--filter-background-blur);
 	backdrop-filter: var(--filter-background-blur);
-	border-radius: var(--body-container-radius);
+	border-radius: var(--border-radius-container-large);
 
 	#body-user.theme--highcontrast & {
 		border: 2px solid var(--color-border);
@@ -569,11 +569,10 @@ export default {
 				background-size: 32px;
 				width: 32px;
 				height: 32px;
-				margin-right: 16px;
 				background-position: center;
 				float: left;
 				margin-top: -6px;
-				margin-left: 6px;
+				margin-inline: 6px 16px;
 			}
 
 			img {
@@ -609,7 +608,7 @@ export default {
 	margin:auto;
 	background-position: 16px center;
 	padding: 12px 16px;
-	padding-left: 36px;
+	padding-inline-start: 36px;
 	border-radius: var(--border-radius-pill);
 	max-width: 200px;
 	opacity: 1;
@@ -661,7 +660,7 @@ export default {
 			background-color: var(--color-background-hover);
 			border: 2px solid var(--color-main-background);
 			border-radius: var(--border-radius-large);
-			text-align: left;
+			text-align: start;
 			overflow: hidden;
 			text-overflow: ellipsis;
 			white-space: nowrap;
@@ -691,7 +690,7 @@ export default {
 
 		input[type='checkbox'].checkbox + label:before {
 			position: absolute;
-			right: 12px;
+			inset-inline-end: 12px;
 			top: 16px;
 		}
 

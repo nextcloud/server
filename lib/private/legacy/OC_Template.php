@@ -43,6 +43,7 @@ class OC_Template extends \OC\Template\Base {
 		$theme = OC_Util::getTheme();
 
 		$requestToken = (OC::$server->getSession() && $registerCall) ? \OCP\Util::callRegister() : '';
+		$cspNonce = \OCP\Server::get(\OC\Security\CSP\ContentSecurityPolicyNonceManager::class)->getNonce();
 
 		$parts = explode('/', $app); // fix translation when app is something like core/lostpassword
 		$l10n = \OC::$server->getL10N($parts[0]);
@@ -56,7 +57,13 @@ class OC_Template extends \OC\Template\Base {
 		$this->path = $path;
 		$this->app = $app;
 
-		parent::__construct($template, $requestToken, $l10n, $themeDefaults);
+		parent::__construct(
+			$template,
+			$requestToken,
+			$l10n,
+			$themeDefaults,
+			$cspNonce,
+		);
 	}
 
 
@@ -88,7 +95,7 @@ class OC_Template extends \OC\Template\Base {
 	 * @param string $tag tag name of the element
 	 * @param array $attributes array of attributes for the element
 	 * @param string $text the text content for the element. If $text is null then the
-	 * element will be written as empty element. So use "" to get a closing tag.
+	 *                     element will be written as empty element. So use "" to get a closing tag.
 	 */
 	public function addHeader($tag, $attributes, $text = null) {
 		$this->headers[] = [
@@ -165,7 +172,7 @@ class OC_Template extends \OC\Template\Base {
 	 * @return boolean|null
 	 */
 	public static function printUserPage($application, $name, $parameters = []) {
-		$content = new OC_Template($application, $name, "user");
+		$content = new OC_Template($application, $name, 'user');
 		foreach ($parameters as $key => $value) {
 			$content->assign($key, $value);
 		}
@@ -180,7 +187,7 @@ class OC_Template extends \OC\Template\Base {
 	 * @return bool
 	 */
 	public static function printAdminPage($application, $name, $parameters = []) {
-		$content = new OC_Template($application, $name, "admin");
+		$content = new OC_Template($application, $name, 'admin');
 		foreach ($parameters as $key => $value) {
 			$content->assign($key, $value);
 		}

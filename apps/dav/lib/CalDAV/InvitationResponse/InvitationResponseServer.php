@@ -15,7 +15,9 @@ use OCA\DAV\Connector\Sabre\CachingTree;
 use OCA\DAV\Connector\Sabre\DavAclPlugin;
 use OCA\DAV\Events\SabrePluginAuthInitEvent;
 use OCA\DAV\RootCollection;
+use OCA\Theming\ThemingDefaults;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\IConfig;
 use Psr\Log\LoggerInterface;
 use Sabre\VObject\ITip\Message;
 
@@ -28,9 +30,8 @@ class InvitationResponseServer {
 	 */
 	public function __construct(bool $public = true) {
 		$baseUri = \OC::$WEBROOT . '/remote.php/dav/';
-		$logger = \OC::$server->get(LoggerInterface::class);
-		/** @var IEventDispatcher $dispatcher */
-		$dispatcher = \OC::$server->query(IEventDispatcher::class);
+		$logger = \OCP\Server::get(LoggerInterface::class);
+		$dispatcher = \OCP\Server::get(IEventDispatcher::class);
 
 		$root = new RootCollection();
 		$this->server = new \OCA\DAV\Connector\Sabre\Server(new CachingTree($root));
@@ -42,7 +43,10 @@ class InvitationResponseServer {
 		$this->server->httpRequest->setUrl($baseUri);
 		$this->server->setBaseUri($baseUri);
 
-		$this->server->addPlugin(new BlockLegacyClientPlugin(\OC::$server->getConfig()));
+		$this->server->addPlugin(new BlockLegacyClientPlugin(
+			\OCP\Server::get(IConfig::class),
+			\OCP\Server::get(ThemingDefaults::class),
+		));
 		$this->server->addPlugin(new AnonymousOptionsPlugin());
 
 		// allow custom principal uri option

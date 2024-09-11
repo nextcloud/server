@@ -255,12 +255,12 @@ export default defineComponent({
 		&-wrapper {
 			position: relative;
 			top: -50%;
-			left: -50%;
+			inset-inline-start: -50%;
 		}
 
 		position: absolute;
 		top: -46px; // half of the icon height
-		right: -46px; // half of the icon width
+		inset-inline-end: -46px; // half of the icon width
 	}
 }
 

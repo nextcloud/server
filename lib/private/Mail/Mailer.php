@@ -103,23 +103,11 @@ class Mailer implements IMailer {
 	 * @since 12.0.0
 	 */
 	public function createEMailTemplate(string $emailId, array $data = []): IEMailTemplate {
-		$class = $this->config->getSystemValueString('mail_template_class', '');
-
-		if ($class !== '' && class_exists($class) && is_a($class, EMailTemplate::class, true)) {
-			return new $class(
-				$this->defaults,
-				$this->urlGenerator,
-				$this->l10nFactory,
-				$emailId,
-				$data
-			);
-		}
-
 		$logoDimensions = $this->config->getAppValue('theming', 'logoDimensions', self::DEFAULT_DIMENSIONS);
 		if (str_contains($logoDimensions, 'x')) {
 			[$width, $height] = explode('x', $logoDimensions);
-			$width = (int) $width;
-			$height = (int) $height;
+			$width = (int)$width;
+			$height = (int)$height;
 
 			if ($width > self::MAX_LOGO_SIZE || $height > self::MAX_LOGO_SIZE) {
 				if ($width === $height) {
@@ -127,9 +115,9 @@ class Mailer implements IMailer {
 					$logoHeight = self::MAX_LOGO_SIZE;
 				} elseif ($width > $height) {
 					$logoWidth = self::MAX_LOGO_SIZE;
-					$logoHeight = (int) (($height / $width) * self::MAX_LOGO_SIZE);
+					$logoHeight = (int)(($height / $width) * self::MAX_LOGO_SIZE);
 				} else {
-					$logoWidth = (int) (($width / $height) * self::MAX_LOGO_SIZE);
+					$logoWidth = (int)(($width / $height) * self::MAX_LOGO_SIZE);
 					$logoHeight = self::MAX_LOGO_SIZE;
 				}
 			} else {
@@ -138,6 +126,20 @@ class Mailer implements IMailer {
 			}
 		} else {
 			$logoWidth = $logoHeight = null;
+		}
+
+		$class = $this->config->getSystemValueString('mail_template_class', '');
+
+		if ($class !== '' && class_exists($class) && is_a($class, EMailTemplate::class, true)) {
+			return new $class(
+				$this->defaults,
+				$this->urlGenerator,
+				$this->l10nFactory,
+				$logoWidth,
+				$logoHeight,
+				$emailId,
+				$data
+			);
 		}
 
 		return new EMailTemplate(

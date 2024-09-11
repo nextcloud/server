@@ -24,6 +24,9 @@ use OCP\SpeechToText\ISpeechToTextManager;
 use OCP\SpeechToText\ISpeechToTextProvider;
 use OCP\SpeechToText\ISpeechToTextProviderWithId;
 use OCP\SpeechToText\ISpeechToTextProviderWithUserId;
+use OCP\TaskProcessing\IManager as ITaskProcessingManager;
+use OCP\TaskProcessing\Task;
+use OCP\TaskProcessing\TaskTypes\AudioToText;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use Psr\Log\LoggerInterface;
@@ -41,6 +44,7 @@ class SpeechToTextManager implements ISpeechToTextManager {
 		private IJobList $jobList,
 		private IConfig $config,
 		private IUserSession $userSession,
+		private ITaskProcessingManager $taskProcessingManager,
 	) {
 	}
 
@@ -112,7 +116,30 @@ class SpeechToTextManager implements ISpeechToTextManager {
 		}
 	}
 
-	public function transcribeFile(File $file): string {
+	public function transcribeFile(File $file, ?string $userId = null, string $appId = 'core'): string {
+		// try to run a TaskProcessing core:audio2text task
+		// this covers scheduling as well because OC\SpeechToText\TranscriptionJob calls this method
+		try {
+			if (isset($this->taskProcessingManager->getAvailableTaskTypes()['core:audio2text'])) {
+				$taskProcessingTask = new Task(
+					AudioToText::ID,
+					['input' => $file->getId()],
+					$appId,
+					$userId,
+					'from-SpeechToTextManager||' . $file->getId() . '||' . ($userId ?? '') . '||' . $appId,
+				);
+				$resultTask = $this->taskProcessingManager->runTask($taskProcessingTask);
+				if ($resultTask->getStatus() === Task::STATUS_SUCCESSFUL) {
+					$output = $resultTask->getOutput();
+					if (isset($output['output']) && is_string($output['output'])) {
+						return $output['output'];
+					}
+				}
+			}
+		} catch (Throwable $e) {
+			throw new RuntimeException('Failed to run a Speech-to-text job from STTManager with TaskProcessing for file ' . $file->getId(), 0, $e);
+		}
+
 		if (!$this->hasProviders()) {
 			throw new PreConditionNotMetException('No SpeechToText providers have been registered');
 		}

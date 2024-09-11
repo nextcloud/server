@@ -7,6 +7,8 @@ namespace OCA\Settings\Controller;
 
 use OC\AppFramework\Middleware\Security\Exceptions\NotAdminException;
 use OCP\AppFramework\Controller;
+use OCP\AppFramework\Http\Attribute\NoAdminRequired;
+use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
 use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
@@ -46,12 +48,12 @@ class AdminSettingsController extends Controller {
 	}
 
 	/**
-	 * @NoCSRFRequired
-	 * @NoAdminRequired
 	 * @NoSubAdminRequired
 	 * We are checking the permissions in the getSettings method. If there is no allowed
 	 * settings for the given section. The user will be gretted by an error message.
 	 */
+	#[NoAdminRequired]
+	#[NoCSRFRequired]
 	public function index(string $section): TemplateResponse {
 		return $this->getIndexResponse('admin', $section);
 	}

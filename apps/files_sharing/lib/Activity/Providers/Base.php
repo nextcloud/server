@@ -119,7 +119,7 @@ abstract class Base implements IProvider {
 	protected function getFile($parameter, ?IEvent $event = null) {
 		if (is_array($parameter)) {
 			$path = reset($parameter);
-			$id = (string) key($parameter);
+			$id = (string)key($parameter);
 		} elseif ($event !== null) {
 			// Legacy from before ownCloud 8.2
 			$path = $parameter;

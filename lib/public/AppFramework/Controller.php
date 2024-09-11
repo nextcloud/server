@@ -123,7 +123,7 @@ abstract class Controller {
 	/**
 	 * Serializes and formats a response
 	 * @param mixed $response the value that was returned from a controller and
-	 * is not a Response instance
+	 *                        is not a Response instance
 	 * @param string $format the format for which a formatter has been registered
 	 * @throws \DomainException if format does not match a registered formatter
 	 * @return Response

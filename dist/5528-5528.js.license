@@ -72,7 +72,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 0.2.1
 	- license: BSD-2-Clause
 - @nextcloud/auth
-	- version: 2.3.0
+	- version: 2.4.0
 	- license: GPL-3.0-or-later
 - @nextcloud/axios
 	- version: 2.5.0
@@ -105,19 +105,19 @@ This file is generated from multiple sources. Included packages:
 	- version: 3.25.1
 	- license: MIT
 - @nextcloud/vue
-	- version: 8.16.0
+	- version: 8.17.1
 	- license: AGPL-3.0-or-later
 - @ungap/structured-clone
 	- version: 1.2.0
 	- license: ISC
 - @vueuse/components
-	- version: 10.11.0
+	- version: 11.0.3
 	- license: MIT
 - @vueuse/core
-	- version: 10.11.0
+	- version: 11.0.3
 	- license: MIT
 - @vueuse/shared
-	- version: 10.11.0
+	- version: 11.0.3
 	- license: MIT
 - assert
 	- version: 2.1.0
@@ -126,7 +126,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.0.7
 	- license: MIT
 - axios
-	- version: 1.7.3
+	- version: 1.7.7
 	- license: MIT
 - bail
 	- version: 2.0.2

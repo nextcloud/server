@@ -15,6 +15,8 @@ OC.L10N.register(
     "Edit comment" : "Измени го коментарот",
     "Delete comment" : "Избриши коментар",
     "Cancel edit" : "Откажи ажурирање",
+    "New comment" : "Нов коментар",
+    "Write a comment …" : "Напиши коментар ...",
     "Post comment" : "Објави коментар",
     "No comments yet, start the conversation!" : "Сеуште нема коментари, започнете разговор!",
     "No more messages" : "Нема повеќе пораки",
@@ -27,7 +29,6 @@ OC.L10N.register(
     "Comment deleted" : "Коментарот е избришан",
     "An error occurred while trying to delete the comment" : "Настана грешка при обидот за бришење на коментар",
     "An error occurred while trying to create the comment" : "Настана грешка при обидот за креирање на коментар",
-    "You were mentioned on \"{file}\", in a comment by a user that has since been deleted" : "Бевте спомнати на коментар на “{file}”, од корисник кој сега е избришан",
-    "_%n unread comment_::_%n unread comments_" : ["%n непрочитан коментар","%n непрочитани коментари"]
+    "You were mentioned on \"{file}\", in a comment by a user that has since been deleted" : "Бевте спомнати на коментар на “{file}”, од корисник кој сега е избришан"
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");

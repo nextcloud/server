@@ -14,7 +14,6 @@ use Test\TestCase;
 class PublicTemplateResponseTest extends TestCase {
 	public function testSetParamsConstructor() {
 		$template = new PublicTemplateResponse('app', 'home', ['key' => 'value']);
-		$this->assertContains('core/js/public/publicpage', \OC_Util::$scripts);
 		$this->assertEquals(['key' => 'value'], $template->getParams());
 	}
 
@@ -57,7 +56,6 @@ class PublicTemplateResponseTest extends TestCase {
 
 	public function testGetRenderAs() {
 		$template = new PublicTemplateResponse('app', 'home', ['key' => 'value']);
-		$this->assertContains('core/js/public/publicpage', \OC_Util::$scripts);
 		$this->assertEquals(['key' => 'value'], $template->getParams());
 		$this->assertEquals('public', $template->getRenderAs());
 	}

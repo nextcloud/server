@@ -17,7 +17,7 @@ class AvailabilityTest extends \Test\TestCase {
 	protected $storageCache;
 	/** @var \PHPUnit\Framework\MockObject\MockObject|Temporary */
 	protected $storage;
-	/** @var Availability  */
+	/** @var Availability */
 	protected $wrapper;
 
 	protected function setUp(): void {

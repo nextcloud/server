@@ -2,6 +2,7 @@ SPDX-License-Identifier: MIT
 SPDX-License-Identifier: ISC
 SPDX-License-Identifier: GPL-3.0-or-later
 SPDX-License-Identifier: BSD-3-Clause
+SPDX-License-Identifier: Apache-2.0
 SPDX-License-Identifier: AGPL-3.0-or-later
 SPDX-License-Identifier: (MPL-2.0 OR Apache-2.0)
 SPDX-FileCopyrightText: string_decoder developers
@@ -58,6 +59,7 @@ SPDX-FileCopyrightText: David Clark
 SPDX-FileCopyrightText: Christoph Wurst <christoph@winzerhof-wurst.at>
 SPDX-FileCopyrightText: Christoph Wurst
 SPDX-FileCopyrightText: Ben Drucker
+SPDX-FileCopyrightText: Austin Andrews
 SPDX-FileCopyrightText: Arnout Kazemier
 SPDX-FileCopyrightText: Anthony Fu <https://github.com/antfu>
 SPDX-FileCopyrightText: Andris Reinman
@@ -71,8 +73,11 @@ This file is generated from multiple sources. Included packages:
 - @babel/runtime
 	- version: 7.25.0
 	- license: MIT
+- @mdi/svg
+	- version: 7.4.47
+	- license: Apache-2.0
 - @nextcloud/auth
-	- version: 2.3.0
+	- version: 2.4.0
 	- license: GPL-3.0-or-later
 - @nextcloud/axios
 	- version: 2.5.0
@@ -84,7 +89,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.2.0
 	- license: GPL-3.0-or-later
 - @nextcloud/dialogs
-	- version: 5.3.5
+	- version: 6.0.0
 	- license: AGPL-3.0-or-later
 - semver
 	- version: 7.6.3
@@ -93,7 +98,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 3.3.1
 	- license: GPL-3.0-or-later
 - @nextcloud/files
-	- version: 3.7.0
+	- version: 3.9.0
 	- license: AGPL-3.0-or-later
 - @nextcloud/initial-state
 	- version: 2.2.0
@@ -120,16 +125,16 @@ This file is generated from multiple sources. Included packages:
 	- version: 0.2.3
 	- license: GPL-3.0-or-later
 - @nextcloud/vue
-	- version: 8.16.0
+	- version: 8.17.1
 	- license: AGPL-3.0-or-later
 - @vueuse/components
-	- version: 10.11.0
+	- version: 11.0.3
 	- license: MIT
 - @vueuse/core
-	- version: 10.11.0
+	- version: 11.0.3
 	- license: MIT
 - @vueuse/shared
-	- version: 10.11.0
+	- version: 11.0.3
 	- license: MIT
 - assert
 	- version: 2.1.0
@@ -138,7 +143,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.0.7
 	- license: MIT
 - axios
-	- version: 1.7.3
+	- version: 1.7.7
 	- license: MIT
 - balanced-match
 	- version: 1.0.2
@@ -174,7 +179,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.2.0
 	- license: MIT
 - core-js
-	- version: 3.37.1
+	- version: 3.38.1
 	- license: MIT
 - crypt
 	- version: 0.0.2
@@ -284,6 +289,9 @@ This file is generated from multiple sources. Included packages:
 - md5
 	- version: 2.3.0
 	- license: BSD-3-Clause
+- minimatch
+	- version: 9.0.5
+	- license: ISC
 - moment
 	- version: 2.30.1
 	- license: MIT
@@ -419,14 +427,11 @@ This file is generated from multiple sources. Included packages:
 - vue
 	- version: 2.7.16
 	- license: MIT
-- minimatch
-	- version: 10.0.1
-	- license: ISC
 - webdav
-	- version: 5.7.0
+	- version: 5.7.1
 	- license: MIT
 - webpack
-	- version: 5.93.0
+	- version: 5.94.0
 	- license: MIT
 - which-typed-array
 	- version: 1.1.15

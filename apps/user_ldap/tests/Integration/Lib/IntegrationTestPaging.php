@@ -17,7 +17,7 @@ use Psr\Log\LoggerInterface;
 require_once __DIR__ . '/../Bootstrap.php';
 
 class IntegrationTestPaging extends AbstractIntegrationTest {
-	/** @var  UserMapping */
+	/** @var UserMapping */
 	protected $mapping;
 
 	/** @var User_LDAP */

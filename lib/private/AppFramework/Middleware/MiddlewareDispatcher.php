@@ -23,7 +23,7 @@ class MiddlewareDispatcher {
 
 	/**
 	 * @var int counter which tells us what middleware was executed once an
-	 *                  exception occurs
+	 *          exception occurs
 	 */
 	private int $middlewareCounter;
 
@@ -84,10 +84,10 @@ class MiddlewareDispatcher {
 	 *
 	 * @param Controller $controller the controller that is being called
 	 * @param string $methodName the name of the method that will be called on
-	 *                            the controller
+	 *                           the controller
 	 * @param \Exception $exception the thrown exception
 	 * @return Response a Response object if the middleware can handle the
-	 * exception
+	 *                  exception
 	 * @throws \Exception the passed in exception if it can't handle it
 	 */
 	public function afterException(Controller $controller, string $methodName, \Exception $exception): Response {
@@ -109,7 +109,7 @@ class MiddlewareDispatcher {
 	 *
 	 * @param Controller $controller the controller that is being called
 	 * @param string $methodName the name of the method that will be called on
-	 *                            the controller
+	 *                           the controller
 	 * @param Response $response the generated response from the controller
 	 * @return Response a Response object
 	 */

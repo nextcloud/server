@@ -179,8 +179,7 @@ export default {
 .webauthn-loading {
 	display: inline-block;
 	vertical-align: sub;
-	margin-left: 2px;
-	margin-right: 2px;
+	margin-inline: 2px;
 }
 
 .new-webauthn-device {

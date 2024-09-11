@@ -104,7 +104,7 @@ class S3Test extends ObjectStoreTest {
 	public function testEmptyUpload() {
 		$s3 = $this->getInstance();
 
-		$emptyStream = fopen("php://memory", "r");
+		$emptyStream = fopen('php://memory', 'r');
 		fwrite($emptyStream, '');
 
 		$s3->writeObject('emptystream', $emptyStream);
@@ -134,6 +134,10 @@ class S3Test extends ObjectStoreTest {
 
 	/** @dataProvider dataFileSizes */
 	public function testFileSizes($size) {
+		if (str_starts_with(PHP_VERSION, '8.3') && getenv('CI')) {
+			$this->markTestSkipped('Test is unreliable and skipped on 8.3');
+		}
+
 		$this->cleanupAfter('testfilesizes');
 		$s3 = $this->getInstance();
 

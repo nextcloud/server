@@ -99,7 +99,7 @@ class S3Signature implements SignatureInterface {
 	}
 
 	/**
-	 * @param RequestInterface     $request
+	 * @param RequestInterface $request
 	 * @param CredentialsInterface $creds
 	 *
 	 * @return RequestInterface

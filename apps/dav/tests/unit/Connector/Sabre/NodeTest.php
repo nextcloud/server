@@ -10,6 +10,7 @@ namespace OCA\DAV\Tests\unit\Connector\Sabre;
 
 use OC\Files\FileInfo;
 use OC\Files\Mount\MountPoint;
+use OC\Files\Node\Folder;
 use OC\Files\View;
 use OC\Share20\ShareAttributes;
 use OCA\Files_Sharing\SharedMount;
@@ -21,6 +22,7 @@ use OCP\Files\Storage;
 use OCP\ICache;
 use OCP\Share\IManager;
 use OCP\Share\IShare;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Class NodeTest
@@ -201,14 +203,16 @@ class NodeTest extends \Test\TestCase {
 
 		$share->expects($this->once())->method('getAttributes')->willReturn($attributes);
 
-		$info = $this->getMockBuilder(FileInfo::class)
+		/** @var Folder&MockObject $info */
+		$info = $this->getMockBuilder(Folder::class)
 			->disableOriginalConstructor()
-			->setMethods(['getStorage', 'getType'])
+			->onlyMethods(['getStorage', 'getType'])
 			->getMock();
 
 		$info->method('getStorage')->willReturn($storage);
 		$info->method('getType')->willReturn(FileInfo::TYPE_FOLDER);
 
+		/** @var View&MockObject $view */
 		$view = $this->getMockBuilder(View::class)
 			->disableOriginalConstructor()
 			->getMock();
@@ -225,14 +229,16 @@ class NodeTest extends \Test\TestCase {
 
 		$shareManager = $this->getMockBuilder(IManager::class)->disableOriginalConstructor()->getMock();
 
-		$info = $this->getMockBuilder(FileInfo::class)
+		/** @var Folder&MockObject */
+		$info = $this->getMockBuilder(Folder::class)
 			->disableOriginalConstructor()
-			->setMethods(['getStorage', 'getType'])
+			->onlyMethods(['getStorage', 'getType'])
 			->getMock();
 
 		$info->method('getStorage')->willReturn($storage);
 		$info->method('getType')->willReturn(FileInfo::TYPE_FOLDER);
 
+		/** @var View&MockObject */
 		$view = $this->getMockBuilder(View::class)
 			->disableOriginalConstructor()
 			->getMock();

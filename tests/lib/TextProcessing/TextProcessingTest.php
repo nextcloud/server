@@ -86,6 +86,9 @@ class FreePromptProvider implements IProvider {
 	}
 }
 
+/**
+ * @group DB
+ */
 class TextProcessingTest extends \Test\TestCase {
 	private IManager $manager;
 	private Coordinator $coordinator;
@@ -176,7 +179,8 @@ class TextProcessingTest extends \Test\TestCase {
 			\OC::$server->get(LoggerInterface::class),
 			$this->jobList,
 			$this->taskMapper,
-			$config
+			$config,
+			\OC::$server->get(\OCP\TaskProcessing\IManager::class),
 		);
 	}
 

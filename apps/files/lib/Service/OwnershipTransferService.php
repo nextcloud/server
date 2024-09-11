@@ -78,7 +78,7 @@ class OwnershipTransferService {
 		// If encryption is on we have to ensure the user has logged in before and that all encryption modules are ready
 		if (($this->encryptionManager->isEnabled() && $destinationUser->getLastLogin() === 0)
 			|| !$this->encryptionManager->isReadyForUser($destinationUid)) {
-			throw new TransferOwnershipException("The target user is not ready to accept files. The user has at least to have logged in once.", 2);
+			throw new TransferOwnershipException('The target user is not ready to accept files. The user has at least to have logged in once.', 2);
 		}
 
 		// setup filesystem
@@ -117,7 +117,7 @@ class OwnershipTransferService {
 		}
 
 		if ($move && !$firstLogin && count($view->getDirectoryContent($finalTarget)) > 0) {
-			throw new TransferOwnershipException("Destination path does not exists or is not empty", 1);
+			throw new TransferOwnershipException('Destination path does not exists or is not empty', 1);
 		}
 
 
@@ -204,7 +204,7 @@ class OwnershipTransferService {
 	/**
 	 * @param OutputInterface $output
 	 *
-	 * @throws \Exception
+	 * @throws TransferOwnershipException
 	 */
 	protected function analyse(string $sourceUid,
 		string $destinationUid,
@@ -212,44 +212,67 @@ class OwnershipTransferService {
 		View $view,
 		OutputInterface $output): void {
 		$output->writeln('Validating quota');
-		$size = $view->getFileInfo($sourcePath, false)->getSize(false);
+		$sourceFileInfo = $view->getFileInfo($sourcePath, false);
+		if ($sourceFileInfo === false) {
+			throw new TransferOwnershipException("Unknown path provided: $sourcePath", 1);
+		}
+		$size = $sourceFileInfo->getSize(false);
 		$freeSpace = $view->free_space($destinationUid . '/files/');
 		if ($size > $freeSpace && $freeSpace !== FileInfo::SPACE_UNKNOWN) {
-			$output->writeln('<error>Target user does not have enough free space available.</error>');
-			throw new \Exception('Execution terminated.');
+			throw new TransferOwnershipException('Target user does not have enough free space available.', 1);
 		}
 
 		$output->writeln("Analysing files of $sourceUid ...");
 		$progress = new ProgressBar($output);
 		$progress->start();
 
+		if ($this->encryptionManager->isEnabled()) {
+			$masterKeyEnabled = \OCP\Server::get(\OCA\Encryption\Util::class)->isMasterKeyEnabled();
+		} else {
+			$masterKeyEnabled = false;
+		}
 		$encryptedFiles = [];
-		$this->walkFiles($view, $sourcePath,
-			function (FileInfo $fileInfo) use ($progress, &$encryptedFiles) {
-				if ($fileInfo->getType() === FileInfo::TYPE_FOLDER) {
-					// only analyze into folders from main storage,
-					if (!$fileInfo->getStorage()->instanceOfStorage(IHomeStorage::class)) {
-						return false;
-					}
-					return true;
-				}
-				$progress->advance();
-				if ($fileInfo->isEncrypted()) {
-					$encryptedFiles[] = $fileInfo;
-				}
-				return true;
-			});
+		if ($sourceFileInfo->getType() === FileInfo::TYPE_FOLDER) {
+			if ($sourceFileInfo->isEncrypted()) {
+				/* Encrypted folder means e2ee encrypted */
+				$encryptedFiles[] = $sourceFileInfo;
+			} else {
+				$this->walkFiles($view, $sourcePath,
+					function (FileInfo $fileInfo) use ($progress, $masterKeyEnabled, &$encryptedFiles) {
+						if ($fileInfo->getType() === FileInfo::TYPE_FOLDER) {
+							// only analyze into folders from main storage,
+							if (!$fileInfo->getStorage()->instanceOfStorage(IHomeStorage::class)) {
+								return false;
+							}
+							if ($fileInfo->isEncrypted()) {
+								/* Encrypted folder means e2ee encrypted, we cannot transfer it */
+								$encryptedFiles[] = $fileInfo;
+							}
+							return true;
+						}
+						$progress->advance();
+						if ($fileInfo->isEncrypted() && !$masterKeyEnabled) {
+							/* Encrypted file means SSE, we can only transfer it if master key is enabled */
+							$encryptedFiles[] = $fileInfo;
+						}
+						return true;
+					});
+			}
+		} elseif ($sourceFileInfo->isEncrypted() && !$masterKeyEnabled) {
+			/* Encrypted file means SSE, we can only transfer it if master key is enabled */
+			$encryptedFiles[] = $sourceFileInfo;
+		}
 		$progress->finish();
 		$output->writeln('');
 
 		// no file is allowed to be encrypted
 		if (!empty($encryptedFiles)) {
-			$output->writeln("<error>Some files are encrypted - please decrypt them first.</error>");
+			$output->writeln('<error>Some files are encrypted - please decrypt them first.</error>');
 			foreach ($encryptedFiles as $encryptedFile) {
 				/** @var FileInfo $encryptedFile */
-				$output->writeln("  " . $encryptedFile->getPath());
+				$output->writeln('  ' . $encryptedFile->getPath());
 			}
-			throw new \Exception('Execution terminated.');
+			throw new TransferOwnershipException('Some files are encrypted - please decrypt them first.', 1);
 		}
 	}
 
@@ -372,7 +395,7 @@ class OwnershipTransferService {
 			$finalTarget = $finalTarget . '/' . basename($sourcePath);
 		}
 		if ($view->rename($sourcePath, $finalTarget) === false) {
-			throw new TransferOwnershipException("Could not transfer files.", 1);
+			throw new TransferOwnershipException('Could not transfer files.', 1);
 		}
 		if (!is_dir("$sourceUid/files")) {
 			// because the files folder is moved away we need to recreate it
@@ -391,7 +414,7 @@ class OwnershipTransferService {
 		array $shares,
 		OutputInterface $output,
 	):void {
-		$output->writeln("Restoring shares ...");
+		$output->writeln('Restoring shares ...');
 		$progress = new ProgressBar($output, count($shares));
 		$rootFolder = \OCP\Server::get(IRootFolder::class);
 
@@ -459,7 +482,7 @@ class OwnershipTransferService {
 		string $path,
 		string $finalTarget,
 		bool $move): void {
-		$output->writeln("Restoring incoming shares ...");
+		$output->writeln('Restoring incoming shares ...');
 		$progress = new ProgressBar($output, count($sourceShares));
 		$prefix = "$destinationUid/files";
 		$finalShareTarget = '';

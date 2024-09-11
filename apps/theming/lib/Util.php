@@ -232,7 +232,7 @@ class Util {
 	public function getAppImage($app, $image) {
 		$app = str_replace(['\0', '/', '\\', '..'], '', $app);
 		$image = str_replace(['\0', '\\', '..'], '', $image);
-		if ($app === "core") {
+		if ($app === 'core') {
 			$icon = \OC::$SERVERROOT . '/core/img/' . $image;
 			if (file_exists($icon)) {
 				return $icon;
@@ -311,12 +311,14 @@ class Util {
 		if (!is_null($user)) {
 			$userId = $user->getUID();
 		}
+		$serverVersion = \OC_Util::getVersionString();
+		$themingAppVersion = $this->appManager->getAppVersion('theming');
 		$userCacheBuster = '';
 		if ($userId) {
 			$userCacheBusterValue = (int)$this->config->getUserValue($userId, 'theming', 'userCacheBuster', '0');
 			$userCacheBuster = $userId . '_' . $userCacheBusterValue;
 		}
 		$systemCacheBuster = $this->config->getAppValue('theming', 'cachebuster', '0');
-		return substr(sha1($userCacheBuster . $systemCacheBuster), 0, 8);
+		return substr(sha1($serverVersion . $themingAppVersion . $userCacheBuster . $systemCacheBuster), 0, 8);
 	}
 }

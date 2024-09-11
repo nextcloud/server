@@ -16,6 +16,7 @@ use OCP\IURLGenerator;
 use OCP\IUserSession;
 use OCP\L10N\IFactory;
 use OCP\Server;
+use Psr\Log\LoggerInterface;
 
 class App {
 	private static ?INavigationManager $navigationManager = null;
@@ -32,7 +33,8 @@ class App {
 				Server::get(IFactory::class),
 				Server::get(IUserSession::class),
 				Server::get(IGroupManager::class),
-				Server::get(IConfig::class)
+				Server::get(IConfig::class),
+				Server::get(LoggerInterface::class),
 			);
 			self::$navigationManager->clear(false);
 		}

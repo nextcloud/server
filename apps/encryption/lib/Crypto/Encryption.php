@@ -99,8 +99,8 @@ class Encryption implements IEncryptionModule {
 	 * @param array $accessList who has access to the file contains the key 'users' and 'public'
 	 *
 	 * @return array $header contain data as key-value pairs which should be
-	 *                       written to the header, in case of a write operation
-	 *                       or if no additional data is needed return a empty array
+	 *               written to the header, in case of a write operation
+	 *               or if no additional data is needed return a empty array
 	 */
 	public function begin($path, $user, $mode, array $header, array $accessList) {
 		$this->path = $this->getPathToRealFile($path);

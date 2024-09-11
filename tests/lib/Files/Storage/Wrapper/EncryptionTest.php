@@ -105,11 +105,11 @@ class EncryptionTest extends Storage {
 	 */
 	private $config;
 
-	/** @var  \OC\Memcache\ArrayCache | \PHPUnit\Framework\MockObject\MockObject */
+	/** @var \OC\Memcache\ArrayCache | \PHPUnit\Framework\MockObject\MockObject */
 	private $arrayCache;
 
 
-	/** @var  integer dummy unencrypted size */
+	/** @var integer dummy unencrypted size */
 	private $dummySize = -1;
 
 	protected function setUp(): void {

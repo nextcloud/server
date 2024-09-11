@@ -6,8 +6,11 @@
  */
 namespace OCA\Settings\Controller;
 
+use OCA\Settings\Settings\Admin\Overview;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\AuthorizedAdminSetting;
+use OCP\AppFramework\Http\Attribute\PasswordConfirmationRequired;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\IConfig;
 use OCP\IL10N;
@@ -56,9 +59,6 @@ class MailSettingsController extends Controller {
 	/**
 	 * Sets the email settings
 	 *
-	 * @PasswordConfirmationRequired
-	 * @AuthorizedAdminSetting(settings=OCA\Settings\Settings\Admin\Overview)
-	 *
 	 * @param string $mail_domain
 	 * @param string $mail_from_address
 	 * @param string $mail_smtpmode
@@ -68,6 +68,8 @@ class MailSettingsController extends Controller {
 	 * @param string $mail_smtpport
 	 * @return DataResponse
 	 */
+	#[AuthorizedAdminSetting(settings: Overview::class)]
+	#[PasswordConfirmationRequired]
 	public function setMailSettings($mail_domain,
 		$mail_from_address,
 		$mail_smtpmode,
@@ -98,13 +100,12 @@ class MailSettingsController extends Controller {
 	/**
 	 * Store the credentials used for SMTP in the config
 	 *
-	 * @PasswordConfirmationRequired
-	 * @AuthorizedAdminSetting(settings=OCA\Settings\Settings\Admin\Overview)
-	 *
 	 * @param string $mail_smtpname
 	 * @param string $mail_smtppassword
 	 * @return DataResponse
 	 */
+	#[AuthorizedAdminSetting(settings: Overview::class)]
+	#[PasswordConfirmationRequired]
 	public function storeCredentials($mail_smtpname, $mail_smtppassword) {
 		if ($mail_smtppassword === '********') {
 			return new DataResponse($this->l10n->t('Invalid SMTP password.'), Http::STATUS_BAD_REQUEST);
@@ -122,9 +123,9 @@ class MailSettingsController extends Controller {
 
 	/**
 	 * Send a mail to test the settings
-	 * @AuthorizedAdminSetting(settings=OCA\Settings\Settings\Admin\Overview)
 	 * @return DataResponse
 	 */
+	#[AuthorizedAdminSetting(settings: Overview::class)]
 	public function sendTestMail() {
 		$email = $this->config->getUserValue($this->userSession->getUser()->getUID(), $this->appName, 'email', '');
 		if (!empty($email)) {

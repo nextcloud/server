@@ -15,6 +15,7 @@ return array(
     'OCA\\Files_Sharing\\Activity\\Providers\\RemoteShares' => $baseDir . '/../lib/Activity/Providers/RemoteShares.php',
     'OCA\\Files_Sharing\\Activity\\Providers\\Users' => $baseDir . '/../lib/Activity/Providers/Users.php',
     'OCA\\Files_Sharing\\Activity\\Settings\\PublicLinks' => $baseDir . '/../lib/Activity/Settings/PublicLinks.php',
+    'OCA\\Files_Sharing\\Activity\\Settings\\PublicLinksUpload' => $baseDir . '/../lib/Activity/Settings/PublicLinksUpload.php',
     'OCA\\Files_Sharing\\Activity\\Settings\\RemoteShare' => $baseDir . '/../lib/Activity/Settings/RemoteShare.php',
     'OCA\\Files_Sharing\\Activity\\Settings\\ShareActivitySettings' => $baseDir . '/../lib/Activity/Settings/ShareActivitySettings.php',
     'OCA\\Files_Sharing\\Activity\\Settings\\Shared' => $baseDir . '/../lib/Activity/Settings/Shared.php',
@@ -75,6 +76,7 @@ return array(
     'OCA\\Files_Sharing\\Migration\\Version22000Date20210216084241' => $baseDir . '/../lib/Migration/Version22000Date20210216084241.php',
     'OCA\\Files_Sharing\\Migration\\Version24000Date20220208195521' => $baseDir . '/../lib/Migration/Version24000Date20220208195521.php',
     'OCA\\Files_Sharing\\Migration\\Version24000Date20220404142216' => $baseDir . '/../lib/Migration/Version24000Date20220404142216.php',
+    'OCA\\Files_Sharing\\Migration\\Version31000Date20240821142813' => $baseDir . '/../lib/Migration/Version31000Date20240821142813.php',
     'OCA\\Files_Sharing\\MountProvider' => $baseDir . '/../lib/MountProvider.php',
     'OCA\\Files_Sharing\\Notification\\Listener' => $baseDir . '/../lib/Notification/Listener.php',
     'OCA\\Files_Sharing\\Notification\\Notifier' => $baseDir . '/../lib/Notification/Notifier.php',
@@ -86,6 +88,7 @@ return array(
     'OCA\\Files_Sharing\\ShareBackend\\Folder' => $baseDir . '/../lib/ShareBackend/Folder.php',
     'OCA\\Files_Sharing\\SharedMount' => $baseDir . '/../lib/SharedMount.php',
     'OCA\\Files_Sharing\\SharedStorage' => $baseDir . '/../lib/SharedStorage.php',
+    'OCA\\Files_Sharing\\SharesReminderJob' => $baseDir . '/../lib/SharesReminderJob.php',
     'OCA\\Files_Sharing\\Updater' => $baseDir . '/../lib/Updater.php',
     'OCA\\Files_Sharing\\ViewOnly' => $baseDir . '/../lib/ViewOnly.php',
 );

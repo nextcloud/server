@@ -431,7 +431,7 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 	 */
 	private function unshare($id, array $notification) {
 		if (!$this->isS2SEnabled(true)) {
-			throw new ActionNotSupportedException("incoming shares disabled!");
+			throw new ActionNotSupportedException('incoming shares disabled!');
 		}
 
 		if (!isset($notification['sharedSecret'])) {

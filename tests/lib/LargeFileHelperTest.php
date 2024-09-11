@@ -18,7 +18,7 @@ class LargeFileHelperTest extends TestCase {
 	public function testFormatUnsignedIntegerFloat() {
 		$this->assertSame(
 			'9007199254740992',
-			$this->helper->formatUnsignedInteger((float) 9007199254740992)
+			$this->helper->formatUnsignedInteger((float)9007199254740992)
 		);
 	}
 

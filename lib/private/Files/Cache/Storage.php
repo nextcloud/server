@@ -80,7 +80,7 @@ class Storage {
 	 * Adjusts the storage id to use md5 if too long
 	 * @param string $storageId storage id
 	 * @return string unchanged $storageId if its length is less than 64 characters,
-	 * else returns the md5 of $storageId
+	 *                else returns the md5 of $storageId
 	 */
 	public static function adjustStorageId($storageId) {
 		if (strlen($storageId) > 64) {

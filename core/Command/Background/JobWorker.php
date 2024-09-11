@@ -52,10 +52,25 @@ class JobWorker extends JobBase {
 				'Interval in seconds in which the worker should repeat already processed jobs (set to 0 for no repeat)',
 				5
 			)
+			->addOption(
+				'stop_after',
+				't',
+				InputOption::VALUE_OPTIONAL,
+				'Duration after which the worker should stop and exit. The worker won\'t kill a potential running job, it will exit after this job has finished running (supported values are: "30" or "30s" for 30 seconds, "10m" for 10 minutes and "2h" for 2 hours)'
+			)
 		;
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output): int {
+		$startTime = time();
+		$stopAfterOptionValue = $input->getOption('stop_after');
+		$stopAfterSeconds = $stopAfterOptionValue === null
+			? null
+			: $this->parseStopAfter($stopAfterOptionValue);
+		if ($stopAfterSeconds !== null) {
+			$output->writeln('<info>Background job worker will stop after ' . $stopAfterSeconds . ' seconds</info>');
+		}
+
 		$jobClasses = $input->getArgument('job-classes');
 		$jobClasses = empty($jobClasses) ? null : $jobClasses;
 
@@ -70,6 +85,11 @@ class JobWorker extends JobBase {
 		}
 
 		while (true) {
+			// Stop if we exceeded stop_after value
+			if ($stopAfterSeconds !== null && ($startTime + $stopAfterSeconds) < time()) {
+				$output->writeln('stop_after time has been exceeded, exiting...', OutputInterface::VERBOSITY_VERBOSE);
+				break;
+			}
 			// Handle canceling of the process
 			try {
 				$this->abortIfInterrupted();
@@ -136,5 +156,21 @@ class JobWorker extends JobBase {
 			$counts[] = $row;
 		}
 		$this->writeTableInOutputFormat($input, $output, $counts);
+	}
+
+	private function parseStopAfter(string $value): ?int {
+		if (is_numeric($value)) {
+			return (int)$value;
+		}
+		if (preg_match("/^(\d+)s$/i", $value, $matches)) {
+			return (int)$matches[0];
+		}
+		if (preg_match("/^(\d+)m$/i", $value, $matches)) {
+			return 60 * ((int)$matches[0]);
+		}
+		if (preg_match("/^(\d+)h$/i", $value, $matches)) {
+			return 60 * 60 * ((int)$matches[0]);
+		}
+		return null;
 	}
 }

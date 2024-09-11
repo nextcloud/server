@@ -276,9 +276,9 @@ class Storage {
 	 * Rename or copy versions of a file of the given paths
 	 *
 	 * @param string $sourcePath source path of the file to move, relative to
-	 * the currently logged in user's "files" folder
+	 *                           the currently logged in user's "files" folder
 	 * @param string $targetPath target path of the file to move, relative to
-	 * the currently logged in user's "files" folder
+	 *                           the currently logged in user's "files" folder
 	 * @param string $operation can be 'copy' or 'rename'
 	 */
 	public static function renameOrCopy($sourcePath, $targetPath, $operation) {
@@ -572,7 +572,7 @@ class Storage {
 			} catch (NotFoundException $e) {
 				// Original node not found, delete the version
 				return true;
-			} catch (StorageNotAvailableException | StorageInvalidException $e) {
+			} catch (StorageNotAvailableException|StorageInvalidException $e) {
 				// Storage can't be used, but it might only be temporary so we can't always delete the version
 				// since we can't determine if the version is named we take the safe route and don't expire
 				return false;
@@ -613,19 +613,19 @@ class Storage {
 		$diff = time() - $timestamp;
 
 		if ($diff < 60) { // first minute
-			return  $diff . " seconds ago";
+			return  $diff . ' seconds ago';
 		} elseif ($diff < 3600) { //first hour
-			return round($diff / 60) . " minutes ago";
+			return round($diff / 60) . ' minutes ago';
 		} elseif ($diff < 86400) { // first day
-			return round($diff / 3600) . " hours ago";
+			return round($diff / 3600) . ' hours ago';
 		} elseif ($diff < 604800) { //first week
-			return round($diff / 86400) . " days ago";
+			return round($diff / 86400) . ' days ago';
 		} elseif ($diff < 2419200) { //first month
-			return round($diff / 604800) . " weeks ago";
+			return round($diff / 604800) . ' weeks ago';
 		} elseif ($diff < 29030400) { // first year
-			return round($diff / 2419200) . " months ago";
+			return round($diff / 2419200) . ' months ago';
 		} else {
-			return round($diff / 29030400) . " years ago";
+			return round($diff / 29030400) . ' years ago';
 		}
 	}
 
@@ -753,7 +753,7 @@ class Storage {
 						//distance between two version too small, mark to delete
 						$toDelete[$key] = $version['path'] . '.v' . $version['version'];
 						$size += $version['size'];
-						\OC::$server->get(LoggerInterface::class)->info('Mark to expire '. $version['path'] .' next version should be ' . $nextVersion . " or smaller. (prevTimestamp: " . $prevTimestamp . "; step: " . $step, ['app' => 'files_versions']);
+						\OC::$server->get(LoggerInterface::class)->info('Mark to expire '. $version['path'] .' next version should be ' . $nextVersion . ' or smaller. (prevTimestamp: ' . $prevTimestamp . '; step: ' . $step, ['app' => 'files_versions']);
 					} else {
 						$nextVersion = $version['version'] - $step;
 						$prevTimestamp = $version['version'];
@@ -946,13 +946,13 @@ class Storage {
 	 * that match the given path to a file.
 	 *
 	 * @param string $filename $path to a file, relative to the user's
-	 * "files" folder
+	 *                         "files" folder
 	 * @param View $view view on data/user/
 	 */
 	public static function createMissingDirectories($filename, $view) {
 		$dirname = Filesystem::normalizePath(dirname($filename));
 		$dirParts = explode('/', $dirname);
-		$dir = "/files_versions";
+		$dir = '/files_versions';
 		foreach ($dirParts as $part) {
 			$dir = $dir . '/' . $part;
 			if (!$view->file_exists($dir)) {

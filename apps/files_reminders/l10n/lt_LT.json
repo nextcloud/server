@@ -21,9 +21,6 @@
     "This weekend" : "Šį savaitgalį",
     "Set reminder for this weekend" : "Nustatyti priminimą šį savaitgalį",
     "Next week" : "Kitą savaitę",
-    "Set reminder for next week" : "Nustatyti priminimą kitą savaitę",
-    "Back" : "Atgal",
-    "Reminder cleared" : "Priminimas panaikintas",
-    "Failed to load reminder" : "Nepavyko įkelti priminimo"
+    "Set reminder for next week" : "Nustatyti priminimą kitą savaitę"
 },"pluralForm" :"nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);"
 }

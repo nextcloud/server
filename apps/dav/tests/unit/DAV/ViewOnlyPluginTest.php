@@ -15,6 +15,7 @@ use OCA\Files_Versions\Sabre\VersionFile;
 use OCA\Files_Versions\Versions\IVersion;
 use OCP\Files\File;
 use OCP\Files\Folder;
+use OCP\Files\Storage\ISharedStorage;
 use OCP\Files\Storage\IStorage;
 use OCP\IUser;
 use OCP\Share\IAttributes;
@@ -65,7 +66,7 @@ class ViewOnlyPluginTest extends TestCase {
 
 		$storage = $this->createMock(IStorage::class);
 		$file->method('getStorage')->willReturn($storage);
-		$storage->method('instanceOfStorage')->with(SharedStorage::class)->willReturn(false);
+		$storage->method('instanceOfStorage')->with(ISharedStorage::class)->willReturn(false);
 
 		$this->assertTrue($this->plugin->checkViewOnly($this->request));
 	}
@@ -131,24 +132,24 @@ class ViewOnlyPluginTest extends TestCase {
 		$this->request->expects($this->once())->method('getPath')->willReturn($davPath);
 
 		$this->tree->expects($this->once())
-			 ->method('getNodeForPath')
-			 ->with($davPath)
-			 ->willReturn($davNode);
+			->method('getNodeForPath')
+			->with($davPath)
+			->willReturn($davNode);
 
 		$storage = $this->createMock(SharedStorage::class);
 		$share = $this->createMock(IShare::class);
 		$nodeInfo->expects($this->once())
 			->method('getStorage')
 			->willReturn($storage);
-		$storage->method('instanceOfStorage')->with(SharedStorage::class)->willReturn(true);
+		$storage->method('instanceOfStorage')->with(ISharedStorage::class)->willReturn(true);
 		$storage->method('getShare')->willReturn($share);
 
 		$extAttr = $this->createMock(IAttributes::class);
 		$share->method('getAttributes')->willReturn($extAttr);
 		$extAttr->expects($this->once())
-		  ->method('getAttribute')
-		  ->with('permissions', 'download')
-		  ->willReturn($attrEnabled);
+			->method('getAttribute')
+			->with('permissions', 'download')
+			->willReturn($attrEnabled);
 
 		if (!$expectCanDownloadFile) {
 			$this->expectException(Forbidden::class);

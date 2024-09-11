@@ -210,7 +210,7 @@ class ScanAppData extends Base {
 	}
 
 	protected function reconnectToDatabase(OutputInterface $output): Connection {
-		/** @var Connection $connection*/
+		/** @var Connection $connection */
 		$connection = \OC::$server->get(Connection::class);
 		try {
 			$connection->close();

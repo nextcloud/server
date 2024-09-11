@@ -12,6 +12,7 @@ import axios from '@nextcloud/axios'
 import LaptopSvg from '@mdi/svg/svg/laptop.svg?raw'
 import IconCancel from '@mdi/svg/svg/cancel.svg?raw'
 import IconCheck from '@mdi/svg/svg/check.svg?raw'
+import { isPublicShare } from '@nextcloud/sharing/public'
 
 const confirmLocalEditDialog = (
 	localEditCallback: (openingLocally: boolean) => void = () => {},
@@ -72,7 +73,7 @@ const openLocalClient = async function(path: string) {
 		let url = `nc://open/${uid}@` + window.location.host + encodePath(path)
 		url += '?token=' + result.data.ocs.data.token
 
-		window.location.href = url
+		window.open(url, '_self')
 	} catch (error) {
 		showError(t('files', 'Failed to redirect to client'))
 	}
@@ -87,6 +88,11 @@ export const action = new FileAction({
 	enabled(nodes: Node[]) {
 		// Only works on single node
 		if (nodes.length !== 1) {
+			return false
+		}
+
+		// does not work with shares
+		if (isPublicShare()) {
 			return false
 		}
 

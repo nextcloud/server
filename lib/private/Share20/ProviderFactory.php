@@ -44,9 +44,9 @@ class ProviderFactory implements IProviderFactory {
 	private $defaultProvider = null;
 	/** @var FederatedShareProvider */
 	private $federatedProvider = null;
-	/** @var  ShareByMailProvider */
+	/** @var ShareByMailProvider */
 	private $shareByMailProvider;
-	/** @var  \OCA\Circles\ShareByCircleProvider */
+	/** @var \OCA\Circles\ShareByCircleProvider */
 	private $shareByCircleProvider = null;
 	/** @var bool */
 	private $circlesAreNotAvailable = false;
@@ -88,6 +88,7 @@ class ProviderFactory implements IProviderFactory {
 				$this->serverContainer->getURLGenerator(),
 				$this->serverContainer->query(ITimeFactory::class),
 				$this->serverContainer->get(LoggerInterface::class),
+				$this->serverContainer->get(IManager::class),
 			);
 		}
 

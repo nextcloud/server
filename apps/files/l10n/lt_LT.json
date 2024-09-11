@@ -223,20 +223,9 @@
     "New text file.txt" : "Naujas tekstinis failas.txt",
     "Direct link was copied (only works for users who have access to this file/folder)" : "Tiesioginė nuoroda buvo nukopijuota (veikia tik naudotojams, turintiems prieigą prie šio failo/aplanko)",
     "Copy direct link (only works for users who have access to this file/folder)" : "Kopijuoti tiesioginę nuorodą (veiks tik naudotojams, turintiems prieigą prie šio failo/aplanko)",
-    "You can only favorite a single file or folder at a time" : "Vienu metu galite pažymėti mėgstamu tik vieną failą ar aplanką",
-    "This file has the tag {tag}" : "Šis failas turi žymą {tag}",
     "\"remote user\"" : "„nuotolinis naudotojas“",
-    "Download file {name}" : "Atsisiųsti failą {name}",
-    "Storage informations" : "Informacija apie saugyklą",
-    "Choose" : "Pasirinkite",
-    "Toggle grid view" : "Rodyti tinkleliu",
-    "Shares" : "Viešiniai",
-    "Shared with others" : "Bendrinama su kitais",
-    "Shared with you" : "Bendrinama su jumis",
-    "Deleted shares" : "Ištrinti viešiniai",
-    "Pending shares" : "Laukiantys viešiniai",
-    "File name" : "Failo pavadinimas",
     "{newName} already exists." : "{newName} jau yra.",
-    "Name cannot be empty" : "Pavadinimas negali būti tuščias"
+    "Name cannot be empty" : "Pavadinimas negali būti tuščias",
+    "Storage informations" : "Informacija apie saugyklą"
 },"pluralForm" :"nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);"
 }

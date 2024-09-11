@@ -441,7 +441,7 @@ class Trashbin {
 	 * Restore a file or folder from trash bin
 	 *
 	 * @param string $file path to the deleted file/folder relative to "files_trashbin/files/",
-	 * including the timestamp suffix ".d12345678"
+	 *                     including the timestamp suffix ".d12345678"
 	 * @param string $filename name of the file/folder
 	 * @param int $timestamp time when the file/folder was deleted
 	 *
@@ -747,7 +747,7 @@ class Trashbin {
 		$query = \OC::$server->getDatabaseConnection()->getQueryBuilder();
 		$query->delete('files_trash')
 			->where($query->expr()->eq('user', $query->createNamedParameter($uid)));
-		return (bool) $query->executeStatement();
+		return (bool)$query->executeStatement();
 	}
 
 	/**
@@ -1043,9 +1043,9 @@ class Trashbin {
 
 		if ($view->file_exists('files' . $location . '/' . $filename)) {
 			$i = 2;
-			$uniqueName = $name . " (" . $l->t("restored") . ")" . $ext;
+			$uniqueName = $name . ' (' . $l->t('restored') . ')' . $ext;
 			while ($view->file_exists('files' . $location . '/' . $uniqueName)) {
-				$uniqueName = $name . " (" . $l->t("restored") . " " . $i . ")" . $ext;
+				$uniqueName = $name . ' (' . $l->t('restored') . ' ' . $i . ')' . $ext;
 				$i++;
 			}
 
@@ -1107,7 +1107,7 @@ class Trashbin {
 	public static function isEmpty($user) {
 		$view = new View('/' . $user . '/files_trashbin');
 		if ($view->is_dir('/files') && $dh = $view->opendir('/files')) {
-			while ($file = readdir($dh)) {
+			while (($file = readdir($dh)) !== false) {
 				if (!Filesystem::isIgnoredDir($file)) {
 					return false;
 				}

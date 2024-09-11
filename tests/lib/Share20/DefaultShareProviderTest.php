@@ -72,6 +72,8 @@ class DefaultShareProviderTest extends \Test\TestCase {
 	/** @var LoggerInterface|MockObject */
 	protected $logger;
 
+	protected IShareManager&MockObject $shareManager;
+
 	protected function setUp(): void {
 		$this->dbConn = \OC::$server->getDatabaseConnection();
 		$this->userManager = $this->createMock(IUserManager::class);
@@ -84,9 +86,10 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
 		$this->timeFactory = $this->createMock(ITimeFactory::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
+		$this->shareManager = $this->createMock(IShareManager::class);
 
 		$this->userManager->expects($this->any())->method('userExists')->willReturn(true);
-		$this->timeFactory->expects($this->any())->method('now')->willReturn(new \DateTimeImmutable("2023-05-04 00:00 Europe/Berlin"));
+		$this->timeFactory->expects($this->any())->method('now')->willReturn(new \DateTimeImmutable('2023-05-04 00:00 Europe/Berlin'));
 
 		//Empty share table
 		$this->dbConn->getQueryBuilder()->delete('share')->execute();
@@ -101,13 +104,14 @@ class DefaultShareProviderTest extends \Test\TestCase {
 			$this->l10nFactory,
 			$this->urlGenerator,
 			$this->timeFactory,
-			$this->logger
+			$this->logger,
+			$this->shareManager,
 		);
 	}
 
 	protected function tearDown(): void {
 		$this->dbConn->getQueryBuilder()->delete('share')->execute();
-		$this->dbConn->getQueryBuilder()->delete('filecache')->execute();
+		$this->dbConn->getQueryBuilder()->delete('filecache')->runAcrossAllShards()->execute();
 		$this->dbConn->getQueryBuilder()->delete('storages')->execute();
 	}
 
@@ -327,10 +331,10 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$shareOwnerFolder->method('getFirstNodeById')->with(42)->willReturn($ownerPath);
 
 		$this->rootFolder
-				->method('getUserFolder')
-				->willReturnMap([
-					['shareOwner', $shareOwnerFolder],
-				]);
+			->method('getUserFolder')
+			->willReturnMap([
+				['shareOwner', $shareOwnerFolder],
+			]);
 
 		$share = $this->provider->getShareById($id);
 
@@ -412,10 +416,10 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$shareOwnerFolder->method('getFirstNodeById')->with(42)->willReturn($ownerPath);
 
 		$this->rootFolder
-				->method('getUserFolder')
-				->willReturnMap([
-					['shareOwner', $shareOwnerFolder],
-				]);
+			->method('getUserFolder')
+			->willReturnMap([
+				['shareOwner', $shareOwnerFolder],
+			]);
 
 		$share = $this->provider->getShareById($id);
 
@@ -464,7 +468,8 @@ class DefaultShareProviderTest extends \Test\TestCase {
 				$this->l10nFactory,
 				$this->urlGenerator,
 				$this->timeFactory,
-				$this->logger
+				$this->logger,
+				$this->shareManager,
 			])
 			->setMethods(['getShareById'])
 			->getMock();
@@ -560,7 +565,8 @@ class DefaultShareProviderTest extends \Test\TestCase {
 				$this->l10nFactory,
 				$this->urlGenerator,
 				$this->timeFactory,
-				$this->logger
+				$this->logger,
+				$this->shareManager,
 			])
 			->setMethods(['getShareById'])
 			->getMock();
@@ -821,18 +827,18 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$ownerFolder = $this->createMock(Folder::class);
 		$userFolder = $this->createMock(Folder::class);
 		$this->rootFolder
-				->method('getUserFolder')
-				->willReturnMap([
-					['sharedBy', $userFolder],
-					['shareOwner', $ownerFolder],
-				]);
+			->method('getUserFolder')
+			->willReturnMap([
+				['sharedBy', $userFolder],
+				['shareOwner', $ownerFolder],
+			]);
 
 		$userFolder->method('getFirstNodeById')
-				->with(100)
-				->willReturn($path);
+			->with(100)
+			->willReturn($path);
 		$ownerFolder->method('getFirstNodeById')
-				->with(100)
-				->willReturn($path);
+			->with(100)
+			->willReturn($path);
 
 		$share->setShareType(IShare::TYPE_LINK);
 		$share->setSharedBy('sharedBy');
@@ -918,10 +924,10 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$qb = $this->dbConn->getQueryBuilder();
 		$qb->insert('filecache')
 			->values([
-				'storage' => $qb->expr()->literal($storage),
-				'path' => $qb->expr()->literal($path),
-				'path_hash' => $qb->expr()->literal(md5($path)),
-				'name' => $qb->expr()->literal(basename($path)),
+				'storage' => $qb->createNamedParameter($storage, IQueryBuilder::PARAM_INT),
+				'path' => $qb->createNamedParameter($path),
+				'path_hash' => $qb->createNamedParameter(md5($path)),
+				'name' => $qb->createNamedParameter(basename($path)),
 			]);
 		$this->assertEquals(1, $qb->execute());
 		return $qb->getLastInsertId();
@@ -2529,7 +2535,8 @@ class DefaultShareProviderTest extends \Test\TestCase {
 			$this->l10nFactory,
 			$this->urlGenerator,
 			$this->timeFactory,
-			$this->logger
+			$this->logger,
+			$this->shareManager,
 		);
 
 		$password = md5(time());
@@ -2628,7 +2635,8 @@ class DefaultShareProviderTest extends \Test\TestCase {
 			$this->l10nFactory,
 			$this->urlGenerator,
 			$this->timeFactory,
-			$this->logger
+			$this->logger,
+			$this->shareManager,
 		);
 
 		$u1 = $userManager->createUser('testShare1', 'test');
@@ -2725,7 +2733,8 @@ class DefaultShareProviderTest extends \Test\TestCase {
 			$this->l10nFactory,
 			$this->urlGenerator,
 			$this->timeFactory,
-			$this->logger
+			$this->logger,
+			$this->shareManager,
 		);
 
 		$u1 = $userManager->createUser('testShare1', 'test');

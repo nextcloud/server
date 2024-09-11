@@ -5,6 +5,7 @@
 import { Node, FileType, Permission, View, FileAction } from '@nextcloud/files'
 import { translate as t } from '@nextcloud/l10n'
 import FolderMoveSvg from '@mdi/svg/svg/folder-move.svg?raw'
+import { isPublicShare } from '@nextcloud/sharing/public'
 
 export const action = new FileAction({
 	id: 'view-in-folder',
@@ -14,6 +15,11 @@ export const action = new FileAction({
 	iconSvgInline: () => FolderMoveSvg,
 
 	enabled(nodes: Node[], view: View) {
+		// Not enabled for public shares
+		if (isPublicShare()) {
+			return false
+		}
+
 		// Only works outside of the main files view
 		if (view.id === 'files') {
 			return false

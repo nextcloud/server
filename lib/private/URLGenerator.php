@@ -14,6 +14,7 @@ use OCP\App\AppPathNotFoundException;
 use OCP\App\IAppManager;
 use OCP\ICacheFactory;
 use OCP\IConfig;
+use OCP\INavigationManager;
 use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\IUserSession;
@@ -36,6 +37,7 @@ class URLGenerator implements IURLGenerator {
 	/** @var null|string */
 	private $baseUrl = null;
 	private ?IAppManager $appManager = null;
+	private ?INavigationManager $navigationManager = null;
 
 	public function __construct(IConfig $config,
 		IUserSession $userSession,
@@ -56,6 +58,14 @@ class URLGenerator implements IURLGenerator {
 		}
 		$this->appManager = \OCP\Server::get(IAppManager::class);
 		return $this->appManager;
+	}
+
+	private function getNavigationManager(): INavigationManager {
+		if ($this->navigationManager !== null) {
+			return $this->navigationManager;
+		}
+		$this->navigationManager = \OCP\Server::get(INavigationManager::class);
+		return $this->navigationManager;
 	}
 
 	/**
@@ -112,7 +122,7 @@ class URLGenerator implements IURLGenerator {
 	 * @param string $appName app
 	 * @param string $file file
 	 * @param array $args array with param=>value, will be appended to the returned url
-	 *    The value of $args will be urlencoded
+	 *                    The value of $args will be urlencoded
 	 * @return string the url
 	 *
 	 * Returns a url to the given app and file.
@@ -288,14 +298,17 @@ class URLGenerator implements IURLGenerator {
 			return $this->getAbsoluteURL($defaultPage);
 		}
 
-		$appId = $this->getAppManager()->getDefaultAppForUser();
-
-		if ($this->config->getSystemValueBool('htaccess.IgnoreFrontController', false)
-			|| getenv('front_controller_active') === 'true') {
-			return $this->getAbsoluteURL('/apps/' . $appId . '/');
+		$entryId = $this->getNavigationManager()->getDefaultEntryIdForUser();
+		$entry = $this->getNavigationManager()->get($entryId);
+		$href = (string)$entry['href'];
+		if ($href === '') {
+			throw new \InvalidArgumentException('Default navigation entry is missing href: ' . $entryId);
+		}
+		if (str_starts_with($href, '/index.php/') && ($this->config->getSystemValueBool('htaccess.IgnoreFrontController', false) || getenv('front_controller_active') === 'true')) {
+			$href = substr($href, 10);
 		}
 
-		return $this->getAbsoluteURL('/index.php/apps/' . $appId . '/');
+		return $this->getAbsoluteURL($href);
 	}
 
 	/**
@@ -303,7 +316,7 @@ class URLGenerator implements IURLGenerator {
 	 */
 	public function getBaseUrl(): string {
 		// BaseUrl can be equal to 'http(s)://' during the first steps of the initial setup.
-		if ($this->baseUrl === null || $this->baseUrl === "http://" || $this->baseUrl === "https://") {
+		if ($this->baseUrl === null || $this->baseUrl === 'http://' || $this->baseUrl === 'https://') {
 			$this->baseUrl = $this->request->getServerProtocol() . '://' . $this->request->getServerHost() . \OC::$WEBROOT;
 		}
 		return $this->baseUrl;

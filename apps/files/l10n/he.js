@@ -194,16 +194,7 @@ OC.L10N.register(
     "Text file" : "קובץ טקסט",
     "New text file.txt" : "קובץ טקסט חדש.txt",
     "Copy direct link (only works for users who have access to this file/folder)" : "העתקת קישור ישיר (עובד רק עבור משתמשים שיש להם גישה לקובץ/תיקייה זו)",
-    "You can only favorite a single file or folder at a time" : "ניתן להוסיף קובץ או תיקייה בודדים כמועדף בכל פעם",
     "\"remote user\"" : "„משתמש מרוחק”",
-    "Choose" : "בחר",
-    "Toggle grid view" : "החלפת תצוגת טבלה",
-    "Shares" : "שיתופים",
-    "Shared with others" : "משותף עם אחרים",
-    "Shared with you" : "משותף אתך",
-    "Deleted shares" : "שיתופים שנמחקו",
-    "Pending shares" : "שיתופים ממתינים",
-    "File name" : "שם קובץ",
     "Name cannot be empty" : "השם לא יכול להישאר ריק"
 },
 "nplurals=3; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: 2;");

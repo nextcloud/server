@@ -26,8 +26,8 @@ class Get extends Command {
 		$this
 			->setName('files:get')
 			->setDescription('Get the contents of a file')
-			->addArgument('file', InputArgument::REQUIRED, "Source file id or Nextcloud path")
-			->addArgument('output', InputArgument::OPTIONAL, "Target local file to output to, defaults to STDOUT");
+			->addArgument('file', InputArgument::REQUIRED, 'Source file id or Nextcloud path')
+			->addArgument('output', InputArgument::OPTIONAL, 'Target local file to output to, defaults to STDOUT');
 	}
 
 	public function execute(InputInterface $input, OutputInterface $output): int {
@@ -48,7 +48,7 @@ class Get extends Command {
 		$isTTY = stream_isatty(STDOUT);
 		if ($outputName === null && $isTTY && $node->getMimePart() !== 'text') {
 			$output->writeln([
-				"<error>Warning: Binary output can mess up your terminal</error>",
+				'<error>Warning: Binary output can mess up your terminal</error>',
 				"         Use <info>occ files:get $fileInput -</info> to output it to the terminal anyway",
 				"         Or <info>occ files:get $fileInput <FILE></info> to save to a file instead"
 			]);

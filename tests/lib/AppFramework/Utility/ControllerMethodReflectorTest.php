@@ -165,7 +165,7 @@ class ControllerMethodReflectorTest extends \Test\TestCase {
 
 	/**
 	 * @Annotation
-	 * @param 	string  $foo
+	 * @param string $foo
 	 */
 	public function testReadTypeWhitespaceAnnotations() {
 		$reader = new ControllerMethodReflector();

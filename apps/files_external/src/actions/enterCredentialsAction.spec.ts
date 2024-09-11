@@ -2,10 +2,11 @@
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import { action } from './enterCredentialsAction'
-import { expect } from '@jest/globals'
-import { File, Folder, Permission, View, DefaultType, FileAction } from '@nextcloud/files'
 import type { StorageConfig } from '../services/externalStorage'
+
+import { File, Folder, Permission, View, DefaultType, FileAction } from '@nextcloud/files'
+import { describe, expect, test } from 'vitest'
+import { action } from './enterCredentialsAction'
 import { STORAGE_STATUS } from '../utils/credentialsUtils'
 
 const view = {
@@ -36,7 +37,7 @@ describe('Enter credentials action conditions tests', () => {
 		expect(action).toBeInstanceOf(FileAction)
 		expect(action.id).toBe('credentials-external-storage')
 		expect(action.displayName([storage], externalStorageView)).toBe('Enter missing credentials')
-		expect(action.iconSvgInline([storage], externalStorageView)).toBe('<svg>SvgMock</svg>')
+		expect(action.iconSvgInline([storage], externalStorageView)).toMatch(/<svg.+<\/svg>/)
 		expect(action.default).toBe(DefaultType.DEFAULT)
 		expect(action.order).toBe(-1000)
 		expect(action.inline!(storage, externalStorageView)).toBe(true)

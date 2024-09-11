@@ -199,8 +199,8 @@ class ExpressionBuilderDBTest extends TestCase {
 		$query->insert('appconfig')
 			->values([
 				'appid' => $query->createNamedParameter($appId),
-				'configkey' => $query->createNamedParameter((string) $key),
-				'configvalue' => $query->createNamedParameter((string) $value),
+				'configkey' => $query->createNamedParameter((string)$key),
+				'configvalue' => $query->createNamedParameter((string)$value),
 			])
 			->execute();
 	}

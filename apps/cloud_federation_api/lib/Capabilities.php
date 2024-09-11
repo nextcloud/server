@@ -55,8 +55,8 @@ class Capabilities implements ICapability {
 
 		$resource = $this->provider->createNewResourceType();
 		$resource->setName('file')
-				 ->setShareTypes(['user', 'group'])
-				 ->setProtocols(['webdav' => '/public.php/webdav/']);
+			->setShareTypes(['user', 'group'])
+			->setProtocols(['webdav' => '/public.php/webdav/']);
 
 		$this->provider->addResourceType($resource);
 

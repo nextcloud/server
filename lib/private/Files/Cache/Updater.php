@@ -114,7 +114,7 @@ class Updater implements IUpdater {
 		}
 
 		// encryption is a pita and touches the cache itself
-		if (isset($data['encrypted']) && !!$data['encrypted']) {
+		if (isset($data['encrypted']) && (bool)$data['encrypted']) {
 			$sizeDifference = null;
 		}
 
@@ -246,7 +246,7 @@ class Updater implements IUpdater {
 					// ignore the failure.
 					// with failures concurrent updates, someone else would have already done it.
 					// in the worst case the `storage_mtime` isn't updated, which should at most only trigger an extra rescan
-					$this->logger->warning("Error while updating parent storage_mtime, should be safe to ignore", ['exception' => $e]);
+					$this->logger->warning('Error while updating parent storage_mtime, should be safe to ignore', ['exception' => $e]);
 				}
 			}
 		}

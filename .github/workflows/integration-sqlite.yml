@@ -41,6 +41,7 @@ jobs:
               - '.php-cs-fixer.dist.php'
               - 'composer.json'
               - 'composer.lock'
+              - 'core/shipped.json'
 
   integration-sqlite:
     runs-on: ubuntu-latest
@@ -69,7 +70,7 @@ jobs:
           - 'sharing_features'
           - 'videoverification_features'
 
-        php-versions: ['8.2']
+        php-versions: ['8.1']
         spreed-versions: ['main']
 
     services:

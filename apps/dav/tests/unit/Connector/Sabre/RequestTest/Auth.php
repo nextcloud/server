@@ -72,7 +72,7 @@ class Auth implements BackendInterface {
 			\OC::$server->getUserFolder($user);
 			return [true, "principals/$user"];
 		}
-		return [false, "login failed"];
+		return [false, 'login failed'];
 	}
 
 	/**

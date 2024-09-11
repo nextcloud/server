@@ -51,7 +51,7 @@ class MailTest extends TestCase {
 			'settings',
 			'settings/admin/additional-mail',
 			[
-				'sendmail_is_available' => (bool) \OC_Helper::findBinaryPath('sendmail'),
+				'sendmail_is_available' => (bool)\OC_Helper::findBinaryPath('sendmail'),
 				'mail_domain' => 'mx.nextcloud.com',
 				'mail_from_address' => 'no-reply@nextcloud.com',
 				'mail_smtpmode' => 'smtp',

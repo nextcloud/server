@@ -9,8 +9,8 @@ export const getRowForFile = (filename: string) => cy.get(`[data-cy-files-list-r
 export const getActionsForFileId = (fileid: number) => getRowForFileId(fileid).find('[data-cy-files-list-row-actions]')
 export const getActionsForFile = (filename: string) => getRowForFile(filename).find('[data-cy-files-list-row-actions]')
 
-export const getActionButtonForFileId = (fileid: number) => getActionsForFileId(fileid).find('button[aria-label="Actions"]')
-export const getActionButtonForFile = (filename: string) => getActionsForFile(filename).find('button[aria-label="Actions"]')
+export const getActionButtonForFileId = (fileid: number) => getActionsForFileId(fileid).findByRole('button', { name: 'Actions' })
+export const getActionButtonForFile = (filename: string) => getActionsForFile(filename).findByRole('button', { name: 'Actions' })
 
 export const triggerActionForFileId = (fileid: number, actionId: string) => {
 	getActionButtonForFileId(fileid).click()
@@ -34,7 +34,7 @@ export const moveFile = (fileName: string, dirPath: string) => {
 
 	cy.get('.file-picker').within(() => {
 		// intercept the copy so we can wait for it
-		cy.intercept('MOVE', /\/remote.php\/dav\/files\//).as('moveFile')
+		cy.intercept('MOVE', /\/(remote|public)\.php\/dav\/files\//).as('moveFile')
 
 		if (dirPath === '/') {
 			// select home folder
@@ -65,7 +65,7 @@ export const copyFile = (fileName: string, dirPath: string) => {
 
 	cy.get('.file-picker').within(() => {
 		// intercept the copy so we can wait for it
-		cy.intercept('COPY', /\/remote.php\/dav\/files\//).as('copyFile')
+		cy.intercept('COPY', /\/(remote|public)\.php\/dav\/files\//).as('copyFile')
 
 		if (dirPath === '/') {
 			// select home folder
@@ -95,7 +95,7 @@ export const renameFile = (fileName: string, newFileName: string) => {
 	triggerActionForFile(fileName, 'rename')
 
 	// intercept the move so we can wait for it
-	cy.intercept('MOVE', /\/remote.php\/dav\/files\//).as('moveFile')
+	cy.intercept('MOVE', /\/(remote|public)\.php\/dav\/files\//).as('moveFile')
 
 	getRowForFile(fileName).find('[data-cy-files-list-row-name] input').clear()
 	getRowForFile(fileName).find('[data-cy-files-list-row-name] input').type(`${newFileName}{enter}`)
@@ -135,4 +135,20 @@ export const createFolder = (folderName: string) => {
 	cy.wait('@createFolder')
 
 	getRowForFile(folderName).should('be.visible')
+}
+
+/**
+ * Check validity of an input element
+ * @param validity The expected validity message (empty string means it is valid)
+ * @example
+ * ```js
+ * cy.findByRole('textbox')
+ *     .should(haveValidity(/must not be empty/i))
+ * ```
+ */
+export const haveValidity = (validity: string | RegExp) => {
+	if (typeof validity === 'string') {
+		return (el: JQuery<HTMLElement>) => expect((el.get(0) as HTMLInputElement).validationMessage).to.equal(validity)
+	}
+	return (el: JQuery<HTMLElement>) => expect((el.get(0) as HTMLInputElement).validationMessage).to.match(validity)
 }

@@ -36,6 +36,7 @@ use OCP\Files\IAppData;
 use OCP\Group\ISubAdmin;
 use OCP\IConfig;
 use OCP\IDBConnection;
+use OCP\IGroupManager;
 use OCP\IInitialStateService;
 use OCP\IL10N;
 use OCP\ILogger;
@@ -228,8 +229,8 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 				$server->get(LoggerInterface::class),
 				$c->get('AppName'),
 				$server->getUserSession()->isLoggedIn(),
-				$this->getUserId() !== null && $server->getGroupManager()->isAdmin($this->getUserId()),
-				$server->getUserSession()->getUser() !== null && $server->query(ISubAdmin::class)->isSubAdmin($server->getUserSession()->getUser()),
+				$c->get(IGroupManager::class),
+				$c->get(ISubAdmin::class),
 				$server->getAppManager(),
 				$server->getL10N('lib'),
 				$c->get(AuthorizedGroupMapper::class),
@@ -241,7 +242,6 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 				new OC\AppFramework\Middleware\Security\CSPMiddleware(
 					$server->query(OC\Security\CSP\ContentSecurityPolicyManager::class),
 					$server->query(OC\Security\CSP\ContentSecurityPolicyNonceManager::class),
-					$server->query(OC\Security\CSRF\CsrfTokenManager::class)
 				)
 			);
 			$dispatcher->registerMiddleware(
@@ -288,7 +288,7 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 				new OC\AppFramework\Middleware\PublicShare\PublicShareMiddleware(
 					$c->get(IRequest::class),
 					$c->get(ISession::class),
-					$c->get(\OCP\IConfig::class),
+					$c->get(IConfig::class),
 					$c->get(IThrottler::class)
 				)
 			);

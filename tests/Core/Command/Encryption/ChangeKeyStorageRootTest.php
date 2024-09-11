@@ -32,7 +32,7 @@ class ChangeKeyStorageRootTest extends TestCase {
 	/** @var IConfig | \PHPUnit\Framework\MockObject\MockObject */
 	protected $config;
 
-	/**  @var Util | \PHPUnit\Framework\MockObject\MockObject */
+	/** @var Util | \PHPUnit\Framework\MockObject\MockObject */
 	protected $util;
 
 	/** @var QuestionHelper | \PHPUnit\Framework\MockObject\MockObject */
@@ -213,7 +213,7 @@ class ChangeKeyStorageRootTest extends TestCase {
 
 		if ($executeRename) {
 			$this->view->expects($this->once())->method('rename')
-			->with('oldRoot/files_encryption', 'newRoot/files_encryption');
+				->with('oldRoot/files_encryption', 'newRoot/files_encryption');
 		} else {
 			$this->view->expects($this->never())->method('rename');
 		}

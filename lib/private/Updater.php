@@ -147,7 +147,7 @@ class Updater extends BasicEmitter {
 		// this should really be a JSON file
 		require \OC::$SERVERROOT . '/version.php';
 		/** @var string $vendor */
-		return (string) $vendor;
+		return (string)$vendor;
 	}
 
 	/**
@@ -208,9 +208,12 @@ class Updater extends BasicEmitter {
 		}
 
 		// create empty file in data dir, so we can later find
-		// out that this is indeed an ownCloud data directory
+		// out that this is indeed a Nextcloud data directory
 		// (in case it didn't exist before)
-		file_put_contents($this->config->getSystemValueString('datadirectory', \OC::$SERVERROOT . '/data') . '/.ocdata', '');
+		file_put_contents(
+			$this->config->getSystemValueString('datadirectory', \OC::$SERVERROOT . '/data') . '/.ncdata',
+			"# Nextcloud data directory\n# Do not change this file",
+		);
 
 		// pre-upgrade repairs
 		$repair = \OCP\Server::get(Repair::class);

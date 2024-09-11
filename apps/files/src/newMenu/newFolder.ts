@@ -8,7 +8,7 @@ import { basename } from 'path'
 import { emit } from '@nextcloud/event-bus'
 import { getCurrentUser } from '@nextcloud/auth'
 import { Permission, Folder } from '@nextcloud/files'
-import { showSuccess } from '@nextcloud/dialogs'
+import { showError, showInfo, showSuccess } from '@nextcloud/dialogs'
 import { translate as t } from '@nextcloud/l10n'
 import axios from '@nextcloud/axios'
 
@@ -42,19 +42,24 @@ const createNewFolder = async (root: Folder, name: string): Promise<createFolder
 export const entry = {
 	id: 'newFolder',
 	displayName: t('files', 'New folder'),
-	enabled: (context: Folder) => (context.permissions & Permission.CREATE) !== 0,
+	enabled: (context: Folder) => Boolean(context.permissions & Permission.CREATE) && Boolean(context.permissions & Permission.READ),
 	iconSvgInline: FolderPlusSvg,
 	order: 0,
 	async handler(context: Folder, content: Node[]) {
 		const name = await newNodeName(t('files', 'New folder'), content)
-		if (name !== null) {
-			const { fileid, source } = await createNewFolder(context, name)
+		if (name === null) {
+			showInfo(t('files', 'New folder creation cancelled'))
+			return
+		}
+		try {
+			const { fileid, source } = await createNewFolder(context, name.trim())
+
 			// Create the folder in the store
 			const folder = new Folder({
 				source,
 				id: fileid,
 				mtime: new Date(),
-				owner: getCurrentUser()?.uid || null,
+				owner: context.owner,
 				permissions: Permission.ALL,
 				root: context?.root || '/files/' + getCurrentUser()?.uid,
 				// Include mount-type from parent folder as this is inherited
@@ -65,14 +70,20 @@ export const entry = {
 				},
 			})
 
+			// Show success
+			emit('files:node:created', folder)
 			showSuccess(t('files', 'Created new folder "{name}"', { name: basename(source) }))
 			logger.debug('Created new folder', { folder, source })
-			emit('files:node:created', folder)
+
+			// Navigate to the new folder
 			window.OCP.Files.Router.goToRoute(
 				null, // use default route
-				{ view: 'files', fileid: folder.fileid },
+				{ view: 'files', fileid: String(fileid) },
 				{ dir: context.path },
 			)
+		} catch (error) {
+			logger.error('Creating new folder failed', { error })
+			showError('Creating new folder failed')
 		}
 	},
 } as Entry

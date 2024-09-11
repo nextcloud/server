@@ -13,13 +13,13 @@ use OCP\OCS\IDiscoveryService;
 use Test\TestCase;
 
 class DiscoveryServiceTest extends TestCase {
-	/** @var  \PHPUnit\Framework\MockObject\MockObject | ICacheFactory */
+	/** @var \PHPUnit\Framework\MockObject\MockObject | ICacheFactory */
 	private $cacheFactory;
 
-	/** @var  \PHPUnit\Framework\MockObject\MockObject | IClientService */
+	/** @var \PHPUnit\Framework\MockObject\MockObject | IClientService */
 	private $clientService;
 
-	/** @var  IDiscoveryService */
+	/** @var IDiscoveryService */
 	private $discoveryService;
 
 	protected function setUp(): void {

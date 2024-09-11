@@ -17,22 +17,22 @@ use Test\TestCase;
 
 class DecryptAllTest extends TestCase {
 
-	/** @var  DecryptAll */
+	/** @var DecryptAll */
 	protected $instance;
 
-	/** @var Util | \PHPUnit\Framework\MockObject\MockObject  */
+	/** @var Util | \PHPUnit\Framework\MockObject\MockObject */
 	protected $util;
 
-	/** @var KeyManager | \PHPUnit\Framework\MockObject\MockObject  */
+	/** @var KeyManager | \PHPUnit\Framework\MockObject\MockObject */
 	protected $keyManager;
 
-	/** @var  Crypt | \PHPUnit\Framework\MockObject\MockObject */
+	/** @var Crypt | \PHPUnit\Framework\MockObject\MockObject */
 	protected $crypt;
 
-	/** @var  Session | \PHPUnit\Framework\MockObject\MockObject */
+	/** @var Session | \PHPUnit\Framework\MockObject\MockObject */
 	protected $session;
 
-	/** @var QuestionHelper | \PHPUnit\Framework\MockObject\MockObject  */
+	/** @var QuestionHelper | \PHPUnit\Framework\MockObject\MockObject */
 	protected $questionHelper;
 
 	protected function setUp(): void {

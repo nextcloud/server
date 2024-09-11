@@ -21,7 +21,7 @@ class OwncloudGuestShareType implements IRepairStep {
 	/** @var IDBConnection */
 	private $connection;
 
-	/** @var  IConfig */
+	/** @var IConfig */
 	private $config;
 
 

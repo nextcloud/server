@@ -4,9 +4,11 @@
  -->
 
 <template>
-	<li class="app-menu-entry"
+	<li ref="containerElement"
+		class="app-menu-entry"
 		:class="{
 			'app-menu-entry--active': app.active,
+			'app-menu-entry--truncated': needsSpace,
 		}">
 		<a class="app-menu-entry__link"
 			:href="app.href"
@@ -15,7 +17,7 @@
 			:target="app.target ? '_blank' : undefined"
 			:rel="app.target ? 'noopener noreferrer' : undefined">
 			<AppMenuIcon class="app-menu-entry__icon" :app="app" />
-			<span class="app-menu-entry__label">
+			<span ref="labelElement" class="app-menu-entry__label">
 				{{ app.name }}
 			</span>
 		</a>
@@ -24,15 +26,31 @@
 
 <script setup lang="ts">
 import type { INavigationEntry } from '../types/navigation'
+import { onMounted, ref, watch } from 'vue'
 import AppMenuIcon from './AppMenuIcon.vue'
 
-defineProps<{
+const props = defineProps<{
 	app: INavigationEntry
 }>()
+
+const containerElement = ref<HTMLLIElement>()
+const labelElement = ref<HTMLSpanElement>()
+const needsSpace = ref(false)
+
+/** Update the space requirements of the app label */
+function calculateSize() {
+	const maxWidth = containerElement.value!.clientWidth
+	// Also keep the 0.5px letter spacing in mind
+	needsSpace.value = (maxWidth - props.app.name.length * 0.5) < (labelElement.value!.scrollWidth)
+}
+// Update size on mounted and when the app name changes
+onMounted(calculateSize)
+watch(() => props.app.name, calculateSize)
 </script>
 
 <style scoped lang="scss">
 .app-menu-entry {
+	--app-menu-entry-font-size: 12px;
 	width: var(--header-height);
 	height: var(--header-height);
 	position: relative;
@@ -54,21 +72,23 @@ defineProps<{
 	&__label {
 		opacity: 0;
 		position: absolute;
-		font-size: 12px;
-		line-height: 1.25;
+		font-size: var(--app-menu-entry-font-size);
 		// this is shown directly on the background
 		color: var(--color-background-plain-text);
 		text-align: center;
 		bottom: 0;
-		left: 50%;
+		inset-inline-start: 50%;
 		top: 50%;
 		display: block;
-		min-width: 100%;
 		transform: translateX(-50%);
-		width: 100%;
+		max-width: 100%;
 		text-overflow: ellipsis;
 		overflow: hidden;
 		letter-spacing: -0.5px;
+	}
+
+	&__icon {
+		font-size: var(--app-menu-entry-font-size);
 	}
 
 	&--active {
@@ -88,23 +108,49 @@ defineProps<{
 			height: 5px;
 			border-radius: 3px;
 			background-color: var(--color-background-plain-text);
-			left: 50%;
+			inset-inline-start: 50%;
 			bottom: 8px;
 			display: block;
-			transition: all 0.1s ease-in-out;
+			transition: all var(--animation-quick) ease-in-out;
 			opacity: 1;
 		}
 	}
 
 	&__icon,
 	&__label {
-		transition: all 0.1s ease-in-out;
+		transition: all var(--animation-quick) ease-in-out;
 	}
 
 	// Make the hovered entry bold to see that it is hovered
 	&:hover .app-menu-entry__label,
 	&:focus-within .app-menu-entry__label {
 		font-weight: bold;
+	}
+
+	// Adjust the width when an entry is focussed
+	// The focussed / hovered entry should grow, while both neighbors need to shrink
+	&--truncated:hover,
+	&--truncated:focus-within {
+		.app-menu-entry__label {
+			max-width: calc(var(--header-height) + var(--app-menu-entry-growth));
+		}
+
+		// The next entry needs to shrink half the growth
+		+ .app-menu-entry {
+			.app-menu-entry__label {
+				font-weight: normal;
+				max-width: calc(var(--header-height) - var(--app-menu-entry-growth));
+			}
+		}
+	}
+
+	// The previous entry needs to shrink half the growth
+	&:has(+ .app-menu-entry--truncated:hover),
+	&:has(+ .app-menu-entry--truncated:focus-within) {
+		.app-menu-entry__label {
+			font-weight: normal;
+			max-width: calc(var(--header-height) - var(--app-menu-entry-growth));
+		}
 	}
 }
 </style>
@@ -117,7 +163,7 @@ defineProps<{
 .app-menu__list:focus-within {
 	// Move icon up so that the name does not overflow the icon
 	.app-menu-entry__icon {
-		margin-block-end: calc(1.5 * 12px); // font size of label * line height
+		margin-block-end: 1lh;
 	}
 
 	// Make the label visible

@@ -6,6 +6,7 @@ import type { View } from '@nextcloud/files'
 import type { ShallowRef } from 'vue'
 
 import { getNavigation } from '@nextcloud/files'
+import { subscribe } from '@nextcloud/event-bus'
 import { onMounted, onUnmounted, shallowRef, triggerRef } from 'vue'
 
 /**
@@ -35,6 +36,7 @@ export function useNavigation() {
 	onMounted(() => {
 		navigation.addEventListener('update', onUpdateViews)
 		navigation.addEventListener('updateActive', onUpdateActive)
+		subscribe('files:navigation:updated', onUpdateViews)
 	})
 	onUnmounted(() => {
 		navigation.removeEventListener('update', onUpdateViews)

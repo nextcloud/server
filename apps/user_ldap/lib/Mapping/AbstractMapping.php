@@ -259,7 +259,7 @@ abstract class AbstractMapping {
 	 *
 	 * @return string[]
 	 */
-	public function getNamesBySearch(string $search, string $prefixMatch = "", string $postfixMatch = ""): array {
+	public function getNamesBySearch(string $search, string $prefixMatch = '', string $postfixMatch = ''): array {
 		$statement = $this->dbc->prepare('
 			SELECT `owncloud_name`
 			FROM `' . $this->getTableName() . '`
@@ -406,7 +406,7 @@ abstract class AbstractMapping {
 	 * @param callable $preCallback
 	 * @param callable $postCallback
 	 * @return bool true on success, false when at least one row was not
-	 * deleted
+	 *              deleted
 	 */
 	public function clearCb(callable $preCallback, callable $postCallback): bool {
 		$picker = $this->dbc->getQueryBuilder();

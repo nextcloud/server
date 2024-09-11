@@ -40,7 +40,7 @@ class Quota extends Wrapper {
 		if ($this->quota === null) {
 			$quotaCallback = $this->quotaCallback;
 			if ($quotaCallback === null) {
-				throw new \Exception("No quota or quota callback provider");
+				throw new \Exception('No quota or quota callback provider');
 			}
 			$this->quota = $quotaCallback();
 		}

@@ -24,7 +24,6 @@ OC.L10N.register(
     "An error occurred while trying to edit the comment" : "Ddoe at àpidu un'errore proende a modificare su cummentu",
     "Comment deleted" : "Cummentu cantzelladu",
     "An error occurred while trying to delete the comment" : "B'at àpidu un'errore proende a cantzellare su cummentu",
-    "An error occurred while trying to create the comment" : "B'at àpidu un'errore proende a creare su cummentu",
-    "_%n unread comment_::_%n unread comments_" : ["%n cummentu non lèghidu","%n cummentos non lèghidos"]
+    "An error occurred while trying to create the comment" : "B'at àpidu un'errore proende a creare su cummentu"
 },
 "nplurals=2; plural=(n != 1);");

@@ -259,7 +259,7 @@ class Event implements IEvent {
 	}
 
 	/**
-	 * @return array[]
+	 * @return array<string, array<string, string>>
 	 * @since 11.0.0
 	 */
 	public function getRichSubjectParameters(): array {
@@ -335,7 +335,7 @@ class Event implements IEvent {
 	}
 
 	/**
-	 * @return array[]
+	 * @return array<string, array<string, string>>
 	 * @since 11.0.0
 	 */
 	public function getRichMessageParameters(): array {

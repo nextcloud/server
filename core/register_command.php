@@ -122,6 +122,7 @@ if ($config->getSystemValueBool('installed', false)) {
 	$application->add(Server::get(Command\User\AuthTokens\ListCommand::class));
 	$application->add(Server::get(Command\User\AuthTokens\Delete::class));
 	$application->add(Server::get(Command\User\Keys\Verify::class));
+	$application->add(Server::get(Command\User\Welcome::class));
 
 	$application->add(Server::get(Command\Group\Add::class));
 	$application->add(Server::get(Command\Group\Delete::class));
@@ -136,6 +137,7 @@ if ($config->getSystemValueBool('installed', false)) {
 	$application->add(Server::get(Command\SystemTag\Edit::class));
 
 	$application->add(Server::get(Command\Security\ListCertificates::class));
+	$application->add(Server::get(Command\Security\ExportCertificates::class));
 	$application->add(Server::get(Command\Security\ImportCertificate::class));
 	$application->add(Server::get(Command\Security\RemoveCertificate::class));
 	$application->add(Server::get(Command\Security\BruteforceAttempts::class));
@@ -145,6 +147,8 @@ if ($config->getSystemValueBool('installed', false)) {
 
 	$application->add(Server::get(Command\TaskProcessing\ListCommand::class));
 	$application->add(Server::get(Command\TaskProcessing\Statistics::class));
+
+	$application->add(Server::get(Command\Memcache\RedisCommand::class));
 } else {
 	$application->add(Server::get(Command\Maintenance\Install::class));
 }

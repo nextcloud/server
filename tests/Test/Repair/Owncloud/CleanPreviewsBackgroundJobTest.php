@@ -32,7 +32,7 @@ class CleanPreviewsBackgroundJobTest extends TestCase {
 	/** @var CleanPreviewsBackgroundJob */
 	private $job;
 
-	/** @var  IUserManager|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IUserManager|\PHPUnit_Framework_MockObject_MockObject */
 	private $userManager;
 
 	public function setUp(): void {

@@ -13,6 +13,7 @@ use OC\Files\Cache\Propagator;
 use OC\Files\Cache\Scanner;
 use OC\Files\Cache\Updater;
 use OC\Files\Cache\Watcher;
+use OC\Files\FilenameValidator;
 use OC\Files\Filesystem;
 use OC\Files\Storage\Wrapper\Jail;
 use OC\Files\Storage\Wrapper\Wrapper;
@@ -159,7 +160,7 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 	}
 
 	public function file_get_contents($path) {
-		$handle = $this->fopen($path, "r");
+		$handle = $this->fopen($path, 'r');
 		if (!$handle) {
 			return false;
 		}
@@ -169,7 +170,7 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 	}
 
 	public function file_put_contents($path, $data) {
-		$handle = $this->fopen($path, "w");
+		$handle = $this->fopen($path, 'w');
 		if (!$handle) {
 			return false;
 		}
@@ -191,7 +192,7 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 			$this->remove($target);
 			$dir = $this->opendir($source);
 			$this->mkdir($target);
-			while ($file = readdir($dir)) {
+			while (($file = readdir($dir)) !== false) {
 				if (!Filesystem::isIgnoredDir($file)) {
 					if (!$this->copy($source . '/' . $file, $target . '/' . $file)) {
 						closedir($dir);
@@ -390,7 +391,7 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 	 * get the ETag for a file or folder
 	 *
 	 * @param string $path
-	 * @return string
+	 * @return string|false
 	 */
 	public function getETag($path) {
 		return uniqid();
@@ -430,11 +431,11 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 			if ($this->stat('')) {
 				return true;
 			}
-			\OC::$server->get(LoggerInterface::class)->info("External storage not available: stat() failed");
+			\OC::$server->get(LoggerInterface::class)->info('External storage not available: stat() failed');
 			return false;
 		} catch (\Exception $e) {
 			\OC::$server->get(LoggerInterface::class)->warning(
-				"External storage not available: " . $e->getMessage(),
+				'External storage not available: ' . $e->getMessage(),
 				['exception' => $e]
 			);
 			return false;
@@ -494,7 +495,18 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 		$this->getFilenameValidator()
 			->validateFilename($fileName);
 
-		// NOTE: $path will remain unverified for now
+		// verify also the path is valid
+		if ($path && $path !== '/' && $path !== '.') {
+			try {
+				$this->verifyPath(dirname($path), basename($path));
+			} catch (InvalidPathException $e) {
+				// Ignore invalid file type exceptions on directories
+				if ($e->getCode() !== FilenameValidator::INVALID_FILE_TYPE) {
+					$l = \OCP\Util::getL10N('lib');
+					throw new InvalidPathException($l->t('Invalid parent path'), previous: $e);
+				}
+			}
+		}
 	}
 
 	/**
@@ -816,7 +828,7 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 		try {
 			[$count, $result] = \OC_Helper::streamCopy($stream, $target);
 			if (!$result) {
-				throw new GenericFileException("Failed to copy stream");
+				throw new GenericFileException('Failed to copy stream');
 			}
 		} finally {
 			fclose($target);

@@ -33,13 +33,14 @@ use OCP\IRequest;
 use OCP\ISession;
 use OCP\IURLGenerator;
 use OCP\IUserManager;
+use OCP\Security\Events\GenerateSecurePasswordEvent;
 use OCP\Security\ISecureRandom;
+use OCP\Security\PasswordContext;
 use OCP\Share;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IManager as ShareManager;
 use OCP\Share\IPublicShareTemplateFactory;
 use OCP\Share\IShare;
-use OCP\Template;
 
 /**
  * @package OCA\Files_Sharing\Controllers
@@ -156,7 +157,7 @@ class ShareController extends AuthPublicShareController {
 	 * Generates a password for the share, respecting any password policy defined
 	 */
 	protected function generatePassword(): void {
-		$event = new \OCP\Security\Events\GenerateSecurePasswordEvent();
+		$event = new GenerateSecurePasswordEvent(PasswordContext::SHARING);
 		$this->eventDispatcher->dispatchTyped($event);
 		$password = $event->getPassword() ?? $this->secureRandom->generate(20);
 
@@ -204,7 +205,7 @@ class ShareController extends AuthPublicShareController {
 	 * throws hooks when a share is attempted to be accessed
 	 *
 	 * @param \OCP\Share\IShare|string $share the Share instance if available,
-	 * otherwise token
+	 *                                        otherwise token
 	 * @param int $errorCode
 	 * @param string $errorMessage
 	 *
@@ -294,11 +295,11 @@ class ShareController extends AuthPublicShareController {
 		} catch (ShareNotFound $e) {
 			// The share does not exists, we do not emit an ShareLinkAccessedEvent
 			$this->emitAccessShareHook($this->getToken(), 404, 'Share not found');
-			throw new NotFoundException();
+			throw new NotFoundException($this->l10n->t('This share does not exist or is no longer available'));
 		}
 
 		if (!$this->validateShare($share)) {
-			throw new NotFoundException();
+			throw new NotFoundException($this->l10n->t('This share does not exist or is no longer available'));
 		}
 
 		$shareNode = $share->getNode();
@@ -309,7 +310,7 @@ class ShareController extends AuthPublicShareController {
 		} catch (NotFoundException $e) {
 			$this->emitAccessShareHook($share, 404, 'Share not found');
 			$this->emitShareAccessEvent($share, ShareController::SHARE_ACCESS, 404, 'Share not found');
-			throw new NotFoundException();
+			throw new NotFoundException($this->l10n->t('This share does not exist or is no longer available'));
 		}
 
 		// We can't get the path of a file share
@@ -317,7 +318,7 @@ class ShareController extends AuthPublicShareController {
 			if ($shareNode instanceof \OCP\Files\File && $path !== '') {
 				$this->emitAccessShareHook($share, 404, 'Share not found');
 				$this->emitShareAccessEvent($share, self::SHARE_ACCESS, 404, 'Share not found');
-				throw new NotFoundException();
+				throw new NotFoundException($this->l10n->t('This share does not exist or is no longer available'));
 			}
 		} catch (\Exception $e) {
 			$this->emitAccessShareHook($share, 404, 'Share not found');

@@ -12,8 +12,6 @@ namespace OCA\Files_Versions\Versions;
 use Exception;
 use OC\Files\View;
 use OCA\DAV\Connector\Sabre\Exception\Forbidden;
-use OCA\Files_Sharing\ISharedStorage;
-use OCA\Files_Sharing\SharedStorage;
 use OCA\Files_Versions\Db\VersionEntity;
 use OCA\Files_Versions\Db\VersionsMapper;
 use OCA\Files_Versions\Storage;
@@ -24,6 +22,7 @@ use OCP\Files\IMimeTypeLoader;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;
 use OCP\Files\NotFoundException;
+use OCP\Files\Storage\ISharedStorage;
 use OCP\Files\Storage\IStorage;
 use OCP\IUser;
 use OCP\IUserManager;
@@ -48,7 +47,7 @@ class LegacyVersionsBackend implements IVersionBackend, IDeletableVersionBackend
 	public function getVersionsForFile(IUser $user, FileInfo $file): array {
 		$storage = $file->getStorage();
 
-		if ($storage->instanceOfStorage(SharedStorage::class)) {
+		if ($storage->instanceOfStorage(ISharedStorage::class)) {
 			$owner = $storage->getOwner('');
 			$user = $this->userManager->get($owner);
 
@@ -66,7 +65,7 @@ class LegacyVersionsBackend implements IVersionBackend, IDeletableVersionBackend
 			$file = $userFolder->getFirstNodeById($fileId);
 
 			if (!$file) {
-				throw new NotFoundException("version file not found for share owner");
+				throw new NotFoundException('version file not found for share owner');
 			}
 		} else {
 			$userFolder = $this->rootFolder->getUserFolder($user->getUID());
@@ -192,7 +191,7 @@ class LegacyVersionsBackend implements IVersionBackend, IDeletableVersionBackend
 
 		// Shared files have their versions in the owners root folder so we need to obtain them from there
 		if ($storage->instanceOfStorage(ISharedStorage::class) && $owner) {
-			/** @var SharedStorage $storage */
+			/** @var ISharedStorage $storage */
 			$userFolder = $this->rootFolder->getUserFolder($owner->getUID());
 			$user = $owner;
 			$ownerPathInStorage = $sourceFile->getInternalPath();
@@ -228,7 +227,27 @@ class LegacyVersionsBackend implements IVersionBackend, IDeletableVersionBackend
 		$versionEntity->setSize($file->getSize());
 		$versionEntity->setMimetype($this->mimeTypeLoader->getId($file->getMimetype()));
 		$versionEntity->setMetadata([]);
-		$this->versionsMapper->insert($versionEntity);
+
+		$tries = 1;
+		while ($tries < 5) {
+			try {
+				$this->versionsMapper->insert($versionEntity);
+				/* No errors, get out of the method */
+				return;
+			} catch (\OCP\DB\Exception $e) {
+				if (!in_array($e->getReason(), [
+					\OCP\DB\Exception::REASON_CONSTRAINT_VIOLATION,
+					\OCP\DB\Exception::REASON_UNIQUE_CONSTRAINT_VIOLATION,
+				])
+				) {
+					throw $e;
+				}
+				/* Conflict with another version, increase mtime and try again */
+				$versionEntity->setTimestamp($versionEntity->getTimestamp() + 1);
+				$tries++;
+				$this->logger->warning('Constraint violation while inserting version, retrying with increased timestamp', ['exception' => $e]);
+			}
+		}
 	}
 
 	public function updateVersionEntity(File $sourceFile, int $revision, array $properties): void {
@@ -257,7 +276,7 @@ class LegacyVersionsBackend implements IVersionBackend, IDeletableVersionBackend
 		$currentUserId = $this->userSession->getUser()?->getUID();
 
 		if ($currentUserId === null) {
-			throw new NotFoundException("No user logged in");
+			throw new NotFoundException('No user logged in');
 		}
 
 		if ($sourceFile->getOwner()?->getUID() === $currentUserId) {
@@ -267,7 +286,7 @@ class LegacyVersionsBackend implements IVersionBackend, IDeletableVersionBackend
 		$nodes = $this->rootFolder->getUserFolder($currentUserId)->getById($sourceFile->getId());
 
 		if (count($nodes) === 0) {
-			throw new NotFoundException("Version file not accessible by current user");
+			throw new NotFoundException('Version file not accessible by current user');
 		}
 
 		foreach ($nodes as $node) {
@@ -347,7 +366,7 @@ class LegacyVersionsBackend implements IVersionBackend, IDeletableVersionBackend
 
 		$relativePath = $userFolder->getRelativePath($source->getPath());
 		if ($relativePath === null) {
-			throw new Exception("Relative path not found for node with path: " . $source->getPath());
+			throw new Exception('Relative path not found for node with path: ' . $source->getPath());
 		}
 
 		$versions = Storage::getVersions($user->getUID(), $relativePath);

@@ -3,7 +3,7 @@
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-namespace Test\TextProcessing;
+namespace Test\TaskProcessing;
 
 use OC\AppFramework\Bootstrap\Coordinator;
 use OC\AppFramework\Bootstrap\RegistrationContext;
@@ -26,7 +26,6 @@ use OCP\IDBConnection;
 use OCP\IServerContainer;
 use OCP\IUser;
 use OCP\IUserManager;
-use OCP\SpeechToText\ISpeechToTextManager;
 use OCP\TaskProcessing\EShapeType;
 use OCP\TaskProcessing\Events\TaskFailedEvent;
 use OCP\TaskProcessing\Events\TaskSuccessfulEvent;
@@ -352,7 +351,7 @@ class SuccessfulTextToImageProvider implements \OCP\TextToImage\IProvider {
 
 	public function generate(string $prompt, array $resources): void {
 		$this->ran = true;
-		foreach($resources as $resource) {
+		foreach ($resources as $resource) {
 			fwrite($resource, 'test');
 		}
 	}
@@ -450,15 +449,6 @@ class TaskProcessingTest extends \Test\TestCase {
 
 		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
 
-		$textProcessingManager = new \OC\TextProcessing\Manager(
-			$this->serverContainer,
-			$this->coordinator,
-			\OC::$server->get(LoggerInterface::class),
-			$this->jobList,
-			\OC::$server->get(\OC\TextProcessing\Db\TaskMapper::class),
-			\OC::$server->get(IConfig::class),
-		);
-
 		$text2imageManager = new \OC\TextToImage\Manager(
 			$this->serverContainer,
 			$this->coordinator,
@@ -481,9 +471,7 @@ class TaskProcessingTest extends \Test\TestCase {
 			$this->eventDispatcher,
 			\OC::$server->get(IAppDataFactory::class),
 			\OC::$server->get(IRootFolder::class),
-			$textProcessingManager,
 			$text2imageManager,
-			\OC::$server->get(ISpeechToTextManager::class),
 			$this->userMountCache,
 			\OC::$server->get(IClientService::class),
 			\OC::$server->get(IAppManager::class),

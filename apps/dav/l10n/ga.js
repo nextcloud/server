@@ -212,6 +212,7 @@ OC.L10N.register(
     "Failed to unlink: %1$s" : "Theip ar dhínascadh: %1$s",
     "Failed to write file contents: %1$s" : "Níorbh fhéidir inneachar an chomhaid a scríobh: %1$s",
     "File not found: %1$s" : "Comhad gan aimsiú: %1$s",
+    "Invalid target path" : "Conair sprice neamhbhailí",
     "System is in maintenance mode." : "Tá an córas i mód cothabhála.",
     "Upgrade needed" : "Uasghrádú ag teastáil",
     "Your %s needs to be configured to use HTTPS in order to use CalDAV and CardDAV with iOS/macOS." : "Ní mór do %s a chumrú le HTTPS a úsáid chun CalDAV agus CardDAV a úsáid le iOS/macOS.",

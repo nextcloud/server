@@ -20,6 +20,8 @@ OC.L10N.register(
     "Set status" : "Definir status",
     "Online status" : "Status online",
     "Status message" : "Mensagem de status",
+    "Set absence period" : "Definir período de ausência",
+    "Set absence period and replacement" : "Definir período de ausência e substituição",
     "Your status was set automatically" : "Seu status foi definido automaticamente",
     "Clear status message" : "Limpar mensagem de status",
     "Set status message" : "Definir mensagem de status",
@@ -42,7 +44,6 @@ OC.L10N.register(
     "1 hour" : "1 hora",
     "4 hours" : "4 horas",
     "Mute all notifications" : "Silenciar todas as notificações",
-    "Appear offline" : "Aparecer offline",
-    "View profile" : "Visualizar perfil"
+    "Appear offline" : "Aparecer offline"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

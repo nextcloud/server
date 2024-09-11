@@ -184,7 +184,7 @@ class Config {
 
 			// Invalidate opcache (only if the timestamp changed)
 			if (function_exists('opcache_invalidate')) {
-				opcache_invalidate($file, false);
+				@opcache_invalidate($file, false);
 			}
 
 			$filePointer = @fopen($file, 'r');
@@ -268,7 +268,7 @@ class Config {
 			$df = disk_free_space($this->configDir);
 			$size = strlen($content) + 10240;
 			if ($df !== false && $df < (float)$size) {
-				throw new \Exception($this->configDir . " does not have enough space for writing the config file! Not writing it back!");
+				throw new \Exception($this->configDir . ' does not have enough space for writing the config file! Not writing it back!');
 			}
 		}
 

@@ -37,7 +37,7 @@ class LastUsedController extends Controller {
 		$lastUsed = $this->config->getUserValue($this->userSession->getUser()->getUID(), 'systemtags', 'last_used', '[]');
 		$tagIds = json_decode($lastUsed, true);
 		return new DataResponse(array_map(function ($id) {
-			return (string) $id;
+			return (string)$id;
 		}, $tagIds));
 	}
 }

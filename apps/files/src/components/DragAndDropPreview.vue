@@ -98,7 +98,7 @@ $stack-shift: 6px;
 .files-list-drag-image {
 	position: absolute;
 	top: -9999px;
-	left: -9999px;
+	inset-inline-start: -9999px;
 	display: flex;
 	overflow: hidden;
 	align-items: center;
@@ -119,7 +119,7 @@ $stack-shift: 6px;
 
 	&__icon {
 		overflow: visible;
-		margin-right: 12px;
+		margin-inline-end: 12px;
 
 		img {
 			max-width: 100%;
@@ -140,7 +140,7 @@ $stack-shift: 6px;
 			// Stack effect if more than one element
 			.files-list__row-icon + .files-list__row-icon {
 				margin-top: $stack-shift;
-				margin-left: $stack-shift - $size;
+				margin-inline-start: $stack-shift - $size;
 				& + .files-list__row-icon {
 					margin-top: $stack-shift * 2;
 				}

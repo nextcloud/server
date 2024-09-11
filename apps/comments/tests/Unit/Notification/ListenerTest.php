@@ -26,7 +26,7 @@ class ListenerTest extends TestCase {
 	/** @var IURLGenerator|\PHPUnit\Framework\MockObject\MockObject */
 	protected $urlGenerator;
 
-	/** @var  Listener */
+	/** @var Listener */
 	protected $listener;
 
 	protected function setUp(): void {

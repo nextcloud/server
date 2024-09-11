@@ -42,16 +42,19 @@
     "text",
     "theming",
     "twofactor_backupcodes",
+    "twofactor_nextcloud_notification",
     "twofactor_totp",
     "updatenotification",
     "user_ldap",
     "user_status",
     "viewer",
     "weather_status",
+    "webhook_listeners",
     "workflowengine"
   ],
   "defaultEnabled": [
     "activity",
+    "bruteforcesettings",
     "circles",
     "comments",
     "contactsinteraction",
@@ -88,7 +91,8 @@
     "updatenotification",
     "user_status",
     "viewer",
-    "weather_status"
+    "weather_status",
+    "webhook_listeners"
   ],
   "alwaysEnabled": [
     "files",

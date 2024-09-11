@@ -141,7 +141,7 @@ class ArtificialIntelligence implements IDelegatedSettings {
 			$json = $this->config->getAppValue('core', $key, '');
 			if ($json !== '') {
 				$value = json_decode($json, true);
-				switch($key) {
+				switch ($key) {
 					case 'ai.taskprocessing_provider_preferences':
 					case 'ai.textprocessing_provider_preferences':
 						// fill $value with $defaultValue values
@@ -176,8 +176,8 @@ class ArtificialIntelligence implements IDelegatedSettings {
 
 	/**
 	 * @return int whether the form should be rather on the top or bottom of
-	 * the admin section. The forms are arranged in ascending order of the
-	 * priority values. It is required to return a value between 0 and 100.
+	 *             the admin section. The forms are arranged in ascending order of the
+	 *             priority values. It is required to return a value between 0 and 100.
 	 *
 	 * E.g.: 70
 	 */

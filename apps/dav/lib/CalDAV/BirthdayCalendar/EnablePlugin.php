@@ -115,7 +115,7 @@ class EnablePlugin extends ServerPlugin {
 		}
 
 		$owner = substr($node->getOwner(), 17);
-		if($owner !== $this->user->getUID()) {
+		if ($owner !== $this->user->getUID()) {
 			$this->server->httpResponse->setStatus(403);
 			return false;
 		}

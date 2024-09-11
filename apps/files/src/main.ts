@@ -2,9 +2,9 @@
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import { PiniaVuePlugin } from 'pinia'
+import { getCSPNonce } from '@nextcloud/auth'
 import { getNavigation } from '@nextcloud/files'
-import { getRequestToken } from '@nextcloud/auth'
+import { PiniaVuePlugin } from 'pinia'
 import Vue from 'vue'
 
 import { pinia } from './store/index.ts'
@@ -14,8 +14,7 @@ import SettingsModel from './models/Setting.js'
 import SettingsService from './services/Settings.js'
 import FilesApp from './FilesApp.vue'
 
-// @ts-expect-error __webpack_nonce__ is injected by webpack
-__webpack_nonce__ = btoa(getRequestToken())
+__webpack_nonce__ = getCSPNonce()
 
 declare global {
 	interface Window {
@@ -31,8 +30,10 @@ window.OCA.Files = window.OCA.Files ?? {}
 window.OCP.Files = window.OCP.Files ?? {}
 
 // Expose router
-const Router = new RouterService(router)
-Object.assign(window.OCP.Files, { Router })
+if (!window.OCP.Files.Router) {
+	const Router = new RouterService(router)
+	Object.assign(window.OCP.Files, { Router })
+}
 
 // Init Pinia store
 Vue.use(PiniaVuePlugin)
@@ -49,6 +50,6 @@ Object.assign(window.OCA.Files.Settings, { Setting: SettingsModel })
 
 const FilesAppVue = Vue.extend(FilesApp)
 new FilesAppVue({
-	router,
+	router: (window.OCP.Files.Router as RouterService)._router,
 	pinia,
 }).$mount('#content')

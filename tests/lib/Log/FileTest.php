@@ -25,23 +25,23 @@ class FileTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 		$config = \OC::$server->getSystemConfig();
-		$this->restore_logfile = $config->getValue("logfile");
+		$this->restore_logfile = $config->getValue('logfile');
 		$this->restore_logdateformat = $config->getValue('logdateformat');
 
-		$config->setValue("logfile", $config->getValue('datadirectory') . "/logtest.log");
+		$config->setValue('logfile', $config->getValue('datadirectory') . '/logtest.log');
 		$this->logFile = new File($config->getValue('datadirectory') . '/logtest.log', '', $config);
 	}
 	protected function tearDown(): void {
 		$config = \OC::$server->getSystemConfig();
 		if (isset($this->restore_logfile)) {
-			$config->getValue("logfile", $this->restore_logfile);
+			$config->getValue('logfile', $this->restore_logfile);
 		} else {
-			$config->deleteValue("logfile");
+			$config->deleteValue('logfile');
 		}
 		if (isset($this->restore_logdateformat)) {
-			$config->getValue("logdateformat", $this->restore_logdateformat);
+			$config->getValue('logdateformat', $this->restore_logdateformat);
 		} else {
-			$config->deleteValue("logdateformat");
+			$config->deleteValue('logdateformat');
 		}
 		$this->logFile = new File($this->restore_logfile, '', $config);
 		parent::tearDown();
@@ -62,7 +62,7 @@ class FileTest extends TestCase {
 		fclose($handle);
 
 		# check log has data content
-		$values = (array) json_decode($line, true);
+		$values = (array)json_decode($line, true);
 		$this->assertArrayNotHasKey('message', $values['data']);
 		$this->assertEquals('extra', $values['data']['something']);
 		$this->assertEquals('Testing logging', $values['message']);
@@ -83,7 +83,7 @@ class FileTest extends TestCase {
 		fclose($handle);
 
 		# check timestamp has microseconds part
-		$values = (array) json_decode($line);
+		$values = (array)json_decode($line);
 		$microseconds = $values['time'];
 		$this->assertNotEquals(0, $microseconds);
 	}

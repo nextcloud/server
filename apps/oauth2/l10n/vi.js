@@ -14,7 +14,6 @@ OC.L10N.register(
     "Add client" : "Thêm kết nối",
     "Add" : "Thêm",
     "Delete" : "Xóa",
-    "Show client secret" : "Hiện bí mật ứng dụng khách",
-    "Secret" : "Mật khẩu"
+    "Show client secret" : "Hiện bí mật ứng dụng khách"
 },
 "nplurals=1; plural=0;");

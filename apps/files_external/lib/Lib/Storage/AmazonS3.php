@@ -128,9 +128,9 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 			}
 		}
 
-		if (is_array($this->objectCache[$key]) && !isset($this->objectCache[$key]["Key"])) {
+		if (is_array($this->objectCache[$key]) && !isset($this->objectCache[$key]['Key'])) {
 			/** @psalm-suppress InvalidArgument Psalm doesn't understand nested arrays well */
-			$this->objectCache[$key]["Key"] = $key;
+			$this->objectCache[$key]['Key'] = $key;
 		}
 		return $this->objectCache[$key];
 	}
@@ -766,7 +766,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 		}
 
 		if (!is_resource($stream)) {
-			throw new \InvalidArgumentException("Invalid stream provided");
+			throw new \InvalidArgumentException('Invalid stream provided');
 		}
 
 		$path = $this->normalizePath($path);

@@ -22,7 +22,7 @@ abstract class LogDetails {
 		} catch (\Exception $e) {
 			$timezone = new \DateTimeZone('UTC');
 		}
-		$time = \DateTime::createFromFormat("U.u", number_format(microtime(true), 4, ".", ""));
+		$time = \DateTime::createFromFormat('U.u', number_format(microtime(true), 4, '.', ''));
 		if ($time === false) {
 			$time = new \DateTime('now', $timezone);
 		} else {

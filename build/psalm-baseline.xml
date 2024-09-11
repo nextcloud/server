@@ -252,7 +252,6 @@
       <code><![CDATA[$vevent->DTEND]]></code>
     </LessSpecificReturnStatement>
     <UndefinedInterfaceMethod>
-      <code><![CDATA[get]]></code>
       <code><![CDATA[getChildren]]></code>
     </UndefinedInterfaceMethod>
     <UndefinedMethod>
@@ -1018,7 +1017,7 @@
   <file src="apps/files_versions/appinfo/routes.php">
     <InvalidScope>
       <code><![CDATA[$this]]></code>
-      <code><![CDATA[$this]]></code>
+      <code><![CDATA[$this->create('files_versions_download', 'apps/files_versions/download.php')]]></code>
     </InvalidScope>
   </file>
   <file src="apps/files_versions/lib/Sabre/RestoreFolder.php">
@@ -1374,17 +1373,6 @@
       <code><![CDATA[$this->request->server]]></code>
     </NoInterfaceProperties>
   </file>
-  <file src="core/routes.php">
-    <InvalidScope>
-      <code><![CDATA[$this]]></code>
-      <code><![CDATA[$this->create('core_ajax_update', '/core/ajax/update.php')]]></code>
-    </InvalidScope>
-  </file>
-  <file src="core/templates/layout.public.php">
-    <UndefinedInterfaceMethod>
-      <code><![CDATA[getIcon]]></code>
-    </UndefinedInterfaceMethod>
-  </file>
   <file src="lib/autoloader.php">
     <RedundantCondition>
       <code><![CDATA[$this->memoryCache]]></code>
@@ -1576,7 +1564,7 @@
 						}
 
 						// don't lose the error we got while trying to query by type
-						throw new QueryException($e->getMessage(), (int) $e->getCode(), $e);
+						throw new QueryException($e->getMessage(), (int)$e->getCode(), $e);
 					}
 				}
 
@@ -1591,7 +1579,7 @@
       <code><![CDATA[\stdClass]]></code>
     </MoreSpecificReturnType>
     <RedundantCast>
-      <code><![CDATA[(int) $e->getCode()]]></code>
+      <code><![CDATA[(int)$e->getCode()]]></code>
     </RedundantCast>
   </file>
   <file src="lib/private/Archive/TAR.php">
@@ -2166,9 +2154,6 @@
     <InvalidReturnType>
       <code><![CDATA[fopen]]></code>
     </InvalidReturnType>
-    <NullableReturnStatement>
-      <code><![CDATA[null]]></code>
-    </NullableReturnStatement>
   </file>
   <file src="lib/private/Files/Storage/FailedStorage.php">
     <InvalidReturnStatement>

@@ -9,6 +9,7 @@
 			:key="view.id"
 			class="files-navigation__item"
 			allow-collapse
+			:loading="view.loading"
 			:data-cy-files-navigation-item="view.id"
 			:exact="useExactRouteMatching(view)"
 			:icon="view.iconClass"
@@ -17,10 +18,13 @@
 			:pinned="view.sticky"
 			:to="generateToNavigation(view)"
 			:style="style"
-			@update:open="onToggleExpand(view)">
+			@update:open="(open) => onOpen(open, view)">
 			<template v-if="view.icon" #icon>
 				<NcIconSvgWrapper :svg="view.icon" />
 			</template>
+
+			<!-- Hack to force the collapse icon to be displayed -->
+			<li v-if="view.loadChildViews && !view.loaded" style="display: none" />
 
 			<!-- Recursively nest child views -->
 			<FilesNavigationItem v-if="hasChildViews(view)"
@@ -142,14 +146,18 @@ export default defineComponent({
 		/**
 		 * Expand/collapse a a view with children and permanently
 		 * save this setting in the server.
-		 * @param view View to toggle
+		 * @param open True if open
+		 * @param view View
 		 */
-		onToggleExpand(view: View) {
+		async onOpen(open: boolean, view: View) {
 			// Invert state
 			const isExpanded = this.isExpanded(view)
 			// Update the view expanded state, might not be necessary
 			view.expanded = !isExpanded
 			this.viewConfigStore.update(view.id, 'expanded', !isExpanded)
+			if (open && view.loadChildViews) {
+				await view.loadChildViews(view)
+			}
 		},
 
 		/**

@@ -8,7 +8,6 @@ OC.L10N.register(
     "Client Identifier" : "Kliëntidentifiseerder",
     "Add client" : "Voeg kliënt toe",
     "Add" : "Voeg toe",
-    "Delete" : "Skrap",
-    "Secret" : "Geheim"
+    "Delete" : "Skrap"
 },
 "nplurals=2; plural=(n != 1);");

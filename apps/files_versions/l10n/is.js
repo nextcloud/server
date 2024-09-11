@@ -13,13 +13,13 @@ OC.L10N.register(
     "Initial version" : "Upprunaleg útgáfa",
     "Version name" : "Heiti útgáfu",
     "Named versions are persisted, and excluded from automatic cleanups when your storage quota is full." : "Nefndar útgáfur eru varanlegar og er undanþegnar við sjálfvirkar tiltektir þegar geymslukvóti fyllist.",
+    "Cancel" : "Hætta við",
     "Remove version name" : "Fjarlægja heiti útgáfu",
     "Save version name" : "Vista heiti útgáfu",
     "Initial version restored" : "Upprunaleg útgáfa endurheimt",
     "Version restored" : "Útgáfa endurheimt",
     "Could not restore version" : "Gat ekki endurheimt útgáfu",
     "Could not delete version" : "Gat ekki eytt útgáfu",
-    "${version.label} restored" : "${version.label} endurheimt",
-    "Could not set version name" : "Gat ekki sett heiti á útgáfu"
+    "${version.label} restored" : "${version.label} endurheimt"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

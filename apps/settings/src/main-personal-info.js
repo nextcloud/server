@@ -4,7 +4,7 @@
  */
 
 import Vue from 'vue'
-import { getRequestToken } from '@nextcloud/auth'
+import { getCSPNonce } from '@nextcloud/auth'
 import { loadState } from '@nextcloud/initial-state'
 import { translate as t } from '@nextcloud/l10n'
 
@@ -28,7 +28,7 @@ import ProfileVisibilitySection from './components/PersonalInfo/ProfileVisibilit
 import BirthdaySection from './components/PersonalInfo/BirthdaySection.vue'
 import FirstDayOfWeekSection from './components/PersonalInfo/FirstDayOfWeekSection.vue'
 
-__webpack_nonce__ = btoa(getRequestToken())
+__webpack_nonce__ = getCSPNonce()
 
 const profileEnabledGlobally = loadState('settings', 'profileEnabledGlobally', true)
 

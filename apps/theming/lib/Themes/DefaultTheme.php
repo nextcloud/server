@@ -126,7 +126,7 @@ class DefaultTheme implements ITheme {
 			'--color-text-light' => 'var(--color-main-text)', // deprecated
 			'--color-text-lighter' => 'var(--color-text-maxcontrast)', // deprecated
 
-			'--color-scrollbar' => 'rgba(' . $colorMainTextRgb . ', .15)',
+			'--color-scrollbar' => 'var(--color-border-maxcontrast) transparent',
 
 			// error/warning/success/info feedback colours
 			'--color-error' => $colorError,
@@ -152,7 +152,7 @@ class DefaultTheme implements ITheme {
 			'--color-loading-dark' => '#444444',
 
 			'--color-box-shadow-rgb' => $colorBoxShadowRGB,
-			'--color-box-shadow' => "rgba(var(--color-box-shadow-rgb), 0.5)",
+			'--color-box-shadow' => 'rgba(var(--color-box-shadow-rgb), 0.5)',
 
 			'--color-border' => $this->util->darken($colorMainBackground, 7),
 			'--color-border-dark' => $this->util->darken($colorMainBackground, 14),

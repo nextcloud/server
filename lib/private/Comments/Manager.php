@@ -33,10 +33,10 @@ class Manager implements ICommentsManager {
 	/** @var IComment[] */
 	protected array $commentsCache = [];
 
-	/** @var  \Closure[] */
+	/** @var \Closure[] */
 	protected array $eventHandlerClosures = [];
 
-	/** @var  ICommentsEventHandler[] */
+	/** @var ICommentsEventHandler[] */
 	protected array $eventHandlers = [];
 
 	/** @var \Closure[] */
@@ -132,7 +132,7 @@ class Manager implements ICommentsManager {
 
 		try {
 			$comment->getCreationDateTime();
-		} catch(\LogicException $e) {
+		} catch (\LogicException $e) {
 			$comment->setCreationDateTime(new \DateTime());
 		}
 
@@ -308,10 +308,10 @@ class Manager implements ICommentsManager {
 	 * @param string $objectType the object type, e.g. 'files'
 	 * @param string $objectId the id of the object
 	 * @param int $limit optional, number of maximum comments to be returned. if
-	 * not specified, all comments are returned.
+	 *                   not specified, all comments are returned.
 	 * @param int $offset optional, starting point
 	 * @param \DateTime $notOlderThan optional, timestamp of the oldest comments
-	 * that may be returned
+	 *                                that may be returned
 	 * @return list<IComment>
 	 * @since 9.0.0
 	 */
@@ -362,7 +362,7 @@ class Manager implements ICommentsManager {
 	 * @param int $lastKnownCommentId the last known comment (will be used as offset)
 	 * @param string $sortDirection direction of the comments (`asc` or `desc`)
 	 * @param int $limit optional, number of maximum comments to be returned. if
-	 * set to 0, all comments are returned.
+	 *                   set to 0, all comments are returned.
 	 * @param bool $includeLastKnown
 	 * @return list<IComment>
 	 */
@@ -392,7 +392,7 @@ class Manager implements ICommentsManager {
 	 * @param int $lastKnownCommentId the last known comment (will be used as offset)
 	 * @param string $sortDirection direction of the comments (`asc` or `desc`)
 	 * @param int $limit optional, number of maximum comments to be returned. if
-	 * set to 0, all comments are returned.
+	 *                   set to 0, all comments are returned.
 	 * @param bool $includeLastKnown
 	 * @return list<IComment>
 	 */
@@ -608,7 +608,7 @@ class Manager implements ICommentsManager {
 	 * @param $objectType string the object type, e.g. 'files'
 	 * @param $objectId string the id of the object
 	 * @param \DateTime $notOlderThan optional, timestamp of the oldest comments
-	 * that may be returned
+	 *                                that may be returned
 	 * @param string $verb Limit the verb of the comment - Added in 14.0.0
 	 * @return Int
 	 * @since 9.0.0
@@ -675,7 +675,7 @@ class Manager implements ICommentsManager {
 
 			$result = $query->executeQuery();
 			while ($row = $result->fetch()) {
-				$unreadComments[$row['object_id']] = (int) $row['num_comments'];
+				$unreadComments[$row['object_id']] = (int)$row['num_comments'];
 			}
 			$result->closeCursor();
 		}
@@ -723,7 +723,7 @@ class Manager implements ICommentsManager {
 		$data = $result->fetch();
 		$result->closeCursor();
 
-		return (int) ($data['num_messages'] ?? 0);
+		return (int)($data['num_messages'] ?? 0);
 	}
 
 	/**
@@ -751,7 +751,7 @@ class Manager implements ICommentsManager {
 		$data = $result->fetch();
 		$result->closeCursor();
 
-		return (int) ($data['id'] ?? 0);
+		return (int)($data['id'] ?? 0);
 	}
 
 	/**
@@ -808,9 +808,9 @@ class Manager implements ICommentsManager {
 			return [];
 		}
 		$children = $directory->getDirectoryListing();
-		$ids = array_map(fn (FileInfo $child) => (string) $child->getId(), $children);
+		$ids = array_map(fn (FileInfo $child) => (string)$child->getId(), $children);
 
-		$ids[] = (string) $directory->getId();
+		$ids[] = (string)$directory->getId();
 		$counts = $this->getNumberOfUnreadCommentsForObjects('files', $ids, $user);
 		return array_filter($counts, function (int $count) {
 			return $count > 0;
@@ -1079,7 +1079,7 @@ class Manager implements ICommentsManager {
 			$result = $this->update($comment);
 		}
 
-		if ($result && !!$comment->getParentId()) {
+		if ($result && (bool)$comment->getParentId()) {
 			$this->updateChildrenInformation(
 				$comment->getParentId(),
 				$comment->getCreationDateTime()
@@ -1141,7 +1141,7 @@ class Manager implements ICommentsManager {
 			->andWhere($qb->expr()->eq('actor_id', $qb->createNamedParameter($reaction->getActorId())))
 			->andWhere($qb->expr()->eq('reaction', $qb->createNamedParameter($reaction->getMessage())));
 		$result = $qb->executeQuery();
-		$exists = (int) $result->fetchOne();
+		$exists = (int)$result->fetchOne();
 		if (!$exists) {
 			$qb = $this->dbConn->getQueryBuilder();
 			try {

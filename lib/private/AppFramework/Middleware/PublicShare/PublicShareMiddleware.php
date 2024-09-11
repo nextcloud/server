@@ -6,8 +6,10 @@
 namespace OC\AppFramework\Middleware\PublicShare;
 
 use OC\AppFramework\Middleware\PublicShare\Exceptions\NeedAuthenticationException;
+use OCA\Files_Sharing\AppInfo\Application;
 use OCP\AppFramework\AuthPublicShareController;
-use OCP\AppFramework\Http\NotFoundResponse;
+use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Middleware;
 use OCP\AppFramework\PublicShareController;
 use OCP\Files\NotFoundException;
@@ -17,23 +19,13 @@ use OCP\ISession;
 use OCP\Security\Bruteforce\IThrottler;
 
 class PublicShareMiddleware extends Middleware {
-	/** @var IRequest */
-	private $request;
 
-	/** @var ISession */
-	private $session;
-
-	/** @var IConfig */
-	private $config;
-
-	/** @var IThrottler */
-	private $throttler;
-
-	public function __construct(IRequest $request, ISession $session, IConfig $config, IThrottler $throttler) {
-		$this->request = $request;
-		$this->session = $session;
-		$this->config = $config;
-		$this->throttler = $throttler;
+	public function __construct(
+		private IRequest $request,
+		private ISession $session,
+		private IConfig $config,
+		private IThrottler $throttler
+	) {
 	}
 
 	public function beforeController($controller, $methodName) {
@@ -92,7 +84,9 @@ class PublicShareMiddleware extends Middleware {
 		}
 
 		if ($exception instanceof NotFoundException) {
-			return new NotFoundResponse();
+			return new TemplateResponse(Application::APP_ID, 'sharenotfound', [
+				'message' => $exception->getMessage(),
+			], 'guest', Http::STATUS_NOT_FOUND);
 		}
 
 		if ($controller instanceof AuthPublicShareController && $exception instanceof NeedAuthenticationException) {

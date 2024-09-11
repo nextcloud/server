@@ -10,7 +10,8 @@
 			<NcAppNavigationSearch v-model="searchQuery" :label="t('files', 'Filter filenames…')" />
 		</template>
 		<template #default>
-			<NcAppNavigationList :aria-label="t('files', 'Views')">
+			<NcAppNavigationList class="files-navigation__list"
+				:aria-label="t('files', 'Views')">
 				<FilesNavigationItem :views="viewMap" />
 			</NcAppNavigationList>
 
@@ -39,10 +40,11 @@
 
 <script lang="ts">
 import type { View } from '@nextcloud/files'
+import type { ViewConfig } from '../types.ts'
 
-import { emit } from '@nextcloud/event-bus'
-import { translate as t, getCanonicalLocale, getLanguage } from '@nextcloud/l10n'
 import { defineComponent } from 'vue'
+import { emit, subscribe } from '@nextcloud/event-bus'
+import { translate as t, getCanonicalLocale, getLanguage } from '@nextcloud/l10n'
 
 import IconCog from 'vue-material-design-icons/Cog.vue'
 import NcAppNavigation from '@nextcloud/vue/dist/Components/NcAppNavigation.js'
@@ -120,7 +122,6 @@ export default defineComponent({
 			return this.views
 				.reduce((map, view) => {
 					map[view.parent!] = [...(map[view.parent!] || []), view]
-					// TODO Allow undefined order for natural sort
 					map[view.parent!].sort((a, b) => {
 						if (typeof a.order === 'number' || typeof b.order === 'number') {
 							return (a.order ?? 0) - (b.order ?? 0)
@@ -144,6 +145,11 @@ export default defineComponent({
 		},
 	},
 
+	created() {
+		subscribe('files:folder-tree:initialized', this.loadExpandedViews)
+		subscribe('files:folder-tree:expanded', this.loadExpandedViews)
+	},
+
 	beforeMount() {
 		// This is guaranteed to be a view because `currentViewId` falls back to the default 'files' view
 		const view = this.views.find(({ id }) => id === this.currentViewId)!
@@ -152,6 +158,20 @@ export default defineComponent({
 	},
 
 	methods: {
+		async loadExpandedViews() {
+			const viewConfigs = this.viewConfigStore.getConfigs()
+			const viewsToLoad: View[] = (Object.entries(viewConfigs) as Array<[string, ViewConfig]>)
+				// eslint-disable-next-line @typescript-eslint/no-unused-vars
+				.filter(([viewId, config]) => config.expanded === true)
+				// eslint-disable-next-line @typescript-eslint/no-unused-vars
+				.map(([viewId, config]) => this.$navigation.views.find(view => view.id === viewId))
+				.filter(Boolean) // Only registered views
+				.filter(view => view.loadChildViews && !view.loaded)
+			for (const view of viewsToLoad) {
+				await view.loadChildViews(view)
+			}
+		},
+
 		/**
 		 * Set the view as active on the navigation and handle internal state
 		 * @param view View to set active
@@ -205,6 +225,10 @@ export default defineComponent({
 }
 
 .files-navigation {
+	&__list {
+		height: 100%; // Fill all available space for sticky views
+	}
+
 	:deep(.app-navigation__content > ul.app-navigation__list) {
 		will-change: scroll-position;
 	}

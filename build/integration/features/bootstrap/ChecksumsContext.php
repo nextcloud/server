@@ -10,7 +10,7 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Message\ResponseInterface;
 
 class ChecksumsContext implements \Behat\Behat\Context\Context {
-	/** @var string  */
+	/** @var string */
 	private $baseUrl;
 	/** @var Client */
 	private $client;
@@ -208,7 +208,7 @@ class ChecksumsContext implements \Behat\Behat\Context\Context {
 	 */
 	public function theOcChecksumHeaderShouldNotBeThere() {
 		if ($this->response->hasHeader('OC-Checksum')) {
-			throw new \Exception("Expected no checksum header but got ".$this->response->getHeader('OC-Checksum')[0]);
+			throw new \Exception('Expected no checksum header but got '.$this->response->getHeader('OC-Checksum')[0]);
 		}
 	}
 }

@@ -55,7 +55,7 @@ class AvatarController extends Controller {
 	 * Get the dark avatar
 	 *
 	 * @param string $userId ID of the user
-	 * @param int $size Size of the avatar
+	 * @param 64|512 $size Size of the avatar
 	 * @param bool $guestFallback Fallback to guest avatar if not found
 	 * @return FileDisplayResponse<Http::STATUS_OK|Http::STATUS_CREATED, array{Content-Type: string, X-NC-IsCustomAvatar: int}>|JSONResponse<Http::STATUS_NOT_FOUND, array<empty>, array{}>|Response<Http::STATUS_INTERNAL_SERVER_ERROR, array{}>
 	 *
@@ -89,7 +89,7 @@ class AvatarController extends Controller {
 			);
 		} catch (\Exception $e) {
 			if ($guestFallback) {
-				return $this->guestAvatarController->getAvatarDark($userId, (string)$size);
+				return $this->guestAvatarController->getAvatarDark($userId, $size);
 			}
 			return new JSONResponse([], Http::STATUS_NOT_FOUND);
 		}
@@ -106,7 +106,7 @@ class AvatarController extends Controller {
 	 * Get the avatar
 	 *
 	 * @param string $userId ID of the user
-	 * @param int $size Size of the avatar
+	 * @param 64|512 $size Size of the avatar
 	 * @param bool $guestFallback Fallback to guest avatar if not found
 	 * @return FileDisplayResponse<Http::STATUS_OK|Http::STATUS_CREATED, array{Content-Type: string, X-NC-IsCustomAvatar: int}>|JSONResponse<Http::STATUS_NOT_FOUND, array<empty>, array{}>|Response<Http::STATUS_INTERNAL_SERVER_ERROR, array{}>
 	 *
@@ -140,7 +140,7 @@ class AvatarController extends Controller {
 			);
 		} catch (\Exception $e) {
 			if ($guestFallback) {
-				return $this->guestAvatarController->getAvatar($userId, (string)$size);
+				return $this->guestAvatarController->getAvatar($userId, $size);
 			}
 			return new JSONResponse([], Http::STATUS_NOT_FOUND);
 		}
@@ -292,7 +292,7 @@ class AvatarController extends Controller {
 		$tmpAvatar = $this->cache->get('tmpAvatar');
 		if (is_null($tmpAvatar)) {
 			return new JSONResponse(['data' => [
-				'message' => $this->l10n->t("No temporary profile picture available, try again")
+				'message' => $this->l10n->t('No temporary profile picture available, try again')
 			]],
 				Http::STATUS_NOT_FOUND);
 		}
@@ -315,19 +315,19 @@ class AvatarController extends Controller {
 	#[FrontpageRoute(verb: 'POST', url: '/avatar/cropped')]
 	public function postCroppedAvatar(?array $crop = null): JSONResponse {
 		if (is_null($crop)) {
-			return new JSONResponse(['data' => ['message' => $this->l10n->t("No crop data provided")]],
+			return new JSONResponse(['data' => ['message' => $this->l10n->t('No crop data provided')]],
 				Http::STATUS_BAD_REQUEST);
 		}
 
 		if (!isset($crop['x'], $crop['y'], $crop['w'], $crop['h'])) {
-			return new JSONResponse(['data' => ['message' => $this->l10n->t("No valid crop data provided")]],
+			return new JSONResponse(['data' => ['message' => $this->l10n->t('No valid crop data provided')]],
 				Http::STATUS_BAD_REQUEST);
 		}
 
 		$tmpAvatar = $this->cache->get('tmpAvatar');
 		if (is_null($tmpAvatar)) {
 			return new JSONResponse(['data' => [
-				'message' => $this->l10n->t("No temporary profile picture available, try again")
+				'message' => $this->l10n->t('No temporary profile picture available, try again')
 			]],
 				Http::STATUS_BAD_REQUEST);
 		}

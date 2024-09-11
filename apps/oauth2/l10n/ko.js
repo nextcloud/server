@@ -15,7 +15,6 @@ OC.L10N.register(
     "Add client" : "클라이언트 추가",
     "Add" : "추가",
     "Delete" : "삭제",
-    "Show client secret" : "클라이언트 비밀 값 표시",
-    "Secret" : "비밀 값"
+    "Show client secret" : "클라이언트 비밀 값 표시"
 },
 "nplurals=1; plural=0;");

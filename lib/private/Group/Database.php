@@ -325,8 +325,8 @@ class Database extends ABackend implements
 
 		$qb = $this->dbConn->getQueryBuilder();
 		$qb->select('gid', 'displayname')
-				->from('groups')
-				->where($qb->expr()->in('gid', $qb->createParameter('ids')));
+			->from('groups')
+			->where($qb->expr()->in('gid', $qb->createParameter('ids')));
 		foreach (array_chunk($notFoundGids, 1000) as $chunk) {
 			$qb->setParameter('ids', $chunk, IQueryBuilder::PARAM_STR_ARRAY);
 			$result = $qb->executeQuery();
@@ -488,7 +488,7 @@ class Database extends ABackend implements
 		$displayName = $result->fetchOne();
 		$result->closeCursor();
 
-		return (string) $displayName;
+		return (string)$displayName;
 	}
 
 	public function getGroupDetails(string $gid): array {
@@ -506,6 +506,8 @@ class Database extends ABackend implements
 	public function getGroupsDetails(array $gids): array {
 		$notFoundGids = [];
 		$details = [];
+
+		$this->fixDI();
 
 		// In case the data is already locally accessible, not need to do SQL query
 		// or do a SQL query but with a smaller in clause

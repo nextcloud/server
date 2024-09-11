@@ -59,7 +59,6 @@
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Habilitar esta opción le permitirá volver a tener acceso a sus archivos cifrados en caso de pérdida de contraseña",
     "Enabled" : "Habilitado",
     "Disabled" : "Deshabilitado",
-    "Please login to the web interface, go to the \"Security\" section of your personal settings and update your encryption password by entering this password into the \"Old log-in password\" field and your current login-password." : "Por favor ingrese en la interfaz web, vaya a la sección \"Seguridad\" de sus ajustes personales y actualice su contraseña de cifrado ingresando esta contraseña en el campo \"Contraseña de inicio de sesión antigua\" y su contraseña actual.",
     "The recovery key is an extra encryption key that is used to encrypt files. It allows recovery of a user's files if the user forgets his or her password." : "La clave de recuperación es una clave de cifrado extra que se usa para cifrar archivos. Permite la recuperación de los archivos de un usuario si él o ella olvida su contraseña."
 },"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

@@ -123,6 +123,7 @@ class ComposerStaticInitSettings
         'OCA\\Settings\\SetupChecks\\MysqlUnicodeSupport' => __DIR__ . '/..' . '/../lib/SetupChecks/MysqlUnicodeSupport.php',
         'OCA\\Settings\\SetupChecks\\OcxProviders' => __DIR__ . '/..' . '/../lib/SetupChecks/OcxProviders.php',
         'OCA\\Settings\\SetupChecks\\OverwriteCliUrl' => __DIR__ . '/..' . '/../lib/SetupChecks/OverwriteCliUrl.php',
+        'OCA\\Settings\\SetupChecks\\PhpApcuConfig' => __DIR__ . '/..' . '/../lib/SetupChecks/PhpApcuConfig.php',
         'OCA\\Settings\\SetupChecks\\PhpDefaultCharset' => __DIR__ . '/..' . '/../lib/SetupChecks/PhpDefaultCharset.php',
         'OCA\\Settings\\SetupChecks\\PhpDisabledFunctions' => __DIR__ . '/..' . '/../lib/SetupChecks/PhpDisabledFunctions.php',
         'OCA\\Settings\\SetupChecks\\PhpFreetypeSupport' => __DIR__ . '/..' . '/../lib/SetupChecks/PhpFreetypeSupport.php',

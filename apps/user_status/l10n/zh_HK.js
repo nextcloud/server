@@ -20,6 +20,8 @@ OC.L10N.register(
     "Set status" : "設定狀態",
     "Online status" : "線上狀態",
     "Status message" : "狀態訊息",
+    "Set absence period" : "設定缺席時間",
+    "Set absence period and replacement" : "設定缺席時間與職務代理人",
     "Your status was set automatically" : "您的狀態是自動設置的",
     "Clear status message" : "清空狀態訊息",
     "Set status message" : "設定狀態訊息",
@@ -42,7 +44,6 @@ OC.L10N.register(
     "1 hour" : "1 小時",
     "4 hours" : "4 小時",
     "Mute all notifications" : "靜音所有通知",
-    "Appear offline" : "顯示為離線",
-    "View profile" : "查看個人資料"
+    "Appear offline" : "顯示為離線"
 },
 "nplurals=1; plural=0;");

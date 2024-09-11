@@ -296,7 +296,7 @@ class OC_Util {
 	private static function generatePath($application, $directory, $file) {
 		if (is_null($file)) {
 			$file = $application;
-			$application = "";
+			$application = '';
 		}
 		if (!empty($application)) {
 			return "$application/$directory/$file";
@@ -322,7 +322,7 @@ class OC_Util {
 		if ($application !== 'core' && $file !== null) {
 			self::addTranslations($application);
 		}
-		self::addExternalResource($application, $prepend, $path, "script");
+		self::addExternalResource($application, $prepend, $path, 'script');
 	}
 
 	/**
@@ -335,7 +335,7 @@ class OC_Util {
 	 */
 	public static function addVendorScript($application, $file = null, $prepend = false) {
 		$path = OC_Util::generatePath($application, 'vendor', $file);
-		self::addExternalResource($application, $prepend, $path, "script");
+		self::addExternalResource($application, $prepend, $path, 'script');
 	}
 
 	/**
@@ -356,7 +356,7 @@ class OC_Util {
 		} else {
 			$path = "l10n/$languageCode";
 		}
-		self::addExternalResource($application, $prepend, $path, "script");
+		self::addExternalResource($application, $prepend, $path, 'script');
 	}
 
 	/**
@@ -369,7 +369,7 @@ class OC_Util {
 	 */
 	public static function addStyle($application, $file = null, $prepend = false) {
 		$path = OC_Util::generatePath($application, 'css', $file);
-		self::addExternalResource($application, $prepend, $path, "style");
+		self::addExternalResource($application, $prepend, $path, 'style');
 	}
 
 	/**
@@ -382,7 +382,7 @@ class OC_Util {
 	 */
 	public static function addVendorStyle($application, $file = null, $prepend = false) {
 		$path = OC_Util::generatePath($application, 'vendor', $file);
-		self::addExternalResource($application, $prepend, $path, "style");
+		self::addExternalResource($application, $prepend, $path, 'style');
 	}
 
 	/**
@@ -394,8 +394,8 @@ class OC_Util {
 	 * @param string $type (script or style)
 	 * @return void
 	 */
-	private static function addExternalResource($application, $prepend, $path, $type = "script") {
-		if ($type === "style") {
+	private static function addExternalResource($application, $prepend, $path, $type = 'script') {
+		if ($type === 'style') {
 			if (!in_array($path, self::$styles)) {
 				if ($prepend === true) {
 					array_unshift(self::$styles, $path);
@@ -403,7 +403,7 @@ class OC_Util {
 					self::$styles[] = $path;
 				}
 			}
-		} elseif ($type === "script") {
+		} elseif ($type === 'script') {
 			if (!in_array($path, self::$scripts)) {
 				if ($prepend === true) {
 					array_unshift(self::$scripts, $path);
@@ -687,7 +687,7 @@ class OC_Util {
 
 	/**
 	 * Check that the data directory exists and is valid by
-	 * checking the existence of the ".ocdata" file.
+	 * checking the existence of the ".ncdata" file.
 	 *
 	 * @param string $dataDirectory data directory path
 	 * @return array errors found
@@ -701,11 +701,11 @@ class OC_Util {
 				'hint' => $l->t('Check the value of "datadirectory" in your configuration.')
 			];
 		}
-		if (!file_exists($dataDirectory . '/.ocdata')) {
+
+		if (!file_exists($dataDirectory . '/.ncdata')) {
 			$errors[] = [
 				'error' => $l->t('Your data directory is invalid.'),
-				'hint' => $l->t('Ensure there is a file called ".ocdata"' .
-					' in the root of the data directory.')
+				'hint' => $l->t('Ensure there is a file called "%1$s" in the root of the data directory. It should have the content: "%2$s"', ['.ncdata', '# Nextcloud data directory']),
 			];
 		}
 		return $errors;
@@ -991,7 +991,7 @@ class OC_Util {
 	 * @return string the theme
 	 */
 	public static function getTheme() {
-		$theme = \OC::$server->getSystemConfig()->getValue("theme", '');
+		$theme = \OC::$server->getSystemConfig()->getValue('theme', '');
 
 		if ($theme === '') {
 			if (is_dir(OC::$SERVERROOT . '/themes/default')) {

@@ -9,7 +9,11 @@ namespace OCA\Settings\Controller;
 
 use OC\AppFramework\Http;
 use OC\IntegrityCheck\Checker;
+use OCA\Settings\Settings\Admin\Overview;
 use OCP\AppFramework\Controller;
+use OCP\AppFramework\Http\Attribute\AuthorizedAdminSetting;
+use OCP\AppFramework\Http\Attribute\NoAdminRequired;
+use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
 use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\DataDisplayResponse;
 use OCP\AppFramework\Http\DataResponse;
@@ -54,19 +58,19 @@ class CheckSetupController extends Controller {
 	}
 
 	/**
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
 	 * @return DataResponse
 	 */
+	#[NoCSRFRequired]
+	#[NoAdminRequired]
 	public function setupCheckManager(): DataResponse {
 		return new DataResponse($this->setupCheckManager->runAll());
 	}
 
 	/**
-	 * @NoCSRFRequired
 	 * @return RedirectResponse
-	 * @AuthorizedAdminSetting(settings=OCA\Settings\Settings\Admin\Overview)
 	 */
+	#[NoCSRFRequired]
+	#[AuthorizedAdminSetting(settings: Overview::class)]
 	public function rescanFailedIntegrityCheck(): RedirectResponse {
 		$this->checker->runInstanceVerification();
 		return new RedirectResponse(
@@ -74,10 +78,8 @@ class CheckSetupController extends Controller {
 		);
 	}
 
-	/**
-	 * @NoCSRFRequired
-	 * @AuthorizedAdminSetting(settings=OCA\Settings\Settings\Admin\Overview)
-	 */
+	#[NoCSRFRequired]
+	#[AuthorizedAdminSetting(settings: Overview::class)]
 	public function getFailedIntegrityCheckFiles(): DataDisplayResponse {
 		if (!$this->checker->isCodeCheckEnforced()) {
 			return new DataDisplayResponse('Integrity checker has been disabled. Integrity cannot be verified.');
@@ -137,8 +139,8 @@ Raw output
 
 	/**
 	 * @return DataResponse
-	 * @AuthorizedAdminSetting(settings=OCA\Settings\Settings\Admin\Overview)
 	 */
+	#[AuthorizedAdminSetting(settings: Overview::class)]
 	public function check() {
 		return new DataResponse(
 			[

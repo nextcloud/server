@@ -93,7 +93,7 @@ class ProfileManager implements IProfileManager {
 		}
 
 		$account = $this->accountManager->getAccount($user);
-		return (bool) filter_var(
+		return (bool)filter_var(
 			$account->getProperty(IAccountManager::PROPERTY_PROFILE_ENABLED)->getValue(),
 			FILTER_VALIDATE_BOOLEAN,
 			FILTER_NULL_ON_FAILURE,

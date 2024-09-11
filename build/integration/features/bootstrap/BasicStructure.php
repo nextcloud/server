@@ -327,7 +327,7 @@ trait BasicStructure {
 			$fd = $body->getRowsHash();
 			$options['form_params'] = $fd;
 		} elseif ($body) {
-			$options = array_merge($options, $body);
+			$options = array_merge_recursive($options, $body);
 		}
 
 		$client = new Client();
@@ -415,14 +415,14 @@ trait BasicStructure {
 	}
 
 	public function createFileSpecificSize($name, $size) {
-		$file = fopen("work/" . "$name", 'w');
+		$file = fopen('work/' . "$name", 'w');
 		fseek($file, $size - 1, SEEK_CUR);
 		fwrite($file, 'a'); // write a dummy char at SIZE position
 		fclose($file);
 	}
 
 	public function createFileWithText($name, $text) {
-		$file = fopen("work/" . "$name", 'w');
+		$file = fopen('work/' . "$name", 'w');
 		fwrite($file, $text);
 		fclose($file);
 	}
@@ -458,19 +458,19 @@ trait BasicStructure {
 	 */
 	public static function addFilesToSkeleton() {
 		for ($i = 0; $i < 5; $i++) {
-			file_put_contents("../../core/skeleton/" . "textfile" . "$i" . ".txt", "Nextcloud test text file\n");
+			file_put_contents('../../core/skeleton/' . 'textfile' . "$i" . '.txt', "Nextcloud test text file\n");
 		}
-		if (!file_exists("../../core/skeleton/FOLDER")) {
-			mkdir("../../core/skeleton/FOLDER", 0777, true);
+		if (!file_exists('../../core/skeleton/FOLDER')) {
+			mkdir('../../core/skeleton/FOLDER', 0777, true);
 		}
-		if (!file_exists("../../core/skeleton/PARENT")) {
-			mkdir("../../core/skeleton/PARENT", 0777, true);
+		if (!file_exists('../../core/skeleton/PARENT')) {
+			mkdir('../../core/skeleton/PARENT', 0777, true);
 		}
-		file_put_contents("../../core/skeleton/PARENT/" . "parent.txt", "Nextcloud test text file\n");
-		if (!file_exists("../../core/skeleton/PARENT/CHILD")) {
-			mkdir("../../core/skeleton/PARENT/CHILD", 0777, true);
+		file_put_contents('../../core/skeleton/PARENT/' . 'parent.txt', "Nextcloud test text file\n");
+		if (!file_exists('../../core/skeleton/PARENT/CHILD')) {
+			mkdir('../../core/skeleton/PARENT/CHILD', 0777, true);
 		}
-		file_put_contents("../../core/skeleton/PARENT/CHILD/" . "child.txt", "Nextcloud test text file\n");
+		file_put_contents('../../core/skeleton/PARENT/CHILD/' . 'child.txt', "Nextcloud test text file\n");
 	}
 
 	/**
@@ -478,18 +478,18 @@ trait BasicStructure {
 	 */
 	public static function removeFilesFromSkeleton() {
 		for ($i = 0; $i < 5; $i++) {
-			self::removeFile("../../core/skeleton/", "textfile" . "$i" . ".txt");
+			self::removeFile('../../core/skeleton/', 'textfile' . "$i" . '.txt');
 		}
-		if (is_dir("../../core/skeleton/FOLDER")) {
-			rmdir("../../core/skeleton/FOLDER");
+		if (is_dir('../../core/skeleton/FOLDER')) {
+			rmdir('../../core/skeleton/FOLDER');
 		}
-		self::removeFile("../../core/skeleton/PARENT/CHILD/", "child.txt");
-		if (is_dir("../../core/skeleton/PARENT/CHILD")) {
-			rmdir("../../core/skeleton/PARENT/CHILD");
+		self::removeFile('../../core/skeleton/PARENT/CHILD/', 'child.txt');
+		if (is_dir('../../core/skeleton/PARENT/CHILD')) {
+			rmdir('../../core/skeleton/PARENT/CHILD');
 		}
-		self::removeFile("../../core/skeleton/PARENT/", "parent.txt");
-		if (is_dir("../../core/skeleton/PARENT")) {
-			rmdir("../../core/skeleton/PARENT");
+		self::removeFile('../../core/skeleton/PARENT/', 'parent.txt');
+		if (is_dir('../../core/skeleton/PARENT')) {
+			rmdir('../../core/skeleton/PARENT');
 		}
 	}
 
@@ -497,7 +497,7 @@ trait BasicStructure {
 	 * @BeforeScenario @local_storage
 	 */
 	public static function removeFilesFromLocalStorageBefore() {
-		$dir = "./work/local_storage/";
+		$dir = './work/local_storage/';
 		$di = new RecursiveDirectoryIterator($dir, FilesystemIterator::SKIP_DOTS);
 		$ri = new RecursiveIteratorIterator($di, RecursiveIteratorIterator::CHILD_FIRST);
 		foreach ($ri as $file) {
@@ -509,7 +509,7 @@ trait BasicStructure {
 	 * @AfterScenario @local_storage
 	 */
 	public static function removeFilesFromLocalStorageAfter() {
-		$dir = "./work/local_storage/";
+		$dir = './work/local_storage/';
 		$di = new RecursiveDirectoryIterator($dir, FilesystemIterator::SKIP_DOTS);
 		$ri = new RecursiveIteratorIterator($di, RecursiveIteratorIterator::CHILD_FIRST);
 		foreach ($ri as $file) {

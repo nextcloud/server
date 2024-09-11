@@ -38,16 +38,19 @@ SPDX-FileCopyrightText: @nextcloud/dialogs developers
 
 This file is generated from multiple sources. Included packages:
 - @nextcloud/auth
-	- version: 2.3.0
+	- version: 2.4.0
 	- license: GPL-3.0-or-later
 - @nextcloud/axios
 	- version: 2.5.0
+	- license: GPL-3.0-or-later
+- @nextcloud/browser-storage
+	- version: 0.4.0
 	- license: GPL-3.0-or-later
 - @nextcloud/capabilities
 	- version: 1.2.0
 	- license: GPL-3.0-or-later
 - @nextcloud/dialogs
-	- version: 5.3.5
+	- version: 6.0.0
 	- license: AGPL-3.0-or-later
 - semver
 	- version: 7.6.3
@@ -71,13 +74,13 @@ This file is generated from multiple sources. Included packages:
 	- version: 3.0.1
 	- license: GPL-3.0-or-later
 - @nextcloud/vue
-	- version: 8.16.0
+	- version: 8.17.1
 	- license: AGPL-3.0-or-later
 - @vueuse/core
-	- version: 10.11.0
+	- version: 11.0.3
 	- license: MIT
 - @vueuse/shared
-	- version: 10.11.0
+	- version: 11.0.3
 	- license: MIT
 - assert
 	- version: 2.1.0
@@ -86,7 +89,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.0.7
 	- license: MIT
 - axios
-	- version: 1.7.3
+	- version: 1.7.7
 	- license: MIT
 - base64-js
 	- version: 1.5.1
@@ -98,7 +101,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.2.0
 	- license: MIT
 - core-js
-	- version: 3.37.1
+	- version: 3.38.1
 	- license: MIT
 - css-loader
 	- version: 6.11.0
@@ -242,7 +245,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 3.6.2
 	- license: MIT
 - webpack
-	- version: 5.93.0
+	- version: 5.94.0
 	- license: MIT
 - which-typed-array
 	- version: 1.1.15

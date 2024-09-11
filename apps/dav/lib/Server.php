@@ -43,19 +43,24 @@ use OCA\DAV\DAV\PublicAuth;
 use OCA\DAV\DAV\ViewOnlyPlugin;
 use OCA\DAV\Events\SabrePluginAddEvent;
 use OCA\DAV\Events\SabrePluginAuthInitEvent;
-use OCA\DAV\Files\BrowserErrorPagePlugin;
+use OCA\DAV\Files\ErrorPagePlugin;
 use OCA\DAV\Files\LazySearchBackend;
 use OCA\DAV\Profiler\ProfilerPlugin;
 use OCA\DAV\Provisioning\Apple\AppleProvisioningPlugin;
 use OCA\DAV\SystemTag\SystemTagPlugin;
 use OCA\DAV\Upload\ChunkingPlugin;
 use OCA\DAV\Upload\ChunkingV2Plugin;
+use OCA\Theming\ThemingDefaults;
 use OCP\AppFramework\Http\Response;
 use OCP\Diagnostics\IEventLogger;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Files\IFilenameValidator;
 use OCP\FilesMetadata\IFilesMetadataManager;
 use OCP\ICacheFactory;
+use OCP\IConfig;
+use OCP\IPreview;
 use OCP\IRequest;
+use OCP\IUserSession;
 use OCP\Profiler\IProfiler;
 use OCP\SabrePluginEvent;
 use Psr\Log\LoggerInterface;
@@ -106,7 +111,10 @@ class Server {
 		$this->server->setBaseUri($this->baseUri);
 
 		$this->server->addPlugin(new ProfilerPlugin($this->request));
-		$this->server->addPlugin(new BlockLegacyClientPlugin(\OC::$server->getConfig()));
+		$this->server->addPlugin(new BlockLegacyClientPlugin(
+			\OCP\Server::get(IConfig::class),
+			\OCP\Server::get(ThemingDefaults::class),
+		));
 		$this->server->addPlugin(new AnonymousOptionsPlugin());
 		$authPlugin = new Plugin();
 		$authPlugin->addBackend(new PublicAuth());
@@ -217,9 +225,7 @@ class Server {
 			$this->server->addPlugin(new FakeLockerPlugin());
 		}
 
-		if (BrowserErrorPagePlugin::isBrowserRequest($request)) {
-			$this->server->addPlugin(new BrowserErrorPagePlugin());
-		}
+		$this->server->addPlugin(new ErrorPagePlugin($this->request, \OC::$server->getConfig()));
 
 		$lazySearchBackend = new LazySearchBackend();
 		$this->server->addPlugin(new SearchPlugin($lazySearchBackend));
@@ -236,15 +242,17 @@ class Server {
 			$user = $userSession->getUser();
 			if ($user !== null) {
 				$view = \OC\Files\Filesystem::getView();
+				$config = \OCP\Server::get(IConfig::class);
 				$this->server->addPlugin(
 					new FilesPlugin(
 						$this->server->tree,
-						\OC::$server->getConfig(),
+						$config,
 						$this->request,
-						\OC::$server->getPreviewManager(),
-						\OC::$server->getUserSession(),
+						\OCP\Server::get(IPreview::class),
+						\OCP\Server::get(IUserSession::class),
+						\OCP\Server::get(IFilenameValidator::class),
 						false,
-						!\OC::$server->getConfig()->getSystemValue('debug', false)
+						$config->getSystemValueBool('debug', false) === false,
 					)
 				);
 				$this->server->addPlugin(new ChecksumUpdatePlugin());

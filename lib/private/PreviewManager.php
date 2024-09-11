@@ -389,7 +389,7 @@ class PreviewManager implements IPreview {
 
 
 			if (is_string($movieBinary)) {
-				$this->registerCoreProvider(Preview\Movie::class, '/video\/.*/', ["movieBinary" => $movieBinary]);
+				$this->registerCoreProvider(Preview\Movie::class, '/video\/.*/', ['movieBinary' => $movieBinary]);
 			}
 		}
 	}

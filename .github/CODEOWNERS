@@ -26,6 +26,7 @@
 /apps/user_ldap/appinfo/info.xml              @come-nc @blizzz
 /apps/user_status/appinfo/info.xml            @Antreesy @nickvergessen
 /apps/weather_status/appinfo/info.xml         @julien-nc @juliushaertl
+/apps/webhook_listeners/appinfo/info.xml      @come-nc @julien-nc
 /apps/workflowengine/appinfo/info.xml         @blizzz @juliushaertl
 
 # Frontend expertise

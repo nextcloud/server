@@ -118,7 +118,7 @@ class PublicKeyTokenMapperTest extends TestCase {
 			->from('authtoken')
 			->execute()
 			->fetch();
-		return (int) $result['count'];
+		return (int)$result['count'];
 	}
 
 	public function testInvalidate() {

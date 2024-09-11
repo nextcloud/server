@@ -22,7 +22,7 @@ class EventReaderRRule extends \Sabre\VObject\Recur\RRuleIterator {
 		return $this->interval;
 	}
 
-	public function concludes(): DateTime | null {
+	public function concludes(): DateTime|null {
 		// evaluate if until value is a date
 		if ($this->until instanceof DateTimeInterface) {
 			return DateTime::createFromInterface($this->until);
@@ -48,32 +48,32 @@ class EventReaderRRule extends \Sabre\VObject\Recur\RRuleIterator {
 		return null;
 	}
 
-	public function concludesAfter(): int | null {
+	public function concludesAfter(): int|null {
 		return !empty($this->count) ? $this->count : null;
 	}
 
-	public function concludesOn(): DateTime | null {
+	public function concludesOn(): DateTime|null {
 		return isset($this->until) ? DateTime::createFromInterface($this->until) : null;
 	}
 
 	public function daysOfWeek(): array {
-		return $this->byDay;
+		return is_array($this->byDay) ? $this->byDay : [];
 	}
 
 	public function daysOfMonth(): array {
-		return $this->byMonthDay;
+		return is_array($this->byMonthDay) ? $this->byMonthDay : [];
 	}
 
 	public function daysOfYear(): array {
-		return $this->byYearDay;
+		return is_array($this->byYearDay) ? $this->byYearDay : [];
 	}
 
 	public function weeksOfYear(): array {
-		return $this->byWeekNo;
+		return is_array($this->byWeekNo) ? $this->byWeekNo : [];
 	}
 
 	public function monthsOfYear(): array {
-		return $this->byMonth;
+		return is_array($this->byMonth) ? $this->byMonth : [];
 	}
 
 	public function isRelative(): bool {
@@ -81,7 +81,7 @@ class EventReaderRRule extends \Sabre\VObject\Recur\RRuleIterator {
 	}
 
 	public function relativePosition(): array {
-		return $this->bySetPos;
+		return is_array($this->bySetPos) ? $this->bySetPos : [];
 	}
 
 }

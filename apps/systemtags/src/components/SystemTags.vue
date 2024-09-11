@@ -15,6 +15,7 @@
 				:options="sortedTags"
 				:value="selectedTags"
 				:create-option="createOption"
+				:disabled="disabled"
 				:taggable="true"
 				:passthru="true"
 				:fetch-tags="false"
@@ -64,6 +65,10 @@ export default Vue.extend({
 		fileId: {
 			type: Number,
 			required: true,
+		},
+		disabled: {
+			type: Boolean,
+			default: false,
 		},
 	},
 

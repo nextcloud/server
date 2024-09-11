@@ -14,6 +14,7 @@ use OCA\Files_External\ResponseDefinitions;
 use OCA\Files_External\Service\UserGlobalStoragesService;
 use OCA\Files_External\Service\UserStoragesService;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCSController;
@@ -76,14 +77,13 @@ class ApiController extends OCSController {
 	}
 
 	/**
-	 * @NoAdminRequired
-	 *
 	 * Get the mount points visible for this user
 	 *
 	 * @return DataResponse<Http::STATUS_OK, Files_ExternalMount[], array{}>
 	 *
 	 * 200: User mounts returned
 	 */
+	#[NoAdminRequired]
 	public function getUserMounts(): DataResponse {
 		$entries = [];
 		$mountPoints = [];
@@ -105,12 +105,10 @@ class ApiController extends OCSController {
 	}
 
 	/**
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
-	 *
 	 * Ask for credentials using a browser's native basic auth prompt
 	 * Then returns it if provided
 	 */
+	#[NoAdminRequired]
 	#[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
 	public function askNativeAuth(): DataResponse {
 		if (!isset($_SERVER['PHP_AUTH_USER']) || !isset($_SERVER['PHP_AUTH_PW'])) {

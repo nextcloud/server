@@ -158,7 +158,42 @@ class Plugin extends \Sabre\CalDAV\Schedule\Plugin {
 		}
 
 		try {
-			parent::calendarObjectChange($request, $response, $vCal, $calendarPath, $modified, $isNew);
+
+			if (!$this->scheduleReply($this->server->httpRequest)) {
+				return;
+			}
+			
+			/** @var \OCA\DAV\CalDAV\Calendar $calendarNode */
+			$calendarNode = $this->server->tree->getNodeForPath($calendarPath);
+			// extract addresses for owner
+			$addresses = $this->getAddressesForPrincipal($calendarNode->getOwner());
+			// determain if request is from a sharee
+			if ($calendarNode->isShared()) {
+				// extract addresses for sharee and add to address collection
+				$addresses = array_merge(
+					$addresses,
+					$this->getAddressesForPrincipal($calendarNode->getPrincipalURI())
+				);
+			}
+			// determine if we are updating a calendar event
+			if (!$isNew) {
+				// retrieve current calendar event node
+				/** @var \OCA\DAV\CalDAV\CalendarObject $currentNode */
+				$currentNode = $this->server->tree->getNodeForPath($request->getPath());
+				// convert calendar event string data to VCalendar object
+				/** @var \Sabre\VObject\Component\VCalendar $currentObject */
+				$currentObject = Reader::read($currentNode->get());
+			} else {
+				$currentObject = null;
+			}
+			// process request
+			$this->processICalendarChange($currentObject, $vCal, $addresses, [], $modified);
+	
+			if ($currentObject) {
+				// Destroy circular references so PHP will GC the object.
+				$currentObject->destroy();
+			}
+			
 		} catch (SameOrganizerForAllComponentsException $e) {
 			$this->handleSameOrganizerException($e, $vCal, $calendarPath);
 		}
@@ -526,7 +561,9 @@ EOF;
 		$calendarTimeZone = new DateTimeZone('UTC');
 
 		$homePath = $result[0][200]['{' . self::NS_CALDAV . '}calendar-home-set']->getHref();
+		/** @var \OCA\DAV\CalDAV\Calendar $node */
 		foreach ($this->server->tree->getNodeForPath($homePath)->getChildren() as $node) {
+			
 			if (!$node instanceof ICalendar) {
 				continue;
 			}

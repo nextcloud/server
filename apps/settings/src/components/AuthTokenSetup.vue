@@ -81,8 +81,8 @@ export default defineComponent({
 <style lang="scss" scoped>
 	.app-name-text-field {
 		height: 44px !important;
-		padding-left: 12px;
-		margin-right: 12px;
+		padding-inline-start: 12px;
+		margin-inline-end: 12px;
 		width: 200px;
 	}
 

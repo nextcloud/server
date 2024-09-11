@@ -11,7 +11,7 @@ use OCP\IConfig;
 use Test\TestCase;
 
 class ConfigTest extends TestCase {
-	/** @var  IConfig|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
 	private $config;
 
 	protected function setUp(): void {

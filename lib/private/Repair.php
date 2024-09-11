@@ -41,6 +41,7 @@ use OC\Repair\NC21\ValidatePhoneNumber;
 use OC\Repair\NC22\LookupServerSendCheck;
 use OC\Repair\NC24\AddTokenCleanupJob;
 use OC\Repair\NC25\AddMissingSecretJob;
+use OC\Repair\NC30\RemoveLegacyDatadirFile;
 use OC\Repair\OldGroupMembershipShares;
 use OC\Repair\Owncloud\CleanPreviews;
 use OC\Repair\Owncloud\DropAccountTermsTable;
@@ -98,7 +99,7 @@ class Repair implements IOutput {
 			try {
 				$step->run($this);
 			} catch (\Exception $e) {
-				$this->logger->error("Exception while executing repair step " . $step->getName(), ['exception' => $e]);
+				$this->logger->error('Exception while executing repair step ' . $step->getName(), ['exception' => $e]);
 				$this->dispatcher->dispatchTyped(new RepairErrorEvent($e->getMessage()));
 			}
 		}
@@ -187,6 +188,7 @@ class Repair implements IOutput {
 			\OCP\Server::get(AddMetadataGenerationJob::class),
 			\OCP\Server::get(AddAppConfigLazyMigration::class),
 			\OCP\Server::get(RepairLogoDimension::class),
+			\OCP\Server::get(RemoveLegacyDatadirFile::class),
 		];
 	}
 

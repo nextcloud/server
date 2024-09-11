@@ -57,7 +57,7 @@ class Enable extends Command implements CompletionAwareInterface {
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$appIds = $input->getArgument('app-id');
 		$groups = $this->resolveGroupIds($input->getOption('groups'));
-		$forceEnable = (bool) $input->getOption('force');
+		$forceEnable = (bool)$input->getOption('force');
 
 		foreach ($appIds as $appId) {
 			$this->enableApp($appId, $groups, $forceEnable, $output);

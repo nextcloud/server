@@ -17,7 +17,7 @@ use OCP\Migration\IRepairStep;
 class SetMasterKeyStatus implements IRepairStep {
 
 
-	/** @var  IConfig */
+	/** @var IConfig */
 	private $config;
 
 

@@ -160,6 +160,21 @@ class WebhookListenerMapper extends QBMapper {
 	}
 
 	/**
+	 * Delete all registrations made by the given appId
+	 *
+	 * @throws Exception
+	 * @return int number of registration deleted
+	 */
+	public function deleteByAppId(string $appId): int {
+		$qb = $this->db->getQueryBuilder();
+
+		$qb->delete($this->getTableName())
+			->where($qb->expr()->eq('app_id', $qb->createNamedParameter($appId, IQueryBuilder::PARAM_STR)));
+
+		return $qb->executeStatement();
+	}
+
+	/**
 	 * @throws Exception
 	 * @return list<string>
 	 */

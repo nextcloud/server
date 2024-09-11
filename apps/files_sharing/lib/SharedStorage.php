@@ -18,15 +18,16 @@ use OC\Files\Storage\Wrapper\PermissionsMask;
 use OC\Files\Storage\Wrapper\Wrapper;
 use OC\User\NoUserException;
 use OCA\Files_External\Config\ConfigAdapter;
+use OCA\Files_Sharing\ISharedStorage as LegacyISharedStorage;
 use OCP\Constants;
 use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\Config\IUserMountCache;
 use OCP\Files\Folder;
 use OCP\Files\IHomeStorage;
 use OCP\Files\IRootFolder;
-use OCP\Files\Node;
 use OCP\Files\NotFoundException;
 use OCP\Files\Storage\IDisableEncryptionStorage;
+use OCP\Files\Storage\ISharedStorage;
 use OCP\Files\Storage\IStorage;
 use OCP\Lock\ILockingProvider;
 use OCP\Share\IShare;
@@ -35,7 +36,7 @@ use Psr\Log\LoggerInterface;
 /**
  * Convert target path to source path and pass the function call to the correct storage provider
  */
-class SharedStorage extends \OC\Files\Storage\Wrapper\Jail implements ISharedStorage, IDisableEncryptionStorage {
+class SharedStorage extends \OC\Files\Storage\Wrapper\Jail implements LegacyISharedStorage, ISharedStorage, IDisableEncryptionStorage {
 	/** @var \OCP\Share\IShare */
 	private $superShare;
 
@@ -59,7 +60,7 @@ class SharedStorage extends \OC\Files\Storage\Wrapper\Jail implements ISharedSto
 
 	private LoggerInterface $logger;
 
-	/** @var  IStorage */
+	/** @var IStorage */
 	private $nonMaskedStorage;
 
 	private array $mountOptions = [];
@@ -138,7 +139,7 @@ class SharedStorage extends \OC\Files\Storage\Wrapper\Jail implements ISharedSto
 
 		try {
 			if (self::$initDepth > 10) {
-				throw new \Exception("Maximum share depth reached");
+				throw new \Exception('Maximum share depth reached');
 			}
 
 			/** @var IRootFolder $rootFolder */
@@ -560,7 +561,7 @@ class SharedStorage extends \OC\Files\Storage\Wrapper\Jail implements ISharedSto
 		 * @psalm-suppress DocblockTypeContradiction
 		 */
 		if (!$this->storage) {
-			$message = "no storage set after init for share " . $this->getShareId();
+			$message = 'no storage set after init for share ' . $this->getShareId();
 			$this->logger->error($message);
 			$this->storage = new FailedStorage(['exception' => new \Exception($message)]);
 		}
