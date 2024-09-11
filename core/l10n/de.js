@@ -196,7 +196,6 @@ OC.L10N.register(
     "No results for {query}" : "Keine Suchergebnisse zu {query}",
     "Press Enter to start searching" : "Zum Suchen EIngabetaste drücken",
     "An error occurred while searching for {type}" : "Es ist ein Fehler beim Suchen nach {type} aufgetreten",
-    "_Please enter {minSearchLength} character or more to search_::_Please enter {minSearchLength} characters or more to search_" : ["Bitte gebe {minSearchLength} Zeichen oder mehr ein nach denen gesucht werden soll","Bitte gib {minSearchLength} Zeichen oder mehr ein nach denen gesucht werden soll"],
     "Forgot password?" : "Passwort vergessen?",
     "Back to login form" : "Zurück zum Anmeldeformular",
     "Back" : "Zurück",

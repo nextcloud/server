@@ -329,6 +329,7 @@ OC.L10N.register(
     "The database is missing some indexes. Due to the fact that adding indexes on big tables could take some time they were not added automatically. By running \"occ db:add-missing-indices\" those missing indexes could be added manually while the instance keeps running. Once the indexes are added queries to those tables are usually much faster." : "Pangkalan data kehilangan beberapa indeks. Berdasarkan fakta bahwa menambahkan indeks pada tabel yang besar membutuhkan waktu cukup lama, maka ini tidak dilakukan otomatis. Eksekusi \"occ db: add-missing-indexes\", untuk menambahkan indeks secara manual sementara instance tetap berjalan. Setelah itu dilakukan, maka kueri akan jauh lebih cepat.",
     "Exclude groups from sharing" : "Tidak termasuk grup untuk berbagi",
     "These groups will still be able to receive shares, but not to initiate them." : "Grup ini akan tetap dapat menerima berbagi, tatapi tidak dapat membagikan.",
+    "{license}-licensed" : "{license}-dilisensikan",
     "Username" : "Nama pengguna",
     "Enable or disable profile by default for new users." : "Aktifkan atau nonaktifkan profil secara default untuk pengguna baru.",
     "New user" : "Pengguna baru",
@@ -340,7 +341,6 @@ OC.L10N.register(
     "Disable user" : "Nonaktifkan pengguna",
     "Enable user" : "Aktifkan pengguna",
     "Show user backend" : "Tampilkan pengguna backend",
-    "{license}-licensed" : "{license}-dilisensikan",
     "Active users" : "Pengguna aktif",
     "Disabled users" : "Nonaktifkan pengguna",
     "SMTP Username" : "Nama pengguna SMTP"

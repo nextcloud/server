@@ -125,7 +125,6 @@ OC.L10N.register(
     "Search starts once you start typing and results may be reached with the arrow keys" : "Otsing algab kohe, kui sa midagi trükid, ja tulemustele saab ligi nooleklahvidega",
     "Search" : "Otsi",
     "Press Enter to start searching" : "Otsimise alustamiseks vajuta Enter",
-    "_Please enter {minSearchLength} character or more to search_::_Please enter {minSearchLength} characters or more to search_" : ["Otsimiseks sisesta vähemalt {minSearchLength} sümbol","Otsimiseks sisesta vähemalt {minSearchLength} sümbolit"],
     "Forgot password?" : "Unustasid parooli?",
     "Back to login form" : "Tagasi sisselogimise lehele",
     "Back" : "Tagasi",
