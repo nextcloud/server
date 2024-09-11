@@ -206,7 +206,7 @@ class User_Proxy extends Proxy implements IUserBackend, UserInterface, IUserLDAP
 			try {
 				$existsOnLDAP = $this->userExistsOnLDAP($uid);
 			} catch(ServerNotAvailableException $e) {
-				$this->logger->info('Could not establish connection to LDAP server, deleting user locally' . $uid, ['exception' => $e]);
+				$this->logger->info('Could not establish connection to LDAP server, found user locally ' . $uid, ['exception' => $e]);
 			}
 		}
 		if ($existsLocally && !$existsOnLDAP) {
