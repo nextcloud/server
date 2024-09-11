@@ -234,6 +234,7 @@ OC.L10N.register(
     "Your username is: %s" : "Sinu kasutajanimi on: %s",
     "Exclude groups from sharing" : "Eemalda grupid jagamisest",
     "These groups will still be able to receive shares, but not to initiate them." : "Need grupid saavad vastu võtta jagamisi, kuid ise jagamisi algatada ei saa.",
+    "{license}-licensed" : "{license} litsents",
     "Username" : "Kasutajanimi",
     "New user" : "Uus kasutaja",
     "User backend" : "Kasutaja taustarakendus",
@@ -241,7 +242,6 @@ OC.L10N.register(
     "Delete user" : "Kustuta kasutaja",
     "Disable user" : "Keela kasutaja",
     "Enable user" : "Luba kasutaja",
-    "{license}-licensed" : "{license} litsents",
     "Active users" : "Aktiivseid kasutajaid",
     "Disabled users" : "Keelatud kasutajad",
     "SMTP Username" : "SMTP kasutajatunnus"

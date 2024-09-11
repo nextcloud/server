@@ -307,6 +307,7 @@ OC.L10N.register(
     "Exclude groups from sharing" : "Malhelpi, ke grupoj kunhavigas",
     "These groups will still be able to receive shares, but not to initiate them." : "Tiu ĉi grupoj povos ricevi kunhavojn, sed ne ekigi ilin.",
     "When groups are selected/excluded, they use the following logic to determine if a user has 2FA enforced: If no groups are selected, 2FA is enabled for everyone except members of the excluded groups. If groups are selected, 2FA is enabled for all members of these. If a user is both in a selected and excluded group, the selected takes precedence and 2FA is enforced." : "Kiam grupoj estas aŭ elektitaj aŭ nedevigataj, ili sekvas la jenan logikon por decidi, ĉu uzanto estas devigata uzi dufazan aŭtentigon (2FA). Se neniu grupo estas elektita, 2FA estas devigata por ĉiuj escepte membrojn de la nedevigataj grupoj. Se uzanto estas samtempe en elektita kaj nedevigata grupo, la elektita ekprioritatas kaj 2FA estas devigata.",
+    "{license}-licensed" : "Permesilo: {license}",
     "Username" : "Uzantonomo",
     "New user" : "Nova uzanto",
     "User backend" : "Uzanto-loko",
@@ -318,7 +319,6 @@ OC.L10N.register(
     "Disable user" : "Malebligi uzanton",
     "Enable user" : "Ebligi uzanton",
     "Show user backend" : "Montri uzantolokon",
-    "{license}-licensed" : "Permesilo: {license}",
     "Active users" : "Aktivaj uzantoj",
     "Disabled users" : "Malebligitaj uzantoj",
     "SMTP Username" : "SMTP-uzantonomo"

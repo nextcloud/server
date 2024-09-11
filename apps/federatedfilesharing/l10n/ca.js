@@ -47,7 +47,7 @@ OC.L10N.register(
     "Copy to clipboard" : "Copia-ho al porta-retalls",
     "Clipboard is not available" : "El porta-retalls no està disponible",
     "Copied!" : "S'ha copiat!",
-    "Do you want to add the remote share {name} from {owner}@{remote}?" : "Voleu afegir l'element compartit remot {nom} de {owner}@{remote}?",
+    "Do you want to add the remote share {name} from {owner}@{remote}?" : "Voleu afegir l'element compartit remot {name} de {owner}@{remote}?",
     "Remote share" : "Element compartit remot",
     "Remote share password" : "Contrasenya de l'element compartit remot",
     "Cancel" : "Cancel·la",

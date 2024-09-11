@@ -195,7 +195,6 @@ OC.L10N.register(
     "No results for {query}" : "{query}에 대한 결과가 없음",
     "Press Enter to start searching" : "검색을 시작하려면 엔터를 누르세요.",
     "An error occurred while searching for {type}" : "{type} 탐색중 오류 발생",
-    "_Please enter {minSearchLength} character or more to search_::_Please enter {minSearchLength} characters or more to search_" : ["{minSearchLength}개 이상의 글자를 입력해 검색해 주세요."],
     "Forgot password?" : "암호를 잊으셨습니까?",
     "Back to login form" : "로그인으로 돌아가기",
     "Back" : "뒤로",

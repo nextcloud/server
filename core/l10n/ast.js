@@ -191,7 +191,6 @@ OC.L10N.register(
     "No results for {query}" : "Nun hai nengún resultáu pa «{query}»",
     "Press Enter to start searching" : "Primi la tecla «Intro» pa comenzar la busca",
     "An error occurred while searching for {type}" : "Prodúxose un error mentanto se buscaba «{type}»",
-    "_Please enter {minSearchLength} character or more to search_::_Please enter {minSearchLength} characters or more to search_" : ["Introduz {minSearchLength} caráuter o más pa buscar","Introduz {minSearchLength} caráuteres o más pa buscar"],
     "Forgot password?" : "¿Escaeciesti la contraseña?",
     "Back to login form" : "Volver al formulariu p'aniciar la sesión",
     "Back" : "Atrás",

@@ -201,7 +201,6 @@ OC.L10N.register(
     "No results for {query}" : "По запросу «{query}» ничего не найдено",
     "Press Enter to start searching" : "Нажмите Enter, чтобы начать поиск",
     "An error occurred while searching for {type}" : "Произошла ошибка при поиске {type}",
-    "_Please enter {minSearchLength} character or more to search_::_Please enter {minSearchLength} characters or more to search_" : ["Чтобы начать поиск необходимо ввести как минимум  {minSearchLength} символ","Чтобы начать поиск необходимо ввести как минимум {minSearchLength} символа","Чтобы начать поиск необходимо ввести как минимум {minSearchLength} символов","Чтобы начать поиск необходимо ввести как минимум {minSearchLength} символа"],
     "Forgot password?" : "Забыли пароль?",
     "Back to login form" : "Вернуться к форме входа",
     "Back" : "Назад",

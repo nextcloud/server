@@ -183,7 +183,6 @@ OC.L10N.register(
     "No results for {query}" : "Ei tuloksia haulle {query}",
     "Press Enter to start searching" : "Paina Enter aloittaaksesi haun",
     "An error occurred while searching for {type}" : "Haettaessa tyyppiä {type} tapahtui virhe.",
-    "_Please enter {minSearchLength} character or more to search_::_Please enter {minSearchLength} characters or more to search_" : ["Kirjoita vähintään {minSearchLength} merkki etsiäksesi","Kirjoita vähintään {minSearchLength} merkkiä etsiäksesi"],
     "Forgot password?" : "Unohditko salasanasi?",
     "Back to login form" : "Takaisin kirjautumisnäkymään",
     "Back" : "Takaisin",

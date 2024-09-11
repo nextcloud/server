@@ -187,7 +187,6 @@
     "No results for {query}" : "Geen resultaten voor {query}",
     "Press Enter to start searching" : "Druk op Enter om te beginnen zoeken",
     "An error occurred while searching for {type}" : "Er trad een fout op bij het zoeken naar {type}",
-    "_Please enter {minSearchLength} character or more to search_::_Please enter {minSearchLength} characters or more to search_" : ["Voer {minSearchLength} tekens of meer in om te zoeken","Voer alstublieft {minSearchLength} tekens of meer in om te zoeken"],
     "Forgot password?" : "Wachtwoord vergeten?",
     "Back to login form" : "Terug naar aanmelden",
     "Back" : "Terug",

@@ -166,7 +166,6 @@
     "No results for {query}" : "Нема резултати за {query}",
     "Press Enter to start searching" : "Притисни Enter за започне пребарувањето",
     "An error occurred while searching for {type}" : "Настана грешка при пребарување за {type}",
-    "_Please enter {minSearchLength} character or more to search_::_Please enter {minSearchLength} characters or more to search_" : ["Внесете најмалку {minSearchLength} карактер за да пребарувате","Внесете најмалку {minSearchLength} карактери или повеќе за да пребарувате"],
     "Forgot password?" : "Заборавена лозинка?",
     "Back to login form" : "Врати се на формата за најавување",
     "Back" : "Назад",

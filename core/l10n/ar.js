@@ -201,7 +201,6 @@ OC.L10N.register(
     "No results for {query}" : "لا يوجد ناتج لـ {query}",
     "Press Enter to start searching" : "رجاءً اضغط Enter لبدء البحث",
     "An error occurred while searching for {type}" : "حدث خطأ أثناء البحث عن {type}",
-    "_Please enter {minSearchLength} character or more to search_::_Please enter {minSearchLength} characters or more to search_" : ["من فضلك ادخل أحرف {minSearchLength} أو أكثر للبحث","من فضلك ادخل أحرف {minSearchLength} أو أكثر للبحث","من فضلك ادخل أحرف {minSearchLength} أو أكثر للبحث","من فضلك ادخل أحرف {minSearchLength} أو أكثر للبحث","من فضلك ادخل أحرف {minSearchLength} أو أكثر للبحث","من فضلك ادخل أحرف {minSearchLength}  أو أكثر للبحث"],
     "Forgot password?" : "هل نسيت كلمة السر ؟",
     "Back to login form" : "عودة إلى نموذج الدخول",
     "Back" : "العودة",
