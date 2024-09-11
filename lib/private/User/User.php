@@ -291,7 +291,7 @@ class User implements IUser {
 		// because we can not restore the user meaning we could not rollback to any stable state otherwise.
 		$this->config->setUserValue($this->uid, 'core', 'deleted', 'true');
 		// We also need to backup the home path as this can not be reconstructed later if the original backend uses custom home paths
-		$this->config->setUserValue($this->uid, 'core', 'deleted.backup-home', $this->getHome());
+		$this->config->setUserValue($this->uid, 'core', 'deleted.home-path', $this->getHome());
 
 		// Try to delete the user on the backend
 		$result = $this->backend->deleteUser($this->uid);
@@ -337,7 +337,7 @@ class User implements IUser {
 			$this->config->deleteAllUserValues($this->uid);
 			// But again set flag that this user is about to be deleted
 			$this->config->setUserValue($this->uid, 'core', 'deleted', 'true');
-			$this->config->setUserValue($this->uid, 'core', 'deleted.backup-home', $this->getHome());
+			$this->config->setUserValue($this->uid, 'core', 'deleted.home-path', $this->getHome());
 			// Commit the transaction so we are in a defined state: either the preferences are removed or an exception occurred but the delete flag is still present
 			$database->commit();
 		} catch (\Throwable $e) {
@@ -345,7 +345,7 @@ class User implements IUser {
 			throw $e;
 		}
 
-		if ($this->emitter) {
+		if ($this->emitter !== null) {
 			/** @deprecated 21.0.0 use UserDeletedEvent event with the IEventDispatcher instead */
 			$this->emitter->emit('\OC\User', 'postDelete', [$this]);
 		}
