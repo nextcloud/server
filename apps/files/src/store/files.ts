@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import type { FilesStore, RootsStore, RootOptions, Service, FilesState, FileSource } from '../types'
+import type { FilesStore, RootsStore, RootOptions, Service, FileSource } from '../types'
 import type { FileStat, ResponseDataDetailed } from 'webdav'
 import type { Folder, Node } from '@nextcloud/files'
 
@@ -27,9 +27,10 @@ const fetchNode = async (node: Node): Promise<Node> => {
 
 export const useFilesStore = function(...args) {
 	const store = defineStore('files', {
-		state: (): FilesState => ({
+		state: () => ({
 			files: {} as FilesStore,
 			roots: {} as RootsStore,
+			_initialized: false,
 		}),
 
 		getters: {
@@ -86,6 +87,7 @@ export const useFilesStore = function(...args) {
 				}
 
 				// If we found a cache entry and the cache entry was already loaded (has children) then use it
+				// @ts-expect-error The _children prop is undocumented - we need to make this official
 				return (folder?._children ?? [])
 					.map((source: string) => this.getNode(source))
 					.filter(Boolean)
