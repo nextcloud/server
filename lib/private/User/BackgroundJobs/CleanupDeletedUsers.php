@@ -8,10 +8,11 @@ declare(strict_types=1);
  */
 namespace OC\User\BackgroundJobs;
 
-use OC\User\FailedUsersBackend;
 use OC\User\Manager;
+use OC\User\PartiallyDeletedUsersBackend;
 use OC\User\User;
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\BackgroundJob\IJob;
 use OCP\BackgroundJob\TimedJob;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
@@ -25,11 +26,12 @@ class CleanupDeletedUsers extends TimedJob {
 		private LoggerInterface $logger,
 	) {
 		parent::__construct($time);
-		$this->setInterval(3600);
+		$this->setTimeSensitivity(IJob::TIME_INSENSITIVE);
+		$this->setInterval(24 * 3600);
 	}
 
 	protected function run($argument): void {
-		$backend = new FailedUsersBackend($this->config);
+		$backend = new PartiallyDeletedUsersBackend($this->config);
 		$users = $backend->getUsers();
 
 		if (empty($users)) {
@@ -38,12 +40,19 @@ class CleanupDeletedUsers extends TimedJob {
 		}
 
 		foreach ($users as $userId) {
+			if ($this->userManager->userExists($userId)) {
+				$this->logger->info('Skipping user {userId}, marked as deleted, as they still exists in user backend.', ['userId' => $userId]);
+				$backend->unmarkUser($userId);
+				continue;
+			}
+
 			try {
 				$user = new User(
 					$userId,
 					$backend,
 					\OCP\Server::get(IEventDispatcher::class),
-					config: $this->config,
+					$this->userManager,
+					$this->config,
 				);
 				$user->delete();
 				$this->logger->info('Cleaned up deleted user {userId}', ['userId' => $userId]);
