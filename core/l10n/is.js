@@ -180,7 +180,6 @@ OC.L10N.register(
     "No results for {query}" : "Engar niðurstöður fyrir {query}",
     "Press Enter to start searching" : "Ýttu á Enter til að hefja leit",
     "An error occurred while searching for {type}" : "Villa kom upp við leit að {type}",
-    "_Please enter {minSearchLength} character or more to search_::_Please enter {minSearchLength} characters or more to search_" : ["Settu inn {minSearchLength} staf eða fleiri til að leita","Settu inn {minSearchLength} stafi eða fleiri til að leita"],
     "Forgot password?" : "Gleymdirðu lykilorði?",
     "Back to login form" : "Til baka í innskráningarform",
     "Back" : "Til baka",

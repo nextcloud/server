@@ -114,7 +114,6 @@ OC.L10N.register(
     "Search" : "ຄົ້ນຫາ",
     "No results for {query}" : "ບໍ່ມີຜົນສໍາລັບ {query}",
     "An error occurred while searching for {type}" : "ເກີດຂໍ້ຜິດພາດໃນຂະນະທີ່ຊອກຫາ {ປະເພດ}",
-    "_Please enter {minSearchLength} character or more to search_::_Please enter {minSearchLength} characters or more to search_" : ["ກະລຸນາໃສ່ {minSearchLength} ຕົວອັກສອນຫຼືຫຼາຍກວ່ານັ້ນເພື່ອຄົ້ນຫາ"],
     "Forgot password?" : "ລືມລະຫັດຜ່ານ?",
     "Back" : "ຫຼັງ",
     "Login form is disabled." : "ຮູບແບບLogin ຖືກປິດ.",

@@ -179,7 +179,6 @@ OC.L10N.register(
     "No results for {query}" : "No results for {query}",
     "Press Enter to start searching" : "Press Enter to start searching",
     "An error occurred while searching for {type}" : "An error occurred while searching for {type}",
-    "_Please enter {minSearchLength} character or more to search_::_Please enter {minSearchLength} characters or more to search_" : ["Please enter {minSearchLength} character or more to search","Please enter {minSearchLength} characters or more to search"],
     "Forgot password?" : "رمز فراموش شده؟",
     "Back to login form" : "Back to login form",
     "Back" : "بازگشت",

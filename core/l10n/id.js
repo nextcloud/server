@@ -137,7 +137,6 @@ OC.L10N.register(
     "Search" : "Cari",
     "No results for {query}" : "Tidak ada hasil untuk {query}",
     "An error occurred while searching for {type}" : "Terjadi kesalahan saat mencari {type}",
-    "_Please enter {minSearchLength} character or more to search_::_Please enter {minSearchLength} characters or more to search_" : ["Harap masukkan {minSearchLength} karakter atau lebih untuk mencari"],
     "Forgot password?" : "Lupa kata sandi?",
     "Back" : "Kembali",
     "Edit Profile" : "Sunting profil",

@@ -201,7 +201,6 @@ OC.L10N.register(
     "No results for {query}" : "{query}の検索結果はありません",
     "Press Enter to start searching" : "Enterキーを押して検索を開始",
     "An error occurred while searching for {type}" : "{type} の検索中にエラーが発生しました",
-    "_Please enter {minSearchLength} character or more to search_::_Please enter {minSearchLength} characters or more to search_" : ["検索には、{minSearchLength}文字以上が必要です"],
     "Forgot password?" : "パスワードをお忘れですか?",
     "Back to login form" : "ログイン画面に戻る",
     "Back" : "戻る",

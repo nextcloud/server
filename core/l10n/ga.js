@@ -201,7 +201,6 @@ OC.L10N.register(
     "No results for {query}" : "Níl aon torthaí le haghaidh {query}",
     "Press Enter to start searching" : "Brúigh Enter chun cuardach a thosú",
     "An error occurred while searching for {type}" : "Tharla earráid agus {type} á chuardach",
-    "_Please enter {minSearchLength} character or more to search_::_Please enter {minSearchLength} characters or more to search_" : ["Cuir isteach {minSearchLength} carachtar nó níos mó chun cuardach a dhéanamh le do thoil","Cuir isteach {minSearchLength} carachtair nó níos mó chun cuardach a dhéanamh le do thoil","Cuir isteach {minSearchLength} carachtair nó níos mó chun cuardach a dhéanamh le do thoil","Cuir isteach {minSearchLength} carachtair nó níos mó chun cuardach a dhéanamh le do thoil","Cuir isteach {minSearchLength} carachtair nó níos mó chun cuardach a dhéanamh le do thoil"],
     "Forgot password?" : "Dearmad ar pasfhocal?",
     "Back to login form" : "Ar ais go dtí an fhoirm logáil isteach",
     "Back" : "Ar ais",
