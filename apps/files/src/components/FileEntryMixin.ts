@@ -229,9 +229,11 @@ export default defineComponent({
 						return
 					}
 					// Reset any right menu position potentially set
-					const root = this.$el?.closest('main.app-content') as HTMLElement
-					root.style.removeProperty('--mouse-pos-x')
-					root.style.removeProperty('--mouse-pos-y')
+					const root = document.getElementById('app-content-vue')
+					if (root !== null) {
+						root.style.removeProperty('--mouse-pos-x')
+						root.style.removeProperty('--mouse-pos-y')
+					}
 				}, 300)
 			}
 		},
