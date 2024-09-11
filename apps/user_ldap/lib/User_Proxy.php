@@ -7,6 +7,7 @@
  */
 namespace OCA\User_LDAP;
 
+use OC\ServerNotAvailableException;
 use OCA\User_LDAP\User\DeletedUsersIndex;
 use OCA\User_LDAP\User\OfflineUser;
 use OCA\User_LDAP\User\User;
@@ -202,7 +203,11 @@ class User_Proxy extends Proxy implements IUserBackend, UserInterface, IUserLDAP
 		$existsOnLDAP = false;
 		$existsLocally = $this->handleRequest($uid, 'userExists', [$uid]);
 		if ($existsLocally) {
-			$existsOnLDAP = $this->userExistsOnLDAP($uid);
+			try {
+				$existsOnLDAP = $this->userExistsOnLDAP($uid);
+			} catch(ServerNotAvailableException $e) {
+				$this->logger->info('Could not establish connection to LDAP server, deleting user locally' . $uid, ['exception' => $e]);
+			}
 		}
 		if ($existsLocally && !$existsOnLDAP) {
 			try {
