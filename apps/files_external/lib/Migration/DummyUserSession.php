@@ -28,11 +28,7 @@ use OCP\IUser;
 use OCP\IUserSession;
 
 class DummyUserSession implements IUserSession {
-
-	/**
-	 * @var IUser
-	 */
-	private $user;
+	private ?IUser $user = null;
 
 	public function login($uid, $password) {
 	}
@@ -41,6 +37,10 @@ class DummyUserSession implements IUserSession {
 	}
 
 	public function setUser($user) {
+		$this->user = $user;
+	}
+
+	public function setVolatileActiveUser(?IUser $user): void {
 		$this->user = $user;
 	}
 
