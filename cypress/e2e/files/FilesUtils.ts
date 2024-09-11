@@ -45,6 +45,21 @@ export const triggerInlineActionForFile = (filename: string, actionId: string) =
 	getActionsForFile(filename).get(`button[data-cy-files-list-row-action="${CSS.escape(actionId)}"]`).should('exist').click()
 }
 
+export const createFolder = (folderName: string) => {
+	cy.intercept('MKCOL', /\/remote.php\/dav\/files\//).as('createFolder')
+
+	// TODO: replace by proper data-cy selectors
+	cy.get('[data-cy-upload-picker] .action-item__menutoggle').first().click()
+	cy.contains('.upload-picker__menu-entry button', 'New folder').click()
+	cy.get('[data-cy-files-new-node-dialog]').should('be.visible')
+	cy.get('[data-cy-files-new-node-dialog-input]').type(`{selectall}${folderName}`)
+	cy.get('[data-cy-files-new-node-dialog-submit]').click()
+
+	cy.wait('@createFolder')
+
+	getRowForFile(folderName).should('be.visible')
+}
+
 export const moveFile = (fileName: string, dirPath: string) => {
 	getRowForFile(fileName).should('be.visible')
 	triggerActionForFile(fileName, 'move-copy')
