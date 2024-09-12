@@ -10,6 +10,7 @@ OC.L10N.register(
     "Error saving image" : "Не удалось сохранить изображение",
     "Unsaved changes" : "Несохранённые изменения",
     "Drop changes" : "Отменить изменения",
+    "Play the live photo" : "Воспроизвести живое фото",
     "LIVE" : "ТРАНСЛИРУЕТСЯ",
     "Your browser does not support videos." : "Используемый браузер не поддерживает воспроизведение видео.",
     "Edit" : "Редактировать",
