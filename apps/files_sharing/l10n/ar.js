@@ -25,7 +25,7 @@ OC.L10N.register(
     "You shared {file} as public link" : "لقد شاركت أنت {file} كرابط عام",
     "You removed public link for {file}" : "لقد أزلت الرابط العام لـ {file}",
     "Public link expired for {file}" : "إنتهت صلاحية الرابط العام لـ {file}",
-    "{actor} shared {file} as public link" : "قام {actor} بمشاركة {ملف} كرابط عام",
+    "{actor} shared {file} as public link" : "قام {actor} بمشاركة {file} كرابط عام",
     "{actor} removed public link for {file}" : "قام {actor} بإزالة الرابط العام لـ {file}",
     "Public link of {actor} for {file} expired" : "انتهت صلاحية الرابط العام لـ {actor} لـ {file}",
     "{user} accepted the remote share" : "وافق {user} على المشاركة القصيّة remote",
