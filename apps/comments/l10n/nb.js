@@ -26,7 +26,7 @@ OC.L10N.register(
     "Retry" : "Prøv igjen",
     "Failed to mark comments as read" : "Markering av kommentarer som lest feilet",
     "Unable to load the comments list" : "Kan ikke laste inn kommentarlisten",
-    "_1 new comment_::_{unread} new comments_" : ["[uleste] nye kommentarer","{uleste} nye kommentarer"],
+    "_1 new comment_::_{unread} new comments_" : ["[uleste] nye kommentarer","{unread} nye kommentarer"],
     "Comment" : "Kommentar",
     "An error occurred while trying to edit the comment" : "Det oppsto en feil under forsøk på å redigere kommentaren",
     "Comment deleted" : "Kommentar slettet",

@@ -31,7 +31,7 @@
     "{actor} updated event {event} in calendar {calendar}" : "{actor} actualizou o evento {event} no calendario {calendar}",
     "You updated event {event} in calendar {calendar}" : "Vde. actualizou o evento {event} no calendario {calendar}",
     "{actor} moved event {event} from calendar {sourceCalendar} to calendar {targetCalendar}" : "{actor} moveu o evento {event} do calendario {sourceCalendar} ao calendario {targetCalendar}",
-    "You moved event {event} from calendar {sourceCalendar} to calendar {targetCalendar}" : "Moveu o evento {evento} do calendario {sourceCalendar} ao calendario {targetCalendar}",
+    "You moved event {event} from calendar {sourceCalendar} to calendar {targetCalendar}" : "Moveu o evento {event} do calendario {sourceCalendar} ao calendario {targetCalendar}",
     "{actor} restored event {event} of calendar {calendar}" : "{actor} restaurou o evento {event} do calendario {calendar}",
     "You restored event {event} of calendar {calendar}" : "Restaurou o evento {event} do calendario {calendar}",
     "Busy" : "Ocupado",
