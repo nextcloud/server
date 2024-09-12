@@ -46,7 +46,7 @@
     "{actor} reopened to-do {todo} in list {calendar}" : "D'athoscail {actor} to-do {todo} sa liosta {calendar}",
     "You reopened to-do {todo} in list {calendar}" : "D'oscail tú to-do {todo} sa liosta {calendar}",
     "{actor} moved to-do {todo} from list {sourceCalendar} to list {targetCalendar}" : "Bhog {actor} {todo} ó liosta {sourceCalendar} chun {targetCalendar} a liostú",
-    "You moved to-do {todo} from list {sourceCalendar} to list {targetCalendar}" : "Bhog tú chun {todo} a dhéanamh ón liosta {source Calendar} go dtí an liosta {target Calendar}",
+    "You moved to-do {todo} from list {sourceCalendar} to list {targetCalendar}" : "Bhog tú chun {todo} a dhéanamh ón liosta {sourceCalendar} go dtí an liosta {targetCalendar}",
     "Calendar, contacts and tasks" : "Féilire, teagmhálacha agus tascanna",
     "A <strong>calendar</strong> was modified" : "Athraíodh <strong>calendar</strong>  ",
     "A calendar <strong>event</strong> was modified" : "Athraíodh féilire <strong>event</strong>  ",

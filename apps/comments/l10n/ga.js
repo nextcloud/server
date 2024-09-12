@@ -11,7 +11,7 @@ OC.L10N.register(
     "<strong>Comments</strong> for files" : "<strong>Tuairimí</strong> le haghaidh comhaid",
     "Files" : "Comhaid",
     "You were mentioned on \"{file}\", in a comment by an account that has since been deleted" : "Luadh thú ar \"{file}\", i nóta tráchta ó chuntas a scriosadh ó shin",
-    "{user} mentioned you in a comment on \"{file}\"" : "Luaigh {úsáideoir} tú i nóta tráchta ar \"{file}\"",
+    "{user} mentioned you in a comment on \"{file}\"" : "Luaigh {user} tú i nóta tráchta ar \"{file}\"",
     "Files app plugin to add comments to files" : "Breiseán aip Comhaid chun tuairimí a chur le comhaid",
     "Edit comment" : "Cuir trácht in eagar",
     "Delete comment" : "Scrios nóta tráchta",

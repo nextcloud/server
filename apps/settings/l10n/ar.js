@@ -331,6 +331,7 @@ OC.L10N.register(
     "None of your currently installed apps provide image generation functionality" : "لا أحد من تطبيقاتك المثبتة يوفر وظيفة توليد الصور.",
     "Text processing" : "معالجة النصوص",
     "Text processing tasks can be implemented by different apps. Here you can set which app should be used for which task." : "يمكن تنفيذ مهام معالجة النصوص بواسطة تطبيقات مختلفة. هنا يمكنك تعيين التطبيق الذي يجب استخدامه لأي مهمة",
+    "None of your currently installed apps provide text processing functionality using the Text Processing API." : "لا يوجد أي تطبيق مثبت لديك حاليّاً يؤدي وظيفة معالجة النصوص باستعمال واجهة API لمعالجة النصوص.",
     "Here you can decide which group can access certain sections of the administration settings." : "هنا يمكنك تحديد المجموعة التي يمكنها الوصول إلى أقسام معينة من إعدادات الإدارة.",
     "None" : "لا شيء",
     "Unable to modify setting" : "تعذّر تعديل الإعداد",
