@@ -71,7 +71,7 @@ class WellKnownUrls implements ISetupCheck {
 		$requestOptions = ['httpErrors' => false, 'options' => ['allow_redirects' => ['track_redirects' => true]]];
 		foreach ($urls as [$verb,$url,$validStatuses,$checkCustomHeader]) {
 			$works = null;
-			foreach ($this->runRequest($verb, $url, $requestOptions, removeWebroot: true) as $response) {
+			foreach ($this->runRequest($verb, $url, $requestOptions, isRootRequest: true) as $response) {
 				// Check that the response status matches
 				$works = in_array($response->getStatusCode(), $validStatuses);
 				// and (if needed) the custom Nextcloud header is set
