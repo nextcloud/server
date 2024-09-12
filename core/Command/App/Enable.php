@@ -145,7 +145,7 @@ class Enable extends Command implements CompletionAwareInterface {
 	 */
 	public function completeArgumentValues($argumentName, CompletionContext $context): array {
 		if ($argumentName === 'app-id') {
-			$allApps = \OC_App::getAllApps();
+			$allApps = $this->appManager->getAllAppsInAppsFolders();
 			return array_diff($allApps, \OC_App::getEnabledApps(true, true));
 		}
 		return [];

@@ -954,10 +954,10 @@ class Server extends ServerContainer implements IServerContainer {
 			if (\OC::$server->get(SystemConfig::class)->getValue('installed', false)) {
 				$config = $c->get(\OCP\IConfig::class);
 				$appConfig = $c->get(\OCP\IAppConfig::class);
-				$appManager = $c->get(IAppManager::class);
 			} else {
 				$config = $appConfig = $appManager = null;
 			}
+			$appManager = $c->get(IAppManager::class);
 
 			return new Checker(
 				new EnvironmentHelper(),

@@ -156,6 +156,37 @@ class AppManager implements IAppManager {
 	}
 
 	/**
+	 * Get a list of all apps in the apps folder
+	 *
+	 * @return list<string> an array of app names (string IDs)
+	 */
+	public function getAllAppsInAppsFolders(): array {
+		$apps = [];
+
+		foreach (\OC::$APPSROOTS as $apps_dir) {
+			if (!is_readable($apps_dir['path'])) {
+				$this->logger->warning('unable to read app folder : ' . $apps_dir['path'], ['app' => 'core']);
+				continue;
+			}
+			$dh = opendir($apps_dir['path']);
+
+			if (is_resource($dh)) {
+				while (($file = readdir($dh)) !== false) {
+					if (
+						$file[0] != '.' &&
+						is_dir($apps_dir['path'] . '/' . $file) &&
+						is_file($apps_dir['path'] . '/' . $file . '/appinfo/info.xml')
+					) {
+						$apps[] = $file;
+					}
+				}
+			}
+		}
+
+		return array_values(array_unique($apps));
+	}
+
+	/**
 	 * List all apps enabled for a user
 	 *
 	 * @param \OCP\IUser $user

@@ -148,7 +148,7 @@ class CreateJs extends Command implements CompletionAwareInterface {
 	 */
 	public function completeArgumentValues($argumentName, CompletionContext $context) {
 		if ($argumentName === 'app') {
-			return \OC_App::getAllApps();
+			return $this->appManager->getAllAppsInAppsFolders();
 		} elseif ($argumentName === 'lang') {
 			$appName = $context->getWordAtIndex($context->getWordIndex() - 1);
 			try {

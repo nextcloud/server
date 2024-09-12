@@ -292,4 +292,12 @@ interface IAppManager {
 	 * @since 31.0.0
 	 */
 	public function cleanAppId(string $app): string;
+
+	/**
+	 * Get a list of all apps in the apps folder
+	 *
+	 * @return list<string> an array of app names (string IDs)
+	 * @since 31.0.0
+	 */
+	public function getAllAppsInAppsFolders(): array;
 }

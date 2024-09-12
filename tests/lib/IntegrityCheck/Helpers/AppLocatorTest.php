@@ -30,8 +30,4 @@ class AppLocatorTest extends TestCase {
 
 		$this->locator->getAppPath('aTotallyNotExistingApp');
 	}
-
-	public function testGetAllApps() {
-		$this->assertSame(\OC_App::getAllApps(), $this->locator->getAllApps());
-	}
 }

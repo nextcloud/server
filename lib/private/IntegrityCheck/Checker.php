@@ -46,7 +46,7 @@ class Checker {
 		private ?IConfig $config,
 		private ?IAppConfig $appConfig,
 		ICacheFactory $cacheFactory,
-		private ?IAppManager $appManager,
+		private IAppManager $appManager,
 		private IMimeTypeDetector $mimeTypeDetector,
 	) {
 		$this->cache = $cacheFactory->createDistributed(self::CACHE_KEY);
@@ -536,7 +536,7 @@ class Checker {
 	public function runInstanceVerification() {
 		$this->cleanResults();
 		$this->verifyCoreSignature();
-		$appIds = $this->appLocator->getAllApps();
+		$appIds = $this->appManager->getAllAppsInAppsFolders();
 		foreach ($appIds as $appId) {
 			// If an application is shipped a valid signature is required
 			$isShipped = $this->appManager->isShipped($appId);
