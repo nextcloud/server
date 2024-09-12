@@ -19,7 +19,7 @@
     "You unshared calendar {calendar} from {user}" : "Više ne dijelite kalendar {calendar} s {user}",
     "{actor} unshared calendar {calendar} from {user}" : "{actor} više ne dijeli kalendar {calendar} s {user}",
     "{actor} unshared calendar {calendar} from themselves" : "{actor} više ne dijeli kalendar {calendar} sam sa sobom",
-    "You shared calendar {calendar} with group {group}" : "Podijelili ste kalendar {kalendar} s grupom {group}",
+    "You shared calendar {calendar} with group {group}" : "Podijelili ste kalendar {calendar} s grupom {group}",
     "{actor} shared calendar {calendar} with group {group}" : "{actor} dijeli kalendar {calendar} s grupom {group}",
     "You unshared calendar {calendar} from group {group}" : "Više ne dijelite kalendar {calendar} s grupom {group}",
     "{actor} unshared calendar {calendar} from group {group}" : "{actor} više ne dijeli kalendar {calendar} s grupom {group}",

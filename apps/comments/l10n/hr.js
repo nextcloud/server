@@ -3,7 +3,7 @@ OC.L10N.register(
     {
     "Comments" : "Komentari",
     "You commented" : "Vi ste komentirali",
-    "{author} commented" : "{autor} je komentirao",
+    "{author} commented" : "{author} je komentirao",
     "You commented on %1$s" : "Vi ste komentirali %1$s",
     "You commented on {file}" : "Komentirali ste {file}",
     "%1$s commented on %2$s" : "%1$s je komentirao %2$s",
