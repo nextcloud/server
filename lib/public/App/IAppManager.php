@@ -141,12 +141,10 @@ interface IAppManager {
 	/**
 	 * Get the directory for the given app.
 	 *
-	 * @param string $appId
-	 * @return string
 	 * @since 11.0.0
 	 * @throws AppPathNotFoundException
 	 */
-	public function getAppPath($appId);
+	public function getAppPath(string $appId): string;
 
 	/**
 	 * Get the web path for the given app.
@@ -282,4 +280,16 @@ interface IAppManager {
 	 * @since 30.0.0
 	 */
 	public function isBackendRequired(string $backend): bool;
+
+	/**
+	 * Clean the appId from forbidden characters
+	 *
+	 * @psalm-taint-escape file
+	 * @psalm-taint-escape include
+	 * @psalm-taint-escape html
+	 * @psalm-taint-escape has_quotes
+	 *
+	 * @since 31.0.0
+	 */
+	public function cleanAppId(string $app): string;
 }

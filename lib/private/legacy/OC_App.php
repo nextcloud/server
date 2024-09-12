@@ -45,8 +45,7 @@ class OC_App {
 	 * @psalm-taint-escape html
 	 * @psalm-taint-escape has_quotes
 	 *
-	 * @param string $app AppId that needs to be cleaned
-	 * @return string
+	 * @deprecated 31.0.0 use IAppManager::cleanAppId
 	 */
 	public static function cleanAppId(string $app): string {
 		return str_replace(['<', '>', '"', "'", '\0', '/', '\\', '..'], '', $app);

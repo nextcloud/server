@@ -647,11 +647,9 @@ class AppManager implements IAppManager {
 	/**
 	 * Get the directory for the given app.
 	 *
-	 * @param string $appId
-	 * @return string
 	 * @throws AppPathNotFoundException if app folder can't be found
 	 */
-	public function getAppPath($appId) {
+	public function getAppPath(string $appId): string {
 		$appPath = \OC_App::getAppPath($appId);
 		if ($appPath === false) {
 			throw new AppPathNotFoundException('Could not find path for ' . $appId);
@@ -876,5 +874,10 @@ class AppManager implements IAppManager {
 		}
 
 		return false;
+	}
+
+	public function cleanAppId(string $app): string {
+		// FIXME should list allowed characters instead
+		return str_replace(['<', '>', '"', "'", '\0', '/', '\\', '..'], '', $app);
 	}
 }

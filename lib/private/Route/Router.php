@@ -104,7 +104,7 @@ class Router implements IRouter {
 	 */
 	public function loadRoutes($app = null) {
 		if (is_string($app)) {
-			$app = \OC_App::cleanAppId($app);
+			$app = $this->appManager->cleanAppId($app);
 		}
 
 		$requestedApp = $app;
@@ -123,11 +123,15 @@ class Router implements IRouter {
 			if (isset($this->loadedApps[$app])) {
 				return;
 			}
-			$appPath = \OC_App::getAppPath($app);
-			$file = $appPath . '/appinfo/routes.php';
-			if ($appPath !== false && file_exists($file)) {
-				$routingFiles = [$app => $file];
-			} else {
+			try {
+				$appPath = $this->appManager->getAppPath($app);
+				$file = $appPath . '/appinfo/routes.php';
+				if (file_exists($file)) {
+					$routingFiles = [$app => $file];
+				} else {
+					$routingFiles = [];
+				}
+			} catch (AppPathNotFoundException) {
 				$routingFiles = [];
 			}
 
@@ -238,14 +242,14 @@ class Router implements IRouter {
 			// empty string / 'apps' / $app / rest of the route
 			[, , $app,] = explode('/', $url, 4);
 
-			$app = \OC_App::cleanAppId($app);
+			$app = $this->appManager->cleanAppId($app);
 			\OC::$REQUESTEDAPP = $app;
 			$this->loadRoutes($app);
 		} elseif (str_starts_with($url, '/ocsapp/apps/')) {
 			// empty string / 'ocsapp' / 'apps' / $app / rest of the route
 			[, , , $app,] = explode('/', $url, 5);
 
-			$app = \OC_App::cleanAppId($app);
+			$app = $this->appManager->cleanAppId($app);
 			\OC::$REQUESTEDAPP = $app;
 			$this->loadRoutes($app);
 		} elseif (str_starts_with($url, '/settings/')) {
@@ -433,7 +437,11 @@ class Router implements IRouter {
 			$appControllerPath = __DIR__ . '/../../../core/Controller';
 			$appNameSpace = 'OC\\Core';
 		} else {
-			$appControllerPath = \OC_App::getAppPath($app) . '/lib/Controller';
+			try {
+				$appControllerPath = $this->appManager->getAppPath($app) . '/lib/Controller';
+			} catch (AppPathNotFoundException) {
+				return [];
+			}
 			$appNameSpace = App::buildAppNamespace($app);
 		}
 

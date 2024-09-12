@@ -7,6 +7,7 @@
 namespace Test;
 
 use OCP\App\IAppManager;
+use OCP\Server;
 
 /**
  * Class InfoXmlTest
@@ -15,6 +16,13 @@ use OCP\App\IAppManager;
  * @package Test
  */
 class InfoXmlTest extends TestCase {
+	private IAppManager $appManager;
+
+	protected function setUp(): void {
+		parent::setUp();
+		$this->appManager = Server::get(IAppManager::class);
+	}
+
 	public function dataApps() {
 		return [
 			['admin_audit'],
@@ -45,8 +53,8 @@ class InfoXmlTest extends TestCase {
 	 * @param string $app
 	 */
 	public function testClasses($app) {
-		$appInfo = \OCP\Server::get(IAppManager::class)->getAppInfo($app);
-		$appPath = \OC_App::getAppPath($app);
+		$appInfo = $this->appManager->getAppInfo($app);
+		$appPath = $this->appManager->getAppPath($app);
 		\OC_App::registerAutoloading($app, $appPath);
 
 		//Add the appcontainer
