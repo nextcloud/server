@@ -53,7 +53,7 @@ class AppFetcher extends Fetcher {
 		/** @var mixed[] $response */
 		$response = parent::fetch($ETag, $content);
 
-		if (empty($response) || $response['data'] === null) {
+		if (!isset($response['data']) || $response['data'] === null) {
 			$this->logger->warning('Response from appstore is invalid, apps could not be retrieved. Try again later.', ['app' => 'appstoreFetcher']);
 			return [];
 		}
