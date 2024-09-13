@@ -2852,14 +2852,6 @@
       <code><![CDATA[emit]]></code>
     </UndefinedInterfaceMethod>
   </file>
-  <file src="lib/private/legacy/OC_API.php">
-    <InvalidNullableReturnType>
-      <code><![CDATA[int]]></code>
-    </InvalidNullableReturnType>
-    <NullableReturnStatement>
-      <code><![CDATA[null]]></code>
-    </NullableReturnStatement>
-  </file>
   <file src="lib/private/legacy/OC_App.php">
     <InvalidArgument>
       <code><![CDATA[$groupsList]]></code>
