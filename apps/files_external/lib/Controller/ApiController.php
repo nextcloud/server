@@ -15,7 +15,6 @@ use OCA\Files_External\Service\UserGlobalStoragesService;
 use OCA\Files_External\Service\UserStoragesService;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
-use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCSController;
 use OCP\IRequest;
@@ -102,32 +101,5 @@ class ApiController extends OCSController {
 		}
 
 		return new DataResponse($entries);
-	}
-
-	/**
-	 * Ask for credentials using a browser's native basic auth prompt
-	 * Then returns it if provided
-	 */
-	#[NoAdminRequired]
-	#[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
-	public function askNativeAuth(): DataResponse {
-		if (!isset($_SERVER['PHP_AUTH_USER']) || !isset($_SERVER['PHP_AUTH_PW'])) {
-			$response = new DataResponse([], Http::STATUS_UNAUTHORIZED);
-			$response->addHeader('WWW-Authenticate', 'Basic realm="Storage authentification needed"');
-			return $response;
-		}
-
-		$user = $_SERVER['PHP_AUTH_USER'];
-		$password = $_SERVER['PHP_AUTH_PW'];
-
-		// Reset auth
-		unset($_SERVER['PHP_AUTH_USER']);
-		unset($_SERVER['PHP_AUTH_PW']);
-
-		// Using 401 again to ensure we clear any cached Authorization
-		return new DataResponse([
-			'user' => $user,
-			'password' => $password,
-		], Http::STATUS_UNAUTHORIZED);
 	}
 }
