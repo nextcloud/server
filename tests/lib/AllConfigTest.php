@@ -182,6 +182,42 @@ class AllConfigTest extends \Test\TestCase {
 		$config->deleteUserValue('userPreCond1', 'appPreCond', 'keyPreCond');
 	}
 
+	public function testSetUserValueWithPreConditionFailureWhenResultStillMatches(): void {
+		$this->expectException(\OCP\PreConditionNotMetException::class);
+
+		$config = $this->getConfig();
+
+		$selectAllSQL = 'SELECT `userid`, `appid`, `configkey`, `configvalue` FROM `*PREFIX*preferences` WHERE `userid` = ?';
+
+		$config->setUserValue('userPreCond1', 'appPreCond', 'keyPreCond', 'valuePreCond');
+
+		$result = $this->connection->executeQuery($selectAllSQL, ['userPreCond1'])->fetchAll();
+
+		$this->assertCount(1, $result);
+		$this->assertEquals([
+			'userid' => 'userPreCond1',
+			'appid' => 'appPreCond',
+			'configkey' => 'keyPreCond',
+			'configvalue' => 'valuePreCond'
+		], $result[0]);
+
+		// test if the method throws with invalid precondition when the value is the same
+		$config->setUserValue('userPreCond1', 'appPreCond', 'keyPreCond', 'valuePreCond', 'valuePreCond3');
+
+		$result = $this->connection->executeQuery($selectAllSQL, ['userPreCond1'])->fetchAll();
+
+		$this->assertCount(1, $result);
+		$this->assertEquals([
+			'userid' => 'userPreCond1',
+			'appid' => 'appPreCond',
+			'configkey' => 'keyPreCond',
+			'configvalue' => 'valuePreCond'
+		], $result[0]);
+
+		// cleanup
+		$config->deleteUserValue('userPreCond1', 'appPreCond', 'keyPreCond');
+	}
+
 	public function testSetUserValueUnchanged() {
 		// TODO - FIXME until the dependency injection is handled properly (in AllConfig)
 		$this->markTestSkipped('Skipped because this is just testable if database connection can be injected');
