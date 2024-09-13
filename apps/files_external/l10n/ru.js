@@ -141,7 +141,7 @@ OC.L10N.register(
     "Configuration" : "Конфигурация",
     "Available for" : "Доступно для",
     "Add storage" : "Добавить хранилище",
-    "All people" : "Все пользователи",
+    "All people" : "Все люди",
     "Advanced settings" : "Расширенные настройки",
     "Allow people to mount external storage" : "Разрешить пользователям подключать внешнее хранилище",
     "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "Глобальные учетные данные могут использоваться для аутентификации с несколькими внешними хранилищами, которые имеют одинаковые учетные данные.",

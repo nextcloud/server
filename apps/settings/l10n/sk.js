@@ -221,6 +221,7 @@ OC.L10N.register(
     "The \"overwrite.cli.url\" option in your config.php is correctly set to \"%s\"." : "\"Možnosť \"overwrite.cli.url\" vo vašom config.php je správne nastavená na \"%s\".\"",
     "The \"overwrite.cli.url\" option in your config.php is set to \"%s\" which is a correct URL. Suggested URL is \"%s\"." : "\"Možnosť \"overwrite.cli.url\" vo vašom config.php je nastavená na \"%s\", čo je správna URL. Navrhovaná URL je \"%s\".\"",
     "Please make sure to set the \"overwrite.cli.url\" option in your config.php file to the URL that your users mainly use to access this Nextcloud. Suggestion: \"%s\". Otherwise there might be problems with the URL generation via cron. (It is possible though that the suggested URL is not the URL that your users mainly use to access this Nextcloud. Best is to double check this in any case.)" : "Uistite sa, že ste v súbore config.php nastavili možnosť „overwrite.cli.url“ na adresu URL, ktorú vaši užívatelia používajú na prístup k tomuto Nextcloudu. Návrh: \"%s\". V opačnom prípade môžu nastať problémy s generovaním URL cez cron. (Je však možné, že navrhovaná adresa URL nie je adresa URL, ktorú vaši používatelia používajú na prístup k tomuto Nextcloudu. Najlepšie je v každom prípade to ešte raz skontrolovať.)",
+    "PHP APCu configuration" : "Konfigurácia PHP APCu",
     "PHP default charset" : "Predvolená znaková sada pre PHP ",
     "PHP configuration option \"default_charset\" should be UTF-8" : "PHP premenná \"default_charset\" by mala byť UTF-8",
     "PHP set_time_limit" : "PHP set_time_limit",

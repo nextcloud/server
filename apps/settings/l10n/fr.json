@@ -621,7 +621,7 @@
     "In case of lost device or exiting the organization, this can remotely wipe the Nextcloud data from all devices associated with {userid}. Only works if the devices are connected to the internet." : "En cas de perte d'appareil ou si vous quittez un groupe ou une organisation, cela pourra supprimer les données de tous les appareils associés à {userid}. Ne fonctionne que si les appareils associés sont connectés à internet.",
     "Remote wipe of devices" : "Effacer les appareils à distance",
     "Wipe {userid}'s devices" : "Effacer les appareils de {userid}",
-    "Wiped {userid}'s devices" : "L'appareil de {userid}'s a été effacé",
+    "Wiped {userid}'s devices" : "Les appareils de {userid} ont été effacés",
     "Failed to update line manager" : "Échec de la mise à jour du responsable hiérarchique",
     "Fully delete {userid}'s account including all their personal files, app data, etc." : "Supprime totalement le compte de {userid} et toutes ses données associées (fichiers personnels, données des applications, etc.)",
     "Account deletion" : "Suppression de compte",
