@@ -82,7 +82,6 @@ return array(
     'OCA\\Settings\\SetupChecks\\AllowedAdminRanges' => $baseDir . '/../lib/SetupChecks/AllowedAdminRanges.php',
     'OCA\\Settings\\SetupChecks\\AppDirsWithDifferentOwner' => $baseDir . '/../lib/SetupChecks/AppDirsWithDifferentOwner.php',
     'OCA\\Settings\\SetupChecks\\BruteForceThrottler' => $baseDir . '/../lib/SetupChecks/BruteForceThrottler.php',
-    'OCA\\Settings\\SetupChecks\\CheckServerResponseTrait' => $baseDir . '/../lib/SetupChecks/CheckServerResponseTrait.php',
     'OCA\\Settings\\SetupChecks\\CheckUserCertificates' => $baseDir . '/../lib/SetupChecks/CheckUserCertificates.php',
     'OCA\\Settings\\SetupChecks\\CodeIntegrity' => $baseDir . '/../lib/SetupChecks/CodeIntegrity.php',
     'OCA\\Settings\\SetupChecks\\CronErrors' => $baseDir . '/../lib/SetupChecks/CronErrors.php',

@@ -6,13 +6,13 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-namespace OCA\Settings\Tests\SetupChecks;
+namespace Test\SetupCheck;
 
-use OCA\Settings\SetupChecks\CheckServerResponseTrait;
 use OCP\Http\Client\IClientService;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IURLGenerator;
+use OCP\SetupCheck\CheckServerResponseTrait;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -22,7 +22,6 @@ class CheckServerResponseTraitImplementation {
 
 	use CheckServerResponseTrait {
 		CheckServerResponseTrait::getRequestOptions as public;
-		CheckServerResponseTrait::runHEAD as public;
 		CheckServerResponseTrait::runRequest as public;
 		CheckServerResponseTrait::normalizeUrl as public;
 		CheckServerResponseTrait::getTestUrls as public;
