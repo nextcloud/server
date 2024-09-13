@@ -148,6 +148,7 @@ class PersonalInfo implements ISettings {
 		$accountParameters = [
 			'avatarChangeSupported' => $user->canChangeAvatar(),
 			'displayNameChangeSupported' => $user->canChangeDisplayName(),
+			'emailAddressChangeSupported' => $user->canChangeEmailAddress(),
 			'federationEnabled' => $federationEnabled,
 			'lookupServerUploadEnabled' => $lookupServerUploadEnabled,
 		];

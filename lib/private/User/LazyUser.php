@@ -105,6 +105,10 @@ class LazyUser implements IUser {
 		return $this->getUser()->canChangeDisplayName();
 	}
 
+	public function canChangeEmailAddress() {
+		return $this->getUser()->canChangeEmailAddress();
+	}
+
 	public function isEnabled() {
 		return $this->getUser()->isEnabled();
 	}

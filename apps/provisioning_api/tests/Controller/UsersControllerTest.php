@@ -2101,6 +2101,12 @@ class UsersControllerTest extends TestCase {
 				['allow_user_to_change_display_name', true, true],
 				['force_language', false, false],
 			]);
+		$this->config->expects($this->any())
+			->method('getSystemValue')
+			->willReturnMap([
+				['allow_user_to_change_email_address', true, true],
+				['force_language', false, false],
+			]);
 
 		$loggedInUser = $this->createMock(IUser::class);
 		$loggedInUser
@@ -2158,7 +2164,13 @@ class UsersControllerTest extends TestCase {
 				['allow_user_to_change_display_name', true, true],
 				['force_language', false, $forced],
 			]);
-
+		$this->config->expects($this->any())
+			->method('getSystemValue')
+			->willReturnMap([
+				['allow_user_to_change_email_address', true, true],
+				['force_language', false, $forced],
+			]);
+			
 		$loggedInUser = $this->createMock(IUser::class);
 		$loggedInUser
 			->expects($this->any())
@@ -4152,16 +4164,24 @@ class UsersControllerTest extends TestCase {
 	 * @dataProvider dataGetEditableFields
 	 *
 	 * @param bool $allowedToChangeDisplayName
+	 * @param bool $allowedToChangeEmailAddress
 	 * @param string $userBackend
 	 * @param array $expected
 	 */
-	public function testGetEditableFields(bool $allowedToChangeDisplayName, string $userBackend, array $expected) {
+	public function testGetEditableFields(bool $allowedToChangeDisplayName,bool $allowedToChangeEmailAddress, string $userBackend, array $expected) {
 		$this->config
 			->method('getSystemValue')
 			->with(
 				$this->equalTo('allow_user_to_change_display_name'),
 				$this->anything()
 			)->willReturn($allowedToChangeDisplayName);
+		
+		$this->config
+			->method('getSystemValue')
+			->with(
+				$this->equalTo('allow_user_to_change_email_address'),
+				$this->anything()
+			)->willReturn($allowedToChangeEmailAddress);
 
 		$user = $this->createMock(IUser::class);
 		$this->userSession->method('getUser')
