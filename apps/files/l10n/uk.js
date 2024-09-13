@@ -207,6 +207,7 @@ OC.L10N.register(
     "Remove filter" : "Вилучити фільтр",
     "Total rows summary" : "Загалом рядків",
     "Toggle selection for all files and folders" : "Перемкнути вибір для всіх файлів та каталогів",
+    "(selected)" : "(вибрано)",
     "\"{displayName}\" failed on some elements " : "\"{displayName}\" не показується в окремих елементах",
     "\"{displayName}\" batch action executed successfully" : "Операцію \"{displayName}\" успішно виконано",
     "{count} selected" : "{count} вибрано",
