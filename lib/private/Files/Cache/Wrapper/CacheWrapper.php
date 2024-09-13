@@ -237,8 +237,8 @@ class CacheWrapper extends Cache {
 		return $this->getCache()->getStatus($file);
 	}
 
-	public function searchQuery(ISearchQuery $searchQuery) {
-		return current($this->querySearchHelper->searchInCaches($searchQuery, [$this]));
+	public function searchQuery(ISearchQuery $query) {
+		return current($this->querySearchHelper->searchInCaches($query, [$this]));
 	}
 
 	/**
