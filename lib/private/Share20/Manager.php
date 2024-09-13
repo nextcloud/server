@@ -1164,7 +1164,8 @@ class Manager implements IManager {
 		return $deletedShares;
 	}
 
-	protected function deleteReshares(IShare $share): void {
+	/* Promote reshares into direct shares so that target user keeps access */
+	protected function promoteReshares(IShare $share): void {
 		try {
 			$node = $share->getNode();
 		} catch (NotFoundException) {
@@ -1182,7 +1183,7 @@ class Manager implements IManager {
 
 			foreach ($users as $user) {
 				/* Skip share owner */
-				if ($user->getUID() === $share->getShareOwner()) {
+				if ($user->getUID() === $share->getShareOwner() || $user->getUID() === $share->getSharedBy()) {
 					continue;
 				}
 				$userIds[] = $user->getUID();
@@ -1225,8 +1226,14 @@ class Manager implements IManager {
 			try {
 				$this->generalCreateChecks($child);
 			} catch (GenericShareException $e) {
-				$this->logger->debug('Delete reshare because of exception '.$e->getMessage(), ['exception' => $e]);
-				$this->deleteShare($child);
+				/* The check is invalid, promote it to a direct share from the sharer of parent share */
+				$this->logger->debug('Promote reshare because of exception ' . $e->getMessage(), ['exception' => $e, 'fullId' => $child->getFullId()]);
+				try {
+					$child->setSharedBy($share->getSharedBy());
+					$this->updateShare($child);
+				} catch (GenericShareException|\InvalidArgumentException $e) {
+					$this->logger->warning('Failed to promote reshare because of exception ' . $e->getMessage(), ['exception' => $e, 'fullId' => $child->getFullId()]);
+				}
 			}
 		}
 	}
@@ -1256,8 +1263,8 @@ class Manager implements IManager {
 
 		$this->dispatcher->dispatchTyped(new ShareDeletedEvent($share));
 
-		// Delete reshares of the deleted share
-		$this->deleteReshares($share);
+		// Promote reshares of the deleted share
+		$this->promoteReshares($share);
 	}
 
 
