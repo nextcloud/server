@@ -27,11 +27,11 @@ class BeforePreviewFetchedEvent extends \OCP\EventDispatcher\Event {
 		private Node $node,
 		/** @deprecated 28.0.0 passing null is deprecated **/
 		private ?int $width = null,
-		/** @deprecated 28.0.0 passing null is null deprecated **/
+		/** @deprecated 28.0.0 passing null is deprecated **/
 		private ?int $height = null,
-		/** @deprecated 28.0.0 passing null is null deprecated **/
+		/** @deprecated 28.0.0 passing null is deprecated **/
 		private ?bool $crop = null,
-		/** @deprecated 28.0.0 passing null is null deprecated **/
+		/** @deprecated 28.0.0 passing null is deprecated **/
 		private ?string $mode = null,
 		private ?string $mimeType = null,
 	) {
