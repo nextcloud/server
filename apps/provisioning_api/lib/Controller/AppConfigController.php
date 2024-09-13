@@ -10,6 +10,7 @@ namespace OCA\Provisioning_API\Controller;
 
 use OC\AppConfig;
 use OC\AppFramework\Middleware\Security\Exceptions\NotAdminException;
+use OCP\App\IAppManager;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\Attribute\PasswordConfirmationRequired;
@@ -35,6 +36,7 @@ class AppConfigController extends OCSController {
 		private IL10N $l10n,
 		private IGroupManager $groupManager,
 		private IManager $settingManager,
+		private IAppManager $appManager,
 	) {
 		parent::__construct($appName, $request);
 	}
@@ -171,11 +173,10 @@ class AppConfigController extends OCSController {
 	}
 
 	/**
-	 * @param string $app
 	 * @throws \InvalidArgumentException
 	 */
-	protected function verifyAppId(string $app) {
-		if (\OC_App::cleanAppId($app) !== $app) {
+	protected function verifyAppId(string $app): void {
+		if ($this->appManager->cleanAppId($app) !== $app) {
 			throw new \InvalidArgumentException('Invalid app id given');
 		}
 	}

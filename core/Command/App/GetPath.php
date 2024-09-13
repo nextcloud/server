@@ -63,7 +63,7 @@ class GetPath extends Base {
 	 */
 	public function completeArgumentValues($argumentName, CompletionContext $context): array {
 		if ($argumentName === 'app') {
-			return \OC_App::getAllApps();
+			return $this->appManager->getAllAppsInAppsFolders();
 		}
 		return [];
 	}

@@ -341,7 +341,7 @@ class AppManagerTest extends TestCase {
 		$manager->expects($this->once())
 			->method('getAppPath')
 			->with('test')
-			->willReturn(null);
+			->willReturn('');
 
 		$manager->expects($this->once())
 			->method('getAppInfo')
@@ -402,7 +402,7 @@ class AppManagerTest extends TestCase {
 		$manager->expects($this->once())
 			->method('getAppPath')
 			->with('test')
-			->willReturn(null);
+			->willReturn('');
 
 		$manager->expects($this->once())
 			->method('getAppInfo')

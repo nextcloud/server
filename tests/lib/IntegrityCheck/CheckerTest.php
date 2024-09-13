@@ -1030,9 +1030,9 @@ class CheckerTest extends TestCase {
 		$this->checker
 			->expects($this->once())
 			->method('verifyCoreSignature');
-		$this->appLocator
+		$this->appManager
 			->expects($this->once())
-			->method('getAllApps')
+			->method('getAllAppsInAppsFolders')
 			->willReturn([
 				'files',
 				'calendar',

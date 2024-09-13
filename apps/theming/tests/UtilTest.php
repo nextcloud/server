@@ -18,22 +18,17 @@ use Test\TestCase;
 
 class UtilTest extends TestCase {
 
-	/** @var Util */
-	protected $util;
-	/** @var IConfig|MockObject */
-	protected $config;
-	/** @var IAppData|MockObject */
-	protected $appData;
-	/** @var IAppManager|MockObject */
-	protected $appManager;
-	/** @var ImageManager|MockObject */
-	protected $imageManager;
+	protected Util $util;
+	protected IConfig&MockObject $config;
+	protected IAppData&MockObject $appData;
+	protected IAppManager $appManager;
+	protected ImageManager&MockObject $imageManager;
 
 	protected function setUp(): void {
 		parent::setUp();
 		$this->config = $this->createMock(IConfig::class);
 		$this->appData = $this->createMock(IAppData::class);
-		$this->appManager = $this->createMock(IAppManager::class);
+		$this->appManager = \OCP\Server::get(IAppManager::class);
 		$this->imageManager = $this->createMock(ImageManager::class);
 		$this->util = new Util($this->config, $this->appManager, $this->appData, $this->imageManager);
 	}
@@ -152,19 +147,15 @@ class UtilTest extends TestCase {
 			->method('getFolder')
 			->with('global/images')
 			->willThrowException(new NotFoundException());
-		$this->appManager->expects($this->once())
-			->method('getAppPath')
-			->with($app)
-			->willReturn(\OC_App::getAppPath($app));
 		$icon = $this->util->getAppIcon($app);
 		$this->assertEquals($expected, $icon);
 	}
 
 	public function dataGetAppIcon() {
 		return [
-			['user_ldap', \OC_App::getAppPath('user_ldap') . '/img/app.svg'],
+			['user_ldap', \OCP\Server::get(IAppManager::class)->getAppPath('user_ldap') . '/img/app.svg'],
 			['noapplikethis', \OC::$SERVERROOT . '/core/img/logo/logo.svg'],
-			['comments', \OC_App::getAppPath('comments') . '/img/comments.svg'],
+			['comments', \OCP\Server::get(IAppManager::class)->getAppPath('comments') . '/img/comments.svg'],
 		];
 	}
 
@@ -187,12 +178,6 @@ class UtilTest extends TestCase {
 	 * @dataProvider dataGetAppImage
 	 */
 	public function testGetAppImage($app, $image, $expected) {
-		if ($app !== 'core') {
-			$this->appManager->expects($this->once())
-				->method('getAppPath')
-				->with($app)
-				->willReturn(\OC_App::getAppPath($app));
-		}
 		$this->assertEquals($expected, $this->util->getAppImage($app, $image));
 	}
 

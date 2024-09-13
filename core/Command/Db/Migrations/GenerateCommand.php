@@ -71,13 +71,10 @@ class {{classname}} extends SimpleMigrationStep {
 }
 ';
 
-	protected Connection $connection;
-	protected IAppManager $appManager;
-
-	public function __construct(Connection $connection, IAppManager $appManager) {
-		$this->connection = $connection;
-		$this->appManager = $appManager;
-
+	public function __construct(
+		protected Connection $connection,
+		protected IAppManager $appManager,
+	) {
 		parent::__construct();
 	}
 
@@ -155,7 +152,7 @@ class {{classname}} extends SimpleMigrationStep {
 	 */
 	public function completeArgumentValues($argumentName, CompletionContext $context) {
 		if ($argumentName === 'app') {
-			$allApps = \OC_App::getAllApps();
+			$allApps = $this->appManager->getAllAppsInAppsFolders();
 			return array_diff($allApps, \OC_App::getEnabledApps(true, true));
 		}
 

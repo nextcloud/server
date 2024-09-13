@@ -7,6 +7,7 @@ namespace OCA\Provisioning_API\Tests\Controller;
 
 use OC\AppConfig;
 use OCA\Provisioning_API\Controller\AppConfigController;
+use OCP\App\IAppManager;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\Exceptions\AppConfigUnknownKeyException;
@@ -17,6 +18,7 @@ use OCP\IRequest;
 use OCP\IUser;
 use OCP\IUserSession;
 use OCP\Settings\IManager;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 use function json_decode;
 use function json_encode;
@@ -28,16 +30,12 @@ use function json_encode;
  */
 class AppConfigControllerTest extends TestCase {
 
-	/** @var IAppConfig|\PHPUnit\Framework\MockObject\MockObject */
-	private $appConfig;
-	/** @var IUserSession|\PHPUnit\Framework\MockObject\MockObject */
-	private $userSession;
-	/** @var IL10N|\PHPUnit\Framework\MockObject\MockObject */
-	private $l10n;
-	/** @var IManager|\PHPUnit\Framework\MockObject\MockObject */
-	private $settingManager;
-	/** @var IGroupManager|\PHPUnit\Framework\MockObject\MockObject */
-	private $groupManager;
+	private IAppConfig&MockObject $appConfig;
+	private IUserSession&MockObject $userSession;
+	private IL10N&MockObject $l10n;
+	private IManager&MockObject $settingManager;
+	private IGroupManager&MockObject $groupManager;
+	private IAppManager $appManager;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -45,8 +43,9 @@ class AppConfigControllerTest extends TestCase {
 		$this->appConfig = $this->createMock(AppConfig::class);
 		$this->userSession = $this->createMock(IUserSession::class);
 		$this->l10n = $this->createMock(IL10N::class);
-		$this->groupManager = $this->createMock(IGroupManager::class);
 		$this->settingManager = $this->createMock(IManager::class);
+		$this->groupManager = $this->createMock(IGroupManager::class);
+		$this->appManager = \OCP\Server::get(IAppManager::class);
 	}
 
 	/**
@@ -64,7 +63,8 @@ class AppConfigControllerTest extends TestCase {
 				$this->userSession,
 				$this->l10n,
 				$this->groupManager,
-				$this->settingManager
+				$this->settingManager,
+				$this->appManager,
 			);
 		} else {
 			return $this->getMockBuilder(AppConfigController::class)
@@ -75,7 +75,8 @@ class AppConfigControllerTest extends TestCase {
 					$this->userSession,
 					$this->l10n,
 					$this->groupManager,
-					$this->settingManager
+					$this->settingManager,
+					$this->appManager,
 				])
 				->setMethods($methods)
 				->getMock();

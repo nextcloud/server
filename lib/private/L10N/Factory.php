@@ -81,7 +81,7 @@ class Factory implements IFactory {
 	 */
 	public function get($app, $lang = null, $locale = null) {
 		return new LazyL10N(function () use ($app, $lang, $locale) {
-			$app = \OC_App::cleanAppId($app);
+			$app = $this->appManager->cleanAppId($app);
 			if ($lang !== null) {
 				$lang = str_replace(['\0', '/', '\\', '..'], '', $lang);
 			}
