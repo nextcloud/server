@@ -104,6 +104,7 @@ OC.L10N.register(
     "No" : "Nie",
     "Yes" : "Áno",
     "Federated user" : "Združený užívateľ",
+    "user@your-nextcloud.org" : "user@your-nextcloud.org",
     "Create share" : "Vytvoriť sprístupnenie",
     "Failed to add the public link to your Nextcloud" : "Pridanie verejne dostupného odkazu do vášho Nextcloud zlyhalo",
     "Custom date range" : "Vlastné rozpätie dátumov",
