@@ -1,38 +1,47 @@
 <?php
 
 declare(strict_types=1);
+
 /**
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-namespace OCA\AdminAudit\Tests\Actions;
 
-use OCA\AdminAudit\Actions\Security;
+namespace OCA\AdminAudit\Tests\Listener;
+
 use OCA\AdminAudit\AuditLogger;
+use OCA\AdminAudit\Listener\SecurityEventListener;
 use OCP\Authentication\TwoFactorAuth\IProvider;
+use OCP\Authentication\TwoFactorAuth\TwoFactorProviderChallengeFailed;
+use OCP\Authentication\TwoFactorAuth\TwoFactorProviderChallengePassed;
 use OCP\IUser;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
-class SecurityTest extends TestCase {
+class SecurityEventListenerTest extends TestCase {
 	private AuditLogger|MockObject $logger;
 
-	private Security $security;
+	private SecurityEventListener $security;
 
 	private MockObject|IUser $user;
+
+	/** @var IProvider&MockObject */
+	private $provider;
 
 	protected function setUp(): void {
 		parent::setUp();
 
 		$this->logger = $this->createMock(AuditLogger::class);
-		$this->security = new Security($this->logger);
+		$this->security = new SecurityEventListener($this->logger);
 
 		$this->user = $this->createMock(IUser::class);
 		$this->user->method('getUID')->willReturn('myuid');
 		$this->user->method('getDisplayName')->willReturn('mydisplayname');
+		$this->provider = $this->createMock(IProvider::class);
+		$this->provider->method('getDisplayName')->willReturn('myprovider');
 	}
 
-	public function testTwofactorFailed() {
+	public function testTwofactorFailed(): void {
 		$this->logger->expects($this->once())
 			->method('info')
 			->with(
@@ -40,14 +49,10 @@ class SecurityTest extends TestCase {
 				['app' => 'admin_audit']
 			);
 
-		$provider = $this->createMock(IProvider::class);
-		$provider->method('getDisplayName')
-			->willReturn('myprovider');
-
-		$this->security->twofactorFailed($this->user, $provider);
+		$this->security->handle(new twoFactorProviderChallengeFailed($this->user, $this->provider));
 	}
 
-	public function testTwofactorSuccess() {
+	public function testTwofactorSuccess(): void {
 		$this->logger->expects($this->once())
 			->method('info')
 			->with(
@@ -55,10 +60,6 @@ class SecurityTest extends TestCase {
 				['app' => 'admin_audit']
 			);
 
-		$provider = $this->createMock(IProvider::class);
-		$provider->method('getDisplayName')
-			->willReturn('myprovider');
-
-		$this->security->twofactorSuccess($this->user, $provider);
+		$this->security->handle(new TwoFactorProviderChallengePassed($this->user, $this->provider));
 	}
 }
