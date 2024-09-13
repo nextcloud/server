@@ -59,7 +59,7 @@ OC.L10N.register(
     "Classic TV" : "TV clásica",
     "CinemaScope" : "Cinemascope",
     "Arrow" : "Frecha",
-    "Blur" : "Esvaemento",
+    "Blur" : "Esvaer",
     "Brightness" : "Brillo",
     "Contrast" : "Contraste",
     "Un-flip X" : "Desfacer o volteo X",
