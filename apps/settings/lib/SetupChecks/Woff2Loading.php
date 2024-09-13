@@ -42,7 +42,7 @@ class Woff2Loading implements ISetupCheck {
 	public function run(): SetupResult {
 		$url = $this->urlGenerator->linkTo('', 'core/fonts/NotoSans-Regular-latin.woff2');
 		$noResponse = true;
-		$responses = $this->runHEAD($url);
+		$responses = $this->runHEAD($url, removeWebroot: true);
 		foreach ($responses as $response) {
 			$noResponse = false;
 			if ($response->getStatusCode() === 200) {
@@ -60,6 +60,6 @@ class Woff2Loading implements ISetupCheck {
 			$this->l10n->t('Your web server is not properly set up to deliver .woff2 files. This is typically an issue with the Nginx configuration. For Nextcloud 15 it needs an adjustement to also deliver .woff2 files. Compare your Nginx configuration to the recommended configuration in our documentation.'),
 			$this->urlGenerator->linkToDocs('admin-nginx'),
 		);
-		
+
 	}
 }

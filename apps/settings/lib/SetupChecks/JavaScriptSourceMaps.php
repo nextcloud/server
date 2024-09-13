@@ -42,7 +42,7 @@ class JavaScriptSourceMaps implements ISetupCheck {
 	public function run(): SetupResult {
 		$testFile = $this->urlGenerator->linkTo('settings', 'js/map-test.js.map');
 
-		foreach ($this->runHEAD($testFile) as $response) {
+		foreach ($this->runHEAD($testFile, removeWebroot: true) as $response) {
 			return SetupResult::success();
 		}
 

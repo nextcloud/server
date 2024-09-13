@@ -139,8 +139,8 @@ trait CheckServerResponseTrait {
 	 * @param bool $httpErrors Ignore requests with HTTP errors (will not yield if request has a 4xx or 5xx response)
 	 * @return Generator<int, IResponse>
 	 */
-	protected function runHEAD(string $url, bool $ignoreSSL = true, bool $httpErrors = true): Generator {
-		return $this->runRequest('HEAD', $url, ['ignoreSSL' => $ignoreSSL, 'httpErrors' => $httpErrors]);
+	protected function runHEAD(string $url, bool $ignoreSSL = true, bool $httpErrors = true, bool $removeWebroot = false): Generator {
+		return $this->runRequest('HEAD', $url, ['ignoreSSL' => $ignoreSSL, 'httpErrors' => $httpErrors], $removeWebroot);
 	}
 
 	protected function getRequestOptions(bool $ignoreSSL, bool $httpErrors): array {

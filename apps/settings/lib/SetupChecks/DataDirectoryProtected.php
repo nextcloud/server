@@ -44,7 +44,7 @@ class DataDirectoryProtected implements ISetupCheck {
 		$dataUrl = $this->urlGenerator->linkTo('', $dataDir . '/.ncdata');
 
 		$noResponse = true;
-		foreach ($this->runRequest('GET', $dataUrl, [ 'httpErrors' => false ]) as $response) {
+		foreach ($this->runRequest('GET', $dataUrl, [ 'httpErrors' => false ], removeWebroot: true) as $response) {
 			$noResponse = false;
 			if ($response->getStatusCode() < 400) {
 				// Read the response body
@@ -65,6 +65,6 @@ class DataDirectoryProtected implements ISetupCheck {
 			return SetupResult::warning($this->l10n->t('Could not check that the data directory is protected. Please check manually that your server does not allow access to the data directory.') . "\n" . $this->serverConfigHelp());
 		}
 		return SetupResult::success();
-		
+
 	}
 }
