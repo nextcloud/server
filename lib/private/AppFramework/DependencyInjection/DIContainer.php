@@ -39,7 +39,6 @@ use OCP\IDBConnection;
 use OCP\IGroupManager;
 use OCP\IInitialStateService;
 use OCP\IL10N;
-use OCP\ILogger;
 use OCP\INavigationManager;
 use OCP\IRequest;
 use OCP\IServerContainer;
@@ -119,9 +118,6 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 				$c->get(PsrLoggerAdapter::class),
 				$c->get('AppName')
 			);
-		});
-		$this->registerService(ILogger::class, function (ContainerInterface $c) {
-			return new OC\AppFramework\Logger($this->server->query(ILogger::class), $c->get('AppName'));
 		});
 
 		$this->registerService(IServerContainer::class, function () {
