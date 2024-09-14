@@ -1150,9 +1150,6 @@
     <InvalidOperand>
       <code><![CDATA[$i]]></code>
     </InvalidOperand>
-    <NullArgument>
-      <code><![CDATA[null]]></code>
-    </NullArgument>
   </file>
   <file src="apps/user_ldap/lib/Mapping/AbstractMapping.php">
     <RedundantCondition>
@@ -1884,9 +1881,6 @@
       <code><![CDATA[null]]></code>
       <code><![CDATA[null]]></code>
     </NullableReturnStatement>
-    <ParamNameMismatch>
-      <code><![CDATA[$searchQuery]]></code>
-    </ParamNameMismatch>
   </file>
   <file src="lib/private/Files/Cache/FailedCache.php">
     <InvalidReturnStatement>
@@ -1936,9 +1930,6 @@
       <code><![CDATA[array]]></code>
       <code><![CDATA[array]]></code>
     </LessSpecificImplementedReturnType>
-    <ParamNameMismatch>
-      <code><![CDATA[$searchQuery]]></code>
-    </ParamNameMismatch>
   </file>
   <file src="lib/private/Files/Config/MountProviderCollection.php">
     <InvalidOperand>
