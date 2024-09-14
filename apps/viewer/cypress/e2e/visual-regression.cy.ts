@@ -40,7 +40,8 @@ describe('Visual regression tests', function() {
 		cy.window().then((win) => {
 			// Load roboto font for visual regression consistency
 			win.loadRoboto = true
-			win.document.body.style.fontFamily = 'Roboto'
+			win.document.body.style.setProperty('--font-face', 'Roboto')
+			win.document.body.style.setProperty('font-family', 'Roboto')
 		})
 	})
 
@@ -52,9 +53,11 @@ describe('Visual regression tests', function() {
 	})
 
 	it('Open the viewer on file click', function() {
+		cy.intercept('GET', '**/viewer/css/fonts/roboto-*').as('roboto-font')
 		cy.intercept('GET', '**/core/preview*').as('image1')
 		cy.intercept('GET', '/remote.php/dav/files/*/test-card.mp4').as('video')
 		cy.openFile('test-card.mp4')
+		cy.wait('@roboto-font')
 		cy.wait('@video')
 		// We preload images, so we can check its loading here and not when clicking next
 		cy.wait('@image1')
