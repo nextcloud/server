@@ -207,6 +207,7 @@ OC.L10N.register(
     "Remove filter" : "フィルターを削除",
     "Total rows summary" : "総行数のサマリー",
     "Toggle selection for all files and folders" : "すべてのファイルとフォルダの選択を切り替える",
+    "(selected)" : "(選択済み)",
     "\"{displayName}\" failed on some elements " : "いくつかの要素で \"{displayName}\" が失敗しました。",
     "\"{displayName}\" batch action executed successfully" : "\"{displayName}\" バッチアクションが正常に実行されました。",
     "{count} selected" : "{count} 選択",

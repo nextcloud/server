@@ -87,6 +87,7 @@ OC.L10N.register(
     "The FTP support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "FTP-ს მხარდაჭერა PHP-ში არაა მოქმედი ან დაყენებული. %s-ის მონტაჟი ვერ ხერხდება. გთხოვთ სთხოვოთ თქვენი სისტემის ადმინისტრატორს მისი დაყენება.",
     "External storage" : "ექსტერნალური საცავი",
     "External storage support" : "გარე საცავის მხარდაჭერა",
+    "Submit" : "გაგზავნა",
     "External mount error" : "გარე მონტაჟის შეცდომა",
     "Storage type" : "საცავის სახეობა",
     "Unknown" : "უცნობია",

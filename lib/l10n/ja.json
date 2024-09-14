@@ -185,6 +185,7 @@
     "Sharing is disabled" : "共有は無効になっています",
     "Sharing is disabled for you" : "共有は無効になっています",
     "Cannot share with the share owner" : "共有所有者と共有できません",
+    "Share does not have a full ID" : "共有に完全なIDがありません",
     "Cannot change share type" : "共有タイプを変更できません",
     "Can only update recipient on user shares" : "ユーザー共有の受信者のみ更新可能",
     "Cannot enable sending the password by Talk with an empty password" : "空のパスワードでTalkによるパスワード送信を有効にできません",
