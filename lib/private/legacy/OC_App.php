@@ -388,7 +388,7 @@ class OC_App {
 	 * @deprecated 20.0.0 Please register your alternative login option using the registerAlternativeLogin() on the RegistrationContext in your Application class implementing the OCP\Authentication\IAlternativeLogin interface
 	 */
 	public static function registerLogIn(array $entry) {
-		\OC::$server->getLogger()->debug('OC_App::registerLogIn() is deprecated, please register your alternative login option using the registerAlternativeLogin() on the RegistrationContext in your Application class implementing the OCP\Authentication\IAlternativeLogin interface');
+		\OCP\Server::get(LoggerInterface::class)->debug('OC_App::registerLogIn() is deprecated, please register your alternative login option using the registerAlternativeLogin() on the RegistrationContext in your Application class implementing the OCP\Authentication\IAlternativeLogin interface');
 		self::$altLogin[] = $entry;
 	}
 
@@ -401,7 +401,7 @@ class OC_App {
 
 		foreach ($bootstrapCoordinator->getRegistrationContext()->getAlternativeLogins() as $registration) {
 			if (!in_array(IAlternativeLogin::class, class_implements($registration->getService()), true)) {
-				\OC::$server->getLogger()->error('Alternative login option {option} does not implement {interface} and is therefore ignored.', [
+				\OCP\Server::get(LoggerInterface::class)->error('Alternative login option {option} does not implement {interface} and is therefore ignored.', [
 					'option' => $registration->getService(),
 					'interface' => IAlternativeLogin::class,
 					'app' => $registration->getAppId(),
@@ -413,11 +413,12 @@ class OC_App {
 				/** @var IAlternativeLogin $provider */
 				$provider = \OCP\Server::get($registration->getService());
 			} catch (ContainerExceptionInterface $e) {
-				\OC::$server->getLogger()->logException($e, [
-					'message' => 'Alternative login option {option} can not be initialised.',
-					'option' => $registration->getService(),
-					'app' => $registration->getAppId(),
-				]);
+				\OCP\Server::get(LoggerInterface::class)->error('Alternative login option {option} can not be initialized.',
+					[
+						'exception' => $e,
+						'option' => $registration->getService(),
+						'app' => $registration->getAppId(),
+					]);
 			}
 
 			try {
@@ -429,11 +430,12 @@ class OC_App {
 					'class' => $provider->getClass(),
 				];
 			} catch (Throwable $e) {
-				\OC::$server->getLogger()->logException($e, [
-					'message' => 'Alternative login option {option} had an error while loading.',
-					'option' => $registration->getService(),
-					'app' => $registration->getAppId(),
-				]);
+				\OCP\Server::get(LoggerInterface::class)->error('Alternative login option {option} had an error while loading.',
+					[
+						'exception' => $e,
+						'option' => $registration->getService(),
+						'app' => $registration->getAppId(),
+					]);
 			}
 		}
 
@@ -667,7 +669,7 @@ class OC_App {
 		}
 
 		if (is_file($appPath . '/appinfo/database.xml')) {
-			\OC::$server->getLogger()->error('The appinfo/database.xml file is not longer supported. Used in ' . $appId);
+			\OCP\Server::get(LoggerInterface::class)->error('The appinfo/database.xml file is not longer supported. Used in ' . $appId);
 			return false;
 		}
 
