@@ -1,4 +1,7 @@
-<?php return array(
+<?php
+
+declare (strict_types=1);
+return array(
     'root' => array(
         'name' => '__root__',
         'pretty_version' => 'dev-master',
