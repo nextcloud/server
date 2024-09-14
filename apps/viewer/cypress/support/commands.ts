@@ -100,7 +100,6 @@ Cypress.Commands.add('openFile', fileName => {
 Cypress.Commands.add('openFileInSingleShare', () => {
 	cy.get('tr[data-cy-files-list-row-name]')
 		.should('have.length', 1)
-		.click()
 	// eslint-disable-next-line
 	cy.wait(250)
 })
