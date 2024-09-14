@@ -7,12 +7,14 @@
  */
 use bantu\IniGetWrapper\IniGetWrapper;
 use OC\Files\View;
+use OC\HintException;
 use OC\Streamer;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Events\BeforeDirectFileDownloadEvent;
 use OCP\Files\Events\BeforeZipCreatedEvent;
 use OCP\Files\IRootFolder;
 use OCP\Lock\ILockingProvider;
+use Psr\Log\LoggerInterface;
 
 /**
  * Class for file server access
@@ -165,7 +167,7 @@ class OC_Files {
 							$fileTime = $file->getMTime();
 						} else {
 							// File is not a file? …
-							\OC::$server->getLogger()->debug(
+							\OCP\Server::get(LoggerInterface::class)->debug(
 								'File given, but no Node available. Name {file}',
 								[ 'app' => 'files', 'file' => $file ]
 							);
@@ -186,25 +188,25 @@ class OC_Files {
 			self::unlockAllTheFiles($dir, $files, $getType, $view, $filename);
 		} catch (\OCP\Lock\LockedException $ex) {
 			self::unlockAllTheFiles($dir, $files, $getType, $view, $filename);
-			OC::$server->getLogger()->logException($ex);
+			\OCP\Server::get(LoggerInterface::class)->error('File is currently busy', ['exception' => $ex]);
 			$l = \OC::$server->getL10N('lib');
-			$hint = method_exists($ex, 'getHint') ? $ex->getHint() : '';
+			$hint = $ex instanceof HintException ? $ex->getHint() : '';
 			\OC_Template::printErrorPage($l->t('File is currently busy, please try again later'), $hint, 200);
 		} catch (\OCP\Files\ForbiddenException $ex) {
 			self::unlockAllTheFiles($dir, $files, $getType, $view, $filename);
-			OC::$server->getLogger()->logException($ex);
+			\OCP\Server::get(LoggerInterface::class)->error('Cannot download file', ['exception' => $ex]);
 			$l = \OC::$server->getL10N('lib');
 			\OC_Template::printErrorPage($l->t('Cannot download file'), $ex->getMessage(), 200);
 		} catch (\OCP\Files\ConnectionLostException $ex) {
 			self::unlockAllTheFiles($dir, $files, $getType, $view, $filename);
-			OC::$server->getLogger()->logException($ex, ['level' => \OCP\ILogger::DEBUG]);
+			\OCP\Server::get(LoggerInterface::class)->debug('Connection lost', ['exception' => $ex]);
 			/* We do not print anything here, the connection is already closed */
 			die();
 		} catch (\Exception $ex) {
 			self::unlockAllTheFiles($dir, $files, $getType, $view, $filename);
-			OC::$server->getLogger()->logException($ex);
+			\OCP\Server::get(LoggerInterface::class)->error('Cannot download file', ['exception' => $ex]);
 			$l = \OC::$server->getL10N('lib');
-			$hint = method_exists($ex, 'getHint') ? $ex->getHint() : '';
+			$hint = $ex instanceof HintException ? $ex->getHint() : '';
 			if ($event && $event->getErrorMessage() !== null) {
 				$hint .= ' ' . $event->getErrorMessage();
 			}
