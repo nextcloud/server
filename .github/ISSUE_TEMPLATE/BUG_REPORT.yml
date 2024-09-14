@@ -72,6 +72,7 @@ body:
       options:
         - "28"
         - "29"
+        - "30"
         - "master"
     validations:
       required: true
