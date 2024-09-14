@@ -103,6 +103,7 @@ OC.L10N.register(
     "External storage" : "Външно хранилище",
     "External storage support" : "Поддръжка на външно хранилище",
     "Adds basic external storage support" : "Добавя основна поддръжка за външно хранилище",
+    "Submit" : "Изпращане",
     "External mount error" : "Външна грешка при външно монтиране",
     "Storage type" : "Тип хранилище",
     "Unknown" : "Неизвестен",

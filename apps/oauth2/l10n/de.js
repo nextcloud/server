@@ -13,6 +13,7 @@ OC.L10N.register(
     "Client Identifier" : "Client-Identifikationsmerkmal",
     "Secret key" : "Geheimer Schlüssel",
     "Delete client" : "Client löschen",
+    "Make sure you store the secret key, it cannot be recovered." : "Bewahre den geheimen Schlüssel unbedingt auf, er kann nicht wiederhergestellt werden.",
     "Add client" : "Client hinzufügen",
     "Add" : "Hinzufügen",
     "Delete" : " Löschen",

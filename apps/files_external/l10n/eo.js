@@ -94,6 +94,7 @@ OC.L10N.register(
     "External storage" : "Ekstera konservejo",
     "External storage support" : "Subteno de ekstera konservejo",
     "Adds basic external storage support" : "Aldonas bazan subtenon por ekstera konservejo",
+    "Submit" : "Sendi",
     "External mount error" : "Eraro de surmetingo ekstera",
     "Storage type" : "Konserveja tipo",
     "Unknown" : "Nekonata",

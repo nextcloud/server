@@ -329,6 +329,7 @@
     "None of your currently installed apps provide image generation functionality" : "現在インストールされているどのアプリも、画像生成機能を提供していません。",
     "Text processing" : "テキスト処理",
     "Text processing tasks can be implemented by different apps. Here you can set which app should be used for which task." : "テキスト処理タスクは、異なるアプリで実装することができます。ここでは、どのタスクにどのアプリを使うかを設定できます。",
+    "None of your currently installed apps provide text processing functionality using the Text Processing API." : "現在インストールされているどのアプリも、テキスト処理APIを使用したテキスト処理機能を提供していません。",
     "Here you can decide which group can access certain sections of the administration settings." : "ここではどのグループが、どの管理設定項目にアクセスできるか決めることができます。",
     "None" : "なし",
     "Unable to modify setting" : "設定を変更できません",

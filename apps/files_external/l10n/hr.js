@@ -97,6 +97,7 @@ OC.L10N.register(
     "External storage" : "Vanjsko spremište za pohranu",
     "External storage support" : "Podrška za vanjsku pohranu",
     "Adds basic external storage support" : "Dodaje osnovnu podršku za vanjsku pohranu",
+    "Submit" : "Šalji",
     "External mount error" : "Pogreška vanjskog postavljanja",
     "Storage type" : "Vrsta pohrane",
     "Unknown" : "Nepoznata pogreška",

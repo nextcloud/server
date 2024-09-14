@@ -219,6 +219,9 @@
     "The \"overwrite.cli.url\" option in your config.php is correctly set to \"%s\"." : "Die Option \"overwrite.cli.url\" in deiner config.php ist korrekt auf \"%s\" festgelegt.",
     "The \"overwrite.cli.url\" option in your config.php is set to \"%s\" which is a correct URL. Suggested URL is \"%s\"." : "Die Option \"overwrite.cli.url\" in deiner config.php ist auf \"%s\" festgelegt. Dies ist eine gültige URL. Die vorgeschlagene URL lautet \"%s\".",
     "Please make sure to set the \"overwrite.cli.url\" option in your config.php file to the URL that your users mainly use to access this Nextcloud. Suggestion: \"%s\". Otherwise there might be problems with the URL generation via cron. (It is possible though that the suggested URL is not the URL that your users mainly use to access this Nextcloud. Best is to double check this in any case.)" : "Bitte stelle sicher, dass du die Option \"overwrite.cli.url\" in deiner config.php-Datei auf die URL setzt, die deine Benutzenden hauptsächlich verwenden, um auf diese Nextcloud zuzugreifen. Vorschlag: \"%s\". Andernfalls kann es Probleme bei der URL-Generierung über Cron geben. (Es ist jedoch möglich, dass die vorgeschlagene URL nicht die URL ist, die Ihre Benutzer hauptsächlich verwenden, um auf diese Nextcloud zuzugreifen. Am besten überprüfst du dies in jedem Fall.)",
+    "PHP APCu configuration" : "PHP APCu-Konfiguration",
+    "Your APCu cache has been running full, consider increasing the apc.shm_size php setting." : "Dein APCu-Cache ist voll. Erwäge, die PHP-Einstellung apc.shm_size zu erhöhen.",
+    "Your APCu cache is almost full at %s%%, consider increasing the apc.shm_size php setting." : " Dein APCu-Cache ist mit %s%% fast voll. Ziehe in Erwägung, die PHP-Einstellung apc.shm_size zu erhöhen.",
     "PHP default charset" : "PHP-Standardzeichensatz",
     "PHP configuration option \"default_charset\" should be UTF-8" : "Die PHP-Konfigurationsoption \"default_charset\" sollte UTF-8 sein",
     "PHP set_time_limit" : "PHP set_time_limit",
@@ -249,6 +252,7 @@
     "The OPcache interned strings buffer is nearly full. To assure that repeating strings can be effectively cached, it is recommended to apply \"opcache.interned_strings_buffer\" to your PHP configuration with a value higher than \"%s\"." : "Der \"OPcache interned strings\"-Puffer ist fast voll. Um sicherzustellen, dass sich wiederholende Strings effektiv zwischengespeichert werden können, wird empfohlen, \"opcache.interned_strings_buffer\" mit einem Wert größer als \"%s\" in der PHP-Konfiguration zu setzen.",
     "OPcache is configured to remove code comments. With OPcache enabled, \"opcache.save_comments=1\" must be set for Nextcloud to function." : "OPcache ist so konfiguriert, dass Code-Kommentare entfernt werden Mit aktiviertem OPcache muss \"opcache.save_comments=1\" gesetzt werden, damit die Nextcloud funktioniert.",
     "Nextcloud is not allowed to use the OPcache API. With OPcache enabled, it is highly recommended to include all Nextcloud directories with \"opcache.restrict_api\" or unset this setting to disable OPcache API restrictions, to prevent errors during Nextcloud core or app upgrades." : "Nextcloud darf die OPcache-API nicht verwenden. Mit aktiviertem OPcache wird empfohlen, alle Nextcloud-Verzeichnisse mit \"opcache.restrict_api\" einzuschließen oder diese Einstellung zu deaktivieren, um OPcache API-Beschränkungen zu deaktivieren und Fehler während Nextcloud-Core- oder App-Aktualisierungen zu vermeiden.",
+    "Checking from CLI, OPcache checks have been skipped." : "Bei der Überprüfung über die Komandozeile wurden OPcache-Überprüfungen übersprungen.",
     "The PHP OPcache module is not properly configured. %s." : "Das PHP OPcache-Modul ist nicht ordnungsgemäß konfiguriert. %s.",
     "Correctly configured" : "Korrekt konfiguriert",
     "PHP version" : "PHP-Version",
@@ -325,6 +329,7 @@
     "None of your currently installed apps provide image generation functionality" : "Keine deiner derzeit installierten Apps bietet Funktionen zur Bilderstellung.",
     "Text processing" : "Textverarbeitung",
     "Text processing tasks can be implemented by different apps. Here you can set which app should be used for which task." : "Textverarbeitungsaufgaben können mittels verschiedener Apps umgesetzt werden. Hier kannst du einstellen, welche App für welche Aufgabe verwendet werden soll.",
+    "None of your currently installed apps provide text processing functionality using the Text Processing API." : "Keine deiner derzeit installierten Apps bietet Funktionalität zur Textverarbeitung durch Nutzung der Text-Processing-API.",
     "Here you can decide which group can access certain sections of the administration settings." : "Hier kannst du festlegen, welche Gruppe auf bestimmte Bereiche der Verwaltungseinstellungen zugreifen kann.",
     "None" : "Keine",
     "Unable to modify setting" : "Einstellung konnte nicht geändert werden",
@@ -359,6 +364,8 @@
     "Privacy settings for sharing" : "Datenschutzeinstellungen bezüglich des Teilens",
     "Allow account name autocompletion in share dialog and allow access to the system address book" : "Automatische Vervollständigung des Kontonamens im Freigabedialog und Zugriff auf das Systemadressbuch zulassen",
     "If autocompletion \"same group\" and \"phone number integration\" are enabled a match in either is enough to show the user." : "Wenn die Autovervollständigung \"gleiche Gruppe\" und \"Rufnummernintegration\" aktiviert ist, reicht eine Übereinstimmung in einem der beiden Bereiche aus, um den Benutzer anzuzeigen.",
+    "Restrict account name autocompletion and system address book access to users within the same groups" : "Die automatische Vervollständigung von Kontonamen und den Zugriff auf das Systemadressbuch auf Benutzer innerhalb derselben Gruppen beschränken",
+    "Restrict account name autocompletion to users based on phone number integration" : "Die automatische Vervollständigung des Kontonamens auf Benutzer beschränken, die auf der Integration von Telefonnummern basieren.",
     "Allow autocompletion when entering the full name or email address (ignoring missing phonebook match and being in the same group)" : "Ermöglicht die automatische Vervollständigung, wenn der vollständigen Namen oder die E-Mail-Adresse eingeben wird (ignoriert fehlende Telefonbuchübereinstimmungen und bei gleicher Gruppenzugehörigkeit)",
     "Show disclaimer text on the public link upload page (only shown when the file list is hidden)" : "Zeige Haftungsausschluss auf der öffentlichen Upload-Seite (Wird nur gezeigt, wenn die Dateiliste nicht angezeigt wird.) ",
     "Disclaimer text" : "Haftungsausschlusstext",
@@ -872,6 +879,7 @@
     "SMTP Username" : "SMTP-Benutzername",
     "To allow this check to run you have to make sure that your webserver can connect to itself. Therefor it must be able to resolve and connect to at least one its `trusted_domains` or the `overwrite.cli.url`." : "Um diese Prüfung auszuführen, musst du sicherstellen, dass dein Webserver eine Verbindung zu sich selbst herstellen kann. Dafür muss dieser in der Lage sein, sich mit mindestens einer seiner \"trusted_domains\" oder der \"overwrite.cli.url\" zu verbinden und diese aufzulösen.",
     "Could not check for JavaScript support via any of your `trusted_domains` nor `overwrite.cli.url`. This may be the result of a server-side DNS mismatch or outbound firewall rule. Please check manually if your webserver serves `.mjs` files using the JavaScript MIME type." : "Es konnte weder über Ihre `trusted_domains` noch über `overwrite.cli.url` nach JavaScript-Unterstützung gesucht werden. Dies kann auf eine serverseitige DNS-Nichtübereinstimmung oder eine ausgehende Firewall-Regel zurückzuführen sein. Bitte überprüfe manuell, ob dein Webserver `.mjs`-Dateien mit dem JavaScript-MIME-Typ bereitstellt.",
-    "Active accounts" : "Aktive Konten"
+    "Active accounts" : "Aktive Konten",
+    "None of your currently installed apps provide custom Text processing functionality." : "Keine deiner aktuell installierten Apps bietet benutzerdefinierte Textverarbeitungsfunktionen."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
