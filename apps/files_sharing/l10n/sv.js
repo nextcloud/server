@@ -241,7 +241,7 @@ OC.L10N.register(
     "Email" : "E-post",
     "Team" : "Team",
     "Talk conversation" : "Talk-konversation",
-    "Deck board" : "Deck-plank",
+    "Deck board" : "Deck-tavla",
     "ScienceMesh" : "ScienceMesh",
     "on {server}" : "på {server}",
     "Note from" : "Anteckning från",

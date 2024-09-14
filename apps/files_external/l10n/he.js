@@ -95,6 +95,7 @@ OC.L10N.register(
     "External storage" : "אחסון חיצוני",
     "External storage support" : "תמיכה באחסון חיצוני",
     "Adds basic external storage support" : "מוסיף תמיכה באחסון חיצוני בסיסי",
+    "Submit" : "שליחה",
     "External mount error" : "שגיאת עגינה חיצונית",
     "Storage type" : "סוג אחסון",
     "Unknown" : "לא ידוע",

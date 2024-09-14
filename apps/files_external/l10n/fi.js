@@ -98,6 +98,7 @@ OC.L10N.register(
     "External storage" : "Erillinen tallennustila",
     "External storage support" : "Erillisen tallennustilan tuki",
     "Adds basic external storage support" : "Lisää perusmuotoisen tuen erillisille tallennustiloille",
+    "Submit" : "Lähetä",
     "Open in Files" : "Avaa tiedostosovelluksessa",
     "External mount error" : "Erillisen liitosvirhe",
     "Storage type" : "Tallennustilan tyyppi",
