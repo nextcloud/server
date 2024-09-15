@@ -80,7 +80,7 @@ jobs:
         run: npm run cypress:version
 
       - name: Save context
-        uses: buildjet/cache/save@v3
+        uses: buildjet/cache/save@v4
         with:
           key: cypress-context-${{ github.run_id }}
           path: ./
@@ -103,7 +103,7 @@ jobs:
 
     steps:
       - name: Restore context
-        uses: buildjet/cache/restore@v3
+        uses: buildjet/cache/restore@v4
         with:
           fail-on-cache-miss: true
           key: cypress-context-${{ github.run_id }}
