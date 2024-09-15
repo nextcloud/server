@@ -130,16 +130,16 @@ class Upgrade extends Command {
 			$dispatcher->addListener(RepairErrorEvent::class, $repairListener);
 
 
-			$updater->listen('\OC\Updater', 'maintenanceEnabled', function () use ($output) {
+			$updater->listen(\OC\Updater::class, 'maintenanceEnabled', function () use ($output) {
 				$output->writeln('<info>Turned on maintenance mode</info>');
 			});
-			$updater->listen('\OC\Updater', 'maintenanceDisabled', function () use ($output) {
+			$updater->listen(\OC\Updater::class, 'maintenanceDisabled', function () use ($output) {
 				$output->writeln('<info>Turned off maintenance mode</info>');
 			});
-			$updater->listen('\OC\Updater', 'maintenanceActive', function () use ($output) {
+			$updater->listen(\OC\Updater::class, 'maintenanceActive', function () use ($output) {
 				$output->writeln('<info>Maintenance mode is kept active</info>');
 			});
-			$updater->listen('\OC\Updater', 'updateEnd',
+			$updater->listen(\OC\Updater::class, 'updateEnd',
 				function ($success) use ($output, $self) {
 					if ($success) {
 						$message = '<info>Update successful</info>';
@@ -148,42 +148,42 @@ class Upgrade extends Command {
 					}
 					$output->writeln($message);
 				});
-			$updater->listen('\OC\Updater', 'dbUpgradeBefore', function () use ($output) {
+			$updater->listen(\OC\Updater::class, 'dbUpgradeBefore', function () use ($output) {
 				$output->writeln('<info>Updating database schema</info>');
 			});
-			$updater->listen('\OC\Updater', 'dbUpgrade', function () use ($output) {
+			$updater->listen(\OC\Updater::class, 'dbUpgrade', function () use ($output) {
 				$output->writeln('<info>Updated database</info>');
 			});
-			$updater->listen('\OC\Updater', 'incompatibleAppDisabled', function ($app) use ($output, &$incompatibleOverwrites) {
+			$updater->listen(\OC\Updater::class, 'incompatibleAppDisabled', function ($app) use ($output, &$incompatibleOverwrites) {
 				if (!in_array($app, $incompatibleOverwrites)) {
 					$output->writeln('<comment>Disabled incompatible app: ' . $app . '</comment>');
 				}
 			});
-			$updater->listen('\OC\Updater', 'upgradeAppStoreApp', function ($app) use ($output) {
+			$updater->listen(\OC\Updater::class, 'upgradeAppStoreApp', function ($app) use ($output) {
 				$output->writeln('<info>Update app ' . $app . ' from App Store</info>');
 			});
-			$updater->listen('\OC\Updater', 'appSimulateUpdate', function ($app) use ($output) {
+			$updater->listen(\OC\Updater::class, 'appSimulateUpdate', function ($app) use ($output) {
 				$output->writeln("<info>Checking whether the database schema for <$app> can be updated (this can take a long time depending on the database size)</info>");
 			});
-			$updater->listen('\OC\Updater', 'appUpgradeStarted', function ($app, $version) use ($output) {
+			$updater->listen(\OC\Updater::class, 'appUpgradeStarted', function ($app, $version) use ($output) {
 				$output->writeln("<info>Updating <$app> ...</info>");
 			});
-			$updater->listen('\OC\Updater', 'appUpgrade', function ($app, $version) use ($output) {
+			$updater->listen(\OC\Updater::class, 'appUpgrade', function ($app, $version) use ($output) {
 				$output->writeln("<info>Updated <$app> to $version</info>");
 			});
-			$updater->listen('\OC\Updater', 'failure', function ($message) use ($output, $self) {
+			$updater->listen(\OC\Updater::class, 'failure', function ($message) use ($output, $self) {
 				$output->writeln("<error>$message</error>");
 			});
-			$updater->listen('\OC\Updater', 'setDebugLogLevel', function ($logLevel, $logLevelName) use ($output) {
+			$updater->listen(\OC\Updater::class, 'setDebugLogLevel', function ($logLevel, $logLevelName) use ($output) {
 				$output->writeln('<info>Setting log level to debug</info>');
 			});
-			$updater->listen('\OC\Updater', 'resetLogLevel', function ($logLevel, $logLevelName) use ($output) {
+			$updater->listen(\OC\Updater::class, 'resetLogLevel', function ($logLevel, $logLevelName) use ($output) {
 				$output->writeln('<info>Resetting log level</info>');
 			});
-			$updater->listen('\OC\Updater', 'startCheckCodeIntegrity', function () use ($output) {
+			$updater->listen(\OC\Updater::class, 'startCheckCodeIntegrity', function () use ($output) {
 				$output->writeln('<info>Starting code integrity check...</info>');
 			});
-			$updater->listen('\OC\Updater', 'finishedCheckCodeIntegrity', function () use ($output) {
+			$updater->listen(\OC\Updater::class, 'finishedCheckCodeIntegrity', function () use ($output) {
 				$output->writeln('<info>Finished code integrity check</info>');
 			});
 

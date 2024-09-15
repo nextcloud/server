@@ -29,7 +29,7 @@ class DeleteTest extends RequestTestCase {
 		$mount->getStorage()->unlink($mount->getInternalPath($internalPath));
 
 		// cache entry still exists
-		$this->assertInstanceOf('\OCP\Files\FileInfo', $view->getFileInfo('foo.txt'));
+		$this->assertInstanceOf(\OCP\Files\FileInfo::class, $view->getFileInfo('foo.txt'));
 
 		$response = $this->request($view, $user, 'pass', 'DELETE', '/foo.txt');
 

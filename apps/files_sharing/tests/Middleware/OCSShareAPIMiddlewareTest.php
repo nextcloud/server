@@ -114,7 +114,7 @@ class OCSShareAPIMiddlewareTest extends \Test\TestCase {
 			$controller->expects($this->once())->method('cleanup');
 		}
 
-		$response = $this->getMockBuilder('OCP\AppFramework\Http\Response')
+		$response = $this->getMockBuilder(\OCP\AppFramework\Http\Response::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$this->middleware->afterController($controller, 'foo', $response);

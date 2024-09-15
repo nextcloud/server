@@ -18,7 +18,7 @@ class MetaDataTest extends \Test\TestCase {
 
 	protected function setUp(): void {
 		parent::setUp();
-		$this->groupManager = $this->getMockBuilder('\OC\Group\Manager')
+		$this->groupManager = $this->getMockBuilder(\OC\Group\Manager::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$this->userSession = $this->createMock(IUserSession::class);
@@ -32,7 +32,7 @@ class MetaDataTest extends \Test\TestCase {
 	}
 
 	private function getGroupMock($countCallCount = 0) {
-		$group = $this->getMockBuilder('\OC\Group\Group')
+		$group = $this->getMockBuilder(\OC\Group\Group::class)
 			->disableOriginalConstructor()
 			->getMock();
 

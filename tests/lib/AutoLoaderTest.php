@@ -27,7 +27,7 @@ class AutoLoaderTest extends TestCase {
 	public function testLoadTestTestCase() {
 		$this->assertEquals([
 			\OC::$SERVERROOT . '/tests/lib/TestCase.php'
-		], $this->loader->findClass('Test\TestCase'));
+		], $this->loader->findClass(\Test\TestCase::class));
 	}
 
 	public function testLoadCore() {

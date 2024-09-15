@@ -25,7 +25,7 @@ if (is_dir(OC::$SERVERROOT.'/apps2')) {
 
 if (getenv('OBJECT_STORE') === 's3') {
 	$CONFIG['objectstore'] = [
-		'class' => 'OC\\Files\\ObjectStore\\S3',
+		'class' => \OC\Files\ObjectStore\S3::class,
 		'arguments' => [
 			'bucket' => 'nextcloud',
 			'autocreate' => true,
@@ -40,7 +40,7 @@ if (getenv('OBJECT_STORE') === 's3') {
 	];
 } elseif (getenv('OBJECT_STORE') === 'azure') {
 	$CONFIG['objectstore'] = [
-		'class' => 'OC\\Files\\ObjectStore\\Azure',
+		'class' => \OC\Files\ObjectStore\Azure::class,
 		'arguments' => [
 			'container' => 'test',
 			'account_name' => getenv('OBJECT_STORE_KEY') ?: 'devstoreaccount1',
@@ -53,7 +53,7 @@ if (getenv('OBJECT_STORE') === 's3') {
 	$swiftHost = getenv('OBJECT_STORE_HOST') ?: 'localhost:5000';
 
 	$CONFIG['objectstore'] = [
-		'class' => 'OC\\Files\\ObjectStore\\Swift',
+		'class' => \OC\Files\ObjectStore\Swift::class,
 		'arguments' => [
 			'autocreate' => true,
 			'user' => [

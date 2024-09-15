@@ -132,7 +132,7 @@ class Application extends App implements IBootstrap {
 		\OCP\Util::connectHook(
 			'\OCA\Files_Sharing\API\Server2Server',
 			'preLoginNameUsedAsUserName',
-			'\OCA\User_LDAP\Helper',
+			\OCA\User_LDAP\Helper::class,
 			'loginName2UserName'
 		);
 	}

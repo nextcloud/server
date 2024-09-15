@@ -36,7 +36,7 @@ class StorageTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->util = $this->getMockBuilder('OC\Encryption\Util')
+		$this->util = $this->getMockBuilder(\OC\Encryption\Util::class)
 			->disableOriginalConstructor()
 			->setMethodsExcept(['getFileKeyDir'])
 			->getMock();
@@ -575,7 +575,7 @@ class StorageTest extends TestCase {
 	 * @param bool $createBackupDir
 	 */
 	public function testBackupUserKeys($createBackupDir) {
-		$storage = $this->getMockBuilder('OC\Encryption\Keys\Storage')
+		$storage = $this->getMockBuilder(\OC\Encryption\Keys\Storage::class)
 			->setConstructorArgs([$this->view, $this->util, $this->crypto, $this->config])
 			->setMethods(['getTimestamp'])
 			->getMock();

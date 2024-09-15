@@ -252,7 +252,7 @@ class ManagerTest extends TestCase {
 		$this->assertNotMount('{{TemporaryMountPointName#' . $shareData1['name'] . '}}-1');
 
 		if (!$isGroup) {
-			$client = $this->getMockBuilder('OCP\Http\Client\IClient')
+			$client = $this->getMockBuilder(\OCP\Http\Client\IClient::class)
 				->disableOriginalConstructor()->getMock();
 			$this->clientService->expects($this->at(0))
 				->method('newClient')
@@ -308,7 +308,7 @@ class ManagerTest extends TestCase {
 		$this->assertNotMount('{{TemporaryMountPointName#' . $shareData1['name'] . '}}-1');
 
 		if (!$isGroup) {
-			$client = $this->getMockBuilder('OCP\Http\Client\IClient')
+			$client = $this->getMockBuilder(\OCP\Http\Client\IClient::class)
 				->disableOriginalConstructor()->getMock();
 			$this->clientService->expects($this->at(0))
 				->method('newClient')
@@ -364,9 +364,9 @@ class ManagerTest extends TestCase {
 			// no http requests here
 			$this->manager->removeGroupShares('group1');
 		} else {
-			$client1 = $this->getMockBuilder('OCP\Http\Client\IClient')
+			$client1 = $this->getMockBuilder(\OCP\Http\Client\IClient::class)
 				->disableOriginalConstructor()->getMock();
-			$client2 = $this->getMockBuilder('OCP\Http\Client\IClient')
+			$client2 = $this->getMockBuilder(\OCP\Http\Client\IClient::class)
 				->disableOriginalConstructor()->getMock();
 			$this->clientService->expects($this->exactly(2))
 				->method('newClient')
@@ -728,18 +728,18 @@ class ManagerTest extends TestCase {
 	private function assertMount($mountPoint) {
 		$mountPoint = rtrim($mountPoint, '/');
 		$mount = $this->mountManager->find($this->getFullPath($mountPoint));
-		$this->assertInstanceOf('\OCA\Files_Sharing\External\Mount', $mount);
-		$this->assertInstanceOf('\OCP\Files\Mount\IMountPoint', $mount);
+		$this->assertInstanceOf(\OCA\Files_Sharing\External\Mount::class, $mount);
+		$this->assertInstanceOf(\OCP\Files\Mount\IMountPoint::class, $mount);
 		$this->assertEquals($this->getFullPath($mountPoint), rtrim($mount->getMountPoint(), '/'));
 		$storage = $mount->getStorage();
-		$this->assertInstanceOf('\OCA\Files_Sharing\External\Storage', $storage);
+		$this->assertInstanceOf(\OCA\Files_Sharing\External\Storage::class, $storage);
 	}
 
 	private function assertNotMount($mountPoint) {
 		$mountPoint = rtrim($mountPoint, '/');
 		try {
 			$mount = $this->mountManager->find($this->getFullPath($mountPoint));
-			$this->assertInstanceOf('\OCP\Files\Mount\IMountPoint', $mount);
+			$this->assertInstanceOf(\OCP\Files\Mount\IMountPoint::class, $mount);
 			$this->assertNotEquals($this->getFullPath($mountPoint), rtrim($mount->getMountPoint(), '/'));
 		} catch (NotFoundException $e) {
 

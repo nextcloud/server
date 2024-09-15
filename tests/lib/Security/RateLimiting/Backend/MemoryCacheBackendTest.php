@@ -39,7 +39,7 @@ class MemoryCacheBackendTest extends TestCase {
 		$this->cacheFactory
 			->expects($this->once())
 			->method('createDistributed')
-			->with('OC\Security\RateLimiting\Backend\MemoryCacheBackend')
+			->with(\OC\Security\RateLimiting\Backend\MemoryCacheBackend::class)
 			->willReturn($this->cache);
 
 		$this->config->method('getSystemValueBool')

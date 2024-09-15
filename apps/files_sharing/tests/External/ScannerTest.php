@@ -22,10 +22,10 @@ class ScannerTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->storage = $this->getMockBuilder('\OCA\Files_Sharing\External\Storage')
+		$this->storage = $this->getMockBuilder(\OCA\Files_Sharing\External\Storage::class)
 			->disableOriginalConstructor()
 			->getMock();
-		$this->cache = $this->getMockBuilder('\OC\Files\Cache\Cache')
+		$this->cache = $this->getMockBuilder(\OC\Files\Cache\Cache::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$this->storage->expects($this->any())

@@ -149,7 +149,7 @@ class PermissionsMaskTest extends \Test\Files\Storage\Storage {
 		$storage = $this->getMaskedStorage(Constants::PERMISSION_READ);
 		$scanner = $storage->getScanner();
 		$called = false;
-		$scanner->listen('\OC\Files\Cache\Scanner', 'addToCache', function () use (&$called) {
+		$scanner->listen(\OC\Files\Cache\Scanner::class, 'addToCache', function () use (&$called) {
 			$called = true;
 		});
 		$scanner->scan('foo', IScanner::SCAN_RECURSIVE, IScanner::REUSE_ETAG | IScanner::REUSE_SIZE);
@@ -167,7 +167,7 @@ class PermissionsMaskTest extends \Test\Files\Storage\Storage {
 		$wrappedStorage = new Wrapper(['storage' => $storage]);
 		$scanner = $wrappedStorage->getScanner();
 		$called = false;
-		$scanner->listen('\OC\Files\Cache\Scanner', 'addToCache', function () use (&$called) {
+		$scanner->listen(\OC\Files\Cache\Scanner::class, 'addToCache', function () use (&$called) {
 			$called = true;
 		});
 		$scanner->scan('foo', IScanner::SCAN_RECURSIVE, IScanner::REUSE_ETAG | IScanner::REUSE_SIZE);

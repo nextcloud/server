@@ -65,8 +65,8 @@ class DirectoryTest extends \Test\TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->view = $this->createMock('OC\Files\View');
-		$this->info = $this->createMock('OC\Files\FileInfo');
+		$this->view = $this->createMock(\OC\Files\View::class);
+		$this->info = $this->createMock(\OC\Files\FileInfo::class);
 		$this->info->method('isReadable')
 			->willReturn(true);
 		$this->info->method('getType')
@@ -283,8 +283,8 @@ class DirectoryTest extends \Test\TestCase {
 		$storage->expects($this->any())
 			->method('instanceOfStorage')
 			->willReturnMap([
-				'\OCA\Files_Sharing\SharedStorage' => false,
-				'\OC\Files\Storage\Wrapper\Quota' => false,
+				\OCA\Files_Sharing\SharedStorage::class => false,
+				\OC\Files\Storage\Wrapper\Quota::class => false,
 			]);
 
 		$storage->expects($this->once())
@@ -334,8 +334,8 @@ class DirectoryTest extends \Test\TestCase {
 		$storage->expects($this->any())
 			->method('instanceOfStorage')
 			->willReturnMap([
-				['\OCA\Files_Sharing\SharedStorage', false],
-				['\OC\Files\Storage\Wrapper\Quota', true],
+				[\OCA\Files_Sharing\SharedStorage::class, false],
+				[\OC\Files\Storage\Wrapper\Quota::class, true],
 			]);
 
 		$storage->expects($this->once())

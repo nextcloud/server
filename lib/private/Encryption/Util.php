@@ -92,7 +92,7 @@ class Util {
 		if (isset($header[$encryptionModuleKey])) {
 			$id = $header[$encryptionModuleKey];
 		} elseif (isset($header['cipher'])) {
-			if (class_exists('\OCA\Encryption\Crypto\Encryption')) {
+			if (class_exists(\OCA\Encryption\Crypto\Encryption::class)) {
 				// fall back to default encryption if the user migrated from
 				// ownCloud <= 8.0 with the old encryption
 				$id = \OCA\Encryption\Crypto\Encryption::ID;

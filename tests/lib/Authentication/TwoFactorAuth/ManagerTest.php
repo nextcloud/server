@@ -102,7 +102,7 @@ class ManagerTest extends TestCase {
 		$this->fakeProvider = $this->createMock(IProvider::class);
 		$this->fakeProvider->method('getId')->willReturn('email');
 
-		$this->backupProvider = $this->getMockBuilder('\OCP\Authentication\TwoFactorAuth\IProvider')->getMock();
+		$this->backupProvider = $this->getMockBuilder(\OCP\Authentication\TwoFactorAuth\IProvider::class)->getMock();
 		$this->backupProvider->method('getId')->willReturn('backup_codes');
 		$this->backupProvider->method('isTwoFactorAuthEnabledForUser')->willReturn(true);
 	}

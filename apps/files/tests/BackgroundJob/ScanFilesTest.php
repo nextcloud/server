@@ -43,7 +43,7 @@ class ScanFilesTest extends TestCase {
 		$connection = \OC::$server->getDatabaseConnection();
 		$this->mountCache = \OC::$server->getUserMountCache();
 
-		$this->scanFiles = $this->getMockBuilder('\OCA\Files\BackgroundJob\ScanFiles')
+		$this->scanFiles = $this->getMockBuilder(\OCA\Files\BackgroundJob\ScanFiles::class)
 			->setConstructorArgs([
 				$config,
 				$dispatcher,

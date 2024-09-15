@@ -354,7 +354,7 @@ EOF;
 		$result = $this->newUserMailHelper->generateTemplate($user, true);
 		$this->assertEquals($expectedHtmlBody, $result->renderHtml());
 		$this->assertEquals($expectedTextBody, $result->renderText());
-		$this->assertSame('OC\Mail\EMailTemplate', get_class($result));
+		$this->assertSame(\OC\Mail\EMailTemplate::class, get_class($result));
 	}
 
 	public function testGenerateTemplateWithoutPasswordResetToken() {
@@ -590,7 +590,7 @@ EOF;
 		$result = $this->newUserMailHelper->generateTemplate($user, false);
 		$this->assertEquals($expectedHtmlBody, $result->renderHtml());
 		$this->assertEquals($expectedTextBody, $result->renderText());
-		$this->assertSame('OC\Mail\EMailTemplate', get_class($result));
+		$this->assertSame(\OC\Mail\EMailTemplate::class, get_class($result));
 	}
 
 	public function testGenerateTemplateWithoutUserId() {
@@ -813,7 +813,7 @@ EOF;
 		$result = $this->newUserMailHelper->generateTemplate($user, false);
 		$this->assertEquals($expectedHtmlBody, $result->renderHtml());
 		$this->assertEquals($expectedTextBody, $result->renderText());
-		$this->assertSame('OC\Mail\EMailTemplate', get_class($result));
+		$this->assertSame(\OC\Mail\EMailTemplate::class, get_class($result));
 	}
 
 	public function testSendMail() {

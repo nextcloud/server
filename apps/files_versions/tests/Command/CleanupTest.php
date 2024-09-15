@@ -38,11 +38,11 @@ class CleanupTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->rootFolder = $this->getMockBuilder('OCP\Files\IRootFolder')
+		$this->rootFolder = $this->getMockBuilder(\OCP\Files\IRootFolder::class)
 			->disableOriginalConstructor()->getMock();
-		$this->userManager = $this->getMockBuilder('OC\User\Manager')
+		$this->userManager = $this->getMockBuilder(\OC\User\Manager::class)
 			->disableOriginalConstructor()->getMock();
-		$this->versionMapper = $this->getMockBuilder('OCA\Files_Versions\Db\VersionsMapper')
+		$this->versionMapper = $this->getMockBuilder(\OCA\Files_Versions\Db\VersionsMapper::class)
 			->disableOriginalConstructor()->getMock();
 
 		$this->cleanup = new CleanUp($this->rootFolder, $this->userManager, $this->versionMapper);
@@ -105,7 +105,7 @@ class CleanupTest extends TestCase {
 	public function testExecuteDeleteListOfUsers() {
 		$userIds = ['user1', 'user2', 'user3'];
 
-		$instance = $this->getMockBuilder('OCA\Files_Versions\Command\CleanUp')
+		$instance = $this->getMockBuilder(\OCA\Files_Versions\Command\CleanUp::class)
 			->setMethods(['deleteVersions'])
 			->setConstructorArgs([$this->rootFolder, $this->userManager, $this->versionMapper])
 			->getMock();
@@ -137,7 +137,7 @@ class CleanupTest extends TestCase {
 		$userIds = [];
 		$backendUsers = ['user1', 'user2'];
 
-		$instance = $this->getMockBuilder('OCA\Files_Versions\Command\CleanUp')
+		$instance = $this->getMockBuilder(\OCA\Files_Versions\Command\CleanUp::class)
 			->setMethods(['deleteVersions'])
 			->setConstructorArgs([$this->rootFolder, $this->userManager, $this->versionMapper])
 			->getMock();

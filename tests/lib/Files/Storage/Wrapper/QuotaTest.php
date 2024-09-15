@@ -11,7 +11,7 @@ namespace Test\Files\Storage\Wrapper;
 use OC\Files\Cache\CacheEntry;
 use OC\Files\Storage\Local;
 
-\OC::$loader->load('\OC\Files\Filesystem');
+\OC::$loader->load(\OC\Files\Filesystem::class);
 
 /**
  * Class QuotaTest
@@ -185,7 +185,7 @@ class QuotaTest extends \Test\Files\Storage\Storage {
 
 	public function testSpaceRoot() {
 		$storage = $this->getMockBuilder(Local::class)->disableOriginalConstructor()->getMock();
-		$cache = $this->getMockBuilder('\OC\Files\Cache\Cache')->disableOriginalConstructor()->getMock();
+		$cache = $this->getMockBuilder(\OC\Files\Cache\Cache::class)->disableOriginalConstructor()->getMock();
 		$storage->expects($this->once())
 			->method('getCache')
 			->willReturn($cache);
@@ -203,9 +203,9 @@ class QuotaTest extends \Test\Files\Storage\Storage {
 	}
 
 	public function testInstanceOfStorageWrapper() {
-		$this->assertTrue($this->instance->instanceOfStorage('\OC\Files\Storage\Local'));
-		$this->assertTrue($this->instance->instanceOfStorage('\OC\Files\Storage\Wrapper\Wrapper'));
-		$this->assertTrue($this->instance->instanceOfStorage('\OC\Files\Storage\Wrapper\Quota'));
+		$this->assertTrue($this->instance->instanceOfStorage(\OC\Files\Storage\Local::class));
+		$this->assertTrue($this->instance->instanceOfStorage(\OC\Files\Storage\Wrapper\Wrapper::class));
+		$this->assertTrue($this->instance->instanceOfStorage(\OC\Files\Storage\Wrapper\Quota::class));
 	}
 
 	public function testNoMkdirQuotaZero() {

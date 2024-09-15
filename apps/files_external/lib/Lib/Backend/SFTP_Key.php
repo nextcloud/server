@@ -15,7 +15,7 @@ class SFTP_Key extends Backend {
 	public function __construct(IL10N $l, RSA $legacyAuth, SFTP $sftpBackend) {
 		$this
 			->setIdentifier('\OC\Files\Storage\SFTP_Key')
-			->setStorageClass('\OCA\Files_External\Lib\Storage\SFTP')
+			->setStorageClass(\OCA\Files_External\Lib\Storage\SFTP::class)
 			->setText($l->t('SFTP with secret key login'))
 			->addParameters([
 				new DefinitionParameter('host', $l->t('Host')),

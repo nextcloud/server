@@ -30,7 +30,7 @@ class RequestTimeTest extends \Test\TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->timeFactory = $this->getMockBuilder('OCP\AppFramework\Utility\ITimeFactory')
+		$this->timeFactory = $this->getMockBuilder(\OCP\AppFramework\Utility\ITimeFactory::class)
 			->getMock();
 	}
 

@@ -77,7 +77,7 @@ class HomeTest extends Storage {
 	 * Tests that getCache() returns an instance of HomeCache
 	 */
 	public function testGetCacheReturnsHomeCache() {
-		$this->assertInstanceOf('\OC\Files\Cache\HomeCache', $this->instance->getCache());
+		$this->assertInstanceOf(\OC\Files\Cache\HomeCache::class, $this->instance->getCache());
 	}
 
 	public function testGetOwner() {

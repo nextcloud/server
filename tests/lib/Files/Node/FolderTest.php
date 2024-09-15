@@ -51,11 +51,11 @@ class FolderTest extends NodeTest {
 	}
 
 	protected function getNodeClass() {
-		return '\OC\Files\Node\Folder';
+		return \OC\Files\Node\Folder::class;
 	}
 
 	protected function getNonExistingNodeClass() {
-		return '\OC\Files\Node\NonExistingFolder';
+		return \OC\Files\Node\NonExistingFolder::class;
 	}
 
 	protected function getViewDeleteMethod() {
@@ -89,8 +89,8 @@ class FolderTest extends NodeTest {
 		$node = new Folder($root, $this->view, '/bar/foo');
 		$children = $node->getDirectoryListing();
 		$this->assertEquals(2, count($children));
-		$this->assertInstanceOf('\OC\Files\Node\File', $children[0]);
-		$this->assertInstanceOf('\OC\Files\Node\Folder', $children[1]);
+		$this->assertInstanceOf(\OC\Files\Node\File::class, $children[0]);
+		$this->assertInstanceOf(\OC\Files\Node\Folder::class, $children[1]);
 		$this->assertEquals('asd', $children[0]->getName());
 		$this->assertEquals('qwerty', $children[1]->getName());
 		$this->assertEquals(2, $children[0]->getId());

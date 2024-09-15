@@ -37,7 +37,7 @@ class CleanTagsTest extends \Test\TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->outputMock = $this->getMockBuilder('\OCP\Migration\IOutput')
+		$this->outputMock = $this->getMockBuilder(\OCP\Migration\IOutput::class)
 			->disableOriginalConstructor()
 			->getMock();
 

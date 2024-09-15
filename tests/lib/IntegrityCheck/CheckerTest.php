@@ -161,7 +161,7 @@ class CheckerTest extends TestCase {
 
 		$expected = [
 			'EXCEPTION' => [
-				'class' => 'OC\IntegrityCheck\Exceptions\InvalidSignatureException',
+				'class' => \OC\IntegrityCheck\Exceptions\InvalidSignatureException::class,
 				'message' => 'Signature data not found.',
 			],
 		];
@@ -245,7 +245,7 @@ class CheckerTest extends TestCase {
 
 		$expected = [
 			'EXCEPTION' => [
-				'class' => 'OC\\IntegrityCheck\\Exceptions\\InvalidSignatureException',
+				'class' => \OC\IntegrityCheck\Exceptions\InvalidSignatureException::class,
 				'message' => 'Signature could not get verified.',
 			],
 		];
@@ -410,7 +410,7 @@ class CheckerTest extends TestCase {
 
 		$expected = [
 			'EXCEPTION' => [
-				'class' => 'OC\\IntegrityCheck\\Exceptions\\InvalidSignatureException',
+				'class' => \OC\IntegrityCheck\Exceptions\InvalidSignatureException::class,
 				'message' => 'Certificate is not valid for required scope. (Requested: SomeApp, current: CN=AnotherScope)',
 			],
 		];
@@ -651,7 +651,7 @@ class CheckerTest extends TestCase {
 
 		$expected = [
 			'EXCEPTION' => [
-				'class' => 'OC\\IntegrityCheck\\Exceptions\\InvalidSignatureException',
+				'class' => \OC\IntegrityCheck\Exceptions\InvalidSignatureException::class,
 				'message' => 'Signature data not found.',
 			],
 		];
@@ -858,7 +858,7 @@ class CheckerTest extends TestCase {
 
 		$expected = [
 			'EXCEPTION' => [
-				'class' => 'OC\\IntegrityCheck\\Exceptions\\InvalidSignatureException',
+				'class' => \OC\IntegrityCheck\Exceptions\InvalidSignatureException::class,
 				'message' => 'Signature could not get verified.',
 			]
 		];
@@ -959,7 +959,7 @@ class CheckerTest extends TestCase {
 
 		$expected = [
 			'EXCEPTION' => [
-				'class' => 'OC\\IntegrityCheck\\Exceptions\\InvalidSignatureException',
+				'class' => \OC\IntegrityCheck\Exceptions\InvalidSignatureException::class,
 				'message' => 'Certificate is not valid.',
 			]
 		];
@@ -1002,7 +1002,7 @@ class CheckerTest extends TestCase {
 
 		$expected = [
 			'EXCEPTION' => [
-				'class' => 'OC\\IntegrityCheck\\Exceptions\\InvalidSignatureException',
+				'class' => \OC\IntegrityCheck\Exceptions\InvalidSignatureException::class,
 				'message' => 'Certificate is not valid for required scope. (Requested: core, current: CN=SomeApp)',
 			]
 		];
@@ -1010,7 +1010,7 @@ class CheckerTest extends TestCase {
 	}
 
 	public function testRunInstanceVerification() {
-		$this->checker = $this->getMockBuilder('\OC\IntegrityCheck\Checker')
+		$this->checker = $this->getMockBuilder(\OC\IntegrityCheck\Checker::class)
 			->setConstructorArgs([
 				$this->environmentHelper,
 				$this->fileAccessHelper,

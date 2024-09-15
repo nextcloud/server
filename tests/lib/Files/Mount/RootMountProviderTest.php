@@ -61,7 +61,7 @@ class RootMountProviderTest extends TestCase {
 	public function testObjectStore() {
 		$provider = $this->getProvider([
 			'objectstore' => [
-				'class' => "OC\Files\ObjectStore\S3",
+				'class' => \OC\Files\ObjectStore\S3::class,
 				'arguments' => [
 					'bucket' => 'nextcloud',
 					'autocreate' => true,
@@ -94,7 +94,7 @@ class RootMountProviderTest extends TestCase {
 	public function testObjectStoreMultiBucket() {
 		$provider = $this->getProvider([
 			'objectstore_multibucket' => [
-				'class' => "OC\Files\ObjectStore\S3",
+				'class' => \OC\Files\ObjectStore\S3::class,
 				'arguments' => [
 					'bucket' => 'nextcloud',
 					'autocreate' => true,

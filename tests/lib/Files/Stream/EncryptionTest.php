@@ -36,23 +36,23 @@ class EncryptionTest extends \Test\TestCase {
 		$uid = '';
 		$this->encryptionModule = $this->buildMockModule();
 		$cache = $this->createMock(ICache::class);
-		$storage = $this->getMockBuilder('\OC\Files\Storage\Storage')
+		$storage = $this->getMockBuilder(\OC\Files\Storage\Storage::class)
 			->disableOriginalConstructor()->getMock();
-		$encStorage = $this->getMockBuilder('\OC\Files\Storage\Wrapper\Encryption')
+		$encStorage = $this->getMockBuilder(\OC\Files\Storage\Wrapper\Encryption::class)
 			->disableOriginalConstructor()->getMock();
 		$config = $this->getMockBuilder(IConfig::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$arrayCache = $this->createMock(ArrayCache::class);
-		$groupManager = $this->getMockBuilder('\OC\Group\Manager')
+		$groupManager = $this->getMockBuilder(\OC\Group\Manager::class)
 			->disableOriginalConstructor()
 			->getMock();
-		$file = $this->getMockBuilder('\OC\Encryption\File')
+		$file = $this->getMockBuilder(\OC\Encryption\File::class)
 			->disableOriginalConstructor()
 			->setMethods(['getAccessList'])
 			->getMock();
 		$file->expects($this->any())->method('getAccessList')->willReturn([]);
-		$util = $this->getMockBuilder('\OC\Encryption\Util')
+		$util = $this->getMockBuilder(\OC\Encryption\Util::class)
 			->setMethods(['getUidAndFilename'])
 			->setConstructorArgs([new View(), new \OC\User\Manager(
 				$config,
@@ -90,7 +90,7 @@ class EncryptionTest extends \Test\TestCase {
 		$expectedUnencryptedSize,
 		$expectedReadOnly) {
 		// build mocks
-		$encryptionModuleMock = $this->getMockBuilder('\OCP\Encryption\IEncryptionModule')
+		$encryptionModuleMock = $this->getMockBuilder(\OCP\Encryption\IEncryptionModule::class)
 			->disableOriginalConstructor()->getMock();
 		$encryptionModuleMock->expects($this->any())->method('needDetailedAccessList')->willReturn(!$isMasterKeyUsed);
 		$encryptionModuleMock->expects($this->once())
@@ -98,11 +98,11 @@ class EncryptionTest extends \Test\TestCase {
 		$encryptionModuleMock->expects($this->once())
 			->method('begin')->willReturn(true);
 
-		$storageMock = $this->getMockBuilder('\OC\Files\Storage\Storage')
+		$storageMock = $this->getMockBuilder(\OC\Files\Storage\Storage::class)
 			->disableOriginalConstructor()->getMock();
 		$storageMock->expects($this->once())->method('file_exists')->willReturn($fileExists);
 
-		$fileMock = $this->getMockBuilder('\OC\Encryption\File')
+		$fileMock = $this->getMockBuilder(\OC\Encryption\File::class)
 			->disableOriginalConstructor()->getMock();
 		if ($isMasterKeyUsed) {
 			$fileMock->expects($this->never())->method('getAccessList');
@@ -113,18 +113,18 @@ class EncryptionTest extends \Test\TestCase {
 					return [];
 				});
 		}
-		$utilMock = $this->getMockBuilder('\OC\Encryption\Util')
+		$utilMock = $this->getMockBuilder(\OC\Encryption\Util::class)
 			->disableOriginalConstructor()->getMock();
 		$utilMock->expects($this->any())
 			->method('getHeaderSize')
 			->willReturn(8192);
 
 		// get a instance of the stream wrapper
-		$streamWrapper = $this->getMockBuilder('\OC\Files\Stream\Encryption')
+		$streamWrapper = $this->getMockBuilder(\OC\Files\Stream\Encryption::class)
 			->setMethods(['loadContext', 'writeHeader', 'skipHeader'])->disableOriginalConstructor()->getMock();
 
 		// set internal properties of the stream wrapper
-		$stream = new \ReflectionClass('\OC\Files\Stream\Encryption');
+		$stream = new \ReflectionClass(\OC\Files\Stream\Encryption::class);
 		$encryptionModule = $stream->getProperty('encryptionModule');
 		$encryptionModule->setAccessible(true);
 		$encryptionModule->setValue($streamWrapper, $encryptionModuleMock);
@@ -298,14 +298,14 @@ class EncryptionTest extends \Test\TestCase {
 	 * @dataProvider dataFilesProvider
 	 */
 	public function testWriteToNonSeekableStorage($testFile) {
-		$wrapper = $this->getMockBuilder('\OC\Files\Stream\Encryption')
+		$wrapper = $this->getMockBuilder(\OC\Files\Stream\Encryption::class)
 			->setMethods(['parentSeekStream'])->getMock();
 		$wrapper->expects($this->any())->method('parentSeekStream')->willReturn(false);
 
 		$expectedData = file_get_contents(\OC::$SERVERROOT . '/tests/data/' . $testFile);
 		// write it
 		$fileName = tempnam('/tmp', 'FOO');
-		$stream = $this->getStream($fileName, 'w+', 0, '\Test\Files\Stream\DummyEncryptionWrapper', strlen($expectedData));
+		$stream = $this->getStream($fileName, 'w+', 0, \Test\Files\Stream\DummyEncryptionWrapper::class, strlen($expectedData));
 		// while writing the file from the beginning to the end we should never try
 		// to read parts of the file. This should only happen for write operations
 		// in the middle of a file
@@ -314,7 +314,7 @@ class EncryptionTest extends \Test\TestCase {
 		fclose($stream);
 
 		// read it all
-		$stream = $this->getStream($fileName, 'r', strlen($expectedData), '\Test\Files\Stream\DummyEncryptionWrapper', strlen($expectedData));
+		$stream = $this->getStream($fileName, 'r', strlen($expectedData), \Test\Files\Stream\DummyEncryptionWrapper::class, strlen($expectedData));
 		$data = stream_get_contents($stream);
 		fclose($stream);
 
@@ -337,7 +337,7 @@ class EncryptionTest extends \Test\TestCase {
 	 * @return \PHPUnit\Framework\MockObject\MockObject
 	 */
 	protected function buildMockModule() {
-		$encryptionModule = $this->getMockBuilder('\OCP\Encryption\IEncryptionModule')
+		$encryptionModule = $this->getMockBuilder(\OCP\Encryption\IEncryptionModule::class)
 			->disableOriginalConstructor()
 			->setMethods(['getId', 'getDisplayName', 'begin', 'end', 'encrypt', 'decrypt', 'update', 'shouldEncrypt', 'getUnencryptedBlockSize', 'isReadable', 'encryptAll', 'prepareDecryptAll', 'isReadyForUser', 'needDetailedAccessList'])
 			->getMock();

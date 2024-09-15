@@ -60,7 +60,7 @@ abstract class NodeTest extends \Test\TestCase {
 		$this->view->expects($this->any())
 			->method('getRoot')
 			->willReturn('');
-		$this->userMountCache = $this->getMockBuilder('\OCP\Files\Config\IUserMountCache')
+		$this->userMountCache = $this->getMockBuilder(\OCP\Files\Config\IUserMountCache::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$this->logger = $this->createMock(LoggerInterface::class);
@@ -71,7 +71,7 @@ abstract class NodeTest extends \Test\TestCase {
 			->willReturnCallback(function () {
 				return new ArrayCache();
 			});
-		$this->root = $this->getMockBuilder('\OC\Files\Node\Root')
+		$this->root = $this->getMockBuilder(\OC\Files\Node\Root::class)
 			->setConstructorArgs([$this->manager, $this->view, $this->user, $this->userMountCache, $this->logger, $this->userManager, $this->eventDispatcher, $this->cacheFactory])
 			->getMock();
 	}
@@ -336,7 +336,7 @@ abstract class NodeTest extends \Test\TestCase {
 		/**
 		 * @var \OC\Files\Storage\Storage | \PHPUnit\Framework\MockObject\MockObject $storage
 		 */
-		$storage = $this->getMockBuilder('\OC\Files\Storage\Storage')
+		$storage = $this->getMockBuilder(\OC\Files\Storage\Storage::class)
 			->disableOriginalConstructor()
 			->getMock();
 
@@ -360,7 +360,7 @@ abstract class NodeTest extends \Test\TestCase {
 		/**
 		 * @var \OC\Files\Storage\Storage | \PHPUnit\Framework\MockObject\MockObject $storage
 		 */
-		$storage = $this->getMockBuilder('\OC\Files\Storage\Storage')
+		$storage = $this->getMockBuilder(\OC\Files\Storage\Storage::class)
 			->disableOriginalConstructor()
 			->getMock();
 
@@ -509,7 +509,7 @@ abstract class NodeTest extends \Test\TestCase {
 		/**
 		 * @var \OC\Files\Storage\Storage | \PHPUnit\Framework\MockObject\MockObject $storage
 		 */
-		$storage = $this->createMock('\OC\Files\Storage\Storage');
+		$storage = $this->createMock(\OC\Files\Storage\Storage::class);
 
 		$this->root->expects($this->never())
 			->method('getMount');
@@ -608,7 +608,7 @@ abstract class NodeTest extends \Test\TestCase {
 	 */
 	public function testMoveCopyHooks($operationMethod, $viewMethod, $preHookName, $postHookName) {
 		/** @var IRootFolder|\PHPUnit\Framework\MockObject\MockObject $root */
-		$root = $this->getMockBuilder('\OC\Files\Node\Root')
+		$root = $this->getMockBuilder(\OC\Files\Node\Root::class)
 			->setConstructorArgs([$this->manager, $this->view, $this->user, $this->userMountCache, $this->logger, $this->userManager, $this->eventDispatcher, $this->cacheFactory])
 			->setMethods(['get'])
 			->getMock();
@@ -702,7 +702,7 @@ abstract class NodeTest extends \Test\TestCase {
 		/**
 		 * @var \OC\Files\Storage\Storage | \PHPUnit\Framework\MockObject\MockObject $storage
 		 */
-		$storage = $this->createMock('\OC\Files\Storage\Storage');
+		$storage = $this->createMock(\OC\Files\Storage\Storage::class);
 
 		$storage->expects($this->never())
 			->method('rename');

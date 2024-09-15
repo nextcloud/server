@@ -23,27 +23,27 @@ class ImageTest extends \Test\TestCase {
 	public function testConstructDestruct() {
 		$img = new Image();
 		$img->loadFromFile(OC::$SERVERROOT.'/tests/data/testimage.png');
-		$this->assertInstanceOf('\OC\Image', $img);
-		$this->assertInstanceOf('\OCP\IImage', $img);
+		$this->assertInstanceOf(\OC\Image::class, $img);
+		$this->assertInstanceOf(\OCP\IImage::class, $img);
 		unset($img);
 
 		$imgcreate = imagecreatefromjpeg(OC::$SERVERROOT.'/tests/data/testimage.jpg');
 		$img = new Image();
 		$img->setResource($imgcreate);
-		$this->assertInstanceOf('\OC\Image', $img);
-		$this->assertInstanceOf('\OCP\IImage', $img);
+		$this->assertInstanceOf(\OC\Image::class, $img);
+		$this->assertInstanceOf(\OCP\IImage::class, $img);
 		unset($img);
 
 		$base64 = base64_encode(file_get_contents(OC::$SERVERROOT.'/tests/data/testimage.gif'));
 		$img = new Image();
 		$img->loadFromBase64($base64);
-		$this->assertInstanceOf('\OC\Image', $img);
-		$this->assertInstanceOf('\OCP\IImage', $img);
+		$this->assertInstanceOf(\OC\Image::class, $img);
+		$this->assertInstanceOf(\OCP\IImage::class, $img);
 		unset($img);
 
 		$img = new Image();
-		$this->assertInstanceOf('\OC\Image', $img);
-		$this->assertInstanceOf('\OCP\IImage', $img);
+		$this->assertInstanceOf(\OC\Image::class, $img);
+		$this->assertInstanceOf(\OCP\IImage::class, $img);
 		unset($img);
 	}
 

@@ -24,11 +24,11 @@ class FileTest extends NodeTest {
 	}
 
 	protected function getNodeClass() {
-		return '\OC\Files\Node\File';
+		return \OC\Files\Node\File::class;
 	}
 
 	protected function getNonExistingNodeClass() {
-		return '\OC\Files\Node\NonExistingFile';
+		return \OC\Files\Node\NonExistingFile::class;
 	}
 
 	protected function getViewDeleteMethod() {
@@ -37,7 +37,7 @@ class FileTest extends NodeTest {
 
 	public function testGetContent() {
 		/** @var \OC\Files\Node\Root|\PHPUnit\Framework\MockObject\MockObject $root */
-		$root = $this->getMockBuilder('\OC\Files\Node\Root')
+		$root = $this->getMockBuilder(\OC\Files\Node\Root::class)
 			->setConstructorArgs([$this->manager, $this->view, $this->user, $this->userMountCache, $this->logger, $this->userManager, $this->eventDispatcher, $this->cacheFactory])
 			->getMock();
 
@@ -67,7 +67,7 @@ class FileTest extends NodeTest {
 		$this->expectException(\OCP\Files\NotPermittedException::class);
 
 		/** @var \OC\Files\Node\Root|\PHPUnit\Framework\MockObject\MockObject $root */
-		$root = $this->getMockBuilder('\OC\Files\Node\Root')
+		$root = $this->getMockBuilder(\OC\Files\Node\Root::class)
 			->setConstructorArgs([$this->manager, $this->view, $this->user, $this->userMountCache, $this->logger, $this->userManager, $this->eventDispatcher, $this->cacheFactory])
 			->getMock();
 
@@ -86,7 +86,7 @@ class FileTest extends NodeTest {
 
 	public function testPutContent() {
 		/** @var \OC\Files\Node\Root|\PHPUnit\Framework\MockObject\MockObject $root */
-		$root = $this->getMockBuilder('\OC\Files\Node\Root')
+		$root = $this->getMockBuilder(\OC\Files\Node\Root::class)
 			->setConstructorArgs([$this->manager, $this->view, $this->user, $this->userMountCache, $this->logger, $this->userManager, $this->eventDispatcher, $this->cacheFactory])
 			->getMock();
 
@@ -113,7 +113,7 @@ class FileTest extends NodeTest {
 		$this->expectException(\OCP\Files\NotPermittedException::class);
 
 		/** @var \OC\Files\Node\Root|\PHPUnit\Framework\MockObject\MockObject $root */
-		$root = $this->getMockBuilder('\OC\Files\Node\Root')
+		$root = $this->getMockBuilder(\OC\Files\Node\Root::class)
 			->setConstructorArgs([$this->manager, $this->view, $this->user, $this->userMountCache, $this->logger, $this->userManager, $this->eventDispatcher, $this->cacheFactory])
 			->getMock();
 
@@ -128,7 +128,7 @@ class FileTest extends NodeTest {
 
 	public function testGetMimeType() {
 		/** @var \OC\Files\Node\Root|\PHPUnit\Framework\MockObject\MockObject $root */
-		$root = $this->getMockBuilder('\OC\Files\Node\Root')
+		$root = $this->getMockBuilder(\OC\Files\Node\Root::class)
 			->setConstructorArgs([$this->manager, $this->view, $this->user, $this->userMountCache, $this->logger, $this->userManager, $this->eventDispatcher, $this->cacheFactory])
 			->getMock();
 

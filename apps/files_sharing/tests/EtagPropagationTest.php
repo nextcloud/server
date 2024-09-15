@@ -45,9 +45,9 @@ class EtagPropagationTest extends PropagationTestCase {
 		$view1->file_put_contents('/sub1/sub2/folder/file.txt', 'foobar');
 		$view1->file_put_contents('/sub1/sub2/folder/inside/file.txt', 'foobar');
 		$folderInfo = $view1->getFileInfo('/sub1/sub2/folder');
-		$this->assertInstanceOf('\OC\Files\FileInfo', $folderInfo);
+		$this->assertInstanceOf(\OC\Files\FileInfo::class, $folderInfo);
 		$fileInfo = $view1->getFileInfo('/foo.txt');
-		$this->assertInstanceOf('\OC\Files\FileInfo', $fileInfo);
+		$this->assertInstanceOf(\OC\Files\FileInfo::class, $fileInfo);
 
 		$node = $rootFolder->getUserFolder(self::TEST_FILES_SHARING_API_USER1)
 			->get('/foo.txt');
@@ -81,7 +81,7 @@ class EtagPropagationTest extends PropagationTestCase {
 		$this->shareManager->acceptShare($share, self::TEST_FILES_SHARING_API_USER3);
 
 		$folderInfo = $view1->getFileInfo('/directReshare');
-		$this->assertInstanceOf('\OC\Files\FileInfo', $folderInfo);
+		$this->assertInstanceOf(\OC\Files\FileInfo::class, $folderInfo);
 
 		$node = $rootFolder->getUserFolder(self::TEST_FILES_SHARING_API_USER1)
 			->get('/directReshare');
@@ -108,7 +108,7 @@ class EtagPropagationTest extends PropagationTestCase {
 		$this->loginAsUser(self::TEST_FILES_SHARING_API_USER2);
 
 		$insideInfo = $view2->getFileInfo('/sub1/sub2/folder/inside');
-		$this->assertInstanceOf('\OC\Files\FileInfo', $insideInfo);
+		$this->assertInstanceOf(\OC\Files\FileInfo::class, $insideInfo);
 
 		$node = $rootFolder->getUserFolder(self::TEST_FILES_SHARING_API_USER2)
 			->get('/sub1/sub2/folder/inside');
@@ -122,7 +122,7 @@ class EtagPropagationTest extends PropagationTestCase {
 		$this->shareManager->acceptShare($share, self::TEST_FILES_SHARING_API_USER4);
 
 		$folderInfo = $view2->getFileInfo('/directReshare');
-		$this->assertInstanceOf('\OC\Files\FileInfo', $folderInfo);
+		$this->assertInstanceOf(\OC\Files\FileInfo::class, $folderInfo);
 
 		$node = $rootFolder->getUserFolder(self::TEST_FILES_SHARING_API_USER2)
 			->get('/directReshare');
@@ -260,7 +260,7 @@ class EtagPropagationTest extends PropagationTestCase {
 	public function testOwnerUnshares() {
 		$this->loginAsUser(self::TEST_FILES_SHARING_API_USER1);
 		$folderInfo = $this->rootView->getFileInfo('/' . self::TEST_FILES_SHARING_API_USER1 . '/files/sub1/sub2/folder');
-		$this->assertInstanceOf('\OC\Files\FileInfo', $folderInfo);
+		$this->assertInstanceOf(\OC\Files\FileInfo::class, $folderInfo);
 
 		$node = \OC::$server->getUserFolder(self::TEST_FILES_SHARING_API_USER1)->get('/sub1/sub2/folder');
 		$shareManager = \OC::$server->getShareManager();
@@ -283,7 +283,7 @@ class EtagPropagationTest extends PropagationTestCase {
 	public function testOwnerUnsharesFlatReshares() {
 		$this->loginAsUser(self::TEST_FILES_SHARING_API_USER1);
 		$folderInfo = $this->rootView->getFileInfo('/' . self::TEST_FILES_SHARING_API_USER1 . '/files/sub1/sub2/folder/inside');
-		$this->assertInstanceOf('\OC\Files\FileInfo', $folderInfo);
+		$this->assertInstanceOf(\OC\Files\FileInfo::class, $folderInfo);
 
 		$node = \OC::$server->getUserFolder(self::TEST_FILES_SHARING_API_USER1)->get('/sub1/sub2/folder/inside');
 		$shareManager = \OC::$server->getShareManager();

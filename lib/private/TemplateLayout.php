@@ -89,7 +89,7 @@ class TemplateLayout extends \OC_Template {
 			}
 			// Set body data-theme
 			$this->assign('enabledThemes', []);
-			if (\OC::$server->getAppManager()->isEnabledForUser('theming') && class_exists('\OCA\Theming\Service\ThemesService')) {
+			if (\OC::$server->getAppManager()->isEnabledForUser('theming') && class_exists(\OCA\Theming\Service\ThemesService::class)) {
 				/** @var \OCA\Theming\Service\ThemesService */
 				$themesService = \OC::$server->get(\OCA\Theming\Service\ThemesService::class);
 				$this->assign('enabledThemes', $themesService->getEnabledThemes());

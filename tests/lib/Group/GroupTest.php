@@ -41,10 +41,10 @@ class GroupTest extends \Test\TestCase {
 	 * @return \OC\User\Manager
 	 */
 	protected function getUserManager() {
-		$userManager = $this->getMockBuilder('\OC\User\Manager')
+		$userManager = $this->getMockBuilder(\OC\User\Manager::class)
 			->disableOriginalConstructor()
 			->getMock();
-		$backend = $this->getMockBuilder('\OC\User\Backend')
+		$backend = $this->getMockBuilder(\OC\User\Backend::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$user1 = $this->newUser('user1', $backend);
@@ -61,7 +61,7 @@ class GroupTest extends \Test\TestCase {
 	}
 
 	public function testGetUsersSingleBackend() {
-		$backend = $this->getMockBuilder('OC\Group\Database')
+		$backend = $this->getMockBuilder(\OC\Group\Database::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$userManager = $this->getUserManager();
@@ -82,10 +82,10 @@ class GroupTest extends \Test\TestCase {
 	}
 
 	public function testGetUsersMultipleBackends() {
-		$backend1 = $this->getMockBuilder('OC\Group\Database')
+		$backend1 = $this->getMockBuilder(\OC\Group\Database::class)
 			->disableOriginalConstructor()
 			->getMock();
-		$backend2 = $this->getMockBuilder('OC\Group\Database')
+		$backend2 = $this->getMockBuilder(\OC\Group\Database::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$userManager = $this->getUserManager();
@@ -113,11 +113,11 @@ class GroupTest extends \Test\TestCase {
 	}
 
 	public function testInGroupSingleBackend() {
-		$backend = $this->getMockBuilder('OC\Group\Database')
+		$backend = $this->getMockBuilder(\OC\Group\Database::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$userManager = $this->getUserManager();
-		$userBackend = $this->getMockBuilder('\OC\User\Backend')
+		$userBackend = $this->getMockBuilder(\OC\User\Backend::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$group = new \OC\Group\Group('group1', [$backend], $this->dispatcher, $userManager);
@@ -131,10 +131,10 @@ class GroupTest extends \Test\TestCase {
 	}
 
 	public function testInGroupMultipleBackends() {
-		$backend1 = $this->getMockBuilder('OC\Group\Database')
+		$backend1 = $this->getMockBuilder(\OC\Group\Database::class)
 			->disableOriginalConstructor()
 			->getMock();
-		$backend2 = $this->getMockBuilder('OC\Group\Database')
+		$backend2 = $this->getMockBuilder(\OC\Group\Database::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$userManager = $this->getUserManager();
@@ -157,11 +157,11 @@ class GroupTest extends \Test\TestCase {
 	}
 
 	public function testAddUser() {
-		$backend = $this->getMockBuilder('OC\Group\Database')
+		$backend = $this->getMockBuilder(\OC\Group\Database::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$userManager = $this->getUserManager();
-		$userBackend = $this->getMockBuilder('\OC\User\Backend')
+		$userBackend = $this->getMockBuilder(\OC\User\Backend::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$group = new \OC\Group\Group('group1', [$backend], $this->dispatcher, $userManager);
@@ -182,11 +182,11 @@ class GroupTest extends \Test\TestCase {
 	}
 
 	public function testAddUserAlreadyInGroup() {
-		$backend = $this->getMockBuilder('OC\Group\Database')
+		$backend = $this->getMockBuilder(\OC\Group\Database::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$userManager = $this->getUserManager();
-		$userBackend = $this->getMockBuilder('\OC\User\Backend')
+		$userBackend = $this->getMockBuilder(\OC\User\Backend::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$group = new \OC\Group\Group('group1', [$backend], $this->dispatcher, $userManager);
@@ -206,11 +206,11 @@ class GroupTest extends \Test\TestCase {
 	}
 
 	public function testRemoveUser() {
-		$backend = $this->getMockBuilder('OC\Group\Database')
+		$backend = $this->getMockBuilder(\OC\Group\Database::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$userManager = $this->getUserManager();
-		$userBackend = $this->getMockBuilder('\OC\User\Backend')
+		$userBackend = $this->getMockBuilder(\OC\User\Backend::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$group = new \OC\Group\Group('group1', [$backend], $this->dispatcher, $userManager);
@@ -231,7 +231,7 @@ class GroupTest extends \Test\TestCase {
 	}
 
 	public function testRemoveUserNotInGroup() {
-		$backend = $this->getMockBuilder('OC\Group\Database')
+		$backend = $this->getMockBuilder(\OC\Group\Database::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$userManager = $this->getUserManager();
@@ -255,14 +255,14 @@ class GroupTest extends \Test\TestCase {
 	}
 
 	public function testRemoveUserMultipleBackends() {
-		$backend1 = $this->getMockBuilder('OC\Group\Database')
+		$backend1 = $this->getMockBuilder(\OC\Group\Database::class)
 			->disableOriginalConstructor()
 			->getMock();
-		$backend2 = $this->getMockBuilder('OC\Group\Database')
+		$backend2 = $this->getMockBuilder(\OC\Group\Database::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$userManager = $this->getUserManager();
-		$userBackend = $this->getMockBuilder('\OC\User\Backend')
+		$userBackend = $this->getMockBuilder(\OC\User\Backend::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$group = new \OC\Group\Group('group1', [$backend1, $backend2], $this->dispatcher, $userManager);
@@ -295,7 +295,7 @@ class GroupTest extends \Test\TestCase {
 	}
 
 	public function testSearchUsers() {
-		$backend = $this->getMockBuilder('OC\Group\Database')
+		$backend = $this->getMockBuilder(\OC\Group\Database::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$userManager = $this->getUserManager();
@@ -314,10 +314,10 @@ class GroupTest extends \Test\TestCase {
 	}
 
 	public function testSearchUsersMultipleBackends() {
-		$backend1 = $this->getMockBuilder('OC\Group\Database')
+		$backend1 = $this->getMockBuilder(\OC\Group\Database::class)
 			->disableOriginalConstructor()
 			->getMock();
-		$backend2 = $this->getMockBuilder('OC\Group\Database')
+		$backend2 = $this->getMockBuilder(\OC\Group\Database::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$userManager = $this->getUserManager();
@@ -340,7 +340,7 @@ class GroupTest extends \Test\TestCase {
 	}
 
 	public function testSearchUsersLimitAndOffset() {
-		$backend = $this->getMockBuilder('OC\Group\Database')
+		$backend = $this->getMockBuilder(\OC\Group\Database::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$userManager = $this->getUserManager();
@@ -359,10 +359,10 @@ class GroupTest extends \Test\TestCase {
 	}
 
 	public function testSearchUsersMultipleBackendsLimitAndOffset() {
-		$backend1 = $this->getMockBuilder('OC\Group\Database')
+		$backend1 = $this->getMockBuilder(\OC\Group\Database::class)
 			->disableOriginalConstructor()
 			->getMock();
-		$backend2 = $this->getMockBuilder('OC\Group\Database')
+		$backend2 = $this->getMockBuilder(\OC\Group\Database::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$userManager = $this->getUserManager();
@@ -387,7 +387,7 @@ class GroupTest extends \Test\TestCase {
 	}
 
 	public function testCountUsers() {
-		$backend1 = $this->getMockBuilder('OC\Group\Database')
+		$backend1 = $this->getMockBuilder(\OC\Group\Database::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$userManager = $this->getUserManager();
@@ -408,10 +408,10 @@ class GroupTest extends \Test\TestCase {
 	}
 
 	public function testCountUsersMultipleBackends() {
-		$backend1 = $this->getMockBuilder('OC\Group\Database')
+		$backend1 = $this->getMockBuilder(\OC\Group\Database::class)
 			->disableOriginalConstructor()
 			->getMock();
-		$backend2 = $this->getMockBuilder('OC\Group\Database')
+		$backend2 = $this->getMockBuilder(\OC\Group\Database::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$userManager = $this->getUserManager();
@@ -439,7 +439,7 @@ class GroupTest extends \Test\TestCase {
 	}
 
 	public function testCountUsersNoMethod() {
-		$backend1 = $this->getMockBuilder('OC\Group\Database')
+		$backend1 = $this->getMockBuilder(\OC\Group\Database::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$userManager = $this->getUserManager();
@@ -457,7 +457,7 @@ class GroupTest extends \Test\TestCase {
 	}
 
 	public function testDelete() {
-		$backend = $this->getMockBuilder('OC\Group\Database')
+		$backend = $this->getMockBuilder(\OC\Group\Database::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$userManager = $this->getUserManager();

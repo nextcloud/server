@@ -80,7 +80,7 @@ class MountProvider implements IMountProvider {
 					$ownerViews[$owner] = new View('/' . $parentShare->getShareOwner() . '/files');
 				}
 				$mount = new SharedMount(
-					'\OCA\Files_Sharing\SharedStorage',
+					\OCA\Files_Sharing\SharedStorage::class,
 					$mounts,
 					[
 						'user' => $user->getUID(),

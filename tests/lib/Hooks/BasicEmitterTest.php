@@ -63,7 +63,7 @@ class BasicEmitterTest extends \Test\TestCase {
 	public function testStaticCallback() {
 		$this->expectException(\Test\Hooks\EmittedException::class);
 
-		$this->emitter->listen('Test', 'test', ['\Test\Hooks\BasicEmitterTest', 'staticCallBack']);
+		$this->emitter->listen('Test', 'test', [\Test\Hooks\BasicEmitterTest::class, 'staticCallBack']);
 		$this->emitter->emitEvent('Test', 'test');
 	}
 

@@ -109,11 +109,11 @@ class FileTest extends TestCase {
 			],
 			[
 				new \OCP\Files\EntityTooLargeException(),
-				'OCA\DAV\Connector\Sabre\Exception\EntityTooLarge'
+				\OCA\DAV\Connector\Sabre\Exception\EntityTooLarge::class
 			],
 			[
 				new \OCP\Files\InvalidContentException(),
-				'OCA\DAV\Connector\Sabre\Exception\UnsupportedMediaType'
+				\OCA\DAV\Connector\Sabre\Exception\UnsupportedMediaType::class
 			],
 			[
 				new \OCP\Files\InvalidPathException(),
@@ -121,15 +121,15 @@ class FileTest extends TestCase {
 			],
 			[
 				new \OCP\Files\ForbiddenException('', true),
-				'OCA\DAV\Connector\Sabre\Exception\Forbidden'
+				\OCA\DAV\Connector\Sabre\Exception\Forbidden::class
 			],
 			[
 				new \OCP\Files\LockNotAcquiredException('/test.txt', 1),
-				'OCA\DAV\Connector\Sabre\Exception\FileLocked'
+				\OCA\DAV\Connector\Sabre\Exception\FileLocked::class
 			],
 			[
 				new \OCP\Lock\LockedException('/test.txt'),
-				'OCA\DAV\Connector\Sabre\Exception\FileLocked'
+				\OCA\DAV\Connector\Sabre\Exception\FileLocked::class
 			],
 			[
 				new \OCP\Encryption\Exceptions\GenericEncryptionException(),
@@ -454,7 +454,7 @@ class FileTest extends TestCase {
 		\OCP\Util::connectHook(
 			Filesystem::CLASSNAME,
 			Filesystem::signal_create,
-			'\Test\HookHelper',
+			\Test\HookHelper::class,
 			'cancellingCallback'
 		);
 

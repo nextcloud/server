@@ -790,7 +790,7 @@ class OC_App {
 	private static function setupLiveMigrations(string $appId, array $steps) {
 		$queue = \OC::$server->getJobList();
 		foreach ($steps as $step) {
-			$queue->add('OC\Migration\BackgroundRepair', [
+			$queue->add(\OC\Migration\BackgroundRepair::class, [
 				'app' => $appId,
 				'step' => $step]);
 		}

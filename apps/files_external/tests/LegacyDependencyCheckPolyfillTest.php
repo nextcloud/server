@@ -21,10 +21,10 @@ class LegacyDependencyCheckPolyfillTest extends \Test\TestCase {
 	}
 
 	public function testCheckDependencies() {
-		$trait = $this->getMockForTrait('\OCA\Files_External\Lib\LegacyDependencyCheckPolyfill');
+		$trait = $this->getMockForTrait(\OCA\Files_External\Lib\LegacyDependencyCheckPolyfill::class);
 		$trait->expects($this->once())
 			->method('getStorageClass')
-			->willReturn('\OCA\Files_External\Tests\LegacyDependencyCheckPolyfillTest');
+			->willReturn(\OCA\Files_External\Tests\LegacyDependencyCheckPolyfillTest::class);
 
 		$dependencies = $trait->checkDependencies();
 		$this->assertCount(2, $dependencies);

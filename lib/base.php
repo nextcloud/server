@@ -725,7 +725,7 @@ class OC {
 		\OCP\Util::connectHook(
 			'\OCA\Files_Sharing\API\Server2Server',
 			'preLoginNameUsedAsUserName',
-			'\OC\User\Database',
+			\OC\User\Database::class,
 			'preLoginNameUsedAsUserName'
 		);
 
@@ -866,7 +866,7 @@ class OC {
 			\OCP\Util::connectHook(Share::class, 'post_shared', HookManager::class, 'postShared');
 			\OCP\Util::connectHook(Share::class, 'post_unshare', HookManager::class, 'postUnshared');
 			\OCP\Util::connectHook('OC_Filesystem', 'post_rename', HookManager::class, 'postRename');
-			\OCP\Util::connectHook('\OCA\Files_Trashbin\Trashbin', 'post_restore', HookManager::class, 'postRestore');
+			\OCP\Util::connectHook(\OCA\Files_Trashbin\Trashbin::class, 'post_restore', HookManager::class, 'postRestore');
 		}
 	}
 

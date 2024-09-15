@@ -638,7 +638,7 @@ class CacheTest extends \Test\TestCase {
 		$this->assertEquals($folderWith00F6, $unNormalizedFolderName['name']);
 
 		// put normalized folder
-		$this->assertInstanceOf('\OCP\Files\Cache\ICacheEntry', $this->cache->get('folder/' . $folderWith00F6));
+		$this->assertInstanceOf(\OCP\Files\Cache\ICacheEntry::class, $this->cache->get('folder/' . $folderWith00F6));
 		$this->assertGreaterThan(0, $this->cache->put('folder/' . $folderWith00F6, $data));
 
 		// at this point we should have only one folder named "Schön"

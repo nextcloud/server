@@ -350,7 +350,7 @@ class ShareesAPIControllerTest extends TestCase {
 		$urlGenerator = $this->createMock(IURLGenerator::class);
 
 		/** @var MockObject|ShareesAPIController $sharees */
-		$sharees = $this->getMockBuilder('\OCA\Files_Sharing\Controller\ShareesAPIController')
+		$sharees = $this->getMockBuilder(\OCA\Files_Sharing\Controller\ShareesAPIController::class)
 			->setConstructorArgs([
 				'files_sharing',
 				$request,

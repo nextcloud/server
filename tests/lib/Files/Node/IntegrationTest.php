@@ -93,7 +93,7 @@ class IntegrationTest extends \Test\TestCase {
 		$this->assertCount(2, $this->root->getDirectoryListing());
 		$this->assertTrue($this->root->nodeExists('/foo.txt'));
 		$id = $file->getId();
-		$this->assertInstanceOf('\OC\Files\Node\File', $file);
+		$this->assertInstanceOf(\OC\Files\Node\File::class, $file);
 		$file->putContent('qwerty');
 		$this->assertEquals('text/plain', $file->getMimeType());
 		$this->assertEquals('qwerty', $file->getContent());
@@ -132,7 +132,7 @@ class IntegrationTest extends \Test\TestCase {
 		 * @var \OC\Files\Node\File $file
 		 */
 		$file = $folder->get('/bar');
-		$this->assertInstanceOf('\OC\Files\Node\File', $file);
+		$this->assertInstanceOf(\OC\Files\Node\File::class, $file);
 		$this->assertFalse($this->root->nodeExists('/foo/bar'));
 		$this->assertTrue($this->root->nodeExists('/asd/bar'));
 		$this->assertEquals('qwerty', $file->getContent());
@@ -141,7 +141,7 @@ class IntegrationTest extends \Test\TestCase {
 		 * @var \OC\Files\Node\File $file
 		 */
 		$file = $folder->get('/bar');
-		$this->assertInstanceOf('\OC\Files\Node\File', $file);
+		$this->assertInstanceOf(\OC\Files\Node\File::class, $file);
 		$this->assertTrue($this->root->nodeExists('/substorage/foo/bar'));
 		$this->assertEquals('qwerty', $file->getContent());
 	}

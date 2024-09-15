@@ -100,14 +100,14 @@ class ReleaseMetadataTest extends \Test\TestCase {
 				'apps' => [
 					'testing' => [
 						'30000Date20240102030405' => [
-							'class' => 'OCP\\Migration\\Attributes\\DropTable',
+							'class' => \OCP\Migration\Attributes\DropTable::class,
 							'table' => 'old_table',
 							'description' => '',
 							'notes' => [],
 							'columns' => []
 						],
 						[
-							'class' => 'OCP\\Migration\\Attributes\\CreateTable',
+							'class' => \OCP\Migration\Attributes\CreateTable::class,
 							'table' => 'new_table',
 							'description' => 'Table is used to store things, but also to get more things',
 							'notes' => [
@@ -117,7 +117,7 @@ class ReleaseMetadataTest extends \Test\TestCase {
 							'columns' => []
 						],
 						[
-							'class' => 'OCP\\Migration\\Attributes\\AddColumn',
+							'class' => \OCP\Migration\Attributes\AddColumn::class,
 							'table' => 'my_table',
 							'description' => '',
 							'notes' => [],
@@ -125,7 +125,7 @@ class ReleaseMetadataTest extends \Test\TestCase {
 							'type' => ''
 						],
 						[
-							'class' => 'OCP\\Migration\\Attributes\\AddColumn',
+							'class' => \OCP\Migration\Attributes\AddColumn::class,
 							'table' => 'my_table',
 							'description' => '',
 							'notes' => [],
@@ -133,7 +133,7 @@ class ReleaseMetadataTest extends \Test\TestCase {
 							'type' => ''
 						],
 						[
-							'class' => 'OCP\\Migration\\Attributes\\AddColumn',
+							'class' => \OCP\Migration\Attributes\AddColumn::class,
 							'table' => 'other_table',
 							'description' => '',
 							'notes' => [],
@@ -141,21 +141,21 @@ class ReleaseMetadataTest extends \Test\TestCase {
 							'type' => 'date'
 						],
 						[
-							'class' => 'OCP\\Migration\\Attributes\\AddIndex',
+							'class' => \OCP\Migration\Attributes\AddIndex::class,
 							'table' => 'my_table',
 							'description' => '',
 							'notes' => [],
 							'type' => ''
 						],
 						[
-							'class' => 'OCP\\Migration\\Attributes\\AddIndex',
+							'class' => \OCP\Migration\Attributes\AddIndex::class,
 							'table' => 'my_table',
 							'description' => '',
 							'notes' => [],
 							'type' => 'primary'
 						],
 						[
-							'class' => 'OCP\\Migration\\Attributes\\DropColumn',
+							'class' => \OCP\Migration\Attributes\DropColumn::class,
 							'table' => 'other_table',
 							'description' => '',
 							'notes' => [],
@@ -163,7 +163,7 @@ class ReleaseMetadataTest extends \Test\TestCase {
 							'type' => ''
 						],
 						[
-							'class' => 'OCP\\Migration\\Attributes\\DropColumn',
+							'class' => \OCP\Migration\Attributes\DropColumn::class,
 							'table' => 'other_table',
 							'description' => 'field is not used anymore and replaced by \'last_one\'',
 							'notes' => [],
@@ -171,14 +171,14 @@ class ReleaseMetadataTest extends \Test\TestCase {
 							'type' => ''
 						],
 						[
-							'class' => 'OCP\\Migration\\Attributes\\DropIndex',
+							'class' => \OCP\Migration\Attributes\DropIndex::class,
 							'table' => 'other_table',
 							'description' => '',
 							'notes' => [],
 							'type' => ''
 						],
 						[
-							'class' => 'OCP\\Migration\\Attributes\\ModifyColumn',
+							'class' => \OCP\Migration\Attributes\ModifyColumn::class,
 							'table' => 'other_table',
 							'description' => '',
 							'notes' => [],
@@ -186,7 +186,7 @@ class ReleaseMetadataTest extends \Test\TestCase {
 							'type' => ''
 						],
 						[
-							'class' => 'OCP\\Migration\\Attributes\\ModifyColumn',
+							'class' => \OCP\Migration\Attributes\ModifyColumn::class,
 							'table' => 'other_table',
 							'description' => '',
 							'notes' => [],
@@ -194,7 +194,7 @@ class ReleaseMetadataTest extends \Test\TestCase {
 							'type' => ''
 						],
 						[
-							'class' => 'OCP\\Migration\\Attributes\\ModifyColumn',
+							'class' => \OCP\Migration\Attributes\ModifyColumn::class,
 							'table' => 'other_table',
 							'description' => '',
 							'notes' => [],

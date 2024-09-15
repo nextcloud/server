@@ -328,7 +328,7 @@ class Trashbin {
 			if (!$result) {
 				\OC::$server->get(LoggerInterface::class)->error('trash bin database couldn\'t be updated', ['app' => 'files_trashbin']);
 			}
-			\OCP\Util::emitHook('\OCA\Files_Trashbin\Trashbin', 'post_moveToTrash', ['filePath' => Filesystem::normalizePath($file_path),
+			\OCP\Util::emitHook(\OCA\Files_Trashbin\Trashbin::class, 'post_moveToTrash', ['filePath' => Filesystem::normalizePath($file_path),
 				'trashPath' => Filesystem::normalizePath(static::getTrashFilename($filename, $timestamp))]);
 
 			self::retainVersions($filename, $owner, $ownerPath, $timestamp);
@@ -504,7 +504,7 @@ class Trashbin {
 			$view->chroot('/' . $user . '/files');
 			$view->touch('/' . $location . '/' . $uniqueFilename, $mtime);
 			$view->chroot($fakeRoot);
-			\OCP\Util::emitHook('\OCA\Files_Trashbin\Trashbin', 'post_restore', ['filePath' => $targetPath, 'trashPath' => $sourcePath]);
+			\OCP\Util::emitHook(\OCA\Files_Trashbin\Trashbin::class, 'post_restore', ['filePath' => $targetPath, 'trashPath' => $sourcePath]);
 
 			$sourceNode = self::getNodeForPath($sourcePath);
 			$targetNode = self::getNodeForPath($targetPath);

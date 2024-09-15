@@ -20,8 +20,8 @@ class ProviderTest extends \Test\TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->request = $this->getMockBuilder('\\OCP\\IRequest')->getMock();
-		$this->appManager = $this->getMockBuilder('\\OCP\\App\\IAppManager')->getMock();
+		$this->request = $this->getMockBuilder(\OCP\IRequest::class)->getMock();
+		$this->appManager = $this->getMockBuilder(\OCP\App\IAppManager::class)->getMock();
 		$this->ocsProvider = new Provider('ocs_provider', $this->request, $this->appManager);
 	}
 

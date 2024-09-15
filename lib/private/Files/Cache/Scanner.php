@@ -125,7 +125,7 @@ class Scanner extends BasicEmitter implements IScanner {
 		if (!self::isPartialFile($file)) {
 			// acquire a lock
 			if ($lock) {
-				if ($this->storage->instanceOfStorage('\OCP\Files\Storage\ILockingStorage')) {
+				if ($this->storage->instanceOfStorage(\OCP\Files\Storage\ILockingStorage::class)) {
 					$this->storage->acquireLock($file, ILockingProvider::LOCK_SHARED, $this->lockingProvider);
 				}
 			}
@@ -134,7 +134,7 @@ class Scanner extends BasicEmitter implements IScanner {
 				$data = $data ?? $this->getData($file);
 			} catch (ForbiddenException $e) {
 				if ($lock) {
-					if ($this->storage->instanceOfStorage('\OCP\Files\Storage\ILockingStorage')) {
+					if ($this->storage->instanceOfStorage(\OCP\Files\Storage\ILockingStorage::class)) {
 						$this->storage->releaseLock($file, ILockingProvider::LOCK_SHARED, $this->lockingProvider);
 					}
 				}
@@ -146,8 +146,8 @@ class Scanner extends BasicEmitter implements IScanner {
 				if ($data) {
 					// pre-emit only if it was a file. By that we avoid counting/treating folders as files
 					if ($data['mimetype'] !== 'httpd/unix-directory') {
-						$this->emit('\OC\Files\Cache\Scanner', 'scanFile', [$file, $this->storageId]);
-						\OC_Hook::emit('\OC\Files\Cache\Scanner', 'scan_file', ['path' => $file, 'storage' => $this->storageId]);
+						$this->emit(\OC\Files\Cache\Scanner::class, 'scanFile', [$file, $this->storageId]);
+						\OC_Hook::emit(\OC\Files\Cache\Scanner::class, 'scan_file', ['path' => $file, 'storage' => $this->storageId]);
 					}
 
 					$parent = dirname($file);
@@ -225,15 +225,15 @@ class Scanner extends BasicEmitter implements IScanner {
 
 					// post-emit only if it was a file. By that we avoid counting/treating folders as files
 					if ($data['mimetype'] !== 'httpd/unix-directory') {
-						$this->emit('\OC\Files\Cache\Scanner', 'postScanFile', [$file, $this->storageId]);
-						\OC_Hook::emit('\OC\Files\Cache\Scanner', 'post_scan_file', ['path' => $file, 'storage' => $this->storageId]);
+						$this->emit(\OC\Files\Cache\Scanner::class, 'postScanFile', [$file, $this->storageId]);
+						\OC_Hook::emit(\OC\Files\Cache\Scanner::class, 'post_scan_file', ['path' => $file, 'storage' => $this->storageId]);
 					}
 				} else {
 					$this->removeFromCache($file);
 				}
 			} catch (\Exception $e) {
 				if ($lock) {
-					if ($this->storage->instanceOfStorage('\OCP\Files\Storage\ILockingStorage')) {
+					if ($this->storage->instanceOfStorage(\OCP\Files\Storage\ILockingStorage::class)) {
 						$this->storage->releaseLock($file, ILockingProvider::LOCK_SHARED, $this->lockingProvider);
 					}
 				}
@@ -242,7 +242,7 @@ class Scanner extends BasicEmitter implements IScanner {
 
 			// release the acquired lock
 			if ($lock) {
-				if ($this->storage->instanceOfStorage('\OCP\Files\Storage\ILockingStorage')) {
+				if ($this->storage->instanceOfStorage(\OCP\Files\Storage\ILockingStorage::class)) {
 					$this->storage->releaseLock($file, ILockingProvider::LOCK_SHARED, $this->lockingProvider);
 				}
 			}
@@ -258,7 +258,7 @@ class Scanner extends BasicEmitter implements IScanner {
 
 	protected function removeFromCache($path) {
 		\OC_Hook::emit('Scanner', 'removeFromCache', ['file' => $path]);
-		$this->emit('\OC\Files\Cache\Scanner', 'removeFromCache', [$path]);
+		$this->emit(\OC\Files\Cache\Scanner::class, 'removeFromCache', [$path]);
 		if ($this->cacheActive) {
 			$this->cache->remove($path);
 		}
@@ -275,7 +275,7 @@ class Scanner extends BasicEmitter implements IScanner {
 			$data['permissions'] = $data['scan_permissions'];
 		}
 		\OC_Hook::emit('Scanner', 'addToCache', ['file' => $path, 'data' => $data]);
-		$this->emit('\OC\Files\Cache\Scanner', 'addToCache', [$path, $this->storageId, $data, $fileId]);
+		$this->emit(\OC\Files\Cache\Scanner::class, 'addToCache', [$path, $this->storageId, $data, $fileId]);
 		if ($this->cacheActive) {
 			if ($fileId !== -1) {
 				$this->cache->update($fileId, $data);
@@ -295,7 +295,7 @@ class Scanner extends BasicEmitter implements IScanner {
 	 */
 	protected function updateCache($path, $data, $fileId = -1) {
 		\OC_Hook::emit('Scanner', 'addToCache', ['file' => $path, 'data' => $data]);
-		$this->emit('\OC\Files\Cache\Scanner', 'updateCache', [$path, $this->storageId, $data]);
+		$this->emit(\OC\Files\Cache\Scanner::class, 'updateCache', [$path, $this->storageId, $data]);
 		if ($this->cacheActive) {
 			if ($fileId !== -1) {
 				$this->cache->update($fileId, $data);
@@ -319,7 +319,7 @@ class Scanner extends BasicEmitter implements IScanner {
 			$reuse = ($recursive === self::SCAN_SHALLOW) ? self::REUSE_ETAG | self::REUSE_SIZE : self::REUSE_ETAG;
 		}
 		if ($lock) {
-			if ($this->storage->instanceOfStorage('\OCP\Files\Storage\ILockingStorage')) {
+			if ($this->storage->instanceOfStorage(\OCP\Files\Storage\ILockingStorage::class)) {
 				$this->storage->acquireLock('scanner::' . $path, ILockingProvider::LOCK_EXCLUSIVE, $this->lockingProvider);
 				$this->storage->acquireLock($path, ILockingProvider::LOCK_SHARED, $this->lockingProvider);
 			}
@@ -337,7 +337,7 @@ class Scanner extends BasicEmitter implements IScanner {
 			}
 		} finally {
 			if ($lock) {
-				if ($this->storage->instanceOfStorage('\OCP\Files\Storage\ILockingStorage')) {
+				if ($this->storage->instanceOfStorage(\OCP\Files\Storage\ILockingStorage::class)) {
 					$this->storage->releaseLock($path, ILockingProvider::LOCK_SHARED, $this->lockingProvider);
 					$this->storage->releaseLock('scanner::' . $path, ILockingProvider::LOCK_EXCLUSIVE, $this->lockingProvider);
 				}
@@ -420,7 +420,7 @@ class Scanner extends BasicEmitter implements IScanner {
 		if ($reuse === -1) {
 			$reuse = ($recursive === self::SCAN_SHALLOW) ? self::REUSE_ETAG | self::REUSE_SIZE : self::REUSE_ETAG;
 		}
-		$this->emit('\OC\Files\Cache\Scanner', 'scanFolder', [$path, $this->storageId]);
+		$this->emit(\OC\Files\Cache\Scanner::class, 'scanFolder', [$path, $this->storageId]);
 		$size = 0;
 		$childQueue = $this->handleChildren($path, $recursive, $reuse, $folderId, $lock, $size, $etagChanged);
 
@@ -455,7 +455,7 @@ class Scanner extends BasicEmitter implements IScanner {
 				}
 			}
 		}
-		$this->emit('\OC\Files\Cache\Scanner', 'postScanFolder', [$path, $this->storageId]);
+		$this->emit(\OC\Files\Cache\Scanner::class, 'postScanFolder', [$path, $this->storageId]);
 		return $size;
 	}
 
@@ -489,7 +489,7 @@ class Scanner extends BasicEmitter implements IScanner {
 			if (trim($originalFile, '/') !== $file) {
 				// encoding mismatch, might require compatibility wrapper
 				\OC::$server->get(LoggerInterface::class)->debug('Scanner: Skipping non-normalized file name "'. $originalFile . '" in path "' . $path . '".', ['app' => 'core']);
-				$this->emit('\OC\Files\Cache\Scanner', 'normalizedNameMismatch', [$path ? $path . '/' . $originalFile : $originalFile]);
+				$this->emit(\OC\Files\Cache\Scanner::class, 'normalizedNameMismatch', [$path ? $path . '/' . $originalFile : $originalFile]);
 				// skip this entry
 				continue;
 			}

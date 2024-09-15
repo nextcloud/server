@@ -55,7 +55,7 @@ class DecryptAllTest extends TestCase {
 
 		$this->userManager = $this->getMockBuilder(IUserManager::class)
 			->disableOriginalConstructor()->getMock();
-		$this->encryptionManager = $this->getMockBuilder('OC\Encryption\Manager')
+		$this->encryptionManager = $this->getMockBuilder(\OC\Encryption\Manager::class)
 			->disableOriginalConstructor()->getMock();
 		$this->view = $this->getMockBuilder(View::class)
 			->disableOriginalConstructor()->getMock();
@@ -105,7 +105,7 @@ class DecryptAllTest extends TestCase {
 			$this->userManager->expects($this->never())->method('userExists');
 		}
 		/** @var DecryptAll | \PHPUnit\Framework\MockObject\MockObject |  $instance */
-		$instance = $this->getMockBuilder('OC\Encryption\DecryptAll')
+		$instance = $this->getMockBuilder(\OC\Encryption\DecryptAll::class)
 			->setConstructorArgs(
 				[
 					$this->encryptionManager,
@@ -159,7 +159,7 @@ class DecryptAllTest extends TestCase {
 	public function testPrepareEncryptionModules($success) {
 		$user = 'user1';
 
-		$dummyEncryptionModule = $this->getMockBuilder('OCP\Encryption\IEncryptionModule')
+		$dummyEncryptionModule = $this->getMockBuilder(\OCP\Encryption\IEncryptionModule::class)
 			->disableOriginalConstructor()->getMock();
 
 		$dummyEncryptionModule->expects($this->once())
@@ -190,7 +190,7 @@ class DecryptAllTest extends TestCase {
 	 */
 	public function testDecryptAllUsersFiles($user) {
 		/** @var DecryptAll | \PHPUnit\Framework\MockObject\MockObject |  $instance */
-		$instance = $this->getMockBuilder('OC\Encryption\DecryptAll')
+		$instance = $this->getMockBuilder(\OC\Encryption\DecryptAll::class)
 			->setConstructorArgs(
 				[
 					$this->encryptionManager,
@@ -235,7 +235,7 @@ class DecryptAllTest extends TestCase {
 
 	public function testDecryptUsersFiles() {
 		/** @var DecryptAll | \PHPUnit\Framework\MockObject\MockObject  $instance */
-		$instance = $this->getMockBuilder('OC\Encryption\DecryptAll')
+		$instance = $this->getMockBuilder(\OC\Encryption\DecryptAll::class)
 			->setConstructorArgs(
 				[
 					$this->encryptionManager,
@@ -254,7 +254,7 @@ class DecryptAllTest extends TestCase {
 			->disableOriginalConstructor()->getMock();
 
 		$sharedStorage->expects($this->once())->method('instanceOfStorage')
-			->with('OCA\Files_Sharing\SharedStorage')->willReturn(true);
+			->with(\OCA\Files_Sharing\SharedStorage::class)->willReturn(true);
 
 		$this->view->expects($this->exactly(2))
 			->method('getDirectoryContent')
@@ -312,7 +312,7 @@ class DecryptAllTest extends TestCase {
 		$path = 'test.txt';
 
 		/** @var DecryptAll | \PHPUnit\Framework\MockObject\MockObject  $instance */
-		$instance = $this->getMockBuilder('OC\Encryption\DecryptAll')
+		$instance = $this->getMockBuilder(\OC\Encryption\DecryptAll::class)
 			->setConstructorArgs(
 				[
 					$this->encryptionManager,
@@ -352,7 +352,7 @@ class DecryptAllTest extends TestCase {
 		$path = 'test.txt';
 
 		/** @var DecryptAll | \PHPUnit\Framework\MockObject\MockObject  $instance */
-		$instance = $this->getMockBuilder('OC\Encryption\DecryptAll')
+		$instance = $this->getMockBuilder(\OC\Encryption\DecryptAll::class)
 			->setConstructorArgs(
 				[
 					$this->encryptionManager,

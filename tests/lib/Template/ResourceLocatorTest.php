@@ -32,7 +32,7 @@ class ResourceLocatorTest extends \Test\TestCase {
 			->with('theme', '')
 			->willReturn($theme);
 		$this->overwriteService(SystemConfig::class, $systemConfig);
-		return $this->getMockForAbstractClass('OC\Template\ResourceLocator',
+		return $this->getMockForAbstractClass(\OC\Template\ResourceLocator::class,
 			[$this->logger],
 			'', true, true, true, []);
 	}

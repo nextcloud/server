@@ -30,7 +30,7 @@ class AllConfigTest extends \Test\TestCase {
 			$connection = $this->connection;
 		}
 		if ($systemConfig === null) {
-			$systemConfig = $this->getMockBuilder('\OC\SystemConfig')
+			$systemConfig = $this->getMockBuilder(\OC\SystemConfig::class)
 				->disableOriginalConstructor()
 				->getMock();
 		}
@@ -465,7 +465,7 @@ class AllConfigTest extends \Test\TestCase {
 
 	public function testGetUsersForUserValue() {
 		// mock the check for the database to run the correct SQL statements for each database type
-		$systemConfig = $this->getMockBuilder('\OC\SystemConfig')
+		$systemConfig = $this->getMockBuilder(\OC\SystemConfig::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$config = $this->getConfig($systemConfig);

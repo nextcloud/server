@@ -89,7 +89,7 @@ class RequestSharedSecretTest extends TestCase {
 	 */
 	public function testStart($isTrustedServer, $retainBackgroundJob) {
 		/** @var RequestSharedSecret |MockObject $requestSharedSecret */
-		$requestSharedSecret = $this->getMockBuilder('OCA\Federation\BackgroundJob\RequestSharedSecret')
+		$requestSharedSecret = $this->getMockBuilder(\OCA\Federation\BackgroundJob\RequestSharedSecret::class)
 			->setConstructorArgs(
 				[
 					$this->httpClientService,

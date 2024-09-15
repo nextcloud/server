@@ -61,7 +61,7 @@ class LegacyHooksTest extends TestCase {
 			->setNodeCacheEntry($info);
 
 		$hookListner = $this->getMockBuilder('Dummy')->setMethods(['pre'])->getMock();
-		\OCP\Util::connectHook('OCP\Share', 'pre_unshare', $hookListner, 'pre');
+		\OCP\Util::connectHook(\OCP\Share::class, 'pre_unshare', $hookListner, 'pre');
 
 		$hookListnerExpectsPre = [
 			'id' => 42,
@@ -102,7 +102,7 @@ class LegacyHooksTest extends TestCase {
 			->setNodeCacheEntry($info);
 
 		$hookListner = $this->getMockBuilder('Dummy')->setMethods(['post'])->getMock();
-		\OCP\Util::connectHook('OCP\Share', 'post_unshare', $hookListner, 'post');
+		\OCP\Util::connectHook(\OCP\Share::class, 'post_unshare', $hookListner, 'post');
 
 		$hookListnerExpectsPost = [
 			'id' => 42,
@@ -156,7 +156,7 @@ class LegacyHooksTest extends TestCase {
 			->setNodeCacheEntry($info);
 
 		$hookListner = $this->getMockBuilder('Dummy')->setMethods(['postFromSelf'])->getMock();
-		\OCP\Util::connectHook('OCP\Share', 'post_unshareFromSelf', $hookListner, 'postFromSelf');
+		\OCP\Util::connectHook(\OCP\Share::class, 'post_unshareFromSelf', $hookListner, 'postFromSelf');
 
 		$hookListnerExpectsPostFromSelf = [
 			'id' => 42,
@@ -213,7 +213,7 @@ class LegacyHooksTest extends TestCase {
 
 
 		$hookListner = $this->getMockBuilder('Dummy')->setMethods(['preShare'])->getMock();
-		\OCP\Util::connectHook('OCP\Share', 'pre_shared', $hookListner, 'preShare');
+		\OCP\Util::connectHook(\OCP\Share::class, 'pre_shared', $hookListner, 'preShare');
 
 		$run = true;
 		$error = '';
@@ -261,7 +261,7 @@ class LegacyHooksTest extends TestCase {
 
 
 		$hookListner = $this->getMockBuilder('Dummy')->setMethods(['preShare'])->getMock();
-		\OCP\Util::connectHook('OCP\Share', 'pre_shared', $hookListner, 'preShare');
+		\OCP\Util::connectHook(\OCP\Share::class, 'pre_shared', $hookListner, 'preShare');
 
 		$run = true;
 		$error = '';
@@ -317,7 +317,7 @@ class LegacyHooksTest extends TestCase {
 
 
 		$hookListner = $this->getMockBuilder('Dummy')->setMethods(['postShare'])->getMock();
-		\OCP\Util::connectHook('OCP\Share', 'post_shared', $hookListner, 'postShare');
+		\OCP\Util::connectHook(\OCP\Share::class, 'post_shared', $hookListner, 'postShare');
 
 		$expected = [
 			'id' => 42,

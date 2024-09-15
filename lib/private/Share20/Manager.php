@@ -578,7 +578,7 @@ class Manager implements IManager {
 		if ($path instanceof \OCP\Files\Folder) {
 			$mounts = $this->mountManager->findIn($path->getPath());
 			foreach ($mounts as $mount) {
-				if ($mount->getStorage()->instanceOfStorage('\OCA\Files_Sharing\ISharedStorage')) {
+				if ($mount->getStorage()->instanceOfStorage(\OCA\Files_Sharing\ISharedStorage::class)) {
 					throw new \InvalidArgumentException($this->l->t('Path contains files shared with you'));
 				}
 			}
@@ -623,9 +623,9 @@ class Manager implements IManager {
 		 * Except for mounted federated shares.
 		 */
 		$storage = $share->getNode()->getStorage();
-		if ($storage->instanceOfStorage('OCA\Files_Sharing\External\Storage')) {
+		if ($storage->instanceOfStorage(\OCA\Files_Sharing\External\Storage::class)) {
 			$parent = $share->getNode()->getParent();
-			while ($parent->getStorage()->instanceOfStorage('OCA\Files_Sharing\External\Storage')) {
+			while ($parent->getStorage()->instanceOfStorage(\OCA\Files_Sharing\External\Storage::class)) {
 				$parent = $parent->getParent();
 			}
 			$share->setShareOwner($parent->getOwner()->getUID());

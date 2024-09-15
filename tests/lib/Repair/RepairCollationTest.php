@@ -81,7 +81,7 @@ class RepairCollationTest extends TestCase {
 		$this->assertGreaterThanOrEqual(1, count($tables));
 
 		/** @var IOutput | \PHPUnit\Framework\MockObject\MockObject $outputMock */
-		$outputMock = $this->getMockBuilder('\OCP\Migration\IOutput')
+		$outputMock = $this->getMockBuilder(\OCP\Migration\IOutput::class)
 			->disableOriginalConstructor()
 			->getMock();
 

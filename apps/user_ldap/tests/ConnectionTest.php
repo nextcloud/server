@@ -29,7 +29,7 @@ class ConnectionTest extends \Test\TestCase {
 
 		$this->ldap = $this->createMock(ILDAPWrapper::class);
 		// we use a mock here to replace the cache mechanism, due to missing DI in LDAP backend.
-		$this->connection = $this->getMockBuilder('OCA\User_LDAP\Connection')
+		$this->connection = $this->getMockBuilder(\OCA\User_LDAP\Connection::class)
 			->setMethods(['getFromCache', 'writeToCache'])
 			->setConstructorArgs([$this->ldap, '', null])
 			->getMock();

@@ -55,7 +55,7 @@ class AppTest extends \Test\TestCase {
 
 		$this->container[$this->controllerName] = $this->controller;
 		$this->container['Dispatcher'] = $this->dispatcher;
-		$this->container['OCP\\AppFramework\\Http\\IOutput'] = $this->io;
+		$this->container[\OCP\AppFramework\Http\IOutput::class] = $this->io;
 		$this->container['urlParams'] = ['_route' => 'not-profiler'];
 
 		$this->appPath = __DIR__ . '/../../../apps/namespacetestapp';
@@ -151,7 +151,7 @@ class AppTest extends \Test\TestCase {
 
 
 	public function testCallbackIsCalled() {
-		$mock = $this->getMockBuilder('OCP\AppFramework\Http\ICallbackResponse')
+		$mock = $this->getMockBuilder(\OCP\AppFramework\Http\ICallbackResponse::class)
 			->getMock();
 
 		$return = ['HTTP/2.0 200 OK', [], [], $this->output, $mock];

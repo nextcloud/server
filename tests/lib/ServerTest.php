@@ -31,118 +31,118 @@ class ServerTest extends \Test\TestCase {
 
 	public function dataTestQuery() {
 		return [
-			['ActivityManager', '\OC\Activity\Manager'],
-			['ActivityManager', '\OCP\Activity\IManager'],
-			['AllConfig', '\OC\AllConfig'],
-			['AllConfig', '\OCP\IConfig'],
-			['AppConfig', '\OC\AppConfig'],
-			['AppConfig', '\OCP\IAppConfig'],
+			['ActivityManager', \OC\Activity\Manager::class],
+			['ActivityManager', \OCP\Activity\IManager::class],
+			['AllConfig', \OC\AllConfig::class],
+			['AllConfig', \OCP\IConfig::class],
+			['AppConfig', \OC\AppConfig::class],
+			['AppConfig', \OCP\IAppConfig::class],
 			['AppFetcher', AppFetcher::class],
-			['AppManager', '\OC\App\AppManager'],
-			['AppManager', '\OCP\App\IAppManager'],
-			['AsyncCommandBus', '\OC\Command\AsyncBus'],
-			['AsyncCommandBus', '\OCP\Command\IBus'],
-			['AvatarManager', '\OC\Avatar\AvatarManager'],
-			['AvatarManager', '\OCP\IAvatarManager'],
+			['AppManager', \OC\App\AppManager::class],
+			['AppManager', \OCP\App\IAppManager::class],
+			['AsyncCommandBus', \OC\Command\AsyncBus::class],
+			['AsyncCommandBus', \OCP\Command\IBus::class],
+			['AvatarManager', \OC\Avatar\AvatarManager::class],
+			['AvatarManager', \OCP\IAvatarManager::class],
 
 			['CategoryFetcher', CategoryFetcher::class],
-			['CapabilitiesManager', '\OC\CapabilitiesManager'],
-			['ContactsManager', '\OC\ContactsManager'],
-			['ContactsManager', '\OCP\Contacts\IManager'],
-			['ContentSecurityPolicyManager', '\OC\Security\CSP\ContentSecurityPolicyManager'],
-			['CommentsManager', '\OCP\Comments\ICommentsManager'],
-			['Crypto', '\OC\Security\Crypto'],
-			['Crypto', '\OCP\Security\ICrypto'],
-			['CryptoWrapper', '\OC\Session\CryptoWrapper'],
-			['CsrfTokenManager', '\OC\Security\CSRF\CsrfTokenManager'],
+			['CapabilitiesManager', \OC\CapabilitiesManager::class],
+			['ContactsManager', \OC\ContactsManager::class],
+			['ContactsManager', \OCP\Contacts\IManager::class],
+			['ContentSecurityPolicyManager', \OC\Security\CSP\ContentSecurityPolicyManager::class],
+			['CommentsManager', \OCP\Comments\ICommentsManager::class],
+			['Crypto', \OC\Security\Crypto::class],
+			['Crypto', \OCP\Security\ICrypto::class],
+			['CryptoWrapper', \OC\Session\CryptoWrapper::class],
+			['CsrfTokenManager', \OC\Security\CSRF\CsrfTokenManager::class],
 
-			['DatabaseConnection', '\OC\DB\ConnectionAdapter'],
-			['DatabaseConnection', '\OCP\IDBConnection'],
-			['DateTimeFormatter', '\OC\DateTimeFormatter'],
-			['DateTimeFormatter', '\OCP\IDateTimeFormatter'],
-			['DateTimeZone', '\OC\DateTimeZone'],
-			['DateTimeZone', '\OCP\IDateTimeZone'],
+			['DatabaseConnection', \OC\DB\ConnectionAdapter::class],
+			['DatabaseConnection', \OCP\IDBConnection::class],
+			['DateTimeFormatter', \OC\DateTimeFormatter::class],
+			['DateTimeFormatter', \OCP\IDateTimeFormatter::class],
+			['DateTimeZone', \OC\DateTimeZone::class],
+			['DateTimeZone', \OCP\IDateTimeZone::class],
 
-			['EncryptionFileHelper', '\OC\Encryption\File'],
-			['EncryptionFileHelper', '\OCP\Encryption\IFile'],
-			['EncryptionKeyStorage', '\OC\Encryption\Keys\Storage'],
-			['EncryptionKeyStorage', '\OCP\Encryption\Keys\IStorage'],
-			['EncryptionManager', '\OC\Encryption\Manager'],
-			['EncryptionManager', '\OCP\Encryption\IManager'],
-			['EventLogger', '\OCP\Diagnostics\IEventLogger'],
+			['EncryptionFileHelper', \OC\Encryption\File::class],
+			['EncryptionFileHelper', \OCP\Encryption\IFile::class],
+			['EncryptionKeyStorage', \OC\Encryption\Keys\Storage::class],
+			['EncryptionKeyStorage', \OCP\Encryption\Keys\IStorage::class],
+			['EncryptionManager', \OC\Encryption\Manager::class],
+			['EncryptionManager', \OCP\Encryption\IManager::class],
+			['EventLogger', \OCP\Diagnostics\IEventLogger::class],
 
-			['GroupManager', '\OC\Group\Manager'],
-			['GroupManager', '\OCP\IGroupManager'],
+			['GroupManager', \OC\Group\Manager::class],
+			['GroupManager', \OCP\IGroupManager::class],
 
-			['Hasher', '\OC\Security\Hasher'],
-			['Hasher', '\OCP\Security\IHasher'],
-			['HttpClientService', '\OC\Http\Client\ClientService'],
-			['HttpClientService', '\OCP\Http\Client\IClientService'],
+			['Hasher', \OC\Security\Hasher::class],
+			['Hasher', \OCP\Security\IHasher::class],
+			['HttpClientService', \OC\Http\Client\ClientService::class],
+			['HttpClientService', \OCP\Http\Client\IClientService::class],
 
 			['IniWrapper', '\bantu\IniGetWrapper\IniGetWrapper'],
-			['MimeTypeDetector', '\OCP\Files\IMimeTypeDetector'],
-			['MimeTypeDetector', '\OC\Files\Type\Detection'],
+			['MimeTypeDetector', \OCP\Files\IMimeTypeDetector::class],
+			['MimeTypeDetector', \OC\Files\Type\Detection::class],
 
-			['JobList', '\OC\BackgroundJob\JobList'],
-			['JobList', '\OCP\BackgroundJob\IJobList'],
+			['JobList', \OC\BackgroundJob\JobList::class],
+			['JobList', \OCP\BackgroundJob\IJobList::class],
 
-			['L10NFactory', '\OC\L10N\Factory'],
-			['L10NFactory', '\OCP\L10N\IFactory'],
-			['LockingProvider', '\OCP\Lock\ILockingProvider'],
-			['Logger', '\OC\Log'],
-			['Logger', '\OCP\ILogger'],
+			['L10NFactory', \OC\L10N\Factory::class],
+			['L10NFactory', \OCP\L10N\IFactory::class],
+			['LockingProvider', \OCP\Lock\ILockingProvider::class],
+			['Logger', \OC\Log::class],
+			['Logger', \OCP\ILogger::class],
 
-			['Mailer', '\OC\Mail\Mailer'],
-			['Mailer', '\OCP\Mail\IMailer'],
-			['MemCacheFactory', '\OC\Memcache\Factory'],
-			['MemCacheFactory', '\OCP\ICacheFactory'],
-			['MountConfigManager', '\OC\Files\Config\MountProviderCollection'],
-			['MountConfigManager', '\OCP\Files\Config\IMountProviderCollection'],
+			['Mailer', \OC\Mail\Mailer::class],
+			['Mailer', \OCP\Mail\IMailer::class],
+			['MemCacheFactory', \OC\Memcache\Factory::class],
+			['MemCacheFactory', \OCP\ICacheFactory::class],
+			['MountConfigManager', \OC\Files\Config\MountProviderCollection::class],
+			['MountConfigManager', \OCP\Files\Config\IMountProviderCollection::class],
 
-			['NavigationManager', '\OC\NavigationManager'],
-			['NavigationManager', '\OCP\INavigationManager'],
-			['NotificationManager', '\OC\Notification\Manager'],
-			['NotificationManager', '\OCP\Notification\IManager'],
-			['UserCache', '\OC\Cache\File'],
-			['UserCache', '\OCP\ICache'],
+			['NavigationManager', \OC\NavigationManager::class],
+			['NavigationManager', \OCP\INavigationManager::class],
+			['NotificationManager', \OC\Notification\Manager::class],
+			['NotificationManager', \OCP\Notification\IManager::class],
+			['UserCache', \OC\Cache\File::class],
+			['UserCache', \OCP\ICache::class],
 
-			['PreviewManager', '\OC\PreviewManager'],
-			['PreviewManager', '\OCP\IPreview'],
+			['PreviewManager', \OC\PreviewManager::class],
+			['PreviewManager', \OCP\IPreview::class],
 
-			['QueryLogger', '\OCP\Diagnostics\IQueryLogger'],
+			['QueryLogger', \OCP\Diagnostics\IQueryLogger::class],
 
-			['Request', '\OC\AppFramework\Http\Request'],
-			['Request', '\OCP\IRequest'],
-			['RootFolder', '\OC\Files\Node\Root'],
-			['RootFolder', '\OC\Files\Node\Folder'],
-			['RootFolder', '\OCP\Files\IRootFolder'],
-			['RootFolder', '\OCP\Files\Folder'],
-			['Router', '\OCP\Route\IRouter'],
+			['Request', \OC\AppFramework\Http\Request::class],
+			['Request', \OCP\IRequest::class],
+			['RootFolder', \OC\Files\Node\Root::class],
+			['RootFolder', \OC\Files\Node\Folder::class],
+			['RootFolder', \OCP\Files\IRootFolder::class],
+			['RootFolder', \OCP\Files\Folder::class],
+			['Router', \OCP\Route\IRouter::class],
 
-			['SecureRandom', '\OC\Security\SecureRandom'],
-			['SecureRandom', '\OCP\Security\ISecureRandom'],
-			['ShareManager', '\OC\Share20\Manager'],
-			['ShareManager', '\OCP\Share\IManager'],
-			['SystemConfig', '\OC\SystemConfig'],
+			['SecureRandom', \OC\Security\SecureRandom::class],
+			['SecureRandom', \OCP\Security\ISecureRandom::class],
+			['ShareManager', \OC\Share20\Manager::class],
+			['ShareManager', \OCP\Share\IManager::class],
+			['SystemConfig', \OC\SystemConfig::class],
 
-			['URLGenerator', '\OC\URLGenerator'],
-			['URLGenerator', '\OCP\IURLGenerator'],
-			['UserManager', '\OC\User\Manager'],
-			['UserManager', '\OCP\IUserManager'],
-			['UserSession', '\OC\User\Session'],
-			['UserSession', '\OCP\IUserSession'],
+			['URLGenerator', \OC\URLGenerator::class],
+			['URLGenerator', \OCP\IURLGenerator::class],
+			['UserManager', \OC\User\Manager::class],
+			['UserManager', \OCP\IUserManager::class],
+			['UserSession', \OC\User\Session::class],
+			['UserSession', \OCP\IUserSession::class],
 
-			['TagMapper', '\OC\Tagging\TagMapper'],
-			['TagMapper', '\OCP\AppFramework\Db\QBMapper'],
-			['TagManager', '\OC\TagManager'],
-			['TagManager', '\OCP\ITagManager'],
-			['TempManager', '\OC\TempManager'],
-			['TempManager', '\OCP\ITempManager'],
-			['ThemingDefaults', '\OCA\Theming\ThemingDefaults'],
-			['TrustedDomainHelper', '\OC\Security\TrustedDomainHelper'],
+			['TagMapper', \OC\Tagging\TagMapper::class],
+			['TagMapper', \OCP\AppFramework\Db\QBMapper::class],
+			['TagManager', \OC\TagManager::class],
+			['TagManager', \OCP\ITagManager::class],
+			['TempManager', \OC\TempManager::class],
+			['TempManager', \OCP\ITempManager::class],
+			['ThemingDefaults', \OCA\Theming\ThemingDefaults::class],
+			['TrustedDomainHelper', \OC\Security\TrustedDomainHelper::class],
 
-			['SystemTagManager', '\OCP\SystemTag\ISystemTagManager'],
-			['SystemTagObjectMapper', '\OCP\SystemTag\ISystemTagObjectMapper'],
+			['SystemTagManager', \OCP\SystemTag\ISystemTagManager::class],
+			['SystemTagObjectMapper', \OCP\SystemTag\ISystemTagObjectMapper::class],
 		];
 	}
 
@@ -157,18 +157,18 @@ class ServerTest extends \Test\TestCase {
 	}
 
 	public function testGetCertificateManager() {
-		$this->assertInstanceOf('\OC\Security\CertificateManager', $this->server->getCertificateManager(), 'service returned by "getCertificateManager" did not return the right class');
-		$this->assertInstanceOf('\OCP\ICertificateManager', $this->server->getCertificateManager(), 'service returned by "getCertificateManager" did not return the right class');
+		$this->assertInstanceOf(\OC\Security\CertificateManager::class, $this->server->getCertificateManager(), 'service returned by "getCertificateManager" did not return the right class');
+		$this->assertInstanceOf(\OCP\ICertificateManager::class, $this->server->getCertificateManager(), 'service returned by "getCertificateManager" did not return the right class');
 	}
 
 	public function testOverwriteDefaultCommentsManager() {
 		$config = $this->server->getConfig();
-		$defaultManagerFactory = $config->getSystemValue('comments.managerFactory', '\OC\Comments\ManagerFactory');
+		$defaultManagerFactory = $config->getSystemValue('comments.managerFactory', \OC\Comments\ManagerFactory::class);
 
-		$config->setSystemValue('comments.managerFactory', '\Test\Comments\FakeFactory');
+		$config->setSystemValue('comments.managerFactory', \Test\Comments\FakeFactory::class);
 
 		$manager = $this->server->get(ICommentsManager::class);
-		$this->assertInstanceOf('\OCP\Comments\ICommentsManager', $manager);
+		$this->assertInstanceOf(\OCP\Comments\ICommentsManager::class, $manager);
 
 		$config->setSystemValue('comments.managerFactory', $defaultManagerFactory);
 	}

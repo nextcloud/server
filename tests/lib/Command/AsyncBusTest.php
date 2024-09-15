@@ -107,7 +107,7 @@ abstract class AsyncBusTest extends TestCase {
 	}
 
 	public function testStaticCallable() {
-		$this->getBus()->push(['\Test\Command\AsyncBusTest', 'DummyCommand']);
+		$this->getBus()->push([\Test\Command\AsyncBusTest::class, 'DummyCommand']);
 		$this->runJobs();
 		$this->assertEquals('static', self::$lastCommand);
 	}
@@ -167,7 +167,7 @@ abstract class AsyncBusTest extends TestCase {
 	}
 
 	public function testFileFileAccessCommandSync() {
-		$this->getBus()->requireSync('\OC\Command\FileAccess');
+		$this->getBus()->requireSync(\OC\Command\FileAccess::class);
 		$this->getBus()->push(new FilesystemCommand());
 		$this->assertEquals('FileAccess', self::$lastCommand);
 		self::$lastCommand = '';

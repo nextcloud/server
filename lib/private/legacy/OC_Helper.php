@@ -486,12 +486,12 @@ class OC_Helper {
 		$mount = $rootInfo->getMountPoint();
 		$storage = $mount->getStorage();
 		$sourceStorage = $storage;
-		if ($storage->instanceOfStorage('\OCA\Files_Sharing\SharedStorage')) {
+		if ($storage->instanceOfStorage(\OCA\Files_Sharing\SharedStorage::class)) {
 			self::$quotaIncludeExternalStorage = false;
 		}
 		if (self::$quotaIncludeExternalStorage) {
-			if ($storage->instanceOfStorage('\OC\Files\Storage\Home')
-				|| $storage->instanceOfStorage('\OC\Files\ObjectStore\HomeObjectStoreStorage')
+			if ($storage->instanceOfStorage(\OC\Files\Storage\Home::class)
+				|| $storage->instanceOfStorage(\OC\Files\ObjectStore\HomeObjectStoreStorage::class)
 			) {
 				/** @var \OC\Files\Storage\Home $storage */
 				$user = $storage->getUser();
@@ -506,7 +506,7 @@ class OC_Helper {
 		}
 
 		// TODO: need a better way to get total space from storage
-		if ($sourceStorage->instanceOfStorage('\OC\Files\Storage\Wrapper\Quota')) {
+		if ($sourceStorage->instanceOfStorage(\OC\Files\Storage\Wrapper\Quota::class)) {
 			/** @var \OC\Files\Storage\Wrapper\Quota $storage */
 			$quota = $sourceStorage->getQuota();
 		}

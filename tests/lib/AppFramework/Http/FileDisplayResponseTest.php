@@ -18,7 +18,7 @@ class FileDisplayResponseTest extends \Test\TestCase {
 	private $response;
 
 	protected function setUp(): void {
-		$this->file = $this->getMockBuilder('OCP\Files\File')
+		$this->file = $this->getMockBuilder(\OCP\Files\File::class)
 			->getMock();
 
 		$this->file->expects($this->once())
@@ -51,7 +51,7 @@ class FileDisplayResponseTest extends \Test\TestCase {
 	}
 
 	public function test304() {
-		$output = $this->getMockBuilder('OCP\AppFramework\Http\IOutput')
+		$output = $this->getMockBuilder(\OCP\AppFramework\Http\IOutput::class)
 			->disableOriginalConstructor()
 			->getMock();
 
@@ -68,7 +68,7 @@ class FileDisplayResponseTest extends \Test\TestCase {
 
 
 	public function testNon304() {
-		$output = $this->getMockBuilder('OCP\AppFramework\Http\IOutput')
+		$output = $this->getMockBuilder(\OCP\AppFramework\Http\IOutput::class)
 			->disableOriginalConstructor()
 			->getMock();
 

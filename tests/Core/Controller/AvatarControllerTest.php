@@ -72,18 +72,18 @@ class AvatarControllerTest extends \Test\TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->avatarManager = $this->getMockBuilder('OCP\IAvatarManager')->getMock();
-		$this->cache = $this->getMockBuilder('OCP\ICache')
+		$this->avatarManager = $this->getMockBuilder(\OCP\IAvatarManager::class)->getMock();
+		$this->cache = $this->getMockBuilder(\OCP\ICache::class)
 			->disableOriginalConstructor()->getMock();
 		$this->l = $this->getMockBuilder(IL10N::class)->getMock();
 		$this->l->method('t')->willReturnArgument(0);
 		$this->userManager = $this->getMockBuilder(IUserManager::class)->getMock();
 		$this->request = $this->getMockBuilder(IRequest::class)->getMock();
-		$this->rootFolder = $this->getMockBuilder('OCP\Files\IRootFolder')->getMock();
+		$this->rootFolder = $this->getMockBuilder(\OCP\Files\IRootFolder::class)->getMock();
 		$this->logger = $this->getMockBuilder(LoggerInterface::class)->getMock();
-		$this->timeFactory = $this->getMockBuilder('OC\AppFramework\Utility\TimeFactory')->getMock();
+		$this->timeFactory = $this->getMockBuilder(\OC\AppFramework\Utility\TimeFactory::class)->getMock();
 
-		$this->avatarMock = $this->getMockBuilder('OCP\IAvatar')->getMock();
+		$this->avatarMock = $this->getMockBuilder(\OCP\IAvatar::class)->getMock();
 		$this->userMock = $this->getMockBuilder(IUser::class)->getMock();
 
 		$this->guestAvatarController = new GuestAvatarController(
@@ -392,7 +392,7 @@ class AvatarControllerTest extends \Test\TestCase {
 	 */
 	public function testPostAvatarFromFile() {
 		//Mock node API call
-		$file = $this->getMockBuilder('OCP\Files\File')
+		$file = $this->getMockBuilder(\OCP\Files\File::class)
 			->disableOriginalConstructor()->getMock();
 		$file->expects($this->once())
 			->method('getContent')
@@ -400,7 +400,7 @@ class AvatarControllerTest extends \Test\TestCase {
 		$file->expects($this->once())
 			->method('getMimeType')
 			->willReturn('image/jpeg');
-		$userFolder = $this->getMockBuilder('OCP\Files\Folder')->getMock();
+		$userFolder = $this->getMockBuilder(\OCP\Files\Folder::class)->getMock();
 		$this->rootFolder->method('getUserFolder')->with('userid')->willReturn($userFolder);
 		$userFolder->method('get')->willReturn($file);
 
@@ -415,8 +415,8 @@ class AvatarControllerTest extends \Test\TestCase {
 	 * Test posting avatar from existing folder
 	 */
 	public function testPostAvatarFromNoFile() {
-		$file = $this->getMockBuilder('OCP\Files\Node')->getMock();
-		$userFolder = $this->getMockBuilder('OCP\Files\Folder')->getMock();
+		$file = $this->getMockBuilder(\OCP\Files\Node::class)->getMock();
+		$userFolder = $this->getMockBuilder(\OCP\Files\Folder::class)->getMock();
 		$this->rootFolder->method('getUserFolder')->with('userid')->willReturn($userFolder);
 		$userFolder
 			->method('get')
@@ -431,14 +431,14 @@ class AvatarControllerTest extends \Test\TestCase {
 	}
 
 	public function testPostAvatarInvalidType() {
-		$file = $this->getMockBuilder('OCP\Files\File')
+		$file = $this->getMockBuilder(\OCP\Files\File::class)
 			->disableOriginalConstructor()->getMock();
 		$file->expects($this->never())
 			->method('getContent');
 		$file->expects($this->exactly(2))
 			->method('getMimeType')
 			->willReturn('text/plain');
-		$userFolder = $this->getMockBuilder('OCP\Files\Folder')->getMock();
+		$userFolder = $this->getMockBuilder(\OCP\Files\Folder::class)->getMock();
 		$this->rootFolder->method('getUserFolder')->with('userid')->willReturn($userFolder);
 		$userFolder->method('get')->willReturn($file);
 
@@ -447,7 +447,7 @@ class AvatarControllerTest extends \Test\TestCase {
 	}
 
 	public function testPostAvatarNotPermittedException() {
-		$file = $this->getMockBuilder('OCP\Files\File')
+		$file = $this->getMockBuilder(\OCP\Files\File::class)
 			->disableOriginalConstructor()->getMock();
 		$file->expects($this->once())
 			->method('getContent')
@@ -455,7 +455,7 @@ class AvatarControllerTest extends \Test\TestCase {
 		$file->expects($this->once())
 			->method('getMimeType')
 			->willReturn('image/jpeg');
-		$userFolder = $this->getMockBuilder('OCP\Files\Folder')->getMock();
+		$userFolder = $this->getMockBuilder(\OCP\Files\Folder::class)->getMock();
 		$this->rootFolder->method('getUserFolder')->with('userid')->willReturn($userFolder);
 		$userFolder->method('get')->willReturn($file);
 
@@ -470,7 +470,7 @@ class AvatarControllerTest extends \Test\TestCase {
 		$this->cache->expects($this->once())
 			->method('set')
 			->will($this->throwException(new \Exception('foo')));
-		$file = $this->getMockBuilder('OCP\Files\File')
+		$file = $this->getMockBuilder(\OCP\Files\File::class)
 			->disableOriginalConstructor()->getMock();
 		$file->expects($this->once())
 			->method('getContent')
@@ -478,7 +478,7 @@ class AvatarControllerTest extends \Test\TestCase {
 		$file->expects($this->once())
 			->method('getMimeType')
 			->willReturn('image/jpeg');
-		$userFolder = $this->getMockBuilder('OCP\Files\Folder')->getMock();
+		$userFolder = $this->getMockBuilder(\OCP\Files\Folder::class)->getMock();
 		$this->rootFolder->method('getUserFolder')->with('userid')->willReturn($userFolder);
 		$userFolder->method('get')->willReturn($file);
 

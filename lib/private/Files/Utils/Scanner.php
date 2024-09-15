@@ -107,24 +107,24 @@ class Scanner extends PublicEmitter {
 	 */
 	protected function attachListener($mount) {
 		$scanner = $mount->getStorage()->getScanner();
-		$scanner->listen('\OC\Files\Cache\Scanner', 'scanFile', function ($path) use ($mount) {
-			$this->emit('\OC\Files\Utils\Scanner', 'scanFile', [$mount->getMountPoint() . $path]);
+		$scanner->listen(\OC\Files\Cache\Scanner::class, 'scanFile', function ($path) use ($mount) {
+			$this->emit(\OC\Files\Utils\Scanner::class, 'scanFile', [$mount->getMountPoint() . $path]);
 			$this->dispatcher->dispatchTyped(new BeforeFileScannedEvent($mount->getMountPoint() . $path));
 		});
-		$scanner->listen('\OC\Files\Cache\Scanner', 'scanFolder', function ($path) use ($mount) {
-			$this->emit('\OC\Files\Utils\Scanner', 'scanFolder', [$mount->getMountPoint() . $path]);
+		$scanner->listen(\OC\Files\Cache\Scanner::class, 'scanFolder', function ($path) use ($mount) {
+			$this->emit(\OC\Files\Utils\Scanner::class, 'scanFolder', [$mount->getMountPoint() . $path]);
 			$this->dispatcher->dispatchTyped(new BeforeFolderScannedEvent($mount->getMountPoint() . $path));
 		});
-		$scanner->listen('\OC\Files\Cache\Scanner', 'postScanFile', function ($path) use ($mount) {
-			$this->emit('\OC\Files\Utils\Scanner', 'postScanFile', [$mount->getMountPoint() . $path]);
+		$scanner->listen(\OC\Files\Cache\Scanner::class, 'postScanFile', function ($path) use ($mount) {
+			$this->emit(\OC\Files\Utils\Scanner::class, 'postScanFile', [$mount->getMountPoint() . $path]);
 			$this->dispatcher->dispatchTyped(new FileScannedEvent($mount->getMountPoint() . $path));
 		});
-		$scanner->listen('\OC\Files\Cache\Scanner', 'postScanFolder', function ($path) use ($mount) {
-			$this->emit('\OC\Files\Utils\Scanner', 'postScanFolder', [$mount->getMountPoint() . $path]);
+		$scanner->listen(\OC\Files\Cache\Scanner::class, 'postScanFolder', function ($path) use ($mount) {
+			$this->emit(\OC\Files\Utils\Scanner::class, 'postScanFolder', [$mount->getMountPoint() . $path]);
 			$this->dispatcher->dispatchTyped(new FolderScannedEvent($mount->getMountPoint() . $path));
 		});
-		$scanner->listen('\OC\Files\Cache\Scanner', 'normalizedNameMismatch', function ($path) use ($mount) {
-			$this->emit('\OC\Files\Utils\Scanner', 'normalizedNameMismatch', [$path]);
+		$scanner->listen(\OC\Files\Cache\Scanner::class, 'normalizedNameMismatch', function ($path) use ($mount) {
+			$this->emit(\OC\Files\Utils\Scanner::class, 'normalizedNameMismatch', [$path]);
 		});
 	}
 
@@ -148,13 +148,13 @@ class Scanner extends PublicEmitter {
 				$scanner = $storage->getScanner();
 				$this->attachListener($mount);
 
-				$scanner->listen('\OC\Files\Cache\Scanner', 'removeFromCache', function ($path) use ($storage) {
+				$scanner->listen(\OC\Files\Cache\Scanner::class, 'removeFromCache', function ($path) use ($storage) {
 					$this->triggerPropagator($storage, $path);
 				});
-				$scanner->listen('\OC\Files\Cache\Scanner', 'updateCache', function ($path) use ($storage) {
+				$scanner->listen(\OC\Files\Cache\Scanner::class, 'updateCache', function ($path) use ($storage) {
 					$this->triggerPropagator($storage, $path);
 				});
-				$scanner->listen('\OC\Files\Cache\Scanner', 'addToCache', function ($path) use ($storage) {
+				$scanner->listen(\OC\Files\Cache\Scanner::class, 'addToCache', function ($path) use ($storage) {
 					$this->triggerPropagator($storage, $path);
 				});
 
@@ -225,15 +225,15 @@ class Scanner extends PublicEmitter {
 			$scanner->setUseTransactions(false);
 			$this->attachListener($mount);
 
-			$scanner->listen('\OC\Files\Cache\Scanner', 'removeFromCache', function ($path) use ($storage) {
+			$scanner->listen(\OC\Files\Cache\Scanner::class, 'removeFromCache', function ($path) use ($storage) {
 				$this->postProcessEntry($storage, $path);
 				$this->dispatcher->dispatchTyped(new NodeRemovedFromCache($storage, $path));
 			});
-			$scanner->listen('\OC\Files\Cache\Scanner', 'updateCache', function ($path) use ($storage) {
+			$scanner->listen(\OC\Files\Cache\Scanner::class, 'updateCache', function ($path) use ($storage) {
 				$this->postProcessEntry($storage, $path);
 				$this->dispatcher->dispatchTyped(new FileCacheUpdated($storage, $path));
 			});
-			$scanner->listen('\OC\Files\Cache\Scanner', 'addToCache', function ($path, $storageId, $data, $fileId) use ($storage) {
+			$scanner->listen(\OC\Files\Cache\Scanner::class, 'addToCache', function ($path, $storageId, $data, $fileId) use ($storage) {
 				$this->postProcessEntry($storage, $path);
 				if ($fileId) {
 					$this->dispatcher->dispatchTyped(new FileCacheUpdated($storage, $path));
@@ -261,7 +261,7 @@ class Scanner extends PublicEmitter {
 				$propagator->commitBatch();
 			} catch (StorageNotAvailableException $e) {
 				$this->logger->error('Storage ' . $storage->getId() . ' not available', ['exception' => $e]);
-				$this->emit('\OC\Files\Utils\Scanner', 'StorageNotAvailable', [$e]);
+				$this->emit(\OC\Files\Utils\Scanner::class, 'StorageNotAvailable', [$e]);
 			}
 			if ($this->useTransaction) {
 				$this->db->commit();

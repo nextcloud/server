@@ -46,7 +46,7 @@ trait MountProviderTrait {
 
 	protected function setUpMountProviderTrait() {
 		$this->storageFactory = new StorageFactory();
-		$this->mountProvider = $this->getMockBuilder('\OCP\Files\Config\IMountProvider')->getMock();
+		$this->mountProvider = $this->getMockBuilder(\OCP\Files\Config\IMountProvider::class)->getMock();
 		$this->mountProvider->expects($this->any())
 			->method('getMountsForUser')
 			->will($this->returnCallback(function (IUser $user) {

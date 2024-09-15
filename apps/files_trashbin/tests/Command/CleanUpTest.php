@@ -45,9 +45,9 @@ class CleanUpTest extends TestCase {
 
 	protected function setUp(): void {
 		parent::setUp();
-		$this->rootFolder = $this->getMockBuilder('OCP\Files\IRootFolder')
+		$this->rootFolder = $this->getMockBuilder(\OCP\Files\IRootFolder::class)
 			->disableOriginalConstructor()->getMock();
-		$this->userManager = $this->getMockBuilder('OC\User\Manager')
+		$this->userManager = $this->getMockBuilder(\OC\User\Manager::class)
 			->disableOriginalConstructor()->getMock();
 
 		$this->dbConnection = \OC::$server->getDatabaseConnection();
@@ -139,7 +139,7 @@ class CleanUpTest extends TestCase {
 	 */
 	public function testExecuteDeleteListOfUsers() {
 		$userIds = ['user1', 'user2', 'user3'];
-		$instance = $this->getMockBuilder('OCA\Files_Trashbin\Command\CleanUp')
+		$instance = $this->getMockBuilder(\OCA\Files_Trashbin\Command\CleanUp::class)
 			->setMethods(['removeDeletedFiles'])
 			->setConstructorArgs([$this->rootFolder, $this->userManager, $this->dbConnection])
 			->getMock();
@@ -171,7 +171,7 @@ class CleanUpTest extends TestCase {
 	public function testExecuteAllUsers() {
 		$userIds = [];
 		$backendUsers = ['user1', 'user2'];
-		$instance = $this->getMockBuilder('OCA\Files_Trashbin\Command\CleanUp')
+		$instance = $this->getMockBuilder(\OCA\Files_Trashbin\Command\CleanUp::class)
 			->setMethods(['removeDeletedFiles'])
 			->setConstructorArgs([$this->rootFolder, $this->userManager, $this->dbConnection])
 			->getMock();

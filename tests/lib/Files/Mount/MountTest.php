@@ -12,33 +12,33 @@ use OC\Files\Storage\Wrapper\Wrapper;
 
 class MountTest extends \Test\TestCase {
 	public function testFromStorageObject() {
-		$storage = $this->getMockBuilder('\OC\Files\Storage\Temporary')
+		$storage = $this->getMockBuilder(\OC\Files\Storage\Temporary::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$mount = new \OC\Files\Mount\MountPoint($storage, '/foo');
-		$this->assertInstanceOf('\OC\Files\Storage\Temporary', $mount->getStorage());
+		$this->assertInstanceOf(\OC\Files\Storage\Temporary::class, $mount->getStorage());
 	}
 
 	public function testFromStorageClassname() {
-		$mount = new \OC\Files\Mount\MountPoint('\OC\Files\Storage\Temporary', '/foo');
-		$this->assertInstanceOf('\OC\Files\Storage\Temporary', $mount->getStorage());
+		$mount = new \OC\Files\Mount\MountPoint(\OC\Files\Storage\Temporary::class, '/foo');
+		$this->assertInstanceOf(\OC\Files\Storage\Temporary::class, $mount->getStorage());
 	}
 
 	public function testWrapper() {
 		$test = $this;
 		$wrapper = function ($mountPoint, $storage) use (&$test) {
 			$test->assertEquals('/foo/', $mountPoint);
-			$test->assertInstanceOf('\OC\Files\Storage\Storage', $storage);
+			$test->assertInstanceOf(\OC\Files\Storage\Storage::class, $storage);
 			return new Wrapper(['storage' => $storage]);
 		};
 
 		$loader = new StorageFactory();
 		$loader->addStorageWrapper('test_wrapper', $wrapper);
 
-		$storage = $this->getMockBuilder('\OC\Files\Storage\Temporary')
+		$storage = $this->getMockBuilder(\OC\Files\Storage\Temporary::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$mount = new \OC\Files\Mount\MountPoint($storage, '/foo', [], $loader);
-		$this->assertInstanceOf('\OC\Files\Storage\Wrapper\Wrapper', $mount->getStorage());
+		$this->assertInstanceOf(\OC\Files\Storage\Wrapper\Wrapper::class, $mount->getStorage());
 	}
 }

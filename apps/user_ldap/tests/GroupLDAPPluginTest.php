@@ -20,7 +20,7 @@ class GroupLDAPPluginTest extends \Test\TestCase {
 	public function testImplementsActions() {
 		$pluginManager = $this->getGroupPluginManager();
 
-		$plugin = $this->getMockBuilder('OCA\User_LDAP\Tests\LDAPGroupPluginDummy')
+		$plugin = $this->getMockBuilder(\OCA\User_LDAP\Tests\LDAPGroupPluginDummy::class)
 			->setMethods(['respondToActions'])
 			->getMock();
 
@@ -28,7 +28,7 @@ class GroupLDAPPluginTest extends \Test\TestCase {
 			->method('respondToActions')
 			->willReturn(GroupInterface::CREATE_GROUP);
 
-		$plugin2 = $this->getMockBuilder('OCA\User_LDAP\Tests\LDAPGroupPluginDummy')
+		$plugin2 = $this->getMockBuilder(\OCA\User_LDAP\Tests\LDAPGroupPluginDummy::class)
 			->setMethods(['respondToActions'])
 			->getMock();
 
@@ -47,7 +47,7 @@ class GroupLDAPPluginTest extends \Test\TestCase {
 	public function testCreateGroup() {
 		$pluginManager = $this->getGroupPluginManager();
 
-		$plugin = $this->getMockBuilder('OCA\User_LDAP\Tests\LDAPGroupPluginDummy')
+		$plugin = $this->getMockBuilder(\OCA\User_LDAP\Tests\LDAPGroupPluginDummy::class)
 			->setMethods(['respondToActions', 'createGroup'])
 			->getMock();
 
@@ -77,7 +77,7 @@ class GroupLDAPPluginTest extends \Test\TestCase {
 	public function testDeleteGroup() {
 		$pluginManager = $this->getGroupPluginManager();
 
-		$plugin = $this->getMockBuilder('OCA\User_LDAP\Tests\LDAPGroupPluginDummy')
+		$plugin = $this->getMockBuilder(\OCA\User_LDAP\Tests\LDAPGroupPluginDummy::class)
 			->setMethods(['respondToActions', 'deleteGroup'])
 			->getMock();
 
@@ -107,7 +107,7 @@ class GroupLDAPPluginTest extends \Test\TestCase {
 	public function testAddToGroup() {
 		$pluginManager = $this->getGroupPluginManager();
 
-		$plugin = $this->getMockBuilder('OCA\User_LDAP\Tests\LDAPGroupPluginDummy')
+		$plugin = $this->getMockBuilder(\OCA\User_LDAP\Tests\LDAPGroupPluginDummy::class)
 			->setMethods(['respondToActions', 'addToGroup'])
 			->getMock();
 
@@ -138,7 +138,7 @@ class GroupLDAPPluginTest extends \Test\TestCase {
 	public function testRemoveFromGroup() {
 		$pluginManager = $this->getGroupPluginManager();
 
-		$plugin = $this->getMockBuilder('OCA\User_LDAP\Tests\LDAPGroupPluginDummy')
+		$plugin = $this->getMockBuilder(\OCA\User_LDAP\Tests\LDAPGroupPluginDummy::class)
 			->setMethods(['respondToActions', 'removeFromGroup'])
 			->getMock();
 
@@ -169,7 +169,7 @@ class GroupLDAPPluginTest extends \Test\TestCase {
 	public function testCountUsersInGroup() {
 		$pluginManager = $this->getGroupPluginManager();
 
-		$plugin = $this->getMockBuilder('OCA\User_LDAP\Tests\LDAPGroupPluginDummy')
+		$plugin = $this->getMockBuilder(\OCA\User_LDAP\Tests\LDAPGroupPluginDummy::class)
 			->setMethods(['respondToActions', 'countUsersInGroup'])
 			->getMock();
 
@@ -200,7 +200,7 @@ class GroupLDAPPluginTest extends \Test\TestCase {
 	public function testgetGroupDetails() {
 		$pluginManager = $this->getGroupPluginManager();
 
-		$plugin = $this->getMockBuilder('OCA\User_LDAP\Tests\LDAPGroupPluginDummy')
+		$plugin = $this->getMockBuilder(\OCA\User_LDAP\Tests\LDAPGroupPluginDummy::class)
 			->setMethods(['respondToActions', 'getGroupDetails'])
 			->getMock();
 

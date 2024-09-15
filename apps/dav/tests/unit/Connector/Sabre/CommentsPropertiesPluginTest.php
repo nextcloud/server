@@ -42,7 +42,7 @@ class CommentsPropertiesPluginTest extends \Test\TestCase {
 
 	public function nodeProvider() {
 		$mocks = [];
-		foreach (['\OCA\DAV\Connector\Sabre\File', '\OCA\DAV\Connector\Sabre\Directory', '\Sabre\DAV\INode'] as $class) {
+		foreach ([\OCA\DAV\Connector\Sabre\File::class, \OCA\DAV\Connector\Sabre\Directory::class, '\Sabre\DAV\INode'] as $class) {
 			$mocks[] = $this->getMockBuilder($class)
 				->disableOriginalConstructor()
 				->getMock();

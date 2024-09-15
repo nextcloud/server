@@ -96,7 +96,7 @@ class JobListTest extends TestCase {
 
 		$this->assertCount(count($existingJobs) + 1, $jobs);
 		$addedJob = $jobs[count($jobs) - 1];
-		$this->assertInstanceOf('\Test\BackgroundJob\TestJob', $addedJob);
+		$this->assertInstanceOf(\Test\BackgroundJob\TestJob::class, $addedJob);
 		$this->assertEquals($argument, $addedJob->getArgument());
 
 		$this->instance->remove($job, $argument);

@@ -46,10 +46,10 @@ class NotificationsTest extends \Test\TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->jobList = $this->getMockBuilder('OCP\BackgroundJob\IJobList')->getMock();
+		$this->jobList = $this->getMockBuilder(\OCP\BackgroundJob\IJobList::class)->getMock();
 		$this->discoveryService = $this->getMockBuilder(IDiscoveryService::class)->getMock();
-		$this->httpClientService = $this->getMockBuilder('OCP\Http\Client\IClientService')->getMock();
-		$this->addressHandler = $this->getMockBuilder('OCA\FederatedFileSharing\AddressHandler')
+		$this->httpClientService = $this->getMockBuilder(\OCP\Http\Client\IClientService::class)->getMock();
+		$this->addressHandler = $this->getMockBuilder(\OCA\FederatedFileSharing\AddressHandler::class)
 			->disableOriginalConstructor()->getMock();
 		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->cloudFederationProviderManager = $this->createMock(ICloudFederationProviderManager::class);
@@ -76,7 +76,7 @@ class NotificationsTest extends \Test\TestCase {
 				$this->logger,
 			);
 		} else {
-			$instance = $this->getMockBuilder('OCA\FederatedFileSharing\Notifications')
+			$instance = $this->getMockBuilder(\OCA\FederatedFileSharing\Notifications::class)
 				->setConstructorArgs(
 					[
 						$this->addressHandler,
@@ -120,7 +120,7 @@ class NotificationsTest extends \Test\TestCase {
 		if ($try === 0 && $expected === false) {
 			$this->jobList->expects($this->once())->method('add')
 				->with(
-					'OCA\FederatedFileSharing\BackgroundJob\RetryJob',
+					\OCA\FederatedFileSharing\BackgroundJob\RetryJob::class,
 					[
 						'remote' => $remote,
 						'remoteId' => $id,

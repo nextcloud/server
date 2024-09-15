@@ -51,7 +51,7 @@ class SettingTest extends TestCase {
 		if (empty($methods)) {
 			return new Setting($this->userManager, $this->config, $this->connection);
 		} else {
-			$mock = $this->getMockBuilder('OC\Core\Command\User\Setting')
+			$mock = $this->getMockBuilder(\OC\Core\Command\User\Setting::class)
 				->setConstructorArgs([
 					$this->userManager,
 					$this->config,

@@ -57,7 +57,7 @@ class OCMController extends Controller {
 				$this->config->getAppValue(
 					'core',
 					'ocm_providers',
-					'\OCA\CloudFederationAPI\Capabilities'
+					\OCA\CloudFederationAPI\Capabilities::class
 				)
 			);
 

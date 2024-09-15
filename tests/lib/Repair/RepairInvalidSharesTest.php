@@ -109,7 +109,7 @@ class RepairInvalidSharesTest extends TestCase {
 		$result->closeCursor();
 
 		/** @var IOutput | \PHPUnit\Framework\MockObject\MockObject $outputMock */
-		$outputMock = $this->getMockBuilder('\OCP\Migration\IOutput')
+		$outputMock = $this->getMockBuilder(\OCP\Migration\IOutput::class)
 			->disableOriginalConstructor()
 			->getMock();
 
@@ -172,7 +172,7 @@ class RepairInvalidSharesTest extends TestCase {
 		$shareId = $this->getLastShareId();
 
 		/** @var IOutput | \PHPUnit\Framework\MockObject\MockObject $outputMock */
-		$outputMock = $this->getMockBuilder('\OCP\Migration\IOutput')
+		$outputMock = $this->getMockBuilder(\OCP\Migration\IOutput::class)
 			->disableOriginalConstructor()
 			->getMock();
 
