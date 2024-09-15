@@ -34,7 +34,7 @@ class Comment implements IComment {
 		'id' => '',
 		'parentId' => '0',
 		'topmostParentId' => '0',
-		'childrenCount' => '0',
+		'childrenCount' => 0,
 		'message' => '',
 		'verb' => '',
 		'actorType' => '',
