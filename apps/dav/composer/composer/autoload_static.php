@@ -168,6 +168,7 @@ class ComposerStaticInitDAV
         'OCA\\DAV\\CardDAV\\Xml\\Groups' => __DIR__ . '/..' . '/../lib/CardDAV/Xml/Groups.php',
         'OCA\\DAV\\Command\\CreateAddressBook' => __DIR__ . '/..' . '/../lib/Command/CreateAddressBook.php',
         'OCA\\DAV\\Command\\CreateCalendar' => __DIR__ . '/..' . '/../lib/Command/CreateCalendar.php',
+        'OCA\\DAV\\Command\\CreateSubscription' => __DIR__ . '/..' . '/../lib/Command/CreateSubscription.php',
         'OCA\\DAV\\Command\\DeleteCalendar' => __DIR__ . '/..' . '/../lib/Command/DeleteCalendar.php',
         'OCA\\DAV\\Command\\FixCalendarSyncCommand' => __DIR__ . '/..' . '/../lib/Command/FixCalendarSyncCommand.php',
         'OCA\\DAV\\Command\\ListCalendars' => __DIR__ . '/..' . '/../lib/Command/ListCalendars.php',
