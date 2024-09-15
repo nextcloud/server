@@ -1,0 +1,65 @@
+<!--
+  - SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
+# Authors
+
+- Adrian Thiele <adrian.thiele@live.de>
+- Andy Scherzinger <info@andy-scherzinger.de>
+- Anna Larch <anna@nextcloud.com>
+- Arne Hamann <git@arne.email>
+- Arthur Schiwon <blizzz@arthur-schiwon.de>
+- Axel Pirek <axel.pirek@protonmail.com>
+- Azul <azul@riseup.net>
+- Birk <birkb@users.noreply.github.com>
+- Carl Schwan <carl@carlschwan.eu>
+- Christoph Wurst <christoph@winzerhof-wurst.at>
+- Christopher Ng <chrng8@gmail.com>
+- Corentin Mors <corentin.mors@dashlane.com>
+- Daniel Calviño Sánchez <danxuliu@gmail.com>
+- Daniel Kesselberg <mail@danielkesselberg.de>
+- Dariusz Olszewski <starypatyk@users.noreply.github.com>
+- Eduardo Morales <emoral435@gmail.com>
+- fenn-cs <fenn25.fn@gmail.com>
+- Ferdinand Thiessen <opensource@fthiessen.de>
+- Florent Fayolle <florent.fayolle69@gmail.com>
+- Gary Kim <gary@garykim.dev>
+- Grigorii K. Shartsev <me@shgk.me>
+- Hamza Mahjoubi <hamzamahjoubi221@gmail.com>
+- Jakob Röhrl <jakob.roehrl@web.de>
+- Jakub Fiser <jakub@ufiseru.cz>
+- Jan-Christoph Borchardt <hey@jancborchardt.net>
+- jld3103 <jld3103yt@gmail.com>
+- Joas Schilling <coding@schilljs.com>
+- John Molakvoæ <skjnldsv@protonmail.com>
+- Jonas Meurer <jonas@freesources.org>
+- Julia Kirschenheuter <julia.kirschenheuter@nextcloud.com>
+- Julien Veyssier <eneiluj@posteo.net>
+- Julius Härtl <jus@bitgrid.net>
+- k9yyy <yyy3752@gmail.com>
+- Louis Chemineau <louis@chmn.me>
+- Luka Trovic <luka@nextcloud.com>
+- Marcel Müller <marcel-mueller@gmx.de>
+- Marco <marcoambrosini@pm.me>
+- Marius Blüm <marius@lineone.io>
+- Max <max@nextcloud.com>
+- Morris Jobke <hey@morrisjobke.de>
+- Pytal <24800714+Pytal@users.noreply.github.com>
+- rakekniven <2069590+rakekniven@users.noreply.github.com>
+- Raul <r.ferreira.fuentes@gmail.com>
+- Richard Steinmetz <richard@steinmetz.cloud>
+- Robbert Gurdeep Singh <git@beardhatcode.be>
+- Roeland Jago Douma <roeland@famdouma.nl>
+- root <szaimen@e.mail.de>
+- Sanskar Soni <sanskarsoni300@gmail.com>
+- Sebastian Steinmetz <462714+steiny2k@users.noreply.github.com>
+- Simon L. <szaimen@e.mail.de>
+- szaimen <szaimen@e.mail.de>
+- Talv <krz.krawczuk@gmail.com>
+- Tobias Speicher <rootcommander@gmail.com>
+- umgfoin <umgfoin@users.noreply.github.com>
+- Valdnet <47037905+Valdnet@users.noreply.github.com>
+- Vanessa Pertsch <vanessa.pertsch@posteo.de>
+- Varun Patil <varunpatil@ucla.edu>
+- Vincent Petry <vincent@nextcloud.com>
+- XinRoom <32238570+XinRoom@users.noreply.github.com>

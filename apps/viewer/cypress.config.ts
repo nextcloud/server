@@ -1,3 +1,7 @@
+/**
+ * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
 import { configureNextcloud, startNextcloud, stopNextcloud, waitOnNextcloud } from '@nextcloud/cypress/docker'
 import { configureVisualRegression } from 'cypress-visual-regression/dist/plugin'
 import { defineConfig } from 'cypress'
