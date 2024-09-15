@@ -454,7 +454,6 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OCP\\Files\\SimpleFS\\ISimpleFolder' => __DIR__ . '/../../..' . '/lib/public/Files/SimpleFS/ISimpleFolder.php',
         'OCP\\Files\\SimpleFS\\ISimpleRoot' => __DIR__ . '/../../..' . '/lib/public/Files/SimpleFS/ISimpleRoot.php',
         'OCP\\Files\\SimpleFS\\InMemoryFile' => __DIR__ . '/../../..' . '/lib/public/Files/SimpleFS/InMemoryFile.php',
-        'OCP\\Files\\Storage' => __DIR__ . '/../../..' . '/lib/public/Files/Storage.php',
         'OCP\\Files\\StorageAuthException' => __DIR__ . '/../../..' . '/lib/public/Files/StorageAuthException.php',
         'OCP\\Files\\StorageBadConfigException' => __DIR__ . '/../../..' . '/lib/public/Files/StorageBadConfigException.php',
         'OCP\\Files\\StorageConnectionException' => __DIR__ . '/../../..' . '/lib/public/Files/StorageConnectionException.php',

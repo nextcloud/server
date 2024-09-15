@@ -421,7 +421,6 @@ return array(
     'OCP\\Files\\SimpleFS\\ISimpleFolder' => $baseDir . '/lib/public/Files/SimpleFS/ISimpleFolder.php',
     'OCP\\Files\\SimpleFS\\ISimpleRoot' => $baseDir . '/lib/public/Files/SimpleFS/ISimpleRoot.php',
     'OCP\\Files\\SimpleFS\\InMemoryFile' => $baseDir . '/lib/public/Files/SimpleFS/InMemoryFile.php',
-    'OCP\\Files\\Storage' => $baseDir . '/lib/public/Files/Storage.php',
     'OCP\\Files\\StorageAuthException' => $baseDir . '/lib/public/Files/StorageAuthException.php',
     'OCP\\Files\\StorageBadConfigException' => $baseDir . '/lib/public/Files/StorageBadConfigException.php',
     'OCP\\Files\\StorageConnectionException' => $baseDir . '/lib/public/Files/StorageConnectionException.php',
