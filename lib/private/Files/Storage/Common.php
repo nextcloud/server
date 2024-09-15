@@ -353,27 +353,37 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 	/**
 	 * get a propagator instance for the cache
 	 *
-	 * @param \OC\Files\Storage\Storage (optional) the storage to pass to the watcher
-	 * @return \OC\Files\Cache\Propagator
+	 * @param \OC\Files\Storage\Storage $storage (optional) the storage to pass to the watcher
+	 * @return Propagator
 	 */
 	public function getPropagator($storage = null) {
 		if (!$storage) {
 			$storage = $this;
 		}
+		/** @psalm-suppress NoInterfaceProperties The isset check is safe */
 		if (!isset($storage->propagator)) {
 			$config = \OC::$server->getSystemConfig();
 			$storage->propagator = new Propagator($storage, \OC::$server->getDatabaseConnection(), ['appdata_' . $config->getValue('instanceid')]);
 		}
+		/** @psalm-suppress NullableReturnStatement False-positive, as the if above avoids this being null */
 		return $storage->propagator;
 	}
 
+	/**
+	 * get a propagator instance for the cache
+	 *
+	 * @param \OC\Files\Storage\Storage $storage (optional) the storage to pass to the watcher
+	 * @return Updater
+	 */
 	public function getUpdater($storage = null) {
 		if (!$storage) {
 			$storage = $this;
 		}
+		/** @psalm-suppress NoInterfaceProperties The isset check is safe */
 		if (!isset($storage->updater)) {
 			$storage->updater = new Updater($storage);
 		}
+		/** @psalm-suppress NullableReturnStatement False-positive, as the if above avoids this being null */
 		return $storage->updater;
 	}
 
