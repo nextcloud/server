@@ -392,7 +392,7 @@ abstract class Node implements \Sabre\DAV\INode {
 		return $this->node;
 	}
 
-	protected function sanitizeMtime($mtimeFromRequest) {
+	protected function sanitizeMtime(string $mtimeFromRequest): int {
 		return MtimeSanitizer::sanitizeMtime($mtimeFromRequest);
 	}
 }
