@@ -15,7 +15,7 @@ use OCA\Encryption\Session;
 use OCA\Encryption\Util;
 use OCP\Encryption\Keys\IStorage;
 use OCP\Files\Cache\ICache;
-use OCP\Files\Storage;
+use OCP\Files\Storage\IStorage as FilesIStorage;
 use OCP\IConfig;
 use OCP\IUserSession;
 use OCP\Lock\ILockingProvider;
@@ -687,7 +687,7 @@ class KeyManagerTest extends TestCase {
 		$cache->expects($this->once())
 			->method('update')
 			->with(123, ['encrypted' => 5, 'encryptedVersion' => 5]);
-		$storage = $this->getMockBuilder(Storage::class)
+		$storage = $this->getMockBuilder(FilesIStorage::class)
 			->disableOriginalConstructor()->getMock();
 		$storage->expects($this->once())
 			->method('getCache')

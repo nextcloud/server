@@ -15,8 +15,9 @@ use OCA\Encryption\Exceptions\PublicKeyMissingException;
 use OCA\Encryption\KeyManager;
 use OCA\Encryption\Session;
 use OCA\Encryption\Util;
-use OCP\Files\Storage;
+use OCP\Files\Storage\IStorage;
 use OCP\IL10N;
+use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -50,13 +51,12 @@ class EncryptionTest extends TestCase {
 	/** @var \OCP\IL10N|\PHPUnit\Framework\MockObject\MockObject */
 	private $l10nMock;
 
-	/** @var \OCP\Files\Storage|\PHPUnit\Framework\MockObject\MockObject */
-	private $storageMock;
+	private IStorage&MockObject $storageMock;
 
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->storageMock = $this->getMockBuilder(Storage::class)
+		$this->storageMock = $this->getMockBuilder(IStorage::class)
 			->disableOriginalConstructor()->getMock();
 		$this->cryptMock = $this->getMockBuilder(Crypt::class)
 			->disableOriginalConstructor()

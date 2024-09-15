@@ -8,14 +8,14 @@
 namespace Test\Files\Mount;
 
 use OC\Files\Storage\StorageFactory;
-use OCP\Files\Storage;
+use OCP\Files\Storage\IStorage;
 
 class DummyStorage {
 }
 
 class MountPointTest extends \Test\TestCase {
 	public function testGetStorage(): void {
-		$storage = $this->createMock(Storage::class);
+		$storage = $this->createMock(IStorage::class);
 		$storage->expects($this->once())
 			->method('getId')
 			->willReturn(123);

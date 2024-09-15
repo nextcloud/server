@@ -12,7 +12,7 @@ use OC\Encryption\Exceptions\DecryptionFailedException;
 use OC\Encryption\Manager;
 use OC\Files\FileInfo;
 use OC\Files\View;
-use OCP\Files\Storage;
+use OCP\Files\Storage\IStorage;
 use OCP\IUserManager;
 use OCP\UserInterface;
 use Symfony\Component\Console\Formatter\OutputFormatterInterface;
@@ -246,11 +246,11 @@ class DecryptAllTest extends TestCase {
 			->setMethods(['decryptFile'])
 			->getMock();
 
-		$storage = $this->getMockBuilder(Storage::class)
+		$storage = $this->getMockBuilder(IStorage::class)
 			->disableOriginalConstructor()->getMock();
 
 
-		$sharedStorage = $this->getMockBuilder(Storage::class)
+		$sharedStorage = $this->getMockBuilder(IStorage::class)
 			->disableOriginalConstructor()->getMock();
 
 		$sharedStorage->expects($this->once())->method('instanceOfStorage')

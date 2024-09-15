@@ -16,7 +16,7 @@ use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
 use OCP\Files\Mount\IMountPoint;
 use OCP\Files\NotFoundException;
-use OCP\Files\Storage;
+use OCP\Files\Storage\IStorage;
 use OCP\IConfig;
 use OCP\IDateTimeZone;
 use OCP\IGroup;
@@ -526,7 +526,7 @@ class ShareAPIControllerTest extends TestCase {
 			->getMock();
 		$cache->method('getNumericStorageId')->willReturn(101);
 
-		$storage = $this->getMockBuilder(Storage::class)
+		$storage = $this->getMockBuilder(IStorage::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$storage->method('getId')->willReturn('STORAGE');
@@ -1923,7 +1923,7 @@ class ShareAPIControllerTest extends TestCase {
 
 		$path = $this->getMockBuilder(Folder::class)->getMock();
 		$path->method('getId')->willReturn(42);
-		$storage = $this->createMock(Storage::class);
+		$storage = $this->createMock(IStorage::class);
 		$storage->method('instanceOfStorage')
 			->willReturnMap([
 				['OCA\Files_Sharing\External\Storage', false],
@@ -1947,7 +1947,7 @@ class ShareAPIControllerTest extends TestCase {
 
 		$path = $this->getMockBuilder(Folder::class)->getMock();
 		$path->method('getId')->willReturn(42);
-		$storage = $this->createMock(Storage::class);
+		$storage = $this->createMock(IStorage::class);
 		$storage->method('instanceOfStorage')
 			->willReturnMap([
 				['OCA\Files_Sharing\External\Storage', false],
@@ -1972,7 +1972,7 @@ class ShareAPIControllerTest extends TestCase {
 
 		$path = $this->getMockBuilder(File::class)->getMock();
 		$path->method('getId')->willReturn(42);
-		$storage = $this->createMock(Storage::class);
+		$storage = $this->createMock(IStorage::class);
 		$storage->method('instanceOfStorage')
 			->willReturnMap([
 				['OCA\Files_Sharing\External\Storage', false],
@@ -1996,7 +1996,7 @@ class ShareAPIControllerTest extends TestCase {
 
 		$path = $this->getMockBuilder(Folder::class)->getMock();
 		$path->method('getId')->willReturn(1);
-		$storage = $this->createMock(Storage::class);
+		$storage = $this->createMock(IStorage::class);
 		$storage->method('instanceOfStorage')
 			->willReturnMap([
 				['OCA\Files_Sharing\External\Storage', false],
@@ -2035,7 +2035,7 @@ class ShareAPIControllerTest extends TestCase {
 
 		$path = $this->getMockBuilder(Folder::class)->getMock();
 		$path->method('getId')->willReturn(42);
-		$storage = $this->createMock(Storage::class);
+		$storage = $this->createMock(IStorage::class);
 		$storage->method('instanceOfStorage')
 			->willReturnMap([
 				['OCA\Files_Sharing\External\Storage', false],
@@ -2074,7 +2074,7 @@ class ShareAPIControllerTest extends TestCase {
 
 		$path = $this->getMockBuilder(Folder::class)->getMock();
 		$path->method('getId')->willReturn(42);
-		$storage = $this->createMock(Storage::class);
+		$storage = $this->createMock(IStorage::class);
 		$storage->method('instanceOfStorage')
 			->willReturnMap([
 				['OCA\Files_Sharing\External\Storage', false],
@@ -2120,7 +2120,7 @@ class ShareAPIControllerTest extends TestCase {
 
 		$path = $this->getMockBuilder(Folder::class)->getMock();
 		$path->method('getId')->willReturn(42);
-		$storage = $this->createMock(Storage::class);
+		$storage = $this->createMock(IStorage::class);
 		$storage->method('instanceOfStorage')
 			->willReturnMap([
 				['OCA\Files_Sharing\External\Storage', false],
@@ -2159,7 +2159,7 @@ class ShareAPIControllerTest extends TestCase {
 
 		$path = $this->getMockBuilder(Folder::class)->getMock();
 		$path->method('getId')->willReturn(42);
-		$storage = $this->createMock(Storage::class);
+		$storage = $this->createMock(IStorage::class);
 		$storage->method('instanceOfStorage')
 			->willReturnMap([
 				['OCA\Files_Sharing\External\Storage', false],
@@ -2205,7 +2205,7 @@ class ShareAPIControllerTest extends TestCase {
 
 		$path = $this->getMockBuilder(Folder::class)->getMock();
 		$path->method('getId')->willReturn(42);
-		$storage = $this->createMock(Storage::class);
+		$storage = $this->createMock(IStorage::class);
 		$storage->method('instanceOfStorage')
 			->willReturnMap([
 				['OCA\Files_Sharing\External\Storage', false],
@@ -2574,7 +2574,7 @@ class ShareAPIControllerTest extends TestCase {
 		$path = $this->getMockBuilder(Folder::class)->getMock();
 		$path->method('getId')->willReturn(42);
 
-		$storage = $this->createMock(Storage::class);
+		$storage = $this->createMock(IStorage::class);
 		$storage->method('instanceOfStorage')
 			->willReturnMap([
 				['OCA\Files_Sharing\External\Storage', true],
@@ -3762,7 +3762,7 @@ class ShareAPIControllerTest extends TestCase {
 
 		$cache = $this->getMockBuilder('OCP\Files\Cache\ICache')->getMock();
 		$cache->method('getNumericStorageId')->willReturn(100);
-		$storage = $this->createMock(Storage::class);
+		$storage = $this->createMock(IStorage::class);
 		$storage->method('getId')->willReturn('storageId');
 		$storage->method('getCache')->willReturn($cache);
 
@@ -4759,7 +4759,7 @@ class ShareAPIControllerTest extends TestCase {
 
 		$cache = $this->getMockBuilder('OCP\Files\Cache\ICache')->getMock();
 		$cache->method('getNumericStorageId')->willReturn(100);
-		$storage = $this->createMock(Storage::class);
+		$storage = $this->createMock(IStorage::class);
 		$storage->method('getId')->willReturn('storageId');
 		$storage->method('getCache')->willReturn($cache);
 
@@ -4923,7 +4923,7 @@ class ShareAPIControllerTest extends TestCase {
 	private function getNonSharedUserFolder(): array {
 		$node = $this->getMockBuilder(Folder::class)->getMock();
 		$userFolder = $this->getMockBuilder(Folder::class)->getMock();
-		$storage = $this->createMock(Storage::class);
+		$storage = $this->createMock(IStorage::class);
 		$storage->method('instanceOfStorage')
 			->willReturnMap([
 				['OCA\Files_Sharing\External\Storage', false],
@@ -4938,7 +4938,7 @@ class ShareAPIControllerTest extends TestCase {
 	private function getNonSharedUserFile(): array {
 		$node = $this->getMockBuilder(File::class)->getMock();
 		$userFolder = $this->getMockBuilder(Folder::class)->getMock();
-		$storage = $this->createMock(Storage::class);
+		$storage = $this->createMock(IStorage::class);
 		$storage->method('instanceOfStorage')
 			->willReturnMap([
 				['OCA\Files_Sharing\External\Storage', false],

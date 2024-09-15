@@ -28,10 +28,10 @@ interface IStorageFactory {
 	public function addStorageWrapper($wrapperName, $callback);
 
 	/**
-	 * @param \OCP\Files\Mount\IMountPoint $mountPoint
+	 * @param IMountPoint $mountPoint
 	 * @param string $class
 	 * @param array $arguments
-	 * @return \OCP\Files\Storage
+	 * @return IStorage
 	 * @since 8.0.0
 	 */
 	public function getInstance(IMountPoint $mountPoint, $class, $arguments);

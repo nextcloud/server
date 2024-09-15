@@ -23,7 +23,7 @@ use OCP\Files\IRootFolder;
 use OCP\Files\Mount\IMountManager;
 use OCP\Files\Mount\IMountPoint;
 use OCP\Files\Node;
-use OCP\Files\Storage;
+use OCP\Files\Storage\IStorage;
 use OCP\HintException;
 use OCP\IConfig;
 use OCP\IDateTimeZone;
@@ -631,7 +631,7 @@ class ManagerTest extends \Test\TestCase {
 
 		$file = $this->createMock(File::class);
 		$node = $this->createMock(Node::class);
-		$storage = $this->createMock(Storage\IStorage::class);
+		$storage = $this->createMock(IStorage::class);
 		$storage->method('instanceOfStorage')
 			->with('\OCA\Files_Sharing\External\Storage')
 			->willReturn(false);
@@ -706,7 +706,7 @@ class ManagerTest extends \Test\TestCase {
 		$data[] = [$this->createShare(null, IShare::TYPE_GROUP, $limitedPermssions, $group0, $user0, $user0, 17, null, null), 'Cannot increase permissions of path', true];
 		$data[] = [$this->createShare(null, IShare::TYPE_LINK, $limitedPermssions, null, $user0, $user0, 3, null, null), 'Cannot increase permissions of path', true];
 
-		$nonMovableStorage = $this->createMock(Storage\IStorage::class);
+		$nonMovableStorage = $this->createMock(IStorage::class);
 		$nonMovableStorage->method('instanceOfStorage')
 			->with('\OCA\Files_Sharing\External\Storage')
 			->willReturn(false);
@@ -752,7 +752,7 @@ class ManagerTest extends \Test\TestCase {
 		$data[] = [$this->createShare(null, IShare::TYPE_LINK, $allPermssions, null, $user0, $user0, 17, null, null), null, false];
 
 
-		$remoteStorage = $this->createMock(Storage\IStorage::class);
+		$remoteStorage = $this->createMock(IStorage::class);
 		$remoteStorage->method('instanceOfStorage')
 			->with('\OCA\Files_Sharing\External\Storage')
 			->willReturn(true);
@@ -2059,7 +2059,7 @@ class ManagerTest extends \Test\TestCase {
 		$path->method('getPath')->willReturn('path');
 
 		$mount = $this->createMock(IMountPoint::class);
-		$storage = $this->createMock(Storage::class);
+		$storage = $this->createMock(IStorage::class);
 		$mount->method('getStorage')->willReturn($storage);
 		$storage->method('instanceOfStorage')->with('\OCA\Files_Sharing\ISharedStorage')->willReturn(true);
 
@@ -2073,7 +2073,7 @@ class ManagerTest extends \Test\TestCase {
 		$path->method('getPath')->willReturn('path');
 
 		$mount = $this->createMock(IMountPoint::class);
-		$storage = $this->createMock(Storage::class);
+		$storage = $this->createMock(IStorage::class);
 		$mount->method('getStorage')->willReturn($storage);
 		$storage->method('instanceOfStorage')->with('\OCA\Files_Sharing\ISharedStorage')->willReturn(false);
 
@@ -2221,7 +2221,7 @@ class ManagerTest extends \Test\TestCase {
 		$shareOwner = $this->createMock(IUser::class);
 		$shareOwner->method('getUID')->willReturn('shareOwner');
 
-		$storage = $this->createMock(Storage::class);
+		$storage = $this->createMock(IStorage::class);
 		$path = $this->createMock(File::class);
 		$path->method('getOwner')->willReturn($shareOwner);
 		$path->method('getName')->willReturn('target');
@@ -2276,7 +2276,7 @@ class ManagerTest extends \Test\TestCase {
 		$shareOwner = $this->createMock(IUser::class);
 		$shareOwner->method('getUID')->willReturn('shareOwner');
 
-		$storage = $this->createMock(Storage::class);
+		$storage = $this->createMock(IStorage::class);
 		$path = $this->createMock(File::class);
 		$path->method('getOwner')->willReturn($shareOwner);
 		$path->method('getName')->willReturn('target');
@@ -2339,7 +2339,7 @@ class ManagerTest extends \Test\TestCase {
 		$shareOwner = $this->createMock(IUser::class);
 		$shareOwner->method('getUID')->willReturn('shareOwner');
 
-		$storage = $this->createMock(Storage::class);
+		$storage = $this->createMock(IStorage::class);
 		$path = $this->createMock(File::class);
 		$path->method('getOwner')->willReturn($shareOwner);
 		$path->method('getName')->willReturn('target');
@@ -2459,7 +2459,7 @@ class ManagerTest extends \Test\TestCase {
 		$shareOwner = $this->createMock(IUser::class);
 		$shareOwner->method('getUID')->willReturn('shareOwner');
 
-		$storage = $this->createMock(Storage::class);
+		$storage = $this->createMock(IStorage::class);
 		$path = $this->createMock(File::class);
 		$path->method('getOwner')->willReturn($shareOwner);
 		$path->method('getName')->willReturn('target');
@@ -2563,7 +2563,7 @@ class ManagerTest extends \Test\TestCase {
 		$shareOwner = $this->createMock(IUser::class);
 		$shareOwner->method('getUID')->willReturn('shareOwner');
 
-		$storage = $this->createMock(Storage::class);
+		$storage = $this->createMock(IStorage::class);
 		$path = $this->createMock(File::class);
 		$path->method('getOwner')->willReturn($shareOwner);
 		$path->method('getName')->willReturn('target');
@@ -2623,12 +2623,12 @@ class ManagerTest extends \Test\TestCase {
 		$shareOwner = $this->createMock(IUser::class);
 		$shareOwner->method('getUID')->willReturn('shareOwner');
 
-		$storage = $this->createMock(Storage::class);
+		$storage = $this->createMock(IStorage::class);
 		$storage->method('instanceOfStorage')
 			->with('OCA\Files_Sharing\External\Storage')
 			->willReturn(true);
 
-		$storage2 = $this->createMock(Storage::class);
+		$storage2 = $this->createMock(IStorage::class);
 		$storage2->method('instanceOfStorage')
 			->with('OCA\Files_Sharing\External\Storage')
 			->willReturn(false);
