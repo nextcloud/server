@@ -41,12 +41,12 @@ class ResourceLocatorTest extends \Test\TestCase {
 		$locator = $this->getResourceLocator('theme');
 		$locator->expects($this->once())
 			->method('doFind')
-			->with('foo');
+			->with('app/foo');
 		$locator->expects($this->once())
 			->method('doFindTheme')
-			->with('foo');
+			->with('app/foo');
 		/** @var \OC\Template\ResourceLocator $locator */
-		$locator->find(['foo']);
+		$locator->find(['app/foo']);
 	}
 
 	public function testFindNotFound(): void {
@@ -59,17 +59,17 @@ class ResourceLocatorTest extends \Test\TestCase {
 			['core' => 'map'], ['3rd' => 'party'], ['foo' => 'bar']);
 		$locator->expects($this->once())
 			->method('doFind')
-			->with('foo')
-			->will($this->throwException(new ResourceNotFoundException('foo', 'map')));
+			->with('app/foo')
+			->will($this->throwException(new ResourceNotFoundException('app/foo', 'map')));
 		$locator->expects($this->once())
 			->method('doFindTheme')
-			->with('foo')
-			->will($this->throwException(new ResourceNotFoundException('foo', 'map')));
+			->with('app/foo')
+			->will($this->throwException(new ResourceNotFoundException('app/foo', 'map')));
 		$this->logger->expects($this->exactly(2))
 			->method('debug')
-			->with($this->stringContains('map/foo'));
+			->with($this->stringContains('map/app/foo'));
 		/** @var \OC\Template\ResourceLocator $locator */
-		$locator->find(['foo']);
+		$locator->find(['app/foo']);
 	}
 
 	public function testAppendIfExist(): void {

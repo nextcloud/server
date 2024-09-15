@@ -970,7 +970,7 @@ class SessionTest extends \Test\TestCase {
 			->method('generateToken')
 			->with($sessionId, $uid, $loginName, $password, 'Firefox', IToken::TEMPORARY_TOKEN, IToken::REMEMBER);
 
-		$this->assertTrue($userSession->createSessionToken($request, $uid, $loginName, $password, true));
+		$this->assertTrue($userSession->createSessionToken($request, $uid, $loginName, $password, IToken::REMEMBER));
 	}
 
 	public function testCreateSessionTokenWithTokenPassword(): void {

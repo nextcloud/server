@@ -170,12 +170,12 @@ class TemplateFunctionsTest extends \Test\TestCase {
 	public function testRelativeDateYearsAgo(): void {
 		$currentTime = 1380703592;
 		$elementTime = $currentTime - 86400 * 365.25 * 2;
-		$result = (string)relative_modified_date($elementTime, $currentTime, true);
+		$result = (string)relative_modified_date((int)$elementTime, $currentTime, true);
 
 		$this->assertEquals('2 years ago', $result);
 
 		$elementTime = $currentTime - 86400 * 365.25 * 3;
-		$result = (string)relative_modified_date($elementTime, $currentTime, true);
+		$result = (string)relative_modified_date((int)$elementTime, $currentTime, true);
 
 		$this->assertEquals('3 years ago', $result);
 	}
@@ -264,12 +264,12 @@ class TemplateFunctionsTest extends \Test\TestCase {
 	public function testRelativeTimeYearsAgo(): void {
 		$currentTime = 1380703592;
 		$elementTime = $currentTime - 86400 * 365.25 * 2;
-		$result = (string)relative_modified_date($elementTime, $currentTime, false);
+		$result = (string)relative_modified_date((int)$elementTime, $currentTime, false);
 
 		$this->assertEquals('2 years ago', $result);
 
 		$elementTime = $currentTime - 86400 * 365.25 * 3;
-		$result = (string)relative_modified_date($elementTime, $currentTime, false);
+		$result = (string)relative_modified_date((int)$elementTime, $currentTime, false);
 
 		$this->assertEquals('3 years ago', $result);
 	}

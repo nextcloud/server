@@ -1750,6 +1750,8 @@ class ViewTest extends \Test\TestCase {
 				ILockingProvider::LOCK_SHARED,
 				ILockingProvider::LOCK_EXCLUSIVE,
 				ILockingProvider::LOCK_SHARED,
+				null,
+				0,
 			],
 
 			// ---- delete hook ----
@@ -2515,7 +2517,7 @@ class ViewTest extends \Test\TestCase {
 			->willReturn($mountPoint);
 		$mount->expects($this->once())
 			->method('removeMount')
-			->willReturn('foo');
+			->willReturn(true);
 		$mount->expects($this->any())
 			->method('getInternalPath')
 			->willReturn('');
@@ -2548,7 +2550,7 @@ class ViewTest extends \Test\TestCase {
 
 		//Delete the mountpoint
 		$view = new View('/' . $this->user . '/files');
-		$this->assertEquals('foo', $view->rmdir('mount'));
+		$this->assertEquals(true, $view->rmdir('mount'));
 	}
 
 	public function mimeFilterProvider() {

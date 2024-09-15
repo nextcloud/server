@@ -77,10 +77,10 @@ class ContactsStoreTest extends TestCase {
 			->with($this->equalTo(''), $this->equalTo(['FN', 'EMAIL']))
 			->willReturn([
 				[
-					'UID' => 123,
+					'UID' => '123',
 				],
 				[
-					'UID' => 567,
+					'UID' => '567',
 					'FN' => 'Darren Roner',
 					'EMAIL' => [
 						'darren@roner.au'
@@ -110,7 +110,7 @@ class ContactsStoreTest extends TestCase {
 					'UID' => 'user123',
 				],
 				[
-					'UID' => 567,
+					'UID' => '567',
 					'FN' => 'Darren Roner',
 					'EMAIL' => [
 						'darren@roner.au'
@@ -138,10 +138,10 @@ class ContactsStoreTest extends TestCase {
 			->with($this->equalTo(''), $this->equalTo(['FN', 'EMAIL']))
 			->willReturn([
 				[
-					'UID' => 123,
+					'UID' => '123',
 				],
 				[
-					'UID' => 567,
+					'UID' => '567',
 					'FN' => 'Darren Roner',
 					'EMAIL' => [
 						'darren@roner.au'
@@ -167,10 +167,10 @@ class ContactsStoreTest extends TestCase {
 			->with($this->equalTo(''), $this->equalTo(['FN', 'EMAIL']))
 			->willReturn([
 				[
-					'UID' => 123,
+					'UID' => '123',
 				],
 				[
-					'UID' => 567,
+					'UID' => '567',
 					'FN' => 'Darren Roner',
 					'EMAIL' => [
 						'darren@roner.au'
@@ -868,7 +868,7 @@ class ContactsStoreTest extends TestCase {
 			->with($this->equalTo('a567'), $this->equalTo(['UID']))
 			->willReturn([
 				[
-					'UID' => 123,
+					'UID' => '123',
 					'isLocalSystemBook' => false
 				],
 				[
@@ -899,7 +899,7 @@ class ContactsStoreTest extends TestCase {
 			->with($this->equalTo('darren@roner.au'), $this->equalTo(['EMAIL']))
 			->willReturn([
 				[
-					'UID' => 123,
+					'UID' => '123',
 					'isLocalSystemBook' => false
 				],
 				[
@@ -939,7 +939,7 @@ class ContactsStoreTest extends TestCase {
 			->with($this->equalTo('a567'), $this->equalTo(['UID']))
 			->willReturn([
 				[
-					'UID' => 123,
+					'UID' => '123',
 					'isLocalSystemBook' => false
 				],
 				[

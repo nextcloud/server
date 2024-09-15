@@ -154,7 +154,7 @@ class ManagerTest extends TestCase {
 		$backend->expects($this->once())
 			->method('checkPassword')
 			->with($this->equalTo('foo'), $this->equalTo('bar'))
-			->willReturn(true);
+			->willReturn('foo');
 
 		$backend->expects($this->any())
 			->method('implementsActions')

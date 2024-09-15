@@ -18,7 +18,7 @@ class MountPointTest extends \Test\TestCase {
 		$storage = $this->createMock(Storage::class);
 		$storage->expects($this->once())
 			->method('getId')
-			->willReturn(123);
+			->willReturn('123');
 
 		$loader = $this->createMock(StorageFactory::class);
 		$loader->expects($this->once())
@@ -34,7 +34,7 @@ class MountPointTest extends \Test\TestCase {
 		);
 
 		$this->assertEquals($storage, $mountPoint->getStorage());
-		$this->assertEquals(123, $mountPoint->getStorageId());
+		$this->assertEquals('123', $mountPoint->getStorageId());
 		$this->assertEquals('/mountpoint/', $mountPoint->getMountPoint());
 
 		$mountPoint->setMountPoint('another');
