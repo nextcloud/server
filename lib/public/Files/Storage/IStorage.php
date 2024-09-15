@@ -410,6 +410,7 @@ interface IStorage {
 	/**
 	 * @since 9.0.0
 	 * @param bool $isAvailable
+	 * @return void
 	 */
 	public function setAvailability($isAvailable);
 
@@ -421,6 +422,7 @@ interface IStorage {
 
 	/**
 	 * @param string $path path for which to retrieve the owner
+	 * @return string
 	 * @since 9.0.0
 	 */
 	public function getOwner($path);

@@ -52,13 +52,14 @@ class Home extends Local implements \OCP\Files\IHomeStorage {
 		if (!isset($this->cache)) {
 			$this->cache = new \OC\Files\Cache\HomeCache($storage, $this->getCacheDependencies());
 		}
+		/** @var \OC\Files\Cache\HomeCache */
 		return $this->cache;
 	}
 
 	/**
 	 * get a propagator instance for the cache
 	 *
-	 * @param \OC\Files\Storage\Storage (optional) the storage to pass to the watcher
+	 * @param \OC\Files\Storage\Storage $storage (optional) the storage to pass to the watcher
 	 * @return \OC\Files\Cache\Propagator
 	 */
 	public function getPropagator($storage = null) {
@@ -68,6 +69,7 @@ class Home extends Local implements \OCP\Files\IHomeStorage {
 		if (!isset($this->propagator)) {
 			$this->propagator = new HomePropagator($storage, \OC::$server->getDatabaseConnection());
 		}
+		/** @var \OC\Files\Cache\Propagator */
 		return $this->propagator;
 	}
 

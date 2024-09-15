@@ -44,14 +44,14 @@ use Psr\Log\LoggerInterface;
 abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 	use LocalTempFileTrait;
 
-	protected $cache;
-	protected $scanner;
-	protected $watcher;
-	protected $propagator;
+	protected ?Cache $cache = null;
+	protected ?Scanner $scanner = null;
+	protected ?Watcher $watcher = null;
+	protected ?Propagator $propagator = null;
 	protected $storageCache;
-	protected $updater;
+	protected ?Updater $updater = null;
 
-	protected $mountOptions = [];
+	protected array $mountOptions = [];
 	protected $owner = null;
 
 	private ?bool $shouldLogLocks = null;
@@ -310,13 +310,19 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 		return $dependencies;
 	}
 
+	/**
+	 * @return Cache
+	 */
 	public function getCache($path = '', $storage = null) {
 		if (!$storage) {
 			$storage = $this;
 		}
+		/** @psalm-suppress NoInterfaceProperties The isset check is safe */
 		if (!isset($storage->cache)) {
 			$storage->cache = new Cache($storage, $this->getCacheDependencies());
 		}
+		/** @psalm-suppress NullableReturnStatement False-positive, as the if above avoids this being null */
+		/** @psalm-suppress NoInterfaceProperties Legacy */
 		return $storage->cache;
 	}
 
@@ -324,9 +330,11 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 		if (!$storage) {
 			$storage = $this;
 		}
+		/** @psalm-suppress NoInterfaceProperties The isset check is safe */
 		if (!isset($storage->scanner)) {
 			$storage->scanner = new Scanner($storage);
 		}
+		/** @psalm-suppress NoInterfaceProperties Legacy stuff */
 		return $storage->scanner;
 	}
 
