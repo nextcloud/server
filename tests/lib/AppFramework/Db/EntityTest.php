@@ -42,7 +42,6 @@ use PHPUnit\Framework\Constraint\IsType;
  * @method void setTrueOrFalse(bool $trueOrFalse)
  * @method bool getAnotherBool()
  * @method bool isAnotherBool()
- * @method void setAnotherBool(bool $anotherBool)
  * @method string getLongText()
  * @method void setLongText(string $longText)
  */
@@ -61,6 +60,10 @@ class TestEntity extends Entity {
 		$this->addType('anotherBool', 'boolean');
 		$this->addType('longText', 'blob');
 		$this->name = $name;
+	}
+
+	public function setAnotherBool(bool $anotherBool): void {
+		parent::setAnotherBool($anotherBool);
 	}
 }
 
@@ -86,12 +89,14 @@ class EntityTest extends \Test\TestCase {
 	public function testFromRow() {
 		$row = [
 			'pre_name' => 'john',
-			'email' => 'john@something.com'
+			'email' => 'john@something.com',
+			'another_bool' => 1,
 		];
 		$this->entity = TestEntity::fromRow($row);
 
 		$this->assertEquals($row['pre_name'], $this->entity->getPreName());
 		$this->assertEquals($row['email'], $this->entity->getEmail());
+		$this->assertEquals($row['another_bool'], $this->entity->getAnotherBool());
 	}
 
 
