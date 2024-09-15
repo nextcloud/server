@@ -248,8 +248,7 @@ class Tags implements ITags {
 	 * @param string $user The user whose tags are to be checked.
 	 */
 	public function userHasTag(string $name, string $user): bool {
-		$key = $this->array_searchi($name, $this->getTagsForUser($user));
-		return ($key !== false) ? $this->tags[$key]->getId() : false;
+		return $this->array_searchi($name, $this->getTagsForUser($user)) !== false;
 	}
 
 	/**
