@@ -19,7 +19,7 @@ class MemoryCacheBackend implements IBackend {
 		ICacheFactory $cacheFactory,
 		private ITimeFactory $timeFactory,
 	) {
-		$this->cache = $cacheFactory->createDistributed(__CLASS__);
+		$this->cache = $cacheFactory->createDistributed(self::class);
 	}
 
 	private function hash(
