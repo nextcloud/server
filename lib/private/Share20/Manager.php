@@ -1156,7 +1156,7 @@ class Manager implements IManager {
 		return $deletedShares;
 	}
 
-	/* Promote reshares into direct shares so that target user keeps access */
+	/** Promote re-shares into direct shares so that target user keeps access */
 	protected function promoteReshares(IShare $share): void {
 		try {
 			$node = $share->getNode();
