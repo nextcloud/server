@@ -12,6 +12,7 @@ use InvalidArgumentException;
 use OCP\AppFramework\Db\TTransactional;
 use OCP\Cache\CappedMemoryCache;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\Security\Events\ValidatePasswordPolicyEvent;
 use OCP\Security\IHasher;
@@ -41,17 +42,12 @@ class Database extends ABackend implements
 	ISearchKnownUsersBackend,
 	IGetRealUIDBackend,
 	IPasswordHashBackend {
-	/** @var CappedMemoryCache */
-	private $cache;
 
-	/** @var IEventDispatcher */
-	private $eventDispatcher;
-
-	/** @var IDBConnection */
-	private $dbConn;
-
-	/** @var string */
-	private $table;
+	private CappedMemoryCache $cache;
+	private IConfig $config;
+	private IDBConnection $dbConn;
+	private IEventDispatcher $eventDispatcher;
+	private string $table;
 
 	use TTransactional;
 
@@ -64,16 +60,9 @@ class Database extends ABackend implements
 	public function __construct($eventDispatcher = null, $table = 'users') {
 		$this->cache = new CappedMemoryCache();
 		$this->table = $table;
-		$this->eventDispatcher = $eventDispatcher ? $eventDispatcher : \OCP\Server::get(IEventDispatcher::class);
-	}
-
-	/**
-	 * FIXME: This function should not be required!
-	 */
-	private function fixDI() {
-		if ($this->dbConn === null) {
-			$this->dbConn = \OC::$server->getDatabaseConnection();
-		}
+		$this->eventDispatcher = $eventDispatcher ?: \OCP\Server::get(IEventDispatcher::class);
+		$this->dbConn = \OCP\Server::get(IDBConnection::class);
+		$this->config = \OCP\Server::get(IConfig::class);
 	}
 
 	/**
@@ -87,8 +76,6 @@ class Database extends ABackend implements
 	 * itself, not in its subclasses.
 	 */
 	public function createUser(string $uid, string $password): bool {
-		$this->fixDI();
-
 		if (!$this->userExists($uid)) {
 			$this->eventDispatcher->dispatchTyped(new ValidatePasswordPolicyEvent($password));
 
@@ -116,23 +103,25 @@ class Database extends ABackend implements
 	}
 
 	/**
-	 * delete a user
+	 * Deletes a user
 	 *
 	 * @param string $uid The username of the user to delete
 	 * @return bool
-	 *
-	 * Deletes a user
 	 */
 	public function deleteUser($uid) {
-		$this->fixDI();
-
 		// Delete user-group-relation
 		$query = $this->dbConn->getQueryBuilder();
 		$query->delete($this->table)
 			->where($query->expr()->eq('uid_lower', $query->createNamedParameter(mb_strtolower($uid))));
-		$result = $query->execute();
+		$result = $query->executeStatement();
 
 		if (isset($this->cache[$uid])) {
+			// If the user logged in through email there is a second cache entry, also unset that.
+			$email = $this->cache[$uid]['email'] ?? null;
+			if ($email !== null) {
+				unset($this->cache[$email]);
+			}
+			// Unset the cache entry
 			unset($this->cache[$uid]);
 		}
 
@@ -159,8 +148,6 @@ class Database extends ABackend implements
 	 * Change the password of a user
 	 */
 	public function setPassword(string $uid, string $password): bool {
-		$this->fixDI();
-
 		if ($this->userExists($uid)) {
 			$this->eventDispatcher->dispatchTyped(new ValidatePasswordPolicyEvent($password));
 
@@ -180,10 +167,10 @@ class Database extends ABackend implements
 	}
 
 	public function getPasswordHash(string $userId): ?string {
-		$this->fixDI();
 		if (!$this->userExists($userId)) {
 			return null;
 		}
+
 		if (!empty($this->cache[$userId]['password'])) {
 			return $this->cache[$userId]['password'];
 		}
@@ -204,7 +191,7 @@ class Database extends ABackend implements
 		if (!\OCP\Server::get(IHasher::class)->validate($passwordHash)) {
 			throw new InvalidArgumentException();
 		}
-		$this->fixDI();
+
 		$result = $this->updatePassword($userId, $passwordHash);
 		if (!$result) {
 			return false;
@@ -228,8 +215,6 @@ class Database extends ABackend implements
 		if (mb_strlen($displayName) > 64) {
 			throw new \InvalidArgumentException('Invalid displayname');
 		}
-
-		$this->fixDI();
 
 		if ($this->userExists($uid)) {
 			$query = $this->dbConn->getQueryBuilder();
@@ -268,9 +253,6 @@ class Database extends ABackend implements
 	 */
 	public function getDisplayNames($search = '', $limit = null, $offset = null) {
 		$limit = $this->fixLimit($limit);
-
-		$this->fixDI();
-
 		$query = $this->dbConn->getQueryBuilder();
 
 		$query->select('uid', 'displayname')
@@ -308,9 +290,6 @@ class Database extends ABackend implements
 	 */
 	public function searchKnownUsersByDisplayName(string $searcher, string $pattern, ?int $limit = null, ?int $offset = null): array {
 		$limit = $this->fixLimit($limit);
-
-		$this->fixDI();
-
 		$query = $this->dbConn->getQueryBuilder();
 
 		$query->select('u.uid', 'u.displayname')
@@ -368,45 +347,63 @@ class Database extends ABackend implements
 	/**
 	 * Load an user in the cache
 	 *
-	 * @param string $uid the username
+	 * @param string $loginName the username or email
 	 * @return boolean true if user was found, false otherwise
 	 */
-	private function loadUser($uid) {
-		$this->fixDI();
+	private function loadUser(string $loginName, bool $tryEmail = true): bool {
+		$uid = (string)$loginName;
 
-		$uid = (string)$uid;
-		if (!isset($this->cache[$uid])) {
-			//guests $uid could be NULL or ''
-			if ($uid === '') {
-				$this->cache[$uid] = false;
-				return true;
-			}
-
-			$qb = $this->dbConn->getQueryBuilder();
-			$qb->select('uid', 'displayname', 'password')
-				->from($this->table)
-				->where(
-					$qb->expr()->eq(
-						'uid_lower', $qb->createNamedParameter(mb_strtolower($uid))
-					)
-				);
-			$result = $qb->execute();
-			$row = $result->fetch();
-			$result->closeCursor();
-
-			// "uid" is primary key, so there can only be a single result
-			if ($row !== false) {
-				$this->cache[$uid] = [
-					'uid' => (string)$row['uid'],
-					'displayname' => (string)$row['displayname'],
-					'password' => (string)$row['password'],
-				];
-			} else {
-				$this->cache[$uid] = false;
-				return false;
-			}
+		if (isset($this->cache[$uid])) {
+			return true;
 		}
 
+		//guests $uid could be NULL or ''
+		if ($uid === '') {
+			$this->cache[$uid] = false;
+			return true;
+		}
+
+		$qb = $this->dbConn->getQueryBuilder();
+		$qb->select('uid', 'displayname', 'password')
+			->from($this->table)
+			->where(
+				$qb->expr()->eq(
+					'uid_lower', $qb->createNamedParameter(mb_strtolower($uid))
+				)
+			);
+		$result = $qb->executeQuery();
+		$row = $result->fetch();
+		$result->closeCursor();
+
+		// "uid" is primary key, so there can only be a single result
+		if ($row === false) {
+			// If we try also for email, load uid for email.
+			if ($tryEmail) {
+				@[$emailUId] = $this->config->getUsersForUserValue('settings', 'email', mb_strtolower($uid));
+				// If found, try loading it
+				if ($emailUId !== null && $emailUId !== $uid) {
+					$result = $this->loadUser($emailUId, false);
+					if ($result) {
+						// Also add cache result for the email
+						$this->cache[$uid] = [
+							...$this->cache[$emailUId],
+						];
+						// Set a reference to the uid cache entry for also delete email entry on user delete
+						$this->cache[$emailUId]['email'] = $uid;
+					}
+					return $result;
+				}
+			}
+			// Not found by uid nor email, so cache as not existing
+			$this->cache[$uid] = false;
+			return false;
+		}
+
+		$this->cache[$uid] = [
+			'uid' => (string)$row['uid'],
+			'displayname' => (string)$row['displayname'],
+			'password' => (string)$row['password'],
+		];
 		return true;
 	}
 
@@ -467,8 +464,6 @@ class Database extends ABackend implements
 	 * @return int|false
 	 */
 	public function countUsers() {
-		$this->fixDI();
-
 		$query = $this->dbConn->getQueryBuilder();
 		$query->select($query->func()->count('uid'))
 			->from($this->table);
