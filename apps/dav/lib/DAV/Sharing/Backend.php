@@ -138,7 +138,7 @@ abstract class Backend {
 				'status' => 1,
 				'readOnly' => (int) $row['access'] === Backend::ACCESS_READ,
 				'{http://owncloud.org/ns}principal' => (string)$row['principaluri'],
-				'{http://owncloud.org/ns}group-share' => isset($p['uri']) && str_starts_with($p['uri'], 'principals/groups')
+				'{http://owncloud.org/ns}group-share' => isset($p['uri']) && (str_starts_with($p['uri'], 'principals/groups') || str_starts_with($p['uri'], 'principals/circles'))
 			];
 		}
 		$this->shareCache->set((string)$resourceId, $shares);
