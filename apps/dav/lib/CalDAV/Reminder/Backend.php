@@ -18,23 +18,10 @@ use OCP\IDBConnection;
  */
 class Backend {
 
-	/** @var IDBConnection */
-	protected $db;
-
-	/** @var ITimeFactory */
-	private $timeFactory;
-
-	/**
-	 * Backend constructor.
-	 *
-	 * @param IDBConnection $db
-	 * @param ITimeFactory $timeFactory
-	 */
-	public function __construct(IDBConnection $db,
-		ITimeFactory $timeFactory) {
-		$this->db = $db;
-		$this->timeFactory = $timeFactory;
-	}
+	public function __construct(
+		protected IDBConnection $db,
+		private ITimeFactory $timeFactory
+	) {}
 
 	/**
 	 * Get all reminders with a notification date before now
@@ -49,7 +36,7 @@ class Backend {
 			->where($query->expr()->lte('cr.notification_date', $query->createNamedParameter($this->timeFactory->getTime())))
 			->join('cr', 'calendarobjects', 'co', $query->expr()->eq('cr.object_id', 'co.id'))
 			->join('cr', 'calendars', 'c', $query->expr()->eq('cr.calendar_id', 'c.id'))
-			->groupBy('cr.event_hash', 'cr.notification_date', 'cr.type');
+			->groupBy('cr.id', 'cr.notification_date', 'cr.event_hash', 'cr.type', 'co.calendardata', 'c.displayname', 'c.principaluri');
 		$stmt = $query->execute();
 
 		return array_map(
