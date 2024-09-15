@@ -2370,9 +2370,6 @@
       <code>null</code>
       <code>null</code>
     </NullableReturnStatement>
-    <ParamNameMismatch>
-      <code>$searchQuery</code>
-    </ParamNameMismatch>
   </file>
   <file src="lib/private/Files/Cache/FailedCache.php">
     <InvalidReturnStatement>
@@ -2422,9 +2419,6 @@
       <code>array</code>
       <code>array</code>
     </LessSpecificImplementedReturnType>
-    <ParamNameMismatch>
-      <code>$searchQuery</code>
-    </ParamNameMismatch>
   </file>
   <file src="lib/private/Files/Config/MountProviderCollection.php">
     <InvalidOperand>
