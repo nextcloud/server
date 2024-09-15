@@ -216,7 +216,7 @@ class TempManager implements ITempManager {
 			}
 		}
 
-		$temp = tempnam(dirname(__FILE__), '');
+		$temp = tempnam(__DIR__, '');
 		if (file_exists($temp)) {
 			unlink($temp);
 			return dirname($temp);
