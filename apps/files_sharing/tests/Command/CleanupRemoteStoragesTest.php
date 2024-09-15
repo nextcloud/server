@@ -163,7 +163,7 @@ class CleanupRemoteStoragesTest extends TestCase {
 	/**
 	 * Test cleanup of orphaned storages
 	 */
-	public function testCleanup() {
+	public function testCleanup(): void {
 		$input = $this->getMockBuilder(InputInterface::class)
 			->disableOriginalConstructor()
 			->getMock();

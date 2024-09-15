@@ -48,7 +48,7 @@ class NavigationControllerTest extends TestCase {
 		];
 	}
 	/** @dataProvider dataGetNavigation */
-	public function testGetAppNavigation($absolute) {
+	public function testGetAppNavigation($absolute): void {
 		$this->navigationManager->expects($this->once())
 			->method('getAll')
 			->with('link')
@@ -77,7 +77,7 @@ class NavigationControllerTest extends TestCase {
 	}
 
 	/** @dataProvider dataGetNavigation */
-	public function testGetSettingsNavigation($absolute) {
+	public function testGetSettingsNavigation($absolute): void {
 		$this->navigationManager->expects($this->once())
 			->method('getAll')
 			->with('settings')
@@ -108,7 +108,7 @@ class NavigationControllerTest extends TestCase {
 		}
 	}
 
-	public function testGetAppNavigationEtagMatch() {
+	public function testGetAppNavigationEtagMatch(): void {
 		$navigation = [ ['id' => 'files', 'href' => '/index.php/apps/files', 'icon' => 'icon' ] ];
 		$this->request->expects($this->once())
 			->method('getHeader')
@@ -123,7 +123,7 @@ class NavigationControllerTest extends TestCase {
 		$this->assertEquals(Http::STATUS_NOT_MODIFIED, $actual->getStatus());
 	}
 
-	public function testGetSettingsNavigationEtagMatch() {
+	public function testGetSettingsNavigationEtagMatch(): void {
 		$navigation = [ ['id' => 'logout', 'href' => '/index.php/apps/files', 'icon' => 'icon' ] ];
 		$this->request->expects($this->once())
 			->method('getHeader')

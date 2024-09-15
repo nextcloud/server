@@ -89,12 +89,12 @@ class ExternalStorageTest extends \Test\TestCase {
 	/**
 	 * @dataProvider optionsProvider
 	 */
-	public function testStorageMountOptions($inputUri, $baseUri) {
+	public function testStorageMountOptions($inputUri, $baseUri): void {
 		$storage = $this->getTestStorage($inputUri);
 		$this->assertEquals($baseUri, $storage->getBaseUri());
 	}
 
-	public function testIfTestReturnsTheValue() {
+	public function testIfTestReturnsTheValue(): void {
 		$result = $this->getTestStorage('https://remoteserver')->test();
 		$this->assertSame(true, $result);
 	}

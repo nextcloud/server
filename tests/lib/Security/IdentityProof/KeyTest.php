@@ -22,11 +22,11 @@ class KeyTest extends TestCase {
 		$this->key = new Key('public', 'private');
 	}
 
-	public function testGetPrivate() {
+	public function testGetPrivate(): void {
 		$this->assertSame('private', $this->key->getPrivate());
 	}
 
-	public function testGetPublic() {
+	public function testGetPublic(): void {
 		$this->assertSame('public', $this->key->getPublic());
 	}
 }

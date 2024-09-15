@@ -52,7 +52,7 @@ class CleanupTest extends TestCase {
 	 * @dataProvider dataTestDeleteVersions
 	 * @param boolean $nodeExists
 	 */
-	public function testDeleteVersions($nodeExists) {
+	public function testDeleteVersions($nodeExists): void {
 		$this->rootFolder->expects($this->once())
 			->method('nodeExists')
 			->with('/testUser/files_versions')
@@ -102,7 +102,7 @@ class CleanupTest extends TestCase {
 	/**
 	 * test delete versions from users given as parameter
 	 */
-	public function testExecuteDeleteListOfUsers() {
+	public function testExecuteDeleteListOfUsers(): void {
 		$userIds = ['user1', 'user2', 'user3'];
 
 		$instance = $this->getMockBuilder('OCA\Files_Versions\Command\CleanUp')
@@ -133,7 +133,7 @@ class CleanupTest extends TestCase {
 	/**
 	 * test delete versions of all users
 	 */
-	public function testExecuteAllUsers() {
+	public function testExecuteAllUsers(): void {
 		$userIds = [];
 		$backendUsers = ['user1', 'user2'];
 

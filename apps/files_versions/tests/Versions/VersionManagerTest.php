@@ -29,7 +29,7 @@ class VersionManagerTest extends TestCase {
 			->getMock();
 	}
 
-	public function testGetBackendSingle() {
+	public function testGetBackendSingle(): void {
 		$manager = new VersionManager();
 		$backend = $this->getBackend();
 		$manager->registerBackend(IStorage::class, $backend);
@@ -37,7 +37,7 @@ class VersionManagerTest extends TestCase {
 		$this->assertEquals($backend, $manager->getBackendForStorage($this->getStorage(Local::class)));
 	}
 
-	public function testGetBackendMoreSpecific() {
+	public function testGetBackendMoreSpecific(): void {
 		$manager = new VersionManager();
 		$backend1 = $this->getBackend();
 		$backend2 = $this->getBackend();
@@ -47,7 +47,7 @@ class VersionManagerTest extends TestCase {
 		$this->assertEquals($backend2, $manager->getBackendForStorage($this->getStorage(Local::class)));
 	}
 
-	public function testGetBackendNoUse() {
+	public function testGetBackendNoUse(): void {
 		$manager = new VersionManager();
 		$backend1 = $this->getBackend();
 		$backend2 = $this->getBackend(false);
@@ -57,7 +57,7 @@ class VersionManagerTest extends TestCase {
 		$this->assertEquals($backend1, $manager->getBackendForStorage($this->getStorage(Local::class)));
 	}
 
-	public function testGetBackendMultiple() {
+	public function testGetBackendMultiple(): void {
 		$manager = new VersionManager();
 		$backend1 = $this->getBackend();
 		$backend2 = $this->getBackend(false);

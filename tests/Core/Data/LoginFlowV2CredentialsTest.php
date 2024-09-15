@@ -20,20 +20,20 @@ class LoginFlowV2CredentialsTest extends TestCase {
 		$this->fixture = new LoginFlowV2Credentials('server', 'login', 'pass');
 	}
 
-	public function testImplementsJsonSerializable() {
+	public function testImplementsJsonSerializable(): void {
 		$this->assertTrue($this->fixture instanceof JsonSerializable);
 	}
 
 	/**
 	 * Test getter functions.
 	 */
-	public function testGetter() {
+	public function testGetter(): void {
 		$this->assertEquals('server', $this->fixture->getServer());
 		$this->assertEquals('login', $this->fixture->getLoginName());
 		$this->assertEquals('pass', $this->fixture->getAppPassword());
 	}
 
-	public function testJsonSerialize() {
+	public function testJsonSerialize(): void {
 		$this->assertEquals(
 			[
 				'server' => 'server',

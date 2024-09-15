@@ -39,7 +39,7 @@ class ListCommandTest extends TestCase {
 		$this->output = $this->createMock(OutputInterface::class);
 	}
 
-	public function testExecute() {
+	public function testExecute(): void {
 		$tag1 = $this->createMock(ISystemTag::class);
 		$tag1->method('getId')->willReturn('1');
 		$tag1->method('getName')->willReturn('public_tag');

@@ -152,7 +152,7 @@ class SyncTest extends TestCase {
 	/**
 	 * @dataProvider moreResultsProvider
 	 */
-	public function testMoreResults($pagingSize, $results, $expected) {
+	public function testMoreResults($pagingSize, $results, $expected): void {
 		$connection = $this->createMock(Connection::class);
 		$this->connectionFactory->expects($this->any())
 			->method('get')
@@ -207,7 +207,7 @@ class SyncTest extends TestCase {
 	/**
 	 * @dataProvider cycleDataProvider
 	 */
-	public function testDetermineNextCycle($cycleData, $prefixes, $expectedCycle) {
+	public function testDetermineNextCycle($cycleData, $prefixes, $expectedCycle): void {
 		$this->helper->expects($this->any())
 			->method('getServerConfigurationPrefixes')
 			->with(true)
@@ -283,7 +283,7 @@ class SyncTest extends TestCase {
 	/**
 	 * @dataProvider runDataProvider
 	 */
-	public function testRun($runData) {
+	public function testRun($runData): void {
 		$this->config->expects($this->any())
 			->method('getAppValue')
 			->willReturnCallback(function ($app, $key, $default) use ($runData) {

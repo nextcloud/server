@@ -41,7 +41,7 @@ class EncryptionWrapperTest extends TestCase {
 	/**
 	 * @dataProvider provideWrapStorage
 	 */
-	public function testWrapStorage($expectedWrapped, $wrappedStorages) {
+	public function testWrapStorage($expectedWrapped, $wrappedStorages): void {
 		$storage = $this->getMockBuilder(Storage::class)
 			->disableOriginalConstructor()
 			->getMock();

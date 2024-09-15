@@ -42,7 +42,7 @@ class ExceptionSerializerTest extends TestCase {
 	 * exception was passed to the logger. The token was replaced, the original
 	 * variable overwritten.
 	 */
-	public function testSerializer() {
+	public function testSerializer(): void {
 		try {
 			$secret = ['Secret'];
 			$this->emit([&$secret]);
@@ -53,7 +53,7 @@ class ExceptionSerializerTest extends TestCase {
 		}
 	}
 
-	public function testSerializerWithRegisteredMethods() {
+	public function testSerializerWithRegisteredMethods(): void {
 		$this->serializer->enlistSensitiveMethods(self::class, ['customMagicAuthThing']);
 		try {
 			$this->customMagicAuthThing('u57474', 'Secret');

@@ -30,7 +30,7 @@ class ApplicationTest extends TestCase {
 		parent::tearDown();
 	}
 
-	public function test() {
+	public function test(): void {
 		$app = new Application();
 		$c = $app->getContainer();
 

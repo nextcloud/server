@@ -50,7 +50,7 @@ class KnownMtimeTest extends Storage {
 		]);
 	}
 
-	public function testNewerKnownMtime() {
+	public function testNewerKnownMtime(): void {
 		$future = time() + 1000;
 		$this->fakeTime = $future;
 

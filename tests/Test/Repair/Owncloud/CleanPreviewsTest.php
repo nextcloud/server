@@ -41,11 +41,11 @@ class CleanPreviewsTest extends TestCase {
 		);
 	}
 
-	public function testGetName() {
+	public function testGetName(): void {
 		$this->assertSame('Add preview cleanup background jobs', $this->repair->getName());
 	}
 
-	public function testRun() {
+	public function testRun(): void {
 		$user1 = $this->createMock(IUser::class);
 		$user1->method('getUID')
 			->willReturn('user1');
@@ -92,7 +92,7 @@ class CleanPreviewsTest extends TestCase {
 	}
 
 
-	public function testRunAlreadyDoone() {
+	public function testRunAlreadyDoone(): void {
 		$this->userManager->expects($this->never())
 			->method($this->anything());
 

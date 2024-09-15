@@ -80,7 +80,7 @@ class UpdateAvailableNotificationsTest extends TestCase {
 		}
 	}
 
-	public function testRun() {
+	public function testRun(): void {
 		$job = $this->getJob([
 			'checkCoreUpdate',
 			'checkAppUpdates',
@@ -105,7 +105,7 @@ class UpdateAvailableNotificationsTest extends TestCase {
 		self::invokePrivate($job, 'run', [null]);
 	}
 
-	public function testRunNoInternet() {
+	public function testRunNoInternet(): void {
 		$job = $this->getJob([
 			'checkCoreUpdate',
 			'checkAppUpdates',
@@ -160,7 +160,7 @@ class UpdateAvailableNotificationsTest extends TestCase {
 	 * @param null|string $readableVersion
 	 * @param null|int $errorDays
 	 */
-	public function testCheckCoreUpdate(string $channel, $versionCheck, $version, $readableVersion, $errorDays) {
+	public function testCheckCoreUpdate(string $channel, $versionCheck, $version, $readableVersion, $errorDays): void {
 		$job = $this->getJob([
 			'getChannel',
 			'createNotifications',
@@ -237,7 +237,7 @@ class UpdateAvailableNotificationsTest extends TestCase {
 	 * @param array $isUpdateAvailable
 	 * @param array $notifications
 	 */
-	public function testCheckAppUpdates(array $apps, array $isUpdateAvailable, array $notifications) {
+	public function testCheckAppUpdates(array $apps, array $isUpdateAvailable, array $notifications): void {
 		$job = $this->getJob([
 			'isUpdateAvailable',
 			'createNotifications',
@@ -277,7 +277,7 @@ class UpdateAvailableNotificationsTest extends TestCase {
 	 * @param string[]|null $users
 	 * @param array|null $userNotifications
 	 */
-	public function testCreateNotifications(string $app, string $version, $lastNotification, $callDelete, $createNotification, $users, $userNotifications) {
+	public function testCreateNotifications(string $app, string $version, $lastNotification, $callDelete, $createNotification, $users, $userNotifications): void {
 		$job = $this->getJob([
 			'deleteOutdatedNotifications',
 			'getUsersToNotify',
@@ -364,7 +364,7 @@ class UpdateAvailableNotificationsTest extends TestCase {
 	 * @param array $groupUsers
 	 * @param string[] $expected
 	 */
-	public function testGetUsersToNotify(array $groups, array $groupUsers, array $expected) {
+	public function testGetUsersToNotify(array $groups, array $groupUsers, array $expected): void {
 		$job = $this->getJob();
 
 		$this->appConfig->expects($this->once())
@@ -408,7 +408,7 @@ class UpdateAvailableNotificationsTest extends TestCase {
 	 * @param string $app
 	 * @param string $version
 	 */
-	public function testDeleteOutdatedNotifications(string $app, string $version) {
+	public function testDeleteOutdatedNotifications(string $app, string $version): void {
 		$notification = $this->createMock(INotification::class);
 		$notification->expects($this->once())
 			->method('setApp')

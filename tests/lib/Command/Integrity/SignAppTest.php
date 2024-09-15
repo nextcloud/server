@@ -37,7 +37,7 @@ class SignAppTest extends TestCase {
 		);
 	}
 
-	public function testExecuteWithMissingPath() {
+	public function testExecuteWithMissingPath(): void {
 		$inputInterface = $this->createMock(InputInterface::class);
 		$outputInterface = $this->createMock(OutputInterface::class);
 
@@ -64,7 +64,7 @@ class SignAppTest extends TestCase {
 		$this->assertSame(1, self::invokePrivate($this->signApp, 'execute', [$inputInterface, $outputInterface]));
 	}
 
-	public function testExecuteWithMissingPrivateKey() {
+	public function testExecuteWithMissingPrivateKey(): void {
 		$inputInterface = $this->createMock(InputInterface::class);
 		$outputInterface = $this->createMock(OutputInterface::class);
 
@@ -91,7 +91,7 @@ class SignAppTest extends TestCase {
 		$this->assertSame(1, self::invokePrivate($this->signApp, 'execute', [$inputInterface, $outputInterface]));
 	}
 
-	public function testExecuteWithMissingCertificate() {
+	public function testExecuteWithMissingCertificate(): void {
 		$inputInterface = $this->createMock(InputInterface::class);
 		$outputInterface = $this->createMock(OutputInterface::class);
 
@@ -118,7 +118,7 @@ class SignAppTest extends TestCase {
 		$this->assertSame(1, self::invokePrivate($this->signApp, 'execute', [$inputInterface, $outputInterface]));
 	}
 
-	public function testExecuteWithNotExistingPrivateKey() {
+	public function testExecuteWithNotExistingPrivateKey(): void {
 		$inputInterface = $this->createMock(InputInterface::class);
 		$outputInterface = $this->createMock(OutputInterface::class);
 
@@ -152,7 +152,7 @@ class SignAppTest extends TestCase {
 		$this->assertSame(1, self::invokePrivate($this->signApp, 'execute', [$inputInterface, $outputInterface]));
 	}
 
-	public function testExecuteWithNotExistingCertificate() {
+	public function testExecuteWithNotExistingCertificate(): void {
 		$inputInterface = $this->createMock(InputInterface::class);
 		$outputInterface = $this->createMock(OutputInterface::class);
 
@@ -191,7 +191,7 @@ class SignAppTest extends TestCase {
 		$this->assertSame(1, self::invokePrivate($this->signApp, 'execute', [$inputInterface, $outputInterface]));
 	}
 
-	public function testExecuteWithException() {
+	public function testExecuteWithException(): void {
 		$inputInterface = $this->createMock(InputInterface::class);
 		$outputInterface = $this->createMock(OutputInterface::class);
 
@@ -235,7 +235,7 @@ class SignAppTest extends TestCase {
 		$this->assertSame(1, self::invokePrivate($this->signApp, 'execute', [$inputInterface, $outputInterface]));
 	}
 
-	public function testExecute() {
+	public function testExecute(): void {
 		$inputInterface = $this->createMock(InputInterface::class);
 		$outputInterface = $this->createMock(OutputInterface::class);
 

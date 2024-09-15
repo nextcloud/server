@@ -108,27 +108,27 @@ class HighContrastThemeTest extends AccessibleThemeTestCase {
 	}
 
 
-	public function testGetId() {
+	public function testGetId(): void {
 		$this->assertEquals('light-highcontrast', $this->theme->getId());
 	}
 
-	public function testGetType() {
+	public function testGetType(): void {
 		$this->assertEquals(ITheme::TYPE_THEME, $this->theme->getType());
 	}
 
-	public function testGetTitle() {
+	public function testGetTitle(): void {
 		$this->assertEquals('High contrast mode', $this->theme->getTitle());
 	}
 
-	public function testGetEnableLabel() {
+	public function testGetEnableLabel(): void {
 		$this->assertEquals('Enable high contrast mode', $this->theme->getEnableLabel());
 	}
 
-	public function testGetDescription() {
+	public function testGetDescription(): void {
 		$this->assertEquals('A high contrast mode to ease your navigation. Visual quality will be reduced but clarity will be increased.', $this->theme->getDescription());
 	}
 
-	public function testGetMediaQuery() {
+	public function testGetMediaQuery(): void {
 		$this->assertEquals('(prefers-contrast: more)', $this->theme->getMediaQuery());
 	}
 }

@@ -31,7 +31,7 @@ class ProviderEnabledTest extends TestCase {
 		$this->listener = new ProviderEnabled($this->registy, $this->jobList);
 	}
 
-	public function testHandleGenericEvent() {
+	public function testHandleGenericEvent(): void {
 		$event = $this->createMock(Event::class);
 		$this->jobList->expects($this->never())
 			->method($this->anything());
@@ -39,7 +39,7 @@ class ProviderEnabledTest extends TestCase {
 		$this->listener->handle($event);
 	}
 
-	public function testHandleCodesGeneratedEventAlraedyBackupcodes() {
+	public function testHandleCodesGeneratedEventAlraedyBackupcodes(): void {
 		$user = $this->createMock(IUser::class);
 		$user->method('getUID')
 			->willReturn('myUID');
@@ -59,7 +59,7 @@ class ProviderEnabledTest extends TestCase {
 		$this->listener->handle($event);
 	}
 
-	public function testHandleCodesGeneratedEventNoBackupcodes() {
+	public function testHandleCodesGeneratedEventNoBackupcodes(): void {
 		$user = $this->createMock(IUser::class);
 		$user->method('getUID')
 			->willReturn('myUID');

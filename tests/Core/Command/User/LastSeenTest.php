@@ -51,7 +51,7 @@ class LastSeenTest extends TestCase {
 	 * @param int $lastSeen
 	 * @param string $expectedString
 	 */
-	public function testValidUser($lastSeen, $expectedString) {
+	public function testValidUser($lastSeen, $expectedString): void {
 		$user = $this->getMockBuilder(IUser::class)->getMock();
 		$user->expects($this->once())
 			->method('getLastLogin')
@@ -74,7 +74,7 @@ class LastSeenTest extends TestCase {
 		self::invokePrivate($this->command, 'execute', [$this->consoleInput, $this->consoleOutput]);
 	}
 
-	public function testInvalidUser() {
+	public function testInvalidUser(): void {
 		$this->userManager->expects($this->once())
 			->method('get')
 			->with('user')

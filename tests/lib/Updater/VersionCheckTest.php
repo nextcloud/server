@@ -66,7 +66,7 @@ class VersionCheckTest extends \Test\TestCase {
 		return $baseUrl . '?version='.implode('x', Util::getVersion()).'xinstalledatx' . time() . 'x'.\OC_Util::getChannel().'xxx'.PHP_MAJOR_VERSION.'x'.PHP_MINOR_VERSION.'x'.PHP_RELEASE_VERSION.'x0x0';
 	}
 
-	public function testCheckInCache() {
+	public function testCheckInCache(): void {
 		$expectedResult = [
 			'version' => '8.0.4.2',
 			'versionstring' => 'ownCloud 8.0.4',
@@ -94,7 +94,7 @@ class VersionCheckTest extends \Test\TestCase {
 		$this->assertSame($expectedResult, $this->updater->check());
 	}
 
-	public function testCheckWithoutUpdateUrl() {
+	public function testCheckWithoutUpdateUrl(): void {
 		$expectedResult = [
 			'version' => '8.0.4.2',
 			'versionstring' => 'ownCloud 8.0.4',
@@ -155,7 +155,7 @@ class VersionCheckTest extends \Test\TestCase {
 		$this->assertSame($expectedResult, $this->updater->check());
 	}
 
-	public function testCheckWithInvalidXml() {
+	public function testCheckWithInvalidXml(): void {
 		$this->config
 			->expects($this->once())
 			->method('getSystemValueBool')
@@ -198,7 +198,7 @@ class VersionCheckTest extends \Test\TestCase {
 		$this->assertSame([], $this->updater->check());
 	}
 
-	public function testCheckWithEmptyValidXmlResponse() {
+	public function testCheckWithEmptyValidXmlResponse(): void {
 		$expectedResult = [
 			'version' => '',
 			'versionstring' => '',
@@ -258,7 +258,7 @@ class VersionCheckTest extends \Test\TestCase {
 		$this->assertSame($expectedResult, $this->updater->check());
 	}
 
-	public function testCheckWithEmptyInvalidXmlResponse() {
+	public function testCheckWithEmptyInvalidXmlResponse(): void {
 		$expectedResult = [];
 
 		$this->config
@@ -303,7 +303,7 @@ class VersionCheckTest extends \Test\TestCase {
 		$this->assertSame($expectedResult, $this->updater->check());
 	}
 
-	public function testCheckWithMissingAttributeXmlResponse() {
+	public function testCheckWithMissingAttributeXmlResponse(): void {
 		$expectedResult = [
 			'version' => '',
 			'versionstring' => '',
@@ -363,7 +363,7 @@ class VersionCheckTest extends \Test\TestCase {
 		$this->assertSame($expectedResult, $this->updater->check());
 	}
 
-	public function testNoInternet() {
+	public function testNoInternet(): void {
 		$this->config
 			->expects($this->once())
 			->method('getSystemValueBool')

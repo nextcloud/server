@@ -230,7 +230,7 @@ class DispatcherTest extends \Test\TestCase {
 	}
 
 
-	public function testDispatcherReturnsArrayWith2Entries() {
+	public function testDispatcherReturnsArrayWith2Entries(): void {
 		$this->setMiddlewareExpectations('');
 
 		$response = $this->dispatcher->dispatch($this->controller, $this->controllerMethod);
@@ -240,7 +240,7 @@ class DispatcherTest extends \Test\TestCase {
 	}
 
 
-	public function testHeadersAndOutputAreReturned() {
+	public function testHeadersAndOutputAreReturned(): void {
 		$out = 'yo';
 		$httpHeaders = 'Http';
 		$responseHeaders = ['hell' => 'yeah'];
@@ -255,7 +255,7 @@ class DispatcherTest extends \Test\TestCase {
 	}
 
 
-	public function testExceptionCallsAfterException() {
+	public function testExceptionCallsAfterException(): void {
 		$out = 'yo';
 		$httpHeaders = 'Http';
 		$responseHeaders = ['hell' => 'yeah'];
@@ -270,7 +270,7 @@ class DispatcherTest extends \Test\TestCase {
 	}
 
 
-	public function testExceptionThrowsIfCanNotBeHandledByAfterException() {
+	public function testExceptionThrowsIfCanNotBeHandledByAfterException(): void {
 		$out = 'yo';
 		$httpHeaders = 'Http';
 		$responseHeaders = ['hell' => 'yeah'];
@@ -300,7 +300,7 @@ class DispatcherTest extends \Test\TestCase {
 	}
 
 
-	public function testControllerParametersInjected() {
+	public function testControllerParametersInjected(): void {
 		$this->request = new Request(
 			[
 				'post' => [
@@ -332,7 +332,7 @@ class DispatcherTest extends \Test\TestCase {
 	}
 
 
-	public function testControllerParametersInjectedDefaultOverwritten() {
+	public function testControllerParametersInjectedDefaultOverwritten(): void {
 		$this->request = new Request(
 			[
 				'post' => [
@@ -366,7 +366,7 @@ class DispatcherTest extends \Test\TestCase {
 
 
 
-	public function testResponseTransformedByUrlFormat() {
+	public function testResponseTransformedByUrlFormat(): void {
 		$this->request = new Request(
 			[
 				'post' => [
@@ -401,7 +401,7 @@ class DispatcherTest extends \Test\TestCase {
 	}
 
 
-	public function testResponseTransformsDataResponse() {
+	public function testResponseTransformsDataResponse(): void {
 		$this->request = new Request(
 			[
 				'post' => [
@@ -436,7 +436,7 @@ class DispatcherTest extends \Test\TestCase {
 	}
 
 
-	public function testResponseTransformedByAcceptHeader() {
+	public function testResponseTransformedByAcceptHeader(): void {
 		$this->request = new Request(
 			[
 				'post' => [
@@ -472,7 +472,7 @@ class DispatcherTest extends \Test\TestCase {
 	}
 
 
-	public function testResponsePrimarilyTransformedByParameterFormat() {
+	public function testResponsePrimarilyTransformedByParameterFormat(): void {
 		$this->request = new Request(
 			[
 				'post' => [

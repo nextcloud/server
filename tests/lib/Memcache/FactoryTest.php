@@ -107,7 +107,7 @@ class FactoryTest extends \Test\TestCase {
 	 * @dataProvider cacheAvailabilityProvider
 	 */
 	public function testCacheAvailability($localCache, $distributedCache, $lockingCache,
-		$expectedLocalCache, $expectedDistributedCache, $expectedLockingCache) {
+		$expectedLocalCache, $expectedDistributedCache, $expectedLockingCache): void {
 		$logger = $this->getMockBuilder(LoggerInterface::class)->getMock();
 		$profiler = $this->getMockBuilder(IProfiler::class)->getMock();
 		$factory = new \OC\Memcache\Factory(fn () => 'abc', $logger, $profiler, $localCache, $distributedCache, $lockingCache);
@@ -119,7 +119,7 @@ class FactoryTest extends \Test\TestCase {
 	/**
 	 * @dataProvider cacheUnavailableProvider
 	 */
-	public function testCacheNotAvailableException($localCache, $distributedCache) {
+	public function testCacheNotAvailableException($localCache, $distributedCache): void {
 		$this->expectException(\OCP\HintException::class);
 
 		$logger = $this->getMockBuilder(LoggerInterface::class)->getMock();

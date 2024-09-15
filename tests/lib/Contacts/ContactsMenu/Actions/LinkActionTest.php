@@ -19,7 +19,7 @@ class LinkActionTest extends TestCase {
 		$this->action = new LinkAction();
 	}
 
-	public function testSetIcon() {
+	public function testSetIcon(): void {
 		$icon = 'icon-test';
 
 		$this->action->setIcon($icon);
@@ -29,7 +29,7 @@ class LinkActionTest extends TestCase {
 		$this->assertEquals($json['icon'], $icon);
 	}
 
-	public function testGetSetName() {
+	public function testGetSetName(): void {
 		$name = 'Jane Doe';
 
 		$this->assertEmpty($this->action->getName());
@@ -37,7 +37,7 @@ class LinkActionTest extends TestCase {
 		$this->assertEquals($name, $this->action->getName());
 	}
 
-	public function testGetSetPriority() {
+	public function testGetSetPriority(): void {
 		$prio = 50;
 
 		$this->assertEquals(10, $this->action->getPriority());
@@ -45,7 +45,7 @@ class LinkActionTest extends TestCase {
 		$this->assertEquals($prio, $this->action->getPriority());
 	}
 
-	public function testSetHref() {
+	public function testSetHref(): void {
 		$this->action->setHref('/some/url');
 
 		$json = $this->action->jsonSerialize();
@@ -53,7 +53,7 @@ class LinkActionTest extends TestCase {
 		$this->assertEquals('/some/url', $json['hyperlink']);
 	}
 
-	public function testJsonSerialize() {
+	public function testJsonSerialize(): void {
 		$this->action->setIcon('icon-contacts');
 		$this->action->setName('Nickie Works');
 		$this->action->setPriority(33);
@@ -71,7 +71,7 @@ class LinkActionTest extends TestCase {
 		$this->assertEquals($expected, $json);
 	}
 
-	public function testJsonSerializeNoAppName() {
+	public function testJsonSerializeNoAppName(): void {
 		$this->action->setIcon('icon-contacts');
 		$this->action->setName('Nickie Works');
 		$this->action->setPriority(33);

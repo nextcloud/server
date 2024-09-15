@@ -25,7 +25,7 @@ class LocalRootScannerTest extends TestCase {
 		$this->storage = new LocalRootStorage(['datadir' => $folder]);
 	}
 
-	public function testDontScanUsers() {
+	public function testDontScanUsers(): void {
 		$this->storage->mkdir('foo');
 		$this->storage->mkdir('foo/bar');
 
@@ -33,7 +33,7 @@ class LocalRootScannerTest extends TestCase {
 		$this->assertFalse($this->storage->getCache()->inCache('foo'));
 	}
 
-	public function testDoScanAppData() {
+	public function testDoScanAppData(): void {
 		$this->storage->mkdir('appdata_foo');
 		$this->storage->mkdir('appdata_foo/bar');
 

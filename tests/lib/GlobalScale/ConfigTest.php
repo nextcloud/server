@@ -35,7 +35,7 @@ class ConfigTest extends TestCase {
 		return new Config($this->config);
 	}
 
-	public function testIsGlobalScaleEnabled() {
+	public function testIsGlobalScaleEnabled(): void {
 		$gsConfig = $this->getInstance();
 		$this->config->expects($this->once())->method('getSystemValueBool')
 			->with('gs.enabled', false)->willReturn(true);
@@ -53,7 +53,7 @@ class ConfigTest extends TestCase {
 	 * @param string $gsFederation
 	 * @param bool $expected
 	 */
-	public function testOnlyInternalFederation($gsEnabled, $gsFederation, $expected) {
+	public function testOnlyInternalFederation($gsEnabled, $gsFederation, $expected): void {
 		$gsConfig = $this->getInstance(['isGlobalScaleEnabled']);
 
 		$gsConfig->expects($this->any())->method('isGlobalScaleEnabled')->willReturn($gsEnabled);

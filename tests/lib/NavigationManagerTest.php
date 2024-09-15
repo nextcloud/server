@@ -118,7 +118,7 @@ class NavigationManagerTest extends TestCase {
 	 * @param array $entry
 	 * @param array $expectedEntry
 	 */
-	public function testAddArray(array $entry, array $expectedEntry) {
+	public function testAddArray(array $entry, array $expectedEntry): void {
 		$this->assertEmpty($this->navigationManager->getAll('all'), 'Expected no navigation entry exists');
 		$this->navigationManager->add($entry);
 
@@ -136,7 +136,7 @@ class NavigationManagerTest extends TestCase {
 	 * @param array $entry
 	 * @param array $expectedEntry
 	 */
-	public function testAddClosure(array $entry, array $expectedEntry) {
+	public function testAddClosure(array $entry, array $expectedEntry): void {
 		global $testAddClosureNumberOfCalls;
 		$testAddClosureNumberOfCalls = 0;
 
@@ -163,7 +163,7 @@ class NavigationManagerTest extends TestCase {
 		$this->assertEmpty($this->navigationManager->getAll('all'), 'Expected no navigation entry exists after clear()');
 	}
 
-	public function testAddArrayClearGetAll() {
+	public function testAddArrayClearGetAll(): void {
 		$entry = [
 			'id' => 'entry id',
 			'name' => 'link text',
@@ -178,7 +178,7 @@ class NavigationManagerTest extends TestCase {
 		$this->assertEmpty($this->navigationManager->getAll(), 'Expected no navigation entry exists after clear()');
 	}
 
-	public function testAddClosureClearGetAll() {
+	public function testAddClosureClearGetAll(): void {
 		$this->assertEmpty($this->navigationManager->getAll(), 'Expected no navigation entry exists');
 
 		$entry = [
@@ -209,7 +209,7 @@ class NavigationManagerTest extends TestCase {
 	/**
 	 * @dataProvider providesNavigationConfig
 	 */
-	public function testWithAppManager($expected, $navigation, $isAdmin = false) {
+	public function testWithAppManager($expected, $navigation, $isAdmin = false): void {
 		$l = $this->createMock(IL10N::class);
 		$l->expects($this->any())->method('t')->willReturnCallback(function ($text, $parameters = []) {
 			return vsprintf($text, $parameters);
@@ -489,7 +489,7 @@ class NavigationManagerTest extends TestCase {
 		];
 	}
 
-	public function testWithAppManagerAndApporder() {
+	public function testWithAppManagerAndApporder(): void {
 		$l = $this->createMock(IL10N::class);
 		$l->expects($this->any())->method('t')->willReturnCallback(function ($text, $parameters = []) {
 			return vsprintf($text, $parameters);
@@ -693,7 +693,7 @@ class NavigationManagerTest extends TestCase {
 	/**
 	 * @dataProvider provideDefaultEntries
 	 */
-	public function testGetDefaultEntryIdForUser($defaultApps, $userDefaultApps, $userApporder, $withFallbacks, $expectedApp) {
+	public function testGetDefaultEntryIdForUser($defaultApps, $userDefaultApps, $userApporder, $withFallbacks, $expectedApp): void {
 		$this->navigationManager->add([
 			'id' => 'files',
 		]);
@@ -725,7 +725,7 @@ class NavigationManagerTest extends TestCase {
 		$this->assertEquals($expectedApp, $this->navigationManager->getDefaultEntryIdForUser(null, $withFallbacks));
 	}
 
-	public function testDefaultEntryUpdated() {
+	public function testDefaultEntryUpdated(): void {
 		$this->appManager->method('getInstalledApps')->willReturn([]);
 
 		$user = $this->createMock(IUser::class);

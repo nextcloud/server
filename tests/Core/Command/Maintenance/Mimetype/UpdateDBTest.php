@@ -46,7 +46,7 @@ class UpdateDBTest extends TestCase {
 		$this->command = new UpdateDB($this->detector, $this->loader);
 	}
 
-	public function testNoop() {
+	public function testNoop(): void {
 		$this->consoleInput->method('getOption')
 			->with('repair-filecache')
 			->willReturn(false);
@@ -74,7 +74,7 @@ class UpdateDBTest extends TestCase {
 		self::invokePrivate($this->command, 'execute', [$this->consoleInput, $this->consoleOutput]);
 	}
 
-	public function testAddMimetype() {
+	public function testAddMimetype(): void {
 		$this->consoleInput->method('getOption')
 			->with('repair-filecache')
 			->willReturn(false);
@@ -115,7 +115,7 @@ class UpdateDBTest extends TestCase {
 		self::invokePrivate($this->command, 'execute', [$this->consoleInput, $this->consoleOutput]);
 	}
 
-	public function testSkipComments() {
+	public function testSkipComments(): void {
 		$this->detector->expects($this->once())
 			->method('getAllMappings')
 			->willReturn([
@@ -127,7 +127,7 @@ class UpdateDBTest extends TestCase {
 		self::invokePrivate($this->command, 'execute', [$this->consoleInput, $this->consoleOutput]);
 	}
 
-	public function testRepairFilecache() {
+	public function testRepairFilecache(): void {
 		$this->consoleInput->method('getOption')
 			->with('repair-filecache')
 			->willReturn(true);

@@ -104,7 +104,7 @@ class ProviderTest extends TestCase {
 	 * @param string $name
 	 * @param string $path
 	 */
-	public function testGetFile($parameter, $eventId, $id, $name, $path) {
+	public function testGetFile($parameter, $eventId, $id, $name, $path): void {
 		$provider = $this->getProvider();
 
 		if ($eventId !== null) {
@@ -131,7 +131,7 @@ class ProviderTest extends TestCase {
 	}
 
 
-	public function testGetFileThrows() {
+	public function testGetFileThrows(): void {
 		$this->expectException(\InvalidArgumentException::class);
 
 		$provider = $this->getProvider();

@@ -32,7 +32,7 @@ class DelegationControllerTest extends TestCase {
 		);
 	}
 
-	public function testSaveSettings() {
+	public function testSaveSettings(): void {
 		$setting = 'MySecretSetting';
 		$oldGroups = [];
 		$oldGroups[] = AuthorizedGroup::fromParams(['groupId' => 'hello', 'class' => $setting]);

@@ -23,7 +23,7 @@ use Doctrine\DBAL\Types\Types;
  * @package Test\DB
  */
 class OCPostgreSqlPlatformTest extends \Test\TestCase {
-	public function testAlterBigint() {
+	public function testAlterBigint(): void {
 		$platform = new PostgreSQLPlatform();
 		$sourceSchema = new Schema();
 		$targetSchema = new Schema();

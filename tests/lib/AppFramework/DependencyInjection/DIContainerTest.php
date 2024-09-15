@@ -35,24 +35,24 @@ class DIContainerTest extends \Test\TestCase {
 	}
 
 
-	public function testProvidesRequest() {
+	public function testProvidesRequest(): void {
 		$this->assertTrue(isset($this->container['Request']));
 	}
 
-	public function testProvidesMiddlewareDispatcher() {
+	public function testProvidesMiddlewareDispatcher(): void {
 		$this->assertTrue(isset($this->container['MiddlewareDispatcher']));
 	}
 
-	public function testProvidesAppName() {
+	public function testProvidesAppName(): void {
 		$this->assertTrue(isset($this->container['AppName']));
 	}
 
 
-	public function testAppNameIsSetCorrectly() {
+	public function testAppNameIsSetCorrectly(): void {
 		$this->assertEquals('name', $this->container['AppName']);
 	}
 
-	public function testMiddlewareDispatcherIncludesSecurityMiddleware() {
+	public function testMiddlewareDispatcherIncludesSecurityMiddleware(): void {
 		$this->container['Request'] = new Request(
 			['method' => 'GET'],
 			$this->createMock(IRequestId::class),
@@ -135,7 +135,7 @@ class DIContainerTest extends \Test\TestCase {
 		$this->fail('Bootstrap registered middleware not found');
 	}
 
-	public function testInvalidAppClass() {
+	public function testInvalidAppClass(): void {
 		$this->expectException(QueryException::class);
 		$this->container->query('\OCA\Name\Foo');
 	}

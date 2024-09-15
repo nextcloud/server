@@ -49,7 +49,7 @@ class AdminTest extends TestCase {
 		);
 	}
 
-	public function testGetFormNoErrors() {
+	public function testGetFormNoErrors(): void {
 		$this->config
 			->expects($this->once())
 			->method('getSystemValue')
@@ -84,7 +84,7 @@ class AdminTest extends TestCase {
 		$this->assertEquals($expected, $this->admin->getForm());
 	}
 
-	public function testGetFormWithErrors() {
+	public function testGetFormWithErrors(): void {
 		$this->config
 			->expects($this->once())
 			->method('getSystemValue')
@@ -124,11 +124,11 @@ class AdminTest extends TestCase {
 		$this->assertEquals($expected, $this->admin->getForm());
 	}
 
-	public function testGetSection() {
+	public function testGetSection(): void {
 		$this->assertSame('theming', $this->admin->getSection());
 	}
 
-	public function testGetPriority() {
+	public function testGetPriority(): void {
 		$this->assertSame(5, $this->admin->getPriority());
 	}
 }

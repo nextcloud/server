@@ -129,7 +129,7 @@ class LoginControllerTest extends TestCase {
 		);
 	}
 
-	public function testLogoutWithoutToken() {
+	public function testLogoutWithoutToken(): void {
 		$this->request
 			->expects($this->once())
 			->method('getCookie')
@@ -156,7 +156,7 @@ class LoginControllerTest extends TestCase {
 		$this->assertEquals($expected, $this->loginController->logout());
 	}
 
-	public function testLogoutNoClearSiteData() {
+	public function testLogoutNoClearSiteData(): void {
 		$this->request
 			->expects($this->once())
 			->method('getCookie')
@@ -179,7 +179,7 @@ class LoginControllerTest extends TestCase {
 		$this->assertEquals($expected, $this->loginController->logout());
 	}
 
-	public function testLogoutWithToken() {
+	public function testLogoutWithToken(): void {
 		$this->request
 			->expects($this->once())
 			->method('getCookie')
@@ -216,7 +216,7 @@ class LoginControllerTest extends TestCase {
 		$this->assertEquals($expected, $this->loginController->logout());
 	}
 
-	public function testShowLoginFormForLoggedInUsers() {
+	public function testShowLoginFormForLoggedInUsers(): void {
 		$this->userSession
 			->expects($this->once())
 			->method('isLoggedIn')
@@ -230,7 +230,7 @@ class LoginControllerTest extends TestCase {
 		$this->assertEquals($expectedResponse, $this->loginController->showLoginForm('', ''));
 	}
 
-	public function testShowLoginFormWithErrorsInSession() {
+	public function testShowLoginFormWithErrorsInSession(): void {
 		$this->userSession
 			->expects($this->once())
 			->method('isLoggedIn')
@@ -285,7 +285,7 @@ class LoginControllerTest extends TestCase {
 		$this->assertEquals($expectedResponse, $this->loginController->showLoginForm('', ''));
 	}
 
-	public function testShowLoginFormForFlowAuth() {
+	public function testShowLoginFormForFlowAuth(): void {
 		$this->userSession
 			->expects($this->once())
 			->method('isLoggedIn')
@@ -332,7 +332,7 @@ class LoginControllerTest extends TestCase {
 	 * @dataProvider passwordResetDataProvider
 	 */
 	public function testShowLoginFormWithPasswordResetOption($canChangePassword,
-		$expectedResult) {
+		$expectedResult): void {
 		$this->userSession
 			->expects($this->once())
 			->method('isLoggedIn')
@@ -381,7 +381,7 @@ class LoginControllerTest extends TestCase {
 		$this->assertEquals($expectedResponse, $this->loginController->showLoginForm('LdapUser', ''));
 	}
 
-	public function testShowLoginFormForUserNamed0() {
+	public function testShowLoginFormForUserNamed0(): void {
 		$this->userSession
 			->expects($this->once())
 			->method('isLoggedIn')
@@ -468,7 +468,7 @@ class LoginControllerTest extends TestCase {
 		$this->assertEquals($expected, $response);
 	}
 
-	public function testLoginWithValidCredentials() {
+	public function testLoginWithValidCredentials(): void {
 		$user = 'MyUserName';
 		$password = 'secret';
 		$loginChain = $this->createMock(LoginChain::class);
@@ -523,7 +523,7 @@ class LoginControllerTest extends TestCase {
 		$this->assertEquals($expected, $response);
 	}
 
-	public function testLoginWithoutPassedCsrfCheckAndLoggedIn() {
+	public function testLoginWithoutPassedCsrfCheckAndLoggedIn(): void {
 		/** @var IUser|MockObject $user */
 		$user = $this->createMock(IUser::class);
 		$user->expects($this->any())
@@ -560,7 +560,7 @@ class LoginControllerTest extends TestCase {
 		$this->assertEquals($expected, $response);
 	}
 
-	public function testLoginWithValidCredentialsAndRedirectUrl() {
+	public function testLoginWithValidCredentialsAndRedirectUrl(): void {
 		$user = 'MyUserName';
 		$password = 'secret';
 		$redirectUrl = 'https://next.cloud/apps/mail';
@@ -594,7 +594,7 @@ class LoginControllerTest extends TestCase {
 		$this->assertEquals($expected, $response);
 	}
 
-	public function testToNotLeakLoginName() {
+	public function testToNotLeakLoginName(): void {
 		$loginChain = $this->createMock(LoginChain::class);
 		$this->request
 			->expects($this->once())

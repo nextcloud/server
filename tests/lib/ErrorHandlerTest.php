@@ -53,7 +53,7 @@ class ErrorHandlerTest extends TestCase {
 	 * @param string $username
 	 * @param string $password
 	 */
-	public function testRemovePasswordFromError($username, $password) {
+	public function testRemovePasswordFromError($username, $password): void {
 		$url = 'http://'.$username.':'.$password.'@owncloud.org';
 		$expectedResult = 'http://xxx:xxx@owncloud.org';
 		$this->logger->expects(self::once())

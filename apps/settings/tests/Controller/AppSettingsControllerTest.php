@@ -116,7 +116,7 @@ class AppSettingsControllerTest extends TestCase {
 		);
 	}
 
-	public function testListCategories() {
+	public function testListCategories(): void {
 		$this->installer->expects($this->any())
 			->method('isUpdateAvailable')
 			->willReturn(false);
@@ -171,7 +171,7 @@ class AppSettingsControllerTest extends TestCase {
 		$this->assertEquals($expected, $this->appSettingsController->listCategories());
 	}
 
-	public function testViewApps() {
+	public function testViewApps(): void {
 		$this->bundleFetcher->expects($this->once())->method('getBundles')->willReturn([]);
 		$this->installer->expects($this->any())
 			->method('isUpdateAvailable')
@@ -204,7 +204,7 @@ class AppSettingsControllerTest extends TestCase {
 		$this->assertEquals($expected, $this->appSettingsController->viewApps());
 	}
 
-	public function testViewAppsAppstoreNotEnabled() {
+	public function testViewAppsAppstoreNotEnabled(): void {
 		$this->installer->expects($this->any())
 			->method('isUpdateAvailable')
 			->willReturn(false);

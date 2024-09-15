@@ -97,7 +97,7 @@ class ViewControllerTest extends TestCase {
 			->getMock();
 	}
 
-	public function testIndexWithRegularBrowser() {
+	public function testIndexWithRegularBrowser(): void {
 		$this->viewController
 			->expects($this->any())
 			->method('getStorageInfo')
@@ -145,7 +145,7 @@ class ViewControllerTest extends TestCase {
 		$this->assertEquals($expected, $this->viewController->index('MyDir', 'MyView'));
 	}
 
-	public function testShowFileRouteWithTrashedFile() {
+	public function testShowFileRouteWithTrashedFile(): void {
 		$this->appManager->expects($this->once())
 			->method('isEnabledForUser')
 			->with('files_trashbin')

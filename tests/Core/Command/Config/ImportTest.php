@@ -53,7 +53,7 @@ class ImportTest extends TestCase {
 	 *
 	 * @param mixed $configValue
 	 */
-	public function testValidateAppsArray($configValue) {
+	public function testValidateAppsArray($configValue): void {
 		$this->invokePrivate($this->command, 'validateAppsArray', [['app' => ['name' => $configValue]]]);
 		$this->assertTrue(true, 'Asserting that no exception is thrown');
 	}
@@ -72,7 +72,7 @@ class ImportTest extends TestCase {
 	 *
 	 * @param mixed $configValue
 	 */
-	public function testValidateAppsArrayThrows($configValue) {
+	public function testValidateAppsArrayThrows($configValue): void {
 		try {
 			$this->invokePrivate($this->command, 'validateAppsArray', [['app' => ['name' => $configValue]]]);
 			$this->fail('Did not throw expected UnexpectedValueException');
@@ -102,7 +102,7 @@ class ImportTest extends TestCase {
 	 *
 	 * @param mixed $configValue
 	 */
-	public function testCheckTypeRecursively($configValue) {
+	public function testCheckTypeRecursively($configValue): void {
 		$this->invokePrivate($this->command, 'checkTypeRecursively', [$configValue, 'name']);
 		$this->assertTrue(true, 'Asserting that no exception is thrown');
 	}
@@ -121,7 +121,7 @@ class ImportTest extends TestCase {
 	 *
 	 * @param mixed $configValue
 	 */
-	public function testCheckTypeRecursivelyThrows($configValue) {
+	public function testCheckTypeRecursivelyThrows($configValue): void {
 		try {
 			$this->invokePrivate($this->command, 'checkTypeRecursively', [$configValue, 'name']);
 			$this->fail('Did not throw expected UnexpectedValueException');
@@ -143,7 +143,7 @@ class ImportTest extends TestCase {
 	 *
 	 * @param array $configArray
 	 */
-	public function testValidateArray($configArray) {
+	public function testValidateArray($configArray): void {
 		$this->invokePrivate($this->command, 'validateArray', [$configArray]);
 		$this->assertTrue(true, 'Asserting that no exception is thrown');
 	}
@@ -162,7 +162,7 @@ class ImportTest extends TestCase {
 	 * @param mixed $configArray
 	 * @param string $expectedException
 	 */
-	public function testValidateArrayThrows($configArray, $expectedException) {
+	public function testValidateArrayThrows($configArray, $expectedException): void {
 		try {
 			$this->invokePrivate($this->command, 'validateArray', [$configArray]);
 			$this->fail('Did not throw expected UnexpectedValueException');

@@ -39,7 +39,7 @@ class InfoTest extends TestCase {
 		$this->output = $this->createMock(OutputInterface::class);
 	}
 
-	public function testDoesNotExists() {
+	public function testDoesNotExists(): void {
 		$gid = 'myGroup';
 		$this->input->method('getArgument')
 			->willReturnCallback(function ($arg) use ($gid) {
@@ -59,7 +59,7 @@ class InfoTest extends TestCase {
 		$this->invokePrivate($this->command, 'execute', [$this->input, $this->output]);
 	}
 
-	public function testInfo() {
+	public function testInfo(): void {
 		$gid = 'myGroup';
 		$this->input->method('getArgument')
 			->willReturnCallback(function ($arg) use ($gid) {

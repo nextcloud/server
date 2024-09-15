@@ -44,7 +44,7 @@ class UUIDFixInsertTest extends TestCase {
 		);
 	}
 
-	public function testGetName() {
+	public function testGetName(): void {
 		$this->assertSame('Insert UUIDFix background job for user and group in batches', $this->job->getName());
 	}
 
@@ -97,7 +97,7 @@ class UUIDFixInsertTest extends TestCase {
 	/**
 	 * @dataProvider recordProvider
 	 */
-	public function testRun($userBatches, $groupBatches) {
+	public function testRun($userBatches, $groupBatches): void {
 		$this->config->expects($this->once())
 			->method('getAppValue')
 			->with('user_ldap', 'installed_version', '1.2.1')
@@ -124,7 +124,7 @@ class UUIDFixInsertTest extends TestCase {
 	/**
 	 * @dataProvider recordProviderTooLongAndNone
 	 */
-	public function testRunWithManyAndNone($userBatches, $groupBatches) {
+	public function testRunWithManyAndNone($userBatches, $groupBatches): void {
 		$this->config->expects($this->once())
 			->method('getAppValue')
 			->with('user_ldap', 'installed_version', '1.2.1')
@@ -155,7 +155,7 @@ class UUIDFixInsertTest extends TestCase {
 		$this->job->run($out);
 	}
 
-	public function testDonNotRun() {
+	public function testDonNotRun(): void {
 		$this->config->expects($this->once())
 			->method('getAppValue')
 			->with('user_ldap', 'installed_version', '1.2.1')

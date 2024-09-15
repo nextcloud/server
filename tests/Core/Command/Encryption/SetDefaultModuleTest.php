@@ -60,7 +60,7 @@ class SetDefaultModuleTest extends TestCase {
 	 * @param bool $updateSuccess
 	 * @param string $expectedString
 	 */
-	public function testSetDefaultModule($oldModule, $newModule, $updateModule, $updateSuccess, $expectedString) {
+	public function testSetDefaultModule($oldModule, $newModule, $updateModule, $updateSuccess, $expectedString): void {
 		$this->consoleInput->expects($this->once())
 			->method('getArgument')
 			->with('module')
@@ -98,7 +98,7 @@ class SetDefaultModuleTest extends TestCase {
 	 * @param bool $updateSuccess
 	 * @param string $expectedString
 	 */
-	public function testMaintenanceMode($oldModule, $newModule, $updateModule, $updateSuccess, $expectedString) {
+	public function testMaintenanceMode($oldModule, $newModule, $updateModule, $updateSuccess, $expectedString): void {
 		$this->consoleInput->expects($this->never())
 			->method('getArgument')
 			->with('module')

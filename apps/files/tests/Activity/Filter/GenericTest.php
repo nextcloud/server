@@ -28,7 +28,7 @@ class GenericTest extends TestCase {
 	 * @dataProvider dataFilters
 	 * @param string $filterClass
 	 */
-	public function testImplementsInterface($filterClass) {
+	public function testImplementsInterface($filterClass): void {
 		$filter = \OC::$server->query($filterClass);
 		$this->assertInstanceOf(IFilter::class, $filter);
 	}
@@ -37,7 +37,7 @@ class GenericTest extends TestCase {
 	 * @dataProvider dataFilters
 	 * @param string $filterClass
 	 */
-	public function testGetIdentifier($filterClass) {
+	public function testGetIdentifier($filterClass): void {
 		/** @var IFilter $filter */
 		$filter = \OC::$server->query($filterClass);
 		$this->assertIsString($filter->getIdentifier());
@@ -47,7 +47,7 @@ class GenericTest extends TestCase {
 	 * @dataProvider dataFilters
 	 * @param string $filterClass
 	 */
-	public function testGetName($filterClass) {
+	public function testGetName($filterClass): void {
 		/** @var IFilter $filter */
 		$filter = \OC::$server->query($filterClass);
 		$this->assertIsString($filter->getName());
@@ -57,7 +57,7 @@ class GenericTest extends TestCase {
 	 * @dataProvider dataFilters
 	 * @param string $filterClass
 	 */
-	public function testGetPriority($filterClass) {
+	public function testGetPriority($filterClass): void {
 		/** @var IFilter $filter */
 		$filter = \OC::$server->query($filterClass);
 		$priority = $filter->getPriority();
@@ -70,7 +70,7 @@ class GenericTest extends TestCase {
 	 * @dataProvider dataFilters
 	 * @param string $filterClass
 	 */
-	public function testGetIcon($filterClass) {
+	public function testGetIcon($filterClass): void {
 		/** @var IFilter $filter */
 		$filter = \OC::$server->query($filterClass);
 		$this->assertIsString($filter->getIcon());
@@ -81,7 +81,7 @@ class GenericTest extends TestCase {
 	 * @dataProvider dataFilters
 	 * @param string $filterClass
 	 */
-	public function testFilterTypes($filterClass) {
+	public function testFilterTypes($filterClass): void {
 		/** @var IFilter $filter */
 		$filter = \OC::$server->query($filterClass);
 		$this->assertIsArray($filter->filterTypes([]));
@@ -91,7 +91,7 @@ class GenericTest extends TestCase {
 	 * @dataProvider dataFilters
 	 * @param string $filterClass
 	 */
-	public function testAllowedApps($filterClass) {
+	public function testAllowedApps($filterClass): void {
 		/** @var IFilter $filter */
 		$filter = \OC::$server->query($filterClass);
 		$this->assertIsArray($filter->allowedApps());

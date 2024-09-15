@@ -29,7 +29,7 @@ class TokenHandlerTest extends \Test\TestCase {
 		$this->tokenHandler = new TokenHandler($this->secureRandom);
 	}
 
-	public function testGenerateToken() {
+	public function testGenerateToken(): void {
 		$this->secureRandom->expects($this->once())->method('generate')
 			->with(
 				$this->expectedTokenLength,

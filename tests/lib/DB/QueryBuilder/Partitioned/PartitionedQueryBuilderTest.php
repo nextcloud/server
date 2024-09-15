@@ -115,7 +115,7 @@ class PartitionedQueryBuilderTest extends TestCase {
 		$query->executeStatement();
 	}
 
-	public function testSimpleOnlyPartitionQuery() {
+	public function testSimpleOnlyPartitionQuery(): void {
 		$builder = $this->getQueryBuilder();
 		$builder->addPartition(new PartitionSplit('filecache', ['filecache']));
 
@@ -129,7 +129,7 @@ class PartitionedQueryBuilderTest extends TestCase {
 		$this->assertEquals($results[0]['path'], 'file1');
 	}
 
-	public function testSimplePartitionedQuery() {
+	public function testSimplePartitionedQuery(): void {
 		$builder = $this->getQueryBuilder();
 		$builder->addPartition(new PartitionSplit('filecache', ['filecache']));
 
@@ -151,7 +151,7 @@ class PartitionedQueryBuilderTest extends TestCase {
 		$this->assertEquals($results[0]['path'], 'file1');
 	}
 
-	public function testMultiTablePartitionedQuery() {
+	public function testMultiTablePartitionedQuery(): void {
 		$builder = $this->getQueryBuilder();
 		$builder->addPartition(new PartitionSplit('filecache', ['filecache', 'filecache_extended']));
 
@@ -174,7 +174,7 @@ class PartitionedQueryBuilderTest extends TestCase {
 		$this->assertEquals($results[0]['upload_time'], 1234);
 	}
 
-	public function testPartitionedQueryFromSplit() {
+	public function testPartitionedQueryFromSplit(): void {
 		$builder = $this->getQueryBuilder();
 		$builder->addPartition(new PartitionSplit('filecache', ['filecache']));
 
@@ -195,7 +195,7 @@ class PartitionedQueryBuilderTest extends TestCase {
 		$this->assertEquals($results[0]['path'], 'file1');
 	}
 
-	public function testMultiJoinPartitionedQuery() {
+	public function testMultiJoinPartitionedQuery(): void {
 		$builder = $this->getQueryBuilder();
 		$builder->addPartition(new PartitionSplit('filecache', ['filecache']));
 

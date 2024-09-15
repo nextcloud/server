@@ -441,7 +441,7 @@ class GroupPluginTest extends TestCase {
 		array $expected,
 		bool $reachedEnd,
 		$singleGroup
-	) {
+	): void {
 		$this->config->expects($this->any())
 			->method('getAppValue')
 			->willReturnCallback(

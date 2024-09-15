@@ -79,7 +79,7 @@ class ScanFilesTest extends TestCase {
 		return $storage;
 	}
 
-	public function testAllScanned() {
+	public function testAllScanned(): void {
 		$this->setupStorage('foouser', '/foousers/files/foo');
 
 		$this->scanFiles->expects($this->never())
@@ -87,7 +87,7 @@ class ScanFilesTest extends TestCase {
 		$this->runJob();
 	}
 
-	public function testUnscanned() {
+	public function testUnscanned(): void {
 		$storage = $this->setupStorage('foouser', '/foousers/files/foo');
 		$storage->getCache()->put('foo', ['size' => -1]);
 

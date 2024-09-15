@@ -76,7 +76,7 @@ class RepairCollationTest extends TestCase {
 		parent::tearDown();
 	}
 
-	public function testCollationConvert() {
+	public function testCollationConvert(): void {
 		$tables = $this->repair->getAllNonUTF8BinTables($this->connection);
 		$this->assertGreaterThanOrEqual(1, count($tables));
 

@@ -39,7 +39,7 @@ class DataFingerprintTest extends TestCase {
 		$this->command = new DataFingerprint($this->config, $this->timeFactory);
 	}
 
-	public function testSetFingerPrint() {
+	public function testSetFingerPrint(): void {
 		$this->timeFactory->expects($this->once())
 			->method('getTime')
 			->willReturn(42);

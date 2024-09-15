@@ -82,7 +82,7 @@ class DeleteOrphanedFilesTest extends TestCase {
 	/**
 	 * Test clearing orphaned files
 	 */
-	public function testClearFiles() {
+	public function testClearFiles(): void {
 		$input = $this->getMockBuilder(InputInterface::class)
 			->disableOriginalConstructor()
 			->getMock();

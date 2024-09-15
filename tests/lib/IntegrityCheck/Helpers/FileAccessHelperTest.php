@@ -19,7 +19,7 @@ class FileAccessHelperTest extends TestCase {
 		$this->fileAccessHelper = new FileAccessHelper();
 	}
 
-	public function testReadAndWrite() {
+	public function testReadAndWrite(): void {
 		$tempManager = \OC::$server->getTempManager();
 		$filePath = $tempManager->getTemporaryFile();
 		$data = 'SomeDataGeneratedByIntegrityCheck';
@@ -29,27 +29,27 @@ class FileAccessHelperTest extends TestCase {
 	}
 
 	
-	public function testFile_put_contentsWithException() {
+	public function testFile_put_contentsWithException(): void {
 		$this->expectException(\Exception::class);
 		$this->expectExceptionMessage('Failed to write into /anabsolutelynotexistingfolder/on/the/system.txt');
 
 		$this->fileAccessHelper->file_put_contents('/anabsolutelynotexistingfolder/on/the/system.txt', 'MyFiles');
 	}
 
-	public function testIs_writable() {
+	public function testIs_writable(): void {
 		$this->assertFalse($this->fileAccessHelper->is_writable('/anabsolutelynotexistingfolder/on/the/system.txt'));
 		$this->assertTrue($this->fileAccessHelper->is_writable(\OC::$server->getTempManager()->getTemporaryFile('MyFile')));
 	}
 
 	
-	public function testAssertDirectoryExistsWithException() {
+	public function testAssertDirectoryExistsWithException(): void {
 		$this->expectException(\Exception::class);
 		$this->expectExceptionMessage('Directory /anabsolutelynotexistingfolder/on/the/system does not exist.');
 
 		$this->fileAccessHelper->assertDirectoryExists('/anabsolutelynotexistingfolder/on/the/system');
 	}
 
-	public function testAssertDirectoryExists() {
+	public function testAssertDirectoryExists(): void {
 		$this->fileAccessHelper->assertDirectoryExists(\OC::$server->getTempManager()->getTemporaryFolder('/testfolder/'));
 		$this->addToAssertionCount(1);
 	}

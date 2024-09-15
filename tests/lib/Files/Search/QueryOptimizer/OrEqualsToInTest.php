@@ -24,7 +24,7 @@ class OrEqualsToInTest extends TestCase {
 		$this->simplifier = new FlattenSingleArgumentBinaryOperation();
 	}
 
-	public function testOrs() {
+	public function testOrs(): void {
 		$operator = new SearchBinaryOperator(
 			ISearchBinaryOperator::OPERATOR_OR,
 			[
@@ -41,7 +41,7 @@ class OrEqualsToInTest extends TestCase {
 		$this->assertEquals('path in ["foo","bar","asd"]', $operator->__toString());
 	}
 
-	public function testOrsMultipleFields() {
+	public function testOrsMultipleFields(): void {
 		$operator = new SearchBinaryOperator(
 			ISearchBinaryOperator::OPERATOR_OR,
 			[
@@ -60,7 +60,7 @@ class OrEqualsToInTest extends TestCase {
 		$this->assertEquals('(path in ["foo","bar"] or fileid in [1,2] or mimetype eq "asd")', $operator->__toString());
 	}
 
-	public function testPreserveHints() {
+	public function testPreserveHints(): void {
 		$operator = new SearchBinaryOperator(
 			ISearchBinaryOperator::OPERATOR_OR,
 			[
@@ -81,7 +81,7 @@ class OrEqualsToInTest extends TestCase {
 		$this->assertEquals(false, $operator->getQueryHint(ISearchComparison::HINT_PATH_EQ_HASH, true));
 	}
 
-	public function testOrSomeEq() {
+	public function testOrSomeEq(): void {
 		$operator = new SearchBinaryOperator(
 			ISearchBinaryOperator::OPERATOR_OR,
 			[
@@ -98,7 +98,7 @@ class OrEqualsToInTest extends TestCase {
 		$this->assertEquals('(path in ["foo","bar"] or path like "foo%")', $operator->__toString());
 	}
 
-	public function testOrsInside() {
+	public function testOrsInside(): void {
 		$operator = new SearchBinaryOperator(
 			ISearchBinaryOperator::OPERATOR_AND,
 			[

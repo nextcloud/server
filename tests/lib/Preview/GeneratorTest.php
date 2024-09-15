@@ -57,7 +57,7 @@ class GeneratorTest extends \Test\TestCase {
 		);
 	}
 
-	public function testGetCachedPreview() {
+	public function testGetCachedPreview(): void {
 		$file = $this->createMock(File::class);
 		$file->method('isReadable')
 			->willReturn(true);
@@ -97,7 +97,7 @@ class GeneratorTest extends \Test\TestCase {
 		$this->assertSame($previewFile, $result);
 	}
 
-	public function testGetNewPreview() {
+	public function testGetNewPreview(): void {
 		$file = $this->createMock(File::class);
 		$file->method('isReadable')
 			->willReturn(true);
@@ -225,7 +225,7 @@ class GeneratorTest extends \Test\TestCase {
 		$this->assertSame($previewFile, $result);
 	}
 
-	public function testInvalidMimeType() {
+	public function testInvalidMimeType(): void {
 		$this->expectException(NotFoundException::class);
 
 		$file = $this->createMock(File::class);
@@ -263,7 +263,7 @@ class GeneratorTest extends \Test\TestCase {
 		$this->generator->getPreview($file, 1024, 512, true, IPreview::MODE_COVER, 'invalidType');
 	}
 
-	public function testReturnCachedPreviewsWithoutCheckingSupportedMimetype() {
+	public function testReturnCachedPreviewsWithoutCheckingSupportedMimetype(): void {
 		$file = $this->createMock(File::class);
 		$file->method('isReadable')
 			->willReturn(true);
@@ -301,7 +301,7 @@ class GeneratorTest extends \Test\TestCase {
 		$this->assertSame($preview, $result);
 	}
 
-	public function testNoProvider() {
+	public function testNoProvider(): void {
 		$file = $this->createMock(File::class);
 		$file->method('isReadable')
 			->willReturn(true);
@@ -398,7 +398,7 @@ class GeneratorTest extends \Test\TestCase {
 	 * @param int $expectedX
 	 * @param int $expectedY
 	 */
-	public function testCorrectSize($maxX, $maxY, $reqX, $reqY, $crop, $mode, $expectedX, $expectedY) {
+	public function testCorrectSize($maxX, $maxY, $reqX, $reqY, $crop, $mode, $expectedX, $expectedY): void {
 		$file = $this->createMock(File::class);
 		$file->method('isReadable')
 			->willReturn(true);
@@ -458,7 +458,7 @@ class GeneratorTest extends \Test\TestCase {
 		}
 	}
 
-	public function testUnreadbleFile() {
+	public function testUnreadbleFile(): void {
 		$file = $this->createMock(File::class);
 		$file->method('isReadable')
 			->willReturn(false);

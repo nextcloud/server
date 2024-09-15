@@ -53,7 +53,7 @@ class MemoryCacheBackendTest extends TestCase {
 		);
 	}
 
-	public function testGetAttemptsWithNoAttemptsBefore() {
+	public function testGetAttemptsWithNoAttemptsBefore(): void {
 		$this->cache
 			->expects($this->once())
 			->method('get')
@@ -63,7 +63,7 @@ class MemoryCacheBackendTest extends TestCase {
 		$this->assertSame(0, $this->memoryCache->getAttempts('Method', 'User'));
 	}
 
-	public function testGetAttempts() {
+	public function testGetAttempts(): void {
 		$this->timeFactory
 			->expects($this->once())
 			->method('getTime')
@@ -84,7 +84,7 @@ class MemoryCacheBackendTest extends TestCase {
 		$this->assertSame(3, $this->memoryCache->getAttempts('Method', 'User'));
 	}
 
-	public function testRegisterAttemptWithNoAttemptsBefore() {
+	public function testRegisterAttemptWithNoAttemptsBefore(): void {
 		$this->timeFactory
 			->expects($this->once())
 			->method('getTime')
@@ -106,7 +106,7 @@ class MemoryCacheBackendTest extends TestCase {
 		$this->memoryCache->registerAttempt('Method', 'User', 100);
 	}
 
-	public function testRegisterAttempt() {
+	public function testRegisterAttempt(): void {
 		$this->timeFactory
 			->expects($this->once())
 			->method('getTime')

@@ -31,7 +31,7 @@ class ConnectionFactoryTest extends TestCase {
 	 * @param string $host
 	 * @param array $expected
 	 */
-	public function testSplitHostFromPortAndSocket($host, array $expected) {
+	public function testSplitHostFromPortAndSocket($host, array $expected): void {
 		/** @var SystemConfig $config */
 		$config = $this->createMock(SystemConfig::class);
 		$cacheFactory = $this->createMock(ICacheFactory::class);

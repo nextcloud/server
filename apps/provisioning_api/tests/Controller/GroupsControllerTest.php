@@ -175,7 +175,7 @@ class GroupsControllerTest extends \Test\TestCase {
 	 * @param int|null $limit
 	 * @param int|null $offset
 	 */
-	public function testGetGroups($search, $limit, $offset) {
+	public function testGetGroups($search, $limit, $offset): void {
 		$groups = [$this->createGroup('group1'), $this->createGroup('group2')];
 
 		$search = $search === null ? '' : $search;
@@ -197,7 +197,7 @@ class GroupsControllerTest extends \Test\TestCase {
 	 * @param int|null $limit
 	 * @param int|null $offset
 	 */
-	public function testGetGroupsDetails($search, $limit, $offset) {
+	public function testGetGroupsDetails($search, $limit, $offset): void {
 		$groups = [$this->createGroup('group1'), $this->createGroup('group2')];
 
 		$search = $search === null ? '' : $search;
@@ -229,7 +229,7 @@ class GroupsControllerTest extends \Test\TestCase {
 		]], $result->getData());
 	}
 
-	public function testGetGroupAsSubadmin() {
+	public function testGetGroupAsSubadmin(): void {
 		$group = $this->createGroup('group');
 		$this->asSubAdminOfGroup($group);
 
@@ -254,7 +254,7 @@ class GroupsControllerTest extends \Test\TestCase {
 	}
 
 
-	public function testGetGroupAsIrrelevantSubadmin() {
+	public function testGetGroupAsIrrelevantSubadmin(): void {
 		$this->expectException(\OCP\AppFramework\OCS\OCSException::class);
 		$this->expectExceptionCode(403);
 
@@ -274,7 +274,7 @@ class GroupsControllerTest extends \Test\TestCase {
 		$this->api->getGroup('group');
 	}
 
-	public function testGetGroupAsAdmin() {
+	public function testGetGroupAsAdmin(): void {
 		$group = $this->createGroup('group');
 		$this->asAdmin();
 
@@ -299,7 +299,7 @@ class GroupsControllerTest extends \Test\TestCase {
 	}
 
 
-	public function testGetGroupNonExisting() {
+	public function testGetGroupNonExisting(): void {
 		$this->expectException(\OCP\AppFramework\OCS\OCSException::class);
 		$this->expectExceptionMessage('The requested group could not be found');
 		$this->expectExceptionCode(404);
@@ -310,7 +310,7 @@ class GroupsControllerTest extends \Test\TestCase {
 	}
 
 
-	public function testGetSubAdminsOfGroupsNotExists() {
+	public function testGetSubAdminsOfGroupsNotExists(): void {
 		$this->expectException(\OCP\AppFramework\OCS\OCSException::class);
 		$this->expectExceptionMessage('Group does not exist');
 		$this->expectExceptionCode(101);
@@ -318,7 +318,7 @@ class GroupsControllerTest extends \Test\TestCase {
 		$this->api->getSubAdminsOfGroup('NonExistingGroup');
 	}
 
-	public function testGetSubAdminsOfGroup() {
+	public function testGetSubAdminsOfGroup(): void {
 		$group = $this->createGroup('GroupWithSubAdmins');
 		$this->groupManager
 			->method('get')
@@ -338,7 +338,7 @@ class GroupsControllerTest extends \Test\TestCase {
 		$this->assertEquals(['SubAdmin1', 'SubAdmin2'], $result->getData());
 	}
 
-	public function testGetSubAdminsOfGroupEmptyList() {
+	public function testGetSubAdminsOfGroupEmptyList(): void {
 		$group = $this->createGroup('GroupWithOutSubAdmins');
 		$this->groupManager
 			->method('get')
@@ -357,7 +357,7 @@ class GroupsControllerTest extends \Test\TestCase {
 	}
 
 
-	public function testAddGroupEmptyGroup() {
+	public function testAddGroupEmptyGroup(): void {
 		$this->expectException(\OCP\AppFramework\OCS\OCSException::class);
 		$this->expectExceptionMessage('Invalid group name');
 		$this->expectExceptionCode(101);
@@ -366,7 +366,7 @@ class GroupsControllerTest extends \Test\TestCase {
 	}
 
 
-	public function testAddGroupExistingGroup() {
+	public function testAddGroupExistingGroup(): void {
 		$this->expectException(\OCP\AppFramework\OCS\OCSException::class);
 		$this->expectExceptionCode(102);
 
@@ -378,7 +378,7 @@ class GroupsControllerTest extends \Test\TestCase {
 		$this->api->addGroup('ExistingGroup');
 	}
 
-	public function testAddGroup() {
+	public function testAddGroup(): void {
 		$this->groupManager
 			->method('groupExists')
 			->with('NewGroup')
@@ -394,7 +394,7 @@ class GroupsControllerTest extends \Test\TestCase {
 		$this->api->addGroup('NewGroup');
 	}
 
-	public function testAddGroupWithSpecialChar() {
+	public function testAddGroupWithSpecialChar(): void {
 		$this->groupManager
 			->method('groupExists')
 			->with('Iñtërnâtiônàlizætiøn')
@@ -411,7 +411,7 @@ class GroupsControllerTest extends \Test\TestCase {
 	}
 
 
-	public function testDeleteGroupNonExisting() {
+	public function testDeleteGroupNonExisting(): void {
 		$this->expectException(\OCP\AppFramework\OCS\OCSException::class);
 		$this->expectExceptionCode(101);
 
@@ -419,7 +419,7 @@ class GroupsControllerTest extends \Test\TestCase {
 	}
 
 
-	public function testDeleteAdminGroup() {
+	public function testDeleteAdminGroup(): void {
 		$this->expectException(\OCP\AppFramework\OCS\OCSException::class);
 		$this->expectExceptionCode(102);
 
@@ -431,7 +431,7 @@ class GroupsControllerTest extends \Test\TestCase {
 		$this->api->deleteGroup('admin');
 	}
 
-	public function testDeleteGroup() {
+	public function testDeleteGroup(): void {
 		$this->groupManager
 			->method('groupExists')
 			->with('ExistingGroup')
@@ -450,7 +450,7 @@ class GroupsControllerTest extends \Test\TestCase {
 		$this->api->deleteGroup('ExistingGroup');
 	}
 
-	public function testDeleteGroupEncoding() {
+	public function testDeleteGroupEncoding(): void {
 		$this->groupManager
 			->method('groupExists')
 			->with('ExistingGroup A/B')
@@ -469,7 +469,7 @@ class GroupsControllerTest extends \Test\TestCase {
 		$this->api->deleteGroup(urlencode('ExistingGroup A/B'));
 	}
 
-	public function testGetGroupUsersDetails() {
+	public function testGetGroupUsersDetails(): void {
 		$gid = 'ncg1';
 
 		$this->asAdmin();
@@ -514,7 +514,7 @@ class GroupsControllerTest extends \Test\TestCase {
 		$this->api->getGroupUsersDetails($gid);
 	}
 
-	public function testGetGroupUsersDetailsEncoded() {
+	public function testGetGroupUsersDetailsEncoded(): void {
 		$gid = 'Department A/B C/D';
 
 		$this->asAdmin();

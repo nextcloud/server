@@ -71,7 +71,7 @@ class RequestTimeTest extends \Test\TestCase {
 	 * @param int $timestamp
 	 * @param bool $expected
 	 */
-	public function testExecuteCheckIn($value, $timestamp, $expected) {
+	public function testExecuteCheckIn($value, $timestamp, $expected): void {
 		$check = new \OCA\WorkflowEngine\Check\RequestTime($this->getL10NMock(), $this->timeFactory);
 
 		$this->timeFactory->expects($this->once())
@@ -87,7 +87,7 @@ class RequestTimeTest extends \Test\TestCase {
 	 * @param int $timestamp
 	 * @param bool $expected
 	 */
-	public function testExecuteCheckNotIn($value, $timestamp, $expected) {
+	public function testExecuteCheckNotIn($value, $timestamp, $expected): void {
 		$check = new \OCA\WorkflowEngine\Check\RequestTime($this->getL10NMock(), $this->timeFactory);
 
 		$this->timeFactory->expects($this->once())
@@ -110,7 +110,7 @@ class RequestTimeTest extends \Test\TestCase {
 	 * @param string $operator
 	 * @param string $value
 	 */
-	public function testValidateCheck($operator, $value) {
+	public function testValidateCheck($operator, $value): void {
 		$check = new \OCA\WorkflowEngine\Check\RequestTime($this->getL10NMock(), $this->timeFactory);
 		$check->validateCheck($operator, $value);
 		$this->addToAssertionCount(1);
@@ -135,7 +135,7 @@ class RequestTimeTest extends \Test\TestCase {
 	 * @param int $exceptionCode
 	 * @param string $exceptionMessage
 	 */
-	public function testValidateCheckInvalid($operator, $value, $exceptionCode, $exceptionMessage) {
+	public function testValidateCheckInvalid($operator, $value, $exceptionCode, $exceptionMessage): void {
 		$check = new \OCA\WorkflowEngine\Check\RequestTime($this->getL10NMock(), $this->timeFactory);
 
 		try {

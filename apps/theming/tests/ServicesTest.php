@@ -64,7 +64,7 @@ class ServicesTest extends TestCase {
 	 * @param string $service
 	 * @param string $expected
 	 */
-	public function testContainerQuery($service, $expected = null) {
+	public function testContainerQuery($service, $expected = null): void {
 		if ($expected === null) {
 			$expected = $service;
 		}

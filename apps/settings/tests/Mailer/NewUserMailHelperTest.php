@@ -102,7 +102,7 @@ class NewUserMailHelperTest extends TestCase {
 		);
 	}
 
-	public function testGenerateTemplateWithPasswordResetToken() {
+	public function testGenerateTemplateWithPasswordResetToken(): void {
 		$this->secureRandom
 			->expects($this->once())
 			->method('generate')
@@ -357,7 +357,7 @@ EOF;
 		$this->assertSame('OC\Mail\EMailTemplate', get_class($result));
 	}
 
-	public function testGenerateTemplateWithoutPasswordResetToken() {
+	public function testGenerateTemplateWithoutPasswordResetToken(): void {
 		$this->urlGenerator
 			->expects($this->any())
 			->method('getAbsoluteURL')
@@ -593,7 +593,7 @@ EOF;
 		$this->assertSame('OC\Mail\EMailTemplate', get_class($result));
 	}
 
-	public function testGenerateTemplateWithoutUserId() {
+	public function testGenerateTemplateWithoutUserId(): void {
 		$this->urlGenerator
 			->expects($this->any())
 			->method('getAbsoluteURL')
@@ -816,7 +816,7 @@ EOF;
 		$this->assertSame('OC\Mail\EMailTemplate', get_class($result));
 	}
 
-	public function testSendMail() {
+	public function testSendMail(): void {
 		/** @var IUser|\PHPUnit\Framework\MockObject\MockObject $user */
 		$user = $this->createMock(IUser::class);
 		$user

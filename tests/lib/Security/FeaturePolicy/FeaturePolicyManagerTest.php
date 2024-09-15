@@ -27,12 +27,12 @@ class FeaturePolicyManagerTest extends TestCase {
 		$this->manager = new FeaturePolicyManager($this->dispatcher);
 	}
 
-	public function testAddDefaultPolicy() {
+	public function testAddDefaultPolicy(): void {
 		$this->manager->addDefaultPolicy(new FeaturePolicy());
 		$this->addToAssertionCount(1);
 	}
 
-	public function testGetDefaultPolicyWithPoliciesViaEvent() {
+	public function testGetDefaultPolicyWithPoliciesViaEvent(): void {
 		$this->dispatcher->addListener(AddFeaturePolicyEvent::class, function (AddFeaturePolicyEvent $e) {
 			$policy = new FeaturePolicy();
 			$policy->addAllowedMicrophoneDomain('mydomain.com');

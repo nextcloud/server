@@ -58,7 +58,7 @@ class DecryptAllTest extends TestCase {
 		);
 	}
 
-	public function testUpdateSession() {
+	public function testUpdateSession(): void {
 		$this->session->expects($this->once())->method('prepareDecryptAll')
 			->with('user1', 'key1');
 
@@ -71,7 +71,7 @@ class DecryptAllTest extends TestCase {
 	 * @param string $user
 	 * @param string $recoveryKeyId
 	 */
-	public function testGetPrivateKey($user, $recoveryKeyId, $masterKeyId) {
+	public function testGetPrivateKey($user, $recoveryKeyId, $masterKeyId): void {
 		$password = 'passwd';
 		$recoveryKey = 'recoveryKey';
 		$userKey = 'userKey';

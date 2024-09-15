@@ -43,7 +43,7 @@ class SearchTest extends TestCase {
 		array $mockedMailResult,
 		array $expected,
 		bool $expectedMoreResults
-	) {
+	): void {
 		$searchResult = new SearchResult();
 
 		$userPlugin = $this->createMock(ISearchPlugin::class);

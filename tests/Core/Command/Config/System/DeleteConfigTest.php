@@ -80,7 +80,7 @@ class DeleteConfigTest extends TestCase {
 	 * @param int $expectedReturn
 	 * @param string $expectedMessage
 	 */
-	public function testDelete($configName, $configExists, $checkIfExists, $expectedReturn, $expectedMessage) {
+	public function testDelete($configName, $configExists, $checkIfExists, $expectedReturn, $expectedMessage): void {
 		$this->systemConfig->expects(($checkIfExists) ? $this->once() : $this->never())
 			->method('getKeys')
 			->willReturn($configExists ? [$configName] : []);
@@ -175,7 +175,7 @@ class DeleteConfigTest extends TestCase {
 	 * @param int $expectedReturn
 	 * @param string $expectedMessage
 	 */
-	public function testArrayDelete(array $configNames, $configKeyExists, $checkIfKeyExists, $configValue, $updateValue, $expectedReturn, $expectedMessage) {
+	public function testArrayDelete(array $configNames, $configKeyExists, $checkIfKeyExists, $configValue, $updateValue, $expectedReturn, $expectedMessage): void {
 		$this->systemConfig->expects(($checkIfKeyExists) ? $this->once() : $this->never())
 			->method('getKeys')
 			->willReturn($configKeyExists ? [$configNames[0]] : []);

@@ -117,7 +117,7 @@ class ImageManagerTest extends TestCase {
 		}
 	}
 
-	public function testGetImageUrl() {
+	public function testGetImageUrl(): void {
 		$this->checkImagick();
 		$file = $this->createMock(ISimpleFile::class);
 		$this->config->expects($this->exactly(2))
@@ -133,7 +133,7 @@ class ImageManagerTest extends TestCase {
 		$this->assertEquals('url-to-image?v=0', $this->imageManager->getImageUrl('logo', false));
 	}
 
-	public function testGetImageUrlDefault() {
+	public function testGetImageUrlDefault(): void {
 		$this->config->expects($this->exactly(2))
 			->method('getAppValue')
 			->withConsecutive(
@@ -148,7 +148,7 @@ class ImageManagerTest extends TestCase {
 		$this->assertEquals('logo/logo.png?v=0', $this->imageManager->getImageUrl('logo'));
 	}
 
-	public function testGetImageUrlAbsolute() {
+	public function testGetImageUrlAbsolute(): void {
 		$this->checkImagick();
 		$file = $this->createMock(ISimpleFile::class);
 		$this->config->expects($this->exactly(2))
@@ -164,7 +164,7 @@ class ImageManagerTest extends TestCase {
 		$this->assertEquals('url-to-image-absolute?v=0', $this->imageManager->getImageUrlAbsolute('logo', false));
 	}
 
-	public function testGetImage() {
+	public function testGetImage(): void {
 		$this->checkImagick();
 		$this->config->expects($this->once())
 			->method('getAppValue')->with('theming', 'logoMime', false)
@@ -175,7 +175,7 @@ class ImageManagerTest extends TestCase {
 	}
 
 
-	public function testGetImageUnset() {
+	public function testGetImageUnset(): void {
 		$this->expectException(\OCP\Files\NotFoundException::class);
 
 		$this->config->expects($this->once())
@@ -184,7 +184,7 @@ class ImageManagerTest extends TestCase {
 		$this->imageManager->getImage('logo');
 	}
 
-	public function testGetCacheFolder() {
+	public function testGetCacheFolder(): void {
 		$folder = $this->createMock(ISimpleFolder::class);
 		$this->config->expects($this->once())
 			->method('getAppValue')
@@ -196,7 +196,7 @@ class ImageManagerTest extends TestCase {
 			->willReturn($folder);
 		$this->assertEquals($folder, $this->imageManager->getCacheFolder());
 	}
-	public function testGetCacheFolderCreate() {
+	public function testGetCacheFolderCreate(): void {
 		$folder = $this->createMock(ISimpleFolder::class);
 		$this->config->expects($this->exactly(2))
 			->method('getAppValue')
@@ -219,7 +219,7 @@ class ImageManagerTest extends TestCase {
 		$this->assertEquals($folder, $this->imageManager->getCacheFolder());
 	}
 
-	public function testGetCachedImage() {
+	public function testGetCachedImage(): void {
 		$expected = $this->createMock(ISimpleFile::class);
 		$folder = $this->setupCacheFolder();
 		$folder->expects($this->once())
@@ -230,7 +230,7 @@ class ImageManagerTest extends TestCase {
 	}
 
 
-	public function testGetCachedImageNotFound() {
+	public function testGetCachedImageNotFound(): void {
 		$this->expectException(\OCP\Files\NotFoundException::class);
 
 		$folder = $this->setupCacheFolder();
@@ -241,7 +241,7 @@ class ImageManagerTest extends TestCase {
 		$image = $this->imageManager->getCachedImage('filename');
 	}
 
-	public function testSetCachedImage() {
+	public function testSetCachedImage(): void {
 		$folder = $this->setupCacheFolder();
 		$file = $this->createMock(ISimpleFile::class);
 		$folder->expects($this->once())
@@ -258,7 +258,7 @@ class ImageManagerTest extends TestCase {
 		$this->assertEquals($file, $this->imageManager->setCachedImage('filename', 'filecontent'));
 	}
 
-	public function testSetCachedImageCreate() {
+	public function testSetCachedImageCreate(): void {
 		$folder = $this->setupCacheFolder();
 		$file = $this->createMock(ISimpleFile::class);
 		$folder->expects($this->once())
@@ -288,7 +288,7 @@ class ImageManagerTest extends TestCase {
 		return $folder;
 	}
 
-	public function testCleanup() {
+	public function testCleanup(): void {
 		$folders = [
 			$this->createMock(ISimpleFolder::class),
 			$this->createMock(ISimpleFolder::class),
@@ -332,7 +332,7 @@ class ImageManagerTest extends TestCase {
 	/**
 	 * @dataProvider dataUpdateImage
 	 */
-	public function testUpdateImage($key, $tmpFile, $folderExists, $shouldConvert) {
+	public function testUpdateImage($key, $tmpFile, $folderExists, $shouldConvert): void {
 		$file = $this->createMock(ISimpleFile::class);
 		$folder = $this->createMock(ISimpleFolder::class);
 		$oldFile = $this->createMock(ISimpleFile::class);

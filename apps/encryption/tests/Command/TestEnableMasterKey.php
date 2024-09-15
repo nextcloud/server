@@ -58,7 +58,7 @@ class TestEnableMasterKey extends TestCase {
 	 * @param bool $isAlreadyEnabled
 	 * @param string $answer
 	 */
-	public function testExecute($isAlreadyEnabled, $answer) {
+	public function testExecute($isAlreadyEnabled, $answer): void {
 		$this->util->expects($this->once())->method('isMasterKeyEnabled')
 			->willReturn($isAlreadyEnabled);
 

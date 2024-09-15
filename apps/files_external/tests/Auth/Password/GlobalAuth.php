@@ -60,7 +60,7 @@ class GlobalAuthTest extends TestCase {
 		return $storageConfig;
 	}
 
-	public function testNoCredentials() {
+	public function testNoCredentials(): void {
 		$this->credentialsManager->expects($this->once())
 			->method('retrieve')
 			->willReturn(null);
@@ -71,7 +71,7 @@ class GlobalAuthTest extends TestCase {
 		$this->assertEquals([], $storage->getBackendOptions());
 	}
 
-	public function testSavedCredentials() {
+	public function testSavedCredentials(): void {
 		$this->credentialsManager->expects($this->once())
 			->method('retrieve')
 			->willReturn([
@@ -89,7 +89,7 @@ class GlobalAuthTest extends TestCase {
 	}
 
 
-	public function testNoCredentialsPersonal() {
+	public function testNoCredentialsPersonal(): void {
 		$this->expectException(\OCA\Files_External\Lib\InsufficientDataForMeaningfulAnswerException::class);
 
 		$this->credentialsManager->expects($this->never())

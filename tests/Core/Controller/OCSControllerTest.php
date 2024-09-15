@@ -68,7 +68,7 @@ class OCSControllerTest extends TestCase {
 		return new DataResponse($data);
 	}
 
-	public function testGetCapabilities() {
+	public function testGetCapabilities(): void {
 		$this->userSession->expects($this->once())
 			->method('isLoggedIn')
 			->willReturn(true);
@@ -101,7 +101,7 @@ class OCSControllerTest extends TestCase {
 		$this->assertEquals($expected, $this->controller->getCapabilities());
 	}
 
-	public function testGetCapabilitiesPublic() {
+	public function testGetCapabilitiesPublic(): void {
 		$this->userSession->expects($this->once())
 			->method('isLoggedIn')
 			->willReturn(false);
@@ -135,7 +135,7 @@ class OCSControllerTest extends TestCase {
 		$this->assertEquals($expected, $this->controller->getCapabilities());
 	}
 
-	public function testPersonCheckValid() {
+	public function testPersonCheckValid(): void {
 		$this->userManager->method('checkPassword')
 			->with(
 				$this->equalTo('user'),
@@ -150,7 +150,7 @@ class OCSControllerTest extends TestCase {
 		$this->assertEquals($expected, $this->controller->personCheck('user', 'pass'));
 	}
 
-	public function testPersonInvalid() {
+	public function testPersonInvalid(): void {
 		$this->userManager->method('checkPassword')
 			->with(
 				$this->equalTo('user'),
@@ -162,7 +162,7 @@ class OCSControllerTest extends TestCase {
 		$this->assertEquals($expected, $this->controller->personCheck('user', 'wrongpass'));
 	}
 
-	public function testPersonNoLogin() {
+	public function testPersonNoLogin(): void {
 		$this->userManager->method('checkPassword')
 			->with(
 				$this->equalTo('user'),
@@ -173,7 +173,7 @@ class OCSControllerTest extends TestCase {
 		$this->assertEquals($expected, $this->controller->personCheck('', ''));
 	}
 
-	public function testGetIdentityProofWithNotExistingUser() {
+	public function testGetIdentityProofWithNotExistingUser(): void {
 		$this->userManager
 			->expects($this->once())
 			->method('get')
@@ -184,7 +184,7 @@ class OCSControllerTest extends TestCase {
 		$this->assertEquals($expected, $this->controller->getIdentityProof('NotExistingUser'));
 	}
 
-	public function testGetIdentityProof() {
+	public function testGetIdentityProof(): void {
 		$user = $this->createMock(IUser::class);
 		$key = $this->createMock(Key::class);
 		$this->userManager

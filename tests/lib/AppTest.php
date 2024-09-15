@@ -308,14 +308,14 @@ class AppTest extends \Test\TestCase {
 	/**
 	 * @dataProvider appVersionsProvider
 	 */
-	public function testIsAppCompatible($ocVersion, $appInfo, $expectedResult) {
+	public function testIsAppCompatible($ocVersion, $appInfo, $expectedResult): void {
 		$this->assertEquals($expectedResult, \OC_App::isAppCompatible($ocVersion, $appInfo));
 	}
 
 	/**
 	 * Tests that the app order is correct
 	 */
-	public function testGetEnabledAppsIsSorted() {
+	public function testGetEnabledAppsIsSorted(): void {
 		$apps = \OC_App::getEnabledApps();
 		// copy array
 		$sortedApps = $apps;
@@ -457,7 +457,7 @@ class AppTest extends \Test\TestCase {
 	 *
 	 * @dataProvider appConfigValuesProvider
 	 */
-	public function testEnabledApps($user, $expectedApps, $forceAll) {
+	public function testEnabledApps($user, $expectedApps, $forceAll): void {
 		$userManager = \OC::$server->getUserManager();
 		$groupManager = \OC::$server->getGroupManager();
 		$user1 = $userManager->createUser(self::TEST_USER1, 'NotAnEasyPassword123456+');
@@ -506,7 +506,7 @@ class AppTest extends \Test\TestCase {
 	 * Test isEnabledApps() with cache, not re-reading the list of
 	 * enabled apps more than once when a user is set.
 	 */
-	public function testEnabledAppsCache() {
+	public function testEnabledAppsCache(): void {
 		$userManager = \OC::$server->getUserManager();
 		$user1 = $userManager->createUser(self::TEST_USER1, 'NotAnEasyPassword123456+');
 
@@ -615,18 +615,18 @@ class AppTest extends \Test\TestCase {
 	 * @param array $data
 	 * @param array $expected
 	 */
-	public function testParseAppInfo(array $data, array $expected) {
+	public function testParseAppInfo(array $data, array $expected): void {
 		$this->assertSame($expected, \OC_App::parseAppInfo($data));
 	}
 
-	public function testParseAppInfoL10N() {
+	public function testParseAppInfoL10N(): void {
 		$parser = new InfoParser();
 		$data = $parser->parse(\OC::$SERVERROOT. '/tests/data/app/description-multi-lang.xml');
 		$this->assertEquals('English', \OC_App::parseAppInfo($data, 'en')['description']);
 		$this->assertEquals('German', \OC_App::parseAppInfo($data, 'de')['description']);
 	}
 
-	public function testParseAppInfoL10NSingleLanguage() {
+	public function testParseAppInfoL10NSingleLanguage(): void {
 		$parser = new InfoParser();
 		$data = $parser->parse(\OC::$SERVERROOT. '/tests/data/app/description-single-lang.xml');
 		$this->assertEquals('English', \OC_App::parseAppInfo($data, 'en')['description']);

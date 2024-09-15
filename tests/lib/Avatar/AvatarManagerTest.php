@@ -71,7 +71,7 @@ class AvatarManagerTest extends \Test\TestCase {
 		);
 	}
 
-	public function testGetAvatarInvalidUser() {
+	public function testGetAvatarInvalidUser(): void {
 		$this->expectException(\Exception::class);
 		$this->expectExceptionMessage('user does not exist');
 
@@ -84,7 +84,7 @@ class AvatarManagerTest extends \Test\TestCase {
 		$this->avatarManager->getAvatar('invalidUser');
 	}
 
-	public function testGetAvatarForSelf() {
+	public function testGetAvatarForSelf(): void {
 		$user = $this->createMock(User::class);
 		$user
 			->expects($this->any())
@@ -139,7 +139,7 @@ class AvatarManagerTest extends \Test\TestCase {
 		$this->assertEquals($expected, $this->avatarManager->getAvatar('valid-user'));
 	}
 
-	public function testGetAvatarValidUserDifferentCasing() {
+	public function testGetAvatarValidUserDifferentCasing(): void {
 		$user = $this->createMock(User::class);
 		$this->userManager->expects($this->once())
 			->method('get')
@@ -206,7 +206,7 @@ class AvatarManagerTest extends \Test\TestCase {
 	/**
 	 * @dataProvider dataGetAvatarScopes
 	 */
-	public function testGetAvatarScopes($avatarScope, $isPublicCall, $isKnownUser, $expectedPlaceholder) {
+	public function testGetAvatarScopes($avatarScope, $isPublicCall, $isKnownUser, $expectedPlaceholder): void {
 		if ($isPublicCall) {
 			$requestingUser = null;
 		} else {

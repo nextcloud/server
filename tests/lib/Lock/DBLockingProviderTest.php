@@ -59,7 +59,7 @@ class DBLockingProviderTest extends LockingProvider {
 		parent::tearDown();
 	}
 
-	public function testCleanEmptyLocks() {
+	public function testCleanEmptyLocks(): void {
 		$this->currentTime = 100;
 		$this->instance->acquireLock('foo', ILockingProvider::LOCK_EXCLUSIVE);
 		$this->instance->acquireLock('asd', ILockingProvider::LOCK_EXCLUSIVE);
@@ -96,7 +96,7 @@ class DBLockingProviderTest extends LockingProvider {
 		return $rows;
 	}
 
-	public function testDoubleShared() {
+	public function testDoubleShared(): void {
 		$this->instance->acquireLock('foo', ILockingProvider::LOCK_SHARED);
 		$this->instance->acquireLock('foo', ILockingProvider::LOCK_SHARED);
 

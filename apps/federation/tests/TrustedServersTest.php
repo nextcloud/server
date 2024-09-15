@@ -173,13 +173,13 @@ class TrustedServersTest extends TestCase {
 		);
 	}
 
-	public function testSetServerStatus() {
+	public function testSetServerStatus(): void {
 		$this->dbHandler->expects($this->once())->method('setServerStatus')
 			->with('url', 1);
 		$this->trustedServers->setServerStatus('url', 1);
 	}
 
-	public function testGetServerStatus() {
+	public function testGetServerStatus(): void {
 		$this->dbHandler->expects($this->once())->method('getServerStatus')
 			->with('url')->willReturn(1);
 		$this->assertSame(
