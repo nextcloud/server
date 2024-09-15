@@ -298,7 +298,7 @@ export default defineComponent({
 				.at(0)
 			// Some file types do not have a default action (e.g. they can only be downloaded)
 			// So if there is an enabled default action, so execute it
-			defaultAction?.exec(node, this.currentView, this.currentFolderpath)
+			defaultAction?.exec(node, this.currentView, this.currentFolder.path)
 		},
 
 		onDragOver(event: DragEvent) {
