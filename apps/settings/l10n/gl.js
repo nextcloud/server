@@ -443,7 +443,7 @@ OC.L10N.register(
     "Usage documentation" : "Documentación de utilización",
     "Admin documentation" : "Documentación da administración da instancia",
     "Developer documentation" : "Documentación para desenvolvedores",
-    "Changelog" : "Rexistro de cambios",
+    "Changelog" : "Notas da versión",
     "Device name" : "Nome do dispositivo",
     "Cancel renaming" : "Cancelar o cambio de nome",
     "Save new name" : "Gardar o novo nome",
