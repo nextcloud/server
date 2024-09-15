@@ -671,7 +671,7 @@ class ManagerTest extends TestCase {
 	}
 
 	public function testDeleteReferencesOfActorWithUserManagement() {
-		$user = \OC::$server->getUserManager()->createUser('xenia', '123456');
+		$user = \OC::$server->getUserManager()->createUser('xenia', 'NotAnEasyPassword123456+');
 		$this->assertTrue($user instanceof IUser);
 
 		$manager = \OC::$server->get(ICommentsManager::class);

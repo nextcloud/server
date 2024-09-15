@@ -13,6 +13,7 @@ use function substr;
 /**
  * @method int getId()
  * @method void setId(int $id)
+ * @psalm-type AllowedTypes = 'json'|'blob'|'datetime'|'string'|'int'|'integer'|'bool'|'boolean'|'float'|'double'|'array'|'object'
  * @since 7.0.0
  * @psalm-consistent-constructor
  */
@@ -23,6 +24,7 @@ abstract class Entity {
 	public $id;
 
 	private array $_updatedFields = [];
+	/** @var array<string, AllowedTypes> */
 	private array $_fieldTypes = ['id' => 'integer'];
 
 	/**
@@ -64,10 +66,10 @@ abstract class Entity {
 
 
 	/**
-	 * @return array with attribute and type
+	 * @return array<string, AllowedTypes> with attribute and type
 	 * @since 7.0.0
 	 */
-	public function getFieldTypes() {
+	public function getFieldTypes(): array {
 		return $this->_fieldTypes;
 	}
 
@@ -76,50 +78,62 @@ abstract class Entity {
 	 * Marks the entity as clean needed for setting the id after the insertion
 	 * @since 7.0.0
 	 */
-	public function resetUpdatedFields() {
+	public function resetUpdatedFields(): void {
 		$this->_updatedFields = [];
 	}
 
 	/**
 	 * Generic setter for properties
+	 *
+	 * @throws \InvalidArgumentException
 	 * @since 7.0.0
+	 *
 	 */
 	protected function setter(string $name, array $args): void {
 		// setters should only work for existing attributes
-		if (property_exists($this, $name)) {
-			if ($args[0] === $this->$name) {
-				return;
-			}
-			$this->markFieldUpdated($name);
-
-			// if type definition exists, cast to correct type
-			if ($args[0] !== null && array_key_exists($name, $this->_fieldTypes)) {
-				$type = $this->_fieldTypes[$name];
-				if ($type === 'blob') {
-					// (B)LOB is treated as string when we read from the DB
-					if (is_resource($args[0])) {
-						$args[0] = stream_get_contents($args[0]);
-					}
-					$type = 'string';
-				}
-
-				if ($type === 'datetime') {
-					if (!$args[0] instanceof \DateTime) {
-						$args[0] = new \DateTime($args[0]);
-					}
-				} elseif ($type === 'json') {
-					if (!is_array($args[0])) {
-						$args[0] = json_decode($args[0], true);
-					}
-				} else {
-					settype($args[0], $type);
-				}
-			}
-			$this->$name = $args[0];
-		} else {
-			throw new \BadFunctionCallException($name .
-				' is not a valid attribute');
+		if (!property_exists($this, $name)) {
+			throw new \BadFunctionCallException($name . ' is not a valid attribute');
 		}
+
+		if ($args[0] === $this->$name) {
+			return;
+		}
+		$this->markFieldUpdated($name);
+
+		// if type definition exists, cast to correct type
+		if ($args[0] !== null && array_key_exists($name, $this->_fieldTypes)) {
+			$type = $this->_fieldTypes[$name];
+			if ($type === 'blob') {
+				// (B)LOB is treated as string when we read from the DB
+				if (is_resource($args[0])) {
+					$args[0] = stream_get_contents($args[0]);
+				}
+				$type = 'string';
+			}
+
+			if ($type === 'datetime') {
+				if (!$args[0] instanceof \DateTime) {
+					$args[0] = new \DateTime($args[0]);
+				}
+			} elseif ($type === 'json') {
+				if (!is_array($args[0])) {
+					$args[0] = json_decode($args[0], true);
+				}
+			} else {
+				$args[0] = match($type) {
+					'string' => (string)$args[0],
+					'bool', 'boolean', => (bool)$args[0],
+					'int', 'integer', => (int)$args[0],
+					'float' => (float)$args[0],
+					'double' => (float)$args[0],
+					'array' => (array)$args[0],
+					'object' => (object)$args[0],
+					default => new \InvalidArgumentException()
+				};
+			}
+		}
+		$this->$name = $args[0];
+
 	}
 
 	/**
@@ -182,16 +196,17 @@ abstract class Entity {
 
 	/**
 	 * Transform a database columnname to a property
+	 *
 	 * @param string $columnName the name of the column
 	 * @return string the property name
 	 * @since 7.0.0
 	 */
-	public function columnToProperty($columnName) {
+	public function columnToProperty(string $columnName): string {
 		$parts = explode('_', $columnName);
-		$property = null;
+		$property = '';
 
 		foreach ($parts as $part) {
-			if ($property === null) {
+			if ($property === '') {
 				$property = $part;
 			} else {
 				$property .= ucfirst($part);
@@ -204,16 +219,17 @@ abstract class Entity {
 
 	/**
 	 * Transform a property to a database column name
+	 *
 	 * @param string $property the name of the property
 	 * @return string the column name
 	 * @since 7.0.0
 	 */
-	public function propertyToColumn($property) {
+	public function propertyToColumn(string $property): string {
 		$parts = preg_split('/(?=[A-Z])/', $property);
-		$column = null;
 
+		$column = '';
 		foreach ($parts as $part) {
-			if ($column === null) {
+			if ($column === '') {
 				$column = $part;
 			} else {
 				$column .= '_' . lcfirst($part);
@@ -228,19 +244,20 @@ abstract class Entity {
 	 * @return array array of updated fields for update query
 	 * @since 7.0.0
 	 */
-	public function getUpdatedFields() {
+	public function getUpdatedFields(): array {
 		return $this->_updatedFields;
 	}
 
 
 	/**
-	 * Adds type information for a field so that its automatically casted to
+	 * Adds type information for a field so that it's automatically cast to
 	 * that value once its being returned from the database
+	 *
 	 * @param string $fieldName the name of the attribute
-	 * @param string $type the type which will be used to call settype()
+	 * @param AllowedTypes $type the type which will be used to match a cast
 	 * @since 7.0.0
 	 */
-	protected function addType($fieldName, $type) {
+	protected function addType(string $fieldName, string $type): void {
 		$this->_fieldTypes[$fieldName] = $type;
 	}
 
@@ -248,12 +265,13 @@ abstract class Entity {
 	/**
 	 * Slugify the value of a given attribute
 	 * Warning: This doesn't result in a unique value
+	 *
 	 * @param string $attributeName the name of the attribute, which value should be slugified
 	 * @return string slugified value
 	 * @since 7.0.0
 	 * @deprecated 24.0.0
 	 */
-	public function slugify($attributeName) {
+	public function slugify(string $attributeName): string {
 		// toSlug should only work for existing attributes
 		if (property_exists($this, $attributeName)) {
 			$value = $this->$attributeName;
@@ -262,9 +280,8 @@ abstract class Entity {
 			$value = strtolower($value);
 			// trim '-'
 			return trim($value, '-');
-		} else {
-			throw new \BadFunctionCallException($attributeName .
-				' is not a valid attribute');
 		}
+
+		throw new \BadFunctionCallException($attributeName . ' is not a valid attribute');
 	}
 }

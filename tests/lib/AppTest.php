@@ -460,9 +460,9 @@ class AppTest extends \Test\TestCase {
 	public function testEnabledApps($user, $expectedApps, $forceAll) {
 		$userManager = \OC::$server->getUserManager();
 		$groupManager = \OC::$server->getGroupManager();
-		$user1 = $userManager->createUser(self::TEST_USER1, self::TEST_USER1);
-		$user2 = $userManager->createUser(self::TEST_USER2, self::TEST_USER2);
-		$user3 = $userManager->createUser(self::TEST_USER3, self::TEST_USER3);
+		$user1 = $userManager->createUser(self::TEST_USER1, 'NotAnEasyPassword123456+');
+		$user2 = $userManager->createUser(self::TEST_USER2, 'NotAnEasyPassword123456_');
+		$user3 = $userManager->createUser(self::TEST_USER3, 'NotAnEasyPassword123456?');
 
 		$group1 = $groupManager->createGroup(self::TEST_GROUP1);
 		$group1->addUser($user1);
@@ -508,7 +508,7 @@ class AppTest extends \Test\TestCase {
 	 */
 	public function testEnabledAppsCache() {
 		$userManager = \OC::$server->getUserManager();
-		$user1 = $userManager->createUser(self::TEST_USER1, self::TEST_USER1);
+		$user1 = $userManager->createUser(self::TEST_USER1, 'NotAnEasyPassword123456+');
 
 		\OC_User::setUserId(self::TEST_USER1);
 

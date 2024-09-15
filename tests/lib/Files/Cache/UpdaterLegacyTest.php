@@ -56,7 +56,7 @@ class UpdaterLegacyTest extends \Test\TestCase {
 			self::$user = $this->getUniqueID();
 		}
 
-		\OC::$server->getUserManager()->createUser(self::$user, 'password');
+		\OC::$server->getUserManager()->createUser(self::$user, 'NotAnEasyPassword123456+');
 		$this->loginAsUser(self::$user);
 
 		Filesystem::init(self::$user, '/' . self::$user . '/files');
