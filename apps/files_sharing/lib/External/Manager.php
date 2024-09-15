@@ -119,7 +119,7 @@ class Manager {
 	 * @throws \Doctrine\DBAL\Exception
 	 */
 	public function addShare($remote, $token, $password, $name, $owner, $shareType, $accepted = false, $user = null, $remoteId = '', $parent = -1) {
-		$user = $user ? $user : $this->uid;
+		$user = $user ?: $this->uid;
 		$accepted = $accepted ? IShare::STATUS_ACCEPTED : IShare::STATUS_PENDING;
 		$name = Filesystem::normalizePath('/' . $name);
 

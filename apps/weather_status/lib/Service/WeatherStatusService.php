@@ -121,7 +121,7 @@ class WeatherStatusService {
 			$this->config->setUserValue($this->userId, Application::APP_ID, 'lon', strval($lon));
 			// resolve and store formatted address
 			$address = $this->resolveLocation($lat, $lon);
-			$address = $address ? $address : $this->l10n->t('Unknown address');
+			$address = $address ?: $this->l10n->t('Unknown address');
 			$this->config->setUserValue($this->userId, Application::APP_ID, 'address', $address);
 			// get and store altitude
 			$altitude = $this->getAltitude($lat, $lon);
