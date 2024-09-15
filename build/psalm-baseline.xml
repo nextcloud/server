@@ -1895,9 +1895,6 @@
       <code><![CDATA[null]]></code>
       <code><![CDATA[null]]></code>
     </NullableReturnStatement>
-    <ParamNameMismatch>
-      <code><![CDATA[$searchQuery]]></code>
-    </ParamNameMismatch>
   </file>
   <file src="lib/private/Files/Cache/FailedCache.php">
     <InvalidReturnStatement>
@@ -1947,9 +1944,6 @@
       <code><![CDATA[array]]></code>
       <code><![CDATA[array]]></code>
     </LessSpecificImplementedReturnType>
-    <ParamNameMismatch>
-      <code><![CDATA[$searchQuery]]></code>
-    </ParamNameMismatch>
   </file>
   <file src="lib/private/Files/Config/MountProviderCollection.php">
     <InvalidOperand>
