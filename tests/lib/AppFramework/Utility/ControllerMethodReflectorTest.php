@@ -72,7 +72,7 @@ class ControllerMethodReflectorTest extends \Test\TestCase {
 	public function testGetAnnotationParameterSingle() {
 		$reader = new ControllerMethodReflector();
 		$reader->reflect(
-			__CLASS__,
+			self::class,
 			__FUNCTION__
 		);
 
@@ -85,7 +85,7 @@ class ControllerMethodReflectorTest extends \Test\TestCase {
 	public function testGetAnnotationParameterMultiple() {
 		$reader = new ControllerMethodReflector();
 		$reader->reflect(
-			__CLASS__,
+			self::class,
 			__FUNCTION__
 		);
 
