@@ -442,7 +442,7 @@ class UserPluginTest extends TestCase {
 		$singleUser,
 		array $users = [],
 		$shareeEnumerationPhone = false
-	) {
+	): void {
 		$this->mockConfig(['core' => [
 			'shareapi_only_share_with_group_members' => $shareWithGroupOnly ? 'yes' : 'no',
 			'shareapi_allow_share_dialog_user_enumeration' => $shareeEnumeration? 'yes' : 'no',
@@ -539,7 +539,7 @@ class UserPluginTest extends TestCase {
 	 * @param array $expectedUIDs
 	 * @param $currentUserId
 	 */
-	public function testTakeOutCurrentUser(array $users, array $expectedUIDs, $currentUserId) {
+	public function testTakeOutCurrentUser(array $users, array $expectedUIDs, $currentUserId): void {
 		$this->instantiatePlugin();
 
 		$this->session->expects($this->once())
@@ -719,7 +719,7 @@ class UserPluginTest extends TestCase {
 	/**
 	 * @dataProvider dataSearchEnumeration
 	 */
-	public function testSearchEnumerationLimit($search, $userGroups, $matchingUsers, $result, $mockedSettings) {
+	public function testSearchEnumerationLimit($search, $userGroups, $matchingUsers, $result, $mockedSettings): void {
 		$this->mockConfig($mockedSettings);
 
 		$userResults = [];

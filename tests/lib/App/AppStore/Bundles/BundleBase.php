@@ -31,15 +31,15 @@ abstract class BundleBase extends TestCase {
 			});
 	}
 
-	public function testGetIdentifier() {
+	public function testGetIdentifier(): void {
 		$this->assertSame($this->bundleIdentifier, $this->bundle->getIdentifier());
 	}
 
-	public function testGetName() {
+	public function testGetName(): void {
 		$this->assertSame($this->bundleName, $this->bundle->getName());
 	}
 
-	public function testGetAppIdentifiers() {
+	public function testGetAppIdentifiers(): void {
 		$this->assertSame($this->bundleAppIds, $this->bundle->getAppIdentifiers());
 	}
 }

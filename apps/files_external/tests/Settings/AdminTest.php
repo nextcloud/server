@@ -40,7 +40,7 @@ class AdminTest extends TestCase {
 		);
 	}
 
-	public function testGetForm() {
+	public function testGetForm(): void {
 		$this->encryptionManager
 			->expects($this->once())
 			->method('isEnabled')
@@ -85,11 +85,11 @@ class AdminTest extends TestCase {
 		$this->assertEquals($expected, $this->admin->getForm());
 	}
 
-	public function testGetSection() {
+	public function testGetSection(): void {
 		$this->assertSame('externalstorages', $this->admin->getSection());
 	}
 
-	public function testGetPriority() {
+	public function testGetPriority(): void {
 		$this->assertSame(40, $this->admin->getPriority());
 	}
 }

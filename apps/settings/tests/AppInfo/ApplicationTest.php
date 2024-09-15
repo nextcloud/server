@@ -38,7 +38,7 @@ class ApplicationTest extends TestCase {
 		$this->container = $this->app->getContainer();
 	}
 
-	public function testContainerAppName() {
+	public function testContainerAppName(): void {
 		$this->app = new Application();
 		$this->assertEquals('settings', $this->container->getAppName());
 	}
@@ -62,7 +62,7 @@ class ApplicationTest extends TestCase {
 	 * @param string $service
 	 * @param string $expected
 	 */
-	public function testContainerQuery($service, $expected) {
+	public function testContainerQuery($service, $expected): void {
 		$this->assertTrue($this->container->query($service) instanceof $expected);
 	}
 }

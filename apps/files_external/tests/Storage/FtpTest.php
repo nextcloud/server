@@ -55,7 +55,7 @@ class FtpTest extends \Test\Files\Storage\Storage {
 	/**
 	 * mtime for folders is only with a minute resolution
 	 */
-	public function testStat() {
+	public function testStat(): void {
 		$textFile = \OC::$SERVERROOT . '/tests/data/lorem.txt';
 		$ctimeStart = time();
 		$this->instance->file_put_contents('/lorem.txt', file_get_contents($textFile));

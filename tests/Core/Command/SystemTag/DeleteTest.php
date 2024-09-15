@@ -39,7 +39,7 @@ class DeleteTest extends TestCase {
 		$this->output = $this->createMock(OutputInterface::class);
 	}
 
-	public function testExecute() {
+	public function testExecute(): void {
 		$tagId = 69;
 
 		$this->input->method('getArgument')
@@ -57,7 +57,7 @@ class DeleteTest extends TestCase {
 		$this->invokePrivate($this->command, 'execute', [$this->input, $this->output]);
 	}
 
-	public function testNotFound() {
+	public function testNotFound(): void {
 		$tagId = 69;
 
 		$this->input->method('getArgument')

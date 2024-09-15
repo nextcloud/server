@@ -14,7 +14,7 @@ use OC\Authentication\Token\IToken;
 use Test\TestCase;
 
 class RemoteWipeFinishedTest extends TestCase {
-	public function testGetToken() {
+	public function testGetToken(): void {
 		$token = $this->createMock(IToken::class);
 		$event = new RemoteWipeFinished($token);
 

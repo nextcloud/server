@@ -474,7 +474,7 @@ class AccountManagerTest extends TestCase {
 	 * @dataProvider dataTrueFalse
 	 *
 	 */
-	public function testUpdateUser(array $newData, array $oldData, bool $insertNew, bool $updateExisting) {
+	public function testUpdateUser(array $newData, array $oldData, bool $insertNew, bool $updateExisting): void {
 		$accountManager = $this->getInstance(['getUser', 'insertNewUser', 'updateExistingUser']);
 		/** @var IUser $user */
 		$user = $this->createMock(IUser::class);
@@ -516,7 +516,7 @@ class AccountManagerTest extends TestCase {
 		];
 	}
 
-	public function testAddMissingDefaults() {
+	public function testAddMissingDefaults(): void {
 		$user = $this->createMock(IUser::class);
 
 		$this->config
@@ -635,7 +635,7 @@ class AccountManagerTest extends TestCase {
 		$this->assertSame($expected, $result);
 	}
 
-	public function testGetAccount() {
+	public function testGetAccount(): void {
 		$accountManager = $this->getInstance(['getUser']);
 		/** @var IUser $user */
 		$user = $this->createMock(IUser::class);

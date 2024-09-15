@@ -43,7 +43,7 @@ class LegacyHooksTest extends TestCase {
 		$this->manager = \OC::$server->get(IShareManager::class);
 	}
 
-	public function testPreUnshare() {
+	public function testPreUnshare(): void {
 		$path = $this->createMock(File::class);
 		$path->method('getId')->willReturn(1);
 
@@ -84,7 +84,7 @@ class LegacyHooksTest extends TestCase {
 		$this->eventDispatcher->dispatchTyped($event);
 	}
 
-	public function testPostUnshare() {
+	public function testPostUnshare(): void {
 		$path = $this->createMock(File::class);
 		$path->method('getId')->willReturn(1);
 
@@ -138,7 +138,7 @@ class LegacyHooksTest extends TestCase {
 		$this->eventDispatcher->dispatchTyped($event);
 	}
 
-	public function testPostUnshareFromSelf() {
+	public function testPostUnshareFromSelf(): void {
 		$path = $this->createMock(File::class);
 		$path->method('getId')->willReturn(1);
 
@@ -194,7 +194,7 @@ class LegacyHooksTest extends TestCase {
 		$this->eventDispatcher->dispatchTyped($event);
 	}
 
-	public function testPreShare() {
+	public function testPreShare(): void {
 		$path = $this->createMock(File::class);
 		$path->method('getId')->willReturn(1);
 
@@ -242,7 +242,7 @@ class LegacyHooksTest extends TestCase {
 		$this->eventDispatcher->dispatchTyped($event);
 	}
 
-	public function testPreShareError() {
+	public function testPreShareError(): void {
 		$path = $this->createMock(File::class);
 		$path->method('getId')->willReturn(1);
 
@@ -297,7 +297,7 @@ class LegacyHooksTest extends TestCase {
 		$this->assertSame('I error', $event->getError());
 	}
 
-	public function testPostShare() {
+	public function testPostShare(): void {
 		$path = $this->createMock(File::class);
 		$path->method('getId')->willReturn(1);
 

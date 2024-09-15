@@ -49,28 +49,28 @@ class PreviewControllerTest extends \Test\TestCase {
 		);
 	}
 
-	public function testInvalidFile() {
+	public function testInvalidFile(): void {
 		$res = $this->controller->getPreview('');
 		$expected = new DataResponse([], Http::STATUS_BAD_REQUEST);
 
 		$this->assertEquals($expected, $res);
 	}
 
-	public function testInvalidWidth() {
+	public function testInvalidWidth(): void {
 		$res = $this->controller->getPreview('file', 0);
 		$expected = new DataResponse([], Http::STATUS_BAD_REQUEST);
 
 		$this->assertEquals($expected, $res);
 	}
 
-	public function testInvalidHeight() {
+	public function testInvalidHeight(): void {
 		$res = $this->controller->getPreview('file', 10, 0);
 		$expected = new DataResponse([], Http::STATUS_BAD_REQUEST);
 
 		$this->assertEquals($expected, $res);
 	}
 
-	public function testFileNotFound() {
+	public function testFileNotFound(): void {
 		$userFolder = $this->createMock(Folder::class);
 		$this->rootFolder->method('getUserFolder')
 			->with($this->equalTo($this->userId))
@@ -86,7 +86,7 @@ class PreviewControllerTest extends \Test\TestCase {
 		$this->assertEquals($expected, $res);
 	}
 
-	public function testNotAFile() {
+	public function testNotAFile(): void {
 		$userFolder = $this->createMock(Folder::class);
 		$this->rootFolder->method('getUserFolder')
 			->with($this->equalTo($this->userId))
@@ -103,7 +103,7 @@ class PreviewControllerTest extends \Test\TestCase {
 		$this->assertEquals($expected, $res);
 	}
 
-	public function testNoPreviewAndNoIcon() {
+	public function testNoPreviewAndNoIcon(): void {
 		$userFolder = $this->createMock(Folder::class);
 		$this->rootFolder->method('getUserFolder')
 			->with($this->equalTo($this->userId))
@@ -124,7 +124,7 @@ class PreviewControllerTest extends \Test\TestCase {
 		$this->assertEquals($expected, $res);
 	}
 
-	public function testForbiddenFile() {
+	public function testForbiddenFile(): void {
 		$userFolder = $this->createMock(Folder::class);
 		$this->rootFolder->method('getUserFolder')
 			->with($this->equalTo($this->userId))
@@ -148,7 +148,7 @@ class PreviewControllerTest extends \Test\TestCase {
 		$this->assertEquals($expected, $res);
 	}
 
-	public function testNoPreview() {
+	public function testNoPreview(): void {
 		$userFolder = $this->createMock(Folder::class);
 		$this->rootFolder->method('getUserFolder')
 			->with($this->equalTo($this->userId))
@@ -180,7 +180,7 @@ class PreviewControllerTest extends \Test\TestCase {
 		$this->assertEquals($expected, $res);
 	}
 
-	public function testValidPreview() {
+	public function testValidPreview(): void {
 		$userFolder = $this->createMock(Folder::class);
 		$this->rootFolder->method('getUserFolder')
 			->with($this->equalTo($this->userId))

@@ -17,7 +17,7 @@ use Test\TestCase;
  * @package OCA\Files_Trashbin\Tests\Command
  */
 class ExpireTest extends TestCase {
-	public function testExpireNonExistingUser() {
+	public function testExpireNonExistingUser(): void {
 		$command = new Expire('test');
 		$command->handle();
 

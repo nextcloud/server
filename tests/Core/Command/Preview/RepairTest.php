@@ -116,7 +116,7 @@ class RepairTest extends TestCase {
 	/**
 	 * @dataProvider emptyTestDataProvider
 	 */
-	public function testEmptyExecute($directoryNames, $expectedOutput) {
+	public function testEmptyExecute($directoryNames, $expectedOutput): void {
 		$previewFolder = $this->getMockBuilder(Folder::class)
 			->getMock();
 		$directories = array_map(function ($element) {

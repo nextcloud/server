@@ -107,7 +107,7 @@ class DeleteOrphanedSharesJobTest extends \Test\TestCase {
 	/**
 	 * Test clearing orphaned shares
 	 */
-	public function testClearShares() {
+	public function testClearShares(): void {
 		$this->loginAsUser($this->user1);
 
 		$user1Folder = \OC::$server->getUserFolder($this->user1);

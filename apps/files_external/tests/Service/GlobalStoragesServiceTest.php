@@ -115,7 +115,7 @@ class GlobalStoragesServiceTest extends StoragesServiceTest {
 	/**
 	 * @dataProvider storageDataProvider
 	 */
-	public function testAddStorage($storageParams) {
+	public function testAddStorage($storageParams): void {
 		$storage = $this->makeStorageConfig($storageParams);
 		$newStorage = $this->service->addStorage($storage);
 
@@ -139,7 +139,7 @@ class GlobalStoragesServiceTest extends StoragesServiceTest {
 	/**
 	 * @dataProvider storageDataProvider
 	 */
-	public function testUpdateStorage($updatedStorageParams) {
+	public function testUpdateStorage($updatedStorageParams): void {
 		$updatedStorage = $this->makeStorageConfig($updatedStorageParams);
 		$storage = $this->makeStorageConfig([
 			'mountPoint' => 'mountpoint',
@@ -281,7 +281,7 @@ class GlobalStoragesServiceTest extends StoragesServiceTest {
 	/**
 	 * @dataProvider hooksAddStorageDataProvider
 	 */
-	public function testHooksAddStorage($applicableUsers, $applicableGroups, $expectedCalls) {
+	public function testHooksAddStorage($applicableUsers, $applicableGroups, $expectedCalls): void {
 		$storage = $this->makeTestStorageData();
 		$storage->setApplicableUsers($applicableUsers);
 		$storage->setApplicableGroups($applicableGroups);
@@ -424,7 +424,7 @@ class GlobalStoragesServiceTest extends StoragesServiceTest {
 		$sourceApplicableGroups,
 		$updatedApplicableUsers,
 		$updatedApplicableGroups,
-		$expectedCalls) {
+		$expectedCalls): void {
 		$storage = $this->makeTestStorageData();
 		$storage->setApplicableUsers($sourceApplicableUsers);
 		$storage->setApplicableGroups($sourceApplicableGroups);
@@ -452,7 +452,7 @@ class GlobalStoragesServiceTest extends StoragesServiceTest {
 	}
 
 
-	public function testHooksRenameMountPoint() {
+	public function testHooksRenameMountPoint(): void {
 		$storage = $this->makeTestStorageData();
 		$storage->setApplicableUsers(['user1', 'user2']);
 		$storage->setApplicableGroups(['group1', 'group2']);
@@ -581,7 +581,7 @@ class GlobalStoragesServiceTest extends StoragesServiceTest {
 	public function testHooksDeleteStorage(
 		$sourceApplicableUsers,
 		$sourceApplicableGroups,
-		$expectedCalls) {
+		$expectedCalls): void {
 		$storage = $this->makeTestStorageData();
 		$storage->setApplicableUsers($sourceApplicableUsers);
 		$storage->setApplicableGroups($sourceApplicableGroups);

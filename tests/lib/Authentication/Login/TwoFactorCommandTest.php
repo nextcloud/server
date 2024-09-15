@@ -42,7 +42,7 @@ class TwoFactorCommandTest extends ALoginCommandTest {
 		);
 	}
 
-	public function testNotTwoFactorAuthenticated() {
+	public function testNotTwoFactorAuthenticated(): void {
 		$data = $this->getLoggedInLoginData();
 		$this->twoFactorManager->expects($this->once())
 			->method('isTwoFactorAuthenticated')
@@ -55,7 +55,7 @@ class TwoFactorCommandTest extends ALoginCommandTest {
 		$this->assertTrue($result->isSuccess());
 	}
 
-	public function testProcessOneActiveProvider() {
+	public function testProcessOneActiveProvider(): void {
 		$data = $this->getLoggedInLoginData();
 		$this->twoFactorManager->expects($this->once())
 			->method('isTwoFactorAuthenticated')
@@ -99,7 +99,7 @@ class TwoFactorCommandTest extends ALoginCommandTest {
 		$this->assertEquals('two/factor/url', $result->getRedirectUrl());
 	}
 
-	public function testProcessMissingProviders() {
+	public function testProcessMissingProviders(): void {
 		$data = $this->getLoggedInLoginData();
 		$this->twoFactorManager->expects($this->once())
 			->method('isTwoFactorAuthenticated')
@@ -140,7 +140,7 @@ class TwoFactorCommandTest extends ALoginCommandTest {
 		$this->assertEquals('two/factor/url', $result->getRedirectUrl());
 	}
 
-	public function testProcessTwoActiveProviders() {
+	public function testProcessTwoActiveProviders(): void {
 		$data = $this->getLoggedInLoginData();
 		$this->twoFactorManager->expects($this->once())
 			->method('isTwoFactorAuthenticated')
@@ -186,7 +186,7 @@ class TwoFactorCommandTest extends ALoginCommandTest {
 		$this->assertEquals('two/factor/url', $result->getRedirectUrl());
 	}
 
-	public function testProcessFailingProviderAndEnforcedButNoSetupProviders() {
+	public function testProcessFailingProviderAndEnforcedButNoSetupProviders(): void {
 		$data = $this->getLoggedInLoginData();
 		$this->twoFactorManager->expects($this->once())
 			->method('isTwoFactorAuthenticated')
@@ -221,7 +221,7 @@ class TwoFactorCommandTest extends ALoginCommandTest {
 		$this->assertEquals('two/factor/url', $result->getRedirectUrl());
 	}
 
-	public function testProcessFailingProviderAndEnforced() {
+	public function testProcessFailingProviderAndEnforced(): void {
 		$data = $this->getLoggedInLoginData();
 		$this->twoFactorManager->expects($this->once())
 			->method('isTwoFactorAuthenticated')
@@ -259,7 +259,7 @@ class TwoFactorCommandTest extends ALoginCommandTest {
 		$this->assertEquals('two/factor/url', $result->getRedirectUrl());
 	}
 
-	public function testProcessNoProvidersButEnforced() {
+	public function testProcessNoProvidersButEnforced(): void {
 		$data = $this->getLoggedInLoginData();
 		$this->twoFactorManager->expects($this->once())
 			->method('isTwoFactorAuthenticated')
@@ -294,7 +294,7 @@ class TwoFactorCommandTest extends ALoginCommandTest {
 		$this->assertEquals('two/factor/url', $result->getRedirectUrl());
 	}
 
-	public function testProcessWithRedirectUrl() {
+	public function testProcessWithRedirectUrl(): void {
 		$data = $this->getLoggedInLoginDataWithRedirectUrl();
 		$this->twoFactorManager->expects($this->once())
 			->method('isTwoFactorAuthenticated')

@@ -61,7 +61,7 @@ class PasswordConfirmationMiddlewareTest extends TestCase {
 		);
 	}
 
-	public function testNoAnnotationNorAttribute() {
+	public function testNoAnnotationNorAttribute(): void {
 		$this->reflector->reflect($this->controller, __FUNCTION__);
 		$this->session->expects($this->never())
 			->method($this->anything());
@@ -71,7 +71,7 @@ class PasswordConfirmationMiddlewareTest extends TestCase {
 		$this->middleware->beforeController($this->controller, __FUNCTION__);
 	}
 
-	public function testDifferentAnnotation() {
+	public function testDifferentAnnotation(): void {
 		$this->reflector->reflect($this->controller, __FUNCTION__);
 		$this->session->expects($this->never())
 			->method($this->anything());
@@ -84,7 +84,7 @@ class PasswordConfirmationMiddlewareTest extends TestCase {
 	/**
 	 * @dataProvider dataProvider
 	 */
-	public function testAnnotation($backend, $lastConfirm, $currentTime, $exception) {
+	public function testAnnotation($backend, $lastConfirm, $currentTime, $exception): void {
 		$this->reflector->reflect($this->controller, __FUNCTION__);
 
 		$this->user->method('getBackendClassName')
@@ -119,7 +119,7 @@ class PasswordConfirmationMiddlewareTest extends TestCase {
 	/**
 	 * @dataProvider dataProvider
 	 */
-	public function testAttribute($backend, $lastConfirm, $currentTime, $exception) {
+	public function testAttribute($backend, $lastConfirm, $currentTime, $exception): void {
 		$this->reflector->reflect($this->controller, __FUNCTION__);
 
 		$this->user->method('getBackendClassName')
@@ -164,7 +164,7 @@ class PasswordConfirmationMiddlewareTest extends TestCase {
 		];
 	}
 
-	public function testSSO() {
+	public function testSSO(): void {
 		static $sessionId = 'mySession1d';
 
 		$this->reflector->reflect($this->controller, __FUNCTION__);

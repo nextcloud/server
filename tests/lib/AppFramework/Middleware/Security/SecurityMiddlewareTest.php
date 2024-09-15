@@ -347,7 +347,7 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 	/**
 	 * @dataProvider dataNoCSRFRequiredPublicPage
 	 */
-	public function testNoCsrfCheck(string $method) {
+	public function testNoCsrfCheck(string $method): void {
 		$this->request->expects($this->never())
 			->method('passesCSRFCheck')
 			->willReturn(false);
@@ -591,13 +591,13 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 	}
 
 
-	public function testAfterExceptionNotCaughtThrowsItAgain() {
+	public function testAfterExceptionNotCaughtThrowsItAgain(): void {
 		$ex = new \Exception();
 		$this->expectException(\Exception::class);
 		$this->middleware->afterException($this->controller, 'test', $ex);
 	}
 
-	public function testAfterExceptionReturnsRedirectForNotLoggedInUser() {
+	public function testAfterExceptionReturnsRedirectForNotLoggedInUser(): void {
 		$this->request = new Request(
 			[
 				'server' =>
@@ -632,7 +632,7 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 		$this->assertEquals($expected, $response);
 	}
 
-	public function testAfterExceptionRedirectsToWebRootAfterStrictCookieFail() {
+	public function testAfterExceptionRedirectsToWebRootAfterStrictCookieFail(): void {
 		$this->request = new Request(
 			[
 				'server' => [
@@ -677,7 +677,7 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 	 * @dataProvider exceptionProvider
 	 * @param SecurityException $exception
 	 */
-	public function testAfterExceptionReturnsTemplateResponse(SecurityException $exception) {
+	public function testAfterExceptionReturnsTemplateResponse(SecurityException $exception): void {
 		$this->request = new Request(
 			[
 				'server' =>
@@ -703,7 +703,7 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 		$this->assertEquals($expected, $response);
 	}
 
-	public function testAfterAjaxExceptionReturnsJSONError() {
+	public function testAfterAjaxExceptionReturnsJSONError(): void {
 		$response = $this->middleware->afterException($this->controller, 'test',
 			$this->secAjaxException);
 

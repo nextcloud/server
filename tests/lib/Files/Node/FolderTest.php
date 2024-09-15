@@ -62,7 +62,7 @@ class FolderTest extends NodeTest {
 		return 'rmdir';
 	}
 
-	public function testGetDirectoryContent() {
+	public function testGetDirectoryContent(): void {
 		$manager = $this->createMock(Manager::class);
 		/**
 		 * @var \OC\Files\View | \PHPUnit\Framework\MockObject\MockObject $view
@@ -97,7 +97,7 @@ class FolderTest extends NodeTest {
 		$this->assertEquals(3, $children[1]->getId());
 	}
 
-	public function testGet() {
+	public function testGet(): void {
 		$manager = $this->createMock(Manager::class);
 		$view = $this->getRootViewMock();
 		$root = $this->getMockBuilder(Root::class)
@@ -116,7 +116,7 @@ class FolderTest extends NodeTest {
 		self::assertEquals($node, $parentNode->get('asd'));
 	}
 
-	public function testNodeExists() {
+	public function testNodeExists(): void {
 		$manager = $this->createMock(Manager::class);
 		$view = $this->getRootViewMock();
 		$root = $this->getMockBuilder(Root::class)
@@ -136,7 +136,7 @@ class FolderTest extends NodeTest {
 		$this->assertTrue($node->nodeExists('asd'));
 	}
 
-	public function testNodeExistsNotExists() {
+	public function testNodeExistsNotExists(): void {
 		$manager = $this->createMock(Manager::class);
 		$view = $this->getRootViewMock();
 		$root = $this->getMockBuilder(Root::class)
@@ -154,7 +154,7 @@ class FolderTest extends NodeTest {
 		$this->assertFalse($node->nodeExists('asd'));
 	}
 
-	public function testNewFolder() {
+	public function testNewFolder(): void {
 		$manager = $this->createMock(Manager::class);
 		$view = $this->getRootViewMock();
 		$root = $this->getMockBuilder(Root::class)
@@ -178,7 +178,7 @@ class FolderTest extends NodeTest {
 		$this->assertEquals($child, $result);
 	}
 
-	public function testNewFolderDeepParent() {
+	public function testNewFolderDeepParent(): void {
 		$manager = $this->createMock(Manager::class);
 		$view = $this->getRootViewMock();
 		$root = $this->getMockBuilder(Root::class)
@@ -203,7 +203,7 @@ class FolderTest extends NodeTest {
 	}
 
 
-	public function testNewFolderNotPermitted() {
+	public function testNewFolderNotPermitted(): void {
 		$this->expectException(\OCP\Files\NotPermittedException::class);
 
 		$manager = $this->createMock(Manager::class);
@@ -222,7 +222,7 @@ class FolderTest extends NodeTest {
 		$node->newFolder('asd');
 	}
 
-	public function testNewFile() {
+	public function testNewFile(): void {
 		$manager = $this->createMock(Manager::class);
 		$view = $this->getRootViewMock();
 		$root = $this->getMockBuilder(Root::class)
@@ -247,7 +247,7 @@ class FolderTest extends NodeTest {
 	}
 
 
-	public function testNewFileNotPermitted() {
+	public function testNewFileNotPermitted(): void {
 		$this->expectException(\OCP\Files\NotPermittedException::class);
 
 		$manager = $this->createMock(Manager::class);
@@ -266,7 +266,7 @@ class FolderTest extends NodeTest {
 		$node->newFile('asd');
 	}
 
-	public function testGetFreeSpace() {
+	public function testGetFreeSpace(): void {
 		$manager = $this->createMock(Manager::class);
 		$view = $this->getRootViewMock();
 		$root = $this->getMockBuilder(Root::class)
@@ -283,7 +283,7 @@ class FolderTest extends NodeTest {
 		$this->assertEquals(100, $node->getFreeSpace());
 	}
 
-	public function testSearch() {
+	public function testSearch(): void {
 		$manager = $this->createMock(Manager::class);
 		$view = $this->getRootViewMock();
 		$root = $this->getMockBuilder(Root::class)
@@ -330,7 +330,7 @@ class FolderTest extends NodeTest {
 		$this->assertEquals('/bar/foo/qwerty', $result[0]->getPath());
 	}
 
-	public function testSearchInRoot() {
+	public function testSearchInRoot(): void {
 		$manager = $this->createMock(Manager::class);
 		$view = $this->getRootViewMock();
 		$root = $this->getMockBuilder(Root::class)
@@ -371,7 +371,7 @@ class FolderTest extends NodeTest {
 		$this->assertEquals('/foo', $result[0]->getPath());
 	}
 
-	public function testSearchInStorageRoot() {
+	public function testSearchInStorageRoot(): void {
 		$manager = $this->createMock(Manager::class);
 		$view = $this->getRootViewMock();
 		$root = $this->getMockBuilder(Root::class)
@@ -411,7 +411,7 @@ class FolderTest extends NodeTest {
 		$this->assertEquals('/bar/foo/qwerty', $result[0]->getPath());
 	}
 
-	public function testSearchSubStorages() {
+	public function testSearchSubStorages(): void {
 		$manager = $this->createMock(Manager::class);
 		$view = $this->getRootViewMock();
 		$root = $this->getMockBuilder(Root::class)
@@ -469,7 +469,7 @@ class FolderTest extends NodeTest {
 		$this->assertEquals(2, count($result));
 	}
 
-	public function testIsSubNode() {
+	public function testIsSubNode(): void {
 		$rootFolderMock = $this->createMock(IRootFolder::class);
 		$file = new Node($rootFolderMock, $this->view, '/foo/bar');
 		$folder = new Folder($rootFolderMock, $this->view, '/foo');
@@ -480,7 +480,7 @@ class FolderTest extends NodeTest {
 		$this->assertFalse($folder->isSubNode($file));
 	}
 
-	public function testGetById() {
+	public function testGetById(): void {
 		$manager = $this->createMock(Manager::class);
 		$view = $this->getRootViewMock();
 		$root = $this->getMockBuilder(Root::class)
@@ -527,7 +527,7 @@ class FolderTest extends NodeTest {
 		$this->assertEquals('/bar/foo/qwerty', $result[0]->getPath());
 	}
 
-	public function testGetByIdMountRoot() {
+	public function testGetByIdMountRoot(): void {
 		$manager = $this->createMock(Manager::class);
 		$view = $this->getRootViewMock();
 		$root = $this->getMockBuilder(Root::class)
@@ -570,7 +570,7 @@ class FolderTest extends NodeTest {
 		$this->assertEquals('/bar', $result[0]->getPath());
 	}
 
-	public function testGetByIdOutsideFolder() {
+	public function testGetByIdOutsideFolder(): void {
 		$manager = $this->createMock(Manager::class);
 		$view = $this->getRootViewMock();
 		$root = $this->getMockBuilder(Root::class)
@@ -612,7 +612,7 @@ class FolderTest extends NodeTest {
 		$this->assertEquals(0, count($result));
 	}
 
-	public function testGetByIdMultipleStorages() {
+	public function testGetByIdMultipleStorages(): void {
 		$manager = $this->createMock(Manager::class);
 		$view = $this->getRootViewMock();
 		$root = $this->getMockBuilder(Root::class)
@@ -673,7 +673,7 @@ class FolderTest extends NodeTest {
 	/**
 	 * @dataProvider uniqueNameProvider
 	 */
-	public function testGetUniqueName($name, $existingFiles, $expected) {
+	public function testGetUniqueName($name, $existingFiles, $expected): void {
 		$manager = $this->createMock(Manager::class);
 		$folderPath = '/bar/foo';
 		$view = $this->getRootViewMock();
@@ -762,7 +762,7 @@ class FolderTest extends NodeTest {
 		$this->assertEquals([$id1, $id2, $id3], $ids);
 	}
 
-	public function testRecentFolder() {
+	public function testRecentFolder(): void {
 		$manager = $this->createMock(Manager::class);
 		$folderPath = '/bar/foo';
 		$view = $this->getRootViewMock();
@@ -826,7 +826,7 @@ class FolderTest extends NodeTest {
 		$this->assertEquals($baseTime - 100, $nodes[1]->getMTime());
 	}
 
-	public function testRecentJail() {
+	public function testRecentJail(): void {
 		$manager = $this->createMock(Manager::class);
 		$folderPath = '/bar/foo';
 		$view = $this->getRootViewMock();
@@ -909,7 +909,7 @@ class FolderTest extends NodeTest {
 	 * @throws NotFoundException
 	 * @throws \OCP\Files\InvalidPathException
 	 */
-	public function testSearchSubStoragesLimitOffset(int $offset, int $limit, array $expectedPaths, array $ordering) {
+	public function testSearchSubStoragesLimitOffset(int $offset, int $limit, array $expectedPaths, array $ordering): void {
 		if (!$ordering) {
 			$ordering = [new SearchOrder(ISearchOrder::DIRECTION_ASCENDING, 'fileid')];
 		}

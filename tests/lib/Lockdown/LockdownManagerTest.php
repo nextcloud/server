@@ -23,12 +23,12 @@ class LockdownManagerTest extends TestCase {
 		};
 	}
 
-	public function testCanAccessFilesystemDisabled() {
+	public function testCanAccessFilesystemDisabled(): void {
 		$manager = new LockdownManager($this->sessionCallback);
 		$this->assertTrue($manager->canAccessFilesystem());
 	}
 
-	public function testCanAccessFilesystemAllowed() {
+	public function testCanAccessFilesystemAllowed(): void {
 		$token = new PublicKeyToken();
 		$token->setScope([IToken::SCOPE_FILESYSTEM => true]);
 		$manager = new LockdownManager($this->sessionCallback);
@@ -36,7 +36,7 @@ class LockdownManagerTest extends TestCase {
 		$this->assertTrue($manager->canAccessFilesystem());
 	}
 
-	public function testCanAccessFilesystemNotAllowed() {
+	public function testCanAccessFilesystemNotAllowed(): void {
 		$token = new PublicKeyToken();
 		$token->setScope([IToken::SCOPE_FILESYSTEM => false]);
 		$manager = new LockdownManager($this->sessionCallback);

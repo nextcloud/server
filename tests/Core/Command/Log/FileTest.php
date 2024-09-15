@@ -36,7 +36,7 @@ class FileTest extends TestCase {
 		$this->command = new File($config);
 	}
 
-	public function testEnable() {
+	public function testEnable(): void {
 		$this->config->method('getSystemValue')->willReturnArgument(1);
 		$this->consoleInput->method('getOption')
 			->willReturnMap([
@@ -49,7 +49,7 @@ class FileTest extends TestCase {
 		self::invokePrivate($this->command, 'execute', [$this->consoleInput, $this->consoleOutput]);
 	}
 
-	public function testChangeFile() {
+	public function testChangeFile(): void {
 		$this->config->method('getSystemValue')->willReturnArgument(1);
 		$this->consoleInput->method('getOption')
 			->willReturnMap([
@@ -74,7 +74,7 @@ class FileTest extends TestCase {
 	/**
 	 * @dataProvider changeRotateSizeProvider
 	 */
-	public function testChangeRotateSize($optionValue, $configValue) {
+	public function testChangeRotateSize($optionValue, $configValue): void {
 		$this->config->method('getSystemValue')->willReturnArgument(1);
 		$this->consoleInput->method('getOption')
 			->willReturnMap([
@@ -87,7 +87,7 @@ class FileTest extends TestCase {
 		self::invokePrivate($this->command, 'execute', [$this->consoleInput, $this->consoleOutput]);
 	}
 
-	public function testGetConfiguration() {
+	public function testGetConfiguration(): void {
 		$this->config->method('getSystemValue')
 			->willReturnMap([
 				['log_type', 'file', 'log_type_value'],

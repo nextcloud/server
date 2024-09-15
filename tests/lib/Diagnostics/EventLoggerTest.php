@@ -27,7 +27,7 @@ class EventLoggerTest extends TestCase {
 		);
 	}
 
-	public function testQueryLogger() {
+	public function testQueryLogger(): void {
 		// Module is not activated and this should not be logged
 		$this->logger->start('test1', 'testevent1');
 		$this->logger->end('test1');

@@ -123,7 +123,7 @@ class VersioningTest extends \Test\TestCase {
 	 * test expire logic
 	 * @dataProvider versionsProvider
 	 */
-	public function testGetExpireList($versions, $sizeOfAllDeletedFiles) {
+	public function testGetExpireList($versions, $sizeOfAllDeletedFiles): void {
 
 		// last interval end at 2592000
 		$startTime = 5000000;
@@ -269,7 +269,7 @@ class VersioningTest extends \Test\TestCase {
 		];
 	}
 
-	public function testRename() {
+	public function testRename(): void {
 		\OC\Files\Filesystem::file_put_contents('test.txt', 'test file');
 
 		$t1 = time();
@@ -298,7 +298,7 @@ class VersioningTest extends \Test\TestCase {
 		$this->assertTrue($this->rootView->file_exists($v2Renamed), 'version 2 of renamed file exists');
 	}
 
-	public function testRenameInSharedFolder() {
+	public function testRenameInSharedFolder(): void {
 		\OC\Files\Filesystem::mkdir('folder1');
 		\OC\Files\Filesystem::mkdir('folder1/folder2');
 		\OC\Files\Filesystem::file_put_contents('folder1/test.txt', 'test file');
@@ -348,7 +348,7 @@ class VersioningTest extends \Test\TestCase {
 		\OC::$server->getShareManager()->deleteShare($share);
 	}
 
-	public function testMoveFolder() {
+	public function testMoveFolder(): void {
 		\OC\Files\Filesystem::mkdir('folder1');
 		\OC\Files\Filesystem::mkdir('folder2');
 		\OC\Files\Filesystem::file_put_contents('folder1/test.txt', 'test file');
@@ -381,7 +381,7 @@ class VersioningTest extends \Test\TestCase {
 	}
 
 
-	public function testMoveFileIntoSharedFolderAsRecipient() {
+	public function testMoveFileIntoSharedFolderAsRecipient(): void {
 		\OC\Files\Filesystem::mkdir('folder1');
 		$fileInfo = \OC\Files\Filesystem::getFileInfo('folder1');
 
@@ -431,7 +431,7 @@ class VersioningTest extends \Test\TestCase {
 		\OC::$server->getShareManager()->deleteShare($share);
 	}
 
-	public function testMoveFolderIntoSharedFolderAsRecipient() {
+	public function testMoveFolderIntoSharedFolderAsRecipient(): void {
 		\OC\Files\Filesystem::mkdir('folder1');
 
 		$node = \OC::$server->getUserFolder(self::TEST_VERSIONS_USER)->get('folder1');
@@ -482,7 +482,7 @@ class VersioningTest extends \Test\TestCase {
 		\OC::$server->getShareManager()->deleteShare($share);
 	}
 
-	public function testRenameSharedFile() {
+	public function testRenameSharedFile(): void {
 		\OC\Files\Filesystem::file_put_contents('test.txt', 'test file');
 
 		$t1 = time();
@@ -531,7 +531,7 @@ class VersioningTest extends \Test\TestCase {
 		\OC::$server->getShareManager()->deleteShare($share);
 	}
 
-	public function testCopy() {
+	public function testCopy(): void {
 		\OC\Files\Filesystem::file_put_contents('test.txt', 'test file');
 
 		$t1 = time();
@@ -564,7 +564,7 @@ class VersioningTest extends \Test\TestCase {
 	 * test if we find all versions and if the versions array contain
 	 * the correct 'path' and 'name'
 	 */
-	public function testGetVersions() {
+	public function testGetVersions(): void {
 		$t1 = time();
 		// second version is two weeks older, this way we make sure that no
 		// version will be expired
@@ -597,7 +597,7 @@ class VersioningTest extends \Test\TestCase {
 	 * test if we find all versions and if the versions array contain
 	 * the correct 'path' and 'name'
 	 */
-	public function testGetVersionsEmptyFile() {
+	public function testGetVersionsEmptyFile(): void {
 		// execute copy hook of versions app
 		$versions = \OCA\Files_Versions\Storage::getVersions(self::TEST_VERSIONS_USER, '');
 		$this->assertCount(0, $versions);
@@ -606,7 +606,7 @@ class VersioningTest extends \Test\TestCase {
 		$this->assertCount(0, $versions);
 	}
 
-	public function testExpireNonexistingFile() {
+	public function testExpireNonexistingFile(): void {
 		$this->logout();
 		// needed to have a FS setup (the background job does this)
 		\OC_Util::setupFS(self::TEST_VERSIONS_USER);
@@ -615,7 +615,7 @@ class VersioningTest extends \Test\TestCase {
 	}
 
 
-	public function testExpireNonexistingUser() {
+	public function testExpireNonexistingUser(): void {
 		$this->expectException(\OC\User\NoUserException::class);
 
 		$this->logout();
@@ -626,19 +626,19 @@ class VersioningTest extends \Test\TestCase {
 		$this->assertFalse(\OCA\Files_Versions\Storage::expire('test.txt', 'unexist'));
 	}
 
-	public function testRestoreSameStorage() {
+	public function testRestoreSameStorage(): void {
 		\OC\Files\Filesystem::mkdir('sub');
 		$this->doTestRestore();
 	}
 
-	public function testRestoreCrossStorage() {
+	public function testRestoreCrossStorage(): void {
 		$storage2 = new Temporary([]);
 		\OC\Files\Filesystem::mount($storage2, [], self::TEST_VERSIONS_USER . '/files/sub');
 
 		$this->doTestRestore();
 	}
 
-	public function testRestoreNoPermission() {
+	public function testRestoreNoPermission(): void {
 		$this->loginAsUser(self::TEST_VERSIONS_USER);
 
 		$userHome = \OC::$server->getUserFolder(self::TEST_VERSIONS_USER);
@@ -673,7 +673,7 @@ class VersioningTest extends \Test\TestCase {
 		$this->assertEquals('test file', $file->getContent(), 'File content has not changed');
 	}
 
-	public function testRestoreMovedShare() {
+	public function testRestoreMovedShare(): void {
 		$this->markTestSkipped('Unreliable test');
 		$this->loginAsUser(self::TEST_VERSIONS_USER);
 
@@ -864,7 +864,7 @@ class VersioningTest extends \Test\TestCase {
 	/**
 	 * Test whether versions are created when overwriting as owner
 	 */
-	public function testStoreVersionAsOwner() {
+	public function testStoreVersionAsOwner(): void {
 		$this->loginAsUser(self::TEST_VERSIONS_USER);
 
 		$this->createAndCheckVersions(
@@ -876,7 +876,7 @@ class VersioningTest extends \Test\TestCase {
 	/**
 	 * Test whether versions are created when overwriting as share recipient
 	 */
-	public function testStoreVersionAsRecipient() {
+	public function testStoreVersionAsRecipient(): void {
 		$this->loginAsUser(self::TEST_VERSIONS_USER);
 
 		\OC\Files\Filesystem::mkdir('folder');
@@ -909,7 +909,7 @@ class VersioningTest extends \Test\TestCase {
 	 * is logged in. File modification must still be able to find
 	 * the owner and create versions.
 	 */
-	public function testStoreVersionAsAnonymous() {
+	public function testStoreVersionAsAnonymous(): void {
 		$this->logout();
 
 		// note: public link upload does this,

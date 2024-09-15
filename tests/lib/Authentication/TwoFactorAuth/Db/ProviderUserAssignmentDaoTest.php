@@ -35,7 +35,7 @@ class ProviderUserAssignmentDaoTest extends TestCase {
 		$this->dao = new ProviderUserAssignmentDao($this->dbConn);
 	}
 
-	public function testGetState() {
+	public function testGetState(): void {
 		$qb = $this->dbConn->getQueryBuilder();
 		$q1 = $qb->insert(ProviderUserAssignmentDao::TABLE_NAME)->values([
 			'provider_id' => $qb->createNamedParameter('twofactor_u2f'),
@@ -59,7 +59,7 @@ class ProviderUserAssignmentDaoTest extends TestCase {
 		$this->assertEquals($expected, $state);
 	}
 
-	public function testPersist() {
+	public function testPersist(): void {
 		$qb = $this->dbConn->getQueryBuilder();
 
 		$this->dao->persist('twofactor_totp', 'user123', 0);
@@ -76,7 +76,7 @@ class ProviderUserAssignmentDaoTest extends TestCase {
 		$this->assertCount(1, $data);
 	}
 
-	public function testPersistTwice() {
+	public function testPersistTwice(): void {
 		$qb = $this->dbConn->getQueryBuilder();
 
 		$this->dao->persist('twofactor_totp', 'user123', 0);
@@ -95,7 +95,7 @@ class ProviderUserAssignmentDaoTest extends TestCase {
 		$this->assertCount(1, $data);
 	}
 
-	public function testPersistSameStateTwice() {
+	public function testPersistSameStateTwice(): void {
 		$qb = $this->dbConn->getQueryBuilder();
 
 		$this->dao->persist('twofactor_totp', 'user123', 1);
@@ -114,7 +114,7 @@ class ProviderUserAssignmentDaoTest extends TestCase {
 		$this->assertCount(1, $data);
 	}
 
-	public function testDeleteByUser() {
+	public function testDeleteByUser(): void {
 		$this->dao->persist('twofactor_fail', 'user1', 1);
 		$this->dao->persist('twofactor_u2f', 'user1', 1);
 		$this->dao->persist('twofactor_fail', 'user2', 0);
@@ -143,7 +143,7 @@ class ProviderUserAssignmentDaoTest extends TestCase {
 		$this->assertCount(2, $statesUser2);
 	}
 
-	public function testDeleteAll() {
+	public function testDeleteAll(): void {
 		$this->dao->persist('twofactor_fail', 'user1', 1);
 		$this->dao->persist('twofactor_u2f', 'user1', 1);
 		$this->dao->persist('twofactor_fail', 'user2', 0);

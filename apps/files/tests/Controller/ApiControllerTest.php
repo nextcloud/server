@@ -113,12 +113,12 @@ class ApiControllerTest extends TestCase {
 		);
 	}
 
-	public function testUpdateFileTagsEmpty() {
+	public function testUpdateFileTagsEmpty(): void {
 		$expected = new DataResponse([]);
 		$this->assertEquals($expected, $this->apiController->updateFileTags('/path.txt'));
 	}
 
-	public function testUpdateFileTagsWorking() {
+	public function testUpdateFileTagsWorking(): void {
 		$this->tagService->expects($this->once())
 			->method('updateFileTags')
 			->with('/path.txt', ['Tag1', 'Tag2']);
@@ -132,7 +132,7 @@ class ApiControllerTest extends TestCase {
 		$this->assertEquals($expected, $this->apiController->updateFileTags('/path.txt', ['Tag1', 'Tag2']));
 	}
 
-	public function testUpdateFileTagsNotFoundException() {
+	public function testUpdateFileTagsNotFoundException(): void {
 		$this->tagService->expects($this->once())
 			->method('updateFileTags')
 			->with('/path.txt', ['Tag1', 'Tag2'])
@@ -142,7 +142,7 @@ class ApiControllerTest extends TestCase {
 		$this->assertEquals($expected, $this->apiController->updateFileTags('/path.txt', ['Tag1', 'Tag2']));
 	}
 
-	public function testUpdateFileTagsStorageNotAvailableException() {
+	public function testUpdateFileTagsStorageNotAvailableException(): void {
 		$this->tagService->expects($this->once())
 			->method('updateFileTags')
 			->with('/path.txt', ['Tag1', 'Tag2'])
@@ -152,7 +152,7 @@ class ApiControllerTest extends TestCase {
 		$this->assertEquals($expected, $this->apiController->updateFileTags('/path.txt', ['Tag1', 'Tag2']));
 	}
 
-	public function testUpdateFileTagsStorageGenericException() {
+	public function testUpdateFileTagsStorageGenericException(): void {
 		$this->tagService->expects($this->once())
 			->method('updateFileTags')
 			->with('/path.txt', ['Tag1', 'Tag2'])
@@ -162,7 +162,7 @@ class ApiControllerTest extends TestCase {
 		$this->assertEquals($expected, $this->apiController->updateFileTags('/path.txt', ['Tag1', 'Tag2']));
 	}
 
-	public function testGetThumbnailInvalidSize() {
+	public function testGetThumbnailInvalidSize(): void {
 		$this->userFolder->method('get')
 			->with($this->equalTo(''))
 			->willThrowException(new NotFoundException());
@@ -170,7 +170,7 @@ class ApiControllerTest extends TestCase {
 		$this->assertEquals($expected, $this->apiController->getThumbnail(0, 0, ''));
 	}
 
-	public function testGetThumbnailInvalidImage() {
+	public function testGetThumbnailInvalidImage(): void {
 		$file = $this->createMock(File::class);
 		$file->method('getId')->willReturn(123);
 		$this->userFolder->method('get')
@@ -184,7 +184,7 @@ class ApiControllerTest extends TestCase {
 		$this->assertEquals($expected, $this->apiController->getThumbnail(10, 10, 'unknown.jpg'));
 	}
 
-	public function testGetThumbnailInvalidPartFile() {
+	public function testGetThumbnailInvalidPartFile(): void {
 		$file = $this->createMock(File::class);
 		$file->method('getId')->willReturn(0);
 		$this->userFolder->method('get')
@@ -194,7 +194,7 @@ class ApiControllerTest extends TestCase {
 		$this->assertEquals($expected, $this->apiController->getThumbnail(10, 10, 'unknown.jpg'));
 	}
 
-	public function testGetThumbnail() {
+	public function testGetThumbnail(): void {
 		$file = $this->createMock(File::class);
 		$file->method('getId')->willReturn(123);
 		$this->userFolder->method('get')
@@ -214,7 +214,7 @@ class ApiControllerTest extends TestCase {
 		$this->assertInstanceOf(Http\FileDisplayResponse::class, $ret);
 	}
 
-	public function testShowHiddenFiles() {
+	public function testShowHiddenFiles(): void {
 		$show = false;
 
 		$this->config->expects($this->once())
@@ -227,7 +227,7 @@ class ApiControllerTest extends TestCase {
 		$this->assertEquals($expected, $actual);
 	}
 
-	public function testCropImagePreviews() {
+	public function testCropImagePreviews(): void {
 		$crop = true;
 
 		$this->config->expects($this->once())

@@ -52,7 +52,7 @@ class ExpressionBuilderDBTest extends TestCase {
 	 * @param string $param2
 	 * @param boolean $match
 	 */
-	public function testLike($param1, $param2, $match) {
+	public function testLike($param1, $param2, $match): void {
 		$query = $this->connection->getQueryBuilder();
 
 		$query->select(new Literal('1'))
@@ -89,7 +89,7 @@ class ExpressionBuilderDBTest extends TestCase {
 	 * @param string $param2
 	 * @param boolean $match
 	 */
-	public function testILike($param1, $param2, $match) {
+	public function testILike($param1, $param2, $match): void {
 		$query = $this->connection->getQueryBuilder();
 
 		$query->select(new Literal('1'))
@@ -141,7 +141,7 @@ class ExpressionBuilderDBTest extends TestCase {
 		self::assertEquals('myvalue', $entries[0]['configvalue']);
 	}
 
-	public function testDateTimeEquals() {
+	public function testDateTimeEquals(): void {
 		$dateTime = new \DateTime('2023-01-01');
 		$insert = $this->connection->getQueryBuilder();
 		$insert->insert('testing')
@@ -158,7 +158,7 @@ class ExpressionBuilderDBTest extends TestCase {
 		self::assertCount(1, $entries);
 	}
 
-	public function testDateTimeLess() {
+	public function testDateTimeLess(): void {
 		$dateTime = new \DateTime('2022-01-01');
 		$dateTimeCompare = new \DateTime('2022-01-02');
 		$insert = $this->connection->getQueryBuilder();
@@ -176,7 +176,7 @@ class ExpressionBuilderDBTest extends TestCase {
 		self::assertCount(1, $entries);
 	}
 
-	public function testDateTimeGreater() {
+	public function testDateTimeGreater(): void {
 		$dateTime = new \DateTime('2023-01-02');
 		$dateTimeCompare = new \DateTime('2023-01-01');
 		$insert = $this->connection->getQueryBuilder();

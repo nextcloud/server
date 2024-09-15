@@ -20,7 +20,7 @@ class FedAuthTest extends TestCase {
 	 * @param string $user
 	 * @param string $password
 	 */
-	public function testFedAuth($expected, $user, $password) {
+	public function testFedAuth($expected, $user, $password): void {
 		/** @var DbHandler | \PHPUnit\Framework\MockObject\MockObject $db */
 		$db = $this->getMockBuilder('OCA\Federation\DbHandler')->disableOriginalConstructor()->getMock();
 		$db->method('auth')->willReturn(true);

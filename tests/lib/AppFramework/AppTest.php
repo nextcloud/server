@@ -71,7 +71,7 @@ class AppTest extends \Test\TestCase {
 	}
 
 
-	public function testControllerNameAndMethodAreBeingPassed() {
+	public function testControllerNameAndMethodAreBeingPassed(): void {
 		$return = ['HTTP/2.0 200 OK', [], [], null, new Response()];
 		$this->dispatcher->expects($this->once())
 			->method('dispatch')
@@ -87,19 +87,19 @@ class AppTest extends \Test\TestCase {
 	}
 
 
-	public function testBuildAppNamespace() {
+	public function testBuildAppNamespace(): void {
 		$ns = App::buildAppNamespace('someapp');
 		$this->assertEquals('OCA\Someapp', $ns);
 	}
 
 
-	public function testBuildAppNamespaceCore() {
+	public function testBuildAppNamespaceCore(): void {
 		$ns = App::buildAppNamespace('someapp', 'OC\\');
 		$this->assertEquals('OC\Someapp', $ns);
 	}
 
 
-	public function testBuildAppNamespaceInfoXml() {
+	public function testBuildAppNamespaceInfoXml(): void {
 		$ns = App::buildAppNamespace('namespacetestapp', 'OCA\\');
 		$this->assertEquals('OCA\NameSpaceTestApp', $ns);
 	}
@@ -111,7 +111,7 @@ class AppTest extends \Test\TestCase {
 	}
 
 
-	public function testOutputIsPrinted() {
+	public function testOutputIsPrinted(): void {
 		$return = ['HTTP/2.0 200 OK', [], [], $this->output, new Response()];
 		$this->dispatcher->expects($this->once())
 			->method('dispatch')
@@ -134,7 +134,7 @@ class AppTest extends \Test\TestCase {
 	/**
 	 * @dataProvider dataNoOutput
 	 */
-	public function testNoOutput(string $statusCode) {
+	public function testNoOutput(string $statusCode): void {
 		$return = [$statusCode, [], [], $this->output, new Response()];
 		$this->dispatcher->expects($this->once())
 			->method('dispatch')
@@ -150,7 +150,7 @@ class AppTest extends \Test\TestCase {
 	}
 
 
-	public function testCallbackIsCalled() {
+	public function testCallbackIsCalled(): void {
 		$mock = $this->getMockBuilder('OCP\AppFramework\Http\ICallbackResponse')
 			->getMock();
 
@@ -165,7 +165,7 @@ class AppTest extends \Test\TestCase {
 		App::main($this->controllerName, $this->controllerMethod, $this->container, []);
 	}
 
-	public function testCoreApp() {
+	public function testCoreApp(): void {
 		$this->container['AppName'] = 'core';
 		$this->container['OC\Core\Controller\Foo'] = $this->controller;
 		$this->container['urlParams'] = ['_route' => 'not-profiler'];
@@ -183,7 +183,7 @@ class AppTest extends \Test\TestCase {
 		App::main('Foo', $this->controllerMethod, $this->container);
 	}
 
-	public function testSettingsApp() {
+	public function testSettingsApp(): void {
 		$this->container['AppName'] = 'settings';
 		$this->container['OCA\Settings\Controller\Foo'] = $this->controller;
 		$this->container['urlParams'] = ['_route' => 'not-profiler'];
@@ -201,7 +201,7 @@ class AppTest extends \Test\TestCase {
 		App::main('Foo', $this->controllerMethod, $this->container);
 	}
 
-	public function testApp() {
+	public function testApp(): void {
 		$this->container['AppName'] = 'bar';
 		$this->container['OCA\Bar\Controller\Foo'] = $this->controller;
 		$this->container['urlParams'] = ['_route' => 'not-profiler'];

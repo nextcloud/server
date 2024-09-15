@@ -29,7 +29,7 @@ class SearchIntegrationTest extends TestCase {
 	}
 
 
-	public function testThousandAndOneFilters() {
+	public function testThousandAndOneFilters(): void {
 		$id = $this->cache->put('file10', ['size' => 1, 'mtime' => 50, 'mimetype' => 'foo/folder']);
 
 		$comparisons = [];

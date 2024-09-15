@@ -74,7 +74,7 @@ class IconBuilderTest extends TestCase {
 	 * @param $color
 	 * @param $file
 	 */
-	public function testRenderAppIcon($app, $color, $file) {
+	public function testRenderAppIcon($app, $color, $file): void {
 		$this->checkImagick();
 		$this->themingDefaults->expects($this->once())
 			->method('getColorPrimary')
@@ -103,7 +103,7 @@ class IconBuilderTest extends TestCase {
 	 * @param $color
 	 * @param $file
 	 */
-	public function testGetTouchIcon($app, $color, $file) {
+	public function testGetTouchIcon($app, $color, $file): void {
 		$this->checkImagick();
 		$this->themingDefaults->expects($this->once())
 			->method('getColorPrimary')
@@ -133,7 +133,7 @@ class IconBuilderTest extends TestCase {
 	 * @param $color
 	 * @param $file
 	 */
-	public function testGetFavicon($app, $color, $file) {
+	public function testGetFavicon($app, $color, $file): void {
 		$this->checkImagick();
 		$this->imageManager->expects($this->once())
 			->method('shouldReplaceIcons')
@@ -162,7 +162,7 @@ class IconBuilderTest extends TestCase {
 		// cloud be something like $expectedIcon->compareImages($icon, Imagick::METRIC_MEANABSOLUTEERROR)[1])
 	}
 
-	public function testGetFaviconNotFound() {
+	public function testGetFaviconNotFound(): void {
 		$this->checkImagick();
 		$this->expectWarning(Warning::class);
 		$util = $this->getMockBuilder(Util::class)->disableOriginalConstructor()->getMock();
@@ -176,7 +176,7 @@ class IconBuilderTest extends TestCase {
 		$this->assertFalse($iconBuilder->getFavicon('noapp'));
 	}
 
-	public function testGetTouchIconNotFound() {
+	public function testGetTouchIconNotFound(): void {
 		$this->checkImagick();
 		$this->expectWarning(Warning::class);
 		$util = $this->getMockBuilder(Util::class)->disableOriginalConstructor()->getMock();
@@ -187,7 +187,7 @@ class IconBuilderTest extends TestCase {
 		$this->assertFalse($iconBuilder->getTouchIcon('noapp'));
 	}
 
-	public function testColorSvgNotFound() {
+	public function testColorSvgNotFound(): void {
 		$this->checkImagick();
 		$this->expectWarning(Warning::class);
 		$util = $this->getMockBuilder(Util::class)->disableOriginalConstructor()->getMock();

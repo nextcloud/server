@@ -13,7 +13,7 @@ use OCP\IUser;
 use Test\TestCase;
 
 class CodesGeneratedTest extends TestCase {
-	public function testCodeGeneratedEvent() {
+	public function testCodeGeneratedEvent(): void {
 		$user = $this->createMock(IUser::class);
 
 		$event = new CodesGenerated($user);

@@ -38,7 +38,7 @@ class ShareRecipientSorterTest extends TestCase {
 	 * @dataProvider sortDataProvider
 	 * @param $data
 	 */
-	public function testSort($data) {
+	public function testSort($data): void {
 		$node = $this->createMock(Node::class);
 
 		/** @var Folder|\PHPUnit\Framework\MockObject\MockObject $folder */
@@ -79,7 +79,7 @@ class ShareRecipientSorterTest extends TestCase {
 		$this->assertEquals($data['expected'], $workArray);
 	}
 
-	public function testSortNoNodes() {
+	public function testSortNoNodes(): void {
 		/** @var Folder|\PHPUnit\Framework\MockObject\MockObject $folder */
 		$folder = $this->createMock(Folder::class);
 		$this->rootFolder->expects($this->any())

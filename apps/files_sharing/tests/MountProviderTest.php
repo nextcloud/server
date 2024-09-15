@@ -113,7 +113,7 @@ class MountProviderTest extends \Test\TestCase {
 	 * - shares that were opted out of (permissions === 0)
 	 * - shares with a group in which the owner is already in
 	 */
-	public function testExcludeShares() {
+	public function testExcludeShares(): void {
 		$rootFolder = $this->createMock(IRootFolder::class);
 		$userManager = $this->createMock(IUserManager::class);
 		$attr1 = [];
@@ -346,7 +346,7 @@ class MountProviderTest extends \Test\TestCase {
 	 * @param array $groupShares array of group share specs
 	 * @param array $expectedShares array of expected supershare specs
 	 */
-	public function testMergeShares($userShares, $groupShares, $expectedShares, $moveFails = false) {
+	public function testMergeShares($userShares, $groupShares, $expectedShares, $moveFails = false): void {
 		$rootFolder = $this->createMock(IRootFolder::class);
 		$userManager = $this->createMock(IUserManager::class);
 

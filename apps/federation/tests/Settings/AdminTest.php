@@ -26,7 +26,7 @@ class AdminTest extends TestCase {
 		);
 	}
 
-	public function testGetForm() {
+	public function testGetForm(): void {
 		$this->trustedServers
 			->expects($this->once())
 			->method('getServers')
@@ -39,11 +39,11 @@ class AdminTest extends TestCase {
 		$this->assertEquals($expected, $this->admin->getForm());
 	}
 
-	public function testGetSection() {
+	public function testGetSection(): void {
 		$this->assertSame('sharing', $this->admin->getSection());
 	}
 
-	public function testGetPriority() {
+	public function testGetPriority(): void {
 		$this->assertSame(30, $this->admin->getPriority());
 	}
 }

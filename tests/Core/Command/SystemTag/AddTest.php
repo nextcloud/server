@@ -40,7 +40,7 @@ class AddTest extends TestCase {
 		$this->output = $this->createMock(OutputInterface::class);
 	}
 
-	public function testExecute() {
+	public function testExecute(): void {
 		$tagId = '42';
 		$tagName = 'wichtig';
 		$tagAccess = 'public';
@@ -82,7 +82,7 @@ class AddTest extends TestCase {
 		$this->invokePrivate($this->command, 'execute', [$this->input, $this->output]);
 	}
 
-	public function testAlreadyExists() {
+	public function testAlreadyExists(): void {
 		$tagId = '42';
 		$tagName = 'wichtig';
 		$tagAccess = 'public';

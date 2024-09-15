@@ -52,7 +52,7 @@ class DisableTest extends TestCase {
 	 * @param bool $isUpdating
 	 * @param string $expectedString
 	 */
-	public function testDisable($oldStatus, $isUpdating, $expectedString) {
+	public function testDisable($oldStatus, $isUpdating, $expectedString): void {
 		$this->config->expects($this->once())
 			->method('getAppValue')
 			->with('core', 'encryption_enabled', $this->anything())

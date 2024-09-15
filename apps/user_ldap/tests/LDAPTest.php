@@ -36,7 +36,7 @@ class LDAPTest extends TestCase {
 	 * @param bool $passThrough
 	 * @dataProvider errorProvider
 	 */
-	public function testSearchWithErrorHandler(string $errorMessage, bool $passThrough) {
+	public function testSearchWithErrorHandler(string $errorMessage, bool $passThrough): void {
 		$wasErrorHandlerCalled = false;
 		$errorHandler = function ($number, $message, $file, $line) use (&$wasErrorHandlerCalled) {
 			$wasErrorHandlerCalled = true;
@@ -59,7 +59,7 @@ class LDAPTest extends TestCase {
 		restore_error_handler();
 	}
 
-	public function testModReplace() {
+	public function testModReplace(): void {
 		$link = $this->createMock(LDAP::class);
 		$userDN = 'CN=user';
 		$password = 'MyPassword';

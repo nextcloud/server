@@ -40,7 +40,7 @@ class DiscoveryServiceTest extends TestCase {
 	 * @param string $url
 	 * @param bool $expected
 	 */
-	public function testIsSafeUrl($url, $expected) {
+	public function testIsSafeUrl($url, $expected): void {
 		$result = $this->invokePrivate($this->discoveryService, 'isSafeUrl', [$url]);
 		$this->assertSame($expected, $result);
 	}
@@ -64,7 +64,7 @@ class DiscoveryServiceTest extends TestCase {
 	 * @param string $service
 	 * @param array $expected
 	 */
-	public function testGetEndpoints($decodedServices, $service, $expected) {
+	public function testGetEndpoints($decodedServices, $service, $expected): void {
 		$result = $this->invokePrivate($this->discoveryService, 'getEndpoints', [$decodedServices, $service]);
 		$this->assertSame($expected, $result);
 	}

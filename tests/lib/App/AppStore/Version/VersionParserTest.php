@@ -62,12 +62,12 @@ class VersionParserTest extends TestCase {
 	 * @param Version $expected
 	 */
 	public function testGetVersion($input,
-		Version $expected) {
+		Version $expected): void {
 		$this->assertEquals($expected, $this->versionParser->getVersion($input));
 	}
 
 	
-	public function testGetVersionException() {
+	public function testGetVersionException(): void {
 		$this->expectException(\Exception::class);
 		$this->expectExceptionMessage('Version cannot be parsed: BogusVersion');
 
@@ -75,7 +75,7 @@ class VersionParserTest extends TestCase {
 	}
 
 	
-	public function testGetVersionExceptionWithMultiple() {
+	public function testGetVersionExceptionWithMultiple(): void {
 		$this->expectException(\Exception::class);
 		$this->expectExceptionMessage('Version cannot be parsed: >=8.2 <=9.1a');
 

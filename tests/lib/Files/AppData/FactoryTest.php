@@ -28,7 +28,7 @@ class FactoryTest extends \Test\TestCase {
 		$this->factory = new Factory($this->rootFolder, $this->systemConfig);
 	}
 
-	public function testGet() {
+	public function testGet(): void {
 		$this->rootFolder->expects($this->never())
 			->method($this->anything());
 		$this->systemConfig->expects($this->never())

@@ -57,7 +57,7 @@ class SecurityTest extends TestCase {
 	 * @dataProvider encryptionSettingsProvider
 	 * @param bool $enabled
 	 */
-	public function testGetFormWithOnlyOneBackend($enabled) {
+	public function testGetFormWithOnlyOneBackend($enabled): void {
 		$this->manager
 			->expects($this->once())
 			->method('isEnabled')
@@ -87,7 +87,7 @@ class SecurityTest extends TestCase {
 	 * @dataProvider encryptionSettingsProvider
 	 * @param bool $enabled
 	 */
-	public function testGetFormWithMultipleBackends($enabled) {
+	public function testGetFormWithMultipleBackends($enabled): void {
 		$this->manager
 			->expects($this->once())
 			->method('isEnabled')
@@ -113,11 +113,11 @@ class SecurityTest extends TestCase {
 		$this->assertEquals($expected, $this->admin->getForm());
 	}
 
-	public function testGetSection() {
+	public function testGetSection(): void {
 		$this->assertSame('security', $this->admin->getSection());
 	}
 
-	public function testGetPriority() {
+	public function testGetPriority(): void {
 		$this->assertSame(10, $this->admin->getPriority());
 	}
 }

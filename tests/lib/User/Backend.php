@@ -32,7 +32,7 @@ abstract class Backend extends \Test\TestCase {
 		return $this->getUniqueID('test_');
 	}
 
-	public function testAddRemove() {
+	public function testAddRemove(): void {
 		//get the number of groups we start with, in case there are exising groups
 		$startCount = count($this->backend->getUsers());
 
@@ -56,7 +56,7 @@ abstract class Backend extends \Test\TestCase {
 		$this->assertFalse((array_search($name2, $this->backend->getUsers()) !== false));
 	}
 
-	public function testLogin() {
+	public function testLogin(): void {
 		$name1 = $this->getUser();
 		$name2 = $this->getUser();
 
@@ -84,7 +84,7 @@ abstract class Backend extends \Test\TestCase {
 		$this->assertFalse($this->backend->checkPassword($name2, 'newpass1'));
 	}
 
-	public function testSearch() {
+	public function testSearch(): void {
 		$name1 = 'foobarbaz';
 		$name2 = 'bazbarfoo';
 		$name3 = 'notme';

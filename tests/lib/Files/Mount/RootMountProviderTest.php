@@ -44,7 +44,7 @@ class RootMountProviderTest extends TestCase {
 		return $provider;
 	}
 
-	public function testLocal() {
+	public function testLocal(): void {
 		$provider = $this->getProvider([
 			'datadirectory' => '/data',
 		]);
@@ -58,7 +58,7 @@ class RootMountProviderTest extends TestCase {
 		$this->assertEquals('/data/', $storage->getSourcePath(''));
 	}
 
-	public function testObjectStore() {
+	public function testObjectStore(): void {
 		$provider = $this->getProvider([
 			'objectstore' => [
 				'class' => "OC\Files\ObjectStore\S3",
@@ -91,7 +91,7 @@ class RootMountProviderTest extends TestCase {
 		$this->assertEquals('nextcloud', $objectStore->getBucket());
 	}
 
-	public function testObjectStoreMultiBucket() {
+	public function testObjectStoreMultiBucket(): void {
 		$provider = $this->getProvider([
 			'objectstore_multibucket' => [
 				'class' => "OC\Files\ObjectStore\S3",

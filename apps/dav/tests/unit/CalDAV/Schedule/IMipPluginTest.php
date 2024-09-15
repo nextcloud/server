@@ -467,7 +467,7 @@ class IMipPluginTest extends TestCase {
 		$this->assertEquals('1.1', $message->getScheduleStatus());
 	}
 
-	public function testEmailValidationFailed() {
+	public function testEmailValidationFailed(): void {
 		$message = new Message();
 		$message->method = 'REQUEST';
 		$message->message = new VCalendar();

@@ -87,7 +87,7 @@ class AdminSettingsControllerTest extends TestCase {
 		parent::tearDown();
 	}
 
-	public function testIndex() {
+	public function testIndex(): void {
 		$user = $this->createMock(IUser::class);
 		$this->userSession
 			->method('getUser')

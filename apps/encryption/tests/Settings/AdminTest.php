@@ -51,7 +51,7 @@ class AdminTest extends TestCase {
 		);
 	}
 
-	public function testGetForm() {
+	public function testGetForm(): void {
 		$this->config
 			->method('getAppValue')
 			->will($this->returnCallback(function ($app, $key, $default) {
@@ -73,11 +73,11 @@ class AdminTest extends TestCase {
 		$this->assertEquals($expected, $this->admin->getForm());
 	}
 
-	public function testGetSection() {
+	public function testGetSection(): void {
 		$this->assertSame('security', $this->admin->getSection());
 	}
 
-	public function testGetPriority() {
+	public function testGetPriority(): void {
 		$this->assertSame(11, $this->admin->getPriority());
 	}
 }

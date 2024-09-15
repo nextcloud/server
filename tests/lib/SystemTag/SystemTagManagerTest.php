@@ -102,7 +102,7 @@ class SystemTagManagerTest extends TestCase {
 	/**
 	 * @dataProvider getAllTagsDataProvider
 	 */
-	public function testGetAllTags($testTags) {
+	public function testGetAllTags($testTags): void {
 		$testTagsById = [];
 		foreach ($testTags as $testTag) {
 			$tag = $this->tagManager->createTag($testTag[0], $testTag[1], $testTag[2]);
@@ -211,7 +211,7 @@ class SystemTagManagerTest extends TestCase {
 	/**
 	 * @dataProvider getAllTagsFilteredDataProvider
 	 */
-	public function testGetAllTagsFiltered($testTags, $visibilityFilter, $nameSearch, $expectedResults) {
+	public function testGetAllTagsFiltered($testTags, $visibilityFilter, $nameSearch, $expectedResults): void {
 		foreach ($testTags as $testTag) {
 			$this->tagManager->createTag($testTag[0], $testTag[1], $testTag[2]);
 		}
@@ -244,7 +244,7 @@ class SystemTagManagerTest extends TestCase {
 	/**
 	 * @dataProvider oneTagMultipleFlagsProvider
 	 */
-	public function testCreateDuplicate($name, $userVisible, $userAssignable) {
+	public function testCreateDuplicate($name, $userVisible, $userAssignable): void {
 		$this->expectException(\OCP\SystemTag\TagAlreadyExistsException::class);
 
 		try {
@@ -255,7 +255,7 @@ class SystemTagManagerTest extends TestCase {
 		$this->tagManager->createTag($name, $userVisible, $userAssignable);
 	}
 
-	public function testCreateOverlongName() {
+	public function testCreateOverlongName(): void {
 		$tag = $this->tagManager->createTag('Zona circundante do Palácio Nacional da Ajuda (Jardim das Damas, Salão de Física, Torre Sineira, Paço Velho e Jardim Botânico)', true, true);
 		$this->assertSame('Zona circundante do Palácio Nacional da Ajuda (Jardim das Damas', $tag->getName()); // 63 characters but 64 bytes due to "á"
 	}
@@ -263,14 +263,14 @@ class SystemTagManagerTest extends TestCase {
 	/**
 	 * @dataProvider oneTagMultipleFlagsProvider
 	 */
-	public function testGetExistingTag($name, $userVisible, $userAssignable) {
+	public function testGetExistingTag($name, $userVisible, $userAssignable): void {
 		$tag1 = $this->tagManager->createTag($name, $userVisible, $userAssignable);
 		$tag2 = $this->tagManager->getTag($name, $userVisible, $userAssignable);
 
 		$this->assertSameTag($tag1, $tag2);
 	}
 
-	public function testGetExistingTagById() {
+	public function testGetExistingTagById(): void {
 		$tag1 = $this->tagManager->createTag('one', true, false);
 		$tag2 = $this->tagManager->createTag('two', false, true);
 
@@ -283,14 +283,14 @@ class SystemTagManagerTest extends TestCase {
 	}
 
 
-	public function testGetNonExistingTag() {
+	public function testGetNonExistingTag(): void {
 		$this->expectException(\OCP\SystemTag\TagNotFoundException::class);
 
 		$this->tagManager->getTag('nonexist', false, false);
 	}
 
 
-	public function testGetNonExistingTagsById() {
+	public function testGetNonExistingTagsById(): void {
 		$this->expectException(\OCP\SystemTag\TagNotFoundException::class);
 
 		$tag1 = $this->tagManager->createTag('one', true, false);
@@ -298,7 +298,7 @@ class SystemTagManagerTest extends TestCase {
 	}
 
 
-	public function testGetInvalidTagIdFormat() {
+	public function testGetInvalidTagIdFormat(): void {
 		$this->expectException(\InvalidArgumentException::class);
 
 		$tag1 = $this->tagManager->createTag('one', true, false);
@@ -333,7 +333,7 @@ class SystemTagManagerTest extends TestCase {
 	/**
 	 * @dataProvider updateTagProvider
 	 */
-	public function testUpdateTag($tagCreate, $tagUpdated) {
+	public function testUpdateTag($tagCreate, $tagUpdated): void {
 		$tag1 = $this->tagManager->createTag(
 			$tagCreate[0],
 			$tagCreate[1],
@@ -360,7 +360,7 @@ class SystemTagManagerTest extends TestCase {
 	/**
 	 * @dataProvider updateTagProvider
 	 */
-	public function testUpdateTagDuplicate($tagCreate, $tagUpdated) {
+	public function testUpdateTagDuplicate($tagCreate, $tagUpdated): void {
 		$this->expectException(\OCP\SystemTag\TagAlreadyExistsException::class);
 
 		$this->tagManager->createTag(
@@ -383,7 +383,7 @@ class SystemTagManagerTest extends TestCase {
 		);
 	}
 
-	public function testDeleteTags() {
+	public function testDeleteTags(): void {
 		$tag1 = $this->tagManager->createTag('one', true, false);
 		$tag2 = $this->tagManager->createTag('two', false, true);
 
@@ -393,13 +393,13 @@ class SystemTagManagerTest extends TestCase {
 	}
 
 
-	public function testDeleteNonExistingTag() {
+	public function testDeleteNonExistingTag(): void {
 		$this->expectException(\OCP\SystemTag\TagNotFoundException::class);
 
 		$this->tagManager->deleteTags([100]);
 	}
 
-	public function testDeleteTagRemovesRelations() {
+	public function testDeleteTagRemovesRelations(): void {
 		$tag1 = $this->tagManager->createTag('one', true, false);
 		$tag2 = $this->tagManager->createTag('two', true, true);
 
@@ -434,7 +434,7 @@ class SystemTagManagerTest extends TestCase {
 	/**
 	 * @dataProvider visibilityCheckProvider
 	 */
-	public function testVisibilityCheck($userVisible, $userAssignable, $isAdmin, $expectedResult) {
+	public function testVisibilityCheck($userVisible, $userAssignable, $isAdmin, $expectedResult): void {
 		$user = $this->getMockBuilder(IUser::class)->getMock();
 		$user->expects($this->any())
 			->method('getUID')
@@ -481,7 +481,7 @@ class SystemTagManagerTest extends TestCase {
 	/**
 	 * @dataProvider assignabilityCheckProvider
 	 */
-	public function testAssignabilityCheck($userVisible, $userAssignable, $isAdmin, $expectedResult, $userGroupIds = [], $tagGroupIds = []) {
+	public function testAssignabilityCheck($userVisible, $userAssignable, $isAdmin, $expectedResult, $userGroupIds = [], $tagGroupIds = []): void {
 		$user = $this->getMockBuilder(IUser::class)->getMock();
 		$user->expects($this->any())
 			->method('getUID')
@@ -501,7 +501,7 @@ class SystemTagManagerTest extends TestCase {
 		$this->assertEquals($expectedResult, $this->tagManager->canUserAssignTag($tag1, $user));
 	}
 
-	public function testTagGroups() {
+	public function testTagGroups(): void {
 		$tag1 = $this->tagManager->createTag('tag1', true, false);
 		$tag2 = $this->tagManager->createTag('tag2', true, false);
 		$this->tagManager->setTagGroups($tag1, ['group1', 'group2']);
@@ -521,7 +521,7 @@ class SystemTagManagerTest extends TestCase {
 	/**
 	 * empty groupIds should be ignored
 	 */
-	public function testEmptyTagGroup() {
+	public function testEmptyTagGroup(): void {
 		$tag1 = $this->tagManager->createTag('tag1', true, false);
 		$this->tagManager->setTagGroups($tag1, ['']);
 		$this->assertEquals([], $this->tagManager->getTagGroups($tag1));

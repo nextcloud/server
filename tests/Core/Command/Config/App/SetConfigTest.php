@@ -72,7 +72,7 @@ class SetConfigTest extends TestCase {
 	 * @param bool $updated
 	 * @param string $expectedMessage
 	 */
-	public function testSet($configName, $newValue, $configExists, $updateOnly, $updated, $expectedMessage) {
+	public function testSet($configName, $newValue, $configExists, $updateOnly, $updated, $expectedMessage): void {
 		$this->config->expects($this->any())
 			->method('hasKey')
 			->with('app-name', $configName)

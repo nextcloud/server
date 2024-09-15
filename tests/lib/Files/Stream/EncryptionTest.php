@@ -88,7 +88,7 @@ class EncryptionTest extends \Test\TestCase {
 		$expectedSharePath,
 		$expectedSize,
 		$expectedUnencryptedSize,
-		$expectedReadOnly) {
+		$expectedReadOnly): void {
 		// build mocks
 		$encryptionModuleMock = $this->getMockBuilder('\OCP\Encryption\IEncryptionModule')
 			->disableOriginalConstructor()->getMock();
@@ -189,7 +189,7 @@ class EncryptionTest extends \Test\TestCase {
 		];
 	}
 
-	public function testWriteRead() {
+	public function testWriteRead(): void {
 		$fileName = tempnam('/tmp', 'FOO');
 		$stream = $this->getStream($fileName, 'w+', 0, self::DEFAULT_WRAPPER, 6);
 		$this->assertEquals(6, fwrite($stream, 'foobar'));
@@ -210,7 +210,7 @@ class EncryptionTest extends \Test\TestCase {
 		unlink($fileName);
 	}
 
-	public function testRewind() {
+	public function testRewind(): void {
 		$fileName = tempnam('/tmp', 'FOO');
 		$stream = $this->getStream($fileName, 'w+', 0, self::DEFAULT_WRAPPER, 6);
 		$this->assertEquals(6, fwrite($stream, 'foobar'));
@@ -227,7 +227,7 @@ class EncryptionTest extends \Test\TestCase {
 		unlink($fileName);
 	}
 
-	public function testSeek() {
+	public function testSeek(): void {
 		$fileName = tempnam('/tmp', 'FOO');
 
 		$stream = $this->getStream($fileName, 'w+', 0, self::DEFAULT_WRAPPER, 9);
@@ -260,7 +260,7 @@ class EncryptionTest extends \Test\TestCase {
 	/**
 	 * @dataProvider dataFilesProvider
 	 */
-	public function testWriteReadBigFile($testFile) {
+	public function testWriteReadBigFile($testFile): void {
 		$expectedData = file_get_contents(\OC::$SERVERROOT . '/tests/data/' . $testFile);
 		// write it
 		$fileName = tempnam('/tmp', 'FOO');
@@ -297,7 +297,7 @@ class EncryptionTest extends \Test\TestCase {
 	 *
 	 * @dataProvider dataFilesProvider
 	 */
-	public function testWriteToNonSeekableStorage($testFile) {
+	public function testWriteToNonSeekableStorage($testFile): void {
 		$wrapper = $this->getMockBuilder('\OC\Files\Stream\Encryption')
 			->setMethods(['parentSeekStream'])->getMock();
 		$wrapper->expects($this->any())->method('parentSeekStream')->willReturn(false);

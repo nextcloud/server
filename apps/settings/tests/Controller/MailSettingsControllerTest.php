@@ -58,7 +58,7 @@ class MailSettingsControllerTest extends \Test\TestCase {
 		);
 	}
 
-	public function testSetMailSettings() {
+	public function testSetMailSettings(): void {
 		$this->config->expects($this->exactly(2))
 			->method('setSystemValues')
 			->withConsecutive(
@@ -113,7 +113,7 @@ class MailSettingsControllerTest extends \Test\TestCase {
 		$this->assertSame(Http::STATUS_OK, $response->getStatus());
 	}
 
-	public function testStoreCredentials() {
+	public function testStoreCredentials(): void {
 		$this->config
 			->expects($this->once())
 			->method('setSystemValues')
@@ -126,7 +126,7 @@ class MailSettingsControllerTest extends \Test\TestCase {
 		$this->assertSame(Http::STATUS_OK, $response->getStatus());
 	}
 
-	public function testSendTestMail() {
+	public function testSendTestMail(): void {
 		$user = $this->createMock(User::class);
 		$user->expects($this->any())
 			->method('getUID')

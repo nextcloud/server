@@ -34,7 +34,7 @@ class TimedJobTest extends \Test\TestCase {
 		$this->time = \OCP\Server::get(ITimeFactory::class);
 	}
 
-	public function testShouldRunAfterIntervalNew() {
+	public function testShouldRunAfterIntervalNew(): void {
 		$job = new TestTimedJobNew($this->time);
 		$job->setId(42);
 		$this->jobList->add($job);
@@ -44,7 +44,7 @@ class TimedJobTest extends \Test\TestCase {
 		$this->assertTrue($job->ran);
 	}
 
-	public function testShouldNotRunWithinIntervalNew() {
+	public function testShouldNotRunWithinIntervalNew(): void {
 		$job = new TestTimedJobNew($this->time);
 		$job->setId(42);
 		$this->jobList->add($job);
@@ -54,7 +54,7 @@ class TimedJobTest extends \Test\TestCase {
 		$this->assertFalse($job->ran);
 	}
 
-	public function testShouldNotTwiceNew() {
+	public function testShouldNotTwiceNew(): void {
 		$job = new TestTimedJobNew($this->time);
 		$job->setId(42);
 		$this->jobList->add($job);

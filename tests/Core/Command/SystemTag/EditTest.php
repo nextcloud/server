@@ -40,7 +40,7 @@ class EditTest extends TestCase {
 		$this->output = $this->createMock(OutputInterface::class);
 	}
 
-	public function testExecute() {
+	public function testExecute(): void {
 		$tagId = '5';
 		$tagName = 'unwichtige Dateien';
 		$newTagName = 'moderat wichtige Dateien';
@@ -93,7 +93,7 @@ class EditTest extends TestCase {
 		$this->invokePrivate($this->command, 'execute', [$this->input, $this->output]);
 	}
 
-	public function testAlreadyExists() {
+	public function testAlreadyExists(): void {
 		$tagId = '5';
 		$tagName = 'unwichtige Dateien';
 		$tagUserVisible = false;
@@ -157,7 +157,7 @@ class EditTest extends TestCase {
 		$this->invokePrivate($this->command, 'execute', [$this->input, $this->output]);
 	}
 
-	public function testNotFound() {
+	public function testNotFound(): void {
 		$tagId = '404';
 
 		$this->input->method('getArgument')

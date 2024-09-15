@@ -122,7 +122,7 @@ class HasherTest extends \Test\TestCase {
 		$this->hasher = new Hasher($this->config);
 	}
 
-	public function testHash() {
+	public function testHash(): void {
 		$hash = $this->hasher->hash('String To Hash');
 		$this->assertNotNull($hash);
 	}
@@ -130,7 +130,7 @@ class HasherTest extends \Test\TestCase {
 	/**
 	 * @dataProvider versionHashProvider
 	 */
-	public function testSplitHash($hash, $expected) {
+	public function testSplitHash($hash, $expected): void {
 		$relativePath = self::invokePrivate($this->hasher, 'splitHash', [$hash]);
 		$this->assertSame($expected, $relativePath);
 	}
@@ -139,7 +139,7 @@ class HasherTest extends \Test\TestCase {
 	/**
 	 * @dataProvider hashProviders70_71
 	 */
-	public function testVerify($password, $hash, $expected) {
+	public function testVerify($password, $hash, $expected): void {
 		$this->config
 			->expects($this->any())
 			->method('getSystemValue')
@@ -157,7 +157,7 @@ class HasherTest extends \Test\TestCase {
 	/**
 	 * @dataProvider hashProviders72
 	 */
-	public function testVerifyArgon2i($password, $hash, $expected) {
+	public function testVerifyArgon2i($password, $hash, $expected): void {
 		if (!\defined('PASSWORD_ARGON2I')) {
 			$this->markTestSkipped('Need ARGON2 support to test ARGON2 hashes');
 		}
@@ -169,7 +169,7 @@ class HasherTest extends \Test\TestCase {
 	/**
 	 * @dataProvider hashProviders73
 	 */
-	public function testVerifyArgon2id(string $password, string $hash, bool $expected) {
+	public function testVerifyArgon2id(string $password, string $hash, bool $expected): void {
 		if (!\defined('PASSWORD_ARGON2ID')) {
 			$this->markTestSkipped('Need ARGON2ID support to test ARGON2ID hashes');
 		}
@@ -178,7 +178,7 @@ class HasherTest extends \Test\TestCase {
 		$this->assertSame($expected, $result);
 	}
 
-	public function testUpgradeHashBlowFishToArgon2() {
+	public function testUpgradeHashBlowFishToArgon2(): void {
 		if (!\defined('PASSWORD_ARGON2I')) {
 			$this->markTestSkipped('Need ARGON2 support to test ARGON2 hashes');
 		}
@@ -203,7 +203,7 @@ class HasherTest extends \Test\TestCase {
 		$this->assertFalse(password_needs_rehash($relativePath['hash'], $newAlg, []));
 	}
 
-	public function testUsePasswordDefaultArgon2iVerify() {
+	public function testUsePasswordDefaultArgon2iVerify(): void {
 		if (!\defined('PASSWORD_ARGON2I')) {
 			$this->markTestSkipped('Need ARGON2 support to test ARGON2 hashes');
 		}
@@ -227,7 +227,7 @@ class HasherTest extends \Test\TestCase {
 		$this->assertTrue(password_verify($message, $relativePath['hash']));
 	}
 
-	public function testDoNotUsePasswordDefaultArgon2idVerify() {
+	public function testDoNotUsePasswordDefaultArgon2idVerify(): void {
 		if (!\defined('PASSWORD_ARGON2ID')) {
 			$this->markTestSkipped('Need ARGON2ID support to test ARGON2ID hashes');
 		}
@@ -245,7 +245,7 @@ class HasherTest extends \Test\TestCase {
 		$this->assertNull($newHash);
 	}
 
-	public function testHashUsePasswordDefault() {
+	public function testHashUsePasswordDefault(): void {
 		if (!\defined('PASSWORD_ARGON2I')) {
 			$this->markTestSkipped('Need ARGON2 support to test ARGON2 hashes');
 		}
@@ -265,7 +265,7 @@ class HasherTest extends \Test\TestCase {
 		$this->assertEquals(PASSWORD_BCRYPT, $info['algo']);
 	}
 
-	public function testValidHash() {
+	public function testValidHash(): void {
 		$hash = '3|$argon2id$v=19$m=65536,t=4,p=1$czFCSjk3LklVdXppZ2VCWA$li0NgdXe2/jwSRxgteGQPWlzJU0E0xdtfHbCbrpych0';
 
 		$isValid = $this->hasher->validate($hash);
@@ -273,7 +273,7 @@ class HasherTest extends \Test\TestCase {
 		$this->assertTrue($isValid);
 	}
 
-	public function testValidGeneratedHash() {
+	public function testValidGeneratedHash(): void {
 		$message = 'secret';
 		$hash = $this->hasher->hash($message);
 
@@ -282,7 +282,7 @@ class HasherTest extends \Test\TestCase {
 		$this->assertTrue($isValid);
 	}
 
-	public function testInvalidHash() {
+	public function testInvalidHash(): void {
 		$invalidHash = 'someInvalidHash';
 
 		$isValid = $this->hasher->validate($invalidHash);

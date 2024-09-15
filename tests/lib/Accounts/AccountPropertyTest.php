@@ -16,7 +16,7 @@ use Test\TestCase;
  * @package Test\Accounts
  */
 class AccountPropertyTest extends TestCase {
-	public function testConstructor() {
+	public function testConstructor(): void {
 		$accountProperty = new AccountProperty(
 			IAccountManager::PROPERTY_WEBSITE,
 			'https://example.com',
@@ -30,7 +30,7 @@ class AccountPropertyTest extends TestCase {
 		$this->assertEquals(IAccountManager::VERIFIED, $accountProperty->getVerified());
 	}
 
-	public function testSetValue() {
+	public function testSetValue(): void {
 		$accountProperty = new AccountProperty(
 			IAccountManager::PROPERTY_WEBSITE,
 			'https://example.com',
@@ -43,7 +43,7 @@ class AccountPropertyTest extends TestCase {
 		$this->assertEquals('https://example.org', $actualReturn->getValue());
 	}
 
-	public function testSetScope() {
+	public function testSetScope(): void {
 		$accountProperty = new AccountProperty(
 			IAccountManager::PROPERTY_WEBSITE,
 			'https://example.com',
@@ -77,7 +77,7 @@ class AccountPropertyTest extends TestCase {
 	/**
 	 * @dataProvider scopesProvider
 	 */
-	public function testSetScopeMapping(string $storedScope, ?string $returnedScope) {
+	public function testSetScopeMapping(string $storedScope, ?string $returnedScope): void {
 		if ($returnedScope === null) {
 			$this->expectException(\InvalidArgumentException::class);
 		}
@@ -91,7 +91,7 @@ class AccountPropertyTest extends TestCase {
 		$this->assertEquals($returnedScope, $accountProperty->getScope());
 	}
 
-	public function testSetVerified() {
+	public function testSetVerified(): void {
 		$accountProperty = new AccountProperty(
 			IAccountManager::PROPERTY_WEBSITE,
 			'https://example.com',
@@ -104,7 +104,7 @@ class AccountPropertyTest extends TestCase {
 		$this->assertEquals(IAccountManager::NOT_VERIFIED, $actualReturn->getVerified());
 	}
 
-	public function testSetVerificationData() {
+	public function testSetVerificationData(): void {
 		$accountProperty = new AccountProperty(
 			IAccountManager::PROPERTY_WEBSITE,
 			'https://example.com',
@@ -118,7 +118,7 @@ class AccountPropertyTest extends TestCase {
 		$this->assertEquals($token, $actualReturn->getVerificationData());
 	}
 
-	public function testJsonSerialize() {
+	public function testJsonSerialize(): void {
 		$accountProperty = new AccountProperty(
 			IAccountManager::PROPERTY_WEBSITE,
 			'https://example.com',

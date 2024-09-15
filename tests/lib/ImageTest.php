@@ -20,7 +20,7 @@ class ImageTest extends \Test\TestCase {
 		parent::tearDownAfterClass();
 	}
 
-	public function testConstructDestruct() {
+	public function testConstructDestruct(): void {
 		$img = new Image();
 		$img->loadFromFile(OC::$SERVERROOT.'/tests/data/testimage.png');
 		$this->assertInstanceOf('\OC\Image', $img);
@@ -47,7 +47,7 @@ class ImageTest extends \Test\TestCase {
 		unset($img);
 	}
 
-	public function testValid() {
+	public function testValid(): void {
 		$img = new Image();
 		$img->loadFromFile(OC::$SERVERROOT.'/tests/data/testimage.png');
 		$this->assertTrue($img->valid());
@@ -61,7 +61,7 @@ class ImageTest extends \Test\TestCase {
 		$this->assertFalse($img->valid());
 	}
 
-	public function testMimeType() {
+	public function testMimeType(): void {
 		$img = new Image();
 		$img->loadFromFile(OC::$SERVERROOT.'/tests/data/testimage.png');
 		$this->assertEquals('image/png', $img->mimeType());
@@ -78,7 +78,7 @@ class ImageTest extends \Test\TestCase {
 		$this->assertEquals('image/gif', $img->mimeType());
 	}
 
-	public function testWidth() {
+	public function testWidth(): void {
 		$img = new Image();
 		$img->loadFromFile(OC::$SERVERROOT.'/tests/data/testimage.png');
 		$this->assertEquals(128, $img->width());
@@ -95,7 +95,7 @@ class ImageTest extends \Test\TestCase {
 		$this->assertEquals(-1, $img->width());
 	}
 
-	public function testHeight() {
+	public function testHeight(): void {
 		$img = new Image();
 		$img->loadFromFile(OC::$SERVERROOT.'/tests/data/testimage.png');
 		$this->assertEquals(128, $img->height());
@@ -112,7 +112,7 @@ class ImageTest extends \Test\TestCase {
 		$this->assertEquals(-1, $img->height());
 	}
 
-	public function testSave() {
+	public function testSave(): void {
 		$img = new Image();
 		$img->loadFromFile(OC::$SERVERROOT.'/tests/data/testimage.png');
 		$img->resize(16);
@@ -126,7 +126,7 @@ class ImageTest extends \Test\TestCase {
 		$this->assertEquals(file_get_contents(OC::$SERVERROOT.'/tests/data/testimage2.jpg'), $img->data());
 	}
 
-	public function testData() {
+	public function testData(): void {
 		$img = new Image();
 		$img->loadFromFile(OC::$SERVERROOT.'/tests/data/testimage.png');
 		$raw = imagecreatefromstring(file_get_contents(OC::$SERVERROOT.'/tests/data/testimage.png'));
@@ -166,7 +166,7 @@ class ImageTest extends \Test\TestCase {
 		$this->assertEquals($expected, $img->data());
 	}
 
-	public function testDataNoResource() {
+	public function testDataNoResource(): void {
 		$img = new Image();
 		$this->assertNull($img->data());
 	}
@@ -174,7 +174,7 @@ class ImageTest extends \Test\TestCase {
 	/**
 	 * @depends testData
 	 */
-	public function testToString() {
+	public function testToString(): void {
 		$img = new Image();
 		$img->loadFromFile(OC::$SERVERROOT.'/tests/data/testimage.png');
 		$expected = base64_encode($img->data());
@@ -191,7 +191,7 @@ class ImageTest extends \Test\TestCase {
 		$this->assertEquals($expected, (string)$img);
 	}
 
-	public function testResize() {
+	public function testResize(): void {
 		$img = new Image();
 		$img->loadFromFile(OC::$SERVERROOT.'/tests/data/testimage.png');
 		$this->assertTrue($img->resize(32));
@@ -211,7 +211,7 @@ class ImageTest extends \Test\TestCase {
 		$this->assertEquals(100, $img->height());
 	}
 
-	public function testPreciseResize() {
+	public function testPreciseResize(): void {
 		$img = new Image();
 		$img->loadFromFile(OC::$SERVERROOT.'/tests/data/testimage.png');
 		$this->assertTrue($img->preciseResize(128, 512));
@@ -231,7 +231,7 @@ class ImageTest extends \Test\TestCase {
 		$this->assertEquals(1337, $img->height());
 	}
 
-	public function testCenterCrop() {
+	public function testCenterCrop(): void {
 		$img = new Image();
 		$img->loadFromFile(OC::$SERVERROOT.'/tests/data/testimage.png');
 		$img->centerCrop();
@@ -251,7 +251,7 @@ class ImageTest extends \Test\TestCase {
 		$this->assertEquals(512, $img->height());
 	}
 
-	public function testCrop() {
+	public function testCrop(): void {
 		$img = new Image();
 		$img->loadFromFile(OC::$SERVERROOT.'/tests/data/testimage.png');
 		$this->assertTrue($img->crop(0, 0, 50, 20));
@@ -286,7 +286,7 @@ class ImageTest extends \Test\TestCase {
 	 * @param int[] $asked
 	 * @param int[] $expected
 	 */
-	public function testFitIn($filename, $asked, $expected) {
+	public function testFitIn($filename, $asked, $expected): void {
 		$img = new Image();
 		$img->loadFromFile(OC::$SERVERROOT . '/tests/data/' . $filename);
 		$this->assertTrue($img->fitIn($asked[0], $asked[1]));
@@ -309,7 +309,7 @@ class ImageTest extends \Test\TestCase {
 	 *
 	 * @param string $filename
 	 */
-	public function testScaleDownToFitWhenSmallerAlready($filename) {
+	public function testScaleDownToFitWhenSmallerAlready($filename): void {
 		$img = new Image();
 		$img->loadFromFile(OC::$SERVERROOT.'/tests/data/' . $filename);
 		$currentWidth = $img->width();
@@ -342,7 +342,7 @@ class ImageTest extends \Test\TestCase {
 	 * @param int[] $asked
 	 * @param int[] $expected
 	 */
-	public function testScaleDownWhenBigger($filename, $asked, $expected) {
+	public function testScaleDownWhenBigger($filename, $asked, $expected): void {
 		$img = new Image();
 		$img->loadFromFile(OC::$SERVERROOT.'/tests/data/' . $filename);
 		//$this->assertTrue($img->scaleDownToFit($asked[0], $asked[1]));
@@ -362,7 +362,7 @@ class ImageTest extends \Test\TestCase {
 	/**
 	 * @dataProvider convertDataProvider
 	 */
-	public function testConvert($mimeType) {
+	public function testConvert($mimeType): void {
 		$img = new Image();
 		$img->loadFromFile(OC::$SERVERROOT.'/tests/data/testimage.png');
 		$tempFile = tempnam(sys_get_temp_dir(), 'img-test');
@@ -371,13 +371,13 @@ class ImageTest extends \Test\TestCase {
 		$this->assertEquals($mimeType, image_type_to_mime_type(exif_imagetype($tempFile)));
 	}
 
-	public function testMemoryLimitFromFile() {
+	public function testMemoryLimitFromFile(): void {
 		$img = new Image();
 		$img->loadFromFile(OC::$SERVERROOT.'/tests/data/testimage-badheader.jpg');
 		$this->assertFalse($img->valid());
 	}
 
-	public function testMemoryLimitFromData() {
+	public function testMemoryLimitFromData(): void {
 		$data = file_get_contents(OC::$SERVERROOT.'/tests/data/testimage-badheader.jpg');
 		$img = new Image();
 		$img->loadFromData($data);

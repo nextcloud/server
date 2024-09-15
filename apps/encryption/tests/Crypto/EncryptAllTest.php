@@ -135,7 +135,7 @@ class EncryptAllTest extends TestCase {
 		);
 	}
 
-	public function testEncryptAll() {
+	public function testEncryptAll(): void {
 		/** @var EncryptAll | \PHPUnit\Framework\MockObject\MockObject  $encryptAll */
 		$encryptAll = $this->getMockBuilder(EncryptAll::class)
 			->setConstructorArgs(
@@ -164,7 +164,7 @@ class EncryptAllTest extends TestCase {
 		$encryptAll->encryptAll($this->inputInterface, $this->outputInterface);
 	}
 
-	public function testEncryptAllWithMasterKey() {
+	public function testEncryptAllWithMasterKey(): void {
 		/** @var EncryptAll | \PHPUnit\Framework\MockObject\MockObject  $encryptAll */
 		$encryptAll = $this->getMockBuilder(EncryptAll::class)
 			->setConstructorArgs(
@@ -194,7 +194,7 @@ class EncryptAllTest extends TestCase {
 		$encryptAll->encryptAll($this->inputInterface, $this->outputInterface);
 	}
 
-	public function testCreateKeyPairs() {
+	public function testCreateKeyPairs(): void {
 		/** @var EncryptAll | \PHPUnit\Framework\MockObject\MockObject  $encryptAll */
 		$encryptAll = $this->getMockBuilder(EncryptAll::class)
 			->setConstructorArgs(
@@ -244,7 +244,7 @@ class EncryptAllTest extends TestCase {
 		$this->assertSame('', $userPasswords['user2']);
 	}
 
-	public function testEncryptAllUsersFiles() {
+	public function testEncryptAllUsersFiles(): void {
 		/** @var EncryptAll | \PHPUnit\Framework\MockObject\MockObject  $encryptAll */
 		$encryptAll = $this->getMockBuilder(EncryptAll::class)
 			->setConstructorArgs(
@@ -280,7 +280,7 @@ class EncryptAllTest extends TestCase {
 		$this->invokePrivate($encryptAll, 'encryptAllUsersFiles');
 	}
 
-	public function testEncryptUsersFiles() {
+	public function testEncryptUsersFiles(): void {
 		/** @var EncryptAll | \PHPUnit\Framework\MockObject\MockObject  $encryptAll */
 		$encryptAll = $this->getMockBuilder(EncryptAll::class)
 			->setConstructorArgs(
@@ -343,7 +343,7 @@ class EncryptAllTest extends TestCase {
 		$this->invokePrivate($encryptAll, 'encryptUsersFiles', ['user1', $progressBar, '']);
 	}
 
-	public function testGenerateOneTimePassword() {
+	public function testGenerateOneTimePassword(): void {
 		$password = $this->invokePrivate($this->encryptAll, 'generateOneTimePassword', ['user1']);
 		$this->assertTrue(is_string($password));
 		$this->assertSame(8, strlen($password));
@@ -357,7 +357,7 @@ class EncryptAllTest extends TestCase {
 	 * @dataProvider dataTestEncryptFile
 	 * @param $isEncrypted
 	 */
-	public function testEncryptFile($isEncrypted) {
+	public function testEncryptFile($isEncrypted): void {
 		$fileInfo = $this->createMock(FileInfo::class);
 		$fileInfo->expects($this->any())->method('isEncrypted')
 			->willReturn($isEncrypted);

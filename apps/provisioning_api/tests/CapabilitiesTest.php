@@ -52,7 +52,7 @@ class CapabilitiesTest extends TestCase {
 	/**
 	 * @dataProvider getCapabilitiesProvider
 	 */
-	public function testGetCapabilities($federationAppEnabled, $federatedFileSharingAppEnabled, $lookupServerEnabled, $expectedFederatedScopeEnabled, $expectedPublishedScopeEnabled) {
+	public function testGetCapabilities($federationAppEnabled, $federatedFileSharingAppEnabled, $lookupServerEnabled, $expectedFederatedScopeEnabled, $expectedPublishedScopeEnabled): void {
 		$this->appManager->expects($this->any())
 			->method('isEnabledForUser')
 			->will($this->returnValueMap([

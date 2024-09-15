@@ -33,7 +33,7 @@ class SameSiteCookieMiddlewareTest extends TestCase {
 		$this->middleware = new SameSiteCookieMiddleware($this->request, $this->reflector);
 	}
 
-	public function testBeforeControllerNoIndex() {
+	public function testBeforeControllerNoIndex(): void {
 		$this->request->method('getScriptName')
 			->willReturn('/ocs/v2.php');
 
@@ -41,7 +41,7 @@ class SameSiteCookieMiddlewareTest extends TestCase {
 		$this->addToAssertionCount(1);
 	}
 
-	public function testBeforeControllerIndexHasAnnotation() {
+	public function testBeforeControllerIndexHasAnnotation(): void {
 		$this->request->method('getScriptName')
 			->willReturn('/index.php');
 
@@ -53,7 +53,7 @@ class SameSiteCookieMiddlewareTest extends TestCase {
 		$this->addToAssertionCount(1);
 	}
 
-	public function testBeforeControllerIndexNoAnnotationPassingCheck() {
+	public function testBeforeControllerIndexNoAnnotationPassingCheck(): void {
 		$this->request->method('getScriptName')
 			->willReturn('/index.php');
 
@@ -68,7 +68,7 @@ class SameSiteCookieMiddlewareTest extends TestCase {
 		$this->addToAssertionCount(1);
 	}
 
-	public function testBeforeControllerIndexNoAnnotationFailingCheck() {
+	public function testBeforeControllerIndexNoAnnotationFailingCheck(): void {
 		$this->expectException(LaxSameSiteCookieFailedException::class);
 
 		$this->request->method('getScriptName')
@@ -84,7 +84,7 @@ class SameSiteCookieMiddlewareTest extends TestCase {
 		$this->middleware->beforeController($this->createMock(Controller::class), 'foo');
 	}
 
-	public function testAfterExceptionNoLaxCookie() {
+	public function testAfterExceptionNoLaxCookie(): void {
 		$ex = new SecurityException();
 
 		try {
@@ -95,7 +95,7 @@ class SameSiteCookieMiddlewareTest extends TestCase {
 		}
 	}
 
-	public function testAfterExceptionLaxCookie() {
+	public function testAfterExceptionLaxCookie(): void {
 		$ex = new LaxSameSiteCookieFailedException();
 
 		$this->request->method('getRequestUri')

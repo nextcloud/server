@@ -97,7 +97,7 @@ class FileCacheTest extends TestCache {
 		return $mockStorage;
 	}
 
-	public function testGarbageCollectOldKeys() {
+	public function testGarbageCollectOldKeys(): void {
 		$mockStorage = $this->setupMockStorage();
 
 		$mockStorage->expects($this->atLeastOnce())
@@ -112,7 +112,7 @@ class FileCacheTest extends TestCache {
 		$this->instance->gc();
 	}
 
-	public function testGarbageCollectLeaveRecentKeys() {
+	public function testGarbageCollectLeaveRecentKeys(): void {
 		$mockStorage = $this->setupMockStorage();
 
 		$mockStorage->expects($this->atLeastOnce())
@@ -135,7 +135,7 @@ class FileCacheTest extends TestCache {
 	/**
 	 * @dataProvider lockExceptionProvider
 	 */
-	public function testGarbageCollectIgnoreLockedKeys($testException) {
+	public function testGarbageCollectIgnoreLockedKeys($testException): void {
 		$mockStorage = $this->setupMockStorage();
 
 		$mockStorage->expects($this->atLeastOnce())

@@ -43,7 +43,7 @@ class SecureRandomTest extends \Test\TestCase {
 	/**
 	 * @dataProvider stringGenerationProvider
 	 */
-	public function testGetLowStrengthGeneratorLength($length, $expectedLength) {
+	public function testGetLowStrengthGeneratorLength($length, $expectedLength): void {
 		$generator = $this->rng;
 
 		$this->assertEquals($expectedLength, strlen($generator->generate($length)));
@@ -52,7 +52,7 @@ class SecureRandomTest extends \Test\TestCase {
 	/**
 	 * @dataProvider stringGenerationProvider
 	 */
-	public function testMediumLowStrengthGeneratorLength($length, $expectedLength) {
+	public function testMediumLowStrengthGeneratorLength($length, $expectedLength): void {
 		$generator = $this->rng;
 
 		$this->assertEquals($expectedLength, strlen($generator->generate($length)));
@@ -61,14 +61,14 @@ class SecureRandomTest extends \Test\TestCase {
 	/**
 	 * @dataProvider stringGenerationProvider
 	 */
-	public function testUninitializedGenerate($length, $expectedLength) {
+	public function testUninitializedGenerate($length, $expectedLength): void {
 		$this->assertEquals($expectedLength, strlen($this->rng->generate($length)));
 	}
 
 	/**
 	 * @dataProvider charCombinations
 	 */
-	public function testScheme($charName, $chars) {
+	public function testScheme($charName, $chars): void {
 		$generator = $this->rng;
 		$scheme = constant('OCP\Security\ISecureRandom::' . $charName);
 		$randomString = $generator->generate(100, $scheme);
@@ -86,7 +86,7 @@ class SecureRandomTest extends \Test\TestCase {
 	/**
 	 * @dataProvider invalidLengths
 	 */
-	public function testInvalidLengths($length) {
+	public function testInvalidLengths($length): void {
 		$this->expectException(\LengthException::class);
 		$generator = $this->rng;
 		$generator->generate($length);

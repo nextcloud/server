@@ -36,7 +36,7 @@ class ClearFrontendCachesTest extends \Test\TestCase {
 	}
 
 
-	public function testRun() {
+	public function testRun(): void {
 		$imagePathCache = $this->createMock(ICache::class);
 		$imagePathCache->expects($this->once())
 			->method('clear')

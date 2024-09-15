@@ -37,7 +37,7 @@ class EnableTest extends TestCase {
 		$this->command = new CommandTester($cmd);
 	}
 
-	public function testInvalidUID() {
+	public function testInvalidUID(): void {
 		$this->userManager->expects($this->once())
 			->method('get')
 			->with('nope')
@@ -52,7 +52,7 @@ class EnableTest extends TestCase {
 		$this->assertStringContainsString('Invalid UID', $this->command->getDisplay());
 	}
 
-	public function testEnableNotSupported() {
+	public function testEnableNotSupported(): void {
 		$user = $this->createMock(IUser::class);
 		$this->userManager->expects($this->once())
 			->method('get')
@@ -72,7 +72,7 @@ class EnableTest extends TestCase {
 		$this->assertStringContainsString('The provider does not support this operation', $this->command->getDisplay());
 	}
 
-	public function testEnabled() {
+	public function testEnabled(): void {
 		$user = $this->createMock(IUser::class);
 		$this->userManager->expects($this->once())
 			->method('get')

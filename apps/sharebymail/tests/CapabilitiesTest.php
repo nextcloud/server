@@ -34,7 +34,7 @@ class CapabilitiesTest extends TestCase {
 		$this->capabilities = new Capabilities($this->manager, $this->settingsManager, $this->appManager);
 	}
 
-	public function testGetCapabilities() {
+	public function testGetCapabilities(): void {
 		$this->manager->method('shareApiAllowLinks')
 			->willReturn(true);
 		$this->manager->method('shareApiLinkEnforcePassword')

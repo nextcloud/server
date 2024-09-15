@@ -74,7 +74,7 @@ class HelperTest extends \Test\TestCase {
 	/**
 	 * @dataProvider sortDataProvider
 	 */
-	public function testSortByName(string $sort, bool $sortDescending, array $expectedOrder) {
+	public function testSortByName(string $sort, bool $sortDescending, array $expectedOrder): void {
 		if (($sort === 'mtime') && (PHP_INT_SIZE < 8)) {
 			$this->markTestSkipped('Skip mtime sorting on 32bit');
 		}
@@ -90,7 +90,7 @@ class HelperTest extends \Test\TestCase {
 		);
 	}
 
-	public function testPopulateTags() {
+	public function testPopulateTags(): void {
 		$tagManager = $this->createMock(\OCP\ITagManager::class);
 		$tagger = $this->createMock(\OCP\ITags::class);
 

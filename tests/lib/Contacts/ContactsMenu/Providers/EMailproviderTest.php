@@ -33,7 +33,7 @@ class EMailproviderTest extends TestCase {
 		$this->provider = new EMailProvider($this->actionFactory, $this->urlGenerator);
 	}
 
-	public function testProcess() {
+	public function testProcess(): void {
 		$entry = $this->createMock(IEntry::class);
 		$action = $this->createMock(ILinkAction::class);
 		$iconUrl = 'https://example.com/img/actions/icon.svg';
@@ -60,7 +60,7 @@ class EMailproviderTest extends TestCase {
 		$this->provider->process($entry);
 	}
 
-	public function testProcessEmptyAddress() {
+	public function testProcessEmptyAddress(): void {
 		$entry = $this->createMock(IEntry::class);
 		$iconUrl = 'https://example.com/img/actions/icon.svg';
 		$this->urlGenerator->expects($this->once())

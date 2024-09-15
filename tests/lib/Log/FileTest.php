@@ -47,7 +47,7 @@ class FileTest extends TestCase {
 		parent::tearDown();
 	}
 
-	public function testLogging() {
+	public function testLogging(): void {
 		$config = \OC::$server->get(IConfig::class);
 		# delete old logfile
 		unlink($config->getSystemValue('logfile'));
@@ -68,7 +68,7 @@ class FileTest extends TestCase {
 		$this->assertEquals('Testing logging', $values['message']);
 	}
 
-	public function testMicrosecondsLogTimestamp() {
+	public function testMicrosecondsLogTimestamp(): void {
 		$config = \OC::$server->getConfig();
 		# delete old logfile
 		unlink($config->getSystemValue('logfile'));

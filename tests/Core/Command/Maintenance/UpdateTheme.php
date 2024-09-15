@@ -42,7 +42,7 @@ class UpdateThemeTest extends TestCase {
 		$this->command = new UpdateTheme($this->detector, $this->cacheFactory);
 	}
 
-	public function testThemeUpdate() {
+	public function testThemeUpdate(): void {
 		$this->consoleInput->method('getOption')
 			->with('maintenance:theme:update')
 			->willReturn(true);

@@ -20,7 +20,7 @@ class ActionFactoryTest extends TestCase {
 		$this->actionFactory = new ActionFactory();
 	}
 
-	public function testNewLinkAction() {
+	public function testNewLinkAction(): void {
 		$icon = 'icon-test';
 		$name = 'Test';
 		$href = 'some/url';
@@ -32,7 +32,7 @@ class ActionFactoryTest extends TestCase {
 		$this->assertEquals(10, $action->getPriority());
 	}
 
-	public function testNewEMailAction() {
+	public function testNewEMailAction(): void {
 		$icon = 'icon-test';
 		$name = 'Test';
 		$href = 'user@example.com';

@@ -30,7 +30,7 @@ class EncryptedStorageTest extends TestCase {
 	use EncryptionTrait;
 	use UserTrait;
 
-	public function testMoveFromEncrypted() {
+	public function testMoveFromEncrypted(): void {
 		$this->createUser('test1', 'test2');
 		$this->setupForUser('test1', 'test2');
 

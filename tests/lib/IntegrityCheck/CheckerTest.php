@@ -74,7 +74,7 @@ class CheckerTest extends TestCase {
 	}
 
 
-	public function testWriteAppSignatureOfNotExistingApp() {
+	public function testWriteAppSignatureOfNotExistingApp(): void {
 		$this->expectException(\Exception::class);
 		$this->expectExceptionMessage('Exception message');
 
@@ -99,7 +99,7 @@ class CheckerTest extends TestCase {
 	}
 
 
-	public function testWriteAppSignatureWrongPermissions() {
+	public function testWriteAppSignatureWrongPermissions(): void {
 		$this->expectException(\Exception::class);
 		$this->expectExceptionMessageMatches('/[a-zA-Z\\/_-]+ is not writable/');
 
@@ -117,7 +117,7 @@ class CheckerTest extends TestCase {
 		$this->checker->writeAppSignature(\OC::$SERVERROOT . '/tests/data/integritycheck/app/', $x509, $rsa);
 	}
 
-	public function testWriteAppSignature() {
+	public function testWriteAppSignature(): void {
 		$expectedSignatureFileData = '{
     "hashes": {
         "AnotherFile.txt": "1570ca9420e37629de4328f48c51da29840ddeaa03ae733da4bf1d854b8364f594aac560601270f9e1797ed4cd57c1aea87bf44cf4245295c94f2e935a2f0112",
@@ -148,7 +148,7 @@ class CheckerTest extends TestCase {
 		$this->checker->writeAppSignature(\OC::$SERVERROOT . '/tests/data/integritycheck/app/', $x509, $rsa);
 	}
 
-	public function testVerifyAppSignatureWithoutSignatureData() {
+	public function testVerifyAppSignatureWithoutSignatureData(): void {
 		$this->environmentHelper
 			->expects($this->once())
 			->method('getChannel')
@@ -168,7 +168,7 @@ class CheckerTest extends TestCase {
 		$this->assertSame($expected, $this->checker->verifyAppSignature('SomeApp'));
 	}
 
-	public function testVerifyAppSignatureWithValidSignatureData() {
+	public function testVerifyAppSignatureWithValidSignatureData(): void {
 		$this->environmentHelper
 			->expects($this->once())
 			->method('getChannel')
@@ -207,7 +207,7 @@ class CheckerTest extends TestCase {
 		$this->assertSame([], $this->checker->verifyAppSignature('SomeApp'));
 	}
 
-	public function testVerifyAppSignatureWithTamperedSignatureData() {
+	public function testVerifyAppSignatureWithTamperedSignatureData(): void {
 		$this->environmentHelper
 			->expects($this->once())
 			->method('getChannel')
@@ -252,7 +252,7 @@ class CheckerTest extends TestCase {
 		$this->assertEquals($expected, $this->checker->verifyAppSignature('SomeApp'));
 	}
 
-	public function testVerifyAppSignatureWithTamperedFiles() {
+	public function testVerifyAppSignatureWithTamperedFiles(): void {
 		$this->environmentHelper
 			->expects($this->once())
 			->method('getChannel')
@@ -313,7 +313,7 @@ class CheckerTest extends TestCase {
 		$this->assertSame($expected, $this->checker->verifyAppSignature('SomeApp'));
 	}
 
-	public function testVerifyAppSignatureWithTamperedFilesAndAlternatePath() {
+	public function testVerifyAppSignatureWithTamperedFilesAndAlternatePath(): void {
 		$this->environmentHelper
 			->expects($this->once())
 			->method('getChannel')
@@ -373,7 +373,7 @@ class CheckerTest extends TestCase {
 		$this->assertSame($expected, $this->checker->verifyAppSignature('SomeApp', \OC::$SERVERROOT . '/tests/data/integritycheck/appWithInvalidData/'));
 	}
 
-	public function testVerifyAppWithDifferentScope() {
+	public function testVerifyAppWithDifferentScope(): void {
 		$this->environmentHelper
 			->expects($this->once())
 			->method('getChannel')
@@ -417,7 +417,7 @@ class CheckerTest extends TestCase {
 		$this->assertSame($expected, $this->checker->verifyAppSignature('SomeApp'));
 	}
 
-	public function testVerifyAppWithDifferentScopeAndAlwaysTrustedCore() {
+	public function testVerifyAppWithDifferentScopeAndAlwaysTrustedCore(): void {
 		$this->environmentHelper
 			->expects($this->once())
 			->method('getChannel')
@@ -456,7 +456,7 @@ class CheckerTest extends TestCase {
 	}
 
 
-	public function testWriteCoreSignatureWithException() {
+	public function testWriteCoreSignatureWithException(): void {
 		$this->expectException(\Exception::class);
 		$this->expectExceptionMessage('Exception message');
 
@@ -480,7 +480,7 @@ class CheckerTest extends TestCase {
 	}
 
 
-	public function testWriteCoreSignatureWrongPermissions() {
+	public function testWriteCoreSignatureWrongPermissions(): void {
 		$this->expectException(\Exception::class);
 		$this->expectExceptionMessageMatches('/[a-zA-Z\\/_-]+ is not writable/');
 
@@ -503,7 +503,7 @@ class CheckerTest extends TestCase {
 		$this->checker->writeCoreSignature($x509, $rsa, __DIR__);
 	}
 
-	public function testWriteCoreSignature() {
+	public function testWriteCoreSignature(): void {
 		$expectedSignatureFileData = '{
     "hashes": {
         "AnotherFile.txt": "1570ca9420e37629de4328f48c51da29840ddeaa03ae733da4bf1d854b8364f594aac560601270f9e1797ed4cd57c1aea87bf44cf4245295c94f2e935a2f0112",
@@ -538,7 +538,7 @@ class CheckerTest extends TestCase {
 		$this->checker->writeCoreSignature($x509, $rsa, \OC::$SERVERROOT . '/tests/data/integritycheck/app/');
 	}
 
-	public function testWriteCoreSignatureWithUnmodifiedHtaccess() {
+	public function testWriteCoreSignatureWithUnmodifiedHtaccess(): void {
 		$expectedSignatureFileData = '{
     "hashes": {
         ".htaccess": "dc479770a6232061e04a768ee1f9133fdb3aea7b3a99f7105b0e0b6197474733e8d14b5b2bbad054e6b62a410fe5d0b3d790242dee1e0f11274af2100f5289e2",
@@ -573,7 +573,7 @@ class CheckerTest extends TestCase {
 		$this->checker->writeCoreSignature($x509, $rsa, \OC::$SERVERROOT . '/tests/data/integritycheck/htaccessUnmodified/');
 	}
 
-	public function testWriteCoreSignatureWithInvalidModifiedHtaccess() {
+	public function testWriteCoreSignatureWithInvalidModifiedHtaccess(): void {
 		$expectedSignatureFileData = '{
     "hashes": {
         ".htaccess": "4a54273dc8d697b2ca615acf2ae2c1ee3c1c643492cb04f42b10984fa9aacff1420dc829fd82f93ad3476fbd0cdab0251142c887dc8f872d03e39a3a3eb6d381"
@@ -603,7 +603,7 @@ class CheckerTest extends TestCase {
 		$this->checker->writeCoreSignature($x509, $rsa, \OC::$SERVERROOT . '/tests/data/integritycheck/htaccessWithInvalidModifiedContent/');
 	}
 
-	public function testWriteCoreSignatureWithValidModifiedHtaccess() {
+	public function testWriteCoreSignatureWithValidModifiedHtaccess(): void {
 		$expectedSignatureFileData = '{
     "hashes": {
         ".htaccess": "7e6a7a4d8ee4f3fbc45dd579407c643471575a9d127d1c75f6d0a49e80766c3c587104b2139ef76d2a4bffce3f45777900605aaa49519c9532909b71e5030227",
@@ -638,7 +638,7 @@ class CheckerTest extends TestCase {
 		$this->checker->writeCoreSignature($x509, $rsa, \OC::$SERVERROOT . '/tests/data/integritycheck/htaccessWithValidModifiedContent');
 	}
 
-	public function testVerifyCoreSignatureWithoutSignatureData() {
+	public function testVerifyCoreSignatureWithoutSignatureData(): void {
 		$this->environmentHelper
 			->expects($this->once())
 			->method('getChannel')
@@ -658,7 +658,7 @@ class CheckerTest extends TestCase {
 		$this->assertSame($expected, $this->checker->verifyCoreSignature());
 	}
 
-	public function testVerifyCoreSignatureWithValidSignatureData() {
+	public function testVerifyCoreSignatureWithValidSignatureData(): void {
 		$this->environmentHelper
 			->expects($this->once())
 			->method('getChannel')
@@ -695,7 +695,7 @@ class CheckerTest extends TestCase {
 		$this->assertSame([], $this->checker->verifyCoreSignature());
 	}
 
-	public function testVerifyCoreSignatureWithValidModifiedHtaccessSignatureData() {
+	public function testVerifyCoreSignatureWithValidModifiedHtaccessSignatureData(): void {
 		$this->environmentHelper
 			->expects($this->once())
 			->method('getChannel')
@@ -736,7 +736,7 @@ class CheckerTest extends TestCase {
 	/**
 	 * See inline instruction on how to update the test assets when changing mimetypealiases.dist.json
 	 */
-	public function testVerifyCoreSignatureWithModifiedMimetypelistSignatureData() {
+	public function testVerifyCoreSignatureWithModifiedMimetypelistSignatureData(): void {
 		$shippedMimetypeAliases = (array)json_decode(file_get_contents(\OC::$SERVERROOT . '/resources/config/mimetypealiases.dist.json'));
 		$allAliases = array_merge($shippedMimetypeAliases, ['my-custom/mimetype' => 'custom']);
 
@@ -785,7 +785,7 @@ class CheckerTest extends TestCase {
 		$this->assertSame([], $this->checker->verifyCoreSignature());
 	}
 
-	public function testVerifyCoreSignatureWithValidSignatureDataAndNotAlphabeticOrder() {
+	public function testVerifyCoreSignatureWithValidSignatureDataAndNotAlphabeticOrder(): void {
 		$this->environmentHelper
 			->expects($this->once())
 			->method('getChannel')
@@ -822,7 +822,7 @@ class CheckerTest extends TestCase {
 		$this->assertSame([], $this->checker->verifyCoreSignature());
 	}
 
-	public function testVerifyCoreSignatureWithTamperedSignatureData() {
+	public function testVerifyCoreSignatureWithTamperedSignatureData(): void {
 		$this->environmentHelper
 			->expects($this->once())
 			->method('getChannel')
@@ -865,7 +865,7 @@ class CheckerTest extends TestCase {
 		$this->assertSame($expected, $this->checker->verifyCoreSignature());
 	}
 
-	public function testVerifyCoreSignatureWithTamperedFiles() {
+	public function testVerifyCoreSignatureWithTamperedFiles(): void {
 		$this->environmentHelper
 			->expects($this->once())
 			->method('getChannel')
@@ -923,7 +923,7 @@ class CheckerTest extends TestCase {
 		$this->assertSame($expected, $this->checker->verifyCoreSignature());
 	}
 
-	public function testVerifyCoreWithInvalidCertificate() {
+	public function testVerifyCoreWithInvalidCertificate(): void {
 		$this->environmentHelper
 			->expects($this->once())
 			->method('getChannel')
@@ -966,7 +966,7 @@ class CheckerTest extends TestCase {
 		$this->assertSame($expected, $this->checker->verifyCoreSignature());
 	}
 
-	public function testVerifyCoreWithDifferentScope() {
+	public function testVerifyCoreWithDifferentScope(): void {
 		$this->environmentHelper
 			->expects($this->once())
 			->method('getChannel')
@@ -1009,7 +1009,7 @@ class CheckerTest extends TestCase {
 		$this->assertSame($expected, $this->checker->verifyCoreSignature());
 	}
 
-	public function testRunInstanceVerification() {
+	public function testRunInstanceVerification(): void {
 		$this->checker = $this->getMockBuilder('\OC\IntegrityCheck\Checker')
 			->setConstructorArgs([
 				$this->environmentHelper,
@@ -1089,7 +1089,7 @@ class CheckerTest extends TestCase {
 		$this->checker->runInstanceVerification();
 	}
 
-	public function testVerifyAppSignatureWithoutSignatureDataAndCodeCheckerDisabled() {
+	public function testVerifyAppSignatureWithoutSignatureDataAndCodeCheckerDisabled(): void {
 		$this->environmentHelper
 			->expects($this->once())
 			->method('getChannel')
@@ -1119,7 +1119,7 @@ class CheckerTest extends TestCase {
 	 * @param bool $isCodeSigningEnforced
 	 * @dataProvider channelDataProvider
 	 */
-	public function testIsCodeCheckEnforced($channel, $isCodeSigningEnforced) {
+	public function testIsCodeCheckEnforced($channel, $isCodeSigningEnforced): void {
 		$this->environmentHelper
 			->expects($this->once())
 			->method('getChannel')
@@ -1137,7 +1137,7 @@ class CheckerTest extends TestCase {
 	 * @param string $channel
 	 * @dataProvider channelDataProvider
 	 */
-	public function testIsCodeCheckEnforcedWithDisabledConfigSwitch($channel) {
+	public function testIsCodeCheckEnforcedWithDisabledConfigSwitch($channel): void {
 		$this->environmentHelper
 			->expects($this->once())
 			->method('getChannel')

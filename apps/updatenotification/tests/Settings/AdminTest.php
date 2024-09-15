@@ -80,7 +80,7 @@ class AdminTest extends TestCase {
 		);
 	}
 
-	public function testGetFormWithUpdate() {
+	public function testGetFormWithUpdate(): void {
 		$backend1 = $this->createMock(CountUsersBackend::class);
 		$backend2 = $this->createMock(CountUsersBackend::class);
 		$backend3 = $this->createMock(CountUsersBackend::class);
@@ -206,7 +206,7 @@ class AdminTest extends TestCase {
 		$this->assertEquals($expected, $this->admin->getForm());
 	}
 
-	public function testGetFormWithUpdateAndChangedUpdateServer() {
+	public function testGetFormWithUpdateAndChangedUpdateServer(): void {
 		$backend1 = $this->createMock(CountUsersBackend::class);
 		$backend2 = $this->createMock(CountUsersBackend::class);
 		$backend3 = $this->createMock(CountUsersBackend::class);
@@ -333,7 +333,7 @@ class AdminTest extends TestCase {
 		$this->assertEquals($expected, $this->admin->getForm());
 	}
 
-	public function testGetFormWithUpdateAndCustomersUpdateServer() {
+	public function testGetFormWithUpdateAndCustomersUpdateServer(): void {
 		$backend1 = $this->createMock(CountUsersBackend::class);
 		$backend2 = $this->createMock(CountUsersBackend::class);
 		$backend3 = $this->createMock(CountUsersBackend::class);
@@ -461,11 +461,11 @@ class AdminTest extends TestCase {
 	}
 
 
-	public function testGetSection() {
+	public function testGetSection(): void {
 		$this->assertSame('overview', $this->admin->getSection());
 	}
 
-	public function testGetPriority() {
+	public function testGetPriority(): void {
 		$this->assertSame(11, $this->admin->getPriority());
 	}
 
@@ -527,7 +527,7 @@ class AdminTest extends TestCase {
 	/**
 	 * @dataProvider changesProvider
 	 */
-	public function testFilterChanges($changes, $userLang, $expectation) {
+	public function testFilterChanges($changes, $userLang, $expectation): void {
 		$iterator = $this->createMock(ILanguageIterator::class);
 		$iterator->expects($this->any())
 			->method('current')

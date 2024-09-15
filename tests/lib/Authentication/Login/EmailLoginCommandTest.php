@@ -28,7 +28,7 @@ class EmailLoginCommandTest extends ALoginCommandTest {
 		);
 	}
 
-	public function testProcessAlreadyLoggedIn() {
+	public function testProcessAlreadyLoggedIn(): void {
 		$data = $this->getLoggedInLoginData();
 
 		$result = $this->cmd->process($data);
@@ -36,7 +36,7 @@ class EmailLoginCommandTest extends ALoginCommandTest {
 		$this->assertTrue($result->isSuccess());
 	}
 
-	public function testProcessNotAnEmailLogin() {
+	public function testProcessNotAnEmailLogin(): void {
 		$data = $this->getFailedLoginData();
 		$this->userManager->expects($this->never())
 			->method('getByEmail')
@@ -48,7 +48,7 @@ class EmailLoginCommandTest extends ALoginCommandTest {
 		$this->assertTrue($result->isSuccess());
 	}
 
-	public function testProcessDuplicateEmailLogin() {
+	public function testProcessDuplicateEmailLogin(): void {
 		$data = $this->getFailedLoginData();
 		$data->setUsername('user@example.com');
 		$this->userManager->expects($this->once())
@@ -64,7 +64,7 @@ class EmailLoginCommandTest extends ALoginCommandTest {
 		$this->assertTrue($result->isSuccess());
 	}
 
-	public function testProcessUidIsEmail() {
+	public function testProcessUidIsEmail(): void {
 		$email = 'user@domain.com';
 		$data = $this->getFailedLoginData();
 		$data->setUsername($email);
@@ -88,7 +88,7 @@ class EmailLoginCommandTest extends ALoginCommandTest {
 		$this->assertEquals($email, $data->getUsername());
 	}
 
-	public function testProcessWrongPassword() {
+	public function testProcessWrongPassword(): void {
 		$email = 'user@domain.com';
 		$data = $this->getFailedLoginData();
 		$data->setUsername($email);
@@ -117,7 +117,7 @@ class EmailLoginCommandTest extends ALoginCommandTest {
 		$this->assertEquals($email, $data->getUsername());
 	}
 
-	public function testProcess() {
+	public function testProcess(): void {
 		$email = 'user@domain.com';
 		$data = $this->getFailedLoginData();
 		$data->setUsername($email);

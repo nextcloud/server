@@ -28,7 +28,7 @@ class CommentersSorterTest extends TestCase {
 	 * @dataProvider sortDataProvider
 	 * @param $data
 	 */
-	public function testSort($data) {
+	public function testSort($data): void {
 		$commentMocks = [];
 		foreach ($data['actors'] as $actorType => $actors) {
 			foreach ($actors as $actorId => $noOfComments) {

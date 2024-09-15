@@ -248,7 +248,7 @@ abstract class StoragesServiceTest extends \Test\TestCase {
 		$this->service->updateStorage($storage);
 	}
 
-	public function testNonExistingStorage() {
+	public function testNonExistingStorage(): void {
 		$this->expectException(\OCA\Files_External\NotFoundException::class);
 
 		$this->ActualNonExistingStorageTest();
@@ -281,7 +281,7 @@ abstract class StoragesServiceTest extends \Test\TestCase {
 	/**
 	 * @dataProvider deleteStorageDataProvider
 	 */
-	public function testDeleteStorage($backendOptions, $rustyStorageId) {
+	public function testDeleteStorage($backendOptions, $rustyStorageId): void {
 		$backend = $this->backendService->getBackend('identifier:\OCA\Files_External\Lib\Backend\DAV');
 		$authMechanism = $this->backendService->getAuthMechanism('identifier:\Auth\Mechanism');
 		$storage = new StorageConfig(255);
@@ -352,13 +352,13 @@ abstract class StoragesServiceTest extends \Test\TestCase {
 		$this->service->removeStorage(255);
 	}
 
-	public function testDeleteUnexistingStorage() {
+	public function testDeleteUnexistingStorage(): void {
 		$this->expectException(\OCA\Files_External\NotFoundException::class);
 
 		$this->actualDeletedUnexistingStorageTest();
 	}
 
-	public function testCreateStorage() {
+	public function testCreateStorage(): void {
 		$mountPoint = 'mount';
 		$backendIdentifier = 'identifier:\OCA\Files_External\Lib\Backend\SMB';
 		$authMechanismIdentifier = 'identifier:\Auth\Mechanism';
@@ -392,7 +392,7 @@ abstract class StoragesServiceTest extends \Test\TestCase {
 		$this->assertEquals($priority, $storage->getPriority());
 	}
 
-	public function testCreateStorageInvalidClass() {
+	public function testCreateStorageInvalidClass(): void {
 		$storage = $this->service->createStorage(
 			'mount',
 			'identifier:\OC\Not\A\Backend',
@@ -402,7 +402,7 @@ abstract class StoragesServiceTest extends \Test\TestCase {
 		$this->assertInstanceOf(InvalidBackend::class, $storage->getBackend());
 	}
 
-	public function testCreateStorageInvalidAuthMechanismClass() {
+	public function testCreateStorageInvalidAuthMechanismClass(): void {
 		$storage = $this->service->createStorage(
 			'mount',
 			'identifier:\OCA\Files_External\Lib\Backend\SMB',
@@ -412,7 +412,7 @@ abstract class StoragesServiceTest extends \Test\TestCase {
 		$this->assertInstanceOf(InvalidAuth::class, $storage->getAuthMechanism());
 	}
 
-	public function testGetStoragesBackendNotVisible() {
+	public function testGetStoragesBackendNotVisible(): void {
 		$backend = $this->backendService->getBackend('identifier:\OCA\Files_External\Lib\Backend\SMB');
 		$backend->expects($this->once())
 			->method('isVisibleFor')
@@ -435,7 +435,7 @@ abstract class StoragesServiceTest extends \Test\TestCase {
 		$this->assertEmpty($this->service->getStorages());
 	}
 
-	public function testGetStoragesAuthMechanismNotVisible() {
+	public function testGetStoragesAuthMechanismNotVisible(): void {
 		$backend = $this->backendService->getBackend('identifier:\OCA\Files_External\Lib\Backend\SMB');
 		$backend->method('isVisibleFor')
 			->with($this->service->getVisibilityType())
@@ -498,7 +498,7 @@ abstract class StoragesServiceTest extends \Test\TestCase {
 		);
 	}
 
-	public function testUpdateStorageMountPoint() {
+	public function testUpdateStorageMountPoint(): void {
 		$backend = $this->backendService->getBackend('identifier:\OCA\Files_External\Lib\Backend\SMB');
 		$authMechanism = $this->backendService->getAuthMechanism('identifier:\Auth\Mechanism');
 

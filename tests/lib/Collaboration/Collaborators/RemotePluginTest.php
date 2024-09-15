@@ -79,7 +79,7 @@ class RemotePluginTest extends TestCase {
 	 * @param bool $exactIdMatch
 	 * @param bool $reachedEnd
 	 */
-	public function testSearch($searchTerm, array $contacts, $shareeEnumeration, array $expected, $exactIdMatch, $reachedEnd) {
+	public function testSearch($searchTerm, array $contacts, $shareeEnumeration, array $expected, $exactIdMatch, $reachedEnd): void {
 		$this->config->expects($this->any())
 			->method('getAppValue')
 			->willReturnCallback(
@@ -117,7 +117,7 @@ class RemotePluginTest extends TestCase {
 	 * @param string $expectedUser
 	 * @param string $expectedUrl
 	 */
-	public function testSplitUserRemote($remote, $expectedUser, $expectedUrl) {
+	public function testSplitUserRemote($remote, $expectedUser, $expectedUrl): void {
 		$this->instantiatePlugin();
 
 		$this->contactsManager->expects($this->any())
@@ -134,7 +134,7 @@ class RemotePluginTest extends TestCase {
 	 *
 	 * @param string $id
 	 */
-	public function testSplitUserRemoteError($id) {
+	public function testSplitUserRemoteError($id): void {
 		$this->expectException(\Exception::class);
 
 		$this->instantiatePlugin();

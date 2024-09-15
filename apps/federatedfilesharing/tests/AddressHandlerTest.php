@@ -96,7 +96,7 @@ class AddressHandlerTest extends \Test\TestCase {
 	 * @param string $expectedUser
 	 * @param string $expectedUrl
 	 */
-	public function testSplitUserRemote($remote, $expectedUser, $expectedUrl) {
+	public function testSplitUserRemote($remote, $expectedUser, $expectedUrl): void {
 		$this->contactsManager->expects($this->any())
 			->method('search')
 			->willReturn([]);
@@ -129,7 +129,7 @@ class AddressHandlerTest extends \Test\TestCase {
 	 *
 	 * @param string $id
 	 */
-	public function testSplitUserRemoteError($id) {
+	public function testSplitUserRemoteError($id): void {
 		$this->expectException(\OCP\HintException::class);
 
 		$this->addressHandler->splitUserRemote($id);
@@ -144,7 +144,7 @@ class AddressHandlerTest extends \Test\TestCase {
 	 * @param string $server2
 	 * @param bool $expected
 	 */
-	public function testCompareAddresses($user1, $server1, $user2, $server2, $expected) {
+	public function testCompareAddresses($user1, $server1, $user2, $server2, $expected): void {
 		$this->assertSame($expected,
 			$this->addressHandler->compareAddresses($user1, $server1, $user2, $server2)
 		);
@@ -176,7 +176,7 @@ class AddressHandlerTest extends \Test\TestCase {
 	 * @param string $url
 	 * @param string $expectedResult
 	 */
-	public function testRemoveProtocolFromUrl($url, $expectedResult) {
+	public function testRemoveProtocolFromUrl($url, $expectedResult): void {
 		$result = $this->addressHandler->removeProtocolFromUrl($url);
 		$this->assertSame($expectedResult, $result);
 	}
@@ -195,7 +195,7 @@ class AddressHandlerTest extends \Test\TestCase {
 	 * @param string $url
 	 * @param bool $expectedResult
 	 */
-	public function testUrlContainProtocol($url, $expectedResult) {
+	public function testUrlContainProtocol($url, $expectedResult): void {
 		$result = $this->addressHandler->urlContainProtocol($url);
 		$this->assertSame($expectedResult, $result);
 	}

@@ -15,7 +15,7 @@ use OCP\Security\CSP\AddContentSecurityPolicyEvent;
 use Test\TestCase;
 
 class AddContentSecurityPolicyEventTest extends TestCase {
-	public function testAddEvent() {
+	public function testAddEvent(): void {
 		$cspManager = $this->createMock(ContentSecurityPolicyManager::class);
 		$policy = $this->createMock(ContentSecurityPolicy::class);
 		$event = new AddContentSecurityPolicyEvent($cspManager);

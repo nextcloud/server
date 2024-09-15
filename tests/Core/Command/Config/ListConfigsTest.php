@@ -262,7 +262,7 @@ class ListConfigsTest extends TestCase {
 	 * @param bool $private
 	 * @param string $expected
 	 */
-	public function testList($app, $systemConfigs, $systemConfigMap, $appConfig, $private, $expected) {
+	public function testList($app, $systemConfigs, $systemConfigMap, $appConfig, $private, $expected): void {
 		$this->systemConfig->expects($this->any())
 			->method('getKeys')
 			->willReturn($systemConfigs);

@@ -13,7 +13,7 @@ use OCP\Authentication\Token\IToken;
 use Test\TestCase;
 
 class PublicKeyTokenTest extends TestCase {
-	public function testSetScopeAsArray() {
+	public function testSetScopeAsArray(): void {
 		$scope = [IToken::SCOPE_FILESYSTEM => false];
 		$token = new PublicKeyToken();
 		$token->setScope($scope);
@@ -21,7 +21,7 @@ class PublicKeyTokenTest extends TestCase {
 		$this->assertEquals($scope, $token->getScopeAsArray());
 	}
 
-	public function testDefaultScope() {
+	public function testDefaultScope(): void {
 		$scope = [IToken::SCOPE_FILESYSTEM => true];
 		$token = new PublicKeyToken();
 		$this->assertEquals($scope, $token->getScopeAsArray());

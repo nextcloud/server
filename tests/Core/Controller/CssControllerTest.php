@@ -56,7 +56,7 @@ class CssControllerTest extends TestCase {
 		);
 	}
 
-	public function testNoCssFolderForApp() {
+	public function testNoCssFolderForApp(): void {
 		$this->appData->method('getFolder')
 			->with('myapp')
 			->willThrowException(new NotFoundException());
@@ -67,7 +67,7 @@ class CssControllerTest extends TestCase {
 	}
 
 
-	public function testNoCssFile() {
+	public function testNoCssFile(): void {
 		$folder = $this->createMock(ISimpleFolder::class);
 		$this->appData->method('getFolder')
 			->with('myapp')
@@ -81,7 +81,7 @@ class CssControllerTest extends TestCase {
 		$this->assertInstanceOf(NotFoundResponse::class, $result);
 	}
 
-	public function testGetFile() {
+	public function testGetFile(): void {
 		$folder = $this->createMock(ISimpleFolder::class);
 		$file = $this->createMock(ISimpleFile::class);
 		$file->method('getName')->willReturn('my name');
@@ -105,7 +105,7 @@ class CssControllerTest extends TestCase {
 		$this->assertEquals($expected, $result);
 	}
 
-	public function testGetGzipFile() {
+	public function testGetGzipFile(): void {
 		$folder = $this->createMock(ISimpleFolder::class);
 		$gzipFile = $this->createMock(ISimpleFile::class);
 		$gzipFile->method('getName')->willReturn('my name');
@@ -134,7 +134,7 @@ class CssControllerTest extends TestCase {
 		$this->assertEquals($expected, $result);
 	}
 
-	public function testGetGzipFileNotFound() {
+	public function testGetGzipFileNotFound(): void {
 		$folder = $this->createMock(ISimpleFolder::class);
 		$file = $this->createMock(ISimpleFile::class);
 		$file->method('getName')->willReturn('my name');

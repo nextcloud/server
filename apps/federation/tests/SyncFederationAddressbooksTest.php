@@ -33,7 +33,7 @@ class SyncFederationAddressbooksTest extends \Test\TestCase {
 		$this->logger = $this->createMock(LoggerInterface::class);
 	}
 
-	public function testSync() {
+	public function testSync(): void {
 		/** @var DbHandler | MockObject $dbHandler */
 		$dbHandler = $this->getMockBuilder('OCA\Federation\DbHandler')
 			->disableOriginalConstructor()
@@ -63,7 +63,7 @@ class SyncFederationAddressbooksTest extends \Test\TestCase {
 		$this->assertEquals('1', count($this->callBacks));
 	}
 
-	public function testException() {
+	public function testException(): void {
 		/** @var DbHandler | MockObject $dbHandler */
 		$dbHandler = $this->getMockBuilder('OCA\Federation\DbHandler')->
 		disableOriginalConstructor()->
@@ -91,7 +91,7 @@ class SyncFederationAddressbooksTest extends \Test\TestCase {
 		$this->assertEquals(2, count($this->callBacks));
 	}
 
-	public function testSuccessfulSyncWithoutChangesAfterFailure() {
+	public function testSuccessfulSyncWithoutChangesAfterFailure(): void {
 		/** @var DbHandler | MockObject $dbHandler */
 		$dbHandler = $this->getMockBuilder('OCA\Federation\DbHandler')
 			->disableOriginalConstructor()

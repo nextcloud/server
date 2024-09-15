@@ -400,7 +400,7 @@ class PluginTest extends TestCase {
 	 *
 	 * Should generate 2 messages for attendees User 2 and User External
 	 */
-	public function testCalendarObjectChangePersonalCalendarCreate() {
+	public function testCalendarObjectChangePersonalCalendarCreate(): void {
 
 		// define place holders
 		/** @var Message[] $iTipMessages */
@@ -504,7 +504,7 @@ class PluginTest extends TestCase {
 	 *
 	 * Should generate 3 messages for attendees User 2 (Sharee), User 3 (Non-Sharee) and User External
 	 */
-	public function testCalendarObjectChangeSharedCalendarSharerCreate() {
+	public function testCalendarObjectChangeSharedCalendarSharerCreate(): void {
 
 		// define place holders
 		/** @var Message[] $iTipMessages */
@@ -620,7 +620,7 @@ class PluginTest extends TestCase {
 	 *
 	 * Should generate 3 messages for attendees User 1 (Sharer/Owner), User 3 (Non-Sharee) and User External
 	 */
-	public function testCalendarObjectChangeSharedCalendarShreeCreate() {
+	public function testCalendarObjectChangeSharedCalendarShreeCreate(): void {
 
 		// define place holders
 		/** @var Message[] $iTipMessages */

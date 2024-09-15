@@ -58,21 +58,21 @@ class CompareVersionTest extends TestCase {
 	 * @dataProvider comparisonData
 	 */
 	public function testComparison(string $actualVersion, string $requiredVersion,
-		string $comparator, bool $expected) {
+		string $comparator, bool $expected): void {
 		$isCompatible = $this->compare->isCompatible($actualVersion, $requiredVersion,
 			$comparator);
 
 		$this->assertEquals($expected, $isCompatible);
 	}
 
-	public function testInvalidServerVersion() {
+	public function testInvalidServerVersion(): void {
 		$actualVersion = '13';
 		$this->expectException(InvalidArgumentException::class);
 
 		$this->compare->isCompatible($actualVersion, '13.0.0');
 	}
 
-	public function testInvalidRequiredVersion() {
+	public function testInvalidRequiredVersion(): void {
 		$actualVersion = '13.0.0';
 		$this->expectException(InvalidArgumentException::class);
 

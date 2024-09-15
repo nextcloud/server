@@ -52,7 +52,7 @@ class InfoXmlTest extends TestCase {
 	 *
 	 * @param string $app
 	 */
-	public function testClasses($app) {
+	public function testClasses($app): void {
 		$appInfo = $this->appManager->getAppInfo($app);
 		$appPath = $this->appManager->getAppPath($app);
 		\OC_App::registerAutoloading($app, $appPath);

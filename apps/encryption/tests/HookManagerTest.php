@@ -20,7 +20,7 @@ class HookManagerTest extends TestCase {
 	private static $instance;
 
 	
-	public function testRegisterHookWithArray() {
+	public function testRegisterHookWithArray(): void {
 		self::$instance->registerHook([
 			$this->getMockBuilder(IHook::class)->disableOriginalConstructor()->getMock(),
 			$this->getMockBuilder(IHook::class)->disableOriginalConstructor()->getMock(),
@@ -41,7 +41,7 @@ class HookManagerTest extends TestCase {
 	}
 
 	
-	public function testRegisterHooksWithInstance() {
+	public function testRegisterHooksWithInstance(): void {
 		$mock = $this->getMockBuilder(IHook::class)->disableOriginalConstructor()->getMock();
 		/** @var \OCA\Encryption\Hooks\Contracts\IHook $mock */
 		self::$instance->registerHook($mock);

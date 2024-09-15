@@ -34,14 +34,14 @@ class InfoParserTest extends TestCase {
 	/**
 	 * @dataProvider providesInfoXml
 	 */
-	public function testParsingValidXmlWithoutCache($expectedJson, $xmlFile) {
+	public function testParsingValidXmlWithoutCache($expectedJson, $xmlFile): void {
 		$this->parserTest($expectedJson, $xmlFile);
 	}
 
 	/**
 	 * @dataProvider providesInfoXml
 	 */
-	public function testParsingValidXmlWithCache($expectedJson, $xmlFile) {
+	public function testParsingValidXmlWithCache($expectedJson, $xmlFile): void {
 		$this->parserTest($expectedJson, $xmlFile, self::$cache);
 	}
 

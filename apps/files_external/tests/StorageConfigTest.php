@@ -12,7 +12,7 @@ use OCA\Files_External\Lib\DefinitionParameter;
 use OCA\Files_External\Lib\StorageConfig;
 
 class StorageConfigTest extends \Test\TestCase {
-	public function testJsonSerialization() {
+	public function testJsonSerialization(): void {
 		$backend = $this->getMockBuilder(Backend::class)
 			->disableOriginalConstructor()
 			->getMock();

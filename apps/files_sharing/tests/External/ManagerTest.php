@@ -181,7 +181,7 @@ class ManagerTest extends TestCase {
 		$this->mountManager->addMount(new MountPoint(Temporary::class, '', []));
 	}
 
-	public function testAddUserShare() {
+	public function testAddUserShare(): void {
 		$this->doTestAddShare([
 			'remote' => 'http://localhost',
 			'token' => 'token1',
@@ -195,7 +195,7 @@ class ManagerTest extends TestCase {
 		], false);
 	}
 
-	public function testAddGroupShare() {
+	public function testAddGroupShare(): void {
 		$this->doTestAddShare([
 			'remote' => 'http://localhost',
 			'token' => 'token1',
@@ -474,7 +474,7 @@ class ManagerTest extends TestCase {
 		return [$shareData, $groupShare];
 	}
 
-	public function testAcceptOriginalGroupShare() {
+	public function testAcceptOriginalGroupShare(): void {
 		[$shareData, $groupShare] = $this->createTestGroupShare();
 		$this->assertTrue($this->manager->acceptShare($groupShare['id']));
 		$this->verifyAcceptedGroupShare($shareData);
@@ -484,7 +484,7 @@ class ManagerTest extends TestCase {
 		$this->verifyAcceptedGroupShare($shareData);
 	}
 
-	public function testAcceptGroupShareAgainThroughGroupShare() {
+	public function testAcceptGroupShareAgainThroughGroupShare(): void {
 		[$shareData, $groupShare] = $this->createTestGroupShare();
 		$this->assertTrue($this->manager->acceptShare($groupShare['id']));
 		$this->verifyAcceptedGroupShare($shareData);
@@ -506,7 +506,7 @@ class ManagerTest extends TestCase {
 		$this->verifyAcceptedGroupShare($shareData, '/SharedFolder');
 	}
 
-	public function testAcceptGroupShareAgainThroughSubShare() {
+	public function testAcceptGroupShareAgainThroughSubShare(): void {
 		[$shareData, $groupShare] = $this->createTestGroupShare();
 		$this->assertTrue($this->manager->acceptShare($groupShare['id']));
 		$this->verifyAcceptedGroupShare($shareData);
@@ -528,7 +528,7 @@ class ManagerTest extends TestCase {
 		$this->verifyAcceptedGroupShare($shareData);
 	}
 
-	public function testDeclineOriginalGroupShare() {
+	public function testDeclineOriginalGroupShare(): void {
 		[$shareData, $groupShare] = $this->createTestGroupShare();
 		$this->assertTrue($this->manager->declineShare($groupShare['id']));
 		$this->verifyDeclinedGroupShare($shareData);
@@ -538,7 +538,7 @@ class ManagerTest extends TestCase {
 		$this->verifyDeclinedGroupShare($shareData);
 	}
 
-	public function testDeclineGroupShareAgainThroughGroupShare() {
+	public function testDeclineGroupShareAgainThroughGroupShare(): void {
 		[$shareData, $groupShare] = $this->createTestGroupShare();
 		$this->assertTrue($this->manager->acceptShare($groupShare['id']));
 		$this->verifyAcceptedGroupShare($shareData);
@@ -552,7 +552,7 @@ class ManagerTest extends TestCase {
 		$this->verifyDeclinedGroupShare($shareData, '/SharedFolder');
 	}
 
-	public function testDeclineGroupShareAgainThroughSubshare() {
+	public function testDeclineGroupShareAgainThroughSubshare(): void {
 		[$shareData, $groupShare] = $this->createTestGroupShare();
 		$this->assertTrue($this->manager->acceptShare($groupShare['id']));
 		$this->verifyAcceptedGroupShare($shareData);
@@ -570,7 +570,7 @@ class ManagerTest extends TestCase {
 		$this->verifyDeclinedGroupShare($shareData, '/SharedFolder');
 	}
 
-	public function testDeclineGroupShareAgainThroughMountPoint() {
+	public function testDeclineGroupShareAgainThroughMountPoint(): void {
 		[$shareData, $groupShare] = $this->createTestGroupShare();
 		$this->assertTrue($this->manager->acceptShare($groupShare['id']));
 		$this->verifyAcceptedGroupShare($shareData);
@@ -583,7 +583,7 @@ class ManagerTest extends TestCase {
 		$this->assertFalse($this->manager->removeShare($this->uid . '/files/' . $shareData['name']));
 	}
 
-	public function testDeclineThenAcceptGroupShareAgainThroughGroupShare() {
+	public function testDeclineThenAcceptGroupShareAgainThroughGroupShare(): void {
 		[$shareData, $groupShare] = $this->createTestGroupShare();
 		// decline, this creates a declined sub-share
 		$this->assertTrue($this->manager->declineShare($groupShare['id']));
@@ -601,7 +601,7 @@ class ManagerTest extends TestCase {
 		$this->verifyAcceptedGroupShare($shareData, '/SharedFolder');
 	}
 
-	public function testDeclineThenAcceptGroupShareAgainThroughSubShare() {
+	public function testDeclineThenAcceptGroupShareAgainThroughSubShare(): void {
 		[$shareData, $groupShare] = $this->createTestGroupShare();
 		// decline, this creates a declined sub-share
 		$this->assertTrue($this->manager->declineShare($groupShare['id']));
@@ -619,7 +619,7 @@ class ManagerTest extends TestCase {
 		$this->verifyAcceptedGroupShare($shareData);
 	}
 
-	public function testDeleteUserShares() {
+	public function testDeleteUserShares(): void {
 		// user 1 shares
 
 		$shareData = $this->createTestUserShare($this->uid);
@@ -666,7 +666,7 @@ class ManagerTest extends TestCase {
 		$this->assertEquals($user2Shares[1]['user'], 'user2');
 	}
 
-	public function testDeleteGroupShares() {
+	public function testDeleteGroupShares(): void {
 		$shareData = $this->createTestUserShare($this->uid);
 
 		[$shareData, $groupShare] = $this->createTestGroupShare();

@@ -90,7 +90,7 @@ class RequestUserAgentTest extends TestCase {
 	 * @param string $actualValue
 	 * @param bool $expected
 	 */
-	public function testExecuteCheck($operation, $checkValue, $actualValue, $expected) {
+	public function testExecuteCheck($operation, $checkValue, $actualValue, $expected): void {
 		$this->request->expects($this->once())
 			->method('getHeader')
 			->willReturn($actualValue);

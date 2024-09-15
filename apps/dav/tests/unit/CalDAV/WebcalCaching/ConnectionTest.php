@@ -37,7 +37,7 @@ class ConnectionTest extends TestCase {
 	/**
 	 * @dataProvider runLocalURLDataProvider
 	 */
-	public function testLocalUrl($source) {
+	public function testLocalUrl($source): void {
 		$subscription = [
 			'id' => 42,
 			'uri' => 'sub123',

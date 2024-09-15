@@ -50,7 +50,7 @@ class SetPasswordColumnTest extends TestCase {
 		$query->delete($this->table)->execute();
 	}
 
-	public function testAddPasswordColumn() {
+	public function testAddPasswordColumn(): void {
 		$this->config->expects($this->once())
 			->method('getAppValue')
 			->with('files_sharing', 'installed_version', '0.0.0')

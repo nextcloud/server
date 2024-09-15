@@ -39,7 +39,7 @@ class CSPMiddlewareTest extends \Test\TestCase {
 		);
 	}
 
-	public function testAfterController() {
+	public function testAfterController(): void {
 		$this->cspNonceManager
 			->expects($this->once())
 			->method('browserSupportsCspV3')
@@ -71,7 +71,7 @@ class CSPMiddlewareTest extends \Test\TestCase {
 		$this->middleware->afterController($this->controller, 'test', $response);
 	}
 
-	public function testAfterControllerEmptyCSP() {
+	public function testAfterControllerEmptyCSP(): void {
 		$response = $this->createMock(Response::class);
 		$emptyPolicy = new EmptyContentSecurityPolicy();
 		$response->expects($this->any())
@@ -83,7 +83,7 @@ class CSPMiddlewareTest extends \Test\TestCase {
 		$this->middleware->afterController($this->controller, 'test', $response);
 	}
 
-	public function testAfterControllerWithContentSecurityPolicy3Support() {
+	public function testAfterControllerWithContentSecurityPolicy3Support(): void {
 		$this->cspNonceManager
 			->expects($this->once())
 			->method('browserSupportsCspV3')

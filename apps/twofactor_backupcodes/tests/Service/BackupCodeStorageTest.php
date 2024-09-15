@@ -38,7 +38,7 @@ class BackupCodeStorageTest extends TestCase {
 		$this->overwriteService(IManager::class, $this->notificationManager);
 	}
 
-	public function testSimpleWorkFlow() {
+	public function testSimpleWorkFlow(): void {
 		$user = $this->getMockBuilder(\OCP\IUser::class)->getMock();
 		$user->expects($this->any())
 			->method('getUID')

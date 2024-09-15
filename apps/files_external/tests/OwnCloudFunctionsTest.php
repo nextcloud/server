@@ -86,7 +86,7 @@ class OwnCloudFunctionsTest extends \Test\TestCase {
 	/**
 	 * @dataProvider configUrlProvider
 	 */
-	public function testConfig($config, $expectedUri) {
+	public function testConfig($config, $expectedUri): void {
 		$config['user'] = 'someuser';
 		$config['password'] = 'somepassword';
 		$instance = new \OCA\Files_External\Lib\Storage\OwnCloud($config);

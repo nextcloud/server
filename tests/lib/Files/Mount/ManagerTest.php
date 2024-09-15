@@ -27,7 +27,7 @@ class ManagerTest extends \Test\TestCase {
 		$this->manager = new \OC\Files\Mount\Manager($this->createMock(SetupManagerFactory::class));
 	}
 
-	public function testFind() {
+	public function testFind(): void {
 		$rootMount = new \OC\Files\Mount\MountPoint(new Temporary([]), '/');
 		$this->manager->addMount($rootMount);
 		$this->assertEquals($rootMount, $this->manager->find('/'));
@@ -52,7 +52,7 @@ class ManagerTest extends \Test\TestCase {
 		$this->assertEquals([$mount1, $mount3], $this->manager->findByStorageId($id));
 	}
 
-	public function testLong() {
+	public function testLong(): void {
 		$storage = new LongId([]);
 		$mount = new \OC\Files\Mount\MountPoint($storage, '/foo');
 		$this->manager->addMount($mount);

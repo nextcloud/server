@@ -442,7 +442,7 @@ EOD;
 		];
 	}
 
-	public function testRemoveVAlarms() {
+	public function testRemoveVAlarms(): void {
 		$publicObjectData = <<<EOD
 BEGIN:VCALENDAR
 VERSION:2.0

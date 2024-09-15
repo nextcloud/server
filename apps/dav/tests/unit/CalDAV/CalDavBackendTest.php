@@ -1490,7 +1490,7 @@ EOD;
 		self::assertSame(0, $deleted);
 	}
 
-	public function testSearchAndExpandRecurrences() {
+	public function testSearchAndExpandRecurrences(): void {
 		$calendarId = $this->createTestCalendar();
 		$calendarInfo = [
 			'id' => $calendarId,
@@ -1646,7 +1646,7 @@ EOD;
 		self::assertEquals([$uri2], $changesAfter['deleted']);
 	}
 
-	public function testSearchWithLimitAndTimeRange() {
+	public function testSearchWithLimitAndTimeRange(): void {
 		$calendarId = $this->createTestCalendar();
 		$calendarInfo = [
 			'id' => $calendarId,
@@ -1703,7 +1703,7 @@ EOD;
 		);
 	}
 
-	public function testSearchWithLimitAndTimeRangeShouldNotReturnMoreObjectsThenLimit() {
+	public function testSearchWithLimitAndTimeRangeShouldNotReturnMoreObjectsThenLimit(): void {
 		$calendarId = $this->createTestCalendar();
 		$calendarInfo = [
 			'id' => $calendarId,
@@ -1753,7 +1753,7 @@ EOD;
 		);
 	}
 
-	public function testSearchWithLimitAndTimeRangeShouldReturnObjectsInTheSameOrder() {
+	public function testSearchWithLimitAndTimeRangeShouldReturnObjectsInTheSameOrder(): void {
 		$calendarId = $this->createTestCalendar();
 		$calendarInfo = [
 			'id' => $calendarId,
@@ -1810,7 +1810,7 @@ EOD;
 		);
 	}
 
-	public function testSearchShouldReturnObjectsInTheSameOrderMissingDate() {
+	public function testSearchShouldReturnObjectsInTheSameOrderMissingDate(): void {
 		$calendarId = $this->createTestCalendar();
 		$calendarInfo = [
 			'id' => $calendarId,
