@@ -20,7 +20,7 @@ trait S3ConfigTrait {
 
 	protected int $timeout;
 
-	protected string $proxy;
+	protected string|false $proxy;
 
 	protected string $storageClass;
 
