@@ -251,7 +251,7 @@ OC.L10N.register(
     "Connect items to a project to make them easier to find" : "Conecte os elementos a un proxecto para que sexan máis doados de atopar",
     "Type to search for existing projects" : "Escriba para buscar proxectos existentes",
     "New in" : "Novo en",
-    "View changelog" : "Ver o rexistro de cambios",
+    "View changelog" : "Ver as notas da versión",
     "Very weak password" : "Contrasinal moi feble",
     "Weak password" : "Contrasinal feble",
     "So-so password" : "Contrasinal non moi aló",
