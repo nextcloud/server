@@ -129,7 +129,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 11.0.1
 	- license: MIT
 - @nextcloud/vue
-	- version: 8.17.1
+	- version: 8.18.0
 	- license: AGPL-3.0-or-later
 - vue-demi
 	- version: 0.14.10
@@ -147,7 +147,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.0.7
 	- license: MIT
 - axios
-	- version: 1.7.4
+	- version: 1.7.7
 	- license: MIT
 - base64-js
 	- version: 1.5.1
@@ -174,7 +174,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 0.2.7
 	- license: MIT
 - debounce
-	- version: 2.1.0
+	- version: 2.1.1
 	- license: MIT
 - define-data-property
 	- version: 1.1.4

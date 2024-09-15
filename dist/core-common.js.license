@@ -186,7 +186,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 11.0.1
 	- license: MIT
 - @nextcloud/vue
-	- version: 8.17.1
+	- version: 8.18.0
 	- license: AGPL-3.0-or-later
 - @ungap/structured-clone
 	- version: 1.2.0
@@ -210,7 +210,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.0.7
 	- license: MIT
 - axios
-	- version: 1.7.4
+	- version: 1.7.7
 	- license: MIT
 - bail
 	- version: 2.0.2
@@ -273,7 +273,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 0.2.7
 	- license: MIT
 - debounce
-	- version: 2.1.0
+	- version: 2.1.1
 	- license: MIT
 - decode-named-character-reference
 	- version: 1.0.2
