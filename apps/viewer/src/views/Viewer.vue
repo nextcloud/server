@@ -194,18 +194,17 @@
 import '@nextcloud/dialogs/style.css'
 import Vue from 'vue'
 
-import axios from '@nextcloud/axios'
-import { showError } from '@nextcloud/dialogs'
 import { emit, subscribe, unsubscribe } from '@nextcloud/event-bus'
-import { Node, davRemoteURL, davRootPath } from '@nextcloud/files'
 import { loadState } from '@nextcloud/initial-state'
+import { Node, davRemoteURL, davRootPath } from '@nextcloud/files'
+import { showError } from '@nextcloud/dialogs'
+import axios from '@nextcloud/axios'
 
 import isFullscreen from '@nextcloud/vue/dist/Mixins/isFullscreen.js'
 import isMobile from '@nextcloud/vue/dist/Mixins/isMobile.js'
 
-import { extractFilePaths, sortCompare } from '../utils/fileUtils.ts'
-import { registerViewerAction } from '../files_actions/viewerAction.ts'
 import { canDownload } from '../utils/canDownload.ts'
+import { extractFilePaths, sortCompare } from '../utils/fileUtils.ts'
 import getSortingConfig from '../services/FileSortingConfig.ts'
 import cancelableRequest from '../utils/CancelableRequest.js'
 import Error from '../components/Error.vue'
@@ -222,12 +221,9 @@ import FullscreenExit from 'vue-material-design-icons/FullscreenExit.vue'
 import Pencil from 'vue-material-design-icons/Pencil.vue'
 
 // Dynamic loading
-const NcModal = () => import(
-	/* webpackChunkName: 'components' */
-	/* webpackPrefetch: true */
-	'@nextcloud/vue/dist/Components/NcModal.js')
-const NcActionLink = () => import(/* webpackChunkName: 'components' */'@nextcloud/vue/dist/Components/NcActionLink.js')
-const NcActionButton = () => import(/* webpackChunkName: 'components' */'@nextcloud/vue/dist/Components/NcActionButton.js')
+const NcModal = () => import('@nextcloud/vue/dist/Components/NcModal.js')
+const NcActionLink = () => import('@nextcloud/vue/dist/Components/NcActionLink.js')
+const NcActionButton = () => import('@nextcloud/vue/dist/Components/NcActionButton.js')
 
 export default {
 	name: 'Viewer',
