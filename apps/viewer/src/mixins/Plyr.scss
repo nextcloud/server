@@ -10,6 +10,12 @@
 	--plyr-audio-controls-background: var(--color-main-background);
 	--plyr-audio-control-color: var(--color-main-text);
 
+	// Override server font style
+	--plyr-button-size: 44px;
+
+	// Progress
+	--plyr-range-fill-background: var(--color-primary-element);
+
 	// Reactive content
 	.plyr__controls {
 		flex-wrap: wrap;
@@ -24,8 +30,6 @@
 		}
 	}
 
-	// Override server font style
-	--plyr-button-size: 44px;
 	button {
 		width: var(--plyr-button-size);
 		height: var(--plyr-button-size);
@@ -43,12 +47,11 @@
 		}
 
 		&.plyr__control--overlaid {
+			--plyr-button-size: 50px;
 			width: var(--plyr-button-size);
 			height: var(--plyr-button-size);
 			color: var(--color-primary-element-text);
 			background-color: var(--color-primary-element);
-
-			--plyr-button-size: 50px;
 
 			&:hover,
 			&:focus {
@@ -83,8 +86,6 @@
 		}
 	}
 
-	// Progress
-	--plyr-range-fill-background: var(--color-primary-element);
 	.plyr__progress__buffer {
 		width: calc(100% + var(--plyr-range-thumb-height, 13px));
 		height: var(--plyr-range-track-height, 5px);

@@ -62,7 +62,6 @@
 		:spread-navigation="true"
 		:style="{ width: isSidebarShown ? `${sidebarPosition}px` : null }"
 		:name="currentFile.basename"
-		:view="currentFile.modal"
 		class="viewer"
 		size="full"
 		@close="close"
@@ -99,7 +98,7 @@
 				:close-after-click="true"
 				:href="downloadPath">
 				<template #icon>
-					<Download :size="24" />
+					<Download :size="20" />
 				</template>
 				{{ t('viewer', 'Download') }}
 			</NcActionLink>
@@ -107,13 +106,16 @@
 				:close-after-click="true"
 				@click="onDelete">
 				<template #icon>
-					<Delete :size="22" />
+					<Delete :size="20" />
 				</template>
 				{{ t('viewer', 'Delete') }}
 			</NcActionButton>
 		</template>
 
-		<div class="viewer__content" :class="contentClass" @click.self.exact="close">
+		<div class="viewer__content"
+			:class="contentClass"
+			@click.self.exact="close"
+			@contextmenu="preventContextMenu">
 			<!-- COMPARE FILE -->
 			<div v-if="comparisonFile && !comparisonFile.failed && showComparison" class="viewer__file-wrapper">
 				<component :is="comparisonFile.modal"
@@ -192,18 +194,18 @@
 import '@nextcloud/dialogs/style.css'
 import Vue from 'vue'
 
-import axios from '@nextcloud/axios'
-import { showError } from '@nextcloud/dialogs'
 import { emit, subscribe, unsubscribe } from '@nextcloud/event-bus'
-import { Node, davRemoteURL, davRootPath } from '@nextcloud/files'
 import { loadState } from '@nextcloud/initial-state'
+import { Node, davRemoteURL, davRootPath } from '@nextcloud/files'
+import { showError } from '@nextcloud/dialogs'
+import axios from '@nextcloud/axios'
 
 import isFullscreen from '@nextcloud/vue/dist/Mixins/isFullscreen.js'
 import isMobile from '@nextcloud/vue/dist/Mixins/isMobile.js'
 
+import { canDownload } from '../utils/canDownload.ts'
 import { extractFilePaths, sortCompare } from '../utils/fileUtils.ts'
 import getSortingConfig from '../services/FileSortingConfig.ts'
-import canDownload from '../utils/canDownload.js'
 import cancelableRequest from '../utils/CancelableRequest.js'
 import Error from '../components/Error.vue'
 import File from '../models/file.js'
@@ -219,12 +221,9 @@ import FullscreenExit from 'vue-material-design-icons/FullscreenExit.vue'
 import Pencil from 'vue-material-design-icons/Pencil.vue'
 
 // Dynamic loading
-const NcModal = () => import(
-	/* webpackChunkName: 'components' */
-	/* webpackPrefetch: true */
-	'@nextcloud/vue/dist/Components/NcModal.js')
-const NcActionLink = () => import(/* webpackChunkName: 'components' */'@nextcloud/vue/dist/Components/NcActionLink.js')
-const NcActionButton = () => import(/* webpackChunkName: 'components' */'@nextcloud/vue/dist/Components/NcActionButton.js')
+const NcModal = () => import('@nextcloud/vue/dist/Components/NcModal.js')
+const NcActionLink = () => import('@nextcloud/vue/dist/Components/NcActionLink.js')
+const NcActionButton = () => import('@nextcloud/vue/dist/Components/NcActionButton.js')
 
 export default {
 	name: 'Viewer',
@@ -371,12 +370,16 @@ export default {
 		},
 
 		/**
-		 * Is the current user allowed to download the file in public mode?
+		 * Is the current user allowed to download the file
 		 *
 		 * @return {boolean}
 		 */
 		canDownload() {
-			return canDownload() && !this.comparisonFile
+			// download not possible for comparison
+			if (this.comparisonFile) {
+				return false
+			}
+			return this.currentFile && canDownload(this.currentFile)
 		},
 
 		/**
@@ -387,7 +390,7 @@ export default {
 		 */
 		canEdit() {
 			return !this.isMobile
-				&& canDownload()
+				&& this.canDownload
 				&& this.currentFile?.permissions?.includes('W')
 				&& this.isImage
 				&& !this.comparisonFile
@@ -575,6 +578,17 @@ export default {
 	},
 
 	methods: {
+		/**
+		 * If there is no download permission also hide the context menu.
+		 * @param {MouseEvent} event The mouse click event
+		 */
+		preventContextMenu(event) {
+			if (this.canDownload) {
+				return
+			}
+			event.preventDefault()
+		},
+
 		async beforeOpen() {
 			// initial loading start
 			this.initiated = true
