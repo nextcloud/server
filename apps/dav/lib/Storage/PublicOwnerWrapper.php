@@ -26,7 +26,7 @@ class PublicOwnerWrapper extends Wrapper {
 		$this->owner = $arguments['owner'];
 	}
 
-	public function getOwner($path) {
+	public function getOwner($path): string|false {
 		$owner = parent::getOwner($path);
 
 		if ($owner === null || $owner === false) {

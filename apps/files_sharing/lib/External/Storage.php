@@ -344,7 +344,7 @@ class Storage extends DAV implements ISharedStorage, IDisableEncryptionStorage, 
 		return json_decode($response->getBody(), true);
 	}
 
-	public function getOwner($path) {
+	public function getOwner($path): string|false {
 		return $this->cloudId->getDisplayId();
 	}
 

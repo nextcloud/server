@@ -391,14 +391,7 @@ class Wrapper implements \OC\Files\Storage\Storage, ILockingStorage, IWriteStrea
 		return $this->getWrapperStorage()->getScanner($path, $storage);
 	}
 
-
-	/**
-	 * get the user id of the owner of a file or folder
-	 *
-	 * @param string $path
-	 * @return string
-	 */
-	public function getOwner($path) {
+	public function getOwner($path): string|false {
 		return $this->getWrapperStorage()->getOwner($path);
 	}
 
