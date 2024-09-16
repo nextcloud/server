@@ -209,8 +209,9 @@ class Database extends ABackend implements
 	/**
 	 * get display name of the user
 	 *
+	 * @param string $uid user ID of the user
 	 */
-	public function getDisplayName(string $uid): string {
+	public function getDisplayName($uid): string {
 		$uid = (string)$uid;
 		$this->loadUser($uid);
 
