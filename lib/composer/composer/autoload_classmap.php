@@ -428,6 +428,7 @@ return array(
     'OCP\\Files\\StorageNotAvailableException' => $baseDir . '/lib/public/Files/StorageNotAvailableException.php',
     'OCP\\Files\\StorageTimeoutException' => $baseDir . '/lib/public/Files/StorageTimeoutException.php',
     'OCP\\Files\\Storage\\IChunkedFileWrite' => $baseDir . '/lib/public/Files/Storage/IChunkedFileWrite.php',
+    'OCP\\Files\\Storage\\IConstructableStorage' => $baseDir . '/lib/public/Files/Storage/IConstructableStorage.php',
     'OCP\\Files\\Storage\\IDisableEncryptionStorage' => $baseDir . '/lib/public/Files/Storage/IDisableEncryptionStorage.php',
     'OCP\\Files\\Storage\\ILockingStorage' => $baseDir . '/lib/public/Files/Storage/ILockingStorage.php',
     'OCP\\Files\\Storage\\INotifyStorage' => $baseDir . '/lib/public/Files/Storage/INotifyStorage.php',

@@ -15,11 +15,13 @@ use OCA\Files_External\Service\UserGlobalStoragesService;
 use OCA\Files_External\Service\UserStoragesService;
 use OCP\Files\Config\IMountProvider;
 use OCP\Files\ObjectStore\IObjectStore;
+use OCP\Files\Storage\IConstructableStorage;
 use OCP\Files\Storage\IStorage;
 use OCP\Files\Storage\IStorageFactory;
 use OCP\Files\StorageNotAvailableException;
 use OCP\IUser;
 use Psr\Clock\ClockInterface;
+use Psr\Log\LoggerInterface;
 
 /**
  * Make the old files_external config work with the new public mount config api
@@ -62,6 +64,9 @@ class ConfigAdapter implements IMountProvider {
 	 */
 	private function constructStorage(StorageConfig $storageConfig): IStorage {
 		$class = $storageConfig->getBackend()->getStorageClass();
+		if (!$class instanceof IConstructableStorage) {
+			\OCP\Server::get(LoggerInterface::class)->warning('Building a storage not implementing IConstructableStorage is deprecated since 31.0.0', ['class' => $class]);
+		}
 		$storage = new $class($storageConfig->getBackendOptions());
 
 		// auth mechanism should fire first

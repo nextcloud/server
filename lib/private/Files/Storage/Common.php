@@ -21,6 +21,7 @@ use OCP\Files\ForbiddenException;
 use OCP\Files\GenericFileException;
 use OCP\Files\IFilenameValidator;
 use OCP\Files\InvalidPathException;
+use OCP\Files\Storage\IConstructableStorage;
 use OCP\Files\Storage\ILockingStorage;
 use OCP\Files\Storage\IStorage;
 use OCP\Files\Storage\IWriteStreamStorage;
@@ -41,7 +42,7 @@ use Psr\Log\LoggerInterface;
  * Some \OC\Files\Storage\Common methods call functions which are first defined
  * in classes which extend it, e.g. $this->stat() .
  */
-abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
+abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage, IConstructableStorage {
 	use LocalTempFileTrait;
 
 	protected ?Cache $cache = null;

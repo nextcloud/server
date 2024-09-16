@@ -23,16 +23,9 @@ use OCP\Files\InvalidPathException;
  * All paths passed to the storage are relative to the storage and should NOT have a leading slash.
  *
  * @since 9.0.0
+ * @since 31.0.0 Moved the constructor to IConstructableStorage so that wrappers can use DI
  */
 interface IStorage {
-	/**
-	 * $parameters is a free form array with the configuration options needed to construct the storage
-	 *
-	 * @param array $parameters
-	 * @since 9.0.0
-	 */
-	public function __construct($parameters);
-
 	/**
 	 * Get the identifier for the storage,
 	 * the returned id should be the same for every storage object that is created with the same parameters
