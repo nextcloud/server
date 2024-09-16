@@ -94,9 +94,13 @@ class Database extends ABackend implements
 	}
 
 	/**
+	 * delete a user
+	 *
+	 * @param string $uid The username of the user to delete
+	 *
 	 * Deletes a user
 	 */
-	public function deleteUser(string $uid): bool {
+	public function deleteUser($uid): bool {
 		// Delete user-group-relation
 		$qb = $this->db->getQueryBuilder();
 		$qb->delete($this->table)
