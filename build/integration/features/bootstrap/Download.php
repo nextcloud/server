@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 use PHPUnit\Framework\Assert;
+use Psr\Http\Message\StreamInterface;
 
 require __DIR__ . '/../../vendor/autoload.php';
 
@@ -23,13 +24,12 @@ trait Download {
 		$this->asAn($user);
 		$this->sendingToDirectUrl('GET', '/index.php/apps/files/ajax/download.php?dir=' . $folder . '&files=[' . $entries . ']');
 		$this->theHTTPStatusCodeShouldBe('200');
-
-		$this->getDownloadedFile();
 	}
 
 	private function getDownloadedFile() {
 		$this->downloadedFile = '';
 
+		/** @var StreamInterface */
 		$body = $this->response->getBody();
 		while (!$body->eof()) {
 			$this->downloadedFile .= $body->read(8192);
@@ -38,9 +38,23 @@ trait Download {
 	}
 
 	/**
+	 * @Then the downloaded file is a zip file
+	 */
+	public function theDownloadedFileIsAZipFile() {
+		$this->getDownloadedFile();
+
+		Assert::assertTrue(
+			strpos($this->downloadedFile, "\x50\x4B\x01\x02") !== false,
+			'File does not contain the central directory file header'
+		);
+	}
+
+	/**
 	 * @Then the downloaded zip file is a zip32 file
 	 */
 	public function theDownloadedZipFileIsAZip32File() {
+		$this->theDownloadedFileIsAZipFile();
+
 		// assertNotContains is not used to prevent the whole file from being
 		// printed in case of error.
 		Assert::assertTrue(
@@ -53,6 +67,8 @@ trait Download {
 	 * @Then the downloaded zip file is a zip64 file
 	 */
 	public function theDownloadedZipFileIsAZip64File() {
+		$this->theDownloadedFileIsAZipFile();
+
 		// assertNotContains is not used to prevent the whole file from being
 		// printed in case of error.
 		Assert::assertTrue(
