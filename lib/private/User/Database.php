@@ -351,8 +351,12 @@ class Database extends ABackend implements
 	/**
 	 * Get a list of all users
 	 *
+	 * @param string $search
+	 * @param null|int $limit
+	 * @param null|int $offset
+	 * @return string[] an array of all uids
 	 */
-	public function getUsers(string $search = '', ?int $limit = null, ?int $offset = null): array {
+	public function getUsers($search = '', $limit = null, $offset = null) {
 		$limit = $this->fixLimit($limit);
 
 		$users = $this->getDisplayNames($search, $limit, $offset);
