@@ -29,7 +29,7 @@ class InvalidBackend extends Backend {
 		$this->invalidId = $invalidId;
 		$this
 			->setIdentifier($invalidId)
-			->setStorageClass('\OC\Files\Storage\FailedStorage')
+			->setStorageClass(\OC\Files\Storage\FailedStorage::class)
 			->setText('Unknown storage backend ' . $invalidId);
 	}
 

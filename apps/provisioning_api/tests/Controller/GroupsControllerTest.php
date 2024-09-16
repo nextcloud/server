@@ -84,7 +84,7 @@ class GroupsControllerTest extends \Test\TestCase {
 	 * @return \OCP\IGroup|\PHPUnit\Framework\MockObject\MockObject
 	 */
 	private function createGroup($gid) {
-		$group = $this->getMockBuilder('\OCP\IGroup')->disableOriginalConstructor()->getMock();
+		$group = $this->getMockBuilder(\OCP\IGroup::class)->disableOriginalConstructor()->getMock();
 		$group
 			->method('getGID')
 			->willReturn($gid);

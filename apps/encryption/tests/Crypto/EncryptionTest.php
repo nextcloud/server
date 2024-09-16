@@ -375,7 +375,7 @@ class EncryptionTest extends TestCase {
 
 		if ($shouldEncryptHomeStorage === false) {
 			$this->storageMock->expects($this->once())->method('instanceOfStorage')
-				->with('\OCP\Files\IHomeStorage')->willReturn($isHomeStorage);
+				->with(\OCP\Files\IHomeStorage::class)->willReturn($isHomeStorage);
 			$this->utilMock->expects($this->once())->method('getStorage')->with($path)
 				->willReturn($this->storageMock);
 		}

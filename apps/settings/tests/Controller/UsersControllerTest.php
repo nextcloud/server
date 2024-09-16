@@ -867,7 +867,7 @@ class UsersControllerTest extends \Test\TestCase {
 		if ($onlyVerificationCode === false) {
 			$this->accountManager->expects($this->once())->method('updateAccount')->with($userAccount)->willReturnArgument(1);
 			$this->jobList->expects($this->once())->method('add')
-				->with('OCA\Settings\BackgroundJobs\VerifyUserData',
+				->with(\OCA\Settings\BackgroundJobs\VerifyUserData::class,
 					[
 						'verificationCode' => $code,
 						'data' => $dataBefore[$type]['value'],

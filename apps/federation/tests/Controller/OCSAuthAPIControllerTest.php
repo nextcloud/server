@@ -91,7 +91,7 @@ class OCSAuthAPIControllerTest extends TestCase {
 
 		if ($ok) {
 			$this->jobList->expects($this->once())->method('add')
-				->with('OCA\Federation\BackgroundJob\GetSharedSecret', ['url' => $url, 'token' => $token, 'created' => $this->currentTime]);
+				->with(\OCA\Federation\BackgroundJob\GetSharedSecret::class, ['url' => $url, 'token' => $token, 'created' => $this->currentTime]);
 		} else {
 			$this->jobList->expects($this->never())->method('add');
 			$this->jobList->expects($this->never())->method('remove');
@@ -127,7 +127,7 @@ class OCSAuthAPIControllerTest extends TestCase {
 		$token = 'token';
 
 		/** @var OCSAuthAPIController | \PHPUnit\Framework\MockObject\MockObject $ocsAuthApi */
-		$ocsAuthApi = $this->getMockBuilder('OCA\Federation\Controller\OCSAuthAPIController')
+		$ocsAuthApi = $this->getMockBuilder(\OCA\Federation\Controller\OCSAuthAPIController::class)
 			->setConstructorArgs(
 				[
 					'federation',

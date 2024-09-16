@@ -575,8 +575,8 @@ class SystemTagPluginTest extends \Test\TestCase {
 
 	public function nodeClassProvider() {
 		return [
-			['\OCA\DAV\SystemTag\SystemTagsByIdCollection'],
-			['\OCA\DAV\SystemTag\SystemTagsObjectMappingCollection'],
+			[\OCA\DAV\SystemTag\SystemTagsByIdCollection::class],
+			[\OCA\DAV\SystemTag\SystemTagsObjectMappingCollection::class],
 		];
 	}
 

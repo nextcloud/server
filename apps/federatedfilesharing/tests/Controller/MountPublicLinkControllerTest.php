@@ -76,18 +76,18 @@ class MountPublicLinkControllerTest extends \Test\TestCase {
 		parent::setUp();
 
 		$this->request = $this->getMockBuilder(IRequest::class)->disableOriginalConstructor()->getMock();
-		$this->federatedShareProvider = $this->getMockBuilder('OCA\FederatedFileSharing\FederatedShareProvider')
+		$this->federatedShareProvider = $this->getMockBuilder(\OCA\FederatedFileSharing\FederatedShareProvider::class)
 			->disableOriginalConstructor()->getMock();
 		$this->shareManager = $this->getMockBuilder(IManager::class)->disableOriginalConstructor()->getMock();
-		$this->addressHandler = $this->getMockBuilder('OCA\FederatedFileSharing\AddressHandler')
+		$this->addressHandler = $this->getMockBuilder(\OCA\FederatedFileSharing\AddressHandler::class)
 			->disableOriginalConstructor()->getMock();
-		$this->rootFolder = $this->getMockBuilder('OCP\Files\IRootFolder')->disableOriginalConstructor()->getMock();
+		$this->rootFolder = $this->getMockBuilder(\OCP\Files\IRootFolder::class)->disableOriginalConstructor()->getMock();
 		$this->userManager = $this->getMockBuilder(IUserManager::class)->disableOriginalConstructor()->getMock();
 		$this->share = new \OC\Share20\Share($this->rootFolder, $this->userManager);
 		$this->session = $this->getMockBuilder(ISession::class)->disableOriginalConstructor()->getMock();
 		$this->l10n = $this->getMockBuilder(IL10N::class)->disableOriginalConstructor()->getMock();
 		$this->userSession = $this->getMockBuilder(IUserSession::class)->disableOriginalConstructor()->getMock();
-		$this->clientService = $this->getMockBuilder('OCP\Http\Client\IClientService')->disableOriginalConstructor()->getMock();
+		$this->clientService = $this->getMockBuilder(\OCP\Http\Client\IClientService::class)->disableOriginalConstructor()->getMock();
 		$this->contactsManager = $this->createMock(IContactsManager::class);
 		$this->cloudIdManager = new CloudIdManager(
 			$this->contactsManager,

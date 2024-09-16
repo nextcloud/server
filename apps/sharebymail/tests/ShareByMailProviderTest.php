@@ -73,13 +73,13 @@ class ShareByMailProviderTest extends TestCase {
 			});
 		$this->config = $this->getMockBuilder(IConfig::class)->getMock();
 		$this->logger = $this->getMockBuilder(LoggerInterface::class)->getMock();
-		$this->rootFolder = $this->getMockBuilder('OCP\Files\IRootFolder')->getMock();
+		$this->rootFolder = $this->getMockBuilder(\OCP\Files\IRootFolder::class)->getMock();
 		$this->userManager = $this->getMockBuilder(IUserManager::class)->getMock();
-		$this->secureRandom = $this->getMockBuilder('\OCP\Security\ISecureRandom')->getMock();
-		$this->mailer = $this->getMockBuilder('\OCP\Mail\IMailer')->getMock();
+		$this->secureRandom = $this->getMockBuilder(\OCP\Security\ISecureRandom::class)->getMock();
+		$this->mailer = $this->getMockBuilder(\OCP\Mail\IMailer::class)->getMock();
 		$this->urlGenerator = $this->getMockBuilder(IURLGenerator::class)->getMock();
 		$this->share = $this->getMockBuilder(IShare::class)->getMock();
-		$this->activityManager = $this->getMockBuilder('OCP\Activity\IManager')->getMock();
+		$this->activityManager = $this->getMockBuilder(\OCP\Activity\IManager::class)->getMock();
 		$this->settingsManager = $this->getMockBuilder(SettingsManager::class)->disableOriginalConstructor()->getMock();
 		$this->defaults = $this->createMock(Defaults::class);
 		$this->hasher = $this->getMockBuilder(IHasher::class)->getMock();
@@ -98,7 +98,7 @@ class ShareByMailProviderTest extends TestCase {
 	 */
 	private function getInstance(array $mockedMethods = []) {
 		if (!empty($mockedMethods)) {
-			return $this->getMockBuilder('OCA\ShareByMail\ShareByMailProvider')
+			return $this->getMockBuilder(\OCA\ShareByMail\ShareByMailProvider::class)
 				->setConstructorArgs([
 					$this->config,
 					$this->connection,
@@ -621,7 +621,7 @@ class ShareByMailProviderTest extends TestCase {
 		$this->expectException(\Exception::class);
 
 		$this->share->expects($this->once())->method('getSharedWith')->willReturn('user1');
-		$node = $this->getMockBuilder('OCP\Files\Node')->getMock();
+		$node = $this->getMockBuilder(\OCP\Files\Node::class)->getMock();
 		$node->expects($this->any())->method('getName')->willReturn('fileName');
 		$this->share->expects($this->any())->method('getNode')->willReturn($node);
 
@@ -645,7 +645,7 @@ class ShareByMailProviderTest extends TestCase {
 		$this->share->expects($this->any())->method('getNote')->willReturn('Check this!');
 		$this->share->expects($this->any())->method('getMailSend')->willReturn(true);
 
-		$node = $this->getMockBuilder('OCP\Files\Node')->getMock();
+		$node = $this->getMockBuilder(\OCP\Files\Node::class)->getMock();
 		$node->expects($this->any())->method('getName')->willReturn('fileName');
 		$this->share->expects($this->any())->method('getNode')->willReturn($node);
 
@@ -878,7 +878,7 @@ class ShareByMailProviderTest extends TestCase {
 
 		$result = $instance->getShareById($id2);
 
-		$this->assertInstanceOf('OCP\Share\IShare', $result);
+		$this->assertInstanceOf(\OCP\Share\IShare::class, $result);
 	}
 
 
@@ -932,7 +932,7 @@ class ShareByMailProviderTest extends TestCase {
 
 		$this->assertTrue(is_array($result));
 		$this->assertSame(1, count($result));
-		$this->assertInstanceOf('OCP\Share\IShare', $result[0]);
+		$this->assertInstanceOf(\OCP\Share\IShare::class, $result[0]);
 	}
 
 	public function testGetShareByToken(): void {
@@ -961,7 +961,7 @@ class ShareByMailProviderTest extends TestCase {
 
 		$result = $instance->getShareByToken('token');
 
-		$this->assertInstanceOf('OCP\Share\IShare', $result);
+		$this->assertInstanceOf(\OCP\Share\IShare::class, $result);
 	}
 
 
@@ -984,7 +984,7 @@ class ShareByMailProviderTest extends TestCase {
 
 		$this->assertTrue($idMail !== $idPublic);
 
-		$this->assertInstanceOf('OCP\Share\IShare',
+		$this->assertInstanceOf(\OCP\Share\IShare::class,
 			$instance->getShareByToken('token2')
 		);
 	}

@@ -151,7 +151,7 @@ class CertificateManagerTest extends \Test\TestCase {
 		$config = $this->createMock(IConfig::class);
 
 		/** @var CertificateManager | \PHPUnit\Framework\MockObject\MockObject $certificateManager */
-		$certificateManager = $this->getMockBuilder('OC\Security\CertificateManager')
+		$certificateManager = $this->getMockBuilder(\OC\Security\CertificateManager::class)
 			->setConstructorArgs([$view, $config, $this->createMock(LoggerInterface::class), $this->random])
 			->setMethods(['getFilemtimeOfCaBundle', 'getCertificateBundle'])
 			->getMock();

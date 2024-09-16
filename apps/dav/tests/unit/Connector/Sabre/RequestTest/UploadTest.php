@@ -30,7 +30,7 @@ class UploadTest extends RequestTestCase {
 		$this->assertEquals('asd', $view->file_get_contents('foo.txt'));
 
 		$info = $view->getFileInfo('foo.txt');
-		$this->assertInstanceOf('\OC\Files\FileInfo', $info);
+		$this->assertInstanceOf(\OC\Files\FileInfo::class, $info);
 		$this->assertEquals(3, $info->getSize());
 	}
 
@@ -46,7 +46,7 @@ class UploadTest extends RequestTestCase {
 		$this->assertEquals('asd', $view->file_get_contents('foo.txt'));
 
 		$info = $view->getFileInfo('foo.txt');
-		$this->assertInstanceOf('\OC\Files\FileInfo', $info);
+		$this->assertInstanceOf(\OC\Files\FileInfo::class, $info);
 		$this->assertEquals(3, $info->getSize());
 	}
 

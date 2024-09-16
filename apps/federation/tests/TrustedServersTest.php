@@ -84,7 +84,7 @@ class TrustedServersTest extends TestCase {
 
 	public function testAddServer(): void {
 		/** @var \PHPUnit\Framework\MockObject\MockObject|TrustedServers $trustedServers */
-		$trustedServers = $this->getMockBuilder('OCA\Federation\TrustedServers')
+		$trustedServers = $this->getMockBuilder(\OCA\Federation\TrustedServers::class)
 			->setConstructorArgs(
 				[
 					$this->dbHandler,
@@ -110,7 +110,7 @@ class TrustedServersTest extends TestCase {
 			->willReturn('token');
 		$this->dbHandler->expects($this->once())->method('addToken')->with('https://url', 'token');
 		$this->jobList->expects($this->once())->method('add')
-			->with('OCA\Federation\BackgroundJob\RequestSharedSecret',
+			->with(\OCA\Federation\BackgroundJob\RequestSharedSecret::class,
 				['url' => 'https://url', 'token' => 'token', 'created' => 1234567]);
 
 		$this->assertSame(
@@ -195,7 +195,7 @@ class TrustedServersTest extends TestCase {
 		$server = 'server1';
 
 		/** @var \PHPUnit\Framework\MockObject\MockObject | TrustedServers $trustedServers */
-		$trustedServers = $this->getMockBuilder('OCA\Federation\TrustedServers')
+		$trustedServers = $this->getMockBuilder(\OCA\Federation\TrustedServers::class)
 			->setConstructorArgs(
 				[
 					$this->dbHandler,

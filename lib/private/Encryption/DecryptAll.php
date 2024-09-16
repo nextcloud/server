@@ -173,7 +173,7 @@ class DecryptAll {
 			$content = $this->rootView->getDirectoryContent($root);
 			foreach ($content as $file) {
 				// only decrypt files owned by the user
-				if ($file->getStorage()->instanceOfStorage('OCA\Files_Sharing\SharedStorage')) {
+				if ($file->getStorage()->instanceOfStorage(\OCA\Files_Sharing\SharedStorage::class)) {
 					continue;
 				}
 				$path = $root . '/' . $file['name'];

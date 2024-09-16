@@ -21,7 +21,7 @@ class GlobalStoragesControllerTest extends StoragesControllerTest {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->service = $this->getMockBuilder('\OCA\Files_External\Service\GlobalStoragesService')
+		$this->service = $this->getMockBuilder(\OCA\Files_External\Service\GlobalStoragesService::class)
 			->disableOriginalConstructor()
 			->getMock();
 

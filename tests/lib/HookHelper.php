@@ -20,38 +20,38 @@ class HookHelper {
 		\OCP\Util::connectHook(
 			Filesystem::CLASSNAME,
 			Filesystem::signal_create,
-			'\Test\HookHelper',
+			\Test\HookHelper::class,
 			'createCallback'
 		);
 		\OCP\Util::connectHook(
 			Filesystem::CLASSNAME,
 			Filesystem::signal_update,
-			'\Test\HookHelper',
+			\Test\HookHelper::class,
 			'updateCallback'
 		);
 		\OCP\Util::connectHook(
 			Filesystem::CLASSNAME,
 			Filesystem::signal_write,
-			'\Test\HookHelper',
+			\Test\HookHelper::class,
 			'writeCallback'
 		);
 
 		\OCP\Util::connectHook(
 			Filesystem::CLASSNAME,
 			Filesystem::signal_post_create,
-			'\Test\HookHelper',
+			\Test\HookHelper::class,
 			'postCreateCallback'
 		);
 		\OCP\Util::connectHook(
 			Filesystem::CLASSNAME,
 			Filesystem::signal_post_update,
-			'\Test\HookHelper',
+			\Test\HookHelper::class,
 			'postUpdateCallback'
 		);
 		\OCP\Util::connectHook(
 			Filesystem::CLASSNAME,
 			Filesystem::signal_post_write,
-			'\Test\HookHelper',
+			\Test\HookHelper::class,
 			'postWriteCallback'
 		);
 	}

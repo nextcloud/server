@@ -51,7 +51,7 @@ class SearchPluginTest extends TestCase {
 
 		$this->assertEquals(
 			$server->xml->elementMap['{http://nextcloud.com/ns}calendar-search'],
-			'OCA\\DAV\\CalDAV\\Search\\Xml\\Request\\CalendarSearchReport'
+			\OCA\DAV\CalDAV\Search\Xml\Request\CalendarSearchReport::class
 		);
 	}
 

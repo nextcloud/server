@@ -70,7 +70,7 @@ class IconControllerTest extends TestCase {
 	}
 
 	private function iconFileMock($filename, $data) {
-		$icon = $this->getMockBuilder('OCP\Files\File')->getMock();
+		$icon = $this->getMockBuilder(\OCP\Files\File::class)->getMock();
 		$icon->expects($this->any())->method('getContent')->willReturn($data);
 		$icon->expects($this->any())->method('getMimeType')->willReturn('image type');
 		$icon->expects($this->any())->method('getEtag')->willReturn('my etag');

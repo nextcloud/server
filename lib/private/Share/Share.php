@@ -80,20 +80,20 @@ class Share extends Constants {
 				if (!(self::$backends[$itemType] instanceof \OCP\Share_Backend)) {
 					$message = 'Sharing backend %s must implement the interface OCP\Share_Backend';
 					$message_t = $l->t('Sharing backend %s must implement the interface OCP\Share_Backend', [$class]);
-					$logger->error(sprintf($message, $class), ['app' => 'OCP\Share']);
+					$logger->error(sprintf($message, $class), ['app' => \OCP\Share::class]);
 					throw new \Exception($message_t);
 				}
 				return self::$backends[$itemType];
 			} else {
 				$message = 'Sharing backend %s not found';
 				$message_t = $l->t('Sharing backend %s not found', [$class]);
-				$logger->error(sprintf($message, $class), ['app' => 'OCP\Share']);
+				$logger->error(sprintf($message, $class), ['app' => \OCP\Share::class]);
 				throw new \Exception($message_t);
 			}
 		}
 		$message = 'Sharing backend for %s not found';
 		$message_t = $l->t('Sharing backend for %s not found', [$itemType]);
-		$logger->error(sprintf($message, $itemType), ['app' => 'OCP\Share']);
+		$logger->error(sprintf($message, $itemType), ['app' => \OCP\Share::class]);
 		throw new \Exception($message_t);
 	}
 

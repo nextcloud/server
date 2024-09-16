@@ -27,7 +27,7 @@ class MountPointTest extends \Test\TestCase {
 
 		$mountPoint = new \OC\Files\Mount\MountPoint(
 			// just use this because a real class is needed
-			'\Test\Files\Mount\DummyStorage',
+			\Test\Files\Mount\DummyStorage::class,
 			'/mountpoint',
 			null,
 			$loader
@@ -54,7 +54,7 @@ class MountPointTest extends \Test\TestCase {
 
 		$mountPoint = new \OC\Files\Mount\MountPoint(
 			// just use this because a real class is needed
-			'\Test\Files\Mount\DummyStorage',
+			\Test\Files\Mount\DummyStorage::class,
 			'/mountpoint',
 			null,
 			$loader

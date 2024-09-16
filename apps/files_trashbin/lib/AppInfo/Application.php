@@ -53,13 +53,13 @@ class Application extends App implements IBootstrap {
 		$context->injectFn([$this, 'registerTrashBackends']);
 
 		// create storage wrapper on setup
-		\OCP\Util::connectHook('OC_Filesystem', 'preSetup', 'OCA\Files_Trashbin\Storage', 'setupStorage');
+		\OCP\Util::connectHook('OC_Filesystem', 'preSetup', \OCA\Files_Trashbin\Storage::class, 'setupStorage');
 		//Listen to delete user signal
-		\OCP\Util::connectHook('OC_User', 'pre_deleteUser', 'OCA\Files_Trashbin\Hooks', 'deleteUser_hook');
+		\OCP\Util::connectHook('OC_User', 'pre_deleteUser', \OCA\Files_Trashbin\Hooks::class, 'deleteUser_hook');
 		//Listen to post write hook
-		\OCP\Util::connectHook('OC_Filesystem', 'post_write', 'OCA\Files_Trashbin\Hooks', 'post_write_hook');
+		\OCP\Util::connectHook('OC_Filesystem', 'post_write', \OCA\Files_Trashbin\Hooks::class, 'post_write_hook');
 		// pre and post-rename, disable trash logic for the copy+unlink case
-		\OCP\Util::connectHook('OC_Filesystem', 'delete', 'OCA\Files_Trashbin\Trashbin', 'ensureFileScannedHook');
+		\OCP\Util::connectHook('OC_Filesystem', 'delete', \OCA\Files_Trashbin\Trashbin::class, 'ensureFileScannedHook');
 	}
 
 	public function registerTrashBackends(ContainerInterface $serverContainer, LoggerInterface $logger, IAppManager $appManager, ITrashManager $trashManager): void {

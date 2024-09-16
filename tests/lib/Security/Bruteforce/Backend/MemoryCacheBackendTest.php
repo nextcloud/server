@@ -36,7 +36,7 @@ class MemoryCacheBackendTest extends TestCase {
 		$this->cacheFactory
 			->expects($this->once())
 			->method('createDistributed')
-			->with('OC\Security\Bruteforce\Backend\MemoryCacheBackend')
+			->with(\OC\Security\Bruteforce\Backend\MemoryCacheBackend::class)
 			->willReturn($this->cache);
 
 		$this->backend = new MemoryCacheBackend(

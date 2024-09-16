@@ -131,7 +131,7 @@ class ListConfigsTest extends TestCase {
 				[
 					['secret', 'N;', IConfig::SENSITIVE_VALUE],
 					['objectstore', 'N;', [
-						'class' => 'OC\\Files\\ObjectStore\\Swift',
+						'class' => \OC\Files\ObjectStore\Swift::class,
 						'arguments' => [
 							'username' => 'facebook100000123456789',
 							'password' => IConfig::SENSITIVE_VALUE,
@@ -153,7 +153,7 @@ class ListConfigsTest extends TestCase {
 					'system' => [
 						'secret' => IConfig::SENSITIVE_VALUE,
 						'objectstore' => [
-							'class' => 'OC\\Files\\ObjectStore\\Swift',
+							'class' => \OC\Files\ObjectStore\Swift::class,
 							'arguments' => [
 								'username' => 'facebook100000123456789',
 								'password' => IConfig::SENSITIVE_VALUE,

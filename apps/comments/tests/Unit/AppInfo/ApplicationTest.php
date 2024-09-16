@@ -35,12 +35,12 @@ class ApplicationTest extends TestCase {
 		$c = $app->getContainer();
 
 		$services = [
-			'OCA\Comments\Controller\NotificationsController',
-			'OCA\Comments\Activity\Filter',
-			'OCA\Comments\Activity\Listener',
-			'OCA\Comments\Activity\Provider',
-			'OCA\Comments\Activity\Setting',
-			'OCA\Comments\Notification\Listener',
+			\OCA\Comments\Controller\NotificationsController::class,
+			\OCA\Comments\Activity\Filter::class,
+			\OCA\Comments\Activity\Listener::class,
+			\OCA\Comments\Activity\Provider::class,
+			\OCA\Comments\Activity\Setting::class,
+			\OCA\Comments\Notification\Listener::class,
 			Notifier::class,
 		];
 

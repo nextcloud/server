@@ -105,11 +105,11 @@ class DispatcherTest extends \Test\TestCase {
 		$this->eventLogger = $this->createMock(IEventLogger::class);
 		$this->container = $this->createMock(ContainerInterface::class);
 		$app = $this->getMockBuilder(
-			'OC\AppFramework\DependencyInjection\DIContainer')
+			\OC\AppFramework\DependencyInjection\DIContainer::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$request = $this->getMockBuilder(
-			'\OC\AppFramework\Http\Request')
+			\OC\AppFramework\Http\Request::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$this->http = $this->getMockBuilder(
@@ -118,17 +118,17 @@ class DispatcherTest extends \Test\TestCase {
 			->getMock();
 
 		$this->middlewareDispatcher = $this->getMockBuilder(
-			'\OC\AppFramework\Middleware\MiddlewareDispatcher')
+			\OC\AppFramework\Middleware\MiddlewareDispatcher::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$this->controller = $this->getMockBuilder(
-			'\OCP\AppFramework\Controller')
+			\OCP\AppFramework\Controller::class)
 			->setMethods([$this->controllerMethod])
 			->setConstructorArgs([$app, $request])
 			->getMock();
 
 		$this->request = $this->getMockBuilder(
-			'\OC\AppFramework\Http\Request')
+			\OC\AppFramework\Http\Request::class)
 			->disableOriginalConstructor()
 			->getMock();
 

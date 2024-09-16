@@ -179,7 +179,7 @@ class MailerTest extends TestCase {
 			->method('getSystemValueBool')
 			->with('mail_send_plaintext_only', false)
 			->willReturn(false);
-		$this->assertInstanceOf('\OC\Mail\Message', $this->mailer->createMessage());
+		$this->assertInstanceOf(\OC\Mail\Message::class, $this->mailer->createMessage());
 	}
 
 
@@ -194,7 +194,7 @@ class MailerTest extends TestCase {
 		$this->expectException(\Exception::class);
 
 		/** @var Message&MockObject */
-		$message = $this->getMockBuilder('\OC\Mail\Message')
+		$message = $this->getMockBuilder(\OC\Mail\Message::class)
 			->disableOriginalConstructor()->getMock();
 		$message->expects($this->once())
 			->method('getSymfonyEmail')

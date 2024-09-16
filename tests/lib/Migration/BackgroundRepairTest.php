@@ -106,7 +106,7 @@ class BackgroundRepairTest extends TestCase {
 
 		$this->job->setArgument([
 			'app' => 'test',
-			'step' => '\Test\Migration\TestRepairStep'
+			'step' => \Test\Migration\TestRepairStep::class
 		]);
 		$this->job->start($this->jobList);
 	}

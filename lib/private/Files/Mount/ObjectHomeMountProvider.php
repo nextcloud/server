@@ -48,7 +48,7 @@ class ObjectHomeMountProvider implements IHomeMountProvider {
 			return null;
 		}
 
-		return new HomeMountPoint($user, '\OC\Files\ObjectStore\HomeObjectStoreStorage', '/' . $user->getUID(), $config['arguments'], $loader, null, null, self::class);
+		return new HomeMountPoint($user, \OC\Files\ObjectStore\HomeObjectStoreStorage::class, '/' . $user->getUID(), $config['arguments'], $loader, null, null, self::class);
 	}
 
 	/**

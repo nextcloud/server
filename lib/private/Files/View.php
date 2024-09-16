@@ -1948,7 +1948,7 @@ class View {
 		$mount = $this->getMountForLock($absolutePath, $lockMountPoint);
 		try {
 			$storage = $mount->getStorage();
-			if ($storage && $storage->instanceOfStorage('\OCP\Files\Storage\ILockingStorage')) {
+			if ($storage && $storage->instanceOfStorage(\OCP\Files\Storage\ILockingStorage::class)) {
 				$storage->acquireLock(
 					$mount->getInternalPath($absolutePath),
 					$type,
@@ -1988,7 +1988,7 @@ class View {
 		$mount = $this->getMountForLock($absolutePath, $lockMountPoint);
 		try {
 			$storage = $mount->getStorage();
-			if ($storage && $storage->instanceOfStorage('\OCP\Files\Storage\ILockingStorage')) {
+			if ($storage && $storage->instanceOfStorage(\OCP\Files\Storage\ILockingStorage::class)) {
 				$storage->changeLock(
 					$mount->getInternalPath($absolutePath),
 					$type,
@@ -2034,7 +2034,7 @@ class View {
 
 		$mount = $this->getMountForLock($absolutePath, $lockMountPoint);
 		$storage = $mount->getStorage();
-		if ($storage && $storage->instanceOfStorage('\OCP\Files\Storage\ILockingStorage')) {
+		if ($storage && $storage->instanceOfStorage(\OCP\Files\Storage\ILockingStorage::class)) {
 			$storage->releaseLock(
 				$mount->getInternalPath($absolutePath),
 				$type,

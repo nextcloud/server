@@ -111,7 +111,7 @@ class SystemTagsObjectTypeCollectionTest extends \Test\TestCase {
 			->willReturn($this->createMock(\OCP\Files\Node::class));
 		$childNode = $this->node->getChild('555');
 
-		$this->assertInstanceOf('\OCA\DAV\SystemTag\SystemTagsObjectMappingCollection', $childNode);
+		$this->assertInstanceOf(\OCA\DAV\SystemTag\SystemTagsObjectMappingCollection::class, $childNode);
 		$this->assertEquals('555', $childNode->getName());
 	}
 

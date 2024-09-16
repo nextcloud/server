@@ -51,7 +51,7 @@ class TemporaryNoCross extends Temporary {
 
 class TemporaryNoLocal extends Temporary {
 	public function instanceOfStorage($className) {
-		if ($className === '\OC\Files\Storage\Local') {
+		if ($className === \OC\Files\Storage\Local::class) {
 			return false;
 		} else {
 			return parent::instanceOfStorage($className);
@@ -930,7 +930,7 @@ class ViewTest extends \Test\TestCase {
 		$view = new View('/test');
 		$info = $view->getFileInfo('test.part');
 
-		$this->assertInstanceOf('\OCP\Files\FileInfo', $info);
+		$this->assertInstanceOf(\OCP\Files\FileInfo::class, $info);
 		$this->assertNull($info->getId());
 		$this->assertEquals(6, $info->getSize());
 	}

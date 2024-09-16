@@ -244,7 +244,7 @@ class LostControllerTest extends TestCase {
 			->method('linkToRouteAbsolute')
 			->with('core.lost.resetform', ['userId' => 'ExistingUser', 'token' => 'ThisIsMaybeANotSoSecretToken!'])
 			->willReturn('https://example.tld/index.php/lostpassword/');
-		$message = $this->getMockBuilder('\OC\Mail\Message')
+		$message = $this->getMockBuilder(\OC\Mail\Message::class)
 			->disableOriginalConstructor()->getMock();
 		$message
 			->expects($this->once())
@@ -306,7 +306,7 @@ class LostControllerTest extends TestCase {
 			->method('linkToRouteAbsolute')
 			->with('core.lost.resetform', ['userId' => 'ExistingUser', 'token' => 'ThisIsMaybeANotSoSecretToken!'])
 			->willReturn('https://example.tld/index.php/lostpassword/');
-		$message = $this->getMockBuilder('\OC\Mail\Message')
+		$message = $this->getMockBuilder(\OC\Mail\Message::class)
 			->disableOriginalConstructor()->getMock();
 		$message
 			->expects($this->once())

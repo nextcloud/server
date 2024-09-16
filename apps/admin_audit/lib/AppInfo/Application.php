@@ -232,6 +232,6 @@ class Application extends App implements IBootstrap {
 	private function trashbinHooks(IAuditLogger $logger): void {
 		$trashActions = new Trashbin($logger);
 		Util::connectHook('\OCP\Trashbin', 'preDelete', $trashActions, 'delete');
-		Util::connectHook('\OCA\Files_Trashbin\Trashbin', 'post_restore', $trashActions, 'restore');
+		Util::connectHook(\OCA\Files_Trashbin\Trashbin::class, 'post_restore', $trashActions, 'restore');
 	}
 }

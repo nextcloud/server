@@ -124,7 +124,7 @@ class FilesPluginTest extends TestCase {
 
 	public function testGetPropertiesForFile(): void {
 		/** @var \OCA\DAV\Connector\Sabre\File | \PHPUnit\Framework\MockObject\MockObject $node */
-		$node = $this->createTestNode('\OCA\DAV\Connector\Sabre\File');
+		$node = $this->createTestNode(\OCA\DAV\Connector\Sabre\File::class);
 
 		$propFind = new PropFind(
 			'/dummyPath',
@@ -181,7 +181,7 @@ class FilesPluginTest extends TestCase {
 
 	public function testGetPropertiesStorageNotAvailable(): void {
 		/** @var \OCA\DAV\Connector\Sabre\File | \PHPUnit\Framework\MockObject\MockObject $node */
-		$node = $this->createTestNode('\OCA\DAV\Connector\Sabre\File');
+		$node = $this->createTestNode(\OCA\DAV\Connector\Sabre\File::class);
 
 		$propFind = new PropFind(
 			'/dummyPath',
@@ -228,7 +228,7 @@ class FilesPluginTest extends TestCase {
 		);
 
 		/** @var \OCA\DAV\Connector\Sabre\File | \PHPUnit\Framework\MockObject\MockObject $node */
-		$node = $this->createTestNode('\OCA\DAV\Connector\Sabre\File');
+		$node = $this->createTestNode(\OCA\DAV\Connector\Sabre\File::class);
 		$node->expects($this->any())
 			->method('getDavPermissions')
 			->willReturn('DWCKMSR');
@@ -243,7 +243,7 @@ class FilesPluginTest extends TestCase {
 
 	public function testGetPropertiesForDirectory(): void {
 		/** @var \OCA\DAV\Connector\Sabre\Directory | \PHPUnit\Framework\MockObject\MockObject $node */
-		$node = $this->createTestNode('\OCA\DAV\Connector\Sabre\Directory');
+		$node = $this->createTestNode(\OCA\DAV\Connector\Sabre\Directory::class);
 
 		$propFind = new PropFind(
 			'/dummyPath',
@@ -345,7 +345,7 @@ class FilesPluginTest extends TestCase {
 	}
 
 	public function testUpdateProps(): void {
-		$node = $this->createTestNode('\OCA\DAV\Connector\Sabre\File');
+		$node = $this->createTestNode(\OCA\DAV\Connector\Sabre\File::class);
 
 		$testDate = 'Fri, 13 Feb 2015 00:01:02 GMT';
 		$testCreationDate = '2007-08-31T16:47+00:00';
@@ -615,7 +615,7 @@ class FilesPluginTest extends TestCase {
 
 	public function testHasPreview(): void {
 		/** @var \OCA\DAV\Connector\Sabre\Directory | \PHPUnit\Framework\MockObject\MockObject $node */
-		$node = $this->createTestNode('\OCA\DAV\Connector\Sabre\Directory');
+		$node = $this->createTestNode(\OCA\DAV\Connector\Sabre\Directory::class);
 
 		$propFind = new PropFind(
 			'/dummyPath',

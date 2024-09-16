@@ -594,7 +594,7 @@ class MailPluginTest extends TestCase {
 		$this->instantiatePlugin();
 
 		/** @var \OCP\IUser | \PHPUnit\Framework\MockObject\MockObject */
-		$currentUser = $this->createMock('\OCP\IUser');
+		$currentUser = $this->createMock(\OCP\IUser::class);
 
 		$currentUser->expects($this->any())
 			->method('getUID')

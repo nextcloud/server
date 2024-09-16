@@ -54,7 +54,7 @@ class EncryptionWrapperTest extends TestCase {
 				]);
 		}
 
-		$mount = $this->getMockBuilder('OCP\Files\Mount\IMountPoint')
+		$mount = $this->getMockBuilder(\OCP\Files\Mount\IMountPoint::class)
 			->disableOriginalConstructor()
 			->getMock();
 
@@ -62,7 +62,7 @@ class EncryptionWrapperTest extends TestCase {
 
 		$this->assertEquals(
 			$expectedWrapped,
-			$returnedStorage->instanceOfStorage('OC\Files\Storage\Wrapper\Encryption'),
+			$returnedStorage->instanceOfStorage(\OC\Files\Storage\Wrapper\Encryption::class),
 			'Asserted that the storage is (not) wrapped with encryption'
 		);
 	}
@@ -71,7 +71,7 @@ class EncryptionWrapperTest extends TestCase {
 		return [
 			// Wrap when not wrapped or not wrapped with storage
 			[true, []],
-			[true, ['OCA\Files_Trashbin\Storage']],
+			[true, [\OCA\Files_Trashbin\Storage::class]],
 
 			// Do not wrap shared storages
 			[false, [Storage\IDisableEncryptionStorage::class]],

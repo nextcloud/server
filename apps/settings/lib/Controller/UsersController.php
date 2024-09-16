@@ -108,7 +108,7 @@ class UsersController extends Controller {
 		} else {
 			if ($this->appManager->isEnabledForUser('user_ldap')) {
 				$isLDAPUsed =
-					$this->groupManager->isBackendUsed('\OCA\User_LDAP\Group_Proxy');
+					$this->groupManager->isBackendUsed(\OCA\User_LDAP\Group_Proxy::class);
 				if ($isLDAPUsed) {
 					// LDAP user count can be slow, so we sort by group name here
 					$sortGroupsBy = \OC\Group\MetaData::SORT_GROUPNAME;

@@ -58,7 +58,7 @@ class ViewControllerTest extends TestCase {
 		$this->config = $this->getMockBuilder(IConfig::class)->getMock();
 		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
 		$this->userSession = $this->getMockBuilder(IUserSession::class)->getMock();
-		$this->appManager = $this->getMockBuilder('\OCP\App\IAppManager')->getMock();
+		$this->appManager = $this->getMockBuilder(\OCP\App\IAppManager::class)->getMock();
 		$this->user = $this->getMockBuilder(IUser::class)->getMock();
 		$this->user->expects($this->any())
 			->method('getUID')
@@ -66,7 +66,7 @@ class ViewControllerTest extends TestCase {
 		$this->userSession->expects($this->any())
 			->method('getUser')
 			->willReturn($this->user);
-		$this->rootFolder = $this->getMockBuilder('\OCP\Files\IRootFolder')->getMock();
+		$this->rootFolder = $this->getMockBuilder(\OCP\Files\IRootFolder::class)->getMock();
 		$this->initialState = $this->createMock(IInitialState::class);
 		$this->templateManager = $this->createMock(ITemplateManager::class);
 		$this->userConfig = $this->createMock(UserConfig::class);

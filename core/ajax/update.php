@@ -117,50 +117,50 @@ if (\OCP\Util::needUpgrade()) {
 	$dispatcher->addListener(RepairWarningEvent::class, [$feedBack, 'handleRepairFeedback']);
 	$dispatcher->addListener(RepairErrorEvent::class, [$feedBack, 'handleRepairFeedback']);
 
-	$updater->listen('\OC\Updater', 'maintenanceEnabled', function () use ($eventSource, $l) {
+	$updater->listen(\OC\Updater::class, 'maintenanceEnabled', function () use ($eventSource, $l) {
 		$eventSource->send('success', $l->t('Turned on maintenance mode'));
 	});
-	$updater->listen('\OC\Updater', 'maintenanceDisabled', function () use ($eventSource, $l) {
+	$updater->listen(\OC\Updater::class, 'maintenanceDisabled', function () use ($eventSource, $l) {
 		$eventSource->send('success', $l->t('Turned off maintenance mode'));
 	});
-	$updater->listen('\OC\Updater', 'maintenanceActive', function () use ($eventSource, $l) {
+	$updater->listen(\OC\Updater::class, 'maintenanceActive', function () use ($eventSource, $l) {
 		$eventSource->send('success', $l->t('Maintenance mode is kept active'));
 	});
-	$updater->listen('\OC\Updater', 'dbUpgradeBefore', function () use ($eventSource, $l) {
+	$updater->listen(\OC\Updater::class, 'dbUpgradeBefore', function () use ($eventSource, $l) {
 		$eventSource->send('success', $l->t('Updating database schema'));
 	});
-	$updater->listen('\OC\Updater', 'dbUpgrade', function () use ($eventSource, $l) {
+	$updater->listen(\OC\Updater::class, 'dbUpgrade', function () use ($eventSource, $l) {
 		$eventSource->send('success', $l->t('Updated database'));
 	});
-	$updater->listen('\OC\Updater', 'upgradeAppStoreApp', function ($app) use ($eventSource, $l) {
+	$updater->listen(\OC\Updater::class, 'upgradeAppStoreApp', function ($app) use ($eventSource, $l) {
 		$eventSource->send('success', $l->t('Update app "%s" from App Store', [$app]));
 	});
-	$updater->listen('\OC\Updater', 'appSimulateUpdate', function ($app) use ($eventSource, $l) {
+	$updater->listen(\OC\Updater::class, 'appSimulateUpdate', function ($app) use ($eventSource, $l) {
 		$eventSource->send('success', $l->t('Checking whether the database schema for %s can be updated (this can take a long time depending on the database size)', [$app]));
 	});
-	$updater->listen('\OC\Updater', 'appUpgrade', function ($app, $version) use ($eventSource, $l) {
+	$updater->listen(\OC\Updater::class, 'appUpgrade', function ($app, $version) use ($eventSource, $l) {
 		$eventSource->send('success', $l->t('Updated "%1$s" to %2$s', [$app, $version]));
 	});
-	$updater->listen('\OC\Updater', 'incompatibleAppDisabled', function ($app) use (&$incompatibleApps, &$incompatibleOverwrites) {
+	$updater->listen(\OC\Updater::class, 'incompatibleAppDisabled', function ($app) use (&$incompatibleApps, &$incompatibleOverwrites) {
 		if (!in_array($app, $incompatibleOverwrites)) {
 			$incompatibleApps[] = $app;
 		}
 	});
-	$updater->listen('\OC\Updater', 'failure', function ($message) use ($eventSource, $config) {
+	$updater->listen(\OC\Updater::class, 'failure', function ($message) use ($eventSource, $config) {
 		$eventSource->send('failure', $message);
 		$eventSource->close();
 		$config->setSystemValue('maintenance', false);
 	});
-	$updater->listen('\OC\Updater', 'setDebugLogLevel', function ($logLevel, $logLevelName) use ($eventSource, $l) {
+	$updater->listen(\OC\Updater::class, 'setDebugLogLevel', function ($logLevel, $logLevelName) use ($eventSource, $l) {
 		$eventSource->send('success', $l->t('Set log level to debug'));
 	});
-	$updater->listen('\OC\Updater', 'resetLogLevel', function ($logLevel, $logLevelName) use ($eventSource, $l) {
+	$updater->listen(\OC\Updater::class, 'resetLogLevel', function ($logLevel, $logLevelName) use ($eventSource, $l) {
 		$eventSource->send('success', $l->t('Reset log level'));
 	});
-	$updater->listen('\OC\Updater', 'startCheckCodeIntegrity', function () use ($eventSource, $l) {
+	$updater->listen(\OC\Updater::class, 'startCheckCodeIntegrity', function () use ($eventSource, $l) {
 		$eventSource->send('success', $l->t('Starting code integrity check'));
 	});
-	$updater->listen('\OC\Updater', 'finishedCheckCodeIntegrity', function () use ($eventSource, $l) {
+	$updater->listen(\OC\Updater::class, 'finishedCheckCodeIntegrity', function () use ($eventSource, $l) {
 		$eventSource->send('success', $l->t('Finished code integrity check'));
 	});
 

@@ -69,7 +69,7 @@ class SubAdmin extends PublicEmitter implements ISubAdmin {
 			->execute();
 
 		/** @deprecated 21.0.0 - use type SubAdminAddedEvent instead  */
-		$this->emit('\OC\SubAdmin', 'postCreateSubAdmin', [$user, $group]);
+		$this->emit(\OC\SubAdmin::class, 'postCreateSubAdmin', [$user, $group]);
 		$event = new SubAdminAddedEvent($group, $user);
 		$this->eventDispatcher->dispatchTyped($event);
 	}
@@ -88,7 +88,7 @@ class SubAdmin extends PublicEmitter implements ISubAdmin {
 			->execute();
 
 		/** @deprecated 21.0.0 - use type SubAdminRemovedEvent instead  */
-		$this->emit('\OC\SubAdmin', 'postDeleteSubAdmin', [$user, $group]);
+		$this->emit(\OC\SubAdmin::class, 'postDeleteSubAdmin', [$user, $group]);
 		$event = new SubAdminRemovedEvent($group, $user);
 		$this->eventDispatcher->dispatchTyped($event);
 	}

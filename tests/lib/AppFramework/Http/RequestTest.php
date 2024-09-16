@@ -33,7 +33,7 @@ class RequestTest extends \Test\TestCase {
 		if (in_array('fakeinput', stream_get_wrappers())) {
 			stream_wrapper_unregister('fakeinput');
 		}
-		stream_wrapper_register('fakeinput', 'Test\AppFramework\Http\RequestStream');
+		stream_wrapper_register('fakeinput', \Test\AppFramework\Http\RequestStream::class);
 
 		$this->requestId = $this->createMock(IRequestId::class);
 		$this->config = $this->createMock(IConfig::class);
@@ -1690,7 +1690,7 @@ class RequestTest extends \Test\TestCase {
 
 	public function testPassesCSRFCheckWithGet(): void {
 		/** @var Request $request */
-		$request = $this->getMockBuilder('\OC\AppFramework\Http\Request')
+		$request = $this->getMockBuilder(\OC\AppFramework\Http\Request::class)
 			->setMethods(['getScriptName'])
 			->setConstructorArgs([
 				[
@@ -1720,7 +1720,7 @@ class RequestTest extends \Test\TestCase {
 
 	public function testPassesCSRFCheckWithPost(): void {
 		/** @var Request $request */
-		$request = $this->getMockBuilder('\OC\AppFramework\Http\Request')
+		$request = $this->getMockBuilder(\OC\AppFramework\Http\Request::class)
 			->setMethods(['getScriptName'])
 			->setConstructorArgs([
 				[
@@ -1750,7 +1750,7 @@ class RequestTest extends \Test\TestCase {
 
 	public function testPassesCSRFCheckWithHeader(): void {
 		/** @var Request $request */
-		$request = $this->getMockBuilder('\OC\AppFramework\Http\Request')
+		$request = $this->getMockBuilder(\OC\AppFramework\Http\Request::class)
 			->setMethods(['getScriptName'])
 			->setConstructorArgs([
 				[
@@ -1780,7 +1780,7 @@ class RequestTest extends \Test\TestCase {
 
 	public function testPassesCSRFCheckWithGetAndWithoutCookies(): void {
 		/** @var Request $request */
-		$request = $this->getMockBuilder('\OC\AppFramework\Http\Request')
+		$request = $this->getMockBuilder(\OC\AppFramework\Http\Request::class)
 			->setMethods(['getScriptName'])
 			->setConstructorArgs([
 				[
@@ -1804,7 +1804,7 @@ class RequestTest extends \Test\TestCase {
 
 	public function testPassesCSRFCheckWithPostAndWithoutCookies(): void {
 		/** @var Request $request */
-		$request = $this->getMockBuilder('\OC\AppFramework\Http\Request')
+		$request = $this->getMockBuilder(\OC\AppFramework\Http\Request::class)
 			->setMethods(['getScriptName'])
 			->setConstructorArgs([
 				[
@@ -1828,7 +1828,7 @@ class RequestTest extends \Test\TestCase {
 
 	public function testPassesCSRFCheckWithHeaderAndWithoutCookies(): void {
 		/** @var Request $request */
-		$request = $this->getMockBuilder('\OC\AppFramework\Http\Request')
+		$request = $this->getMockBuilder(\OC\AppFramework\Http\Request::class)
 			->setMethods(['getScriptName'])
 			->setConstructorArgs([
 				[
@@ -1852,7 +1852,7 @@ class RequestTest extends \Test\TestCase {
 
 	public function testFailsCSRFCheckWithHeaderAndNotAllChecksPassing(): void {
 		/** @var Request $request */
-		$request = $this->getMockBuilder('\OC\AppFramework\Http\Request')
+		$request = $this->getMockBuilder(\OC\AppFramework\Http\Request::class)
 			->setMethods(['getScriptName'])
 			->setConstructorArgs([
 				[
@@ -1879,7 +1879,7 @@ class RequestTest extends \Test\TestCase {
 
 	public function testPassesStrictCookieCheckWithAllCookiesAndStrict(): void {
 		/** @var Request $request */
-		$request = $this->getMockBuilder('\OC\AppFramework\Http\Request')
+		$request = $this->getMockBuilder(\OC\AppFramework\Http\Request::class)
 			->setMethods(['getScriptName', 'getCookieParams'])
 			->setConstructorArgs([
 				[
@@ -1911,7 +1911,7 @@ class RequestTest extends \Test\TestCase {
 
 	public function testFailsStrictCookieCheckWithAllCookiesAndMissingStrict(): void {
 		/** @var Request $request */
-		$request = $this->getMockBuilder('\OC\AppFramework\Http\Request')
+		$request = $this->getMockBuilder(\OC\AppFramework\Http\Request::class)
 			->setMethods(['getScriptName', 'getCookieParams'])
 			->setConstructorArgs([
 				[
@@ -1959,7 +1959,7 @@ class RequestTest extends \Test\TestCase {
 
 	public function testPassesStrictCookieCheckWithAllCookies(): void {
 		/** @var Request $request */
-		$request = $this->getMockBuilder('\OC\AppFramework\Http\Request')
+		$request = $this->getMockBuilder(\OC\AppFramework\Http\Request::class)
 			->setMethods(['getScriptName'])
 			->setConstructorArgs([
 				[
@@ -1984,7 +1984,7 @@ class RequestTest extends \Test\TestCase {
 
 	public function testPassesStrictCookieCheckWithRandomCookies(): void {
 		/** @var Request $request */
-		$request = $this->getMockBuilder('\OC\AppFramework\Http\Request')
+		$request = $this->getMockBuilder(\OC\AppFramework\Http\Request::class)
 			->setMethods(['getScriptName'])
 			->setConstructorArgs([
 				[
@@ -2007,7 +2007,7 @@ class RequestTest extends \Test\TestCase {
 
 	public function testFailsStrictCookieCheckWithSessionCookie(): void {
 		/** @var Request $request */
-		$request = $this->getMockBuilder('\OC\AppFramework\Http\Request')
+		$request = $this->getMockBuilder(\OC\AppFramework\Http\Request::class)
 			->setMethods(['getScriptName'])
 			->setConstructorArgs([
 				[
@@ -2030,7 +2030,7 @@ class RequestTest extends \Test\TestCase {
 
 	public function testFailsStrictCookieCheckWithRememberMeCookie(): void {
 		/** @var Request $request */
-		$request = $this->getMockBuilder('\OC\AppFramework\Http\Request')
+		$request = $this->getMockBuilder(\OC\AppFramework\Http\Request::class)
 			->setMethods(['getScriptName'])
 			->setConstructorArgs([
 				[
@@ -2053,7 +2053,7 @@ class RequestTest extends \Test\TestCase {
 
 	public function testFailsCSRFCheckWithPostAndWithCookies(): void {
 		/** @var Request $request */
-		$request = $this->getMockBuilder('\OC\AppFramework\Http\Request')
+		$request = $this->getMockBuilder(\OC\AppFramework\Http\Request::class)
 			->setMethods(['getScriptName'])
 			->setConstructorArgs([
 				[
@@ -2080,7 +2080,7 @@ class RequestTest extends \Test\TestCase {
 
 	public function testFailStrictCookieCheckWithOnlyLaxCookie(): void {
 		/** @var Request $request */
-		$request = $this->getMockBuilder('\OC\AppFramework\Http\Request')
+		$request = $this->getMockBuilder(\OC\AppFramework\Http\Request::class)
 			->setMethods(['getScriptName'])
 			->setConstructorArgs([
 				[
@@ -2104,7 +2104,7 @@ class RequestTest extends \Test\TestCase {
 
 	public function testFailStrictCookieCheckWithOnlyStrictCookie(): void {
 		/** @var Request $request */
-		$request = $this->getMockBuilder('\OC\AppFramework\Http\Request')
+		$request = $this->getMockBuilder(\OC\AppFramework\Http\Request::class)
 			->setMethods(['getScriptName'])
 			->setConstructorArgs([
 				[
@@ -2128,7 +2128,7 @@ class RequestTest extends \Test\TestCase {
 
 	public function testPassesLaxCookieCheck(): void {
 		/** @var Request $request */
-		$request = $this->getMockBuilder('\OC\AppFramework\Http\Request')
+		$request = $this->getMockBuilder(\OC\AppFramework\Http\Request::class)
 			->setMethods(['getScriptName'])
 			->setConstructorArgs([
 				[
@@ -2152,7 +2152,7 @@ class RequestTest extends \Test\TestCase {
 
 	public function testFailsLaxCookieCheckWithOnlyStrictCookie(): void {
 		/** @var Request $request */
-		$request = $this->getMockBuilder('\OC\AppFramework\Http\Request')
+		$request = $this->getMockBuilder(\OC\AppFramework\Http\Request::class)
 			->setMethods(['getScriptName'])
 			->setConstructorArgs([
 				[
@@ -2176,7 +2176,7 @@ class RequestTest extends \Test\TestCase {
 
 	public function testSkipCookieCheckForOCSRequests(): void {
 		/** @var Request $request */
-		$request = $this->getMockBuilder('\OC\AppFramework\Http\Request')
+		$request = $this->getMockBuilder(\OC\AppFramework\Http\Request::class)
 			->setMethods(['getScriptName'])
 			->setConstructorArgs([
 				[
@@ -2216,7 +2216,7 @@ class RequestTest extends \Test\TestCase {
 	 */
 	public function testPassesCSRFCheckWithInvalidToken($invalidToken): void {
 		/** @var Request $request */
-		$request = $this->getMockBuilder('\OC\AppFramework\Http\Request')
+		$request = $this->getMockBuilder(\OC\AppFramework\Http\Request::class)
 			->setMethods(['getScriptName'])
 			->setConstructorArgs([
 				[
@@ -2243,7 +2243,7 @@ class RequestTest extends \Test\TestCase {
 
 	public function testPassesCSRFCheckWithoutTokenFail(): void {
 		/** @var Request $request */
-		$request = $this->getMockBuilder('\OC\AppFramework\Http\Request')
+		$request = $this->getMockBuilder(\OC\AppFramework\Http\Request::class)
 			->setMethods(['getScriptName'])
 			->setConstructorArgs([
 				[],
@@ -2259,7 +2259,7 @@ class RequestTest extends \Test\TestCase {
 
 	public function testPassesCSRFCheckWithOCSAPIRequestHeader(): void {
 		/** @var Request $request */
-		$request = $this->getMockBuilder('\OC\AppFramework\Http\Request')
+		$request = $this->getMockBuilder(\OC\AppFramework\Http\Request::class)
 			->setMethods(['getScriptName'])
 			->setConstructorArgs([
 				[

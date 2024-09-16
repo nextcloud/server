@@ -389,7 +389,7 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 	 * @param string $serviceName e.g. 'OCA\Files\Capabilities'
 	 */
 	public function registerCapability($serviceName) {
-		$this->query('OC\CapabilitiesManager')->registerCapability(function () use ($serviceName) {
+		$this->query(\OC\CapabilitiesManager::class)->registerCapability(function () use ($serviceName) {
 			return $this->query($serviceName);
 		});
 	}

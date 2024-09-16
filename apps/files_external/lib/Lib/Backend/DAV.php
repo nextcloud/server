@@ -18,8 +18,8 @@ class DAV extends Backend {
 	public function __construct(IL10N $l, Password $legacyAuth) {
 		$this
 			->setIdentifier('dav')
-			->addIdentifierAlias('\OC\Files\Storage\DAV') // legacy compat
-			->setStorageClass('\OC\Files\Storage\DAV')
+			->addIdentifierAlias(\OC\Files\Storage\DAV::class) // legacy compat
+			->setStorageClass(\OC\Files\Storage\DAV::class)
 			->setText($l->t('WebDAV'))
 			->addParameters([
 				new DefinitionParameter('host', $l->t('URL')),

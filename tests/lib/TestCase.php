@@ -534,7 +534,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 
 		$requestToken = 12345;
 		/** @var Defaults|\PHPUnit\Framework\MockObject\MockObject $l10n */
-		$theme = $this->getMockBuilder('\OCP\Defaults')
+		$theme = $this->getMockBuilder(\OCP\Defaults::class)
 			->disableOriginalConstructor()->getMock();
 		$theme->expects($this->any())
 			->method('getName')

@@ -16,11 +16,11 @@ class PersonalMountTest extends TestCase {
 	public function testFindByStorageId(): void {
 		$storageConfig = $this->createMock(StorageConfig::class);
 		/** @var \OCA\Files_External\Service\UserStoragesService $storageService */
-		$storageService = $this->getMockBuilder('\OCA\Files_External\Service\UserStoragesService')
+		$storageService = $this->getMockBuilder(\OCA\Files_External\Service\UserStoragesService::class)
 			->disableOriginalConstructor()
 			->getMock();
 
-		$storage = $this->getMockBuilder('\OC\Files\Storage\Storage')
+		$storage = $this->getMockBuilder(\OC\Files\Storage\Storage::class)
 			->disableOriginalConstructor()
 			->getMock();
 

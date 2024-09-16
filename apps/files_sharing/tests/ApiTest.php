@@ -1264,7 +1264,7 @@ class ApiTest extends TestCase {
 		$this->shareManager->deleteShare($share);
 
 		\OC_Hook::clear('OC_Filesystem', 'post_initMountPoints');
-		\OC_Hook::clear('\OCA\Files_Sharing\Tests\ApiTest', 'initTestMountPointsHook');
+		\OC_Hook::clear(\OCA\Files_Sharing\Tests\ApiTest::class, 'initTestMountPointsHook');
 	}
 
 	public function datesProvider() {

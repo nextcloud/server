@@ -474,7 +474,7 @@ class Wrapper implements \OC\Files\Storage\Storage, ILockingStorage, IWriteStrea
 	public function instanceOfStorage($class) {
 		if (ltrim($class, '\\') === 'OC\Files\Storage\Shared') {
 			// FIXME Temporary fix to keep existing checks working
-			$class = '\OCA\Files_Sharing\SharedStorage';
+			$class = \OCA\Files_Sharing\SharedStorage::class;
 		}
 		return is_a($this, $class) or $this->getWrapperStorage()->instanceOfStorage($class);
 	}
@@ -588,7 +588,7 @@ class Wrapper implements \OC\Files\Storage\Storage, ILockingStorage, IWriteStrea
 	 * @throws \OCP\Lock\LockedException
 	 */
 	public function acquireLock($path, $type, ILockingProvider $provider) {
-		if ($this->getWrapperStorage()->instanceOfStorage('\OCP\Files\Storage\ILockingStorage')) {
+		if ($this->getWrapperStorage()->instanceOfStorage(\OCP\Files\Storage\ILockingStorage::class)) {
 			$this->getWrapperStorage()->acquireLock($path, $type, $provider);
 		}
 	}
@@ -599,7 +599,7 @@ class Wrapper implements \OC\Files\Storage\Storage, ILockingStorage, IWriteStrea
 	 * @param \OCP\Lock\ILockingProvider $provider
 	 */
 	public function releaseLock($path, $type, ILockingProvider $provider) {
-		if ($this->getWrapperStorage()->instanceOfStorage('\OCP\Files\Storage\ILockingStorage')) {
+		if ($this->getWrapperStorage()->instanceOfStorage(\OCP\Files\Storage\ILockingStorage::class)) {
 			$this->getWrapperStorage()->releaseLock($path, $type, $provider);
 		}
 	}
@@ -610,7 +610,7 @@ class Wrapper implements \OC\Files\Storage\Storage, ILockingStorage, IWriteStrea
 	 * @param \OCP\Lock\ILockingProvider $provider
 	 */
 	public function changeLock($path, $type, ILockingProvider $provider) {
-		if ($this->getWrapperStorage()->instanceOfStorage('\OCP\Files\Storage\ILockingStorage')) {
+		if ($this->getWrapperStorage()->instanceOfStorage(\OCP\Files\Storage\ILockingStorage::class)) {
 			$this->getWrapperStorage()->changeLock($path, $type, $provider);
 		}
 	}

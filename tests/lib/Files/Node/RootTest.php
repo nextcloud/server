@@ -47,7 +47,7 @@ class RootTest extends \Test\TestCase {
 		$this->manager = $this->getMockBuilder(Manager::class)
 			->disableOriginalConstructor()
 			->getMock();
-		$this->userMountCache = $this->getMockBuilder('\OCP\Files\Config\IUserMountCache')
+		$this->userMountCache = $this->getMockBuilder(\OCP\Files\Config\IUserMountCache::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$this->logger = $this->createMock(LoggerInterface::class);
@@ -79,7 +79,7 @@ class RootTest extends \Test\TestCase {
 		/**
 		 * @var \OC\Files\Storage\Storage $storage
 		 */
-		$storage = $this->getMockBuilder('\OC\Files\Storage\Storage')
+		$storage = $this->getMockBuilder(\OC\Files\Storage\Storage::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$view = $this->getRootViewMock();
@@ -102,7 +102,7 @@ class RootTest extends \Test\TestCase {
 		$root->mount($storage, '');
 		$node = $root->get('/bar/foo');
 		$this->assertEquals(10, $node->getId());
-		$this->assertInstanceOf('\OC\Files\Node\File', $node);
+		$this->assertInstanceOf(\OC\Files\Node\File::class, $node);
 	}
 
 
@@ -112,7 +112,7 @@ class RootTest extends \Test\TestCase {
 		/**
 		 * @var \OC\Files\Storage\Storage $storage
 		 */
-		$storage = $this->getMockBuilder('\OC\Files\Storage\Storage')
+		$storage = $this->getMockBuilder(\OC\Files\Storage\Storage::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$view = $this->getRootViewMock();

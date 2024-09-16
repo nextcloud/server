@@ -18,7 +18,7 @@ class StreamResponseTest extends \Test\TestCase {
 
 	protected function setUp(): void {
 		parent::setUp();
-		$this->output = $this->getMockBuilder('OCP\\AppFramework\\Http\\IOutput')
+		$this->output = $this->getMockBuilder(\OCP\AppFramework\Http\IOutput::class)
 			->disableOriginalConstructor()
 			->getMock();
 	}

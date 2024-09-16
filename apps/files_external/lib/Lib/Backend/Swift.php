@@ -20,7 +20,7 @@ class Swift extends Backend {
 		$this
 			->setIdentifier('swift')
 			->addIdentifierAlias('\OC\Files\Storage\Swift') // legacy compat
-			->setStorageClass('\OCA\Files_External\Lib\Storage\Swift')
+			->setStorageClass(\OCA\Files_External\Lib\Storage\Swift::class)
 			->setText($l->t('OpenStack Object Storage'))
 			->addParameters([
 				(new DefinitionParameter('service_name', $l->t('Service name')))

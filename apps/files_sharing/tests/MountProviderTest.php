@@ -47,7 +47,7 @@ class MountProviderTest extends \Test\TestCase {
 
 		$this->config = $this->getMockBuilder(IConfig::class)->getMock();
 		$this->user = $this->getMockBuilder(IUser::class)->getMock();
-		$this->loader = $this->getMockBuilder('OCP\Files\Storage\IStorageFactory')->getMock();
+		$this->loader = $this->getMockBuilder(\OCP\Files\Storage\IStorageFactory::class)->getMock();
 		$this->shareManager = $this->getMockBuilder(IManager::class)->getMock();
 		$this->logger = $this->getMockBuilder(LoggerInterface::class)->getMock();
 		$eventDispatcher = $this->createMock(IEventDispatcher::class);
@@ -169,10 +169,10 @@ class MountProviderTest extends \Test\TestCase {
 			});
 		$mounts = $this->provider->getMountsForUser($this->user, $this->loader);
 		$this->assertCount(4, $mounts);
-		$this->assertInstanceOf('OCA\Files_Sharing\SharedMount', $mounts[0]);
-		$this->assertInstanceOf('OCA\Files_Sharing\SharedMount', $mounts[1]);
-		$this->assertInstanceOf('OCA\Files_Sharing\SharedMount', $mounts[2]);
-		$this->assertInstanceOf('OCA\Files_Sharing\SharedMount', $mounts[3]);
+		$this->assertInstanceOf(\OCA\Files_Sharing\SharedMount::class, $mounts[0]);
+		$this->assertInstanceOf(\OCA\Files_Sharing\SharedMount::class, $mounts[1]);
+		$this->assertInstanceOf(\OCA\Files_Sharing\SharedMount::class, $mounts[2]);
+		$this->assertInstanceOf(\OCA\Files_Sharing\SharedMount::class, $mounts[3]);
 		$mountedShare1 = $mounts[0]->getShare();
 		$this->assertEquals('2', $mountedShare1->getId());
 		$this->assertEquals('user2', $mountedShare1->getShareOwner());
@@ -401,7 +401,7 @@ class MountProviderTest extends \Test\TestCase {
 
 		foreach ($mounts as $index => $mount) {
 			$expectedShare = $expectedShares[$index];
-			$this->assertInstanceOf('OCA\Files_Sharing\SharedMount', $mount);
+			$this->assertInstanceOf(\OCA\Files_Sharing\SharedMount::class, $mount);
 
 			// supershare
 			$share = $mount->getShare();

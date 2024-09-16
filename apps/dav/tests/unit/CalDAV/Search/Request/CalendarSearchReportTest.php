@@ -12,7 +12,7 @@ use Test\TestCase;
 class CalendarSearchReportTest extends TestCase {
 	private $elementMap = [
 		'{http://nextcloud.com/ns}calendar-search' =>
-			'OCA\\DAV\\CalDAV\\Search\\Xml\\Request\\CalendarSearchReport',
+			\OCA\DAV\CalDAV\Search\Xml\Request\CalendarSearchReport::class,
 	];
 
 	public function testFoo(): void {

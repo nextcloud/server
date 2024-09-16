@@ -32,7 +32,7 @@ class OldGroupMembershipSharesTest extends \Test\TestCase {
 		parent::setUp();
 
 		/** \OCP\IGroupManager|\PHPUnit\Framework\MockObject\MockObject */
-		$this->groupManager = $this->getMockBuilder('OCP\IGroupManager')
+		$this->groupManager = $this->getMockBuilder(\OCP\IGroupManager::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$this->connection = \OC::$server->getDatabaseConnection();
@@ -82,7 +82,7 @@ class OldGroupMembershipSharesTest extends \Test\TestCase {
 		$result->closeCursor();
 
 		/** @var IOutput | \PHPUnit\Framework\MockObject\MockObject $outputMock */
-		$outputMock = $this->getMockBuilder('\OCP\Migration\IOutput')
+		$outputMock = $this->getMockBuilder(\OCP\Migration\IOutput::class)
 			->disableOriginalConstructor()
 			->getMock();
 

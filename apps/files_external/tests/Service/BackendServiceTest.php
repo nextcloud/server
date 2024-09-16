@@ -187,7 +187,7 @@ class BackendServiceTest extends \Test\TestCase {
 		$backendNotAvailable->expects($this->once())
 			->method('checkDependencies')
 			->willReturn([
-				$this->getMockBuilder('\OCA\Files_External\Lib\MissingDependency')
+				$this->getMockBuilder(\OCA\Files_External\Lib\MissingDependency::class)
 					->disableOriginalConstructor()
 					->getMock()
 			]);

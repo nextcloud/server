@@ -147,6 +147,6 @@ class Application extends App implements IBootstrap {
 	}
 
 	private function registerHooks(): void {
-		Util::connectHook('\OCP\Config', 'js', '\OCA\Files\App', 'extendJsConfig');
+		Util::connectHook('\OCP\Config', 'js', \OCA\Files\App::class, 'extendJsConfig');
 	}
 }

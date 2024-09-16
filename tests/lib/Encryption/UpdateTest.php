@@ -203,7 +203,7 @@ class UpdateTest extends TestCase {
 	 * @return \OC\Encryption\Update | \PHPUnit\Framework\MockObject\MockObject
 	 */
 	protected function getUpdateMock($methods) {
-		return  $this->getMockBuilder('\OC\Encryption\Update')
+		return  $this->getMockBuilder(\OC\Encryption\Update::class)
 			->setConstructorArgs(
 				[
 					$this->view,

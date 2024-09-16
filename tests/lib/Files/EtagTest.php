@@ -36,8 +36,8 @@ class EtagTest extends \Test\TestCase {
 		// init files sharing
 		new Application();
 
-		\OC\Share\Share::registerBackend('file', 'OCA\Files_Sharing\ShareBackend\File');
-		\OC\Share\Share::registerBackend('folder', 'OCA\Files_Sharing\ShareBackend\Folder', 'file');
+		\OC\Share\Share::registerBackend('file', \OCA\Files_Sharing\ShareBackend\File::class);
+		\OC\Share\Share::registerBackend('folder', \OCA\Files_Sharing\ShareBackend\Folder::class, 'file');
 
 		$config = \OC::$server->getConfig();
 		$this->datadir = $config->getSystemValueString('datadirectory');

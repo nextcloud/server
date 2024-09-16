@@ -83,7 +83,7 @@ class BirthdayCalendarControllerTest extends TestCase {
 			);
 
 		$response = $this->controller->enable();
-		$this->assertInstanceOf('OCP\AppFramework\Http\JSONResponse', $response);
+		$this->assertInstanceOf(\OCP\AppFramework\Http\JSONResponse::class, $response);
 	}
 
 	public function testDisable(): void {
@@ -97,6 +97,6 @@ class BirthdayCalendarControllerTest extends TestCase {
 			->method('deleteAllBirthdayCalendars');
 
 		$response = $this->controller->disable();
-		$this->assertInstanceOf('OCP\AppFramework\Http\JSONResponse', $response);
+		$this->assertInstanceOf(\OCP\AppFramework\Http\JSONResponse::class, $response);
 	}
 }

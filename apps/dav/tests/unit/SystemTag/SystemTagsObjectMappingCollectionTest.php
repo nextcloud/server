@@ -163,7 +163,7 @@ class SystemTagsObjectMappingCollectionTest extends \Test\TestCase {
 
 		$childNode = $this->getNode()->getChild('555');
 
-		$this->assertInstanceOf('\OCA\DAV\SystemTag\SystemTagMappingNode', $childNode);
+		$this->assertInstanceOf(\OCA\DAV\SystemTag\SystemTagMappingNode::class, $childNode);
 		$this->assertEquals('555', $childNode->getName());
 	}
 
@@ -251,8 +251,8 @@ class SystemTagsObjectMappingCollectionTest extends \Test\TestCase {
 
 		$this->assertCount(2, $children);
 
-		$this->assertInstanceOf('\OCA\DAV\SystemTag\SystemTagMappingNode', $children[0]);
-		$this->assertInstanceOf('\OCA\DAV\SystemTag\SystemTagMappingNode', $children[1]);
+		$this->assertInstanceOf(\OCA\DAV\SystemTag\SystemTagMappingNode::class, $children[0]);
+		$this->assertInstanceOf(\OCA\DAV\SystemTag\SystemTagMappingNode::class, $children[1]);
 
 		$this->assertEquals(111, $children[0]->getObjectId());
 		$this->assertEquals('files', $children[0]->getObjectType());

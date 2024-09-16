@@ -40,11 +40,11 @@ class TempSpaceAvailable implements ISetupCheck {
 			return false;
 		}
 
-		if (isset($objectStoreMultibucket['class']) && $objectStoreMultibucket['class'] !== 'OC\\Files\\ObjectStore\\S3') {
+		if (isset($objectStoreMultibucket['class']) && $objectStoreMultibucket['class'] !== \OC\Files\ObjectStore\S3::class) {
 			return false;
 		}
 
-		if (isset($objectStore['class']) && $objectStore['class'] !== 'OC\\Files\\ObjectStore\\S3') {
+		if (isset($objectStore['class']) && $objectStore['class'] !== \OC\Files\ObjectStore\S3::class) {
 			return false;
 		}
 

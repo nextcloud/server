@@ -221,7 +221,7 @@ class ManagerTest extends TestCase {
 			->setAffectedUser('test_affected')
 			->setObject('file', 123);
 
-		$consumer = $this->getMockBuilder('OCP\Activity\IConsumer')
+		$consumer = $this->getMockBuilder(\OCP\Activity\IConsumer::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$consumer->expects($this->once())
@@ -252,7 +252,7 @@ class ManagerTest extends TestCase {
 			->setLink('test_link')
 		;
 
-		$consumer = $this->getMockBuilder('OCP\Activity\IConsumer')
+		$consumer = $this->getMockBuilder(\OCP\Activity\IConsumer::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$consumer->expects($this->once())

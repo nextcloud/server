@@ -23,7 +23,7 @@ class EncryptionMasterKeyUploadTest extends UploadTest {
 	protected function setupUser($name, $password) {
 		$this->createUser($name, $password);
 		$tmpFolder = \OC::$server->getTempManager()->getTemporaryFolder();
-		$this->registerMount($name, '\OC\Files\Storage\Local', '/' . $name, ['datadir' => $tmpFolder]);
+		$this->registerMount($name, \OC\Files\Storage\Local::class, '/' . $name, ['datadir' => $tmpFolder]);
 		// we use the master key
 		\OC::$server->getConfig()->setAppValue('encryption', 'useMasterKey', '1');
 		$this->setupForUser($name, $password);

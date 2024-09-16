@@ -28,7 +28,7 @@ abstract class PropagationTestCase extends TestCase {
 		\OC_Hook::clear('OC_Filesystem', 'post_write');
 		\OC_Hook::clear('OC_Filesystem', 'post_delete');
 		\OC_Hook::clear('OC_Filesystem', 'post_rename');
-		\OC_Hook::clear('OCP\Share', 'post_update_permissions');
+		\OC_Hook::clear(\OCP\Share::class, 'post_update_permissions');
 		parent::tearDown();
 	}
 

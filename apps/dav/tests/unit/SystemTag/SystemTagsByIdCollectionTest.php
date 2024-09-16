@@ -89,7 +89,7 @@ class SystemTagsByIdCollectionTest extends \Test\TestCase {
 
 		$childNode = $this->getNode()->getChild('123');
 
-		$this->assertInstanceOf('\OCA\DAV\SystemTag\SystemTagNode', $childNode);
+		$this->assertInstanceOf(\OCA\DAV\SystemTag\SystemTagNode::class, $childNode);
 		$this->assertEquals('123', $childNode->getName());
 		$this->assertEquals($tag, $childNode->getSystemTag());
 	}
@@ -145,8 +145,8 @@ class SystemTagsByIdCollectionTest extends \Test\TestCase {
 
 		$this->assertCount(2, $children);
 
-		$this->assertInstanceOf('\OCA\DAV\SystemTag\SystemTagNode', $children[0]);
-		$this->assertInstanceOf('\OCA\DAV\SystemTag\SystemTagNode', $children[1]);
+		$this->assertInstanceOf(\OCA\DAV\SystemTag\SystemTagNode::class, $children[0]);
+		$this->assertInstanceOf(\OCA\DAV\SystemTag\SystemTagNode::class, $children[1]);
 		$this->assertEquals($tag1, $children[0]->getSystemTag());
 		$this->assertEquals($tag2, $children[1]->getSystemTag());
 	}
@@ -164,8 +164,8 @@ class SystemTagsByIdCollectionTest extends \Test\TestCase {
 
 		$this->assertCount(2, $children);
 
-		$this->assertInstanceOf('\OCA\DAV\SystemTag\SystemTagNode', $children[0]);
-		$this->assertInstanceOf('\OCA\DAV\SystemTag\SystemTagNode', $children[1]);
+		$this->assertInstanceOf(\OCA\DAV\SystemTag\SystemTagNode::class, $children[0]);
+		$this->assertInstanceOf(\OCA\DAV\SystemTag\SystemTagNode::class, $children[1]);
 		$this->assertEquals($tag1, $children[0]->getSystemTag());
 		$this->assertEquals($tag2, $children[1]->getSystemTag());
 	}

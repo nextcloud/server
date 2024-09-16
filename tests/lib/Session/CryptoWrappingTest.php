@@ -27,7 +27,7 @@ class CryptoWrappingTest extends TestCase {
 		$this->wrappedSession = $this->getMockBuilder(ISession::class)
 			->disableOriginalConstructor()
 			->getMock();
-		$this->crypto = $this->getMockBuilder('OCP\Security\ICrypto')
+		$this->crypto = $this->getMockBuilder(\OCP\Security\ICrypto::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$this->crypto->expects($this->any())

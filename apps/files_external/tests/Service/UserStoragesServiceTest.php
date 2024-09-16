@@ -185,7 +185,7 @@ class UserStoragesServiceTest extends StoragesServiceTest {
 
 		$newStorage = $this->globalStoragesService->addStorage($storage);
 
-		$this->assertInstanceOf('\OCA\Files_External\Lib\StorageConfig', $this->globalStoragesService->getStorage($newStorage->getId()));
+		$this->assertInstanceOf(\OCA\Files_External\Lib\StorageConfig::class, $this->globalStoragesService->getStorage($newStorage->getId()));
 
 		$this->service->getStorage($newStorage->getId());
 	}

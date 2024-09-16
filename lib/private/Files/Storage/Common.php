@@ -470,7 +470,7 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 	public function instanceOfStorage($class) {
 		if (ltrim($class, '\\') === 'OC\Files\Storage\Shared') {
 			// FIXME Temporary fix to keep existing checks working
-			$class = '\OCA\Files_Sharing\SharedStorage';
+			$class = \OCA\Files_Sharing\SharedStorage::class;
 		}
 		return is_a($this, $class);
 	}

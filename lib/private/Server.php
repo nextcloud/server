@@ -1143,7 +1143,7 @@ class Server extends ServerContainer implements IServerContainer {
 		$this->registerAlias(\OC_Defaults::class, 'ThemingDefaults');
 		$this->registerService('ThemingDefaults', function (Server $c) {
 			try {
-				$classExists = class_exists('OCA\Theming\ThemingDefaults');
+				$classExists = class_exists(\OCA\Theming\ThemingDefaults::class);
 			} catch (\OCP\AutoloadNotAllowedException $e) {
 				// App disabled or in maintenance mode
 				$classExists = false;

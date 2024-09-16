@@ -18,7 +18,7 @@ class AbstractStringCheckTest extends \Test\TestCase {
 				return sprintf($string, $args);
 			});
 
-		$check = $this->getMockBuilder('OCA\WorkflowEngine\Check\AbstractStringCheck')
+		$check = $this->getMockBuilder(\OCA\WorkflowEngine\Check\AbstractStringCheck::class)
 			->setConstructorArgs([
 				$l,
 			])

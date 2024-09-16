@@ -293,9 +293,9 @@ class FilesReportPluginTest extends \Test\TestCase {
 		$result = $this->plugin->findNodesByFileIds($reportTargetNode, ['111', '222']);
 
 		$this->assertCount(2, $result);
-		$this->assertInstanceOf('\OCA\DAV\Connector\Sabre\Directory', $result[0]);
+		$this->assertInstanceOf(\OCA\DAV\Connector\Sabre\Directory::class, $result[0]);
 		$this->assertEquals('first node', $result[0]->getName());
-		$this->assertInstanceOf('\OCA\DAV\Connector\Sabre\File', $result[1]);
+		$this->assertInstanceOf(\OCA\DAV\Connector\Sabre\File::class, $result[1]);
 		$this->assertEquals('second node', $result[1]->getName());
 	}
 
@@ -346,9 +346,9 @@ class FilesReportPluginTest extends \Test\TestCase {
 		$result = $this->plugin->findNodesByFileIds($reportTargetNode, ['111', '222']);
 
 		$this->assertCount(2, $result);
-		$this->assertInstanceOf('\OCA\DAV\Connector\Sabre\Directory', $result[0]);
+		$this->assertInstanceOf(\OCA\DAV\Connector\Sabre\Directory::class, $result[0]);
 		$this->assertEquals('first node', $result[0]->getName());
-		$this->assertInstanceOf('\OCA\DAV\Connector\Sabre\File', $result[1]);
+		$this->assertInstanceOf(\OCA\DAV\Connector\Sabre\File::class, $result[1]);
 		$this->assertEquals('second node', $result[1]->getName());
 	}
 
