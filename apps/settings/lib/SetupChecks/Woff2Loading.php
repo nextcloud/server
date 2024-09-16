@@ -17,7 +17,7 @@ use OCP\SetupCheck\SetupResult;
 use Psr\Log\LoggerInterface;
 
 /**
- * Check whether the WOFF2 URLs works
+ * Check whether the OTF and WOFF2 URLs works
  */
 class Woff2Loading implements ISetupCheck {
 	use CheckServerResponseTrait;
@@ -36,11 +36,18 @@ class Woff2Loading implements ISetupCheck {
 	}
 
 	public function getName(): string {
-		return $this->l10n->t('WOFF2 file loading');
+		return $this->l10n->t('Font file loading');
 	}
 
 	public function run(): SetupResult {
-		$url = $this->urlGenerator->linkTo('', 'core/fonts/NotoSans-Regular-latin.woff2');
+		$result = $this->checkFont('otf', $this->urlGenerator->linkTo('theming', 'fonts/OpenDyslexic-Regular.otf'));
+		if ($result->getSeverity() !== SetupResult::SUCCESS) {
+			return $result;
+		}
+		return $this->checkFont('woff2', $this->urlGenerator->linkTo('', 'core/fonts/NotoSans-Regular-latin.woff2'));
+	}
+
+	protected function checkFont(string $fileExtension, string $url): SetupResult {
 		$noResponse = true;
 		$responses = $this->runHEAD($url);
 		foreach ($responses as $response) {
@@ -52,14 +59,22 @@ class Woff2Loading implements ISetupCheck {
 
 		if ($noResponse) {
 			return SetupResult::info(
-				$this->l10n->t('Could not check for WOFF2 loading support. Please check manually if your webserver serves `.woff2` files.') . "\n" . $this->serverConfigHelp(),
+				str_replace(
+					'{extension}',
+					$fileExtension,
+					$this->l10n->t('Could not check for {extension} loading support. Please check manually if your webserver serves `.{extension}` files.') . "\n" . $this->serverConfigHelp(),
+				),
 				$this->urlGenerator->linkToDocs('admin-nginx'),
 			);
 		}
 		return SetupResult::warning(
-			$this->l10n->t('Your web server is not properly set up to deliver .woff2 files. This is typically an issue with the Nginx configuration. For Nextcloud 15 it needs an adjustement to also deliver .woff2 files. Compare your Nginx configuration to the recommended configuration in our documentation.'),
+			str_replace(
+				'{extension}',
+				$fileExtension,
+				$this->l10n->t('Your web server is not properly set up to deliver .{extension} files. This is typically an issue with the Nginx configuration. For Nextcloud 15 it needs an adjustment to also deliver .{extension} files. Compare your Nginx configuration to the recommended configuration in our documentation.'),
+			),
 			$this->urlGenerator->linkToDocs('admin-nginx'),
 		);
-		
+
 	}
 }
