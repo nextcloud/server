@@ -21,8 +21,9 @@ trait Download {
 	 * @When user :user downloads zip file for entries :entries in folder :folder
 	 */
 	public function userDownloadsZipFileForEntriesInFolder($user, $entries, $folder) {
+		$folder = trim($folder, '/');
 		$this->asAn($user);
-		$this->sendingToDirectUrl('GET', '/index.php/apps/files/ajax/download.php?dir=' . $folder . '&files=[' . $entries . ']');
+		$this->sendingToDirectUrl('GET', "/remote.php/dav/files/$user/$folder?accept=zip&files=[" . $entries . ']');
 		$this->theHTTPStatusCodeShouldBe('200');
 	}
 

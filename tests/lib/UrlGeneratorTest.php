@@ -107,25 +107,25 @@ class UrlGeneratorTest extends \Test\TestCase {
 		$this->assertEquals($expected, $result);
 	}
 
-	public function provideRoutes() {
+	public static function provideRoutes() {
 		return [
 			['core.Preview.getPreview', 'http://localhost/nextcloud/index.php/core/preview.png'],
 			['cloud_federation_api.requesthandlercontroller.addShare', 'http://localhost/nextcloud/index.php/ocm/shares'],
 		];
 	}
 
-	public function provideDocRootAppUrlParts() {
+	public static function provideDocRootAppUrlParts() {
 		return [
-			['files', 'ajax/download.php', [], '/index.php/apps/files/ajax/download.php'],
-			['files', 'ajax/download.php', ['trut' => 'trat', 'dut' => 'dat'], '/index.php/apps/files/ajax/download.php?trut=trat&dut=dat'],
+			['files_external', 'ajax/oauth2.php', [], '/index.php/apps/files_external/ajax/oauth2.php'],
+			['files_external', 'ajax/oauth2.php', ['trut' => 'trat', 'dut' => 'dat'], '/index.php/apps/files_external/ajax/oauth2.php?trut=trat&dut=dat'],
 			['', 'index.php', ['trut' => 'trat', 'dut' => 'dat'], '/index.php?trut=trat&dut=dat'],
 		];
 	}
 
-	public function provideSubDirAppUrlParts() {
+	public static function provideSubDirAppUrlParts() {
 		return [
-			['files', 'ajax/download.php', [], '/nextcloud/index.php/apps/files/ajax/download.php'],
-			['files', 'ajax/download.php', ['trut' => 'trat', 'dut' => 'dat'], '/nextcloud/index.php/apps/files/ajax/download.php?trut=trat&dut=dat'],
+			['files_external', 'ajax/oauth2.php', [], '/nextcloud/index.php/apps/files_external/ajax/oauth2.php'],
+			['files_external', 'ajax/oauth2.php', ['trut' => 'trat', 'dut' => 'dat'], '/nextcloud/index.php/apps/files_external/ajax/oauth2.php?trut=trat&dut=dat'],
 			['', 'index.php', ['trut' => 'trat', 'dut' => 'dat'], '/nextcloud/index.php?trut=trat&dut=dat'],
 		];
 	}

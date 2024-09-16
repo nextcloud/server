@@ -11,8 +11,6 @@ import { getShareUrl, setupPublicShare } from './setup-public-share.ts'
 
 describe('files_sharing: Public share - downloading files', { testIsolation: true }, () => {
 
-	const shareName = 'shared'
-
 	before(() => setupPublicShare())
 
 	deleteDownloadsFolderBeforeEach()
@@ -40,7 +38,7 @@ describe('files_sharing: Public share - downloading files', { testIsolation: tru
 
 			// check a file is downloaded
 			const downloadsFolder = Cypress.config('downloadsFolder')
-			cy.readFile(`${downloadsFolder}/${shareName}.zip`, null, { timeout: 15000 })
+			cy.readFile(`${downloadsFolder}/download.zip`, null, { timeout: 15000 })
 				.should('exist')
 				.and('have.length.gt', 30)
 				// Check all files are included
