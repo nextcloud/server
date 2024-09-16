@@ -54,9 +54,8 @@ abstract class Entity {
 		$instance = new static();
 
 		foreach ($row as $key => $value) {
-			$prop = ucfirst($instance->columnToProperty($key));
-			$setter = 'set' . $prop;
-			$instance->$setter($value);
+			$prop = $instance->columnToProperty($key);
+			$instance->setter($prop, [$value]);
 		}
 
 		$instance->resetUpdatedFields();
