@@ -75,6 +75,10 @@ class LegacyVersionsBackend implements IVersionBackend, INameableVersionBackend,
 
 		if ($storage->instanceOfStorage(SharedStorage::class)) {
 			$owner = $storage->getOwner('');
+			if ($owner === false) {
+				throw new NotFoundException('No owner for ' . $file->getPath());
+			}
+
 			$user = $this->userManager->get($owner);
 
 			$fileId = $file->getId();
