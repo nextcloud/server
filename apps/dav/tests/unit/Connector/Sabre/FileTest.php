@@ -17,7 +17,7 @@ use OCA\DAV\Connector\Sabre\File;
 use OCP\Constants;
 use OCP\Files\FileInfo;
 use OCP\Files\ForbiddenException;
-use OCP\Files\Storage;
+use OCP\Files\Storage\IStorage;
 use OCP\IConfig;
 use OCP\IRequestId;
 use OCP\ITempManager;
@@ -72,11 +72,8 @@ class FileTest extends TestCase {
 		parent::tearDown();
 	}
 
-	/**
-	 * @return MockObject|Storage
-	 */
-	private function getMockStorage() {
-		$storage = $this->getMockBuilder(Storage::class)
+	private function getMockStorage(): MockObject&IStorage {
+		$storage = $this->getMockBuilder(IStorage::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$storage->method('getId')
@@ -84,10 +81,7 @@ class FileTest extends TestCase {
 		return $storage;
 	}
 
-	/**
-	 * @param string $string
-	 */
-	private function getStream($string) {
+	private function getStream(string $string) {
 		$stream = fopen('php://temp', 'r+');
 		fwrite($stream, $string);
 		fseek($stream, 0);

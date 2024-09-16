@@ -12,7 +12,7 @@ use OCA\Files_External\Lib\SessionStorageWrapper;
 use OCA\Files_External\Lib\StorageConfig;
 use OCP\Authentication\Exceptions\CredentialsUnavailableException;
 use OCP\Authentication\LoginCredentials\IStore as CredentialsStore;
-use OCP\Files\Storage;
+use OCP\Files\Storage\IStorage;
 use OCP\Files\StorageAuthException;
 use OCP\IL10N;
 use OCP\IUser;
@@ -56,7 +56,7 @@ class SessionCredentials extends AuthMechanism {
 		$storage->setBackendOption('password', $credentials->getPassword());
 	}
 
-	public function wrapStorage(Storage $storage) {
+	public function wrapStorage(IStorage $storage): IStorage {
 		return new SessionStorageWrapper(['storage' => $storage]);
 	}
 }

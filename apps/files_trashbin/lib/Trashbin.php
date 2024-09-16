@@ -29,6 +29,7 @@ use OCP\Files\IRootFolder;
 use OCP\Files\Node;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
+use OCP\Files\Storage\ILockingStorage;
 use OCP\FilesMetadata\IFilesMetadataManager;
 use OCP\IConfig;
 use OCP\IDBConnection;
@@ -118,7 +119,7 @@ class Trashbin {
 	 * @param string $user
 	 * @param string $filename
 	 * @param string $timestamp
-	 * @return string original location
+	 * @return string|false original location
 	 */
 	public static function getLocation($user, $filename, $timestamp) {
 		$query = \OC::$server->getDatabaseConnection()->getQueryBuilder();
@@ -139,7 +140,8 @@ class Trashbin {
 		}
 	}
 
-	private static function setUpTrash($user) {
+	/** @param string $user */
+	private static function setUpTrash($user): void {
 		$view = new View('/' . $user);
 		if (!$view->is_dir('files_trashbin')) {
 			$view->mkdir('files_trashbin');
@@ -162,10 +164,10 @@ class Trashbin {
 	 * @param string $sourcePath
 	 * @param string $owner
 	 * @param string $targetPath
-	 * @param $user
+	 * @param string $user
 	 * @param int $timestamp
 	 */
-	private static function copyFilesToUser($sourcePath, $owner, $targetPath, $user, $timestamp) {
+	private static function copyFilesToUser($sourcePath, $owner, $targetPath, $user, $timestamp): void {
 		self::setUpTrash($owner);
 
 		$targetFilename = basename($targetPath);
@@ -256,7 +258,7 @@ class Trashbin {
 
 		while (!$gotLock) {
 			try {
-				/** @var \OC\Files\Storage\Storage $trashStorage */
+				/** @var ILockingStorage $trashStorage */
 				[$trashStorage, $trashInternalPath] = $ownerView->resolvePath($trashPath);
 
 				$trashStorage->acquireLock($trashInternalPath, ILockingProvider::LOCK_EXCLUSIVE, $lockingProvider);

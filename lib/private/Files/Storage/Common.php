@@ -44,14 +44,14 @@ use Psr\Log\LoggerInterface;
 abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 	use LocalTempFileTrait;
 
-	protected $cache;
-	protected $scanner;
-	protected $watcher;
-	protected $propagator;
+	protected ?Cache $cache = null;
+	protected ?Scanner $scanner = null;
+	protected ?Watcher $watcher = null;
+	protected ?Propagator $propagator = null;
 	protected $storageCache;
-	protected $updater;
+	protected ?Updater $updater = null;
 
-	protected $mountOptions = [];
+	protected array $mountOptions = [];
 	protected $owner = null;
 
 	private ?bool $shouldLogLocks = null;
@@ -232,10 +232,6 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 		return hash_final($ctx, $raw);
 	}
 
-	public function search($query) {
-		return $this->searchInDir($query);
-	}
-
 	public function getLocalFile($path) {
 		return $this->getCachedFile($path);
 	}
@@ -310,19 +306,28 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 		return $dependencies;
 	}
 
+	/**
+	 * @return Cache
+	 */
 	public function getCache($path = '', $storage = null) {
 		if (!$storage) {
 			$storage = $this;
 		}
+		/** @psalm-suppress NoInterfaceProperties The isset check is safe */
 		if (!isset($storage->cache)) {
 			$storage->cache = new Cache($storage, $this->getCacheDependencies());
 		}
+		/** @psalm-suppress NullableReturnStatement False-positive, as the if above avoids this being null */
+		/** @psalm-suppress NoInterfaceProperties Legacy */
 		return $storage->cache;
 	}
 
 	public function getScanner($path = '', $storage = null) {
 		if (!$storage) {
 			$storage = $this;
+		}
+		if (!$storage->instanceOfStorage(self::class)) {
+			throw new \InvalidArgumentException('Storage is not of the correct class');
 		}
 		if (!isset($storage->scanner)) {
 			$storage->scanner = new Scanner($storage);
@@ -345,12 +350,15 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 	/**
 	 * get a propagator instance for the cache
 	 *
-	 * @param \OC\Files\Storage\Storage (optional) the storage to pass to the watcher
-	 * @return \OC\Files\Cache\Propagator
+	 * @param \OC\Files\Storage\Storage $storage (optional) the storage to pass to the watcher
+	 * @return Propagator
 	 */
 	public function getPropagator($storage = null) {
 		if (!$storage) {
 			$storage = $this;
+		}
+		if (!$storage->instanceOfStorage(self::class)) {
+			throw new \InvalidArgumentException('Storage is not of the correct class');
 		}
 		if (!isset($storage->propagator)) {
 			$config = \OC::$server->getSystemConfig();
@@ -359,9 +367,18 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 		return $storage->propagator;
 	}
 
+	/**
+	 * get a propagator instance for the cache
+	 *
+	 * @param \OC\Files\Storage\Storage $storage (optional) the storage to pass to the watcher
+	 * @return Updater
+	 */
 	public function getUpdater($storage = null) {
 		if (!$storage) {
 			$storage = $this;
+		}
+		if (!$storage->instanceOfStorage(self::class)) {
+			throw new \InvalidArgumentException('Storage is not of the correct class');
 		}
 		if (!isset($storage->updater)) {
 			$storage->updater = new Updater($storage);

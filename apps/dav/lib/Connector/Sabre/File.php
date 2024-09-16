@@ -28,7 +28,7 @@ use OCP\Files\InvalidPathException;
 use OCP\Files\LockNotAcquiredException;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
-use OCP\Files\Storage;
+use OCP\Files\Storage\IWriteStreamStorage;
 use OCP\Files\StorageNotAvailableException;
 use OCP\IL10N;
 use OCP\IRequest;
@@ -117,8 +117,10 @@ class File extends Node implements IFile {
 		// verify path of the target
 		$this->verifyPath();
 
-		/** @var Storage $partStorage */
 		[$partStorage] = $this->fileView->resolvePath($this->path);
+		if ($partStorage === null) {
+			throw new ServiceUnavailable($this->l10n->t('Failed to get storage for file'));
+		}
 		$needsPartFile = $partStorage->needsPartFile() && (strlen($this->path) > 1);
 
 		$view = \OC\Files\Filesystem::getView();
@@ -141,10 +143,11 @@ class File extends Node implements IFile {
 		}
 
 		// the part file and target file might be on a different storage in case of a single file storage (e.g. single file share)
-		/** @var \OC\Files\Storage\Storage $partStorage */
 		[$partStorage, $internalPartPath] = $this->fileView->resolvePath($partFilePath);
-		/** @var \OC\Files\Storage\Storage $storage */
 		[$storage, $internalPath] = $this->fileView->resolvePath($this->path);
+		if ($partStorage === null || $storage === null) {
+			throw new ServiceUnavailable($this->l10n->t('Failed to get storage for file'));
+		}
 		try {
 			if (!$needsPartFile) {
 				try {
@@ -196,7 +199,7 @@ class File extends Node implements IFile {
 				}
 			}
 
-			if ($partStorage->instanceOfStorage(Storage\IWriteStreamStorage::class)) {
+			if ($partStorage->instanceOfStorage(IWriteStreamStorage::class)) {
 				$isEOF = false;
 				$wrappedData = CallbackWrapper::wrap($data, null, null, null, null, function ($stream) use (&$isEOF) {
 					$isEOF = feof($stream);
@@ -535,7 +538,6 @@ class File extends Node implements IFile {
 		if (\OCP\Server::get(\OCP\App\IAppManager::class)->isEnabledForUser('encryption')) {
 			return [];
 		}
-		/** @var \OCP\Files\Storage $storage */
 		[$storage, $internalPath] = $this->fileView->resolvePath($this->path);
 		if (is_null($storage)) {
 			return [];

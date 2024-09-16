@@ -28,7 +28,7 @@ use OCP\Files\Mount\IMountPoint;
 use OCP\Files\NotFoundException;
 use OCP\Files\Search\ISearchComparison;
 use OCP\Files\Search\ISearchOrder;
-use OCP\Files\Storage;
+use OCP\Files\Storage\IStorage;
 use PHPUnit\Framework\MockObject\MockObject;
 
 /**
@@ -292,7 +292,7 @@ class FolderTest extends NodeTest {
 		$root->method('getUser')
 			->willReturn($this->user);
 		/** @var Storage\IStorage&MockObject $storage */
-		$storage = $this->createMock(Storage\IStorage::class);
+		$storage = $this->createMock(IStorage::class);
 		$storage->method('getId')->willReturn('test::1');
 		$cache = new Cache($storage);
 
@@ -341,7 +341,7 @@ class FolderTest extends NodeTest {
 			->method('getUser')
 			->willReturn($this->user);
 		/** @var \PHPUnit\Framework\MockObject\MockObject|Storage $storage */
-		$storage = $this->createMock(Storage::class);
+		$storage = $this->createMock(IStorage::class);
 		$storage->method('getId')->willReturn('test::2');
 		$cache = new Cache($storage);
 
@@ -379,7 +379,7 @@ class FolderTest extends NodeTest {
 			->getMock();
 		$root->method('getUser')
 			->willReturn($this->user);
-		$storage = $this->createMock(Storage::class);
+		$storage = $this->createMock(IStorage::class);
 		$storage->method('getId')->willReturn('test::1');
 		$cache = new Cache($storage);
 
@@ -420,10 +420,10 @@ class FolderTest extends NodeTest {
 		$root->expects($this->any())
 			->method('getUser')
 			->willReturn($this->user);
-		$storage = $this->createMock(Storage::class);
+		$storage = $this->createMock(IStorage::class);
 		$storage->method('getId')->willReturn('test::1');
 		$cache = new Cache($storage);
-		$subStorage = $this->createMock(Storage::class);
+		$subStorage = $this->createMock(IStorage::class);
 		$subStorage->method('getId')->willReturn('test::2');
 		$subCache = new Cache($subStorage);
 		$subMount = $this->getMockBuilder(MountPoint::class)->setConstructorArgs([Temporary::class, ''])->getMock();
@@ -922,14 +922,14 @@ class FolderTest extends NodeTest {
 		$root->expects($this->any())
 			->method('getUser')
 			->willReturn($this->user);
-		$storage = $this->createMock(Storage::class);
+		$storage = $this->createMock(IStorage::class);
 		$storage->method('getId')->willReturn('test::1');
 		$cache = new Cache($storage);
-		$subStorage1 = $this->createMock(Storage::class);
+		$subStorage1 = $this->createMock(IStorage::class);
 		$subStorage1->method('getId')->willReturn('test::2');
 		$subCache1 = new Cache($subStorage1);
 		$subMount1 = $this->getMockBuilder(MountPoint::class)->setConstructorArgs([Temporary::class, ''])->getMock();
-		$subStorage2 = $this->createMock(Storage::class);
+		$subStorage2 = $this->createMock(IStorage::class);
 		$subStorage2->method('getId')->willReturn('test::3');
 		$subCache2 = new Cache($subStorage2);
 		$subMount2 = $this->getMockBuilder(MountPoint::class)->setConstructorArgs([Temporary::class, ''])->getMock();

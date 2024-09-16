@@ -16,7 +16,7 @@ use OCP\Files\IRootFolder;
 use OCP\Files\Mount\IMountPoint;
 use OCP\Files\Node;
 use OCP\Files\NotFoundException;
-use OCP\Files\Storage;
+use OCP\Files\Storage\IStorage;
 use OCP\ICacheFactory;
 use OCP\IUser;
 use OCP\IUserManager;
@@ -111,7 +111,7 @@ abstract class NodeTest extends \Test\TestCase {
 	abstract protected function getViewDeleteMethod();
 
 	protected function getMockStorage() {
-		$storage = $this->getMockBuilder(Storage::class)
+		$storage = $this->getMockBuilder(IStorage::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$storage->expects($this->any())

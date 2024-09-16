@@ -141,6 +141,7 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 		if (!isset($this->scanner)) {
 			$this->scanner = new ObjectStoreScanner($storage);
 		}
+		/** @var \OC\Files\ObjectStore\ObjectStoreScanner */
 		return $this->scanner;
 	}
 

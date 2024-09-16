@@ -10,7 +10,7 @@ namespace Test\Files\Storage;
 use OC\Files\Mount\MountPoint;
 use OC\Files\Storage\Wrapper\Wrapper;
 use OCP\Files\Mount\IMountPoint;
-use OCP\Files\Storage as IStorage;
+use OCP\Files\Storage\IStorage;
 use Test\TestCase;
 
 class DummyWrapper extends Wrapper {

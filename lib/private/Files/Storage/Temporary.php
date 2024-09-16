@@ -11,7 +11,7 @@ namespace OC\Files\Storage;
  * local storage backend in temporary folder for testing purpose
  */
 class Temporary extends Local {
-	public function __construct($arguments = null) {
+	public function __construct($arguments = []) {
 		parent::__construct(['datadir' => \OC::$server->getTempManager()->getTemporaryFolder()]);
 	}
 

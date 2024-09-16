@@ -11,7 +11,7 @@ use OC\Files\FileInfo;
 use OC\ForbiddenException;
 use OC\Lockdown\Filesystem\NullCache;
 use OC\Lockdown\Filesystem\NullStorage;
-use OCP\Files\Storage;
+use OCP\Files\Storage\IStorage;
 use Test\TestCase;
 
 class NullStorageTest extends TestCase {
@@ -196,7 +196,7 @@ class NullStorageTest extends TestCase {
 	}
 
 	public function testCopyFromStorage(): void {
-		$sourceStorage = $this->createMock(Storage::class);
+		$sourceStorage = $this->createMock(IStorage::class);
 
 		$this->expectException(ForbiddenException::class);
 		$this->expectExceptionMessage('This request is not allowed to access the filesystem');
@@ -205,7 +205,7 @@ class NullStorageTest extends TestCase {
 	}
 
 	public function testMoveFromStorage(): void {
-		$sourceStorage = $this->createMock(Storage::class);
+		$sourceStorage = $this->createMock(IStorage::class);
 
 		$this->expectException(ForbiddenException::class);
 		$this->expectExceptionMessage('This request is not allowed to access the filesystem');

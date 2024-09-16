@@ -11,7 +11,7 @@ use OC\Files\View;
 use OCA\Encryption\Crypto\Crypt;
 use OCA\Encryption\Util;
 use OCP\Files\Mount\IMountPoint;
-use OCP\Files\Storage;
+use OCP\Files\Storage\IStorage;
 use OCP\IConfig;
 use OCP\IUser;
 use OCP\IUserManager;
@@ -181,7 +181,7 @@ class UtilTest extends TestCase {
 	}
 
 	public function testGetStorage(): void {
-		$return = $this->getMockBuilder(Storage::class)
+		$return = $this->getMockBuilder(IStorage::class)
 			->disableOriginalConstructor()
 			->getMock();
 

@@ -401,11 +401,20 @@ interface IStorage {
 	/**
 	 * @since 9.0.0
 	 * @param bool $isAvailable
+	 * @return void
 	 */
 	public function setAvailability($isAvailable);
 
 	/**
+	 * @since 12.0.0
+	 * @since 31.0.0 moved from Storage to IStorage
+	 * @return bool
+	 */
+	public function needsPartFile();
+
+	/**
 	 * @param string $path path for which to retrieve the owner
+	 * @return string
 	 * @since 9.0.0
 	 */
 	public function getOwner($path);
