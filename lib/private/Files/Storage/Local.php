@@ -164,9 +164,6 @@ class Local extends \OC\Files\Storage\Common {
 		return $statResult;
 	}
 
-	/**
-	 * @inheritdoc
-	 */
 	public function getMetaData($path) {
 		try {
 			$stat = $this->stat($path);
