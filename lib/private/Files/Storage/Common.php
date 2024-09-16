@@ -412,13 +412,7 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 		return $this->getCache($storage)->getStorageCache();
 	}
 
-	/**
-	 * get the owner of a path
-	 *
-	 * @param string $path The path to get the owner
-	 * @return string|false uid or false
-	 */
-	public function getOwner($path) {
+	public function getOwner($path): string|false {
 		if ($this->owner === null) {
 			$this->owner = \OC_User::getUser();
 		}

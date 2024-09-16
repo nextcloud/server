@@ -1711,11 +1711,9 @@ class View {
 	/**
 	 * Get the owner for a file or folder
 	 *
-	 * @param string $path
-	 * @return string the user id of the owner
 	 * @throws NotFoundException
 	 */
-	public function getOwner($path) {
+	public function getOwner(string $path): string {
 		$info = $this->getFileInfo($path);
 		if (!$info) {
 			throw new NotFoundException($path . ' not found while trying to get owner');
