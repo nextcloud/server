@@ -280,15 +280,6 @@ interface IStorage {
 	public function free_space($path);
 
 	/**
-	 * search for occurrences of $query in file names
-	 *
-	 * @param string $query
-	 * @return array|bool
-	 * @since 6.0.0
-	 */
-	public function search($query);
-
-	/**
 	 * see https://www.php.net/manual/en/function.touch.php
 	 * If the backend does not support the operation, false should be returned
 	 *

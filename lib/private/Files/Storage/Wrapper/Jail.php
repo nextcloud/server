@@ -322,16 +322,6 @@ class Jail extends Wrapper {
 	}
 
 	/**
-	 * search for occurrences of $query in file names
-	 *
-	 * @param string $query
-	 * @return array|bool
-	 */
-	public function search($query) {
-		return $this->getWrapperStorage()->search($query);
-	}
-
-	/**
 	 * see https://www.php.net/manual/en/function.touch.php
 	 * If the backend does not support the operation, false should be returned
 	 *

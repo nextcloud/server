@@ -232,10 +232,6 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 		return hash_final($ctx, $raw);
 	}
 
-	public function search($query) {
-		return $this->searchInDir($query);
-	}
-
 	public function getLocalFile($path) {
 		return $this->getCachedFile($path);
 	}
