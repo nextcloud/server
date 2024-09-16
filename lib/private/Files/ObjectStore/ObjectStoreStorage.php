@@ -152,10 +152,6 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 	/**
 	 * Object Stores use a NoopScanner because metadata is directly stored in
 	 * the file cache and cannot really scan the filesystem. The storage passed in is not used anywhere.
-	 *
-	 * @param string $path
-	 * @param \OC\Files\Storage\Storage (optional) the storage to pass to the scanner
-	 * @return \OC\Files\ObjectStore\ObjectStoreScanner
 	 */
 	public function getScanner($path = '', $storage = null) {
 		if (!$storage) {

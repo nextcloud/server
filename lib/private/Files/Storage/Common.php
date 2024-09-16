@@ -713,9 +713,6 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 		return $result;
 	}
 
-	/**
-	 * @inheritdoc
-	 */
 	public function getMetaData($path) {
 		if (Filesystem::isFileBlacklisted($path)) {
 			throw new ForbiddenException('Invalid path: ' . $path, false);
@@ -746,12 +743,6 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 		return $data;
 	}
 
-	/**
-	 * @param string $path
-	 * @param int $type \OCP\Lock\ILockingProvider::LOCK_SHARED or \OCP\Lock\ILockingProvider::LOCK_EXCLUSIVE
-	 * @param \OCP\Lock\ILockingProvider $provider
-	 * @throws \OCP\Lock\LockedException
-	 */
 	public function acquireLock($path, $type, ILockingProvider $provider) {
 		$logger = $this->getLockLogger();
 		if ($logger) {
@@ -779,12 +770,6 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 		}
 	}
 
-	/**
-	 * @param string $path
-	 * @param int $type \OCP\Lock\ILockingProvider::LOCK_SHARED or \OCP\Lock\ILockingProvider::LOCK_EXCLUSIVE
-	 * @param \OCP\Lock\ILockingProvider $provider
-	 * @throws \OCP\Lock\LockedException
-	 */
 	public function releaseLock($path, $type, ILockingProvider $provider) {
 		$logger = $this->getLockLogger();
 		if ($logger) {
@@ -812,12 +797,6 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 		}
 	}
 
-	/**
-	 * @param string $path
-	 * @param int $type \OCP\Lock\ILockingProvider::LOCK_SHARED or \OCP\Lock\ILockingProvider::LOCK_EXCLUSIVE
-	 * @param \OCP\Lock\ILockingProvider $provider
-	 * @throws \OCP\Lock\LockedException
-	 */
 	public function changeLock($path, $type, ILockingProvider $provider) {
 		$logger = $this->getLockLogger();
 		if ($logger) {

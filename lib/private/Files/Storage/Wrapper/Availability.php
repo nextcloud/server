@@ -441,7 +441,6 @@ class Availability extends Wrapper {
 		}
 	}
 
-	/** {@inheritdoc} */
 	public function getMetaData($path) {
 		$this->checkAvailability();
 		try {
