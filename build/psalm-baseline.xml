@@ -2174,9 +2174,6 @@
     </InvalidReturnType>
   </file>
   <file src="lib/private/Files/Storage/Local.php">
-    <ImplicitToStringCast>
-      <code><![CDATA[$file]]></code>
-    </ImplicitToStringCast>
     <TypeDoesNotContainNull>
       <code><![CDATA[$space === false || is_null($space)]]></code>
       <code><![CDATA[is_null($space)]]></code>
