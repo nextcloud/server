@@ -25,3 +25,6 @@
 [submodule "themes/nc-ionos-theme"]
 	path = themes/nc-ionos-theme
 	url = git@github.com:IONOS-Productivity/nc-ionos-theme.git
+[submodule "apps-custom/nc_theming"]
+	path = apps-custom/nc_theming
+	url = git@github.com:IONOS-Productivity/nc-theming.git
