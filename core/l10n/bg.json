@@ -158,7 +158,6 @@
     "No results for {query}" : "Няма резултати за {query}",
     "Press Enter to start searching" : "Натиснете Enter, за стартиране на търсенето",
     "An error occurred while searching for {type}" : "Възникна грешка при търсенето на {type}",
-    "_Please enter {minSearchLength} character or more to search_::_Please enter {minSearchLength} characters or more to search_" : ["Моля, въведете {minSearchLength} знака или повече, за да търсите","Моля, въведете {minSearchLength} знака или повече, за да търсите"],
     "Forgot password?" : "Забравена парола?",
     "Back" : "Назад",
     "Login form is disabled." : "Формулярът за вход е деактивиран",

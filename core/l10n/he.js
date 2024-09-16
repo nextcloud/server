@@ -130,7 +130,6 @@ OC.L10N.register(
     "Search" : "חיפוש",
     "No results for {query}" : "אין תוצאות עבור {query}",
     "An error occurred while searching for {type}" : "אירעה שגיאה בחיפוש אחר {type}",
-    "_Please enter {minSearchLength} character or more to search_::_Please enter {minSearchLength} characters or more to search_" : ["נא להקליד לפחות תו אחד כדי לחפש","נא להקליד לפחות {minSearchLength} תווים כדי לחפש","נא להקליד לפחות {minSearchLength} תווים כדי לחפש","נא להקליד לפחות {minSearchLength} תווים כדי לחפש"],
     "Forgot password?" : "שכחת ססמה?",
     "Back" : "חזרה",
     "More actions" : "פעולות נוספות",

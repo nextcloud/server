@@ -187,7 +187,7 @@ OC.L10N.register(
     "You shared address book {addressbook} with group {group}" : "Du delte adresseboken {addressbook} med gruppen {group}",
     "{actor} shared address book {addressbook} with group {group}" : "{actor} delte adresseboken {addressbook} med gruppen {group}",
     "You unshared address book {addressbook} from group {group}" : "Du har opphevde deling av adresseboken {addressbook} med gruppen {group}",
-    "{actor} unshared address book {addressbook} from group {group}" : "{actor} opphevde deling av adresseboken {addressbook} med gruppen {gruppe}",
+    "{actor} unshared address book {addressbook} from group {group}" : "{actor} opphevde deling av adresseboken {addressbook} med gruppen {group}",
     "{actor} created contact {card} in address book {addressbook}" : "{actor} opprettet kontakten {card} i adresseboken {addressbook}",
     "You created contact {card} in address book {addressbook}" : "Du opprettet kontakten {card} i adresseboken {addressbook}",
     "{actor} deleted contact {card} from address book {addressbook}" : "{actor} slettet kontakten {card} i adresseboken {addressbook}",

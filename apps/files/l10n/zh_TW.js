@@ -207,6 +207,7 @@ OC.L10N.register(
     "Remove filter" : "移除過濾條件",
     "Total rows summary" : "總列摘要",
     "Toggle selection for all files and folders" : "切換所有檔案和資料夾的選取",
+    "(selected)" : "（已選取）",
     "\"{displayName}\" failed on some elements " : "「{displayName}」在某些元素上失敗",
     "\"{displayName}\" batch action executed successfully" : "「{displayName}」批次動作執行成功",
     "{count} selected" : "已選取 {count} 個",

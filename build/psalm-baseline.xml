@@ -1978,9 +1978,6 @@
       <code>null</code>
       <code>null</code>
     </NullableReturnStatement>
-    <ParamNameMismatch>
-      <code>$searchQuery</code>
-    </ParamNameMismatch>
   </file>
   <file src="lib/private/Files/Cache/FailedCache.php">
     <InvalidReturnStatement>
@@ -2030,9 +2027,6 @@
       <code>array</code>
       <code>array</code>
     </LessSpecificImplementedReturnType>
-    <ParamNameMismatch>
-      <code>$searchQuery</code>
-    </ParamNameMismatch>
   </file>
   <file src="lib/private/Files/Config/MountProviderCollection.php">
     <InvalidOperand>
@@ -2272,9 +2266,6 @@
     </InvalidReturnType>
   </file>
   <file src="lib/private/Files/Storage/Local.php">
-    <ImplicitToStringCast>
-      <code>$file</code>
-    </ImplicitToStringCast>
     <TypeDoesNotContainNull>
       <code>$space === false || is_null($space)</code>
       <code>is_null($space)</code>

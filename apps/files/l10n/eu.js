@@ -205,6 +205,7 @@ OC.L10N.register(
     "Remove filter" : "Kendu iragazkia",
     "Total rows summary" : "Errenkaden guztirako laburpena",
     "Toggle selection for all files and folders" : "Ordeztu hautatutako fitxategi eta karpeta guztiak",
+    "(selected)" : "(hautatuta)",
     "\"{displayName}\" failed on some elements " : "\"{displayName}\"-k huts egin du elementu batzuetan",
     "\"{displayName}\" batch action executed successfully" : "\"{displayName}\" multzoko ekintza behar bezala exekutatu da",
     "{count} selected" : "{count} hautatuta",

@@ -207,6 +207,7 @@ OC.L10N.register(
     "Remove filter" : "Remove filter",
     "Total rows summary" : "Total rows summary",
     "Toggle selection for all files and folders" : "Toggle selection for all files and folders",
+    "(selected)" : "(selected)",
     "\"{displayName}\" failed on some elements " : "\"{displayName}\" failed on some elements ",
     "\"{displayName}\" batch action executed successfully" : "\"{displayName}\" batch action executed successfully",
     "{count} selected" : "{count} selected",

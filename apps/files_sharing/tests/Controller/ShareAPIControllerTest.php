@@ -3775,6 +3775,12 @@ class ShareAPIControllerTest extends TestCase {
 		$folder->method('getStorage')->willReturn($storage);
 		$fileWithPreview->method('getStorage')->willReturn($storage);
 
+
+		$mountPoint = $this->getMockBuilder(IMountPoint::class)->getMock();
+		$mountPoint->method('getMountType')->willReturn('');
+		$file->method('getMountPoint')->willReturn($mountPoint);
+		$folder->method('getMountPoint')->willReturn($mountPoint);
+
 		$owner = $this->getMockBuilder(IUser::class)->getMock();
 		$owner->method('getDisplayName')->willReturn('ownerDN');
 		$initiator = $this->getMockBuilder(IUser::class)->getMock();
@@ -3929,6 +3935,8 @@ class ShareAPIControllerTest extends TestCase {
 				'can_delete' => false,
 				'item_size' => 123456,
 				'item_mtime' => 1234567890,
+				'is-mount-root' => false,
+				'mount-type' => '',
 				'attributes' => null,
 			], $share, [], false
 		];
@@ -3980,6 +3988,8 @@ class ShareAPIControllerTest extends TestCase {
 				'can_delete' => true,
 				'item_size' => 123456,
 				'item_mtime' => 1234567890,
+				'is-mount-root' => false,
+				'mount-type' => '',
 				'attributes' => null,
 			], $share, [], false
 		];
@@ -4032,6 +4042,8 @@ class ShareAPIControllerTest extends TestCase {
 				'can_delete' => false,
 				'item_size' => 123456,
 				'item_mtime' => 1234567890,
+				'is-mount-root' => false,
+				'mount-type' => '',
 				'attributes' => null,
 			], $share, [], false
 		];
@@ -4081,6 +4093,8 @@ class ShareAPIControllerTest extends TestCase {
 				'can_delete' => false,
 				'item_size' => 123456,
 				'item_mtime' => 1234567890,
+				'is-mount-root' => false,
+				'mount-type' => '',
 				'attributes' => null,
 			], $share, [], false
 		];
@@ -4137,6 +4151,8 @@ class ShareAPIControllerTest extends TestCase {
 				'can_delete' => false,
 				'item_size' => 123456,
 				'item_mtime' => 1234567890,
+				'is-mount-root' => false,
+				'mount-type' => '',
 				'attributes' => null,
 			], $share, [], false
 		];
@@ -4193,6 +4209,8 @@ class ShareAPIControllerTest extends TestCase {
 				'can_delete' => false,
 				'item_size' => 123456,
 				'item_mtime' => 1234567890,
+				'is-mount-root' => false,
+				'mount-type' => '',
 				'attributes' => null,
 			], $share, [], false
 		];
@@ -4243,6 +4261,8 @@ class ShareAPIControllerTest extends TestCase {
 				'can_delete' => false,
 				'item_size' => 123456,
 				'item_mtime' => 1234567890,
+				'is-mount-root' => false,
+				'mount-type' => '',
 				'attributes' => null,
 			], $share, [], false
 		];
@@ -4293,6 +4313,8 @@ class ShareAPIControllerTest extends TestCase {
 				'can_delete' => false,
 				'item_size' => 123456,
 				'item_mtime' => 1234567890,
+				'is-mount-root' => false,
+				'mount-type' => '',
 				'attributes' => null,
 			], $share, [], false
 		];
@@ -4346,6 +4368,8 @@ class ShareAPIControllerTest extends TestCase {
 				'can_delete' => false,
 				'item_size' => 123456,
 				'item_mtime' => 1234567890,
+				'is-mount-root' => false,
+				'mount-type' => '',
 				'attributes' => null,
 			], $share, [], false
 		];
@@ -4396,6 +4420,8 @@ class ShareAPIControllerTest extends TestCase {
 				'can_delete' => false,
 				'item_size' => 123456,
 				'item_mtime' => 1234567890,
+				'is-mount-root' => false,
+				'mount-type' => '',
 				'attributes' => null,
 			], $share, [], false
 		];
@@ -4446,6 +4472,8 @@ class ShareAPIControllerTest extends TestCase {
 				'can_delete' => false,
 				'item_size' => 123456,
 				'item_mtime' => 1234567890,
+				'is-mount-root' => false,
+				'mount-type' => '',
 				'attributes' => null,
 			], $share, [], false
 		];
@@ -4513,6 +4541,8 @@ class ShareAPIControllerTest extends TestCase {
 				'password_expiration_time' => null,
 				'item_size' => 123456,
 				'item_mtime' => 1234567890,
+				'is-mount-root' => false,
+				'mount-type' => '',
 				'attributes' => null,
 			], $share, [], false
 		];
@@ -4566,6 +4596,8 @@ class ShareAPIControllerTest extends TestCase {
 				'password_expiration_time' => null,
 				'item_size' => 123456,
 				'item_mtime' => 1234567890,
+				'is-mount-root' => false,
+				'mount-type' => '',
 				'attributes' => null,
 			], $share, [], false
 		];
@@ -4617,6 +4649,8 @@ class ShareAPIControllerTest extends TestCase {
 				'can_delete' => true,
 				'item_size' => 123456,
 				'item_mtime' => 1234567890,
+				'is-mount-root' => false,
+				'mount-type' => '',
 				'attributes' => null,
 			], $share, [], false
 		];
@@ -4720,6 +4754,10 @@ class ShareAPIControllerTest extends TestCase {
 		$file->method('getSize')->willReturn(123456);
 		$file->method('getMTime')->willReturn(1234567890);
 
+		$mountPoint = $this->getMockBuilder(IMountPoint::class)->getMock();
+		$mountPoint->method('getMountType')->willReturn('');
+		$file->method('getMountPoint')->willReturn($mountPoint);
+
 		$cache = $this->getMockBuilder('OCP\Files\Cache\ICache')->getMock();
 		$cache->method('getNumericStorageId')->willReturn(100);
 		$storage = $this->createMock(Storage::class);
@@ -4775,6 +4813,8 @@ class ShareAPIControllerTest extends TestCase {
 				'can_delete' => false,
 				'item_size' => 123456,
 				'item_mtime' => 1234567890,
+				'is-mount-root' => false,
+				'mount-type' => '',
 				'attributes' => null,
 			], $share, false, []
 		];
@@ -4824,6 +4864,8 @@ class ShareAPIControllerTest extends TestCase {
 				'can_delete' => false,
 				'item_size' => 123456,
 				'item_mtime' => 1234567890,
+				'is-mount-root' => false,
+				'mount-type' => '',
 				'attributes' => null,
 			], $share, true, [
 				'share_with_displayname' => 'recipientRoomName'

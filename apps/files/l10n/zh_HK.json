@@ -205,6 +205,7 @@
     "Remove filter" : "移除過濾",
     "Total rows summary" : "總列摘要",
     "Toggle selection for all files and folders" : "切換所有檔案和資料夾的選擇",
+    "(selected)" : "（已選擇）",
     "\"{displayName}\" failed on some elements " : "“{displayName}” 在某些元素上失敗",
     "\"{displayName}\" batch action executed successfully" : "成功執行 “{displayName}” 批處理操作",
     "{count} selected" : "已選擇 {count} 項",

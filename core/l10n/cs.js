@@ -195,7 +195,6 @@ OC.L10N.register(
     "No results for {query}" : "Pro {query} nic nenalezeno",
     "Press Enter to start searching" : "Vyhledávání zahájíte stisknutím klávesy Enter",
     "An error occurred while searching for {type}" : "Došlo k chybě při hledání pro {type}",
-    "_Please enter {minSearchLength} character or more to search_::_Please enter {minSearchLength} characters or more to search_" : ["Aby bylo možné vyhledávat, zadejte alespoň {minSearchLength} znak","Aby bylo možné vyhledávat, zadejte alespoň {minSearchLength} znaky","Aby bylo možné vyhledávat, zadejte alespoň {minSearchLength} znaků","Aby bylo možné vyhledávat, zadejte alespoň {minSearchLength} znaky"],
     "Forgot password?" : "Zapomněli jste heslo?",
     "Back to login form" : "Zpět na formulář pro přihlášení",
     "Back" : "Zpět",

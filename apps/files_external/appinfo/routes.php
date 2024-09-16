@@ -62,10 +62,5 @@ return [
 			'url' => '/api/v1/mounts',
 			'verb' => 'GET',
 		],
-		[
-			'name' => 'Api#askNativeAuth',
-			'url' => '/api/v1/auth',
-			'verb' => 'GET',
-		],
 	],
 ];

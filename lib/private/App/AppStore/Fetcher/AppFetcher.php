@@ -77,7 +77,8 @@ class AppFetcher extends Fetcher {
 		/** @var mixed[] $response */
 		$response = parent::fetch($ETag, $content);
 
-		if (empty($response)) {
+		if (!isset($response['data']) || $response['data'] === null) {
+			$this->logger->warning('Response from appstore is invalid, apps could not be retrieved. Try again later.', ['app' => 'appstoreFetcher']);
 			return [];
 		}
 
@@ -172,9 +173,16 @@ class AppFetcher extends Fetcher {
 		$this->ignoreMaxVersion = $ignoreMaxVersion;
 	}
 
-
-	public function get($allowUnstable = false) {
+	public function get($allowUnstable = false): array {
 		$allowPreReleases = $allowUnstable || $this->getChannel() === 'beta' || $this->getChannel() === 'daily' || $this->getChannel() === 'git';
+
+		$appStoreEnabled = $this->config->getSystemValueBool('appstoreenabled', true);
+		$internetAvailable = $this->config->getSystemValueBool('has_internet_connection', true);
+
+		if (!$appStoreEnabled || !$internetAvailable) {
+			$this->logger->info('AppStore is disabled or this instance has no Internet connection', ['app' => 'appstoreFetcher']);
+			return [];
+		}
 
 		$apps = parent::get($allowPreReleases);
 		if (empty($apps)) {

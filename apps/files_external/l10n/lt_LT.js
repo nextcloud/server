@@ -89,6 +89,7 @@ OC.L10N.register(
     "\"%1$s\" is not installed. Mounting of %2$s is not possible. Please ask your system administrator to install it." : "\"%1$s\" nėra įdiegtas. %2$s prijungimas yra neįmanomas. Paprašykite savo sistemos administratoriaus, kad jį įdiegtų.",
     "External storage" : "Išorinė saugykla",
     "External storage support" : "Išorinės saugyklos priežiūra",
+    "Submit" : "Pateikti",
     "External mount error" : "Išorinio prijungimo klaida",
     "Storage type" : "Saugyklos tipas",
     "Unknown" : "Nežinoma",

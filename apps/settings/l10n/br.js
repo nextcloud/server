@@ -316,6 +316,7 @@ OC.L10N.register(
     "These groups will still be able to receive shares, but not to initiate them." : "Posupl vo d'ar strolad resev rannadennoù, mes ne vo ket posuple d'eo o krouiñ.",
     "Two-factor authentication can be enforced for all users and specific groups. If they do not have a two-factor provider configured, they will be unable to log into the system." : "An dilesa daou-elfenn a zo posupl rediañ evit tout an implijourieñ ha strolladoù 'zo. Ma n'ho deus get stummet ar goulenner deao-elfenn, ne vo ket posupl dezho mon-tre er sistem.",
     "When groups are selected/excluded, they use the following logic to determine if a user has 2FA enforced: If no groups are selected, 2FA is enabled for everyone except members of the excluded groups. If groups are selected, 2FA is enabled for all members of these. If a user is both in a selected and excluded group, the selected takes precedence and 2FA is enforced." : "Pa vez choazet/argaset strolladoù, implijoet a vez gantez ar vezoniezh da heul evit gouzout ma eo bet rediet un dilesa daou-elfenn d'un implijer :  m'a n'eo ket bet choazet strollad ebet, an dilesa daou-elfenn a zo aotreet evit tout ar strolladoù estreget ar re argaset. M'az eo bet choazet strolladoù, an dilesa daou-elfenn a zo aotreet evito. M'az eo un implijer en ur strollad choazt hag un argaset, an hini choazet zo lakaet war-raok hag an dilesa daou-elfenn a vez rediet.",
+    "{license}-licensed" : "{license}-aotre",
     "Username" : "anv implijer",
     "New user" : "Implijer nevez",
     "User backend" : "Backen implijer",
@@ -330,7 +331,6 @@ OC.L10N.register(
     "Show user backend" : "Diskouez backend an implijer",
     "Name your device" : "Anvit o ardivink",
     "Server error while trying to add WebAuthn device" : "Ur fazi servijour a zo bet pa oa ouzhpennet an ardivink WebAuthn",
-    "{license}-licensed" : "{license}-aotre",
     "by {author}\n{license}" : "great gant {author}\n{license}",
     "Disabled users" : "Disaotreañ implijer",
     "SMTP Username" : "Anv implijer SMTP"

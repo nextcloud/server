@@ -205,6 +205,7 @@
     "Remove filter" : "Filter entfernen",
     "Total rows summary" : "Zusammenfassung aller Zeilen",
     "Toggle selection for all files and folders" : "Auswahl für alle Dateien und Ordner umschalten",
+    "(selected)" : "(ausgewählt)",
     "\"{displayName}\" failed on some elements " : "\"{displayName}\" ist bei einigen Elementen fehlgeschlagen",
     "\"{displayName}\" batch action executed successfully" : "Stapelaktion \"{displayName}\" erfolgreich ausgeführt",
     "{count} selected" : "{count} ausgewählt",

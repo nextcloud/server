@@ -207,6 +207,7 @@ OC.L10N.register(
     "Remove filter" : "Süzgeci kaldır",
     "Total rows summary" : "Toplam satır özeti",
     "Toggle selection for all files and folders" : "Tüm dosyaları ve klasörleri seç/bırak",
+    "(selected)" : "(seçilmiş)",
     "\"{displayName}\" failed on some elements " : "\"{displayName}\" toplu işlemi bazı bileşenlerde tamamlanamadı",
     "\"{displayName}\" batch action executed successfully" : "\"{displayName}\" toplu işlemi tamamlandı",
     "{count} selected" : "{count} seçilmiş",

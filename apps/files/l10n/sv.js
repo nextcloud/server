@@ -207,6 +207,7 @@ OC.L10N.register(
     "Remove filter" : "Ta bort filter",
     "Total rows summary" : "Sammanfattning antal rader",
     "Toggle selection for all files and folders" : "Växla markering för alla filer och mappar",
+    "(selected)" : "(vald)",
     "\"{displayName}\" failed on some elements " : "\"{displayName}\" misslyckades med vissa element",
     "\"{displayName}\" batch action executed successfully" : "Batchåtgärden \"{displayName}\" har utförts",
     "{count} selected" : "{count} valda",

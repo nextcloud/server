@@ -78,6 +78,7 @@ OC.L10N.register(
     "\"%1$s\" is not installed. Mounting of %2$s is not possible. Please ask your system administrator to install it." : "\"%1$s\" не е инсалиран. Монтирањето на %2$s не е возможно. Контактирајте го администраторот.",
     "External storage" : "Надворешно складиште",
     "External storage support" : "Поддршка за надворешно складиште",
+    "Submit" : "Испрати",
     "Open in Files" : "Отвори во датотеките",
     "External mount error" : "Грешка при надворешно монтирање",
     "Storage type" : "Вид на складиште",
