@@ -440,14 +440,7 @@ class Local extends \OC\Files\Storage\Common {
 	}
 
 	public function hash($type, $path, $raw = false): string|false {
-		/** @var string|false|null */
-		$hash = hash_file($type, $this->getSourcePath($path), $raw);
-
-		if ($hash === null) {
-			return false;
-		}
-
-		return $hash;
+		return hash_file($type, $this->getSourcePath($path), $raw);
 	}
 
 	public function free_space($path) {
