@@ -114,7 +114,7 @@ class LinkReferenceProvider implements IReferenceProvider, IPublicReferenceProvi
 
 		$client = $this->clientService->newClient();
 		try {
-			$headResponse = $client->head($reference->getId(), [ 'timeout' => 10 ]);
+			$headResponse = $client->head($reference->getId(), [ 'timeout' => 3 ]);
 		} catch (\Exception $e) {
 			$this->logger->debug('Failed to perform HEAD request to get target metadata', ['exception' => $e]);
 			return;
@@ -136,7 +136,7 @@ class LinkReferenceProvider implements IReferenceProvider, IPublicReferenceProvi
 		}
 
 		try {
-			$response = $client->get($reference->getId(), [ 'timeout' => 10, 'stream' => true ]);
+			$response = $client->get($reference->getId(), [ 'timeout' => 3, 'stream' => true ]);
 		} catch (\Exception $e) {
 			$this->logger->debug('Failed to fetch link for obtaining open graph data', ['exception' => $e]);
 			return;
@@ -184,7 +184,7 @@ class LinkReferenceProvider implements IReferenceProvider, IPublicReferenceProvi
 					$folder = $appData->newFolder('opengraph');
 				}
 
-				$response = $client->get($object->images[0]->url, ['timeout' => 10]);
+				$response = $client->get($object->images[0]->url, ['timeout' => 3]);
 				$contentType = $response->getHeader('Content-Type');
 				$contentLength = $response->getHeader('Content-Length');
 
