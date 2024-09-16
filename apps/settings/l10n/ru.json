@@ -878,7 +878,6 @@
     "SMTP Username" : "Пользователь SMTP",
     "To allow this check to run you have to make sure that your webserver can connect to itself. Therefor it must be able to resolve and connect to at least one its `trusted_domains` or the `overwrite.cli.url`." : "Чтобы разрешить выполнение этой проверки, вы должны убедиться, что ваш веб-сервер может подключаться к самому себе. Для этого он должен иметь возможность разрешать и подключаться по крайней мере к одному из своих `trusted_domains\" или \"overwrite.cli.url\".",
     "Could not check for JavaScript support via any of your `trusted_domains` nor `overwrite.cli.url`. This may be the result of a server-side DNS mismatch or outbound firewall rule. Please check manually if your webserver serves `.mjs` files using the JavaScript MIME type." : "Не удалось проверить поддержку JavaScript ни в одном из ваших `trusted_domains`, ни в `overwrite.cli.url`. Это может быть результатом несоответствия DNS на стороне сервера или правила исходящего брандмауэра. Пожалуйста, проверьте вручную, обслуживает ли ваш веб-сервер файлы `.mjs`, используя MIME-тип JavaScript.",
-    "Active accounts" : "Активные учётные записи",
-    "None of your currently installed apps provide custom Text processing functionality." : "Ни одно из установленных на данный момент приложений не предоставляет пользовательских функций обработки текста."
+    "Active accounts" : "Активные учётные записи"
 },"pluralForm" :"nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);"
 }
