@@ -5,6 +5,7 @@
  */
 namespace OCA\Files_Sharing\Activity\Providers;
 
+use OCP\Activity\Exceptions\UnknownActivityException;
 use OCP\Activity\IEvent;
 use OCP\Activity\IEventMerger;
 use OCP\Activity\IManager;
@@ -65,12 +66,12 @@ abstract class Base implements IProvider {
 	 * @param IEvent $event
 	 * @param IEvent|null $previousEvent
 	 * @return IEvent
-	 * @throws \InvalidArgumentException
+	 * @throws UnknownActivityException
 	 * @since 11.0.0
 	 */
 	public function parse($language, IEvent $event, ?IEvent $previousEvent = null) {
 		if ($event->getApp() !== 'files_sharing') {
-			throw new \InvalidArgumentException();
+			throw new UnknownActivityException();
 		}
 
 		$this->l = $this->languageFactory->get('files_sharing', $language);

@@ -5,6 +5,7 @@
  */
 namespace OCA\SystemTags\Activity;
 
+use OCP\Activity\Exceptions\UnknownActivityException;
 use OCP\Activity\IEvent;
 use OCP\Activity\IManager;
 use OCP\Activity\IProvider;
@@ -54,12 +55,12 @@ class Provider implements IProvider {
 	 * @param IEvent $event
 	 * @param IEvent|null $previousEvent
 	 * @return IEvent
-	 * @throws \InvalidArgumentException
+	 * @throws UnknownActivityException
 	 * @since 11.0.0
 	 */
 	public function parse($language, IEvent $event, ?IEvent $previousEvent = null) {
 		if ($event->getApp() !== 'systemtags') {
-			throw new \InvalidArgumentException();
+			throw new UnknownActivityException();
 		}
 
 		$this->l = $this->languageFactory->get('systemtags', $language);

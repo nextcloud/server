@@ -6,6 +6,7 @@
 namespace OCA\DAV\CalDAV\Activity\Provider;
 
 use OC_App;
+use OCP\Activity\Exceptions\UnknownActivityException;
 use OCP\Activity\IEvent;
 use OCP\Activity\IEventMerger;
 use OCP\Activity\IManager;
@@ -106,12 +107,12 @@ class Event extends Base {
 	 * @param IEvent $event
 	 * @param IEvent|null $previousEvent
 	 * @return IEvent
-	 * @throws \InvalidArgumentException
+	 * @throws UnknownActivityException
 	 * @since 11.0.0
 	 */
 	public function parse($language, IEvent $event, ?IEvent $previousEvent = null) {
 		if ($event->getApp() !== 'dav' || $event->getType() !== 'calendar_event') {
-			throw new \InvalidArgumentException();
+			throw new UnknownActivityException();
 		}
 
 		$this->l = $this->languageFactory->get('dav', $language);
@@ -147,7 +148,7 @@ class Event extends Base {
 		} elseif ($event->getSubject() === self::SUBJECT_OBJECT_RESTORE . '_event_self') {
 			$subject = $this->l->t('You restored event {event} of calendar {calendar}');
 		} else {
-			throw new \InvalidArgumentException();
+			throw new UnknownActivityException();
 		}
 
 		$parsedParameters = $this->getParameters($event);

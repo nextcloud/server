@@ -5,6 +5,7 @@
  */
 namespace OCA\DAV\CalDAV\Activity\Provider;
 
+use OCP\Activity\Exceptions\UnknownActivityException;
 use OCP\Activity\IEvent;
 
 class Todo extends Event {
@@ -14,12 +15,12 @@ class Todo extends Event {
 	 * @param IEvent $event
 	 * @param IEvent|null $previousEvent
 	 * @return IEvent
-	 * @throws \InvalidArgumentException
+	 * @throws UnknownActivityException
 	 * @since 11.0.0
 	 */
 	public function parse($language, IEvent $event, ?IEvent $previousEvent = null) {
 		if ($event->getApp() !== 'dav' || $event->getType() !== 'calendar_todo') {
-			throw new \InvalidArgumentException();
+			throw new UnknownActivityException();
 		}
 
 		$this->l = $this->languageFactory->get('dav', $language);
@@ -55,7 +56,7 @@ class Todo extends Event {
 		} elseif ($event->getSubject() === self::SUBJECT_OBJECT_MOVE . '_todo_self') {
 			$subject = $this->l->t('You moved to-do {todo} from list {sourceCalendar} to list {targetCalendar}');
 		} else {
-			throw new \InvalidArgumentException();
+			throw new UnknownActivityException();
 		}
 
 		$parsedParameters = $this->getParameters($event);

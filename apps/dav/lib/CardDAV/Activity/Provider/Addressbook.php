@@ -8,6 +8,7 @@ declare(strict_types=1);
  */
 namespace OCA\DAV\CardDAV\Activity\Provider;
 
+use OCP\Activity\Exceptions\UnknownActivityException;
 use OCP\Activity\IEvent;
 use OCP\Activity\IEventMerger;
 use OCP\Activity\IManager;
@@ -52,11 +53,11 @@ class Addressbook extends Base {
 	 * @param IEvent $event
 	 * @param IEvent|null $previousEvent
 	 * @return IEvent
-	 * @throws \InvalidArgumentException
+	 * @throws UnknownActivityException
 	 */
 	public function parse($language, IEvent $event, ?IEvent $previousEvent = null): IEvent {
 		if ($event->getApp() !== 'dav' || $event->getType() !== 'contacts') {
-			throw new \InvalidArgumentException();
+			throw new UnknownActivityException();
 		}
 
 		$l = $this->languageFactory->get('dav', $language);
@@ -102,7 +103,7 @@ class Addressbook extends Base {
 		} elseif ($event->getSubject() === self::SUBJECT_UNSHARE_GROUP . '_by') {
 			$subject = $l->t('{actor} unshared address book {addressbook} from group {group}');
 		} else {
-			throw new \InvalidArgumentException();
+			throw new UnknownActivityException();
 		}
 
 		$parsedParameters = $this->getParameters($event, $l);
