@@ -134,7 +134,7 @@ class MultipartRequestParser {
 
 		$headers = $this->readPartHeaders();
 
-		$content = $this->readPartContent($headers['content-length'], $headers['x-file-md5']);
+		$content = $this->readPartContent((int)$headers['content-length'], $headers['x-file-md5']);
 
 		return [$headers, $content];
 	}
