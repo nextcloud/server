@@ -1223,6 +1223,7 @@ class Manager implements IManager {
 
 		foreach ($reshareRecords as $child) {
 			try {
+				/* Check if the share is still valid (means the resharer still has access to the file through another mean) */
 				$this->generalCreateChecks($child);
 			} catch (GenericShareException $e) {
 				/* The check is invalid, promote it to a direct share from the sharer of parent share */
