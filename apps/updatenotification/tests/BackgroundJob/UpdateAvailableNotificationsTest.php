@@ -286,7 +286,7 @@ class UpdateAvailableNotificationsTest extends TestCase {
 		$this->appConfig->expects($this->once())
 			->method('getAppValueString')
 			->with($app, '')
-			->willReturn($lastNotification ? $lastNotification : '');
+			->willReturn($lastNotification ?: '');
 
 		if ($lastNotification !== $version) {
 			$this->appConfig->expects($this->once())
