@@ -97,7 +97,6 @@ class ComposerStaticInitSettings
         'OCA\\Settings\\SetupChecks\\AllowedAdminRanges' => __DIR__ . '/..' . '/../lib/SetupChecks/AllowedAdminRanges.php',
         'OCA\\Settings\\SetupChecks\\AppDirsWithDifferentOwner' => __DIR__ . '/..' . '/../lib/SetupChecks/AppDirsWithDifferentOwner.php',
         'OCA\\Settings\\SetupChecks\\BruteForceThrottler' => __DIR__ . '/..' . '/../lib/SetupChecks/BruteForceThrottler.php',
-        'OCA\\Settings\\SetupChecks\\CheckServerResponseTrait' => __DIR__ . '/..' . '/../lib/SetupChecks/CheckServerResponseTrait.php',
         'OCA\\Settings\\SetupChecks\\CheckUserCertificates' => __DIR__ . '/..' . '/../lib/SetupChecks/CheckUserCertificates.php',
         'OCA\\Settings\\SetupChecks\\CodeIntegrity' => __DIR__ . '/..' . '/../lib/SetupChecks/CodeIntegrity.php',
         'OCA\\Settings\\SetupChecks\\CronErrors' => __DIR__ . '/..' . '/../lib/SetupChecks/CronErrors.php',

@@ -6,31 +6,33 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-namespace OCA\Settings\SetupChecks;
+namespace OCP\SetupCheck;
 
 use Generator;
 use OCP\Http\Client\IClientService;
 use OCP\Http\Client\IResponse;
 use OCP\IConfig;
-use OCP\IL10N;
 use OCP\IURLGenerator;
+use OCP\L10N\IFactory;
 use Psr\Log\LoggerInterface;
 
 /**
  * Common trait for setup checks that need to use requests to the same server and check the response
+ * @since 31.0.0
  */
 trait CheckServerResponseTrait {
 	protected IConfig $config;
 	protected IURLGenerator $urlGenerator;
 	protected IClientService $clientService;
-	protected IL10N $l10n;
 	protected LoggerInterface $logger;
 
 	/**
 	 * Common helper string in case a check could not fetch any results
+	 * @since 31.0.0
 	 */
 	protected function serverConfigHelp(): string {
-		return $this->l10n->t('To allow this check to run you have to make sure that your Web server can connect to itself. Therefore it must be able to resolve and connect to at least one of its `trusted_domains` or the `overwrite.cli.url`. This failure may be the result of a server-side DNS mismatch or outbound firewall rule.');
+		$l10n = \OCP\Server::get(IFactory::class)->get('lib');
+		return $l10n->t('To allow this check to run you have to make sure that your Web server can connect to itself. Therefore it must be able to resolve and connect to at least one of its `trusted_domains` or the `overwrite.cli.url`. This failure may be the result of a server-side DNS mismatch or outbound firewall rule.');
 	}
 
 	/**
@@ -40,6 +42,7 @@ trait CheckServerResponseTrait {
 	 * @param string $url The absolute path (absolute URL without host but with web-root) to test starting with a /
 	 * @param bool $isRootRequest Set to remove the web-root from URL and host (e.g. when requesting a path in the domain root like '/.well-known')
 	 * @return list<string> List of possible absolute URLs
+	 * @since 31.0.0
 	 */
 	protected function getTestUrls(string $url, bool $isRootRequest = false): array {
 		$url = '/' . ltrim($url, '/');
@@ -86,20 +89,6 @@ trait CheckServerResponseTrait {
 	}
 
 	/**
-	 * Strip a trailing slash and remove the webroot if requested.
-	 * @param string $url The URL to normalize. Should be an absolute URL containing scheme, host and optionally web-root.
-	 * @param bool $removeWebroot If set the web-root is removed from the URL and an absolute URL with only the scheme and host (optional port) is returned
-	 */
-	protected function normalizeUrl(string $url, bool $removeWebroot): string {
-		if ($removeWebroot) {
-			$segments = parse_url($url);
-			$port = isset($segments['port']) ? (':' . $segments['port']) : '';
-			return $segments['scheme'] . '://' . $segments['host'] . $port;
-		}
-		return rtrim($url, '/');
-	}
-
-	/**
 	 * Run a HTTP request to check header
 	 * @param string $method The HTTP method to use
 	 * @param string $url The absolute path (URL with webroot but without host) to check, can be the output of `IURLGenerator`
@@ -115,6 +104,7 @@ trait CheckServerResponseTrait {
 	 *                                                                             ]
 	 *
 	 * @return Generator<int, IResponse>
+	 * @since 31.0.0
 	 */
 	protected function runRequest(string $method, string $url, array $options = [], bool $isRootRequest = false): Generator {
 		$options = array_merge(['ignoreSSL' => true, 'httpErrors' => true], $options);
@@ -133,17 +123,11 @@ trait CheckServerResponseTrait {
 	}
 
 	/**
-	 * Run a HEAD request to check header
-	 * @param string $url The relative URL to check (e.g. output of IURLGenerator)
-	 * @param bool $ignoreSSL Ignore SSL certificates
-	 * @param bool $httpErrors Ignore requests with HTTP errors (will not yield if request has a 4xx or 5xx response)
-	 * @return Generator<int, IResponse>
+	 * Get HTTP client options
+	 * @param bool $ignoreSSL If set SSL errors are ignored (e.g. self-signed certificates)
+	 * @since 31.0.0
 	 */
-	protected function runHEAD(string $url, bool $ignoreSSL = true, bool $httpErrors = true): Generator {
-		return $this->runRequest('HEAD', $url, ['ignoreSSL' => $ignoreSSL, 'httpErrors' => $httpErrors]);
-	}
-
-	protected function getRequestOptions(bool $ignoreSSL, bool $httpErrors): array {
+	private function getRequestOptions(bool $ignoreSSL, bool $httpErrors): array {
 		$requestOptions = [
 			'connect_timeout' => 10,
 			'http_errors' => $httpErrors,
@@ -155,5 +139,24 @@ trait CheckServerResponseTrait {
 			$requestOptions['verify'] = false;
 		}
 		return $requestOptions;
+	}
+
+	/**
+	 * Strip a trailing slash and remove the webroot if requested.
+	 * @param string $url The URL to normalize. Should be an absolute URL containing scheme, host and optionally web-root.
+	 * @param bool $removeWebroot If set the web-root is removed from the URL and an absolute URL with only the scheme and host (optional port) is returned
+	 * @since 31.0.0
+	 */
+	private function normalizeUrl(string $url, bool $removeWebroot): string {
+		if ($removeWebroot) {
+			$segments = parse_url($url);
+			if (!isset($segments['scheme']) || !isset($segments['host'])) {
+				throw new \InvalidArgumentException('URL is missing scheme or host');
+			}
+
+			$port = isset($segments['port']) ? (':' . $segments['port']) : '';
+			return $segments['scheme'] . '://' . $segments['host'] . $port;
+		}
+		return rtrim($url, '/');
 	}
 }

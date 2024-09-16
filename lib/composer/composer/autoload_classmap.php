@@ -700,6 +700,7 @@ return array(
     'OCP\\Settings\\IManager' => $baseDir . '/lib/public/Settings/IManager.php',
     'OCP\\Settings\\ISettings' => $baseDir . '/lib/public/Settings/ISettings.php',
     'OCP\\Settings\\ISubAdminSettings' => $baseDir . '/lib/public/Settings/ISubAdminSettings.php',
+    'OCP\\SetupCheck\\CheckServerResponseTrait' => $baseDir . '/lib/public/SetupCheck/CheckServerResponseTrait.php',
     'OCP\\SetupCheck\\ISetupCheck' => $baseDir . '/lib/public/SetupCheck/ISetupCheck.php',
     'OCP\\SetupCheck\\ISetupCheckManager' => $baseDir . '/lib/public/SetupCheck/ISetupCheckManager.php',
     'OCP\\SetupCheck\\SetupResult' => $baseDir . '/lib/public/SetupCheck/SetupResult.php',
