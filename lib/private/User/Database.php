@@ -419,7 +419,7 @@ class Database extends ABackend implements
 	 */
 	public function getHome(string $uid) {
 		if ($this->userExists($uid)) {
-			return \OCP\Server::get(IConfig::class)->getSystemValueString('datadirectory', \OC::$SERVERROOT . '/data') . '/' . $uid;
+			return \OC::$server->getConfig()->getSystemValueString('datadirectory', \OC::$SERVERROOT . '/data') . '/' . $uid;
 		}
 
 		return false;
