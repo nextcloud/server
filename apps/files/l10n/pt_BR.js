@@ -207,6 +207,7 @@ OC.L10N.register(
     "Remove filter" : "Remover filtro",
     "Total rows summary" : "Resumo total de linhas",
     "Toggle selection for all files and folders" : "Alternar seleção para todos os arquivos e pastas",
+    "(selected)" : "(selecionado)",
     "\"{displayName}\" failed on some elements " : "\"{displayName}\" falhou em alguns elementos",
     "\"{displayName}\" batch action executed successfully" : "Ação em lote \"{displayName}\" executada com sucesso",
     "{count} selected" : "{count} selecionados",
