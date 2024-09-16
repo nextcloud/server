@@ -879,7 +879,6 @@
     "SMTP Username" : "SMTP-Kontenname",
     "To allow this check to run you have to make sure that your webserver can connect to itself. Therefor it must be able to resolve and connect to at least one its `trusted_domains` or the `overwrite.cli.url`." : "Um diese Prüfung auszuführen, müssen Sie sicherstellen, dass Ihr Webserver eine Verbindung zu sich selbst herstellen kann. Dafür muss er in der Lage sein, sich mit mindestens einer seiner \"trusted_domains\" oder der \"overwrite.cli.url\" zu verbinden und diese aufzulösen.",
     "Could not check for JavaScript support via any of your `trusted_domains` nor `overwrite.cli.url`. This may be the result of a server-side DNS mismatch or outbound firewall rule. Please check manually if your webserver serves `.mjs` files using the JavaScript MIME type." : "Es konnte weder über Ihre `trusted_domains` noch über `overwrite.cli.url` nach JavaScript-Unterstützung gesucht werden. Dies kann auf eine serverseitige DNS-Nichtübereinstimmung oder eine ausgehende Firewall-Regel zurückzuführen sein. Bitte überprüfen Sie manuell, ob Ihr Webserver `.mjs`-Dateien mit dem JavaScript-MIME-Typ bereitstellt.",
-    "Active accounts" : "Aktive Konten",
-    "None of your currently installed apps provide custom Text processing functionality." : "Keine Ihrer aktuell installierten Apps bietet benutzerdefinierte Textverarbeitungsfunktionen."
+    "Active accounts" : "Aktive Konten"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
