@@ -63,6 +63,10 @@ class Database extends ABackend implements
 	/**
 	 * Create a new user
 	 *
+	 * @param string $uid The username of the user to create
+	 * @param string $password The password of the new user
+	 * @return bool
+	 *
 	 * Creates a new user. Basic checking of username is done in OC_User
 	 * itself, not in its subclasses.
 	 */
@@ -97,10 +101,11 @@ class Database extends ABackend implements
 	 * delete a user
 	 *
 	 * @param string $uid The username of the user to delete
+	 * @return bool
 	 *
 	 * Deletes a user
 	 */
-	public function deleteUser($uid): bool {
+	public function deleteUser($uid) {
 		// Delete user-group-relation
 		$qb = $this->db->getQueryBuilder();
 		$qb->delete($this->table)
@@ -125,6 +130,12 @@ class Database extends ABackend implements
 	}
 
 	/**
+	 * Set password
+	 *
+	 * @param string $uid The username
+	 * @param string $password The new password
+	 * @return bool
+	 *
 	 * Change the password of a user
 	 */
 	public function setPassword(string $uid, string $password): bool {
@@ -182,6 +193,10 @@ class Database extends ABackend implements
 	/**
 	 * Set display name
 	 *
+	 * @param string $uid The username
+	 * @param string $displayName The new display name
+	 * @return bool
+	 *
 	 * @throws \InvalidArgumentException
 	 *
 	 * Change the display name of a user
@@ -210,6 +225,7 @@ class Database extends ABackend implements
 	 * get display name of the user
 	 *
 	 * @param string $uid user ID of the user
+	 * @return string display name
 	 */
 	public function getDisplayName($uid): string {
 		$uid = (string)$uid;
@@ -221,8 +237,12 @@ class Database extends ABackend implements
 	/**
 	 * Get a list of all display names and user ids.
 	 *
+	 * @param string $search
+	 * @param int|null $limit
+	 * @param int|null $offset
+	 * @return array an array of all displayNames (value) and the corresponding uids (key)
 	 */
-	public function getDisplayNames(string $search = '', ?int $limit = null, ?int $offset = null): array {
+	public function getDisplayNames($search = '', $limit = null, $offset = null) {
 		$limit = $this->fixLimit($limit);
 
 		$query = $this->db->getQueryBuilder();
@@ -253,6 +273,11 @@ class Database extends ABackend implements
 	}
 
 	/**
+	 * @param string $searcher
+	 * @param string $pattern
+	 * @param int|null $limit
+	 * @param int|null $offset
+	 * @return array
 	 * @since 21.0.1
 	 */
 	public function searchKnownUsersByDisplayName(string $searcher, string $pattern, ?int $limit = null, ?int $offset = null): array {
@@ -288,10 +313,14 @@ class Database extends ABackend implements
 	/**
 	 * Check if the password is correct
 	 *
+	 * @param string $loginName The loginname
+	 * @param string $password The password
+	 * @return string
+	 *
 	 * Check if the password is correct without logging in the user
 	 * returns the user id or false
 	 */
-	public function checkPassword(string $loginName, string $password): string {
+	public function checkPassword(string $loginName, string $password) {
 		$found = $this->loadUser($loginName);
 
 		if ($found && is_array($this->cache[$loginName])) {
@@ -311,8 +340,10 @@ class Database extends ABackend implements
 	/**
 	 * Load an user in the cache
 	 *
+	 * @param string $uid the username
+	 * @return boolean true if user was found, false otherwise
 	 */
-	private function loadUser(string $uid): bool {
+	private function loadUser($uid) {
 		$uid = (string)$uid;
 		if (!isset($this->cache[$uid])) {
 			//guests $uid could be NULL or ''
@@ -373,8 +404,9 @@ class Database extends ABackend implements
 	 * check if a user exists
 	 *
 	 * @param string $uid the username
+	 * @return boolean
 	 */
-	public function userExists($uid): bool {
+	public function userExists($uid) {
 		$this->loadUser($uid);
 		return $this->cache[$uid] !== false;
 	}
@@ -382,8 +414,10 @@ class Database extends ABackend implements
 	/**
 	 * get the user's home directory
 	 *
+	 * @param string $uid the username
+	 * @return string|false
 	 */
-	public function getHome(string $uid): string|false {
+	public function getHome(string $uid) {
 		if ($this->userExists($uid)) {
 			return \OCP\Server::get(IConfig::class)->getSystemValueString('datadirectory', \OC::$SERVERROOT . '/data') . '/' . $uid;
 		}
@@ -414,8 +448,11 @@ class Database extends ABackend implements
 
 	/**
 	 * returns the username for the given login name in the correct casing
+	 *
+	 * @param string $loginName
+	 * @return string|false
 	 */
-	public function loginName2UserName(string $loginName): string|false {
+	public function loginName2UserName($loginName) {
 		if ($this->userExists($loginName)) {
 			return $this->cache[$loginName]['uid'];
 		}
@@ -425,8 +462,10 @@ class Database extends ABackend implements
 
 	/**
 	 * Backend name to be shown in user management
+	 *
+	 * @return string the name of the backend to be shown
 	 */
-	public function getBackendName(): string {
+	public function getBackendName() {
 		return 'Database';
 	}
 
