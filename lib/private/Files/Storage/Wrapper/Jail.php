@@ -389,13 +389,6 @@ class Jail extends Wrapper {
 		return $this->getWrapperStorage()->hasUpdated($this->getUnjailedPath($path), $time);
 	}
 
-	/**
-	 * get a cache instance for the storage
-	 *
-	 * @param string $path
-	 * @param \OC\Files\Storage\Storage|null (optional) the storage to pass to the cache
-	 * @return \OC\Files\Cache\Cache
-	 */
 	public function getCache($path = '', $storage = null) {
 		$sourceCache = $this->getWrapperStorage()->getCache($this->getUnjailedPath($path));
 		return new CacheJail($sourceCache, $this->rootPath);
@@ -411,13 +404,6 @@ class Jail extends Wrapper {
 		return $this->getWrapperStorage()->getOwner($this->getUnjailedPath($path));
 	}
 
-	/**
-	 * get a watcher instance for the cache
-	 *
-	 * @param string $path
-	 * @param \OC\Files\Storage\Storage (optional) the storage to pass to the watcher
-	 * @return \OC\Files\Cache\Watcher
-	 */
 	public function getWatcher($path = '', $storage = null) {
 		$sourceWatcher = $this->getWrapperStorage()->getWatcher($this->getUnjailedPath($path), $this->getWrapperStorage());
 		return new JailWatcher($sourceWatcher, $this->rootPath);
@@ -437,30 +423,14 @@ class Jail extends Wrapper {
 		return $this->getWrapperStorage()->getMetaData($this->getUnjailedPath($path));
 	}
 
-	/**
-	 * @param string $path
-	 * @param int $type \OCP\Lock\ILockingProvider::LOCK_SHARED or \OCP\Lock\ILockingProvider::LOCK_EXCLUSIVE
-	 * @param \OCP\Lock\ILockingProvider $provider
-	 * @throws \OCP\Lock\LockedException
-	 */
 	public function acquireLock($path, $type, ILockingProvider $provider) {
 		$this->getWrapperStorage()->acquireLock($this->getUnjailedPath($path), $type, $provider);
 	}
 
-	/**
-	 * @param string $path
-	 * @param int $type \OCP\Lock\ILockingProvider::LOCK_SHARED or \OCP\Lock\ILockingProvider::LOCK_EXCLUSIVE
-	 * @param \OCP\Lock\ILockingProvider $provider
-	 */
 	public function releaseLock($path, $type, ILockingProvider $provider) {
 		$this->getWrapperStorage()->releaseLock($this->getUnjailedPath($path), $type, $provider);
 	}
 
-	/**
-	 * @param string $path
-	 * @param int $type \OCP\Lock\ILockingProvider::LOCK_SHARED or \OCP\Lock\ILockingProvider::LOCK_EXCLUSIVE
-	 * @param \OCP\Lock\ILockingProvider $provider
-	 */
 	public function changeLock($path, $type, ILockingProvider $provider) {
 		$this->getWrapperStorage()->changeLock($this->getUnjailedPath($path), $type, $provider);
 	}
