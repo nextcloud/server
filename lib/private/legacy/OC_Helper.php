@@ -541,10 +541,9 @@ class OC_Helper {
 			$relative = 0;
 		}
 
-		/** @var string $ownerId */
 		$ownerId = $storage->getOwner($path);
 		$ownerDisplayName = '';
-		if ($ownerId) {
+		if ($ownerId !== false) {
 			$ownerDisplayName = \OC::$server->getUserManager()->getDisplayName($ownerId) ?? '';
 		}
 
