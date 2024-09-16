@@ -78,6 +78,7 @@ import { getFileListHeaders, Folder, View, getFileActions, FileType } from '@nex
 import { showError } from '@nextcloud/dialogs'
 import { loadState } from '@nextcloud/initial-state'
 import { translate as t, translatePlural as n } from '@nextcloud/l10n'
+import { subscribe, unsubscribe } from '@nextcloud/event-bus'
 import { defineComponent } from 'vue'
 
 import { action as sidebarAction } from '../actions/sidebarAction.ts'
@@ -210,10 +211,20 @@ export default defineComponent({
 			this.scrollToFile(fileId, false)
 		},
 
-		openFile(open: boolean) {
-			if (open) {
-				this.$nextTick(() => this.handleOpenFile(this.fileId))
-			}
+		openFile: {
+			handler() {
+				// wait for scrolling and updating the actions to settle
+				this.$nextTick(() => {
+					if (this.fileId) {
+						if (this.openFile) {
+							this.handleOpenFile(this.fileId)
+						} else {
+							this.unselectFile()
+						}
+					}
+				})
+			},
+			immediate: true,
 		},
 	},
 
@@ -226,11 +237,15 @@ export default defineComponent({
 		this.scrollToFile(id ?? this.fileId)
 		this.openSidebarForFile(id ?? this.fileId)
 		this.handleOpenFile(id ?? null)
+
+		subscribe('files:sidebar:closed', this.unselectFile)
 	},
 
 	beforeDestroy() {
 		const mainContent = window.document.querySelector('main.app-content') as HTMLElement
 		mainContent.removeEventListener('dragover', this.onDragOver)
+
+		unsubscribe('files:sidebar:closed', this.unselectFile)
 	},
 
 	methods: {
@@ -258,15 +273,22 @@ export default defineComponent({
 			}
 		},
 
+		unselectFile() {
+			// If the Sidebar is closed and if openFile is false, remove the file id from the URL
+			if (!this.openFile && OCA.Files.Sidebar.file === '') {
+				window.OCP.Files.Router.goToRoute(
+					null,
+					{ ...this.$route.params, fileid: String(this.currentFolder.fileid ?? '') },
+					this.$route.query,
+				)
+			}
+		},
+
 		/**
 		 * Handle opening a file (e.g. by ?openfile=true)
 		 * @param fileId File to open
 		 */
 		handleOpenFile(fileId: number|null) {
-			if (!this.openFile) {
-				return
-			}
-
 			if (fileId === null || this.openFileId === fileId) {
 				return
 			}
