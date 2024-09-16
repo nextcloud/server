@@ -228,7 +228,7 @@ abstract class StoragesController extends Controller {
 				)
 			);
 		} catch (InsufficientDataForMeaningfulAnswerException $e) {
-			$status = $e->getCode() ? $e->getCode() : StorageNotAvailableException::STATUS_INDETERMINATE;
+			$status = $e->getCode() ?: StorageNotAvailableException::STATUS_INDETERMINATE;
 			$storage->setStatus(
 				(int)$status,
 				$this->l10n->t('Insufficient data: %s', [$e->getMessage()])

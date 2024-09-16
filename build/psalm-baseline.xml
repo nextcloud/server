@@ -2157,9 +2157,6 @@
     </InvalidReturnType>
   </file>
   <file src="lib/private/Files/Storage/Local.php">
-    <ImplicitToStringCast>
-      <code><![CDATA[$file]]></code>
-    </ImplicitToStringCast>
     <TypeDoesNotContainNull>
       <code><![CDATA[$space === false || is_null($space)]]></code>
       <code><![CDATA[is_null($space)]]></code>
@@ -2901,14 +2898,6 @@
     <InternalMethod>
       <code><![CDATA[new RouteConfig($this->container, $router, $routes)]]></code>
     </InternalMethod>
-  </file>
-  <file src="lib/public/AppFramework/Db/Entity.php">
-    <InvalidNullableReturnType>
-      <code><![CDATA[string]]></code>
-    </InvalidNullableReturnType>
-    <NullableReturnStatement>
-      <code><![CDATA[$column]]></code>
-    </NullableReturnStatement>
   </file>
   <file src="lib/public/AppFramework/Http/Response.php">
     <LessSpecificReturnStatement>

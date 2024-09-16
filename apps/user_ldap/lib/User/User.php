@@ -646,8 +646,7 @@ class User {
 			try {
 				$accountProperty = $account->getProperty($property);
 				$currentValue = $accountProperty->getValue();
-				$scope = ($accountProperty->getScope() ? $accountProperty->getScope()
-					: $defaultScopes[$property]);
+				$scope = ($accountProperty->getScope() ?: $defaultScopes[$property]);
 			} catch (PropertyDoesNotExistException $e) { // thrown at getProperty
 				$this->logger->error('property does not exist: '.$property
 					.' for uid='.$this->uid.'', ['app' => 'user_ldap', 'exception' => $e]);
