@@ -488,12 +488,6 @@ class SharedStorage extends \OC\Files\Storage\Wrapper\Jail implements LegacyISha
 		return true;
 	}
 
-	/**
-	 * @param string $path
-	 * @param int $type \OCP\Lock\ILockingProvider::LOCK_SHARED or \OCP\Lock\ILockingProvider::LOCK_EXCLUSIVE
-	 * @param \OCP\Lock\ILockingProvider $provider
-	 * @throws \OCP\Lock\LockedException
-	 */
 	public function acquireLock($path, $type, ILockingProvider $provider) {
 		/** @var ILockingStorage $targetStorage */
 		[$targetStorage, $targetInternalPath] = $this->resolvePath($path);
@@ -505,11 +499,6 @@ class SharedStorage extends \OC\Files\Storage\Wrapper\Jail implements LegacyISha
 		}
 	}
 
-	/**
-	 * @param string $path
-	 * @param int $type \OCP\Lock\ILockingProvider::LOCK_SHARED or \OCP\Lock\ILockingProvider::LOCK_EXCLUSIVE
-	 * @param \OCP\Lock\ILockingProvider $provider
-	 */
 	public function releaseLock($path, $type, ILockingProvider $provider) {
 		/** @var ILockingStorage $targetStorage */
 		[$targetStorage, $targetInternalPath] = $this->resolvePath($path);
@@ -521,11 +510,6 @@ class SharedStorage extends \OC\Files\Storage\Wrapper\Jail implements LegacyISha
 		}
 	}
 
-	/**
-	 * @param string $path
-	 * @param int $type \OCP\Lock\ILockingProvider::LOCK_SHARED or \OCP\Lock\ILockingProvider::LOCK_EXCLUSIVE
-	 * @param \OCP\Lock\ILockingProvider $provider
-	 */
 	public function changeLock($path, $type, ILockingProvider $provider) {
 		/** @var ILockingStorage $targetStorage */
 		[$targetStorage, $targetInternalPath] = $this->resolvePath($path);
