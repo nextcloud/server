@@ -75,7 +75,7 @@ class FixEncryptedVersionTest extends TestCase {
 	 * In this test the encrypted version of the file is less than the original value
 	 * but greater than zero
 	 */
-	public function testEncryptedVersionLessThanOriginalValue() {
+	public function testEncryptedVersionLessThanOriginalValue(): void {
 		$this->util->expects($this->once())->method('isMasterKeyEnabled')
 			->willReturn(true);
 
@@ -143,7 +143,7 @@ Fixed the file: \"/$this->userId/files/world.txt\" with version 4", $output);
 	 * In this test the encrypted version of the file is greater than the original value
 	 * but greater than zero
 	 */
-	public function testEncryptedVersionGreaterThanOriginalValue() {
+	public function testEncryptedVersionGreaterThanOriginalValue(): void {
 		$this->util->expects($this->once())->method('isMasterKeyEnabled')
 			->willReturn(true);
 
@@ -202,7 +202,7 @@ The file \"/$this->userId/files/world.txt\" is: OK
 Fixed the file: \"/$this->userId/files/world.txt\" with version 4", $output);
 	}
 
-	public function testVersionIsRestoredToOriginalIfNoFixIsFound() {
+	public function testVersionIsRestoredToOriginalIfNoFixIsFound(): void {
 		$this->util->expects($this->once())->method('isMasterKeyEnabled')
 			->willReturn(true);
 
@@ -232,7 +232,7 @@ Fixed the file: \"/$this->userId/files/world.txt\" with version 4", $output);
 		$this->assertEquals(15, $encryptedVersion);
 	}
 
-	public function testRepairUnencryptedFileWhenVersionIsSet() {
+	public function testRepairUnencryptedFileWhenVersionIsSet(): void {
 		$this->util->expects($this->once())->method('isMasterKeyEnabled')
 			->willReturn(true);
 
@@ -275,7 +275,7 @@ Fixed the file: \"/$this->userId/files/hello.txt\" with version 0 (unencrypted)"
 	/**
 	 * Test commands with a file path
 	 */
-	public function testExecuteWithFilePathOption() {
+	public function testExecuteWithFilePathOption(): void {
 		$this->util->expects($this->once())->method('isMasterKeyEnabled')
 			->willReturn(true);
 
@@ -299,7 +299,7 @@ The file \"/$this->userId/files/hello.txt\" is: OK", $output);
 	/**
 	 * Test commands with a directory path
 	 */
-	public function testExecuteWithDirectoryPathOption() {
+	public function testExecuteWithDirectoryPathOption(): void {
 		$this->util->expects($this->once())->method('isMasterKeyEnabled')
 			->willReturn(true);
 
@@ -321,7 +321,7 @@ The file \"/$this->userId/files/sub/hello.txt\" is: OK", $output);
 		$this->assertStringNotContainsString('world.txt', $output);
 	}
 
-	public function testExecuteWithNoUser() {
+	public function testExecuteWithNoUser(): void {
 		$this->util->expects($this->once())->method('isMasterKeyEnabled')
 			->willReturn(true);
 
@@ -335,7 +335,7 @@ The file \"/$this->userId/files/sub/hello.txt\" is: OK", $output);
 		$this->assertStringContainsString('Either a user id or --all needs to be provided', $output);
 	}
 
-	public function testExecuteWithBadUser() {
+	public function testExecuteWithBadUser(): void {
 		$this->util->expects($this->once())->method('isMasterKeyEnabled')
 			->willReturn(true);
 
@@ -352,7 +352,7 @@ The file \"/$this->userId/files/sub/hello.txt\" is: OK", $output);
 	/**
 	 * Test commands with a directory path
 	 */
-	public function testExecuteWithNonExistentPath() {
+	public function testExecuteWithNonExistentPath(): void {
 		$this->util->expects($this->once())->method('isMasterKeyEnabled')
 			->willReturn(true);
 
@@ -369,7 +369,7 @@ The file \"/$this->userId/files/sub/hello.txt\" is: OK", $output);
 	/**
 	 * Test commands without master key
 	 */
-	public function testExecuteWithNoMasterKey() {
+	public function testExecuteWithNoMasterKey(): void {
 		\OC::$server->getConfig()->setAppValue('encryption', 'useMasterKey', '0');
 		$this->util->expects($this->once())->method('isMasterKeyEnabled')
 			->willReturn(false);

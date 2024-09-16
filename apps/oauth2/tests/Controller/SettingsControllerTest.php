@@ -70,7 +70,7 @@ class SettingsControllerTest extends TestCase {
 
 	}
 
-	public function testAddClient() {
+	public function testAddClient(): void {
 		$this->secureRandom
 			->expects($this->exactly(2))
 			->method('generate')
@@ -117,7 +117,7 @@ class SettingsControllerTest extends TestCase {
 		], $data);
 	}
 
-	public function testDeleteClient() {
+	public function testDeleteClient(): void {
 
 		$userManager = \OC::$server->getUserManager();
 		// count other users in the db before adding our own
@@ -177,7 +177,7 @@ class SettingsControllerTest extends TestCase {
 		$user1->delete();
 	}
 
-	public function testInvalidRedirectUri() {
+	public function testInvalidRedirectUri(): void {
 		$result = $this->settingsController->addClient('test', 'invalidurl');
 
 		$this->assertEquals(Http::STATUS_BAD_REQUEST, $result->getStatus());

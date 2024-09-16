@@ -84,7 +84,7 @@ class CheckSetupControllerTest extends TestCase {
 			])->getMock();
 	}
 
-	public function testCheck() {
+	public function testCheck(): void {
 		$this->config->expects($this->any())
 			->method('getAppValue')
 			->willReturnMap([
@@ -142,7 +142,7 @@ class CheckSetupControllerTest extends TestCase {
 		$this->assertEquals($expected, $this->checkSetupController->check());
 	}
 
-	public function testRescanFailedIntegrityCheck() {
+	public function testRescanFailedIntegrityCheck(): void {
 		$this->checker
 			->expects($this->once())
 			->method('runInstanceVerification');
@@ -156,7 +156,7 @@ class CheckSetupControllerTest extends TestCase {
 		$this->assertEquals($expected, $this->checkSetupController->rescanFailedIntegrityCheck());
 	}
 
-	public function testGetFailedIntegrityCheckDisabled() {
+	public function testGetFailedIntegrityCheckDisabled(): void {
 		$this->checker
 			->expects($this->once())
 			->method('isCodeCheckEnforced')
@@ -167,7 +167,7 @@ class CheckSetupControllerTest extends TestCase {
 	}
 
 
-	public function testGetFailedIntegrityCheckFilesWithNoErrorsFound() {
+	public function testGetFailedIntegrityCheckFilesWithNoErrorsFound(): void {
 		$this->checker
 			->expects($this->once())
 			->method('isCodeCheckEnforced')
@@ -187,7 +187,7 @@ class CheckSetupControllerTest extends TestCase {
 		$this->assertEquals($expected, $this->checkSetupController->getFailedIntegrityCheckFiles());
 	}
 
-	public function testGetFailedIntegrityCheckFilesWithSomeErrorsFound() {
+	public function testGetFailedIntegrityCheckFilesWithSomeErrorsFound(): void {
 		$this->checker
 			->expects($this->once())
 			->method('isCodeCheckEnforced')

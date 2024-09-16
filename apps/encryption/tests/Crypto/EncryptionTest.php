@@ -102,7 +102,7 @@ class EncryptionTest extends TestCase {
 	/**
 	 * test if public key from one of the recipients is missing
 	 */
-	public function testEndUser1() {
+	public function testEndUser1(): void {
 		$this->sessionMock->expects($this->once())
 			->method('decryptAllModeActivated')
 			->willReturn(false);
@@ -115,7 +115,7 @@ class EncryptionTest extends TestCase {
 	 * test if public key from owner is missing
 	 *
 	 */
-	public function testEndUser2() {
+	public function testEndUser2(): void {
 		$this->sessionMock->expects($this->once())
 			->method('decryptAllModeActivated')
 			->willReturn(false);
@@ -167,7 +167,7 @@ class EncryptionTest extends TestCase {
 	/**
 	 * @dataProvider dataProviderForTestGetPathToRealFile
 	 */
-	public function testGetPathToRealFile($path, $expected) {
+	public function testGetPathToRealFile($path, $expected): void {
 		$this->assertSame($expected,
 			self::invokePrivate($this->instance, 'getPathToRealFile', [$path])
 		);
@@ -185,7 +185,7 @@ class EncryptionTest extends TestCase {
 	/**
 	 * @dataProvider dataTestBegin
 	 */
-	public function testBegin($mode, $header, $legacyCipher, $defaultCipher, $fileKey, $expected) {
+	public function testBegin($mode, $header, $legacyCipher, $defaultCipher, $fileKey, $expected): void {
 		$this->sessionMock->expects($this->once())
 			->method('decryptAllModeActivated')
 			->willReturn(false);
@@ -239,7 +239,7 @@ class EncryptionTest extends TestCase {
 	/**
 	 * test begin() if decryptAll mode was activated
 	 */
-	public function testBeginDecryptAll() {
+	public function testBeginDecryptAll(): void {
 		$path = '/user/files/foo.txt';
 		$fileKey = 'fileKey';
 
@@ -263,7 +263,7 @@ class EncryptionTest extends TestCase {
 	 * in this case we can initialize the encryption without a username/password
 	 * and continue
 	 */
-	public function testBeginInitMasterKey() {
+	public function testBeginInitMasterKey(): void {
 		$this->sessionMock->expects($this->once())
 			->method('decryptAllModeActivated')
 			->willReturn(false);
@@ -282,7 +282,7 @@ class EncryptionTest extends TestCase {
 	 * @param string $fileKey
 	 * @param boolean $expected
 	 */
-	public function testUpdate($fileKey, $expected) {
+	public function testUpdate($fileKey, $expected): void {
 		$this->keyManagerMock->expects($this->once())
 			->method('getFileKey')->willReturn($fileKey);
 
@@ -310,7 +310,7 @@ class EncryptionTest extends TestCase {
 		];
 	}
 
-	public function testUpdateNoUsers() {
+	public function testUpdateNoUsers(): void {
 		$this->invokePrivate($this->instance, 'rememberVersion', [['path' => 2]]);
 
 		$this->keyManagerMock->expects($this->never())->method('getFileKey');
@@ -329,7 +329,7 @@ class EncryptionTest extends TestCase {
 	 * Test case if the public key is missing. Nextcloud should still encrypt
 	 * the file for the remaining users
 	 */
-	public function testUpdateMissingPublicKey() {
+	public function testUpdateMissingPublicKey(): void {
 		$this->keyManagerMock->expects($this->once())
 			->method('getFileKey')->willReturn('fileKey');
 
@@ -369,7 +369,7 @@ class EncryptionTest extends TestCase {
 	 *
 	 * @dataProvider dataTestShouldEncrypt
 	 */
-	public function testShouldEncrypt($path, $shouldEncryptHomeStorage, $isHomeStorage, $expected) {
+	public function testShouldEncrypt($path, $shouldEncryptHomeStorage, $isHomeStorage, $expected): void {
 		$this->utilMock->expects($this->once())->method('shouldEncryptHomeStorage')
 			->willReturn($shouldEncryptHomeStorage);
 
@@ -402,14 +402,14 @@ class EncryptionTest extends TestCase {
 	}
 
 
-	public function testDecrypt() {
+	public function testDecrypt(): void {
 		$this->expectException(\OC\Encryption\Exceptions\DecryptionFailedException::class);
 		$this->expectExceptionMessage('Cannot decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you.');
 
 		$this->instance->decrypt('abc');
 	}
 
-	public function testPrepareDecryptAll() {
+	public function testPrepareDecryptAll(): void {
 		/** @var \Symfony\Component\Console\Input\InputInterface $input */
 		$input = $this->createMock(InputInterface::class);
 		/** @var \Symfony\Component\Console\Output\OutputInterface $output */

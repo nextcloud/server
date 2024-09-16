@@ -41,7 +41,7 @@ class ProviderTest extends TestCase {
 		$this->provider = new Provider($this->l10n, $this->urlGenerator, $this->activityManager);
 	}
 
-	public function testParseUnrelated() {
+	public function testParseUnrelated(): void {
 		$lang = 'ru';
 		$event = $this->createMock(IEvent::class);
 		$event->expects($this->once())
@@ -61,7 +61,7 @@ class ProviderTest extends TestCase {
 	/**
 	 * @dataProvider subjectData
 	 */
-	public function testParse($subject) {
+	public function testParse($subject): void {
 		$lang = 'ru';
 		$event = $this->createMock(IEvent::class);
 		$l = $this->createMock(IL10N::class);
@@ -93,7 +93,7 @@ class ProviderTest extends TestCase {
 		$this->provider->parse($lang, $event);
 	}
 
-	public function testParseInvalidSubject() {
+	public function testParseInvalidSubject(): void {
 		$lang = 'ru';
 		$l = $this->createMock(IL10N::class);
 		$event = $this->createMock(IEvent::class);

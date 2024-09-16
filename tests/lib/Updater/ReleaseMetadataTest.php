@@ -22,7 +22,7 @@ class ReleaseMetadataTest extends \Test\TestCase {
 			->getMock();
 	}
 
-	public function testDownloadMetadata() {
+	public function testDownloadMetadata(): void {
 		$client = $this->createMock(IClient::class);
 		$response = $this->createMock(IResponse::class);
 		$this->clientService->expects($this->once())
@@ -48,7 +48,7 @@ class ReleaseMetadataTest extends \Test\TestCase {
 	 * @param string $version
 	 * @param string $url
 	 */
-	public function testGetMetadata(string $version, string $url) {
+	public function testGetMetadata(string $version, string $url): void {
 		$client = $this->createMock(IClient::class);
 		$response = $this->createMock(IResponse::class);
 		$this->clientService->expects($this->once())

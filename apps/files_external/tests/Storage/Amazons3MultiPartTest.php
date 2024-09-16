@@ -40,11 +40,11 @@ class Amazons3MultiPartTest extends \Test\Files\Storage\Storage {
 		parent::tearDown();
 	}
 
-	public function testStat() {
+	public function testStat(): void {
 		$this->markTestSkipped('S3 doesn\'t update the parents folder mtime');
 	}
 
-	public function testHashInFileName() {
+	public function testHashInFileName(): void {
 		$this->markTestSkipped('Localstack has a bug with hashes in filename');
 	}
 }

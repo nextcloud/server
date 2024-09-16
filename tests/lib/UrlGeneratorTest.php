@@ -71,7 +71,7 @@ class UrlGeneratorTest extends \Test\TestCase {
 	 * test linkTo URL construction
 	 * @dataProvider provideDocRootAppUrlParts
 	 */
-	public function testLinkToDocRoot($app, $file, $args, $expectedResult) {
+	public function testLinkToDocRoot($app, $file, $args, $expectedResult): void {
 		\OC::$WEBROOT = '';
 		$result = $this->urlGenerator->linkTo($app, $file, $args);
 		$this->assertEquals($expectedResult, $result);
@@ -82,7 +82,7 @@ class UrlGeneratorTest extends \Test\TestCase {
 	 * test linkTo URL construction in sub directory
 	 * @dataProvider provideSubDirAppUrlParts
 	 */
-	public function testLinkToSubDir($app, $file, $args, $expectedResult) {
+	public function testLinkToSubDir($app, $file, $args, $expectedResult): void {
 		\OC::$WEBROOT = '/nextcloud';
 		$result = $this->urlGenerator->linkTo($app, $file, $args);
 		$this->assertEquals($expectedResult, $result);
@@ -91,7 +91,7 @@ class UrlGeneratorTest extends \Test\TestCase {
 	/**
 	 * @dataProvider provideRoutes
 	 */
-	public function testLinkToRouteAbsolute($route, $expected) {
+	public function testLinkToRouteAbsolute($route, $expected): void {
 		$this->mockBaseUrl();
 		\OC::$WEBROOT = '/nextcloud';
 		$this->router->expects($this->once())
@@ -135,7 +135,7 @@ class UrlGeneratorTest extends \Test\TestCase {
 	 * test absolute URL construction
 	 * @dataProvider provideDocRootURLs
 	 */
-	public function testGetAbsoluteURLDocRoot($url, $expectedResult) {
+	public function testGetAbsoluteURLDocRoot($url, $expectedResult): void {
 		$this->mockBaseUrl();
 		\OC::$WEBROOT = '';
 		$result = $this->urlGenerator->getAbsoluteURL($url);
@@ -147,7 +147,7 @@ class UrlGeneratorTest extends \Test\TestCase {
 	 * test absolute URL construction
 	 * @dataProvider provideSubDirURLs
 	 */
-	public function testGetAbsoluteURLSubDir($url, $expectedResult) {
+	public function testGetAbsoluteURLSubDir($url, $expectedResult): void {
 		$this->mockBaseUrl();
 		\OC::$WEBROOT = '/nextcloud';
 		$result = $this->urlGenerator->getAbsoluteURL($url);
@@ -174,7 +174,7 @@ class UrlGeneratorTest extends \Test\TestCase {
 		];
 	}
 
-	public function testGetBaseUrl() {
+	public function testGetBaseUrl(): void {
 		$this->mockBaseUrl();
 		\OC::$WEBROOT = '/nextcloud';
 		$actual = $this->urlGenerator->getBaseUrl();
@@ -182,7 +182,7 @@ class UrlGeneratorTest extends \Test\TestCase {
 		$this->assertEquals($expected, $actual);
 	}
 
-	public function testGetWebroot() {
+	public function testGetWebroot(): void {
 		\OC::$WEBROOT = '/nextcloud';
 		$actual = $this->urlGenerator->getWebroot();
 		$this->assertEquals(\OC::$WEBROOT, $actual);
@@ -234,14 +234,14 @@ class UrlGeneratorTest extends \Test\TestCase {
 			->willReturn($ignoreFrontControllerConfig);
 	}
 
-	public function testLinkToDefaultPageUrlWithRedirectUrlWithoutFrontController() {
+	public function testLinkToDefaultPageUrlWithRedirectUrlWithoutFrontController(): void {
 		$this->mockBaseUrl();
 
 		$_REQUEST['redirect_url'] = 'myRedirectUrl.com';
 		$this->assertSame('http://localhost' . \OC::$WEBROOT . '/myRedirectUrl.com', $this->urlGenerator->linkToDefaultPageUrl());
 	}
 
-	public function testLinkToDefaultPageUrlWithRedirectUrlRedirectBypassWithoutFrontController() {
+	public function testLinkToDefaultPageUrlWithRedirectUrlRedirectBypassWithoutFrontController(): void {
 		$this->mockBaseUrl();
 		$this->mockLinkToDefaultPageUrl();
 		putenv('front_controller_active=false');
@@ -250,7 +250,7 @@ class UrlGeneratorTest extends \Test\TestCase {
 		$this->assertSame('http://localhost' . \OC::$WEBROOT . '/index.php/apps/dashboard/', $this->urlGenerator->linkToDefaultPageUrl());
 	}
 
-	public function testLinkToDefaultPageUrlWithRedirectUrlRedirectBypassWithFrontController() {
+	public function testLinkToDefaultPageUrlWithRedirectUrlRedirectBypassWithFrontController(): void {
 		$this->mockBaseUrl();
 		$this->mockLinkToDefaultPageUrl();
 		putenv('front_controller_active=true');
@@ -259,7 +259,7 @@ class UrlGeneratorTest extends \Test\TestCase {
 		$this->assertSame('http://localhost' . \OC::$WEBROOT . '/apps/dashboard/', $this->urlGenerator->linkToDefaultPageUrl());
 	}
 
-	public function testLinkToDefaultPageUrlWithRedirectUrlWithIgnoreFrontController() {
+	public function testLinkToDefaultPageUrlWithRedirectUrlWithIgnoreFrontController(): void {
 		$this->mockBaseUrl();
 		$this->mockLinkToDefaultPageUrl(true);
 		putenv('front_controller_active=false');

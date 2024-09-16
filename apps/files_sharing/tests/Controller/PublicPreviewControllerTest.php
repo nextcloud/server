@@ -57,28 +57,28 @@ class PublicPreviewControllerTest extends TestCase {
 		);
 	}
 
-	public function testInvalidToken() {
+	public function testInvalidToken(): void {
 		$res = $this->controller->getPreview('', 'file', 10, 10, '');
 		$expected = new DataResponse([], Http::STATUS_BAD_REQUEST);
 
 		$this->assertEquals($expected, $res);
 	}
 
-	public function testInvalidWidth() {
+	public function testInvalidWidth(): void {
 		$res = $this->controller->getPreview('token', 'file', 0);
 		$expected = new DataResponse([], Http::STATUS_BAD_REQUEST);
 
 		$this->assertEquals($expected, $res);
 	}
 
-	public function testInvalidHeight() {
+	public function testInvalidHeight(): void {
 		$res = $this->controller->getPreview('token', 'file', 10, 0);
 		$expected = new DataResponse([], Http::STATUS_BAD_REQUEST);
 
 		$this->assertEquals($expected, $res);
 	}
 
-	public function testInvalidShare() {
+	public function testInvalidShare(): void {
 		$this->shareManager->method('getShareByToken')
 			->with($this->equalTo('token'))
 			->willThrowException(new ShareNotFound());
@@ -89,7 +89,7 @@ class PublicPreviewControllerTest extends TestCase {
 		$this->assertEquals($expected, $res);
 	}
 
-	public function testShareNotAccessable() {
+	public function testShareNotAccessable(): void {
 		$share = $this->createMock(IShare::class);
 		$this->shareManager->method('getShareByToken')
 			->with($this->equalTo('token'))
@@ -104,7 +104,7 @@ class PublicPreviewControllerTest extends TestCase {
 		$this->assertEquals($expected, $res);
 	}
 
-	public function testPreviewFile() {
+	public function testPreviewFile(): void {
 		$share = $this->createMock(IShare::class);
 		$this->shareManager->method('getShareByToken')
 			->with($this->equalTo('token'))
@@ -133,7 +133,7 @@ class PublicPreviewControllerTest extends TestCase {
 		$this->assertEquals($expected, $res);
 	}
 
-	public function testPreviewFolderInvalidFile() {
+	public function testPreviewFolderInvalidFile(): void {
 		$share = $this->createMock(IShare::class);
 		$this->shareManager->method('getShareByToken')
 			->with($this->equalTo('token'))
@@ -156,7 +156,7 @@ class PublicPreviewControllerTest extends TestCase {
 	}
 
 
-	public function testPreviewFolderValidFile() {
+	public function testPreviewFolderValidFile(): void {
 		$share = $this->createMock(IShare::class);
 		$this->shareManager->method('getShareByToken')
 			->with($this->equalTo('token'))

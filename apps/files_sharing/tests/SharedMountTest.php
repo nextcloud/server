@@ -65,7 +65,7 @@ class SharedMountTest extends TestCase {
 	/**
 	 * test if the mount point moves up if the parent folder no longer exists
 	 */
-	public function testShareMountLoseParentFolder() {
+	public function testShareMountLoseParentFolder(): void {
 
 		// share to user
 		$share = $this->share(
@@ -97,7 +97,7 @@ class SharedMountTest extends TestCase {
 	/**
 	 * @medium
 	 */
-	public function testDeleteParentOfMountPoint() {
+	public function testDeleteParentOfMountPoint(): void {
 		// share to user
 		$share = $this->share(
 			IShare::TYPE_USER,
@@ -137,7 +137,7 @@ class SharedMountTest extends TestCase {
 		$this->view->unlink($this->folder);
 	}
 
-	public function testMoveSharedFile() {
+	public function testMoveSharedFile(): void {
 		$share = $this->share(
 			IShare::TYPE_USER,
 			$this->filename,
@@ -171,7 +171,7 @@ class SharedMountTest extends TestCase {
 	 * share file with a group if a user renames the file the filename should not change
 	 * for the other users
 	 */
-	public function testMoveGroupShare() {
+	public function testMoveGroupShare(): void {
 		$testGroup = $this->groupManager->createGroup('testGroup');
 		$user1 = $this->userManager->get(self::TEST_FILES_SHARING_API_USER1);
 		$user2 = $this->userManager->get(self::TEST_FILES_SHARING_API_USER2);
@@ -223,7 +223,7 @@ class SharedMountTest extends TestCase {
 	 * @param string $expectedResult
 	 * @param bool $exception if a exception is expected
 	 */
-	public function testStripUserFilesPath($path, $expectedResult, $exception) {
+	public function testStripUserFilesPath($path, $expectedResult, $exception): void {
 		$testClass = new DummyTestClassSharedMount(null, null);
 		try {
 			$result = $testClass->stripUserFilesPathDummy($path);
@@ -252,7 +252,7 @@ class SharedMountTest extends TestCase {
 	 * If the permissions on a group share are upgraded be sure to still respect
 	 * removed shares by a member of that group
 	 */
-	public function testPermissionUpgradeOnUserDeletedGroupShare() {
+	public function testPermissionUpgradeOnUserDeletedGroupShare(): void {
 		$testGroup = $this->groupManager->createGroup('testGroup');
 		$user1 = $this->userManager->get(self::TEST_FILES_SHARING_API_USER1);
 		$user2 = $this->userManager->get(self::TEST_FILES_SHARING_API_USER2);
@@ -314,7 +314,7 @@ class SharedMountTest extends TestCase {
 	/**
 	 * test if the mount point gets renamed if a folder exists at the target
 	 */
-	public function testShareMountOverFolder() {
+	public function testShareMountOverFolder(): void {
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER2);
 		$this->view2->mkdir('bar');
 
@@ -349,7 +349,7 @@ class SharedMountTest extends TestCase {
 	/**
 	 * test if the mount point gets renamed if another share exists at the target
 	 */
-	public function testShareMountOverShare() {
+	public function testShareMountOverShare(): void {
 		// create a shared cache
 		$caches = [];
 		$cacheFactory = $this->createMock(ICacheFactory::class);

@@ -54,7 +54,7 @@ class UnshareChildrenTest extends TestCase {
 	/**
 	 * @medium
 	 */
-	public function testUnshareChildren() {
+	public function testUnshareChildren(): void {
 		$fileInfo2 = \OC\Files\Filesystem::getFileInfo($this->folder);
 
 		$this->share(

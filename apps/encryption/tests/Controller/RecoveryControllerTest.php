@@ -45,7 +45,7 @@ class RecoveryControllerTest extends TestCase {
 	 * @param $expectedMessage
 	 * @param $expectedStatus
 	 */
-	public function testAdminRecovery($recoveryPassword, $passConfirm, $enableRecovery, $expectedMessage, $expectedStatus) {
+	public function testAdminRecovery($recoveryPassword, $passConfirm, $enableRecovery, $expectedMessage, $expectedStatus): void {
 		$this->recoveryMock->expects($this->any())
 			->method('enableAdminRecovery')
 			->willReturn(true);
@@ -81,7 +81,7 @@ class RecoveryControllerTest extends TestCase {
 	 * @param $expectedMessage
 	 * @param $expectedStatus
 	 */
-	public function testChangeRecoveryPassword($password, $confirmPassword, $oldPassword, $expectedMessage, $expectedStatus) {
+	public function testChangeRecoveryPassword($password, $confirmPassword, $oldPassword, $expectedMessage, $expectedStatus): void {
 		$this->recoveryMock->expects($this->any())
 			->method('changeRecoveryKeyPassword')
 			->with($password, $oldPassword)
@@ -111,7 +111,7 @@ class RecoveryControllerTest extends TestCase {
 	 * @param $expectedMessage
 	 * @param $expectedStatus
 	 */
-	public function testUserSetRecovery($enableRecovery, $expectedMessage, $expectedStatus) {
+	public function testUserSetRecovery($enableRecovery, $expectedMessage, $expectedStatus): void {
 		$this->recoveryMock->expects($this->any())
 			->method('setRecoveryForUser')
 			->with($enableRecovery)

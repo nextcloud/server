@@ -41,7 +41,7 @@ class PHPMongoQueryTest extends TestCase {
 	/**
 	 * @dataProvider dataExecuteQuery
 	 */
-	public function testExecuteQuery(array $query, array $document, bool $matches) {
+	public function testExecuteQuery(array $query, array $document, bool $matches): void {
 		$this->assertEquals($matches, PHPMongoQuery::executeQuery($query, $document));
 	}
 }

@@ -165,7 +165,7 @@ class ShareControllerTest extends \Test\TestCase {
 		parent::tearDown();
 	}
 
-	public function testShowShareInvalidToken() {
+	public function testShowShareInvalidToken(): void {
 		$this->shareController->setToken('invalidtoken');
 
 		$this->shareManager
@@ -180,7 +180,7 @@ class ShareControllerTest extends \Test\TestCase {
 		$this->shareController->showShare();
 	}
 
-	public function testShowShareNotAuthenticated() {
+	public function testShowShareNotAuthenticated(): void {
 		$this->shareController->setToken('validtoken');
 
 		$share = \OC::$server->getShareManager()->newShare();
@@ -199,7 +199,7 @@ class ShareControllerTest extends \Test\TestCase {
 	}
 
 
-	public function testShowShare() {
+	public function testShowShare(): void {
 		$note = 'personal note';
 		$filename = 'file1.txt';
 
@@ -347,7 +347,7 @@ class ShareControllerTest extends \Test\TestCase {
 		$this->assertEquals($expectedResponse, $response);
 	}
 
-	public function testShowFileDropShare() {
+	public function testShowFileDropShare(): void {
 		$filename = 'folder1';
 
 		$this->shareController->setToken('token');
@@ -484,7 +484,7 @@ class ShareControllerTest extends \Test\TestCase {
 		$this->assertEquals($expectedResponse, $response);
 	}
 
-	public function testShowShareWithPrivateName() {
+	public function testShowShareWithPrivateName(): void {
 		$note = 'personal note';
 		$filename = 'file1.txt';
 
@@ -614,7 +614,7 @@ class ShareControllerTest extends \Test\TestCase {
 	}
 
 
-	public function testShowShareInvalid() {
+	public function testShowShareInvalid(): void {
 		$this->expectException(\OCP\Files\NotFoundException::class);
 
 		$filename = 'file1.txt';
@@ -664,7 +664,7 @@ class ShareControllerTest extends \Test\TestCase {
 		$this->shareController->showShare();
 	}
 
-	public function testDownloadShareWithCreateOnlyShare() {
+	public function testDownloadShareWithCreateOnlyShare(): void {
 		$share = $this->getMockBuilder(IShare::class)->getMock();
 		$share->method('getPassword')->willReturn('password');
 		$share
@@ -684,7 +684,7 @@ class ShareControllerTest extends \Test\TestCase {
 		$this->assertEquals($expectedResponse, $response);
 	}
 
-	public function testDisabledOwner() {
+	public function testDisabledOwner(): void {
 		$this->shareController->setToken('token');
 
 		$owner = $this->getMockBuilder(IUser::class)->getMock();
@@ -725,7 +725,7 @@ class ShareControllerTest extends \Test\TestCase {
 		$this->shareController->showShare();
 	}
 
-	public function testDisabledInitiator() {
+	public function testDisabledInitiator(): void {
 		$this->shareController->setToken('token');
 
 		$owner = $this->getMockBuilder(IUser::class)->getMock();

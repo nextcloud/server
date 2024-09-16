@@ -65,7 +65,7 @@ class UserStoragesServiceTest extends StoragesServiceTest {
 		]);
 	}
 
-	public function testAddStorage() {
+	public function testAddStorage(): void {
 		$storage = $this->makeTestStorageData();
 
 		$newStorage = $this->service->addStorage($storage);
@@ -93,7 +93,7 @@ class UserStoragesServiceTest extends StoragesServiceTest {
 		$this->assertEquals($id + 1, $nextStorage->getId());
 	}
 
-	public function testUpdateStorage() {
+	public function testUpdateStorage(): void {
 		$storage = $this->makeStorageConfig([
 			'mountPoint' => 'mountpoint',
 			'backendIdentifier' => 'identifier:\OCA\Files_External\Lib\Backend\SMB',
@@ -128,7 +128,7 @@ class UserStoragesServiceTest extends StoragesServiceTest {
 	/**
 	 * @dataProvider deleteStorageDataProvider
 	 */
-	public function testDeleteStorage($backendOptions, $rustyStorageId) {
+	public function testDeleteStorage($backendOptions, $rustyStorageId): void {
 		parent::testDeleteStorage($backendOptions, $rustyStorageId);
 
 		// hook called once for user (first one was during test creation)
@@ -141,7 +141,7 @@ class UserStoragesServiceTest extends StoragesServiceTest {
 		);
 	}
 
-	public function testHooksRenameMountPoint() {
+	public function testHooksRenameMountPoint(): void {
 		$storage = $this->makeTestStorageData();
 		$storage = $this->service->addStorage($storage);
 
@@ -170,7 +170,7 @@ class UserStoragesServiceTest extends StoragesServiceTest {
 	}
 
 
-	public function testGetAdminStorage() {
+	public function testGetAdminStorage(): void {
 		$this->expectException(\OCA\Files_External\NotFoundException::class);
 
 		$backend = $this->backendService->getBackend('identifier:\OCA\Files_External\Lib\Backend\SMB');

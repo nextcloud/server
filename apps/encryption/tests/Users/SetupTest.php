@@ -42,7 +42,7 @@ class SetupTest extends TestCase {
 	}
 
 
-	public function testSetupSystem() {
+	public function testSetupSystem(): void {
 		$this->keyManagerMock->expects($this->once())->method('validateShareKey');
 		$this->keyManagerMock->expects($this->once())->method('validateMasterKey');
 
@@ -55,7 +55,7 @@ class SetupTest extends TestCase {
 	 * @param bool $hasKeys
 	 * @param bool $expected
 	 */
-	public function testSetupUser($hasKeys, $expected) {
+	public function testSetupUser($hasKeys, $expected): void {
 		$this->keyManagerMock->expects($this->once())->method('userHasKeys')
 			->with('uid')->willReturn($hasKeys);
 

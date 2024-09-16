@@ -91,7 +91,7 @@ class PersonalTest extends TestCase {
 	 * @param string $toEnable
 	 * @param string[] $enabledThemes
 	 */
-	public function testGetForm(string $enforcedTheme, $themesState) {
+	public function testGetForm(string $enforcedTheme, $themesState): void {
 		$this->config->expects($this->once())
 			->method('getSystemValueString')
 			->with('enforce_theme', '')
@@ -125,11 +125,11 @@ class PersonalTest extends TestCase {
 		$this->assertEquals($expected, $this->admin->getForm());
 	}
 
-	public function testGetSection() {
+	public function testGetSection(): void {
 		$this->assertSame('theming', $this->admin->getSection());
 	}
 
-	public function testGetPriority() {
+	public function testGetPriority(): void {
 		$this->assertSame(40, $this->admin->getPriority());
 	}
 

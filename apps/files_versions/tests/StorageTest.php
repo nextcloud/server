@@ -55,7 +55,7 @@ class StorageTest extends TestCase {
 		$file->touch($mtime);
 	}
 
-	public function testExpireMaxAge() {
+	public function testExpireMaxAge(): void {
 		$this->userFolder->newFolder('folder1');
 		$this->userFolder->newFolder('folder1/sub1');
 		$this->userFolder->newFolder('folder2');

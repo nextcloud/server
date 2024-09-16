@@ -126,7 +126,7 @@ class ShareTest extends \Test\TestCase {
 	 * @param string $url
 	 * @param string $expectedResult
 	 */
-	public function testRemoveProtocolFromUrl($url, $expectedResult) {
+	public function testRemoveProtocolFromUrl($url, $expectedResult): void {
 		$share = new Share();
 		$result = self::invokePrivate($share, 'removeProtocolFromUrl', [$url]);
 		$this->assertSame($expectedResult, $result);
@@ -145,7 +145,7 @@ class ShareTest extends \Test\TestCase {
 	 * @param array $ungrouped
 	 * @param array $grouped
 	 */
-	public function testGroupItems($ungrouped, $grouped) {
+	public function testGroupItems($ungrouped, $grouped): void {
 		$result = DummyShareClass::groupItemsTest($ungrouped);
 
 		$this->compareArrays($grouped, $result);

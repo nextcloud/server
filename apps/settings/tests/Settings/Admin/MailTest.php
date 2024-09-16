@@ -30,7 +30,7 @@ class MailTest extends TestCase {
 		);
 	}
 
-	public function testGetForm() {
+	public function testGetForm(): void {
 		$this->config
 			->expects($this->any())
 			->method('getSystemValue')
@@ -69,11 +69,11 @@ class MailTest extends TestCase {
 		$this->assertEquals($expected, $this->admin->getForm());
 	}
 
-	public function testGetSection() {
+	public function testGetSection(): void {
 		$this->assertSame('server', $this->admin->getSection());
 	}
 
-	public function testGetPriority() {
+	public function testGetPriority(): void {
 		$this->assertSame(10, $this->admin->getPriority());
 	}
 }

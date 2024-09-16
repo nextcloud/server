@@ -67,7 +67,7 @@ class EncryptAllTest extends TestCase {
 		$this->consoleOutput = $this->getMockBuilder(OutputInterface::class)->getMock();
 	}
 
-	public function testEncryptAll() {
+	public function testEncryptAll(): void {
 		// trash bin needs to be disabled in order to avoid adding dummy files to the users
 		// trash bin which gets deleted during the encryption process
 		$this->appManager->expects($this->once())->method('disableApp')->with('files_trashbin');
@@ -89,7 +89,7 @@ class EncryptAllTest extends TestCase {
 	/**
 	 * @dataProvider dataTestExecute
 	 */
-	public function testExecute($answer, $askResult) {
+	public function testExecute($answer, $askResult): void {
 		$command = new EncryptAll($this->encryptionManager, $this->appManager, $this->config, $this->questionHelper);
 
 		$this->encryptionManager->expects($this->once())->method('isEnabled')->willReturn(true);
@@ -115,7 +115,7 @@ class EncryptAllTest extends TestCase {
 	}
 
 
-	public function testExecuteException() {
+	public function testExecuteException(): void {
 		$this->expectException(\Exception::class);
 
 		$command = new EncryptAll($this->encryptionManager, $this->appManager, $this->config, $this->questionHelper);

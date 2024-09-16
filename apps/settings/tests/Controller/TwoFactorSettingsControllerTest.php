@@ -37,7 +37,7 @@ class TwoFactorSettingsControllerTest extends TestCase {
 		);
 	}
 
-	public function testIndex() {
+	public function testIndex(): void {
 		$state = new EnforcementState(true);
 		$this->mandatoryTwoFactor->expects($this->once())
 			->method('getState')
@@ -49,7 +49,7 @@ class TwoFactorSettingsControllerTest extends TestCase {
 		$this->assertEquals($expected, $resp);
 	}
 
-	public function testUpdate() {
+	public function testUpdate(): void {
 		$state = new EnforcementState(true);
 		$this->mandatoryTwoFactor->expects($this->once())
 			->method('setState')

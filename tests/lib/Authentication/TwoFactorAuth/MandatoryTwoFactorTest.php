@@ -36,7 +36,7 @@ class MandatoryTwoFactorTest extends TestCase {
 		$this->mandatoryTwoFactor = new MandatoryTwoFactor($this->config, $this->groupManager);
 	}
 
-	public function testIsNotEnforced() {
+	public function testIsNotEnforced(): void {
 		$this->config
 			->method('getSystemValue')
 			->willReturnMap([
@@ -50,7 +50,7 @@ class MandatoryTwoFactorTest extends TestCase {
 		$this->assertFalse($state->isEnforced());
 	}
 
-	public function testIsEnforced() {
+	public function testIsEnforced(): void {
 		$this->config
 			->method('getSystemValue')
 			->willReturnMap([
@@ -64,7 +64,7 @@ class MandatoryTwoFactorTest extends TestCase {
 		$this->assertTrue($state->isEnforced());
 	}
 
-	public function testIsNotEnforcedForAnybody() {
+	public function testIsNotEnforcedForAnybody(): void {
 		$user = $this->createMock(IUser::class);
 		$user->method('getUID')->willReturn('user123');
 		$this->config
@@ -80,7 +80,7 @@ class MandatoryTwoFactorTest extends TestCase {
 		$this->assertFalse($isEnforced);
 	}
 
-	public function testIsEnforcedForAGroupMember() {
+	public function testIsEnforcedForAGroupMember(): void {
 		$user = $this->createMock(IUser::class);
 		$user->method('getUID')->willReturn('user123');
 		$this->config
@@ -100,7 +100,7 @@ class MandatoryTwoFactorTest extends TestCase {
 		$this->assertTrue($isEnforced);
 	}
 
-	public function testIsEnforcedForOtherGroups() {
+	public function testIsEnforcedForOtherGroups(): void {
 		$user = $this->createMock(IUser::class);
 		$user->method('getUID')->willReturn('user123');
 		$this->config
@@ -118,7 +118,7 @@ class MandatoryTwoFactorTest extends TestCase {
 		$this->assertFalse($isEnforced);
 	}
 
-	public function testIsEnforcedButMemberOfExcludedGroup() {
+	public function testIsEnforcedButMemberOfExcludedGroup(): void {
 		$user = $this->createMock(IUser::class);
 		$user->method('getUID')->willReturn('user123');
 		$this->config
@@ -138,7 +138,7 @@ class MandatoryTwoFactorTest extends TestCase {
 		$this->assertFalse($isEnforced);
 	}
 
-	public function testSetEnforced() {
+	public function testSetEnforced(): void {
 		$this->config
 			->expects($this->exactly(3))
 			->method('setSystemValue')
@@ -151,7 +151,7 @@ class MandatoryTwoFactorTest extends TestCase {
 		$this->mandatoryTwoFactor->setState(new EnforcementState(true));
 	}
 
-	public function testSetEnforcedForGroups() {
+	public function testSetEnforcedForGroups(): void {
 		$this->config
 			->expects($this->exactly(3))
 			->method('setSystemValue')
@@ -164,7 +164,7 @@ class MandatoryTwoFactorTest extends TestCase {
 		$this->mandatoryTwoFactor->setState(new EnforcementState(true, ['twofactorers'], ['yoloers']));
 	}
 
-	public function testSetNotEnforced() {
+	public function testSetNotEnforced(): void {
 		$this->config
 			->expects($this->exactly(3))
 			->method('setSystemValue')

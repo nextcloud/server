@@ -156,12 +156,12 @@ class ManagerTest extends TestCase {
 		$this->manager->registerDirectEditor($this->editor);
 	}
 
-	public function testEditorRegistration() {
+	public function testEditorRegistration(): void {
 		$this->assertEquals($this->manager->getEditors(), ['testeditor' => $this->editor]);
 	}
 
 
-	public function testCreateToken() {
+	public function testCreateToken(): void {
 		$expectedToken = 'TOKEN' . time();
 		$file = $this->createMock(File::class);
 		$file->expects($this->any())
@@ -186,7 +186,7 @@ class ManagerTest extends TestCase {
 		$this->assertEquals($token, $expectedToken);
 	}
 
-	public function testCreateTokenAccess() {
+	public function testCreateTokenAccess(): void {
 		$expectedToken = 'TOKEN' . time();
 		$file = $this->createMock(File::class);
 		$file->expects($this->any())
@@ -214,7 +214,7 @@ class ManagerTest extends TestCase {
 		$this->assertInstanceOf(NotFoundResponse::class, $secondResult);
 	}
 
-	public function testOpenByPath() {
+	public function testOpenByPath(): void {
 		$expectedToken = 'TOKEN' . time();
 		$file = $this->createMock(File::class);
 		$file->expects($this->any())
@@ -245,7 +245,7 @@ class ManagerTest extends TestCase {
 		$this->assertInstanceOf(NotFoundResponse::class, $secondResult);
 	}
 
-	public function testOpenById() {
+	public function testOpenById(): void {
 		$expectedToken = 'TOKEN' . time();
 		$fileRead = $this->createMock(File::class);
 		$fileRead->method('getPermissions')
@@ -294,7 +294,7 @@ class ManagerTest extends TestCase {
 		$this->assertInstanceOf(NotFoundResponse::class, $secondResult);
 	}
 
-	public function testCreateFileAlreadyExists() {
+	public function testCreateFileAlreadyExists(): void {
 		$this->expectException(\RuntimeException::class);
 		$this->userFolder
 			->method('nodeExists')

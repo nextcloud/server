@@ -15,7 +15,7 @@ class HashWrapperTest extends TestCase {
 	/**
 	 * @dataProvider hashProvider
 	 */
-	public function testHashStream($data, string $algo, string $hash) {
+	public function testHashStream($data, string $algo, string $hash): void {
 		if (!is_resource($data)) {
 			$tmpData = fopen('php://temp', 'r+');
 			if ($data !== null) {

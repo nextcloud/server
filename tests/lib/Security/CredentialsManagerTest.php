@@ -20,7 +20,7 @@ class CredentialsManagerTest extends \Test\TestCase {
 	/**
 	 * @dataProvider credentialsProvider
 	 */
-	public function testWithDB($userId, $identifier) {
+	public function testWithDB($userId, $identifier): void {
 		$credentialsManager = Server::get(ICredentialsManager::class);
 
 		$secrets = 'Open Sesame';

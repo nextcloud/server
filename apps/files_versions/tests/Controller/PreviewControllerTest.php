@@ -71,35 +71,35 @@ class PreviewControllerTest extends TestCase {
 		);
 	}
 
-	public function testInvalidFile() {
+	public function testInvalidFile(): void {
 		$res = $this->controller->getPreview('');
 		$expected = new DataResponse([], Http::STATUS_BAD_REQUEST);
 
 		$this->assertEquals($expected, $res);
 	}
 
-	public function testInvalidWidth() {
+	public function testInvalidWidth(): void {
 		$res = $this->controller->getPreview('file', 0);
 		$expected = new DataResponse([], Http::STATUS_BAD_REQUEST);
 
 		$this->assertEquals($expected, $res);
 	}
 
-	public function testInvalidHeight() {
+	public function testInvalidHeight(): void {
 		$res = $this->controller->getPreview('file', 10, 0);
 		$expected = new DataResponse([], Http::STATUS_BAD_REQUEST);
 
 		$this->assertEquals($expected, $res);
 	}
 
-	public function testInvalidVersion() {
+	public function testInvalidVersion(): void {
 		$res = $this->controller->getPreview('file', 10, 0);
 		$expected = new DataResponse([], Http::STATUS_BAD_REQUEST);
 
 		$this->assertEquals($expected, $res);
 	}
 
-	public function testValidPreview() {
+	public function testValidPreview(): void {
 		$userFolder = $this->createMock(Folder::class);
 		$userRoot = $this->createMock(Folder::class);
 
@@ -136,7 +136,7 @@ class PreviewControllerTest extends TestCase {
 		$this->assertEquals($expected, $res);
 	}
 
-	public function testVersionNotFound() {
+	public function testVersionNotFound(): void {
 		$userFolder = $this->createMock(Folder::class);
 		$userRoot = $this->createMock(Folder::class);
 

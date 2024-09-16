@@ -42,7 +42,7 @@ class SettingsControllerTest extends TestCase {
 		$this->controller = new SettingsController('twofactor_backupcodes', $this->request, $this->storage, $this->userSession);
 	}
 
-	public function testCreateCodes() {
+	public function testCreateCodes(): void {
 		$user = $this->getMockBuilder(IUser::class)->getMock();
 
 		$codes = ['a', 'b'];

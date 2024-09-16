@@ -60,7 +60,7 @@ class ChangePasswordControllerTest extends \Test\TestCase {
 		);
 	}
 
-	public function testChangePersonalPasswordWrongPassword() {
+	public function testChangePersonalPasswordWrongPassword(): void {
 		$this->userSession->expects($this->once())
 			->method('getLoginName')
 			->willReturn($this->loginName);
@@ -82,7 +82,7 @@ class ChangePasswordControllerTest extends \Test\TestCase {
 		$this->assertEquals($expects, $actual);
 	}
 
-	public function testChangePersonalPasswordCommonPassword() {
+	public function testChangePersonalPasswordCommonPassword(): void {
 		$this->userSession->expects($this->once())
 			->method('getLoginName')
 			->willReturn($this->loginName);
@@ -109,7 +109,7 @@ class ChangePasswordControllerTest extends \Test\TestCase {
 		$this->assertEquals($expects, $actual);
 	}
 
-	public function testChangePersonalPasswordNoNewPassword() {
+	public function testChangePersonalPasswordNoNewPassword(): void {
 		$this->userSession->expects($this->once())
 			->method('getLoginName')
 			->willReturn($this->loginName);
@@ -132,7 +132,7 @@ class ChangePasswordControllerTest extends \Test\TestCase {
 		$this->assertEquals($expects, $res->getData());
 	}
 
-	public function testChangePersonalPasswordCantSetPassword() {
+	public function testChangePersonalPasswordCantSetPassword(): void {
 		$this->userSession->expects($this->once())
 			->method('getLoginName')
 			->willReturn($this->loginName);
@@ -159,7 +159,7 @@ class ChangePasswordControllerTest extends \Test\TestCase {
 		$this->assertEquals($expects, $actual);
 	}
 
-	public function testChangePersonalPassword() {
+	public function testChangePersonalPassword(): void {
 		$this->userSession->expects($this->once())
 			->method('getLoginName')
 			->willReturn($this->loginName);

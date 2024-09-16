@@ -189,7 +189,7 @@ class ShareByMailProviderTest extends TestCase {
 		return $qb->getLastInsertId();
 	}
 
-	public function testGetSharesByWithResharesAndNoNode() {
+	public function testGetSharesByWithResharesAndNoNode(): void {
 		$this->addShareToDB(
 			IShare::TYPE_EMAIL,
 			'external.one@domain.tld',
@@ -236,7 +236,7 @@ class ShareByMailProviderTest extends TestCase {
 		$this->assertEquals('external.one@domain.tld', $actual[0]->getSharedWith());
 	}
 
-	public function testGetSharesByWithResharesAndNode() {
+	public function testGetSharesByWithResharesAndNode(): void {
 		$this->addShareToDB(
 			IShare::TYPE_EMAIL,
 			'external.one@domain.tld',

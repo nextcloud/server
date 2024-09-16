@@ -223,7 +223,7 @@ class ShareesAPIControllerTest extends TestCase {
 		bool $shareWithGroupOnly,
 		bool $shareeEnumeration,
 		bool $allowGroupSharing,
-	) {
+	): void {
 		$search = $getData['search'] ?? '';
 		$itemType = $getData['itemType'] ?? 'irrelevant';
 		$page = $getData['page'] ?? 1;
@@ -333,7 +333,7 @@ class ShareesAPIControllerTest extends TestCase {
 	 * @param array $getData
 	 * @param string $message
 	 */
-	public function testSearchInvalid($getData, $message) {
+	public function testSearchInvalid($getData, $message): void {
 		$page = $getData['page'] ?? 1;
 		$perPage = $getData['perPage'] ?? 200;
 
@@ -391,11 +391,11 @@ class ShareesAPIControllerTest extends TestCase {
 	 * @param string $itemType
 	 * @param bool $expected
 	 */
-	public function testIsRemoteSharingAllowed($itemType, $expected) {
+	public function testIsRemoteSharingAllowed($itemType, $expected): void {
 		$this->assertSame($expected, $this->invokePrivate($this->sharees, 'isRemoteSharingAllowed', [$itemType]));
 	}
 
-	public function testSearchSharingDisabled() {
+	public function testSearchSharingDisabled(): void {
 		$this->shareManager->expects($this->once())
 			->method('sharingDisabledForUser')
 			->with($this->uid)
@@ -412,7 +412,7 @@ class ShareesAPIControllerTest extends TestCase {
 		$this->assertInstanceOf(DataResponse::class, $this->sharees->search('', null, 1, 10, [], false));
 	}
 
-	public function testSearchNoItemType() {
+	public function testSearchNoItemType(): void {
 		$this->expectException(\OCP\AppFramework\OCS\OCSBadRequestException::class);
 		$this->expectExceptionMessage('Missing itemType');
 
@@ -434,7 +434,7 @@ class ShareesAPIControllerTest extends TestCase {
 	 * @param array $params
 	 * @param array $expected
 	 */
-	public function testGetPaginationLink($page, $scriptName, $params, $expected) {
+	public function testGetPaginationLink($page, $scriptName, $params, $expected): void {
 		$this->request->expects($this->once())
 			->method('getScriptName')
 			->willReturn($scriptName);
@@ -455,7 +455,7 @@ class ShareesAPIControllerTest extends TestCase {
 	 * @param string $scriptName
 	 * @param bool $expected
 	 */
-	public function testIsV2($scriptName, $expected) {
+	public function testIsV2($scriptName, $expected): void {
 		$this->request->expects($this->once())
 			->method('getScriptName')
 			->willReturn($scriptName);

@@ -105,31 +105,31 @@ class DarkThemeTest extends AccessibleThemeTestCase {
 	}
 
 
-	public function testGetId() {
+	public function testGetId(): void {
 		$this->assertEquals('dark', $this->theme->getId());
 	}
 
-	public function testGetType() {
+	public function testGetType(): void {
 		$this->assertEquals(ITheme::TYPE_THEME, $this->theme->getType());
 	}
 
-	public function testGetTitle() {
+	public function testGetTitle(): void {
 		$this->assertEquals('Dark theme', $this->theme->getTitle());
 	}
 
-	public function testGetEnableLabel() {
+	public function testGetEnableLabel(): void {
 		$this->assertEquals('Enable dark theme', $this->theme->getEnableLabel());
 	}
 
-	public function testGetDescription() {
+	public function testGetDescription(): void {
 		$this->assertEquals('A dark theme to ease your eyes by reducing the overall luminosity and brightness.', $this->theme->getDescription());
 	}
 
-	public function testGetMediaQuery() {
+	public function testGetMediaQuery(): void {
 		$this->assertEquals('(prefers-color-scheme: dark)', $this->theme->getMediaQuery());
 	}
 
-	public function testGetCustomCss() {
+	public function testGetCustomCss(): void {
 		$this->assertEquals('', $this->theme->getCustomCss());
 	}
 }

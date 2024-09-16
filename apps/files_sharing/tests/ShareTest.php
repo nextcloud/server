@@ -48,7 +48,7 @@ class ShareTest extends TestCase {
 		parent::tearDown();
 	}
 
-	public function testUnshareFromSelf() {
+	public function testUnshareFromSelf(): void {
 		$groupManager = \OC::$server->getGroupManager();
 		$userManager = \OC::$server->getUserManager();
 
@@ -108,7 +108,7 @@ class ShareTest extends TestCase {
 		}
 	}
 
-	public function testShareWithDifferentShareFolder() {
+	public function testShareWithDifferentShareFolder(): void {
 		$fileinfo = $this->view->getFileInfo($this->filename);
 		$folderinfo = $this->view->getFileInfo($this->folder);
 
@@ -139,7 +139,7 @@ class ShareTest extends TestCase {
 		\OC::$server->getConfig()->deleteSystemValue('share_folder');
 	}
 
-	public function testShareWithGroupUniqueName() {
+	public function testShareWithGroupUniqueName(): void {
 		$this->markTestSkipped('TODO: Disable because fails on drone');
 
 		$this->loginHelper(self::TEST_FILES_SHARING_API_USER1);
@@ -182,7 +182,7 @@ class ShareTest extends TestCase {
 	 * shared files should never have delete permissions
 	 * @dataProvider dataProviderTestFileSharePermissions
 	 */
-	public function testFileSharePermissions($permission, $expectedvalid) {
+	public function testFileSharePermissions($permission, $expectedvalid): void {
 		$pass = true;
 		try {
 			$this->share(
@@ -215,7 +215,7 @@ class ShareTest extends TestCase {
 		];
 	}
 
-	public function testFileOwner() {
+	public function testFileOwner(): void {
 		$this->share(
 			IShare::TYPE_USER,
 			$this->filename,

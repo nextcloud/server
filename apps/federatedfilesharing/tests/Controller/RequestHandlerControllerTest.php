@@ -130,7 +130,7 @@ class RequestHandlerControllerTest extends \Test\TestCase {
 		);
 	}
 
-	public function testCreateShare() {
+	public function testCreateShare(): void {
 		$this->cloudFederationFactory->expects($this->once())->method('getCloudFederationShare')
 			->with(
 				$this->user2,
@@ -160,7 +160,7 @@ class RequestHandlerControllerTest extends \Test\TestCase {
 		$this->assertInstanceOf(DataResponse::class, $result);
 	}
 
-	public function testDeclineShare() {
+	public function testDeclineShare(): void {
 		$id = 42;
 
 		$notification = [
@@ -183,7 +183,7 @@ class RequestHandlerControllerTest extends \Test\TestCase {
 	}
 
 
-	public function testAcceptShare() {
+	public function testAcceptShare(): void {
 		$id = 42;
 
 		$notification = [

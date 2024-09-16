@@ -40,7 +40,7 @@ class ListCommandTest extends TestCase {
 		$this->output = $this->createMock(OutputInterface::class);
 	}
 
-	public function testExecute() {
+	public function testExecute(): void {
 		$group1 = $this->createMock(IGroup::class);
 		$group1->method('getGID')->willReturn('group1');
 		$group2 = $this->createMock(IGroup::class);
@@ -109,7 +109,7 @@ class ListCommandTest extends TestCase {
 		$this->invokePrivate($this->command, 'execute', [$this->input, $this->output]);
 	}
 
-	public function testInfo() {
+	public function testInfo(): void {
 		$group1 = $this->createMock(IGroup::class);
 		$group1->method('getGID')->willReturn('group1');
 		$group1->method('getDisplayName')->willReturn('Group 1');

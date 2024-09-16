@@ -20,7 +20,7 @@ class DefinitionsTest extends TestCase {
 	}
 
 	
-	public function testGetDefinitionNotExisting() {
+	public function testGetDefinitionNotExisting(): void {
 		$this->expectException(\OCP\RichObjectStrings\InvalidObjectExeption::class);
 		$this->expectExceptionMessage('Object type is undefined');
 
@@ -33,7 +33,7 @@ class DefinitionsTest extends TestCase {
 	 * @param string $type
 	 * @param array $expected
 	 */
-	public function testGetDefinition($type, array $expected) {
+	public function testGetDefinition($type, array $expected): void {
 		$definitions = new Definitions();
 		$definition = $definitions->getDefinition($type);
 

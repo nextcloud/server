@@ -62,7 +62,7 @@ class OutOfOfficeEventDispatcherJobTest extends TestCase {
 		);
 	}
 
-	public function testDispatchStartEvent() {
+	public function testDispatchStartEvent(): void {
 		$this->timezoneService->method('getUserTimezone')->with('user')->willReturn('Europe/Berlin');
 
 		$absence = new Absence();
@@ -94,7 +94,7 @@ class OutOfOfficeEventDispatcherJobTest extends TestCase {
 		]);
 	}
 
-	public function testDispatchStopEvent() {
+	public function testDispatchStopEvent(): void {
 		$this->timezoneService->method('getUserTimezone')->with('user')->willReturn('Europe/Berlin');
 
 		$absence = new Absence();
@@ -126,7 +126,7 @@ class OutOfOfficeEventDispatcherJobTest extends TestCase {
 		]);
 	}
 
-	public function testDoesntDispatchUnknownEvent() {
+	public function testDoesntDispatchUnknownEvent(): void {
 		$this->timezoneService->method('getUserTimezone')->with('user')->willReturn('Europe/Berlin');
 
 		$absence = new Absence();

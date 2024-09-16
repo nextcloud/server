@@ -18,14 +18,6 @@
       <code><![CDATA[\OC]]></code>
     </UndefinedClass>
   </file>
-  <file src="lib/public/AppFramework/Db/Entity.php">
-    <InvalidNullableReturnType>
-      <code><![CDATA[string]]></code>
-    </InvalidNullableReturnType>
-    <NullableReturnStatement>
-      <code><![CDATA[$column]]></code>
-    </NullableReturnStatement>
-  </file>
   <file src="lib/public/AppFramework/Http/RedirectToDefaultAppResponse.php">
     <UndefinedClass>
       <code><![CDATA[\OC]]></code>

@@ -98,7 +98,7 @@ class DecryptAllTest extends TestCase {
 	 * @param string $user
 	 * @param bool $userExistsChecked
 	 */
-	public function testDecryptAll($prepareResult, $user, $userExistsChecked) {
+	public function testDecryptAll($prepareResult, $user, $userExistsChecked): void {
 		if ($userExistsChecked) {
 			$this->userManager->expects($this->once())->method('userExists')->willReturn(true);
 		} else {
@@ -135,7 +135,7 @@ class DecryptAllTest extends TestCase {
 	/**
 	 * test decrypt all call with a user who doesn't exists
 	 */
-	public function testDecryptAllWrongUser() {
+	public function testDecryptAllWrongUser(): void {
 		$this->userManager->expects($this->once())->method('userExists')->willReturn(false);
 		$this->outputInterface->expects($this->once())->method('writeln')
 			->with('User "user1" does not exist. Please check the username and try again');
@@ -156,7 +156,7 @@ class DecryptAllTest extends TestCase {
 	 * @dataProvider dataTrueFalse
 	 * @param bool $success
 	 */
-	public function testPrepareEncryptionModules($success) {
+	public function testPrepareEncryptionModules($success): void {
 		$user = 'user1';
 
 		$dummyEncryptionModule = $this->getMockBuilder(\OCP\Encryption\IEncryptionModule::class)
@@ -188,7 +188,7 @@ class DecryptAllTest extends TestCase {
 	/**
 	 * @dataProvider dataTestDecryptAllUsersFiles
 	 */
-	public function testDecryptAllUsersFiles($user) {
+	public function testDecryptAllUsersFiles($user): void {
 		/** @var DecryptAll | \PHPUnit\Framework\MockObject\MockObject |  $instance */
 		$instance = $this->getMockBuilder(\OC\Encryption\DecryptAll::class)
 			->setConstructorArgs(
@@ -233,7 +233,7 @@ class DecryptAllTest extends TestCase {
 		];
 	}
 
-	public function testDecryptUsersFiles() {
+	public function testDecryptUsersFiles(): void {
 		/** @var DecryptAll | \PHPUnit\Framework\MockObject\MockObject  $instance */
 		$instance = $this->getMockBuilder(\OC\Encryption\DecryptAll::class)
 			->setConstructorArgs(
@@ -308,7 +308,7 @@ class DecryptAllTest extends TestCase {
 	/**
 	 * @dataProvider dataTrueFalse
 	 */
-	public function testDecryptFile($isEncrypted) {
+	public function testDecryptFile($isEncrypted): void {
 		$path = 'test.txt';
 
 		/** @var DecryptAll | \PHPUnit\Framework\MockObject\MockObject  $instance */
@@ -348,7 +348,7 @@ class DecryptAllTest extends TestCase {
 		);
 	}
 
-	public function testDecryptFileFailure() {
+	public function testDecryptFileFailure(): void {
 		$path = 'test.txt';
 
 		/** @var DecryptAll | \PHPUnit\Framework\MockObject\MockObject  $instance */

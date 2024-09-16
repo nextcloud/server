@@ -57,7 +57,7 @@ class AuthtokensTest extends TestCase {
 		);
 	}
 
-	public function testGetForm() {
+	public function testGetForm(): void {
 		$token1 = new PublicKeyToken();
 		$token1->setId(100);
 		$token2 = new PublicKeyToken();

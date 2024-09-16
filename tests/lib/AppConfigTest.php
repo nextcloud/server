@@ -438,7 +438,7 @@ class AppConfigTest extends TestCase {
 		$this->assertSame('value', $config->getValueString('non-sensitive-app', 'non-lazy-key', 'default', lazy: true));
 	}
 
-	public function testGetValueInt() {
+	public function testGetValueInt(): void {
 		$config = $this->generateAppConfig();
 		$this->assertSame(42, $config->getValueInt('typed', 'int', 0));
 	}
@@ -448,7 +448,7 @@ class AppConfigTest extends TestCase {
 		$this->assertSame(1, $config->getValueInt('typed-1', 'int', 1));
 	}
 
-	public function testGetValueIntOnNonExistentKeyReturnsDefault() {
+	public function testGetValueIntOnNonExistentKeyReturnsDefault(): void {
 		$config = $this->generateAppConfig();
 		$this->assertSame(2, $config->getValueInt('typed', 'int-2', 2));
 	}
@@ -459,7 +459,7 @@ class AppConfigTest extends TestCase {
 		$config->getValueInt('typed', 'float');
 	}
 
-	public function testGetValueFloat() {
+	public function testGetValueFloat(): void {
 		$config = $this->generateAppConfig();
 		$this->assertSame(3.14, $config->getValueFloat('typed', 'float', 0));
 	}
@@ -469,7 +469,7 @@ class AppConfigTest extends TestCase {
 		$this->assertSame(1.11, $config->getValueFloat('typed-1', 'float', 1.11));
 	}
 
-	public function testGetValueFloatOnNonExistentKeyReturnsDefault() {
+	public function testGetValueFloatOnNonExistentKeyReturnsDefault(): void {
 		$config = $this->generateAppConfig();
 		$this->assertSame(2.22, $config->getValueFloat('typed', 'float-2', 2.22));
 	}

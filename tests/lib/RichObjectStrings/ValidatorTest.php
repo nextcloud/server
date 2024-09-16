@@ -12,7 +12,7 @@ use OCP\RichObjectStrings\InvalidObjectExeption;
 use Test\TestCase;
 
 class ValidatorTest extends TestCase {
-	public function test() {
+	public function test(): void {
 		$v = new Validator(new Definitions());
 		$v->validate('test', []);
 		$v->validate('test {string1} test {foo} test {bar}.', [

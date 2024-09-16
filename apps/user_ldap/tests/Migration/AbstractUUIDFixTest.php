@@ -48,7 +48,7 @@ abstract class AbstractUUIDFixTest extends TestCase {
 			->willReturn($this->access);
 	}
 
-	public function testRunSingleRecord() {
+	public function testRunSingleRecord(): void {
 		$args = [
 			'records' => [
 				0 => [
@@ -72,7 +72,7 @@ abstract class AbstractUUIDFixTest extends TestCase {
 		$this->job->run($args);
 	}
 
-	public function testRunValidRecord() {
+	public function testRunValidRecord(): void {
 		$correctUUID = '4355-AED3-9D73-03AD';
 		$args = [
 			'records' => [
@@ -95,7 +95,7 @@ abstract class AbstractUUIDFixTest extends TestCase {
 		$this->job->run($args);
 	}
 
-	public function testRunRemovedRecord() {
+	public function testRunRemovedRecord(): void {
 		$args = [
 			'records' => [
 				0 => [
@@ -117,7 +117,7 @@ abstract class AbstractUUIDFixTest extends TestCase {
 		$this->job->run($args);
 	}
 
-	public function testRunManyRecords() {
+	public function testRunManyRecords(): void {
 		$args = [
 			'records' => [
 				0 => [

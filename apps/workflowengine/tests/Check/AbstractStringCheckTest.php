@@ -53,7 +53,7 @@ class AbstractStringCheckTest extends \Test\TestCase {
 	 * @param string $actualValue
 	 * @param bool $expected
 	 */
-	public function testExecuteStringCheck($operation, $checkValue, $actualValue, $expected) {
+	public function testExecuteStringCheck($operation, $checkValue, $actualValue, $expected): void {
 		$check = $this->getCheckMock();
 
 		/** @var \OCA\WorkflowEngine\Check\AbstractStringCheck $check */
@@ -74,7 +74,7 @@ class AbstractStringCheckTest extends \Test\TestCase {
 	 * @param string $operator
 	 * @param string $value
 	 */
-	public function testValidateCheck($operator, $value) {
+	public function testValidateCheck($operator, $value): void {
 		$check = $this->getCheckMock();
 
 		/** @var \OCA\WorkflowEngine\Check\AbstractStringCheck $check */
@@ -99,7 +99,7 @@ class AbstractStringCheckTest extends \Test\TestCase {
 	 * @param $exceptionCode
 	 * @param $exceptionMessage
 	 */
-	public function testValidateCheckInvalid($operator, $value, $exceptionCode, $exceptionMessage) {
+	public function testValidateCheckInvalid($operator, $value, $exceptionCode, $exceptionMessage): void {
 		$check = $this->getCheckMock();
 
 		try {
@@ -125,7 +125,7 @@ class AbstractStringCheckTest extends \Test\TestCase {
 	 * @param array[] $matches
 	 * @param bool $expected
 	 */
-	public function testMatch($pattern, $subject, $matches, $expected) {
+	public function testMatch($pattern, $subject, $matches, $expected): void {
 		$check = $this->getCheckMock();
 
 		$this->invokePrivate($check, 'matches', [$matches]);

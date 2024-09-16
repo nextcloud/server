@@ -96,7 +96,7 @@ class ThemingControllerTest extends TestCase {
 	 * @param string $value
 	 * @param string $message
 	 */
-	public function testUpdateStylesheetSuccess($setting, $value, $message) {
+	public function testUpdateStylesheetSuccess($setting, $value, $message): void {
 		$this->themingDefaults
 			->expects($this->once())
 			->method('set')
@@ -147,7 +147,7 @@ class ThemingControllerTest extends TestCase {
 	 * @param string $value
 	 * @param string $message
 	 */
-	public function testUpdateStylesheetError($setting, $value, $message) {
+	public function testUpdateStylesheetError($setting, $value, $message): void {
 		$this->themingDefaults
 			->expects($this->never())
 			->method('set')
@@ -172,7 +172,7 @@ class ThemingControllerTest extends TestCase {
 		$this->assertEquals($expected, $this->themingController->updateStylesheet($setting, $value));
 	}
 
-	public function testUpdateLogoNoData() {
+	public function testUpdateLogoNoData(): void {
 		$this->request
 			->expects($this->once())
 			->method('getParam')
@@ -204,7 +204,7 @@ class ThemingControllerTest extends TestCase {
 		$this->assertEquals($expected, $this->themingController->uploadImage());
 	}
 
-	public function testUploadInvalidUploadKey() {
+	public function testUploadInvalidUploadKey(): void {
 		$this->request
 			->expects($this->once())
 			->method('getParam')
@@ -241,7 +241,7 @@ class ThemingControllerTest extends TestCase {
 	 * @test
 	 * @return void
 	 */
-	public function testUploadSVGFaviconWithoutImagemagick() {
+	public function testUploadSVGFaviconWithoutImagemagick(): void {
 		$this->imageManager
 			->method('shouldReplaceIcons')
 			->willReturn(false);
@@ -286,7 +286,7 @@ class ThemingControllerTest extends TestCase {
 		$this->assertEquals($expected, $this->themingController->uploadImage());
 	}
 
-	public function testUpdateLogoInvalidMimeType() {
+	public function testUpdateLogoInvalidMimeType(): void {
 		$this->request
 			->expects($this->once())
 			->method('getParam')
@@ -339,7 +339,7 @@ class ThemingControllerTest extends TestCase {
 	}
 
 	/** @dataProvider dataUpdateImages */
-	public function testUpdateLogoNormalLogoUpload($mimeType, $folderExists = true) {
+	public function testUpdateLogoNormalLogoUpload($mimeType, $folderExists = true): void {
 		$tmpLogo = \OC::$server->getTempManager()->getTemporaryFolder() . '/logo.svg';
 		$destination = \OC::$server->getTempManager()->getTemporaryFolder();
 
@@ -391,7 +391,7 @@ class ThemingControllerTest extends TestCase {
 	}
 
 	/** @dataProvider dataUpdateImages */
-	public function testUpdateLogoLoginScreenUpload($folderExists) {
+	public function testUpdateLogoLoginScreenUpload($folderExists): void {
 		$tmpLogo = \OC::$server->getTempManager()->getTemporaryFolder() . 'logo.png';
 
 		touch($tmpLogo);
@@ -439,7 +439,7 @@ class ThemingControllerTest extends TestCase {
 		$this->assertEquals($expected, $this->themingController->uploadImage());
 	}
 
-	public function testUpdateLogoLoginScreenUploadWithInvalidImage() {
+	public function testUpdateLogoLoginScreenUploadWithInvalidImage(): void {
 		$tmpLogo = \OC::$server->getTempManager()->getTemporaryFolder() . '/logo.svg';
 
 		touch($tmpLogo);
@@ -498,7 +498,7 @@ class ThemingControllerTest extends TestCase {
 	/**
 	 * @dataProvider dataPhpUploadErrors
 	 */
-	public function testUpdateLogoLoginScreenUploadWithInvalidImageUpload($error, $expectedErrorMessage) {
+	public function testUpdateLogoLoginScreenUploadWithInvalidImageUpload($error, $expectedErrorMessage): void {
 		$this->request
 			->expects($this->once())
 			->method('getParam')
@@ -537,7 +537,7 @@ class ThemingControllerTest extends TestCase {
 	/**
 	 * @dataProvider dataPhpUploadErrors
 	 */
-	public function testUpdateLogoUploadWithInvalidImageUpload($error, $expectedErrorMessage) {
+	public function testUpdateLogoUploadWithInvalidImageUpload($error, $expectedErrorMessage): void {
 		$this->request
 			->expects($this->once())
 			->method('getParam')
@@ -573,7 +573,7 @@ class ThemingControllerTest extends TestCase {
 		$this->assertEquals($expected, $this->themingController->uploadImage());
 	}
 
-	public function testUndo() {
+	public function testUndo(): void {
 		$this->l10n
 			->expects($this->once())
 			->method('t')
@@ -606,7 +606,7 @@ class ThemingControllerTest extends TestCase {
 	}
 
 	/** @dataProvider dataUndoDelete */
-	public function testUndoDelete($value, $filename) {
+	public function testUndoDelete($value, $filename): void {
 		$this->l10n
 			->expects($this->once())
 			->method('t')
@@ -633,7 +633,7 @@ class ThemingControllerTest extends TestCase {
 
 
 
-	public function testGetLogoNotExistent() {
+	public function testGetLogoNotExistent(): void {
 		$this->imageManager->method('getImage')
 			->with($this->equalTo('logo'))
 			->willThrowException(new NotFoundException());
@@ -642,7 +642,7 @@ class ThemingControllerTest extends TestCase {
 		$this->assertEquals($expected, $this->themingController->getImage('logo'));
 	}
 
-	public function testGetLogo() {
+	public function testGetLogo(): void {
 		$file = $this->createMock(ISimpleFile::class);
 		$file->method('getName')->willReturn('logo.svg');
 		$file->method('getMTime')->willReturn(42);
@@ -666,7 +666,7 @@ class ThemingControllerTest extends TestCase {
 	}
 
 
-	public function testGetLoginBackgroundNotExistent() {
+	public function testGetLoginBackgroundNotExistent(): void {
 		$this->imageManager->method('getImage')
 			->with($this->equalTo('background'))
 			->willThrowException(new NotFoundException());
@@ -674,7 +674,7 @@ class ThemingControllerTest extends TestCase {
 		$this->assertEquals($expected, $this->themingController->getImage('background'));
 	}
 
-	public function testGetLoginBackground() {
+	public function testGetLoginBackground(): void {
 		$file = $this->createMock(ISimpleFile::class);
 		$file->method('getName')->willReturn('background.png');
 		$file->method('getMTime')->willReturn(42);
@@ -698,7 +698,7 @@ class ThemingControllerTest extends TestCase {
 		@$this->assertEquals($expected, $this->themingController->getImage('background'));
 	}
 
-	public function testGetManifest() {
+	public function testGetManifest(): void {
 		$this->config
 			->expects($this->once())
 			->method('getAppValue')

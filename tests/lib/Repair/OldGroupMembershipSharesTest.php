@@ -51,7 +51,7 @@ class OldGroupMembershipSharesTest extends \Test\TestCase {
 		$qb->delete('share')->execute();
 	}
 
-	public function testRun() {
+	public function testRun(): void {
 		$repair = new OldGroupMembershipShares(
 			$this->connection,
 			$this->groupManager

@@ -94,7 +94,7 @@ class MailPluginTest extends TestCase {
 	 * @param array $expected
 	 * @param bool $reachedEnd
 	 */
-	public function testSearch($searchTerm, $contacts, $shareeEnumeration, $expected, $exactIdMatch, $reachedEnd, $validEmail) {
+	public function testSearch($searchTerm, $contacts, $shareeEnumeration, $expected, $exactIdMatch, $reachedEnd, $validEmail): void {
 		$this->config->expects($this->any())
 			->method('getAppValue')
 			->willReturnCallback(
@@ -577,7 +577,7 @@ class MailPluginTest extends TestCase {
 	 * @param bool $reachedEnd
 	 * @param array groups
 	 */
-	public function testSearchGroupsOnly($searchTerm, $contacts, $expected, $exactIdMatch, $reachedEnd, $userToGroupMapping, $validEmail) {
+	public function testSearchGroupsOnly($searchTerm, $contacts, $expected, $exactIdMatch, $reachedEnd, $userToGroupMapping, $validEmail): void {
 		$this->config->expects($this->any())
 			->method('getAppValue')
 			->willReturnCallback(

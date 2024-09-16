@@ -185,7 +185,7 @@ class SettingTest extends TestCase {
 	 * @param mixed $user
 	 * @param string $expectedException
 	 */
-	public function testCheckInput($arguments, $options, $parameterOptions, $user, $expectedException) {
+	public function testCheckInput($arguments, $options, $parameterOptions, $user, $expectedException): void {
 		$this->consoleInput->expects($this->any())
 			->method('getArgument')
 			->willReturnMap($arguments);
@@ -214,7 +214,7 @@ class SettingTest extends TestCase {
 		}
 	}
 
-	public function testCheckInputExceptionCatch() {
+	public function testCheckInputExceptionCatch(): void {
 		$command = $this->getCommand(['checkInput']);
 		$command->expects($this->once())
 			->method('checkInput')
@@ -244,7 +244,7 @@ class SettingTest extends TestCase {
 	 * @param string $expectedLine
 	 * @param int $expectedReturn
 	 */
-	public function testExecuteDelete($value, $errorIfNotExists, $expectedLine, $expectedReturn) {
+	public function testExecuteDelete($value, $errorIfNotExists, $expectedLine, $expectedReturn): void {
 		$command = $this->getCommand([
 			'writeArrayInOutputFormat',
 			'checkInput',
@@ -308,7 +308,7 @@ class SettingTest extends TestCase {
 	 * @param string $expectedLine
 	 * @param int $expectedReturn
 	 */
-	public function testExecuteSet($value, $updateOnly, $expectedLine, $expectedReturn) {
+	public function testExecuteSet($value, $updateOnly, $expectedLine, $expectedReturn): void {
 		$command = $this->getCommand([
 			'writeArrayInOutputFormat',
 			'checkInput',
@@ -375,7 +375,7 @@ class SettingTest extends TestCase {
 	 * @param string $expectedLine
 	 * @param int $expectedReturn
 	 */
-	public function testExecuteGet($value, $defaultValue, $expectedLine, $expectedReturn) {
+	public function testExecuteGet($value, $defaultValue, $expectedLine, $expectedReturn): void {
 		$command = $this->getCommand([
 			'writeArrayInOutputFormat',
 			'checkInput',
@@ -425,7 +425,7 @@ class SettingTest extends TestCase {
 		$this->assertEquals($expectedReturn, $this->invokePrivate($command, 'execute', [$this->consoleInput, $this->consoleOutput]));
 	}
 
-	public function testExecuteList() {
+	public function testExecuteList(): void {
 		$command = $this->getCommand([
 			'writeArrayInOutputFormat',
 			'checkInput',

@@ -102,7 +102,7 @@ class NotificationsTest extends \Test\TestCase {
 	 * @param array $httpRequestResult
 	 * @param bool $expected
 	 */
-	public function testSendUpdateToRemote($try, $httpRequestResult, $expected) {
+	public function testSendUpdateToRemote($try, $httpRequestResult, $expected): void {
 		$remote = 'http://remote';
 		$id = 42;
 		$timestamp = 63576;

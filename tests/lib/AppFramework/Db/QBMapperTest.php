@@ -108,7 +108,7 @@ class QBMapperTest extends \Test\TestCase {
 	}
 
 	
-	public function testInsertEntityParameterTypeMapping() {
+	public function testInsertEntityParameterTypeMapping(): void {
 		$entity = new QBTestEntity();
 		$entity->setIntProp(123);
 		$entity->setBoolProp(true);
@@ -145,7 +145,7 @@ class QBMapperTest extends \Test\TestCase {
 	}
 
 	
-	public function testUpdateEntityParameterTypeMapping() {
+	public function testUpdateEntityParameterTypeMapping(): void {
 		$entity = new QBTestEntity();
 		$entity->setId(789);
 		$entity->setIntProp(123);
@@ -195,7 +195,7 @@ class QBMapperTest extends \Test\TestCase {
 	}
 
 	
-	public function testGetParameterTypeForProperty() {
+	public function testGetParameterTypeForProperty(): void {
 		$entity = new QBTestEntity();
 
 		$intType = $this->mapper->getParameterTypeForPropertyForTest($entity, 'intProp');

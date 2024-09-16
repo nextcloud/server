@@ -43,7 +43,7 @@ class AddTest extends TestCase {
 		$this->output = $this->createMock(OutputInterface::class);
 	}
 
-	public function testGroupExists() {
+	public function testGroupExists(): void {
 		$gid = 'myGroup';
 		$group = $this->createMock(IGroup::class);
 		$this->groupManager->method('get')
@@ -59,7 +59,7 @@ class AddTest extends TestCase {
 		$this->invokePrivate($this->command, 'execute', [$this->input, $this->output]);
 	}
 
-	public function testAdd() {
+	public function testAdd(): void {
 		$gid = 'myGroup';
 		$group = $this->createMock(IGroup::class);
 		$group->method('getGID')

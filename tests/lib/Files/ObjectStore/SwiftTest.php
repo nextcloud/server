@@ -25,7 +25,7 @@ class SwiftTest extends ObjectStoreTest {
 		return new Swift($config['arguments']);
 	}
 
-	public function testFseekSize() {
+	public function testFseekSize(): void {
 		$this->markTestSkipped('Swift does not support seeking at the moment');
 	}
 }

@@ -14,7 +14,7 @@ use OCP\Security\FeaturePolicy\AddFeaturePolicyEvent;
 use Test\TestCase;
 
 class AddFeaturePolicyEventTest extends TestCase {
-	public function testAddEvent() {
+	public function testAddEvent(): void {
 		$manager = $this->createMock(FeaturePolicyManager::class);
 		$policy = $this->createMock(FeaturePolicy::class);
 		$event = new AddFeaturePolicyEvent($manager);

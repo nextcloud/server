@@ -13,7 +13,7 @@ class UtilTest extends \Test\TestCase {
 	 *
 	 * @param string $channel
 	 */
-	public function testOverrideChannel($channel) {
+	public function testOverrideChannel($channel): void {
 		\OCP\Util::setChannel($channel);
 		$actual = \OCP\Util::getChannel($channel);
 		$this->assertEquals($channel, $actual);

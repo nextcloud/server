@@ -10,12 +10,12 @@ use OC\App\AppStore\Version\Version;
 use Test\TestCase;
 
 class VersionTest extends TestCase {
-	public function testGetMinimumVersion() {
+	public function testGetMinimumVersion(): void {
 		$version = new Version('9', '10');
 		$this->assertSame('9', $version->getMinimumVersion());
 	}
 
-	public function testGetMaximumVersion() {
+	public function testGetMaximumVersion(): void {
 		$version = new Version('9', '10');
 		$this->assertSame('10', $version->getMaximumVersion());
 	}

@@ -59,7 +59,7 @@ class SharingCheckMiddlewareTest extends \Test\TestCase {
 			$this->request);
 	}
 
-	public function testIsSharingEnabledWithAppEnabled() {
+	public function testIsSharingEnabledWithAppEnabled(): void {
 		$this->appManager
 			->expects($this->once())
 			->method('isEnabledForUser')
@@ -69,7 +69,7 @@ class SharingCheckMiddlewareTest extends \Test\TestCase {
 		$this->assertTrue(self::invokePrivate($this->sharingCheckMiddleware, 'isSharingEnabled'));
 	}
 
-	public function testIsSharingEnabledWithAppDisabled() {
+	public function testIsSharingEnabledWithAppDisabled(): void {
 		$this->appManager
 			->expects($this->once())
 			->method('isEnabledForUser')
@@ -117,7 +117,7 @@ class SharingCheckMiddlewareTest extends \Test\TestCase {
 	/**
 	 * @dataProvider externalSharesChecksDataProvider
 	 */
-	public function testExternalSharesChecks($annotations, $config, $expectedResult) {
+	public function testExternalSharesChecks($annotations, $config, $expectedResult): void {
 		$this->reflector
 			->expects($this->atLeastOnce())
 			->method('hasAnnotation')
@@ -133,7 +133,7 @@ class SharingCheckMiddlewareTest extends \Test\TestCase {
 	/**
 	 * @dataProvider externalSharesChecksDataProvider
 	 */
-	public function testBeforeControllerWithExternalShareControllerWithSharingEnabled($annotations, $config, $noException) {
+	public function testBeforeControllerWithExternalShareControllerWithSharingEnabled($annotations, $config, $noException): void {
 		$this->appManager
 			->expects($this->once())
 			->method('isEnabledForUser')
@@ -162,7 +162,7 @@ class SharingCheckMiddlewareTest extends \Test\TestCase {
 		$this->assertNotEquals($noException, $exceptionThrown);
 	}
 
-	public function testBeforeControllerWithShareControllerWithSharingEnabled() {
+	public function testBeforeControllerWithShareControllerWithSharingEnabled(): void {
 		$share = $this->createMock(IShare::class);
 
 		$this->appManager
@@ -177,7 +177,7 @@ class SharingCheckMiddlewareTest extends \Test\TestCase {
 	}
 
 
-	public function testBeforeControllerWithSharingDisabled() {
+	public function testBeforeControllerWithSharingDisabled(): void {
 		$this->expectException(\OCP\Files\NotFoundException::class);
 		$this->expectExceptionMessage('Sharing is disabled.');
 
@@ -191,18 +191,18 @@ class SharingCheckMiddlewareTest extends \Test\TestCase {
 	}
 
 
-	public function testAfterExceptionWithRegularException() {
+	public function testAfterExceptionWithRegularException(): void {
 		$this->expectException(\Exception::class);
 		$this->expectExceptionMessage('My Exception message');
 
 		$this->sharingCheckMiddleware->afterException($this->controllerMock, 'myMethod', new \Exception('My Exception message'));
 	}
 
-	public function testAfterExceptionWithNotFoundException() {
+	public function testAfterExceptionWithNotFoundException(): void {
 		$this->assertEquals(new NotFoundResponse(), $this->sharingCheckMiddleware->afterException($this->controllerMock, 'myMethod', new NotFoundException('My Exception message')));
 	}
 
-	public function testAfterExceptionWithS2SException() {
+	public function testAfterExceptionWithS2SException(): void {
 		$this->assertEquals(new JSONResponse('My Exception message', 405), $this->sharingCheckMiddleware->afterException($this->controllerMock, 'myMethod', new S2SException('My Exception message')));
 	}
 }

@@ -102,7 +102,7 @@ class ClientFlowLoginControllerTest extends TestCase {
 		);
 	}
 
-	public function testShowAuthPickerPageNoClientOrOauthRequest() {
+	public function testShowAuthPickerPageNoClientOrOauthRequest(): void {
 		$expected = new StandaloneTemplateResponse(
 			'core',
 			'error',
@@ -121,7 +121,7 @@ class ClientFlowLoginControllerTest extends TestCase {
 		$this->assertEquals($expected, $this->clientFlowLoginController->showAuthPickerPage());
 	}
 
-	public function testShowAuthPickerPageWithOcsHeader() {
+	public function testShowAuthPickerPageWithOcsHeader(): void {
 		$this->request
 			->method('getHeader')
 			->withConsecutive(
@@ -183,7 +183,7 @@ class ClientFlowLoginControllerTest extends TestCase {
 		$this->assertEquals($expected, $this->clientFlowLoginController->showAuthPickerPage());
 	}
 
-	public function testShowAuthPickerPageWithOauth() {
+	public function testShowAuthPickerPageWithOauth(): void {
 		$this->request
 			->method('getHeader')
 			->withConsecutive(
@@ -253,7 +253,7 @@ class ClientFlowLoginControllerTest extends TestCase {
 		$this->assertEquals($expected, $this->clientFlowLoginController->showAuthPickerPage('MyClientIdentifier'));
 	}
 
-	public function testGenerateAppPasswordWithInvalidToken() {
+	public function testGenerateAppPasswordWithInvalidToken(): void {
 		$this->session
 			->expects($this->once())
 			->method('get')
@@ -276,7 +276,7 @@ class ClientFlowLoginControllerTest extends TestCase {
 		$this->assertEquals($expected, $this->clientFlowLoginController->generateAppPassword('MyStateToken'));
 	}
 
-	public function testGenerateAppPasswordWithSessionNotAvailableException() {
+	public function testGenerateAppPasswordWithSessionNotAvailableException(): void {
 		$this->session
 			->expects($this->once())
 			->method('get')
@@ -296,7 +296,7 @@ class ClientFlowLoginControllerTest extends TestCase {
 		$this->assertEquals($expected, $this->clientFlowLoginController->generateAppPassword('MyStateToken'));
 	}
 
-	public function testGenerateAppPasswordWithInvalidTokenException() {
+	public function testGenerateAppPasswordWithInvalidTokenException(): void {
 		$this->session
 			->expects($this->once())
 			->method('get')
@@ -321,7 +321,7 @@ class ClientFlowLoginControllerTest extends TestCase {
 		$this->assertEquals($expected, $this->clientFlowLoginController->generateAppPassword('MyStateToken'));
 	}
 
-	public function testGeneratePasswordWithPassword() {
+	public function testGeneratePasswordWithPassword(): void {
 		$this->session
 			->expects($this->once())
 			->method('get')
@@ -405,7 +405,7 @@ class ClientFlowLoginControllerTest extends TestCase {
 	 * ["https://example.com/redirect.php?hello=world", "https://example.com/redirect.php?hello=world&state=MyOauthState&code=MyAccessCode"]
 	 *
 	 */
-	public function testGeneratePasswordWithPasswordForOauthClient($redirectUri, $redirectUrl) {
+	public function testGeneratePasswordWithPasswordForOauthClient($redirectUri, $redirectUrl): void {
 		$this->session
 			->method('get')
 			->withConsecutive(
@@ -490,7 +490,7 @@ class ClientFlowLoginControllerTest extends TestCase {
 		$this->assertEquals($expected, $this->clientFlowLoginController->generateAppPassword('MyStateToken', 'MyClientIdentifier'));
 	}
 
-	public function testGeneratePasswordWithoutPassword() {
+	public function testGeneratePasswordWithoutPassword(): void {
 		$this->session
 			->expects($this->once())
 			->method('get')
@@ -621,7 +621,7 @@ class ClientFlowLoginControllerTest extends TestCase {
 	 * @param string $protocol
 	 * @param string $expected
 	 */
-	public function testGeneratePasswordWithHttpsProxy(array $headers, $protocol, $expected) {
+	public function testGeneratePasswordWithHttpsProxy(array $headers, $protocol, $expected): void {
 		$this->session
 			->expects($this->once())
 			->method('get')

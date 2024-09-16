@@ -61,7 +61,7 @@ class LockingTest extends TestCase {
 	}
 
 
-	public function testLockAsRecipient() {
+	public function testLockAsRecipient(): void {
 		$this->expectException(\OCP\Lock\LockedException::class);
 
 		$this->loginAsUser($this->ownerUid);
@@ -73,7 +73,7 @@ class LockingTest extends TestCase {
 		Filesystem::rename('/foo', '/asd');
 	}
 
-	public function testUnLockAsRecipient() {
+	public function testUnLockAsRecipient(): void {
 		$this->loginAsUser($this->ownerUid);
 
 		Filesystem::initMountPoints($this->recipientUid);
@@ -84,7 +84,7 @@ class LockingTest extends TestCase {
 		$this->assertTrue(Filesystem::rename('/foo', '/asd'));
 	}
 
-	public function testChangeLock() {
+	public function testChangeLock(): void {
 		Filesystem::initMountPoints($this->recipientUid);
 		$recipientView = new View('/' . $this->recipientUid . '/files');
 		$recipientView->lockFile('bar.txt', ILockingProvider::LOCK_SHARED);

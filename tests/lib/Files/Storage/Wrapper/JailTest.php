@@ -37,12 +37,12 @@ class JailTest extends \Test\Files\Storage\Storage {
 		parent::tearDown();
 	}
 
-	public function testMkDirRooted() {
+	public function testMkDirRooted(): void {
 		$this->instance->mkdir('bar');
 		$this->assertTrue($this->sourceStorage->is_dir('foo/bar'));
 	}
 
-	public function testFilePutContentsRooted() {
+	public function testFilePutContentsRooted(): void {
 		$this->instance->file_put_contents('bar', 'asd');
 		$this->assertEquals('asd', $this->sourceStorage->file_get_contents('foo/bar'));
 	}

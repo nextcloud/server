@@ -60,7 +60,7 @@ class StatusControllerTest extends TestCase {
 	 * @param string $status
 	 * @param string $expectedStatus
 	 */
-	public function testGetStatus($status, $expectedStatus) {
+	public function testGetStatus($status, $expectedStatus): void {
 		$this->sessionMock->expects($this->once())
 			->method('getStatus')->willReturn($status);
 		$result = $this->controller->getStatus();

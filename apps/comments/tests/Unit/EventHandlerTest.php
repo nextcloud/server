@@ -36,7 +36,7 @@ class EventHandlerTest extends TestCase {
 		$this->eventHandler = new CommentsEventListener($this->activityListener, $this->notificationListener);
 	}
 
-	public function testNotFiles() {
+	public function testNotFiles(): void {
 		/** @var IComment|\PHPUnit\Framework\MockObject\MockObject $comment */
 		$comment = $this->getMockBuilder(IComment::class)->getMock();
 		$comment->expects($this->once())
@@ -69,7 +69,7 @@ class EventHandlerTest extends TestCase {
 	 * @dataProvider handledProvider
 	 * @param string $eventType
 	 */
-	public function testHandled($eventType) {
+	public function testHandled($eventType): void {
 		/** @var IComment|\PHPUnit\Framework\MockObject\MockObject $comment */
 		$comment = $this->getMockBuilder(IComment::class)->getMock();
 		$comment->expects($this->once())

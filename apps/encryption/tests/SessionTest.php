@@ -21,7 +21,7 @@ class SessionTest extends TestCase {
 	private $sessionMock;
 
 
-	public function testThatGetPrivateKeyThrowsExceptionWhenNotSet() {
+	public function testThatGetPrivateKeyThrowsExceptionWhenNotSet(): void {
 		$this->expectException(\OCA\Encryption\Exceptions\PrivateKeyMissingException::class);
 		$this->expectExceptionMessage('Private Key missing for user: please try to log-out and log-in again');
 
@@ -31,7 +31,7 @@ class SessionTest extends TestCase {
 	/**
 	 * @depends testThatGetPrivateKeyThrowsExceptionWhenNotSet
 	 */
-	public function testSetAndGetPrivateKey() {
+	public function testSetAndGetPrivateKey(): void {
 		$this->instance->setPrivateKey('dummyPrivateKey');
 		$this->assertEquals('dummyPrivateKey', $this->instance->getPrivateKey());
 	}
@@ -39,7 +39,7 @@ class SessionTest extends TestCase {
 	/**
 	 * @depends testSetAndGetPrivateKey
 	 */
-	public function testIsPrivateKeySet() {
+	public function testIsPrivateKeySet(): void {
 		$this->instance->setPrivateKey('dummyPrivateKey');
 		$this->assertTrue($this->instance->isPrivateKeySet());
 
@@ -50,21 +50,21 @@ class SessionTest extends TestCase {
 		self::$tempStorage['privateKey'] = 'dummyPrivateKey';
 	}
 
-	public function testDecryptAllModeActivated() {
+	public function testDecryptAllModeActivated(): void {
 		$this->instance->prepareDecryptAll('user1', 'usersKey');
 		$this->assertTrue($this->instance->decryptAllModeActivated());
 		$this->assertSame('user1', $this->instance->getDecryptAllUid());
 		$this->assertSame('usersKey', $this->instance->getDecryptAllKey());
 	}
 
-	public function testDecryptAllModeDeactivated() {
+	public function testDecryptAllModeDeactivated(): void {
 		$this->assertFalse($this->instance->decryptAllModeActivated());
 	}
 
 	/**
 	 * @expectExceptionMessage 'Please activate decrypt all mode first'
 	 */
-	public function testGetDecryptAllUidException() {
+	public function testGetDecryptAllUidException(): void {
 		$this->expectException(\Exception::class);
 
 		$this->instance->getDecryptAllUid();
@@ -73,7 +73,7 @@ class SessionTest extends TestCase {
 	/**
 	 * @expectExceptionMessage 'No uid found while in decrypt all mode'
 	 */
-	public function testGetDecryptAllUidException2() {
+	public function testGetDecryptAllUidException2(): void {
 		$this->expectException(\Exception::class);
 
 		$this->instance->prepareDecryptAll(null, 'key');
@@ -83,7 +83,7 @@ class SessionTest extends TestCase {
 	/**
 	 * @expectExceptionMessage 'Please activate decrypt all mode first'
 	 */
-	public function testGetDecryptAllKeyException() {
+	public function testGetDecryptAllKeyException(): void {
 		$this->expectException(\OCA\Encryption\Exceptions\PrivateKeyMissingException::class);
 
 		$this->instance->getDecryptAllKey();
@@ -92,7 +92,7 @@ class SessionTest extends TestCase {
 	/**
 	 * @expectExceptionMessage 'No key found while in decrypt all mode'
 	 */
-	public function testGetDecryptAllKeyException2() {
+	public function testGetDecryptAllKeyException2(): void {
 		$this->expectException(\OCA\Encryption\Exceptions\PrivateKeyMissingException::class);
 
 		$this->instance->prepareDecryptAll('user', null);
@@ -100,7 +100,7 @@ class SessionTest extends TestCase {
 	}
 
 
-	public function testSetAndGetStatusWillSetAndReturn() {
+	public function testSetAndGetStatusWillSetAndReturn(): void {
 		// Check if get status will return 0 if it has not been set before
 		$this->assertEquals(0, $this->instance->getStatus());
 
@@ -120,7 +120,7 @@ class SessionTest extends TestCase {
 	 * @param int $status
 	 * @param bool $expected
 	 */
-	public function testIsReady($status, $expected) {
+	public function testIsReady($status, $expected): void {
 		/** @var Session | \PHPUnit\Framework\MockObject\MockObject $instance */
 		$instance = $this->getMockBuilder(Session::class)
 			->setConstructorArgs([$this->sessionMock])
@@ -167,7 +167,7 @@ class SessionTest extends TestCase {
 	}
 
 
-	public function testClearWillRemoveValues() {
+	public function testClearWillRemoveValues(): void {
 		$this->instance->setPrivateKey('privateKey');
 		$this->instance->setStatus('initStatus');
 		$this->instance->prepareDecryptAll('user', 'key');

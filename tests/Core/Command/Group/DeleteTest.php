@@ -36,7 +36,7 @@ class DeleteTest extends TestCase {
 		$this->output = $this->createMock(OutputInterface::class);
 	}
 
-	public function testDoesNotExists() {
+	public function testDoesNotExists(): void {
 		$gid = 'myGroup';
 		$this->input->method('getArgument')
 			->willReturnCallback(function ($arg) use ($gid) {
@@ -58,7 +58,7 @@ class DeleteTest extends TestCase {
 		$this->invokePrivate($this->command, 'execute', [$this->input, $this->output]);
 	}
 
-	public function testDeleteAdmin() {
+	public function testDeleteAdmin(): void {
 		$gid = 'admin';
 		$this->input->method('getArgument')
 			->willReturnCallback(function ($arg) use ($gid) {
@@ -77,7 +77,7 @@ class DeleteTest extends TestCase {
 		$this->invokePrivate($this->command, 'execute', [$this->input, $this->output]);
 	}
 
-	public function testDeleteFailed() {
+	public function testDeleteFailed(): void {
 		$gid = 'myGroup';
 		$this->input->method('getArgument')
 			->willReturnCallback(function ($arg) use ($gid) {
@@ -103,7 +103,7 @@ class DeleteTest extends TestCase {
 		$this->invokePrivate($this->command, 'execute', [$this->input, $this->output]);
 	}
 
-	public function testDelete() {
+	public function testDelete(): void {
 		$gid = 'myGroup';
 		$this->input->method('getArgument')
 			->willReturnCallback(function ($arg) use ($gid) {

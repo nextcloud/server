@@ -52,7 +52,7 @@ class AjaxControllerTest extends TestCase {
 		parent::setUp();
 	}
 
-	public function testGetSshKeys() {
+	public function testGetSshKeys(): void {
 		$this->rsa
 			->expects($this->once())
 			->method('createKey')
@@ -73,7 +73,7 @@ class AjaxControllerTest extends TestCase {
 		$this->assertEquals($expected, $this->ajaxController->getSshKeys());
 	}
 
-	public function testSaveGlobalCredentialsAsAdminForAnotherUser() {
+	public function testSaveGlobalCredentialsAsAdminForAnotherUser(): void {
 		$user = $this->createMock(IUser::class);
 		$user
 			->expects($this->once())
@@ -90,7 +90,7 @@ class AjaxControllerTest extends TestCase {
 		$this->assertSame(false, $this->ajaxController->saveGlobalCredentials('UidOfTestUser', 'test', 'password'));
 	}
 
-	public function testSaveGlobalCredentialsAsAdminForSelf() {
+	public function testSaveGlobalCredentialsAsAdminForSelf(): void {
 		$user = $this->createMock(IUser::class);
 		$user
 			->expects($this->once())
@@ -108,7 +108,7 @@ class AjaxControllerTest extends TestCase {
 		$this->assertSame(true, $this->ajaxController->saveGlobalCredentials('MyAdminUid', 'test', 'password'));
 	}
 
-	public function testSaveGlobalCredentialsAsNormalUserForSelf() {
+	public function testSaveGlobalCredentialsAsNormalUserForSelf(): void {
 		$user = $this->createMock(IUser::class);
 		$user
 			->method('getUID')
@@ -123,7 +123,7 @@ class AjaxControllerTest extends TestCase {
 		$this->assertSame(true, $this->ajaxController->saveGlobalCredentials('MyUserUid', 'test', 'password'));
 	}
 
-	public function testSaveGlobalCredentialsAsNormalUserForAnotherUser() {
+	public function testSaveGlobalCredentialsAsNormalUserForAnotherUser(): void {
 		$user = $this->createMock(IUser::class);
 		$user
 			->method('getUID')

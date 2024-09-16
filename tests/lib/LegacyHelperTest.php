@@ -26,7 +26,7 @@ class LegacyHelperTest extends \Test\TestCase {
 	/**
 	 * @dataProvider humanFileSizeProvider
 	 */
-	public function testHumanFileSize($expected, $input) {
+	public function testHumanFileSize($expected, $input): void {
 		$result = OC_Helper::humanFileSize($input);
 		$this->assertEquals($expected, $result);
 	}
@@ -46,7 +46,7 @@ class LegacyHelperTest extends \Test\TestCase {
 	/**
 	 * @dataProvider providesComputerFileSize
 	 */
-	public function testComputerFileSize($expected, $input) {
+	public function testComputerFileSize($expected, $input): void {
 		$result = OC_Helper::computerFileSize($input);
 		$this->assertEquals($expected, $result);
 	}
@@ -62,7 +62,7 @@ class LegacyHelperTest extends \Test\TestCase {
 		];
 	}
 
-	public function testMb_array_change_key_case() {
+	public function testMb_array_change_key_case(): void {
 		$arrayStart = [
 			'Foo' => 'bar',
 			'Bar' => 'foo',
@@ -88,7 +88,7 @@ class LegacyHelperTest extends \Test\TestCase {
 		$this->assertEquals($result, $expected);
 	}
 
-	public function testRecursiveArraySearch() {
+	public function testRecursiveArraySearch(): void {
 		$haystack = [
 			'Foo' => 'own',
 			'Bar' => 'Cloud',
@@ -102,7 +102,7 @@ class LegacyHelperTest extends \Test\TestCase {
 		$this->assertFalse($result);
 	}
 
-	public function testBuildNotExistingFileNameForView() {
+	public function testBuildNotExistingFileNameForView(): void {
 		$viewMock = $this->createMock(View::class);
 		$this->assertEquals('/filename', OC_Helper::buildNotExistingFileNameForView('/', 'filename', $viewMock));
 		$this->assertEquals('dir/filename.ext', OC_Helper::buildNotExistingFileNameForView('dir', 'filename.ext', $viewMock));
@@ -205,7 +205,7 @@ class LegacyHelperTest extends \Test\TestCase {
 	/**
 	 * @dataProvider streamCopyDataProvider
 	 */
-	public function testStreamCopy($expectedCount, $expectedResult, $source, $target) {
+	public function testStreamCopy($expectedCount, $expectedResult, $source, $target): void {
 		if (is_string($source)) {
 			$source = fopen($source, 'r');
 		}
@@ -239,7 +239,7 @@ class LegacyHelperTest extends \Test\TestCase {
 	/**
 	 * Tests recursive folder deletion with rmdirr()
 	 */
-	public function testRecursiveFolderDeletion() {
+	public function testRecursiveFolderDeletion(): void {
 		$baseDir = \OC::$server->getTempManager()->getTemporaryFolder() . '/';
 		mkdir($baseDir . 'a/b/c/d/e', 0777, true);
 		mkdir($baseDir . 'a/b/c1/d/e', 0777, true);

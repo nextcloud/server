@@ -48,7 +48,7 @@ class DIIntergrationTests extends TestCase {
 		$this->container = new DIContainer('App1', [], $this->server);
 	}
 
-	public function testInjectFromServer() {
+	public function testInjectFromServer(): void {
 		$this->server->registerService(Interface1::class, function () {
 			return new ClassA1();
 		});
@@ -64,7 +64,7 @@ class DIIntergrationTests extends TestCase {
 		$this->assertSame(ClassA1::class, get_class($res->interface1));
 	}
 
-	public function testInjectDepFromServer() {
+	public function testInjectDepFromServer(): void {
 		$this->server->registerService(Interface1::class, function () {
 			return new ClassA1();
 		});
@@ -80,7 +80,7 @@ class DIIntergrationTests extends TestCase {
 		$this->assertSame(ClassA1::class, get_class($res->interface1));
 	}
 
-	public function testOverwriteDepFromServer() {
+	public function testOverwriteDepFromServer(): void {
 		$this->server->registerService(Interface1::class, function () {
 			return new ClassA1();
 		});
@@ -100,7 +100,7 @@ class DIIntergrationTests extends TestCase {
 		$this->assertSame(ClassA2::class, get_class($res->interface1));
 	}
 
-	public function testIgnoreOverwriteInServerClass() {
+	public function testIgnoreOverwriteInServerClass(): void {
 		$this->server->registerService(Interface1::class, function () {
 			return new ClassA1();
 		});

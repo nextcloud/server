@@ -48,7 +48,7 @@ class WebhookListenerMapperTest extends TestCase {
 		$query->delete(WebhookListenerMapper::TABLE_NAME)->executeStatement();
 	}
 
-	public function testInsertListenerWithNotSupportedEvent() {
+	public function testInsertListenerWithNotSupportedEvent(): void {
 		$this->expectException(\UnexpectedValueException::class);
 		$listener1 = $this->mapper->addWebhookListener(
 			null,
@@ -64,7 +64,7 @@ class WebhookListenerMapperTest extends TestCase {
 		);
 	}
 
-	public function testInsertListenerAndGetIt() {
+	public function testInsertListenerAndGetIt(): void {
 		$listener1 = $this->mapper->addWebhookListener(
 			null,
 			'bob',
@@ -84,7 +84,7 @@ class WebhookListenerMapperTest extends TestCase {
 		$this->assertEquals($listener1, $listener2);
 	}
 
-	public function testInsertListenerAndGetItByUri() {
+	public function testInsertListenerAndGetItByUri(): void {
 		$uri = 'https://webhook.example.com/endpoint';
 		$listener1 = $this->mapper->addWebhookListener(
 			null,
@@ -105,7 +105,7 @@ class WebhookListenerMapperTest extends TestCase {
 		$this->assertContains($listener1->getId(), array_map(fn ($listener) => $listener->getId(), $listeners));
 	}
 
-	public function testInsertListenerAndGetItWithAuthData() {
+	public function testInsertListenerAndGetItWithAuthData(): void {
 		$listener1 = $this->mapper->addWebhookListener(
 			null,
 			'bob',
@@ -125,7 +125,7 @@ class WebhookListenerMapperTest extends TestCase {
 		$this->assertEquals($listener1, $listener2);
 	}
 
-	public function testInsertListenerAndGetItByEventAndUser() {
+	public function testInsertListenerAndGetItByEventAndUser(): void {
 		$listener1 = $this->mapper->addWebhookListener(
 			null,
 			'bob',

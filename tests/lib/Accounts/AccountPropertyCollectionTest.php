@@ -40,7 +40,7 @@ class AccountPropertyCollectionTest extends TestCase {
 		return $mock;
 	}
 
-	public function testSetAndGetProperties() {
+	public function testSetAndGetProperties(): void {
 		$propsBefore = $this->collection->getProperties();
 		$this->assertIsArray($propsBefore);
 		$this->assertEmpty($propsBefore);
@@ -57,7 +57,7 @@ class AccountPropertyCollectionTest extends TestCase {
 		$this->assertCount(count($props), $propsAfter);
 	}
 
-	public function testSetPropertiesMixedInvalid() {
+	public function testSetPropertiesMixedInvalid(): void {
 		$props = [
 			$this->makePropertyMock(self::COLLECTION_NAME),
 			$this->makePropertyMock('sneaky_property'),
@@ -68,7 +68,7 @@ class AccountPropertyCollectionTest extends TestCase {
 		$this->collection->setProperties($props);
 	}
 
-	public function testAddProperty() {
+	public function testAddProperty(): void {
 		$props = [
 			$this->makePropertyMock(self::COLLECTION_NAME),
 			$this->makePropertyMock(self::COLLECTION_NAME),
@@ -84,7 +84,7 @@ class AccountPropertyCollectionTest extends TestCase {
 		$this->assertNotFalse(array_search($additionalProperty, $propsAfter, true));
 	}
 
-	public function testAddPropertyInvalid() {
+	public function testAddPropertyInvalid(): void {
 		$props = [
 			$this->makePropertyMock(self::COLLECTION_NAME),
 			$this->makePropertyMock(self::COLLECTION_NAME),
@@ -106,7 +106,7 @@ class AccountPropertyCollectionTest extends TestCase {
 		}
 	}
 
-	public function testRemoveProperty() {
+	public function testRemoveProperty(): void {
 		$additionalProperty = $this->makePropertyMock(self::COLLECTION_NAME);
 		$props = [
 			$this->makePropertyMock(self::COLLECTION_NAME),
@@ -125,7 +125,7 @@ class AccountPropertyCollectionTest extends TestCase {
 		$this->assertFalse(array_search($additionalProperty, $propsAfter, true));
 	}
 
-	public function testRemovePropertyNotFound() {
+	public function testRemovePropertyNotFound(): void {
 		$additionalProperty = $this->makePropertyMock(self::COLLECTION_NAME);
 		$props = [
 			$this->makePropertyMock(self::COLLECTION_NAME),
@@ -142,7 +142,7 @@ class AccountPropertyCollectionTest extends TestCase {
 		$this->assertCount(count($propsBefore), $propsAfter);
 	}
 
-	public function testRemovePropertyByValue() {
+	public function testRemovePropertyByValue(): void {
 		$additionalProperty = $this->makePropertyMock(self::COLLECTION_NAME);
 		$additionalProperty->expects($this->any())
 			->method('getValue')
@@ -169,7 +169,7 @@ class AccountPropertyCollectionTest extends TestCase {
 		$this->assertFalse(array_search($additionalPropertyTwo, $propsAfter, true));
 	}
 
-	public function testRemovePropertyByValueNotFound() {
+	public function testRemovePropertyByValueNotFound(): void {
 		$additionalProperty = $this->makePropertyMock(self::COLLECTION_NAME);
 		$additionalProperty->expects($this->any())
 			->method('getValue')

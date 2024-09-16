@@ -39,7 +39,7 @@ class ConnectionTest extends \Test\TestCase {
 			->willReturn(true);
 	}
 
-	public function testOriginalAgentUnchangedOnClone() {
+	public function testOriginalAgentUnchangedOnClone(): void {
 		//background: upon login a bind is done with the user credentials
 		//which is valid for the whole LDAP resource. It needs to be reset
 		//to the agent's credentials
@@ -66,7 +66,7 @@ class ConnectionTest extends \Test\TestCase {
 		$this->assertSame($agentPawd, $agent['ldapAgentPassword']);
 	}
 
-	public function testUseBackupServer() {
+	public function testUseBackupServer(): void {
 		$mainHost = 'ldap://nixda.ldap';
 		$backupHost = 'ldap://fallback.ldap';
 		$config = [
@@ -125,7 +125,7 @@ class ConnectionTest extends \Test\TestCase {
 		$this->connection->init();
 	}
 
-	public function testDontUseBackupServerOnFailedAuth() {
+	public function testDontUseBackupServerOnFailedAuth(): void {
 		$mainHost = 'ldap://nixda.ldap';
 		$backupHost = 'ldap://fallback.ldap';
 		$config = [
@@ -172,7 +172,7 @@ class ConnectionTest extends \Test\TestCase {
 		$this->connection->init();
 	}
 
-	public function testBindWithInvalidCredentials() {
+	public function testBindWithInvalidCredentials(): void {
 		// background: Bind with invalid credentials should return false
 		// and not throw a ServerNotAvailableException.
 
@@ -217,7 +217,7 @@ class ConnectionTest extends \Test\TestCase {
 		}
 	}
 
-	public function testStartTlsNegotiationFailure() {
+	public function testStartTlsNegotiationFailure(): void {
 		// background: If Start TLS negotiation fails,
 		// a ServerNotAvailableException should be thrown.
 

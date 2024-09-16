@@ -20,7 +20,7 @@ class QueryLoggerTest extends TestCase {
 		$this->logger = new QueryLogger();
 	}
 
-	public function testQueryLogger() {
+	public function testQueryLogger(): void {
 		// Module is not activated and this should not be logged
 		$this->logger->startQuery('SELECT', ['testuser', 'count'], ['string', 'int']);
 		$this->logger->stopQuery();

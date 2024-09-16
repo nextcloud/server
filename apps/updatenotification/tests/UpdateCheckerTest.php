@@ -29,7 +29,7 @@ class UpdateCheckerTest extends TestCase {
 		$this->updateChecker = new UpdateChecker($this->updater, $this->changesChecker);
 	}
 
-	public function testGetUpdateStateWithUpdateAndInvalidLink() {
+	public function testGetUpdateStateWithUpdateAndInvalidLink(): void {
 		$this->updater
 			->expects($this->once())
 			->method('check')
@@ -53,7 +53,7 @@ class UpdateCheckerTest extends TestCase {
 		$this->assertSame($expected, $this->updateChecker->getUpdateState());
 	}
 
-	public function testGetUpdateStateWithUpdateAndValidLink() {
+	public function testGetUpdateStateWithUpdateAndValidLink(): void {
 		$changes = [
 			'changelog' => 'https://nextcloud.com/changelog/#123-0-0',
 			'whatsNew' => [
@@ -101,7 +101,7 @@ class UpdateCheckerTest extends TestCase {
 		$this->assertSame($expected, $this->updateChecker->getUpdateState());
 	}
 
-	public function testGetUpdateStateWithoutUpdate() {
+	public function testGetUpdateStateWithoutUpdate(): void {
 		$this->updater
 			->expects($this->once())
 			->method('check')

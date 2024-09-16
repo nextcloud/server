@@ -44,7 +44,7 @@ class InMemoryFileTest extends TestCase {
 	 *
 	 * @return void
 	 */
-	public function testPutContent() {
+	public function testPutContent(): void {
 		$this->testPdf->putContent('test');
 		self::assertEquals('test', $this->testPdf->getContent());
 	}
@@ -54,7 +54,7 @@ class InMemoryFileTest extends TestCase {
 	 *
 	 * @return void
 	 */
-	public function testDelete() {
+	public function testDelete(): void {
 		$this->testPdf->delete();
 		// assert true, otherwise phpunit complains about not doing any assert
 		self::assertTrue(true);
@@ -65,7 +65,7 @@ class InMemoryFileTest extends TestCase {
 	 *
 	 * @return void
 	 */
-	public function testGetName() {
+	public function testGetName(): void {
 		self::assertEquals('test.pdf', $this->testPdf->getName());
 	}
 
@@ -74,7 +74,7 @@ class InMemoryFileTest extends TestCase {
 	 *
 	 * @return void
 	 */
-	public function testGetSize() {
+	public function testGetSize(): void {
 		self::assertEquals(7083, $this->testPdf->getSize());
 	}
 
@@ -83,7 +83,7 @@ class InMemoryFileTest extends TestCase {
 	 *
 	 * @return void
 	 */
-	public function testGetContent() {
+	public function testGetContent(): void {
 		self::assertEquals(
 			file_get_contents(__DIR__ . '/../../../data/test.pdf'),
 			$this->testPdf->getContent()
@@ -95,7 +95,7 @@ class InMemoryFileTest extends TestCase {
 	 *
 	 * @return void
 	 */
-	public function testGetMTime() {
+	public function testGetMTime(): void {
 		self::assertTrue(is_int($this->testPdf->getMTime()));
 	}
 
@@ -104,7 +104,7 @@ class InMemoryFileTest extends TestCase {
 	 *
 	 * @return void
 	 */
-	public function testGetMimeType() {
+	public function testGetMimeType(): void {
 		self::assertEquals('application/pdf', $this->testPdf->getMimeType());
 	}
 
@@ -114,7 +114,7 @@ class InMemoryFileTest extends TestCase {
 	 *
 	 * @return void
 	 */
-	public function testRead() {
+	public function testRead(): void {
 		self::expectException(NotPermittedException::class);
 		$this->testPdf->read();
 	}
@@ -124,7 +124,7 @@ class InMemoryFileTest extends TestCase {
 	 *
 	 * @return void
 	 */
-	public function testWrite() {
+	public function testWrite(): void {
 		self::expectException(NotPermittedException::class);
 		$this->testPdf->write();
 	}

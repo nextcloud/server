@@ -69,7 +69,7 @@ class CleanTagsTest extends \Test\TestCase {
 			->execute();
 	}
 
-	public function testRun() {
+	public function testRun(): void {
 		$cat1 = $this->addTagCategory('TestRepairCleanTags', 'files'); // Retained
 		$cat2 = $this->addTagCategory('TestRepairCleanTags2', 'files'); // Deleted: Category will be empty
 		$this->addTagCategory('TestRepairCleanTags3', 'files'); // Deleted: Category is empty

@@ -53,7 +53,7 @@ class GlobalStoragesControllerTest extends StoragesControllerTest {
 		);
 	}
 
-	public function testAddLocalStorageWhenDisabled() {
+	public function testAddLocalStorageWhenDisabled(): void {
 		$this->controller = $this->createController(false);
 		parent::testAddLocalStorageWhenDisabled();
 	}
