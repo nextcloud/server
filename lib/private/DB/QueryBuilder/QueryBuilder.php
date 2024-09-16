@@ -560,7 +560,7 @@ class QueryBuilder implements IQueryBuilder {
 		return $this;
 	}
 
-	private function addOutputColumns(array $columns) {
+	private function addOutputColumns(array $columns): void {
 		foreach ($columns as $column) {
 			if (is_array($column)) {
 				$this->addOutputColumns($column);
@@ -1370,11 +1370,11 @@ class QueryBuilder implements IQueryBuilder {
 		return $this->connection->escapeLikeParameter($parameter);
 	}
 
-	public function hintShardKey(string $column, mixed $value, bool $overwrite = false) {
+	public function hintShardKey(string $column, mixed $value, bool $overwrite = false): self {
 		return $this;
 	}
 
-	public function runAcrossAllShards() {
+	public function runAcrossAllShards(): self {
 		// noop
 		return $this;
 	}

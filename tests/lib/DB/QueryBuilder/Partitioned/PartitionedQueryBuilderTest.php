@@ -51,7 +51,7 @@ class PartitionedQueryBuilderTest extends TestCase {
 		}
 	}
 
-	private function setupFileCache() {
+	private function setupFileCache(): void {
 		$this->cleanupDb();
 		$query = $this->getQueryBuilder();
 		$query->insert('storages')
@@ -92,7 +92,7 @@ class PartitionedQueryBuilderTest extends TestCase {
 		$query->executeStatement();
 	}
 
-	private function cleanupDb() {
+	private function cleanupDb(): void {
 		$query = $this->getQueryBuilder();
 		$query->delete('storages')
 			->where($query->expr()->gt('numeric_id', $query->createNamedParameter(1000000, IQueryBuilder::PARAM_INT)));
