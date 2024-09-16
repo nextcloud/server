@@ -173,8 +173,8 @@ class NullStorage extends Common {
 		return true;
 	}
 
-	public function getOwner($path) {
-		return null;
+	public function getOwner($path): string|false {
+		return false;
 	}
 
 	public function getCache($path = '', $storage = null) {

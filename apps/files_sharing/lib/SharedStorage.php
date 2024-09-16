@@ -469,7 +469,7 @@ class SharedStorage extends \OC\Files\Storage\Wrapper\Jail implements ISharedSto
 		return new \OCA\Files_Sharing\Scanner($storage);
 	}
 
-	public function getOwner($path): string {
+	public function getOwner($path): string|false {
 		return $this->superShare->getShareOwner();
 	}
 
