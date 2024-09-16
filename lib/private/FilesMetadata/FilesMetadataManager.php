@@ -104,7 +104,7 @@ class FilesMetadataManager implements IFilesMetadataManager {
 				return $this->refreshMetadata($node, self::PROCESS_BACKGROUND);
 			}
 
-			$this->jobList->add(UpdateSingleMetadata::class, [$node->getOwner()->getUID(), $node->getId()]);
+			$this->jobList->add(UpdateSingleMetadata::class, [$node->getOwner()?->getUID(), $node->getId()]);
 		}
 
 		return $metadata;
