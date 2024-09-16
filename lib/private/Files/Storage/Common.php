@@ -326,11 +326,12 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 		if (!$storage) {
 			$storage = $this;
 		}
-		/** @psalm-suppress NoInterfaceProperties The isset check is safe */
+		if (!$storage->instanceOfStorage(self::class)) {
+			throw new \InvalidArgumentException('Storage is not of the correct class');
+		}
 		if (!isset($storage->scanner)) {
 			$storage->scanner = new Scanner($storage);
 		}
-		/** @psalm-suppress NoInterfaceProperties Legacy stuff */
 		return $storage->scanner;
 	}
 
@@ -356,12 +357,13 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 		if (!$storage) {
 			$storage = $this;
 		}
-		/** @psalm-suppress NoInterfaceProperties The isset check is safe */
+		if (!$storage->instanceOfStorage(self::class)) {
+			throw new \InvalidArgumentException('Storage is not of the correct class');
+		}
 		if (!isset($storage->propagator)) {
 			$config = \OC::$server->getSystemConfig();
 			$storage->propagator = new Propagator($storage, \OC::$server->getDatabaseConnection(), ['appdata_' . $config->getValue('instanceid')]);
 		}
-		/** @psalm-suppress NullableReturnStatement False-positive, as the if above avoids this being null */
 		return $storage->propagator;
 	}
 
@@ -375,11 +377,12 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 		if (!$storage) {
 			$storage = $this;
 		}
-		/** @psalm-suppress NoInterfaceProperties The isset check is safe */
+		if (!$storage->instanceOfStorage(self::class)) {
+			throw new \InvalidArgumentException('Storage is not of the correct class');
+		}
 		if (!isset($storage->updater)) {
 			$storage->updater = new Updater($storage);
 		}
-		/** @psalm-suppress NullableReturnStatement False-positive, as the if above avoids this being null */
 		return $storage->updater;
 	}
 
