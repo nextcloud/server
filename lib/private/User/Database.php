@@ -371,8 +371,9 @@ class Database extends ABackend implements
 	/**
 	 * check if a user exists
 	 *
+	 * @param string $uid the username
 	 */
-	public function userExists(string $uid): bool {
+	public function userExists($uid): bool {
 		$this->loadUser($uid);
 		return $this->cache[$uid] !== false;
 	}
