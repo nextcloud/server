@@ -370,13 +370,7 @@ class Jail extends Wrapper {
 		return new CacheJail($sourceCache, $this->rootPath);
 	}
 
-	/**
-	 * get the user id of the owner of a file or folder
-	 *
-	 * @param string $path
-	 * @return string
-	 */
-	public function getOwner($path) {
+	public function getOwner($path): string|false {
 		return $this->getWrapperStorage()->getOwner($this->getUnjailedPath($path));
 	}
 

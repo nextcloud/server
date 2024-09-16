@@ -219,7 +219,7 @@ class NullStorageTest extends TestCase {
 	}
 
 	public function testGetOwner(): void {
-		$this->assertNull($this->storage->getOwner('foo'));
+		$this->assertFalse($this->storage->getOwner('foo'));
 	}
 
 	public function testGetCache(): void {

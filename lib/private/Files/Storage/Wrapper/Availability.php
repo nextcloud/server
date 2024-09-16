@@ -373,12 +373,12 @@ class Availability extends Wrapper {
 		}
 	}
 
-	/** {@inheritdoc} */
-	public function getOwner($path) {
+	public function getOwner($path): string|false {
 		try {
 			return parent::getOwner($path);
 		} catch (StorageNotAvailableException $e) {
 			$this->setUnavailable($e);
+			return false;
 		}
 	}
 
