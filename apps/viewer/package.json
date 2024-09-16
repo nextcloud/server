@@ -53,7 +53,7 @@
     "@nextcloud/paths": "^2.2.1",
     "@nextcloud/router": "^3.0.1",
     "@nextcloud/typings": "^1.9.1",
-    "@nextcloud/vue": "^8.17.1",
+    "@nextcloud/vue": "^8.18.0",
     "@skjnldsv/vue-plyr": "^7.5.0",
     "camelcase": "^8.0.0",
     "debounce": "^2.1.1",
