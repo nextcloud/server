@@ -6,6 +6,7 @@
 <template>
 	<li class="template-picker__item">
 		<input :id="id"
+			ref="input"
 			:checked="checked"
 			type="radio"
 			class="radio"
@@ -123,6 +124,9 @@ export default {
 		},
 		onFailure() {
 			this.failedPreview = true
+		},
+		focus() {
+			this.$refs.input?.focus()
 		},
 	},
 }

@@ -48,6 +48,7 @@ OC.L10N.register(
     "Nextcloud workflow engine" : "Nextcloud 工作流引擎",
     "Select a filter" : "选择一个过滤器",
     "Select a comparator" : "选择一个比较器",
+    "Remove filter" : "移除过滤条件",
     "Select a file type" : "选择一个文件类型",
     "e.g. httpd/unix-directory" : "例如： httpd/unix-directory",
     "Folder" : "文件夹",

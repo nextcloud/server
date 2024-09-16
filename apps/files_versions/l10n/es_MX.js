@@ -13,6 +13,7 @@ OC.L10N.register(
     "Initial version" : "Versión inicial",
     "Version name" : "Nombre de la versión",
     "Named versions are persisted, and excluded from automatic cleanups when your storage quota is full." : "Las versiones con nombre se conservan y se excluyen de las limpiezas automáticas cuando su cuota de almacenamiento alcanzó el límite.",
+    "Cancel" : "Cancelar",
     "Remove version name" : "Eliminar el nombre de la versión",
     "Save version name" : "Guardar el nombre de la versión",
     "Initial version restored" : "Versión inicial restaurada",
@@ -20,7 +21,6 @@ OC.L10N.register(
     "Could not restore version" : "No se pudo restaurar la versión",
     "Could not set version label" : "No se pudo establecer la etiqueta de la versión",
     "Could not delete version" : "No se pudo eliminar la versión",
-    "${version.label} restored" : "${version.label} restaurada",
-    "Could not set version name" : "No se pudo establecer el nombre de la versión"
+    "${version.label} restored" : "${version.label} restaurada"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

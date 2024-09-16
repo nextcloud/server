@@ -38,7 +38,7 @@ class PasswordTest extends TestCase {
 		);
 	}
 
-	public function testGetForm() {
+	public function testGetForm(): void {
 		$user = $this->createMock(IUser::class);
 		$this->userManager->expects($this->once())
 			->method('get')

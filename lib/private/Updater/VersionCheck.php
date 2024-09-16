@@ -61,7 +61,7 @@ class VersionCheck {
 		$version['php_minor'] = PHP_MINOR_VERSION;
 		$version['php_release'] = PHP_RELEASE_VERSION;
 		$version['category'] = $this->computeCategory();
-		$version['isSubscriber'] = (int) $this->registry->delegateHasValidSubscription();
+		$version['isSubscriber'] = (int)$this->registry->delegateHasValidSubscription();
 		$versionString = implode('x', $version);
 
 		//fetch xml data from updater

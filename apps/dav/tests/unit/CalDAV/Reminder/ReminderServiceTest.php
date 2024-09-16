@@ -35,13 +35,13 @@ class ReminderServiceTest extends TestCase {
 	/** @var IUserManager|MockObject */
 	private $userManager;
 
-	/** @var IGroupManager|MockObject*/
+	/** @var IGroupManager|MockObject */
 	private $groupManager;
 
 	/** @var CalDavBackend|MockObject */
 	private $caldavBackend;
 
-	/** @var ITimeFactory|MockObject  */
+	/** @var ITimeFactory|MockObject */
 	private $timeFactory;
 
 	/** @var IConfig|MockObject */
@@ -427,7 +427,7 @@ EOD;
 		$this->reminderService->onCalendarObjectCreate($objectData);
 	}
 
-	public function testOnCalendarObjectCreateAllDayWithoutTimezone(): void {
+	public function testOnCalendarObjectCreateAllDayWithNullTimezone(): void {
 		$objectData = [
 			'calendardata' => self::CALENDAR_DATA_ALL_DAY,
 			'id' => '42',
@@ -443,6 +443,33 @@ EOD;
 			->with(1337)
 			->willReturn([
 				'{urn:ietf:params:xml:ns:caldav}calendar-timezone' => null,
+			]);
+
+		// One hour before midnight relative to the server's time
+		$expectedReminderTimstamp = (new DateTime('2023-02-03T23:00:00'))->getTimestamp();
+		$this->backend->expects(self::once())
+			->method('insertReminder')
+			->with(1337, 42, self::anything(), false, 1675468800, false, self::anything(), self::anything(), 'EMAIL', true, $expectedReminderTimstamp, false);
+
+		$this->reminderService->onCalendarObjectCreate($objectData);
+	}
+
+	public function testOnCalendarObjectCreateAllDayWithBlankTimezone(): void {
+		$objectData = [
+			'calendardata' => self::CALENDAR_DATA_ALL_DAY,
+			'id' => '42',
+			'calendarid' => '1337',
+			'component' => 'vevent',
+		];
+		$this->timeFactory->expects($this->once())
+			->method('getDateTime')
+			->with()
+			->willReturn(DateTime::createFromFormat(DateTime::ATOM, '2023-02-03T13:28:00+00:00'));
+		$this->caldavBackend->expects(self::once())
+			->method('getCalendarById')
+			->with(1337)
+			->willReturn([
+				'{urn:ietf:params:xml:ns:caldav}calendar-timezone' => '',
 			]);
 
 		// One hour before midnight relative to the server's time

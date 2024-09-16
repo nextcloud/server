@@ -26,7 +26,7 @@ class WrapperTest extends \Test\Files\Storage\Storage {
 		parent::tearDown();
 	}
 
-	public function testInstanceOfStorageWrapper() {
+	public function testInstanceOfStorageWrapper(): void {
 		$this->assertTrue($this->instance->instanceOfStorage('\OC\Files\Storage\Local'));
 		$this->assertTrue($this->instance->instanceOfStorage('\OC\Files\Storage\Wrapper\Wrapper'));
 	}

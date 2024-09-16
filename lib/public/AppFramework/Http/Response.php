@@ -111,8 +111,8 @@ class Response {
 	 * @param string $name The name of the cookie
 	 * @param string $value The value of the cookie
 	 * @param \DateTime|null $expireDate Date on that the cookie should expire, if set
-	 * 									to null cookie will be considered as session
-	 * 									cookie.
+	 *                                   to null cookie will be considered as session
+	 *                                   cookie.
 	 * @param string $sameSite The samesite value of the cookie. Defaults to Lax. Other possibilities are Strict or None
 	 * @return $this
 	 * @since 8.0.0
@@ -289,7 +289,7 @@ class Response {
 	/**
 	 * Get the currently used Content-Security-Policy
 	 * @return EmptyContentSecurityPolicy|null Used Content-Security-Policy or null if
-	 *                                    none specified.
+	 *                                         none specified.
 	 * @since 8.1.0
 	 */
 	public function getContentSecurityPolicy() {

@@ -22,7 +22,7 @@ interface IStorageFactory {
 	 * @param string $wrapperName
 	 * @param callable $callback
 	 * @return bool true if the wrapper was added, false if there was already a wrapper with this
-	 * name registered
+	 *              name registered
 	 * @since 8.0.0
 	 */
 	public function addStorageWrapper($wrapperName, $callback);

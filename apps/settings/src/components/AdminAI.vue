@@ -3,7 +3,35 @@
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 <template>
-	<div>
+	<div class="ai-settings">
+		<NcSettingsSection :name="t('settings', 'Unified task processing')"
+			:description="t('settings', 'AI tasks can be implemented by different apps. Here you can set which app should be used for which task.')">
+			<template v-for="type in taskProcessingTaskTypes">
+				<div :key="type">
+					<h3>{{ t('settings', 'Task:') }} {{ type.name }}</h3>
+					<p>{{ type.description }}</p>
+					<p>&nbsp;</p>
+					<NcSelect v-model="settings['ai.taskprocessing_provider_preferences'][type.id]"
+						class="provider-select"
+						:clearable="false"
+						:options="taskProcessingProviders.filter(p => p.taskType === type.id).map(p => p.id)"
+						@input="saveChanges">
+						<template #option="{label}">
+							{{ taskProcessingProviders.find(p => p.id === label)?.name }}
+						</template>
+						<template #selected-option="{label}">
+							{{ taskProcessingProviders.find(p => p.id === label)?.name }}
+						</template>
+					</NcSelect>
+					<p>&nbsp;</p>
+				</div>
+			</template>
+			<template v-if="!hasTaskProcessing">
+				<NcNoteCard type="info">
+					{{ t('settings', 'None of your currently installed apps provide Task processing functionality') }}
+				</NcNoteCard>
+			</template>
+		</NcSettingsSection>
 		<NcSettingsSection :name="t('settings', 'Machine translation')"
 			:description="t('settings', 'Machine translation can be implemented by different apps. Here you can define the precedence of the machine translation apps you have installed at the moment.')">
 			<draggable v-model="settings['ai.translation_provider_preferences']" @change="saveChanges">
@@ -21,24 +49,6 @@
 					</NcButton>
 				</div>
 			</draggable>
-		</NcSettingsSection>
-		<NcSettingsSection :name="t('settings', 'Speech-To-Text')"
-			:description="t('settings', 'Speech-To-Text can be implemented by different apps. Here you can set which app should be used.')">
-			<template v-for="provider in sttProviders">
-				<NcCheckboxRadioSwitch :key="provider.class"
-					:checked.sync="settings['ai.stt_provider']"
-					:value="provider.class"
-					name="stt_provider"
-					type="radio"
-					@update:checked="saveChanges">
-					{{ provider.name }}
-				</NcCheckboxRadioSwitch>
-			</template>
-			<template v-if="!hasStt">
-				<NcNoteCard type="info">
-					{{ t('settings', 'None of your currently installed apps provide Speech-To-Text functionality') }}
-				</NcNoteCard>
-			</template>
 		</NcSettingsSection>
 		<NcSettingsSection :name="t('settings', 'Image generation')"
 			:description="t('settings', 'Image generation can be implemented by different apps. Here you can set which app should be used.')">
@@ -62,10 +72,11 @@
 			:description="t('settings', 'Text processing tasks can be implemented by different apps. Here you can set which app should be used for which task.')">
 			<template v-for="type in tpTaskTypes">
 				<div :key="type">
-					<h3>{{ t('settings', 'Task:') }} {{ getTaskType(type).name }}</h3>
-					<p>{{ getTaskType(type).description }}</p>
+					<h3>{{ t('settings', 'Task:') }} {{ getTextProcessingTaskType(type).name }}</h3>
+					<p>{{ getTextProcessingTaskType(type).description }}</p>
 					<p>&nbsp;</p>
 					<NcSelect v-model="settings['ai.textprocessing_provider_preferences'][type]"
+						class="provider-select"
 						:clearable="false"
 						:options="textProcessingProviders.filter(p => p.taskType === type).map(p => p.class)"
 						@input="saveChanges">
@@ -79,9 +90,10 @@
 					<p>&nbsp;</p>
 				</div>
 			</template>
-			<template v-if="!hasTextProcessing">
+			<template v-if="tpTaskTypes.length === 0">
 				<NcNoteCard type="info">
-					{{ t('settings', 'None of your currently installed apps provide Text processing functionality') }}
+					<!-- TRANSLATORS Text processing is the name of a Nextcloud-internal API -->
+					{{ t('settings', 'None of your currently installed apps provide text processing functionality using the Text Processing API.') }}
 				</NcNoteCard>
 			</template>
 		</NcSettingsSection>
@@ -127,21 +139,31 @@ export default {
 			textProcessingProviders: loadState('settings', 'ai-text-processing-providers'),
 			textProcessingTaskTypes: loadState('settings', 'ai-text-processing-task-types'),
 			text2imageProviders: loadState('settings', 'ai-text2image-providers'),
+			taskProcessingProviders: loadState('settings', 'ai-task-processing-providers'),
+			taskProcessingTaskTypes: loadState('settings', 'ai-task-processing-task-types'),
 			settings: loadState('settings', 'ai-settings'),
 		}
 	},
 	computed: {
-		hasStt() {
-			return this.sttProviders.length > 0
-		},
 		hasTextProcessing() {
 			return Object.keys(this.settings['ai.textprocessing_provider_preferences']).length > 0 && Array.isArray(this.textProcessingTaskTypes)
 		},
 		tpTaskTypes() {
-			return Object.keys(this.settings['ai.textprocessing_provider_preferences']).filter(type => !!this.getTaskType(type))
+			const builtinTextProcessingTypes = [
+				'OCP\\TextProcessing\\FreePromptTaskType',
+				'OCP\\TextProcessing\\HeadlineTaskType',
+				'OCP\\TextProcessing\\SummaryTaskType',
+				'OCP\\TextProcessing\\TopicsTaskType',
+			]
+			return Object.keys(this.settings['ai.textprocessing_provider_preferences'])
+				.filter(type => !!this.getTextProcessingTaskType(type))
+				.filter(type => !builtinTextProcessingTypes.includes(type))
 		},
 		hasText2ImageProviders() {
 		  return this.text2imageProviders.length > 0
+		},
+		hasTaskProcessing() {
+			return Object.keys(this.settings['ai.taskprocessing_provider_preferences']).length > 0 && Array.isArray(this.taskProcessingTaskTypes)
 		},
 	},
 	methods: {
@@ -171,7 +193,7 @@ export default {
 			}
 			this.loading = false
 		},
-		getTaskType(type) {
+		getTextProcessingTaskType(type) {
 		  if (!Array.isArray(this.textProcessingTaskTypes)) {
 				return null
 			}
@@ -197,10 +219,18 @@ export default {
 	border: 2px solid var(--color-primary-element);
 	color: var(--color-primary-element);
 	padding: 0px 7px;
-	margin-right: 3px;
+	margin-inline-end: 3px;
 }
 
 .drag-vertical-icon {
   float: left;
+}
+
+.ai-settings h3 {
+	font-size: 16px; /* to offset against the 20px section heading */
+}
+
+.provider-select {
+	min-width: 350px !important;
 }
 </style>

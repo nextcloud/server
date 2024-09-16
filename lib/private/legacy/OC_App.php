@@ -45,8 +45,7 @@ class OC_App {
 	 * @psalm-taint-escape html
 	 * @psalm-taint-escape has_quotes
 	 *
-	 * @param string $app AppId that needs to be cleaned
-	 * @return string
+	 * @deprecated 31.0.0 use IAppManager::cleanAppId
 	 */
 	public static function cleanAppId(string $app): string {
 		return str_replace(['<', '>', '"', "'", '\0', '/', '\\', '..'], '', $app);
@@ -171,7 +170,7 @@ class OC_App {
 	 *
 	 * @param bool $forceRefresh whether to refresh the cache
 	 * @param bool $all whether to return apps for all users, not only the
-	 * currently logged in one
+	 *                  currently logged in one
 	 * @return string[]
 	 */
 	public static function getEnabledApps(bool $forceRefresh = false, bool $all = false): array {
@@ -255,11 +254,13 @@ class OC_App {
 
 
 	/**
-	 * search for an app in all app-directories
+	 * Find the apps root for an app id.
+	 *
+	 * If multiple copies are found, the apps root the latest version is returned.
 	 *
 	 * @param string $appId
 	 * @param bool $ignoreCache ignore cache and rebuild it
-	 * @return false|string
+	 * @return false|array{path: string, url: string} the apps root shape
 	 */
 	public static function findAppInDirectories(string $appId, bool $ignoreCache = false) {
 		$sanitizedAppId = self::cleanAppId($appId);
@@ -467,30 +468,10 @@ class OC_App {
 	 * get a list of all apps in the apps folder
 	 *
 	 * @return string[] an array of app names (string IDs)
-	 * @todo: change the name of this method to getInstalledApps, which is more accurate
+	 * @deprecated 31.0.0 Use IAppManager::getAllAppsInAppsFolders instead
 	 */
 	public static function getAllApps(): array {
-		$apps = [];
-
-		foreach (OC::$APPSROOTS as $apps_dir) {
-			if (!is_readable($apps_dir['path'])) {
-				\OCP\Server::get(LoggerInterface::class)->warning('unable to read app folder : ' . $apps_dir['path'], ['app' => 'core']);
-				continue;
-			}
-			$dh = opendir($apps_dir['path']);
-
-			if (is_resource($dh)) {
-				while (($file = readdir($dh)) !== false) {
-					if ($file[0] != '.' and is_dir($apps_dir['path'] . '/' . $file) and is_file($apps_dir['path'] . '/' . $file . '/appinfo/info.xml')) {
-						$apps[] = $file;
-					}
-				}
-			}
-		}
-
-		$apps = array_unique($apps);
-
-		return $apps;
+		return \OCP\Server::get(IAppManager::class)->getAllAppsInAppsFolders();
 	}
 
 	/**
@@ -511,9 +492,9 @@ class OC_App {
 	 * @return array
 	 */
 	public function listAllApps(): array {
-		$installedApps = OC_App::getAllApps();
-
 		$appManager = \OC::$server->getAppManager();
+
+		$installedApps = $appManager->getAllAppsInAppsFolders();
 		//we don't want to show configuration for these
 		$blacklist = $appManager->getAlwaysEnabledApps();
 		$appList = [];
@@ -884,7 +865,7 @@ class OC_App {
 		} elseif ($englishFallback !== false) {
 			return $englishFallback;
 		}
-		return (string) $fallback;
+		return (string)$fallback;
 	}
 
 	/**

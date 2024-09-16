@@ -13,6 +13,7 @@ namespace OCP\TextProcessing;
  * @since 28.0.0
  * @extends IProvider<T>
  * @template T of ITaskType
+ * @deprecated 30.0.0
  */
 interface IProviderWithId extends IProvider {
 	/**

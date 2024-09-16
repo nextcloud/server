@@ -65,7 +65,7 @@ class RemoveOldTasksBackgroundJob extends TimedJob {
 	 * @return void
 	 */
 	private function clearFilesOlderThan(ISimpleFolder $folder, int $ageInSeconds): void {
-		foreach($folder->getDirectoryListing() as $file) {
+		foreach ($folder->getDirectoryListing() as $file) {
 			if ($file->getMTime() < time() - $ageInSeconds) {
 				try {
 					$file->delete();

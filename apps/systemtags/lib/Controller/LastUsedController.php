@@ -6,6 +6,7 @@
 namespace OCA\SystemTags\Controller;
 
 use OCP\AppFramework\Controller;
+use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\IConfig;
 use OCP\IRequest;
@@ -31,14 +32,12 @@ class LastUsedController extends Controller {
 		$this->userSession = $userSession;
 	}
 
-	/**
-	 * @NoAdminRequired
-	 */
+	#[NoAdminRequired]
 	public function getLastUsedTagIds() {
 		$lastUsed = $this->config->getUserValue($this->userSession->getUser()->getUID(), 'systemtags', 'last_used', '[]');
 		$tagIds = json_decode($lastUsed, true);
 		return new DataResponse(array_map(function ($id) {
-			return (string) $id;
+			return (string)$id;
 		}, $tagIds));
 	}
 }

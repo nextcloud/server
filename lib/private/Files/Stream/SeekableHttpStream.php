@@ -90,7 +90,7 @@ class SeekableHttpStream implements File {
 					continue 2;
 				}
 			}
-			throw new \Exception("Failed to get source stream from stream wrapper of " . get_class($responseHead));
+			throw new \Exception('Failed to get source stream from stream wrapper of ' . get_class($responseHead));
 		}
 
 		$rangeHeaders = array_values(array_filter($responseHead, function ($v) {

@@ -43,7 +43,7 @@ class CalendarImpl implements ICreateFromString, IHandleImipMessage {
 	 * @since 13.0.0
 	 */
 	public function getKey(): string {
-		return (string) $this->calendarInfo['id'];
+		return (string)$this->calendarInfo['id'];
 	}
 
 	/**
@@ -84,7 +84,7 @@ class CalendarImpl implements ICreateFromString, IHandleImipMessage {
 		/** @var VCalendar $vobj */
 		$vobj = Reader::read($timezoneProp);
 		$components = $vobj->getComponents();
-		if(empty($components)) {
+		if (empty($components)) {
 			return null;
 		}
 		/** @var VTimeZone $vtimezone */
@@ -96,7 +96,7 @@ class CalendarImpl implements ICreateFromString, IHandleImipMessage {
 	 * @param string $pattern which should match within the $searchProperties
 	 * @param array $searchProperties defines the properties within the query pattern should match
 	 * @param array $options - optional parameters:
-	 * 	['timerange' => ['start' => new DateTime(...), 'end' => new DateTime(...)]]
+	 *                       ['timerange' => ['start' => new DateTime(...), 'end' => new DateTime(...)]]
 	 * @param int|null $limit - limit number of search results
 	 * @param int|null $offset - offset for paging of search results
 	 * @return array an array of events/journals/todos which are arrays of key-value-pairs

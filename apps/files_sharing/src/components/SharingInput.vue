@@ -34,9 +34,8 @@ import axios from '@nextcloud/axios'
 import debounce from 'debounce'
 import NcSelect from '@nextcloud/vue/dist/Components/NcSelect.js'
 
-import Config from '../services/ConfigService.js'
-import GeneratePassword from '../utils/GeneratePassword.js'
-import Share from '../models/Share.js'
+import Config from '../services/ConfigService.ts'
+import Share from '../models/Share.ts'
 import ShareRequests from '../mixins/ShareRequests.js'
 import ShareTypes from '../mixins/ShareTypes.js'
 import ShareDetails from '../mixins/ShareDetails.js'
@@ -421,17 +420,17 @@ export default {
 		 * @return {object}
 		 */
 		formatForMultiselect(result) {
-			let subtitle
+			let subname
 			if (result.value.shareType === this.SHARE_TYPES.SHARE_TYPE_USER && this.config.shouldAlwaysShowUnique) {
-				subtitle = result.shareWithDisplayNameUnique ?? ''
+				subname = result.shareWithDisplayNameUnique ?? ''
 			} else if ((result.value.shareType === this.SHARE_TYPES.SHARE_TYPE_REMOTE
 					|| result.value.shareType === this.SHARE_TYPES.SHARE_TYPE_REMOTE_GROUP
 			) && result.value.server) {
-				subtitle = t('files_sharing', 'on {server}', { server: result.value.server })
+				subname = t('files_sharing', 'on {server}', { server: result.value.server })
 			} else if (result.value.shareType === this.SHARE_TYPES.SHARE_TYPE_EMAIL) {
-				subtitle = result.value.shareWith
+				subname = result.value.shareWith
 			} else {
-				subtitle = result.shareWithDescription ?? ''
+				subname = result.shareWithDescription ?? ''
 			}
 
 			return {
@@ -440,7 +439,7 @@ export default {
 				user: result.uuid || result.value.shareWith,
 				isNoUser: result.value.shareType !== this.SHARE_TYPES.SHARE_TYPE_USER,
 				displayName: result.name || result.label,
-				subtitle,
+				subname,
 				shareWithDisplayNameUnique: result.shareWithDisplayNameUnique || '',
 				...this.shareTypeToIcon(result.value.shareType),
 			}

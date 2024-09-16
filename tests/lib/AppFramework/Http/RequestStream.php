@@ -17,7 +17,7 @@ class RequestStream {
 
 	public function stream_open(string $path, string $mode, int $options, ?string &$opened_path): bool {
 		$url = parse_url($path);
-		$this->varname = $url["host"] ?? '';
+		$this->varname = $url['host'] ?? '';
 		$this->position = 0;
 
 		return true;
@@ -104,7 +104,7 @@ class RequestStream {
 	public function stream_metadata(string $path, int $option, $var): bool {
 		if ($option == STREAM_META_TOUCH) {
 			$url = parse_url($path);
-			$varname = $url["host"] ?? '';
+			$varname = $url['host'] ?? '';
 			if (!isset($GLOBALS[$varname])) {
 				$GLOBALS[$varname] = '';
 			}

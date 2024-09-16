@@ -20,6 +20,8 @@ OC.L10N.register(
     "Set status" : "Velg status",
     "Online status" : "Online-status",
     "Status message" : "Statusmelding",
+    "Set absence period" : "Angi fraværsperiode",
+    "Set absence period and replacement" : "Angi fraværsperiode og erstatter",
     "Your status was set automatically" : "Statusen din ble satt",
     "Clear status message" : "Fjern statusmelding",
     "Set status message" : "Velg statusmelding",
@@ -42,7 +44,6 @@ OC.L10N.register(
     "1 hour" : "1 time",
     "4 hours" : "4 timer",
     "Mute all notifications" : "Demp alle varslinger",
-    "Appear offline" : "Vis som frakoblet",
-    "View profile" : "Vis profil"
+    "Appear offline" : "Vis som frakoblet"
 },
 "nplurals=2; plural=(n != 1);");

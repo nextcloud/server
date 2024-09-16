@@ -9,6 +9,7 @@ OC.L10N.register(
     "%1$s commented on %2$s" : "התקבלו תגובות %1$s ב- %2$s ",
     "{author} commented on {file}" : "נוספה תגובה על {file} מאת {author}",
     "<strong>Comments</strong> for files" : "<strong>תגובות</strong> על קבצים",
+    "Files" : "קבצים",
     "{user} mentioned you in a comment on \"{file}\"" : "אוזכרת על ידי {user} בהערה בתוך „{file}”",
     "Files app plugin to add comments to files" : "תוסף ליישומון הקבצים כדי להוסיף הערות על קבצים",
     "Edit comment" : "עריכת תגובה",
@@ -25,7 +26,6 @@ OC.L10N.register(
     "Comment deleted" : "נמחקה הערה",
     "An error occurred while trying to delete the comment" : "אירעה שגיאה בניסיון למחוק את התגובה",
     "An error occurred while trying to create the comment" : "אירעה שגיאה בניסיון ליצור את התגובה",
-    "You were mentioned on \"{file}\", in a comment by a user that has since been deleted" : "אוזכרת בקובץ „{file}”, בהערה על ידי משתמש שנמחק מאז",
-    "_%n unread comment_::_%n unread comments_" : ["תגובה אחת שלא נקראה","%n תגובות שלא נקראו","%n תגובות שלא נקראו","%n תגובות שלא נקראו"]
+    "You were mentioned on \"{file}\", in a comment by a user that has since been deleted" : "אוזכרת בקובץ „{file}”, בהערה על ידי משתמש שנמחק מאז"
 },
 "nplurals=3; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: 2;");

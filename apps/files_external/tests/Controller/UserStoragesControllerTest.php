@@ -60,12 +60,12 @@ class UserStoragesControllerTest extends StoragesControllerTest {
 		);
 	}
 
-	public function testAddLocalStorageWhenDisabled() {
+	public function testAddLocalStorageWhenDisabled(): void {
 		$this->controller = $this->createController(false);
 		parent::testAddLocalStorageWhenDisabled();
 	}
 
-	public function testAddOrUpdateStorageDisallowedBackend() {
+	public function testAddOrUpdateStorageDisallowedBackend(): void {
 		$backend = $this->getBackendMock();
 		$backend->method('isVisibleFor')
 			->with(BackendService::VISIBILITY_PERSONAL)

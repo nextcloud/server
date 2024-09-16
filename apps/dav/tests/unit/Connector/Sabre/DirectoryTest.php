@@ -72,9 +72,9 @@ class DirectoryTest extends \Test\TestCase {
 		$this->info->method('getType')
 			->willReturn(Node::TYPE_FOLDER);
 		$this->info->method('getName')
-			->willReturn("folder");
+			->willReturn('folder');
 		$this->info->method('getPath')
-			->willReturn("/admin/files/folder");
+			->willReturn('/admin/files/folder');
 		$this->info->method('getPermissions')
 			->willReturn(Constants::PERMISSION_READ);
 	}
@@ -397,7 +397,7 @@ class DirectoryTest extends \Test\TestCase {
 
 	public function moveFailedInvalidCharsProvider() {
 		return [
-			['a/b', 'a/*', ['a' => true, 'a/b' => true, 'a/c*' => false], []],
+			['a/valid', "a/i\nvalid", ['a' => true, 'a/valid' => true, 'a/c*' => false], []],
 		];
 	}
 
@@ -463,7 +463,7 @@ class DirectoryTest extends \Test\TestCase {
 
 		$sourceNode = new Directory($view, $sourceInfo);
 		$targetNode = $this->getMockBuilder(Directory::class)
-			->setMethods(['childExists'])
+			->onlyMethods(['childExists'])
 			->setConstructorArgs([$view, $targetInfo])
 			->getMock();
 		$targetNode->expects($this->once())->method('childExists')

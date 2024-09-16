@@ -51,7 +51,7 @@ class DeletedCalendarObjectsCollection implements ICalendarObjectContainer, IACL
 
 		$data = $this->caldavBackend->getCalendarObjectById(
 			$this->principalInfo['uri'],
-			(int) $matches[1],
+			(int)$matches[1],
 		);
 
 		// If the object hasn't been deleted yet then we don't want to find it here

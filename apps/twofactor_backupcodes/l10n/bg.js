@@ -10,7 +10,6 @@ OC.L10N.register(
     "Two factor backup codes" : "Двустепенни резервни кодове",
     "A two-factor auth backup codes provider" : "Доставчик на двустепенни резервни кодове за удостоверяване",
     "Backup codes have been generated. {used} of {total} codes have been used." : "Резервен код е бил генериран. Използвани са {used} от {total} кода.",
-    "These are your backup codes. Please save and/or print them as you will not be able to read the codes again later" : "Това е вашия резервен код. Моля, запишете го (или го принтирайте) защото по-късно няма да имате възможност да го видите.",
     "Save backup codes" : "Записване на резервния код",
     "Print backup codes" : "Принтиране на резервния код",
     "Regenerate backup codes" : "Регенериране на резервния код",
@@ -18,6 +17,7 @@ OC.L10N.register(
     "An error occurred while generating your backup codes" : "Възникна грешка при генерирането на резервния код",
     "{name} backup codes" : "{name} резервни кодове",
     "Use one of the backup codes you saved when setting up two-factor authentication." : "Използвайте един от резервните кодове, които сте запазили, когато настройвате двустепенно удостоверяване.",
-    "Submit" : "Изпращане"
+    "Submit" : "Изпращане",
+    "These are your backup codes. Please save and/or print them as you will not be able to read the codes again later" : "Това е вашия резервен код. Моля, запишете го (или го принтирайте) защото по-късно няма да имате възможност да го видите."
 },
 "nplurals=2; plural=(n != 1);");

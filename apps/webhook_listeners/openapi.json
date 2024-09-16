@@ -114,24 +114,16 @@
                         "basic_auth": []
                     }
                 ],
-                "requestBody": {
-                    "required": false,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "type": "object",
-                                "properties": {
-                                    "uri": {
-                                        "type": "string",
-                                        "nullable": true,
-                                        "description": "The callback URI to filter by"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                },
                 "parameters": [
+                    {
+                        "name": "uri",
+                        "in": "query",
+                        "description": "The callback URI to filter by",
+                        "schema": {
+                            "type": "string",
+                            "nullable": true
+                        }
+                    },
                     {
                         "name": "OCS-APIRequest",
                         "in": "header",
@@ -694,7 +686,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "Boolean returned whether something was deleted FIXME",
+                        "description": "Boolean returned whether something was deleted",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -715,6 +707,134 @@
                                                 },
                                                 "data": {
                                                     "type": "boolean"
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {}
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Insufficient permissions",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {}
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/ocs/v2.php/apps/webhook_listeners/api/v1/webhooks/byappid/{appid}": {
+            "delete": {
+                "operationId": "webhooks-delete-by-app-id",
+                "summary": "Remove all existing webhook registration mapped to an AppAPI app id",
+                "description": "This endpoint requires admin access",
+                "tags": [
+                    "webhooks"
+                ],
+                "security": [
+                    {
+                        "bearer_auth": []
+                    },
+                    {
+                        "basic_auth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "appid",
+                        "in": "path",
+                        "description": "id of the app, as in the EX-APP-ID for creation",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "OCS-APIRequest",
+                        "in": "header",
+                        "description": "Required to be true for the API request to pass",
+                        "required": true,
+                        "schema": {
+                            "type": "boolean",
+                            "default": true
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Integer number of registrations deleted",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "type": "integer",
+                                                    "format": "int64"
                                                 }
                                             }
                                         }

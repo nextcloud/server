@@ -233,6 +233,11 @@ class SubAdmin extends PublicEmitter implements ISubAdmin {
 			return true;
 		}
 
+		// Check if the user is already an admin
+		if ($this->groupManager->isDelegatedAdmin($user->getUID())) {
+			return true;
+		}
+
 		$qb = $this->dbConn->getQueryBuilder();
 
 		$result = $qb->select('gid')

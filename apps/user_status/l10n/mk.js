@@ -33,7 +33,6 @@ OC.L10N.register(
     "1 hour" : "1 час",
     "4 hours" : "4 часа",
     "Mute all notifications" : "Занеми (Mute) ги сите известувања",
-    "Appear offline" : "Прикажи исклучен",
-    "View profile" : "Прегледај профил"
+    "Appear offline" : "Прикажи исклучен"
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");

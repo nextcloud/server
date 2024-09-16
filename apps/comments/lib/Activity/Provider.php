@@ -148,7 +148,7 @@ class Provider implements IProvider {
 		$commentId = $messageParameters['commentId'] ?? $messageParameters[0];
 
 		try {
-			$comment = $this->commentsManager->get((string) $commentId);
+			$comment = $this->commentsManager->get((string)$commentId);
 			$message = $comment->getMessage();
 
 			$mentionCount = 1;

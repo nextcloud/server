@@ -31,26 +31,26 @@ class ShareTest extends \Test\TestCase {
 	}
 
 
-	public function testSetIdInvalid() {
+	public function testSetIdInvalid(): void {
 		$this->expectException(\InvalidArgumentException::class);
 		$this->expectExceptionMessage('String expected.');
 
 		$this->share->setId(1.2);
 	}
 
-	public function testSetIdInt() {
+	public function testSetIdInt(): void {
 		$this->share->setId(42);
 		$this->assertEquals('42', $this->share->getId());
 	}
 
 
-	public function testSetIdString() {
+	public function testSetIdString(): void {
 		$this->share->setId('foo');
 		$this->assertEquals('foo', $this->share->getId());
 	}
 
 
-	public function testSetIdOnce() {
+	public function testSetIdOnce(): void {
 		$this->expectException(\OCP\Share\Exceptions\IllegalIDChangeException::class);
 		$this->expectExceptionMessage('Not allowed to assign a new internal id to a share');
 
@@ -59,7 +59,7 @@ class ShareTest extends \Test\TestCase {
 	}
 
 
-	public function testSetProviderIdInt() {
+	public function testSetProviderIdInt(): void {
 		$this->expectException(\InvalidArgumentException::class);
 		$this->expectExceptionMessage('String expected.');
 
@@ -67,14 +67,14 @@ class ShareTest extends \Test\TestCase {
 	}
 
 
-	public function testSetProviderIdString() {
+	public function testSetProviderIdString(): void {
 		$this->share->setProviderId('foo');
 		$this->share->setId('bar');
 		$this->assertEquals('foo:bar', $this->share->getFullId());
 	}
 
 
-	public function testSetProviderIdOnce() {
+	public function testSetProviderIdOnce(): void {
 		$this->expectException(\OCP\Share\Exceptions\IllegalIDChangeException::class);
 		$this->expectExceptionMessage('Not allowed to assign a new provider id to a share');
 

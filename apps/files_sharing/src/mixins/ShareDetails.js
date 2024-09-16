@@ -3,9 +3,8 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-
-import Share from '../models/Share.js'
-import Config from '../services/ConfigService.js'
+import Share from '../models/Share.ts'
+import Config from '../services/ConfigService.ts'
 
 export default {
 	methods: {
@@ -47,7 +46,7 @@ export default {
 			const share = {
 				attributes: [
 					{
-						enabled: true,
+						value: true,
 						key: 'download',
 						scope: 'permissions',
 					},

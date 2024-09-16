@@ -121,7 +121,7 @@ class WeatherStatusService {
 			$this->config->setUserValue($this->userId, Application::APP_ID, 'lon', strval($lon));
 			// resolve and store formatted address
 			$address = $this->resolveLocation($lat, $lon);
-			$address = $address ? $address : $this->l10n->t('Unknown address');
+			$address = $address ?: $this->l10n->t('Unknown address');
 			$this->config->setUserValue($this->userId, Application::APP_ID, 'address', $address);
 			// get and store altitude
 			$altitude = $this->getAltitude($lat, $lon);
@@ -257,6 +257,9 @@ class WeatherStatusService {
 		];
 		$url = 'https://nominatim.openstreetmap.org/search';
 		$results = $this->requestJSON($url, $params);
+		if ($results['error'] !== null) {
+			return $results;
+		}
 		if (count($results) > 0) {
 			return $results[0];
 		}

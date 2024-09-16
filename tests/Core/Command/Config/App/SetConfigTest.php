@@ -72,20 +72,20 @@ class SetConfigTest extends TestCase {
 	 * @param bool $updated
 	 * @param string $expectedMessage
 	 */
-	public function testSet($configName, $newValue, $configExists, $updateOnly, $updated, $expectedMessage) {
+	public function testSet($configName, $newValue, $configExists, $updateOnly, $updated, $expectedMessage): void {
 		$this->config->expects($this->any())
-					 ->method('hasKey')
-					 ->with('app-name', $configName)
-					 ->willReturn($configExists);
+			->method('hasKey')
+			->with('app-name', $configName)
+			->willReturn($configExists);
 
 		if (!$configExists) {
 			$this->config->expects($this->any())
-						 ->method('getValueType')
-						 ->willThrowException(new AppConfigUnknownKeyException());
+				->method('getValueType')
+				->willThrowException(new AppConfigUnknownKeyException());
 		} else {
 			$this->config->expects($this->any())
-						 ->method('getValueType')
-						 ->willReturn(IAppConfig::VALUE_MIXED);
+				->method('getValueType')
+				->willReturn(IAppConfig::VALUE_MIXED);
 		}
 
 		if ($updated) {

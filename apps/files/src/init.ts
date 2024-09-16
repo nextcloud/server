@@ -14,18 +14,24 @@ import { action as openInFilesAction } from './actions/openInFilesAction'
 import { action as renameAction } from './actions/renameAction'
 import { action as sidebarAction } from './actions/sidebarAction'
 import { action as viewInFolderAction } from './actions/viewInFolderAction'
+
+import { registerHiddenFilesFilter } from './filters/HiddenFilesFilter.ts'
+import { registerTypeFilter } from './filters/TypeFilter.ts'
+import { registerModifiedFilter } from './filters/ModifiedFilter.ts'
+
 import { entry as newFolderEntry } from './newMenu/newFolder.ts'
 import { entry as newTemplatesFolder } from './newMenu/newTemplatesFolder.ts'
 import { registerTemplateEntries } from './newMenu/newFromTemplate.ts'
 
-import registerFavoritesView from './views/favorites'
+import { registerFavoritesView } from './views/favorites.ts'
 import registerRecentView from './views/recent'
 import registerPersonalFilesView from './views/personal-files'
 import registerFilesView from './views/files'
+import { registerFolderTreeView } from './views/folderTree.ts'
 import registerPreviewServiceWorker from './services/ServiceWorker.js'
 
-
 import { initLivePhotos } from './services/LivePhotos'
+import { isPublicShare } from '@nextcloud/sharing/public'
 
 // Register file actions
 registerFileAction(deleteAction)
@@ -44,16 +50,25 @@ addNewFileMenuEntry(newFolderEntry)
 addNewFileMenuEntry(newTemplatesFolder)
 registerTemplateEntries()
 
-// Register files views
-registerFavoritesView()
-registerFilesView()
-registerRecentView()
-registerPersonalFilesView()
+// Register files views when not on public share
+if (isPublicShare() === false) {
+	registerFavoritesView()
+	registerFilesView()
+	registerRecentView()
+	registerPersonalFilesView()
+	registerFolderTreeView()
+}
+
+// Register file list filters
+registerHiddenFilesFilter()
+registerTypeFilter()
+registerModifiedFilter()
 
 // Register preview service worker
 registerPreviewServiceWorker()
 
 registerDavProperty('nc:hidden', { nc: 'http://nextcloud.org/ns' })
 registerDavProperty('nc:is-mount-root', { nc: 'http://nextcloud.org/ns' })
+registerDavProperty('nc:metadata-blurhash', { nc: 'http://nextcloud.org/ns' })
 
 initLivePhotos()

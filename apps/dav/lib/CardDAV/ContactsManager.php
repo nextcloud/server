@@ -12,10 +12,10 @@ use OCP\IL10N;
 use OCP\IURLGenerator;
 
 class ContactsManager {
-	/** @var CardDavBackend  */
+	/** @var CardDavBackend */
 	private $backend;
 
-	/** @var IL10N  */
+	/** @var IL10N */
 	private $l10n;
 
 	/**
@@ -45,7 +45,7 @@ class ContactsManager {
 	 * @param IURLGenerator $urlGenerator
 	 */
 	public function setupSystemContactsProvider(IManager $cm, IURLGenerator $urlGenerator) {
-		$addressBooks = $this->backend->getAddressBooksForUser("principals/system/system");
+		$addressBooks = $this->backend->getAddressBooksForUser('principals/system/system');
 		$this->register($cm, $addressBooks, $urlGenerator);
 	}
 

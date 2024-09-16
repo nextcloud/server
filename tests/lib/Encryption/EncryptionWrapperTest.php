@@ -15,16 +15,16 @@ use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 class EncryptionWrapperTest extends TestCase {
-	/** @var  EncryptionWrapper */
+	/** @var EncryptionWrapper */
 	private $instance;
 
-	/** @var  \PHPUnit\Framework\MockObject\MockObject | LoggerInterface */
+	/** @var \PHPUnit\Framework\MockObject\MockObject | LoggerInterface */
 	private $logger;
 
-	/** @var  \PHPUnit\Framework\MockObject\MockObject | \OC\Encryption\Manager */
+	/** @var \PHPUnit\Framework\MockObject\MockObject | \OC\Encryption\Manager */
 	private $manager;
 
-	/** @var  \PHPUnit\Framework\MockObject\MockObject | \OC\Memcache\ArrayCache */
+	/** @var \PHPUnit\Framework\MockObject\MockObject | \OC\Memcache\ArrayCache */
 	private $arrayCache;
 
 	protected function setUp(): void {
@@ -41,7 +41,7 @@ class EncryptionWrapperTest extends TestCase {
 	/**
 	 * @dataProvider provideWrapStorage
 	 */
-	public function testWrapStorage($expectedWrapped, $wrappedStorages) {
+	public function testWrapStorage($expectedWrapped, $wrappedStorages): void {
 		$storage = $this->getMockBuilder(Storage::class)
 			->disableOriginalConstructor()
 			->getMock();

@@ -15,7 +15,6 @@ OC.L10N.register(
     "Add client" : "Agiunghe cliente",
     "Add" : "Agiunghe",
     "Delete" : "Cantzella",
-    "Show client secret" : "Mustra su segretu de su cliente",
-    "Secret" : "Segretu"
+    "Show client secret" : "Mustra su segretu de su cliente"
 },
 "nplurals=2; plural=(n != 1);");

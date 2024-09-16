@@ -70,8 +70,8 @@ class ControllerTest extends \Test\TestCase {
 			->setConstructorArgs(['test'])
 			->getMock();
 		$this->app->expects($this->any())
-				->method('getAppName')
-				->willReturn('apptemplate_advanced');
+			->method('getAppName')
+			->willReturn('apptemplate_advanced');
 
 		$this->controller = new ChildController($this->app, $request);
 		$this->overwriteService(IRequest::class, $request);
@@ -79,21 +79,21 @@ class ControllerTest extends \Test\TestCase {
 	}
 
 
-	public function testFormatResonseInvalidFormat() {
+	public function testFormatResonseInvalidFormat(): void {
 		$this->expectException(\DomainException::class);
 
 		$this->controller->buildResponse(null, 'test');
 	}
 
 
-	public function testFormat() {
+	public function testFormat(): void {
 		$response = $this->controller->buildResponse(['hi'], 'json');
 
 		$this->assertEquals(['hi'], $response->getData());
 	}
 
 
-	public function testFormatDataResponseJSON() {
+	public function testFormatDataResponseJSON(): void {
 		$expectedHeaders = [
 			'test' => 'something',
 			'Cache-Control' => 'no-cache, no-store, must-revalidate',
@@ -113,7 +113,7 @@ class ControllerTest extends \Test\TestCase {
 	}
 
 
-	public function testCustomFormatter() {
+	public function testCustomFormatter(): void {
 		$response = $this->controller->custom('hi');
 		$response = $this->controller->buildResponse($response, 'json');
 
@@ -121,14 +121,14 @@ class ControllerTest extends \Test\TestCase {
 	}
 
 
-	public function testDefaultResponderToJSON() {
+	public function testDefaultResponderToJSON(): void {
 		$responder = $this->controller->getResponderByHTTPHeader('*/*');
 
 		$this->assertEquals('json', $responder);
 	}
 
 
-	public function testResponderAcceptHeaderParsed() {
+	public function testResponderAcceptHeaderParsed(): void {
 		$responder = $this->controller->getResponderByHTTPHeader(
 			'*/*, application/tom, application/json'
 		);
@@ -137,7 +137,7 @@ class ControllerTest extends \Test\TestCase {
 	}
 
 
-	public function testResponderAcceptHeaderParsedUpperCase() {
+	public function testResponderAcceptHeaderParsedUpperCase(): void {
 		$responder = $this->controller->getResponderByHTTPHeader(
 			'*/*, apPlication/ToM, application/json'
 		);

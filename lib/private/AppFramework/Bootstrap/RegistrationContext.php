@@ -26,6 +26,7 @@ use OCP\Dashboard\IWidget;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Template\ICustomTemplateProvider;
 use OCP\Http\WellKnown\IHandler;
+use OCP\Mail\Provider\IProvider as IMailProvider;
 use OCP\Notification\INotifier;
 use OCP\Profile\ILinkAction;
 use OCP\Search\IProvider;
@@ -148,6 +149,9 @@ class RegistrationContext {
 
 	/** @var ServiceRegistration<\OCP\TaskProcessing\ITaskType>[] */
 	private array $taskProcessingTaskTypes = [];
+	
+	/** @var ServiceRegistration<IMailProvider>[] */
+	private $mailProviders = [];
 
 	public function __construct(LoggerInterface $logger) {
 		$this->logger = $logger;
@@ -411,6 +415,13 @@ class RegistrationContext {
 					$taskProcessingTaskTypeClass
 				);
 			}
+
+			public function registerMailProvider(string $class): void {
+				$this->context->registerMailProvider(
+					$this->appId,
+					$class
+				);
+			}
 		};
 	}
 
@@ -527,10 +538,10 @@ class RegistrationContext {
 	public function registerTalkBackend(string $appId, string $backend) {
 		// Some safeguards for invalid registrations
 		if ($appId !== 'spreed') {
-			throw new RuntimeException("Only the Talk app is allowed to register a Talk backend");
+			throw new RuntimeException('Only the Talk app is allowed to register a Talk backend');
 		}
 		if ($this->talkBackendRegistration !== null) {
-			throw new RuntimeException("There can only be one Talk backend");
+			throw new RuntimeException('There can only be one Talk backend');
 		}
 
 		$this->talkBackendRegistration = new ServiceRegistration($appId, $backend);
@@ -602,6 +613,12 @@ class RegistrationContext {
 	 */
 	public function registerTaskProcessingTaskType(string $appId, string $taskProcessingTaskTypeClass) {
 		$this->taskProcessingTaskTypes[] = new ServiceRegistration($appId, $taskProcessingTaskTypeClass);
+	}
+	/**
+	 * @psalm-param class-string<IMailProvider> $migratorClass
+	 */
+	public function registerMailProvider(string $appId, string $class): void {
+		$this->mailProviders[] = new ServiceRegistration($appId, $class);
 	}
 
 	/**
@@ -947,5 +964,12 @@ class RegistrationContext {
 	 */
 	public function getTaskProcessingTaskTypes(): array {
 		return $this->taskProcessingTaskTypes;
+	}
+
+	/**
+	 * @return ServiceRegistration<IMailProvider>[]
+	 */
+	public function getMailProviders(): array {
+		return $this->mailProviders;
 	}
 }

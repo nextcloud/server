@@ -2,28 +2,29 @@
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import type { ContentsWithRoot } from '@nextcloud/files'
+import type { ContentsWithRoot, File, Folder } from '@nextcloud/files'
 import type { FileStat, ResponseDataDetailed } from 'webdav'
 
+import { davGetDefaultPropfind, davResultToNode, davRootPath } from '@nextcloud/files'
 import { CancelablePromise } from 'cancelable-promise'
-import { File, Folder, davGetDefaultPropfind, davResultToNode, davRootPath } from '@nextcloud/files'
+import { join } from 'path'
 import { client } from './WebdavClient.ts'
-import logger from '../logger.js'
+import logger from '../logger.ts'
 
 /**
  * Slim wrapper over `@nextcloud/files` `davResultToNode` to allow using the function with `Array.map`
- * @param node The node returned by the webdav library
+ * @param stat The result returned by the webdav library
  */
-export const resultToNode = (node: FileStat): File | Folder => davResultToNode(node)
+export const resultToNode = (stat: FileStat): File | Folder => davResultToNode(stat)
 
 export const getContents = (path = '/'): CancelablePromise<ContentsWithRoot> => {
+	path = join(davRootPath, path)
 	const controller = new AbortController()
 	const propfindPayload = davGetDefaultPropfind()
 
-	path = `${davRootPath}${path}`
-
 	return new CancelablePromise(async (resolve, reject, onCancel) => {
 		onCancel(() => controller.abort())
+
 		try {
 			const contentsResponse = await client.getDirectoryContents(path, {
 				details: true,

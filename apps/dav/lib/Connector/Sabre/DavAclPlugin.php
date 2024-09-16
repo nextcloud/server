@@ -11,6 +11,7 @@ use OCA\DAV\CalDAV\CachedSubscription;
 use OCA\DAV\CalDAV\Calendar;
 use OCA\DAV\CardDAV\AddressBook;
 use Sabre\CalDAV\Principal\User;
+use Sabre\DAV\Exception\Forbidden;
 use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\INode;
 use Sabre\DAV\PropFind;
@@ -49,13 +50,19 @@ class DavAclPlugin extends \Sabre\DAVACL\Plugin {
 					$type = 'Node';
 					break;
 			}
-			throw new NotFound(
-				sprintf(
-					"%s with name '%s' could not be found",
-					$type,
-					$node->getName()
-				)
-			);
+
+			if ($this->getCurrentUserPrincipal() === $node->getOwner()) {
+				throw new Forbidden('Access denied');
+			} else {
+				throw new NotFound(
+					sprintf(
+						"%s with name '%s' could not be found",
+						$type,
+						$node->getName()
+					)
+				);
+			}
+			
 		}
 
 		return $access;

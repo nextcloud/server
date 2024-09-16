@@ -27,6 +27,7 @@ SPDX-FileCopyrightText: GitHub Inc.
 SPDX-FileCopyrightText: Feross Aboukhadijeh
 SPDX-FileCopyrightText: Evan You
 SPDX-FileCopyrightText: Dr.-Ing. Mario Heiderich, Cure53 <mario@cure53.de> (https://cure53.de/)
+SPDX-FileCopyrightText: Denis Pushkarev
 SPDX-FileCopyrightText: David Clark
 SPDX-FileCopyrightText: Christoph Wurst
 SPDX-FileCopyrightText: Austin Andrews
@@ -41,16 +42,19 @@ This file is generated from multiple sources. Included packages:
 	- version: 7.4.47
 	- license: Apache-2.0
 - @nextcloud/auth
-	- version: 2.3.0
+	- version: 2.4.0
 	- license: GPL-3.0-or-later
 - @nextcloud/axios
 	- version: 2.5.0
 	- license: GPL-3.0-or-later
+- @nextcloud/browser-storage
+	- version: 0.4.0
+	- license: GPL-3.0-or-later
 - @nextcloud/dialogs
-	- version: 5.3.4
+	- version: 6.0.0
 	- license: AGPL-3.0-or-later
 - semver
-	- version: 7.6.2
+	- version: 7.6.3
 	- license: ISC
 - @nextcloud/event-bus
 	- version: 3.3.1
@@ -65,7 +69,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 3.0.2
 	- license: GPL-3.0-or-later
 - @nextcloud/router
-	- version: 2.2.0
+	- version: 2.2.1
 	- license: GPL-3.0-or-later
 - @nextcloud/moment
 	- version: 1.3.1
@@ -77,13 +81,13 @@ This file is generated from multiple sources. Included packages:
 	- version: 3.0.1
 	- license: GPL-3.0-or-later
 - @nextcloud/vue
-	- version: 8.14.0
+	- version: 8.17.1
 	- license: AGPL-3.0-or-later
 - @vueuse/core
-	- version: 10.11.0
+	- version: 11.0.3
 	- license: MIT
 - @vueuse/shared
-	- version: 10.11.0
+	- version: 11.0.3
 	- license: MIT
 - assert
 	- version: 2.1.0
@@ -92,13 +96,10 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.0.7
 	- license: MIT
 - axios
-	- version: 1.7.2
+	- version: 1.7.7
 	- license: MIT
 - base64-js
 	- version: 1.5.1
-	- license: MIT
-- buffer
-	- version: 6.0.3
 	- license: MIT
 - call-bind
 	- version: 1.0.7
@@ -106,8 +107,11 @@ This file is generated from multiple sources. Included packages:
 - console-browserify
 	- version: 1.2.0
 	- license: MIT
+- core-js
+	- version: 3.38.1
+	- license: MIT
 - css-loader
-	- version: 6.10.0
+	- version: 6.11.0
 	- license: MIT
 - debounce
 	- version: 2.1.0
@@ -119,7 +123,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.2.1
 	- license: MIT
 - dompurify
-	- version: 3.1.4
+	- version: 3.1.6
 	- license: (MPL-2.0 OR Apache-2.0)
 - es-define-property
 	- version: 1.0.0
@@ -161,7 +165,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.0.2
 	- license: MIT
 - hasown
-	- version: 2.0.1
+	- version: 2.0.2
 	- license: MIT
 - ieee754
 	- version: 1.2.1
@@ -193,8 +197,11 @@ This file is generated from multiple sources. Included packages:
 - node-gettext
 	- version: 3.0.0
 	- license: MIT
+- buffer
+	- version: 6.0.3
+	- license: MIT
 - object-is
-	- version: 1.1.5
+	- version: 1.1.6
 	- license: MIT
 - object-keys
 	- version: 1.1.1
@@ -218,7 +225,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 0.11.10
 	- license: MIT
 - set-function-length
-	- version: 1.2.1
+	- version: 1.2.2
 	- license: MIT
 - style-loader
 	- version: 3.3.4
@@ -239,10 +246,10 @@ This file is generated from multiple sources. Included packages:
 	- version: 2.7.16
 	- license: MIT
 - webpack
-	- version: 5.91.0
+	- version: 5.94.0
 	- license: MIT
 - which-typed-array
-	- version: 1.1.14
+	- version: 1.1.15
 	- license: MIT
 - nextcloud
 	- version: 1.0.0

@@ -9,7 +9,6 @@ declare(strict_types=1);
 namespace OCP\Collaboration\Reference;
 
 use Fusonic\OpenGraph\Consumer;
-use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Psr7\LimitStream;
 use GuzzleHttp\Psr7\Utils;
 use OC\Security\RateLimiting\Exception\RateLimitExceededException;
@@ -26,7 +25,7 @@ use Psr\Log\LoggerInterface;
 /**
  * @since 29.0.0
  */
-class LinkReferenceProvider implements IReferenceProvider {
+class LinkReferenceProvider implements IReferenceProvider, IPublicReferenceProvider {
 
 	/**
 	 * for image size and webpage header
@@ -88,6 +87,14 @@ class LinkReferenceProvider implements IReferenceProvider {
 	}
 
 	/**
+	 * @inheritDoc
+	 * @since 30.0.0
+	 */
+	public function resolveReferencePublic(string $referenceText, string $sharingToken): ?IReference {
+		return $this->resolveReference($referenceText);
+	}
+
+	/**
 	 * Populates the reference with OpenGraph data
 	 *
 	 * @param Reference $reference
@@ -107,15 +114,15 @@ class LinkReferenceProvider implements IReferenceProvider {
 
 		$client = $this->clientService->newClient();
 		try {
-			$headResponse = $client->head($reference->getId(), [ 'timeout' => 10 ]);
+			$headResponse = $client->head($reference->getId(), [ 'timeout' => 3 ]);
 		} catch (\Exception $e) {
 			$this->logger->debug('Failed to perform HEAD request to get target metadata', ['exception' => $e]);
 			return;
 		}
 
 		$linkContentLength = $headResponse->getHeader('Content-Length');
-		if (is_numeric($linkContentLength) && (int) $linkContentLength > self::MAX_CONTENT_LENGTH) {
-			$this->logger->debug('Skip resolving links pointing to content length > 5 MiB');
+		if (is_numeric($linkContentLength) && (int)$linkContentLength > self::MAX_CONTENT_LENGTH) {
+			$this->logger->debug('[Head] Skip resolving links pointing to content length > 5 MiB');
 			return;
 		}
 
@@ -129,18 +136,28 @@ class LinkReferenceProvider implements IReferenceProvider {
 		}
 
 		try {
-			$response = $client->get($reference->getId(), [ 'timeout' => 10 ]);
+			$response = $client->get($reference->getId(), [ 'timeout' => 3, 'stream' => true ]);
 		} catch (\Exception $e) {
 			$this->logger->debug('Failed to fetch link for obtaining open graph data', ['exception' => $e]);
 			return;
 		}
 
-		$responseBody = (string)$response->getBody();
+		$body = $response->getBody();
+		if (is_resource($body)) {
+			$responseContent = fread($body, self::MAX_CONTENT_LENGTH);
+			if (!feof($body)) {
+				$this->logger->debug('[Get] Skip resolving links pointing to content length > 5 MiB');
+				return;
+			}
+		} else {
+			$this->logger->error('[Get] Impossible to check content length');
+			return;
+		}
 
 		// OpenGraph handling
 		$consumer = new Consumer();
 		$consumer->useFallbackMode = true;
-		$object = $consumer->loadHtml($responseBody);
+		$object = $consumer->loadHtml($responseContent);
 
 		$reference->setUrl($reference->getId());
 
@@ -167,7 +184,7 @@ class LinkReferenceProvider implements IReferenceProvider {
 					$folder = $appData->newFolder('opengraph');
 				}
 
-				$response = $client->get($object->images[0]->url, ['timeout' => 10]);
+				$response = $client->get($object->images[0]->url, ['timeout' => 3]);
 				$contentType = $response->getHeader('Content-Type');
 				$contentLength = $response->getHeader('Content-Length');
 
@@ -178,10 +195,8 @@ class LinkReferenceProvider implements IReferenceProvider {
 					$folder->newFile(md5($reference->getId()), $bodyStream->getContents());
 					$reference->setImageUrl($this->urlGenerator->linkToRouteAbsolute('core.Reference.preview', ['referenceId' => md5($reference->getId())]));
 				}
-			} catch (GuzzleException $e) {
-				$this->logger->info('Failed to fetch and store the open graph image for ' . $reference->getId(), ['exception' => $e]);
-			} catch (\Throwable $e) {
-				$this->logger->error('Failed to fetch and store the open graph image for ' . $reference->getId(), ['exception' => $e]);
+			} catch (\Exception $e) {
+				$this->logger->debug('Failed to fetch and store the open graph image for ' . $reference->getId(), ['exception' => $e]);
 			}
 		}
 	}
@@ -199,6 +214,14 @@ class LinkReferenceProvider implements IReferenceProvider {
 	 * @since 29.0.0
 	 */
 	public function getCacheKey(string $referenceId): ?string {
+		return null;
+	}
+
+	/**
+	 * @inheritDoc
+	 * @since 30.0.0
+	 */
+	public function getCacheKeyPublic(string $referenceId, string $sharingToken): ?string {
 		return null;
 	}
 }

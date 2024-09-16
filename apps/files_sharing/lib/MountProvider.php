@@ -126,7 +126,7 @@ class MountProvider implements IMountProvider {
 	 *
 	 * @param \OCP\Share\IShare[] $shares
 	 * @return \OCP\Share\IShare[][] array of grouped shares, each element in the
-	 * array is a group which itself is an array of shares
+	 *                               array is a group which itself is an array of shares
 	 */
 	private function groupShares(array $shares) {
 		$tmp = [];
@@ -215,7 +215,7 @@ class MountProvider implements IMountProvider {
 							continue;
 						}
 						// update supershare attributes with subshare attribute
-						$superAttributes->setAttribute($attribute['scope'], $attribute['key'], $attribute['enabled']);
+						$superAttributes->setAttribute($attribute['scope'], $attribute['key'], $attribute['value']);
 					}
 				}
 

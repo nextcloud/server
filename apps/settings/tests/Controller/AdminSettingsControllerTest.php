@@ -81,11 +81,13 @@ class AdminSettingsControllerTest extends TestCase {
 
 	protected function tearDown(): void {
 		\OC::$server->getUserManager()->get($this->adminUid)->delete();
+		\OC_User::setUserId(null);
+		\OC::$server->getUserSession()->setUser(null);
 
 		parent::tearDown();
 	}
 
-	public function testIndex() {
+	public function testIndex(): void {
 		$user = $this->createMock(IUser::class);
 		$this->userSession
 			->method('getUser')

@@ -4,7 +4,7 @@
  */
 
 export interface FileAttributes {
-	[key: string]: any
+	[key: string]: unknown
 	id: number
 	name: string
 }

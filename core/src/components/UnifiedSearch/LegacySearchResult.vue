@@ -219,7 +219,7 @@ $margin: 10px;
 		flex-wrap: wrap;
 		// Set to minimum and gro from it
 		min-width: 0;
-		padding-left: $margin;
+		padding-inline-start: $margin;
 	}
 
 	&-line-one,

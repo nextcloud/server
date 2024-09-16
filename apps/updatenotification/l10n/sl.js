@@ -22,6 +22,9 @@ OC.L10N.register(
     "The update check is not yet finished. Please refresh the page." : "Preverjanje za posodobitve še ni končano. Osvežite stran za ponovno vzpostavitev seje.",
     "Your version is up to date." : "Nameščena je najnovejša različica.",
     "A non-default update server is in use to be checked for updates:" : "Za posodobitev bo uporabljen neprivzet strežnik:",
+    "Update channel" : "Kanal za posodobitve",
+    "Changing the update channel also affects the apps management page. E.g. after switching to the beta channel, beta app updates will be offered to you in the apps management page." : "Kanal za posodobitve vpliva na stran za upravljanje z nameščenimi programi. Pri preklopu na različico beta so za namestitev na primer na voljo tudi beta različice programske opreme.",
+    "Current update channel:" : "Trenutno uporabljeni kanal:",
     "You can always update to a newer version. But you can never downgrade to a more stable version." : "Nadgradnja na višjo različico je vedno mogoča, ne pa tudi povrnitev na predhodno, bolj stabilno.",
     "Notify members of the following groups about available updates:" : "O posodobitvah bodo obveščeni člani skupin:",
     "No groups" : "Ni navedenih skupin",
@@ -29,6 +32,7 @@ OC.L10N.register(
     "The selected update channel makes dedicated notifications for the server obsolete." : "Izbran kanal za posodobitve onemogoča obvestila s strežnika.",
     "The selected update channel does not support updates of the server." : "Izbran kanal za posodobitve ne omogoča posodobitev stražnika.",
     "A new version is available: <strong>{newVersionString}</strong>" : "Na voljo je nova različica: <strong>{newVersionString}</strong>",
+    "Note that after a new release the update only shows up after the first minor release or later. We roll out new versions spread out over time and sometimes skip a version when issues are found. Learn more about updates and release channels at {link}" : "Po vsaki novi objavi je lahko tudi daljši časovni zamik, preden se posodobitev pojavi v sistemu in se pokaže šele po prvi posodobitvi. Nove različice objavljamo v časovnih razmikih in včasih kakšno tudi preskočimo, če so zaznane težave ali napake. Več podrobnosti o kanalih objav je zbranih na povezavi {link}.",
     "Checking apps for compatible versions" : "Preverjanje skladnih posodobitev različic programov",
     "Please make sure your config.php does not set <samp>appstoreenabled</samp> to false." : "Prepričajte se, da v datoteki config.php možnost <samp>appstoreenabled</samp> ni nastavljena na vrednost napak – false.",
     "Could not connect to the App Store or no updates have been returned at all. Search manually for updates or make sure your server has access to the internet and can connect to the App Store." : "Povezava s trgovino programov ni na voljo, ali pa ni nobene posodobitve. Posodobitve je mogoče iskati ročno, preveriti pa je treba tudi povezljivost programa s strežnikom posodobitev.",
@@ -44,9 +48,6 @@ OC.L10N.register(
     "Displays update notifications for Nextcloud and provides the SSO for the updater." : "Pokaže obvestila o posodobitvah okolja Nextcloud in omogoča prijavo SSO za posodabljalnik.",
     "Please note that the web updater is not recommended with more than 100 users! Please use the command line updater instead!" : "Upoštevajte, da spletna posodobitev ni priporočljiva, če okolje uporablja več kot 100 uporabnikov! V takih primerih je ustreznejši posodabljalnik zagnan iz ukazne vrstice.",
     "Please use the command line updater to update." : "Za posodabljanje uporabite možnosti prek ukazne vrstice.",
-    "You can change the update channel below which also affects the apps management page. E.g. after switching to the beta channel, beta app updates will be offered to you in the apps management page." : "Kanal za posodobitve, ki vpliva tudi na upravljanje z nameščenimi programi, je mogoče spremeniti. Pri preklopu na različico beta so za namestitev na primer na voljo tudi beta različice programske opreme.",
-    "Update channel:" : "Kanal za posodobitve:",
-    "Note that after a new release the update only shows up after the first minor release or later. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found. Learn more about updates and release channels at {link}" : "Po vsaki novi objavi je lahko tudi daljši časovni zamik, preden se posodobitev pojavi v sistemu in se pokaže šele po prvi posodobitvi. Nove različice objavljamo v časovnih razmikih in včasih kakšno tudi preskočimo, če prvi uporabniki zaznajo težave ali napake. Več podrobnosti o kanalih objav je zbranih na povezavi {link}.",
-    "Checked on {lastCheckedDate}" : "Nazadnje preverjeno {lastCheckedDate}"
+    "Note that after a new release the update only shows up after the first minor release or later. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found. Learn more about updates and release channels at {link}" : "Po vsaki novi objavi je lahko tudi daljši časovni zamik, preden se posodobitev pojavi v sistemu in se pokaže šele po prvi posodobitvi. Nove različice objavljamo v časovnih razmikih in včasih kakšno tudi preskočimo, če prvi uporabniki zaznajo težave ali napake. Več podrobnosti o kanalih objav je zbranih na povezavi {link}."
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");

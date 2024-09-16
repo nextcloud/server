@@ -1,6 +1,7 @@
 { "translations": {
     "Dashboard" : "Виджеты",
     "Dashboard app" : "Приложение Виджеты",
+    "Start your day informed\n\nThe Nextcloud Dashboard is your starting point of the day, giving you an overview of your upcoming appointments, urgent emails, chat messages, incoming tickets, latest tweets and much more! People can add the widgets they like and change the background to their liking." : "Начните свой день информированным\n\nПанель инструментов Nextcloud — это ваша отправная точка дня, дающая вам обзор предстоящих встреч, срочных писем, сообщений чата, входящих тикетов, последних твитов и многого другого! Люди могут добавлять виджеты, которые им нравятся, и менять фон по своему вкусу.",
     "\"{title} icon\"" : "\"{title} иконка\"",
     "Customize" : "Настроить",
     "Edit widgets" : "Редактировать виджеты",

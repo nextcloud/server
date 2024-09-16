@@ -9,7 +9,9 @@ use OC\CapabilitiesManager;
 use OC\Security\IdentityProof\Manager;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\ApiRoute;
+use OCP\AppFramework\Http\Attribute\BruteForceProtection;
 use OCP\AppFramework\Http\Attribute\OpenAPI;
+use OCP\AppFramework\Http\Attribute\PublicPage;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\IRequest;
 use OCP\IUserManager;
@@ -27,9 +29,7 @@ class OCSController extends \OCP\AppFramework\OCSController {
 		parent::__construct($appName, $request);
 	}
 
-	/**
-	 * @PublicPage
-	 */
+	#[PublicPage]
 	#[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
 	#[ApiRoute(verb: 'GET', url: '/config', root: '')]
 	public function getConfig(): DataResponse {
@@ -45,14 +45,13 @@ class OCSController extends \OCP\AppFramework\OCSController {
 	}
 
 	/**
-	 * @PublicPage
-	 *
 	 * Get the capabilities
 	 *
 	 * @return DataResponse<Http::STATUS_OK, array{version: array{major: int, minor: int, micro: int, string: string, edition: '', extendedSupport: bool}, capabilities: array<string, mixed>}, array{}>
 	 *
 	 * 200: Capabilities returned
 	 */
+	#[PublicPage]
 	#[ApiRoute(verb: 'GET', url: '/capabilities', root: '/cloud')]
 	public function getCapabilities(): DataResponse {
 		$result = [];
@@ -77,10 +76,8 @@ class OCSController extends \OCP\AppFramework\OCSController {
 		return $response;
 	}
 
-	/**
-	 * @PublicPage
-	 * @BruteForceProtection(action=login)
-	 */
+	#[PublicPage]
+	#[BruteForceProtection(action: 'login')]
 	#[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
 	#[ApiRoute(verb: 'POST', url: '/check', root: '/person')]
 	public function personCheck(string $login = '', string $password = ''): DataResponse {
@@ -100,9 +97,7 @@ class OCSController extends \OCP\AppFramework\OCSController {
 		return new DataResponse([], 101);
 	}
 
-	/**
-	 * @PublicPage
-	 */
+	#[PublicPage]
 	#[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
 	#[ApiRoute(verb: 'GET', url: '/key/{cloudId}', root: '/identityproof')]
 	public function getIdentityProof(string $cloudId): DataResponse {

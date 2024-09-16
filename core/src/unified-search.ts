@@ -4,7 +4,7 @@
  */
 
 import { getLoggerBuilder } from '@nextcloud/logger'
-import { getRequestToken } from '@nextcloud/auth'
+import { getCSPNonce } from '@nextcloud/auth'
 import { translate as t, translatePlural as n } from '@nextcloud/l10n'
 import { createPinia, PiniaVuePlugin } from 'pinia'
 import Vue from 'vue'
@@ -13,7 +13,7 @@ import UnifiedSearch from './views/UnifiedSearch.vue'
 import { useSearchStore } from '../src/store/unified-search-external-filters.js'
 
 // eslint-disable-next-line camelcase
-__webpack_nonce__ = btoa(getRequestToken())
+__webpack_nonce__ = getCSPNonce()
 
 const logger = getLoggerBuilder()
 	.setApp('unified-search')

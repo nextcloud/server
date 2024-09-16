@@ -6,12 +6,12 @@ OC.L10N.register(
     "Generate backup codes" : "Izveidot rezerves kodus",
     "Backup code" : "Dublēšanas kods",
     "Use backup code" : "Izmantot rezerves kodu",
-    "These are your backup codes. Please save and/or print them as you will not be able to read the codes again later" : "Šie ir jūsu dublējuma kodi. Lūdzu saglabāt un / vai izdrukāt tos, jūs nevarēsiet izlasīt kodus vēlreiz",
     "Save backup codes" : "Saglabāt rezerves kodus",
     "Print backup codes" : "Drukāt dublējuma kodus",
     "Regenerate backup codes" : "Atjaunot dublējuma kodus",
     "If you regenerate backup codes, you automatically invalidate old codes." : "Ja atjaunot dublējum kodus, tiek automātiski anulēti vecie kodi.",
     "An error occurred while generating your backup codes" : "Radās kļūda, ģenerējot jūsu dublējuma kodus",
-    "Submit" : "Iesniegt"
+    "Submit" : "Iesniegt",
+    "These are your backup codes. Please save and/or print them as you will not be able to read the codes again later" : "Šie ir jūsu dublējuma kodi. Lūdzu saglabāt un / vai izdrukāt tos, jūs nevarēsiet izlasīt kodus vēlreiz"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);");

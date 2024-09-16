@@ -44,7 +44,7 @@ class BackgroundService {
 	 */
 	public const BACKGROUND_COLOR = 'color';
 
-	public const DEFAULT_BACKGROUND_IMAGE = 'kamil-porembinski-clouds.jpg';
+	public const DEFAULT_BACKGROUND_IMAGE = 'jenna-kim-the-globe.webp';
 
 	/**
 	 * 'attribution': Name, artist and license
@@ -54,6 +54,21 @@ class BackgroundService {
 	 * 'primary_color': Recommended primary color for this theme / image
 	 */
 	public const SHIPPED_BACKGROUNDS = [
+		'jenna-kim-the-globe.webp' => [
+			'attribution' => 'Globe (Jenna Kim - Nextcloud GmbH, CC-BY-SA-4.0)',
+			'description' => 'Background picture of white clouds on in front of a blue sky',
+			'attribution_url' => 'https://nextcloud.com/trademarks/',
+			'dark_variant' => 'jenna-kim-the-globe-dark.webp',
+			'background_color' => self::DEFAULT_BACKGROUND_COLOR,
+			'primary_color' => self::DEFAULT_COLOR,
+		],
+		'kamil-porembinski-clouds.jpg' => [
+			'attribution' => 'Clouds (Kamil Porembiński, CC BY-SA)',
+			'description' => 'Background picture of white clouds on in front of a blue sky',
+			'attribution_url' => 'https://www.flickr.com/photos/paszczak000/8715851521/',
+			'background_color' => self::DEFAULT_BACKGROUND_COLOR,
+			'primary_color' => self::DEFAULT_COLOR,
+		],
 		'hannah-maclean-soft-floral.jpg' => [
 			'attribution' => 'Soft floral (Hannah MacLean, CC0)',
 			'description' => 'Abstract background picture in yellow and white color whith a flower on it',
@@ -138,13 +153,6 @@ class BackgroundService {
 			'background_color' => '#333f47',
 			'primary_color' => '#4f6071',
 		],
-		'kamil-porembinski-clouds.jpg' => [
-			'attribution' => 'Clouds (Kamil Porembiński, CC BY-SA)',
-			'description' => 'Background picture of white clouds on in front of a blue sky',
-			'attribution_url' => 'https://www.flickr.com/photos/paszczak000/8715851521/',
-			'background_color' => self::DEFAULT_BACKGROUND_COLOR,
-			'primary_color' => self::DEFAULT_COLOR,
-		],
 		'bernard-spragg-new-zealand-fern.jpg' => [
 			'attribution' => 'New zealand fern (Bernard Spragg, CC0)',
 			'description' => 'Abstract background picture of fern leafes',
@@ -197,10 +205,15 @@ class BackgroundService {
 	) {
 	}
 
-	public function setDefaultBackground(): void {
-		$this->config->deleteUserValue($this->userId, Application::APP_ID, 'background_image');
-		$this->config->deleteUserValue($this->userId, Application::APP_ID, 'background_color');
-		$this->config->deleteUserValue($this->userId, Application::APP_ID, 'primary_color');
+	public function setDefaultBackground(?string $userId = null): void {
+		$userId = $userId ?? $this->userId;
+		if ($userId === null) {
+			throw new RuntimeException('No currently logged-in user');
+		}
+
+		$this->config->deleteUserValue($userId, Application::APP_ID, 'background_image');
+		$this->config->deleteUserValue($userId, Application::APP_ID, 'background_color');
+		$this->config->deleteUserValue($userId, Application::APP_ID, 'primary_color');
 	}
 
 	/**
@@ -219,9 +232,24 @@ class BackgroundService {
 
 		/** @var File $file */
 		$file = $userFolder->get($path);
-		$image = new \OCP\Image();
+		$handle = $file->fopen('r');
+		if ($handle === false) {
+			throw new InvalidArgumentException('Invalid image file');
+		}
+		$this->getAppDataFolder()->newFile('background.jpg', $handle);
 
-		if ($image->loadFromFileHandle($file->fopen('r')) === false) {
+		$this->recalculateMeanColor();
+	}
+
+	public function recalculateMeanColor(?string $userId = null): void {
+		$userId = $userId ?? $this->userId;
+		if ($userId === null) {
+			throw new RuntimeException('No currently logged-in user');
+		}
+
+		$image = new \OCP\Image();
+		$handle = $this->getAppDataFolder($userId)->getFile('background.jpg')->read();
+		if ($handle === false || $image->loadFromFileHandle($handle) === false) {
 			throw new InvalidArgumentException('Invalid image file');
 		}
 
@@ -229,35 +257,43 @@ class BackgroundService {
 		if ($meanColor !== false) {
 			$this->setColorBackground($meanColor);
 		}
-
-		$this->getAppDataFolder()->newFile('background.jpg', $file->fopen('r'));
-		$this->config->setUserValue($this->userId, Application::APP_ID, 'background_image', self::BACKGROUND_CUSTOM);
+		$this->config->setUserValue($userId, Application::APP_ID, 'background_image', self::BACKGROUND_CUSTOM);
 	}
 
-	public function setShippedBackground($fileName): void {
-		if ($this->userId === null) {
+	/**
+	 * Set background of user to a shipped background identified by the filename
+	 * @param string $filename The shipped background filename
+	 * @param null|string $userId The user to set - defaults to currently logged in user
+	 * @throws RuntimeException If neither $userId is specified nor a user is logged in
+	 * @throws InvalidArgumentException If the specified filename does not match any shipped background
+	 */
+	public function setShippedBackground(string $filename, ?string $userId = null): void {
+		$userId = $userId ?? $this->userId;
+		if ($userId === null) {
 			throw new RuntimeException('No currently logged-in user');
 		}
-		if (!array_key_exists($fileName, self::SHIPPED_BACKGROUNDS)) {
+		if (!array_key_exists($filename, self::SHIPPED_BACKGROUNDS)) {
 			throw new InvalidArgumentException('The given file name is invalid');
 		}
-		$this->setColorBackground(self::SHIPPED_BACKGROUNDS[$fileName]['background_color']);
-		$this->config->setUserValue($this->userId, Application::APP_ID, 'background_image', $fileName);
-		$this->config->setUserValue($this->userId, Application::APP_ID, 'primary_color', self::SHIPPED_BACKGROUNDS[$fileName]['primary_color']);
+		$this->setColorBackground(self::SHIPPED_BACKGROUNDS[$filename]['background_color'], $userId);
+		$this->config->setUserValue($userId, Application::APP_ID, 'background_image', $filename);
+		$this->config->setUserValue($userId, Application::APP_ID, 'primary_color', self::SHIPPED_BACKGROUNDS[$filename]['primary_color']);
 	}
 
 	/**
 	 * Set the background to color only
+	 * @param string|null $userId The user to set the color - default to current logged-in user
 	 */
-	public function setColorBackground(string $color): void {
-		if ($this->userId === null) {
+	public function setColorBackground(string $color, ?string $userId = null): void {
+		$userId = $userId ?? $this->userId;
+		if ($userId === null) {
 			throw new RuntimeException('No currently logged-in user');
 		}
 		if (!preg_match('/^#([0-9a-f]{3}|[0-9a-f]{6})$/i', $color)) {
 			throw new InvalidArgumentException('The given color is invalid');
 		}
-		$this->config->setUserValue($this->userId, Application::APP_ID, 'background_color', $color);
-		$this->config->setUserValue($this->userId, Application::APP_ID, 'background_image', self::BACKGROUND_COLOR);
+		$this->config->setUserValue($userId, Application::APP_ID, 'background_color', $color);
+		$this->config->setUserValue($userId, Application::APP_ID, 'background_image', self::BACKGROUND_COLOR);
 	}
 
 	public function deleteBackgroundImage(): void {
@@ -272,7 +308,7 @@ class BackgroundService {
 		if ($background === self::BACKGROUND_CUSTOM) {
 			try {
 				return $this->getAppDataFolder()->getFile('background.jpg');
-			} catch (NotFoundException | NotPermittedException $e) {
+			} catch (NotFoundException|NotPermittedException $e) {
 				return null;
 			}
 		}
@@ -358,19 +394,24 @@ class BackgroundService {
 	/**
 	 * Storing the data in appdata/theming/users/USERID
 	 *
-	 * @return ISimpleFolder
+	 * @param string|null $userId The user to get the folder - default to current user
 	 * @throws NotPermittedException
 	 */
-	private function getAppDataFolder(): ISimpleFolder {
+	private function getAppDataFolder(?string $userId = null): ISimpleFolder {
+		$userId = $userId ?? $this->userId;
+		if ($userId === null) {
+			throw new RuntimeException('No currently logged-in user');
+		}
+
 		try {
 			$rootFolder = $this->appData->getFolder('users');
 		} catch (NotFoundException $e) {
 			$rootFolder = $this->appData->newFolder('users');
 		}
 		try {
-			return $rootFolder->getFolder($this->userId);
+			return $rootFolder->getFolder($userId);
 		} catch (NotFoundException $e) {
-			return $rootFolder->newFolder($this->userId);
+			return $rootFolder->newFolder($userId);
 		}
 	}
 }

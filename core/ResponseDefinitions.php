@@ -7,7 +7,7 @@ declare(strict_types=1);
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-namespace OCA\Core;
+namespace OC\Core;
 
 /**
  * @psalm-type CoreLoginFlowV2Credentials = array{
@@ -165,15 +165,22 @@ namespace OCA\Core;
  * @psalm-type CoreTaskProcessingShape = array{
  *     name: string,
  *     description: string,
- *     type: "Number"|"Text"|"Audio"|"Image"|"Video"|"File"|"ListOfNumbers"|"ListOfTexts"|"ListOfImages"|"ListOfAudios"|"ListOfVideos"|"ListOfFiles",
- *     mandatory: bool,
+ *     type: "Number"|"Text"|"Audio"|"Image"|"Video"|"File"|"Enum"|"ListOfNumbers"|"ListOfTexts"|"ListOfImages"|"ListOfAudios"|"ListOfVideos"|"ListOfFiles",
  * }
  *
  * @psalm-type CoreTaskProcessingTaskType = array{
  *     name: string,
  *     description: string,
  *     inputShape: CoreTaskProcessingShape[],
+ *     inputShapeEnumValues: array{name: string, value: string}[][],
+ *     inputShapeDefaults: array<string, numeric|string>,
+ *     optionalInputShape: CoreTaskProcessingShape[],
+ *     optionalInputShapeEnumValues: array{name: string, value: string}[][],
+ *     optionalInputShapeDefaults: array<string, numeric|string>,
  *     outputShape: CoreTaskProcessingShape[],
+ *     outputShapeEnumValues: array{name: string, value: string}[][],
+ *     optionalOutputShape: CoreTaskProcessingShape[],
+ *     optionalOutputShapeEnumValues: array{name: string, value: string}[][]}
  * }
  *
  * @psalm-type CoreTaskProcessingIO = array<string, numeric|list<numeric>|string|list<string>>

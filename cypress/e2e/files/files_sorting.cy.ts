@@ -41,6 +41,31 @@ describe('Files: Sorting the file list', { testIsolation: true }, () => {
 		})
 	})
 
+	/**
+	 * Regression test of https://github.com/nextcloud/server/issues/45829
+	 */
+	it('Filesnames with numbers are sorted by name ascending by default', () => {
+		cy.uploadContent(currentUser, new Blob(), 'text/plain', '/name.txt')
+			.uploadContent(currentUser, new Blob(), 'text/plain', '/name_03.txt')
+			.uploadContent(currentUser, new Blob(), 'text/plain', '/name_02.txt')
+			.uploadContent(currentUser, new Blob(), 'text/plain', '/name_01.txt')
+		cy.login(currentUser)
+		cy.visit('/apps/files')
+
+		cy.get('[data-cy-files-list-row]').each(($row, index) => {
+			switch (index) {
+			case 0: expect($row.attr('data-cy-files-list-row-name')).to.eq('name.txt')
+				break
+			case 1: expect($row.attr('data-cy-files-list-row-name')).to.eq('name_01.txt')
+				break
+			case 2: expect($row.attr('data-cy-files-list-row-name')).to.eq('name_02.txt')
+				break
+			case 3: expect($row.attr('data-cy-files-list-row-name')).to.eq('name_03.txt')
+				break
+			}
+		})
+	})
+
 	it('Can sort by size', () => {
 		cy.uploadContent(currentUser, new Blob(), 'text/plain', '/1 tiny.txt')
 			.uploadContent(currentUser, new Blob(['a'.repeat(1024)]), 'text/plain', '/z big.txt')

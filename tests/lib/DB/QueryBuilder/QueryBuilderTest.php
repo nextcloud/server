@@ -9,11 +9,12 @@ namespace Test\DB\QueryBuilder;
 
 use Doctrine\DBAL\Query\Expression\CompositeExpression;
 use Doctrine\DBAL\Query\QueryException;
-use Doctrine\DBAL\Result;
 use OC\DB\QueryBuilder\Literal;
 use OC\DB\QueryBuilder\Parameter;
 use OC\DB\QueryBuilder\QueryBuilder;
 use OC\SystemConfig;
+use OCP\DB\IResult;
+use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\DB\QueryBuilder\IQueryFunction;
 use OCP\IDBConnection;
 use Psr\Log\LoggerInterface;
@@ -102,7 +103,7 @@ class QueryBuilderTest extends \Test\TestCase {
 	 * @param int|null $firstResult
 	 * @param array $expectedSet
 	 */
-	public function testFirstResult($firstResult, $expectedSet) {
+	public function testFirstResult($firstResult, $expectedSet): void {
 		$this->deleteTestingRows();
 		$this->createTestingRows();
 
@@ -139,7 +140,7 @@ class QueryBuilderTest extends \Test\TestCase {
 	 * @param int $maxResult
 	 * @param array $expectedSet
 	 */
-	public function testMaxResults($maxResult, $expectedSet) {
+	public function testMaxResults($maxResult, $expectedSet): void {
 		$this->deleteTestingRows();
 		$this->createTestingRows();
 
@@ -192,7 +193,7 @@ class QueryBuilderTest extends \Test\TestCase {
 	 * @param array $expected
 	 * @param string $expectedLiteral
 	 */
-	public function testSelect($selectArguments, $expected, $expectedLiteral = '') {
+	public function testSelect($selectArguments, $expected, $expectedLiteral = ''): void {
 		$this->deleteTestingRows();
 		$this->createTestingRows();
 
@@ -245,7 +246,7 @@ class QueryBuilderTest extends \Test\TestCase {
 	 * @param array $alias
 	 * @param array $expected
 	 */
-	public function testSelectAlias($select, $alias, $expected) {
+	public function testSelectAlias($select, $alias, $expected): void {
 		$this->deleteTestingRows();
 		$this->createTestingRows();
 
@@ -271,7 +272,7 @@ class QueryBuilderTest extends \Test\TestCase {
 		$this->deleteTestingRows();
 	}
 
-	public function testSelectDistinct() {
+	public function testSelectDistinct(): void {
 		$this->deleteTestingRows('testFirstResult1');
 		$this->deleteTestingRows('testFirstResult2');
 		$this->createTestingRows('testFirstResult1');
@@ -299,7 +300,7 @@ class QueryBuilderTest extends \Test\TestCase {
 		$this->deleteTestingRows('testFirstResult2');
 	}
 
-	public function testSelectDistinctMultiple() {
+	public function testSelectDistinctMultiple(): void {
 		$this->deleteTestingRows('testFirstResult1');
 		$this->deleteTestingRows('testFirstResult2');
 		$this->createTestingRows('testFirstResult1');
@@ -369,7 +370,7 @@ class QueryBuilderTest extends \Test\TestCase {
 	 * @param array $expected
 	 * @param string $expectedLiteral
 	 */
-	public function testAddSelect($selectArguments, $expected, $expectedLiteral = '') {
+	public function testAddSelect($selectArguments, $expected, $expectedLiteral = ''): void {
 		$this->deleteTestingRows();
 		$this->createTestingRows();
 
@@ -422,7 +423,7 @@ class QueryBuilderTest extends \Test\TestCase {
 	 * @param array $expectedQueryPart
 	 * @param string $expectedQuery
 	 */
-	public function testDelete($tableName, $tableAlias, $expectedQueryPart, $expectedQuery) {
+	public function testDelete($tableName, $tableAlias, $expectedQueryPart, $expectedQuery): void {
 		$this->queryBuilder->delete($tableName, $tableAlias);
 
 		$this->assertSame(
@@ -451,7 +452,7 @@ class QueryBuilderTest extends \Test\TestCase {
 	 * @param array $expectedQueryPart
 	 * @param string $expectedQuery
 	 */
-	public function testUpdate($tableName, $tableAlias, $expectedQueryPart, $expectedQuery) {
+	public function testUpdate($tableName, $tableAlias, $expectedQueryPart, $expectedQuery): void {
 		$this->queryBuilder->update($tableName, $tableAlias);
 
 		$this->assertSame(
@@ -478,7 +479,7 @@ class QueryBuilderTest extends \Test\TestCase {
 	 * @param array $expectedQueryPart
 	 * @param string $expectedQuery
 	 */
-	public function testInsert($tableName, $expectedQueryPart, $expectedQuery) {
+	public function testInsert($tableName, $expectedQueryPart, $expectedQuery): void {
 		$this->queryBuilder->insert($tableName);
 
 		$this->assertSame(
@@ -523,7 +524,7 @@ class QueryBuilderTest extends \Test\TestCase {
 	 * @param array $expectedQueryPart
 	 * @param string $expectedQuery
 	 */
-	public function testFrom($table1Name, $table1Alias, $table2Name, $table2Alias, $expectedQueryPart, $expectedQuery) {
+	public function testFrom($table1Name, $table1Alias, $table2Name, $table2Alias, $expectedQueryPart, $expectedQuery): void {
 		$this->queryBuilder->from($table1Name, $table1Alias);
 		if ($table2Name !== null) {
 			$this->queryBuilder->from($table2Name, $table2Alias);
@@ -571,7 +572,7 @@ class QueryBuilderTest extends \Test\TestCase {
 	 * @param array $expectedQueryPart
 	 * @param string $expectedQuery
 	 */
-	public function testJoin($fromAlias, $tableName, $tableAlias, $condition, $expectedQueryPart, $expectedQuery) {
+	public function testJoin($fromAlias, $tableName, $tableAlias, $condition, $expectedQueryPart, $expectedQuery): void {
 		$this->queryBuilder->from('data1', 'd1');
 		$this->queryBuilder->join(
 			$fromAlias,
@@ -601,7 +602,7 @@ class QueryBuilderTest extends \Test\TestCase {
 	 * @param array $expectedQueryPart
 	 * @param string $expectedQuery
 	 */
-	public function testInnerJoin($fromAlias, $tableName, $tableAlias, $condition, $expectedQueryPart, $expectedQuery) {
+	public function testInnerJoin($fromAlias, $tableName, $tableAlias, $condition, $expectedQueryPart, $expectedQuery): void {
 		$this->queryBuilder->from('data1', 'd1');
 		$this->queryBuilder->innerJoin(
 			$fromAlias,
@@ -651,7 +652,7 @@ class QueryBuilderTest extends \Test\TestCase {
 	 * @param array $expectedQueryPart
 	 * @param string $expectedQuery
 	 */
-	public function testLeftJoin($fromAlias, $tableName, $tableAlias, $condition, $expectedQueryPart, $expectedQuery) {
+	public function testLeftJoin($fromAlias, $tableName, $tableAlias, $condition, $expectedQueryPart, $expectedQuery): void {
 		$this->queryBuilder->from('data1', 'd1');
 		$this->queryBuilder->leftJoin(
 			$fromAlias,
@@ -701,7 +702,7 @@ class QueryBuilderTest extends \Test\TestCase {
 	 * @param array $expectedQueryPart
 	 * @param string $expectedQuery
 	 */
-	public function testRightJoin($fromAlias, $tableName, $tableAlias, $condition, $expectedQueryPart, $expectedQuery) {
+	public function testRightJoin($fromAlias, $tableName, $tableAlias, $condition, $expectedQueryPart, $expectedQuery): void {
 		$this->queryBuilder->from('data1', 'd1');
 		$this->queryBuilder->rightJoin(
 			$fromAlias,
@@ -740,7 +741,7 @@ class QueryBuilderTest extends \Test\TestCase {
 	 * @param array $expectedQueryPart
 	 * @param string $expectedQuery
 	 */
-	public function testSet($partOne1, $partOne2, $partTwo1, $partTwo2, $expectedQueryPart, $expectedQuery) {
+	public function testSet($partOne1, $partOne2, $partTwo1, $partTwo2, $expectedQueryPart, $expectedQuery): void {
 		$this->queryBuilder->update('data');
 		$this->queryBuilder->set($partOne1, $partOne2);
 		if ($partTwo1 !== null) {
@@ -772,7 +773,7 @@ class QueryBuilderTest extends \Test\TestCase {
 	 * @param array $expectedQueryPart
 	 * @param string $expectedQuery
 	 */
-	public function testWhere($whereArguments, $expectedQueryPart, $expectedQuery) {
+	public function testWhere($whereArguments, $expectedQueryPart, $expectedQuery): void {
 		$this->queryBuilder->select('column');
 		call_user_func_array(
 			[$this->queryBuilder, 'where'],
@@ -797,7 +798,7 @@ class QueryBuilderTest extends \Test\TestCase {
 	 * @param array $expectedQueryPart
 	 * @param string $expectedQuery
 	 */
-	public function testAndWhere($whereArguments, $expectedQueryPart, $expectedQuery) {
+	public function testAndWhere($whereArguments, $expectedQueryPart, $expectedQuery): void {
 		$this->queryBuilder->select('column');
 		call_user_func_array(
 			[$this->queryBuilder, 'andWhere'],
@@ -829,7 +830,7 @@ class QueryBuilderTest extends \Test\TestCase {
 	 * @param array $expectedQueryPart
 	 * @param string $expectedQuery
 	 */
-	public function testOrWhere($whereArguments, $expectedQueryPart, $expectedQuery) {
+	public function testOrWhere($whereArguments, $expectedQueryPart, $expectedQuery): void {
 		$this->queryBuilder->select('column');
 		call_user_func_array(
 			[$this->queryBuilder, 'orWhere'],
@@ -861,7 +862,7 @@ class QueryBuilderTest extends \Test\TestCase {
 	 * @param array $expectedQueryPart
 	 * @param string $expectedQuery
 	 */
-	public function testGroupBy($groupByArguments, $expectedQueryPart, $expectedQuery) {
+	public function testGroupBy($groupByArguments, $expectedQueryPart, $expectedQuery): void {
 		$this->queryBuilder->select('column');
 		call_user_func_array(
 			[$this->queryBuilder, 'groupBy'],
@@ -893,7 +894,7 @@ class QueryBuilderTest extends \Test\TestCase {
 	 * @param array $expectedQueryPart
 	 * @param string $expectedQuery
 	 */
-	public function testAddGroupBy($groupByArguments, $expectedQueryPart, $expectedQuery) {
+	public function testAddGroupBy($groupByArguments, $expectedQueryPart, $expectedQuery): void {
 		$this->queryBuilder->select('column');
 		$this->queryBuilder->groupBy('column1');
 		call_user_func_array(
@@ -926,7 +927,7 @@ class QueryBuilderTest extends \Test\TestCase {
 	 * @param array $expectedQueryPart
 	 * @param string $expectedQuery
 	 */
-	public function testSetValue($column, $value, $expectedQueryPart, $expectedQuery) {
+	public function testSetValue($column, $value, $expectedQueryPart, $expectedQuery): void {
 		$this->queryBuilder->insert('data');
 		$this->queryBuilder->setValue($column, $value);
 
@@ -949,7 +950,7 @@ class QueryBuilderTest extends \Test\TestCase {
 	 * @param array $expectedQueryPart
 	 * @param string $expectedQuery
 	 */
-	public function testValues($column, $value, $expectedQueryPart, $expectedQuery) {
+	public function testValues($column, $value, $expectedQueryPart, $expectedQuery): void {
 		$this->queryBuilder->insert('data');
 		$this->queryBuilder->values([
 			$column => $value,
@@ -990,7 +991,7 @@ class QueryBuilderTest extends \Test\TestCase {
 	 * @param array $expectedQueryPart
 	 * @param string $expectedQuery
 	 */
-	public function testHaving($havingArguments, $expectedQueryPart, $expectedQuery) {
+	public function testHaving($havingArguments, $expectedQueryPart, $expectedQuery): void {
 		call_user_func_array(
 			[$this->queryBuilder, 'having'],
 			$havingArguments
@@ -1031,7 +1032,7 @@ class QueryBuilderTest extends \Test\TestCase {
 	 * @param array $expectedQueryPart
 	 * @param string $expectedQuery
 	 */
-	public function testAndHaving($havingArguments, $expectedQueryPart, $expectedQuery) {
+	public function testAndHaving($havingArguments, $expectedQueryPart, $expectedQuery): void {
 		$this->queryBuilder->having('condition1');
 		call_user_func_array(
 			[$this->queryBuilder, 'andHaving'],
@@ -1073,7 +1074,7 @@ class QueryBuilderTest extends \Test\TestCase {
 	 * @param array $expectedQueryPart
 	 * @param string $expectedQuery
 	 */
-	public function testOrHaving($havingArguments, $expectedQueryPart, $expectedQuery) {
+	public function testOrHaving($havingArguments, $expectedQueryPart, $expectedQuery): void {
 		$this->queryBuilder->having('condition1');
 		call_user_func_array(
 			[$this->queryBuilder, 'orHaving'],
@@ -1107,7 +1108,7 @@ class QueryBuilderTest extends \Test\TestCase {
 	 * @param array $expectedQueryPart
 	 * @param string $expectedQuery
 	 */
-	public function testOrderBy($sort, $order, $expectedQueryPart, $expectedQuery) {
+	public function testOrderBy($sort, $order, $expectedQueryPart, $expectedQuery): void {
 		$this->queryBuilder->orderBy($sort, $order);
 
 		$this->assertEquals(
@@ -1144,7 +1145,7 @@ class QueryBuilderTest extends \Test\TestCase {
 	 * @param array $expectedQueryPart
 	 * @param string $expectedQuery
 	 */
-	public function testAddOrderBy($sort2, $order2, $order1, $expectedQueryPart, $expectedQuery) {
+	public function testAddOrderBy($sort2, $order2, $order1, $expectedQueryPart, $expectedQuery): void {
 		$this->queryBuilder->orderBy('column1', $order1);
 		$this->queryBuilder->addOrderBy($sort2, $order2);
 
@@ -1159,7 +1160,7 @@ class QueryBuilderTest extends \Test\TestCase {
 		);
 	}
 
-	public function testGetLastInsertId() {
+	public function testGetLastInsertId(): void {
 		$qB = $this->connection->getQueryBuilder();
 
 		try {
@@ -1222,7 +1223,7 @@ class QueryBuilderTest extends \Test\TestCase {
 	 * @param bool $automatic
 	 * @param string $expected
 	 */
-	public function testGetTableName($tableName, $automatic, $expected) {
+	public function testGetTableName($tableName, $automatic, $expected): void {
 		if ($automatic !== null) {
 			$this->queryBuilder->automaticTablePrefix($automatic);
 		}
@@ -1246,23 +1247,36 @@ class QueryBuilderTest extends \Test\TestCase {
 	 * @param string $prefix
 	 * @param string $expected
 	 */
-	public function testGetColumnName($column, $prefix, $expected) {
+	public function testGetColumnName($column, $prefix, $expected): void {
 		$this->assertSame(
 			$expected,
 			$this->queryBuilder->getColumnName($column, $prefix)
 		);
 	}
 
-	public function testExecuteWithoutLogger() {
+	private function getConnection(): IDBConnection {
+		$connection = $this->createMock(IDBConnection::class);
+		$connection->method('executeStatement')
+			->willReturn(3);
+		$connection->method('executeQuery')
+			->willReturn($this->createMock(IResult::class));
+		return $connection;
+	}
+
+	public function testExecuteWithoutLogger(): void {
 		$queryBuilder = $this->createMock(\Doctrine\DBAL\Query\QueryBuilder::class);
 		$queryBuilder
-			->expects($this->once())
-			->method('execute')
-			->willReturn(3);
+			->method('getSQL')
+			->willReturn('');
 		$queryBuilder
-			->expects($this->any())
 			->method('getParameters')
 			->willReturn([]);
+		$queryBuilder
+			->method('getParameterTypes')
+			->willReturn([]);
+		$queryBuilder
+			->method('getType')
+			->willReturn(\Doctrine\DBAL\Query\QueryBuilder::UPDATE);
 		$this->logger
 			->expects($this->never())
 			->method('debug');
@@ -1273,10 +1287,11 @@ class QueryBuilderTest extends \Test\TestCase {
 			->willReturn(false);
 
 		$this->invokePrivate($this->queryBuilder, 'queryBuilder', [$queryBuilder]);
+		$this->invokePrivate($this->queryBuilder, 'connection', [$this->getConnection()]);
 		$this->assertEquals(3, $this->queryBuilder->execute());
 	}
 
-	public function testExecuteWithLoggerAndNamedArray() {
+	public function testExecuteWithLoggerAndNamedArray(): void {
 		$queryBuilder = $this->createMock(\Doctrine\DBAL\Query\QueryBuilder::class);
 		$queryBuilder
 			->expects($this->any())
@@ -1286,20 +1301,25 @@ class QueryBuilderTest extends \Test\TestCase {
 				'key' => 'value',
 			]);
 		$queryBuilder
+			->method('getParameterTypes')
+			->willReturn([
+				'foo' => IQueryBuilder::PARAM_STR,
+				'key' => IQueryBuilder::PARAM_STR,
+			]);
+		$queryBuilder
+			->method('getType')
+			->willReturn(\Doctrine\DBAL\Query\QueryBuilder::UPDATE);
+		$queryBuilder
 			->expects($this->any())
 			->method('getSQL')
-			->willReturn('SELECT * FROM FOO WHERE BAR = ?');
-		$queryBuilder
-			->expects($this->once())
-			->method('execute')
-			->willReturn(3);
+			->willReturn('UPDATE FOO SET bar = 1 WHERE BAR = ?');
 		$this->logger
 			->expects($this->once())
 			->method('debug')
 			->with(
 				'DB QueryBuilder: \'{query}\' with parameters: {params}',
 				[
-					'query' => 'SELECT * FROM FOO WHERE BAR = ?',
+					'query' => 'UPDATE FOO SET bar = 1 WHERE BAR = ?',
 					'params' => 'foo => \'bar\', key => \'value\'',
 					'app' => 'core',
 				]
@@ -1311,30 +1331,33 @@ class QueryBuilderTest extends \Test\TestCase {
 			->willReturn(true);
 
 		$this->invokePrivate($this->queryBuilder, 'queryBuilder', [$queryBuilder]);
+		$this->invokePrivate($this->queryBuilder, 'connection', [$this->getConnection()]);
 		$this->assertEquals(3, $this->queryBuilder->execute());
 	}
 
-	public function testExecuteWithLoggerAndUnnamedArray() {
+	public function testExecuteWithLoggerAndUnnamedArray(): void {
 		$queryBuilder = $this->createMock(\Doctrine\DBAL\Query\QueryBuilder::class);
 		$queryBuilder
 			->expects($this->any())
 			->method('getParameters')
 			->willReturn(['Bar']);
 		$queryBuilder
+			->method('getParameterTypes')
+			->willReturn([IQueryBuilder::PARAM_STR]);
+		$queryBuilder
+			->method('getType')
+			->willReturn(\Doctrine\DBAL\Query\QueryBuilder::UPDATE);
+		$queryBuilder
 			->expects($this->any())
 			->method('getSQL')
-			->willReturn('SELECT * FROM FOO WHERE BAR = ?');
-		$queryBuilder
-			->expects($this->once())
-			->method('execute')
-			->willReturn(3);
+			->willReturn('UPDATE FOO SET bar = false WHERE BAR = ?');
 		$this->logger
 			->expects($this->once())
 			->method('debug')
 			->with(
 				'DB QueryBuilder: \'{query}\' with parameters: {params}',
 				[
-					'query' => 'SELECT * FROM FOO WHERE BAR = ?',
+					'query' => 'UPDATE FOO SET bar = false WHERE BAR = ?',
 					'params' => '0 => \'Bar\'',
 					'app' => 'core',
 				]
@@ -1346,30 +1369,33 @@ class QueryBuilderTest extends \Test\TestCase {
 			->willReturn(true);
 
 		$this->invokePrivate($this->queryBuilder, 'queryBuilder', [$queryBuilder]);
+		$this->invokePrivate($this->queryBuilder, 'connection', [$this->getConnection()]);
 		$this->assertEquals(3, $this->queryBuilder->execute());
 	}
 
-	public function testExecuteWithLoggerAndNoParams() {
+	public function testExecuteWithLoggerAndNoParams(): void {
 		$queryBuilder = $this->createMock(\Doctrine\DBAL\Query\QueryBuilder::class);
 		$queryBuilder
 			->expects($this->any())
 			->method('getParameters')
 			->willReturn([]);
 		$queryBuilder
+			->method('getParameterTypes')
+			->willReturn([]);
+		$queryBuilder
+			->method('getType')
+			->willReturn(\Doctrine\DBAL\Query\QueryBuilder::UPDATE);
+		$queryBuilder
 			->expects($this->any())
 			->method('getSQL')
-			->willReturn('SELECT * FROM FOO WHERE BAR = ?');
-		$queryBuilder
-			->expects($this->once())
-			->method('execute')
-			->willReturn(3);
+			->willReturn('UPDATE FOO SET bar = false WHERE BAR = ?');
 		$this->logger
 			->expects($this->once())
 			->method('debug')
 			->with(
 				'DB QueryBuilder: \'{query}\'',
 				[
-					'query' => 'SELECT * FROM FOO WHERE BAR = ?',
+					'query' => 'UPDATE FOO SET bar = false WHERE BAR = ?',
 					'app' => 'core',
 				]
 			);
@@ -1380,10 +1406,11 @@ class QueryBuilderTest extends \Test\TestCase {
 			->willReturn(true);
 
 		$this->invokePrivate($this->queryBuilder, 'queryBuilder', [$queryBuilder]);
+		$this->invokePrivate($this->queryBuilder, 'connection', [$this->getConnection()]);
 		$this->assertEquals(3, $this->queryBuilder->execute());
 	}
 
-	public function testExecuteWithParameterTooLarge() {
+	public function testExecuteWithParameterTooLarge(): void {
 		$queryBuilder = $this->createMock(\Doctrine\DBAL\Query\QueryBuilder::class);
 		$p = array_fill(0, 1001, 'foo');
 		$queryBuilder
@@ -1391,13 +1418,12 @@ class QueryBuilderTest extends \Test\TestCase {
 			->method('getParameters')
 			->willReturn([$p]);
 		$queryBuilder
+			->method('getParameterTypes')
+			->willReturn([IQueryBuilder::PARAM_STR_ARRAY]);
+		$queryBuilder
 			->expects($this->any())
 			->method('getSQL')
 			->willReturn('SELECT * FROM FOO WHERE BAR IN (?)');
-		$queryBuilder
-			->expects($this->once())
-			->method('execute')
-			->willReturn($this->createMock(Result::class));
 		$this->logger
 			->expects($this->once())
 			->method('error')
@@ -1415,10 +1441,11 @@ class QueryBuilderTest extends \Test\TestCase {
 			->willReturn(false);
 
 		$this->invokePrivate($this->queryBuilder, 'queryBuilder', [$queryBuilder]);
+		$this->invokePrivate($this->queryBuilder, 'connection', [$this->getConnection()]);
 		$this->queryBuilder->execute();
 	}
 
-	public function testExecuteWithParametersTooMany() {
+	public function testExecuteWithParametersTooMany(): void {
 		$queryBuilder = $this->createMock(\Doctrine\DBAL\Query\QueryBuilder::class);
 		$p = array_fill(0, 999, 'foo');
 		$queryBuilder
@@ -1426,13 +1453,12 @@ class QueryBuilderTest extends \Test\TestCase {
 			->method('getParameters')
 			->willReturn(array_fill(0, 66, $p));
 		$queryBuilder
+			->method('getParameterTypes')
+			->willReturn([IQueryBuilder::PARAM_STR_ARRAY]);
+		$queryBuilder
 			->expects($this->any())
 			->method('getSQL')
 			->willReturn('SELECT * FROM FOO WHERE BAR IN (?) OR BAR IN (?)');
-		$queryBuilder
-			->expects($this->once())
-			->method('execute')
-			->willReturn($this->createMock(Result::class));
 		$this->logger
 			->expects($this->once())
 			->method('error')
@@ -1450,6 +1476,7 @@ class QueryBuilderTest extends \Test\TestCase {
 			->willReturn(false);
 
 		$this->invokePrivate($this->queryBuilder, 'queryBuilder', [$queryBuilder]);
+		$this->invokePrivate($this->queryBuilder, 'connection', [$this->getConnection()]);
 		$this->queryBuilder->execute();
 	}
 }

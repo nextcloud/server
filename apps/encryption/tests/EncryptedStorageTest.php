@@ -30,24 +30,24 @@ class EncryptedStorageTest extends TestCase {
 	use EncryptionTrait;
 	use UserTrait;
 
-	public function testMoveFromEncrypted() {
-		$this->createUser("test1", "test2");
-		$this->setupForUser("test1", 'test2');
+	public function testMoveFromEncrypted(): void {
+		$this->createUser('test1', 'test2');
+		$this->setupForUser('test1', 'test2');
 
 		$unwrapped = new Temporary();
 
-		$this->registerMount("test1", new TemporaryNoEncrypted(), "/test1/files/unenc");
-		$this->registerMount("test1", $unwrapped, "/test1/files/enc");
+		$this->registerMount('test1', new TemporaryNoEncrypted(), '/test1/files/unenc');
+		$this->registerMount('test1', $unwrapped, '/test1/files/enc');
 
-		$this->loginWithEncryption("test1");
+		$this->loginWithEncryption('test1');
 
-		$view = new View("/test1/files");
+		$view = new View('/test1/files');
 
 		/** @var IMountManager $mountManager */
 		$mountManager = \OC::$server->get(IMountManager::class);
 
-		$encryptedMount = $mountManager->find("/test1/files/enc");
-		$unencryptedMount = $mountManager->find("/test1/files/unenc");
+		$encryptedMount = $mountManager->find('/test1/files/enc');
+		$unencryptedMount = $mountManager->find('/test1/files/unenc');
 		$encryptedStorage = $encryptedMount->getStorage();
 		$unencryptedStorage = $unencryptedMount->getStorage();
 		$encryptedCache = $encryptedStorage->getCache();
@@ -56,15 +56,15 @@ class EncryptedStorageTest extends TestCase {
 		$this->assertTrue($encryptedStorage->instanceOfStorage(Encryption::class));
 		$this->assertFalse($unencryptedStorage->instanceOfStorage(Encryption::class));
 
-		$encryptedStorage->file_put_contents("foo.txt", "bar");
-		$this->assertEquals("bar", $encryptedStorage->file_get_contents("foo.txt"));
-		$this->assertStringStartsWith("HBEGIN:oc_encryption_module:", $unwrapped->file_get_contents("foo.txt"));
+		$encryptedStorage->file_put_contents('foo.txt', 'bar');
+		$this->assertEquals('bar', $encryptedStorage->file_get_contents('foo.txt'));
+		$this->assertStringStartsWith('HBEGIN:oc_encryption_module:', $unwrapped->file_get_contents('foo.txt'));
 
-		$this->assertTrue($encryptedCache->get("foo.txt")->isEncrypted());
+		$this->assertTrue($encryptedCache->get('foo.txt')->isEncrypted());
 
-		$view->rename("enc/foo.txt", "unenc/foo.txt");
+		$view->rename('enc/foo.txt', 'unenc/foo.txt');
 
-		$this->assertEquals("bar", $unencryptedStorage->file_get_contents("foo.txt"));
-		$this->assertFalse($unencryptedCache->get("foo.txt")->isEncrypted());
+		$this->assertEquals('bar', $unencryptedStorage->file_get_contents('foo.txt'));
+		$this->assertFalse($unencryptedCache->get('foo.txt')->isEncrypted());
 	}
 }

@@ -136,7 +136,7 @@ class Notify extends StorageAuthBase {
 		$storageIds = array_values(array_unique($storageIds));
 
 		if ($dryRun) {
-			$output->writeln("  dry-run: skipping database write");
+			$output->writeln('  dry-run: skipping database write');
 		} else {
 			$result = $this->updateParent($storageIds, $parent);
 			if ($result === 0) {
@@ -215,7 +215,7 @@ class Notify extends StorageAuthBase {
 	private function selfTest(IStorage $storage, INotifyHandler $notifyHandler, OutputInterface $output): void {
 		usleep(100 * 1000); //give time for the notify to start
 		if (!$storage->file_put_contents('/.nc_test_file.txt', 'test content')) {
-			$output->writeln("Failed to create test file for self-test");
+			$output->writeln('Failed to create test file for self-test');
 			return;
 		}
 		$storage->mkdir('/.nc_test_folder');

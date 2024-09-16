@@ -20,18 +20,18 @@ class ShareAttributes implements IAttributes {
 	/**
 	 * @inheritdoc
 	 */
-	public function setAttribute($scope, $key, $enabled) {
+	public function setAttribute(string $scope, string $key, mixed $value): IAttributes {
 		if (!\array_key_exists($scope, $this->attributes)) {
 			$this->attributes[$scope] = [];
 		}
-		$this->attributes[$scope][$key] = $enabled;
+		$this->attributes[$scope][$key] = $value;
 		return $this;
 	}
 
 	/**
 	 * @inheritdoc
 	 */
-	public function getAttribute($scope, $key) {
+	public function getAttribute(string $scope, string $key): mixed {
 		if (\array_key_exists($scope, $this->attributes) &&
 			\array_key_exists($key, $this->attributes[$scope])) {
 			return $this->attributes[$scope][$key];
@@ -42,14 +42,14 @@ class ShareAttributes implements IAttributes {
 	/**
 	 * @inheritdoc
 	 */
-	public function toArray() {
+	public function toArray(): array {
 		$result = [];
 		foreach ($this->attributes as $scope => $keys) {
-			foreach ($keys as $key => $enabled) {
+			foreach ($keys as $key => $value) {
 				$result[] = [
-					"scope" => $scope,
-					"key" => $key,
-					"enabled" => $enabled
+					'scope' => $scope,
+					'key' => $key,
+					'value' => $value,
 				];
 			}
 		}

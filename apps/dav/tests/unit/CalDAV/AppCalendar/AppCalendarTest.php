@@ -52,7 +52,7 @@ class AppCalendarTest extends TestCase {
 		$this->appCalendar->delete();
 	}
 
-	public function testCreateFile() {
+	public function testCreateFile(): void {
 		$this->writeableCalendar->expects($this->exactly(3))
 			->method('createFromString')
 			->withConsecutive(['some-name', 'data'], ['other-name', ''], ['name', 'some data']);
@@ -69,7 +69,7 @@ class AppCalendarTest extends TestCase {
 		fclose($fp);
 	}
 
-	public function testCreateFile_readOnly() {
+	public function testCreateFile_readOnly(): void {
 		// If writing is not supported
 		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
 		$this->expectExceptionMessage('Creating a new entry is not allowed');

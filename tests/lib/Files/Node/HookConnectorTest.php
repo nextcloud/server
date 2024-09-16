@@ -49,7 +49,7 @@ class HookConnectorTest extends TestCase {
 	use UserTrait;
 	use MountProviderTrait;
 
-	/** @var IEventDispatcher  */
+	/** @var IEventDispatcher */
 	protected $eventDispatcher;
 
 	private LoggerInterface $logger;
@@ -152,7 +152,7 @@ class HookConnectorTest extends TestCase {
 	 * @param string $expectedHook
 	 * @dataProvider viewToNodeProvider
 	 */
-	public function testViewToNode(callable $operation, $expectedHook, $expectedLegacyEvent, $expectedEvent) {
+	public function testViewToNode(callable $operation, $expectedHook, $expectedLegacyEvent, $expectedEvent): void {
 		$connector = new HookConnector($this->root, $this->view, $this->eventDispatcher, $this->logger);
 		$connector->viewToNode();
 		$hookCalled = false;
@@ -221,7 +221,7 @@ class HookConnectorTest extends TestCase {
 	 * @param string $expectedHook
 	 * @dataProvider viewToNodeProviderCopyRename
 	 */
-	public function testViewToNodeCopyRename(callable $operation, $expectedHook, $expectedLegacyEvent, $expectedEvent) {
+	public function testViewToNodeCopyRename(callable $operation, $expectedHook, $expectedLegacyEvent, $expectedEvent): void {
 		$connector = new HookConnector($this->root, $this->view, $this->eventDispatcher, $this->logger);
 		$connector->viewToNode();
 		$hookCalled = false;
@@ -276,7 +276,7 @@ class HookConnectorTest extends TestCase {
 		$this->assertEquals('/' . $this->userId . '/files/target', $newDispatcherTargetNode->getPath());
 	}
 
-	public function testPostDeleteMeta() {
+	public function testPostDeleteMeta(): void {
 		$connector = new HookConnector($this->root, $this->view, $this->eventDispatcher, $this->logger);
 		$connector->viewToNode();
 		$hookCalled = false;

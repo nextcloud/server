@@ -31,7 +31,7 @@ class ProviderDisabledTest extends TestCase {
 		$this->listener = new ProviderDisabled($this->registy, $this->jobList);
 	}
 
-	public function testHandleGenericEvent() {
+	public function testHandleGenericEvent(): void {
 		$event = $this->createMock(Event::class);
 		$this->jobList->expects($this->never())
 			->method($this->anything());
@@ -39,7 +39,7 @@ class ProviderDisabledTest extends TestCase {
 		$this->listener->handle($event);
 	}
 
-	public function testHandleStillActiveProvider() {
+	public function testHandleStillActiveProvider(): void {
 		$user = $this->createMock(IUser::class);
 		$user->method('getUID')
 			->willReturn('myUID');
@@ -60,7 +60,7 @@ class ProviderDisabledTest extends TestCase {
 		$this->listener->handle($event);
 	}
 
-	public function testHandleNoActiveProvider() {
+	public function testHandleNoActiveProvider(): void {
 		$user = $this->createMock(IUser::class);
 		$user->method('getUID')
 			->willReturn('myUID');

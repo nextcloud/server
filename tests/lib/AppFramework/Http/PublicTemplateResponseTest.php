@@ -12,13 +12,12 @@ use OCP\AppFramework\Http\Template\PublicTemplateResponse;
 use Test\TestCase;
 
 class PublicTemplateResponseTest extends TestCase {
-	public function testSetParamsConstructor() {
+	public function testSetParamsConstructor(): void {
 		$template = new PublicTemplateResponse('app', 'home', ['key' => 'value']);
-		$this->assertContains('core/js/public/publicpage', \OC_Util::$scripts);
 		$this->assertEquals(['key' => 'value'], $template->getParams());
 	}
 
-	public function testAdditionalElements() {
+	public function testAdditionalElements(): void {
 		$template = new PublicTemplateResponse('app', 'home', ['key' => 'value']);
 		$template->setHeaderTitle('Header');
 		$template->setHeaderDetails('Details');
@@ -27,7 +26,7 @@ class PublicTemplateResponseTest extends TestCase {
 		$this->assertEquals('Details', $template->getHeaderDetails());
 	}
 
-	public function testActionSingle() {
+	public function testActionSingle(): void {
 		$actions = [
 			new Http\Template\SimpleMenuAction('link', 'Download', 'download', 'downloadLink', 0)
 		];
@@ -40,7 +39,7 @@ class PublicTemplateResponseTest extends TestCase {
 	}
 
 
-	public function testActionMultiple() {
+	public function testActionMultiple(): void {
 		$actions = [
 			new Http\Template\SimpleMenuAction('link1', 'Download1', 'download1', 'downloadLink1', 100),
 			new Http\Template\SimpleMenuAction('link2', 'Download2', 'download2', 'downloadLink2', 20),
@@ -55,9 +54,8 @@ class PublicTemplateResponseTest extends TestCase {
 	}
 
 
-	public function testGetRenderAs() {
+	public function testGetRenderAs(): void {
 		$template = new PublicTemplateResponse('app', 'home', ['key' => 'value']);
-		$this->assertContains('core/js/public/publicpage', \OC_Util::$scripts);
 		$this->assertEquals(['key' => 'value'], $template->getParams());
 		$this->assertEquals('public', $template->getRenderAs());
 	}

@@ -65,10 +65,11 @@ class CleanTagsTest extends \Test\TestCase {
 			->execute();
 
 		$qb->delete('filecache')
+			->runAcrossAllShards()
 			->execute();
 	}
 
-	public function testRun() {
+	public function testRun(): void {
 		$cat1 = $this->addTagCategory('TestRepairCleanTags', 'files'); // Retained
 		$cat2 = $this->addTagCategory('TestRepairCleanTags2', 'files'); // Deleted: Category will be empty
 		$this->addTagCategory('TestRepairCleanTags3', 'files'); // Deleted: Category is empty
@@ -141,7 +142,7 @@ class CleanTagsTest extends \Test\TestCase {
 			])
 			->execute();
 
-		return (int) $this->getLastInsertID('vcategory', 'id');
+		return $qb->getLastInsertId();
 	}
 
 	/**
@@ -176,6 +177,7 @@ class CleanTagsTest extends \Test\TestCase {
 		$fileName = $this->getUniqueID('TestRepairCleanTags', 12);
 		$qb->insert('filecache')
 			->values([
+				'storage' => $qb->createNamedParameter(1, IQueryBuilder::PARAM_INT),
 				'path' => $qb->createNamedParameter($fileName),
 				'path_hash' => $qb->createNamedParameter(md5($fileName)),
 			])
@@ -183,21 +185,13 @@ class CleanTagsTest extends \Test\TestCase {
 		$fileName = $this->getUniqueID('TestRepairCleanTags', 12);
 		$qb->insert('filecache')
 			->values([
+				'storage' => $qb->createNamedParameter(1, IQueryBuilder::PARAM_INT),
 				'path' => $qb->createNamedParameter($fileName),
 				'path_hash' => $qb->createNamedParameter(md5($fileName)),
 			])
 			->execute();
 
-		$this->createdFile = (int) $this->getLastInsertID('filecache', 'fileid');
+		$this->createdFile = $qb->getLastInsertId();
 		return $this->createdFile;
-	}
-
-	/**
-	 * @param $tableName
-	 * @param $idName
-	 * @return int
-	 */
-	protected function getLastInsertID($tableName, $idName) {
-		return $this->connection->lastInsertId("*PREFIX*$tableName");
 	}
 }

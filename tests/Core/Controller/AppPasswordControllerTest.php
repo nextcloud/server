@@ -86,7 +86,7 @@ class AppPasswordControllerTest extends TestCase {
 		);
 	}
 
-	public function testGetAppPasswordWithAppPassword() {
+	public function testGetAppPasswordWithAppPassword(): void {
 		$this->session->method('exists')
 			->with('app_password')
 			->willReturn(true);
@@ -96,7 +96,7 @@ class AppPasswordControllerTest extends TestCase {
 		$this->controller->getAppPassword();
 	}
 
-	public function testGetAppPasswordNoLoginCreds() {
+	public function testGetAppPasswordNoLoginCreds(): void {
 		$this->session->method('exists')
 			->with('app_password')
 			->willReturn(false);
@@ -108,7 +108,7 @@ class AppPasswordControllerTest extends TestCase {
 		$this->controller->getAppPassword();
 	}
 
-	public function testGetAppPassword() {
+	public function testGetAppPassword(): void {
 		$credentials = $this->createMock(ICredentials::class);
 
 		$this->session->method('exists')
@@ -149,7 +149,7 @@ class AppPasswordControllerTest extends TestCase {
 		$this->controller->getAppPassword();
 	}
 
-	public function testGetAppPasswordNoPassword() {
+	public function testGetAppPasswordNoPassword(): void {
 		$credentials = $this->createMock(ICredentials::class);
 
 		$this->session->method('exists')
@@ -190,7 +190,7 @@ class AppPasswordControllerTest extends TestCase {
 		$this->controller->getAppPassword();
 	}
 
-	public function testDeleteAppPasswordNoAppPassword() {
+	public function testDeleteAppPasswordNoAppPassword(): void {
 		$this->session->method('exists')
 			->with('app_password')
 			->willReturn(false);
@@ -200,7 +200,7 @@ class AppPasswordControllerTest extends TestCase {
 		$this->controller->deleteAppPassword();
 	}
 
-	public function testDeleteAppPasswordFails() {
+	public function testDeleteAppPasswordFails(): void {
 		$this->session->method('exists')
 			->with('app_password')
 			->willReturn(true);
@@ -217,7 +217,7 @@ class AppPasswordControllerTest extends TestCase {
 		$this->controller->deleteAppPassword();
 	}
 
-	public function testDeleteAppPasswordSuccess() {
+	public function testDeleteAppPasswordSuccess(): void {
 		$this->session->method('exists')
 			->with('app_password')
 			->willReturn(true);

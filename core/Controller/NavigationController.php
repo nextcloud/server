@@ -5,9 +5,11 @@
  */
 namespace OC\Core\Controller;
 
-use OCA\Core\ResponseDefinitions;
+use OC\Core\ResponseDefinitions;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\ApiRoute;
+use OCP\AppFramework\Http\Attribute\NoAdminRequired;
+use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCSController;
 use OCP\INavigationManager;
@@ -28,9 +30,6 @@ class NavigationController extends OCSController {
 	}
 
 	/**
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
-	 *
 	 * Get the apps navigation
 	 *
 	 * @param bool $absolute Rewrite URLs to absolute ones
@@ -39,6 +38,8 @@ class NavigationController extends OCSController {
 	 * 200: Apps navigation returned
 	 * 304: No apps navigation changed
 	 */
+	#[NoAdminRequired]
+	#[NoCSRFRequired]
 	#[ApiRoute(verb: 'GET', url: '/navigation/apps', root: '/core')]
 	public function getAppsNavigation(bool $absolute = false): DataResponse {
 		$navigation = $this->navigationManager->getAll();
@@ -56,9 +57,6 @@ class NavigationController extends OCSController {
 	}
 
 	/**
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
-	 *
 	 * Get the settings navigation
 	 *
 	 * @param bool $absolute Rewrite URLs to absolute ones
@@ -67,6 +65,8 @@ class NavigationController extends OCSController {
 	 * 200: Apps navigation returned
 	 * 304: No apps navigation changed
 	 */
+	#[NoAdminRequired]
+	#[NoCSRFRequired]
 	#[ApiRoute(verb: 'GET', url: '/navigation/settings', root: '/core')]
 	public function getSettingsNavigation(bool $absolute = false): DataResponse {
 		$navigation = $this->navigationManager->getAll('settings');

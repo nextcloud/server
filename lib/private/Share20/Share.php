@@ -72,6 +72,7 @@ class Share implements IShare {
 	private $nodeCacheEntry;
 	/** @var bool */
 	private $hideDownload = false;
+	private bool $reminderSent = false;
 
 	private bool $noExpirationDate = false;
 
@@ -191,7 +192,7 @@ class Share implements IShare {
 		}
 
 		if ($this->fileId === null) {
-			throw new NotFoundException("Share source not found");
+			throw new NotFoundException('Share source not found');
 		} else {
 			return $this->fileId;
 		}
@@ -612,5 +613,14 @@ class Share implements IShare {
 
 	public function getHideDownload(): bool {
 		return $this->hideDownload;
+	}
+
+	public function setReminderSent(bool $reminderSent): IShare {
+		$this->reminderSent = $reminderSent;
+		return $this;
+	}
+
+	public function getReminderSent(): bool {
+		return $this->reminderSent;
 	}
 }

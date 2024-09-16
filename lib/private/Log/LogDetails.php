@@ -22,7 +22,7 @@ abstract class LogDetails {
 		} catch (\Exception $e) {
 			$timezone = new \DateTimeZone('UTC');
 		}
-		$time = \DateTime::createFromFormat("U.u", number_format(microtime(true), 4, ".", ""));
+		$time = \DateTime::createFromFormat('U.u', number_format(microtime(true), 4, '.', ''));
 		if ($time === false) {
 			$time = new \DateTime('now', $timezone);
 		} else {
@@ -37,7 +37,7 @@ abstract class LogDetails {
 		$url = ($request->getRequestUri() !== '') ? $request->getRequestUri() : '--';
 		$method = is_string($request->getMethod()) ? $request->getMethod() : '--';
 		if ($this->config->getValue('installed', false)) {
-			$user = \OC_User::getUser() ? \OC_User::getUser() : '--';
+			$user = \OC_User::getUser() ?? '--';
 		} else {
 			$user = '--';
 		}

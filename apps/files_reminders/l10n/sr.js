@@ -27,9 +27,6 @@ OC.L10N.register(
     "This weekend" : "Овог викенда",
     "Set reminder for this weekend" : "Поставља подсетник за овај викенд",
     "Next week" : "Наредне недеље",
-    "Set reminder for next week" : "Поставља подсетник за наредну недељу",
-    "Back" : "Назад",
-    "Reminder cleared" : "Подсетник је обрисан",
-    "Failed to load reminder" : "Није успело учитавање подсетника"
+    "Set reminder for next week" : "Поставља подсетник за наредну недељу"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

@@ -78,6 +78,15 @@ class Validator implements IValidator {
 		if (!empty($missingKeys)) {
 			throw new InvalidObjectExeption('Object is invalid, missing keys:'.json_encode($missingKeys));
 		}
+
+		foreach ($parameter as $key => $value) {
+			if (!is_string($key)) {
+				throw new InvalidObjectExeption('Object is invalid, key ' . $key . ' is not a string');
+			}
+			if (!is_string($value)) {
+				throw new InvalidObjectExeption('Object is invalid, value ' . $value . ' is not a string');
+			}
+		}
 	}
 
 	/**

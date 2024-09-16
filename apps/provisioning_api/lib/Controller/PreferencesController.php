@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace OCA\Provisioning_API\Controller;
 
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCSController;
 use OCP\Config\BeforePreferenceDeletedEvent;
@@ -39,7 +40,6 @@ class PreferencesController extends OCSController {
 	}
 
 	/**
-	 * @NoAdminRequired
 	 * @NoSubAdminRequired
 	 *
 	 * Update multiple preference values of an app
@@ -52,6 +52,7 @@ class PreferencesController extends OCSController {
 	 * 200: Preferences updated successfully
 	 * 400: Preference invalid
 	 */
+	#[NoAdminRequired]
 	public function setMultiplePreferences(string $appId, array $configs): DataResponse {
 		$userId = $this->userSession->getUser()->getUID();
 
@@ -84,7 +85,6 @@ class PreferencesController extends OCSController {
 	}
 
 	/**
-	 * @NoAdminRequired
 	 * @NoSubAdminRequired
 	 *
 	 * Update a preference value of an app
@@ -97,6 +97,7 @@ class PreferencesController extends OCSController {
 	 * 200: Preference updated successfully
 	 * 400: Preference invalid
 	 */
+	#[NoAdminRequired]
 	public function setPreference(string $appId, string $configKey, string $configValue): DataResponse {
 		$userId = $this->userSession->getUser()->getUID();
 
@@ -125,7 +126,6 @@ class PreferencesController extends OCSController {
 	}
 
 	/**
-	 * @NoAdminRequired
 	 * @NoSubAdminRequired
 	 *
 	 * Delete multiple preferences for an app
@@ -134,9 +134,11 @@ class PreferencesController extends OCSController {
 	 * @param string[] $configKeys Keys to delete
 	 *
 	 * @return DataResponse<Http::STATUS_OK|Http::STATUS_BAD_REQUEST, array<empty>, array{}>
+	 *
 	 * 200: Preferences deleted successfully
 	 * 400: Preference invalid
 	 */
+	#[NoAdminRequired]
 	public function deleteMultiplePreference(string $appId, array $configKeys): DataResponse {
 		$userId = $this->userSession->getUser()->getUID();
 
@@ -167,7 +169,6 @@ class PreferencesController extends OCSController {
 	}
 
 	/**
-	 * @NoAdminRequired
 	 * @NoSubAdminRequired
 	 *
 	 * Delete a preference for an app
@@ -179,6 +180,7 @@ class PreferencesController extends OCSController {
 	 * 200: Preference deleted successfully
 	 * 400: Preference invalid
 	 */
+	#[NoAdminRequired]
 	public function deletePreference(string $appId, string $configKey): DataResponse {
 		$userId = $this->userSession->getUser()->getUID();
 

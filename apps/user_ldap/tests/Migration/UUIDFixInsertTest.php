@@ -14,19 +14,19 @@ use OCP\Migration\IOutput;
 use Test\TestCase;
 
 class UUIDFixInsertTest extends TestCase {
-	/** @var  IConfig|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
 	protected $config;
 
-	/** @var  UserMapping|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var UserMapping|\PHPUnit\Framework\MockObject\MockObject */
 	protected $userMapper;
 
-	/** @var  GroupMapping|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var GroupMapping|\PHPUnit\Framework\MockObject\MockObject */
 	protected $groupMapper;
 
-	/** @var  IJobList|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IJobList|\PHPUnit\Framework\MockObject\MockObject */
 	protected $jobList;
 
-	/** @var  UUIDFixInsert */
+	/** @var UUIDFixInsert */
 	protected $job;
 
 	protected function setUp(): void {
@@ -44,7 +44,7 @@ class UUIDFixInsertTest extends TestCase {
 		);
 	}
 
-	public function testGetName() {
+	public function testGetName(): void {
 		$this->assertSame('Insert UUIDFix background job for user and group in batches', $this->job->getName());
 	}
 
@@ -97,7 +97,7 @@ class UUIDFixInsertTest extends TestCase {
 	/**
 	 * @dataProvider recordProvider
 	 */
-	public function testRun($userBatches, $groupBatches) {
+	public function testRun($userBatches, $groupBatches): void {
 		$this->config->expects($this->once())
 			->method('getAppValue')
 			->with('user_ldap', 'installed_version', '1.2.1')
@@ -124,7 +124,7 @@ class UUIDFixInsertTest extends TestCase {
 	/**
 	 * @dataProvider recordProviderTooLongAndNone
 	 */
-	public function testRunWithManyAndNone($userBatches, $groupBatches) {
+	public function testRunWithManyAndNone($userBatches, $groupBatches): void {
 		$this->config->expects($this->once())
 			->method('getAppValue')
 			->with('user_ldap', 'installed_version', '1.2.1')
@@ -155,7 +155,7 @@ class UUIDFixInsertTest extends TestCase {
 		$this->job->run($out);
 	}
 
-	public function testDonNotRun() {
+	public function testDonNotRun(): void {
 		$this->config->expects($this->once())
 			->method('getAppValue')
 			->with('user_ldap', 'installed_version', '1.2.1')

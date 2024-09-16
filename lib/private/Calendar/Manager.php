@@ -53,7 +53,7 @@ class Manager implements IManager {
 	 * @param string $pattern which should match within the $searchProperties
 	 * @param array $searchProperties defines the properties within the query pattern should match
 	 * @param array $options - optional parameters:
-	 * 	['timerange' => ['start' => new DateTime(...), 'end' => new DateTime(...)]]
+	 *                       ['timerange' => ['start' => new DateTime(...), 'end' => new DateTime(...)]]
 	 * @param integer|null $limit - limit number of search results
 	 * @param integer|null $offset - offset for paging of search results
 	 * @return array an array of events/journals/todos which are arrays of arrays of key-value-pairs
@@ -193,6 +193,7 @@ class Manager implements IManager {
 
 			foreach ($r as $o) {
 				$o['calendar-key'] = $calendar->getKey();
+				$o['calendar-uri'] = $calendar->getUri();
 				$results[] = $o;
 			}
 		}

@@ -12,11 +12,11 @@ use OC\Security\CSRF\CsrfTokenManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\FrontpageRoute;
-use OCP\AppFramework\Http\Attribute\OpenAPI;
+use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
+use OCP\AppFramework\Http\Attribute\PublicPage;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\IRequest;
 
-#[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
 class CSRFTokenController extends Controller {
 	public function __construct(
 		string $appName,
@@ -27,10 +27,15 @@ class CSRFTokenController extends Controller {
 	}
 
 	/**
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
-	 * @PublicPage
+	 * Returns a new CSRF token.
+	 *
+	 * @return JSONResponse<Http::STATUS_OK, array{token: string}, array{}>|JSONResponse<Http::STATUS_FORBIDDEN, array<empty>, array{}>
+	 *
+	 * 200: CSRF token returned
+	 * 403: Strict cookie check failed
 	 */
+	#[PublicPage]
+	#[NoCSRFRequired]
 	#[FrontpageRoute(verb: 'GET', url: '/csrftoken')]
 	public function index(): JSONResponse {
 		if (!$this->request->passesStrictCookieCheck()) {

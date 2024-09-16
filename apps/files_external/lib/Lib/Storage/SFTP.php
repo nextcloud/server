@@ -239,7 +239,7 @@ class SFTP extends Common {
 				$lines = file($keyPath, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
 				if ($lines) {
 					foreach ($lines as $line) {
-						$hostKeyArray = explode("::", $line, 2);
+						$hostKeyArray = explode('::', $line, 2);
 						if (count($hostKeyArray) === 2) {
 							$hosts[] = $hostKeyArray[0];
 							$keys[] = $hostKeyArray[1];
@@ -311,11 +311,11 @@ class SFTP extends Common {
 			if (!is_array($stat) || !array_key_exists('type', $stat)) {
 				return false;
 			}
-			if ((int) $stat['type'] === NET_SFTP_TYPE_REGULAR) {
+			if ((int)$stat['type'] === NET_SFTP_TYPE_REGULAR) {
 				return 'file';
 			}
 
-			if ((int) $stat['type'] === NET_SFTP_TYPE_DIRECTORY) {
+			if ((int)$stat['type'] === NET_SFTP_TYPE_DIRECTORY) {
 				return 'dir';
 			}
 		} catch (\Exception $e) {
@@ -441,10 +441,14 @@ class SFTP extends Common {
 		try {
 			$stat = $this->getConnection()->stat($this->absPath($path));
 
-			$mtime = $stat ? (int)$stat['mtime'] : -1;
-			$size = $stat ? (int)$stat['size'] : 0;
+			$mtime = isset($stat['mtime']) ? (int)$stat['mtime'] : -1;
+			$size = isset($stat['size']) ? (int)$stat['size'] : 0;
 
-			return ['mtime' => $mtime, 'size' => $size, 'ctime' => -1];
+			return [
+				'mtime' => $mtime,
+				'size' => $size,
+				'ctime' => -1
+			];
 		} catch (\Exception $e) {
 			return false;
 		}
@@ -478,7 +482,7 @@ class SFTP extends Common {
 				$size = $writtenSize;
 			});
 			if (!$stream) {
-				throw new \Exception("Failed to wrap stream");
+				throw new \Exception('Failed to wrap stream');
 			}
 		}
 		/** @psalm-suppress InternalMethod */
@@ -486,11 +490,11 @@ class SFTP extends Common {
 		fclose($stream);
 		if ($result) {
 			if ($size === null) {
-				throw new \Exception("Failed to get written size from sftp storage wrapper");
+				throw new \Exception('Failed to get written size from sftp storage wrapper');
 			}
 			return $size;
 		} else {
-			throw new \Exception("Failed to write steam to sftp storage");
+			throw new \Exception('Failed to write steam to sftp storage');
 		}
 	}
 

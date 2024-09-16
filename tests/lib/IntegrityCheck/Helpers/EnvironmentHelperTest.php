@@ -19,11 +19,11 @@ class EnvironmentHelperTest extends TestCase {
 		parent::setUp();
 	}
 
-	public function testGetServerRoot() {
+	public function testGetServerRoot(): void {
 		$this->assertSame(\OC::$SERVERROOT, $this->environmentHelper->getServerRoot());
 	}
 
-	public function testGetChannel() {
+	public function testGetChannel(): void {
 		$this->assertSame(\OC_Util::getChannel(), $this->environmentHelper->getChannel());
 	}
 }

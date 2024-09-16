@@ -18,6 +18,7 @@ use OCP\Files\GenericFileException;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;
 use OCP\Files\NotFoundException;
+use OCP\Files\Template\BeforeGetTemplatesEvent;
 use OCP\Files\Template\FileCreatedFromTemplateEvent;
 use OCP\Files\Template\ICustomTemplateProvider;
 use OCP\Files\Template\ITemplateManager;
@@ -127,10 +128,11 @@ class TemplateManager implements ITemplateManager {
 	/**
 	 * @param string $filePath
 	 * @param string $templateId
+	 * @param array $templateFields
 	 * @return array
 	 * @throws GenericFileException
 	 */
-	public function createFromTemplate(string $filePath, string $templateId = '', string $templateType = 'user'): array {
+	public function createFromTemplate(string $filePath, string $templateId = '', string $templateType = 'user', array $templateFields = []): array {
 		$userFolder = $this->rootFolder->getUserFolder($this->userId);
 		try {
 			$userFolder->get($filePath);
@@ -142,11 +144,9 @@ class TemplateManager implements ITemplateManager {
 				throw new GenericFileException($this->l10n->t('Invalid path'));
 			}
 			$folder = $userFolder->get(dirname($filePath));
-			$targetFile = $folder->newFile(basename($filePath));
 			$template = null;
 			if ($templateType === 'user' && $templateId !== '') {
 				$template = $userFolder->get($templateId);
-				$template->copy($targetFile->getPath());
 			} else {
 				$matchingProvider = array_filter($this->getRegisteredProviders(), function (ICustomTemplateProvider $provider) use ($templateType) {
 					return $templateType === get_class($provider);
@@ -154,10 +154,12 @@ class TemplateManager implements ITemplateManager {
 				$provider = array_shift($matchingProvider);
 				if ($provider) {
 					$template = $provider->getCustomTemplate($templateId);
-					$template->copy($targetFile->getPath());
 				}
 			}
-			$this->eventDispatcher->dispatchTyped(new FileCreatedFromTemplateEvent($template, $targetFile));
+
+			$targetFile = $folder->newFile(basename($filePath), ($template instanceof File ? $template->fopen('rb') : null));
+
+			$this->eventDispatcher->dispatchTyped(new FileCreatedFromTemplateEvent($template, $targetFile, $templateFields));
 			return $this->formatFile($userFolder->get($filePath));
 		} catch (\Exception $e) {
 			$this->logger->error($e->getMessage(), ['exception' => $e]);
@@ -203,6 +205,8 @@ class TemplateManager implements ITemplateManager {
 				$templates[] = $template;
 			}
 		}
+
+		$this->eventDispatcher->dispatchTyped(new BeforeGetTemplatesEvent($templates));
 
 		return $templates;
 	}

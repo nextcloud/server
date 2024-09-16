@@ -9,11 +9,15 @@ OC.L10N.register(
     "%1$s commented on %2$s" : "%1$s hozzászólt ehhez: %2$s",
     "{author} commented on {file}" : "{author} hozzászólt ehhez: {file}",
     "<strong>Comments</strong> for files" : "<strong>Hozzászólások</strong> fájlokhoz",
+    "Files" : "Fájlok",
+    "You were mentioned on \"{file}\", in a comment by an account that has since been deleted" : "Megemlítették ennél: „{file}”, egy már törölt fiók hozzászólásában",
     "{user} mentioned you in a comment on \"{file}\"" : "{user} megemlítette egy hozzászólásban ennél: „{file}”",
     "Files app plugin to add comments to files" : "A Fájlok alkalmazás bővítménye, amellyel megjegyzések adhatóak a fájlokhoz",
     "Edit comment" : "Hozzászólás szerkesztése",
     "Delete comment" : "Hozzászólás törlése",
     "Cancel edit" : "Változások elvetése",
+    "New comment" : "Új hozzászólás",
+    "Write a comment …" : "Hozzászólás írása…",
     "Post comment" : "Hozzászólás közzététele",
     "@ for mentions, : for emoji, / for smart picker" : "@ az említésekhez, : az emodzsikhoz, / az okos választóhoz",
     "Could not reload comments" : "Nem sikerült a megjegyzések újratöltése.",
@@ -28,8 +32,6 @@ OC.L10N.register(
     "Comment deleted" : "Hozzászólás törölve",
     "An error occurred while trying to delete the comment" : "Hiba történt a megjegyzés törlése közben",
     "An error occurred while trying to create the comment" : "Hiba történt a megjegyzés létrehozása közben",
-    "You were mentioned on \"{file}\", in a comment by a user that has since been deleted" : "Megemlítették ennél: „{file}”, egy már törölt felhasználó hozzászólásában",
-    "\"@\" for mentions, \":\" for emoji, \"/\" for smart picker" : "„@” az említésekhez, „:” az emodzsikhoz, „/” az okos választához",
-    "_%n unread comment_::_%n unread comments_" : ["%n olvasatlan hozzászólás","%n olvasatlan hozzászólás"]
+    "You were mentioned on \"{file}\", in a comment by a user that has since been deleted" : "Megemlítették ennél: „{file}”, egy már törölt felhasználó hozzászólásában"
 },
 "nplurals=2; plural=(n != 1);");

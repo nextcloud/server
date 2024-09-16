@@ -67,9 +67,11 @@ interface ITemplateManager {
 	/**
 	 * @param string $filePath
 	 * @param string $templateId
+	 * @param string $templateType
+	 * @param array $templateFields Since 30.0.0
 	 * @return array
 	 * @throws GenericFileException
 	 * @since 21.0.0
 	 */
-	public function createFromTemplate(string $filePath, string $templateId = '', string $templateType = 'user'): array;
+	public function createFromTemplate(string $filePath, string $templateId = '', string $templateType = 'user', array $templateFields = []): array;
 }

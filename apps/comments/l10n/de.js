@@ -9,12 +9,15 @@ OC.L10N.register(
     "%1$s commented on %2$s" : "%1$s kommentierte %2$s",
     "{author} commented on {file}" : "{author} hat {file} kommentiert",
     "<strong>Comments</strong> for files" : "<strong>Kommentare</strong> für Dateien",
+    "Files" : "Dateien",
+    "You were mentioned on \"{file}\", in a comment by an account that has since been deleted" : "Du wurdest in einem Kommentar zu \"{file}\" von einem Konto erwähnt, das inzwischen gelöscht wurde.",
     "{user} mentioned you in a comment on \"{file}\"" : "{user} hat dich in einem Kommentar zu \"{file}\" erwähnt",
     "Files app plugin to add comments to files" : "Ein Plugin für die Dateien-App zum Kommentieren von Dateien",
     "Edit comment" : "Kommentar bearbeiten",
     "Delete comment" : "Kommentar löschen",
     "Cancel edit" : "Bearbeiten abbrechen",
     "New comment" : "Neuer Kommentar",
+    "Write a comment …" : "Schreibe einen Kommentar …",
     "Post comment" : "Kommentar veröffentlichen",
     "@ for mentions, : for emoji, / for smart picker" : "@ für Erwähnungen, : für Emoji, / für Smart Picker",
     "Could not reload comments" : "Kommentare konnten nicht erneut geladen werden",
@@ -29,7 +32,6 @@ OC.L10N.register(
     "Comment deleted" : "Kommentar gelöscht",
     "An error occurred while trying to delete the comment" : "Es ist ein Fehler beim Löschen des Kommentars aufgetreten",
     "An error occurred while trying to create the comment" : "Es ist ein Fehler beim Erstellen des Kommentars aufgetreten",
-    "You were mentioned on \"{file}\", in a comment by a user that has since been deleted" : "Du wurdest in einem Kommentar auf \"{file}\" von einem bereits gelöschten Benutzer erwähnt",
-    "_%n unread comment_::_%n unread comments_" : ["%n ungelesener Kommentar","%n ungelesene Kommentare"]
+    "You were mentioned on \"{file}\", in a comment by a user that has since been deleted" : "Du wurdest in einem Kommentar auf \"{file}\" von einem bereits gelöschten Benutzer erwähnt"
 },
 "nplurals=2; plural=(n != 1);");

@@ -22,7 +22,7 @@
   --color-text-light: var(--color-main-text);
   /** @deprecated use `--color-text-maxcontrast` instead */
   --color-text-lighter: var(--color-text-maxcontrast);
-  --color-scrollbar: rgba(34,34,34, .15);
+  --color-scrollbar: var(--color-border-maxcontrast) transparent;
   --color-error: #DB0606;
   --color-error-rgb: 219,6,6;
   --color-error-hover: #df2525;
@@ -49,19 +49,27 @@
   --color-border-maxcontrast: #7d7d7d;
   --font-face: system-ui, -apple-system, 'Segoe UI', Roboto, Oxygen-Sans, Cantarell, Ubuntu, 'Helvetica Neue', 'Noto Sans', 'Liberation Sans', Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   --default-font-size: 15px;
+  --font-size-small: 13px;
   /* 1.5 x font-size for accessibility */
-  --default-line-height: 24px;
+  --default-line-height: 1.5;
   --animation-quick: 100ms;
   --animation-slow: 300ms;
   /** Border width for input elements such as text fields and selects */
   --border-width-input: 1px;
   --border-width-input-focused: 2px;
-  --border-radius: 3px;
-  --border-radius-large: 10px;
+
+  /* Border radii (new values) */
+  --border-radius-small: 4px; /* For smaller elements */
+  --border-radius-element: 8px; /* For interactive elements such as buttons, input, navigation and list items */
+  --border-radius-container: 12px; /* For smaller containers like action menus */
+  --border-radius-container-large: 16px; /* For larger containers like body or modals */
+
+  /* Border radii (deprecated) */
+  --border-radius: var(--border-radius-small);
+  --border-radius-large: var(--border-radius-element);
   --border-radius-rounded: 28px;
-  /* Border radius of interactive elements such as buttons, input, navigation and list items. Available since Nextcloud 30. */
-  --border-radius-element: 8px;
   --border-radius-pill: 100px;
+
   --default-clickable-area: 34px;
   --clickable-area-large: 48px;
   --clickable-area-small: 24px;
@@ -72,7 +80,7 @@
   --sidebar-min-width: 300px;
   --sidebar-max-width: 500px;
   /* Border radius of the body container */
-  --body-container-radius: calc(var(--default-grid-baseline) * 3);
+  --body-container-radius: var(--border-radius-container-large);
   /* Margin of the body container */
   --body-container-margin: calc(var(--default-grid-baseline) * 2);
   /* Height of the body container to fully fill the view port */
@@ -99,5 +107,5 @@
   --gradient-primary-background: linear-gradient(40deg, var(--color-primary) 0%, var(--color-primary-hover) 100%);
   --color-background-plain: #00679e;
   --color-background-plain-text: #ffffff;
-  --image-background: url('/apps/theming/img/background/kamil-porembinski-clouds.jpg');
+  --image-background: url('/apps/theming/img/background/jenna-kim-the-globe.webp');
 }

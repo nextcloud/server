@@ -55,11 +55,11 @@ class AssemblyStreamTest extends \Test\TestCase {
 		$dataLess8k = $this->makeData(8191);
 
 		$tonofnodes = [];
-		$tonofdata = "";
+		$tonofdata = '';
 		for ($i = 0; $i < 101; $i++) {
-			$thisdata = rand(0, 100); // variable length and content
+			$thisdata = random_int(0, 100); // variable length and content
 			$tonofdata .= $thisdata;
-			array_push($tonofnodes, $this->buildNode($i, $thisdata));
+			$tonofnodes[] = $this->buildNode((string)$i, (string)$thisdata);
 		}
 
 		return[

@@ -15,7 +15,7 @@ class Helper {
 	 * Retrieves the contents of a trash bin directory.
 	 *
 	 * @param string $dir path to the directory inside the trashbin
-	 * or empty to retrieve the root of the trashbin
+	 *                    or empty to retrieve the root of the trashbin
 	 * @param string $user
 	 * @param string $sortAttribute attribute to sort on or empty to disable sorting
 	 * @param bool $sortDescending true for descending sort, false otherwise

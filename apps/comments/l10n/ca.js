@@ -9,6 +9,7 @@ OC.L10N.register(
     "%1$s commented on %2$s" : "%1$s ha escrit un comentari a %2$s",
     "{author} commented on {file}" : "{author} ha escrit un comentari a {file}",
     "<strong>Comments</strong> for files" : "<strong>Comentaris</strong> per a fitxers",
+    "Files" : "Fitxers",
     "You were mentioned on \"{file}\", in a comment by an account that has since been deleted" : "Se us ha esmentat a «{file}» en un comentari d'un compte que s'ha suprimit",
     "{user} mentioned you in a comment on \"{file}\"" : "{user} us ha esmentat en un comentari a «{file}»",
     "Files app plugin to add comments to files" : "Connector de l'aplicació Fitxers per a afegir comentaris als fitxers",
@@ -31,9 +32,6 @@ OC.L10N.register(
     "Comment deleted" : "S'ha suprimit el comentari",
     "An error occurred while trying to delete the comment" : "S'ha produït un error en intentar suprimir el comentari",
     "An error occurred while trying to create the comment" : "S'ha produït un error en intentar crear el comentari",
-    "You were mentioned on \"{file}\", in a comment by a user that has since been deleted" : "Se us ha esmentat a «{file}» en un comentari d'un usuari que s'ha suprimit",
-    "Write a message …" : "Escriviu un missatge…",
-    "\"@\" for mentions, \":\" for emoji, \"/\" for smart picker" : "«@» per a mencions, «:» per a emojis, «/» per al selector intel·ligent",
-    "_%n unread comment_::_%n unread comments_" : ["%n comentari sense llegir","%n comentaris sense llegir"]
+    "You were mentioned on \"{file}\", in a comment by a user that has since been deleted" : "Se us ha esmentat a «{file}» en un comentari d'un usuari que s'ha suprimit"
 },
 "nplurals=2; plural=(n != 1);");

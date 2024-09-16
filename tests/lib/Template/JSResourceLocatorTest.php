@@ -72,7 +72,7 @@ class JSResourceLocatorTest extends \Test\TestCase {
 		return sha1(uniqid(mt_rand(), true));
 	}
 
-	public function testFindWithAppPathSymlink() {
+	public function testFindWithAppPathSymlink(): void {
 		$appName = 'test-js-app';
 
 		// First create new apps path, and a symlink to it
@@ -123,7 +123,7 @@ class JSResourceLocatorTest extends \Test\TestCase {
 		$this->rrmdir($new_apps_path);
 	}
 
-	public function testNotExistingTranslationHandledSilent() {
+	public function testNotExistingTranslationHandledSilent(): void {
 		$this->appManager->expects($this->once())
 			->method('getAppPath')
 			->with('core')
@@ -138,13 +138,13 @@ class JSResourceLocatorTest extends \Test\TestCase {
 
 		// Run the tests
 		$locator = $this->jsResourceLocator();
-		$locator->find(["core/l10n/en.js"]);
+		$locator->find(['core/l10n/en.js']);
 
 		$resources = $locator->getResources();
 		$this->assertCount(0, $resources);
 	}
 
-	public function testFindModuleJSWithFallback() {
+	public function testFindModuleJSWithFallback(): void {
 		// First create new apps path, and a symlink to it
 		$apps_dirname = $this->randomString();
 		$new_apps_path = sys_get_temp_dir() . '/' . $apps_dirname;

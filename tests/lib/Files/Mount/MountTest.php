@@ -11,7 +11,7 @@ use OC\Files\Storage\StorageFactory;
 use OC\Files\Storage\Wrapper\Wrapper;
 
 class MountTest extends \Test\TestCase {
-	public function testFromStorageObject() {
+	public function testFromStorageObject(): void {
 		$storage = $this->getMockBuilder('\OC\Files\Storage\Temporary')
 			->disableOriginalConstructor()
 			->getMock();
@@ -19,12 +19,12 @@ class MountTest extends \Test\TestCase {
 		$this->assertInstanceOf('\OC\Files\Storage\Temporary', $mount->getStorage());
 	}
 
-	public function testFromStorageClassname() {
+	public function testFromStorageClassname(): void {
 		$mount = new \OC\Files\Mount\MountPoint('\OC\Files\Storage\Temporary', '/foo');
 		$this->assertInstanceOf('\OC\Files\Storage\Temporary', $mount->getStorage());
 	}
 
-	public function testWrapper() {
+	public function testWrapper(): void {
 		$test = $this;
 		$wrapper = function ($mountPoint, $storage) use (&$test) {
 			$test->assertEquals('/foo/', $mountPoint);

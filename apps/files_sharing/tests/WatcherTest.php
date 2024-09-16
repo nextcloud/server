@@ -87,7 +87,7 @@ class WatcherTest extends TestCase {
 	 * Tests that writing a file using the shared storage will propagate the file
 	 * size to the owner's parent folders.
 	 */
-	public function testFolderSizePropagationToOwnerStorage() {
+	public function testFolderSizePropagationToOwnerStorage(): void {
 		$initialSizes = self::getOwnerDirSizes('files/container/shareddir');
 
 		$textData = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
@@ -117,7 +117,7 @@ class WatcherTest extends TestCase {
 	 * Tests that writing a file using the shared storage will propagate the file
 	 * size to the owner's parent folders.
 	 */
-	public function testSubFolderSizePropagationToOwnerStorage() {
+	public function testSubFolderSizePropagationToOwnerStorage(): void {
 		$initialSizes = self::getOwnerDirSizes('files/container/shareddir/subdir');
 
 		$textData = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';

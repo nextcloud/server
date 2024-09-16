@@ -17,22 +17,22 @@ use Sabre\VObject\Property\Text;
 use Test\TestCase;
 
 class AddressBookImplTest extends TestCase {
-	/** @var AddressBookImpl  */
+	/** @var AddressBookImpl */
 	private $addressBookImpl;
 
-	/** @var  array */
+	/** @var array */
 	private $addressBookInfo;
 
-	/** @var  AddressBook | \PHPUnit\Framework\MockObject\MockObject */
+	/** @var AddressBook | \PHPUnit\Framework\MockObject\MockObject */
 	private $addressBook;
 
 	/** @var IURLGenerator | \PHPUnit\Framework\MockObject\MockObject */
 	private $urlGenerator;
 
-	/** @var  CardDavBackend | \PHPUnit\Framework\MockObject\MockObject */
+	/** @var CardDavBackend | \PHPUnit\Framework\MockObject\MockObject */
 	private $backend;
 
-	/** @var  VCard | \PHPUnit\Framework\MockObject\MockObject */
+	/** @var VCard | \PHPUnit\Framework\MockObject\MockObject */
 	private $vCard;
 
 	protected function setUp(): void {

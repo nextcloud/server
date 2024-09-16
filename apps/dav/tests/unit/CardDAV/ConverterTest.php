@@ -104,7 +104,7 @@ class ConverterTest extends TestCase {
 	}
 
 	public function testManagerProp(): void {
-		$user = $this->getUserMock("user", "user@domain.tld", "user@cloud.domain.tld");
+		$user = $this->getUserMock('user', 'user@domain.tld', 'user@cloud.domain.tld');
 		$user->method('getManagerUids')
 			->willReturn(['mgr']);
 		$this->userManager->expects(self::once())
@@ -168,8 +168,8 @@ class ConverterTest extends TestCase {
 					'fn' => 'Dr. Foo Bar',
 					'photo' => 'MTIzNDU2Nzg5',
 				],
-				"Dr. Foo Bar",
-				"foo@bar.net",
+				'Dr. Foo Bar',
+				'foo@bar.net',
 				'foo@cloud.net'
 			],
 			[
@@ -178,9 +178,9 @@ class ConverterTest extends TestCase {
 					'fn' => 'Dr. Foo Bar',
 					'photo' => 'MTIzNDU2Nzg5',
 				],
-				"Dr. Foo Bar",
+				'Dr. Foo Bar',
 				null,
-				"foo@cloud.net"
+				'foo@cloud.net'
 			],
 			[
 				[

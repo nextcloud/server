@@ -480,6 +480,7 @@
                     "file_target",
                     "has_preview",
                     "hide_download",
+                    "is-mount-root",
                     "id",
                     "item_mtime",
                     "item_size",
@@ -488,6 +489,7 @@
                     "label",
                     "mail_send",
                     "mimetype",
+                    "mount-type",
                     "note",
                     "parent",
                     "path",
@@ -543,6 +545,9 @@
                             1
                         ]
                     },
+                    "is-mount-root": {
+                        "type": "boolean"
+                    },
                     "id": {
                         "type": "string"
                     },
@@ -578,7 +583,8 @@
                         ]
                     },
                     "label": {
-                        "type": "string"
+                        "type": "string",
+                        "nullable": true
                     },
                     "mail_send": {
                         "type": "integer",
@@ -589,6 +595,9 @@
                         ]
                     },
                     "mimetype": {
+                        "type": "string"
+                    },
+                    "mount-type": {
                         "type": "string"
                     },
                     "note": {
@@ -1385,40 +1394,6 @@
                         "basic_auth": []
                     }
                 ],
-                "requestBody": {
-                    "required": false,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "type": "object",
-                                "properties": {
-                                    "file": {
-                                        "type": "string",
-                                        "default": "",
-                                        "description": "File in the share"
-                                    },
-                                    "x": {
-                                        "type": "integer",
-                                        "format": "int64",
-                                        "default": 32,
-                                        "description": "Width of the preview"
-                                    },
-                                    "y": {
-                                        "type": "integer",
-                                        "format": "int64",
-                                        "default": 32,
-                                        "description": "Height of the preview"
-                                    },
-                                    "a": {
-                                        "type": "boolean",
-                                        "default": false,
-                                        "description": "Whether to not crop the preview"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                },
                 "parameters": [
                     {
                         "name": "token",
@@ -1427,6 +1402,48 @@
                         "required": true,
                         "schema": {
                             "type": "string"
+                        }
+                    },
+                    {
+                        "name": "file",
+                        "in": "query",
+                        "description": "File in the share",
+                        "schema": {
+                            "type": "string",
+                            "default": ""
+                        }
+                    },
+                    {
+                        "name": "x",
+                        "in": "query",
+                        "description": "Width of the preview",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "default": 32
+                        }
+                    },
+                    {
+                        "name": "y",
+                        "in": "query",
+                        "description": "Height of the preview",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "default": 32
+                        }
+                    },
+                    {
+                        "name": "a",
+                        "in": "query",
+                        "description": "Whether to not crop the preview",
+                        "schema": {
+                            "type": "integer",
+                            "default": 0,
+                            "enum": [
+                                0,
+                                1
+                            ]
                         }
                     }
                 ],
@@ -1565,44 +1582,52 @@
                         "basic_auth": []
                     }
                 ],
-                "requestBody": {
-                    "required": false,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "type": "object",
-                                "properties": {
-                                    "shared_with_me": {
-                                        "type": "string",
-                                        "default": "false",
-                                        "description": "Only get shares with the current user"
-                                    },
-                                    "reshares": {
-                                        "type": "string",
-                                        "default": "false",
-                                        "description": "Only get shares by the current user and reshares"
-                                    },
-                                    "subfiles": {
-                                        "type": "string",
-                                        "default": "false",
-                                        "description": "Only get all shares in a folder"
-                                    },
-                                    "path": {
-                                        "type": "string",
-                                        "default": "",
-                                        "description": "Get shares for a specific path"
-                                    },
-                                    "include_tags": {
-                                        "type": "string",
-                                        "default": "false",
-                                        "description": "Include tags in the share"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                },
                 "parameters": [
+                    {
+                        "name": "shared_with_me",
+                        "in": "query",
+                        "description": "Only get shares with the current user",
+                        "schema": {
+                            "type": "string",
+                            "default": "false"
+                        }
+                    },
+                    {
+                        "name": "reshares",
+                        "in": "query",
+                        "description": "Only get shares by the current user and reshares",
+                        "schema": {
+                            "type": "string",
+                            "default": "false"
+                        }
+                    },
+                    {
+                        "name": "subfiles",
+                        "in": "query",
+                        "description": "Only get all shares in a folder",
+                        "schema": {
+                            "type": "string",
+                            "default": "false"
+                        }
+                    },
+                    {
+                        "name": "path",
+                        "in": "query",
+                        "description": "Get shares for a specific path",
+                        "schema": {
+                            "type": "string",
+                            "default": ""
+                        }
+                    },
+                    {
+                        "name": "include_tags",
+                        "in": "query",
+                        "description": "Include tags in the share",
+                        "schema": {
+                            "type": "string",
+                            "default": "false"
+                        }
+                    },
                     {
                         "name": "OCS-APIRequest",
                         "in": "header",
@@ -1739,7 +1764,7 @@
                                     "expireDate": {
                                         "type": "string",
                                         "nullable": true,
-                                        "description": "The expiry date of the share in the user's timezone at 00:00.\n               If $expireDate is not supplied or set to `null`, the system default will be used."
+                                        "description": "The expiry date of the share in the user's timezone at 00:00.\n                           If $expireDate is not supplied or set to `null`, the system default will be used."
                                     },
                                     "note": {
                                         "type": "string",
@@ -1755,6 +1780,15 @@
                                         "type": "string",
                                         "nullable": true,
                                         "description": "Additional attributes for the share"
+                                    },
+                                    "sendMail": {
+                                        "type": "string",
+                                        "nullable": true,
+                                        "enum": [
+                                            "false",
+                                            "true"
+                                        ],
+                                        "description": "Send a mail to the recipient"
                                     }
                                 }
                             }
@@ -1906,26 +1940,16 @@
                         "basic_auth": []
                     }
                 ],
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "type": "object",
-                                "required": [
-                                    "path"
-                                ],
-                                "properties": {
-                                    "path": {
-                                        "type": "string",
-                                        "description": "Path all shares will be relative to"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                },
                 "parameters": [
+                    {
+                        "name": "path",
+                        "in": "query",
+                        "description": "Path all shares will be relative to",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
                     {
                         "name": "OCS-APIRequest",
                         "in": "header",
@@ -2091,23 +2115,6 @@
                         "basic_auth": []
                     }
                 ],
-                "requestBody": {
-                    "required": false,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "type": "object",
-                                "properties": {
-                                    "include_tags": {
-                                        "type": "boolean",
-                                        "default": false,
-                                        "description": "Include tags in the share"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                },
                 "parameters": [
                     {
                         "name": "id",
@@ -2116,6 +2123,19 @@
                         "required": true,
                         "schema": {
                             "type": "string"
+                        }
+                    },
+                    {
+                        "name": "include_tags",
+                        "in": "query",
+                        "description": "Include tags in the share",
+                        "schema": {
+                            "type": "integer",
+                            "default": 0,
+                            "enum": [
+                                0,
+                                1
+                            ]
                         }
                     },
                     {
@@ -2256,6 +2276,11 @@
                                         "type": "string",
                                         "nullable": true,
                                         "description": "New additional attributes"
+                                    },
+                                    "sendMail": {
+                                        "type": "string",
+                                        "nullable": true,
+                                        "description": "if the share should be send by mail.\n                             Considering the share already exists, no mail will be send after the share is updated.\n                             You will have to use the sendMail action to send the mail."
                                     }
                                 }
                             }
@@ -2494,6 +2519,175 @@
                     },
                     "403": {
                         "description": "Missing permissions to delete the share",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {}
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/ocs/v2.php/apps/files_sharing/api/v1/shares/{id}/send-email": {
+            "post": {
+                "operationId": "shareapi-send-share-email",
+                "summary": "Send a mail notification again for a share. The mail_send option must be enabled for the given share.",
+                "tags": [
+                    "shareapi"
+                ],
+                "security": [
+                    {
+                        "bearer_auth": []
+                    },
+                    {
+                        "basic_auth": []
+                    }
+                ],
+                "requestBody": {
+                    "required": false,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "password": {
+                                        "type": "string",
+                                        "default": "",
+                                        "description": "the password to check against. Necessary for password protected shares."
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "the share ID",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "OCS-APIRequest",
+                        "in": "header",
+                        "description": "Required to be true for the API request to pass",
+                        "required": true,
+                        "schema": {
+                            "type": "boolean",
+                            "default": true
+                        }
+                    }
+                ],
+                "responses": {
+                    "404": {
+                        "description": "Share not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {}
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "You are not allowed to send mail notifications",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {}
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request or wrong password",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {}
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "200": {
+                        "description": "The email notification was sent successfully",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -2822,63 +3016,79 @@
                         "basic_auth": []
                     }
                 ],
-                "requestBody": {
-                    "required": false,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "type": "object",
-                                "properties": {
-                                    "search": {
-                                        "type": "string",
-                                        "default": "",
-                                        "description": "Text to search for"
-                                    },
-                                    "itemType": {
-                                        "type": "string",
-                                        "nullable": true,
-                                        "description": "Limit to specific item types"
-                                    },
-                                    "page": {
+                "parameters": [
+                    {
+                        "name": "search",
+                        "in": "query",
+                        "description": "Text to search for",
+                        "schema": {
+                            "type": "string",
+                            "default": ""
+                        }
+                    },
+                    {
+                        "name": "itemType",
+                        "in": "query",
+                        "description": "Limit to specific item types",
+                        "schema": {
+                            "type": "string",
+                            "nullable": true
+                        }
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Page offset for searching",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "default": 1
+                        }
+                    },
+                    {
+                        "name": "perPage",
+                        "in": "query",
+                        "description": "Limit amount of search results per page",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "default": 200
+                        }
+                    },
+                    {
+                        "name": "shareType",
+                        "in": "query",
+                        "description": "Limit to specific share types",
+                        "schema": {
+                            "nullable": true,
+                            "oneOf": [
+                                {
+                                    "type": "integer",
+                                    "format": "int64"
+                                },
+                                {
+                                    "type": "array",
+                                    "items": {
                                         "type": "integer",
-                                        "format": "int64",
-                                        "default": 1,
-                                        "description": "Page offset for searching"
-                                    },
-                                    "perPage": {
-                                        "type": "integer",
-                                        "format": "int64",
-                                        "default": 200,
-                                        "description": "Limit amount of search results per page"
-                                    },
-                                    "shareType": {
-                                        "nullable": true,
-                                        "description": "Limit to specific share types",
-                                        "oneOf": [
-                                            {
-                                                "type": "integer",
-                                                "format": "int64"
-                                            },
-                                            {
-                                                "type": "array",
-                                                "items": {
-                                                    "type": "integer",
-                                                    "format": "int64"
-                                                }
-                                            }
-                                        ]
-                                    },
-                                    "lookup": {
-                                        "type": "boolean",
-                                        "default": false,
-                                        "description": "If a global lookup should be performed too"
+                                        "format": "int64"
                                     }
                                 }
-                            }
+                            ]
                         }
-                    }
-                },
-                "parameters": [
+                    },
+                    {
+                        "name": "lookup",
+                        "in": "query",
+                        "description": "If a global lookup should be performed too",
+                        "schema": {
+                            "type": "integer",
+                            "default": 0,
+                            "enum": [
+                                0,
+                                1
+                            ]
+                        }
+                    },
                     {
                         "name": "OCS-APIRequest",
                         "in": "header",
@@ -2974,43 +3184,37 @@
                         "basic_auth": []
                     }
                 ],
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "type": "object",
-                                "required": [
-                                    "itemType"
-                                ],
-                                "properties": {
-                                    "itemType": {
-                                        "type": "string",
-                                        "description": "Limit to specific item types"
-                                    },
-                                    "shareType": {
-                                        "nullable": true,
-                                        "description": "Limit to specific share types",
-                                        "oneOf": [
-                                            {
-                                                "type": "integer",
-                                                "format": "int64"
-                                            },
-                                            {
-                                                "type": "array",
-                                                "items": {
-                                                    "type": "integer",
-                                                    "format": "int64"
-                                                }
-                                            }
-                                        ]
+                "parameters": [
+                    {
+                        "name": "itemType",
+                        "in": "query",
+                        "description": "Limit to specific item types",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "shareType",
+                        "in": "query",
+                        "description": "Limit to specific share types",
+                        "schema": {
+                            "nullable": true,
+                            "oneOf": [
+                                {
+                                    "type": "integer",
+                                    "format": "int64"
+                                },
+                                {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "integer",
+                                        "format": "int64"
                                     }
                                 }
-                            }
+                            ]
                         }
-                    }
-                },
-                "parameters": [
+                    },
                     {
                         "name": "OCS-APIRequest",
                         "in": "header",

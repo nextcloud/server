@@ -9,6 +9,7 @@ namespace OCA\Encryption\Controller;
 
 use OCA\Encryption\Session;
 use OCP\AppFramework\Controller;
+use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\Encryption\IManager;
 use OCP\IL10N;
@@ -45,9 +46,9 @@ class StatusController extends Controller {
 	}
 
 	/**
-	 * @NoAdminRequired
 	 * @return DataResponse
 	 */
+	#[NoAdminRequired]
 	public function getStatus() {
 		$status = 'error';
 		$message = 'no valid init status';

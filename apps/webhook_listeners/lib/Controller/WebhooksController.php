@@ -17,6 +17,7 @@ use OCA\WebhookListeners\Settings\Admin;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\ApiRoute;
+use OCP\AppFramework\Http\Attribute\AppApiAdminAccessWithoutUser;
 use OCP\AppFramework\Http\Attribute\AuthorizedAdminSetting;
 use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\DataResponse;
@@ -56,6 +57,7 @@ class WebhooksController extends OCSController {
 	 */
 	#[ApiRoute(verb: 'GET', url: '/api/v1/webhooks')]
 	#[AuthorizedAdminSetting(settings:Admin::class)]
+	#[AppApiAdminAccessWithoutUser]
 	public function index(?string $uri = null): DataResponse {
 		try {
 			if ($uri !== null) {
@@ -89,6 +91,7 @@ class WebhooksController extends OCSController {
 	 */
 	#[ApiRoute(verb: 'GET', url: '/api/v1/webhooks/{id}')]
 	#[AuthorizedAdminSetting(settings:Admin::class)]
+	#[AppApiAdminAccessWithoutUser]
 	public function show(int $id): DataResponse {
 		try {
 			return new DataResponse($this->mapper->getById($id)->jsonSerialize());
@@ -122,6 +125,7 @@ class WebhooksController extends OCSController {
 	 */
 	#[ApiRoute(verb: 'POST', url: '/api/v1/webhooks')]
 	#[AuthorizedAdminSetting(settings:Admin::class)]
+	#[AppApiAdminAccessWithoutUser]
 	public function create(
 		string $httpMethod,
 		string $uri,
@@ -143,8 +147,6 @@ class WebhooksController extends OCSController {
 			throw new OCSBadRequestException('This auth method does not exist');
 		}
 		try {
-			/* We can never reach here without a user in session */
-			assert(is_string($this->userId));
 			$webhookListener = $this->mapper->addWebhookListener(
 				$appId,
 				$this->userId,
@@ -191,6 +193,7 @@ class WebhooksController extends OCSController {
 	 */
 	#[ApiRoute(verb: 'POST', url: '/api/v1/webhooks/{id}')]
 	#[AuthorizedAdminSetting(settings:Admin::class)]
+	#[AppApiAdminAccessWithoutUser]
 	public function update(
 		int $id,
 		string $httpMethod,
@@ -213,8 +216,6 @@ class WebhooksController extends OCSController {
 			throw new OCSBadRequestException('This auth method does not exist');
 		}
 		try {
-			/* We can never reach here without a user in session */
-			assert(is_string($this->userId));
 			$webhookListener = $this->mapper->updateWebhookListener(
 				$id,
 				$appId,
@@ -246,7 +247,7 @@ class WebhooksController extends OCSController {
 	 *
 	 * @return DataResponse<Http::STATUS_OK, bool, array{}>
 	 *
-	 * 200: Boolean returned whether something was deleted FIXME
+	 * 200: Boolean returned whether something was deleted
 	 *
 	 * @throws OCSBadRequestException Bad request
 	 * @throws OCSForbiddenException Insufficient permissions
@@ -254,6 +255,7 @@ class WebhooksController extends OCSController {
 	 */
 	#[ApiRoute(verb: 'DELETE', url: '/api/v1/webhooks/{id}')]
 	#[AuthorizedAdminSetting(settings:Admin::class)]
+	#[AppApiAdminAccessWithoutUser]
 	public function destroy(int $id): DataResponse {
 		try {
 			$deleted = $this->mapper->deleteById($id);
@@ -264,6 +266,36 @@ class WebhooksController extends OCSController {
 			throw new OCSForbiddenException($e->getMessage(), $e);
 		} catch (\Exception $e) {
 			$this->logger->error('Error when deleting flow with id ' . $id, ['exception' => $e]);
+			throw new OCSException('An internal error occurred', Http::STATUS_INTERNAL_SERVER_ERROR, $e);
+		}
+	}
+
+	/**
+	 * Remove all existing webhook registration mapped to an AppAPI app id
+	 *
+	 * @param string $appid id of the app, as in the EX-APP-ID for creation
+	 *
+	 * @return DataResponse<Http::STATUS_OK, int, array{}>
+	 *
+	 * 200: Integer number of registrations deleted
+	 *
+	 * @throws OCSBadRequestException Bad request
+	 * @throws OCSForbiddenException Insufficient permissions
+	 * @throws OCSException Other error
+	 */
+	#[ApiRoute(verb: 'DELETE', url: '/api/v1/webhooks/byappid/{appid}')]
+	#[AuthorizedAdminSetting(settings:Admin::class)]
+	#[AppApiAdminAccessWithoutUser]
+	public function deleteByAppId(string $appid): DataResponse {
+		try {
+			$deletedCount = $this->mapper->deleteByAppId($appid);
+			return new DataResponse($deletedCount);
+		} catch (\UnexpectedValueException $e) {
+			throw new OCSBadRequestException($e->getMessage(), $e);
+		} catch (\DomainException $e) {
+			throw new OCSForbiddenException($e->getMessage(), $e);
+		} catch (\Exception $e) {
+			$this->logger->error('Error when deleting flows for app id ' . $appid, ['exception' => $e]);
 			throw new OCSException('An internal error occurred', Http::STATUS_INTERNAL_SERVER_ERROR, $e);
 		}
 	}

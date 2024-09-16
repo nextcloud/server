@@ -28,7 +28,7 @@ class PreLoginHookCommandTest extends ALoginCommandTest {
 		);
 	}
 
-	public function testProcess() {
+	public function testProcess(): void {
 		$data = $this->getBasicLoginData();
 		$this->userManager->expects($this->once())
 			->method('emit')

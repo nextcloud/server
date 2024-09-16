@@ -9,6 +9,7 @@
 		dialog-classes="unified-search-modal"
 		:name="t('core', 'Unified search')"
 		:open="open"
+		size="normal"
 		@update:open="onUpdateOpen">
 		<!-- Modal for picking custom time range -->
 		<CustomDateRangeModal :is-open="showDateRangeModal"
@@ -114,7 +115,9 @@
 		</div>
 
 		<div v-else class="unified-search-modal__results">
-			<h3 class="hidden-visually">{{ t('core', 'Results') }}</h3>
+			<h3 class="hidden-visually">
+				{{ t('core', 'Results') }}
+			</h3>
 			<div v-for="providerResult in results" :key="providerResult.id" class="result">
 				<h4 :id="`unified-search-result-${providerResult.id}`" class="result-title">
 					{{ providerResult.provider }}
@@ -302,8 +305,11 @@ export default defineComponent({
 	watch: {
 		open() {
 			// Load results when opened with already filled query
-			if (this.open && this.searchQuery) {
-				this.find(this.searchQuery)
+			if (this.open) {
+				this.focusInput()
+				if (this.searchQuery) {
+					this.find(this.searchQuery)
+				}
 			}
 		},
 
@@ -311,7 +317,7 @@ export default defineComponent({
 			immediate: true,
 			handler() {
 				this.searchQuery = this.query.trim()
-			}
+			},
 		},
 	},
 
@@ -349,7 +355,11 @@ export default defineComponent({
 			this.$emit('update:query', this.searchQuery)
 			this.$emit('update:open', false)
 		},
-
+		focusInput() {
+			this.$nextTick(() => {
+				this.$refs.searchInput?.focus()
+			})
+		},
 		find(query: string) {
 			if (query.length === 0) {
 				this.results = []
@@ -715,7 +725,8 @@ export default defineComponent({
 	&__no-content {
 		display: flex;
 		align-items: center;
-		height: 100%;
+		margin-top: 0.5em;
+		height: 70%;
 	}
 
 	&__results {

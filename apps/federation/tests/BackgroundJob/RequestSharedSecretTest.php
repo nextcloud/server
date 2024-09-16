@@ -50,7 +50,7 @@ class RequestSharedSecretTest extends TestCase {
 	/** @var MockObject|ITimeFactory */
 	private $timeFactory;
 
-	/** @var  RequestSharedSecret */
+	/** @var RequestSharedSecret */
 	private $requestSharedSecret;
 
 	protected function setUp(): void {
@@ -87,7 +87,7 @@ class RequestSharedSecretTest extends TestCase {
 	 * @param bool $isTrustedServer
 	 * @param bool $retainBackgroundJob
 	 */
-	public function testStart($isTrustedServer, $retainBackgroundJob) {
+	public function testStart($isTrustedServer, $retainBackgroundJob): void {
 		/** @var RequestSharedSecret |MockObject $requestSharedSecret */
 		$requestSharedSecret = $this->getMockBuilder('OCA\Federation\BackgroundJob\RequestSharedSecret')
 			->setConstructorArgs(
@@ -196,7 +196,7 @@ class RequestSharedSecretTest extends TestCase {
 		];
 	}
 
-	public function testRunExpired() {
+	public function testRunExpired(): void {
 		$target = 'targetURL';
 		$source = 'sourceURL';
 		$token = 'token';
@@ -226,7 +226,7 @@ class RequestSharedSecretTest extends TestCase {
 		$this->invokePrivate($this->requestSharedSecret, 'run', [$argument]);
 	}
 
-	public function testRunConnectionError() {
+	public function testRunConnectionError(): void {
 		$target = 'targetURL';
 		$source = 'sourceURL';
 		$token = 'token';

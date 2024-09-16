@@ -21,9 +21,6 @@
     "This weekend" : "Αυτό το Σαββατοκύριακο",
     "Set reminder for this weekend" : "Ορίστε υπενθύμιση για αυτό το Σαββατοκύριακο",
     "Next week" : "Επόμενη εβδομάδα",
-    "Set reminder for next week" : "Ορίστε υπενθύμιση για την επόμενη εβδομάδα",
-    "Back" : "Επιστροφή",
-    "Reminder cleared" : "Η υπενθύμιση διαγράφηκε",
-    "Failed to load reminder" : "Η φόρτωση της υπενθύμισης απέτυχε"
+    "Set reminder for next week" : "Ορίστε υπενθύμιση για την επόμενη εβδομάδα"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -101,7 +101,7 @@ class TagServiceTest extends \Test\TestCase {
 		}
 	}
 
-	public function testUpdateFileTags() {
+	public function testUpdateFileTags(): void {
 		$tag1 = 'tag1';
 		$tag2 = 'tag2';
 
@@ -142,7 +142,7 @@ class TagServiceTest extends \Test\TestCase {
 		$subdir->delete();
 	}
 
-	public function testFavoriteActivity() {
+	public function testFavoriteActivity(): void {
 		$subdir = $this->root->newFolder('subdir');
 		$file = $subdir->newFile('test.txt');
 

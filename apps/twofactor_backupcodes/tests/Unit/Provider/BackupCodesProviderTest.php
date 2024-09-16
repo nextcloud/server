@@ -40,7 +40,7 @@ class BackupCodesProviderTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->appName = "twofactor_backupcodes";
+		$this->appName = 'twofactor_backupcodes';
 		$this->storage = $this->createMock(BackupCodeStorage::class);
 		$this->l10n = $this->createMock(IL10N::class);
 		$this->appManager = $this->createMock(AppManager::class);
@@ -49,11 +49,11 @@ class BackupCodesProviderTest extends TestCase {
 		$this->provider = new BackupCodesProvider($this->appName, $this->storage, $this->l10n, $this->appManager, $this->initialState);
 	}
 
-	public function testGetId() {
+	public function testGetId(): void {
 		$this->assertEquals('backup_codes', $this->provider->getId());
 	}
 
-	public function testGetDisplayName() {
+	public function testGetDisplayName(): void {
 		$this->l10n->expects($this->once())
 			->method('t')
 			->with('Backup code')
@@ -61,7 +61,7 @@ class BackupCodesProviderTest extends TestCase {
 		$this->assertSame('l10n backup code', $this->provider->getDisplayName());
 	}
 
-	public function testGetDescription() {
+	public function testGetDescription(): void {
 		$this->l10n->expects($this->once())
 			->method('t')
 			->with('Use backup code')
@@ -69,14 +69,14 @@ class BackupCodesProviderTest extends TestCase {
 		$this->assertSame('l10n use backup code', $this->provider->getDescription());
 	}
 
-	public function testGetTempalte() {
+	public function testGetTempalte(): void {
 		$user = $this->getMockBuilder(IUser::class)->getMock();
 		$expected = new Template('twofactor_backupcodes', 'challenge');
 
 		$this->assertEquals($expected, $this->provider->getTemplate($user));
 	}
 
-	public function testVerfiyChallenge() {
+	public function testVerfiyChallenge(): void {
 		$user = $this->getMockBuilder(IUser::class)->getMock();
 		$challenge = 'xyz';
 
@@ -88,7 +88,7 @@ class BackupCodesProviderTest extends TestCase {
 		$this->assertFalse($this->provider->verifyChallenge($user, $challenge));
 	}
 
-	public function testIsTwoFactorEnabledForUser() {
+	public function testIsTwoFactorEnabledForUser(): void {
 		$user = $this->getMockBuilder(IUser::class)->getMock();
 
 		$this->storage->expects($this->once())
@@ -99,7 +99,7 @@ class BackupCodesProviderTest extends TestCase {
 		$this->assertTrue($this->provider->isTwoFactorAuthEnabledForUser($user));
 	}
 
-	public function testIsActiveNoProviders() {
+	public function testIsActiveNoProviders(): void {
 		$user = $this->getMockBuilder(IUser::class)->getMock();
 
 		$this->appManager->expects($this->once())
@@ -119,7 +119,7 @@ class BackupCodesProviderTest extends TestCase {
 		$this->assertFalse($this->provider->isActive($user));
 	}
 
-	public function testIsActiveWithProviders() {
+	public function testIsActiveWithProviders(): void {
 		$user = $this->getMockBuilder(IUser::class)->getMock();
 
 		$this->appManager->expects($this->once())

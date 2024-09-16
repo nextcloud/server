@@ -8,6 +8,7 @@ namespace OCA\Files_External\Lib\Storage;
 
 use Aws\S3\Exception\S3Exception;
 use Icewind\Streams\CallbackWrapper;
+use Icewind\Streams\CountWrapper;
 use Icewind\Streams\IteratorDirectory;
 use OC\Files\Cache\CacheEntry;
 use OC\Files\ObjectStore\S3ConnectionTrait;
@@ -127,9 +128,9 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 			}
 		}
 
-		if (is_array($this->objectCache[$key]) && !isset($this->objectCache[$key]["Key"])) {
+		if (is_array($this->objectCache[$key]) && !isset($this->objectCache[$key]['Key'])) {
 			/** @psalm-suppress InvalidArgument Psalm doesn't understand nested arrays well */
-			$this->objectCache[$key]["Key"] = $key;
+			$this->objectCache[$key]['Key'] = $key;
 		}
 		return $this->objectCache[$key];
 	}
@@ -753,5 +754,25 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 			// and have the scanner figure out if anything has actually changed
 			return true;
 		}
+	}
+
+	public function writeStream(string $path, $stream, ?int $size = null): int {
+		if ($size === null) {
+			$size = 0;
+			// track the number of bytes read from the input stream to return as the number of written bytes.
+			$stream = CountWrapper::wrap($stream, function (int $writtenSize) use (&$size) {
+				$size = $writtenSize;
+			});
+		}
+
+		if (!is_resource($stream)) {
+			throw new \InvalidArgumentException('Invalid stream provided');
+		}
+
+		$path = $this->normalizePath($path);
+		$this->writeObject($path, $stream, $this->mimeDetector->detectPath($path));
+		$this->invalidateCache($path);
+
+		return $size;
 	}
 }

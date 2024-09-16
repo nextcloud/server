@@ -14,6 +14,9 @@ use OC\Authentication\Token\IToken;
 use OC\User\Session;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\ApiRoute;
+use OCP\AppFramework\Http\Attribute\BruteForceProtection;
+use OCP\AppFramework\Http\Attribute\NoAdminRequired;
+use OCP\AppFramework\Http\Attribute\PasswordConfirmationRequired;
 use OCP\AppFramework\Http\Attribute\UseSession;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCS\OCSForbiddenException;
@@ -45,9 +48,6 @@ class AppPasswordController extends \OCP\AppFramework\OCSController {
 	}
 
 	/**
-	 * @NoAdminRequired
-	 * @PasswordConfirmationRequired
-	 *
 	 * Create app password
 	 *
 	 * @return DataResponse<Http::STATUS_OK, array{apppassword: string}, array{}>
@@ -55,6 +55,8 @@ class AppPasswordController extends \OCP\AppFramework\OCSController {
 	 *
 	 * 200: App password returned
 	 */
+	#[NoAdminRequired]
+	#[PasswordConfirmationRequired]
 	#[ApiRoute(verb: 'GET', url: '/getapppassword', root: '/core')]
 	public function getAppPassword(): DataResponse {
 		// We do not allow the creation of new tokens if this is an app password
@@ -98,8 +100,6 @@ class AppPasswordController extends \OCP\AppFramework\OCSController {
 	}
 
 	/**
-	 * @NoAdminRequired
-	 *
 	 * Delete app password
 	 *
 	 * @return DataResponse<Http::STATUS_OK, array<empty>, array{}>
@@ -107,6 +107,7 @@ class AppPasswordController extends \OCP\AppFramework\OCSController {
 	 *
 	 * 200: App password deleted successfully
 	 */
+	#[NoAdminRequired]
 	#[ApiRoute(verb: 'DELETE', url: '/apppassword', root: '/core')]
 	public function deleteAppPassword(): DataResponse {
 		if (!$this->session->exists('app_password')) {
@@ -126,8 +127,6 @@ class AppPasswordController extends \OCP\AppFramework\OCSController {
 	}
 
 	/**
-	 * @NoAdminRequired
-	 *
 	 * Rotate app password
 	 *
 	 * @return DataResponse<Http::STATUS_OK, array{apppassword: string}, array{}>
@@ -135,6 +134,7 @@ class AppPasswordController extends \OCP\AppFramework\OCSController {
 	 *
 	 * 200: App password returned
 	 */
+	#[NoAdminRequired]
 	#[ApiRoute(verb: 'POST', url: '/apppassword/rotate', root: '/core')]
 	public function rotateAppPassword(): DataResponse {
 		if (!$this->session->exists('app_password')) {
@@ -160,9 +160,6 @@ class AppPasswordController extends \OCP\AppFramework\OCSController {
 	/**
 	 * Confirm the user password
 	 *
-	 * @NoAdminRequired
-	 * @BruteForceProtection(action=sudo)
-	 *
 	 * @param string $password The password of the user
 	 *
 	 * @return DataResponse<Http::STATUS_OK, array{lastLogin: int}, array{}>|DataResponse<Http::STATUS_FORBIDDEN, array<empty>, array{}>
@@ -170,6 +167,8 @@ class AppPasswordController extends \OCP\AppFramework\OCSController {
 	 * 200: Password confirmation succeeded
 	 * 403: Password confirmation failed
 	 */
+	#[NoAdminRequired]
+	#[BruteForceProtection(action: 'sudo')]
 	#[UseSession]
 	#[ApiRoute(verb: 'PUT', url: '/apppassword/confirm', root: '/core')]
 	public function confirmUserPassword(string $password): DataResponse {

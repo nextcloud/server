@@ -21,10 +21,10 @@ use Test\TestCase;
 
 class RememberBackupCodesJobTest extends TestCase {
 
-	/** @var IRegistry|\PHPUnit\Framework\MockObject\MockObject  */
+	/** @var IRegistry|\PHPUnit\Framework\MockObject\MockObject */
 	private $registry;
 
-	/** @var IUserManager|\PHPUnit\Framework\MockObject\MockObject  */
+	/** @var IUserManager|\PHPUnit\Framework\MockObject\MockObject */
 	private $userManager;
 
 	/** @var ITimeFactory|\PHPUnit\Framework\MockObject\MockObject */
@@ -59,7 +59,7 @@ class RememberBackupCodesJobTest extends TestCase {
 		);
 	}
 
-	public function testInvalidUID() {
+	public function testInvalidUID(): void {
 		$this->userManager->method('get')
 			->with('invalidUID')
 			->willReturn(null);
@@ -78,7 +78,7 @@ class RememberBackupCodesJobTest extends TestCase {
 		self::invokePrivate($this->job, 'run', [['uid' => 'invalidUID']]);
 	}
 
-	public function testBackupCodesGenerated() {
+	public function testBackupCodesGenerated(): void {
 		$user = $this->createMock(IUser::class);
 		$user->method('getUID')
 			->willReturn('validUID');
@@ -108,7 +108,7 @@ class RememberBackupCodesJobTest extends TestCase {
 		self::invokePrivate($this->job, 'run', [['uid' => 'validUID']]);
 	}
 
-	public function testNoActiveProvider() {
+	public function testNoActiveProvider(): void {
 		$user = $this->createMock(IUser::class);
 		$user->method('getUID')
 			->willReturn('validUID');
@@ -136,7 +136,7 @@ class RememberBackupCodesJobTest extends TestCase {
 		self::invokePrivate($this->job, 'run', [['uid' => 'validUID']]);
 	}
 
-	public function testNotificationSend() {
+	public function testNotificationSend(): void {
 		$user = $this->createMock(IUser::class);
 		$user->method('getUID')
 			->willReturn('validUID');
@@ -176,7 +176,7 @@ class RememberBackupCodesJobTest extends TestCase {
 		self::invokePrivate($this->job, 'run', [['uid' => 'validUID']]);
 	}
 
-	public function testNotificationNotSendForDisabledUser() {
+	public function testNotificationNotSendForDisabledUser(): void {
 		$user = $this->createMock(IUser::class);
 		$user->method('getUID')
 			->willReturn('validUID');

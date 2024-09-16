@@ -82,15 +82,16 @@
 </template>
 
 <script>
-import { CollectionList } from 'nextcloud-vue-collections'
-import { generateOcsUrl } from '@nextcloud/router'
-import NcAvatar from '@nextcloud/vue/dist/Components/NcAvatar.js'
 import axios from '@nextcloud/axios'
+import { orderBy } from '@nextcloud/files'
 import { loadState } from '@nextcloud/initial-state'
+import { generateOcsUrl } from '@nextcloud/router'
+import { CollectionList } from 'nextcloud-vue-collections'
+import NcAvatar from '@nextcloud/vue/dist/Components/NcAvatar.js'
 
-import Config from '../services/ConfigService.js'
+import Config from '../services/ConfigService.ts'
 import { shareWithTitle } from '../utils/SharedWithMe.js'
-import Share from '../models/Share.js'
+import Share from '../models/Share.ts'
 import ShareTypes from '../mixins/ShareTypes.js'
 import SharingEntryInternal from '../components/SharingEntryInternal.vue'
 import SharingEntrySimple from '../components/SharingEntrySimple.vue'
@@ -207,7 +208,7 @@ export default {
 				this.processSharedWithMe(sharedWithMe)
 				this.processShares(shares)
 			} catch (error) {
-				if (error.response.data?.ocs?.meta?.message) {
+				if (error?.response?.data?.ocs?.meta?.message) {
 					this.error = error.response.data.ocs.meta.message
 				} else {
 					this.error = t('files_sharing', 'Unable to load the shares list')
@@ -260,10 +261,17 @@ export default {
 		 */
 		processShares({ data }) {
 			if (data.ocs && data.ocs.data && data.ocs.data.length > 0) {
-				// create Share objects and sort by newest
-				const shares = data.ocs.data
-					.map(share => new Share(share))
-					.sort((a, b) => b.createdTime - a.createdTime)
+				const shares = orderBy(
+					data.ocs.data.map(share => new Share(share)),
+					[
+						// First order by the "share with" label
+						(share) => share.shareWithDisplayName,
+						// Then by the label
+						(share) => share.label,
+						// And last resort order by createdTime
+						(share) => share.createdTime,
+					],
+				)
 
 				this.linkShares = shares.filter(share => share.type === this.SHARE_TYPES.SHARE_TYPE_LINK || share.type === this.SHARE_TYPES.SHARE_TYPE_EMAIL)
 				this.shares = shares.filter(share => share.type !== this.SHARE_TYPES.SHARE_TYPE_LINK && share.type !== this.SHARE_TYPES.SHARE_TYPE_EMAIL)

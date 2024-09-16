@@ -7,8 +7,16 @@
 	overflow: hidden !important;
 }
 
+.help-list__link {
+	display: flex;
+	align-items: center;
+	height: var(--default-clickable-area);
+	margin: 0 8px;
+	background-position: left center;
+}
+
 .help-list__text {
-	margin-left: 24px;
+	margin-inline-start: 20px;
 }
 
 .help-iframe {

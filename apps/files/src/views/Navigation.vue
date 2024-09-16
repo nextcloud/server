@@ -4,34 +4,21 @@
 -->
 <template>
 	<NcAppNavigation data-cy-files-navigation
+		class="files-navigation"
 		:aria-label="t('files', 'Files')">
-		<template #list>
-			<NcAppNavigationItem v-for="view in parentViews"
-				:key="view.id"
-				:allow-collapse="true"
-				:data-cy-files-navigation-item="view.id"
-				:exact="useExactRouteMatching(view)"
-				:icon="view.iconClass"
-				:name="view.name"
-				:open="isExpanded(view)"
-				:pinned="view.sticky"
-				:to="generateToNavigation(view)"
-				@update:open="onToggleExpand(view)">
-				<!-- Sanitized icon as svg if provided -->
-				<NcIconSvgWrapper v-if="view.icon" slot="icon" :svg="view.icon" />
+		<template #search>
+			<NcAppNavigationSearch v-model="searchQuery" :label="t('files', 'Filter filenames…')" />
+		</template>
+		<template #default>
+			<NcAppNavigationList class="files-navigation__list"
+				:aria-label="t('files', 'Views')">
+				<FilesNavigationItem :views="viewMap" />
+			</NcAppNavigationList>
 
-				<!-- Child views if any -->
-				<NcAppNavigationItem v-for="child in childViews[view.id]"
-					:key="child.id"
-					:data-cy-files-navigation-item="child.id"
-					:exact-path="true"
-					:icon="child.iconClass"
-					:name="child.name"
-					:to="generateToNavigation(child)">
-					<!-- Sanitized icon as svg if provided -->
-					<NcIconSvgWrapper v-if="child.icon" slot="icon" :svg="child.icon" />
-				</NcAppNavigationItem>
-			</NcAppNavigationItem>
+			<!-- Settings modal-->
+			<SettingsModal :open="settingsOpened"
+				data-cy-files-navigation-settings
+				@close="onSettingsClose" />
 		</template>
 
 		<!-- Non-scrollable navigation bottom elements -->
@@ -41,61 +28,75 @@
 				<NavigationQuota />
 
 				<!-- Files settings modal toggle-->
-				<NcAppNavigationItem :aria-label="t('files', 'Open the files app settings')"
-					:name="t('files', 'Files settings')"
+				<NcAppNavigationItem :name="t('files', 'Files settings')"
 					data-cy-files-navigation-settings-button
 					@click.prevent.stop="openSettings">
 					<IconCog slot="icon" :size="20" />
 				</NcAppNavigationItem>
 			</ul>
 		</template>
-
-		<!-- Settings modal-->
-		<SettingsModal :open="settingsOpened"
-			data-cy-files-navigation-settings
-			@close="onSettingsClose" />
 	</NcAppNavigation>
 </template>
 
 <script lang="ts">
 import type { View } from '@nextcloud/files'
+import type { ViewConfig } from '../types.ts'
 
-import { emit } from '@nextcloud/event-bus'
-import { translate as t } from '@nextcloud/l10n'
 import { defineComponent } from 'vue'
+import { emit, subscribe } from '@nextcloud/event-bus'
+import { translate as t, getCanonicalLocale, getLanguage } from '@nextcloud/l10n'
 
 import IconCog from 'vue-material-design-icons/Cog.vue'
 import NcAppNavigation from '@nextcloud/vue/dist/Components/NcAppNavigation.js'
 import NcAppNavigationItem from '@nextcloud/vue/dist/Components/NcAppNavigationItem.js'
-import NcIconSvgWrapper from '@nextcloud/vue/dist/Components/NcIconSvgWrapper.js'
+import NcAppNavigationList from '@nextcloud/vue/dist/Components/NcAppNavigationList.js'
+import NcAppNavigationSearch from '@nextcloud/vue/dist/Components/NcAppNavigationSearch.js'
 import NavigationQuota from '../components/NavigationQuota.vue'
 import SettingsModal from './Settings.vue'
+import FilesNavigationItem from '../components/FilesNavigationItem.vue'
 
 import { useNavigation } from '../composables/useNavigation'
+import { useFilenameFilter } from '../composables/useFilenameFilter'
+import { useFiltersStore } from '../store/filters.ts'
 import { useViewConfigStore } from '../store/viewConfig.ts'
-import logger from '../logger.js'
+import logger from '../logger.ts'
+
+const collator = Intl.Collator(
+	[getLanguage(), getCanonicalLocale()],
+	{
+		numeric: true,
+		usage: 'sort',
+	},
+)
 
 export default defineComponent({
 	name: 'Navigation',
 
 	components: {
 		IconCog,
+		FilesNavigationItem,
 
 		NavigationQuota,
 		NcAppNavigation,
 		NcAppNavigationItem,
-		NcIconSvgWrapper,
+		NcAppNavigationList,
+		NcAppNavigationSearch,
 		SettingsModal,
 	},
 
 	setup() {
+		const filtersStore = useFiltersStore()
 		const viewConfigStore = useViewConfigStore()
 		const { currentView, views } = useNavigation()
+		const { searchQuery } = useFilenameFilter()
 
 		return {
 			currentView,
+			searchQuery,
+			t,
 			views,
 
+			filtersStore,
 			viewConfigStore,
 		}
 	},
@@ -114,28 +115,20 @@ export default defineComponent({
 			return this.$route?.params?.view || 'files'
 		},
 
-		parentViews(): View[] {
+		/**
+		 * Map of parent ids to views
+		 */
+		viewMap(): Record<string, View[]> {
 			return this.views
-				// filter child views
-				.filter(view => !view.parent)
-				// sort views by order
-				.sort((a, b) => {
-					return a.order - b.order
-				})
-		},
-
-		childViews(): Record<string, View[]> {
-			return this.views
-				// filter parent views
-				.filter(view => !!view.parent)
-				// create a map of parents and their children
-				.reduce((list, view) => {
-					list[view.parent!] = [...(list[view.parent!] || []), view]
-					// Sort children by order
-					list[view.parent!].sort((a, b) => {
-						return a.order - b.order
+				.reduce((map, view) => {
+					map[view.parent!] = [...(map[view.parent!] || []), view]
+					map[view.parent!].sort((a, b) => {
+						if (typeof a.order === 'number' || typeof b.order === 'number') {
+							return (a.order ?? 0) - (b.order ?? 0)
+						}
+						return collator.compare(a.name, b.name)
 					})
-					return list
+					return map
 				}, {} as Record<string, View[]>)
 		},
 	},
@@ -145,11 +138,16 @@ export default defineComponent({
 			if (this.currentViewId !== this.currentView?.id) {
 				// This is guaranteed to be a view because `currentViewId` falls back to the default 'files' view
 				const view = this.views.find(({ id }) => id === this.currentViewId)!
-				// The the new view as active
+				// The new view as active
 				this.showView(view)
 				logger.debug(`Navigation changed from ${oldView} to ${newView}`, { to: view })
 			}
 		},
+	},
+
+	created() {
+		subscribe('files:folder-tree:initialized', this.loadExpandedViews)
+		subscribe('files:folder-tree:expanded', this.loadExpandedViews)
 	},
 
 	beforeMount() {
@@ -160,16 +158,18 @@ export default defineComponent({
 	},
 
 	methods: {
-		t,
-
-		/**
-		 * Only use exact route matching on routes with child views
-		 * Because if a view does not have children (like the files view) then multiple routes might be matched for it
-		 * Like for the 'files' view this does not work because of optional 'fileid' param so /files and /files/1234 are both in the 'files' view
-		 * @param view The view to check
-		 */
-		useExactRouteMatching(view: View): boolean {
-			return this.childViews[view.id]?.length > 0
+		async loadExpandedViews() {
+			const viewConfigs = this.viewConfigStore.getConfigs()
+			const viewsToLoad: View[] = (Object.entries(viewConfigs) as Array<[string, ViewConfig]>)
+				// eslint-disable-next-line @typescript-eslint/no-unused-vars
+				.filter(([viewId, config]) => config.expanded === true)
+				// eslint-disable-next-line @typescript-eslint/no-unused-vars
+				.map(([viewId, config]) => this.$navigation.views.find(view => view.id === viewId))
+				.filter(Boolean) // Only registered views
+				.filter(view => view.loadChildViews && !view.loaded)
+			for (const view of viewsToLoad) {
+				await view.loadChildViews(view)
+			}
 		},
 
 		/**
@@ -181,42 +181,6 @@ export default defineComponent({
 			window.OCA?.Files?.Sidebar?.close?.()
 			this.$navigation.setActive(view)
 			emit('files:navigation:changed', view)
-		},
-
-		/**
-		 * Expand/collapse a a view with children and permanently
-		 * save this setting in the server.
-		 * @param view View to toggle
-		 */
-		onToggleExpand(view: View) {
-			// Invert state
-			const isExpanded = this.isExpanded(view)
-			// Update the view expanded state, might not be necessary
-			view.expanded = !isExpanded
-			this.viewConfigStore.update(view.id, 'expanded', !isExpanded)
-		},
-
-		/**
-		 * Check if a view is expanded by user config
-		 * or fallback to the default value.
-		 * @param view View to check if expanded
-		 */
-		isExpanded(view: View): boolean {
-			return typeof this.viewConfigStore.getConfig(view.id)?.expanded === 'boolean'
-				? this.viewConfigStore.getConfig(view.id).expanded === true
-				: view.expanded === true
-		},
-
-		/**
-		 * Generate the route to a view
-		 * @param view View to generate "to" navigation for
-		 */
-		generateToNavigation(view: View) {
-			if (view.params) {
-				const { dir } = view.params
-				return { name: 'filelist', params: view.params, query: { dir } }
-			}
-			return { name: 'filelist', params: { view: view.id } }
 		},
 
 		/**
@@ -258,5 +222,15 @@ export default defineComponent({
 	padding-top: 0 !important;
 	// Prevent shrinking or growing
 	flex: 0 0 auto;
+}
+
+.files-navigation {
+	&__list {
+		height: 100%; // Fill all available space for sticky views
+	}
+
+	:deep(.app-navigation__content > ul.app-navigation__list) {
+		will-change: scroll-position;
+	}
 }
 </style>

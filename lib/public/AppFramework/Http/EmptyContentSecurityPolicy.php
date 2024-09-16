@@ -26,7 +26,7 @@ class EmptyContentSecurityPolicy {
 	protected $strictDynamicAllowedOnScripts = null;
 	/**
 	 * @var bool Whether eval in JS scripts is allowed
-	 * TODO: Disallow per default
+	 *           TODO: Disallow per default
 	 * @link https://github.com/owncloud/core/issues/11925
 	 */
 	protected $evalScriptAllowed = null;
@@ -36,7 +36,7 @@ class EmptyContentSecurityPolicy {
 	protected $allowedScriptDomains = null;
 	/**
 	 * @var bool Whether inline CSS is allowed
-	 * TODO: Disallow per default
+	 *           TODO: Disallow per default
 	 * @link https://github.com/owncloud/core/issues/13458
 	 */
 	protected $inlineStyleAllowed = null;
@@ -89,7 +89,7 @@ class EmptyContentSecurityPolicy {
 	}
 
 	/**
-	 * Use the according JS nonce
+	 * The base64 encoded nonce to be used for script source.
 	 * This method is only for CSPMiddleware, custom values are ignored in mergePolicies of ContentSecurityPolicyManager
 	 *
 	 * @param string $nonce
@@ -448,7 +448,7 @@ class EmptyContentSecurityPolicy {
 				if ($this->strictDynamicAllowed) {
 					$scriptSrc .= '\'strict-dynamic\' ';
 				}
-				$scriptSrc .= '\'nonce-'.base64_encode($this->jsNonce).'\'';
+				$scriptSrc .= '\'nonce-'.$this->jsNonce.'\'';
 				$allowedScriptDomains = array_flip($this->allowedScriptDomains);
 				unset($allowedScriptDomains['\'self\'']);
 				$this->allowedScriptDomains = array_flip($allowedScriptDomains);

@@ -41,7 +41,7 @@ class CacheTest extends TestCase {
 	 */
 	private $remoteUser;
 
-	/** @var  ICloudIdManager */
+	/** @var ICloudIdManager */
 	private $cloudIdManager;
 
 	protected function setUp(): void {
@@ -91,7 +91,7 @@ class CacheTest extends TestCase {
 		parent::tearDown();
 	}
 
-	public function testGetInjectsOwnerDisplayName() {
+	public function testGetInjectsOwnerDisplayName(): void {
 		$info = $this->cache->get('test.txt');
 		$this->assertEquals(
 			$this->remoteUser . '@example.com/owncloud',
@@ -99,12 +99,12 @@ class CacheTest extends TestCase {
 		);
 	}
 
-	public function testGetReturnsFalseIfNotFound() {
+	public function testGetReturnsFalseIfNotFound(): void {
 		$info = $this->cache->get('unexisting-entry.txt');
 		$this->assertFalse($info);
 	}
 
-	public function testGetFolderPopulatesOwner() {
+	public function testGetFolderPopulatesOwner(): void {
 		$dirId = $this->cache->put(
 			'subdir',
 			[

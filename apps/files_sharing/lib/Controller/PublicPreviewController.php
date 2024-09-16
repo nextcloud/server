@@ -6,6 +6,8 @@
 namespace OCA\Files_Sharing\Controller;
 
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
+use OCP\AppFramework\Http\Attribute\PublicPage;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\FileDisplayResponse;
 use OCP\AppFramework\PublicShareController;
@@ -60,9 +62,6 @@ class PublicPreviewController extends PublicShareController {
 
 
 	/**
-	 * @PublicPage
-	 * @NoCSRFRequired
-	 *
 	 * Get a preview for a shared file
 	 *
 	 * @param string $token Token of the share
@@ -77,6 +76,8 @@ class PublicPreviewController extends PublicShareController {
 	 * 403: Getting preview is not allowed
 	 * 404: Share or preview not found
 	 */
+	#[PublicPage]
+	#[NoCSRFRequired]
 	public function getPreview(
 		string $token,
 		string $file = '',
@@ -123,8 +124,6 @@ class PublicPreviewController extends PublicShareController {
 	}
 
 	/**
-	 * @PublicPage
-	 * @NoCSRFRequired
 	 * @NoSameSiteCookieRequired
 	 *
 	 * Get a direct link preview for a shared file
@@ -137,6 +136,8 @@ class PublicPreviewController extends PublicShareController {
 	 * 403: Getting preview is not allowed
 	 * 404: Share or preview not found
 	 */
+	#[PublicPage]
+	#[NoCSRFRequired]
 	public function directLink(string $token) {
 		// No token no image
 		if ($token === '') {

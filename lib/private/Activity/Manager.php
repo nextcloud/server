@@ -291,7 +291,7 @@ class Manager implements IManager {
 	public function isFormattingFilteredObject(): bool {
 		return $this->formattingObjectType !== null && $this->formattingObjectId !== null
 			&& $this->formattingObjectType === $this->request->getParam('object_type')
-			&& $this->formattingObjectId === (int) $this->request->getParam('object_id');
+			&& $this->formattingObjectId === (int)$this->request->getParam('object_id');
 	}
 
 	/**
@@ -344,7 +344,7 @@ class Manager implements IManager {
 	 * @throws \UnexpectedValueException If the token is invalid, does not exist or is not unique
 	 */
 	protected function getUserFromToken(): string {
-		$token = (string) $this->request->getParam('token', '');
+		$token = (string)$this->request->getParam('token', '');
 		if (strlen($token) !== 30) {
 			throw new \UnexpectedValueException('The token is invalid');
 		}

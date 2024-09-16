@@ -34,7 +34,7 @@
 				@click.native="execDefaultAction" />
 
 			<FileEntryName ref="name"
-				:display-name="displayName"
+				:basename="basename"
 				:extension="extension"
 				:files-list-width="filesListWidth"
 				:nodes="nodes"
@@ -89,7 +89,8 @@ import { defineComponent } from 'vue'
 import { formatFileSize } from '@nextcloud/files'
 import moment from '@nextcloud/moment'
 
-import { useNavigation } from '../composables/useNavigation'
+import { useNavigation } from '../composables/useNavigation.ts'
+import { useRouteParameters } from '../composables/useRouteParameters.ts'
 import { useActionsMenuStore } from '../store/actionsmenu.ts'
 import { useDragAndDropStore } from '../store/dragging.ts'
 import { useFilesStore } from '../store/files.ts'
@@ -134,6 +135,10 @@ export default defineComponent({
 		const renamingStore = useRenamingStore()
 		const selectionStore = useSelectionStore()
 		const { currentView } = useNavigation()
+		const {
+			directory: currentDir,
+			fileId: currentFileId,
+		} = useRouteParameters()
 
 		return {
 			actionsMenuStore,
@@ -142,6 +147,8 @@ export default defineComponent({
 			renamingStore,
 			selectionStore,
 
+			currentDir,
+			currentFileId,
 			currentView,
 		}
 	},
@@ -177,7 +184,7 @@ export default defineComponent({
 
 		size() {
 			const size = this.source.size
-			if (!size || size < 0) {
+			if (size === undefined || isNaN(size) || size < 0) {
 				return this.t('files', 'Pending')
 			}
 			return formatFileSize(size, true)
@@ -187,7 +194,7 @@ export default defineComponent({
 			const maxOpacitySize = 10 * 1024 * 1024
 
 			const size = this.source.size
-			if (!size || isNaN(size) || size < 0) {
+			if (size === undefined || isNaN(size) || size < 0) {
 				return {}
 			}
 

@@ -72,7 +72,7 @@ class UserLiveStatusListener implements IEventListener {
 		}
 
 		// Don't overwrite the "away" calendar status if it's set
-		if($userStatus->getMessageId() === IUserStatus::MESSAGE_CALENDAR_BUSY) {
+		if ($userStatus->getMessageId() === IUserStatus::MESSAGE_CALENDAR_BUSY) {
 			$event->setUserStatus(new ConnectorUserStatus($userStatus));
 			return;
 		}

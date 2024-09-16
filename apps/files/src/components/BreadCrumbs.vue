@@ -83,7 +83,7 @@ export default defineComponent({
 		const pathsStore = usePathsStore()
 		const selectionStore = useSelectionStore()
 		const uploaderStore = useUploaderStore()
-		const { currentView } = useNavigation()
+		const { currentView, views } = useNavigation()
 
 		return {
 			draggingStore,
@@ -93,6 +93,7 @@ export default defineComponent({
 			uploaderStore,
 
 			currentView,
+			views,
 		}
 	},
 
@@ -109,12 +110,11 @@ export default defineComponent({
 			return this.dirs.map((dir: string, index: number) => {
 				const source = this.getFileSourceFromPath(dir)
 				const node: Node | undefined = source ? this.getNodeFromSource(source) : undefined
-				const to = { ...this.$route, params: { node: node?.fileid }, query: { dir } }
 				return {
 					dir,
 					exact: true,
 					name: this.getDirDisplayName(dir),
-					to,
+					to: this.getTo(dir, node),
 					// disable drop on current directory
 					disableDrop: index === this.dirs.length - 1,
 				}
@@ -158,9 +158,32 @@ export default defineComponent({
 				return this.$navigation?.active?.name || t('files', 'Home')
 			}
 
-			const source: FileSource | null = this.getFileSourceFromPath(path)
-			const node: Node | undefined = source ? this.getNodeFromSource(source) : undefined
-			return node?.attributes?.displayname || basename(path)
+			const source = this.getFileSourceFromPath(path)
+			const node = source ? this.getNodeFromSource(source) : undefined
+			return node?.displayname || basename(path)
+		},
+
+		getTo(dir: string, node?: Node): Record<string, unknown> {
+			if (dir === '/') {
+				return {
+					...this.$route,
+					params: { view: this.currentView?.id },
+					query: {},
+				}
+			}
+			if (node === undefined) {
+				const view = this.views.find(view => view.params?.dir === dir)
+				return {
+					...this.$route,
+					params: { fileid: view?.params?.fileid ?? '' },
+					query: { dir },
+				}
+			}
+			return {
+				...this.$route,
+				params: { fileid: String(node.fileid) },
+				query: { dir: node.path },
+			}
 		},
 
 		onClick(to) {
@@ -273,6 +296,7 @@ export default defineComponent({
 	height: 100%;
 	margin-block: 0;
 	margin-inline: 10px;
+	min-width: 0;
 
 	:deep() {
 		a {

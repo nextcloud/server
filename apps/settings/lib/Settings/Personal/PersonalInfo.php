@@ -11,6 +11,7 @@ namespace OCA\Settings\Settings\Personal;
 
 use OC\Profile\ProfileManager;
 use OCA\FederatedFileSharing\FederatedShareProvider;
+use OCA\Provisioning_API\Controller\AUserData;
 use OCP\Accounts\IAccount;
 use OCP\Accounts\IAccountManager;
 use OCP\Accounts\IAccountProperty;
@@ -141,6 +142,7 @@ class PersonalInfo implements ISettings {
 			'headline' => $this->getProperty($account, IAccountManager::PROPERTY_HEADLINE),
 			'biography' => $this->getProperty($account, IAccountManager::PROPERTY_BIOGRAPHY),
 			'birthdate' => $this->getProperty($account, IAccountManager::PROPERTY_BIRTHDATE),
+			'firstDayOfWeek' => $this->config->getUserValue($uid, 'core', AUserData::USER_FIELD_FIRST_DAY_OF_WEEK),
 		];
 
 		$accountParameters = [
@@ -195,8 +197,8 @@ class PersonalInfo implements ISettings {
 
 	/**
 	 * @return int whether the form should be rather on the top or bottom of
-	 * the admin section. The forms are arranged in ascending order of the
-	 * priority values. It is required to return a value between 0 and 100.
+	 *             the admin section. The forms are arranged in ascending order of the
+	 *             priority values. It is required to return a value between 0 and 100.
 	 *
 	 * E.g.: 70
 	 * @since 9.1

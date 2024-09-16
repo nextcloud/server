@@ -14,12 +14,14 @@ use OC\App\AppStore\Version\VersionParser;
 use OC\App\DependencyAnalyzer;
 use OC\App\Platform;
 use OC\Installer;
-use OC_App;
 use OCP\App\AppPathNotFoundException;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
 use OCP\AppFramework\Http\Attribute\OpenAPI;
+use OCP\AppFramework\Http\Attribute\PasswordConfirmationRequired;
+use OCP\AppFramework\Http\Attribute\PublicPage;
 use OCP\AppFramework\Http\ContentSecurityPolicy;
 use OCP\AppFramework\Http\FileDisplayResponse;
 use OCP\AppFramework\Http\JSONResponse;
@@ -74,10 +76,9 @@ class AppSettingsController extends Controller {
 	}
 
 	/**
-	 * @NoCSRFRequired
-	 *
 	 * @return TemplateResponse
 	 */
+	#[NoCSRFRequired]
 	public function viewApps(): TemplateResponse {
 		$this->navigationManager->setActiveEntry('core_apps');
 
@@ -100,23 +101,21 @@ class AppSettingsController extends Controller {
 
 	/**
 	 * Get all active entries for the app discover section
-	 *
-	 * @NoCSRFRequired
 	 */
+	#[NoCSRFRequired]
 	public function getAppDiscoverJSON(): JSONResponse {
 		$data = $this->discoverFetcher->get(true);
 		return new JSONResponse($data);
 	}
 
 	/**
-	 * @PublicPage
-	 * @NoCSRFRequired
-	 *
 	 * Get a image for the app discover section - this is proxied for privacy and CSP reasons
 	 *
 	 * @param string $image
 	 * @throws \Exception
 	 */
+	#[PublicPage]
+	#[NoCSRFRequired]
 	public function getAppDiscoverMedia(string $fileName): Response {
 		$etag = $this->discoverFetcher->getETag() ?? date('Y-m');
 		$folder = null;
@@ -455,12 +454,11 @@ class AppSettingsController extends Controller {
 	}
 
 	/**
-	 * @PasswordConfirmationRequired
-	 *
 	 * @param string $appId
 	 * @param array $groups
 	 * @return JSONResponse
 	 */
+	#[PasswordConfirmationRequired]
 	public function enableApp(string $appId, array $groups = []): JSONResponse {
 		return $this->enableApps([$appId], $groups);
 	}
@@ -470,17 +468,17 @@ class AppSettingsController extends Controller {
 	 *
 	 * apps will be enabled for specific groups only if $groups is defined
 	 *
-	 * @PasswordConfirmationRequired
 	 * @param array $appIds
 	 * @param array $groups
 	 * @return JSONResponse
 	 */
+	#[PasswordConfirmationRequired]
 	public function enableApps(array $appIds, array $groups = []): JSONResponse {
 		try {
 			$updateRequired = false;
 
 			foreach ($appIds as $appId) {
-				$appId = OC_App::cleanAppId($appId);
+				$appId = $this->appManager->cleanAppId($appId);
 
 				// Check if app is already downloaded
 				/** @var Installer $installer */
@@ -522,25 +520,23 @@ class AppSettingsController extends Controller {
 	}
 
 	/**
-	 * @PasswordConfirmationRequired
-	 *
 	 * @param string $appId
 	 * @return JSONResponse
 	 */
+	#[PasswordConfirmationRequired]
 	public function disableApp(string $appId): JSONResponse {
 		return $this->disableApps([$appId]);
 	}
 
 	/**
-	 * @PasswordConfirmationRequired
-	 *
 	 * @param array $appIds
 	 * @return JSONResponse
 	 */
+	#[PasswordConfirmationRequired]
 	public function disableApps(array $appIds): JSONResponse {
 		try {
 			foreach ($appIds as $appId) {
-				$appId = OC_App::cleanAppId($appId);
+				$appId = $this->appManager->cleanAppId($appId);
 				$this->appManager->disableApp($appId);
 			}
 			return new JSONResponse([]);
@@ -551,13 +547,12 @@ class AppSettingsController extends Controller {
 	}
 
 	/**
-	 * @PasswordConfirmationRequired
-	 *
 	 * @param string $appId
 	 * @return JSONResponse
 	 */
+	#[PasswordConfirmationRequired]
 	public function uninstallApp(string $appId): JSONResponse {
-		$appId = OC_App::cleanAppId($appId);
+		$appId = $this->appManager->cleanAppId($appId);
 		$result = $this->installer->removeApp($appId);
 		if ($result !== false) {
 			$this->appManager->clearAppsCache();
@@ -571,7 +566,7 @@ class AppSettingsController extends Controller {
 	 * @return JSONResponse
 	 */
 	public function updateApp(string $appId): JSONResponse {
-		$appId = OC_App::cleanAppId($appId);
+		$appId = $this->appManager->cleanAppId($appId);
 
 		$this->config->setSystemValue('maintenance', true);
 		try {
@@ -598,7 +593,7 @@ class AppSettingsController extends Controller {
 	}
 
 	public function force(string $appId): JSONResponse {
-		$appId = OC_App::cleanAppId($appId);
+		$appId = $this->appManager->cleanAppId($appId);
 		$this->appManager->ignoreNextcloudRequirementForApp($appId);
 		return new JSONResponse();
 	}

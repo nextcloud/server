@@ -40,9 +40,9 @@ class MigrateKeyStorage extends Command {
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$root = $this->util->getKeyStorageRoot();
 
-		$output->writeln("Updating key storage format");
+		$output->writeln('Updating key storage format');
 		$this->updateKeys($root, $output);
-		$output->writeln("Key storage format successfully updated");
+		$output->writeln('Key storage format successfully updated');
 
 		return 0;
 	}
@@ -56,7 +56,7 @@ class MigrateKeyStorage extends Command {
 	 * @throws \Exception
 	 */
 	protected function updateKeys(string $root, OutputInterface $output): bool {
-		$output->writeln("Start to update the keys:");
+		$output->writeln('Start to update the keys:');
 
 		$this->updateSystemKeys($root);
 		$this->updateUsersKeys($root, $output);

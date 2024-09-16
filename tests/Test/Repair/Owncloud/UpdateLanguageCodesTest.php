@@ -33,7 +33,7 @@ class UpdateLanguageCodesTest extends TestCase {
 		$this->config = $this->createMock(IConfig::class);
 	}
 
-	public function testRun() {
+	public function testRun(): void {
 		$users = [
 			['userid' => 'user1', 'configvalue' => 'fi_FI'],
 			['userid' => 'user2', 'configvalue' => 'de'],
@@ -48,12 +48,12 @@ class UpdateLanguageCodesTest extends TestCase {
 		// insert test data
 		$qb = $this->connection->getQueryBuilder();
 		$qb->insert('preferences')
-				->values([
-					'userid' => $qb->createParameter('userid'),
-					'appid' => $qb->createParameter('appid'),
-					'configkey' => $qb->createParameter('configkey'),
-					'configvalue' => $qb->createParameter('configvalue'),
-				]);
+			->values([
+				'userid' => $qb->createParameter('userid'),
+				'appid' => $qb->createParameter('appid'),
+				'configkey' => $qb->createParameter('configkey'),
+				'configvalue' => $qb->createParameter('configvalue'),
+			]);
 		foreach ($users as $user) {
 			$qb->setParameters([
 				'userid' => $user['userid'],
@@ -131,7 +131,7 @@ class UpdateLanguageCodesTest extends TestCase {
 		}
 	}
 
-	public function testSecondRun() {
+	public function testSecondRun(): void {
 		/** @var IOutput|\PHPUnit_Framework_MockObject_MockObject $outputMock */
 		$outputMock = $this->createMock(IOutput::class);
 		$outputMock->expects($this->never())

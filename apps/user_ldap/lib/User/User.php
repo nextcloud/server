@@ -229,12 +229,12 @@ class User {
 			$attr = strtolower($this->connection->ldapAttributePhone);
 			if (!empty($attr)) { // attribute configured
 				$profileValues[\OCP\Accounts\IAccountManager::PROPERTY_PHONE]
-					= $ldapEntry[$attr][0] ?? "";
+					= $ldapEntry[$attr][0] ?? '';
 			}
 			//User Profile Field - website
 			$attr = strtolower($this->connection->ldapAttributeWebsite);
 			if (isset($ldapEntry[$attr])) {
-				$cutPosition = strpos($ldapEntry[$attr][0], " ");
+				$cutPosition = strpos($ldapEntry[$attr][0], ' ');
 				if ($cutPosition) {
 					// drop appended label
 					$profileValues[\OCP\Accounts\IAccountManager::PROPERTY_WEBSITE]
@@ -244,7 +244,7 @@ class User {
 						= $ldapEntry[$attr][0];
 				}
 			} elseif (!empty($attr)) {	// configured, but not defined
-				$profileValues[\OCP\Accounts\IAccountManager::PROPERTY_WEBSITE] = "";
+				$profileValues[\OCP\Accounts\IAccountManager::PROPERTY_WEBSITE] = '';
 			}
 			//User Profile Field - Address
 			$attr = strtolower($this->connection->ldapAttributeAddress);
@@ -252,43 +252,43 @@ class User {
 				if (str_contains($ldapEntry[$attr][0], '$')) {
 					// basic format conversion from postalAddress syntax to commata delimited
 					$profileValues[\OCP\Accounts\IAccountManager::PROPERTY_ADDRESS]
-						= str_replace('$', ", ", $ldapEntry[$attr][0]);
+						= str_replace('$', ', ', $ldapEntry[$attr][0]);
 				} else {
 					$profileValues[\OCP\Accounts\IAccountManager::PROPERTY_ADDRESS]
 						= $ldapEntry[$attr][0];
 				}
 			} elseif (!empty($attr)) {	// configured, but not defined
-				$profileValues[\OCP\Accounts\IAccountManager::PROPERTY_ADDRESS] = "";
+				$profileValues[\OCP\Accounts\IAccountManager::PROPERTY_ADDRESS] = '';
 			}
 			//User Profile Field - Twitter
 			$attr = strtolower($this->connection->ldapAttributeTwitter);
 			if (!empty($attr)) {
 				$profileValues[\OCP\Accounts\IAccountManager::PROPERTY_TWITTER]
-					= $ldapEntry[$attr][0] ?? "";
+					= $ldapEntry[$attr][0] ?? '';
 			}
 			//User Profile Field - fediverse
 			$attr = strtolower($this->connection->ldapAttributeFediverse);
 			if (!empty($attr)) {
 				$profileValues[\OCP\Accounts\IAccountManager::PROPERTY_FEDIVERSE]
-					= $ldapEntry[$attr][0] ?? "";
+					= $ldapEntry[$attr][0] ?? '';
 			}
 			//User Profile Field - organisation
 			$attr = strtolower($this->connection->ldapAttributeOrganisation);
 			if (!empty($attr)) {
 				$profileValues[\OCP\Accounts\IAccountManager::PROPERTY_ORGANISATION]
-					= $ldapEntry[$attr][0] ?? "";
+					= $ldapEntry[$attr][0] ?? '';
 			}
 			//User Profile Field - role
 			$attr = strtolower($this->connection->ldapAttributeRole);
 			if (!empty($attr)) {
 				$profileValues[\OCP\Accounts\IAccountManager::PROPERTY_ROLE]
-					= $ldapEntry[$attr][0] ?? "";
+					= $ldapEntry[$attr][0] ?? '';
 			}
 			//User Profile Field - headline
 			$attr = strtolower($this->connection->ldapAttributeHeadline);
 			if (!empty($attr)) {
 				$profileValues[\OCP\Accounts\IAccountManager::PROPERTY_HEADLINE]
-					= $ldapEntry[$attr][0] ?? "";
+					= $ldapEntry[$attr][0] ?? '';
 			}
 			//User Profile Field - biography
 			$attr = strtolower($this->connection->ldapAttributeBiography);
@@ -302,7 +302,7 @@ class User {
 						= $ldapEntry[$attr][0];
 				}
 			} elseif (!empty($attr)) {	// configured, but not defined
-				$profileValues[\OCP\Accounts\IAccountManager::PROPERTY_BIOGRAPHY] = "";
+				$profileValues[\OCP\Accounts\IAccountManager::PROPERTY_BIOGRAPHY] = '';
 			}
 			//User Profile Field - birthday
 			$attr = strtolower($this->connection->ldapAttributeBirthDate);
@@ -311,7 +311,7 @@ class User {
 				try {
 					$birthdate = $this->birthdateParser->parseBirthdate($value);
 					$profileValues[\OCP\Accounts\IAccountManager::PROPERTY_BIRTHDATE]
-						= $birthdate->format("Y-m-d");
+						= $birthdate->format('Y-m-d');
 				} catch (InvalidArgumentException $e) {
 					// Invalid date -> just skip the property
 					$this->logger->info("Failed to parse user's birthdate from LDAP: $value", [
@@ -330,11 +330,11 @@ class User {
 				$this->updateProfile($profileValues);
 				$this->logger->info("updated profile uid=$username", ['app' => 'user_ldap']);
 			} else {
-				$this->logger->debug("profile data from LDAP unchanged", ['app' => 'user_ldap', 'uid' => $username]);
+				$this->logger->debug('profile data from LDAP unchanged', ['app' => 'user_ldap', 'uid' => $username]);
 			}
 			unset($attr);
 		} elseif ($profileCached !== null) { // message delayed, to declutter log
-			$this->logger->debug("skipping profile check, while cached data exist", ['app' => 'user_ldap', 'uid' => $username]);
+			$this->logger->debug('skipping profile check, while cached data exist', ['app' => 'user_ldap', 'uid' => $username]);
 		}
 
 		//Avatar
@@ -570,7 +570,7 @@ class User {
 	 *
 	 * fetches the quota from LDAP and stores it as Nextcloud user value
 	 * @param ?string $valueFromLDAP the quota attribute's value can be passed,
-	 * to save the readAttribute request
+	 *                               to save the readAttribute request
 	 * @return void
 	 */
 	public function updateQuota($valueFromLDAP = null) {
@@ -646,8 +646,7 @@ class User {
 			try {
 				$accountProperty = $account->getProperty($property);
 				$currentValue = $accountProperty->getValue();
-				$scope = ($accountProperty->getScope() ? $accountProperty->getScope()
-					: $defaultScopes[$property]);
+				$scope = ($accountProperty->getScope() ?: $defaultScopes[$property]);
 			} catch (PropertyDoesNotExistException $e) { // thrown at getProperty
 				$this->logger->error('property does not exist: '.$property
 					.' for uid='.$this->uid.'', ['app' => 'user_ldap', 'exception' => $e]);
@@ -880,7 +879,7 @@ class User {
 								->setUser($uid)
 								->setDateTime($currentDateTime)
 								->setObject('pwd_exp_warn', $uid)
-								->setSubject('pwd_exp_warn_days', [(int) ceil($secondsToExpiry / 60 / 60 / 24)])
+								->setSubject('pwd_exp_warn_days', [(int)ceil($secondsToExpiry / 60 / 60 / 24)])
 							;
 							$this->notificationManager->notify($notification);
 						}

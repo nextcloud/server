@@ -44,11 +44,12 @@ class Backend {
 	 */
 	public function getRemindersToProcess():array {
 		$query = $this->db->getQueryBuilder();
-		$query->select(['cr.*', 'co.calendardata', 'c.displayname', 'c.principaluri'])
+		$query->select(['cr.*', 'co.calendardata', 'c.displayname', 'c.principaluri','cr.notification_date', 'cr.event_hash', 'cr.type'])
 			->from('calendar_reminders', 'cr')
 			->where($query->expr()->lte('cr.notification_date', $query->createNamedParameter($this->timeFactory->getTime())))
 			->join('cr', 'calendarobjects', 'co', $query->expr()->eq('cr.object_id', 'co.id'))
-			->join('cr', 'calendars', 'c', $query->expr()->eq('cr.calendar_id', 'c.id'));
+			->join('cr', 'calendars', 'c', $query->expr()->eq('cr.calendar_id', 'c.id'))
+			->groupBy('cr.event_hash', 'cr.notification_date', 'cr.type');
 		$stmt = $query->execute();
 
 		return array_map(
@@ -187,15 +188,15 @@ class Backend {
 	 * @return array
 	 */
 	private function fixRowTyping(array $row): array {
-		$row['id'] = (int) $row['id'];
-		$row['calendar_id'] = (int) $row['calendar_id'];
-		$row['object_id'] = (int) $row['object_id'];
-		$row['is_recurring'] = (bool) $row['is_recurring'];
-		$row['recurrence_id'] = (int) $row['recurrence_id'];
-		$row['is_recurrence_exception'] = (bool) $row['is_recurrence_exception'];
-		$row['is_relative'] = (bool) $row['is_relative'];
-		$row['notification_date'] = (int) $row['notification_date'];
-		$row['is_repeat_based'] = (bool) $row['is_repeat_based'];
+		$row['id'] = (int)$row['id'];
+		$row['calendar_id'] = (int)$row['calendar_id'];
+		$row['object_id'] = (int)$row['object_id'];
+		$row['is_recurring'] = (bool)$row['is_recurring'];
+		$row['recurrence_id'] = (int)$row['recurrence_id'];
+		$row['is_recurrence_exception'] = (bool)$row['is_recurrence_exception'];
+		$row['is_relative'] = (bool)$row['is_relative'];
+		$row['notification_date'] = (int)$row['notification_date'];
+		$row['is_repeat_based'] = (bool)$row['is_repeat_based'];
 
 		return $row;
 	}

@@ -38,15 +38,15 @@ interface IManager {
 	public function getProviders(): array;
 
 	/**
-	 * @param string $taskType
+	 * @param string $taskTypeId
 	 * @return IProvider
 	 * @throws Exception
 	 * @since 30.0.0
 	 */
-	public function getPreferredProvider(string $taskType);
+	public function getPreferredProvider(string $taskTypeId);
 
 	/**
-	 * @return array<string,array{name: string, description: string, inputShape: ShapeDescriptor[], optionalInputShape: ShapeDescriptor[], outputShape: ShapeDescriptor[], optionalOutputShape: ShapeDescriptor[]}>
+	 * @return array<array-key,array{name: string, description: string, inputShape: ShapeDescriptor[], inputShapeEnumValues: ShapeEnumValue[][], inputShapeDefaults: array<array-key, numeric|string>, optionalInputShape: ShapeDescriptor[], optionalInputShapeEnumValues: ShapeEnumValue[][], optionalInputShapeDefaults: array<array-key, numeric|string>, outputShape: ShapeDescriptor[], outputShapeEnumValues: ShapeEnumValue[][], optionalOutputShape: ShapeDescriptor[], optionalOutputShapeEnumValues: ShapeEnumValue[][]}>
 	 * @since 30.0.0
 	 */
 	public function getAvailableTaskTypes(): array;
@@ -60,6 +60,33 @@ interface IManager {
 	 * @since 30.0.0
 	 */
 	public function scheduleTask(Task $task): void;
+
+	/**
+	 * Run the task and return the finished task
+	 *
+	 * @param Task $task The task to run
+	 * @return Task The result task
+	 * @throws PreConditionNotMetException If no or not the requested provider was registered but this method was still called
+	 * @throws ValidationException the given task input didn't pass validation against the task type's input shape and/or the providers optional input shape specs
+	 * @throws Exception storing the task in the database failed
+	 * @throws UnauthorizedException the user scheduling the task does not have access to the files used in the input
+	 * @since 30.0.0
+	 */
+	public function runTask(Task $task): Task;
+
+	/**
+	 * Process task with a synchronous provider
+	 *
+	 * Prepare task input data and run the process method of the provider
+	 * This should only be used by OC\TaskProcessing\SynchronousBackgroundJob::run() and OCP\TaskProcessing\IManager::runTask()
+	 *
+	 * @param Task $task
+	 * @param ISynchronousProvider $provider
+	 * @return bool True if the task has run successfully
+	 * @throws Exception
+	 * @since 30.0.0
+	 */
+	public function processTask(Task $task, ISynchronousProvider $provider): bool;
 
 	/**
 	 * Delete a task that has been scheduled before
@@ -91,11 +118,12 @@ interface IManager {
 	 * @param int $id The id of the task
 	 * @param string|null $error
 	 * @param array|null $result
+	 * @param bool $isUsingFileIds
 	 * @throws Exception If the query failed
 	 * @throws NotFoundException If the task could not be found
 	 * @since 30.0.0
 	 */
-	public function setTaskResult(int $id, ?string $error, ?array $result): void;
+	public function setTaskResult(int $id, ?string $error, ?array $result, bool $isUsingFileIds = false): void;
 
 	/**
 	 * @param int $id
@@ -140,6 +168,24 @@ interface IManager {
 	public function getUserTasks(?string $userId, ?string $taskTypeId = null, ?string $customId = null): array;
 
 	/**
+	 * @param string|null $userId The user id that scheduled the task
+	 * @param string|null $taskTypeId The task type id to filter by
+	 * @param string|null $appId The app ID of the app that submitted the task
+	 * @param string|null $customId The custom task ID
+	 * @param int|null $status The task status
+	 * @param int|null $scheduleAfter Minimum schedule time filter
+	 * @param int|null $endedBefore Maximum ending time filter
+	 * @return list<Task>
+	 * @throws Exception If the query failed
+	 * @throws NotFoundException If the task could not be found
+	 * @since 30.0.0
+	 */
+	public function getTasks(
+		?string $userId, ?string $taskTypeId = null, ?string $appId = null, ?string $customId = null,
+		?int $status = null, ?int $scheduleAfter = null, ?int $endedBefore = null
+	): array;
+
+	/**
 	 * @param string|null $userId
 	 * @param string $appId
 	 * @param string|null $customId
@@ -152,7 +198,7 @@ interface IManager {
 
 	/**
 	 * Prepare the task's input data, so it can be processed by the provider
-	 * ie. this replaces file ids with base64 data
+	 * ie. this replaces file ids with File objects
 	 *
 	 * @param Task $task
 	 * @return array<array-key, list<numeric|string|File>|numeric|string|File>
@@ -160,6 +206,7 @@ interface IManager {
 	 * @throws GenericFileException
 	 * @throws LockedException
 	 * @throws ValidationException
+	 * @throws UnauthorizedException
 	 * @since 30.0.0
 	 */
 	public function prepareInputData(Task $task): array;

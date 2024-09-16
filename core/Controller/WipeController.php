@@ -11,7 +11,10 @@ namespace OC\Core\Controller;
 use OC\Authentication\Token\RemoteWipe;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\AnonRateLimit;
 use OCP\AppFramework\Http\Attribute\FrontpageRoute;
+use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
+use OCP\AppFramework\Http\Attribute\PublicPage;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\Authentication\Exceptions\InvalidTokenException;
 use OCP\IRequest;
@@ -26,12 +29,6 @@ class WipeController extends Controller {
 	}
 
 	/**
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
-	 * @PublicPage
-	 *
-	 * @AnonRateThrottle(limit=10, period=300)
-	 *
 	 * Check if the device should be wiped
 	 *
 	 * @param string $token App password
@@ -41,6 +38,9 @@ class WipeController extends Controller {
 	 * 200: Device should be wiped
 	 * 404: Device should not be wiped
 	 */
+	#[PublicPage]
+	#[NoCSRFRequired]
+	#[AnonRateLimit(limit: 10, period: 300)]
 	#[FrontpageRoute(verb: 'POST', url: '/core/wipe/check')]
 	public function checkWipe(string $token): JSONResponse {
 		try {
@@ -58,12 +58,6 @@ class WipeController extends Controller {
 
 
 	/**
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
-	 * @PublicPage
-	 *
-	 * @AnonRateThrottle(limit=10, period=300)
-	 *
 	 * Finish the wipe
 	 *
 	 * @param string $token App password
@@ -73,6 +67,9 @@ class WipeController extends Controller {
 	 * 200: Wipe finished successfully
 	 * 404: Device should not be wiped
 	 */
+	#[PublicPage]
+	#[NoCSRFRequired]
+	#[AnonRateLimit(limit: 10, period: 300)]
 	#[FrontpageRoute(verb: 'POST', url: '/core/wipe/success')]
 	public function wipeDone(string $token): JSONResponse {
 		try {

@@ -15,8 +15,12 @@ use OC\Core\Exception\ResetPasswordException;
 use OC\Security\RateLimiting\Exception\RateLimitExceededException;
 use OC\Security\RateLimiting\Limiter;
 use OCP\AppFramework\Controller;
+use OCP\AppFramework\Http\Attribute\AnonRateLimit;
+use OCP\AppFramework\Http\Attribute\BruteForceProtection;
 use OCP\AppFramework\Http\Attribute\FrontpageRoute;
+use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
 use OCP\AppFramework\Http\Attribute\OpenAPI;
+use OCP\AppFramework\Http\Attribute\PublicPage;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
@@ -74,12 +78,11 @@ class LostController extends Controller {
 
 	/**
 	 * Someone wants to reset their password:
-	 *
-	 * @PublicPage
-	 * @NoCSRFRequired
-	 * @BruteForceProtection(action=passwordResetEmail)
-	 * @AnonRateThrottle(limit=10, period=300)
 	 */
+	#[PublicPage]
+	#[NoCSRFRequired]
+	#[BruteForceProtection(action: 'passwordResetEmail')]
+	#[AnonRateLimit(limit: 10, period: 300)]
 	#[FrontpageRoute(verb: 'GET', url: '/lostpassword/reset/form/{token}/{userId}')]
 	public function resetform(string $token, string $userId): TemplateResponse {
 		try {
@@ -91,7 +94,7 @@ class LostController extends Controller {
 			) {
 				$response = new TemplateResponse(
 					'core', 'error', [
-						"errors" => [["error" => $e->getMessage()]]
+						'errors' => [['error' => $e->getMessage()]]
 					],
 					TemplateResponse::RENDER_AS_GUEST
 				);
@@ -140,11 +143,9 @@ class LostController extends Controller {
 		return array_merge($data, ['status' => 'success']);
 	}
 
-	/**
-	 * @PublicPage
-	 * @BruteForceProtection(action=passwordResetEmail)
-	 * @AnonRateThrottle(limit=10, period=300)
-	 */
+	#[PublicPage]
+	#[BruteForceProtection(action: 'passwordResetEmail')]
+	#[AnonRateLimit(limit: 10, period: 300)]
 	#[FrontpageRoute(verb: 'POST', url: '/lostpassword/email')]
 	public function email(string $user): JSONResponse {
 		if ($this->config->getSystemValue('lost_password_link', '') !== '') {
@@ -178,11 +179,9 @@ class LostController extends Controller {
 		return $response;
 	}
 
-	/**
-	 * @PublicPage
-	 * @BruteForceProtection(action=passwordResetEmail)
-	 * @AnonRateThrottle(limit=10, period=300)
-	 */
+	#[PublicPage]
+	#[BruteForceProtection(action: 'passwordResetEmail')]
+	#[AnonRateLimit(limit: 10, period: 300)]
 	#[FrontpageRoute(verb: 'POST', url: '/lostpassword/set/{token}/{userId}')]
 	public function setPassword(string $token, string $userId, string $password, bool $proceed): JSONResponse {
 		if ($this->encryptionManager->isEnabled() && !$proceed) {

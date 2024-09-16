@@ -60,7 +60,7 @@ class RepairInvalidSharesTest extends TestCase {
 	/**
 	 * Test remove shares where the parent share does not exist anymore
 	 */
-	public function testSharesNonExistingParent() {
+	public function testSharesNonExistingParent(): void {
 		$qb = $this->connection->getQueryBuilder();
 		$shareValues = [
 			'share_type' => $qb->expr()->literal(IShare::TYPE_USER),
@@ -153,7 +153,7 @@ class RepairInvalidSharesTest extends TestCase {
 	 *
 	 * @dataProvider fileSharePermissionsProvider
 	 */
-	public function testFileSharePermissions($itemType, $testPerms, $expectedPerms) {
+	public function testFileSharePermissions($itemType, $testPerms, $expectedPerms): void {
 		$qb = $this->connection->getQueryBuilder();
 		$qb->insert('share')
 			->values([

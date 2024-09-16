@@ -348,7 +348,7 @@ class ContactsStore implements IContactsStore {
 			$entry->setFullName($contact['FN']);
 		}
 
-		$avatarPrefix = "VALUE=uri:";
+		$avatarPrefix = 'VALUE=uri:';
 		if (!empty($contact['PHOTO']) && str_starts_with($contact['PHOTO'], $avatarPrefix)) {
 			$entry->setAvatar(substr($contact['PHOTO'], strlen($avatarPrefix)));
 		}

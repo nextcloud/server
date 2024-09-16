@@ -8,6 +8,7 @@
 require_once __DIR__ . '/lib/versioncheck.php';
 
 use OCA\DAV\Connector\Sabre\ExceptionLoggerPlugin;
+use OCP\App\IAppManager;
 use Psr\Log\LoggerInterface;
 use Sabre\DAV\Exception\ServiceUnavailable;
 use Sabre\DAV\Server;
@@ -17,13 +18,10 @@ use Sabre\DAV\Server;
  * Dummy exception class to be use locally to identify certain conditions
  * Will not be logged to avoid DoS
  */
-class RemoteException extends Exception {
+class RemoteException extends \Exception {
 }
 
-/**
- * @param Exception|Error $e
- */
-function handleException($e) {
+function handleException(Exception|Error $e): void {
 	try {
 		$request = \OC::$server->getRequest();
 		// in case the request content type is text/xml - we assume it's a WebDAV request
@@ -126,20 +124,21 @@ try {
 
 	// Load all required applications
 	\OC::$REQUESTEDAPP = $app;
-	OC_App::loadApps(['authentication']);
-	OC_App::loadApps(['extended_authentication']);
-	OC_App::loadApps(['filesystem', 'logging']);
+	$appManager = \OCP\Server::get(IAppManager::class);
+	$appManager->loadApps(['authentication']);
+	$appManager->loadApps(['extended_authentication']);
+	$appManager->loadApps(['filesystem', 'logging']);
 
 	switch ($app) {
 		case 'core':
 			$file = OC::$SERVERROOT .'/'. $file;
 			break;
 		default:
-			if (!\OC::$server->getAppManager()->isInstalled($app)) {
+			if (!$appManager->isInstalled($app)) {
 				throw new RemoteException('App not installed: ' . $app);
 			}
-			OC_App::loadApp($app);
-			$file = OC_App::getAppPath($app) .'/'. $parts[1];
+			$appManager->loadApp($app);
+			$file = $appManager->getAppPath($app) .'/'. ($parts[1] ?? '');
 			break;
 	}
 	$baseuri = OC::$WEBROOT . '/remote.php/'.$service.'/';

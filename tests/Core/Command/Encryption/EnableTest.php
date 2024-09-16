@@ -65,7 +65,7 @@ class EnableTest extends TestCase {
 	 * @param string $expectedString
 	 * @param string $expectedDefaultModuleString
 	 */
-	public function testEnable($oldStatus, $defaultModule, $availableModules, $isUpdating, $expectedString, $expectedDefaultModuleString) {
+	public function testEnable($oldStatus, $defaultModule, $availableModules, $isUpdating, $expectedString, $expectedDefaultModuleString): void {
 		if ($isUpdating) {
 			$this->config->expects($this->once())
 				->method('setAppValue')

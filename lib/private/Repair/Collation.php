@@ -8,7 +8,6 @@
 namespace OC\Repair;
 
 use Doctrine\DBAL\Exception\DriverException;
-use Doctrine\DBAL\Platforms\MySQLPlatform;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\Migration\IOutput;
@@ -16,7 +15,7 @@ use OCP\Migration\IRepairStep;
 use Psr\Log\LoggerInterface;
 
 class Collation implements IRepairStep {
-	/**  @var IConfig */
+	/** @var IConfig */
 	protected $config;
 
 	protected LoggerInterface $logger;
@@ -50,7 +49,7 @@ class Collation implements IRepairStep {
 	 * Fix mime types
 	 */
 	public function run(IOutput $output) {
-		if (!$this->connection->getDatabasePlatform() instanceof MySQLPlatform) {
+		if ($this->connection->getDatabaseProvider() !== IDBConnection::PLATFORM_MYSQL) {
 			$output->info('Not a mysql database -> nothing to do');
 			return;
 		}
@@ -93,14 +92,14 @@ class Collation implements IRepairStep {
 	 * @return string[]
 	 */
 	protected function getAllNonUTF8BinTables(IDBConnection $connection) {
-		$dbName = $this->config->getSystemValueString("dbname");
+		$dbName = $this->config->getSystemValueString('dbname');
 		$characterSet = $this->config->getSystemValueBool('mysql.utf8mb4', false) ? 'utf8mb4' : 'utf8';
 
 		// fetch tables by columns
 		$statement = $connection->executeQuery(
-			"SELECT DISTINCT(TABLE_NAME) AS `table`" .
-			"	FROM INFORMATION_SCHEMA . COLUMNS" .
-			"	WHERE TABLE_SCHEMA = ?" .
+			'SELECT DISTINCT(TABLE_NAME) AS `table`' .
+			'	FROM INFORMATION_SCHEMA . COLUMNS' .
+			'	WHERE TABLE_SCHEMA = ?' .
 			"	AND (COLLATION_NAME <> '" . $characterSet . "_bin' OR CHARACTER_SET_NAME <> '" . $characterSet . "')" .
 			"	AND TABLE_NAME LIKE '*PREFIX*%'",
 			[$dbName]
@@ -113,9 +112,9 @@ class Collation implements IRepairStep {
 
 		// fetch tables by collation
 		$statement = $connection->executeQuery(
-			"SELECT DISTINCT(TABLE_NAME) AS `table`" .
-			"	FROM INFORMATION_SCHEMA . TABLES" .
-			"	WHERE TABLE_SCHEMA = ?" .
+			'SELECT DISTINCT(TABLE_NAME) AS `table`' .
+			'	FROM INFORMATION_SCHEMA . TABLES' .
+			'	WHERE TABLE_SCHEMA = ?' .
 			"	AND TABLE_COLLATION <> '" . $characterSet . "_bin'" .
 			"	AND TABLE_NAME LIKE '*PREFIX*%'",
 			[$dbName]

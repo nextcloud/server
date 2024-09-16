@@ -10,6 +10,8 @@ namespace OCA\Files_Sharing\Controller;
 
 use OCA\Files_Sharing\AppInfo\Application;
 use OCP\AppFramework\Controller;
+use OCP\AppFramework\Http\Attribute\NoAdminRequired;
+use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
 use OCP\AppFramework\Http\Attribute\OpenAPI;
 use OCP\AppFramework\Http\NotFoundResponse;
 use OCP\AppFramework\Http\RedirectResponse;
@@ -40,10 +42,8 @@ class AcceptController extends Controller {
 		$this->urlGenerator = $urlGenerator;
 	}
 
-	/**
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
-	 */
+	#[NoAdminRequired]
+	#[NoCSRFRequired]
 	public function accept(string $shareId): Response {
 		try {
 			$share = $this->shareManager->getShareById($shareId);

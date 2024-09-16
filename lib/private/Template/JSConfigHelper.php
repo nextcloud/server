@@ -10,7 +10,9 @@ namespace OC\Template;
 use bantu\IniGetWrapper\IniGetWrapper;
 use OC\Authentication\Token\IProvider;
 use OC\CapabilitiesManager;
+use OC\Files\FilenameValidator;
 use OC\Share\Share;
+use OCA\Provisioning_API\Controller\AUserData;
 use OCP\App\AppPathNotFoundException;
 use OCP\App\IAppManager;
 use OCP\Authentication\Exceptions\ExpiredTokenException;
@@ -51,6 +53,7 @@ class JSConfigHelper {
 		protected CapabilitiesManager  $capabilitiesManager,
 		protected IInitialStateService $initialStateService,
 		protected IProvider            $tokenProvider,
+		protected FilenameValidator   $filenameValidator,
 	) {
 	}
 
@@ -131,10 +134,16 @@ class JSConfigHelper {
 
 		$capabilities = $this->capabilitiesManager->getCapabilities(false, true);
 
+		$userFirstDay = $this->config->getUserValue($uid, 'core', AUserData::USER_FIELD_FIRST_DAY_OF_WEEK, null);
+		$firstDay = (int)($userFirstDay ?? $this->l->l('firstday', null));
+
 		$config = [
-			'auto_logout' => $this->config->getSystemValue('auto_logout', false),
+			/** @deprecated 30.0.0 - use files capabilities instead */
 			'blacklist_files_regex' => FileInfo::BLACKLIST_FILES_REGEX,
-			'forbidden_filename_characters' => Util::getForbiddenFileNameChars(),
+			/** @deprecated 30.0.0 - use files capabilities instead */
+			'forbidden_filename_characters' => $this->filenameValidator->getForbiddenCharacters(),
+
+			'auto_logout' => $this->config->getSystemValue('auto_logout', false),
 			'loglevel' => $this->config->getSystemValue('loglevel_frontend',
 				$this->config->getSystemValue('loglevel', ILogger::WARN)
 			),
@@ -151,16 +160,16 @@ class JSConfigHelper {
 		];
 
 		$array = [
-			"_oc_debug" => $this->config->getSystemValue('debug', false) ? 'true' : 'false',
-			"_oc_isadmin" => $uid !== null && $this->groupManager->isAdmin($uid) ? 'true' : 'false',
-			"backendAllowsPasswordConfirmation" => $userBackendAllowsPasswordConfirmation ? 'true' : 'false',
-			"oc_dataURL" => is_string($dataLocation) ? "\"" . $dataLocation . "\"" : 'false',
-			"_oc_webroot" => "\"" . \OC::$WEBROOT . "\"",
-			"_oc_appswebroots" => str_replace('\\/', '/', json_encode($apps_paths)), // Ugly unescape slashes waiting for better solution
-			"datepickerFormatDate" => json_encode($this->l->l('jsdate', null)),
+			'_oc_debug' => $this->config->getSystemValue('debug', false) ? 'true' : 'false',
+			'_oc_isadmin' => $uid !== null && $this->groupManager->isAdmin($uid) ? 'true' : 'false',
+			'backendAllowsPasswordConfirmation' => $userBackendAllowsPasswordConfirmation ? 'true' : 'false',
+			'oc_dataURL' => is_string($dataLocation) ? '"' . $dataLocation . '"' : 'false',
+			'_oc_webroot' => '"' . \OC::$WEBROOT . '"',
+			'_oc_appswebroots' => str_replace('\\/', '/', json_encode($apps_paths)), // Ugly unescape slashes waiting for better solution
+			'datepickerFormatDate' => json_encode($this->l->l('jsdate', null)),
 			'nc_lastLogin' => $lastConfirmTimestamp,
 			'nc_pageLoad' => time(),
-			"dayNames" => json_encode([
+			'dayNames' => json_encode([
 				$this->l->t('Sunday'),
 				$this->l->t('Monday'),
 				$this->l->t('Tuesday'),
@@ -169,7 +178,7 @@ class JSConfigHelper {
 				$this->l->t('Friday'),
 				$this->l->t('Saturday')
 			]),
-			"dayNamesShort" => json_encode([
+			'dayNamesShort' => json_encode([
 				$this->l->t('Sun.'),
 				$this->l->t('Mon.'),
 				$this->l->t('Tue.'),
@@ -178,7 +187,7 @@ class JSConfigHelper {
 				$this->l->t('Fri.'),
 				$this->l->t('Sat.')
 			]),
-			"dayNamesMin" => json_encode([
+			'dayNamesMin' => json_encode([
 				$this->l->t('Su'),
 				$this->l->t('Mo'),
 				$this->l->t('Tu'),
@@ -187,7 +196,7 @@ class JSConfigHelper {
 				$this->l->t('Fr'),
 				$this->l->t('Sa')
 			]),
-			"monthNames" => json_encode([
+			'monthNames' => json_encode([
 				$this->l->t('January'),
 				$this->l->t('February'),
 				$this->l->t('March'),
@@ -201,7 +210,7 @@ class JSConfigHelper {
 				$this->l->t('November'),
 				$this->l->t('December')
 			]),
-			"monthNamesShort" => json_encode([
+			'monthNamesShort' => json_encode([
 				$this->l->t('Jan.'),
 				$this->l->t('Feb.'),
 				$this->l->t('Mar.'),
@@ -215,9 +224,9 @@ class JSConfigHelper {
 				$this->l->t('Nov.'),
 				$this->l->t('Dec.')
 			]),
-			"firstDay" => json_encode($this->l->l('firstday', null)),
-			"_oc_config" => json_encode($config),
-			"oc_appconfig" => json_encode([
+			'firstDay' => json_encode($firstDay),
+			'_oc_config' => json_encode($config),
+			'oc_appconfig' => json_encode([
 				'core' => [
 					'defaultExpireDateEnabled' => $defaultExpireDateEnabled,
 					'defaultExpireDate' => $defaultExpireDate,
@@ -237,7 +246,7 @@ class JSConfigHelper {
 					'defaultRemoteExpireDateEnforced' => $defaultRemoteExpireDateEnforced,
 				]
 			]),
-			"_theme" => json_encode([
+			'_theme' => json_encode([
 				'entity' => $this->defaults->getEntity(),
 				'name' => $this->defaults->getName(),
 				'productName' => $this->defaults->getProductName(),
@@ -272,7 +281,7 @@ class JSConfigHelper {
 		$result = '';
 
 		// Echo it
-		foreach ($array as  $setting => $value) {
+		foreach ($array as $setting => $value) {
 			$result .= 'var '. $setting . '='. $value . ';' . PHP_EOL;
 		}
 

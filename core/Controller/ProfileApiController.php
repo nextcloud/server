@@ -13,6 +13,9 @@ use OC\Core\Db\ProfileConfigMapper;
 use OC\Profile\ProfileManager;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\ApiRoute;
+use OCP\AppFramework\Http\Attribute\NoAdminRequired;
+use OCP\AppFramework\Http\Attribute\PasswordConfirmationRequired;
+use OCP\AppFramework\Http\Attribute\UserRateLimit;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCS\OCSBadRequestException;
 use OCP\AppFramework\OCS\OCSForbiddenException;
@@ -34,10 +37,7 @@ class ProfileApiController extends OCSController {
 	}
 
 	/**
-	 * @NoAdminRequired
 	 * @NoSubAdminRequired
-	 * @PasswordConfirmationRequired
-	 * @UserRateThrottle(limit=40, period=600)
 	 *
 	 * Update the visibility of a parameter
 	 *
@@ -51,6 +51,9 @@ class ProfileApiController extends OCSController {
 	 *
 	 * 200: Visibility updated successfully
 	 */
+	#[NoAdminRequired]
+	#[PasswordConfirmationRequired]
+	#[UserRateLimit(limit: 40, period: 600)]
 	#[ApiRoute(verb: 'PUT', url: '/{targetUserId}', root: '/profile')]
 	public function setVisibility(string $targetUserId, string $paramId, string $visibility): DataResponse {
 		$requestingUser = $this->userSession->getUser();

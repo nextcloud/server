@@ -20,6 +20,7 @@ use RuntimeException;
  * API surface for apps interacting with and making use of LanguageModel providers
  * without known which providers are installed
  * @since 27.1.0
+ * @deprecated 30.0.0
  */
 interface IManager {
 	/**

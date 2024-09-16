@@ -99,7 +99,7 @@ class GetConfigTest extends TestCase {
 	 * @param int $expectedReturn
 	 * @param string $expectedMessage
 	 */
-	public function testGet($configNames, $value, $configExists, $defaultValue, $hasDefault, $outputFormat, $expectedReturn, $expectedMessage) {
+	public function testGet($configNames, $value, $configExists, $defaultValue, $hasDefault, $outputFormat, $expectedReturn, $expectedMessage): void {
 		if (is_array($configNames)) {
 			$configName = $configNames[0];
 		} else {

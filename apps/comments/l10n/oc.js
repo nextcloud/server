@@ -23,7 +23,6 @@ OC.L10N.register(
     "An error occurred while trying to edit the comment" : "Error en ensajant de modificar lo comentari",
     "Comment deleted" : "Comentari suprimit",
     "An error occurred while trying to delete the comment" : "Error en ensajant de suprimir lo comentari",
-    "An error occurred while trying to create the comment" : "Error en ensajant de crear lo comentari",
-    "_%n unread comment_::_%n unread comments_" : ["%n comentari pas legit","%n comentaris pas legits"]
+    "An error occurred while trying to create the comment" : "Error en ensajant de crear lo comentari"
 },
 "nplurals=2; plural=(n > 1);");

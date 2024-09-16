@@ -25,9 +25,6 @@
     "This weekend" : "本週末",
     "Set reminder for this weekend" : "設定本週末的提醒",
     "Next week" : "下星期",
-    "Set reminder for next week" : "設定下星期的提醒",
-    "Back" : "上星期",
-    "Reminder cleared" : "提醒已清除",
-    "Failed to load reminder" : "載入提醒失敗"
+    "Set reminder for next week" : "設定下星期的提醒"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

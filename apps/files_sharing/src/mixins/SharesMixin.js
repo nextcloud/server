@@ -11,10 +11,10 @@ import { getCurrentUser } from '@nextcloud/auth'
 import PQueue from 'p-queue'
 import debounce from 'debounce'
 
-import Share from '../models/Share.js'
+import Share from '../models/Share.ts'
 import SharesRequests from './ShareRequests.js'
 import ShareTypes from './ShareTypes.js'
-import Config from '../services/ConfigService.js'
+import Config from '../services/ConfigService.ts'
 import logger from '../services/logger.ts'
 
 import {

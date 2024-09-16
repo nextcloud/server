@@ -10,7 +10,6 @@ OC.L10N.register(
     "Two factor backup codes" : "To faktor backup koder",
     "A two-factor auth backup codes provider" : "En to-faktor udbyder af sikkerhedskopieringskoder",
     "Backup codes have been generated. {used} of {total} codes have been used." : "Sikkerhedskopieringskoder er blevet genereret. {used} af {total} koder er blevet brugt.",
-    "These are your backup codes. Please save and/or print them as you will not be able to read the codes again later" : "Dett er dine backup koder. Gem eller udskriv dem venligst da det ikke vil være muligt at læse koderne her igen senere.",
     "Save backup codes" : "Gem backup-koder",
     "Print backup codes" : "Print backup-koder",
     "Regenerate backup codes" : "Regenerer backup-koder",
@@ -18,6 +17,7 @@ OC.L10N.register(
     "An error occurred while generating your backup codes" : "Der opstod en fejl under genereringen af dine backup-koder",
     "{name} backup codes" : "{name} backup-koder",
     "Use one of the backup codes you saved when setting up two-factor authentication." : "Brug en af de backupkoder, du har gemt, når du konfigurerer to-faktor-godkendelse.",
-    "Submit" : "Tilføj"
+    "Submit" : "Tilføj",
+    "These are your backup codes. Please save and/or print them as you will not be able to read the codes again later" : "Dett er dine backup koder. Gem eller udskriv dem venligst da det ikke vil være muligt at læse koderne her igen senere."
 },
 "nplurals=2; plural=(n != 1);");

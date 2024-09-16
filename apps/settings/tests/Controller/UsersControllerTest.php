@@ -58,19 +58,19 @@ class UsersControllerTest extends \Test\TestCase {
 	private $l;
 	/** @var AccountManager|\PHPUnit\Framework\MockObject\MockObject */
 	private $accountManager;
-	/** @var  IJobList | \PHPUnit\Framework\MockObject\MockObject */
+	/** @var IJobList | \PHPUnit\Framework\MockObject\MockObject */
 	private $jobList;
-	/** @var \OC\Security\IdentityProof\Manager|\PHPUnit\Framework\MockObject\MockObject  */
+	/** @var \OC\Security\IdentityProof\Manager|\PHPUnit\Framework\MockObject\MockObject */
 	private $securityManager;
-	/** @var  IManager|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IManager|\PHPUnit\Framework\MockObject\MockObject */
 	private $encryptionManager;
 	/** @var KnownUserService|\PHPUnit\Framework\MockObject\MockObject */
 	private $knownUserService;
-	/** @var  IEncryptionModule|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IEncryptionModule|\PHPUnit\Framework\MockObject\MockObject */
 	private $encryptionModule;
 	/** @var IEventDispatcher|\PHPUnit\Framework\MockObject\MockObject */
 	private $dispatcher;
-	/** @var IInitialState|\PHPUnit\Framework\MockObject\MockObject*/
+	/** @var IInitialState|\PHPUnit\Framework\MockObject\MockObject */
 	private $initialState;
 
 	protected function setUp(): void {
@@ -249,7 +249,7 @@ class UsersControllerTest extends \Test\TestCase {
 	 * @param bool $validEmail
 	 * @param $expectedStatus
 	 */
-	public function testSetUserSettings($email, $validEmail, $expectedStatus) {
+	public function testSetUserSettings($email, $validEmail, $expectedStatus): void {
 		$controller = $this->getController(false, ['saveUserSettings']);
 		$user = $this->createMock(IUser::class);
 		$user->method('getUID')->willReturn('johndoe');
@@ -303,7 +303,7 @@ class UsersControllerTest extends \Test\TestCase {
 		];
 	}
 
-	public function testSetUserSettingsWhenUserDisplayNameChangeNotAllowed() {
+	public function testSetUserSettingsWhenUserDisplayNameChangeNotAllowed(): void {
 		$controller = $this->getController(false, ['saveUserSettings']);
 
 		$avatarScope = IAccountManager::SCOPE_PUBLISHED;
@@ -401,7 +401,7 @@ class UsersControllerTest extends \Test\TestCase {
 		);
 	}
 
-	public function testSetUserSettingsWhenFederatedFilesharingNotEnabled() {
+	public function testSetUserSettingsWhenFederatedFilesharingNotEnabled(): void {
 		$controller = $this->getController(false, ['saveUserSettings']);
 		$user = $this->createMock(IUser::class);
 		$user->method('getUID')->willReturn('johndoe');
@@ -488,7 +488,7 @@ class UsersControllerTest extends \Test\TestCase {
 	 * @param string $property
 	 * @param string $propertyValue
 	 */
-	public function testSetUserSettingsSubset($property, $propertyValue) {
+	public function testSetUserSettingsSubset($property, $propertyValue): void {
 		$controller = $this->getController(false, ['saveUserSettings']);
 		$user = $this->createMock(IUser::class);
 		$user->method('getUID')->willReturn('johndoe');
@@ -563,7 +563,7 @@ class UsersControllerTest extends \Test\TestCase {
 
 		if (!empty($email)) {
 			$this->mailer->expects($this->once())->method('validateMailAddress')
-			->willReturn(true);
+				->willReturn(true);
 		}
 
 		$controller->expects($this->once())
@@ -619,7 +619,7 @@ class UsersControllerTest extends \Test\TestCase {
 	public function testSaveUserSettings($data,
 		$oldEmailAddress,
 		$oldDisplayName
-	) {
+	): void {
 		$controller = $this->getController();
 		$user = $this->createMock(IUser::class);
 
@@ -742,7 +742,7 @@ class UsersControllerTest extends \Test\TestCase {
 		string $oldDisplayName,
 		bool  $setDisplayNameResult,
 		bool $canChangeEmail
-	) {
+	): void {
 		$this->expectException(ForbiddenException::class);
 
 		$controller = $this->getController();
@@ -826,7 +826,7 @@ class UsersControllerTest extends \Test\TestCase {
 	 *
 	 * @dataProvider dataTestGetVerificationCode
 	 */
-	public function testGetVerificationCode($account, $type, $dataBefore, $expectedData, $onlyVerificationCode) {
+	public function testGetVerificationCode($account, $type, $dataBefore, $expectedData, $onlyVerificationCode): void {
 		$message = 'Use my Federated Cloud ID to share with me: user@nextcloud.com';
 		$signature = 'theSignature';
 
@@ -912,7 +912,7 @@ class UsersControllerTest extends \Test\TestCase {
 	/**
 	 * test get verification code in case no valid user was given
 	 */
-	public function testGetVerificationCodeInvalidUser() {
+	public function testGetVerificationCodeInvalidUser(): void {
 		$controller = $this->getController();
 		$this->userSession->expects($this->once())->method('getUser')->willReturn(null);
 		$result = $controller->getVerificationCode('account', false);
@@ -931,7 +931,7 @@ class UsersControllerTest extends \Test\TestCase {
 	public function testCanAdminChangeUserPasswords($encryptionEnabled,
 		$encryptionModuleLoaded,
 		$masterKeyEnabled,
-		$expected) {
+		$expected): void {
 		$controller = $this->getController();
 
 		$this->encryptionManager->expects($this->any())

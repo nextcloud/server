@@ -20,6 +20,8 @@ OC.L10N.register(
     "Set status" : "Status setzen",
     "Online status" : "Online-Status",
     "Status message" : "Statusnachricht",
+    "Set absence period" : "Abwesenheitszeitraum festlegen",
+    "Set absence period and replacement" : "Abwesenheitszeitraum und Vertretung festlegen",
     "Your status was set automatically" : "Ihr Status wurde automatisch gesetzt",
     "Clear status message" : "Statusnachricht löschen",
     "Set status message" : "Statusnachricht setzen",
@@ -42,7 +44,6 @@ OC.L10N.register(
     "1 hour" : "1 Stunde",
     "4 hours" : "4 Stunden",
     "Mute all notifications" : "Alle Benachrichtigungen stummschalten",
-    "Appear offline" : "Offline erscheinen",
-    "View profile" : "Profil ansehen"
+    "Appear offline" : "Offline erscheinen"
 },
 "nplurals=2; plural=(n != 1);");

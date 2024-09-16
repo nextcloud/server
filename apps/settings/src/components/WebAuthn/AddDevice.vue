@@ -59,6 +59,8 @@ import {
 	finishRegistration,
 } from '../../service/WebAuthnRegistrationSerice.ts'
 
+import '@nextcloud/password-confirmation/dist/style.css'
+
 const logAndPass = (text) => (data) => {
 	logger.debug(text)
 	return data
@@ -177,8 +179,7 @@ export default {
 .webauthn-loading {
 	display: inline-block;
 	vertical-align: sub;
-	margin-left: 2px;
-	margin-right: 2px;
+	margin-inline: 2px;
 }
 
 .new-webauthn-device {

@@ -34,7 +34,7 @@ class DisableTest extends TestCase {
 		$this->command = new Disable($this->userManager);
 	}
 
-	public function testValidUser() {
+	public function testValidUser(): void {
 		$user = $this->createMock(IUser::class);
 		$user->expects($this->once())
 			->method('setEnabled')
@@ -57,7 +57,7 @@ class DisableTest extends TestCase {
 		self::invokePrivate($this->command, 'execute', [$this->consoleInput, $this->consoleOutput]);
 	}
 
-	public function testInvalidUser() {
+	public function testInvalidUser(): void {
 		$this->userManager->expects($this->once())
 			->method('get')
 			->with('user')

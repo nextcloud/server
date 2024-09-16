@@ -109,31 +109,31 @@ class DefaultThemeTest extends AccessibleThemeTestCase {
 	}
 
 
-	public function testGetId() {
+	public function testGetId(): void {
 		$this->assertEquals('default', $this->theme->getId());
 	}
 
-	public function testGetType() {
+	public function testGetType(): void {
 		$this->assertEquals(ITheme::TYPE_THEME, $this->theme->getType());
 	}
 
-	public function testGetTitle() {
+	public function testGetTitle(): void {
 		$this->assertEquals('System default theme', $this->theme->getTitle());
 	}
 
-	public function testGetEnableLabel() {
+	public function testGetEnableLabel(): void {
 		$this->assertEquals('Enable the system default', $this->theme->getEnableLabel());
 	}
 
-	public function testGetDescription() {
+	public function testGetDescription(): void {
 		$this->assertEquals('Using the default system appearance.', $this->theme->getDescription());
 	}
 
-	public function testGetMediaQuery() {
+	public function testGetMediaQuery(): void {
 		$this->assertEquals('', $this->theme->getMediaQuery());
 	}
 
-	public function testGetCustomCss() {
+	public function testGetCustomCss(): void {
 		$this->assertEquals('', $this->theme->getCustomCss());
 	}
 
@@ -141,7 +141,7 @@ class DefaultThemeTest extends AccessibleThemeTestCase {
 	 * Ensure parity between the default theme and the static generated file
 	 * @see ThemingController.php:313
 	 */
-	public function testThemindDisabledFallbackCss() {
+	public function testThemindDisabledFallbackCss(): void {
 		// Generate variables
 		$variables = '';
 		foreach ($this->theme->getCSSVariables() as $variable => $value) {
@@ -152,6 +152,8 @@ class DefaultThemeTest extends AccessibleThemeTestCase {
 		$fallbackCss = file_get_contents(__DIR__ . '/../../css/default.css');
 		// Remove comments
 		$fallbackCss = preg_replace('/\s*\/\*[\s\S]*?\*\//m', '', $fallbackCss);
+		// Remove blank lines
+		$fallbackCss = preg_replace('/\s*\n\n/', "\n", $fallbackCss);
 
 		$this->assertEquals($css, $fallbackCss);
 	}

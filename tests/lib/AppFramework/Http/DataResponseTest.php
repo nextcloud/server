@@ -24,7 +24,7 @@ class DataResponseTest extends \Test\TestCase {
 	}
 
 
-	public function testSetData() {
+	public function testSetData(): void {
 		$params = ['hi', 'yo'];
 		$this->response->setData($params);
 
@@ -32,7 +32,7 @@ class DataResponseTest extends \Test\TestCase {
 	}
 
 
-	public function testConstructorAllowsToSetData() {
+	public function testConstructorAllowsToSetData(): void {
 		$data = ['hi'];
 		$code = 300;
 		$response = new DataResponse($data, $code);
@@ -42,7 +42,7 @@ class DataResponseTest extends \Test\TestCase {
 	}
 
 
-	public function testConstructorAllowsToSetHeaders() {
+	public function testConstructorAllowsToSetHeaders(): void {
 		$data = ['hi'];
 		$code = 300;
 		$headers = ['test' => 'something'];
@@ -63,7 +63,7 @@ class DataResponseTest extends \Test\TestCase {
 	}
 
 
-	public function testChainability() {
+	public function testChainability(): void {
 		$params = ['hi', 'yo'];
 		$this->response->setData($params)
 			->setStatus(Http::STATUS_NOT_FOUND);

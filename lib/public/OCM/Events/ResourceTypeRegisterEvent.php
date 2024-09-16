@@ -32,7 +32,7 @@ class ResourceTypeRegisterEvent extends Event {
 	 * @param string $name
 	 * @param list<string> $shareTypes List of supported share recipients, e.g. 'user', 'group', …
 	 * @param array<string, string> $protocols List of supported protocols and their location,
-	 * 	e.g. ['webdav' => '/remote.php/webdav/']
+	 *                                         e.g. ['webdav' => '/remote.php/webdav/']
 	 * @since 28.0.0
 	 */
 	public function registerResourceType(string $name, array $shareTypes, array $protocols): void {

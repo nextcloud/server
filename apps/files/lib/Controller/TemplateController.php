@@ -10,6 +10,7 @@ namespace OCA\Files\Controller;
 
 use OCA\Files\ResponseDefinitions;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCS\OCSForbiddenException;
 use OCP\AppFramework\OCSController;
@@ -21,6 +22,7 @@ use OCP\IRequest;
 /**
  * @psalm-import-type FilesTemplateFile from ResponseDefinitions
  * @psalm-import-type FilesTemplateFileCreator from ResponseDefinitions
+ * @psalm-import-type FilesTemplateField from ResponseDefinitions
  */
 class TemplateController extends OCSController {
 	protected $templateManager;
@@ -31,43 +33,49 @@ class TemplateController extends OCSController {
 	}
 
 	/**
-	 * @NoAdminRequired
-	 *
 	 * List the available templates
 	 *
 	 * @return DataResponse<Http::STATUS_OK, array<FilesTemplateFileCreator>, array{}>
 	 *
 	 * 200: Available templates returned
 	 */
+	#[NoAdminRequired]
 	public function list(): DataResponse {
 		return new DataResponse($this->templateManager->listTemplates());
 	}
 
 	/**
-	 * @NoAdminRequired
-	 *
 	 * Create a template
 	 *
 	 * @param string $filePath Path of the file
 	 * @param string $templatePath Name of the template
 	 * @param string $templateType Type of the template
+	 * @param FilesTemplateField[] $templateFields Fields of the template
 	 *
 	 * @return DataResponse<Http::STATUS_OK, FilesTemplateFile, array{}>
 	 * @throws OCSForbiddenException Creating template is not allowed
 	 *
 	 * 200: Template created successfully
 	 */
-	public function create(string $filePath, string $templatePath = '', string $templateType = 'user'): DataResponse {
+	#[NoAdminRequired]
+	public function create(
+		string $filePath,
+		string $templatePath = '',
+		string $templateType = 'user',
+		array $templateFields = []
+	): DataResponse {
 		try {
-			return new DataResponse($this->templateManager->createFromTemplate($filePath, $templatePath, $templateType));
+			return new DataResponse($this->templateManager->createFromTemplate(
+				$filePath,
+				$templatePath,
+				$templateType,
+				$templateFields));
 		} catch (GenericFileException $e) {
 			throw new OCSForbiddenException($e->getMessage());
 		}
 	}
 
 	/**
-	 * @NoAdminRequired
-	 *
 	 * Initialize the template directory
 	 *
 	 * @param string $templatePath Path of the template directory
@@ -78,6 +86,7 @@ class TemplateController extends OCSController {
 	 *
 	 * 200: Template directory initialized successfully
 	 */
+	#[NoAdminRequired]
 	public function path(string $templatePath = '', bool $copySystemTemplates = false) {
 		try {
 			/** @var string $templatePath */

@@ -404,24 +404,16 @@
                         "basic_auth": []
                     }
                 ],
-                "requestBody": {
-                    "required": false,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "type": "object",
-                                "properties": {
-                                    "filter": {
-                                        "type": "string",
-                                        "nullable": true,
-                                        "description": "Filter for enabled or disabled apps"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                },
                 "parameters": [
+                    {
+                        "name": "filter",
+                        "in": "query",
+                        "description": "Filter for enabled or disabled apps",
+                        "schema": {
+                            "type": "string",
+                            "nullable": true
+                        }
+                    },
                     {
                         "name": "OCS-APIRequest",
                         "in": "header",
@@ -777,36 +769,36 @@
                         "basic_auth": []
                     }
                 ],
-                "requestBody": {
-                    "required": false,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "type": "object",
-                                "properties": {
-                                    "search": {
-                                        "type": "string",
-                                        "default": "",
-                                        "description": "Text to search for"
-                                    },
-                                    "limit": {
-                                        "type": "integer",
-                                        "format": "int64",
-                                        "nullable": true,
-                                        "description": "Limit the amount of groups returned"
-                                    },
-                                    "offset": {
-                                        "type": "integer",
-                                        "format": "int64",
-                                        "default": 0,
-                                        "description": "Offset for searching for groups"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                },
                 "parameters": [
+                    {
+                        "name": "search",
+                        "in": "query",
+                        "description": "Text to search for",
+                        "schema": {
+                            "type": "string",
+                            "default": ""
+                        }
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "Limit the amount of groups returned",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "nullable": true
+                        }
+                    },
+                    {
+                        "name": "offset",
+                        "in": "query",
+                        "description": "Offset for searching for groups",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "default": 0
+                        }
+                    },
                     {
                         "name": "OCS-APIRequest",
                         "in": "header",
@@ -932,6 +924,123 @@
                                                             "type": "array",
                                                             "items": {
                                                                 "type": "string"
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/ocs/v2.php/cloud/users/recent": {
+            "get": {
+                "operationId": "users-get-last-logged-in-users",
+                "summary": "Gets the list of users sorted by lastLogin, from most recent to least recent",
+                "description": "This endpoint requires admin access",
+                "tags": [
+                    "users"
+                ],
+                "security": [
+                    {
+                        "bearer_auth": []
+                    },
+                    {
+                        "basic_auth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "search",
+                        "in": "query",
+                        "description": "Text to search for",
+                        "schema": {
+                            "type": "string",
+                            "default": ""
+                        }
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "Limit the amount of users returned",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "nullable": true
+                        }
+                    },
+                    {
+                        "name": "offset",
+                        "in": "query",
+                        "description": "Offset",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "default": 0
+                        }
+                    },
+                    {
+                        "name": "OCS-APIRequest",
+                        "in": "header",
+                        "description": "Required to be true for the API request to pass",
+                        "required": true,
+                        "schema": {
+                            "type": "boolean",
+                            "default": true
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Users details returned based on last logged in information",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "ocs"
+                                    ],
+                                    "properties": {
+                                        "ocs": {
+                                            "type": "object",
+                                            "required": [
+                                                "meta",
+                                                "data"
+                                            ],
+                                            "properties": {
+                                                "meta": {
+                                                    "$ref": "#/components/schemas/OCSMeta"
+                                                },
+                                                "data": {
+                                                    "type": "object",
+                                                    "required": [
+                                                        "users"
+                                                    ],
+                                                    "properties": {
+                                                        "users": {
+                                                            "type": "object",
+                                                            "additionalProperties": {
+                                                                "anyOf": [
+                                                                    {
+                                                                        "$ref": "#/components/schemas/UserDetails"
+                                                                    },
+                                                                    {
+                                                                        "type": "object",
+                                                                        "required": [
+                                                                            "id"
+                                                                        ],
+                                                                        "properties": {
+                                                                            "id": {
+                                                                                "type": "string"
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                ]
                                                             }
                                                         }
                                                     }
@@ -1120,30 +1229,20 @@
                         "basic_auth": []
                     }
                 ],
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "type": "object",
-                                "required": [
-                                    "groupid"
-                                ],
-                                "properties": {
-                                    "groupid": {
-                                        "type": "string",
-                                        "description": "ID of the group"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                },
                 "parameters": [
                     {
                         "name": "userId",
                         "in": "path",
                         "description": "ID of the user",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "groupid",
+                        "in": "query",
+                        "description": "ID of the group",
                         "required": true,
                         "schema": {
                             "type": "string"
@@ -1551,36 +1650,36 @@
                         "basic_auth": []
                     }
                 ],
-                "requestBody": {
-                    "required": false,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "type": "object",
-                                "properties": {
-                                    "search": {
-                                        "type": "string",
-                                        "default": "",
-                                        "description": "Text to search for"
-                                    },
-                                    "limit": {
-                                        "type": "integer",
-                                        "format": "int64",
-                                        "nullable": true,
-                                        "description": "Limit the amount of groups returned"
-                                    },
-                                    "offset": {
-                                        "type": "integer",
-                                        "format": "int64",
-                                        "default": 0,
-                                        "description": "Offset for searching for groups"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                },
                 "parameters": [
+                    {
+                        "name": "search",
+                        "in": "query",
+                        "description": "Text to search for",
+                        "schema": {
+                            "type": "string",
+                            "default": ""
+                        }
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "Limit the amount of groups returned",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "nullable": true
+                        }
+                    },
+                    {
+                        "name": "offset",
+                        "in": "query",
+                        "description": "Offset for searching for groups",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "default": 0
+                        }
+                    },
                     {
                         "name": "OCS-APIRequest",
                         "in": "header",
@@ -1790,35 +1889,6 @@
                         "basic_auth": []
                     }
                 ],
-                "requestBody": {
-                    "required": false,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "type": "object",
-                                "properties": {
-                                    "search": {
-                                        "type": "string",
-                                        "default": "",
-                                        "description": "Text to search for"
-                                    },
-                                    "limit": {
-                                        "type": "integer",
-                                        "format": "int64",
-                                        "nullable": true,
-                                        "description": "Limit the amount of groups returned"
-                                    },
-                                    "offset": {
-                                        "type": "integer",
-                                        "format": "int64",
-                                        "default": 0,
-                                        "description": "Offset for searching for groups"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                },
                 "parameters": [
                     {
                         "name": "groupId",
@@ -1828,6 +1898,35 @@
                         "schema": {
                             "type": "string",
                             "pattern": "^.+$"
+                        }
+                    },
+                    {
+                        "name": "search",
+                        "in": "query",
+                        "description": "Text to search for",
+                        "schema": {
+                            "type": "string",
+                            "default": ""
+                        }
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "Limit the amount of groups returned",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "nullable": true
+                        }
+                    },
+                    {
+                        "name": "offset",
+                        "in": "query",
+                        "description": "Offset for searching for groups",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "default": 0
                         }
                     },
                     {
@@ -1916,36 +2015,36 @@
                         "basic_auth": []
                     }
                 ],
-                "requestBody": {
-                    "required": false,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "type": "object",
-                                "properties": {
-                                    "search": {
-                                        "type": "string",
-                                        "default": "",
-                                        "description": "Text to search for"
-                                    },
-                                    "limit": {
-                                        "type": "integer",
-                                        "format": "int64",
-                                        "nullable": true,
-                                        "description": "Limit the amount of groups returned"
-                                    },
-                                    "offset": {
-                                        "type": "integer",
-                                        "format": "int64",
-                                        "default": 0,
-                                        "description": "Offset for searching for groups"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                },
                 "parameters": [
+                    {
+                        "name": "search",
+                        "in": "query",
+                        "description": "Text to search for",
+                        "schema": {
+                            "type": "string",
+                            "default": ""
+                        }
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "Limit the amount of groups returned",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "nullable": true
+                        }
+                    },
+                    {
+                        "name": "offset",
+                        "in": "query",
+                        "description": "Offset for searching for groups",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "default": 0
+                        }
+                    },
                     {
                         "name": "OCS-APIRequest",
                         "in": "header",
@@ -2178,36 +2277,36 @@
                         "basic_auth": []
                     }
                 ],
-                "requestBody": {
-                    "required": false,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "type": "object",
-                                "properties": {
-                                    "search": {
-                                        "type": "string",
-                                        "default": "",
-                                        "description": "Text to search for"
-                                    },
-                                    "limit": {
-                                        "type": "integer",
-                                        "format": "int64",
-                                        "nullable": true,
-                                        "description": "Limit the amount of groups returned"
-                                    },
-                                    "offset": {
-                                        "type": "integer",
-                                        "format": "int64",
-                                        "default": 0,
-                                        "description": "Offset for searching for groups"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                },
                 "parameters": [
+                    {
+                        "name": "search",
+                        "in": "query",
+                        "description": "Text to search for",
+                        "schema": {
+                            "type": "string",
+                            "default": ""
+                        }
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "Limit the amount of groups returned",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "nullable": true
+                        }
+                    },
+                    {
+                        "name": "offset",
+                        "in": "query",
+                        "description": "Offset for searching for groups",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "default": 0
+                        }
+                    },
                     {
                         "name": "OCS-APIRequest",
                         "in": "header",
@@ -2294,36 +2393,36 @@
                         "basic_auth": []
                     }
                 ],
-                "requestBody": {
-                    "required": false,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "type": "object",
-                                "properties": {
-                                    "search": {
-                                        "type": "string",
-                                        "default": "",
-                                        "description": "Text to search for"
-                                    },
-                                    "limit": {
-                                        "type": "integer",
-                                        "format": "int64",
-                                        "nullable": true,
-                                        "description": "Limit the amount of users returned"
-                                    },
-                                    "offset": {
-                                        "type": "integer",
-                                        "format": "int64",
-                                        "default": 0,
-                                        "description": "Offset"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                },
                 "parameters": [
+                    {
+                        "name": "search",
+                        "in": "query",
+                        "description": "Text to search for",
+                        "schema": {
+                            "type": "string",
+                            "default": ""
+                        }
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "Limit the amount of users returned",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "nullable": true
+                        }
+                    },
+                    {
+                        "name": "offset",
+                        "in": "query",
+                        "description": "Offset",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "default": 0
+                        }
+                    },
                     {
                         "name": "OCS-APIRequest",
                         "in": "header",
@@ -3432,30 +3531,20 @@
                         "basic_auth": []
                     }
                 ],
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "type": "object",
-                                "required": [
-                                    "groupid"
-                                ],
-                                "properties": {
-                                    "groupid": {
-                                        "type": "string",
-                                        "description": "ID of the group"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                },
                 "parameters": [
                     {
                         "name": "userId",
                         "in": "path",
                         "description": "ID of the user",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "groupid",
+                        "in": "query",
+                        "description": "ID of the group",
                         "required": true,
                         "schema": {
                             "type": "string"
@@ -3931,28 +4020,6 @@
                         "basic_auth": []
                     }
                 ],
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "type": "object",
-                                "required": [
-                                    "configKeys"
-                                ],
-                                "properties": {
-                                    "configKeys": {
-                                        "type": "array",
-                                        "description": "Keys to delete",
-                                        "items": {
-                                            "type": "string"
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                },
                 "parameters": [
                     {
                         "name": "appId",
@@ -3961,6 +4028,18 @@
                         "required": true,
                         "schema": {
                             "type": "string"
+                        }
+                    },
+                    {
+                        "name": "configKeys[]",
+                        "in": "query",
+                        "description": "Keys to delete",
+                        "required": true,
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
                         }
                     },
                     {

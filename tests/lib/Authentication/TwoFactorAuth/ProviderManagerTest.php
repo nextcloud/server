@@ -42,14 +42,14 @@ class ProviderManagerTest extends TestCase {
 	}
 
 	
-	public function testTryEnableInvalidProvider() {
+	public function testTryEnableInvalidProvider(): void {
 		$this->expectException(\OC\Authentication\Exceptions\InvalidProviderException::class);
 
 		$user = $this->createMock(IUser::class);
 		$this->providerManager->tryEnableProviderFor('none', $user);
 	}
 
-	public function testTryEnableUnsupportedProvider() {
+	public function testTryEnableUnsupportedProvider(): void {
 		$user = $this->createMock(IUser::class);
 		$provider = $this->createMock(IProvider::class);
 		$this->providerLoader->expects($this->once())
@@ -66,7 +66,7 @@ class ProviderManagerTest extends TestCase {
 		$this->assertFalse($res);
 	}
 
-	public function testTryEnableProvider() {
+	public function testTryEnableProvider(): void {
 		$user = $this->createMock(IUser::class);
 		$provider = $this->createMock(IActivatableByAdmin::class);
 		$this->providerLoader->expects($this->once())
@@ -88,14 +88,14 @@ class ProviderManagerTest extends TestCase {
 	}
 
 	
-	public function testTryDisableInvalidProvider() {
+	public function testTryDisableInvalidProvider(): void {
 		$this->expectException(\OC\Authentication\Exceptions\InvalidProviderException::class);
 
 		$user = $this->createMock(IUser::class);
 		$this->providerManager->tryDisableProviderFor('none', $user);
 	}
 
-	public function testTryDisableUnsupportedProvider() {
+	public function testTryDisableUnsupportedProvider(): void {
 		$user = $this->createMock(IUser::class);
 		$provider = $this->createMock(IProvider::class);
 		$this->providerLoader->expects($this->once())
@@ -112,7 +112,7 @@ class ProviderManagerTest extends TestCase {
 		$this->assertFalse($res);
 	}
 
-	public function testTryDisableProvider() {
+	public function testTryDisableProvider(): void {
 		$user = $this->createMock(IUser::class);
 		$provider = $this->createMock(IDeactivatableByAdmin::class);
 		$this->providerLoader->expects($this->once())

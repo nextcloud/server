@@ -6,11 +6,11 @@ import type { ContentsWithRoot } from '@nextcloud/files'
 import type { FileStat, ResponseDataDetailed } from 'webdav'
 import type { TagWithId } from '../types'
 
-import { Folder, Permission, getDavNameSpaces, getDavProperties, davGetClient, davResultToNode } from '@nextcloud/files'
-import { generateRemoteUrl } from '@nextcloud/router'
 import { getCurrentUser } from '@nextcloud/auth'
-
+import { Folder, Permission, getDavNameSpaces, getDavProperties, davGetClient, davResultToNode, davRemoteURL, davRootPath } from '@nextcloud/files'
 import { fetchTags } from './api'
+
+const rootPath = '/systemtags'
 
 const client = davGetClient()
 const resultToNode = (node: FileStat) => davResultToNode(node)
@@ -20,17 +20,18 @@ const formatReportPayload = (tagId: number) => `<?xml version="1.0"?>
 	<d:prop>
 		${getDavProperties()}
 	</d:prop>
-    <oc:filter-rules>
-        <oc:systemtag>${tagId}</oc:systemtag>
-    </oc:filter-rules>
+	<oc:filter-rules>
+		<oc:systemtag>${tagId}</oc:systemtag>
+	</oc:filter-rules>
 </oc:filter-files>`
 
 const tagToNode = function(tag: TagWithId): Folder {
 	return new Folder({
 		id: tag.id,
-		source: generateRemoteUrl('dav/systemtags/' + tag.id),
-		owner: getCurrentUser()?.uid as string,
-		root: '/systemtags',
+		source: `${davRemoteURL}${rootPath}/${tag.id}`,
+		owner: String(getCurrentUser()?.uid ?? 'anonymous'),
+		root: rootPath,
+		displayname: tag.displayName,
 		permissions: Permission.READ,
 		attributes: {
 			...tag,
@@ -47,16 +48,16 @@ export const getContents = async (path = '/'): Promise<ContentsWithRoot> => {
 		return {
 			folder: new Folder({
 				id: 0,
-				source: generateRemoteUrl('dav/systemtags'),
+				source: `${davRemoteURL}${rootPath}`,
 				owner: getCurrentUser()?.uid as string,
-				root: '/systemtags',
+				root: rootPath,
 				permissions: Permission.NONE,
 			}),
 			contents: tagsCache.map(tagToNode),
 		}
 	}
 
-	const tagId = parseInt(path.replace('/', ''), 10)
+	const tagId = parseInt(path.split('/', 2)[1])
 	const tag = tagsCache.find(tag => tag.id === tagId)
 
 	if (!tag) {
@@ -64,7 +65,7 @@ export const getContents = async (path = '/'): Promise<ContentsWithRoot> => {
 	}
 
 	const folder = tagToNode(tag)
-	const contentsResponse = await client.getDirectoryContents('/', {
+	const contentsResponse = await client.getDirectoryContents(davRootPath, {
 		details: true,
 		// Only filter favorites if we're at the root
 		data: formatReportPayload(tagId),

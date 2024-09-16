@@ -26,7 +26,7 @@ class ListenerTest extends TestCase {
 	/** @var IURLGenerator|\PHPUnit\Framework\MockObject\MockObject */
 	protected $urlGenerator;
 
-	/** @var  Listener */
+	/** @var Listener */
 	protected $listener;
 
 	protected function setUp(): void {
@@ -55,7 +55,7 @@ class ListenerTest extends TestCase {
 	 * @param string $eventType
 	 * @param string $notificationMethod
 	 */
-	public function testEvaluate($eventType, $notificationMethod) {
+	public function testEvaluate($eventType, $notificationMethod): void {
 		/** @var IComment|\PHPUnit\Framework\MockObject\MockObject $comment */
 		$comment = $this->getMockBuilder(IComment::class)->getMock();
 		$comment->expects($this->any())
@@ -123,7 +123,7 @@ class ListenerTest extends TestCase {
 	 * @dataProvider eventProvider
 	 * @param string $eventType
 	 */
-	public function testEvaluateNoMentions($eventType) {
+	public function testEvaluateNoMentions($eventType): void {
 		/** @var IComment|\PHPUnit\Framework\MockObject\MockObject $comment */
 		$comment = $this->getMockBuilder(IComment::class)->getMock();
 		$comment->expects($this->any())
@@ -160,7 +160,7 @@ class ListenerTest extends TestCase {
 		$this->listener->evaluate($event);
 	}
 
-	public function testEvaluateUserDoesNotExist() {
+	public function testEvaluateUserDoesNotExist(): void {
 		/** @var IComment|\PHPUnit\Framework\MockObject\MockObject $comment */
 		$comment = $this->getMockBuilder(IComment::class)->getMock();
 		$comment->expects($this->any())

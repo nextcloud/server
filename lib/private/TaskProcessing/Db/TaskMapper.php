@@ -59,16 +59,16 @@ class TaskMapper extends QBMapper {
 			->setMaxResults(1)
 			->orderBy('last_updated', 'ASC');
 
-		if (count($taskTypes) > 0) {
-			$filter = $qb->expr()->orX();
+		if (!empty($taskTypes)) {
+			$filter = [];
 			foreach ($taskTypes as $taskType) {
-				$filter->add($qb->expr()->eq('type', $qb->createPositionalParameter($taskType)));
+				$filter[] = $qb->expr()->eq('type', $qb->createPositionalParameter($taskType));
 			}
 
-			$qb->andWhere($filter);
+			$qb->andWhere($qb->expr()->orX(...$filter));
 		}
 
-		if (count($taskIdsToIgnore) > 0) {
+		if (!empty($taskIdsToIgnore)) {
 			$qb->andWhere($qb->expr()->notIn('id', $qb->createNamedParameter($taskIdsToIgnore, IQueryBuilder::PARAM_INT_ARRAY)));
 		}
 
@@ -132,6 +132,51 @@ class TaskMapper extends QBMapper {
 			->andWhere($qb->expr()->eq('app_id', $qb->createPositionalParameter($appId)));
 		if ($customId !== null) {
 			$qb->andWhere($qb->expr()->eq('custom_id', $qb->createPositionalParameter($customId)));
+		}
+		return array_values($this->findEntities($qb));
+	}
+
+	/**
+	 * @param string|null $userId
+	 * @param string|null $taskType
+	 * @param string|null $appId
+	 * @param string|null $customId
+	 * @param int|null $status
+	 * @param int|null $scheduleAfter
+	 * @param int|null $endedBefore
+	 * @return list<Task>
+	 * @throws Exception
+	 */
+	public function findTasks(
+		?string $userId, ?string $taskType = null, ?string $appId = null, ?string $customId = null,
+		?int $status = null, ?int $scheduleAfter = null, ?int $endedBefore = null): array {
+		$qb = $this->db->getQueryBuilder();
+		$qb->select(Task::$columns)
+			->from($this->tableName);
+
+		// empty string: no userId filter
+		if ($userId !== '') {
+			$qb->where($qb->expr()->eq('user_id', $qb->createPositionalParameter($userId)));
+		}
+		if ($taskType !== null) {
+			$qb->andWhere($qb->expr()->eq('type', $qb->createPositionalParameter($taskType)));
+		}
+		if ($appId !== null) {
+			$qb->andWhere($qb->expr()->eq('app_id', $qb->createPositionalParameter($appId)));
+		}
+		if ($customId !== null) {
+			$qb->andWhere($qb->expr()->eq('custom_id', $qb->createPositionalParameter($customId)));
+		}
+		if ($status !== null) {
+			$qb->andWhere($qb->expr()->eq('status', $qb->createPositionalParameter($status, IQueryBuilder::PARAM_INT)));
+		}
+		if ($scheduleAfter !== null) {
+			$qb->andWhere($qb->expr()->isNotNull('scheduled_at'));
+			$qb->andWhere($qb->expr()->gt('scheduled_at', $qb->createPositionalParameter($scheduleAfter, IQueryBuilder::PARAM_INT)));
+		}
+		if ($endedBefore !== null) {
+			$qb->andWhere($qb->expr()->isNotNull('ended_at'));
+			$qb->andWhere($qb->expr()->lt('ended_at', $qb->createPositionalParameter($endedBefore, IQueryBuilder::PARAM_INT)));
 		}
 		return array_values($this->findEntities($qb));
 	}

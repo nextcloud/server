@@ -44,8 +44,8 @@
 						xmlns="http://www.w3.org/2000/svg"><path fill="currentColor" d="M502 197q-96 0-96.5 1.5t-1.5 137-1.5 138-2 2.5T266 432.5 132.5 390t-30 94T74 578l232 77q21 8 21 10t-79.5 117.5T168 899t79.5 56.5T328 1011t81-110 82-110 41 55l83 115q43 60 44 60t79.5-58 79-59-76-112.5-76-113.5T795 632.5t129.5-44-28-94T867 400t-128 42-128.5 43-2.5-7.5-1-38.5l-3-108q-4-133-5-133.5t-97-.5z" /></svg>
 				</template>
 			</NcButton>
-			<NcButton @click="showHtml = !showHtml"
-				class="social-button__website-button">
+			<NcButton class="social-button__website-button"
+				@click="showHtml = !showHtml">
 				<template #icon>
 					<Web :size="20" />
 				</template>
@@ -125,7 +125,7 @@ export default {
 			return window.location.protocol + '//' + window.location.host + this.logoPath
 		},
 		backgroundStyle() {
-			return `padding:10px;background-color:${this.color};color:${this.textColor};border-radius:3px;padding-left:4px;`
+			return `padding:10px;background-color:${this.color};color:${this.textColor};border-radius:3px;padding-inline-start:4px;`
 		},
 		linkStyle() {
 			return `background-image:url(${this.logoPathAbsolute});width:50px;height:30px;position:relative;top:8px;background-size:contain;display:inline-block;background-repeat:no-repeat; background-position: center center;`
@@ -164,7 +164,7 @@ export default {
 		margin-top: 0.5rem;
 		button {
 			display: inline-flex;
-			margin-left: 0.5rem;
+			margin-inline-start: 0.5rem;
 			margin-top: 1rem;
 		}
 		&__website-button {
@@ -184,6 +184,6 @@ export default {
 		white-space: pre-wrap;
 	}
 	#cloudid {
-		margin-left: 0.25rem;
+		margin-inline-start: 0.25rem;
 	}
 </style>

@@ -18,7 +18,6 @@ use OCP\L10N\IFactory;
 use OCP\Mail\IMailer;
 use OCP\Share\IManager;
 use Psr\Container\ContainerExceptionInterface;
-use Psr\Log\LoggerInterface;
 
 /**
  * This class provides different helper functions to make the life of a developer easier
@@ -242,7 +241,7 @@ class Util {
 	 * @param string $app app
 	 * @param string $file file
 	 * @param array $args array with param=>value, will be appended to the returned url
-	 * 	The value of $args will be urlencoded
+	 *                    The value of $args will be urlencoded
 	 * @return string the url
 	 * @since 4.0.0 - parameter $args was added in 4.5.0
 	 */
@@ -489,44 +488,11 @@ class Util {
 	}
 
 	/**
-	 * Get a list of characters forbidden in file names
-	 * @return string[]
-	 * @since 29.0.0
-	 */
-	public static function getForbiddenFileNameChars(): array {
-		// Get always forbidden characters
-		$invalidChars = str_split(\OCP\Constants::FILENAME_INVALID_CHARS);
-		if ($invalidChars === false) {
-			$invalidChars = [];
-		}
-
-		// Get admin defined invalid characters
-		$additionalChars = \OCP\Server::get(IConfig::class)->getSystemValue('forbidden_chars', []);
-		if (!is_array($additionalChars)) {
-			\OCP\Server::get(LoggerInterface::class)->error('Invalid system config value for "forbidden_chars" is ignored.');
-			$additionalChars = [];
-		}
-		return array_merge($invalidChars, $additionalChars);
-	}
-
-	/**
-	 * Returns whether the given file name is valid
-	 * @param string $file file name to check
-	 * @return bool true if the file name is valid, false otherwise
-	 * @deprecated 8.1.0 use OCP\Files\Storage\IStorage::verifyPath()
-	 * @since 7.0.0
-	 * @suppress PhanDeprecatedFunction
-	 */
-	public static function isValidFileName($file) {
-		return \OC_Util::isValidFileName($file);
-	}
-
-	/**
 	 * Compare two strings to provide a natural sort
 	 * @param string $a first string to compare
 	 * @param string $b second string to compare
 	 * @return int -1 if $b comes before $a, 1 if $a comes before $b
-	 * or 0 if the strings are identical
+	 *             or 0 if the strings are identical
 	 * @since 7.0.0
 	 */
 	public static function naturalSortCompare($a, $b) {

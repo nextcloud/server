@@ -110,7 +110,7 @@ class StorageTest extends \Test\TestCase {
 	/**
 	 * Test that deleting a file puts it into the trashbin.
 	 */
-	public function testSingleStorageDeleteFile() {
+	public function testSingleStorageDeleteFile(): void {
 		$this->assertTrue($this->userView->file_exists('test.txt'));
 		$this->userView->unlink('test.txt');
 		[$storage,] = $this->userView->resolvePath('test.txt');
@@ -127,7 +127,7 @@ class StorageTest extends \Test\TestCase {
 	/**
 	 * Test that deleting a folder puts it into the trashbin.
 	 */
-	public function testSingleStorageDeleteFolder() {
+	public function testSingleStorageDeleteFolder(): void {
 		$this->assertTrue($this->userView->file_exists('folder/inside.txt'));
 		$this->userView->rmdir('folder');
 		[$storage,] = $this->userView->resolvePath('folder/inside.txt');
@@ -149,7 +149,7 @@ class StorageTest extends \Test\TestCase {
 	/**
 	 * Test that deleting a file with a long filename puts it into the trashbin.
 	 */
-	public function testSingleStorageDeleteLongFilename() {
+	public function testSingleStorageDeleteLongFilename(): void {
 		$truncatedFilename = 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.txt';
 
 		$this->assertTrue($this->userView->file_exists(static::LONG_FILENAME));
@@ -168,7 +168,7 @@ class StorageTest extends \Test\TestCase {
 	/**
 	 * Test that deleting a file with the max filename length puts it into the trashbin.
 	 */
-	public function testSingleStorageDeleteMaxLengthFilename() {
+	public function testSingleStorageDeleteMaxLengthFilename(): void {
 		$truncatedFilename = 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.txt';
 
 		$this->assertTrue($this->userView->file_exists(static::MAX_FILENAME));
@@ -190,7 +190,7 @@ class StorageTest extends \Test\TestCase {
 	 * the trashbin folder is in the root storage while the mounted one
 	 * isn't.
 	 */
-	public function testCrossStorageDeleteFile() {
+	public function testCrossStorageDeleteFile(): void {
 		$storage2 = new Temporary([]);
 		\OC\Files\Filesystem::mount($storage2, [], $this->user . '/files/substorage');
 
@@ -216,7 +216,7 @@ class StorageTest extends \Test\TestCase {
 	 * the trashbin folder is in the root storage while the mounted one
 	 * isn't.
 	 */
-	public function testCrossStorageDeleteFolder() {
+	public function testCrossStorageDeleteFolder(): void {
 		$storage2 = new Temporary([]);
 		\OC\Files\Filesystem::mount($storage2, [], $this->user . '/files/substorage');
 
@@ -245,7 +245,7 @@ class StorageTest extends \Test\TestCase {
 	/**
 	 * Test that deleted versions properly land in the trashbin.
 	 */
-	public function testDeleteVersionsOfFile() {
+	public function testDeleteVersionsOfFile(): void {
 		// trigger a version (multiple would not work because of the expire logic)
 		$this->userView->file_put_contents('test.txt', 'v1');
 
@@ -272,7 +272,7 @@ class StorageTest extends \Test\TestCase {
 	/**
 	 * Test that deleted versions properly land in the trashbin.
 	 */
-	public function testDeleteVersionsOfFolder() {
+	public function testDeleteVersionsOfFolder(): void {
 		// trigger a version (multiple would not work because of the expire logic)
 		$this->userView->file_put_contents('folder/inside.txt', 'v1');
 
@@ -305,7 +305,7 @@ class StorageTest extends \Test\TestCase {
 	/**
 	 * Test that deleted versions properly land in the trashbin when deleting as share recipient.
 	 */
-	public function testDeleteVersionsOfFileAsRecipient() {
+	public function testDeleteVersionsOfFileAsRecipient(): void {
 		$this->userView->mkdir('share');
 		// trigger a version (multiple would not work because of the expire logic)
 		$this->userView->file_put_contents('share/test.txt', 'v1');
@@ -356,7 +356,7 @@ class StorageTest extends \Test\TestCase {
 	/**
 	 * Test that deleted versions properly land in the trashbin when deleting as share recipient.
 	 */
-	public function testDeleteVersionsOfFolderAsRecipient() {
+	public function testDeleteVersionsOfFolderAsRecipient(): void {
 		$this->userView->mkdir('share');
 		$this->userView->mkdir('share/folder');
 		// trigger a version (multiple would not work because of the expire logic)
@@ -423,7 +423,7 @@ class StorageTest extends \Test\TestCase {
 	 * storages. This is because rename() between storages would call
 	 * unlink() which should NOT trigger the version deletion logic.
 	 */
-	public function testKeepFileAndVersionsWhenMovingFileBetweenStorages() {
+	public function testKeepFileAndVersionsWhenMovingFileBetweenStorages(): void {
 		$storage2 = new Temporary([]);
 		\OC\Files\Filesystem::mount($storage2, [], $this->user . '/files/substorage');
 
@@ -462,7 +462,7 @@ class StorageTest extends \Test\TestCase {
 	 * storages. This is because rename() between storages would call
 	 * unlink() which should NOT trigger the version deletion logic.
 	 */
-	public function testKeepFileAndVersionsWhenMovingFolderBetweenStorages() {
+	public function testKeepFileAndVersionsWhenMovingFolderBetweenStorages(): void {
 		$storage2 = new Temporary([]);
 		\OC\Files\Filesystem::mount($storage2, [], $this->user . '/files/substorage');
 
@@ -499,7 +499,7 @@ class StorageTest extends \Test\TestCase {
 	/**
 	 * Delete should fail if the source file can't be deleted.
 	 */
-	public function testSingleStorageDeleteFileFail() {
+	public function testSingleStorageDeleteFileFail(): void {
 		/**
 		 * @var \OC\Files\Storage\Temporary | \PHPUnit\Framework\MockObject\MockObject $storage
 		 */
@@ -536,7 +536,7 @@ class StorageTest extends \Test\TestCase {
 	/**
 	 * Delete should fail if the source folder can't be deleted.
 	 */
-	public function testSingleStorageDeleteFolderFail() {
+	public function testSingleStorageDeleteFolderFail(): void {
 		/**
 		 * @var \OC\Files\Storage\Temporary | \PHPUnit\Framework\MockObject\MockObject $storage
 		 */
@@ -570,7 +570,7 @@ class StorageTest extends \Test\TestCase {
 	/**
 	 * @dataProvider dataTestShouldMoveToTrash
 	 */
-	public function testShouldMoveToTrash($mountPoint, $path, $userExists, $appDisablesTrash, $expected) {
+	public function testShouldMoveToTrash($mountPoint, $path, $userExists, $appDisablesTrash, $expected): void {
 		$fileID = 1;
 		$cache = $this->createMock(ICache::class);
 		$cache->expects($this->any())->method('getId')->willReturn($fileID);
@@ -628,7 +628,7 @@ class StorageTest extends \Test\TestCase {
 	/**
 	 * Test that deleting a file doesn't error when nobody is logged in
 	 */
-	public function testSingleStorageDeleteFileLoggedOut() {
+	public function testSingleStorageDeleteFileLoggedOut(): void {
 		$this->logout();
 
 		if (!$this->userView->file_exists('test.txt')) {
@@ -639,7 +639,7 @@ class StorageTest extends \Test\TestCase {
 		}
 	}
 
-	public function testTrashbinCollision() {
+	public function testTrashbinCollision(): void {
 		$this->userView->file_put_contents('test.txt', 'foo');
 		$this->userView->file_put_contents('folder/test.txt', 'bar');
 
@@ -671,16 +671,16 @@ class StorageTest extends \Test\TestCase {
 		$this->assertEquals('bar', $this->rootView->file_get_contents($this->user . '/files_trashbin/files/test.txt.d1001'));
 	}
 
-	public function testMoveFromStoragePreserveFileId() {
+	public function testMoveFromStoragePreserveFileId(): void {
 		if (!$this->userView->getMount('')->getStorage()->instanceOfStorage(Local::class)) {
-			$this->markTestSkipped("Skipping on non-local users storage");
+			$this->markTestSkipped('Skipping on non-local users storage');
 		}
 		$this->userView->file_put_contents('test.txt', 'foo');
 		$fileId = $this->userView->getFileInfo('test.txt')->getId();
 
 		$externalStorage = new TemporaryNoCross([]);
 		$externalStorage->getScanner()->scan('');
-		Filesystem::mount($externalStorage, [], "/" . $this->user . "/files/storage");
+		Filesystem::mount($externalStorage, [], '/' . $this->user . '/files/storage');
 
 		$this->assertTrue($this->userView->rename('test.txt', 'storage/test.txt'));
 		$this->assertTrue($externalStorage->file_exists('test.txt'));

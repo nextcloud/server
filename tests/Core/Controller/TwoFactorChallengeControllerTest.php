@@ -75,7 +75,7 @@ class TwoFactorChallengeControllerTest extends TestCase {
 			->willReturn('logoutAttribute');
 	}
 
-	public function testSelectChallenge() {
+	public function testSelectChallenge(): void {
 		$user = $this->getMockBuilder(IUser::class)->getMock();
 		$p1 = $this->createMock(IActivatableAtLogin::class);
 		$p1->method('getId')->willReturn('p1');
@@ -109,7 +109,7 @@ class TwoFactorChallengeControllerTest extends TestCase {
 		$this->assertEquals($expected, $this->controller->selectChallenge('/some/url'));
 	}
 
-	public function testShowChallenge() {
+	public function testShowChallenge(): void {
 		$user = $this->createMock(IUser::class);
 		$provider = $this->createMock(IProvider::class);
 		$provider->method('getId')->willReturn('myprovider');
@@ -160,7 +160,7 @@ class TwoFactorChallengeControllerTest extends TestCase {
 		$this->assertEquals($expected, $this->controller->showChallenge('myprovider', '/re/dir/ect/url'));
 	}
 
-	public function testShowInvalidChallenge() {
+	public function testShowInvalidChallenge(): void {
 		$user = $this->createMock(IUser::class);
 		$providerSet = new ProviderSet([], false);
 
@@ -181,7 +181,7 @@ class TwoFactorChallengeControllerTest extends TestCase {
 		$this->assertEquals($expected, $this->controller->showChallenge('myprovider', 'redirect/url'));
 	}
 
-	public function testSolveChallenge() {
+	public function testSolveChallenge(): void {
 		$user = $this->createMock(IUser::class);
 		$provider = $this->createMock(IProvider::class);
 
@@ -206,7 +206,7 @@ class TwoFactorChallengeControllerTest extends TestCase {
 		$this->assertEquals($expected, $this->controller->solveChallenge('myprovider', 'token'));
 	}
 
-	public function testSolveValidChallengeAndRedirect() {
+	public function testSolveValidChallengeAndRedirect(): void {
 		$user = $this->createMock(IUser::class);
 		$provider = $this->createMock(IProvider::class);
 
@@ -231,7 +231,7 @@ class TwoFactorChallengeControllerTest extends TestCase {
 		$this->assertEquals($expected, $this->controller->solveChallenge('myprovider', 'token', 'redirect%20url'));
 	}
 
-	public function testSolveChallengeInvalidProvider() {
+	public function testSolveChallengeInvalidProvider(): void {
 		$user = $this->getMockBuilder(IUser::class)->getMock();
 
 		$this->userSession->expects($this->once())
@@ -251,7 +251,7 @@ class TwoFactorChallengeControllerTest extends TestCase {
 		$this->assertEquals($expected, $this->controller->solveChallenge('myprovider', 'token'));
 	}
 
-	public function testSolveInvalidChallenge() {
+	public function testSolveInvalidChallenge(): void {
 		$user = $this->createMock(IUser::class);
 		$provider = $this->createMock(IProvider::class);
 
@@ -285,10 +285,10 @@ class TwoFactorChallengeControllerTest extends TestCase {
 		$this->assertEquals($expected, $this->controller->solveChallenge('myprovider', 'token', '/url'));
 	}
 
-	public function testSolveChallengeTwoFactorException() {
+	public function testSolveChallengeTwoFactorException(): void {
 		$user = $this->createMock(IUser::class);
 		$provider = $this->createMock(IProvider::class);
-		$exception = new TwoFactorException("2FA failed");
+		$exception = new TwoFactorException('2FA failed');
 
 		$this->userSession->expects($this->once())
 			->method('getUser')
@@ -353,7 +353,7 @@ class TwoFactorChallengeControllerTest extends TestCase {
 		$this->assertEquals($expected, $response);
 	}
 
-	public function testSetUpInvalidProvider() {
+	public function testSetUpInvalidProvider(): void {
 		$user = $this->createMock(IUser::class);
 		$this->userSession->expects($this->once())
 			->method('getUser')

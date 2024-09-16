@@ -33,7 +33,7 @@ class RepairTree extends Command {
 		$rows = $this->findBrokenTreeBits();
 		$fix = !$input->getOption('dry-run');
 
-		$output->writeln("Found " . count($rows) . " file entries with an invalid path");
+		$output->writeln('Found ' . count($rows) . ' file entries with an invalid path');
 
 		if ($fix) {
 			$this->connection->beginTransaction();

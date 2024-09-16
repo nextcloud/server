@@ -858,8 +858,8 @@ class Wizard extends LDAPUtility {
 	/**
 	 * creates an LDAP Filter from given configuration
 	 * @param int $filterType int, for which use case the filter shall be created
-	 * can be any of self::LFILTER_USER_LIST, self::LFILTER_LOGIN or
-	 * self::LFILTER_GROUP_LIST
+	 *                        can be any of self::LFILTER_USER_LIST, self::LFILTER_LOGIN or
+	 *                        self::LFILTER_GROUP_LIST
 	 * @throws \Exception
 	 */
 	private function composeLdapFilter(int $filterType): string {
@@ -1114,9 +1114,9 @@ class Wizard extends LDAPUtility {
 	 * @param string[] $filters array, the filters that shall be used in the search
 	 * @param string $attr the attribute of which a list of values shall be returned
 	 * @param int $dnReadLimit the amount of how many DNs should be analyzed.
-	 * The lower, the faster
+	 *                         The lower, the faster
 	 * @param string $maxF string. if not null, this variable will have the filter that
-	 * yields most result entries
+	 *                     yields most result entries
 	 * @return array|false an array with the values on success, false otherwise
 	 */
 	public function cumulativeSearchOnAttribute(array $filters, string $attr, int $dnReadLimit = 3, ?string &$maxF = null) {
@@ -1190,9 +1190,9 @@ class Wizard extends LDAPUtility {
 	 * @param string $attr the attribute to look for
 	 * @param string $dbkey the dbkey of the setting the feature is connected to
 	 * @param string $confkey the confkey counterpart for the $dbkey as used in the
-	 * Configuration class
+	 *                        Configuration class
 	 * @param bool $po whether the objectClass with most result entries
-	 * shall be pre-selected via the result
+	 *                 shall be pre-selected via the result
 	 * @return array list of found items.
 	 * @throws \Exception
 	 */
@@ -1244,7 +1244,7 @@ class Wizard extends LDAPUtility {
 	 * @param string $attribute the attribute values to look for
 	 * @param array &$known new values will be appended here
 	 * @return int state on of the class constants LRESULT_PROCESSED_OK,
-	 * LRESULT_PROCESSED_INVALID or LRESULT_PROCESSED_SKIP
+	 *             LRESULT_PROCESSED_INVALID or LRESULT_PROCESSED_SKIP
 	 */
 	private function getAttributeValuesFromEntry(array $result, string $attribute, array &$known): int {
 		if (!isset($result['count'])

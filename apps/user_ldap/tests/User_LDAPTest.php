@@ -8,7 +8,6 @@
 namespace OCA\User_LDAP\Tests;
 
 use OC\User\Backend;
-use OC\User\Session;
 use OCA\User_LDAP\Access;
 use OCA\User_LDAP\Connection;
 use OCA\User_LDAP\Mapping\AbstractMapping;
@@ -21,7 +20,6 @@ use OCA\User_LDAP\User_LDAP;
 use OCA\User_LDAP\User_LDAP as UserLDAP;
 use OCA\User_LDAP\UserPluginManager;
 use OCP\HintException;
-use OCP\IConfig;
 use OCP\IUser;
 use OCP\Notification\IManager as INotificationManager;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -40,14 +38,10 @@ class User_LDAPTest extends TestCase {
 	protected $backend;
 	/** @var Access|MockObject */
 	protected $access;
-	/** @var  OfflineUser|MockObject */
+	/** @var OfflineUser|MockObject */
 	protected $offlineUser;
-	/** @var IConfig|MockObject */
-	protected $config;
 	/** @var INotificationManager|MockObject */
 	protected $notificationManager;
-	/** @var Session|MockObject */
-	protected $session;
 	/** @var UserPluginManager|MockObject */
 	protected $pluginManager;
 	/** @var Connection|MockObject */
@@ -72,10 +66,7 @@ class User_LDAPTest extends TestCase {
 		$this->access->connection = $this->connection;
 		$this->access->userManager = $this->userManager;
 
-		$this->config = $this->createMock(IConfig::class);
 		$this->notificationManager = $this->createMock(INotificationManager::class);
-		// Cannot use IUserSession because of private listen() methods
-		$this->session = $this->createMock(Session::class);
 		$this->pluginManager = $this->createMock(UserPluginManager::class);
 
 		$this->logger = $this->createMock(LoggerInterface::class);
@@ -84,9 +75,7 @@ class User_LDAPTest extends TestCase {
 
 		$this->backend = new User_LDAP(
 			$this->access,
-			$this->config,
 			$this->notificationManager,
-			$this->session,
 			$this->pluginManager,
 			$this->logger,
 			$this->deletedUsersIndex,
@@ -95,25 +84,25 @@ class User_LDAPTest extends TestCase {
 
 	private function prepareMockForUserExists() {
 		$this->access->expects($this->any())
-			   ->method('username2dn')
-			   ->willReturnCallback(function ($uid) {
-			   	switch ($uid) {
-			   		case 'gunslinger':
-			   			return 'dnOfRoland,dc=test';
-			   			break;
-			   		case 'formerUser':
-			   			return 'dnOfFormerUser,dc=test';
-			   			break;
-			   		case 'newyorker':
-			   			return 'dnOfNewYorker,dc=test';
-			   			break;
-			   		case 'ladyofshadows':
-			   			return 'dnOfLadyOfShadows,dc=test';
-			   			break;
-			   		default:
-			   			return false;
-			   	}
-			   });
+			->method('username2dn')
+			->willReturnCallback(function ($uid) {
+				switch ($uid) {
+					case 'gunslinger':
+						return 'dnOfRoland,dc=test';
+						break;
+					case 'formerUser':
+						return 'dnOfFormerUser,dc=test';
+						break;
+					case 'newyorker':
+						return 'dnOfNewYorker,dc=test';
+						break;
+					case 'ladyofshadows':
+						return 'dnOfLadyOfShadows,dc=test';
+						break;
+					default:
+						return false;
+				}
+			});
 
 		$this->access->method('fetchUsersByLoginName')
 			->willReturn([]);
@@ -126,22 +115,22 @@ class User_LDAPTest extends TestCase {
 	 */
 	private function prepareAccessForCheckPassword($noDisplayName = false) {
 		$this->connection->expects($this->any())
-			   ->method('__get')
-			   ->willReturnCallback(function ($name) {
-			   	if ($name === 'ldapLoginFilter') {
-			   		return '%uid';
-			   	}
-			   	return null;
-			   });
+			->method('__get')
+			->willReturnCallback(function ($name) {
+				if ($name === 'ldapLoginFilter') {
+					return '%uid';
+				}
+				return null;
+			});
 
 		$this->access->expects($this->any())
-			   ->method('fetchListOfUsers')
-			   ->willReturnCallback(function ($filter) {
-			   	if ($filter === 'roland') {
-			   		return [['dn' => ['dnOfRoland,dc=test']]];
-			   	}
-			   	return [];
-			   });
+			->method('fetchListOfUsers')
+			->willReturnCallback(function ($filter) {
+				if ($filter === 'roland') {
+					return [['dn' => ['dnOfRoland,dc=test']]];
+				}
+				return [];
+			});
 		$this->access->expects($this->any())
 			->method('fetchUsersByLoginName')
 			->willReturnCallback(function ($uid) {
@@ -156,28 +145,32 @@ class User_LDAPTest extends TestCase {
 			$retVal = false;
 		}
 		$this->access->expects($this->any())
-			   ->method('dn2username')
-			   ->with($this->equalTo('dnOfRoland,dc=test'))
-			   ->willReturn($retVal);
+			->method('dn2username')
+			->with($this->equalTo('dnOfRoland,dc=test'))
+			->willReturn($retVal);
 		$this->access->expects($this->any())
-			   ->method('stringResemblesDN')
-			   ->with($this->equalTo('dnOfRoland,dc=test'))
-			   ->willReturn(true);
+			->method('username2dn')
+			->with($this->equalTo('gunslinger'))
+			->willReturn('dnOfRoland,dc=test');
 		$this->access->expects($this->any())
-			   ->method('areCredentialsValid')
-			   ->willReturnCallback(function ($dn, $pwd) {
-			   	if ($pwd === 'dt19') {
-			   		return true;
-			   	}
-			   	return false;
-			   });
+			->method('stringResemblesDN')
+			->with($this->equalTo('dnOfRoland,dc=test'))
+			->willReturn(true);
+		$this->access->expects($this->any())
+			->method('areCredentialsValid')
+			->willReturnCallback(function ($dn, $pwd) {
+				if ($pwd === 'dt19') {
+					return true;
+				}
+				return false;
+			});
 
 		$this->userManager->expects($this->any())
 			->method('getAttributes')
 			->willReturn(['dn', 'uid', 'mail', 'displayname']);
 	}
 
-	public function testCheckPasswordUidReturn() {
+	public function testCheckPasswordUidReturn(): void {
 		$user = $this->createMock(User::class);
 		$user->expects($this->any())
 			->method('getUsername')
@@ -188,7 +181,7 @@ class User_LDAPTest extends TestCase {
 			->method('get')
 			->willReturn($user);
 
-		$backend = new UserLDAP($this->access, $this->config, $this->notificationManager, $this->session, $this->pluginManager, $this->logger, $this->deletedUsersIndex);
+		$backend = new UserLDAP($this->access, $this->notificationManager, $this->pluginManager, $this->logger, $this->deletedUsersIndex);
 
 		\OC_User::useBackend($backend);
 
@@ -196,25 +189,25 @@ class User_LDAPTest extends TestCase {
 		$this->assertEquals('gunslinger', $result);
 	}
 
-	public function testCheckPasswordWrongPassword() {
+	public function testCheckPasswordWrongPassword(): void {
 		$this->prepareAccessForCheckPassword();
-		$backend = new UserLDAP($this->access, $this->config, $this->notificationManager, $this->session, $this->pluginManager, $this->logger, $this->deletedUsersIndex);
+		$backend = new UserLDAP($this->access, $this->notificationManager, $this->pluginManager, $this->logger, $this->deletedUsersIndex);
 		\OC_User::useBackend($backend);
 
 		$result = $backend->checkPassword('roland', 'wrong');
 		$this->assertFalse($result);
 	}
 
-	public function testCheckPasswordWrongUser() {
+	public function testCheckPasswordWrongUser(): void {
 		$this->prepareAccessForCheckPassword();
-		$backend = new UserLDAP($this->access, $this->config, $this->notificationManager, $this->session, $this->pluginManager, $this->logger, $this->deletedUsersIndex);
+		$backend = new UserLDAP($this->access, $this->notificationManager, $this->pluginManager, $this->logger, $this->deletedUsersIndex);
 		\OC_User::useBackend($backend);
 
 		$result = $backend->checkPassword('mallory', 'evil');
 		$this->assertFalse($result);
 	}
 
-	public function testCheckPasswordNoDisplayName() {
+	public function testCheckPasswordNoDisplayName(): void {
 		$this->prepareAccessForCheckPassword(true);
 
 		$this->prepareAccessForCheckPassword();
@@ -222,14 +215,14 @@ class User_LDAPTest extends TestCase {
 			->method('get')
 			->willReturn(null);
 
-		$backend = new UserLDAP($this->access, $this->config, $this->notificationManager, $this->session, $this->pluginManager, $this->logger, $this->deletedUsersIndex);
+		$backend = new UserLDAP($this->access, $this->notificationManager, $this->pluginManager, $this->logger, $this->deletedUsersIndex);
 		\OC_User::useBackend($backend);
 
 		$result = $backend->checkPassword('roland', 'dt19');
 		$this->assertFalse($result);
 	}
 
-	public function testCheckPasswordPublicAPI() {
+	public function testCheckPasswordPublicAPI(): void {
 		$user = $this->createMock(User::class);
 		$user->expects($this->any())
 			->method('getUsername')
@@ -240,7 +233,7 @@ class User_LDAPTest extends TestCase {
 			->method('get')
 			->willReturn($user);
 
-		$backend = new UserLDAP($this->access, $this->config, $this->notificationManager, $this->session, $this->pluginManager, $this->logger, $this->deletedUsersIndex);
+		$backend = new UserLDAP($this->access, $this->notificationManager, $this->pluginManager, $this->logger, $this->deletedUsersIndex);
 		\OC_User::useBackend($backend);
 
 		$user = \OC::$server->getUserManager()->checkPassword('roland', 'dt19');
@@ -251,9 +244,9 @@ class User_LDAPTest extends TestCase {
 		$this->assertEquals('gunslinger', $result);
 	}
 
-	public function testCheckPasswordPublicAPIWrongPassword() {
+	public function testCheckPasswordPublicAPIWrongPassword(): void {
 		$this->prepareAccessForCheckPassword();
-		$backend = new UserLDAP($this->access, $this->config, $this->notificationManager, $this->session, $this->pluginManager, $this->logger, $this->deletedUsersIndex);
+		$backend = new UserLDAP($this->access, $this->notificationManager, $this->pluginManager, $this->logger, $this->deletedUsersIndex);
 		\OC_User::useBackend($backend);
 
 		$user = \OC::$server->getUserManager()->checkPassword('roland', 'wrong');
@@ -264,9 +257,9 @@ class User_LDAPTest extends TestCase {
 		$this->assertFalse($result);
 	}
 
-	public function testCheckPasswordPublicAPIWrongUser() {
+	public function testCheckPasswordPublicAPIWrongUser(): void {
 		$this->prepareAccessForCheckPassword();
-		$backend = new UserLDAP($this->access, $this->config, $this->notificationManager, $this->session, $this->pluginManager, $this->logger, $this->deletedUsersIndex);
+		$backend = new UserLDAP($this->access, $this->notificationManager, $this->pluginManager, $this->logger, $this->deletedUsersIndex);
 		\OC_User::useBackend($backend);
 
 		$user = \OC::$server->getUserManager()->checkPassword('mallory', 'evil');
@@ -277,13 +270,13 @@ class User_LDAPTest extends TestCase {
 		$this->assertFalse($result);
 	}
 
-	public function testDeleteUserCancel() {
-		$backend = new UserLDAP($this->access, $this->config, $this->notificationManager, $this->session, $this->pluginManager, $this->logger, $this->deletedUsersIndex);
+	public function testDeleteUserCancel(): void {
+		$backend = new UserLDAP($this->access, $this->notificationManager, $this->pluginManager, $this->logger, $this->deletedUsersIndex);
 		$result = $backend->deleteUser('notme');
 		$this->assertFalse($result);
 	}
 
-	public function testDeleteUserSuccess() {
+	public function testDeleteUserSuccess(): void {
 		$uid = 'jeremy';
 		$home = '/var/vhome/jdings/';
 
@@ -299,9 +292,9 @@ class User_LDAPTest extends TestCase {
 			->willReturn(ldap_connect('ldap://example.com'));
 
 		$this->deletedUsersIndex->expects($this->once())
-		->method('isUserMarked')
-		->with($uid)
-		->willReturn(true);
+			->method('isUserMarked')
+			->with($uid)
+			->willReturn(true);
 
 		$offlineUser = $this->createMock(OfflineUser::class);
 		$offlineUser->expects($this->once())
@@ -310,8 +303,12 @@ class User_LDAPTest extends TestCase {
 		$this->userManager->expects($this->atLeastOnce())
 			->method('get')
 			->willReturn($offlineUser);
+		$this->userManager->expects($this->once())
+			->method('exists')
+			->with($uid)
+			->willReturn(true);
 
-		$backend = new UserLDAP($this->access, $this->config, $this->notificationManager, $this->session, $this->pluginManager, $this->logger, $this->deletedUsersIndex);
+		$backend = new UserLDAP($this->access, $this->notificationManager, $this->pluginManager, $this->logger, $this->deletedUsersIndex);
 
 		$result = $backend->deleteUser($uid);
 		$this->assertTrue($result);
@@ -319,7 +316,7 @@ class User_LDAPTest extends TestCase {
 		$this->assertSame($backend->getHome($uid), $home);
 	}
 
-	public function testDeleteUserWithPlugin() {
+	public function testDeleteUserWithPlugin(): void {
 		$this->pluginManager->expects($this->once())
 			->method('canDeleteUser')
 			->willReturn(true);
@@ -329,9 +326,9 @@ class User_LDAPTest extends TestCase {
 			->willReturn(true);
 
 		$this->deletedUsersIndex->expects($this->once())
-		->method('isUserMarked')
-		->with('uid')
-		->willReturn(true);
+			->method('isUserMarked')
+			->with('uid')
+			->willReturn(true);
 
 		$mapper = $this->createMock(UserMapping::class);
 		$mapper->expects($this->once())
@@ -354,42 +351,42 @@ class User_LDAPTest extends TestCase {
 	 */
 	private function prepareAccessForGetUsers() {
 		$this->access->expects($this->once())
-			   ->method('escapeFilterPart')
-			   ->willReturnCallback(function ($search) {
-			   	return $search;
-			   });
+			->method('escapeFilterPart')
+			->willReturnCallback(function ($search) {
+				return $search;
+			});
 		$this->access->expects($this->any())
-			   ->method('getFilterPartForUserSearch')
-			   ->willReturnCallback(function ($search) {
-			   	return $search;
-			   });
+			->method('getFilterPartForUserSearch')
+			->willReturnCallback(function ($search) {
+				return $search;
+			});
 		$this->access->expects($this->any())
-			   ->method('combineFilterWithAnd')
-			   ->willReturnCallback(function ($param) {
-			   	return $param[2];
-			   });
+			->method('combineFilterWithAnd')
+			->willReturnCallback(function ($param) {
+				return $param[2];
+			});
 		$this->access->expects($this->any())
-			   ->method('fetchListOfUsers')
-			   ->willReturnCallback(function ($search, $a, $l, $o) {
-			   	$users = ['gunslinger', 'newyorker', 'ladyofshadows'];
-			   	if (empty($search)) {
-			   		$result = $users;
-			   	} else {
-			   		$result = [];
-			   		foreach ($users as $user) {
-			   			if (stripos($user, $search) !== false) {
-			   				$result[] = $user;
-			   			}
-			   		}
-			   	}
-			   	if (!is_null($l) || !is_null($o)) {
-			   		$result = array_slice($result, $o, $l);
-			   	}
-			   	return $result;
-			   });
+			->method('fetchListOfUsers')
+			->willReturnCallback(function ($search, $a, $l, $o) {
+				$users = ['gunslinger', 'newyorker', 'ladyofshadows'];
+				if (empty($search)) {
+					$result = $users;
+				} else {
+					$result = [];
+					foreach ($users as $user) {
+						if (stripos($user, $search) !== false) {
+							$result[] = $user;
+						}
+					}
+				}
+				if (!is_null($l) || !is_null($o)) {
+					$result = array_slice($result, $o, $l);
+				}
+				return $result;
+			});
 		$this->access->expects($this->any())
-			   ->method('nextcloudUserNames')
-			   ->willReturnArgument(0);
+			->method('nextcloudUserNames')
+			->willReturnArgument(0);
 		$this->access->method('fetchUsersByLoginName')
 			->willReturn([]);
 
@@ -398,41 +395,41 @@ class User_LDAPTest extends TestCase {
 			->willReturn(['dn', 'uid', 'mail', 'displayname']);
 	}
 
-	public function testGetUsersNoParam() {
+	public function testGetUsersNoParam(): void {
 		$this->prepareAccessForGetUsers();
-		$backend = new UserLDAP($this->access, $this->config, $this->notificationManager, $this->session, $this->pluginManager, $this->logger, $this->deletedUsersIndex);
+		$backend = new UserLDAP($this->access, $this->notificationManager, $this->pluginManager, $this->logger, $this->deletedUsersIndex);
 
 		$result = $backend->getUsers();
 		$this->assertEquals(3, count($result));
 	}
 
-	public function testGetUsersLimitOffset() {
+	public function testGetUsersLimitOffset(): void {
 		$this->prepareAccessForGetUsers();
-		$backend = new UserLDAP($this->access, $this->config, $this->notificationManager, $this->session, $this->pluginManager, $this->logger, $this->deletedUsersIndex);
+		$backend = new UserLDAP($this->access, $this->notificationManager, $this->pluginManager, $this->logger, $this->deletedUsersIndex);
 
 		$result = $backend->getUsers('', 1, 2);
 		$this->assertEquals(1, count($result));
 	}
 
-	public function testGetUsersLimitOffset2() {
+	public function testGetUsersLimitOffset2(): void {
 		$this->prepareAccessForGetUsers();
-		$backend = new UserLDAP($this->access, $this->config, $this->notificationManager, $this->session, $this->pluginManager, $this->logger, $this->deletedUsersIndex);
+		$backend = new UserLDAP($this->access, $this->notificationManager, $this->pluginManager, $this->logger, $this->deletedUsersIndex);
 
 		$result = $backend->getUsers('', 2, 1);
 		$this->assertEquals(2, count($result));
 	}
 
-	public function testGetUsersSearchWithResult() {
+	public function testGetUsersSearchWithResult(): void {
 		$this->prepareAccessForGetUsers();
-		$backend = new UserLDAP($this->access, $this->config, $this->notificationManager, $this->session, $this->pluginManager, $this->logger, $this->deletedUsersIndex);
+		$backend = new UserLDAP($this->access, $this->notificationManager, $this->pluginManager, $this->logger, $this->deletedUsersIndex);
 
 		$result = $backend->getUsers('yo');
 		$this->assertEquals(2, count($result));
 	}
 
-	public function testGetUsersSearchEmptyResult() {
+	public function testGetUsersSearchEmptyResult(): void {
 		$this->prepareAccessForGetUsers();
-		$backend = new UserLDAP($this->access, $this->config, $this->notificationManager, $this->session, $this->pluginManager, $this->logger, $this->deletedUsersIndex);
+		$backend = new UserLDAP($this->access, $this->notificationManager, $this->pluginManager, $this->logger, $this->deletedUsersIndex);
 
 		$result = $backend->getUsers('nix');
 		$this->assertEquals(0, count($result));
@@ -446,60 +443,63 @@ class User_LDAPTest extends TestCase {
 		return $uids;
 	}
 
-	public function testGetUsersViaAPINoParam() {
+	public function testGetUsersViaAPINoParam(): void {
 		$this->prepareAccessForGetUsers();
-		$backend = new UserLDAP($this->access, $this->config, $this->notificationManager, $this->session, $this->pluginManager, $this->logger, $this->deletedUsersIndex);
+		$backend = new UserLDAP($this->access, $this->notificationManager, $this->pluginManager, $this->logger, $this->deletedUsersIndex);
 		\OC_User::useBackend($backend);
 
 		$result = $this->getUsers();
 		$this->assertEquals(3, count($result));
 	}
 
-	public function testGetUsersViaAPILimitOffset() {
+	public function testGetUsersViaAPILimitOffset(): void {
 		$this->prepareAccessForGetUsers();
-		$backend = new UserLDAP($this->access, $this->config, $this->notificationManager, $this->session, $this->pluginManager, $this->logger, $this->deletedUsersIndex);
+		$backend = new UserLDAP($this->access, $this->notificationManager, $this->pluginManager, $this->logger, $this->deletedUsersIndex);
 		\OC_User::useBackend($backend);
 
 		$result = $this->getUsers('', 1, 2);
 		$this->assertEquals(1, count($result));
 	}
 
-	public function testGetUsersViaAPILimitOffset2() {
+	public function testGetUsersViaAPILimitOffset2(): void {
 		$this->prepareAccessForGetUsers();
-		$backend = new UserLDAP($this->access, $this->config, $this->notificationManager, $this->session, $this->pluginManager, $this->logger, $this->deletedUsersIndex);
+		$backend = new UserLDAP($this->access, $this->notificationManager, $this->pluginManager, $this->logger, $this->deletedUsersIndex);
 		\OC_User::useBackend($backend);
 
 		$result = $this->getUsers('', 2, 1);
 		$this->assertEquals(2, count($result));
 	}
 
-	public function testGetUsersViaAPISearchWithResult() {
+	public function testGetUsersViaAPISearchWithResult(): void {
 		$this->prepareAccessForGetUsers();
-		$backend = new UserLDAP($this->access, $this->config, $this->notificationManager, $this->session, $this->pluginManager, $this->logger, $this->deletedUsersIndex);
+		$backend = new UserLDAP($this->access, $this->notificationManager, $this->pluginManager, $this->logger, $this->deletedUsersIndex);
 		\OC_User::useBackend($backend);
 
 		$result = $this->getUsers('yo');
 		$this->assertEquals(2, count($result));
 	}
 
-	public function testGetUsersViaAPISearchEmptyResult() {
+	public function testGetUsersViaAPISearchEmptyResult(): void {
 		$this->prepareAccessForGetUsers();
-		$backend = new UserLDAP($this->access, $this->config, $this->notificationManager, $this->session, $this->pluginManager, $this->logger, $this->deletedUsersIndex);
+		$backend = new UserLDAP($this->access, $this->notificationManager, $this->pluginManager, $this->logger, $this->deletedUsersIndex);
 		\OC_User::useBackend($backend);
 
 		$result = $this->getUsers('nix');
 		$this->assertEquals(0, count($result));
 	}
 
-	public function testUserExists() {
-		$backend = new UserLDAP($this->access, $this->config, $this->notificationManager, $this->session, $this->pluginManager, $this->logger, $this->deletedUsersIndex);
+	public function testUserExists(): void {
+		$backend = new UserLDAP($this->access, $this->notificationManager, $this->pluginManager, $this->logger, $this->deletedUsersIndex);
 		$this->prepareMockForUserExists();
 
 		$user = $this->createMock(User::class);
 
-		$this->userManager->expects($this->atLeastOnce())
-			->method('get')
-			->willReturn($user);
+		$this->userManager->expects($this->never())
+			->method('get');
+		$this->userManager->expects($this->once())
+			->method('exists')
+			->with('gunslinger')
+			->willReturn(true);
 		$this->access->expects($this->any())
 			->method('getUserMapper')
 			->willReturn($this->createMock(UserMapping::class));
@@ -510,8 +510,8 @@ class User_LDAPTest extends TestCase {
 		$this->assertTrue($result);
 	}
 
-	public function testUserExistsForDeleted() {
-		$backend = new UserLDAP($this->access, $this->config, $this->notificationManager, $this->session, $this->pluginManager, $this->logger, $this->deletedUsersIndex);
+	public function testUserExistsForDeleted(): void {
+		$backend = new UserLDAP($this->access, $this->notificationManager, $this->pluginManager, $this->logger, $this->deletedUsersIndex);
 		$this->prepareMockForUserExists();
 
 		$mapper = $this->createMock(UserMapping::class);
@@ -524,18 +524,19 @@ class User_LDAPTest extends TestCase {
 			->method('getUserMapper')
 			->willReturn($mapper);
 
-		$user = $this->createMock(User::class);
-
-		$this->userManager->expects($this->atLeastOnce())
-			->method('get')
-			->willReturn($user);
+		$this->userManager->expects($this->never())
+			->method('get');
+		$this->userManager->expects($this->once())
+			->method('exists')
+			->with('formerUser')
+			->willReturn(true);
 
 		//test for deleted user – always returns true as long as we have the user in DB
 		$this->assertTrue($backend->userExists('formerUser'));
 	}
 
-	public function testUserExistsForNeverExisting() {
-		$backend = new UserLDAP($this->access, $this->config, $this->notificationManager, $this->session, $this->pluginManager, $this->logger, $this->deletedUsersIndex);
+	public function testUserExistsForNeverExisting(): void {
+		$backend = new UserLDAP($this->access, $this->notificationManager, $this->pluginManager, $this->logger, $this->deletedUsersIndex);
 		$this->prepareMockForUserExists();
 
 		$this->access->expects($this->any())
@@ -553,8 +554,8 @@ class User_LDAPTest extends TestCase {
 		$this->assertFalse($result);
 	}
 
-	public function testUserExistsPublicAPI() {
-		$backend = new UserLDAP($this->access, $this->config, $this->notificationManager, $this->session, $this->pluginManager, $this->logger, $this->deletedUsersIndex);
+	public function testUserExistsPublicAPI(): void {
+		$backend = new UserLDAP($this->access, $this->notificationManager, $this->pluginManager, $this->logger, $this->deletedUsersIndex);
 		$this->prepareMockForUserExists();
 		\OC_User::useBackend($backend);
 
@@ -571,9 +572,12 @@ class User_LDAPTest extends TestCase {
 				}
 				return false;
 			});
-		$this->userManager->expects($this->atLeastOnce())
-			->method('get')
-			->willReturn($user);
+		$this->userManager->expects($this->never())
+			->method('get');
+		$this->userManager->expects($this->once())
+			->method('exists')
+			->with('gunslinger')
+			->willReturn(true);
 		$this->access->expects($this->any())
 			->method('getUserMapper')
 			->willReturn($this->createMock(UserMapping::class));
@@ -583,16 +587,16 @@ class User_LDAPTest extends TestCase {
 		$this->assertTrue($result);
 	}
 
-	public function testDeleteUserExisting() {
-		$backend = new UserLDAP($this->access, $this->config, $this->notificationManager, $this->session, $this->pluginManager, $this->logger, $this->deletedUsersIndex);
+	public function testDeleteUserExisting(): void {
+		$backend = new UserLDAP($this->access, $this->notificationManager, $this->pluginManager, $this->logger, $this->deletedUsersIndex);
 
 		//we do not support deleting existing users at all
 		$result = $backend->deleteUser('gunslinger');
 		$this->assertFalse($result);
 	}
 
-	public function testGetHomeAbsolutePath() {
-		$backend = new UserLDAP($this->access, $this->config, $this->notificationManager, $this->session, $this->pluginManager, $this->logger, $this->deletedUsersIndex);
+	public function testGetHomeAbsolutePath(): void {
+		$backend = new UserLDAP($this->access, $this->notificationManager, $this->pluginManager, $this->logger, $this->deletedUsersIndex);
 		$this->prepareMockForUserExists();
 
 		$this->connection->expects($this->any())
@@ -632,7 +636,12 @@ class User_LDAPTest extends TestCase {
 
 		$this->userManager->expects($this->atLeastOnce())
 			->method('get')
+			->with('gunslinger')
 			->willReturn($user);
+		$this->userManager->expects($this->once())
+			->method('exists')
+			->with('gunslinger')
+			->willReturn(true);
 
 		//absolute path
 		/** @noinspection PhpUnhandledExceptionInspection */
@@ -640,8 +649,8 @@ class User_LDAPTest extends TestCase {
 		$this->assertEquals('/tmp/rolandshome/', $result);
 	}
 
-	public function testGetHomeRelative() {
-		$backend = new UserLDAP($this->access, $this->config, $this->notificationManager, $this->session, $this->pluginManager, $this->logger, $this->deletedUsersIndex);
+	public function testGetHomeRelative(): void {
+		$backend = new UserLDAP($this->access, $this->notificationManager, $this->pluginManager, $this->logger, $this->deletedUsersIndex);
 		$this->prepareMockForUserExists();
 
 		$dataDir = \OC::$server->getConfig()->getSystemValue(
@@ -685,6 +694,10 @@ class User_LDAPTest extends TestCase {
 		$this->userManager->expects($this->atLeastOnce())
 			->method('get')
 			->willReturn($user);
+		$this->userManager->expects($this->once())
+			->method('exists')
+			->with('ladyofshadows')
+			->willReturn(true);
 
 		/** @noinspection PhpUnhandledExceptionInspection */
 		$result = $backend->getHome('ladyofshadows');
@@ -692,10 +705,10 @@ class User_LDAPTest extends TestCase {
 	}
 
 
-	public function testGetHomeNoPath() {
+	public function testGetHomeNoPath(): void {
 		$this->expectException(\Exception::class);
 
-		$backend = new UserLDAP($this->access, $this->config, $this->notificationManager, $this->session, $this->pluginManager, $this->logger, $this->deletedUsersIndex);
+		$backend = new UserLDAP($this->access, $this->notificationManager, $this->pluginManager, $this->logger, $this->deletedUsersIndex);
 		$this->prepareMockForUserExists();
 
 		$this->connection->expects($this->any())
@@ -714,14 +727,6 @@ class User_LDAPTest extends TestCase {
 						return false;
 				}
 			});
-		$this->access->connection->expects($this->any())
-			->method('getFromCache')
-			->willReturnCallback(function ($key) {
-				if ($key === 'userExistsnewyorker') {
-					return true;
-				}
-				return null;
-			});
 
 		$user = $this->createMock(User::class);
 		$user->expects($this->any())
@@ -733,41 +738,42 @@ class User_LDAPTest extends TestCase {
 
 		$this->userManager->expects($this->atLeastOnce())
 			->method('get')
+			->with('newyorker')
 			->willReturn($user);
+		$this->userManager->expects($this->once())
+			->method('exists')
+			->with('newyorker')
+			->willReturn(true);
 
 		//no path at all – triggers OC default behaviour
 		$result = $backend->getHome('newyorker');
 		$this->assertFalse($result);
 	}
 
-	public function testGetHomeDeletedUser() {
+	public function testGetHomeDeletedUser(): void {
 		$uid = 'newyorker';
 
-		$backend = new UserLDAP($this->access, $this->config, $this->notificationManager, $this->session, $this->pluginManager, $this->logger, $this->deletedUsersIndex);
+		$backend = new UserLDAP($this->access, $this->notificationManager, $this->pluginManager, $this->logger, $this->deletedUsersIndex);
 		$this->prepareMockForUserExists();
 
 		$this->connection->expects($this->any())
-				->method('__get')
-				->willReturnCallback(function ($name) {
-					if ($name === 'homeFolderNamingRule') {
-						return 'attr:testAttribute';
-					}
-					return null;
-				});
+			->method('__get')
+			->willReturnCallback(function ($name) {
+				if ($name === 'homeFolderNamingRule') {
+					return 'attr:testAttribute';
+				}
+				return null;
+			});
 
 		$this->access->expects($this->any())
-				->method('readAttribute')
-				->willReturn([]);
+			->method('readAttribute')
+			->willReturn([]);
 
 		$userMapper = $this->createMock(UserMapping::class);
 
 		$this->access->expects($this->any())
-				->method('getUserMapper')
-				->willReturn($userMapper);
-
-		$this->config->expects($this->any())
-			->method('getUserValue')
-			->willReturn(true);
+			->method('getUserMapper')
+			->willReturn($userMapper);
 
 		$offlineUser = $this->createMock(OfflineUser::class);
 		$offlineUser->expects($this->atLeastOnce())
@@ -776,13 +782,18 @@ class User_LDAPTest extends TestCase {
 
 		$this->userManager->expects($this->atLeastOnce())
 			->method('get')
+			->with($uid)
 			->willReturn($offlineUser);
+		$this->userManager->expects($this->once())
+			->method('exists')
+			->with($uid)
+			->willReturn(true);
 
 		$result = $backend->getHome($uid);
 		$this->assertFalse($result);
 	}
 
-	public function testGetHomeWithPlugin() {
+	public function testGetHomeWithPlugin(): void {
 		$this->pluginManager->expects($this->once())
 			->method('implementsActions')
 			->with(Backend::GET_HOME)
@@ -815,27 +826,27 @@ class User_LDAPTest extends TestCase {
 			});
 
 		$this->access->expects($this->any())
-			   ->method('readAttribute')
-			   ->willReturnCallback(function ($dn, $attr) {
-			   	switch ($dn) {
-			   		case 'dnOfRoland,dc=test':
-			   			if ($attr === 'displayname') {
-			   				return ['Roland Deschain'];
-			   			}
-			   			return [];
-			   			break;
+			->method('readAttribute')
+			->willReturnCallback(function ($dn, $attr) {
+				switch ($dn) {
+					case 'dnOfRoland,dc=test':
+						if ($attr === 'displayname') {
+							return ['Roland Deschain'];
+						}
+						return [];
+						break;
 
-			   		default:
-			   			return false;
-			   	}
-			   });
+					default:
+						return false;
+				}
+			});
 		$this->access->method('fetchUsersByLoginName')
 			->willReturn([]);
 	}
 
-	public function testGetDisplayName() {
+	public function testGetDisplayName(): void {
 		$this->prepareAccessForGetDisplayName();
-		$backend = new UserLDAP($this->access, $this->config, $this->notificationManager, $this->session, $this->pluginManager, $this->logger, $this->deletedUsersIndex);
+		$backend = new UserLDAP($this->access, $this->notificationManager, $this->pluginManager, $this->logger, $this->deletedUsersIndex);
 		$this->prepareMockForUserExists();
 
 		$this->connection->expects($this->any())
@@ -876,6 +887,16 @@ class User_LDAPTest extends TestCase {
 				}
 				return null;
 			});
+		$this->userManager->expects($this->any())
+			->method('exists')
+			->willReturnCallback(function ($uid) use ($user1, $user2) {
+				if ($uid === 'gunslinger') {
+					return true;
+				} elseif ($uid === 'newyorker') {
+					return true;
+				}
+				return false;
+			});
 		$this->access->expects($this->any())
 			->method('getUserMapper')
 			->willReturn($mapper);
@@ -894,7 +915,7 @@ class User_LDAPTest extends TestCase {
 		$this->assertEquals(null, $result);
 	}
 
-	public function testGetDisplayNamePublicAPI() {
+	public function testGetDisplayNamePublicAPI(): void {
 		$this->access->expects($this->any())
 			->method('username2dn')
 			->willReturnCallback(function ($uid) {
@@ -916,7 +937,7 @@ class User_LDAPTest extends TestCase {
 				}
 			});
 		$this->prepareAccessForGetDisplayName();
-		$backend = new UserLDAP($this->access, $this->config, $this->notificationManager, $this->session, $this->pluginManager, $this->logger, $this->deletedUsersIndex);
+		$backend = new UserLDAP($this->access, $this->notificationManager, $this->pluginManager, $this->logger, $this->deletedUsersIndex);
 		$this->prepareMockForUserExists();
 
 		$this->connection->expects($this->any())
@@ -959,6 +980,16 @@ class User_LDAPTest extends TestCase {
 				}
 				return null;
 			});
+		$this->userManager->expects($this->any())
+			->method('exists')
+			->willReturnCallback(function ($uid) use ($user1, $user2) {
+				if ($uid === 'gunslinger') {
+					return true;
+				} elseif ($uid === 'newyorker') {
+					return true;
+				}
+				return false;
+			});
 		$this->access->expects($this->any())
 			->method('getUserMapper')
 			->willReturn($mapper);
@@ -969,7 +1000,7 @@ class User_LDAPTest extends TestCase {
 			});
 
 		//with displayName
-		$result = \OC::$server->getUserManager()->get('gunslinger')->getDisplayName();
+		$result = \OC::$server->getUserManager()->get('gunslinger')?->getDisplayName();
 		$this->assertEquals('Roland Deschain', $result);
 
 		//empty displayname retrieved
@@ -977,7 +1008,7 @@ class User_LDAPTest extends TestCase {
 		$this->assertEquals('newyorker', $result);
 	}
 
-	public function testGetDisplayNameWithPlugin() {
+	public function testGetDisplayNameWithPlugin(): void {
 		$this->pluginManager->expects($this->once())
 			->method('implementsActions')
 			->with(Backend::GET_DISPLAYNAME)
@@ -993,29 +1024,29 @@ class User_LDAPTest extends TestCase {
 	//no test for getDisplayNames, because it just invokes getUsers and
 	//getDisplayName
 
-	public function testCountUsers() {
+	public function testCountUsers(): void {
 		$this->access->expects($this->once())
-			   ->method('countUsers')
-			   ->willReturn(5);
+			->method('countUsers')
+			->willReturn(5);
 
-		$backend = new UserLDAP($this->access, $this->config, $this->notificationManager, $this->session, $this->pluginManager, $this->logger, $this->deletedUsersIndex);
+		$backend = new UserLDAP($this->access, $this->notificationManager, $this->pluginManager, $this->logger, $this->deletedUsersIndex);
 
 		$result = $backend->countUsers();
 		$this->assertEquals(5, $result);
 	}
 
-	public function testCountUsersFailing() {
+	public function testCountUsersFailing(): void {
 		$this->access->expects($this->once())
-			   ->method('countUsers')
-			   ->willReturn(false);
+			->method('countUsers')
+			->willReturn(false);
 
-		$backend = new UserLDAP($this->access, $this->config, $this->notificationManager, $this->session, $this->pluginManager, $this->logger, $this->deletedUsersIndex);
+		$backend = new UserLDAP($this->access, $this->notificationManager, $this->pluginManager, $this->logger, $this->deletedUsersIndex);
 
 		$result = $backend->countUsers();
 		$this->assertFalse($result);
 	}
 
-	public function testCountUsersWithPlugin() {
+	public function testCountUsersWithPlugin(): void {
 		$this->pluginManager->expects($this->once())
 			->method('implementsActions')
 			->with(Backend::COUNT_USERS)
@@ -1027,7 +1058,7 @@ class User_LDAPTest extends TestCase {
 		$this->assertEquals($this->backend->countUsers(), 42);
 	}
 
-	public function testLoginName2UserNameSuccess() {
+	public function testLoginName2UserNameSuccess(): void {
 		$loginName = 'Alice';
 		$username = 'alice';
 		$dn = 'uid=alice,dc=what,dc=ever';
@@ -1053,7 +1084,7 @@ class User_LDAPTest extends TestCase {
 			->method('writeToCache')
 			->with($this->equalTo('loginName2UserName-'.$loginName), $this->equalTo($username));
 
-		$backend = new UserLDAP($this->access, $this->config, $this->notificationManager, $this->session, $this->pluginManager, $this->logger, $this->deletedUsersIndex);
+		$backend = new UserLDAP($this->access, $this->notificationManager, $this->pluginManager, $this->logger, $this->deletedUsersIndex);
 		$user = $this->createMock(User::class);
 		$user->expects($this->any())
 			->method('getUsername')
@@ -1063,6 +1094,8 @@ class User_LDAPTest extends TestCase {
 			->method('get')
 			->with($dn)
 			->willReturn($user);
+		$this->userManager->expects($this->never())
+			->method('exists');
 		$this->userManager->expects($this->any())
 			->method('getAttributes')
 			->willReturn(['dn', 'uid', 'mail', 'displayname']);
@@ -1074,7 +1107,7 @@ class User_LDAPTest extends TestCase {
 		$backend->loginName2UserName($loginName);
 	}
 
-	public function testLoginName2UserNameNoUsersOnLDAP() {
+	public function testLoginName2UserNameNoUsersOnLDAP(): void {
 		$loginName = 'Loki';
 
 		$this->access->expects($this->once())
@@ -1098,7 +1131,7 @@ class User_LDAPTest extends TestCase {
 			->method('getAttributes')
 			->willReturn(['dn', 'uid', 'mail', 'displayname']);
 
-		$backend = new UserLDAP($this->access, $this->config, $this->notificationManager, $this->session, $this->pluginManager, $this->logger, $this->deletedUsersIndex);
+		$backend = new UserLDAP($this->access, $this->notificationManager, $this->pluginManager, $this->logger, $this->deletedUsersIndex);
 		$name = $backend->loginName2UserName($loginName);
 		$this->assertSame(false, $name);
 
@@ -1106,7 +1139,7 @@ class User_LDAPTest extends TestCase {
 		$backend->loginName2UserName($loginName);
 	}
 
-	public function testLoginName2UserNameOfflineUser() {
+	public function testLoginName2UserNameOfflineUser(): void {
 		$loginName = 'Alice';
 		$dn = 'uid=alice,dc=what,dc=ever';
 
@@ -1135,7 +1168,7 @@ class User_LDAPTest extends TestCase {
 			->method('getAttributes')
 			->willReturn(['dn', 'uid', 'mail', 'displayname']);
 
-		$backend = new UserLDAP($this->access, $this->config, $this->notificationManager, $this->session, $this->pluginManager, $this->logger, $this->deletedUsersIndex);
+		$backend = new UserLDAP($this->access, $this->notificationManager, $this->pluginManager, $this->logger, $this->deletedUsersIndex);
 		$name = $backend->loginName2UserName($loginName);
 		$this->assertSame(false, $name);
 
@@ -1150,33 +1183,33 @@ class User_LDAPTest extends TestCase {
 	 */
 	private function prepareAccessForSetPassword($enablePasswordChange = true) {
 		$this->connection->expects($this->any())
-			   ->method('__get')
-			   ->willReturnCallback(function ($name) use (&$enablePasswordChange) {
-			   	if ($name === 'ldapLoginFilter') {
-			   		return '%uid';
-			   	}
-			   	if ($name === 'turnOnPasswordChange') {
-			   		return $enablePasswordChange?1:0;
-			   	}
-			   	return null;
-			   });
+			->method('__get')
+			->willReturnCallback(function ($name) use (&$enablePasswordChange) {
+				if ($name === 'ldapLoginFilter') {
+					return '%uid';
+				}
+				if ($name === 'turnOnPasswordChange') {
+					return $enablePasswordChange?1:0;
+				}
+				return null;
+			});
 		$this->connection->expects($this->any())
-			   ->method('getFromCache')
-			   ->willReturnCallback(function ($uid) {
-			   	if ($uid === 'userExists'.'roland') {
-			   		return true;
-			   	}
-			   	return null;
-			   });
+			->method('getFromCache')
+			->willReturnCallback(function ($uid) {
+				if ($uid === 'userExists'.'roland') {
+					return true;
+				}
+				return null;
+			});
 
 		$this->access->expects($this->any())
-			   ->method('fetchListOfUsers')
-			   ->willReturnCallback(function ($filter) {
-			   	if ($filter === 'roland') {
-			   		return [['dn' => ['dnOfRoland,dc=test']]];
-			   	}
-			   	return [];
-			   });
+			->method('fetchListOfUsers')
+			->willReturnCallback(function ($filter) {
+				if ($filter === 'roland') {
+					return [['dn' => ['dnOfRoland,dc=test']]];
+				}
+				return [];
+			});
 		$this->access->expects($this->any())
 			->method('fetchUsersByLoginName')
 			->willReturnCallback(function ($uid) {
@@ -1186,25 +1219,25 @@ class User_LDAPTest extends TestCase {
 				return [];
 			});
 		$this->access->expects($this->any())
-			   ->method('dn2username')
-			   ->with($this->equalTo('dnOfRoland,dc=test'))
-			   ->willReturn('roland');
+			->method('dn2username')
+			->with($this->equalTo('dnOfRoland,dc=test'))
+			->willReturn('roland');
 		$this->access->expects($this->any())
-			   ->method('stringResemblesDN')
-			   ->with($this->equalTo('dnOfRoland,dc=test'))
-			   ->willReturn(true);
+			->method('stringResemblesDN')
+			->with($this->equalTo('dnOfRoland,dc=test'))
+			->willReturn(true);
 		$this->access->expects($this->any())
-			   ->method('setPassword')
-			   ->willReturnCallback(function ($uid, $password) {
-			   	if (strlen($password) <= 5) {
-			   		throw new HintException('Password fails quality checking policy', '', 19);
-			   	}
-			   	return true;
-			   });
+			->method('setPassword')
+			->willReturnCallback(function ($uid, $password) {
+				if (strlen($password) <= 5) {
+					throw new HintException('Password fails quality checking policy', '', 19);
+				}
+				return true;
+			});
 	}
 
 
-	public function testSetPasswordInvalid() {
+	public function testSetPasswordInvalid(): void {
 		$this->expectException(\OCP\HintException::class);
 		$this->expectExceptionMessage('Password fails quality checking policy');
 
@@ -1212,20 +1245,20 @@ class User_LDAPTest extends TestCase {
 		$this->userManager->expects($this->atLeastOnce())
 			->method('get')
 			->willReturn($this->createMock(User::class));
-		$backend = new UserLDAP($this->access, $this->config, $this->notificationManager, $this->session, $this->pluginManager, $this->logger, $this->deletedUsersIndex);
+		$backend = new UserLDAP($this->access, $this->notificationManager, $this->pluginManager, $this->logger, $this->deletedUsersIndex);
 		\OC_User::useBackend($backend);
 
 		$this->assertTrue(\OC_User::setPassword('roland', 'dt'));
 	}
 
-	public function testSetPasswordValid() {
+	public function testSetPasswordValid(): void {
 		$this->prepareAccessForSetPassword($this->access);
 
 		$this->userManager->expects($this->any())
 			->method('get')
 			->willReturn($this->createMock(User::class));
 
-		$backend = new UserLDAP($this->access, $this->config, $this->notificationManager, $this->session, $this->pluginManager, $this->logger, $this->deletedUsersIndex);
+		$backend = new UserLDAP($this->access, $this->notificationManager, $this->pluginManager, $this->logger, $this->deletedUsersIndex);
 		$this->userManager->expects($this->any())
 			->method('get')
 			->willReturn($this->createMock(User::class));
@@ -1235,20 +1268,20 @@ class User_LDAPTest extends TestCase {
 		$this->assertTrue(\OC_User::setPassword('roland', 'dt12234$'));
 	}
 
-	public function testSetPasswordValidDisabled() {
+	public function testSetPasswordValidDisabled(): void {
 		$this->userManager->expects($this->any())
 			->method('get')
 			->willReturn($this->createMock(User::class));
 
 		$this->prepareAccessForSetPassword(false);
-		$backend = new UserLDAP($this->access, $this->config, $this->notificationManager, $this->session, $this->pluginManager, $this->logger, $this->deletedUsersIndex);
+		$backend = new UserLDAP($this->access, $this->notificationManager, $this->pluginManager, $this->logger, $this->deletedUsersIndex);
 		\OC_User::useBackend($backend);
 
 		$this->assertFalse(\OC_User::setPassword('roland', 'dt12234$'));
 	}
 
 
-	public function testSetPasswordWithInvalidUser() {
+	public function testSetPasswordWithInvalidUser(): void {
 		$this->expectException(\Exception::class);
 		$this->expectExceptionMessage('LDAP setPassword: Could not get user object for uid NotExistingUser. Maybe the LDAP entry has no set display name attribute?');
 
@@ -1261,7 +1294,7 @@ class User_LDAPTest extends TestCase {
 		$this->backend->setPassword('NotExistingUser', 'Password');
 	}
 
-	public function testSetPasswordWithUsernameFalse() {
+	public function testSetPasswordWithUsernameFalse(): void {
 		$user = $this->createMock(User::class);
 		$user
 			->expects($this->once())
@@ -1277,7 +1310,7 @@ class User_LDAPTest extends TestCase {
 		$this->assertFalse($this->backend->setPassword('NotExistingUser', 'Password'));
 	}
 
-	public function testSetPasswordWithPlugin() {
+	public function testSetPasswordWithPlugin(): void {
 		$this->pluginManager->expects($this->once())
 			->method('implementsActions')
 			->with(Backend::SET_PASSWORD)
@@ -1300,7 +1333,7 @@ class User_LDAPTest extends TestCase {
 	}
 
 	/** @dataProvider avatarDataProvider */
-	public function testCanChangeAvatar($imageData, $expected) {
+	public function testCanChangeAvatar($imageData, $expected): void {
 		$isValidImage = str_starts_with((string)$imageData, 'valid');
 
 		$user = $this->createMock(User::class);
@@ -1319,7 +1352,7 @@ class User_LDAPTest extends TestCase {
 		$this->assertSame($expected, $this->backend->canChangeAvatar('uid'));
 	}
 
-	public function testCanChangeAvatarWithPlugin() {
+	public function testCanChangeAvatarWithPlugin(): void {
 		$this->pluginManager->expects($this->once())
 			->method('implementsActions')
 			->with(Backend::PROVIDE_AVATAR)
@@ -1332,7 +1365,7 @@ class User_LDAPTest extends TestCase {
 		$this->assertEquals($this->backend->canChangeAvatar('uid'), 'result');
 	}
 
-	public function testSetDisplayNameWithPlugin() {
+	public function testSetDisplayNameWithPlugin(): void {
 		$newDisplayName = 'J. Baker';
 		$this->pluginManager->expects($this->once())
 			->method('implementsActions')
@@ -1349,7 +1382,7 @@ class User_LDAPTest extends TestCase {
 	}
 
 
-	public function testSetDisplayNameErrorWithPlugin() {
+	public function testSetDisplayNameErrorWithPlugin(): void {
 		$this->expectException(\OCP\HintException::class);
 
 		$newDisplayName = 'J. Baker';
@@ -1367,7 +1400,7 @@ class User_LDAPTest extends TestCase {
 		$this->backend->setDisplayName('uid', $newDisplayName);
 	}
 
-	public function testSetDisplayNameFailing() {
+	public function testSetDisplayNameFailing(): void {
 		$this->pluginManager->expects($this->once())
 			->method('implementsActions')
 			->with(Backend::SET_DISPLAYNAME)
@@ -1378,7 +1411,7 @@ class User_LDAPTest extends TestCase {
 		$this->assertFalse($this->backend->setDisplayName('uid', 'displayName'));
 	}
 
-	public function testCreateUserWithPlugin() {
+	public function testCreateUserWithPlugin(): void {
 		$uid = 'alien6372';
 		$uuid = '123-2345-36756-123-2345234-4431';
 		$pwd = 'passwørd';
@@ -1405,7 +1438,7 @@ class User_LDAPTest extends TestCase {
 		$this->assertEquals($this->backend->createUser($uid, $pwd), true);
 	}
 
-	public function testCreateUserFailing() {
+	public function testCreateUserFailing(): void {
 		$this->pluginManager->expects($this->once())
 			->method('implementsActions')
 			->with(Backend::CREATE_USER)
@@ -1427,7 +1460,7 @@ class User_LDAPTest extends TestCase {
 	/**
 	 * @dataProvider actionProvider
 	 */
-	public function testImplementsAction($configurable, $value, $actionCode, $expected) {
+	public function testImplementsAction($configurable, $value, $actionCode, $expected): void {
 		$this->pluginManager->expects($this->once())
 			->method('getImplementedActions')
 			->willReturn(0);

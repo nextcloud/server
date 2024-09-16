@@ -70,7 +70,7 @@ class SettingsControllerTest extends TestCase {
 
 	}
 
-	public function testAddClient() {
+	public function testAddClient(): void {
 		$this->secureRandom
 			->expects($this->exactly(2))
 			->method('generate')
@@ -81,13 +81,13 @@ class SettingsControllerTest extends TestCase {
 
 		$this->crypto
 			->expects($this->once())
-			->method('encrypt')
-			->willReturn('MyEncryptedSecret');
+			->method('calculateHMAC')
+			->willReturn('MyHashedSecret');
 
 		$client = new Client();
 		$client->setName('My Client Name');
 		$client->setRedirectUri('https://example.com/');
-		$client->setSecret('MySecret');
+		$client->setSecret(bin2hex('MyHashedSecret'));
 		$client->setClientIdentifier('MyClientIdentifier');
 
 		$this->clientMapper
@@ -96,7 +96,7 @@ class SettingsControllerTest extends TestCase {
 			->with($this->callback(function (Client $c) {
 				return $c->getName() === 'My Client Name' &&
 					$c->getRedirectUri() === 'https://example.com/' &&
-					$c->getSecret() === 'MyEncryptedSecret' &&
+					$c->getSecret() === bin2hex('MyHashedSecret') &&
 					$c->getClientIdentifier() === 'MyClientIdentifier';
 			}))->willReturnCallback(function (Client $c) {
 				$c->setId(42);
@@ -117,16 +117,19 @@ class SettingsControllerTest extends TestCase {
 		], $data);
 	}
 
-	public function testDeleteClient() {
+	public function testDeleteClient(): void {
 
 		$userManager = \OC::$server->getUserManager();
 		// count other users in the db before adding our own
 		$count = 0;
 		$function = function (IUser $user) use (&$count) {
-			$count++;
+			if ($user->getLastLogin() > 0) {
+				$count++;
+			}
 		};
 		$userManager->callForAllUsers($function);
 		$user1 = $userManager->createUser('test101', 'test101');
+		$user1->updateLastLoginTimestamp();
 		$tokenProviderMock = $this->getMockBuilder(IAuthTokenProvider::class)->getMock();
 
 		// expect one call per user and ensure the correct client name
@@ -139,7 +142,7 @@ class SettingsControllerTest extends TestCase {
 		$client->setId(123);
 		$client->setName('My Client Name');
 		$client->setRedirectUri('https://example.com/');
-		$client->setSecret('MySecret');
+		$client->setSecret(bin2hex('MyHashedSecret'));
 		$client->setClientIdentifier('MyClientIdentifier');
 
 		$this->clientMapper
@@ -174,7 +177,7 @@ class SettingsControllerTest extends TestCase {
 		$user1->delete();
 	}
 
-	public function testInvalidRedirectUri() {
+	public function testInvalidRedirectUri(): void {
 		$result = $this->settingsController->addClient('test', 'invalidurl');
 
 		$this->assertEquals(Http::STATUS_BAD_REQUEST, $result->getStatus());

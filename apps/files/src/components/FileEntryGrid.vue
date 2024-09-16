@@ -36,7 +36,7 @@
 				@click.native="execDefaultAction" />
 
 			<FileEntryName ref="name"
-				:display-name="displayName"
+				:basename="basename"
 				:extension="extension"
 				:files-list-width="filesListWidth"
 				:grid-mode="true"
@@ -71,7 +71,8 @@ import { defineComponent } from 'vue'
 
 import NcDateTime from '@nextcloud/vue/dist/Components/NcDateTime.js'
 
-import { useNavigation } from '../composables/useNavigation'
+import { useNavigation } from '../composables/useNavigation.ts'
+import { useRouteParameters } from '../composables/useRouteParameters.ts'
 import { useActionsMenuStore } from '../store/actionsmenu.ts'
 import { useDragAndDropStore } from '../store/dragging.ts'
 import { useFilesStore } from '../store/files.ts'
@@ -107,6 +108,10 @@ export default defineComponent({
 		const renamingStore = useRenamingStore()
 		const selectionStore = useSelectionStore()
 		const { currentView } = useNavigation()
+		const {
+			directory: currentDir,
+			fileId: currentFileId,
+		} = useRouteParameters()
 
 		return {
 			actionsMenuStore,
@@ -115,6 +120,8 @@ export default defineComponent({
 			renamingStore,
 			selectionStore,
 
+			currentDir,
+			currentFileId,
 			currentView,
 		}
 	},

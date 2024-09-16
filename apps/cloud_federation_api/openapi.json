@@ -28,6 +28,9 @@
                 "properties": {
                     "recipientDisplayName": {
                         "type": "string"
+                    },
+                    "recipientUserId": {
+                        "type": "string"
                     }
                 }
             },

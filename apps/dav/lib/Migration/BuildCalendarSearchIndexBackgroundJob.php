@@ -27,8 +27,8 @@ class BuildCalendarSearchIndexBackgroundJob extends QueuedJob {
 	}
 
 	public function run($arguments) {
-		$offset = (int) $arguments['offset'];
-		$stopAt = (int) $arguments['stopAt'];
+		$offset = (int)$arguments['offset'];
+		$stopAt = (int)$arguments['stopAt'];
 
 		$this->logger->info('Building calendar index (' . $offset .'/' . $stopAt . ')');
 

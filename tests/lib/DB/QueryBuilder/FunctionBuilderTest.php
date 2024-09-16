@@ -30,7 +30,7 @@ class FunctionBuilderTest extends TestCase {
 	/**
 	 * @dataProvider providerTestConcatString
 	 */
-	public function testConcatString($closure) {
+	public function testConcatString($closure): void {
 		$query = $this->connection->getQueryBuilder();
 		[$real, $arguments, $return] = $closure($query);
 		if ($real) {
@@ -81,7 +81,7 @@ class FunctionBuilderTest extends TestCase {
 				}],
 			'5 columns: string param with special chars used in the function' =>
 				[function ($q) {
-					return [false, [$q->createNamedParameter("b"), $q->createNamedParameter("'"), $q->createNamedParameter('||'), $q->createNamedParameter(','), $q->createNamedParameter('a')], "b'||,a"];
+					return [false, [$q->createNamedParameter('b'), $q->createNamedParameter("'"), $q->createNamedParameter('||'), $q->createNamedParameter(','), $q->createNamedParameter('a')], "b'||,a"];
 				}],
 		];
 	}
@@ -232,7 +232,7 @@ class FunctionBuilderTest extends TestCase {
 		$this->assertEqualsCanonicalizing([1,2,3], $actual);
 	}
 
-	public function testMd5() {
+	public function testMd5(): void {
 		$query = $this->connection->getQueryBuilder();
 
 		$query->select($query->func()->md5($query->createNamedParameter('foobar')));
@@ -245,7 +245,7 @@ class FunctionBuilderTest extends TestCase {
 		$this->assertEquals(md5('foobar'), $column);
 	}
 
-	public function testSubstring() {
+	public function testSubstring(): void {
 		$query = $this->connection->getQueryBuilder();
 
 		$query->select($query->func()->substring($query->createNamedParameter('foobar'), new Literal(2), $query->createNamedParameter(2)));
@@ -258,7 +258,7 @@ class FunctionBuilderTest extends TestCase {
 		$this->assertEquals('oo', $column);
 	}
 
-	public function testSubstringNoLength() {
+	public function testSubstringNoLength(): void {
 		$query = $this->connection->getQueryBuilder();
 
 		$query->select($query->func()->substring($query->createNamedParameter('foobar'), new Literal(2)));
@@ -271,7 +271,7 @@ class FunctionBuilderTest extends TestCase {
 		$this->assertEquals('oobar', $column);
 	}
 
-	public function testLower() {
+	public function testLower(): void {
 		$query = $this->connection->getQueryBuilder();
 
 		$query->select($query->func()->lower($query->createNamedParameter('FooBar')));
@@ -284,7 +284,7 @@ class FunctionBuilderTest extends TestCase {
 		$this->assertEquals('foobar', $column);
 	}
 
-	public function testAdd() {
+	public function testAdd(): void {
 		$query = $this->connection->getQueryBuilder();
 
 		$query->select($query->func()->add($query->createNamedParameter(2, IQueryBuilder::PARAM_INT), new Literal(1)));
@@ -297,7 +297,7 @@ class FunctionBuilderTest extends TestCase {
 		$this->assertEquals(3, $column);
 	}
 
-	public function testSubtract() {
+	public function testSubtract(): void {
 		$query = $this->connection->getQueryBuilder();
 
 		$query->select($query->func()->subtract($query->createNamedParameter(2, IQueryBuilder::PARAM_INT), new Literal(1)));
@@ -310,7 +310,7 @@ class FunctionBuilderTest extends TestCase {
 		$this->assertEquals(1, $column);
 	}
 
-	public function testCount() {
+	public function testCount(): void {
 		$query = $this->connection->getQueryBuilder();
 
 		$query->select($query->func()->count('appid'));
@@ -335,7 +335,7 @@ class FunctionBuilderTest extends TestCase {
 	/**
 	 * @dataProvider octetLengthProvider
 	 */
-	public function testOctetLength(string $str, int $bytes) {
+	public function testOctetLength(string $str, int $bytes): void {
 		$query = $this->connection->getQueryBuilder();
 
 		$query->select($query->func()->octetLength($query->createNamedParameter($str, IQueryBuilder::PARAM_STR)));
@@ -360,7 +360,7 @@ class FunctionBuilderTest extends TestCase {
 	/**
 	 * @dataProvider charLengthProvider
 	 */
-	public function testCharLength(string $str, int $bytes) {
+	public function testCharLength(string $str, int $bytes): void {
 		$query = $this->connection->getQueryBuilder();
 
 		$query->select($query->func()->charLength($query->createNamedParameter($str, IQueryBuilder::PARAM_STR)));
@@ -393,7 +393,7 @@ class FunctionBuilderTest extends TestCase {
 		$query->execute();
 	}
 
-	public function testMaxEmpty() {
+	public function testMaxEmpty(): void {
 		$this->clearMinMax();
 
 		$query = $this->connection->getQueryBuilder();
@@ -409,7 +409,7 @@ class FunctionBuilderTest extends TestCase {
 		$this->assertEquals(null, $row);
 	}
 
-	public function testMinEmpty() {
+	public function testMinEmpty(): void {
 		$this->clearMinMax();
 
 		$query = $this->connection->getQueryBuilder();
@@ -425,7 +425,7 @@ class FunctionBuilderTest extends TestCase {
 		$this->assertEquals(null, $row);
 	}
 
-	public function testMax() {
+	public function testMax(): void {
 		$this->clearMinMax();
 		$this->setUpMinMax(10);
 		$this->setUpMinMax(11);
@@ -444,7 +444,7 @@ class FunctionBuilderTest extends TestCase {
 		$this->assertEquals(20, $row);
 	}
 
-	public function testMin() {
+	public function testMin(): void {
 		$this->clearMinMax();
 		$this->setUpMinMax(10);
 		$this->setUpMinMax(11);
@@ -463,7 +463,7 @@ class FunctionBuilderTest extends TestCase {
 		$this->assertEquals(10, $row);
 	}
 
-	public function testGreatest() {
+	public function testGreatest(): void {
 		$query = $this->connection->getQueryBuilder();
 
 		$query->select($query->func()->greatest($query->createNamedParameter(2, IQueryBuilder::PARAM_INT), new Literal(1)));
@@ -476,7 +476,7 @@ class FunctionBuilderTest extends TestCase {
 		$this->assertEquals(2, $row);
 	}
 
-	public function testLeast() {
+	public function testLeast(): void {
 		$query = $this->connection->getQueryBuilder();
 
 		$query->select($query->func()->least($query->createNamedParameter(2, IQueryBuilder::PARAM_INT), new Literal(1)));

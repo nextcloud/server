@@ -9,11 +9,15 @@ OC.L10N.register(
     "%1$s commented on %2$s" : "%1$s napiše opombo na %2$s",
     "{author} commented on {file}" : "{author} napiše opombo na {file}",
     "<strong>Comments</strong> for files" : "Vpisane so <strong>opombe</strong> k datotekam",
+    "Files" : "Datoteke",
+    "You were mentioned on \"{file}\", in a comment by an account that has since been deleted" : "Uporabnik, ki je sicer že izbrisan, vas omenja v opombi k datoteki »{file}«.",
     "{user} mentioned you in a comment on \"{file}\"" : "{user} vas omeni v opombi k datoteki »{file}«",
     "Files app plugin to add comments to files" : "Vstavek programa Datoteke za dodajanje opomb k datotekam",
     "Edit comment" : "Uredi opombo",
     "Delete comment" : "Izbriši opombo",
     "Cancel edit" : "Prekliči urejanje",
+    "New comment" : "Nova opomba",
+    "Write a comment …" : "Dopišite opombo ...",
     "Post comment" : "Objavi opombo",
     "@ for mentions, : for emoji, / for smart picker" : "@ za omenjanje osebe, : za izris izraznih ikon, / za pametni izbirnik",
     "Could not reload comments" : "Opomb ni mogoče posodobiti",
@@ -28,8 +32,6 @@ OC.L10N.register(
     "Comment deleted" : "Opomba je izbrisana",
     "An error occurred while trying to delete the comment" : "Prišlo je do napake med brisanjem opombe",
     "An error occurred while trying to create the comment" : "Prišlo je do napake med ustvarjanjem opombe",
-    "You were mentioned on \"{file}\", in a comment by a user that has since been deleted" : "Uporabnik, ki je sicer že izbrisan, vas omeni v opombi k datoteki »{file}«.",
-    "\"@\" for mentions, \":\" for emoji, \"/\" for smart picker" : "» @ « za omenjanje, » : « za izrazne ikone, » / « za pametni izbirnik",
-    "_%n unread comment_::_%n unread comments_" : ["%n  neprebrana opomba","%n  neprebrani opombi","%n  neprebrane opombe","%n neprebranih opomb"]
+    "You were mentioned on \"{file}\", in a comment by a user that has since been deleted" : "Uporabnik, ki je sicer že izbrisan, vas omeni v opombi k datoteki »{file}«."
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");

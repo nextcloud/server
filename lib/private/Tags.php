@@ -149,7 +149,7 @@ class Tags implements ITags {
 	 *
 	 * @param array $objIds array of object ids
 	 * @return array|false of tags id as key to array of tag names
-	 * or false if an error occurred
+	 *                     or false if an error occurred
 	 */
 	public function getTagsForObjects(array $objIds) {
 		$entries = [];
@@ -248,8 +248,7 @@ class Tags implements ITags {
 	 * @param string $user The user whose tags are to be checked.
 	 */
 	public function userHasTag(string $name, string $user): bool {
-		$key = $this->array_searchi($name, $this->getTagsForUser($user));
-		return ($key !== false) ? $this->tags[$key]->getId() : false;
+		return $this->array_searchi($name, $this->getTagsForUser($user)) !== false;
 	}
 
 	/**
@@ -343,7 +342,7 @@ class Tags implements ITags {
 	 * Add a list of new tags.
 	 *
 	 * @param string|string[] $names A string with a name or an array of strings containing
-	 * the name(s) of the tag(s) to add.
+	 *                               the name(s) of the tag(s) to add.
 	 * @param bool $sync When true, save the tags
 	 * @param int|null $id int Optional object id to add to this|these tag(s)
 	 * @return bool Returns false on error.

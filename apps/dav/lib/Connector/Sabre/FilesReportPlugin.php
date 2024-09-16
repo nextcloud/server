@@ -363,7 +363,7 @@ class FilesReportPlugin extends ServerPlugin {
 	 * Prepare propfind response for the given nodes
 	 *
 	 * @param string $filesUri $filesUri URI leading to root of the files URI,
-	 * with a leading slash but no trailing slash
+	 *                         with a leading slash but no trailing slash
 	 * @param string[] $requestedProps requested properties
 	 * @param Node[] nodes nodes for which to fetch and prepare responses
 	 * @return Response[]
@@ -410,7 +410,7 @@ class FilesReportPlugin extends ServerPlugin {
 
 		$results = [];
 		foreach ($fileIds as $fileId) {
-			$entry = $folder->getFirstNodeById($fileId);
+			$entry = $folder->getFirstNodeById((int)$fileId);
 			if ($entry) {
 				$results[] = $this->wrapNode($entry);
 			}

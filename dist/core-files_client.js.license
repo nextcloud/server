@@ -66,7 +66,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.0.2
 	- license: MIT
 - hasown
-	- version: 2.0.1
+	- version: 2.0.2
 	- license: MIT
 - inherits
 	- version: 2.0.4
@@ -87,7 +87,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.1.13
 	- license: MIT
 - object-is
-	- version: 1.1.5
+	- version: 1.1.6
 	- license: MIT
 - object-keys
 	- version: 1.1.1
@@ -102,16 +102,16 @@ This file is generated from multiple sources. Included packages:
 	- version: 0.11.10
 	- license: MIT
 - set-function-length
-	- version: 1.2.1
+	- version: 1.2.2
 	- license: MIT
 - util
 	- version: 0.12.5
 	- license: MIT
 - webpack
-	- version: 5.91.0
+	- version: 5.94.0
 	- license: MIT
 - which-typed-array
-	- version: 1.1.14
+	- version: 1.1.15
 	- license: MIT
 - nextcloud
 	- version: 1.0.0

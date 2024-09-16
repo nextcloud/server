@@ -53,8 +53,8 @@ class BuildReminderIndexBackgroundJob extends QueuedJob {
 	}
 
 	public function run($argument) {
-		$offset = (int) $argument['offset'];
-		$stopAt = (int) $argument['stopAt'];
+		$offset = (int)$argument['offset'];
+		$stopAt = (int)$argument['stopAt'];
 
 		$this->logger->info('Building calendar reminder index (' . $offset .'/' . $stopAt . ')');
 
@@ -88,7 +88,7 @@ class BuildReminderIndexBackgroundJob extends QueuedJob {
 
 		$result = $query->executeQuery();
 		while ($row = $result->fetch(\PDO::FETCH_ASSOC)) {
-			$offset = (int) $row['id'];
+			$offset = (int)$row['id'];
 			if (is_resource($row['calendardata'])) {
 				$row['calendardata'] = stream_get_contents($row['calendardata']);
 			}

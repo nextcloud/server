@@ -154,13 +154,13 @@ function clearAndCloseSearch() {
 		padding-inline: var(--default-grid-baseline);
 	}
 
-	// when open we need to position it absolut to allow overlay the full bar
+	// when open we need to position it absolute to allow overlay the full bar
 	:global(.unified-search-menu:has(.local-unified-search--open)) {
 		position: absolute !important;
 		inset-inline: 0;
 	}
 	// Hide all other entries, especially the user menu as it might leak pixels
-	:global(.header-right:has(.local-unified-search--open) > :not(.unified-search-menu)) {
+	:global(.header-end:has(.local-unified-search--open) > :not(.unified-search-menu)) {
 		display: none;
 	}
 }

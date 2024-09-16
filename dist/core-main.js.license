@@ -20,6 +20,7 @@ SPDX-FileCopyrightText: Roman Shtylman <shtylman@gmail.com>
 SPDX-FileCopyrightText: Roeland Jago Douma
 SPDX-FileCopyrightText: Rob Cresswell <robcresswell@pm.me>
 SPDX-FileCopyrightText: Raynos <raynos2@gmail.com>
+SPDX-FileCopyrightText: Perry Mitchell <perry@perrymitchell.net>
 SPDX-FileCopyrightText: Paul Vorbach <paul@vorba.ch> (http://paul.vorba.ch)
 SPDX-FileCopyrightText: Paul Vorbach <paul@vorb.de> (http://vorb.de)
 SPDX-FileCopyrightText: OpenJS Foundation and other contributors
@@ -65,7 +66,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 7.4.47
 	- license: Apache-2.0
 - @nextcloud/auth
-	- version: 2.3.0
+	- version: 2.4.0
 	- license: GPL-3.0-or-later
 - @nextcloud/axios
 	- version: 2.5.0
@@ -77,16 +78,16 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.2.0
 	- license: GPL-3.0-or-later
 - @nextcloud/dialogs
-	- version: 5.3.4
+	- version: 6.0.0
 	- license: AGPL-3.0-or-later
 - semver
-	- version: 7.6.2
+	- version: 7.6.3
 	- license: ISC
 - @nextcloud/event-bus
 	- version: 3.3.1
 	- license: GPL-3.0-or-later
 - @nextcloud/files
-	- version: 3.5.1
+	- version: 3.9.0
 	- license: AGPL-3.0-or-later
 - @nextcloud/initial-state
 	- version: 2.2.0
@@ -101,22 +102,25 @@ This file is generated from multiple sources. Included packages:
 	- version: 5.1.1
 	- license: MIT
 - @nextcloud/paths
-	- version: 2.1.0
+	- version: 2.2.1
 	- license: GPL-3.0-or-later
 - @nextcloud/router
 	- version: 3.0.1
 	- license: GPL-3.0-or-later
+- @nextcloud/sharing
+	- version: 0.2.3
+	- license: GPL-3.0-or-later
 - @nextcloud/vue
-	- version: 8.14.0
+	- version: 8.17.1
 	- license: AGPL-3.0-or-later
 - @vueuse/components
-	- version: 10.11.0
+	- version: 11.0.3
 	- license: MIT
 - @vueuse/core
-	- version: 10.11.0
+	- version: 11.0.3
 	- license: MIT
 - @vueuse/shared
-	- version: 10.11.0
+	- version: 11.0.3
 	- license: MIT
 - assert
 	- version: 2.1.0
@@ -125,7 +129,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.0.7
 	- license: MIT
 - axios
-	- version: 1.7.2
+	- version: 1.7.7
 	- license: MIT
 - backbone
 	- version: 1.6.0
@@ -135,9 +139,6 @@ This file is generated from multiple sources. Included packages:
 	- license: MIT
 - blueimp-md5
 	- version: 2.19.0
-	- license: MIT
-- buffer
-	- version: 6.0.3
 	- license: MIT
 - call-bind
 	- version: 1.0.7
@@ -155,13 +156,13 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.2.0
 	- license: MIT
 - core-js
-	- version: 3.37.1
+	- version: 3.38.1
 	- license: MIT
 - crypt
 	- version: 0.0.2
 	- license: BSD-3-Clause
 - css-loader
-	- version: 6.10.0
+	- version: 6.11.0
 	- license: MIT
 - davclient.js
 	- version: 0.2.1
@@ -176,7 +177,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.2.1
 	- license: MIT
 - dompurify
-	- version: 3.1.4
+	- version: 3.1.6
 	- license: (MPL-2.0 OR Apache-2.0)
 - es-define-property
 	- version: 1.0.0
@@ -221,7 +222,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.0.2
 	- license: MIT
 - hasown
-	- version: 2.0.1
+	- version: 2.0.2
 	- license: MIT
 - ieee754
 	- version: 1.2.1
@@ -268,8 +269,11 @@ This file is generated from multiple sources. Included packages:
 - node-gettext
 	- version: 3.0.0
 	- license: MIT
+- buffer
+	- version: 6.0.3
+	- license: MIT
 - object-is
-	- version: 1.1.5
+	- version: 1.1.6
 	- license: MIT
 - object-keys
 	- version: 1.1.1
@@ -299,7 +303,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 3.5.1
 	- license: MIT
 - set-function-length
-	- version: 1.2.1
+	- version: 1.2.2
 	- license: MIT
 - snap.js
 	- version: 2.0.9
@@ -323,7 +327,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 1.1.1
 	- license: MIT
 - underscore
-	- version: 1.13.6
+	- version: 1.13.7
 	- license: MIT
 - unist-builder
 	- version: 4.0.0
@@ -349,11 +353,14 @@ This file is generated from multiple sources. Included packages:
 - vue
 	- version: 2.7.16
 	- license: MIT
+- webdav
+	- version: 5.7.1
+	- license: MIT
 - webpack
-	- version: 5.91.0
+	- version: 5.94.0
 	- license: MIT
 - which-typed-array
-	- version: 1.1.14
+	- version: 1.1.15
 	- license: MIT
 - nextcloud
 	- version: 1.0.0

@@ -13,6 +13,9 @@ use OCA\Files\Db\OpenLocalEditor;
 use OCA\Files\Db\OpenLocalEditorMapper;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\BruteForceProtection;
+use OCP\AppFramework\Http\Attribute\NoAdminRequired;
+use OCP\AppFramework\Http\Attribute\UserRateLimit;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCSController;
 use OCP\AppFramework\Utility\ITimeFactory;
@@ -51,9 +54,6 @@ class OpenLocalEditorController extends OCSController {
 	}
 
 	/**
-	 * @NoAdminRequired
-	 * @UserRateThrottle(limit=10, period=120)
-	 *
 	 * Create a local editor
 	 *
 	 * @param string $path Path of the file
@@ -62,6 +62,8 @@ class OpenLocalEditorController extends OCSController {
 	 *
 	 * 200: Local editor returned
 	 */
+	#[NoAdminRequired]
+	#[UserRateLimit(limit: 10, period: 120)]
 	public function create(string $path): DataResponse {
 		$pathHash = sha1($path);
 
@@ -96,9 +98,6 @@ class OpenLocalEditorController extends OCSController {
 	}
 
 	/**
-	 * @NoAdminRequired
-	 * @BruteForceProtection(action=openLocalEditor)
-	 *
 	 * Validate a local editor
 	 *
 	 * @param string $path Path of the file
@@ -109,6 +108,8 @@ class OpenLocalEditorController extends OCSController {
 	 * 200: Local editor validated successfully
 	 * 404: Local editor not found
 	 */
+	#[NoAdminRequired]
+	#[BruteForceProtection(action: 'openLocalEditor')]
 	public function validate(string $path, string $token): DataResponse {
 		$pathHash = sha1($path);
 

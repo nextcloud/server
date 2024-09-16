@@ -9,12 +9,15 @@ OC.L10N.register(
     "%1$s commented on %2$s" : "%1$s heeft gereageerd op %2$s",
     "{author} commented on {file}" : "{author} reageerde op {file}",
     "<strong>Comments</strong> for files" : "<strong>Reacties</strong> voor bestanden",
+    "Files" : "Bestanden",
     "{user} mentioned you in a comment on \"{file}\"" : "{user} noemde jou in een reactie op \"{file}\"",
     "Files app plugin to add comments to files" : "Bestanden app plugin om reacties aan bestanden toe te voegen",
     "Edit comment" : "Bewerk reactie",
     "Delete comment" : "Verwijder reactie",
     "Cancel edit" : "Annuleer bewerking",
+    "New comment" : "Nieuwe reactie",
     "Post comment" : "Plaats reactie",
+    "@ for mentions, : for emoji, / for smart picker" : "@ voor vermeldingen, : voor emoji, / voor smart picker",
     "No comments yet, start the conversation!" : "Nog geen reacties, start de discussie!",
     "No more messages" : "Geen berichten meer",
     "Retry" : "Opnieuw proberen",
@@ -25,7 +28,6 @@ OC.L10N.register(
     "Comment deleted" : "Reactie verwijderd",
     "An error occurred while trying to delete the comment" : "Er trad een fout op bij het verwijderen van de reactie",
     "An error occurred while trying to create the comment" : "Er trad een fout op bij het creëren van de reactie",
-    "You were mentioned on \"{file}\", in a comment by a user that has since been deleted" : "Je werd vermeld op \"{file}\" in een reactie door een sindsdien verwijderde gebruiker",
-    "_%n unread comment_::_%n unread comments_" : ["%n ongelezen reactie","%n ongelezen reacties"]
+    "You were mentioned on \"{file}\", in a comment by a user that has since been deleted" : "Je werd vermeld op \"{file}\" in een reactie door een sindsdien verwijderde gebruiker"
 },
 "nplurals=2; plural=(n != 1);");

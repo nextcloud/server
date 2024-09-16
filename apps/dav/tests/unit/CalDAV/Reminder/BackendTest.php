@@ -95,7 +95,7 @@ class BackendTest extends TestCase {
 
 		$this->assertCount(4, $rows);
 
-		$this->reminderBackend->removeReminder((int) $rows[3]['id']);
+		$this->reminderBackend->removeReminder((int)$rows[3]['id']);
 
 		$query = self::$realDatabase->getQueryBuilder();
 		$rows = $query->select('*')
@@ -127,7 +127,7 @@ class BackendTest extends TestCase {
 			'is_recurrence_exception' => false,
 			'event_hash' => 'asd123',
 			'alarm_hash' => 'asd567',
-			'type' => 'EMAIL',
+			'type' => 'AUDIO',
 			'is_relative' => true,
 			'notification_date' => 123456,
 			'is_repeat_based' => false,
@@ -144,7 +144,7 @@ class BackendTest extends TestCase {
 			'is_recurrence_exception' => false,
 			'event_hash' => 'asd123',
 			'alarm_hash' => 'asd567',
-			'type' => 'AUDIO',
+			'type' => 'EMAIL',
 			'is_relative' => true,
 			'notification_date' => 123456,
 			'is_repeat_based' => false,
@@ -240,7 +240,7 @@ class BackendTest extends TestCase {
 
 		$this->assertEquals($rows[3]['notification_date'], 123600);
 
-		$reminderId = (int)  $rows[3]['id'];
+		$reminderId = (int)$rows[3]['id'];
 		$newNotificationDate = 123700;
 
 		$this->reminderBackend->updateReminder($reminderId, $newNotificationDate);
@@ -252,7 +252,7 @@ class BackendTest extends TestCase {
 			->execute()
 			->fetch();
 
-		$this->assertEquals((int) $row['notification_date'], 123700);
+		$this->assertEquals((int)$row['notification_date'], 123700);
 	}
 
 

@@ -30,6 +30,9 @@ interface IMemcache extends ICache {
 	/**
 	 * Increase a stored number
 	 *
+	 * If no value is stored with the key, it will behave as if a 0 was stored.
+	 * If a non-numeric value is stored, the operation will fail and `false` is returned.
+	 *
 	 * @param string $key
 	 * @param int $step
 	 * @return int | bool
@@ -39,6 +42,9 @@ interface IMemcache extends ICache {
 
 	/**
 	 * Decrease a stored number
+	 *
+	 *  If no value is stored with the key, the operation will fail and `false` is returned.
+	 *  If a non-numeric value is stored, the operation will fail and `false` is returned.
 	 *
 	 * @param string $key
 	 * @param int $step
@@ -50,10 +56,12 @@ interface IMemcache extends ICache {
 	/**
 	 * Compare and set
 	 *
+	 *  Set $key to $new only if it's current value is $new
+	 *
 	 * @param string $key
 	 * @param mixed $old
 	 * @param mixed $new
-	 * @return bool
+	 * @return bool true if the value was successfully set or false if $key wasn't set to $old
 	 * @since 8.1.0
 	 */
 	public function cas($key, $old, $new);
@@ -61,10 +69,24 @@ interface IMemcache extends ICache {
 	/**
 	 * Compare and delete
 	 *
+	 *  Delete $key if the stored value is equal to $old
+	 *
 	 * @param string $key
 	 * @param mixed $old
-	 * @return bool
+	 * @return bool true if the value was successfully deleted or false if $key wasn't set to $old
 	 * @since 8.1.0
 	 */
 	public function cad($key, $old);
+
+	/**
+	 * Negative compare and delete
+	 *
+	 * Delete $key if the stored value is not equal to $old
+	 *
+	 * @param string $key
+	 * @param mixed $old
+	 * @return bool true if the value was successfully deleted or false if $key was set to $old or is not set
+	 * @since 30.0.0
+	 */
+	public function ncad(string $key, mixed $old): bool;
 }

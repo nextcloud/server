@@ -58,7 +58,7 @@ class ManagerTest extends TestCase {
 	protected $dispatcher;
 	/** @var MockObject|IConfig */
 	protected $config;
-	/** @var MockObject|ICacheFactory  */
+	/** @var MockObject|ICacheFactory */
 	protected $cacheFactory;
 
 	protected function setUp(): void {
@@ -123,7 +123,7 @@ class ManagerTest extends TestCase {
 		}
 	}
 
-	public function testChecks() {
+	public function testChecks(): void {
 		$check1 = $this->invokePrivate($this->manager, 'addCheck', ['Test', 'equal', 1]);
 		$check2 = $this->invokePrivate($this->manager, 'addCheck', ['Test', '!equal', 2]);
 
@@ -144,7 +144,7 @@ class ManagerTest extends TestCase {
 		$this->assertArrayHasKey($check2, $data);
 	}
 
-	public function testScope() {
+	public function testScope(): void {
 		$adminScope = $this->buildScope();
 		$userScope = $this->buildScope('jackie');
 		$entity = File::class;
@@ -178,7 +178,7 @@ class ManagerTest extends TestCase {
 		$this->assertTrue($this->invokePrivate($this->manager, 'canModify', [$opId3, $userScope]));
 	}
 
-	public function testGetAllOperations() {
+	public function testGetAllOperations(): void {
 		$adminScope = $this->buildScope();
 		$userScope = $this->buildScope('jackie');
 		$entity = File::class;
@@ -249,7 +249,7 @@ class ManagerTest extends TestCase {
 		$this->assertSame(2, count($userOps['OCA\WFE\TestUserOp']));
 	}
 
-	public function testGetOperations() {
+	public function testGetOperations(): void {
 		$adminScope = $this->buildScope();
 		$userScope = $this->buildScope('jackie');
 		$entity = File::class;
@@ -319,7 +319,7 @@ class ManagerTest extends TestCase {
 		});
 	}
 
-	public function testGetAllConfiguredEvents() {
+	public function testGetAllConfiguredEvents(): void {
 		$adminScope = $this->buildScope();
 		$userScope = $this->buildScope('jackie');
 		$entity = File::class;
@@ -353,7 +353,7 @@ class ManagerTest extends TestCase {
 		$this->assertEquals($allOperationsCached, $allOperations);
 	}
 
-	public function testUpdateOperation() {
+	public function testUpdateOperation(): void {
 		$adminScope = $this->buildScope();
 		$userScope = $this->buildScope('jackie');
 		$entity = File::class;
@@ -434,7 +434,7 @@ class ManagerTest extends TestCase {
 		}
 	}
 
-	public function testDeleteOperation() {
+	public function testDeleteOperation(): void {
 		$adminScope = $this->buildScope();
 		$userScope = $this->buildScope('jackie');
 		$entity = File::class;
@@ -484,7 +484,7 @@ class ManagerTest extends TestCase {
 		}
 	}
 
-	public function testGetEntitiesListBuildInOnly() {
+	public function testGetEntitiesListBuildInOnly(): void {
 		$fileEntityMock = $this->createMock(File::class);
 
 		$this->container->expects($this->once())
@@ -498,7 +498,7 @@ class ManagerTest extends TestCase {
 		$this->assertInstanceOf(IEntity::class, $entities[0]);
 	}
 
-	public function testGetEntitiesList() {
+	public function testGetEntitiesList(): void {
 		$fileEntityMock = $this->createMock(File::class);
 
 		$this->container->expects($this->once())
@@ -532,7 +532,7 @@ class ManagerTest extends TestCase {
 		$this->assertSame(1, $entityTypeCounts[1]);
 	}
 
-	public function testValidateOperationOK() {
+	public function testValidateOperationOK(): void {
 		$check = [
 			'class' => ICheck::class,
 			'operator' => 'is',
@@ -592,7 +592,7 @@ class ManagerTest extends TestCase {
 		$this->manager->validateOperation(IOperation::class, 'test', [$check], 'operationData', $scopeMock, IEntity::class, ['MyEvent']);
 	}
 
-	public function testValidateOperationCheckInputLengthError() {
+	public function testValidateOperationCheckInputLengthError(): void {
 		$check = [
 			'class' => ICheck::class,
 			'operator' => 'is',
@@ -656,7 +656,7 @@ class ManagerTest extends TestCase {
 		}
 	}
 
-	public function testValidateOperationDataLengthError() {
+	public function testValidateOperationDataLengthError(): void {
 		$check = [
 			'class' => ICheck::class,
 			'operator' => 'is',
@@ -720,7 +720,7 @@ class ManagerTest extends TestCase {
 		}
 	}
 
-	public function testValidateOperationScopeNotAvailable() {
+	public function testValidateOperationScopeNotAvailable(): void {
 		$check = [
 			'class' => ICheck::class,
 			'operator' => 'is',

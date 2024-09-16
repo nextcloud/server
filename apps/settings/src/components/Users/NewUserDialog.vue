@@ -61,7 +61,7 @@
 				:required="newUser.password === '' || settings.newUserRequireEmail" />
 			<div class="dialog__item">
 				<NcSelect class="dialog__select"
-					:input-label="!settings.isAdmin ? t('settings', 'Member of the following groups (required)') : t('settings', 'Member of the following groups')"
+					:input-label="!settings.isAdmin && !settings.isDelegatedAdmin ? t('settings', 'Member of the following groups (required)') : t('settings', 'Member of the following groups')"
 					:placeholder="t('settings', 'Set account groups')"
 					:disabled="loading.groups || loading.all"
 					:options="canAddGroups"
@@ -70,7 +70,7 @@
 					:close-on-select="false"
 					:multiple="true"
 					:taggable="true"
-					:required="!settings.isAdmin"
+					:required="!settings.isAdmin && !settings.isDelegatedAdmin"
 					@input="handleGroupInput"
 					@option:created="createGroup" />
 					<!-- If user is not admin, he is a subadmin.
@@ -100,7 +100,7 @@
 			</div>
 			<div v-if="showConfig.showLanguages"
 				class="dialog__item">
-				<NcSelect	v-model="newUser.language"
+				<NcSelect v-model="newUser.language"
 					class="dialog__select"
 					:input-label="t('settings', 'Language')"
 					:placeholder="t('settings', 'Set default language')"
@@ -175,7 +175,7 @@ export default {
 			// TRANSLATORS This string describes a manager in the context of an organization
 			managerInputLabel: t('settings', 'Manager'),
 			// TRANSLATORS This string describes a manager in the context of an organization
-			managerLabel: t('settings', 'Set account manager'),
+			managerLabel: t('settings', 'Set line manager'),
 		}
 	},
 
@@ -200,9 +200,9 @@ export default {
 		},
 
 		groups() {
-			// data provided php side + remove the disabled group
+			// data provided php side + remove the recent and disabled groups
 			return this.$store.getters.getGroups
-				.filter(group => group.id !== 'disabled')
+				.filter(group => group.id !== '__nc_internal_recent' && group.id !== 'disabled')
 				.sort((a, b) => a.name.localeCompare(b.name))
 		},
 

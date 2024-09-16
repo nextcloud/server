@@ -19,19 +19,15 @@ class AppLocatorTest extends TestCase {
 		$this->locator = new AppLocator();
 	}
 
-	public function testGetAppPath() {
+	public function testGetAppPath(): void {
 		$this->assertSame(\OC_App::getAppPath('files'), $this->locator->getAppPath('files'));
 	}
 
 	
-	public function testGetAppPathNotExistentApp() {
+	public function testGetAppPathNotExistentApp(): void {
 		$this->expectException(\Exception::class);
 		$this->expectExceptionMessage('App not found');
 
 		$this->locator->getAppPath('aTotallyNotExistingApp');
-	}
-
-	public function testGetAllApps() {
-		$this->assertSame(\OC_App::getAllApps(), $this->locator->getAllApps());
 	}
 }

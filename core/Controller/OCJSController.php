@@ -8,12 +8,15 @@ namespace OC\Core\Controller;
 use bantu\IniGetWrapper\IniGetWrapper;
 use OC\Authentication\Token\IProvider;
 use OC\CapabilitiesManager;
+use OC\Files\FilenameValidator;
 use OC\Template\JSConfigHelper;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\FrontpageRoute;
+use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
 use OCP\AppFramework\Http\Attribute\OpenAPI;
+use OCP\AppFramework\Http\Attribute\PublicPage;
 use OCP\AppFramework\Http\DataDisplayResponse;
 use OCP\Defaults;
 use OCP\IConfig;
@@ -44,6 +47,7 @@ class OCJSController extends Controller {
 		CapabilitiesManager $capabilitiesManager,
 		IInitialStateService $initialStateService,
 		IProvider $tokenProvider,
+		FilenameValidator $filenameValidator,
 	) {
 		parent::__construct($appName, $request);
 
@@ -59,15 +63,16 @@ class OCJSController extends Controller {
 			$urlGenerator,
 			$capabilitiesManager,
 			$initialStateService,
-			$tokenProvider
+			$tokenProvider,
+			$filenameValidator,
 		);
 	}
 
 	/**
-	 * @NoCSRFRequired
 	 * @NoTwoFactorRequired
-	 * @PublicPage
 	 */
+	#[PublicPage]
+	#[NoCSRFRequired]
 	#[FrontpageRoute(verb: 'GET', url: '/core/js/oc.js')]
 	public function getConfig(): DataDisplayResponse {
 		$data = $this->helper->getConfig();

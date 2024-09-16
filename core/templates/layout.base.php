@@ -12,8 +12,11 @@
 		<title>
 		<?php p($theme->getTitle()); ?>
 		</title>
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0<?php if (isset($_['viewport_maximum_scale'])) {
+			p(', maximum-scale=' . $_['viewport_maximum_scale']);
+		} ?>">
 		<meta name="theme-color" content="<?php p($theme->getColorPrimary()); ?>">
+		<meta name="csp-nonce" nonce="<?php p($_['cspNonce']); /* Do not pass into "content" to prevent exfiltration */ ?>">
 		<link rel="icon" href="<?php print_unescaped(image_path('core', 'favicon.ico')); /* IE11+ supports png */ ?>">
 		<link rel="apple-touch-icon" href="<?php print_unescaped(image_path('core', 'favicon-touch.png')); ?>">
 		<link rel="mask-icon" sizes="any" href="<?php print_unescaped(image_path('core', 'favicon-mask.svg')); ?>" color="<?php p($theme->getColorPrimary()); ?>">
@@ -23,9 +26,7 @@
 	</head>
 	<body id="body-public" class="layout-base">
 		<?php include 'layout.noscript.warning.php'; ?>
-		<?php foreach ($_['initialStates'] as $app => $initialState) { ?>
-			<input type="hidden" id="initial-state-<?php p($app); ?>" value="<?php p(base64_encode($initialState)); ?>">
-		<?php }?>
+		<?php include 'layout.initial-state.php'; ?>
 		<div id="content" class="app-public" role="main">
 			<?php print_unescaped($_['content']); ?>
 		</div>

@@ -15,13 +15,13 @@ use OCP\Share\IManager;
 use Test\TestCase;
 
 class ShareRecipientSorterTest extends TestCase {
-	/** @var  IManager|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IManager|\PHPUnit\Framework\MockObject\MockObject */
 	protected $shareManager;
-	/** @var  IRootFolder|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IRootFolder|\PHPUnit\Framework\MockObject\MockObject */
 	protected $rootFolder;
-	/** @var  IUserSession|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IUserSession|\PHPUnit\Framework\MockObject\MockObject */
 	protected $userSession;
-	/** @var  ShareRecipientSorter */
+	/** @var ShareRecipientSorter */
 	protected $sorter;
 
 	protected function setUp(): void {
@@ -38,7 +38,7 @@ class ShareRecipientSorterTest extends TestCase {
 	 * @dataProvider sortDataProvider
 	 * @param $data
 	 */
-	public function testSort($data) {
+	public function testSort($data): void {
 		$node = $this->createMock(Node::class);
 
 		/** @var Folder|\PHPUnit\Framework\MockObject\MockObject $folder */
@@ -79,7 +79,7 @@ class ShareRecipientSorterTest extends TestCase {
 		$this->assertEquals($data['expected'], $workArray);
 	}
 
-	public function testSortNoNodes() {
+	public function testSortNoNodes(): void {
 		/** @var Folder|\PHPUnit\Framework\MockObject\MockObject $folder */
 		$folder = $this->createMock(Folder::class);
 		$this->rootFolder->expects($this->any())

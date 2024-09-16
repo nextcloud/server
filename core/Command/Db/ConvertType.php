@@ -142,10 +142,13 @@ class ConvertType extends Command implements CompletionAwareInterface {
 		if ($input->isInteractive()) {
 			/** @var QuestionHelper $helper */
 			$helper = $this->getHelper('question');
-			$question = new Question('What is the database password?');
+			$question = new Question('What is the database password (press <enter> for none)? ');
 			$question->setHidden(true);
 			$question->setHiddenFallback(false);
 			$password = $helper->ask($input, $output, $question);
+			if ($password === null) {
+				$password = ''; // possibly unnecessary
+			}
 			$input->setOption('password', $password);
 			return;
 		}
@@ -233,9 +236,24 @@ class ConvertType extends Command implements CompletionAwareInterface {
 			'password' => $input->getOption('password'),
 			'dbname' => $input->getArgument('database'),
 		]);
+
+		// parse port
 		if ($input->getOption('port')) {
 			$connectionParams['port'] = $input->getOption('port');
 		}
+
+		// parse hostname for unix socket
+		if (preg_match('/^(.+)(:(\d+|[^:]+))?$/', $input->getOption('hostname'), $matches)) {
+			$connectionParams['host'] = $matches[1];
+			if (isset($matches[3])) {
+				if (is_numeric($matches[3])) {
+					$connectionParams['port'] = $matches[3];
+				} else {
+					$connectionParams['unix_socket'] = $matches[3];
+				}
+			}
+		}
+
 		return $this->connectionFactory->getConnection($type, $connectionParams);
 	}
 
@@ -245,7 +263,7 @@ class ConvertType extends Command implements CompletionAwareInterface {
 			$output->writeln('<info>Clearing schema in new database</info>');
 		}
 		foreach ($toTables as $table) {
-			$db->getSchemaManager()->dropTable($table);
+			$db->createSchemaManager()->dropTable($table);
 		}
 	}
 
@@ -258,7 +276,7 @@ class ConvertType extends Command implements CompletionAwareInterface {
 			}
 			return preg_match($filterExpression, $asset) !== false;
 		});
-		return $db->getSchemaManager()->listTableNames();
+		return $db->createSchemaManager()->listTableNames();
 	}
 
 	/**

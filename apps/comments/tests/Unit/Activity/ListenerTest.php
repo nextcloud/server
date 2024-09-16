@@ -65,7 +65,7 @@ class ListenerTest extends TestCase {
 		);
 	}
 
-	public function testCommentEvent() {
+	public function testCommentEvent(): void {
 		$this->appManager->expects($this->any())
 			->method('isInstalled')
 			->with('activity')

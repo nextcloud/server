@@ -78,7 +78,7 @@ abstract class Provider extends \Test\TestCase {
 	 * @param int $widthAdjustment
 	 * @param int $heightAdjustment
 	 */
-	public function testGetThumbnail($widthAdjustment, $heightAdjustment) {
+	public function testGetThumbnail($widthAdjustment, $heightAdjustment): void {
 		$ratio = round($this->width / $this->height, 2);
 		$this->maxWidth = $this->width - $widthAdjustment;
 		$this->maxHeight = $this->height - $heightAdjustment;

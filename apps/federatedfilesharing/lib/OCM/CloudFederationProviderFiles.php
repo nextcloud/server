@@ -23,6 +23,7 @@ use OCP\Federation\ICloudFederationProvider;
 use OCP\Federation\ICloudFederationProviderManager;
 use OCP\Federation\ICloudFederationShare;
 use OCP\Federation\ICloudIdManager;
+use OCP\Files\IFilenameValidator;
 use OCP\Files\NotFoundException;
 use OCP\HintException;
 use OCP\IConfig;
@@ -59,6 +60,7 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 		private IConfig $config,
 		private Manager $externalShareManager,
 		private LoggerInterface $logger,
+		private IFilenameValidator $filenameValidator,
 	) {
 	}
 
@@ -115,7 +117,7 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 		}
 
 		if ($remote && $token && $name && $owner && $remoteId && $shareWith) {
-			if (!Util::isValidFileName($name)) {
+			if (!$this->filenameValidator->isFilenameValid($name)) {
 				throw new ProviderCouldNotAddShareException('The mountpoint name contains invalid characters.', '', Http::STATUS_BAD_REQUEST);
 			}
 
@@ -429,7 +431,7 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 	 */
 	private function unshare($id, array $notification) {
 		if (!$this->isS2SEnabled(true)) {
-			throw new ActionNotSupportedException("incoming shares disabled!");
+			throw new ActionNotSupportedException('incoming shares disabled!');
 		}
 
 		if (!isset($notification['sharedSecret'])) {

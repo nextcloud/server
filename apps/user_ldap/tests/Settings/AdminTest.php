@@ -34,7 +34,7 @@ class AdminTest extends TestCase {
 	/**
 	 * @UseDB
 	 */
-	public function testGetForm() {
+	public function testGetForm(): void {
 		$prefixes = ['s01'];
 		$hosts = ['s01' => ''];
 
@@ -59,11 +59,11 @@ class AdminTest extends TestCase {
 		$this->assertEquals($expected, $this->admin->getForm());
 	}
 
-	public function testGetSection() {
+	public function testGetSection(): void {
 		$this->assertSame('ldap', $this->admin->getSection());
 	}
 
-	public function testGetPriority() {
+	public function testGetPriority(): void {
 		$this->assertSame(5, $this->admin->getPriority());
 	}
 }

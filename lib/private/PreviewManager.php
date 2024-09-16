@@ -346,6 +346,7 @@ class PreviewManager implements IPreview {
 		$this->registerCoreProvider(Preview\MP3::class, '/audio\/mpeg/');
 		$this->registerCoreProvider(Preview\OpenDocument::class, '/application\/vnd.oasis.opendocument.*/');
 		$this->registerCoreProvider(Preview\Imaginary::class, Preview\Imaginary::supportedMimeTypes());
+		$this->registerCoreProvider(Preview\ImaginaryPDF::class, Preview\ImaginaryPDF::supportedMimeTypes());
 
 		// SVG and Bitmap require imagick
 		if ($this->imagickSupport->hasExtension()) {
@@ -388,7 +389,7 @@ class PreviewManager implements IPreview {
 
 
 			if (is_string($movieBinary)) {
-				$this->registerCoreProvider(Preview\Movie::class, '/video\/.*/', ["movieBinary" => $movieBinary]);
+				$this->registerCoreProvider(Preview\Movie::class, '/video\/.*/', ['movieBinary' => $movieBinary]);
 			}
 		}
 	}

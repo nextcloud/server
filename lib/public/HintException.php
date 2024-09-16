@@ -21,12 +21,12 @@ class HintException extends \Exception {
 	 * HintException constructor.
 	 *
 	 * @since 23.0.0
-	 * @param string $message  The error message. It will be not revealed to the
-	 *                         the user (unless the hint is empty) and thus
-	 *                         should be not translated.
-	 * @param string $hint     A useful message that is presented to the end
-	 *                         user. It should be translated, but must not
-	 *                         contain sensitive data.
+	 * @param string $message The error message. It will be not revealed to the
+	 *                        the user (unless the hint is empty) and thus
+	 *                        should be not translated.
+	 * @param string $hint A useful message that is presented to the end
+	 *                     user. It should be translated, but must not
+	 *                     contain sensitive data.
 	 * @param int $code
 	 * @param \Exception|null $previous
 	 */
@@ -43,7 +43,7 @@ class HintException extends \Exception {
 	 * @return string
 	 */
 	public function __toString(): string {
-		return __CLASS__ . ": [{$this->code}]: {$this->message} ({$this->hint})\n";
+		return self::class . ": [{$this->code}]: {$this->message} ({$this->hint})\n";
 	}
 
 	/**

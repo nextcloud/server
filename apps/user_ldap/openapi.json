@@ -133,23 +133,6 @@
                         "basic_auth": []
                     }
                 ],
-                "requestBody": {
-                    "required": false,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "type": "object",
-                                "properties": {
-                                    "showPassword": {
-                                        "type": "boolean",
-                                        "default": false,
-                                        "description": "Whether to show the password"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                },
                 "parameters": [
                     {
                         "name": "configID",
@@ -158,6 +141,19 @@
                         "required": true,
                         "schema": {
                             "type": "string"
+                        }
+                    },
+                    {
+                        "name": "showPassword",
+                        "in": "query",
+                        "description": "Whether to show the password",
+                        "schema": {
+                            "type": "integer",
+                            "default": 0,
+                            "enum": [
+                                0,
+                                1
+                            ]
                         }
                     },
                     {

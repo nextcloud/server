@@ -20,6 +20,7 @@ use OCP\Files\IRootFolder;
 use OCP\Files\Node;
 use OCP\IDBConnection;
 use OCP\IGroupManager;
+use OCP\IL10N;
 use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserManager;
@@ -27,8 +28,10 @@ use OCP\L10N\IFactory;
 use OCP\Mail\IMailer;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IAttributes;
+use OCP\Share\IManager;
 use OCP\Share\IShare;
-use OCP\Share\IShareProvider;
+use OCP\Share\IShareProviderSupportsAccept;
+use OCP\Share\IShareProviderWithNotification;
 use Psr\Log\LoggerInterface;
 use function str_starts_with;
 
@@ -37,56 +40,23 @@ use function str_starts_with;
  *
  * @package OC\Share20
  */
-class DefaultShareProvider implements IShareProvider {
+class DefaultShareProvider implements IShareProviderWithNotification, IShareProviderSupportsAccept {
 	// Special share type for user modified group shares
 	public const SHARE_TYPE_USERGROUP = 2;
 
-	/** @var IDBConnection */
-	private $dbConn;
-
-	/** @var IUserManager */
-	private $userManager;
-
-	/** @var IGroupManager */
-	private $groupManager;
-
-	/** @var IRootFolder */
-	private $rootFolder;
-
-	/** @var IMailer */
-	private $mailer;
-
-	/** @var Defaults */
-	private $defaults;
-
-	/** @var IFactory */
-	private $l10nFactory;
-
-	/** @var IURLGenerator */
-	private $urlGenerator;
-
-	private ITimeFactory $timeFactory;
-
 	public function __construct(
-		IDBConnection $connection,
-		IUserManager $userManager,
-		IGroupManager $groupManager,
-		IRootFolder $rootFolder,
-		IMailer $mailer,
-		Defaults $defaults,
-		IFactory $l10nFactory,
-		IURLGenerator $urlGenerator,
-		ITimeFactory $timeFactory,
+		private IDBConnection $dbConn,
+		private IUserManager $userManager,
+		private IGroupManager $groupManager,
+		private IRootFolder $rootFolder,
+		private IMailer $mailer,
+		private Defaults $defaults,
+		private IFactory $l10nFactory,
+		private IURLGenerator $urlGenerator,
+		private ITimeFactory $timeFactory,
+		private LoggerInterface $logger,
+		private IManager $shareManager,
 	) {
-		$this->dbConn = $connection;
-		$this->userManager = $userManager;
-		$this->groupManager = $groupManager;
-		$this->rootFolder = $rootFolder;
-		$this->mailer = $mailer;
-		$this->defaults = $defaults;
-		$this->l10nFactory = $l10nFactory;
-		$this->urlGenerator = $urlGenerator;
-		$this->timeFactory = $timeFactory;
 	}
 
 	/**
@@ -127,6 +97,8 @@ class DefaultShareProvider implements IShareProvider {
 			if ($expirationDate !== null) {
 				$qb->setValue('expiration', $qb->createNamedParameter($expirationDate, 'datetime'));
 			}
+
+			$qb->setValue('reminder_sent', $qb->createNamedParameter($share->getReminderSent(), IQueryBuilder::PARAM_BOOL));
 		} elseif ($share->getShareType() === IShare::TYPE_GROUP) {
 			//Set the GID of the group we share with
 			$qb->setValue('share_with', $qb->createNamedParameter($share->getSharedWith()));
@@ -253,6 +225,7 @@ class DefaultShareProvider implements IShareProvider {
 				->set('expiration', $qb->createNamedParameter($expirationDate, IQueryBuilder::PARAM_DATE))
 				->set('note', $qb->createNamedParameter($share->getNote()))
 				->set('accepted', $qb->createNamedParameter($share->getStatus()))
+				->set('reminder_sent', $qb->createNamedParameter($share->getReminderSent(), IQueryBuilder::PARAM_BOOL))
 				->execute();
 		} elseif ($share->getShareType() === IShare::TYPE_GROUP) {
 			$qb = $this->dbConn->getQueryBuilder();
@@ -639,7 +612,7 @@ class DefaultShareProvider implements IShareProvider {
 
 	public function getSharesInFolder($userId, Folder $node, $reshares, $shallow = true) {
 		if (!$shallow) {
-			throw new \Exception("non-shallow getSharesInFolder is no longer supported");
+			throw new \Exception('non-shallow getSharesInFolder is no longer supported');
 		}
 
 		$qb = $this->dbConn->getQueryBuilder();
@@ -702,6 +675,7 @@ class DefaultShareProvider implements IShareProvider {
 
 		foreach ($chunks as $chunk) {
 			$qb->setParameter('chunk', $chunk, IQueryBuilder::PARAM_INT_ARRAY);
+			$a = $qb->getSQL();
 			$cursor = $qb->executeQuery();
 			while ($data = $cursor->fetch()) {
 				$shares[$data['fileid']][] = $this->createShare($data);
@@ -803,7 +777,7 @@ class DefaultShareProvider implements IShareProvider {
 
 		// If the recipient is set for a group share resolve to that user
 		if ($recipientId !== null && $share->getShareType() === IShare::TYPE_GROUP) {
-			$share = $this->resolveGroupShares([(int) $share->getId() => $share], $recipientId)[0];
+			$share = $this->resolveGroupShares([(int)$share->getId() => $share], $recipientId)[0];
 		}
 
 		return $share;
@@ -912,9 +886,9 @@ class DefaultShareProvider implements IShareProvider {
 
 			while ($data = $cursor->fetch()) {
 				if ($data['fileid'] && $data['path'] === null) {
-					$data['path'] = (string) $data['path'];
-					$data['name'] = (string) $data['name'];
-					$data['checksum'] = (string) $data['checksum'];
+					$data['path'] = (string)$data['path'];
+					$data['name'] = (string)$data['name'];
+					$data['checksum'] = (string)$data['checksum'];
 				}
 				if ($this->isAccessibleResult($data)) {
 					$shares[] = $this->createShare($data);
@@ -1035,7 +1009,7 @@ class DefaultShareProvider implements IShareProvider {
 	}
 
 	/**
-	 * Create a share object from an database row
+	 * Create a share object from a database row
 	 *
 	 * @param mixed[] $data
 	 * @return \OCP\Share\IShare
@@ -1097,6 +1071,7 @@ class DefaultShareProvider implements IShareProvider {
 
 		$share->setProviderId($this->identifier());
 		$share->setHideDownload((int)$data['hide_download'] === 1);
+		$share->setReminderSent((bool)$data['reminder_sent']);
 
 		return $share;
 	}
@@ -1200,7 +1175,7 @@ class DefaultShareProvider implements IShareProvider {
 			);
 		} else {
 			$e = new \InvalidArgumentException('Default share provider tried to delete all shares for type: ' . $shareType);
-			\OCP\Server::get(LoggerInterface::class)->error($e->getMessage(), ['exception' => $e]);
+			$this->logger->error($e->getMessage(), ['exception' => $e]);
 			return;
 		}
 
@@ -1232,10 +1207,14 @@ class DefaultShareProvider implements IShareProvider {
 
 		if (!empty($ids)) {
 			$chunks = array_chunk($ids, 100);
+
+			$qb = $this->dbConn->getQueryBuilder();
+			$qb->delete('share')
+				->where($qb->expr()->eq('share_type', $qb->createNamedParameter(IShare::TYPE_USERGROUP)))
+				->andWhere($qb->expr()->in('parent', $qb->createParameter('parents')));
+
 			foreach ($chunks as $chunk) {
-				$qb->delete('share')
-					->where($qb->expr()->eq('share_type', $qb->createNamedParameter(IShare::TYPE_USERGROUP)))
-					->andWhere($qb->expr()->in('parent', $qb->createNamedParameter($chunk, IQueryBuilder::PARAM_INT_ARRAY)));
+				$qb->setParameter('parents', $chunk, IQueryBuilder::PARAM_INT_ARRAY);
 				$qb->execute();
 			}
 		}
@@ -1255,6 +1234,7 @@ class DefaultShareProvider implements IShareProvider {
 	 *
 	 * @param string $uid
 	 * @param string $gid
+	 * @return void
 	 */
 	public function userDeletedFromGroup($uid, $gid) {
 		/*
@@ -1266,7 +1246,7 @@ class DefaultShareProvider implements IShareProvider {
 			->where($qb->expr()->eq('share_type', $qb->createNamedParameter(IShare::TYPE_GROUP)))
 			->andWhere($qb->expr()->eq('share_with', $qb->createNamedParameter($gid)));
 
-		$cursor = $qb->execute();
+		$cursor = $qb->executeQuery();
 		$ids = [];
 		while ($row = $cursor->fetch()) {
 			$ids[] = (int)$row['id'];
@@ -1275,15 +1255,58 @@ class DefaultShareProvider implements IShareProvider {
 
 		if (!empty($ids)) {
 			$chunks = array_chunk($ids, 100);
+
+			/*
+			 * Delete all special shares with this user for the found group shares
+			 */
+			$qb = $this->dbConn->getQueryBuilder();
+			$qb->delete('share')
+				->where($qb->expr()->eq('share_type', $qb->createNamedParameter(IShare::TYPE_USERGROUP)))
+				->andWhere($qb->expr()->eq('share_with', $qb->createNamedParameter($uid)))
+				->andWhere($qb->expr()->in('parent', $qb->createParameter('parents')));
+
 			foreach ($chunks as $chunk) {
-				/*
-				 * Delete all special shares with this users for the found group shares
-				 */
-				$qb->delete('share')
-					->where($qb->expr()->eq('share_type', $qb->createNamedParameter(IShare::TYPE_USERGROUP)))
-					->andWhere($qb->expr()->eq('share_with', $qb->createNamedParameter($uid)))
-					->andWhere($qb->expr()->in('parent', $qb->createNamedParameter($chunk, IQueryBuilder::PARAM_INT_ARRAY)));
-				$qb->execute();
+				$qb->setParameter('parents', $chunk, IQueryBuilder::PARAM_INT_ARRAY);
+				$qb->executeStatement();
+			}
+		}
+
+		if ($this->shareManager->shareWithGroupMembersOnly()) {
+			$user = $this->userManager->get($uid);
+			if ($user === null) {
+				return;
+			}
+			$userGroups = $this->groupManager->getUserGroupIds($user);
+			$userGroups = array_diff($userGroups, $this->shareManager->shareWithGroupMembersOnlyExcludeGroupsList());
+
+			// Delete user shares received by the user from users in the group.
+			$userReceivedShares = $this->shareManager->getSharedWith($uid, IShare::TYPE_USER, null, -1);
+			foreach ($userReceivedShares as $share) {
+				$owner = $this->userManager->get($share->getSharedBy());
+				if ($owner === null) {
+					continue;
+				}
+				$ownerGroups = $this->groupManager->getUserGroupIds($owner);
+				$mutualGroups = array_intersect($userGroups, $ownerGroups);
+
+				if (count($mutualGroups) === 0) {
+					$this->shareManager->deleteShare($share);
+				}
+			}
+
+			// Delete user shares from the user to users in the group.
+			$userEmittedShares = $this->shareManager->getSharesBy($uid, IShare::TYPE_USER, null, true, -1);
+			foreach ($userEmittedShares as $share) {
+				$recipient = $this->userManager->get($share->getSharedWith());
+				if ($recipient === null) {
+					continue;
+				}
+				$recipientGroups = $this->groupManager->getUserGroupIds($recipient);
+				$mutualGroups = array_intersect($userGroups, $recipientGroups);
+
+				if (count($mutualGroups) === 0) {
+					$this->shareManager->deleteShare($share);
+				}
 			}
 		}
 	}
@@ -1371,8 +1394,8 @@ class DefaultShareProvider implements IShareProvider {
 	protected function filterSharesOfUser(array $shares) {
 		// Group shares when the user has a share exception
 		foreach ($shares as $id => $share) {
-			$type = (int) $share['share_type'];
-			$permissions = (int) $share['permissions'];
+			$type = (int)$share['share_type'];
+			$permissions = (int)$share['permissions'];
 
 			if ($type === IShare::TYPE_USERGROUP) {
 				unset($shares[$share['parent']]);
@@ -1413,6 +1436,131 @@ class DefaultShareProvider implements IShareProvider {
 			$group = $this->groupManager->get($share->getSharedWith());
 			$groupMembers = $group->getUsers();
 			$this->sendNote($groupMembers, $share);
+		}
+	}
+
+	public function sendMailNotification(IShare $share): bool {
+		try {
+			// Check user
+			$user = $this->userManager->get($share->getSharedWith());
+			if ($user === null) {
+				$this->logger->debug('Share notification not sent to ' . $share->getSharedWith() . ' because user could not be found.', ['app' => 'share']);
+				return false;
+			}
+
+			// Handle user shares
+			if ($share->getShareType() === IShare::TYPE_USER) {
+				// Check email address
+				$emailAddress = $user->getEMailAddress();
+				if ($emailAddress === null || $emailAddress === '') {
+					$this->logger->debug('Share notification not sent to ' . $share->getSharedWith() . ' because email address is not set.', ['app' => 'share']);
+					return false;
+				}
+
+				$userLang = $this->l10nFactory->getUserLanguage($user);
+				$l = $this->l10nFactory->get('lib', $userLang);
+				$this->sendUserShareMail(
+					$l,
+					$share->getNode()->getName(),
+					$this->urlGenerator->linkToRouteAbsolute('files_sharing.Accept.accept', ['shareId' => $share->getFullId()]),
+					$share->getSharedBy(),
+					$emailAddress,
+					$share->getExpirationDate(),
+					$share->getNote()
+				);
+				$this->logger->debug('Sent share notification to ' . $emailAddress . ' for share with ID ' . $share->getId() . '.', ['app' => 'share']);
+				return true;
+			}
+		} catch (\Exception $e) {
+			$this->logger->error('Share notification mail could not be sent.', ['exception' => $e]);
+		}
+
+		return false;
+	}
+
+	/**
+	 * Send mail notifications for the user share type
+	 *
+	 * @param IL10N $l Language of the recipient
+	 * @param string $filename file/folder name
+	 * @param string $link link to the file/folder
+	 * @param string $initiator user ID of share sender
+	 * @param string $shareWith email address of share receiver
+	 * @param \DateTime|null $expiration
+	 * @param string $note
+	 * @throws \Exception
+	 */
+	protected function sendUserShareMail(
+		IL10N $l,
+		$filename,
+		$link,
+		$initiator,
+		$shareWith,
+		?\DateTime $expiration = null,
+		$note = '') {
+		$initiatorUser = $this->userManager->get($initiator);
+		$initiatorDisplayName = ($initiatorUser instanceof IUser) ? $initiatorUser->getDisplayName() : $initiator;
+
+		$message = $this->mailer->createMessage();
+
+		$emailTemplate = $this->mailer->createEMailTemplate('files_sharing.RecipientNotification', [
+			'filename' => $filename,
+			'link' => $link,
+			'initiator' => $initiatorDisplayName,
+			'expiration' => $expiration,
+			'shareWith' => $shareWith,
+		]);
+
+		$emailTemplate->setSubject($l->t('%1$s shared »%2$s« with you', [$initiatorDisplayName, $filename]));
+		$emailTemplate->addHeader();
+		$emailTemplate->addHeading($l->t('%1$s shared »%2$s« with you', [$initiatorDisplayName, $filename]), false);
+		$text = $l->t('%1$s shared »%2$s« with you.', [$initiatorDisplayName, $filename]);
+
+		if ($note !== '') {
+			$emailTemplate->addBodyText(htmlspecialchars($note), $note);
+		}
+
+		$emailTemplate->addBodyText(
+			htmlspecialchars($text . ' ' . $l->t('Click the button below to open it.')),
+			$text
+		);
+		$emailTemplate->addBodyButton(
+			$l->t('Open »%s«', [$filename]),
+			$link
+		);
+
+		$message->setTo([$shareWith]);
+
+		// The "From" contains the sharers name
+		$instanceName = $this->defaults->getName();
+		$senderName = $l->t(
+			'%1$s via %2$s',
+			[
+				$initiatorDisplayName,
+				$instanceName,
+			]
+		);
+		$message->setFrom([\OCP\Util::getDefaultEmailAddress('noreply') => $senderName]);
+
+		// The "Reply-To" is set to the sharer if an mail address is configured
+		// also the default footer contains a "Do not reply" which needs to be adjusted.
+		if ($initiatorUser) {
+			$initiatorEmail = $initiatorUser->getEMailAddress();
+			if ($initiatorEmail !== null) {
+				$message->setReplyTo([$initiatorEmail => $initiatorDisplayName]);
+				$emailTemplate->addFooter($instanceName . ($this->defaults->getSlogan() !== '' ? ' - ' . $this->defaults->getSlogan() : ''));
+			} else {
+				$emailTemplate->addFooter();
+			}
+		} else {
+			$emailTemplate->addFooter();
+		}
+
+		$message->useTemplate($emailTemplate);
+		$failedRecipients = $this->mailer->send($message);
+		if (!empty($failedRecipients)) {
+			$this->logger->error('Share notification mail could not be sent to: ' . implode(', ', $failedRecipients));
+			return;
 		}
 	}
 
@@ -1529,7 +1677,7 @@ class DefaultShareProvider implements IShareProvider {
 	 *
 	 * @return IShare the modified share
 	 */
-	private function updateShareAttributes(IShare $share, ?string $data): IShare {
+	protected function updateShareAttributes(IShare $share, ?string $data): IShare {
 		if ($data !== null && $data !== '') {
 			$attributes = new ShareAttributes();
 			$compressedAttributes = \json_decode($data, true);
@@ -1552,7 +1700,7 @@ class DefaultShareProvider implements IShareProvider {
 	/**
 	 * Format IAttributes to database format (JSON string)
 	 */
-	private function formatShareAttributes(?IAttributes $attributes): ?string {
+	protected function formatShareAttributes(?IAttributes $attributes): ?string {
 		if ($attributes === null || empty($attributes->toArray())) {
 			return null;
 		}
@@ -1562,7 +1710,7 @@ class DefaultShareProvider implements IShareProvider {
 			$compressedAttributes[] = [
 				0 => $attribute['scope'],
 				1 => $attribute['key'],
-				2 => $attribute['enabled']
+				2 => $attribute['value']
 			];
 		}
 		return \json_encode($compressedAttributes);

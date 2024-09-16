@@ -68,7 +68,7 @@ class Manager implements IManager {
 	}
 	/**
 	 * @param string $appClass The service must implement IApp, otherwise a
-	 *                          \InvalidArgumentException is thrown later
+	 *                         \InvalidArgumentException is thrown later
 	 * @since 17.0.0
 	 */
 	public function registerApp(string $appClass): void {
@@ -78,8 +78,8 @@ class Manager implements IManager {
 	/**
 	 * @param \Closure $service The service must implement INotifier, otherwise a
 	 *                          \InvalidArgumentException is thrown later
-	 * @param \Closure $info    An array with the keys 'id' and 'name' containing
-	 *                          the app id and the app name
+	 * @param \Closure $info An array with the keys 'id' and 'name' containing
+	 *                       the app id and the app name
 	 * @deprecated 17.0.0 use registerNotifierService instead.
 	 * @since 8.2.0 - Parameter $info was added in 9.0.0
 	 */
@@ -93,7 +93,7 @@ class Manager implements IManager {
 
 	/**
 	 * @param string $notifierService The service must implement INotifier, otherwise a
-	 *                          \InvalidArgumentException is thrown later
+	 *                                \InvalidArgumentException is thrown later
 	 * @since 17.0.0
 	 */
 	public function registerNotifierService(string $notifierService): void {

@@ -50,7 +50,7 @@ class MoveCalendar extends Command {
 			->addArgument('destinationuid',
 				InputArgument::REQUIRED,
 				'User who will receive the calendar')
-			->addOption('force', 'f', InputOption::VALUE_NONE, "Force the migration by removing existing shares and renaming calendars in case of conflicts");
+			->addOption('force', 'f', InputOption::VALUE_NONE, 'Force the migration by removing existing shares and renaming calendars in case of conflicts');
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output): int {
@@ -97,8 +97,8 @@ class MoveCalendar extends Command {
 			 * Warn that share links have changed if there are shares
 			 */
 			$this->io->note([
-				"Please note that moving calendar " . $calendar['uri'] . " from user <$userOrigin> to <$userDestination> has caused share links to change.",
-				"Sharees will need to change \"example.com/remote.php/dav/calendars/uid/" . $calendar['uri'] . "_shared_by_$userOrigin\" to \"example.com/remote.php/dav/calendars/uid/" . $newName ?: $calendar['uri'] . "_shared_by_$userDestination\""
+				'Please note that moving calendar ' . $calendar['uri'] . " from user <$userOrigin> to <$userDestination> has caused share links to change.",
+				'Sharees will need to change "example.com/remote.php/dav/calendars/uid/' . $calendar['uri'] . "_shared_by_$userOrigin\" to \"example.com/remote.php/dav/calendars/uid/" . $newName ?: $calendar['uri'] . "_shared_by_$userDestination\""
 			]);
 		}
 
@@ -155,7 +155,7 @@ class MoveCalendar extends Command {
 				if ($force) {
 					$this->calDav->updateShares(new Calendar($this->calDav, $calendar, $this->l10n, $this->config, $this->logger), [], ['principal:principals/groups/' . $userOrGroup]);
 				} else {
-					throw new \InvalidArgumentException("User <$userDestination> is not part of the group <$userOrGroup> with whom the calendar <" . $calendar['uri'] . "> was shared. You may use -f to move the calendar while deleting this share.");
+					throw new \InvalidArgumentException("User <$userDestination> is not part of the group <$userOrGroup> with whom the calendar <" . $calendar['uri'] . '> was shared. You may use -f to move the calendar while deleting this share.');
 				}
 			}
 
@@ -166,7 +166,7 @@ class MoveCalendar extends Command {
 				if ($force) {
 					$this->calDav->updateShares(new Calendar($this->calDav, $calendar, $this->l10n, $this->config, $this->logger), [], ['principal:principals/users/' . $userOrGroup]);
 				} else {
-					throw new \InvalidArgumentException("The calendar <" . $calendar['uri'] . "> is already shared to user <$userDestination>.You may use -f to move the calendar while deleting this share.");
+					throw new \InvalidArgumentException('The calendar <' . $calendar['uri'] . "> is already shared to user <$userDestination>.You may use -f to move the calendar while deleting this share.");
 				}
 			}
 		}

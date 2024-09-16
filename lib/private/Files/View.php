@@ -221,7 +221,7 @@ class View {
 			$relPath = '/' . $pathParts[3];
 			$this->lockFile($relPath, ILockingProvider::LOCK_SHARED, true);
 			\OC_Hook::emit(
-				Filesystem::CLASSNAME, "umount",
+				Filesystem::CLASSNAME, 'umount',
 				[Filesystem::signal_param_path => $relPath]
 			);
 			$this->changeLock($relPath, ILockingProvider::LOCK_EXCLUSIVE, true);
@@ -229,7 +229,7 @@ class View {
 			$this->changeLock($relPath, ILockingProvider::LOCK_SHARED, true);
 			if ($result) {
 				\OC_Hook::emit(
-					Filesystem::CLASSNAME, "post_umount",
+					Filesystem::CLASSNAME, 'post_umount',
 					[Filesystem::signal_param_path => $relPath]
 				);
 			}
@@ -697,7 +697,7 @@ class View {
 		$absolutePath2 = Filesystem::normalizePath($this->getAbsolutePath($target));
 
 		if (str_starts_with($absolutePath2, $absolutePath1 . '/')) {
-			throw new ForbiddenException("Moving a folder into a child folder is forbidden", false);
+			throw new ForbiddenException('Moving a folder into a child folder is forbidden', false);
 		}
 
 		$targetParts = explode('/', $absolutePath2);
@@ -713,6 +713,12 @@ class View {
 			$exists = $this->file_exists($target);
 
 			if ($source == null || $target == null) {
+				return false;
+			}
+
+			try {
+				$this->verifyPath(dirname($target), basename($target));
+			} catch (InvalidPathException) {
 				return false;
 			}
 
@@ -739,8 +745,6 @@ class View {
 					}
 				}
 				if ($run) {
-					$this->verifyPath(dirname($target), basename($target));
-
 					$manager = Filesystem::getMountManager();
 					$mount1 = $this->getMount($source);
 					$mount2 = $this->getMount($target);
@@ -1326,16 +1330,13 @@ class View {
 	 *
 	 * @param string $path
 	 * @param bool|string $includeMountPoints true to add mountpoint sizes,
-	 * 'ext' to add only ext storage mount point sizes. Defaults to true.
+	 *                                        'ext' to add only ext storage mount point sizes. Defaults to true.
 	 * @return \OC\Files\FileInfo|false False if file does not exist
 	 */
 	public function getFileInfo($path, $includeMountPoints = true) {
 		$this->assertPathLength($path);
 		if (!Filesystem::isValidPath($path)) {
 			return false;
-		}
-		if (Cache\Scanner::isPartialFile($path)) {
-			return $this->getPartFileInfo($path);
 		}
 		$relativePath = $path;
 		$path = Filesystem::normalizePath($this->fakeRoot . '/' . $path);
@@ -1347,12 +1348,20 @@ class View {
 			$data = $this->getCacheEntry($storage, $internalPath, $relativePath);
 
 			if (!$data instanceof ICacheEntry) {
+				if (Cache\Scanner::isPartialFile($relativePath)) {
+					return $this->getPartFileInfo($relativePath);
+				}
+
 				return false;
 			}
 
 			if ($mount instanceof MoveableMount && $internalPath === '') {
 				$data['permissions'] |= \OCP\Constants::PERMISSION_DELETE;
 			}
+			if ($internalPath === '' && $data['name']) {
+				$data['name'] = basename($path);
+			}
+
 			$ownerId = $storage->getOwner($internalPath);
 			$owner = null;
 			if ($ownerId !== null && $ownerId !== false) {
@@ -1487,6 +1496,15 @@ class View {
 					if ($pos = strpos($relativePath, '/')) {
 						//mountpoint inside subfolder add size to the correct folder
 						$entryName = substr($relativePath, 0, $pos);
+
+						// Create parent folders if the mountpoint is inside a subfolder that doesn't exist yet
+						if (!isset($files[$entryName]) && $this->mkdir($path . '/' . $entryName) !== false) {
+							$info = $this->getFileInfo($path . '/' . $entryName);
+							if ($info !== false) {
+								$files[$entryName] = $info;
+							}
+						}
+
 						if (isset($files[$entryName])) {
 							$files[$entryName]->addSubEntry($rootEntry, $mountPoint);
 						}
@@ -1776,7 +1794,8 @@ class View {
 		}, $providers));
 
 		foreach ($shares as $share) {
-			if (str_starts_with($targetPath, $share->getNode()->getPath())) {
+			$sharedPath = $share->getNode()->getPath();
+			if ($targetPath === $sharedPath || str_starts_with($targetPath, $sharedPath . '/')) {
 				$this->logger->debug(
 					'It is not allowed to move one mount point into a shared folder',
 					['app' => 'files']);
@@ -1817,22 +1836,39 @@ class View {
 	/**
 	 * @param string $path
 	 * @param string $fileName
+	 * @param bool $readonly Check only if the path is allowed for read-only access
 	 * @throws InvalidPathException
 	 */
-	public function verifyPath($path, $fileName): void {
+	public function verifyPath($path, $fileName, $readonly = false): void {
+		// All of the view's functions disallow '..' in the path so we can short cut if the path is invalid
+		if (!Filesystem::isValidPath($path ?: '/')) {
+			$l = \OCP\Util::getL10N('lib');
+			throw new InvalidPathException($l->t('Path contains invalid segments'));
+		}
+
+		// Short cut for read-only validation
+		if ($readonly) {
+			$validator = \OCP\Server::get(FilenameValidator::class);
+			if ($validator->isForbidden($fileName)) {
+				$l = \OCP\Util::getL10N('lib');
+				throw new InvalidPathException($l->t('Filename is a reserved word'));
+			}
+			return;
+		}
+
 		try {
 			/** @type \OCP\Files\Storage $storage */
 			[$storage, $internalPath] = $this->resolvePath($path);
 			$storage->verifyPath($internalPath, $fileName);
 		} catch (ReservedWordException $ex) {
 			$l = \OCP\Util::getL10N('lib');
-			throw new InvalidPathException($l->t('File name is a reserved word'));
+			throw new InvalidPathException($ex->getMessage() ?: $l->t('Filename is a reserved word'));
 		} catch (InvalidCharacterInPathException $ex) {
 			$l = \OCP\Util::getL10N('lib');
-			throw new InvalidPathException($l->t('File name contains at least one invalid character'));
+			throw new InvalidPathException($ex->getMessage() ?: $l->t('Filename contains at least one invalid character'));
 		} catch (FileNameTooLongException $ex) {
 			$l = \OCP\Util::getL10N('lib');
-			throw new InvalidPathException($l->t('File name is too long'));
+			throw new InvalidPathException($l->t('Filename is too long'));
 		} catch (InvalidDirectoryException $ex) {
 			$l = \OCP\Util::getL10N('lib');
 			throw new InvalidPathException($l->t('Dot files are not allowed'));
@@ -1874,7 +1910,7 @@ class View {
 	 *
 	 * @param string $absolutePath absolute path
 	 * @param bool $useParentMount true to return parent mount instead of whatever
-	 * is mounted directly on the given path, false otherwise
+	 *                             is mounted directly on the given path, false otherwise
 	 * @return IMountPoint mount point for which to apply locks
 	 */
 	private function getMountForLock(string $absolutePath, bool $useParentMount = false): IMountPoint {
@@ -2088,7 +2124,7 @@ class View {
 	 * @param string $absolutePath absolute path which is under "files"
 	 *
 	 * @return string path relative to "files" with trimmed slashes or null
-	 * if the path was NOT relative to files
+	 *                if the path was NOT relative to files
 	 *
 	 * @throws \InvalidArgumentException if the given path was not under "files"
 	 * @since 8.1.0

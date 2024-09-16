@@ -7,7 +7,7 @@
  */
 namespace OCA\Files\Tests\Controller;
 
-use OCA\Files\Activity\Helper;
+use OC\Files\FilenameValidator;
 use OCA\Files\Controller\ViewController;
 use OCA\Files\Service\UserConfig;
 use OCA\Files\Service\ViewConfig;
@@ -25,7 +25,7 @@ use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserSession;
-use OCP\Share\IManager;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 /**
@@ -34,38 +34,21 @@ use Test\TestCase;
  * @package OCA\Files\Tests\Controller
  */
 class ViewControllerTest extends TestCase {
-	/** @var IRequest|\PHPUnit\Framework\MockObject\MockObject */
-	private $request;
-	/** @var IURLGenerator|\PHPUnit\Framework\MockObject\MockObject */
-	private $urlGenerator;
-	/** @var IL10N */
-	private $l10n;
-	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
-	private $config;
-	/** @var IEventDispatcher */
-	private $eventDispatcher;
-	/** @var ViewController|\PHPUnit\Framework\MockObject\MockObject */
-	private $viewController;
-	/** @var IUser|\PHPUnit\Framework\MockObject\MockObject */
-	private $user;
-	/** @var IUserSession|\PHPUnit\Framework\MockObject\MockObject */
-	private $userSession;
-	/** @var IAppManager|\PHPUnit\Framework\MockObject\MockObject */
-	private $appManager;
-	/** @var IRootFolder|\PHPUnit\Framework\MockObject\MockObject */
-	private $rootFolder;
-	/** @var Helper|\PHPUnit\Framework\MockObject\MockObject */
-	private $activityHelper;
-	/** @var IInitialState|\PHPUnit\Framework\MockObject\MockObject */
-	private $initialState;
-	/** @var ITemplateManager|\PHPUnit\Framework\MockObject\MockObject */
-	private $templateManager;
-	/** @var IManager|\PHPUnit\Framework\MockObject\MockObject */
-	private $shareManager;
-	/** @var UserConfig|\PHPUnit\Framework\MockObject\MockObject */
-	private $userConfig;
-	/** @var ViewConfig|\PHPUnit\Framework\MockObject\MockObject */
-	private $viewConfig;
+	private IRequest&MockObject $request;
+	private IURLGenerator&MockObject $urlGenerator;
+	private IL10N&MockObject $l10n;
+	private IConfig&MockObject $config;
+	private IEventDispatcher $eventDispatcher;
+	private IUser&MockObject $user;
+	private IUserSession&MockObject $userSession;
+	private IAppManager&MockObject $appManager;
+	private IRootFolder&MockObject $rootFolder;
+	private IInitialState&MockObject $initialState;
+	private ITemplateManager&MockObject $templateManager;
+	private UserConfig&MockObject $userConfig;
+	private ViewConfig&MockObject $viewConfig;
+
+	private ViewController&MockObject $viewController;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -84,13 +67,14 @@ class ViewControllerTest extends TestCase {
 			->method('getUser')
 			->willReturn($this->user);
 		$this->rootFolder = $this->getMockBuilder('\OCP\Files\IRootFolder')->getMock();
-		$this->activityHelper = $this->createMock(Helper::class);
 		$this->initialState = $this->createMock(IInitialState::class);
 		$this->templateManager = $this->createMock(ITemplateManager::class);
-		$this->shareManager = $this->createMock(IManager::class);
 		$this->userConfig = $this->createMock(UserConfig::class);
 		$this->viewConfig = $this->createMock(ViewConfig::class);
-		$this->viewController = $this->getMockBuilder('\OCA\Files\Controller\ViewController')
+
+		$filenameValidator = $this->createMock(FilenameValidator::class);
+
+		$this->viewController = $this->getMockBuilder(ViewController::class)
 			->setConstructorArgs([
 				'files',
 				$this->request,
@@ -101,20 +85,19 @@ class ViewControllerTest extends TestCase {
 				$this->userSession,
 				$this->appManager,
 				$this->rootFolder,
-				$this->activityHelper,
 				$this->initialState,
 				$this->templateManager,
-				$this->shareManager,
 				$this->userConfig,
 				$this->viewConfig,
+				$filenameValidator,
 			])
-		->setMethods([
-			'getStorageInfo',
-		])
-		->getMock();
+			->onlyMethods([
+				'getStorageInfo',
+			])
+			->getMock();
 	}
 
-	public function testIndexWithRegularBrowser() {
+	public function testIndexWithRegularBrowser(): void {
 		$this->viewController
 			->expects($this->any())
 			->method('getStorageInfo')
@@ -159,22 +142,10 @@ class ViewControllerTest extends TestCase {
 		$policy->addAllowedFrameDomain('\'self\'');
 		$expected->setContentSecurityPolicy($policy);
 
-		$this->activityHelper->method('getFavoriteFilePaths')
-			->with($this->user->getUID())
-			->willReturn([
-				'item' => [],
-				'folders' => [
-					'/test1',
-					'/test2/',
-					'/test3/sub4',
-					'/test5/sub6/',
-				],
-			]);
-
 		$this->assertEquals($expected, $this->viewController->index('MyDir', 'MyView'));
 	}
 
-	public function testShowFileRouteWithTrashedFile() {
+	public function testShowFileRouteWithTrashedFile(): void {
 		$this->appManager->expects($this->once())
 			->method('isEnabledForUser')
 			->with('files_trashbin')

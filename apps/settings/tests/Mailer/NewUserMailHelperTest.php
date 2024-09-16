@@ -57,6 +57,8 @@ class NewUserMailHelperTest extends TestCase {
 			$this->defaults,
 			$this->urlGenerator,
 			$this->l10nFactory,
+			null,
+			null,
 			'test.TestTemplate',
 			[]
 		);
@@ -100,7 +102,7 @@ class NewUserMailHelperTest extends TestCase {
 		);
 	}
 
-	public function testGenerateTemplateWithPasswordResetToken() {
+	public function testGenerateTemplateWithPasswordResetToken(): void {
 		$this->secureRandom
 			->expects($this->once())
 			->method('generate')
@@ -257,26 +259,26 @@ class NewUserMailHelperTest extends TestCase {
 				<tr style="padding:0;text-align:left;vertical-align:top">
 					<th style="Margin:0;color:#0a0a0a;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0;padding:0;text-align:left">
 						<center data-parsed="" style="min-width:490px;width:100%">
-							<table class="button btn default primary float-center" style="Margin:0 0 30px 0;border-collapse:collapse;border-spacing:0;display:inline-block;float:none;margin:0 0 30px 0;margin-right:15px;max-height:60px;max-width:300px;padding:0;text-align:center;vertical-align:top;width:auto;background:;background-color:;color:#fefefe;">
+							<table class="button btn default primary float-center" style="Margin:0 0 30px 0;border-collapse:collapse;border-spacing:0;display:inline-block;float:none;margin:0 0 30px 0;margin-right:15px;border-radius:8px;max-width:300px;padding:0;text-align:center;vertical-align:top;width:auto;background:;background-color:;color:#fefefe;">
 								<tr style="padding:0;text-align:left;vertical-align:top">
-									<td style="-moz-hyphens:auto;-webkit-hyphens:auto;Margin:0;border-collapse:collapse!important;color:#0a0a0a;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:400;hyphens:auto;line-height:1.3;margin:0;padding:0;text-align:left;vertical-align:top;word-wrap:break-word">
+									<td style="-moz-hyphens:auto;-webkit-hyphens:auto;Margin:0;border-collapse:collapse!important;color:#0a0a0a;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:400;hyphens:auto;line-height:normal;margin:0;padding:0;text-align:left;vertical-align:top;word-wrap:break-word">
 										<table style="border-collapse:collapse;border-spacing:0;padding:0;text-align:left;vertical-align:top;width:100%">
 											<tr style="padding:0;text-align:left;vertical-align:top">
-												<td style="-moz-hyphens:auto;-webkit-hyphens:auto;Margin:0;border:0 solid ;border-collapse:collapse!important;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:400;hyphens:auto;line-height:1.3;margin:0;padding:0;text-align:left;vertical-align:top;word-wrap:break-word">
-													<a href="https://example.com/resetPassword/MySuperLongSecureRandomToken" style="Margin:0;border:0 solid ;border-radius:2px;color:#ffffff;display:inline-block;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:regular;line-height:1.3;margin:0;padding:10px 25px 10px 25px;text-align:left;outline:1px solid #ffffff;text-decoration:none">Set your password</a>
+												<td style="-moz-hyphens:auto;-webkit-hyphens:auto;Margin:0;border:0 solid ;border-collapse:collapse!important;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:400;hyphens:auto;line-height:normal;margin:0;padding:0;text-align:left;vertical-align:top;word-wrap:break-word">
+													<a href="https://example.com/resetPassword/MySuperLongSecureRandomToken" style="Margin:0;border:0 solid ;color:#ffffff;display:inline-block;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:regular;line-height:normal;margin:0;padding:8px;text-align:left;outline:1px solid #ffffff;text-decoration:none">Set your password</a>
 												</td>
 											</tr>
 										</table>
 									</td>
 								</tr>
 							</table>
-							<table class="button btn default secondary float-center" style="Margin:0 0 30px 0;border-collapse:collapse;border-spacing:0;display:inline-block;float:none;margin:0 0 30px 0;max-height:40px;max-width:300px;padding:0;text-align:center;vertical-align:top;width:auto">
+							<table class="button btn default secondary float-center" style="Margin:0 0 30px 0;border-collapse:collapse;border-spacing:0;display:inline-block;float:none;background-color: #ccc;margin:0 0 30px 0;max-height:40px;max-width:300px;padding:1px;border-radius:8px;text-align:center;vertical-align:top;width:auto">
 								<tr style="padding:0;text-align:left;vertical-align:top">
-									<td style="-moz-hyphens:auto;-webkit-hyphens:auto;Margin:0;border-collapse:collapse!important;color:#0a0a0a;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:400;hyphens:auto;line-height:1.3;margin:0;padding:0;text-align:left;vertical-align:top;word-wrap:break-word">
+									<td style="-moz-hyphens:auto;-webkit-hyphens:auto;Margin:0;border-collapse:collapse!important;color:#0a0a0a;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:400;hyphens:auto;line-height:normal;margin:0;padding:0;text-align:left;vertical-align:top;word-wrap:break-word">
 										<table style="border-collapse:collapse;border-spacing:0;padding:0;text-align:left;vertical-align:top;width:100%">
 											<tr style="padding:0;text-align:left;vertical-align:top">
-												<td style="-moz-hyphens:auto;-webkit-hyphens:auto;Margin:0;background:#777;border:0 solid #777;border-collapse:collapse!important;color:#fefefe;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:400;hyphens:auto;line-height:1.3;margin:0;padding:0;text-align:left;vertical-align:top;word-wrap:break-word">
-													<a href="https://nextcloud.com/install/#install-clients" style="Margin:0;background-color:#fff;border:0 solid #777;border-radius:2px;color:#6C6C6C!important;display:inline-block;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:regular;line-height:1.3;margin:0;outline:1px solid #CBCBCB;padding:10px 25px 10px 25px;text-align:left;text-decoration:none">Install Client</a>
+												<td style="-moz-hyphens:auto;-webkit-hyphens:auto;Margin:0;border:0 solid #777;border-collapse:collapse!important;color:#fefefe;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:400;hyphens:auto;line-height:normal;margin:0;padding:0;text-align:left;vertical-align:top;word-wrap:break-word">
+													<a href="https://nextcloud.com/install/#install-clients" style="Margin:0;background-color:#fff;border:0 solid #777;color:#6C6C6C!important;display:inline-block;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:regular;line-height:normal;margin:0;border-radius: 7px;padding:8px;text-align:left;text-decoration:none">Install Client</a>
 												</td>
 											</tr>
 										</table>
@@ -355,7 +357,7 @@ EOF;
 		$this->assertSame('OC\Mail\EMailTemplate', get_class($result));
 	}
 
-	public function testGenerateTemplateWithoutPasswordResetToken() {
+	public function testGenerateTemplateWithoutPasswordResetToken(): void {
 		$this->urlGenerator
 			->expects($this->any())
 			->method('getAbsoluteURL')
@@ -493,26 +495,26 @@ EOF;
 				<tr style="padding:0;text-align:left;vertical-align:top">
 					<th style="Margin:0;color:#0a0a0a;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0;padding:0;text-align:left">
 						<center data-parsed="" style="min-width:490px;width:100%">
-							<table class="button btn default primary float-center" style="Margin:0 0 30px 0;border-collapse:collapse;border-spacing:0;display:inline-block;float:none;margin:0 0 30px 0;margin-right:15px;max-height:60px;max-width:300px;padding:0;text-align:center;vertical-align:top;width:auto;background:;background-color:;color:#fefefe;">
+							<table class="button btn default primary float-center" style="Margin:0 0 30px 0;border-collapse:collapse;border-spacing:0;display:inline-block;float:none;margin:0 0 30px 0;margin-right:15px;border-radius:8px;max-width:300px;padding:0;text-align:center;vertical-align:top;width:auto;background:;background-color:;color:#fefefe;">
 								<tr style="padding:0;text-align:left;vertical-align:top">
-									<td style="-moz-hyphens:auto;-webkit-hyphens:auto;Margin:0;border-collapse:collapse!important;color:#0a0a0a;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:400;hyphens:auto;line-height:1.3;margin:0;padding:0;text-align:left;vertical-align:top;word-wrap:break-word">
+									<td style="-moz-hyphens:auto;-webkit-hyphens:auto;Margin:0;border-collapse:collapse!important;color:#0a0a0a;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:400;hyphens:auto;line-height:normal;margin:0;padding:0;text-align:left;vertical-align:top;word-wrap:break-word">
 										<table style="border-collapse:collapse;border-spacing:0;padding:0;text-align:left;vertical-align:top;width:100%">
 											<tr style="padding:0;text-align:left;vertical-align:top">
-												<td style="-moz-hyphens:auto;-webkit-hyphens:auto;Margin:0;border:0 solid ;border-collapse:collapse!important;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:400;hyphens:auto;line-height:1.3;margin:0;padding:0;text-align:left;vertical-align:top;word-wrap:break-word">
-													<a href="https://example.com/" style="Margin:0;border:0 solid ;border-radius:2px;color:#ffffff;display:inline-block;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:regular;line-height:1.3;margin:0;padding:10px 25px 10px 25px;text-align:left;outline:1px solid #ffffff;text-decoration:none">Go to TestCloud</a>
+												<td style="-moz-hyphens:auto;-webkit-hyphens:auto;Margin:0;border:0 solid ;border-collapse:collapse!important;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:400;hyphens:auto;line-height:normal;margin:0;padding:0;text-align:left;vertical-align:top;word-wrap:break-word">
+													<a href="https://example.com/" style="Margin:0;border:0 solid ;color:#ffffff;display:inline-block;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:regular;line-height:normal;margin:0;padding:8px;text-align:left;outline:1px solid #ffffff;text-decoration:none">Go to TestCloud</a>
 												</td>
 											</tr>
 										</table>
 									</td>
 								</tr>
 							</table>
-							<table class="button btn default secondary float-center" style="Margin:0 0 30px 0;border-collapse:collapse;border-spacing:0;display:inline-block;float:none;margin:0 0 30px 0;max-height:40px;max-width:300px;padding:0;text-align:center;vertical-align:top;width:auto">
+							<table class="button btn default secondary float-center" style="Margin:0 0 30px 0;border-collapse:collapse;border-spacing:0;display:inline-block;float:none;background-color: #ccc;margin:0 0 30px 0;max-height:40px;max-width:300px;padding:1px;border-radius:8px;text-align:center;vertical-align:top;width:auto">
 								<tr style="padding:0;text-align:left;vertical-align:top">
-									<td style="-moz-hyphens:auto;-webkit-hyphens:auto;Margin:0;border-collapse:collapse!important;color:#0a0a0a;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:400;hyphens:auto;line-height:1.3;margin:0;padding:0;text-align:left;vertical-align:top;word-wrap:break-word">
+									<td style="-moz-hyphens:auto;-webkit-hyphens:auto;Margin:0;border-collapse:collapse!important;color:#0a0a0a;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:400;hyphens:auto;line-height:normal;margin:0;padding:0;text-align:left;vertical-align:top;word-wrap:break-word">
 										<table style="border-collapse:collapse;border-spacing:0;padding:0;text-align:left;vertical-align:top;width:100%">
 											<tr style="padding:0;text-align:left;vertical-align:top">
-												<td style="-moz-hyphens:auto;-webkit-hyphens:auto;Margin:0;background:#777;border:0 solid #777;border-collapse:collapse!important;color:#fefefe;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:400;hyphens:auto;line-height:1.3;margin:0;padding:0;text-align:left;vertical-align:top;word-wrap:break-word">
-													<a href="https://nextcloud.com/install/#install-clients" style="Margin:0;background-color:#fff;border:0 solid #777;border-radius:2px;color:#6C6C6C!important;display:inline-block;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:regular;line-height:1.3;margin:0;outline:1px solid #CBCBCB;padding:10px 25px 10px 25px;text-align:left;text-decoration:none">Install Client</a>
+												<td style="-moz-hyphens:auto;-webkit-hyphens:auto;Margin:0;border:0 solid #777;border-collapse:collapse!important;color:#fefefe;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:400;hyphens:auto;line-height:normal;margin:0;padding:0;text-align:left;vertical-align:top;word-wrap:break-word">
+													<a href="https://nextcloud.com/install/#install-clients" style="Margin:0;background-color:#fff;border:0 solid #777;color:#6C6C6C!important;display:inline-block;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:regular;line-height:normal;margin:0;border-radius: 7px;padding:8px;text-align:left;text-decoration:none">Install Client</a>
 												</td>
 											</tr>
 										</table>
@@ -591,7 +593,7 @@ EOF;
 		$this->assertSame('OC\Mail\EMailTemplate', get_class($result));
 	}
 
-	public function testGenerateTemplateWithoutUserId() {
+	public function testGenerateTemplateWithoutUserId(): void {
 		$this->urlGenerator
 			->expects($this->any())
 			->method('getAbsoluteURL')
@@ -718,26 +720,26 @@ EOF;
 				<tr style="padding:0;text-align:left;vertical-align:top">
 					<th style="Margin:0;color:#0a0a0a;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0;padding:0;text-align:left">
 						<center data-parsed="" style="min-width:490px;width:100%">
-							<table class="button btn default primary float-center" style="Margin:0 0 30px 0;border-collapse:collapse;border-spacing:0;display:inline-block;float:none;margin:0 0 30px 0;margin-right:15px;max-height:60px;max-width:300px;padding:0;text-align:center;vertical-align:top;width:auto;background:;background-color:;color:#fefefe;">
+							<table class="button btn default primary float-center" style="Margin:0 0 30px 0;border-collapse:collapse;border-spacing:0;display:inline-block;float:none;margin:0 0 30px 0;margin-right:15px;border-radius:8px;max-width:300px;padding:0;text-align:center;vertical-align:top;width:auto;background:;background-color:;color:#fefefe;">
 								<tr style="padding:0;text-align:left;vertical-align:top">
-									<td style="-moz-hyphens:auto;-webkit-hyphens:auto;Margin:0;border-collapse:collapse!important;color:#0a0a0a;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:400;hyphens:auto;line-height:1.3;margin:0;padding:0;text-align:left;vertical-align:top;word-wrap:break-word">
+									<td style="-moz-hyphens:auto;-webkit-hyphens:auto;Margin:0;border-collapse:collapse!important;color:#0a0a0a;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:400;hyphens:auto;line-height:normal;margin:0;padding:0;text-align:left;vertical-align:top;word-wrap:break-word">
 										<table style="border-collapse:collapse;border-spacing:0;padding:0;text-align:left;vertical-align:top;width:100%">
 											<tr style="padding:0;text-align:left;vertical-align:top">
-												<td style="-moz-hyphens:auto;-webkit-hyphens:auto;Margin:0;border:0 solid ;border-collapse:collapse!important;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:400;hyphens:auto;line-height:1.3;margin:0;padding:0;text-align:left;vertical-align:top;word-wrap:break-word">
-													<a href="https://example.com/" style="Margin:0;border:0 solid ;border-radius:2px;color:#ffffff;display:inline-block;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:regular;line-height:1.3;margin:0;padding:10px 25px 10px 25px;text-align:left;outline:1px solid #ffffff;text-decoration:none">Go to TestCloud</a>
+												<td style="-moz-hyphens:auto;-webkit-hyphens:auto;Margin:0;border:0 solid ;border-collapse:collapse!important;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:400;hyphens:auto;line-height:normal;margin:0;padding:0;text-align:left;vertical-align:top;word-wrap:break-word">
+													<a href="https://example.com/" style="Margin:0;border:0 solid ;color:#ffffff;display:inline-block;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:regular;line-height:normal;margin:0;padding:8px;text-align:left;outline:1px solid #ffffff;text-decoration:none">Go to TestCloud</a>
 												</td>
 											</tr>
 										</table>
 									</td>
 								</tr>
 							</table>
-							<table class="button btn default secondary float-center" style="Margin:0 0 30px 0;border-collapse:collapse;border-spacing:0;display:inline-block;float:none;margin:0 0 30px 0;max-height:40px;max-width:300px;padding:0;text-align:center;vertical-align:top;width:auto">
+							<table class="button btn default secondary float-center" style="Margin:0 0 30px 0;border-collapse:collapse;border-spacing:0;display:inline-block;float:none;background-color: #ccc;margin:0 0 30px 0;max-height:40px;max-width:300px;padding:1px;border-radius:8px;text-align:center;vertical-align:top;width:auto">
 								<tr style="padding:0;text-align:left;vertical-align:top">
-									<td style="-moz-hyphens:auto;-webkit-hyphens:auto;Margin:0;border-collapse:collapse!important;color:#0a0a0a;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:400;hyphens:auto;line-height:1.3;margin:0;padding:0;text-align:left;vertical-align:top;word-wrap:break-word">
+									<td style="-moz-hyphens:auto;-webkit-hyphens:auto;Margin:0;border-collapse:collapse!important;color:#0a0a0a;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:400;hyphens:auto;line-height:normal;margin:0;padding:0;text-align:left;vertical-align:top;word-wrap:break-word">
 										<table style="border-collapse:collapse;border-spacing:0;padding:0;text-align:left;vertical-align:top;width:100%">
 											<tr style="padding:0;text-align:left;vertical-align:top">
-												<td style="-moz-hyphens:auto;-webkit-hyphens:auto;Margin:0;background:#777;border:0 solid #777;border-collapse:collapse!important;color:#fefefe;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:400;hyphens:auto;line-height:1.3;margin:0;padding:0;text-align:left;vertical-align:top;word-wrap:break-word">
-													<a href="https://nextcloud.com/install/#install-clients" style="Margin:0;background-color:#fff;border:0 solid #777;border-radius:2px;color:#6C6C6C!important;display:inline-block;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:regular;line-height:1.3;margin:0;outline:1px solid #CBCBCB;padding:10px 25px 10px 25px;text-align:left;text-decoration:none">Install Client</a>
+												<td style="-moz-hyphens:auto;-webkit-hyphens:auto;Margin:0;border:0 solid #777;border-collapse:collapse!important;color:#fefefe;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:400;hyphens:auto;line-height:normal;margin:0;padding:0;text-align:left;vertical-align:top;word-wrap:break-word">
+													<a href="https://nextcloud.com/install/#install-clients" style="Margin:0;background-color:#fff;border:0 solid #777;color:#6C6C6C!important;display:inline-block;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:regular;line-height:normal;margin:0;border-radius: 7px;padding:8px;text-align:left;text-decoration:none">Install Client</a>
 												</td>
 											</tr>
 										</table>
@@ -814,7 +816,7 @@ EOF;
 		$this->assertSame('OC\Mail\EMailTemplate', get_class($result));
 	}
 
-	public function testSendMail() {
+	public function testSendMail(): void {
 		/** @var IUser|\PHPUnit\Framework\MockObject\MockObject $user */
 		$user = $this->createMock(IUser::class);
 		$user

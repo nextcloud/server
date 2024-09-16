@@ -40,7 +40,7 @@ class ActionProviderStoreTest extends TestCase {
 		$this->actionProviderStore = new ActionProviderStore($this->serverContainer, $this->appManager, $logger);
 	}
 
-	public function testGetProviders() {
+	public function testGetProviders(): void {
 		$user = $this->createMock(IUser::class);
 		$provider1 = $this->createMock(ProfileProvider::class);
 		$provider2 = $this->createMock(LocalTimeProvider::class);
@@ -76,7 +76,7 @@ class ActionProviderStoreTest extends TestCase {
 		$this->assertInstanceOf(EMailProvider::class, $providers[2]);
 	}
 
-	public function testGetProvidersOfAppWithIncompleInfo() {
+	public function testGetProvidersOfAppWithIncompleInfo(): void {
 		$user = $this->createMock(IUser::class);
 		$provider1 = $this->createMock(ProfileProvider::class);
 		$provider2 = $this->createMock(LocalTimeProvider::class);
@@ -107,7 +107,7 @@ class ActionProviderStoreTest extends TestCase {
 	}
 
 
-	public function testGetProvidersWithQueryException() {
+	public function testGetProvidersWithQueryException(): void {
 		$this->expectException(\Exception::class);
 
 		$user = $this->createMock(IUser::class);

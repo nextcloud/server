@@ -95,7 +95,7 @@ class UpdaterTest extends TestCase {
 	 * @param bool $debug
 	 * @param string $vendor
 	 */
-	public function testIsUpgradePossible($oldVersion, $newVersion, $allowedVersions, $result, $debug = false, $vendor = 'nextcloud') {
+	public function testIsUpgradePossible($oldVersion, $newVersion, $allowedVersions, $result, $debug = false, $vendor = 'nextcloud'): void {
 		$this->config->expects($this->any())
 			->method('getSystemValueBool')
 			->with('debug', false)

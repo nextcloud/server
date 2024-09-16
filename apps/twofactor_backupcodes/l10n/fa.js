@@ -10,7 +10,6 @@ OC.L10N.register(
     "Two factor backup codes" : "کدهای پشتیبان دو عاملی",
     "A two-factor auth backup codes provider" : "ارائه دهنده کدهای پشتیبان تأیید اعتبار دو مرحله ای",
     "Backup codes have been generated. {used} of {total} codes have been used." : "کدهای پشتیبان ایجاد شده است. {used} از {total} کد استفاده شده است.",
-    "These are your backup codes. Please save and/or print them as you will not be able to read the codes again later" : "اینها کدهای پشتیبان شما هستند. لطفاً آنها را ذخیره و/یا چاپ کنید زیرا بعداً نمی توانید دوباره کدها را بخوانید.",
     "Save backup codes" : "ذخیره کدهای پشتیبان",
     "Print backup codes" : "چاپ کدهای پشتیبان",
     "Regenerate backup codes" : "کدهای پشتیبان را دوباره تولید کنید.",
@@ -18,6 +17,7 @@ OC.L10N.register(
     "An error occurred while generating your backup codes" : "هنگام ایجاد کدهای پشتیبان شما خطایی روی داد",
     "{name} backup codes" : "کدهای پشتیبان {نام}",
     "Use one of the backup codes you saved when setting up two-factor authentication." : "از یکی از کدهای پشتیبان که هنگام تنظیم احراز هویت دو مرحله ای ذخیره کرده اید استفاده کنید.",
-    "Submit" : "ارسال"
+    "Submit" : "ارسال",
+    "These are your backup codes. Please save and/or print them as you will not be able to read the codes again later" : "اینها کدهای پشتیبان شما هستند. لطفاً آنها را ذخیره و/یا چاپ کنید زیرا بعداً نمی توانید دوباره کدها را بخوانید."
 },
 "nplurals=2; plural=(n > 1);");

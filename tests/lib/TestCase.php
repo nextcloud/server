@@ -192,7 +192,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 		$errors = libxml_get_errors();
 		libxml_clear_errors();
 		if (!empty($errors)) {
-			self::assertEquals([], $errors, "There have been xml parsing errors");
+			self::assertEquals([], $errors, 'There have been xml parsing errors');
 		}
 
 		if ($this->IsDatabaseAccessAllowed()) {
@@ -342,6 +342,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 	 */
 	protected static function tearDownAfterClassCleanFileCache(IQueryBuilder $queryBuilder) {
 		$queryBuilder->delete('filecache')
+			->runAcrossAllShards()
 			->execute();
 	}
 
@@ -465,10 +466,10 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 	 * @param string $path path to check
 	 * @param int $type lock type
 	 * @param bool $onMountPoint true to check the mount point instead of the
-	 * mounted storage
+	 *                           mounted storage
 	 *
 	 * @return boolean true if the file is locked with the
-	 * given type, false otherwise
+	 *                 given type, false otherwise
 	 */
 	protected function isFileLocked($view, $path, $type, $onMountPoint = false) {
 		// Note: this seems convoluted but is necessary because

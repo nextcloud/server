@@ -1856,7 +1856,7 @@ EJL3BaQAQaASSsvFrcozYxrQG4VzEg==
 			->willReturn('stable');
 	}
 
-	public function testGetWithFilter() {
+	public function testGetWithFilter(): void {
 		$this->config->method('getSystemValueString')
 			->willReturnCallback(function ($key, $default) {
 				if ($key === 'version') {
@@ -1939,7 +1939,7 @@ EJL3BaQAQaASSsvFrcozYxrQG4VzEg==
 		$this->assertEquals(self::$expectedResponse['data'], $this->fetcher->get());
 	}
 
-	public function testAppstoreDisabled() {
+	public function testAppstoreDisabled(): void {
 		$this->config
 			->method('getSystemValueString')
 			->willReturnCallback(function ($var, $default) {
@@ -1966,7 +1966,7 @@ EJL3BaQAQaASSsvFrcozYxrQG4VzEg==
 	}
 
 
-	public function testNoInternet() {
+	public function testNoInternet(): void {
 		$this->config
 			->method('getSystemValueString')
 			->willReturnCallback(function ($var, $default) {
@@ -1994,7 +1994,7 @@ EJL3BaQAQaASSsvFrcozYxrQG4VzEg==
 		$this->assertEquals([], $this->fetcher->get());
 	}
 
-	public function testSetVersion() {
+	public function testSetVersion(): void {
 		$this->config->method('getSystemValueString')
 			->willReturnCallback(function ($key, $default) {
 				if ($key === 'version') {
@@ -2078,7 +2078,7 @@ EJL3BaQAQaASSsvFrcozYxrQG4VzEg==
 		$this->assertEquals(self::$expectedResponse['data'], $this->fetcher->get());
 	}
 
-	public function testGetAppsAllowlist() {
+	public function testGetAppsAllowlist(): void {
 		$this->config->method('getSystemValueString')
 			->willReturnCallback(function ($key, $default) {
 				if ($key === 'version') {

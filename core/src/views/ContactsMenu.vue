@@ -13,14 +13,14 @@
 		</template>
 		<div class="contactsmenu__menu">
 			<div class="contactsmenu__menu__input-wrapper">
-				<NcTextField :value.sync="searchTerm"
-					trailing-button-icon="close"
+				<NcTextField id="contactsmenu__menu__search"
 					ref="contactsMenuInput"
+					:value.sync="searchTerm"
+					trailing-button-icon="close"
 					:label="t('core', 'Search contacts')"
 					:trailing-button-label="t('core','Reset search')"
 					:show-trailing-button="searchTerm !== ''"
 					:placeholder="t('core', 'Search contacts …')"
-					id="contactsmenu__menu__search"
 					class="contactsmenu__menu__search"
 					@input="onInputDebounced"
 					@trailing-button-click="onReset" />
@@ -185,7 +185,7 @@ export default {
 		label[for="contactsmenu__menu__search"] {
 			font-weight: bold;
 			font-size: 19px;
-			margin-left: 13px;
+			margin-inline-start: 13px;
 		}
 
 		&__input-wrapper {

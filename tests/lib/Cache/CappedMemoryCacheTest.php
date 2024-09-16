@@ -18,7 +18,7 @@ class CappedMemoryCacheTest extends TestCache {
 		$this->instance = new \OCP\Cache\CappedMemoryCache();
 	}
 
-	public function testSetOverCap() {
+	public function testSetOverCap(): void {
 		$instance = new \OCP\Cache\CappedMemoryCache(3);
 
 		$instance->set('1', 'a');
@@ -34,7 +34,7 @@ class CappedMemoryCacheTest extends TestCache {
 		$this->assertTrue($instance->hasKey('5'));
 	}
 
-	public function testClear() {
+	public function testClear(): void {
 		$value = 'ipsum lorum';
 		$this->instance->set('1_value1', $value);
 		$this->instance->set('1_value2', $value);
@@ -48,7 +48,7 @@ class CappedMemoryCacheTest extends TestCache {
 		$this->assertFalse($this->instance->hasKey('3_value1'));
 	}
 
-	public function testIndirectSet() {
+	public function testIndirectSet(): void {
 		$this->instance->set('array', []);
 
 		$this->instance['array'][] = 'foo';

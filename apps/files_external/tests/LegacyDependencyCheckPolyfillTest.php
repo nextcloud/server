@@ -20,7 +20,7 @@ class LegacyDependencyCheckPolyfillTest extends \Test\TestCase {
 		];
 	}
 
-	public function testCheckDependencies() {
+	public function testCheckDependencies(): void {
 		$trait = $this->getMockForTrait('\OCA\Files_External\Lib\LegacyDependencyCheckPolyfill');
 		$trait->expects($this->once())
 			->method('getStorageClass')

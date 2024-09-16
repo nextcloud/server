@@ -12,7 +12,7 @@ namespace OCA\Files_External\Lib;
 trait FrontendDefinitionTrait {
 
 	/** @var string human-readable mechanism name */
-	private string $text = "";
+	private string $text = '';
 
 	/** @var array<string, DefinitionParameter> parameters for mechanism */
 	private array $parameters = [];

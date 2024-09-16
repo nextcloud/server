@@ -1258,7 +1258,7 @@ class Group_LDAP extends ABackend implements GroupInterface, IGroupLDAP, IGetDis
 			if ($ret = $this->groupPluginManager->deleteGroup($gid)) {
 				// Delete group in nextcloud internal db
 				$this->access->getGroupMapper()->unmap($gid);
-				$this->access->connection->writeToCache("groupExists" . $gid, false);
+				$this->access->connection->writeToCache('groupExists' . $gid, false);
 			}
 			return $ret;
 		}
@@ -1272,7 +1272,7 @@ class Group_LDAP extends ABackend implements GroupInterface, IGroupLDAP, IGetDis
 		if (!$this->groupExists($gid)) {
 			// The group does not exist in the LDAP, remove the mapping
 			$this->access->getGroupMapper()->unmap($gid);
-			$this->access->connection->writeToCache("groupExists" . $gid, false);
+			$this->access->connection->writeToCache('groupExists' . $gid, false);
 			return true;
 		}
 

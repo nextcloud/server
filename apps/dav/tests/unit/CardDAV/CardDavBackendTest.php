@@ -59,7 +59,7 @@ class CardDavBackendTest extends TestCase {
 	/** @var IEventDispatcher|MockObject */
 	private $dispatcher;
 	private Backend $sharingBackend;
-	/** @var  IDBConnection */
+	/** @var IDBConnection */
 	private $db;
 
 	/** @var string */
@@ -237,8 +237,8 @@ class CardDavBackendTest extends TestCase {
 	public function testCardOperations(): void {
 		/** @var CardDavBackend | \PHPUnit\Framework\MockObject\MockObject $backend */
 		$backend = $this->getMockBuilder(CardDavBackend::class)
-				->setConstructorArgs([$this->db, $this->principal, $this->userManager, $this->dispatcher, $this->sharingBackend])
-				->onlyMethods(['updateProperties', 'purgeProperties'])->getMock();
+			->setConstructorArgs([$this->db, $this->principal, $this->userManager, $this->dispatcher, $this->sharingBackend])
+			->onlyMethods(['updateProperties', 'purgeProperties'])->getMock();
 
 		// create a new address book
 		$backend->createAddressBook(self::UNIT_TEST_USER, 'Example', []);
@@ -662,20 +662,21 @@ class CardDavBackendTest extends TestCase {
 		$query = $this->db->getQueryBuilder();
 		for ($i = 0; $i < 3; $i++) {
 			$query->insert($this->dbCardsTable)
-					->values(
-						[
-							'addressbookid' => $query->createNamedParameter(0),
-							'carddata' => $query->createNamedParameter($vCards[$i]->serialize(), IQueryBuilder::PARAM_LOB),
-							'uri' => $query->createNamedParameter('uri' . $i),
-							'lastmodified' => $query->createNamedParameter(time()),
-							'etag' => $query->createNamedParameter('etag' . $i),
-							'size' => $query->createNamedParameter(120),
-						]
-					);
+				->values(
+					[
+						'addressbookid' => $query->createNamedParameter(0),
+						'carddata' => $query->createNamedParameter($vCards[$i]->serialize(), IQueryBuilder::PARAM_LOB),
+						'uri' => $query->createNamedParameter('uri' . $i),
+						'lastmodified' => $query->createNamedParameter(time()),
+						'etag' => $query->createNamedParameter('etag' . $i),
+						'size' => $query->createNamedParameter(120),
+					]
+				);
 			$query->execute();
 			$vCardIds[] = $query->getLastInsertId();
 		}
 
+		$query = $this->db->getQueryBuilder();
 		$query->insert($this->dbCardsPropertiesTable)
 			->values(
 				[
@@ -687,6 +688,7 @@ class CardDavBackendTest extends TestCase {
 				]
 			);
 		$query->execute();
+		$query = $this->db->getQueryBuilder();
 		$query->insert($this->dbCardsPropertiesTable)
 			->values(
 				[
@@ -698,6 +700,7 @@ class CardDavBackendTest extends TestCase {
 				]
 			);
 		$query->execute();
+		$query = $this->db->getQueryBuilder();
 		$query->insert($this->dbCardsPropertiesTable)
 			->values(
 				[
@@ -709,6 +712,7 @@ class CardDavBackendTest extends TestCase {
 				]
 			);
 		$query->execute();
+		$query = $this->db->getQueryBuilder();
 		$query->insert($this->dbCardsPropertiesTable)
 			->values(
 				[
@@ -720,6 +724,7 @@ class CardDavBackendTest extends TestCase {
 				]
 			);
 		$query->execute();
+		$query = $this->db->getQueryBuilder();
 		$query->insert($this->dbCardsPropertiesTable)
 			->values(
 				[
@@ -766,16 +771,16 @@ class CardDavBackendTest extends TestCase {
 	public function testGetCardUri(): void {
 		$query = $this->db->getQueryBuilder();
 		$query->insert($this->dbCardsTable)
-				->values(
-					[
-						'addressbookid' => $query->createNamedParameter(1),
-						'carddata' => $query->createNamedParameter('carddata', IQueryBuilder::PARAM_LOB),
-						'uri' => $query->createNamedParameter('uri'),
-						'lastmodified' => $query->createNamedParameter(5489543),
-						'etag' => $query->createNamedParameter('etag'),
-						'size' => $query->createNamedParameter(120),
-					]
-				);
+			->values(
+				[
+					'addressbookid' => $query->createNamedParameter(1),
+					'carddata' => $query->createNamedParameter('carddata', IQueryBuilder::PARAM_LOB),
+					'uri' => $query->createNamedParameter('uri'),
+					'lastmodified' => $query->createNamedParameter(5489543),
+					'etag' => $query->createNamedParameter('etag'),
+					'size' => $query->createNamedParameter(120),
+				]
+			);
 		$query->execute();
 
 		$id = $query->getLastInsertId();
@@ -794,16 +799,16 @@ class CardDavBackendTest extends TestCase {
 		$query = $this->db->getQueryBuilder();
 		for ($i = 0; $i < 2; $i++) {
 			$query->insert($this->dbCardsTable)
-					->values(
-						[
-							'addressbookid' => $query->createNamedParameter($i),
-							'carddata' => $query->createNamedParameter('carddata' . $i, IQueryBuilder::PARAM_LOB),
-							'uri' => $query->createNamedParameter('uri' . $i),
-							'lastmodified' => $query->createNamedParameter(5489543),
-							'etag' => $query->createNamedParameter('etag' . $i),
-							'size' => $query->createNamedParameter(120),
-						]
-					);
+				->values(
+					[
+						'addressbookid' => $query->createNamedParameter($i),
+						'carddata' => $query->createNamedParameter('carddata' . $i, IQueryBuilder::PARAM_LOB),
+						'uri' => $query->createNamedParameter('uri' . $i),
+						'lastmodified' => $query->createNamedParameter(5489543),
+						'etag' => $query->createNamedParameter('etag' . $i),
+						'size' => $query->createNamedParameter(120),
+					]
+				);
 			$query->execute();
 		}
 
@@ -837,7 +842,7 @@ class CardDavBackendTest extends TestCase {
 					'preferred' => $query->createNamedParameter(0)
 				]
 			)
-		->execute();
+			->execute();
 
 		$result = $this->backend->collectCardProperties(666, 'FN');
 		$this->assertEquals(['John Doe'], $result);

@@ -154,7 +154,7 @@ abstract class AbstractCalDavBackend extends TestCase {
 		$this->assertEquals(self::UNIT_TEST_USER, $calendars[0]['principaluri']);
 		/** @var SupportedCalendarComponentSet $components */
 		$components = $calendars[0]['{urn:ietf:params:xml:ns:caldav}supported-calendar-component-set'];
-		$this->assertEquals(['VEVENT','VTODO'], $components->getValue());
+		$this->assertEquals(['VEVENT','VTODO','VJOURNAL'], $components->getValue());
 		$color = $calendars[0]['{http://apple.com/ns/ical/}calendar-color'];
 		$this->assertEquals('#1C4587FF', $color);
 		$this->assertEquals('Example', $calendars[0]['uri']);
@@ -205,6 +205,33 @@ EOD;
 		$this->backend->createCalendarObject($calendarId, $uri0, $calData);
 
 		return $uri0;
+	}
+
+	protected function modifyEvent($calendarId, $objectId, $start = '20130912T130000Z', $end = '20130912T140000Z') {
+		$randomPart = self::getUniqueID();
+
+		$calData = <<<EOD
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:ownCloud Calendar
+BEGIN:VEVENT
+CREATED;VALUE=DATE-TIME:20130910T125139Z
+UID:47d15e3ec8-$randomPart
+LAST-MODIFIED;VALUE=DATE-TIME:20130910T125139Z
+DTSTAMP;VALUE=DATE-TIME:20130910T125139Z
+SUMMARY:Test Event
+DTSTART;VALUE=DATE-TIME:$start
+DTEND;VALUE=DATE-TIME:$end
+CLASS:PUBLIC
+END:VEVENT
+END:VCALENDAR
+EOD;
+
+		$this->backend->updateCalendarObject($calendarId, $objectId, $calData);
+	}
+
+	protected function deleteEvent($calendarId, $objectId) {
+		$this->backend->deleteCalendarObject($calendarId, $objectId);
 	}
 
 	protected function assertAcl($principal, $privilege, $acl) {

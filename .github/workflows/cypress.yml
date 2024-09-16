@@ -29,9 +29,17 @@ jobs:
       npmVersion: ${{ steps.versions.outputs.npmVersion }}
 
     env:
+      # We'll install cypress in the cypress job
+      CYPRESS_INSTALL_BINARY: 0
       PUPPETEER_SKIP_DOWNLOAD: true
 
     steps:
+      - name: Disabled on forks
+        if: ${{ github.event.pull_request.head.repo.full_name != github.repository }}
+        run: |
+          echo 'Can not run cypress on forks'
+          exit 1
+
       - name: Checkout server
         uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
         with:
@@ -56,7 +64,7 @@ jobs:
           fallbackNpm: "^10"
 
       - name: Set up node ${{ steps.versions.outputs.nodeVersion }}
-        uses: actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8 # v4.0.2
+        uses: actions/setup-node@1e60f620b9541d16bece96c5465dc8ee9832be0b # v4.0.3
         with:
           node-version: ${{ steps.versions.outputs.nodeVersion }}
 
@@ -72,7 +80,7 @@ jobs:
         run: npm run cypress:version
 
       - name: Save context
-        uses: buildjet/cache/save@e376f15c6ec6dc595375c78633174c7e5f92dc0e # v3
+        uses: buildjet/cache/save@v4
         with:
           key: cypress-context-${{ github.run_id }}
           path: ./
@@ -86,32 +94,37 @@ jobs:
       matrix:
         # Run multiple copies of the current job in parallel
         # Please increase the number or runners as your tests suite grows (0 based index for e2e tests)
-        containers: ["component", '0', '1', '2', '3', '4', '5']
+        containers: ["component", '0', '1', '2', '3', '4', '5', '6', '7']
         # Hack as strategy.job-total includes the component and GitHub does not allow math expressions
         # Always align this number with the total of e2e runners (max. index + 1)
-        total-containers: [6]
+        total-containers: [8]
 
     name: runner ${{ matrix.containers }}
 
     steps:
       - name: Restore context
-        uses: buildjet/cache/restore@e376f15c6ec6dc595375c78633174c7e5f92dc0e # v3
+        uses: buildjet/cache/restore@v4
         with:
           fail-on-cache-miss: true
           key: cypress-context-${{ github.run_id }}
           path: ./
 
       - name: Set up node ${{ needs.init.outputs.nodeVersion }}
-        uses: actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8 # v4.0.2
+        uses: actions/setup-node@1e60f620b9541d16bece96c5465dc8ee9832be0b # v4.0.3
         with:
           node-version: ${{ needs.init.outputs.nodeVersion }}
 
       - name: Set up npm ${{ needs.init.outputs.npmVersion }}
         run: npm i -g 'npm@${{ needs.init.outputs.npmVersion }}'
 
+      - name: Install cypress
+        run: ./node_modules/cypress/bin/cypress install
+
       - name: Run ${{ matrix.containers == 'component' && 'component' || 'E2E' }} cypress tests
-        uses: cypress-io/github-action@8d3918616d8ac34caa2b49afc8b408b6a872a6f5 # v6.7.1
+        uses: cypress-io/github-action@496e7dc0edc421a9de8a36a31c793340e00c61bf # v6.7.5
         with:
+          # We already installed the dependencies in the init job
+          install: false
           component: ${{ matrix.containers == 'component' }}
           group: ${{ matrix.use-cypress-cloud && matrix.containers == 'component' && 'Run component' || matrix.use-cypress-cloud && 'Run E2E' || '' }}
           # cypress env
@@ -130,7 +143,7 @@ jobs:
           SPLIT_INDEX: ${{ matrix.containers == 'component' && 0 || matrix.containers }}
 
       - name: Upload snapshots
-        uses: actions/upload-artifact@65462800fd760344b1a7b4382951275a0abb4808 # v4.3.3
+        uses: actions/upload-artifact@50769540e7f4bd5e21e526ee35c689e35e0d6874 # v4.4.0
         if: always()
         with:
           name: snapshots_${{ matrix.containers }}
@@ -141,7 +154,7 @@ jobs:
         run: docker logs nextcloud-cypress-tests-${{ env.APP_NAME }} > nextcloud.log
 
       - name: Upload NC logs
-        uses: actions/upload-artifact@65462800fd760344b1a7b4382951275a0abb4808 # v4.3.3
+        uses: actions/upload-artifact@50769540e7f4bd5e21e526ee35c689e35e0d6874 # v4.4.0
         if: failure() && matrix.containers != 'component'
         with:
           name: nc_logs_${{ matrix.containers }}
@@ -152,7 +165,7 @@ jobs:
         run: docker exec nextcloud-cypress-tests-server tar -cvjf - data > data.tar
 
       - name: Upload data dir archive
-        uses: actions/upload-artifact@65462800fd760344b1a7b4382951275a0abb4808 # v4.3.3
+        uses: actions/upload-artifact@50769540e7f4bd5e21e526ee35c689e35e0d6874 # v4.4.0
         if: failure() && matrix.containers != 'component'
         with:
           name: nc_data_${{ matrix.containers }}

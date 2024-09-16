@@ -11,6 +11,8 @@ use OCA\Theming\ITheme;
 
 class DarkTheme extends DefaultTheme implements ITheme {
 
+	protected bool $isDarkVariant = true;
+
 	public function getId(): string {
 		return 'dark';
 	}
@@ -63,8 +65,6 @@ class DarkTheme extends DefaultTheme implements ITheme {
 				'--color-main-background' => $colorMainBackground,
 				'--color-main-background-rgb' => $colorMainBackgroundRGB,
 				'--color-main-background-blur' => 'rgba(var(--color-main-background-rgb), .85)',
-
-				'--color-scrollbar' => $this->util->lighten($colorMainBackground, 15),
 
 				'--color-background-hover' => $this->util->lighten($colorMainBackground, 4),
 				'--color-background-dark' => $this->util->lighten($colorMainBackground, 7),

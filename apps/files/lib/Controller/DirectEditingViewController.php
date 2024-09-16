@@ -7,7 +7,10 @@ namespace OCA\Files\Controller;
 
 use Exception;
 use OCP\AppFramework\Controller;
+use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
 use OCP\AppFramework\Http\Attribute\OpenAPI;
+use OCP\AppFramework\Http\Attribute\PublicPage;
+use OCP\AppFramework\Http\Attribute\UseSession;
 use OCP\AppFramework\Http\NotFoundResponse;
 use OCP\AppFramework\Http\Response;
 use OCP\DirectEditing\IManager;
@@ -29,13 +32,12 @@ class DirectEditingViewController extends Controller {
 	}
 
 	/**
-	 * @PublicPage
-	 * @NoCSRFRequired
-	 * @UseSession
-	 *
 	 * @param string $token
 	 * @return Response
 	 */
+	#[PublicPage]
+	#[NoCSRFRequired]
+	#[UseSession]
 	public function edit(string $token): Response {
 		$this->eventDispatcher->dispatchTyped(new RegisterDirectEditorEvent($this->directEditingManager));
 		try {

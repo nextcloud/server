@@ -35,6 +35,11 @@
 				@update:checked="setConfig('grid_view', $event)">
 				{{ t('files', 'Enable the grid view') }}
 			</NcCheckboxRadioSwitch>
+			<NcCheckboxRadioSwitch data-cy-files-settings-setting="folder_tree"
+				:checked="userConfig.folder_tree"
+				@update:checked="setConfig('folder_tree', $event)">
+				{{ t('files', 'Enable folder tree') }}
+			</NcCheckboxRadioSwitch>
 		</NcAppSettingsSection>
 
 		<!-- Settings API-->

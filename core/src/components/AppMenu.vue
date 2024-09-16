@@ -4,289 +4,158 @@
 -->
 
 <template>
-	<nav class="app-menu"
+	<nav ref="appMenu"
+		class="app-menu"
 		:aria-label="t('core', 'Applications menu')">
-		<ul class="app-menu-main">
-			<li v-for="app in mainAppList"
+		<ul :aria-label="t('core', 'Apps')"
+			class="app-menu__list">
+			<AppMenuEntry v-for="app in mainAppList"
 				:key="app.id"
-				:data-app-id="app.id"
-				class="app-menu-entry"
-				:class="{ 'app-menu-entry__active': app.active }">
-				<a :href="app.href"
-					:class="{ 'has-unread': app.unread > 0 }"
-					:aria-label="appLabel(app)"
-					:title="app.name"
-					:aria-current="app.active ? 'page' : false"
-					:target="app.target ? '_blank' : undefined"
-					:rel="app.target ? 'noopener noreferrer' : undefined">
-					<img :src="app.icon" alt="">
-					<div class="app-menu-entry--label">
-						{{ app.name }}
-						<span v-if="app.unread > 0" class="hidden-visually unread-counter">{{ app.unread }}</span>
-					</div>
-				</a>
-			</li>
+				:app="app" />
 		</ul>
-		<NcActions class="app-menu-more" :aria-label="t('core', 'More apps')">
+		<NcActions class="app-menu__overflow" :aria-label="t('core', 'More apps')">
 			<NcActionLink v-for="app in popoverAppList"
 				:key="app.id"
-				:aria-label="appLabel(app)"
 				:aria-current="app.active ? 'page' : false"
 				:href="app.href"
-				class="app-menu-popover-entry">
-				<template #icon>
-					<div class="app-icon" :class="{ 'has-unread': app.unread > 0 }">
-						<img :src="app.icon" alt="">
-					</div>
-				</template>
+				:icon="app.icon"
+				class="app-menu__overflow-entry">
 				{{ app.name }}
-				<span v-if="app.unread > 0" class="hidden-visually unread-counter">{{ app.unread }}</span>
 			</NcActionLink>
 		</NcActions>
 	</nav>
 </template>
 
-<script>
-import { loadState } from '@nextcloud/initial-state'
+<script lang="ts">
+import type { INavigationEntry } from '../types/navigation'
+
 import { subscribe, unsubscribe } from '@nextcloud/event-bus'
+import { loadState } from '@nextcloud/initial-state'
+import { n, t } from '@nextcloud/l10n'
+import { useElementSize } from '@vueuse/core'
+import { defineComponent, ref } from 'vue'
+
+import AppMenuEntry from './AppMenuEntry.vue'
 import NcActions from '@nextcloud/vue/dist/Components/NcActions.js'
 import NcActionLink from '@nextcloud/vue/dist/Components/NcActionLink.js'
+import logger from '../logger'
 
-export default {
+export default defineComponent({
 	name: 'AppMenu',
+
 	components: {
-		NcActions, NcActionLink,
+		AppMenuEntry,
+		NcActions,
+		NcActionLink,
 	},
-	data() {
+
+	setup() {
+		const appMenu = ref()
+		const { width: appMenuWidth } = useElementSize(appMenu)
 		return {
-			apps: loadState('core', 'apps', {}),
-			appLimit: 0,
-			observer: null,
+			t,
+			n,
+			appMenu,
+			appMenuWidth,
 		}
 	},
+
+	data() {
+		const appList = loadState<INavigationEntry[]>('core', 'apps', [])
+		return {
+			appList,
+		}
+	},
+
 	computed: {
-		appList() {
-			return Object.values(this.apps)
+		appLimit() {
+			const maxApps = Math.floor(this.appMenuWidth / 50)
+			if (maxApps < this.appList.length) {
+				// Ensure there is space for the overflow menu
+				return Math.max(maxApps - 1, 0)
+			}
+			return maxApps
 		},
+
 		mainAppList() {
 			return this.appList.slice(0, this.appLimit)
 		},
+
 		popoverAppList() {
 			return this.appList.slice(this.appLimit)
 		},
-		appLabel() {
-			return (app) => app.name
-				+ (app.active ? ' (' + t('core', 'Currently open') + ')' : '')
-				+ (app.unread > 0 ? ' (' + n('core', '{count} notification', '{count} notifications', app.unread, { count: app.unread }) + ')' : '')
-		},
 	},
+
 	mounted() {
-		this.observer = new ResizeObserver(this.resize)
-		this.observer.observe(this.$el)
-		this.resize()
 		subscribe('nextcloud:app-menu.refresh', this.setApps)
 	},
+
 	beforeDestroy() {
-		this.observer.disconnect()
 		unsubscribe('nextcloud:app-menu.refresh', this.setApps)
 	},
+
 	methods: {
-		setNavigationCounter(id, counter) {
-			this.$set(this.apps[id], 'unread', counter)
-		},
-		setApps({ apps }) {
-			this.apps = apps
-		},
-		resize() {
-			const availableWidth = this.$el.offsetWidth
-			let appCount = Math.floor(availableWidth / 50) - 1
-			const popoverAppCount = this.appList.length - appCount
-			if (popoverAppCount === 1) {
-				appCount--
+		setNavigationCounter(id: string, counter: number) {
+			const app = this.appList.find(({ app }) => app === id)
+			if (app) {
+				this.$set(app, 'unread', counter)
+			} else {
+				logger.warn(`Could not find app "${id}" for setting navigation count`)
 			}
-			if (appCount < 1) {
-				appCount = 0
-			}
-			this.appLimit = appCount
+		},
+
+		setApps({ apps }: { apps: INavigationEntry[]}) {
+			this.appList = apps
 		},
 	},
-}
+})
 </script>
 
-<style lang="scss" scoped>
-$header-icon-size: 20px;
-
+<style scoped lang="scss">
 .app-menu {
-	width: 100%;
+	// The size the currently focussed entry will grow to show the full name
+	--app-menu-entry-growth: calc(var(--default-grid-baseline) * 4);
 	display: flex;
-	flex-shrink: 1;
-	flex-wrap: wrap;
-}
-.app-menu-main {
-	display: flex;
-	flex-wrap: nowrap;
+	flex: 1 1;
+	width: 0;
 
-	.app-menu-entry {
-		width: 50px;
-		height: 50px;
-		position: relative;
+	&__list {
 		display: flex;
+		flex-wrap: nowrap;
+		margin-inline: calc(var(--app-menu-entry-growth) / 2);
+	}
 
-		&.app-menu-entry__active {
-			opacity: 1;
+	&__overflow {
+		margin-block: auto;
 
-			&::before {
-				content: " ";
-				position: absolute;
-				pointer-events: none;
-				border-bottom-color: var(--color-main-background);
-				transform: translateX(-50%);
-				width: 12px;
-				height: 5px;
-				border-radius: 3px;
-				background-color: var(--color-background-plain-text);
-				left: 50%;
-				bottom: 6px;
-				display: block;
-				transition: all 0.1s ease-in-out;
-				opacity: 1;
-			}
-
-			.app-menu-entry--label {
-				font-weight: bold;
-			}
-		}
-
-		a {
-			width: calc(100% - 4px);
-			height: calc(100% - 4px);
-			margin: 2px;
-			// this is shown directly on the background
-			color: var(--color-background-plain-text);
-			position: relative;
-		}
-
-		img {
-			transition: margin 0.1s ease-in-out;
-			width: $header-icon-size;
-			height: $header-icon-size;
-			padding: calc((100% - $header-icon-size) / 2);
-			box-sizing: content-box;
+		// Adjust the overflow NcActions styles as they are directly rendered on the background
+		:deep(.button-vue--vue-tertiary) {
+			opacity: .7;
+			margin: 3px;
 			filter: var(--background-image-invert-if-bright);
-		}
 
-		.app-menu-entry--label {
-			opacity: 0;
-			position: absolute;
-			font-size: 12px;
-			// this is shown directly on the background
-			color: var(--color-background-plain-text);
-			text-align: center;
-			left: 50%;
-			top: 45%;
-			display: block;
-			min-width: 100%;
-			transform: translateX(-50%);
-			transition: all 0.1s ease-in-out;
-			width: 100%;
-			text-overflow: ellipsis;
-			overflow: hidden;
-			letter-spacing: -0.5px;
-		}
+			/* Remove all background and align text color if not expanded */
+			&:not([aria-expanded="true"]) {
+				color: var(--color-background-plain-text);
 
-		&:hover,
-		&:focus-within {
-			opacity: 1;
-			.app-menu-entry--label {
+				&:hover {
+					opacity: 1;
+					background-color: transparent !important;
+				}
+			}
+
+			&:focus-visible {
 				opacity: 1;
-				font-weight: bolder;
-				bottom: 0;
-				width: 100%;
-				text-overflow: ellipsis;
-				overflow: hidden;
+				outline: none !important;
 			}
 		}
-
 	}
 
-	// Show labels
-	&:hover,
-	&:focus-within,
-	.app-menu-entry:hover,
-	.app-menu-entry:focus {
-		opacity: 1;
-
-		img {
-			margin-top: -8px;
-		}
-
-		.app-menu-entry--label {
-			opacity: 1;
-			bottom: 0;
-		}
-
-		&::before, .app-menu-entry::before {
-			opacity: 0;
+	&__overflow-entry {
+		:deep(.action-link__icon) {
+			// Icons are bright so invert them if bright color theme == bright background is used
+			filter: var(--background-invert-if-bright) !important;
 		}
 	}
-}
-
-::v-deep .app-menu-more .button-vue--vue-tertiary {
-	opacity: .7;
-	margin: 3px;
-	filter: var(--background-image-invert-if-bright);
-
-	/* Remove all background and align text color if not expanded */
-	&:not([aria-expanded="true"]) {
-		color: var(--color-background-plain-text);
-
-		&:hover {
-			opacity: 1;
-			background-color: transparent !important;
-		}
-	}
-
-	&:focus-visible {
-		opacity: 1;
-		outline: none !important;
-	}
-}
-
-.app-menu-popover-entry {
-	.app-icon {
-		position: relative;
-		height: 44px;
-		width: 48px;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		/* Icons are bright so invert them if bright color theme == bright background is used */
-		filter: var(--background-invert-if-bright);
-
-		&.has-unread::after {
-			background-color: var(--color-main-text);
-		}
-
-		img {
-			width: $header-icon-size;
-			height: $header-icon-size;
-		}
-	}
-}
-
-.has-unread::after {
-	content: "";
-	width: 8px;
-	height: 8px;
-	background-color: var(--color-background-plain-text);
-	border-radius: 50%;
-	position: absolute;
-	display: block;
-	top: 10px;
-	right: 10px;
-}
-
-.unread-counter {
-	display: none;
 }
 </style>

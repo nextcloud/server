@@ -10,6 +10,7 @@ OC.L10N.register(
     "Working remotely" : "ทำงานจากระยะไกล",
     "User status" : "สถานะผู้ใช้",
     "Clear status after" : "ล้างสถานะหลังจาก",
+    "What is your status?" : "สถานะของคุณ",
     "Set status" : "กำหนดสถานะ",
     "Online status" : "สถานะออนไลน์",
     "Status message" : "ข้อความสถานะ",

@@ -27,9 +27,6 @@ OC.L10N.register(
     "This weekend" : "This weekend",
     "Set reminder for this weekend" : "Set reminder for this weekend",
     "Next week" : "Next week",
-    "Set reminder for next week" : "Set reminder for next week",
-    "Back" : "Back",
-    "Reminder cleared" : "Reminder cleared",
-    "Failed to load reminder" : "Failed to load reminder"
+    "Set reminder for next week" : "Set reminder for next week"
 },
 "nplurals=2; plural=(n != 1);");

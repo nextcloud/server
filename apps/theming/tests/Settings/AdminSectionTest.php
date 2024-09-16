@@ -31,11 +31,11 @@ class AdminSectionTest extends TestCase {
 		);
 	}
 
-	public function testGetID() {
+	public function testGetID(): void {
 		$this->assertSame('theming', $this->section->getID());
 	}
 
-	public function testGetName() {
+	public function testGetName(): void {
 		$this->l
 			->expects($this->once())
 			->method('t')
@@ -45,11 +45,11 @@ class AdminSectionTest extends TestCase {
 		$this->assertSame('Theming', $this->section->getName());
 	}
 
-	public function testGetPriority() {
+	public function testGetPriority(): void {
 		$this->assertSame(30, $this->section->getPriority());
 	}
 
-	public function testGetIcon() {
+	public function testGetIcon(): void {
 		$this->url->expects($this->once())
 			->method('imagePath')
 			->with('theming', 'app-dark.svg')

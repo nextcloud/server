@@ -62,8 +62,8 @@ class MemcacheLockingProvider extends AbstractLockingProvider {
 		if ($type === self::LOCK_SHARED) {
 			// save the old TTL to for `restoreTTL`
 			$this->oldTTLs[$path] = [
-				"ttl" => $this->getTTL($path),
-				"time" => $this->timeFactory->getTime()
+				'ttl' => $this->getTTL($path),
+				'time' => $this->timeFactory->getTime()
 			];
 			if (!$this->memcache->inc($path)) {
 				throw new LockedException($path, null, $this->getExistingLockForException($path), $readablePath);

@@ -27,11 +27,11 @@ class EventLoggerTest extends TestCase {
 		);
 	}
 
-	public function testQueryLogger() {
+	public function testQueryLogger(): void {
 		// Module is not activated and this should not be logged
-		$this->logger->start("test1", "testevent1");
-		$this->logger->end("test1");
-		$this->logger->log("test2", "testevent2", microtime(true), microtime(true));
+		$this->logger->start('test1', 'testevent1');
+		$this->logger->end('test1');
+		$this->logger->log('test2', 'testevent2', microtime(true), microtime(true));
 		$events = $this->logger->getEvents();
 		$this->assertSame(0, sizeof($events));
 
@@ -39,19 +39,19 @@ class EventLoggerTest extends TestCase {
 		$this->logger->activate();
 
 		// start one event
-		$this->logger->start("test3", "testevent3");
+		$this->logger->start('test3', 'testevent3');
 
 		// force log of another event
-		$this->logger->log("test4", "testevent4", microtime(true), microtime(true));
+		$this->logger->log('test4', 'testevent4', microtime(true), microtime(true));
 
 		// log started event
-		$this->logger->end("test3");
+		$this->logger->end('test3');
 
 		$events = $this->logger->getEvents();
-		$this->assertSame("test4", $events['test4']->getId());
-		$this->assertSame("testevent4", $events['test4']->getDescription());
-		$this->assertSame("test3", $events['test3']->getId());
-		$this->assertSame("testevent3", $events['test3']->getDescription());
+		$this->assertSame('test4', $events['test4']->getId());
+		$this->assertSame('testevent4', $events['test4']->getDescription());
+		$this->assertSame('test3', $events['test3']->getId());
+		$this->assertSame('testevent3', $events['test3']->getDescription());
 		$this->assertSame(2, sizeof($events));
 	}
 }

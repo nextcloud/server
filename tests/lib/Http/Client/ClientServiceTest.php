@@ -59,7 +59,7 @@ class ClientServiceTest extends \Test\TestCase {
 		$stack = HandlerStack::create($handler);
 		$stack->push($dnsPinMiddleware->addDnsPinning());
 		$stack->push(Middleware::tap(function (RequestInterface $request) use ($eventLogger) {
-			$eventLogger->start('http:request', $request->getMethod() . " request to " . $request->getRequestTarget());
+			$eventLogger->start('http:request', $request->getMethod() . ' request to ' . $request->getRequestTarget());
 		}, function () use ($eventLogger) {
 			$eventLogger->end('http:request');
 		}), 'event logger');
@@ -107,7 +107,7 @@ class ClientServiceTest extends \Test\TestCase {
 		$handler = new CurlHandler();
 		$stack = HandlerStack::create($handler);
 		$stack->push(Middleware::tap(function (RequestInterface $request) use ($eventLogger) {
-			$eventLogger->start('http:request', $request->getMethod() . " request to " . $request->getRequestTarget());
+			$eventLogger->start('http:request', $request->getMethod() . ' request to ' . $request->getRequestTarget());
 		}, function () use ($eventLogger) {
 			$eventLogger->end('http:request');
 		}), 'event logger');

@@ -2,6 +2,7 @@
  * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+import type { Configuration } from 'webpack'
 import {
 	applyChangesToNextcloud,
 	configureNextcloud,
@@ -11,8 +12,8 @@ import {
 } from './cypress/dockerNode'
 import { defineConfig } from 'cypress'
 import cypressSplit from 'cypress-split'
+import { removeDirectory } from 'cypress-delete-downloads-folder'
 import webpackPreprocessor from '@cypress/webpack-preprocessor'
-import type { Configuration } from 'webpack'
 
 import webpackConfig from './webpack.config.js'
 
@@ -54,12 +55,29 @@ export default defineConfig({
 		// Disable session isolation
 		testIsolation: false,
 
+		requestTimeout: 30000,
+
 		// We've imported your old cypress plugins here.
 		// You may want to clean this up later by importing these.
 		async setupNodeEvents(on, config) {
 			cypressSplit(on, config)
 
 			on('file:preprocessor', webpackPreprocessor({ webpackOptions: webpackConfig as Configuration }))
+
+			on('task', { removeDirectory })
+
+			// This allows to store global data (e.g. the name of a snapshot)
+			// because Cypress.env() and other options are local to the current spec file.
+			const data = {}
+			on('task', {
+				setVariable({ key, value }) {
+					data[key] = value
+					return null
+				},
+				getVariable({ key }) {
+					return data[key] ?? null
+				},
+			})
 
 			// Disable spell checking to prevent rendering differences
 			on('before:browser:launch', (browser, launchOptions) => {

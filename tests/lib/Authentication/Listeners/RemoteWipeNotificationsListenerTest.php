@@ -44,7 +44,7 @@ class RemoteWipeNotificationsListenerTest extends TestCase {
 		);
 	}
 
-	public function testHandleUnrelated() {
+	public function testHandleUnrelated(): void {
 		$event = new Event();
 
 		$this->listener->handle($event);
@@ -52,7 +52,7 @@ class RemoteWipeNotificationsListenerTest extends TestCase {
 		$this->addToAssertionCount(1);
 	}
 
-	public function testHandleRemoteWipeStarted() {
+	public function testHandleRemoteWipeStarted(): void {
 		$token = $this->createMock(IToken::class);
 		$event = new RemoteWipeStarted($token);
 		$notification = $this->createMock(INotification::class);
@@ -92,7 +92,7 @@ class RemoteWipeNotificationsListenerTest extends TestCase {
 		$this->listener->handle($event);
 	}
 
-	public function testHandleRemoteWipeFinished() {
+	public function testHandleRemoteWipeFinished(): void {
 		$token = $this->createMock(IToken::class);
 		$event = new RemoteWipeFinished($token);
 		$notification = $this->createMock(INotification::class);

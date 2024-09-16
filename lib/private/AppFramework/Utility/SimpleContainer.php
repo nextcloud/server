@@ -89,7 +89,7 @@ class SimpleContainer implements ArrayAccess, ContainerInterface, IContainer {
 						}
 
 						// don't lose the error we got while trying to query by type
-						throw new QueryException($e->getMessage(), (int) $e->getCode(), $e);
+						throw new QueryException($e->getMessage(), (int)$e->getCode(), $e);
 					}
 				}
 

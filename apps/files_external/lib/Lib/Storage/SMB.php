@@ -111,7 +111,7 @@ class SMB extends Common implements INotifyStorage {
 		$this->root = rtrim($this->root, '/') . '/';
 
 		$this->showHidden = isset($params['show_hidden']) && $params['show_hidden'];
-		$this->caseSensitive = (bool) ($params['case_sensitive'] ?? true);
+		$this->caseSensitive = (bool)($params['case_sensitive'] ?? true);
 		$this->checkAcl = isset($params['check_acl']) && $params['check_acl'];
 
 		$this->statCache = new CappedMemoryCache();
@@ -502,7 +502,7 @@ class SMB extends Common implements INotifyStorage {
 		} catch (ForbiddenException $e) {
 			return false;
 		} catch (OutOfSpaceException $e) {
-			throw new EntityTooLargeException("not enough available space to create file", 0, $e);
+			throw new EntityTooLargeException('not enough available space to create file', 0, $e);
 		} catch (ConnectException $e) {
 			$this->logger->error('Error while opening file', ['exception' => $e]);
 			throw new StorageNotAvailableException($e->getMessage(), (int)$e->getCode(), $e);
@@ -545,7 +545,7 @@ class SMB extends Common implements INotifyStorage {
 			}
 			return false;
 		} catch (OutOfSpaceException $e) {
-			throw new EntityTooLargeException("not enough available space to create file", 0, $e);
+			throw new EntityTooLargeException('not enough available space to create file', 0, $e);
 		} catch (ConnectException $e) {
 			$this->logger->error('Error while creating file', ['exception' => $e]);
 			throw new StorageNotAvailableException($e->getMessage(), (int)$e->getCode(), $e);

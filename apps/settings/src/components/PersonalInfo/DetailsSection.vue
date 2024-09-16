@@ -80,7 +80,8 @@ export default {
 .details {
 	display: flex;
 	flex-direction: column;
-	margin: 10px 32px 10px 0;
+	margin-block: 10px;
+	margin-inline: 0 32px;
 	gap: 16px 0;
 	color: var(--color-text-maxcontrast);
 

@@ -18,12 +18,10 @@ import { loadState } from '@nextcloud/initial-state'
 import { generateUrl } from '@nextcloud/router'
 import { defineComponent } from 'vue'
 import { RouterLink } from 'vue-router'
+import type { INavigationEntry } from '../../../../../core/src/types/navigation'
 
-const knownRoutes = Object.fromEntries(
-	Object.entries(
-		loadState<Record<string, { app?: string, href: string }>>('core', 'apps'),
-	).map(([k, v]) => [v.app ?? k, v.href]),
-)
+const apps = loadState<INavigationEntry[]>('core', 'apps')
+const knownRoutes = Object.fromEntries(apps.map((app) => [app.app ?? app.id, app.href]))
 
 /**
  * This component either shows a native link to the installed app or external size - or a router link to the appstore page of the app if not installed

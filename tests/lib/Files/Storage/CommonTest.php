@@ -9,7 +9,10 @@ namespace Test\Files\Storage;
 
 use OC\Files\Storage\Wrapper\Jail;
 use OC\Files\Storage\Wrapper\Wrapper;
+use OCP\Files\IFilenameValidator;
+use OCP\Files\InvalidCharacterInPathException;
 use OCP\Files\InvalidPathException;
+use OCP\ITempManager;
 use PHPUnit\Framework\MockObject\MockObject;
 
 /**
@@ -20,68 +23,46 @@ use PHPUnit\Framework\MockObject\MockObject;
  * @package Test\Files\Storage
  */
 class CommonTest extends Storage {
-	/**
-	 * @var string tmpDir
-	 */
-	private $tmpDir;
 
-	private array $invalidCharsBackup;
+	private string $tmpDir;
+	private IFilenameValidator&MockObject $filenameValidator;
 
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->tmpDir = \OC::$server->getTempManager()->getTemporaryFolder();
+		$this->filenameValidator = $this->createMock(IFilenameValidator::class);
+		$this->overwriteService(IFilenameValidator::class, $this->filenameValidator);
+		$this->tmpDir = \OCP\Server::get(ITempManager::class)->getTemporaryFolder();
 		$this->instance = new \OC\Files\Storage\CommonTest(['datadir' => $this->tmpDir]);
-		$this->invalidCharsBackup = \OC::$server->getConfig()->getSystemValue('forbidden_chars', []);
 	}
 
 	protected function tearDown(): void {
 		\OC_Helper::rmdirr($this->tmpDir);
-		\OC::$server->getConfig()->setSystemValue('forbidden_chars', $this->invalidCharsBackup);
+		$this->restoreService(IFilenameValidator::class);
 		parent::tearDown();
 	}
 
-	/**
-	 * @dataProvider dataVerifyPath
-	 */
-	public function testVerifyPath(string $filename, array $additionalChars, bool $throws) {
-		/** @var \OC\Files\Storage\CommonTest|MockObject $instance */
-		$instance = $this->getMockBuilder(\OC\Files\Storage\CommonTest::class)
-			->onlyMethods(['copyFromStorage', 'rmdir', 'unlink'])
-			->setConstructorArgs([['datadir' => $this->tmpDir]])
-			->getMock();
-		$instance->method('copyFromStorage')
-			->willThrowException(new \Exception('copy'));
+	public function testVerifyPath(): void {
+		$this->filenameValidator
+			->expects($this->once())
+			->method('validateFilename')
+			->with('invalid:char.txt')
+			->willThrowException(new InvalidCharacterInPathException());
+		$this->expectException(InvalidPathException::class);
 
-		\OC::$server->getConfig()->setSystemValue('forbidden_chars', $additionalChars);
-
-		if ($throws) {
-			$this->expectException(InvalidPathException::class);
-		} else {
-			$this->expectNotToPerformAssertions();
-		}
-		$instance->verifyPath('/', $filename);
+		$this->instance->verifyPath('/', 'invalid:char.txt');
 	}
 
-	public function dataVerifyPath(): array {
-		return [
-			// slash is always forbidden
-			'invalid slash' => ['a/b.txt', [], true],
-			// backslash is also forbidden
-			'invalid backslash' => ['a\\b.txt', [], true],
-			// by default colon is not forbidden
-			'valid name' => ['a: b.txt', [], false],
-			// colon can be added to the list of forbidden character
-			'invalid custom character' => ['a: b.txt', [':'], true],
-			// make sure to not split the list entries as they migh contain Unicode sequences
-			// in this example the "face in clouds" emoji contains the clouds emoji so only having clouds is ok
-			'valid unicode sequence' => ['🌫️.txt', ['😶‍🌫️'], false],
-			// This is the reverse: clouds are forbidden -> so is also the face in the clouds emoji
-			'valid unicode sequence' => ['😶‍🌫️.txt', ['🌫️'], true],
-		];
+	public function testVerifyPathSucceed(): void {
+		$this->filenameValidator
+			->expects($this->once())
+			->method('validateFilename')
+			->with('valid-char.txt');
+
+		$this->instance->verifyPath('/', 'valid-char.txt');
 	}
 
-	public function testMoveFromStorageWrapped() {
+	public function testMoveFromStorageWrapped(): void {
 		/** @var \OC\Files\Storage\CommonTest|MockObject $instance */
 		$instance = $this->getMockBuilder(\OC\Files\Storage\CommonTest::class)
 			->onlyMethods(['copyFromStorage', 'rmdir', 'unlink'])
@@ -99,7 +80,7 @@ class CommonTest extends Storage {
 		$this->assertTrue($instance->file_exists('bar.txt'));
 	}
 
-	public function testMoveFromStorageJailed() {
+	public function testMoveFromStorageJailed(): void {
 		/** @var \OC\Files\Storage\CommonTest|MockObject $instance */
 		$instance = $this->getMockBuilder(\OC\Files\Storage\CommonTest::class)
 			->onlyMethods(['copyFromStorage', 'rmdir', 'unlink'])
@@ -122,7 +103,7 @@ class CommonTest extends Storage {
 		$this->assertTrue($instance->file_exists('bar.txt'));
 	}
 
-	public function testMoveFromStorageNestedJail() {
+	public function testMoveFromStorageNestedJail(): void {
 		/** @var \OC\Files\Storage\CommonTest|MockObject $instance */
 		$instance = $this->getMockBuilder(\OC\Files\Storage\CommonTest::class)
 			->onlyMethods(['copyFromStorage', 'rmdir', 'unlink'])

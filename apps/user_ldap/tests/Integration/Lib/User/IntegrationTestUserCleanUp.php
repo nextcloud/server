@@ -18,7 +18,7 @@ use Psr\Log\LoggerInterface;
 require_once __DIR__ . '/../../Bootstrap.php';
 
 class IntegrationTestUserCleanUp extends AbstractIntegrationTest {
-	/** @var  UserMapping */
+	/** @var UserMapping */
 	protected $mapping;
 
 	/**
@@ -32,7 +32,7 @@ class IntegrationTestUserCleanUp extends AbstractIntegrationTest {
 		$this->mapping->clear();
 		$this->access->setUserMapper($this->mapping);
 
-		$userBackend = new User_LDAP($this->access, \OC::$server->getConfig(), \OC::$server->getNotificationManager(), \OC::$server->getUserSession(), \OC::$server->get(UserPluginManager::class), \OC::$server->get(LoggerInterface::class), \OC::$server->get(DeletedUsersIndex::class));
+		$userBackend = new User_LDAP($this->access, \OC::$server->getNotificationManager(), \OC::$server->get(UserPluginManager::class), \OC::$server->get(LoggerInterface::class), \OC::$server->get(DeletedUsersIndex::class));
 		\OC_User::useBackend($userBackend);
 	}
 

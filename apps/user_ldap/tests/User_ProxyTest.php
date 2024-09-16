@@ -11,8 +11,6 @@ use OCA\User_LDAP\ILDAPWrapper;
 use OCA\User_LDAP\User\DeletedUsersIndex;
 use OCA\User_LDAP\User_Proxy;
 use OCA\User_LDAP\UserPluginManager;
-use OCP\IConfig;
-use OCP\IUserSession;
 use OCP\Notification\IManager as INotificationManager;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
@@ -25,12 +23,8 @@ class User_ProxyTest extends TestCase {
 	private $ldapWrapper;
 	/** @var AccessFactory|MockObject */
 	private $accessFactory;
-	/** @var IConfig|MockObject */
-	private $config;
 	/** @var INotificationManager|MockObject */
 	private $notificationManager;
-	/** @var IUserSession|MockObject */
-	private $userSession;
 	/** @var User_Proxy|MockObject */
 	private $proxy;
 	/** @var UserPluginManager|MockObject */
@@ -46,9 +40,7 @@ class User_ProxyTest extends TestCase {
 		$this->helper = $this->createMock(Helper::class);
 		$this->ldapWrapper = $this->createMock(ILDAPWrapper::class);
 		$this->accessFactory = $this->createMock(AccessFactory::class);
-		$this->config = $this->createMock(IConfig::class);
 		$this->notificationManager = $this->createMock(INotificationManager::class);
-		$this->userSession = $this->createMock(IUserSession::class);
 		$this->userPluginManager = $this->createMock(UserPluginManager::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->deletedUsersIndex = $this->createMock(DeletedUsersIndex::class);
@@ -57,9 +49,7 @@ class User_ProxyTest extends TestCase {
 				$this->helper,
 				$this->ldapWrapper,
 				$this->accessFactory,
-				$this->config,
 				$this->notificationManager,
-				$this->userSession,
 				$this->userPluginManager,
 				$this->logger,
 				$this->deletedUsersIndex,
@@ -68,7 +58,7 @@ class User_ProxyTest extends TestCase {
 			->getMock();
 	}
 
-	public function testSetPassword() {
+	public function testSetPassword(): void {
 		$this->proxy
 			->expects($this->once())
 			->method('handleRequest')
@@ -78,7 +68,7 @@ class User_ProxyTest extends TestCase {
 		$this->assertTrue($this->proxy->setPassword('MyUid', 'MyPassword'));
 	}
 
-	public function testSetDisplayName() {
+	public function testSetDisplayName(): void {
 		$this->proxy
 			->expects($this->once())
 			->method('handleRequest')
@@ -88,7 +78,7 @@ class User_ProxyTest extends TestCase {
 		$this->assertTrue($this->proxy->setDisplayName('MyUid', 'MyPassword'));
 	}
 
-	public function testCreateUser() {
+	public function testCreateUser(): void {
 		$this->proxy
 			->expects($this->once())
 			->method('handleRequest')

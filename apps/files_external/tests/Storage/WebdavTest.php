@@ -41,7 +41,7 @@ class WebdavTest extends \Test\Files\Storage\Storage {
 		parent::tearDown();
 	}
 
-	public function testMimetypeFallback() {
+	public function testMimetypeFallback(): void {
 		$this->instance->file_put_contents('foo.bar', 'asd');
 
 		/** @var Detection $mimeDetector */

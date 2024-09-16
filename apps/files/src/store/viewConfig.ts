@@ -21,11 +21,16 @@ export const useViewConfigStore = function(...args) {
 
 		getters: {
 			getConfig: (state) => (view: ViewId): ViewConfig => state.viewConfig[view] || {},
+
+			getConfigs: (state) => (): ViewConfigs => state.viewConfig,
 		},
 
 		actions: {
 			/**
 			 * Update the view config local store
+			 * @param view
+			 * @param key
+			 * @param value
 			 */
 			onUpdate(view: ViewId, key: string, value: string | number | boolean) {
 				if (!this.viewConfig[view]) {
@@ -36,10 +41,15 @@ export const useViewConfigStore = function(...args) {
 
 			/**
 			 * Update the view config local store AND on server side
+			 * @param view
+			 * @param key
+			 * @param value
 			 */
 			async update(view: ViewId, key: string, value: string | number | boolean) {
-				axios.put(generateUrl(`/apps/files/api/v1/views/${view}/${key}`), {
+				axios.put(generateUrl('/apps/files/api/v1/views'), {
 					value,
+					view,
+					key,
 				})
 
 				emit('files:viewconfig:updated', { view, key, value })
@@ -49,6 +59,8 @@ export const useViewConfigStore = function(...args) {
 			 * Set the sorting key AND sort by ASC
 			 * The key param must be a valid key of a File object
 			 * If not found, will be searched within the File attributes
+			 * @param key
+			 * @param view
 			 */
 			setSortingBy(key = 'basename', view = 'files') {
 				// Save new config
@@ -58,6 +70,7 @@ export const useViewConfigStore = function(...args) {
 
 			/**
 			 * Toggle the sorting direction
+			 * @param view
 			 */
 			toggleSortingDirection(view = 'files') {
 				const config = this.getConfig(view) || { sorting_direction: 'asc' }

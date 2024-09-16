@@ -119,16 +119,18 @@ class Helper {
 	public static function formatFileInfo(FileInfo $i) {
 		$entry = [];
 
-		$entry['id'] = $i['fileid'];
-		$entry['parentId'] = $i['parent'];
-		$entry['mtime'] = $i['mtime'] * 1000;
+		$entry['id'] = $i->getId();
+		$entry['parentId'] = $i->getParentId();
+		$entry['mtime'] = $i->getMtime() * 1000;
 		// only pick out the needed attributes
 		$entry['name'] = $i->getName();
-		$entry['permissions'] = $i['permissions'];
-		$entry['mimetype'] = $i['mimetype'];
-		$entry['size'] = $i['size'];
-		$entry['type'] = $i['type'];
-		$entry['etag'] = $i['etag'];
+		$entry['permissions'] = $i->getPermissions();
+		$entry['mimetype'] = $i->getMimetype();
+		$entry['size'] = $i->getSize();
+		$entry['type'] = $i->getType();
+		$entry['etag'] = $i->getEtag();
+		// TODO: this is using the private implementation of FileInfo
+		// the array access is not part of the public interface
 		if (isset($i['tags'])) {
 			$entry['tags'] = $i['tags'];
 		}
@@ -138,6 +140,10 @@ class Helper {
 		if (isset($i['is_share_mount_point'])) {
 			$entry['isShareMountPoint'] = $i['is_share_mount_point'];
 		}
+		if (isset($i['extraData'])) {
+			$entry['extraData'] = $i['extraData'];
+		}
+
 		$mountType = null;
 		$mount = $i->getMountPoint();
 		$mountType = $mount->getMountType();
@@ -146,9 +152,6 @@ class Helper {
 				$mountType .= '-root';
 			}
 			$entry['mountType'] = $mountType;
-		}
-		if (isset($i['extraData'])) {
-			$entry['extraData'] = $i['extraData'];
 		}
 		return $entry;
 	}

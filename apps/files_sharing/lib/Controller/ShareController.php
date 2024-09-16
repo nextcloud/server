@@ -16,7 +16,9 @@ use OCA\Files_Sharing\Event\BeforeTemplateRenderedEvent;
 use OCA\Files_Sharing\Event\ShareLinkAccessedEvent;
 use OCP\Accounts\IAccountManager;
 use OCP\AppFramework\AuthPublicShareController;
+use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
 use OCP\AppFramework\Http\Attribute\OpenAPI;
+use OCP\AppFramework\Http\Attribute\PublicPage;
 use OCP\AppFramework\Http\NotFoundResponse;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\Defaults;
@@ -31,13 +33,14 @@ use OCP\IRequest;
 use OCP\ISession;
 use OCP\IURLGenerator;
 use OCP\IUserManager;
+use OCP\Security\Events\GenerateSecurePasswordEvent;
 use OCP\Security\ISecureRandom;
+use OCP\Security\PasswordContext;
 use OCP\Share;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IManager as ShareManager;
 use OCP\Share\IPublicShareTemplateFactory;
 use OCP\Share\IShare;
-use OCP\Template;
 
 /**
  * @package OCA\Files_Sharing\Controllers
@@ -73,12 +76,11 @@ class ShareController extends AuthPublicShareController {
 	}
 
 	/**
-	 * @PublicPage
-	 * @NoCSRFRequired
-	 *
 	 * Show the authentication page
 	 * The form has to submit to the authenticate method route
 	 */
+	#[PublicPage]
+	#[NoCSRFRequired]
 	public function showAuthenticate(): TemplateResponse {
 		$templateParameters = ['share' => $this->share];
 
@@ -155,7 +157,7 @@ class ShareController extends AuthPublicShareController {
 	 * Generates a password for the share, respecting any password policy defined
 	 */
 	protected function generatePassword(): void {
-		$event = new \OCP\Security\Events\GenerateSecurePasswordEvent();
+		$event = new GenerateSecurePasswordEvent(PasswordContext::SHARING);
 		$this->eventDispatcher->dispatchTyped($event);
 		$password = $event->getPassword() ?? $this->secureRandom->generate(20);
 
@@ -203,7 +205,7 @@ class ShareController extends AuthPublicShareController {
 	 * throws hooks when a share is attempted to be accessed
 	 *
 	 * @param \OCP\Share\IShare|string $share the Share instance if available,
-	 * otherwise token
+	 *                                        otherwise token
 	 * @param int $errorCode
 	 * @param string $errorMessage
 	 *
@@ -277,15 +279,13 @@ class ShareController extends AuthPublicShareController {
 	}
 
 	/**
-	 * @PublicPage
-	 * @NoCSRFRequired
-	 *
-	 *
 	 * @param string $path
 	 * @return TemplateResponse
 	 * @throws NotFoundException
 	 * @throws \Exception
 	 */
+	#[PublicPage]
+	#[NoCSRFRequired]
 	public function showShare($path = ''): TemplateResponse {
 		\OC_User::setIncognitoMode(true);
 
@@ -295,11 +295,11 @@ class ShareController extends AuthPublicShareController {
 		} catch (ShareNotFound $e) {
 			// The share does not exists, we do not emit an ShareLinkAccessedEvent
 			$this->emitAccessShareHook($this->getToken(), 404, 'Share not found');
-			throw new NotFoundException();
+			throw new NotFoundException($this->l10n->t('This share does not exist or is no longer available'));
 		}
 
 		if (!$this->validateShare($share)) {
-			throw new NotFoundException();
+			throw new NotFoundException($this->l10n->t('This share does not exist or is no longer available'));
 		}
 
 		$shareNode = $share->getNode();
@@ -310,7 +310,7 @@ class ShareController extends AuthPublicShareController {
 		} catch (NotFoundException $e) {
 			$this->emitAccessShareHook($share, 404, 'Share not found');
 			$this->emitShareAccessEvent($share, ShareController::SHARE_ACCESS, 404, 'Share not found');
-			throw new NotFoundException();
+			throw new NotFoundException($this->l10n->t('This share does not exist or is no longer available'));
 		}
 
 		// We can't get the path of a file share
@@ -318,7 +318,7 @@ class ShareController extends AuthPublicShareController {
 			if ($shareNode instanceof \OCP\Files\File && $path !== '') {
 				$this->emitAccessShareHook($share, 404, 'Share not found');
 				$this->emitShareAccessEvent($share, self::SHARE_ACCESS, 404, 'Share not found');
-				throw new NotFoundException();
+				throw new NotFoundException($this->l10n->t('This share does not exist or is no longer available'));
 			}
 		} catch (\Exception $e) {
 			$this->emitAccessShareHook($share, 404, 'Share not found');
@@ -334,8 +334,6 @@ class ShareController extends AuthPublicShareController {
 	}
 
 	/**
-	 * @PublicPage
-	 * @NoCSRFRequired
 	 * @NoSameSiteCookieRequired
 	 *
 	 * @param string $token
@@ -345,6 +343,8 @@ class ShareController extends AuthPublicShareController {
 	 * @return void|\OCP\AppFramework\Http\Response
 	 * @throws NotFoundException
 	 */
+	#[PublicPage]
+	#[NoCSRFRequired]
 	public function downloadShare($token, $files = null, $path = '', $downloadStartSecret = '') {
 		\OC_User::setIncognitoMode(true);
 

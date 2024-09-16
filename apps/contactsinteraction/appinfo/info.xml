@@ -9,7 +9,7 @@
 	<name>Contacts Interaction</name>
 	<summary>Manages interaction between accounts and contacts</summary>
 	<description>Collect data about accounts and contacts interactions and provide an address book for the data</description>
-	<version>1.11.0</version>
+	<version>1.12.0</version>
 	<licence>agpl</licence>
 	<author>Christoph Wurst</author>
 	<author homepage="https://github.com/nextcloud/groupware">Nextcloud Groupware Team</author>
@@ -21,7 +21,7 @@
 	<category>social</category>
 	<bugs>https://github.com/nextcloud/server/issues</bugs>
 	<dependencies>
-		<nextcloud min-version="30" max-version="30"/>
+		<nextcloud min-version="31" max-version="31"/>
 	</dependencies>
 	<background-jobs>
 		<job>OCA\ContactsInteraction\BackgroundJob\CleanupJob</job>

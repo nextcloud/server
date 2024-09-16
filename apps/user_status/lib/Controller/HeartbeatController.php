@@ -13,6 +13,7 @@ use OCA\UserStatus\ResponseDefinitions;
 use OCA\UserStatus\Service\StatusService;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\ApiRoute;
+use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCSController;
 use OCP\AppFramework\Utility\ITimeFactory;
@@ -55,15 +56,15 @@ class HeartbeatController extends OCSController {
 	/**
 	 * Keep the status alive
 	 *
-	 * @NoAdminRequired
-	 *
 	 * @param string $status Only online, away
 	 *
 	 * @return DataResponse<Http::STATUS_OK, UserStatusPrivate, array{}>|DataResponse<Http::STATUS_BAD_REQUEST|Http::STATUS_INTERNAL_SERVER_ERROR|Http::STATUS_NO_CONTENT, array<empty>, array{}>
+	 *
 	 * 200: Status successfully updated
 	 * 204: User has no status to keep alive
 	 * 400: Invalid status to update
 	 */
+	#[NoAdminRequired]
 	#[ApiRoute(verb: 'PUT', url: '/api/v1/heartbeat')]
 	public function heartbeat(string $status): DataResponse {
 		if (!\in_array($status, [IUserStatus::ONLINE, IUserStatus::AWAY], true)) {

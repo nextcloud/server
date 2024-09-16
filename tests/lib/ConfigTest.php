@@ -36,7 +36,7 @@ class ConfigTest extends TestCase {
 		return new \OC\Config($this->randomTmpDir, 'testconfig.php');
 	}
 
-	public function testGetKeys() {
+	public function testGetKeys(): void {
 		$expectedConfig = ['foo', 'beers', 'alcohol_free'];
 		$this->assertSame($expectedConfig, $this->getConfig()->getKeys());
 	}
@@ -48,7 +48,7 @@ class ConfigTest extends TestCase {
 		putenv('NC_taste');
 	}
 
-	public function testGetValue() {
+	public function testGetValue(): void {
 		$config = $this->getConfig();
 		$this->assertSame('bar', $config->getValue('foo'));
 		$this->assertSame(null, $config->getValue('bar'));
@@ -58,7 +58,7 @@ class ConfigTest extends TestCase {
 		$this->assertSame(['Appenzeller', 'Guinness', 'Kölsch'], $config->getValue('beers'));
 	}
 
-	public function testGetValueReturnsEnvironmentValueIfSet() {
+	public function testGetValueReturnsEnvironmentValueIfSet(): void {
 		$config = $this->getConfig();
 		$this->assertEquals('bar', $config->getValue('foo'));
 
@@ -68,7 +68,7 @@ class ConfigTest extends TestCase {
 		putenv('NC_foo'); // unset the env variable
 	}
 
-	public function testGetValueReturnsEnvironmentValueIfSetToZero() {
+	public function testGetValueReturnsEnvironmentValueIfSetToZero(): void {
 		$config = $this->getConfig();
 		$this->assertEquals('bar', $config->getValue('foo'));
 
@@ -78,7 +78,7 @@ class ConfigTest extends TestCase {
 		putenv('NC_foo'); // unset the env variable
 	}
 
-	public function testGetValueReturnsEnvironmentValueIfSetToFalse() {
+	public function testGetValueReturnsEnvironmentValueIfSetToFalse(): void {
 		$config = $this->getConfig();
 		$this->assertEquals('bar', $config->getValue('foo'));
 
@@ -88,7 +88,7 @@ class ConfigTest extends TestCase {
 		putenv('NC_foo'); // unset the env variable
 	}
 
-	public function testSetValue() {
+	public function testSetValue(): void {
 		$config = $this->getConfig();
 		$config->setValue('foo', 'moo');
 		$this->assertSame('moo', $config->getValue('foo'));
@@ -111,7 +111,7 @@ class ConfigTest extends TestCase {
 		$this->assertEquals($expected, $content);
 	}
 
-	public function testSetValues() {
+	public function testSetValues(): void {
 		$config = $this->getConfig();
 		$content = file_get_contents($this->configFile);
 		$this->assertEquals(self::TESTCONTENT, $content);
@@ -141,7 +141,7 @@ class ConfigTest extends TestCase {
 		$this->assertEquals($expected, $content);
 	}
 
-	public function testDeleteKey() {
+	public function testDeleteKey(): void {
 		$config = $this->getConfig();
 		$config->deleteKey('foo');
 		$this->assertSame('this_was_clearly_not_set_before', $config->getValue('foo', 'this_was_clearly_not_set_before'));
@@ -152,7 +152,7 @@ class ConfigTest extends TestCase {
 		$this->assertEquals($expected, $content);
 	}
 
-	public function testConfigMerge() {
+	public function testConfigMerge(): void {
 		// Create additional config
 		$additionalConfig = '<?php $CONFIG=array("php53"=>"totallyOutdated");';
 		$additionalConfigPath = $this->randomTmpDir.'additionalConfig.testconfig.php';

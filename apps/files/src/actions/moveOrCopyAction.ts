@@ -8,7 +8,7 @@ import type { FileStat, ResponseDataDetailed } from 'webdav'
 import type { MoveCopyResult } from './moveOrCopyActionUtils'
 
 import { isAxiosError } from '@nextcloud/axios'
-import { FilePickerClosed, getFilePickerBuilder, showError } from '@nextcloud/dialogs'
+import { FilePickerClosed, getFilePickerBuilder, showError, showInfo } from '@nextcloud/dialogs'
 import { emit } from '@nextcloud/event-bus'
 import { FileAction, FileType, NodeStatus, davGetClient, davRootPath, davResultToNode, davGetDefaultPropfind, getUniqueName, Permission } from '@nextcloud/files'
 import { translate as t } from '@nextcloud/l10n'
@@ -128,11 +128,8 @@ export const handleCopyMoveNodeTo = async (node: Node, destination: Folder, meth
 					try {
 						// Let the user choose what to do with the conflicting files
 						const { selected, renamed } = await openConflictPicker(destination.path, [node], otherNodes.contents)
-						// if the user selected to keep the old file, and did not select the new file
-						// that means they opted to delete the current node
+						// two empty arrays: either only old files or conflict skipped -> no action required
 						if (!selected.length && !renamed.length) {
-							await client.deleteFile(currentPath)
-							emit('files:node:deleted', node)
 							return
 						}
 					} catch (error) {
@@ -170,12 +167,17 @@ export const handleCopyMoveNodeTo = async (node: Node, destination: Folder, meth
 
 /**
  * Open a file picker for the given action
- * @param {MoveCopyAction} action The action to open the file picker for
- * @param {string} dir The directory to start the file picker in
- * @param {Node[]} nodes The nodes to move/copy
- * @return {Promise<MoveCopyResult>} The picked destination
+ * @param action The action to open the file picker for
+ * @param dir The directory to start the file picker in
+ * @param nodes The nodes to move/copy
+ * @return The picked destination or false if cancelled by user
  */
-const openFilePickerForAction = async (action: MoveCopyAction, dir = '/', nodes: Node[]): Promise<MoveCopyResult> => {
+async function openFilePickerForAction(
+	action: MoveCopyAction,
+	dir = '/',
+	nodes: Node[],
+): Promise<MoveCopyResult | false> {
+	const { resolve, reject, promise } = Promise.withResolvers<MoveCopyResult | false>()
 	const fileIDs = nodes.map(node => node.fileid).filter(Boolean)
 	const filePicker = getFilePickerBuilder(t('files', 'Choose destination'))
 		.allowDirectories(true)
@@ -186,9 +188,7 @@ const openFilePickerForAction = async (action: MoveCopyAction, dir = '/', nodes:
 		.setMimeTypeFilter([])
 		.setMultiSelect(false)
 		.startAt(dir)
-
-	return new Promise((resolve, reject) => {
-		filePicker.setButtonFactory((selection: Node[], path: string) => {
+		.setButtonFactory((selection: Node[], path: string) => {
 			const buttons: IFilePickerButton[] = []
 			const target = basename(path)
 
@@ -237,17 +237,19 @@ const openFilePickerForAction = async (action: MoveCopyAction, dir = '/', nodes:
 
 			return buttons
 		})
+		.build()
 
-		const picker = filePicker.build()
-		picker.pick().catch((error) => {
+	filePicker.pick()
+		.catch((error: Error) => {
 			logger.debug(error as Error)
 			if (error instanceof FilePickerClosed) {
-				reject(new Error(t('files', 'Cancelled move or copy operation')))
+				resolve(false)
 			} else {
 				reject(new Error(t('files', 'Move or copy operation failed')))
 			}
 		})
-	})
+
+	return promise
 }
 
 export const action = new FileAction({
@@ -263,7 +265,11 @@ export const action = new FileAction({
 		}
 	},
 	iconSvgInline: () => FolderMoveSvg,
-	enabled(nodes: Node[]) {
+	enabled(nodes: Node[], view: View) {
+		// We can not copy or move in single file shares
+		if (view.id === 'public-file-share') {
+			return false
+		}
 		// We only support moving/copying files within the user folder
 		if (!nodes.every(node => node.root?.startsWith('/files/'))) {
 			return false
@@ -280,6 +286,11 @@ export const action = new FileAction({
 			logger.error(e as Error)
 			return false
 		}
+		if (result === false) {
+			showInfo(t('files', 'Cancelled move or copy of "{filename}".', { filename: node.displayname }))
+			return null
+		}
+
 		try {
 			await handleCopyMoveNodeTo(node, result.destination, result.action)
 			return true
@@ -296,6 +307,15 @@ export const action = new FileAction({
 	async execBatch(nodes: Node[], view: View, dir: string) {
 		const action = getActionForNodes(nodes)
 		const result = await openFilePickerForAction(action, dir, nodes)
+		// Handle cancellation silently
+		if (result === false) {
+			showInfo(nodes.length === 1
+				? t('files', 'Cancelled move or copy of "{filename}".', { filename: nodes[0].displayname })
+				: t('files', 'Cancelled move or copy operation')
+			)
+			return nodes.map(() => null)
+		}
+
 		const promises = nodes.map(async node => {
 			try {
 				await handleCopyMoveNodeTo(node, result.destination, result.action)

@@ -104,7 +104,7 @@ class Resource implements IResource {
 
 		$result = $query->execute();
 		while ($row = $result->fetch()) {
-			$collections[] = $this->manager->getCollection((int) $row['collection_id']);
+			$collections[] = $this->manager->getCollection((int)$row['collection_id']);
 		}
 		$result->closeCursor();
 

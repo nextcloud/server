@@ -144,11 +144,11 @@ class Directory extends \OCA\DAV\Connector\Sabre\Node implements \Sabre\DAV\ICol
 				throw new \Sabre\DAV\Exception\Forbidden('Could not create directory ' . $newPath);
 			}
 		} catch (\OCP\Files\StorageNotAvailableException $e) {
-			throw new \Sabre\DAV\Exception\ServiceUnavailable($e->getMessage());
+			throw new \Sabre\DAV\Exception\ServiceUnavailable($e->getMessage(), 0, $e);
 		} catch (InvalidPathException $ex) {
-			throw new InvalidPath($ex->getMessage());
+			throw new InvalidPath($ex->getMessage(), false, $ex);
 		} catch (ForbiddenException $ex) {
-			throw new Forbidden($ex->getMessage(), $ex->getRetry());
+			throw new Forbidden($ex->getMessage(), $ex->getRetry(), $ex);
 		} catch (LockedException $e) {
 			throw new FileLocked($e->getMessage(), $e->getCode(), $e);
 		}
@@ -173,14 +173,14 @@ class Directory extends \OCA\DAV\Connector\Sabre\Node implements \Sabre\DAV\ICol
 		$path = $this->path . '/' . $name;
 		if (is_null($info)) {
 			try {
-				$this->fileView->verifyPath($this->path, $name);
+				$this->fileView->verifyPath($this->path, $name, true);
 				$info = $this->fileView->getFileInfo($path);
 			} catch (\OCP\Files\StorageNotAvailableException $e) {
-				throw new \Sabre\DAV\Exception\ServiceUnavailable($e->getMessage());
+				throw new \Sabre\DAV\Exception\ServiceUnavailable($e->getMessage(), 0, $e);
 			} catch (InvalidPathException $ex) {
-				throw new InvalidPath($ex->getMessage());
+				throw new InvalidPath($ex->getMessage(), false, $ex);
 			} catch (ForbiddenException $e) {
-				throw new \Sabre\DAV\Exception\Forbidden();
+				throw new \Sabre\DAV\Exception\Forbidden($e->getMessage(), $e->getCode(), $e);
 			}
 		}
 
@@ -294,7 +294,7 @@ class Directory extends \OCA\DAV\Connector\Sabre\Node implements \Sabre\DAV\ICol
 		}
 		$relativePath = $this->fileView->getRelativePath($this->info->getPath());
 		if ($relativePath === null) {
-			$this->getLogger()->warning("error while getting quota as the relative path cannot be found");
+			$this->getLogger()->warning('error while getting quota as the relative path cannot be found');
 			return [0, 0];
 		}
 
@@ -311,13 +311,13 @@ class Directory extends \OCA\DAV\Connector\Sabre\Node implements \Sabre\DAV\ICol
 			];
 			return $this->quotaInfo;
 		} catch (\OCP\Files\NotFoundException $e) {
-			$this->getLogger()->warning("error while getting quota into", ['exception' => $e]);
+			$this->getLogger()->warning('error while getting quota into', ['exception' => $e]);
 			return [0, 0];
 		} catch (\OCP\Files\StorageNotAvailableException $e) {
-			$this->getLogger()->warning("error while getting quota into", ['exception' => $e]);
+			$this->getLogger()->warning('error while getting quota into', ['exception' => $e]);
 			return [0, 0];
 		} catch (NotPermittedException $e) {
-			$this->getLogger()->warning("error while getting quota into", ['exception' => $e]);
+			$this->getLogger()->warning('error while getting quota into', ['exception' => $e]);
 			return [0, 0];
 		}
 	}
@@ -418,9 +418,9 @@ class Directory extends \OCA\DAV\Connector\Sabre\Node implements \Sabre\DAV\ICol
 				throw new \Sabre\DAV\Exception\Forbidden('');
 			}
 		} catch (StorageNotAvailableException $e) {
-			throw new ServiceUnavailable($e->getMessage());
+			throw new ServiceUnavailable($e->getMessage(), $e->getCode(), $e);
 		} catch (ForbiddenException $ex) {
-			throw new Forbidden($ex->getMessage(), $ex->getRetry());
+			throw new Forbidden($ex->getMessage(), $ex->getRetry(), $ex);
 		} catch (LockedException $e) {
 			throw new FileLocked($e->getMessage(), $e->getCode(), $e);
 		}
@@ -447,9 +447,9 @@ class Directory extends \OCA\DAV\Connector\Sabre\Node implements \Sabre\DAV\ICol
 
 				return $this->fileView->copy($sourcePath, $destinationPath);
 			} catch (StorageNotAvailableException $e) {
-				throw new ServiceUnavailable($e->getMessage());
+				throw new ServiceUnavailable($e->getMessage(), $e->getCode(), $e);
 			} catch (ForbiddenException $ex) {
-				throw new Forbidden($ex->getMessage(), $ex->getRetry());
+				throw new Forbidden($ex->getMessage(), $ex->getRetry(), $ex);
 			} catch (LockedException $e) {
 				throw new FileLocked($e->getMessage(), $e->getCode(), $e);
 			}

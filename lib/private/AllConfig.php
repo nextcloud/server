@@ -6,7 +6,6 @@
  */
 namespace OC;
 
-use Doctrine\DBAL\Platforms\OraclePlatform;
 use OCP\Cache\CappedMemoryCache;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IConfig;
@@ -108,7 +107,7 @@ class AllConfig implements IConfig {
 	 * @since 16.0.0
 	 */
 	public function getSystemValueBool(string $key, bool $default = false): bool {
-		return (bool) $this->getSystemValue($key, $default);
+		return (bool)$this->getSystemValue($key, $default);
 	}
 
 	/**
@@ -122,7 +121,7 @@ class AllConfig implements IConfig {
 	 * @since 16.0.0
 	 */
 	public function getSystemValueInt(string $key, int $default = 0): int {
-		return (int) $this->getSystemValue($key, $default);
+		return (int)$this->getSystemValue($key, $default);
 	}
 
 	/**
@@ -136,7 +135,7 @@ class AllConfig implements IConfig {
 	 * @since 16.0.0
 	 */
 	public function getSystemValueString(string $key, string $default = ''): string {
-		return (string) $this->getSystemValue($key, $default);
+		return (string)$this->getSystemValue($key, $default);
 	}
 
 	/**
@@ -237,16 +236,16 @@ class AllConfig implements IConfig {
 		$this->fixDIInit();
 
 		if ($appName === 'settings' && $key === 'email') {
-			$value = strtolower((string) $value);
+			$value = strtolower((string)$value);
 		}
 
 		$prevValue = $this->getUserValue($userId, $appName, $key, null);
 
 		if ($prevValue !== null) {
-			if ($prevValue === (string)$value) {
-				return;
-			} elseif ($preCondition !== null && $prevValue !== (string)$preCondition) {
+			if ($preCondition !== null && $prevValue !== (string)$preCondition) {
 				throw new PreConditionNotMetException();
+			} elseif ($prevValue === (string)$value) {
+				return;
 			} else {
 				$qb = $this->connection->getQueryBuilder();
 				$qb->update('preferences')
@@ -383,9 +382,9 @@ class AllConfig implements IConfig {
 	 * @param ?string $userId the user ID to get the app configs from
 	 * @psalm-return array<string, array<string, string>>
 	 * @return array[] - 2 dimensional array with the following structure:
-	 *     [ $appId =>
-	 *         [ $key => $value ]
-	 *     ]
+	 *                 [ $appId =>
+	 *                 [ $key => $value ]
+	 *                 ]
 	 */
 	public function getAllUserValues(?string $userId): array {
 		if (isset($this->userCache[$userId])) {
@@ -463,14 +462,14 @@ class AllConfig implements IConfig {
 	 * @param string $appName the app to get the user for
 	 * @param string $key the key to get the user for
 	 * @param string $value the value to get the user for
-	 * @return array of user IDs
+	 * @return list<string> of user IDs
 	 */
 	public function getUsersForUserValue($appName, $key, $value) {
 		// TODO - FIXME
 		$this->fixDIInit();
 
 		$qb = $this->connection->getQueryBuilder();
-		$configValueColumn = ($this->connection->getDatabasePlatform() instanceof OraclePlatform)
+		$configValueColumn = ($this->connection->getDatabaseProvider() === IDBConnection::PLATFORM_ORACLE)
 			? $qb->expr()->castColumn('configvalue', IQueryBuilder::PARAM_STR)
 			: 'configvalue';
 		$result = $qb->select('userid')
@@ -497,7 +496,7 @@ class AllConfig implements IConfig {
 	 * @param string $appName the app to get the user for
 	 * @param string $key the key to get the user for
 	 * @param string $value the value to get the user for
-	 * @return array of user IDs
+	 * @return list<string> of user IDs
 	 */
 	public function getUsersForUserValueCaseInsensitive($appName, $key, $value) {
 		// TODO - FIXME
@@ -509,7 +508,7 @@ class AllConfig implements IConfig {
 		}
 
 		$qb = $this->connection->getQueryBuilder();
-		$configValueColumn = ($this->connection->getDatabasePlatform() instanceof OraclePlatform)
+		$configValueColumn = ($this->connection->getDatabaseProvider() === IDBConnection::PLATFORM_ORACLE)
 			? $qb->expr()->castColumn('configvalue', IQueryBuilder::PARAM_STR)
 			: 'configvalue';
 

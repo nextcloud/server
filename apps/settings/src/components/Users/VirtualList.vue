@@ -157,6 +157,7 @@ export default Vue.extend({
 	display: block;
 	overflow: auto;
 	height: 100%;
+	will-change: scroll-position;
 
 	&__header,
 	&__footer {
@@ -171,7 +172,7 @@ export default Vue.extend({
 	}
 
 	&__footer {
-		left: 0;
+		inset-inline-start: 0;
 	}
 
 	&__body {

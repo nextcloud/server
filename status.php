@@ -14,8 +14,8 @@ try {
 
 	$systemConfig = \OC::$server->getSystemConfig();
 
-	$installed = (bool) $systemConfig->getValue('installed', false);
-	$maintenance = (bool) $systemConfig->getValue('maintenance', false);
+	$installed = (bool)$systemConfig->getValue('installed', false);
+	$maintenance = (bool)$systemConfig->getValue('maintenance', false);
 	# see core/lib/private/legacy/defaults.php and core/themes/example/defaults.php
 	# for description and defaults
 	$defaults = new \OCP\Defaults();

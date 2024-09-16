@@ -42,7 +42,7 @@ class Updater {
 		}
 		$user = $userFolder->getOwner();
 		if (!$user) {
-			throw new \Exception("user folder has no owner");
+			throw new \Exception('user folder has no owner');
 		}
 
 		$src = $userFolder->get($path);

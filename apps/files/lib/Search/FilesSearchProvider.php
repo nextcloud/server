@@ -172,7 +172,7 @@ class FilesSearchProvider implements IFilteringProvider {
 		return new SearchQuery(
 			new SearchBinaryOperator(SearchBinaryOperator::OPERATOR_AND, $comparisons),
 			$query->getLimit(),
-			(int) $query->getCursor(),
+			(int)$query->getCursor(),
 			$query->getSortOrder() === ISearchQuery::SORT_DATE_DESC
 				? [new SearchOrder(ISearchOrder::DIRECTION_DESCENDING, 'mtime')]
 				: [],

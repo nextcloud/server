@@ -25,7 +25,7 @@ use Test\TestCase;
  */
 class CleanUpTest extends TestCase {
 
-	/** @var  CleanUp */
+	/** @var CleanUp */
 	protected $cleanup;
 
 	/** @var \PHPUnit\Framework\MockObject\MockObject | Manager */
@@ -37,10 +37,10 @@ class CleanUpTest extends TestCase {
 	/** @var IDBConnection */
 	protected $dbConnection;
 
-	/** @var  string */
+	/** @var string */
 	protected $trashTable = 'files_trash';
 
-	/** @var string  */
+	/** @var string */
 	protected $user0 = 'user0';
 
 	protected function setUp(): void {
@@ -82,7 +82,7 @@ class CleanUpTest extends TestCase {
 	 * @dataProvider dataTestRemoveDeletedFiles
 	 * @param boolean $nodeExists
 	 */
-	public function testRemoveDeletedFiles(bool $nodeExists) {
+	public function testRemoveDeletedFiles(bool $nodeExists): void {
 		$this->initTable();
 		$this->rootFolder
 			->method('nodeExists')
@@ -137,7 +137,7 @@ class CleanUpTest extends TestCase {
 	/**
 	 * test remove deleted files from users given as parameter
 	 */
-	public function testExecuteDeleteListOfUsers() {
+	public function testExecuteDeleteListOfUsers(): void {
 		$userIds = ['user1', 'user2', 'user3'];
 		$instance = $this->getMockBuilder('OCA\Files_Trashbin\Command\CleanUp')
 			->setMethods(['removeDeletedFiles'])
@@ -168,7 +168,7 @@ class CleanUpTest extends TestCase {
 	/**
 	 * test remove deleted files of all users
 	 */
-	public function testExecuteAllUsers() {
+	public function testExecuteAllUsers(): void {
 		$userIds = [];
 		$backendUsers = ['user1', 'user2'];
 		$instance = $this->getMockBuilder('OCA\Files_Trashbin\Command\CleanUp')
@@ -200,7 +200,7 @@ class CleanUpTest extends TestCase {
 		$this->invokePrivate($instance, 'execute', [$inputInterface, $outputInterface]);
 	}
 
-	public function testExecuteNoUsersAndNoAllUsers() {
+	public function testExecuteNoUsersAndNoAllUsers(): void {
 		$inputInterface = $this->createMock(InputInterface::class);
 		$inputInterface->method('getArgument')
 			->with('user_id')
@@ -218,7 +218,7 @@ class CleanUpTest extends TestCase {
 		$this->invokePrivate($this->cleanup, 'execute', [$inputInterface, $outputInterface]);
 	}
 
-	public function testExecuteUsersAndAllUsers() {
+	public function testExecuteUsersAndAllUsers(): void {
 		$inputInterface = $this->createMock(InputInterface::class);
 		$inputInterface->method('getArgument')
 			->with('user_id')

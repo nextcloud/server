@@ -47,24 +47,24 @@ class SimpleFolderTest extends \Test\TestCase {
 		$this->simpleFolder = new SimpleFolder($this->folder);
 	}
 
-	public function testGetName() {
+	public function testGetName(): void {
 		$this->assertEquals('test', $this->simpleFolder->getName());
 	}
 
-	public function testDelete() {
+	public function testDelete(): void {
 		$this->assertTrue($this->parentFolder->nodeExists('test'));
 		$this->simpleFolder->delete();
 		$this->assertFalse($this->parentFolder->nodeExists('test'));
 	}
 
-	public function testFileExists() {
+	public function testFileExists(): void {
 		$this->folder->newFile('exists');
 
 		$this->assertFalse($this->simpleFolder->fileExists('not-exists'));
 		$this->assertTrue($this->simpleFolder->fileExists('exists'));
 	}
 
-	public function testGetFile() {
+	public function testGetFile(): void {
 		$this->folder->newFile('exists');
 
 		$result = $this->simpleFolder->getFile('exists');
@@ -74,7 +74,7 @@ class SimpleFolderTest extends \Test\TestCase {
 		$this->simpleFolder->getFile('not-exists');
 	}
 
-	public function testNewFile() {
+	public function testNewFile(): void {
 		$result = $this->simpleFolder->newFile('file');
 		$this->assertInstanceOf(ISimpleFile::class, $result);
 		$this->assertFalse($this->folder->nodeExists('file'));
@@ -84,7 +84,7 @@ class SimpleFolderTest extends \Test\TestCase {
 		$this->assertEquals('bar', $result->getContent());
 	}
 
-	public function testGetDirectoryListing() {
+	public function testGetDirectoryListing(): void {
 		$this->folder->newFile('file1');
 		$this->folder->newFile('file2');
 
@@ -94,7 +94,7 @@ class SimpleFolderTest extends \Test\TestCase {
 		$this->assertInstanceOf(ISimpleFile::class, $result[1]);
 	}
 
-	public function testGetFolder() {
+	public function testGetFolder(): void {
 		$this->folder->newFolder('exists');
 
 		$result = $this->simpleFolder->getFolder('exists');
@@ -104,7 +104,7 @@ class SimpleFolderTest extends \Test\TestCase {
 		$this->simpleFolder->getFolder('not-exists');
 	}
 
-	public function testNewFolder() {
+	public function testNewFolder(): void {
 		$result = $this->simpleFolder->newFolder('folder');
 		$this->assertInstanceOf(ISimpleFolder::class, $result);
 		$result->newFile('file');

@@ -17,7 +17,7 @@ import Vue from 'vue'
 import { Directory, traverseTree, resolveConflict, createDirectoryIfNotExists } from './DropServiceUtils'
 import { handleCopyMoveNodeTo } from '../actions/moveOrCopyAction'
 import { MoveCopyAction } from '../actions/moveOrCopyActionUtils'
-import logger from '../logger.js'
+import logger from '../logger.ts'
 
 /**
  * This function converts a list of DataTransferItems to a file tree.

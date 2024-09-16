@@ -9,6 +9,7 @@ OC.L10N.register(
     "%1$s commented on %2$s" : "%1$s прокомментировано на %2$s",
     "{author} commented on {file}" : "{author} прокомментировал {file}",
     "<strong>Comments</strong> for files" : "<strong>Комментарии</strong> к файлам",
+    "Files" : "Файлы",
     "You were mentioned on \"{file}\", in a comment by an account that has since been deleted" : "Вы были упомянуты в комментарии к «{file}» пользователем, учётная запись которого была удалена.",
     "{user} mentioned you in a comment on \"{file}\"" : "{user} упомянул(а) вас в комментарии к «{file}»",
     "Files app plugin to add comments to files" : "Модуль приложения «Файлы», позволяющий комментировать файлы",
@@ -31,9 +32,6 @@ OC.L10N.register(
     "Comment deleted" : "Комментарий удалён",
     "An error occurred while trying to delete the comment" : "Попытка удаления комментария завершилась ошибкой",
     "An error occurred while trying to create the comment" : "Попытка создания комментария завершилась ошибкой",
-    "You were mentioned on \"{file}\", in a comment by a user that has since been deleted" : "Вы были упомянуты на \"{file}\", в комментарии пользователя, который с тех пор был удалён",
-    "Write a message …" : "Напишите сообщение…",
-    "\"@\" for mentions, \":\" for emoji, \"/\" for smart picker" : "«@» — для упоминаний, «:» — для эмодзи, «/» — для интеллектуального выбора",
-    "_%n unread comment_::_%n unread comments_" : ["%n непрочитанный комментарий","%n непрочитанных комментариев","%n непрочитанных комментариев","%n непрочитанных комментариев"]
+    "You were mentioned on \"{file}\", in a comment by a user that has since been deleted" : "Вы были упомянуты на \"{file}\", в комментарии пользователя, который с тех пор был удалён"
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

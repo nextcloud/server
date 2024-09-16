@@ -32,7 +32,7 @@ class CleanPreviewsBackgroundJobTest extends TestCase {
 	/** @var CleanPreviewsBackgroundJob */
 	private $job;
 
-	/** @var  IUserManager|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IUserManager|\PHPUnit_Framework_MockObject_MockObject */
 	private $userManager;
 
 	public function setUp(): void {
@@ -55,7 +55,7 @@ class CleanPreviewsBackgroundJobTest extends TestCase {
 		);
 	}
 
-	public function testCleanupPreviewsUnfinished() {
+	public function testCleanupPreviewsUnfinished(): void {
 		$userFolder = $this->createMock(Folder::class);
 		$userRoot = $this->createMock(Folder::class);
 		$thumbnailFolder = $this->createMock(Folder::class);
@@ -100,7 +100,7 @@ class CleanPreviewsBackgroundJobTest extends TestCase {
 		$this->job->run(['uid' => 'myuid']);
 	}
 
-	public function testCleanupPreviewsFinished() {
+	public function testCleanupPreviewsFinished(): void {
 		$userFolder = $this->createMock(Folder::class);
 		$userRoot = $this->createMock(Folder::class);
 		$thumbnailFolder = $this->createMock(Folder::class);
@@ -143,7 +143,7 @@ class CleanPreviewsBackgroundJobTest extends TestCase {
 	}
 
 
-	public function testNoUserFolder() {
+	public function testNoUserFolder(): void {
 		$this->rootFolder->method('getUserFolder')
 			->with($this->equalTo('myuid'))
 			->willThrowException(new NotFoundException());
@@ -158,7 +158,7 @@ class CleanPreviewsBackgroundJobTest extends TestCase {
 		$this->job->run(['uid' => 'myuid']);
 	}
 
-	public function testNoThumbnailFolder() {
+	public function testNoThumbnailFolder(): void {
 		$userFolder = $this->createMock(Folder::class);
 		$userRoot = $this->createMock(Folder::class);
 
@@ -182,7 +182,7 @@ class CleanPreviewsBackgroundJobTest extends TestCase {
 		$this->job->run(['uid' => 'myuid']);
 	}
 
-	public function testNotPermittedToDelete() {
+	public function testNotPermittedToDelete(): void {
 		$userFolder = $this->createMock(Folder::class);
 		$userRoot = $this->createMock(Folder::class);
 		$thumbnailFolder = $this->createMock(Folder::class);

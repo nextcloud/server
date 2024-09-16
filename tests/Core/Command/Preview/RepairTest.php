@@ -116,7 +116,7 @@ class RepairTest extends TestCase {
 	/**
 	 * @dataProvider emptyTestDataProvider
 	 */
-	public function testEmptyExecute($directoryNames, $expectedOutput) {
+	public function testEmptyExecute($directoryNames, $expectedOutput): void {
 		$previewFolder = $this->getMockBuilder(Folder::class)
 			->getMock();
 		$directories = array_map(function ($element) {
@@ -147,7 +147,7 @@ class RepairTest extends TestCase {
 			->willReturn($directories);
 		$this->rootFolder->expects($this->once())
 			->method('get')
-			->with("appdata_/preview")
+			->with('appdata_/preview')
 			->willReturn($previewFolder);
 
 		$this->repair->run($this->input, $this->output);

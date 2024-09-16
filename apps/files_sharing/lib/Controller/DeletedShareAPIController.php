@@ -11,6 +11,7 @@ namespace OCA\Files_Sharing\Controller;
 use OCA\Files_Sharing\ResponseDefinitions;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCS\OCSException;
 use OCP\AppFramework\OCS\OCSNotFoundException;
@@ -158,14 +159,13 @@ class DeletedShareAPIController extends OCSController {
 	}
 
 	/**
-	 * @NoAdminRequired
-	 *
 	 * Get a list of all deleted shares
 	 *
 	 * @return DataResponse<Http::STATUS_OK, Files_SharingDeletedShare[], array{}>
 	 *
 	 * 200: Deleted shares returned
 	 */
+	#[NoAdminRequired]
 	public function index(): DataResponse {
 		$groupShares = $this->shareManager->getDeletedSharedWith($this->userId, IShare::TYPE_GROUP, null, -1, 0);
 		$roomShares = $this->shareManager->getDeletedSharedWith($this->userId, IShare::TYPE_ROOM, null, -1, 0);
@@ -182,8 +182,6 @@ class DeletedShareAPIController extends OCSController {
 	}
 
 	/**
-	 * @NoAdminRequired
-	 *
 	 * Undelete a deleted share
 	 *
 	 * @param string $id ID of the share
@@ -193,6 +191,7 @@ class DeletedShareAPIController extends OCSController {
 	 *
 	 * 200: Share undeleted successfully
 	 */
+	#[NoAdminRequired]
 	public function undelete(string $id): DataResponse {
 		try {
 			$share = $this->shareManager->getShareById($id, $this->userId);

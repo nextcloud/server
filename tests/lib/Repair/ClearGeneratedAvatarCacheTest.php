@@ -57,11 +57,11 @@ class ClearGeneratedAvatarCacheTest extends \Test\TestCase {
 	 * @param string $from
 	 * @param boolean $expected
 	 */
-	public function testShouldRun($from, $expected) {
+	public function testShouldRun($from, $expected): void {
 		$this->config->expects($this->any())
-			   ->method('getSystemValueString')
-			   ->with('version', '0.0.0.0')
-			   ->willReturn($from);
+			->method('getSystemValueString')
+			->with('version', '0.0.0.0')
+			->willReturn($from);
 
 		$this->assertEquals($expected, $this->invokePrivate($this->repair, 'shouldRun'));
 	}

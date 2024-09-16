@@ -89,7 +89,7 @@ class ExpirationTest extends \Test\TestCase {
 	 * @param bool $quotaExceeded
 	 * @param string $expectedResult
 	 */
-	public function testExpiration($retentionObligation, $timeNow, $timestamp, $quotaExceeded, $expectedResult) {
+	public function testExpiration($retentionObligation, $timeNow, $timestamp, $quotaExceeded, $expectedResult): void {
 		$mockedConfig = $this->getMockedConfig($retentionObligation);
 		$mockedTimeFactory = $this->getMockedTimeFactory($timeNow);
 
@@ -120,7 +120,7 @@ class ExpirationTest extends \Test\TestCase {
 	 * @param string $configValue
 	 * @param int $expectedMaxAgeTimestamp
 	 */
-	public function testGetMaxAgeAsTimestamp($configValue, $expectedMaxAgeTimestamp) {
+	public function testGetMaxAgeAsTimestamp($configValue, $expectedMaxAgeTimestamp): void {
 		$mockedConfig = $this->getMockedConfig($configValue);
 		$mockedTimeFactory = $this->getMockedTimeFactory(
 			self::FAKE_TIME_NOW

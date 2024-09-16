@@ -110,31 +110,31 @@ class DyslexiaFontTest extends TestCase {
 	}
 
 
-	public function testGetId() {
+	public function testGetId(): void {
 		$this->assertEquals('opendyslexic', $this->dyslexiaFont->getId());
 	}
 
-	public function testGetType() {
+	public function testGetType(): void {
 		$this->assertEquals(ITheme::TYPE_FONT, $this->dyslexiaFont->getType());
 	}
 
-	public function testGetTitle() {
+	public function testGetTitle(): void {
 		$this->assertNotEmpty($this->dyslexiaFont->getTitle());
 	}
 
-	public function testGetEnableLabel() {
+	public function testGetEnableLabel(): void {
 		$this->assertNotEmpty($this->dyslexiaFont->getEnableLabel());
 	}
 
-	public function testGetDescription() {
+	public function testGetDescription(): void {
 		$this->assertNotEmpty($this->dyslexiaFont->getDescription());
 	}
 
-	public function testGetMediaQuery() {
+	public function testGetMediaQuery(): void {
 		$this->assertEquals('', $this->dyslexiaFont->getMediaQuery());
 	}
 
-	public function testGetCSSVariables() {
+	public function testGetCSSVariables(): void {
 		$this->assertStringStartsWith('OpenDyslexic', $this->dyslexiaFont->getCSSVariables()['--font-face']);
 	}
 
@@ -156,14 +156,14 @@ class DyslexiaFontTest extends TestCase {
 	 * @param string $webRoot
 	 * @param bool $prettyUrlsEnabled
 	 */
-	public function testGetCustomCss($webRoot, $prettyUrlsEnabled) {
+	public function testGetCustomCss($webRoot, $prettyUrlsEnabled): void {
 		\OC::$WEBROOT = $webRoot;
 		$this->config->expects($this->any())
 			->method('getSystemValue')
 			->with('htaccess.IgnoreFrontController', false)
 			->willReturn($prettyUrlsEnabled);
 
-		$this->assertStringContainsString("'$webRoot/apps/theming/fonts/OpenDyslexic-Regular.woff'", $this->dyslexiaFont->getCustomCss());
+		$this->assertStringContainsString("'$webRoot/apps/theming/fonts/OpenDyslexic-Regular.otf'", $this->dyslexiaFont->getCustomCss());
 		$this->assertStringNotContainsString('index.php', $this->dyslexiaFont->getCustomCss());
 	}
 }

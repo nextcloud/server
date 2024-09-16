@@ -111,7 +111,7 @@ class RemoveLinkShares implements IRepairStep {
 		$data = $result->fetch();
 		$result->closeCursor();
 
-		return (int) $data['total'];
+		return (int)$data['total'];
 	}
 
 	/**
@@ -180,7 +180,7 @@ class RemoveLinkShares implements IRepairStep {
 
 		$users = array_keys($this->userToNotify);
 		foreach ($users as $user) {
-			$notification->setUser((string) $user);
+			$notification->setUser((string)$user);
 			$this->notificationManager->notify($notification);
 		}
 	}

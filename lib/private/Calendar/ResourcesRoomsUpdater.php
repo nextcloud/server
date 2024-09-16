@@ -406,7 +406,7 @@ class ResourcesRoomsUpdater {
 			->andWhere($query->expr()->eq('resource_id', $query->createNamedParameter($resourceId)));
 		$result = $query->executeQuery();
 
-		$id = (int) $result->fetchOne();
+		$id = (int)$result->fetchOne();
 		$result->closeCursor();
 		return $id;
 	}

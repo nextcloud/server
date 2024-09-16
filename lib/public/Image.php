@@ -14,5 +14,11 @@ namespace OCP;
  * This class provides functions to handle images
  * @since 6.0.0
  */
-class Image extends \OC_Image {
+class Image extends \OC\Image implements \OCP\IImage {
+	/**
+	 * @since 31.0.0
+	 */
+	public function __construct() {
+		parent::__construct();
+	}
 }

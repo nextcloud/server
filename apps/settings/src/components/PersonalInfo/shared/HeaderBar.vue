@@ -130,7 +130,7 @@ export default {
 		}
 
 		&.setting-property {
-			height: 44px;
+			height: 34px;
 		}
 
 		label {
@@ -143,6 +143,7 @@ export default {
 	}
 
 	.button-vue  {
-		margin: 0 0 0 auto !important;
+		margin: 0 !important;
+		margin-inline-start: auto !important;
 	}
 </style>

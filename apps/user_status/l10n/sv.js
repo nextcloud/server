@@ -20,6 +20,8 @@ OC.L10N.register(
     "Set status" : "Sätt status",
     "Online status" : "Online-status",
     "Status message" : "Statusmeddelande",
+    "Set absence period" : "Ställ in frånvaroperiod",
+    "Set absence period and replacement" : "Ställ in frånvaroperiod och ersättare",
     "Your status was set automatically" : "Din status ställdes in automatiskt",
     "Clear status message" : "Rensa statusmeddelande",
     "Set status message" : "Sätt statusmeddelande",
@@ -42,7 +44,6 @@ OC.L10N.register(
     "1 hour" : "1 timme",
     "4 hours" : "4 timmar",
     "Mute all notifications" : "Dölj alla aviseringar",
-    "Appear offline" : "Visa som frånkopplad",
-    "View profile" : "Visa profil"
+    "Appear offline" : "Visa som frånkopplad"
 },
 "nplurals=2; plural=(n != 1);");

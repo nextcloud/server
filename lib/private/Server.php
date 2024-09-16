@@ -100,6 +100,7 @@ use OC\Security\CSP\ContentSecurityPolicyNonceManager;
 use OC\Security\CSRF\CsrfTokenManager;
 use OC\Security\CSRF\TokenStorage\SessionStorage;
 use OC\Security\Hasher;
+use OC\Security\Ip\RemoteAddress;
 use OC\Security\RateLimiting\Limiter;
 use OC\Security\SecureRandom;
 use OC\Security\TrustedDomainHelper;
@@ -184,7 +185,6 @@ use OCP\IPhoneNumberUtil;
 use OCP\IPreview;
 use OCP\IRequest;
 use OCP\IRequestId;
-use OCP\ISearch;
 use OCP\IServerContainer;
 use OCP\ISession;
 use OCP\ITagManager;
@@ -213,6 +213,7 @@ use OCP\Security\IContentSecurityPolicyManager;
 use OCP\Security\ICredentialsManager;
 use OCP\Security\ICrypto;
 use OCP\Security\IHasher;
+use OCP\Security\Ip\IRemoteAddress;
 use OCP\Security\ISecureRandom;
 use OCP\Security\ITrustedDomainHelper;
 use OCP\Security\RateLimiting\ILimiter;
@@ -464,7 +465,8 @@ class Server extends ServerContainer implements IServerContainer {
 				$this->get(IUserManager::class),
 				$this->get(IEventDispatcher::class),
 				$this->get(LoggerInterface::class),
-				$this->get(ICacheFactory::class)
+				$this->get(ICacheFactory::class),
+				$this->get(IRemoteAddress::class),
 			);
 			return $groupManager;
 		});
@@ -487,7 +489,7 @@ class Server extends ServerContainer implements IServerContainer {
 
 		$this->registerService(\OC\User\Session::class, function (Server $c) {
 			$manager = $c->get(IUserManager::class);
-			$session = new \OC\Session\Memory('');
+			$session = new \OC\Session\Memory();
 			$timeFactory = new TimeFactory();
 			// Token providers might require a working database. This code
 			// might however be called when Nextcloud is not yet setup.
@@ -506,7 +508,7 @@ class Server extends ServerContainer implements IServerContainer {
 				$c->get(ISecureRandom::class),
 				$c->get('LockdownManager'),
 				$c->get(LoggerInterface::class),
-				$c->get(IEventDispatcher::class)
+				$c->get(IEventDispatcher::class),
 			);
 			/** @deprecated 21.0.0 use BeforeUserCreatedEvent event with the IEventDispatcher instead */
 			$userSession->listen('\OC\User', 'preCreateUser', function ($uid, $password) {
@@ -635,44 +637,51 @@ class Server extends ServerContainer implements IServerContainer {
 
 		$this->registerService(Factory::class, function (Server $c) {
 			$profiler = $c->get(IProfiler::class);
-			$arrayCacheFactory = new \OC\Memcache\Factory('', $c->get(LoggerInterface::class),
+			$arrayCacheFactory = new \OC\Memcache\Factory(fn () => '', $c->get(LoggerInterface::class),
 				$profiler,
 				ArrayCache::class,
 				ArrayCache::class,
 				ArrayCache::class
 			);
-			/** @var \OCP\IConfig $config */
-			$config = $c->get(\OCP\IConfig::class);
+			/** @var SystemConfig $config */
+			$config = $c->get(SystemConfig::class);
 
-			if ($config->getSystemValueBool('installed', false) && !(defined('PHPUNIT_RUN') && PHPUNIT_RUN)) {
-				if (!$config->getSystemValueBool('log_query')) {
-					try {
-						$v = \OC_App::getAppVersions();
-					} catch (\Doctrine\DBAL\Exception $e) {
-						// Database service probably unavailable
-						// Probably related to https://github.com/nextcloud/server/issues/37424
-						return $arrayCacheFactory;
+			if ($config->getValue('installed', false) && !(defined('PHPUNIT_RUN') && PHPUNIT_RUN)) {
+				$logQuery = $config->getValue('log_query');
+				$prefixClosure = function () use ($logQuery) {
+					if (!$logQuery) {
+						try {
+							$v = \OC_App::getAppVersions();
+						} catch (\Doctrine\DBAL\Exception $e) {
+							// Database service probably unavailable
+							// Probably related to https://github.com/nextcloud/server/issues/37424
+							return null;
+						}
+					} else {
+						// If the log_query is enabled, we can not get the app versions
+						// as that does a query, which will be logged and the logging
+						// depends on redis and here we are back again in the same function.
+						$v = [
+							'log_query' => 'enabled',
+						];
 					}
-				} else {
-					// If the log_query is enabled, we can not get the app versions
-					// as that does a query, which will be logged and the logging
-					// depends on redis and here we are back again in the same function.
-					$v = [
-						'log_query' => 'enabled',
-					];
-				}
-				$v['core'] = implode(',', \OC_Util::getVersion());
-				$version = implode(',', $v);
-				$instanceId = \OC_Util::getInstanceId();
-				$path = \OC::$SERVERROOT;
-				$prefix = md5($instanceId . '-' . $version . '-' . $path);
-				return new \OC\Memcache\Factory($prefix,
+					$v['core'] = implode(',', \OC_Util::getVersion());
+					$version = implode(',', $v);
+					$instanceId = \OC_Util::getInstanceId();
+					$path = \OC::$SERVERROOT;
+					return md5($instanceId . '-' . $version . '-' . $path);
+				};
+				return new \OC\Memcache\Factory($prefixClosure,
 					$c->get(LoggerInterface::class),
 					$profiler,
-					$config->getSystemValue('memcache.local', null),
-					$config->getSystemValue('memcache.distributed', null),
-					$config->getSystemValue('memcache.locking', null),
-					$config->getSystemValueString('redis_log_file')
+					/** @psalm-taint-escape callable */
+					$config->getValue('memcache.local', null),
+					/** @psalm-taint-escape callable */
+					$config->getValue('memcache.distributed', null),
+					/** @psalm-taint-escape callable */
+					$config->getValue('memcache.locking', null),
+					/** @psalm-taint-escape callable */
+					$config->getValue('redis_log_file')
 				);
 			}
 			return $arrayCacheFactory;
@@ -733,7 +742,7 @@ class Server extends ServerContainer implements IServerContainer {
 			$logger = $factory->get($logType);
 			$registry = $c->get(\OCP\Support\CrashReport\IRegistry::class);
 
-			return new Log($logger, $this->get(SystemConfig::class), null, $registry);
+			return new Log($logger, $this->get(SystemConfig::class), crashReporters: $registry);
 		});
 		$this->registerAlias(ILogger::class, \OC\Log::class);
 		/** @deprecated 19.0.0 */
@@ -761,10 +770,6 @@ class Server extends ServerContainer implements IServerContainer {
 		$this->registerAlias(IRouter::class, Router::class);
 		/** @deprecated 19.0.0 */
 		$this->registerDeprecatedAlias('Router', IRouter::class);
-
-		$this->registerAlias(ISearch::class, Search::class);
-		/** @deprecated 19.0.0 */
-		$this->registerDeprecatedAlias('Search', ISearch::class);
 
 		$this->registerService(\OC\Security\RateLimiting\Backend\IBackend::class, function ($c) {
 			$config = $c->get(\OCP\IConfig::class);
@@ -806,7 +811,7 @@ class Server extends ServerContainer implements IServerContainer {
 		$this->registerAlias(IDBConnection::class, ConnectionAdapter::class);
 		$this->registerService(Connection::class, function (Server $c) {
 			$systemConfig = $c->get(SystemConfig::class);
-			$factory = new \OC\DB\ConnectionFactory($systemConfig);
+			$factory = new \OC\DB\ConnectionFactory($systemConfig, $c->get(ICacheFactory::class));
 			$type = $systemConfig->getValue('dbtype', 'sqlite');
 			if (!$factory->isValidType($type)) {
 				throw new \OC\DatabaseException('Invalid database type');
@@ -949,10 +954,10 @@ class Server extends ServerContainer implements IServerContainer {
 			if (\OC::$server->get(SystemConfig::class)->getValue('installed', false)) {
 				$config = $c->get(\OCP\IConfig::class);
 				$appConfig = $c->get(\OCP\IAppConfig::class);
-				$appManager = $c->get(IAppManager::class);
 			} else {
 				$config = $appConfig = $appManager = null;
 			}
+			$appManager = $c->get(IAppManager::class);
 
 			return new Checker(
 				new EnvironmentHelper(),
@@ -1022,6 +1027,9 @@ class Server extends ServerContainer implements IServerContainer {
 		});
 		/** @deprecated 19.0.0 */
 		$this->registerDeprecatedAlias('Mailer', IMailer::class);
+
+		/** @since 30.0.0 */
+		$this->registerAlias(\OCP\Mail\Provider\IManager::class, \OC\Mail\Provider\Manager::class);
 
 		/** @deprecated 21.0.0 */
 		$this->registerDeprecatedAlias('LDAPProvider', ILDAPProvider::class);
@@ -1159,6 +1167,7 @@ class Server extends ServerContainer implements IServerContainer {
 				);
 				return new ThemingDefaults(
 					$c->get(\OCP\IConfig::class),
+					$c->get(\OCP\IAppConfig::class),
 					$c->getL10N('theming'),
 					$c->get(IUserSession::class),
 					$c->get(IURLGenerator::class),
@@ -1371,6 +1380,8 @@ class Server extends ServerContainer implements IServerContainer {
 
 		$this->registerAlias(\OCP\Files\AppData\IAppDataFactory::class, \OC\Files\AppData\Factory::class);
 
+		$this->registerAlias(\OCP\Files\IFilenameValidator::class, \OC\Files\FilenameValidator::class);
+
 		$this->registerAlias(IBinaryFinder::class, BinaryFinder::class);
 
 		$this->registerAlias(\OCP\Share\IPublicShareTemplateFactory::class, \OC\Share20\PublicShareTemplateFactory::class);
@@ -1400,6 +1411,10 @@ class Server extends ServerContainer implements IServerContainer {
 		$this->registerAlias(IDeclarativeManager::class, DeclarativeManager::class);
 
 		$this->registerAlias(\OCP\TaskProcessing\IManager::class, \OC\TaskProcessing\Manager::class);
+
+		$this->registerAlias(IRemoteAddress::class, RemoteAddress::class);
+
+		$this->registerAlias(\OCP\Security\Ip\IFactory::class, \OC\Security\Ip\Factory::class);
 
 		$this->connectDispatcher();
 	}
@@ -1795,16 +1810,6 @@ class Server extends ServerContainer implements IServerContainer {
 	 */
 	public function getRouter() {
 		return $this->get(IRouter::class);
-	}
-
-	/**
-	 * Returns a search instance
-	 *
-	 * @return ISearch
-	 * @deprecated 20.0.0
-	 */
-	public function getSearch() {
-		return $this->get(ISearch::class);
 	}
 
 	/**

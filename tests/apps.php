@@ -18,7 +18,7 @@ function loadDirectory($path): void {
 		return;
 	}
 
-	while ($name = readdir($dh)) {
+	while (($name = readdir($dh)) !== false) {
 		if ($name[0] === '.') {
 			continue;
 		}
@@ -44,10 +44,15 @@ function getSubclasses($parentClassName): array {
 }
 
 $apps = OC_App::getEnabledApps();
+$appManager = \OCP\Server::get(\OCP\App\IAppManager::class);
 
 foreach ($apps as $app) {
-	$dir = OC_App::getAppPath($app);
-	if (is_dir($dir . '/tests')) {
-		loadDirectory($dir . '/tests');
+	try {
+		$dir = $appManager->getAppPath($app);
+		if (is_dir($dir . '/tests')) {
+			loadDirectory($dir . '/tests');
+		}
+	} catch (\OCP\App\AppPathNotFoundException) {
+		/* ignore */
 	}
 }

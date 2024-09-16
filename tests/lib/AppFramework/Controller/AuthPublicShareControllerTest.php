@@ -51,13 +51,13 @@ class AuthPublicShareControllerTest extends \Test\TestCase {
 			])->getMock();
 	}
 
-	public function testShowAuthenticate() {
+	public function testShowAuthenticate(): void {
 		$expects = new TemplateResponse('core', 'publicshareauth', [], 'guest');
 
 		$this->assertEquals($expects, $this->controller->showAuthenticate());
 	}
 
-	public function testAuthenticateAuthenticated() {
+	public function testAuthenticateAuthenticated(): void {
 		$this->controller->method('isAuthenticated')
 			->willReturn(true);
 
@@ -74,7 +74,7 @@ class AuthPublicShareControllerTest extends \Test\TestCase {
 		$this->assertSame('myLink!', $result->getRedirectURL());
 	}
 
-	public function testAuthenticateInvalidPassword() {
+	public function testAuthenticateInvalidPassword(): void {
 		$this->controller->setToken('token');
 		$this->controller->method('isPasswordProtected')
 			->willReturn(true);
@@ -94,7 +94,7 @@ class AuthPublicShareControllerTest extends \Test\TestCase {
 		$this->assertEquals($expects, $result);
 	}
 
-	public function testAuthenticateValidPassword() {
+	public function testAuthenticateValidPassword(): void {
 		$this->controller->setToken('token');
 		$this->controller->method('isPasswordProtected')
 			->willReturn(true);

@@ -8,7 +8,9 @@ declare(strict_types=1);
  */
 namespace OCA\Settings\Controller;
 
+use OCA\Settings\Settings\Admin\ArtificialIntelligence;
 use OCP\AppFramework\Controller;
+use OCP\AppFramework\Http\Attribute\AuthorizedAdminSetting;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\IConfig;
 use OCP\IRequest;
@@ -31,13 +33,12 @@ class AISettingsController extends Controller {
 	/**
 	 * Sets the email settings
 	 *
-	 * @AuthorizedAdminSetting(settings=OCA\Settings\Settings\Admin\ArtificialIntelligence)
-	 *
 	 * @param array $settings
 	 * @return DataResponse
 	 */
+	#[AuthorizedAdminSetting(settings: ArtificialIntelligence::class)]
 	public function update($settings) {
-		$keys = ['ai.stt_provider', 'ai.textprocessing_provider_preferences', 'ai.translation_provider_preferences', 'ai.text2image_provider'];
+		$keys = ['ai.stt_provider', 'ai.textprocessing_provider_preferences', 'ai.taskprocessing_provider_preferences', 'ai.translation_provider_preferences', 'ai.text2image_provider'];
 		foreach ($keys as $key) {
 			if (!isset($settings[$key])) {
 				continue;

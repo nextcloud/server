@@ -20,12 +20,14 @@ OC.L10N.register(
     "Set status" : "Socraigh stádas",
     "Online status" : "Stádas ar líne",
     "Status message" : "Teachtaireacht stádais",
+    "Set absence period" : "Socraigh tréimhse neamhláithreachta",
+    "Set absence period and replacement" : "Socraigh tréimhse neamhláithreachta agus athsholáthar",
     "Your status was set automatically" : "Socraíodh do stádas go huathoibríoch",
     "Clear status message" : "Glan teachtaireacht stádais",
     "Set status message" : "Socraigh teachtaireacht stádais",
     "Reset status to \"{icon} {message}\"" : "Athshocraigh stádas go \"{icon} {message}\"",
     "Reset status to \"{message}\"" : "Athshocraigh stádas go \"{message}\"",
-    "Reset status to \"{icon}\"" : "Athshocraigh stádas go \"{ icon}\"",
+    "Reset status to \"{icon}\"" : "Athshocraigh stádas go \"{icon}\"",
     "There was an error saving the status" : "Tharla earráid agus an stádas á shábháil",
     "There was an error clearing the status" : "Tharla earráid agus an stádas á ghlanadh",
     "There was an error reverting the status" : "Tharla earráid agus an stádas á chur ar ais",
@@ -42,7 +44,6 @@ OC.L10N.register(
     "1 hour" : "1 uair",
     "4 hours" : "4 uair an chloig",
     "Mute all notifications" : "Balbhaigh gach fógra",
-    "Appear offline" : "Le feiceáil as líne",
-    "View profile" : "Féach ar phróifíl"
+    "Appear offline" : "Le feiceáil as líne"
 },
 "nplurals=5; plural=(n==1 ? 0 : n==2 ? 1 : n<7 ? 2 : n<11 ? 3 : 4);");

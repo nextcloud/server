@@ -11,6 +11,7 @@ namespace OC\AppFramework\Middleware\Security;
 use OC\AppFramework\Utility\ControllerMethodReflector;
 use OC\Security\RateLimiting\Exception\RateLimitExceededException;
 use OC\Security\RateLimiting\Limiter;
+use OC\User\Session;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\Attribute\AnonRateLimit;
 use OCP\AppFramework\Http\Attribute\ARateLimit;
@@ -63,8 +64,8 @@ class RateLimitingMiddleware extends Middleware {
 		parent::beforeController($controller, $methodName);
 		$rateLimitIdentifier = get_class($controller) . '::' . $methodName;
 
-		if ($this->session->exists('app_api_system')) {
-			// Bypass rate limiting for app_api
+		if ($this->userSession instanceof Session && $this->userSession->getSession()->get('app_api') === true && $this->userSession->getUser() === null) {
+			// if userId is not specified and the request is authenticated by AppAPI, we skip the rate limit
 			return;
 		}
 
@@ -111,8 +112,8 @@ class RateLimitingMiddleware extends Middleware {
 
 		if ($annotationLimit !== '' && $annotationPeriod !== '') {
 			return new $attributeClass(
-				(int) $annotationLimit,
-				(int) $annotationPeriod,
+				(int)$annotationLimit,
+				(int)$annotationPeriod,
 			);
 		}
 

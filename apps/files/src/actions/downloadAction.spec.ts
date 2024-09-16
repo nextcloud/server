@@ -2,9 +2,10 @@
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+import { File, Folder, Permission, View, FileAction, DefaultType } from '@nextcloud/files'
+import { beforeAll, beforeEach, describe, expect, test, vi } from 'vitest'
+
 import { action } from './downloadAction'
-import { expect } from '@jest/globals'
-import { File, Folder, Permission, View, FileAction } from '@nextcloud/files'
 
 const view = {
 	id: 'files',
@@ -22,8 +23,8 @@ describe('Download action conditions tests', () => {
 		expect(action).toBeInstanceOf(FileAction)
 		expect(action.id).toBe('download')
 		expect(action.displayName([], view)).toBe('Download')
-		expect(action.iconSvgInline([], view)).toBe('<svg>SvgMock</svg>')
-		expect(action.default).toBeUndefined()
+		expect(action.iconSvgInline([], view)).toMatch(/<svg.+<\/svg>/)
+		expect(action.default).toBe(DefaultType.DEFAULT)
 		expect(action.order).toBe(30)
 	})
 })
@@ -83,11 +84,12 @@ describe('Download action enabled tests', () => {
 
 describe('Download action execute tests', () => {
 	const link = {
-		click: jest.fn(),
+		click: vi.fn(),
 	} as unknown as HTMLAnchorElement
 
 	beforeEach(() => {
-		jest.spyOn(document, 'createElement').mockImplementation(() => link)
+		vi.resetAllMocks()
+		vi.spyOn(document, 'createElement').mockImplementation(() => link)
 	})
 
 	test('Download single file', async () => {

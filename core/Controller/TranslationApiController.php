@@ -12,7 +12,10 @@ namespace OC\Core\Controller;
 
 use InvalidArgumentException;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\AnonRateLimit;
 use OCP\AppFramework\Http\Attribute\ApiRoute;
+use OCP\AppFramework\Http\Attribute\PublicPage;
+use OCP\AppFramework\Http\Attribute\UserRateLimit;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\IL10N;
 use OCP\IRequest;
@@ -31,14 +34,13 @@ class TranslationApiController extends \OCP\AppFramework\OCSController {
 	}
 
 	/**
-	 * @PublicPage
-	 *
 	 * Get the list of supported languages
 	 *
 	 * @return DataResponse<Http::STATUS_OK, array{languages: array{from: string, fromLabel: string, to: string, toLabel: string}[], languageDetection: bool}, array{}>
 	 *
 	 * 200: Supported languages returned
 	 */
+	#[PublicPage]
 	#[ApiRoute(verb: 'GET', url: '/languages', root: '/translation')]
 	public function languages(): DataResponse {
 		return new DataResponse([
@@ -48,10 +50,6 @@ class TranslationApiController extends \OCP\AppFramework\OCSController {
 	}
 
 	/**
-	 * @PublicPage
-	 * @UserRateThrottle(limit=25, period=120)
-	 * @AnonRateThrottle(limit=10, period=120)
-	 *
 	 * Translate a text
 	 *
 	 * @param string $text Text to be translated
@@ -63,6 +61,9 @@ class TranslationApiController extends \OCP\AppFramework\OCSController {
 	 * 400: Language not detected or unable to translate
 	 * 412: Translating is not possible
 	 */
+	#[PublicPage]
+	#[UserRateLimit(limit: 25, period: 120)]
+	#[AnonRateLimit(limit: 10, period: 120)]
 	#[ApiRoute(verb: 'POST', url: '/translate', root: '/translation')]
 	public function translate(string $text, ?string $fromLanguage, string $toLanguage): DataResponse {
 		try {

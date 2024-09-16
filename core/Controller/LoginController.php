@@ -20,9 +20,12 @@ use OCA\User_LDAP\Helper;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\BruteForceProtection;
 use OCP\AppFramework\Http\Attribute\FrontpageRoute;
+use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
 use OCP\AppFramework\Http\Attribute\OpenAPI;
+use OCP\AppFramework\Http\Attribute\PublicPage;
 use OCP\AppFramework\Http\Attribute\UseSession;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\RedirectResponse;
@@ -65,10 +68,9 @@ class LoginController extends Controller {
 	}
 
 	/**
-	 * @NoAdminRequired
-	 *
 	 * @return RedirectResponse
 	 */
+	#[NoAdminRequired]
 	#[UseSession]
 	#[FrontpageRoute(verb: 'GET', url: '/logout')]
 	public function logout() {
@@ -97,14 +99,13 @@ class LoginController extends Controller {
 	}
 
 	/**
-	 * @PublicPage
-	 * @NoCSRFRequired
-	 *
 	 * @param string $user
 	 * @param string $redirect_url
 	 *
 	 * @return TemplateResponse|RedirectResponse
 	 */
+	#[NoCSRFRequired]
+	#[PublicPage]
 	#[UseSession]
 	#[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
 	#[FrontpageRoute(verb: 'GET', url: '/login')]
@@ -207,7 +208,7 @@ class LoginController extends Controller {
 			$this->canResetPassword($passwordLink, $user)
 		);
 	}
-	
+
 	/**
 	 * Sets the initial state of whether or not a user is allowed to login with their email
 	 * initial state is passed in the array of 1 for email allowed and 0 for not allowed
@@ -269,12 +270,11 @@ class LoginController extends Controller {
 	}
 
 	/**
-	 * @PublicPage
-	 * @NoCSRFRequired
-	 * @BruteForceProtection(action=login)
-	 *
 	 * @return RedirectResponse
 	 */
+	#[NoCSRFRequired]
+	#[PublicPage]
+	#[BruteForceProtection(action: 'login')]
 	#[UseSession]
 	#[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
 	#[FrontpageRoute(verb: 'POST', url: '/login')]
@@ -299,7 +299,8 @@ class LoginController extends Controller {
 				$user,
 				$user,
 				$redirect_url,
-				self::LOGIN_MSG_CSRFCHECKFAILED
+				self::LOGIN_MSG_CSRFCHECKFAILED,
+				false,
 			);
 		}
 
@@ -349,7 +350,12 @@ class LoginController extends Controller {
 	 * @return RedirectResponse
 	 */
 	private function createLoginFailedResponse(
-		$user, $originalUser, $redirect_url, string $loginMessage) {
+		$user,
+		$originalUser,
+		$redirect_url,
+		string $loginMessage,
+		bool $throttle = true,
+	) {
 		// Read current user and append if possible we need to
 		// return the unmodified user otherwise we will leak the login name
 		$args = $user !== null ? ['user' => $originalUser, 'direct' => 1] : [];
@@ -359,7 +365,9 @@ class LoginController extends Controller {
 		$response = new RedirectResponse(
 			$this->urlGenerator->linkToRoute('core.login.showLoginForm', $args)
 		);
-		$response->throttle(['user' => substr($user, 0, 64)]);
+		if ($throttle) {
+			$response->throttle(['user' => substr($user, 0, 64)]);
+		}
 		$this->session->set('loginMessages', [
 			[$loginMessage], []
 		]);
@@ -368,9 +376,6 @@ class LoginController extends Controller {
 
 	/**
 	 * Confirm the user password
-	 *
-	 * @NoAdminRequired
-	 * @BruteForceProtection(action=sudo)
 	 *
 	 * @license GNU AGPL version 3 or any later version
 	 *
@@ -381,6 +386,8 @@ class LoginController extends Controller {
 	 * 200: Password confirmation succeeded
 	 * 403: Password confirmation failed
 	 */
+	#[NoAdminRequired]
+	#[BruteForceProtection(action: 'sudo')]
 	#[UseSession]
 	#[NoCSRFRequired]
 	#[FrontpageRoute(verb: 'POST', url: '/login/confirm')]

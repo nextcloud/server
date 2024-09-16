@@ -12,7 +12,7 @@ use OCA\DAV\Connector\Sabre\File;
 use Sabre\DAV\IFile;
 
 class UploadFile implements IFile {
-	/**  @var File */
+	/** @var File */
 	private $file;
 
 	public function __construct(File $file) {

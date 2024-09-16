@@ -17,22 +17,22 @@ use Test\TestCase;
 
 class DecryptAllTest extends TestCase {
 
-	/** @var  DecryptAll */
+	/** @var DecryptAll */
 	protected $instance;
 
-	/** @var Util | \PHPUnit\Framework\MockObject\MockObject  */
+	/** @var Util | \PHPUnit\Framework\MockObject\MockObject */
 	protected $util;
 
-	/** @var KeyManager | \PHPUnit\Framework\MockObject\MockObject  */
+	/** @var KeyManager | \PHPUnit\Framework\MockObject\MockObject */
 	protected $keyManager;
 
-	/** @var  Crypt | \PHPUnit\Framework\MockObject\MockObject */
+	/** @var Crypt | \PHPUnit\Framework\MockObject\MockObject */
 	protected $crypt;
 
-	/** @var  Session | \PHPUnit\Framework\MockObject\MockObject */
+	/** @var Session | \PHPUnit\Framework\MockObject\MockObject */
 	protected $session;
 
-	/** @var QuestionHelper | \PHPUnit\Framework\MockObject\MockObject  */
+	/** @var QuestionHelper | \PHPUnit\Framework\MockObject\MockObject */
 	protected $questionHelper;
 
 	protected function setUp(): void {
@@ -58,7 +58,7 @@ class DecryptAllTest extends TestCase {
 		);
 	}
 
-	public function testUpdateSession() {
+	public function testUpdateSession(): void {
 		$this->session->expects($this->once())->method('prepareDecryptAll')
 			->with('user1', 'key1');
 
@@ -71,7 +71,7 @@ class DecryptAllTest extends TestCase {
 	 * @param string $user
 	 * @param string $recoveryKeyId
 	 */
-	public function testGetPrivateKey($user, $recoveryKeyId, $masterKeyId) {
+	public function testGetPrivateKey($user, $recoveryKeyId, $masterKeyId): void {
 		$password = 'passwd';
 		$recoveryKey = 'recoveryKey';
 		$userKey = 'userKey';

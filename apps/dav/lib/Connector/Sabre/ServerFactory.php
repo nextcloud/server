@@ -8,10 +8,13 @@
 namespace OCA\DAV\Connector\Sabre;
 
 use OCA\DAV\AppInfo\PluginManager;
+use OCA\DAV\CalDAV\DefaultCalendarValidator;
 use OCA\DAV\DAV\ViewOnlyPlugin;
-use OCA\DAV\Files\BrowserErrorPagePlugin;
+use OCA\DAV\Files\ErrorPagePlugin;
+use OCA\Theming\ThemingDefaults;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Folder;
+use OCP\Files\IFilenameValidator;
 use OCP\Files\Mount\IMountManager;
 use OCP\IConfig;
 use OCP\IDBConnection;
@@ -76,7 +79,10 @@ class ServerFactory {
 
 		// Load plugins
 		$server->addPlugin(new \OCA\DAV\Connector\Sabre\MaintenancePlugin($this->config, $this->l10n));
-		$server->addPlugin(new \OCA\DAV\Connector\Sabre\BlockLegacyClientPlugin($this->config));
+		$server->addPlugin(new BlockLegacyClientPlugin(
+			\OCP\Server::get(IConfig::class),
+			\OCP\Server::get(ThemingDefaults::class),
+		));
 		$server->addPlugin(new \OCA\DAV\Connector\Sabre\AnonymousOptionsPlugin());
 		$server->addPlugin($authPlugin);
 		// FIXME: The following line is a workaround for legacy components relying on being able to send a GET to /
@@ -96,9 +102,7 @@ class ServerFactory {
 			$server->addPlugin(new \OCA\DAV\Connector\Sabre\FakeLockerPlugin());
 		}
 
-		if (BrowserErrorPagePlugin::isBrowserRequest($this->request)) {
-			$server->addPlugin(new BrowserErrorPagePlugin());
-		}
+		$server->addPlugin(new ErrorPagePlugin($this->request, $this->config));
 
 		// wait with registering these until auth is handled and the filesystem is setup
 		$server->on('beforeMethod:*', function () use ($server, $objectTree, $viewCallBack) {
@@ -128,6 +132,7 @@ class ServerFactory {
 					$this->request,
 					$this->previewManager,
 					$this->userSession,
+					\OCP\Server::get(IFilenameValidator::class),
 					false,
 					!$this->config->getSystemValue('debug', false)
 				)
@@ -167,7 +172,8 @@ class ServerFactory {
 							$server,
 							$objectTree,
 							$this->databaseConnection,
-							$this->userSession->getUser()
+							$this->userSession->getUser(),
+							\OC::$server->get(DefaultCalendarValidator::class),
 						)
 					)
 				);

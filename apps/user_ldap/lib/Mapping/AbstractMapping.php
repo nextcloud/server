@@ -8,9 +8,9 @@
 namespace OCA\User_LDAP\Mapping;
 
 use Doctrine\DBAL\Exception;
-use Doctrine\DBAL\Platforms\SqlitePlatform;
 use OCP\DB\IPreparedStatement;
 use OCP\DB\QueryBuilder\IQueryBuilder;
+use OCP\IDBConnection;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -216,7 +216,7 @@ abstract class AbstractMapping {
 	public function getListOfIdsByDn(array $fdns): array {
 		$totalDBParamLimit = 65000;
 		$sliceSize = 1000;
-		$maxSlices = $this->dbc->getDatabasePlatform() instanceof SqlitePlatform ? 9 : $totalDBParamLimit / $sliceSize;
+		$maxSlices = $this->dbc->getDatabaseProvider() === IDBConnection::PLATFORM_SQLITE ? 9 : $totalDBParamLimit / $sliceSize;
 		$results = [];
 
 		$slice = 1;
@@ -259,7 +259,7 @@ abstract class AbstractMapping {
 	 *
 	 * @return string[]
 	 */
-	public function getNamesBySearch(string $search, string $prefixMatch = "", string $postfixMatch = ""): array {
+	public function getNamesBySearch(string $search, string $prefixMatch = '', string $postfixMatch = ''): array {
 		$statement = $this->dbc->prepare('
 			SELECT `owncloud_name`
 			FROM `' . $this->getTableName() . '`
@@ -406,7 +406,7 @@ abstract class AbstractMapping {
 	 * @param callable $preCallback
 	 * @param callable $postCallback
 	 * @return bool true on success, false when at least one row was not
-	 * deleted
+	 *              deleted
 	 */
 	public function clearCb(callable $preCallback, callable $postCallback): bool {
 		$picker = $this->dbc->getQueryBuilder();

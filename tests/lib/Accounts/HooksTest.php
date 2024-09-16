@@ -51,7 +51,7 @@ class HooksTest extends TestCase {
 	 * @param $setDisplayName
 	 * @param $error
 	 */
-	public function testChangeUserHook($params, $data, $setEmail, $setDisplayName, $error) {
+	public function testChangeUserHook($params, $data, $setEmail, $setDisplayName, $error): void {
 		if ($error) {
 			$this->accountManager->expects($this->never())->method('updateAccount');
 		} else {

@@ -53,7 +53,7 @@ class SwiftTest extends \Test\Files\Storage\Storage {
 		parent::tearDown();
 	}
 
-	public function testStat() {
+	public function testStat(): void {
 		$this->markTestSkipped('Swift doesn\'t update the parents folder mtime');
 	}
 }

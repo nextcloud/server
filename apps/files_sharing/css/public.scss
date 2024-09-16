@@ -55,8 +55,7 @@ $download-button-section-height: 200px;
 
 #imgframe audio {
 	display: block;
-	margin-left: auto;
-	margin-right: auto;
+	margin-inline: auto;
 }
 
 #imgframe #viewer[data-handler=audios] {
@@ -71,7 +70,7 @@ $download-button-section-height: 200px;
 #imgframe .text-preview {
 	display: inline-block;
 	position: relative;
-	text-align: left;
+	text-align: start;
 	white-space: pre-wrap;
 	overflow-y: scroll;
 	height: auto;
@@ -99,12 +98,12 @@ $download-button-section-height: 200px;
 
 /* fix multiselect bar offset on shared page */
 thead {
-	left: 0 !important;
+	inset-inline-start: 0 !important;
 }
 
 #data-upload-form {
 	position: relative;
-	right: 0;
+	inset-inline-end: 0;
 	height: 32px;
 	overflow: hidden;
 	padding: 0;
@@ -120,8 +119,7 @@ thead {
 	text-overflow: ellipsis;
 	max-width: 90%;
 	display: inline-block;
-	margin-left: auto;
-	margin-right: auto;
+	margin-inline: auto;
 	margin-top: 16px;
 }
 
@@ -171,7 +169,7 @@ thead {
 	display: inline-block;
 	vertical-align: text-top;
 	margin-bottom: 0;
-	margin-right: 5px;
+	margin-inline-end: 5px;
 	opacity: 1;
 }
 
@@ -192,13 +190,13 @@ thead {
 	line-height: initial;
 	margin: 20px;
 	padding: 10px 20px;
-	padding-left: 42px;
+	padding-inline-start: 42px;
 }
 
 #public-upload .emptycontent ul {
 	width: 230px;
 	margin: 5px auto 5vh;
-	text-align: left;
+	text-align: start;
 }
 
 #public-upload .emptycontent li {
@@ -209,14 +207,14 @@ thead {
 }
 
 #public-upload .emptycontent li img {
-	margin-right: 5px;
+	margin-inline-end: 5px;
 	position: relative;
 	top: 2px;
 }
 
 #drop-upload-progress-indicator span.icon-loading-small {
-	padding-left: 18px;
-	margin-right: 7px;
+	padding-inline-start: 18px;
+	margin-inline-end: 7px;
 }
 
 #drop-uploaded-files li #drop-upload-name {
@@ -235,7 +233,7 @@ thead {
 .note {
 	margin: 0 auto 30px;
 	max-width: 400px;
-	text-align: left;
+	text-align: start;
 }
 
 #note-content {
@@ -251,29 +249,4 @@ thead {
 #show-terms-dialog {
 	cursor: pointer;
 	font-weight: bold;
-}
-
-// hide the download entry on the menu
-// on public share when NOT on mobile
-@media only screen and (min-width: variables.$breakpoint-mobile + 1) {
-	#body-public {
-		.header-right {
-			#header-actions-menu {
-				> ul > li#download {
-					display: none;
-				}
-			}
-		}
-	}
-}
-
-// hide the primary on public share on mobile
-@media only screen and (max-width: variables.$breakpoint-mobile) {
-	#body-public {
-		.header-right {
-			#header-primary-action {
-				display: none;
-			}
-		}
-	}
 }

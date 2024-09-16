@@ -95,11 +95,7 @@ class FileInfo implements \OCP\Files\FileInfo, \ArrayAccess {
 		unset($this->data[$offset]);
 	}
 
-	/**
-	 * @return mixed
-	 */
-	#[\ReturnTypeWillChange]
-	public function offsetGet($offset) {
+	public function offsetGet(mixed $offset): mixed {
 		return match ($offset) {
 			'type' => $this->getType(),
 			'etag' => $this->getEtag(),
@@ -134,7 +130,7 @@ class FileInfo implements \OCP\Files\FileInfo, \ArrayAccess {
 	 * @return int|null
 	 */
 	public function getId() {
-		return isset($this->data['fileid']) ? (int)  $this->data['fileid'] : null;
+		return isset($this->data['fileid']) ? (int)$this->data['fileid'] : null;
 	}
 
 	/**
@@ -164,7 +160,7 @@ class FileInfo implements \OCP\Files\FileInfo, \ArrayAccess {
 	 * @return string
 	 */
 	public function getEtag() {
-		$this->updateEntryfromSubMounts();
+		$this->updateEntryFromSubMounts();
 		if (count($this->childEtags) > 0) {
 			$combinedEtag = $this->data['etag'] . '::' . implode('::', $this->childEtags);
 			return md5($combinedEtag);
@@ -179,7 +175,7 @@ class FileInfo implements \OCP\Files\FileInfo, \ArrayAccess {
 	 */
 	public function getSize($includeMounts = true) {
 		if ($includeMounts) {
-			$this->updateEntryfromSubMounts();
+			$this->updateEntryFromSubMounts();
 
 			if ($this->isEncrypted() && isset($this->data['unencrypted_size']) && $this->data['unencrypted_size'] > 0) {
 				return $this->data['unencrypted_size'];
@@ -195,8 +191,8 @@ class FileInfo implements \OCP\Files\FileInfo, \ArrayAccess {
 	 * @return int
 	 */
 	public function getMTime() {
-		$this->updateEntryfromSubMounts();
-		return (int) $this->data['mtime'];
+		$this->updateEntryFromSubMounts();
+		return (int)$this->data['mtime'];
 	}
 
 	/**
@@ -210,14 +206,14 @@ class FileInfo implements \OCP\Files\FileInfo, \ArrayAccess {
 	 * Return the current version used for the HMAC in the encryption app
 	 */
 	public function getEncryptedVersion(): int {
-		return isset($this->data['encryptedVersion']) ? (int) $this->data['encryptedVersion'] : 1;
+		return isset($this->data['encryptedVersion']) ? (int)$this->data['encryptedVersion'] : 1;
 	}
 
 	/**
 	 * @return int
 	 */
 	public function getPermissions() {
-		return (int) $this->data['permissions'];
+		return (int)$this->data['permissions'];
 	}
 
 	/**
@@ -318,7 +314,7 @@ class FileInfo implements \OCP\Files\FileInfo, \ArrayAccess {
 		$this->subMounts = $mounts;
 	}
 
-	private function updateEntryfromSubMounts(): void {
+	private function updateEntryFromSubMounts(): void {
 		if ($this->subMountsUsed) {
 			return;
 		}
@@ -379,11 +375,11 @@ class FileInfo implements \OCP\Files\FileInfo, \ArrayAccess {
 	}
 
 	public function getCreationTime(): int {
-		return (int) $this->data['creation_time'];
+		return (int)$this->data['creation_time'];
 	}
 
 	public function getUploadTime(): int {
-		return (int) $this->data['upload_time'];
+		return (int)$this->data['upload_time'];
 	}
 
 	public function getParentId(): int {

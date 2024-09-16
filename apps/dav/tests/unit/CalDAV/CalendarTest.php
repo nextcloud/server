@@ -25,7 +25,7 @@ class CalendarTest extends TestCase {
 	/** @var IConfig */
 	protected $config;
 
-	/** @var MockObject|LoggerInterface  */
+	/** @var MockObject|LoggerInterface */
 	protected $logger;
 
 	protected function setUp(): void {
@@ -113,6 +113,7 @@ class CalendarTest extends TestCase {
 			'principaluri' => 'principals/users/user1',
 			'id' => 666,
 			'uri' => 'contact_birthdays',
+			'{DAV:}displayname' => 'Test',
 		];
 
 		$c = new Calendar($backend, $calendarInfo, $this->l10n, $this->config, $this->logger);
@@ -182,6 +183,7 @@ class CalendarTest extends TestCase {
 			'id' => 666,
 			'uri' => $uri
 		];
+		$calendarInfo['{DAV:}displayname'] = 'Test';
 		if (!is_null($readOnlyValue)) {
 			$calendarInfo['{http://owncloud.org/ns}read-only'] = $readOnlyValue;
 		}
@@ -416,7 +418,7 @@ EOD;
 			$l10n->expects($this->once())
 				->method('t')
 				->with('Busy')
-				->willReturn("Translated busy");
+				->willReturn('Translated busy');
 		} else {
 			$l10n->expects($this->never())
 				->method('t');
@@ -440,7 +442,7 @@ EOD;
 		];
 	}
 
-	public function testRemoveVAlarms() {
+	public function testRemoveVAlarms(): void {
 		$publicObjectData = <<<EOD
 BEGIN:VCALENDAR
 VERSION:2.0

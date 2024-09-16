@@ -71,7 +71,7 @@ class RemoveOrphanEventsAndContacts implements IRepairStep {
 
 		$orphanItems = [];
 		while ($row = $result->fetch()) {
-			$orphanItems[] = (int) $row['id'];
+			$orphanItems[] = (int)$row['id'];
 		}
 		$result->closeCursor();
 

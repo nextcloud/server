@@ -106,7 +106,7 @@ class RemoteWipeTest extends TestCase {
 		$this->assertTrue($result);
 	}
 
-	public function testStartWipingNotAWipeToken() {
+	public function testStartWipingNotAWipeToken(): void {
 		$token = $this->createMock(IToken::class);
 		$this->tokenProvider->expects($this->once())
 			->method('getToken')
@@ -120,7 +120,7 @@ class RemoteWipeTest extends TestCase {
 		$this->assertFalse($result);
 	}
 
-	public function testStartWiping() {
+	public function testStartWiping(): void {
 		$token = $this->createMock(IToken::class);
 		$this->tokenProvider->expects($this->once())
 			->method('getToken')
@@ -137,7 +137,7 @@ class RemoteWipeTest extends TestCase {
 		$this->assertTrue($result);
 	}
 
-	public function testFinishWipingNotAWipeToken() {
+	public function testFinishWipingNotAWipeToken(): void {
 		$token = $this->createMock(IToken::class);
 		$this->tokenProvider->expects($this->once())
 			->method('getToken')

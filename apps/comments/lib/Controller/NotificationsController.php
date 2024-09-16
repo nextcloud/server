@@ -7,7 +7,9 @@ namespace OCA\Comments\Controller;
 
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
 use OCP\AppFramework\Http\Attribute\OpenAPI;
+use OCP\AppFramework\Http\Attribute\PublicPage;
 use OCP\AppFramework\Http\NotFoundResponse;
 use OCP\AppFramework\Http\RedirectResponse;
 use OCP\Comments\IComment;
@@ -37,9 +39,6 @@ class NotificationsController extends Controller {
 	}
 
 	/**
-	 * @PublicPage
-	 * @NoCSRFRequired
-	 *
 	 * View a notification
 	 *
 	 * @param string $id ID of the notification
@@ -49,6 +48,8 @@ class NotificationsController extends Controller {
 	 * 303: Redirected to notification
 	 * 404: Notification not found
 	 */
+	#[PublicPage]
+	#[NoCSRFRequired]
 	public function view(string $id): RedirectResponse|NotFoundResponse {
 		$currentUser = $this->userSession->getUser();
 		if (!$currentUser instanceof IUser) {

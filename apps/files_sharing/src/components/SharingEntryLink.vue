@@ -25,8 +25,8 @@
 			</div>
 
 			<!-- clipboard -->
-			<NcActions v-if="share && !isEmailShareType && share.token" ref="copyButton" class="sharing-entry__copy">
-				<NcActionButton	:title="copyLinkTooltip"
+			<NcActions v-if="share && (!isEmailShareType || isFileRequest) && share.token" ref="copyButton" class="sharing-entry__copy">
+				<NcActionButton :title="copyLinkTooltip"
 					:aria-label="copyLinkTooltip"
 					@click.prevent="copyLink">
 					<template #icon>
@@ -59,38 +59,32 @@
 			</NcActionText>
 
 			<!-- password -->
-			<NcActionText v-if="pendingEnforcedPassword">
-				<template #icon>
-					<LockIcon :size="20" />
-				</template>
-				{{ t('files_sharing', 'Password protection (enforced)') }}
-			</NcActionText>
-			<NcActionCheckbox v-else-if="pendingPassword"
+			<NcActionCheckbox v-if="pendingPassword"
 				:checked.sync="isPasswordProtected"
 				:disabled="config.enforcePasswordForPublicLink || saving"
 				class="share-link-password-checkbox"
 				@uncheck="onPasswordDisable">
-				{{ t('files_sharing', 'Password protection') }}
+				{{ config.enforcePasswordForPublicLink ? t('files_sharing', 'Password protection (enforced)') : t('files_sharing', 'Password protection') }}
 			</NcActionCheckbox>
 
 			<NcActionInput v-if="pendingEnforcedPassword || share.password"
 				class="share-link-password"
+				:label="t('files_sharing', 'Enter a password')"
 				:value.sync="share.password"
 				:disabled="saving"
 				:required="config.enableLinkPasswordByDefault || config.enforcePasswordForPublicLink"
 				:minlength="isPasswordPolicyEnabled && config.passwordPolicy.minLength"
-				icon=""
 				autocomplete="new-password"
 				@submit="onNewLinkShare">
-				{{ t('files_sharing', 'Enter a password') }}
+				<template #icon>
+					<LockIcon :size="20" />
+				</template>
 			</NcActionInput>
 
 			<!-- expiration date -->
-			<NcActionText v-if="pendingExpirationDate" icon="icon-calendar-dark">
-				{{ t('files_sharing', 'Expiration date (enforced)') }}
-			</NcActionText>
 			<NcActionInput v-if="pendingExpirationDate"
 				class="share-link-expire-date"
+				:label="t('files_sharing', 'Expiration date (enforced)')"
 				:disabled="saving"
 				:is-native-picker="true"
 				:hide-label="true"
@@ -98,10 +92,10 @@
 				type="date"
 				:min="dateTomorrow"
 				:max="maxExpirationDateEnforced"
-				@input="onExpirationChange">
-				<!-- let's not submit when picked, the user
-					might want to still edit or copy the password -->
-				{{ t('files_sharing', 'Enter a date') }}
+				@input="onExpirationChange /* let's not submit when picked, the user might want to still edit or copy the password */">
+				<template #icon>
+					<IconCalendarBlank :size="20" />
+				</template>
 			</NcActionInput>
 
 			<NcActionButton @click.prevent.stop="onNewLinkShare">
@@ -220,6 +214,7 @@ import Vue from 'vue'
 import VueQrcode from '@chenfengyuan/vue-qrcode'
 
 import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
+import NcActionCheckbox from '@nextcloud/vue/dist/Components/NcActionCheckbox.js'
 import NcActionInput from '@nextcloud/vue/dist/Components/NcActionInput.js'
 import NcActionLink from '@nextcloud/vue/dist/Components/NcActionLink.js'
 import NcActionText from '@nextcloud/vue/dist/Components/NcActionText.js'
@@ -229,6 +224,7 @@ import NcAvatar from '@nextcloud/vue/dist/Components/NcAvatar.js'
 import NcDialog from '@nextcloud/vue/dist/Components/NcDialog.js'
 
 import Tune from 'vue-material-design-icons/Tune.vue'
+import IconCalendarBlank from 'vue-material-design-icons/CalendarBlank.vue'
 import IconQr from 'vue-material-design-icons/Qrcode.vue'
 import ErrorIcon from 'vue-material-design-icons/Exclamation.vue'
 import LockIcon from 'vue-material-design-icons/Lock.vue'
@@ -240,8 +236,8 @@ import PlusIcon from 'vue-material-design-icons/Plus.vue'
 import SharingEntryQuickShareSelect from './SharingEntryQuickShareSelect.vue'
 
 import ExternalShareAction from './ExternalShareAction.vue'
-import GeneratePassword from '../utils/GeneratePassword.js'
-import Share from '../models/Share.js'
+import GeneratePassword from '../utils/GeneratePassword.ts'
+import Share from '../models/Share.ts'
 import SharesMixin from '../mixins/SharesMixin.js'
 import ShareDetails from '../mixins/ShareDetails.js'
 import { getLoggerBuilder } from '@nextcloud/logger'
@@ -253,6 +249,7 @@ export default {
 		ExternalShareAction,
 		NcActions,
 		NcActionButton,
+		NcActionCheckbox,
 		NcActionInput,
 		NcActionLink,
 		NcActionText,
@@ -261,6 +258,7 @@ export default {
 		NcDialog,
 		VueQrcode,
 		Tune,
+		IconCalendarBlank,
 		IconQr,
 		ErrorIcon,
 		LockIcon,
@@ -327,6 +325,11 @@ export default {
 				}
 				if (this.share.label && this.share.label.trim() !== '') {
 					if (this.isEmailShareType) {
+						if (this.isFileRequest) {
+							return t('files_sharing', 'File request ({label})', {
+								label: this.share.label.trim(),
+							})
+						}
 						return t('files_sharing', 'Mail share ({label})', {
 							label: this.share.label.trim(),
 						})
@@ -336,6 +339,11 @@ export default {
 					})
 				}
 				if (this.isEmailShareType) {
+					if (!this.share.shareWith || this.share.shareWith.trim() === '') {
+						return this.isFileRequest
+							? t('files_sharing', 'File request')
+							: t('files_sharing', 'Mail share')
+					}
 					return this.share.shareWith
 				}
 			}
@@ -369,7 +377,7 @@ export default {
 			},
 			async set(enabled) {
 				// TODO: directly save after generation to make sure the share is always protected
-				Vue.set(this.share, 'password', enabled ? await GeneratePassword() : '')
+				Vue.set(this.share, 'password', enabled ? await GeneratePassword(true) : '')
 				Vue.set(this.share, 'newPassword', this.share.password)
 			},
 		},
@@ -554,8 +562,12 @@ export default {
 		},
 
 		canChangeHideDownload() {
-			const hasDisabledDownload = (shareAttribute) => shareAttribute.key === 'download' && shareAttribute.scope === 'permissions' && shareAttribute.enabled === false
+			const hasDisabledDownload = (shareAttribute) => shareAttribute.scope === 'permissions' && shareAttribute.key === 'download' && shareAttribute.value === false
 			return this.fileInfo.shareAttributes.some(hasDisabledDownload)
+		},
+
+		isFileRequest() {
+			return this.share.isFileRequest
 		},
 	},
 
@@ -590,7 +602,7 @@ export default {
 				// ELSE, show the pending popovermenu
 				// if password default or enforced, pre-fill with random one
 				if (this.config.enableLinkPasswordByDefault || this.config.enforcePasswordForPublicLink) {
-					shareDefaults.password = await GeneratePassword()
+					shareDefaults.password = await GeneratePassword(true)
 				}
 
 				// create share & close menu
@@ -664,7 +676,7 @@ export default {
 					// we do not allow setting the publicUpload
 					// before the share creation.
 					// Todo: We also need to fix the createShare method in
-					// lib/Controller/ShareAPIController.php to allow file drop
+					// lib/Controller/ShareAPIController.php to allow file requests
 					// (currently not supported on create, only update)
 				}
 
@@ -840,7 +852,7 @@ export default {
 
 	&__summary {
 		padding: 8px;
-		padding-left: 10px;
+		padding-inline-start: 10px;
 		display: flex;
 		justify-content: space-between;
 		flex: 1 0;
@@ -882,7 +894,7 @@ export default {
 		height: 44px;
 		margin: 0;
 		padding: 14px;
-		margin-left: auto;
+		margin-inline-start: auto;
 	}
 
 	// put menus to the left
@@ -891,7 +903,7 @@ export default {
 
 		~.action-item,
 		~.sharing-entry__loading {
-			margin-left: 0;
+			margin-inline-start: 0;
 		}
 	}
 

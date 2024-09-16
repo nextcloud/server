@@ -47,7 +47,7 @@ export const processAjaxError = xhr => {
 						OC.reload()
 					}
 					timer++
-				}, 1000 // 1 second interval
+				}, 1000, // 1 second interval
 				)
 
 				// only call reload once

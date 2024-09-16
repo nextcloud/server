@@ -10,12 +10,10 @@ namespace OC\DB;
 
 use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
-use Doctrine\DBAL\Platforms\MySQLPlatform;
-use Doctrine\DBAL\Platforms\OraclePlatform;
-use Doctrine\DBAL\Platforms\PostgreSQLPlatform;
-use Doctrine\DBAL\Platforms\SqlitePlatform;
 use Doctrine\DBAL\Schema\Schema;
 use OC\DB\Exceptions\DbalException;
+use OC\DB\QueryBuilder\Sharded\CrossShardMoveHelper;
+use OC\DB\QueryBuilder\Sharded\ShardDefinition;
 use OCP\DB\IPreparedStatement;
 use OCP\DB\IResult;
 use OCP\DB\QueryBuilder\IQueryBuilder;
@@ -230,18 +228,30 @@ class ConnectionAdapter implements IDBConnection {
 		return $this->inner;
 	}
 
+	/**
+	 * @return self::PLATFORM_MYSQL|self::PLATFORM_ORACLE|self::PLATFORM_POSTGRES|self::PLATFORM_SQLITE
+	 */
 	public function getDatabaseProvider(): string {
-		$platform = $this->inner->getDatabasePlatform();
-		if ($platform instanceof MySQLPlatform) {
-			return IDBConnection::PLATFORM_MYSQL;
-		} elseif ($platform instanceof OraclePlatform) {
-			return IDBConnection::PLATFORM_ORACLE;
-		} elseif ($platform instanceof PostgreSQLPlatform) {
-			return IDBConnection::PLATFORM_POSTGRES;
-		} elseif ($platform instanceof SqlitePlatform) {
-			return IDBConnection::PLATFORM_SQLITE;
-		} else {
-			throw new \Exception('Database ' . $platform::class . ' not supported');
-		}
+		return $this->inner->getDatabaseProvider();
+	}
+
+	/**
+	 * @internal Should only be used inside the QueryBuilder, ExpressionBuilder and FunctionBuilder
+	 * All apps and API code should not need this and instead use provided functionality from the above.
+	 */
+	public function getServerVersion(): string {
+		return $this->inner->getServerVersion();
+	}
+
+	public function logDatabaseException(\Exception $exception) {
+		$this->inner->logDatabaseException($exception);
+	}
+
+	public function getShardDefinition(string $name): ?ShardDefinition {
+		return $this->inner->getShardDefinition($name);
+	}
+
+	public function getCrossShardMoveHelper(): CrossShardMoveHelper {
+		return $this->inner->getCrossShardMoveHelper();
 	}
 }

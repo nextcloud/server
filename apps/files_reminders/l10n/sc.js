@@ -15,7 +15,6 @@ OC.L10N.register(
     "Set reminder for tomorrow" : "Cunfigura un'apuntu pro cras",
     "Set reminder for this weekend" : "Cunfigura un'apuntu pro custu fine de chida",
     "Next week" : "Sa chida chi benit",
-    "Set reminder for next week" : "Cunfigura un'apuntu pro chida chi benit",
-    "Back" : "In segus"
+    "Set reminder for next week" : "Cunfigura un'apuntu pro chida chi benit"
 },
 "nplurals=2; plural=(n != 1);");

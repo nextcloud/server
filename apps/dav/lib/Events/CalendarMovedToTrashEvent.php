@@ -21,7 +21,7 @@ class CalendarMovedToTrashEvent extends Event {
 	/** @var array */
 	private $calendarData;
 
-	/** @var array  */
+	/** @var array */
 	private $shares;
 
 	/**

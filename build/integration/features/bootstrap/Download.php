@@ -8,7 +8,7 @@ use PHPUnit\Framework\Assert;
 require __DIR__ . '/../../vendor/autoload.php';
 
 trait Download {
-	/** @var string **/
+	/** @var string * */
 	private $downloadedFile;
 
 	/** @AfterScenario **/
@@ -21,7 +21,7 @@ trait Download {
 	 */
 	public function userDownloadsZipFileForEntriesInFolder($user, $entries, $folder) {
 		$this->asAn($user);
-		$this->sendingToDirectUrl('GET', "/index.php/apps/files/ajax/download.php?dir=" . $folder . "&files=[" . $entries . "]");
+		$this->sendingToDirectUrl('GET', '/index.php/apps/files/ajax/download.php?dir=' . $folder . '&files=[' . $entries . ']');
 		$this->theHTTPStatusCodeShouldBe('200');
 
 		$this->getDownloadedFile();
@@ -45,7 +45,7 @@ trait Download {
 		// printed in case of error.
 		Assert::assertTrue(
 			strpos($this->downloadedFile, "\x50\x4B\x06\x06") === false,
-			"File contains the zip64 end of central dir signature"
+			'File contains the zip64 end of central dir signature'
 		);
 	}
 
@@ -57,7 +57,7 @@ trait Download {
 		// printed in case of error.
 		Assert::assertTrue(
 			strpos($this->downloadedFile, "\x50\x4B\x06\x06") !== false,
-			"File does not contain the zip64 end of central dir signature"
+			'File does not contain the zip64 end of central dir signature'
 		);
 	}
 
@@ -77,7 +77,7 @@ trait Download {
 		// in case of error and to be able to get the extra field length.
 		Assert::assertEquals(
 			1, preg_match($fileHeaderRegExp, $this->downloadedFile, $matches),
-			"Local header for file did not appear once in zip file"
+			'Local header for file did not appear once in zip file'
 		);
 
 		$extraFieldLength = unpack('vextraFieldLength', $matches[1])['extraFieldLength'];
@@ -97,7 +97,7 @@ trait Download {
 		// in case of error.
 		Assert::assertEquals(
 			1, preg_match($fileHeaderAndContentRegExp, $this->downloadedFile),
-			"Local header and contents for file did not appear once in zip file"
+			'Local header and contents for file did not appear once in zip file'
 		);
 	}
 
@@ -117,7 +117,7 @@ trait Download {
 		// in case of error.
 		Assert::assertEquals(
 			1, preg_match($folderHeaderRegExp, $this->downloadedFile),
-			"Local header for folder did not appear once in zip file"
+			'Local header for folder did not appear once in zip file'
 		);
 	}
 }

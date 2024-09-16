@@ -3,9 +3,11 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { subscribe, unsubscribe } from '@nextcloud/event-bus'
-
+import { beforeEach, describe, expect, test, vi } from 'vitest'
 import { manageToken, setToken } from '../../OC/requesttoken.js'
+
+const eventbus = vi.hoisted(() => ({ emit: vi.fn() }))
+vi.mock('@nextcloud/event-bus', () => eventbus)
 
 describe('request token', () => {
 
@@ -14,7 +16,7 @@ describe('request token', () => {
 	const token = 'abc123'
 
 	beforeEach(() => {
-		emit = jest.fn()
+		emit = vi.fn()
 		const head = window.document.getElementsByTagName('head')[0]
 		head.setAttribute('data-requesttoken', token)
 
@@ -32,22 +34,10 @@ describe('request token', () => {
 	})
 
 	describe('@nextcloud/auth integration', () => {
-		let listener
-
-		beforeEach(() => {
-			listener = jest.fn()
-
-			subscribe('csrf-token-update', listener)
-		})
-
-		afterEach(() => {
-			unsubscribe('csrf-token-update', listener)
-		})
-
 		test('fires off an event for @nextcloud/auth', () => {
 			setToken('123')
 
-			expect(listener).toHaveBeenCalledWith({ token: '123' })
+			expect(eventbus.emit).toHaveBeenCalledWith('csrf-token-update', { token: '123' })
 		})
 	})
 

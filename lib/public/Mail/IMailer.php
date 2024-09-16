@@ -69,9 +69,9 @@ interface IMailer {
 	 *
 	 * @param IMessage $message Message to send
 	 * @return string[] Array with failed recipients. Be aware that this depends on the used mail backend and
-	 * therefore should be considered
+	 *                  therefore should be considered
 	 * @throws \Exception In case it was not possible to send the message. (for example if an invalid mail address
-	 * has been supplied.)
+	 *                    has been supplied.)
 	 * @since 8.1.0
 	 */
 	public function send(IMessage $message): array;

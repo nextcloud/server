@@ -16,7 +16,7 @@ class HelperTest extends TestCase {
 	/**
 	 * test set and get share folder
 	 */
-	public function testSetGetShareFolder() {
+	public function testSetGetShareFolder(): void {
 		$this->assertSame('/', \OCA\Files_Sharing\Helper::getShareFolder());
 
 		\OCA\Files_Sharing\Helper::setShareFolder('/Shared/Folder');

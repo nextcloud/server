@@ -11,7 +11,7 @@ use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Message\ResponseInterface;
 
 class CardDavContext implements \Behat\Behat\Context\Context {
-	/** @var string  */
+	/** @var string */
 	private $baseUrl;
 	/** @var Client */
 	private $client;

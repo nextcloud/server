@@ -24,7 +24,7 @@ class EnablePluginTest extends TestCase {
 	/** @var BirthdayService |\PHPUnit\Framework\MockObject\MockObject */
 	protected $birthdayService;
 
-	/** @var IUser|\PHPUnit\Framework\MockObject\MockObject  */
+	/** @var IUser|\PHPUnit\Framework\MockObject\MockObject */
 	protected $user;
 
 	/** @var \OCA\DAV\CalDAV\BirthdayCalendar\EnablePlugin $plugin */

@@ -119,8 +119,6 @@ class ServerTest extends \Test\TestCase {
 			['RootFolder', '\OCP\Files\Folder'],
 			['Router', '\OCP\Route\IRouter'],
 
-			['Search', '\OC\Search'],
-			['Search', '\OCP\ISearch'],
 			['SecureRandom', '\OC\Security\SecureRandom'],
 			['SecureRandom', '\OCP\Security\ISecureRandom'],
 			['ShareManager', '\OC\Share20\Manager'],
@@ -154,16 +152,16 @@ class ServerTest extends \Test\TestCase {
 	 * @param string $serviceName
 	 * @param string $instanceOf
 	 */
-	public function testQuery($serviceName, $instanceOf) {
+	public function testQuery($serviceName, $instanceOf): void {
 		$this->assertInstanceOf($instanceOf, $this->server->query($serviceName), 'Service "' . $serviceName . '"" did not return the right class');
 	}
 
-	public function testGetCertificateManager() {
+	public function testGetCertificateManager(): void {
 		$this->assertInstanceOf('\OC\Security\CertificateManager', $this->server->getCertificateManager(), 'service returned by "getCertificateManager" did not return the right class');
 		$this->assertInstanceOf('\OCP\ICertificateManager', $this->server->getCertificateManager(), 'service returned by "getCertificateManager" did not return the right class');
 	}
 
-	public function testOverwriteDefaultCommentsManager() {
+	public function testOverwriteDefaultCommentsManager(): void {
 		$config = $this->server->getConfig();
 		$defaultManagerFactory = $config->getSystemValue('comments.managerFactory', '\OC\Comments\ManagerFactory');
 

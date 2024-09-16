@@ -45,7 +45,7 @@ class RemoteWipeNotificationsListener implements IEventListener {
 		$notification->setApp('auth')
 			->setUser($token->getUID())
 			->setDateTime($this->timeFactory->getDateTime())
-			->setObject('token', (string) $token->getId())
+			->setObject('token', (string)$token->getId())
 			->setSubject($event, [
 				'name' => $token->getName(),
 			]);

@@ -143,7 +143,7 @@ class CapabilitiesTest extends TestCase {
 	 * @param bool $backgroundThemed
 	 * @param string[] $expected
 	 */
-	public function testGetCapabilities($name, $url, $slogan, $color, $textColor, $logo, $background, $backgroundColor, $backgroundTextColor, $baseUrl, $backgroundThemed, array $expected) {
+	public function testGetCapabilities($name, $url, $slogan, $color, $textColor, $logo, $background, $backgroundColor, $backgroundTextColor, $baseUrl, $backgroundThemed, array $expected): void {
 		$this->config->expects($this->once())
 			->method('getAppValue')
 			->willReturn($background);

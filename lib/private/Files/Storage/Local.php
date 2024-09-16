@@ -106,7 +106,7 @@ class Local extends \OC\Files\Storage\Common {
 				 * @var \SplFileInfo $file
 				 */
 				$file = $it->current();
-				clearstatcache(true, $this->getSourcePath($file));
+				clearstatcache(true, $file->getRealPath());
 				if (in_array($file->getBasename(), ['.', '..'])) {
 					$it->next();
 					continue;
@@ -117,6 +117,7 @@ class Local extends \OC\Files\Storage\Common {
 				}
 				$it->next();
 			}
+			unset($it);  // Release iterator and thereby its potential directory lock (e.g. in case of VirtualBox shared folders)
 			clearstatcache(true, $this->getSourcePath($path));
 			return rmdir($this->getSourcePath($path));
 		} catch (\UnexpectedValueException $e) {
@@ -512,17 +513,11 @@ class Local extends \OC\Files\Storage\Common {
 		return true;
 	}
 
-	/**
-	 * get the ETag for a file or folder
-	 *
-	 * @param string $path
-	 * @return string
-	 */
 	public function getETag($path) {
 		return $this->calculateEtag($path, $this->stat($path));
 	}
 
-	private function calculateEtag(string $path, array $stat): string {
+	private function calculateEtag(string $path, array $stat): string|false {
 		if ($stat['mode'] & 0x4000 && !($stat['mode'] & 0x8000)) { // is_dir & not socket
 			return parent::getETag($path);
 		} else {

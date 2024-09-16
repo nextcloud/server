@@ -128,7 +128,7 @@ export default {
 			OCP.AppConfig.setValue(
 				'dav',
 				'sendInvitations',
-				value ? 'yes' : 'no'
+				value ? 'yes' : 'no',
 			)
 		},
 		sendEventReminders(value) {
@@ -138,7 +138,7 @@ export default {
 			OCP.AppConfig.setValue(
 				'dav',
 				'sendEventRemindersToSharedUsers',
-				value ? 'yes' : 'no'
+				value ? 'yes' : 'no',
 			)
 		},
 		sendEventRemindersPush(value) {
@@ -150,10 +150,10 @@ export default {
 
 <style scoped>
 	.indented {
-		padding-left: 28px;
+		padding-inline-start: 28px;
 	}
 	/** Use deep selector to affect v-html */
-	* >>> a {
+	* :deep(a) {
 		text-decoration: underline;
 	}
 	.settings-hint {

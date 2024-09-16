@@ -11,17 +11,13 @@ use OC\DB\ConnectionAdapter;
 use OC\DB\QueryBuilder\QueryFunction;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\DB\QueryBuilder\IQueryFunction;
+use Psr\Log\LoggerInterface;
 
 class MySqlExpressionBuilder extends ExpressionBuilder {
-	/** @var string */
-	protected $collation;
+	protected string $collation;
 
-	/**
-	 * @param ConnectionAdapter $connection
-	 * @param IQueryBuilder $queryBuilder
-	 */
-	public function __construct(ConnectionAdapter $connection, IQueryBuilder $queryBuilder) {
-		parent::__construct($connection, $queryBuilder);
+	public function __construct(ConnectionAdapter $connection, IQueryBuilder $queryBuilder, LoggerInterface $logger) {
+		parent::__construct($connection, $queryBuilder, $logger);
 
 		$params = $connection->getInner()->getParams();
 		$this->collation = $params['collation'] ?? (($params['charset'] ?? 'utf8') . '_general_ci');

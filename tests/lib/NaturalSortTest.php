@@ -11,7 +11,7 @@ class NaturalSortTest extends \Test\TestCase {
 	/**
 	 * @dataProvider naturalSortDataProvider
 	 */
-	public function testNaturalSortCompare($array, $sorted) {
+	public function testNaturalSortCompare($array, $sorted): void {
 		if (!class_exists('Collator')) {
 			$this->markTestSkipped('The intl module is not available, natural sorting might not work as expected.');
 			return;
@@ -24,7 +24,7 @@ class NaturalSortTest extends \Test\TestCase {
 	/**
 	 * @dataProvider defaultCollatorDataProvider
 	 */
-	public function testDefaultCollatorCompare($array, $sorted) {
+	public function testDefaultCollatorCompare($array, $sorted): void {
 		$comparator = new \OC\NaturalSort(new \OC\NaturalSort_DefaultCollator());
 		usort($array, [$comparator, 'compare']);
 		$this->assertEquals($sorted, $array);

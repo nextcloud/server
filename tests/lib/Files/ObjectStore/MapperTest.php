@@ -47,7 +47,7 @@ class MapperTest extends \Test\TestCase {
 	 * @param int $numBuckets
 	 * @param string $expectedBucket
 	 */
-	public function testGetBucket($username, $numBuckets, $bucketShift, $expectedBucket) {
+	public function testGetBucket($username, $numBuckets, $bucketShift, $expectedBucket): void {
 		$this->user->expects($this->once())
 			->method('getUID')
 			->willReturn($username);

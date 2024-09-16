@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="5.25.0@01a8eb06b9e9cc6cfb6a320bf9fb14331919d505">
+<files psalm-version="5.26.1@d747f6500b38ac4f7dfc5edbcae6e4b637d7add0">
   <file src="3rdparty/sabre/dav/lib/CalDAV/Calendar.php">
     <MoreSpecificImplementedParamType>
       <code><![CDATA[$data]]></code>
@@ -252,7 +252,6 @@
       <code><![CDATA[$vevent->DTEND]]></code>
     </LessSpecificReturnStatement>
     <UndefinedInterfaceMethod>
-      <code><![CDATA[get]]></code>
       <code><![CDATA[getChildren]]></code>
     </UndefinedInterfaceMethod>
     <UndefinedMethod>
@@ -803,14 +802,6 @@
       <code><![CDATA[$i]]></code>
       <code><![CDATA[$i]]></code>
       <code><![CDATA[$i]]></code>
-      <code><![CDATA[$i]]></code>
-      <code><![CDATA[$i]]></code>
-      <code><![CDATA[$i]]></code>
-      <code><![CDATA[$i]]></code>
-      <code><![CDATA[$i]]></code>
-      <code><![CDATA[$i]]></code>
-      <code><![CDATA[$i]]></code>
-      <code><![CDATA[$i]]></code>
     </UndefinedInterfaceMethod>
   </file>
   <file src="apps/files/lib/Service/OwnershipTransferService.php">
@@ -1018,7 +1009,7 @@
   <file src="apps/files_versions/appinfo/routes.php">
     <InvalidScope>
       <code><![CDATA[$this]]></code>
-      <code><![CDATA[$this]]></code>
+      <code><![CDATA[$this->create('files_versions_download', 'apps/files_versions/download.php')]]></code>
     </InvalidScope>
   </file>
   <file src="apps/files_versions/lib/Sabre/RestoreFolder.php">
@@ -1151,9 +1142,6 @@
     <InvalidOperand>
       <code><![CDATA[$i]]></code>
     </InvalidOperand>
-    <NullArgument>
-      <code><![CDATA[null]]></code>
-    </NullArgument>
   </file>
   <file src="apps/user_ldap/lib/Mapping/AbstractMapping.php">
     <RedundantCondition>
@@ -1231,11 +1219,6 @@
     <InvalidReturnType>
       <code><![CDATA[string]]></code>
     </InvalidReturnType>
-  </file>
-  <file src="apps/workflowengine/lib/Check/FileSystemTags.php">
-    <UndefinedDocblockClass>
-      <code><![CDATA[$this->storage]]></code>
-    </UndefinedDocblockClass>
   </file>
   <file src="apps/workflowengine/lib/Check/RequestRemoteAddress.php">
     <InvalidArgument>
@@ -1378,17 +1361,6 @@
     <NoInterfaceProperties>
       <code><![CDATA[$this->request->server]]></code>
     </NoInterfaceProperties>
-  </file>
-  <file src="core/routes.php">
-    <InvalidScope>
-      <code><![CDATA[$this]]></code>
-      <code><![CDATA[$this->create('core_ajax_update', '/core/ajax/update.php')]]></code>
-    </InvalidScope>
-  </file>
-  <file src="core/templates/layout.public.php">
-    <UndefinedInterfaceMethod>
-      <code><![CDATA[getIcon]]></code>
-    </UndefinedInterfaceMethod>
   </file>
   <file src="lib/autoloader.php">
     <RedundantCondition>
@@ -1581,7 +1553,7 @@
 						}
 
 						// don't lose the error we got while trying to query by type
-						throw new QueryException($e->getMessage(), (int) $e->getCode(), $e);
+						throw new QueryException($e->getMessage(), (int)$e->getCode(), $e);
 					}
 				}
 
@@ -1596,7 +1568,7 @@
       <code><![CDATA[\stdClass]]></code>
     </MoreSpecificReturnType>
     <RedundantCast>
-      <code><![CDATA[(int) $e->getCode()]]></code>
+      <code><![CDATA[(int)$e->getCode()]]></code>
     </RedundantCast>
   </file>
   <file src="lib/private/Archive/TAR.php">
@@ -1901,9 +1873,6 @@
       <code><![CDATA[null]]></code>
       <code><![CDATA[null]]></code>
     </NullableReturnStatement>
-    <ParamNameMismatch>
-      <code><![CDATA[$searchQuery]]></code>
-    </ParamNameMismatch>
   </file>
   <file src="lib/private/Files/Cache/FailedCache.php">
     <InvalidReturnStatement>
@@ -1953,9 +1922,6 @@
       <code><![CDATA[array]]></code>
       <code><![CDATA[array]]></code>
     </LessSpecificImplementedReturnType>
-    <ParamNameMismatch>
-      <code><![CDATA[$searchQuery]]></code>
-    </ParamNameMismatch>
   </file>
   <file src="lib/private/Files/Config/MountProviderCollection.php">
     <InvalidOperand>
@@ -2171,9 +2137,6 @@
     <InvalidReturnType>
       <code><![CDATA[fopen]]></code>
     </InvalidReturnType>
-    <NullableReturnStatement>
-      <code><![CDATA[null]]></code>
-    </NullableReturnStatement>
   </file>
   <file src="lib/private/Files/Storage/FailedStorage.php">
     <InvalidReturnStatement>
@@ -2186,9 +2149,6 @@
     </InvalidReturnType>
   </file>
   <file src="lib/private/Files/Storage/Local.php">
-    <ImplicitToStringCast>
-      <code><![CDATA[$file]]></code>
-    </ImplicitToStringCast>
     <TypeDoesNotContainNull>
       <code><![CDATA[$space === false || is_null($space)]]></code>
       <code><![CDATA[is_null($space)]]></code>
@@ -2367,10 +2327,6 @@
       <code><![CDATA[false]]></code>
       <code><![CDATA[false]]></code>
     </InvalidArgument>
-    <InvalidArrayOffset>
-      <code><![CDATA[$app['path']]]></code>
-      <code><![CDATA[$app['path']]]></code>
-    </InvalidArrayOffset>
     <NullArgument>
       <code><![CDATA[null]]></code>
     </NullArgument>
@@ -2463,11 +2419,6 @@
     <InvalidPropertyAssignmentValue>
       <code><![CDATA[$sessionCallback]]></code>
     </InvalidPropertyAssignmentValue>
-  </file>
-  <file src="lib/private/Log.php">
-    <RedundantCondition>
-      <code><![CDATA[$request]]></code>
-    </RedundantCondition>
   </file>
   <file src="lib/private/Log/File.php">
     <TypeDoesNotContainNull>
@@ -2596,19 +2547,6 @@
     <NullableReturnStatement>
       <code><![CDATA[$this->collectionName]]></code>
     </NullableReturnStatement>
-  </file>
-  <file src="lib/private/Search.php">
-    <RedundantCondition>
-      <code><![CDATA[$provider instanceof Provider]]></code>
-    </RedundantCondition>
-  </file>
-  <file src="lib/private/Search/Result/File.php">
-    <InvalidPropertyAssignmentValue>
-      <code><![CDATA[$data->getId()]]></code>
-      <code><![CDATA[$data->getMtime()]]></code>
-      <code><![CDATA[$data->getPermissions()]]></code>
-      <code><![CDATA[$this->hasPreview($data)]]></code>
-    </InvalidPropertyAssignmentValue>
   </file>
   <file src="lib/private/Security/Bruteforce/Throttler.php">
     <NullArgument>
@@ -2881,6 +2819,9 @@
       <code><![CDATA[$request->server]]></code>
       <code><![CDATA[$request->server]]></code>
     </NoInterfaceProperties>
+    <RedundantCondition>
+      <code><![CDATA[$this->manager instanceof PublicEmitter]]></code>
+    </RedundantCondition>
   </file>
   <file src="lib/private/User/User.php">
     <UndefinedInterfaceMethod>
@@ -2891,22 +2832,10 @@
       <code><![CDATA[emit]]></code>
     </UndefinedInterfaceMethod>
   </file>
-  <file src="lib/private/legacy/OC_API.php">
-    <InvalidNullableReturnType>
-      <code><![CDATA[int]]></code>
-    </InvalidNullableReturnType>
-    <NullableReturnStatement>
-      <code><![CDATA[null]]></code>
-    </NullableReturnStatement>
-  </file>
   <file src="lib/private/legacy/OC_App.php">
     <InvalidArgument>
       <code><![CDATA[$groupsList]]></code>
     </InvalidArgument>
-    <InvalidArrayOffset>
-      <code><![CDATA[$dir['path']]]></code>
-      <code><![CDATA[$dir['url']]]></code>
-    </InvalidArrayOffset>
     <NullArgument>
       <code><![CDATA[null]]></code>
     </NullArgument>
@@ -2914,11 +2843,6 @@
       <code><![CDATA[$appId === null]]></code>
       <code><![CDATA[$appId === null]]></code>
     </TypeDoesNotContainNull>
-  </file>
-  <file src="lib/private/legacy/OC_FileChunking.php">
-    <UndefinedDocblockClass>
-      <code><![CDATA[\OC\InsufficientStorageException]]></code>
-    </UndefinedDocblockClass>
   </file>
   <file src="lib/private/legacy/OC_Files.php">
     <RedundantCondition>
@@ -2966,14 +2890,6 @@
     <InternalMethod>
       <code><![CDATA[new RouteConfig($this->container, $router, $routes)]]></code>
     </InternalMethod>
-  </file>
-  <file src="lib/public/AppFramework/Db/Entity.php">
-    <InvalidNullableReturnType>
-      <code><![CDATA[string]]></code>
-    </InvalidNullableReturnType>
-    <NullableReturnStatement>
-      <code><![CDATA[$column]]></code>
-    </NullableReturnStatement>
   </file>
   <file src="lib/public/AppFramework/Http/Response.php">
     <LessSpecificReturnStatement>

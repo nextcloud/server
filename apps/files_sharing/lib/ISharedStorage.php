@@ -8,5 +8,8 @@ namespace OCA\Files_Sharing;
 
 use OCP\Files\Storage\IStorage;
 
+/**
+ * @deprecated 30.0.0 use `\OCP\Files\Storage\ISharedStorage` instead
+ */
 interface ISharedStorage extends IStorage {
 }

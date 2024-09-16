@@ -54,14 +54,14 @@ class SmbTest extends \Test\Files\Storage\Storage {
 		return [['folder']];
 	}
 
-	public function testRenameWithSpaces() {
+	public function testRenameWithSpaces(): void {
 		$this->instance->mkdir('with spaces');
 		$result = $this->instance->rename('with spaces', 'foo bar');
 		$this->assertTrue($result);
 		$this->assertTrue($this->instance->is_dir('foo bar'));
 	}
 
-	public function testStorageId() {
+	public function testStorageId(): void {
 		$this->instance = new SMB([
 			'host' => 'testhost',
 			'user' => 'testuser',
@@ -73,9 +73,9 @@ class SmbTest extends \Test\Files\Storage\Storage {
 		$this->instance = null;
 	}
 
-	public function testNotifyGetChanges() {
+	public function testNotifyGetChanges(): void {
 		$lastError = null;
-		for($i = 0; $i < 5; $i++) {
+		for ($i = 0; $i < 5; $i++) {
 			try {
 				$this->tryTestNotifyGetChanges();
 				return;
@@ -130,7 +130,7 @@ class SmbTest extends \Test\Files\Storage\Storage {
 		}
 	}
 
-	public function testNotifyListen() {
+	public function testNotifyListen(): void {
 		$notifyHandler = $this->instance->notify('');
 		usleep(100 * 1000); //give time for the notify to start
 		$this->instance->file_put_contents('/newfile.txt', 'test content');
@@ -153,7 +153,7 @@ class SmbTest extends \Test\Files\Storage\Storage {
 		}
 	}
 
-	public function testRenameRoot() {
+	public function testRenameRoot(): void {
 		// root can't be renamed
 		$this->assertFalse($this->instance->rename('', 'foo1'));
 
@@ -162,12 +162,12 @@ class SmbTest extends \Test\Files\Storage\Storage {
 		$this->instance->rmdir('foo2');
 	}
 
-	public function testUnlinkRoot() {
+	public function testUnlinkRoot(): void {
 		// root can't be deleted
 		$this->assertFalse($this->instance->unlink(''));
 	}
 
-	public function testRmdirRoot() {
+	public function testRmdirRoot(): void {
 		// root can't be deleted
 		$this->assertFalse($this->instance->rmdir(''));
 	}

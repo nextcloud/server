@@ -20,6 +20,7 @@ use OCP\Image;
  * This is a text to image task
  *
  * @since 28.0.0
+ * @deprecated 30.0.0
  */
 final class Task implements \JsonSerializable {
 	protected ?int $id = null;
@@ -80,7 +81,7 @@ final class Task implements \JsonSerializable {
 			$images = [];
 			for ($i = 0; $i < $this->getNumberOfImages(); $i++) {
 				$image = new Image();
-				$image->loadFromFileHandle($folder->getFile((string) $i)->read());
+				$image->loadFromFileHandle($folder->getFile((string)$i)->read());
 				$images[] = $image;
 			}
 			return $images;

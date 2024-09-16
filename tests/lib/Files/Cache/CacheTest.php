@@ -7,12 +7,12 @@
 
 namespace Test\Files\Cache;
 
-use Doctrine\DBAL\Platforms\MySqlPlatform;
 use OC\Files\Cache\Cache;
 use OC\Files\Search\SearchComparison;
 use OC\Files\Search\SearchQuery;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Search\ISearchComparison;
+use OCP\IDBConnection;
 use OCP\IUser;
 
 class LongId extends \OC\Files\Storage\Temporary {
@@ -47,11 +47,11 @@ class CacheTest extends \Test\TestCase {
 	 */
 	protected $cache2;
 
-	public function testGetNumericId() {
+	public function testGetNumericId(): void {
 		$this->assertNotNull($this->cache->getNumericStorageId());
 	}
 
-	public function testSimple() {
+	public function testSimple(): void {
 		$file1 = 'foo';
 		$file2 = 'foo/bar';
 		$data1 = ['size' => 100, 'mtime' => 50, 'mimetype' => 'foo/folder'];
@@ -97,7 +97,7 @@ class CacheTest extends \Test\TestCase {
 		$this->assertEquals($cacheData1, $this->cache->get($id1));
 	}
 
-	public function testCacheEntryGetters() {
+	public function testCacheEntryGetters(): void {
 		$file1 = 'foo';
 		$data1 = ['size' => 100, 'mtime' => 50, 'mimetype' => 'foo/file'];
 
@@ -122,7 +122,7 @@ class CacheTest extends \Test\TestCase {
 		$this->assertEquals($entry->getUnencryptedSize(), 100);
 	}
 
-	public function testPartial() {
+	public function testPartial(): void {
 		$file1 = 'foo';
 
 		$this->cache->put($file1, ['size' => 10]);
@@ -138,11 +138,11 @@ class CacheTest extends \Test\TestCase {
 	/**
 	 * @dataProvider folderDataProvider
 	 */
-	public function testFolder($folder) {
+	public function testFolder($folder): void {
 		if (strpos($folder, 'F09F9890')) {
 			// 4 byte UTF doesn't work on mysql
 			$params = \OC::$server->get(\OC\DB\Connection::class)->getParams();
-			if (\OC::$server->getDatabaseConnection()->getDatabasePlatform() instanceof MySqlPlatform && $params['charset'] !== 'utf8mb4') {
+			if (\OC::$server->getDatabaseConnection()->getDatabaseProvider() === IDBConnection::PLATFORM_MYSQL && $params['charset'] !== 'utf8mb4') {
 				$this->markTestSkipped('MySQL doesn\'t support 4 byte UTF-8');
 			}
 		}
@@ -187,7 +187,7 @@ class CacheTest extends \Test\TestCase {
 		$this->assertFalse($this->cache->inCache($folder . '/bar'));
 	}
 
-	public function testRemoveRecursive() {
+	public function testRemoveRecursive(): void {
 		$folderData = ['size' => 100, 'mtime' => 50, 'mimetype' => 'httpd/unix-directory'];
 		$fileData = ['size' => 1000, 'mtime' => 20, 'mimetype' => 'text/plain'];
 		$folders = ['folder', 'folder/subfolder', 'folder/sub2', 'folder/sub2/sub3'];
@@ -220,7 +220,7 @@ class CacheTest extends \Test\TestCase {
 		];
 	}
 
-	public function testEncryptedFolder() {
+	public function testEncryptedFolder(): void {
 		$file1 = 'folder';
 		$file2 = 'folder/bar';
 		$file3 = 'folder/foo';
@@ -263,7 +263,7 @@ class CacheTest extends \Test\TestCase {
 		$this->assertFalse($this->cache->inCache('folder/bar'));
 	}
 
-	public function testRootFolderSizeForNonHomeStorage() {
+	public function testRootFolderSizeForNonHomeStorage(): void {
 		$dir1 = 'knownsize';
 		$dir2 = 'unknownsize';
 		$fileData = [];
@@ -290,7 +290,7 @@ class CacheTest extends \Test\TestCase {
 		$this->assertFalse($this->cache->inCache($dir2));
 	}
 
-	public function testStatus() {
+	public function testStatus(): void {
 		$this->assertEquals(\OC\Files\Cache\Cache::NOT_FOUND, $this->cache->getStatus('foo'));
 		$this->cache->put('foo', ['size' => -1]);
 		$this->assertEquals(\OC\Files\Cache\Cache::PARTIAL, $this->cache->getStatus('foo'));
@@ -312,7 +312,7 @@ class CacheTest extends \Test\TestCase {
 	 * @dataProvider putWithAllKindOfQuotesData
 	 * @param $fileName
 	 */
-	public function testPutWithAllKindOfQuotes($fileName) {
+	public function testPutWithAllKindOfQuotes($fileName): void {
 		$this->assertEquals(\OC\Files\Cache\Cache::NOT_FOUND, $this->cache->get($fileName));
 		$this->cache->put($fileName, ['size' => 20, 'mtime' => 25, 'mimetype' => 'foo/file', 'etag' => $fileName]);
 
@@ -321,7 +321,7 @@ class CacheTest extends \Test\TestCase {
 		$this->assertEquals($fileName, $cacheEntry['path']);
 	}
 
-	public function testSearch() {
+	public function testSearch(): void {
 		$file1 = 'folder';
 		$file2 = 'folder/foobar';
 		$file3 = 'folder/foo';
@@ -350,7 +350,7 @@ class CacheTest extends \Test\TestCase {
 		$this->assertEquals(2, count($this->cache->searchByMime('foo/file')));
 	}
 
-	public function testSearchQueryByTag() {
+	public function testSearchQueryByTag(): void {
 		$userId = static::getUniqueID('user');
 		\OC::$server->getUserManager()->createUser($userId, $userId);
 		static::loginAsUser($userId);
@@ -408,7 +408,7 @@ class CacheTest extends \Test\TestCase {
 		}
 	}
 
-	public function testSearchByQuery() {
+	public function testSearchByQuery(): void {
 		$file1 = 'folder';
 		$file2 = 'folder/foobar';
 		$file3 = 'folder/foo';
@@ -448,7 +448,7 @@ class CacheTest extends \Test\TestCase {
 	/**
 	 * @dataProvider movePathProvider
 	 */
-	public function testMove($sourceFolder, $targetFolder, $children) {
+	public function testMove($sourceFolder, $targetFolder, $children): void {
 		$data = ['size' => 100, 'mtime' => 50, 'mimetype' => 'foo/bar'];
 		$folderData = ['size' => 100, 'mtime' => 50, 'mimetype' => 'httpd/unix-directory'];
 
@@ -483,7 +483,24 @@ class CacheTest extends \Test\TestCase {
 		}
 	}
 
-	public function testGetIncomplete() {
+	public function testMoveFromCache(): void {
+		$data = ['size' => 100, 'mtime' => 50, 'mimetype' => 'foo/bar'];
+		$folderData = ['size' => 100, 'mtime' => 50, 'mimetype' => 'httpd/unix-directory'];
+
+		$this->cache2->put('folder', $folderData);
+		$this->cache2->put('folder/sub', $data);
+
+
+		$this->cache->moveFromCache($this->cache2, 'folder', 'targetfolder');
+
+		$this->assertFalse($this->cache2->inCache('folder'));
+		$this->assertFalse($this->cache2->inCache('folder/sub'));
+
+		$this->assertTrue($this->cache->inCache('targetfolder'));
+		$this->assertTrue($this->cache->inCache('targetfolder/sub'));
+	}
+
+	public function testGetIncomplete(): void {
 		$file1 = 'folder1';
 		$file2 = 'folder2';
 		$file3 = 'folder3';
@@ -500,13 +517,13 @@ class CacheTest extends \Test\TestCase {
 		$this->assertEquals($file3, $this->cache->getIncomplete());
 	}
 
-	public function testNonExisting() {
+	public function testNonExisting(): void {
 		$this->assertFalse($this->cache->get('foo.txt'));
 		$this->assertFalse($this->cache->get(-1));
 		$this->assertEquals([], $this->cache->getFolderContents('foo'));
 	}
 
-	public function testGetById() {
+	public function testGetById(): void {
 		$storageId = $this->storage->getId();
 		$data = ['size' => 1000, 'mtime' => 20, 'mimetype' => 'foo/file'];
 		$id = $this->cache->put('foo', $data);
@@ -517,7 +534,7 @@ class CacheTest extends \Test\TestCase {
 		$this->assertEquals([$storageId, 'foo'], \OC\Files\Cache\Cache::getById($id));
 	}
 
-	public function testStorageMTime() {
+	public function testStorageMTime(): void {
 		$data = ['size' => 1000, 'mtime' => 20, 'mimetype' => 'foo/file'];
 		$this->cache->put('foo', $data);
 		$cachedData = $this->cache->get('foo');
@@ -534,7 +551,7 @@ class CacheTest extends \Test\TestCase {
 		$this->assertEquals(25, $cachedData['mtime']);
 	}
 
-	public function testLongId() {
+	public function testLongId(): void {
 		$storage = new LongId([]);
 		$cache = $storage->getCache();
 		$storageId = $storage->getId();
@@ -546,7 +563,7 @@ class CacheTest extends \Test\TestCase {
 	/**
 	 * this test show the bug resulting if we have no normalizer installed
 	 */
-	public function testWithoutNormalizer() {
+	public function testWithoutNormalizer(): void {
 		// folder name "Schön" with U+00F6 (normalized)
 		$folderWith00F6 = "\x53\x63\x68\xc3\xb6\x6e";
 
@@ -592,7 +609,7 @@ class CacheTest extends \Test\TestCase {
 	/**
 	 * this test shows that there is no bug if we use the normalizer
 	 */
-	public function testWithNormalizer() {
+	public function testWithNormalizer(): void {
 		if (!class_exists('Patchwork\PHP\Shim\Normalizer')) {
 			$this->markTestSkipped('The 3rdparty Normalizer extension is not available.');
 			return;
@@ -642,7 +659,7 @@ class CacheTest extends \Test\TestCase {
 	 *
 	 * @dataProvider bogusPathNamesProvider
 	 */
-	public function testBogusPaths($bogusPath, $fixedBogusPath) {
+	public function testBogusPaths($bogusPath, $fixedBogusPath): void {
 		$data = ['size' => 100, 'mtime' => 50, 'mimetype' => 'httpd/unix-directory'];
 
 		// put root folder
@@ -664,7 +681,7 @@ class CacheTest extends \Test\TestCase {
 		$this->assertEquals($newData, $newDataFromBogus);
 	}
 
-	public function testNoReuseOfFileId() {
+	public function testNoReuseOfFileId(): void {
 		$data1 = ['size' => 100, 'mtime' => 50, 'mimetype' => 'text/plain'];
 		$this->cache->put('somefile.txt', $data1);
 		$info = $this->cache->get('somefile.txt');
@@ -689,7 +706,7 @@ class CacheTest extends \Test\TestCase {
 	 * @param string $name
 	 * @dataProvider escapingProvider
 	 */
-	public function testEscaping($name) {
+	public function testEscaping($name): void {
 		$data = ['size' => 100, 'mtime' => 50, 'mimetype' => 'text/plain'];
 		$this->cache->put($name, $data);
 		$this->assertTrue($this->cache->inCache($name));
@@ -725,31 +742,31 @@ class CacheTest extends \Test\TestCase {
 		}
 	}
 
-	public function testExtended() {
+	public function testExtended(): void {
 		$folderData = ['size' => 100, 'mtime' => 50, 'mimetype' => 'httpd/unix-directory'];
-		$this->cache->put("", $folderData);
+		$this->cache->put('', $folderData);
 
 		$data = ['size' => 100, 'mtime' => 50, 'mimetype' => 'text/plain', 'creation_time' => 20];
-		$id1 = $this->cache->put("foo1", $data);
+		$id1 = $this->cache->put('foo1', $data);
 		$data = ['size' => 100, 'mtime' => 50, 'mimetype' => 'text/plain', 'upload_time' => 30];
-		$this->cache->put("foo2", $data);
+		$this->cache->put('foo2', $data);
 		$data = ['size' => 100, 'mtime' => 50, 'mimetype' => 'text/plain', 'metadata_etag' => 'foo'];
-		$this->cache->put("foo3", $data);
+		$this->cache->put('foo3', $data);
 		$data = ['size' => 100, 'mtime' => 50, 'mimetype' => 'text/plain'];
-		$id4 = $this->cache->put("foo4", $data);
+		$id4 = $this->cache->put('foo4', $data);
 
 		$entry = $this->cache->get($id1);
 		$this->assertEquals(20, $entry->getCreationTime());
 		$this->assertEquals(0, $entry->getUploadTime());
 		$this->assertEquals(null, $entry->getMetadataEtag());
 
-		$entries = $this->cache->getFolderContents("");
+		$entries = $this->cache->getFolderContents('');
 		$this->assertCount(4, $entries);
 
-		$this->assertEquals("foo1", $entries[0]->getName());
-		$this->assertEquals("foo2", $entries[1]->getName());
-		$this->assertEquals("foo3", $entries[2]->getName());
-		$this->assertEquals("foo4", $entries[3]->getName());
+		$this->assertEquals('foo1', $entries[0]->getName());
+		$this->assertEquals('foo2', $entries[1]->getName());
+		$this->assertEquals('foo3', $entries[2]->getName());
+		$this->assertEquals('foo4', $entries[3]->getName());
 
 		$this->assertEquals(20, $entries[0]->getCreationTime());
 		$this->assertEquals(0, $entries[0]->getUploadTime());
@@ -774,11 +791,11 @@ class CacheTest extends \Test\TestCase {
 		$this->assertEquals(25, $entry->getUploadTime());
 		$this->assertEquals(null, $entry->getMetadataEtag());
 
-		$this->cache->put("sub", $folderData);
+		$this->cache->put('sub', $folderData);
 
-		$this->cache->move("foo1", "sub/foo1");
+		$this->cache->move('foo1', 'sub/foo1');
 
-		$entries = $this->cache->getFolderContents("sub");
+		$entries = $this->cache->getFolderContents('sub');
 		$this->assertCount(1, $entries);
 
 		$this->assertEquals(20, $entries[0]->getCreationTime());
@@ -792,7 +809,7 @@ class CacheTest extends \Test\TestCase {
 		$this->assertEquals(25, $entry->getUploadTime());
 		$this->assertEquals(null, $entry->getMetadataEtag());
 
-		$this->cache->remove("sub");
+		$this->cache->remove('sub');
 	}
 
 	protected function tearDown(): void {

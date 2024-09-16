@@ -16,7 +16,7 @@ use OC_Util;
  * @group DB
  */
 class UtilTest extends \Test\TestCase {
-	public function testGetVersion() {
+	public function testGetVersion(): void {
 		$version = \OCP\Util::getVersion();
 		$this->assertTrue(is_array($version));
 		foreach ($version as $num) {
@@ -24,17 +24,17 @@ class UtilTest extends \Test\TestCase {
 		}
 	}
 
-	public function testGetVersionString() {
+	public function testGetVersionString(): void {
 		$version = \OC_Util::getVersionString();
 		$this->assertTrue(is_string($version));
 	}
 
-	public function testGetEditionString() {
+	public function testGetEditionString(): void {
 		$edition = \OC_Util::getEditionString();
 		$this->assertTrue(is_string($edition));
 	}
 
-	public function testSanitizeHTML() {
+	public function testSanitizeHTML(): void {
 		$badArray = [
 			'While it is unusual to pass an array',
 			'this function actually <blink>supports</blink> it.',
@@ -67,13 +67,13 @@ class UtilTest extends \Test\TestCase {
 		$this->assertEquals('This is a good string without HTML.', $result);
 	}
 
-	public function testEncodePath() {
+	public function testEncodePath(): void {
 		$component = '/§#@test%&^ä/-child';
 		$result = OC_Util::encodePath($component);
-		$this->assertEquals("/%C2%A7%23%40test%25%26%5E%C3%A4/-child", $result);
+		$this->assertEquals('/%C2%A7%23%40test%25%26%5E%C3%A4/-child', $result);
 	}
 
-	public function testIsNonUTF8Locale() {
+	public function testIsNonUTF8Locale(): void {
 		// OC_Util::isNonUTF8Locale() assumes escapeshellcmd('§') returns '' with non-UTF-8 locale.
 		$locale = setlocale(LC_CTYPE, 0);
 		setlocale(LC_CTYPE, 'C');
@@ -85,7 +85,7 @@ class UtilTest extends \Test\TestCase {
 		setlocale(LC_CTYPE, $locale);
 	}
 
-	public function testFileInfoLoaded() {
+	public function testFileInfoLoaded(): void {
 		$expected = function_exists('finfo_open');
 		$this->assertEquals($expected, \OC_Util::fileInfoLoaded());
 	}
@@ -95,41 +95,41 @@ class UtilTest extends \Test\TestCase {
 	 * but not for default strict email verification that requires a top level domain.
 	 * So we check that with strict email verification we fallback to the default
 	 */
-	public function testGetDefaultEmailAddressStrict() {
-		$email = \OCP\Util::getDefaultEmailAddress("no-reply");
+	public function testGetDefaultEmailAddressStrict(): void {
+		$email = \OCP\Util::getDefaultEmailAddress('no-reply');
 		$this->assertEquals('no-reply@localhost.localdomain', $email);
 	}
 
 	/**
 	 * If no strict email check is enabled "localhost" should validate as a valid email domain
 	 */
-	public function testGetDefaultEmailAddress() {
+	public function testGetDefaultEmailAddress(): void {
 		$config = \OC::$server->getConfig();
 		$config->setAppValue('core', 'enforce_strict_email_check', 'no');
-		$email = \OCP\Util::getDefaultEmailAddress("no-reply");
+		$email = \OCP\Util::getDefaultEmailAddress('no-reply');
 		$this->assertEquals('no-reply@localhost', $email);
 		$config->deleteAppValue('core', 'enforce_strict_email_check');
 	}
 
-	public function testGetDefaultEmailAddressFromConfig() {
+	public function testGetDefaultEmailAddressFromConfig(): void {
 		$config = \OC::$server->getConfig();
 		$config->setSystemValue('mail_domain', 'example.com');
-		$email = \OCP\Util::getDefaultEmailAddress("no-reply");
+		$email = \OCP\Util::getDefaultEmailAddress('no-reply');
 		$this->assertEquals('no-reply@example.com', $email);
 		$config->deleteSystemValue('mail_domain');
 	}
 
-	public function testGetConfiguredEmailAddressFromConfig() {
+	public function testGetConfiguredEmailAddressFromConfig(): void {
 		$config = \OC::$server->getConfig();
 		$config->setSystemValue('mail_domain', 'example.com');
 		$config->setSystemValue('mail_from_address', 'owncloud');
-		$email = \OCP\Util::getDefaultEmailAddress("no-reply");
+		$email = \OCP\Util::getDefaultEmailAddress('no-reply');
 		$this->assertEquals('owncloud@example.com', $email);
 		$config->deleteSystemValue('mail_domain');
 		$config->deleteSystemValue('mail_from_address');
 	}
 
-	public function testGetInstanceIdGeneratesValidId() {
+	public function testGetInstanceIdGeneratesValidId(): void {
 		\OC::$server->getConfig()->deleteSystemValue('instanceid');
 		$instanceId = OC_Util::getInstanceId();
 		$this->assertStringStartsWith('oc', $instanceId);
@@ -138,67 +138,9 @@ class UtilTest extends \Test\TestCase {
 	}
 
 	/**
-	 * @dataProvider filenameValidationProvider
-	 */
-	public function testFilenameValidation($file, $valid) {
-		// private API
-		$this->assertEquals($valid, \OC_Util::isValidFileName($file));
-		// public API
-		$this->assertEquals($valid, \OCP\Util::isValidFileName($file));
-	}
-
-	public function filenameValidationProvider() {
-		return [
-			// valid names
-			['boringname', true],
-			['something.with.extension', true],
-			['now with spaces', true],
-			['.a', true],
-			['..a', true],
-			['.dotfile', true],
-			['single\'quote', true],
-			['  spaces before', true],
-			['spaces after   ', true],
-			['allowed chars including the crazy ones $%&_-^@!,()[]{}=;#', true],
-			['汉字也能用', true],
-			['und Ümläüte sind auch willkommen', true],
-			// disallowed names
-			['', false],
-			['     ', false],
-			['.', false],
-			['..', false],
-			['back\\slash', false],
-			['sl/ash', false],
-			['lt<lt', true],
-			['gt>gt', true],
-			['col:on', true],
-			['double"quote', true],
-			['pi|pe', true],
-			['dont?ask?questions?', true],
-			['super*star', true],
-			['new\nline', false],
-
-			// better disallow these to avoid unexpected trimming to have side effects
-			[' ..', false],
-			['.. ', false],
-			['. ', false],
-			[' .', false],
-
-			// part files not allowed
-			['.part', false],
-			['notallowed.part', false],
-			['neither.filepart', false],
-
-			// part in the middle is ok
-			['super movie part one.mkv', true],
-			['super.movie.part.mkv', true],
-		];
-	}
-
-	/**
 	 * Test needUpgrade() when the core version is increased
 	 */
-	public function testNeedUpgradeCore() {
+	public function testNeedUpgradeCore(): void {
 		$config = \OC::$server->getConfig();
 		$oldConfigVersion = $config->getSystemValue('version', '0.0.0');
 		$oldSessionVersion = \OC::$server->getSession()->get('OC_Version');
@@ -218,9 +160,9 @@ class UtilTest extends \Test\TestCase {
 		$this->assertFalse(\OCP\Util::needUpgrade());
 	}
 
-	public function testCheckDataDirectoryValidity() {
+	public function testCheckDataDirectoryValidity(): void {
 		$dataDir = \OC::$server->getTempManager()->getTemporaryFolder();
-		touch($dataDir . '/.ocdata');
+		touch($dataDir . '/.ncdata');
 		$errors = \OC_Util::checkDataDirectoryValidity($dataDir);
 		$this->assertEmpty($errors);
 		\OCP\Files::rmdirr($dataDir);
@@ -252,7 +194,7 @@ class UtilTest extends \Test\TestCase {
 		self::invokePrivate(\OCP\Util::class, 'scriptDeps', [[]]);
 	}
 
-	public function testAddScript() {
+	public function testAddScript(): void {
 		\OCP\Util::addScript('first', 'myFirstJSFile');
 		\OCP\Util::addScript('core', 'myFancyJSFile1');
 		\OCP\Util::addScript('files', 'myFancyJSFile2', 'core');
@@ -320,32 +262,32 @@ class UtilTest extends \Test\TestCase {
 
 		// All scripts still there
 		$scripts = [
-			"core/js/common",
-			"core/js/main",
-			"core/js/myFancyJSFile1",
-			"core/js/myFancyJSFile4",
-			"core/js/myFancyJSFile5",
-			"first/l10n/en",
-			"first/js/myFirstJSFile",
-			"files/l10n/en",
-			"files/js/myFancyJSFile2",
-			"myApp/l10n/en",
-			"myApp/js/myFancyJSFile3",
-			"myApp2/l10n/en",
-			"myApp2/js/myApp2JSFile",
-			"myApp5/l10n/en",
-			"myApp5/js/myApp5JSFile",
-			"myApp3/l10n/en",
-			"myApp3/js/myApp3JSFile",
-			"myApp4/l10n/en",
-			"myApp4/js/myApp4JSFile",
+			'core/js/common',
+			'core/js/main',
+			'core/js/myFancyJSFile1',
+			'core/js/myFancyJSFile4',
+			'core/js/myFancyJSFile5',
+			'first/l10n/en',
+			'first/js/myFirstJSFile',
+			'files/l10n/en',
+			'files/js/myFancyJSFile2',
+			'myApp/l10n/en',
+			'myApp/js/myFancyJSFile3',
+			'myApp2/l10n/en',
+			'myApp2/js/myApp2JSFile',
+			'myApp5/l10n/en',
+			'myApp5/js/myApp5JSFile',
+			'myApp3/l10n/en',
+			'myApp3/js/myApp3JSFile',
+			'myApp4/l10n/en',
+			'myApp4/js/myApp4JSFile',
 		];
 		foreach ($scripts as $script) {
 			$this->assertContains($script, $scripts);
 		}
 	}
 
-	public function testAddScriptCircularDependency() {
+	public function testAddScriptCircularDependency(): void {
 		\OCP\Util::addScript('circular', 'file1', 'dependency');
 		\OCP\Util::addScript('dependency', 'file2', 'circular');
 
@@ -354,7 +296,7 @@ class UtilTest extends \Test\TestCase {
 		$this->assertContains('dependency/js/file2', $scripts);
 	}
 
-	public function testAddVendorScript() {
+	public function testAddVendorScript(): void {
 		\OC_Util::addVendorScript('core', 'myFancyJSFile1');
 		\OC_Util::addVendorScript('myApp', 'myFancyJSFile2');
 		\OC_Util::addVendorScript('core', 'myFancyJSFile0', true);
@@ -371,7 +313,7 @@ class UtilTest extends \Test\TestCase {
 		$this->assertEquals([], \OC_Util::$styles);
 	}
 
-	public function testAddTranslations() {
+	public function testAddTranslations(): void {
 		\OC_Util::addTranslations('appId', 'de');
 
 		$this->assertEquals([
@@ -380,7 +322,7 @@ class UtilTest extends \Test\TestCase {
 		$this->assertEquals([], \OC_Util::$styles);
 	}
 
-	public function testAddStyle() {
+	public function testAddStyle(): void {
 		\OC_Util::addStyle('core', 'myFancyCSSFile1');
 		\OC_Util::addStyle('myApp', 'myFancyCSSFile2');
 		\OC_Util::addStyle('core', 'myFancyCSSFile0', true);
@@ -397,7 +339,7 @@ class UtilTest extends \Test\TestCase {
 		], \OC_Util::$styles);
 	}
 
-	public function testAddVendorStyle() {
+	public function testAddVendorStyle(): void {
 		\OC_Util::addVendorStyle('core', 'myFancyCSSFile1');
 		\OC_Util::addVendorStyle('myApp', 'myFancyCSSFile2');
 		\OC_Util::addVendorStyle('core', 'myFancyCSSFile0', true);
@@ -414,7 +356,7 @@ class UtilTest extends \Test\TestCase {
 		], \OC_Util::$styles);
 	}
 
-	public function testShortenMultibyteString() {
+	public function testShortenMultibyteString(): void {
 		$this->assertEquals('Short nuff', \OCP\Util::shortenMultibyteString('Short nuff', 255));
 		$this->assertEquals('ABC', \OCP\Util::shortenMultibyteString('ABCDEF', 3));
 		// each of the characters is 12 bytes

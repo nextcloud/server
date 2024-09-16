@@ -147,7 +147,7 @@ class Setup {
 	 * a few system checks.
 	 *
 	 * @return array of system info, including an "errors" value
-	 * in case of errors/warnings
+	 *               in case of errors/warnings
 	 */
 	public function getSystemInfo(bool $allowAllDatabases = false): array {
 		$databases = $this->getSupportedDatabases($allowAllDatabases);
@@ -230,7 +230,7 @@ class Setup {
 			$error[] = $l->t('Set an admin password.');
 		}
 		if (empty($options['directory'])) {
-			$options['directory'] = \OC::$SERVERROOT . "/data";
+			$options['directory'] = \OC::$SERVERROOT . '/data';
 		}
 
 		if (!isset(self::$dbSetupClasses[$dbType])) {
@@ -248,7 +248,7 @@ class Setup {
 
 		// validate the data directory
 		if ((!is_dir($dataDir) && !mkdir($dataDir)) || !is_writable($dataDir)) {
-			$error[] = $l->t("Cannot create or write into the data directory %s", [$dataDir]);
+			$error[] = $l->t('Cannot create or write into the data directory %s', [$dataDir]);
 		}
 
 		if (!empty($error)) {
@@ -360,9 +360,12 @@ class Setup {
 		Installer::installShippedApps(false, $output);
 
 		// create empty file in data dir, so we can later find
-		// out that this is indeed an ownCloud data directory
+		// out that this is indeed a Nextcloud data directory
 		$this->outputDebug($output, 'Setup data directory');
-		file_put_contents($config->getSystemValueString('datadirectory', \OC::$SERVERROOT . '/data') . '/.ocdata', '');
+		file_put_contents(
+			$config->getSystemValueString('datadirectory', \OC::$SERVERROOT . '/data') . '/.ncdata',
+			"# Nextcloud data directory\n# Do not change this file",
+		);
 
 		// Update .htaccess files
 		self::updateHtaccess();
@@ -389,7 +392,7 @@ class Setup {
 		$userSession->login($username, $password);
 		$user = $userSession->getUser();
 		if (!$user) {
-			$error[] = "No account found in session.";
+			$error[] = 'No account found in session.';
 			return $error;
 		}
 		$userSession->createSessionToken($request, $user->getUID(), $username, $password);
@@ -481,7 +484,7 @@ class Setup {
 			$content .= "\n  Options -MultiViews";
 			$content .= "\n  RewriteRule ^core/js/oc.js$ index.php [PT,E=PATH_INFO:$1]";
 			$content .= "\n  RewriteRule ^core/preview.png$ index.php [PT,E=PATH_INFO:$1]";
-			$content .= "\n  RewriteCond %{REQUEST_FILENAME} !\\.(css|js|mjs|svg|gif|png|html|ttf|woff2?|ico|jpg|jpeg|map|webm|mp4|mp3|ogg|wav|flac|wasm|tflite)$";
+			$content .= "\n  RewriteCond %{REQUEST_FILENAME} !\\.(css|js|mjs|svg|gif|ico|jpg|jpeg|png|webp|html|otf|ttf|woff2?|map|webm|mp4|mp3|ogg|wav|flac|wasm|tflite)$";
 			$content .= "\n  RewriteCond %{REQUEST_FILENAME} !/core/ajax/update\\.php";
 			$content .= "\n  RewriteCond %{REQUEST_FILENAME} !/core/img/(favicon\\.ico|manifest\\.json)$";
 			$content .= "\n  RewriteCond %{REQUEST_FILENAME} !/(cron|public|remote|status)\\.php";
@@ -506,7 +509,7 @@ class Setup {
 			$df = disk_free_space(\OC::$SERVERROOT);
 			$size = strlen($content) + 10240;
 			if ($df !== false && $df < (float)$size) {
-				throw new \Exception(\OC::$SERVERROOT . " does not have enough space for writing the htaccess file! Not writing it back!");
+				throw new \Exception(\OC::$SERVERROOT . ' does not have enough space for writing the htaccess file! Not writing it back!');
 			}
 		}
 		//suppress errors in case we don't have permissions for it
@@ -539,7 +542,7 @@ class Setup {
 		$content .= "# Section for Apache 2.2 to 2.6\n";
 		$content .= "<IfModule mod_autoindex.c>\n";
 		$content .= "  IndexIgnore *\n";
-		$content .= "</IfModule>";
+		$content .= '</IfModule>';
 
 		$baseDir = Server::get(IConfig::class)->getSystemValueString('datadirectory', \OC::$SERVERROOT . '/data');
 		file_put_contents($baseDir . '/.htaccess', $content);

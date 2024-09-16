@@ -14,9 +14,11 @@ OC.L10N.register(
     "Set reminder" : "Erinnerung erstellen",
     "Set reminder for \"{fileName}\"" : "Erinnerung für \"{fileName}\" setzen",
     "Set reminder at custom date & time" : "Erinnerung für benutzerdefinierten Zeitpunkt und Tag erstellen",
-    "Reminder set for \"{fileName}\"" : "Erinnerung für \"{filename}\" gesetzt",
+    "Reminder set for \"{fileName}\"" : "Erinnerung für \"{fileName}\" gesetzt",
     "Failed to set reminder" : "Fehler beim Setzen der Erinnerung",
+    "Reminder cleared for \"{fileName}\"" : "Erinnerung für \"{fileName}\" gelöscht",
     "Failed to clear reminder" : "Fehler beim Löschen der Erinnerung",
+    "Reminder set" : "Erinnerung gesetzt",
     "Set custom reminder" : "Benutzerdefinierte Erinnerung erstellen",
     "Later today" : "Später heute",
     "Set reminder for later today" : "Erinnerung für nachher erstellen",
@@ -25,9 +27,6 @@ OC.L10N.register(
     "This weekend" : "Dieses Wochenende",
     "Set reminder for this weekend" : "Erinnerung für dieses Wochenende erstellen",
     "Next week" : "Nächste Woche",
-    "Set reminder for next week" : "Erinnerung für nächste Woche erstellen",
-    "Back" : "Zurück",
-    "Reminder cleared" : "Erinnerung gelöscht",
-    "Failed to load reminder" : "Fehler beim Laden der Erinnerung"
+    "Set reminder for next week" : "Erinnerung für nächste Woche erstellen"
 },
 "nplurals=2; plural=(n != 1);");

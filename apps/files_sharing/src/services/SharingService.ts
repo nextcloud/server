@@ -2,18 +2,20 @@
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-/* eslint-disable camelcase, n/no-extraneous-import */
-import type { AxiosPromise } from '@nextcloud/axios'
-import type { OCSResponse } from '@nextcloud/typings/ocs'
+// TODO: Fix this instead of disabling ESLint!!!
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
-import { Folder, File, type ContentsWithRoot, Permission } from '@nextcloud/files'
-import { generateOcsUrl, generateRemoteUrl } from '@nextcloud/router'
+import type { AxiosPromise } from '@nextcloud/axios'
+import type { ContentsWithRoot } from '@nextcloud/files'
+import type { OCSResponse } from '@nextcloud/typings/ocs'
+import type { ShareAttribute } from '../sharing'
+
 import { getCurrentUser } from '@nextcloud/auth'
+import { Folder, File, Permission, davRemoteURL, davRootPath } from '@nextcloud/files'
+import { generateOcsUrl } from '@nextcloud/router'
 import axios from '@nextcloud/axios'
 
 import logger from './logger'
-
-export const rootPath = `/files/${getCurrentUser()?.uid}`
 
 const headers = {
 	'Content-Type': 'application/json',
@@ -23,10 +25,16 @@ const ocsEntryToNode = async function(ocsEntry: any): Promise<Folder | File | nu
 	try {
 		// Federated share handling
 		if (ocsEntry?.remote_id !== undefined) {
-			const mime = (await import('mime')).default
-			// This won't catch files without an extension, but this is the best we can do
-			ocsEntry.mimetype = mime.getType(ocsEntry.name)
-			ocsEntry.item_type = ocsEntry.mimetype ? 'file' : 'folder'
+			if (!ocsEntry.mimetype) {
+				const mime = (await import('mime')).default
+				// This won't catch files without an extension, but this is the best we can do
+				ocsEntry.mimetype = mime.getType(ocsEntry.name)
+			}
+			ocsEntry.item_type = ocsEntry.type || (ocsEntry.mimetype ? 'file' : 'folder')
+
+			// different naming for remote shares
+			ocsEntry.item_mtime = ocsEntry.mtime
+			ocsEntry.file_target = ocsEntry.file_target || ocsEntry.mountpoint
 
 			// Need to set permissions to NONE for federated shares
 			ocsEntry.item_permissions = Permission.NONE
@@ -43,14 +51,15 @@ const ocsEntryToNode = async function(ocsEntry: any): Promise<Folder | File | nu
 
 		// If this is an external share that is not yet accepted,
 		// we don't have an id. We can fallback to the row id temporarily
-		const fileid = ocsEntry.file_source || ocsEntry.id
+		// local shares (this server) use `file_source`, but remote shares (federated) use `file_id`
+		const fileid = ocsEntry.file_source || ocsEntry.file_id || ocsEntry.id
 
 		// Generate path and strip double slashes
-		const path = ocsEntry?.path || ocsEntry.file_target || ocsEntry.name
-		const source = generateRemoteUrl(`dav/${rootPath}/${path}`.replaceAll(/\/\//gm, '/'))
+		const path = ocsEntry.path || ocsEntry.file_target || ocsEntry.name
+		const source = `${davRemoteURL}${davRootPath}/${path.replace(/^\/+/, '')}`
 
+		let mtime = ocsEntry.item_mtime ? new Date((ocsEntry.item_mtime) * 1000) : undefined
 		// Prefer share time if more recent than item mtime
-		let mtime = ocsEntry?.item_mtime ? new Date((ocsEntry.item_mtime) * 1000) : undefined
 		if (ocsEntry?.stime > (ocsEntry?.item_mtime || 0)) {
 			mtime = new Date((ocsEntry.stime) * 1000)
 		}
@@ -63,7 +72,7 @@ const ocsEntryToNode = async function(ocsEntry: any): Promise<Folder | File | nu
 			mtime,
 			size: ocsEntry?.item_size,
 			permissions: ocsEntry?.item_permissions || ocsEntry?.permissions,
-			root: rootPath,
+			root: davRootPath,
 			attributes: {
 				...ocsEntry,
 				'has-preview': hasPreview,
@@ -71,7 +80,8 @@ const ocsEntryToNode = async function(ocsEntry: any): Promise<Folder | File | nu
 				'owner-id': ocsEntry?.uid_owner,
 				'owner-display-name': ocsEntry?.displayname_owner,
 				'share-types': ocsEntry?.share_type,
-				favorite: ocsEntry?.tags?.includes(window.OC.TAG_FAVORITE) ? 1 : 0,
+				'share-attributes': ocsEntry?.attributes || '[]',
+				favorite: ocsEntry?.tags?.includes((window.OC as Nextcloud.v29.OC & { TAG_FAVORITE: string }).TAG_FAVORITE) ? 1 : 0,
 			},
 		})
 	} catch (error) {
@@ -80,12 +90,12 @@ const ocsEntryToNode = async function(ocsEntry: any): Promise<Folder | File | nu
 	}
 }
 
-const getShares = function(shared_with_me = false): AxiosPromise<OCSResponse<any>> {
+const getShares = function(shareWithMe = false): AxiosPromise<OCSResponse<any>> {
 	const url = generateOcsUrl('apps/files_sharing/api/v1/shares')
 	return axios.get(url, {
 		headers,
 		params: {
-			shared_with_me,
+			shared_with_me: shareWithMe,
 			include_tags: true,
 		},
 	})
@@ -140,8 +150,28 @@ const getDeletedShares = function(): AxiosPromise<OCSResponse<any>> {
 }
 
 /**
+ * Check if a file request is enabled
+ * @param attributes the share attributes json-encoded array
+ */
+export const isFileRequest = (attributes = '[]'): boolean => {
+	const isFileRequest = (attribute) => {
+		return attribute.scope === 'fileRequest' && attribute.key === 'enabled' && attribute.value === true
+	}
+
+	try {
+		const attributesArray = JSON.parse(attributes) as Array<ShareAttribute>
+		return attributesArray.some(isFileRequest)
+	} catch (error) {
+		logger.error('Error while parsing share attributes', { error })
+		return false
+	}
+}
+
+/**
  * Group an array of objects (here Nodes) by a key
  * and return an array of arrays of them.
+ * @param nodes Nodes to group
+ * @param key The attribute to group by
  */
 const groupBy = function(nodes: (Folder | File)[], key: string) {
 	return Object.values(nodes.reduce(function(acc, curr) {
@@ -186,7 +216,7 @@ export const getContents = async (sharedWithYou = true, sharedWithOthers = true,
 	return {
 		folder: new Folder({
 			id: 0,
-			source: generateRemoteUrl('dav' + rootPath),
+			source: `${davRemoteURL}${davRootPath}`,
 			owner: getCurrentUser()?.uid || null,
 		}),
 		contents,

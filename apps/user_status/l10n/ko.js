@@ -33,7 +33,6 @@ OC.L10N.register(
     "1 hour" : "한 시간",
     "4 hours" : "4 시간",
     "Mute all notifications" : "모든 알림을 음소거",
-    "Appear offline" : "접속 안함으로 표시",
-    "View profile" : "프로필 보기"
+    "Appear offline" : "접속 안함으로 표시"
 },
 "nplurals=1; plural=0;");

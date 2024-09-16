@@ -12,10 +12,10 @@ use OCP\Security\ISecureRandom;
 
 class TokenHandlerTest extends \Test\TestCase {
 
-	/** @var  TokenHandler */
+	/** @var TokenHandler */
 	private $tokenHandler;
 
-	/** @var  ISecureRandom | \PHPUnit\Framework\MockObject\MockObject */
+	/** @var ISecureRandom | \PHPUnit\Framework\MockObject\MockObject */
 	private $secureRandom;
 
 	/** @var int */
@@ -29,7 +29,7 @@ class TokenHandlerTest extends \Test\TestCase {
 		$this->tokenHandler = new TokenHandler($this->secureRandom);
 	}
 
-	public function testGenerateToken() {
+	public function testGenerateToken(): void {
 		$this->secureRandom->expects($this->once())->method('generate')
 			->with(
 				$this->expectedTokenLength,

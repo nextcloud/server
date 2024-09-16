@@ -40,7 +40,7 @@ class ListCommandTest extends TestCase {
 		$this->output = $this->createMock(OutputInterface::class);
 	}
 
-	public function testExecute() {
+	public function testExecute(): void {
 		$group1 = $this->createMock(IGroup::class);
 		$group1->method('getGID')->willReturn('group1');
 		$group2 = $this->createMock(IGroup::class);
@@ -90,30 +90,35 @@ class ListCommandTest extends TestCase {
 			->with(
 				$this->equalTo($this->input),
 				$this->equalTo($this->output),
-				[
-					'group1' => [
-						'user1',
-						'user2',
-					],
-					'group2' => [
-					],
-					'group3' => [
-						'user1',
-						'user3',
+				$this->callback(
+					fn ($iterator) => iterator_to_array($iterator) === [
+						'group1' => [
+							'user1',
+							'user2',
+						],
+						'group2' => [
+						],
+						'group3' => [
+							'user1',
+							'user3',
+						]
 					]
-				]
+				)
 			);
 
 		$this->invokePrivate($this->command, 'execute', [$this->input, $this->output]);
 	}
 
-	public function testInfo() {
+	public function testInfo(): void {
 		$group1 = $this->createMock(IGroup::class);
 		$group1->method('getGID')->willReturn('group1');
+		$group1->method('getDisplayName')->willReturn('Group 1');
 		$group2 = $this->createMock(IGroup::class);
 		$group2->method('getGID')->willReturn('group2');
+		$group2->method('getDisplayName')->willReturn('Group 2');
 		$group3 = $this->createMock(IGroup::class);
 		$group3->method('getGID')->willReturn('group3');
+		$group3->method('getDisplayName')->willReturn('Group 3');
 
 		$user = $this->createMock(IUser::class);
 
@@ -166,26 +171,31 @@ class ListCommandTest extends TestCase {
 			->with(
 				$this->equalTo($this->input),
 				$this->equalTo($this->output),
-				[
-					'group1' => [
-						'backends' => ['Database'],
-						'users' => [
-							'user1',
-							'user2',
+				$this->callback(
+					fn ($iterator) => iterator_to_array($iterator) === [
+						'group1' => [
+							'displayName' => 'Group 1',
+							'backends' => ['Database'],
+							'users' => [
+								'user1',
+								'user2',
+							],
 						],
-					],
-					'group2' => [
-						'backends' => ['Database'],
-						'users' => [],
-					],
-					'group3' => [
-						'backends' => ['LDAP'],
-						'users' => [
-							'user1',
-							'user3',
+						'group2' => [
+							'displayName' => 'Group 2',
+							'backends' => ['Database'],
+							'users' => [],
 						],
+						'group3' => [
+							'displayName' => 'Group 3',
+							'backends' => ['LDAP'],
+							'users' => [
+								'user1',
+								'user3',
+							],
+						]
 					]
-				]
+				)
 			);
 
 		$this->invokePrivate($this->command, 'execute', [$this->input, $this->output]);

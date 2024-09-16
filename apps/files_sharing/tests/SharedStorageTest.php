@@ -32,8 +32,8 @@ class SharedStorageTest extends TestCase {
 		$this->view->mkdir($this->folder);
 
 		// save file with content
-		$this->view->file_put_contents($this->filename, "root file");
-		$this->view->file_put_contents($this->folder . $this->filename, "file in subfolder");
+		$this->view->file_put_contents($this->filename, 'root file');
+		$this->view->file_put_contents($this->folder . $this->filename, 'file in subfolder');
 	}
 
 	protected function tearDown(): void {
@@ -56,7 +56,7 @@ class SharedStorageTest extends TestCase {
 	 *
 	 * @medium
 	 */
-	public function testParentOfMountPointIsGone() {
+	public function testParentOfMountPointIsGone(): void {
 
 		// share to user
 		$share = $this->share(
@@ -101,7 +101,7 @@ class SharedStorageTest extends TestCase {
 	/**
 	 * @medium
 	 */
-	public function testRenamePartFile() {
+	public function testRenamePartFile(): void {
 
 		// share to user
 		$share = $this->share(
@@ -139,7 +139,7 @@ class SharedStorageTest extends TestCase {
 		$this->shareManager->deleteShare($share);
 	}
 
-	public function testFilesize() {
+	public function testFilesize(): void {
 		$folderSize = $this->view->filesize($this->folder);
 		$file1Size = $this->view->filesize($this->folder . $this->filename);
 		$file2Size = $this->view->filesize($this->filename);
@@ -173,7 +173,7 @@ class SharedStorageTest extends TestCase {
 		$this->shareManager->deleteShare($share2);
 	}
 
-	public function testGetPermissions() {
+	public function testGetPermissions(): void {
 		$share = $this->share(
 			IShare::TYPE_USER,
 			$this->folder,
@@ -203,7 +203,7 @@ class SharedStorageTest extends TestCase {
 		$this->shareManager->deleteShare($share);
 	}
 
-	public function testFopenWithReadOnlyPermission() {
+	public function testFopenWithReadOnlyPermission(): void {
 		$this->view->file_put_contents($this->folder . '/existing.txt', 'foo');
 
 		$share = $this->share(
@@ -235,7 +235,7 @@ class SharedStorageTest extends TestCase {
 		$this->shareManager->deleteShare($share);
 	}
 
-	public function testFopenWithCreateOnlyPermission() {
+	public function testFopenWithCreateOnlyPermission(): void {
 		$this->view->file_put_contents($this->folder . '/existing.txt', 'foo');
 		$fileinfoFolder = $this->view->getFileInfo($this->folder);
 
@@ -282,7 +282,7 @@ class SharedStorageTest extends TestCase {
 		$this->shareManager->deleteShare($share);
 	}
 
-	public function testFopenWithUpdateOnlyPermission() {
+	public function testFopenWithUpdateOnlyPermission(): void {
 		$this->view->file_put_contents($this->folder . '/existing.txt', 'foo');
 
 		$share = $this->share(
@@ -328,7 +328,7 @@ class SharedStorageTest extends TestCase {
 		$this->shareManager->deleteShare($share);
 	}
 
-	public function testFopenWithDeleteOnlyPermission() {
+	public function testFopenWithDeleteOnlyPermission(): void {
 		$this->view->file_put_contents($this->folder . '/existing.txt', 'foo');
 
 		$share = $this->share(
@@ -360,7 +360,7 @@ class SharedStorageTest extends TestCase {
 		$this->shareManager->deleteShare($share);
 	}
 
-	public function testMountSharesOtherUser() {
+	public function testMountSharesOtherUser(): void {
 		$rootView = new \OC\Files\View('');
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
 
@@ -401,7 +401,7 @@ class SharedStorageTest extends TestCase {
 		$this->shareManager->deleteShare($share2);
 	}
 
-	public function testCopyFromStorage() {
+	public function testCopyFromStorage(): void {
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
 
 		$share = $this->share(
@@ -434,7 +434,7 @@ class SharedStorageTest extends TestCase {
 		$this->shareManager->deleteShare($share);
 	}
 
-	public function testMoveFromStorage() {
+	public function testMoveFromStorage(): void {
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
 
 		$share = $this->share(
@@ -467,7 +467,7 @@ class SharedStorageTest extends TestCase {
 		$this->shareManager->deleteShare($share);
 	}
 
-	public function testNameConflict() {
+	public function testNameConflict(): void {
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
 		$view1 = new \OC\Files\View('/' . self::TEST_FILES_SHARING_API_USER1 . '/files');
 		$view1->mkdir('foo');
@@ -518,7 +518,7 @@ class SharedStorageTest extends TestCase {
 		$this->shareManager->deleteShare($share2);
 	}
 
-	public function testOwnerPermissions() {
+	public function testOwnerPermissions(): void {
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
 
 		$share = $this->share(
@@ -545,7 +545,7 @@ class SharedStorageTest extends TestCase {
 		$this->shareManager->deleteShare($share);
 	}
 
-	public function testInitWithNonExistingUser() {
+	public function testInitWithNonExistingUser(): void {
 		$share = $this->createMock(IShare::class);
 		$share->method('getShareOwner')->willReturn('unexist');
 		$ownerView = $this->createMock(View::class);
@@ -561,7 +561,7 @@ class SharedStorageTest extends TestCase {
 		$this->assertInstanceOf(\OC\Files\Cache\FailedCache::class, $storage->getCache());
 	}
 
-	public function testInitWithNotFoundSource() {
+	public function testInitWithNotFoundSource(): void {
 		$share = $this->createMock(IShare::class);
 		$share->method('getShareOwner')->willReturn(self::TEST_FILES_SHARING_API_USER1);
 		$share->method('getNodeId')->willReturn(1);

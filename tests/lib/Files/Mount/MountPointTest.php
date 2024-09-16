@@ -14,7 +14,7 @@ class DummyStorage {
 }
 
 class MountPointTest extends \Test\TestCase {
-	public function testGetStorage() {
+	public function testGetStorage(): void {
 		$storage = $this->createMock(Storage::class);
 		$storage->expects($this->once())
 			->method('getId')
@@ -41,7 +41,7 @@ class MountPointTest extends \Test\TestCase {
 		$this->assertEquals('/another/', $mountPoint->getMountPoint());
 	}
 
-	public function testInvalidStorage() {
+	public function testInvalidStorage(): void {
 		$loader = $this->createMock(StorageFactory::class);
 		$loader->expects($this->once())
 			->method('wrap')

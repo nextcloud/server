@@ -58,4 +58,52 @@ interface IProvider {
 	 * @psalm-return ShapeDescriptor[]
 	 */
 	public function getOptionalOutputShape(): array;
+
+	/**
+	 * Returns the option list for each input shape ENUM slot
+	 *
+	 * @since 30.0.0
+	 * @psalm-return ShapeEnumValue[][]
+	 */
+	public function getInputShapeEnumValues(): array;
+
+	/**
+	 * Returns the default values for input shape slots
+	 *
+	 * @since 30.0.0
+	 * @psalm-return array<array-key, string|numeric>
+	 */
+	public function getInputShapeDefaults(): array;
+
+	/**
+	 * Returns the option list for each optional input shape ENUM slot
+	 *
+	 * @since 30.0.0
+	 * @psalm-return ShapeEnumValue[][]
+	 */
+	public function getOptionalInputShapeEnumValues(): array;
+
+	/**
+	 * Returns the default values for optional input shape slots
+	 *
+	 * @since 30.0.0
+	 * @psalm-return array<array-key, string|numeric>
+	 */
+	public function getOptionalInputShapeDefaults(): array;
+
+	/**
+	 * Returns the option list for each output shape ENUM slot
+	 *
+	 * @since 30.0.0
+	 * @psalm-return ShapeEnumValue[][]
+	 */
+	public function getOutputShapeEnumValues(): array;
+
+	/**
+	 * Returns the option list for each optional output shape ENUM slot
+	 *
+	 * @since 30.0.0
+	 * @psalm-return ShapeEnumValue[][]
+	 */
+	public function getOptionalOutputShapeEnumValues(): array;
 }

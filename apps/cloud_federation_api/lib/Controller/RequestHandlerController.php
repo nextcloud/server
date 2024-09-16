@@ -9,7 +9,10 @@ use OCA\CloudFederationAPI\Config;
 use OCA\CloudFederationAPI\ResponseDefinitions;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\BruteForceProtection;
+use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
 use OCP\AppFramework\Http\Attribute\OpenAPI;
+use OCP\AppFramework\Http\Attribute\PublicPage;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\Federation\Exceptions\ActionNotSupportedException;
 use OCP\Federation\Exceptions\AuthenticationFailedException;
@@ -55,10 +58,6 @@ class RequestHandlerController extends Controller {
 	/**
 	 * Add share
 	 *
-	 * @NoCSRFRequired
-	 * @PublicPage
-	 * @BruteForceProtection(action=receiveFederatedShare)
-	 *
 	 * @param string $shareWith The user who the share will be shared with
 	 * @param string $name The resource name (e.g. document.odt)
 	 * @param string|null $description Share description
@@ -72,10 +71,14 @@ class RequestHandlerController extends Controller {
 	 * @param string $resourceType 'file', 'calendar',...
 	 *
 	 * @return JSONResponse<Http::STATUS_CREATED, CloudFederationAPIAddShare, array{}>|JSONResponse<Http::STATUS_BAD_REQUEST, CloudFederationAPIValidationError, array{}>|JSONResponse<Http::STATUS_NOT_IMPLEMENTED, CloudFederationAPIError, array{}>
+	 *
 	 * 201: The notification was successfully received. The display name of the recipient might be returned in the body
 	 * 400: Bad request due to invalid parameters, e.g. when `shareWith` is not found or required properties are missing
 	 * 501: Share type or the resource type is not supported
 	 */
+	#[PublicPage]
+	#[NoCSRFRequired]
+	#[BruteForceProtection(action: 'receiveFederatedShare')]
 	public function addShare($shareWith, $name, $description, $providerId, $owner, $ownerDisplayName, $sharedBy, $sharedByDisplayName, $protocol, $shareType, $resourceType) {
 		// check if all required parameters are set
 		if ($shareWith === null ||
@@ -171,23 +174,22 @@ class RequestHandlerController extends Controller {
 			);
 		}
 
-		$user = $this->userManager->get($shareWith);
-		$recipientDisplayName = '';
-		if ($user) {
-			$recipientDisplayName = $user->getDisplayName();
+		$responseData = ['recipientDisplayName' => ''];
+		if ($shareType === 'user') {
+			$user = $this->userManager->get($shareWith);
+			if ($user) {
+				$responseData = [
+					'recipientDisplayName' => $user->getDisplayName(),
+					'recipientUserId' => $user->getUID(),
+				];
+			}
 		}
 
-		return new JSONResponse(
-			['recipientDisplayName' => $recipientDisplayName],
-			Http::STATUS_CREATED);
+		return new JSONResponse($responseData, Http::STATUS_CREATED);
 	}
 
 	/**
 	 * Send a notification about an existing share
-	 *
-	 * @NoCSRFRequired
-	 * @PublicPage
-	 * @BruteForceProtection(action=receiveFederatedShareNotification)
 	 *
 	 * @param string $notificationType Notification type, e.g. SHARE_ACCEPTED
 	 * @param string $resourceType calendar, file, contact,...
@@ -195,11 +197,15 @@ class RequestHandlerController extends Controller {
 	 * @param array<string, mixed>|null $notification The actual payload of the notification
 	 *
 	 * @return JSONResponse<Http::STATUS_CREATED, array<string, mixed>, array{}>|JSONResponse<Http::STATUS_BAD_REQUEST, CloudFederationAPIValidationError, array{}>|JSONResponse<Http::STATUS_FORBIDDEN|Http::STATUS_NOT_IMPLEMENTED, CloudFederationAPIError, array{}>
+	 *
 	 * 201: The notification was successfully received
 	 * 400: Bad request due to invalid parameters, e.g. when `type` is invalid or missing
 	 * 403: Getting resource is not allowed
 	 * 501: The resource type is not supported
 	 */
+	#[NoCSRFRequired]
+	#[PublicPage]
+	#[BruteForceProtection(action: 'receiveFederatedShareNotification')]
 	public function receiveNotification($notificationType, $resourceType, $providerId, ?array $notification) {
 		// check if all required parameters are set
 		if ($notificationType === null ||

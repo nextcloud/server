@@ -14,9 +14,9 @@ use OCP\IContainer;
 use Test\TestCase;
 
 class SearchResultTest extends TestCase {
-	/** @var  IContainer|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IContainer|\PHPUnit\Framework\MockObject\MockObject */
 	protected $container;
-	/** @var  ISearch */
+	/** @var ISearch */
 	protected $search;
 
 	protected function setUp(): void {
@@ -41,7 +41,7 @@ class SearchResultTest extends TestCase {
 	 * @param array $toAdd
 	 * @param array $expected
 	 */
-	public function testAddResultSet(array $toAdd, array $expected) {
+	public function testAddResultSet(array $toAdd, array $expected): void {
 		$result = new SearchResult();
 
 		foreach ($toAdd as $type => $results) {
@@ -72,7 +72,7 @@ class SearchResultTest extends TestCase {
 	 * @param string $id
 	 * @param bool $expected
 	 */
-	public function testHasResult(array $toAdd, $type, $id, $expected) {
+	public function testHasResult(array $toAdd, $type, $id, $expected): void {
 		$result = new SearchResult();
 
 		foreach ($toAdd as $addType => $results) {

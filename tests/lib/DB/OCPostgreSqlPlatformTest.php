@@ -7,7 +7,7 @@
 
 namespace Test\DB;
 
-use Doctrine\DBAL\Platforms\PostgreSQL100Platform;
+use Doctrine\DBAL\Platforms\PostgreSQLPlatform;
 use Doctrine\DBAL\Schema\Comparator;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\DBAL\Types\Types;
@@ -23,8 +23,8 @@ use Doctrine\DBAL\Types\Types;
  * @package Test\DB
  */
 class OCPostgreSqlPlatformTest extends \Test\TestCase {
-	public function testAlterBigint() {
-		$platform = new PostgreSQL100Platform();
+	public function testAlterBigint(): void {
+		$platform = new PostgreSQLPlatform();
 		$sourceSchema = new Schema();
 		$targetSchema = new Schema();
 
@@ -48,7 +48,7 @@ class OCPostgreSqlPlatformTest extends \Test\TestCase {
 	}
 
 	protected function createTableAndColumn($schema, $type) {
-		$table = $schema->createTable("poor_yorick");
+		$table = $schema->createTable('poor_yorick');
 		$table->addColumn('id', $type, [
 			'autoincrement' => true,
 			'unsigned' => true,

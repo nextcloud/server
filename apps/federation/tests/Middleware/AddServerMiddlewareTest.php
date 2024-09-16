@@ -17,7 +17,7 @@ use Test\TestCase;
 
 class AddServerMiddlewareTest extends TestCase {
 
-	/** @var  \PHPUnit\Framework\MockObject\MockObject | LoggerInterface */
+	/** @var \PHPUnit\Framework\MockObject\MockObject | LoggerInterface */
 	private $logger;
 
 	/** @var \PHPUnit\Framework\MockObject\MockObject | \OCP\IL10N */
@@ -25,7 +25,7 @@ class AddServerMiddlewareTest extends TestCase {
 
 	private AddServerMiddleware $middleware;
 
-	/** @var  \PHPUnit\Framework\MockObject\MockObject | SettingsController */
+	/** @var \PHPUnit\Framework\MockObject\MockObject | SettingsController */
 	private $controller;
 
 	protected function setUp(): void {
@@ -49,7 +49,7 @@ class AddServerMiddlewareTest extends TestCase {
 	 * @param \Exception $exception
 	 * @param string $hint
 	 */
-	public function testAfterException($exception, $hint) {
+	public function testAfterException($exception, $hint): void {
 		$this->logger->expects($this->once())->method('error');
 
 		$this->l10n->expects($this->any())->method('t')

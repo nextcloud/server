@@ -6,7 +6,6 @@
     "Secret key" : "Salavõti",
     "Add client" : "Lisa klient",
     "Add" : "Lisa",
-    "Delete" : "Kustuta",
-    "Secret" : "Saladus"
+    "Delete" : "Kustuta"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

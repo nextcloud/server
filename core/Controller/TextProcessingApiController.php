@@ -11,7 +11,7 @@ declare(strict_types=1);
 namespace OC\Core\Controller;
 
 use InvalidArgumentException;
-use OCA\Core\ResponseDefinitions;
+use OC\Core\ResponseDefinitions;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\AnonRateLimit;
 use OCP\AppFramework\Http\Attribute\ApiRoute;
@@ -109,7 +109,7 @@ class TextProcessingApiController extends \OCP\AppFramework\OCSController {
 		try {
 			try {
 				$this->textProcessingManager->runOrScheduleTask($task);
-			} catch(TaskFailureException) {
+			} catch (TaskFailureException) {
 				// noop, because the task object has the failure status set already, we just return the task json
 			}
 
@@ -193,7 +193,7 @@ class TextProcessingApiController extends \OCP\AppFramework\OCSController {
 	 * @param string|null $identifier An arbitrary identifier for the task
 	 * @return DataResponse<Http::STATUS_OK, array{tasks: CoreTextProcessingTask[]}, array{}>|DataResponse<Http::STATUS_INTERNAL_SERVER_ERROR, array{message: string}, array{}>
 	 *
-	 *  200: Task list returned
+	 * 200: Task list returned
 	 */
 	#[NoAdminRequired]
 	#[ApiRoute(verb: 'GET', url: '/tasks/app/{appId}', root: '/textprocessing')]

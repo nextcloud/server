@@ -9,6 +9,7 @@ OC.L10N.register(
     "%1$s commented on %2$s" : "%1$s at cummentadu %2$s",
     "{author} commented on {file}" : "{author} at cummentadu {file}",
     "<strong>Comments</strong> for files" : "<strong>Cummentos</strong> pro archìvios",
+    "Files" : "Archìvios",
     "Files app plugin to add comments to files" : "Estensione de s'aplicatzione archìvios pro agiùnghere cummentos a archìvios",
     "Edit comment" : "Modìfica cummentu",
     "Delete comment" : "Cantzella cummentu",
@@ -23,7 +24,6 @@ OC.L10N.register(
     "An error occurred while trying to edit the comment" : "Ddoe at àpidu un'errore proende a modificare su cummentu",
     "Comment deleted" : "Cummentu cantzelladu",
     "An error occurred while trying to delete the comment" : "B'at àpidu un'errore proende a cantzellare su cummentu",
-    "An error occurred while trying to create the comment" : "B'at àpidu un'errore proende a creare su cummentu",
-    "_%n unread comment_::_%n unread comments_" : ["%n cummentu non lèghidu","%n cummentos non lèghidos"]
+    "An error occurred while trying to create the comment" : "B'at àpidu un'errore proende a creare su cummentu"
 },
 "nplurals=2; plural=(n != 1);");

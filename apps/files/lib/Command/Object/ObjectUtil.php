@@ -41,19 +41,19 @@ class ObjectUtil {
 	public function getObjectStore(?string $bucket, OutputInterface $output): ?IObjectStore {
 		$config = $this->getObjectStoreConfig();
 		if (!$config) {
-			$output->writeln("<error>Instance is not using primary object store</error>");
+			$output->writeln('<error>Instance is not using primary object store</error>');
 			return null;
 		}
 		if ($config['multibucket'] && !$bucket) {
-			$output->writeln("<error>--bucket option required</error> because <info>multi bucket</info> is enabled.");
+			$output->writeln('<error>--bucket option required</error> because <info>multi bucket</info> is enabled.');
 			return null;
 		}
 
 		if (!isset($config['arguments'])) {
-			throw new \Exception("no arguments configured for object store configuration");
+			throw new \Exception('no arguments configured for object store configuration');
 		}
 		if (!isset($config['class'])) {
-			throw new \Exception("no class configured for object store configuration");
+			throw new \Exception('no class configured for object store configuration');
 		}
 
 		if ($bucket) {
@@ -65,7 +65,7 @@ class ObjectUtil {
 
 		$store = new $config['class']($config['arguments']);
 		if (!$store instanceof IObjectStore) {
-			throw new \Exception("configured object store class is not an object store implementation");
+			throw new \Exception('configured object store class is not an object store implementation');
 		}
 		return $store;
 	}

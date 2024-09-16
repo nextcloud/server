@@ -22,6 +22,12 @@ jobs:
     name: performance-${{ matrix.php-versions }}
 
     steps:
+      - name: Disabled on forks
+        if: ${{ github.event.pull_request.head.repo.full_name != github.repository }}
+        run: |
+          echo 'Can not run performance tests on forks'
+          exit 1
+
       - name: Checkout server before PR
         uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332
         with:
@@ -29,7 +35,7 @@ jobs:
           ref: ${{ github.event.pull_request.base.ref }}
 
       - name: Set up php ${{ matrix.php-versions }}
-        uses: shivammathur/setup-php@2e947f1f6932d141d076ca441d0e1e881775e95b #v2.31.0
+        uses: shivammathur/setup-php@c541c155eee45413f5b09a52248675b1a2575231 #v2.31.1
         with:
           php-version: ${{ matrix.php-versions }}
           extensions: mbstring, fileinfo, intl, sqlite, pdo_sqlite, zip, gd
@@ -85,7 +91,7 @@ jobs:
 
       - name: Upload profiles
         if: always()
-        uses: actions/upload-artifact@65462800fd760344b1a7b4382951275a0abb4808
+        uses: actions/upload-artifact@50769540e7f4bd5e21e526ee35c689e35e0d6874
         with:
           name: profiles
           path: |

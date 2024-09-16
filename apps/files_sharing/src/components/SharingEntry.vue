@@ -129,7 +129,7 @@ export default {
 	height: 44px;
 	&__summary {
 		padding: 8px;
-		padding-left: 10px;
+		padding-inline-start: 10px;
 		display: flex;
 		flex-direction: column;
 		justify-content: center;

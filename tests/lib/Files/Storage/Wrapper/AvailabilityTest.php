@@ -17,7 +17,7 @@ class AvailabilityTest extends \Test\TestCase {
 	protected $storageCache;
 	/** @var \PHPUnit\Framework\MockObject\MockObject|Temporary */
 	protected $storage;
-	/** @var Availability  */
+	/** @var Availability */
 	protected $wrapper;
 
 	protected function setUp(): void {
@@ -36,7 +36,7 @@ class AvailabilityTest extends \Test\TestCase {
 	/**
 	 * Storage is available
 	 */
-	public function testAvailable() {
+	public function testAvailable(): void {
 		$this->storage->expects($this->once())
 			->method('getAvailability')
 			->willReturn(['available' => true, 'last_checked' => 0]);
@@ -52,7 +52,7 @@ class AvailabilityTest extends \Test\TestCase {
 	 * Storage marked unavailable, TTL not expired
 	 *
 	 */
-	public function testUnavailable() {
+	public function testUnavailable(): void {
 		$this->expectException(\OCP\Files\StorageNotAvailableException::class);
 
 		$this->storage->expects($this->once())
@@ -69,7 +69,7 @@ class AvailabilityTest extends \Test\TestCase {
 	/**
 	 * Storage marked unavailable, TTL expired
 	 */
-	public function testUnavailableRecheck() {
+	public function testUnavailableRecheck(): void {
 		$this->storage->expects($this->once())
 			->method('getAvailability')
 			->willReturn(['available' => false, 'last_checked' => 0]);
@@ -92,7 +92,7 @@ class AvailabilityTest extends \Test\TestCase {
 	 * Storage marked available, but throws StorageNotAvailableException
 	 *
 	 */
-	public function testAvailableThrowStorageNotAvailable() {
+	public function testAvailableThrowStorageNotAvailable(): void {
 		$this->expectException(\OCP\Files\StorageNotAvailableException::class);
 
 		$this->storage->expects($this->once())
@@ -114,7 +114,7 @@ class AvailabilityTest extends \Test\TestCase {
 	 * Storage available, but call fails
 	 * Method failure does not indicate storage unavailability
 	 */
-	public function testAvailableFailure() {
+	public function testAvailableFailure(): void {
 		$this->storage->expects($this->once())
 			->method('getAvailability')
 			->willReturn(['available' => true, 'last_checked' => 0]);
@@ -134,7 +134,7 @@ class AvailabilityTest extends \Test\TestCase {
 	 * Standard exception does not indicate storage unavailability
 	 *
 	 */
-	public function testAvailableThrow() {
+	public function testAvailableThrow(): void {
 		$this->expectException(\Exception::class);
 
 		$this->storage->expects($this->once())

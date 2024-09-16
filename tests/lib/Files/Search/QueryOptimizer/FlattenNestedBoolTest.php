@@ -24,14 +24,14 @@ class FlattenNestedBoolTest extends TestCase {
 		$this->simplifier = new FlattenSingleArgumentBinaryOperation();
 	}
 
-	public function testOrs() {
+	public function testOrs(): void {
 		$operator = new SearchBinaryOperator(
 			ISearchBinaryOperator::OPERATOR_OR,
 			[
-				new SearchComparison(ISearchComparison::COMPARE_EQUAL, "path", "foo"),
+				new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'path', 'foo'),
 				new SearchBinaryOperator(ISearchBinaryOperator::OPERATOR_OR, [
-					new SearchComparison(ISearchComparison::COMPARE_EQUAL, "path", "bar"),
-					new SearchComparison(ISearchComparison::COMPARE_EQUAL, "path", "asd"),
+					new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'path', 'bar'),
+					new SearchComparison(ISearchComparison::COMPARE_EQUAL, 'path', 'asd'),
 				])
 			]
 		);

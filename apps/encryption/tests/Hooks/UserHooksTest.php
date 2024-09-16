@@ -76,7 +76,7 @@ class UserHooksTest extends TestCase {
 
 	private $params = ['uid' => 'testUser', 'password' => 'password'];
 
-	public function testLogin() {
+	public function testLogin(): void {
 		$this->userSetupMock->expects($this->once())
 			->method('setupUser')
 			->willReturnOnConsecutiveCalls(true, false);
@@ -88,14 +88,14 @@ class UserHooksTest extends TestCase {
 		$this->assertNull($this->instance->login($this->params));
 	}
 
-	public function testLogout() {
+	public function testLogout(): void {
 		$this->sessionMock->expects($this->once())
 			->method('clear');
 		$this->instance->logout();
 		$this->addToAssertionCount(1);
 	}
 
-	public function testPostCreateUser() {
+	public function testPostCreateUser(): void {
 		$this->userSetupMock->expects($this->once())
 			->method('setupUser');
 
@@ -103,7 +103,7 @@ class UserHooksTest extends TestCase {
 		$this->addToAssertionCount(1);
 	}
 
-	public function testPostDeleteUser() {
+	public function testPostDeleteUser(): void {
 		$this->keyManagerMock->expects($this->once())
 			->method('deletePublicKey')
 			->with('testUser');
@@ -112,7 +112,7 @@ class UserHooksTest extends TestCase {
 		$this->addToAssertionCount(1);
 	}
 
-	public function testPrePasswordReset() {
+	public function testPrePasswordReset(): void {
 		$params = ['uid' => 'user1'];
 		$expected = ['user1' => true];
 		$this->instance->prePasswordReset($params);
@@ -121,7 +121,7 @@ class UserHooksTest extends TestCase {
 		$this->assertSame($expected, $passwordResetUsers);
 	}
 
-	public function testPostPasswordReset() {
+	public function testPostPasswordReset(): void {
 		$params = ['uid' => 'user1', 'password' => 'password'];
 		$this->invokePrivate($this->instance, 'passwordResetUsers', [['user1' => true]]);
 		$this->keyManagerMock->expects($this->once())->method('backupUserKeys')
@@ -139,7 +139,7 @@ class UserHooksTest extends TestCase {
 	/**
 	 * @dataProvider dataTestPreSetPassphrase
 	 */
-	public function testPreSetPassphrase($canChange) {
+	public function testPreSetPassphrase($canChange): void {
 		/** @var UserHooks | \PHPUnit\Framework\MockObject\MockObject  $instance */
 		$instance = $this->getMockBuilder(UserHooks::class)
 			->setConstructorArgs(
@@ -269,7 +269,7 @@ class UserHooksTest extends TestCase {
 		$this->assertNull($this->instance->setPassphrase($this->params));
 	}
 
-	public function testSetPassphraseResetUserMode() {
+	public function testSetPassphraseResetUserMode(): void {
 		$params = ['uid' => 'user1', 'password' => 'password'];
 		$this->invokePrivate($this->instance, 'passwordResetUsers', [[$params['uid'] => true]]);
 		$this->sessionMock->expects($this->never())->method('getPrivateKey');

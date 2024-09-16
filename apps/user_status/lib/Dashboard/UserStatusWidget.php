@@ -124,7 +124,7 @@ class UserStatusWidget implements IAPIWidget, IAPIWidgetV2, IIconWidget, IOption
 				$this->service->findAllRecentStatusChanges($limit + 1, 0),
 				static function (UserStatus $status) use ($userId, $since): bool {
 					return $status->getUserId() !== $userId
-						&& ($since === null || $status->getStatusTimestamp() > (int) $since);
+						&& ($since === null || $status->getStatusTimestamp() > (int)$since);
 				}
 			),
 			0,
@@ -168,7 +168,7 @@ class UserStatusWidget implements IAPIWidget, IAPIWidgetV2, IIconWidget, IOption
 				$this->urlGenerator->getAbsoluteURL(
 					$this->urlGenerator->linkToRoute('core.avatar.getAvatar', ['userId' => $widgetData['userId'], 'size' => 44])
 				),
-				(string) $widgetData['timestamp']
+				(string)$widgetData['timestamp']
 			);
 		}, $widgetItemsData);
 	}

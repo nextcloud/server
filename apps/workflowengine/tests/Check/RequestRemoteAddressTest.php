@@ -52,7 +52,7 @@ class RequestRemoteAddressTest extends \Test\TestCase {
 	 * @param string $ip
 	 * @param bool $expected
 	 */
-	public function testExecuteCheckMatchesIPv4($value, $ip, $expected) {
+	public function testExecuteCheckMatchesIPv4($value, $ip, $expected): void {
 		$check = new \OCA\WorkflowEngine\Check\RequestRemoteAddress($this->getL10NMock(), $this->request);
 
 		$this->request->expects($this->once())
@@ -68,7 +68,7 @@ class RequestRemoteAddressTest extends \Test\TestCase {
 	 * @param string $ip
 	 * @param bool $expected
 	 */
-	public function testExecuteCheckNotMatchesIPv4($value, $ip, $expected) {
+	public function testExecuteCheckNotMatchesIPv4($value, $ip, $expected): void {
 		$check = new \OCA\WorkflowEngine\Check\RequestRemoteAddress($this->getL10NMock(), $this->request);
 
 		$this->request->expects($this->once())
@@ -96,7 +96,7 @@ class RequestRemoteAddressTest extends \Test\TestCase {
 	 * @param string $ip
 	 * @param bool $expected
 	 */
-	public function testExecuteCheckMatchesIPv6($value, $ip, $expected) {
+	public function testExecuteCheckMatchesIPv6($value, $ip, $expected): void {
 		$check = new \OCA\WorkflowEngine\Check\RequestRemoteAddress($this->getL10NMock(), $this->request);
 
 		$this->request->expects($this->once())
@@ -112,7 +112,7 @@ class RequestRemoteAddressTest extends \Test\TestCase {
 	 * @param string $ip
 	 * @param bool $expected
 	 */
-	public function testExecuteCheckNotMatchesIPv6($value, $ip, $expected) {
+	public function testExecuteCheckNotMatchesIPv6($value, $ip, $expected): void {
 		$check = new \OCA\WorkflowEngine\Check\RequestRemoteAddress($this->getL10NMock(), $this->request);
 
 		$this->request->expects($this->once())

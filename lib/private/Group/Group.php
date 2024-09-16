@@ -30,7 +30,7 @@ use OCP\IUser;
 use OCP\IUserManager;
 
 class Group implements IGroup {
-	/** @var null|string  */
+	/** @var null|string */
 	protected $displayName;
 
 	/** @var string */
@@ -46,7 +46,7 @@ class Group implements IGroup {
 	private $backends;
 	/** @var IEventDispatcher */
 	private $dispatcher;
-	/** @var \OC\User\Manager|IUserManager  */
+	/** @var \OC\User\Manager|IUserManager */
 	private $userManager;
 	/** @var PublicEmitter */
 	private $emitter;

@@ -41,7 +41,6 @@ OC.L10N.register(
     "1 hour" : "1 tiếng",
     "4 hours" : "4 tiếng",
     "Mute all notifications" : "Tắt tiếng tất cả thông báo",
-    "Appear offline" : "Đang offline",
-    "View profile" : "Xem hồ sơ"
+    "Appear offline" : "Đang offline"
 },
 "nplurals=1; plural=0;");
