@@ -2266,9 +2266,6 @@
     </InvalidReturnType>
   </file>
   <file src="lib/private/Files/Storage/Local.php">
-    <ImplicitToStringCast>
-      <code>$file</code>
-    </ImplicitToStringCast>
     <TypeDoesNotContainNull>
       <code>$space === false || is_null($space)</code>
       <code>is_null($space)</code>
