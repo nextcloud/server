@@ -278,7 +278,7 @@ class Folder extends Node implements \OCP\Files\Folder {
 
 		$owner = null;
 		$ownerId = $storage->getOwner($cacheEntry['internalPath']);
-		if (!empty($ownerId)) {
+		if ($ownerId !== false) {
 			// Cache the user manager (for performance)
 			if ($this->userManager === null) {
 				$this->userManager = \OCP\Server::get(IUserManager::class);

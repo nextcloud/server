@@ -53,6 +53,7 @@ use OCP\ICache;
 use OCP\ICacheFactory;
 use OCP\IUser;
 use OCP\IUserManager;
+use OCP\Server;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -502,9 +503,23 @@ class Root extends Folder implements IRootFolder {
 			$pathRelativeToMount = substr($internalPath, strlen($rootInternalPath));
 			$pathRelativeToMount = ltrim($pathRelativeToMount, '/');
 			$absolutePath = rtrim($mount->getMountPoint() . $pathRelativeToMount, '/');
+			$storage = $mount->getStorage();
+			if ($storage === null) {
+				return null;
+			}
+			$ownerId = $storage->getOwner($pathRelativeToMount);
+			if ($ownerId !== false) {
+				$owner = Server::get(IUserManager::class)->get($ownerId);
+			} else {
+				$owner = null;
+			}
 			return $this->createNode($absolutePath, new FileInfo(
-				$absolutePath, $mount->getStorage(), $cacheEntry->getPath(), $cacheEntry, $mount,
-				\OC::$server->getUserManager()->get($mount->getStorage()->getOwner($pathRelativeToMount))
+				$absolutePath,
+				$storage,
+				$cacheEntry->getPath(),
+				$cacheEntry,
+				$mount,
+				$owner,
 			));
 		}, $mountsContainingFile);
 
