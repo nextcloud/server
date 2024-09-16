@@ -407,7 +407,8 @@ interface IStorage {
 
 	/**
 	 * @since 12.0.0
-	 * @return mixed
+	 * @since 31.0.0 moved from Storage to IStorage
+	 * @return bool
 	 */
 	public function needsPartFile();
 

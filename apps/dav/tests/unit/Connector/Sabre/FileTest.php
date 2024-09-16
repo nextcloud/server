@@ -72,10 +72,7 @@ class FileTest extends TestCase {
 		parent::tearDown();
 	}
 
-	/**
-	 * @return MockObject|IStorage
-	 */
-	private function getMockStorage() {
+	private function getMockStorage(): MockObject&IStorage {
 		$storage = $this->getMockBuilder(IStorage::class)
 			->disableOriginalConstructor()
 			->getMock();
@@ -84,10 +81,7 @@ class FileTest extends TestCase {
 		return $storage;
 	}
 
-	/**
-	 * @param string $string
-	 */
-	private function getStream($string) {
+	private function getStream(string $string) {
 		$stream = fopen('php://temp', 'r+');
 		fwrite($stream, $string);
 		fseek($stream, 0);

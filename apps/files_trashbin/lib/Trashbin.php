@@ -140,6 +140,7 @@ class Trashbin {
 		}
 	}
 
+	/** @param string $user */
 	private static function setUpTrash($user): void {
 		$view = new View('/' . $user);
 		if (!$view->is_dir('files_trashbin')) {
@@ -163,10 +164,10 @@ class Trashbin {
 	 * @param string $sourcePath
 	 * @param string $owner
 	 * @param string $targetPath
-	 * @param $user
+	 * @param string $user
 	 * @param int $timestamp
 	 */
-	private static function copyFilesToUser($sourcePath, $owner, $targetPath, $user, $timestamp) {
+	private static function copyFilesToUser($sourcePath, $owner, $targetPath, $user, $timestamp): void {
 		self::setUpTrash($owner);
 
 		$targetFilename = basename($targetPath);
