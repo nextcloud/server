@@ -13,6 +13,7 @@ OC.L10N.register(
     "Client Identifier" : "Идентификација клијента",
     "Secret key" : "Тајни кључ ",
     "Delete client" : "Обриши клијента",
+    "Make sure you store the secret key, it cannot be recovered." : "Сачувајте тајни кључ, нећете моћи поново да му приступите.",
     "Add client" : "Додај клијента",
     "Add" : "Додај",
     "Delete" : "Обриши",

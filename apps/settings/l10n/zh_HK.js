@@ -137,7 +137,6 @@ OC.L10N.register(
     "Your remote address could not be determined." : "無法確定您的遠端位址。",
     "Your remote address was identified as \"%s\" and is brute-force throttled at the moment slowing down the performance of various requests. If the remote address is not your address this can be an indication that a proxy is not configured correctly." : "您的遠端地址被識別為「%s」，且目前正受到強力限制，導致降低了各種請求的效能。若遠端地址不是您的地址，可能代表代理伺服器設定不正確。",
     "Your remote address \"%s\" is not brute-force throttled." : "您的遠端位址「%s」並未受到暴力攻擊限制。",
-    "To allow this check to run you have to make sure that your Web server can connect to itself. Therefore it must be able to resolve and connect to at least one of its `trusted_domains` or the `overwrite.cli.url`. This failure may be the result of a server-side DNS mismatch or outbound firewall rule." : "若要允許執行此檢查，您必須確保您的網路伺服器可以連線到其自身。因此，其必須可以解析並連線到 `trusted_domains` 或 `overwrite.cli.url` 至少其中一個。此失敗可能是因為伺服器端 DNS 不符或連出防火牆規則造成的。",
     "Old administration imported certificates" : "舊的管理員匯入憑證",
     "A background job is pending that checks for administration imported SSL certificates. Please check back later." : "背景作業正在檢查管理員匯入的 SSL 憑證。請稍後再檢查。",
     "There are some administration imported SSL certificates present, that are not used anymore with Nextcloud 21. They can be imported on the command line via \"occ security:certificates:import\" command. Their paths inside the data directory are shown below." : "有一些管理員匯入的 SSL 憑證，這些在 Nextcloud 21 不再能運作。它們可以透過命令列執行「occ security:certificates:import」命令來匯入。它們在資料目錄中的路徑如下所示。",
@@ -314,9 +313,6 @@ OC.L10N.register(
     "Could not check that your web server serves `.well-known` correctly. Please check manually." : "無法檢查您的網頁伺服器是否正確服務“.well-known”。 請手動檢查。",
     "Your web server is not properly set up to resolve `.well-known` URLs, failed on:\n`%s`" : "您的網絡伺服器未正確設置以解析`.well-known`的URL，無法在以下位置解決：\n`%s`",
     "Your server is correctly configured to serve `.well-known` URLs." : "您的伺服器已正确配置以提供“.well-known” URL。",
-    "WOFF2 file loading" : "正在加載 WOFF2 檔案",
-    "Could not check for WOFF2 loading support. Please check manually if your webserver serves `.woff2` files." : "無法檢查 WOFF2 載入支援。請手動檢查您的網路伺服器是否可服務 `.woff2` 檔案。",
-    "Your web server is not properly set up to deliver .woff2 files. This is typically an issue with the Nginx configuration. For Nextcloud 15 it needs an adjustement to also deliver .woff2 files. Compare your Nginx configuration to the recommended configuration in our documentation." : "您的伺服器並未正確的設定，因此無法傳遞 .woff2 的檔案。這通常是因為 Nginx 的設定問題所導致。在 Nextcloud 15 中，需要一些調整才能一並傳遞  .woff2 的檔案。請檢查您的 Nginx 設定，和 Nextcloud 說明文件中提到的建議設定。",
     "Profile information" : "簡介資訊",
     "Profile picture, full name, email, phone number, address, website, Twitter, organisation, role, headline, biography, and whether your profile is enabled" : "個人資料圖片、全名、電郵地址、電話號碼、地址、網站、Twitter、組織、角色、標題、傳記以及您的個人資料是否已啟用",
     "Nextcloud settings" : "Nextcloud 設定",
@@ -881,6 +877,7 @@ OC.L10N.register(
     "SMTP Username" : "SMTP 用戶名稱",
     "To allow this check to run you have to make sure that your webserver can connect to itself. Therefor it must be able to resolve and connect to at least one its `trusted_domains` or the `overwrite.cli.url`." : "要執行此檢查，您必須確保您的網路伺服器可以連線到其自身。因此，其必須至少能解析並連線至 `trusted_domains` 或 `overwrite.cli.url` 其中一個。",
     "Could not check for JavaScript support via any of your `trusted_domains` nor `overwrite.cli.url`. This may be the result of a server-side DNS mismatch or outbound firewall rule. Please check manually if your webserver serves `.mjs` files using the JavaScript MIME type." : "無法透過您的任何「trusted_domains」或「overwrite.cli.url」檢查 JavaScript 支援。這可能是伺服器端 DNS 不符或連出防火牆規則造成的。請手動檢查您的網頁伺服器是否使用 JavaScript MIME 類型提供「.mjs」檔案。",
-    "Active accounts" : "活躍帳戶"
+    "Active accounts" : "活躍帳戶",
+    "To allow this check to run you have to make sure that your Web server can connect to itself. Therefore it must be able to resolve and connect to at least one of its `trusted_domains` or the `overwrite.cli.url`. This failure may be the result of a server-side DNS mismatch or outbound firewall rule." : "若要允許執行此檢查，您必須確保您的網路伺服器可以連線到其自身。因此，其必須可以解析並連線到 `trusted_domains` 或 `overwrite.cli.url` 至少其中一個。此失敗可能是因為伺服器端 DNS 不符或連出防火牆規則造成的。"
 },
 "nplurals=1; plural=0;");
