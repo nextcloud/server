@@ -8,21 +8,24 @@ const plyrIcons = readFileSync(
 	{ encoding: 'utf8' },
 )
 
-export default createAppConfig(
-	{
-		main: 'src/main.js',
-		init: 'src/init.ts',
+export default createAppConfig({
+	main: 'src/main.js',
+	init: 'src/init.ts',
+}, {
+	replace: {
+		PLYR_ICONS: JSON.stringify(plyrIcons),
 	},
-	{
-		replace: {
-			PLYR_ICONS: JSON.stringify(plyrIcons),
-		},
-		minify: isProduction,
-		// ensure that every JS entry point has a matching CSS file
-		createEmptyCSSEntryPoints: true,
-		// Make sure we also clear the CSS directory
-		emptyOutputDirectory: {
-			additionalDirectories: ['css'],
-		},
+	minify: isProduction,
+	// create REUSE compliant license information for compiled assets
+	extractLicenseInformation: {
+		includeSourceMaps: true,
 	},
-)
+	// disable BOM because we already have the `.license` files
+	thirdPartyLicense: false,
+	// ensure that every JS entry point has a matching CSS file
+	createEmptyCSSEntryPoints: true,
+	// Make sure we also clear the CSS directory
+	emptyOutputDirectory: {
+		additionalDirectories: ['css'],
+	},
+})
