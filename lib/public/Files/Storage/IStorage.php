@@ -414,7 +414,7 @@ interface IStorage {
 
 	/**
 	 * @param string $path path for which to retrieve the owner
-	 * @return string
+	 * @return string|false
 	 * @since 9.0.0
 	 */
 	public function getOwner($path);
