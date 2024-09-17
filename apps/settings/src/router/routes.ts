@@ -3,6 +3,9 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 import type { RouteConfig } from 'vue-router'
+import { loadState } from '@nextcloud/initial-state'
+
+const appstoreEnabled = loadState<boolean>('settings', 'appstoreEnabled', true)
 
 // Dynamic loading
 const AppStore = () => import(/* webpackChunkName: 'settings-apps-view' */'../views/AppStore.vue')
@@ -31,11 +34,10 @@ const routes: RouteConfig[] = [
 	{
 		path: '/:index(index.php/)?settings/apps',
 		name: 'apps',
-		// redirect to our default route - the app discover section
 		redirect: {
 			name: 'apps-category',
 			params: {
-				category: 'discover',
+				category: appstoreEnabled ? 'discover' : 'installed',
 			},
 		},
 		components: {
