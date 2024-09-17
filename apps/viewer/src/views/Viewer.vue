@@ -52,6 +52,7 @@
 		:clear-view-delay="-1 /* disable fade-out because of accessibility reasons */"
 		:close-button-contained="false"
 		:dark="true"
+		:light-backdrop="lightBackdrop"
 		:data-handler="handlerId"
 		:enable-slideshow="hasPrevious || hasNext"
 		:slideshow-paused="editing"
@@ -285,6 +286,7 @@ export default {
 			canSwipe: true,
 			isStandalone: false,
 			theme: null,
+			lightBackdrop: null,
 			root: davRemoteURL,
 			handlerId: '',
 
@@ -698,6 +700,8 @@ export default {
 			}
 
 			this.theme = handler.theme ?? 'dark'
+			const defaultThemeIsLight = window.getComputedStyle(document.body).getPropertyValue('--background-invert-if-dark') !== 'invert(100%)'
+			this.lightBackdrop = handler.theme === 'light' || (handler.theme === 'default' && defaultThemeIsLight)
 			this.handlerId = handler.id
 
 			// check if part of a group, if so retrieve full files list
