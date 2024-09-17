@@ -20,7 +20,6 @@ use OCP\IUser;
 use OCP\IUserSession;
 use OCP\Settings\IDeclarativeManager;
 use OCP\Settings\IManager as ISettingsManager;
-use OCP\Template;
 
 #[OpenAPI(scope: OpenAPI::SCOPE_IGNORE)]
 class AdminSettingsController extends Controller {
@@ -65,47 +64,12 @@ class AdminSettingsController extends Controller {
 	protected function getSettings($section) {
 		/** @var IUser $user */
 		$user = $this->userSession->getUser();
-		$isSubAdmin = !$this->groupManager->isAdmin($user->getUID()) && $this->subAdmin->isSubAdmin($user);
 		$settings = $this->settingsManager->getAllowedAdminSettings($section, $user);
 		$declarativeFormIDs = $this->declarativeSettingsManager->getFormIDs($user, 'admin', $section);
 		if (empty($settings) && empty($declarativeFormIDs)) {
 			throw new NotAdminException("Logged in user doesn't have permission to access these settings.");
 		}
 		$formatted = $this->formatSettings($settings);
-		// Do not show legacy forms for sub admins
-		if ($section === 'additional' && !$isSubAdmin) {
-			$formatted['content'] .= $this->getLegacyForms();
-		}
 		return $formatted;
-	}
-
-	/**
-	 * @return bool|string
-	 */
-	private function getLegacyForms() {
-		$forms = \OC_App::getForms('admin');
-
-		$forms = array_map(function ($form) {
-			if (preg_match('%(<h2(?P<class>[^>]*)>.*?</h2>)%i', $form, $regs)) {
-				$sectionName = str_replace('<h2' . $regs['class'] . '>', '', $regs[0]);
-				$sectionName = str_replace('</h2>', '', $sectionName);
-				$anchor = strtolower($sectionName);
-				$anchor = str_replace(' ', '-', $anchor);
-
-				return [
-					'anchor' => $anchor,
-					'section-name' => $sectionName,
-					'form' => $form
-				];
-			}
-			return [
-				'form' => $form
-			];
-		}, $forms);
-
-		$out = new Template('settings', 'settings/additional');
-		$out->assign('forms', $forms);
-
-		return $out->fetchPage();
 	}
 }
