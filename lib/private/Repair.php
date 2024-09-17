@@ -60,6 +60,9 @@ use OCP\AppFramework\QueryException;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Collaboration\Resources\IManager;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\IAppConfig;
+use OCP\IConfig;
+use OCP\IDBConnection;
 use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
 use OCP\Notification\IManager as INotificationManager;
@@ -201,7 +204,11 @@ class Repair implements IOutput {
 	public static function getExpensiveRepairSteps() {
 		return [
 			new OldGroupMembershipShares(\OC::$server->getDatabaseConnection(), \OC::$server->getGroupManager()),
-			new RepairMimeTypes(\OC::$server->getConfig(), \OC::$server->getDatabaseConnection()),
+			new RepairMimeTypes(
+				\OCP\Server::get(IConfig::class),
+				\OCP\Server::get(IAppConfig::class),
+				\OCP\Server::get(IDBConnection::class)
+			),
 			\OC::$server->get(ValidatePhoneNumber::class),
 			\OC::$server->get(DeleteSchedulingObjects::class),
 		];

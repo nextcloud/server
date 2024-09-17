@@ -10,6 +10,7 @@ use OC\Migration\NullOutput;
 use OCP\DB\Exception;
 use OCP\DB\IResult;
 use OCP\DB\QueryBuilder\IQueryBuilder;
+use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\Migration\IOutput;
@@ -24,6 +25,7 @@ class RepairMimeTypes implements IRepairStep {
 
 	public function __construct(
 		protected IConfig $config,
+		protected IAppConfig $appConfig,
 		protected IDBConnection $connection
 	) {
 	}
@@ -91,29 +93,7 @@ class RepairMimeTypes implements IRepairStep {
 
 	/**
 	 * @throws Exception
-	 */
-	private function introduceExcalidrawType(): IResult|int|null {
-		$updatedMimetypes = [
-			'excalidraw' => 'application/vnd.excalidraw+json',
-		];
-
-		return $this->updateMimetypes($updatedMimetypes);
-	}
-
-	/**
-	 * @throws Exception
-	 */
-	private function introduceAsciidocType(): IResult|int|null {
-		$updatedMimetypes = [
-			'adoc' => 'text/asciidoc',
-			'asciidoc' => 'text/asciidoc',
-		];
-
-		return $this->updateMimetypes($updatedMimetypes);
-	}
-
-	/**
-	 * @throws Exception
+	 * @since 12.0.0.14
 	 */
 	private function introduceImageTypes(): IResult|int|null {
 		$updatedMimetypes = [
@@ -126,6 +106,7 @@ class RepairMimeTypes implements IRepairStep {
 
 	/**
 	 * @throws Exception
+	 * @since 12.0.0.13
 	 */
 	private function introduceWindowsProgramTypes(): IResult|int|null {
 		$updatedMimetypes = [
@@ -139,6 +120,7 @@ class RepairMimeTypes implements IRepairStep {
 
 	/**
 	 * @throws Exception
+	 * @since 13.0.0.0
 	 */
 	private function introduceLocationTypes(): IResult|int|null {
 		$updatedMimetypes = [
@@ -153,6 +135,7 @@ class RepairMimeTypes implements IRepairStep {
 
 	/**
 	 * @throws Exception
+	 * @since 13.0.0.3
 	 */
 	private function introduceInternetShortcutTypes(): IResult|int|null {
 		$updatedMimetypes = [
@@ -165,6 +148,7 @@ class RepairMimeTypes implements IRepairStep {
 
 	/**
 	 * @throws Exception
+	 * @since 13.0.0.6
 	 */
 	private function introduceStreamingTypes(): IResult|int|null {
 		$updatedMimetypes = [
@@ -178,6 +162,7 @@ class RepairMimeTypes implements IRepairStep {
 
 	/**
 	 * @throws Exception
+	 * @since 14.0.0.8
 	 */
 	private function introduceVisioTypes(): IResult|int|null {
 		$updatedMimetypes = [
@@ -194,6 +179,7 @@ class RepairMimeTypes implements IRepairStep {
 
 	/**
 	 * @throws Exception
+	 * @since 14.0.0.10
 	 */
 	private function introduceComicbookTypes(): IResult|int|null {
 		$updatedMimetypes = [
@@ -210,6 +196,7 @@ class RepairMimeTypes implements IRepairStep {
 
 	/**
 	 * @throws Exception
+	 * @since 20.0.0.5
 	 */
 	private function introduceOpenDocumentTemplates(): IResult|int|null {
 		$updatedMimetypes = [
@@ -224,6 +211,19 @@ class RepairMimeTypes implements IRepairStep {
 
 	/**
 	 * @throws Exception
+	 * @since 21.0.0.7
+	 */
+	private function introduceOrgModeType(): IResult|int|null {
+		$updatedMimetypes = [
+			'org' => 'text/org'
+		];
+
+		return $this->updateMimetypes($updatedMimetypes);
+	}
+
+	/**
+	 * @throws Exception
+	 * @since 23.0.0.2
 	 */
 	private function introduceFlatOpenDocumentType(): IResult|int|null {
 		$updatedMimetypes = [
@@ -238,17 +238,7 @@ class RepairMimeTypes implements IRepairStep {
 
 	/**
 	 * @throws Exception
-	 */
-	private function introduceOrgModeType(): IResult|int|null {
-		$updatedMimetypes = [
-			'org' => 'text/org'
-		];
-
-		return $this->updateMimetypes($updatedMimetypes);
-	}
-
-	/**
-	 * @throws Exception
+	 * @since 25.0.0.2
 	 */
 	private function introduceOnlyofficeFormType(): IResult|int|null {
 		$updatedMimetypes = [
@@ -261,6 +251,20 @@ class RepairMimeTypes implements IRepairStep {
 
 	/**
 	 * @throws Exception
+	 * @since 26.0.0.1
+	 */
+	private function introduceAsciidocType(): IResult|int|null {
+		$updatedMimetypes = [
+			'adoc' => 'text/asciidoc',
+			'asciidoc' => 'text/asciidoc',
+		];
+
+		return $this->updateMimetypes($updatedMimetypes);
+	}
+
+	/**
+	 * @throws Exception
+	 * @since 28.0.0.5
 	 */
 	private function introduceEnhancedMetafileFormatType(): IResult|int|null {
 		$updatedMimetypes = [
@@ -272,6 +276,7 @@ class RepairMimeTypes implements IRepairStep {
 
 	/**
 	 * @throws Exception
+	 * @since 29.0.0.2
 	 */
 	private function introduceEmlAndMsgFormatType(): IResult|int|null {
 		$updatedMimetypes = [
@@ -284,6 +289,7 @@ class RepairMimeTypes implements IRepairStep {
 
 	/**
 	 * @throws Exception
+	 * @since 29.0.0.6
 	 */
 	private function introduceAacAudioType(): IResult|int|null {
 		$updatedMimetypes = [
@@ -295,6 +301,7 @@ class RepairMimeTypes implements IRepairStep {
 
 	/**
 	 * @throws Exception
+	 * @since 29.0.10
 	 */
 	private function introduceReStructuredTextFormatType(): IResult|int|null {
 		$updatedMimetypes = [
@@ -306,6 +313,33 @@ class RepairMimeTypes implements IRepairStep {
 
 	/**
 	 * @throws Exception
+	 * @since 30.0.0
+	 */
+	private function introduceExcalidrawType(): IResult|int|null {
+		$updatedMimetypes = [
+			'excalidraw' => 'application/vnd.excalidraw+json',
+		];
+
+		return $this->updateMimetypes($updatedMimetypes);
+	}
+
+
+	/**
+	 * @throws Exception
+	 * @since 31.0.0
+	 */
+	private function introduceZstType(): IResult|int|null {
+		$updatedMimetypes = [
+			'zst' => 'application/zstd',
+		];
+
+		return $this->updateMimetypes($updatedMimetypes);
+	}
+
+	/**
+	 * Check if there are any migrations available
+	 *
+	 * @throws Exception
 	 */
 	public function migrationsAvailable(): bool {
 		$this->dryRun = true;
@@ -314,11 +348,14 @@ class RepairMimeTypes implements IRepairStep {
 		return $this->changeCount > 0;
 	}
 
+	/**
+	 * Get the current mimetype version
+	 */
 	private function getMimeTypeVersion(): string {
 		$serverVersion = $this->config->getSystemValueString('version', '0.0.0');
 		// 29.0.0.10 is the last version with a mimetype migration before it was moved to a separate version number
 		if (version_compare($serverVersion, '29.0.0.10', '>')) {
-			return $this->config->getAppValue('files', 'mimetype_version', '29.0.0.10');
+			return $this->appConfig->getValueString('files', 'mimetype_version', '29.0.0.10');
 		}
 
 		return $serverVersion;
@@ -335,6 +372,7 @@ class RepairMimeTypes implements IRepairStep {
 
 		// NOTE TO DEVELOPERS: when adding new mime types, please make sure to
 		// add a version comparison to avoid doing it every time
+		// PLEASE ALSO KEEP THE LIST SORTED BY VERSION NUMBER
 
 		if (version_compare($mimeTypeVersion, '12.0.0.14', '<') && $this->introduceImageTypes()) {
 			$out->info('Fixed image mime types');
@@ -404,8 +442,12 @@ class RepairMimeTypes implements IRepairStep {
 			$out->info('Fixed Excalidraw mime type');
 		}
 
+		if (version_compare($mimeTypeVersion, '31.0.0.0', '<') && $this->introduceZstType()) {
+			$out->info('Fixed zst mime type');
+		}
+
 		if (!$this->dryRun) {
-			$this->config->setAppValue('files', 'mimetype_version', $serverVersion);
+			$this->appConfig->setValueString('files', 'mimetype_version', $serverVersion);
 		}
 	}
 }
