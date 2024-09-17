@@ -98,6 +98,7 @@ use Sabre\VObject\ParseException;
 use Sabre\VObject\Property;
 use Sabre\VObject\Reader;
 use Sabre\VObject\Recur\EventIterator;
+use Sabre\VObject\Recur\MaxInstancesExceededException;
 use Sabre\VObject\Recur\NoInstancesException;
 use function array_column;
 use function array_map;
@@ -1719,6 +1720,12 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 						'exception' => $ex,
 					]);
 					continue;
+				} catch (MaxInstancesExceededException $ex) {
+					$this->logger->warning('Caught max instances exceeded exception for calendar data. This usually indicates too much recurring (more than 3500) event in calendar data. Object uri: '.$row['uri'], [
+						'app' => 'dav',
+						'exception' => $ex,
+					]);
+					continue;
 				}
 
 				if (!$matches) {
@@ -2068,24 +2075,32 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 				continue;
 			}
 
-			$isValid = $this->validateFilterForObject($row, [
-				'name' => 'VCALENDAR',
-				'comp-filters' => [
-					[
-						'name' => 'VEVENT',
-						'comp-filters' => [],
-						'prop-filters' => [],
-						'is-not-defined' => false,
-						'time-range' => [
-							'start' => $start,
-							'end' => $end,
+			try {
+				$isValid = $this->validateFilterForObject($row, [
+					'name' => 'VCALENDAR',
+					'comp-filters' => [
+						[
+							'name' => 'VEVENT',
+							'comp-filters' => [],
+							'prop-filters' => [],
+							'is-not-defined' => false,
+							'time-range' => [
+								'start' => $start,
+								'end' => $end,
+							],
 						],
 					],
-				],
-				'prop-filters' => [],
-				'is-not-defined' => false,
-				'time-range' => null,
-			]);
+					'prop-filters' => [],
+					'is-not-defined' => false,
+					'time-range' => null,
+				]);
+			} catch (MaxInstancesExceededException $ex) {
+				$this->logger->warning('Caught max instances exceeded exception for calendar data. This usually indicates too much recurring (more than 3500) event in calendar data. Object uri: '.$row['uri'], [
+					'app' => 'dav',
+					'exception' => $ex,
+				]);
+				continue;
+			}
 
 			if (is_resource($row['calendardata'])) {
 				// Put the stream back to the beginning so it can be read another time
