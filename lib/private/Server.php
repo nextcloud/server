@@ -1285,6 +1285,8 @@ class Server extends ServerContainer implements IServerContainer {
 
 		$this->registerAlias(\OCP\Security\Ip\IFactory::class, \OC\Security\Ip\Factory::class);
 
+		$this->registerAlias(\OCP\RichObjectStrings\IRichTextFormatter::class, \OC\RichObjectStrings\RichTextFormatter::class);
+
 		$this->connectDispatcher();
 	}
 
