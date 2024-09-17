@@ -59,7 +59,7 @@ class Local extends \OC\Files\Storage\Common {
 		$this->config = \OC::$server->get(IConfig::class);
 		$this->mimeTypeDetector = \OC::$server->get(IMimeTypeDetector::class);
 		$this->defUMask = $this->config->getSystemValue('localstorage.umask', 0022);
-		$this->caseInsensitive = $this->config->getSystemValueBool('localstorage.case_insensitive', false);
+		$this->caseInsensitive = $arguments['case_insensitive'] ?? $this->config->getSystemValueBool('localstorage.case_insensitive', false);
 
 		// support Write-Once-Read-Many file systems
 		$this->unlinkOnTruncate = $this->config->getSystemValueBool('localstorage.unlink_on_truncate', false);
@@ -243,6 +243,8 @@ class Local extends \OC\Files\Storage\Common {
 
 	public function file_exists($path) {
 		if ($this->caseInsensitive) {
+			// if the underlying filesystem is case-insensitive, we do our own case-sensitive
+			// comparison to ensure our `file_exists` implementation is always case-sensitive
 			$fullPath = $this->getSourcePath($path);
 			$parentPath = dirname($fullPath);
 			if (!is_dir($parentPath)) {
@@ -253,6 +255,11 @@ class Local extends \OC\Files\Storage\Common {
 		} else {
 			return file_exists($this->getSourcePath($path));
 		}
+	}
+
+	public function pathAvailable(string $path): bool {
+		// use the native file-exists even for case-insensitive filesystems
+		return !file_exists($this->getSourcePath($path));
 	}
 
 	public function filemtime($path) {
