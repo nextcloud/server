@@ -85,6 +85,7 @@ use Psr\Log\LoggerInterface;
  * @property string $ldapAttributeBiography
  * @property string $ldapAdminGroup
  * @property string $ldapAttributeBirthDate
+ * @property string $ldapAttributePronouns
  */
 class Connection extends LDAPUtility {
 	private ?\LDAP\Connection $ldapConnectionRes = null;

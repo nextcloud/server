@@ -15,19 +15,20 @@ export const ACCOUNT_PROPERTY_ENUM = Object.freeze({
 	ADDRESS: 'address',
 	AVATAR: 'avatar',
 	BIOGRAPHY: 'biography',
+	BIRTHDATE: 'birthdate',
 	DISPLAYNAME: 'displayname',
 	EMAIL_COLLECTION: 'additional_mail',
 	EMAIL: 'email',
+	FEDIVERSE: 'fediverse',
 	HEADLINE: 'headline',
 	NOTIFICATION_EMAIL: 'notify_email',
-	FEDIVERSE: 'fediverse',
 	ORGANISATION: 'organisation',
 	PHONE: 'phone',
 	PROFILE_ENABLED: 'profile_enabled',
+	PRONOUNS: 'pronouns',
 	ROLE: 'role',
 	TWITTER: 'twitter',
 	WEBSITE: 'website',
-	BIRTHDATE: 'birthdate',
 })
 
 /** Enum of account properties to human readable account property names */
@@ -35,18 +36,19 @@ export const ACCOUNT_PROPERTY_READABLE_ENUM = Object.freeze({
 	ADDRESS: t('settings', 'Location'),
 	AVATAR: t('settings', 'Profile picture'),
 	BIOGRAPHY: t('settings', 'About'),
+	BIRTHDATE: t('settings', 'Date of birth'),
 	DISPLAYNAME: t('settings', 'Full name'),
 	EMAIL_COLLECTION: t('settings', 'Additional email'),
 	EMAIL: t('settings', 'Email'),
+	FEDIVERSE: t('settings', 'Fediverse (e.g. Mastodon)'),
 	HEADLINE: t('settings', 'Headline'),
 	ORGANISATION: t('settings', 'Organisation'),
 	PHONE: t('settings', 'Phone number'),
 	PROFILE_ENABLED: t('settings', 'Profile'),
+	PRONOUNS: t('settings', 'Pronouns'),
 	ROLE: t('settings', 'Role'),
 	TWITTER: t('settings', 'X (formerly Twitter)'),
-	FEDIVERSE: t('settings', 'Fediverse (e.g. Mastodon)'),
 	WEBSITE: t('settings', 'Website'),
-	BIRTHDATE: t('settings', 'Date of birth'),
 })
 
 export const NAME_READABLE_ENUM = Object.freeze({
@@ -65,6 +67,7 @@ export const NAME_READABLE_ENUM = Object.freeze({
 	[ACCOUNT_PROPERTY_ENUM.FEDIVERSE]: ACCOUNT_PROPERTY_READABLE_ENUM.FEDIVERSE,
 	[ACCOUNT_PROPERTY_ENUM.WEBSITE]: ACCOUNT_PROPERTY_READABLE_ENUM.WEBSITE,
 	[ACCOUNT_PROPERTY_ENUM.BIRTHDATE]: ACCOUNT_PROPERTY_READABLE_ENUM.BIRTHDATE,
+	[ACCOUNT_PROPERTY_ENUM.PRONOUNS]: ACCOUNT_PROPERTY_READABLE_ENUM.PRONOUNS,
 })
 
 /** Enum of profile specific sections to human readable names */
@@ -89,6 +92,7 @@ export const PROPERTY_READABLE_KEYS_ENUM = Object.freeze({
 	[ACCOUNT_PROPERTY_READABLE_ENUM.FEDIVERSE]: ACCOUNT_PROPERTY_ENUM.FEDIVERSE,
 	[ACCOUNT_PROPERTY_READABLE_ENUM.WEBSITE]: ACCOUNT_PROPERTY_ENUM.WEBSITE,
 	[ACCOUNT_PROPERTY_READABLE_ENUM.BIRTHDATE]: ACCOUNT_PROPERTY_ENUM.BIRTHDATE,
+	[ACCOUNT_PROPERTY_READABLE_ENUM.PRONOUNS]: ACCOUNT_PROPERTY_ENUM.PRONOUNS,
 })
 
 /**
@@ -134,6 +138,7 @@ export const PROPERTY_READABLE_SUPPORTED_SCOPES_ENUM = Object.freeze({
 	[ACCOUNT_PROPERTY_READABLE_ENUM.FEDIVERSE]: [SCOPE_ENUM.LOCAL, SCOPE_ENUM.PRIVATE],
 	[ACCOUNT_PROPERTY_READABLE_ENUM.WEBSITE]: [SCOPE_ENUM.LOCAL, SCOPE_ENUM.PRIVATE],
 	[ACCOUNT_PROPERTY_READABLE_ENUM.BIRTHDATE]: [SCOPE_ENUM.LOCAL, SCOPE_ENUM.PRIVATE],
+	[ACCOUNT_PROPERTY_READABLE_ENUM.PRONOUNS]: [SCOPE_ENUM.LOCAL, SCOPE_ENUM.PRIVATE],
 })
 
 /** List of readable account properties which aren't published to the lookup server */

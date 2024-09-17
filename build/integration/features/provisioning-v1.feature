@@ -75,6 +75,7 @@ Feature: provisioning
       | role |
       | headline |
       | biography |
+		| pronouns |
       | profile_enabled |
     Given As an "brand-new-user"
     Then user "brand-new-user" has editable fields
@@ -90,6 +91,7 @@ Feature: provisioning
       | role |
       | headline |
       | biography |
+		| pronouns |
       | profile_enabled |
     Then user "self" has editable fields
       | displayname |
@@ -104,6 +106,7 @@ Feature: provisioning
       | role |
       | headline |
       | biography |
+		| pronouns |
       | profile_enabled |
 
 	Scenario: Edit a user
@@ -570,7 +573,7 @@ Feature: provisioning
 		And group "new-group" does not exist
 
 	Scenario: Delete a group with special characters
-	    Given As an "admin"
+		Given As an "admin"
 		And group "España" exists
 		When sending "DELETE" to "/cloud/groups/España"
 		Then the OCS status code should be "100"

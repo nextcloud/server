@@ -11,6 +11,7 @@
 					<div class="profile__header__container__placeholder" />
 					<div class="profile__header__container__displayname">
 						<h2>{{ displayname || userId }}</h2>
+						<span v-if="pronouns" class="profile__header__container__pronouns">· {{ pronouns }}</span>
 						<NcButton v-if="isCurrentUser"
 							type="primary"
 							:href="settingsUrl">
@@ -177,6 +178,7 @@ export default defineComponent({
 			biography: null as string|null,
 			actions: [] as IProfileAction[],
 			isUserAvatarVisible: false,
+			pronouns: null as string|null,
 		})
 
 		return {

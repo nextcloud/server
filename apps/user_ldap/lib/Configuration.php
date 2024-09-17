@@ -80,6 +80,8 @@ use Psr\Log\LoggerInterface;
  * @property string $ldapAttributeHeadline
  * @property string $ldapAttributeBiography
  * @property string $ldapAdminGroup
+ * @property string $ldapAttributeBirthDate
+ * @property string $ldapAttributePronouns
  */
 class Configuration {
 	public const AVATAR_PREFIX_DEFAULT = 'default';
@@ -179,6 +181,7 @@ class Configuration {
 		'ldapAdminGroup' => '',
 		'ldapAttributeBirthDate' => null,
 		'ldapAttributeAnniversaryDate' => null,
+		'ldapAttributePronouns' => null,
 	];
 
 	public function __construct(string $configPrefix, bool $autoRead = true) {
@@ -315,6 +318,7 @@ class Configuration {
 					case 'ldapAttributeBiography':
 					case 'ldapAttributeBirthDate':
 					case 'ldapAttributeAnniversaryDate':
+					case 'ldapAttributePronouns':
 						$readMethod = 'getLcValue';
 						break;
 					case 'ldapUserDisplayName':
@@ -559,6 +563,7 @@ class Configuration {
 			'ldap_admin_group' => '',
 			'ldap_attr_birthdate' => '',
 			'ldap_attr_anniversarydate' => '',
+			'ldap_attr_pronouns' => '',
 		];
 	}
 
@@ -638,6 +643,7 @@ class Configuration {
 			'ldap_admin_group' => 'ldapAdminGroup',
 			'ldap_attr_birthdate' => 'ldapAttributeBirthDate',
 			'ldap_attr_anniversarydate' => 'ldapAttributeAnniversaryDate',
+			'ldap_attr_pronouns' => 'ldapAttributePronouns',
 		];
 		return $array;
 	}
