@@ -369,7 +369,7 @@ class LDAP implements ILDAPWrapper {
 
 	/**
 	 * Called after an ldap method is run to act on LDAP error if necessary
-	 * @throw \Exception
+	 * @throws \Exception
 	 */
 	private function postFunctionCall(string $functionName): void {
 		if ($this->isResource($this->curArgs[0])) {
