@@ -223,7 +223,7 @@ class ProfileManager implements IProfileManager {
 	/**
 	 * Return the profile parameters of the target user that are visible to the visiting user
 	 * in an associative array
-	 * @return array{userId: string, address?: string|null, biography?: string|null, displayname?: string|null, headline?: string|null, isUserAvatarVisible?: bool, organisation?: string|null, pronouns?: non-falsy-string|null, role?: string|null, actions: list<array{id: string, icon: string, title: string, target: ?string}>}
+	 * @return array{userId: string, address?: string|null, biography?: string|null, displayname?: string|null, headline?: string|null, isUserAvatarVisible?: bool, organisation?: string|null, pronouns?: string|null, role?: string|null, actions: list<array{id: string, icon: string, title: string, target: ?string}>}
 	 */
 	public function getProfileFields(IUser $targetUser, ?IUser $visitingUser): array {
 		$account = $this->accountManager->getAccount($targetUser);
