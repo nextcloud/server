@@ -297,7 +297,7 @@ class Comment implements IComment {
 	 *
 	 * If not explicitly set, it shall default to the time of initialization.
 	 * @since 9.0.0
-	 * @throw \LogicException if creation date time is not set yet
+	 * @throws \LogicException if creation date time is not set yet
 	 */
 	public function getCreationDateTime(): \DateTime {
 		if (!isset($this->data['creationDT'])) {
