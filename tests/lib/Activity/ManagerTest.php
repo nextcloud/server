@@ -14,21 +14,20 @@ use OCP\IL10N;
 use OCP\IRequest;
 use OCP\IUser;
 use OCP\IUserSession;
+use OCP\RichObjectStrings\IRichTextFormatter;
 use OCP\RichObjectStrings\IValidator;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class ManagerTest extends TestCase {
 	/** @var \OC\Activity\Manager */
 	private $activityManager;
 
-	/** @var IRequest|\PHPUnit\Framework\MockObject\MockObject */
-	protected $request;
-	/** @var IUserSession|\PHPUnit\Framework\MockObject\MockObject */
-	protected $session;
-	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
-	protected $config;
-	/** @var IValidator|\PHPUnit\Framework\MockObject\MockObject */
-	protected $validator;
+	protected IRequest&MockObject $request;
+	protected IUserSession&MockObject $session;
+	protected IConfig&MockObject $config;
+	protected IValidator&MockObject $validator;
+	protected IRichTextFormatter&MockObject $richTextFormatter;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -37,12 +36,14 @@ class ManagerTest extends TestCase {
 		$this->session = $this->createMock(IUserSession::class);
 		$this->config = $this->createMock(IConfig::class);
 		$this->validator = $this->createMock(IValidator::class);
+		$this->richTextFormatter = $this->createMock(IRichTextFormatter::class);
 
 		$this->activityManager = new \OC\Activity\Manager(
 			$this->request,
 			$this->session,
 			$this->config,
 			$this->validator,
+			$this->richTextFormatter,
 			$this->createMock(IL10N::class)
 		);
 
