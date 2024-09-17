@@ -75,7 +75,7 @@ trait CommonSettingsTrait {
 				/** @psalm-suppress PossiblyNullArgument */
 				$declarativeFormIDs = $this->declarativeSettingsManager->getFormIDs($this->userSession->getUser(), $type, $section->getID());
 
-				if (empty($settings) && empty($declarativeFormIDs) && !($section->getID() === 'additional' && count(\OC_App::getForms('admin')) > 0)) {
+				if (empty($settings) && empty($declarativeFormIDs)) {
 					continue;
 				}
 

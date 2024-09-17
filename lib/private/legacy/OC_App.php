@@ -26,12 +26,10 @@ use function OCP\Log\logger;
 
 /**
  * This class manages the apps. It allows them to register and integrate in the
- * ownCloud ecosystem. Furthermore, this class is responsible for installing,
+ * Nextcloud ecosystem. Furthermore, this class is responsible for installing,
  * upgrading and removing apps.
  */
 class OC_App {
-	private static $adminForms = [];
-	private static $personalForms = [];
 	private static $altLogin = [];
 	private static $alreadyRegistered = [];
 	public const supportedApp = 300;
@@ -68,7 +66,7 @@ class OC_App {
 	 * @param string[] $types
 	 * @return bool
 	 *
-	 * This function walks through the ownCloud directory and loads all apps
+	 * This function walks through the Nextcloud directory and loads all apps
 	 * it can find. A directory contains an app if the file /appinfo/info.xml
 	 * exists.
 	 *
@@ -386,28 +384,6 @@ class OC_App {
 	}
 
 	/**
-	 * @param string $type
-	 * @return array
-	 */
-	public static function getForms(string $type): array {
-		$forms = [];
-		switch ($type) {
-			case 'admin':
-				$source = self::$adminForms;
-				break;
-			case 'personal':
-				$source = self::$personalForms;
-				break;
-			default:
-				return [];
-		}
-		foreach ($source as $form) {
-			$forms[] = include $form;
-		}
-		return $forms;
-	}
-
-	/**
 	 * @param array $entry
 	 * @deprecated 20.0.0 Please register your alternative login option using the registerAlternativeLogin() on the RegistrationContext in your Application class implementing the OCP\Authentication\IAlternativeLogin interface
 	 */
@@ -611,7 +587,7 @@ class OC_App {
 	}
 
 	/**
-	 * Check whether the current ownCloud version matches the given
+	 * Check whether the current Nextcloud version matches the given
 	 * application's version requirements.
 	 *
 	 * The comparison is made based on the number of parts that the
@@ -621,7 +597,7 @@ class OC_App {
 	 * This means that it's possible to specify "requiremin" => 6
 	 * and "requiremax" => 6 and it will still match ownCloud 6.0.3.
 	 *
-	 * @param string $ocVersion ownCloud version to check against
+	 * @param string $ocVersion Nextcloud version to check against
 	 * @param array $appInfo app info (from xml)
 	 *
 	 * @return boolean true if compatible, otherwise false
