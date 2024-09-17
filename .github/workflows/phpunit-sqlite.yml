@@ -55,10 +55,7 @@ jobs:
 
     strategy:
       matrix:
-        php-versions: ['8.2', '8.3']
-        include:
-          - php-versions: '8.1'
-            coverage: ${{ github.event_name != 'pull_request' }}
+        php-versions: ['8.3']
 
     name: SQLite (PHP ${{ matrix.php-versions }})
 
@@ -101,7 +98,7 @@ jobs:
         run: ./occ app:list && echo "======= System config =======" && ./occ config:list system
 
       - name: PHPUnit database tests
-        run: composer run test:db ${{ matrix.coverage && ' -- --coverage-clover ./clover.db.xml' || '' }}
+        run: composer run test:db -- --verbose --debug
 
       - name: Upload db code coverage
         if: ${{ !cancelled() && matrix.coverage }}
