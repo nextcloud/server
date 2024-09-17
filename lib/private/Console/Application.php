@@ -19,6 +19,7 @@ use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
 use OCP\IRequest;
 use OCP\Server;
+use OCP\ServerVersion;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Application as SymfonyApplication;
@@ -31,6 +32,7 @@ class Application {
 	private SymfonyApplication $application;
 
 	public function __construct(
+		ServerVersion $serverVersion,
 		private IConfig $config,
 		private IEventDispatcher $dispatcher,
 		private IRequest $request,
@@ -39,7 +41,7 @@ class Application {
 		private IAppManager $appManager,
 		private Defaults $defaults,
 	) {
-		$this->application = new SymfonyApplication($defaults->getName(), \OC_Util::getVersionString());
+		$this->application = new SymfonyApplication($defaults->getName(), $serverVersion->getVersionString());
 	}
 
 	/**

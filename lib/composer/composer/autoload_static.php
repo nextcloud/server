@@ -721,6 +721,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OCP\\Security\\VerificationToken\\IVerificationToken' => __DIR__ . '/../../..' . '/lib/public/Security/VerificationToken/IVerificationToken.php',
         'OCP\\Security\\VerificationToken\\InvalidTokenException' => __DIR__ . '/../../..' . '/lib/public/Security/VerificationToken/InvalidTokenException.php',
         'OCP\\Server' => __DIR__ . '/../../..' . '/lib/public/Server.php',
+        'OCP\\ServerVersion' => __DIR__ . '/../../..' . '/lib/public/ServerVersion.php',
         'OCP\\Session\\Exceptions\\SessionNotAvailableException' => __DIR__ . '/../../..' . '/lib/public/Session/Exceptions/SessionNotAvailableException.php',
         'OCP\\Settings\\DeclarativeSettingsTypes' => __DIR__ . '/../../..' . '/lib/public/Settings/DeclarativeSettingsTypes.php',
         'OCP\\Settings\\Events\\DeclarativeSettingsGetValueEvent' => __DIR__ . '/../../..' . '/lib/public/Settings/Events/DeclarativeSettingsGetValueEvent.php',
