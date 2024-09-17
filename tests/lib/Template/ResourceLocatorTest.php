@@ -29,8 +29,13 @@ class ResourceLocatorTest extends \Test\TestCase {
 		$systemConfig
 			->expects($this->any())
 			->method('getValue')
-			->with('theme', '')
-			->willReturn($theme);
+			->willReturnCallback(function ($key, $default = null) use ($theme) {
+				if ($key === 'theme') {
+					return $theme;
+				}
+
+				return $default;
+			});
 		$this->overwriteService(SystemConfig::class, $systemConfig);
 		return $this->getMockForAbstractClass('OC\Template\ResourceLocator',
 			[$this->logger],
