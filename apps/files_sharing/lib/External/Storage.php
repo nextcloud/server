@@ -137,11 +137,6 @@ class Storage extends DAV implements ISharedStorage, IDisableEncryptionStorage, 
 		return $this->cache;
 	}
 
-	/**
-	 * @param string $path
-	 * @param \OC\Files\Storage\Storage $storage
-	 * @return \OCA\Files_Sharing\External\Scanner
-	 */
 	public function getScanner($path = '', $storage = null) {
 		if (!$storage) {
 			$storage = $this;

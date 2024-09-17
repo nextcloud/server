@@ -56,12 +56,6 @@ class Home extends Local implements \OCP\Files\IHomeStorage {
 		return $this->cache;
 	}
 
-	/**
-	 * get a propagator instance for the cache
-	 *
-	 * @param \OC\Files\Storage\Storage $storage (optional) the storage to pass to the watcher
-	 * @return \OC\Files\Cache\Propagator
-	 */
 	public function getPropagator($storage = null) {
 		if (!$storage) {
 			$storage = $this;

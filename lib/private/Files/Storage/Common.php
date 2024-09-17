@@ -347,12 +347,6 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 		return $this->watcher;
 	}
 
-	/**
-	 * get a propagator instance for the cache
-	 *
-	 * @param \OC\Files\Storage\Storage $storage (optional) the storage to pass to the watcher
-	 * @return Propagator
-	 */
 	public function getPropagator($storage = null) {
 		if (!$storage) {
 			$storage = $this;
@@ -360,6 +354,7 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 		if (!$storage->instanceOfStorage(self::class)) {
 			throw new \InvalidArgumentException('Storage is not of the correct class');
 		}
+		/** @var self $storage */
 		if (!isset($storage->propagator)) {
 			$config = \OC::$server->getSystemConfig();
 			$storage->propagator = new Propagator($storage, \OC::$server->getDatabaseConnection(), ['appdata_' . $config->getValue('instanceid')]);
@@ -649,9 +644,6 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 		return $result;
 	}
 
-	/**
-	 * @inheritdoc
-	 */
 	public function getMetaData($path) {
 		if (Filesystem::isFileBlacklisted($path)) {
 			throw new ForbiddenException('Invalid path: ' . $path, false);
@@ -682,12 +674,6 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 		return $data;
 	}
 
-	/**
-	 * @param string $path
-	 * @param int $type \OCP\Lock\ILockingProvider::LOCK_SHARED or \OCP\Lock\ILockingProvider::LOCK_EXCLUSIVE
-	 * @param \OCP\Lock\ILockingProvider $provider
-	 * @throws \OCP\Lock\LockedException
-	 */
 	public function acquireLock($path, $type, ILockingProvider $provider) {
 		$logger = $this->getLockLogger();
 		if ($logger) {
@@ -715,12 +701,6 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 		}
 	}
 
-	/**
-	 * @param string $path
-	 * @param int $type \OCP\Lock\ILockingProvider::LOCK_SHARED or \OCP\Lock\ILockingProvider::LOCK_EXCLUSIVE
-	 * @param \OCP\Lock\ILockingProvider $provider
-	 * @throws \OCP\Lock\LockedException
-	 */
 	public function releaseLock($path, $type, ILockingProvider $provider) {
 		$logger = $this->getLockLogger();
 		if ($logger) {
@@ -748,12 +728,6 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 		}
 	}
 
-	/**
-	 * @param string $path
-	 * @param int $type \OCP\Lock\ILockingProvider::LOCK_SHARED or \OCP\Lock\ILockingProvider::LOCK_EXCLUSIVE
-	 * @param \OCP\Lock\ILockingProvider $provider
-	 * @throws \OCP\Lock\LockedException
-	 */
 	public function changeLock($path, $type, ILockingProvider $provider) {
 		$logger = $this->getLockLogger();
 		if ($logger) {

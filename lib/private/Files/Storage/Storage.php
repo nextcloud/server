@@ -8,6 +8,11 @@
 
 namespace OC\Files\Storage;
 
+use OC\Files\Cache\Cache;
+use OC\Files\Cache\Propagator;
+use OC\Files\Cache\Scanner;
+use OC\Files\Cache\Updater;
+use OC\Files\Cache\Watcher;
 use OCP\Files\Storage\ILockingStorage;
 use OCP\Files\Storage\IStorage;
 
@@ -18,45 +23,32 @@ use OCP\Files\Storage\IStorage;
  */
 interface Storage extends IStorage, ILockingStorage {
 	/**
-	 * get a cache instance for the storage
-	 *
-	 * @param string $path
-	 * @param \OC\Files\Storage\Storage|null (optional) the storage to pass to the cache
-	 * @return \OC\Files\Cache\Cache
+	 * @inheritDoc
+	 * @return Cache
 	 */
 	public function getCache($path = '', $storage = null);
 
 	/**
-	 * get a scanner instance for the storage
-	 *
-	 * @param string $path
-	 * @param \OC\Files\Storage\Storage (optional) the storage to pass to the scanner
-	 * @return \OC\Files\Cache\Scanner
+	 * @inheritDoc
+	 * @return Scanner
 	 */
 	public function getScanner($path = '', $storage = null);
 
 	/**
-	 * get a watcher instance for the cache
-	 *
-	 * @param string $path
-	 * @param \OC\Files\Storage\Storage (optional) the storage to pass to the watcher
-	 * @return \OC\Files\Cache\Watcher
+	 * @inheritDoc
+	 * @return Watcher
 	 */
 	public function getWatcher($path = '', $storage = null);
 
 	/**
-	 * get a propagator instance for the cache
-	 *
-	 * @param \OC\Files\Storage\Storage (optional) the storage to pass to the watcher
-	 * @return \OC\Files\Cache\Propagator
+	 * @inheritDoc
+	 * @return Propagator
 	 */
 	public function getPropagator($storage = null);
 
 	/**
-	 * get a updater instance for the cache
-	 *
-	 * @param \OC\Files\Storage\Storage (optional) the storage to pass to the watcher
-	 * @return \OC\Files\Cache\Updater
+	 * @inheritDoc
+	 * @return Updater
 	 */
 	public function getUpdater($storage = null);
 

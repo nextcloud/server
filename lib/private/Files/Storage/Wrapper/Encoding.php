@@ -418,13 +418,6 @@ class Encoding extends Wrapper {
 		return $this->storage->hasUpdated($this->findPathToUse($path), $time);
 	}
 
-	/**
-	 * get a cache instance for the storage
-	 *
-	 * @param string $path
-	 * @param \OC\Files\Storage\Storage (optional) the storage to pass to the cache
-	 * @return \OC\Files\Cache\Cache
-	 */
 	public function getCache($path = '', $storage = null) {
 		if (!$storage) {
 			$storage = $this;
@@ -432,13 +425,6 @@ class Encoding extends Wrapper {
 		return $this->storage->getCache($this->findPathToUse($path), $storage);
 	}
 
-	/**
-	 * get a scanner instance for the storage
-	 *
-	 * @param string $path
-	 * @param \OC\Files\Storage\Storage (optional) the storage to pass to the scanner
-	 * @return \OC\Files\Cache\Scanner
-	 */
 	public function getScanner($path = '', $storage = null) {
 		if (!$storage) {
 			$storage = $this;
