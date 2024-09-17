@@ -42,6 +42,7 @@ OC.L10N.register(
     "Enabling this option encrypts all files stored on the main storage, otherwise only files on external storage will be encrypted" : "A lehetőség engedélyezésekor minden fájlt titkosít a fő tárolóban, egyébként csak a külső tárolókon lévő fájlok lesznek titkosítva",
     "Enable recovery key" : "Helyreállítási kulcs engedélyezése",
     "Disable recovery key" : "Helyreállítási kulcs letiltása",
+    "The recovery key is an additional encryption key used to encrypt files. It is used to recover files from an account if the password is forgotten." : "A helyreállítási kulcs egy további titkosítási kulcs fájlok titkosításához. Arra szolgál, hogy egy fiókból vissza lehessen állítani a fájlokat, ha a jelszót elfelejtették.",
     "Recovery key password" : "Helyreállítási kulcs jelszava",
     "Repeat recovery key password" : "Ismételje meg a heylreállítási kulcs jelszavát",
     "Change recovery key password:" : "Helyreállítási kulcs jelszavának módosítása:",

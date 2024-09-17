@@ -263,6 +263,7 @@
     "Storage connection error. %s" : "Chyba pripojenia k úložisku. %s",
     "Storage is temporarily not available" : "Úložisko je dočasne nedostupné",
     "Storage connection timeout. %s" : "Vypršanie pripojenia k úložisku. %s",
+    "To allow this check to run you have to make sure that your Web server can connect to itself. Therefore it must be able to resolve and connect to at least one of its `trusted_domains` or the `overwrite.cli.url`. This failure may be the result of a server-side DNS mismatch or outbound firewall rule." : "Ak chcete povoliť spustenie tejto kontroly, musíte sa uistiť, že váš webový server sa môže pripojiť sám k sebe. Preto musí byť schopný rozpoznať a pripojiť sa aspoň k jednej zo svojich `trusted_domains` alebo `overwrite.cli.url`.  Výsledkom nesprávneho nastavenia môže byť nesúlad DNS na strane servera alebo pravidla brány firewall pre výstup.",
     "Audio input" : "Audio vstup",
     "Generates a possible headline for a text." : "Generuje možný nadpis pre text.",
     "Summarize" : "Zhrnutie",

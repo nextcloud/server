@@ -48,6 +48,7 @@ OC.L10N.register(
     "Nextcloud workflow engine" : "Program za koračno avtomatizacijo delovnih nalog",
     "Select a filter" : "Izbor filtra",
     "Select a comparator" : "Izbor primerjalnika",
+    "Remove filter" : "Odstrani filter",
     "Select a file type" : "Izbor vrste datoteke",
     "e.g. httpd/unix-directory" : "npr. httpd/unix-directory",
     "Folder" : "Mapa",

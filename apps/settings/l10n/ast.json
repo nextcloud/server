@@ -202,8 +202,6 @@
     "64-bit" : "64 bits",
     "Temporary space available" : "Espaciu temporal disponible",
     "Your database does not run with \"READ COMMITTED\" transaction isolation level. This can cause problems when multiple actions are executed in parallel." : "La base de datos nun s'executa col nivel d'aislamientu de transaiciones «READ COMMITTED». Esta transaición pue causar problemes cuando s'executen múltiples aiciones en paralelo.",
-    "WOFF2 file loading" : "Carga de ficheros WOFF2",
-    "Could not check for WOFF2 loading support. Please check manually if your webserver serves `.woff2` files." : "Nun se pudo comprobar la comptibilidá cola carga de ficheros WOFF2. Comprueba manualmente si'l sirvidor web sirve ficheros «.woff2».",
     "Profile information" : "Información del perfil",
     "Nextcloud settings" : "Configuración de Nextcloud",
     "Task:" : "Xera:",

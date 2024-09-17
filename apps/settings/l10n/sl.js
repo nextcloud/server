@@ -137,7 +137,6 @@ OC.L10N.register(
     "Your remote address could not be determined." : "Oddaljenega naslova naprave ni mogoče določiti.",
     "Your remote address was identified as \"%s\" and is brute-force throttled at the moment slowing down the performance of various requests. If the remote address is not your address this can be an indication that a proxy is not configured correctly." : "Oddaljeni naslov je bil prepoznan kot »%s« in je trenutno zaščiten pred vdorom z grobo silo, kar upočasnjuje izvajanje različnih nalog. Če oddaljeni naslov ni vaš naslov, je to lahko znak, da posredniški strežnik ni pravilno nastavljen.",
     "Your remote address \"%s\" is not brute-force throttled." : "Oddaljeni naslov »%s« ni omejen z zaščito pred vdorom z grobo silo.",
-    "To allow this check to run you have to make sure that your Web server can connect to itself. Therefore it must be able to resolve and connect to at least one of its `trusted_domains` or the `overwrite.cli.url`. This failure may be the result of a server-side DNS mismatch or outbound firewall rule." : "Če želite omogočiti izvajanje tega preverjanja, je treba zagotoviti, da se spletni strežnik lahko poveže sam s seboj. Zato mora biti nastavljen za povezovanje z vsaj eno od določenih »varnih domen« (trusted_domains) ali naslovov za prepis »vmesnika ukazne vrstice« (overwrite.cli.url). Spodletelo preverjanje je lahko posledica neujemanja imen DNS na strani strežnika oziroma pravila požarnega zidu.",
     "Old administration imported certificates" : "Uvožena stara uporabniška potrdila",
     "A background job is pending that checks for administration imported SSL certificates. Please check back later." : "Na čakanju je ozadnje opravilo, ki preverja obstoj skrbniško uvožena potrdila SSL. Nastavitve preverite kasneje.",
     "There are some administration imported SSL certificates present, that are not used anymore with Nextcloud 21. They can be imported on the command line via \"occ security:certificates:import\" command. Their paths inside the data directory are shown below." : "Shranjenih je nekaj potrdil SSL, ki z različico Nextcloud 21 ne bodo več v uporabi. Potrdila je mogoče uvoziti z ukazom »occ security:certificates:import«. Zabeležene poti v podatkovnem imeniku so izpisane spodaj.",
@@ -246,7 +245,6 @@ OC.L10N.register(
     "Temporary space available" : "Razpoložljivost začasnega prostora",
     "Your database does not run with \"READ COMMITTED\" transaction isolation level. This can cause problems when multiple actions are executed in parallel." : "Podatkovna zbirka ni zagnana na ravni »READ COMMITTED«. To lahko povzroči težave pri vzporednem izvajanju dejanj.",
     ".well-known URLs" : "Naslovi .well-known URL",
-    "WOFF2 file loading" : "Nalaganje datotek WOFF2",
     "Profile information" : "Podrobnosti profila",
     "Profile picture, full name, email, phone number, address, website, Twitter, organisation, role, headline, biography, and whether your profile is enabled" : "Slika profila, polno ime, elektronski naslov, telefonska številka, naslov, spletna stran, račun Twitter, ustanova, vloga, naslov, biografija in ali je profil omogočen.",
     "Nextcloud settings" : "Nastavitve Nextcloud",
@@ -749,6 +747,7 @@ OC.L10N.register(
     "Show to logged in users only" : "Pokaži le prijavljenim uporabnikom",
     "Nextcloud help resources" : "Viri pomoči za okolje Nextcloud",
     "SMTP Username" : "Uporabniško ime SMTP",
-    "Active accounts" : "Dejavni računi"
+    "Active accounts" : "Dejavni računi",
+    "To allow this check to run you have to make sure that your Web server can connect to itself. Therefore it must be able to resolve and connect to at least one of its `trusted_domains` or the `overwrite.cli.url`. This failure may be the result of a server-side DNS mismatch or outbound firewall rule." : "Če želite omogočiti izvajanje tega preverjanja, je treba zagotoviti, da se spletni strežnik lahko poveže sam s seboj. Zato mora biti nastavljen za povezovanje z vsaj eno od določenih »varnih domen« (trusted_domains) ali naslovov za prepis »vmesnika ukazne vrstice« (overwrite.cli.url). Spodletelo preverjanje je lahko posledica neujemanja imen DNS na strani strežnika oziroma pravila požarnega zidu."
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");
