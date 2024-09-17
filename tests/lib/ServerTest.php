@@ -71,9 +71,6 @@ class ServerTest extends \Test\TestCase {
 			['EncryptionManager', '\OCP\Encryption\IManager'],
 			['EventLogger', '\OCP\Diagnostics\IEventLogger'],
 
-			['GroupManager', '\OC\Group\Manager'],
-			['GroupManager', '\OCP\IGroupManager'],
-
 			['Hasher', '\OC\Security\Hasher'],
 			['Hasher', '\OCP\Security\IHasher'],
 			['HttpClientService', '\OC\Http\Client\ClientService'],
