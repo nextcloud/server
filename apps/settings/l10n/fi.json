@@ -150,7 +150,6 @@
     "64-bit" : "64-bit",
     "Your database does not run with \"READ COMMITTED\" transaction isolation level. This can cause problems when multiple actions are executed in parallel." : "Tietokantaasi ei suoriteta \"READ COMMITTED\"-transaktioeristystasolla. Tämä saattaa aiheuttaa ongelmia, kun useita toimintoja suoritetaan rinnakkaisesti.",
     ".well-known URLs" : ".well-known-URL-osoitteet",
-    "WOFF2 file loading" : "WOFF2-tiedostolataus",
     "Profile information" : "Profiilitiedot",
     "Nextcloud settings" : "Nextcloud-asetukset",
     "Task:" : "Tehtävä:",

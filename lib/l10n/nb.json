@@ -271,6 +271,7 @@
     "Storage connection error. %s" : "Tilkoblingsfeil for lager. %s",
     "Storage is temporarily not available" : "Lagring er midlertidig utilgjengelig",
     "Storage connection timeout. %s" : "Tidsavbrudd ved tilkobling av lager: %s",
+    "To allow this check to run you have to make sure that your Web server can connect to itself. Therefore it must be able to resolve and connect to at least one of its `trusted_domains` or the `overwrite.cli.url`. This failure may be the result of a server-side DNS mismatch or outbound firewall rule." : "For å la denne kontrollen kjøre, må du sørge for at webserveren din kan koble til seg selv. Derfor må den kunne løse og koble til minst en dens 'trusted_domains' eller 'overwrite.cli.url'. Denne feilen kan være et resultat av ikke-DNS-samsvar på serversiden eller en regel for utgående brannmur.",
     "Transcribe audio" : "Transkriber lyd",
     "Transcribe the things said in an audio" : "Transkriber tingene som blir sagt i en lyd",
     "Audio input" : "Lydinndata",

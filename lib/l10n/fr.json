@@ -271,6 +271,7 @@
     "Storage connection error. %s" : "Erreur de connexion à l’espace stockage. %s",
     "Storage is temporarily not available" : "Le support de stockage est temporairement indisponible",
     "Storage connection timeout. %s" : "Le délai d'attente pour la connexion à l'espace de stockage a été dépassé. %s",
+    "To allow this check to run you have to make sure that your Web server can connect to itself. Therefore it must be able to resolve and connect to at least one of its `trusted_domains` or the `overwrite.cli.url`. This failure may be the result of a server-side DNS mismatch or outbound firewall rule." : "Pour autoriser cette vérification, pour devez vous assurer que votre serveur web peut se connecter à lui-même. Il doit donc être capable de résoudre et de se connecter à au moins un de ses `trusted_domains` ou à l'URL `overwrite.cli.url`. Cet échec peut être le résultat d'une erreur de DNS côté serveur ou d'une règle de pare-feu sortante.",
     "Transcribe audio" : "Transcrire l'audio",
     "Transcribe the things said in an audio" : "Transcrire les propos exprimés dans un fichier audio",
     "Audio input" : "Entrée audio",

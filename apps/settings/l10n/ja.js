@@ -137,7 +137,6 @@ OC.L10N.register(
     "Your remote address could not be determined." : "リモートアドレスを特定できませんでした。",
     "Your remote address was identified as \"%s\" and is brute-force throttled at the moment slowing down the performance of various requests. If the remote address is not your address this can be an indication that a proxy is not configured correctly." : "あなたの接続アドレスが\"%s\"として識別され、現在ブルートフォース対策制限が適用されているため、さまざまなリクエストのパフォーマンスが低下しています。接続アドレスがあなたのアドレスでない場合、プロキシが正しく設定されていない可能性があります。",
     "Your remote address \"%s\" is not brute-force throttled." : "リモートアドレス \"%s\" はブルートフォース対策制限がされていません。",
-    "To allow this check to run you have to make sure that your Web server can connect to itself. Therefore it must be able to resolve and connect to at least one of its `trusted_domains` or the `overwrite.cli.url`. This failure may be the result of a server-side DNS mismatch or outbound firewall rule." : "このチェックを実行させるには、Webサーバーが自分自身に接続できることを確認しなければならない。そのため、少なくとも一つの `trusted_domains` または `overwrite.cli.url` を解決して接続できなければなりません。この失敗は、サーバ側のDNSの不一致やアウトバウンドファイアウォールルールの結果かもしれません。",
     "Old administration imported certificates" : "旧管理者がインポートした証明書",
     "A background job is pending that checks for administration imported SSL certificates. Please check back later." : "管理者がインポートしたSSL証明書をチェックするバックグラウンドジョブが保留中です。しばらくして再度確認してください。",
     "There are some administration imported SSL certificates present, that are not used anymore with Nextcloud 21. They can be imported on the command line via \"occ security:certificates:import\" command. Their paths inside the data directory are shown below." : "管理用にインポートしたSSL証明書がいくつか存在しますが、Nextcloud 21 ではもう使用されていません。これらの証明書は、\"occ security:certificates:import\" コマンドを使用してコマンドラインでインポートすることができます。これらの証明書のデータディレクトリ内のパスは以下のとおりです。",
@@ -314,9 +313,6 @@ OC.L10N.register(
     "Could not check that your web server serves `.well-known` correctly. Please check manually." : "ウェブサーバが `.well-known` を正しく提供しているか確認できませんでした。手動で確認してください。",
     "Your web server is not properly set up to resolve `.well-known` URLs, failed on:\n`%s`" : "ウェブサーバが `.well-known` URL を正しく解決できるように設定されていません。失敗箇所:\n`%s`",
     "Your server is correctly configured to serve `.well-known` URLs." : "サーバーは `.well-known` URL を提供するように正しく構成されています。",
-    "WOFF2 file loading" : "WOFF2 ファイルの読み込み",
-    "Could not check for WOFF2 loading support. Please check manually if your webserver serves `.woff2` files." : "WOFF2 の読み込みサポートを確認できませんでした。お使いのウェブサーバが .woff2 ファイルを提供しているかどうかを手動で確認してください。",
-    "Your web server is not properly set up to deliver .woff2 files. This is typically an issue with the Nginx configuration. For Nextcloud 15 it needs an adjustement to also deliver .woff2 files. Compare your Nginx configuration to the recommended configuration in our documentation." : "お使いのウェブサーバは .woff2 ファイルを正しく配信するように設定されていません。これは通常Nginxの設定に問題があります。Nextcloud 15では、.woff2 ファイルも配信するように調整する必要があります。ドキュメント内の推奨されるNginx設定と比較してください。",
     "Profile information" : "プロフィール情報",
     "Profile picture, full name, email, phone number, address, website, Twitter, organisation, role, headline, biography, and whether your profile is enabled" : "プロフィール写真、氏名、メールアドレス、電話番号、住所、Webサイト、Twitter、組織、役職、ヘッドライン、自己紹介が有効かどうか",
     "Nextcloud settings" : "Nextcloud の設定",
@@ -881,6 +877,7 @@ OC.L10N.register(
     "SMTP Username" : "SMTPユーザー名",
     "To allow this check to run you have to make sure that your webserver can connect to itself. Therefor it must be able to resolve and connect to at least one its `trusted_domains` or the `overwrite.cli.url`." : "このチェックを実行させるには、ウェブサーバが自分自身に接続できることを確認する必要があります。したがって、少なくとも `trusted_domains` または `overwrite.cli.url` を解決して接続できなければなりません。",
     "Could not check for JavaScript support via any of your `trusted_domains` nor `overwrite.cli.url`. This may be the result of a server-side DNS mismatch or outbound firewall rule. Please check manually if your webserver serves `.mjs` files using the JavaScript MIME type." : "`trusted_domains` または `overwrite.cli.url` で JavaScript のサポートを確認できませんでした。これはサーバ側の DNS の不一致か、アウトバウンドファイアウォールルールの結果である可能性があります。お使いのウェブサーバーが JavaScript MIMEタイプを使用して `.mjs` ファイルを提供しているかどうかを手動で確認してください。",
-    "Active accounts" : "アクティブなアカウント"
+    "Active accounts" : "アクティブなアカウント",
+    "To allow this check to run you have to make sure that your Web server can connect to itself. Therefore it must be able to resolve and connect to at least one of its `trusted_domains` or the `overwrite.cli.url`. This failure may be the result of a server-side DNS mismatch or outbound firewall rule." : "このチェックを実行させるには、Webサーバーが自分自身に接続できることを確認しなければならない。そのため、少なくとも一つの `trusted_domains` または `overwrite.cli.url` を解決して接続できなければなりません。この失敗は、サーバ側のDNSの不一致やアウトバウンドファイアウォールルールの結果かもしれません。"
 },
 "nplurals=1; plural=0;");
