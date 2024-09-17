@@ -99,6 +99,7 @@
                     "organisation",
                     "phone",
                     "profile_enabled",
+                    "pronouns",
                     "quota",
                     "role",
                     "subadmin",
@@ -224,6 +225,12 @@
                         "type": "string"
                     },
                     "profile_enabledScope": {
+                        "$ref": "#/components/schemas/UserDetailsScope"
+                    },
+                    "pronouns": {
+                        "type": "string"
+                    },
+                    "pronounsScope": {
                         "$ref": "#/components/schemas/UserDetailsScope"
                     },
                     "quota": {

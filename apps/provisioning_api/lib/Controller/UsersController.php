@@ -761,6 +761,7 @@ class UsersController extends AUserData {
 		$permittedFields[] = IAccountManager::PROPERTY_HEADLINE;
 		$permittedFields[] = IAccountManager::PROPERTY_BIOGRAPHY;
 		$permittedFields[] = IAccountManager::PROPERTY_PROFILE_ENABLED;
+		$permittedFields[] = IAccountManager::PROPERTY_PRONOUNS;
 
 		return new DataResponse($permittedFields);
 	}
@@ -944,6 +945,8 @@ class UsersController extends AUserData {
 			$permittedFields[] = IAccountManager::PROPERTY_BIOGRAPHY;
 			$permittedFields[] = IAccountManager::PROPERTY_PROFILE_ENABLED;
 			$permittedFields[] = IAccountManager::PROPERTY_BIRTHDATE;
+			$permittedFields[] = IAccountManager::PROPERTY_PRONOUNS;
+		
 			$permittedFields[] = IAccountManager::PROPERTY_PHONE . self::SCOPE_SUFFIX;
 			$permittedFields[] = IAccountManager::PROPERTY_ADDRESS . self::SCOPE_SUFFIX;
 			$permittedFields[] = IAccountManager::PROPERTY_WEBSITE . self::SCOPE_SUFFIX;
@@ -955,8 +958,8 @@ class UsersController extends AUserData {
 			$permittedFields[] = IAccountManager::PROPERTY_BIOGRAPHY . self::SCOPE_SUFFIX;
 			$permittedFields[] = IAccountManager::PROPERTY_PROFILE_ENABLED . self::SCOPE_SUFFIX;
 			$permittedFields[] = IAccountManager::PROPERTY_BIRTHDATE . self::SCOPE_SUFFIX;
-
 			$permittedFields[] = IAccountManager::PROPERTY_AVATAR . self::SCOPE_SUFFIX;
+			$permittedFields[] = IAccountManager::PROPERTY_PRONOUNS . self::SCOPE_SUFFIX;
 
 			// If admin they can edit their own quota and manager
 			$isAdmin = $this->groupManager->isAdmin($currentLoggedInUser->getUID());
@@ -997,6 +1000,7 @@ class UsersController extends AUserData {
 				$permittedFields[] = IAccountManager::PROPERTY_HEADLINE;
 				$permittedFields[] = IAccountManager::PROPERTY_BIOGRAPHY;
 				$permittedFields[] = IAccountManager::PROPERTY_PROFILE_ENABLED;
+				$permittedFields[] = IAccountManager::PROPERTY_PRONOUNS;
 				$permittedFields[] = self::USER_FIELD_QUOTA;
 				$permittedFields[] = self::USER_FIELD_NOTIFICATION_EMAIL;
 				$permittedFields[] = self::USER_FIELD_MANAGER;
@@ -1141,6 +1145,7 @@ class UsersController extends AUserData {
 			case IAccountManager::PROPERTY_HEADLINE:
 			case IAccountManager::PROPERTY_BIOGRAPHY:
 			case IAccountManager::PROPERTY_BIRTHDATE:
+			case IAccountManager::PROPERTY_PRONOUNS:
 				$userAccount = $this->accountManager->getAccount($targetUser);
 				try {
 					$userProperty = $userAccount->getProperty($key);
@@ -1189,6 +1194,7 @@ class UsersController extends AUserData {
 			case IAccountManager::PROPERTY_PROFILE_ENABLED . self::SCOPE_SUFFIX:
 			case IAccountManager::PROPERTY_BIRTHDATE . self::SCOPE_SUFFIX:
 			case IAccountManager::PROPERTY_AVATAR . self::SCOPE_SUFFIX:
+			case IAccountManager::PROPERTY_PRONOUNS . self::SCOPE_SUFFIX:
 				$propertyName = substr($key, 0, strlen($key) - strlen(self::SCOPE_SUFFIX));
 				$userAccount = $this->accountManager->getAccount($targetUser);
 				$userProperty = $userAccount->getProperty($propertyName);

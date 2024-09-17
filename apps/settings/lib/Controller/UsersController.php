@@ -335,6 +335,8 @@ class UsersController extends Controller {
 		?string $fediverseScope = null,
 		?string $birthdate = null,
 		?string $birthdateScope = null,
+		?string $pronouns = null,
+		?string $pronounsScope = null
 	) {
 		$user = $this->userSession->getUser();
 		if (!$user instanceof IUser) {
@@ -375,6 +377,7 @@ class UsersController extends Controller {
 			IAccountManager::PROPERTY_TWITTER => ['value' => $twitter, 'scope' => $twitterScope],
 			IAccountManager::PROPERTY_FEDIVERSE => ['value' => $fediverse, 'scope' => $fediverseScope],
 			IAccountManager::PROPERTY_BIRTHDATE => ['value' => $birthdate, 'scope' => $birthdateScope],
+			IAccountManager::PROPERTY_PRONOUNS => ['value' => $pronouns, 'scope' => $pronounsScope],
 		];
 		$allowUserToChangeDisplayName = $this->config->getSystemValueBool('allow_user_to_change_display_name', true);
 		foreach ($updatable as $property => $data) {
@@ -418,6 +421,8 @@ class UsersController extends Controller {
 						'fediverseScope' => $userAccount->getProperty(IAccountManager::PROPERTY_FEDIVERSE)->getScope(),
 						'birthdate' => $userAccount->getProperty(IAccountManager::PROPERTY_BIRTHDATE)->getValue(),
 						'birthdateScope' => $userAccount->getProperty(IAccountManager::PROPERTY_BIRTHDATE)->getScope(),
+						'pronouns' => $userAccount->getProperty(IAccountManager::PROPERTY_PRONOUNS)->getValue(),
+						'pronounsScope' => $userAccount->getProperty(IAccountManager::PROPERTY_PRONOUNS)->getScope(),
 						'message' => $this->l10n->t('Settings saved'),
 					],
 				],

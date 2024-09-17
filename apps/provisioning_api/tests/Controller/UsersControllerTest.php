@@ -990,6 +990,7 @@ class UsersControllerTest extends TestCase {
 			IAccountManager::PROPERTY_HEADLINE => ['value' => 'headline'],
 			IAccountManager::PROPERTY_BIOGRAPHY => ['value' => 'biography'],
 			IAccountManager::PROPERTY_PROFILE_ENABLED => ['value' => '1'],
+			IAccountManager::PROPERTY_PRONOUNS => ['value' => 'they/them'],
 		]);
 		$this->config
 			->method('getUserValue')
@@ -1068,6 +1069,7 @@ class UsersControllerTest extends TestCase {
 			'profile_enabled' => '1',
 			'notify_email' => null,
 			'manager' => '',
+			'pronouns' => 'they/them',
 		];
 		$this->assertEquals($expected, $this->invokePrivate($this->api, 'getUserData', ['UID']));
 	}
@@ -1171,6 +1173,7 @@ class UsersControllerTest extends TestCase {
 			IAccountManager::PROPERTY_HEADLINE => ['value' => 'headline'],
 			IAccountManager::PROPERTY_BIOGRAPHY => ['value' => 'biography'],
 			IAccountManager::PROPERTY_PROFILE_ENABLED => ['value' => '1'],
+			IAccountManager::PROPERTY_PRONOUNS => ['value' => 'they/them'],
 		]);
 
 		$this->l10nFactory
@@ -1209,6 +1212,7 @@ class UsersControllerTest extends TestCase {
 			'profile_enabled' => '1',
 			'notify_email' => null,
 			'manager' => '',
+			'pronouns' => 'they/them',
 		];
 		$this->assertEquals($expected, $this->invokePrivate($this->api, 'getUserData', ['UID']));
 	}
@@ -1351,6 +1355,7 @@ class UsersControllerTest extends TestCase {
 			IAccountManager::PROPERTY_HEADLINE => ['value' => 'headline'],
 			IAccountManager::PROPERTY_BIOGRAPHY => ['value' => 'biography'],
 			IAccountManager::PROPERTY_PROFILE_ENABLED => ['value' => '1'],
+			IAccountManager::PROPERTY_PRONOUNS => ['value' => 'they/them'],
 		]);
 
 		$this->l10nFactory
@@ -1388,6 +1393,7 @@ class UsersControllerTest extends TestCase {
 			'profile_enabled' => '1',
 			'notify_email' => null,
 			'manager' => '',
+			'pronouns' => 'they/them',
 		];
 		$this->assertEquals($expected, $this->invokePrivate($this->api, 'getUserData', ['UID']));
 	}
@@ -1729,6 +1735,7 @@ class UsersControllerTest extends TestCase {
 			[IAccountManager::PROPERTY_HEADLINE, 'Hi', 'Hello'],
 			[IAccountManager::PROPERTY_BIOGRAPHY, 'A biography', 'Another biography'],
 			[IAccountManager::PROPERTY_PROFILE_ENABLED, '1', '0'],
+			[IAccountManager::PROPERTY_PRONOUNS, 'they/them', 'he/him'],
 		];
 	}
 
@@ -1806,6 +1813,7 @@ class UsersControllerTest extends TestCase {
 			[IAccountManager::PROPERTY_HEADLINE, IAccountManager::SCOPE_LOCAL, IAccountManager::SCOPE_FEDERATED],
 			[IAccountManager::PROPERTY_BIOGRAPHY, IAccountManager::SCOPE_LOCAL, IAccountManager::SCOPE_FEDERATED],
 			[IAccountManager::PROPERTY_PROFILE_ENABLED, IAccountManager::SCOPE_LOCAL, IAccountManager::SCOPE_FEDERATED],
+			[IAccountManager::PROPERTY_PRONOUNS, IAccountManager::SCOPE_LOCAL, IAccountManager::SCOPE_FEDERATED],
 		];
 	}
 
@@ -3690,7 +3698,8 @@ class UsersControllerTest extends TestCase {
 					'role' => 'role',
 					'headline' => 'headline',
 					'biography' => 'biography',
-					'profile_enabled' => '1'
+					'profile_enabled' => '1',
+					'pronouns' => 'they/them',
 				]
 			);
 
@@ -3711,6 +3720,7 @@ class UsersControllerTest extends TestCase {
 			'headline' => 'headline',
 			'biography' => 'biography',
 			'profile_enabled' => '1',
+			'pronouns' => 'they/them',
 		];
 
 		$this->assertSame($expected, $api->getCurrentUser()->getData());
@@ -3775,7 +3785,8 @@ class UsersControllerTest extends TestCase {
 			'role' => 'role',
 			'headline' => 'headline',
 			'biography' => 'biography',
-			'profile_enabled' => '1'
+			'profile_enabled' => '1',
+			'pronouns' => 'they/them',
 		];
 
 		$api->expects($this->exactly(2))
@@ -4115,6 +4126,7 @@ class UsersControllerTest extends TestCase {
 				IAccountManager::PROPERTY_HEADLINE,
 				IAccountManager::PROPERTY_BIOGRAPHY,
 				IAccountManager::PROPERTY_PROFILE_ENABLED,
+				IAccountManager::PROPERTY_PRONOUNS,
 			]],
 			[true, ISetDisplayNameBackend::class, [
 				IAccountManager::PROPERTY_DISPLAYNAME,
@@ -4130,6 +4142,7 @@ class UsersControllerTest extends TestCase {
 				IAccountManager::PROPERTY_HEADLINE,
 				IAccountManager::PROPERTY_BIOGRAPHY,
 				IAccountManager::PROPERTY_PROFILE_ENABLED,
+				IAccountManager::PROPERTY_PRONOUNS,
 			]],
 			[true, UserInterface::class, [
 				IAccountManager::PROPERTY_EMAIL,
@@ -4144,6 +4157,7 @@ class UsersControllerTest extends TestCase {
 				IAccountManager::PROPERTY_HEADLINE,
 				IAccountManager::PROPERTY_BIOGRAPHY,
 				IAccountManager::PROPERTY_PROFILE_ENABLED,
+				IAccountManager::PROPERTY_PRONOUNS,
 			]],
 		];
 	}

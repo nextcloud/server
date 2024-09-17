@@ -56,6 +56,8 @@ namespace OCA\Provisioning_API;
  *     phoneScope?: Provisioning_APIUserDetailsScope,
  *     profile_enabled: string,
  *     profile_enabledScope?: Provisioning_APIUserDetailsScope,
+ *     pronouns: string,
+ *     pronounsScope?: Provisioning_APIUserDetailsScope,
  *     quota: Provisioning_APIUserDetailsQuota,
  *     role: string,
  *     roleScope?: Provisioning_APIUserDetailsScope,

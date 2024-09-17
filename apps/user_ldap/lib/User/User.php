@@ -320,6 +320,12 @@ class User {
 					]);
 				}
 			}
+			//User Profile Field - pronouns
+			$attr = strtolower($this->connection->ldapAttributePronouns);
+			if (!empty($attr)) {
+				$profileValues[\OCP\Accounts\IAccountManager::PROPERTY_PRONOUNS]
+					= $ldapEntry[$attr][0] ?? '';
+			}
 			// check for changed data and cache just for TTL checking
 			$checksum = hash('sha256', json_encode($profileValues));
 			$this->connection->writeToCache($cacheKey, $checksum // write array to cache. is waste of cache space
