@@ -304,6 +304,7 @@
     "Storage connection error. %s" : "Earráid nasc stórála. %s",
     "Storage is temporarily not available" : "Níl stóráil ar fáil go sealadach",
     "Storage connection timeout. %s" : "Teorainn ama ceangail stórála. %s",
+    "To allow this check to run you have to make sure that your Web server can connect to itself. Therefore it must be able to resolve and connect to at least one of its `trusted_domains` or the `overwrite.cli.url`. This failure may be the result of a server-side DNS mismatch or outbound firewall rule." : "Le gur féidir an tseiceáil seo a rith caithfidh tú a chinntiú gur féidir le do fhreastalaí Gréasáin nascadh leis féin. Mar sin caithfidh sé a bheith in ann réiteach agus ceangal a dhéanamh le ceann amháin ar a laghad dá chuid `fearainn_iontaofa` nó an `overwrite.cli.url`. D'fhéadfadh an teip seo a bheith mar thoradh ar mhímheaitseáil DNS ar thaobh an fhreastalaí nó riail balla dóiteáin amach.",
     "Transcribe audio" : "Trascríobh fuaime",
     "Transcribe the things said in an audio" : "Tras-scríobh na rudaí a dúradh i bhfuaim",
     "Audio input" : "Ionchur fuaime",

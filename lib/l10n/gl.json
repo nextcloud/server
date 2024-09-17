@@ -304,6 +304,7 @@
     "Storage connection error. %s" : "Produciuse un erro na conexión ao almacenamento. %s",
     "Storage is temporarily not available" : "O almacenamento non está dispoñíbel temporalmente",
     "Storage connection timeout. %s" : "Esgotouse o tempo de conexión co almacenamento. %s",
+    "To allow this check to run you have to make sure that your Web server can connect to itself. Therefore it must be able to resolve and connect to at least one of its `trusted_domains` or the `overwrite.cli.url`. This failure may be the result of a server-side DNS mismatch or outbound firewall rule." : "Para permitir que esta comprobación se execute, debe asegurarse de que o seu servidor web poida conectarse a si mesmo. Por tanto, debe ser quen de resolver e conectarse a polo menos un dos seus «trusted_domains» ou ao «overwrite.cli.url». Este fallo pode ser o resultado dunha falta de coincidencia de DNS do servidor ou dunha regra da devasa de saída.",
     "Transcribe audio" : "Transcribir son",
     "Transcribe the things said in an audio" : "Transcribir as cousas ditas nun ficheiro de son",
     "Audio input" : "Entrada de son",

@@ -252,8 +252,6 @@
     "Could not check that your web server serves `.well-known` correctly. Please check manually." : "No se pudo revisar si su servidor web sirve correctamente `.well-known`. Por favor, revise manualmente.",
     "Your web server is not properly set up to resolve `.well-known` URLs, failed on:\n`%s`" : "Su servidor web no está configurado apropiadamente para resolver URLs `.well-known`, falló en:\n`%s`",
     "Your server is correctly configured to serve `.well-known` URLs." : "Su servidor está correctamente configurado para servir URLs `.well-known`.",
-    "WOFF2 file loading" : "Cargando archivo WOFF2",
-    "Could not check for WOFF2 loading support. Please check manually if your webserver serves `.woff2` files." : "No se pudo verificar el soporte de carga WOFF2. Por favor, verifique manualmente si su servidor web sirve archivos `.woff2`.",
     "Profile information" : "Información del perfil",
     "Profile picture, full name, email, phone number, address, website, Twitter, organisation, role, headline, biography, and whether your profile is enabled" : "Foto de perfil, nombre completo, correo electrónico, número de teléfono, dirección, sitio web, Twitter, organización, cargo, titular, biografía y si su perfil está habilitado",
     "Nextcloud settings" : "Configuración de Nextcloud",
