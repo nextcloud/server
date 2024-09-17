@@ -5,6 +5,7 @@
  */
 namespace OCA\DAV\CalDAV\Activity\Provider;
 
+use OCP\Activity\Exceptions\UnknownActivityException;
 use OCP\Activity\IEvent;
 use OCP\Activity\IEventMerger;
 use OCP\Activity\IManager;
@@ -59,12 +60,12 @@ class Calendar extends Base {
 	 * @param IEvent $event
 	 * @param IEvent|null $previousEvent
 	 * @return IEvent
-	 * @throws \InvalidArgumentException
+	 * @throws UnknownActivityException
 	 * @since 11.0.0
 	 */
 	public function parse($language, IEvent $event, ?IEvent $previousEvent = null) {
 		if ($event->getApp() !== 'dav' || $event->getType() !== 'calendar') {
-			throw new \InvalidArgumentException();
+			throw new UnknownActivityException();
 		}
 
 		$this->l = $this->languageFactory->get('dav', $language);
@@ -122,7 +123,7 @@ class Calendar extends Base {
 		} elseif ($event->getSubject() === self::SUBJECT_UNSHARE_GROUP . '_by') {
 			$subject = $this->l->t('{actor} unshared calendar {calendar} from group {group}');
 		} else {
-			throw new \InvalidArgumentException();
+			throw new UnknownActivityException();
 		}
 
 		$parsedParameters = $this->getParameters($event);

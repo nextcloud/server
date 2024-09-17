@@ -5,7 +5,7 @@
  */
 namespace OCA\Settings\Activity;
 
-use InvalidArgumentException;
+use OCP\Activity\Exceptions\UnknownActivityException;
 use OCP\Activity\IEvent;
 use OCP\Activity\IManager;
 use OCP\Activity\IProvider;
@@ -48,7 +48,7 @@ class GroupProvider implements IProvider {
 
 	public function parse($language, IEvent $event, ?IEvent $previousEvent = null) {
 		if ($event->getType() !== 'group_settings') {
-			throw new InvalidArgumentException();
+			throw new UnknownActivityException();
 		}
 
 		$l = $this->l10n->get('settings', $language);
@@ -95,7 +95,7 @@ class GroupProvider implements IProvider {
 				}
 				break;
 			default:
-				throw new InvalidArgumentException();
+				throw new UnknownActivityException();
 		}
 
 		$this->setSubjects($event, $subject, $parsedParameters);

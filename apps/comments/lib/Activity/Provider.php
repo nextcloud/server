@@ -5,6 +5,7 @@
  */
 namespace OCA\Comments\Activity;
 
+use OCP\Activity\Exceptions\UnknownActivityException;
 use OCP\Activity\IEvent;
 use OCP\Activity\IManager;
 use OCP\Activity\IProvider;
@@ -32,12 +33,12 @@ class Provider implements IProvider {
 	 * @param IEvent $event
 	 * @param IEvent|null $previousEvent
 	 * @return IEvent
-	 * @throws \InvalidArgumentException
+	 * @throws UnknownActivityException
 	 * @since 11.0.0
 	 */
 	public function parse($language, IEvent $event, ?IEvent $previousEvent = null): IEvent {
 		if ($event->getApp() !== 'comments') {
-			throw new \InvalidArgumentException();
+			throw new UnknownActivityException();
 		}
 
 		$this->l = $this->languageFactory->get('comments', $language);
@@ -59,9 +60,9 @@ class Provider implements IProvider {
 			}
 
 			return $this->parseLongVersion($event);
-		} else {
-			throw new \InvalidArgumentException();
 		}
+		throw new UnknownActivityException();
+
 	}
 
 	/**
