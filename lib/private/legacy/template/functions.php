@@ -5,6 +5,8 @@
  * SPDX-FileCopyrightText: 2016 ownCloud, Inc.
  * SPDX-License-Identifier: AGPL-3.0-only
  */
+
+use OCP\IDateTimeFormatter;
 use OCP\Util;
 
 function p($string) {
@@ -280,9 +282,8 @@ function strip_time($timestamp) {
  * @param bool|null $dateOnly whether to strip time information
  * @return string timestamp
  */
-function relative_modified_date($timestamp, $fromTime = null, $dateOnly = false) {
-	/** @var \OC\DateTimeFormatter $formatter */
-	$formatter = \OCP\Server::get('DateTimeFormatter');
+function relative_modified_date($timestamp, $fromTime = null, $dateOnly = false): string {
+	$formatter = \OCP\Server::get(IDateTimeFormatter::class);
 
 	if ($dateOnly) {
 		return $formatter->formatDateSpan($timestamp, $fromTime);
