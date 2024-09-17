@@ -70,6 +70,7 @@ use OCP\Diagnostics\IEventLogger;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\IFilenameValidator;
 use OCP\FilesMetadata\IFilesMetadataManager;
+use OCP\IAppConfig;
 use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IPreview;
@@ -311,7 +312,7 @@ class Server {
 				));
 				if (\OC::$server->getConfig()->getAppValue('dav', 'sendInvitations', 'yes') === 'yes') {
 					$this->server->addPlugin(new IMipPlugin(
-						\OC::$server->get(IConfig::class),
+						\OC::$server->get(IAppConfig::class),
 						\OC::$server->get(IMailer::class),
 						\OC::$server->get(LoggerInterface::class),
 						\OC::$server->get(ITimeFactory::class),
