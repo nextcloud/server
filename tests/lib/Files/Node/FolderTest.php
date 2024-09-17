@@ -353,6 +353,8 @@ class FolderTest extends NodeTest {
 
 		$storage->method('getCache')
 			->willReturn($cache);
+		$storage->method('getOwner')
+			->willReturn('owner');
 
 		$cache->insert('files', ['size' => 200, 'mtime' => 55, 'mimetype' => ICacheEntry::DIRECTORY_MIMETYPE]);
 		$cache->insert('files/foo', ['size' => 200, 'mtime' => 55, 'mimetype' => 'text/plain']);
@@ -391,6 +393,8 @@ class FolderTest extends NodeTest {
 
 		$storage->method('getCache')
 			->willReturn($cache);
+		$storage->method('getOwner')
+			->willReturn('owner');
 
 		$cache->insert('foo', ['size' => 200, 'mtime' => 55, 'mimetype' => ICacheEntry::DIRECTORY_MIMETYPE]);
 		$cache->insert('foo/qwerty', ['size' => 200, 'mtime' => 55, 'mimetype' => 'text/plain']);
@@ -442,9 +446,13 @@ class FolderTest extends NodeTest {
 
 		$storage->method('getCache')
 			->willReturn($cache);
+		$storage->method('getOwner')
+			->willReturn('owner');
 
 		$subStorage->method('getCache')
 			->willReturn($subCache);
+		$subStorage->method('getOwner')
+			->willReturn('owner');
 
 		$cache->insert('foo', ['size' => 200, 'mtime' => 55, 'mimetype' => ICacheEntry::DIRECTORY_MIMETYPE]);
 		$cache->insert('foo/qwerty', ['size' => 200, 'mtime' => 55, 'mimetype' => 'text/plain']);
@@ -496,6 +504,8 @@ class FolderTest extends NodeTest {
 
 		$storage->method('getCache')
 			->willReturn($cache);
+		$storage->method('getOwner')
+			->willReturn('owner');
 
 		$this->userMountCache->expects($this->any())
 			->method('getMountsForFileId')
@@ -543,6 +553,8 @@ class FolderTest extends NodeTest {
 
 		$storage->method('getCache')
 			->willReturn($cache);
+		$storage->method('getOwner')
+			->willReturn('owner');
 
 		$this->userMountCache->expects($this->any())
 			->method('getMountsForFileId')
@@ -586,6 +598,8 @@ class FolderTest extends NodeTest {
 
 		$storage->method('getCache')
 			->willReturn($cache);
+		$storage->method('getOwner')
+			->willReturn('owner');
 
 		$this->userMountCache->expects($this->any())
 			->method('getMountsForFileId')
@@ -629,6 +643,8 @@ class FolderTest extends NodeTest {
 
 		$storage->method('getCache')
 			->willReturn($cache);
+		$storage->method('getOwner')
+			->willReturn('owner');
 
 		$this->userMountCache->method('getMountsForFileId')
 			->with(1)
@@ -643,9 +659,6 @@ class FolderTest extends NodeTest {
 					''
 				),
 			]);
-
-		$storage->method('getCache')
-			->willReturn($cache);
 
 		$cache->method('get')
 			->with(1)
@@ -948,9 +961,13 @@ class FolderTest extends NodeTest {
 
 		$storage->method('getCache')
 			->willReturn($cache);
+		$storage->method('getOwner')
+			->willReturn('owner');
 
 		$subStorage1->method('getCache')
 			->willReturn($subCache1);
+		$subStorage1->method('getOwner')
+			->willReturn('owner');
 
 		$subMount2->method('getStorage')
 			->willReturn($subStorage2);
@@ -960,6 +977,8 @@ class FolderTest extends NodeTest {
 
 		$subStorage2->method('getCache')
 			->willReturn($subCache2);
+		$subStorage2->method('getOwner')
+			->willReturn('owner');
 
 		$cache->insert('foo/foo1', ['size' => 200, 'mtime' => 10, 'mimetype' => 'text/plain']);
 		$cache->insert('foo/foo2', ['size' => 200, 'mtime' => 20, 'mimetype' => 'text/plain']);
