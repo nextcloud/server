@@ -81,7 +81,7 @@ const openLocalClient = async function(path: string) {
 
 export const action = new FileAction({
 	id: 'edit-locally',
-	displayName: () => t('files', 'Edit locally'),
+	displayName: () => t('files', 'Open locally'),
 	iconSvgInline: () => LaptopSvg,
 
 	// Only works on single files
