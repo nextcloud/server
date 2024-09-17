@@ -234,5 +234,6 @@
 	"xrf": ["image/x-dcraw"],
 	"yaml": ["application/yaml", "text/plain"],
 	"yml": ["application/yaml", "text/plain"],
-	"zip": ["application/zip"]
+	"zip": ["application/zip"],
+	"zst": ["application/zstd"]
 }
