@@ -196,6 +196,7 @@
     "Accounts" : "Accounts",
     "System address book which holds all accounts" : "System address book which holds all accounts",
     "File is not updatable: %1$s" : "File is not updatable: %1$s",
+    "Failed to get storage for file" : "Failed to get storage for file",
     "Could not write to final file, canceled by hook" : "Could not write to final file, cancelled by hook",
     "Could not write file contents" : "Could not write file contents",
     "_%n byte_::_%n bytes_" : ["%n byte","%n bytes"],
