@@ -245,7 +245,7 @@ class URLGenerator implements IURLGenerator {
 
 	/**
 	 * Makes an URL absolute
-	 * @param string $url the url in the ownCloud host
+	 * @param string $url the url in the Nextcloud host
 	 * @return string the absolute version of the url
 	 */
 	public function getAbsoluteURL(string $url): string {
@@ -254,7 +254,7 @@ class URLGenerator implements IURLGenerator {
 		if (\OC::$CLI && !\defined('PHPUNIT_RUN')) {
 			return rtrim($this->config->getSystemValueString('overwrite.cli.url'), '/') . '/' . ltrim($url, '/');
 		}
-		// The ownCloud web root can already be prepended.
+		// The Nextcloud web root could already be prepended.
 		if (\OC::$WEBROOT !== '' && str_starts_with($url, \OC::$WEBROOT)) {
 			$url = substr($url, \strlen(\OC::$WEBROOT));
 		}

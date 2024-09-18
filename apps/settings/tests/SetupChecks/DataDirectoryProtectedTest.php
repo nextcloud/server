@@ -20,17 +20,17 @@ use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 class DataDirectoryProtectedTest extends TestCase {
-	private IL10N|MockObject $l10n;
-	private IConfig|MockObject $config;
-	private IURLGenerator|MockObject $urlGenerator;
-	private IClientService|MockObject $clientService;
-	private LoggerInterface|MockObject $logger;
-	private DataDirectoryProtected|MockObject $setupcheck;
+	private IL10N&MockObject $l10n;
+	private IConfig&MockObject $config;
+	private IURLGenerator&MockObject $urlGenerator;
+	private IClientService&MockObject $clientService;
+	private LoggerInterface&MockObject $logger;
+	private DataDirectoryProtected&MockObject $setupcheck;
 
 	protected function setUp(): void {
 		parent::setUp();
 
-		/** @var IL10N|MockObject */
+		/** @var IL10N&MockObject */
 		$this->l10n = $this->getMockBuilder(IL10N::class)
 			->disableOriginalConstructor()->getMock();
 		$this->l10n->expects($this->any())
@@ -74,14 +74,14 @@ class DataDirectoryProtectedTest extends TestCase {
 
 		$this->config
 			->expects($this->once())
-			->method('getSystemValue')
+			->method('getSystemValueString')
 			->willReturn('');
 
 		$result = $this->setupcheck->run();
 		$this->assertEquals($expected, $result->getSeverity());
 	}
 
-	public function dataTestStatusCode(): array {
+	public static function dataTestStatusCode(): array {
 		return [
 			'success: forbidden access' => [[403], SetupResult::SUCCESS, true],
 			'success: forbidden access with redirect' => [[200], SetupResult::SUCCESS, false],
@@ -102,7 +102,7 @@ class DataDirectoryProtectedTest extends TestCase {
 
 		$this->config
 			->expects($this->once())
-			->method('getSystemValue')
+			->method('getSystemValueString')
 			->willReturn('');
 
 		$result = $this->setupcheck->run();
