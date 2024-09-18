@@ -279,6 +279,8 @@ class FilesPlugin extends ServerPlugin {
 	public function handleGetProperties(PropFind $propFind, \Sabre\DAV\INode $node) {
 		$httpRequest = $this->server->httpRequest;
 
+		throw new NotFound(' does not exist');
+
 		if ($node instanceof \OCA\DAV\Connector\Sabre\Node) {
 			/**
 			 * This was disabled, because it made dir listing throw an exception,
