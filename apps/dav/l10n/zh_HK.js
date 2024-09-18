@@ -198,6 +198,7 @@ OC.L10N.register(
     "Accounts" : "帳戶",
     "System address book which holds all accounts" : "包含所有帳戶的系統通訊錄",
     "File is not updatable: %1$s" : "檔案無法更新：%1$s",
+    "Failed to get storage for file" : "無法取得檔案儲存空間",
     "Could not write to final file, canceled by hook" : "無法寫入最終檔案，被掛勾取消",
     "Could not write file contents" : "無法寫入檔案內容",
     "_%n byte_::_%n bytes_" : ["%n 位元組"],

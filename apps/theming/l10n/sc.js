@@ -42,7 +42,7 @@ OC.L10N.register(
     "Advanced options" : "Sèberos avantzados",
     "Name" : "Nùmene",
     "Web link" : "Ligòngiu web",
-    "a safe home for all your data" : "unu logu siguru pro totu is datos tuos",
+    "a safe home for all your data" : "unu logu seguru pro totu is datos tuos",
     "Slogan" : "Slogan",
     "Legal notice link" : "Ligòngiu avisu legale",
     "Privacy policy link" : "Ligòngiu critèrios de riservadesa",
