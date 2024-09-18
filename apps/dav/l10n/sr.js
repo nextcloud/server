@@ -198,6 +198,7 @@ OC.L10N.register(
     "Accounts" : "Налози",
     "System address book which holds all accounts" : "Системски адресар у којем се налазе сви налози",
     "File is not updatable: %1$s" : "Фајл не може да се ажурира: %1$s",
+    "Failed to get storage for file" : "Није успело добијање складишта за фајл",
     "Could not write to final file, canceled by hook" : "Не може да се упише у крајњи фајл, отказала је кука",
     "Could not write file contents" : "Не може да се упише садржај фајла",
     "_%n byte_::_%n bytes_" : ["%n бајт","%n бајта","%n бајтова"],

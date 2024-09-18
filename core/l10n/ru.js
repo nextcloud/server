@@ -134,7 +134,7 @@ OC.L10N.register(
     "Load more results" : "Загрузить дополнительные результаты",
     "Search in" : "Искать в",
     "Searching …" : "Поиск…",
-    "Start typing to search" : "Начините вводить символы для поиска",
+    "Start typing to search" : "Начните вводить символы для поиска",
     "No matching results" : "Нет совпадающих результатов",
     "Between ${this.dateFilter.startFrom.toLocaleDateString()} and ${this.dateFilter.endAt.toLocaleDateString()}" : "Между ${this.dateFilter.startFrom.toLocaleDateString()} и ${this.dateFilter.endAt.toLocaleDateString()}",
     "Log in" : "Войти",
