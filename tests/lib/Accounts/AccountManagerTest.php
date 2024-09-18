@@ -626,6 +626,12 @@ class AccountManagerTest extends TestCase {
 				'name' => IAccountManager::PROPERTY_PROFILE_ENABLED,
 				'value' => '1',
 			],
+
+			[
+				'name' => IAccountManager::PROPERTY_PRONOUNS,
+				'value' => '',
+				'scope' => IAccountManager::SCOPE_FEDERATED,
+			],
 		];
 		$this->config->expects($this->once())->method('getSystemValue')->with('account_manager.default_property_scope', [])->willReturn([]);
 
