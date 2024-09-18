@@ -52,14 +52,14 @@ namespace OCP {
 		 *               ]
 		 * @since 5.0.0
 		 */
-		public function search($pattern, $searchProperties, $options);
+		public function search(string $pattern, array $searchProperties, array $options);
 
 		/**
 		 * @param array $properties this array if key-value-pairs defines a contact
 		 * @return array an array representing the contact just created or updated
 		 * @since 5.0.0
 		 */
-		public function createOrUpdate($properties);
+		public function createOrUpdate(array $properties);
 		//	// dummy
 		//	return array('id'    => 0, 'FN' => 'Thomas Müller', 'EMAIL' => 'a@b.c',
 		//		     'PHOTO' => 'VALUE=uri:http://www.abc.com/pub/photos/jqpublic.gif',
@@ -77,7 +77,7 @@ namespace OCP {
 		 * @return bool successful or not
 		 * @since 5.0.0
 		 */
-		public function delete($id);
+		public function delete(int $id);
 
 		/**
 		 * Returns true if this address-book is not owned by the current user,

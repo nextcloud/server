@@ -117,7 +117,7 @@ class Response {
 	 * @return $this
 	 * @since 8.0.0
 	 */
-	public function addCookie($name, $value, ?\DateTime $expireDate = null, $sameSite = 'Lax') {
+	public function addCookie(string $name, string $value, ?\DateTime $expireDate = null, string $sameSite = 'Lax') {
 		$this->cookies[$name] = ['value' => $value, 'expireDate' => $expireDate, 'sameSite' => $sameSite];
 		return $this;
 	}
@@ -141,7 +141,7 @@ class Response {
 	 * @return $this
 	 * @since 8.0.0
 	 */
-	public function invalidateCookie($name) {
+	public function invalidateCookie(string $name) {
 		$this->addCookie($name, 'expired', new \DateTime('1971-01-01 00:00'));
 		return $this;
 	}
@@ -172,11 +172,11 @@ class Response {
 	 * Adds a new header to the response that will be called before the render
 	 * function
 	 * @param string $name The name of the HTTP header
-	 * @param string $value The value, null will delete it
+	 * @param ?string $value The value, null will delete it
 	 * @return $this
 	 * @since 6.0.0 - return value was added in 7.0.0
 	 */
-	public function addHeader($name, $value) {
+	public function addHeader(string $name, ?string $value) {
 		$name = trim($name);  // always remove leading and trailing whitespace
 		// to be able to reliably check for security
 		// headers
@@ -268,7 +268,7 @@ class Response {
 	 * @return static
 	 * @since 6.0.0 - return value was added in 7.0.0
 	 */
-	public function setStatus($status): static {
+	public function setStatus(int $status): static {
 		/** @psalm-suppress InvalidPropertyAssignmentValue Expected due to @psalm-this-out */
 		$this->status = $status;
 
@@ -370,7 +370,7 @@ class Response {
 	 * @return Response Reference to this object
 	 * @since 6.0.0 - return value was added in 7.0.0
 	 */
-	public function setLastModified($lastModified) {
+	public function setLastModified(\DateTime $lastModified) {
 		$this->lastModified = $lastModified;
 
 		return $this;

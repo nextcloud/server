@@ -39,7 +39,7 @@ class PublicTemplateResponse extends TemplateResponse {
 		string $appName,
 		string $templateName,
 		array $params = [],
-		$status = Http::STATUS_OK,
+		int $status = Http::STATUS_OK,
 		array $headers = [],
 	) {
 		parent::__construct($appName, $templateName, $params, 'public', $status, $headers);

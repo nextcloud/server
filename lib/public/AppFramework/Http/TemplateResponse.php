@@ -137,13 +137,13 @@ class TemplateResponse extends Response {
 	/**
 	 * Sets the template page
 	 * @param string $renderAs admin, user or blank. Admin also prints the admin
-	 *                         settings header and footer, user renders the normal
+	 *                         settings header and footer, user renders the
 	 *                         normal page including footer and header and blank
 	 *                         just renders the plain template
 	 * @return TemplateResponse Reference to this object
 	 * @since 6.0.0 - return value was added in 7.0.0
 	 */
-	public function renderAs($renderAs) {
+	public function renderAs(string $renderAs) {
 		$this->renderAs = $renderAs;
 
 		return $this;

@@ -17,7 +17,7 @@ class Color {
 	/**
 	 * @since 25.0.0
 	 */
-	public function __construct($r, $g, $b) {
+	public function __construct(int $r, int $g, int $b) {
 		$this->r = $r;
 		$this->g = $g;
 		$this->b = $b;

@@ -70,7 +70,7 @@ interface GroupInterface {
 	 * Returns the supported actions as int to be
 	 * compared with \OC_Group_Backend::CREATE_GROUP etc.
 	 */
-	public function implementsActions($actions);
+	public function implementsActions(int $actions);
 
 	/**
 	 * is user in group?
@@ -81,7 +81,7 @@ interface GroupInterface {
 	 *
 	 * Checks whether the user is member of a group or not.
 	 */
-	public function inGroup($uid, $gid);
+	public function inGroup(string $uid, string $gid);
 
 	/**
 	 * Get all groups a user belongs to
@@ -92,7 +92,7 @@ interface GroupInterface {
 	 * This function fetches all groups a user belongs to. It does not check
 	 * if the user exists at all.
 	 */
-	public function getUserGroups($uid);
+	public function getUserGroups(string $uid);
 
 	/**
 	 * @brief Get a list of all groups
@@ -114,7 +114,7 @@ interface GroupInterface {
 	 * @return bool
 	 * @since 4.5.0
 	 */
-	public function groupExists($gid);
+	public function groupExists(string $gid);
 
 	/**
 	 * @brief Get a list of user ids in a group matching the given search parameters.
@@ -127,5 +127,5 @@ interface GroupInterface {
 	 * @since 4.5.0
 	 * @deprecated 27.0.0 Use searchInGroup instead, for performance reasons
 	 */
-	public function usersInGroup($gid, $search = '', $limit = -1, $offset = 0);
+	public function usersInGroup(string $gid, string $search = '', int $limit = -1, int $offset = 0);
 }

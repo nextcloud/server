@@ -100,7 +100,7 @@ interface IRegistrationContext {
 	 *
 	 * @since 20.0.0
 	 */
-	public function registerParameter(string $name, $value): void;
+	public function registerParameter(string $name, mixed $value): void;
 
 	/**
 	 * Register a service listener

@@ -301,7 +301,7 @@ class Connection extends LDAPUtility {
 		}
 		$key = $this->getCacheKey($key);
 		$value = base64_encode(json_encode($value));
-		$ttl = $ttlOverride ?? $this->configuration->ldapCacheTTL;
+		$ttl = $ttlOverride ?? (int) $this->configuration->ldapCacheTTL;
 		$this->cache->set($key, $value, $ttl);
 	}
 
