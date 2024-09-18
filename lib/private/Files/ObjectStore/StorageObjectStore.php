@@ -28,7 +28,7 @@ class StorageObjectStore implements IObjectStore {
 	 * @since 7.0.0
 	 */
 	public function getStorageId() {
-		$this->storage->getId();
+		return $this->storage->getId();
 	}
 
 	/**
