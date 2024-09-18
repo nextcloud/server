@@ -89,8 +89,8 @@ class SharesReminderJob extends TimedJob {
 						$qb->expr()->eq('s.share_type', $qb->expr()->literal(IShare::TYPE_EMAIL))
 					),
 					$qb->expr()->eq('s.item_type', $qb->expr()->literal('folder')),
-					$qb->expr()->gte('s.expiration', $qb->createNamedParameter($minDate->format('Y-m-d H:i:s'))),
-					$qb->expr()->lt('s.expiration', $qb->createNamedParameter($maxDate->format('Y-m-d H:i:s'))),
+					$qb->expr()->gte('s.expiration', $qb->createNamedParameter($minDate, IQueryBuilder::PARAM_DATE)),
+					$qb->expr()->lte('s.expiration', $qb->createNamedParameter($maxDate, IQueryBuilder::PARAM_DATE)),
 					$qb->expr()->eq('s.reminder_sent', $qb->createNamedParameter(
 						false, IQueryBuilder::PARAM_BOOL
 					)),
