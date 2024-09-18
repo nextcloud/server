@@ -45,8 +45,8 @@ class StorageObjectStore implements IObjectStore {
 	 * @return string the container or bucket name where objects are stored
 	 * @since 7.0.0
 	 */
-	public function getStorageId() {
-		$this->storage->getId();
+	public function getStorageId(): string {
+		return $this->storage->getId();
 	}
 
 	/**
