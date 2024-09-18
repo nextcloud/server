@@ -18,7 +18,7 @@ OC.L10N.register(
     "Save" : "Sarva",
     "Back" : "In segus",
     "Loading …" : "Carrigamentu …",
-    "Reset" : "Torra a impostare",
+    "Reset" : "Ripristina",
     "Cancel" : "Annulla",
     "Continue" : "Sighi",
     "Undo" : "Annulla",
