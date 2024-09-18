@@ -198,6 +198,7 @@ OC.L10N.register(
     "Accounts" : "حسابات",
     "System address book which holds all accounts" : "دفتر عناوين النظام الذي يحوي كل الحسابات",
     "File is not updatable: %1$s" : "ملف غير قابل للتعديل: %1$s",
+    "Failed to get storage for file" : "تعذّر الحصول على مكان لتخزين الملف",
     "Could not write to final file, canceled by hook" : "تعذرت الكتابة إلى الملف النهائي، تم إلغاؤه بواسطة خطّاف hook",
     "Could not write file contents" : "تعذرت كتابة محتويات الملف",
     "_%n byte_::_%n bytes_" : ["بايت","بايت","بايت","بايت","بايت","%n بايت"],

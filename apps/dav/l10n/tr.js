@@ -198,6 +198,7 @@ OC.L10N.register(
     "Accounts" : "Hesaplar",
     "System address book which holds all accounts" : "Tüm hesapların bulunduğu sistem adres defteri",
     "File is not updatable: %1$s" : "Dosya güncellenebilir değil: %1$s",
+    "Failed to get storage for file" : "Dosyanın depolaması alınamadı",
     "Could not write to final file, canceled by hook" : "Sonuç dosyasına yazılamadı, bağlantı tarafından iptal edildi",
     "Could not write file contents" : "Dosya içerikleri yazılamadı",
     "_%n byte_::_%n bytes_" : ["%n bayt","%n bayt"],

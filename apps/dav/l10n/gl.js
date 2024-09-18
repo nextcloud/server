@@ -198,6 +198,7 @@ OC.L10N.register(
     "Accounts" : "Contas",
     "System address book which holds all accounts" : "Caderno de enderezos do sistema que contén todas as contas",
     "File is not updatable: %1$s" : "Non é posíbel actualizar o ficheiro: %1$s",
+    "Failed to get storage for file" : "Produciuse un fallo ao obter o almacenamento para o ficheiro",
     "Could not write to final file, canceled by hook" : "Non foi posíbel escribir no ficheiro final, foi cancelado polo sistema",
     "Could not write file contents" : "Non foi posíbel escribir o contido do ficheiro",
     "_%n byte_::_%n bytes_" : ["%n  byte","%n bytes"],
