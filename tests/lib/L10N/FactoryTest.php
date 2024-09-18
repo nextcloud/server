@@ -776,7 +776,7 @@ class FactoryTest extends TestCase {
 		self::assertInstanceOf(ILanguageIterator::class, $iterator);
 	}
 
-	public static function languagesWithRespectedDirection():array {
+	public static function dataGetLanguageDirection(): array {
 		return [
 			['en', 'ltr'],
 			['de', 'ltr'],
@@ -786,11 +786,11 @@ class FactoryTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider languagesWithRespectedDirection
+	 * @dataProvider dataGetLanguageDirection
 	 */
-	public function testDirectionOfLocales(string $locale, string $expectedDirection) {
+	public function testGetLanguageDirection(string $language, string $expectedDirection) {
 		$factory = $this->getFactory();
 
-		self::assertEquals($expectedDirection, $factory->getLanguageDirectionFromLocale($locale));
+		self::assertEquals($expectedDirection, $factory->getLanguageDirection($language));
 	}
 }

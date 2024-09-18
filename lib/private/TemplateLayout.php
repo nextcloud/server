@@ -196,7 +196,7 @@ class TemplateLayout extends \OC_Template {
 		// Send the language, locale, and direction to our layouts
 		$lang = \OC::$server->get(IFactory::class)->findLanguage();
 		$locale = \OC::$server->get(IFactory::class)->findLocale($lang);
-		$direction = \OC::$server->getL10NFactory()->getLanguageDirectionFromLocale($locale);
+		$direction = \OC::$server->getL10NFactory()->getLanguageDirection($lang);
 
 		$lang = str_replace('_', '-', $lang);
 		$this->assign('language', $lang);

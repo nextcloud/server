@@ -104,13 +104,13 @@ interface IFactory {
 	public function localeExists($locale);
 
 	/**
-	 * Return the current language direction from locale
+	 * Return the language direction
 	 *
-	 * @param string $locale
+	 * @param string $language
 	 * @return 'ltr'|'rtl'
 	 * @since 31.0.0
 	 */
-	public function getLanguageDirectionFromLocale(string $locale): string;
+	public function getLanguageDirection(string $language): string;
 
 	/**
 	 * iterate through language settings (if provided) in this order:

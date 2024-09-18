@@ -377,9 +377,8 @@ class Factory implements IFactory {
 		return in_array($lang, $languages);
 	}
 
-
-	public function getLanguageDirectionFromLocale(string $locale): string {
-		if (in_array($locale, self::RTL_LANGUAGES)) {
+	public function getLanguageDirection(string $language): string {
+		if (in_array($language, self::RTL_LANGUAGES, true)) {
 			return 'rtl';
 		}
 
