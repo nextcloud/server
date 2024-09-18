@@ -607,10 +607,14 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 			}
 			$sourceStorage->rmdir($sourceInternalPath);
 		} else {
+			$sourceStream = $sourceStorage->fopen($sourceInternalPath, 'r');
+			if (!$sourceStream) {
+				return false;
+			}
 			// move the cache entry before the contents so that we have the correct fileid/urn for the target
 			$this->getCache()->moveFromCache($sourceCache, $sourceInternalPath, $targetInternalPath);
 			try {
-				$this->writeStream($targetInternalPath, $sourceStorage->fopen($sourceInternalPath, 'r'), $sourceCacheEntry->getSize());
+				$this->writeStream($targetInternalPath, $sourceStream, $sourceCacheEntry->getSize());
 			} catch (\Exception $e) {
 				// restore the cache entry
 				$sourceCache->moveFromCache($this->getCache(), $targetInternalPath, $sourceInternalPath);
