@@ -8,8 +8,11 @@
 namespace Test\Repair;
 
 use OC\Files\Storage\Temporary;
+use OC\Repair\RepairMimeTypes;
 use OCP\Files\IMimeTypeLoader;
+use OCP\IAppConfig;
 use OCP\IConfig;
+use OCP\IDBConnection;
 use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
 
@@ -42,13 +45,21 @@ class RepairMimeTypesTest extends \Test\TestCase {
 		$config->method('getSystemValueString')
 			->with('version')
 			->willReturn('11.0.0.0');
-		$config->method('getAppValue')
+
+		$appConfig = $this->getMockBuilder(IAppConfig::class)
+			->disableOriginalConstructor()
+			->getMock();
+		$appConfig->method('getValueString')
 			->with('files', 'mimetype_version')
 			->willReturn('11.0.0.0');
 
-		$this->storage = new \OC\Files\Storage\Temporary([]);
+		$this->storage = new Temporary([]);
 
-		$this->repair = new \OC\Repair\RepairMimeTypes($config, \OC::$server->getDatabaseConnection());
+		$this->repair = new RepairMimeTypes(
+			$config,
+			$appConfig,
+			\OCP\Server::get(IDBConnection::class),
+		);
 	}
 
 	protected function tearDown(): void {
