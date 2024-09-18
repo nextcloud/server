@@ -224,6 +224,11 @@ class UsersControllerTest extends \Test\TestCase {
 				'Default birthdate',
 				IAccountManager::SCOPE_LOCAL,
 			),
+			IAccountManager::PROPERTY_PRONOUNS => $this->buildPropertyMock(
+				IAccountManager::PROPERTY_PRONOUNS,
+				'Default pronouns',
+				IAccountManager::SCOPE_LOCAL,
+			),
 		];
 
 		$account = $this->createMock(IAccount::class);
@@ -275,7 +280,7 @@ class UsersControllerTest extends \Test\TestCase {
 			$controller->expects($this->never())->method('saveUserSettings');
 		}
 
-		$result = $controller->setUserSettings(//
+		$result = $controller->setUserSettings(
 			AccountManager::SCOPE_FEDERATED,
 			'displayName',
 			AccountManager::SCOPE_FEDERATED,
@@ -288,7 +293,13 @@ class UsersControllerTest extends \Test\TestCase {
 			'street and city',
 			AccountManager::SCOPE_FEDERATED,
 			'@nextclouders',
-			AccountManager::SCOPE_FEDERATED
+			AccountManager::SCOPE_FEDERATED,
+			'@nextclouders',
+			AccountManager::SCOPE_FEDERATED,
+			'2020-01-01',
+			AccountManager::SCOPE_FEDERATED,
+			'they/them',
+			AccountManager::SCOPE_FEDERATED,
 		);
 
 		$this->assertSame($expectedStatus, $result->getStatus());
@@ -321,6 +332,10 @@ class UsersControllerTest extends \Test\TestCase {
 		$twitterScope = IAccountManager::SCOPE_PUBLISHED;
 		$fediverse = '@nextclouders@floss.social';
 		$fediverseScope = IAccountManager::SCOPE_PUBLISHED;
+		$birtdate = '2020-01-01';
+		$birthdateScope = IAccountManager::SCOPE_PUBLISHED;
+		$pronouns = 'she/her';
+		$pronounsScope = IAccountManager::SCOPE_PUBLISHED;
 
 		$user = $this->createMock(IUser::class);
 		$user->method('getUID')->willReturn('johndoe');
@@ -397,7 +412,11 @@ class UsersControllerTest extends \Test\TestCase {
 			$twitter,
 			$twitterScope,
 			$fediverse,
-			$fediverseScope
+			$fediverseScope,
+			$birtdate,
+			$birthdateScope,
+			$pronouns,
+			$pronounsScope,
 		);
 	}
 
@@ -436,6 +455,10 @@ class UsersControllerTest extends \Test\TestCase {
 		$twitterScope = IAccountManager::SCOPE_PUBLISHED;
 		$fediverse = '@nextclouders@floss.social';
 		$fediverseScope = IAccountManager::SCOPE_PUBLISHED;
+		$birthdate = '2020-01-01';
+		$birthdateScope = IAccountManager::SCOPE_PUBLISHED;
+		$pronouns = 'she/her';
+		$pronounsScope = IAccountManager::SCOPE_PUBLISHED;
 
 		// All settings are changed (in the past phone, website, address and
 		// twitter were not changed).
@@ -455,6 +478,10 @@ class UsersControllerTest extends \Test\TestCase {
 		$expectedProperties[IAccountManager::PROPERTY_TWITTER]['scope'] = $twitterScope;
 		$expectedProperties[IAccountManager::PROPERTY_FEDIVERSE]['value'] = $fediverse;
 		$expectedProperties[IAccountManager::PROPERTY_FEDIVERSE]['scope'] = $fediverseScope;
+		$expectedProperties[IAccountManager::PROPERTY_BIRTHDATE]['value'] = $birthdate;
+		$expectedProperties[IAccountManager::PROPERTY_BIRTHDATE]['scope'] = $birthdateScope;
+		$expectedProperties[IAccountManager::PROPERTY_PRONOUNS]['value'] = $pronouns;
+		$expectedProperties[IAccountManager::PROPERTY_PRONOUNS]['scope'] = $pronounsScope;
 
 		$this->mailer->expects($this->once())->method('validateMailAddress')
 			->willReturn(true);
@@ -478,7 +505,11 @@ class UsersControllerTest extends \Test\TestCase {
 			$twitter,
 			$twitterScope,
 			$fediverse,
-			$fediverseScope
+			$fediverseScope,
+			$birthdate,
+			$birthdateScope,
+			$pronouns,
+			$pronounsScope,
 		);
 	}
 
@@ -518,6 +549,10 @@ class UsersControllerTest extends \Test\TestCase {
 		$twitterScope = ($property === 'twitterScope') ? $propertyValue : null;
 		$fediverse = ($property === 'fediverse') ? $propertyValue : null;
 		$fediverseScope = ($property === 'fediverseScope') ? $propertyValue : null;
+		$birthdate = ($property === 'birthdate') ? $propertyValue : null;
+		$birthdateScope = ($property === 'birthdateScope') ? $propertyValue : null;
+		$pronouns = ($property === 'pronouns') ? $propertyValue : null;
+		$pronounsScope = ($property === 'pronounsScope') ? $propertyValue : null;
 
 		/** @var IAccountProperty[]|MockObject[] $expectedProperties */
 		$expectedProperties = $userAccount->getProperties();
@@ -554,6 +589,14 @@ class UsersControllerTest extends \Test\TestCase {
 			case 'fediverseScope':
 				$propertyId = IAccountManager::PROPERTY_FEDIVERSE;
 				break;
+			case 'birthdate':
+			case 'birthdateScope':
+				$propertyId = IAccountManager::PROPERTY_BIRTHDATE;
+				break;
+			case 'pronouns':
+			case 'pronounsScope':
+				$propertyId = IAccountManager::PROPERTY_PRONOUNS;
+				break;
 			default:
 				$propertyId = '404';
 		}
@@ -585,7 +628,11 @@ class UsersControllerTest extends \Test\TestCase {
 			$twitter,
 			$twitterScope,
 			$fediverse,
-			$fediverseScope
+			$fediverseScope,
+			$birthdate,
+			$birthdateScope,
+			$pronouns,
+			$pronounsScope,
 		);
 	}
 
@@ -606,6 +653,10 @@ class UsersControllerTest extends \Test\TestCase {
 			['twitterScope', IAccountManager::SCOPE_PUBLISHED],
 			['fediverse', '@nextclouders@floss.social'],
 			['fediverseScope', IAccountManager::SCOPE_PUBLISHED],
+			['birthdate', '2020-01-01'],
+			['birthdateScope', IAccountManager::SCOPE_PUBLISHED],
+			['pronouns', 'he/him'],
+			['pronounsScope', IAccountManager::SCOPE_PUBLISHED],
 		];
 	}
 
