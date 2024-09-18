@@ -326,6 +326,7 @@ class ShareControllerTest extends \Test\TestCase {
 			'sharePermissions' => (Constants::PERMISSION_READ | Constants::PERMISSION_UPDATE),
 			'filename' => $filename,
 			'view' => $view,
+			'fileId' => 111,
 		];
 
 		$response = $this->shareController->showShare();
