@@ -608,4 +608,9 @@ class User implements IUser {
 			$this->emitter->emit('\OC\User', 'changeUser', [$this, $feature, $value, $oldValue]);
 		}
 	}
+
+	public function isFederated(): bool {
+		// Federated users only use LazyUser
+		return false;
+	}
 }

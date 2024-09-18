@@ -60,7 +60,7 @@ const ocsEntryToNode = async function(ocsEntry: any): Promise<Folder | File | nu
 
 		let mtime = ocsEntry.item_mtime ? new Date((ocsEntry.item_mtime) * 1000) : undefined
 		// Prefer share time if more recent than item mtime
-		if (ocsEntry?.stime > (ocsEntry?.item_mtime || 0)) {
+		if (ocsEntry?.stime > (ocsEntry?.item_mtime || 0)) {ocsEntryToNode
 			mtime = new Date((ocsEntry.stime) * 1000)
 		}
 

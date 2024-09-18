@@ -77,6 +77,7 @@ import escapeHTML from 'escape-html'
 	Client.PROPERTY_SIZE	= '{' + Client.NS_OWNCLOUD + '}size'
 	Client.PROPERTY_GETCONTENTLENGTH	= '{' + Client.NS_DAV + '}getcontentlength'
 	Client.PROPERTY_ISENCRYPTED	= '{' + Client.NS_DAV + '}is-encrypted'
+	Client.PROPERTY_ISFEDERATED	= '{' + Client.NS_DAV + '}is-federated'
 	Client.PROPERTY_SHARE_PERMISSIONS	= '{' + Client.NS_OCS + '}share-permissions'
 	Client.PROPERTY_SHARE_ATTRIBUTES	= '{' + Client.NS_NEXTCLOUD + '}share-attributes'
 	Client.PROPERTY_QUOTA_AVAILABLE_BYTES	= '{' + Client.NS_DAV + '}quota-available-bytes'
@@ -131,6 +132,10 @@ import escapeHTML from 'escape-html'
 		 * Encryption state
 		 */
 		[Client.NS_NEXTCLOUD, 'is-encrypted'],
+		/**
+		 * Federation state
+		 */
+		[Client.NS_NEXTCLOUD, 'is-federated'],
 		/**
 		 * Share permissions
 		 */
@@ -277,7 +282,7 @@ import escapeHTML from 'escape-html'
 		 *
 		 * @returns {Array.<FileInfo>} array of file info
 		 */
-		_parseFileInfo: function(response) {
+		_parseFileInfo: function(response) {Encrypted
 			let path = decodeURIComponent(response.href)
 			if (path.substr(0, this._root.length) === this._root) {
 				path = path.substr(this._root.length)
@@ -327,6 +332,13 @@ import escapeHTML from 'escape-html'
 				data.isEncrypted = isEncryptedProp === '1'
 			} else {
 				data.isEncrypted = false
+			}
+
+			const isFederatedProp = props['{' + Client.NS_NEXTCLOUD + '}is-federated']
+			if (!_.isUndefined(isFederatedProp)) {
+				data.isFederated = isFederatedProp === '1'
+			} else {
+				data.isFederated = false
 			}
 
 			const isFavouritedProp = props['{' + Client.NS_OWNCLOUD + '}favorite']

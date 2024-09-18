@@ -36,6 +36,11 @@ class LazyUser implements IUser {
 				$this->user = $this->userManager->get($this->uid);
 			}
 		}
+
+		if($this->user === null) {
+			throw new \Exception('User not found');
+		}
+		
 		/** @var IUser */
 		$user = $this->user;
 		return $user;
@@ -159,5 +164,14 @@ class LazyUser implements IUser {
 
 	public function setManagerUids(array $uids): void {
 		$this->getUser()->setManagerUids($uids);
+	}
+
+	public function isFederated(): bool {
+		try {
+			$this->getUser();
+			return true;
+		} catch (\Exception $e) {
+			return false;
+		}
 	}
 }

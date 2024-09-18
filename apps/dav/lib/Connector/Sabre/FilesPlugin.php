@@ -413,6 +413,10 @@ class FilesPlugin extends ServerPlugin {
 			$propFind->handle(self::DISPLAYNAME_PROPERTYNAME, function () use ($node) {
 				return $node->getName();
 			});
+
+			$propFind->handle(self::IS_FEDERATED_PROPERTYNAME, function () use ($node) {
+				return $node->getOwner()->isFederated();
+			});
 		}
 
 		if ($node instanceof \OCA\DAV\Connector\Sabre\File) {

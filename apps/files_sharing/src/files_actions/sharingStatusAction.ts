@@ -18,6 +18,22 @@ import { generateAvatarSvg } from '../utils/AccountIcon'
 
 import './sharingStatusAction.scss'
 
+<<<<<<< Updated upstream
+=======
+const isDarkMode = window?.matchMedia?.('(prefers-color-scheme: dark)')?.matches === true
+	|| document.querySelector('[data-themes*=dark]') !== null
+
+const generateAvatarSvg = (userId: string, isGuest = false) => {
+	console.debug("USER ID, is Guest", userId, isGuest)
+	const url = isDarkMode ? '/avatar/{userId}/32/dark' : '/avatar/{userId}/32'
+	const avatarUrl = generateUrl(isGuest ? url : url + '?guestFallback=true', { userId })
+	return `<svg width="32" height="32" viewBox="0 0 32 32"
+		xmlns="http://www.w3.org/2000/svg" class="sharing-status__avatar">
+		<image href="${avatarUrl}" height="32" width="32" />
+	</svg>`
+}
+
+>>>>>>> Stashed changes
 const isExternal = (node: Node) => {
 	return node.attributes.remote_id !== undefined
 }

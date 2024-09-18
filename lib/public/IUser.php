@@ -284,4 +284,12 @@ interface IUser {
 	 * @since 27.0.0
 	 */
 	public function setManagerUids(array $uids): void;
+
+	/**
+	 * Check if the user is federated (from another server)
+	 *
+	 * @return boll
+	 * @since 28.0.11
+	 */
+	public function isFederated(): bool;
 }

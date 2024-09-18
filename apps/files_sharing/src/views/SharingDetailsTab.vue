@@ -924,6 +924,7 @@ export default {
 			}
 
 			await this.getNode()
+			console.log("Newly fetched", this.node)
 			emit('files:node:updated', this.node)
 
 			if (this.$refs.externalLinkActions?.length > 0) {
