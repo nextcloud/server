@@ -7,8 +7,6 @@
  */
 namespace OCP\BackgroundJob;
 
-use OCP\ILogger;
-
 /**
  * This interface represents a background job run with cron
  *
@@ -16,6 +14,8 @@ use OCP\ILogger;
  * \OCP\BackgroundJob\TimedJob or \OCP\BackgroundJob\QueuedJob
  *
  * @since 7.0.0
+ * @since 25.0.0 deprecated `execute()` method in favor of `start()`
+ * @since 33.0.0 removed deprecated `execute()` method
  */
 interface IJob {
 	/**
@@ -28,24 +28,13 @@ interface IJob {
 	public const TIME_SENSITIVE = 1;
 
 	/**
-	 * Run the background job with the registered argument
-	 *
-	 * @param IJobList $jobList The job list that manages the state of this job
-	 * @param ILogger|null $logger
-	 * @since 7.0.0
-	 * @deprecated 25.0.0 Use start() instead. This method will be removed
-	 * with the ILogger interface
-	 */
-	public function execute(IJobList $jobList, ?ILogger $logger = null);
-
-	/**
 	 * Start the background job with the registered argument
 	 *
 	 * This methods will take care of running the background job, of initializing
 	 * the state and cleaning up the job list after running the job.
 	 *
 	 * For common background job scenario, you will want to use TimedJob or QueuedJob
-	 * instead of overwritting this method.
+	 * instead of overwriting this method.
 	 *
 	 * @param IJobList $jobList The job list that manages the state of this job
 	 * @since 25.0.0
