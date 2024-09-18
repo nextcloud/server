@@ -94,7 +94,7 @@ class Provider implements IProvider {
 		if ($this->activityManager->isFormattingFilteredObject()) {
 			try {
 				return $this->parseShortVersion($event, $previousEvent);
-			} catch (\InvalidArgumentException $e) {
+			} catch (UnknownActivityException) {
 				// Ignore and simply use the long version...
 			}
 		}
@@ -114,10 +114,10 @@ class Provider implements IProvider {
 	 * @param IEvent $event
 	 * @param IEvent|null $previousEvent
 	 * @return IEvent
-	 * @throws \InvalidArgumentException
+	 * @throws UnknownActivityException
 	 * @since 11.0.0
 	 */
-	public function parseShortVersion(IEvent $event, ?IEvent $previousEvent = null) {
+	public function parseShortVersion(IEvent $event, ?IEvent $previousEvent = null): IEvent {
 		$parsedParameters = $this->getParameters($event);
 
 		if ($event->getSubject() === 'created_by') {
@@ -139,7 +139,7 @@ class Provider implements IProvider {
 			$subject = $this->l->t('Moved by {user}');
 			$this->setIcon($event, 'change');
 		} else {
-			throw new \InvalidArgumentException();
+			throw new UnknownActivityException();
 		}
 
 		if (!isset($parsedParameters['user'])) {
@@ -156,10 +156,10 @@ class Provider implements IProvider {
 	 * @param IEvent $event
 	 * @param IEvent|null $previousEvent
 	 * @return IEvent
-	 * @throws \InvalidArgumentException
+	 * @throws UnknownActivityException
 	 * @since 11.0.0
 	 */
-	public function parseLongVersion(IEvent $event, ?IEvent $previousEvent = null) {
+	public function parseLongVersion(IEvent $event, ?IEvent $previousEvent = null): IEvent {
 		$this->fileIsEncrypted = false;
 		$parsedParameters = $this->getParameters($event);
 
@@ -253,7 +253,7 @@ class Provider implements IProvider {
 			$subject = $this->l->t('{user} moved {oldfile} to {newfile}');
 			$this->setIcon($event, 'change');
 		} else {
-			throw new \InvalidArgumentException();
+			throw new UnknownActivityException();
 		}
 
 		if ($this->fileIsEncrypted) {
@@ -292,9 +292,9 @@ class Provider implements IProvider {
 	/**
 	 * @param IEvent $event
 	 * @return array
-	 * @throws \InvalidArgumentException
+	 * @throws UnknownActivityException
 	 */
-	protected function getParameters(IEvent $event) {
+	protected function getParameters(IEvent $event): array {
 		$parameters = $event->getSubjectParameters();
 		switch ($event->getSubject()) {
 			case 'created_self':
@@ -347,9 +347,9 @@ class Provider implements IProvider {
 	 * @param array|string $parameter
 	 * @param IEvent|null $event
 	 * @return array
-	 * @throws \InvalidArgumentException
+	 * @throws UnknownActivityException
 	 */
-	protected function getFile($parameter, ?IEvent $event = null) {
+	protected function getFile($parameter, ?IEvent $event = null): array {
 		if (is_array($parameter)) {
 			$path = reset($parameter);
 			$id = (string)key($parameter);
@@ -358,7 +358,7 @@ class Provider implements IProvider {
 			$path = $parameter;
 			$id = $event->getObjectId();
 		} else {
-			throw new \InvalidArgumentException('Could not generate file parameter');
+			throw new UnknownActivityException('Could not generate file parameter');
 		}
 
 		$encryptionContainer = $this->getEndToEndEncryptionContainer($id, $path);

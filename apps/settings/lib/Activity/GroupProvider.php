@@ -103,9 +103,6 @@ class GroupProvider implements IProvider {
 		return $event;
 	}
 
-	/**
-	 * @throws \InvalidArgumentException
-	 */
 	protected function setSubjects(IEvent $event, string $subject, array $parameters): void {
 		$event->setRichSubject($subject, $parameters);
 	}
