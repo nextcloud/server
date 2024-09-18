@@ -60,6 +60,7 @@
     "_Your password will expire within %n day._::_Your password will expire within %n days._" : ["سوف تنتهي صلاحية كلمة المرور الخاصة بك خلال %n أيام.","سوف تنتهي صلاحية كلمة المرور الخاصة بك خلال %nيوم.","سوف تنتهي صلاحية كلمة المرور الخاصة بك خلال %nأيام.","سوف تنتهي صلاحية كلمة المرور الخاصة بك خلال %nأيام.","سوف تنتهي صلاحية كلمة المرور الخاصة بك خلال %nأيام.","سوف تنتهي صلاحية كلمة المرور الخاصة بك خلال %nأيام."],
     "LDAP/AD integration" : "مُكاملة LDAP/AD ",
     "LDAP Connection" : "الاتصال بدليل المستخدِمين LDAP ",
+    "_Binding failed for this LDAP configuration: %s_::_Binding failed for %n LDAP configurations: %s_" : ["فشل ارتباط %n مع تهيئات LDAP دليل المستخدمين: %s","فشل ارتباط %s مع تهيئة دليل المستخدمين LDAP هذا.","فشل ارتباط %n مع تهيئات LDAP دليل المستخدمين: %s","فشل ارتباط %n مع تهيئات LDAP دليل المستخدمين: %s","فشل ارتباط %n مع تهيئات LDAP دليل المستخدمين: %s","فشل ارتباط %n مع تهيئات LDAP دليل المستخدمين: %s"],
     "Invalid LDAP UUIDs" : "مُعرِّفات UUID الخاصة بـ LDAP غير صحيحة",
     "None found" : "لم يُمكن العثور على أي شيء",
     "Invalid UUIDs of LDAP accounts or groups have been found. Please review your \"Override UUID detection\" settings in the Expert part of the LDAP configuration and use \"occ ldap:update-uuid\" to update them." : "تم العثور على مُعرِّفات UUID غير صالحة لحسابات أو مجموعات LDAP. الرجاء مراجعة الإعداد \"تجاوز اكتشاف UUID ـ Override UUID detection\" في الجزء الخبير من تكوين LDAP  ثم اعطِ الأمر السطري: \"occ ldap:update-uuid\" لتحديثها",
