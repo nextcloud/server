@@ -168,10 +168,12 @@ export default Vue.extend({
 			}
 
 			const items = this.dataSources.slice(this.startIndex, this.startIndex + this.shownItems) as Node[]
+			console.log("Items list", items)
 
 			const oldItems = items.filter(item => Object.values(this.$_recycledPool).includes(item[this.dataKey]))
 			const oldItemsKeys = oldItems.map(item => item[this.dataKey] as string)
 			const unusedKeys = Object.keys(this.$_recycledPool).filter(key => !oldItemsKeys.includes(this.$_recycledPool[key]))
+			console.log("Unused keys", unusedKeys)
 
 			return items.map(item => {
 				const index = Object.values(this.$_recycledPool).indexOf(item[this.dataKey])

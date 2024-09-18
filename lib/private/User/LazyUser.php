@@ -51,6 +51,11 @@ class LazyUser implements IUser {
 				$this->user = $this->userManager->get($this->uid);
 			}
 		}
+
+		if ($this->user === null) {
+			throw new \Exception('User not found');
+		}
+		
 		/** @var IUser */
 		$user = $this->user;
 		return $user;
@@ -166,5 +171,17 @@ class LazyUser implements IUser {
 
 	public function setManagerUids(array $uids): void {
 		$this->getUser()->setManagerUids($uids);
+	}
+
+	public function isFederated(): bool {
+		try {
+			// If getUser succeeds then user is definitely not federated
+			// This could fail for other reasons (especially a race condition where a user is deleted)
+			// But it's what we have now
+			$this->getUser();
+			return false;
+		} catch (\Exception $e) {
+			return true;
+		}
 	}
 }

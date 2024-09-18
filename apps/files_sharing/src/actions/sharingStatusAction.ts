@@ -84,6 +84,7 @@ export const action = new FileAction({
 
 	iconSvgInline(nodes: Node[]) {
 		const node = nodes[0]
+		console.debug("Node check", node)
 		const shareTypes = Object.values(node?.attributes?.['share-types'] || {}).flat() as number[]
 
 		// Mixed share types
