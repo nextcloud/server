@@ -607,6 +607,35 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 		return parent::copyFromStorage($sourceStorage, $sourceInternalPath, $targetInternalPath);
 	}
 
+	public function moveFromStorage(IStorage $sourceStorage, $sourceInternalPath, $targetInternalPath, ?ICacheEntry $sourceCacheEntry = null): bool {
+		$sourceCache = $sourceStorage->getCache();
+		if (!$sourceCacheEntry) {
+			$sourceCacheEntry = $sourceCache->get($sourceInternalPath);
+		}
+		if ($sourceCacheEntry->getMimeType() === FileInfo::MIMETYPE_FOLDER) {
+			foreach ($sourceCache->getFolderContents($sourceInternalPath) as $child) {
+				$this->moveFromStorage($sourceStorage, $child->getPath(), $targetInternalPath . '/' . $child->getName());
+			}
+			$sourceStorage->rmdir($sourceInternalPath);
+		} else {
+			$sourceStream = $sourceStorage->fopen($sourceInternalPath, 'r');
+			if (!$sourceStream) {
+				return false;
+			}
+			// move the cache entry before the contents so that we have the correct fileid/urn for the target
+			$this->getCache()->moveFromCache($sourceCache, $sourceInternalPath, $targetInternalPath);
+			try {
+				$this->writeStream($targetInternalPath, $sourceStream, $sourceCacheEntry->getSize());
+			} catch (\Exception $e) {
+				// restore the cache entry
+				$sourceCache->moveFromCache($this->getCache(), $targetInternalPath, $sourceInternalPath);
+				throw $e;
+			}
+			$sourceStorage->unlink($sourceInternalPath);
+		}
+		return true;
+	}
+
 	public function copy($source, $target) {
 		$source = $this->normalizePath($source);
 		$target = $this->normalizePath($target);
