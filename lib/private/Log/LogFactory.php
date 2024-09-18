@@ -7,7 +7,6 @@ namespace OC\Log;
 
 use OC\Log;
 use OC\SystemConfig;
-use OCP\ILogger;
 use OCP\IServerContainer;
 use OCP\Log\ILogFactory;
 use OCP\Log\IWriter;
@@ -31,11 +30,6 @@ class LogFactory implements ILogFactory {
 			'file' => $this->buildLogFile(),
 			default => $this->buildLogFile(),
 		};
-	}
-
-	public function getCustomLogger(string $path): ILogger {
-		$log = $this->buildLogFile($path);
-		return new Log($log, $this->systemConfig);
 	}
 
 	protected function createNewLogger(string $type, string $tag, string $path): IWriter {
