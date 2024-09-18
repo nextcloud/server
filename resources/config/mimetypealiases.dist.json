@@ -115,6 +115,7 @@
 	"text/x-h": "text/code",
 	"text/x-java-source": "text/code",
 	"text/x-ldif": "text/code",
+	"text/x-nfo": "text/code",
 	"text/x-python": "text/code",
 	"text/x-rst": "text",
 	"text/x-shellscript": "text/code",

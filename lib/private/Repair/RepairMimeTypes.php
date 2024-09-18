@@ -331,6 +331,7 @@ class RepairMimeTypes implements IRepairStep {
 	private function introduceZstType(): IResult|int|null {
 		$updatedMimetypes = [
 			'zst' => 'application/zstd',
+			'nfo' => 'text/x-nfo',
 		];
 
 		return $this->updateMimetypes($updatedMimetypes);
