@@ -54,6 +54,7 @@ class RepairMimeTypesTest extends \Test\TestCase {
 			->willReturn('11.0.0.0');
 
 		$this->storage = new Temporary([]);
+		$this->storage->getScanner()->scan('');
 
 		$this->repair = new RepairMimeTypes(
 			$config,

@@ -534,6 +534,8 @@ class ShareAPIControllerTest extends TestCase {
 
 		$parentFolder = $this->getMockBuilder(Folder::class)->getMock();
 		$parentFolder->method('getId')->willReturn(3);
+		$mountPoint = $this->createMock(IMountPoint::class);
+		$mountPoint->method('getMountType')->willReturn('');
 
 		$file = $this->getMockBuilder('OCP\Files\File')->getMock();
 		$file->method('getId')->willReturn(1);
@@ -543,6 +545,7 @@ class ShareAPIControllerTest extends TestCase {
 		$file->method('getSize')->willReturn(123465);
 		$file->method('getMTime')->willReturn(1234567890);
 		$file->method('getMimeType')->willReturn('myMimeType');
+		$file->method('getMountPoint')->willReturn($mountPoint);
 
 		$folder = $this->getMockBuilder(Folder::class)->getMock();
 		$folder->method('getId')->willReturn(2);
@@ -552,6 +555,7 @@ class ShareAPIControllerTest extends TestCase {
 		$folder->method('getSize')->willReturn(123465);
 		$folder->method('getMTime')->willReturn(1234567890);
 		$folder->method('getMimeType')->willReturn('myFolderMimeType');
+		$folder->method('getMountPoint')->willReturn($mountPoint);
 
 		[$shareAttributes, $shareAttributesReturnJson] = $this->mockShareAttributes();
 
@@ -607,6 +611,9 @@ class ShareAPIControllerTest extends TestCase {
 			'item_size' => 123465,
 			'item_mtime' => 1234567890,
 			'attributes' => null,
+			'item_permissions' => 4,
+			'is-mount-root' => false,
+			'mount-type' => '',
 		];
 		$data[] = [$share, $expected];
 
@@ -661,6 +668,9 @@ class ShareAPIControllerTest extends TestCase {
 			'item_size' => 123465,
 			'item_mtime' => 1234567890,
 			'attributes' => null,
+			'item_permissions' => 4,
+			'is-mount-root' => false,
+			'mount-type' => '',
 		];
 		$data[] = [$share, $expected];
 
@@ -721,6 +731,9 @@ class ShareAPIControllerTest extends TestCase {
 			'item_size' => 123465,
 			'item_mtime' => 1234567890,
 			'attributes' => null,
+			'item_permissions' => 4,
+			'is-mount-root' => false,
+			'mount-type' => '',
 		];
 		$data[] = [$share, $expected];
 
@@ -3740,6 +3753,12 @@ class ShareAPIControllerTest extends TestCase {
 		$folder->method('getMimeType')->willReturn('myFolderMimeType');
 		$fileWithPreview->method('getMimeType')->willReturn('mimeWithPreview');
 
+		$mountPoint = $this->createMock(IMountPoint::class);
+		$mountPoint->method('getMountType')->willReturn('');
+		$file->method('getMountPoint')->willReturn($mountPoint);
+		$folder->method('getMountPoint')->willReturn($mountPoint);
+		$fileWithPreview->method('getMountPoint')->willReturn($mountPoint);
+
 		$file->method('getPath')->willReturn('file');
 		$folder->method('getPath')->willReturn('folder');
 		$fileWithPreview->method('getPath')->willReturn('fileWithPreview');
@@ -3839,6 +3858,7 @@ class ShareAPIControllerTest extends TestCase {
 				'is-mount-root' => false,
 				'mount-type' => '',
 				'attributes' => '[{"scope":"permissions","key":"download","value":true}]',
+				'item_permissions' => 1,
 			], $share, [], false
 		];
 		// User backend up
@@ -3880,6 +3900,7 @@ class ShareAPIControllerTest extends TestCase {
 				'is-mount-root' => false,
 				'mount-type' => '',
 				'attributes' => '[{"scope":"permissions","key":"download","value":true}]',
+				'item_permissions' => 1,
 			], $share, [
 				['owner', $owner],
 				['initiator', $initiator],
@@ -3937,6 +3958,7 @@ class ShareAPIControllerTest extends TestCase {
 				'is-mount-root' => false,
 				'mount-type' => '',
 				'attributes' => null,
+				'item_permissions' => 1,
 			], $share, [], false
 		];
 
@@ -3990,6 +4012,7 @@ class ShareAPIControllerTest extends TestCase {
 				'is-mount-root' => false,
 				'mount-type' => '',
 				'attributes' => null,
+				'item_permissions' => 11,
 			], $share, [], false
 		];
 
@@ -4044,6 +4067,7 @@ class ShareAPIControllerTest extends TestCase {
 				'is-mount-root' => false,
 				'mount-type' => '',
 				'attributes' => null,
+				'item_permissions' => 1,
 			], $share, [], false
 		];
 
@@ -4095,6 +4119,7 @@ class ShareAPIControllerTest extends TestCase {
 				'is-mount-root' => false,
 				'mount-type' => '',
 				'attributes' => null,
+				'item_permissions' => 1,
 			], $share, [], false
 		];
 
@@ -4153,6 +4178,7 @@ class ShareAPIControllerTest extends TestCase {
 				'is-mount-root' => false,
 				'mount-type' => '',
 				'attributes' => null,
+				'item_permissions' => 1,
 			], $share, [], false
 		];
 
@@ -4211,6 +4237,7 @@ class ShareAPIControllerTest extends TestCase {
 				'is-mount-root' => false,
 				'mount-type' => '',
 				'attributes' => null,
+				'item_permissions' => 1,
 			], $share, [], false
 		];
 
@@ -4263,6 +4290,7 @@ class ShareAPIControllerTest extends TestCase {
 				'is-mount-root' => false,
 				'mount-type' => '',
 				'attributes' => null,
+				'item_permissions' => 1,
 			], $share, [], false
 		];
 
@@ -4315,6 +4343,7 @@ class ShareAPIControllerTest extends TestCase {
 				'is-mount-root' => false,
 				'mount-type' => '',
 				'attributes' => null,
+				'item_permissions' => 1,
 			], $share, [], false
 		];
 
@@ -4370,6 +4399,7 @@ class ShareAPIControllerTest extends TestCase {
 				'is-mount-root' => false,
 				'mount-type' => '',
 				'attributes' => null,
+				'item_permissions' => 1,
 			], $share, [], false
 		];
 
@@ -4422,6 +4452,7 @@ class ShareAPIControllerTest extends TestCase {
 				'is-mount-root' => false,
 				'mount-type' => '',
 				'attributes' => null,
+				'item_permissions' => 1,
 			], $share, [], false
 		];
 
@@ -4474,6 +4505,7 @@ class ShareAPIControllerTest extends TestCase {
 				'is-mount-root' => false,
 				'mount-type' => '',
 				'attributes' => null,
+				'item_permissions' => 1,
 			], $share, [], false
 		];
 
@@ -4543,6 +4575,7 @@ class ShareAPIControllerTest extends TestCase {
 				'is-mount-root' => false,
 				'mount-type' => '',
 				'attributes' => null,
+				'item_permissions' => 1,
 			], $share, [], false
 		];
 
@@ -4598,6 +4631,7 @@ class ShareAPIControllerTest extends TestCase {
 				'is-mount-root' => false,
 				'mount-type' => '',
 				'attributes' => null,
+				'item_permissions' => 1,
 			], $share, [], false
 		];
 
@@ -4651,6 +4685,7 @@ class ShareAPIControllerTest extends TestCase {
 				'is-mount-root' => false,
 				'mount-type' => '',
 				'attributes' => null,
+				'item_permissions' => 11,
 			], $share, [], false
 		];
 
@@ -4815,6 +4850,7 @@ class ShareAPIControllerTest extends TestCase {
 				'is-mount-root' => false,
 				'mount-type' => '',
 				'attributes' => null,
+				'item_permissions' => 1,
 			], $share, false, []
 		];
 
@@ -4866,6 +4902,7 @@ class ShareAPIControllerTest extends TestCase {
 				'is-mount-root' => false,
 				'mount-type' => '',
 				'attributes' => null,
+				'item_permissions' => 9,
 			], $share, true, [
 				'share_with_displayname' => 'recipientRoomName'
 			]
@@ -4905,11 +4942,14 @@ class ShareAPIControllerTest extends TestCase {
 				->willReturn(true);
 
 			$helper = $this->getMockBuilder('\OCA\Talk\Share\Helper\ShareAPIController')
-				->setMethods(['formatShare'])
+				->setMethods(['formatShare', 'canAccessShare'])
 				->getMock();
 			$helper->method('formatShare')
 				->with($share)
 				->willReturn($formatShareByHelper);
+			$helper->method('canAccessShare')
+				->with($share)
+				->willReturn(true);
 
 			$this->serverContainer->method('get')
 				->with('\OCA\Talk\Share\Helper\ShareAPIController')
