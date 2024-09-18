@@ -204,6 +204,7 @@ use OCP\Profile\IProfileManager;
 use OCP\Profiler\IProfiler;
 use OCP\Remote\Api\IApiFactory;
 use OCP\Remote\IInstanceFactory;
+use OCP\RichObjectStrings\IRichTextFormatter;
 use OCP\RichObjectStrings\IValidator;
 use OCP\Route\IRouter;
 use OCP\Security\Bruteforce\IThrottler;
@@ -648,6 +649,7 @@ class Server extends ServerContainer implements IServerContainer {
 				$c->get(IUserSession::class),
 				$c->get(\OCP\IConfig::class),
 				$c->get(IValidator::class),
+				$c->get(IRichTextFormatter::class),
 				$l10n
 			);
 		});
@@ -1284,6 +1286,8 @@ class Server extends ServerContainer implements IServerContainer {
 		$this->registerAlias(IRemoteAddress::class, RemoteAddress::class);
 
 		$this->registerAlias(\OCP\Security\Ip\IFactory::class, \OC\Security\Ip\Factory::class);
+
+		$this->registerAlias(IRichTextFormatter::class, \OC\RichObjectStrings\RichTextFormatter::class);
 
 		$this->connectDispatcher();
 	}

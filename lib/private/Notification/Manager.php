@@ -22,6 +22,7 @@ use OCP\Notification\IncompleteParsedNotificationException;
 use OCP\Notification\INotification;
 use OCP\Notification\INotifier;
 use OCP\Notification\UnknownNotificationException;
+use OCP\RichObjectStrings\IRichTextFormatter;
 use OCP\RichObjectStrings\IValidator;
 use OCP\Support\Subscription\IRegistry;
 use Psr\Container\ContainerExceptionInterface;
@@ -55,6 +56,7 @@ class Manager implements IManager {
 		protected IRegistry $subscription,
 		protected LoggerInterface $logger,
 		private Coordinator $coordinator,
+		private IRichTextFormatter $richTextFormatter,
 	) {
 		$this->cache = $cacheFactory->createDistributed('notifications');
 
@@ -199,7 +201,7 @@ class Manager implements IManager {
 	 * @since 8.2.0
 	 */
 	public function createNotification(): INotification {
-		return new Notification($this->validator);
+		return new Notification($this->validator, $this->richTextFormatter);
 	}
 
 	/**
