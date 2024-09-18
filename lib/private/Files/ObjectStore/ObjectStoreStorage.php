@@ -514,6 +514,10 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 		if ($exists) {
 			$fileId = $stat['fileid'];
 		} else {
+			$parent = $this->normalizePath(dirname($path));
+			if (!$this->is_dir($parent)) {
+				throw new \InvalidArgumentException("trying to upload a file ($path) inside a non-directory ($parent)");
+			}
 			$fileId = $this->getCache()->put($uploadPath, $stat);
 		}
 
