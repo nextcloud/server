@@ -417,7 +417,7 @@ class OC_Helper {
 	/**
 	 * Checks if a function is available
 	 *
-	 * @deprecated Since 25.0.0 use \OCP\Util::isFunctionEnabled instead
+	 * @deprecated 25.0.0 use \OCP\Util::isFunctionEnabled instead
 	 */
 	public static function is_function_enabled(string $function_name): bool {
 		return \OCP\Util::isFunctionEnabled($function_name);
@@ -425,7 +425,7 @@ class OC_Helper {
 
 	/**
 	 * Try to find a program
-	 * @deprecated Since 25.0.0 Use \OC\BinaryFinder directly
+	 * @deprecated 25.0.0 Use \OC\BinaryFinder directly
 	 */
 	public static function findBinaryPath(string $program): ?string {
 		$result = \OCP\Server::get(IBinaryFinder::class)->findBinaryPath($program);

@@ -236,7 +236,7 @@ class OC_Util {
 	}
 
 	/**
-	 * @deprecated the value is of no use anymore
+	 * @deprecated 11.0.0 the value is of no use anymore
 	 * @return string
 	 */
 	public static function getEditionString() {
