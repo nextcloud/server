@@ -5,15 +5,7 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-function print_exception(Throwable $e, \OCP\IL10N $l): void {
-	p($e->getTraceAsString());
-
-	if ($e->getPrevious() !== null) {
-		print_unescaped('<s:previous-exception>');
-		print_exception($e->getPrevious(), $l);
-		print_unescaped('</s:previous-exception>');
-	}
-}
+require_once __DIR__ . '/print_xml_exception.php';
 
 print_unescaped('<?xml version="1.0" encoding="utf-8"?>' . "\n");
 ?>
