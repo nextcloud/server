@@ -25,6 +25,7 @@
  */
 namespace OCA\DAV\Tests\unit\Connector\Sabre\RequestTest;
 
+use OC\AllConfig;
 use OCP\IConfig;
 
 /**
@@ -49,7 +50,7 @@ class PartFileInRootUploadTest extends UploadTest {
 					return $config->getSystemValue($key, $default);
 				}
 			});
-		$this->overwriteService('AllConfig', $mockConfig);
+		$this->overwriteService(AllConfig::class, $mockConfig);
 		parent::setUp();
 	}
 
