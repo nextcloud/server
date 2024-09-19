@@ -20,7 +20,7 @@ interface IManager {
 	/**
 	 * @param array $sorters list of sorter IDs, separated by "|"
 	 * @param array $sortArray array representation of OCP\Collaboration\Collaborators\ISearchResult
-	 * @param array $context context info of the search, keys: itemType, itemId
+	 * @param array{itemType: string, itemId: string, search?: string} $context context info of the search
 	 * @since 13.0.0
 	 */
 	public function runSorters(array $sorters, array &$sortArray, array $context);
