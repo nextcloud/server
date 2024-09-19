@@ -39,7 +39,7 @@ class SetConfigTest extends TestCase {
 	}
 
 
-	public function setData() {
+	public static function dataTest() {
 		return [
 			[['name'], 'newvalue', null, 'newvalue'],
 			[['a', 'b', 'c'], 'foobar', null, ['b' => ['c' => 'foobar']]],
@@ -48,7 +48,7 @@ class SetConfigTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider setData
+	 * @dataProvider dataTest
 	 *
 	 * @param array $configNames
 	 * @param string $newValue
