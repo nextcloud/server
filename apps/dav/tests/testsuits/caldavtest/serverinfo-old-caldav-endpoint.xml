@@ -1,7 +1,6 @@
 <?xml version="1.0" standalone="no"?>
 
-<!DOCTYPE serverinfo SYSTEM
-		"/home/deepdiver/Development/ownCloud/master/apps/dav/tests/travis/caldavtest/serverinfo.dtd">
+<!DOCTYPE serverinfo SYSTEM "./serverinfo.dtd">
 
 <!--
   - SPDX-FileCopyrightText: 2006-2015 Apple Inc. All rights reserved.
@@ -163,7 +162,7 @@
 		<!-- relative path to caldav root-->
 		<substitution>
 			<key>$root:</key>
-			<value>/remote.php/dav/</value>
+			<value>/remote.php/caldav/</value>
 		</substitution>
 
 		<!-- relative path to main principal collection-->
@@ -176,10 +175,6 @@
 		<substitution>
 			<key>$uidstype:</key>
 			<value>__uids__</value>
-		</substitution>
-		<substitution>
-			<key>$userstype:</key>
-			<value>users</value>
 		</substitution>
 		<substitution>
 			<key>$groupstype:</key>
@@ -201,7 +196,7 @@
 		</substitution>
 		<substitution>
 			<key>$principals_users:</key>
-			<value>$principalcollection:$userstype:/</value>
+			<value>$principalcollection:</value>
 		</substitution>
 		<substitution>
 			<key>$principals_groups:</key>
@@ -229,7 +224,7 @@
 		</substitution>
 		<substitution>
 			<key>$calendars_users:</key>
-			<value>$calendars:$userstype:/</value>
+			<value>$calendars:/</value>
 		</substitution>
 		<substitution>
 			<key>$calendars_resources:</key>
@@ -343,7 +338,7 @@
 		</substitution>
 		<substitution>
 			<key>$addressbooks_users:</key>
-			<value>$addressbooks:$userstype:/</value>
+			<value>$addressbooks:/</value>
 		</substitution>
 
 		<!-- primary addressbook name -->

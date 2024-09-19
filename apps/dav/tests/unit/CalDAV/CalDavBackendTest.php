@@ -117,7 +117,7 @@ class CalDavBackendTest extends AbstractCalDavBackend {
 	public function testCalendarSharing($userCanRead, $userCanWrite, $groupCanRead, $groupCanWrite, $add, $principals): void {
 		$logger = $this->createMock(\Psr\Log\LoggerInterface::class);
 		$config = $this->createMock(IConfig::class);
-		/** @var IL10N|MockObject $l10n */
+
 		$l10n = $this->createMock(IL10N::class);
 		$l10n->expects($this->any())
 			->method('t')
@@ -1655,12 +1655,12 @@ EOD;
 		];
 
 		$testFiles = [
-			__DIR__ . '/../../misc/caldav-search-limit-timerange-1.ics',
-			__DIR__ . '/../../misc/caldav-search-limit-timerange-2.ics',
-			__DIR__ . '/../../misc/caldav-search-limit-timerange-3.ics',
-			__DIR__ . '/../../misc/caldav-search-limit-timerange-4.ics',
-			__DIR__ . '/../../misc/caldav-search-limit-timerange-5.ics',
-			__DIR__ . '/../../misc/caldav-search-limit-timerange-6.ics',
+			__DIR__ . '/../test_fixtures/caldav-search-limit-timerange-1.ics',
+			__DIR__ . '/../test_fixtures/caldav-search-limit-timerange-2.ics',
+			__DIR__ . '/../test_fixtures/caldav-search-limit-timerange-3.ics',
+			__DIR__ . '/../test_fixtures/caldav-search-limit-timerange-4.ics',
+			__DIR__ . '/../test_fixtures/caldav-search-limit-timerange-5.ics',
+			__DIR__ . '/../test_fixtures/caldav-search-limit-timerange-6.ics',
 		];
 
 		foreach ($testFiles as $testFile) {
@@ -1712,12 +1712,12 @@ EOD;
 		];
 
 		$testFiles = [
-			__DIR__ . '/../../misc/caldav-search-limit-timerange-1.ics',
-			__DIR__ . '/../../misc/caldav-search-limit-timerange-2.ics',
-			__DIR__ . '/../../misc/caldav-search-limit-timerange-3.ics',
-			__DIR__ . '/../../misc/caldav-search-limit-timerange-4.ics',
-			__DIR__ . '/../../misc/caldav-search-limit-timerange-5.ics',
-			__DIR__ . '/../../misc/caldav-search-limit-timerange-6.ics',
+			__DIR__ . '/../test_fixtures/caldav-search-limit-timerange-1.ics',
+			__DIR__ . '/../test_fixtures/caldav-search-limit-timerange-2.ics',
+			__DIR__ . '/../test_fixtures/caldav-search-limit-timerange-3.ics',
+			__DIR__ . '/../test_fixtures/caldav-search-limit-timerange-4.ics',
+			__DIR__ . '/../test_fixtures/caldav-search-limit-timerange-5.ics',
+			__DIR__ . '/../test_fixtures/caldav-search-limit-timerange-6.ics',
 		];
 
 		foreach ($testFiles as $testFile) {
@@ -1762,12 +1762,12 @@ EOD;
 		];
 
 		$testFiles = [
-			__DIR__ . '/../../misc/caldav-search-limit-timerange-1.ics',
-			__DIR__ . '/../../misc/caldav-search-limit-timerange-2.ics',
-			__DIR__ . '/../../misc/caldav-search-limit-timerange-3.ics',
-			__DIR__ . '/../../misc/caldav-search-limit-timerange-4.ics',
-			__DIR__ . '/../../misc/caldav-search-limit-timerange-6.ics', // <-- intentional!
-			__DIR__ . '/../../misc/caldav-search-limit-timerange-5.ics',
+			__DIR__ . '/../test_fixtures/caldav-search-limit-timerange-1.ics',
+			__DIR__ . '/../test_fixtures/caldav-search-limit-timerange-2.ics',
+			__DIR__ . '/../test_fixtures/caldav-search-limit-timerange-3.ics',
+			__DIR__ . '/../test_fixtures/caldav-search-limit-timerange-4.ics',
+			__DIR__ . '/../test_fixtures/caldav-search-limit-timerange-6.ics', // <-- intentional!
+			__DIR__ . '/../test_fixtures/caldav-search-limit-timerange-5.ics',
 		];
 
 		foreach ($testFiles as $testFile) {
@@ -1819,10 +1819,10 @@ EOD;
 		];
 
 		$testFiles = [
-			__DIR__ . '/../../misc/caldav-search-limit-timerange-6.ics', // <-- intentional!
-			__DIR__ . '/../../misc/caldav-search-limit-timerange-5.ics',
-			__DIR__ . '/../../misc/caldav-search-missing-start-1.ics',
-			__DIR__ . '/../../misc/caldav-search-missing-start-2.ics',
+			__DIR__ . '/../test_fixtures/caldav-search-limit-timerange-6.ics', // <-- intentional!
+			__DIR__ . '/../test_fixtures/caldav-search-limit-timerange-5.ics',
+			__DIR__ . '/../test_fixtures/caldav-search-missing-start-1.ics',
+			__DIR__ . '/../test_fixtures/caldav-search-missing-start-2.ics',
 		];
 
 		foreach ($testFiles as $testFile) {

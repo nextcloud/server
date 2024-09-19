@@ -1,7 +1,6 @@
 <?xml version="1.0" standalone="no"?>
 
-<!DOCTYPE serverinfo SYSTEM
-		"/home/deepdiver/Development/ownCloud/master/apps/dav/tests/travis/caldavtest/serverinfo.dtd">
+<!DOCTYPE serverinfo SYSTEM "./serverinfo.dtd">
 
 <!--
   - SPDX-FileCopyrightText: 2006-2015 Apple Inc. All rights reserved.
@@ -163,7 +162,7 @@
 		<!-- relative path to caldav root-->
 		<substitution>
 			<key>$root:</key>
-			<value>/remote.php/caldav/</value>
+			<value>/remote.php/carddav/</value>
 		</substitution>
 
 		<!-- relative path to main principal collection-->
@@ -554,7 +553,7 @@
 			<!-- relative path to user addressbook home-->
 			<substitution>
 				<key>$addressbookhome%d:</key>
-				<value>$addressbooks:users/$userid%d:</value>
+				<value>$addressbooks:$userid%d:</value>
 			</substitution>
 			<!-- relative path to user addressbook-->
 			<substitution>
