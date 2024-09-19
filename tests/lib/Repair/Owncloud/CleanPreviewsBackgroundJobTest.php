@@ -13,27 +13,18 @@ use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
 use OCP\IUserManager;
+use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 class CleanPreviewsBackgroundJobTest extends TestCase {
-	/** @var IRootFolder|\PHPUnit_Framework_MockObject_MockObject */
-	private $rootFolder;
 
-	/** @var LoggerInterface|\PHPUnit_Framework_MockObject_MockObject */
-	private $logger;
-
-	/** @var IJobList|\PHPUnit_Framework_MockObject_MockObject */
-	private $jobList;
-
-	/** @var ITimeFactory|\PHPUnit_Framework_MockObject_MockObject */
-	private $timeFactory;
-
-	/** @var CleanPreviewsBackgroundJob */
-	private $job;
-
-	/** @var IUserManager|\PHPUnit_Framework_MockObject_MockObject */
-	private $userManager;
+	private IRootFolder&MockObject $rootFolder;
+	private LoggerInterface&MockObject $logger;
+	private IJobList&MockObject $jobList;
+	private ITimeFactory&MockObject $timeFactory;
+	private IUserManager&MockObject $userManager;
+	private CleanPreviewsBackgroundJob $job;
 
 	public function setUp(): void {
 		parent::setUp();
@@ -90,14 +81,18 @@ class CleanPreviewsBackgroundJobTest extends TestCase {
 				$this->equalTo(['uid' => 'myuid'])
 			);
 
+		$loggerCalls = [];
 		$this->logger->expects($this->exactly(2))
 			->method('info')
-			->withConsecutive(
-				[$this->equalTo('Started preview cleanup for myuid')],
-				[$this->equalTo('New preview cleanup scheduled for myuid')],
-			);
+			->willReturnCallback(function () use (&$loggerCalls) {
+				$loggerCalls[] = func_get_args();
+			});
 
 		$this->job->run(['uid' => 'myuid']);
+		self::assertEquals([
+			['Started preview cleanup for myuid', []],
+			['New preview cleanup scheduled for myuid', []],
+		], $loggerCalls);
 	}
 
 	public function testCleanupPreviewsFinished(): void {
@@ -129,17 +124,21 @@ class CleanPreviewsBackgroundJobTest extends TestCase {
 		$this->jobList->expects($this->never())
 			->method('add');
 
+		$loggerCalls = [];
 		$this->logger->expects($this->exactly(2))
 			->method('info')
-			->withConsecutive(
-				[$this->equalTo('Started preview cleanup for myuid')],
-				[$this->equalTo('Preview cleanup done for myuid')],
-			);
+			->willReturnCallback(function () use (&$loggerCalls) {
+				$loggerCalls[] = func_get_args();
+			});
 
 		$thumbnailFolder->expects($this->once())
 			->method('delete');
 
 		$this->job->run(['uid' => 'myuid']);
+		self::assertEquals([
+			['Started preview cleanup for myuid', []],
+			['Preview cleanup done for myuid', []],
+		], $loggerCalls);
 	}
 
 
@@ -148,14 +147,18 @@ class CleanPreviewsBackgroundJobTest extends TestCase {
 			->with($this->equalTo('myuid'))
 			->willThrowException(new NotFoundException());
 
+		$loggerCalls = [];
 		$this->logger->expects($this->exactly(2))
 			->method('info')
-			->withConsecutive(
-				[$this->equalTo('Started preview cleanup for myuid')],
-				[$this->equalTo('Preview cleanup done for myuid')],
-			);
+			->willReturnCallback(function () use (&$loggerCalls) {
+				$loggerCalls[] = func_get_args();
+			});
 
 		$this->job->run(['uid' => 'myuid']);
+		self::assertEquals([
+			['Started preview cleanup for myuid', []],
+			['Preview cleanup done for myuid', []],
+		], $loggerCalls);
 	}
 
 	public function testNoThumbnailFolder(): void {
@@ -172,14 +175,18 @@ class CleanPreviewsBackgroundJobTest extends TestCase {
 			->with($this->equalTo('thumbnails'))
 			->willThrowException(new NotFoundException());
 
+		$loggerCalls = [];
 		$this->logger->expects($this->exactly(2))
 			->method('info')
-			->withConsecutive(
-				[$this->equalTo('Started preview cleanup for myuid')],
-				[$this->equalTo('Preview cleanup done for myuid')],
-			);
+			->willReturnCallback(function () use (&$loggerCalls) {
+				$loggerCalls[] = func_get_args();
+			});
 
 		$this->job->run(['uid' => 'myuid']);
+		self::assertEquals([
+			['Started preview cleanup for myuid', []],
+			['Preview cleanup done for myuid', []],
+		], $loggerCalls);
 	}
 
 	public function testNotPermittedToDelete(): void {
@@ -212,17 +219,21 @@ class CleanPreviewsBackgroundJobTest extends TestCase {
 		$this->jobList->expects($this->never())
 			->method('add');
 
-		$this->logger->expects($this->exactly(2))
-			->method('info')
-			->withConsecutive(
-				[$this->equalTo('Started preview cleanup for myuid')],
-				[$this->equalTo('Preview cleanup done for myuid')],
-			);
-
 		$thumbnailFolder->expects($this->once())
 			->method('delete')
 			->willThrowException(new NotPermittedException());
 
+		$loggerCalls = [];
+		$this->logger->expects($this->exactly(2))
+			->method('info')
+			->willReturnCallback(function () use (&$loggerCalls) {
+				$loggerCalls[] = func_get_args();
+			});
+
 		$this->job->run(['uid' => 'myuid']);
+		self::assertEquals([
+			['Started preview cleanup for myuid', []],
+			['Preview cleanup done for myuid', []],
+		], $loggerCalls);
 	}
 }
