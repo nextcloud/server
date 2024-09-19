@@ -9,7 +9,9 @@ namespace Test\Repair\Owncloud;
 use OC\Repair\Owncloud\UpdateLanguageCodes;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IConfig;
+use OCP\IDBConnection;
 use OCP\Migration\IOutput;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 /**
@@ -20,16 +22,14 @@ use Test\TestCase;
  * @package Test\Repair
  */
 class UpdateLanguageCodesTest extends TestCase {
-	/** @var \OCP\IDBConnection */
-	protected $connection;
 
-	/** @var IConfig | \PHPUnit_Framework_MockObject_MockObject */
-	private $config;
+	protected IDBConnection $connection;
+	private IConfig&MockObject $config;
 
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->connection = \OC::$server->getDatabaseConnection();
+		$this->connection = \OCP\Server::get(IDBConnection::class);
 		$this->config = $this->createMock(IConfig::class);
 	}
 
@@ -60,7 +60,7 @@ class UpdateLanguageCodesTest extends TestCase {
 				'appid' => 'core',
 				'configkey' => 'lang',
 				'configvalue' => $user['configvalue'],
-			])->execute();
+			])->executeStatement();
 		}
 
 		// check if test data is written to DB
@@ -70,26 +70,30 @@ class UpdateLanguageCodesTest extends TestCase {
 			->where($qb->expr()->eq('appid', $qb->createNamedParameter('core')))
 			->andWhere($qb->expr()->eq('configkey', $qb->createNamedParameter('lang')))
 			->orderBy('userid')
-			->execute();
+			->executeQuery();
 
 		$rows = $result->fetchAll();
 		$result->closeCursor();
 
 		$this->assertSame($users, $rows, 'Asserts that the entries are the ones from the test data set');
 
-		/** @var IOutput|\PHPUnit_Framework_MockObject_MockObject $outputMock */
+		$expectedOutput = [
+			['Changed 1 setting(s) from "bg_BG" to "bg" in preferences table.'],
+			['Changed 0 setting(s) from "cs_CZ" to "cs" in preferences table.'],
+			['Changed 1 setting(s) from "fi_FI" to "fi" in preferences table.'],
+			['Changed 0 setting(s) from "hu_HU" to "hu" in preferences table.'],
+			['Changed 0 setting(s) from "nb_NO" to "nb" in preferences table.'],
+			['Changed 0 setting(s) from "sk_SK" to "sk" in preferences table.'],
+			['Changed 2 setting(s) from "th_TH" to "th" in preferences table.'],
+		];
+		$outputMessages = [];
+		/** @var IOutput&MockObject $outputMock */
 		$outputMock = $this->createMock(IOutput::class);
 		$outputMock->expects($this->exactly(7))
 			->method('info')
-			->withConsecutive(
-				['Changed 1 setting(s) from "bg_BG" to "bg" in preferences table.'],
-				['Changed 0 setting(s) from "cs_CZ" to "cs" in preferences table.'],
-				['Changed 1 setting(s) from "fi_FI" to "fi" in preferences table.'],
-				['Changed 0 setting(s) from "hu_HU" to "hu" in preferences table.'],
-				['Changed 0 setting(s) from "nb_NO" to "nb" in preferences table.'],
-				['Changed 0 setting(s) from "sk_SK" to "sk" in preferences table.'],
-				['Changed 2 setting(s) from "th_TH" to "th" in preferences table.'],
-			);
+			->willReturnCallback(function () use (&$outputMessages) {
+				$outputMessages[] = func_get_args();
+			});
 
 		$this->config->expects($this->once())
 			->method('getSystemValueString')
@@ -107,7 +111,7 @@ class UpdateLanguageCodesTest extends TestCase {
 			->where($qb->expr()->eq('appid', $qb->createNamedParameter('core')))
 			->andWhere($qb->expr()->eq('configkey', $qb->createNamedParameter('lang')))
 			->orderBy('userid')
-			->execute();
+			->executeQuery();
 
 		$rows = $result->fetchAll();
 		$result->closeCursor();
@@ -127,12 +131,13 @@ class UpdateLanguageCodesTest extends TestCase {
 				->andWhere($qb->expr()->eq('appid', $qb->createNamedParameter('core')))
 				->andWhere($qb->expr()->eq('configkey', $qb->createNamedParameter('lang')))
 				->andWhere($qb->expr()->eq('configvalue', $qb->createNamedParameter($user['configvalue']), IQueryBuilder::PARAM_STR))
-				->execute();
+				->executeStatement();
 		}
+		self::assertEquals($expectedOutput, $outputMessages);
 	}
 
 	public function testSecondRun(): void {
-		/** @var IOutput|\PHPUnit_Framework_MockObject_MockObject $outputMock */
+		/** @var IOutput&MockObject $outputMock */
 		$outputMock = $this->createMock(IOutput::class);
 		$outputMock->expects($this->never())
 			->method('info');

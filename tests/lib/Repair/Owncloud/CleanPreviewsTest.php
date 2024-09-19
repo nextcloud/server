@@ -12,17 +12,14 @@ use OCP\IConfig;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\Migration\IOutput;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class CleanPreviewsTest extends TestCase {
-	/** @var IJobList|\PHPUnit_Framework_MockObject_MockObject */
-	private $jobList;
 
-	/** @var IUserManager|\PHPUnit_Framework_MockObject_MockObject */
-	private $userManager;
-
-	/** @var IConfig|\PHPUnit_Framework_MockObject_MockObject */
-	private $config;
+	private IJobList&MockObject $jobList;
+	private IUserManager&MockObject $userManager;
+	private IConfig&MockObject $config;
 
 	/** @var CleanPreviews */
 	private $repair;
@@ -55,23 +52,17 @@ class CleanPreviewsTest extends TestCase {
 
 		$this->userManager->expects($this->once())
 			->method('callForSeenUsers')
-			->will($this->returnCallback(function (\Closure $function) use ($user1, $user2) {
+			->will($this->returnCallback(function (\Closure $function) use (&$user1, $user2) {
 				$function($user1);
 				$function($user2);
 			}));
 
+		$jobListCalls = [];
 		$this->jobList->expects($this->exactly(2))
 			->method('add')
-			->withConsecutive(
-				[
-					$this->equalTo(CleanPreviewsBackgroundJob::class),
-					$this->equalTo(['uid' => 'user1'])
-				],
-				[
-					$this->equalTo(CleanPreviewsBackgroundJob::class),
-					$this->equalTo(['uid' => 'user2'])
-				],
-			);
+			->willReturnCallback(function () use (&$jobListCalls) {
+				$jobListCalls[] = func_get_args();
+			});
 
 		$this->config->expects($this->once())
 			->method('getAppValue')
@@ -89,10 +80,14 @@ class CleanPreviewsTest extends TestCase {
 			);
 
 		$this->repair->run($this->createMock(IOutput::class));
+		$this->assertEqualsCanonicalizing([
+			[CleanPreviewsBackgroundJob::class, ['uid' => 'user1']],
+			[CleanPreviewsBackgroundJob::class, ['uid' => 'user2']],
+		], $jobListCalls);
 	}
 
 
-	public function testRunAlreadyDoone(): void {
+	public function testRunAlreadyDone(): void {
 		$this->userManager->expects($this->never())
 			->method($this->anything());
 

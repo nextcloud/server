@@ -10,27 +10,19 @@ use OC\Avatar\AvatarManager;
 use OC\Repair\ClearGeneratedAvatarCache;
 use OCP\BackgroundJob\IJobList;
 use OCP\IConfig;
-use OCP\Migration\IOutput;
+use PHPUnit\Framework\MockObject\MockObject;
 
 class ClearGeneratedAvatarCacheTest extends \Test\TestCase {
-	/** @var AvatarManager */
-	private $avatarManager;
 
-	/** @var IOutput */
-	private $outputMock;
-
-	/** @var IConfig */
-	private $config;
-
-	/** @var IJobList */
-	private $jobList;
+	private AvatarManager&MockObject $avatarManager;
+	private IConfig&MockObject $config;
+	private IJobList&MockObject $jobList;
 
 	protected ClearGeneratedAvatarCache $repair;
 
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->outputMock = $this->createMock(IOutput::class);
 		$this->avatarManager = $this->createMock(AvatarManager::class);
 		$this->config = $this->createMock(IConfig::class);
 		$this->jobList = $this->createMock(IJobList::class);

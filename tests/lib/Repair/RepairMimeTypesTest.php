@@ -14,7 +14,6 @@ use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\Migration\IOutput;
-use OCP\Migration\IRepairStep;
 
 /**
  * Tests for the converting of legacy storages to home storages.
@@ -24,21 +23,18 @@ use OCP\Migration\IRepairStep;
  * @see \OC\Repair\RepairMimeTypes
  */
 class RepairMimeTypesTest extends \Test\TestCase {
-	/** @var IRepairStep */
-	private $repair;
 
-	/** @var Temporary */
-	private $storage;
-
-	/** @var IMimeTypeLoader */
-	private $mimetypeLoader;
+	private RepairMimeTypes $repair;
+	private Temporary $storage;
+	private IMimeTypeLoader $mimetypeLoader;
+	private IDBConnection $db;
 
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->mimetypeLoader = \OC::$server->getMimeTypeLoader();
+		$this->mimetypeLoader = \OCP\Server::get(IMimeTypeLoader::class);
+		$this->db = \OCP\Server::get(IDBConnection::class);
 
-		/** @var IConfig | \PHPUnit\Framework\MockObject\MockObject $config */
 		$config = $this->getMockBuilder(IConfig::class)
 			->disableOriginalConstructor()
 			->getMock();
@@ -66,10 +62,10 @@ class RepairMimeTypesTest extends \Test\TestCase {
 	protected function tearDown(): void {
 		$this->storage->getCache()->clear();
 
-		$qb = \OC::$server->getDatabaseConnection()->getQueryBuilder();
+		$qb = $this->db->getQueryBuilder();
 		$qb->delete('storages')
 			->where($qb->expr()->eq('id', $qb->createNamedParameter($this->storage->getId())));
-		$qb->execute();
+		$qb->executeStatement();
 
 		$this->clearMimeTypes();
 
@@ -77,9 +73,9 @@ class RepairMimeTypesTest extends \Test\TestCase {
 	}
 
 	private function clearMimeTypes() {
-		$qb = \OC::$server->getDatabaseConnection()->getQueryBuilder();
+		$qb = $this->db->getQueryBuilder();
 		$qb->delete('mimetypes');
-		$qb->execute();
+		$qb->executeStatement();
 
 		$this->mimetypeLoader->reset();
 	}
