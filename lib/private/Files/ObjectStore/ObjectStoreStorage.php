@@ -604,8 +604,8 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 		}
 		if ($sourceCacheEntry->getMimeType() === FileInfo::MIMETYPE_FOLDER) {
 			$this->mkdir($targetInternalPath);
-			foreach ($sourceCache->getFolderContents($sourceInternalPath) as $child) {
-				$this->moveFromStorage($sourceStorage, $child->getPath(), $targetInternalPath . '/' . $child->getName());
+			foreach ($sourceCache->getFolderContentsById($sourceCacheEntry->getId()) as $child) {
+				$this->moveFromStorage($sourceStorage, $child->getPath(), $targetInternalPath . '/' . $child->getName(), $child);
 			}
 			$sourceStorage->rmdir($sourceInternalPath);
 		} else {
