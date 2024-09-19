@@ -33,7 +33,7 @@ class ConfigAPIController extends OCSController {
 		Manager $keyManager,
 		private Helper $ldapHelper,
 		private LoggerInterface $logger,
-		private ConnectionFactory $connectionFactory
+		private ConnectionFactory $connectionFactory,
 	) {
 		parent::__construct(
 			$appName,

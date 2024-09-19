@@ -163,7 +163,7 @@ class ContactsStore implements IContactsStore {
 	private function filterContacts(
 		IUser $self,
 		array $entries,
-		?string $filter
+		?string $filter,
 	): array {
 		$disallowEnumeration = $this->config->getAppValue('core', 'shareapi_allow_share_dialog_user_enumeration', 'yes') !== 'yes';
 		$restrictEnumerationGroup = $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_to_group', 'no') === 'yes';

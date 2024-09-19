@@ -441,7 +441,7 @@ class UserPluginTest extends TestCase {
 		$reachedEnd,
 		$singleUser,
 		array $users = [],
-		$shareeEnumerationPhone = false
+		$shareeEnumerationPhone = false,
 	): void {
 		$this->mockConfig(['core' => [
 			'shareapi_only_share_with_group_members' => $shareWithGroupOnly ? 'yes' : 'no',

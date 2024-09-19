@@ -108,7 +108,7 @@ class BirthdayService {
 
 			$calendar = $this->ensureCalendarExists($principalUri);
 			foreach (['', '-death', '-anniversary'] as $tag) {
-				$objectUri = $book['uri'] . '-' . $cardUri . $tag .'.ics';
+				$objectUri = $book['uri'] . '-' . $cardUri . $tag . '.ics';
 				$this->calDavBackEnd->deleteCalendarObject($calendar['id'], $objectUri, CalDavBackend::CALENDAR_TYPE_CALENDAR, true);
 			}
 		}
@@ -264,7 +264,7 @@ class BirthdayService {
 	 * @param string $user
 	 */
 	public function resetForUser(string $user):void {
-		$principal = 'principals/users/'.$user;
+		$principal = 'principals/users/' . $user;
 		$calendar = $this->calDavBackEnd->getCalendarByUri($principal, self::BIRTHDAY_CALENDAR_URI);
 		if (!$calendar) {
 			return; // The user's birthday calendar doesn't exist, no need to purge it
@@ -281,7 +281,7 @@ class BirthdayService {
 	 * @throws \Sabre\DAV\Exception\BadRequest
 	 */
 	public function syncUser(string $user):void {
-		$principal = 'principals/users/'.$user;
+		$principal = 'principals/users/' . $user;
 		$this->ensureCalendarExists($principal);
 		$books = $this->cardDavBackEnd->getAddressBooksForUser($principal);
 		foreach ($books as $book) {

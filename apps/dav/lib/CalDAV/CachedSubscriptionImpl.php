@@ -20,7 +20,7 @@ class CachedSubscriptionImpl implements ICalendar {
 	public function __construct(
 		CachedSubscription $calendar,
 		array $calendarInfo,
-		CalDavBackend $backend
+		CalDavBackend $backend,
 	) {
 		$this->calendar = $calendar;
 		$this->calendarInfo = $calendarInfo;

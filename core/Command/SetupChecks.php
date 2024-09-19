@@ -61,11 +61,11 @@ class SetupChecks extends Base {
 							$description = $this->richTextFormatter->richToParsed($description, $descriptionParameters);
 						}
 						$output->writeln(
-							"\t\t".
-							($styleTag !== null ? "<{$styleTag}>" : '').
-							"{$emoji} ".
-							($check->getName() ?? $check::class).
-							($description !== null ? ': '.$description : '').
+							"\t\t" .
+							($styleTag !== null ? "<{$styleTag}>" : '') .
+							"{$emoji} " .
+							($check->getName() ?? $check::class) .
+							($description !== null ? ': ' . $description : '') .
 							($styleTag !== null ? "</{$styleTag}>" : ''),
 							$verbosity
 						);

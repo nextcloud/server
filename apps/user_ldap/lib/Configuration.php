@@ -241,7 +241,7 @@ class Configuration {
 				case 'homeFolderNamingRule':
 					$trimmedVal = trim($val);
 					if ($trimmedVal !== '' && !str_contains($val, 'attr:')) {
-						$val = 'attr:'.$trimmedVal;
+						$val = 'attr:' . $trimmedVal;
 					}
 					break;
 				case 'ldapBase':
@@ -450,7 +450,7 @@ class Configuration {
 			$defaults = $this->getDefaults();
 		}
 		return \OC::$server->getConfig()->getAppValue('user_ldap',
-			$this->configPrefix.$varName,
+			$this->configPrefix . $varName,
 			$defaults[$varName]);
 	}
 
@@ -480,7 +480,7 @@ class Configuration {
 	protected function saveValue(string $varName, string $value): bool {
 		\OC::$server->getConfig()->setAppValue(
 			'user_ldap',
-			$this->configPrefix.$varName,
+			$this->configPrefix . $varName,
 			$value
 		);
 		return true;

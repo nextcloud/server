@@ -30,7 +30,7 @@ class Listener {
 	public function __construct(
 		INotificationManager $notificationManager,
 		IShareManager $shareManager,
-		IGroupManager $groupManager
+		IGroupManager $groupManager,
 	) {
 		$this->notificationManager = $notificationManager;
 		$this->shareManager = $shareManager;

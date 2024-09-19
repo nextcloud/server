@@ -26,7 +26,7 @@ class RepairMimeTypes implements IRepairStep {
 	public function __construct(
 		protected IConfig $config,
 		protected IAppConfig $appConfig,
-		protected IDBConnection $connection
+		protected IDBConnection $connection,
 	) {
 	}
 

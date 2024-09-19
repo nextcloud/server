@@ -85,7 +85,7 @@ class UpdaterTest extends TestCase {
 
 		// share mount point should now be moved to the subfolder
 		$this->assertFalse($view->file_exists($this->folder));
-		$this->assertTrue($view->file_exists('localFolder/' .$this->folder));
+		$this->assertTrue($view->file_exists('localFolder/' . $this->folder));
 
 		$view->unlink('localFolder');
 
@@ -290,7 +290,7 @@ class UpdaterTest extends TestCase {
 		);
 
 		// user2 moves folder2 into folder1
-		$viewUser2->rename($folder2, $folder1.'/'.$folder2);
+		$viewUser2->rename($folder2, $folder1 . '/' . $folder2);
 		$folder2Share = $this->shareManager->getShareById($folder2Share->getFullId());
 		$file1Share = $this->shareManager->getShareById($file1Share->getFullId());
 		$subfolder1Share = $this->shareManager->getShareById($subfolder1Share->getFullId());
@@ -308,7 +308,7 @@ class UpdaterTest extends TestCase {
 		$this->assertEquals(\OCP\Constants::PERMISSION_READ | \OCP\Constants::PERMISSION_SHARE, $file2Share->getPermissions());
 
 		// user2 moves folder2 out of folder1
-		$viewUser2->rename($folder1.'/'.$folder2, $folder2);
+		$viewUser2->rename($folder1 . '/' . $folder2, $folder2);
 		$folder2Share = $this->shareManager->getShareById($folder2Share->getFullId());
 		$file1Share = $this->shareManager->getShareById($file1Share->getFullId());
 		$subfolder1Share = $this->shareManager->getShareById($subfolder1Share->getFullId());

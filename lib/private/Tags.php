@@ -506,7 +506,7 @@ class Tags implements ITags {
 		if (is_string($tag) && !is_numeric($tag)) {
 			$tag = trim($tag);
 			if ($tag === '') {
-				$this->logger->debug(__METHOD__.', Cannot add an empty tag');
+				$this->logger->debug(__METHOD__ . ', Cannot add an empty tag');
 				return false;
 			}
 			if (!$this->hasTag($tag)) {
@@ -546,7 +546,7 @@ class Tags implements ITags {
 		if (is_string($tag) && !is_numeric($tag)) {
 			$tag = trim($tag);
 			if ($tag === '') {
-				$this->logger->debug(__METHOD__.', Tag name is empty');
+				$this->logger->debug(__METHOD__ . ', Tag name is empty');
 				return false;
 			}
 			$tagId = $this->getTagId($tag);

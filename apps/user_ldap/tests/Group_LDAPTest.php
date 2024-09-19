@@ -1033,10 +1033,10 @@ class Group_LDAPTest extends TestCase {
 					$this->assertTrue(str_contains($filter, $groupFilter));
 				}
 				[$memberFilter] = explode('&', $filter);
-				if ($memberFilter === 'member='.$dn) {
+				if ($memberFilter === 'member=' . $dn) {
 					return [$group1, $group2];
 					return [];
-				} elseif ($memberFilter === 'member='.$group2['dn'][0]) {
+				} elseif ($memberFilter === 'member=' . $group2['dn'][0]) {
 					return [$group3];
 				} else {
 					return [];

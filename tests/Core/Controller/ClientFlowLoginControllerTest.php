@@ -137,7 +137,7 @@ class ClientFlowLoginControllerTest extends TestCase {
 			->method('generate')
 			->with(
 				64,
-				ISecureRandom::CHAR_LOWER.ISecureRandom::CHAR_UPPER.ISecureRandom::CHAR_DIGITS
+				ISecureRandom::CHAR_LOWER . ISecureRandom::CHAR_UPPER . ISecureRandom::CHAR_DIGITS
 			)
 			->willReturn('StateToken');
 		$this->session
@@ -207,7 +207,7 @@ class ClientFlowLoginControllerTest extends TestCase {
 			->method('generate')
 			->with(
 				64,
-				ISecureRandom::CHAR_LOWER.ISecureRandom::CHAR_UPPER.ISecureRandom::CHAR_DIGITS
+				ISecureRandom::CHAR_LOWER . ISecureRandom::CHAR_UPPER . ISecureRandom::CHAR_DIGITS
 			)
 			->willReturn('StateToken');
 		$this->session
@@ -448,8 +448,8 @@ class ClientFlowLoginControllerTest extends TestCase {
 				[128]
 			)
 			->willReturnMap([
-				[72, ISecureRandom::CHAR_UPPER.ISecureRandom::CHAR_LOWER.ISecureRandom::CHAR_DIGITS, 'MyGeneratedToken'],
-				[128, ISecureRandom::CHAR_UPPER.ISecureRandom::CHAR_LOWER.ISecureRandom::CHAR_DIGITS, 'MyAccessCode'],
+				[72, ISecureRandom::CHAR_UPPER . ISecureRandom::CHAR_LOWER . ISecureRandom::CHAR_DIGITS, 'MyGeneratedToken'],
+				[128, ISecureRandom::CHAR_UPPER . ISecureRandom::CHAR_LOWER . ISecureRandom::CHAR_DIGITS, 'MyAccessCode'],
 			]);
 		$user = $this->createMock(IUser::class);
 		$user

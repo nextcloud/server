@@ -34,7 +34,7 @@ class UserStoragesService extends StoragesService {
 		DBConfigService $dbConfig,
 		IUserSession $userSession,
 		IUserMountCache $userMountCache,
-		IEventDispatcher $eventDispatcher
+		IEventDispatcher $eventDispatcher,
 	) {
 		$this->userSession = $userSession;
 		parent::__construct($backendService, $dbConfig, $userMountCache, $eventDispatcher);

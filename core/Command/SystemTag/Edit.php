@@ -82,13 +82,13 @@ class Edit extends Base {
 
 		try {
 			$this->systemTagManager->updateTag($input->getArgument('id'), $name, $userVisible, $userAssignable);
-			$output->writeln('<info>Tag updated ("' . $name . '", '. $userVisible . ', ' . $userAssignable . ')</info>');
+			$output->writeln('<info>Tag updated ("' . $name . '", ' . $userVisible . ', ' . $userAssignable . ')</info>');
 			return 0;
 		} catch (TagNotFoundException $e) {
 			$output->writeln('<error>Tag not found</error>');
 			return 1;
 		} catch (TagAlreadyExistsException $e) {
-			$output->writeln('<error>'.$e->getMessage().'</error>');
+			$output->writeln('<error>' . $e->getMessage() . '</error>');
 			return 2;
 		}
 	}

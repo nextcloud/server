@@ -380,7 +380,7 @@ class PluginTest extends TestCase {
 
 		$this->server->expects($this->once())
 			->method('getPropertiesForPath')
-			->with($calendarHome .'/' . $calendarUri, [], 1)
+			->with($calendarHome . '/' . $calendarUri, [], 1)
 			->willReturn($properties);
 
 		$this->plugin->propFindDefaultCalendarUrl($propFind, $node);
@@ -392,7 +392,7 @@ class PluginTest extends TestCase {
 
 		/** @var LocalHref $result */
 		$result = $propFind->get(Plugin::SCHEDULE_DEFAULT_CALENDAR_URL);
-		$this->assertEquals('/remote.php/dav/'. $calendarHome . '/' . $calendarUri, $result->getHref());
+		$this->assertEquals('/remote.php/dav/' . $calendarHome . '/' . $calendarUri, $result->getHref());
 	}
 
 	/**

@@ -26,7 +26,7 @@ class InfoParserTest extends TestCase {
 		if (!is_null($expectedJson)) {
 			$expectedData = json_decode(file_get_contents(OC::$SERVERROOT . "/tests/data/app/$expectedJson"), true);
 		}
-		$data = $parser->parse(OC::$SERVERROOT. "/tests/data/app/$xmlFile");
+		$data = $parser->parse(OC::$SERVERROOT . "/tests/data/app/$xmlFile");
 
 		$this->assertEquals($expectedData, $data);
 	}

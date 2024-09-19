@@ -37,7 +37,7 @@ class ScanFiles extends TimedJob {
 		IEventDispatcher $dispatcher,
 		LoggerInterface  $logger,
 		IDBConnection    $connection,
-		ITimeFactory     $time
+		ITimeFactory     $time,
 	) {
 		parent::__construct($time);
 		// Run once per 10 minutes

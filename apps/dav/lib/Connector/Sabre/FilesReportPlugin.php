@@ -106,7 +106,7 @@ class FilesReportPlugin extends ServerPlugin {
 		IUserSession $userSession,
 		IGroupManager $groupManager,
 		Folder $userFolder,
-		IAppManager $appManager
+		IAppManager $appManager,
 	) {
 		$this->tree = $tree;
 		$this->fileView = $view;

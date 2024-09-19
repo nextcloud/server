@@ -19,7 +19,9 @@ class OutOfOfficeEndedEvent extends Event {
 	/**
 	 * @since 28.0.0
 	 */
-	public function __construct(private IOutOfOfficeData $data) {
+	public function __construct(
+		private IOutOfOfficeData $data,
+	) {
 		parent::__construct();
 	}
 

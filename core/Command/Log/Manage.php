@@ -84,14 +84,14 @@ class Manage extends Command implements CompletionAwareInterface {
 
 		// display configuration
 		$backend = $this->config->getSystemValue('log_type', self::DEFAULT_BACKEND);
-		$output->writeln('Enabled logging backend: '.$backend);
+		$output->writeln('Enabled logging backend: ' . $backend);
 
 		$levelNum = $this->config->getSystemValue('loglevel', self::DEFAULT_LOG_LEVEL);
 		$level = $this->convertLevelNumber($levelNum);
-		$output->writeln('Log level: '.$level.' ('.$levelNum.')');
+		$output->writeln('Log level: ' . $level . ' (' . $levelNum . ')');
 
 		$timezone = $this->config->getSystemValue('logtimezone', self::DEFAULT_TIMEZONE);
-		$output->writeln('Log timezone: '.$timezone);
+		$output->writeln('Log timezone: ' . $timezone);
 		return 0;
 	}
 
@@ -100,7 +100,7 @@ class Manage extends Command implements CompletionAwareInterface {
 	 * @throws \InvalidArgumentException
 	 */
 	protected function validateBackend($backend) {
-		if (!class_exists('OC\\Log\\'.ucfirst($backend))) {
+		if (!class_exists('OC\\Log\\' . ucfirst($backend))) {
 			throw new \InvalidArgumentException('Invalid backend');
 		}
 	}

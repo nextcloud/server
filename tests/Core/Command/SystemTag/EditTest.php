@@ -87,7 +87,7 @@ class EditTest extends TestCase {
 		$this->output->expects($this->once())
 			->method('writeln')
 			->with(
-				'<info>Tag updated ("'.$newTagName.'", '.$newTagUserVisible.', '.$newTagUserAssignable.')</info>'
+				'<info>Tag updated ("' . $newTagName . '", ' . $newTagUserVisible . ', ' . $newTagUserAssignable . ')</info>'
 			);
 
 		$this->invokePrivate($this->command, 'execute', [$this->input, $this->output]);
@@ -135,7 +135,7 @@ class EditTest extends TestCase {
 		$this->systemTagManager->method('updateTag')
 			->willReturnCallback(function ($tagId, $tagName, $userVisible, $userAssignable) {
 				throw new TagAlreadyExistsException(
-					'Tag ("' . $tagName . '", '. $userVisible . ', ' . $userAssignable . ') already exists'
+					'Tag ("' . $tagName . '", ' . $userVisible . ', ' . $userAssignable . ') already exists'
 				);
 			});
 
@@ -151,7 +151,7 @@ class EditTest extends TestCase {
 		$this->output->expects($this->once())
 			->method('writeln')
 			->with(
-				'<error>Tag ("' . $newTagName . '", '. $newTagUserVisible . ', ' . $newTagUserAssignable . ') already exists</error>'
+				'<error>Tag ("' . $newTagName . '", ' . $newTagUserVisible . ', ' . $newTagUserAssignable . ') already exists</error>'
 			);
 
 		$this->invokePrivate($this->command, 'execute', [$this->input, $this->output]);

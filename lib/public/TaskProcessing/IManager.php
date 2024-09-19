@@ -182,7 +182,7 @@ interface IManager {
 	 */
 	public function getTasks(
 		?string $userId, ?string $taskTypeId = null, ?string $appId = null, ?string $customId = null,
-		?int $status = null, ?int $scheduleAfter = null, ?int $endedBefore = null
+		?int $status = null, ?int $scheduleAfter = null, ?int $endedBefore = null,
 	): array;
 
 	/**

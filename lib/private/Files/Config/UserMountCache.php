@@ -49,7 +49,7 @@ class UserMountCache implements IUserMountCache {
 		IDBConnection $connection,
 		IUserManager $userManager,
 		LoggerInterface $logger,
-		IEventLogger $eventLogger
+		IEventLogger $eventLogger,
 	) {
 		$this->connection = $connection;
 		$this->userManager = $userManager;

@@ -52,7 +52,7 @@ class AdminTest extends TestCase {
 		$config = new Configuration('', false);
 		$defaults = $config->getDefaults();
 		foreach ($defaults as $key => $default) {
-			$parameters[$key.'_default'] = $default;
+			$parameters[$key . '_default'] = $default;
 		}
 
 		$expected = new TemplateResponse('user_ldap', 'settings', $parameters);

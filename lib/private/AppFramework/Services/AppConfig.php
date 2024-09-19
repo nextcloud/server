@@ -116,7 +116,7 @@ class AppConfig implements IAppConfig {
 		string $key,
 		string $value,
 		bool $lazy = false,
-		bool $sensitive = false
+		bool $sensitive = false,
 	): bool {
 		return $this->appConfig->setValueString($this->appName, $key, $value, $lazy, $sensitive);
 	}
@@ -138,7 +138,7 @@ class AppConfig implements IAppConfig {
 		string $key,
 		int $value,
 		bool $lazy = false,
-		bool $sensitive = false
+		bool $sensitive = false,
 	): bool {
 		return $this->appConfig->setValueInt($this->appName, $key, $value, $lazy, $sensitive);
 	}
@@ -160,7 +160,7 @@ class AppConfig implements IAppConfig {
 		string $key,
 		float $value,
 		bool $lazy = false,
-		bool $sensitive = false
+		bool $sensitive = false,
 	): bool {
 		return $this->appConfig->setValueFloat($this->appName, $key, $value, $lazy, $sensitive);
 	}
@@ -180,7 +180,7 @@ class AppConfig implements IAppConfig {
 	public function setAppValueBool(
 		string $key,
 		bool $value,
-		bool $lazy = false
+		bool $lazy = false,
 	): bool {
 		return $this->appConfig->setValueBool($this->appName, $key, $value, $lazy);
 	}
@@ -203,7 +203,7 @@ class AppConfig implements IAppConfig {
 		string $key,
 		array $value,
 		bool $lazy = false,
-		bool $sensitive = false
+		bool $sensitive = false,
 	): bool {
 		return $this->appConfig->setValueArray($this->appName, $key, $value, $lazy, $sensitive);
 	}

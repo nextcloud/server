@@ -321,7 +321,7 @@ class BackgroundService {
 	 * @param resource|string $path
 	 * @return string|null The fallback background color - if any
 	 */
-	public function setGlobalBackground($path): string|null {
+	public function setGlobalBackground($path): ?string {
 		$image = new \OCP\Image();
 		$handle = is_resource($path) ? $path : fopen($path, 'rb');
 
@@ -347,7 +347,7 @@ class BackgroundService {
 			$hex = dechex($channel);
 			return match (strlen($hex)) {
 				0 => '00',
-				1 => '0'.$hex,
+				1 => '0' . $hex,
 				2 => $hex,
 				default => 'ff',
 			};

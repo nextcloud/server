@@ -59,7 +59,7 @@ class Manager implements IManager {
 		IUserSession $userSession,
 		IRootFolder $rootFolder,
 		IFactory $l10nFactory,
-		EncryptionManager $encryptionManager
+		EncryptionManager $encryptionManager,
 	) {
 		$this->random = $random;
 		$this->connection = $connection;

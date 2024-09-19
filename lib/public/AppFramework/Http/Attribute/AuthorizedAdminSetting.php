@@ -25,7 +25,7 @@ class AuthorizedAdminSetting {
 	 * @since 27.0.0
 	 */
 	public function __construct(
-		protected string $settings
+		protected string $settings,
 	) {
 	}
 

@@ -76,7 +76,7 @@ abstract class PHPMongoQuery {
 	 */
 	private static function _executeQuery(array $query, array &$document, array $options = [], string $logicalOperator = '$and'): bool {
 		if ($logicalOperator !== '$and' && (!count($query) || !isset($query[0]))) {
-			throw new Exception($logicalOperator.' requires nonempty array');
+			throw new Exception($logicalOperator . ' requires nonempty array');
 		}
 		if ($options['_debug'] && $options['_shouldLog']) {
 			$options['logger']->debug('_executeQuery called', ['query' => $query, 'document' => $document, 'logicalOperator' => $logicalOperator]);
@@ -180,7 +180,7 @@ abstract class PHPMongoQuery {
 			return in_array($operatorValue, $v);
 		}
 		if (is_string($operatorValue) && preg_match('/^\/(.*?)\/([a-z]*)$/i', $operatorValue, $matches)) {
-			return (bool)preg_match('/'.$matches[1].'/'.$matches[2], $v);
+			return (bool)preg_match('/' . $matches[1] . '/' . $matches[2], $v);
 		}
 		return $operatorValue === $v;
 	}
@@ -303,15 +303,15 @@ abstract class PHPMongoQuery {
 				
 			default:
 				if (empty($options['unknownOperatorCallback']) || !is_callable($options['unknownOperatorCallback'])) {
-					throw new Exception('Operator '.$operator.' is unknown');
+					throw new Exception('Operator ' . $operator . ' is unknown');
 				}
 				
 				$res = call_user_func($options['unknownOperatorCallback'], $operator, $operatorValue, $element, $document);
 				if ($res === null) {
-					throw new Exception('Operator '.$operator.' is unknown');
+					throw new Exception('Operator ' . $operator . ' is unknown');
 				}
 				if (!is_bool($res)) {
-					throw new Exception('Return value of unknownOperatorCallback must be boolean, actual value '.$res);
+					throw new Exception('Return value of unknownOperatorCallback must be boolean, actual value ' . $res);
 				}
 				return $res;
 		}

@@ -53,7 +53,7 @@ class OC_Files {
 				http_response_code(206);
 				header('Accept-Ranges: bytes', true);
 				if (count($rangeArray) > 1) {
-					$type = 'multipart/byteranges; boundary='.self::getBoundary();
+					$type = 'multipart/byteranges; boundary=' . self::getBoundary();
 					// no Content-Length header here
 				} else {
 					header(sprintf('Content-Range: bytes %d-%d/%d', $rangeArray[0]['from'], $rangeArray[0]['to'], $fileSize), true);
@@ -63,7 +63,7 @@ class OC_Files {
 				OC_Response::setContentLengthHeader($fileSize);
 			}
 		}
-		header('Content-Type: '.$type, true);
+		header('Content-Type: ' . $type, true);
 		header('X-Accel-Buffering: no');
 	}
 
@@ -336,12 +336,12 @@ class OC_Files {
 					$type = \OC::$server->getMimeTypeDetector()->getSecureMimeType(\OC\Files\Filesystem::getMimeType($filename));
 
 					foreach ($rangeArray as $range) {
-						echo "\r\n--".self::getBoundary()."\r\n".
-						 'Content-type: '.$type."\r\n".
-						 'Content-range: bytes '.$range['from'].'-'.$range['to'].'/'.$range['size']."\r\n\r\n";
+						echo "\r\n--" . self::getBoundary() . "\r\n" .
+						 'Content-type: ' . $type . "\r\n" .
+						 'Content-range: bytes ' . $range['from'] . '-' . $range['to'] . '/' . $range['size'] . "\r\n\r\n";
 						$view->readfilePart($filename, $range['from'], $range['to']);
 					}
-					echo "\r\n--".self::getBoundary()."--\r\n";
+					echo "\r\n--" . self::getBoundary() . "--\r\n";
 				}
 			} catch (\OCP\Files\UnseekableException $ex) {
 				// file is unseekable

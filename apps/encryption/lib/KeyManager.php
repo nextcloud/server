@@ -211,7 +211,7 @@ class KeyManager {
 	 */
 	public function setRecoveryKey($password, $keyPair) {
 		// Save Public Key
-		$this->keyStorage->setSystemUserKey($this->getRecoveryKeyId().
+		$this->keyStorage->setSystemUserKey($this->getRecoveryKeyId() .
 			'.' . $this->publicKeyId,
 			$keyPair['publicKey'],
 			Encryption::ID);

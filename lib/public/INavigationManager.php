@@ -87,7 +87,7 @@ interface INavigationManager {
 	 * @param string $id ID of the navigation entry
 	 * @since 31.0.0
 	 */
-	public function get(string $id): array|null;
+	public function get(string $id): ?array;
 
 	/**
 	 * Returns the id of the user's default entry

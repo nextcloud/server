@@ -24,7 +24,7 @@ class MetadataRequestService {
 
 	public function __construct(
 		private IDBConnection $dbConnection,
-		private LoggerInterface $logger
+		private LoggerInterface $logger,
 	) {
 	}
 

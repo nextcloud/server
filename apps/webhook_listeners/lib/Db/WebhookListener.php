@@ -118,7 +118,7 @@ class WebhookListener extends Entity implements \JsonSerializable {
 
 	public function setAuthDataClear(
 		#[\SensitiveParameter]
-		?array $data
+		?array $data,
 	): void {
 		if ($data === null) {
 			if ($this->getAuthMethodEnum() === AuthMethod::Header) {

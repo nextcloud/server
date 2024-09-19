@@ -21,7 +21,7 @@ class RootCollection extends AbstractPrincipalCollection {
 	public function __construct(
 		ITrashManager $trashManager,
 		PrincipalBackend\BackendInterface $principalBackend,
-		IConfig $config
+		IConfig $config,
 	) {
 		parent::__construct($principalBackend, 'principals/users');
 

@@ -110,7 +110,7 @@ class ClientFlowLoginV2Controller extends Controller {
 
 		$stateToken = $this->random->generate(
 			64,
-			ISecureRandom::CHAR_LOWER.ISecureRandom::CHAR_UPPER.ISecureRandom::CHAR_DIGITS
+			ISecureRandom::CHAR_LOWER . ISecureRandom::CHAR_UPPER . ISecureRandom::CHAR_DIGITS
 		);
 		$this->session->set(self::STATE_NAME, $stateToken);
 

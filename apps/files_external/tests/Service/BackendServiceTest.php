@@ -32,8 +32,8 @@ class BackendServiceTest extends \Test\TestCase {
 		$backend = $this->getMockBuilder(Backend::class)
 			->disableOriginalConstructor()
 			->getMock();
-		$backend->method('getIdentifier')->willReturn('identifier:'.$class);
-		$backend->method('getIdentifierAliases')->willReturn(['identifier:'.$class]);
+		$backend->method('getIdentifier')->willReturn('identifier:' . $class);
+		$backend->method('getIdentifierAliases')->willReturn(['identifier:' . $class]);
 		return $backend;
 	}
 
@@ -46,8 +46,8 @@ class BackendServiceTest extends \Test\TestCase {
 		$backend = $this->getMockBuilder(AuthMechanism::class)
 			->disableOriginalConstructor()
 			->getMock();
-		$backend->method('getIdentifier')->willReturn('identifier:'.$class);
-		$backend->method('getIdentifierAliases')->willReturn(['identifier:'.$class]);
+		$backend->method('getIdentifier')->willReturn('identifier:' . $class);
+		$backend->method('getIdentifierAliases')->willReturn(['identifier:' . $class]);
 		return $backend;
 	}
 

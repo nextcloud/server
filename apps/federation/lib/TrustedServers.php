@@ -51,7 +51,7 @@ class TrustedServers {
 		ISecureRandom $secureRandom,
 		IConfig $config,
 		IEventDispatcher $dispatcher,
-		ITimeFactory $timeFactory
+		ITimeFactory $timeFactory,
 	) {
 		$this->dbHandler = $dbHandler;
 		$this->httpClientService = $httpClientService;

@@ -79,7 +79,7 @@ abstract class Node implements \Sabre\DAV\INode {
 	protected function refreshInfo(): void {
 		$info = $this->fileView->getFileInfo($this->path);
 		if ($info === false) {
-			throw new \Sabre\DAV\Exception('Failed to get fileinfo for '. $this->path);
+			throw new \Sabre\DAV\Exception('Failed to get fileinfo for ' . $this->path);
 		}
 		$this->info = $info;
 		$root = \OC::$server->get(IRootFolder::class);
@@ -131,7 +131,7 @@ abstract class Node implements \Sabre\DAV\INode {
 		$this->verifyPath($newPath);
 
 		if (!$this->fileView->rename($this->path, $newPath)) {
-			throw new \Sabre\DAV\Exception('Failed to rename '. $this->path . ' to ' . $newPath);
+			throw new \Sabre\DAV\Exception('Failed to rename ' . $this->path . ' to ' . $newPath);
 		}
 
 		$this->path = $newPath;

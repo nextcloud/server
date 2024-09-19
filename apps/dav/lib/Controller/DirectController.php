@@ -117,7 +117,7 @@ class DirectController extends OCSController {
 
 		$this->mapper->insert($direct);
 
-		$url = $this->urlGenerator->getAbsoluteURL('remote.php/direct/'.$token);
+		$url = $this->urlGenerator->getAbsoluteURL('remote.php/direct/' . $token);
 
 		return new DataResponse([
 			'url' => $url,

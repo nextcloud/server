@@ -18,7 +18,8 @@ class AppFetcher extends Fetcher {
 	/** @var bool */
 	private $ignoreMaxVersion;
 
-	public function __construct(Factory $appDataFactory,
+	public function __construct(
+		Factory $appDataFactory,
 		IClientService $clientService,
 		ITimeFactory $timeFactory,
 		IConfig $config,

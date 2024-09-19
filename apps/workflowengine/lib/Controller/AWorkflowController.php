@@ -32,7 +32,7 @@ abstract class AWorkflowController extends OCSController {
 		$appName,
 		IRequest $request,
 		Manager $manager,
-		LoggerInterface $logger
+		LoggerInterface $logger,
 	) {
 		parent::__construct($appName, $request);
 
@@ -92,7 +92,7 @@ abstract class AWorkflowController extends OCSController {
 		array $checks,
 		string $operation,
 		string $entity,
-		array $events
+		array $events,
 	): DataResponse {
 		$context = $this->getScopeContext();
 		try {
@@ -121,7 +121,7 @@ abstract class AWorkflowController extends OCSController {
 		array $checks,
 		string $operation,
 		string $entity,
-		array $events
+		array $events,
 	): DataResponse {
 		try {
 			$context = $this->getScopeContext();

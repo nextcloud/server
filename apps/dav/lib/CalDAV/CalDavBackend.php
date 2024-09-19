@@ -354,7 +354,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 
 			$fields = array_column($this->propertyMap, 0);
 			$fields = array_map(function (string $field) {
-				return 'a.'.$field;
+				return 'a.' . $field;
 			}, $fields);
 			$fields[] = 'a.id';
 			$fields[] = 'a.uri';
@@ -1713,19 +1713,19 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 				try {
 					$matches = $this->validateFilterForObject($row, $filters);
 				} catch (ParseException $ex) {
-					$this->logger->error('Caught parsing exception for calendar data. This usually indicates invalid calendar data. calendar-id:'.$calendarId.' uri:'.$row['uri'], [
+					$this->logger->error('Caught parsing exception for calendar data. This usually indicates invalid calendar data. calendar-id:' . $calendarId . ' uri:' . $row['uri'], [
 						'app' => 'dav',
 						'exception' => $ex,
 					]);
 					continue;
 				} catch (InvalidDataException $ex) {
-					$this->logger->error('Caught invalid data exception for calendar data. This usually indicates invalid calendar data. calendar-id:'.$calendarId.' uri:'.$row['uri'], [
+					$this->logger->error('Caught invalid data exception for calendar data. This usually indicates invalid calendar data. calendar-id:' . $calendarId . ' uri:' . $row['uri'], [
 						'app' => 'dav',
 						'exception' => $ex,
 					]);
 					continue;
 				} catch (MaxInstancesExceededException $ex) {
-					$this->logger->warning('Caught max instances exceeded exception for calendar data. This usually indicates too much recurring (more than 3500) event in calendar data. Object uri: '.$row['uri'], [
+					$this->logger->warning('Caught max instances exceeded exception for calendar data. This usually indicates too much recurring (more than 3500) event in calendar data. Object uri: ' . $row['uri'], [
 						'app' => 'dav',
 						'exception' => $ex,
 					]);
@@ -1848,7 +1848,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 				->andWhere($compExpr)
 				->andWhere($propParamExpr)
 				->andWhere($query->expr()->iLike('i.value',
-					$query->createNamedParameter('%'.$this->db->escapeLikeParameter($filters['search-term']).'%')))
+					$query->createNamedParameter('%' . $this->db->escapeLikeParameter($filters['search-term']) . '%')))
 				->andWhere($query->expr()->isNull('deleted_at'));
 
 			if ($offset) {
@@ -1890,7 +1890,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 		array $searchProperties,
 		array $options,
 		$limit,
-		$offset
+		$offset,
 	) {
 		$outerQuery = $this->db->getQueryBuilder();
 		$innerQuery = $this->db->getQueryBuilder();
@@ -2066,7 +2066,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 		return $calendarObjects;
 	}
 
-	private function searchCalendarObjects(IQueryBuilder $query, DateTimeInterface|null $start, DateTimeInterface|null $end): array {
+	private function searchCalendarObjects(IQueryBuilder $query, ?DateTimeInterface $start, ?DateTimeInterface $end): array {
 		$calendarObjects = [];
 		$filterByTimeRange = ($start instanceof DateTimeInterface) || ($end instanceof DateTimeInterface);
 
@@ -2099,7 +2099,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 					'time-range' => null,
 				]);
 			} catch (MaxInstancesExceededException $ex) {
-				$this->logger->warning('Caught max instances exceeded exception for calendar data. This usually indicates too much recurring (more than 3500) event in calendar data. Object uri: '.$row['uri'], [
+				$this->logger->warning('Caught max instances exceeded exception for calendar data. This usually indicates too much recurring (more than 3500) event in calendar data. Object uri: ' . $row['uri'], [
 					'app' => 'dav',
 					'exception' => $ex,
 				]);
@@ -2196,7 +2196,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 		array $componentTypes,
 		array $searchProperties,
 		array $searchParameters,
-		array $options = []
+		array $options = [],
 	): array {
 		return $this->atomic(function () use ($principalUri, $pattern, $componentTypes, $searchProperties, $searchParameters, $options) {
 			$escapePattern = !\array_key_exists('escape_like_param', $options) || $options['escape_like_param'] !== false;

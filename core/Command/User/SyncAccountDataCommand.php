@@ -21,7 +21,7 @@ class SyncAccountDataCommand extends Base {
 
 	public function __construct(
 		IUserManager $userManager,
-		IAccountManager $accountManager
+		IAccountManager $accountManager,
 	) {
 		$this->userManager = $userManager;
 		$this->accountManager = $accountManager;

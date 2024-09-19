@@ -56,7 +56,7 @@ class BuildReminderIndexBackgroundJob extends QueuedJob {
 		$offset = (int)$argument['offset'];
 		$stopAt = (int)$argument['stopAt'];
 
-		$this->logger->info('Building calendar reminder index (' . $offset .'/' . $stopAt . ')');
+		$this->logger->info('Building calendar reminder index (' . $offset . '/' . $stopAt . ')');
 
 		$offset = $this->buildIndex($offset, $stopAt);
 

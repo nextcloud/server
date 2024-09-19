@@ -127,7 +127,7 @@ class ObjectTreeTest extends \Test\TestCase {
 		$inputFileName,
 		$fileInfoQueryPath,
 		$outputFileName,
-		$type
+		$type,
 	): void {
 		$rootNode = $this->getMockBuilder(Directory::class)
 			->disableOriginalConstructor()

@@ -309,7 +309,7 @@ class AppConfigTest extends TestCase {
 	 * @dataProvider providerGetKeys
 	 */
 	public function testIsSensitive(
-		string $appId, string $configKey, string $configValue, int $type, bool $lazy, bool $sensitive
+		string $appId, string $configKey, string $configValue, int $type, bool $lazy, bool $sensitive,
 	): void {
 		$config = $this->generateAppConfig();
 		$this->assertEquals($sensitive, $config->isSensitive($appId, $configKey, $lazy));
@@ -352,7 +352,7 @@ class AppConfigTest extends TestCase {
 	/**
 	 * @dataProvider providerGetKeys
 	 */
-	public function testIsLazy(string $appId, string $configKey, string $configValue, int $type, bool $lazy
+	public function testIsLazy(string $appId, string $configKey, string $configValue, int $type, bool $lazy,
 	): void {
 		$config = $this->generateAppConfig();
 		$this->assertEquals($lazy, $config->isLazy($appId, $configKey));

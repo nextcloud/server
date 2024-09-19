@@ -15,7 +15,7 @@ $CONFIG = [
 	],
 ];
 
-if (is_dir(OC::$SERVERROOT.'/apps2')) {
+if (is_dir(OC::$SERVERROOT . '/apps2')) {
 	$CONFIG['apps_paths'][] = [
 		'path' => OC::$SERVERROOT . '/apps2',
 		'url' => '/apps2',

@@ -46,7 +46,7 @@ class BeforeTemplateRenderedListener implements IEventListener {
 		ProfileManager $profileManager,
 		IUserSession $userSession,
 		IInitialStateService $initialState,
-		JSDataService $jsDataService
+		JSDataService $jsDataService,
 	) {
 		$this->profileManager = $profileManager;
 		$this->userSession = $userSession;

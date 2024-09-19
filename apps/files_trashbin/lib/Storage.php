@@ -43,7 +43,7 @@ class Storage extends Wrapper {
 		?IUserManager $userManager = null,
 		?LoggerInterface $logger = null,
 		?IEventDispatcher $eventDispatcher = null,
-		?IRootFolder $rootFolder = null
+		?IRootFolder $rootFolder = null,
 	) {
 		$this->mountPoint = $parameters['mountPoint'];
 		$this->trashManager = $trashManager;

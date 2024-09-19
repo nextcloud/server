@@ -90,7 +90,7 @@ class GroupsControllerTest extends \Test\TestCase {
 			->willReturn($gid);
 		$group
 			->method('getDisplayName')
-			->willReturn($gid.'-name');
+			->willReturn($gid . '-name');
 		$group
 			->method('count')
 			->willReturn(123);

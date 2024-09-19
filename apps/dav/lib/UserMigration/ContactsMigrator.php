@@ -55,7 +55,7 @@ class ContactsMigrator implements IMigrator, ISizeEstimationMigrator {
 
 	public function __construct(
 		CardDavBackend $cardDavBackend,
-		IL10N $l10n
+		IL10N $l10n,
 	) {
 		$this->cardDavBackend = $cardDavBackend;
 		$this->l10n = $l10n;

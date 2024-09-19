@@ -23,7 +23,6 @@ class CleanupExpiredAuthorizationCode extends TimedJob {
 		ITimeFactory $timeFactory,
 		private AccessTokenMapper $accessTokenMapper,
 		private LoggerInterface $logger,
-
 	) {
 		parent::__construct($timeFactory);
 		// 30 days

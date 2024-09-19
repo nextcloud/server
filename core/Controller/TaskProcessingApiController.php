@@ -121,7 +121,7 @@ class TaskProcessingApiController extends \OCP\AppFramework\OCSController {
 	#[ApiRoute(verb: 'POST', url: '/schedule', root: '/taskprocessing')]
 	public function schedule(
 		array $input, string $type, string $appId, string $customId = '',
-		?string $webhookUri = null, ?string $webhookMethod = null
+		?string $webhookUri = null, ?string $webhookMethod = null,
 	): DataResponse {
 		$task = new Task($type, $input, $appId, $this->userId, $customId);
 		$task->setWebhookUri($webhookUri);

@@ -231,7 +231,7 @@ class AllConfigTest extends \Test\TestCase {
 		$connectionMock = $this->createMock(IDBConnection::class);
 		$connectionMock->expects($this->once())
 			->method('executeQuery')
-			->with($this->equalTo('SELECT `configvalue` FROM `*PREFIX*preferences` '.
+			->with($this->equalTo('SELECT `configvalue` FROM `*PREFIX*preferences` ' .
 					'WHERE `userid` = ? AND `appid` = ? AND `configkey` = ?'),
 				$this->equalTo(['userSetUnchanged', 'appSetUnchanged', 'keySetUnchanged']))
 			->willReturn($resultMock);

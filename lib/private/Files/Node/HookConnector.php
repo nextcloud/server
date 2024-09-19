@@ -39,7 +39,7 @@ class HookConnector {
 		private IRootFolder $root,
 		private View $view,
 		private IEventDispatcher $dispatcher,
-		private LoggerInterface $logger
+		private LoggerInterface $logger,
 	) {
 	}
 

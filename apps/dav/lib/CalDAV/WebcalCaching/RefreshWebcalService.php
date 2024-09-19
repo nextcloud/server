@@ -30,10 +30,12 @@ class RefreshWebcalService {
 	public const STRIP_ATTACHMENTS = '{http://calendarserver.org/ns/}subscribed-strip-attachments';
 	public const STRIP_TODOS = '{http://calendarserver.org/ns/}subscribed-strip-todos';
 
-	public function __construct(private CalDavBackend $calDavBackend,
+	public function __construct(
+		private CalDavBackend $calDavBackend,
 		private LoggerInterface $logger,
 		private Connection $connection,
-		private ITimeFactory $time) {
+		private ITimeFactory $time,
+	) {
 	}
 
 	public function refreshSubscription(string $principalUri, string $uri) {

@@ -24,7 +24,7 @@ class Scan extends StorageAuthBase {
 
 	public function __construct(
 		GlobalStoragesService $globalService,
-		IUserManager $userManager
+		IUserManager $userManager,
 	) {
 		parent::__construct($globalService, $userManager);
 	}

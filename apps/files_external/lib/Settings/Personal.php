@@ -35,7 +35,7 @@ class Personal implements ISettings {
 		UserGlobalStoragesService $userGlobalStoragesService,
 		BackendService $backendService,
 		GlobalAuth $globalAuth,
-		IUserSession $userSession
+		IUserSession $userSession,
 	) {
 		$this->encryptionManager = $encryptionManager;
 		$this->userGlobalStoragesService = $userGlobalStoragesService;

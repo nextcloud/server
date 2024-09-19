@@ -123,7 +123,7 @@ class ThemingDefaults extends \OC_Defaults {
 				$footer = '<a href="' . $baseUrl . '" target="_blank"' .
 					' rel="noreferrer noopener" class="entity-name">' . $entity . '</a>';
 			} else {
-				$footer = '<span class="entity-name">' .$entity . '</span>';
+				$footer = '<span class="entity-name">' . $entity . '</span>';
 			}
 		}
 		$footer .= ($slogan !== '' ? ' – ' . $slogan : '');
@@ -340,10 +340,10 @@ class ThemingDefaults extends \OC_Defaults {
 			'theming-favicon-mime' => "'" . $this->config->getAppValue('theming', 'faviconMime') . "'"
 		];
 
-		$variables['image-logo'] = "url('".$this->imageManager->getImageUrl('logo')."')";
-		$variables['image-logoheader'] = "url('".$this->imageManager->getImageUrl('logoheader')."')";
-		$variables['image-favicon'] = "url('".$this->imageManager->getImageUrl('favicon')."')";
-		$variables['image-login-background'] = "url('".$this->imageManager->getImageUrl('background')."')";
+		$variables['image-logo'] = "url('" . $this->imageManager->getImageUrl('logo') . "')";
+		$variables['image-logoheader'] = "url('" . $this->imageManager->getImageUrl('logoheader') . "')";
+		$variables['image-favicon'] = "url('" . $this->imageManager->getImageUrl('favicon') . "')";
+		$variables['image-login-background'] = "url('" . $this->imageManager->getImageUrl('background') . "')";
 		$variables['image-login-plain'] = 'false';
 
 		if ($this->appConfig->getValueString(Application::APP_ID, 'primary_color', '') !== '') {

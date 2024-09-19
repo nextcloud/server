@@ -74,7 +74,7 @@ class AppDiscoverFetcherTest extends FetcherBase {
 	/**
 	 * @dataProvider dataGetETag
 	 */
-	public function testGetEtag(string|null $expected, bool $throws, string $content = ''): void {
+	public function testGetEtag(?string $expected, bool $throws, string $content = ''): void {
 		$folder = $this->createMock(ISimpleFolder::class);
 		if (!$throws) {
 			$file = $this->createMock(ISimpleFile::class);

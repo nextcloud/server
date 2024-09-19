@@ -47,7 +47,8 @@ use Throwable;
  * @package OCA\Files\Controller
  */
 class ApiController extends Controller {
-	public function __construct(string $appName,
+	public function __construct(
+		string $appName,
 		IRequest $request,
 		private IUserSession $userSession,
 		private TagService $tagService,

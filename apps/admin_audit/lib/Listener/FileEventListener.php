@@ -48,7 +48,7 @@ class FileEventListener extends Action implements IEventListener {
 			);
 		} catch (InvalidPathException|NotFoundException $e) {
 			\OCP\Server::get(LoggerInterface::class)->error(
-				'Exception thrown in file preview: '.$e->getMessage(), ['app' => 'admin_audit', 'exception' => $e]
+				'Exception thrown in file preview: ' . $e->getMessage(), ['app' => 'admin_audit', 'exception' => $e]
 			);
 			return;
 		}

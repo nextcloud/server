@@ -27,13 +27,15 @@ use Sabre\CalDAV\Xml\Property\ScheduleCalendarTransp;
 
 class StatusService {
 	private ICache $cache;
-	public function __construct(private ITimeFactory $timeFactory,
+	public function __construct(
+		private ITimeFactory $timeFactory,
 		private IManager $calendarManager,
 		private IUserManager $userManager,
 		private UserStatusService $userStatusService,
 		private IAvailabilityCoordinator $availabilityCoordinator,
 		private ICacheFactory $cacheFactory,
-		private LoggerInterface $logger) {
+		private LoggerInterface $logger,
+	) {
 		$this->cache = $cacheFactory->createLocal('CalendarStatusService');
 	}
 

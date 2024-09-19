@@ -44,7 +44,7 @@ abstract class StoragesController extends Controller {
 		protected LoggerInterface $logger,
 		protected IUserSession $userSession,
 		protected IGroupManager $groupManager,
-		protected IConfig $config
+		protected IConfig $config,
 	) {
 		parent::__construct($AppName, $request);
 	}
@@ -71,7 +71,7 @@ abstract class StoragesController extends Controller {
 		$mountOptions = null,
 		$applicableUsers = null,
 		$applicableGroups = null,
-		$priority = null
+		$priority = null,
 	) {
 		$canCreateNewLocalStorage = $this->config->getSystemValue('files_external_allow_create_new_local', true);
 		if (!$canCreateNewLocalStorage && $backend === 'local') {

@@ -50,7 +50,7 @@ class RequestHandlerController extends Controller {
 		private ICloudFederationProviderManager $cloudFederationProviderManager,
 		private Config $config,
 		private ICloudFederationFactory $factory,
-		private ICloudIdManager $cloudIdManager
+		private ICloudIdManager $cloudIdManager,
 	) {
 		parent::__construct($appName, $request);
 	}

@@ -20,7 +20,8 @@ class TwoFactorProviderChallengePassed extends Event {
 	 */
 	public function __construct(
 		private IUser $user,
-		private IProvider $provider) {
+		private IProvider $provider,
+	) {
 		parent::__construct();
 	}
 

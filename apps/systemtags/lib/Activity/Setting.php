@@ -9,7 +9,9 @@ use OCP\Activity\ActivitySettings;
 use OCP\IL10N;
 
 class Setting extends ActivitySettings {
-	public function __construct(protected IL10N $l) {
+	public function __construct(
+		protected IL10N $l,
+	) {
 	}
 
 	/**

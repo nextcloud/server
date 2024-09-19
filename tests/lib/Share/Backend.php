@@ -54,11 +54,11 @@ class Backend implements \OCP\Share_Backend {
 			$ext = substr($target, $pos);
 			$append = '';
 			$i = 1;
-			while (in_array($name.$append.$ext, $knownTargets)) {
+			while (in_array($name . $append . $ext, $knownTargets)) {
 				$append = $i;
 				$i++;
 			}
-			$target = $name.$append.$ext;
+			$target = $name . $append . $ext;
 		}
 
 		return $target;

@@ -302,7 +302,7 @@ class Util {
 		$user_part = $config->getSystemValueString('mail_from_address', $user_part);
 		$host_name = self::getServerHostName();
 		$host_name = $config->getSystemValueString('mail_domain', $host_name);
-		$defaultEmailAddress = $user_part.'@'.$host_name;
+		$defaultEmailAddress = $user_part . '@' . $host_name;
 
 		$mailer = \OC::$server->get(IMailer::class);
 		if ($mailer->validateMailAddress($defaultEmailAddress)) {
@@ -310,7 +310,7 @@ class Util {
 		}
 
 		// in case we cannot build a valid email address from the hostname let's fallback to 'localhost.localdomain'
-		return $user_part.'@localhost.localdomain';
+		return $user_part . '@localhost.localdomain';
 	}
 
 	/**

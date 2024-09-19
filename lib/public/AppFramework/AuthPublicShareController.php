@@ -192,7 +192,7 @@ abstract class AuthPublicShareController extends PublicShareController {
 		if (str_ends_with($class, 'Controller')) {
 			$class = substr($class, 0, -10);
 		}
-		return $app .'.'. $class .'.'. $function;
+		return $app . '.' . $class . '.' . $function;
 	}
 
 	/**

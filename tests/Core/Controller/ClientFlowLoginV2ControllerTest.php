@@ -161,7 +161,7 @@ class ClientFlowLoginV2ControllerTest extends TestCase {
 			->willReturn($flow);
 
 		$this->random->method('generate')
-			->with(64, ISecureRandom::CHAR_LOWER.ISecureRandom::CHAR_UPPER.ISecureRandom::CHAR_DIGITS)
+			->with(64, ISecureRandom::CHAR_LOWER . ISecureRandom::CHAR_UPPER . ISecureRandom::CHAR_DIGITS)
 			->willReturn('random');
 		$this->session->expects($this->once())
 			->method('set')

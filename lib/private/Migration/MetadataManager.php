@@ -69,7 +69,7 @@ class MetadataManager {
 	 */
 	public function getMigrationsAttributesFromReleaseMetadata(
 		array $metadata,
-		bool $filterKnownMigrations = false
+		bool $filterKnownMigrations = false,
 	): array {
 		$appsAttributes = [];
 		foreach (array_keys($metadata['apps']) as $appId) {

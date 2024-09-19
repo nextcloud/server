@@ -63,7 +63,7 @@ class ApiTest extends TestCase {
 		$this->view->mkdir($this->folder);
 		$this->view->mkdir($this->folder . $this->subfolder);
 		$this->view->mkdir($this->folder . $this->subfolder . $this->subsubfolder);
-		$this->view->file_put_contents($this->folder.$this->filename, $this->data);
+		$this->view->file_put_contents($this->folder . $this->filename, $this->data);
 		$this->view->file_put_contents($this->folder . $this->subfolder . $this->filename, $this->data);
 		$mount = $this->view->getMount($this->filename);
 		$mount->getStorage()->getScanner()->scan('', Scanner::SCAN_RECURSIVE);
@@ -135,7 +135,7 @@ class ApiTest extends TestCase {
 		$this->assertEquals(19, $data['permissions']);
 		$this->assertEmpty($data['expiration']);
 
-		$this->shareManager->getShareById('ocinternal:'.$data['id']);
+		$this->shareManager->getShareById('ocinternal:' . $data['id']);
 
 		$ocs = $this->createOCS(self::TEST_FILES_SHARING_API_USER1);
 		$ocs->deleteShare($data['id']);
@@ -152,7 +152,7 @@ class ApiTest extends TestCase {
 		$this->assertEquals(31, $data['permissions']);
 		$this->assertEmpty($data['expiration']);
 
-		$this->shareManager->getShareById('ocinternal:'.$data['id']);
+		$this->shareManager->getShareById('ocinternal:' . $data['id']);
 
 		$ocs = $this->createOCS(self::TEST_FILES_SHARING_API_USER1);
 		$ocs->deleteShare($data['id']);
@@ -169,7 +169,7 @@ class ApiTest extends TestCase {
 		$this->assertEquals(19, $data['permissions']);
 		$this->assertEmpty($data['expiration']);
 
-		$this->shareManager->getShareById('ocinternal:'.$data['id']);
+		$this->shareManager->getShareById('ocinternal:' . $data['id']);
 
 		$ocs = $this->createOCS(self::TEST_FILES_SHARING_API_USER1);
 		$ocs->deleteShare($data['id']);
@@ -185,7 +185,7 @@ class ApiTest extends TestCase {
 		$this->assertEquals(31, $data['permissions']);
 		$this->assertEmpty($data['expiration']);
 
-		$this->shareManager->getShareById('ocinternal:'.$data['id']);
+		$this->shareManager->getShareById('ocinternal:' . $data['id']);
 
 		$ocs = $this->createOCS(self::TEST_FILES_SHARING_API_USER1);
 		$ocs->deleteShare($data['id']);
@@ -210,7 +210,7 @@ class ApiTest extends TestCase {
 		$url = \OC::$server->getURLGenerator()->getAbsoluteURL('/index.php/s/' . $data['token']);
 		$this->assertEquals($url, $data['url']);
 
-		$this->shareManager->getShareById('ocinternal:'.$data['id']);
+		$this->shareManager->getShareById('ocinternal:' . $data['id']);
 
 		$ocs = $this->createOCS(self::TEST_FILES_SHARING_API_USER1);
 		$ocs->deleteShare($data['id']);
@@ -241,7 +241,7 @@ class ApiTest extends TestCase {
 		$url = \OC::$server->getURLGenerator()->getAbsoluteURL('/index.php/s/' . $data['token']);
 		$this->assertEquals($url, $data['url']);
 
-		$this->shareManager->getShareById('ocinternal:'.$data['id']);
+		$this->shareManager->getShareById('ocinternal:' . $data['id']);
 
 		$ocs = $this->createOCS(self::TEST_FILES_SHARING_API_USER1);
 		$ocs->deleteShare($data['id']);
@@ -313,7 +313,7 @@ class ApiTest extends TestCase {
 
 		$data = $result->getData();
 
-		$this->shareManager->getShareById('ocinternal:'.$data['id']);
+		$this->shareManager->getShareById('ocinternal:' . $data['id']);
 
 		$ocs = $this->createOCS(self::TEST_FILES_SHARING_API_USER1);
 		$ocs->deleteShare($data['id']);
@@ -571,7 +571,7 @@ class ApiTest extends TestCase {
 			->setPermissions(19);
 		$share1 = $this->shareManager->createShare($share1);
 
-		$node2 = $this->userFolder->get($this->folder.'/'.$this->filename);
+		$node2 = $this->userFolder->get($this->folder . '/' . $this->filename);
 		$share2 = $this->shareManager->newShare();
 		$share2->setNode($node2)
 			->setSharedBy(self::TEST_FILES_SHARING_API_USER1)
@@ -629,7 +629,7 @@ class ApiTest extends TestCase {
 		$share1->setStatus(IShare::STATUS_ACCEPTED);
 		$this->shareManager->updateShare($share1);
 
-		$node2 = $this->userFolder->get($this->folder.'/'.$this->filename);
+		$node2 = $this->userFolder->get($this->folder . '/' . $this->filename);
 		$share2 = $this->shareManager->newShare();
 		$share2->setNode($node2)
 			->setSharedBy(self::TEST_FILES_SHARING_API_USER2)
@@ -639,7 +639,7 @@ class ApiTest extends TestCase {
 		$share2->setStatus(IShare::STATUS_ACCEPTED);
 		$this->shareManager->updateShare($share2);
 
-		$node3 = $this->userFolder->get($this->folder.'/'.$this->subfolder.'/'.$this->filename);
+		$node3 = $this->userFolder->get($this->folder . '/' . $this->subfolder . '/' . $this->filename);
 		$share3 = $this->shareManager->newShare();
 		$share3->setNode($node3)
 			->setSharedBy(self::TEST_FILES_SHARING_API_USER2)
@@ -850,7 +850,7 @@ class ApiTest extends TestCase {
 		$s2 = reset($data2);
 
 		$this->assertEquals($this->subfolder, $s1['path']);
-		$this->assertEquals($this->folder.$this->subfolder, $s2['path']);
+		$this->assertEquals($this->folder . $this->subfolder, $s2['path']);
 
 		$this->shareManager->deleteShare($share1);
 		$this->shareManager->deleteShare($share2);
@@ -1141,7 +1141,7 @@ class ApiTest extends TestCase {
 		$this->shareManager->updateShare($share1);
 
 		$user2folder = \OC::$server->getUserFolder(self::TEST_FILES_SHARING_API_USER2);
-		$node2 = $user2folder->get($this->folder.'/'.$this->filename);
+		$node2 = $user2folder->get($this->folder . '/' . $this->filename);
 		$share2 = $this->shareManager->newShare();
 		$share2->setNode($node2)
 			->setSharedBy(self::TEST_FILES_SHARING_API_USER2)
@@ -1184,7 +1184,7 @@ class ApiTest extends TestCase {
 		$view->mkdir('localDir');
 
 		// move mount point to the folder "localDir"
-		$result = $view->rename($this->folder, 'localDir/'.$this->folder);
+		$result = $view->rename($this->folder, 'localDir/' . $this->folder);
 		$this->assertTrue($result !== false);
 
 		// try to share "localDir"
@@ -1308,7 +1308,7 @@ class ApiTest extends TestCase {
 		$url = \OC::$server->getURLGenerator()->getAbsoluteURL('/index.php/s/' . $data['token']);
 		$this->assertEquals($url, $data['url']);
 
-		$share = $this->shareManager->getShareById('ocinternal:'.$data['id']);
+		$share = $this->shareManager->getShareById('ocinternal:' . $data['id']);
 
 		$this->assertEquals($date, $share->getExpirationDate()->format('Y-m-d H:i:s'));
 
@@ -1340,7 +1340,7 @@ class ApiTest extends TestCase {
 		$url = \OC::$server->getURLGenerator()->getAbsoluteURL('/index.php/s/' . $data['token']);
 		$this->assertEquals($url, $data['url']);
 
-		$share = $this->shareManager->getShareById('ocinternal:'.$data['id']);
+		$share = $this->shareManager->getShareById('ocinternal:' . $data['id']);
 		$date->setTime(0, 0, 0);
 		$this->assertEquals($date, $share->getExpirationDate());
 

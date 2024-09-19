@@ -97,7 +97,7 @@ interface ICommentsManager {
 		$objectId,
 		$limit = 0,
 		$offset = 0,
-		?\DateTime $notOlderThan = null
+		?\DateTime $notOlderThan = null,
 	);
 
 	/**
@@ -118,7 +118,7 @@ interface ICommentsManager {
 		int $lastKnownCommentId,
 		string $sortDirection = 'asc',
 		int $limit = 30,
-		bool $includeLastKnown = false
+		bool $includeLastKnown = false,
 	): array;
 
 	/**
@@ -140,7 +140,7 @@ interface ICommentsManager {
 		int $lastKnownCommentId,
 		string $sortDirection = 'asc',
 		int $limit = 30,
-		bool $includeLastKnown = false
+		bool $includeLastKnown = false,
 	): array;
 
 	/**
@@ -240,7 +240,7 @@ interface ICommentsManager {
 		string $objectId,
 		string $verb,
 		string $actorType,
-		array $actors
+		array $actors,
 	): array;
 
 	/**

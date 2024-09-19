@@ -16,7 +16,7 @@ use OCP\IDBConnection;
  */
 class CrossShardMoveHelper {
 	public function __construct(
-		private ShardConnectionManager $connectionManager
+		private ShardConnectionManager $connectionManager,
 	) {
 	}
 

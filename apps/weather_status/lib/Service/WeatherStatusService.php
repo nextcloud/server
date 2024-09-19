@@ -49,7 +49,7 @@ class WeatherStatusService {
 		private IUserManager $userManager,
 		private IAppManager $appManager,
 		private ICacheFactory $cacheFactory,
-		private ?string $userId
+		private ?string $userId,
 	) {
 		$this->version = $appManager->getAppVersion(Application::APP_ID);
 		$this->client = $clientService->newClient();

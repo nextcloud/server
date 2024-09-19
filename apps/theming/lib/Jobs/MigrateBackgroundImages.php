@@ -42,7 +42,7 @@ class MigrateBackgroundImages extends QueuedJob {
 		IJobList $jobList,
 		IDBConnection $dbc,
 		IAppData $appData,
-		LoggerInterface $logger
+		LoggerInterface $logger,
 	) {
 		parent::__construct($time);
 		$this->appDataFactory = $appDataFactory;
@@ -54,7 +54,7 @@ class MigrateBackgroundImages extends QueuedJob {
 
 	protected function run(mixed $argument): void {
 		if (!is_array($argument) || !isset($argument['stage'])) {
-			throw new \Exception('Job '.self::class.' called with wrong argument');
+			throw new \Exception('Job ' . self::class . ' called with wrong argument');
 		}
 
 		switch ($argument['stage']) {

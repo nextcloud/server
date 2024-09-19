@@ -176,7 +176,7 @@ class SecurityHeadersTest extends TestCase {
 
 		$result = $this->setupcheck->run();
 		$this->assertEquals(
-			'Some headers are not set correctly on your instance'."\n$msg",
+			'Some headers are not set correctly on your instance' . "\n$msg",
 			$result->getDescription()
 		);
 		$this->assertEquals(SetupResult::WARNING, $result->getSeverity());

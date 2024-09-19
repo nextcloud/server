@@ -40,7 +40,7 @@ class GroupPrincipalBackend implements BackendInterface {
 		IGroupManager $IGroupManager,
 		IUserSession $userSession,
 		IShareManager $shareManager,
-		IConfig $config
+		IConfig $config,
 	) {
 		$this->groupManager = $IGroupManager;
 		$this->userSession = $userSession;

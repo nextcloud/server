@@ -32,7 +32,7 @@ class TrashbinPlugin extends ServerPlugin {
 	private $previewManager;
 
 	public function __construct(
-		IPreview $previewManager
+		IPreview $previewManager,
 	) {
 		$this->previewManager = $previewManager;
 	}

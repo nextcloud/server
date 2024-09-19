@@ -69,7 +69,7 @@ class SettingsController extends Controller {
 		Crypt $crypt,
 		Session $session,
 		ISession $ocSession,
-		Util $util
+		Util $util,
 	) {
 		parent::__construct($AppName, $request);
 		$this->l = $l10n;

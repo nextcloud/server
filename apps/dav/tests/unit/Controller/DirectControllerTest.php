@@ -136,7 +136,7 @@ class DirectControllerTest extends TestCase {
 
 		$this->urlGenerator->method('getAbsoluteURL')
 			->willReturnCallback(function (string $url) {
-				return 'https://my.nextcloud/'.$url;
+				return 'https://my.nextcloud/' . $url;
 			});
 
 		$result = $this->controller->getUrl(101);

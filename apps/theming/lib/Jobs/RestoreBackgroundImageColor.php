@@ -42,7 +42,7 @@ class RestoreBackgroundImageColor extends QueuedJob {
 
 	protected function run(mixed $argument): void {
 		if (!is_array($argument) || !isset($argument['stage'])) {
-			throw new \Exception('Job '.self::class.' called with wrong argument');
+			throw new \Exception('Job ' . self::class . ' called with wrong argument');
 		}
 
 		switch ($argument['stage']) {
@@ -69,7 +69,7 @@ class RestoreBackgroundImageColor extends QueuedJob {
 			// Get those users, that have a background_image set - not the default, but no background_color.
 			$result = $qb->selectDistinct('a.userid')
 				->from('preferences', 'a')
-				->leftJoin('a', $qb->createFunction('('.$innerSQL->getSQL().')'), 'b', 'a.userid = b.userid')
+				->leftJoin('a', $qb->createFunction('(' . $innerSQL->getSQL() . ')'), 'b', 'a.userid = b.userid')
 				->where($qb2->expr()->eq('a.configkey', $qb->createNamedParameter('background_image')))
 				->andWhere($qb2->expr()->neq('a.configvalue', $qb->createNamedParameter(BackgroundService::BACKGROUND_DEFAULT)))
 				->andWhere($qb2->expr()->isNull('b.userid'))
@@ -101,7 +101,7 @@ class RestoreBackgroundImageColor extends QueuedJob {
 			}
 
 			$background = $this->config->getUserValue($userId, Application::APP_ID, 'background_image');
-			switch($background) {
+			switch ($background) {
 				case BackgroundService::BACKGROUND_DEFAULT:
 					$this->service->setDefaultBackground($userId);
 					break;

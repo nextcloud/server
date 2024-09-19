@@ -216,7 +216,7 @@ class CommentsPlugin extends ServerPlugin {
 			}
 		}
 		if (is_null($actorId)) {
-			throw new BadRequest('Invalid actor "' .  $actorType .'"');
+			throw new BadRequest('Invalid actor "' . $actorType . '"');
 		}
 
 		try {

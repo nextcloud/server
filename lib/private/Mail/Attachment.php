@@ -22,7 +22,7 @@ class Attachment implements IAttachment {
 		private ?string $body,
 		private ?string $name,
 		private ?string $contentType,
-		private ?string $path = null
+		private ?string $path = null,
 	) {
 	}
 

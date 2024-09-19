@@ -41,7 +41,7 @@ abstract class ASettings implements ISettings {
 		Manager $manager,
 		IInitialState $initialStateService,
 		IConfig $config,
-		IURLGenerator $urlGenerator
+		IURLGenerator $urlGenerator,
 	) {
 		$this->appName = $appName;
 		$this->l10n = $l;

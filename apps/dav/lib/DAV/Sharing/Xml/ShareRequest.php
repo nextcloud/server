@@ -29,7 +29,7 @@ class ShareRequest implements XmlDeserializable {
 
 	public static function xmlDeserialize(Reader $reader) {
 		$elements = $reader->parseInnerTree([
-			'{' . Plugin::NS_OWNCLOUD. '}set' => 'Sabre\\Xml\\Element\\KeyValue',
+			'{' . Plugin::NS_OWNCLOUD . '}set' => 'Sabre\\Xml\\Element\\KeyValue',
 			'{' . Plugin::NS_OWNCLOUD . '}remove' => 'Sabre\\Xml\\Element\\KeyValue',
 		]);
 

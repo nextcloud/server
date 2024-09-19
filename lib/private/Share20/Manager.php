@@ -54,7 +54,7 @@ use Psr\Log\LoggerInterface;
  */
 class Manager implements IManager {
 
-	private IL10N|null $l;
+	private ?IL10N $l;
 	private LegacyHooks $legacyHooks;
 
 	public function __construct(
@@ -75,7 +75,7 @@ class Manager implements IManager {
 		private IUserSession $userSession,
 		private KnownUserService $knownUserService,
 		private ShareDisableChecker $shareDisableChecker,
-		private IDateTimeZone $dateTimeZone
+		private IDateTimeZone $dateTimeZone,
 	) {
 		$this->l = $this->l10nFactory->get('lib');
 		// The constructor of LegacyHooks registers the listeners of share events

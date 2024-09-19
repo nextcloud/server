@@ -41,7 +41,7 @@ class GroupPluginManager {
 		foreach ($this->which as $action => $v) {
 			if ((bool)($respondToActions & $action)) {
 				$this->which[$action] = $plugin;
-				\OCP\Server::get(LoggerInterface::class)->debug('Registered action '.$action.' to plugin '.get_class($plugin), ['app' => 'user_ldap']);
+				\OCP\Server::get(LoggerInterface::class)->debug('Registered action ' . $action . ' to plugin ' . get_class($plugin), ['app' => 'user_ldap']);
 			}
 		}
 	}

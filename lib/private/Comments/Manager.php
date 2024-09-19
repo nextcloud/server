@@ -320,7 +320,7 @@ class Manager implements ICommentsManager {
 		$objectId,
 		$limit = 0,
 		$offset = 0,
-		?\DateTime $notOlderThan = null
+		?\DateTime $notOlderThan = null,
 	) {
 		$comments = [];
 
@@ -372,7 +372,7 @@ class Manager implements ICommentsManager {
 		int $lastKnownCommentId,
 		string $sortDirection = 'asc',
 		int $limit = 30,
-		bool $includeLastKnown = false
+		bool $includeLastKnown = false,
 	): array {
 		return $this->getCommentsWithVerbForObjectSinceComment(
 			$objectType,
@@ -403,7 +403,7 @@ class Manager implements ICommentsManager {
 		int $lastKnownCommentId,
 		string $sortDirection = 'asc',
 		int $limit = 30,
-		bool $includeLastKnown = false
+		bool $includeLastKnown = false,
 	): array {
 		$comments = [];
 
@@ -575,7 +575,7 @@ class Manager implements ICommentsManager {
 
 		if ($search !== '') {
 			$query->where($query->expr()->iLike('message', $query->createNamedParameter(
-				'%' . $this->dbConn->escapeLikeParameter($search). '%'
+				'%' . $this->dbConn->escapeLikeParameter($search) . '%'
 			)));
 		}
 
@@ -769,7 +769,7 @@ class Manager implements ICommentsManager {
 		string $objectId,
 		string $verb,
 		string $actorType,
-		array $actors
+		array $actors,
 	): array {
 		$lastComments = [];
 

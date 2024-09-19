@@ -50,7 +50,7 @@ class CleanUp extends TimedJob {
 	public function __construct(
 		ITimeFactory $timeFactory,
 		User_Proxy $userBackend,
-		DeletedUsersIndex $dui
+		DeletedUsersIndex $dui,
 	) {
 		parent::__construct($timeFactory);
 		$minutes = \OC::$server->getConfig()->getSystemValue(

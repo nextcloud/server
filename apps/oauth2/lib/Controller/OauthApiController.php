@@ -68,7 +68,7 @@ class OauthApiController extends Controller {
 	#[BruteForceProtection(action: 'oauth2GetToken')]
 	public function getToken(
 		string $grant_type, ?string $code, ?string $refresh_token,
-		?string $client_id, ?string $client_secret
+		?string $client_id, ?string $client_secret,
 	): JSONResponse {
 
 		// We only handle two types

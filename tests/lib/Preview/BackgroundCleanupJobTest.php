@@ -96,7 +96,7 @@ class BackgroundCleanupJobTest extends \Test\TestCase {
 
 		$files = [];
 		for ($i = 0; $i < 11; $i++) {
-			$file = $userFolder->newFile($i.'.txt');
+			$file = $userFolder->newFile($i . '.txt');
 			$file->putContent('hello world!');
 			$this->previewManager->getPreview($file);
 			$files[] = $file;

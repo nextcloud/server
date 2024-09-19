@@ -152,7 +152,7 @@ class SharesReminderJobTest extends \Test\TestCase {
 	 * @param bool $shouldBeReminded
 	 */
 	public function testSharesReminder(
-		\DateTime|null $expirationDate, string $email, bool $isEmpty, int $permissions, bool $shouldBeReminded
+		?\DateTime $expirationDate, string $email, bool $isEmpty, int $permissions, bool $shouldBeReminded,
 	): void {
 		$this->loginAsUser($this->user1);
 

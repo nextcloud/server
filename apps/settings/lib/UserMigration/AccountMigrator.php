@@ -55,7 +55,7 @@ class AccountMigrator implements IMigrator, ISizeEstimationMigrator {
 		IAvatarManager $avatarManager,
 		ProfileManager $profileManager,
 		ProfileConfigMapper $configMapper,
-		IL10N $l10n
+		IL10N $l10n,
 	) {
 		$this->accountManager = $accountManager;
 		$this->avatarManager = $avatarManager;

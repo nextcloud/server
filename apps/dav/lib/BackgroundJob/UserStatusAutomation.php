@@ -28,14 +28,16 @@ use Sabre\VObject\Reader;
 use Sabre\VObject\Recur\RRuleIterator;
 
 class UserStatusAutomation extends TimedJob {
-	public function __construct(private ITimeFactory $timeFactory,
+	public function __construct(
+		private ITimeFactory $timeFactory,
 		private IDBConnection $connection,
 		private IJobList $jobList,
 		private LoggerInterface $logger,
 		private IManager $manager,
 		private IConfig $config,
 		private IAvailabilityCoordinator $coordinator,
-		private IUserManager $userManager) {
+		private IUserManager $userManager,
+	) {
 		parent::__construct($timeFactory);
 
 		// Interval 0 might look weird, but the last_checked is always moved

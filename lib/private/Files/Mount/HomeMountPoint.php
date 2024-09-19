@@ -22,7 +22,7 @@ class HomeMountPoint extends MountPoint {
 		?IStorageFactory $loader = null,
 		?array $mountOptions = null,
 		?int $mountId = null,
-		?string $mountProvider = null
+		?string $mountProvider = null,
 	) {
 		parent::__construct($storage, $mountpoint, $arguments, $loader, $mountOptions, $mountId, $mountProvider);
 		$this->user = $user;

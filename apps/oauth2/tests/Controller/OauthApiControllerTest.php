@@ -352,7 +352,7 @@ class OauthApiControllerTest extends TestCase {
 
 		$this->secureRandom->method('generate')
 			->willReturnCallback(function ($len) {
-				return 'random'.$len;
+				return 'random' . $len;
 			});
 
 		$this->tokenProvider->expects($this->once())
@@ -448,7 +448,7 @@ class OauthApiControllerTest extends TestCase {
 
 		$this->secureRandom->method('generate')
 			->willReturnCallback(function ($len) {
-				return 'random'.$len;
+				return 'random' . $len;
 			});
 
 		$this->tokenProvider->expects($this->once())
@@ -547,7 +547,7 @@ class OauthApiControllerTest extends TestCase {
 
 		$this->secureRandom->method('generate')
 			->willReturnCallback(function ($len) {
-				return 'random'.$len;
+				return 'random' . $len;
 			});
 
 		$this->tokenProvider->expects($this->once())

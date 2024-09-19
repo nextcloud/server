@@ -21,7 +21,7 @@ class FakeDBLockingProvider extends DBLockingProvider {
 
 	public function __construct(
 		IDBConnection $connection,
-		ITimeFactory $timeFactory
+		ITimeFactory $timeFactory,
 	) {
 		parent::__construct($connection, $timeFactory);
 		$this->db = $connection;

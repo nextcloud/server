@@ -49,7 +49,7 @@ class LogFactory implements ILogFactory {
 	}
 
 	protected function buildLogFile(string $logFile = ''): File {
-		$defaultLogFile = $this->systemConfig->getValue('datadirectory', \OC::$SERVERROOT.'/data').'/nextcloud.log';
+		$defaultLogFile = $this->systemConfig->getValue('datadirectory', \OC::$SERVERROOT . '/data') . '/nextcloud.log';
 		if ($logFile === '') {
 			$logFile = $this->systemConfig->getValue('logfile', $defaultLogFile);
 		}

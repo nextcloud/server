@@ -28,7 +28,7 @@ class Collection implements ICollection {
 		protected int $id,
 		protected string $name,
 		protected ?IUser $userForAccess = null,
-		protected ?bool $access = null
+		protected ?bool $access = null,
 	) {
 	}
 

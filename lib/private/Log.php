@@ -42,7 +42,7 @@ class Log implements ILogger, IDataLogger {
 		private IWriter $logger,
 		private SystemConfig $config,
 		private Normalizer $normalizer = new Normalizer(),
-		private ?IRegistry $crashReporters = null
+		private ?IRegistry $crashReporters = null,
 	) {
 	}
 

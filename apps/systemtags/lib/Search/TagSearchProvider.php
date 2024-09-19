@@ -52,7 +52,7 @@ class TagSearchProvider implements IProvider {
 		IMimeTypeDetector $mimeTypeDetector,
 		IRootFolder       $rootFolder,
 		ISystemTagObjectMapper $objectMapper,
-		ISystemTagManager $tagManager
+		ISystemTagManager $tagManager,
 	) {
 		$this->l10n = $l10n;
 		$this->urlGenerator = $urlGenerator;
@@ -118,7 +118,7 @@ class TagSearchProvider implements IProvider {
 			$thumbnailUrl = '';
 			$link = $this->urlGenerator->linkToRoute('files.view.indexView', [
 				'view' => 'tags',
-			]) . '?dir='.$tag->getId();
+			]) . '?dir=' . $tag->getId();
 			$searchResultEntry = new SearchResultEntry(
 				$thumbnailUrl,
 				$this->l10n->t('All tagged %s …', [$tag->getName()]),

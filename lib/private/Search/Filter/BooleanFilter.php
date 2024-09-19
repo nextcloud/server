@@ -19,7 +19,7 @@ class BooleanFilter implements IFilter {
 		$this->value = match ($value) {
 			'true', 'yes', 'y', '1' => true,
 			'false', 'no', 'n', '0', '' => false,
-			default => throw new InvalidArgumentException('Invalid boolean value '. $value),
+			default => throw new InvalidArgumentException('Invalid boolean value ' . $value),
 		};
 	}
 

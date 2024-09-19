@@ -86,7 +86,7 @@ class Encryption extends Wrapper {
 		?IStorage $keyStorage = null,
 		?Update $update = null,
 		?Manager $mountManager = null,
-		?ArrayCache $arrayCache = null
+		?ArrayCache $arrayCache = null,
 	) {
 		$this->mountPoint = $parameters['mountPoint'];
 		$this->mount = $parameters['mount'];
@@ -628,7 +628,7 @@ class Encryption extends Wrapper {
 		Storage\IStorage $sourceStorage,
 		$sourceInternalPath,
 		$targetInternalPath,
-		$preserveMtime = true
+		$preserveMtime = true,
 	) {
 		if ($sourceStorage === $this) {
 			return $this->rename($sourceInternalPath, $targetInternalPath);
@@ -669,7 +669,7 @@ class Encryption extends Wrapper {
 		$sourceInternalPath,
 		$targetInternalPath,
 		$preserveMtime = false,
-		$isRename = false
+		$isRename = false,
 	) {
 		// TODO clean this up once the underlying moveFromStorage in OC\Files\Storage\Wrapper\Common is fixed:
 		// - call $this->storage->copyFromStorage() instead of $this->copyBetweenStorage
@@ -694,7 +694,7 @@ class Encryption extends Wrapper {
 		$sourceInternalPath,
 		$targetInternalPath,
 		$isRename,
-		$keepEncryptionVersion
+		$keepEncryptionVersion,
 	) {
 		$isEncrypted = $this->encryptionManager->isEnabled() && $this->shouldEncrypt($targetInternalPath);
 		$cacheInformation = [
@@ -749,7 +749,7 @@ class Encryption extends Wrapper {
 		$sourceInternalPath,
 		$targetInternalPath,
 		$preserveMtime,
-		$isRename
+		$isRename,
 	) {
 		// for versions we have nothing to do, because versions should always use the
 		// key from the original file. Just create a 1:1 copy and done

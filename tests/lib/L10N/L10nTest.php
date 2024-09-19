@@ -40,14 +40,14 @@ class L10nTest extends TestCase {
 	}
 
 	public function testSimpleTranslationWithTrailingColon(): void {
-		$transFile = \OC::$SERVERROOT.'/tests/data/l10n/de.json';
+		$transFile = \OC::$SERVERROOT . '/tests/data/l10n/de.json';
 		$l = new L10N($this->getFactory(), 'test', 'de', 'de_AT', [$transFile]);
 
 		$this->assertEquals('Files:', $l->t('Files:'));
 	}
 
 	public function testGermanPluralTranslations(): void {
-		$transFile = \OC::$SERVERROOT.'/tests/data/l10n/de.json';
+		$transFile = \OC::$SERVERROOT . '/tests/data/l10n/de.json';
 		$l = new L10N($this->getFactory(), 'test', 'de', 'de_AT', [$transFile]);
 
 		$this->assertEquals('1 Datei', (string)$l->n('%n file', '%n files', 1));
@@ -55,7 +55,7 @@ class L10nTest extends TestCase {
 	}
 
 	public function testRussianPluralTranslations(): void {
-		$transFile = \OC::$SERVERROOT.'/tests/data/l10n/ru.json';
+		$transFile = \OC::$SERVERROOT . '/tests/data/l10n/ru.json';
 		$l = new L10N($this->getFactory(), 'test', 'ru', 'ru_UA', [$transFile]);
 
 		$this->assertEquals('1 файл', (string)$l->n('%n file', '%n files', 1));
@@ -79,7 +79,7 @@ class L10nTest extends TestCase {
 	}
 
 	public function testCzechPluralTranslations(): void {
-		$transFile = \OC::$SERVERROOT.'/tests/data/l10n/cs.json';
+		$transFile = \OC::$SERVERROOT . '/tests/data/l10n/cs.json';
 		$l = new L10N($this->getFactory(), 'test', 'cs', 'cs_CZ', [$transFile]);
 
 		$this->assertEquals('1 okno', (string)$l->n('%n window', '%n windows', 1));
@@ -88,7 +88,7 @@ class L10nTest extends TestCase {
 	}
 
 	public function testGermanPluralWithCzechLocaleTranslations(): void {
-		$transFile = \OC::$SERVERROOT.'/tests/data/l10n/de.json';
+		$transFile = \OC::$SERVERROOT . '/tests/data/l10n/de.json';
 		$l = new L10N($this->getFactory(), 'test', 'de', 'cs_CZ', [$transFile]);
 
 		$this->assertEquals('1 Datei', (string)$l->n('%n file', '%n files', 1));
@@ -111,7 +111,7 @@ class L10nTest extends TestCase {
 	 * @param $expected
 	 */
 	public function testPlaceholders($string, $expected): void {
-		$transFile = \OC::$SERVERROOT.'/tests/data/l10n/de.json';
+		$transFile = \OC::$SERVERROOT . '/tests/data/l10n/de.json';
 		$l = new L10N($this->getFactory(), 'test', 'de', 'de_AT', [$transFile]);
 
 		$this->assertEquals($expected, $l->t($string, ['1', '2']));

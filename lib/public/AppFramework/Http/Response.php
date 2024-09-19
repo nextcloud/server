@@ -96,7 +96,7 @@ class Response {
 			/** @var ITimeFactory $time */
 			$time = \OCP\Server::get(ITimeFactory::class);
 			$expires->setTimestamp($time->getTime());
-			$expires->add(new \DateInterval('PT'.$cacheSeconds.'S'));
+			$expires->add(new \DateInterval('PT' . $cacheSeconds . 'S'));
 			$this->addHeader('Expires', $expires->format(\DateTimeInterface::RFC2822));
 		} else {
 			$this->addHeader('Cache-Control', 'no-cache, no-store, must-revalidate');

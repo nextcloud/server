@@ -77,7 +77,7 @@ class PhpModules implements ISetupCheck {
 			$moduleList = implode(
 				"\n",
 				array_map(
-					fn (string $module) => '- '.$module.' '.$this->getRecommendedModuleDescription($module),
+					fn (string $module) => '- ' . $module . ' ' . $this->getRecommendedModuleDescription($module),
 					$missingRecommendedModules
 				)
 			);

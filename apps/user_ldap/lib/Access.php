@@ -624,7 +624,7 @@ class Access extends LDAPUtility {
 		string $fdn,
 		string $name,
 		string $uuid,
-		bool $isUser
+		bool $isUser,
 	): bool {
 		if ($mapper->map($fdn, $name, $uuid)) {
 			if ($isUser) {
@@ -1118,7 +1118,7 @@ class Access extends LDAPUtility {
 		string $base,
 		?array &$attr,
 		?int $pageSize,
-		?int $offset
+		?int $offset,
 	) {
 		// See if we have a resource, in case not cancel with message
 		$cr = $this->connection->getConnectionResource();
@@ -1158,7 +1158,7 @@ class Access extends LDAPUtility {
 		int $foundItems,
 		int $limit,
 		bool $pagedSearchOK,
-		bool $skipHandling
+		bool $skipHandling,
 	): bool {
 		$cookie = '';
 		if ($pagedSearchOK) {
@@ -1213,7 +1213,7 @@ class Access extends LDAPUtility {
 		?array $attr = null,
 		int $limit = 0,
 		int $offset = 0,
-		bool $skipHandling = false
+		bool $skipHandling = false,
 	) {
 		$this->logger->debug('Count filter: {filter}', [
 			'app' => 'user_ldap',
@@ -1278,7 +1278,7 @@ class Access extends LDAPUtility {
 		?array $attr = null,
 		?int $limit = null,
 		?int $offset = null,
-		bool $skipHandling = false
+		bool $skipHandling = false,
 	): array {
 		$limitPerPage = (int)$this->connection->ldapPagingSize;
 		if (!is_null($limit) && $limit < $limitPerPage && $limit > 0) {
@@ -1983,7 +1983,7 @@ class Access extends LDAPUtility {
 		string $base,
 		?array $attr,
 		int $pageSize,
-		int $offset
+		int $offset,
 	): array {
 		$pagedSearchOK = false;
 		if ($pageSize !== 0) {

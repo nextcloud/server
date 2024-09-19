@@ -27,7 +27,7 @@ class TrashHome implements ICollection {
 	public function __construct(
 		array $principalInfo,
 		ITrashManager $trashManager,
-		IUser $user
+		IUser $user,
 	) {
 		$this->principalInfo = $principalInfo;
 		$this->trashManager = $trashManager;

@@ -67,7 +67,7 @@ script('core', 'install');
 		<div id="datadirContent">
 			<label for="directory"><?php p($l->t('Data folder')); ?></label>
 			<input type="text" name="directory" id="directory"
-				placeholder="<?php p(OC::$SERVERROOT.'/data'); ?>"
+				placeholder="<?php p(OC::$SERVERROOT . '/data'); ?>"
 				value="<?php p($_['directory']); ?>"
 				autocomplete="off" autocapitalize="none" spellcheck="false">
 		</div>

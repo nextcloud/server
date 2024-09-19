@@ -36,7 +36,7 @@ class MultipartRequestParserTest extends TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 
-		$headers = array_merge(['Content-Type' => 'multipart/related; boundary='.$boundary], $headers);
+		$headers = array_merge(['Content-Type' => 'multipart/related; boundary=' . $boundary], $headers);
 		$request->expects($this->any())
 			->method('getHeader')
 			->willReturnCallback(function (string $key) use (&$headers) {
@@ -45,17 +45,17 @@ class MultipartRequestParserTest extends TestCase {
 
 		$body = '';
 		foreach ($parts as $part) {
-			$body .= '--'.$boundary."\r\n";
+			$body .= '--' . $boundary . "\r\n";
 
 			foreach ($part['headers'] as $headerKey => $headerPart) {
-				$body .= $headerKey.': '.$headerPart."\r\n";
+				$body .= $headerKey . ': ' . $headerPart . "\r\n";
 			}
 
 			$body .= "\r\n";
-			$body .= $part['content']."\r\n";
+			$body .= $part['content'] . "\r\n";
 		}
 
-		$body .= '--'.$boundary.'--';
+		$body .= '--' . $boundary . '--';
 
 		$stream = fopen('php://temp', 'r+');
 		fwrite($stream, $body);

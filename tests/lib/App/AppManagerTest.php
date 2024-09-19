@@ -142,7 +142,7 @@ class AppManagerTest extends TestCase {
 	/**
 	 * @dataProvider dataGetAppIcon
 	 */
-	public function testGetAppIcon($callback, ?bool $dark, string|null $expected): void {
+	public function testGetAppIcon($callback, ?bool $dark, ?string $expected): void {
 		$this->urlGenerator->expects($this->atLeastOnce())
 			->method('imagePath')
 			->willReturnCallback($callback);

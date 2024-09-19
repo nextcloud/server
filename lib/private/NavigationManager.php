@@ -413,7 +413,7 @@ class NavigationManager implements INavigationManager {
 		$this->unreadCounters[$id] = $unreadCounter;
 	}
 
-	public function get(string $id): array|null {
+	public function get(string $id): ?array {
 		$this->init();
 		foreach ($this->closureEntries as $c) {
 			$this->add($c());

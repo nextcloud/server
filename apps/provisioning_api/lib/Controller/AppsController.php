@@ -25,7 +25,7 @@ class AppsController extends OCSController {
 	public function __construct(
 		string $appName,
 		IRequest $request,
-		IAppManager $appManager
+		IAppManager $appManager,
 	) {
 		parent::__construct($appName, $request);
 

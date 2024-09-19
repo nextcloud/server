@@ -117,7 +117,7 @@ class Connection extends PrimaryReadReplicaConnection {
 		private array $params,
 		Driver $driver,
 		?Configuration $config = null,
-		?EventManager $eventManager = null
+		?EventManager $eventManager = null,
 	) {
 		if (!isset($params['adapter'])) {
 			throw new \Exception('adapter not set');
@@ -664,9 +664,9 @@ class Connection extends PrimaryReadReplicaConnection {
 		$msg = $this->errorCode() . ': ';
 		$errorInfo = $this->errorInfo();
 		if (!empty($errorInfo)) {
-			$msg .= 'SQLSTATE = '.$errorInfo[0] . ', ';
-			$msg .= 'Driver Code = '.$errorInfo[1] . ', ';
-			$msg .= 'Driver Message = '.$errorInfo[2];
+			$msg .= 'SQLSTATE = ' . $errorInfo[0] . ', ';
+			$msg .= 'Driver Code = ' . $errorInfo[1] . ', ';
+			$msg .= 'Driver Message = ' . $errorInfo[2];
 		}
 		return $msg;
 	}

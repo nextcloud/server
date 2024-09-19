@@ -55,7 +55,7 @@ class CommentNode implements \Sabre\DAV\INode, \Sabre\DAV\IProperties {
 		IComment $comment,
 		IUserManager $userManager,
 		IUserSession $userSession,
-		LoggerInterface $logger
+		LoggerInterface $logger,
 	) {
 		$this->commentsManager = $commentsManager;
 		$this->comment = $comment;
@@ -69,7 +69,7 @@ class CommentNode implements \Sabre\DAV\INode, \Sabre\DAV\IProperties {
 			if ($getter === 'getMentions') {
 				continue;	// special treatment
 			}
-			$name = '{'.self::NS_OWNCLOUD.'}' . lcfirst(substr($getter, 3));
+			$name = '{' . self::NS_OWNCLOUD . '}' . lcfirst(substr($getter, 3));
 			$this->properties[$name] = $getter;
 		}
 		$this->userManager = $userManager;

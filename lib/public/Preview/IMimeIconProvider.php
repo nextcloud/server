@@ -18,5 +18,5 @@ interface IMimeIconProvider {
 	 * if no preview is available.
 	 * @since 28.0.0
 	 */
-	public function getMimeIconUrl(string $mime): string|null;
+	public function getMimeIconUrl(string $mime): ?string;
 }

@@ -17,7 +17,7 @@ class RegisterTemplateCreatorEvent extends Event {
 	 * @since 30.0.0
 	 */
 	public function __construct(
-		private ITemplateManager $templateManager
+		private ITemplateManager $templateManager,
 	) {
 	}
 

@@ -35,7 +35,7 @@ class CronErrors implements ISetupCheck {
 			return SetupResult::error(
 				$this->l10n->t(
 					"It was not possible to execute the cron job via CLI. The following technical errors have appeared:\n%s",
-					implode("\n", array_map(fn (array $error) => '- '.$error['error'].' '.$error['hint'], $errors))
+					implode("\n", array_map(fn (array $error) => '- ' . $error['error'] . ' ' . $error['hint'], $errors))
 				)
 			);
 		} else {

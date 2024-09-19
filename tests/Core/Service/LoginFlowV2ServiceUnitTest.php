@@ -296,7 +296,7 @@ class LoginFlowV2ServiceUnitTest extends TestCase {
 
 		$this->secureRandom->expects($this->once())
 			->method('generate')
-			->with(72, ISecureRandom::CHAR_UPPER.ISecureRandom::CHAR_LOWER.ISecureRandom::CHAR_DIGITS)
+			->with(72, ISecureRandom::CHAR_UPPER . ISecureRandom::CHAR_LOWER . ISecureRandom::CHAR_DIGITS)
 			->willReturn('test_pass');
 
 		// session token

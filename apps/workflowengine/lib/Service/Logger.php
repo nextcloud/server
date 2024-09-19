@@ -128,7 +128,7 @@ class Logger {
 	protected function log(
 		string $message,
 		array $context,
-		LogContext $logContext
+		LogContext $logContext,
 	): void {
 		if (!isset($context['app'])) {
 			$context['app'] = Application::APP_ID;

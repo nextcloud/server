@@ -119,10 +119,10 @@ With help from many libraries and frameworks including:
 	…
 ';
 		$authors = implode(PHP_EOL, array_map(function ($author) {
-			return ' - '.$author;
+			return ' - ' . $author;
 		}, $this->authors));
 		$template = str_replace('@AUTHORS@', $authors, $template);
-		file_put_contents(__DIR__.'/../AUTHORS', $template);
+		file_put_contents(__DIR__ . '/../AUTHORS', $template);
 	}
 
 	public function handleFile($path, $gitRoot) {
@@ -422,7 +422,7 @@ With help from many libraries and frameworks including:
 	private function fixInvalidEmail($author) {
 		preg_match('/<(.*)>/', $author, $mailMatch);
 		if (count($mailMatch) === 2 && !filter_var($mailMatch[1], FILTER_VALIDATE_EMAIL)) {
-			$author = str_replace('<'.$mailMatch[1].'>', '"'.$mailMatch[1].'"', $author);
+			$author = str_replace('<' . $mailMatch[1] . '>', '"' . $mailMatch[1] . '"', $author);
 		}
 		return $author;
 	}

@@ -46,12 +46,12 @@ try {
 		OC::handleLogin(\OC::$server->getRequest());
 	}
 
-	OC::$server->get(\OC\Route\Router::class)->match('/ocsapp'.\OC::$server->getRequest()->getRawPathInfo());
+	OC::$server->get(\OC\Route\Router::class)->match('/ocsapp' . \OC::$server->getRequest()->getRawPathInfo());
 } catch (MaxDelayReached $ex) {
 	ApiHelper::respond(Http::STATUS_TOO_MANY_REQUESTS, $ex->getMessage());
 } catch (ResourceNotFoundException $e) {
 	$txt = 'Invalid query, please check the syntax. API specifications are here:'
-		.' http://www.freedesktop.org/wiki/Specifications/open-collaboration-services.'."\n";
+		. ' http://www.freedesktop.org/wiki/Specifications/open-collaboration-services.' . "\n";
 	ApiHelper::respond(OCSController::RESPOND_NOT_FOUND, $txt);
 } catch (MethodNotAllowedException $e) {
 	ApiHelper::setContentType();
@@ -61,7 +61,7 @@ try {
 } catch (\Exception $e) {
 	\OCP\Server::get(LoggerInterface::class)->error($e->getMessage(), ['exception' => $e]);
 
-	$txt = 'Internal Server Error'."\n";
+	$txt = 'Internal Server Error' . "\n";
 	try {
 		if (\OC::$server->getSystemConfig()->getValue('debug', false)) {
 			$txt .= $e->getMessage();

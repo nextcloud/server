@@ -242,7 +242,7 @@ class TemplateLayout extends \OC_Template {
 		foreach ($jsFiles as $info) {
 			$web = $info[1];
 			$file = $info[2];
-			$this->append('jsfiles', $web.'/'.$file . $this->getVersionHashSuffix());
+			$this->append('jsfiles', $web . '/' . $file . $this->getVersionHashSuffix());
 		}
 
 		try {
@@ -275,14 +275,14 @@ class TemplateLayout extends \OC_Template {
 			$file = $info[2];
 
 			if (str_ends_with($file, 'print.css')) {
-				$this->append('printcssfiles', $web.'/'.$file . $this->getVersionHashSuffix());
+				$this->append('printcssfiles', $web . '/' . $file . $this->getVersionHashSuffix());
 			} else {
 				$suffix = $this->getVersionHashSuffix($web, $file);
 
 				if (!str_contains($file, '?v=')) {
-					$this->append('cssfiles', $web.'/'.$file . $suffix);
+					$this->append('cssfiles', $web . '/' . $file . $suffix);
 				} else {
-					$this->append('cssfiles', $web.'/'.$file . '-' . substr($suffix, 3));
+					$this->append('cssfiles', $web . '/' . $file . '-' . substr($suffix, 3));
 				}
 			}
 		}

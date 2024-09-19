@@ -78,9 +78,9 @@ class Crypto implements ICrypto {
 
 		$ciphertext = bin2hex($encrypted);
 		$iv = bin2hex($iv);
-		$hmac = bin2hex($this->calculateHMAC($ciphertext.$iv, substr($keyMaterial, 32)));
+		$hmac = bin2hex($this->calculateHMAC($ciphertext . $iv, substr($keyMaterial, 32)));
 
-		return $ciphertext.'|'.$iv.'|'.$hmac.'|3';
+		return $ciphertext . '|' . $iv . '|' . $hmac . '|3';
 	}
 
 	/**

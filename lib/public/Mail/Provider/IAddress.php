@@ -36,7 +36,7 @@ interface IAddress {
 	 *
 	 * @return string returns the mail address
 	 */
-	public function getAddress(): string|null;
+	public function getAddress(): ?string;
 
 	/**
 	 * sets the mail address label/name
@@ -56,6 +56,6 @@ interface IAddress {
 	 *
 	 * @return string returns the mail address label/name
 	 */
-	public function getLabel(): string|null;
+	public function getLabel(): ?string;
 
 }

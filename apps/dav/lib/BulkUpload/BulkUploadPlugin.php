@@ -22,7 +22,7 @@ class BulkUploadPlugin extends ServerPlugin {
 
 	public function __construct(
 		Folder $userFolder,
-		LoggerInterface $logger
+		LoggerInterface $logger,
 	) {
 		$this->userFolder = $userFolder;
 		$this->logger = $logger;

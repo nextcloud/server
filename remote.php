@@ -131,17 +131,17 @@ try {
 
 	switch ($app) {
 		case 'core':
-			$file = OC::$SERVERROOT .'/'. $file;
+			$file = OC::$SERVERROOT . '/' . $file;
 			break;
 		default:
 			if (!$appManager->isInstalled($app)) {
 				throw new RemoteException('App not installed: ' . $app);
 			}
 			$appManager->loadApp($app);
-			$file = $appManager->getAppPath($app) .'/'. ($parts[1] ?? '');
+			$file = $appManager->getAppPath($app) . '/' . ($parts[1] ?? '');
 			break;
 	}
-	$baseuri = OC::$WEBROOT . '/remote.php/'.$service.'/';
+	$baseuri = OC::$WEBROOT . '/remote.php/' . $service . '/';
 	require_once $file;
 } catch (Exception $ex) {
 	handleException($ex);

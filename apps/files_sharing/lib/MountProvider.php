@@ -30,7 +30,7 @@ class MountProvider implements IMountProvider {
 		protected IManager $shareManager,
 		protected LoggerInterface $logger,
 		protected IEventDispatcher $eventDispatcher,
-		protected ICacheFactory $cacheFactory
+		protected ICacheFactory $cacheFactory,
 	) {
 	}
 

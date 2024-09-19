@@ -18,9 +18,11 @@ class Provider extends Controller {
 	 * @param IRequest $request
 	 * @param IAppManager $appManager
 	 */
-	public function __construct($appName,
+	public function __construct(
+		$appName,
 		\OCP\IRequest $request,
-		private \OCP\App\IAppManager $appManager) {
+		private \OCP\App\IAppManager $appManager,
+	) {
 		parent::__construct($appName, $request);
 	}
 

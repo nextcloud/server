@@ -54,7 +54,7 @@ class QuerySearchHelper {
 		CacheQueryBuilder $query,
 		ISearchQuery $searchQuery,
 		array $caches,
-		?IMetadataQuery $metadataQuery = null
+		?IMetadataQuery $metadataQuery = null,
 	): void {
 		$storageFilters = array_values(array_map(function (ICache $cache) {
 			return $cache->getQueryFilterForStorage();

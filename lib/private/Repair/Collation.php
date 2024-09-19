@@ -33,7 +33,7 @@ class Collation implements IRepairStep {
 		IConfig $config,
 		LoggerInterface $logger,
 		IDBConnection $connection,
-		$ignoreFailures
+		$ignoreFailures,
 	) {
 		$this->connection = $connection;
 		$this->config = $config;

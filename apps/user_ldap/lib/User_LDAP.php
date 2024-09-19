@@ -217,7 +217,7 @@ class User_LDAP extends BackendUtility implements IUserBackend, UserInterface, I
 	 */
 	public function getUsers($search = '', $limit = 10, $offset = 0) {
 		$search = $this->access->escapeFilterPart($search, true);
-		$cachekey = 'getUsers-'.$search.'-'.$limit.'-'.$offset;
+		$cachekey = 'getUsers-' . $search . '-' . $limit . '-' . $offset;
 
 		//check if users are cached, if so return
 		$ldap_users = $this->access->connection->getFromCache($cachekey);
@@ -237,7 +237,7 @@ class User_LDAP extends BackendUtility implements IUserBackend, UserInterface, I
 		]);
 
 		$this->logger->debug(
-			'getUsers: Options: search '.$search.' limit '.$limit.' offset '.$offset.' Filter: '.$filter,
+			'getUsers: Options: search ' . $search . ' limit ' . $limit . ' offset ' . $offset . ' Filter: ' . $filter,
 			['app' => 'user_ldap']
 		);
 		//do the search and translate results to Nextcloud names
@@ -247,7 +247,7 @@ class User_LDAP extends BackendUtility implements IUserBackend, UserInterface, I
 			$limit, $offset);
 		$ldap_users = $this->access->nextcloudUserNames($ldap_users);
 		$this->logger->debug(
-			'getUsers: '.count($ldap_users). ' Users found',
+			'getUsers: ' . count($ldap_users) . ' Users found',
 			['app' => 'user_ldap']
 		);
 
@@ -318,7 +318,7 @@ class User_LDAP extends BackendUtility implements IUserBackend, UserInterface, I
 	 * @throws \Exception when connection could not be established
 	 */
 	public function userExists($uid) {
-		$userExists = $this->access->connection->getFromCache('userExists'.$uid);
+		$userExists = $this->access->connection->getFromCache('userExists' . $uid);
 		if (!is_null($userExists)) {
 			return (bool)$userExists;
 		}
@@ -326,14 +326,14 @@ class User_LDAP extends BackendUtility implements IUserBackend, UserInterface, I
 
 		if (!$userExists) {
 			$this->logger->debug(
-				'No DN found for '.$uid.' on '.$this->access->connection->ldapHost,
+				'No DN found for ' . $uid . ' on ' . $this->access->connection->ldapHost,
 				['app' => 'user_ldap']
 			);
-			$this->access->connection->writeToCache('userExists'.$uid, false);
+			$this->access->connection->writeToCache('userExists' . $uid, false);
 			return false;
 		}
 
-		$this->access->connection->writeToCache('userExists'.$uid, true);
+		$this->access->connection->writeToCache('userExists' . $uid, true);
 		return true;
 	}
 
@@ -367,7 +367,7 @@ class User_LDAP extends BackendUtility implements IUserBackend, UserInterface, I
 			}
 			if (!$marked) {
 				$this->logger->notice(
-					'User '.$uid . ' is not marked as deleted, not cleaning up.',
+					'User ' . $uid . ' is not marked as deleted, not cleaning up.',
 					['app' => 'user_ldap']
 				);
 				return false;
@@ -400,7 +400,7 @@ class User_LDAP extends BackendUtility implements IUserBackend, UserInterface, I
 			return $this->userPluginManager->getHome($uid);
 		}
 
-		$cacheKey = 'getHome'.$uid;
+		$cacheKey = 'getHome' . $uid;
 		$path = $this->access->connection->getFromCache($cacheKey);
 		if (!is_null($path)) {
 			return $path;
@@ -432,7 +432,7 @@ class User_LDAP extends BackendUtility implements IUserBackend, UserInterface, I
 			return false;
 		}
 
-		$cacheKey = 'getDisplayName'.$uid;
+		$cacheKey = 'getDisplayName' . $uid;
 		if (!is_null($displayName = $this->access->connection->getFromCache($cacheKey))) {
 			return $displayName;
 		}
@@ -495,7 +495,7 @@ class User_LDAP extends BackendUtility implements IUserBackend, UserInterface, I
 	 * @return array an array of all displayNames (value) and the corresponding uids (key)
 	 */
 	public function getDisplayNames($search = '', $limit = null, $offset = null) {
-		$cacheKey = 'getDisplayNames-'.$search.'-'.$limit.'-'.$offset;
+		$cacheKey = 'getDisplayNames-' . $search . '-' . $limit . '-' . $offset;
 		if (!is_null($displayNames = $this->access->connection->getFromCache($cacheKey))) {
 			return $displayNames;
 		}
@@ -546,7 +546,7 @@ class User_LDAP extends BackendUtility implements IUserBackend, UserInterface, I
 		}
 
 		$filter = $this->access->getFilterForUserCount();
-		$cacheKey = 'countUsers-'.$filter;
+		$cacheKey = 'countUsers-' . $filter;
 		if (!is_null($entries = $this->access->connection->getFromCache($cacheKey))) {
 			return $entries;
 		}

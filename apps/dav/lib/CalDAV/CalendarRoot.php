@@ -20,7 +20,7 @@ class CalendarRoot extends \Sabre\CalDAV\CalendarRoot {
 		PrincipalBackend\BackendInterface $principalBackend,
 		Backend\BackendInterface $caldavBackend,
 		$principalPrefix,
-		LoggerInterface $logger
+		LoggerInterface $logger,
 	) {
 		parent::__construct($principalBackend, $caldavBackend, $principalPrefix);
 		$this->logger = $logger;

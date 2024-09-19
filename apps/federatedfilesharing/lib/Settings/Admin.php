@@ -28,7 +28,7 @@ class Admin implements IDelegatedSettings {
 		IConfig $globalScaleConfig,
 		IL10N $l,
 		IURLGenerator $urlGenerator,
-		IInitialState $initialState
+		IInitialState $initialState,
 	) {
 		$this->fedShareProvider = $fedShareProvider;
 		$this->gsConfig = $globalScaleConfig;

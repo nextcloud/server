@@ -243,7 +243,7 @@ class UserGlobalStoragesServiceTest extends GlobalStoragesServiceTest {
 	public function testGetUniqueStorages(
 		$priority1, $applicableUsers1, $applicableGroups1,
 		$priority2, $applicableUsers2, $applicableGroups2,
-		$expectedPrecedence
+		$expectedPrecedence,
 	): void {
 		$backend = $this->backendService->getBackend('identifier:\OCA\Files_External\Lib\Backend\SMB');
 		$backend->method('isVisibleFor')

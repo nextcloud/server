@@ -36,7 +36,7 @@ interface IAttachment {
 	 *
 	 * @return string | null returns the attachment file name or null if one is not set
 	 */
-	public function getName(): string|null;
+	public function getName(): ?string;
 
 	/**
 	 * sets the attachment mime type
@@ -56,7 +56,7 @@ interface IAttachment {
 	 *
 	 * @return string | null returns the attachment mime type or null if not set
 	 */
-	public function getType(): string|null;
+	public function getType(): ?string;
 
 	/**
 	 * sets the attachment contents (actual data)
@@ -76,7 +76,7 @@ interface IAttachment {
 	 *
 	 * @return string | null returns the attachment contents or null if not set
 	 */
-	public function getContents(): string|null;
+	public function getContents(): ?string;
 
 	/**
 	 * sets the embedded status of the attachment

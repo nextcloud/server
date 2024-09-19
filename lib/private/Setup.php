@@ -44,7 +44,7 @@ class Setup {
 		protected Defaults $defaults,
 		protected LoggerInterface $logger,
 		protected ISecureRandom $random,
-		protected Installer $installer
+		protected Installer $installer,
 	) {
 		$this->l10n = $l10nFactory->get('lib');
 	}
@@ -377,7 +377,7 @@ class Setup {
 		//and we are done
 		$config->setSystemValue('installed', true);
 		if (self::shouldRemoveCanInstallFile()) {
-			unlink(\OC::$configDir.'/CAN_INSTALL');
+			unlink(\OC::$configDir . '/CAN_INSTALL');
 		}
 
 		$bootstrapCoordinator = \OCP\Server::get(\OC\AppFramework\Bootstrap\Coordinator::class);
@@ -561,11 +561,11 @@ class Setup {
 	}
 
 	public function shouldRemoveCanInstallFile(): bool {
-		return \OC_Util::getChannel() !== 'git' && is_file(\OC::$configDir.'/CAN_INSTALL');
+		return \OC_Util::getChannel() !== 'git' && is_file(\OC::$configDir . '/CAN_INSTALL');
 	}
 
 	public function canInstallFileExists(): bool {
-		return is_file(\OC::$configDir.'/CAN_INSTALL');
+		return is_file(\OC::$configDir . '/CAN_INSTALL');
 	}
 
 	protected function outputDebug(?IOutput $output, string $message): void {

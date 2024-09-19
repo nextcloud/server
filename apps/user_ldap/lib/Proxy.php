@@ -22,7 +22,7 @@ abstract class Proxy {
 
 	public function __construct(
 		ILDAPWrapper $ldap,
-		AccessFactory $accessFactory
+		AccessFactory $accessFactory,
 	) {
 		$this->ldap = $ldap;
 		$this->accessFactory = $accessFactory;

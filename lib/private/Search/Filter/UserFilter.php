@@ -23,7 +23,7 @@ class UserFilter implements IFilter {
 	) {
 		$user = $userManager->get($value);
 		if ($user === null) {
-			throw new InvalidArgumentException('User '.$value.' not found');
+			throw new InvalidArgumentException('User ' . $value . ' not found');
 		}
 		$this->user = $user;
 	}

@@ -45,7 +45,7 @@ class DecryptAll {
 		KeyManager $keyManager,
 		Crypt $crypt,
 		Session $session,
-		QuestionHelper $questionHelper
+		QuestionHelper $questionHelper,
 	) {
 		$this->util = $util;
 		$this->keyManager = $keyManager;

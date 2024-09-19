@@ -28,7 +28,7 @@ class Delegation implements ISettings {
 		IInitialState $initialStateService,
 		IGroupManager $groupManager,
 		AuthorizedGroupService $authorizedGroupService,
-		IURLGenerator $urlGenerator
+		IURLGenerator $urlGenerator,
 	) {
 		$this->settingManager = $settingManager;
 		$this->initialStateService = $initialStateService;

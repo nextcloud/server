@@ -37,7 +37,7 @@ class StatusController extends Controller {
 		IRequest $request,
 		IL10N $l10n,
 		Session $session,
-		IManager $encryptionManager
+		IManager $encryptionManager,
 	) {
 		parent::__construct($AppName, $request);
 		$this->l = $l10n;

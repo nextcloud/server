@@ -189,7 +189,7 @@ class TagsPlugin extends \Sabre\DAV\ServerPlugin {
 	 */
 	public function handleGetProperties(
 		PropFind $propFind,
-		\Sabre\DAV\INode $node
+		\Sabre\DAV\INode $node,
 	) {
 		if (!($node instanceof \OCA\DAV\Connector\Sabre\Node)) {
 			return;

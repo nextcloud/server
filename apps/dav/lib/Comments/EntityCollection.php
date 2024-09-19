@@ -46,7 +46,7 @@ class EntityCollection extends RootCollection implements IProperties {
 		ICommentsManager $commentsManager,
 		IUserManager $userManager,
 		IUserSession $userSession,
-		LoggerInterface $logger
+		LoggerInterface $logger,
 	) {
 		foreach (['id', 'name'] as $property) {
 			$$property = trim($$property);

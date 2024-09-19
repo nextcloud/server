@@ -36,7 +36,7 @@ class RouterTest extends TestCase {
 		$logger->method('info')
 			->willReturnCallback(
 				function (string $message, array $data) {
-					$this->fail('Unexpected info log: '.(string)($data['exception'] ?? $message));
+					$this->fail('Unexpected info log: ' . (string)($data['exception'] ?? $message));
 				}
 			);
 

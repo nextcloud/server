@@ -47,7 +47,7 @@ class FileSystemTags implements ICheck, IFileCheck {
 		ISystemTagManager $systemTagManager,
 		ISystemTagObjectMapper $systemTagObjectMapper,
 		IUserSession $userSession,
-		IGroupManager $groupManager
+		IGroupManager $groupManager,
 	) {
 		$this->l = $l;
 		$this->systemTagManager = $systemTagManager;

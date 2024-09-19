@@ -35,7 +35,7 @@ class SettingsController extends Controller {
 		private IL10N $l,
 		private IAuthTokenProvider $tokenProvider,
 		private IUserManager $userManager,
-		private ICrypto $crypto
+		private ICrypto $crypto,
 	) {
 		parent::__construct($appName, $request);
 	}

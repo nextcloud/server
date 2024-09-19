@@ -110,7 +110,7 @@ class EnablePlugin extends ServerPlugin {
 
 		$requestBody = $request->getBodyAsString();
 		$this->server->xml->parse($requestBody, $request->getUrl(), $documentType);
-		if ($documentType !== '{'.self::NS_Nextcloud.'}enable-birthday-calendar') {
+		if ($documentType !== '{' . self::NS_Nextcloud . '}enable-birthday-calendar') {
 			return;
 		}
 

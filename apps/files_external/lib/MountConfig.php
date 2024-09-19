@@ -41,7 +41,7 @@ class MountConfig {
 	public function __construct(
 		UserGlobalStoragesService $userGlobalStorageService,
 		UserStoragesService $userStorageService,
-		GlobalStoragesService $globalStorageService
+		GlobalStoragesService $globalStorageService,
 	) {
 		$this->userGlobalStorageService = $userGlobalStorageService;
 		$this->userStorageService = $userStorageService;

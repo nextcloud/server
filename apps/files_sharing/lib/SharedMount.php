@@ -55,7 +55,7 @@ class SharedMount extends MountPoint implements MoveableMount, ISharedMountPoint
 		CappedMemoryCache $folderExistCache,
 		IEventDispatcher $eventDispatcher,
 		IUser $user,
-		ICache $cache
+		ICache $cache,
 	) {
 		$this->user = $user;
 		$this->recipientView = $recipientView;
@@ -81,7 +81,7 @@ class SharedMount extends MountPoint implements MoveableMount, ISharedMountPoint
 	private function verifyMountPoint(
 		\OCP\Share\IShare $share,
 		array $mountpoints,
-		CappedMemoryCache $folderExistCache
+		CappedMemoryCache $folderExistCache,
 	) {
 		$cacheKey = $this->user->getUID() . '/' . $share->getId() . '/' . $share->getTarget();
 		$cached = $this->cache->get($cacheKey);

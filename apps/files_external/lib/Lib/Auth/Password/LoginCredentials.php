@@ -46,7 +46,7 @@ class LoginCredentials extends AuthMechanism {
 		ICredentialsManager $credentialsManager,
 		CredentialsStore $credentialsStore,
 		IEventDispatcher $eventDispatcher,
-		ILDAPProviderFactory $ldapFactory
+		ILDAPProviderFactory $ldapFactory,
 	) {
 		$this->session = $session;
 		$this->credentialsManager = $credentialsManager;

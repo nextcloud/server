@@ -990,7 +990,7 @@ class Trashbin {
 			Server::get(IDBConnection::class)->getQueryBuilder(),
 			Server::get(IFilesMetadataManager::class),
 		);
-		$normalizedParentPath = ltrim(Filesystem::normalizePath(dirname('files_trashbin/versions/'. $filename)), '/');
+		$normalizedParentPath = ltrim(Filesystem::normalizePath(dirname('files_trashbin/versions/' . $filename)), '/');
 		$parentId = $cache->getId($normalizedParentPath);
 		if ($parentId === -1) {
 			return [];

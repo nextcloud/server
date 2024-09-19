@@ -61,7 +61,7 @@ class LdapConnection implements ISetupCheck {
 				'Binding failed for %n LDAP configurations: %s',
 				count($bindFailedConfigurations),
 				[implode(',', $bindFailedConfigurations)]
-			)."\n";
+			) . "\n";
 		}
 		if (!empty($searchFailedConfigurations)) {
 			$output .= $this->l10n->n(
@@ -69,7 +69,7 @@ class LdapConnection implements ISetupCheck {
 				'Searching failed for %n LDAP configurations: %s',
 				count($searchFailedConfigurations),
 				[implode(',', $searchFailedConfigurations)]
-			)."\n";
+			) . "\n";
 		}
 		if (!empty($inactiveConfigurations)) {
 			$output .= $this->l10n->n(
@@ -77,7 +77,7 @@ class LdapConnection implements ISetupCheck {
 				'There are %n inactive LDAP configurations: %s',
 				count($inactiveConfigurations),
 				[implode(',', $inactiveConfigurations)]
-			)."\n";
+			) . "\n";
 		}
 		if (!empty($bindFailedConfigurations) || !empty($searchFailedConfigurations)) {
 			return SetupResult::error($output);

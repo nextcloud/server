@@ -109,7 +109,7 @@ class Application extends App implements IBootstrap {
 			IGroupManager $groupManager,
 			User_Proxy $userBackend,
 			Group_Proxy $groupBackend,
-			Helper $helper
+			Helper $helper,
 		) {
 			$configPrefixes = $helper->getServerConfigurationPrefixes(true);
 			if (count($configPrefixes) > 0) {

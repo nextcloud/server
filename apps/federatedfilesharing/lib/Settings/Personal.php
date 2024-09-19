@@ -28,7 +28,7 @@ class Personal implements ISettings {
 		IUserSession $userSession,
 		Defaults $defaults,
 		IInitialState $initialState,
-		IURLGenerator $urlGenerator
+		IURLGenerator $urlGenerator,
 	) {
 		$this->federatedShareProvider = $federatedShareProvider;
 		$this->userSession = $userSession;

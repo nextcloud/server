@@ -396,7 +396,7 @@ class MigrationService {
 			} catch (\Exception $e) {
 				// The exception itself does not contain the name of the migration,
 				// so we wrap it here, to make debugging easier.
-				throw new \Exception('Database error when running migration ' . $version . ' for app ' . $this->getApp() . PHP_EOL. $e->getMessage(), 0, $e);
+				throw new \Exception('Database error when running migration ' . $version . ' for app ' . $this->getApp() . PHP_EOL . $e->getMessage(), 0, $e);
 			}
 		}
 	}

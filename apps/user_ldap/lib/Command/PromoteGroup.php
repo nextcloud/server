@@ -22,7 +22,7 @@ class PromoteGroup extends Command {
 
 	public function __construct(
 		private IGroupManager $groupManager,
-		private Group_Proxy $backend
+		private Group_Proxy $backend,
 	) {
 		parent::__construct();
 	}

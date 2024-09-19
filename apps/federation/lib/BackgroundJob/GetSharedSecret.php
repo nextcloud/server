@@ -47,7 +47,7 @@ class GetSharedSecret extends Job {
 		TrustedServers $trustedServers,
 		LoggerInterface $logger,
 		IDiscoveryService $ocsDiscoveryService,
-		ITimeFactory $timeFactory
+		ITimeFactory $timeFactory,
 	) {
 		parent::__construct($timeFactory);
 		$this->logger = $logger;

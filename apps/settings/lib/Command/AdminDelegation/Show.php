@@ -47,7 +47,7 @@ class Show extends Base {
 					continue;
 				}
 
-				$io->section('Section: '.$section->getID());
+				$io->section('Section: ' . $section->getID());
 				$io->table($headers, array_map(function (IDelegatedSettings $setting) use ($section) {
 					$className = get_class($setting);
 					$groups = array_map(

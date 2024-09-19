@@ -26,7 +26,7 @@ class Size extends Base {
 	public function __construct(
 		IConfig $config,
 		IUserManager $userManager,
-		IBus $commandBus
+		IBus $commandBus,
 	) {
 		parent::__construct();
 

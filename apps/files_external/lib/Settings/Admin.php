@@ -30,7 +30,7 @@ class Admin implements ISettings {
 		IManager $encryptionManager,
 		GlobalStoragesService $globalStoragesService,
 		BackendService $backendService,
-		GlobalAuth $globalAuth
+		GlobalAuth $globalAuth,
 	) {
 		$this->encryptionManager = $encryptionManager;
 		$this->globalStoragesService = $globalStoragesService;

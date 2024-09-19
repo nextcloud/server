@@ -32,7 +32,7 @@ class UserAddedToGroupActivityListener implements IEventListener {
 	public function __construct(
 		Manager $groupManager,
 		IManager $activityManager,
-		IUserSession $userSession
+		IUserSession $userSession,
 	) {
 		$this->groupManager = $groupManager;
 		$this->activityManager = $activityManager;

@@ -95,7 +95,7 @@ class AddTest extends TestCase {
 		$this->systemTagManager->method('createTag')
 			->willReturnCallback(function ($tagName, $userVisible, $userAssignable) {
 				throw new TagAlreadyExistsException(
-					'Tag ("' . $tagName . '", '. $userVisible . ', ' . $userAssignable . ') already exists'
+					'Tag ("' . $tagName . '", ' . $userVisible . ', ' . $userAssignable . ') already exists'
 				);
 			});
 

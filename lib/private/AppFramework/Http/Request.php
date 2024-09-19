@@ -484,7 +484,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 			$prefix = '__Host-';
 		}
 
-		return $prefix.$name;
+		return $prefix . $name;
 	}
 
 	/**
@@ -606,7 +606,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	 * @return bool
 	 */
 	private function isOverwriteCondition(): bool {
-		$regex = '/' . $this->config->getSystemValueString('overwritecondaddr', '')  . '/';
+		$regex = '/' . $this->config->getSystemValueString('overwritecondaddr', '') . '/';
 		$remoteAddr = isset($this->server['REMOTE_ADDR']) ? $this->server['REMOTE_ADDR'] : '';
 		return $regex === '//' || preg_match($regex, $remoteAddr) === 1;
 	}

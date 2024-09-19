@@ -26,7 +26,7 @@ class ZIP extends Archive {
 		$this->zip = new \ZipArchive();
 		if ($this->zip->open($source, \ZipArchive::CREATE)) {
 		} else {
-			\OC::$server->get(LoggerInterface::class)->warning('Error while opening archive '.$source, ['app' => 'files_archive']);
+			\OC::$server->get(LoggerInterface::class)->warning('Error while opening archive ' . $source, ['app' => 'files_archive']);
 		}
 	}
 
@@ -169,15 +169,15 @@ class ZIP extends Archive {
 	 * check if a file or folder exists in the archive
 	 */
 	public function fileExists(string $path): bool {
-		return ($this->zip->locateName($path) !== false) or ($this->zip->locateName($path.'/') !== false);
+		return ($this->zip->locateName($path) !== false) or ($this->zip->locateName($path . '/') !== false);
 	}
 
 	/**
 	 * remove a file or folder from the archive
 	 */
 	public function remove(string $path): bool {
-		if ($this->fileExists($path.'/')) {
-			return $this->zip->deleteName($path.'/');
+		if ($this->fileExists($path . '/')) {
+			return $this->zip->deleteName($path . '/');
 		} else {
 			return $this->zip->deleteName($path);
 		}

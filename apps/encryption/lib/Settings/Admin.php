@@ -25,7 +25,7 @@ class Admin implements ISettings {
 		private IUserSession $userSession,
 		private IConfig $config,
 		private IUserManager $userManager,
-		private ISession $session
+		private ISession $session,
 	) {
 	}
 

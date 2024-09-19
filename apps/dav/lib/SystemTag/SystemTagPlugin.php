@@ -216,7 +216,7 @@ class SystemTagPlugin extends \Sabre\DAV\ServerPlugin {
 	 */
 	public function handleGetProperties(
 		PropFind $propFind,
-		\Sabre\DAV\INode $node
+		\Sabre\DAV\INode $node,
 	) {
 		if ($node instanceof Node) {
 			$this->propfindForFile($propFind, $node);

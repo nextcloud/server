@@ -716,7 +716,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$share2 = $this->provider->create($share);
 
 		$this->assertNotNull($share2->getId());
-		$this->assertSame('ocinternal:'.$share2->getId(), $share2->getFullId());
+		$this->assertSame('ocinternal:' . $share2->getId(), $share2->getFullId());
 		$this->assertSame(IShare::TYPE_USER, $share2->getShareType());
 		$this->assertSame('sharedWith', $share2->getSharedWith());
 		$this->assertSame('sharedBy', $share2->getSharedBy());
@@ -786,7 +786,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$share2 = $this->provider->create($share);
 
 		$this->assertNotNull($share2->getId());
-		$this->assertSame('ocinternal:'.$share2->getId(), $share2->getFullId());
+		$this->assertSame('ocinternal:' . $share2->getId(), $share2->getFullId());
 		$this->assertSame(IShare::TYPE_GROUP, $share2->getShareType());
 		$this->assertSame('sharedWith', $share2->getSharedWith());
 		$this->assertSame('sharedBy', $share2->getSharedBy());
@@ -855,7 +855,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$share2 = $this->provider->create($share);
 
 		$this->assertNotNull($share2->getId());
-		$this->assertSame('ocinternal:'.$share2->getId(), $share2->getFullId());
+		$this->assertSame('ocinternal:' . $share2->getId(), $share2->getFullId());
 		$this->assertSame(IShare::TYPE_LINK, $share2->getShareType());
 		$this->assertSame('sharedBy', $share2->getSharedBy());
 		$this->assertSame('shareOwner', $share2->getShareOwner());
@@ -1033,7 +1033,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 
 		$groups = [];
 		foreach (range(0, 100) as $i) {
-			$groups[] = 'group'.$i;
+			$groups[] = 'group' . $i;
 		}
 
 		$groups[] = 'sharedWith';
@@ -1287,7 +1287,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 
 		$groups = [];
 		foreach (range(0, 100) as $i) {
-			$groups[] = 'group'.$i;
+			$groups[] = 'group' . $i;
 		}
 
 		$groups[] = 'sharedWith';
@@ -1820,9 +1820,9 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$users = [];
 		for ($i = 0; $i < 6; $i++) {
 			$user = $this->createMock(IUser::class);
-			$user->method('getUID')->willReturn('user'.$i);
+			$user->method('getUID')->willReturn('user' . $i);
 			$user->method('getDisplayName')->willReturn('user' . $i);
-			$users['user'.$i] = $user;
+			$users['user' . $i] = $user;
 		}
 
 		$this->userManager->method('get')->willReturnCallback(
@@ -1878,8 +1878,8 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$users = [];
 		for ($i = 0; $i < 6; $i++) {
 			$user = $this->createMock(IUser::class);
-			$user->method('getUID')->willReturn('user'.$i);
-			$users['user'.$i] = $user;
+			$user->method('getUID')->willReturn('user' . $i);
+			$users['user' . $i] = $user;
 		}
 
 		$this->userManager->method('get')->willReturnCallback(
@@ -1944,8 +1944,8 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$users = [];
 		for ($i = 0; $i < 6; $i++) {
 			$user = $this->createMock(IUser::class);
-			$user->method('getUID')->willReturn('user'.$i);
-			$users['user'.$i] = $user;
+			$user->method('getUID')->willReturn('user' . $i);
+			$users['user' . $i] = $user;
 		}
 
 		$this->userManager->method('get')->willReturnCallback(
@@ -2001,8 +2001,8 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$users = [];
 		for ($i = 0; $i < 6; $i++) {
 			$user = $this->createMock(IUser::class);
-			$user->method('getUID')->willReturn('user'.$i);
-			$users['user'.$i] = $user;
+			$user->method('getUID')->willReturn('user' . $i);
+			$users['user' . $i] = $user;
 		}
 
 		$this->userManager->method('get')->willReturnCallback(
@@ -2014,9 +2014,9 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$groups = [];
 		for ($i = 0; $i < 2; $i++) {
 			$group = $this->createMock(IGroup::class);
-			$group->method('getGID')->willReturn('group'.$i);
+			$group->method('getGID')->willReturn('group' . $i);
 			$group->method('getDisplayName')->willReturn('group-displayname' . $i);
-			$groups['group'.$i] = $group;
+			$groups['group' . $i] = $group;
 		}
 
 		$this->groupManager->method('get')->willReturnCallback(
@@ -2080,8 +2080,8 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$users = [];
 		for ($i = 0; $i < 6; $i++) {
 			$user = $this->createMock(IUser::class);
-			$user->method('getUID')->willReturn('user'.$i);
-			$users['user'.$i] = $user;
+			$user->method('getUID')->willReturn('user' . $i);
+			$users['user' . $i] = $user;
 		}
 
 		$this->userManager->method('get')->willReturnCallback(
@@ -2093,9 +2093,9 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$groups = [];
 		for ($i = 0; $i < 2; $i++) {
 			$group = $this->createMock(IGroup::class);
-			$group->method('getGID')->willReturn('group'.$i);
-			$group->method('getDisplayName')->willReturn('group-displayname'.$i);
-			$groups['group'.$i] = $group;
+			$group->method('getGID')->willReturn('group' . $i);
+			$group->method('getDisplayName')->willReturn('group-displayname' . $i);
+			$groups['group' . $i] = $group;
 		}
 
 		$this->groupManager->method('get')->willReturnCallback(

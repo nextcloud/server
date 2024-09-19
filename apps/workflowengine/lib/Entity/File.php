@@ -68,7 +68,7 @@ class File implements IEntity, IDisplayText, IUrl, IIcon, IContextPortation {
 		ISystemTagManager $tagManager,
 		IUserManager $userManager,
 		UserMountCache $userMountCache,
-		IMountManager $mountManager
+		IMountManager $mountManager,
 	) {
 		$this->l10n = $l10n;
 		$this->urlGenerator = $urlGenerator;

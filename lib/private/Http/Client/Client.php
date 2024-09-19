@@ -61,7 +61,7 @@ class Client implements IClient {
 			$onRedirectFunction = function (
 				\Psr\Http\Message\RequestInterface $request,
 				\Psr\Http\Message\ResponseInterface $response,
-				\Psr\Http\Message\UriInterface $uri
+				\Psr\Http\Message\UriInterface $uri,
 			) use ($options) {
 				$this->preventLocalAddress($uri->__toString(), $options);
 			};
@@ -167,7 +167,7 @@ class Client implements IClient {
 			throw new LocalServerException('Could not detect any host');
 		}
 		if (!$this->remoteHostValidator->isValid($host)) {
-			throw new LocalServerException('Host "'.$host.'" violates local access rules');
+			throw new LocalServerException('Host "' . $host . '" violates local access rules');
 		}
 	}
 
