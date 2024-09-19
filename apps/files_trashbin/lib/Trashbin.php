@@ -319,14 +319,16 @@ class Trashbin {
 			return false;
 		}
 
-		$trashStorage->getUpdater()->renameFromStorage($sourceStorage, $sourceInternalPath, $trashInternalPath);
 
 		try {
 			$moveSuccessful = true;
 
-			// when moving within the same object store, the cache update done above is enough to move the file
+			// when moving within the same object store, the cache update done below is enough to move the file
 			if (!($trashStorage->instanceOfStorage(ObjectStoreStorage::class) && $trashStorage->getId() === $sourceStorage->getId())) {
 				$trashStorage->moveFromStorage($sourceStorage, $sourceInternalPath, $trashInternalPath);
+			}
+			if ($trashStorage->getCache()->inCache($sourceInternalPath)) {
+				$trashStorage->getUpdater()->renameFromStorage($sourceStorage, $sourceInternalPath, $trashInternalPath);
 			}
 		} catch (\OCA\Files_Trashbin\Exceptions\CopyRecursiveException $e) {
 			$moveSuccessful = false;
