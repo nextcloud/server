@@ -13,6 +13,8 @@ use OCP\Constants;
 use OCP\DB\Exception;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Defaults;
+use OCP\Files\Cache\ICacheEntry;
+use OCP\Files\IMimeTypeLoader;
 use OCP\Files\NotFoundException;
 use OCP\IDBConnection;
 use OCP\IL10N;
@@ -33,6 +35,7 @@ use Psr\Log\LoggerInterface;
 class SharesReminderJob extends TimedJob {
 	private const SECONDS_BEFORE_REMINDER = 86400;
 	private const CHUNK_SIZE = 1000;
+	private int $folderMimeTypeId;
 
 	public function __construct(
 		ITimeFactory                     $time,
@@ -44,9 +47,11 @@ class SharesReminderJob extends TimedJob {
 		private readonly IFactory        $l10nFactory,
 		private readonly IMailer         $mailer,
 		private readonly Defaults        $defaults,
+		IMimeTypeLoader                  $mimeTypeLoader,
 	) {
 		parent::__construct($time);
 		$this->setInterval(3600);
+		$this->folderMimeTypeId = $mimeTypeLoader->getId(ICacheEntry::DIRECTORY_MIMETYPE);
 	}
 
 
@@ -74,6 +79,30 @@ class SharesReminderJob extends TimedJob {
 	 * @throws Exception if a database error occurs
 	 */
 	private function getShares(): array|\Iterator {
+		if ($this->db->getShardDefinition('filecache')) {
+			$sharesResult = $this->getSharesDataSharded();
+		} else {
+			$sharesResult = $this->getSharesData();
+		}
+		foreach($sharesResult as $share) {
+			if ($share['share_type'] === IShare::TYPE_EMAIL) {
+				$id = "ocMailShare:$share[id]";
+			} else {
+				$id = "ocinternal:$share[id]";
+			}
+
+			try {
+				yield $this->shareManager->getShareById($id);
+			} catch (ShareNotFound) {
+				$this->logger->error("Share with ID $id not found.");
+			}
+		}
+	}
+
+	/**
+	 * @return list<array{id: int, share_type: int}>
+	 */
+	private function getSharesData(): array {
 		$minDate = new \DateTime();
 		$maxDate = new \DateTime();
 		$maxDate->setTimestamp($maxDate->getTimestamp() + self::SECONDS_BEFORE_REMINDER);
@@ -103,21 +132,81 @@ class SharesReminderJob extends TimedJob {
 			)
 			->setMaxResults(SharesReminderJob::CHUNK_SIZE);
 
-		$sharesResult = $qb->executeQuery();
-		while ($share = $sharesResult->fetch()) {
-			if ((int)$share['share_type'] === IShare::TYPE_EMAIL) {
-				$id = "ocMailShare:$share[id]";
-			} else {
-				$id = "ocinternal:$share[id]";
-			}
+		$shares = $qb->executeQuery()->fetchAll();
+		return array_values(array_map(fn ($share): array => [
+			'id' => (int)$share['id'],
+			'share_type' => (int)$share['share_type'],
+		], $shares));
+	}
 
-			try {
-				yield $this->shareManager->getShareById($id);
-			} catch (ShareNotFound) {
-				$this->logger->error("Share with ID $id not found.");
+	/**
+	 * Sharding compatible version of getSharesData
+	 *
+	 * @return list<array{id: int, share_type: int, file_source: int}>
+	 */
+	private function getSharesDataSharded(): array|\Iterator {
+		$minDate = new \DateTime();
+		$maxDate = new \DateTime();
+		$maxDate->setTimestamp($maxDate->getTimestamp() + self::SECONDS_BEFORE_REMINDER);
+
+		$qb = $this->db->getQueryBuilder();
+		$qb->select('s.id', 's.share_type', 's.file_source')
+			->from('share', 's')
+			->where(
+				$qb->expr()->andX(
+					$qb->expr()->orX(
+						$qb->expr()->eq('s.share_type', $qb->expr()->literal(IShare::TYPE_USER)),
+						$qb->expr()->eq('s.share_type', $qb->expr()->literal(IShare::TYPE_EMAIL))
+					),
+					$qb->expr()->eq('s.item_type', $qb->expr()->literal('folder')),
+					$qb->expr()->gte('s.expiration', $qb->createNamedParameter($minDate, IQueryBuilder::PARAM_DATE)),
+					$qb->expr()->lte('s.expiration', $qb->createNamedParameter($maxDate, IQueryBuilder::PARAM_DATE)),
+					$qb->expr()->eq('s.reminder_sent', $qb->createNamedParameter(
+						false, IQueryBuilder::PARAM_BOOL
+					)),
+					$qb->expr()->eq(
+						$qb->expr()->bitwiseAnd('s.permissions', Constants::PERMISSION_CREATE),
+						$qb->createNamedParameter(Constants::PERMISSION_CREATE, IQueryBuilder::PARAM_INT)
+					),
+				)
+			);
+
+		$shares = $qb->executeQuery()->fetchAll();
+		$shares = array_values(array_map(fn ($share): array => [
+			'id' => (int)$share['id'],
+			'share_type' => (int)$share['share_type'],
+			'file_source' => (int)$share['file_source'],
+		], $shares));
+		return $this->filterSharesWithEmptyFolders($shares, self::CHUNK_SIZE);
+	}
+
+	/**
+	 * Check which of the supplied file ids is an empty folder until there are `$maxResults` folders
+	 * @param list<array{id: int, share_type: int, file_source: int}> $shares
+	 * @return list<array{id: int, share_type: int, file_source: int}>
+	 */
+	private function filterSharesWithEmptyFolders(array $shares, int $maxResults): array {
+		$query = $this->db->getQueryBuilder();
+		$query->select('fileid')
+			->from('filecache')
+			->where($query->expr()->eq('size', $query->createNamedParameter(0), IQueryBuilder::PARAM_INT_ARRAY))
+			->andWhere($query->expr()->eq('mimetype', $query->createNamedParameter($this->folderMimeTypeId, IQueryBuilder::PARAM_INT)))
+			->andWhere($query->expr()->in('fileid', $query->createParameter('fileids')));
+		$chunks = array_chunk($shares, SharesReminderJob::CHUNK_SIZE);
+		$results = [];
+		foreach ($chunks as $chunk) {
+			$chunkFileIds = array_map(fn ($share): int => $share['file_source'], $chunk);
+			$chunkByFileId = array_combine($chunkFileIds, $chunk);
+			$query->setParameter('fileids', $chunkFileIds, IQueryBuilder::PARAM_INT_ARRAY);
+			$chunkResults = $query->executeQuery()->fetchAll(\PDO::FETCH_COLUMN);
+			foreach ($chunkResults as $folderId) {
+				$results[] = $chunkByFileId[$folderId];
+			}
+			if (count($results) >= $maxResults) {
+				break;
 			}
 		}
-		$sharesResult->closeCursor();
+		return $results;
 	}
 
 	/**
