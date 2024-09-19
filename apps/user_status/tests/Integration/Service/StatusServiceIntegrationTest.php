@@ -7,7 +7,7 @@ declare(strict_types=1);
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-namespace OCA\UserStatus\Tests\Integration\BackgroundJob;
+namespace OCA\UserStatus\Tests\Integration\Service;
 
 use OCA\UserStatus\Service\StatusService;
 use OCP\AppFramework\Db\DoesNotExistException;
@@ -176,10 +176,4 @@ class StatusServiceIntegrationTest extends TestCase {
 			$this->service->findByUserId('test123')->getMessageId(),
 		);
 	}
-
-	public function testCi(): void {
-		// TODO: remove if CI turns red
-		self::assertTrue(false);
-	}
-
 }
