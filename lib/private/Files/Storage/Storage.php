@@ -8,11 +8,11 @@
 
 namespace OC\Files\Storage;
 
-use OC\Files\Cache\Cache;
-use OC\Files\Cache\Propagator;
-use OC\Files\Cache\Scanner;
-use OC\Files\Cache\Updater;
-use OC\Files\Cache\Watcher;
+use OCP\Files\Cache\ICache;
+use OCP\Files\Cache\IPropagator;
+use OCP\Files\Cache\IScanner;
+use OCP\Files\Cache\IUpdater;
+use OCP\Files\Cache\IWatcher;
 use OCP\Files\Storage\ILockingStorage;
 use OCP\Files\Storage\IStorage;
 
@@ -23,51 +23,44 @@ use OCP\Files\Storage\IStorage;
  */
 interface Storage extends IStorage, ILockingStorage {
 	/**
-	 * @inheritDoc
-	 * @return Cache
+	 * @param string $path
+	 * @param ?IStorage $storage
 	 */
-	public function getCache($path = '', $storage = null);
-
-	/**
-	 * @inheritDoc
-	 * @return Scanner
-	 */
-	public function getScanner($path = '', $storage = null);
-
-	/**
-	 * @inheritDoc
-	 * @return Watcher
-	 */
-	public function getWatcher($path = '', $storage = null);
-
-	/**
-	 * @inheritDoc
-	 * @return Propagator
-	 */
-	public function getPropagator($storage = null);
-
-	/**
-	 * @inheritDoc
-	 * @return Updater
-	 */
-	public function getUpdater($storage = null);
-
-	/**
-	 * @return \OC\Files\Cache\Storage
-	 */
-	public function getStorageCache();
+	public function getCache($path = '', $storage = null): ICache;
 
 	/**
 	 * @param string $path
-	 * @return array|null
+	 * @param ?IStorage $storage
 	 */
-	public function getMetaData($path);
+	public function getScanner($path = '', $storage = null): IScanner;
+
+	/**
+	 * @param string $path
+	 * @param ?IStorage $storage
+	 */
+	public function getWatcher($path = '', $storage = null): IWatcher;
+
+	/**
+	 * @param ?IStorage $storage
+	 */
+	public function getPropagator($storage = null): IPropagator;
+
+	/**
+	 * @param ?IStorage $storage
+	 */
+	public function getUpdater($storage = null): IUpdater;
+
+	public function getStorageCache(): \OC\Files\Cache\Storage;
+
+	/**
+	 * @param string $path
+	 */
+	public function getMetaData($path): ?array;
 
 	/**
 	 * Get the contents of a directory with metadata
 	 *
 	 * @param string $directory
-	 * @return \Traversable an iterator, containing file metadata
 	 *
 	 * The metadata array will contain the following fields
 	 *
@@ -79,5 +72,5 @@ interface Storage extends IStorage, ILockingStorage {
 	 * - storage_mtime
 	 * - permissions
 	 */
-	public function getDirectoryContent($directory): \Traversable;
+	public function getDirectoryContent($directory): \Traversable|false;
 }

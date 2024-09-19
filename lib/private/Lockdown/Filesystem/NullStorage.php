@@ -8,6 +8,7 @@ namespace OC\Lockdown\Filesystem;
 use Icewind\Streams\IteratorDirectory;
 use OC\Files\FileInfo;
 use OC\Files\Storage\Common;
+use OCP\Files\Cache\ICache;
 use OCP\Files\Storage\IStorage;
 
 class NullStorage extends Common {
@@ -15,143 +16,143 @@ class NullStorage extends Common {
 		parent::__construct($parameters);
 	}
 
-	public function getId() {
+	public function getId(): string {
 		return 'null';
 	}
 
-	public function mkdir($path) {
+	public function mkdir($path): never {
 		throw new \OC\ForbiddenException('This request is not allowed to access the filesystem');
 	}
 
-	public function rmdir($path) {
+	public function rmdir($path): never {
 		throw new \OC\ForbiddenException('This request is not allowed to access the filesystem');
 	}
 
-	public function opendir($path) {
+	public function opendir($path): IteratorDirectory {
 		return new IteratorDirectory([]);
 	}
 
-	public function is_dir($path) {
+	public function is_dir($path): bool {
 		return $path === '';
 	}
 
-	public function is_file($path) {
+	public function is_file($path): bool {
 		return false;
 	}
 
-	public function stat($path) {
+	public function stat($path): never {
 		throw new \OC\ForbiddenException('This request is not allowed to access the filesystem');
 	}
 
-	public function filetype($path) {
+	public function filetype($path): string|false {
 		return ($path === '') ? 'dir' : false;
 	}
 
-	public function filesize($path): false|int|float {
+	public function filesize($path): never {
 		throw new \OC\ForbiddenException('This request is not allowed to access the filesystem');
 	}
 
-	public function isCreatable($path) {
+	public function isCreatable($path): bool {
 		return false;
 	}
 
-	public function isReadable($path) {
+	public function isReadable($path): bool {
 		return $path === '';
 	}
 
-	public function isUpdatable($path) {
+	public function isUpdatable($path): bool {
 		return false;
 	}
 
-	public function isDeletable($path) {
+	public function isDeletable($path): bool {
 		return false;
 	}
 
-	public function isSharable($path) {
+	public function isSharable($path): bool {
 		return false;
 	}
 
-	public function getPermissions($path) {
-		return null;
+	public function getPermissions($path): int {
+		return 0;
 	}
 
-	public function file_exists($path) {
+	public function file_exists($path): bool {
 		return $path === '';
 	}
 
-	public function filemtime($path) {
+	public function filemtime($path): int|false {
 		return ($path === '') ? time() : false;
 	}
 
-	public function file_get_contents($path) {
+	public function file_get_contents($path): never {
 		throw new \OC\ForbiddenException('This request is not allowed to access the filesystem');
 	}
 
-	public function file_put_contents($path, $data) {
+	public function file_put_contents($path, $data): never {
 		throw new \OC\ForbiddenException('This request is not allowed to access the filesystem');
 	}
 
-	public function unlink($path) {
+	public function unlink($path): never {
 		throw new \OC\ForbiddenException('This request is not allowed to access the filesystem');
 	}
 
-	public function rename($source, $target) {
+	public function rename($source, $target): never {
 		throw new \OC\ForbiddenException('This request is not allowed to access the filesystem');
 	}
 
-	public function copy($source, $target) {
+	public function copy($source, $target): never {
 		throw new \OC\ForbiddenException('This request is not allowed to access the filesystem');
 	}
 
-	public function fopen($path, $mode) {
+	public function fopen($path, $mode): never {
 		throw new \OC\ForbiddenException('This request is not allowed to access the filesystem');
 	}
 
-	public function getMimeType($path) {
+	public function getMimeType($path): never {
 		throw new \OC\ForbiddenException('This request is not allowed to access the filesystem');
 	}
 
-	public function hash($type, $path, $raw = false) {
+	public function hash($type, $path, $raw = false): never {
 		throw new \OC\ForbiddenException('This request is not allowed to access the filesystem');
 	}
 
-	public function free_space($path) {
+	public function free_space($path): int {
 		return FileInfo::SPACE_UNKNOWN;
 	}
 
-	public function touch($path, $mtime = null) {
+	public function touch($path, $mtime = null): never {
 		throw new \OC\ForbiddenException('This request is not allowed to access the filesystem');
 	}
 
-	public function getLocalFile($path) {
+	public function getLocalFile($path): string|false {
 		return false;
 	}
 
-	public function hasUpdated($path, $time) {
+	public function hasUpdated($path, $time): bool {
 		return false;
 	}
 
-	public function getETag($path) {
+	public function getETag($path): string {
 		return '';
 	}
 
-	public function isLocal() {
+	public function isLocal(): bool {
 		return false;
 	}
 
-	public function getDirectDownload($path) {
+	public function getDirectDownload($path): array|false {
 		return false;
 	}
 
-	public function copyFromStorage(IStorage $sourceStorage, $sourceInternalPath, $targetInternalPath, $preserveMtime = false) {
+	public function copyFromStorage(IStorage $sourceStorage, $sourceInternalPath, $targetInternalPath, $preserveMtime = false): never {
 		throw new \OC\ForbiddenException('This request is not allowed to access the filesystem');
 	}
 
-	public function moveFromStorage(IStorage $sourceStorage, $sourceInternalPath, $targetInternalPath) {
+	public function moveFromStorage(IStorage $sourceStorage, $sourceInternalPath, $targetInternalPath): never {
 		throw new \OC\ForbiddenException('This request is not allowed to access the filesystem');
 	}
 
-	public function test() {
+	public function test(): bool {
 		return true;
 	}
 
@@ -159,7 +160,7 @@ class NullStorage extends Common {
 		return false;
 	}
 
-	public function getCache($path = '', $storage = null) {
+	public function getCache($path = '', $storage = null): ICache {
 		return new NullCache();
 	}
 }

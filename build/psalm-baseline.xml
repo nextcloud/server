@@ -935,9 +935,6 @@
     <InvalidNullableReturnType>
       <code><![CDATA[ICacheEntry]]></code>
     </InvalidNullableReturnType>
-    <InvalidReturnStatement>
-      <code><![CDATA[new FailedCache()]]></code>
-    </InvalidReturnStatement>
     <NullableReturnStatement>
       <code><![CDATA[$this->sourceRootInfo]]></code>
     </NullableReturnStatement>
@@ -2099,10 +2096,6 @@
       <code><![CDATA[!$permissions]]></code>
       <code><![CDATA[$this->copyFromStorage($sourceStorage, $sourceInternalPath . '/' . $file, $targetInternalPath . '/' . $file)]]></code>
     </InvalidOperand>
-    <NoInterfaceProperties>
-      <code><![CDATA[$storage->scanner]]></code>
-      <code><![CDATA[$storage->scanner]]></code>
-    </NoInterfaceProperties>
   </file>
   <file src="lib/private/Files/Storage/DAV.php">
     <InvalidClass>
@@ -2114,16 +2107,6 @@
     </InvalidReturnStatement>
     <InvalidReturnType>
       <code><![CDATA[fopen]]></code>
-    </InvalidReturnType>
-  </file>
-  <file src="lib/private/Files/Storage/FailedStorage.php">
-    <InvalidReturnStatement>
-      <code><![CDATA[new FailedCache()]]></code>
-      <code><![CDATA[true]]></code>
-    </InvalidReturnStatement>
-    <InvalidReturnType>
-      <code><![CDATA[getCache]]></code>
-      <code><![CDATA[verifyPath]]></code>
     </InvalidReturnType>
   </file>
   <file src="lib/private/Files/Storage/Local.php">
@@ -2169,16 +2152,12 @@
   </file>
   <file src="lib/private/Files/Storage/Wrapper/Encryption.php">
     <InvalidOperand>
-      <code><![CDATA[$result]]></code>
-      <code><![CDATA[$result]]></code>
       <code><![CDATA[$this->copyFromStorage($sourceStorage, $sourceInternalPath . '/' . $file, $targetInternalPath . '/' . $file, false, $isRename)]]></code>
     </InvalidOperand>
     <InvalidReturnStatement>
-      <code><![CDATA[$newUnencryptedSize]]></code>
       <code><![CDATA[$result]]></code>
     </InvalidReturnStatement>
     <InvalidReturnType>
-      <code><![CDATA[bool]]></code>
       <code><![CDATA[int]]></code>
     </InvalidReturnType>
     <InvalidScalarArgument>
@@ -2190,17 +2169,11 @@
     <InvalidReturnStatement>
       <code><![CDATA[$this->getWrapperStorage()->filetype($this->getUnjailedPath($path))]]></code>
     </InvalidReturnStatement>
-    <InvalidReturnType>
-      <code><![CDATA[bool]]></code>
-    </InvalidReturnType>
+    <InvalidReturnType/>
   </file>
   <file src="lib/private/Files/Storage/Wrapper/Wrapper.php">
-    <InvalidReturnStatement>
-      <code><![CDATA[$this->getWrapperStorage()->test()]]></code>
-    </InvalidReturnStatement>
-    <InvalidReturnType>
-      <code><![CDATA[true]]></code>
-    </InvalidReturnType>
+    <InvalidReturnStatement/>
+    <InvalidReturnType/>
   </file>
   <file src="lib/private/Files/Stream/SeekableHttpStream.php">
     <InvalidReturnType>
@@ -2370,20 +2343,6 @@
     </NullableReturnStatement>
   </file>
   <file src="lib/private/Lockdown/Filesystem/NullStorage.php">
-    <InvalidNullableReturnType>
-      <code><![CDATA[getPermissions]]></code>
-    </InvalidNullableReturnType>
-    <InvalidReturnStatement>
-      <code><![CDATA[new IteratorDirectory([])]]></code>
-      <code><![CDATA[new NullCache()]]></code>
-    </InvalidReturnStatement>
-    <InvalidReturnType>
-      <code><![CDATA[getCache]]></code>
-      <code><![CDATA[opendir]]></code>
-    </InvalidReturnType>
-    <NullableReturnStatement>
-      <code><![CDATA[null]]></code>
-    </NullableReturnStatement>
     <TooManyArguments>
       <code><![CDATA[new IteratorDirectory([])]]></code>
     </TooManyArguments>

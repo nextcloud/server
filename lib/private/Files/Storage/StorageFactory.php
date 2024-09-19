@@ -19,19 +19,7 @@ class StorageFactory implements IStorageFactory {
 	 */
 	private $storageWrappers = [];
 
-	/**
-	 * allow modifier storage behaviour by adding wrappers around storages
-	 *
-	 * $callback should be a function of type (string $mountPoint, Storage $storage) => Storage
-	 *
-	 * @param string $wrapperName name of the wrapper
-	 * @param callable $callback callback
-	 * @param int $priority wrappers with the lower priority are applied last (meaning they get called first)
-	 * @param \OCP\Files\Mount\IMountPoint[] $existingMounts existing mount points to apply the wrapper to
-	 * @return bool true if the wrapper was added, false if there was already a wrapper with this
-	 *              name registered
-	 */
-	public function addStorageWrapper($wrapperName, $callback, $priority = 50, $existingMounts = []) {
+	public function addStorageWrapper($wrapperName, $callback, $priority = 50, $existingMounts = []): bool {
 		if (isset($this->storageWrappers[$wrapperName])) {
 			return false;
 		}
@@ -52,7 +40,7 @@ class StorageFactory implements IStorageFactory {
 	 * @param string $wrapperName name of the wrapper
 	 * @internal
 	 */
-	public function removeStorageWrapper($wrapperName) {
+	public function removeStorageWrapper($wrapperName): void {
 		unset($this->storageWrappers[$wrapperName]);
 	}
 
@@ -63,7 +51,7 @@ class StorageFactory implements IStorageFactory {
 	 * @param array $arguments
 	 * @return IStorage
 	 */
-	public function getInstance(IMountPoint $mountPoint, $class, $arguments) {
+	public function getInstance(IMountPoint $mountPoint, $class, $arguments): IStorage {
 		if (!($class instanceof IConstructableStorage)) {
 			\OCP\Server::get(LoggerInterface::class)->warning('Building a storage not implementing IConstructableStorage is deprecated since 31.0.0', ['class' => $class]);
 		}
@@ -72,9 +60,8 @@ class StorageFactory implements IStorageFactory {
 
 	/**
 	 * @param IStorage $storage
-	 * @return IStorage
 	 */
-	public function wrap(IMountPoint $mountPoint, $storage) {
+	public function wrap(IMountPoint $mountPoint, $storage): IStorage {
 		$wrappers = array_values($this->storageWrappers);
 		usort($wrappers, function ($a, $b) {
 			return $b['priority'] - $a['priority'];

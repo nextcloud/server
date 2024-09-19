@@ -74,11 +74,11 @@ class Local extends \OC\Files\Storage\Common {
 	public function __destruct() {
 	}
 
-	public function getId() {
+	public function getId(): string {
 		return 'local::' . $this->datadir;
 	}
 
-	public function mkdir($path) {
+	public function mkdir($path): bool {
 		$sourcePath = $this->getSourcePath($path);
 		$oldMask = umask($this->defUMask);
 		$result = @mkdir($sourcePath, 0777, true);
@@ -86,7 +86,7 @@ class Local extends \OC\Files\Storage\Common {
 		return $result;
 	}
 
-	public function rmdir($path) {
+	public function rmdir($path): bool {
 		if (!$this->isDeletable($path)) {
 			return false;
 		}
@@ -129,7 +129,7 @@ class Local extends \OC\Files\Storage\Common {
 		return opendir($this->getSourcePath($path));
 	}
 
-	public function is_dir($path) {
+	public function is_dir($path): bool {
 		if ($this->caseInsensitive && !$this->file_exists($path)) {
 			return false;
 		}
@@ -139,14 +139,14 @@ class Local extends \OC\Files\Storage\Common {
 		return is_dir($this->getSourcePath($path));
 	}
 
-	public function is_file($path) {
+	public function is_file($path): bool {
 		if ($this->caseInsensitive && !$this->file_exists($path)) {
 			return false;
 		}
 		return is_file($this->getSourcePath($path));
 	}
 
-	public function stat($path) {
+	public function stat($path): array|false {
 		$fullPath = $this->getSourcePath($path);
 		clearstatcache(true, $fullPath);
 		if (!file_exists($fullPath)) {
@@ -164,7 +164,7 @@ class Local extends \OC\Files\Storage\Common {
 		return $statResult;
 	}
 
-	public function getMetaData($path) {
+	public function getMetaData($path): ?array {
 		try {
 			$stat = $this->stat($path);
 		} catch (ForbiddenException $e) {
@@ -213,7 +213,7 @@ class Local extends \OC\Files\Storage\Common {
 		return $data;
 	}
 
-	public function filetype($path) {
+	public function filetype($path): string|false {
 		$filetype = filetype($this->getSourcePath($path));
 		if ($filetype == 'link') {
 			$filetype = filetype(realpath($this->getSourcePath($path)));
@@ -221,7 +221,7 @@ class Local extends \OC\Files\Storage\Common {
 		return $filetype;
 	}
 
-	public function filesize($path): false|int|float {
+	public function filesize($path): int|float|false {
 		if (!$this->is_file($path)) {
 			return 0;
 		}
@@ -233,15 +233,15 @@ class Local extends \OC\Files\Storage\Common {
 		return filesize($fullPath);
 	}
 
-	public function isReadable($path) {
+	public function isReadable($path): bool {
 		return is_readable($this->getSourcePath($path));
 	}
 
-	public function isUpdatable($path) {
+	public function isUpdatable($path): bool {
 		return is_writable($this->getSourcePath($path));
 	}
 
-	public function file_exists($path) {
+	public function file_exists($path): bool {
 		if ($this->caseInsensitive) {
 			$fullPath = $this->getSourcePath($path);
 			$parentPath = dirname($fullPath);
@@ -255,7 +255,7 @@ class Local extends \OC\Files\Storage\Common {
 		}
 	}
 
-	public function filemtime($path) {
+	public function filemtime($path): int|false {
 		$fullPath = $this->getSourcePath($path);
 		clearstatcache(true, $fullPath);
 		if (!$this->file_exists($path)) {
@@ -268,7 +268,7 @@ class Local extends \OC\Files\Storage\Common {
 		return filemtime($fullPath);
 	}
 
-	public function touch($path, $mtime = null) {
+	public function touch($path, $mtime = null): bool {
 		// sets the modification time of the file to the given value.
 		// If mtime is nil the current time is set.
 		// note that the access time of the file always changes to the current time.
@@ -289,11 +289,11 @@ class Local extends \OC\Files\Storage\Common {
 		return $result;
 	}
 
-	public function file_get_contents($path) {
+	public function file_get_contents($path): string|false {
 		return file_get_contents($this->getSourcePath($path));
 	}
 
-	public function file_put_contents($path, $data) {
+	public function file_put_contents($path, $data): int|float|false {
 		$oldMask = umask($this->defUMask);
 		if ($this->unlinkOnTruncate) {
 			$this->unlink($path);
@@ -303,7 +303,7 @@ class Local extends \OC\Files\Storage\Common {
 		return $result;
 	}
 
-	public function unlink($path) {
+	public function unlink($path): bool {
 		if ($this->is_dir($path)) {
 			return $this->rmdir($path);
 		} elseif ($this->is_file($path)) {
@@ -313,7 +313,7 @@ class Local extends \OC\Files\Storage\Common {
 		}
 	}
 
-	private function checkTreeForForbiddenItems(string $path) {
+	private function checkTreeForForbiddenItems(string $path): void {
 		$iterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($path));
 		foreach ($iterator as $file) {
 			/** @var \SplFileInfo $file */
@@ -364,7 +364,7 @@ class Local extends \OC\Files\Storage\Common {
 		return $this->copy($source, $target) && $this->unlink($source);
 	}
 
-	public function copy($source, $target) {
+	public function copy($source, $target): bool {
 		if ($this->is_dir($source)) {
 			return parent::copy($source, $target);
 		} else {
@@ -401,7 +401,7 @@ class Local extends \OC\Files\Storage\Common {
 		return hash_file($type, $this->getSourcePath($path), $raw);
 	}
 
-	public function free_space($path) {
+	public function free_space($path): int|float|false {
 		$sourcePath = $this->getSourcePath($path);
 		// using !is_dir because $sourcePath might be a part file or
 		// non-existing file, so we'd still want to use the parent dir
@@ -417,20 +417,19 @@ class Local extends \OC\Files\Storage\Common {
 		return Util::numericToNumber($space);
 	}
 
-	public function search($query) {
+	public function search($query): array {
 		return $this->searchInDir($query);
 	}
 
-	public function getLocalFile($path) {
+	public function getLocalFile($path): string|false {
 		return $this->getSourcePath($path);
 	}
 
 	/**
 	 * @param string $query
 	 * @param string $dir
-	 * @return array
 	 */
-	protected function searchInDir($query, $dir = '') {
+	protected function searchInDir($query, $dir = ''): array {
 		$files = [];
 		$physicalDir = $this->getSourcePath($dir);
 		foreach (scandir($physicalDir) as $item) {
@@ -449,14 +448,7 @@ class Local extends \OC\Files\Storage\Common {
 		return $files;
 	}
 
-	/**
-	 * check if a file or folder has been updated since $time
-	 *
-	 * @param string $path
-	 * @param int $time
-	 * @return bool
-	 */
-	public function hasUpdated($path, $time) {
+	public function hasUpdated($path, $time): bool {
 		if ($this->file_exists($path)) {
 			return $this->filemtime($path) > $time;
 		} else {
@@ -468,10 +460,9 @@ class Local extends \OC\Files\Storage\Common {
 	 * Get the source path (on disk) of a given path
 	 *
 	 * @param string $path
-	 * @return string
 	 * @throws ForbiddenException
 	 */
-	public function getSourcePath($path) {
+	public function getSourcePath($path): string {
 		if (Filesystem::isFileBlacklisted($path)) {
 			throw new ForbiddenException('Invalid path: ' . $path, false);
 		}
@@ -503,14 +494,11 @@ class Local extends \OC\Files\Storage\Common {
 		throw new ForbiddenException('Following symlinks is not allowed', false);
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
-	public function isLocal() {
+	public function isLocal(): bool {
 		return true;
 	}
 
-	public function getETag($path) {
+	public function getETag($path): string|false {
 		return $this->calculateEtag($path, $this->stat($path));
 	}
 
@@ -540,7 +528,7 @@ class Local extends \OC\Files\Storage\Common {
 		}
 	}
 
-	private function canDoCrossStorageMove(IStorage $sourceStorage) {
+	private function canDoCrossStorageMove(IStorage $sourceStorage): bool {
 		/** @psalm-suppress UndefinedClass */
 		return $sourceStorage->instanceOfStorage(Local::class)
 			// Don't treat ACLStorageWrapper like local storage where copy can be done directly.
@@ -553,14 +541,7 @@ class Local extends \OC\Files\Storage\Common {
 			&& !$sourceStorage->instanceOfStorage(Encryption::class);
 	}
 
-	/**
-	 * @param IStorage $sourceStorage
-	 * @param string $sourceInternalPath
-	 * @param string $targetInternalPath
-	 * @param bool $preserveMtime
-	 * @return bool
-	 */
-	public function copyFromStorage(IStorage $sourceStorage, $sourceInternalPath, $targetInternalPath, $preserveMtime = false) {
+	public function copyFromStorage(IStorage $sourceStorage, $sourceInternalPath, $targetInternalPath, $preserveMtime = false): bool {
 		if ($this->canDoCrossStorageMove($sourceStorage)) {
 			if ($sourceStorage->instanceOfStorage(Jail::class)) {
 				/**
@@ -584,7 +565,7 @@ class Local extends \OC\Files\Storage\Common {
 	 * @param string $targetInternalPath
 	 * @return bool
 	 */
-	public function moveFromStorage(IStorage $sourceStorage, $sourceInternalPath, $targetInternalPath) {
+	public function moveFromStorage(IStorage $sourceStorage, $sourceInternalPath, $targetInternalPath): bool {
 		if ($this->canDoCrossStorageMove($sourceStorage)) {
 			if ($sourceStorage->instanceOfStorage(Jail::class)) {
 				/**
