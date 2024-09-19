@@ -154,25 +154,25 @@ class StatusServiceIntegrationTest extends TestCase {
 		);
 		$this->service->setUserStatus(
 			'test123',
-			IUserStatus::AWAY,
-			IUserStatus::MESSAGE_CALENDAR_BUSY,
+			IUserStatus::DND,
+			IUserStatus::MESSAGE_AVAILABILITY,
 			true,
 		);
 		self::assertSame(
-			'meeting',
+			'availability',
 			$this->service->findByUserId('test123')->getMessageId(),
 		);
 
 		$nostatus = $this->service->setUserStatus(
 			'test123',
 			IUserStatus::AWAY,
-			IUserStatus::MESSAGE_AVAILABILITY,
+			IUserStatus::MESSAGE_CALENDAR_BUSY,
 			true,
 		);
 
 		self::assertNull($nostatus);
 		self::assertSame(
-			IUserStatus::MESSAGE_CALENDAR_BUSY,
+			IUserStatus::MESSAGE_AVAILABILITY,
 			$this->service->findByUserId('test123')->getMessageId(),
 		);
 	}
