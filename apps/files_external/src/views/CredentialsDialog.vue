@@ -15,7 +15,7 @@
 		@update:open="$emit('close')">
 		<!-- Header -->
 		<NcNoteCard class="external-storage-auth__header"
-			:text="t('files_external', 'To access the storage, you need to provide the authentification informations.')"
+			:text="t('files_external', 'To access the storage, you need to provide the authentication credentials.')"
 			type="info" />
 
 		<!-- Login -->
