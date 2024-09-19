@@ -29,11 +29,11 @@ use Psr\Log\LoggerInterface;
 use Test\Traits\MountProviderTrait;
 
 class TemporaryNoCross extends Temporary {
-	public function copyFromStorage(IStorage $sourceStorage, $sourceInternalPath, $targetInternalPath, $preserveMtime = null) {
+	public function copyFromStorage(IStorage $sourceStorage, $sourceInternalPath, $targetInternalPath, $preserveMtime = null): bool {
 		return Common::copyFromStorage($sourceStorage, $sourceInternalPath, $targetInternalPath, $preserveMtime);
 	}
 
-	public function moveFromStorage(IStorage $sourceStorage, $sourceInternalPath, $targetInternalPath) {
+	public function moveFromStorage(IStorage $sourceStorage, $sourceInternalPath, $targetInternalPath): bool {
 		return Common::moveFromStorage($sourceStorage, $sourceInternalPath, $targetInternalPath);
 	}
 }
