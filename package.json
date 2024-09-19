@@ -121,7 +121,7 @@
   },
   "devDependencies": {
     "@babel/node": "^7.24.8",
-    "@babel/plugin-transform-private-methods": "^7.24.7",
+    "@babel/plugin-transform-private-methods": "^7.25.4",
     "@babel/preset-typescript": "^7.24.7",
     "@cypress/vue2": "^2.1.1",
     "@cypress/webpack-preprocessor": "^6.0.2",
