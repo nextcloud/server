@@ -362,16 +362,22 @@ class ManagerTest extends TestCase {
 		$cache->expects($this->exactly(4))
 			->method('remove')
 			->with('events');
-		$this->cacheFactory->method('createDistributed')->willReturn($cache);
+		$this->cacheFactory->method('createDistributed')
+			->willReturn($cache);
 
+		$expectedCalls = [
+			[IManager::SCOPE_ADMIN],
+			[IManager::SCOPE_USER],
+		];
+		$i = 0;
 		$operationMock = $this->createMock(IOperation::class);
 		$operationMock->expects($this->any())
 			->method('isAvailableForScope')
-			->withConsecutive(
-				[IManager::SCOPE_ADMIN],
-				[IManager::SCOPE_USER]
-			)
-			->willReturn(true);
+			->willReturnCallback(function () use (&$expectedCalls, &$i): bool {
+				$this->assertEquals($expectedCalls[$i], func_get_args());
+				$i++;
+				return true;
+			});
 
 		$this->container->expects($this->any())
 			->method('query')
@@ -390,7 +396,7 @@ class ManagerTest extends TestCase {
 							$this->createMock(UserMountCache::class),
 							$this->createMock(IMountManager::class),
 						])
-						->setMethodsExcept(['getEvents'])
+						->onlyMethods($this->filterClassMethods(File::class, ['getEvents']))
 						->getMock();
 				}
 				return $this->createMock(ICheck::class);

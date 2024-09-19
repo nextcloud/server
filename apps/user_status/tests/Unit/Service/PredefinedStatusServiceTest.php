@@ -31,15 +31,9 @@ class PredefinedStatusServiceTest extends TestCase {
 	public function testGetDefaultStatuses(): void {
 		$this->l10n->expects($this->exactly(7))
 			->method('t')
-			->withConsecutive(
-				['In a meeting'],
-				['Commuting'],
-				['Working remotely'],
-				['Out sick'],
-				['Vacationing'],
-				['In a call'],
-			)
-			->willReturnArgument(0);
+			->willReturnCallback(function ($text, $parameters = []) {
+				return vsprintf($text, $parameters);
+			});
 
 		$actual = $this->service->getDefaultStatuses();
 		$this->assertEquals([
@@ -186,15 +180,9 @@ class PredefinedStatusServiceTest extends TestCase {
 	public function testGetDefaultStatusById(): void {
 		$this->l10n->expects($this->exactly(7))
 			->method('t')
-			->withConsecutive(
-				['In a meeting'],
-				['Commuting'],
-				['Working remotely'],
-				['Out sick'],
-				['Vacationing'],
-				['In a call'],
-			)
-			->willReturnArgument(0);
+			->willReturnCallback(function ($text, $parameters = []) {
+				return vsprintf($text, $parameters);
+			});
 
 		$this->assertEquals([
 			'id' => 'call',

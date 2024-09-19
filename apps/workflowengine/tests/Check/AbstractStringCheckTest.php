@@ -22,8 +22,7 @@ class AbstractStringCheckTest extends \Test\TestCase {
 			->setConstructorArgs([
 				$l,
 			])
-			->setMethods([
-				'setPath',
+			->onlyMethods([
 				'executeCheck',
 				'getActualValue',
 			])
