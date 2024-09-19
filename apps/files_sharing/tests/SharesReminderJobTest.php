@@ -12,6 +12,7 @@ use OCA\Files_Sharing\SharesReminderJob;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Constants;
 use OCP\Defaults;
+use OCP\Files\IMimeTypeLoader;
 use OCP\Files\IRootFolder;
 use OCP\IDBConnection;
 use OCP\IURLGenerator;
@@ -71,6 +72,7 @@ class SharesReminderJobTest extends \Test\TestCase {
 			\OC::$server->get(IFactory::class),
 			$this->mailer,
 			\OC::$server->get(Defaults::class),
+			\OC::$server->get(IMimeTypeLoader::class),
 		);
 	}
 
@@ -158,7 +160,7 @@ class SharesReminderJobTest extends \Test\TestCase {
 		$testFolder = $user1Folder->newFolder('test');
 
 		if (!$isEmpty) {
-			$testFolder->newFile('some_file.txt');
+			$testFolder->newFile('some_file.txt', 'content');
 		}
 
 		$share = $this->shareManager->newShare();
