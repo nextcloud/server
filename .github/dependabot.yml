@@ -59,6 +59,20 @@ updates:
   reviewers:
     - "nextcloud/server-dependabot"
 
+# phpunit
+- package-ecosystem: composer
+  directory: "/vendor-bin/phpunit"
+  schedule:
+    interval: weekly
+    day: saturday
+    time: "04:40"
+    timezone: Europe/Madrid
+  labels:
+    - "3. to review"
+    - "feature: dependencies"
+  reviewers:
+    - "nextcloud/server-dependabot"
+
 # Main master npm
 - package-ecosystem: npm
   directory: "/"
