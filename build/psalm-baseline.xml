@@ -2099,15 +2099,7 @@
       <code><![CDATA[\Aws\serialize($command)]]></code>
     </UndefinedFunction>
   </file>
-  <file src="lib/private/Files/ObjectStore/StorageObjectStore.php">
-    <InvalidReturnType>
-      <code><![CDATA[string]]></code>
-    </InvalidReturnType>
-  </file>
   <file src="lib/private/Files/Storage/Common.php">
-    <ImplementedReturnTypeMismatch>
-      <code><![CDATA[string|false]]></code>
-    </ImplementedReturnTypeMismatch>
     <InvalidOperand>
       <code><![CDATA[!$permissions]]></code>
       <code><![CDATA[$this->copyFromStorage($sourceStorage, $sourceInternalPath . '/' . $file, $targetInternalPath . '/' . $file)]]></code>
@@ -2384,7 +2376,6 @@
   </file>
   <file src="lib/private/Lockdown/Filesystem/NullStorage.php">
     <InvalidNullableReturnType>
-      <code><![CDATA[getOwner]]></code>
       <code><![CDATA[getPermissions]]></code>
     </InvalidNullableReturnType>
     <InvalidReturnStatement>
