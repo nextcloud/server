@@ -104,7 +104,7 @@ This file is generated from multiple sources. Included packages:
 	- version: 6.6.3
 	- license: MIT
 - @vueuse/components
-	- version: 11.0.3
+	- version: 11.1.0
 	- license: MIT
 - @vueuse/core
 	- version: 11.0.3
