@@ -6,6 +6,7 @@
 namespace OCA\OAuth2\Db;
 
 use OCP\AppFramework\Db\Entity;
+use OCP\DB\Types;
 
 /**
  * @method int getTokenId()
@@ -36,12 +37,12 @@ class AccessToken extends Entity {
 	protected $tokenCount;
 
 	public function __construct() {
-		$this->addType('id', 'int');
-		$this->addType('tokenId', 'int');
-		$this->addType('clientId', 'int');
+		$this->addType('id', Types::INTEGER);
+		$this->addType('tokenId', Types::INTEGER);
+		$this->addType('clientId', Types::INTEGER);
 		$this->addType('hashedCode', 'string');
 		$this->addType('encryptedToken', 'string');
-		$this->addType('codeCreatedAt', 'int');
-		$this->addType('tokenCount', 'int');
+		$this->addType('codeCreatedAt', Types::INTEGER);
+		$this->addType('tokenCount', Types::INTEGER);
 	}
 }

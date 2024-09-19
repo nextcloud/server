@@ -15,7 +15,6 @@ use function substr;
 /**
  * @method int getId()
  * @method void setId(int $id)
- * @psalm-type AllowedTypes = 'json'|'blob'|'datetime'|'string'|'int'|'integer'|'bool'|'boolean'|'float'|'double'|'array'|'object'
  * @since 7.0.0
  * @psalm-consistent-constructor
  */
@@ -26,7 +25,7 @@ abstract class Entity {
 	public $id;
 
 	private array $_updatedFields = [];
-	/** @var array<string, AllowedTypes> */
+	/** @var array<string, \OCP\DB\Types::*> */
 	private array $_fieldTypes = ['id' => 'integer'];
 
 	/**
@@ -67,7 +66,7 @@ abstract class Entity {
 
 
 	/**
-	 * @return array<string, AllowedTypes> with attribute and type
+	 * @return array<string, \OCP\DB\Types::*> with attribute and type
 	 * @since 7.0.0
 	 */
 	public function getFieldTypes(): array {
@@ -260,7 +259,7 @@ abstract class Entity {
 	 * that value once its being returned from the database
 	 *
 	 * @param string $fieldName the name of the attribute
-	 * @param AllowedTypes $type the type which will be used to match a cast
+	 * @param \OCP\DB\Types::* $type the type which will be used to match a cast
 	 * @since 7.0.0
 	 */
 	protected function addType(string $fieldName, string $type): void {
