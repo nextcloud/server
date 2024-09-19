@@ -198,6 +198,7 @@ OC.L10N.register(
     "Accounts" : "Cuntais",
     "System address book which holds all accounts" : "Leabhar seoltaí córais ina bhfuil gach cuntas",
     "File is not updatable: %1$s" : "Ní féidir an comhad a nuashonrú: %1$s",
+    "Failed to get storage for file" : "Theip ar stóras a fháil don chomhad",
     "Could not write to final file, canceled by hook" : "Níorbh fhéidir scríobh chuig an gcomhad deiridh, cealaithe le hook",
     "Could not write file contents" : "Níorbh fhéidir inneachar an chomhaid a scríobh",
     "_%n byte_::_%n bytes_" : ["%n beart ","%n bearta ","%n bearta","%n bearta","%n bearta"],

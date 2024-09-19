@@ -124,6 +124,7 @@
     "Headline" : "عنوان ",
     "Organisation" : "مؤسسة",
     "Role" : "الدور",
+    "Pronouns" : "الضمائر",
     "Unknown account" : "حساب غير معروف",
     "Additional settings" : "الإعدادات المتقدمة",
     "Enter the database Login and name for %s" : "أدخِل مُعرف تسجيل الدخول و الاسم الخاص بقاعدة البيانات %s",

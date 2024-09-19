@@ -599,6 +599,7 @@ OC.L10N.register(
     "Headline" : "Rubrik",
     "Organisation" : "Organisation",
     "Phone number" : "Telefonnummer",
+    "Pronouns" : "Pronomen",
     "Role" : "Roll",
     "X (formerly Twitter)" : "X (tidigare Twitter)",
     "Website" : "Webbplats",
