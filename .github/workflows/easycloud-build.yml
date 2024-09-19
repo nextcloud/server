@@ -9,6 +9,7 @@ on:
     paths:
       - '.github/workflows/**'
       - 'src/**'
+      - 'apps/**'
       - 'apps/**/appinfo/info.xml'
       - 'package.json'
       - 'package-lock.json'
