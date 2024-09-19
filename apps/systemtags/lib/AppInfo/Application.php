@@ -9,13 +9,18 @@ declare(strict_types=1);
 namespace OCA\SystemTags\AppInfo;
 
 use OCA\Files\Event\LoadAdditionalScriptsEvent;
+use OCA\Files_Sharing\Event\BeforeTemplateRenderedEvent;
 use OCA\SystemTags\Activity\Listener;
 use OCA\SystemTags\Capabilities;
+use OCA\SystemTags\Listeners\BeforeSabrePubliclyLoadedListener;
+use OCA\SystemTags\Listeners\BeforeTemplateRenderedListener;
+use OCA\SystemTags\Listeners\LoadAdditionalScriptsListener;
 use OCA\SystemTags\Search\TagSearchProvider;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
+use OCP\BeforeSabrePubliclyLoadedEvent;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\SystemTag\ManagerEvent;
 use OCP\SystemTag\MapperEvent;
@@ -30,6 +35,9 @@ class Application extends App implements IBootstrap {
 	public function register(IRegistrationContext $context): void {
 		$context->registerSearchProvider(TagSearchProvider::class);
 		$context->registerCapability(Capabilities::class);
+		$context->registerEventListener(LoadAdditionalScriptsEvent::class, LoadAdditionalScriptsListener::class);
+		$context->registerEventListener(BeforeTemplateRenderedEvent::class, BeforeTemplateRenderedListener::class);
+		$context->registerEventListener(BeforeSabrePubliclyLoadedEvent::class, BeforeSabrePubliclyLoadedListener::class);
 	}
 
 	public function boot(IBootContext $context): void {
