@@ -52,6 +52,9 @@ jobs:
         with:
           node-version-file: "package.json"
 
+      - name: Build Nextcloud
+        run: make -f IONOS/Makefile build_nextcloud
+
       - name: Install dependencies & build simplesettings app
         env:
           CYPRESS_INSTALL_BINARY: 0
