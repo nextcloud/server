@@ -485,13 +485,10 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 	}
 
 	public function file_put_contents($path, $data) {
-		$handle = $this->fopen($path, 'w+');
-		if (!$handle) {
-			return false;
-		}
-		$result = fwrite($handle, $data);
-		fclose($handle);
-		return $result;
+		$fh = fopen('php://temp', 'w+');
+		fwrite($fh, $data);
+		rewind($fh);
+		return $this->writeStream($path, $fh, strlen($data));
 	}
 
 	public function writeStream(string $path, $stream, ?int $size = null): int {
@@ -521,6 +518,10 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 		if ($exists) {
 			$fileId = $stat['fileid'];
 		} else {
+			$parent = $this->normalizePath(dirname($path));
+			if (!$this->is_dir($parent)) {
+				throw new \InvalidArgumentException("trying to upload a file ($path) inside a non-directory ($parent)");
+			}
 			$fileId = $this->getCache()->put($uploadPath, $stat);
 		}
 
@@ -623,15 +624,20 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 			$sourceCacheEntry = $sourceCache->get($sourceInternalPath);
 		}
 		if ($sourceCacheEntry->getMimeType() === FileInfo::MIMETYPE_FOLDER) {
+			$this->mkdir($targetInternalPath);
 			foreach ($sourceCache->getFolderContents($sourceInternalPath) as $child) {
 				$this->moveFromStorage($sourceStorage, $child->getPath(), $targetInternalPath . '/' . $child->getName());
 			}
 			$sourceStorage->rmdir($sourceInternalPath);
 		} else {
+			$sourceStream = $sourceStorage->fopen($sourceInternalPath, 'r');
+			if (!$sourceStream) {
+				return false;
+			}
 			// move the cache entry before the contents so that we have the correct fileid/urn for the target
 			$this->getCache()->moveFromCache($sourceCache, $sourceInternalPath, $targetInternalPath);
 			try {
-				$this->writeStream($targetInternalPath, $sourceStorage->fopen($sourceInternalPath, 'r'), $sourceCacheEntry->getSize());
+				$this->writeStream($targetInternalPath, $sourceStream, $sourceCacheEntry->getSize());
 			} catch (\Exception $e) {
 				// restore the cache entry
 				$sourceCache->moveFromCache($this->getCache(), $targetInternalPath, $sourceInternalPath);

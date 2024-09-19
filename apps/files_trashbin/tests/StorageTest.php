@@ -616,6 +616,7 @@ class StorageTest extends \Test\TestCase {
 		$event->expects($this->any())->method('shouldMoveToTrashBin')->willReturn(!$appDisablesTrash);
 
 		$userFolder->expects($this->any())->method('getById')->with($fileID)->willReturn([$node]);
+		$rootFolder->expects($this->any())->method('getById')->with($fileID)->willReturn([$node]);
 		$rootFolder->expects($this->any())->method('getUserFolder')->willReturn($userFolder);
 
 		$storage = $this->getMockBuilder(Storage::class)
