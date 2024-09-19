@@ -81,12 +81,12 @@ class WebhookCall extends QueuedJob {
 			}
 			$statusCode = $response->getStatusCode();
 			if ($statusCode >= 200 && $statusCode < 300) {
-				$this->logger->debug('Webhook returned status code '.$statusCode, ['body' => $response->getBody()]);
+				$this->logger->debug('Webhook returned status code ' . $statusCode, ['body' => $response->getBody()]);
 			} else {
-				$this->logger->warning('Webhook(' . $webhookId . ') returned unexpected status code '.$statusCode, ['body' => $response->getBody()]);
+				$this->logger->warning('Webhook(' . $webhookId . ') returned unexpected status code ' . $statusCode, ['body' => $response->getBody()]);
 			}
 		} catch (\Exception $e) {
-			$this->logger->error('Webhook(' . $webhookId . ') call failed: '.$e->getMessage(), ['exception' => $e]);
+			$this->logger->error('Webhook(' . $webhookId . ') call failed: ' . $e->getMessage(), ['exception' => $e]);
 		}
 	}
 }

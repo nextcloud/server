@@ -512,7 +512,7 @@ class ShareAPIControllerTest extends TestCase {
 		if ($shareType === IShare::TYPE_USER ||
 			$shareType === IShare::TYPE_GROUP ||
 			$shareType === IShare::TYPE_LINK) {
-			$share->method('getFullId')->willReturn('ocinternal:'.$id);
+			$share->method('getFullId')->willReturn('ocinternal:' . $id);
 		}
 
 		return $share;

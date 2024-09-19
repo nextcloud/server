@@ -51,7 +51,7 @@ class EventSource implements IEventSource {
 			header('Content-Type: text/event-stream');
 		}
 		if (!$this->request->passesStrictCookieCheck()) {
-			header('Location: '.\OC::$WEBROOT);
+			header('Location: ' . \OC::$WEBROOT);
 			exit();
 		}
 		if (!$this->request->passesCSRFCheck()) {
@@ -74,7 +74,7 @@ class EventSource implements IEventSource {
 	 */
 	public function send($type, $data = null) {
 		if ($data and !preg_match('/^[A-Za-z0-9_]+$/', $type)) {
-			throw new \BadMethodCallException('Type needs to be alphanumeric ('. $type .')');
+			throw new \BadMethodCallException('Type needs to be alphanumeric (' . $type . ')');
 		}
 		$this->init();
 		if (is_null($data)) {

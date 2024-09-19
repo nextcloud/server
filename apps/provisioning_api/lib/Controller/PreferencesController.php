@@ -31,7 +31,7 @@ class PreferencesController extends OCSController {
 		IRequest $request,
 		IConfig $config,
 		IUserSession $userSession,
-		IEventDispatcher $eventDispatcher
+		IEventDispatcher $eventDispatcher,
 	) {
 		parent::__construct($appName, $request);
 		$this->config = $config;

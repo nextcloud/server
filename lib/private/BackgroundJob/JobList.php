@@ -27,7 +27,7 @@ class JobList implements IJobList {
 		protected IDBConnection $connection,
 		protected IConfig $config,
 		protected ITimeFactory $timeFactory,
-		protected LoggerInterface $logger
+		protected LoggerInterface $logger,
 	) {
 	}
 

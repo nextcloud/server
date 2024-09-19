@@ -51,7 +51,7 @@ class Adapter {
 	 */
 	public function lockTable(string $tableName) {
 		$this->conn->beginTransaction();
-		$this->conn->executeUpdate('LOCK TABLE `' .$tableName . '` IN EXCLUSIVE MODE');
+		$this->conn->executeUpdate('LOCK TABLE `' . $tableName . '` IN EXCLUSIVE MODE');
 	}
 
 	/**

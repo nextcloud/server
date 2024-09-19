@@ -50,7 +50,7 @@ abstract class StoragesService {
 		BackendService $backendService,
 		DBConfigService $dbConfigService,
 		IUserMountCache $userMountCache,
-		IEventDispatcher $eventDispatcher
+		IEventDispatcher $eventDispatcher,
 	) {
 		$this->backendService = $backendService;
 		$this->dbConfig = $dbConfigService;
@@ -282,7 +282,7 @@ abstract class StoragesService {
 		$mountOptions = null,
 		$applicableUsers = null,
 		$applicableGroups = null,
-		$priority = null
+		$priority = null,
 	) {
 		$backend = $this->backendService->getBackend($backendIdentifier);
 		if (!$backend) {

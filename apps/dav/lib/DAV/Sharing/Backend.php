@@ -27,7 +27,8 @@ abstract class Backend {
 
 	private ICache $shareCache;
 
-	public function __construct(private IUserManager $userManager,
+	public function __construct(
+		private IUserManager $userManager,
 		private IGroupManager $groupManager,
 		private Principal $principalBackend,
 		private ICacheFactory $cacheFactory,

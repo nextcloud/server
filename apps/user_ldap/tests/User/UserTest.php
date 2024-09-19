@@ -1110,7 +1110,7 @@ class UserTest extends \Test\TestCase {
 				if ($base === $this->dn) {
 					return [
 						[
-							'pwdchangedtime' => [(new \DateTime())->sub(new \DateInterval('P28D'))->format('Ymdhis').'Z'],
+							'pwdchangedtime' => [(new \DateTime())->sub(new \DateInterval('P28D'))->format('Ymdhis') . 'Z'],
 							'pwdgraceusetime' => [],
 						],
 					];
@@ -1174,7 +1174,7 @@ class UserTest extends \Test\TestCase {
 					return [
 						[
 							'pwdpolicysubentry' => ['cn=custom,ou=policies,dc=foo,dc=bar'],
-							'pwdchangedtime' => [(new \DateTime())->sub(new \DateInterval('P28D'))->format('Ymdhis').'Z'],
+							'pwdchangedtime' => [(new \DateTime())->sub(new \DateInterval('P28D'))->format('Ymdhis') . 'Z'],
 							'pwdgraceusetime' => [],
 						]
 					];

@@ -77,7 +77,7 @@ class Repair implements IOutput {
 
 	public function __construct(
 		private IEventDispatcher $dispatcher,
-		private LoggerInterface $logger
+		private LoggerInterface $logger,
 	) {
 	}
 

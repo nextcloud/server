@@ -38,7 +38,7 @@ class EntityTypeCollection extends RootCollection {
 		IUserManager $userManager,
 		IUserSession $userSession,
 		LoggerInterface $logger,
-		\Closure $childExistsFunction
+		\Closure $childExistsFunction,
 	) {
 		$name = trim($name);
 		if (empty($name)) {

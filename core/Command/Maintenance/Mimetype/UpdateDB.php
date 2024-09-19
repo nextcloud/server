@@ -55,21 +55,21 @@ class UpdateDB extends Command {
 			$mimetypeId = $this->mimetypeLoader->getId($mimetype);
 
 			if (!$existing) {
-				$output->writeln('Added mimetype "'.$mimetype.'" to database');
+				$output->writeln('Added mimetype "' . $mimetype . '" to database');
 				$totalNewMimetypes++;
 			}
 
 			if (!$existing || $input->getOption('repair-filecache')) {
 				$touchedFilecacheRows = $this->mimetypeLoader->updateFilecache($ext, $mimetypeId);
 				if ($touchedFilecacheRows > 0) {
-					$output->writeln('Updated '.$touchedFilecacheRows.' filecache rows for mimetype "'.$mimetype.'"');
+					$output->writeln('Updated ' . $touchedFilecacheRows . ' filecache rows for mimetype "' . $mimetype . '"');
 				}
 				$totalFilecacheUpdates += $touchedFilecacheRows;
 			}
 		}
 
-		$output->writeln('Added '.$totalNewMimetypes.' new mimetypes');
-		$output->writeln('Updated '.$totalFilecacheUpdates.' filecache rows');
+		$output->writeln('Added ' . $totalNewMimetypes . ' new mimetypes');
+		$output->writeln('Updated ' . $totalFilecacheUpdates . ' filecache rows');
 		return 0;
 	}
 }

@@ -437,7 +437,7 @@ class AppSettingsController extends Controller {
 				'missingMaxOwnCloudVersion' => false,
 				'missingMinOwnCloudVersion' => false,
 				'canInstall' => true,
-				'screenshot' => isset($app['screenshots'][0]['url']) ? 'https://usercontent.apps.nextcloud.com/'.base64_encode($app['screenshots'][0]['url']) : '',
+				'screenshot' => isset($app['screenshots'][0]['url']) ? 'https://usercontent.apps.nextcloud.com/' . base64_encode($app['screenshots'][0]['url']) : '',
 				'score' => $app['ratingOverall'],
 				'ratingNumOverall' => $app['ratingNumOverall'],
 				'ratingNumThresholdReached' => $app['ratingNumOverall'] > 5,

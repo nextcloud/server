@@ -19,7 +19,7 @@ class CommonTest extends \OC\Files\Storage\Common {
 	}
 
 	public function getId() {
-		return 'test::'.$this->storage->getId();
+		return 'test::' . $this->storage->getId();
 	}
 	public function mkdir($path) {
 		return $this->storage->mkdir($path);

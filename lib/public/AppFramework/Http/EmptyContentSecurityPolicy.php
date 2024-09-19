@@ -448,7 +448,7 @@ class EmptyContentSecurityPolicy {
 				if ($this->strictDynamicAllowed) {
 					$scriptSrc .= '\'strict-dynamic\' ';
 				}
-				$scriptSrc .= '\'nonce-'.$this->jsNonce.'\'';
+				$scriptSrc .= '\'nonce-' . $this->jsNonce . '\'';
 				$allowedScriptDomains = array_flip($this->allowedScriptDomains);
 				unset($allowedScriptDomains['\'self\'']);
 				$this->allowedScriptDomains = array_flip($allowedScriptDomains);

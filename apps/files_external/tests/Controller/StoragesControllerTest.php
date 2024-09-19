@@ -47,7 +47,7 @@ abstract class StoragesControllerTest extends \Test\TestCase {
 		$backend->method('getStorageClass')
 			->willReturn($storageClass);
 		$backend->method('getIdentifier')
-			->willReturn('identifier:'.$class);
+			->willReturn('identifier:' . $class);
 		$backend->method('getParameters')
 			->willReturn([]);
 		return $backend;
@@ -63,7 +63,7 @@ abstract class StoragesControllerTest extends \Test\TestCase {
 		$authMech->method('getScheme')
 			->willReturn($scheme);
 		$authMech->method('getIdentifier')
-			->willReturn('identifier:'.$class);
+			->willReturn('identifier:' . $class);
 		$authMech->method('getParameters')
 			->willReturn([]);
 

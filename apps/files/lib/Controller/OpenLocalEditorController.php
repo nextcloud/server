@@ -42,7 +42,7 @@ class OpenLocalEditorController extends OCSController {
 		OpenLocalEditorMapper $mapper,
 		ISecureRandom $secureRandom,
 		LoggerInterface $logger,
-		?string $userId
+		?string $userId,
 	) {
 		parent::__construct($appName, $request);
 

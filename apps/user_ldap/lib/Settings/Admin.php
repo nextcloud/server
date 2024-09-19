@@ -55,7 +55,7 @@ class Admin implements IDelegatedSettings {
 		}
 		$defaults = $config->getDefaults();
 		foreach ($defaults as $key => $default) {
-			$parameters[$key.'_default'] = $default;
+			$parameters[$key . '_default'] = $default;
 		}
 
 		return new TemplateResponse('user_ldap', 'settings', $parameters);

@@ -35,7 +35,7 @@ class Upgrade extends Command {
 	public const ERROR_FAILURE = 5;
 
 	public function __construct(
-		private IConfig $config
+		private IConfig $config,
 	) {
 		parent::__construct();
 	}

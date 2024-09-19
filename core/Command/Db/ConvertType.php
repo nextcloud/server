@@ -215,7 +215,7 @@ class ConvertType extends Command implements CompletionAwareInterface {
 
 		$apps = $input->getOption('all-apps') ? \OC_App::getAllApps() : \OC_App::getEnabledApps();
 		foreach ($apps as $app) {
-			$output->writeln('<info> - '.$app.'</info>');
+			$output->writeln('<info> - ' . $app . '</info>');
 			// Make sure autoloading works...
 			\OC_App::loadApp($app);
 			$fromMS = new MigrationService($app, $fromDB);
@@ -404,7 +404,7 @@ class ConvertType extends Command implements CompletionAwareInterface {
 		try {
 			// copy table rows
 			foreach ($tables as $table) {
-				$output->writeln('<info> - '.$table.'</info>');
+				$output->writeln('<info> - ' . $table . '</info>');
 				$this->copyTable($fromDB, $toDB, $schema->getTable($table), $input, $output);
 			}
 			if ($input->getArgument('type') === 'pgsql') {
@@ -427,7 +427,7 @@ class ConvertType extends Command implements CompletionAwareInterface {
 		$dbName = $input->getArgument('database');
 		$password = $input->getOption('password');
 		if ($input->getOption('port')) {
-			$dbHost .= ':'.$input->getOption('port');
+			$dbHost .= ':' . $input->getOption('port');
 		}
 
 		$this->config->setSystemValues([

@@ -29,7 +29,7 @@ trait RotationTrait {
 	 * @since 14.0.0
 	 */
 	protected function rotate():string {
-		$rotatedFile = $this->filePath.'.1';
+		$rotatedFile = $this->filePath . '.1';
 		rename($this->filePath, $rotatedFile);
 		return $rotatedFile;
 	}

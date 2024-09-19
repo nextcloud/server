@@ -28,7 +28,7 @@ class Address implements \OCP\Mail\Provider\IAddress {
 	 */
 	public function __construct(
 		protected ?string $address = null,
-		protected ?string $label = null
+		protected ?string $label = null,
 	) {
 	}
 
@@ -53,7 +53,7 @@ class Address implements \OCP\Mail\Provider\IAddress {
 	 *
 	 * @return string|null returns the mail address or null if one is not set
 	 */
-	public function getAddress(): string|null {
+	public function getAddress(): ?string {
 		return $this->address;
 	}
 
@@ -78,7 +78,7 @@ class Address implements \OCP\Mail\Provider\IAddress {
 	 *
 	 * @return string|null returns the mail address label/name or null if one is not set
 	 */
-	public function getLabel(): string|null {
+	public function getLabel(): ?string {
 		return $this->label;
 	}
 

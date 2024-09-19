@@ -43,7 +43,7 @@ class Cache extends CacheJail {
 		$storage,
 		ICacheEntry $sourceRootInfo,
 		CacheDependencies $dependencies,
-		IShare $share
+		IShare $share,
 	) {
 		$this->storage = $storage;
 		$this->sourceRootInfo = $sourceRootInfo;

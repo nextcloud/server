@@ -34,7 +34,7 @@ class RootCollection extends AbstractPrincipalCollection {
 		IConfig $config,
 		IUserManager $userManager,
 		IVersionManager $versionManager,
-		IUserSession $userSession
+		IUserSession $userSession,
 	) {
 		parent::__construct($principalBackend, 'principals/users');
 

@@ -20,7 +20,7 @@ class DatabaseBackend implements IBackend {
 	public function __construct(
 		private IConfig $config,
 		private IDBConnection $dbConnection,
-		private ITimeFactory $timeFactory
+		private ITimeFactory $timeFactory,
 	) {
 	}
 
@@ -35,7 +35,7 @@ class DatabaseBackend implements IBackend {
 	 * @throws Exception
 	 */
 	private function getExistingAttemptCount(
-		string $identifier
+		string $identifier,
 	): int {
 		$currentTime = $this->timeFactory->getDateTime();
 

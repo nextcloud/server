@@ -63,7 +63,7 @@ class VersionCheckTest extends \Test\TestCase {
 	 * @return string
 	 */
 	private function buildUpdateUrl($baseUrl) {
-		return $baseUrl . '?version='.implode('x', Util::getVersion()).'xinstalledatx' . time() . 'x'.\OC_Util::getChannel().'xxx'.PHP_MAJOR_VERSION.'x'.PHP_MINOR_VERSION.'x'.PHP_RELEASE_VERSION.'x0x0';
+		return $baseUrl . '?version=' . implode('x', Util::getVersion()) . 'xinstalledatx' . time() . 'x' . \OC_Util::getChannel() . 'xxx' . PHP_MAJOR_VERSION . 'x' . PHP_MINOR_VERSION . 'x' . PHP_RELEASE_VERSION . 'x0x0';
 	}
 
 	public function testCheckInCache(): void {

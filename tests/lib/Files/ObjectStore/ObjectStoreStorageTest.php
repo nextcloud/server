@@ -81,8 +81,8 @@ class ObjectStoreStorageTest extends Storage {
 
 		$this->instance->rename($source, $target);
 
-		$this->assertTrue($this->instance->file_exists($target), $target.' was not created');
-		$this->assertFalse($this->instance->file_exists($source), $source.' still exists');
+		$this->assertTrue($this->instance->file_exists($target), $target . ' was not created');
+		$this->assertFalse($this->instance->file_exists($source), $source . ' still exists');
 		$this->assertSameAsLorem($target);
 
 		$targetId = $this->instance->getCache()->getId(ltrim($target, '/'));

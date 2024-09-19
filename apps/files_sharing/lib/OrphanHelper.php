@@ -19,7 +19,7 @@ class OrphanHelper {
 
 	public function __construct(
 		IDBConnection $connection,
-		IRootFolder $rootFolder
+		IRootFolder $rootFolder,
 	) {
 		$this->connection = $connection;
 		$this->rootFolder = $rootFolder;

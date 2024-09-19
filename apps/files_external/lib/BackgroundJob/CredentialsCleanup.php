@@ -27,7 +27,7 @@ class CredentialsCleanup extends TimedJob {
 		ITimeFactory $time,
 		ICredentialsManager $credentialsManager,
 		UserGlobalStoragesService $userGlobalStoragesService,
-		IUserManager $userManager
+		IUserManager $userManager,
 	) {
 		parent::__construct($time);
 

@@ -19,7 +19,7 @@ abstract class AbstractTaskProcessingEvent extends Event {
 	 * @since 30.0.0
 	 */
 	public function __construct(
-		private readonly Task $task
+		private readonly Task $task,
 	) {
 		parent::__construct();
 	}

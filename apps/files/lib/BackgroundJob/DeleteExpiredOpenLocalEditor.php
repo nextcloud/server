@@ -22,7 +22,7 @@ class DeleteExpiredOpenLocalEditor extends TimedJob {
 
 	public function __construct(
 		ITimeFactory $time,
-		OpenLocalEditorMapper $mapper
+		OpenLocalEditorMapper $mapper,
 	) {
 		parent::__construct($time);
 		$this->mapper = $mapper;

@@ -110,7 +110,7 @@ class SystemTagManager implements ISystemTagManager {
 			$query->andWhere(
 				$query->expr()->like(
 					'name',
-					$query->createNamedParameter('%' . $this->connection->escapeLikeParameter($nameSearchPattern). '%')
+					$query->createNamedParameter('%' . $this->connection->escapeLikeParameter($nameSearchPattern) . '%')
 				)
 			);
 		}
@@ -146,7 +146,7 @@ class SystemTagManager implements ISystemTagManager {
 		$result->closeCursor();
 		if (!$row) {
 			throw new TagNotFoundException(
-				'Tag ("' . $truncatedTagName . '", '. $userVisible . ', ' . $userAssignable . ') does not exist'
+				'Tag ("' . $truncatedTagName . '", ' . $userVisible . ', ' . $userAssignable . ') does not exist'
 			);
 		}
 
@@ -171,7 +171,7 @@ class SystemTagManager implements ISystemTagManager {
 			$query->execute();
 		} catch (UniqueConstraintViolationException $e) {
 			throw new TagAlreadyExistsException(
-				'Tag ("' . $truncatedTagName . '", '. $userVisible . ', ' . $userAssignable . ') already exists',
+				'Tag ("' . $truncatedTagName . '", ' . $userVisible . ', ' . $userAssignable . ') already exists',
 				0,
 				$e
 			);
@@ -239,7 +239,7 @@ class SystemTagManager implements ISystemTagManager {
 			}
 		} catch (UniqueConstraintViolationException $e) {
 			throw new TagAlreadyExistsException(
-				'Tag ("' . $newName . '", '. $userVisible . ', ' . $userAssignable . ') already exists',
+				'Tag ("' . $newName . '", ' . $userVisible . ', ' . $userAssignable . ') already exists',
 				0,
 				$e
 			);

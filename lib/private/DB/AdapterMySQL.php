@@ -15,7 +15,7 @@ class AdapterMySQL extends Adapter {
 	 * @param string $tableName
 	 */
 	public function lockTable($tableName) {
-		$this->conn->executeUpdate('LOCK TABLES `' .$tableName . '` WRITE');
+		$this->conn->executeUpdate('LOCK TABLES `' . $tableName . '` WRITE');
 	}
 
 	public function unlockTable() {

@@ -17,11 +17,13 @@ use OCP\IUserManager;
 use function array_map;
 
 class UpcomingEventsService {
-	public function __construct(private IManager $calendarManager,
+	public function __construct(
+		private IManager $calendarManager,
 		private ITimeFactory $timeFactory,
 		private IUserManager $userManager,
 		private IAppManager $appManager,
-		private IURLGenerator $urlGenerator) {
+		private IURLGenerator $urlGenerator,
+	) {
 	}
 
 	/**

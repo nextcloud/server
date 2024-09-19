@@ -47,7 +47,7 @@ class Application {
 	 */
 	public function loadCommands(
 		InputInterface $input,
-		ConsoleOutputInterface $output
+		ConsoleOutputInterface $output,
 	): void {
 		// $application is required to be defined in the register_command scripts
 		$application = $this->application;

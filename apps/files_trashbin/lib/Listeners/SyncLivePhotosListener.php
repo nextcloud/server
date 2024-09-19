@@ -113,8 +113,8 @@ class SyncLivePhotosListener implements IEventListener {
 	 */
 	private function getTrashItem(array $trashFolder, string $path): ?ITrashItem {
 		foreach ($trashFolder as $trashItem) {
-			if (str_starts_with($path, 'files_trashbin/files'.$trashItem->getTrashPath())) {
-				if ($path === 'files_trashbin/files'.$trashItem->getTrashPath()) {
+			if (str_starts_with($path, 'files_trashbin/files' . $trashItem->getTrashPath())) {
+				if ($path === 'files_trashbin/files' . $trashItem->getTrashPath()) {
 					return $trashItem;
 				}
 

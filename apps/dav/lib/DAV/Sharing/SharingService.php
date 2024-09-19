@@ -9,7 +9,9 @@ namespace OCA\DAV\DAV\Sharing;
 
 abstract class SharingService {
 	protected string $resourceType = '';
-	public function __construct(protected SharingMapper $mapper) {
+	public function __construct(
+		protected SharingMapper $mapper,
+	) {
 	}
 
 	public function getResourceType(): string {

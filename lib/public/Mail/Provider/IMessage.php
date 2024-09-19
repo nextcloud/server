@@ -45,7 +45,7 @@ interface IMessage {
 	 *
 	 * @return IAddress|null sender's mail address object
 	 */
-	public function getFrom(): IAddress|null;
+	public function getFrom(): ?IAddress;
 
 	/**
 	 * sets the sender's reply to address of this message
@@ -65,7 +65,7 @@ interface IMessage {
 	 *
 	 * @return IAddress|null sender's reply to mail address object
 	 */
-	public function getReplyTo(): IAddress|null;
+	public function getReplyTo(): ?IAddress;
 
 	/**
 	 * sets the recipient(s) of this message
@@ -145,7 +145,7 @@ interface IMessage {
 	 *
 	 * @return string|null subject of message or null if one is not set
 	 */
-	public function getSubject(): string|null;
+	public function getSubject(): ?string;
 
 	/**
 	 * sets the plain text or html body of this message
@@ -168,7 +168,7 @@ interface IMessage {
 	 *
 	 * @return string|null html/plain body of this message or null if one is not set
 	 */
-	public function getBody(): string|null;
+	public function getBody(): ?string;
 
 	/**
 	 * sets the html body of this message
@@ -188,7 +188,7 @@ interface IMessage {
 	 *
 	 * @return string|null html body of this message or null if one is not set
 	 */
-	public function getBodyHtml(): string|null;
+	public function getBodyHtml(): ?string;
 
 	/**
 	 * sets the plain text body of this message
@@ -208,7 +208,7 @@ interface IMessage {
 	 *
 	 * @return string|null plain text body of this message or null if one is not set
 	 */
-	public function getBodyPlain(): string|null;
+	public function getBodyPlain(): ?string;
 
 	/**
 	 * sets the attachments of this message

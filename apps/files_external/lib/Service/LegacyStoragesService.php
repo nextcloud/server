@@ -37,7 +37,7 @@ abstract class LegacyStoragesService {
 		&$storageConfig,
 		$mountType,
 		$applicable,
-		$storageOptions
+		$storageOptions,
 	) {
 		$backend = $this->backendService->getBackend($storageOptions['backend']);
 		if (!$backend) {

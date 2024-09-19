@@ -22,7 +22,7 @@ class SyncFederationAddressBooks {
 	public function __construct(DbHandler $dbHandler,
 		SyncService $syncService,
 		IDiscoveryService $ocsDiscoveryService,
-		LoggerInterface $logger
+		LoggerInterface $logger,
 	) {
 		$this->syncService = $syncService;
 		$this->dbHandler = $dbHandler;

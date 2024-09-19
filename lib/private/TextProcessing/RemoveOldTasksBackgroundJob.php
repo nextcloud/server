@@ -23,7 +23,6 @@ class RemoveOldTasksBackgroundJob extends TimedJob {
 		ITimeFactory $timeFactory,
 		private TaskMapper $taskMapper,
 		private LoggerInterface $logger,
-
 	) {
 		parent::__construct($timeFactory);
 		$this->setInterval(60 * 60 * 24);

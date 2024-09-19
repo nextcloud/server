@@ -62,7 +62,7 @@ class PreviewManager implements IPreview {
 		Coordinator              $bootstrapCoordinator,
 		IServerContainer         $container,
 		IBinaryFinder            $binaryFinder,
-		IMagickSupport           $imagickSupport
+		IMagickSupport           $imagickSupport,
 	) {
 		$this->config = $config;
 		$this->rootFolder = $rootFolder;

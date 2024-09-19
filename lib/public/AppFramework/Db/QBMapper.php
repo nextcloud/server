@@ -296,7 +296,7 @@ abstract class QBMapper {
 	 */
 	protected function mapRowToEntity(array $row): Entity {
 		unset($row['DOCTRINE_ROWNUM']); // remove doctrine/dbal helper column
-		return \call_user_func($this->entityClass .'::fromRow', $row);
+		return \call_user_func($this->entityClass . '::fromRow', $row);
 	}
 
 

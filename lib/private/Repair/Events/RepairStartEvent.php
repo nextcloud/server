@@ -16,7 +16,7 @@ class RepairStartEvent extends Event {
 
 	public function __construct(
 		int $max,
-		string $current
+		string $current,
 	) {
 		$this->max = $max;
 		$this->current = $current;

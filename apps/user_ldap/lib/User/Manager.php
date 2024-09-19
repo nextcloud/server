@@ -49,7 +49,7 @@ class Manager {
 		Image $image,
 		IUserManager $userManager,
 		INotificationManager $notificationManager,
-		IManager $shareManager
+		IManager $shareManager,
 	) {
 		$this->ocConfig = $ocConfig;
 		$this->ocFilesystem = $ocFilesystem;

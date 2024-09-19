@@ -44,7 +44,7 @@ class UserStoragesController extends StoragesController {
 		LoggerInterface $logger,
 		IUserSession $userSession,
 		IGroupManager $groupManager,
-		IConfig $config
+		IConfig $config,
 	) {
 		parent::__construct(
 			$AppName,
@@ -104,7 +104,7 @@ class UserStoragesController extends StoragesController {
 		$backend,
 		$authMechanism,
 		$backendOptions,
-		$mountOptions
+		$mountOptions,
 	) {
 		$canCreateNewLocalStorage = $this->config->getSystemValue('files_external_allow_create_new_local', true);
 		if (!$canCreateNewLocalStorage && $backend === 'local') {
@@ -161,7 +161,7 @@ class UserStoragesController extends StoragesController {
 		$authMechanism,
 		$backendOptions,
 		$mountOptions,
-		$testOnly = true
+		$testOnly = true,
 	) {
 		$storage = $this->createStorage(
 			$mountPoint,

@@ -38,7 +38,7 @@ class PreviewController extends Controller {
 		IRootFolder $rootFolder,
 		IUserSession $userSession,
 		IVersionManager $versionManager,
-		IPreview $previewManager
+		IPreview $previewManager,
 	) {
 		parent::__construct($appName, $request);
 
@@ -67,7 +67,7 @@ class PreviewController extends Controller {
 		string $file = '',
 		int $x = 44,
 		int $y = 44,
-		string $version = ''
+		string $version = '',
 	) {
 		if ($file === '' || $version === '' || $x === 0 || $y === 0) {
 			return new DataResponse([], Http::STATUS_BAD_REQUEST);

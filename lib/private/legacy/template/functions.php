@@ -22,12 +22,12 @@ function p($string) {
 function emit_css_tag($href, $opts = '') {
 	$s = '<link rel="stylesheet"';
 	if (!empty($href)) {
-		$s .= ' href="' . $href .'"';
+		$s .= ' href="' . $href . '"';
 	}
 	if (!empty($opts)) {
-		$s .= ' '.$opts;
+		$s .= ' ' . $opts;
 	}
-	print_unescaped($s.">\n");
+	print_unescaped($s . ">\n");
 }
 
 /**
@@ -58,16 +58,16 @@ function emit_script_tag(string $src, string $script_content = '', string $conte
 	$s = '<script nonce="' . $nonceManager->getNonce() . '"';
 	if (!empty($src)) {
 		// emit script tag for deferred loading from $src
-		$s .= $defer_str.' src="' . $src .'"' . $type . '>';
+		$s .= $defer_str . ' src="' . $src . '"' . $type . '>';
 	} elseif ($script_content !== '') {
 		// emit script tag for inline script from $script_content without defer (see MDN)
-		$s .= ">\n".$script_content."\n";
+		$s .= ">\n" . $script_content . "\n";
 	} else {
 		// no $src nor $src_content, really useless empty tag
 		$s .= '>';
 	}
 	$s .= '</script>';
-	print_unescaped($s."\n");
+	print_unescaped($s . "\n");
 }
 
 /**
@@ -314,7 +314,7 @@ function html_select_options($options, $selected, $params = []) {
 			$label = $label[$label_name];
 		}
 		$select = in_array($value, $selected) ? ' selected="selected"' : '';
-		$html .= '<option value="' . \OCP\Util::sanitizeHTML($value) . '"' . $select . '>' . \OCP\Util::sanitizeHTML($label) . '</option>'."\n";
+		$html .= '<option value="' . \OCP\Util::sanitizeHTML($value) . '"' . $select . '>' . \OCP\Util::sanitizeHTML($label) . '</option>' . "\n";
 	}
 	return $html;
 }

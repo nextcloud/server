@@ -28,12 +28,12 @@ class Helper {
 	 */
 	public static function generateUniqueTarget($path, $excludeList, $view) {
 		$pathinfo = pathinfo($path);
-		$ext = isset($pathinfo['extension']) ? '.'.$pathinfo['extension'] : '';
+		$ext = isset($pathinfo['extension']) ? '.' . $pathinfo['extension'] : '';
 		$name = $pathinfo['filename'];
 		$dir = $pathinfo['dirname'];
 		$i = 2;
 		while ($view->file_exists($path) || in_array($path, $excludeList)) {
-			$path = Filesystem::normalizePath($dir . '/' . $name . ' ('.$i.')' . $ext);
+			$path = Filesystem::normalizePath($dir . '/' . $name . ' (' . $i . ')' . $ext);
 			$i++;
 		}
 

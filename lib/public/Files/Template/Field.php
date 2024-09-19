@@ -22,7 +22,7 @@ abstract class Field implements \JsonSerializable {
 	 */
 	public function __construct(
 		private string $index,
-		private FieldType $type
+		private FieldType $type,
 	) {
 	}
 

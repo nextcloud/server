@@ -16,7 +16,7 @@ class Capabilities implements ICapability {
 
 	public function __construct(
 		IConfig $config,
-		IAppManager $appManager
+		IAppManager $appManager,
 	) {
 		$this->config = $config;
 		$this->appManager = $appManager;

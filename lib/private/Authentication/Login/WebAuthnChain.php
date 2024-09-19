@@ -48,7 +48,7 @@ class WebAuthnChain {
 		UpdateLastPasswordConfirmCommand $updateLastPasswordConfirmCommand,
 		SetUserTimezoneCommand $setUserTimezoneCommand,
 		TwoFactorCommand $twoFactorCommand,
-		FinishRememberedLoginCommand $finishRememberedLoginCommand
+		FinishRememberedLoginCommand $finishRememberedLoginCommand,
 	) {
 		$this->userDisabledCheckCommand = $userDisabledCheckCommand;
 		$this->webAuthnLoginCommand = $webAuthnLoginCommand;

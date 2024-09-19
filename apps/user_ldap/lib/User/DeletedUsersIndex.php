@@ -22,7 +22,7 @@ class DeletedUsersIndex {
 	public function __construct(
 		IConfig $config,
 		UserMapping $mapping,
-		IManager $shareManager
+		IManager $shareManager,
 	) {
 		$this->config = $config;
 		$this->mapping = $mapping;

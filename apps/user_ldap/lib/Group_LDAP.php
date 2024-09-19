@@ -46,7 +46,7 @@ class Group_LDAP extends ABackend implements GroupInterface, IGroupLDAP, IGetDis
 		Access $access,
 		GroupPluginManager $groupPluginManager,
 		IConfig $config,
-		IUserManager $ncUserManager
+		IUserManager $ncUserManager,
 	) {
 		$this->access = $access;
 		$filter = $this->access->connection->ldapGroupFilter;
@@ -454,7 +454,7 @@ class Group_LDAP extends ABackend implements GroupInterface, IGroupLDAP, IGetDis
 		string $groupDN,
 		string $search = '',
 		?int $limit = -1,
-		?int $offset = 0
+		?int $offset = 0,
 	): array {
 		try {
 			$filter = $this->prepareFilterForUsersHasGidNumber($groupDN, $search);
@@ -578,7 +578,7 @@ class Group_LDAP extends ABackend implements GroupInterface, IGroupLDAP, IGetDis
 		string $groupDN,
 		string $search = '',
 		?int $limit = -1,
-		?int $offset = 0
+		?int $offset = 0,
 	): array {
 		try {
 			$filter = $this->prepareFilterForUsersInPrimaryGroup($groupDN, $search);
@@ -603,7 +603,7 @@ class Group_LDAP extends ABackend implements GroupInterface, IGroupLDAP, IGetDis
 		string $groupDN,
 		string $search = '',
 		int $limit = -1,
-		int $offset = 0
+		int $offset = 0,
 	): int {
 		try {
 			$filter = $this->prepareFilterForUsersInPrimaryGroup($groupDN, $search);
@@ -1266,7 +1266,7 @@ class Group_LDAP extends ABackend implements GroupInterface, IGroupLDAP, IGetDis
 		// Getting dn, if false the group is not mapped
 		$dn = $this->access->groupname2dn($gid);
 		if (!$dn) {
-			throw new Exception('Could not delete unknown group '.$gid.' in LDAP backend.');
+			throw new Exception('Could not delete unknown group ' . $gid . ' in LDAP backend.');
 		}
 
 		if (!$this->groupExists($gid)) {
@@ -1276,7 +1276,7 @@ class Group_LDAP extends ABackend implements GroupInterface, IGroupLDAP, IGetDis
 			return true;
 		}
 
-		throw new Exception('Could not delete existing group '.$gid.' in LDAP backend.');
+		throw new Exception('Could not delete existing group ' . $gid . ' in LDAP backend.');
 	}
 
 	/**

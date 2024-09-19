@@ -41,7 +41,7 @@ class Generator {
 		IPreview $previewManager,
 		IAppData $appData,
 		GeneratorHelper $helper,
-		IEventDispatcher $eventDispatcher
+		IEventDispatcher $eventDispatcher,
 	) {
 		$this->config = $config;
 		$this->previewManager = $previewManager;

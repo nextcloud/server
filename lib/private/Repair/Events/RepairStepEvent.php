@@ -14,7 +14,7 @@ class RepairStepEvent extends Event {
 	private string $stepName;
 
 	public function __construct(
-		string $stepName
+		string $stepName,
 	) {
 		$this->stepName = $stepName;
 	}

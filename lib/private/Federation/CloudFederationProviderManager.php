@@ -40,7 +40,7 @@ class CloudFederationProviderManager implements ICloudFederationProviderManager 
 		private IClientService $httpClientService,
 		private ICloudIdManager $cloudIdManager,
 		private IOCMDiscoveryService $discoveryService,
-		private LoggerInterface $logger
+		private LoggerInterface $logger,
 	) {
 	}
 

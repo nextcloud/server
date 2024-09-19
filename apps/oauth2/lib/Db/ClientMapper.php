@@ -41,7 +41,7 @@ class ClientMapper extends QBMapper {
 		try {
 			$client = $this->findEntity($qb);
 		} catch (IMapperException $e) {
-			throw new ClientNotFoundException('could not find client '.$clientIdentifier, 0, $e);
+			throw new ClientNotFoundException('could not find client ' . $clientIdentifier, 0, $e);
 		}
 		return $client;
 	}
@@ -61,7 +61,7 @@ class ClientMapper extends QBMapper {
 		try {
 			$client = $this->findEntity($qb);
 		} catch (IMapperException $e) {
-			throw new ClientNotFoundException('could not find client with id '.$id, 0, $e);
+			throw new ClientNotFoundException('could not find client with id ' . $id, 0, $e);
 		}
 		return $client;
 	}

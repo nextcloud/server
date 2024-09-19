@@ -62,10 +62,10 @@ class DatabaseHasMissingPrimaryKeys implements ISetupCheck {
 		} else {
 			$list = '';
 			foreach ($missingPrimaryKeys as $missingPrimaryKey) {
-				$list .= "\n".$this->l10n->t('Missing primary key on table "%s".', [$missingPrimaryKey['tableName']]);
+				$list .= "\n" . $this->l10n->t('Missing primary key on table "%s".', [$missingPrimaryKey['tableName']]);
 			}
 			return SetupResult::warning(
-				$this->l10n->t('The database is missing some primary keys. Due to the fact that adding primary keys on big tables could take some time they were not added automatically. By running "occ db:add-missing-primary-keys" those missing primary keys could be added manually while the instance keeps running.').$list
+				$this->l10n->t('The database is missing some primary keys. Due to the fact that adding primary keys on big tables could take some time they were not added automatically. By running "occ db:add-missing-primary-keys" those missing primary keys could be added manually while the instance keeps running.') . $list
 			);
 		}
 	}

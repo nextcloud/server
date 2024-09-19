@@ -38,7 +38,7 @@ class DeleteOrphanedSharesJob extends TimedJob {
 	public function __construct(
 		ITimeFactory $time,
 		IDBConnection $db,
-		LoggerInterface $logger
+		LoggerInterface $logger,
 	) {
 		parent::__construct($time);
 

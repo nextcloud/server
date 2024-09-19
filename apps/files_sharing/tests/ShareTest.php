@@ -34,7 +34,7 @@ class ShareTest extends TestCase {
 		$this->view->mkdir($this->folder);
 		$this->view->mkdir($this->folder . $this->subfolder);
 		$this->view->mkdir($this->folder . $this->subfolder . $this->subsubfolder);
-		$this->view->file_put_contents($this->folder.$this->filename, $this->data);
+		$this->view->file_put_contents($this->folder . $this->filename, $this->data);
 		$this->view->file_put_contents($this->folder . $this->subfolder . $this->filename, $this->data);
 	}
 
@@ -103,7 +103,7 @@ class ShareTest extends TestCase {
 	public function verifyDirContent($content, $expected) {
 		foreach ($content as $c) {
 			if (!in_array($c['name'], $expected)) {
-				$this->assertTrue(false, "folder should only contain '" . implode(',', $expected) . "', found: " .$c['name']);
+				$this->assertTrue(false, "folder should only contain '" . implode(',', $expected) . "', found: " . $c['name']);
 			}
 		}
 	}

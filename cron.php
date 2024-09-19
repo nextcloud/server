@@ -189,7 +189,7 @@ Options:
 			}
 
 			if ($memoryAfter - $memoryBefore > 50_000_000) {
-				$message = 'Used memory grew by more than 50 MB when executing job ' . $jobDetails . ': ' . Util::humanFileSize($memoryAfter). ' (before: ' . Util::humanFileSize($memoryBefore) . ')';
+				$message = 'Used memory grew by more than 50 MB when executing job ' . $jobDetails . ': ' . Util::humanFileSize($memoryAfter) . ' (before: ' . Util::humanFileSize($memoryBefore) . ')';
 				$logger->warning($message, ['app' => 'cron']);
 				if ($verbose) {
 					echo $message . PHP_EOL;

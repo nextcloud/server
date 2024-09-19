@@ -26,7 +26,7 @@ class PersonalSection extends Section {
 		IL10N $l,
 		IUserSession $userSession,
 		UserGlobalStoragesService $userGlobalStoragesService,
-		BackendService $backendService
+		BackendService $backendService,
 	) {
 		parent::__construct($url, $l);
 		$this->userSession = $userSession;

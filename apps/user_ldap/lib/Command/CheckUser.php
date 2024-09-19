@@ -84,7 +84,7 @@ class CheckUser extends Command {
 
 			throw new \Exception('The given user is not a recognized LDAP user.');
 		} catch (\Exception $e) {
-			$output->writeln('<error>' . $e->getMessage(). '</error>');
+			$output->writeln('<error>' . $e->getMessage() . '</error>');
 			return self::FAILURE;
 		}
 	}

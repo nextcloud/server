@@ -49,7 +49,7 @@ class VerificationController extends Controller {
 		IL10N $l10n,
 		IUserSession $userSession,
 		IAccountManager $accountManager,
-		Crypto $crypto
+		Crypto $crypto,
 	) {
 		parent::__construct($appName, $request);
 		$this->verificationToken = $verificationToken;

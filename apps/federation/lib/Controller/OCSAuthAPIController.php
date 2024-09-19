@@ -50,7 +50,7 @@ class OCSAuthAPIController extends OCSController {
 		DbHandler $dbHandler,
 		LoggerInterface $logger,
 		ITimeFactory $timeFactory,
-		IThrottler $throttler
+		IThrottler $throttler,
 	) {
 		parent::__construct($appName, $request);
 
@@ -165,7 +165,7 @@ class OCSAuthAPIController extends OCSController {
 			$this->throttler->registerAttempt('federationSharedSecret', $this->request->getRemoteAddress());
 			$expectedToken = $this->dbHandler->getToken($url);
 			$this->logger->error(
-				'remote server (' . $url . ') didn\'t send a valid token (got "' . $token . '" but expected "'. $expectedToken . '") while getting shared secret',
+				'remote server (' . $url . ') didn\'t send a valid token (got "' . $token . '" but expected "' . $expectedToken . '") while getting shared secret',
 				['app' => 'federation']
 			);
 			throw new OCSForbiddenException();

@@ -44,7 +44,7 @@ class SystemTagsByIdCollection implements ICollection {
 	public function __construct(
 		ISystemTagManager $tagManager,
 		IUserSession $userSession,
-		IGroupManager $groupManager
+		IGroupManager $groupManager,
 	) {
 		$this->tagManager = $tagManager;
 		$this->userSession = $userSession;

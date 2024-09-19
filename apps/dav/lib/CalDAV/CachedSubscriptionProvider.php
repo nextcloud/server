@@ -13,7 +13,7 @@ use OCP\Calendar\ICalendarProvider;
 class CachedSubscriptionProvider implements ICalendarProvider {
 
 	public function __construct(
-		private CalDavBackend $calDavBackend
+		private CalDavBackend $calDavBackend,
 	) {
 	}
 

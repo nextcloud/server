@@ -684,7 +684,7 @@ class ShareByMailProvider extends DefaultShareProvider implements IShareProvider
 		?\DateTimeInterface $expirationTime,
 		?string $note = '',
 		?IAttributes $attributes = null,
-		?bool $mailSend = true
+		?bool $mailSend = true,
 	): int {
 		$qb = $this->dbConnection->getQueryBuilder();
 		$qb->insert('share')

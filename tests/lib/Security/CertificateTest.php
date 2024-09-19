@@ -45,7 +45,7 @@ class CertificateTest extends \Test\TestCase {
 		$this->expectException(\Exception::class);
 		$this->expectExceptionMessage('Certificate could not get parsed.');
 
-		new Certificate('file://'.__DIR__ . '/../../data/certificates/goodCertificate.crt', 'bar');
+		new Certificate('file://' . __DIR__ . '/../../data/certificates/goodCertificate.crt', 'bar');
 	}
 
 	public function testGetName(): void {

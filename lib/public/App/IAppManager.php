@@ -51,7 +51,7 @@ interface IAppManager {
 	 * @return string|null
 	 * @since 29.0.0
 	 */
-	public function getAppIcon(string $appId, bool $dark = false): string|null;
+	public function getAppIcon(string $appId, bool $dark = false): ?string;
 
 	/**
 	 * Check if an app is enabled for user

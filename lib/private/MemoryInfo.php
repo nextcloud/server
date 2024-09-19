@@ -54,7 +54,7 @@ class MemoryInfo {
 		if (is_numeric($number)) {
 			$memoryLimit = Util::numericToNumber($number);
 		} else {
-			throw new \InvalidArgumentException($number.' is not a valid numeric string (in memory_limit ini directive)');
+			throw new \InvalidArgumentException($number . ' is not a valid numeric string (in memory_limit ini directive)');
 		}
 
 		// intended fall through

@@ -654,7 +654,7 @@ class User_LDAPTest extends TestCase {
 		$this->prepareMockForUserExists();
 
 		$dataDir = \OC::$server->getConfig()->getSystemValue(
-			'datadirectory', \OC::$SERVERROOT.'/data');
+			'datadirectory', \OC::$SERVERROOT . '/data');
 
 		$this->connection->expects($this->any())
 			->method('__get')
@@ -689,7 +689,7 @@ class User_LDAPTest extends TestCase {
 			->willReturn('dnOfLadyOfShadows,dc=test');
 		$user->expects($this->any())
 			->method('getHomePath')
-			->willReturn($dataDir.'/susannah/');
+			->willReturn($dataDir . '/susannah/');
 
 		$this->userManager->expects($this->atLeastOnce())
 			->method('get')
@@ -701,7 +701,7 @@ class User_LDAPTest extends TestCase {
 
 		/** @noinspection PhpUnhandledExceptionInspection */
 		$result = $backend->getHome('ladyofshadows');
-		$this->assertEquals($dataDir.'/susannah/', $result);
+		$this->assertEquals($dataDir . '/susannah/', $result);
 	}
 
 
@@ -1078,11 +1078,11 @@ class User_LDAPTest extends TestCase {
 
 		$this->connection->expects($this->exactly(2))
 			->method('getFromCache')
-			->with($this->equalTo('loginName2UserName-'.$loginName))
+			->with($this->equalTo('loginName2UserName-' . $loginName))
 			->willReturnOnConsecutiveCalls(null, $username);
 		$this->connection->expects($this->once())
 			->method('writeToCache')
-			->with($this->equalTo('loginName2UserName-'.$loginName), $this->equalTo($username));
+			->with($this->equalTo('loginName2UserName-' . $loginName), $this->equalTo($username));
 
 		$backend = new UserLDAP($this->access, $this->notificationManager, $this->pluginManager, $this->logger, $this->deletedUsersIndex);
 		$user = $this->createMock(User::class);
@@ -1121,11 +1121,11 @@ class User_LDAPTest extends TestCase {
 
 		$this->connection->expects($this->exactly(2))
 			->method('getFromCache')
-			->with($this->equalTo('loginName2UserName-'.$loginName))
+			->with($this->equalTo('loginName2UserName-' . $loginName))
 			->willReturnOnConsecutiveCalls(null, false);
 		$this->connection->expects($this->once())
 			->method('writeToCache')
-			->with($this->equalTo('loginName2UserName-'.$loginName), false);
+			->with($this->equalTo('loginName2UserName-' . $loginName), false);
 
 		$this->userManager->expects($this->any())
 			->method('getAttributes')
@@ -1154,11 +1154,11 @@ class User_LDAPTest extends TestCase {
 
 		$this->connection->expects($this->exactly(2))
 			->method('getFromCache')
-			->with($this->equalTo('loginName2UserName-'.$loginName))
+			->with($this->equalTo('loginName2UserName-' . $loginName))
 			->willReturnOnConsecutiveCalls(null, false);
 		$this->connection->expects($this->once())
 			->method('writeToCache')
-			->with($this->equalTo('loginName2UserName-'.$loginName), $this->equalTo(false));
+			->with($this->equalTo('loginName2UserName-' . $loginName), $this->equalTo(false));
 
 		$this->userManager->expects($this->any())
 			->method('get')
@@ -1196,7 +1196,7 @@ class User_LDAPTest extends TestCase {
 		$this->connection->expects($this->any())
 			->method('getFromCache')
 			->willReturnCallback(function ($uid) {
-				if ($uid === 'userExists'.'roland') {
+				if ($uid === 'userExists' . 'roland') {
 					return true;
 				}
 				return null;

@@ -37,7 +37,7 @@ class Wizard extends LDAPUtility {
 	public function __construct(
 		Configuration $configuration,
 		ILDAPWrapper $ldap,
-		Access $access
+		Access $access,
 	) {
 		parent::__construct($ldap);
 		$this->configuration = $configuration;
@@ -262,7 +262,7 @@ class Wizard extends LDAPUtility {
 			$this->applyFind('ldap_email_attr', $winner);
 			if ($writeLog) {
 				$this->logger->info(
-					'The mail attribute has automatically been reset, '.
+					'The mail attribute has automatically been reset, ' .
 					'because the original value did not return any results.',
 					['app' => 'user_ldap']
 				);
@@ -402,7 +402,7 @@ class Wizard extends LDAPUtility {
 
 		$filterParts = [];
 		foreach ($obclasses as $obclass) {
-			$filterParts[] = 'objectclass='.$obclass;
+			$filterParts[] = 'objectclass=' . $obclass;
 		}
 		//we filter for everything
 		//- that looks like a group and
@@ -647,7 +647,7 @@ class Wizard extends LDAPUtility {
 			$p = $setting['port'];
 			$t = $setting['tls'];
 			$this->logger->debug(
-				'Wiz: trying port '. $p . ', TLS '. $t,
+				'Wiz: trying port ' . $p . ', TLS ' . $t,
 				['app' => 'user_ldap']
 			);
 			//connectAndBind may throw Exception, it needs to be caught by the
@@ -755,7 +755,7 @@ class Wizard extends LDAPUtility {
 		//removes Port from Host
 		if (is_array($hostInfo) && isset($hostInfo['port'])) {
 			$port = $hostInfo['port'];
-			$host = str_replace(':'.$port, '', $host);
+			$host = str_replace(':' . $port, '', $host);
 			$this->applyFind('ldap_host', $host);
 			$this->applyFind('ldap_port', (string)$port);
 		}
@@ -824,7 +824,7 @@ class Wizard extends LDAPUtility {
 			$errorNo = $this->ldap->errno($cr);
 			$errorMsg = $this->ldap->error($cr);
 			$this->logger->info(
-				'Wiz: Could not search base '.$base.' Error '.$errorNo.': '.$errorMsg,
+				'Wiz: Could not search base ' . $base . ' Error ' . $errorNo . ': ' . $errorMsg,
 				['app' => 'user_ldap']
 			);
 			return false;
@@ -902,7 +902,7 @@ class Wizard extends LDAPUtility {
 							$filterPart = '(memberof=' . ldap_escape($dn, '', LDAP_ESCAPE_FILTER) . ')';
 							if (isset($attrs['primaryGroupToken'])) {
 								$pgt = $attrs['primaryGroupToken'][0];
-								$primaryFilterPart = '(primaryGroupID=' . ldap_escape($pgt, '', LDAP_ESCAPE_FILTER) .')';
+								$primaryFilterPart = '(primaryGroupID=' . ldap_escape($pgt, '', LDAP_ESCAPE_FILTER) . ')';
 								$filterPart = '(|' . $filterPart . $primaryFilterPart . ')';
 							}
 							$filter .= $filterPart;
@@ -1002,12 +1002,12 @@ class Wizard extends LDAPUtility {
 					$filterLogin .= ')';
 				}
 
-				$filter = '(&'.$ulf.$filterLogin.')';
+				$filter = '(&' . $ulf . $filterLogin . ')';
 				break;
 		}
 
 		$this->logger->debug(
-			'Wiz: Final filter '.$filter,
+			'Wiz: Final filter ' . $filter,
 			['app' => 'user_ldap']
 		);
 
@@ -1069,7 +1069,7 @@ class Wizard extends LDAPUtility {
 
 		if ($login === true) {
 			$this->logger->debug(
-				'Wiz: Bind successful to Port '. $port . ' TLS ' . (int)$tls,
+				'Wiz: Bind successful to Port ' . $port . ' TLS ' . (int)$tls,
 				['app' => 'user_ldap']
 			);
 			return true;
@@ -1203,7 +1203,7 @@ class Wizard extends LDAPUtility {
 		}
 		$p = 'objectclass=';
 		foreach ($objectclasses as $key => $value) {
-			$objectclasses[$key] = $p.$value;
+			$objectclasses[$key] = $p . $value;
 		}
 		$maxEntryObjC = '';
 

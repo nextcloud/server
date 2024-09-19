@@ -55,7 +55,7 @@ class Factory implements ICacheFactory {
 		?string $localCacheClass = null,
 		?string $distributedCacheClass = null,
 		?string $lockingCacheClass = null,
-		string $logFile = ''
+		string $logFile = '',
 	) {
 		$this->logFile = $logFile;
 

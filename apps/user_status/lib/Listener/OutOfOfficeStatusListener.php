@@ -28,9 +28,11 @@ use OCP\UserStatus\IUserStatus;
  *
  */
 class OutOfOfficeStatusListener implements IEventListener {
-	public function __construct(private IJobList $jobsList,
+	public function __construct(
+		private IJobList $jobsList,
 		private ITimeFactory $time,
-		private IManager $manager) {
+		private IManager $manager,
+	) {
 	}
 
 	/**

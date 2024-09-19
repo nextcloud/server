@@ -223,8 +223,8 @@ class OC_Defaults {
 		if ($this->themeExist('getShortFooter')) {
 			$footer = $this->theme->getShortFooter();
 		} else {
-			$footer = '<a href="'. $this->getBaseUrl() . '" target="_blank"' .
-				' rel="noreferrer noopener">' .$this->getEntity() . '</a>'.
+			$footer = '<a href="' . $this->getBaseUrl() . '" target="_blank"' .
+				' rel="noreferrer noopener">' . $this->getEntity() . '</a>' .
 				' – ' . $this->getSlogan();
 		}
 

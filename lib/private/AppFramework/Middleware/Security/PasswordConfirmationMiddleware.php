@@ -44,7 +44,8 @@ class PasswordConfirmationMiddleware extends Middleware {
 	 * @param IUserSession $userSession
 	 * @param ITimeFactory $timeFactory
 	 */
-	public function __construct(ControllerMethodReflector $reflector,
+	public function __construct(
+		ControllerMethodReflector $reflector,
 		ISession $session,
 		IUserSession $userSession,
 		ITimeFactory $timeFactory,

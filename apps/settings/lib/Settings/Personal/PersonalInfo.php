@@ -71,7 +71,7 @@ class PersonalInfo implements ISettings {
 		IFactory $l10nFactory,
 		IL10N $l,
 		IInitialState $initialStateService,
-		IManager $manager
+		IManager $manager,
 	) {
 		$this->config = $config;
 		$this->userManager = $userManager;

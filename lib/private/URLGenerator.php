@@ -43,7 +43,7 @@ class URLGenerator implements IURLGenerator {
 		IUserSession $userSession,
 		ICacheFactory $cacheFactory,
 		IRequest $request,
-		Router $router
+		Router $router,
 	) {
 		$this->config = $config;
 		$this->userSession = $userSession;
@@ -96,7 +96,7 @@ class URLGenerator implements IURLGenerator {
 	public function linkToOCSRouteAbsolute(string $routeName, array $arguments = []): string {
 		// Returns `/subfolder/index.php/ocsapp/…` with `'htaccess.IgnoreFrontController' => false` in config.php
 		// And `/subfolder/ocsapp/…` with `'htaccess.IgnoreFrontController' => true` in config.php
-		$route = $this->router->generate('ocs.'.$routeName, $arguments, false);
+		$route = $this->router->generate('ocs.' . $routeName, $arguments, false);
 
 		// Cut off `/subfolder`
 		if (\OC::$WEBROOT !== '' && str_starts_with($route, \OC::$WEBROOT)) {
@@ -176,8 +176,8 @@ class URLGenerator implements IURLGenerator {
 	 * Returns the path to the image.
 	 */
 	public function imagePath(string $appName, string $file): string {
-		$cache = $this->cacheFactory->createDistributed('imagePath-'.md5($this->getBaseUrl()).'-');
-		$cacheKey = $appName.'-'.$file;
+		$cache = $this->cacheFactory->createDistributed('imagePath-' . md5($this->getBaseUrl()) . '-');
+		$cacheKey = $appName . '-' . $file;
 		if ($key = $cache->get($cacheKey)) {
 			return $key;
 		}

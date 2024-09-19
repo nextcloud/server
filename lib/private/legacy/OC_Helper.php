@@ -463,7 +463,7 @@ class OC_Helper {
 		}
 		$fullPath = Filesystem::normalizePath($view->getAbsolutePath($path));
 
-		$cacheKey = $fullPath. '::' . ($includeMountPoints ? 'include' : 'exclude');
+		$cacheKey = $fullPath . '::' . ($includeMountPoints ? 'include' : 'exclude');
 		if ($useCache) {
 			$cached = $memcache->get($cacheKey);
 			if ($cached) {

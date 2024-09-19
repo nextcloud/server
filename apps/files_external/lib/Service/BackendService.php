@@ -62,7 +62,7 @@ class BackendService {
 	 * @param IConfig $config
 	 */
 	public function __construct(
-		IConfig $config
+		IConfig $config,
 	) {
 		$this->config = $config;
 

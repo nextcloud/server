@@ -116,7 +116,7 @@ function writeParameterInput($parameter, $options, $classes = []) {
 	<a target="_blank" rel="noreferrer" class="icon-info" title="<?php p($l->t('Open documentation'));?>" href="<?php p(link_to_docs('admin-external-storage')); ?>"></a>
 	<p class="settings-hint"><?php p($l->t('External storage enables you to mount external storage services and devices as secondary Nextcloud storage devices. You may also allow people to mount their own external storage services.')); ?></p>
 	<?php if (isset($_['dependencies']) and ($_['dependencies'] !== '') and $canCreateMounts) {
-		print_unescaped(''.$_['dependencies'].'');
+		print_unescaped('' . $_['dependencies'] . '');
 	} ?>
 	<table id="externalStorage" class="grid" data-admin='<?php print_unescaped(json_encode($_['visibilityType'] === BackendService::VISIBILITY_ADMIN)); ?>'>
 		<thead>
@@ -127,7 +127,7 @@ function writeParameterInput($parameter, $options, $classes = []) {
 				<th><?php p($l->t('Authentication')); ?></th>
 				<th><?php p($l->t('Configuration')); ?></th>
 				<?php if ($_['visibilityType'] === BackendService::VISIBILITY_ADMIN) {
-					print_unescaped('<th>'.$l->t('Available for').'</th>');
+					print_unescaped('<th>' . $l->t('Available for') . '</th>');
 				} ?>
 				<th>&nbsp;</th>
 				<th>&nbsp;</th>

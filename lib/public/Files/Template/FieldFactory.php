@@ -21,7 +21,7 @@ class FieldFactory {
 	 */
 	public static function createField(
 		string $index,
-		FieldType $type
+		FieldType $type,
 	): Field {
 		return match ($type) {
 			FieldType::RichText => new RichTextField($index, $type),

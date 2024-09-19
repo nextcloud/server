@@ -256,6 +256,6 @@ class WebhookListenerMapper extends QBMapper {
 	}
 
 	private function buildCacheKey(?string $userIdFilter): string {
-		return self::EVENTS_CACHE_KEY_PREFIX.'_'.($userIdFilter ?? '');
+		return self::EVENTS_CACHE_KEY_PREFIX . '_' . ($userIdFilter ?? '');
 	}
 }

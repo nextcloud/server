@@ -113,7 +113,7 @@ class NotificationsTest extends \Test\TestCase {
 		$instance->expects($this->any())->method('getTimestamp')->willReturn($timestamp);
 
 		$instance->expects($this->once())->method('tryHttpPostToShareEndpoint')
-			->with($remote, '/'.$id.'/unshare', ['token' => $token, 'data1Key' => 'data1Value', 'remoteId' => $id], $action)
+			->with($remote, '/' . $id . '/unshare', ['token' => $token, 'data1Key' => 'data1Value', 'remoteId' => $id], $action)
 			->willReturn($httpRequestResult);
 
 		// only add background job on first try

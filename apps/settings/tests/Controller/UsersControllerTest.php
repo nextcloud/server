@@ -669,7 +669,7 @@ class UsersControllerTest extends \Test\TestCase {
 	 */
 	public function testSaveUserSettings($data,
 		$oldEmailAddress,
-		$oldDisplayName
+		$oldDisplayName,
 	): void {
 		$controller = $this->getController();
 		$user = $this->createMock(IUser::class);
@@ -792,7 +792,7 @@ class UsersControllerTest extends \Test\TestCase {
 		string $oldEmailAddress,
 		string $oldDisplayName,
 		bool  $setDisplayNameResult,
-		bool $canChangeEmail
+		bool $canChangeEmail,
 	): void {
 		$this->expectException(ForbiddenException::class);
 

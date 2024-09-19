@@ -50,7 +50,7 @@ class PreviewController extends Controller {
 		IUserSession $userSession,
 		IMimeTypeDetector $mimeTypeDetector,
 		IPreview $previewManager,
-		ITimeFactory $time
+		ITimeFactory $time,
 	) {
 		parent::__construct($appName, $request);
 

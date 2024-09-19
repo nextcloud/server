@@ -625,7 +625,7 @@ class TaskProcessingTest extends \Test\TestCase {
 		$backgroundJob->start($this->jobList);
 
 		$task = $this->manager->getTask($task->getId());
-		self::assertEquals(Task::STATUS_SUCCESSFUL, $task->getStatus(), 'Status is '. $task->getStatus() . ' with error message: ' . $task->getErrorMessage());
+		self::assertEquals(Task::STATUS_SUCCESSFUL, $task->getStatus(), 'Status is ' . $task->getStatus() . ' with error message: ' . $task->getErrorMessage());
 		self::assertEquals(['output' => 'Hello'], $task->getOutput());
 		self::assertEquals(1, $task->getProgress());
 	}
@@ -729,7 +729,7 @@ class TaskProcessingTest extends \Test\TestCase {
 		self::assertEquals(1, $task->getProgress());
 		self::assertTrue(isset($task->getOutput()['spectrogram']));
 		$node = $this->rootFolder->getFirstNodeById($task->getOutput()['spectrogram']);
-		self::assertNotNull($node, 'fileId:'  . $task->getOutput()['spectrogram']);
+		self::assertNotNull($node, 'fileId:' . $task->getOutput()['spectrogram']);
 		self::assertInstanceOf(\OCP\Files\File::class, $node);
 		self::assertEquals('World', $node->getContent());
 	}

@@ -155,7 +155,7 @@ class Crypt {
 			$this->getCipher());
 
 		// Create a signature based on the key as well as the current version
-		$sig = $this->createSignature($encryptedContent, $passPhrase.'_'.$version.'_'.$position);
+		$sig = $this->createSignature($encryptedContent, $passPhrase . '_' . $version . '_' . $position);
 
 		// combine content to encrypt the IV identifier and actual IV
 		$catFile = $this->concatIV($encryptedContent, $iv);
@@ -760,7 +760,7 @@ class Crypt {
 				$result = (strlen($output) === strlen($data));
 			}
 		} else {
-			throw new DecryptionFailedException('Unsupported cipher '.$cipher_algo);
+			throw new DecryptionFailedException('Unsupported cipher ' . $cipher_algo);
 		}
 
 		return $result;
@@ -807,7 +807,7 @@ class Crypt {
 				}
 			}
 		} else {
-			throw new EncryptionFailedException('Unsupported cipher '.$cipher_algo);
+			throw new EncryptionFailedException('Unsupported cipher ' . $cipher_algo);
 		}
 
 		return $result;

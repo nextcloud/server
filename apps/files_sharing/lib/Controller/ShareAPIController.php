@@ -88,7 +88,7 @@ class ShareAPIController extends OCSController {
 		private LoggerInterface $logger,
 		private IProviderFactory $factory,
 		private IMailer $mailer,
-		?string $userId = null
+		?string $userId = null,
 	) {
 		parent::__construct($appName, $request);
 		$this->currentUser = $userId;
@@ -565,7 +565,7 @@ class ShareAPIController extends OCSController {
 		string $note = '',
 		string $label = '',
 		?string $attributes = null,
-		?string $sendMail = null
+		?string $sendMail = null,
 	): DataResponse {
 		$share = $this->shareManager->newShare();
 
@@ -930,7 +930,7 @@ class ShareAPIController extends OCSController {
 		string $reshares = 'false',
 		string $subfiles = 'false',
 		string $path = '',
-		string $include_tags = 'false'
+		string $include_tags = 'false',
 	): DataResponse {
 		$node = null;
 		if ($path !== '') {
@@ -978,7 +978,7 @@ class ShareAPIController extends OCSController {
 		bool $sharedWithMe = false,
 		bool $reShares = false,
 		bool $subFiles = false,
-		bool $includeTags = false
+		bool $includeTags = false,
 	): array {
 		if ($sharedWithMe) {
 			return $this->getSharedWithMe($node, $includeTags);

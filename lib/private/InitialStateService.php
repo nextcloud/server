@@ -47,12 +47,12 @@ class InitialStateService implements IInitialStateService {
 			try {
 				$this->states[$appName][$key] = json_encode($data, JSON_THROW_ON_ERROR);
 			} catch (\JsonException $e) {
-				$this->logger->error('Invalid '. $key . ' data provided to provideInitialState by ' . $appName, ['exception' => $e]);
+				$this->logger->error('Invalid ' . $key . ' data provided to provideInitialState by ' . $appName, ['exception' => $e]);
 			}
 			return;
 		}
 
-		$this->logger->warning('Invalid '. $key . ' data provided to provideInitialState by ' . $appName);
+		$this->logger->warning('Invalid ' . $key . ' data provided to provideInitialState by ' . $appName);
 	}
 
 	public function provideLazyInitialState(string $appName, string $key, Closure $closure): void {

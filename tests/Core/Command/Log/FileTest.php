@@ -91,7 +91,7 @@ class FileTest extends TestCase {
 		$this->config->method('getSystemValue')
 			->willReturnMap([
 				['log_type', 'file', 'log_type_value'],
-				['datadirectory', \OC::$SERVERROOT.'/data', '/data/directory/'],
+				['datadirectory', \OC::$SERVERROOT . '/data', '/data/directory/'],
 				['logfile', '/data/directory/nextcloud.log', '/var/log/nextcloud.log'],
 				['log_rotate_size', 100 * 1024 * 1024, 5 * 1024 * 1024],
 			]);

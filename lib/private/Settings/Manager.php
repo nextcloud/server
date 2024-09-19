@@ -53,7 +53,7 @@ class Manager implements IManager {
 		IServerContainer $container,
 		AuthorizedGroupMapper $mapper,
 		IGroupManager $groupManager,
-		ISubAdmin $subAdmin
+		ISubAdmin $subAdmin,
 	) {
 		$this->log = $log;
 		$this->l10nFactory = $l10nFactory;

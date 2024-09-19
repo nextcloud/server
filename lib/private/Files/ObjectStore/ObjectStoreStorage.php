@@ -570,7 +570,7 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 		IStorage $sourceStorage,
 		$sourceInternalPath,
 		$targetInternalPath,
-		$preserveMtime = false
+		$preserveMtime = false,
 	) {
 		if ($sourceStorage->instanceOfStorage(ObjectStoreStorage::class)) {
 			/** @var ObjectStoreStorage $sourceStorage */
@@ -703,7 +703,7 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common implements IChunkedFil
 		string $writeToken,
 		string $chunkId,
 		$data,
-		$size = null
+		$size = null,
 	): ?array {
 		if (!$this->objectStore instanceof IObjectStoreMultiPartUpload) {
 			throw new GenericFileException('Object store does not support multipart upload');

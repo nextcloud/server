@@ -71,7 +71,7 @@ class Task extends Entity {
 
 	public function toRow(): array {
 		return array_combine(self::$columns, array_map(function ($field) {
-			return $this->{'get'.ucfirst($field)}();
+			return $this->{'get' . ucfirst($field)}();
 		}, self::$fields));
 	}
 

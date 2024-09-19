@@ -13,14 +13,16 @@ use OCP\IUser;
 use OCP\User\IOutOfOfficeData;
 
 class OutOfOfficeData implements IOutOfOfficeData {
-	public function __construct(private string $id,
+	public function __construct(
+		private string $id,
 		private IUser $user,
 		private int $startDate,
 		private int $endDate,
 		private string $shortMessage,
 		private string $message,
 		private ?string $replacementUserId,
-		private ?string $replacementUserDisplayName) {
+		private ?string $replacementUserDisplayName,
+	) {
 	}
 
 	public function getId(): string {

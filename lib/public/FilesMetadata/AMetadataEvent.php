@@ -23,7 +23,7 @@ abstract class AMetadataEvent extends Event {
 	 */
 	public function __construct(
 		protected Node $node,
-		protected IFilesMetadata $metadata
+		protected IFilesMetadata $metadata,
 	) {
 		parent::__construct();
 	}

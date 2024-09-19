@@ -129,7 +129,7 @@ class MountPublicLinkControllerTest extends \Test\TestCase {
 		$validToken,
 		$createSuccessful,
 		$expectedReturnData,
-		$permissions
+		$permissions,
 	): void {
 		$this->federatedShareProvider->expects($this->any())
 			->method('isOutgoingServer2serverShareEnabled')

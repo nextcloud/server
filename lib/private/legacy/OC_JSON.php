@@ -46,7 +46,7 @@ class OC_JSON {
 	 */
 	public static function callCheck() {
 		if (!\OC::$server->getRequest()->passesStrictCookieCheck()) {
-			header('Location: '.\OC::$WEBROOT);
+			header('Location: ' . \OC::$WEBROOT);
 			exit();
 		}
 

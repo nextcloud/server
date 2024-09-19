@@ -41,7 +41,7 @@ class AllConfig implements IConfig {
 	private CappedMemoryCache $userCache;
 
 	public function __construct(
-		private SystemConfig $systemConfig
+		private SystemConfig $systemConfig,
 	) {
 		$this->userCache = new CappedMemoryCache();
 	}

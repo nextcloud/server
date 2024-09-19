@@ -46,7 +46,7 @@ class DirectHome implements ICollection {
 		ITimeFactory $timeFactory,
 		IThrottler $throttler,
 		IRequest $request,
-		IEventDispatcher $eventDispatcher
+		IEventDispatcher $eventDispatcher,
 	) {
 		$this->rootFolder = $rootFolder;
 		$this->mapper = $mapper;

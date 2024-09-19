@@ -201,7 +201,7 @@ class User {
 		}
 
 		//memberOf groups
-		$cacheKey = 'getMemberOf'.$this->getUsername();
+		$cacheKey = 'getMemberOf' . $this->getUsername();
 		$groups = false;
 		if (isset($ldapEntry['memberof'])) {
 			$groups = $ldapEntry['memberof'];
@@ -217,7 +217,7 @@ class User {
 
 		// check for cached profile data
 		$username = $this->getUsername(); // buffer variable, to save resource
-		$cacheKey = 'getUserProfile-'.$username;
+		$cacheKey = 'getUserProfile-' . $username;
 		$profileCached = $this->connection->getFromCache($cacheKey);
 		// honoring profile disabled in config.php and check if user profile was refreshed
 		if ($this->config->getSystemValueBool('profile.enabled', true) &&
@@ -404,7 +404,7 @@ class User {
 				   && $path[1] === ':' && ($path[2] === '\\' || $path[2] === '/'))
 			) {
 				$path = $this->config->getSystemValue('datadirectory',
-					\OC::$SERVERROOT.'/data') . '/' . $path;
+					\OC::$SERVERROOT . '/data') . '/' . $path;
 			}
 			//we need it to store it in the DB as well in case a user gets
 			//deleted so we can clean up afterwards
@@ -427,7 +427,7 @@ class User {
 	}
 
 	public function getMemberOfGroups() {
-		$cacheKey = 'getMemberOf'.$this->getUsername();
+		$cacheKey = 'getMemberOf' . $this->getUsername();
 		$memberOfGroups = $this->connection->getFromCache($cacheKey);
 		if (!is_null($memberOfGroups)) {
 			return $memberOfGroups;
@@ -637,7 +637,7 @@ class User {
 		// fetch/prepare user
 		$user = $this->userManager->get($this->uid);
 		if (is_null($user)) {
-			$this->logger->error('could not get user for uid='.$this->uid.'', ['app' => 'user_ldap']);
+			$this->logger->error('could not get user for uid=' . $this->uid . '', ['app' => 'user_ldap']);
 			return;
 		}
 		// prepare AccountManager and Account
@@ -654,22 +654,22 @@ class User {
 				$currentValue = $accountProperty->getValue();
 				$scope = ($accountProperty->getScope() ?: $defaultScopes[$property]);
 			} catch (PropertyDoesNotExistException $e) { // thrown at getProperty
-				$this->logger->error('property does not exist: '.$property
-					.' for uid='.$this->uid.'', ['app' => 'user_ldap', 'exception' => $e]);
+				$this->logger->error('property does not exist: ' . $property
+					. ' for uid=' . $this->uid . '', ['app' => 'user_ldap', 'exception' => $e]);
 				$currentValue = '';
 				$scope = $defaultScopes[$property];
 			}
 			$verified = IAccountManager::VERIFIED; // trust the LDAP admin knew what he put there
 			if ($currentValue !== $value) {
 				$account->setProperty($property, $value, $scope, $verified);
-				$this->logger->debug('update user profile: '.$property.'='.$value
-					.' for uid='.$this->uid.'', ['app' => 'user_ldap']);
+				$this->logger->debug('update user profile: ' . $property . '=' . $value
+					. ' for uid=' . $this->uid . '', ['app' => 'user_ldap']);
 			}
 		}
 		try {
 			$accountManager->updateAccount($account); // may throw InvalidArgumentException
 		} catch (\InvalidArgumentException $e) {
-			$this->logger->error('invalid data from LDAP: for uid='.$this->uid.'', ['app' => 'user_ldap', 'func' => 'updateProfile'
+			$this->logger->error('invalid data from LDAP: for uid=' . $this->uid . '', ['app' => 'user_ldap', 'func' => 'updateProfile'
 				, 'exception' => $e]);
 		}
 	}
@@ -735,7 +735,7 @@ class User {
 	 */
 	private function setOwnCloudAvatar() {
 		if (!$this->image->valid()) {
-			$this->logger->error('avatar image data from LDAP invalid for '.$this->dn, ['app' => 'user_ldap']);
+			$this->logger->error('avatar image data from LDAP invalid for ' . $this->dn, ['app' => 'user_ldap']);
 			return false;
 		}
 
@@ -743,7 +743,7 @@ class User {
 		//make sure it is a square and not bigger than 512x512
 		$size = min([$this->image->width(), $this->image->height(), 512]);
 		if (!$this->image->centerCrop($size)) {
-			$this->logger->error('croping image for avatar failed for '.$this->dn, ['app' => 'user_ldap']);
+			$this->logger->error('croping image for avatar failed for ' . $this->dn, ['app' => 'user_ldap']);
 			return false;
 		}
 
@@ -845,10 +845,10 @@ class User {
 				if (!empty($pwdGraceAuthNLimit)
 					&& count($pwdGraceUseTime) < (int)$pwdGraceAuthNLimit[0]) { //at least one more grace login available?
 					$this->config->setUserValue($uid, 'user_ldap', 'needsPasswordReset', 'true');
-					header('Location: '.\OC::$server->getURLGenerator()->linkToRouteAbsolute(
+					header('Location: ' . \OC::$server->getURLGenerator()->linkToRouteAbsolute(
 						'user_ldap.renewPassword.showRenewPasswordForm', ['user' => $uid]));
 				} else { //no more grace login available
-					header('Location: '.\OC::$server->getURLGenerator()->linkToRouteAbsolute(
+					header('Location: ' . \OC::$server->getURLGenerator()->linkToRouteAbsolute(
 						'user_ldap.renewPassword.showLoginFormInvalidPassword', ['user' => $uid]));
 				}
 				exit();
@@ -856,7 +856,7 @@ class User {
 			//handle pwdReset attribute
 			if (!empty($pwdReset) && $pwdReset[0] === 'TRUE') { //user must change his password
 				$this->config->setUserValue($uid, 'user_ldap', 'needsPasswordReset', 'true');
-				header('Location: '.\OC::$server->getURLGenerator()->linkToRouteAbsolute(
+				header('Location: ' . \OC::$server->getURLGenerator()->linkToRouteAbsolute(
 					'user_ldap.renewPassword.showRenewPasswordForm', ['user' => $uid]));
 				exit();
 			}
@@ -868,7 +868,7 @@ class User {
 					$pwdExpireWarningInt = (int)$pwdExpireWarning[0];
 					if ($pwdMaxAgeInt > 0 && $pwdExpireWarningInt > 0) {
 						$pwdChangedTimeDt = \DateTime::createFromFormat('YmdHisZ', $pwdChangedTime[0]);
-						$pwdChangedTimeDt->add(new \DateInterval('PT'.$pwdMaxAgeInt.'S'));
+						$pwdChangedTimeDt->add(new \DateInterval('PT' . $pwdMaxAgeInt . 'S'));
 						$currentDateTime = new \DateTime();
 						$secondsToExpiry = $pwdChangedTimeDt->getTimestamp() - $currentDateTime->getTimestamp();
 						if ($secondsToExpiry <= $pwdExpireWarningInt) {

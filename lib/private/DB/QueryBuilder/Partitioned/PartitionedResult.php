@@ -24,7 +24,7 @@ class PartitionedResult extends ArrayResult {
 	 */
 	public function __construct(
 		private array $splitOfParts,
-		private IResult $result
+		private IResult $result,
 	) {
 		parent::__construct([]);
 	}

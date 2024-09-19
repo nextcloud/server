@@ -141,7 +141,7 @@ class OC {
 			// slash which is required by URL generation.
 			if (isset($_SERVER['REQUEST_URI']) && $_SERVER['REQUEST_URI'] === \OC::$WEBROOT &&
 					substr($_SERVER['REQUEST_URI'], -1) !== '/') {
-				header('Location: '.\OC::$WEBROOT.'/');
+				header('Location: ' . \OC::$WEBROOT . '/');
 				exit();
 			}
 		}
@@ -183,7 +183,7 @@ class OC {
 		$l = Server::get(\OCP\L10N\IFactory::class)->get('lib');
 
 		// Create config if it does not already exist
-		$configFilePath = self::$configDir .'/config.php';
+		$configFilePath = self::$configDir . '/config.php';
 		if (!file_exists($configFilePath)) {
 			@touch($configFilePath);
 		}
@@ -195,11 +195,11 @@ class OC {
 			$urlGenerator = Server::get(IURLGenerator::class);
 
 			if (self::$CLI) {
-				echo $l->t('Cannot write into "config" directory!')."\n";
-				echo $l->t('This can usually be fixed by giving the web server write access to the config directory.')."\n";
+				echo $l->t('Cannot write into "config" directory!') . "\n";
+				echo $l->t('This can usually be fixed by giving the web server write access to the config directory.') . "\n";
 				echo "\n";
-				echo $l->t('But, if you prefer to keep config.php file read only, set the option "config_is_read_only" to true in it.')."\n";
-				echo $l->t('See %s', [ $urlGenerator->linkToDocs('admin-config') ])."\n";
+				echo $l->t('But, if you prefer to keep config.php file read only, set the option "config_is_read_only" to true in it.') . "\n";
+				echo $l->t('See %s', [ $urlGenerator->linkToDocs('admin-config') ]) . "\n";
 				exit;
 			} else {
 				OC_Template::printErrorPage(
@@ -568,7 +568,7 @@ class OC {
 		try {
 			self::initPaths();
 			// setup 3rdparty autoloader
-			$vendorAutoLoad = OC::$SERVERROOT. '/3rdparty/autoload.php';
+			$vendorAutoLoad = OC::$SERVERROOT . '/3rdparty/autoload.php';
 			if (!file_exists($vendorAutoLoad)) {
 				throw new \RuntimeException('Composer autoloader not found, unable to continue. Check the folder "3rdparty". Running "git submodule update --init" will initialize the git submodule that handles the subfolder "3rdparty".');
 			}
@@ -587,7 +587,7 @@ class OC {
 		self::$server = new \OC\Server(\OC::$WEBROOT, self::$config);
 		self::$server->boot();
 
-		if (self::$CLI && in_array('--'.\OCP\Console\ReservedOptions::DEBUG_LOG, $_SERVER['argv'])) {
+		if (self::$CLI && in_array('--' . \OCP\Console\ReservedOptions::DEBUG_LOG, $_SERVER['argv'])) {
 			\OC\Core\Listener\BeforeMessageLoggedEventListener::setup();
 		}
 

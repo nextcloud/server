@@ -175,7 +175,7 @@ class Comment implements IComment {
 		}
 		$message = trim($message);
 		if ($maxLength && mb_strlen($message, 'UTF-8') > $maxLength) {
-			throw new MessageTooLongException('Comment message must not exceed ' . $maxLength. ' characters');
+			throw new MessageTooLongException('Comment message must not exceed ' . $maxLength . ' characters');
 		}
 		$this->data['message'] = $message;
 		return $this;

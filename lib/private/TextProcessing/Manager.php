@@ -167,7 +167,7 @@ class Manager implements IManager {
 				$task->setStatus(OCPTask::STATUS_RUNNING);
 				if ($provider instanceof IProviderWithExpectedRuntime) {
 					$completionExpectedAt = new \DateTime('now');
-					$completionExpectedAt->add(new \DateInterval('PT'.$provider->getExpectedRuntime().'S'));
+					$completionExpectedAt->add(new \DateInterval('PT' . $provider->getExpectedRuntime() . 'S'));
 					$task->setCompletionExpectedAt($completionExpectedAt);
 				}
 				if ($task->getId() === null) {
@@ -209,7 +209,7 @@ class Manager implements IManager {
 		[$provider,] = $providers;
 		if ($provider instanceof IProviderWithExpectedRuntime) {
 			$completionExpectedAt = new \DateTime('now');
-			$completionExpectedAt->add(new \DateInterval('PT'.$provider->getExpectedRuntime().'S'));
+			$completionExpectedAt->add(new \DateInterval('PT' . $provider->getExpectedRuntime() . 'S'));
 			$task->setCompletionExpectedAt($completionExpectedAt);
 		}
 		$taskEntity = DbTask::fromPublicTask($task);

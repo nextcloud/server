@@ -368,7 +368,7 @@ interface IShare {
 	 * @return \OCP\Share\IShare The modified object
 	 * @since 9.0.0
 	 */
-	public function setExpirationDate(\DateTime|null $expireDate);
+	public function setExpirationDate(?\DateTime $expireDate);
 
 	/**
 	 * Get the expiration date

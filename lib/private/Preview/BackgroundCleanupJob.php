@@ -172,7 +172,7 @@ class BackgroundCleanupJob extends TimedJob {
 
 	private function getAllPreviewIds(string $previewRoot, int $chunkSize): \Iterator {
 		// See `getNewPreviewLocations` for some more info about the logic here
-		$like = $this->connection->escapeLikeParameter($previewRoot). '/_/_/_/_/_/_/_/%';
+		$like = $this->connection->escapeLikeParameter($previewRoot) . '/_/_/_/_/_/_/_/%';
 
 		$qb = $this->connection->getQueryBuilder();
 		$qb->select('name', 'fileid')

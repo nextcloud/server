@@ -153,7 +153,7 @@ class CreateJs extends Command implements CompletionAwareInterface {
 			$appName = $context->getWordAtIndex($context->getWordIndex() - 1);
 			try {
 				return $this->getAllLanguages($this->appManager->getAppPath($appName));
-			} catch(AppPathNotFoundException) {
+			} catch (AppPathNotFoundException) {
 				return [];
 			}
 		}

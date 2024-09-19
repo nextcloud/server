@@ -446,7 +446,7 @@ class ReminderService {
 	private function writeRemindersToDatabase(array $reminders): void {
 		$uniqueReminders = [];
 		foreach ($reminders as $reminder) {
-			$key = $reminder['notification_date']. $reminder['event_hash'].$reminder['type'];
+			$key = $reminder['notification_date'] . $reminder['event_hash'] . $reminder['type'];
 			if (!isset($uniqueReminders[$key])) {
 				$uniqueReminders[$key] = $reminder;
 			}

@@ -59,7 +59,7 @@ class SearchComposer {
 		private Coordinator $bootstrapCoordinator,
 		private ContainerInterface $container,
 		private IURLGenerator $urlGenerator,
-		private LoggerInterface $logger
+		private LoggerInterface $logger,
 	) {
 		$this->commonFilters = [
 			IFilter::BUILTIN_TERM => new FilterDefinition(IFilter::BUILTIN_TERM, FilterDefinition::TYPE_STRING),
@@ -130,7 +130,7 @@ class SearchComposer {
 			}
 			foreach ($provider->getSupportedFilters() as $filterName) {
 				if ($this->getFilterDefinition($filterName, $providerId) === null) {
-					throw new InvalidArgumentException('Invalid filter '. $filterName);
+					throw new InvalidArgumentException('Invalid filter ' . $filterName);
 				}
 			}
 		}
@@ -202,10 +202,10 @@ class SearchComposer {
 
 	private function fetchIcon(string $appId, string $providerId): string {
 		$icons = [
-			[$providerId, $providerId.'.svg'],
+			[$providerId, $providerId . '.svg'],
 			[$providerId, 'app.svg'],
-			[$appId, $providerId.'.svg'],
-			[$appId, $appId.'.svg'],
+			[$appId, $providerId . '.svg'],
+			[$appId, $appId . '.svg'],
 			[$appId, 'app.svg'],
 			['core', 'places/default-app-icon.svg'],
 		];

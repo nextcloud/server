@@ -13,13 +13,15 @@ use JsonSerializable;
 use OCA\DAV\ResponseDefinitions;
 
 class UpcomingEvent implements JsonSerializable {
-	public function __construct(private string $uri,
+	public function __construct(
+		private string $uri,
 		private ?int $recurrenceId,
 		private string $calendarUri,
 		private ?int $start,
 		private ?string $summary,
 		private ?string $location,
-		private ?string $calendarAppUrl) {
+		private ?string $calendarAppUrl,
+	) {
 	}
 
 	public function getUri(): string {

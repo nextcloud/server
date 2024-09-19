@@ -38,7 +38,7 @@ class AddressHandler {
 	public function __construct(
 		IURLGenerator $urlGenerator,
 		IL10N $il10n,
-		ICloudIdManager $cloudIdManager
+		ICloudIdManager $cloudIdManager,
 	) {
 		$this->l = $il10n;
 		$this->urlGenerator = $urlGenerator;

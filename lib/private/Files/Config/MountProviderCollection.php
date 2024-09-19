@@ -58,7 +58,7 @@ class MountProviderCollection implements IMountProviderCollection, Emitter {
 	public function __construct(
 		IStorageFactory $loader,
 		IUserMountCache $mountCache,
-		IEventLogger $eventLogger
+		IEventLogger $eventLogger,
 	) {
 		$this->loader = $loader;
 		$this->mountCache = $mountCache;

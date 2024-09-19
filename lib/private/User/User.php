@@ -524,7 +524,7 @@ class User implements IUser {
 		if ($quota !== 'none' and $quota !== 'default') {
 			$bytesQuota = OC_Helper::computerFileSize($quota);
 			if ($bytesQuota === false) {
-				throw new InvalidArgumentException('Failed to set quota to invalid value '.$quota);
+				throw new InvalidArgumentException('Failed to set quota to invalid value ' . $quota);
 			}
 			$quota = OC_Helper::humanFileSize($bytesQuota);
 		}

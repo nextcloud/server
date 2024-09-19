@@ -336,7 +336,7 @@ class UsersController extends Controller {
 		?string $birthdate = null,
 		?string $birthdateScope = null,
 		?string $pronouns = null,
-		?string $pronounsScope = null
+		?string $pronounsScope = null,
 	) {
 		$user = $this->userSession->getUser();
 		if (!$user instanceof IUser) {

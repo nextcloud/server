@@ -47,7 +47,7 @@ class SharingCheckMiddleware extends Middleware {
 		IAppManager $appManager,
 		IControllerMethodReflector $reflector,
 		IManager $shareManager,
-		IRequest $request
+		IRequest $request,
 	) {
 		$this->appName = $appName;
 		$this->config = $config;

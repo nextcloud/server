@@ -238,6 +238,6 @@ class ScanAppData extends Base {
 			throw new NotFoundException();
 		}
 
-		return $this->rootFolder->get('appdata_'.$instanceId);
+		return $this->rootFolder->get('appdata_' . $instanceId);
 	}
 }

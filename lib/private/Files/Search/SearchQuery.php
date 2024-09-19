@@ -39,7 +39,7 @@ class SearchQuery implements ISearchQuery {
 		int $offset,
 		array $order,
 		?IUser $user = null,
-		bool $limitToHome = false
+		bool $limitToHome = false,
 	) {
 		$this->searchOperation = $searchOperation;
 		$this->limit = $limit;

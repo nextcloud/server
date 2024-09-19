@@ -163,13 +163,13 @@ class DAV extends Common {
 
 		$lastRequestStart = 0;
 		$this->client->on('beforeRequest', function (RequestInterface $request) use (&$lastRequestStart) {
-			$this->logger->debug('sending dav ' . $request->getMethod() .  ' request to external storage: ' . $request->getAbsoluteUrl(), ['app' => 'dav']);
+			$this->logger->debug('sending dav ' . $request->getMethod() . ' request to external storage: ' . $request->getAbsoluteUrl(), ['app' => 'dav']);
 			$lastRequestStart = microtime(true);
 			$this->eventLogger->start('fs:storage:dav:request', 'Sending dav request to external storage');
 		});
 		$this->client->on('afterRequest', function (RequestInterface $request) use (&$lastRequestStart) {
 			$elapsed = microtime(true) - $lastRequestStart;
-			$this->logger->debug('dav ' . $request->getMethod() .  ' request to external storage: ' . $request->getAbsoluteUrl() . ' took ' . round($elapsed * 1000, 1) . 'ms', ['app' => 'dav']);
+			$this->logger->debug('dav ' . $request->getMethod() . ' request to external storage: ' . $request->getAbsoluteUrl() . ' took ' . round($elapsed * 1000, 1) . 'ms', ['app' => 'dav']);
 			$this->eventLogger->end('fs:storage:dav:request');
 		});
 	}

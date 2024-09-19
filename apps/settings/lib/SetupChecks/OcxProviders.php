@@ -76,7 +76,7 @@ class OcxProviders implements ISetupCheck {
 			$this->l10n->t('Your web server is not properly set up to resolve %1$s.
 This is most likely related to a web server configuration that was not updated to deliver this folder directly.
 Please compare your configuration against the shipped rewrite rules in ".htaccess" for Apache or the provided one in the documentation for Nginx.
-On Nginx those are typically the lines starting with "location ~" that need an update.', [join(', ', array_map(fn ($s) => '"'.$s.'"', $missingProviders))]),
+On Nginx those are typically the lines starting with "location ~" that need an update.', [join(', ', array_map(fn ($s) => '"' . $s . '"', $missingProviders))]),
 			$this->urlGenerator->linkToDocs('admin-nginx'),
 		);
 	}

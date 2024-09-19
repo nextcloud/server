@@ -28,8 +28,8 @@ class TrashbinMigrator implements IMigrator, ISizeEstimationMigrator {
 
 	use TMigratorBasicVersionHandling;
 
-	protected const PATH_FILES_FOLDER = Application::APP_ID.'/files';
-	protected const PATH_LOCATIONS_FILE = Application::APP_ID.'/locations.json';
+	protected const PATH_FILES_FOLDER = Application::APP_ID . '/files';
+	protected const PATH_LOCATIONS_FILE = Application::APP_ID . '/locations.json';
 
 	protected IRootFolder $root;
 
@@ -40,7 +40,7 @@ class TrashbinMigrator implements IMigrator, ISizeEstimationMigrator {
 	public function __construct(
 		IRootFolder $rootFolder,
 		IDBConnection $dbc,
-		IL10N $l10n
+		IL10N $l10n,
 	) {
 		$this->root = $rootFolder;
 		$this->dbc = $dbc;
@@ -54,7 +54,7 @@ class TrashbinMigrator implements IMigrator, ISizeEstimationMigrator {
 		$uid = $user->getUID();
 
 		try {
-			$trashbinFolder = $this->root->get('/'.$uid.'/files_trashbin');
+			$trashbinFolder = $this->root->get('/' . $uid . '/files_trashbin');
 			if (!$trashbinFolder instanceof Folder) {
 				return 0;
 			}
@@ -73,9 +73,9 @@ class TrashbinMigrator implements IMigrator, ISizeEstimationMigrator {
 		$uid = $user->getUID();
 
 		try {
-			$trashbinFolder = $this->root->get('/'.$uid.'/files_trashbin');
+			$trashbinFolder = $this->root->get('/' . $uid . '/files_trashbin');
 			if (!$trashbinFolder instanceof Folder) {
-				throw new UserMigrationException('/'.$uid.'/files_trashbin is not a folder');
+				throw new UserMigrationException('/' . $uid . '/files_trashbin is not a folder');
 			}
 			$output->writeln('Exporting trashbin files…');
 			$exportDestination->copyFolder($trashbinFolder, static::PATH_FILES_FOLDER);
@@ -92,7 +92,7 @@ class TrashbinMigrator implements IMigrator, ISizeEstimationMigrator {
 		} catch (NotFoundException $e) {
 			$output->writeln('No trashbin to export…');
 		} catch (\Throwable $e) {
-			throw new UserMigrationException('Could not export trashbin: '.$e->getMessage(), 0, $e);
+			throw new UserMigrationException('Could not export trashbin: ' . $e->getMessage(), 0, $e);
 		}
 	}
 
@@ -111,12 +111,12 @@ class TrashbinMigrator implements IMigrator, ISizeEstimationMigrator {
 
 		if ($importSource->pathExists(static::PATH_FILES_FOLDER)) {
 			try {
-				$trashbinFolder = $this->root->get('/'.$uid.'/files_trashbin');
+				$trashbinFolder = $this->root->get('/' . $uid . '/files_trashbin');
 				if (!$trashbinFolder instanceof Folder) {
-					throw new UserMigrationException('Could not import trashbin, /'.$uid.'/files_trashbin is not a folder');
+					throw new UserMigrationException('Could not import trashbin, /' . $uid . '/files_trashbin is not a folder');
 				}
 			} catch (NotFoundException $e) {
-				$trashbinFolder = $this->root->newFolder('/'.$uid.'/files_trashbin');
+				$trashbinFolder = $this->root->newFolder('/' . $uid . '/files_trashbin');
 			}
 			$output->writeln('Importing trashbin files…');
 			try {

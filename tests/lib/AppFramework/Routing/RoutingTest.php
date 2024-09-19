@@ -441,7 +441,7 @@ class RoutingTest extends \Test\TestCase {
 		$controllerName,
 		$actionName,
 		array $requirements = [],
-		array $defaults = []
+		array $defaults = [],
 	) {
 		$route = $this->getMockBuilder(Route::class)
 			->onlyMethods(['method', 'requirements', 'defaults'])

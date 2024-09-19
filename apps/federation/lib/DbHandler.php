@@ -31,7 +31,7 @@ class DbHandler {
 
 	public function __construct(
 		IDBConnection $connection,
-		IL10N $il10n
+		IL10N $il10n,
 	) {
 		$this->connection = $connection;
 		$this->IL10N = $il10n;

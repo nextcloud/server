@@ -34,7 +34,7 @@ final class TemplateFileCreator implements \JsonSerializable {
 	 * @since 21.0.0
 	 */
 	public function __construct(
-		string $appId, string $actionName, string $fileExtension
+		string $appId, string $actionName, string $fileExtension,
 	) {
 		$this->appId = $appId;
 		$this->actionName = $actionName;

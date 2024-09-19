@@ -49,7 +49,7 @@ class Update {
 		Manager $encryptionManager,
 		File $file,
 		LoggerInterface $logger,
-		$uid
+		$uid,
 	) {
 		$this->view = $view;
 		$this->util = $util;

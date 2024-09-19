@@ -20,8 +20,10 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class FixCalendarSyncCommand extends Command {
 
-	public function __construct(private IUserManager $userManager,
-		private CalDavBackend $calDavBackend) {
+	public function __construct(
+		private IUserManager $userManager,
+		private CalDavBackend $calDavBackend,
+	) {
 		parent::__construct('dav:fix-missing-caldav-changes');
 	}
 

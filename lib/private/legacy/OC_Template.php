@@ -11,7 +11,7 @@ use OCP\AppFramework\Http\TemplateResponse;
 use OCP\EventDispatcher\IEventDispatcher;
 use Psr\Log\LoggerInterface;
 
-require_once __DIR__.'/template/functions.php';
+require_once __DIR__ . '/template/functions.php';
 
 /**
  * This class provides the templates for ownCloud.
@@ -128,15 +128,15 @@ class OC_Template extends \OC\Template\Base {
 			// Add custom headers
 			$headers = '';
 			foreach (OC_Util::$headers as $header) {
-				$headers .= '<'.\OCP\Util::sanitizeHTML($header['tag']);
+				$headers .= '<' . \OCP\Util::sanitizeHTML($header['tag']);
 				if (strcasecmp($header['tag'], 'script') === 0 && in_array('src', array_map('strtolower', array_keys($header['attributes'])))) {
 					$headers .= ' defer';
 				}
 				foreach ($header['attributes'] as $name => $value) {
-					$headers .= ' '.\OCP\Util::sanitizeHTML($name).'="'.\OCP\Util::sanitizeHTML($value).'"';
+					$headers .= ' ' . \OCP\Util::sanitizeHTML($name) . '="' . \OCP\Util::sanitizeHTML($value) . '"';
 				}
 				if ($header['text'] !== null) {
-					$headers .= '>'.\OCP\Util::sanitizeHTML($header['text']).'</'.\OCP\Util::sanitizeHTML($header['tag']).'>';
+					$headers .= '>' . \OCP\Util::sanitizeHTML($header['text']) . '</' . \OCP\Util::sanitizeHTML($header['tag']) . '>';
 				} else {
 					$headers .= '/>';
 				}
@@ -162,7 +162,7 @@ class OC_Template extends \OC\Template\Base {
 	 * do this.
 	 */
 	public function inc($file, $additionalParams = null) {
-		return $this->load($this->path.$file.'.php', $additionalParams);
+		return $this->load($this->path . $file . '.php', $additionalParams);
 	}
 
 	/**

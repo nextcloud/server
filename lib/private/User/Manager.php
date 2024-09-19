@@ -201,7 +201,7 @@ class Manager extends PublicEmitter implements IUserManager {
 		$result = $this->checkPasswordNoLogging($loginName, $password);
 
 		if ($result === false) {
-			\OCP\Server::get(LoggerInterface::class)->warning('Login failed: \''. $loginName .'\' (Remote IP: \''. \OC::$server->getRequest()->getRemoteAddress(). '\')', ['app' => 'core']);
+			\OCP\Server::get(LoggerInterface::class)->warning('Login failed: \'' . $loginName . '\' (Remote IP: \'' . \OC::$server->getRequest()->getRemoteAddress() . '\')', ['app' => 'core']);
 		}
 
 		return $result;

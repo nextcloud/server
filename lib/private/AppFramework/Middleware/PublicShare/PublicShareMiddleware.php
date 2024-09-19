@@ -24,7 +24,7 @@ class PublicShareMiddleware extends Middleware {
 		private IRequest $request,
 		private ISession $session,
 		private IConfig $config,
-		private IThrottler $throttler
+		private IThrottler $throttler,
 	) {
 	}
 

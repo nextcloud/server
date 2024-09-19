@@ -33,7 +33,7 @@ class SystemTagsInUseCollection extends SimpleCollection {
 		IRootFolder $rootFolder,
 		ISystemTagManager $systemTagManager,
 		SystemTagsInFilesDetector $systemTagsInFilesDetector,
-		string $mediaType = ''
+		string $mediaType = '',
 	) {
 		$this->userSession = $userSession;
 		$this->rootFolder = $rootFolder;

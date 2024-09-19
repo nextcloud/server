@@ -62,7 +62,7 @@ class LogFactoryTest extends TestCase {
 	 * @throws \OCP\AppFramework\QueryException
 	 */
 	public function testFile(string $type): void {
-		$datadir = \OC::$SERVERROOT.'/data';
+		$datadir = \OC::$SERVERROOT . '/data';
 		$defaultLog = $datadir . '/nextcloud.log';
 
 		$this->systemConfig->expects($this->exactly(3))
@@ -82,7 +82,7 @@ class LogFactoryTest extends TestCase {
 			],
 			[
 				'/xdev/youshallfallback',
-				\OC::$SERVERROOT.'/data/nextcloud.log'
+				\OC::$SERVERROOT . '/data/nextcloud.log'
 			]
 		];
 	}
@@ -92,7 +92,7 @@ class LogFactoryTest extends TestCase {
 	 * @throws \OCP\AppFramework\QueryException
 	 */
 	public function testFileCustomPath($path, $expected): void {
-		$datadir = \OC::$SERVERROOT.'/data';
+		$datadir = \OC::$SERVERROOT . '/data';
 		$defaultLog = $datadir . '/nextcloud.log';
 
 		$this->systemConfig->expects($this->exactly(3))

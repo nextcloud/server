@@ -63,7 +63,7 @@ class TemplateManager implements ITemplateManager {
 		IPreview $previewManager,
 		IConfig $config,
 		IFactory $l10nFactory,
-		LoggerInterface $logger
+		LoggerInterface $logger,
 	) {
 		$this->serverContainer = $serverContainer;
 		$this->eventDispatcher = $eventDispatcher;

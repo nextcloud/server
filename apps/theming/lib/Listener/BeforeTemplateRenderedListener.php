@@ -35,7 +35,7 @@ class BeforeTemplateRenderedListener implements IEventListener {
 		ContainerInterface $container,
 		ThemeInjectionService $themeInjectionService,
 		IUserSession $userSession,
-		IConfig $config
+		IConfig $config,
 	) {
 		$this->initialState = $initialState;
 		$this->container = $container;

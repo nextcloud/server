@@ -36,7 +36,7 @@ class CloudIdManager implements ICloudIdManager {
 		IURLGenerator $urlGenerator,
 		IUserManager $userManager,
 		ICacheFactory $cacheFactory,
-		IEventDispatcher $eventDispatcher
+		IEventDispatcher $eventDispatcher,
 	) {
 		$this->contactsManager = $contactsManager;
 		$this->urlGenerator = $urlGenerator;

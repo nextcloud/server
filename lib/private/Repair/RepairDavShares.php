@@ -38,7 +38,7 @@ class RepairDavShares implements IRepairStep {
 		IConfig $config,
 		IDBConnection $dbc,
 		IGroupManager $groupManager,
-		LoggerInterface $logger
+		LoggerInterface $logger,
 	) {
 		$this->config = $config;
 		$this->dbc = $dbc;

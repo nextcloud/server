@@ -72,7 +72,7 @@ class SecureRandomTest extends \Test\TestCase {
 		$generator = $this->rng;
 		$scheme = constant('OCP\Security\ISecureRandom::' . $charName);
 		$randomString = $generator->generate(100, $scheme);
-		$matchesRegex = preg_match('/^'.$chars.'+$/', $randomString);
+		$matchesRegex = preg_match('/^' . $chars . '+$/', $randomString);
 		$this->assertSame(1, $matchesRegex);
 	}
 

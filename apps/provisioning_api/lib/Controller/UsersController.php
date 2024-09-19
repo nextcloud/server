@@ -787,7 +787,7 @@ class UsersController extends AUserData {
 		string $userId,
 		string $collectionName,
 		string $key,
-		string $value
+		string $value,
 	): DataResponse {
 		$currentLoggedInUser = $this->userSession->getUser();
 		if ($currentLoggedInUser === null) {

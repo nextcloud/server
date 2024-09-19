@@ -84,7 +84,7 @@ class Manager {
 		IUserManager                    $userManager,
 		IUserSession                    $userSession,
 		IEventDispatcher                $eventDispatcher,
-		LoggerInterface                 $logger
+		LoggerInterface                 $logger,
 	) {
 		$user = $userSession->getUser();
 		$this->connection = $connection;

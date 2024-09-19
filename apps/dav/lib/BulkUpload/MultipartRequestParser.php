@@ -45,8 +45,8 @@ class MultipartRequestParser {
 		$this->stream = $stream;
 
 		$boundary = $this->parseBoundaryFromHeaders($contentType);
-		$this->boundary = '--'.$boundary."\r\n";
-		$this->lastBoundary = '--'.$boundary."--\r\n";
+		$this->boundary = '--' . $boundary . "\r\n";
+		$this->lastBoundary = '--' . $boundary . "--\r\n";
 	}
 
 	/**

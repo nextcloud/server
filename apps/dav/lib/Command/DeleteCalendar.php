@@ -54,7 +54,7 @@ class DeleteCalendar extends Command {
 
 	protected function execute(
 		InputInterface $input,
-		OutputInterface $output
+		OutputInterface $output,
 	): int {
 		/** @var string $user */
 		$user = $input->getArgument('uid');

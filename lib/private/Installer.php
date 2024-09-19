@@ -58,7 +58,7 @@ class Installer {
 			throw new \Exception('App not found in any app directory');
 		}
 
-		$basedir = $app['path'].'/'.$appId;
+		$basedir = $app['path'] . '/' . $appId;
 
 		if (is_file($basedir . '/appinfo/database.xml')) {
 			throw new \Exception('The appinfo/database.xml file is not longer supported. Used in ' . $appId);
@@ -122,10 +122,10 @@ class Installer {
 
 		//set remote/public handlers
 		foreach ($info['remote'] as $name => $path) {
-			$config->setAppValue('core', 'remote_'.$name, $info['id'].'/'.$path);
+			$config->setAppValue('core', 'remote_' . $name, $info['id'] . '/' . $path);
 		}
 		foreach ($info['public'] as $name => $path) {
-			$config->setAppValue('core', 'public_'.$name, $info['id'].'/'.$path);
+			$config->setAppValue('core', 'public_' . $name, $info['id'] . '/' . $path);
 		}
 
 		OC_App::setAppTypes($info['id']);
@@ -410,8 +410,8 @@ class Installer {
 		if ($app === false) {
 			return false;
 		}
-		$basedir = $app['path'].'/'.$appId;
-		return file_exists($basedir.'/.git/');
+		$basedir = $app['path'] . '/' . $appId;
+		return file_exists($basedir . '/.git/');
 	}
 
 	/**
@@ -453,7 +453,7 @@ class Installer {
 			OC_Helper::rmdirr($appDir);
 			return true;
 		} else {
-			$this->logger->error('can\'t remove app '.$appId.'. It is not installed.');
+			$this->logger->error('can\'t remove app ' . $appId . '. It is not installed.');
 
 			return false;
 		}
@@ -497,8 +497,8 @@ class Installer {
 		foreach (\OC::$APPSROOTS as $app_dir) {
 			if ($dir = opendir($app_dir['path'])) {
 				while (false !== ($filename = readdir($dir))) {
-					if ($filename[0] !== '.' and is_dir($app_dir['path']."/$filename")) {
-						if (file_exists($app_dir['path']."/$filename/appinfo/info.xml")) {
+					if ($filename[0] !== '.' and is_dir($app_dir['path'] . "/$filename")) {
+						if (file_exists($app_dir['path'] . "/$filename/appinfo/info.xml")) {
 							if ($config->getAppValue($filename, 'installed_version', null) === null) {
 								$enabled = $appManager->isDefaultEnabled($filename);
 								if (($enabled || in_array($filename, $appManager->getAlwaysEnabledApps()))
@@ -571,10 +571,10 @@ class Installer {
 
 		//set remote/public handlers
 		foreach ($info['remote'] as $name => $path) {
-			$config->setAppValue('core', 'remote_'.$name, $app.'/'.$path);
+			$config->setAppValue('core', 'remote_' . $name, $app . '/' . $path);
 		}
 		foreach ($info['public'] as $name => $path) {
-			$config->setAppValue('core', 'public_'.$name, $app.'/'.$path);
+			$config->setAppValue('core', 'public_' . $name, $app . '/' . $path);
 		}
 
 		OC_App::setAppTypes($info['id']);

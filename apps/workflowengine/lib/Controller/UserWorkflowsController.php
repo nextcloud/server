@@ -33,7 +33,7 @@ class UserWorkflowsController extends AWorkflowController {
 		IRequest $request,
 		Manager $manager,
 		IUserSession $session,
-		LoggerInterface $logger
+		LoggerInterface $logger,
 	) {
 		parent::__construct($appName, $request, $manager, $logger);
 

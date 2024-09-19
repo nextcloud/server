@@ -12,7 +12,7 @@ class SearchOrder implements ISearchOrder {
 	public function __construct(
 		private string $direction,
 		private string $field,
-		private string $extra = ''
+		private string $extra = '',
 	) {
 	}
 

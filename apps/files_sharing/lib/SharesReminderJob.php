@@ -84,7 +84,7 @@ class SharesReminderJob extends TimedJob {
 		} else {
 			$sharesResult = $this->getSharesData();
 		}
-		foreach($sharesResult as $share) {
+		foreach ($sharesResult as $share) {
 			if ($share['share_type'] === IShare::TYPE_EMAIL) {
 				$id = "ocMailShare:$share[id]";
 			} else {
@@ -216,7 +216,7 @@ class SharesReminderJob extends TimedJob {
 	 * @param IShare $share Share that was obtained with {@link getShares}
 	 * @return array|null Info needed to send a reminder
 	 */
-	private function prepareReminder(IShare $share): array|null {
+	private function prepareReminder(IShare $share): ?array {
 		$sharedWith = $share->getSharedWith();
 		$reminderInfo = [];
 		if ($share->getShareType() == IShare::TYPE_USER) {

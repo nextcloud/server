@@ -486,7 +486,7 @@ class ClientTest extends \Test\TestCase {
 				'on_redirect' => function (
 					\Psr\Http\Message\RequestInterface $request,
 					\Psr\Http\Message\ResponseInterface $response,
-					\Psr\Http\Message\UriInterface $uri
+					\Psr\Http\Message\UriInterface $uri,
 				) {
 				},
 			],
@@ -545,7 +545,7 @@ class ClientTest extends \Test\TestCase {
 				'on_redirect' => function (
 					\Psr\Http\Message\RequestInterface $request,
 					\Psr\Http\Message\ResponseInterface $response,
-					\Psr\Http\Message\UriInterface $uri
+					\Psr\Http\Message\UriInterface $uri,
 				) {
 				},
 			],
@@ -605,7 +605,7 @@ class ClientTest extends \Test\TestCase {
 				'on_redirect' => function (
 					\Psr\Http\Message\RequestInterface $request,
 					\Psr\Http\Message\ResponseInterface $response,
-					\Psr\Http\Message\UriInterface $uri
+					\Psr\Http\Message\UriInterface $uri,
 				) {
 				},
 			],

@@ -120,7 +120,7 @@ class UserMountCacheTest extends TestCase {
 	}
 
 	private function keyForMount(MountPoint $mount): string {
-		return $mount->getStorageRootId().'::'.$mount->getMountPoint();
+		return $mount->getStorageRootId() . '::' . $mount->getMountPoint();
 	}
 
 	public function testNewMounts(): void {

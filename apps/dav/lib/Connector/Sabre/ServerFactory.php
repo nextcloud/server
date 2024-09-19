@@ -49,7 +49,7 @@ class ServerFactory {
 		IRequest $request,
 		IPreview $previewManager,
 		IEventDispatcher $eventDispatcher,
-		IL10N $l10n
+		IL10N $l10n,
 	) {
 		$this->config = $config;
 		$this->logger = $logger;

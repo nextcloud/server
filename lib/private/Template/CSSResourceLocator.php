@@ -19,8 +19,8 @@ class CSSResourceLocator extends ResourceLocator {
 	 */
 	public function doFind($style) {
 		$app = substr($style, 0, strpos($style, '/'));
-		if ($this->appendIfExist($this->serverroot, $style.'.css')
-			|| $this->appendIfExist($this->serverroot, 'core/'.$style.'.css')
+		if ($this->appendIfExist($this->serverroot, $style . '.css')
+			|| $this->appendIfExist($this->serverroot, 'core/' . $style . '.css')
 		) {
 			return;
 		}
@@ -41,17 +41,17 @@ class CSSResourceLocator extends ResourceLocator {
 		// turned into cwd.
 		$app_path = realpath($app_path);
 
-		$this->append($app_path, $style.'.css', $app_url);
+		$this->append($app_path, $style . '.css', $app_url);
 	}
 
 	/**
 	 * @param string $style
 	 */
 	public function doFindTheme($style) {
-		$theme_dir = 'themes/'.$this->theme.'/';
-		$this->appendIfExist($this->serverroot, $theme_dir.'apps/'.$style.'.css')
-			|| $this->appendIfExist($this->serverroot, $theme_dir.$style.'.css')
-			|| $this->appendIfExist($this->serverroot, $theme_dir.'core/'.$style.'.css');
+		$theme_dir = 'themes/' . $this->theme . '/';
+		$this->appendIfExist($this->serverroot, $theme_dir . 'apps/' . $style . '.css')
+			|| $this->appendIfExist($this->serverroot, $theme_dir . $style . '.css')
+			|| $this->appendIfExist($this->serverroot, $theme_dir . 'core/' . $style . '.css');
 	}
 
 	public function append($root, $file, $webRoot = null, $throw = true, $scss = false) {

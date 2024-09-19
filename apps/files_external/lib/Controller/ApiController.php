@@ -31,7 +31,7 @@ class ApiController extends OCSController {
 		string $appName,
 		IRequest $request,
 		UserGlobalStoragesService $userGlobalStorageService,
-		UserStoragesService $userStorageService
+		UserStoragesService $userStorageService,
 	) {
 		parent::__construct($appName, $request);
 		$this->userGlobalStoragesService = $userGlobalStorageService;

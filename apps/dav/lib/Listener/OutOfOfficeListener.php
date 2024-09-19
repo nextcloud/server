@@ -39,7 +39,7 @@ class OutOfOfficeListener implements IEventListener {
 		private ServerFactory $serverFactory,
 		private IConfig $appConfig,
 		private TimezoneService $timezoneService,
-		private LoggerInterface $logger
+		private LoggerInterface $logger,
 	) {
 	}
 

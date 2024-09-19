@@ -621,14 +621,14 @@ class AppTest extends \Test\TestCase {
 
 	public function testParseAppInfoL10N(): void {
 		$parser = new InfoParser();
-		$data = $parser->parse(\OC::$SERVERROOT. '/tests/data/app/description-multi-lang.xml');
+		$data = $parser->parse(\OC::$SERVERROOT . '/tests/data/app/description-multi-lang.xml');
 		$this->assertEquals('English', \OC_App::parseAppInfo($data, 'en')['description']);
 		$this->assertEquals('German', \OC_App::parseAppInfo($data, 'de')['description']);
 	}
 
 	public function testParseAppInfoL10NSingleLanguage(): void {
 		$parser = new InfoParser();
-		$data = $parser->parse(\OC::$SERVERROOT. '/tests/data/app/description-single-lang.xml');
+		$data = $parser->parse(\OC::$SERVERROOT . '/tests/data/app/description-single-lang.xml');
 		$this->assertEquals('English', \OC_App::parseAppInfo($data, 'en')['description']);
 	}
 }

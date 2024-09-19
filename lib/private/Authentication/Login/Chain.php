@@ -56,7 +56,7 @@ class Chain {
 		UpdateLastPasswordConfirmCommand $updateLastPasswordConfirmCommand,
 		SetUserTimezoneCommand $setUserTimezoneCommand,
 		TwoFactorCommand $twoFactorCommand,
-		FinishRememberedLoginCommand $finishRememberedLoginCommand
+		FinishRememberedLoginCommand $finishRememberedLoginCommand,
 	) {
 		$this->preLoginHookCommand = $preLoginHookCommand;
 		$this->userDisabledCheckCommand = $userDisabledCheckCommand;

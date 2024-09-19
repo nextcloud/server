@@ -1996,7 +1996,7 @@ class ViewTest extends \Test\TestCase {
 	public function testLockBasicOperationUnlocksAfterException(
 		$operation,
 		$operationArgs,
-		$path
+		$path,
 	): void {
 		if ($operation === 'touch') {
 			$this->markTestSkipped('touch handles storage exceptions internally');
@@ -2081,7 +2081,7 @@ class ViewTest extends \Test\TestCase {
 		$operation,
 		$operationArgs,
 		$path,
-		$hookType
+		$hookType,
 	): void {
 		$view = new View('/' . $this->user . '/files/');
 

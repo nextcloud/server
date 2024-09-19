@@ -80,7 +80,7 @@ class CommentPropertiesPlugin extends ServerPlugin {
 	 */
 	public function handleGetProperties(
 		PropFind $propFind,
-		\Sabre\DAV\INode $node
+		\Sabre\DAV\INode $node,
 	) {
 		if (!($node instanceof File) && !($node instanceof Directory)) {
 			return;

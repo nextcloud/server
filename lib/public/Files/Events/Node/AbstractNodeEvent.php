@@ -21,7 +21,7 @@ abstract class AbstractNodeEvent extends Event implements IWebhookCompatibleEven
 	 * @since 20.0.0
 	 */
 	public function __construct(
-		private Node $node
+		private Node $node,
 	) {
 	}
 

@@ -948,7 +948,7 @@ class EncryptionTest extends Storage {
 		$encryptMountPoint,
 		$encryptionModule,
 		$encryptionModuleShouldEncrypt,
-		$expected
+		$expected,
 	): void {
 		$encryptionManager = $this->createMock(\OC\Encryption\Manager::class);
 		$util = $this->createMock(Util::class);

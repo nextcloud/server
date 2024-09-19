@@ -11,7 +11,9 @@ use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 
 class SharingMapper {
-	public function __construct(private IDBConnection $db) {
+	public function __construct(
+		private IDBConnection $db,
+	) {
 	}
 
 	protected function getSharesForIdByAccess(int $resourceId, string $resourceType, bool $sharesWithAccess): array {

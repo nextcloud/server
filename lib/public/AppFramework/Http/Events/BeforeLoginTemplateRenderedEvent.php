@@ -20,7 +20,9 @@ class BeforeLoginTemplateRenderedEvent extends Event {
 	/**
 	 * @since 28.0.0
 	 */
-	public function __construct(private TemplateResponse $response) {
+	public function __construct(
+		private TemplateResponse $response,
+	) {
 		parent::__construct();
 	}
 

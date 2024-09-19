@@ -290,7 +290,7 @@ class Checker {
 
 		// Check if certificate is signed by Nextcloud Root Authority
 		$x509 = new \phpseclib\File\X509();
-		$rootCertificatePublicKey = $this->fileAccessHelper->file_get_contents($this->environmentHelper->getServerRoot().'/resources/codesigning/root.crt');
+		$rootCertificatePublicKey = $this->fileAccessHelper->file_get_contents($this->environmentHelper->getServerRoot() . '/resources/codesigning/root.crt');
 
 		$rootCerts = $this->splitCerts($rootCertificatePublicKey);
 		foreach ($rootCerts as $rootCert) {
@@ -383,7 +383,7 @@ class Checker {
 	/**
 	 * @return array|null Either the results or null if no results available
 	 */
-	public function getResults(): array|null {
+	public function getResults(): ?array {
 		$cachedResults = $this->cache->get(self::CACHE_KEY);
 		if (!\is_null($cachedResults) and $cachedResults !== false) {
 			return json_decode($cachedResults, true);

@@ -34,7 +34,7 @@ class DownloadResponseTest extends \Test\TestCase {
 		$response = new ChildDownloadResponse($input, 'content');
 		$headers = $response->getHeaders();
 
-		$this->assertEquals('attachment; filename="'.$expected.'"', $headers['Content-Disposition']);
+		$this->assertEquals('attachment; filename="' . $expected . '"', $headers['Content-Disposition']);
 	}
 
 	public function filenameEncodingProvider() : array {

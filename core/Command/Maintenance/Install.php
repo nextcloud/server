@@ -46,7 +46,7 @@ class Install extends Command {
 			->addOption('admin-user', null, InputOption::VALUE_REQUIRED, 'Login of the admin account', 'admin')
 			->addOption('admin-pass', null, InputOption::VALUE_REQUIRED, 'Password of the admin account')
 			->addOption('admin-email', null, InputOption::VALUE_OPTIONAL, 'E-Mail of the admin account')
-			->addOption('data-dir', null, InputOption::VALUE_REQUIRED, 'Path to data directory', \OC::$SERVERROOT.'/data');
+			->addOption('data-dir', null, InputOption::VALUE_REQUIRED, 'Path to data directory', \OC::$SERVERROOT . '/data');
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output): int {
@@ -134,7 +134,7 @@ class Install extends Command {
 			if (is_null($dbPass)) {
 				/** @var QuestionHelper $helper */
 				$helper = $this->getHelper('question');
-				$question = new Question('What is the password to access the database with user <'.$dbUser.'>?');
+				$question = new Question('What is the password to access the database with user <' . $dbUser . '>?');
 				$question->setHidden(true);
 				$question->setHiddenFallback(false);
 				$dbPass = $helper->ask($input, $output, $question);
@@ -144,7 +144,7 @@ class Install extends Command {
 		if (is_null($adminPassword)) {
 			/** @var QuestionHelper $helper */
 			$helper = $this->getHelper('question');
-			$question = new Question('What is the password you like to use for the admin account <'.$adminLogin.'>?');
+			$question = new Question('What is the password you like to use for the admin account <' . $adminLogin . '>?');
 			$question->setHidden(true);
 			$question->setHiddenFallback(false);
 			$adminPassword = $helper->ask($input, $output, $question);

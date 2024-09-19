@@ -49,7 +49,7 @@ class Import extends Command implements CompletionAwareInterface {
 		try {
 			$configs = $this->validateFileContent($content);
 		} catch (\UnexpectedValueException $e) {
-			$output->writeln('<error>' . $e->getMessage(). '</error>');
+			$output->writeln('<error>' . $e->getMessage() . '</error>');
 			return 1;
 		}
 

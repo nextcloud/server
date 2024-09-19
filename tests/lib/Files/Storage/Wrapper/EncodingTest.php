@@ -114,7 +114,7 @@ class EncodingTest extends \Test\Files\Storage\Storage {
 		return [
 			[self::NFD_NAME, self::NFC_NAME],
 			[self::NFD_NAME . '/' . self::NFD_NAME, self::NFC_NAME . '/' . self::NFC_NAME],
-			[self::NFD_NAME . '/' . self::NFC_NAME . '/' .self::NFD_NAME, self::NFC_NAME . '/' . self::NFC_NAME . '/' . self::NFC_NAME],
+			[self::NFD_NAME . '/' . self::NFC_NAME . '/' . self::NFD_NAME, self::NFC_NAME . '/' . self::NFC_NAME . '/' . self::NFC_NAME],
 		];
 	}
 

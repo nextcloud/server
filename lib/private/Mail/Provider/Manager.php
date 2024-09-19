@@ -125,7 +125,7 @@ class Manager implements IManager {
 	 *
 	 * @return IProvider|null
 	 */
-	public function findProviderById(string $providerId): IProvider|null {
+	public function findProviderById(string $providerId): ?IProvider {
 
 		// evaluate if we already have a cached collection of providers
 		if (!is_array($this->providersCollection)) {
@@ -178,7 +178,7 @@ class Manager implements IManager {
 	 *
 	 * @return IService|null returns service object or null if none found
 	 */
-	public function findServiceById(string $userId, string $serviceId, ?string $providerId = null): IService|null {
+	public function findServiceById(string $userId, string $serviceId, ?string $providerId = null): ?IService {
 		
 		// evaluate if provider id was specified
 		if ($providerId !== null) {
@@ -222,7 +222,7 @@ class Manager implements IManager {
 	 *
 	 * @return IService|null returns service object or null if none found
 	 */
-	public function findServiceByAddress(string $userId, string $address, ?string $providerId = null): IService|null {
+	public function findServiceByAddress(string $userId, string $address, ?string $providerId = null): ?IService {
 		
 		// evaluate if provider id was specified
 		if ($providerId !== null) {

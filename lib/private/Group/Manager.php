@@ -238,7 +238,7 @@ class Manager extends PublicEmitter implements IGroupManager {
 		} elseif ($group = $this->get($gid)) {
 			return $group;
 		} elseif (mb_strlen($gid) > self::MAX_GROUP_LENGTH) {
-			throw new \Exception('Group name is limited to '. self::MAX_GROUP_LENGTH.' characters');
+			throw new \Exception('Group name is limited to ' . self::MAX_GROUP_LENGTH . ' characters');
 		} else {
 			$this->dispatcher->dispatchTyped(new BeforeGroupCreatedEvent($gid));
 			$this->emit('\OC\Group', 'preCreate', [$gid]);

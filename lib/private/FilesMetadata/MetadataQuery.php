@@ -32,7 +32,7 @@ class MetadataQuery implements IMetadataQuery {
 		private string $fileTableAlias = 'fc',
 		private string $fileIdField = 'fileid',
 		private string $alias = 'meta',
-		private string $aliasIndexPrefix = 'meta_index'
+		private string $aliasIndexPrefix = 'meta_index',
 	) {
 		if ($manager instanceof IFilesMetadata) {
 			/**

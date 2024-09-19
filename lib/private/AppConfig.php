@@ -281,7 +281,7 @@ class AppConfig implements IAppConfig {
 		string $app,
 		string $key,
 		string $default = '',
-		?bool $lazy = false
+		?bool $lazy = false,
 	): string {
 		try {
 			$lazy = ($lazy === null) ? $this->isLazy($app, $key) : $lazy;
@@ -316,7 +316,7 @@ class AppConfig implements IAppConfig {
 		string $app,
 		string $key,
 		string $default = '',
-		bool $lazy = false
+		bool $lazy = false,
 	): string {
 		return $this->getTypedValue($app, $key, $default, $lazy, self::VALUE_STRING);
 	}
@@ -339,7 +339,7 @@ class AppConfig implements IAppConfig {
 		string $app,
 		string $key,
 		int $default = 0,
-		bool $lazy = false
+		bool $lazy = false,
 	): int {
 		return (int)$this->getTypedValue($app, $key, (string)$default, $lazy, self::VALUE_INT);
 	}
@@ -399,7 +399,7 @@ class AppConfig implements IAppConfig {
 		string $app,
 		string $key,
 		array $default = [],
-		bool $lazy = false
+		bool $lazy = false,
 	): array {
 		try {
 			$defaultJson = json_encode($default, JSON_THROW_ON_ERROR);
@@ -427,7 +427,7 @@ class AppConfig implements IAppConfig {
 		string $key,
 		string $default,
 		bool $lazy,
-		int $type
+		int $type,
 	): string {
 		$this->assertParams($app, $key, valueType: $type);
 		$this->loadConfig($lazy);
@@ -526,7 +526,7 @@ class AppConfig implements IAppConfig {
 		string $key,
 		string $value,
 		bool $lazy = false,
-		bool $sensitive = false
+		bool $sensitive = false,
 	): bool {
 		return $this->setTypedValue(
 			$app,
@@ -557,7 +557,7 @@ class AppConfig implements IAppConfig {
 		string $key,
 		string $value,
 		bool $lazy = false,
-		bool $sensitive = false
+		bool $sensitive = false,
 	): bool {
 		return $this->setTypedValue(
 			$app,
@@ -587,7 +587,7 @@ class AppConfig implements IAppConfig {
 		string $key,
 		int $value,
 		bool $lazy = false,
-		bool $sensitive = false
+		bool $sensitive = false,
 	): bool {
 		if ($value > 2000000000) {
 			$this->logger->debug('You are trying to store an integer value around/above 2,147,483,647. This is a reminder that reaching this theoretical limit on 32 bits system will throw an exception.');
@@ -621,7 +621,7 @@ class AppConfig implements IAppConfig {
 		string $key,
 		float $value,
 		bool $lazy = false,
-		bool $sensitive = false
+		bool $sensitive = false,
 	): bool {
 		return $this->setTypedValue(
 			$app,
@@ -649,7 +649,7 @@ class AppConfig implements IAppConfig {
 		string $app,
 		string $key,
 		bool $value,
-		bool $lazy = false
+		bool $lazy = false,
 	): bool {
 		return $this->setTypedValue(
 			$app,
@@ -680,7 +680,7 @@ class AppConfig implements IAppConfig {
 		string $key,
 		array $value,
 		bool $lazy = false,
-		bool $sensitive = false
+		bool $sensitive = false,
 	): bool {
 		try {
 			return $this->setTypedValue(
@@ -718,7 +718,7 @@ class AppConfig implements IAppConfig {
 		string $key,
 		string $value,
 		bool $lazy,
-		int $type
+		int $type,
 	): bool {
 		$this->assertParams($app, $key);
 		$this->loadConfig($lazy);

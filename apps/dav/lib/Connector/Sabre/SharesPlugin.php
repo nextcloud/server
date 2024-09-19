@@ -164,7 +164,7 @@ class SharesPlugin extends \Sabre\DAV\ServerPlugin {
 	 */
 	public function handleGetProperties(
 		PropFind $propFind,
-		\Sabre\DAV\INode $sabreNode
+		\Sabre\DAV\INode $sabreNode,
 	) {
 		if (!($sabreNode instanceof DavNode)) {
 			return;

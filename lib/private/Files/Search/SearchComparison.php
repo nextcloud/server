@@ -20,7 +20,7 @@ class SearchComparison implements ISearchComparison {
 		private string $field,
 		/** @var ParamValue $value */
 		private \DateTime|int|string|bool|array $value,
-		private string $extra = ''
+		private string $extra = '',
 	) {
 	}
 

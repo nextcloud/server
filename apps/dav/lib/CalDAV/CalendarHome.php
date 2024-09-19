@@ -42,7 +42,7 @@ class CalendarHome extends \Sabre\CalDAV\CalendarHome {
 		BackendInterface $caldavBackend,
 		array $principalInfo,
 		LoggerInterface $logger,
-		private bool $returnCachedSubscriptions
+		private bool $returnCachedSubscriptions,
 	) {
 		parent::__construct($caldavBackend, $principalInfo);
 		$this->l10n = \OC::$server->getL10N('dav');

@@ -82,7 +82,7 @@ class EncryptAll {
 		IL10N $l,
 		IFactory $l10nFactory,
 		QuestionHelper $questionHelper,
-		ISecureRandom $secureRandom
+		ISecureRandom $secureRandom,
 	) {
 		$this->userSetup = $userSetup;
 		$this->userManager = $userManager;

@@ -444,7 +444,7 @@ class Factory implements IFactory {
 					if ($preferred_language === strtolower($available_language)) {
 						return $this->respectDefaultLanguage($app, $available_language);
 					}
-					if (strtolower($available_language) === $preferred_language_parts[0].'_'.end($preferred_language_parts)) {
+					if (strtolower($available_language) === $preferred_language_parts[0] . '_' . end($preferred_language_parts)) {
 						return $available_language;
 					}
 				}

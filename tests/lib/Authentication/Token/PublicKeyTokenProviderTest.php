@@ -307,7 +307,7 @@ class PublicKeyTokenProviderTest extends TestCase {
 		$this->mapper->expects($this->exactly(2))
 			->method('invalidate')
 			->withConsecutive(
-				[hash('sha512', 'token7'.'1f4h9s')],
+				[hash('sha512', 'token7' . '1f4h9s')],
 				[hash('sha512', 'token7')]
 			);
 
@@ -443,7 +443,7 @@ class PublicKeyTokenProviderTest extends TestCase {
 		$this->mapper->method('getToken')
 			->with(
 				$this->callback(function (string $token) {
-					return hash('sha512', 'unhashedTokentokentokentokentoken'.'1f4h9s') === $token;
+					return hash('sha512', 'unhashedTokentokentokentokentoken' . '1f4h9s') === $token;
 				})
 			)->willReturn($token);
 
@@ -457,7 +457,7 @@ class PublicKeyTokenProviderTest extends TestCase {
 			->method('getToken')
 			->withConsecutive(
 				[$this->callback(function (string $token): bool {
-					return hash('sha512', 'unhashedTokentokentokentokentoken'.'1f4h9s') === $token;
+					return hash('sha512', 'unhashedTokentokentokentokentoken' . '1f4h9s') === $token;
 				})],
 				[$this->callback(function (string $token): bool {
 					return hash('sha512', 'unhashedTokentokentokentokentoken') === $token;
@@ -481,7 +481,7 @@ class PublicKeyTokenProviderTest extends TestCase {
 		$this->mapper->method('getToken')
 			->with(
 				$this->callback(function (string $token) {
-					return hash('sha512', 'tokentokentokentokentoken'.'1f4h9s') === $token;
+					return hash('sha512', 'tokentokentokentokentoken' . '1f4h9s') === $token;
 				})
 			)->willReturn($actual);
 

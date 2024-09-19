@@ -526,7 +526,7 @@ class AccessTest extends TestCase {
 		$base,
 		$fakeConnection,
 		$fakeSearchResultResource,
-		$fakeLdapEntries
+		$fakeLdapEntries,
 	) {
 		$this->connection
 			->expects($this->any())

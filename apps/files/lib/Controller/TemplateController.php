@@ -62,7 +62,7 @@ class TemplateController extends OCSController {
 		string $filePath,
 		string $templatePath = '',
 		string $templateType = 'user',
-		array $templateFields = []
+		array $templateFields = [],
 	): DataResponse {
 		try {
 			return new DataResponse($this->templateManager->createFromTemplate(

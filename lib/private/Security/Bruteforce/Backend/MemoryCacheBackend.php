@@ -137,7 +137,7 @@ class MemoryCacheBackend implements IBackend {
 		$existingAttempts = array_values($existingAttempts);
 
 		// Store the new attempt
-		$existingAttempts[] = $timestamp . '#' . $this->hash($action) . '#' .  $this->hash($metadata);
+		$existingAttempts[] = $timestamp . '#' . $this->hash($action) . '#' . $this->hash($metadata);
 
 		$this->cache->set($identifier, json_encode($existingAttempts), 12 * 3600);
 	}

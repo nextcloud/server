@@ -13,7 +13,9 @@ use OCA\DAV\DAV\Sharing\SharingService;
 
 class Service extends SharingService {
 	protected string $resourceType = 'calendar';
-	public function __construct(protected SharingMapper $mapper) {
+	public function __construct(
+		protected SharingMapper $mapper,
+	) {
 		parent::__construct($mapper);
 	}
 }

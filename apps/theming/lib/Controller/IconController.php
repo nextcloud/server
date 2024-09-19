@@ -40,7 +40,7 @@ class IconController extends Controller {
 		IconBuilder $iconBuilder,
 		ImageManager $imageManager,
 		FileAccessHelper $fileAccessHelper,
-		IAppManager $appManager
+		IAppManager $appManager,
 	) {
 		parent::__construct($appName, $request);
 

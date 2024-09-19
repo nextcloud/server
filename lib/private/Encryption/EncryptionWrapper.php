@@ -39,7 +39,7 @@ class EncryptionWrapper {
 	 */
 	public function __construct(ArrayCache $arrayCache,
 		Manager $manager,
-		LoggerInterface $logger
+		LoggerInterface $logger,
 	) {
 		$this->arrayCache = $arrayCache;
 		$this->manager = $manager;

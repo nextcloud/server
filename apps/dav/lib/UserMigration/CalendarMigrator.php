@@ -67,7 +67,7 @@ class CalendarMigrator implements IMigrator, ISizeEstimationMigrator {
 		ICalendarManager $calendarManager,
 		ICSExportPlugin $icsExportPlugin,
 		Defaults $defaults,
-		IL10N $l10n
+		IL10N $l10n,
 	) {
 		$this->calDavBackend = $calDavBackend;
 		$this->calendarManager = $calendarManager;

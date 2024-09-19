@@ -83,7 +83,7 @@ class PublicPreviewController extends PublicShareController {
 		string $file = '',
 		int $x = 32,
 		int $y = 32,
-		$a = false
+		$a = false,
 	) {
 		if ($token === '' || $x === 0 || $y === 0) {
 			return new DataResponse([], Http::STATUS_BAD_REQUEST);

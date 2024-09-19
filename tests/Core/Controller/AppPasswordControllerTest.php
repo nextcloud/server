@@ -128,7 +128,7 @@ class AppPasswordControllerTest extends TestCase {
 		$this->random->method('generate')
 			->with(
 				72,
-				ISecureRandom::CHAR_UPPER.ISecureRandom::CHAR_LOWER.ISecureRandom::CHAR_DIGITS
+				ISecureRandom::CHAR_UPPER . ISecureRandom::CHAR_LOWER . ISecureRandom::CHAR_DIGITS
 			)->willReturn('myToken');
 
 		$this->tokenProvider->expects($this->once())
@@ -169,7 +169,7 @@ class AppPasswordControllerTest extends TestCase {
 		$this->random->method('generate')
 			->with(
 				72,
-				ISecureRandom::CHAR_UPPER.ISecureRandom::CHAR_LOWER.ISecureRandom::CHAR_DIGITS
+				ISecureRandom::CHAR_UPPER . ISecureRandom::CHAR_LOWER . ISecureRandom::CHAR_DIGITS
 			)->willReturn('myToken');
 
 		$this->tokenProvider->expects($this->once())

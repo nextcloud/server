@@ -189,8 +189,8 @@ class Calendar extends \Sabre\CalDAV\Calendar implements IRestorable, IShareable
 		$acl = $this->caldavBackend->applyShareAcl($this->getResourceId(), $acl);
 		$allowedPrincipals = [
 			$this->getOwner(),
-			$this->getOwner(). '/calendar-proxy-read',
-			$this->getOwner(). '/calendar-proxy-write',
+			$this->getOwner() . '/calendar-proxy-read',
+			$this->getOwner() . '/calendar-proxy-write',
 			parent::getOwner(),
 			'principals/system/public'
 		];

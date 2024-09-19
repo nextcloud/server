@@ -37,7 +37,7 @@ class UserGlobalStoragesService extends GlobalStoragesService {
 		IUserSession $userSession,
 		IGroupManager $groupManager,
 		IUserMountCache $userMountCache,
-		IEventDispatcher $eventDispatcher
+		IEventDispatcher $eventDispatcher,
 	) {
 		parent::__construct($backendService, $dbConfig, $userMountCache, $eventDispatcher);
 		$this->userSession = $userSession;

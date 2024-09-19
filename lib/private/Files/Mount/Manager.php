@@ -104,7 +104,7 @@ class Manager implements IMountManager {
 			}
 		}
 
-		throw new NotFoundException('No mount for path ' . $path . ' existing mounts (' . count($this->mounts) .'): ' . implode(',', array_keys($this->mounts)));
+		throw new NotFoundException('No mount for path ' . $path . ' existing mounts (' . count($this->mounts) . '): ' . implode(',', array_keys($this->mounts)));
 	}
 
 	/**

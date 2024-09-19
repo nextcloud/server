@@ -50,7 +50,7 @@ class CacheTest extends TestCase {
 
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
 
-		$this->user2View = new \OC\Files\View('/'. self::TEST_FILES_SHARING_API_USER2 . '/files');
+		$this->user2View = new \OC\Files\View('/' . self::TEST_FILES_SHARING_API_USER2 . '/files');
 
 		// prepare user1's dir structure
 		$this->view->mkdir('container');

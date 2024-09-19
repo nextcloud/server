@@ -70,7 +70,7 @@ class OfflineUser {
 		$ocName,
 		IConfig $config,
 		UserMapping $mapping,
-		IManager $shareManager
+		IManager $shareManager,
 	) {
 		$this->ocName = $ocName;
 		$this->config = $config;

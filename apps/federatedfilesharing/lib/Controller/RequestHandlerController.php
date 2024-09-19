@@ -84,7 +84,7 @@ class RequestHandlerController extends OCSController {
 		LoggerInterface $logger,
 		ICloudFederationFactory $cloudFederationFactory,
 		ICloudFederationProviderManager $cloudFederationProviderManager,
-		IEventDispatcher $eventDispatcher
+		IEventDispatcher $eventDispatcher,
 	) {
 		parent::__construct($appName, $request);
 

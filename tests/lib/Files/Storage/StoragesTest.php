@@ -37,8 +37,8 @@ abstract class StoragesTest extends TestCase {
 
 		$this->storage1->moveFromStorage($this->storage2, $source, $target);
 
-		$this->assertTrue($this->storage1->file_exists($target), $target.' was not created');
-		$this->assertFalse($this->storage2->file_exists($source), $source.' still exists');
+		$this->assertTrue($this->storage1->file_exists($target), $target . ' was not created');
+		$this->assertFalse($this->storage2->file_exists($source), $source . ' still exists');
 		$this->assertEquals('foo', $this->storage1->file_get_contents($target));
 	}
 
@@ -75,8 +75,8 @@ abstract class StoragesTest extends TestCase {
 
 		$this->storage1->copyFromStorage($this->storage2, $source, $target);
 
-		$this->assertTrue($this->storage1->file_exists($target), $target.' was not created');
-		$this->assertTrue($this->storage2->file_exists($source), $source.' was deleted');
+		$this->assertTrue($this->storage1->file_exists($target), $target . ' was not created');
+		$this->assertTrue($this->storage2->file_exists($source), $source . ' was deleted');
 		$this->assertEquals('foo', $this->storage1->file_get_contents($target));
 	}
 

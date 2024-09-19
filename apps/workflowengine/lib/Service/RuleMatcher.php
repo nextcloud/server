@@ -53,7 +53,7 @@ class RuleMatcher implements IRuleMatcher {
 		IServerContainer $container,
 		IL10N $l,
 		Manager $manager,
-		Logger $logger
+		Logger $logger,
 	) {
 		$this->session = $session;
 		$this->manager = $manager;
