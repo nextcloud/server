@@ -1482,11 +1482,6 @@
       <code><![CDATA[\Sabre\HTTP\decodePath($pathInfo)]]></code>
     </UndefinedFunction>
   </file>
-  <file src="lib/private/AppFramework/Logger.php">
-    <InvalidReturnType>
-      <code><![CDATA[log]]></code>
-    </InvalidReturnType>
-  </file>
   <file src="lib/private/AppFramework/Middleware/OCSMiddleware.php">
     <InternalMethod>
       <code><![CDATA[setOCSVersion]]></code>
@@ -2388,7 +2383,6 @@
     </InvalidReturnType>
     <NullableReturnStatement>
       <code><![CDATA[null]]></code>
-      <code><![CDATA[null]]></code>
     </NullableReturnStatement>
     <TooManyArguments>
       <code><![CDATA[new IteratorDirectory([])]]></code>
@@ -2414,8 +2408,8 @@
   </file>
   <file src="lib/private/Log/Systemdlog.php">
     <UndefinedFunction>
-      <code><![CDATA[sd_journal_send('PRIORITY='.$journal_level,
-			'SYSLOG_IDENTIFIER='.$this->syslogId,
+      <code><![CDATA[sd_journal_send('PRIORITY=' . $journal_level,
+			'SYSLOG_IDENTIFIER=' . $this->syslogId,
 			'MESSAGE=' . $this->logDetailsAsJSON($app, $message, $level))]]></code>
     </UndefinedFunction>
   </file>
