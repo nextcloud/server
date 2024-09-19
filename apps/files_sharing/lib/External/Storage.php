@@ -18,6 +18,9 @@ use OCA\Files_Sharing\ISharedStorage;
 use OCP\AppFramework\Http;
 use OCP\Constants;
 use OCP\Federation\ICloudId;
+use OCP\Files\Cache\ICache;
+use OCP\Files\Cache\IScanner;
+use OCP\Files\Cache\IWatcher;
 use OCP\Files\NotFoundException;
 use OCP\Files\Storage\IDisableEncryptionStorage;
 use OCP\Files\Storage\IReliableEtagStorage;
@@ -91,7 +94,7 @@ class Storage extends DAV implements ISharedStorage, IDisableEncryptionStorage, 
 		);
 	}
 
-	public function getWatcher($path = '', $storage = null) {
+	public function getWatcher($path = '', $storage = null): IWatcher {
 		if (!$storage) {
 			$storage = $this;
 		}
@@ -122,22 +125,18 @@ class Storage extends DAV implements ISharedStorage, IDisableEncryptionStorage, 
 		return $this->password;
 	}
 
-	/**
-	 * Get id of the mount point.
-	 * @return string
-	 */
-	public function getId() {
+	public function getId(): string {
 		return 'shared::' . md5($this->token . '@' . $this->getRemote());
 	}
 
-	public function getCache($path = '', $storage = null) {
+	public function getCache($path = '', $storage = null): ICache {
 		if (is_null($this->cache)) {
 			$this->cache = new Cache($this, $this->cloudId);
 		}
 		return $this->cache;
 	}
 
-	public function getScanner($path = '', $storage = null) {
+	public function getScanner($path = '', $storage = null): IScanner {
 		if (!$storage) {
 			$storage = $this;
 		}
@@ -148,16 +147,7 @@ class Storage extends DAV implements ISharedStorage, IDisableEncryptionStorage, 
 		return $this->scanner;
 	}
 
-	/**
-	 * Check if a file or folder has been updated since $time
-	 *
-	 * @param string $path
-	 * @param int $time
-	 * @throws \OCP\Files\StorageNotAvailableException
-	 * @throws \OCP\Files\StorageInvalidException
-	 * @return bool
-	 */
-	public function hasUpdated($path, $time) {
+	public function hasUpdated($path, $time): bool {
 		// since for owncloud webdav servers we can rely on etag propagation we only need to check the root of the storage
 		// because of that we only do one check for the entire storage per request
 		if ($this->updateChecked) {
@@ -177,7 +167,7 @@ class Storage extends DAV implements ISharedStorage, IDisableEncryptionStorage, 
 		}
 	}
 
-	public function test() {
+	public function test(): bool {
 		try {
 			return parent::test();
 		} catch (StorageInvalidException $e) {
@@ -227,7 +217,7 @@ class Storage extends DAV implements ISharedStorage, IDisableEncryptionStorage, 
 		}
 	}
 
-	public function file_exists($path) {
+	public function file_exists($path): bool {
 		if ($path === '') {
 			return true;
 		} else {
@@ -368,7 +358,7 @@ class Storage extends DAV implements ISharedStorage, IDisableEncryptionStorage, 
 		return $permissions;
 	}
 
-	public function needsPartFile() {
+	public function needsPartFile(): bool {
 		return false;
 	}
 
@@ -418,7 +408,7 @@ class Storage extends DAV implements ISharedStorage, IDisableEncryptionStorage, 
 		return $permissions;
 	}
 
-	public function free_space($path) {
+	public function free_space($path): int|float|false {
 		return parent::free_space('');
 	}
 
