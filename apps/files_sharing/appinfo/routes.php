@@ -140,6 +140,14 @@ return [
 			'verb' => 'POST',
 		],
 		/*
+		 * Expired Shares
+		 */
+		[
+			'name' => 'ExpiredShareAPI#index',
+			'url' => '/api/v1/expiredshares',
+			'verb' => 'GET',
+		],
+		/*
 		 * OCS Sharee API
 		 */
 		[

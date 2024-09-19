@@ -29,6 +29,7 @@ return array(
     'OCA\\Files_Sharing\\Command\\ExiprationNotification' => $baseDir . '/../lib/Command/ExiprationNotification.php',
     'OCA\\Files_Sharing\\Controller\\AcceptController' => $baseDir . '/../lib/Controller/AcceptController.php',
     'OCA\\Files_Sharing\\Controller\\DeletedShareAPIController' => $baseDir . '/../lib/Controller/DeletedShareAPIController.php',
+    'OCA\\Files_Sharing\\Controller\\ExpiredShareAPIController' => $baseDir . '/../lib/Controller/ExpiredShareAPIController.php',
     'OCA\\Files_Sharing\\Controller\\ExternalSharesController' => $baseDir . '/../lib/Controller/ExternalSharesController.php',
     'OCA\\Files_Sharing\\Controller\\PublicPreviewController' => $baseDir . '/../lib/Controller/PublicPreviewController.php',
     'OCA\\Files_Sharing\\Controller\\RemoteController' => $baseDir . '/../lib/Controller/RemoteController.php',

@@ -44,6 +44,7 @@ class ComposerStaticInitFiles_Sharing
         'OCA\\Files_Sharing\\Command\\ExiprationNotification' => __DIR__ . '/..' . '/../lib/Command/ExiprationNotification.php',
         'OCA\\Files_Sharing\\Controller\\AcceptController' => __DIR__ . '/..' . '/../lib/Controller/AcceptController.php',
         'OCA\\Files_Sharing\\Controller\\DeletedShareAPIController' => __DIR__ . '/..' . '/../lib/Controller/DeletedShareAPIController.php',
+        'OCA\\Files_Sharing\\Controller\\ExpiredShareAPIController' => __DIR__ . '/..' . '/../lib/Controller/ExpiredShareAPIController.php',
         'OCA\\Files_Sharing\\Controller\\ExternalSharesController' => __DIR__ . '/..' . '/../lib/Controller/ExternalSharesController.php',
         'OCA\\Files_Sharing\\Controller\\PublicPreviewController' => __DIR__ . '/..' . '/../lib/Controller/PublicPreviewController.php',
         'OCA\\Files_Sharing\\Controller\\RemoteController' => __DIR__ . '/..' . '/../lib/Controller/RemoteController.php',

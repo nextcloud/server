@@ -59,10 +59,15 @@ const ocsEntryToNode = async function(ocsEntry: any): Promise<Folder | File | nu
 		const source = `${davRemoteURL}${davRootPath}/${path.replace(/^\/+/, '')}`
 
 		let mtime = ocsEntry.item_mtime ? new Date((ocsEntry.item_mtime) * 1000) : undefined
+
 		// Prefer share time if more recent than item mtime
 		if (ocsEntry?.stime > (ocsEntry?.item_mtime || 0)) {
 			mtime = new Date((ocsEntry.stime) * 1000)
 		}
+
+		const expiration = ocsEntry?.expiration
+			? new Date(ocsEntry?.expiration)?.getTime() / 1000
+			: undefined
 
 		return new Node({
 			id: fileid,
@@ -75,6 +80,7 @@ const ocsEntryToNode = async function(ocsEntry: any): Promise<Folder | File | nu
 			root: davRootPath,
 			attributes: {
 				...ocsEntry,
+				expiration,
 				'has-preview': hasPreview,
 				// Also check the sharingStatusAction.ts code
 				'owner-id': ocsEntry?.uid_owner,
@@ -149,6 +155,16 @@ const getDeletedShares = function(): AxiosPromise<OCSResponse<any>> {
 	})
 }
 
+const getExpiredShares = function(): AxiosPromise<OCSResponse<any>> {
+	const url = generateOcsUrl('apps/files_sharing/api/v1/expiredshares')
+	return axios.get(url, {
+		headers,
+		params: {
+			include_tags: true,
+		},
+	})
+}
+
 /**
  * Check if a file request is enabled
  * @param attributes the share attributes json-encoded array
@@ -180,7 +196,7 @@ const groupBy = function(nodes: (Folder | File)[], key: string) {
 	}, {})) as (Folder | File)[][]
 }
 
-export const getContents = async (sharedWithYou = true, sharedWithOthers = true, pendingShares = false, deletedshares = false, filterTypes: number[] = []): Promise<ContentsWithRoot> => {
+export const getContents = async (sharedWithYou = true, sharedWithOthers = true, pendingShares = false, deletedshares = false, expiredShares = false, filterTypes: number[] = []): Promise<ContentsWithRoot> => {
 	const promises = [] as AxiosPromise<OCSResponse<any>>[]
 
 	if (sharedWithYou) {
@@ -194,6 +210,9 @@ export const getContents = async (sharedWithYou = true, sharedWithOthers = true,
 	}
 	if (deletedshares) {
 		promises.push(getDeletedShares())
+	}
+	if (expiredShares) {
+		promises.push(getExpiredShares())
 	}
 
 	const responses = await Promise.all(promises)
